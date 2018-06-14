@@ -11,7 +11,7 @@ There are two ways to use it:
 
 ### Motivating Example
 
-Suppose we are interested in auditing cars.
+Suppose we are interested in auditing cars.  Let's suppose we have two InSpec resources for  auditing: `cars`, which can search for and filter groups of cars, and `car`, which can perform detailed auditing of a single car.
 
 ### Basic Syntax
 
@@ -50,7 +50,7 @@ _cmp_ is a [universal matcher](#universal_matcher).  `cmp` is a very flexible, l
 
 #### its('license_plate') { should cmp _'MOONMAN'_ }
 
-_'MOONMAN'_ is an expected value.  Some matchers take an expected value; others do not.
+_'MOONMAN'_ is an [expected result](#expected_result).  Some matchers take an expected result; others do not.
 
 #### it { should _be\_classy_ }
 
@@ -60,61 +60,63 @@ _be\_classy_ is a [resource-specific matcher](#resource_specific_matcher). It wi
 
 _should\_not_ indicates this is a negated test. So, this test will pass if the matcher says "no".
 
+### Plural Resource Example
+
+```
+  describe cars.where(color: /^b/) do
+    it { should exist }
+    its('manufacturers') { should include 'Cadillac' }
+    its('count') { should be >= 10 }
+  end
+```
+
+#### describe _cars_.where(color: /^b/) do
+
+_cars_ is a [resource](#resource).  Since we are potentially talking about many cars, it is a [plural resource](#plural_resource).
+
+#### describe cars._where(color: /^b/)_ do
+
+_where(color: /^b/)_ is a [filter statement](#filter_statement).  Without a filter statement, `cars` would simply select all the cars in the world.
+
+#### describe cars.where(_color: /^b/_) do
+
+_color_ is a [filter criterion](#filter_criteria) along with its filter value, _/^b/_.  Here, the criterion is expressing that we want to select all cars whose colors begin with the letter 'b' - blue, brown, burgundy, etc.
+
+#### _it { should exist }_
+
+Each line within the resource block that begins with `it` or `its` is a [test](#test).  Use [it](#it) to access [resource-specific matchers](#resource_specific_matcher), and use [its](#its) to access [properties](#property) of the [resource](#resource), which are then used with [universal matchers](#universal_matcher).
+
+With plural resources, `exist` has a special meaning: did the filter match anything?
+
+#### its('_manufacturers_') { should include 'Cadillac' }
+
+_manufacturers_ is a [property](#property) of the [resource](#resource).  Properties expose information about the resource for you to test. On plural resources, properties are almost always names in the plural, and almost always return a list of values.  Here, it would be a list of the names of the manufacturers of the cars. Some list properties are de-duplicated; for example, you might have 10 cars, but if they are all Subarus and Cadillacs, you will only have two entries in the `manufacturers` property. Be sure to check the documentation for your resource.
+
+#### its('manufacturers') { should _include_ 'Cadillac' }
+
+_include_ is a [universal matcher](#universal_matcher).  `include` works with lists, and checks to see if an expecteddd result is present. Here, it is checking to see if the list of manufacturers contains an entry with the text 'Cadillac'. Notice it is operating on the manufacturers list (the property value); it does not operate on the resource.  You can find the full list of supported universal matchers on the [Universal Matcher page](https://www.inspec.io/docs/reference/matchers/).
+
+#### its('manufacturers') { should include '_Cadillac_' }
+
+_'Cadillac'_ is an [expected result](#expected_result).  Some matchers take an expected result; others do not.
+
+#### its('count') { should _be >=_ 10 }
+
+_be >=_ is an [operator matcher](#operator matcher). It allows you to perform numeric comparisions. All plural resources have a `count` property.
 
 ### Advanced Syntax
 
+#### Block-Filter Syntax
 ```
-describe foos('/path/to/foo.txt', ssl_verify: true).where { names == 'blah' } do
-    its('jared') { should cmp >= 123 }
-    its('jared.sort.first.monkey') { should be `loud` }
-    its(['jared', 'monkey.with.dots']) { should be `loud` }
-end
 ```
 
-### Advanced Elements:
+#### Method Access on Properties
+```
+```
 
-#### describe **foos**
-
-  * `foos` is a _plural resource_
-
-#### describe foos **('/path/to/foo.txt', ssl_verify: true)**
-
-  * `'/path/to/foo.txt'` and `ssl_verify: true` are the _resource parameters_. Resources take one or more parameters.
-
-### Filters:
-
-#### describe foos ('/path/to/foo.txt', ssl_verify: true)**.where { names == 'blah' }** 
-
-  * `.where  { names == 'blah' }` is an example of a **filter**. 
-  * `{ names == 'blah' }` is an example of a _filter clause_ 
-  * Some resources support one or more filters.
-  * Filters are used on plural resources. 
-  * Some resources, such as `etc_hosts` are explicitly plural, while others, such as `passwd` are implicitly plural. 
-
-#### **{ names == 'my-name' && spots == true }** are filter criteria
-
-  * `names` compares output to `blah`
-  * `has spots` evaluates to `true` or `false`
-
-### Properties:
-
-#### **its('jared') { should cmp >= 123 }**
-
-  * `jared` is the _property_
-
-#### **{ should cmp >= 123 }** is a conditional statement that uses a matcher with an operator and expected value.
-
-  * `cmp`  is the _matcher_
-  * `>=` is the operator (some matchers accept operators)
-  * `123` is the expected value
-
-### Properties with advanced usage:
-
-Some properties may have advanced usage:
-
-#### **its `('jared.sort.first.monkey') { should be `loud` }`**
-
-  * `jared.sort.first.monkey` is an example of the `jared` property with an advanced usage
+#### Using Resources without Describe Blocks
+```
+```
 
 ## Text Glossary
 
@@ -133,6 +135,7 @@ The syntax for accessing attributes within a profile is documented in the [profi
 ### custom resource
 ### DSL
 ### expected result
+### filter statement
 ### filter criteria
 ### it
 ### its
