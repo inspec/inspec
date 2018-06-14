@@ -44,7 +44,6 @@ describe 'example inheritance profile' do
       File.exist?(File.join(dir, 'inspec.lock')).must_equal true
 
       out = inspec('exec ' + dir + ' -l debug --no-create-lockfile')
-      out.stderr.must_equal "[DEPRECATED] The use of inspec.yml `supports:inspec` is deprecated and will be removed in InSpec 2.0. Please use `inspec_version` instead.\n"
       out.stdout.must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssh-baseline/archive/master.tar.gz"'
       out.stdout.must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssl-baseline/archive/master.tar.gz"'
       out.stdout.must_include 'Using cached dependency for {:url=>"https://github.com/chris-rock/windows-patch-benchmark/archive/master.tar.gz"'
