@@ -5,54 +5,61 @@ This document should help you become familiar with some of the terminology used 
 There are two ways to use it:
 
 * A [text glossary](#text_glossary).  Learn the meaning of a word you have encountered.
-* A [visual glossary](#visual_glossary).  Look at examples and see how the parts are labelled.
+* A [visual glossary](#visual_glossary).  Look at examples and see how the parts are labelled.  You can then use the text glossary to read details of each concept.
 
 ## Visual Glossary
 
+### Motivating Example
+
+Suppose we are interested in auditing cars.
+
 ### Basic Syntax
 
+Let's look at some simple examples.
+
+### Singular Resource Example
+
 ```
-describe foo('/path/to/foo.txt') do
-    its('blah') { should cmp '123' }
+describe car(owner: 'Tony Clifton') do
     it { should exist }
-    it { should be_reasonable }
-    it { should_not be_ridiculous }
+    its('license_plate') { should cmp 'MOONMAN' }
+    it { should be_classy }
+    it { should_not have_check_engine_light_on }
 end
 ```
-### Basic Elements:
 
-#### describe **foo**, where
+#### describe _car_(owner: 'Tony Clifton') do
 
-  * `foo` is the _resource_
+_car_ is a [resource](#resource).  Since we are only talking about one car, it is a [singular resource](#singular_resource).
 
-#### describe foo **('/path/to/foo.txt')**, where
+#### describe foo(_owner: 'Tony Clifton'_)
 
-  * `'/path/to/foo.txt'` is the _resource parameter_
+_owner_ is a [resource parameter](#resource_parameter) along with _'Tony Clifton'_, a resource parameter value.
 
-### Tests:
+#### _it { should exist }_
 
-#### **its('blah') { should cmp '123' }** is an _individual test_, where
+Each line within the resource block that begins with `it` or `its` is a [test](#test).  Use [it](#it) to access [resource-specific matchers](#resource_specific_matcher), and use [its](#its) to access [properties](#property) of the [resource](#resource), which are then used with [universal matchers](#universal_matcher).
 
-  * `blah` is a _property_
-  * { should cmp '123' } is a _condition statement_
-  * `should`  is the _condition_
-  * `cmp`  is the _matcher_
-  * `'123'`  is the _expected result_
+#### its('_license_plate_') { should cmp 'MOONMAN' }
 
-#### **{ should exist }** is a _condition statement_, where
+_license_plate_ is a [property](#property) of the [resource](#resource).  Properties expose information about the resource for you to test. Some properties are numbers, some (like this one) are text, some are lists, and some are more complex objects.  Properties are always used with [universal matchers](#universal_matcher).
 
-  * `should`  is the _condition_
-  * `exist`  is the _matcher_
+#### its('license_plate') { should _cmp_ 'MOONMAN' }
 
-#### **{ should be\_reasonable }** is a _condition statement_, where
+_cmp_ is a [universal matcher](#universal_matcher).  `cmp` is a very flexible, loosely typed equality operator; here it is checking to see if the license plate text is the same as the text 'MOONMAN'.  Notice it is operating on the license plate text (the property value); it does not operate on the resource.  You can find the full list of supported universal matchers on the [Universal Matcher page](https://www.inspec.io/docs/reference/matchers/).
 
-  * `should`  is the _condition_
-  * `be_reasonable`  is the _matcher_
+#### its('license_plate') { should cmp _'MOONMAN'_ }
 
-#### **{ should\_not be\_ridiculous }** is a _negative condition statement_, where
+_'MOONMAN'_ is an expected value.  Some matchers take an expected value; others do not.
 
-  * `should_not`  is the _negative condition_
-  * `be_ridiculous`  is the _matcher_
+#### it { should _be\_classy_ }
+
+_be\_classy_ is a [resource-specific matcher](#resource_specific_matcher). It will return a yes-or-no value, based on whether Tony's car is classy or not.  (It is.  Tony is a classy guy.)
+
+#### it { _should\_not_ have\_check\_engine\_light\_on }
+
+_should\_not_ indicates this is a negated test. So, this test will pass if the matcher says "no".
+
 
 ### Advanced Syntax
 
@@ -66,11 +73,11 @@ end
 
 ### Advanced Elements:
 
-#### describe **foos**, where
+#### describe **foos**
 
   * `foos` is a _plural resource_
 
-#### describe foos **('/path/to/foo.txt', ssl_verify: true)**, where
+#### describe foos **('/path/to/foo.txt', ssl_verify: true)**
 
   * `'/path/to/foo.txt'` and `ssl_verify: true` are the _resource parameters_. Resources take one or more parameters.
 
@@ -127,6 +134,8 @@ The syntax for accessing attributes within a profile is documented in the [profi
 ### DSL
 ### expected result
 ### filter criteria
+### it
+### its
 ### matcher
 ### operator
 ### plural resource
@@ -142,6 +151,7 @@ A _resource pack_ is a type of [profile](#profile) that is used to distribute [c
 ### resource-specific matcher
 ### singular resource
 ### target
+### test
 ### universal matcher
 
 A _universal matcher_ is a [matcher](#matcher) that can be used on any type of [resource](#resource). For example, you can use the `cmp` matcher to check the value of properties without having to worry about Ruby type-casting.  Universal matchers are documented on the [Universal Matchers](https://www.inspec.io/docs/reference/matchers/) page.
