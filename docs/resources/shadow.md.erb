@@ -87,7 +87,7 @@ The `users` property tests if the username exists `/etc/shadow`:
 
     its('users') { should include 'root' }
 
-### password
+### passwords
 
 The `passwords` property returns the encrypted password string from the shadow file. The returned string may not be an encrypted password, but rather a `*` or similar which indicates that direct logins are not allowed.
 
@@ -95,37 +95,37 @@ For example:
 
     its('passwords') { should cmp '*' }
 
-### last_changes
+### last\_changes
 
 The `last_changes` property tests the last time a password was changed:
 
     its('last_changes') { should be_empty }
 
-### min_days
+### min\_days
 
 The `min_days` property tests the minimum number of days a password must exist, before it may be changed:
 
     its('min_days') { should eq 0 }
 
-### max_days
+### max\_days
 
 The `max_days` property tests the maximum number of days after which a password must be changed:
 
     its('max_days') { should eq 90 }
 
-### warn_days
+### warn\_days
 
 The `warn_days` property tests the number of days a user is warned about an expiring password:
 
     its('warn_days') { should eq 7 }
 
-### inactive_days
+### inactive\_days
 
 The `inactive_days` property tests the number of days a user must be inactive before the user account is disabled:
 
     its('inactive_days') { should be_empty }
 
-### expiry_dates
+### expiry\_dates
 
 The `expiry_dates` property tests the number of days a user account has been disabled:
 

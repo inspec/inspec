@@ -89,7 +89,7 @@ module Inspec::Resources
     end
 
     # Next 4 are deprecated methods.  We define them here so we can emit a deprecation message.
-    # Ther are also defined on the Table, above.
+    # They are also defined on the Table, above.
     def user(query = nil)
       warn '[DEPRECATION] The shadow `user` property is deprecated and will be removed' \
        ' in InSpec 3.0.  Please use `users` instead.'
