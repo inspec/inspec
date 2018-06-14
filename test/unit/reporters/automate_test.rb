@@ -53,4 +53,20 @@ describe Inspec::Reporters::Automate do
       report.send(:uuid_from_string, end_time + node_uuid).must_equal assert
     end
   end
+
+  describe 'config insecure override' do
+    it 'updates verify_ssl if insecure is set to false' do
+      options['insecure'] = false
+      reporter = Inspec::Reporters::Automate.new(options)
+      config = reporter.instance_variable_get(:@config)
+      config['verify_ssl'].must_equal true
+    end
+
+    it 'updates verify_ssl if insecure is set to true' do
+      options['insecure'] = true
+      reporter = Inspec::Reporters::Automate.new(options)
+      config = reporter.instance_variable_get(:@config)
+      config['verify_ssl'].must_equal false
+    end
+  end
 end

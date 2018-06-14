@@ -8,6 +8,9 @@ module Inspec::Reporters
     def initialize(config)
       super(config)
 
+      # allow the insecure flag
+      @config['verify_ssl'] = !@config['insecure'] if @config.key?('insecure')
+
       # default to not verifying ssl for sending reports
       @config['verify_ssl'] = @config['verify_ssl'] || false
     end
