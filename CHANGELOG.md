@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 1.51.26 -->
+## [v1.51.26](https://github.com/inspec/inspec/tree/v1.51.26) (2018-06-14)
+
+#### Merged Pull Requests
+- Hard code ruby path in binstub to avoid cross-ruby contamination [#3130](https://github.com/inspec/inspec/pull/3130) ([scotthain](https://github.com/scotthain))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.51.25 -->
+### Changes since 1.51.25 release
+
+#### Merged Pull Requests
+- Hard code ruby path in binstub to avoid cross-ruby contamination [#3130](https://github.com/inspec/inspec/pull/3130) ([scotthain](https://github.com/scotthain)) <!-- 1.51.26 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
