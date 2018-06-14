@@ -86,9 +86,9 @@ module Inspec::Resources
           multiple_values: true,
         ).params
 
-        # Capture and use any non-whitespace between quotes in values
-        params.values.each.map do |x|
-          x.map! { |y| y.gsub(/['"](\S+)['"]/, '\1') }
+        # Capture any characters between quotes that are not escaped in values
+        params.values.map! do |x|
+          x.map! { |y| y[/(?<=["|'])(?:\\.|[^"'\\])*(?=["|'])/] || y }
         end
 
         @params.merge!(params)
