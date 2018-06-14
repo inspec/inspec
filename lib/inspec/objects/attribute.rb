@@ -72,8 +72,8 @@ module Inspec
       "Attribute #{@name} with #{@value}"
     end
 
-    def lookup(name)
-      Attribute.lookup(name, @opts, @value)
+    def [](name)
+      self.lookup(name, @opts, @value)
     end
 
     def self.lookup(name, options = {}, collection = {})
@@ -106,7 +106,7 @@ module Inspec
         end
       end
 
-      attr = Attribute.new(name, options)
+      attr = self.new(name, options)
       if collection.is_a?(Hash)
         found_key = collection.keys.select {|x| x.to_s == key.to_s}.first
         if found_key
