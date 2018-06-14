@@ -15,6 +15,7 @@ pkg_deps=(
   core/libxslt
   core/net-tools
   core/ruby
+  core/bundler
 )
 pkg_build_deps=(
   core/bundler
@@ -87,7 +88,7 @@ GEMFILE
   # Delete everything that's not inspec in bin
   find "$pkg_prefix/bin" -type f -not -name 'inspec' -delete
 
-  fix_interpreter "$pkg_prefix/bin/inspec" core/coreutils bin/env
+  fix_interpreter "$pkg_prefix/bin/inspec" core/ruby ruby
 
   # Insert the SSL cert path into the inspec executable
   sed -i "2iENV['SSL_CERT_FILE'] = '$(pkg_path_for cacerts)/ssl/cert.pem'" \
