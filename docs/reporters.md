@@ -135,7 +135,7 @@ Example config:
 }
 ```
 
-### Manditory fields:
+### Mandatory fields:
 #### stdout
 This will either suppress or show the automate report in the CLI screen on completion
 
