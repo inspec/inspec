@@ -27,7 +27,7 @@ These entries are defined as a colon-delimited row in the file, one row per user
 A `shadow` resource block declares user properties to be tested:
 
     describe shadow do
-      its('user') { should_not include 'forbidden_user' }
+      its('users') { should_not include 'forbidden_user' }
     end
 
 Properties can be used as a single query:
@@ -39,7 +39,7 @@ Properties can be used as a single query:
 Use the `.where` method to find properties that match a value:
 
     describe shadow.where { min_days == '0' } do
-      its ('user') { should include 'nfs' }
+      its ('users') { should include 'nfs' }
     end
 
     describe shadow.where { password =~ /[x|!|*]/ } do
@@ -48,14 +48,14 @@ Use the `.where` method to find properties that match a value:
 
 The following properties are available:
 
-* `user`
-* `password`
-* `last_change`
+* `users`
+* `passwords`
+* `last_changes`
 * `min_days`
 * `max_days`
 * `warn_days`
 * `inactive_days`
-* `expiry_date`
+* `expiry_dates`
 * `reserved`
 
 <br>
@@ -67,13 +67,13 @@ The following examples show how to use this InSpec audit resource.
 ### Test for a forbidden user
 
     describe shadow do
-      its('user') { should_not include 'forbidden_user' }
+      its('users') { should_not include 'forbidden_user' }
     end
 
 ### Test that a user appears one time
 
-    describe shadow.user('bin') do
-      its('password') { should cmp 'x' }
+    describe shadow.users('bin') do
+      its('passwords') { should cmp 'x' }
       its('count') { should eq 1 }
     end
 
@@ -81,55 +81,55 @@ The following examples show how to use this InSpec audit resource.
 
 ## Properties
 
-### user
+### users
 
-The `user` property tests if the username exists `/etc/shadow`:
+The `users` property tests if the username exists `/etc/shadow`:
 
-    its('user') { should eq 'root' }
+    its('users') { should include 'root' }
 
-### password
+### passwords
 
-The `password` property returns the encrypted password string from the shadow file. The returned string may not be an encrypted password, but rather a `*` or similar which indicates that direct logins are not allowed.
+The `passwords` property returns the encrypted password string from the shadow file. The returned string may not be an encrypted password, but rather a `*` or similar which indicates that direct logins are not allowed.
 
 For example:
 
-    its('password') { should cmp '*' }
+    its('passwords') { should cmp '*' }
 
-### last_change
+### last\_changes
 
-The `last_change` property tests the last time a password was changed:
+The `last_changes` property tests the last time a password was changed:
 
-    its('last_change') { should be_empty }
+    its('last_changes') { should be_empty }
 
-### min_days
+### min\_days
 
 The `min_days` property tests the minimum number of days a password must exist, before it may be changed:
 
     its('min_days') { should eq 0 }
 
-### max_days
+### max\_days
 
 The `max_days` property tests the maximum number of days after which a password must be changed:
 
     its('max_days') { should eq 90 }
 
-### warn_days
+### warn\_days
 
 The `warn_days` property tests the number of days a user is warned about an expiring password:
 
     its('warn_days') { should eq 7 }
 
-### inactive_days
+### inactive\_days
 
 The `inactive_days` property tests the number of days a user must be inactive before the user account is disabled:
 
     its('inactive_days') { should be_empty }
 
-### expiry_date
+### expiry\_dates
 
-The `expiry_date` property tests the number of days a user account has been disabled:
+The `expiry_dates` property tests the number of days a user account has been disabled:
 
-    its('expiry_date') { should be_empty }
+    its('expiry_dates') { should be_empty }
 
 ### count
 
