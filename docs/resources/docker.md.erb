@@ -152,11 +152,11 @@ Or execute the profile directly via URL:
 
 `plugins` returns information about Docker plugins as returned by [docker plugin ls](https://docs.docker.com/engine/reference/commandline/plugin/).
 
-    describe docker_plugin('rexray/ebs') do
-      it { should exist }
-      its('id') { should_not eq '0ac30b93ad40' }
-      its('version') { should eq '0.11.1' }
-      it { should be_enabled }
+    describe docker.plugins do
+      its('names') { should include ["store/weaveworks/net-plugin", "docker4x/cloudstor"] }
+      its('ids') { should cmp ["6ea8176de74b", "771d3ee7c7ea"] }
+      its('versions') { should cmp ["2.3.0", "18.03.1-ce-aws1"] }
+      its('enabled') { should cmp [true, false] }
     end
 
 ### info

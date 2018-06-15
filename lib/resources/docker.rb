@@ -54,13 +54,10 @@ module Inspec::Resources
 
   class DockerPluginFilter
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:ids,              field: 'id')
+    filter.add(:ids,              field: 'id')
           .add(:names,            field: 'name')
           .add(:versions,         field: 'version')
           .add(:enabled,          field: 'enabled')
-          .add(:exists?) { |x| !x.entries.empty? }
     filter.connect(self, :plugins)
 
     attr_reader :plugins
