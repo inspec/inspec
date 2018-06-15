@@ -16,7 +16,7 @@ module Inspec::Resources
     attr_accessor :filter, :total, :counts, :name, :type, :location, :probes
 
     def initialize(opts = {})
-      warn '[DEPRECATED] use specific azure resources instead. See https://github.com/inspec/inspec/issues/3131'
+      warn "[DEPRECATED] use a specific azure resources instead of 'azure_generic_resource'. See https://github.com/inspec/inspec/issues/3131"
 
       # Call the parent class constructor
       super(opts)
