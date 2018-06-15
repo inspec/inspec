@@ -104,20 +104,6 @@ _'Cadillac'_ is an [expected result](#expected_result).  Some matchers take an e
 
 _be >=_ is an [operator matcher](#operator matcher). It allows you to perform numeric comparisions. All plural resources have a `count` property.
 
-### Advanced Syntax
-
-#### Block-Filter Syntax
-```
-```
-
-#### Method Access on Properties
-```
-```
-
-#### Using Resources without Describe Blocks
-```
-```
-
 ## Text Glossary
 
 ### attribute
