@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.15 -->
-## [v2.2.15](https://github.com/inspec/inspec/tree/v2.2.15) (2018-06-14)
+<!-- latest_release 2.2.16 -->
+## [v2.2.16](https://github.com/inspec/inspec/tree/v2.2.16) (2018-06-15)
 
 #### Merged Pull Requests
-- Bump train version for inspec [#3147](https://github.com/inspec/inspec/pull/3147) ([jquick](https://github.com/jquick))
+- deprecate azure_generic_resource [#3132](https://github.com/inspec/inspec/pull/3132) ([chris-rock](https://github.com/chris-rock))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.10 -->
@@ -14,6 +14,7 @@
 - Fix unit tests for ruby 2.5 [#3125](https://github.com/inspec/inspec/pull/3125) ([jquick](https://github.com/jquick)) <!-- 2.2.12 -->
 
 #### Merged Pull Requests
+- deprecate azure_generic_resource [#3132](https://github.com/inspec/inspec/pull/3132) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.16 -->
 - Bump train version for inspec [#3147](https://github.com/inspec/inspec/pull/3147) ([jquick](https://github.com/jquick)) <!-- 2.2.15 -->
 - Add insecure option to the automate report json [#3124](https://github.com/inspec/inspec/pull/3124) ([jquick](https://github.com/jquick)) <!-- 2.2.14 -->
 - Add list properties back to shadow [#3140](https://github.com/inspec/inspec/pull/3140) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.13 -->
