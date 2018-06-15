@@ -128,33 +128,154 @@ The CLI syntax for attributes is documented under the [`inspec exec`](https://ww
 
 The syntax for accessing attributes within a profile is documented in the [profiles documentation](https://www.inspec.io/docs/reference/profiles/#profile-attributes).
 
-### condition statement
-
 ### control
+### control block
+
+The _`control`_ keyword is used to declare a _`control block`_. Here, the word 'control' means a 'regulatory control, recommendation, or requirement' - not a software engineering construct.  A `control block` has a name (which usually refers to the assigned ID of the regulatory recommendation it implements), metadata such as descriptions, references, and tags, and finally groups together related [describe blocks](#decribe_block) to implement the checks.
+
 ### core resource
+
+A [resource](#resource) that is included with InSpec; you are not required to install additional [plugins](#plugin) or depend on a [resource pack](#resource pack) to use the resource.
+
 ### custom resource
+
+A [resource](#resource) that is _not_ included with InSpec. It may be a resource of your own creation, or one you obtain by depending on a [resource pack](#resource pack).
+
+### describe
+### describe block
+
+The _`describe`_ keyword is used with a _`describe block`_ to refer to an InSpec resource.  You use the `describe` keyword along with the name of a resource to enclose related [tests](#test) that apply to the resource. Multiple describe blocks are usually grouped together in a [control](#control), but you can also use them outside of a control.
+
+```
+control 'Rule 1.1 - Color restrictions' do
+  # Count only blue cars
+  describe cars.where(color: 'blue') do
+    its('count') { should eq 20 }
+  end
+end
+```
+
 ### DSL
+
+_DSL_ is an acronym for _Domain Specific Language_. It refers to the language extensions InSpec provides to make authoring resources and controls easier.  While InSpec control files are use Ruby, the _Control DSL_ makes it easy to write controls without knowledge of Ruby by providing DSL keywords such as [describe](#describe), [control](#control), [it](#it) and [its](#its). See the [InSpec DSL page](https://www.inspec.io/docs/reference/dsl_inspec/) for details about keywords available to control authors.
+
+For [custom resource](#custom_resource) authors, an additional DSL is available - see the [Resource DSL page](https://www.inspec.io/docs/reference/dsl_resource/).
+
 ### expected result
+
+When using a [matcher](#matcher), the _`expected result`_ is the value the matcher will compare against the [property](#property) being accessed.
+
+In this example, the [`cmp`](https://www.inspec.io/docs/reference/matchers/#cmp) matcher is being used to compare the `color` property to the expected result 'black'.
+
+```
+describe car(owner: 'Bruce Wayne') do
+  its('color') { should cmp 'black' }
+end
+```
+
 ### filter statement
+
+When using a [plural resource](#plural_resource), a _`filter statement`_ is used to select individual test subjects using [filter criteria](#filter_criteria). A filter statement almost always is indicated by the keyword `where`, and may be repeated using method chaining.
+
+A filter statement may use method call syntax (which allows basic criteria operations, such as equality, regex matching, and ruby `===` comparison) or block syntax (which allows arbitrary code).
+
+In this example, `where(...)` is the filter statement.
+```
+# Count only blue cars
+describe cars.where(color: 'blue') do
+  its('count') { should eq 20 }
+end
+```
+
+### filter criterion
 ### filter criteria
+
+When using a [plural resource](#plural_resource), a _`filter criterion`_ is used to select individual test subjects within a [filter statement](#filter_statement). You may use multiple _`filter criteria`_ in a single filter statement.
+
+When method-call syntax is used with the filter statement, you provide filter criteria as a Hash, with filter criteria names as keys, and conditions as the Hash values. You may provide test, true/false, or numbers, in which case the comparison is equality; or you may provide a regular expression, in which case a match is performed.
+
+Here, `(color: blue)` is a single filter criterion being used with a filter statement in method-call syntax.
+
+```
+# Count only blue cars
+describe cars.where(color: 'blue') do
+  its('count') { should eq 20 }
+end
+```
+
+When block-method syntax is used with the filter statement, you provide a block. The block may contain arbitrary code, and each filter criteria will be available as an accessor. The block will be evaluated once per row, and each block that evaluates to a truthy value will pass the filter.
+
+Here, `{ engine_cylinders >= 6 }` is a block-syntax filter statement referring to one filter criterion.
+```
+# Vroom!
+describe cars.where { engine_cylinders >= 6 } do
+  its('city_mpg') { should be < 25 }
+end
+```
+
 ### it
+
+Within a [describe block](#describe), _`it`_ declares an individual [test](#test) directly against the [resource](#resource) (as opposed to testing against one of the resource's [properties](#property), as [its](#its) does). Though it is possible to use [universal matchers](#universal_matcher) with `it`, it is much more typical to use [resource-specific matchers](#resource_specific_matchers).
+
+`it` may be used with `should`, or negated using `should_not`.
+
+Here, `it { should ... }` declares a test, calling the `classy?` matcher on Tony Clifton's car.
+
+```
+describe car(owner: 'Tony Clifton') do
+  it { should be_classy }
+end
+```
+
 ### its
+
+Within a [describe block](#describe), _`its`_ declares an individual [test](#test) against a property of the [resource](#resource) (as opposed to testing directly against the resource itself, as [it](#it) does). You must use [universal matchers](#universal_matcher) with `its`; you cannot use [resource-specific matchers](#resource_specific_matchers).
+
+`its` may be used with `should`, or negated using `should_not`.
+
+The property to access is passed as a single string argument to `its`. As an advanced usage, if the property has methods you are interested in, you can call them using '`.`' within the string; even more advanced calling patterns are possible - see [the rspec-its documentation](https://github.com/rspec/rspec-its#usage).
+
+
+Here, `its('fuzzy_dice') { should ... }` declares a test, testing against the `fuzzy_dice` property of Tony Clifton's car. Let's assume - Tony being Tony - that `fuzzy_dice` will return an Array.
+
+```
+describe car(owner: 'Tony Clifton') do
+  its('fuzzy_dice') { should_not be_empty }
+  its('fuzzy_dice.count') { should be >= 2 }
+  its('fuzzy_dice.first.fuzziness') { should cmp 'outlandishly so' }
+end
+```
+
 ### matcher
+
 ### operator
+
+### plugin
+
 ### plural resource
+
 ### profile
+
 ### property
+
 ### reporter
+
 ### resource
+
 ### resource pack
 
 A _resource pack_ is a type of [profile](#profile) that is used to distribute [custom resources](#custom_resource). This specialized type of profile contains no [controls](#control), but it does contain a `libraries` directory which where Ruby files define custom resources.
 
 ### resource parameter
+
 ### resource-specific matcher
+
 ### singular resource
+
 ### target
+
 ### test
+
 ### universal matcher
 
 A _universal matcher_ is a [matcher](#matcher) that can be used on any type of [resource](#resource). For example, you can use the `cmp` matcher to check the value of properties without having to worry about Ruby type-casting.  Universal matchers are documented on the [Universal Matchers](https://www.inspec.io/docs/reference/matchers/) page.
