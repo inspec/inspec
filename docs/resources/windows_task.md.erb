@@ -33,38 +33,30 @@ The following examples show how to use this InSpec resource.
 
 ### Tests that a task is enabled
 
-    ```ruby
     describe windows_task('\Microsoft\Windows\Time Synchronization\SynchronizeTime') do
       it { should be_enabled }
     end
-    ```
 
 ### Tests that a task is disabled
 
-    ```ruby
     describe windows_task('\Microsoft\Windows\AppID\PolicyConverter') do
       it { should be_disabled }
     end
-    ```
 
 ### Tests the configuration parameters of a task
 
-    ```ruby
     describe windows_task('\Microsoft\Windows\AppID\PolicyConverter') do
       its('logon_mode') { should eq 'Interactive/Background' }
       its('last_result') { should eq '1' }
       its('task_to_run') { should cmp '%Windir%\system32\appidpolicyconverter.exe' }
       its('run_as_user') { should eq 'LOCAL SERVICE' }
     end
-    ```
 
 ### Tests that a task is defined
 
-    ```ruby
     describe windows_task('\Microsoft\Windows\Defrag\ScheduledDefrag') do
       it { should exist }
     end
-    ```
 
 ## Gathering Tasknames
 
@@ -76,7 +68,6 @@ rather than use the `list` output you can use `CSV` if it is easier.
 
 Please make sure you use the full TaskName (include the prefix `\`) within your control
 
-    ```ruby
     C:\>schtasks /query /FO list
     ...
     Folder: \Microsoft\Windows\Diagnosis
@@ -86,7 +77,6 @@ Please make sure you use the full TaskName (include the prefix `\`) within your 
     Status:        Ready
     Logon Mode:    Interactive/Background
     ...
-    ```
 
 <br>
 
