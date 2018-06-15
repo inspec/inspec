@@ -144,7 +144,7 @@ A [resource](#resource) that is _not_ included with InSpec. It may be a resource
 ### describe
 ### describe block
 
-The _`describe`_ keyword is used with a _`describe block`_ to refer to an InSpec resource.  You use the `describe` keyword along with the name of a resource to enclose related [tests](#test) that apply to the resource. Multiple describe blocks are usually grouped together in a [control](#control), but you can also use them outside of a control.
+The _`describe`_ keyword is used with a _`describe block`_ to refer to an InSpec resource.  You use the `describe` keyword along with the name of a [resource](#resource) to enclose related [tests](#test) that apply to the resource. Multiple describe blocks are usually grouped together in a [control](#control), but you can also use them outside of a control.
 
 ```
 control 'Rule 1.1 - Color restrictions' do
@@ -209,7 +209,7 @@ Here, `{ engine_cylinders >= 6 }` is a block-syntax filter statement referring t
 ```
 # Vroom!
 describe cars.where { engine_cylinders >= 6 } do
-  its('city_mpg') { should be < 25 }
+  its('city_mpg_ratings') { should_not include '4-star' }
 end
 ```
 
@@ -248,7 +248,21 @@ end
 
 ### matcher
 
-### operator
+A _`matcher`_ performs the actual assertions against [resources](#resource) or the [properties](#property) of resources.  Matchers always return a true/false value. Matchers fall into two camps:
+ * [resource-specific matchers](#resource_specific_matchers), which operate directly on the resource, are used with [it](#it), and tend to be highly customized to the auditing needs of the resource
+ * [universal matchers](#universal_matchers), which operate on the properties of the resource, are used with [its](#its), and tend to be very generic, operating on text, numbers, and lists
+
+Some matchers accept parameters, called [expected results](#expected_results).
+
+For information on how RSpec matchers are related o InSpec matchers, see [InSpec and RSpec](https://www.inspec.io/docs/reference/inspec_and_friends/#rspec).
+
+Here, `be_classy` is a resource-specific matcher operating directly on the `car`, while `cmp` is a universal matcher operating on the `manufacturer` property.
+```
+describe car(owner: 'Tony Clifton') do
+  it { should be_classy }
+  its('manufacturer') { should cmp 'Cadillac' }
+end
+```
 
 ### plugin
 
@@ -264,18 +278,57 @@ end
 
 ### resource pack
 
-A _resource pack_ is a type of [profile](#profile) that is used to distribute [custom resources](#custom_resource). This specialized type of profile contains no [controls](#control), but it does contain a `libraries` directory which where Ruby files define custom resources.
+A _resource pack_ is a type of [profile](#profile) that is used to distribute [custom resources](#custom_resource). This specialized type of profile contains no [controls](#control), but it does contain a `libraries` directory within which Ruby files define custom resources.
 
 ### resource parameter
 
+_`resource parameters`_ are information passed to the resource when they are declared. Typically, resource parameters provide identifying information or connectivity information.  Resource parameters are not the same as a [filter statement](#filter_statement).
+
+Resource parameters vary from resource to resource; refer to the [resource documentation](https://www.inspec.io/docs/reference/resources/) for details.
+
+Here, `owner: 'Tony Clifton'` is a resource parameter.
+```
+describe car(owner: 'Tony Clifton') do
+  it { should be_classy }
+end
+```
+
 ### resource-specific matcher
+
+A [matcher](#matcher) that operates directly on the [resource](#resource), as opposed to operating on a property as a [universal matcher](#universal matcher) does.
+
+Resource-specific matchers often provide highly customized behavior. Check the [resource documentation](#https://www.inspec.io/docs/reference/resources/) to discover which resource-specific matchers are available for your resource.
+
+For example, the hypothetical `car` resource defines a `classy?` method, which is exposed as the `be_classy` matcher in InSpec tests.
+
+```
+describe car(owner: 'Tony Clifton') do
+  it { should be_classy }
+end
+```
 
 ### singular resource
 
+A [resource](#resource) intended to uniquely identify a single object on the [target](#target). Singular resources specialize in providing richer auditing capabilities via resource-specific matchers. Compare to [plural resources](#plural_resource).
+
 ### target
+
+The _`target`_ is the OS or API on which InSpec is performing audits. In InSpec 1.x, this was always an operating system target (a bare metal machine, VM, or container). In InSpec 2.x and later, this can be an OS target, or an API target, including cloud providers such as AWS. InSpec is agentless, meaning that the InSpec code and profiles remain on your workstation, and the target is remotely interrogated without installing anything.
 
 ### test
 
+A _`test`_ is an individual assertion about the state of the [resource](#resource) or one of its [properties](#property). All tests begin with the keyword [it](#it) or [its](#its). Tests are grouped within a [describe block](#describe_block).
+
 ### universal matcher
 
-A _universal matcher_ is a [matcher](#matcher) that can be used on any type of [resource](#resource). For example, you can use the `cmp` matcher to check the value of properties without having to worry about Ruby type-casting.  Universal matchers are documented on the [Universal Matchers](https://www.inspec.io/docs/reference/matchers/) page.
+A _universal matcher_ is a [matcher](#matcher) that can be used on the [properties](#property) of any type of [resource](#resource). For example, you can use the `cmp` matcher to check the value of properties without having to worry about Ruby type-casting.  Universal matchers are almost always used with the [its](#its) keyword.
+
+Universal matchers are documented on the [Universal Matchers](https://www.inspec.io/docs/reference/matchers/) page.
+
+Here, we access the 'color' property, then use the `cmp` universal matcher to compare the property to the 'black' [expected result](#expected_result).
+
+```
+describe car(owner: 'Bruce Wayne') do
+  its('color') { should cmp 'black' }
+end
+```
