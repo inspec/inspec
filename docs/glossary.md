@@ -32,7 +32,7 @@ end
 
 _car_ is a [resource](#resource).  Since we are only talking about one car, it is a [singular resource](#singular_resource).
 
-#### describe foo(_owner: 'Tony Clifton'_)
+#### describe car(_owner: 'Tony Clifton'_)
 
 _owner_ is a [resource parameter](#resource_parameter) along with _'Tony Clifton'_, a resource parameter value.
 
@@ -235,7 +235,6 @@ Within a [describe block](#describe), _`its`_ declares an individual [test](#tes
 
 The property to access is passed as a single string argument to `its`. As an advanced usage, if the property has methods you are interested in, you can call them using '`.`' within the string; even more advanced calling patterns are possible - see [the rspec-its documentation](https://github.com/rspec/rspec-its#usage).
 
-
 Here, `its('fuzzy_dice') { should ... }` declares a test, testing against the `fuzzy_dice` property of Tony Clifton's car. Let's assume - Tony being Tony - that `fuzzy_dice` will return an Array.
 
 ```
@@ -264,17 +263,68 @@ describe car(owner: 'Tony Clifton') do
 end
 ```
 
-### plugin
-
 ### plural resource
+
+A _`plural resource`_ is a [resource](#resource) that specializes in performing searches and represents multiple occurrences of the resource on the [target](#target) platform. Plural resources are used to audit counts, inspect group properties, and have the unique ability to enforce negative tests ("nothing like this should exist") often required by compliance standards. Plural resources are not intended to perform in-depth auditing of an individual; use [singular resources](#singular_resource) for that.
+
+Plural resources nearly always have a name that ends in 's': `processes`, `aws_security_groups`, `cars`. Plural resources generally do not have [resource-specific matchers](#resource_specific_matcher). If they have properties, they are almost always list properties, meaning that they return a list of values, which may or may not be de-duplicated.
+
+Plural resources support [filter statements](#filter_statement). See the [resource documentation](https://www.inspec.io/docs/reference/resources/) for details regarding which [filter criteria](#filter_criteria) are supported on each resource.
+
+Here, `cars` is a plural resource.
+```
+describe cars.where(color: 'blue') do
+  its('count') { should eq 20 }
+  its('license_plates') { should include 'AUTOAZUL' }
+
+  # License plates are unique, should have 20
+  its('license_plates.count') { should cmp 20 }
+
+  # Manufacturers are de-duplicated
+  its('manufacturers') { should include 'Subaru' }
+  its('manufacturers.count') { should be < 10 }
+end
+```
 
 ### profile
 
+A _`profile`_ is a set of related [controls](#control) in a distributable form.  You might have a locally-developed profile that your organization uses to define baseline security on all machines, or you might use a pre-defined profile that implements the requirements of a specific compliance standard.  For full details about the capabilities of a profile, see the [profile documentation](https://www.inspec.io/docs/reference/profiles/).
+
+Profiles may be distributed locally as a directory tree, as a tarball or zipfile at a URL, as a git repo, and several other ways. Profiles contain metadata, including versioning, and can setup dependency relationships with other profiles.
+
+Aside from controls, profiles can also contain [custom resources](#custom_resource).  If the profile contains only custom resources and no controls, we call it a [resource pack](#resource_pack).
+
 ### property
+
+A fact about a [resource](#resource). Typically, you use the [its](#its) keyword to access the property and write a [test](#test) within a [describe block](#describe_block), and then use a [universal matcher](#universal_matcher) to make assertions about the value of the property.
+
+Each resource has different properties. See the [resource documentation](https://www.inspec.io/docs/reference/resources/) for details.
+
+Here, `manufacturer` is a property of the `car` resource.
+```
+describe car(owner: 'Tony Clifton') do
+  its('manufacturer') { should cmp 'Cadillac' }
+end
+```
 
 ### reporter
 
+An output format for the `inspec exec` command line. Several reporters are available, including JSON and JUnit; see the [inspec exec documentation](https://www.inspec.io/docs/reference/cli/#exec).
+
 ### resource
+
+A _`resource`_ represents a category of things on the [target](#target) you wish to examine. For example, to check for the existence and permissions of a file, you would use the [`file`](https://www.inspec.io/docs/reference/resources/file/) resource. InSpec offers dozens of different resources, from the highly specialized (such as `aws_security_group`, which examines firewall rules in AWS) to the very general (such as `command`, which runs a command and lets you examine its output).
+
+Resources are generally categorized as either [singular](#singular_resource) or [plural](#plural_resource), though there are some irregular resources that cannot be cleanly considered one or the other.
+
+Resources are used within a [describe block](#describe_block) to perform [tests](#test).
+
+Here, `car` is a resource.
+```
+describe car(owner: 'Tony Clifton') do
+  it { should be_classy }
+end
+```
 
 ### resource pack
 
