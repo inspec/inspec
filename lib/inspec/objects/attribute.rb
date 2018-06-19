@@ -12,7 +12,7 @@ module Inspec
 
       def method_missing(*_)
         Inspec::Log.warn(
-            "Returning DEFAULT_ATTRIBUTE for '#{@name}'. "\
+          "Returning DEFAULT_ATTRIBUTE for '#{@name}'. "\
           "Use --attrs to provide a value for '#{@name}' or specify a default  "\
           "value with `attribute('#{@name}', default: 'somedefault', ...)`.",
         )
@@ -54,8 +54,8 @@ module Inspec
 
     def to_hash
       {
-          name: @name,
-          options: @opts,
+        name: @name,
+        options: @opts,
       }
     end
 
@@ -73,69 +73,90 @@ module Inspec
     end
 
     def [](name)
-      self.lookup(name, @opts, @value)
+      lookup(name, @opts, @value)
     end
 
-    def self.lookup(name, options = {}, collection = {})
-      lookup = name.to_s.split(/:/)
-      key = lookup.first
-      next_keys = name.to_s[(key.size + 1)..-1]
+    class << self
+      def lookup(name, options = {}, collection = {})
+        lookup = name.to_s.split(/:/)
+        key = lookup.first
+        next_keys = name.to_s[(key.size + 1)..-1]
 
-      if next_keys
-        if collection.is_a?(Hash)
-          found_key = collection.keys.select {|x| x.to_s == key.to_s}.first
-          if found_key
-            attr = self.lookup(next_keys, options, collection[found_key])
-            attr.name = name
+        if next_keys
+          attr = lookup_collection(key, next_keys, options, collection)
+          if attr
             return attr
           end
         end
 
+        attr = new(name, options)
+        value = lookup_lastkey(key, collection)
+        if value
+          attr.value = value
+          return attr
+        end
+
+        if collection.respond_to?(:[])
+          if (value = collection[key])
+            attr.value = value
+          end
+        else
+          attr.value = collection
+        end
+        attr
+      end
+
+      private
+
+      def lookup_collection(key, next_keys, options, collection)
+        if collection.is_a?(Hash)
+          found_key = collection.keys.select { |x| x.to_s == key.to_s }.first
+          if found_key
+            attr = lookup(next_keys, options, collection[found_key])
+            attr.name = name
+            return attr
+          end
+        end
         if collection.is_a?(Array)
           index = nil
+          # rubocop:disable HandleExceptions
           begin
             index = Integer(key)
           rescue ArgumentError
             # Nothing to see here
           end
+          # rubocop:enable HandleExceptions
           if index && collection[index]
-            attr = self.lookup(next_keys, options, collection[index])
+            attr = lookup(next_keys, options, collection[index])
             attr.name = name
             return attr
           end
         end
+        nil
       end
 
-      attr = self.new(name, options)
-      if collection.is_a?(Hash)
-        found_key = collection.keys.select {|x| x.to_s == key.to_s}.first
-        if found_key
-          attr.value = collection[found_key]
-          return attr
+      def lookup_lastkey(key, collection)
+        if collection.is_a?(Hash)
+          found_key = collection.keys.select { |x| x.to_s == key.to_s }.first
+          if found_key
+            return collection[found_key]
+          end
         end
+        if collection.is_a?(Array)
+          index = nil
+          # rubocop:disable HandleExceptions
+          begin
+            index = Integer(key)
+          rescue ArgumentError
+            # Nothing to see here
+          end
+          # rubocop:enable HandleExceptions
+          if index && collection[index]
+            return collection[index]
+          end
+        end
+        nil
       end
-
-      if collection.is_a?(Array)
-        index = nil
-        begin
-          index = Integer(key)
-        rescue ArgumentError
-          # Nothing to see here
-        end
-        if index && collection[index]
-          attr.value = collection[index]
-          return attr
-        end
-      end
-
-      if collection.respond_to?(:[])
-        if (value = collection[key])
-          attr.value = value
-        end
-      else
-        attr.value = collection
-      end
-      attr
     end
   end
 end
