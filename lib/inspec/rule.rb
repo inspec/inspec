@@ -208,6 +208,15 @@ module Inspec
       dst.impact(src.impact) unless src.impact.nil?
       dst.title(src.title)   unless src.title.nil?
       dst.desc(src.desc)     unless src.desc.nil?
+      dst.tag(src.tag)       unless src.tag.nil?
+      dst.ref(src.ref)       unless src.ref.nil?
+
+      # use the most recent source location
+      dst.instance_variable_set(
+        :@__source_location,
+        src.instance_variable_get(:@__source_location),
+      )
+
       # merge indirect fields
       # checks defined in the source will completely eliminate
       # all checks that were defined in the destination
