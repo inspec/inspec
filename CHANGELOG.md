@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.27 -->
-## [v1.51.27](https://github.com/inspec/inspec/tree/v1.51.27) (2018-06-14)
+<!-- latest_release 1.51.28 -->
+## [v1.51.28](https://github.com/inspec/inspec/tree/v1.51.28) (2018-06-19)
 
-#### Merged Pull Requests
-- Fix 1.x inspec unit tests [#3148](https://github.com/inspec/inspec/pull/3148) ([jquick](https://github.com/jquick))
+#### Enhancements
+- Backport filtertable / &#39;where&#39; functionality on shadow resource to 1.x series [#3154](https://github.com/inspec/inspec/pull/3154) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.25 -->
 ### Changes since 1.51.25 release
+
+#### Enhancements
+- Backport filtertable / &#39;where&#39; functionality on shadow resource to 1.x series [#3154](https://github.com/inspec/inspec/pull/3154) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.51.28 -->
 
 #### Merged Pull Requests
 - Fix 1.x inspec unit tests [#3148](https://github.com/inspec/inspec/pull/3148) ([jquick](https://github.com/jquick)) <!-- 1.51.27 -->
