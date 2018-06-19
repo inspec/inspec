@@ -55,7 +55,7 @@ module Inspec::Resources
           .add(:max_days, field: 'max_days')
           .add(:warn_days, field: 'warn_days')
           .add(:inactive_days, field: 'inactive_days')
-          .add(:expiry_date, field: 'expiry_date')
+          .add(:expiry_dates, field: 'expiry_date')
 
     filter.add(:content) { |t, _|
       t.entries.map do |e|
@@ -68,30 +68,6 @@ module Inspec::Resources
     }
 
     filter.connect(self, :params)
-
-    def user(filter = nil)
-      warn '[DEPRECATION] The shadow `user` property is deprecated and will be removed' \
-       ' in InSpec 3.0.  Please use `users` instead.'
-      filter.nil? ? users : users(filter)
-    end
-
-    def password(filter = nil)
-      warn '[DEPRECATION] The shadow `password` property is deprecated and will be removed' \
-       ' in InSpec 3.0.  Please use `passwords` instead.'
-      filter.nil? ? passwords : passwords(filter)
-    end
-
-    def last_change(filter = nil)
-      warn '[DEPRECATION] The shadow `last_change` property is deprecated and will be removed' \
-       ' in InSpec 3.0.  Please use `last_changes` instead.'
-      filter.nil? ? last_changes : last_changes(filter)
-    end
-
-    def expiry_dates(filter = nil)
-      warn '[DEPRECATION] The shadow `expiry_dates` property is deprecated and will be removed' \
-       ' in InSpec 3.0.  Please use `expiry_date` instead.'
-      filter.nil? ? expiry_date : expiry_date(filter)
-    end
 
     def to_s
       f = @filters.empty? ? '' : ' with'+@filters
