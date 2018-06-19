@@ -1,0 +1,32 @@
+one_level_array:
+  - thing1
+  - thing2
+two_level_array:
+  -
+    - row1col1
+    - row1col2
+  -
+    - row2col1
+    - row2col2
+one_level_hash:
+  key1: value1
+  key2: value2
+two_level_hash:
+  key1:
+    key11: value11
+    key12: value12
+  key2:
+    key21: value21
+    key22: value22
+hash_of_arrays:
+  key1:
+    - thing11
+    - thing12
+  key2:
+    - thing21
+    - thing22
+array_of_hashes:
+  - key11: value11
+    key12: value12
+  - key21: value21
+    key22: value22

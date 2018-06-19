@@ -7,7 +7,7 @@ describe 'attributes' do
 
   [
     'flat',
-    # 'nested',
+    'nested',
   ].each do |attr_file|
     it "runs OK on #{attr_file} attributes" do
       cmd = 'exec '
