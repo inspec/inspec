@@ -187,9 +187,7 @@ module Inspec
 
     def register_attribute(name, options = {})
       # we need to return an attribute object, to allow dermination of default values
-      attr = Attribute.new(name, options)
-      # read value from given gived values
-      attr.value = @conf['attributes'][attr.name] unless @conf['attributes'].nil?
+      attr = Attribute.lookup(name, options, @conf['attributes'])
       @attributes.push(attr)
       attr.value
     end

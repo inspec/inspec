@@ -424,4 +424,51 @@ describe Inspec::ProfileContext do
       }.must_raise LoadError
     end
   end
+
+  describe 'attribute loading' do
+    let(:attrs) {
+      {
+          'foo' => 'foo',
+          1337 => 1337,
+          0x5f3759df => 0x5f3759df,
+          :array => [
+              'foo', 1337, 0x5f3759df,
+                     {
+                         'bar' => 'bar',
+                         73 => 73
+                     }
+          ],
+          'baz' => {
+              'baz' => 'baz',
+              42 => 42,
+              'music' => {
+                  'banana' => 'banana',
+                  'rama' => 'rama'
+              }
+          }
+      }
+    }
+    let(:attrs_profile) {Inspec::ProfileContext.new(nil, backend, {'attributes' => attrs})}
+
+    it 'can handle hierarchical attributes' do
+      assert_equal(attrs['foo'], attrs_profile.register_attribute('foo'))
+      assert_equal(attrs[1337], attrs_profile.register_attribute(1337))
+      assert_equal(attrs[1337], attrs_profile.register_attribute('1337'))
+      assert_equal(attrs[0x5f3759df], attrs_profile.register_attribute(0x5f3759df))
+      assert_equal(attrs[0x5f3759df], attrs_profile.register_attribute('1597463007'))
+
+      assert_equal(attrs[:array], attrs_profile.register_attribute(:array))
+      assert_equal(attrs[:array][0], attrs_profile.register_attribute('array:0'))
+
+      assert_equal(attrs['baz'], attrs_profile.register_attribute('baz'))
+      assert_equal(attrs['baz']['baz'], attrs_profile.register_attribute('baz:baz'))
+      assert_equal(attrs['baz'][42], attrs_profile.register_attribute('baz:42'))
+      assert_equal(attrs['baz']['music']['banana'], attrs_profile.register_attribute('baz:music:banana'))
+
+      assert_nil(attrs_profile.register_attribute('baz:43', {:default => nil}))
+
+      assert_instance_of(Inspec::Attribute::DEFAULT_ATTRIBUTE, attrs_profile.register_attribute('bar'))
+      assert_instance_of(Inspec::Attribute::DEFAULT_ATTRIBUTE, attrs_profile.register_attribute('baz:43'))
+    end
+  end
 end
