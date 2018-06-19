@@ -34,7 +34,7 @@ module Inspec::Resources
       @params = []
 
       if @content =~ /^LIST_RULES:/
-        return skip_resource 'The version of audit is outdated. The `auditd` resource supports versions of audit >= 2.3.'
+        return skip_resource 'The version of audit is outdated. The `auditd` resource supports versions of audit >= 2.3.5'
       end
       parse_content
     end
