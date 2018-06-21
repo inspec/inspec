@@ -30,11 +30,26 @@ module Inspec::Resources
     "
 
     def initialize
-      @content = inspec.command('/sbin/auditctl -l').stdout.chomp
+      unless inspec.command('/sbin/auditctl').exist?
+        raise Inspec::Exceptions::ResourceFailed,
+              'Command `/sbin/auditctl` does not exist'
+      end
+
+      auditctl_cmd = '/sbin/auditctl -l'
+      result = inspec.command(auditctl_cmd)
+
+      if result.exit_status != 0
+        raise Inspec::Exceptions::ResourceFailed,
+              "Command `#{auditctl_cmd}` failed with error: #{result.stderr}"
+      end
+
+      @content = result.stdout
       @params = []
 
       if @content =~ /^LIST_RULES:/
-        return skip_resource 'The version of audit is outdated. The `auditd` resource supports versions of audit >= 2.3.5'
+        raise Inspec::Exceptions::RsourceFailed,
+              'The version of audit is outdated.' \
+              'The `auditd` resource supports versions of audit >= 2.3.'
       end
       parse_content
     end

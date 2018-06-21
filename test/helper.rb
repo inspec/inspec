@@ -218,6 +218,7 @@ class MockLoader
       'bash -c \'type "/test/path/pip"\'' => empty.call,
       'bash -c \'type "Rscript"\'' => empty.call,
       'bash -c \'type "perl"\'' => empty.call,
+      'bash -c \'type "/sbin/auditctl"\'' => empty.call,
       'type "pwsh"' => empty.call,
       'type "netstat"' => empty.call,
       'sh -c \'find /etc/apache2/ports.conf -type l -maxdepth 1\'' => empty.call,
