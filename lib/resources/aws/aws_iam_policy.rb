@@ -113,9 +113,14 @@ class AwsIamPolicy < Inspec.resource(1)
   def has_statement__validate_criteria(raw_criteria)
     recognized_criteria = {}
     EXPECTED_CRITERIA.each do |expected_criterion|
-      [expected_criterion, expected_criterion.downcase, expected_criterion.to_sym, expected_criterion.downcase.to_sym].each do |variant|
+      [
+        expected_criterion,
+        expected_criterion.downcase,
+        expected_criterion.to_sym,
+        expected_criterion.downcase.to_sym,
+      ].each do |variant|
         if raw_criteria.key?(variant)
-          # Always store as downcasedd symbol
+          # Always store as downcased symbol
           recognized_criteria[expected_criterion.downcase.to_sym] = raw_criteria.delete(variant)
         end
       end

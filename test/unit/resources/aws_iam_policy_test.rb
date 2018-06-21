@@ -164,7 +164,12 @@ class AwsIamPolicyMatchersTest < Minitest::Test
       'Resource' => 'dummy',
       'Sid' => 'dummy',
     }.each do |criterion, test_value|
-      [criterion, criterion.downcase, criterion.to_sym, criterion.downcase.to_sym].each do |variant|
+      [
+        criterion,
+        criterion.downcase,
+        criterion.to_sym,
+        criterion.downcase.to_sym
+      ].each do |variant|
         AwsIamPolicy.new('test-policy-1').has_statement?(variant => test_value)
       end
     end
