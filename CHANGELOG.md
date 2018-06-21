@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.18 -->
-## [v2.2.18](https://github.com/inspec/inspec/tree/v2.2.18) (2018-06-21)
+<!-- latest_release 2.2.19 -->
+## [v2.2.19](https://github.com/inspec/inspec/tree/v2.2.19) (2018-06-21)
 
 #### Enhancements
-- auditd resource: Add handling for sudo/no command [#3151](https://github.com/inspec/inspec/pull/3151) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Fix control merging when overriding child controls [#3155](https://github.com/inspec/inspec/pull/3155) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.16 -->
 ### Changes since 2.2.16 release
 
 #### Enhancements
+- Fix control merging when overriding child controls [#3155](https://github.com/inspec/inspec/pull/3155) ([jquick](https://github.com/jquick)) <!-- 2.2.19 -->
 - auditd resource: Add handling for sudo/no command [#3151](https://github.com/inspec/inspec/pull/3151) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.18 -->
 - updated skip message to reflect accurate version of audit support [#3153](https://github.com/inspec/inspec/pull/3153) ([jeremymv2](https://github.com/jeremymv2)) <!-- 2.2.17 -->
 <!-- release_rollup -->
