@@ -314,7 +314,6 @@ module Inspec::Reporters
         # append a failure summary if appropriate.
         title_for_report += " (#{failure_count} failed)" if failure_count > 0
         title_for_report += " (#{skipped_count} skipped)" if skipped_count > 0
-
         title_for_report
       end
 
