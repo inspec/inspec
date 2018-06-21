@@ -1,25 +1,23 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.20 -->
-## [v2.2.20](https://github.com/inspec/inspec/tree/v2.2.20) (2018-06-21)
-
-#### Merged Pull Requests
-- Accept symbols and downcased criteria in aws_iam_policy have_statement matcher [#3129](https://github.com/inspec/inspec/pull/3129) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.2.16 -->
-### Changes since 2.2.16 release
-
-#### Merged Pull Requests
-- Accept symbols and downcased criteria in aws_iam_policy have_statement matcher [#3129](https://github.com/inspec/inspec/pull/3129) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.20 -->
-
-#### Enhancements
-- Fix control merging when overriding child controls [#3155](https://github.com/inspec/inspec/pull/3155) ([jquick](https://github.com/jquick)) <!-- 2.2.19 -->
-- auditd resource: Add handling for sudo/no command [#3151](https://github.com/inspec/inspec/pull/3151) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.18 -->
-- updated skip message to reflect accurate version of audit support [#3153](https://github.com/inspec/inspec/pull/3153) ([jeremymv2](https://github.com/jeremymv2)) <!-- 2.2.17 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.2.20](https://github.com/inspec/inspec/tree/v2.2.20) (2018-06-21)
+
+#### Enhancements
+- updated skip message to reflect accurate version of audit support [#3153](https://github.com/inspec/inspec/pull/3153) ([jeremymv2](https://github.com/jeremymv2))
+- auditd resource: Add handling for sudo/no command [#3151](https://github.com/inspec/inspec/pull/3151) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Fix control merging when overriding child controls [#3155](https://github.com/inspec/inspec/pull/3155) ([jquick](https://github.com/jquick))
+
+#### Merged Pull Requests
+- Accept symbols and downcased criteria in aws_iam_policy have_statement matcher [#3129](https://github.com/inspec/inspec/pull/3129) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v2.2.16](https://github.com/inspec/inspec/tree/v2.2.16) (2018-06-15)
 
 #### Enhancements
@@ -31,7 +29,6 @@
 - Add insecure option to the automate report json [#3124](https://github.com/inspec/inspec/pull/3124) ([jquick](https://github.com/jquick))
 - Bump train version for inspec [#3147](https://github.com/inspec/inspec/pull/3147) ([jquick](https://github.com/jquick))
 - deprecate azure_generic_resource [#3132](https://github.com/inspec/inspec/pull/3132) ([chris-rock](https://github.com/chris-rock))
-<!-- latest_stable_release -->
 
 ## [v2.2.10](https://github.com/inspec/inspec/tree/v2.2.10) (2018-06-08)
 
