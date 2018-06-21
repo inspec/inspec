@@ -4,14 +4,14 @@ This document should help you become familiar with some of the terminology used 
 
 There are two ways to use it:
 
-* A [text glossary](#text_glossary).  Learn the meaning of a word you have encountered.
-* A [visual glossary](#visual_glossary).  Look at examples and see how the parts are labelled.  You can then use the text glossary to read details of each concept.
+* A [text glossary](#text_glossary). Learn the meaning of a word you have encountered.
+* A [visual glossary](#visual_glossary). Look at examples and see how the parts are labelled. You can then use the text glossary to read details of each concept.
 
 ## Visual Glossary
 
 ### Motivating Example
 
-Suppose we are interested in auditing cars.  Let's suppose we have two InSpec resources for  auditing: `cars`, which can search for and filter groups of cars, and `car`, which can perform detailed auditing of a single car.
+Suppose we are interested in auditing cars. Let's suppose we have two InSpec resources for auditing: `cars`, which searchs for and filters groups of cars, and `car`, which performs detailed auditing of a single car.
 
 ### Basic Syntax
 
@@ -19,7 +19,7 @@ Let's look at some simple examples.
 
 ### Singular Resource Example
 
-```
+```inspec
 describe car(owner: 'Tony Clifton') do
     it { should exist }
     its('license_plate') { should cmp 'MOONMAN' }
@@ -28,41 +28,41 @@ describe car(owner: 'Tony Clifton') do
 end
 ```
 
-#### describe _car_(owner: 'Tony Clifton') do
+#### describe car(owner: 'Tony Clifton') do
 
-_car_ is a [resource](#resource).  Since we are only talking about one car, it is a [singular resource](#singular_resource).
+_car_ is a [resource](#resource). Since we are talking about only one car, it is a [singular resource](#singular_resource).
 
 #### describe car(_owner: 'Tony Clifton'_)
 
-_owner_ is a [resource parameter](#resource_parameter) along with _'Tony Clifton'_, a resource parameter value.
+_owner_ is a [resource parameter](#resource_parameter) and _'Tony Clifton'_ is a resource parameter value.
 
 #### _it { should exist }_
 
-Each line within the resource block that begins with `it` or `its` is a [test](#test).  Use [it](#it) to access [resource-specific matchers](#resource_specific_matcher), and use [its](#its) to access [properties](#property) of the [resource](#resource), which are then used with [universal matchers](#universal_matcher).
+Each line within the resource block beginning with `it` or `its` is a [test](#test). Use [it](#it) to access [resource-specific matchers](#resource_specific_matcher), and use [its](#its) to access [properties](#property) of the [resource](#resource), which are in turn used with [universal matchers](#universal_matcher).
 
-#### its('_license_plate_') { should cmp 'MOONMAN' }
+#### its('_license\_plate_') { should cmp 'MOONMAN' }
 
-_license_plate_ is a [property](#property) of the [resource](#resource).  Properties expose information about the resource for you to test. Some properties are numbers, some (like this one) are text, some are lists, and some are more complex objects.  Properties are always used with [universal matchers](#universal_matcher).
+_license\_plate_ is a [property](#property) belonging to the [resource](#resource). Properties expose testable information about the resource. Some properties are numbers, some (like this one) are text, some are lists, and some are more complex objects. Properties are always used with [universal matchers](#universal_matcher).
 
-#### its('license_plate') { should _cmp_ 'MOONMAN' }
+#### its('license\_plate') { should _cmp_ 'MOONMAN' }
 
-_cmp_ is a [universal matcher](#universal_matcher).  `cmp` is a very flexible, loosely typed equality operator; here it is checking to see if the license plate text is the same as the text 'MOONMAN'.  Notice it is operating on the license plate text (the property value); it does not operate on the resource.  You can find the full list of supported universal matchers on the [Universal Matcher page](https://www.inspec.io/docs/reference/matchers/).
+_cmp_ is a [universal matcher](#universal_matcher). `cmp` is a very flexible, loosely typed equality operator; here it checks to see if the license plate text is the same as the text 'MOONMAN'. Notice that the test operates on the license plate text (the property value) and not on the resource. You can find the full list of supported universal matchers on the [Universal Matcher page](https://www.inspec.io/docs/reference/matchers/).
 
-#### its('license_plate') { should cmp _'MOONMAN'_ }
+#### its('license\_plate') { should cmp _'MOONMAN'_ }
 
-_'MOONMAN'_ is an [expected result](#expected_result).  Some matchers take an expected result; others do not.
+_'MOONMAN'_ is an [expected result](#expected_result). Some matchers take an expected result; others do not.
 
 #### it { should _be\_classy_ }
 
-_be\_classy_ is a [resource-specific matcher](#resource_specific_matcher). It will return a yes-or-no value, based on whether Tony's car is classy or not.  (It is.  Tony is a classy guy.)
+_be\_classy_ is a [resource-specific matcher](#resource_specific_matcher). It returns a yes-or-no value, based on whether Tony's car is classy or not. (It is. Tony is a classy guy.)
 
 #### it { _should\_not_ have\_check\_engine\_light\_on }
 
-_should\_not_ indicates this is a negated test. So, this test will pass if the matcher says "no".
+_should\_not_ indicates this is a negated test. So, this test passes if the matcher says "no".
 
 ### Plural Resource Example
 
-```
+```inspec
   describe cars.where(color: /^b/) do
     it { should exist }
     its('manufacturers') { should include 'Cadillac' }
@@ -72,52 +72,53 @@ _should\_not_ indicates this is a negated test. So, this test will pass if the m
 
 #### describe _cars_.where(color: /^b/) do
 
-_cars_ is a [resource](#resource).  Since we are potentially talking about many cars, it is a [plural resource](#plural_resource).
+_cars_ is a [resource](#resource). Since we are potentially talking about many cars, it is a [plural resource](#plural_resource).
 
 #### describe cars._where(color: /^b/)_ do
 
-_where(color: /^b/)_ is a [filter statement](#filter_statement).  Without a filter statement, `cars` would simply select all the cars in the world.
+_where(color: /^b/)_ is a [filter statement](#filter_statement). Without a filter statement, `cars` simply selects all the cars in the world.
 
 #### describe cars.where(_color: /^b/_) do
 
-_color_ is a [filter criterion](#filter_criteria) along with its filter value, _/^b/_.  Here, the criterion is expressing that we want to select all cars whose colors begin with the letter 'b' - blue, brown, burgundy, etc.
+_color_ is a [filter criterion](#filter_criteria) along with its filter value, _/^b/_. Here, the criterion expresses that we want to select all cars whose colors begin with the letter 'b' - blue, brown, burgundy, etc.
 
 #### _it { should exist }_
 
-Each line within the resource block that begins with `it` or `its` is a [test](#test).  Use [it](#it) to access [resource-specific matchers](#resource_specific_matcher), and use [its](#its) to access [properties](#property) of the [resource](#resource), which are then used with [universal matchers](#universal_matcher).
+Each line within the resource block beginning with `it` or `its` is a [test](#test). Use [it](#it) to access [resource-specific matchers](#resource_specific_matcher), and use [its](#its) to access [properties](#property) of the [resource](#resource), which are in turn used with [universal matchers](#universal_matcher).
 
 With plural resources, `exist` has a special meaning: did the filter match anything?
 
 #### its('_manufacturers_') { should include 'Cadillac' }
 
-_manufacturers_ is a [property](#property) of the [resource](#resource).  Properties expose information about the resource for you to test. On plural resources, properties are almost always names in the plural, and almost always return a list of values.  Here, it would be a list of the names of the manufacturers of the cars. Some list properties are de-duplicated; for example, you might have 10 cars, but if they are all Subarus and Cadillacs, you will only have two entries in the `manufacturers` property. Be sure to check the documentation for your resource.
+_manufacturers_ is a [property](#property) of the [resource](#resource). Properties expose testable information about the resource. On plural resources, properties are almost always names in the plural, and almost always return a list of values. Here, the test returns a list of the car manufacturer names. Some list properties are de-duplicated; for example, you might have 10 cars, but if they are all Subarus and Cadillacs, it returns only two entries in the `manufacturers` property. Be sure to check the documentation for your resource.
 
 #### its('manufacturers') { should _include_ 'Cadillac' }
 
-_include_ is a [universal matcher](#universal_matcher).  `include` works with lists, and checks to see if an expecteddd result is present. Here, it is checking to see if the list of manufacturers contains an entry with the text 'Cadillac'. Notice it is operating on the manufacturers list (the property value); it does not operate on the resource.  You can find the full list of supported universal matchers on the [Universal Matcher page](https://www.inspec.io/docs/reference/matchers/).
+_include_ is a [universal matcher](#universal_matcher). `include` works with lists, and checks to see if an expected result is present. Here, it checks to see if the list of manufacturers contains an entry with the text 'Cadillac'. Notice it operates on the manufacturers list (the property value) and not on the resource. You can find the full list of supported universal matchers on the [Universal Matcher page](https://www.inspec.io/docs/reference/matchers/).
 
 #### its('manufacturers') { should include '_Cadillac_' }
 
-_'Cadillac'_ is an [expected result](#expected_result).  Some matchers take an expected result; others do not.
+_'Cadillac'_ is an [expected result](#expected_result). Some matchers take an expected result; others do not.
 
 #### its('count') { should _be >=_ 10 }
 
-_be >=_ is an [operator matcher](#operator matcher). It allows you to perform numeric comparisions. All plural resources have a `count` property.
+_be >=_ is an [operator matcher](#operator matcher). It allows you to perform numeric comparisons. All plural resources have a `count` property.
 
 ## Text Glossary
 
 ### attribute
 
-An _attribute_ is a parameter that InSpec can read from a YAML file provided on the command line.  You can use this feature to make a [profile's](#profile) behavior vary by passing different attribute files, or to store secrets that should not be directly present in a profile.  InSpec attributes are unrelated to Chef attributes.
+An _attribute_ is a parameter that InSpec reads from a YAML file provided on the command line. You can use this feature either to change a [profile's](#profile) behavior by passing different attribute files or to store secrets that should not be directly present in a profile. InSpec attributes are unrelated to Chef attributes.
 
 The CLI syntax for attributes is documented under the [`inspec exec`](https://www.inspec.io/docs/reference/cli/#exec) command.
 
 The syntax for accessing attributes within a profile is documented in the [profiles documentation](https://www.inspec.io/docs/reference/profiles/#profile-attributes).
 
 ### control
+
 ### control block
 
-The _`control`_ keyword is used to declare a _`control block`_. Here, the word 'control' means a 'regulatory control, recommendation, or requirement' - not a software engineering construct.  A `control block` has a name (which usually refers to the assigned ID of the regulatory recommendation it implements), metadata such as descriptions, references, and tags, and finally groups together related [describe blocks](#decribe_block) to implement the checks.
+The _`control`_ keyword is used to declare a _`control block`_. Here, the word 'control' means a 'regulatory control, recommendation, or requirement' - not a software engineering construct. A `control block` has a name (which usually refers to the assigned ID of the regulatory recommendation it implements), metadata such as descriptions, references, and tags, and finally groups together related [describe blocks](#describe_block) to implement the checks.
 
 ### core resource
 
@@ -128,9 +129,10 @@ A [resource](#resource) that is included with InSpec; you are not required to in
 A [resource](#resource) that is _not_ included with InSpec. It may be a resource of your own creation, or one you obtain by depending on a [resource pack](#resource pack).
 
 ### describe
+
 ### describe block
 
-The _`describe`_ keyword is used with a _`describe block`_ to refer to an InSpec resource.  You use the `describe` keyword along with the name of a [resource](#resource) to enclose related [tests](#test) that apply to the resource. Multiple describe blocks are usually grouped together in a [control](#control), but you can also use them outside of a control.
+The _`describe`_ keyword is used with a _`describe block`_ to refer to an InSpec resource. You use the `describe` keyword along with the name of a [resource](#resource) to enclose related [tests](#test) that apply to the resource. Multiple describe blocks are usually grouped together in a [control](#control), but you can also use them outside of a control.
 
 ```
 control 'Rule 1.1 - Color restrictions' do
@@ -143,7 +145,7 @@ end
 
 ### DSL
 
-_DSL_ is an acronym for _Domain Specific Language_. It refers to the language extensions InSpec provides to make authoring resources and controls easier.  While InSpec control files are use Ruby, the _Control DSL_ makes it easy to write controls without knowledge of Ruby by providing DSL keywords such as [describe](#describe), [control](#control), [it](#it) and [its](#its). See the [InSpec DSL page](https://www.inspec.io/docs/reference/dsl_inspec/) for details about keywords available to control authors.
+_DSL_ is an acronym for _Domain Specific Language_. It refers to the language extensions InSpec provides to make authoring resources and controls easier. While InSpec control files are use Ruby, the _Control DSL_ makes it easy to write controls without knowledge of Ruby by providing DSL keywords such as [describe](#describe), [control](#control), [it](#it) and [its](#its). See the [InSpec DSL page](https://www.inspec.io/docs/reference/dsl_inspec/) for details about keywords available to control authors.
 
 For [custom resource](#custom_resource) authors, an additional DSL is available - see the [Resource DSL page](https://www.inspec.io/docs/reference/dsl_resource/).
 
@@ -166,6 +168,7 @@ When using a [plural resource](#plural_resource), a _`filter statement`_ is used
 A filter statement may use method call syntax (which allows basic criteria operations, such as equality, regex matching, and ruby `===` comparison) or block syntax (which allows arbitrary code).
 
 In this example, `where(...)` is the filter statement.
+
 ```
 # Count only blue cars
 describe cars.where(color: 'blue') do
@@ -174,6 +177,7 @@ end
 ```
 
 ### filter criterion
+
 ### filter criteria
 
 When using a [plural resource](#plural_resource), a _`filter criterion`_ is used to select individual test subjects within a [filter statement](#filter_statement). You may use multiple _`filter criteria`_ in a single filter statement.
@@ -192,6 +196,7 @@ end
 When block-method syntax is used with the filter statement, you provide a block. The block may contain arbitrary code, and each filter criteria will be available as an accessor. The block will be evaluated once per row, and each block that evaluates to a truthy value will pass the filter.
 
 Here, `{ engine_cylinders >= 6 }` is a block-syntax filter statement referring to one filter criterion.
+
 ```
 # Vroom!
 describe cars.where { engine_cylinders >= 6 } do
@@ -233,15 +238,17 @@ end
 
 ### matcher
 
-A _`matcher`_ performs the actual assertions against [resources](#resource) or the [properties](#property) of resources.  Matchers always return a true/false value. Matchers fall into two camps:
- * [resource-specific matchers](#resource_specific_matchers), which operate directly on the resource, are used with [it](#it), and tend to be highly customized to the auditing needs of the resource
- * [universal matchers](#universal_matchers), which operate on the properties of the resource, are used with [its](#its), and tend to be very generic, operating on text, numbers, and lists
+A _`matcher`_ performs the actual assertions against [resources](#resource) or the [properties](#property) of resources. Matchers always return a true/false value. Matchers fall into two camps:
+
+* [resource-specific matchers](#resource_specific_matchers), which operate directly on the resource, are used with [it](#it), and tend to be highly customized to the auditing needs of the resource
+* [universal matchers](#universal_matchers), which operate on the properties of the resource, are used with [its](#its), and tend to be very generic, operating on text, numbers, and lists
 
 Some matchers accept parameters, called [expected results](#expected_results).
 
 For information on how RSpec matchers are related o InSpec matchers, see [InSpec and RSpec](https://www.inspec.io/docs/reference/inspec_and_friends/#rspec).
 
 Here, `be_classy` is a resource-specific matcher operating directly on the `car`, while `cmp` is a universal matcher operating on the `manufacturer` property.
+
 ```
 describe car(owner: 'Tony Clifton') do
   it { should be_classy }
@@ -258,6 +265,7 @@ Plural resources nearly always have a name that ends in 's': `processes`, `aws_s
 Plural resources support [filter statements](#filter_statement). See the [resource documentation](https://www.inspec.io/docs/reference/resources/) for details regarding which [filter criteria](#filter_criteria) are supported on each resource.
 
 Here, `cars` is a plural resource.
+
 ```
 describe cars.where(color: 'blue') do
   its('count') { should eq 20 }
@@ -274,11 +282,11 @@ end
 
 ### profile
 
-A _`profile`_ is a set of related [controls](#control) in a distributable form.  You might have a locally-developed profile that your organization uses to define baseline security on all machines, or you might use a pre-defined profile that implements the requirements of a specific compliance standard.  For full details about the capabilities of a profile, see the [profile documentation](https://www.inspec.io/docs/reference/profiles/).
+A _`profile`_ is a set of related [controls](#control) in a distributable form. You might have a locally-developed profile that your organization uses to define baseline security on all machines, or you might use a pre-defined profile that implements the requirements of a specific compliance standard. For full details about the capabilities of a profile, see the [profile documentation](https://www.inspec.io/docs/reference/profiles/).
 
 Profiles may be distributed locally as a directory tree, as a tarball or zipfile at a URL, as a git repo, and several other ways. Profiles contain metadata, including versioning, and can setup dependency relationships with other profiles.
 
-Aside from controls, profiles can also contain [custom resources](#custom_resource).  If the profile contains only custom resources and no controls, we call it a [resource pack](#resource_pack).
+Aside from controls, profiles can also contain [custom resources](#custom_resource). If the profile contains only custom resources and no controls, we call it a [resource pack](#resource_pack).
 
 ### property
 
@@ -287,6 +295,7 @@ A fact about a [resource](#resource). Typically, you use the [its](#its) keyword
 Each resource has different properties. See the [resource documentation](https://www.inspec.io/docs/reference/resources/) for details.
 
 Here, `manufacturer` is a property of the `car` resource.
+
 ```
 describe car(owner: 'Tony Clifton') do
   its('manufacturer') { should cmp 'Cadillac' }
@@ -306,6 +315,7 @@ Resources are generally categorized as either [singular](#singular_resource) or 
 Resources are used within a [describe block](#describe_block) to perform [tests](#test).
 
 Here, `car` is a resource.
+
 ```
 describe car(owner: 'Tony Clifton') do
   it { should be_classy }
@@ -318,11 +328,12 @@ A _resource pack_ is a type of [profile](#profile) that is used to distribute [c
 
 ### resource parameter
 
-_`resource parameters`_ are information passed to the resource when they are declared. Typically, resource parameters provide identifying information or connectivity information.  Resource parameters are not the same as a [filter statement](#filter_statement).
+_`resource parameters`_ are information passed to the resource when they are declared. Typically, resource parameters provide identifying information or connectivity information. Resource parameters are not the same as a [filter statement](#filter_statement).
 
 Resource parameters vary from resource to resource; refer to the [resource documentation](https://www.inspec.io/docs/reference/resources/) for details.
 
 Here, `owner: 'Tony Clifton'` is a resource parameter.
+
 ```
 describe car(owner: 'Tony Clifton') do
   it { should be_classy }
@@ -357,7 +368,7 @@ A _`test`_ is an individual assertion about the state of the [resource](#resourc
 
 ### universal matcher
 
-A _universal matcher_ is a [matcher](#matcher) that can be used on the [properties](#property) of any type of [resource](#resource). For example, you can use the `cmp` matcher to check the value of properties without having to worry about Ruby type-casting.  Universal matchers are almost always used with the [its](#its) keyword.
+A _universal matcher_ is a [matcher](#matcher) that can be used on the [properties](#property) of any type of [resource](#resource). For example, you can use the `cmp` matcher to check the value of properties without having to worry about Ruby type-casting. Universal matchers are almost always used with the [its](#its) keyword.
 
 Universal matchers are documented on the [Universal Matchers](https://www.inspec.io/docs/reference/matchers/) page.
 
