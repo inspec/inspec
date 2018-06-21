@@ -71,97 +71,14 @@ You can use `where` to match any of the [filter criteria](#filter_criteria) supp
     # Block form
     # Select users whose passwords have expired
     describe shadow.where { expiry_date > 0 } do
-      # This is more clear a a test
+      # This test directly asserts that there should be 0 such users
       its('count') { should eq 0 }
-      # But if the count test fails, this test gives clearer diagnostics
+      # But if the count test fails, this test will output the users that are causing the failure.
       its('users') { should be_empty }
     end
 
 
 <br>
-
-## Filter Criteria
-
-You may use any of these filter criteria with the `where` function.  They are named after the columns in the shadow file. Each has a related list [property](#properties).
-
-### user
-
-The string username of a user.  Always present.  Not required to be unique.
-
-    # Expect all users whose name ends in adm to have a disabled password via the '*' flag
-    describe shadow.where(user: /adm$/) do
-      its('password.uniq') { should eq ['*'] }
-    end
-
-### password
-
-The encrypted password strings, or an account status string. Each string may not be an encrypted password, but rather a `*` or similar which indicates that direct logins are not allowed. Different operating systems use other flags here (such as `*LK*` to indicate the account is locked).
-
-    # Find 'locked' accounts and ensure 'nobody' is on the list
-    describe shadow.where(password: '*LK*') do
-      its('users') { should include 'nobody' }
-    end
-
-### last_change
-
-An integer reflecting the number of days since Jan 1 1970 since the user's password was changed.
-
-    # Find users who have not changed their password within 90 days
-    describe shadow.where { last_change > Date.today - 90 - Date.new(1970,1,1) } do
-      its('users') { should be_empty }
-    end
-
-### min_days
-
-An integer reflecting the minimum number of days a user is required to wait before
-changing their password again.
-
-    # Find users who have a nonzero wait time
-    describe shadow.where { min_days > 0 } do
-      its('users') { should be_empty }
-    end
-
-### max_days
-
-An integer reflecting the maximum number of days a user may go without changing their password.
-
-    # All users should have a 30-day policy
-    describe shadow.where { max_days != 30 } do
-      its('users') { should be_empty }
-    end
-
-### warn_days
-
-An integer reflecting the number of days a user will be warned about a password about to expire.
-
-    # All users should have a 7-day warning policy
-    describe shadow.where { warn_days != 7 } do
-      its('users') { should be_empty }
-    end
-
-### inactive_days
-
-An integer reflecting the number of days that must pass before a user who has not logged in will be disabled.
-
-
-    # Ensure everyone has a stale policy of no more thn 14 days.
-    describe shadow.where { inactive_days.nil? || inactive_days > 14 } do
-      its('users') { should be_empty }
-    end
-
-### expiry_date
-
-An integer reflecting the number of days since Jan 1, 1970 on which the user was disabled. Will be `nil` if the account is not disabled for password reasons.
-
-    # Ensure no one is disabled due to a old password
-    describe shadow.where { expiry_date.nil? } do
-      its('users') { should be_empty }
-    end
-
-    # Ensure no one is disabled for more than 14 days
-    describe shadow.where { !expiry_date.nil? && expiry_date - Date.new(1970,1,1) > 14} do
-      its('users') { should be_empty }
-    end
 
 ## Properties
 
@@ -251,6 +168,90 @@ The `count` property tests the number of records that the filter matched.
     end
 
 <br>
+
+## Filter Criteria
+
+You may use any of these filter criteria with the `where` function.  They are named after the columns in the shadow file. Each has a related list [property](#properties).
+
+### user
+
+The string username of a user.  Always present.  Not required to be unique.
+
+    # Expect all users whose name ends in adm to have a disabled password via the '*' flag
+    describe shadow.where(user: /adm$/) do
+      its('password.uniq') { should eq ['*'] }
+    end
+
+### password
+
+The encrypted password strings, or an account status string. Each string may not be an encrypted password, but rather a `*` or similar which indicates that direct logins are not allowed. Different operating systems use other flags here (such as `*LK*` to indicate the account is locked).
+
+    # Find 'locked' accounts and ensure 'nobody' is on the list
+    describe shadow.where(password: '*LK*') do
+      its('users') { should include 'nobody' }
+    end
+
+### last_change
+
+An integer reflecting the number of days since Jan 1 1970 since the user's password was changed.
+
+    # Find users who have not changed their password within 90 days
+    describe shadow.where { last_change > Date.today - 90 - Date.new(1970,1,1) } do
+      its('users') { should be_empty }
+    end
+
+### min_days
+
+An integer reflecting the minimum number of days a user is required to wait before
+changing their password again.
+
+    # Find users who have a nonzero wait time
+    describe shadow.where { min_days > 0 } do
+      its('users') { should be_empty }
+    end
+
+### max_days
+
+An integer reflecting the maximum number of days a user may go without changing their password.
+
+    # All users should have a 30-day policy
+    describe shadow.where { max_days != 30 } do
+      its('users') { should be_empty }
+    end
+
+### warn_days
+
+An integer reflecting the number of days a user will be warned about a password about to expire.
+
+    # All users should have a 7-day warning policy
+    describe shadow.where { warn_days != 7 } do
+      its('users') { should be_empty }
+    end
+
+### inactive_days
+
+An integer reflecting the number of days that must pass before a user who has not logged in will be disabled.
+
+
+    # Ensure everyone has a stale policy of no more than 14 days.
+    describe shadow.where { inactive_days.nil? || inactive_days > 14 } do
+      its('users') { should be_empty }
+    end
+
+### expiry_date
+
+An integer reflecting the number of days since Jan 1, 1970 on which the user was disabled. Will be `nil` if the account is not disabled for password reasons.
+
+    # Ensure no one is disabled due to a old password
+    describe shadow.where { expiry_date.nil? } do
+      its('users') { should be_empty }
+    end
+
+    # Ensure no one is disabled for more than 14 days
+    describe shadow.where { !expiry_date.nil? && expiry_date - Date.new(1970,1,1) > 14} do
+      its('users') { should be_empty }
+    end
+
 
 ## Matchers
 
