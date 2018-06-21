@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.19 -->
-## [v2.2.19](https://github.com/inspec/inspec/tree/v2.2.19) (2018-06-21)
+<!-- latest_release 2.2.20 -->
+## [v2.2.20](https://github.com/inspec/inspec/tree/v2.2.20) (2018-06-21)
 
-#### Enhancements
-- Fix control merging when overriding child controls [#3155](https://github.com/inspec/inspec/pull/3155) ([jquick](https://github.com/jquick))
+#### Merged Pull Requests
+- Accept symbols and downcased criteria in aws_iam_policy have_statement matcher [#3129](https://github.com/inspec/inspec/pull/3129) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.16 -->
 ### Changes since 2.2.16 release
+
+#### Merged Pull Requests
+- Accept symbols and downcased criteria in aws_iam_policy have_statement matcher [#3129](https://github.com/inspec/inspec/pull/3129) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.20 -->
 
 #### Enhancements
 - Fix control merging when overriding child controls [#3155](https://github.com/inspec/inspec/pull/3155) ([jquick](https://github.com/jquick)) <!-- 2.2.19 -->
