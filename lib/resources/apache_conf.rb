@@ -87,8 +87,10 @@ module Inspec::Resources
         ).params
 
         # Capture any characters between quotes that are not escaped in values
-        params.values.map! do |x|
-          x.map! { |y| y[/(?<=["|'])(?:\\.|[^"'\\])*(?=["|'])/] || y }
+        params.values.map! do |value|
+          value.map! do |sub_value|
+            sub_value[/(?<=["|'])(?:\\.|[^"'\\])*(?=["|'])/] || sub_value
+          end
         end
 
         @params.merge!(params)
