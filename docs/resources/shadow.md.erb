@@ -5,9 +5,9 @@ platform: linux
 
 # shadow
 
-Use the `shadow` InSpec audit resource to test the contents of `/etc/shadow`, which contains password details that are only readable by the `root` user. `shadow` is a [plural resource](https://www.inspec.io/docs/reference/glossary/#plural_resource), which means it functions by performing searches across multiple entries in the shadow file.
+Use the `shadow` InSpec audit resource to test the contents of `/etc/shadow`, which contains password details that are readable only by the `root` user. `shadow` is a [plural resource](https://www.inspec.io/docs/reference/glossary/#plural_resource). It functions by performing searches across multiple entries in the shadow file.
 
- The format for `/etc/shadow` includes:
+The format for `/etc/shadow` includes:
 
 * A username
 * The hashed password for that user
@@ -28,7 +28,7 @@ The `shadow` resource understands this format, allows you to search on the field
 
 ## Resource Parameters
 
-The `shadow` resource takes one optional parameter: the path to the shadow file.  If omitted, `/etc/shadow` is assumed.
+The `shadow` resource takes one optional parameter: the path to the shadow file. If omitted, `/etc/shadow` is assumed.
 
     # Expect a file to exist at the default location and have 32 users
     describe shadow do
@@ -54,7 +54,7 @@ A `shadow` resource block uses `where` to filter entries from the shadow file. I
       its('count') { should eq 1 }
     end
 
-You can use `where` to match any of the [filter criteria](#filter_criteria) supported. `where` has a method form for simple equality, and a block form for more complex queries.
+Use `where` to match any of the supported [filter criteria](#filter_criteria). `where` has a method form for simple equality and a block form for more complex queries.
 
     # Method form, simple
     # Select just the root user (direct equality)
@@ -73,16 +73,15 @@ You can use `where` to match any of the [filter criteria](#filter_criteria) supp
     describe shadow.where { expiry_date > 0 } do
       # This test directly asserts that there should be 0 such users
       its('count') { should eq 0 }
-      # But if the count test fails, this test will output the users that are causing the failure.
+      # But if the count test fails, this test outputs the users that are causing the failure.
       its('users') { should be_empty }
     end
-
 
 <br>
 
 ## Properties
 
-As a [plural resource](https://www.inspec.io/docs/reference/glossary/#plural_resource), all of `shadow`'s properties will return lists (that is, Ruby Arrays). `include` and `be_empty` are two of the most useful matchers you can use with lists. You can also perform manipulation of the lists, such as calling `uniq`, `sort`, `count`, `first`, `last`, `min`, and `max`.
+As a [plural resource](https://www.inspec.io/docs/reference/glossary/#plural_resource), all of `shadow`'s properties return lists (that is, Ruby arrays). `include` and `be_empty` are two useful matchers when working with lists. You can also perform manipulation of the lists, such as calling `uniq`, `sort`, `count`, `first`, `last`, `min`, and `max`.
 
 ### users
 
@@ -94,7 +93,7 @@ A list of strings, representing the usernames matched by the filter.
 
 ### passwords
 
-A list of strings, representing the encrypted password strings for entries matched by the `where` filter. Each string may not be an encrypted password, but rather a `*` or similar which indicates that direct logins are not allowed. Different operating systems use other flags here (such as `*LK*` to indicate the account is locked).
+A list of strings, representing the encrypted password strings for entries matched by the `where` filter. Each string may not be an encrypted password, but rather a `*` or similar which indicates that direct logins are not allowed. Different operating systems use different flags here (such as `*LK*` to indicate the account is locked).
 
     # Use uniq to remove duplicates, then determine
     # if the only password left on the list is '*'
@@ -151,7 +150,7 @@ A list of integers reflecting the number of days a user must be inactive before 
 
 ### expiry\_dates
 
-A list of integers reflecting the number of days since Jan 1 1970 that a user account has been disabled, for each user matching the filter. Value will be `nil` if the account is not expired.
+A list of integers reflecting the number of days since Jan 1 1970 that a user account has been disabled, for each user matching the filter. Value is `nil` if the account has not expired.
 
     # No one should have an expired account.
     describe shadow do
@@ -221,7 +220,7 @@ An integer reflecting the maximum number of days a user may go without changing 
 
 ### warn_days
 
-An integer reflecting the number of days a user will be warned about a password about to expire.
+An integer reflecting the number of days before a password expiration that a user recieves an alert.
 
     # All users should have a 7-day warning policy
     describe shadow.where { warn_days != 7 } do
@@ -232,7 +231,6 @@ An integer reflecting the number of days a user will be warned about a password 
 
 An integer reflecting the number of days that must pass before a user who has not logged in will be disabled.
 
-
     # Ensure everyone has a stale policy of no more than 14 days.
     describe shadow.where { inactive_days.nil? || inactive_days > 14 } do
       its('users') { should be_empty }
@@ -240,7 +238,7 @@ An integer reflecting the number of days that must pass before a user who has no
 
 ### expiry_date
 
-An integer reflecting the number of days since Jan 1, 1970 on which the user was disabled. Will be `nil` if the account is not disabled for password reasons.
+An integer reflecting the number of days since Jan 1, 1970 on which the user was disabled. The value `nil` means the account was disabled because of an expired password.
 
     # Ensure no one is disabled due to a old password
     describe shadow.where { expiry_date.nil? } do
@@ -251,7 +249,6 @@ An integer reflecting the number of days since Jan 1, 1970 on which the user was
     describe shadow.where { !expiry_date.nil? && expiry_date - Date.new(1970,1,1) > 14} do
       its('users') { should be_empty }
     end
-
 
 ## Matchers
 
