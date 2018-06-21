@@ -16,6 +16,7 @@ class AwsIamPolicy < Inspec.resource(1)
 
   attr_reader :arn, :attachment_count, :default_version_id
 
+  # Note that we also accept downcases and symbol versions of these
   EXPECTED_CRITERIA = %w{
     Action
     Effect
@@ -96,7 +97,7 @@ class AwsIamPolicy < Inspec.resource(1)
   def has_statement?(provided_criteria = {})
     return nil unless exists?
     raw_criteria = provided_criteria.dup # provided_criteria is used for output formatting - can't delete from it.
-    criteria = has_statement__normalize_criteria(has_statement__validate_criteria(raw_criteria))
+    criteria = has_statement__validate_criteria(raw_criteria)
     @normalized_statements ||= has_statement__normalize_statements
     statements = has_statement__focus_on_sid(@normalized_statements, criteria)
     statements.any? do |statement|
@@ -112,15 +113,30 @@ class AwsIamPolicy < Inspec.resource(1)
   def has_statement__validate_criteria(raw_criteria)
     recognized_criteria = {}
     EXPECTED_CRITERIA.each do |expected_criterion|
-      if raw_criteria.key?(expected_criterion)
-        recognized_criteria[expected_criterion] = raw_criteria.delete(expected_criterion)
+      [
+        expected_criterion,
+        expected_criterion.downcase,
+        expected_criterion.to_sym,
+        expected_criterion.downcase.to_sym,
+      ].each do |variant|
+        if raw_criteria.key?(variant)
+          # Always store as downcased symbol
+          recognized_criteria[expected_criterion.downcase.to_sym] = raw_criteria.delete(variant)
+        end
       end
     end
 
     # Special message for valid, but unimplemented statement attributes
     UNIMPLEMENTED_CRITERIA.each do |unimplemented_criterion|
-      if raw_criteria.key?(unimplemented_criterion)
-        raise ArgumentError, "Criterion '#{unimplemented_criterion}' is not supported for performing have_statement queries."
+      [
+        unimplemented_criterion,
+        unimplemented_criterion.downcase,
+        unimplemented_criterion.to_sym,
+        unimplemented_criterion.downcase.to_sym,
+      ].each do |variant|
+        if raw_criteria.key?(variant)
+          raise ArgumentError, "Criterion '#{unimplemented_criterion}' is not supported for performing have_statement queries."
+        end
       end
     end
 
@@ -130,22 +146,13 @@ class AwsIamPolicy < Inspec.resource(1)
     end
 
     # Effect has only 2 permitted values
-    if recognized_criteria.key?('Effect')
-      unless %w{Allow Deny}.include?(recognized_criteria['Effect'])
-        raise ArgumentError, "Criterion 'Effect' for have_statement must be one of 'Allow' or 'Deny' - got '#{recognized_criteria['Effect']}'"
+    if recognized_criteria.key?(:effect)
+      unless %w{Allow Deny}.include?(recognized_criteria[:effect])
+        raise ArgumentError, "Criterion 'Effect' for have_statement must be one of 'Allow' or 'Deny' - got '#{recognized_criteria[:effect]}'"
       end
     end
 
     recognized_criteria
-  end
-
-  def has_statement__normalize_criteria(criteria)
-    # Transform keys into lowercase symbols
-    criteria.keys.each do |provided_key|
-      criteria[provided_key.downcase.to_sym] = criteria.delete(provided_key)
-    end
-
-    criteria
   end
 
   def has_statement__normalize_statements

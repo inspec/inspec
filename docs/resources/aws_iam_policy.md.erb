@@ -186,7 +186,7 @@ The test will pass if the identified policy attached the specified role.
 
 Examines the list of statements contained in the policy and passes if at least one of the statements matches. This matcher does _not_ interpret the policy in a request authorization context, as AWS does when a request processed. Rather, `have_statement` examines the literal contents of the IAM policy, and reports on what is present (or absent, when used with `should_not`).
 
-`have_statement` accepts the following criteria to search for matching statements. If any statement matches all the criteria, the test is successful.
+`have_statement` accepts the following criteria to search for matching statements. If any statement matches all the criteria, the test is successful.  All criteria may be used as Titlecase (as in the AWS examples) or lowercase, string or symbol.
 
 * `Action` - Expresses the requested operation. Acceptable literal values are any AWS operation name, including the '*' wildcard character. `Action` may also use a list of AWS operation names.
 * `Effect` - Expresses if the operation is permitted. Acceptable values are 'Deny' and 'Allow'.
@@ -204,7 +204,16 @@ Examples:
 
     # Verify there is no full-admin statement
     describe aws_iam_policy('kryptonite') do
+      it { should_not have_statement('Effect' => 'Allow', 'Resource' => '*', 'Action' => '*')}
+    end
+
+    # Symbols and lowercase also allowed as criteria
+    describe aws_iam_policy('kryptonite') do
+      # All 4 the same
+      it { should_not have_statement('Effect' => 'Allow', 'Resource' => '*', 'Action' => '*')}
+      it { should_not have_statement('effect' => 'Allow', 'resource' => '*', 'action' => '*')}
       it { should_not have_statement(Effect: 'Allow', Resource: '*', Action: '*')}
+      it { should_not have_statement(effect: 'Allow', resource: '*', action: '*')}
     end
 
     # Verify bob is allowed to manage things on S3 buckets that start with bobs-stuff

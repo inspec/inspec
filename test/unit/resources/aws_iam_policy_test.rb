@@ -164,7 +164,14 @@ class AwsIamPolicyMatchersTest < Minitest::Test
       'Resource' => 'dummy',
       'Sid' => 'dummy',
     }.each do |criterion, test_value|
-      AwsIamPolicy.new('test-policy-1').has_statement?(criterion => test_value)
+      [
+        criterion,
+        criterion.downcase,
+        criterion.to_sym,
+        criterion.downcase.to_sym
+      ].each do |variant|
+        AwsIamPolicy.new('test-policy-1').has_statement?(variant => test_value)
+      end
     end
   end
 
@@ -187,79 +194,85 @@ class AwsIamPolicyMatchersTest < Minitest::Test
   end
 
   def test_have_statement_when_sid_is_provided
-    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Sid' => 'beta01'))
-    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Sid' => 'CloudWatchEventsFullAccess'))
-    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Sid' => 'IAMPassRoleForCloudWatchEvents'))
-    refute(AwsIamPolicy.new('test-policy-2').has_statement?('Sid' => 'beta01'))
+    ['Sid', 'sid', :Sid, :sid].each do |variant|
+      assert(AwsIamPolicy.new('test-policy-1').has_statement?(variant => 'beta01'))
+      assert(AwsIamPolicy.new('test-policy-2').has_statement?(variant => 'CloudWatchEventsFullAccess'))
+      assert(AwsIamPolicy.new('test-policy-2').has_statement?(variant => 'IAMPassRoleForCloudWatchEvents'))
+      refute(AwsIamPolicy.new('test-policy-2').has_statement?(variant => 'beta01'))
 
-    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Sid' => /eta/))
-    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Sid' => /CloudWatch/))
-    refute(AwsIamPolicy.new('test-policy-2').has_statement?('Sid' => /eta/))
-  end
-
-  def test_have_statement_when_provided_invalid_effect
-    assert_raises(ArgumentError) { AwsIamPolicy.new('test-policy-1').has_statement?('Effect' => 'Disallow') }
-    assert_raises(ArgumentError) { AwsIamPolicy.new('test-policy-1').has_statement?('Effect' => 'allow') }
-    assert_raises(ArgumentError) { AwsIamPolicy.new('test-policy-1').has_statement?('Effect' => :Allow) }
-    assert_raises(ArgumentError) { AwsIamPolicy.new('test-policy-1').has_statement?('Effect' => :allow) }
+      assert(AwsIamPolicy.new('test-policy-1').has_statement?(variant => /eta/))
+      assert(AwsIamPolicy.new('test-policy-2').has_statement?(variant => /CloudWatch/))
+      refute(AwsIamPolicy.new('test-policy-2').has_statement?(variant => /eta/))
+    end
   end
 
   def test_have_statement_when_effect_is_provided
-    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Effect' => 'Deny'))
-    refute(AwsIamPolicy.new('test-policy-1').has_statement?('Effect' => 'Allow'))
-    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Effect' => 'Allow'))
+    ['Effect','effect',:Effect,:effect].each do |variant|
+      assert(AwsIamPolicy.new('test-policy-1').has_statement?(variant => 'Deny'))
+      refute(AwsIamPolicy.new('test-policy-1').has_statement?(variant => 'Allow'))
+      assert(AwsIamPolicy.new('test-policy-2').has_statement?(variant => 'Allow'))
+
+      assert_raises(ArgumentError) { AwsIamPolicy.new('test-policy-1').has_statement?(variant => 'Disallow') }
+      assert_raises(ArgumentError) { AwsIamPolicy.new('test-policy-1').has_statement?(variant => 'allow') }
+      assert_raises(ArgumentError) { AwsIamPolicy.new('test-policy-1').has_statement?(variant => :Allow) }
+      assert_raises(ArgumentError) { AwsIamPolicy.new('test-policy-1').has_statement?(variant => :allow) }
+    end
   end
 
   def test_have_statement_when_action_is_provided
-    # Able to match a simple string action when multiple statements present
-    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Action' => 'iam:PassRole'))
-    # Able to match a wildcard string action
-    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Action' => 'events:*'))
-    # Do not match a wildcard when using strings
-    refute(AwsIamPolicy.new('test-policy-2').has_statement?('Action' => 'events:EnableRule'))
-    # Do match when using a regex
-    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Action' => /^events\:/))
-    # Able to match one action when the statement has an array of actions
-    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Action' => 'ec2:DescribeSubnets'))
-    # Do not match if only one action specified as an array when the statement has an array of actions
-    refute(AwsIamPolicy.new('test-policy-1').has_statement?('Action' => ['ec2:DescribeSubnets']))
-    # Do match if two actions specified when the statement has an array of actions
-    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Action' => ['ec2:DescribeSubnets', 'ec2:DescribeSecurityGroups']))
-    # Do match setwise if two actions specified when the statement has an array of actions
-    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Action' => ['ec2:DescribeSecurityGroups', 'ec2:DescribeSubnets']))
-    # Do match if only one regex action specified when the statement has an array of actions
-    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Action' => /^ec2\:Describe/))
-    # Do match if one regex action specified in an array when the statement has an array of actions
-    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Action' => [/^ec2\:Describe/]))
-    # Able to match a degenerate policy doc in which there is exactly one statement as a hash.
-    assert(AwsIamPolicy.new('test-policy-3').has_statement?('Action' => 'acm:GetCertificate'))
-    # Don't explode, and also don't match, if a policy has a statement without an Action
-    refute(AwsIamPolicy.new('test-policy-4').has_statement?('Action' => 'iam:*'))
+    ['Action', 'action', :Action, :action].each do |variant|
+      # Able to match a simple string action when multiple statements present
+      assert(AwsIamPolicy.new('test-policy-2').has_statement?(variant => 'iam:PassRole'))
+      # Able to match a wildcard string action
+      assert(AwsIamPolicy.new('test-policy-2').has_statement?(variant => 'events:*'))
+      # Do not match a wildcard when using strings
+      refute(AwsIamPolicy.new('test-policy-2').has_statement?(variant => 'events:EnableRule'))
+      # Do match when using a regex
+      assert(AwsIamPolicy.new('test-policy-2').has_statement?(variant => /^events\:/))
+      # Able to match one action when the statement has an array of actions
+      assert(AwsIamPolicy.new('test-policy-1').has_statement?(variant => 'ec2:DescribeSubnets'))
+      # Do not match if only one action specified as an array when the statement has an array of actions
+      refute(AwsIamPolicy.new('test-policy-1').has_statement?(variant => ['ec2:DescribeSubnets']))
+      # Do match if two actions specified when the statement has an array of actions
+      assert(AwsIamPolicy.new('test-policy-1').has_statement?(variant => ['ec2:DescribeSubnets', 'ec2:DescribeSecurityGroups']))
+      # Do match setwise if two actions specified when the statement has an array of actions
+      assert(AwsIamPolicy.new('test-policy-1').has_statement?(variant => ['ec2:DescribeSecurityGroups', 'ec2:DescribeSubnets']))
+      # Do match if only one regex action specified when the statement has an array of actions
+      assert(AwsIamPolicy.new('test-policy-1').has_statement?(variant => /^ec2\:Describe/))
+      # Do match if one regex action specified in an array when the statement has an array of actions
+      assert(AwsIamPolicy.new('test-policy-1').has_statement?(variant => [/^ec2\:Describe/]))
+      # Able to match a degenerate policy doc in which there is exactly one statement as a hash.
+      assert(AwsIamPolicy.new('test-policy-3').has_statement?(variant => 'acm:GetCertificate'))
+      # Don't explode, and also don't match, if a policy has a statement without an Action
+      refute(AwsIamPolicy.new('test-policy-4').has_statement?(variant => 'iam:*'))
+    end
   end
 
   def test_have_statement_when_resource_is_provided
-    # Able to match a simple string resource when multiple statements present
-    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Resource' => 'arn:aws:iam::*:role/AWS_Events_Invoke_Targets'))
-    # Able to match a wildcard string resource
-    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Resource' => '*'))
-    # Do not match a wildcard when using strings
-    refute(AwsIamPolicy.new('test-policy-2').has_statement?('Resource' => 'arn:aws:events:us-east-1:123456789012:rule/my-rule'))
-    # Do match when using a regex
-    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Resource' => /AWS_Events_Invoke_Targets$/))
-    # Able to match one resource when the statement has an array of resources
-    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Resource' => 'arn:aws:ec2:::*'))
-    # Do not match if only one resource specified as an array when the statement has an array of resources
-    refute(AwsIamPolicy.new('test-policy-1').has_statement?('Resource' => ['arn:aws:ec2:::*']))
-    # Do match if two resources specified when the statement has an array of resources
-    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Resource' => ['arn:aws:ec2:::*', '*']))
-    # Do match setwise if two resources specified when the statement has an array of resources
-    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Resource' => ['*', 'arn:aws:ec2:::*']))
-    # Do match if only one regex resource specified when the statement has an array of resources
-    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Resource' => /^arn\:aws\:ec2/))
-    # Do match if one regex resource specified in an array when the statement has an array of resources
-    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Resource' => [/\*/]))
-    # Able to match a degenerate policy doc in which there is exactly one statement as a hash.
-    assert(AwsIamPolicy.new('test-policy-3').has_statement?('Resource' => '*'))
+    ['Resource', 'resource', :Resource, :resource].each do |variant|
+      # Able to match a simple string resource when multiple statements present
+      assert(AwsIamPolicy.new('test-policy-2').has_statement?(variant => 'arn:aws:iam::*:role/AWS_Events_Invoke_Targets'))
+      # Able to match a wildcard string resource
+      assert(AwsIamPolicy.new('test-policy-2').has_statement?(variant => '*'))
+      # Do not match a wildcard when using strings
+      refute(AwsIamPolicy.new('test-policy-2').has_statement?(variant => 'arn:aws:events:us-east-1:123456789012:rule/my-rule'))
+      # Do match when using a regex
+      assert(AwsIamPolicy.new('test-policy-2').has_statement?(variant => /AWS_Events_Invoke_Targets$/))
+      # Able to match one resource when the statement has an array of resources
+      assert(AwsIamPolicy.new('test-policy-1').has_statement?(variant => 'arn:aws:ec2:::*'))
+      # Do not match if only one resource specified as an array when the statement has an array of resources
+      refute(AwsIamPolicy.new('test-policy-1').has_statement?(variant => ['arn:aws:ec2:::*']))
+      # Do match if two resources specified when the statement has an array of resources
+      assert(AwsIamPolicy.new('test-policy-1').has_statement?(variant => ['arn:aws:ec2:::*', '*']))
+      # Do match setwise if two resources specified when the statement has an array of resources
+      assert(AwsIamPolicy.new('test-policy-1').has_statement?(variant => ['*', 'arn:aws:ec2:::*']))
+      # Do match if only one regex resource specified when the statement has an array of resources
+      assert(AwsIamPolicy.new('test-policy-1').has_statement?(variant => /^arn\:aws\:ec2/))
+      # Do match if one regex resource specified in an array when the statement has an array of resources
+      assert(AwsIamPolicy.new('test-policy-1').has_statement?(variant => [/\*/]))
+      # Able to match a degenerate policy doc in which there is exactly one statement as a hash.
+      assert(AwsIamPolicy.new('test-policy-3').has_statement?(variant => '*'))
+    end
   end
 end
 
