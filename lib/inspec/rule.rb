@@ -193,7 +193,7 @@ module Inspec
       [['describe', [resource], nil]]
     end
 
-    def self.merge(dst, src)
+    def self.merge(dst, src) # rubocop:disable Metrics/AbcSize
       if src.id != dst.id
         # TODO: register an error, this case should not happen
         return

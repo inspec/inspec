@@ -330,7 +330,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
   end
 
   describe 'with a profile containing control overrides' do
-    let(:out) { inspec('exec ' + File.join(profile_path, 'wrapper-override') + ' --no-create-lockfile --reporter json') }
+    let(:out) { inspec('exec ' + File.join(profile_path, 'wrapper-override') + ' --no-create-lockfile --vendor-cache ' +  File.join(profile_path, 'wrapper-override', 'vendor') + ' --reporter json') }
     let(:json) { JSON.load(out.stdout) }
     let(:controls) { json['profiles'][0]['controls'] }
     let(:override) { controls.select { |c| c['title'] == 'Profile 1 - Control 2-updated' }.first }
