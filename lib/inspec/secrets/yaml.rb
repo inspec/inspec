@@ -4,7 +4,7 @@ require 'yaml'
 
 module Secrets
   class YAML < Inspec.secrets(1)
-    name 'yaml'
+    register 'yaml'
 
     attr_reader :attributes
 

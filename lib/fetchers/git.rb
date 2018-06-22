@@ -25,7 +25,7 @@ module Fetchers
   # omnibus source for hints.
   #
   class Git < Inspec.fetcher(1)
-    name 'git'
+    register 'git'
     priority 200
 
     def self.resolve(target, opts = {})

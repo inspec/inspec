@@ -11,7 +11,7 @@ require 'inspec/errors'
 # similar to `inspec exec http://localhost:2134/owners/%base%/compliance/%ssh%/tar --user %token%`
 module Compliance
   class Fetcher < Fetchers::Url
-    name 'compliance'
+    register 'compliance'
     priority 500
     def self.resolve(target) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
       uri = if target.is_a?(String) && URI(target).scheme == 'compliance'

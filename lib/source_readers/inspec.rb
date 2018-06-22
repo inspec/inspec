@@ -7,7 +7,7 @@ require 'inspec/metadata'
 
 module SourceReaders
   class InspecReader < Inspec.source_reader(1)
-    name 'inspec'
+    register 'inspec'
     priority 10
 
     def self.resolve(target)

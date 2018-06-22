@@ -46,7 +46,7 @@ class PluginRegistry
     #
     # @param [String] the unique name of this plugin
     # @return [nil] disregard
-    def self.name(name)
+    def self.register(name)
       raise "Trying to register #{self} with name == nil" if name.nil?
       @name = name
       plugin_registry.registry[name] = self

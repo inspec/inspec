@@ -7,7 +7,7 @@ require 'inspec/metadata'
 
 module SourceReaders
   class Flat < Inspec.source_reader(1)
-    name 'flat'
+    register 'flat'
     priority 5
 
     def self.resolve(target)

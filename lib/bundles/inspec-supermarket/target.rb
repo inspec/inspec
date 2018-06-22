@@ -9,7 +9,7 @@ require 'fetchers/url'
 # InSpec Target Helper for Supermarket
 module Supermarket
   class Fetcher < Inspec.fetcher(1)
-    name 'supermarket'
+    register 'supermarket'
     priority 500
 
     def self.resolve(target, opts = {})

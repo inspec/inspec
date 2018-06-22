@@ -16,7 +16,7 @@ module Fetchers
       'application/gzip' => '.tar.gz',
     }.freeze
 
-    name 'url'
+    register 'url'
     priority 200
 
     def self.resolve(target, opts = {})

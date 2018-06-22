@@ -6,7 +6,7 @@ require 'openssl'
 
 module Fetchers
   class Local < Inspec.fetcher(1)
-    name 'local'
+    register 'local'
     priority 0
 
     def self.resolve(target)

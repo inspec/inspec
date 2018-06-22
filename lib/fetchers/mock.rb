@@ -4,7 +4,7 @@
 
 module Fetchers
   class Mock < Inspec.fetcher(1)
-    name 'mock'
+    register 'mock'
     priority 0
 
     def self.resolve(target)
