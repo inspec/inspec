@@ -14,9 +14,11 @@ module Inspec
     # @param cwd [String] Current working directory for relative path includes
     # @param vendor_path [String] Path to the vendor directory
     #
-    def self.from_lockfile(lockfile, cwd, cache, backend, opts = {}, parent_profile = nil)
+    # Disabled rubocoop check for now, this is up for a refactor for 3.0
+    # rubocop:disable Metrics/ParameterLists
+    def self.from_lockfile(lockfile, cwd, cache, backend, parent_profile, opts = {})
       dep_tree = lockfile.deps.map do |dep|
-        Inspec::Requirement.from_lock_entry(dep, cwd, cache, backend, opts, parent_profile)
+        Inspec::Requirement.from_lock_entry(dep, cwd, cache, backend, parent_profile, opts)
       end
 
       dep_list = flatten_dep_tree(dep_tree)

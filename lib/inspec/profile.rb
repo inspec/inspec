@@ -416,7 +416,7 @@ module Inspec
     end
 
     def load_dependencies
-      Inspec::DependencySet.from_lockfile(lockfile, cwd, @cache, @backend, { attributes: @attr_values }, name)
+      Inspec::DependencySet.from_lockfile(lockfile, cwd, @cache, @backend, name, { attributes: @attr_values })
     end
 
     # Calculate this profile's SHA256 checksum. Includes metadata, dependencies,
