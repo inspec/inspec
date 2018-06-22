@@ -333,6 +333,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     let(:out) { inspec('exec ' + File.join(profile_path, 'wrapper-override') + ' --no-create-lockfile --vendor-cache ' +  File.join(profile_path, 'wrapper-override', 'vendor') + ' --reporter json') }
     let(:json) { JSON.load(out.stdout) }
     let(:controls) { json['profiles'][0]['controls'] }
+    let(:child_profile) { json['profiles'].select { |p| p['name'] == 'myprofile1' }.first }
     let(:override) { controls.select { |c| c['title'] == 'Profile 1 - Control 2-updated' }.first }
 
     it 'completes the run with failed controls but no exception' do
@@ -347,6 +348,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       override['title'].must_equal "Profile 1 - Control 2-updated"
       tags_assert = {"password"=>nil, "password-updated"=>nil}
       override['tags'].must_equal tags_assert
+      child_profile['parent_profile'].must_equal 'wrapper-override'
     end
   end
 
