@@ -5,7 +5,7 @@ platform: linux
 
 # shadow
 
-Use the `shadow` InSpec audit resource to test the contents of `/etc/shadow`, which contains password details that are readable only by the `root` user. `shadow` is a [plural resource](https://www.inspec.io/docs/reference/glossary/#plural_resource). It functions by performing searches across multiple entries in the shadow file.
+Use the `shadow` InSpec audit resource to test the contents of `/etc/shadow`, which contains password details that are readable only by the `root` user. `shadow` is a [plural resource](https://www.inspec.io/docs/reference/glossary/#plural_resource). Like all plural resources, it functions by performing searches across multiple entries in the shadow file.
 
 The format for `/etc/shadow` includes:
 
@@ -81,7 +81,7 @@ Use `where` to match any of the supported [filter criteria](#filter_criteria). `
 
 ## Properties
 
-As a [plural resource](https://www.inspec.io/docs/reference/glossary/#plural_resource), all of `shadow`'s properties return lists (that is, Ruby arrays). `include` and `be_empty` are two useful matchers when working with lists. You can also perform manipulation of the lists, such as calling `uniq`, `sort`, `count`, `first`, `last`, `min`, and `max`.
+As a [plural resource](https://www.inspec.io/docs/reference/glossary/#plural_resource), all of `shadow`'s properties return lists (that is, Ruby Arrays). `include` and `be_empty` are two useful matchers when working with lists. You can also perform manipulation of the lists, such as calling `uniq`, `sort`, `count`, `first`, `last`, `min`, and `max`.
 
 ### users
 
@@ -238,7 +238,7 @@ An integer reflecting the number of days that must pass before a user who has no
 
 ### expiry_date
 
-An integer reflecting the number of days since Jan 1, 1970 on which the user was disabled. The value `nil` means the account was disabled because of an expired password.
+An integer reflecting the number of days since Jan 1, 1970 on which the user was disabled. The value `nil` means the account has not been disabled.
 
     # Ensure no one is disabled due to a old password
     describe shadow.where { expiry_date.nil? } do
