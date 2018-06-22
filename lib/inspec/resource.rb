@@ -85,8 +85,12 @@ end
 # Many resources use FilterTable.
 require 'utils/filter'
 
-# AWS resources are included via their own file.
-require 'resource_support/aws' if Gem.loaded_specs.key?('aws-sdk')
+# AWS resources are included via their own file,
+# but only consider loading them if we have the SDK available, and is v2.
+# https://github.com/inspec/inspec/issues/2571
+if Gem.loaded_specs.key?('aws-sdk') && Gem.loaded_specs['aws-sdk'].version < Gem::Version.new('3.0.0')
+  require 'resource_support/aws'
+end
 
 if Gem.loaded_specs.key?('azure_mgmt_resources')
   require 'resources/azure/azure_backend.rb'
