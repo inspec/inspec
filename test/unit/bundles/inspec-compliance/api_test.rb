@@ -122,6 +122,20 @@ describe Compliance::API do
         Compliance::API.is_automate_server?(config).must_equal false
         Compliance::API.is_automate_server_pre_080?(config).must_equal false
         Compliance::API.is_automate_server_080_and_later?(config).must_equal false
+        Compliance::API.is_automate2_server?(config).must_equal false
+      end
+    end
+
+    describe 'when the config has a automate2 server_type' do
+      it 'automate/compliance server is? methods return correctly' do
+        config = Compliance::Configuration.new
+        config.clean
+        config['server_type'] = 'automate2'
+        Compliance::API.is_compliance_server?(config).must_equal false
+        Compliance::API.is_automate_server?(config).must_equal false
+        Compliance::API.is_automate_server_pre_080?(config).must_equal false
+        Compliance::API.is_automate_server_080_and_later?(config).must_equal false
+        Compliance::API.is_automate2_server?(config).must_equal true
       end
     end
 
@@ -134,6 +148,7 @@ describe Compliance::API do
         Compliance::API.is_automate_server?(config).must_equal true
         Compliance::API.is_automate_server_pre_080?(config).must_equal true
         Compliance::API.is_automate_server_080_and_later?(config).must_equal false
+        Compliance::API.is_automate2_server?(config).must_equal false
       end
     end
 
@@ -147,6 +162,7 @@ describe Compliance::API do
         Compliance::API.is_automate_server?(config).must_equal true
         Compliance::API.is_automate_server_pre_080?(config).must_equal true
         Compliance::API.is_automate_server_080_and_later?(config).must_equal false
+        Compliance::API.is_automate2_server?(config).must_equal false
       end
     end
 
@@ -251,15 +267,30 @@ describe Compliance::API do
 
     let(:compliance_endpoint) { '/api/version' }
     let(:automate_endpoint) { '/compliance/version' }
+    let(:automate2_endpoint) { '/dex/auth' }
     let(:headers) { nil }
     let(:insecure) { true }
 
     let(:good_response) { mock }
     let(:bad_response) { mock }
 
+    it 'returns `:automate2` when a 400 is received from `https://URL/dex/auth`' do
+      good_response.stubs(:code).returns('400')
+
+      Compliance::HTTP.expects(:get)
+        .with(url + automate2_endpoint, headers, insecure)
+        .returns(good_response)
+
+      Compliance::API.determine_server_type(url, insecure).must_equal(:automate2)
+    end
+
     it 'returns `:automate` when a 401 is received from `https://URL/compliance/version`' do
       good_response.stubs(:code).returns('401')
+      bad_response.stubs(:code).returns('404')
 
+      Compliance::HTTP.expects(:get)
+        .with(url + automate2_endpoint, headers, insecure)
+        .returns(bad_response)
       Compliance::HTTP.expects(:get)
         .with(url + automate_endpoint, headers, insecure)
         .returns(good_response)
@@ -271,9 +302,13 @@ describe Compliance::API do
     # versions of OpsWorks Chef Automate return 200 and a Chef Manage page when
     # unauthenticated requests are received.
     it 'returns `:automate` when a 200 is received from `https://URL/compliance/version`' do
+      bad_response.stubs(:code).returns('404')
       good_response.stubs(:code).returns('200')
       good_response.stubs(:body).returns('Are You Looking For the Chef Server?')
 
+      Compliance::HTTP.expects(:get)
+        .with(url + automate2_endpoint, headers, insecure)
+        .returns(bad_response)
       Compliance::HTTP.expects(:get)
         .with(url + automate_endpoint, headers, insecure)
         .returns(good_response)
@@ -287,6 +322,9 @@ describe Compliance::API do
 
       Compliance::HTTP.expects(:get)
         .with(url + automate_endpoint, headers, insecure)
+        .returns(bad_response)
+      Compliance::HTTP.expects(:get)
+        .with(url + automate2_endpoint, headers, insecure)
         .returns(bad_response)
 
       mock_compliance_response = mock
@@ -307,6 +345,9 @@ describe Compliance::API do
         .with(url + automate_endpoint, headers, insecure)
         .returns(bad_response)
       Compliance::HTTP.expects(:get)
+        .with(url + automate2_endpoint, headers, insecure)
+        .returns(bad_response)
+      Compliance::HTTP.expects(:get)
         .with(url + compliance_endpoint, headers, insecure)
         .returns(good_response)
 
@@ -316,6 +357,9 @@ describe Compliance::API do
     it 'returns `nil` if it cannot determine the server type' do
       bad_response.stubs(:code).returns('404')
 
+      Compliance::HTTP.expects(:get)
+        .with(url + automate2_endpoint, headers, insecure)
+        .returns(bad_response)
       Compliance::HTTP.expects(:get)
         .with(url + automate_endpoint, headers, insecure)
         .returns(bad_response)

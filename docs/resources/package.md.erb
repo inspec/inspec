@@ -1,5 +1,6 @@
 ---
 title: About the package Resource
+platform: os
 ---
 
 # package
@@ -63,11 +64,11 @@ The following examples show how to use this InSpec audit resource.
       it { should_not be_running }
     end
 
-### Verify if some_package is installed according to my_rpmdb
+### Verify if a package is installed according to my rpm database
 
-   describe package('some_package', rpm_dbpath: '/var/lib/my_rpmdb') do
-     it { should be_installed }
-   end
+    describe package('some_package', rpm_dbpath: '/var/lib/my_rpmdb') do
+      it { should be_installed }
+    end
 
 ### Verify if Memcached is installed, enabled, and running
 
@@ -91,7 +92,7 @@ Memcached is an in-memory key-value store that helps improve the performance of 
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be_held
 
@@ -112,8 +113,8 @@ The `version` matcher tests if the named package version is on the system:
 
     its('version') { should eq '1.2.3' }
 
-You can also use the `cmp OPERATOR` matcher to perform comparisions using the version attribute:
+You can also use the `cmp OPERATOR` matcher to perform comparisons using the version attribute:
 
     its('version') { should cmp >= '7.35.0-1ubuntu3.10' }
 
-`cmp` understands version numbers using Gem::Version, and can use the operators `==, <, <=, >=, and >`.  It will compare versions by each segment, not as a string - so '7.4' is smaller than '7.30', for example.  
+`cmp` understands version numbers using Gem::Version, and can use the operators `==, <, <=, >=, and >`.  It will compare versions by each segment, not as a string - so '7.4' is smaller than '7.30', for example.

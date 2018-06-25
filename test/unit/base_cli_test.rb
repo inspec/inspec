@@ -16,8 +16,18 @@ describe 'BaseCLI' do
       Inspec::BaseCLI.stubs(:default_options).returns(default_options)
 
       opts = cli.send(:merged_opts, :exec)
-      expected = {"backend_cache"=>false, "reporter"=>{"json"=>{"stdout"=>true}}}
+      expected = {"backend_cache"=>false, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
       opts.must_equal expected
+    end
+
+    it 'verify platform detect' do
+      hash = { name: 'test-os', families: 'aws, cloud', release: 'aws-sdk-v1' }
+      expect = <<EOF
+  Name:      \e[1m\e[35mtest-os\e[0m
+  Families:  \e[1m\e[35maws, cloud\e[0m
+  Release:   \e[1m\e[35maws-sdk-v1\e[0m
+EOF
+      _(Inspec::BaseCLI.detect(params: hash, indent: 2, color: 35)).must_equal expect
     end
 
     it 'json-config options override cli defaults' do
@@ -27,7 +37,7 @@ describe 'BaseCLI' do
       cli.expects(:options_json).returns(parsed_json)
 
       opts = cli.send(:merged_opts, :exec)
-      expected = {"backend_cache"=>true, "reporter"=>{"json"=>{"stdout"=>true}}}
+      expected = {"backend_cache"=>true, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
       opts.must_equal expected
     end
 
@@ -41,7 +51,7 @@ describe 'BaseCLI' do
       cli.instance_variable_set(:@options, cli_options)
 
       opts = cli.send(:merged_opts, :exec)
-      expected = {"backend_cache"=>true, "reporter"=>{"json"=>{"stdout"=>true}}}
+      expected = {"backend_cache"=>true, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
       opts.must_equal expected
     end
 
@@ -60,7 +70,7 @@ describe 'BaseCLI' do
       cli.expects(:options_json).returns(parsed_json)
 
       opts = cli.send(:merged_opts, :exec)
-      expected = {"backend_cache"=>false, "reporter"=>{"json"=>{"stdout"=>true}}}
+      expected = {"backend_cache"=>false, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
       opts.must_equal expected
     end
   end
@@ -119,7 +129,17 @@ describe 'BaseCLI' do
       assert = { 'reporter' => { 'json' => { 'stdout' => true }}}
       parsed.must_equal assert
     end
-  end
+
+    it 'parse cli reporters with format and output' do
+      error = "[DEPRECATED] The option --format is being deprecated and will be removed in inspec 3.0. Please use --reporter\n"
+      error += "[DEPRECATED] The option 'output' is being deprecated and will be removed in inspec 3.0. Please use --reporter name:path\n"
+      proc {
+        opts = { 'format' => 'json', 'output' => '/tmp/inspec_out.json' }
+        parsed = Inspec::BaseCLI.parse_reporters(opts)
+        assert = { 'reporter' => { 'json' => { 'file' => '/tmp/inspec_out.json', 'stdout' => false }}}
+        parsed.must_equal assert
+      }.must_output nil, error end
+    end
 
   describe 'validate_reporters' do
     it 'valid reporter' do

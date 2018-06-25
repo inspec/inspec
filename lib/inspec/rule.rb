@@ -47,7 +47,21 @@ module Inspec
       @__skip_only_if_eval = opts[:skip_only_if_eval]
 
       # evaluate the given definition
-      instance_eval(&block) if block_given?
+      return unless block_given?
+      begin
+        instance_eval(&block)
+      rescue StandardError => e
+        # We've encountered an exception while trying to eval the code inside the
+        # control block. We need to prevent the exception from bubbling up, and
+        # fail the control. Controls are failed by having a failed resource within
+        # them; but since our control block is unsafe (and opaque) to us, let's
+        # make a dummy and fail that.
+        location = block.source_location.compact.join(':')
+        describe 'Control Source Code Error' do
+          # Rubocop thinks we are raising an exception - we're actually calling RSpec's fail()
+          its(location) { fail e.message } # rubocop: disable Style/SignalException
+        end
+      end
     end
 
     def to_s
@@ -179,7 +193,7 @@ module Inspec
       [['describe', [resource], nil]]
     end
 
-    def self.merge(dst, src)
+    def self.merge(dst, src) # rubocop:disable Metrics/AbcSize
       if src.id != dst.id
         # TODO: register an error, this case should not happen
         return
@@ -194,6 +208,15 @@ module Inspec
       dst.impact(src.impact) unless src.impact.nil?
       dst.title(src.title)   unless src.title.nil?
       dst.desc(src.desc)     unless src.desc.nil?
+      dst.tag(src.tag)       unless src.tag.nil?
+      dst.ref(src.ref)       unless src.ref.nil?
+
+      # use the most recent source location
+      dst.instance_variable_set(
+        :@__source_location,
+        src.instance_variable_get(:@__source_location),
+      )
+
       # merge indirect fields
       # checks defined in the source will completely eliminate
       # all checks that were defined in the destination

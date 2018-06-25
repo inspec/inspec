@@ -7,7 +7,7 @@ platform: aws
 
 Use the `aws_cloudwatch_log_metric_filter` InSpec audit resource to search for and test properties of individual AWS Cloudwatch Log Metric Filters.
 
-A Log Metric Filter (LMF) is an AWS resource that observes log traffic, looks for a specified pattern, and updates a metric about the number times the match occurs.  The metric can also be connected to AWS Cloudwatch Alarms, so that actions can be taken when a match occurs.
+A Log Metric Filter (LMF) is an AWS resource that observes log traffic, looks for a specified pattern, and then updates a metric about the number times the match occurs.  The metric can also be connected to AWS Cloudwatch Alarms, so that actions can be taken when a match occurs.
 
 <br>
 
@@ -15,7 +15,7 @@ A Log Metric Filter (LMF) is an AWS resource that observes log traffic, looks fo
 
 An `aws_cloudwatch_log_metric_filter` resource block searches for an LMF, specified by several search options.  If more than one log metric filter matches, an error occurs.
 
-    # Look for a LMF by its filter name and log group name.  This combination
+    # Look for an LMF by its filter name and log group name.  This combination
     # will always either find at most one LMF - no duplicates.
     describe aws_cloudwatch_log_metric_filter(
       filter_name: 'my-filter',
@@ -99,7 +99,7 @@ The name of the LMF within the `log_group`.
 
 The name of the log group that the LMF is watching.
 
-    # Check which log group the LMF 'error-watcher' is watching 
+    # Check which log group the LMF 'error-watcher' is watching
     describe aws_cloudwatch_log_metric_filter(
       filter_name: 'error-watcher',
     ) do
@@ -135,7 +135,7 @@ The pattern used to match entries from the logs in the log group.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exist
 
@@ -147,5 +147,8 @@ Matches (i.e., passes the test) if the resource parameters (search criteria) wer
       it { should exist }
     end
 
+## AWS Permissions
 
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `cloudwatch:DescribeAlarmsForMetric` action with Effect set to Allow.
 
+You can find detailed documentation at [Actions, Resources, and Condition Keys for Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html).

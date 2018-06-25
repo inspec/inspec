@@ -1,9 +1,8 @@
 # encoding: utf-8
 # copyright: 2016, Chef Software Inc.
-# author: Dominik Richter
-# author: Christoph Hartmann
 
-require 'forwardable'
+require 'utils/filter'
+require 'utils/file_reader'
 
 # The file format consists of
 # - user
@@ -18,39 +17,62 @@ require 'forwardable'
 module Inspec::Resources
   class Shadow < Inspec.resource(1)
     name 'shadow'
+    supports platform: 'unix'
     desc 'Use the shadow InSpec resource to test the contents of /etc/shadow, '\
-         'which contains the following information for users that may log into '\
+         'which contains information for users that may log into '\
          'the system and/or as users that own running processes.'
     example "
       describe shadow do
-        its('users') { should_not include 'forbidden_user' }
+        its('user') { should_not include 'forbidden_user' }
       end
 
-      describe shadow.users('bin') do
-        its('passwords') { should cmp 'x' }
+      describe shadow.user('bin') do
+        its('password') { should cmp 'x' }
         its('count') { should eq 1 }
       end
     "
 
-    extend Forwardable
-    attr_reader :params
-    attr_reader :content
-    attr_reader :lines
+    include FileReader
 
-    def initialize(path = '/etc/shadow', opts = nil)
-      opts ||= {}
+    attr_reader :params
+
+    def initialize(path = '/etc/shadow', opts = {})
+      @opts = opts
       @path = path || '/etc/shadow'
-      @content = opts[:content] || inspec.file(@path).content
-      @lines = @content.to_s.split("\n")
-      @filters = opts[:filters] || ''
-      @params = @lines.map { |l| parse_shadow_line(l) }
+      @filters = @opts[:filters] || ''
     end
 
-    def filter(hm = {})
-      return self if hm.nil? || hm.empty?
-      res = @params
+    filtertable = FilterTable.create
+    filtertable
+      .register_column(:users, field: 'user')
+      .register_column(:passwords, field: 'password')
+      .register_column(:last_changes, field: 'last_change')
+      .register_column(:min_days, field: 'min_days')
+      .register_column(:max_days, field: 'max_days')
+      .register_column(:warn_days, field: 'warn_days')
+      .register_column(:inactive_days, field: 'inactive_days')
+      .register_column(:expiry_dates, field: 'expiry_date')
+      .register_column(:reserved, field: 'reserved')
+    # These are deprecated, but we need to "alias" them
+    filtertable
+      .register_custom_property(:user) { |table, value| table.resource.user(value) }
+      .register_custom_property(:password) { |table, value| table.resource.password(value) }
+      .register_custom_property(:last_change) { |table, value| table.resource.last_change(value) }
+      .register_custom_property(:expiry_date) { |table, value| table.resource.expiry_date(value) }
+
+    filtertable.register_custom_property(:content) { |t, _|
+      t.entries.map do |e|
+        [e.user, e.password, e.last_change, e.min_days, e.max_days, e.warn_days, e.inactive_days, e.expiry_date].compact.join(':')
+      end.join("\n")
+    }
+
+    filtertable.install_filter_methods_on_resource(self, :set_params)
+
+    def filter(query = {})
+      return self if query.nil? || query.empty?
+      res = set_params
       filters = ''
-      hm.each do |attr, condition|
+      query.each do |attr, condition|
         condition = condition.to_s if condition.is_a? Integer
         filters += " #{attr} = #{condition.inspect}"
         res = res.find_all do |line|
@@ -66,57 +88,55 @@ module Inspec::Resources
       Shadow.new(@path, content: content, filters: @filters + filters)
     end
 
-    def entries
-      @lines.map do |line|
-        params = parse_shadow_line(line)
-        Shadow.new(@path, content: line,
-                   filters: "#{@filters} on entry user=#{params['user']}")
-      end
+    # Next 4 are deprecated methods.  We define them here so we can emit a deprecation message.
+    # They are also defined on the Table, above.
+    def user(query = nil)
+      warn '[DEPRECATION] The shadow `user` property is deprecated and will be removed' \
+       ' in InSpec 3.0.  Please use `users` instead.'
+      query.nil? ? where.users : where('user' => query)
     end
 
-    def users(name = nil)
-      name.nil? ? map_data('user') : filter(user: name)
+    def password(query = nil)
+      warn '[DEPRECATION] The shadow `password` property is deprecated and will be removed' \
+       ' in InSpec 3.0.  Please use `passwords` instead.'
+      query.nil? ? where.passwords : where('password' => query)
     end
 
-    def passwords(password = nil)
-      password.nil? ? map_data('password') : filter(password: password)
+    def last_change(query = nil)
+      warn '[DEPRECATION] The shadow `last_change` property is deprecated and will be removed' \
+       ' in InSpec 3.0.  Please use `last_changes` instead.'
+      query.nil? ? where.last_changes : where('last_change' => query)
     end
 
-    def last_changes(filter_by = nil)
-      filter_by.nil? ? map_data('last_change') : filter(last_change: filter_by)
+    def expiry_date(query = nil)
+      warn '[DEPRECATION] The shadow `expiry_date` property is deprecated and will be removed' \
+       ' in InSpec 3.0.  Please use `expiry_dates` instead.'
+      query.nil? ? where.expiry_dates : where('expiry_date' => query)
     end
 
-    def min_days(filter_by = nil)
-      filter_by.nil? ? map_data('min_days') : filter(min_days: filter_by)
-    end
-
-    def max_days(filter_by = nil)
-      filter_by.nil? ? map_data('max_days') : filter(max_days: filter_by)
-    end
-
-    def warn_days(filter_by = nil)
-      filter_by.nil? ? map_data('warn_days') : filter(warn_days: filter_by)
-    end
-
-    def inactive_days(filter_by = nil)
-      filter_by.nil? ? map_data('inactive_days') : filter(inactive_days: filter_by)
-    end
-
-    def expiry_dates(filter_by = nil)
-      filter_by.nil? ? map_data('expiry_date') : filter(expiry_date: filter_by)
+    def lines
+      warn '[DEPRECATION] The shadow `lines` property is deprecated and will be removed' \
+        ' in InSpec 3.0.'
+      shadow_content.to_s.split("\n")
     end
 
     def to_s
       f = @filters.empty? ? '' : ' with'+@filters
-      "/etc/shadow#{f}"
+      "#{@path}#{f}"
     end
-
-    def_delegator :@params, :length, :count
 
     private
 
+    def shadow_content
+      @opts[:content] || read_file_content(@path, allow_empty: true)
+    end
+
+    def set_params
+      @params ||= Array(shadow_content.to_s.split("\n")).map { |l| parse_shadow_line(l) }
+    end
+
     def map_data(id)
-      @params.map { |x| x[id] }
+      set_params.collect { |x| x[id] }
     end
 
     # Parse a line of /etc/shadow

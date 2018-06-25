@@ -1,0 +1,242 @@
+---
+title: About the aws_elbs Resource
+platform: aws
+---
+
+# aws\_elbs
+
+Use the `aws_elbs` InSpec audit resource to test properties of AWS Elastic Load Balancers (ELBs, also known as a Classic Load Balancers) in bulk, or to search for a group of them based on their properties.
+
+To audit a specific ELB in detail when its name is known, use `aws_elb` (singular).
+
+<br>
+
+## Syntax
+
+An `aws_elb` resource block uses an optional filter to select a group of ELBs and then tests that group.
+
+    # Check that you have at aleast one ELB
+    describe aws_elbs do
+      it { should exist }
+    end
+
+    # Ensure that you have at least one ELB in a specific VPC
+    describe aws_elb.where(vpc_id: 'vpc-12345678') do
+      it { should exist }
+    end
+
+<br>
+
+## Filter Criteria
+
+Use filter criteria with `where` to search for ELBs by their properties.  `where` may be used in method mode (as in `aws_elbs.where(criterion: value)`) or in block mode (as in `aws_elbs.where { any code here }`). Several criteria on this resource may only be used with block-mode, because they are list-based.
+
+### availability\_zones
+
+An array of strings identifying which availability zones in which the load balancer is located. This criterion must be used with block-mode `where`.
+
+    # Find ELBs with a footprint in us-east-2a
+    describe aws_elbs.where {  availability_zones.include? 'us-east-2a' } do
+      it { should exist }
+    end
+
+### dns\_name
+
+Returns the FQDN of the load balancer.  This is the hostname which is exposed to the world.
+
+    # Find ELBs that have the letter z in their DNS name
+    describe aws_elbs.where(dns_name: /z/) do
+      it { should exist }
+    end
+
+### elb\_name
+
+The name of the ELB within AWS. The ELB name is unique within the region. If you know the full ELB name, you should use the `aws_elb` resource instead, as it is much more efficient for testing a specific ELB.
+
+    # Find ELBs whose name ends in `prod`
+    describe aws_elbs.where(elb_name: /prod$/) do
+      it { should exist }
+    end
+
+### external\_ports
+
+An array of integers reflecting the public-facing ports on which the load balancer will be listening for traffic. This criterion must be used with block-mode `where`.
+
+    # Find ELBs listening on port 80
+    describe aws_elbs.where { external_ports.include? 80 } do
+      it { should exist }
+    end
+
+### instance\_ids
+
+An array of strings reflecting the instance IDs of the EC2 instances attached to the ELB. This criterion must be used with block-mode `where`.
+
+    # Find ELBs with at least 3 instances
+    describe aws_elbs.where { instance_ids.count > 2 } do
+      it { should exist }
+    end
+
+
+### internal\_ports
+
+An array of integers reflecting the EC2-facing ports on which the load balancer will be sending traffic to. This criterion must be used with block-mode `where`.
+
+    # Find ELBs sending traffic to port 80
+    describe aws_elbs.where { internal_ports.include? 80 } do
+      it { should exist }
+    end
+
+### security\_group\_ids
+
+An array of strings reflecting the security group IDs (firewall rule sets) assigned to the ELB. This criterion must be used with block-mode `where`.
+
+    # Find ELBs using a particular security group
+    describe aws_elbs.where { security_group_ids.include? 'sg-12345678' } do
+      it { should exist }
+    end
+
+### subnet\_ids
+
+An array of strings reflecting the subnet IDs on which the ELB is located. This criterion must be used with block-mode `where`.
+
+    # Find ELBs located on a particular subnet
+    describe aws_elbs.where { subnet_ids.include? 'subnet-12345678' } do
+      it { should exist }
+    end
+
+### vpc\_id
+
+A String reflecting the ID of the VPC in which the ELB is located.
+
+    # Find all ELBs in a specific VPC.
+    describe aws_elbs.where(vpc_id: 'vpc-12345678') do
+      it { should exist }    
+    end
+
+<br>
+
+## Properties
+
+### availability\_zones
+
+An array of strings identifying which availability zones in which the selected load balancers are located. The array is de-duplicated.
+
+    # Ensure none of our ELBs are in us-east-1c
+    describe aws_elbs do
+      its('availability_zones') { should_not include 'us-east-1c' }
+    end
+
+### count
+
+Returns an integer reflecting the number of matched ELBs.
+
+    # Ensure we have 4 ELBs total.
+    describe aws_elbs do
+      its('count') { should cmp 4 }
+    end
+
+### dns\_names
+
+An array of FQDNs of the selected load balancers.  These are the hostnames which are exposed to the world.
+
+    # Ensure none of the DNS names are an old name
+    describe aws_elbs do
+      its('dns_names') { should_not include 'some.horrid.name' }
+    end
+
+### elb\_names
+
+The names of the selected ELBs within AWS. The ELB name is unique within the region. 
+
+    # You can use this to enumerate the ELBs for detailed tests
+    # Search using the plural, analyze using the singular.
+    aws_elbs.where { instance_ports.include? 80 }.elb_names.each do |elb_name|
+      describe aws_elb(elb_name) do
+        its('security_group_ids') { should include 'sg-12345678' }
+      end
+    end
+
+### external\_ports
+
+An array of integers reflecting the public-facing ports on which the selected load balancers will be listening for traffic. The array is de-duplicated.
+
+    # Ensure that the only ports we are listening on are 80 and 443
+    describe aws_elbs do
+      its('external_ports') { should include 80 }
+      its('external_ports') { should include 443 }
+      its('external_ports.count') { should cmp 2 }      
+    end
+
+
+### instance\_ids
+
+An array of strings reflecting the instance IDs of the EC2 instances attached to the selected ELBs.
+
+    # Ensure there are 10-20 instances total attached to all ELBs
+    describe aws_elbs do
+      its('instance_ids.count') { should be >= 10 }
+      its('instance_ids.count') { should be <= 20 }
+    end
+
+### internal\_ports
+
+An array of integers reflecting the EC2-facing ports on which the selected load balancers will be sending traffic to. The array is de-duplicated.
+
+    # Ensure all ELBs only talk to port 80
+    describe aws_elbs do
+      its('internal_ports') { should contain 80 }
+      its('internal_ports.count') { should cmp 1 }
+    end
+
+### security\_group\_ids
+
+An array of strings reflecting the security group IDs (firewall rule sets) assigned to the selected ELBs. The array is de-duplicated.
+
+    # Ensure all ELBs are using one specific security group
+    describe aws_elbs do
+      its('security_group_ids') { should include 'sg-12345678' }
+      its('security_group_ids.count') { should cmp 1 }      
+    end
+
+### subnet\_ids
+
+An array of strings reflecting the subnet IDs on which the selected ELBs are located. The array is de-duplicated.
+
+    # Ensure all ELBs are on a particular subnet
+    describe aws_elbs do
+      its('subnet_ids') { should include 'subnet-12345678' }
+      its('subnet_ids.count') { should cmp 1 }
+    end
+
+### vpc\_ids
+
+An array of strings reflecting the ID of the VPCs in which the selected ELBs are located. The array is de-duplicated.
+
+    # Ensure all ELBs are in one VPC
+    describe aws_elbs do
+      its('vpc_ids.count') { should cmp 1 }
+    end
+
+## Matchers
+
+This InSpec audit resource has the following resource-specific matchers. For a full list of available matchers, please visit our [Universal Matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### exists
+
+The audit test will pass if at least one ELB was matched by the filter.  Use with `should_not` to test for absence.
+
+    # We like z's in our DNS names
+    describe aws_elbs.where(dns_name: /z/) do
+      it { should exist }
+    end
+
+    # But k's are just awful
+    describe aws_elbs.where(dns_name: /k/) do
+      it { should_not exist }
+    end
+
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `elasticloadbalancing:DescribeLoadBalancers` action set to Allow.
+
+You can find detailed documentation at [Authentication and Access Control for Your Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/load-balancer-authentication-access-control.html)

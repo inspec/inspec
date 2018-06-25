@@ -16,6 +16,7 @@
 module Inspec::Resources
   class IisSite < Inspec.resource(1)
     name 'iis_site'
+    supports platform: 'windows'
     desc 'Tests IIS site configuration on windows. Supported in server 2012+ only'
     example "
       describe iis_site('Default Web Site') do
@@ -39,19 +40,19 @@ module Inspec::Resources
     end
 
     def app_pool
-      iis_site[:app_pool]
+      iis_site.nil? ? nil : iis_site[:app_pool]
     end
 
     def bindings
-      iis_site[:bindings]
+      iis_site.nil? ? nil : iis_site[:bindings]
     end
 
     def state
-      iis_site[:state]
+      iis_site.nil? ? nil : iis_site[:state]
     end
 
     def path
-      iis_site[:path]
+      iis_site.nil? ? nil : iis_site[:path]
     end
 
     def exists?

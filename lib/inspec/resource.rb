@@ -50,8 +50,16 @@ module Inspec
           define_method id.to_sym do |*args|
             r.new(backend, id.to_s, *args)
           end
+
+          # confirm backend custom resources have access to other custom resources
+          next if backend.respond_to?(id)
+          backend.class.send(:define_method, id.to_sym) do |*args|
+            r.new(backend, id.to_s, *args)
+          end
         end
 
+        # attach backend so we have access to all resources and
+        # the train connection object
         define_method :inspec do
           backend
         end
@@ -78,13 +86,16 @@ end
 require 'utils/filter'
 
 # AWS resources are included via their own file.
-require 'resource_support/aws'
+require 'resource_support/aws' if Gem.loaded_specs.key?('aws-sdk')
 
-require 'resources/azure/azure_backend.rb'
-require 'resources/azure/azure_generic_resource.rb'
-require 'resources/azure/azure_resource_group.rb'
-require 'resources/azure/azure_virtual_machine.rb'
-require 'resources/azure/azure_virtual_machine_data_disk.rb'
+if Gem.loaded_specs.key?('azure_mgmt_resources')
+  require 'resources/azure/azure_backend.rb'
+  require 'resources/azure/azure_generic_resource.rb'
+  require 'resources/azure/azure_resource_group.rb'
+  require 'resources/azure/azure_virtual_machine.rb'
+  require 'resources/azure/azure_virtual_machine_data_disk.rb'
+end
+
 require 'resources/aide_conf'
 require 'resources/apache'
 require 'resources/apache_conf'
@@ -95,6 +106,7 @@ require 'resources/auditd_conf'
 require 'resources/bash'
 require 'resources/bond'
 require 'resources/bridge'
+require 'resources/chocolatey_package'
 require 'resources/command'
 require 'resources/cran'
 require 'resources/cpan'

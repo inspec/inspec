@@ -82,6 +82,7 @@ module Inspec
     #
     # @return [int] exit code
     def exit_code
+      return @rspec_exit_code if @formatter.results.empty?
       stats = @formatter.results[:statistics][:controls]
       if stats[:failed][:total] == 0 && stats[:skipped][:total] == 0
         0
@@ -116,7 +117,7 @@ module Inspec
         if @conf['reporter']['json-rspec']&.[]('file').nil?
           RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson)
         else
-          RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson, @conf[:reporter]['json-rspec']['file'])
+          RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson, @conf['reporter']['json-rspec']['file'])
         end
         @conf['reporter'].delete('json-rspec')
       end
@@ -137,12 +138,7 @@ module Inspec
     #
     # @return [nil]
     def configure_output
-      if !@conf['output'] || @conf['output'] == '-'
-        RSpec.configuration.output_stream = $stdout
-      else
-        RSpec.configuration.output_stream = @conf['output']
-      end
-
+      RSpec.configuration.output_stream = $stdout
       @formatter = RSpec.configuration.add_formatter(Inspec::Formatters::Base)
       RSpec.configuration.add_formatter(Inspec::Formatters::ShowProgress, $stderr) if @conf[:show_progress]
       set_optional_formatters

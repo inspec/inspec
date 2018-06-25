@@ -1,7 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
-# author: Jen Burns
 
 require 'forwardable'
 require 'utils/filter_array'
@@ -15,6 +12,7 @@ module Inspec::Resources
     attr_reader :params
 
     name 'auditd'
+    supports platform: 'unix'
     desc 'Use the auditd InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files. These rules are output using the auditcl -l command.'
     example "
       describe auditd.syscall('chown').where {arch == 'b32'} do
@@ -32,11 +30,26 @@ module Inspec::Resources
     "
 
     def initialize
-      @content = inspec.command('/sbin/auditctl -l').stdout.chomp
+      unless inspec.command('/sbin/auditctl').exist?
+        raise Inspec::Exceptions::ResourceFailed,
+              'Command `/sbin/auditctl` does not exist'
+      end
+
+      auditctl_cmd = '/sbin/auditctl -l'
+      result = inspec.command(auditctl_cmd)
+
+      if result.exit_status != 0
+        raise Inspec::Exceptions::ResourceFailed,
+              "Command `#{auditctl_cmd}` failed with error: #{result.stderr}"
+      end
+
+      @content = result.stdout
       @params = []
 
       if @content =~ /^LIST_RULES:/
-        return skip_resource 'The version of audit is outdated. The `auditd` resource supports versions of audit >= 2.3.'
+        raise Inspec::Exceptions::RsourceFailed,
+              'The version of audit is outdated.' \
+              'The `auditd` resource supports versions of audit >= 2.3.'
       end
       parse_content
     end
@@ -60,6 +73,14 @@ module Inspec::Resources
 
     def status(name = nil)
       @status_content ||= inspec.command('/sbin/auditctl -s').stdout.chomp
+
+      # See: https://github.com/inspec/inspec/issues/3113
+      if @status_content =~ /^AUDIT_STATUS/
+        @status_content = @status_content.gsub('AUDIT_STATUS: ', '')
+                                         .tr(' ', "\n")
+                                         .tr('=', ' ')
+      end
+
       @status_params ||= Hash[@status_content.scan(/^([^ ]+) (.*)$/)]
 
       return @status_params[name] if name

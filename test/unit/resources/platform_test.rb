@@ -21,7 +21,7 @@ describe 'Inspec::Resources::Platform' do
   end
 
   it 'verify platform families' do
-    expect = ["debian", "linux", "unix"]
+    expect = ["debian", "linux", "unix", "os"]
     _(resource.families).must_equal expect
   end
 

@@ -58,7 +58,7 @@ describe 'inspec exec with json formatter' do
         "license" => "Apache-2.0",
         "summary" => "Demonstrates the use of InSpec Compliance Profile",
         "version" => "1.0.0",
-        "sha256" => "8eed5154c9fa0174067ab475c0ad4a053f772590d129eb324101fe43ef30794d",
+        "sha256" => "57709d3a3d5cd06f4179be7e6fbe254c09e3af25ce274e474d52623e34487cc4",
         "supports" => [{"os-family" => "unix"}],
         "attributes" => []
       })

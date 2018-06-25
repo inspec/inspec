@@ -26,8 +26,8 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.3'
 
-  spec.add_dependency 'train', '~> 1.1'
-  spec.add_dependency 'thor', '~> 0.19'
+  spec.add_dependency 'train', '~> 1.4', '>= 1.4.15'
+  spec.add_dependency 'thor', '~> 0.20'
   spec.add_dependency 'json', '>= 1.8', '< 3.0'
   spec.add_dependency 'method_source', '~> 0.8'
   spec.add_dependency 'rubyzip', '~> 1.1'
@@ -39,6 +39,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'sslshake', '~> 1.2'
   spec.add_dependency 'parallel', '~> 1.9'
   spec.add_dependency 'faraday', '>=0.9.0'
+  # Used for Azure profile until integrated into train
+  spec.add_dependency 'faraday_middleware', '~> 0.12.2'
   spec.add_dependency 'tomlrb', '~> 1.2'
   spec.add_dependency 'addressable', '~> 2.4'
   spec.add_dependency 'parslet', '~> 1.5'

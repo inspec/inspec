@@ -74,7 +74,109 @@ class AwsSGSProperties < Minitest::Test
     assert_nil(AwsSecurityGroup.new('sg-87654321').description)
   end
 
+  def test_property_inbound_rules
+    assert_empty(AwsSecurityGroup.new('sg-87654321').inbound_rules)
+    rules = AwsSecurityGroup.new('sg-12345678').inbound_rules
+    assert_kind_of(Array, rules)
+    assert_kind_of(Hash, rules[0])
+  end
+
+  def test_property_outbound_rules
+    assert_empty(AwsSecurityGroup.new('sg-87654321').outbound_rules)
+    rules = AwsSecurityGroup.new('sg-12345678').outbound_rules
+    assert_kind_of(Array, rules)
+    assert_kind_of(Hash, rules[0])
+  end
 end
+
+#=============================================================================#
+#                               Matchers
+#=============================================================================#
+
+class AwsSGSProperties < Minitest::Test
+  def setup
+    AwsSecurityGroup::BackendFactory.select(AwsMESGSB::Basic)
+  end
+
+  def test_matcher_allow_criteria_validation
+    sg = AwsSecurityGroup.new('sg-aaaabbbb')
+    rules = sg.inbound_rules
+    assert_raises(ArgumentError, "allow should reject unrecognized criteria") { sg.allow_in?(shoe_size: 9) }
+    [
+      :from_port,
+      :ipv4_range,
+      :port,
+      :position,
+      :protocol,
+      :to_port,
+    ].each do |criterion|
+      # No errors here
+      sg.allow_in?(criterion => 'dummy')
+    end
+  end
+
+  def test_matcher_allow_inbound_empty
+    sg = AwsSecurityGroup.new('sg-aaaabbbb')
+    rules = sg.inbound_rules
+    assert_equal(0, rules.count)
+    refute(sg.allow_in?()) # Should we test this - "open" crieria?
+  end
+
+  def test_matcher_allow_inbound_complex
+    sg = AwsSecurityGroup.new('sg-12345678')
+    assert_equal(3, sg.inbound_rules.count, "count the number of rules for 3-rule group")
+
+    # Position pinning
+    assert(sg.allow_in?(ipv4_range: "10.1.4.0/24", position: 2), "use numeric position")
+    assert(sg.allow_in?(ipv4_range: "10.1.4.0/24", position: "2"), "use string position")
+    assert(sg.allow_in?(ipv4_range: "10.2.0.0/16", position: :last), "use :last position")
+    assert(sg.allow_in?(port: 22, position: :first), "use :first position")
+
+    # Port
+    assert(sg.allow_in?(port: 22), "match on a numeric port")
+    assert(sg.allow_in?(port: "22"), "match on a string port")
+    assert(sg.allow_in?(to_port: "22", from_port: "22"), "match on to/from port")
+    assert(sg.allow_in?(port: 9002, position: 3), "range matching on port with allow_in")
+    refute(sg.allow_in_only?(port: 9002, position: 3), "no range matching on port with allow_in_only")
+    assert(sg.allow_in_only?(from_port: 9001, to_port: 9003, position: 3), "exact range matching on port with allow_in_only")
+
+    # Protocol
+    assert(sg.allow_in?(protocol: 'tcp'), "match on tcp protocol, unpinned")    
+    assert(sg.allow_in?(protocol: 'tcp', position: 1), "match on tcp protocol")
+    assert(sg.allow_in?(protocol: 'any', position: 2), "match on our 'any' alias protocol")
+    assert(sg.allow_in?(protocol: '-1', position: 2), "match on AWS spec '-1 for any' protocol")
+
+    # IPv4 range testing
+    assert(sg.allow_in?(ipv4_range: ["10.1.4.0/24"]), "match on 1 ipv4 range as array")
+    assert(sg.allow_in?(ipv4_range: ["10.1.4.0/24"]), "match on 1 ipv4 range as array")
+    assert(sg.allow_in?(ipv4_range: ["10.1.4.33/32"]), "match on 1 ipv4 range subnet membership")
+    assert(sg.allow_in?(ipv4_range: ["10.1.4.33/32", "10.1.4.82/32"]), "match on 2 addrs ipv4 range subnet membership")
+    assert(sg.allow_in?(ipv4_range: ["10.1.4.0/25", "10.1.4.128/25"]), "match on 2 subnets ipv4 range subnet membership")
+    assert(sg.allow_in_only?(ipv4_range: "10.1.4.0/24", position: 2), "exact match on 1 ipv4 range with _only")
+    refute(sg.allow_in_only?(ipv4_range: "10.1.4.33/32", position: 2), "no range membership ipv4 range with _only")
+    assert(sg.allow_in?(ipv4_range: "10.1.2.0/24"), "match on a list ipv4 range when providing only one value (first)")
+    assert(sg.allow_in?(ipv4_range: "10.1.3.0/24"), "match on a list ipv4 range when providing only one value (last)")
+    assert(sg.allow_in?(ipv4_range: ["10.1.2.33/32", "10.1.3.33/32"]), "match on a list of single IPs against a list of subnets")
+    assert(sg.allow_in?(ipv4_range: ["10.1.2.0/24", "10.1.3.0/24"]))
+    refute(sg.allow_in?(ipv4_range: ["10.1.22.0/24", "10.1.33.0/24"]))
+    assert(sg.allow_in?(ipv4_range: ["10.1.3.0/24", "10.1.2.0/24"])) # Order is ignored
+    assert(sg.allow_in_only?(ipv4_range: ["10.1.2.0/24", "10.1.3.0/24"], position: 1))
+    refute(sg.allow_in_only?(ipv4_range: ["10.1.2.0/24"], position: 1))
+    refute(sg.allow_in_only?(ipv4_range: ["10.1.3.0/24"], position: 1))
+
+    # Test _only with a 3-rule group, but omitting position
+    refute(sg.allow_in_only?(port: 22), "_only will fail a multi-rule SG even if it has matching criteria")
+    refute(sg.allow_in_only?(), "_only will fail a multi-rule SG even if it has match-any criteria")
+
+    # Test _only with a single rule group (ie, omitting position)
+    sg = AwsSecurityGroup.new('sg-22223333')
+    assert_equal(1, sg.inbound_rules.count, "count the number of rules for 1-rule group")
+    assert(sg.allow_in_only?(ipv4_range: "0.0.0.0/0"), "Match IP range using _only on 1-rule group")
+    assert(sg.allow_in_only?(protocol: 'any'), "Match protocol using _only on 1-rule group")
+    refute(sg.allow_in_only?(port: 22), "no match port using _only on 1-rule group")
+  end
+end
+
 
 #=============================================================================#
 #                               Test Fixtures
@@ -97,12 +199,70 @@ module AwsMESGSB
           group_id: 'sg-aaaabbbb',
           group_name: 'alpha',
           vpc_id: 'vpc-aaaabbbb',
+          ip_permissions: [],
+          ip_permissions_egress: [],
         }),
         OpenStruct.new({
-          description: 'Awesome Group',          
+          description: 'Awesome Group',
           group_id: 'sg-12345678',
           group_name: 'beta',
           vpc_id: 'vpc-12345678',
+          ip_permissions: [
+            OpenStruct.new({
+              from_port: 22,
+              to_port: 22,
+              ip_protocol: 'tcp',
+              ip_ranges: [
+                # Apparently AWS returns these as plain hashes, 
+                # nested in two levels of Structs.
+                {cidr_ip:"10.1.2.0/24"},
+                {cidr_ip:"10.1.3.0/24"},
+              ]
+            }),
+            OpenStruct.new({
+              from_port: nil,
+              to_port: nil,
+              ip_protocol: "-1",
+              ip_ranges: [
+                {cidr_ip:"10.1.4.0/24"},
+              ]
+            }),
+            OpenStruct.new({
+              from_port: 9001,
+              to_port: 9003,
+              ip_protocol: "udp",
+              ip_ranges: [
+                {cidr_ip:"10.2.0.0/16"},
+              ]
+            }),
+          ],
+          ip_permissions_egress: [
+            OpenStruct.new({
+              from_port: 123,
+              to_port: 123,
+              ip_protocol: "udp",
+              ip_ranges: [
+                {cidr_ip:"128.138.140.44/32"},
+              ]
+            }),
+          ],          
+        }),
+        OpenStruct.new({
+          description: 'Open Group',
+          group_id: 'sg-22223333',
+          group_name: 'gamma',
+          vpc_id: 'vpc-12345678',
+          ip_permissions: [
+            OpenStruct.new({
+              from_port: nil,
+              to_port: nil,
+              ip_protocol: "-1",
+              ip_ranges: [
+                {cidr_ip:"0.0.0.0/0"},
+              ]
+            }),
+          ],
+          ip_permissions_egress: [],          
         }),
       ]
 

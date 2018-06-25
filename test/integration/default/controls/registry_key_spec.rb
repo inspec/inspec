@@ -133,6 +133,7 @@ end
 describe registry_key('HKLM\System\Test') do
   it { should exist }
   its('super\/escape') { should eq '\/value/\\' }
+  its('big dword value') { should eq 2147483648}
 
   # its('key.with.dot') { should eq 'value.with.dot' }
   # does not work due to the . inside the its block

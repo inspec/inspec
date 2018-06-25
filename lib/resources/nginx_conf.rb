@@ -1,9 +1,8 @@
 # encoding: utf-8
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'utils/nginx_parser'
 require 'utils/find_files'
+require 'utils/file_reader'
 require 'forwardable'
 
 # STABILITY: Experimental
@@ -16,6 +15,7 @@ require 'forwardable'
 module Inspec::Resources
   class NginxConf < Inspec.resource(1)
     name 'nginx_conf'
+    supports platform: 'unix'
     desc 'Use the nginx_conf InSpec resource to test configuration data '\
          'for the NginX web server located in /etc/nginx/nginx.conf on '\
          'Linux and UNIX platforms.'
@@ -27,6 +27,7 @@ module Inspec::Resources
     extend Forwardable
 
     include FindFiles
+    include FileReader
 
     attr_reader :contents
 
@@ -34,6 +35,7 @@ module Inspec::Resources
       @conf_path = conf_path || '/etc/nginx/nginx.conf'
       @contents = {}
       return skip_resource 'The `nginx_conf` resource is currently not supported on Windows.' if inspec.os.windows?
+      read_content(@conf_path)
     end
 
     def params
@@ -57,11 +59,7 @@ module Inspec::Resources
 
     def read_content(path)
       return @contents[path] if @contents.key?(path)
-      file = inspec.file(path)
-      if !file.file?
-        return skip_resource "Can't find file \"#{path}\""
-      end
-      @contents[path] = file.content
+      @contents[path] = read_file_content(path, allow_empty: true)
     end
 
     def parse_nginx(path)

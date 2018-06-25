@@ -31,6 +31,7 @@ describe 'Inspec::Resources::NginxConf' do
       /etc/nginx/proxy.conf
       /etc/nginx/conf.d/foobar.conf
       /etc/nginx/conf.d/multiple.conf
+      /etc/nginx/quotes.d/example.conf
     )
 
     # verify user
@@ -46,7 +47,7 @@ describe 'Inspec::Resources::NginxConf' do
     _(nginx_conf.params['http'].length).must_equal 1
 
     # verify server count
-    _(nginx_conf.params['http'][0]['server'].length).must_equal 5
+    _(nginx_conf.params['http'][0]['server'].length).must_equal 6
 
     # verify index
     _(nginx_conf.params['http'][0]['index']).must_equal [['index.html', 'index.htm', 'index.php']]
@@ -92,6 +93,10 @@ describe 'Inspec::Resources::NginxConf' do
     _(nginx_conf.params['http'][0]['server'][4]['server_name']).must_equal [['example2.com', 'www.example2.com']]
     _(nginx_conf.params['http'][0]['server'][4]['location'][0]['_']).must_equal ['~', '^/media/']
     _(nginx_conf.params['http'][0]['server'][4]['location'][0]['root']).must_equal [['/var/www/virtual/www.example2.com/htdocs']]
+
+    # verify a server in conf.d_quotes (quotes in path test)
+    _(nginx_conf.params['http'][0]['server'][5]['listen']).must_equal [['8085']]
+    _(nginx_conf.params['http'][0]['server'][5]['server_name']).must_equal [['quotes.com', 'www.quotes.com']]
   end
 
   it 'skips the resource if it cannot parse the config' do
@@ -122,7 +127,7 @@ describe 'Inspec::Resources::NginxConf' do
 
     it 'provides aggregated access to all servers' do
       _(http.servers).must_be_kind_of Array
-      _(http.servers.length).must_equal 5
+      _(http.servers.length).must_equal 6
       http.servers.each do |server|
         _(server).must_be_kind_of Inspec::Resources::NginxConfServer
       end
@@ -153,7 +158,7 @@ describe 'Inspec::Resources::NginxConf' do
 
     it 'provides aggregated access to all servers' do
       _(entry.servers).must_be_kind_of Array
-      _(entry.servers.length).must_equal 5
+      _(entry.servers.length).must_equal 6
       _(entry.servers[0]).must_be_kind_of Inspec::Resources::NginxConfServer
       entry.servers.each do |server|
         _(server).must_be_kind_of Inspec::Resources::NginxConfServer

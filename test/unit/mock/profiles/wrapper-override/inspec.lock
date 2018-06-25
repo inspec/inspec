@@ -1,0 +1,8 @@
+---
+lockfile_version: 1
+depends:
+- name: myprofile1
+  resolved_source:
+    url: https://s3-eu-west-1.amazonaws.com/apop-bucket/profiles/myprofile1-1.0.0.tar.gz
+    sha256: e39eb85366b272bae98e5eecdfac9f84c50a9ae9dd625fba2ce847268a6c3477
+  version_constraints: ">= 0"

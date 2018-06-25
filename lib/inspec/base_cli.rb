@@ -8,6 +8,11 @@ require 'inspec/profile_vendor'
 
 module Inspec
   class BaseCLI < Thor
+    # https://github.com/erikhuda/thor/issues/244
+    def self.exit_on_failure?
+      true
+    end
+
     def self.target_options
       option :target, aliases: :t, type: :string,
         desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'
@@ -21,6 +26,8 @@ module Inspec
         desc: 'The login user for a remote scan.'
       option :password, type: :string, lazy_default: -1,
         desc: 'Login password for a remote scan, if required.'
+      option :enable_password, type: :string, lazy_default: -1,
+        desc: 'Password for enable mode on Cisco IOS devices.'
       option :key_files, aliases: :i, type: :array,
         desc: 'Login key or certificate file for a remote scan.'
       option :path, type: :string,
@@ -45,6 +52,8 @@ module Inspec
         desc: 'Allow remote scans with self-signed certificates (WinRM).'
       option :json_config, type: :string,
         desc: 'Read configuration from JSON file (`-` reads from stdin).'
+      option :proxy_command, type: :string,
+        desc: 'Specifies the command to use to connect to the server'
     end
 
     def self.profile_options
@@ -61,7 +70,7 @@ module Inspec
         desc: '[DEPRECATED] Please use --reporter - this will be removed in InSpec 3.0'
       option :reporter, type: :array,
         banner: 'one two:/output/file/path',
-        desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit'
+        desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml'
       option :color, type: :boolean,
         desc: 'Use colors in output.'
       option :attrs, type: :array,
@@ -71,7 +80,7 @@ module Inspec
       option :create_lockfile, type: :boolean,
         desc: 'Write out a lockfile based on this execution (unless one already exists)'
       option :backend_cache, type: :boolean,
-        desc: 'Allow caching for backend command output.'
+        desc: 'Allow caching for backend command output. (default: true)'
       option :show_progress, type: :boolean,
         desc: 'Show progress while executing tests.'
     end
@@ -83,7 +92,7 @@ module Inspec
           'show_progress' => false,
           'color' => true,
           'create_lockfile' => true,
-          'backend_cache' => false,
+          'backend_cache' => true,
         },
         shell: {
           'reporter' => ['cli'],
@@ -91,11 +100,19 @@ module Inspec
       }
     end
 
-    def self.parse_reporters(opts) # rubocop:disable Metrics/AbcSize
+    def self.parse_reporters(opts) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       # merge in any legacy formats as reporter
       # this method will only be used for ad-hoc runners
       if !opts['format'].nil? && opts['reporter'].nil?
-        warn '[DEPRECATED] The option --format is being is being deprecated and will be removed in inspec 3.0. Please use --reporter'
+        warn '[DEPRECATED] The option --format is being deprecated and will be removed in inspec 3.0. Please use --reporter'
+
+        # see if we are using the legacy output to write to files
+        if opts['output']
+          warn '[DEPRECATED] The option \'output\' is being deprecated and will be removed in inspec 3.0. Please use --reporter name:path'
+          opts['format'] = "#{opts['format']}:#{opts['output']}"
+          opts.delete('output')
+        end
+
         opts['reporter'] = Array(opts['format'])
         opts.delete('format')
       end
@@ -136,18 +153,25 @@ module Inspec
       return if reporters.nil?
 
       valid_types = [
+        'automate',
+        'cli',
+        'documentation',
+        'html',
         'json',
         'json-min',
         'json-rspec',
-        'cli',
         'junit',
-        'html',
-        'documentation',
         'progress',
+        'yaml',
       ]
 
-      reporters.each do |k, _v|
+      reporters.each do |k, v|
         raise NotImplementedError, "'#{k}' is not a valid reporter type." unless valid_types.include?(k)
+
+        next unless k == 'automate'
+        %w{token url}.each do |option|
+          raise Inspec::ReporterError, "You must specify a automate #{option} via the json-config." if v[option].nil?
+        end
       end
 
       # check to make sure we are only reporting one type to stdout
@@ -159,11 +183,28 @@ module Inspec
       raise ArgumentError, 'The option --reporter can only have a single report outputting to stdout.' if stdout > 1
     end
 
+    def self.detect(params: {}, indent: 0, color: 39)
+      str = ''
+      params.each { |item, info|
+        data = info
+
+        # Format Array for better output if applicable
+        data = data.join(', ') if data.is_a?(Array)
+
+        # Do not output fields of data is missing ('unknown' is fine)
+        next if data.nil?
+
+        data = "\e[1m\e[#{color}m#{data}\e[0m"
+        str << format("#{' ' * indent}%-10s %s\n", item.to_s.capitalize + ':', data)
+      }
+      str
+    end
+
     private
 
     def suppress_log_output?(opts)
       return false if opts['reporter'].nil?
-      match = %w{json json-min json-rspec junit html} & opts['reporter'].keys
+      match = %w{json json-min json-rspec junit html yaml documentation progress} & opts['reporter'].keys
       unless match.empty?
         match.each do |m|
           # check to see if we are outputting to stdout
@@ -200,15 +241,18 @@ module Inspec
         raise ArgumentError, "Please provide a value for --#{v}. For example: --#{v}=hello."
       end
 
+      # check for compliance settings
+      Compliance::API.login(o['compliance']) if o['compliance']
+
       o
     end
 
     def merged_opts(type = nil)
       opts = {}
-      opts[:type] = type unless type.nil?
 
       # start with default options if we have any
       opts = BaseCLI.default_options[type] unless type.nil? || BaseCLI.default_options[type].nil?
+      opts['type'] = type unless type.nil?
 
       # merge in any options from json-config
       json_config = options_json

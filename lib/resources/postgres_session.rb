@@ -1,8 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
-# author: Aaron Lippold
 
 require 'shellwords'
 
@@ -26,6 +23,8 @@ module Inspec::Resources
 
   class PostgresSession < Inspec.resource(1)
     name 'postgres_session'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the postgres_session InSpec audit resource to test SQL commands run against a PostgreSQL database.'
     example "
       sql = postgres_session('username', 'password', 'host')

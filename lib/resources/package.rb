@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # Resource to determine package information
 #
@@ -11,6 +9,8 @@
 module Inspec::Resources
   class Package < Inspec.resource(1)
     name 'package'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the package InSpec audit resource to test if the named package and/or package version is installed on the system.'
     example "
       describe package('nginx') do
@@ -36,7 +36,7 @@ module Inspec::Resources
         @pkgman = Pacman.new(inspec)
       elsif ['darwin'].include?(os[:family])
         @pkgman = Brew.new(inspec)
-      elsif inspec.os.windows?
+      elsif os.windows?
         @pkgman = WindowsPkg.new(inspec)
       elsif ['aix'].include?(os[:family])
         @pkgman = BffPkg.new(inspec)
@@ -181,7 +181,7 @@ module Inspec::Resources
 
     def rpm_command(package_name)
       cmd = ''
-      cmd += 'rpm -qia'
+      cmd += 'rpm -qi'
       cmd += " --dbpath #{@dbpath}" if @dbpath
       cmd += ' ' + package_name
 
@@ -194,9 +194,16 @@ module Inspec::Resources
     def info(package_name)
       brew_path = inspec.command('brew').exist? ? 'brew' : '/usr/local/bin/brew'
       cmd = inspec.command("#{brew_path} info --json=v1 #{package_name}")
+
+      # If no available formula exists, then `brew` will exit non-zero
       return {} if cmd.exit_status.to_i != 0
-      # parse data
+
       pkg = JSON.parse(cmd.stdout)[0]
+
+      # If package exists but is not installed, then `brew` output will not
+      # contain `pkg['installed'][0]['version']
+      return {} unless pkg.dig('installed', 0, 'version')
+
       {
         name: pkg['name'],
         installed: true,
@@ -263,7 +270,7 @@ module Inspec::Resources
       # Find the package
       cmd = inspec.command <<-EOF.gsub(/^\s*/, '')
         Get-ItemProperty (@("#{search_paths.join('", "')}") | Where-Object { Test-Path $_ }) |
-        Where-Object { $_.DisplayName -like "#{package_name}" -or $_.PSChildName -like "#{package_name}" } |
+        Where-Object { $_.DisplayName -match "^\\s*#{package_name}\\s*$" -or $_.PSChildName -match "^\\s*#{package_name}\\s*$" } |
         Select-Object -Property DisplayName,DisplayVersion | ConvertTo-Json
       EOF
 

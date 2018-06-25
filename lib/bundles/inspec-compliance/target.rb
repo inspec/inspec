@@ -13,7 +13,7 @@ module Compliance
   class Fetcher < Fetchers::Url
     name 'compliance'
     priority 500
-    def self.resolve(target) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity
+    def self.resolve(target) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
       uri = if target.is_a?(String) && URI(target).scheme == 'compliance'
               URI(target)
             elsif target.respond_to?(:key?) && target.key?(:compliance)
@@ -33,6 +33,9 @@ module Compliance
           if config['server_type'] == 'automate'
             server = 'automate'
             msg = 'inspec compliance login https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --token USERTOKEN'
+          elsif config['server_type'] == 'automate2'
+            server = 'automate2'
+            msg = 'inspec compliance login https://your_automate2_server --user USER --token APITOKEN'
           else
             server = 'compliance'
             msg = "inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
@@ -57,6 +60,11 @@ module Compliance
       end
       # We need to pass the token to the fetcher
       config['token'] = Compliance::API.get_token(config)
+
+      # Needed for automate2 post request
+      profile_stub = profile || target[:compliance]
+      config['profile'] = Compliance::API.profile_split(profile_stub)
+
       new(profile_fetch_url, config)
     rescue URI::Error => _e
       nil
@@ -87,6 +95,12 @@ module Compliance
           else
             %r{^#{@config['server']}/owners/(?<owner>[^/]+)/compliance/(?<id>[^/]+)/tar$}
           end.match(@target)
+
+      if Compliance::API.is_automate2_server?(@config)
+        m = {}
+        m[:owner] = @config['profile'][0]
+        m[:id] = @config['profile'][1]
+      end
 
       raise 'Unable to determine compliance profile name. This can be caused by ' \
         'an incorrect server in your configuration. Try to login to compliance ' \

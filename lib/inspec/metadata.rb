@@ -1,7 +1,5 @@
 # encoding: utf-8
 # Copyright 2015 Dominik Richter
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'logger'
 require 'rubygems/version'
@@ -78,10 +76,9 @@ module Inspec
         errors.push("Missing profile #{field} in #{ref}")
       end
 
-      if params[:name] =~ %r{[\/\\]}
-        warnings.push("Your profile name (#{params[:name]}) contains a slash " \
-          'which will not be permitted in InSpec 2.0. Please change your profile ' \
-          'name in the `inspec.yml` file.')
+      if %r{[\/\\]} =~ params[:name]
+        errors.push("The profile name (#{params[:name]}) contains a slash" \
+                      ' which is not permitted. Please remove all slashes from `inspec.yml`.')
       end
 
       # if version is set, ensure it is correct
@@ -190,7 +187,7 @@ module Inspec
       # unit tests that look for warning sequences
       return if original_target.to_s.empty?
       metadata.params[:title] = "tests from #{original_target}"
-      metadata.params[:name] = metadata.params[:title].gsub(%r{[\\\/]}, '.')
+      metadata.params[:name] = metadata.params[:title].gsub(%r{[\/\\]}, '.')
     end
 
     def self.finalize(metadata, profile_id, options, logger = nil)

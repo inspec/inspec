@@ -47,13 +47,20 @@ describe 'Inspec::Resources::Group' do
   end
 
   # windows with local group
-  it 'verify group on windows' do
+  it 'verify administrator group on windows' do
     resource = MockLoader.new(:windows).load_resource('group', 'Administrators')
     _(resource.exists?).must_equal true
     _(resource.gid).must_equal 'S-1-5-32-544'
     _(resource.has_gid?(0)).must_equal false
-    _(resource.local).must_equal true
-    _(resource.to_s).must_equal 'Group Administrators'
+    _(resource.members).must_equal ['Administrators', 'Domain Admins']
+  end
+
+  it 'verify power users group on windows' do
+    resource = MockLoader.new(:windows).load_resource('group', 'Power Users')
+    _(resource.exists?).must_equal true
+    _(resource.gid).must_equal 'S-1-5-32-547'
+    _(resource.has_gid?(0)).must_equal false
+    _(resource.members).must_equal []
   end
 
   # windows non-existent group
@@ -62,6 +69,7 @@ describe 'Inspec::Resources::Group' do
     _(resource.exists?).must_equal false
     _(resource.gid).must_be_nil
     _(resource.has_gid?(0)).must_equal false
+    _(resource.members).must_equal nil
   end
 
   # undefined

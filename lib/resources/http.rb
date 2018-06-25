@@ -1,7 +1,6 @@
 # encoding: utf-8
 # copyright: 2017, Criteo
 # copyright: 2017, Chef Software Inc
-# author: Guilhem Lettron, Christoph Hartmann
 # license: Apache v2
 
 require 'faraday'
@@ -10,6 +9,7 @@ require 'hashie'
 module Inspec::Resources
   class Http < Inspec.resource(1)
     name 'http'
+    supports platform: 'unix'
     desc 'Use the http InSpec audit resource to test http call.'
     example "
       describe http('http://localhost:8080/ping', auth: {user: 'user', pass: 'test'}, params: {format: 'html'}) do
@@ -74,6 +74,7 @@ module Inspec::Resources
           @http_method = http_method
           @url = url
           @opts = opts
+          @response = nil
         end
 
         private
@@ -137,7 +138,7 @@ module Inspec::Resources
           conn.options.timeout      = read_timeout  # open/read timeout in seconds
           conn.options.open_timeout = open_timeout  # connection open timeout in seconds
 
-          @response = conn.send(http_method.downcase) do |req|
+          @response = conn.run_request(http_method.downcase.to_sym, nil, nil, nil) do |req|
             req.body = request_body
           end
         end
@@ -152,6 +153,7 @@ module Inspec::Resources
                   'curl is not available on the target machine'
           end
 
+          @ran_curl = false
           @inspec = inspec
           super(http_method, url, opts)
         end
@@ -176,9 +178,10 @@ module Inspec::Resources
         def run_curl
           return if @ran_curl
 
-          response = inspec.command(curl_command).stdout
+          cmd_result = inspec.command(curl_command)
+          response = cmd_result.stdout
           @ran_curl = true
-          return if response.nil?
+          return if response.nil? || cmd_result.exit_status != 0
 
           # strip any carriage returns to normalize output
           response.delete!("\r")

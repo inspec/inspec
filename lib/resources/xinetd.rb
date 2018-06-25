@@ -1,13 +1,13 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'utils/parser'
 require 'utils/filter'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class XinetdConf < Inspec.resource(1)
     name 'xinetd_conf'
+    supports platform: 'unix'
     desc 'Xinetd services configuration.'
     example "
       describe xinetd_conf.services('chargen') do
@@ -20,10 +20,12 @@ module Inspec::Resources
     "
 
     include XinetdParser
+    include FileReader
 
     def initialize(conf_path = '/etc/xinetd.conf')
       @conf_path = conf_path
       @contents = {}
+      read_content(@conf_path)
     end
 
     def to_s
@@ -51,16 +53,8 @@ module Inspec::Resources
 
     def read_content(path = @conf_path)
       return @contents[path] if @contents.key?(path)
-      file = inspec.file(path)
-      if !file.file?
-        raise Inspec::Exceptions::ResourceSkipped, "Can't find file: #{path}"
-      end
 
-      if file.content.nil? || file.content.empty?
-        raise Inspec::Exceptions::ResourceSkipped, "Can't read file: #{path}"
-      end
-
-      @contents[path] = file.content
+      @contents[path] = read_file_content(path)
     end
 
     def read_params

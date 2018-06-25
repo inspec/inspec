@@ -46,6 +46,18 @@ class AwsIamRootUser < Inspec.resource(1)
     summary_account['AccountMFAEnabled'] == 1
   end
 
+  # if the root account has a Virtual MFA device then it will have a special
+  # serial number ending in 'root-account-mfa-device'
+  def has_virtual_mfa_enabled?
+    mfa_device_pattern = %r{arn:aws:iam::\d{12}:mfa\/root-account-mfa-device}
+
+    virtual_mfa_devices.any? { |d| mfa_device_pattern =~ d['serial_number'] }
+  end
+
+  def has_hardware_mfa_enabled?
+    has_mfa_enabled? && !has_virtual_mfa_enabled?
+  end
+
   def to_s
     'AWS Root-User'
   end
@@ -55,6 +67,12 @@ class AwsIamRootUser < Inspec.resource(1)
   def summary_account
     catch_aws_errors do
       @summary_account ||= @client.get_account_summary.summary_map
+    end
+  end
+
+  def virtual_mfa_devices
+    catch_aws_errors do
+      @__virtual_devices ||= @client.list_virtual_mfa_devices.virtual_mfa_devices
     end
   end
 end

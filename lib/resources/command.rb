@@ -1,11 +1,11 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 module Inspec::Resources
   class Cmd < Inspec.resource(1)
     name 'command'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the command InSpec audit resource to test an arbitrary command that is run on the system.'
     example "
       describe command('ls -al /') do
@@ -50,7 +50,11 @@ module Inspec::Resources
       return false if inspec.os.name.nil? || inspec.os.name == 'mock'
 
       if inspec.os.linux?
-        res = inspec.backend.run_command("bash -c 'type \"#{@command}\"'")
+        res = if inspec.platform.name == 'alpine'
+                inspec.backend.run_command("which \"#{@command}\"")
+              else
+                inspec.backend.run_command("bash -c 'type \"#{@command}\"'")
+              end
       elsif inspec.os.windows?
         res = inspec.backend.run_command("Get-Command \"#{@command}\"")
       elsif inspec.os.unix?

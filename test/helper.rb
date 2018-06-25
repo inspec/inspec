@@ -68,6 +68,8 @@ class MockLoader
     solaris10:  { name: "solaris", family: 'solaris', release: '10', arch: 'i386'},
     hpux:       { name: 'hpux', family: 'hpux', release: 'B.11.31', arch: 'ia64'},
     aix:        { name: 'aix', family: 'aix', release: '7.2', arch: 'powerpc' },
+    amazon:     { name: 'amazon', family: 'redhat', release: '2015.03', arch: 'x86_64' },
+    amazon2:    { name: 'amazon', family: 'redhat', release: '2', arch: 'x86_64' },
     undefined:  { name: nil, family: nil, release: nil, arch: nil },
   }
 
@@ -155,6 +157,7 @@ class MockLoader
       '/etc/nginx/conf/mime.types' => mockfile.call('nginx_mime.types'),
       '/etc/nginx/conf.d/foobar.conf' => mockfile.call('nginx_confd_foobar.conf'),
       '/etc/nginx/conf.d/multiple.conf' => mockfile.call('nginx_confd_multiple.conf'),
+      '/etc/nginx/quotes.d/example.conf' => mockfile.call('nginx_quotesd_example.conf'),
       '/etc/xinetd.conf' => mockfile.call('xinetd.conf'),
       '/etc/xinetd.d' => mockfile.call('xinetd.d'),
       '/etc/xinetd.d/chargen-stream' => mockfile.call('xinetd.d_chargen-stream'),
@@ -215,6 +218,8 @@ class MockLoader
       'bash -c \'type "/test/path/pip"\'' => empty.call,
       'bash -c \'type "Rscript"\'' => empty.call,
       'bash -c \'type "perl"\'' => empty.call,
+      'bash -c \'type "/sbin/auditctl"\'' => empty.call,
+      'type "pwsh"' => empty.call,
       'type "netstat"' => empty.call,
       'sh -c \'find /etc/apache2/ports.conf -type l -maxdepth 1\'' => empty.call,
       'sh -c \'find /etc/httpd/conf.d/*.conf -type l -maxdepth 1\'' => empty.call,
@@ -229,18 +234,20 @@ class MockLoader
       'env' => cmd.call('env'),
       '${Env:PATH}'  => cmd.call('$env-PATH'),
       # registry key test using winrm 2.0
-      'bd15a11a4b07de0224c4d1ab16c49ad78dd6147650c6ef629152c7093a5ac95e' => cmd.call('reg_schedule'),
+      '9417f24311a9dcd90f1b1734080a2d4c6516ec8ff2d452a2328f68eb0ed676cf' => cmd.call('reg_schedule'),
       'Auditpol /get /subcategory:\'User Account Management\' /r' => cmd.call('auditpol'),
       '/sbin/auditctl -l' => cmd.call('auditctl'),
       '/sbin/auditctl -s' => cmd.call('auditctl-s'),
       'yum -v repolist all'  => cmd.call('yum-repolist-all'),
       'dpkg -s curl' => cmd.call('dpkg-s-curl'),
       'dpkg -s held-package' => cmd.call('dpkg-s-held-package'),
-      'rpm -qia curl' => cmd.call('rpm-qia-curl'),
-      'rpm -qia --dbpath /var/lib/fake_rpmdb curl' => cmd.call('rpm-qia-curl'),
-      'rpm -qia --dbpath /var/lib/rpmdb_does_not_exist curl' => cmd_exit_1.call,
+      'rpm -qi curl' => cmd.call('rpm-qi-curl'),
+      'rpm -qi --dbpath /var/lib/fake_rpmdb curl' => cmd.call('rpm-qi-curl'),
+      'rpm -qi --dbpath /var/lib/rpmdb_does_not_exist curl' => cmd_exit_1.call,
       'pacman -Qi curl' => cmd.call('pacman-qi-curl'),
       'brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
+      'brew info --json=v1 nginx' => cmd.call('brew-info--json-v1-nginx'),
+      'brew info --json=v1 nope' => cmd_exit_1.call,
       '/usr/local/bin/brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
       'gem list --local -a -q ^not-installed$' => cmd.call('gem-list-local-a-q-not-installed'),
       'gem list --local -a -q ^rubocop$' => cmd.call('gem-list-local-a-q-rubocop'),
@@ -248,7 +255,8 @@ class MockLoader
       '/opt/chef/embedded/bin/gem list --local -a -q ^chef-sugar$' => cmd.call('gem-list-local-a-q-chef-sugar'),
       'c:\opscode\chef\embedded\bin\gem.bat list --local -a -q ^json$' => cmd.call('gem-list-local-a-q-json'),
       '/opt/opscode/embedded/bin/gem list --local -a -q ^knife-backup$' => cmd.call('gem-list-local-a-q-knife-backup'),
-      'npm ls -g --json bower' => cmd.call('npm-ls-g--json-bower'),
+      'npm -g ls --json bower' => cmd.call('npm-g-ls--json-bower'),
+      'cd /path/to/project && npm ls --json bower' => cmd.call('npm-ls--json-bower'),
       "Rscript -e 'packageVersion(\"DBI\")'" => cmd.call('r-print-version'),
       "Rscript -e 'packageVersion(\"DoesNotExist\")'" => cmd.call('r-print-version-not-installed'),
       "perl -le 'eval \"require $ARGV[0]\" and print $ARGV[0]->VERSION or exit 1' DBD::Pg" => cmd.call('perl-print-version'),
@@ -258,7 +266,12 @@ class MockLoader
       '/test/path/pip show django' => cmd.call('pip-show-non-standard-django'),
       "Get-Package -Name 'Mozilla Firefox' | ConvertTo-Json" => cmd.call('get-package-firefox'),
       "Get-Package -Name 'Ruby 2.1.6-p336-x64' | ConvertTo-Json" => cmd.call('get-package-ruby'),
+      'Get-Command "choco"' => empty.call,
+      'bash -c \'type "choco"\'' => cmd_exit_1.call,
+      '(choco list --local-only --exact --include-programs --limit-output \'nssm\') -Replace "\|", "=" | ConvertFrom-StringData | ConvertTo-JSON' => cmd.call('choco-list-nssm'),
+      '(choco list --local-only --exact --include-programs --limit-output \'git\') -Replace "\|", "=" | ConvertFrom-StringData | ConvertTo-JSON' => empty.call,
       "New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Service -Value (Get-Service -Name 'dhcp'| Select-Object -Property Name, DisplayName, Status) -PassThru | Add-Member -MemberType NoteProperty -Name WMI -Value (Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq 'dhcp' -or $_.DisplayName -eq 'dhcp'} | Select-Object -Property StartMode) -PassThru | ConvertTo-Json" => cmd.call('get-service-dhcp'),
+      "New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json" => cmd.call('get-windows-pip-package'),
       "Get-WindowsFeature | Where-Object {$_.Name -eq 'dhcp' -or $_.DisplayName -eq 'dhcp'} | Select-Object -Property Name,DisplayName,Description,Installed,InstallState | ConvertTo-Json" => cmd.call('get-windows-feature'),
       'lsmod' => cmd.call('lsmod'),
       '/sbin/sysctl -q -n net.ipv4.conf.all.forwarding' => cmd.call('sbin_sysctl'),
@@ -278,7 +291,7 @@ class MockLoader
       'rmsock f0000000000000001 tcpcb' => cmd.call('rmsock-f0001'),
       'rmsock f0000000000000002 tcpcb' => cmd.call('rmsock-f0002'),
       # packages on windows
-      '6785190b3df7291a7622b0b75b0217a9a78bd04690bc978df51ae17ec852a282' => cmd.call('get-item-property-package'),
+      '3ec839acbcd768cc827af6bbc970785b5b331d49855abc40c93a8c01f2ae9839' => cmd.call('get-item-property-package'),
       # service status upstart on ubuntu
       'initctl status ssh' => cmd.call('initctl-status-ssh'),
       # upstart version on ubuntu
@@ -314,7 +327,7 @@ class MockLoader
       # user info for windows (winrm 1.6.0, 1.6.1)
       '27c6cda89fa5d196506251c0ed0d20468b378c5689711981dc1e1e683c7b02c1' => cmd.call('adsiusers'),
       # group info for windows
-      'd8d5b3e3355650399e23857a526ee100b4e49e5c2404a0a5dbb7d85d7f4de5cc' => cmd.call('adsigroups'),
+      '4020573097e910a573e22e8863c4faa434f52910a45714606cad1fb8b060d9e9' => cmd.call('adsigroups'),
       # group info for Darwin
       'dscacheutil -q group' => cmd.call('dscacheutil-query-group'),
       # network interface
@@ -337,7 +350,8 @@ class MockLoader
       # apt
       "find /etc/apt/ -name *.list -exec sh -c 'cat {} || echo -n' \\;" => cmd.call('etc-apt'),
       # iptables
-      'iptables  -S' => cmd.call('iptables-s'),
+      '/usr/sbin/iptables  -S' => cmd.call('iptables-s'),
+      %{bash -c 'type "/usr/sbin/iptables"'} => empty.call,
       # apache_conf
       "sh -c 'find /etc/apache2/ports.conf -type f -maxdepth 1'" => cmd.call('find-apache2-ports-conf'),
       "sh -c 'find /etc/httpd/conf.d/*.conf -type f -maxdepth 1'" => cmd.call('find-httpd-ssl-conf'),
@@ -349,6 +363,7 @@ class MockLoader
       "sh -c 'find /etc/nginx/conf/mime.types'" => cmd.call('find-nginx-mime-types'),
       "sh -c 'find /etc/nginx/proxy.conf'" => cmd.call('find-nginx-proxy-conf'),
       "sh -c 'find /etc/nginx/conf.d/*.conf'" => cmd.call('find-nginx-confd-multiple-conf'),
+      "sh -c 'find /etc/nginx/quotes.d/*.conf'" => cmd.call('find-nginx-quotesd-example-conf'),
       # mount
       "mount | grep -- ' on /'" => cmd.call("mount"),
       "mount | grep -- ' on /mnt/iso-disk'" => cmd.call("mount-multiple"),
@@ -412,13 +427,22 @@ class MockLoader
       "modprobe --showconfig" => cmd.call('modprobe-config'),
       # get-process cmdlet for processes resource
       '$Proc = Get-Process -IncludeUserName | Where-Object {$_.Path -ne $null } | Select-Object PriorityClass,Id,CPU,PM,VirtualMemorySize,NPM,SessionId,Responding,StartTime,TotalProcessorTime,UserName,Path | ConvertTo-Csv -NoTypeInformation;$Proc.Replace("""","").Replace("`r`n","`n")' => cmd.call('get-process_processes'),
-      # host resource: check to see if netcat is installed
-      %{bash -c 'type "nc"'} => cmd.call('type-nc'),
-      'type "nc"' => cmd.call('type-nc'),
-      # host resource: netcat for TCP reachability check on linux
-      'echo | nc -v -w 1 example.com 1234' => cmd.call('nc-example-com'),
+      # host resource: TCP/UDP reachability check on linux
+      %{bash -c 'type "nc"'} => empty.call,
+      %{bash -c 'type "ncat"'} => empty.call,
+      %{bash -c 'type "timeout"'} => empty.call,
+      %{strings `which bash` | grep -qE '/dev/(tcp|udp)/'} => empty.call,
+      %{echo | nc -v -w 1 -u example.com 1234} => empty.call,
+      %{echo | nc -v -w 1  example.com 1234} => empty.call,
+      'timeout 1 bash -c "< /dev/tcp/example.com/1234"' => empty.call,
+      'timeout 1 bash -c "< /dev/udp/example.com/1234"' => empty.call,
       # host resource: netcat for TCP reachability check on darwin
-      'nc -vz -G 1 example.com 1234' => cmd.call('nc-example-com'),
+      'type "nc"' => empty.call,
+      'type "ncat"' => empty.call,
+      'type "gtimeout"' => empty.call,
+      'nc -vz -G 1 example.com 1234' => empty.call,
+      'gtimeout 1 bash -c "< /dev/tcp/example.com/1234"' => empty.call,
+      'gtimeout 1 bash -c "< /dev/udp/example.com/1234"' => empty.call,
       # host resource: test-netconnection for reachability check on windows
       'Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue -RemotePort 1234| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
       # postgres tests
@@ -427,10 +451,14 @@ class MockLoader
       # mssql tests
       "bash -c 'type \"sqlcmd\"'" => cmd.call('mssql-sqlcmd'),
       "cb0efcd12206e9690c21ac631a72be9dd87678aa048e6dae16b8e9353ab6dd64" => cmd.call('mssql-getdate'),
+      "7109e5d809058cd3e9cad108e21e91234d2638db4a4f81fadfde21e071a423dc" => cmd.call('mssql-getdate'),
+      "5c2bc0f0568d11451d6cf83aff02ee3d47211265b52b6c5d45f8e57290b35082" => cmd.call('mssql-getdate'),
+      "148af1d7706d9cf81097f66d5b891ddfca719445d60fa582befad118f51b9d92" => cmd.call('mssql-getdate'),
+      "9a1dfd9e403053efb1fd1970a77a241e5c7a9eae34e6f6c56904fa8189bc2e45" => cmd.call('mssql-getdate'),
       "e8bece33e9d550af1fc81a5bc1c72b647b3810db3e567ee9f30feb81f4e3b700" => cmd.call('mssql-getdate'),
       "53d201ff1cfb8867b79200177b8e2e99dedb700c5fbe15e43820011d7e8b941f" => cmd.call('mssql-getdate'),
+      "4b550bb227058ac5851aa0bc946be794ee46489610f17842700136cf8bb5a0e9" => cmd.call('mssql-getdate'),
       "7d1a7a0f2bd1e7da9a6904e1f28981146ec01a0323623e12a8579d30a3960a79" => cmd.call('mssql-result'),
-      "5c2bc0f0568d11451d6cf83aff02ee3d47211265b52b6c5d45f8e57290b35082" => cmd.call('mssql-getdate'),
       # oracle
       "bash -c 'type \"sqlplus\"'" => cmd.call('oracle-cmd'),
       "527f243fe9b01fc7b7d78eb1ef5200e272b011aa07c9f59836d950107d6d2a5c" => cmd.call('oracle-result'),
@@ -480,6 +508,7 @@ class MockLoader
       "curl -i -X GET --connect-timeout 60 --max-time 120 -H 'accept: application/json' -H 'foo: bar' 'http://www.example.com'" => cmd.call('http-remote-headers'),
       "curl -i -X GET --connect-timeout 60 --max-time 120 'http://www.example.com?a=b&c=d'" => cmd.call('http-remote-params'),
       "curl -i --head --connect-timeout 60 --max-time 120 'http://www.example.com'" => cmd.call('http-remote-head-request'),
+      "curl -i -X OPTIONS --connect-timeout 60 --max-time 120 -H 'Access-Control-Request-Method: GET' -H 'Access-Control-Request-Headers: origin, x-requested-with' -H 'Origin: http://www.example.com' 'http://www.example.com'" => cmd.call('http-remote-options-request'),
 
       # elasticsearch resource
       "curl -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call('elasticsearch-cluster-nodes-default'),

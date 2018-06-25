@@ -14,7 +14,7 @@ To use the CLI, this InSpec add-on adds the following commands:
  * `$ inspec compliance upload path/to/local/profile` - uploads a local profile to Chef Automate/Chef Compliance
  * `$ inspec compliance logout` - logout of Chef Automate/Chef Compliance
 
-Compliance profiles can be executed in two mays:
+Compliance profiles can be executed in two ways:
 
 - via compliance exec: `inspec compliance exec profile`
 - via compliance scheme: `inspec exec compliance://profile`
@@ -35,6 +35,28 @@ Commands:
   inspec compliance profiles          # list all available profiles in Chef Compliance
   inspec compliance upload PATH       # uploads a local profile to Chef Compliance
   inspec compliance version           # displays the version of the Chef Compliance server
+```
+
+### Login with Chef Automate 2
+
+You will need an API token for authentication. You can retrieve one via the admin section of your A2 web gui.
+
+```
+$ inspec compliance login https://automate2.compliance.test --insecure --user 'admin' --token 'zuop..._KzE'
+```
+
+#### Login with Chef Automate 2 via json-config
+
+With automate 2 you can automatically login by passing a json config via `--json-config`
+
+Example:
+```json
+"compliance": {
+    "server" : "https://YOUR_A2_URL",
+    "token" : "YOUR_A2_ADMIN_TOKEN",
+    "user" : "YOUR_A2_USER",
+    "insecure" : true
+}
 ```
 
 ### Login with Chef Automate

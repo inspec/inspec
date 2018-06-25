@@ -29,14 +29,14 @@ class AwsS3BucketConstructor < Minitest::Test
   end
 end
 
-#=============================================================================#
-#                               Search / Recall
-#=============================================================================#
 class AwsS3BucketPropertiesTest < Minitest::Test
   def setup
     AwsS3Bucket::BackendFactory.select(AwsMSBSB::Basic)
   end
 
+  #===========================================================================#
+  #                               Search / Recall
+  #===========================================================================#
   def test_recall_no_match_is_no_exception
     refute AwsS3Bucket.new('NonExistentBucket').exists?
   end
@@ -46,17 +46,10 @@ class AwsS3BucketPropertiesTest < Minitest::Test
   end
 
   # No need to handle multiple hits; S3 bucket names are globally unique.
-end
 
-#=============================================================================#
-#                               Properties
-#=============================================================================#
-
-class AwsS3BucketPropertiesTest < Minitest::Test
-  def setup
-    AwsS3Bucket::BackendFactory.select(AwsMSBSB::Basic)
-  end
-
+  #===========================================================================#
+  #                               Properties
+  #===========================================================================#
   #---------------------Bucket Name----------------------------#  
   def test_property_bucket_name
     assert_equal('public', AwsS3Bucket.new('public').bucket_name)
@@ -143,17 +136,9 @@ class AwsS3BucketPropertiesTest < Minitest::Test
     assert_empty(bucket_policy)
   end
 
-end
-
-#=============================================================================#
-#                               Test Matchers
-#=============================================================================#
-
-class AwsS3BucketPropertiesTest < Minitest::Test
-  def setup
-    AwsS3Bucket::BackendFactory.select(AwsMSBSB::Basic)
-  end
-
+  #===========================================================================#
+  #                               Test Matchers
+  #===========================================================================#
   def test_be_public_public_acl
     assert(AwsS3Bucket.new('public').public?)
   end
@@ -163,9 +148,6 @@ class AwsS3BucketPropertiesTest < Minitest::Test
   def test_be_public_private_acl
     refute(AwsS3Bucket.new('private').public?)
   end
-  def test_be_public_public_acl
-    assert(AwsS3Bucket.new('public').public?)
-  end
 
   def test_has_access_logging_enabled_positive
     assert(AwsS3Bucket.new('public').has_access_logging_enabled?)
@@ -174,7 +156,15 @@ class AwsS3BucketPropertiesTest < Minitest::Test
   def test_has_access_logging_enabled_negative
     refute(AwsS3Bucket.new('private').has_access_logging_enabled?)
   end
-  
+
+  def test_has_default_encryption_enabled_positive
+    assert(AwsS3Bucket.new('public').has_default_encryption_enabled?)
+  end
+
+  def test_has_default_encryption_enabled_negative
+    refute(AwsS3Bucket.new('private').has_default_encryption_enabled?)
+  end
+
 end
 
 #=============================================================================#
@@ -184,60 +174,58 @@ end
 module AwsMSBSB
   class Basic < AwsBackendBase
     def get_bucket_acl(query)
-      owner_full_control = OpenStruct.new({
-        grantee: OpenStruct.new({
+      owner_full_control = OpenStruct.new(
+        grantee: OpenStruct.new(
           type: 'CanonicalUser',
-        }),
+        ),
         permission: 'FULL_CONTROL',
-      })
+      )
 
       buckets = {
-        'public' => OpenStruct.new({
+        'public' => OpenStruct.new(
           :grants => [
             owner_full_control,
-            OpenStruct.new({
-              grantee: OpenStruct.new({
+            OpenStruct.new(
+              grantee: OpenStruct.new(
                 type: 'Group',
                 uri: 'http://acs.amazonaws.com/groups/global/AllUsers'
-              }),
+              ),
               permission: 'READ',
-            }),
+            ),
           ]
-        }),
-        'auth-users' => OpenStruct.new({
+        ),
+        'auth-users' => OpenStruct.new(
           :grants => [
             owner_full_control,
-            OpenStruct.new({
-              grantee: OpenStruct.new({
+            OpenStruct.new(
+              grantee: OpenStruct.new(
                 type: 'Group',
                 uri: 'http://acs.amazonaws.com/groups/global/AuthenticatedUsers'
-              }),
+              ),
               permission: 'READ',
-            }),
+            ),
           ]
-        }),
-        'private' => OpenStruct.new({ :grants => [ owner_full_control ] }),
-        'private-acl-public-policy' => OpenStruct.new({ :grants => [ owner_full_control ] }),
+        ),
+        'private' => OpenStruct.new(:grants => [ owner_full_control ]),
+        'private-acl-public-policy' => OpenStruct.new(:grants => [ owner_full_control ]),
       }
       buckets[query[:bucket]]
     end
 
     def get_bucket_location(query)
       buckets = {
-        'public' => OpenStruct.new({ location_constraint: 'us-east-2' }),
-        'private' => OpenStruct.new({ location_constraint: 'EU' }),
-        'auth-users' => OpenStruct.new({ location_constraint: 'ap-southeast-1' }),
-        'private-acl-public-policy' => OpenStruct.new({ location_constraint: 'ap-southeast-2' }),
+        'public' => OpenStruct.new(location_constraint: 'us-east-2'),
+        'private' => OpenStruct.new(location_constraint: 'EU'),
+        'auth-users' => OpenStruct.new(location_constraint: 'ap-southeast-1'),
+        'private-acl-public-policy' => OpenStruct.new(location_constraint: 'ap-southeast-2'),
       }
-      unless buckets.key?(query[:bucket])
-        raise Aws::S3::Errors::NoSuchBucket.new(nil, nil)
-      end
-      buckets[query[:bucket]]
+
+      buckets.fetch(query[:bucket]) { raise Aws::S3::Errors::NoSuchBucket.new(nil, nil) }
     end
 
     def get_bucket_policy(query)
       buckets = {
-        'public' => OpenStruct.new({
+        'public' => OpenStruct.new(
           policy: StringIO.new(<<'EOP')
 {
   "Version": "2012-10-17",
@@ -252,8 +240,8 @@ module AwsMSBSB
   ]
 }
 EOP
-        }),
-        'private' => OpenStruct.new({
+        ),
+        'private' => OpenStruct.new(
           policy: StringIO.new(<<'EOP')          
 {
   "Version": "2012-10-17",
@@ -268,8 +256,8 @@ EOP
   ]
 }
 EOP
-        }),
-        'private-acl-public-policy' => OpenStruct.new({
+        ),
+        'private-acl-public-policy' => OpenStruct.new(
           policy: StringIO.new(<<'EOP')
 {
   "Version": "2012-10-17",
@@ -284,24 +272,31 @@ EOP
   ]
 }
 EOP
-        }),
+        ),
         # No policies for auth bucket
       }
-      unless buckets.key?(query[:bucket])
-        raise Aws::S3::Errors::NoSuchBucketPolicy.new(nil, nil)
-      end
-      buckets[query[:bucket]]
+
+      buckets.fetch(query[:bucket]) { raise Aws::S3::Errors::NoSuchBucketPolicy.new(nil, nil) }
     end
 
     def get_bucket_logging(query)
       buckets = {
-        'public' => OpenStruct.new({ logging_enabled: OpenStruct.new({ target_bucket: 'log-bucket' }) }),
-        'private' => OpenStruct.new({ logging_enabled: nil }),
+        'public' => OpenStruct.new(logging_enabled: OpenStruct.new(target_bucket: 'log-bucket')),
+        'private' => OpenStruct.new(logging_enabled: nil ),
       }
-      unless buckets.key?(query[:bucket])
-        raise Aws::S3::Errors::NoSuchBucket.new(nil, nil)
+
+      buckets.fetch(query[:bucket]) { raise Aws::S3::Errors::NoSuchBucket.new(nil, nil) }
+    end
+
+    def get_bucket_encryption(query)
+      buckets = {
+          'public' => OpenStruct.new(server_side_encryption_configuration: OpenStruct.new(rules: []))
+      }
+      if query[:bucket].eql? 'private'
+        raise Aws::S3::Errors::ServerSideEncryptionConfigurationNotFoundError.new(nil, nil)
       end
-      buckets[query[:bucket]]
+
+      buckets.fetch(query[:bucket]) { raise Aws::S3::Errors::NoSuchBucket.new(nil, nil) }
     end
   end
 end

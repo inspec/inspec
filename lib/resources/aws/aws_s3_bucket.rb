@@ -10,7 +10,7 @@ class AwsS3Bucket < Inspec.resource(1)
   supports platform: 'aws'
 
   include AwsSingularResourceMixin
-  attr_reader :bucket_name, :has_access_logging_enabled, :region
+  attr_reader :bucket_name, :has_default_encryption_enabled, :has_access_logging_enabled, :region
 
   def to_s
     "S3 Bucket #{@bucket_name}"
@@ -35,8 +35,13 @@ class AwsS3Bucket < Inspec.resource(1)
       bucket_policy.any? { |s| s.effect == 'Allow' && s.principal == '*' }
   end
 
+  def has_default_encryption_enabled?
+    return false unless @exists
+    @has_default_encryption_enabled ||= fetch_bucket_encryption_configuration
+  end
+
   def has_access_logging_enabled?
-    return unless @exists
+    return false unless @exists
     catch_aws_errors do
       @has_access_logging_enabled ||= !BackendFactory.create(inspec_runner).get_bucket_logging(bucket: bucket_name).logging_enabled.nil?
     end
@@ -89,6 +94,19 @@ class AwsS3Bucket < Inspec.resource(1)
     end
   end
 
+  def fetch_bucket_encryption_configuration
+    @has_default_encryption_enabled ||= catch_aws_errors do
+      begin
+        !BackendFactory.create(inspec_runner)
+                       .get_bucket_encryption(bucket: bucket_name)
+                       .server_side_encryption_configuration
+                       .nil?
+      rescue Aws::S3::Errors::ServerSideEncryptionConfigurationNotFoundError
+        false
+      end
+    end
+  end
+
   # Uses the SDK API to really talk to AWS
   class Backend
     class AwsClientApi < AwsBackendBase
@@ -109,6 +127,10 @@ class AwsS3Bucket < Inspec.resource(1)
 
       def get_bucket_logging(query)
         aws_service_client.get_bucket_logging(query)
+      end
+
+      def get_bucket_encryption(query)
+        aws_service_client.get_bucket_encryption(query)
       end
     end
   end

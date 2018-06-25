@@ -1,5 +1,6 @@
 ---
 title: About the interface Resource
+platform: os
 ---
 
 # interface
@@ -22,9 +23,11 @@ An `interface` resource block declares network interface properties to be tested
     end
 
 <br>
-## Resource Properties
+
+## Properties
 
 `name`, `speed`
+
 <br>
 
 ## Resource Property Examples
@@ -41,11 +44,11 @@ The `speed` matcher tests the speed of the network interface, in MB/sec:
 
     its('speed') { should eq 1000 }
 
-<br> 
+<br>
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be_up
 

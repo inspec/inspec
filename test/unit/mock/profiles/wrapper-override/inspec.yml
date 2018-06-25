@@ -1,0 +1,11 @@
+name: wrapper-override
+title: Linux Wrapper Child Profile
+maintainer: Demo, Inc.
+copyright: Demo, Inc.
+copyright_email: support@example.com
+license: Apache-2.0
+summary: Profile that wraps other profiles
+version: 0.6.1
+depends:
+  - name: myprofile1
+    url: https://s3-eu-west-1.amazonaws.com/apop-bucket/profiles/myprofile1-1.0.0.tar.gz

@@ -1,0 +1,118 @@
+---
+title: About the aws_flow_log Resource
+platform: aws
+---
+
+# aws\_flow\_log
+
+Use the `aws_flow_log` InSpec audit resource to test properties of a single Flow Log.
+
+## Syntax
+
+    describe aws_flow_log('fl-9c718cf5') do
+      it { should exist }
+    end
+
+## Resource Parameters
+### flow\_log\_id
+
+This resource accepts a single parameter or other search terms. You may pass it as a string, or as the value in a hash:
+
+    describe aws_flow_log('fl-9c718cf5') do
+      it { should exist }
+    end
+
+    describe aws_flow_log(flow_log_id: 'fl-8905f8e0') do
+      it { should exist }
+    end
+
+### subnet\_id
+
+To search for a flow log by the associated subnet id:
+
+    describe aws_flow_log(subnet_id: 'subnet-c6a4319c') do
+      it { should exist }
+    end
+
+### vpc\_id
+
+To search for a flow log by the associated vpc id:
+
+    describe aws_flow_log(vpc_id: 'vpc-96cabaef') do
+      it { should exist }
+    end
+
+## Properties
+### flow\_log\_id
+
+The `flow_log_id` property tests the name of the flow log.
+
+  describe aws_flow_log(subnet_id: 'subnet-c6a4319c') do
+    its('flow_log_id') { should cmp 'fl-9c718cf5' }
+  end
+
+### log\_group\_name
+
+The `log_group_name` property tests the name of the associated log group.
+
+  describe aws_flow_log('fl-9c718cf5') do
+    its('log_group_name') { should cmp 'test_log_group' }
+  end
+
+### resource\_id
+
+The `resource_id` property tests the id of the associated VPC, subnet, or network interface.
+
+  describe aws_flow_log('fl-9c718cf5') do
+    its('resource_id') { should cmp 'subnet-c6a4319c' }
+  end
+
+### resource\_type
+
+The `resource_type` property tests the type of resource the Flow Log is attached to.
+The property will return `eni`, `subnet`, or `vpc`.
+
+  describe aws_flow_log('fl-9c718cf5') do
+    its('resource_type') { should cmp 'subnet' }
+  end
+
+## Matchers
+
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### exist
+
+Indicates that the Flow Log provided was found.  Use `should_not` to test for Flow Logs that should not exist.
+
+    describe aws_flow_log('should-be-there') do
+      it { should exist }
+    end
+
+    describe aws_flow_log('should-not-be-there') do
+      it { should_not exist }
+    end
+
+### be\_attached\_to\_eni
+
+Indicates that the Flow Log is attached to a ENI resource.
+
+    describe aws_flow_log('fl-9c718cf5') do
+      it { should be_attached_to_eni }
+    end
+
+### be\_attached\_to\_subnet
+
+Indicates that the Flow Log is attached to a subnet resource.
+
+    describe aws_flow_log('fl-9c718cf5') do
+      it { should be_attached_to_subnet }
+    end
+
+### be\_attached\_to\_vpc
+
+Indicates that the Flow Log is attached to a vpc resource.
+
+    describe aws_flow_log('fl-9c718cf5') do
+      it { should be_attached_to_vpc }
+    end
+

@@ -43,7 +43,7 @@ As this is the initial release of `aws_subnets`, its limited functionality precl
 
 A string identifying the VPC which may or may not contain subnets.
 
-    # Look for all subnts within a vpc.
+    # Look for all subnets within a vpc.
     describe aws_subnets.where( vpc_id: 'vpc-12345678') do
       its('subnet_ids') { should include 'subnet-12345678' }
       its('subnet_ids') { should include 'subnet-98765432' }
@@ -109,7 +109,7 @@ Provides an array containing a string of the vpc_id associated with a subnet.
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exists
 
@@ -124,3 +124,9 @@ The control will pass if the filter returns at least one result. Use `should_not
     describe aws_subnets.where(vpc_id: 'vpc-12345678')
       it { should exist }
     end
+
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `ec2:DescribeSubnets` action with Effect set to Allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for Amazon EC2](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonec2.html).

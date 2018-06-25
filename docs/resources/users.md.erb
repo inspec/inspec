@@ -1,5 +1,6 @@
 ---
 title: About the users Resource
+platform: os
 ---
 
 # users
@@ -51,7 +52,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exist
 
@@ -107,7 +108,7 @@ where `0` represents the maximum number of days.
 
 The `shell` matcher tests the path to the default shell for the user:
 
-    its('shell') { should eq '/bin/bash' }
+    its('shells') { should eq ['/bin/bash'] }
 
 ### uid
 

@@ -32,13 +32,21 @@ describe 'Inspec::Resources::JSON' do
     it 'doesnt resolve symbol-notation names' do
       _(resource.send(:'x.y.z')).must_be_nil
     end
+
+    it 'is enumerability matches its data' do
+      enum = load_resource('json', content: '["a","b"]')
+      not_enum = load_resource('json', content: '525600')
+
+      _(enum.respond_to?(:each)).must_equal true
+      _(not_enum.respond_to?(:each)).must_equal false
+    end
   end
 
   describe 'when loading a nonexistent file' do
     let(:resource) { load_resource('json', 'nonexistent.json') }
 
     it 'produces an error' do
-      _(resource.resource_exception_message).must_equal 'No such file: nonexistent.json'
+      _(resource.resource_exception_message).must_equal "Can't find file: nonexistent.json"
     end
 
     it 'still provides an empty hash for params' do

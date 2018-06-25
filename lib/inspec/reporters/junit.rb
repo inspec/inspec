@@ -27,6 +27,7 @@ module Inspec::Reporters
       profile_xml.add_attribute('name', profile[:name])
       profile_xml.add_attribute('tests', count_profile_tests(profile))
       profile_xml.add_attribute('failed', count_profile_failed_tests(profile))
+      profile_xml.add_attribute('failures', count_profile_failed_tests(profile))
 
       profile[:controls].each do |control|
         next if control[:results].nil?
@@ -43,6 +44,7 @@ module Inspec::Reporters
       result_xml = REXML::Element.new('testcase')
       result_xml.add_attribute('name', result[:code_desc])
       result_xml.add_attribute('classname', control[:title].nil? ? "#{profile_name}.Anonymous" : "#{profile_name}.#{control[:id]}")
+      result_xml.add_attribute('target', run_data[:platform][:target].nil? ? '' : run_data[:platform][:target].to_s)
       result_xml.add_attribute('time', result[:run_time])
 
       if result[:status] == 'failed'

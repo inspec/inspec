@@ -29,6 +29,18 @@ class AwsCloudTrailTrail < Inspec.resource(1)
     !kms_key_id.nil?
   end
 
+  def delivered_logs_days_ago
+    query = { name: @trail_name }
+    catch_aws_errors do
+      begin
+        resp = BackendFactory.create(inspec_runner).get_trail_status(query).to_h
+        ((Time.now - resp[:latest_cloud_watch_logs_delivery_time])/(24*60*60)).to_i unless resp[:latest_cloud_watch_logs_delivery_time].nil?
+      rescue Aws::CloudTrail::Errors::TrailNotFoundException
+        nil
+      end
+    end
+  end
+
   private
 
   def validate_params(raw_params)
@@ -71,6 +83,10 @@ class AwsCloudTrailTrail < Inspec.resource(1)
 
       def describe_trails(query)
         aws_service_client.describe_trails(query)
+      end
+
+      def get_trail_status(query)
+        aws_service_client.get_trail_status(query)
       end
     end
   end

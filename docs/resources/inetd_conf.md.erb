@@ -1,10 +1,11 @@
 ---
 title: About the inetd_conf Resource
+platform: linux
 ---
 
 # inetd_conf
 
-Use the `inetd_conf` InSpec audit resource to test if a service is listed in the `inetd.conf` file on Linux and Unix platforms. inetd---the Internet service daemon---listens on dedicated ports, and then loads the appropriate program based on a request. The `inetd.conf` file is typically located at `/etc/inetd.conf` and contains a list of Internet services associated to the ports on which that service will listen. Only enabled services may handle a request; only services that are required by the system should be enabled.`
+Use the `inetd_conf` InSpec audit resource to test if a service is listed in the `inetd.conf` file on Linux and Unix platforms. inetd---the Internet service daemon---listens on dedicated ports, and then loads the appropriate program based on a request. The `inetd.conf` file is typically located at `/etc/inetd.conf` and contains a list of Internet services associated to the ports on which that service will listen. Only enabled services may handle a request; only services that are required by the system should be enabled.
 
 <br>
 
@@ -24,7 +25,7 @@ where
 
 <br>
 
-## Supported Resource Properties
+## Properties
 
 This resource supports any of the properties listed as services in the `inetd.conf` file. You may want to ensure that specific services do not listen via `inetd.conf`.
 
@@ -89,7 +90,5 @@ then the same test will return `false` for `ftp` and the entire test will fail.
 
 ## Matchers
 
- 
-
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 

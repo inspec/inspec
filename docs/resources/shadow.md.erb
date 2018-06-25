@@ -1,5 +1,6 @@
 ---
 title: About the shadow Resource
+platform: linux
 ---
 
 # shadow
@@ -7,7 +8,7 @@ title: About the shadow Resource
 Use the `shadow` InSpec audit resource to test the contents of `/etc/shadow`, which contains password details that are only readable by the `root` user. The format for `/etc/shadow` includes:
 
 * A username
-* The password for that user (on newer systems passwords should be stored in `/etc/shadow` )
+* The hashed password for that user
 * The last time a password was changed
 * The minimum number of days a password must exist, before it may be changed
 * The maximum number of days after which a password must be changed
@@ -23,22 +24,26 @@ These entries are defined as a colon-delimited row in the file, one row per user
 
 ## Syntax
 
-A `shadow` resource block declares one (or more) users and associated user information to be tested:
+A `shadow` resource block declares user properties to be tested:
 
     describe shadow do
       its('users') { should_not include 'forbidden_user' }
     end
 
-or with a single query:
+Properties can be used as a single query:
 
-    describe shadow.users('root') do
+    describe shadow.user('root') do
       its('count') { should eq 1 }
     end
 
-or with a filter:
+Use the `.where` method to find properties that match a value:
 
-    describe shadow.filter(min_days: '0', max_days: '99999') do
-      its('count') { should eq 1 }
+    describe shadow.where { min_days == '0' } do
+      its ('users') { should include 'nfs' }
+    end
+
+    describe shadow.where { password =~ /[x|!|*]/ } do
+      its('count') { should eq 0 }
     end
 
 The following properties are available:
@@ -50,10 +55,8 @@ The following properties are available:
 * `max_days`
 * `warn_days`
 * `inactive_days`
-* `expiry_date`
+* `expiry_dates`
 * `reserved`
-
-Properties can be used as a single query or can be joined together with the `.filter` method.
 
 <br>
 
@@ -76,68 +79,74 @@ The following examples show how to use this InSpec audit resource.
 
 <br>
 
-## Matchers
+## Properties
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+### users
 
-### count
+The `users` property tests if the username exists `/etc/shadow`:
 
-The `count` matcher tests the number of times the named user appears in `/etc/shadow`:
-
-    its('count') { should eq 1 }
-
-This matcher is best used in conjunction with filters. For example:
-
-    describe shadow.users('dannos') do
-       its('count') { should eq 1 }
-    end
-
-### expiry_dates
-
-The `expiry_dates` matcher tests the number of days a user account has been disabled:
-
-    its('expiry_dates') { should eq '' }
-
-### inactive_days
-
-The `inactive_days` matcher tests the number of days a user must be inactive before the user account is disabled:
-
-    its('inactive_days') { should eq '' }
-
-### last_changes
-
-The `last_changes` matcher tests the last time a password was changed:
-
-    its('last_changes') { should eq '' }
-
-### max_days
-
-The `max_days` matcher tests the maximum number of days after which a password must be changed:
-
-    its('max_days') { should eq 90 }
-
-### min_days
-
-The `min_days` matcher tests the minimum number of days a password must exist, before it may be changed:
-
-    its('min_days') { should eq 0 }
+    its('users') { should include 'root' }
 
 ### passwords
 
-The `passwords` matcher returns the encrypted password string from the shadow file. The returned string may not be an encrypted password, but rather a `*` or similar which indicates that direct logins are not allowed.
+The `passwords` property returns the encrypted password string from the shadow file. The returned string may not be an encrypted password, but rather a `*` or similar which indicates that direct logins are not allowed.
 
 For example:
 
     its('passwords') { should cmp '*' }
 
-### users
+### last\_changes
 
-The `users` matcher tests if the user name exists `/etc/shadow`:
+The `last_changes` property tests the last time a password was changed:
 
-    its('users') { should eq 'root' }
+    its('last_changes') { should be_empty }
 
-### warn_days
+### min\_days
 
-The `warn_days` matcher tests the number of days a user is warned about an expiring password:
+The `min_days` property tests the minimum number of days a password must exist, before it may be changed:
+
+    its('min_days') { should eq 0 }
+
+### max\_days
+
+The `max_days` property tests the maximum number of days after which a password must be changed:
+
+    its('max_days') { should eq 90 }
+
+### warn\_days
+
+The `warn_days` property tests the number of days a user is warned about an expiring password:
 
     its('warn_days') { should eq 7 }
+
+### inactive\_days
+
+The `inactive_days` property tests the number of days a user must be inactive before the user account is disabled:
+
+    its('inactive_days') { should be_empty }
+
+### expiry\_dates
+
+The `expiry_dates` property tests the number of days a user account has been disabled:
+
+    its('expiry_dates') { should be_empty }
+
+### count
+
+The `count` property tests the number of times the named property appears:
+
+    describe shadow.user('root') do
+      its('count') { should eq 1 }
+    end
+
+This property is best used in conjunction with filters. For example:
+
+    describe shadow.where { password =~ /[x|!|*]/ } do
+      its('count') { should eq 0 }
+    end
+
+<br>
+
+## Matchers
+
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

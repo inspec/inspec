@@ -127,6 +127,33 @@ describe 'Inspec::Resources::Service' do
     _(resource.params).must_equal params
   end
 
+  # Amazon Linux
+  it 'verify amazon linux service parsing' do
+    resource = MockLoader.new(:amazon).load_resource('service', 'ssh')
+    params = Hashie::Mash.new({})
+    _(resource.type).must_equal 'upstart'
+    _(resource.name).must_equal 'ssh'
+    _(resource.description).must_be_nil
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+    _(resource.params.UnitFileState).must_be_nil
+  end
+
+  # Amazon Linux 2
+  it 'verify amazon linux 2 service parsing' do
+    resource = MockLoader.new(:amazon2).load_resource('service', 'sshd')
+    params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
+    _(resource.type).must_equal 'systemd'
+    _(resource.name).must_equal 'sshd.service'
+    _(resource.description).must_equal 'OpenSSH server daemon'
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+  end
+
   # centos 6 with sysv
   it 'verify centos 6 service parsing' do
     resource = MockLoader.new(:centos6).load_resource('service', 'sshd')
