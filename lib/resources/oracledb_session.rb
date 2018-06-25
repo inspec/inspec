@@ -55,7 +55,7 @@ module Inspec::Resources
         p = :parse_csv_result
       else
         bin = @sqlplus_bin
-        opts = "SET MARKUP HTML ON\nSET FEEDBACK OFF"
+        opts = "SET MARKUP HTML ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF"
         p = :parse_html_result
       end
 
