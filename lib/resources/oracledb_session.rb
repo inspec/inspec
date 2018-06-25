@@ -35,7 +35,7 @@ module Inspec::Resources
       @service = opts[:service]
 
       # we prefer sqlci although it is way slower than sqlplus, but it understands csv properly
-      @sqlcl_bin = 'sql'
+      @sqlcl_bin = 'sql' unless opts.has_key?(:sqlplus_bin) # don't use it if user specified sqlplus_bin option
       @sqlplus_bin = opts[:sqlplus_bin] || 'sqlplus'
 
       return skip_resource "Can't run Oracle checks without authentication" if @user.nil? || @password.nil?
@@ -49,7 +49,7 @@ module Inspec::Resources
 
       p = nil
       # use sqlplus if sqlcl is not available
-      if inspec.command(@sqlcl_bin).exist?
+      if @sqlcl_bin and inspec.command(@sqlcl_bin).exist?
         bin = @sqlcl_bin
         opts = "set sqlformat csv\nSET FEEDBACK OFF"
         p = :parse_csv_result
