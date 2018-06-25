@@ -17,11 +17,14 @@ module Inspec
       if dep[:path]
         req_path = File.expand_path(dep[:path], req_path)
       end
+      config = {
+        cache: cache,
+        cwd: req_path,
+      }
 
       new(dep[:name],
           dep[:version],
-          cache,
-          req_path,
+          config,
           opts.merge(dep))
     end
 

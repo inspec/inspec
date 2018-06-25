@@ -2,7 +2,8 @@ require 'helper'
 require 'inspec/dependencies/requirement'
 
 describe Inspec::Requirement do
-  let(:req) { Inspec::Requirement.new('foo', constraints, nil, nil, {}) }
+  let(:config) { { cwd: nil, backend: nil } }
+  let(:req) { Inspec::Requirement.new('foo', constraints, config, {}) }
 
   describe '#source_satisfies_spec?' do
 
