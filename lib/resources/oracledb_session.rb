@@ -61,7 +61,7 @@ module Inspec::Resources
 
       query = verify_query(escaped_query)
       query += ';' unless query.end_with?(';')
-      command = %{echo "#{opts}\n#{query}\nEXIT" | #{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service}}
+      command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
       cmd = inspec.command(command)
 
       out = cmd.stdout + "\n" + cmd.stderr
