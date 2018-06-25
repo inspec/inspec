@@ -20,6 +20,7 @@ A `oracledb_session` resource block declares the username and password to use fo
 where
 
 * `oracledb_session` declares a username and password with permission to run the query (required), and an optional parameters for host (default: `localhost`), SID (default: `nil`, which uses the default SID, and path to the sqlplus binary (default: `sqlplus`).
+* it is possible to run queries as sydba/sysoper by set password to value 'as sysdba', see examples
 * `query('QUERY')` contains the query to be run
 * `its('value') { should eq('') }` compares the results of the query against the expected result in the test
 
@@ -56,6 +57,15 @@ The following examples show how to use this InSpec audit resource.
 
     describe sql.query('SELECT * FROM my_table;').column('my_column') do
       it { should include 'my_value' }
+    end
+
+### Test tablespace exists as sysdba
+    The check will change user (with su) to specified user and run 'sqlplus / as sysdba' (sysoper, sysasm) 
+
+    sql = oracledb_session(user: 'oracle', pass: 'as sysdba', service: 'MYSID')
+
+    describe sql.query('SELECT tablespace_name AS name FROM dba_tablespaces;').column('name') do
+      it { should include 'MYTABLESPACE' }
     end
 
 <br>

@@ -61,7 +61,11 @@ module Inspec::Resources
 
       query = verify_query(escaped_query)
       query += ';' unless query.end_with?(';')
-      command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
+      if /as (sysdba|sysoper|sysasm)/i === @password
+        command = %{su - #{user} -c "env ORACLE_SID=#{@service} #{bin} / #{@password} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC"}
+      else
+        command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
+      end
       cmd = inspec.command(command)
 
       out = cmd.stdout + "\n" + cmd.stderr
