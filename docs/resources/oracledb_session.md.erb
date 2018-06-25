@@ -25,6 +25,11 @@ where
 
 <br>
 
+## Resource Properties
+* rows the query result as array of hashes
+* row(id)  selected row from query result
+* column(name) array with values from selected column
+ 
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -43,6 +48,14 @@ The following examples show how to use this InSpec audit resource.
 
     describe sql.query('SELECT NAME FROM v$database;').row(0).column('name') do
       its('value') { should cmp 'ORCL' }
+    end
+
+### Test for table contains a specified value in any row for the given column name
+
+    sql = oracledb_session(user: 'my_user', pass: 'password')
+
+    describe sql.query('SELECT * FROM my_table;').column('my_column') do
+      it { should include 'my_value' }
     end
 
 <br>
