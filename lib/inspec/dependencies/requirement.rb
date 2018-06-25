@@ -25,33 +25,30 @@ module Inspec
           opts.merge(dep))
     end
 
-    # Disabled rubocop check for now, this is up for a refactor for 3.0
-    # rubocop:disable Metrics/ParameterLists
-    def self.from_lock_entry(entry, cwd, cache, backend, parent_profile, opts = {})
+    def self.from_lock_entry(entry, config, opts = {})
       req = new(entry[:name],
                 entry[:version_constraints],
-                cache,
-                cwd,
-                parent_profile,
-                entry[:resolved_source].merge(backend: backend).merge(opts))
+                config,
+                entry[:resolved_source].merge(backend: config[:backend]).merge(opts))
 
       locked_deps = []
       Array(entry[:dependencies]).each do |dep_entry|
-        locked_deps << Inspec::Requirement.from_lock_entry(dep_entry, cwd, cache, backend, req.profile.name, opts)
+        config[:praent_profile] = req.profile.name
+        locked_deps << Inspec::Requirement.from_lock_entry(dep_entry, config, opts)
       end
       req.lock_deps(locked_deps)
       req
     end
 
     attr_reader :cwd, :opts, :version_constraints
-    def initialize(name, version_constraints, cache, cwd, parent_profile, opts)
+    def initialize(name, version_constraints, config, opts)
       @name = name
       @version_constraints = Array(version_constraints)
-      @cache = cache
+      @cache = config[:cache]
       @backend = opts[:backend]
       @opts = opts
-      @cwd = cwd
-      @parent_profile = parent_profile
+      @cwd = config[:cwd]
+      @parent_profile = config[:parent_profile]
     end
 
     #
