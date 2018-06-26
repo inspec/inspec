@@ -23,6 +23,7 @@ module Inspec::Resources
     "
 
     attr_reader :user, :password, :host, :service, :as_os_user, :as_db_role
+    # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
     def initialize(opts = {})
       @user = opts[:user]
       @password = opts[:password] || opts[:pass]
@@ -44,7 +45,7 @@ module Inspec::Resources
       @sqlplus_bin = opts[:sqlplus_bin] || 'sqlplus'
 
       return skip_resource "Can't run Oracle checks without authentication" if @su_user.nil? && (@user.nil? || @password.nil?)
-      return skip_resource 'You must provide a service name for the session' if @service.nil? 
+      return skip_resource 'You must provide a service name for the session' if @service.nil?
     end
 
     def query(q)
@@ -68,12 +69,10 @@ module Inspec::Resources
       query += ';' unless query.end_with?(';')
       if @db_role.nil?
         command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
+      elsif @su_user.nil?
+        command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} as #{@db_role} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
       else
-        if @su_user.nil?
-          command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} as #{@db_role} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
-        else
-          command = %{su - #{@su_user} -c "env ORACLE_SID=#{@service} #{bin} / as #{@db_role} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC"}
-        end
+        command = %{su - #{@su_user} -c "env ORACLE_SID=#{@service} #{bin} / as #{@db_role} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC"}
       end
       cmd = inspec.command(command)
 
