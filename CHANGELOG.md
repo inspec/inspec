@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.21 -->
-## [v2.2.21](https://github.com/inspec/inspec/tree/v2.2.21) (2018-06-26)
+<!-- latest_release 2.2.22 -->
+## [v2.2.22](https://github.com/inspec/inspec/tree/v2.2.22) (2018-06-26)
 
 #### Bug Fixes
-- Add support for shallow link paths [#3168](https://github.com/inspec/inspec/pull/3168) ([ColinHebert](https://github.com/ColinHebert))
+- Detect inspec-core mode and do not attempt to load cloud resources [#3163](https://github.com/inspec/inspec/pull/3163) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.20 -->
 ### Changes since 2.2.20 release
 
 #### Bug Fixes
+- Detect inspec-core mode and do not attempt to load cloud resources [#3163](https://github.com/inspec/inspec/pull/3163) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.22 -->
 - Add support for shallow link paths [#3168](https://github.com/inspec/inspec/pull/3168) ([ColinHebert](https://github.com/ColinHebert)) <!-- 2.2.21 -->
 <!-- release_rollup -->
 
