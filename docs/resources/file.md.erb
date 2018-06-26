@@ -80,8 +80,8 @@ InSpec will resolve the symlink recursively and return the ultimate linked file.
 
 ### shallow_link_path
 
-The `link_path` property tests if the file exists at the specified path. If the file is a symlink,
-InSpec will resolve the symlink and return the linked file.
+The `shallow_link_path`` property returns the path that the file refers to, only resolving
+it once (that is, it performs a readlink operation). If the file is not a symlink, nil is returned.
 
     its('shallow_link_path') { should eq '/some/path/to/file' }
 
