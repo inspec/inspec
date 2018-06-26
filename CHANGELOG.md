@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.29 -->
-## [v1.51.29](https://github.com/inspec/inspec/tree/v1.51.29) (2018-06-25)
+<!-- latest_release 1.51.30 -->
+## [v1.51.30](https://github.com/inspec/inspec/tree/v1.51.30) (2018-06-26)
 
-#### Merged Pull Requests
-- Rebuild 1.x hab package [#3172](https://github.com/inspec/inspec/pull/3172) ([jquick](https://github.com/jquick))
+#### Bug Fixes
+- Backport control-level exception catching to 1.x [#3126](https://github.com/inspec/inspec/pull/3126) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.25 -->
 ### Changes since 1.51.25 release
+
+#### Bug Fixes
+- Backport control-level exception catching to 1.x [#3126](https://github.com/inspec/inspec/pull/3126) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.51.30 -->
 
 #### Enhancements
 - Backport filtertable / &#39;where&#39; functionality on shadow resource to 1.x series [#3154](https://github.com/inspec/inspec/pull/3154) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.51.28 -->
