@@ -85,6 +85,14 @@ module Inspec::Resources
           assignment_regex: /^\s*(\S+)\s+((?=.*\s+$).*?|.*)\s*$/,
           multiple_values: true,
         ).params
+
+        # Capture any characters between quotes that are not escaped in values
+        params.values.map! do |value|
+          value.map! do |sub_value|
+            sub_value[/(?<=["|'])(?:\\.|[^"'\\])*(?=["|'])/] || sub_value
+          end
+        end
+
         @params.merge!(params)
 
         to_read = to_read.drop(1)
