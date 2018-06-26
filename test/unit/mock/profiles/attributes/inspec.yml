@@ -1,0 +1,9 @@
+name: attributes
+version: 1.0.0
+maintainer: inspec@chef.io
+title: Attributes
+license: Apache-2.0
+supports:
+  - linux
+  - darwin
+  - windows

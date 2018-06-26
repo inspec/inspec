@@ -1,0 +1,6 @@
+an_integer: 1
+a_quoted_string: "Should not have quotes"
+an_unquoted_string: Should not have quotes
+lowercase_true: true
+titlecase_true: True
+titlecase_false: False
