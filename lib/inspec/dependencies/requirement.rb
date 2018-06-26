@@ -17,37 +17,42 @@ module Inspec
       if dep[:path]
         req_path = File.expand_path(dep[:path], req_path)
       end
+      config = {
+        cache: cache,
+        cwd: req_path,
+      }
 
       new(dep[:name],
           dep[:version],
-          cache,
-          req_path,
+          config,
           opts.merge(dep))
     end
 
-    def self.from_lock_entry(entry, cwd, cache, backend, opts = {})
+    def self.from_lock_entry(entry, config, opts = {})
       req = new(entry[:name],
                 entry[:version_constraints],
-                cache,
-                cwd,
-                entry[:resolved_source].merge(backend: backend).merge(opts))
+                config,
+                entry[:resolved_source].merge(backend: config[:backend]).merge(opts))
 
       locked_deps = []
       Array(entry[:dependencies]).each do |dep_entry|
-        locked_deps << Inspec::Requirement.from_lock_entry(dep_entry, cwd, cache, backend, opts)
+        dep_config = config.dup
+        dep_config[:parent_profile] = entry[:name]
+        locked_deps << Inspec::Requirement.from_lock_entry(dep_entry, dep_config, opts)
       end
       req.lock_deps(locked_deps)
       req
     end
 
     attr_reader :cwd, :opts, :version_constraints
-    def initialize(name, version_constraints, cache, cwd, opts)
+    def initialize(name, version_constraints, config, opts)
       @name = name
       @version_constraints = Array(version_constraints)
-      @cache = cache
+      @cache = config[:cache]
       @backend = opts[:backend]
       @opts = opts
-      @cwd = cwd
+      @cwd = config[:cwd]
+      @parent_profile = config[:parent_profile]
     end
 
     #
@@ -114,10 +119,12 @@ module Inspec
       return @profile unless @profile.nil?
       opts = @opts.dup
       opts[:backend] = @backend
-      if !@dependencies.nil?
+      if !@dependencies.nil? && !@dependencies.empty?
         opts[:dependencies] = Inspec::DependencySet.from_array(@dependencies, @cwd, @cache, @backend)
       end
       @profile = Inspec::Profile.for_fetcher(fetcher, opts)
+      @profile.parent_profile = @parent_profile
+      @profile
     end
   end
 end

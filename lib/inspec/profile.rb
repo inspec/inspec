@@ -79,6 +79,7 @@ module Inspec
     end
 
     attr_reader :source_reader, :backend, :runner_context, :check_mode
+    attr_accessor :parent_profile
     def_delegator :@source_reader, :tests
     def_delegator :@source_reader, :libraries
     def_delegator :@source_reader, :metadata
@@ -230,6 +231,7 @@ module Inspec
       # add information about the required attributes
       res[:attributes] = res[:attributes].map(&:to_hash) unless res[:attributes].nil? || res[:attributes].empty?
       res[:sha256] = sha256
+      res[:parent_profile] = parent_profile unless parent_profile.nil?
       res
     end
 
@@ -414,7 +416,13 @@ module Inspec
     end
 
     def load_dependencies
-      Inspec::DependencySet.from_lockfile(lockfile, cwd, @cache, @backend, { attributes: @attr_values })
+      config = {
+        cwd: cwd,
+        cache: @cache,
+        backend: @backend,
+        parent_profile: name,
+      }
+      Inspec::DependencySet.from_lockfile(lockfile, config, { attributes: @attr_values })
     end
 
     # Calculate this profile's SHA256 checksum. Includes metadata, dependencies,

@@ -14,13 +14,13 @@ module Inspec
     # @param cwd [String] Current working directory for relative path includes
     # @param vendor_path [String] Path to the vendor directory
     #
-    def self.from_lockfile(lockfile, cwd, cache, backend, opts = {})
+    def self.from_lockfile(lockfile, config, opts = {})
       dep_tree = lockfile.deps.map do |dep|
-        Inspec::Requirement.from_lock_entry(dep, cwd, cache, backend, opts)
+        Inspec::Requirement.from_lock_entry(dep, config, opts)
       end
 
       dep_list = flatten_dep_tree(dep_tree)
-      new(cwd, cache, dep_list, backend)
+      new(config[:cwd], config[:cache], dep_list, config[:backend])
     end
 
     def self.from_array(dependencies, cwd, cache, backend)
