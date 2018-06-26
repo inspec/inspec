@@ -22,7 +22,7 @@ module Inspec::Resources
       end
     "
 
-    attr_reader :user, :password, :host, :service
+    attr_reader :user, :password, :host, :service, :as_os_user, :as_db_role
     def initialize(opts = {})
       @user = opts[:user]
       @password = opts[:password] || opts[:pass]
@@ -34,12 +34,17 @@ module Inspec::Resources
       @port = opts[:port] || '1521'
       @service = opts[:service]
 
+      # connection as sysdba stuff
+      return skip_resource "Option 'as_os_user' not available in Windows" if inspec.os.windows? && opts[:as_os_user]
+      @su_user = opts[:as_os_user]
+      @db_role = opts[:as_db_role]
+
       # we prefer sqlci although it is way slower than sqlplus, but it understands csv properly
       @sqlcl_bin = 'sql' unless opts.key?(:sqlplus_bin) # don't use it if user specified sqlplus_bin option
       @sqlplus_bin = opts[:sqlplus_bin] || 'sqlplus'
 
-      return skip_resource "Can't run Oracle checks without authentication" if @user.nil? || @password.nil?
-      return skip_resource 'You must provide a service name for the session' if @service.nil?
+      return skip_resource "Can't run Oracle checks without authentication" if @su_user.nil? && (@user.nil? || @password.nil?)
+      return skip_resource 'You must provide a service name for the session' if @service.nil? 
     end
 
     def query(q)
@@ -61,10 +66,14 @@ module Inspec::Resources
 
       query = verify_query(escaped_query)
       query += ';' unless query.end_with?(';')
-      if @password =~ /as (sysdba|sysoper|sysasm)/i
-        command = %{su - #{user} -c "env ORACLE_SID=#{@service} #{bin} / #{@password} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC"}
-      else
+      if @db_role.nil?
         command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
+      else
+        if @su_user.nil?
+          command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} as #{@db_role} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
+        else
+          command = %{su - #{@su_user} -c "env ORACLE_SID=#{@service} #{bin} / as #{@db_role} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC"}
+        end
       end
       cmd = inspec.command(command)
 
