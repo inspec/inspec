@@ -21,6 +21,7 @@ class AwsCloudTrailTrails < Inspec.resource(1)
   filter = FilterTable.create
   filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
   filter.register_column(:trail_arns, field: :trail_arn)
+  filter.register_column(:names, field: :name)
   filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
