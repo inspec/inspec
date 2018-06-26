@@ -80,4 +80,11 @@ describe 'inspec archive' do
     out.exit_status.must_equal 0
     Zip::File.new(dst.path).entries.map(&:name).must_include 'inspec.yml'
   end
+
+  it 'archives profiles that contain exceptions in controls' do
+    out = inspec('archive ' + File.join(profile_path, 'exception-in-control') + ' --overwrite')
+    out.exit_status.must_equal 0
+    out.stdout.must_match(/Generate archive [^ ]*.tar.gz/)
+    out.stdout.must_include 'Finished archive generation.'
+  end
 end

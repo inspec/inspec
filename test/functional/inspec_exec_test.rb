@@ -293,4 +293,18 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       stdout.must_include "\nTest Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m2 failures\e[0m, 0 skipped\n"
     end
   end
+
+  describe 'with a profile containing exceptions in the controls' do
+    let(:out) { inspec('exec ' + File.join(profile_path, 'exception-in-control') + ' --no-create-lockfile --reporter json') }
+    let(:json) { JSON.load(out.stdout) }
+    let(:controls) { json['profiles'][0]['controls'] }
+
+    it 'completes the run with failed controls but no exception' do
+      out.stderr.must_be_empty
+      out.exit_status.must_equal 1
+      controls.count.must_equal 10
+      controls.select { |c| c['results'][0]['status'] == 'failed' }.count.must_be :>, 1
+      controls.select { |c| c['results'][0]['status'] == 'passed' }.count.must_be :>, 1
+    end
+  end
 end
