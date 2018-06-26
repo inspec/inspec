@@ -44,20 +44,13 @@ module Inspec::Resources
 
     filtertable = FilterTable.create
     filtertable
-<<<<<<< HEAD
       .register_column(:users, field: 'user')
       .register_column(:passwords, field: 'password')
       .register_column(:last_changes, field: 'last_change')
-=======
-      .register_column(:user, field: 'user')
-      .register_column(:password, field: 'password')
-      .register_column(:last_change, field: 'last_change')
->>>>>>> Search and replace filtertable methods to use new names, and rely on automatic methods
       .register_column(:min_days, field: 'min_days')
       .register_column(:max_days, field: 'max_days')
       .register_column(:warn_days, field: 'warn_days')
       .register_column(:inactive_days, field: 'inactive_days')
-<<<<<<< HEAD
       .register_column(:expiry_dates, field: 'expiry_date')
       .register_column(:reserved, field: 'reserved')
     # These are deprecated, but we need to "alias" them
@@ -66,10 +59,6 @@ module Inspec::Resources
       .register_custom_property(:password) { |table, value| table.resource.password(value) }
       .register_custom_property(:last_change) { |table, value| table.resource.last_change(value) }
       .register_custom_property(:expiry_date) { |table, value| table.resource.expiry_date(value) }
-=======
-      .register_column(:expiry_date, field: 'expiry_date')
-      .register_column(:reserved, field: 'reserved')
->>>>>>> Search and replace filtertable methods to use new names, and rely on automatic methods
 
     filtertable.register_custom_property(:content) { |t, _|
       t.entries.map do |e|
@@ -77,13 +66,6 @@ module Inspec::Resources
       end.join("\n")
     }
 
-<<<<<<< HEAD
-=======
-    filtertable.register_custom_property(:count) { |i, _|
-      i.entries.length
-    }
-
->>>>>>> Search and replace filtertable methods to use new names, and rely on automatic methods
     filtertable.install_filter_methods_on_resource(self, :set_params)
 
     def filter(query = {})
