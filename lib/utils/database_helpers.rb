@@ -59,7 +59,7 @@ module DatabaseHelper
     def column(column)
       result = []
       @results.each do |row|
-        result << row[column] if row.key?(column)
+        result << row[column]
       end
       result
     end
