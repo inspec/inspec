@@ -20,7 +20,7 @@ A `oracledb_session` resource block declares the username and password to use fo
 where
 
 * `oracledb_session` declares a username and password with permission to run the query (required), and an optional parameters for host (default: `localhost`), SID (default: `nil`, which uses the default SID, and path to the sqlplus binary (default: `sqlplus`).
-* it is possible to run queries as sydba/sysoper by set password to value 'as sysdba', see examples
+* it is possible to run queries as sysdba/sysoper by setting password to value 'as sysdba', see examples
 * `query('QUERY')` contains the query to be run
 * `its('value') { should eq('') }` compares the results of the query against the expected result in the test
 
