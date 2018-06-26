@@ -21,9 +21,5 @@ control 'flat' do
       subject { info[:attr_via_string] }
       it { should eq info[:expected] }
     end
-    # describe "#{info[:name]} using symbol key" do
-    #   subject { info[:attr_via_symbol] }
-    #   it { should eq info[:expected] }
-    # end
   end
 end
