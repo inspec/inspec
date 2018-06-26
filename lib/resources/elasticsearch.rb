@@ -24,35 +24,33 @@ module Inspec::Resources
     "
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:cluster_name,          field: 'cluster_name')
-          .add(:node_name,             field: 'name')
-          .add(:transport_address,     field: 'transport_address')
-          .add(:host,                  field: 'host')
-          .add(:ip,                    field: 'ip')
-          .add(:version,               field: 'version')
-          .add(:build_hash,            field: 'build_hash')
-          .add(:total_indexing_buffer, field: 'total_indexing_buffer')
-          .add(:roles,                 field: 'roles')
-          .add(:settings,              field: 'settings')
-          .add(:os,                    field: 'os')
-          .add(:process,               field: 'process')
-          .add(:jvm,                   field: 'jvm')
-          .add(:transport,             field: 'transport')
-          .add(:http,                  field: 'http')
-          .add(:plugins,               field: 'plugins')
-          .add(:plugin_list,           field: 'plugin_list')
-          .add(:modules,               field: 'modules')
-          .add(:module_list,           field: 'module_list')
-          .add(:node_id,               field: 'node_id')
-          .add(:ingest,                field: 'ingest')
-          .add(:exists?) { |x| !x.entries.empty? }
-          .add(:node_count) { |t, _|
+    filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+    filter.register_column(:cluster_name,          field: 'cluster_name')
+          .register_column(:node_name,             field: 'name')
+          .register_column(:transport_address,     field: 'transport_address')
+          .register_column(:host,                  field: 'host')
+          .register_column(:ip,                    field: 'ip')
+          .register_column(:version,               field: 'version')
+          .register_column(:build_hash,            field: 'build_hash')
+          .register_column(:total_indexing_buffer, field: 'total_indexing_buffer')
+          .register_column(:roles,                 field: 'roles')
+          .register_column(:settings,              field: 'settings')
+          .register_column(:os,                    field: 'os')
+          .register_column(:process,               field: 'process')
+          .register_column(:jvm,                   field: 'jvm')
+          .register_column(:transport,             field: 'transport')
+          .register_column(:http,                  field: 'http')
+          .register_column(:plugins,               field: 'plugins')
+          .register_column(:plugin_list,           field: 'plugin_list')
+          .register_column(:modules,               field: 'modules')
+          .register_column(:module_list,           field: 'module_list')
+          .register_column(:node_id,               field: 'node_id')
+          .register_column(:ingest,                field: 'ingest')
+          .register_custom_property(:node_count) { |t, _|
             t.entries.length
           }
 
-    filter.connect(self, :nodes)
+    filter.install_filter_methods_on_resource(self, :nodes)
 
     attr_reader :nodes, :url
 

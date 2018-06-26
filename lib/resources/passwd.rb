@@ -50,24 +50,22 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:users,     field: 'user')
-          .add(:passwords, field: 'password')
-          .add(:uids,      field: 'uid')
-          .add(:gids,      field: 'gid')
-          .add(:descs,     field: 'desc')
-          .add(:homes,     field: 'home')
-          .add(:shells,    field: 'shell')
+    filter.register_column(:users,     field: 'user')
+          .register_column(:passwords, field: 'password')
+          .register_column(:uids,      field: 'uid')
+          .register_column(:gids,      field: 'gid')
+          .register_column(:descs,     field: 'desc')
+          .register_column(:homes,     field: 'home')
+          .register_column(:shells,    field: 'shell')
 
     # rebuild the passwd line from raw content
-    filter.add(:content) { |t, _|
+    filter.register_custom_property(:content) { |t, _|
       t.entries.map do |e|
         [e.user, e.password, e.uid, e.gid, e.desc, e.home, e.shell].join(':')
       end.join("\n")
     }
 
-    filter.connect(self, :params)
+    filter.install_filter_methods_on_resource(self, :params)
 
     def to_s
       '/etc/passwd'

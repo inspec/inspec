@@ -47,14 +47,12 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:names,     field: 'name')
-          .add(:gids,      field: 'gid')
-          .add(:domains,   field: 'domain')
-          .add(:members,   field: 'members')
-          .add(:exists?) { |x| !x.entries.empty? }
-    filter.connect(self, :collect_group_details)
+    filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+    filter.register_column(:names,     field: 'name')
+          .register_column(:gids,      field: 'gid')
+          .register_column(:domains,   field: 'domain')
+          .register_column(:members,   field: 'members')
+    filter.install_filter_methods_on_resource(self, :collect_group_details)
 
     def to_s
       'Groups'

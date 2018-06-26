@@ -28,14 +28,12 @@ module Inspec::Resources
     attr_reader :params
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:zone,       field: 'zone')
-          .add(:interfaces, field: 'interfaces')
-          .add(:sources,    field: 'sources')
-          .add(:services,   field: 'services')
+    filter.register_column(:zone,       field: 'zone')
+          .register_column(:interfaces, field: 'interfaces')
+          .register_column(:sources,    field: 'sources')
+          .register_column(:services,   field: 'services')
 
-    filter.connect(self, :params)
+    filter.install_filter_methods_on_resource(self, :params)
 
     def initialize
       @params = parse_active_zones(active_zones)

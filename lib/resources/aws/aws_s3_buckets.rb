@@ -14,11 +14,9 @@ class AwsS3Buckets < Inspec.resource(1)
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
-  filter.add_accessor(:where)
-        .add_accessor(:entries)
-        .add(:exists?) { |x| !x.entries.empty? }
-        .add(:bucket_names, field: :name)
-  filter.connect(self, :table)
+  filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+  filter.register_column(:bucket_names, field: :name)
+  filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
     'S3 Buckets'

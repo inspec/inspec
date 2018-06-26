@@ -33,11 +33,9 @@ class AwsSnsTopics < Inspec.resource(1)
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
-  filter.add_accessor(:where)
-        .add_accessor(:entries)
-        .add(:exists?) { |x| !x.entries.empty? }
-        .add(:topic_arns, field: :topic_arn)
-  filter.connect(self, :table)
+  filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+  filter.register_column(:topic_arns, field: :topic_arn)
+  filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
     'EC2 SNS Topics'

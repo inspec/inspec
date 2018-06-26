@@ -18,11 +18,10 @@ class AwsKmsKeys < Inspec.resource(1)
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
-  filter.add_accessor(:entries)
-        .add(:exists?) { |x| !x.entries.empty? }
-        .add(:key_arns, field: :key_arn)
-        .add(:key_ids, field: :key_id)
-  filter.connect(self, :table)
+  filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+  filter.register_column(:key_arns, field: :key_arn)
+        .register_column(:key_ids, field: :key_id)
+  filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
     'KMS Keys'

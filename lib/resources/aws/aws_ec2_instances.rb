@@ -18,10 +18,9 @@ class AwsEc2Instances < Inspec.resource(1)
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
-  filter.add_accessor(:entries)
-        .add(:exists?) { |x| !x.entries.empty? }
-        .add(:instance_ids, field: :instance_id)
-  filter.connect(self, :table)
+  filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+  filter.register_column(:instance_ids, field: :instance_id)
+  filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
     'EC2 Instances'

@@ -38,17 +38,15 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:device_name,           field: 'device_name')
-          .add(:mount_point,           field: 'mount_point')
-          .add(:file_system_type,      field: 'file_system_type')
-          .add(:mount_options,         field: 'mount_options')
-          .add(:dump_options,          field: 'dump_options')
-          .add(:file_system_options,   field: 'file_system_options')
-          .add(:configured?) { |x| x.entries.any? }
+    filter.register_column(:device_name,           field: 'device_name')
+          .register_column(:mount_point,           field: 'mount_point')
+          .register_column(:file_system_type,      field: 'file_system_type')
+          .register_column(:mount_options,         field: 'mount_options')
+          .register_column(:dump_options,          field: 'dump_options')
+          .register_column(:file_system_options,   field: 'file_system_options')
+          .register_custom_matcher(:configured?) { |x| x.entries.any? }
 
-    filter.connect(self, :params)
+    filter.install_filter_methods_on_resource(self, :params)
 
     def nfs_file_systems
       where { file_system_type.match(/nfs/) }

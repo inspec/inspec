@@ -65,24 +65,22 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:minutes,  field: 'minute')
-          .add(:hours,    field: 'hour')
-          .add(:days,     field: 'day')
-          .add(:months,   field: 'month')
-          .add(:weekdays, field: 'weekday')
-          .add(:user,     field: 'user')
-          .add(:commands, field: 'command')
+    filter.register_column(:minutes,  field: 'minute')
+          .register_column(:hours,    field: 'hour')
+          .register_column(:days,     field: 'day')
+          .register_column(:months,   field: 'month')
+          .register_column(:weekdays, field: 'weekday')
+          .register_column(:user,     field: 'user')
+          .register_column(:commands, field: 'command')
 
     # rebuild the crontab line from raw content
-    filter.add(:content) { |t, _|
+    filter.register_custom_property(:content) { |t, _|
       t.entries.map do |e|
         [e.minute, e.hour, e.day, e.month, e.weekday, e.user, e.command].compact.join(' ')
       end.join("\n")
     }
 
-    filter.connect(self, :params)
+    filter.install_filter_methods_on_resource(self, :params)
 
     def to_s
       if is_system_crontab?

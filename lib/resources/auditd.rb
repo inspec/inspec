@@ -55,21 +55,19 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:file,         field: 'file')
-          .add(:list,         field: 'list')
-          .add(:action,       field: 'action')
-          .add(:fields,       field: 'fields')
-          .add(:fields_nokey, field: 'fields_nokey')
-          .add(:syscall,      field: 'syscall')
-          .add(:key,          field: 'key')
-          .add(:arch,         field: 'arch')
-          .add(:path,         field: 'path')
-          .add(:permissions,  field: 'permissions')
-          .add(:exit,         field: 'exit')
+    filter.register_column(:file,         field: 'file')
+          .register_column(:list,         field: 'list')
+          .register_column(:action,       field: 'action')
+          .register_column(:fields,       field: 'fields')
+          .register_column(:fields_nokey, field: 'fields_nokey')
+          .register_column(:syscall,      field: 'syscall')
+          .register_column(:key,          field: 'key')
+          .register_column(:arch,         field: 'arch')
+          .register_column(:path,         field: 'path')
+          .register_column(:permissions,  field: 'permissions')
+          .register_column(:exit,         field: 'exit')
 
-    filter.connect(self, :params)
+    filter.install_filter_methods_on_resource(self, :params)
 
     def status(name = nil)
       @status_content ||= inspec.command('/sbin/auditctl -s').stdout.chomp

@@ -11,11 +11,10 @@ class AwsRouteTables < Inspec.resource(1)
   include AwsPluralResourceMixin
   # Underlying FilterTable implementation.
   filter = FilterTable.create
-  filter.add_accessor(:entries)
-        .add(:exists?) { |x| !x.entries.empty? }
-        .add(:vpc_ids, field: :vpc_id)
-        .add(:route_table_ids, field: :route_table_id)
-  filter.connect(self, :routes_data)
+  filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+  filter.register_column(:vpc_ids, field: :vpc_id)
+        .register_column(:route_table_ids, field: :route_table_id)
+  filter.install_filter_methods_on_resource(self, :routes_data)
 
   def routes_data
     @table

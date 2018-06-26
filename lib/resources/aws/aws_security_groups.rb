@@ -18,11 +18,9 @@ EOX
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
-  filter.add_accessor(:where)
-        .add_accessor(:entries)
-        .add(:exists?) { |x| !x.entries.empty? }
-        .add(:group_ids, field: :group_id)
-  filter.connect(self, :table)
+  filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+  filter.register_column(:group_ids, field: :group_id)
+  filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
     'EC2 Security Groups'

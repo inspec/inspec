@@ -10,25 +10,23 @@ module Inspec::Resources
   class DockerContainerFilter
     # use filtertable for containers
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:commands,       field: 'command')
-          .add(:ids,            field: 'id')
-          .add(:images,         field: 'image')
-          .add(:labels,         field: 'labels')
-          .add(:local_volumes,  field: 'localvolumes')
-          .add(:mounts,         field: 'mounts')
-          .add(:names,          field: 'names')
-          .add(:networks,       field: 'networks')
-          .add(:ports,          field: 'ports')
-          .add(:running_for,    field: 'runningfor')
-          .add(:sizes,          field: 'size')
-          .add(:status,         field: 'status')
-          .add(:exists?) { |x| !x.entries.empty? }
-          .add(:running?) { |x|
+    filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+    filter.register_column(:commands,       field: 'command')
+          .register_column(:ids,            field: 'id')
+          .register_column(:images,         field: 'image')
+          .register_column(:labels,         field: 'labels')
+          .register_column(:local_volumes,  field: 'localvolumes')
+          .register_column(:mounts,         field: 'mounts')
+          .register_column(:names,          field: 'names')
+          .register_column(:networks,       field: 'networks')
+          .register_column(:ports,          field: 'ports')
+          .register_column(:running_for,    field: 'runningfor')
+          .register_column(:sizes,          field: 'size')
+          .register_column(:status,         field: 'status')
+          .register_custom_matcher(:running?) { |x|
             x.where { status.downcase.start_with?('up') }
           }
-    filter.connect(self, :containers)
+    filter.install_filter_methods_on_resource(self, :containers)
 
     attr_reader :containers
     def initialize(containers)
@@ -38,17 +36,15 @@ module Inspec::Resources
 
   class DockerImageFilter
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:ids,              field: 'id')
-          .add(:repositories,     field: 'repository')
-          .add(:tags,             field: 'tag')
-          .add(:sizes,            field: 'size')
-          .add(:digests,          field: 'digest')
-          .add(:created,          field: 'createdat')
-          .add(:created_since,    field: 'createdsize')
-          .add(:exists?) { |x| !x.entries.empty? }
-    filter.connect(self, :images)
+    filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+    filter.register_column(:ids,              field: 'id')
+          .register_column(:repositories,     field: 'repository')
+          .register_column(:tags,             field: 'tag')
+          .register_column(:sizes,            field: 'size')
+          .register_column(:digests,          field: 'digest')
+          .register_column(:created,          field: 'createdat')
+          .register_column(:created_since,    field: 'createdsize')
+    filter.install_filter_methods_on_resource(self, :images)
 
     attr_reader :images
     def initialize(images)
@@ -58,16 +54,14 @@ module Inspec::Resources
 
   class DockerServiceFilter
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:ids,              field: 'id')
-          .add(:names,            field: 'name')
-          .add(:modes,            field: 'mode')
-          .add(:replicas,         field: 'replicas')
-          .add(:images,           field: 'image')
-          .add(:ports,            field: 'ports')
-          .add(:exists?) { |x| !x.entries.empty? }
-    filter.connect(self, :services)
+    filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+    filter.register_column(:ids,              field: 'id')
+          .register_column(:names,            field: 'name')
+          .register_column(:modes,            field: 'mode')
+          .register_column(:replicas,         field: 'replicas')
+          .register_column(:images,           field: 'image')
+          .register_column(:ports,            field: 'ports')
+    filter.install_filter_methods_on_resource(self, :services)
 
     attr_reader :services
     def initialize(services)

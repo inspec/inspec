@@ -29,13 +29,11 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:daemon,      field: 'daemon')
-          .add(:client_list, field: 'client_list')
-          .add(:options,     field: 'options')
+    filter.register_column(:daemon,      field: 'daemon')
+          .register_column(:client_list, field: 'client_list')
+          .register_column(:options,     field: 'options')
 
-    filter.connect(self, :params)
+    filter.install_filter_methods_on_resource(self, :params)
 
     private
 

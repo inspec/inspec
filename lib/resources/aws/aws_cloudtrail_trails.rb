@@ -19,11 +19,10 @@ class AwsCloudTrailTrails < Inspec.resource(1)
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
-  filter.add_accessor(:entries)
-        .add(:exists?) { |x| !x.entries.empty? }
-        .add(:names, field: :name)
-        .add(:trail_arns, field: :trail_arn)
-  filter.connect(self, :table)
+  filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+  filter.register_column(:trail_arns, field: :trail_arn)
+  filter.register_column(:names, field: :name)
+  filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
     'CloudTrail Trails'

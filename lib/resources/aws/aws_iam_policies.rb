@@ -18,11 +18,10 @@ class AwsIamPolicies < Inspec.resource(1)
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
-  filter.add_accessor(:entries)
-        .add(:exists?) { |x| !x.entries.empty? }
-        .add(:policy_names, field: :policy_name)
-        .add(:arns, field: :arn)
-  filter.connect(self, :table)
+  filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+  filter.register_column(:policy_names, field: :policy_name)
+        .register_column(:arns, field: :arn)
+  filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
     'IAM Policies'

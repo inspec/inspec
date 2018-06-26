@@ -70,23 +70,21 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:usernames, field: :username)
-          .add(:uids,      field: :uid)
-          .add(:gids,      field: :gid)
-          .add(:groupnames, field: :groupname)
-          .add(:groups,    field: :groups)
-          .add(:homes,     field: :home)
-          .add(:shells,    field: :shell)
-          .add(:mindays,   field: :mindays)
-          .add(:maxdays,   field: :maxdays)
-          .add(:warndays,  field: :warndays)
-          .add(:disabled,  field: :disabled)
-          .add(:exists?) { |x| !x.entries.empty? }
-          .add(:disabled?) { |x| x.where { disabled == false }.entries.empty? }
-          .add(:enabled?) { |x| x.where { disabled == true }.entries.empty? }
-    filter.connect(self, :collect_user_details)
+    filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+    filter.register_column(:usernames, field: :username)
+          .register_column(:uids,      field: :uid)
+          .register_column(:gids,      field: :gid)
+          .register_column(:groupnames, field: :groupname)
+          .register_column(:groups,    field: :groups)
+          .register_column(:homes,     field: :home)
+          .register_column(:shells,    field: :shell)
+          .register_column(:mindays,   field: :mindays)
+          .register_column(:maxdays,   field: :maxdays)
+          .register_column(:warndays,  field: :warndays)
+          .register_column(:disabled,  field: :disabled)
+          .register_custom_matcher(:disabled?) { |x| x.where { disabled == false }.entries.empty? }
+          .register_custom_matcher(:enabled?) { |x| x.where { disabled == true }.entries.empty? }
+    filter.install_filter_methods_on_resource(self, :collect_user_details)
 
     def to_s
       'Users'

@@ -15,23 +15,21 @@ module Inspec::Resources
 
     # Create a filter table so that tests on the disk can be performed
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:exists?) { |x| !x.entries.empty? }
-          .add(:disk, field: :disk)
-          .add(:number, field: :number)
-          .add(:name, field: :name)
-          .add(:size, field: :size)
-          .add(:vhd_uri, field: :vhd_uri)
-          .add(:storage_account_name, field: :storage_account_name)
-          .add(:lun, field: :lun)
-          .add(:caching, field: :caching)
-          .add(:create_option, field: :create_option)
-          .add(:is_managed_disk?, field: :is_managed_disk?)
-          .add(:storage_account_type, field: :storage_account_type)
-          .add(:subscription_id, field: :subscription_id)
-          .add(:resource_group, field: :resource_group)
-    filter.connect(self, :datadisk_details)
+    filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+    filter.register_column(:disk, field: :disk)
+          .register_column(:number, field: :number)
+          .register_column(:name, field: :name)
+          .register_column(:size, field: :size)
+          .register_column(:vhd_uri, field: :vhd_uri)
+          .register_column(:storage_account_name, field: :storage_account_name)
+          .register_column(:lun, field: :lun)
+          .register_column(:caching, field: :caching)
+          .register_column(:create_option, field: :create_option)
+          .register_column(:is_managed_disk?, field: :is_managed_disk?)
+          .register_column(:storage_account_type, field: :storage_account_type)
+          .register_column(:subscription_id, field: :subscription_id)
+          .register_column(:resource_group, field: :resource_group)
+    filter.install_filter_methods_on_resource(self, :datadisk_details)
 
     # Constructor for the resource. This calls the parent constructor to
     # get the generic resource for the specified machine. This will provide

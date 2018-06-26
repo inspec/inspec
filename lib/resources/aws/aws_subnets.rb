@@ -27,14 +27,12 @@ class AwsSubnets < Inspec.resource(1)
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
-  filter.add_accessor(:where)
-        .add_accessor(:entries)
-        .add(:exists?) { |x| !x.entries.empty? }
-        .add(:vpc_ids, field: :vpc_id)
-        .add(:subnet_ids, field: :subnet_id)
-        .add(:cidr_blocks, field: :cidr_block)
-        .add(:states, field: :state)
-  filter.connect(self, :table)
+  filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+  filter.register_column(:vpc_ids, field: :vpc_id)
+        .register_column(:subnet_ids, field: :subnet_id)
+        .register_column(:cidr_blocks, field: :cidr_block)
+        .register_column(:states, field: :state)
+  filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
     'EC2 VPC Subnets'

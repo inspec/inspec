@@ -37,17 +37,15 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:services,     field: 'service')
-          .add(:ids,          field: 'id')
-          .add(:socket_types, field: 'socket_type')
-          .add(:types,        field: 'type')
-          .add(:protocols,    field: 'protocol')
-          .add(:wait,         field: 'wait')
-          .add(:disabled?) { |x| x.where('disable' => 'no').services.empty? }
-          .add(:enabled?) { |x| x.where('disable' => 'yes').services.empty? }
-          .connect(self, :service_lines)
+    filter.register_column(:services,     field: 'service')
+          .register_column(:ids,          field: 'id')
+          .register_column(:socket_types, field: 'socket_type')
+          .register_column(:types,        field: 'type')
+          .register_column(:protocols,    field: 'protocol')
+          .register_column(:wait,         field: 'wait')
+          .register_custom_matcher(:disabled?) { |x| x.where('disable' => 'no').services.empty? }
+          .register_custom_matcher(:enabled?) { |x| x.where('disable' => 'yes').services.empty? }
+          .install_filter_methods_on_resource(self, :service_lines)
 
     private
 

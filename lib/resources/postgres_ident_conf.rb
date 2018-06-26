@@ -27,13 +27,11 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:map_name,        field: 'map_name')
-          .add(:system_username, field: 'system_username')
-          .add(:pg_username,     field: 'pg_username')
+    filter.register_column(:map_name,        field: 'map_name')
+          .register_column(:system_username, field: 'system_username')
+          .register_column(:pg_username,     field: 'pg_username')
 
-    filter.connect(self, :params)
+    filter.install_filter_methods_on_resource(self, :params)
 
     def to_s
       "PostgreSQL Ident Config #{@conf_file}"

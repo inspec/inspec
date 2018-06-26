@@ -62,35 +62,30 @@ class AwsIamUsers < Inspec.resource(1)
   end
 
   filter = FilterTable.create
-  filter.add_accessor(:where)
-        .add_accessor(:entries)
-  # Summary methods
-  filter.add(:exists?) { |table| !table.params.empty? }
-        .add(:count) { |table| table.params.count }
 
   # These are included on the initial fetch
-  filter.add(:usernames, field: :user_name)
-        .add(:username) { |res| res.entries.map { |row| row[:user_name] } } # We should deprecate this; plural resources get plural properties
-        .add(:password_ever_used?, field: :password_ever_used?)
-        .add(:password_never_used?, field: :password_never_used?)
-        .add(:password_last_used_days_ago, field: :password_last_used_days_ago)
+  filter.register_column(:usernames, field: :user_name)
+        .register_column(:username) { |res| res.entries.map { |row| row[:user_name] } } # We should deprecate this; plural resources get plural properties
+        .register_column(:password_ever_used?, field: :password_ever_used?)
+        .register_column(:password_never_used?, field: :password_never_used?)
+        .register_column(:password_last_used_days_ago, field: :password_last_used_days_ago)
 
   # Remaining properties / criteria are handled lazily, grouped by fetcher
-  filter.add(:has_console_password?, field: :has_console_password?, lazy: method(:lazy_get_login_profile))
-        .add(:has_console_password, field: :has_console_password, lazy: method(:lazy_get_login_profile))
+  filter.register_column(:has_console_password?, field: :has_console_password?, lazy: method(:lazy_get_login_profile))
+        .register_column(:has_console_password, field: :has_console_password, lazy: method(:lazy_get_login_profile))
 
-  filter.add(:has_mfa_enabled?, field: :has_mfa_enabled?, lazy: method(:lazy_list_mfa_devices))
-        .add(:has_mfa_enabled, field: :has_mfa_enabled, lazy: method(:lazy_list_mfa_devices))
+  filter.register_column(:has_mfa_enabled?, field: :has_mfa_enabled?, lazy: method(:lazy_list_mfa_devices))
+        .register_column(:has_mfa_enabled, field: :has_mfa_enabled, lazy: method(:lazy_list_mfa_devices))
 
-  filter.add(:has_inline_policies?, field: :has_inline_policies?, lazy: method(:lazy_list_user_policies))
-        .add(:has_inline_policies, field: :has_inline_policies, lazy: method(:lazy_list_user_policies))
-        .add(:inline_policy_names, field: :inline_policy_names, style: :simple, lazy: method(:lazy_list_user_policies))
+  filter.register_column(:has_inline_policies?, field: :has_inline_policies?, lazy: method(:lazy_list_user_policies))
+        .register_column(:has_inline_policies, field: :has_inline_policies, lazy: method(:lazy_list_user_policies))
+        .register_column(:inline_policy_names, field: :inline_policy_names, style: :simple, lazy: method(:lazy_list_user_policies))
 
-  filter.add(:has_attached_policies?, field: :has_attached_policies?, lazy: method(:lazy_list_attached_policies))
-        .add(:has_attached_policies, field: :has_attached_policies, lazy: method(:lazy_list_attached_policies))
-        .add(:attached_policy_names, field: :attached_policy_names, style: :simple, lazy: method(:lazy_list_attached_policies))
-        .add(:attached_policy_arns, field: :attached_policy_arns, style: :simple, lazy: method(:lazy_list_attached_policies))
-  filter.connect(self, :table)
+  filter.register_column(:has_attached_policies?, field: :has_attached_policies?, lazy: method(:lazy_list_attached_policies))
+        .register_column(:has_attached_policies, field: :has_attached_policies, lazy: method(:lazy_list_attached_policies))
+        .register_column(:attached_policy_names, field: :attached_policy_names, style: :simple, lazy: method(:lazy_list_attached_policies))
+        .register_column(:attached_policy_arns, field: :attached_policy_arns, style: :simple, lazy: method(:lazy_list_attached_policies))
+  filter.install_filter_methods_on_resource(self, :table)
 
   def validate_params(raw_params)
     # No params yet
