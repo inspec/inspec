@@ -36,8 +36,9 @@ module Inspec
 
       locked_deps = []
       Array(entry[:dependencies]).each do |dep_entry|
-        config[:praent_profile] = req.profile.name
-        locked_deps << Inspec::Requirement.from_lock_entry(dep_entry, config, opts)
+        dep_config = config.dup
+        dep_config[:parent_profile] = entry[:name]
+        locked_deps << Inspec::Requirement.from_lock_entry(dep_entry, dep_config, opts)
       end
       req.lock_deps(locked_deps)
       req
