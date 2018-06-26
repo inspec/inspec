@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.24 -->
-## [v2.2.24](https://github.com/inspec/inspec/tree/v2.2.24) (2018-06-26)
+<!-- latest_release 2.2.25 -->
+## [v2.2.25](https://github.com/inspec/inspec/tree/v2.2.25) (2018-06-26)
 
-#### Enhancements
-- apache_conf resource: Strip quotes from values [#3142](https://github.com/inspec/inspec/pull/3142) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### New Features
+- Set parent_profile field on child profiles (json report) [#3164](https://github.com/inspec/inspec/pull/3164) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.20 -->
 ### Changes since 2.2.20 release
+
+#### New Features
+- Set parent_profile field on child profiles (json report) [#3164](https://github.com/inspec/inspec/pull/3164) ([jquick](https://github.com/jquick)) <!-- 2.2.25 -->
 
 #### Enhancements
 - apache_conf resource: Strip quotes from values [#3142](https://github.com/inspec/inspec/pull/3142) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.24 -->
