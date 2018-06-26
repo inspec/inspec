@@ -33,7 +33,7 @@ content, size, basename, path, owner, group, type
 
 ### Unix/Linux Properties
 
-symlink, mode, link_path, mtime, size, selinux\_label, md5sum, sha256sum, path, source, source\_path, uid, gid
+symlink, mode, link_path, shallow_link_path, mtime, size, selinux\_label, md5sum, sha256sum, path, source, source\_path, uid, gid
 
 ### Windows Properties
 
@@ -74,9 +74,16 @@ The following examples show how to use this InSpec audit resource.
 ### link_path
 
 The `link_path` property tests if the file exists at the specified path. If the file is a symlink,
-InSpec will resolve the symlink and return the ultimate linked file.
+InSpec will resolve the symlink recursively and return the ultimate linked file.
 
     its('link_path') { should eq '/some/path/to/file' }
+
+### shallow_link_path
+
+The `shallow_link_path`` property returns the path that the file refers to, only resolving
+it once (that is, it performs a readlink operation). If the file is not a symlink, nil is returned.
+
+    its('shallow_link_path') { should eq '/some/path/to/file' }
 
 ### md5sum
 
@@ -316,7 +323,7 @@ The following example shows how to use the `file` audit resource to verify if th
 
 ### Test parameters of symlinked file
 
-If you need to test the parameters of the target file for a symlink, you can use the `link_path` method for the `file` resource.
+If you need to test the parameters of the target file for a symlink, you can use the `link_path` (recursive resolution) or `shallow_link_path` (direct link) method for the `file` resource.
 
 For example, for the following symlink:
 
