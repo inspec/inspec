@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.22 -->
-## [v2.2.22](https://github.com/inspec/inspec/tree/v2.2.22) (2018-06-26)
+<!-- latest_release 2.2.23 -->
+## [v2.2.23](https://github.com/inspec/inspec/tree/v2.2.23) (2018-06-26)
 
-#### Bug Fixes
-- Detect inspec-core mode and do not attempt to load cloud resources [#3163](https://github.com/inspec/inspec/pull/3163) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Add functional tests for nested attributes [#3157](https://github.com/inspec/inspec/pull/3157) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.20 -->
 ### Changes since 2.2.20 release
+
+#### Merged Pull Requests
+- Add functional tests for nested attributes [#3157](https://github.com/inspec/inspec/pull/3157) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.23 -->
 
 #### Bug Fixes
 - Detect inspec-core mode and do not attempt to load cloud resources [#3163](https://github.com/inspec/inspec/pull/3163) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.22 -->
