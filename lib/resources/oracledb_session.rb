@@ -35,7 +35,7 @@ module Inspec::Resources
       @service = opts[:service]
 
       # we prefer sqlci although it is way slower than sqlplus, but it understands csv properly
-      @sqlcl_bin = 'sql' unless opts.has_key?(:sqlplus_bin) # don't use it if user specified sqlplus_bin option
+      @sqlcl_bin = 'sql' unless opts.key?(:sqlplus_bin) # don't use it if user specified sqlplus_bin option
       @sqlplus_bin = opts[:sqlplus_bin] || 'sqlplus'
 
       return skip_resource "Can't run Oracle checks without authentication" if @user.nil? || @password.nil?
@@ -61,7 +61,7 @@ module Inspec::Resources
 
       query = verify_query(escaped_query)
       query += ';' unless query.end_with?(';')
-      if /as (sysdba|sysoper|sysasm)/i === @password
+      if @password =~ /as (sysdba|sysoper|sysasm)/i
         command = %{su - #{user} -c "env ORACLE_SID=#{@service} #{bin} / #{@password} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC"}
       else
         command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
