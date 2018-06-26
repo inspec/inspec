@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.23 -->
-## [v2.2.23](https://github.com/inspec/inspec/tree/v2.2.23) (2018-06-26)
+<!-- latest_release 2.2.24 -->
+## [v2.2.24](https://github.com/inspec/inspec/tree/v2.2.24) (2018-06-26)
 
-#### Merged Pull Requests
-- Add functional tests for nested attributes [#3157](https://github.com/inspec/inspec/pull/3157) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Enhancements
+- apache_conf resource: Strip quotes from values [#3142](https://github.com/inspec/inspec/pull/3142) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.20 -->
 ### Changes since 2.2.20 release
+
+#### Enhancements
+- apache_conf resource: Strip quotes from values [#3142](https://github.com/inspec/inspec/pull/3142) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.24 -->
 
 #### Merged Pull Requests
 - Add functional tests for nested attributes [#3157](https://github.com/inspec/inspec/pull/3157) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.23 -->
