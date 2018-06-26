@@ -26,7 +26,7 @@ where
 
 <br>
 
-## Resource Properties
+## oracledb_session(...).query method Properties
 * rows the query result as array of hashes
 * row(number)  selected row from query result, where number is just a row number in the query result
 * column(name) array with values from selected column
@@ -68,6 +68,23 @@ The following examples show how to use this InSpec audit resource.
       it { should include 'MYTABLESPACE' }
     end
 
+### Test number of rows in the query result
+
+    sql = oracledb_session(user: 'my_user', pass: 'password')
+
+    describe sql.query('SELECT * FROM my_table;').rows do
+      its('count') { should eq 20 }
+    end
+
+### Use data out of (remote) DB query to build other tests
+
+    sql = oracledb_session(user: 'my_user', pass: 'password', host: 'my.remote.db', service: 'MYSID')
+
+    sql.query('SELECT * FROM files;').rows.each do |file_row|
+      describe file(file_row['path']) do
+	its('owner') { should eq file_row['owner']}
+      end
+    end
 <br>
 
 ## Matchers
