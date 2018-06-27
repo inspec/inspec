@@ -83,6 +83,8 @@ module Inspec
         desc: 'Allow caching for backend command output. (default: true)'
       option :show_progress, type: :boolean,
         desc: 'Show progress while executing tests.'
+      option :distinct_exit, type: :boolean, default: true,
+        desc: 'Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures.'
     end
 
     def self.default_options
