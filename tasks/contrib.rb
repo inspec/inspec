@@ -7,6 +7,7 @@ require 'yaml'
 require 'git'
 
 CONTRIB_DIR=File.expand_path(File.join(__dir__, '..', 'contrib')).freeze
+RESOURCE_DOC_DIR=File.expand_path(File.join(__dir__, '..', 'docs', 'resources')).freeze
 
 namespace :contrib do
   config = nil
@@ -36,7 +37,21 @@ namespace :contrib do
     end
   end
 
-  desc 'Moves docs from resource packs into the core for doc building'
-  task :merge_docs => [:fetch_resource_packs] do |t|
+  desc 'Copy docs from resource packs into the core for doc building'
+  task :copy_docs => [:fetch_resource_packs] do |t|
+    puts "Copying resource pack docs..."
+    config['resource_packs'].each do |name, info|
+      doc_sub_dir = info["doc_sub_dir"] || 'docs/resources'
+      doc_src_path = File.join(CONTRIB_DIR, name, doc_sub_dir)
+      dest_path = RESOURCE_DOC_DIR
+      puts "  #{name}:"
+      Dir.chdir(doc_src_path) do
+        Dir.glob('*.md*').each do |file|
+          # TODO: check file for Availability section in markdown?
+          FileUtils.cp(file, dest_path)
+          puts "    #{file}"
+        end
+      end
+    end
   end
 end

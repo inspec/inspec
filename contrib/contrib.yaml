@@ -1,4 +1,8 @@
 resource_packs:
+  # Example
+  # some-project:
+  #   git_repo: the-repo-URL
+  #   doc_sub_dir: some/oddball/path # Optional, default is docs/resources
   inspec-gcp:
     git_repo: https://github.com/inspec/inspec-gcp.git
   inspec-azure-v2:
