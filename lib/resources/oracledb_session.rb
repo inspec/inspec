@@ -44,8 +44,8 @@ module Inspec::Resources
       @sqlcl_bin = 'sql' unless opts.key?(:sqlplus_bin) # don't use it if user specified sqlplus_bin option
       @sqlplus_bin = opts[:sqlplus_bin] || 'sqlplus'
 
-      return skip_resource "Can't run Oracle checks without authentication" if @su_user.nil? && (@user.nil? || @password.nil?)
-      return skip_resource 'You must provide a service name for the session' if @service.nil?
+      return fail_resource "Can't run Oracle checks without authentication" if @su_user.nil? && (@user.nil? || @password.nil?)
+      return fail_resource 'You must provide a service name for the session' if @service.nil?
     end
 
     def query(q)
