@@ -54,4 +54,21 @@ namespace :contrib do
       end
     end
   end
+
+  desc 'Cleanup docs from resource packs in core'
+  task :cleanup_docs => [:read_config] do |t|
+    puts "Purging resource pack docs..."
+    config['resource_packs'].each do |name, info|
+      doc_sub_dir = info["doc_sub_dir"] || 'docs/resources'
+      doc_src_path = File.join(CONTRIB_DIR, name, doc_sub_dir)
+      dest_path = RESOURCE_DOC_DIR
+      puts "  #{name}"
+      Dir.chdir(doc_src_path) do
+        Dir.glob('*.md*').each do |file|
+          cruft = File.join(dest_path, file)
+          FileUtils.rm_f(cruft)
+        end
+      end
+    end
+  end
 end
