@@ -13,6 +13,7 @@ module Inspec
       true
     end
 
+    # rubocop:disable MethodLength
     def self.target_options
       option :target, aliases: :t, type: :string,
         desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'
@@ -54,6 +55,12 @@ module Inspec
         desc: 'Read configuration from JSON file (`-` reads from stdin).'
       option :proxy_command, type: :string,
         desc: 'Specifies the command to use to connect to the server'
+      option :bastion_host, type: :string,
+        desc: 'Specifies the bastion host if applicable'
+      option :bastion_user, type: :string,
+        desc: 'Specifies the bastion user if applicable'
+      option :bastion_port, type: :string,
+        desc: 'Specifies the bastion port if applicable'
     end
 
     def self.profile_options
