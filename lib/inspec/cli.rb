@@ -207,6 +207,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit'
   option :depends, type: :array, default: [],
     desc: 'A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell'
+  option :distinct_exit, type: :boolean, default: true,
+    desc: 'Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures.'
   def shell_func
     o = opts(:shell).dup
     diagnose(o)
