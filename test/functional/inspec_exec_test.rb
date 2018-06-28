@@ -82,12 +82,30 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     out.stdout.force_encoding(Encoding::UTF_8).must_include "Test Summary: \e[38;5;41m1 successful\e[0m, \e[38;5;9m1 failure\e[0m, \e[38;5;247m1 skipped\e[0m\n"
   end
 
-  it 'executes only specified controls' do
-    out = inspec('exec ' + example_profile + ' --no-create-lockfile --controls tmp-1.0')
-    out.stderr.must_equal ''
+  it 'executes only specified controls when selecting passing controls by literal names' do
+    out = inspec('exec ' + File.join(profile_path, 'filter_table') + ' --no-create-lockfile --controls 2943_pass_undeclared_field_in_hash 2943_pass_irregular_row_key')
     out.exit_status.must_equal 0
-    out.stdout.must_include "\nProfile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, 0 controls skipped\n"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "\nProfile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, 0 controls skipped\n"
   end
+
+  it 'executes only specified controls when selecting failing controls by literal names' do
+    out = inspec('exec ' + File.join(profile_path, 'filter_table') + ' --no-create-lockfile --controls 2943_fail_derail_check')
+    out.exit_status.must_equal 100
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "\nProfile Summary: 0 successful controls, \e[38;5;9m1 control failure\e[0m, 0 controls skipped"
+  end
+
+  it 'executes only specified controls when selecting passing controls by regex' do
+    out = inspec('exec ' + File.join(profile_path, 'filter_table') + ' --no-create-lockfile --controls \'/^2943_pass/\'')
+    out.exit_status.must_equal 0
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m4 successful controls\e[0m, 0 control failures, 0 controls skipped"
+  end
+
+  it 'executes only specified controls when selecting failing controls by regex' do
+    out = inspec('exec ' + File.join(profile_path, 'filter_table') + ' --no-create-lockfile --controls \'/^(2943|2370)_fail/\'')
+    out.exit_status.must_equal 100
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: 0 successful controls, \e[38;5;9m2 control failures\e[0m, 0 controls skipped"
+  end
+
 
   it 'can execute a simple file with the default formatter' do
     out = inspec('exec ' + example_control  + ' --no-create-lockfile')

@@ -117,7 +117,7 @@ describe '2370 lazy_load for filter table' do
 
   it 'negative tests should fail but not abort' do
     controls = [
-      '2370_proc_handle_exception',
+      '2370_fail_proc_handle_exception',
     ]
 
     cmd = inspec('exec ' + File.join(profile_path, 'filter_table') + ' --reporter json --no-create-lockfile' + ' --controls ' + controls.join(' '))
