@@ -238,10 +238,10 @@ An integer reflecting the number of days that must pass before a user who has no
 
 ### expiry_date
 
-An integer reflecting the number of days since Jan 1, 1970 on which the user was disabled. The value `nil` means the account has not been disabled.
+An integer reflecting the number of days since Jan 1, 1970 on which the user was disabled. The `expiry_date` criterion is `nil` for enabled users.
 
     # Ensure no one is disabled due to a old password
-    describe shadow.where { expiry_date.nil? } do
+    describe shadow.where { !expiry_date.nil? } do
       its('users') { should be_empty }
     end
 
