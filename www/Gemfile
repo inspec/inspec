@@ -25,6 +25,9 @@ gem 'redcarpet'
 gem 'docker-api'
 gem 'github-markup'
 
+# Needed to fetch contrib resource packs, etc.
+gem 'git', '~> 1.4'
+
 # Build process requirements
 gem 'inquirer'
 gem 'inspec', path: '..'

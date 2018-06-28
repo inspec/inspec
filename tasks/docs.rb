@@ -19,6 +19,7 @@ require 'erb'
 require 'ruby-progressbar'
 require 'fileutils'
 require_relative './shared'
+require_relative './contrib'
 
 WWW_DIR     = File.expand_path(File.join(__dir__, '..', 'www')).freeze
 DOCS_DIR    = File.expand_path(File.join(__dir__, '..', 'docs')).freeze
@@ -256,7 +257,7 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
   end
 
   desc 'Create resources docs'
-  task :resources, [:clean] do
+  task resources: [:clean, :'contrib:copy_docs'] do
     src = DOCS_DIR
     dst = File.join(WWW_DIR, 'source', 'docs', 'reference', 'resources')
     FileUtils.mkdir_p(dst)
