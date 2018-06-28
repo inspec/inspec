@@ -18,11 +18,13 @@
 require 'erb'
 require 'ruby-progressbar'
 require 'fileutils'
+require 'yaml'
 require_relative './shared'
 require_relative './contrib'
 
 WWW_DIR     = File.expand_path(File.join(__dir__, '..', 'www')).freeze
 DOCS_DIR    = File.expand_path(File.join(__dir__, '..', 'docs')).freeze
+CONTRIB_DIR=File.expand_path(File.join(__dir__, '..', 'contrib')).freeze
 
 class Markdown
   class << self
@@ -136,58 +138,70 @@ class ResourceDocs
     render(x + '.md.erb')
   end
 
-  def overview_page(resources) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def overview_page(resource_doc_files) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     renderer = Markdown
     markdown = renderer.meta(title: 'InSpec Resources Reference')
     markdown << renderer.h1('InSpec Resources Reference')
     markdown << renderer.p('The following list of InSpec resources are available.')
 
-    # Build a list of resources, grouped by OS, AWS, etc.
-    #require 'byebug'; byebug
+    contrib_config = YAML.load(File.read(File.join(CONTRIB_DIR, 'contrib.yaml')))
 
-    core_resource_lib_path = File.expand_path(File.join('..', 'lib', 'resources'))
-    sub_dirs_in_resources_lib = Dir[File.join(core_resource_lib_path,'*')].find_all { |path| File.directory?(path) }
-    resources_in_core_subdirs_by_group = Hash[sub_dirs_in_resources_lib.map do |resource_subfolder|
-      trimmed_resource_filenames = Dir.glob(File.join(resource_subfolder, '*.rb')).map { |resource_file| File.basename(resource_file).sub(/\.rb$/, '') }
-      [File.basename(resource_subfolder), trimmed_resource_filenames]
-    end]
-
-    resource_paths_by_name = Hash[resources.map { |file| [File.basename(file).sub(/\.md\.erb$/, ''), file] }]
-
-    html_lists_by_group = Hash[resources_in_core_subdirs_by_group.keys.map { |group_name| [group_name, ''] }]
-    html_lists_by_group[''] = ''
-    resource_paths_by_name.keys.sort.each do |resource_name|
-      group_search = resources_in_core_subdirs_by_group.find { |_, resource_names| resource_names.include?(resource_name) }
-      group_name = group_search.nil? ? '' : group_search[0]
-      html_lists_by_group[group_name] << renderer.li(renderer.a(resource_name.gsub('_', '\\_'), 'resources/' + resource_name + '.html'))
+    # Build a list of resources keyed on the group they are a part of.
+    # We'll determine the group using regexes.
+    group_regexes = [
+      { group_name: 'AWS', regex: /^aws_/ },
+      { group_name: 'Azure', regex: /^azure(rm)?_/ },
+    ]
+    contrib_config['resource_packs'].values.each do |project_info|
+      group_regexes << {group_name: project_info['doc_group_title'], regex: Regexp.new(project_info['resource_file_regex'])}
     end
 
-    group_names = html_lists_by_group.keys.find_all { |group_name| !group_name.empty? }
-    links_to_groups = [['#os-resources', 'All OS resources']] +
-            group_names.map do |group_name|
-              ['#'+(group_name+'-resources').downcase, namify(group_name)+' resources']
-            end
+    # OK, apply the regexes we have to the resource doc file list we were passed.
+    # Delete as we go; leftovers will be considered 'OS'.
+    # doc_file looks like /resources/foo.md.erb - trim off directory and file extension
+    resource_doc_files_remaining = resource_doc_files.dup.map { |file| File.basename(file).sub(/\.md(\.erb)?$/, '') }
+    resources_by_group = Hash[group_regexes.map{|info| [info[:group_name], []]}] # Initialize each group to an empty array
+    group_regexes.each do |group_info|
+      resource_doc_files_remaining.each do |doc_file|
+        if doc_file =~ group_info[:regex]
+          resources_by_group[group_info[:group_name]] << resource_doc_files_remaining.delete(doc_file)
+        end
+      end
+    end
+    # Assume all remaining resources are in OS group
+    resources_by_group['OS'] = resource_doc_files_remaining
 
-    group_links_html = links_to_groups.map do |group_link|
-      format('<a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="%s">%s</a>',
-             group_link[0], group_link[1])
-    end.join("\n")
-    markdown << format('
-<div class="row columns align">
-  %s
-</div>
-', group_links_html)
+    # Now transform the resource lists into HTML
+    markdown_resource_links_by_group = {}
+    resources_by_group.each do |group_name, resource_list|
+      markdown_resource_links_by_group[group_name] = resource_list.map do |resource_name|
+        renderer.li(renderer.a(resource_name.gsub('_', '\\_'), 'resources/' + resource_name + '.html'))
+      end.join('')
+    end
 
-    group_list_html_template = '
+    # Remove any groups that have no resource docs.
+    resources_by_group.reject! { |group_name, resource_list| resource_list.empty? }
+
+    # Generate the big buttons that jump to the section of the page for each group.
+    markdown << '<div class="row columns align">'
+    # "Sorted, except OS is always in first place"
+    ordered_group_names = ['OS'] + resources_by_group.keys.sort.reject { |group_name| group_name == 'OS' }
+    button_template = '<a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="%s">%s</a>'
+    ordered_group_names.each do |group_name|
+      markdown << format(button_template, '#'+(group_name+'-resources').downcase, group_name + ' resources')
+      markdown << "\n"
+    end
+    markdown << '</div>'
+
+    # Generate the actual long lists of links
+    group_section_header_template = '
 <div class="brdr-left margin-top-sm margin-under-xs">
   <h3 class="margin-left-xs"><a id="%s" class="a-purple"><h3 class="a-purple">%s</h3></a></h3>
 </div>
 '
-    markdown << format(group_list_html_template, 'os-resources', 'All OS resources')
-    markdown << renderer.ul(html_lists_by_group[''])
-    group_names.each do |group|
-      markdown << format(group_list_html_template, (group+'-resources').downcase, namify(group) + ' resources')
-      markdown << renderer.ul(html_lists_by_group[group])
+    ordered_group_names.each do |group_name|
+      markdown << format(group_section_header_template, (group_name + '-resources').downcase, group_name + ' resources')
+      markdown << renderer.ul(markdown_resource_links_by_group[group_name])
     end
 
     markdown
