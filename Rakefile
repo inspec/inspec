@@ -8,6 +8,7 @@ require 'passgen'
 require 'train'
 require_relative 'tasks/maintainers'
 require_relative 'tasks/spdx'
+require_relative 'tasks/contrib'
 
 Bundler::GemHelper.install_tasks name: 'inspec'
 

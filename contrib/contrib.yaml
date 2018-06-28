@@ -1,0 +1,3 @@
+resource_packs:
+  inspec-gcp:
+    git: https://github.com/inspec/inspec-gcp.git
