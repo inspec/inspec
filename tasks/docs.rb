@@ -279,7 +279,11 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
   end
 
   desc 'Create resources docs'
-  task resources: [:clean, :'contrib:copy_docs'] do
+  # This task injects the contrib:cleanup_docs as a followup
+  # to the actual doc building.
+  task resources: [:resources_actual, :'contrib:cleanup_docs']
+
+  task resources_actual: [:clean, :'contrib:copy_docs'] do
     src = DOCS_DIR
     dst = File.join(WWW_DIR, 'source', 'docs', 'reference', 'resources')
     FileUtils.mkdir_p(dst)
