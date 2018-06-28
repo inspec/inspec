@@ -137,57 +137,60 @@ class ResourceDocs
   end
 
   def overview_page(resources) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    f = Markdown
-    res = f.meta(title: 'InSpec Resources Reference')
-    res << f.h1('InSpec Resources Reference')
-    res << f.p('The following list of InSpec resources are available.')
+    renderer = Markdown
+    markdown = renderer.meta(title: 'InSpec Resources Reference')
+    markdown << renderer.h1('InSpec Resources Reference')
+    markdown << renderer.p('The following list of InSpec resources are available.')
 
-    lib_resources = Dir[File.expand_path(File.join('.', '..', 'lib', 'resources', '*'))]
-    lib_groups = lib_resources.find_all { |x| File.directory?(x) }
-    sections = Hash[lib_groups.map do |x|
-      files = Dir[File.join(x, '*.rb')].map { |y| File.basename(y).sub(/\.rb$/, '') }
-      [File.basename(x), files]
+    # Build a list of resources, grouped by OS, AWS, etc.
+    #require 'byebug'; byebug
+
+    core_resource_lib_path = File.expand_path(File.join('..', 'lib', 'resources'))
+    sub_dirs_in_resources_lib = Dir[File.join(core_resource_lib_path,'*')].find_all { |path| File.directory?(path) }
+    resources_in_core_subdirs_by_group = Hash[sub_dirs_in_resources_lib.map do |resource_subfolder|
+      trimmed_resource_filenames = Dir.glob(File.join(resource_subfolder, '*.rb')).map { |resource_file| File.basename(resource_file).sub(/\.rb$/, '') }
+      [File.basename(resource_subfolder), trimmed_resource_filenames]
     end]
 
-    resource_dict = Hash[resources.map { |file| [File.basename(file).sub(/\.md\.erb$/, ''), file] }]
+    resource_paths_by_name = Hash[resources.map { |file| [File.basename(file).sub(/\.md\.erb$/, ''), file] }]
 
-    lists = Hash[sections.keys.map { |k| [k, ''] }]
-    lists[''] = ''
-    resource_dict.keys.sort.each do |name|
-      section = sections.find { |_, v| v.include?(name) }
-      l = section.nil? ? '' : section[0]
-      lists[l] << f.li(f.a(name.gsub('_', '\\_'), 'resources/' + name + '.html'))
+    html_lists_by_group = Hash[resources_in_core_subdirs_by_group.keys.map { |group_name| [group_name, ''] }]
+    html_lists_by_group[''] = ''
+    resource_paths_by_name.keys.sort.each do |resource_name|
+      group_search = resources_in_core_subdirs_by_group.find { |_, resource_names| resource_names.include?(resource_name) }
+      group_name = group_search.nil? ? '' : group_search[0]
+      html_lists_by_group[group_name] << renderer.li(renderer.a(resource_name.gsub('_', '\\_'), 'resources/' + resource_name + '.html'))
     end
 
-    section_names = lists.keys.find_all { |k| !k.empty? }
-    links = [['#os-resources', 'All OS resources']] +
-            section_names.map do |name|
-              ['#'+(name+'-resources').downcase, namify(name)+' resources']
+    group_names = html_lists_by_group.keys.find_all { |group_name| !group_name.empty? }
+    links_to_groups = [['#os-resources', 'All OS resources']] +
+            group_names.map do |group_name|
+              ['#'+(group_name+'-resources').downcase, namify(group_name)+' resources']
             end
 
-    items = links.map do |x|
+    group_links_html = links_to_groups.map do |group_link|
       format('<a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="%s">%s</a>',
-             x[0], x[1])
+             group_link[0], group_link[1])
     end.join("\n")
-    res << format('
+    markdown << format('
 <div class="row columns align">
   %s
 </div>
-', items)
+', group_links_html)
 
-    section = '
+    group_list_html_template = '
 <div class="brdr-left margin-top-sm margin-under-xs">
   <h3 class="margin-left-xs"><a id="%s" class="a-purple"><h3 class="a-purple">%s</h3></a></h3>
 </div>
 '
-    res << format(section, 'os-resources', 'All OS resources')
-    res << f.ul(lists[''])
-    section_names.each do |group|
-      res << format(section, (group+'-resources').downcase, namify(group) + ' resources')
-      res << f.ul(lists[group])
+    markdown << format(group_list_html_template, 'os-resources', 'All OS resources')
+    markdown << renderer.ul(html_lists_by_group[''])
+    group_names.each do |group|
+      markdown << format(group_list_html_template, (group+'-resources').downcase, namify(group) + ' resources')
+      markdown << renderer.ul(html_lists_by_group[group])
     end
 
-    res
+    markdown
   end
 
   private
