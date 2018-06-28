@@ -4,7 +4,7 @@ require 'json'
 require 'net/http'
 
 module Inspec::Reporters
-  class Automate < Json
+  class Automate < JsonMerged
     def initialize(config)
       super(config)
 
@@ -17,7 +17,7 @@ module Inspec::Reporters
 
     def enriched_report
       # grab the report from the parent class
-      final_report = report
+      final_report = report_merged
 
       # Label this content as an inspec_report
       final_report[:type] = 'inspec_report'

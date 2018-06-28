@@ -1,6 +1,7 @@
 require 'inspec/reporters/base'
 require 'inspec/reporters/cli'
 require 'inspec/reporters/json'
+require 'inspec/reporters/json_merged'
 require 'inspec/reporters/json_min'
 require 'inspec/reporters/junit'
 require 'inspec/reporters/automate'
@@ -15,7 +16,7 @@ module Inspec::Reporters
     when 'cli'
       reporter = Inspec::Reporters::CLI.new(config)
     when 'json'
-      reporter = Inspec::Reporters::Json.new(config)
+      reporter = Inspec::Reporters::JsonMerged.new(config)
     when 'json-min'
       reporter = Inspec::Reporters::JsonMin.new(config)
     when 'junit'
