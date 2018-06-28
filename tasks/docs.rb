@@ -24,7 +24,6 @@ require_relative './contrib'
 
 WWW_DIR     = File.expand_path(File.join(__dir__, '..', 'www')).freeze
 DOCS_DIR    = File.expand_path(File.join(__dir__, '..', 'docs')).freeze
-CONTRIB_DIR=File.expand_path(File.join(__dir__, '..', 'contrib')).freeze
 
 class Markdown
   class << self
@@ -149,27 +148,33 @@ class ResourceDocs
     # Build a list of resources keyed on the group they are a part of.
     # We'll determine the group using regexes.
     group_regexes = [
+      # These are hardcoded present in the main repo.  If they become resource
+      # packs, this should change.
       { group_name: 'AWS', regex: /^aws_/ },
       { group_name: 'Azure', regex: /^azure(rm)?_/ },
     ]
+    # Also pick up regexes and group names from contrib resource packs.
     contrib_config['resource_packs'].values.each do |project_info|
       group_regexes << {group_name: project_info['doc_group_title'], regex: Regexp.new(project_info['resource_file_regex'])}
     end
 
     # OK, apply the regexes we have to the resource doc file list we were passed.
-    # Delete as we go; leftovers will be considered 'OS'.
     # doc_file looks like /resources/foo.md.erb - trim off directory and file extension
-    resource_doc_files_remaining = resource_doc_files.dup.map { |file| File.basename(file).sub(/\.md(\.erb)?$/, '') }
+    trimmed_doc_files = resource_doc_files.dup.map { |file| File.basename(file).sub(/\.md(\.erb)?$/, '') }
     resources_by_group = Hash[group_regexes.map{|info| [info[:group_name], []]}] # Initialize each group to an empty array
-    group_regexes.each do |group_info|
-      resource_doc_files_remaining.each do |doc_file|
+    resources_by_group['OS'] = []
+    trimmed_doc_files.each do |doc_file|
+      matched = false
+      group_regexes.each do |group_info|
+        next if matched
         if doc_file =~ group_info[:regex]
-          resources_by_group[group_info[:group_name]] << resource_doc_files_remaining.delete(doc_file)
+          resources_by_group[group_info[:group_name]] << doc_file
+          matched = true
         end
       end
+      # Any resources that don't match a regex are assumed to be 'os' resources.
+      resources_by_group['OS'] << doc_file unless matched
     end
-    # Assume all remaining resources are in OS group
-    resources_by_group['OS'] = resource_doc_files_remaining
 
     # Now transform the resource lists into HTML
     markdown_resource_links_by_group = {}
