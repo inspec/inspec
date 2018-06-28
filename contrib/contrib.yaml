@@ -1,3 +1,5 @@
 resource_packs:
   inspec-gcp:
-    git: https://github.com/inspec/inspec-gcp.git
+    git_repo: https://github.com/inspec/inspec-gcp.git
+  inspec-azure-v2:
+    git_repo: git@github.com:chef/cis-azure-prototype.git
