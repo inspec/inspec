@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.26 -->
-## [v2.2.26](https://github.com/inspec/inspec/tree/v2.2.26) (2018-06-26)
+<!-- latest_release 2.2.27 -->
+## [v2.2.27](https://github.com/inspec/inspec/tree/v2.2.27) (2018-06-29)
 
-#### Enhancements
-- Update core resources with filtertable API changes [#3117](https://github.com/inspec/inspec/pull/3117) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### New Features
+- Document exit codes for &#39;inspec exec&#39; and add --no-distinct-exit option [#3178](https://github.com/inspec/inspec/pull/3178) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.20 -->
 ### Changes since 2.2.20 release
 
 #### New Features
+- Document exit codes for &#39;inspec exec&#39; and add --no-distinct-exit option [#3178](https://github.com/inspec/inspec/pull/3178) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.27 -->
 - Set parent_profile field on child profiles (json report) [#3164](https://github.com/inspec/inspec/pull/3164) ([jquick](https://github.com/jquick)) <!-- 2.2.25 -->
 
 #### Enhancements
