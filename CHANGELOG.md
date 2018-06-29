@@ -1,32 +1,30 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.27 -->
-## [v2.2.27](https://github.com/inspec/inspec/tree/v2.2.27) (2018-06-29)
-
-#### New Features
-- Document exit codes for &#39;inspec exec&#39; and add --no-distinct-exit option [#3178](https://github.com/inspec/inspec/pull/3178) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.2.20 -->
-### Changes since 2.2.20 release
-
-#### New Features
-- Document exit codes for &#39;inspec exec&#39; and add --no-distinct-exit option [#3178](https://github.com/inspec/inspec/pull/3178) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.27 -->
-- Set parent_profile field on child profiles (json report) [#3164](https://github.com/inspec/inspec/pull/3164) ([jquick](https://github.com/jquick)) <!-- 2.2.25 -->
-
-#### Enhancements
-- Update core resources with filtertable API changes [#3117](https://github.com/inspec/inspec/pull/3117) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.26 -->
-- apache_conf resource: Strip quotes from values [#3142](https://github.com/inspec/inspec/pull/3142) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.24 -->
-
-#### Merged Pull Requests
-- Add functional tests for nested attributes [#3157](https://github.com/inspec/inspec/pull/3157) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.23 -->
-
-#### Bug Fixes
-- Detect inspec-core mode and do not attempt to load cloud resources [#3163](https://github.com/inspec/inspec/pull/3163) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.22 -->
-- Add support for shallow link paths [#3168](https://github.com/inspec/inspec/pull/3168) ([ColinHebert](https://github.com/ColinHebert)) <!-- 2.2.21 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.2.27](https://github.com/inspec/inspec/tree/v2.2.27) (2018-06-29)
+
+#### New Features
+- Set parent_profile field on child profiles (json report) [#3164](https://github.com/inspec/inspec/pull/3164) ([jquick](https://github.com/jquick))
+- Document exit codes for &#39;inspec exec&#39; and add --no-distinct-exit option [#3178](https://github.com/inspec/inspec/pull/3178) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Enhancements
+- apache_conf resource: Strip quotes from values [#3142](https://github.com/inspec/inspec/pull/3142) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Update core resources with filtertable API changes [#3117](https://github.com/inspec/inspec/pull/3117) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- Add support for shallow link paths [#3168](https://github.com/inspec/inspec/pull/3168) ([ColinHebert](https://github.com/ColinHebert))
+- Detect inspec-core mode and do not attempt to load cloud resources [#3163](https://github.com/inspec/inspec/pull/3163) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Add functional tests for nested attributes [#3157](https://github.com/inspec/inspec/pull/3157) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v2.2.20](https://github.com/inspec/inspec/tree/v2.2.20) (2018-06-21)
 
 #### Enhancements
@@ -36,7 +34,6 @@
 
 #### Merged Pull Requests
 - Accept symbols and downcased criteria in aws_iam_policy have_statement matcher [#3129](https://github.com/inspec/inspec/pull/3129) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v2.2.16](https://github.com/inspec/inspec/tree/v2.2.16) (2018-06-15)
 
