@@ -20,10 +20,16 @@ require 'ruby-progressbar'
 require 'fileutils'
 require 'yaml'
 require_relative './shared'
-require_relative './contrib'
 
 WWW_DIR     = File.expand_path(File.join(__dir__, '..', 'www')).freeze
 DOCS_DIR    = File.expand_path(File.join(__dir__, '..', 'docs')).freeze
+
+begin
+  require 'git'
+  require_relative './contrib'
+rescue LoadError
+  puts 'contrib tasks are unavailable because the git gem is not available.'
+end
 
 class Markdown
   class << self

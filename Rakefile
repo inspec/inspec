@@ -8,7 +8,6 @@ require 'passgen'
 require 'train'
 require_relative 'tasks/maintainers'
 require_relative 'tasks/spdx'
-require_relative 'tasks/contrib'
 
 Bundler::GemHelper.install_tasks name: 'inspec'
 
@@ -26,6 +25,13 @@ begin
   require_relative 'tasks/docs'
 rescue LoadError
   puts 'docs tasks are unavailable because the ruby-progressbar gem is not available.'
+end
+
+begin
+  require 'git'
+  require_relative 'tasks/contrib'
+rescue LoadError
+  puts 'contrib tasks are unavailable because the git gem is not available.'
 end
 
 # Rubocop
