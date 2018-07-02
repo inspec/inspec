@@ -295,7 +295,7 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
     FileUtils.mkdir_p(dst)
 
     docs = ResourceDocs.new(src)
-    resources = Dir[File.join(src, 'resources/*.md.erb')]
+    resources = Dir.glob([File.join(src, 'resources/*.md.erb'), File.join(src, 'resources/*.md')])
                 .map { |x| x.sub(/^#{src}/, '') }
                 .sort
     puts "Found #{resources.length} resource docs"
