@@ -9,15 +9,15 @@ require 'git'
 CONTRIB_DIR=File.expand_path(File.join(__dir__, '..', 'contrib')).freeze
 RESOURCE_DOC_DIR=File.expand_path(File.join(__dir__, '..', 'docs', 'resources')).freeze
 
-namespace :contrib do
+namespace :contrib do # rubocop: disable Metrics/BlockLength
   config = nil
 
-  task :read_config do |t|
+  task :read_config do
     config = YAML.load(File.read(File.join(CONTRIB_DIR, 'contrib.yaml')))
   end
 
-  task :fetch_resource_packs => [:read_config] do |t|
-    puts "Fetching contrib resource packs..."
+  task fetch_resource_packs: [:read_config] do
+    puts 'Fetching contrib resource packs...'
     config['resource_packs'].each do |name, info|
       clone_path = File.join(CONTRIB_DIR, name)
       git = nil
@@ -38,10 +38,10 @@ namespace :contrib do
   end
 
   desc 'Copy docs from resource packs into the core for doc building'
-  task :copy_docs => [:fetch_resource_packs] do |t|
-    puts "Copying resource pack docs..."
+  task copy_docs: [:fetch_resource_packs] do
+    puts 'Copying resource pack docs...'
     config['resource_packs'].each do |name, info|
-      doc_sub_dir = info["doc_sub_dir"] || 'docs/resources'
+      doc_sub_dir = info['doc_sub_dir'] || 'docs/resources'
       doc_src_path = File.join(CONTRIB_DIR, name, doc_sub_dir)
       dest_path = RESOURCE_DOC_DIR
       puts "  #{name}:"
@@ -56,10 +56,10 @@ namespace :contrib do
   end
 
   desc 'Cleanup docs from resource packs in core'
-  task :cleanup_docs => [:read_config] do |t|
-    puts "Purging resource pack docs..."
+  task cleanup_docs: [:read_config] do
+    puts 'Purging resource pack docs...'
     config['resource_packs'].each do |name, info|
-      doc_sub_dir = info["doc_sub_dir"] || 'docs/resources'
+      doc_sub_dir = info['doc_sub_dir'] || 'docs/resources'
       doc_src_path = File.join(CONTRIB_DIR, name, doc_sub_dir)
       dest_path = RESOURCE_DOC_DIR
       puts "  #{name}"
@@ -72,3 +72,4 @@ namespace :contrib do
     end
   end
 end
+# rubocop enable: Metrics/BlockLength

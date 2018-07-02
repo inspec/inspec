@@ -161,13 +161,13 @@ class ResourceDocs
     ]
     # Also pick up regexes and group names from contrib resource packs.
     contrib_config['resource_packs'].values.each do |project_info|
-      group_regexes << {group_name: project_info['doc_group_title'], regex: Regexp.new(project_info['resource_file_regex'])}
+      group_regexes << { group_name: project_info['doc_group_title'], regex: Regexp.new(project_info['resource_file_regex']) }
     end
 
     # OK, apply the regexes we have to the resource doc file list we were passed.
     # doc_file looks like /resources/foo.md.erb - trim off directory and file extension
     trimmed_doc_files = resource_doc_files.dup.map { |file| File.basename(file).sub(/\.md(\.erb)?$/, '') }
-    resources_by_group = Hash[group_regexes.map{|info| [info[:group_name], []]}] # Initialize each group to an empty array
+    resources_by_group = Hash[group_regexes.map { |info| [info[:group_name], []] }] # Initialize each group to an empty array
     resources_by_group['OS'] = []
     trimmed_doc_files.each do |doc_file|
       matched = false
@@ -191,7 +191,7 @@ class ResourceDocs
     end
 
     # Remove any groups that have no resource docs.
-    resources_by_group.reject! { |group_name, resource_list| resource_list.empty? }
+    resources_by_group.reject! { |_, resource_list| resource_list.empty? }
 
     # Generate the big buttons that jump to the section of the page for each group.
     markdown << '<div class="row columns align">'
