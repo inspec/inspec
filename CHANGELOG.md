@@ -1,32 +1,30 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.34 -->
-## [v2.2.34](https://github.com/inspec/inspec/tree/v2.2.34) (2018-07-05)
-
-#### Bug Fixes
-- fix for apache_conf to handle quoted Includes [#3193](https://github.com/inspec/inspec/pull/3193) ([voroniys](https://github.com/voroniys))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.2.27 -->
-### Changes since 2.2.27 release
-
-#### New Features
-- cli: Add `--insecure` option for `exec` and `shell` [#3195](https://github.com/inspec/inspec/pull/3195) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.31 -->
-
-#### Bug Fixes
-- fix for apache_conf to handle quoted Includes [#3193](https://github.com/inspec/inspec/pull/3193) ([voroniys](https://github.com/voroniys)) <!-- 2.2.34 -->
-- Fix some issues with the vendor functional tests [#3196](https://github.com/inspec/inspec/pull/3196) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.30 -->
-
-#### Merged Pull Requests
-- Prevent Slashes in profile names [#3175](https://github.com/inspec/inspec/pull/3175) ([miah](https://github.com/miah)) <!-- 2.2.32 -->
-- Fix vendor functional test to not validate a repo hash that can change. [#3198](https://github.com/inspec/inspec/pull/3198) ([miah](https://github.com/miah)) <!-- 2.2.29 -->
-
-#### Enhancements
-- Accept regexes for --controls option to inspec exec [#3179](https://github.com/inspec/inspec/pull/3179) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.33 -->
-- Update the node platform issues to warn severity [#3186](https://github.com/inspec/inspec/pull/3186) ([jquick](https://github.com/jquick)) <!-- 2.2.28 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.2.34](https://github.com/inspec/inspec/tree/v2.2.34) (2018-07-05)
+
+#### New Features
+- cli: Add `--insecure` option for `exec` and `shell` [#3195](https://github.com/inspec/inspec/pull/3195) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Enhancements
+- Update the node platform issues to warn severity [#3186](https://github.com/inspec/inspec/pull/3186) ([jquick](https://github.com/jquick))
+- Accept regexes for --controls option to inspec exec [#3179](https://github.com/inspec/inspec/pull/3179) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- Fix some issues with the vendor functional tests [#3196](https://github.com/inspec/inspec/pull/3196) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- fix for apache_conf to handle quoted Includes [#3193](https://github.com/inspec/inspec/pull/3193) ([voroniys](https://github.com/voroniys))
+
+#### Merged Pull Requests
+- Fix vendor functional test to not validate a repo hash that can change. [#3198](https://github.com/inspec/inspec/pull/3198) ([miah](https://github.com/miah))
+- Prevent Slashes in profile names [#3175](https://github.com/inspec/inspec/pull/3175) ([miah](https://github.com/miah))
+<!-- latest_stable_release -->
+
 ## [v2.2.27](https://github.com/inspec/inspec/tree/v2.2.27) (2018-06-29)
 
 #### New Features
@@ -43,7 +41,6 @@
 
 #### Merged Pull Requests
 - Add functional tests for nested attributes [#3157](https://github.com/inspec/inspec/pull/3157) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v2.2.20](https://github.com/inspec/inspec/tree/v2.2.20) (2018-06-21)
 
