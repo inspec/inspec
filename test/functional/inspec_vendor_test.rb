@@ -131,7 +131,8 @@ describe 'example inheritance profile' do
       File.exist?(File.join(dir, 'inspec.lock')).must_equal true
       File.exist?(File.join(dir, 'vendor_cache')).must_equal false
 
-      exec_out = inspec('exec ' + dir + ' --vendor-cache ' + dir + '/vendor_cache')
+      # Run `inspec exec` to create vendor cache
+      inspec('exec ' + dir + ' --vendor-cache ' + dir + '/vendor_cache')
 
       File.exist?(File.join(dir, 'vendor_cache')).must_equal true
       vendor_files = Dir.entries("#{dir}/vendor/").sort
