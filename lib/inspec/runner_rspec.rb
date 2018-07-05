@@ -87,9 +87,9 @@ module Inspec
       if stats[:failed][:total] == 0 && stats[:skipped][:total] == 0
         0
       elsif stats[:failed][:total] > 0
-        100
+        @conf['distinct_exit'] ? 100 : 1
       elsif stats[:skipped][:total] > 0
-        101
+        @conf['distinct_exit'] ? 101 : 0
       else
         @rspec_exit_code
       end

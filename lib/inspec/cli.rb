@@ -156,6 +156,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   end
 
   desc 'exec PATHS', 'run all test files at the specified PATH.'
+  long_desc <<~EOT
+    Loads the given profile(s) and fetches their dependencies if needed.  Then connects to the target and executes any controls contained in the profiles.  One or more reporters are used to generate output.  If all tests passed (no fails, no skips) exit code 0 is returned.  If some tests skipped but none failed, exit code 101 is returned. If at least one test failed, exit code 100 is returned.  If inspec failed for any other reason, exit code 1 is returned.
+  EOT
   exec_options
   def exec(*targets)
     o = opts(:exec).dup
@@ -204,6 +207,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit'
   option :depends, type: :array, default: [],
     desc: 'A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell'
+  option :distinct_exit, type: :boolean, default: true,
+    desc: 'Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures.'
   def shell_func
     o = opts(:shell).dup
     diagnose(o)

@@ -1,31 +1,47 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.26 -->
-## [v2.2.26](https://github.com/inspec/inspec/tree/v2.2.26) (2018-06-26)
-
-#### Enhancements
-- Update core resources with filtertable API changes [#3117](https://github.com/inspec/inspec/pull/3117) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_release -->
-
-<!-- release_rollup since=2.2.20 -->
-### Changes since 2.2.20 release
+<!-- latest_release 2.2.31 -->
+## [v2.2.31](https://github.com/inspec/inspec/tree/v2.2.31) (2018-07-05)
 
 #### New Features
-- Set parent_profile field on child profiles (json report) [#3164](https://github.com/inspec/inspec/pull/3164) ([jquick](https://github.com/jquick)) <!-- 2.2.25 -->
+- cli: Add `--insecure` option for `exec` and `shell` [#3195](https://github.com/inspec/inspec/pull/3195) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_release -->
 
-#### Enhancements
-- Update core resources with filtertable API changes [#3117](https://github.com/inspec/inspec/pull/3117) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.26 -->
-- apache_conf resource: Strip quotes from values [#3142](https://github.com/inspec/inspec/pull/3142) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.24 -->
+<!-- release_rollup since=2.2.27 -->
+### Changes since 2.2.27 release
 
-#### Merged Pull Requests
-- Add functional tests for nested attributes [#3157](https://github.com/inspec/inspec/pull/3157) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.23 -->
+#### New Features
+- cli: Add `--insecure` option for `exec` and `shell` [#3195](https://github.com/inspec/inspec/pull/3195) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.31 -->
 
 #### Bug Fixes
-- Detect inspec-core mode and do not attempt to load cloud resources [#3163](https://github.com/inspec/inspec/pull/3163) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.22 -->
-- Add support for shallow link paths [#3168](https://github.com/inspec/inspec/pull/3168) ([ColinHebert](https://github.com/ColinHebert)) <!-- 2.2.21 -->
+- Fix some issues with the vendor functional tests [#3196](https://github.com/inspec/inspec/pull/3196) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.30 -->
+
+#### Merged Pull Requests
+- Fix vendor functional test to not validate a repo hash that can change. [#3198](https://github.com/inspec/inspec/pull/3198) ([miah](https://github.com/miah)) <!-- 2.2.29 -->
+
+#### Enhancements
+- Update the node platform issues to warn severity [#3186](https://github.com/inspec/inspec/pull/3186) ([jquick](https://github.com/jquick)) <!-- 2.2.28 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.2.27](https://github.com/inspec/inspec/tree/v2.2.27) (2018-06-29)
+
+#### New Features
+- Set parent_profile field on child profiles (json report) [#3164](https://github.com/inspec/inspec/pull/3164) ([jquick](https://github.com/jquick))
+- Document exit codes for &#39;inspec exec&#39; and add --no-distinct-exit option [#3178](https://github.com/inspec/inspec/pull/3178) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Enhancements
+- apache_conf resource: Strip quotes from values [#3142](https://github.com/inspec/inspec/pull/3142) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Update core resources with filtertable API changes [#3117](https://github.com/inspec/inspec/pull/3117) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- Add support for shallow link paths [#3168](https://github.com/inspec/inspec/pull/3168) ([ColinHebert](https://github.com/ColinHebert))
+- Detect inspec-core mode and do not attempt to load cloud resources [#3163](https://github.com/inspec/inspec/pull/3163) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Add functional tests for nested attributes [#3157](https://github.com/inspec/inspec/pull/3157) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v2.2.20](https://github.com/inspec/inspec/tree/v2.2.20) (2018-06-21)
 
 #### Enhancements
@@ -35,7 +51,6 @@
 
 #### Merged Pull Requests
 - Accept symbols and downcased criteria in aws_iam_policy have_statement matcher [#3129](https://github.com/inspec/inspec/pull/3129) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v2.2.16](https://github.com/inspec/inspec/tree/v2.2.16) (2018-06-15)
 

@@ -49,7 +49,10 @@ describe 'example inheritance profile' do
 
       File.exist?(File.join(tmpdir, 'vendor')).must_equal true
       File.exist?(File.join(tmpdir, 'inspec.lock')).must_equal true
-      File.exist?(File.join(tmpdir, 'vendor', 'accb84911787830f5b973f3e49de78bbff931946', 'README.md')).must_equal true
+      # Check that our vendor directory exists
+      Dir.glob(File.join(tmpdir, 'vendor', '*')).length.must_equal 1
+      # Check that our vendor directory has contents
+      Dir.glob(File.join(tmpdir, 'vendor', '*', '*')).length.must_be :>=, 8
     end
   end
 
@@ -131,11 +134,12 @@ describe 'example inheritance profile' do
       File.exist?(File.join(dir, 'inspec.lock')).must_equal true
       File.exist?(File.join(dir, 'vendor_cache')).must_equal false
 
-      exec_out = inspec('exec ' + dir + ' --vendor-cache ' + dir + '/vendor_cache')
+      # Run `inspec exec` to create vendor cache
+      inspec('exec ' + dir + ' --vendor-cache ' + dir + '/vendor_cache')
 
       File.exist?(File.join(dir, 'vendor_cache')).must_equal true
-      vendor_files = Dir.entries("#{dir}/vendor/")
-      vendor_cache_files = Dir.entries("#{dir}/vendor_cache/")
+      vendor_files = Dir.entries("#{dir}/vendor/").sort
+      vendor_cache_files = Dir.entries("#{dir}/vendor_cache/").sort
       vendor_files.must_equal vendor_cache_files
     end
   end

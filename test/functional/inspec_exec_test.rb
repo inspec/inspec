@@ -119,6 +119,26 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     end
   end
 
+  describe 'with a profile that contains skipped controls and the --no-distinct-exit flag' do
+    let(:out) { inspec('exec ' + File.join(profile_path, 'skippy-controls') + ' --no-distinct-exit --no-create-lockfile') }
+
+    it 'exits with code 0 and skipped tests in output' do
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: 0 successful controls, 0 control failures, \e[38;5;247m2 controls skipped\e[0m\nTest Summary: 0 successful, 0 failures, \e[38;5;247m2 skipped\e[0m\n"
+    end
+  end
+
+  describe 'with a profile that contains failing controls and the --no-distinct-exit flag' do
+    let(:out) { inspec('exec ' + File.join(profile_path, 'failures') + ' --no-distinct-exit --no-create-lockfile') }
+
+    it 'exits with code 1' do
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 1
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: 0 successful controls, \e[38;5;9m2 control failures\e[0m, 0 controls skipped"
+    end
+  end
+
   describe 'with a profile that contains skipped resources' do
     let(:out) { inspec('exec ' + File.join(profile_path, 'aws-profile')) }
     let(:stdout) { out.stdout.force_encoding(Encoding::UTF_8) }

@@ -189,7 +189,7 @@ module Inspec::Formatters
       begin
         @backend.platform[field]
       rescue Train::Error => e
-        Inspec::Log.error(e.message)
+        Inspec::Log.warn(e.message)
         nil
       end
     end

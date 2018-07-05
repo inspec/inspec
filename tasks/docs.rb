@@ -224,6 +224,9 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
 
       res << f.h2(cmd.usage.split.first)
       res << f.p(cmd.description.capitalize)
+      if cmd.long_description
+        res << f.p(cmd.long_description)
+      end
 
       res << f.h3('Syntax')
       res << f.p('This subcommand has the following syntax:')
