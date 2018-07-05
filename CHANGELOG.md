@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.30 -->
-## [v2.2.30](https://github.com/inspec/inspec/tree/v2.2.30) (2018-07-05)
+<!-- latest_release 2.2.31 -->
+## [v2.2.31](https://github.com/inspec/inspec/tree/v2.2.31) (2018-07-05)
 
-#### Bug Fixes
-- Fix some issues with the vendor functional tests [#3196](https://github.com/inspec/inspec/pull/3196) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### New Features
+- cli: Add `--insecure` option for `exec` and `shell` [#3195](https://github.com/inspec/inspec/pull/3195) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.27 -->
 ### Changes since 2.2.27 release
+
+#### New Features
+- cli: Add `--insecure` option for `exec` and `shell` [#3195](https://github.com/inspec/inspec/pull/3195) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.31 -->
 
 #### Bug Fixes
 - Fix some issues with the vendor functional tests [#3196](https://github.com/inspec/inspec/pull/3196) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.30 -->
