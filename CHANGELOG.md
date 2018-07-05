@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.29 -->
-## [v2.2.29](https://github.com/inspec/inspec/tree/v2.2.29) (2018-07-05)
+<!-- latest_release 2.2.30 -->
+## [v2.2.30](https://github.com/inspec/inspec/tree/v2.2.30) (2018-07-05)
 
-#### Merged Pull Requests
-- Fix vendor functional test to not validate a repo hash that can change. [#3198](https://github.com/inspec/inspec/pull/3198) ([miah](https://github.com/miah))
+#### Bug Fixes
+- Fix some issues with the vendor functional tests [#3196](https://github.com/inspec/inspec/pull/3196) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.27 -->
 ### Changes since 2.2.27 release
+
+#### Bug Fixes
+- Fix some issues with the vendor functional tests [#3196](https://github.com/inspec/inspec/pull/3196) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.30 -->
 
 #### Merged Pull Requests
 - Fix vendor functional test to not validate a repo hash that can change. [#3198](https://github.com/inspec/inspec/pull/3198) ([miah](https://github.com/miah)) <!-- 2.2.29 -->
