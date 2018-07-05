@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.33 -->
-## [v2.2.33](https://github.com/inspec/inspec/tree/v2.2.33) (2018-07-05)
+<!-- latest_release 2.2.34 -->
+## [v2.2.34](https://github.com/inspec/inspec/tree/v2.2.34) (2018-07-05)
 
-#### Enhancements
-- Accept regexes for --controls option to inspec exec [#3179](https://github.com/inspec/inspec/pull/3179) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- fix for apache_conf to handle quoted Includes [#3193](https://github.com/inspec/inspec/pull/3193) ([voroniys](https://github.com/voroniys))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.27 -->
@@ -14,6 +14,7 @@
 - cli: Add `--insecure` option for `exec` and `shell` [#3195](https://github.com/inspec/inspec/pull/3195) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.31 -->
 
 #### Bug Fixes
+- fix for apache_conf to handle quoted Includes [#3193](https://github.com/inspec/inspec/pull/3193) ([voroniys](https://github.com/voroniys)) <!-- 2.2.34 -->
 - Fix some issues with the vendor functional tests [#3196](https://github.com/inspec/inspec/pull/3196) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.30 -->
 
 #### Merged Pull Requests
