@@ -54,6 +54,12 @@ module Inspec
         desc: 'Read configuration from JSON file (`-` reads from stdin).'
       option :proxy_command, type: :string,
         desc: 'Specifies the command to use to connect to the server'
+      option :bastion_host, type: :string,
+        desc: 'Specifies the bastion host if applicable'
+      option :bastion_user, type: :string,
+        desc: 'Specifies the bastion user if applicable'
+      option :bastion_port, type: :string,
+        desc: 'Specifies the bastion port if applicable'
       option :insecure, type: :boolean, default: false,
         desc: 'Disable SSL verification on select targets'
     end

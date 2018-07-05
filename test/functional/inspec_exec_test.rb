@@ -320,6 +320,14 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     end
   end
 
+  describe 'when --bastion-host and --proxy_command is used' do
+    it 'raises an exception when both flags are provided' do
+      out = inspec('exec ' + example_profile + ' -t ssh://dummy@dummy --password dummy --proxy_command dummy --bastion_host dummy')
+      out.exit_status.must_equal 1
+      out.stderr.must_include "Client error, can't connect to 'ssh' backend: Only one of proxy_command or bastion_host needs to be specified"
+    end
+  end
+
   describe 'with sensitive resources' do
     it 'hides sensitive output' do
       out = inspec('exec ' + sensitive_profile  + ' --no-create-lockfile')
