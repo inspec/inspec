@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.32 -->
-## [v2.2.32](https://github.com/inspec/inspec/tree/v2.2.32) (2018-07-05)
+<!-- latest_release 2.2.33 -->
+## [v2.2.33](https://github.com/inspec/inspec/tree/v2.2.33) (2018-07-05)
 
-#### Merged Pull Requests
-- Prevent Slashes in profile names [#3175](https://github.com/inspec/inspec/pull/3175) ([miah](https://github.com/miah))
+#### Enhancements
+- Accept regexes for --controls option to inspec exec [#3179](https://github.com/inspec/inspec/pull/3179) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.27 -->
@@ -21,6 +21,7 @@
 - Fix vendor functional test to not validate a repo hash that can change. [#3198](https://github.com/inspec/inspec/pull/3198) ([miah](https://github.com/miah)) <!-- 2.2.29 -->
 
 #### Enhancements
+- Accept regexes for --controls option to inspec exec [#3179](https://github.com/inspec/inspec/pull/3179) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.33 -->
 - Update the node platform issues to warn severity [#3186](https://github.com/inspec/inspec/pull/3186) ([jquick](https://github.com/jquick)) <!-- 2.2.28 -->
 <!-- release_rollup -->
 
