@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.2.28 -->
+## [v2.2.28](https://github.com/inspec/inspec/tree/v2.2.28) (2018-07-05)
+
+#### Enhancements
+- Update the node platform issues to warn severity [#3186](https://github.com/inspec/inspec/pull/3186) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.2.27 -->
+### Changes since 2.2.27 release
+
+#### Enhancements
+- Update the node platform issues to warn severity [#3186](https://github.com/inspec/inspec/pull/3186) ([jquick](https://github.com/jquick)) <!-- 2.2.28 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
