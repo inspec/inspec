@@ -82,7 +82,7 @@ module Inspec::Resources
         # The regex is terminated by an expression that matches zero or more spaces.
         params = SimpleConfig.new(
           raw_conf,
-          assignment_regex: /^\s*(\S+)\s+((?=.*\s+$).*?|.*)\s*$/,
+          assignment_regex: /^\s*(\S+)\s+['"]*((?=.*\s+$).*?|.*?)['"]*\s*$/,
           multiple_values: true,
         ).params
 
