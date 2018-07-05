@@ -22,7 +22,6 @@ habitat/results
 /.direnv
 /.envrc
 results/
-TAGS
 
 www/source/index.html.slim
 www/Gemfile.lock
