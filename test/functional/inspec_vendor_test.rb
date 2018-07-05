@@ -134,8 +134,8 @@ describe 'example inheritance profile' do
       exec_out = inspec('exec ' + dir + ' --vendor-cache ' + dir + '/vendor_cache')
 
       File.exist?(File.join(dir, 'vendor_cache')).must_equal true
-      vendor_files = Dir.entries("#{dir}/vendor/")
-      vendor_cache_files = Dir.entries("#{dir}/vendor_cache/")
+      vendor_files = Dir.entries("#{dir}/vendor/").sort
+      vendor_cache_files = Dir.entries("#{dir}/vendor_cache/").sort
       vendor_files.must_equal vendor_cache_files
     end
   end
