@@ -177,9 +177,29 @@ module Inspec
 
     def filter_controls(controls_array, include_list)
       return controls_array if include_list.nil? || include_list.empty?
+
+      # Check for anything that might be a regex in the list, and make it official
+      include_list.each_with_index do |inclusion, index|
+        next if inclusion.is_a?(Regexp)
+        # Insist the user wrap the regex in slashes to demarcate it as a regex
+        next unless inclusion.start_with?('/') && inclusion.end_with?('/')
+        inclusion = inclusion[1..-2] # Trim slashes
+        begin
+          re = Regexp.new(inclusion)
+          include_list[index] = re
+        rescue RegexpError => e
+          warn "Ignoring unparseable regex '/#{inclusion}/' in --control CLI option: #{e.message}"
+          include_list[index] = nil
+        end
+      end
+      include_list.compact!
+
       controls_array.select do |c|
         id = ::Inspec::Rule.rule_id(c)
-        include_list.include?(id)
+        include_list.any? do |inclusion|
+          # Try to see if the inclusion is a regex, and if it matches
+          inclusion == id || (inclusion.is_a?(Regexp) && inclusion =~ id)
+        end
       end
     end
 

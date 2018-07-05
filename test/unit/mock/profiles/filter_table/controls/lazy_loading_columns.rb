@@ -117,7 +117,7 @@ control '2370_no_rows' do
   end
 end
 
-control '2370_proc_handle_exception' do
+control '2370_fail_proc_handle_exception' do
   desc 'An exception in a Proc should not derail the run'
   # TODO read exception
   describe lazy_loader(fresh_data.call).lazy_4s do

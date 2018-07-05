@@ -73,7 +73,7 @@ module Inspec
       target_options
       profile_options
       option :controls, type: :array,
-        desc: 'A list of controls to run. Ignore all other tests.'
+        desc: 'A list of control names to run, or a list of /regexes/ to match against control names. Ignore all other tests.'
       option :format, type: :string,
         desc: '[DEPRECATED] Please use --reporter - this will be removed in InSpec 3.0'
       option :reporter, type: :array,
