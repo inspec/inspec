@@ -13,7 +13,7 @@ module Inspec
       true
     end
 
-    def self.target_options
+    def self.target_options # rubocop:disable MethodLength
       option :target, aliases: :t, type: :string,
         desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'
       option :backend, aliases: :b, type: :string,
@@ -54,6 +54,8 @@ module Inspec
         desc: 'Read configuration from JSON file (`-` reads from stdin).'
       option :proxy_command, type: :string,
         desc: 'Specifies the command to use to connect to the server'
+      option :insecure, type: :boolean, default: false,
+        desc: 'Disable SSL verification on select targets'
     end
 
     def self.profile_options
@@ -85,8 +87,6 @@ module Inspec
         desc: 'Show progress while executing tests.'
       option :distinct_exit, type: :boolean, default: true,
         desc: 'Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures.'
-      option :insecure, type: :boolean, default: false,
-        desc: 'Disable SSL verification on select targets'
     end
 
     def self.default_options
