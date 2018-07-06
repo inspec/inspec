@@ -305,7 +305,7 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
     progressbar = ProgressBar.create(total: resources.length, title: 'Rendering')
     resources.each do |file|
       progressbar.log('          '+file)
-      dst_name = File.basename(file).sub(/\.md\.erb$/, '.html.md')
+      dst_name = File.basename(file).sub(/\.md(\.erb)?$/, '.html.md')
       res = docs.render(file)
       File.write(File.join(dst, dst_name), res)
       progressbar.increment
