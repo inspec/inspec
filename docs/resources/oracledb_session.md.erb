@@ -20,11 +20,17 @@ A `oracledb_session` resource block declares the username and password to use fo
 where
 
 * `oracledb_session` declares a username and password with permission to run the query (required), and an optional parameters for host (default: `localhost`), SID (default: `nil`, which uses the default SID, and path to the sqlplus binary (default: `sqlplus`).
+* it is possible to run queries as sysdba/sysoper by using `as_db_role option`, see examples
 * `query('QUERY')` contains the query to be run
 * `its('value') { should eq('') }` compares the results of the query against the expected result in the test
 
 <br>
 
+## oracledb_session(...).query method Properties
+* rows the query result as array of hashes
+* row(number)  selected row from query result, where number is just a row number in the query result
+* column(name) array with values from selected column
+ 
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -45,6 +51,41 @@ The following examples show how to use this InSpec audit resource.
       its('value') { should cmp 'ORCL' }
     end
 
+### Test for table contains a specified value in any row for the given column name
+
+    sql = oracledb_session(user: 'my_user', pass: 'password', service: 'MYSID')
+
+    describe sql.query('SELECT * FROM my_table;').column('my_column') do
+      it { should include 'my_value' }
+    end
+
+### Test tablespace exists as sysdba
+    The check will change user (with su) to specified user and run 'sqlplus / as sysdba' (sysoper, sysasm) 
+
+    sql = oracledb_session(as_os_user: 'oracle', as_db_role: 'sysdba', service: 'MYSID')
+
+    describe sql.query('SELECT tablespace_name AS name FROM dba_tablespaces;').column('name') do
+      it { should include 'MYTABLESPACE' }
+    end
+    NOTE: option `as_os_user` available only on unix-like systems and not supported on Windows. Also this option requires that you are running inspec as `root` or with `--sudo`
+
+### Test number of rows in the query result
+
+    sql = oracledb_session(user: 'my_user', pass: 'password')
+
+    describe sql.query('SELECT * FROM my_table;').rows do
+      its('count') { should eq 20 }
+    end
+
+### Use data out of (remote) DB query to build other tests
+
+    sql = oracledb_session(user: 'my_user', pass: 'password', host: 'my.remote.db', service: 'MYSID')
+
+    sql.query('SELECT * FROM files;').rows.each do |file_row|
+      describe file(file_row['path']) do
+	its('owner') { should eq file_row['owner']}
+      end
+    end
 <br>
 
 ## Matchers

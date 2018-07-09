@@ -48,8 +48,20 @@ module DatabaseHelper
       @cmd.exit_status == 0 && @error.nil?
     end
 
+    def rows
+      @results
+    end
+
     def row(id)
       SQLRow.new(self, @results[id])
+    end
+
+    def column(column)
+      result = []
+      @results.each do |row|
+        result << row[column]
+      end
+      result
     end
 
     def size
