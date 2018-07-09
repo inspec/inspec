@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.2.35 -->
+## [v2.2.35](https://github.com/inspec/inspec/tree/v2.2.35) (2018-07-09)
+
+#### New Features
+- A number of bug fixes and new features for oracledb_session resource [#3170](https://github.com/inspec/inspec/pull/3170) ([voroniys](https://github.com/voroniys))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.2.34 -->
+### Changes since 2.2.34 release
+
+#### New Features
+- A number of bug fixes and new features for oracledb_session resource [#3170](https://github.com/inspec/inspec/pull/3170) ([voroniys](https://github.com/voroniys)) <!-- 2.2.35 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
