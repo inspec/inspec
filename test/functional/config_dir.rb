@@ -19,11 +19,28 @@ describe 'user_dir option' do
     end
   end
 
-  # Pointing it to a nonexistant temp dir should result in exit code 1
-  # Empty dir should be OK but not write anything
+  it 'exits with code 1 if the directory does not exist' do
+    bad_path = "#{config_dir_path}/nonesuch"
+    result = inspec("shell -c 'exit' --config-dir #{bad_path}")
+    result.stdout.must_include "No such config directory: '#{bad_path}'"
+    result.exit_status.must_equal 1
+  end
+
+  it 'should allow an empty dir but not write anything' do
+    empty_path = "#{config_dir_path}/empty"
+    result = inspec("shell --config-dir #{empty_path} -c 'exit'")
+    result.stderr.must_equal ''
+    result.stdout.must_equal ''
+    result.exit_status.must_equal 0
+    Dir.glob(File.join(empty_path, '*')).must_be_empty
+  end
+
   # Custom location should correctly load values
   # Default location should correctly load
 
   # Should be able to use INSPEC_CONFIG_DIR env var to load a config
   # Should be able to use INSPEC_CONFIG_DIR env var to load a CLI plugin
+
+  # CLI opts should override config dir config.json opts
+  # --json-config should override config dir config.json opts
 end

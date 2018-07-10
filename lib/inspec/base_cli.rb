@@ -289,6 +289,9 @@ module Inspec
       opts = BaseCLI.default_options[type] unless type.nil? || BaseCLI.default_options[type].nil?
       opts['type'] = type unless type.nil?
 
+      # Read options from config_dir
+      opts.merge!(read_config_dir[:config])
+
       # merge in any options from json-config
       json_config = options_json
       opts.merge!(json_config)
@@ -323,6 +326,30 @@ module Inspec
     rescue JSON::ParserError => e
       puts "Failed to load JSON configuration: #{e}\nConfig was: #{config.inspect}"
       exit 1
+    end
+
+    def read_config_dir
+      provided_dir = options['config_dir']
+      if provided_dir && !Dir.exist?(provided_dir)
+        puts "No such config directory: '#{provided_dir}' - check '--config-dir' or INSPEC_CONFIG_DIR"
+        exit 1
+      end
+
+      config_dir = provided_dir || File.join(Dir.home, '.inspec.d')
+      config_as_read_from_dir = {
+        config: {
+          config_dir: config_dir
+        },
+        # TODO: plugins: {},
+      }
+      if Dir.exist?(config_dir)
+        json_path = File.join(config_dir, 'config.json')
+        if File.exist?(json_path)
+          config_as_read_from_dir[:config].merge!(read_config(json_path))
+        end
+        # TODO: read plugin data
+      end
+      config_as_read_from_dir
     end
 
     # get the log level
