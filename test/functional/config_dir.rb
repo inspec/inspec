@@ -8,24 +8,22 @@ describe 'user_dir option' do
   {
     # User dir option should be accepted by exec, shell, detect
     shell: "shell -c exit",
-    # exec: TODO
+    exec: " exec test/unit/mock/profiles/supported_inspec ",
+    # plugin: TODO
     detect: " detect",
   }.each do |subcommand, cmd|
-    it "works as an option to inspec prior to #{subcommand}" do
-      result = inspec("--user-dir #{user_dir_path}/basic " + cmd)
-      result.stderr.must_equal ''
-      result.exit_status.must_equal 0
-    end
     it "works as an option to inspec after #{subcommand}" do
-      result = inspec(cmd + " --user-dir #{user_dir_path}/basic")
+      result = inspec(cmd + " --config-dir #{config_dir_path}/basic --diagnose")
       result.stderr.must_equal ''
       result.exit_status.must_equal 0
     end
   end
 
-  # TODO: should be able to use a CLI subcommand provided by a plugin in a custom location
-
   # Pointing it to a nonexistant temp dir should result in exit code 1
   # Empty dir should be OK but not write anything
-  # Default location should work
+  # Custom location should correctly load values
+  # Default location should correctly load
+
+  # Should be able to use INSPEC_CONFIG_DIR env var to load a config
+  # Should be able to use INSPEC_CONFIG_DIR env var to load a CLI plugin
 end
