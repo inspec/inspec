@@ -27,7 +27,7 @@ module FunctionalHelper
   let(:failure_control) { File.join(profile_path, 'failures', 'controls', 'failures.rb') }
   let(:simple_inheritance) { File.join(profile_path, 'simple-inheritance') }
   let(:sensitive_profile) { File.join(examples_path, 'profile-sensitive') }
-  let(:user_dir_path) { File.join(mock_path, 'user_dirs') }
+  let(:config_dir_path) { File.join(mock_path, 'config_dirs') }
 
   let(:dst) {
     # create a temporary path, but we only want an auto-clean helper
