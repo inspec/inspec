@@ -16,7 +16,8 @@ end
 module FunctionalHelper
   let(:repo_path) { File.expand_path(File.join( __FILE__, '..', '..', '..')) }
   let(:exec_inspec) { File.join(repo_path, 'bin', 'inspec') }
-  let(:profile_path) { File.join(repo_path, 'test', 'unit', 'mock', 'profiles') }
+  let(:mock_path) { File.join(repo_path, 'test', 'unit', 'mock') }
+  let(:profile_path) { File.join(mock_path, 'profiles') }
   let(:examples_path) { File.join(repo_path, 'examples') }
   let(:integration_test_path) { File.join(repo_path, 'test', 'integration', 'default') }
 
@@ -26,6 +27,7 @@ module FunctionalHelper
   let(:failure_control) { File.join(profile_path, 'failures', 'controls', 'failures.rb') }
   let(:simple_inheritance) { File.join(profile_path, 'simple-inheritance') }
   let(:sensitive_profile) { File.join(examples_path, 'profile-sensitive') }
+  let(:user_dir_path) { File.join(mock_path, 'user_dirs') }
 
   let(:dst) {
     # create a temporary path, but we only want an auto-clean helper
