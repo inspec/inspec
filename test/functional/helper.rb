@@ -41,6 +41,15 @@ module FunctionalHelper
     CMD.run_command("#{prefix} #{exec_inspec} #{commandline}")
   end
 
+  def inspec_with_env(commandline, env = {})
+    # CMD is a train transport, and does not support anything other than a
+    # single param for the command line.
+    # TODO: what is the intent of using Train here?
+    # HACK: glue together env vars
+    env_prefix = env.to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(' ')
+    CMD.run_command("#{env_prefix} #{exec_inspec} #{commandline}")
+  end
+
   # Copy all examples to a temporary directory for functional tests.
   # You can provide an optional directory which will be handed to your
   # test block with its absolute path. If nothing is provided you will
