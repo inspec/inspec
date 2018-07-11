@@ -335,10 +335,10 @@ module Inspec
         exit 1
       end
 
-      config_dir = provided_dir || File.join(Dir.home, '.inspec.d')
+      config_dir = provided_dir || File.join(Dir.home, '.inspec')
       config_as_read_from_dir = {
         config: {
-          config_dir: config_dir
+          config_dir: config_dir,
         },
         # TODO: plugins: {},
       }
