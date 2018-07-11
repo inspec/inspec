@@ -47,14 +47,33 @@ describe 'user_dir option' do
     result.exit_status.must_equal 0
   end
 
-
   # Custom location should correctly load values
+  it "should load values from a custom location" do
+    result = inspec("shell --config-dir #{config_dir_path}/basic -c exit --diagnose")
+    result.stderr.must_equal ''
+    result.exit_status.must_equal 0
+    merged_config = unpack_merged_config_from_shell_output(result.stdout)
+    merged_config['test_marker'].must_equal 'value_in_basic_confdir'
+  end
+
+  it "should allow the CLI options to take precedence over the config file" do
+    result = inspec("shell --config-dir #{config_dir_path}/basic -c exit --log-level debug --diagnose")
+    result.exit_status.must_equal 0
+    merged_config = unpack_merged_config_from_shell_output(result.stdout)
+    # Fixture config file sets 'info'
+    merged_config['log_level'].must_equal 'debug'
+  end
+
+  # --json-config should override config dir config.json opts
+  it "should allow the --json-config option to take precedence over the config file" do
+    result = inspec("shell --config-dir #{config_dir_path}/basic -c exit --json-config #{config_dir_path}/basic/aux.json --diagnose")
+    result.exit_status.must_equal 0
+    merged_config = unpack_merged_config_from_shell_output(result.stdout)
+    merged_config['test_marker'].must_equal 'value_in_aux_json'
+  end
 
   # Should be able to use INSPEC_CONFIG_DIR env var to load a config
   # TODO: Should be able to use INSPEC_CONFIG_DIR env var to load a CLI plugin
-
-  # CLI opts should override config dir config.json opts
-  # --json-config should override config dir config.json opts
 
   def unpack_merged_config_from_shell_output(out)
     match = out.match(/Merged configuration:\n(.+)$/m)
