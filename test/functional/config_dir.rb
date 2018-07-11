@@ -72,6 +72,13 @@ describe 'user_dir option' do
     merged_config['test_marker'].must_equal 'value_in_aux_json'
   end
 
+  it "should load values from a custom location via the INSPEC_CONFIG_DIR env variable" do
+    result = inspec_with_env("shell -c exit --diagnose", 'INSPEC_CONFIG_DIR' => "#{config_dir_path}/basic")
+    result.stderr.must_equal ''
+    result.exit_status.must_equal 0
+    merged_config = unpack_merged_config_from_shell_output(result.stdout)
+    merged_config['test_marker'].must_equal 'value_in_basic_confdir'
+  end
   # Should be able to use INSPEC_CONFIG_DIR env var to load a config
   # TODO: Should be able to use INSPEC_CONFIG_DIR env var to load a CLI plugin
 
