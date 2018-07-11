@@ -39,7 +39,7 @@ describe 'user_dir option' do
   it 'should load from the default location' do
     # We don't want to monkey with the CI's idea of homedir, nor the developer's
     home_path = "#{config_dir_path}/fakehome"
-    default_path = File.join(home_path, '.inspec.d')
+    default_path = File.join(home_path, '.inspec')
     result = inspec_with_env("shell -c 'exit' --diagnose", 'HOME' => home_path)
     result.stderr.must_equal ''
     merged_config = unpack_merged_config_from_shell_output(result.stdout)
