@@ -35,12 +35,39 @@ describe 'user_dir option' do
     Dir.glob(File.join(empty_path, '*')).must_be_empty
   end
 
-  # Custom location should correctly load values
   # Default location should correctly load
+  it 'should load from the default location' do
+    # We don't want to monkey with the CI's idea of homedir, nor the developer's
+    home_path = "#{config_dir_path}/fakehome"
+    default_path = File.join(home_path, '.inspec.d')
+    result = inspec_with_env("shell -c 'exit' --diagnose", 'HOME' => home_path)
+    result.stderr.must_equal ''
+    merged_config = unpack_merged_config_from_shell_output(result.stdout)
+    merged_config['test_marker'].must_equal 'fakehome-01'
+    result.exit_status.must_equal 0
+  end
+
+
+  # Custom location should correctly load values
 
   # Should be able to use INSPEC_CONFIG_DIR env var to load a config
-  # Should be able to use INSPEC_CONFIG_DIR env var to load a CLI plugin
+  # TODO: Should be able to use INSPEC_CONFIG_DIR env var to load a CLI plugin
 
   # CLI opts should override config dir config.json opts
   # --json-config should override config dir config.json opts
+
+  def unpack_merged_config_from_shell_output(out)
+    match = out.match(/Merged configuration:\n(.+)$/m)
+    return {} unless match
+    # Just for fun, the output is not valid JSON, because
+    # it is just pretty-printed, and has a symbol in it.
+    json_blob = match[1]
+    # This quotes the symbol but leaves the colon in place
+    json_blob.gsub!(/(:\S+),/,'"\1",')
+
+    # And hash rockets need to be colons
+    json_blob.gsub!(/=>/, ':')
+
+    JSON.parse(json_blob)
+  end
 end
