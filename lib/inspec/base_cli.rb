@@ -330,7 +330,7 @@ module Inspec
     end
 
     def read_config_dir
-      provided_dir = options['config_dir']
+      provided_dir = options['config_dir'] || ENV['INSPEC_CONFIG_DIR']
       if provided_dir && !Dir.exist?(provided_dir)
         puts "No such config directory: '#{provided_dir}' - check '--config-dir' or INSPEC_CONFIG_DIR"
         exit 1
