@@ -356,9 +356,9 @@ The InSpec community and maintainers are very active and helpful. This project b
 
 If you'd like to chat with the community and maintainers directly join us in the `#inspec` channel on the [Chef Community Slack](http://community-slack.chef.io/).
 
-[![InSpec health](https://graphs.waffle.io/chef/inspec/throughput.svg)](https://waffle.io/chef/inspec/metrics/throughput)
-
 As a reminder, all participants are expected to follow the [Code of Conduct](https://github.com/inspec/inspec/blob/master/CODE_OF_CONDUCT.md).
+
+[![Slack](https://community-slack.chef.io/badge.svg)](https://community-slack.chef.io/)
 
 ## Testing InSpec
 
