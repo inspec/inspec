@@ -1,20 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.35 -->
-## [v2.2.35](https://github.com/inspec/inspec/tree/v2.2.35) (2018-07-09)
-
-#### New Features
-- A number of bug fixes and new features for oracledb_session resource [#3170](https://github.com/inspec/inspec/pull/3170) ([voroniys](https://github.com/voroniys))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.2.34 -->
-### Changes since 2.2.34 release
-
-#### New Features
-- A number of bug fixes and new features for oracledb_session resource [#3170](https://github.com/inspec/inspec/pull/3170) ([voroniys](https://github.com/voroniys)) <!-- 2.2.35 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.2.35](https://github.com/inspec/inspec/tree/v2.2.35) (2018-07-12)
+
+#### New Features
+- A number of bug fixes and new features for oracledb_session resource [#3170](https://github.com/inspec/inspec/pull/3170) ([voroniys](https://github.com/voroniys))
+<!-- latest_stable_release -->
+
 ## [v2.2.34](https://github.com/inspec/inspec/tree/v2.2.34) (2018-07-05)
 
 #### New Features
@@ -31,7 +29,6 @@
 #### Merged Pull Requests
 - Fix vendor functional test to not validate a repo hash that can change. [#3198](https://github.com/inspec/inspec/pull/3198) ([miah](https://github.com/miah))
 - Prevent Slashes in profile names [#3175](https://github.com/inspec/inspec/pull/3175) ([miah](https://github.com/miah))
-<!-- latest_stable_release -->
 
 ## [v2.2.27](https://github.com/inspec/inspec/tree/v2.2.27) (2018-06-29)
 
