@@ -2,6 +2,8 @@
 
 We are glad you want to contribute to InSpec! This document will help answer common questions you may have during your first contribution.
 
+As a reminder, all participants are expected to follow the [Code of Conduct](https://github.com/inspec/inspec/blob/master/CODE_OF_CONDUCT.md).
+
 ## Submitting Issues
 
 We utilize **Github Issues** for issue tracking and contributions. You can contribute in two ways:
@@ -44,7 +46,6 @@ Once you open a pull request, project maintainers will review your code and resp
 
 If you would like to learn about when your code will be available in a release of Chef, read more about [Chef Release Cycles](#release-cycles).
 
-
 ### Developer Certification of Origin (DCO)
 
 Licensing is very important to open source projects. It helps ensure the software continues to be available under the terms that the author desired.
@@ -68,7 +69,7 @@ By making a contribution to this project, I certify that:
 
 (b) The contribution is based upon previous work that, to the
     best of my knowledge, is covered under an appropriate open
-    source license and I have the right under that license to   
+    source license and I have the right under that license to
     submit that work with modifications, whether created in whole
     or in part by me, under the same open source license (unless
     I am permitted to submit under a different license), as
