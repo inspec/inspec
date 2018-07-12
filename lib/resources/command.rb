@@ -29,14 +29,14 @@ module Inspec::Resources
 
       @command = cmd
 
-      if options[:redact_command]
-        unless options[:redact_command].is_a?(Regexp)
+      if options[:redact_regex]
+        unless options[:redact_regex].is_a?(Regexp)
           # Make sure command is replaced so sensitive output isn't shown
           @command = 'ERROR'
           raise Inspec::Exceptions::ResourceFailed,
-                'The `redact_command` option must be a regular expression'
+                'The `redact_regex` option must be a regular expression'
         end
-        @redact_regex = options[:redact_command]
+        @redact_regex = options[:redact_regex]
       end
     end
 
@@ -79,7 +79,7 @@ module Inspec::Resources
 
     def to_s
       output = "Command: `#{@command}`"
-      # Redact output if the `redact_command` option is passed
+      # Redact output if the `redact_regex` option is passed
       # If no capture groups are passed then `\1` and `\2` are ignored
       output.gsub!(@redact_regex, '\1REDACTED\2') unless @redact_regex.nil?
       output
