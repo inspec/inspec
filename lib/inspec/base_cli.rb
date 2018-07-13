@@ -364,7 +364,7 @@ module Inspec
       o[:logger].level = get_log_level(o.log_level)
     end
 
-    def mark_text(text)
+    def self.mark_text(text)
       "\e[0;36m#{text}\e[0m"
     end
 
@@ -372,7 +372,7 @@ module Inspec
       puts "\n== #{title}\n\n"
     end
 
-    def li(entry)
+    def self.li(entry)
       puts " #{mark_text('*')} #{entry}"
     end
   end
