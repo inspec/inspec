@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.2.36 -->
+## [v2.2.36](https://github.com/inspec/inspec/tree/v2.2.36) (2018-07-13)
+
+#### Merged Pull Requests
+- docs: Fix formatting/style on InSpec DSL page [#3201](https://github.com/inspec/inspec/pull/3201) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.2.35 -->
+### Changes since 2.2.35 release
+
+#### Merged Pull Requests
+- docs: Fix formatting/style on InSpec DSL page [#3201](https://github.com/inspec/inspec/pull/3201) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.36 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
