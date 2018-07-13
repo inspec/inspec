@@ -66,4 +66,12 @@ describe Inspec::PluginLoader do
   # it "should list plugins declared with a custom plugin file" do
   # end
 
+  # it should be able to load a v2 plugin
+  #
+
+  # it should be able to load a v1 plugin
+  #
+
+  # it should be able to load a 
+
 end
