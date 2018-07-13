@@ -8,7 +8,6 @@ require 'singleton'
 
 module Inspec
   # Resource Plugins
-<<<<<<< HEAD:lib/inspec/plugin/v1/plugins.rb
   # NOTE: the autoloading here is rendered moot by the fact that
   # all core plugins are `require`'d by the base inspec.rb
   module Plugins
@@ -17,64 +16,6 @@ module Inspec
     autoload :Fetcher, 'inspec/plugin/v1/plugin_types/fetcher'
     autoload :SourceReader, 'inspec/plugin/v1/plugin_types/source_reader'
     autoload :Secret, 'inspec/plugin/v1/plugin_types/secret'
-=======
-  # module Plugins
-  #   autoload :Resource, 'inspec/plugins/resource'
-  #   autoload :CLI, 'inspec/plugins/cli'
-  #   autoload :Fetcher, 'inspec/plugins/fetcher'
-  #   autoload :SourceReader, 'inspec/plugins/source_reader'
-  #   autoload :Secret, 'inspec/plugins/secret'
-  # end
-  class PluginException < StandardError; end
-  class PluginException::ConfigError < PluginException; end
-  class PluginException::LoadError < PluginException; end
-
-  PluginStatus = Struct.new(
-    :name,
-    :version,
-    :entry_point,
-    :plugin_type,
-    :installation_type,
-    :installation_status,
-    :api_generation,
-    :loaded,
-  )
-
-  class PluginRegistry
-    include Singleton
-    extend Forwardable
-
-    attr_reader :registry
-    def_delegator :registry, :each
-    def_delegator :registry, :[]
-    def_delegator :registry, :key?, :known_plugin?
-    def_delegator :registry, :keys, :plugin_names
-    def_delegator :registry, :values, :plugin_statuses
-    def_delegator :registry, :select
-
-    def initialize
-      @registry = {}
-    end
-
-    def loaded_count
-      registry.values.select { |status| status.loaded }.count
-    end
-
-    def register(name, status)
-      if registry.key? name
-        Inspec::Log.warn "PluginLoader: refusing to re-register plugin '#{name}'"
-      else
-        registry[name.to_sym] = status
-      end
-    end
-
-    alias :[]= :register
-
-    # Provided for test support. Purges the registry.
-    def __reset
-      @registry = {}
-    end
->>>>>>> Able to load and partially validate the plugins.json file:lib/inspec/plugins.rb
   end
 
   class PluginLoader
@@ -101,7 +42,7 @@ module Inspec
       #   # puts "Loading plugin #{name} from #{path}"
       #   require path
     end
-  
+
     def load_plugin_type(type)
         # load CLI plugins before the Inspec CLI has been started
         # Inspec::Plugins::CLI.subcommands.each { |_subcommand, params|
