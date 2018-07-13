@@ -27,7 +27,8 @@ module Init
       option :overwrite, type: :boolean, default: false,
         desc: 'Overwrites existing directory'
       define_method template_name.to_sym do |name_for_new_structure|
-        renderer = Init::Renderer.new(template_name, self, { name: name_for_new_structure }, options)
+        renderer = Init::Renderer.new(self, options)
+        renderer.render_with_values(template_name, name: name_for_new_structure)
       end
     end
   end
