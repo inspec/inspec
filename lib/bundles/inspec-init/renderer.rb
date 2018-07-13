@@ -59,6 +59,7 @@ module Init
     # rubocop: enable Metrics/AbcSize
 
     # This is a render helper to bind hash values to a ERB template
+    # ERB provides result_with_hash in ruby 2.5.0+, which does exactly this
     def render(template_content, hash)
       # create a new binding class
       cls = Class.new do
