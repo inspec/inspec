@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'pathname'
+require_relative 'renderer'
 
 module Init
   class CLI < Inspec::BaseCLI
@@ -15,17 +16,18 @@ module Init
       namespace
     end
 
-    # read template directory
+    # Look in the 'template' directory, and register a subcommand
+    # for each template directory found there.
     template_dir = File.join(File.dirname(__FILE__), 'templates')
     Dir.glob(File.join(template_dir, '*')) do |template|
-      relative = Pathname.new(template).relative_path_from(Pathname.new(template_dir))
+      template_name = Pathname.new(template).relative_path_from(Pathname.new(template_dir)).to_s
 
       # register command for the template
-      desc "#{relative} NAME", "Create a new #{relative}"
+      desc "#{template_name} NAME", "Create a new #{template_name}"
       option :overwrite, type: :boolean, default: false,
         desc: 'Overwrites existing directory'
-      define_method relative.to_s.to_sym do |name|
-        Init::Profile.generator(relative.to_s, { name: name }, options)
+      define_method template_name.to_sym do |name_for_new_structure|
+        renderer = Init::Renderer.new(template_name, self, { name: name_for_new_structure }, options)
       end
     end
   end

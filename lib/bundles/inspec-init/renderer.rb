@@ -1,11 +1,13 @@
-module Init
-  class Profile
+require 'fileutils'
+require 'erb'
 
+module Init
+  class Renderer
+    # Creates a renderer able to render the given template type
     # 1. iterate over all files
     # 2. read content in erb
     # 3. write to target
-    def self.generator(type, attributes = {}, options = {}) # rubocop:disable Metrics/AbcSize
-      # path of this script
+    def initialize(type, cli_ui, attributes = {}, options = {})
       dir = File.dirname(__FILE__)
       # look for template directory
       base_dir = File.join(dir, 'templates', type)
@@ -18,11 +20,11 @@ module Init
       attributes[:name] = attributes[:name].split(%r{\\|\/}).last
       # Generate the full target path on disk
       target = Pathname.new(Dir.pwd).join(profile_path)
-      puts "Create new #{type} at #{Inspec::BaseCLI.mark_text(target)}"
+      puts "Create new #{type} at #{cli_ui.mark_text(target)}"
 
       # check that the directory does not exist
       if File.exist?(target) && !options['overwrite']
-        puts "#{Inspec::BaseCLI.mark_text(target)} exists already, use --overwrite"
+        puts "#{cli_ui.mark_text(target)} exists already, use --overwrite"
         exit 1
       end
 
@@ -34,10 +36,10 @@ module Init
         relative = Pathname.new(file).relative_path_from(Pathname.new(base_dir))
         destination = Pathname.new(target).join(relative)
         if File.directory?(file)
-          Inspec::BaseCLI.li "Create directory #{Inspec::BaseCLI.mark_text(relative)}"
+          cli_ui.li "Create directory #{cli_ui.mark_text(relative)}"
           FileUtils.mkdir_p(destination)
         elsif File.file?(file)
-          Inspec::BaseCLI.li "Create file #{Inspec::BaseCLI.mark_text(relative)}"
+          cli_ui.li "Create file #{cli_ui.mark_text(relative)}"
           # read & render content
           content = render(File.read(file), attributes)
           # write file content
@@ -49,7 +51,7 @@ module Init
     end
 
     # This is a render helper to bind hash values to a ERB template
-    def self.render(content, hash)
+    def render(content, hash)
       # create a new binding class
       cls = Class.new do
         hash.each do |key, value|
@@ -64,6 +66,5 @@ module Init
       end
       ERB.new(content).result(cls.new.bind)
     end
-
   end
 end
