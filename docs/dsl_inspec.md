@@ -16,7 +16,7 @@ The following resource tests |ssh| server configuration. For example, a simple c
 
 ```ruby
 describe sshd_config do
-  its('Port') { should eq('22') }
+  its('Port') { should cmp 22 }
 end
 ```
 
@@ -27,15 +27,15 @@ control 'sshd-8' do
   impact 0.6
   title 'Server: Configure the service port'
   desc '
-   Always specify which port the SSH server should listen to.
-   Prevent unexpected settings.
+    Always specify which port the SSH server should listen to.
+    Prevent unexpected settings.
   '
   tag 'ssh','sshd','openssh-server'
   tag cce: 'CCE-27072-8'
   ref 'NSA-RH6-STIG - Section 3.5.2.1', url: 'https://www.nsa.gov/ia/_files/os/redhat/rhel5-guide-i731.pdf'
 
   describe sshd_config do
-   its('Port') { should eq('22') }
+    its('Port') { should cmp 22 }
   end
 end
 ```
@@ -52,7 +52,7 @@ where
 * `ref` is a reference to an external document
 * `describe` is a block that contains at least one test. A `control` block must contain at least one `describe` block, but may contain as many as required
 * `sshd_config` is an InSpec resource. For the full list of InSpec resources, see InSpec resource documentation
-* `its('Port')` is the matcher; `{ should eq('22') }` is the test. A `describe` block must contain at least one matcher, but may contain as many as required
+* `its('Port')` is the matcher; `{ should eq '22' }` is the test. A `describe` block must contain at least one matcher, but may contain as many as required
 
 
 ## Advanced concepts
@@ -62,11 +62,11 @@ With InSpec it is possible to check if at least one of a collection of checks is
 ```ruby
 describe.one do
   describe ConfigurationA do
-   its('setting_1') { should eq true }
+    its('setting_1') { should eq true }
   end
 
   describe ConfigurationB do
-   its('setting_2') { should eq true }
+    its('setting_2') { should eq true }
   end
 end
 ```
@@ -77,7 +77,7 @@ In some scenarios, you may be writing checks involving resources with sensitive 
 
 ```ruby
 describe file('/tmp/mysecretfile'), :sensitive do
-  its('content') { should contain 'secret_info' }
+  its('content') { should match /secret_info/ }
 end
 ```
 
@@ -95,7 +95,7 @@ control 'windows-account-102' do
   title 'Windows Password Complexity is Enabled'
   desc 'Password must meet complexity requirement'
   describe security_policy do
-    its('PasswordComplexity') { should eq 1 }
+    its('PasswordComplexity') { should cmp 1 }
   end
 end
 ```
@@ -109,7 +109,7 @@ control 'postgres-7' do
   impact 1.0
   title "Don't allow empty passwords"
   describe postgres_session('user', 'pass').query("SELECT * FROM pg_shadow WHERE passwd IS NULL;") do
-   its('output') { should eq('') }
+    its('output') { should cmp '' }
   end
 end
 ```
@@ -123,11 +123,11 @@ control 'mysql-3' do
   impact 1.0
   title 'Do not store your MySQL password in your ENV'
   desc '
-   Storing credentials in your ENV may easily expose
-   them to an attacker. Prevent this at all costs.
+    Storing credentials in your ENV may easily expose
+    them to an attacker. Prevent this at all costs.
   '
   describe command('env') do
-   its('stdout') { should_not match(/^MYSQL_PWD=/) }
+    its('stdout') { should_not match /^MYSQL_PWD=/ }
   end
 end
 ```
@@ -141,11 +141,11 @@ control 'basic-1' do
   impact 1.0
   title '/etc/ssh should be a directory'
   desc '
-   In order for OpenSSH to function correctly, its
-   configuration path must be a folder.
+    In order for OpenSSH to function correctly, its
+    configuration path must be a folder.
   '
   describe file('/etc/ssh') do
-   it { should be_directory }
+    it { should be_directory }
   end
 end
 ```
@@ -159,8 +159,8 @@ control 'apache-1' do
   impact 0.3
   title 'Apache2 should be configured and running'
   describe service(apache.service) do
-   it { should be_enabled }
-   it { should be_running }
+    it { should be_enabled }
+    it { should be_running }
   end
 end
 ```
@@ -173,11 +173,9 @@ The following test shows how to audit machines for insecure packages:
 control 'cis-os-services-5.1.3' do
   impact 0.7
   title '5.1.3 Ensure rsh client is not installed'
-
   describe package('rsh') do
     it { should_not be_installed }
   end
-
   describe package('rsh-redone-client') do
     it { should_not be_installed }
   end
@@ -213,12 +211,10 @@ control 'nutcracker-connect-redis-001' do
   title 'Check if nutcracker can pass commands to redis'
   desc 'execute redis-cli set key command, to check connectivity of the service'
 
-  only_if do
-    command('redis-cli').exist?
-  end
+  only_if { command('redis-cli').exist? }
 
   describe command('redis-cli SET test_inspec "HELLO"') do
-    its(:stdout) { should match(/OK/) }
+    its('stdout') { should match /OK/ }
   end
 end
 ```
@@ -235,9 +231,11 @@ control 'ssh-1' do
   impact 1.0
 
   title 'Allow only SSH Protocol 2'
-  desc 'Only SSH protocol version 2 connections should be permitted.
-        The default setting in /etc/ssh/sshd_config is correct, and can be
-        verified by ensuring that the following line appears: Protocol 2'
+  desc '
+    Only SSH protocol version 2 connections should be permitted.
+    The default setting in /etc/ssh/sshd_config is correct, and can be
+    verified by ensuring that the following line appears: Protocol 2
+  '
 
   tag 'production','development'
   tag 'ssh','sshd','openssh-server'
@@ -252,7 +250,7 @@ control 'ssh-1' do
   ref 'http://people.redhat.com/swells/scap-security-guide/RHEL/6/output/ssg-centos6-guide-C2S.html'
 
   describe ssh_config do
-    its ('Protocol') { should eq '2'}
+    its('Protocol') { should cmp 2 }
   end
 end
 ```
