@@ -57,11 +57,11 @@ Community Organizers who do not follow or enforce the Code of Conduct in good fa
 ## Roles
 
 The following are the various roles of our <b>Community Organizers</b> and the person(s) assigned to each role:
-  * The <b>Decider</b> has final say on community guidelines and final authority on correct actions and appeals. The top-level decider is [Adam Jacob](mailto:adam@habitat.sh), [@adamhjk](https://twitter.com/adamhjk)
+  * The <b>Deciders</b> have final say on community guidelines and final authority on correct actions and appeals. The top-level deciders are [Christoph Hartmann](mailto:chartmann@chef.io) ([@chri_hartmann](https://twitter.com/chri_harmann)) and [Dominik Richter](mailto:drichter@chef.io) ([@arlimus](https://twitter.com/arlimus)).
   * The <b>Community Advocates</b> may be assigned for each area where the community convenes online (IRC, email list, GitHub, etc.). Community Advocates are volunteers who have the best interests of our community in mind. They act in good faith to help enforce our community guidelines and respond to incidents when they occur. Our Community Advocates are:
-    - [Jerry Aldrich](mailto:jerry@chef.io), [@jerryaldrichiii](https://twitter.com/jerryaldrichiii)
-    - [Miah Johnson](mailto:miah@chef.io), [@miah\_](https://twitter.com/miah_)
-    - [Clinton Wolfe](mailto:cwolfe@chef.io), [@clintoncwolfe](https://twitter.com/clintoncwolfe)
+    - [Jerry Aldrich](mailto:jerry@chef.io) ([@jerryaldrichiii](https://twitter.com/jerryaldrichiii))
+    - [Miah Johnson](mailto:miah@chef.io) ([@miah\_](https://twitter.com/miah_))
+    - [Clinton Wolfe](mailto:cwolfe@chef.io) ([@clintoncwolfe](https://twitter.com/clintoncwolfe))
   * The <b>Project Maintainers</b> are likewise expected to conduct their behavior in line with the Code of Conduct and are individually responsible for both escalating to a <b>Community Advocate</b> in case of witnessing an incident and helping to foster the community and it's members
   * A <b>Community Member</b> is anyone who participates with the community whether in-person or via online channels. Community members are responsible for following the community guidelines, suggesting updates to the guidelines when warranted, and helping enforce community guidelines
 
@@ -94,13 +94,13 @@ The Advocate should take the following steps if the behavior is not brought inli
 
   * Consult with another Community Organizer to make a judgement call about what reasonable corrective actions are warranted
   * In the case that no conclusion can be made, escalate to include the next level of Community Organizers
-  * If still no conclusion can be made, report the incident to the <b>Decider</b> listed above
+  * If still no conclusion can be made, report the incident to the <b>Deciders</b> listed above
   * Apply the corrective action
   * Document the incident as described below
 
 #### Documenting Incidents
 
-All incident reports will be kept in a private repository that is shared with the aforementioned Community Advocates and Decider under the [Roles]((#roles) section. No other individuals or project contributors will be given access to these incident reports. <b>This repo will hold no personal information on the victim of an incident</b>. On the displacement of any Community Organizer in the [Roles](#roles) list above, that individual will immediately lose access to this repository and will terminate any local copies of the repository.
+All incident reports will be kept in a private repository that is shared with the aforementioned Community Advocates and Deciders under the [Roles]((#roles) section. No other individuals or project contributors will be given access to these incident reports. <b>This repo will hold no personal information on the victim of an incident</b>. On the displacement of any Community Organizer in the [Roles](#roles) list above, that individual will immediately lose access to this repository and will terminate any local copies of the repository.
 
 The important information to report consists of:
 
