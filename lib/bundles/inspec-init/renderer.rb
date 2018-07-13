@@ -27,12 +27,12 @@ module Init
       template_values[:name] = template_values[:name].split(%r{\\|\/}).last
       # Generate the full full_destination_root_path path on disk
       full_destination_root_path = Pathname.new(Dir.pwd).join(profile_path)
-      puts "Create new #{template_type} at #{ui.mark_text(full_destination_root_path)}"
+      ui.plain_text "Create new #{template_type} at #{ui.mark_text(full_destination_root_path)}"
 
       # check that the directory does not exist
       if File.exist?(full_destination_root_path) && !overwrite_mode
-        puts "#{ui.mark_text(full_destination_root_path)} exists already, use --overwrite"
-        exit 1
+        ui.plain_text "#{ui.mark_text(full_destination_root_path)} exists already, use --overwrite"
+        ui.exit(1)
       end
 
       # ensure that full_destination_root_path directory is available
@@ -52,7 +52,7 @@ module Init
           # write file content
           File.write(full_destination_item_path, content)
         else
-          puts "Ignore #{file}, because its not an file or directoy"
+          ui.plain_text "Ignore #{file}, because its not an file or directoy"
         end
       end
     end

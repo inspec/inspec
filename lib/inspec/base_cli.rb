@@ -225,6 +225,14 @@ module Inspec
       def li(entry)
         puts " #{mark_text('*')} #{entry}"
       end
+
+      def exit(code)
+        Kernel.exit code
+      end
+
+      def plain_text(msg)
+        puts msg
+      end
     end
 
     private
