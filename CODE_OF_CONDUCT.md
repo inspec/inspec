@@ -61,6 +61,7 @@ The following are the various roles of our <b>Community Organizers</b> and the p
   * The <b>Community Advocates</b> may be assigned for each area where the community convenes online (IRC, email list, GitHub, etc.). Community Advocates are volunteers who have the best interests of our community in mind. They act in good faith to help enforce our community guidelines and respond to incidents when they occur. Our Community Advocates are:
     - [Jerry Aldrich](mailto:jerry@chef.io) ([@jerryaldrichiii](https://twitter.com/jerryaldrichiii))
     - [Miah Johnson](mailto:miah@chef.io) ([@miah\_](https://twitter.com/miah_))
+    - [Jared Quick](mailto:jquick@chef.io) ([@jquick](https://keybase.io/jquick))
     - [Clinton Wolfe](mailto:cwolfe@chef.io) ([@clintoncwolfe](https://twitter.com/clintoncwolfe))
   * The <b>Project Maintainers</b> are likewise expected to conduct their behavior in line with the Code of Conduct and are individually responsible for both escalating to a <b>Community Advocate</b> in case of witnessing an incident and helping to foster the community and it's members
   * A <b>Community Member</b> is anyone who participates with the community whether in-person or via online channels. Community members are responsible for following the community guidelines, suggesting updates to the guidelines when warranted, and helping enforce community guidelines
