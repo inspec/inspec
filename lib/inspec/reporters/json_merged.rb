@@ -52,8 +52,10 @@ module Inspec::Reporters
         child_control = child[:controls].select { |c| c[:id] == control[:id] }.first
         next if child_control.nil?
 
-        control.each do |name, value|
-          control[name] = child_control[name] if value.nil? || (value.respond_to?(:empty?) && value.empty?)
+        control.each do |name, _value|
+          child_value = child_control[name]
+          next if child_value.nil? || (child_value.respond_to?(:empty?) && child_value.empty?)
+          control[name] = child_value
         end
       end
     end
