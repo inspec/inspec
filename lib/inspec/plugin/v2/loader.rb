@@ -54,10 +54,10 @@ module Inspec::Plugin::V2
       bundle_dir = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'bundles'))
       globs = [
         File.join(bundle_dir, 'inspec-*.rb'),
-        File.join(bundle_dir, 'train-*.rb')
+        File.join(bundle_dir, 'train-*.rb'),
       ]
       Dir.glob(globs).each do |loader_file|
-        name = File.basename(loader_file, '.rb').gsub(/^(inspec|train)-/,'')
+        name = File.basename(loader_file, '.rb').gsub(/^(inspec|train)-/, '')
         status = Inspec::Plugin::V2::Status.new
         status.name = name
         status.entry_point = loader_file
@@ -79,11 +79,11 @@ module Inspec::Plugin::V2
       else
         @plugin_file_contents = {
           'plugins_config_version' => '1.0.0',
-          'plugins' => []
+          'plugins' => [],
         }
       end
     rescue JSON::ParserError => e
-      raise Inspec::Plugin::V2::ConfigError.new("Failed to load plugins JSON configuration from #{@plugin_conf_file_path}:\n#{e}")
+      raise Inspec::Plugin::V2::ConfigError, "Failed to load plugins JSON configuration from #{@plugin_conf_file_path}:\n#{e}"
     end
 
     def unpack_conf_file
@@ -107,7 +107,7 @@ module Inspec::Plugin::V2
 
     def validate_conf_file
       unless @plugin_file_contents['plugins_config_version'] == '1.0.0'
-        raise Inspec::Plugin::V2::ConfigError.new "Unsupported plugins.json file version #{@plugin_file_contents[:plugins_config_version]} at #{@plugin_conf_file_path} - currently support versions: 1.0.0"
+        raise Inspec::Plugin::V2::ConfigError, "Unsupported plugins.json file version #{@plugin_file_contents[:plugins_config_version]} at #{@plugin_conf_file_path} - currently support versions: 1.0.0"
       end
 
       # TODO: validate config
