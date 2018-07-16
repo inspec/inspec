@@ -7,7 +7,7 @@ require 'minitest/autorun'
 require 'minitest/spec'
 require 'mocha/setup'
 
-require 'inspec/plugins/cli'
+require 'inspec/plugin/v1/plugin_types/cli'
 require 'thor'
 
 describe 'plugin system' do
