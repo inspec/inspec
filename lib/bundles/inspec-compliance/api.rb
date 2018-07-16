@@ -19,7 +19,7 @@ module Compliance
     # return all compliance profiles available for the user
     # the user is either specified in the options hash or by default
     # the username of the account is used that is logged in
-    def self.profiles(config) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
+    def self.profiles(config, profile_filter=nil) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
       owner = config['owner'] || config['user']
 
       # Chef Compliance
@@ -38,7 +38,12 @@ module Compliance
       headers = get_headers(config)
 
       if is_automate2_server?(config)
-        body = { owner: owner }.to_json
+        if profile_filter
+          _owner, id, ver = profile_split(profile_filter)
+          body = { owner: owner, name: id }.to_json
+        else
+          body = { owner: owner }.to_json
+        end
         response = Compliance::HTTP.post_with_headers(url, headers, body, config['insecure'])
       else
         response = Compliance::HTTP.get(url, headers, config['insecure'])
@@ -49,6 +54,10 @@ module Compliance
       when '200'
         msg = 'success'
         profiles = JSON.parse(data)
+	if profile_filter && ver
+          profiles['profiles'].select! {|p| p['version'] == ver}
+          profiles['total'] = profiles['profiles'].count
+	end
         # iterate over profiles
         if is_compliance_server?(config)
           mapped_profiles = []

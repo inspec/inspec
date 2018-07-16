@@ -53,8 +53,15 @@ module Compliance
 
         # verifies that the target e.g base/ssh exists
         profile = Compliance::API.sanitize_profile_name(uri)
-        if !Compliance::API.exist?(config, profile)
+        # Call profiles directly instead of exist? to capture the results
+        # so we can access the upstream sha256 from the results.
+        msg, profile_result = Compliance::API.profiles(config, profile)
+        if profile_result.empty?
           raise Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
+        else
+          # If version wasn't specified the results are version sorted, so grab the first result.
+          # If version was specified, it will be the first and only result.
+          profile_info = profile_result[0]
         end
         profile_fetch_url = Compliance::API.target_url(config, profile)
       end
@@ -65,7 +72,7 @@ module Compliance
       profile_stub = profile || target[:compliance]
       config['profile'] = Compliance::API.profile_split(profile_stub)
 
-      new(profile_fetch_url, config)
+      new({url: profile_fetch_url, sha256: profile_info['sha256']}, config)
     rescue URI::Error => _e
       nil
     end

@@ -8,8 +8,12 @@ module Inspec
 
     attr_reader :cache, :target, :fetcher
     def initialize(target, cache)
-      @target = target
       @fetcher = Inspec::Fetcher.resolve(target)
+      if @fetcher.upstream_sha256
+        @target = {url: target, sha256: @fetcher.upstream_sha256}
+      else
+        @target = target
+      end
 
       if @fetcher.nil?
         raise("Could not fetch inspec profile in #{target.inspect}.")
