@@ -110,25 +110,10 @@ module Compliance
       parsed
     end
 
-    # verifies that a profile
+    # verifies that a profile exists
     def self.exist?(config, profile)
-      owner, id, ver = profile_split(profile)
-
-      # ensure that we do not manipulate the configuration object
-      user_config = config.dup
-      user_config['owner'] = owner
-      _msg, profiles = Compliance::API.profiles(user_config)
-
-      if !profiles.empty?
-        profiles.any? do |p|
-          profile_owner = p['owner_id'] || p['owner']
-          profile_owner == owner &&
-            p['name'] == id &&
-            (ver.nil? || p['version'] == ver)
-        end
-      else
-        false
-      end
+      _msg, profiles = Compliance::API.profiles(config, profile)
+      return profiles.empty? ? false : true
     end
 
     def self.upload(config, owner, profile_name, archive_path)
