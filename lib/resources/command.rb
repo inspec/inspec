@@ -22,11 +22,22 @@ module Inspec::Resources
 
     attr_reader :command
 
-    def initialize(cmd)
+    def initialize(cmd, options = {})
       if cmd.nil?
         raise 'InSpec `command` was called with `nil` as the argument. This is not supported. Please provide a valid command instead.'
       end
+
       @command = cmd
+
+      if options[:redact_regex]
+        unless options[:redact_regex].is_a?(Regexp)
+          # Make sure command is replaced so sensitive output isn't shown
+          @command = 'ERROR'
+          raise Inspec::Exceptions::ResourceFailed,
+                'The `redact_regex` option must be a regular expression'
+        end
+        @redact_regex = options[:redact_regex]
+      end
     end
 
     def result
@@ -67,7 +78,11 @@ module Inspec::Resources
     end
 
     def to_s
-      "Command #{@command}"
+      output = "Command: `#{@command}`"
+      # Redact output if the `redact_regex` option is passed
+      # If no capture groups are passed then `\1` and `\2` are ignored
+      output.gsub!(@redact_regex, '\1REDACTED\2') unless @redact_regex.nil?
+      output
     end
   end
 end
