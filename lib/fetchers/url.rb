@@ -97,6 +97,7 @@ module Fetchers
         @upstream_sha256 = target[:sha256]
       elsif target.is_a?(String)
         @target = target
+        @upstream_sha256 = nil
       end
       @insecure = opts['insecure']
       @token = opts['token']
