@@ -2,8 +2,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'inspec/plugins'
-require 'utils/plugin_registry'
+require 'inspec/plugin/v1'
 
 module Inspec
   class FetcherRegistry < PluginRegistry

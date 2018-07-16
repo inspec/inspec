@@ -10,7 +10,8 @@ require 'pp'
 require 'utils/json_log'
 require 'utils/latest_version'
 require 'inspec/base_cli'
-require 'inspec/plugins'
+require 'inspec/plugin/v1'
+require 'inspec/plugin/v2'
 require 'inspec/runner_mock'
 require 'inspec/env_printer'
 require 'inspec/schema'
@@ -286,13 +287,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 end
 
 # Load v2 plugins
-Inspec::Plugin::Loader.new.load_all
+Inspec::Plugin::V2::Loader.new.load_all
 
 # Load v1 plugins on startup
 ctl = Inspec::PluginCtl.new
 ctl.list.each { |x| ctl.load(x) }
 
-# load CLI plugins before the Inspec CLI has been started
+# load v1 CLI plugins before the Inspec CLI has been started
 Inspec::Plugins::CLI.subcommands.each { |_subcommand, params|
   Inspec::InspecCLI.register(
     params[:klass],
