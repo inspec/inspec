@@ -3,7 +3,6 @@
 # author: Dominik Richter
 require 'inspec/base_cli'
 
-
 module Supermarket
   class SupermarketCLI < Inspec::BaseCLI
     namespace 'supermarket'

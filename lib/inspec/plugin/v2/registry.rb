@@ -20,7 +20,7 @@ module Inspec::Plugin::V2
     end
 
     def any_load_failures?
-      !registry.plugin_statuses.select { |status| status.load_exception }.empty?
+      !registry.plugin_statuses.select(&:load_exception).empty?
     end
 
     def loaded_plugin?(name)
@@ -28,11 +28,11 @@ module Inspec::Plugin::V2
     end
 
     def loaded_count
-      registry.values.select { |status| status.loaded }.count
+      registry.values.select(&:loaded).count
     end
 
     def loaded_plugin_names
-      registry.values.select { |status| status.loaded }.map(&:name)
+      registry.values.select(&:loaded).map(&:name)
     end
 
     def register(name, status)
@@ -43,7 +43,7 @@ module Inspec::Plugin::V2
       end
     end
 
-    alias :[]= :register
+    alias []= register
 
     # Provided for test support. Purges the registry.
     def __reset
