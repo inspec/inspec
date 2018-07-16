@@ -16,7 +16,7 @@ require 'inspec/shell'
 require 'inspec/formatters'
 require 'inspec/reporters'
 
-require 'inspec/plugin'
+require 'inspec/plugin/v2'
 
 # all utils that may be required by legacy plugins
 require 'inspec/base_cli'
