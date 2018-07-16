@@ -1,40 +1,24 @@
 # encoding: utf-8
 
-# check for a Windows feature
-# Usage:
-# describe windows_feature('DHCP Server') do
-#   it{ should be_installed }
-# end
-#
-# deprecated serverspec syntax:
-# describe windows_feature('IIS-Webserver') do
-#   it{ should be_installed.by("dism") }
-# end
-#
-# describe windows_feature('Web-Webserver') do
-#   it{ should be_installed.by("powershell") }
-# end
-#
-# This implementation uses the Get-WindowsFeature commandlet:
-# Get-WindowsFeature | Where-Object {$_.Name -eq 'XPS Viewer' -or $_.DisplayName -eq 'XPS Viewe
-# r'} | Select-Object -Property Name,DisplayName,Description,Installed,InstallState | ConvertTo-Json
-# {
-#     "Name":  "XPS-Viewer",
-#     "DisplayName":  "XPS Viewer",
-#     "Description":  "The XPS Viewer is used to read, set permissions for, and digitally sign XPS documents.",
-#     "Installed":  false,
-#     "InstallState":  0
-# }
 module Inspec::Resources
   class WindowsFeature < Inspec.resource(1)
     name 'windows_feature'
     supports platform: 'windows'
     desc 'Use the windows_feature InSpec audit resource to test features on Microsoft Windows.'
-    example "
-      describe windows_feature('dhcp') do
+    example <<-EOX
+      # By default this resource will use Get-WindowsFeature.
+      # Failing that, it will use DISM.
+
+      # Get-WindowsFeature Example
+      describe windows_feature('Web-WebServer') do
         it { should be_installed }
       end
-    "
+
+      # DISM Example
+      describe windows_feature('IIS-WebServer') do
+        it { should be_installed }
+      end
+    EOX
 
     def initialize(feature)
       @feature = feature
@@ -55,30 +39,61 @@ module Inspec::Resources
       features_cmd = "Get-WindowsFeature | Where-Object {$_.Name -eq '#{@feature}' -or $_.DisplayName -eq '#{@feature}'} | Select-Object -Property Name,DisplayName,Description,Installed,InstallState | ConvertTo-Json"
       cmd = inspec.command(features_cmd)
 
-      @cache = {
-        name: @feature,
-        type: 'windows-feature',
-      }
-
-      # cannot rely on exit code for now, successful command returns exit code 1
-      # return nil if cmd.exit_status != 0
-      # try to parse json
-      begin
-        params = JSON.parse(cmd.stdout)
-      rescue JSON::ParserError => _e
-        return @cache
+      # The `Get-WindowsFeature` command is not available on the Windows
+      # non-server OS. This attempts to use the `dism` command to get the info.
+      if cmd.stderr =~ /The term 'Get-WindowsFeature' is not recognized/
+        params = info_via_dism(@feature)
+      else
+        # We cannot rely on `cmd.exit_status != 0` because by default the
+        # command will exit 1 even on success. So, if we cannot parse the JSON
+        # we know that the feature is not installed.
+        begin
+          params = JSON.parse(cmd.stdout)
+          params['type'] = 'windows-feature'
+        rescue JSON::ParserError => _e
+          @cache = {
+            name: @feature,
+            type: 'windows-feature',
+          }
+          return @cache
+        end
       end
 
       @cache = {
         name: params['Name'],
         description: params['Description'],
         installed: params['Installed'],
-        type: 'windows-feature',
+        type: params['type'],
       }
     end
 
     def to_s
       "Windows Feature '#{@feature}'"
+    end
+
+    private
+
+    def info_via_dism(feature_name)
+      dism_command = "dism /online /get-featureinfo /featurename:#{@feature}"
+      cmd = inspec.command(dism_command)
+
+      if cmd.exit_status != 0
+        info = {
+          'Name' => feature_name,
+          'Description' => 'N/A',
+          'Installed' => false,
+        }
+      else
+        result = cmd.stdout
+        info = {
+          'Name' => result.match(/Feature Name : (.*)(\r\n|\n)/).captures[0],
+          'Description' => result.match(/Description : (.*)(\r\n|\n)/).captures[0],
+          'Installed' => true,
+        }
+      end
+
+      info['type'] = 'dism'
+      info
     end
   end
 end
