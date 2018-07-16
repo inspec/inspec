@@ -285,7 +285,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   end
 end
 
-# Load all plugins on startup
+# Load v2 plugins
+Inspec::Plugin::Loader.new.load_all
+
+# Load v1 plugins on startup
 ctl = Inspec::PluginCtl.new
 ctl.list.each { |x| ctl.load(x) }
 
