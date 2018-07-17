@@ -210,6 +210,31 @@ module Inspec
       str
     end
 
+    # These need to be public methods on any BaseCLI instance,
+    # but Thor interprets all methods as subcommands.  The no_commands block
+    # treats them as regular methods.
+    no_commands do
+      def mark_text(text)
+        "\e[0;36m#{text}\e[0m"
+      end
+
+      def headline(title)
+        puts "\n== #{title}\n\n"
+      end
+
+      def li(entry)
+        puts " #{mark_text('*')} #{entry}"
+      end
+
+      def exit(code)
+        Kernel.exit code
+      end
+
+      def plain_text(msg)
+        puts msg
+      end
+    end
+
     private
 
     def suppress_log_output?(opts)
@@ -362,18 +387,6 @@ module Inspec
         o[:logger].formatter = Logger::JSONFormatter.new
       end
       o[:logger].level = get_log_level(o.log_level)
-    end
-
-    def mark_text(text)
-      "\e[0;36m#{text}\e[0m"
-    end
-
-    def headline(title)
-      puts "\n== #{title}\n\n"
-    end
-
-    def li(entry)
-      puts " #{mark_text('*')} #{entry}"
     end
   end
 end
