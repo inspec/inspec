@@ -119,5 +119,15 @@ describe "unknown object" do
 end
 '.strip
     end
+
+    it 'constructs a test with an array of strings' do
+      obj.qualifier = [['resource']]
+      obj.add_test(['explorer', 'exe'], 'cmp', 1)
+      obj.to_ruby.must_equal '
+describe resource do
+  its(["explorer", "exe"]) { should cmp 1 }
+end
+'.strip
+    end
   end
 end
