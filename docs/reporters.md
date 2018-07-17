@@ -116,12 +116,12 @@ This reporter includes all information from the rspec runner. Unlike the json re
 
 This renders html code to view your tests in a browser. It includes all the test and summary information.
 
-
 ## Automate Reporter
 
 The automate reporter type is a special reporter used with the Automate 2 suite. To use this reporter you must pass in the correct configuration via a json config `--json-config`.
 
 Example config:
+
 ```json
 "reporter": {
     "automate" : {
@@ -135,27 +135,36 @@ Example config:
 }
 ```
 
-### Mandatory fields:
+### Mandatory fields
+
 #### stdout
+
 This will either suppress or show the automate report in the CLI screen on completion
 
 #### url
+
 This is your Automate 2 url. Append `data-collector/v0/` at the end.
 
 #### token
+
 This is your Automate 2 token. You can generate this token by navigating to the admin tab of A2 and then api keys.
 
 ### Optional fields
+
 #### insecure
+
 This will disable or enable the ssl check when accessing the Automate 2 instance.
 
-PLEASE NOTE: These fields are ONLY needed if you do not have chef-client attached to a chef server running on your node. The fields below will be automaticlly pulled from the chef server.
+PLEASE NOTE: These fields are ONLY needed if you do not have chef-client attached to a chef server running on your node. The fields below will be automatically pulled from the chef server.
 
 #### node_name
+
 This will be the node name which shows up in Automate 2.
 
 #### node_uuid
+
 This overrides the node uuid sent up to Automate 2. On non-chef nodes we will try to generate a static node uuid for you from your hardware. This will almost never be needed unless your working with a unique virtual setup.
 
 #### environment
-This will set the enviroment metadata for Automate 2.
+
+This will set the environment metadata for Automate 2.

@@ -61,7 +61,6 @@ to process the output of `ls` executed on the target system, use
 Similarly, use `inspec.file(PATH)` to access files or directories from
 remote systems in your tests or custom resources.
 
-
 ## Using rubygems
 
 Ruby gems are self-contained programs and libraries. If you create a custom
@@ -158,7 +157,8 @@ When writing tests you can not use standard ruby methods to shellout as it tries
 However, the `command` resource has a `.stdout` method that will allow you to manipulate the results.
 Using the above example, you could check the writes on several subdirectories.
 
-### Example 1:
+### Example 1
+
 ```ruby
 $ inspec shell
 Welcome to the interactive InSpec Shell
@@ -179,7 +179,8 @@ Version: (not specified)
 Test Summary: 1 successful, 0 failures, 0 skipped
 ```
 
-### Example 2:
+### Example 2
+
 ```ruby
 $ inspec shell
 Welcome to the interactive InSpec Shell
