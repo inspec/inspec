@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.37 -->
-## [v2.2.37](https://github.com/inspec/inspec/tree/v2.2.37) (2018-07-16)
+<!-- latest_release 2.2.38 -->
+## [v2.2.38](https://github.com/inspec/inspec/tree/v2.2.38) (2018-07-17)
 
-#### New Features
-- command resource: Allow redacting `#to_s` [#3207](https://github.com/inspec/inspec/pull/3207) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Enhancements
+- Refactor &#39;inspec init profile&#39; into a reusable component. [#3214](https://github.com/inspec/inspec/pull/3214) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.35 -->
 ### Changes since 2.2.35 release
+
+#### Enhancements
+- Refactor &#39;inspec init profile&#39; into a reusable component. [#3214](https://github.com/inspec/inspec/pull/3214) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.38 -->
 
 #### New Features
 - command resource: Allow redacting `#to_s` [#3207](https://github.com/inspec/inspec/pull/3207) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.37 -->
