@@ -352,11 +352,13 @@ The AWS resources were inspired by [inspec-aws](https://github.com/arothian/insp
 1. Push to the branch (git push origin my-new-feature)
 1. Create new Pull Request
 
-
 The InSpec community and maintainers are very active and helpful. This project benefits greatly from this activity.
 
-[![InSpec health](https://graphs.waffle.io/chef/inspec/throughput.svg)](https://waffle.io/chef/inspec/metrics/throughput)
+If you'd like to chat with the community and maintainers directly join us in the `#inspec` channel on the [Chef Community Slack](http://community-slack.chef.io/).
 
+As a reminder, all participants are expected to follow the [Code of Conduct](https://github.com/inspec/inspec/blob/master/CODE_OF_CONDUCT.md).
+
+[![Slack](https://community-slack.chef.io/badge.svg)](https://community-slack.chef.io/)
 
 ## Testing InSpec
 
@@ -450,5 +452,5 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License. 
- 
+limitations under the License.
+

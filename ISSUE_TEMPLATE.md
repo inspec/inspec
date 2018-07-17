@@ -2,7 +2,7 @@
 
 **Choose one:** is this a 🐛 bug report or 🙋 feature request?
 
-Briefly describe the issue and the expected behavior
+Briefly describe the issue and the expected behavior. Also, please be aware of our [Code of Conduct](https://github.com/inspec/inspec/blob/master/CODE_OF_CONDUCT.md).
 
 ### 🌍 InSpec and Platform Version
 
