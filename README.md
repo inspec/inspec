@@ -90,7 +90,7 @@ For Linux:
 
 ```
 docker pull chef/inspec
-function inspec { docker run -it --rm -v $(pwd):/share chef/inspec $@; }
+function inspec { docker run -it --rm -v $(pwd):/share chef/inspec "$@"; }
 ```
 
 For Windows (PowerShell):
