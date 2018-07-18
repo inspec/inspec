@@ -13,7 +13,7 @@ Use the `xinetd_conf` InSpec audit resource to test services under `/etc/xinet.d
 
 An `xinetd_conf` resource block declares settings found in a `xinetd.conf` file for the named service:
 
-    describe xinetd_conf('service_name') do
+    describe xinetd_conf.services('service_name') do
       it { should be_enabled } # or be_disabled
       its('setting') { should eq 'value' }
     end
