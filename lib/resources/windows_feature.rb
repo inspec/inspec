@@ -10,18 +10,24 @@ module Inspec::Resources
       # Failing that, it will use DISM.
 
       # Get-WindowsFeature Example
-      describe windows_feature('Web-WebServer') do
+      describe windows_feature('Web-WebServer', :powershell) do
         it { should be_installed }
       end
 
       # DISM Example
+      describe windows_feature('IIS-WebServer', :dism) do
+        it { should be_installed }
+      end
+
+      # Try PowerShell then DISM Example
       describe windows_feature('IIS-WebServer') do
         it { should be_installed }
       end
     EOX
 
-    def initialize(feature)
+    def initialize(feature, method = nil)
       @feature = feature
+      @method = method
       @cache = nil
 
       # verify that this resource is only supported on Windows
@@ -29,42 +35,28 @@ module Inspec::Resources
     end
 
     # returns true if the package is installed
-    def installed?(_provider = nil, _version = nil)
+    def installed?
       info[:installed] == true
     end
 
     # returns the package description
     def info
       return @cache if !@cache.nil?
-      features_cmd = "Get-WindowsFeature | Where-Object {$_.Name -eq '#{@feature}' -or $_.DisplayName -eq '#{@feature}'} | Select-Object -Property Name,DisplayName,Description,Installed,InstallState | ConvertTo-Json"
-      cmd = inspec.command(features_cmd)
 
-      # The `Get-WindowsFeature` command is not available on the Windows
-      # non-server OS. This attempts to use the `dism` command to get the info.
-      if cmd.stderr =~ /The term 'Get-WindowsFeature' is not recognized/
-        params = info_via_dism(@feature)
-      else
-        # We cannot rely on `cmd.exit_status != 0` because by default the
-        # command will exit 1 even on success. So, if we cannot parse the JSON
-        # we know that the feature is not installed.
-        begin
-          params = JSON.parse(cmd.stdout)
-          params['type'] = 'windows-feature'
-        rescue JSON::ParserError => _e
-          @cache = {
-            name: @feature,
-            type: 'windows-feature',
-          }
-          return @cache
+      case @method
+      when :powershell
+        @cache = info_via_powershell(@feature)
+        if @cache[:error]
+          raise Inspec::Exceptions::ResourceFailed, @cache[:error]
         end
+      when :dism
+        @cache = info_via_dism(@feature)
+      else
+        @cache = info_via_powershell(@feature)
+        @cache = info_via_dism(@feature) if @cache[:error]
       end
 
-      @cache = {
-        name: params['Name'],
-        description: params['Description'],
-        installed: params['Installed'],
-        type: params['type'],
-      }
+      @cache
     end
 
     def to_s
@@ -73,27 +65,62 @@ module Inspec::Resources
 
     private
 
-    def info_via_dism(feature_name)
-      dism_command = "dism /online /get-featureinfo /featurename:#{@feature}"
+    def info_via_dism(feature)
+      dism_command = "dism /online /get-featureinfo /featurename:#{feature}"
       cmd = inspec.command(dism_command)
 
       if cmd.exit_status != 0
-        info = {
-          'Name' => feature_name,
-          'Description' => 'N/A',
-          'Installed' => false,
+        feature_info = {
+          name: feature,
+          description: 'N/A',
+          installed: false,
         }
       else
         result = cmd.stdout
-        info = {
-          'Name' => result.match(/Feature Name : (.*)(\r\n|\n)/).captures[0],
-          'Description' => result.match(/Description : (.*)(\r\n|\n)/).captures[0],
-          'Installed' => true,
+        feature_name_regex = /Feature Name : (.*)(\r\n|\n)/
+        description_regex = /Description : (.*)(\r\n|\n)/
+        feature_info = {
+          name: result.match(feature_name_regex).captures[0].chomp,
+          description: result.match(description_regex).captures[0].chomp,
+          installed: true,
         }
       end
 
-      info['type'] = 'dism'
-      info
+      feature_info[:method] = :dism
+      feature_info
+    end
+
+    def info_via_powershell(feature)
+      features_cmd = "Get-WindowsFeature | Where-Object {$_.Name -eq '#{feature}' -or $_.DisplayName -eq '#{feature}'} | Select-Object -Property Name,DisplayName,Description,Installed,InstallState | ConvertTo-Json"
+      cmd = inspec.command(features_cmd)
+
+      feature_info = {}
+
+      # The `Get-WindowsFeature` command is not available on the Windows
+      # non-server OS. This attempts to use the `dism` command to get the info.
+      if cmd.stderr =~ /The term 'Get-WindowsFeature' is not recognized/
+        feature_info[:name] = feature
+        feature_info[:error] = cmd.stderr
+      else
+        # We cannot rely on `cmd.exit_status != 0` because by default the
+        # command will exit 1 even on success. So, if we cannot parse the JSON
+        # we know that the feature is not installed.
+        begin
+          result = JSON.parse(cmd.stdout)
+
+          feature_info = {
+            name: result['Name'],
+            description: result['Description'],
+            installed: result['Installed'],
+          }
+        rescue JSON::ParserError => _e
+          feature_info[:name] = feature
+          feature_info[:installed] = false
+        end
+      end
+
+      feature_info[:method] = :powershell
+      feature_info
     end
   end
 end
