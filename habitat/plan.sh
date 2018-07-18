@@ -24,7 +24,7 @@ pkg_deps=(
   core/less
   core/mysql-client
   core/netcat
-  core/postgresql
+  core/postgresql-client
 )
 pkg_build_deps=(
   core/gcc
