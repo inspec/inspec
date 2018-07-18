@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.38 -->
-## [v2.2.38](https://github.com/inspec/inspec/tree/v2.2.38) (2018-07-17)
+<!-- latest_release 2.2.39 -->
+## [v2.2.39](https://github.com/inspec/inspec/tree/v2.2.39) (2018-07-18)
 
-#### Enhancements
-- Refactor &#39;inspec init profile&#39; into a reusable component. [#3214](https://github.com/inspec/inspec/pull/3214) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Update hab package to use psql client [#3234](https://github.com/inspec/inspec/pull/3234) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.35 -->
@@ -17,6 +17,7 @@
 - command resource: Allow redacting `#to_s` [#3207](https://github.com/inspec/inspec/pull/3207) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.37 -->
 
 #### Merged Pull Requests
+- Update hab package to use psql client [#3234](https://github.com/inspec/inspec/pull/3234) ([jquick](https://github.com/jquick)) <!-- 2.2.39 -->
 - docs: Fix formatting/style on InSpec DSL page [#3201](https://github.com/inspec/inspec/pull/3201) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.36 -->
 <!-- release_rollup -->
 
