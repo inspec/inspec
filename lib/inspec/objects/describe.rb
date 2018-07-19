@@ -11,7 +11,14 @@ module Inspec
       end
 
       def to_ruby
-        itsy = its.nil? ? 'it' : 'its(' + its.to_s.inspect + ')'
+        itsy = 'it'
+        unless its.nil?
+          if its.is_a? Array
+            itsy = 'its(' + its.inspect + ')'
+          else
+            itsy = 'its(' + its.to_s.inspect + ')'
+          end
+        end
         naughty = negated ? '_not' : ''
         xpect = if expectation.nil?
                   ''
