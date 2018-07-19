@@ -47,6 +47,9 @@ module Inspec::Resources
       when :powershell
         @cache = info_via_powershell(@feature)
         if @cache[:error]
+          # TODO: Allow handling `Inspec::Exception` outside of initialize
+          # See: https://github.com/inspec/inspec/issues/3237
+          # The below will fail the resource regardless of what is raised
           raise Inspec::Exceptions::ResourceFailed, @cache[:error]
         end
       when :dism
