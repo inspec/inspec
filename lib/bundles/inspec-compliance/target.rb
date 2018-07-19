@@ -26,6 +26,10 @@ module Compliance
       end
     end
 
+    def sha256
+      upstream_sha256.empty? ? super : upstream_sha256
+    end
+
     def self.resolve(target) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
       uri = if target.is_a?(String) && URI(target).scheme == 'compliance'
               URI(target)

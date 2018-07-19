@@ -9,7 +9,7 @@ module Inspec
     attr_reader :cache, :target, :fetcher
     def initialize(target, cache)
       @fetcher = Inspec::Fetcher.resolve(target)
-      if @fetcher.respond_to?(:upstream_sha256) && !fetcher.upstream_sha256.empty?
+      if @fetcher.respond_to?(:upstream_sha256) && !@fetcher.upstream_sha256.empty?
         @target = {url: target, sha256: @fetcher.upstream_sha256}
       else
         @target = target
