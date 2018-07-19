@@ -164,8 +164,8 @@ Test Summary: 0 successful, 0 failures, 0 skipped
       stdout.must_include 'Resource Aws_iam_users is not supported on platform'
       stdout.must_include 'Resource Aws_iam_access_keys is not supported on platform'
       stdout.must_include 'Resource Aws_s3_bucket is not supported on platform'
-      stdout.must_include '3 skipped'
-      out.exit_status.must_equal 101
+      stdout.must_include '3 failures'
+      out.exit_status.must_equal 100
     end
   end
 

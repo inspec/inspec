@@ -147,9 +147,9 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   describe 'it raises errors' do
-    it 'raises error on unsupported os' do
+    it 'fails and raises error on unsupported os' do
       resource = MockLoader.new(:windows).load_resource('shadow')
-      _(resource.resource_skipped?).must_equal true
+      _(resource.resource_failed?).must_equal true
       _(resource.resource_exception_message)
         .must_equal 'Resource Shadow is not supported on platform windows/6.2.9200.'
     end
