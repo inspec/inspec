@@ -22,7 +22,7 @@ module Compliance
         @upstream_sha256 = target[:sha256]
       elsif target.is_a?(String)
         @target = target
-        @upstream_sha256 = ""
+        @upstream_sha256 = ''
       end
     end
 
@@ -30,7 +30,31 @@ module Compliance
       upstream_sha256.empty? ? super : upstream_sha256
     end
 
-    def self.resolve(target) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
+    def self.check_compliance_token(config)
+      if config['token'].nil? && config['refresh_token'].nil?
+        if config['server_type'] == 'automate'
+          server = 'automate'
+          msg = 'inspec compliance login https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --token USERTOKEN'
+        elsif config['server_type'] == 'automate2'
+          server = 'automate2'
+          msg = 'inspec compliance login https://your_automate2_server --user USER --token APITOKEN'
+        else
+          server = 'compliance'
+          msg = "inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
+        end
+        raise Inspec::FetcherFailure, <<~EOF
+
+          Cannot fetch #{uri} because your #{server} token has not been
+          configured.
+
+          Please login using
+
+              #{msg}
+        EOF
+      end
+    end
+
+    def self.resolve(target) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity
       uri = if target.is_a?(String) && URI(target).scheme == 'compliance'
               URI(target)
             elsif target.respond_to?(:key?) && target.key?(:compliance)
@@ -44,35 +68,13 @@ module Compliance
         profile_fetch_url = target[:url]
         config = {}
       else
-        # check if we have a compliance token
         config = Compliance::Configuration.new
-        if config['token'].nil? && config['refresh_token'].nil?
-          if config['server_type'] == 'automate'
-            server = 'automate'
-            msg = 'inspec compliance login https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --token USERTOKEN'
-          elsif config['server_type'] == 'automate2'
-            server = 'automate2'
-            msg = 'inspec compliance login https://your_automate2_server --user USER --token APITOKEN'
-          else
-            server = 'compliance'
-            msg = "inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
-          end
-          raise Inspec::FetcherFailure, <<~EOF
-
-            Cannot fetch #{uri} because your #{server} token has not been
-            configured.
-
-            Please login using
-
-                #{msg}
-          EOF
-        end
-
+        check_compliance_token(config)
         # verifies that the target e.g base/ssh exists
         profile = Compliance::API.sanitize_profile_name(uri)
         # Call profiles directly instead of exist? to capture the results
         # so we can access the upstream sha256 from the results.
-        msg, profile_result = Compliance::API.profiles(config, profile)
+        _msg, profile_result = Compliance::API.profiles(config, profile)
         if profile_result.empty?
           raise Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
         else
@@ -89,7 +91,7 @@ module Compliance
       profile_stub = profile || target[:compliance]
       config['profile'] = Compliance::API.profile_split(profile_stub)
 
-      new({url: profile_fetch_url, sha256: profile_info['sha256']}, config)
+      new({ url: profile_fetch_url, sha256: profile_info['sha256'] }, config)
     rescue URI::Error => _e
       nil
     end
