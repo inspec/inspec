@@ -119,6 +119,28 @@ describe Inspec::ZipProvider do
       cls.new(rand.to_s).files.must_equal %w{zipzip}
     end
   end
+
+  describe 'paths outside of the archive ignored' do
+    # This is to test for the zipslip vulnerability
+    let(:cls) {
+      class MockZipSlipZipProvider < Inspec::ZipProvider
+        Entry = Struct.new(:name)
+        class List < Array
+          alias :get_next_entry :pop
+        end
+        private
+        def walk_zip(path, &callback)
+          list = List.new([Entry.new('../../blah'), Entry.new('zipzip'), Entry.new('../../haha')])
+          callback.call(list)
+        end
+      end
+      MockZipSlipZipProvider
+    }
+
+    it 'must contain all files' do
+      cls.new(rand.to_s).files.must_equal %w{zipzip}
+    end
+  end
 end
 
 
@@ -182,6 +204,24 @@ describe Inspec::TarProvider do
       cls.new(rand.to_s).files.must_equal %w{tartar}
     end
   end
+
+  describe 'applied to a tar with paths above dir' do
+    let(:cls) {
+      class MockZipSlipTarProvider < Inspec::TarProvider
+        Entry = Struct.new(:full_name, :file?)
+        private
+        def walk_tar(path, &callback)
+          callback.call([Entry.new('../haha', true), Entry.new('tartar', true), Entry.new('../../blah', true)])
+        end
+      end
+      MockZipSlipTarProvider
+    }
+
+    it 'must not contain all files' do
+      cls.new(rand.to_s).files.must_equal %w{tartar}
+    end
+  end
+
 end
 
 describe Inspec::RelativeFileProvider do

@@ -100,7 +100,7 @@ module Inspec
       walk_zip(@path) do |io|
         while (entry = io.get_next_entry)
           name = entry.name.sub(%r{/+$}, '')
-          @files.push(name) unless name.empty?
+          @files.push(name) unless name.empty? || name.squeeze('/') =~ %r{\.{2}(?:/|\z)}
         end
       end
     end
@@ -156,7 +156,7 @@ module Inspec
         @files = tar.find_all(&:file?)
 
         # delete all entries with no name
-        @files = @files.find_all { |x| !x.full_name.empty? }
+        @files = @files.find_all { |x| !x.full_name.empty? && x.full_name.squeeze('/') !~ %r{\.{2}(?:/|\z)} }
 
         # delete all entries that have a PaxHeader
         @files = @files.delete_if { |x| x.full_name.include?('PaxHeader/') }
