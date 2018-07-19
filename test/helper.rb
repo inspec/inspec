@@ -522,6 +522,8 @@ class MockLoader
       'Remove-Item win_secpol-abc123.cfg' => cmd.call('success'),
       "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-544\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call('security-policy-sid-translated'),
       "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-555\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call('security-policy-sid-untranslated'),
+
+      "apk info -vv --no-network | grep git" => cmd.call('apk-info-grep-git'),
     }
     @backend
   end

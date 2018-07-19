@@ -19,8 +19,10 @@ module Inspec::Resources
         its('version') { should eq 1.9.5 }
       end
     "
-
-    def initialize(package_name, opts = {}) # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
+    def initialize(package_name, opts = {})
       @package_name = package_name
       @name = @package_name
       @cache = nil
@@ -44,12 +46,17 @@ module Inspec::Resources
         @pkgman = SolarisPkg.new(inspec)
       elsif ['hpux'].include?(os[:family])
         @pkgman = HpuxPkg.new(inspec)
+      elsif ['alpine'].include?(os[:name])
+        @pkgman = AlpinePkg.new(inspec)
       else
         raise Inspec::Exceptions::ResourceSkipped, 'The `package` resource is not supported on your OS yet.'
       end
 
       evaluate_missing_requirements
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/PerceivedComplexity
 
     # returns true if the package is installed
     def installed?(_provider = nil, _version = nil)
@@ -247,6 +254,23 @@ module Inspec::Resources
         name: pkg[0],
         installed: true,
         version: pkg[1],
+        type: 'pkg',
+      }
+    end
+  end
+
+  class AlpinePkg < PkgManagement
+    def info(package_name)
+      cmd = inspec.command("apk info -vv --no-network | grep #{package_name}")
+      return {} if cmd.exit_status.to_i != 0
+
+      pkg_info = cmd.stdout.split("\n").reject! { |e| e =~ /^WARNING/i }
+      pkg = pkg_info[0].split(' - ')[0]
+
+      {
+        name: pkg.partition('-')[0],
+        installed: true,
+        version: pkg.partition('-')[2],
         type: 'pkg',
       }
     end
