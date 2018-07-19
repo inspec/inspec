@@ -45,15 +45,14 @@ where
 * `'sshd-8'` is the name of the control
 * `impact`, `title`, and `desc` define metadata that fully describes the importance of the control, its purpose, with a succinct and complete description
 * `impact` is an float that measures the importance of the compliance results and must be a value between `0.0` and `1.0`. The value ranges are:
-    * `0.0 to <0.4` these are controls with minor criticality
-    * `0.4 to <0.7` these are controls with major criticality
-    * `0.7 to 1.0` these are critical controls
+  * `0.0 to <0.4` these are controls with minor criticality
+  * `0.4 to <0.7` these are controls with major criticality
+  * `0.7 to 1.0` these are critical controls
 * `tag` is optional meta-information with with key or key-value pairs
 * `ref` is a reference to an external document
 * `describe` is a block that contains at least one test. A `control` block must contain at least one `describe` block, but may contain as many as required
 * `sshd_config` is an InSpec resource. For the full list of InSpec resources, see InSpec resource documentation
 * `its('Port')` is the matcher; `{ should eq '22' }` is the test. A `describe` block must contain at least one matcher, but may contain as many as required
-
 
 ## Advanced concepts
 
@@ -71,7 +70,7 @@ describe.one do
 end
 ```
 
-#### Sensitive resources
+### Sensitive resources
 
 In some scenarios, you may be writing checks involving resources with sensitive content (e.g. a file resource). In the case of failures, it may be desired to suppress output. This can be done by adding the `:sensitive` flag to the resource definition
 
@@ -100,7 +99,7 @@ control 'windows-account-102' do
 end
 ```
 
-## Are PostgreSQL passwords empty?
+## Test if PostgreSQL passwords are empty
 
 The following test shows how to audit machines running PostgreSQL to ensure that passwords are not empty.
 
@@ -114,7 +113,7 @@ control 'postgres-7' do
 end
 ```
 
-## Are MySQL passwords in ENV?
+## Test if MySQL passwords are in ENV
 
 The following test shows how to audit machines running MySQL to ensure that passwords are not stored in `ENV`:
 
@@ -132,7 +131,7 @@ control 'mysql-3' do
 end
 ```
 
-## Is `/etc/ssh` a Directory?
+## Test if `/etc/ssh` is a Directory
 
 The following test shows how to audit machines to ensure that `/etc/ssh` is a directory:
 
@@ -150,7 +149,7 @@ control 'basic-1' do
 end
 ```
 
-## Is Apache running?
+## Test if Apache running
 
 The following test shows how to audit machines to ensure that Apache is enabled and running:
 
@@ -165,7 +164,7 @@ control 'apache-1' do
 end
 ```
 
-## Are insecure packages installed ?
+## Test if insecure packages are installed
 
 The following test shows how to audit machines for insecure packages:
 
@@ -222,7 +221,6 @@ end
 Mixing this with other conditionals (like checking existence of the files etc.) can help to test different test paths using InSpec. This way you can skip certain tests which would 100% fail due to the way servers are prepared, but you know that the same test suites are reused later in different circumstances by different teams.
 
 ## Additional metadata for controls
-
 
 The following example illustrates various ways to add tags and references to `control`
 

@@ -11,7 +11,7 @@ There are two ways to use it:
 
 ### Motivating Example
 
-Suppose we are interested in auditing cars. Let's suppose we have two InSpec resources for auditing: `cars`, which searchs for and filters groups of cars, and `car`, which performs detailed auditing of a single car.
+Suppose we are interested in auditing cars. Let's suppose we have two InSpec resources for auditing: `cars`, which searches for and filters groups of cars, and `car`, which performs detailed auditing of a single car.
 
 ### Basic Syntax
 
@@ -134,7 +134,7 @@ A [resource](#resource) that is _not_ included with InSpec. It may be a resource
 
 The _`describe`_ keyword is used with a _`describe block`_ to refer to an InSpec resource. You use the `describe` keyword along with the name of a [resource](#resource) to enclose related [tests](#test) that apply to the resource. Multiple describe blocks are usually grouped together in a [control](#control), but you can also use them outside of a control.
 
-```
+```Ruby
 control 'Rule 1.1 - Color restrictions' do
   # Count only blue cars
   describe cars.where(color: 'blue') do
@@ -155,7 +155,7 @@ When using a [matcher](#matcher), the _`expected result`_ is the value the match
 
 In this example, the [`cmp`](https://www.inspec.io/docs/reference/matchers/#cmp) matcher is being used to compare the `color` property to the expected result 'black'.
 
-```
+```Ruby
 describe car(owner: 'Bruce Wayne') do
   its('color') { should cmp 'black' }
 end
@@ -169,7 +169,7 @@ A filter statement may use method call syntax (which allows basic criteria opera
 
 In this example, `where(...)` is the filter statement.
 
-```
+```Ruby
 # Count only blue cars
 describe cars.where(color: 'blue') do
   its('count') { should eq 20 }
@@ -186,7 +186,7 @@ When method-call syntax is used with the filter statement, you provide filter cr
 
 Here, `(color: blue)` is a single filter criterion being used with a filter statement in method-call syntax.
 
-```
+```Ruby
 # Count only blue cars
 describe cars.where(color: 'blue') do
   its('count') { should eq 20 }
@@ -197,7 +197,7 @@ When block-method syntax is used with the filter statement, you provide a block.
 
 Here, `{ engine_cylinders >= 6 }` is a block-syntax filter statement referring to one filter criterion.
 
-```
+```Ruby
 # Vroom!
 describe cars.where { engine_cylinders >= 6 } do
   its('city_mpg_ratings') { should_not include '4-star' }
@@ -212,7 +212,7 @@ Within a [describe block](#describe), _`it`_ declares an individual [test](#test
 
 Here, `it { should ... }` declares a test, calling the `classy?` matcher on Tony Clifton's car.
 
-```
+```Ruby
 describe car(owner: 'Tony Clifton') do
   it { should be_classy }
 end
@@ -228,7 +228,7 @@ The property to access is passed as a single string argument to `its`. As an adv
 
 Here, `its('fuzzy_dice') { should ... }` declares a test, testing against the `fuzzy_dice` property of Tony Clifton's car. Let's assume - Tony being Tony - that `fuzzy_dice` will return an Array.
 
-```
+```Ruby
 describe car(owner: 'Tony Clifton') do
   its('fuzzy_dice') { should_not be_empty }
   its('fuzzy_dice.count') { should be >= 2 }
@@ -249,7 +249,7 @@ For information on how RSpec matchers are related o InSpec matchers, see [InSpec
 
 Here, `be_classy` is a resource-specific matcher operating directly on the `car`, while `cmp` is a universal matcher operating on the `manufacturer` property.
 
-```
+```Ruby
 describe car(owner: 'Tony Clifton') do
   it { should be_classy }
   its('manufacturer') { should cmp 'Cadillac' }
@@ -266,7 +266,7 @@ Plural resources support [filter statements](#filter_statement). See the [resour
 
 Here, `cars` is a plural resource.
 
-```
+```Ruby
 describe cars.where(color: 'blue') do
   its('count') { should eq 20 }
   its('license_plates') { should include 'AUTOAZUL' }
@@ -296,7 +296,7 @@ Each resource has different properties. See the [resource documentation](https:/
 
 Here, `manufacturer` is a property of the `car` resource.
 
-```
+```Ruby
 describe car(owner: 'Tony Clifton') do
   its('manufacturer') { should cmp 'Cadillac' }
 end
@@ -316,7 +316,7 @@ Resources are used within a [describe block](#describe_block) to perform [tests]
 
 Here, `car` is a resource.
 
-```
+```Ruby
 describe car(owner: 'Tony Clifton') do
   it { should be_classy }
 end
@@ -334,7 +334,7 @@ Resource parameters vary from resource to resource; refer to the [resource docum
 
 Here, `owner: 'Tony Clifton'` is a resource parameter.
 
-```
+```Ruby
 describe car(owner: 'Tony Clifton') do
   it { should be_classy }
 end
@@ -348,7 +348,7 @@ Resource-specific matchers often provide highly customized behavior. Check the [
 
 For example, the hypothetical `car` resource defines a `classy?` method, which is exposed as the `be_classy` matcher in InSpec tests.
 
-```
+```Ruby
 describe car(owner: 'Tony Clifton') do
   it { should be_classy }
 end
@@ -374,7 +374,7 @@ Universal matchers are documented on the [Universal Matchers](https://www.inspec
 
 Here, we access the 'color' property, then use the `cmp` universal matcher to compare the property to the 'black' [expected result](#expected_result).
 
-```
+```Ruby
 describe car(owner: 'Bruce Wayne') do
   its('color') { should cmp 'black' }
 end

@@ -6,7 +6,7 @@ title: InSpec Integration with Habitat
 
 InSpec provides an easy method to create an executable Habitat package for an InSpec profile. When run via the Habitat Supervisor, the package will run InSpec with your profile and write out its findings to a JSON file. This provides the ability to ship your compliance controls alongside your Habitat-packaged application and continuously run InSpec, providing you *Continuous Compliance.*
 
-## What is Habitat?
+## What is Habitat
 
 Habitat by Chef is our new Application Automation tool that aims to make it easy, safe, and fast to build, deploy, and manage applications. From build dependencies, runtime dependencies, dynamic configuration, and service discovery (just to name a few), Habitat packages the automation with the application instead of relying on an underlying platform.
 
@@ -28,7 +28,7 @@ HAB_INSPEC_PROFILE_FRONTEND1="sleep_time = 60" hab start adamleff/inspec-profile
 
 The Habitat Supervisor will display output like this:
 
-```
+```text
 hab start adamleff/inspec-profile-frontend1
 ∵ Missing package for core/hab-sup/0.17.0
 » Installing core/hab-sup/0.17.0
@@ -62,7 +62,7 @@ The above sample output shows the supervisor starting, downloading the necessary
 
 InSpec will write a JSON file in the `${svc_var_path}/inspec_results` directory containing the results of the last InSpec run. For example, for the `adamleff/inspec-profile-frontend1` package, the InSpec results will be at:
 
-```
+```text
 /hab/svc/inspec-profile-frontend1/var/inspec_results/inspec-profile-frontend1.json
 ```
 
@@ -74,13 +74,13 @@ Create a Habitat package for an InSpec profile. InSpec will validate the profile
 
 The package file will be named:
 
-```
+```text
 HABITAT_ORIGIN-inspec-profile-PROFILE_NAME-PROFILE_VERSION-BUILD_ID-x86_64-linux.hart
 ```
 
 For example:
 
-```
+```text
 adamleff-inspec-profile-frontend1-0.1.0-20170328173005-x86_64-linux.hart
 ```
 
@@ -104,13 +104,13 @@ The package can then be manually uploaded to a Habitat Depot or manually distrib
 
 The package file will be named:
 
-```
+```text
 HABITAT_ORIGIN-inspec-profile-PROFILE_NAME-PROFILE_VERSION-BUILD_ID-x86_64-linux.hart
 ```
 
 For example:
 
-```
+```text
 adamleff-inspec-profile-frontend1-0.1.0-20170328173005-x86_64-linux.hart
 ```
 
@@ -128,7 +128,7 @@ inspec habitat profile create ~/profiles/frontend1
 
 #### Example Output
 
-```
+```text
 $ habitat profile create ~/profiles/frontend1
 [2017-03-28T13:29:32-04:00] INFO: Creating a Habitat artifact for profile: /Users/aleff/profiles/frontend1
 [2017-03-28T13:29:32-04:00] INFO: Checking to see if Habitat is installed...
@@ -168,7 +168,8 @@ inspec habitat profile upload ~/profiles/frontend1
 ```
 
 #### Example Output
-```
+
+```text
 [2017-03-28T13:29:32-04:00] INFO: Creating a Habitat artifact for profile: /Users/aleff/profiles/frontend1
 [2017-03-28T13:29:32-04:00] INFO: Checking to see if Habitat is installed...
 [2017-03-28T13:29:32-04:00] INFO: Copying profile contents to the work directory...

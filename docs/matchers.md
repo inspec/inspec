@@ -32,8 +32,6 @@ describe file('/proc/cpuinfo') do
 end
 ```
 
-<br>
-
 ## cmp
 
 Unlike `eq`, `cmp` is a matcher for less-restrictive comparisons. It will
@@ -72,6 +70,7 @@ describe auditd_conf do
   its('log_format') { should cmp 'RAW' }
 end
 ```
+
 * Recognize versions embedded in strings
 
 ```ruby
@@ -107,7 +106,6 @@ end
 expected: 0345
 got: 0444
 ```
-<br>
 
 ## eq
 
@@ -132,8 +130,6 @@ its('Port') { should eq 22 }
 
 For less restrictive comparisons, please use `cmp`.
 
-<br>
-
 ## include
 
 Verifies if a value is included in a list.
@@ -144,8 +140,6 @@ describe passwd do
 end
 ```
 
-<br>
-
 ## be_in
 
 Verifies that an item is included in a list.
@@ -155,8 +149,6 @@ describe resource do
   its('item') { should be_in LIST }
 end
 ```
-
-<br>
 
 ## match
 
