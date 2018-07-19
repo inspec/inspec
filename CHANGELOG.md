@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.39 -->
-## [v2.2.39](https://github.com/inspec/inspec/tree/v2.2.39) (2018-07-18)
+<!-- latest_release 2.2.40 -->
+## [v2.2.40](https://github.com/inspec/inspec/tree/v2.2.40) (2018-07-19)
 
-#### Merged Pull Requests
-- Update hab package to use psql client [#3234](https://github.com/inspec/inspec/pull/3234) ([jquick](https://github.com/jquick))
+#### Enhancements
+- Ensure resources fail that target something that isn&#39;t supported [#3231](https://github.com/inspec/inspec/pull/3231) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.35 -->
 ### Changes since 2.2.35 release
 
 #### Enhancements
+- Ensure resources fail that target something that isn&#39;t supported [#3231](https://github.com/inspec/inspec/pull/3231) ([miah](https://github.com/miah)) <!-- 2.2.40 -->
 - Refactor &#39;inspec init profile&#39; into a reusable component. [#3214](https://github.com/inspec/inspec/pull/3214) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.38 -->
 
 #### New Features
