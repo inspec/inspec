@@ -13,6 +13,19 @@ module Compliance
   class Fetcher < Fetchers::Url
     name 'compliance'
     priority 500
+    attr_reader :upstream_sha256
+
+    def initialize(target, opts)
+      super(target, opts)
+      if target.is_a?(Hash) && target.key?(:url)
+        @target = target[:url]
+        @upstream_sha256 = target[:sha256]
+      elsif target.is_a?(String)
+        @target = target
+        @upstream_sha256 = ""
+      end
+    end
+
     def self.resolve(target) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
       uri = if target.is_a?(String) && URI(target).scheme == 'compliance'
               URI(target)

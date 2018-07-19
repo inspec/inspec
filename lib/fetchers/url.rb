@@ -91,23 +91,13 @@ module Fetchers
 
     attr_reader :files, :archive_path
 
-    def initialize(target, opts)
-      if target.is_a?(Hash) && target.key?(:url)
-        @target = target[:url]
-        @upstream_sha256 = target[:sha256]
-      elsif target.is_a?(String)
-        @target = target
-        @upstream_sha256 = nil
-      end
+    def initialize(url, opts)
+      @target = url
       @insecure = opts['insecure']
       @token = opts['token']
       @config = opts
       @archive_path = nil
       @temp_archive_path = nil
-    end
-
-    def upstream_sha256
-      @upstream_sha256
     end
 
     def fetch(path)
