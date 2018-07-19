@@ -100,7 +100,7 @@ module Inspec::Resources
       # non-server OS. This attempts to use the `dism` command to get the info.
       if cmd.stderr =~ /The term 'Get-WindowsFeature' is not recognized/
         feature_info[:name] = feature
-        feature_info[:error] = cmd.stderr
+        feature_info[:error] = 'Could not find `Get-WindowsFeature`'
       else
         # We cannot rely on `cmd.exit_status != 0` because by default the
         # command will exit 1 even on success. So, if we cannot parse the JSON

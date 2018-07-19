@@ -51,7 +51,7 @@ describe 'Inspec::Resources::WindowsFeature' do
     _(resource.installed?).must_equal true
   end
 
-  it 'fails the resource if PowerShell method is specified but command fails' do
+  it 'fails the resource if PowerShell method is used but command not found' do
     resource = MockLoader.new(:windows).load_resource(
       'windows_feature',
       'IIS-WebServer',
@@ -62,6 +62,6 @@ describe 'Inspec::Resources::WindowsFeature' do
       resource.info
     }.must_raise(Inspec::Exceptions::ResourceFailed)
 
-    e.message.must_match(/The term 'Get-WindowsFeature' is not recognized/)
+    e.message.must_match(/Could not find `Get-WindowsFeature`/)
   end
 end
