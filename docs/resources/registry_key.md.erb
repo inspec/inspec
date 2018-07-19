@@ -149,10 +149,13 @@ The `name` matcher tests the value for the specified registry setting:
 
 
 <p class="warning">
-Any name with a dot will not work as expected: <code>its('explorer.exe') { should eq 'test' }</code>. This issue is tracked in <a href="https://github.com/chef/inspec/issues/1281">https://github.com/chef/inspec/issues/1281</a>
+Any name with a dot will not work as expected: <code>its('explorer.exe') { should eq 'test' }</code>. For details, see <a href="https://github.com/inspec/inspec/issues/1281">https://github.com/inspec/inspec/issues/1281</a>
 </p>
 
     # instead of:
     # its('explorer.exe') { should eq 'test' }
-    # use the following solution:
+    # either use have_property_value...
     it { should have_property_value('explorer.exe', :string, 'test') }
+
+    # ...or provide the parts of the dot-separated name in an array
+    its(['explorer', 'exe']) { should eq 'test' }
