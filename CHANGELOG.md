@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.40 -->
-## [v2.2.40](https://github.com/inspec/inspec/tree/v2.2.40) (2018-07-19)
+<!-- latest_release 2.2.41 -->
+## [v2.2.41](https://github.com/inspec/inspec/tree/v2.2.41) (2018-07-19)
 
-#### Enhancements
-- Ensure resources fail that target something that isn&#39;t supported [#3231](https://github.com/inspec/inspec/pull/3231) ([miah](https://github.com/miah))
+#### New Features
+- Add Alpine package provider [#3215](https://github.com/inspec/inspec/pull/3215) ([damacus](https://github.com/damacus))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.35 -->
@@ -15,6 +15,7 @@
 - Refactor &#39;inspec init profile&#39; into a reusable component. [#3214](https://github.com/inspec/inspec/pull/3214) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.38 -->
 
 #### New Features
+- Add Alpine package provider [#3215](https://github.com/inspec/inspec/pull/3215) ([damacus](https://github.com/damacus)) <!-- 2.2.41 -->
 - command resource: Allow redacting `#to_s` [#3207](https://github.com/inspec/inspec/pull/3207) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.37 -->
 
 #### Merged Pull Requests
