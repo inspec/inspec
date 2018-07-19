@@ -29,9 +29,6 @@ module Inspec::Resources
       @feature = feature
       @method = method
       @cache = nil
-
-      # verify that this resource is only supported on Windows
-      return skip_resource 'The `windows_feature` resource is not supported on your OS.' if !inspec.os.windows?
     end
 
     # returns true if the package is installed
