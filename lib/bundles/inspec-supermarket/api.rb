@@ -48,7 +48,9 @@ module Supermarket
     # compares a profile with the supermarket tool info
     def self.same?(profile, supermarket_tool, supermarket_url = SUPERMARKET_URL)
       tool_owner, tool_name = profile_name(profile)
-      tool = "#{supermarket_url}/api/v1/tools/#{tool_name}"
+
+      # Tool name in Supermarket URL is downcased so we need to downcase
+      tool = "#{supermarket_url}/api/v1/tools/#{tool_name.downcase}"
       supermarket_tool['tool_owner'] == tool_owner && supermarket_tool['tool'] == tool
     end
 
