@@ -1,34 +1,31 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.41 -->
-## [v2.2.41](https://github.com/inspec/inspec/tree/v2.2.41) (2018-07-19)
-
-#### New Features
-- Add Alpine package provider [#3215](https://github.com/inspec/inspec/pull/3215) ([damacus](https://github.com/damacus))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.2.35 -->
-### Changes since 2.2.35 release
-
-#### Enhancements
-- Ensure resources fail that target something that isn&#39;t supported [#3231](https://github.com/inspec/inspec/pull/3231) ([miah](https://github.com/miah)) <!-- 2.2.40 -->
-- Refactor &#39;inspec init profile&#39; into a reusable component. [#3214](https://github.com/inspec/inspec/pull/3214) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.38 -->
-
-#### New Features
-- Add Alpine package provider [#3215](https://github.com/inspec/inspec/pull/3215) ([damacus](https://github.com/damacus)) <!-- 2.2.41 -->
-- command resource: Allow redacting `#to_s` [#3207](https://github.com/inspec/inspec/pull/3207) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.37 -->
-
-#### Merged Pull Requests
-- Update hab package to use psql client [#3234](https://github.com/inspec/inspec/pull/3234) ([jquick](https://github.com/jquick)) <!-- 2.2.39 -->
-- docs: Fix formatting/style on InSpec DSL page [#3201](https://github.com/inspec/inspec/pull/3201) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.36 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.2.41](https://github.com/inspec/inspec/tree/v2.2.41) (2018-07-20)
+
+#### New Features
+- command resource: Allow redacting `#to_s` [#3207](https://github.com/inspec/inspec/pull/3207) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Add Alpine package provider [#3215](https://github.com/inspec/inspec/pull/3215) ([damacus](https://github.com/damacus))
+
+#### Enhancements
+- Refactor &#39;inspec init profile&#39; into a reusable component. [#3214](https://github.com/inspec/inspec/pull/3214) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Ensure resources fail that target something that isn&#39;t supported [#3231](https://github.com/inspec/inspec/pull/3231) ([miah](https://github.com/miah))
+
+#### Merged Pull Requests
+- docs: Fix formatting/style on InSpec DSL page [#3201](https://github.com/inspec/inspec/pull/3201) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Update hab package to use psql client [#3234](https://github.com/inspec/inspec/pull/3234) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v2.2.35](https://github.com/inspec/inspec/tree/v2.2.35) (2018-07-12)
 
 #### New Features
 - A number of bug fixes and new features for oracledb_session resource [#3170](https://github.com/inspec/inspec/pull/3170) ([voroniys](https://github.com/voroniys))
-<!-- latest_stable_release -->
 
 ## [v2.2.34](https://github.com/inspec/inspec/tree/v2.2.34) (2018-07-05)
 
