@@ -523,6 +523,7 @@ class MockLoader
       "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-544\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call('security-policy-sid-translated'),
       "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-555\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call('security-policy-sid-untranslated'),
 
+      # alpine package commands
       "apk info -vv --no-network | grep git" => cmd.call('apk-info-grep-git'),
     }
     @backend
