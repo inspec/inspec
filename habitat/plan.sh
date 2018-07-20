@@ -43,7 +43,7 @@ do_prepare() {
 
 do_unpack() {
   mkdir -pv "$HAB_CACHE_SRC_PATH/$pkg_dirname"
-  cp -R "$PLAN_CONTEXT"/../ "$HAB_CACHE_SRC_PATH/$pkg_dirname"
+  cp -RT "$PLAN_CONTEXT"/.. "$HAB_CACHE_SRC_PATH/$pkg_dirname/"
 }
 
 do_build() {
