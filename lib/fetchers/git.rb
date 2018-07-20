@@ -83,7 +83,9 @@ module Fetchers
     end
 
     def resolve_ref(ref_name)
-      cmd = shellout("git ls-remote \"#{@remote_url}\" \"#{ref_name}*\"")
+      command_string = "git ls-remote \"#{@remote_url}\" \"#{ref_name}*\""
+      cmd = shellout(command_string)
+      raise "Error running '#{command_string}': #{cmd.stderr}" unless cmd.stderr == ''
       ref = parse_ls_remote(cmd.stdout, ref_name)
       if !ref
         raise "Unable to resolve #{ref_name} to a specific git commit for #{@remote_url}"
