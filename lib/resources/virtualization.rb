@@ -70,7 +70,7 @@ module Inspec::Resources
       # This file should exist on most Xen systems, normally empty for guests
       return false unless inspec.file('/proc/xen/capabilities').exist?
       @virtualization_data[:system] = 'xen'
-      if inspec.file('/proc/xen/capabilities').content =~ /control_d/i # rubocop:disable Layout/MultilineOperationIndentation
+      if inspec.file('/proc/xen/capabilities').content =~ /control_d/i
         @virtualization_data[:role] = 'host'
       else
         @virtualization_data[:role] = 'guest'
