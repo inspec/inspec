@@ -1,8 +1,8 @@
 # InSpec: Inspect Your Infrastructure
 
 [![Slack](https://community-slack.chef.io/badge.svg)](https://community-slack.chef.io/)
-[![Build Status Master](https://travis-ci.org/chef/inspec.svg?branch=master)](https://travis-ci.org/chef/inspec)
-[![Build Status Master](https://ci.appveyor.com/api/projects/status/github/chef/inspec?branch=master&svg=true&passingText=master%20-%20Ok&pendingText=master%20-%20Pending&failingText=master%20-%20Failing)](https://ci.appveyor.com/project/Chef/inspec/branch/master)
+[![Build Status Master](https://travis-ci.org/inspec/inspec.svg?branch=master)](https://travis-ci.org/inspec/inspec)
+[![Build Status Master](https://ci.appveyor.com/api/projects/status/github/inspec/inspec?branch=master&svg=true&passingText=master%20-%20Ok&pendingText=master%20-%20Pending&failingText=master%20-%20Failing)](https://ci.appveyor.com/project/Chef/inspec/branch/master)
 
 InSpec is an open-source testing framework for infrastructure with a human- and machine-readable language for specifying compliance, security and policy requirements.
 
