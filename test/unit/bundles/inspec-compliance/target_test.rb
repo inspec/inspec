@@ -61,28 +61,79 @@ describe Compliance::Fetcher do
     end
   end
 
-  describe 'when the server calls a automate profile' do
+  describe 'when the server calls an automate profile' do
+    let(:profiles_result) do
+      [{ 'name'=>'ssh-baseline',
+          'title'=>'InSpec Profile',
+          'maintainer'=>'The Authors',
+          'copyright'=>'The Authors',
+          'copyright_email'=>'you@example.com',
+          'license'=>'Apache-2.0',
+          'summary'=>'An InSpec Compliance Profile',
+          'version'=>'0.1.1',
+          'owner'=>'admin',
+          'supports'=>[],
+          'depends'=>[],
+          'sha256'=>'132j1kjdasfasdoaefaewo12312',
+          'groups'=>[],
+          'controls'=>[],
+          'attributes'=>[],
+          'latest_version'=>'' }]
+    end
     before do
-      Compliance::Configuration.expects(:new).returns({ 'token' => "123abc" })
+      Compliance::Configuration.expects(:new).returns({ 'token' => '123abc', 'server' => 'https://a2.instance.com' })
     end
 
     it 'returns the correct profile name when parsing url' do
-      Compliance::API.stubs(:exist?).returns(true)
+      Compliance::API.stubs(:profiles).returns(['success', profiles_result])
       fetcher = Compliance::Fetcher.resolve('compliance://admin/ssh-baseline')
-      assert = ["admin", "ssh-baseline", nil]
+      assert = ['admin', 'ssh-baseline', nil]
       fetcher.instance_variable_get(:"@config")['profile'].must_equal assert
     end
 
     it 'returns the correct profile name when parsing compliance hash' do
-      Compliance::API.stubs(:exist?).returns(true)
+      Compliance::API.stubs(:profiles).returns(['success', profiles_result])
       hash = {
-        target: "https://a2.instance.com/api/v0/compliance/tar",
-        compliance: "admin/ssh-baseline",
-        sha256: "132j1kjdasfasdoaefaewo12312",
+        target: 'https://a2.instance.com/api/v0/compliance/tar',
+        compliance: 'admin/ssh-baseline',
+        sha256: '132j1kjdasfasdoaefaewo12312',
       }
       fetcher = Compliance::Fetcher.resolve(hash)
-      assert = ["admin", "ssh-baseline", nil]
+      assert = ['admin', 'ssh-baseline', nil]
       fetcher.instance_variable_get(:"@config")['profile'].must_equal assert
+    end
+  end
+
+  describe 'when the server provides a sha256 in the profiles_result' do
+    let(:profiles_result) do
+      [{ 'name'=>'ssh-baseline',
+          'title'=>'InSpec Profile',
+          'maintainer'=>'The Authors',
+          'copyright'=>'The Authors',
+          'copyright_email'=>'you@example.com',
+          'license'=>'Apache-2.0',
+          'summary'=>'An InSpec Compliance Profile',
+          'version'=>'0.1.1',
+          'owner'=>'admin',
+          'supports'=>[],
+          'depends'=>[],
+          'sha256'=>'132j1kjdasfasdoaefaewo12312',
+          'groups'=>[],
+          'controls'=>[],
+          'attributes'=>[],
+          'latest_version'=>'' }]
+    end
+
+    before do
+      Compliance::Configuration.expects(:new).returns({ 'token' => '123abc', 'server' => 'https://a2.instance.com' })
+    end
+
+    it 'contains the upstream_sha256' do
+      Compliance::API.stubs(:profiles).returns(['success', profiles_result])
+      prof = profiles_result[0]
+      target = "compliance://#{prof['owner']}/#{prof['name']}"
+      fetcher = Compliance::Fetcher.resolve(target)
+      fetcher.upstream_sha256.must_equal prof['sha256']
     end
   end
 end
