@@ -36,14 +36,14 @@ module Compliance
       end
 
       headers = get_headers(config)
+      if profile_filter
+        _owner, id, ver = profile_split(profile_filter)
+      else
+        id, ver = nil
+      end
 
       if is_automate2_server?(config)
-        if profile_filter
-          _owner, id, ver = profile_split(profile_filter)
-          body = { owner: owner, name: id }.to_json
-        else
-          body = { owner: owner }.to_json
-        end
+        body = { owner: owner, name: id }.to_json
         response = Compliance::HTTP.post_with_headers(url, headers, body, config['insecure'])
       else
         response = Compliance::HTTP.get(url, headers, config['insecure'])
@@ -54,10 +54,6 @@ module Compliance
       when '200'
         msg = 'success'
         profiles = JSON.parse(data)
-        if profile_filter && ver
-          profiles['profiles'].select! { |p| p['version'] == ver }
-          profiles['total'] = profiles['profiles'].count
-        end
         # iterate over profiles
         if is_compliance_server?(config)
           mapped_profiles = []
@@ -78,6 +74,10 @@ module Compliance
             e
           }
         end
+        # filter by name and version if they were specified in profile_filter
+        mapped_profiles.select! { |p|
+          (!ver || p['version'] == ver) && (!id || p['name'] == id)
+        }
         return msg, mapped_profiles
       when '401'
         msg = '401 Unauthorized. Please check your token.'
