@@ -173,9 +173,12 @@ module Compliance
       # read profile name from inspec.yml
       profile_name = profile.params[:name]
 
+      # read profile version from inspec.yml
+      profile_version = profile.params[:version]
+
       # check that the profile is not uploaded already,
       # confirm upload to the user (overwrite with --force)
-      if Compliance::API.exist?(config, "#{config['owner']}/#{profile_name}") && !options['overwrite']
+      if Compliance::API.exist?(config, "#{config['owner']}/#{profile_name}##{profile_version}") && !options['overwrite']
         error.call('Profile exists on the server, use --overwrite')
       end
 
