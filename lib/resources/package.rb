@@ -19,10 +19,7 @@ module Inspec::Resources
         its('version') { should eq 1.9.5 }
       end
     "
-    # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/CyclomaticComplexity
-    # rubocop:disable Metrics/PerceivedComplexity
-    def initialize(package_name, opts = {})
+    def initialize(package_name, opts = {}) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       @package_name = package_name
       @name = @package_name
       @cache = nil
@@ -54,9 +51,6 @@ module Inspec::Resources
 
       evaluate_missing_requirements
     end
-    # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/CyclomaticComplexity
-    # rubocop:enable Metrics/PerceivedComplexity
 
     # returns true if the package is installed
     def installed?(_provider = nil, _version = nil)

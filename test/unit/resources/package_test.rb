@@ -153,7 +153,7 @@ describe 'Inspec::Resources::Package' do
   end
 
   # alpine
-  it 'verify Alpine package processing' do
+  it 'can parse Alpine packages' do
     resource = MockLoader.new(:alpine).load_resource('package', 'git')
     pkg = { name: 'git', installed: true, version: '2.15.0-r1', type: 'pkg' }
     _(resource.installed?).must_equal true
