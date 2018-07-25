@@ -139,6 +139,15 @@ describe Supermarket::API do
 
           profile.must_equal(profile_search_response_body['items'].first.merge({'slug' => 'test_name'}))
         end
+
+        it 'raises an error if tool name is not present' do
+          profile_name = 'supermarket://owner_only'
+          stub_request(:get, "#{supermarket_url}/api/v1/tools-search?items=100&type=compliance_profile").
+              to_return(:status => 200, :body => profile_search_response_body.to_json)
+
+          e = proc { subject.find(profile_name, supermarket_url) }.must_raise
+          e.message.must_equal("Could not parse tool name from #{profile_name}")
+        end
       end
     end
   end
