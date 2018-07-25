@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.44 -->
-## [v2.2.44](https://github.com/inspec/inspec/tree/v2.2.44) (2018-07-25)
+<!-- latest_release 2.2.45 -->
+## [v2.2.45](https://github.com/inspec/inspec/tree/v2.2.45) (2018-07-25)
 
 #### Enhancements
-- Add extra fault checking to git fetcher [#3239](https://github.com/inspec/inspec/pull/3239) ([james-stocks](https://github.com/james-stocks))
+- alpine resource: Fix small style issues [#3238](https://github.com/inspec/inspec/pull/3238) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.41 -->
 ### Changes since 2.2.41 release
 
 #### Enhancements
+- alpine resource: Fix small style issues [#3238](https://github.com/inspec/inspec/pull/3238) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.45 -->
 - Add extra fault checking to git fetcher [#3239](https://github.com/inspec/inspec/pull/3239) ([james-stocks](https://github.com/james-stocks)) <!-- 2.2.44 -->
 
 #### Merged Pull Requests
