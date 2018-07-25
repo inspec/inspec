@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.46 -->
-## [v2.2.46](https://github.com/inspec/inspec/tree/v2.2.46) (2018-07-25)
+<!-- latest_release 2.2.47 -->
+## [v2.2.47](https://github.com/inspec/inspec/tree/v2.2.47) (2018-07-25)
 
-#### Merged Pull Requests
-- cli: Downcase supermarket tool name to match URL [#3242](https://github.com/inspec/inspec/pull/3242) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### New Features
+- windows_feature resource: Add DISM support [#3224](https://github.com/inspec/inspec/pull/3224) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.41 -->
 ### Changes since 2.2.41 release
+
+#### New Features
+- windows_feature resource: Add DISM support [#3224](https://github.com/inspec/inspec/pull/3224) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.47 -->
 
 #### Enhancements
 - alpine resource: Fix small style issues [#3238](https://github.com/inspec/inspec/pull/3238) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.45 -->
