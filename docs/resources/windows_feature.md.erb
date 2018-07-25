@@ -28,9 +28,21 @@ where
 
 The following examples show how to use this InSpec audit resource.
 
-### Test the DHCP Server feature
+### Test the DHCP feature (Attempts PowerShell then DISM)
 
-    describe windows_feature('DHCP Server') do
+    describe windows_feature('DHCP') do
+      it{ should be_installed }
+    end
+
+### Test the IIS-WebServer feature using DISM
+
+    describe windows_feature('IIS-WebServer', DISM) do
+      it{ should be_installed }
+    end
+
+### Test the NetFx3 feature using DISM
+
+    describe windows_feature('NetFx3', :dism) do
       it{ should be_installed }
     end
 
