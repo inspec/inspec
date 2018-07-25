@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.45 -->
-## [v2.2.45](https://github.com/inspec/inspec/tree/v2.2.45) (2018-07-25)
+<!-- latest_release 2.2.46 -->
+## [v2.2.46](https://github.com/inspec/inspec/tree/v2.2.46) (2018-07-25)
 
-#### Enhancements
-- alpine resource: Fix small style issues [#3238](https://github.com/inspec/inspec/pull/3238) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Merged Pull Requests
+- cli: Downcase supermarket tool name to match URL [#3242](https://github.com/inspec/inspec/pull/3242) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.41 -->
@@ -15,6 +15,7 @@
 - Add extra fault checking to git fetcher [#3239](https://github.com/inspec/inspec/pull/3239) ([james-stocks](https://github.com/james-stocks)) <!-- 2.2.44 -->
 
 #### Merged Pull Requests
+- cli: Downcase supermarket tool name to match URL [#3242](https://github.com/inspec/inspec/pull/3242) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.46 -->
 - Fix the unit tests ssl issue [#3251](https://github.com/inspec/inspec/pull/3251) ([jquick](https://github.com/jquick)) <!-- 2.2.43 -->
 - update README.md to fix travis and appveyor&#39;s badges. [#3244](https://github.com/inspec/inspec/pull/3244) ([takahashim](https://github.com/takahashim)) <!-- 2.2.42 -->
 <!-- release_rollup -->
