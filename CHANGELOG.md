@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.42 -->
-## [v2.2.42](https://github.com/inspec/inspec/tree/v2.2.42) (2018-07-23)
+<!-- latest_release 2.2.43 -->
+## [v2.2.43](https://github.com/inspec/inspec/tree/v2.2.43) (2018-07-25)
 
 #### Merged Pull Requests
-- update README.md to fix travis and appveyor&#39;s badges. [#3244](https://github.com/inspec/inspec/pull/3244) ([takahashim](https://github.com/takahashim))
+- Fix the unit tests ssl issue [#3251](https://github.com/inspec/inspec/pull/3251) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.41 -->
 ### Changes since 2.2.41 release
 
 #### Merged Pull Requests
+- Fix the unit tests ssl issue [#3251](https://github.com/inspec/inspec/pull/3251) ([jquick](https://github.com/jquick)) <!-- 2.2.43 -->
 - update README.md to fix travis and appveyor&#39;s badges. [#3244](https://github.com/inspec/inspec/pull/3244) ([takahashim](https://github.com/takahashim)) <!-- 2.2.42 -->
 <!-- release_rollup -->
 
