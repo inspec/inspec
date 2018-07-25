@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.43 -->
-## [v2.2.43](https://github.com/inspec/inspec/tree/v2.2.43) (2018-07-25)
+<!-- latest_release 2.2.44 -->
+## [v2.2.44](https://github.com/inspec/inspec/tree/v2.2.44) (2018-07-25)
 
-#### Merged Pull Requests
-- Fix the unit tests ssl issue [#3251](https://github.com/inspec/inspec/pull/3251) ([jquick](https://github.com/jquick))
+#### Enhancements
+- Add extra fault checking to git fetcher [#3239](https://github.com/inspec/inspec/pull/3239) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.41 -->
 ### Changes since 2.2.41 release
+
+#### Enhancements
+- Add extra fault checking to git fetcher [#3239](https://github.com/inspec/inspec/pull/3239) ([james-stocks](https://github.com/james-stocks)) <!-- 2.2.44 -->
 
 #### Merged Pull Requests
 - Fix the unit tests ssl issue [#3251](https://github.com/inspec/inspec/pull/3251) ([jquick](https://github.com/jquick)) <!-- 2.2.43 -->
