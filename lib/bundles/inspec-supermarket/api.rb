@@ -38,7 +38,8 @@ module Supermarket
     def self.info(profile, supermarket_url = SUPERMARKET_URL)
       _tool_owner, tool_name = profile_name("supermarket://#{profile}")
       return if tool_name.nil? || tool_name.empty?
-      url = "#{supermarket_url}/api/v1/tools/#{tool_name}"
+      # Tool name in Supermarket URL is downcased so we need to downcase
+      url = "#{supermarket_url}/api/v1/tools/#{tool_name.downcase}"
       _success, data = get(url, {})
       JSON.parse(data) if !data.nil?
     rescue JSON::ParserError
@@ -48,7 +49,11 @@ module Supermarket
     # compares a profile with the supermarket tool info
     def self.same?(profile, supermarket_tool, supermarket_url = SUPERMARKET_URL)
       tool_owner, tool_name = profile_name(profile)
-      tool = "#{supermarket_url}/api/v1/tools/#{tool_name}"
+
+      raise "Could not parse tool name from #{profile}" if tool_name.nil?
+
+      # Tool name in Supermarket URL is downcased so we need to downcase
+      tool = "#{supermarket_url}/api/v1/tools/#{tool_name.downcase}"
       supermarket_tool['tool_owner'] == tool_owner && supermarket_tool['tool'] == tool
     end
 
