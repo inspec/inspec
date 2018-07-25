@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.47 -->
-## [v2.2.47](https://github.com/inspec/inspec/tree/v2.2.47) (2018-07-25)
+<!-- latest_release 2.2.48 -->
+## [v2.2.48](https://github.com/inspec/inspec/tree/v2.2.48) (2018-07-25)
 
-#### New Features
-- windows_feature resource: Add DISM support [#3224](https://github.com/inspec/inspec/pull/3224) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Merged Pull Requests
+- Satisfy RuboCop by adding `x` bit to `bin/inspec` [#3249](https://github.com/inspec/inspec/pull/3249) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.41 -->
@@ -18,6 +18,7 @@
 - Add extra fault checking to git fetcher [#3239](https://github.com/inspec/inspec/pull/3239) ([james-stocks](https://github.com/james-stocks)) <!-- 2.2.44 -->
 
 #### Merged Pull Requests
+- Satisfy RuboCop by adding `x` bit to `bin/inspec` [#3249](https://github.com/inspec/inspec/pull/3249) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.48 -->
 - cli: Downcase supermarket tool name to match URL [#3242](https://github.com/inspec/inspec/pull/3242) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.46 -->
 - Fix the unit tests ssl issue [#3251](https://github.com/inspec/inspec/pull/3251) ([jquick](https://github.com/jquick)) <!-- 2.2.43 -->
 - update README.md to fix travis and appveyor&#39;s badges. [#3244](https://github.com/inspec/inspec/pull/3244) ([takahashim](https://github.com/takahashim)) <!-- 2.2.42 -->
