@@ -67,15 +67,15 @@ module Inspec::Resources
     # - Additional edge cases likely should not change the above assumptions
     #   but rather be additive - btm
     def detect_xen
-      return false unless inspec.file('/proc/xen').exist?
-      @virtualization_data[:system] = 'xen'
-      @virtualization_data[:role] = 'guest'
-
       # This file should exist on most Xen systems, normally empty for guests
-      if inspec.file('/proc/xen/capabilities').exist? &&
-          inspec.file('/proc/xen/capabilities').content =~ /control_d/i # rubocop:disable Layout/MultilineOperationIndentation
+      return false unless inspec.file('/proc/xen/capabilities').exist?
+      @virtualization_data[:system] = 'xen'
+      if inspec.file('/proc/xen/capabilities').content =~ /control_d/i
         @virtualization_data[:role] = 'host'
+      else
+        @virtualization_data[:role] = 'guest'
       end
+
       true
     end
 
