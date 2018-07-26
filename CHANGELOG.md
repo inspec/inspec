@@ -1,32 +1,30 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.50 -->
-## [v2.2.50](https://github.com/inspec/inspec/tree/v2.2.50) (2018-07-26)
-
-#### Enhancements
-- Since /proc/xen is an empty dir in Amazon Linux, inspec falsely detects docker instances as platform=&#39;xen&#39; [#3243](https://github.com/inspec/inspec/pull/3243) ([woneill](https://github.com/woneill))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.2.41 -->
-### Changes since 2.2.41 release
-
-#### New Features
-- windows_feature resource: Add DISM support [#3224](https://github.com/inspec/inspec/pull/3224) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.47 -->
-
-#### Enhancements
-- Since /proc/xen is an empty dir in Amazon Linux, inspec falsely detects docker instances as platform=&#39;xen&#39; [#3243](https://github.com/inspec/inspec/pull/3243) ([woneill](https://github.com/woneill)) <!-- 2.2.50 -->
-- alpine resource: Fix small style issues [#3238](https://github.com/inspec/inspec/pull/3238) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.45 -->
-- Add extra fault checking to git fetcher [#3239](https://github.com/inspec/inspec/pull/3239) ([james-stocks](https://github.com/james-stocks)) <!-- 2.2.44 -->
-
-#### Merged Pull Requests
-- Fix for profile version not being included in the compliance upload c… [#3252](https://github.com/inspec/inspec/pull/3252) ([devoptimist](https://github.com/devoptimist)) <!-- 2.2.49 -->
-- Satisfy RuboCop by adding `x` bit to `bin/inspec` [#3249](https://github.com/inspec/inspec/pull/3249) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.48 -->
-- cli: Downcase supermarket tool name to match URL [#3242](https://github.com/inspec/inspec/pull/3242) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.46 -->
-- Fix the unit tests ssl issue [#3251](https://github.com/inspec/inspec/pull/3251) ([jquick](https://github.com/jquick)) <!-- 2.2.43 -->
-- update README.md to fix travis and appveyor&#39;s badges. [#3244](https://github.com/inspec/inspec/pull/3244) ([takahashim](https://github.com/takahashim)) <!-- 2.2.42 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.2.50](https://github.com/inspec/inspec/tree/v2.2.50) (2018-07-26)
+
+#### New Features
+- windows_feature resource: Add DISM support [#3224](https://github.com/inspec/inspec/pull/3224) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Enhancements
+- Add extra fault checking to git fetcher [#3239](https://github.com/inspec/inspec/pull/3239) ([james-stocks](https://github.com/james-stocks))
+- alpine resource: Fix small style issues [#3238](https://github.com/inspec/inspec/pull/3238) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Since /proc/xen is an empty dir in Amazon Linux, inspec falsely detects docker instances as platform=&#39;xen&#39; [#3243](https://github.com/inspec/inspec/pull/3243) ([woneill](https://github.com/woneill))
+
+#### Merged Pull Requests
+- update README.md to fix travis and appveyor&#39;s badges. [#3244](https://github.com/inspec/inspec/pull/3244) ([takahashim](https://github.com/takahashim))
+- Fix the unit tests ssl issue [#3251](https://github.com/inspec/inspec/pull/3251) ([jquick](https://github.com/jquick))
+- cli: Downcase supermarket tool name to match URL [#3242](https://github.com/inspec/inspec/pull/3242) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Satisfy RuboCop by adding `x` bit to `bin/inspec` [#3249](https://github.com/inspec/inspec/pull/3249) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Fix for profile version not being included in the compliance upload c… [#3252](https://github.com/inspec/inspec/pull/3252) ([devoptimist](https://github.com/devoptimist))
+<!-- latest_stable_release -->
+
 ## [v2.2.41](https://github.com/inspec/inspec/tree/v2.2.41) (2018-07-20)
 
 #### New Features
@@ -40,7 +38,6 @@
 #### Merged Pull Requests
 - docs: Fix formatting/style on InSpec DSL page [#3201](https://github.com/inspec/inspec/pull/3201) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Update hab package to use psql client [#3234](https://github.com/inspec/inspec/pull/3234) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.2.35](https://github.com/inspec/inspec/tree/v2.2.35) (2018-07-12)
 
