@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.49 -->
-## [v2.2.49](https://github.com/inspec/inspec/tree/v2.2.49) (2018-07-26)
+<!-- latest_release 2.2.50 -->
+## [v2.2.50](https://github.com/inspec/inspec/tree/v2.2.50) (2018-07-26)
 
-#### Merged Pull Requests
-- Fix for profile version not being included in the compliance upload c… [#3252](https://github.com/inspec/inspec/pull/3252) ([devoptimist](https://github.com/devoptimist))
+#### Enhancements
+- Since /proc/xen is an empty dir in Amazon Linux, inspec falsely detects docker instances as platform=&#39;xen&#39; [#3243](https://github.com/inspec/inspec/pull/3243) ([woneill](https://github.com/woneill))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.41 -->
@@ -14,6 +14,7 @@
 - windows_feature resource: Add DISM support [#3224](https://github.com/inspec/inspec/pull/3224) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.47 -->
 
 #### Enhancements
+- Since /proc/xen is an empty dir in Amazon Linux, inspec falsely detects docker instances as platform=&#39;xen&#39; [#3243](https://github.com/inspec/inspec/pull/3243) ([woneill](https://github.com/woneill)) <!-- 2.2.50 -->
 - alpine resource: Fix small style issues [#3238](https://github.com/inspec/inspec/pull/3238) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.45 -->
 - Add extra fault checking to git fetcher [#3239](https://github.com/inspec/inspec/pull/3239) ([james-stocks](https://github.com/james-stocks)) <!-- 2.2.44 -->
 
