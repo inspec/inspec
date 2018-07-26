@@ -4,7 +4,7 @@ module Inspec::Resources
   class DockerPlugin < Inspec.resource(1)
     name 'docker_plugin'
     supports platform: 'unix'
-    desc ''
+    desc 'Retrieves info about docker plugins'
     example "
       describe docker_plugin('rexray/ebs') do
         it { should exist }
