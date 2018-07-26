@@ -12,7 +12,7 @@ The InSpec community contains a diverse group of professionals and volunteers wh
 
 Be careful in the words that you choose. Be kind to others. Practice empathy. Don't insult or put down others. Remember that sexist, racist, ableist and other exclusionary jokes can be offensive to those around you. If you think your conversation is making another community member uncomfortable _or_ if they tell you so, stop immediately, make amends, and move forward.
 
-As you are working with other members of the community, please keep in mind the following guidelines, which apply equally to founders, mentors, those whom submit new features/pull requests, and to anyone who is seeking help and guidance.
+As you are working with other members of the community, please keep in mind the following guidelines, which apply equally to founders, mentors, those who submit new features/pull requests, and to anyone who is seeking help and guidance.
 
 The following list isn’t exhaustive; but these few examples can help all of us communicate well so that the community can work better together:
   * Use welcoming and inclusive language
