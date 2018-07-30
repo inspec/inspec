@@ -8,7 +8,7 @@ describe Inspec::Reporters::JsonMin do
     data = JSON.parse(File.read(path + '/../mock/reporters/run_data_wrapper.json'), symbolize_names: true)
     Inspec::Reporters::JsonMerged.new({ run_data: data })
   end
-  let(:profiles) { report.instance_variable_get(:@profiles) }
+  let(:profiles) { report.report[:profiles] }
 
   describe '#render' do
     it 'confirms render output' do
@@ -28,6 +28,7 @@ describe Inspec::Reporters::JsonMin do
 
   describe '#find_master_parent' do
     it 'finds the parent' do
+      report.instance_variable_set(:@profiles, profiles)
       parent = report.send(:find_master_parent, profiles[1])
       parent[:name].must_equal 'wrapper-override'
     end

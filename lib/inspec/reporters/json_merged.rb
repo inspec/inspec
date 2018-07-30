@@ -6,7 +6,7 @@ module Inspec::Reporters
   class JsonMerged < Json
     def initialize(config)
       super(config)
-      @profiles = report[:profiles]
+      @profiles = []
     end
 
     def render
@@ -14,6 +14,9 @@ module Inspec::Reporters
     end
 
     def report_merged
+      # grab profiles from the json parent class
+      @profiles = report[:profiles]
+
       {
         platform: platform,
         profiles: merge_profiles,
