@@ -4,6 +4,7 @@
 
 require 'functional/helper'
 require 'jsonschema'
+require 'tmpdir'
 
 describe 'inspec check' do
   include FunctionalHelper
@@ -48,6 +49,20 @@ describe 'inspec check' do
     it 'ignore train connection error' do
       out = inspec('check ' + File.join(examples_path, 'profile-azure'))
       out.exit_status.must_equal 0
+    end
+  end
+
+  describe 'inspec check with alternate cache dir' do
+    it 'writes to the alternate cache dir' do
+      Dir.mktmpdir do |tmpdir|
+        cache_dir = File.join(tmpdir, "inspec_check_test_cache")
+
+        File.exist?(cache_dir).must_equal false
+        out = inspec('check ' + integration_test_path + ' --vendor-cache ' + cache_dir)
+        out.exit_status.must_equal 0
+
+        File.exist?(cache_dir).must_equal true
+      end
     end
   end
 end

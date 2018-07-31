@@ -37,6 +37,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o[:ignore_supports] = true
     o[:backend] = Inspec::Backend.create(target: 'mock://')
     o[:check_mode] = true
+    o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
 
     profile = Inspec::Profile.for_target(target, o)
     info = profile.info
@@ -70,6 +71,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o[:ignore_supports] = true # we check for integrity only
     o[:backend] = Inspec::Backend.create(target: 'mock://')
     o[:check_mode] = true
+    o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
 
     # run check
     profile = Inspec::Profile.for_target(path, o)
@@ -140,6 +142,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o[:logger] = Logger.new(STDOUT)
     o[:logger].level = get_log_level(o.log_level)
     o[:backend] = Inspec::Backend.create(target: 'mock://')
+    o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
 
     profile = Inspec::Profile.for_target(path, o)
     result = profile.check
