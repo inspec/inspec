@@ -39,7 +39,6 @@ module Inspec
       @target_profiles = []
       @controls = @conf[:controls] || []
       @depends = @conf[:depends] || []
-      @ignore_supports = @conf[:ignore_supports]
       @create_lockfile = @conf[:create_lockfile]
       @cache = Inspec::Cache.new(@conf[:vendor_cache])
 
@@ -196,8 +195,6 @@ module Inspec
     end
 
     def supports_profile?(profile)
-      return true if @ignore_supports
-
       if !profile.supports_runtime?
         raise 'This profile requires InSpec version '\
              "#{profile.metadata.inspec_requirement}. You are running "\
