@@ -42,7 +42,7 @@ module Inspec
       @__rule_id = id
       @__profile_id = profile_id
       @__checks = []
-      @__skip_rule = nil
+      @__skip_rule = {}
       @__merge_count = 0
       @__skip_only_if_eval = opts[:skip_only_if_eval]
 
@@ -117,11 +117,12 @@ module Inspec
     #
     # @param [Type] &block returns true if tests are added, false otherwise
     # @return [nil]
-    def only_if
+    def only_if(message=nil)
       return unless block_given?
       return if @__skip_only_if_eval == true
 
-      @__skip_rule ||= !yield
+      @__skip_rule[:result] ||= !yield
+      @__skip_rule[:message] = message
     end
 
     # Describe will add one or more tests to this control. There is 2 ways
@@ -183,8 +184,12 @@ module Inspec
 
     def self.prepare_checks(rule)
       msg = skip_status(rule)
-      return checks(rule) unless msg
-      msg = 'Skipped control due to only_if condition.' if msg == true
+      return checks(rule) unless msg.eql?(true) || msg[:result]
+      if msg.eql?(true) || msg[:message].nil?
+        msg = 'Skipped control due to only_if condition.'
+      else
+        msg = "Skipped control due to only_if condition: #{msg[:message]}"
+      end
 
       # TODO: we use os as the carrier here, but should consider
       # a separate resource to do skipping
