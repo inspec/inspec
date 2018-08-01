@@ -228,7 +228,7 @@ module Inspec
       dst.instance_variable_set(:@__merge_count, merge_count(dst) + 1)
       dst.instance_variable_set(
         :@__merge_changes,
-        merge_changes(dst) << src.instance_variable_get(:@__source_location)
+        merge_changes(dst) << src.instance_variable_get(:@__source_location),
       )
     end
 
