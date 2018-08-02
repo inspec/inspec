@@ -35,3 +35,4 @@ terraform.tfstate*
 terraform.tfstate.backup
 inspec-azure.plan
 inspec-aws-*.plan
+contrib/*

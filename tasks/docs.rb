@@ -18,10 +18,18 @@
 require 'erb'
 require 'ruby-progressbar'
 require 'fileutils'
+require 'yaml'
 require_relative './shared'
 
 WWW_DIR     = File.expand_path(File.join(__dir__, '..', 'www')).freeze
 DOCS_DIR    = File.expand_path(File.join(__dir__, '..', 'docs')).freeze
+
+begin
+  require 'git'
+  require_relative './contrib'
+rescue LoadError
+  puts 'contrib tasks are unavailable because the git gem is not available.'
+end
 
 class Markdown
   class << self
@@ -135,58 +143,79 @@ class ResourceDocs
     render(x + '.md.erb')
   end
 
-  def overview_page(resources) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    f = Markdown
-    res = f.meta(title: 'InSpec Resources Reference')
-    res << f.h1('InSpec Resources Reference')
-    res << f.p('The following list of InSpec resources are available.')
+  def overview_page(resource_doc_files) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    renderer = Markdown
+    markdown = renderer.meta(title: 'InSpec Resources Reference')
+    markdown << renderer.h1('InSpec Resources Reference')
+    markdown << renderer.p('The following list of InSpec resources are available.')
 
-    lib_resources = Dir[File.expand_path(File.join('.', '..', 'lib', 'resources', '*'))]
-    lib_groups = lib_resources.find_all { |x| File.directory?(x) }
-    sections = Hash[lib_groups.map do |x|
-      files = Dir[File.join(x, '*.rb')].map { |y| File.basename(y).sub(/\.rb$/, '') }
-      [File.basename(x), files]
-    end]
+    contrib_config = YAML.load(File.read(File.join(CONTRIB_DIR, 'contrib.yaml')))
 
-    resource_dict = Hash[resources.map { |file| [File.basename(file).sub(/\.md\.erb$/, ''), file] }]
-
-    lists = Hash[sections.keys.map { |k| [k, ''] }]
-    lists[''] = ''
-    resource_dict.keys.sort.each do |name|
-      section = sections.find { |_, v| v.include?(name) }
-      l = section.nil? ? '' : section[0]
-      lists[l] << f.li(f.a(name.gsub('_', '\\_'), 'resources/' + name + '.html'))
+    # Build a list of resources keyed on the group they are a part of.
+    # We'll determine the group using regexes.
+    group_regexes = [
+      # These are hardcoded present in the main repo.  If they become resource
+      # packs, this should change.
+      { group_name: 'AWS', regex: /^aws_/ },
+      { group_name: 'Azure', regex: /^azure(rm)?_/ },
+    ]
+    # Also pick up regexes and group names from contrib resource packs.
+    contrib_config['resource_packs'].values.each do |project_info|
+      group_regexes << { group_name: project_info['doc_group_title'], regex: Regexp.new(project_info['resource_file_regex']) }
     end
 
-    section_names = lists.keys.find_all { |k| !k.empty? }
-    links = [['#os-resources', 'All OS resources']] +
-            section_names.map do |name|
-              ['#'+(name+'-resources').downcase, namify(name)+' resources']
-            end
+    # OK, apply the regexes we have to the resource doc file list we were passed.
+    # doc_file looks like /resources/foo.md.erb - trim off directory and file extension
+    trimmed_doc_files = resource_doc_files.dup.map { |file| File.basename(file).sub(/\.md(\.erb)?$/, '') }
+    resources_by_group = Hash[group_regexes.map { |info| [info[:group_name], []] }] # Initialize each group to an empty array
+    resources_by_group['OS resources'] = []
+    trimmed_doc_files.each do |doc_file|
+      matched = false
+      group_regexes.each do |group_info|
+        next if matched
+        if doc_file =~ group_info[:regex]
+          resources_by_group[group_info[:group_name]] << doc_file
+          matched = true
+        end
+      end
+      # Any resources that don't match a regex are assumed to be 'os' resources.
+      resources_by_group['OS resources'] << doc_file unless matched
+    end
 
-    items = links.map do |x|
-      format('<a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="%s">%s</a>',
-             x[0], x[1])
-    end.join("\n")
-    res << format('
-<div class="row columns align">
-  %s
-</div>
-', items)
+    # Now transform the resource lists into HTML
+    markdown_resource_links_by_group = {}
+    resources_by_group.each do |group_name, resource_list|
+      markdown_resource_links_by_group[group_name] = resource_list.map do |resource_name|
+        renderer.li(renderer.a(resource_name.gsub('_', '\\_'), 'resources/' + resource_name + '.html'))
+      end.join('')
+    end
 
-    section = '
+    # Remove any groups that have no resource docs.
+    resources_by_group.reject! { |_, resource_list| resource_list.empty? }
+
+    # Generate the big buttons that jump to the section of the page for each group.
+    markdown << '<div class="row columns align">'
+    # "Sorted, except OS is always in first place"
+    ordered_group_names = ['OS resources'] + resources_by_group.keys.sort.reject { |group_name| group_name == 'OS resources' }
+    button_template = '<a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="%s">%s</a>'
+    ordered_group_names.each do |group_name|
+      markdown << format(button_template, '#'+(group_name+'-resources').downcase, group_name)
+      markdown << "\n"
+    end
+    markdown << '</div>'
+
+    # Generate the actual long lists of links
+    group_section_header_template = '
 <div class="brdr-left margin-top-sm margin-under-xs">
   <h3 class="margin-left-xs"><a id="%s" class="a-purple"><h3 class="a-purple">%s</h3></a></h3>
 </div>
 '
-    res << format(section, 'os-resources', 'All OS resources')
-    res << f.ul(lists[''])
-    section_names.each do |group|
-      res << format(section, (group+'-resources').downcase, namify(group) + ' resources')
-      res << f.ul(lists[group])
+    ordered_group_names.each do |group_name|
+      markdown << format(group_section_header_template, (group_name + '-resources').downcase, group_name)
+      markdown << renderer.ul(markdown_resource_links_by_group[group_name])
     end
 
-    res
+    markdown
   end
 
   private
@@ -259,15 +288,19 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
   end
 
   desc 'Create resources docs'
-  task :resources, [:clean] do
+  # This task injects the contrib:cleanup_docs as a followup
+  # to the actual doc building.
+  task resources: [:resources_actual, :'contrib:cleanup_docs']
+
+  task resources_actual: [:clean, :'contrib:copy_docs'] do
     src = DOCS_DIR
     dst = File.join(WWW_DIR, 'source', 'docs', 'reference', 'resources')
     FileUtils.mkdir_p(dst)
 
     docs = ResourceDocs.new(src)
-    resources = Dir[File.join(src, 'resources/*.md.erb')]
-                .map { |x| x.sub(/^#{src}/, '') }
-                .sort
+    resources = Dir.glob([File.join(src, 'resources/*.md.erb'), File.join(src, 'resources/*.md')])
+                   .map { |x| x.sub(/^#{src}/, '') }
+                   .sort
     puts "Found #{resources.length} resource docs"
     puts "Rendering docs to #{dst}/"
 
@@ -275,7 +308,7 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
     progressbar = ProgressBar.create(total: resources.length, title: 'Rendering')
     resources.each do |file|
       progressbar.log('          '+file)
-      dst_name = File.basename(file).sub(/\.md\.erb$/, '.html.md')
+      dst_name = File.basename(file).sub(/\.md(\.erb)?$/, '.html.md')
       res = docs.render(file)
       File.write(File.join(dst, dst_name), res)
       progressbar.increment
