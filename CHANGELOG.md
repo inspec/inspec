@@ -1,25 +1,23 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.54 -->
-## [v2.2.54](https://github.com/inspec/inspec/tree/v2.2.54) (2018-08-02)
-
-#### Enhancements
-- Escaping package names for windows packages [#3259](https://github.com/inspec/inspec/pull/3259) ([frezbo](https://github.com/frezbo))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.2.50 -->
-### Changes since 2.2.50 release
-
-#### Enhancements
-- Escaping package names for windows packages [#3259](https://github.com/inspec/inspec/pull/3259) ([frezbo](https://github.com/frezbo)) <!-- 2.2.54 -->
-- Populate report code for merged controls [#3264](https://github.com/inspec/inspec/pull/3264) ([jquick](https://github.com/jquick)) <!-- 2.2.53 -->
-- Bump the chef client version for tests. [#3260](https://github.com/inspec/inspec/pull/3260) ([jquick](https://github.com/jquick)) <!-- 2.2.52 -->
-
-#### Merged Pull Requests
-- Ability to render contrib resource pack docs on main website [#3184](https://github.com/inspec/inspec/pull/3184) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.51 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.2.54](https://github.com/inspec/inspec/tree/v2.2.54) (2018-08-02)
+
+#### Enhancements
+- Bump the chef client version for tests. [#3260](https://github.com/inspec/inspec/pull/3260) ([jquick](https://github.com/jquick))
+- Populate report code for merged controls [#3264](https://github.com/inspec/inspec/pull/3264) ([jquick](https://github.com/jquick))
+- Escaping package names for windows packages [#3259](https://github.com/inspec/inspec/pull/3259) ([frezbo](https://github.com/frezbo))
+
+#### Merged Pull Requests
+- Ability to render contrib resource pack docs on main website [#3184](https://github.com/inspec/inspec/pull/3184) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v2.2.50](https://github.com/inspec/inspec/tree/v2.2.50) (2018-07-26)
 
 #### New Features
@@ -36,7 +34,6 @@
 - cli: Downcase supermarket tool name to match URL [#3242](https://github.com/inspec/inspec/pull/3242) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Satisfy RuboCop by adding `x` bit to `bin/inspec` [#3249](https://github.com/inspec/inspec/pull/3249) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Fix for profile version not being included in the compliance upload c… [#3252](https://github.com/inspec/inspec/pull/3252) ([devoptimist](https://github.com/devoptimist))
-<!-- latest_stable_release -->
 
 ## [v2.2.41](https://github.com/inspec/inspec/tree/v2.2.41) (2018-07-20)
 
