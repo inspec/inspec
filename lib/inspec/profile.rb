@@ -531,6 +531,17 @@ module Inspec
         source_location: location,
       }
 
+      # try and grab code text from merge locations
+      if controls[id][:code].empty? && Inspec::Rule.merge_count(rule) > 0
+        Inspec::Rule.merge_changes(rule).each do |merge_location|
+          code = Inspec::MethodSource.code_at(merge_location, source_reader)
+          if !code.empty?
+            controls[id][:code] = code
+            break
+          end
+        end
+      end
+
       groups[file] ||= {
         title: rule.instance_variable_get(:@__group_title),
         controls: [],

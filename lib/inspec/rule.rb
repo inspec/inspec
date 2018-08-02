@@ -44,6 +44,7 @@ module Inspec
       @__checks = []
       @__skip_rule = nil
       @__merge_count = 0
+      @__merge_changes = []
       @__skip_only_if_eval = opts[:skip_only_if_eval]
 
       # evaluate the given definition
@@ -181,6 +182,10 @@ module Inspec
       rule.instance_variable_get(:@__merge_count)
     end
 
+    def self.merge_changes(rule)
+      rule.instance_variable_get(:@__merge_changes)
+    end
+
     def self.prepare_checks(rule)
       msg = skip_status(rule)
       return checks(rule) unless msg
@@ -211,12 +216,6 @@ module Inspec
       dst.tag(src.tag)       unless src.tag.nil?
       dst.ref(src.ref)       unless src.ref.nil?
 
-      # use the most recent source location
-      dst.instance_variable_set(
-        :@__source_location,
-        src.instance_variable_get(:@__source_location),
-      )
-
       # merge indirect fields
       # checks defined in the source will completely eliminate
       # all checks that were defined in the destination
@@ -224,8 +223,13 @@ module Inspec
       dst.instance_variable_set(:@__checks, sc) unless sc.empty?
       sr = skip_status(src)
       set_skip_rule(dst, sr) unless sr.nil?
-      # increment merge count
+
+      # Save merge history
       dst.instance_variable_set(:@__merge_count, merge_count(dst) + 1)
+      dst.instance_variable_set(
+        :@__merge_changes,
+        merge_changes(dst) << src.instance_variable_get(:@__source_location),
+      )
     end
 
     private

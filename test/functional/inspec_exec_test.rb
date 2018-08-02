@@ -380,6 +380,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     let(:json) { JSON.load(out.stdout) }
     let(:controls) { json['profiles'][0]['controls'] }
     let(:child_profile) { json['profiles'].select { |p| p['name'] == 'myprofile1' }.first }
+    let(:child_control) { child_profile['controls'].select { |c| c['title'] == 'Profile 1 - Control 2-updated' }.first }
     let(:override) { controls.select { |c| c['title'] == 'Profile 1 - Control 2-updated' }.first }
 
     it 'completes the run with failed controls but no exception' do
@@ -395,6 +396,10 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       tags_assert = {"password"=>nil, "password-updated"=>nil}
       override['tags'].must_equal tags_assert
       child_profile['parent_profile'].must_equal 'wrapper-override'
+
+      # check for original code on child profile
+      assert = "control 'pro1-con2' do\n  impact 0.9\n  title 'Profile 1 - Control 2'\n  desc 'Profile 1 - Control 2 description'\n  tag 'password'\n  describe file('/etc/passwdddddddddd') do\n    it { should exist }\n  end\nend\n"
+      child_control['code'].must_equal assert
     end
   end
 
