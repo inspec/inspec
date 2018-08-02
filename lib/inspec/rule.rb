@@ -117,7 +117,7 @@ module Inspec
     #
     # @param [Type] &block returns true if tests are added, false otherwise
     # @return [nil]
-    def only_if(message=nil)
+    def only_if(message = nil)
       return unless block_given?
       return if @__skip_only_if_eval == true
 
@@ -175,7 +175,7 @@ module Inspec
     end
 
     def self.set_skip_rule(rule, value)
-      rule.instance_variable_set(:@__skip_rule, value)
+      rule.instance_variable_set(:@__skip_rule, { result: value })
     end
 
     def self.merge_count(rule)
@@ -184,8 +184,8 @@ module Inspec
 
     def self.prepare_checks(rule)
       msg = skip_status(rule)
-      return checks(rule) unless msg.eql?(true) || msg[:result]
-      if msg.eql?(true) || msg[:message].nil?
+      return checks(rule) unless msg[:result].eql?(true)
+      if msg[:result].eql?(true) && msg[:message].nil?
         msg = 'Skipped control due to only_if condition.'
       else
         msg = "Skipped control due to only_if condition: #{msg[:message]}"
