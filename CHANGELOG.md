@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.2.51 -->
+## [v2.2.51](https://github.com/inspec/inspec/tree/v2.2.51) (2018-08-02)
+
+#### Merged Pull Requests
+- Ability to render contrib resource pack docs on main website [#3184](https://github.com/inspec/inspec/pull/3184) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.2.50 -->
+### Changes since 2.2.50 release
+
+#### Merged Pull Requests
+- Ability to render contrib resource pack docs on main website [#3184](https://github.com/inspec/inspec/pull/3184) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.51 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
