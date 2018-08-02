@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.53 -->
-## [v2.2.53](https://github.com/inspec/inspec/tree/v2.2.53) (2018-08-02)
+<!-- latest_release 2.2.54 -->
+## [v2.2.54](https://github.com/inspec/inspec/tree/v2.2.54) (2018-08-02)
 
 #### Enhancements
-- Populate report code for merged controls [#3264](https://github.com/inspec/inspec/pull/3264) ([jquick](https://github.com/jquick))
+- Escaping package names for windows packages [#3259](https://github.com/inspec/inspec/pull/3259) ([frezbo](https://github.com/frezbo))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.50 -->
 ### Changes since 2.2.50 release
 
 #### Enhancements
+- Escaping package names for windows packages [#3259](https://github.com/inspec/inspec/pull/3259) ([frezbo](https://github.com/frezbo)) <!-- 2.2.54 -->
 - Populate report code for merged controls [#3264](https://github.com/inspec/inspec/pull/3264) ([jquick](https://github.com/jquick)) <!-- 2.2.53 -->
 - Bump the chef client version for tests. [#3260](https://github.com/inspec/inspec/pull/3260) ([jquick](https://github.com/jquick)) <!-- 2.2.52 -->
 
