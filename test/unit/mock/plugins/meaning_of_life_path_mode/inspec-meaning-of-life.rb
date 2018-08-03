@@ -1,0 +1,1 @@
+require_relative 'inspec-meaning-of-life/plugin'
