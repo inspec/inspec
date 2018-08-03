@@ -44,7 +44,7 @@ module Inspec::Plugin::V2
       # HACK: we're relying on the fact that all bundles are gen0 and cli type
       status = registry[plugin_name]
       status.api_generation = 0
-      status.plugin_types = [ :cli ]
+      status.plugin_types = [:cli]
       v0_subcommand_name = plugin_name.to_s.gsub('inspec-', '')
       status.plugin_class = Inspec::Plugins::CLI.subcommands[v0_subcommand_name][:klass]
     end
