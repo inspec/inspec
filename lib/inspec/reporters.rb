@@ -1,6 +1,7 @@
 require 'inspec/reporters/base'
 require 'inspec/reporters/cli'
 require 'inspec/reporters/json'
+require 'inspec/reporters/json_merged'
 require 'inspec/reporters/json_min'
 require 'inspec/reporters/junit'
 require 'inspec/reporters/automate'
