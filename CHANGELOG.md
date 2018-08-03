@@ -1,20 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.55 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v2.2.55](https://github.com/inspec/inspec/tree/v2.2.55) (2018-08-03)
 
 #### Enhancements
 - Add a merged json report for A2 [#3261](https://github.com/inspec/inspec/pull/3261) ([jquick](https://github.com/jquick))
-<!-- latest_release -->
-
-<!-- release_rollup since=2.2.54 -->
-### Changes since 2.2.54 release
-
-#### Enhancements
-- Add a merged json report for A2 [#3261](https://github.com/inspec/inspec/pull/3261) ([jquick](https://github.com/jquick)) <!-- 2.2.55 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v2.2.54](https://github.com/inspec/inspec/tree/v2.2.54) (2018-08-02)
 
 #### Enhancements
@@ -24,7 +22,6 @@
 
 #### Merged Pull Requests
 - Ability to render contrib resource pack docs on main website [#3184](https://github.com/inspec/inspec/pull/3184) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v2.2.50](https://github.com/inspec/inspec/tree/v2.2.50) (2018-07-26)
 
