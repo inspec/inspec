@@ -104,14 +104,23 @@ class PluginLoaderTests < MiniTest::Test
     loader.load_all
     @bundled_plugins.each do |bundled_plugin_name|
       assert reg.loaded_plugin?(bundled_plugin_name), "\n#{bundled_plugin_name} should be loaded"
-      assert_equal :cli, reg[bundled_plugin_name].plugin_type, "annotate plugin type of bundled plugins"
+      assert_equal [ :cli ], reg[bundled_plugin_name].plugin_types, "annotate plugin type of bundled plugins"
       assert_equal 0, reg[bundled_plugin_name].api_generation, "annotate API generation of bundled plugins"
-      assert_kind_of(Class, reg[bundled_plugin_name].class)
+      assert_kind_of(Class, reg[bundled_plugin_name].plugin_class)
     end
     assert_equal @bundled_plugins.count, reg.loaded_count, "\nRegistry load count"
   end
 
-  #def test_load_
+  def test_load_cli_plugin_by_path
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'meaning_by_path')
+    reg = Inspec::Plugin::V2::Registry.instance
+    plugin_name = :'inspec-meaning-of-life'
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
+    assert reg.known_plugin?(plugin_name), "\n#{plugin_name} should be a known plugin"
+    refute reg.loaded_plugin?(plugin_name), "\n#{plugin_name} should not be loaded yet"
+    loader.load_all
+    assert reg.loaded_plugin?(plugin_name), "\n#{plugin_name} should be loaded"
+  end
 
   # load core plugins (or assert that we can interrogate the v1 registr(ies))
   # output error but not raise when bad entry point
