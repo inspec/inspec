@@ -31,13 +31,21 @@ module Inspec::Plugin::V2
       registry.values.select(&:loaded).count
     end
 
+    def known_count
+      registry.values.count
+    end
+
     def loaded_plugin_names
       registry.values.select(&:loaded).map(&:name)
     end
 
+    def find_status_by_class(klass)
+      registry.values.detect { |status| status.plugin_class == klass }
+    end
+
     def register(name, status)
-      if registry.key? name
-        Inspec::Log.warn "PluginLoader: refusing to re-register plugin '#{name}'"
+      if known_plugin? name
+        Inspec::Log.warn "PluginLoader: refusing to re-register plugin '#{name}': an existing plugin with that name was loaded via #{existing.installation_type}-loading from #{existing.entry_point}"
       else
         registry[name.to_sym] = status
       end

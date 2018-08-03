@@ -7,7 +7,6 @@ module Inspec::Plugin::V2
     def initialize(options = {})
       @options = options
       @registry = Inspec::Plugin::V2::Registry.instance
-      @config = {}
       determine_plugin_conf_file
       read_conf_file
       unpack_conf_file
@@ -31,23 +30,23 @@ module Inspec::Plugin::V2
 
     def annotate_status_after_loading(plugin_name)
       status = registry[plugin_name]
-      return if status[:api_generation] == 2 # Gen2 have self-annotating superclasses
-      case status[:installation_type]
+      return if status.api_generation == 2 # Gen2 have self-annotating superclasses
+      case status.installation_type
       when :bundle
         annotate_bundle_plugin_status_after_load(plugin_name)
       else
         # TODO: are there any other cases? can this whole thing be eliminated?
-        raise "I don't only how to annotate :bundle plugins" unless status[:installation_type] == :bundle
+        raise "I only know how to annotate :bundle plugins when trying to laod plugin #{plugin_name}" unless status.installation_type == :bundle
       end
     end
 
     def annotate_bundle_plugin_status_after_load(plugin_name)
       # HACK: we're relying on the fact that all bundles are gen0 and cli type
       status = registry[plugin_name]
-      status[:api_generation] = 0
-      status[:plugin_type] = :cli
+      status.api_generation = 0
+      status.plugin_types = [ :cli ]
       v0_subcommand_name = plugin_name.to_s.gsub('inspec-', '')
-      status[:class] = Inspec::Plugins::CLI.subcommands[v0_subcommand_name][:klass]
+      status.plugin_class = Inspec::Plugins::CLI.subcommands[v0_subcommand_name][:klass]
     end
 
     def detect_bundled_plugins
@@ -90,7 +89,7 @@ module Inspec::Plugin::V2
       validate_conf_file
       @plugin_file_contents['plugins'].each do |plugin_json|
         status = Inspec::Plugin::V2::Status.new
-        status.name = plugin_json['name']
+        status.name = plugin_json['name'].to_sym
         status.loaded = false
         status.installation_type = plugin_json['installation_type'].to_sym
         case status.installation_type
