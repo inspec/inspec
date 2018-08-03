@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.2.55 -->
+## [v2.2.55](https://github.com/inspec/inspec/tree/v2.2.55) (2018-08-03)
+
+#### Enhancements
+- Add a merged json report for A2 [#3261](https://github.com/inspec/inspec/pull/3261) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.2.54 -->
+### Changes since 2.2.54 release
+
+#### Enhancements
+- Add a merged json report for A2 [#3261](https://github.com/inspec/inspec/pull/3261) ([jquick](https://github.com/jquick)) <!-- 2.2.55 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
