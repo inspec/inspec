@@ -30,13 +30,13 @@ module Inspec::Plugin::V2
       @plugin_type_classes[plugin_type_name] = new_plugin_type_base_class
 
       # This part defines the DSL command to register a concrete plugin's implementation of a plugin type
-      Inspec::Plugin::V2::PluginBase.define_singleton_method(new_dsl_method_name) do |args|
+      Inspec::Plugin::V2::PluginBase.define_singleton_method(new_dsl_method_name) do |_args|
         plugin_concrete_class = self
 
         # Verify class is registered (i.e. plugin_name has been called)
         status = registry.find_status_by_class(plugin_concrete_class)
         if status.nil?
-          raise Inspec::Plugin::V2::LoadError.new("You must call 'plugin_name' prior to calling #{plugin_type_name} for plugin class #{plugin_concrete_class}")
+          raise Inspec::Plugin::V2::LoadError, "You must call 'plugin_name' prior to calling #{plugin_type_name} for plugin class #{plugin_concrete_class}"
         end
 
         # Add the plugin_type to the registry status list
@@ -76,7 +76,6 @@ module Inspec::Plugin::V2
       # plugin.json. If we're being loaded, presumably entry_point,
       # installation_type, version
       # are known.
-      status = nil
       unless reg.known_plugin?(name)
         # Under some testing situations, we may not pre-exist.
         status = Inspec::Plugin::V2::Status.new
