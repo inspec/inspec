@@ -143,4 +143,20 @@ describe 'example inheritance profile' do
       vendor_files.must_equal vendor_cache_files
     end
   end
+
+  it 'extracts archives in vendor directory when present' do
+    archive_depends_path = File.join(profile_path, 'archive-depends')
+
+    Dir.mktmpdir do |tmpdir|
+      FileUtils.cp_r(archive_depends_path + '/.', tmpdir)
+
+      out = inspec('vendor ' + tmpdir + ' --overwrite')
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+
+      Dir.glob(File.join(tmpdir, 'vendor', '*')).each do |file|
+        file.wont_match /(\.tar.*$|\.zip$)/
+      end
+    end
+  end
 end

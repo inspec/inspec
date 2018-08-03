@@ -56,11 +56,32 @@ module Inspec
     def vendor_dependencies
       delete_vendored_data
       File.write(lockfile, profile.generate_lockfile.to_yaml)
+      extract_archives
     end
 
     def delete_vendored_data
       FileUtils.rm_rf(cache_path) if cache_path.exist?
       File.delete(lockfile) if lockfile.exist?
+    end
+
+    def extract_archives
+      Dir.glob(File.join(cache_path, '*')).each do |filepath|
+        # Get SHA without extension
+        # We use split since '.' is not valid in a SHA checksum
+        destination_dir_name = File.basename(filepath).split('.')[0]
+        destination_path = File.join(cache_path, destination_dir_name)
+
+        file_provider = FileProvider.for_path(filepath)
+        if file_provider.is_a?(ZipProvider) || file_provider.is_a?(TarProvider)
+          Inspec::Log.debug("Extracting '#{filepath}' to '#{destination_path}'")
+          file_provider.extract(destination_path)
+
+          Inspec::Log.debug("Deleting archive '#{filepath}'")
+          File.delete(filepath)
+        else
+          next
+        end
+      end
     end
   end
 end

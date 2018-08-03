@@ -105,6 +105,17 @@ module Inspec
       end
     end
 
+    def extract(destination_path = '.')
+      FileUtils.mkdir_p(destination_path)
+
+      Zip::File.open(@path) do |archive|
+        archive.each do |file|
+          final_path = File.join(destination_path, file.name)
+          archive.extract(file, final_path) unless File.exist?(final_path)
+        end
+      end
+    end
+
     def read(file)
       @contents[file] ||= read_from_zip(file)
     end
@@ -147,6 +158,20 @@ module Inspec
 
         # replace all items of the array simply with the relative filename of the file
         @files.map! { |x| Pathname.new(x.full_name).relative_path_from(Pathname.new('.')).to_s }
+      end
+    end
+
+    def extract(destination_path = '.')
+      FileUtils.mkdir_p(destination_path)
+
+      walk_tar(@path) do |files|
+        files.each do |file|
+          next unless @files.include?(file.full_name)
+          final_path = File.join(destination_path, file.full_name)
+          next if File.exist?(final_path)
+          FileUtils.mkdir_p(File.dirname(final_path))
+          File.open(final_path, 'wb') { |f| f.write(file.read) }
+        end
       end
     end
 
