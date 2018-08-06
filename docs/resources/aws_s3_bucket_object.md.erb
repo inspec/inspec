@@ -17,6 +17,16 @@ S3 object security is a complex matter.  For details on how AWS evaluates reques
 
 As of January 2018, this resource supports evaluating S3 Object ACLs. In particular, users of the `be_public` matcher should carefully examine the conditions under which the matcher will detect an insecure bucket.  See the `be_public` section under the Matchers section below.
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.1.10 of InSpec.
+
 ## Syntax
 
 An `aws_s3_bucket_object` resource block declares a bucket and an object key by name, and then lists tests to be performed.
