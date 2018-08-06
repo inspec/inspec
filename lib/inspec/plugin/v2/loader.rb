@@ -7,6 +7,13 @@ $LOAD_PATH.unshift('.') unless $LOAD_PATH.include?('.')
 folder = File.expand_path(File.join('..', '..', '..', '..'), __dir__)
 $LOAD_PATH.unshift(folder) unless $LOAD_PATH.include?('folder')
 
+# Add the current directory of the process to the load path
+$:.unshift('.') unless $:.include?('.')
+# Add the InSpec source root directory to the load path
+folder = File.expand_path(File.join('..', '..', '..', '..'), __dir__)
+$:.unshift(folder) unless $:.include?('folder')
+
+
 module Inspec::Plugin::V2
   class Loader
     attr_reader :registry, :options
