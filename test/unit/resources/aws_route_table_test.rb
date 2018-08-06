@@ -20,7 +20,7 @@ class BasicAwsRouteTableTest2 < Minitest::Test
   end
 
   def test_search_hit
-    assert AwsRouteTable.new('rtb-2c60ec44').exists?
+    assert AwsRouteTable.new('rtb-05462d2278326a79c').exists?
     assert AwsRouteTable.new('rtb-58508630').exists?
 
     # not hexadecimal
@@ -48,7 +48,7 @@ module AwsMRtbB
       fixtures = [
         OpenStruct.new({associations: [],
                           propagating_vgws: [],
-                          route_table_id: 'rtb-2c60ec44',
+                          route_table_id: 'rtb-05462d2278326a79c',
                           routes: [
                             {destination_cidr_block: '172.32.1.0/24', gateway_id: 'igw-4fb9e626', origin: 'CreateRoute', state: 'active'},
                             {destination_cidr_block: '172.31.0.0/16', gateway_id: 'local', origin: 'CreateRouteTable', state: 'active'}

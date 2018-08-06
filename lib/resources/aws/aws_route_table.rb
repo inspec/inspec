@@ -3,7 +3,7 @@ class AwsRouteTable < Inspec.resource(1)
   desc 'Verifies settings for an AWS Route Table'
   example "
     describe aws_route_table do
-      its('route_table_id') { should cmp 'rtb-2c60ec44' }
+      its('route_table_id') { should cmp 'rtb-05462d2278326a79c' }
     end
   "
   supports platform: 'aws'
@@ -27,10 +27,10 @@ class AwsRouteTable < Inspec.resource(1)
     )
 
     if validated_params.key?(:route_table_id) &&
-       validated_params[:route_table_id] !~ /^rtb\-[0-9a-f]{8}$/
+       validated_params[:route_table_id] !~ /^rtb\-([0-9a-f]{17})|(^rtb\-[0-9a-f]{8})$/
       raise ArgumentError,
             'aws_route_table Route Table ID must be in the' \
-            ' format "rtb-" followed by 8 hexadecimal characters.'
+            ' format "rtb-" followed by 8 or 17 hexadecimal characters.'
     end
 
     validated_params

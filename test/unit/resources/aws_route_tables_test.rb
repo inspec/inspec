@@ -38,7 +38,7 @@ class BasicAwsRouteTablesTest2 < Minitest::Test
   def test_property_route_table_ids
     basic = AwsRouteTables.new
     assert_kind_of(Array, basic.route_table_ids)
-    assert(basic.route_table_ids.include?('rtb-2c60ec44'))
+    assert(basic.route_table_ids.include?('rtb-05462d2278326a79c'))
     assert(basic.route_table_ids.include?('rtb-58508630'))
     refute(basic.route_table_ids.include?(nil))
   end
@@ -56,7 +56,7 @@ module AwsMRtbB
     def describe_route_tables(query)
       fixtures = [
         OpenStruct.new({
-                          route_table_id: 'rtb-2c60ec44',
+                          route_table_id: 'rtb-05462d2278326a79c',
                           vpc_id: 'vpc-169f777e'
         }),
         OpenStruct.new({
