@@ -52,6 +52,7 @@ module Inspec
           @conf = conf
           @dependencies = dependencies
           @require_loader = require_loader
+          @skip_file_message = nil
           @skip_file = false
           @skip_only_if_eval = skip_only_if_eval
         end
@@ -118,18 +119,18 @@ module Inspec
 
         define_method :register_control do |control, &block|
           if @skip_file
-            ::Inspec::Rule.set_skip_rule(control, true)
+            ::Inspec::Rule.set_skip_rule(control, true, @skip_file_message)
           end
 
           unless profile_context_owner.profile_supports_platform?
             platform = inspec.platform
             msg = "Profile #{profile_context_owner.profile_id} is not supported on platform #{platform.name}/#{platform.release}."
-            ::Inspec::Rule.set_skip_rule(control, msg)
+            ::Inspec::Rule.set_skip_rule(control, true, msg)
           end
 
           unless profile_context_owner.profile_supports_inspec_version?
             msg = "Profile #{profile_context_owner.profile_id} is not supported on InSpec version (#{Inspec::VERSION})."
-            ::Inspec::Rule.set_skip_rule(control, msg)
+            ::Inspec::Rule.set_skip_rule(control, true, msg)
           end
 
           profile_context_owner.register_rule(control, &block) unless control.nil?
@@ -144,19 +145,19 @@ module Inspec
           profile_context_owner.unregister_rule(id)
         end
 
-        define_method :only_if do |&block|
+        define_method :only_if do |message = nil, &block|
           return unless block
           return if @skip_file == true
           return if @skip_only_if_eval == true
 
           return if block.yield == true
-
           # Apply `set_skip_rule` for other rules in the same file
           profile_context_owner.rules.values.each do |r|
             sources_match = r.source_file == block.source_location[0]
-            Inspec::Rule.set_skip_rule(r, true) if sources_match
+            Inspec::Rule.set_skip_rule(r, true, message) if sources_match
           end
 
+          @skip_file_message = message
           @skip_file = true
         end
 

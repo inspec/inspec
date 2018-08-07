@@ -174,8 +174,9 @@ module Inspec
       rule.instance_variable_get(:@__skip_rule)
     end
 
-    def self.set_skip_rule(rule, value)
-      rule.instance_variable_set(:@__skip_rule, { result: value })
+    def self.set_skip_rule(rule, value, message = nil)
+      rule.instance_variable_set(:@__skip_rule,
+                                 { result: value, message: message })
     end
 
     def self.merge_count(rule)
