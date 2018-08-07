@@ -2,7 +2,9 @@
 module Inspec::Plugin::V2
   # Base class for all plugins.  Specific plugins should inherit from a subclass of this. eg CliPLugin
   class PluginBase
-    @plugin_type_classes = {}
+    # rubocop: disable Style/ClassVars
+    @@plugin_type_classes = {}
+    # rubocop: enable Style/ClassVars
 
     #=====================================================================#
     #                         Management Methods
@@ -26,8 +28,7 @@ module Inspec::Plugin::V2
       new_plugin_type_base_class = self
 
       # This lets the Inspec.plugin(2,:your_plugin) work
-      @plugin_type_classes ||= {}
-      @plugin_type_classes[plugin_type_name] = new_plugin_type_base_class
+      @@plugin_type_classes[plugin_type_name] = new_plugin_type_base_class
 
       # This part defines the DSL command to register a concrete plugin's implementation of a plugin type
       Inspec::Plugin::V2::PluginBase.define_singleton_method(new_dsl_method_name) do |_args|
@@ -51,7 +52,7 @@ module Inspec::Plugin::V2
     # @param [Symbol] plugin_type_name
     # @returns [Class] the plugin type base class
     def self.base_class_for_type(plugin_type_name)
-      @plugin_type_classes[plugin_type_name]
+      @@plugin_type_classes[plugin_type_name]
     end
 
     #=====================================================================#

@@ -1,8 +1,8 @@
 require 'minitest/autorun'
 require 'minitest/test'
-require_relative '../../../../lib/inspec/plugin/v2'
-
 require 'byebug'
+
+require_relative '../../../../lib/inspec/plugin/v2'
 
 class PluginV2VersionedApiTests < MiniTest::Test
   # you can call Inspec.plugin(2) and get the plugin base class
@@ -11,6 +11,13 @@ class PluginV2VersionedApiTests < MiniTest::Test
     assert_kind_of Class, klass
     assert_equal 'Inspec::Plugin::V2::PluginBase', klass.name
   end
+
+  def test_calling_Inspec_dot_plugin_with_2_and_mock_plugin_returns_the_mock_plugin_base_class
+    klass = Inspec.plugin(2, :mock_plugin_type)
+    assert_kind_of Class, klass, '2-arg form of Inspec.plugin() should return a specific plugin type base class'
+    assert_equal 'Inspec::Plugin::V2::PluginType::Mock', klass.name
+  end
+
 end
 
 class PluginV2BaseMgmtMethods < MiniTest::Test
@@ -24,6 +31,12 @@ class PluginV2BaseMgmtMethods < MiniTest::Test
       klass = Inspec::Plugin::V2::PluginBase
       assert_respond_to klass, method_name, "Base class plugin management class method: #{method_name}"
     end
+  end
+
+  def test_plugin_type_base_classes_can_be_accessed_by_name
+    klass = Inspec::Plugin::V2::PluginBase.base_class_for_type(:mock_plugin_type)
+    assert_kind_of Class, klass, 'base_class_for_type should work for mock_plugin_type'
+    assert_equal 'Inspec::Plugin::V2::PluginType::Mock', klass.name
   end
 end
 
@@ -76,6 +89,11 @@ class PluginV2BaseDslMethods < MiniTest::Test
     assert_equal name_provided_class, status.plugin_class
     assert_equal 2, status.api_generation
     assert_includes status.plugin_types, :mock_plugin_type
+  end
+
+  def test_plugin_type_registers_an_activation_dsl_method
+    klass = Inspec::Plugin::V2::PluginBase
+    assert_respond_to klass, :mock_plugin_type, 'Activation method for mock_plugin_type'
   end
 end
 
