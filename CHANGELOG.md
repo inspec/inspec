@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.2.56 -->
+## [v2.2.56](https://github.com/inspec/inspec/tree/v2.2.56) (2018-08-07)
+
+#### Merged Pull Requests
+- Enable inspec archive, check, and json to run as unpriveleged user [#3263](https://github.com/inspec/inspec/pull/3263) ([phiggins](https://github.com/phiggins))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.2.55 -->
+### Changes since 2.2.55 release
+
+#### Merged Pull Requests
+- Enable inspec archive, check, and json to run as unpriveleged user [#3263](https://github.com/inspec/inspec/pull/3263) ([phiggins](https://github.com/phiggins)) <!-- 2.2.56 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
