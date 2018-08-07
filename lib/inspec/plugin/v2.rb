@@ -2,8 +2,8 @@ module Inspec
   module Plugin
     module V2
       class Exception < StandardError; end
-      class ConfigError < RuntimeError; end
-      class LoadError < RuntimeError; end
+      class ConfigError < Inspec::Plugin::V2::Exception; end
+      class LoadError < Inspec::Plugin::V2::Exception; end
     end
   end
 end

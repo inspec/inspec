@@ -20,7 +20,7 @@ module Inspec::Plugin::V2
     end
 
     def any_load_failures?
-      !registry.plugin_statuses.select(&:load_exception).empty?
+      !plugin_statuses.select(&:load_exception).empty?
     end
 
     def loaded_plugin?(name)

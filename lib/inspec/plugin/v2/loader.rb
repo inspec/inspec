@@ -21,14 +21,34 @@ module Inspec::Plugin::V2
 
     def load_all
       registry.each do |plugin_name, plugin_details|
+        # We want to capture literally any possible exception here, since we are storing them.
+        # rubocop: disable Lint/RescueException
         begin
           require plugin_details.entry_point
           plugin_details.loaded = true
           annotate_status_after_loading(plugin_name)
-        rescue LoadError => ex
+        rescue ::Exception => ex
           plugin_details.load_exception = ex
-          Inspec::Log.error "Could not load plugin #{plugin_name} at #{ex.path}"
+          Inspec::Log.error "Could not load plugin #{plugin_name}"
         end
+        # rubocop: enable Lint/RescueException
+      end
+    end
+
+    # TODO: this should be in either lib/inspec/cli.rb or Registry
+    def exit_on_load_error
+      if registry.any_load_failures?
+        $stderr.puts 'Errors were encountered while loading plugins...'
+        registry.plugin_statuses.select(&:load_exception).each do |plugin_status|
+          $stderr.puts 'Plugin name: ' + plugin_status.name.to_s
+          $stderr.puts 'Error: ' + plugin_status.load_exception.message
+          if ARGV.include?('--debug')
+            $stderr.puts 'Exception: ' + plugin_status.load_exception.class.name
+            $stderr.puts 'Trace: ' + plugin_status.load_exception.backtrace.join("\n")
+          end
+        end
+        $stderr.puts('Run again with --debug for a stacktrace.') unless ARGV.include?('--debug')
+        exit 2
       end
     end
 
@@ -112,7 +132,7 @@ module Inspec::Plugin::V2
 
     def validate_conf_file
       unless @plugin_file_contents['plugins_config_version'] == '1.0.0'
-        raise Inspec::Plugin::V2::ConfigError, "Unsupported plugins.json file version #{@plugin_file_contents[:plugins_config_version]} at #{@plugin_conf_file_path} - currently support versions: 1.0.0"
+        raise Inspec::Plugin::V2::ConfigError, "Unsupported plugins.json file version #{@plugin_file_contents['plugins_config_version']} at #{@plugin_conf_file_path} - currently support versions: 1.0.0"
       end
 
       # TODO: validate config
