@@ -90,6 +90,24 @@ module Inspec::Plugin::V2
           activate(:cli_command, act.activator_name)
           act.implementation_class.register_with_thor
         end
+        # rubocop: enable Lint/RescueException
+      end
+    end
+
+    # TODO: this should be in either lib/inspec/cli.rb or Registry
+    def exit_on_load_error
+      if registry.any_load_failures?
+        $stderr.puts 'Errors were encountered while loading plugins...'
+        registry.plugin_statuses.select(&:load_exception).each do |plugin_status|
+          $stderr.puts 'Plugin name: ' + plugin_status.name.to_s
+          $stderr.puts 'Error: ' + plugin_status.load_exception.message
+          if ARGV.include?('--debug')
+            $stderr.puts 'Exception: ' + plugin_status.load_exception.class.name
+            $stderr.puts 'Trace: ' + plugin_status.load_exception.backtrace.join("\n")
+          end
+        end
+        $stderr.puts('Run again with --debug for a stacktrace.') unless ARGV.include?('--debug')
+        exit 2
       end
     end
 
