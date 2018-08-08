@@ -9,6 +9,11 @@ module InspecPlugins
         load 'test/unit/mock/plugins/meaning_of_life_path_mode/inspec-meaning-of-life/mock_plugin.rb'
         InspecPlugins::MeaningOfLife::MockPlugin
       end
+
+      cli_command 'meaning-of-life-the-universe-and-everything' do
+        require_relative './cli_command'
+        InspecPlugins::MeaningOfLife::MockPLugin
+      end
     end
 
   end

@@ -1,5 +1,6 @@
 # Functional tests related to plugin facility
 require 'functional/helper'
+require 'byebug'
 
 #=========================================================================================#
 #                                Loader Errors
@@ -71,6 +72,12 @@ end
 #=========================================================================================#
 #                           CliCommand plugin type
 #=========================================================================================#
+describe 'cli command plugins' do
+  include FunctionalHelper
 
-# should be able to use a CLI subcommand provided by a plugin
-# should be able to use a CLI subcommand provided by a plugin when the userdir is in a custom location
+  it 'is able to respond to a plugin-based cli subcommand' do
+    outcome = inspec_with_env('meaning-of-life-the-universe-and-everything',  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'meaning_by_path'))
+    outcome.stderr.wont_include 'Could not find command "meaning-of-life-the-universe-and-everything"'
+    outcome.exit_status.must_equal 42
+  end
+end

@@ -288,6 +288,7 @@ begin
   v2_loader = Inspec::Plugin::V2::Loader.new
   v2_loader.load_all
   v2_loader.exit_on_load_error
+  v2_loader.activate_mentioned_cli_plugins
 
   # Load v1 plugins on startup
   ctl = Inspec::PluginCtl.new
