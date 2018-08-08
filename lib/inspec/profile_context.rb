@@ -33,7 +33,7 @@ module Inspec
       @control_subcontexts = []
       @lib_subcontexts = []
       @require_loader = ::Inspec::RequireLoader.new
-      @attributes = []
+      @attributes = {}
       # A local resource registry that only contains resources defined
       # in the transitive dependency tree of the loaded profile.
       @resource_registry = Inspec::Resource.new_registry
@@ -187,10 +187,9 @@ module Inspec
 
     def register_attribute(name, options = {})
       # we need to return an attribute object, to allow dermination of default values
-      attr = Attribute.new(name, options)
-      # read value from given gived values
-      attr.value = @conf['attributes'][attr.name] unless @conf['attributes'].nil?
-      @attributes.push(attr)
+      override_value = @conf['attributes'][name] unless @conf['attributes'].nil?
+      attr = Attribute.new(name, override_value, options)
+      @attributes[name] = attr
       attr.value
     end
 

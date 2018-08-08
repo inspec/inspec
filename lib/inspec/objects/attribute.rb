@@ -3,7 +3,6 @@
 module Inspec
   class Attribute
     attr_accessor :name
-    attr_writer :value
 
     DEFAULT_ATTRIBUTE = Class.new do
       def initialize(name)
@@ -25,15 +24,36 @@ module Inspec
       end
     end
 
-    def initialize(name, options = {})
+    def initialize(name, value, options = {})
       @name = name
       @opts = options
-      @value = nil
+      validate_type(default) if @opts.key?(:type) && @opts.key?(:default)
+      validate_required(value) if @opts.key?(:required) && @opts[:required] == true
+      validate_type(value) unless value.nil?
+      @value = value
     end
 
-    # implicit call is done by inspec to determine the value of an attribute
     def value
       @value.nil? ? default : @value
+    end
+
+    def validate_required(value)
+      if (!@opt.key?(:defualt) && value.nil?) || (@opt[:default].nil? && value.nil?)
+        raise "Attribute '#{@name}' with value '#{value}' is required and does not have a value."
+      end
+    end
+
+    def validate_type(value)
+      # clean up type
+      type = @opts[:type].gsub(/^:/, '').capitalize
+      case type
+      when 'Int'
+        type = 'Integer'
+      end
+
+      if instance_eval("value.is_a?(#{type})") == false
+        raise "Attribute '#{@name}' with value '#{value}' does not validate to type '#{@opts[:type].capitalize}'."
+      end
     end
 
     def default

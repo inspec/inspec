@@ -119,6 +119,17 @@ module Inspec
 
       @supports_platform = metadata.supports_platform?(@backend)
       @supports_runtime = metadata.supports_runtime?
+      register_metadata_attributes
+    end
+
+    def register_metadata_attributes
+      if metadata.params.key?(:attributes)
+        metadata.params[:attributes].each do |attribute|
+          attr_dup = attribute.dup
+          name = attr_dup.delete(:name)
+          @runner_context.register_attribute(name, attr_dup)
+        end
+      end
     end
 
     def name
@@ -249,7 +260,7 @@ module Inspec
       end
 
       # add information about the required attributes
-      res[:attributes] = res[:attributes].map(&:to_hash) unless res[:attributes].nil? || res[:attributes].empty?
+      res[:attributes] = res[:attributes] unless res[:attributes].nil? || res[:attributes].empty?
       res[:sha256] = sha256
       res[:parent_profile] = parent_profile unless parent_profile.nil?
       res
