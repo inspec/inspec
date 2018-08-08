@@ -1,6 +1,7 @@
 require 'forwardable'
 require 'singleton'
 require_relative 'status'
+require_relative 'activator'
 
 module Inspec::Plugin::V2
   class Registry
@@ -41,6 +42,19 @@ module Inspec::Plugin::V2
 
     def find_status_by_class(klass)
       registry.values.detect { |status| status.plugin_class == klass }
+    end
+
+    # Finds Activators matching criteria (all optional) you specify as a Hash.
+    # @param [Symbol] plugin_name Restricts the search to the given plugin
+    # @param [Symbol] plugin_type Restricts the search to the given plugin type
+    # @param [Symbol] activator_name Name of the activator
+    # @returns [Array] Possibly empty array of Activators
+    def find_activators(filters = {})
+      plugin_statuses.map(&:activators).flatten.select do |act|
+        [:plugin_name, :plugin_type, :activator_name].all? do |criteria|
+          !filters.key?(criteria) || act[criteria] == filters[criteria]
+        end
+      end
     end
 
     def register(name, status)

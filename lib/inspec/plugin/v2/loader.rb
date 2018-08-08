@@ -1,4 +1,5 @@
 require 'json'
+require 'inspec/log'
 
 # Add the current directory of the process to the load path
 $LOAD_PATH.unshift('.') unless $LOAD_PATH.include?('.')
@@ -24,7 +25,13 @@ module Inspec::Plugin::V2
         # We want to capture literally any possible exception here, since we are storing them.
         # rubocop: disable Lint/RescueException
         begin
-          require plugin_details.entry_point
+          # We could use require, but under testing, we need to repeatedly reload the same
+          # plugin.
+          if plugin_details.entry_point.include?('test/unit/mock/plugins')
+            load plugin_details.entry_point + '.rb'
+          else
+            require plugin_details.entry_point
+          end
           plugin_details.loaded = true
           annotate_status_after_loading(plugin_name)
         rescue ::Exception => ex
@@ -52,6 +59,21 @@ module Inspec::Plugin::V2
       end
     end
 
+    def activate(plugin_type, hook_name)
+      activator = registry.find_activators(plugin_type: plugin_type, activation_name: hook_name).first
+      # We want to capture literally any possible exception here, since we are storing them.
+      # rubocop: disable Lint/RescueException
+      begin
+        impl_class = activator.activation_proc.call
+        activator.activated = true
+        activator.implementation_class = impl_class
+      rescue Exception => ex
+        activator.exception = ex
+        Inspec::Log.error "Could not activate #{activator.plugin_type} hook named '#{activator.activator_name}' for plugin #{plugin_name}"
+      end
+      # rubocop: enable Lint/RescueException
+    end
+
     private
 
     def annotate_status_after_loading(plugin_name)
@@ -62,7 +84,7 @@ module Inspec::Plugin::V2
         annotate_bundle_plugin_status_after_load(plugin_name)
       else
         # TODO: are there any other cases? can this whole thing be eliminated?
-        raise "I only know how to annotate :bundle plugins when trying to laod plugin #{plugin_name}" unless status.installation_type == :bundle
+        raise "I only know how to annotate :bundle plugins when trying to load plugin #{plugin_name}" unless status.installation_type == :bundle
       end
     end
 
@@ -70,7 +92,13 @@ module Inspec::Plugin::V2
       # HACK: we're relying on the fact that all bundles are gen0 and cli type
       status = registry[plugin_name]
       status.api_generation = 0
-      status.plugin_types = [:cli]
+      act = Activator.new
+      act.activated = true
+      act.plugin_type = :cli_command
+      act.plugin_name = plugin_name
+      act.activator_name = :default
+      status.activators = [act]
+
       v0_subcommand_name = plugin_name.to_s.gsub('inspec-', '')
       status.plugin_class = Inspec::Plugins::CLI.subcommands[v0_subcommand_name][:klass]
     end
