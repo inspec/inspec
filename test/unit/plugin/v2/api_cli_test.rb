@@ -24,5 +24,29 @@ class PluginV2VersionedApiCLITests < MiniTest::Test
   end
 end
 
+class CliCommandPluginV2API < MiniTest::Test
+  def test_cli_command_api_methods_present
+    # instance methods
+    [
+      :invoke,
+    ].each do |method_name|
+      klass = Inspec::Plugin::V2::PluginType::CliCommand
+      assert klass.method_defined?(method_name), "CliCommand api instance method: #{method_name}"
+    end
+  end
+
+  def test_cli_command_api_methods_abstract_throws_not_implemented
+    [
+      :invoke,
+    ].each do |method_name|
+      cmd = Inspec::Plugin::V2::PluginType::CliCommand.new
+      assert_raises(NotImplementedError, "CliCommand api abstract class method: #{method_name}") do
+        cmd.send(method_name)
+      end
+    end
+  end
+
+end
+
 # cli base class responds to a list of methods
 # cli base class throws NotImplemented on abstract methods
