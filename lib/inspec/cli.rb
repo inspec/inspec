@@ -283,20 +283,34 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   end
 end
 
-# Load v2 plugins
-Inspec::Plugin::V2::Loader.new.load_all
+begin
+  # Load v2 plugins
+  v2_loader = Inspec::Plugin::V2::Loader.new
+  v2_loader.load_all
+  v2_loader.exit_on_load_error
 
-# Load v1 plugins on startup
-ctl = Inspec::PluginCtl.new
-ctl.list.each { |x| ctl.load(x) }
+  # Load v1 plugins on startup
+  ctl = Inspec::PluginCtl.new
+  ctl.list.each { |x| ctl.load(x) }
 
-# load v1 CLI plugins before the Inspec CLI has been started
-Inspec::Plugins::CLI.subcommands.each { |_subcommand, params|
-  Inspec::InspecCLI.register(
-    params[:klass],
-    params[:subcommand_name],
-    params[:usage],
-    params[:description],
-    params[:options],
-  )
-}
+  # load v1 CLI plugins before the Inspec CLI has been started
+  Inspec::Plugins::CLI.subcommands.each { |_subcommand, params|
+    Inspec::InspecCLI.register(
+      params[:klass],
+      params[:subcommand_name],
+      params[:usage],
+      params[:description],
+      params[:options],
+    )
+  }
+rescue Inspec::Plugin::V2::Exception => v2ex
+  $stderr.puts v2ex.message
+
+  if ARGV.include?('--debug')
+    $stderr.puts v2ex.class.name
+    $stderr.puts v2ex.backtrace.join("\n")
+  else
+    $stderr.puts 'Run again with --debug for a stacktrace.'
+  end
+  exit 2
+end
