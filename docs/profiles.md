@@ -81,12 +81,14 @@ $ inspec check examples/profile
 
 # Platform Support
 
-Use the `supports` setting in the `inspec.yml` file to specify one (or more) platforms for which a profile is targeting. The list of supported platforms may contain simple names, names and versions, or detailed flags, and may be combined arbitrarily. For example, to target anything running Debian Linux:
+Use the `supports` setting in the `inspec.yml` file to specify one (or more) platforms for which a profile is targeting. The list of supported platforms may contain simple names, names and versions, or detailed flags, and may be combined arbitrarily. 
+
+For example, to target anything running Debian Linux:
 
 ```YAML
 name: ssh
 supports:
-  - os-name: debian
+  - platform-name: debian
 ```
 
 and to target only Ubuntu version 14.04
@@ -94,7 +96,7 @@ and to target only Ubuntu version 14.04
 ```YAML
 name: ssh
 supports:
-  - os-name: ubuntu
+  - platform-name: ubuntu
     release: 14.04
 ```
 
@@ -103,7 +105,7 @@ and to target the entire RedHat platform (including CentOS and Oracle Linux):
 ```YAML
 name: ssh
 supports:
-  - os-family: redhat
+  - platform-family: redhat
 ```
 
 and to target anything running on Amazon AWS:
@@ -119,12 +121,16 @@ and to target all of these examples in a single `inspec.yml` file:
 ```YAML
 name: ssh
 supports:
-  - os-name: debian
-  - os-name: ubuntu
+  - platform-name: debian
+  - platform-name: ubuntu
     release: 14.04
-  - os-family: redhat
+  - platform-family: redhat
   - platform: aws
 ```
+
+With InSpec 2.0, we introduced the `platform` attribute, which allows to restrict the execution to `os`, `aws`, `azure` or `gcp`
+
+For compatibility we support `os-name` and `os-family`. We recommend all users to change `os-name` to `platform-name` and `os-family` to `platform-family`.
 
 # Profile Dependencies
 
