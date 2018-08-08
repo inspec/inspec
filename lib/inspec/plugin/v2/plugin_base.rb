@@ -31,7 +31,7 @@ module Inspec::Plugin::V2
       @@plugin_type_classes[plugin_type_name] = new_plugin_type_base_class
 
       # This part defines the DSL command to register a concrete plugin's implementation of a plugin type
-      Inspec::Plugin::V2::PluginBase.define_singleton_method(new_dsl_method_name) do |_args|
+      Inspec::Plugin::V2::PluginBase.define_singleton_method(new_dsl_method_name) do |hook_name, &hook_body|
         plugin_concrete_class = self
 
         # Verify class is registered (i.e. plugin_name has been called)
@@ -40,11 +40,14 @@ module Inspec::Plugin::V2
           raise Inspec::Plugin::V2::LoadError, "You must call 'plugin_name' prior to calling #{plugin_type_name} for plugin class #{plugin_concrete_class}"
         end
 
-        # Add the plugin_type to the registry status list
-        status.plugin_types << plugin_type_name
+        # Construct the Activator record
+        activator = Inspec::Plugin::V2::Activator.new
+        activator.plugin_name = plugin_concrete_class.plugin_name
+        activator.plugin_type = plugin_type_name
+        activator.activator_name = hook_name.to_sym
+        activator.activation_proc = hook_body
 
-        # TODO: Store the args somewhere
-        # TODO: Store the block somewhere
+        status.activators << activator
       end
     end
 
@@ -89,7 +92,6 @@ module Inspec::Plugin::V2
       status.api_generation = 2
       status.plugin_class = self
       status.name = name
-      status.plugin_types ||= []
 
       name
     end
