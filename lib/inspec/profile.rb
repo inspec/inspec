@@ -260,7 +260,7 @@ module Inspec
       end
 
       # add information about the required attributes
-      res[:attributes] = res[:attributes] unless res[:attributes].nil? || res[:attributes].empty?
+      res[:attributes] = res[:attributes].values.map(&:to_hash) unless res[:attributes].nil? || res[:attributes].empty?
       res[:sha256] = sha256
       res[:parent_profile] = parent_profile unless parent_profile.nil?
       res

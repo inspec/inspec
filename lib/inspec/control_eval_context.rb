@@ -136,7 +136,7 @@ module Inspec
         end
 
         # method for attributes; import attribute handling
-        define_method :attribute do |name, options=nil|
+        define_method :attribute do |name, options = nil|
           if profile_context_owner.attributes.key?(name) && options.nil?
             profile_context_owner.attributes[name].value
           else
