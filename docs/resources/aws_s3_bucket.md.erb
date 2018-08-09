@@ -71,6 +71,17 @@ The `region` property identifies the AWS Region in which the S3 bucket is locate
       its('region') { should eq 'us-east-1' }
     end
 
+### tags
+
+The `tags` property is a hash of tags associated with the bucket.
+
+    describe aws_s3_bucket('test_bucket') do
+      #Check for a specific key and value
+      its('tags') { should include(key: 'Delete-After', value: '20180613'}
+      #Check the given tag exists
+      its('tags') { should include(key: 'Name', value: /^*$/)}
+    end
+
 ## Unsupported Properties
 
 ### bucket\_acl
