@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.58 -->
-## [v2.2.58](https://github.com/inspec/inspec/tree/v2.2.58) (2018-08-09)
+<!-- latest_release 2.2.59 -->
+## [v2.2.59](https://github.com/inspec/inspec/tree/v2.2.59) (2018-08-09)
 
-#### Enhancements
-- Adding docker plugin support [#3074](https://github.com/inspec/inspec/pull/3074) ([frezbo](https://github.com/frezbo))
+#### Bug Fixes
+- Error cleanly if a reporter errors while rendering [#3280](https://github.com/inspec/inspec/pull/3280) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.55 -->
@@ -14,6 +14,7 @@
 - Adding docker plugin support [#3074](https://github.com/inspec/inspec/pull/3074) ([frezbo](https://github.com/frezbo)) <!-- 2.2.58 -->
 
 #### Bug Fixes
+- Error cleanly if a reporter errors while rendering [#3280](https://github.com/inspec/inspec/pull/3280) ([jquick](https://github.com/jquick)) <!-- 2.2.59 -->
 - Add support in aws_route_table to allow 17 hexadecimal characters [#3277](https://github.com/inspec/inspec/pull/3277) ([kchistova](https://github.com/kchistova)) <!-- 2.2.57 -->
 
 #### Merged Pull Requests
