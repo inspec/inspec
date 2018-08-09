@@ -10,6 +10,16 @@ The software design of the Inspec Plugin v2 API is deeply inspired by the Vagran
 
 "v2" refers to the second major version of the Plugin API.  It doesn't refer to the Inspec release number.
 
+### Design Goals
+
+* Load-on-demand. Improve `inspec` startup time by making plugins load heavy libraries only if they are being used.
+* Independent velocity. Enable passionate community members to contribute at their own pace by shifting core development into plugin development
+* Increase dogfooding. Convert internal components into plugins to reduce core complexity and allow testing in isolation
+
+### Design Anti-goals
+
+* Don't implement resources in plugins; use resource packs for that.
+
 ## How Plugins are Located and Loaded
 
 ### Plugins are usually gems
@@ -58,15 +68,62 @@ Putting this all together, here is a plugins.json file from the Inspec test suit
 
 ## Plugin Parts
 
-TODO
-
 ### A Typical Plugin File Layout
+
+```
+inspec-my-plugin.gemspec
+lib/
+  inspec-my-plugin.rb  # Entry point
+  inspec-my-plugin/
+    cli.rb             # An implementation file
+    plugin.rb          # Plugin definition file
+    heavyweight.rb     # A support file
+```
+
+Generally, except for the entry point, you may name these files anything you like; however, the above example is the typical convention.
+
+### Gemspec and Plugin Dependencies
+
+This is a normal Gem specification file. When you release your plugin as a gem, you can declare dependencies here, and Inspec will automatically install them along with your plugin.
+
+If you are using a path-based install, Inspec will not manage your dependencies.
 
 ### Entry Point
 
-### Plugin File
+The entry point is the file that will be `require`d at load time (*not* activation time; see Plugin Lifecycle, below).  You should load the bare minimum here - only the plugin definition file. Do not load any plugin dependencies in this file.
+
+```ruby
+# lib/inspec-my-plugin.rb
+require_relative 'inspec-my-plugin/plugin'
+```
+
+### Plugin Definition File
+
+The plugin definition file uses the plugin DSL to declare a small amount of metadata, followed by as many activation hooks as your plugin needs.
+
+While you may use any valid Ruby module name, we encourage you to namespace your plugin under `InspecPlugins::YOUR_PLUGIN`.
+
+```ruby
+# lib/inspec-my-plugin/plugin.rb
+module InspecPlugins
+  module MyPlugin
+    # Class name doesn't matter, but this is a reasonable default name
+    class PluginDefinition < Inspec.plugin(2)
+
+      # Metadata
+      # Must match entry in plugins.json
+      plugin_name :'inspec-my-plugin'
+
+      # Activation hooks
+      # TODO
+    end
+  end
+end
+```
 
 ### Implementation Files
+
+TODO
 
 ## Plugin Lifecycle
 
@@ -77,17 +134,28 @@ registry = Inspec::Plugin::V2::Registry.instance
 plugin_status = registry[:'inspec-meaning-of-life']
 ```
 
-
-### Known Plugins
+### Discovery (Known Plugins)
 
 If a plugin is mentioned in `plugins.json`, it is *known*.  You can get its status, a `Inspec::Plugin::V2::Status` object.
 
 Reading the plugins.json file is handled by the Loader when Loader.new is called; at that point the registry should know about plugins.
 
-### Loaded Plugins
+### Loading
 
-Next, we load plugins.  Loading means that we `require` the entry point determined from the plugins.json, and
+Next, we load plugins.  Loading means that we `require` the entry point determined from the plugins.json. Your plugin definition file will thus execute.
+
+If things go right, the Status now has a bunch of Activators, each with a block that has not yet executed.
+
+If things go wrong, have a look at `status.load_exception`.
+
+### Activation
+
+Depending on the plugin type, activation may be triggered by a number of different events.
 
 TODO
 
-### Activated Plugins
+### Execution
+
+Depending on the plugin type, execution may be triggered by a number of different events.
+
+TODO
