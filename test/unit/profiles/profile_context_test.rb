@@ -117,7 +117,6 @@ describe Inspec::ProfileContext do
     describe 'global only_if' do
       let(:if_true) { "only_if { true }\n" }
       let(:if_false) { "only_if { false }\n" }
-      let(:if_false_message) { "only_if('if_false_message skipped') { false }\n" }
       let(:describe) { "describe nil do its(:to_i) { should eq rand } end\n" }
       let(:control) { "control 1 do\n#{describe}\nend\n" }
       let(:control_2) { "control 2 do\n#{describe}\nend\n" }
@@ -182,10 +181,11 @@ describe Inspec::ProfileContext do
       end
 
       it 'allows specifying a message with true only_if' do
-        profile.load(if_false_message + control)
+        profile.load("only_if('this is a only_if skipped message') { false }\n" + control)
         get_checks.length.must_equal 1
         get_checks[0][1][0].resource_skipped?.must_equal true
-        get_checks[0][1][0].resource_exception_message.must_equal 'Skipped control due to only_if condition: if_false_message skipped'
+        get_checks[0][1][0].resource_exception_message.must_equal 'Skipped' \
+         ' control due to only_if condition: this is a only_if skipped message'
         get_checks[0][1][0].resource_failed?.must_equal false
       end
 

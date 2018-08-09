@@ -184,18 +184,18 @@ module Inspec
     end
 
     def self.prepare_checks(rule)
-      msg = skip_status(rule)
-      return checks(rule) unless msg[:result].eql?(true)
-      if msg[:result].eql?(true) && msg[:message].nil?
-        msg = 'Skipped control due to only_if condition.'
+      skip_check = skip_status(rule)
+      return checks(rule) unless skip_check[:result].eql?(true)
+      if skip_check[:message]
+        skip_check = "Skipped control due to only_if condition: #{skip_check[:message]}"
       else
-        msg = "Skipped control due to only_if condition: #{msg[:message]}"
+        skip_check = 'Skipped control due to only_if condition.'
       end
 
       # TODO: we use os as the carrier here, but should consider
       # a separate resource to do skipping
       resource = rule.os
-      resource.skip_resource(msg)
+      resource.skip_resource(skip_check)
       [['describe', [resource], nil]]
     end
 
