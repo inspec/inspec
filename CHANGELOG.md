@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.59 -->
-## [v2.2.59](https://github.com/inspec/inspec/tree/v2.2.59) (2018-08-09)
+<!-- latest_release 2.2.60 -->
+## [v2.2.60](https://github.com/inspec/inspec/tree/v2.2.60) (2018-08-09)
 
-#### Bug Fixes
-- Error cleanly if a reporter errors while rendering [#3280](https://github.com/inspec/inspec/pull/3280) ([jquick](https://github.com/jquick))
+#### New Resources
+- Add new resource: aws_ecs_cluster [#3213](https://github.com/inspec/inspec/pull/3213) ([meringu](https://github.com/meringu))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.55 -->
 ### Changes since 2.2.55 release
+
+#### New Resources
+- Add new resource: aws_ecs_cluster [#3213](https://github.com/inspec/inspec/pull/3213) ([meringu](https://github.com/meringu)) <!-- 2.2.60 -->
 
 #### Enhancements
 - Adding docker plugin support [#3074](https://github.com/inspec/inspec/pull/3074) ([frezbo](https://github.com/frezbo)) <!-- 2.2.58 -->
