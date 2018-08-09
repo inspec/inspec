@@ -107,7 +107,8 @@ module Inspec
       return if @conf['reporter'].nil?
 
       @conf['reporter'].each do |reporter|
-        Inspec::Reporters.render(reporter, run_data)
+        result = Inspec::Reporters.render(reporter, run_data)
+        raise Inspec::ReporterError, "Error generating reporter '#{reporter[0]}'" if result == false
       end
     end
 
