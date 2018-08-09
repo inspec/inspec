@@ -4,7 +4,7 @@ require 'byebug'
 
 require_relative '../../../../lib/inspec/plugin/v2'
 
-class PluginV2VersionedApiCLITests < MiniTest::Test
+class CliCommandSuperclassTests < MiniTest::Test
   # you can call Inspec.plugin(2, :cli_command) and get the plugin base class
   def test_calling_Inspec_dot_plugin_with_cli_returns_the_cli_base_class
     klass = Inspec.plugin(2, :cli_command)
@@ -20,7 +20,12 @@ class PluginV2VersionedApiCLITests < MiniTest::Test
 
   def test_plugin_type_registers_an_activation_dsl_method
     klass = Inspec::Plugin::V2::PluginBase
-    assert_respond_to klass, :cli_command, 'Activation method for cli_method'
+    assert_respond_to klass, :cli_command, 'Activation method for cli_command'
+  end
+
+  def test_cli_plugin_type_inherits_from_thor
+    klass = Inspec.plugin(2, :cli_command)
+    assert_includes klass.ancestors, ::Thor, 'Cli Command plugin type should inherit from Thor'
   end
 end
 
