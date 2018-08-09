@@ -45,16 +45,16 @@ module Inspec::Plugin::V2
     # TODO: this should be in either lib/inspec/cli.rb or Registry
     def exit_on_load_error
       if registry.any_load_failures?
-        $stderr.puts 'Errors were encountered while loading plugins...'
+        Inspec::Log.error 'Errors were encountered while loading plugins...'
         registry.plugin_statuses.select(&:load_exception).each do |plugin_status|
-          $stderr.puts 'Plugin name: ' + plugin_status.name.to_s
-          $stderr.puts 'Error: ' + plugin_status.load_exception.message
+          Inspec::Log.error 'Plugin name: ' + plugin_status.name.to_s
+          Inspec::Log.error 'Error: ' + plugin_status.load_exception.message
           if ARGV.include?('--debug')
-            $stderr.puts 'Exception: ' + plugin_status.load_exception.class.name
-            $stderr.puts 'Trace: ' + plugin_status.load_exception.backtrace.join("\n")
+            Inspec::Log.error 'Exception: ' + plugin_status.load_exception.class.name
+            Inspec::Log.error 'Trace: ' + plugin_status.load_exception.backtrace.join("\n")
           end
         end
-        $stderr.puts('Run again with --debug for a stacktrace.') unless ARGV.include?('--debug')
+        Inspec::Log.error('Run again with --debug for a stacktrace.') unless ARGV.include?('--debug')
         exit 2
       end
     end

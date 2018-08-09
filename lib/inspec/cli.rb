@@ -21,7 +21,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
                desc: 'Set the log level: info (default), debug, warn, error'
 
   class_option :log_location, type: :string,
-               desc: 'Location to send diagnostic log messages to. (default: STDOUT or STDERR)'
+               desc: 'Location to send diagnostic log messages to. (default: STDOUT or Inspec::Log.error)'
 
   class_option :diagnose, type: :boolean,
     desc: 'Show diagnostics (versions, configurations)'
@@ -172,7 +172,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
     exit runner.run
   rescue ArgumentError, RuntimeError, Train::UserError => e
-    $stderr.puts e.message
+    $Inspec::Log.error.puts e.message
     exit 1
   rescue StandardError => e
     pretty_handle_exception(e)
@@ -192,7 +192,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       puts Inspec::BaseCLI.detect(params: res, indent: 0, color: 36)
     end
   rescue ArgumentError, RuntimeError, Train::UserError => e
-    $stderr.puts e.message
+    $Inspec::Log.error.puts e.message
     exit 1
   rescue StandardError => e
     pretty_handle_exception(e)
@@ -233,7 +233,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     puts res
     exit 0
   rescue RuntimeError, Train::UserError => e
-    $stderr.puts e.message
+    $Inspec::Log.error.puts e.message
   rescue StandardError => e
     pretty_handle_exception(e)
   end
@@ -304,13 +304,13 @@ begin
     )
   }
 rescue Inspec::Plugin::V2::Exception => v2ex
-  $stderr.puts v2ex.message
+  Inspec::Log.error v2ex.message
 
   if ARGV.include?('--debug')
-    $stderr.puts v2ex.class.name
-    $stderr.puts v2ex.backtrace.join("\n")
+    Inspec::Log.error v2ex.class.name
+    Inspec::Log.error v2ex.backtrace.join("\n")
   else
-    $stderr.puts 'Run again with --debug for a stacktrace.'
+    Inspec::Log.error 'Run again with --debug for a stacktrace.'
   end
   exit 2
 end
