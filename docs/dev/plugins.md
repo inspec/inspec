@@ -159,3 +159,51 @@ TODO
 Depending on the plugin type, execution may be triggered by a number of different events.
 
 TODO
+
+## Implementing a CLI Command Plugin
+
+### Declare your plugin activators
+
+In your `plugin.rb`, include one or more `cli_command` activation blocks.  The activation block name will be matched against the command line arguments; if the name is present, your activator will fire (in which case it should load any needed libraries) and should return your implementation class.
+
+#### CliCommand Activator Example
+
+```ruby
+
+# In plugin.rb
+module InspecPlugins::Sweeten
+  class Plugin < Inspec.plugin(2)
+    # ... other plugin stuff
+
+    cli_command :sweeten do
+      require_relative 'cli.rb'
+      InspecPlugins::Sweeten::CliCommand
+    end
+  end
+end
+```
+
+Like any activator, the block above will only be executed if needed. For CliCommand plugins, the plugin system naively scans through ARGV, looking for the activation name as a whole element.  Multiple CLI activations may occur.
+
+```bash
+you@machine $ inspec sweeten ... # Your CliCommand implementation is activated and executed
+you@machine $ inspec exec ... # Your CliCommand implementation is not activated
+```
+
+### Implementation class for CLI Commands
+
+In your `cli.rb`, you should begin by requesting the superclass from Inspec:
+
+```ruby
+module InspecPlugins::Sweeten
+  class CliCommand < Inspec.plugin(2, :cli_command)
+    # ...
+  end
+end
+```
+
+The Inspec plugin v2 system promises the following:
+
+* The superclass will be an (indirect) subclass of Thor
+* The plugin system will handle registering the subcommand with Thor for you
+
