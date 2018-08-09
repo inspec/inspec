@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.60 -->
-## [v2.2.60](https://github.com/inspec/inspec/tree/v2.2.60) (2018-08-09)
+<!-- latest_release 2.2.61 -->
+## [v2.2.61](https://github.com/inspec/inspec/tree/v2.2.61) (2018-08-09)
 
 #### New Resources
-- Add new resource: aws_ecs_cluster [#3213](https://github.com/inspec/inspec/pull/3213) ([meringu](https://github.com/meringu))
+- add iis_app_pool resource [#2400](https://github.com/inspec/inspec/pull/2400) ([strocknar](https://github.com/strocknar))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.55 -->
 ### Changes since 2.2.55 release
 
 #### New Resources
+- add iis_app_pool resource [#2400](https://github.com/inspec/inspec/pull/2400) ([strocknar](https://github.com/strocknar)) <!-- 2.2.61 -->
 - Add new resource: aws_ecs_cluster [#3213](https://github.com/inspec/inspec/pull/3213) ([meringu](https://github.com/meringu)) <!-- 2.2.60 -->
 
 #### Enhancements
