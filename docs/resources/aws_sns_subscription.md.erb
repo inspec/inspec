@@ -8,6 +8,16 @@ Use the `aws_sns_subscription` InSpec audit resource to test detailed properties
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.1.10 of InSpec.
+
 ## Syntax
 
 An `aws_sns_subscription` resource block uses resource parameters to search for a SNS Subscription, and then tests that subscriptions properties.  If no Subscriptions match, no error is raised, but the `exists` matcher will return `false` and all properties will be `nil`.
