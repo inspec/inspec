@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.56 -->
-## [v2.2.56](https://github.com/inspec/inspec/tree/v2.2.56) (2018-08-07)
+<!-- latest_release 2.2.57 -->
+## [v2.2.57](https://github.com/inspec/inspec/tree/v2.2.57) (2018-08-09)
 
-#### Merged Pull Requests
-- Enable inspec archive, check, and json to run as unpriveleged user [#3263](https://github.com/inspec/inspec/pull/3263) ([phiggins](https://github.com/phiggins))
+#### Bug Fixes
+- Add support in aws_route_table to allow 17 hexadecimal characters [#3277](https://github.com/inspec/inspec/pull/3277) ([kchistova](https://github.com/kchistova))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.55 -->
 ### Changes since 2.2.55 release
+
+#### Bug Fixes
+- Add support in aws_route_table to allow 17 hexadecimal characters [#3277](https://github.com/inspec/inspec/pull/3277) ([kchistova](https://github.com/kchistova)) <!-- 2.2.57 -->
 
 #### Merged Pull Requests
 - Enable inspec archive, check, and json to run as unpriveleged user [#3263](https://github.com/inspec/inspec/pull/3263) ([phiggins](https://github.com/phiggins)) <!-- 2.2.56 -->
