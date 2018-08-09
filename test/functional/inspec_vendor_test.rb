@@ -144,6 +144,35 @@ describe 'example inheritance profile' do
     end
   end
 
+  it 'vendors profiles when using a local path' do
+    local_depends_path = File.join(profile_path, 'local-depends')
+    dir_profile_path = File.join(profile_path, 'complete-profile')
+    tar_profile_path = File.join(profile_path,
+                         'archived-profiles',
+                         'tar_profile-1.0.0.tar.gz'
+                       )
+    zip_profile_path = File.join(profile_path,
+                         'archived-profiles',
+                         'zip_profile-1.0.0.zip'
+                       )
+
+    Dir.mktmpdir do |tmpdir|
+      [dir_profile_path, tar_profile_path, zip_profile_path].each do |profile|
+        included_tmpdir = File.join(tmpdir, File.basename(profile))
+        FileUtils.cp_r(profile, included_tmpdir)
+      end
+
+      profile_tmpdir = File.join(tmpdir, File.basename(local_depends_path))
+      FileUtils.cp_r(local_depends_path + '/.', profile_tmpdir)
+
+      out = inspec('vendor ' + profile_tmpdir + ' --overwrite')
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+
+      Dir.glob(File.join(profile_tmpdir, 'vendor', '*')).length.must_equal 3
+    end
+  end
+
   it 'extracts archives in vendor directory when present' do
     archive_depends_path = File.join(profile_path, 'archive-depends')
 
