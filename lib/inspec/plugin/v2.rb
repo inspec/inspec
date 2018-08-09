@@ -1,7 +1,9 @@
+require 'inspec/errors'
+
 module Inspec
   module Plugin
     module V2
-      class Exception < StandardError; end
+      class Exception < Inspec::Error; end
       class ConfigError < Inspec::Plugin::V2::Exception; end
       class LoadError < Inspec::Plugin::V2::Exception; end
     end
