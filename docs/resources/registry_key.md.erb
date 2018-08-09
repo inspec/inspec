@@ -167,5 +167,31 @@ Any name with a dot will not work as expected: <code>its('explorer.exe') { shoul
     # either use have_property_value...
     it { should have_property_value('explorer.exe', :string, 'test') }
 
-    # ...or provide the parts of the dot-separated name in an array
-    its(['explorer', 'exe']) { should eq 'test' }
+    # ...or provide the name in an array
+    its(['explorer.exe']) { should eq 'test' }
+
+The latter workaround may be preferable because upon failure, Inspec will present the expected and actual values:
+
+    inspec> describe registry_key('HKEY_USERS\S-1-5-20\Software\Policies\Microsoft\Windows\Control Panel\Desktop') do
+    inspec>   its(["SCRNSAVE.EXE"]) { should eq "FlyingToasters.scr" }
+    inspec> end
+    
+    Profile: inspec-shell
+    Version: (not specified)
+    
+      Registry Key HKEY_USERS\S-1-5-20\Software\Policies\Microsoft\Windows\Control Panel\Desktop
+         ×  ["SCRNSAVE.EXE"] should eq "FlyingToasters.scr"
+
+         expected: "FlyingToasters.scr"
+              got: "scrnsave.scr"
+    
+         (compared using ==)
+    
+    
+    Test Summary: 0 successful, 1 failure, 0 skipped
+
+`have_property_value` only presents a false assertion:
+
+      Registry Key HKEY_USERS\S-1-5-20\Software\Policies\Microsoft\Windows\Control Panel\Desktop
+         ×  should have property value "SCRNSAVE.EXE", "FlyingToasters.scr"
+         expected #has_property_value?("SCRNSAVE.EXE", "FlyingToasters.scr") to return true, got false
