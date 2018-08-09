@@ -425,6 +425,8 @@ class MockLoader
       "83c36bfade9375ae1feb91023cd1f7409b786fd992ad4013bf0f2259d33d6406" => cmd.call('docker-images'),
       # docker services
       %{docker service ls --format '{"ID": {{json .ID}}, "Name": {{json .Name}}, "Mode": {{json .Mode}}, "Replicas": {{json .Replicas}}, "Image": {{json .Image}}, "Ports": {{json .Ports}}}'} => cmd.call('docker-service-ls'),
+      # docker plugins
+      %{docker plugin ls --format '{"id": {{json .ID}}, "name": "{{ with split .Name ":"}}{{index . 0}}{{end}}", "version": "{{ with split .Name ":"}}{{index . 1}}{{end}}", "enabled": {{json .Enabled}} }'} => cmd.call('docker-plugin-ls'),
       # modprobe for kernel_module
       "modprobe --showconfig" => cmd.call('modprobe-config'),
       # get-process cmdlet for processes resource

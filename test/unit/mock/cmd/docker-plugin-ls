@@ -1,0 +1,2 @@
+{"id": "6ea8176de74b", "name": "store/weaveworks/net-plugin", "version": "2.3.0", "enabled": true }
+{"id": "771d3ee7c7ea", "name": "docker4x/cloudstor", "version": "18.03.1-ce-aws1", "enabled": false }

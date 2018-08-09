@@ -148,6 +148,17 @@ Or execute the profile directly via URL:
       its('sizes') { should_not include "1.41 GB" }
     end
 
+### plugins
+
+`plugins` returns information about Docker plugins as returned by [docker plugin ls](https://docs.docker.com/engine/reference/commandline/plugin/).
+
+    describe docker.plugins do
+      its('names') { should include ["store/weaveworks/net-plugin", "docker4x/cloudstor"] }
+      its('ids') { should cmp ["6ea8176de74b", "771d3ee7c7ea"] }
+      its('versions') { should cmp ["2.3.0", "18.03.1-ce-aws1"] }
+      its('enabled') { should cmp [true, false] }
+    end
+
 ### info
 
 `info` returns the parsed result of [docker info](https://docs.docker.com/engine/reference/commandline/info/)
