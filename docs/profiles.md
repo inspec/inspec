@@ -81,7 +81,16 @@ $ inspec check examples/profile
 
 # Platform Support
 
-Use the `supports` setting in the `inspec.yml` file to specify one (or more) platforms for which a profile is targeting. The list of supported platforms may contain simple names, names and versions, or detailed flags, and may be combined arbitrarily. 
+Use the `supports` setting in the `inspec.yml` file to specify one (or more) platforms for which a profile is targeting. The list of supported platforms may contain the following:
+
+* Use `platform-family` to restrict to a specific platform family.
+* Use `platform-name` to restrict on a specific platform name.
+* Use `release` to restrict to a specific platform version (used with platform-name).
+* Use `platform` to restrict on either platform-name or platform-family.
+
+For compatibility we support `os-name` and `os-family`. We recommend all users to change `os-name` to `platform-name` and `os-family` to `platform-family`.
+
+With InSpec 2.0, we introduced new families to help distinguish the cloud platforms. The new families can restrict the platform family to `os`, `aws`, `azure` or `gcp`.
 
 For example, to target anything running Debian Linux:
 
@@ -127,10 +136,6 @@ supports:
   - platform-family: redhat
   - platform: aws
 ```
-
-With InSpec 2.0, we introduced the `platform` attribute, which allows to restrict the execution to `os`, `aws`, `azure` or `gcp`
-
-For compatibility we support `os-name` and `os-family`. We recommend all users to change `os-name` to `platform-name` and `os-family` to `platform-family`.
 
 # Profile Dependencies
 
