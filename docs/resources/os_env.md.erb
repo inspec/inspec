@@ -7,8 +7,6 @@ platform: os
 
 Use the `os_env` InSpec audit resource to test the environment variables for the platform on which the system is running.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -31,8 +29,6 @@ where
 
 * `('VARIABLE')` must specify an environment variable, such as `PATH`
 * `matcher` is a valid matcher for this resource
-
-<br>
 
 ## Examples
 
@@ -79,8 +75,6 @@ Habitat uses the `os_env` resource to test environment variables. The environmen
         its('content') { should eq nil }
       end
     end
-
-<br>
 
 ## Matchers
 

@@ -7,8 +7,6 @@ platform: linux
 
 Use the `yum` InSpec audit resource to test packages in the Yum repository.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -31,8 +29,6 @@ A `yum` resource block declares a package repo, tests if the package repository 
 where
 
 * `repo('name')` is the (optional) name of a package repo, using either a full identifier (`'updates/7/x86_64'`) or a short identifier (`'updates'`)
-
-<br>
 
 ## Examples
 
@@ -66,8 +62,6 @@ The following examples show how to use this InSpec audit resource.
       it { should be_enabled }
       its('baseurl') { should include 'mycompany.biz' }
     end
-
-<br>
 
 ## Matchers
 

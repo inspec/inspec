@@ -9,8 +9,6 @@ Use the `apache` InSpec audit resource to test the state of the Apache server on
 
 <p class="warning">This resource is deprecated and should not be used. It will be removed in InSpec 3.0.</p>
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -34,13 +32,9 @@ where
 * `'setting_name'` is description of the Apache configuration file
 * `{ should cmp 'value' }` is the value that is expected
 
-<br>
-
 ## Properties
 
 * `service`, `conf_dir`, `conf_path`, `user`
-
-<br>
 
 ## Property Examples
 
@@ -69,8 +63,6 @@ The following examples show how to use this InSpec audit resource.
     describe apache do
       its ('user') { should cmp 'www-data' }
     end
-
-<br>
 
 ## Matchers
 

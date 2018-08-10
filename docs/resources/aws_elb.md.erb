@@ -9,8 +9,6 @@ Use the `aws_elb` InSpec audit resource to test properties of a single AWS Elast
 
 To audit ELBs in bulk or to search, use `aws_elbs` (plural).
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -33,8 +31,6 @@ An `aws_elb` resource block declares the tests for a single AWS ELB by ELB name.
       its('instance_ids.count') { should cmp 2 }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -50,8 +46,6 @@ The following examples show how to use this InSpec audit resource.
     describe aws_elb('web') do
       its('availability_zones.count') { should be > 1 }
     end
-
-<br>
 
 ## Properties
 
@@ -102,7 +96,6 @@ Returns an array of strings reflecting the instance IDs of the EC2 instances att
       its('instance_ids') { should include 'i-12345678' }
     end
 
-
 ### internal\_ports
 
 Returns an array of integers reflecting the EC2-facing ports on which the load balancer will be sending traffic to.
@@ -140,12 +133,9 @@ Returns a String reflecting the ID of the VPC in which the ELB is located.
       its('vpc_id') { should cmp 'vpc-12345678' }
     end
 
-<br>
-
 ## Matchers
 
 This InSpec audit resource has no special matchers. For a full list of available matchers, please visit our [Universal Matchers page](https://www.inspec.io/docs/reference/matchers/).
-
 
 ## AWS Permissions
 

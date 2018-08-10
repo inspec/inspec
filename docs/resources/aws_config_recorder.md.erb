@@ -10,8 +10,6 @@ The AWS Config service can monitor and record changes to your AWS resource confi
 
 As of April 2018, you are only permitted one configuration recorder per region.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -42,8 +40,6 @@ However, since you may only have one recorder per region, and InSpec connections
       it { should exist }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -72,8 +68,6 @@ Provides a list of AWS resource types for which the AWS Config records configura
       its('resource_types') { should include 'AWS::EC2::CustomerGateway' }
       its('resource_types') { should include 'AWS::EC2::EIP' }
     end
-
-<br>
 
 ## Matchers
 

@@ -7,8 +7,6 @@ platform: aws
 
 Use the `aws_iam_access_key` InSpec audit resource to test properties of a single AWS IAM access key.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -36,7 +34,6 @@ An `aws_iam_access_key` resource block declares the tests for a single AWS IAM a
       # Same
     end
 
-
 Access keys are associated with IAM users, who may have zero, one or two access keys. You may also lookup an access key by username. If the user has more than one access key, an error occurs (You may use `aws_iam_access_keys` with the `username` resource parameter to access a user's keys when they have multiple keys.)
 
     # This is not unique. If the user has zero or one keys, it is not an error.
@@ -51,8 +48,6 @@ You may also use both username and access key id to ensure that a particular key
     describe aws_iam_access_key(username: 'roderick', access_key_id: 'AKIA12345678ABCD') do
       it { should exist }
     end
-
-<br>
 
 ## Examples
 
@@ -76,13 +71,9 @@ The following examples show how to use this InSpec audit resource.
       its('last_used_date') { should be > Time.now - 90 * 86400 }
     end
 
-<br>
-
 ## Properties
 
 * `access_key_id`, `create_date`, `last_used_date`, `username`
-
-<br>
 
 ## Property Examples
 
@@ -119,8 +110,6 @@ The IAM user that owns this key.
     describe aws_iam_access_key(access_key_id: 'AKIA12345678ABCD')
       its('username') { should cmp 'bob' }
     end
-
-<br>
 
 ## Matchers
 

@@ -7,8 +7,6 @@ platform: os
 
 Use the `parse_config_file` InSpec audit resource to test arbitrary configuration files. It works in the same way as `parse_config`. Instead of using a command output, this resource works with files.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -45,8 +43,6 @@ where each test
 * May run a command to `stdout`, and then run the test against that output
 * May use options to define how configuration data is to be parsed
 
-<br>
-
 ## Options
 
 This resource supports the following options for parsing configuration data. Use them in an `options` block stated outside of (and immediately before) the actual test:
@@ -58,8 +54,6 @@ This resource supports the following options for parsing configuration data. Use
     describe parse_config_file('path/to/file',  options) do
       its('setting') { should eq 1 }
     end
-
-<br>
 
 ## Examples
 
@@ -82,8 +76,6 @@ The following examples show how to use this InSpec audit resource.
     describe parse_config_file('/path/to/yum.conf') do
      its('main') { should include('gpgcheck' => '1') }
     end
-
-<br>
 
 ## Matchers
 

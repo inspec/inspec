@@ -7,8 +7,6 @@ platform: linux
 
 Use the `docker_plugin` InSpec audit resource to verify a Docker plugin.
 
-<br>
-
 ## Syntax
 
 A `docker_plugin` resource block declares the plugin:
@@ -20,8 +18,6 @@ A `docker_plugin` resource block declares the plugin:
       it { should be_enabled }
     end
 
-<br>
-
 ## Resource Parameter Examples
 
 The resource allows you to pass in an plugin id:
@@ -29,8 +25,6 @@ The resource allows you to pass in an plugin id:
     describe docker_plugin(id: plugin_id) do
       it { should be_enabled }
     end
-
-<br>
 
 ## Properties
 
@@ -60,8 +54,6 @@ The `version` property tests the value of plugin version:
       its('version') { should eq '0.11.1' }
       it { should be_enabled }
     end
-
-<br>
 
 ## Matchers
 

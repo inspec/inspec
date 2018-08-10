@@ -7,8 +7,6 @@ platform: linux
 
 Use the `ntp_conf` InSpec audit resource to test the synchronization settings defined in the `ntp.conf` file. This file is typically located at `/etc/ntp.conf`.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -33,8 +31,6 @@ where
 * `('path')` is the non-default path to the `ntp.conf` file
 * `{ should eq 'value' }` is the value that is expected
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -49,8 +45,6 @@ The following examples show how to use this InSpec audit resource.
         2.ubuntu.pool.ntp.org
       ] }
     end
-
-<br>
 
 ## Matchers
 

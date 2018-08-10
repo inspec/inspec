@@ -18,8 +18,6 @@ Entries in the `limits.conf` file are similar to:
     ^^^^^^^^^   ^^^^   ^^^^^^   ^^^^^
     domain      type    item    value
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -47,13 +45,9 @@ where
 * `'item'` is the item for which limits are defined, such as `core`, `nofile`, `stack`, `nproc`, `priority`, or `maxlogins`
 * `'value'` is the value associated with the `item`
 
-<br>
-
 ## Properties
 
 * `domain`
-
-<br>
 
 ## Examples
 
@@ -76,10 +70,7 @@ For example:
       its('ftp') { should eq ['hard', 'nproc', '0'] }
     end
 
-<br>
-
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
-
 

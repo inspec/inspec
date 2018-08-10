@@ -7,8 +7,6 @@ platform: linux
 
 Use the `auditd_conf` InSpec audit resource to test the configuration settings for the audit daemon. This file is typically located under `/etc/audit/auditd.conf'` on Unix and Linux platforms.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,8 +30,6 @@ where
 * `'keyword'` is a configuration setting defined in the `auditd.conf` configuration file
 * `('path')` is the non-default path to the `auditd.conf` configuration file
 * `{ should cmp 'value' }` is the value that is expected
-
-<br>
 
 ## Properties
 
@@ -63,8 +59,6 @@ The following examples show how to use this InSpec audit resource.
       its('disk_full_action') { should cmp 'halt' }
       its('disk_error_action') { should cmp 'halt' }
     end
-
-<br>
 
 ## Matchers
 

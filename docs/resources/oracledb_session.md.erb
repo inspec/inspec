@@ -7,8 +7,6 @@ platform: os
 
 Use the `oracledb_session` InSpec audit resource to test SQL commands run against a Oracle database.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -33,8 +31,6 @@ where
 * it is possible to run queries as sysdba/sysoper by using `as_db_role option`, see examples
 * `query('QUERY')` contains the query to be run
 * `its('value') { should eq('') }` compares the results of the query against the expected result in the test
-
-<br>
 
 ## oracledb_session(...).query method Properties
 * rows the query result as array of hashes
@@ -96,7 +92,6 @@ The following examples show how to use this InSpec audit resource.
 	its('owner') { should eq file_row['owner']}
       end
     end
-<br>
 
 ## Matchers
 

@@ -7,8 +7,6 @@ platform: linux
 
 Use the `bridge` InSpec audit resource to test basic network bridge properties, such as name, if an interface is defined, and the associations for any defined interface.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -28,14 +26,10 @@ A `bridge` resource block declares the bridge to be tested and what interface it
       it { should have_interface 'eth0' }
     end
 
-<br>
-
 ## Properties
 
 * On Linux platforms, any value in the `/sys/class/net/{interface}/bridge` directory may be tested
 * On the Windows platform, the `Get-NetAdapter` cmdlet is associated with the `Get-NetAdapterBinding` cmdlet and returns the `ComponentID ms_bridge` value as a JSON object
-
-<br>
 
 ## Property Examples
 
@@ -46,8 +40,6 @@ The `interfaces` property tests if the named interface is present:
     its('interfaces') { should eq 'foo' }
     its('interfaces') { should eq 'bar' }
     its('interfaces') { should include('foo') }
-
-<br>
 
 ## Matchers
 

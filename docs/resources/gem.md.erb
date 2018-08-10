@@ -7,8 +7,6 @@ platform: os
 
 Use the `gem` InSpec audit resource to test if a global Gem package is installed.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,8 +30,6 @@ where
 * `('gem_package_name')` must specify a Gem package, such as `'rubocop'`
 * `('gem_binary')` can specify the path to a non-default gem binary, defaults to `'gem'`
 * `be_installed` is a valid matcher for this resource
-
-<br>
 
 ## Resource Property Examples
 
@@ -69,8 +65,6 @@ The following examples show how to use this InSpec audit resource.
     describe gem('knife-backup', :chef_server) do
       it { should be_installed }
     end
-
-<br>
 
 ## Matchers
 

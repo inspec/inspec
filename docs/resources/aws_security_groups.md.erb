@@ -9,8 +9,6 @@ Use the `aws_security_groups` InSpec audit resource to test properties of some o
 
 Security groups are a networking construct that contain ingress and egress rules for network communications. Security groups may be attached to EC2 instances, as well as certain other AWS resources. Along with Network Access Control Lists, Security Groups are one of the two main mechanisms of enforcing network-level security.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -30,15 +28,11 @@ An `aws_security_groups` resource block uses an optional filter to select a grou
       its('entries.count') { should be > 1 }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
 
 As this is the initial release of `aws_security_groups`, its limited functionality precludes examples.
-
-<br>
 
 ## Filter Criteria
 
@@ -60,13 +54,9 @@ A string identifying a group. Since groups are contained in VPCs, group names ar
       it { should exist }
     end
 
-<br>
-
 ## Properties
 
 * `entries`, `group_ids`
-
-<br>
 
 ## Property Examples
 

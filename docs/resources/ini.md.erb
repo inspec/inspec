@@ -7,8 +7,6 @@ platform: os
 
 Use the `ini` InSpec audit resource to test settings in an INI file.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -53,13 +51,9 @@ In the event a section or setting name has a period in it, the alternate syntax 
 
     its(['section.with.a.dot.in.it', 'setting.name.with.dots']) { should cmp 'lotsadots' }
 
-<br>
-
 ## Properties
 
 This resource supports any of the settings listed in an INI file as properties.
-
-<br>
 
 ## Examples
 
@@ -78,8 +72,6 @@ and can be tested like this:
     describe ini('/etc/php5/apache2/php.ini') do
       its('mail function.smtp_port') { should eq('465') }
     end
-
-<br>
 
 ## Matchers
 

@@ -7,8 +7,6 @@ platform: windows
 
 Use the `windows_feature` InSpec audit resource to test features on Windows via the `Get-WindowsFeature` cmdlet.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,8 +30,6 @@ where
 * `('feature_name')` must specify a Windows feature name, such as `DHCP Server` or `IIS-Webserver`
 * `be_installed` is a valid matcher for this resource
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -55,8 +51,6 @@ The following examples show how to use this InSpec audit resource.
     describe windows_feature('NetFx3', :dism) do
       it{ should be_installed }
     end
-
-<br>
 
 ## Matchers
 

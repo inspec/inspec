@@ -7,8 +7,6 @@ platform: linux
 
 Use the `sshd_config` InSpec audit resource to test configuration data for the OpenSSH daemon located at `/etc/ssh/sshd_config` on Linux and Unix platforms. sshd---the OpenSSH daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command execution, and data exchanges.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,8 +30,6 @@ where
 * `name` is a configuration setting in `sshd_config`
 * `('path')` is the non-default `/path/to/sshd_config`
 * `{ should include('foo') }` tests the value of `name` as read from `sshd_config` versus the value declared in the test
-
-<br>
 
 ## Examples
 
@@ -75,8 +71,6 @@ The following examples show how to use this InSpec audit resource.
           '/etc/ssh/ssh_host_ecdsa_key',
         ] }
     end
-
-<br>
 
 ## Matchers
 

@@ -11,8 +11,6 @@ To test properties of a single user, use the `aws_iam_user` resource.
 
 To test properties of the special AWS root user (which owns the account), use the `aws_iam_root_user` resource.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -85,14 +83,11 @@ The following examples show how to use this InSpec audit resource.
       it { should exist }
     end
 
-
 ### Test that users with passwords that have not been used for 90 days do not
 
     describe aws_iam_users.where { password_last_used_days_ago > 90 } do
       it { should_not exist }
     end
-
-<br>
 
 ## Filter Criteria
 

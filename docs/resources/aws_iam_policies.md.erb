@@ -11,8 +11,6 @@ A policy is an entity in AWS that, when attached to an identity or resource, def
 
 Each IAM Policy is uniquely identified by either its `policy_name` or `arn`.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,21 +30,15 @@ An `aws_iam_policies` resource block collects a group of IAM Policies and then t
       its('policy_names') { should include('test-policy-1') }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
 
 As this is the initial release of `aws_iam_policies`, its limited functionality precludes examples.
 
-<br>
-
 ## Properties
 
 * `arns`, `entries`, `policy_names`
-
-<br>
 
 ## Property Examples
 
@@ -74,8 +66,6 @@ Provides access to the raw results of the query. This can be useful for checking
     describe aws_iam_policies do
       its('entries.count') { should be <= 100}
     end
-
-<br>
 
 ## Matchers
 

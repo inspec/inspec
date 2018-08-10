@@ -7,8 +7,6 @@ platform: os
 
 Use the `csv` InSpec audit resource to test configuration data in a CSV file.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -33,8 +31,6 @@ where
 * `name` is a configuration setting in a CSV file
 * `should eq 'foo'` tests a value of `name` as read from a CSV file versus the value declared in the test
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -45,8 +41,6 @@ The following examples show how to use this InSpec audit resource.
       its('setting') { should eq 1 }
     end
 
-<br>
-
 ## Property Examples
 
 ### name
@@ -55,10 +49,7 @@ The `name` property tests the value of `name` as read from a CSV file compared t
 
     its('name') { should cmp 'foo' }
 
-<br>
-
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
-
 

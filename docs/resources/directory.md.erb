@@ -7,8 +7,6 @@ platform: os
 
 Use the `directory` InSpec audit resource to test if the file type is a directory. This is equivalent to using the `file` resource and the `be_directory` matcher, but provides a simpler and more direct way to test directories.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -27,13 +25,9 @@ A `directory` resource block declares the location of the directory to be tested
       its('property') { should cmp 'value' }
     end
 
-<br>
-
 ## Properties
 
 All of the properties available to `file` may be used with `directory`.
-
-<br>
 
 ## Matchers
 

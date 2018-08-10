@@ -11,8 +11,6 @@ To test properties of more than one user, use the `aws_iam_users` resource.
 
 To test properties of the special AWS root user (which owns the account), use the `aws_iam_root_user` resource.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -30,8 +28,6 @@ An `aws_iam_user` resource block declares a user by name, and then lists tests t
     describe aws_iam_user(username: 'test_user') do
       it { should exist }
     end
-
-<br>
 
 ## Examples
 
@@ -54,8 +50,6 @@ The following examples show how to use this InSpec audit resource.
     describe aws_iam_user(username: 'test_user') do
       it { should have_console_password }
     end
-
-<br>
 
 ## Properties
 
@@ -89,7 +83,6 @@ Returns a list of IAM Inline Policy Names as strings that identify the inline po
       its('inline_policy_names') { should include 'test-inline-policy-01' }
       its('inline_policy_names.count') { should eq 1 }
     end
-
 
 ## Matchers
 

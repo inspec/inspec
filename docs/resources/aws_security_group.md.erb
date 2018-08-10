@@ -16,8 +16,6 @@ While this resource provides facilities for searching inbound and outbound rules
  * References to other Security Groups
  * References to VPC peers or other AWS services (that is, no support for searches based on 'prefix lists').
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -57,8 +55,6 @@ An `aws_security_group` resource block uses resource parameters to search for an
       it { should exist }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -91,8 +87,6 @@ The following examples show how to use this InSpec audit resource.
       # Expect exactly three rules.
       its('outbound_rules.count') { should cmp 3 }
     end
-
-<br>
 
 ## Resource Parameters
 
@@ -140,12 +134,9 @@ A string identifying the VPC that contains the Security Group. Since VPCs common
       it { should exist }
     end
 
-<br>
 ## Properties
 
 * [`description`](#description), [`group_id`](#group_id), [`group_name`](#group_name), [`inbound_rules`](#inbound_rules), [`outbound_rules`](#outbound_rules), [`vpc_id`](#vpc_id)
-
-<br>
 
 ## Property Examples
 
@@ -211,8 +202,6 @@ A String in the format 'vpc-' followed by 8 hexadecimal characters reflecting VP
     describe aws_security_group('sg-12345678') do
       its('vpc_id') { should cmp 'vpc-12345678' }
     end
-
-<br>
 
 ## Matchers
 

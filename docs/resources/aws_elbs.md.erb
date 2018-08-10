@@ -9,8 +9,6 @@ Use the `aws_elbs` InSpec audit resource to test properties of AWS Elastic Load 
 
 To audit a specific ELB in detail when its name is known, use `aws_elb` (singular).
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -34,8 +32,6 @@ An `aws_elb` resource block uses an optional filter to select a group of ELBs an
     describe aws_elb.where(vpc_id: 'vpc-12345678') do
       it { should exist }
     end
-
-<br>
 
 ## Filter Criteria
 
@@ -86,7 +82,6 @@ An array of strings reflecting the instance IDs of the EC2 instances attached to
       it { should exist }
     end
 
-
 ### internal\_ports
 
 An array of integers reflecting the EC2-facing ports on which the load balancer will be sending traffic to. This criterion must be used with block-mode `where`.
@@ -122,8 +117,6 @@ A String reflecting the ID of the VPC in which the ELB is located.
     describe aws_elbs.where(vpc_id: 'vpc-12345678') do
       it { should exist }    
     end
-
-<br>
 
 ## Properties
 
@@ -176,7 +169,6 @@ An array of integers reflecting the public-facing ports on which the selected lo
       its('external_ports') { should include 443 }
       its('external_ports.count') { should cmp 2 }      
     end
-
 
 ### instance\_ids
 

@@ -11,8 +11,6 @@ Use the `aws_config_delivery_channel` InSpec audit resource to examine how the A
 
 As of April 2018, each AWS region may have only one Delivery Channel.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -42,8 +40,6 @@ However, since you may only have one Delivery Channel per region, and InSpec con
     describe aws_config_delivery_channel do
       it { should exist }
     end
-
-<br>
 
 ## Examples
 
@@ -97,8 +93,6 @@ Provides the ARN of the SNS topic for which the channel sends notifications abou
     describe aws_config_delivery_channel(channel_name: 'my_channel')
       its('sns_topic_arn') { should eq 'arn:aws:sns:us-east-1:721741954427:sns_topic' }
     end
-
-<br>
 
 ## Matchers
 

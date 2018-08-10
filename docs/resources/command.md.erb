@@ -7,8 +7,6 @@ platform: os
 
 Use the `command` InSpec audit resource to test an arbitrary command that is run on the system.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -33,8 +31,6 @@ where
 * `'command'` must specify a command to be run
 * `'property'` is one of `exit_status`, `stderr`, or `stdout`
 * `'output'` tests the output of the command run on the system versus the output value stated in the test
-
-<br>
 
 ## Property Examples
 
@@ -161,8 +157,6 @@ The following examples show how to use `redact_regex`:
        ✔  exit_status should cmp == 0
 
 > For more info/help on regular expressions, we recommend [RegExr](https://regexr.com/)
-
-<br>
 
 ## Matchers
 

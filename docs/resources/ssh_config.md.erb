@@ -7,8 +7,6 @@ platform: linux
 
 Use the `ssh_config` InSpec audit resource to test OpenSSH client configuration data located at `/etc/ssh/ssh_config` on Linux and Unix platforms.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,8 +30,6 @@ where
 * `name` is a configuration setting in `ssh_config`
 * `('path')` is the non-default `/path/to/ssh_config`
 * `{ should include('foo') }` tests the value of `name` as read from `ssh_config` versus the value declared in the test
-
-<br>
 
 ## Examples
 
@@ -65,8 +61,6 @@ The following examples show how to use this InSpec audit resource.
       its('SendEnv') { should eq 'LANG LC_*' }
       its('HashKnownHosts') { should eq 'yes' }
     end
-
-<br>
 
 ## Matchers
 

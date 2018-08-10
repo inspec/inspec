@@ -7,8 +7,6 @@ platform: os
 
 Use the `user` InSpec audit resource to test user profiles for a single, known/expected local user, including the groups to which that user belongs, the frequency of required password changes, and the directory paths to home and shell.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -42,8 +40,6 @@ where
 * `it { should exist }` tests if the user exists
 * `gid`, `group`, `groups`, `home`, `maxdays`, `mindays`, `shell`, `uid`, and `warndays` are valid matchers for this resource
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -70,8 +66,6 @@ The `nginx` user is typically `www-data`, but on CentOS it's `nginx`. The follow
     describe user(web_user) do
       it { should exist }
     end
-
-<br>
 
 ## Matchers
 

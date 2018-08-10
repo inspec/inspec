@@ -7,8 +7,6 @@ platform: linux
 
 Use the `bond` InSpec audit resource to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On Linux platforms, any value in the `/proc/net/bonding` directory may be tested.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -31,8 +29,6 @@ where
 
 * `'name'` is the name of the bonded network interface
 * `{ should exist }` is a valid matcher for this resource
-
-<br>
 
 ## Property Examples
 
@@ -79,8 +75,6 @@ The `params` matcher tests arbitrary parameters for the bonded network interface
       its('Up Delay (ms)') { should eq '0' }
       its('Down Delay (ms)') { should eq '0' }
     end
-
-<br>
 
 ## Matchers
 

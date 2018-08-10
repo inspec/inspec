@@ -32,8 +32,6 @@ where
 * `property` is a resource property
 * `value` is the expected output from the matcher
 
-<br>
-
 ## Examples
 
 The following examples show to use this InSpec audit resource.
@@ -43,8 +41,6 @@ The following examples show to use this InSpec audit resource.
     describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Linux-Internal-VM').where(number: 1) do
       its('size') { should cmp >= 15 }
     end
-
-<br>
 
 ## Resource Parameters
 
@@ -86,13 +82,9 @@ These options can also be set using the environment variables:
 
 When the options have been set as well as the environment variables, the environment variables take priority.
 
-<br>
-
 ## Filter Criteria
 
 * `number`, `disk`
-
-<br>
 
 ## Filter Examples
 
@@ -110,13 +102,9 @@ The '1' based index of the disk attached to the machine.
     describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Windows-Internal-VM').where(number: 1)
     end
 
-<br>
-
 ## Properties
 
 * `count`, `disk`, `number`, `name`, `size`, `lun`, `caching`, `create_option`, `is_managed_disk?`, `vhd_uri`, `storage_account_name`, `storage_account_type`, `id`, `subscription_id`, `resource_group`
-
-<br>
 
 ## Property Examples
 
@@ -205,8 +193,6 @@ This is derived from the `id`.
 
     its('resource_group') { should cmp 'InSpec-Azure' }
 
-<br>
-
 ## Matchers
 
 This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
@@ -224,8 +210,6 @@ Returns a boolean denoting if any data disks are attached to the machine.
 Returns a boolean stating if the machine has Managed Disks for data disks.
 
     it { should have_managed_disks }
-
-<br>
 
 ## References
 

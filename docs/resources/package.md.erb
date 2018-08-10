@@ -7,8 +7,6 @@ platform: os
 
 Use the `package` InSpec audit resource to test if the named package and/or package version is installed on the system.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -31,8 +29,6 @@ where
 
 * `('name')` must specify the name of a package, such as `'nginx'`
 * `be_installed` is a valid matcher for this resource
-
-<br>
 
 ## Examples
 
@@ -97,8 +93,6 @@ Memcached is an in-memory key-value store that helps improve the performance of 
     describe port(11_211) do
       it { should be_listening }
     end
-
-<br>
 
 ## Matchers
 

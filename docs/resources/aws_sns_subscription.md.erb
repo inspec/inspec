@@ -6,8 +6,6 @@ title: About the aws_sns_subscription Resource
 
 Use the `aws_sns_subscription` InSpec audit resource to test detailed properties of a AWS SNS Subscription.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -26,15 +24,11 @@ An `aws_sns_subscription` resource block uses resource parameters to search for 
       it { should exist }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
 
 As this is the initial release of `aws_sns_subscription`, its limited functionality precludes examples.
-
-<br>
 
 ## Resource Parameters
 
@@ -53,8 +47,6 @@ The ARN (Amazon Resource Name) of the AWS SNS Subscription.
     describe aws_sns_subscription('arn:aws:sns:us-east-1::test-topic-01:b214aff5-a2c7-438f-a753-8494493f2ff6') do
       it { should exist }
     end
-
-<br>
 
 ## Matchers
 

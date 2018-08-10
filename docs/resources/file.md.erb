@@ -7,8 +7,6 @@ platform: os
 
 Use the `file` InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -33,8 +31,6 @@ where
 * `PROPERTY` is a valid resource property for this resource'
 * `'value'` is the value to be tested.
 
-<br>
-
 ## Properties
 
 ### General Properties
@@ -48,8 +44,6 @@ symlink, mode, link_path, shallow_link_path, mtime, size, selinux\_label, md5sum
 ### Windows Properties
 
 file\_version, product\_version
-
-<br>
 
 ## Resource Property Examples
 
@@ -292,7 +286,6 @@ or:
       its('size') { should be 0 }
     end
 
-
 ### Test an MD5 checksum
 
     require 'digest'
@@ -352,8 +345,6 @@ For example, for the following symlink:
       it { should be_owned_by 'ovirtagent' }
       it { should be_grouped_into 'ovirtagent' }
     end
-
-<br>
 
 ## Matchers
 
@@ -436,7 +427,6 @@ The `be_immutable` matcher tests if the file is immutable, i.e. "cannot be chang
 The `be_linked_to` matcher tests if the file is linked to the named target:
 
     it { should be_linked_to '/etc/target-file' }
-
 
 ### be\_owned\_by
 

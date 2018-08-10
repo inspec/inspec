@@ -42,8 +42,6 @@ The following examples show to use this InSpec audit resource.
       its('size') { should cmp >= 15 }
     end
 
-<br>
-
 ## Parameters
 
 * `group_name`, `name`, `apiversion`
@@ -84,13 +82,9 @@ These options can also be set using the environment variables:
 
 When the options have been set as well as the environment variables, the environment variables take priority.
 
-<br>
-
 ## Properties
 
 * `type`, `location`, `name`, `publisher`, `offer`, `sku`, `os_type`, `os_disk_name`, `have_managed_osdisk`, `caching`, `create_option`, `disk_size_gb`, `have_data_disks`, `data_disk_count`  , `storage_account_type`, `vm_size`, `computer_name`, `admin_username`, `have_nics`, `nic_count`, `connected_nics`, `have_password_authentication`, `password_authentication?`, `have_custom_data`, `custom_data?`, `have_ssh_keys`, `ssh_keys?`, `ssh_key_count`, `ssh_keys`, `have_boot_diagnostics`, `boot_diagnostics_storage_uri`
-
-<br>
 
 ## Property Examples
 
@@ -256,8 +250,6 @@ If boot diagnostics are enabled for the machine they will be saved in a storage 
 
     its('boot_diagnostics_storage_uri') { should match 'ghjgjhgjg' }
 
-<br>
-
 ## Matchers
 
 There are a number of built in comparison operators that are available to test the result with an expected value.
@@ -311,8 +303,6 @@ Boolean to state if the machine has SSH keys assigned to it
     it { should have_ssh_keys }
 
 For a Windows machine this will always be false.
-
-<br>
 
 ## Tags
 

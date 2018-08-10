@@ -7,8 +7,6 @@ platform: windows
 
 Use the `windows_hotfix` InSpec audit resource to test if the hotfix has been installed on a Windows system.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,8 +30,6 @@ where
 * `('name')` must specify the name of a hotfix, such as `'KB4012213'`
 * `be_installed` is a valid matcher for this resource
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -49,8 +45,6 @@ The following examples show how to use this InSpec audit resource.
     describe windows_hotfix('KB9999999') do
       it { should_not be_installed }
     end
-
-<br>
 
 ## Matchers
 

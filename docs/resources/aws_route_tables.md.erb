@@ -6,8 +6,6 @@ title: About the aws_route_tables Resource
 
 Use the `aws_route_tables` InSpec audit resource to test properties of all or a group of Route Tables. A Route Table contains a set of rules, called routes, that are used to determine where network traffic is directed.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -48,7 +46,6 @@ Lists all VPCs that are in the Route Tables.
     describe aws_route_tables do
       its('vpc_ids') { should include 'vpc_12345678' }
     end
-
 
 ### route\_table\_ids
 

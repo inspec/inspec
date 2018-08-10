@@ -7,8 +7,6 @@ platform: os
 
 Use the `mysql_session` InSpec audit resource to test SQL commands run against a MySQL database.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,8 +30,6 @@ where
 * `mysql_session` declares a username and password, connecting locally, with permission to run the query
 * `query('QUERY')` contains the query to be run
 * `its('stdout') { should eq(/expected-result/) }` compares the results of the query against the expected result in the test
-
-<br>
 
 ## Examples
 
@@ -76,8 +72,6 @@ The following examples show how to use this InSpec audit resource.
     describe mysql_session('my_user','password').query('show tables in non_existent_database;') do
       its('stderr') { should match(/Unknown database/) }
     end
-
-<br>
 
 ## Matchers
 

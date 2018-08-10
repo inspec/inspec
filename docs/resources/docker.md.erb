@@ -7,8 +7,6 @@ platform: linux
 
 Use the `docker` InSpec audit resource to test configuration data for the Docker daemon. It is a very comprehensive resource. See also: [docker_container](https://www.inspec.io/docs/reference/resources/docker_container/) and [docker_image](https://www.inspec.io/docs/reference/resources/docker_image/), too.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -54,8 +52,6 @@ where
 
 * `.where()` may specify a specific filter and expected value, against which parameters are compared
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -99,8 +95,6 @@ The following examples show how to use this InSpec audit resource.
       its(%w(Config Healthcheck)) { should_not eq nil }
     end
 
-<br>
-
 ## How to run the DevSec Docker baseline profile
 
 There are two ways to run the `docker-baseline` profile to test Docker via the `docker` resource.
@@ -117,13 +111,9 @@ Or execute the profile directly via URL:
 
     $ inspec exec https://github.com/dev-sec/cis-docker-benchmark
 
-<br>
-
 ## Resource Parameters
 
 * `commands`, `ids`, `images`, `labels`, `local_volumes`, `mounts`, `names`, `networks`, `ports`, `sizes` and `status` are valid parameters for `containers`
-
-<br>
 
 ## Resource Parameter Examples
 
@@ -186,13 +176,9 @@ Or execute the profile directly via URL:
       its('Client.Version') { should cmp >= '1.12'}
     end
 
-<br>
-
 ## Properties
 
 * `id`, `image`, `repo`, `tag`, `ports`, `command`
-
-<br>
 
 ## Property Examples
 
@@ -231,8 +217,6 @@ Or execute the profile directly via URL:
     describe docker_container(name: 'an-echo-server') do
       its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
     end
-
-<br>
 
 ## Matchers
 

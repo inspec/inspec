@@ -7,8 +7,6 @@ platform: os
 
 Use the `port` InSpec audit resource to test basic port properties, such as port, process, if it's listening.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -47,8 +45,6 @@ For example, to test if the SSH daemon is available on a Linux machine via the d
       its('protocols') { should include 'tcp' }
       its('addresses') { should include '0.0.0.0' }
     end
-
-<br>
 
 ## Examples
 
@@ -105,8 +101,6 @@ or:
     describe port(65432) do
       it { should_not be_listening }
     end
-
-<br>
 
 ## Matchers
 

@@ -11,8 +11,6 @@ To test properties of all or multiple users, use the `aws_iam_users` resource.
 
 To test properties of a specific AWS user use the `aws_iam_user` resource.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -31,8 +29,6 @@ An `aws_iam_root_user` resource block requires no parameters but has several mat
       it { should have_mfa_enabled }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -48,8 +44,6 @@ The following examples show how to use this InSpec audit resource.
     describe aws_iam_root_user do
       it { should have_mfa_enabled }
     end
-
-<br>
 
 ## Matchers
 

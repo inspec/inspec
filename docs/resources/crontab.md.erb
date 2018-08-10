@@ -7,8 +7,6 @@ platform: linux
 
 Use the `crontab` InSpec audit resource to test the crontab entries for a particular user on the system. It recognizes special time strings (@yearly, @weekly, etc).
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -26,8 +24,6 @@ A `crontab` resource block declares a user (which defaults to the current user, 
     describe crontab do
       its('commands') { should include '/some/scheduled/task.sh' }
     end
-
-<br>
 
 ## Examples
 
@@ -78,10 +74,7 @@ end
       its('minutes') { should cmp '-1' }
     end
 
-<br>
-
 ## Property Examples
-
 
 ### Test a special time string
 
@@ -95,8 +88,6 @@ end
     end
 
 InSpec will automatically interpret crontab-supported special time strings. For example, a crontab entry set to run `@yearly` can be tested as if the entry was manually configured to run on January 1, 12 AM.
-
-<br>
 
 ## Matchers
 

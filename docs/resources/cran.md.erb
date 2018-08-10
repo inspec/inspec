@@ -7,8 +7,6 @@ platform: linux
 
 Use the `cran` InSpec audit resource to test R modules that are installed from CRAN package repository.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,8 +30,6 @@ where
 * `'package_name'` is the name of the package, such as `'DBI'`
 * `be_installed` tests to see if the package described above is installed
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -51,8 +47,6 @@ The following examples show how to use this InSpec audit resource.
       its('version') { should eq '0.5.1' }
     end
 
-<br>
-
 ## Property Examples
 
 ### version
@@ -60,8 +54,6 @@ The following examples show how to use this InSpec audit resource.
 The `version` property tests if the named package version is on the system:
 
     its('version') { should eq '1.2.3' }
-
-<br>
 
 ## Matchers
 

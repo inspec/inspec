@@ -7,8 +7,6 @@ platform: windows
 
 Use the `registry_key` InSpec audit resource to test key values in the Windows registry.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -45,7 +43,6 @@ Or use a Ruby Hash:
       its('Start') { should eq 2 }
     end
 
-
 ### Registry Key Path Separators
 
 A Windows registry key can be used as a string in Ruby code, such as when a registry key is used as the name of a recipe. In Ruby, when a registry key is enclosed in a double-quoted string (`" "`), the same backslash character (`\`) that is used to define the registry key path separator is also used in Ruby to define an escape character. Therefore, the registry key path separators must be escaped when they are enclosed in a double-quoted string. For example, the following registry key:
@@ -60,7 +57,6 @@ or may be enclosed in a double-quoted string with an extra backslash as an escap
 
     "HKCU\\SOFTWARE\\path\\to\\key\\Themes"
 
-
 <p class="warning">
 Please make sure that you use backslashes instead of forward slashes. Forward slashes will not work for registry keys.
 </p>
@@ -73,8 +69,6 @@ Please make sure that you use backslashes instead of forward slashes. Forward sl
     describe registry_key('HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\1033') do
       its('Release') { should eq 378675 }
     end
-
-<br>
 
 ## Examples
 
@@ -96,8 +90,6 @@ where `'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule'` is the f
     }) do
       its('ProductName') { should match /^[a-zA-Z0-9\(\)\s]*2012\s[rR]2[a-zA-Z0-9\(\)\s]*$/ }
     end
-
-<br>
 
 ## Matchers
 
@@ -156,7 +148,6 @@ The `have_value` matcher tests if a value exists for a registry key:
 The `name` matcher tests the value for the specified registry setting:
 
     its('name') { should eq 'value' }
-
 
 <p class="warning">
 Any name with a dot will not work as expected: <code>its('explorer.exe') { should eq 'test' }</code>. For details, see <a href="https://github.com/inspec/inspec/issues/1281">https://github.com/inspec/inspec/issues/1281</a>
