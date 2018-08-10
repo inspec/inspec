@@ -17,6 +17,8 @@ module Inspec::Reporters
       reporter = Inspec::Reporters::CLI.new(config)
     when 'json'
       reporter = Inspec::Reporters::Json.new(config)
+    when 'json-merged'
+      reporter = Inspec::Reporters::JsonMerged.new(config)
     when 'json-min'
       reporter = Inspec::Reporters::JsonMin.new(config)
     when 'junit'

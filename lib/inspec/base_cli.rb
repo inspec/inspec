@@ -168,6 +168,7 @@ module Inspec
         'documentation',
         'html',
         'json',
+        'json-merged',
         'json-min',
         'json-rspec',
         'junit',
