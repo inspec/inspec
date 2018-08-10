@@ -7,8 +7,6 @@ platform: os
 
 Use the `host` InSpec audit resource to test the name used to refer to a specific host and its availability, including the Internet protocols and ports over which that host name should be available.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -36,13 +34,9 @@ where
 * `port:` is the port number
 * `protocol: 'name'` is the Internet protocol: TCP (`protocol: 'tcp'`), UDP (`protocol: 'udp'` or  ICMP (`protocol: 'icmp'`))
 
-<br>
-
 ## Resource Properties
 
 * `connection`, `ipaddress`, `protocol`, `socket`
-
-<br>
 
 ## Resource Examples
 
@@ -76,8 +70,6 @@ The `ipaddress` matcher tests if a host name is resolvable to a specific IP addr
       its('connection') { should_not match /connection refused/ }
       its('socket') { should match /STATUS_OK/ }
     end
-
-<br>
 
 ## Matchers
 

@@ -11,8 +11,6 @@ To test properties of a single VPC subnet, use the `aws_subnet` resource.
 
 To test properties of all or a group of VPC subnets, use the `aws_subnets` resource.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,8 +30,6 @@ An `aws_subnet` resource block uses the parameter to select a VPC and a subnet i
       its('cidr_block') { should eq '10.0.1.0/24' }
     end
 
-<br>
-
 ## Resource Parameters
 
 This InSpec resource accepts the following parameters, which are used to search for the VPCs subnet.
@@ -47,13 +43,9 @@ A string identifying the subnet that the VPC contains.
       it { should exist }
     end
 
-<br>
-
 ## Properties
 
 * `availability_zone`, `available_ip_address_count`, `cidr_block`, `subnet_id`, `vpc_id`
-
-<br>
 
 ## Property Examples
 
@@ -96,8 +88,6 @@ Provides the ID of the VPC the subnet is in.
     describe aws_subnet(subnet_id: 'subnet-12345678') do
       its('vpc_id') { should eq 'vpc-12345678' }
     end
-
-<br>
 
 ## Matchers
 

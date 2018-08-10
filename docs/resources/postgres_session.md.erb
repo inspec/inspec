@@ -7,8 +7,6 @@ platform: os
 
 Use the `postgres_session` InSpec audit resource to test SQL commands run against a PostgreSQL database.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -42,8 +40,6 @@ A full example is:
 
 where `its('output') { should eq '' }` compares the results of the query against the expected result in the test
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -65,8 +61,6 @@ The following examples show how to use this InSpec audit resource.
                   AND lanname!=\'c\';', ['postgres']) do
       its('output') { should eq '0' }
     end
-
-<br>
 
 ## Matchers
 

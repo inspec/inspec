@@ -7,8 +7,6 @@ platform: linux
 
 Use the `postgres_hba_conf` InSpec audit resource to test the client authentication data defined in the pg_hba.conf file.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -33,13 +31,9 @@ where
 * `'filter_value'` is the value that is to be filtered for
 * `'value'` is the value that is to be matched expected
 
-<br>
-
 ## Properties
 
     'address', 'auth_method', 'auth_params', 'conf_dir' , 'conf_file' , 'database', 'params' ,'type', 'user'
-
-<br>
 
 ## Property Examples
 
@@ -82,8 +76,6 @@ where
     describe postgres_hba_conf.where { database == 'acme_test_db' } do
       its('user') { should cmp 'value' }
     end
-
-<br>
 
 ## Matchers
 

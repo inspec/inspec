@@ -11,8 +11,6 @@ EC2 instances are the basic unit of computing within AWS.  An instance is a virt
 
 Each EC2 instance is uniquely identified by its ID.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -39,13 +37,9 @@ An `aws_ec2_instances` resource block collects a group of EC2 Instances and then
       end 
     end
 
-<br>
-
 ## Examples
 
 As this is the initial release of `aws_ec2_instances`, its limited functionality precludes examples.
-
-<br>
 
 ## Filter Criteria
 
@@ -62,7 +56,6 @@ Provides access to the raw results of the query, which can be treated as an arra
       its('entries.count') { should be <= 100}
     end
 
-
 ### instance_ids
 
 Provides a list of the instance ids that were found in the query.
@@ -71,8 +64,6 @@ Provides a list of the instance ids that were found in the query.
       its('instance_ids') { should include('i-12345678') }
       its('instance_ids.count') { should cmp 3) }
     end
-
-<br>
 
 ## Matchers
 

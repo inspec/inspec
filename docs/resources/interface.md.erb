@@ -10,8 +10,6 @@ Use the `interface` InSpec audit resource to test basic network adapter properti
 * On Linux platforms, `/sys/class/net/#{iface}` is used as source
 * On the Windows platform, the `Get-NetAdapter` cmdlet is used as source
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,13 +30,9 @@ An `interface` resource block declares network interface properties to be tested
       its('name') { should eq eth0 }
     end
 
-<br>
-
 ## Properties
 
 `name`, `speed`
-
-<br>
 
 ## Resource Property Examples
 
@@ -53,8 +47,6 @@ The `name` matcher tests if the named network interface exists:
 The `speed` matcher tests the speed of the network interface, in MB/sec:
 
     its('speed') { should eq 1000 }
-
-<br>
 
 ## Matchers
 

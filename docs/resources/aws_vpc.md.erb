@@ -15,8 +15,6 @@ Each VPC is uniquely identified by its VPC ID. In addition, each VPC has a non-u
 
 Every AWS account has at least one VPC, the "default" VPC, in every region.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -46,8 +44,6 @@ An `aws_vpc` resource block identifies a VPC by id. If no VPC ID is provided, th
       it { should exist }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -64,13 +60,9 @@ The following examples show how to use this InSpec audit resource.
       its('cidr_block') { should cmp '10.0.0.0/16' }
     end
 
-<br>
-
 ## Properties
 
 * `cidr_block`, `dhcp_options_id`, `state`, `vpc_id`, `instance_tenancy`
-
-<br>
 
 ## Property Examples
 
@@ -113,8 +105,6 @@ The ID of the VPC.
     describe aws_vpc do
       its('vpc_id') { should eq 'vpc-87654321' }
     end
-
-<br>
 
 ## Matchers
 

@@ -7,8 +7,6 @@ platform: os
 
 Use the `xml` InSpec audit resource to test data in an XML file.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -65,8 +63,6 @@ In the event the path contains an element which contains periods, the alternate 
 
     its(['root/name.with.a.period']) { should cmp 'so_many_dots' }
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -81,8 +77,6 @@ The following examples show how to use this InSpec audit resource.
     describe xml('applicationHost.sites') do
       its('site[@name="Default Web Site"]/application/virtualDirectory/@path') { should eq ['/'] }
     end
-
-<br>
 
 ## Matchers
 

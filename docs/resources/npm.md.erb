@@ -7,8 +7,6 @@ platform: os
 
 Use the `npm` InSpec audit resource to test if a global NPM package is installed. NPM is the the package manager for [Node.js packages](https://docs.npmjs.com), such as Bower and StatsD.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -40,8 +38,6 @@ You can also specify additional options:
 
 The `path` specifies a folder, that contains a `node_modules` subdirectory. It emulates running `npm` inside the specified folder. This way you can inspect local NPM installations as well as global ones.
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -58,8 +54,6 @@ The following examples show how to use this InSpec audit resource.
     describe npm('statsd') do
       it { should_not be_installed }
     end
-
-<br>
 
 ## Matchers
 

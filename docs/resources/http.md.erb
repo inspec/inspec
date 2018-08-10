@@ -7,8 +7,6 @@ platform: linux
 
 Use the `http` InSpec audit resource to test an http endpoint.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -41,8 +39,6 @@ where
 * `read_timeout` may be specified for a timeout for reading connections (default to 60)
 * `ssl_verify` may be specified to enable or disable verification of SSL certificates (default to `true`)
 
-<br>
-
 ## Example
 
 The following examples show how to use this InSpec audit resource. An `http` resource block declares the configuration settings to be tested:
@@ -68,8 +64,6 @@ For example, a service is listening on default http port can be tested like this
       its('headers.Content-Type') { should cmp 'text/html' }
     end
 
-<br>
-
 ## Local vs. Remote
 
 Beginning with InSpec 1.41, you can enable the ability to have the HTTP test execute on the remote target:
@@ -79,8 +73,6 @@ Beginning with InSpec 1.41, you can enable the ability to have the HTTP test exe
     end
 
 In InSpec 2.0, the HTTP test will automatically execute remotely whenever InSpec is testing a remote node.
-
-<br>
 
 ## Parameters
 
@@ -168,13 +160,9 @@ In InSpec 2.0, the HTTP test will automatically execute remotely whenever InSpec
       ...
     end
 
-<br>
-
 ## Properties
 
 * `body`, `headers`, `http_method`, `status`,
-
-<br>
 
 ## Property Examples
 
@@ -199,8 +187,6 @@ Individual headers can be tested via:
 The `status` matcher tests status of the http response:
 
     its('status') { should eq 200 }
-
-<br>
 
 ## Matchers
 

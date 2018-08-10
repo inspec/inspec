@@ -7,8 +7,6 @@ platform: windows
 
 Use the `powershell` InSpec audit resource to test a Powershell script on the Windows platform.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -36,8 +34,6 @@ where
 * `'script'` must specify a Powershell script to be run
 * `'matcher'` is one of `exit_status`, `stderr`, or `stdout`
 * `'output'` tests the output of the command run on the system versus the output value stated in the test
-
-<br>
 
 ## Examples
 
@@ -86,8 +82,6 @@ No newline:
       its('stdout') { should eq 'hello' }
       its('stderr') { should eq '' }
     end
-
-<br>
 
 ## Matchers
 

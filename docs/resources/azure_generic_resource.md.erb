@@ -31,13 +31,9 @@ where
 * `property` This generic resource dynamically creates the properties on the fly based on the type of resource that has been targeted.
 * `value` is the expected output from the chosen property
 
-<br>
-
 ## Parameters
 
 * `group_name`, `name`, `apiversion`, `type`
-
-<br>
 
 ## Parameter Examples
 
@@ -84,23 +80,17 @@ These options can also be set using the environment variables:
 
 When the options have been set as well as the environment variables, the environment variables take priority.
 
-<br>
-
 ## Parameter Example
 
     describe azure_generic_resource(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM', apiversion: '2.0') do
       its('location') { should eq 'westeurope' }
     end
 
-<br>
-
 ## Properties
 
 The properties that can be tested are entirely dependent on the Azure Resource that is under scrutiny. That means the properties vary. The best way to see what is available please use the [Azure Resources Portal](https://resources.azure.com) to select the resource you are interested in and see what can be tested.
 
 This resource allows you to test _any_ valid Azure Resource. The trade off for this is that the language to check each item is not as natural as it would be for a native Inspec resource.
-
-<br>
 
 ## Property Examples
 
@@ -168,13 +158,9 @@ The following examples show how to use some of the InSpec audit properties:
     its('tags') { should include 'Description' }
     its('Description_tag') { should match 'Externally facing' }
 
-<br>
-
 ## Matchers
 
 This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
-
-<br>
 
 ## References
 

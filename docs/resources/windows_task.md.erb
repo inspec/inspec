@@ -8,8 +8,6 @@ platform: windows
 Use the `windows_task` InSpec audit resource to test a scheduled tasks configuration on a Windows platform.
 Microsoft and application vendors use scheduled tasks to perform a variety of system maintenance tasks but system administrators can schedule their own.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -34,8 +32,6 @@ where
 * `'parameter'` must be a valid parameter defined within this resource  ie `logon_mode`, `last_result`, `task_to_run`, `run_as_user`
 * `'value'` will be used to compare the value gather from your chosen parameter
 * `'be_enabled'` is an example of a valid matcher that checks the state of a task, other examples are `exist` or `be_disabled`
-
-<br>
 
 ## Examples
 
@@ -87,8 +83,6 @@ Please make sure you use the full TaskName (include the prefix `\`) within your 
     Status:        Ready
     Logon Mode:    Interactive/Background
     ...
-
-<br>
 
 ## Matchers
 

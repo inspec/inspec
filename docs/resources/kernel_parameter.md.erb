@@ -7,7 +7,6 @@ platform: linux
 
 Use the `kernel_parameter` InSpec audit resource to test kernel parameters on Linux platforms.
  These parameters are located under `/proc/cmdline`.
-<br>
 
 ## Availability
 
@@ -32,8 +31,6 @@ where
 * `'kernel.parameter'` must specify a kernel parameter, such as `'net.ipv4.conf.all.forwarding'`
 * `{ should eq 0 }` states the value to be tested
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -55,8 +52,6 @@ The following examples show how to use this InSpec audit resource.
     describe kernel_parameter('net.ipv6.conf.interface.accept_redirects') do
       its('value') { should cmp 'true' }
     end
-
-<br>
 
 ## Matchers
 

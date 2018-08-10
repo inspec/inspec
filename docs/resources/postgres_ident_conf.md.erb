@@ -7,8 +7,6 @@ platform: linux
 
 Use the `postgres_ident_conf` InSpec audit resource to test the client authentication data defined in the pg_hba.conf file.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -33,13 +31,9 @@ where
 * `'filter_value'` is the value that is to be filtered for
 * `'value'` is the value that is to be matched expected
 
-<br>
-
 ## Properties
 
     'conf_file', 'map_name', 'params', 'pg_username', 'system_username'
-
-<br>
 
 ## Property Examples
 
@@ -65,8 +59,6 @@ where
     describe pg_hba_conf.where { pg_username == 'name' } do
       its('system_username') { should eq ['value'] }
     end
-
-<br>
 
 ## Matchers
 

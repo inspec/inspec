@@ -52,8 +52,6 @@ The following examples show how to use this InSpec audit resource:
       its('vnet_count') { should eq 1 }
     end
 
-<br>
-
 ## Parameters
 
 * `group_name`, `name`
@@ -87,21 +85,15 @@ These options can also be set using the environment variables:
 
 When the options have been set as well as the environment variables, the environment variables take priority.
 
-<br>
-
 ## Parameter Example
 
     describe azure_generic_resource(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM') do
       its('location') { should eq 'westeurope' }
     end
 
-<br>
-
 ## Properties
 
 * `name`, `location` ,`id`, `provisioning_state`, `subscription_id`, `total`, `nic_count`, `vm_count`, `extension_count`, `vnet_count`, `sa_count`, `public_ip_count`,`managed_disk_image_count`, `managed_disk_count`, `tag_count`
-
-<br>
 
 ## Property Examples
 
@@ -185,8 +177,6 @@ Tests the number of managed disks in the resource group.
 If a resource group contains one virtual machine with an OS disk and 2 data disks that are all Managed Disks, then the count would be 3.
 
     its('managed_disk_count') { should eq 3 }
-
-<br>
 
 ## Matchers
 
@@ -283,8 +273,6 @@ Then a property is available called `Owner_tag`.
     its('owner_tag') { should cmp 'JG Jinglehimerschmidt' }
 
 Note: The tag name is case sensitive which makes the test case sensitive. E.g. `owner_tag` does not equal `Owner_tag`.
-
-<br>
 
 ## References
 

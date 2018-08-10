@@ -7,8 +7,6 @@ platform: linux
 
 Use the `etc_fstab` InSpec audit resource to test information about all partitions and storage devices on a Linux system.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -44,8 +42,6 @@ Use the optional constructor parameter to give an alternative path to fstab file
       its('file_system_options') { should cmp 'list ' }
     end
 
-<br>
-
 ## Properties
 
 * `device_name` is the name associated with the device.
@@ -54,8 +50,6 @@ Use the optional constructor parameter to give an alternative path to fstab file
 * `mount_options` is the options for the device or partition.
 * `dump_options` is a number used by dump to decide if a file system should be backed up.
 * `file_system_options` is a number that specifies the order the file system should be checked.
-
-<br>
 
 ## Property Examples
 
@@ -127,8 +121,6 @@ Use the optional constructor parameter to give an alternative path to fstab file
     describe etc_fstab.where { mount_point == '/home' } do
       it { should be_configured }
     end
-
-<br>
 
 ## Matchers
 

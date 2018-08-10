@@ -7,8 +7,6 @@ platform: linux
 
 Use the `docker_image` InSpec audit resource to verify a Docker image.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -30,8 +28,6 @@ A `docker_image` resource block declares the image:
       its('tag') { should eq 'latest' }
     end
 
-<br>
-
 ## Resource Parameter Examples
 
 The resource allows you to pass in an image id:
@@ -51,8 +47,6 @@ You can also pass in repository and tag as separate values
     describe docker_image(repo: 'alpine', tag: 'latest') do
       ...
     end
-
-<br>
 
 ## Property Examples
 
@@ -89,8 +83,6 @@ The `tag` property tests the value of image tag:
       its('repo') { should eq 'alpine' }
       its('tag') { should eq 'latest' }
     end
-
-<br>
 
 ## Matchers
 

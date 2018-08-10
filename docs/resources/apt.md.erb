@@ -7,8 +7,6 @@ platform: linux
 
 Use the `apt` InSpec audit resource to verify Apt repositories on the Debian and Ubuntu platforms, and also PPA repositories on the Ubuntu platform.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -33,8 +31,6 @@ where
 * `apt('path')` must specify an Apt or PPA repository
 * `('path')` may be an `http://` address, a `ppa:` address, or a short `repo-name/ppa` address
 * `exist` and `be_enabled` are a valid matchers for this resource
-
-<br>
 
 ## Examples
 
@@ -61,12 +57,9 @@ The following examples show how to use this InSpec audit resource.
       it { should_not be_enabled }
     end
 
-<br>
-
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
-
 
 ### be_enabled
 

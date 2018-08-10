@@ -11,8 +11,6 @@ AWS CloudTrail is a service that enables governance, compliance, operational aud
 
 Each AWS Cloudtrail Trail is uniquely identified by its `trail_name` or `trail_arn`.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -37,8 +35,6 @@ An `aws_cloudtrail_trail` resource block identifies a trail by `trail_name`.
       it { should exist }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -61,13 +57,9 @@ The following examples show how to use this InSpec audit resource.
       it { should be_multi_region_trail }
     end
 
-<br>
-
 ## Properties
 
 * `s3_bucket_name`, `trail_arn`, `cloud_watch_logs_role_arn`, `cloud_watch_logs_log_group_arn`, `kms_key_id`, `home_region`,
-
-<br>
 
 ## Property Examples
 
@@ -127,8 +119,6 @@ Specifies the number of days ago the CloudTrail delivered logs to CloudWatch Log
     describe aws_cloudtrail_trail('trail-name') do
       its('delivered_logs_days_ago') { should eq 0 }
     end
-
-<br>
 
 ## Matchers
 

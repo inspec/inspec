@@ -11,8 +11,6 @@ A policy defines the permissions of an identity or resource within AWS. AWS eval
 
 Each IAM Policy is uniquely identified by either its policy\_name or arn.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -42,8 +40,6 @@ An `aws_iam_policy` resource block identifies a policy by policy name.
       it { should exist }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -70,8 +66,6 @@ The following examples show how to use this InSpec audit resource.
       # they are absent, an explicit check is required.
       it { should_not have_statement(Action: 's3:*') }
     end
-
-<br>
 
 ## Properties
 

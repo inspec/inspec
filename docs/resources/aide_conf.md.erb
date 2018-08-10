@@ -7,8 +7,6 @@ platform: linux
 
 Use the `aide_conf` InSpec audit resource to test the rules established for the file integrity tool AIDE. Controlled by the aide.conf file typically at /etc/aide.conf.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -43,13 +41,9 @@ Use the where clause to match a selection_line to one rule or a particular set o
       its('rules') { should include ['p', 'i', 'l', 'n', 'u', 'g', 'sha512'] }
     end
 
-<br>
-
 ## Properties
 
 * `conf_path`, `content`, `rules`, `all_have_rule`
-
-<br>
 
 ## Property Examples
 
@@ -78,8 +72,6 @@ The following examples show how to use this InSpec audit resource.
     describe aide_conf.all_have_rule('sha512') do
       it { should eq true }
     end
-
-<br>
 
 ## Matchers
 

@@ -7,8 +7,6 @@ platform: linux
 
 Use the `etc_hosts` InSpec audit resource to test rules set to match IP addresses with hostnames.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -22,8 +20,6 @@ This resource first became available in v1.37.6 of InSpec.
 ## Syntax
 
 An etc/hosts rule specifies an IP address and what its hostname is along with optional aliases it can have.
-
-<br>
 
 ## Syntax
 
@@ -47,13 +43,9 @@ where
 * `primary_name` is the name associated with the ip address.
 * `all_host_names` is a list including the primary_name as the first entry followed by any alias names the host has.
 
-<br>
-
 ## Properties
 
     'ip_address', 'primary_name', 'all_host_names'
-
-<br>
 
 ## Property Examples
 
@@ -80,8 +72,6 @@ where
     describe etc_hosts.where { ip_address == '127.0.1.154' } do
       its('all_host_names') { should eq [['localhost', 'localhost.localdomain', 'localhost4', 'localhost4.localdomain4'],  ['localhost', 'localhost.localdomain', 'localhost6', 'localhost6.localdomain6']] }
     end
-
-<br>
 
 ## Matchers
 

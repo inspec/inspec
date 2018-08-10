@@ -19,8 +19,6 @@ These entries are defined as a colon-delimited row in the file, one row per user
 
     root:x:1234:5678:additional_info:/home/dir/:/bin/bash
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -50,8 +48,6 @@ where
 * `filter` one (or more) arguments, for example: `passwd.users(/name/)` used to define filtering
 * `filter` may take any of the following arguments: `count` (retrieves the number of entries), `lines` (provides raw `passwd` lines), and `params` (returns an array of maps for all entries)
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -74,8 +70,6 @@ The following examples show how to use this InSpec audit resource.
       its('uids') { should cmp 33 }
       its('count') { should eq 1 }
     end
-
-<br>
 
 ## Matchers
 

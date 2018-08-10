@@ -11,8 +11,6 @@ Subnets are networks within a VPC that can have their own block of IP address's 
 VPCs span across all availability zones in AWS, while a subnet in a VPC can only span a single availability zone.
 Separating IP addresses allows for protection if there is a failure in one availability zone.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -33,15 +31,11 @@ An `aws_subnets` resource block uses an optional filter to select a group of sub
       its('subnet_ids') { should include 'subnet-98765432' }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
 
 As this is the initial release of `aws_subnets`, its limited functionality precludes examples.
-
-<br>
 
 ## Filter Criteria
 
@@ -68,13 +62,9 @@ A string identifying a specific subnet.
       its('cidr_blocks') { should eq ['10.0.1.0/24'] }
     end
 
-<br>
-
 ## Properties
 
 * `cidr_blocks`,  `states`, `subnet_ids`,`vpc_ids`
-
-<br>
 
 ## Property Examples
 
@@ -114,8 +104,6 @@ Provides an array containing a string of the vpc_id associated with a subnet.
     describe aws_subnets.where( subnet_id: 'subnet-12345678') do
       its('vpc_ids') { should include 'vpc-12345678' }
     end
-
-<br>
 
 ## Matchers
 

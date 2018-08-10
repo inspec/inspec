@@ -9,8 +9,6 @@ Use the `nginx_conf` InSpec resource to test configuration data for the NGINX se
 
 **Stability: Experimental**
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -36,8 +34,6 @@ where
 * `params['pid']` selects the `pid` entry from the global NGINX configuration
 * `{ should cmp 'logs/nginx.pid' }` tests if the PID is set to `logs/nginx.pid` (via `cmp` matcher)
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -56,8 +52,6 @@ The following examples show how to use this InSpec audit resource.
     describe nginx_conf.params['worker_processes'].flatten do
       it { should cmp 5 }
     end
-
-<br>
 
 ## Matchers
 
@@ -144,5 +138,4 @@ If the NGINX configuration file is not located at the default path, `/etc/nginx/
     describe nginx_conf('/opt/nginx/nginx.conf').params['pid'] do
       it { should cmp 'logs/nginx.pid' }
     end
-
 

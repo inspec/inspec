@@ -24,8 +24,6 @@ These entries are defined as a colon-delimited row in the file, one row per user
 
 The `shadow` resource understands this format, allows you to search on the fields, and exposes the selected users' properties.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -86,8 +84,6 @@ Use `where` to match any of the supported [filter criteria](#filter_criteria). `
       # But if the count test fails, this test outputs the users that are causing the failure.
       its('users') { should be_empty }
     end
-
-<br>
 
 ## Properties
 
@@ -175,8 +171,6 @@ The `count` property tests the number of records that the filter matched.
     describe shadow.user('root') do
       its('count') { should eq 1 }
     end
-
-<br>
 
 ## Filter Criteria
 

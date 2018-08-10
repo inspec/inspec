@@ -7,8 +7,6 @@ platform: linux
 
 Use the `docker_service` InSpec audit resource to verify a docker swarm service.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -30,8 +28,6 @@ A `docker_service` resource block declares the service by name:
       its('tag') { should eq 'latest' }
     end
 
-<br>
-
 ## Resource Parameter Examples
 
 The resource allows you to pass in a service id:
@@ -45,8 +41,6 @@ You can also pass in the fully-qualified image:
     describe docker_service(image: 'localhost:5000/alpine:latest') do
       ...
     end
-
-<br>
 
 ## Property Examples
 
@@ -109,8 +103,6 @@ The `tag` property tests the value of image tag:
       its('tag') { should eq 'latest' }
     end
 
-<br>
-
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
@@ -120,5 +112,4 @@ For a full list of available matchers, please visit our [matchers page](https://
 The `exist` matcher tests if the image is available on the node:
 
     it { should exist }
-
 

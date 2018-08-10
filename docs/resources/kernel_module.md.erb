@@ -13,8 +13,6 @@ The `kernel_module` resource can also verify if a kernel module is `blacklisted`
 or if a module is disabled via a fake install using the `bin_true` or `bin_false`
 method.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -43,8 +41,6 @@ where
 * `{ should be_loaded }` tests if the module is a loaded kernel module
 * `{ should be_blacklisted }` tests if the module is blacklisted or if the module is disabled via a fake install using /bin/false or /bin/true
 * `{ should be_disabled }` tests if the module is disabled via a fake install using /bin/false or /bin/true
-
-<br>
 
 ## Examples
 
@@ -104,12 +100,9 @@ The `version` property tests if the kernel module on the system has the correct 
         it { should_not be_loaded }
       end
 
-<br>
-
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
-
 
 ### be_blacklisted
 

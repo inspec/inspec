@@ -7,8 +7,6 @@ platform: os
 
 Use the `processes` InSpec audit resource to test properties for programs that are running on the system.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,8 +30,6 @@ where
 * `processes('process_name')` specifies the name of a process to check. If this is a string, it will be converted to a Regexp. For more specificity, pass a Regexp directly. If left blank, all processes will be returned.
 * `property_name` may be used to test user (`its('users')`) and state properties (`its('states')`)
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -53,7 +49,6 @@ The following examples show how to use this InSpec audit resource.
     describe processes('winlogon') do
       its('users') { should cmp "NT AUTHORITY\\SYSTEM" }
     end
-
 
 ### Test if a high-priority process is running
 
@@ -105,8 +100,6 @@ Below is a mapping table to help you understand what property the unix field map
 |time             |TotalProcessorTime|
 |users            |UserName|
 |commands         |Path|
-
-<br>
 
 ## Matchers
 

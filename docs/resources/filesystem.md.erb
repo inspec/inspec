@@ -7,8 +7,6 @@ platform: linux
 
 Use the `filesystem` InSpec resource to audit filesystem disk space usage.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,8 +30,6 @@ where
 * `filesystem('/')` states that the resource will look at the root (/) partition.
 * `size` is measured in kilobytes (KB).
 
-<br>
-
 ## Resource Property Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -43,8 +39,6 @@ The following examples show how to use this InSpec audit resource.
     describe filesystem('/') do
       its('size') { should be >= 32000 }
     end
-
-<br>
 
 ## Matchers
 

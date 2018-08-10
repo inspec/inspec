@@ -13,8 +13,6 @@ Each VPC is uniquely identified by its VPC ID. In addition, each VPC has a non-u
 
 Every AWS account has at least one VPC, the "default" VPC, in every region.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -41,8 +39,6 @@ An `aws_vpcs` resource block uses an optional filter to select a group of VPCs a
       it { should_not exist }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -60,8 +56,6 @@ The following examples show how to use this InSpec audit resource.
         it { should_not allow_in(port: 22) }
       end
     end
-
-<br>
 
 ## Filter Criteria
 

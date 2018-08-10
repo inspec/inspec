@@ -7,8 +7,6 @@ platform: linux
 
 Use the `bash` InSpec audit resource to test an arbitrary command that is run on the system using a Bash script.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -42,13 +40,9 @@ For example:
       its('exit_status') { should eq 0 }
     end
 
-<br>
-
 ## Properties
 
 * `exit_status`, `stderr`, `stdout`
-
-<br>
 
 ## Property Examples
 
@@ -70,8 +64,6 @@ The `stdout` property tests results of the command as returned in standard outpu
 
     its('stdout') { should match /bin/ }
 
-<br>
-
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
@@ -81,5 +73,4 @@ For a full list of available matchers, please visit our [matchers page](https://
 If an absolute path is provided, the `exist` matcher tests if the command exists on the filesystem at the specified location. Otherwise, the `exist` matcher tests if the command is found in the PATH.
 
     it { should exist }
-
 

@@ -7,8 +7,6 @@ platform: linux
 
 Grub is a boot loader on the Linux platform used to load and then transfer control to an operating system kernel, after which that kernel initializes the rest of the operating system. Use the `grub_conf` InSpec audit resource to test boot loader configuration settings that are defined in the `grub.conf` configuration file.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -40,8 +38,6 @@ where
 * `'path'` is the path to the `grub.conf` file
 * `'kernel'` specifies the default kernel (by using `'default'`) or a specific kernel; `'default'` defines the position in the list of kernels at which the default kernel is defined, i.e. `should eq '0'` for the first kernel listed or `'path', 'default'` to use the default kernel as specified in the `grub.conf` file
 * `'value'` is the value that is expected
-
-<br>
 
 ## Examples
 
@@ -103,8 +99,6 @@ The following test verifies the `ramdisk_size` for the non-default kernel:
     grub_conf('/etc/grub.conf',  'CentOS (2.6.32-573.12.1.el6.x86_64)') do
       its('kernel') { should include 'audit=1' }
     end
-
-<br>
 
 ## Matchers
 

@@ -7,8 +7,6 @@ platform: linux
 
 Use the `rabbitmq_config` InSpec audit resource to test configuration data for the RabbitMQ daemon located at `/etc/rabbitmq/rabbitmq.config` on Linux and Unix platforms.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,8 +30,6 @@ where
 * `params` is the list of parameters configured in the RabbitMQ config file
 * `{ should cmp 5671 }` tests the value of `rabbit.ssl_listeners` as read from `rabbitmq.config` versus the value declared in the test
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -43,8 +39,6 @@ The following examples show how to use this InSpec audit resource.
     describe rabbitmq_config.params('rabbit', 'tcp_listeners') do
       it { should eq [5672] }
     end
-
-<br>
 
 ## Matchers
 

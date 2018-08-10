@@ -7,8 +7,6 @@ platform: os
 
 Use the `pip` InSpec audit resource to test packages that are installed using the Python PIP installer.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -31,8 +29,6 @@ where
 
 * `'package_name'` is the name of the package, such as `'Jinja2'`
 * `be_installed` tests to see if the package described above is installed
-
-<br>
 
 ## Examples
 
@@ -57,8 +53,6 @@ The following examples show how to use this InSpec audit resource.
       it { should be_installed }
       its('version') { should eq '2.8' }
     end
-
-<br>
 
 ## Matchers
 

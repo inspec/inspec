@@ -12,8 +12,6 @@ AWS Key Management Service (AWS KMS) is a managed service that makes it easy for
 
 Each AWS KMS Key is uniquely identified by its key_id or arn.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -43,8 +41,6 @@ An aws_kms_key resource block identifies a key by key_arn or the key id.
       it { should exist }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -66,8 +62,6 @@ The following examples show how to use this InSpec audit resource.
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
       it { should have_rotation_enabled }
     end
-
-<br>
 
 ## Properties
 
@@ -103,7 +97,6 @@ Specifies the number of days since the key was created.
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
       its('created_days_ago') { should be > 10 }
     end
-
 
 ### key\_state
 

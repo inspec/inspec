@@ -7,8 +7,6 @@ platform: os
 
 Use the `os` InSpec audit resource to test the platform on which the system is running.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -35,7 +33,6 @@ The parameters available to `os` are:
 * `:family` - the operating system family, such as `redhat`
 * `:release` - the version of the operating system, such as `7.3.1611`
 * `:arch` - the architecture of the operating system, such as `x86_64`
-<br>
 
 ## Examples
 
@@ -58,8 +55,6 @@ The following examples show how to use this InSpec audit resource.
     describe os.family do
       it { should eq 'windows' }
     end
-
-<br>
 
 ## Matchers
 

@@ -7,8 +7,6 @@ platform: windows
 
 Use the `vbscript` InSpec audit resource to test a VBScript on the Windows platform.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -31,8 +29,6 @@ where
 
 * `'script_name'` is the name of the VBScript to test
 * `('output')` is the expected output of the VBScript
-
-<br>
 
 ## Examples
 
@@ -57,8 +53,6 @@ and tested for whitespace removal from standard output:
     describe vbscript(script) do
       its('strip') { should eq "hello" }
     end
-
-<br>
 
 ## Matchers
 

@@ -7,8 +7,6 @@ platform: os
 
 Use the `mysql_conf` InSpec audit resource to test the contents of the configuration file for MySQL, typically located at `/etc/mysql/my.cnf` or `/etc/my.cnf`.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -43,8 +41,6 @@ where
   * when checking a setting within sections, such as `[mysqld]`, the section name must be included
 * `('path')` is the non-default path to the `my.cnf` file
 * `should eq 'value'` is the value that is expected
-
-<br>
 
 ## Examples
 
@@ -93,8 +89,6 @@ The following examples show how to use this InSpec audit resource.
     describe mysql_conf.params('mysqld') do
       its('safe-user-create') { should eq('1') }
     end
-
-<br>
 
 ## Matchers
 

@@ -12,8 +12,6 @@ To test properties of an individual user's access keys, use the `aws_iam_user` r
 
 Access Keys are closely related to AWS User resources. Use this resource to perform audits of all keys or of keys specified by criteria unrelated to any particular user.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -43,8 +41,6 @@ An `aws_iam_access_keys` resource block uses an optional filter to select a grou
       it { should_not exist }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -55,12 +51,8 @@ The following examples show how to use this InSpec audit resource.
       it { should_not exist }
     end
 
-<br>
-
 ## Filter Criteria
 * `active`, `create_date`, `created_days_ago`, `created_hours_ago`, `created_with_user`, `ever_used`, `inactive`, `last_used_date`, `last_used_hours_ago`, `last_used_days_ago`, `never_used`, `user_created_date`
-
-<br>
 
 ## Filter Examples
 
@@ -162,8 +154,6 @@ The date at which the user was created.
       it { should_not exist }
     end
 
-<br>
-
 ## Properties
 
 * `access_key_ids`, `entries`
@@ -186,8 +176,6 @@ Provides access to the raw results of the query. This can be useful for checking
     describe aws_iam_access_keys do
       its('entries.count') { should be <= 100}
     end
-
-<br>
 
 ## Matchers
 

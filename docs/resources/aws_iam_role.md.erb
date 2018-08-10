@@ -7,8 +7,6 @@ platform: aws
 
 Use the `aws_iam_role` InSpec audit resource to test properties of a single IAM Role. A Role is a collection of permissions that may be temporarily assumed by a user, EC2 Instance, Lambda Function, or certain other resources.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -26,8 +24,6 @@ This resource first became available in v2.0.16 of InSpec.
       it { should exist }
     end
 
-<br>
-
 ## Resource Parameters
 
 ### role\_name
@@ -42,8 +38,6 @@ This resource expects a single parameter that uniquely identifies the IAM Role, 
       it { should exist }
     end
 
-<br>
-
 ## Properties
 
 ### description
@@ -53,8 +47,6 @@ A textual description of the IAM Role.
     describe aws_iam_role('my-role') do
       its('description') { should be('Our most important Role')}
     end
-
-<br>
 
 ## Matchers
 

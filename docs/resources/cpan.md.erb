@@ -7,8 +7,6 @@ platform: linux
 
 Use the `cpan` InSpec audit resource to test Perl modules that are installed by system packages or the CPAN installer.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,13 +30,9 @@ where
 * `'package_name'` is the name of the package, such as `'DBD::Pg'`
 * `be_installed` tests to see if the package described above is installed
 
-<br>
-
 ## Resource Parameters
 
 This resource uses package names and perl library paths as resource parameters.
-
-<br>
 
 ## Resource Parameter Examples
 
@@ -64,8 +58,6 @@ Hint: You can pass multiple paths separated with a colon
       it { should be_installed }
     end
 
-<br>
-
 ## Property Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -75,8 +67,6 @@ The following examples show how to use this InSpec audit resource.
 The `version` property tests if the named package version is on the system:
 
     its('version') { should eq '1.2.3' }
-
-<br>
 
 ## Matchers
 

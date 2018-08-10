@@ -7,8 +7,6 @@ platform: windows
 
 Use the `iis_app` InSpec audit resource to test the state of IIS on Windows Server 2012 (and later).
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -51,12 +49,8 @@ For example:
       it { should have_path('\\My Application') }
     end
 
-<br>
-
 ## Properties
 application\_pool, path, physical\_path, protocols, site\_name
-
-<br>
 
 ## Resource Examples
 
@@ -78,8 +72,6 @@ The following examples show how to use this InSpec audit resource.
       it { should be_installed }
       it { should be_running }
     end
-
-<br>
 
 ## Matchers
 

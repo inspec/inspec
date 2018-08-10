@@ -7,8 +7,6 @@ Use the `aws_sns_topics` InSpec audit resource to test all or a group of the SNS
 
 User the 'aws_sns_topic' InSpec audit resource to test a single SNS Topic in an account.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -28,15 +26,11 @@ An `aws_sns_topics` resource block takes no filter conditions.
       its('topic_arns') { should include 'arn:aws:sns:us-east-1:333344445555:MyTopic' }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
 
 As this is the initial release of `aws_sns_topics`, its limited functionality precludes examples.
-
-<br>
 
 ## Matchers
 
@@ -48,7 +42,6 @@ The control will pass if the filter returns at least one result. Use should_not 
     describe aws_sns_topics
       it { should exist }
     end
-
 
 ## Properties
 

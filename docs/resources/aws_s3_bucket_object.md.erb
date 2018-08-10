@@ -8,9 +8,6 @@ Use the `aws_s3_bucket_object` InSpec audit resource to test properties of a sin
 
 Each S3 Object has a 'key' which can be thought of as the name of the S3 Object which uniquely identifies it.
 
-
-<br>
-
 ## Limitations
 
 S3 object security is a complex matter.  For details on how AWS evaluates requests for access, please see [the AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/dev/how-s3-evaluates-access-control.html).  S3 buckets and the objects they contain support three different types of access control: bucket ACLs, bucket policies, and object ACLs.
@@ -36,8 +33,6 @@ An `aws_s3_bucket_object` resource block declares a bucket and an object key by 
       it { should_not be_public }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -54,7 +49,6 @@ The following examples show how to use this InSpec audit resource.
     describe aws_s3_bucket_object(bucket_name: 'test_bucket', key: 'test_key') do
       it { should_not be_public }
     end
-<br>
 
 ## Unsupported Properties
 
@@ -63,7 +57,6 @@ The following examples show how to use this InSpec audit resource.
 The `object_acl` property is a low-level property that lists the individual Object ACL grants that are in effect on the object.  Other higher-level properties, such as be\_public, are more concise and easier to use.  You can use the `object_acl` property to investigate which grants are in effect, causing be\_public to fail.
 
 The value of object_acl is an Array of simple objects.  Each object has a `permission` property and a `grantee` property.  The `permission` property will be a string such as 'READ', 'WRITE' etc (See the [AWS documentation](https://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Client.html#get_bucket_acl-instance_method) for a full list).  The `grantee` property contains sub-properties, such as `type` and `uri`.
-
 
     object_acl = aws_s3_bucket_object(bucket_name: 'my_bucket', key: 'object_key')
 

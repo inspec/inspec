@@ -7,8 +7,6 @@ platform: linux
 
 Use the `dh_params` InSpec audit resource to test Diffie-Hellman (DH) parameters.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -33,13 +31,9 @@ A `dh_params` resource block declares a parameter file to be tested.
       its('text') { should eq 'PKCS#3 DH Parameters: (2048 bit)...' }
     end
 
-<br>
-
 ## Properties
 
 * `generator`, `modulus`, `prime_length`, `pem`, `text`
-
-<br>
 
 ## Property Examples
 
@@ -198,8 +192,6 @@ Verify via `openssl dhparam` command:
             4c:f6:c5:e3:a1:52:af:01:c1:4f:c7:42:a0:be:ed:
             cd:13
         generator: 2 (0x2)
-
-<br>
 
 ## Matchers
 

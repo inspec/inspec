@@ -11,8 +11,6 @@ AWS CloudTrail is a service that enables governance, compliance, operational aud
 
 Each AWS CloudTrail Trails is uniquely identified by its trail name or trail arn.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,20 +30,14 @@ An `aws_cloudtrail_trails` resource block collects a group of CloudTrail Trails 
       its('entries.count') { should cmp 10 }
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
 
 As this is the initial release of `aws_cloudtrail_trails`, its limited functionality precludes examples.
 
-<br>
-
 ## Properties
 * `entries`, `names`, `trail_arns`
-
-<br>
 
 ## Property Examples
 
@@ -73,8 +65,6 @@ Provides a list of trail arns for all CloudTrail Trails in the AWS account.
     describe aws_cloudtrail_trails do
       its('trail_arns') { should include('arn:aws:cloudtrail:us-east-1::trail/trail-1') }
     end
-
-<br>
 
 ## Matchers
 

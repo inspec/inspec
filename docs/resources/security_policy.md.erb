@@ -7,8 +7,6 @@ platform: windows
 
 Use the `security_policy` InSpec audit resource to test security policies on the Windows platform.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -32,8 +30,6 @@ where
 * `'policy_name'` must specify a security policy
 * `{ should eq 'value' }` tests the value of `policy_name` against the value declared in the test
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -43,8 +39,6 @@ The following examples show how to use this InSpec audit resource.
     describe security_policy do
       its('SeRemoteInteractiveLogonRight') { should eq '*S-1-5-32-544' }
     end
-
-<br>
 
 ## Matchers
 

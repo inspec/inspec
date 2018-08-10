@@ -7,8 +7,6 @@ platform: windows
 
 Use the `wmi` InSpec audit resource to test WMI settings on the Windows platform.
 
-<br>
-
 ## Availability
 
 ### Installation
@@ -59,8 +57,6 @@ and the second uses a filter in the Ruby Hash to first identify WinRM, and then 
       its('DisplayName') { should eq 'Windows Remote Management (WS-Management)'}
     end
 
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -83,8 +79,6 @@ The following examples show how to use this InSpec audit resource.
     }) do
       its('Setting') { should eq false }
     end
-
-<br>
 
 ## Matchers
 
