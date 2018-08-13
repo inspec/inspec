@@ -42,13 +42,24 @@ module Inspec
       end
     end
 
-    def initialize(name, value, options = {})
+    def initialize(name, value = nil, options = {})
+      # clean up value if they just pash a hash
+      if !value.nil? && value.is_a?(Hash)
+        options = value
+        value = nil
+      end
+
       @name = name
       @opts = options
       validate_required(value) if @opts.key?(:required) && @opts[:required] == true
       validate_type(default) if @opts.key?(:type) && @opts.key?(:default)
       validate_type(value) if @opts.key?(:type) && !value.nil?
       @value = value
+    end
+
+    def value=(new_value)
+      validate_type(new_value) if @opts.key?(:type) && !new_value.nil?
+      @value = new_value
     end
 
     def value
