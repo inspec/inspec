@@ -52,7 +52,7 @@ module Inspec
       end
 
       # list of profile attributes
-      @attributes = []
+      @attributes = {}
 
       load_attributes(@conf)
       configure_transport
@@ -88,7 +88,7 @@ module Inspec
           @test_collector.add_profile(requirement.profile)
         end
 
-        @attributes |= profile.runner_context.attributes
+        @attributes = profile.runner_context.attributes if @attributes.empty?
         all_controls += profile.collect_tests
       end
 
