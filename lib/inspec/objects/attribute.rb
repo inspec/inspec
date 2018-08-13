@@ -92,8 +92,10 @@ module Inspec
       value = convert_numeric(type, value) if NUMERIC_TYPES.include?(type) && value.is_a?(String)
 
       invalid_type = false
-      if type == 'Regexp' && (!value.is_a?(String) || (!value.start_with?('/') || !value.end_with?('/')))
-        invalid_type = true
+      if type == 'Regexp'
+        invalid_type = true if !value.is_a?(String) || (!value.start_with?('/') || !value.end_with?('/'))
+      elsif type == 'Boolean'
+        invalid_type = true if ![true, false].include?(value)
       elsif instance_eval("value.is_a?(#{type})") == false
         invalid_type = true
       end

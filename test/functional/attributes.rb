@@ -20,4 +20,17 @@ describe 'attributes' do
       out.exit_status.must_equal 0
     end
   end
+
+  describe 'global attributes' do
+    it "runs using all global attribute types" do
+      cmd = 'exec '
+      cmd += File.join(profile_path, 'global_attributes')
+      cmd += ' --no-create-lockfile'
+      cmd += ' --attrs ' + File.join(profile_path, 'global_attributes', 'files', "attr.yml")
+      out = inspec(cmd)
+      out.stderr.must_equal ''
+      out.stdout.must_include '12 successful'
+      out.exit_status.must_equal 0
+    end
+  end
 end
