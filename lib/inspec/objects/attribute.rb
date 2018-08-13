@@ -2,6 +2,16 @@
 
 module Inspec
   class Attribute
+    class << self
+      # Retrieve the current attribute list, containing all attribute names
+      # and their options.
+      #
+      # @return [Hash] map with profile name and attributes
+      def list
+        @list ||= {}
+      end
+    end
+
     attr_accessor :name
 
     VALID_TYPES = %w{
@@ -39,6 +49,15 @@ module Inspec
 
       def respond_to_missing?(_, _)
         true
+      end
+    end
+
+    def self.generate(name, profile, options = {})
+      Inspec::Attribute.list[profile] ||= Inspec::Attribute.list[profile] = {}
+      if Inspec::Attribute.list[profile][name] && options.nil?
+        Inspec::Attribute.list[profile][name]
+      else
+        Inspec::Attribute.list[profile][name] = Inspec::Attribute.new(name, options)
       end
     end
 

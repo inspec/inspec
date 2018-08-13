@@ -145,11 +145,11 @@ module Inspec
 
         # method for attributes; import attribute handling
         define_method :attribute do |name, options = nil|
-          if profile_context_owner.attributes.key?(name) && options.nil?
-            profile_context_owner.attributes[name].value
-          else
-            profile_context_owner.register_attribute(name, options)
-          end
+          # if profile_context_owner.attributes.key?(name) && options.nil?
+          #   profile_context_owner.attributes[name].value
+          # else
+          profile_context_owner.register_attribute(name, profile_id, options)
+          # end
         end
 
         define_method :skip_control do |id|

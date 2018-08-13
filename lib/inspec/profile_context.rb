@@ -185,9 +185,9 @@ module Inspec
       end
     end
 
-    def register_attribute(name, options = {})
+    def register_attribute(name, profile, options = {})
       # we need to return an attribute object, to allow dermination of default values
-      attr = Attribute.new(name, options)
+      attr = Attribute.generate(name, profile, options)
       attr.value = @conf['attributes'][name] unless @conf['attributes'].nil?
       @attributes[name] = attr
       attr.value
