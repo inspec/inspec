@@ -19,11 +19,19 @@ module Inspec
     #
     # @param [ResourcesDSL] resources_dsl which has all resources to attach
     # @return [RuleContext] the inner context of rules
-    def self.rule_context(resources_dsl)
+    def self.rule_context(resources_dsl, profile_context_owner)
       require 'rspec/core/dsl'
       Class.new(Inspec::Rule) do
         include RSpec::Core::DSL
         with_resource_dsl resources_dsl
+
+        define_method :attribute do |name, options = {}|
+          if profile_context_owner.attributes.key?(name) && options.empty?
+            profile_context_owner.attributes[name].value
+          else
+            profile_context_owner.register_attribute(name, options)
+          end
+        end
       end
     end
 
@@ -36,8 +44,8 @@ module Inspec
     # @param outer_dsl [OuterDSLClass]
     # @return [ProfileContextClass]
     def self.create(profile_context, resources_dsl) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-      rule_class = rule_context(resources_dsl)
       profile_context_owner = profile_context
+      rule_class = rule_context(resources_dsl, profile_context_owner)
       profile_id = profile_context.profile_id
 
       Class.new do # rubocop:disable Metrics/BlockLength
