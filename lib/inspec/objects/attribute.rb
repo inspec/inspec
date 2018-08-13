@@ -42,19 +42,10 @@ module Inspec
       end
     end
 
-    def initialize(name, value = nil, options = {})
-      # clean up value if they just pash a hash
-      if !value.nil? && value.is_a?(Hash)
-        options = value
-        value = nil
-      end
-
+    def initialize(name, options = {})
       @name = name
       @opts = options
-      validate_required(value) if @opts.key?(:required) && @opts[:required] == true
       validate_type(default) if @opts.key?(:type) && @opts.key?(:default)
-      validate_type(value) if @opts.key?(:type) && !value.nil?
-      @value = value
     end
 
     def value=(new_value)
@@ -63,7 +54,12 @@ module Inspec
     end
 
     def value
-      @value.nil? ? default : @value
+      if @value.nil?
+        validate_required(@value) if @opts.key?(:required) && @opts[:required] == true
+        default
+      else
+        @value
+      end
     end
 
     def validate_required(value)
@@ -84,7 +80,7 @@ module Inspec
       end
     end
 
-    def convert_numeric(type, value)
+    def convert_string_to_numeric(type, value)
       if value =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/
         if type == 'Integer'
           value.to_i
@@ -100,7 +96,7 @@ module Inspec
       type = clean_type(@opts[:type])
       return if type == 'Any'
       raise "Type '#{type}' is not a valid attribute type" if !VALID_TYPES.include?(type)
-      value = convert_numeric(type, value) if NUMERIC_TYPES.include?(type) && value.is_a?(String)
+      value = convert_string_to_numeric(type, value) if NUMERIC_TYPES.include?(type) && value.is_a?(String)
 
       invalid_type = false
       if type == 'Regexp'

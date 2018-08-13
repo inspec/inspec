@@ -187,8 +187,8 @@ module Inspec
 
     def register_attribute(name, options = {})
       # we need to return an attribute object, to allow dermination of default values
-      override_value = @conf['attributes'][name] unless @conf['attributes'].nil?
-      attr = Attribute.new(name, override_value, options)
+      attr = Attribute.new(name, options)
+      attr.value = @conf['attributes'][name] unless @conf['attributes'].nil?
       @attributes[name] = attr
       attr.value
     end
