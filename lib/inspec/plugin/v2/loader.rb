@@ -74,6 +74,19 @@ module Inspec::Plugin::V2
       # rubocop: enable Lint/RescueException
     end
 
+    def activate_mentioned_cli_plugins(cli_args = ARGV)
+      # Get a list of CLI plugin activation hooks
+      registry.find_activators(plugin_type: :cli_command).each do |act|
+        next if act.activated
+        # If there is anything in the CLI args with the same name, activate it
+        # If the word 'help' appears in the first position, load all CLI plugins
+        if cli_args.include?(act.activator_name.to_s) || cli_args[0] == 'help'
+          activate(:cli_command, act.activator_name)
+          act.implementation_class.register_with_thor
+        end
+      end
+    end
+
     private
 
     def annotate_status_after_loading(plugin_name)
