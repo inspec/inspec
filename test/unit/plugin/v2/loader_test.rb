@@ -4,8 +4,6 @@ require 'minitest/autorun'
 require 'minitest/test'
 require_relative '../../../../lib/inspec/plugin/v2'
 
-require 'byebug'
-
 class PluginLoaderTests < MiniTest::Test
 
   @@orig_home = Dir.home
@@ -113,7 +111,6 @@ class PluginLoaderTests < MiniTest::Test
       assert reg.loaded_plugin?(bundled_plugin_name), "\n#{bundled_plugin_name} should be loaded"
       assert_equal [ :cli_command ], reg[bundled_plugin_name].plugin_types, "annotate plugin type of bundled plugins"
       assert_equal 0, reg[bundled_plugin_name].api_generation, "annotate API generation of bundled plugins"
-      # byebug if reg[bundled_plugin_name].plugin_class.nil?
       assert_kind_of(Class, reg[bundled_plugin_name].plugin_class)
     end
     assert_equal @bundled_plugins.count, reg.loaded_count, "\nRegistry load count"
