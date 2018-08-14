@@ -1,6 +1,5 @@
 require 'minitest/autorun'
 require 'minitest/test'
-require 'byebug'
 
 require_relative '../../../../lib/inspec/plugin/v2'
 
