@@ -237,9 +237,7 @@ Once defined in the `inspec.yml`, controls from the included profiles can be use
 
 With the `include_controls` command in a profile, all controls from the named profile will be executed every time the including profile is executed.
 
-```YAML
 ![Include Controls](/images/profile_inheritance/include_controls.png)
-```
 
 In the example above, every time `my-app-profile` is executed, all the controls from `my-baseline` are also executed. Therefore, the following controls would be executed:
 
@@ -256,9 +254,8 @@ including controls from other profiles!
 
 What if one of the controls from the included profile does not apply to your environment? Luckily, it is not necessary to maintain a slightly-modified copy of the included profile just to delete a control. The `skip_control` command tells InSpec to not run a particular control.
 
-```YAML
 ![Include Controls with Skip](/images/profile_inheritance/include_controls_with_skip.png)
-```
+
 
 In the above example, all controls from `my-app-profile` and `my-baseline` profile will be executed every time `my-app-profile` is executed **except** for control `baseline-2` from the `my-baseline` profile.
 
@@ -268,9 +265,7 @@ Let's say a particular control from an included profile should still be run, but
 
 When a control is included, it can also be modified!
 
-```YAML
 ![Include Controls with Modification](/images/profile_inheritance/include_controls_with_mod.png)
-```
 
 In the above example, all controls from `my-baseline` are executed along with all the controls from the including profile, `my-app-profile`. However, should control `baseline-1` fail, it will be raised with an impact of `0.5` instead of the originally-intended impact of `1.0`.
 
@@ -278,9 +273,7 @@ In the above example, all controls from `my-baseline` are executed along with al
 
 If there are only a handful of controls that should be executed from an included profile, it's not necessarily to skip all the unneeded controls, or worse, copy/paste those controls bit-for-bit into your profile. Instead, use the `require_controls` command.
 
-```YAML
 ![Require Controls](/images/profile_inheritance/require_controls.png)
-```
 
 Whenever `my-app-profile` is executed, in addition to its own controls, it will run only the controls specified in the `require_controls` block. In the case, the following controls would be executed:
 
@@ -294,9 +287,7 @@ Controls `baseline-1`, `baseline-3`, and `baseline-5` would not be run, just as 
 
 And, just the way its possible to modify controls when using `include_controls`, controls can be modified as well.
 
-```YAML
 ![Require Controls with Modification](/images/profile_inheritance/require_controls_with_mod.png)
-```
 
 As with the prior example, only `baseline-2` and `baseline-4` are executed, but if `baseline-2` fails, it will report with an impact of `0.5` instead of the originally-intended `1.0` impact.
 
