@@ -42,7 +42,7 @@ module Inspec::Plugin::V2
       end
     end
 
-    # TODO: this should be in either lib/inspec/cli.rb or Registry
+    # This should possibly be in either lib/inspec/cli.rb or Registry
     def exit_on_load_error
       if registry.any_load_failures?
         Inspec::Log.error 'Errors were encountered while loading plugins...'
@@ -121,7 +121,6 @@ module Inspec::Plugin::V2
     end
 
     def determine_plugin_conf_file
-      # TODO: this assumes we can't read the --config-dir CLI option yet
       @plugin_conf_file_path = ENV['INSPEC_CONFIG_DIR'] ? ENV['INSPEC_CONFIG_DIR'] : File.join(Dir.home, '.inspec')
       @plugin_conf_file_path = File.join(@plugin_conf_file_path, 'plugins.json')
     end
@@ -145,7 +144,7 @@ module Inspec::Plugin::V2
         status = Inspec::Plugin::V2::Status.new
         status.name = plugin_json['name'].to_sym
         status.loaded = false
-        status.installation_type = plugin_json['installation_type'].to_sym
+        status.installation_type = plugin_json['installation_type'].to_sym || :gem
         case status.installation_type
         when :gem
           status.entry_point = status.name
@@ -163,7 +162,30 @@ module Inspec::Plugin::V2
         raise Inspec::Plugin::V2::ConfigError, "Unsupported plugins.json file version #{@plugin_file_contents['plugins_config_version']} at #{@plugin_conf_file_path} - currently support versions: 1.0.0"
       end
 
-      # TODO: validate config
+      plugin_entries = @plugin_file_contents['plugins']
+      unless plugin_entries.is_a?(Array)
+        raise Inspec::Plugin::V2::ConfigError, "Malformed plugins.json file - should have a top-level key named 'plugins', whose value is an array"
+      end
+
+      plugin_entries.each do |plugin_entry|
+        unless plugin_entry.is_a? Hash
+          raise Inspec::Plugin::V2::ConfigError, "Malformed plugins.json file - each 'plugins' entry should be a Hash / JSON object"
+        end
+
+        unless plugin_entry.key? 'name'
+          raise Inspec::Plugin::V2::ConfigError, "Malformed plugins.json file - each 'plugins' entry must have a 'name' field"
+        end
+
+        next unless plugin_entry.key?('installation_type')
+        unless %w{gem path}.include? plugin_entry['installation_type']
+          raise Inspec::Plugin::V2::ConfigError, "Malformed plugins.json file - each 'installation_type' must be one of 'gem' or 'path'"
+        end
+
+        next unless plugin_entry['installation_type'] == 'path'
+        unless plugin_entry.key?('installation_path')
+          raise Inspec::Plugin::V2::ConfigError, "Malformed plugins.json file - each 'plugins' entry with a 'path' installation_type must provide an 'installation_path' field"
+        end
+      end
     end
   end
 end
