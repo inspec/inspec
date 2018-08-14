@@ -15,7 +15,7 @@ module Inspec::Plugin::V2::PluginType
       @desc_msg = desc_msg
     end
 
-    # Register the command group with Thor.  This must be called on the implementaion class AFTER
+    # Register the command group with Thor.  This must be called on the implementation class AFTER
     # the the cli_command activator has been called
     def self.register_with_thor
       # Figure out my activator name (= subcommand group name)
