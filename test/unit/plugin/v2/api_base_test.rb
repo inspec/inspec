@@ -96,14 +96,3 @@ class PluginV2BaseDslMethods < MiniTest::Test
   end
 end
 
-# TODO
-# class PluginV2BaseAbstractMethods < MiniTest::Test
-#   [
-#     :plugin_type,
-#     :plugin_name,
-#   ].each do |method_name|
-#     klass = Inspec::Plugin::V2::PluginBase
-#     assert_raises() { klass.send(method_name) }
-#   end
-# end
-
