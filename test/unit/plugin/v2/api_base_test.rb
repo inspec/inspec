@@ -3,8 +3,6 @@ require 'minitest/test'
 
 require_relative '../../../../lib/inspec/plugin/v2'
 
-require_relative '../../../../lib/inspec/plugin/v2'
-
 class PluginV2VersionedApiTests < MiniTest::Test
   # you can call Inspec.plugin(2) and get the plugin base class
   def test_calling_Inspec_dot_plugin_with_2_returns_the_plugin_base_class
