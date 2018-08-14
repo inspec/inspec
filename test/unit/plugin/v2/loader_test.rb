@@ -104,6 +104,13 @@ class PluginLoaderTests < MiniTest::Test
 
   def test_load_only_bundled_plugins_should_load_bundled_plugins
     skip 'This keeps failing, only affects legacy bundles, will fix later'
+    # Skip rationale: I beleive this test is failing due to a test artifact - we
+    # keep loading v1 CLI plugins and then purging the registry, which results (depending
+    # on test order) in the Ruby `require` refusing to re-load the v1 plugin (since it was
+    # previously loaded). But since we purge the Registry, the Registry doesn't know
+    # about it either. Neither of those things are intended to happen as
+    # the plugin system is finished (the v1 plugins will be ported to v2, and registry
+    # purging should never happen in real-world use)
     reg = Inspec::Plugin::V2::Registry.instance
     loader = Inspec::Plugin::V2::Loader.new
     loader.load_all
