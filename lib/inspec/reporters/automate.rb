@@ -4,7 +4,7 @@ require 'json'
 require 'net/http'
 
 module Inspec::Reporters
-  class Automate < JsonMerged
+  class Automate < JsonAutomate
     def initialize(config)
       super(config)
 
