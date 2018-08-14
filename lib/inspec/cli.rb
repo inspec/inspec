@@ -172,7 +172,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
     exit runner.run
   rescue ArgumentError, RuntimeError, Train::UserError => e
-    $Inspec::Log.error.puts e.message
+    $stderr.puts e.message
     exit 1
   rescue StandardError => e
     pretty_handle_exception(e)
@@ -192,7 +192,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       puts Inspec::BaseCLI.detect(params: res, indent: 0, color: 36)
     end
   rescue ArgumentError, RuntimeError, Train::UserError => e
-    $Inspec::Log.error.puts e.message
+    $stderr.puts e.message
     exit 1
   rescue StandardError => e
     pretty_handle_exception(e)
@@ -233,7 +233,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     puts res
     exit 0
   rescue RuntimeError, Train::UserError => e
-    $Inspec::Log.error.puts e.message
+    $stderr.puts e.message
   rescue StandardError => e
     pretty_handle_exception(e)
   end
