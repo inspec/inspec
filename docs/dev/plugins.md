@@ -154,7 +154,7 @@ end
 
 ## Plugin Lifecycle
 
-All queries regarding plugin state should be directed to Inspec::Plugin::V2::Registry.instance, a singleton object.
+All queries regarding plugin state should be directed to `Inspec::Plugin::V2::Registry.instance`, a singleton object.
 
 ```ruby
 registry = Inspec::Plugin::V2::Registry.instance
@@ -163,7 +163,7 @@ plugin_status = registry[:'inspec-meaning-of-life']
 
 ### Discovery (Known Plugins)
 
-If a plugin is mentioned in `plugins.json`, it is *known*.  You can get its status, a `Inspec::Plugin::V2::Status` object.
+If a plugin is mentioned in `plugins.json` or is a plugin distributed with InSpec itself, it is *known*.  You can get its status, a `Inspec::Plugin::V2::Status` object.
 
 Reading the plugins.json file is handled by the Loader when Loader.new is called; at that point the registry should know about plugins.
 
@@ -240,6 +240,8 @@ you@machine $ inspec exec ... # Your CliCommand implementation is not activated
 
 Execution occurs implicitly via `Thor.start()`, which is handled by `bin/inspec`. Keep reading.
 
+You should also be aware of one other activation event: if the CLI is invoked as `inspec help`, *all* CliCommand plugins will activate (but will not be executed). This is so that each plugin's help information can be registered with Thor.
+
 ### Implementation class for CLI Commands
 
 In your `cli.rb`, you should begin by requesting the superclass from `Inspec.plugin`:
@@ -256,11 +258,64 @@ The Inspec plugin v2 system promises the following:
 
 * The superclass will be an (indirect) subclass of Thor
 * The plugin system will handle registering the subcommand with Thor for you
+* The plugin system will handle setup of the subcommand help message for you
 
 ### Implementing your command
 
-### Adding Options
+Within your `cli.rb`, you need to do two things:
 
-### Adding Inline help
+* Inform Inspec of your subcommand's usage and description, so the `help` commands will work properly
+* Implement your subcommands and options using the Thor DSL
 
-###
+See also: [Thor homepage](http://whatisthor.com/) and [Thor docs](https://www.rubydoc.info/github/wycats/thor/Thor).
+
+#### Call subcommand_desc
+
+Within your implementation, make a call like this:
+
+```ruby
+# Class declaration as above
+subcommand_desc 'sweeten ...', 'Add spoonfuls til the medicine goes down'
+```
+
+The first argument is the usage message; it will be displayed whenever you execute `inspec help`, or when Thor tries to parse a malformed `inspec sweeten ...` command.
+
+The second is the command groups description, and is displayed with `inspec help`.
+
+Both arguments are free-form Strings intended for humans; the usage message should begin with your subcommand name to prevent user confusion.
+
+If you neglect to call this DSL method, Thor will not register your command.
+
+#### Adding Subcommands
+
+The minimum needed for a command is a call to `desc` to set the help message, and a method definition named after the command.
+
+```ruby
+desc 'Reports on teaspoons in your beverage, always bad news'
+def count
+  # Someone has executed `inspec sweeten count` - do whatever that entails
+  case beverage_type
+  when :soda
+    puts 12
+  when :tea_two_lumps
+    puts 2
+  end
+end
+```
+
+There is a great deal more you can do with Thor, especially concerning handling options. Refer to the Thor docs for more examples and details.
+
+#### Using no_command
+
+One common surprise seen with Thor is that every public instance method of your CliCommand implementation class is expected to be a CLI command definition. Thor will issue a warning if it encounters a public method definition without a `desc` call preceding it.  Two ways around this include:
+
+* Make your helper methods private
+* Enclose your non-command methods in a no_command block (a feature of Thor just for this circumstance)
+
+```ruby
+no_command do
+  def beverage_type
+    @bevvy
+  end
+end
+```
