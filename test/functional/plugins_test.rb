@@ -1,6 +1,5 @@
 # Functional tests related to plugin facility
 require 'functional/helper'
-require 'byebug'
 
 #=========================================================================================#
 #                                Loader Errors
