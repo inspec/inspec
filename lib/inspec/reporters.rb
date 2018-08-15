@@ -1,7 +1,7 @@
 require 'inspec/reporters/base'
 require 'inspec/reporters/cli'
 require 'inspec/reporters/json'
-require 'inspec/reporters/json_merged'
+require 'inspec/reporters/json_automate'
 require 'inspec/reporters/json_min'
 require 'inspec/reporters/junit'
 require 'inspec/reporters/automate'
@@ -17,6 +17,10 @@ module Inspec::Reporters
       reporter = Inspec::Reporters::CLI.new(config)
     when 'json'
       reporter = Inspec::Reporters::Json.new(config)
+    # This reporter is only used for Chef internal. We reserve the
+    # right to introduce breaking changes to this reporter at any time.
+    when 'json-automate'
+      reporter = Inspec::Reporters::JsonAutomate.new(config)
     when 'json-min'
       reporter = Inspec::Reporters::JsonMin.new(config)
     when 'junit'

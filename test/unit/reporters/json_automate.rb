@@ -2,11 +2,11 @@
 
 require 'helper'
 
-describe Inspec::Reporters::JsonMin do
+describe Inspec::Reporters::JsonAutomate do
   let(:path) { File.expand_path(File.dirname(__FILE__)) }
   let(:report) do
     data = JSON.parse(File.read(path + '/../mock/reporters/run_data_wrapper.json'), symbolize_names: true)
-    Inspec::Reporters::JsonMerged.new({ run_data: data })
+    Inspec::Reporters::JsonAutomate.new({ run_data: data })
   end
   let(:profiles) { report.report[:profiles] }
 

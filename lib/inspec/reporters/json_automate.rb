@@ -3,7 +3,7 @@
 require 'json'
 
 module Inspec::Reporters
-  class JsonMerged < Json
+  class JsonAutomate < Json
     def initialize(config)
       super(config)
       @profiles = []
