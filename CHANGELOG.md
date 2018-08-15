@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.62 -->
-## [v2.2.62](https://github.com/inspec/inspec/tree/v2.2.62) (2018-08-10)
+<!-- latest_release 2.2.63 -->
+## [v2.2.63](https://github.com/inspec/inspec/tree/v2.2.63) (2018-08-15)
 
 #### Merged Pull Requests
-- Update `only_if` to allow user specified messages. [#3267](https://github.com/inspec/inspec/pull/3267) ([miah](https://github.com/miah))
+- Allow the jsonAutomate report to be executed from cli [#3285](https://github.com/inspec/inspec/pull/3285) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.61 -->
 ### Changes since 2.2.61 release
 
 #### Merged Pull Requests
+- Allow the jsonAutomate report to be executed from cli [#3285](https://github.com/inspec/inspec/pull/3285) ([jquick](https://github.com/jquick)) <!-- 2.2.63 -->
 - Update `only_if` to allow user specified messages. [#3267](https://github.com/inspec/inspec/pull/3267) ([miah](https://github.com/miah)) <!-- 2.2.62 -->
 <!-- release_rollup -->
 
