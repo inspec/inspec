@@ -179,7 +179,7 @@ If things go wrong, have a look at `status.load_exception`.
 
 Depending on the plugin type, activation may be triggered by a number of different events. For example, CliCommand plugin types are activated when their activation name is mentioned in the command line arguments.
 
-After activation, code for that aspect of the plugin is loaded and ready to execute. Executioon may be triggered by a number of different events. For example, the CliCommand plugin types are implicitly executed by Thor when `Inspec::CLI` calls `start()`.
+After activation, code for that aspect of the plugin is loaded and ready to execute. Execution may be triggered by a number of different events. For example, the CliCommand plugin types are implicitly executed by Thor when `Inspec::CLI` calls `start()`.
 
 Refer to the sections below for details about activation and execution timing.
 
@@ -202,16 +202,13 @@ Commands:
   inspec archive PATH      # archive a profile to tar.gz (default) or zip
   inspec sweeten ...       # Add spoonfuls til the medicine goes down
 # Detailed help
-[cwolfe@lodi inspec-plugins]$ be inspec help sweeten
+[cwolfe@lodi inspec-plugins]$ inspec help sweeten
 Commands:
   inspec sweeten add [opts]       # Adds sweetener to your beverage
   inspec sweeten count            # Reports on teaspoons in your beverage, always bad news
 ```
 
-Currently, it cannot do a direct (non-namespaced) command
-```bash
-
-
+Currently, it cannot create a direct (non-namespaced) command, such as `inspec mycommand` with no subcommands.
 
 ### Declare your plugin activators
 
@@ -245,7 +242,7 @@ Execution occurs implicitly via `Thor.start()`, which is handled by `bin/inspec`
 
 ### Implementation class for CLI Commands
 
-In your `cli.rb`, you should begin by requesting the superclass from Inspec:
+In your `cli.rb`, you should begin by requesting the superclass from `Inspec.plugin`:
 
 ```ruby
 module InspecPlugins::Sweeten
