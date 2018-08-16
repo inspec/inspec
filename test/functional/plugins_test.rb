@@ -67,7 +67,10 @@ describe 'cli command plugins' do
     outcome.exit_status.must_equal 0
     outcome.stderr.must_equal ''
     outcome.stdout.must_include 'inspec meaningoflife answer'
-    outcome.stdout.must_include 'Exits immediately with an exit code reflecting the answer to life the universe, and everything.'
+    # Full text:
+    # 'Exits immediately with an exit code reflecting the answer to life the universe, and everything.'
+    # but Thor will ellipsify based on the terminal width
+    outcome.stdout.must_include 'Exits immediately'
   end
 
   # This is an important test; usually CLI plugins are only activated when their name is present in ARGV
