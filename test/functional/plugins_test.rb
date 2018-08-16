@@ -88,6 +88,7 @@ end
 # Should be able to install a gem-based plugin
 # Should be able to list plugins when none installed
 # Should be able to list plugins when some installed
+# Should be able to list core plugins as well
 # Should be able to uninstall a gem plugin
 # Uninstalling a nonexistant plugin is a code 2 error
 
