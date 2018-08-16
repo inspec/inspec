@@ -1,6 +1,0 @@
-# Plugins configuration file for InSpec
-
-- enabled: false
-  gem: inspec-test-plugin-gem
-
-- path: ../../plugins/inspec-test-plugin-path
