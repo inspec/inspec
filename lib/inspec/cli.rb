@@ -145,7 +145,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o[:logger] = Logger.new(STDOUT)
     o[:logger].level = get_log_level(o.log_level)
     o[:backend] = Inspec::Backend.create(target: 'mock://')
-    o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
+
+    vendor_deps(path, o)
 
     profile = Inspec::Profile.for_target(path, o)
     result = profile.check
