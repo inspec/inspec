@@ -1,6 +1,5 @@
-
 module Inspec::Plugin::V2
-  # Base class for all plugins.  Specific plugins should inherit from a subclass of this. eg CliPLugin
+  # Base class for all plugins.  Specific plugin types *may* inherit from this; but they must register with it.
   class PluginBase
     # rubocop: disable Style/ClassVars
     @@plugin_type_classes = {}

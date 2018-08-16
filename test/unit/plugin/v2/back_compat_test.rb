@@ -1,6 +1,5 @@
 require 'minitest/autorun'
 require 'minitest/test'
-#require_relative '../../../../lib/inspec/plugin/v2'
 require_relative '../../../../lib/inspec'
 
 module PluginV2BackCompat

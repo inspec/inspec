@@ -4,11 +4,11 @@
 
 ### Inspiration
 
-The software design of the Inspec Plugin v2 API is deeply inspired by the Vagrant plugin v2 system.  While the Inspec Plugin v2 system is an independent implementation, acknowledgements are due to the Hashicorp team for such a well-thought-out design.
+The software design of the InSpec Plugin v2 API is deeply inspired by the Vagrant plugin v2 system.  While the InSpec Plugin v2 system is an independent implementation, acknowledgements are due to the Hashicorp team for such a well-thought-out design.
 
 ### Note About versions
 
-"v2" refers to the second major version of the Plugin API.  It doesn't refer to the Inspec release number.
+"v2" refers to the second major version of the Plugin API.  It doesn't refer to the InSpec release number.
 
 ### Design Goals
 
@@ -34,7 +34,7 @@ For local development or site-specific installations, you can also 'install' a p
 
 ### The plugins.json file
 
-Inspec stores its list of known plugins in a file, `~/.inspec/plugins.json`. The purpose of this file is avoid having to do a gem path filesystem scan to locate plugins.  When you install, update, or uninstall a plugin using `inspec plugin`, InSpec updates this file.
+InSpec stores its list of known plugins in a file, `~/.inspec/plugins.json`. The purpose of this file is avoid having to do a gem path filesystem scan to locate plugins.  When you install, update, or uninstall a plugin using `inspec plugin`, InSpec updates this file.
 
 You can tell inspec to use a different config directory using the INSPEC_CONFIG_DIR environment variable.
 
@@ -47,11 +47,11 @@ Each plugin entry may have the following keys:
 
  * `name` - Required.  String name of the plugin.  Internal machine name of the plugin. Must match `plugin_name` DSL call (see Plugin class below).
  * `installation_type` - Optional, default "gem".  Selects a loading mechanism, may be either "path" or "gem"
- * `installation_path` - Required if installation_type is "path".  A `require` will be attempted against this path.  It may be absolute or relative; Inspec adds both the process current working directory as well as the Inspec installation root to the load path.
+ * `installation_path` - Required if installation_type is "path".  A `require` will be attempted against this path.  It may be absolute or relative; InSpec adds both the process current working directory as well as the InSpec installation root to the load path.
 
 TODO: keys for gem installations
 
-Putting this all together, here is a plugins.json file from the Inspec test suite:
+Putting this all together, here is a plugins.json file from the InSpec test suite:
 
 ```json
 {
@@ -84,9 +84,9 @@ Generally, except for the entry point, you may name these files anything you lik
 
 ### Gemspec and Plugin Dependencies
 
-This is a normal Gem specification file. When you release your plugin as a gem, you can declare dependencies here, and Inspec will automatically install them along with your plugin.
+This is a normal Gem specification file. When you release your plugin as a gem, you can declare dependencies here, and InSpec will automatically install them along with your plugin.
 
-If you are using a path-based install, Inspec will not manage your dependencies.
+If you are using a path-based install, InSpec will not manage your dependencies.
 
 ### Entry Point
 

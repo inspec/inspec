@@ -47,30 +47,3 @@ describe 'plugin loader' do
     outcome.stdout.must_include('ZeroDivisionError', 'Include stacktrace in error with --debug')
   end
 end
-
-#=========================================================================================#
-#                      `inspec plugin SUBCOMMAND` facility
-#=========================================================================================#
-
-# Should be able to install a gem-based plugin
-# Should be able to list plugins when none installed
-# Should be able to list plugins when some installed
-# Should be able to uninstall a gem plugin
-# Uninstalling a nonexistant plugin is a code 2 error
-
-# Should be able to install a path-based plugin
-# Should be able to uninstall a path-based plugin
-
-# Should be able to install a legacy "versionless" plugin
-# Should be able to install a v1 (converted legacy) plugin
-# Should be able to install a v2 CLI plugin
-# Should be able to install a v2 platform plugin
-
-# Should refuse to install gems that do not begin with train- or inspec-
-
-#=========================================================================================#
-#                           CliCommand plugin type
-#=========================================================================================#
-
-# should be able to use a CLI subcommand provided by a plugin
-# should be able to use a CLI subcommand provided by a plugin when the userdir is in a custom location
