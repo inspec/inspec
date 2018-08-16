@@ -16,7 +16,8 @@ end
 module FunctionalHelper
   let(:repo_path) { File.expand_path(File.join( __FILE__, '..', '..', '..')) }
   let(:exec_inspec) { File.join(repo_path, 'bin', 'inspec') }
-  let(:profile_path) { File.join(repo_path, 'test', 'unit', 'mock', 'profiles') }
+  let(:mock_path) { File.join(repo_path, 'test', 'unit', 'mock') }
+  let(:profile_path) { File.join(mock_path, 'profiles') }
   let(:examples_path) { File.join(repo_path, 'examples') }
   let(:integration_test_path) { File.join(repo_path, 'test', 'integration', 'default') }
 
@@ -26,6 +27,7 @@ module FunctionalHelper
   let(:failure_control) { File.join(profile_path, 'failures', 'controls', 'failures.rb') }
   let(:simple_inheritance) { File.join(profile_path, 'simple-inheritance') }
   let(:sensitive_profile) { File.join(examples_path, 'profile-sensitive') }
+  let(:config_dir_path) { File.join(mock_path, 'config_dirs') }
 
   let(:dst) {
     # create a temporary path, but we only want an auto-clean helper
@@ -37,6 +39,15 @@ module FunctionalHelper
 
   def inspec(commandline, prefix = nil)
     CMD.run_command("#{prefix} #{exec_inspec} #{commandline}")
+  end
+
+  def inspec_with_env(commandline, env = {})
+    # CMD is a train transport, and does not support anything other than a
+    # single param for the command line.
+    # TODO: what is the intent of using Train here?
+    # HACK: glue together env vars
+    env_prefix = env.to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(' ')
+    CMD.run_command("#{env_prefix} #{exec_inspec} #{commandline}")
   end
 
   # Copy all examples to a temporary directory for functional tests.

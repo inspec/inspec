@@ -4,6 +4,7 @@
 
 require 'thor'
 require 'erb'
+require 'inspec/base_cli'
 
 module Compliance
   class ComplianceCLI < Inspec::BaseCLI

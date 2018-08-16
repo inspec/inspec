@@ -10,7 +10,8 @@ require 'pp'
 require 'utils/json_log'
 require 'utils/latest_version'
 require 'inspec/base_cli'
-require 'inspec/plugins'
+require 'inspec/plugin/v1'
+require 'inspec/plugin/v2'
 require 'inspec/runner_mock'
 require 'inspec/env_printer'
 require 'inspec/schema'
@@ -20,7 +21,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
                desc: 'Set the log level: info (default), debug, warn, error'
 
   class_option :log_location, type: :string,
-               desc: 'Location to send diagnostic log messages to. (default: STDOUT or STDERR)'
+               desc: 'Location to send diagnostic log messages to. (default: STDOUT or Inspec::Log.error)'
 
   class_option :diagnose, type: :boolean,
     desc: 'Show diagnostics (versions, configurations)'
@@ -282,17 +283,34 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   end
 end
 
-# Load all plugins on startup
-ctl = Inspec::PluginCtl.new
-ctl.list.each { |x| ctl.load(x) }
+begin
+  # Load v2 plugins
+  v2_loader = Inspec::Plugin::V2::Loader.new
+  v2_loader.load_all
+  v2_loader.exit_on_load_error
 
-# load CLI plugins before the Inspec CLI has been started
-Inspec::Plugins::CLI.subcommands.each { |_subcommand, params|
-  Inspec::InspecCLI.register(
-    params[:klass],
-    params[:subcommand_name],
-    params[:usage],
-    params[:description],
-    params[:options],
-  )
-}
+  # Load v1 plugins on startup
+  ctl = Inspec::PluginCtl.new
+  ctl.list.each { |x| ctl.load(x) }
+
+  # load v1 CLI plugins before the Inspec CLI has been started
+  Inspec::Plugins::CLI.subcommands.each { |_subcommand, params|
+    Inspec::InspecCLI.register(
+      params[:klass],
+      params[:subcommand_name],
+      params[:usage],
+      params[:description],
+      params[:options],
+    )
+  }
+rescue Inspec::Plugin::V2::Exception => v2ex
+  Inspec::Log.error v2ex.message
+
+  if ARGV.include?('--debug')
+    Inspec::Log.error v2ex.class.name
+    Inspec::Log.error v2ex.backtrace.join("\n")
+  else
+    Inspec::Log.error 'Run again with --debug for a stacktrace.'
+  end
+  exit 2
+end

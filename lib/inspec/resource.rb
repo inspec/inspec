@@ -2,7 +2,7 @@
 # copyright: 2015, Vulcano Security GmbH
 # author: Dominik Richter
 # author: Christoph Hartmann
-require 'inspec/plugins'
+require 'inspec/plugin/v1'
 
 module Inspec
   class ProfileNotFound < StandardError; end

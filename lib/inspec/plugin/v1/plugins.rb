@@ -6,12 +6,14 @@ require 'forwardable'
 
 module Inspec
   # Resource Plugins
+  # NOTE: the autoloading here is rendered moot by the fact that
+  # all core plugins are `require`'d by the base inspec.rb
   module Plugins
-    autoload :Resource, 'inspec/plugins/resource'
-    autoload :CLI, 'inspec/plugins/cli'
-    autoload :Fetcher, 'inspec/plugins/fetcher'
-    autoload :SourceReader, 'inspec/plugins/source_reader'
-    autoload :Secret, 'inspec/plugins/secret'
+    autoload :Resource, 'inspec/plugin/v1/plugin_types/resource'
+    autoload :CLI, 'inspec/plugin/v1/plugin_types/cli'
+    autoload :Fetcher, 'inspec/plugin/v1/plugin_types/fetcher'
+    autoload :SourceReader, 'inspec/plugin/v1/plugin_types/source_reader'
+    autoload :Secret, 'inspec/plugin/v1/plugin_types/secret'
   end
 
   # PLEASE NOTE: The Plugin system is an internal mechanism for connecting

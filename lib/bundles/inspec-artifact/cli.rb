@@ -6,6 +6,7 @@ require 'pathname'
 require 'set'
 require 'tempfile'
 require 'yaml'
+require 'inspec/base_cli'
 
 # Notes:
 #

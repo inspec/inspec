@@ -1,8 +1,8 @@
 # encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
-require 'utils/plugin_registry'
 require 'inspec/file_provider'
+require 'inspec/plugin/v1/registry'
 
 module Inspec
   module Plugins

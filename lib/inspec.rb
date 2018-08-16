@@ -16,9 +16,11 @@ require 'inspec/shell'
 require 'inspec/formatters'
 require 'inspec/reporters'
 
-# all utils that may be required by plugins
+require 'inspec/plugin/v2'
+require 'inspec/plugin/v1'
+
+# all utils that may be required by legacy plugins
 require 'inspec/base_cli'
 require 'inspec/fetcher'
 require 'inspec/source_reader'
 require 'inspec/resource'
-require 'inspec/plugins'

@@ -2,6 +2,7 @@
 # author: Adam Leff
 
 require 'thor'
+require 'inspec/base_cli'
 
 module Habitat
   class HabitatProfileCLI < Thor

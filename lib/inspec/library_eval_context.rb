@@ -1,7 +1,7 @@
 # encoding: utf-8
 # author: Steven Danna
 # author: Victoria Jeffrey
-require 'inspec/plugins/resource'
+require 'inspec/plugin/v1/plugin_types/resource'
 require 'inspec/dsl_shared'
 
 module Inspec
