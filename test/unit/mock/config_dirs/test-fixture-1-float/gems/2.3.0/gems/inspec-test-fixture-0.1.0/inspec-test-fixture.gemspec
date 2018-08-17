@@ -1,31 +1,30 @@
-# -*- encoding: utf-8 -*-
-# stub: inspec-test-fixture 0.1.0 ruby lib
 
-Gem::Specification.new do |s|
-  s.name = "inspec-test-fixture"
-  s.version = "0.1.0"
+lib = File.expand_path("../lib", __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require "inspec-test-fixture/version"
 
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.require_paths = ["lib"]
-  s.authors = ["InSpec Engineering Team"]
-  s.date = "2018-08-16"
-  s.description = "This gem is used to test the gem search and install capabilities of InSpec's plugin V2 system.  It is not a good example or starting point for plugin development."
-  s.email = ["hello@chef.io"]
-  s.homepage = "https://github.com/inspec/inspec"
-  s.rubygems_version = "2.5.1"
-  s.summary = "A simple test plugin gem for InSpec"
+Gem::Specification.new do |spec|
+  spec.name          = "inspec-test-fixture"
+  spec.version       = InspecPlugins::TestFixture::VERSION
+  spec.authors       = ["InSpec Engineering Team"]
+  spec.email         = ["hello@chef.io"]
 
-  s.installed_by_version = "2.5.1" if s.respond_to? :installed_by_version
+  spec.summary       = %q{A simple test plugin gem for InSpec}
+  spec.description   = %q{This gem is used to test the gem search and install capabilities of InSpec's plugin V2 system.  It is not a good example or starting point for plugin development.}
+  spec.homepage      = "https://github.com/inspec/inspec"
 
-  if s.respond_to? :specification_version then
-    s.specification_version = 4
+  spec.files         = [
+    'inspec-test-fixture.gemspec',
+    'lib/inspec-test-fixture.rb',
+    'lib/inspec-test-fixture/plugin.rb',
+    'lib/inspec-test-fixture/mock_plugin.rb',
+    'lib/inspec-test-fixture/version.rb',
+  ]
+  spec.executables   = []
+  spec.require_paths = ["lib"]
 
-    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_development_dependency(%q<rake>, ["~> 10.0"])
-    else
-      s.add_dependency(%q<rake>, ["~> 10.0"])
-    end
-  else
-    s.add_dependency(%q<rake>, ["~> 10.0"])
+  spec.add_development_dependency "rake", "~> 10.0"
+  if InspecPlugins::TestFixture::VERSION == '0.2.0'
+    spec.add_dependency "ordinal_array", "~> 0.2.0"
   end
 end
