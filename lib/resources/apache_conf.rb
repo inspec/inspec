@@ -125,7 +125,7 @@ module Inspec::Resources
     end
 
     def read_file(path)
-      @files_contents[path] ||= read_file_content(path)
+      @files_contents[path] ||= read_file_content(path, true)
     end
 
     def conf_dir
