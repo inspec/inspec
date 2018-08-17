@@ -213,6 +213,8 @@ class PluginLoaderTests < MiniTest::Test
 
   end
 
+  # TODO: loading all plugins does not activate Train plugins
+
   # load core plugins (or assert that we can interrogate the v1 registr(ies))
   # output error but not raise when bad entry point
 
