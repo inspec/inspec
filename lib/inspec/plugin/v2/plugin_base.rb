@@ -21,12 +21,12 @@ module Inspec::Plugin::V2
     #    type base class
     #  * defines the DSL method with the same name as the plugin type.
     #
-    # @ param [Symbol] plugin_type_name
-    def self.register_plugin_type(plugin_type_name)
+    # @param [Symbol] plugin_type_name
+    # @param [Class] the plugin type class, defaults to assuming inheritance
+    def self.register_plugin_type(plugin_type_name, new_plugin_type_base_class = self)
       new_dsl_method_name = plugin_type_name
-      new_plugin_type_base_class = self
 
-      # This lets the Inspec.plugin(2,:your_plugin) work
+      # This lets the Inspec.plugin(2,:your_plugin_type) work
       @@plugin_type_classes[plugin_type_name] = new_plugin_type_base_class
 
       # This part defines the DSL command to register a concrete plugin's implementation of a plugin type

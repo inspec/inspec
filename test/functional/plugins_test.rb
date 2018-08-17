@@ -47,3 +47,36 @@ describe 'plugin loader' do
     outcome.stdout.must_include('ZeroDivisionError', 'Include stacktrace in error with --debug')
   end
 end
+
+#=========================================================================================#
+#                           CliCommand plugin type
+#=========================================================================================#
+describe 'cli command plugins' do
+  include FunctionalHelper
+
+  it 'is able to respond to a plugin-based cli subcommand' do
+    outcome = inspec_with_env('meaningoflife answer',  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'meaning_by_path'))
+    outcome.stderr.wont_include 'Could not find command "meaningoflife"'
+    outcome.stderr.must_equal ''
+    outcome.stdout.must_equal ''
+    outcome.exit_status.must_equal 42
+  end
+
+  it 'is able to respond to [help subcommand] invocations' do
+    outcome = inspec_with_env('help meaningoflife',  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'meaning_by_path'))
+    outcome.exit_status.must_equal 0
+    outcome.stderr.must_equal ''
+    outcome.stdout.must_include 'inspec meaningoflife answer'
+    # Full text:
+    # 'Exits immediately with an exit code reflecting the answer to life the universe, and everything.'
+    # but Thor will ellipsify based on the terminal width
+    outcome.stdout.must_include 'Exits immediately'
+  end
+
+  # This is an important test; usually CLI plugins are only activated when their name is present in ARGV
+  it 'includes plugin-based cli commands in top-level help' do
+    outcome = inspec_with_env('help',  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'meaning_by_path'))
+    outcome.exit_status.must_equal 0
+    outcome.stdout.must_include 'inspec meaningoflife'
+  end
+end

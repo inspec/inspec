@@ -48,10 +48,11 @@ module Inspec::Plugin::V2
     # @param [Symbol] plugin_name Restricts the search to the given plugin
     # @param [Symbol] plugin_type Restricts the search to the given plugin type
     # @param [Symbol] activator_name Name of the activator
+    # @param [Class] implementation_class Implementation class returned by an already-actived plugin type
     # @returns [Array] Possibly empty array of Activators
     def find_activators(filters = {})
       plugin_statuses.map(&:activators).flatten.select do |act|
-        [:plugin_name, :plugin_type, :activator_name].all? do |criteria|
+        [:plugin_name, :plugin_type, :activator_name, :implementation_class].all? do |criteria|
           !filters.key?(criteria) || act[criteria] == filters[criteria]
         end
       end
