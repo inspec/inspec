@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["InSpec Engineering Team"]
-  s.date = "2018-08-16"
+  s.date = "2018-08-17"
   s.description = "This gem is used to test the gem search and install capabilities of InSpec's plugin V2 system.  It is not a good example or starting point for plugin development."
   s.email = ["hello@chef.io"]
   s.homepage = "https://github.com/inspec/inspec"
