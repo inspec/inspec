@@ -1,22 +1,20 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.64 -->
-## [v2.2.64](https://github.com/inspec/inspec/tree/v2.2.64) (2018-08-17)
-
-#### Merged Pull Requests
-- Dummy PR to bump expeditor version. [#3298](https://github.com/inspec/inspec/pull/3298) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.2.61 -->
-### Changes since 2.2.61 release
-
-#### Merged Pull Requests
-- Dummy PR to bump expeditor version. [#3298](https://github.com/inspec/inspec/pull/3298) ([jquick](https://github.com/jquick)) <!-- 2.2.64 -->
-- Allow the jsonAutomate report to be executed from cli [#3285](https://github.com/inspec/inspec/pull/3285) ([jquick](https://github.com/jquick)) <!-- 2.2.63 -->
-- Update `only_if` to allow user specified messages. [#3267](https://github.com/inspec/inspec/pull/3267) ([miah](https://github.com/miah)) <!-- 2.2.62 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.2.64](https://github.com/inspec/inspec/tree/v2.2.64) (2018-08-17)
+
+#### Merged Pull Requests
+- Update `only_if` to allow user specified messages. [#3267](https://github.com/inspec/inspec/pull/3267) ([miah](https://github.com/miah))
+- Allow the jsonAutomate report to be executed from cli [#3285](https://github.com/inspec/inspec/pull/3285) ([jquick](https://github.com/jquick))
+- Dummy PR to bump expeditor version. [#3298](https://github.com/inspec/inspec/pull/3298) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v2.2.61](https://github.com/inspec/inspec/tree/v2.2.61) (2018-08-09)
 
 #### New Resources
@@ -32,7 +30,6 @@
 
 #### Merged Pull Requests
 - Enable inspec archive, check, and json to run as unpriveleged user [#3263](https://github.com/inspec/inspec/pull/3263) ([phiggins](https://github.com/phiggins))
-<!-- latest_stable_release -->
 
 ## [v2.2.55](https://github.com/inspec/inspec/tree/v2.2.55) (2018-08-03)
 
