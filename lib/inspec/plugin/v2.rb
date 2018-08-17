@@ -27,4 +27,8 @@ module Inspec
     return Inspec::Plugin::V2::PluginBase if plugin_type.nil?
     Inspec::Plugin::V2::PluginBase.base_class_for_type(plugin_type)
   end
+
+  def self.config_dir
+    ENV['INSPEC_CONFIG_DIR'] ? ENV['INSPEC_CONFIG_DIR'] : File.join(Dir.home, '.inspec')
+  end
 end
