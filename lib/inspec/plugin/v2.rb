@@ -6,6 +6,8 @@ module Inspec
       class Exception < Inspec::Error; end
       class ConfigError < Inspec::Plugin::V2::Exception; end
       class LoadError < Inspec::Plugin::V2::Exception; end
+      class GemActionError < Inspec::Plugin::V2::Exception; end
+      class InstallError < Inspec::Plugin::V2::GemActionError; end
     end
   end
 end

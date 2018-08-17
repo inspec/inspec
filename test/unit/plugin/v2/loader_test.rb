@@ -212,4 +212,18 @@ class PluginLoaderTests < MiniTest::Test
     assert InspecPlugins::MeaningOfLife.const_defined?(:MockPlugin), 'impl_class should now be defined'
 
   end
+
+  # TODO: loading all plugins does not activate Train plugins
+
+  # load core plugins (or assert that we can interrogate the v1 registr(ies))
+  # output error but not raise when bad entry point
+
+  # it should handle a gem conflict correctly
+  #   # it "should list plugins declared with a custom plugin file" do
+  #   # end
+
+  #   # it should be able to load a config-specified v2 plugin
+
+  #   # it should be able to load a config-specified v1 plugin
+
 end
