@@ -4,6 +4,8 @@ require 'minitest/autorun'
 require 'minitest/test'
 require_relative '../../../../lib/inspec/plugin/v2'
 
+require 'byebug'
+
 class PluginLoaderTests < MiniTest::Test
 
   @@orig_home = Dir.home
@@ -127,6 +129,35 @@ class PluginLoaderTests < MiniTest::Test
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'meaning_by_path')
     reg = Inspec::Plugin::V2::Registry.instance
     plugin_name = :'inspec-meaning-of-life'
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
+    assert reg.known_plugin?(plugin_name), "\n#{plugin_name} should be a known plugin"
+    refute reg.loaded_plugin?(plugin_name), "\n#{plugin_name} should not be loaded yet"
+    loader.load_all
+    assert reg.loaded_plugin?(plugin_name), "\n#{plugin_name} should be loaded"
+  end
+
+  def test_list_managed_gems
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'test-fixture-2-float')
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
+    gemspecs = loader.list_managed_gems
+    gem = gemspecs.detect { |spec| spec.name == 'ordinal_array' }
+    refute_nil gem, 'loader.list_managed_gems should find ordinal_array'
+    assert_equal Gem::Version.new('0.2.0'), gem.version
+  end
+
+  def test_list_installed_plugin_gems
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'test-fixture-1-float')
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
+    gemspecs = loader.list_installed_plugin_gems
+    gem = gemspecs.detect { |spec| spec.name == 'inspec-test-fixture' }
+    refute_nil gem, 'loader.list_installed_plugin_gems should find inspec-test-fixture'
+    assert_equal Gem::Version.new('0.1.0'), gem.version
+  end
+
+  def test_load_mock_plugin_by_gem
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'test-fixture-1-float')
+    reg = Inspec::Plugin::V2::Registry.instance
+    plugin_name = :'inspec-test-fixture'
     loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
     assert reg.known_plugin?(plugin_name), "\n#{plugin_name} should be a known plugin"
     refute reg.loaded_plugin?(plugin_name), "\n#{plugin_name} should not be loaded yet"

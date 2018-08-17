@@ -27,7 +27,10 @@ module Inspec::Plugin::V2
     end
 
     def load_all
-      registry.each do |plugin_name, plugin_details|
+      # Be careful not to actually iterate directly over the registry here;
+      # we want to allow "sidecar loading", in which case a plugin may add an entry to the registry.
+      registry.plugin_names.dup.each do |plugin_name|
+        plugin_details = registry[plugin_name]
         # We want to capture literally any possible exception here, since we are storing them.
         # rubocop: disable Lint/RescueException
         begin
@@ -36,6 +39,7 @@ module Inspec::Plugin::V2
           if plugin_details.entry_point.include?('test/unit/mock/plugins')
             load plugin_details.entry_point + '.rb'
           else
+            activate_managed_gems_for_plugin(plugin_name) if plugin_details.installation_type == :gem
             require plugin_details.entry_point
           end
           plugin_details.loaded = true
@@ -126,7 +130,56 @@ module Inspec::Plugin::V2
       # rubocop: enable Lint/RescueException
     end
 
+    def plugin_gem_path
+      self.class.plugin_gem_path
+    end
+
+    def self.plugin_gem_path
+      # I can't beleive there isn't a simpler way of getting this
+      # 2.4.2.p123 => 2.4.0
+      ruby_abi_version = (Gem.ruby_version.segments[0,2] << 0).join('.')
+      File.join(Inspec.config_dir, 'gems', ruby_abi_version)
+    end
+
+    # Lists all gems found in the plugin_gem_path.
+    # @return [Array[Gem::Specification]] Specs of all gems found.
+    def list_managed_gems
+      Dir.glob(File.join(plugin_gem_path, 'specifications', '*.gemspec')).map {|p| Gem::Specification.load(p) }
+    end
+
+    # Lists all plugin gems found in the plugin_gem_path.
+    # This is simply all gems that begin with train- or inspec-.
+    # @return [Array[Gem::Specification]] Specs of all gems found.
+    def list_installed_plugin_gems
+      list_managed_gems.select { |spec| spec.name.match /^(inspec|train)-/ }
+    end
+
     private
+
+    # 'Activating' a gem adds it to the load path, so 'require "gemname"' will work.
+    # Given a gem name, this activates the gem and all of its dependencies, respecting
+    # version pinning needs.
+    def activate_managed_gems_for_plugin(plugin_gem_name, version_constraint = '> 0')
+      # TODO: enforce first-level version pinning
+      plugin_deps = [ Gem::Dependency.new(plugin_gem_name.to_s, version_constraint) ]
+      managed_gem_set = Gem::Resolver::VendorSet.new
+      list_managed_gems.each { |spec| managed_gem_set.add_vendor_gem(spec.name, spec.gem_dir) }
+
+      # TODO: Next two lines merge our managed gems with the other gems available
+      # in our "local universe" - which may be the system, or it could be in a Bundler microcosm,
+      # or rbenv, etc. Do we want to merge that, though?
+      distrib_gem_set = Gem::Resolver::CurrentSet.new
+      installed_gem_set = Gem::Resolver.compose_sets(managed_gem_set, distrib_gem_set)
+
+      # So, given what we need, and what we have available, what activations are needed?
+      resolver = Gem::Resolver.new(plugin_deps, installed_gem_set)
+      solution = resolver.resolve
+      solution.each do |activation_request|
+        next if activation_request.full_spec.activated?
+        activation_request.full_spec.activate
+        # TODO: If we are under Bundler, inform it that we loaded a gem
+      end
+    end
 
     def annotate_status_after_loading(plugin_name)
       status = registry[plugin_name]
@@ -173,8 +226,7 @@ module Inspec::Plugin::V2
     end
 
     def determine_plugin_conf_file
-      @plugin_conf_file_path = ENV['INSPEC_CONFIG_DIR'] ? ENV['INSPEC_CONFIG_DIR'] : File.join(Dir.home, '.inspec')
-      @plugin_conf_file_path = File.join(@plugin_conf_file_path, 'plugins.json')
+      @plugin_conf_file_path = File.join(Inspec.config_dir, 'plugins.json')
     end
 
     def read_conf_file
@@ -196,10 +248,10 @@ module Inspec::Plugin::V2
         status = Inspec::Plugin::V2::Status.new
         status.name = plugin_json['name'].to_sym
         status.loaded = false
-        status.installation_type = plugin_json['installation_type'].to_sym || :gem
+        status.installation_type = (plugin_json['installation_type'] || :gem).to_sym
         case status.installation_type
         when :gem
-          status.entry_point = status.name
+          status.entry_point = status.name.to_s
           status.version = plugin_json['version']
         when :path
           status.entry_point = plugin_json['installation_path']
