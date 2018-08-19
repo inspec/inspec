@@ -30,9 +30,11 @@ module InstallerTestHelpers
 
     # We use the 'empty' config dir for exercising a lot of installs.
     # Purge it after every test.
-    Dir.glob(File.join(@config_dir_path, 'empty', '*')).each do |path|
-      next if path.end_with? '.gitkeep'
-      FileUtils.rm_rf(path)
+    unless ENV['INSPEC_TEST_PRESERVE_PLUGIN']
+      Dir.glob(File.join(@config_dir_path, 'empty', '*')).each do |path|
+        next if path.end_with? '.gitkeep'
+        FileUtils.rm_rf(path)
+      end
     end
 
     # TODO: may need to edit the $LOAD_PATH, if it turns out that we need to "deactivate" gems after installation
@@ -87,6 +89,10 @@ class PluginInstallerInstallationTests < MiniTest::Test
     assert File.exists?(spec_path), 'After installation from a gem file, the gemspec should be installed to the gem path'
     installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.1.0')
     assert Dir.exists?(installed_gem_base), 'After installation from a gem file, the gem tree should be installed to the gem path'
+
+    # Installation != gem activation
+    spec = Gem::Specification.load(spec_path)
+    refute spec.activated?, 'Installing a gem should not cause the gem to activate'
   end
 
   def test_install_a_gem_from_local_file_creates_plugin_json
@@ -108,7 +114,7 @@ class PluginInstallerInstallationTests < MiniTest::Test
     assert_kind_of Hash, entry
     assert_includes entry.keys, 'name'
     assert_equal 'inspec-test-fixture', entry['name']
-
+    # TODO: any other fields to check? gem version?
   end
 
   def test_install_a_gem_from_rubygems_org
@@ -128,6 +134,7 @@ class PluginInstallerInstallationTests < MiniTest::Test
   end
 
   # it should raise an exception when trying to install a gem-plugin that does not exist
+
   # installing a gem with dependencies should result in the deps being installed under the config dir
   # Should be able to install a v2 CLI plugin
   # Should be able to install a train plugin
@@ -139,7 +146,15 @@ end
 # Upgrading
 #-----------------------------------------------------------------------#
 
-# it should be able to update a plugin
+# it should be able to update a plugin to a specified later version
+# it should be able to update a plugin to the latest version
+# trying to upgrade a plugin that is already installed at the requested version is a graceful error 2
+# trying to install a plugin that is already installed at the requested version is a graceful error 2
+# trying to install a plugin that is already installed at different version is a graceful error 2 with error mentioning upgrade command
+
+# Stretch:
+#   update all
+#   downgrade
 
 #-----------------------------------------------------------------------#
 # Removing
@@ -155,5 +170,7 @@ end
 
 # Should be able to search for available plugins
 # Should be able to search for plugins and assume the inspec- or train- prefixes.
-# Should be able to suggest a train transport plugin when a gem search is successful
-# Should raise an error if no train transport plugin exists
+# Should be able to suggest a train transport plugin when an unsupported --target schema is used and a gem search is successful
+# Should be able to suggest a train transport plugin when an unrecognized profile platform declaration is used and a gem search is successful
+# Should raise an error if no train transport plugin exists and an unsupported --target schema is used
+# Should raise an error if no train transport plugin exists and an unrecognized profile platform declaration is used

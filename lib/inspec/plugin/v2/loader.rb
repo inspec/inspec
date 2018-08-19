@@ -20,7 +20,6 @@ module Inspec::Plugin::V2
     def initialize(options = {})
       @options = options
       @registry = Inspec::Plugin::V2::Registry.instance
-      determine_plugin_conf_file
       read_conf_file
       unpack_conf_file
       detect_bundled_plugins unless options[:omit_bundles]
@@ -225,13 +224,18 @@ module Inspec::Plugin::V2
       end
     end
 
-    def determine_plugin_conf_file
-      @plugin_conf_file_path = File.join(Inspec.config_dir, 'plugins.json')
+    def plugin_conf_file_path
+      self.class.plugin_conf_file_path
     end
 
+    def self.plugin_conf_file_path
+      File.join(Inspec.config_dir, 'plugins.json')
+    end
+
+    # TODO: DRY up re: Installer read_or_init_config_file
     def read_conf_file
-      if File.exist?(@plugin_conf_file_path)
-        @plugin_file_contents = JSON.parse(File.read(@plugin_conf_file_path))
+      if File.exist?(plugin_conf_file_path)
+        @plugin_file_contents = JSON.parse(File.read(plugin_conf_file_path))
       else
         @plugin_file_contents = {
           'plugins_config_version' => '1.0.0',
@@ -239,7 +243,7 @@ module Inspec::Plugin::V2
         }
       end
     rescue JSON::ParserError => e
-      raise Inspec::Plugin::V2::ConfigError, "Failed to load plugins JSON configuration from #{@plugin_conf_file_path}:\n#{e}"
+      raise Inspec::Plugin::V2::ConfigError, "Failed to load plugins JSON configuration from #{plugin_conf_file_path}:\n#{e}"
     end
 
     def unpack_conf_file
@@ -263,7 +267,7 @@ module Inspec::Plugin::V2
 
     def validate_conf_file
       unless @plugin_file_contents['plugins_config_version'] == '1.0.0'
-        raise Inspec::Plugin::V2::ConfigError, "Unsupported plugins.json file version #{@plugin_file_contents['plugins_config_version']} at #{@plugin_conf_file_path} - currently support versions: 1.0.0"
+        raise Inspec::Plugin::V2::ConfigError, "Unsupported plugins.json file version #{@plugin_file_contents['plugins_config_version']} at #{plugin_conf_file_path} - currently support versions: 1.0.0"
       end
 
       plugin_entries = @plugin_file_contents['plugins']

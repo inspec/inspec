@@ -20,6 +20,10 @@ module Inspec::Plugin::V2
       Inspec::Plugin::V2::Loader.plugin_gem_path
     end
 
+    def plugin_conf_file_path
+      Inspec::Plugin::V2::Loader.plugin_conf_file_path
+    end
+
     # Installs a plugin. Defaults to assuming the plugin provided is a gem, and will try to install
     # from whatever gemsources `rubygems` thinks it should use.
     # If it's a gem, installs it and its dependencies to the `gem_path`. The gem is not activated.
@@ -32,6 +36,7 @@ module Inspec::Plugin::V2
     # @option opts [String] :gem_file Path to a local gem file to install from
     # @option opts [String] :path Path to a file to be used as the entry point for a path-based plugin
     def install(plugin_name, opts = {})
+      # TODO - check plugins.json for validity before trying anything that needs to modify it.
       validate_installation_opts(plugin_name, opts)
 
       if opts[:path]
@@ -42,7 +47,7 @@ module Inspec::Plugin::V2
         install_from_remote_gems(plugin_name, opts)
       end
 
-      # update_plugin_config_file(plugin_name, opts)
+      update_plugin_config_file(plugin_name, opts.merge({action: :install}))
     end
 
     private
@@ -85,6 +90,27 @@ module Inspec::Plugin::V2
 
       # Ignore deps here, because any needed deps should already be baked into plugin_dependency
       request_set.install_into(gem_path, true, ignore_dependencies: true)
+    end
+
+    def update_plugin_config_file(plugin_name, opts)
+      config = read_or_init_config_data
+      config['plugins'].delete_if { |entry| entry['name' == plugin_name] }
+      entry = { 'name' => plugin_name }
+      config['plugins'] << entry
+      File.write(plugin_conf_file_path, JSON.pretty_generate(config))
+    end
+
+    # TODO - DRY this up
+    # TODO - check for validity
+    def read_or_init_config_data
+      if File.exist?(plugin_conf_file_path)
+        plugin_file_contents = JSON.parse(File.read(plugin_conf_file_path))
+      else
+        plugin_file_contents = {
+          'plugins_config_version' => '1.0.0',
+          'plugins' => [],
+        }
+      end
     end
   end
 end
