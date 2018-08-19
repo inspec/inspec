@@ -1,8 +1,11 @@
 require 'minitest/autorun'
 require 'minitest/test'
 require 'fileutils'
+require 'json'
 require_relative '../../../../lib/inspec/plugin/v2'
 require_relative '../../../../lib/inspec/plugin/v2/installer'
+
+require 'byebug'
 
 module InstallerTestHelpers
   def reset_globals
@@ -31,6 +34,8 @@ module InstallerTestHelpers
       next if path.end_with? '.gitkeep'
       FileUtils.rm_rf(path)
     end
+
+    # TODO: may need to edit the $LOAD_PATH, if it turns out that we need to "deactivate" gems after installation
   end
 end
 
@@ -74,18 +79,36 @@ class PluginInstallerInstallationTests < MiniTest::Test
 
   def test_install_a_gem_from_local_file
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
-    gem_file = File.join(@plugin_fixture_pkg_path, 'inspec-test-fixture-0.2.0.gem')
+    gem_file = File.join(@plugin_fixture_pkg_path, 'inspec-test-fixture-0.1.0.gem')
     @installer.install('inspec-test-fixture', gem_file: gem_file)
 
     # Installing a gem places it under the config dir gem area
-    spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.2.0.gemspec')
+    spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.1.0.gemspec')
     assert File.exists?(spec_path), 'After installation from a gem file, the gemspec should be installed to the gem path'
-    installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.2.0')
+    installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.1.0')
     assert Dir.exists?(installed_gem_base), 'After installation from a gem file, the gem tree should be installed to the gem path'
+  end
 
-    # Installation != gem activation
-    spec = Gem::Specification.load(spec_path)
-    refute spec.activated?, 'Installing a gem should not cause the gem to activate'
+  def test_install_a_gem_from_local_file_creates_plugin_json
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+    gem_file = File.join(@plugin_fixture_pkg_path, 'inspec-test-fixture-0.1.0.gem')
+    @installer.install('inspec-test-fixture', gem_file: gem_file)
+
+    # Should now be present in plugin.json
+    plugin_json_path = File.join(ENV['INSPEC_CONFIG_DIR'], 'plugins.json')
+    assert File.exist?(plugin_json_path), 'plugins.json should now exist'
+    plugin_json_data = JSON.parse(File.read(plugin_json_path))
+
+    assert_includes plugin_json_data.keys, 'plugins_config_version'
+    assert_equal '1.0.0', plugin_json_data['plugins_config_version'], 'Plugin config version should ve initted to 1.0.0'
+    assert_includes plugin_json_data.keys, 'plugins'
+    assert_kind_of Array, plugin_json_data['plugins']
+    assert_equal 1, plugin_json_data['plugins'].count, 'plugins.json should have one entry'
+    entry = plugin_json_data['plugins'].first
+    assert_kind_of Hash, entry
+    assert_includes entry.keys, 'name'
+    assert_equal 'inspec-test-fixture', entry['name']
+
   end
 
   def test_install_a_gem_from_rubygems_org
