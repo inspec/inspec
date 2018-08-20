@@ -21,6 +21,8 @@ module InstallerTestHelpers
     @config_dir_path = File.join(mock_path, 'config_dirs')
     @plugin_fixture_pkg_path = File.join(mock_path, 'plugins', 'inspec-test-fixture', 'pkg')
 
+    @ruby_abi_version = (RUBY_VERSION.split('.')[0,2] << '0').join('.')
+
     @installer = Inspec::Plugin::V2::Installer.instance
     reset_globals
   end
@@ -57,13 +59,13 @@ class PluginInstallerBasicTests < MiniTest::Test
   # it should know its gem path
   def test_it_should_know_its_gem_path_with_a_default_location
     ENV['HOME'] = File.join(@config_dir_path, 'fakehome')
-    expected = File.join(ENV['HOME'], '.inspec', 'gems', RUBY_VERSION)
+    expected = File.join(ENV['HOME'], '.inspec', 'gems', @ruby_abi_version)
     assert_equal expected, @installer.gem_path
   end
 
   def test_it_should_know_its_gem_path_with_a_custom_config_dir_from_env
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
-    expected = File.join(ENV['INSPEC_CONFIG_DIR'], 'gems', RUBY_VERSION)
+    expected = File.join(ENV['INSPEC_CONFIG_DIR'], 'gems', @ruby_abi_version)
     assert_equal expected, @installer.gem_path
   end
 end
@@ -128,14 +130,24 @@ class PluginInstallerInstallationTests < MiniTest::Test
     installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.2.0')
     assert Dir.exists?(installed_gem_base), 'After installation from a gem file, the gem tree should be installed to the gem path'
 
+    # installing a gem with dependencies should result in the deps being installed under the config dir
+    spec_path = File.join(@installer.gem_path, 'specifications', 'ordinal_array-0.2.0.gemspec')
+    assert File.exists?(spec_path), 'After installation from a gem file, the emspec should be installed to the gem path'
+    installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.2.0')
+    assert Dir.exists?(installed_gem_base), 'After installation from a gem file, the gem tree should be installed to the gem path'
+
+
     # Installation != gem activation
     spec = Gem::Specification.load(spec_path)
     refute spec.activated?, 'Installing a gem should not cause the gem to activate'
   end
 
-  # it should raise an exception when trying to install a gem-plugin that does not exist
+  def test_handle_no_such_gem
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
-  # installing a gem with dependencies should result in the deps being installed under the config dir
+    assert_raises(Inspec::Plugin::V2::InstallError) { @installer.install('inspec-test-fixture-nonesuch') }
+  end
+
   # Should be able to install a v2 CLI plugin
   # Should be able to install a train plugin
   # Should be able to install a path-based plugin
