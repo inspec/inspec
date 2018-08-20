@@ -82,7 +82,7 @@ describe 'inspec archive' do
   end
 
   it 'vendors dependencies by default' do
-    out = inspec('archive ' + inheritance_profile + ' --output ' + dst.path)
+    out = inspec('archive ' + meta_profile  + ' --output ' + dst.path)
     out.stderr.must_equal ''
     out.stdout.must_include 'Generate archive ' + dst.path
     out.exit_status.must_equal 0

@@ -11,12 +11,17 @@ module Fetchers
 
     def self.resolve(target)
       if target.is_a?(String)
-        new(resolve_from_string(target))
+        local_path = resolve_from_string(target)
+        new(local_path) if local_path
       elsif target.is_a?(Hash)
-        # If target is a Hash then it is a dependency. We should
-        # archive it in order to create a checksum and vendor it.
-        target[:do_vendor] = true
-        new(resolve_from_hash(target), target)
+        local_path = resolve_from_hash(target)
+        if local_path
+          # If target is a Hash then it is a dependency. We should archive it in
+          # order to create a checksum and vendor it. Unless the command used is
+          # exec then we should not vendor it to make local development easier.
+          target[:do_vendor] = true unless Inspec::BaseCLI.command == :exec
+          new(local_path, target)
+        end
       end
     end
 
@@ -50,6 +55,9 @@ module Fetchers
 
     def fetch(path)
       return @target unless @do_vendor
+
+      # Skip vendoring if @backend is not set (example: ad hoc runners)
+      return @target unless @backend
 
       if File.directory?(@target)
         # Create an archive, checksum, and move to the vendor directory
