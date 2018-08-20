@@ -110,6 +110,15 @@ describe Inspec::Profile do
     end
   end
 
+  describe 'skips loading on unsupported platform' do
+    let(:profile_id) { 'windows-only' }
+
+    it 'loads our profile but skips loading controls' do
+      info = MockLoader.load_profile(profile_id).info
+      info[:controls].must_be_empty
+    end
+  end
+
   describe 'when checking' do
     describe 'an empty profile' do
       let(:profile_id) { 'empty-metadata' }

@@ -157,10 +157,16 @@ module Inspec
       supports_platform? && supports_runtime?
     end
 
+    # We need to check if we're using a Mock'd backend for tests to function.
+    # @returns [TrueClass, FalseClass]
     def supports_platform?
       if @supports_platform.nil?
         @supports_platform = metadata.supports_platform?(@backend)
       end
+      if @backend.backend.class.to_s == 'Train::Transports::Mock::Connection'
+        @supports_platform = true
+      end
+
       @supports_platform
     end
 
@@ -176,10 +182,11 @@ module Inspec
     end
 
     def collect_tests(include_list = @controls)
-      if !@tests_collected
+      unless @tests_collected
         locked_dependencies.each(&:collect_tests)
 
         tests.each do |path, content|
+          next unless supports_platform?
           next if content.nil? || content.empty?
           abs_path = source_reader.target.abs_path(path)
           @runner_context.load_control_file(content, abs_path, nil)
@@ -221,6 +228,7 @@ module Inspec
       return @runner_context if @libraries_loaded
 
       locked_dependencies.each do |d|
+        next unless d.supports_platform?
         c = d.load_libraries
         @runner_context.add_resources(c)
       end
