@@ -136,21 +136,29 @@ module Inspec::Plugin::V2
     def self.plugin_gem_path
       # I can't beleive there isn't a simpler way of getting this
       # 2.4.2.p123 => 2.4.0
-      ruby_abi_version = (Gem.ruby_version.segments[0,2] << 0).join('.')
+      ruby_abi_version = (Gem.ruby_version.segments[0, 2] << 0).join('.')
       File.join(Inspec.config_dir, 'gems', ruby_abi_version)
     end
 
     # Lists all gems found in the plugin_gem_path.
     # @return [Array[Gem::Specification]] Specs of all gems found.
     def list_managed_gems
-      Dir.glob(File.join(plugin_gem_path, 'specifications', '*.gemspec')).map {|p| Gem::Specification.load(p) }
+      Dir.glob(File.join(plugin_gem_path, 'specifications', '*.gemspec')).map { |p| Gem::Specification.load(p) }
     end
 
     # Lists all plugin gems found in the plugin_gem_path.
     # This is simply all gems that begin with train- or inspec-.
     # @return [Array[Gem::Specification]] Specs of all gems found.
     def list_installed_plugin_gems
-      list_managed_gems.select { |spec| spec.name.match /^(inspec|train)-/ }
+      list_managed_gems.select { |spec| spec.name.match(/^(inspec|train)-/) }
+    end
+
+    def plugin_conf_file_path
+      self.class.plugin_conf_file_path
+    end
+
+    def self.plugin_conf_file_path
+      File.join(Inspec.config_dir, 'plugins.json')
     end
 
     private
@@ -160,7 +168,7 @@ module Inspec::Plugin::V2
     # version pinning needs.
     def activate_managed_gems_for_plugin(plugin_gem_name, version_constraint = '> 0')
       # TODO: enforce first-level version pinning
-      plugin_deps = [ Gem::Dependency.new(plugin_gem_name.to_s, version_constraint) ]
+      plugin_deps = [Gem::Dependency.new(plugin_gem_name.to_s, version_constraint)]
       managed_gem_set = Gem::Resolver::VendorSet.new
       list_managed_gems.each { |spec| managed_gem_set.add_vendor_gem(spec.name, spec.gem_dir) }
 
@@ -222,17 +230,8 @@ module Inspec::Plugin::V2
         status.loaded = false
         registry[name] = status
       end
-    end
+    end # TODO: DRY up re: Installer read_or_init_config_file
 
-    def plugin_conf_file_path
-      self.class.plugin_conf_file_path
-    end
-
-    def self.plugin_conf_file_path
-      File.join(Inspec.config_dir, 'plugins.json')
-    end
-
-    # TODO: DRY up re: Installer read_or_init_config_file
     def read_conf_file
       if File.exist?(plugin_conf_file_path)
         @plugin_file_contents = JSON.parse(File.read(plugin_conf_file_path))
