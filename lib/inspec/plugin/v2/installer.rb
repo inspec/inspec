@@ -37,6 +37,7 @@ module Inspec::Plugin::V2
     # @param [Hash] opts The installation options
     # @option opts [String] :gem_file Path to a local gem file to install from
     # @option opts [String] :path Path to a file to be used as the entry point for a path-based plugin
+    # @option opts [String] :version Version constraint for remote gem installs
     def install(plugin_name, opts = {})
       # TODO: - check plugins.json for validity before trying anything that needs to modify it.
       validate_installation_opts(plugin_name, opts)
@@ -66,6 +67,9 @@ module Inspec::Plugin::V2
         unless File.exist?(opts[:gem_file])
           raise InstallError, "Could not find local gem file to install - #{opts[:gem_file]}"
         end
+        if opts.key?(:version)
+          raise InstallError, 'May not specify a version when installing from a gem file'
+        end
       end
     end
 
@@ -80,8 +84,9 @@ module Inspec::Plugin::V2
       install_gem_to_plugins_dir(plugin_dependency, [requested_local_gem_set])
     end
 
-    def install_from_remote_gems(requested_plugin_name, _opts)
-      plugin_dependency = Gem::Dependency.new(requested_plugin_name, '> 0') # TODO: version pinning
+    def install_from_remote_gems(requested_plugin_name, opts)
+      opts[:version] ||= '> 0'
+      plugin_dependency = Gem::Dependency.new(requested_plugin_name, opts[:version])
       # BestSet is rubygems.org API + indexing
       install_gem_to_plugins_dir(plugin_dependency, [Gem::Resolver::BestSet.new])
     end
@@ -116,10 +121,11 @@ module Inspec::Plugin::V2
       request_set.install_into(gem_path, true, ignore_dependencies: true)
     end
 
-    def update_plugin_config_file(plugin_name, _opts)
+    def update_plugin_config_file(plugin_name, opts)
       config = read_or_init_config_data
       config['plugins'].delete_if { |entry| entry[plugin_name == 'name'] }
       entry = { 'name' => plugin_name }
+      entry['version'] = opts[:version] if opts.key?(:version)
       config['plugins'] << entry
       File.write(plugin_conf_file_path, JSON.pretty_generate(config))
     end
