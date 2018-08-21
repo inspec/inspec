@@ -54,13 +54,16 @@ module Compliance
       end
     end
 
-    def self.resolve(target) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity
-      uri = if target.is_a?(String) && URI(target).scheme == 'compliance'
-              URI(target)
-            elsif target.respond_to?(:key?) && target.key?(:compliance)
-              URI("compliance://#{target[:compliance]}")
-            end
+    def self.get_target_uri(target)
+      if target.is_a?(String) && URI(target).scheme == 'compliance'
+        URI(target)
+      elsif target.respond_to?(:key?) && target.key?(:compliance)
+        URI("compliance://#{target[:compliance]}")
+      end
+    end
 
+    def self.resolve(target)
+      uri = get_target_uri(target)
       return nil if uri.nil?
 
       # we have detailed information available in our lockfile, no need to ask the server
@@ -79,11 +82,11 @@ module Compliance
         if profile_result.empty?
           raise Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
         else
-          # Guarantee sorting by verison and grab the latest. 
+          # Guarantee sorting by verison and grab the latest.
           # If version was specified, it will be the first and only result.
-          # Note we are calling the sha256 as a string, not a symbol since 
+          # Note we are calling the sha256 as a string, not a symbol since
           # it was returned as json from the Compliance API.
-          profile_checksum = profile_result.sort {|x| Gem::Version(x['version'])}[0]['sha256']
+          profile_checksum = profile_result.sort { |x| Gem::Version(x['version']) }[0]['sha256']
         end
         profile_fetch_url = Compliance::API.target_url(config, profile)
       end
