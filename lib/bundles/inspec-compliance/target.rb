@@ -66,16 +66,15 @@ module Compliance
       uri = get_target_uri(target)
       return nil if uri.nil?
 
+      config = Compliance::Configuration.new
+      profile = Compliance::API.sanitize_profile_name(uri)
+      profile_fetch_url = Compliance::API.target_url(config, profile)
       # we have detailed information available in our lockfile, no need to ask the server
-      if target.respond_to?(:key?) && target.key?(:url)
-        profile_fetch_url = target[:url]
+      if target.respond_to?(:key?) && target.key?(:sha256)
         profile_checksum = target[:sha256]
-        config = {}
       else
-        config = Compliance::Configuration.new
         check_compliance_token(config)
         # verifies that the target e.g base/ssh exists
-        profile = Compliance::API.sanitize_profile_name(uri)
         # Call profiles directly instead of exist? to capture the results
         # so we can access the upstream sha256 from the results.
         _msg, profile_result = Compliance::API.profiles(config, profile)
@@ -88,7 +87,6 @@ module Compliance
           # it was returned as json from the Compliance API.
           profile_checksum = profile_result.sort { |x| Gem::Version(x['version']) }[0]['sha256']
         end
-        profile_fetch_url = Compliance::API.target_url(config, profile)
       end
       # We need to pass the token to the fetcher
       config['token'] = Compliance::API.get_token(config)
