@@ -25,12 +25,9 @@ module Inspec
         include RSpec::Core::DSL
         with_resource_dsl resources_dsl
 
+        # allow attributes to be accessed within control blocks
         define_method :attribute do |name, options = nil|
-          if profile_context_owner.attributes.key?(name) && options.nil?
-            profile_context_owner.attributes[name].value
-          else
-            profile_context_owner.register_attribute(name, options)
-          end
+          profile_context_owner.register_attribute(name, options)
         end
       end
     end
@@ -145,11 +142,7 @@ module Inspec
 
         # method for attributes; import attribute handling
         define_method :attribute do |name, options = nil|
-          # if profile_context_owner.attributes.key?(name) && options.nil?
-          #   profile_context_owner.attributes[name].value
-          # else
-          profile_context_owner.register_attribute(name, profile_id, options)
-          # end
+          profile_context_owner.register_attribute(name, options)
         end
 
         define_method :skip_control do |id|

@@ -2,16 +2,6 @@
 
 module Inspec
   class Attribute
-    class << self
-      # Retrieve the current attribute list, containing all attribute names
-      # and their options.
-      #
-      # @return [Hash] map with profile name and attributes
-      def list
-        @list ||= {}
-      end
-    end
-
     attr_accessor :name
 
     VALID_TYPES = %w{

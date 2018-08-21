@@ -79,7 +79,7 @@ module Inspec
     end
 
     attr_reader :source_reader, :backend, :runner_context, :check_mode
-    attr_accessor :parent_profile
+    attr_accessor :parent_profile, :name_override
     def_delegator :@source_reader, :tests
     def_delegator :@source_reader, :libraries
     def_delegator :@source_reader, :metadata
@@ -98,8 +98,9 @@ module Inspec
       @tests_collected = false
       @libraries_loaded = false
       @check_mode = options[:check_mode] || false
+      @parent_profile = options[:parent_profile]
+      @name_override = options[:name_override]
       Metadata.finalize(@source_reader.metadata, @profile_id, options)
-      binding.pry
 
       # if a backend has already been created, clone it so each profile has its own unique backend object
       # otherwise, create a new backend object
@@ -128,7 +129,7 @@ module Inspec
         metadata.params[:attributes].each do |attribute|
           attr_dup = attribute.dup
           name = attr_dup.delete(:name)
-          @runner_context.register_attribute(name, self.name, attr_dup)
+          @runner_context.register_attribute(name, attr_dup)
         end
       end
     end

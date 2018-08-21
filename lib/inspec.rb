@@ -15,6 +15,8 @@ require 'inspec/runner'
 require 'inspec/shell'
 require 'inspec/formatters'
 require 'inspec/reporters'
+require 'inspec/attributes'
+require 'inspec/rspec_example_groups'
 
 # all utils that may be required by plugins
 require 'inspec/base_cli'
