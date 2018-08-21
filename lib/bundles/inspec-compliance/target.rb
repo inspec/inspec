@@ -66,6 +66,7 @@ module Compliance
       # we have detailed information available in our lockfile, no need to ask the server
       if target.respond_to?(:key?) && target.key?(:url)
         profile_fetch_url = target[:url]
+        profile_checksum = target[:sha256]
         config = {}
       else
         config = Compliance::Configuration.new
@@ -78,9 +79,11 @@ module Compliance
         if profile_result.empty?
           raise Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
         else
-          # If version wasn't specified the results are version sorted, so grab the first result.
+          # Guarantee sorting by verison and grab the latest. 
           # If version was specified, it will be the first and only result.
-          profile_info = profile_result[0]
+          # Note we are calling the sha256 as a string, not a symbol since 
+          # it was returned as json from the Compliance API.
+          profile_checksum = profile_result.sort {|x| Gem::Version(x['version'])}[0]['sha256']
         end
         profile_fetch_url = Compliance::API.target_url(config, profile)
       end
@@ -91,7 +94,7 @@ module Compliance
       profile_stub = profile || target[:compliance]
       config['profile'] = Compliance::API.profile_split(profile_stub)
 
-      new({ url: profile_fetch_url, sha256: profile_info['sha256'] }, config)
+      new({ url: profile_fetch_url, sha256: profile_checksum }, config)
     rescue URI::Error => _e
       nil
     end
