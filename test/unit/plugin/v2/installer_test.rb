@@ -19,7 +19,8 @@ module InstallerTestHelpers
     repo_path = File.expand_path(File.join( __FILE__, '..', '..', '..', '..', '..'))
     mock_path = File.join(repo_path, 'test', 'unit', 'mock')
     @config_dir_path = File.join(mock_path, 'config_dirs')
-    @plugin_fixture_pkg_path = File.join(mock_path, 'plugins', 'inspec-test-fixture', 'pkg')
+    @plugin_fixture_src_path = File.join(mock_path, 'plugins', 'inspec-test-fixture')
+    @plugin_fixture_pkg_path = File.join(@plugin_fixture_src_path, 'pkg')
 
     @ruby_abi_version = (RUBY_VERSION.split('.')[0,2] << '0').join('.')
 
@@ -167,11 +168,28 @@ class PluginInstallerInstallationTests < MiniTest::Test
     assert_equal '= 0.1.0', entry['version'], 'plugins.json should include version pinning value'
  end
 
+  # Should be able to install a path-based plugin
+  def test_install_a_plugin_from_a_path
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+
+    @installer.install('inspec-test-fixture', path: @plugin_fixture_src_path)
+
+    # No gemspec should exist in the plugins area
+    specs = Dir.glob(File.join(@installer.gem_path, 'specifications', '*.gemspec'))
+    assert_empty specs, 'After install-from-path, no gemspecs should be installed'
+
+    plugin_json_path = File.join(ENV['INSPEC_CONFIG_DIR'], 'plugins.json')
+    plugin_json_data = JSON.parse(File.read(plugin_json_path))
+    entry = plugin_json_data['plugins'].detect { |e| e["name"] == 'inspec-test-fixture'}
+    assert_includes entry.keys, 'installation_type', 'plugins.json should include installation_type key'
+    assert_equal 'path', entry['installation_type'], 'plugins.json should include path installation_type'
+
+    assert_includes entry.keys, 'installation_path', 'plugins.json should include installation_path key'
+    assert_equal @plugin_fixture_src_path, entry['installation_path'], 'plugins.json should include correct value for installation path'
+  end
 
   # Should be able to install a v2 CLI plugin
   # Should be able to install a train plugin
-
-  # Should be able to install a path-based plugin
 end
 
 #-----------------------------------------------------------------------#
