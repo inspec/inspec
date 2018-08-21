@@ -7,6 +7,36 @@ require 'thor'
 describe 'BaseCLI' do
   let(:cli) { Inspec::BaseCLI.new }
 
+  describe 'opts' do
+    it 'raises if `--password/--sudo-password` are used without value' do
+      default_options = { mock: { sudo_password: -1 } }
+      Inspec::BaseCLI.stubs(:default_options).returns(default_options)
+
+      e = proc { cli.send(:opts, :mock) }.must_raise(ArgumentError)
+      e.message.must_match /Please provide a value for --sudo-password/
+    end
+
+    it 'assumes `--sudo` if `--sudo-password` is used without it' do
+      default_options = { mock: { sudo_password: 'p@ssw0rd' } }
+      Inspec::BaseCLI.stubs(:default_options).returns(default_options)
+
+      opts = {}
+      out, err = capture_io do
+        cli.send(:opts, :mock)[:sudo].must_equal true
+      end
+      err.must_match(/WARN: `--sudo-password` used without `--sudo`/)
+    end
+
+    it 'calls `Compliance::API.login` if `opts[:compliance] is passed`' do
+      default_options = { mock: { compliance: 'mock' } }
+      Inspec::BaseCLI.stubs(:default_options).returns(default_options)
+
+      Compliance::API.expects(:login).with('mock')
+
+      cli.send(:opts, :mock)
+    end
+  end
+
   describe 'merge_options' do
     let(:default_options) do
       { exec: { 'reporter' => ['json'], 'backend_cache' => false }}
