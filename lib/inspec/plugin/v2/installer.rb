@@ -55,22 +55,40 @@ module Inspec::Plugin::V2
 
     private
 
+    # rubocop: disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    # rationale for rubocop exemption: While ther are many conditionals, they are all of the same form;
+    # its goal is to check for several subtle combinations of params, and rais an error if needed. It's
+    # straightforward to understand, but has to handle many cases.
     def validate_installation_opts(plugin_name, opts)
       unless plugin_name =~ /^(inspec|train)-/
         raise InstallError, "All inspec plugins must begin with either 'inspec-' or 'train-' - refusing to install #{plugin_name}"
       end
 
-      if opts[:gem_file]
+      if opts.key?(:gem_file) && opts.key?(:path)
+        raise InstallError, 'May not specify both gem_file and a path (for installing from source)'
+      end
+
+      if opts.key?(:version) && (opts.key?(:gem_file) || opts.key?(:path))
+        raise InstallError, 'May not specify a version when installing from a gem file or source path'
+      end
+
+      if opts.key?(:gem_file)
         unless opts[:gem_file].end_with?('.gem')
           raise InstallError, "When installing from a local gem file, gem file must have '.gem' extension - saw #{opts[:gem_file]}"
         end
         unless File.exist?(opts[:gem_file])
           raise InstallError, "Could not find local gem file to install - #{opts[:gem_file]}"
         end
-        if opts.key?(:version)
-          raise InstallError, 'May not specify a version when installing from a gem file'
+      elsif opts.key?(:path)
+        unless Dir.exist?(opts[:path])
+          raise InstallError, "Could not find directory for install from source path - #{opts[:path]}"
         end
       end
+    end
+    # rubocop: enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
+    def install_from_path(requested_plugin_name, opts)
+      # Nothing to do here; we will later update the plugins file with the path.
     end
 
     def install_from_gem_file(requested_plugin_name, opts)
@@ -125,7 +143,14 @@ module Inspec::Plugin::V2
       config = read_or_init_config_data
       config['plugins'].delete_if { |entry| entry[plugin_name == 'name'] }
       entry = { 'name' => plugin_name }
+
       entry['version'] = opts[:version] if opts.key?(:version)
+
+      if opts.key?(:path)
+        entry['installation_type'] = 'path'
+        entry['installation_path'] = opts[:path]
+      end
+
       config['plugins'] << entry
       File.write(plugin_conf_file_path, JSON.pretty_generate(config))
     end
