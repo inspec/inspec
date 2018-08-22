@@ -122,7 +122,7 @@ module Inspec
       if !@dependencies.nil? && !@dependencies.empty?
         opts[:dependencies] = Inspec::DependencySet.from_array(@dependencies, @cwd, @cache, @backend)
       end
-      opts[:name_override] = @name
+      opts[:profile_name] = @name
       opts[:parent_profile] = @parent_profile
       @profile = Inspec::Profile.for_fetcher(fetcher, opts)
       @profile

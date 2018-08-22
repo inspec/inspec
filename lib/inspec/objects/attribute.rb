@@ -33,7 +33,6 @@ module Inspec
           "Use --attrs to provide a value for '#{@name}' or specify a default  "\
           "value with `attribute('#{@name}', default: 'somedefault', ...)`.",
         )
-
         self
       end
 
@@ -42,30 +41,27 @@ module Inspec
       end
     end
 
-    def self.generate(name, profile, options = {})
-      Inspec::Attribute.list[profile] ||= Inspec::Attribute.list[profile] = {}
-      if Inspec::Attribute.list[profile][name] && options.nil?
-        Inspec::Attribute.list[profile][name]
-      else
-        Inspec::Attribute.list[profile][name] = Inspec::Attribute.new(name, options)
-      end
-    end
-
     def initialize(name, options = {})
       @name = name
       @opts = options
-      validate_type(default) if @opts.key?(:type) && @opts.key?(:default)
+      validate_value_type(default) if @opts.key?(:type) && @opts.key?(:default)
+      if @opts.key?(:secrets_override)
+        validate_value_type(@opts[:secrets_override]) if @opts.key?(:type)
+        @value = @opts[:secrets_override]
+      else
+        @value = nil
+      end
     end
 
     def value=(new_value)
-      validate_type(new_value) if @opts.key?(:type) && !new_value.nil?
+      validate_value_type(new_value) if @opts.key?(:type)
       @value = new_value
     end
 
     def value
       if @value.nil?
-        validate_required(@value) if @opts.key?(:required) && @opts[:required] == true
-        default
+        validate_required(@value) if @opts[:required] == true
+        @value = default
       else
         @value
       end
@@ -101,7 +97,7 @@ module Inspec
       end
     end
 
-    def validate_type(value) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def validate_value_type(value) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       type = clean_type(@opts[:type])
       return if type == 'Any'
       raise "Type '#{type}' is not a valid attribute type" if !VALID_TYPES.include?(type)

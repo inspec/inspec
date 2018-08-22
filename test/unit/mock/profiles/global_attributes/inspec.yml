@@ -7,8 +7,9 @@ license: Apache-2.0
 summary: An InSpec Compliance Profile
 version: 0.1.0
 depends:
-  - name: myprofile1
-    url: https://s3-eu-west-1.amazonaws.com/apop-bucket/profiles/myprofile1-1.0.0.tar.gz
+  - name: child_profile_NEW_NAME
+    url: https://example.com/child_profile.tar.gz
+  - url: https://example.com/child_profile2.tar.gz
 attributes:
 - name: val_numeric
   type: numeric
@@ -43,4 +44,4 @@ attributes:
     a: true
     b: false
     c: '123'
-
+- name: val_no_default

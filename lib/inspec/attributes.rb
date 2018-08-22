@@ -10,19 +10,24 @@ module Inspec
     attr_reader :list
     def_delegator :list, :each
     def_delegator :list, :[]
-    def_delegator :list, :key?, :profile_exist
+    def_delegator :list, :key?, :profile_exist?
     def_delegator :list, :select
+
+    # this allows access to the list hash without having to call instance
+    def self.[](profile)
+      instance[profile]
+    end
 
     def initialize
       @list = {}
       @profile_overrides = {}
     end
 
-    def generate(name, profile, options = {})
+    def find_or_create(name, profile, options = {})
       # check for a profile override name
-      name = @profile_overrides[name] if !list.key?(profile) && @profile_overrides[name]
+      profile = @profile_overrides[profile] if !list.key?(profile) && @profile_overrides[profile]
 
-      if list.key?(profile) && list[profile][name] && options.nil?
+      if list.key?(profile) && list[profile][name] && options.empty?
         list[profile][name]
       else
         list[profile] = {} unless list.key?(profile)
@@ -37,6 +42,11 @@ module Inspec
     def select_profile(profile)
       list[profile] = {} unless list.key?(profile)
       list[profile]
+    end
+
+    def __reset
+      @list = {}
+      @profile_overrides = {}
     end
   end
 end

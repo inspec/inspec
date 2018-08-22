@@ -1,5 +1,5 @@
-name: child_profile
-title: Child Profile
+name: child_profile2
+title: Child Profile2
 maintainer: Demo, Inc.
 copyright: Demo, Inc.
 copyright_email: support@example.com
@@ -9,4 +9,4 @@ version: 1.0.0
 attributes:
 - name: val_int
   type: numeric
-  default: 123456
+  default: 654321

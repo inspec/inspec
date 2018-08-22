@@ -26,8 +26,8 @@ module Inspec
         with_resource_dsl resources_dsl
 
         # allow attributes to be accessed within control blocks
-        define_method :attribute do |name, options = nil|
-          profile_context_owner.register_attribute(name, options)
+        define_method :attribute do |name, options = {}|
+          profile_context_owner.find_or_create_attribute(name, options)
         end
       end
     end
@@ -141,8 +141,8 @@ module Inspec
         end
 
         # method for attributes; import attribute handling
-        define_method :attribute do |name, options = nil|
-          profile_context_owner.register_attribute(name, options)
+        define_method :attribute do |name, options = {}|
+          profile_context_owner.find_or_create_attribute(name, options)
         end
 
         define_method :skip_control do |id|

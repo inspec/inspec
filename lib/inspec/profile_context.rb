@@ -28,7 +28,7 @@ module Inspec
       @profile_id = profile_id
       @backend = backend
       @conf = conf.dup
-      @profile_name = @conf['profile'].name_override || @profile_id
+      @profile_name = @conf['profile'].profile_name || @profile_id if @conf['profile']
       @skip_only_if_eval = @conf['check_mode']
       @rules = {}
       @control_subcontexts = []
@@ -188,11 +188,10 @@ module Inspec
       end
     end
 
-    def register_attribute(name, options = {})
+    def find_or_create_attribute(name, options = {})
       # we need to return an attribute object, to allow dermination of default values
-      @global_attributes.generate(name, @profile_id, options)
-      @attributes[name].value = @conf['attributes'][name] unless @conf['attributes'].nil?
-      @attributes[name].value
+      options[:secrets_override] = @conf['attributes'][name] unless @conf['attributes'].nil? || @conf['attributes'][name].nil?
+      @global_attributes.find_or_create(name, @profile_id, options).value
     end
 
     def set_header(field, val)
