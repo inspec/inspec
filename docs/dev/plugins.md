@@ -20,6 +20,16 @@ The software design of the InSpec Plugin v2 API is deeply inspired by the Vagran
 
 * Don't implement resources in plugins; use resource packs for that.
 
+### Design Goals
+
+* Load-on-demand. Improve `inspec` startup time by making plugins load heavy libraries only if they are being used.
+* Independent velocity. Enable passionate community members to contribute at their own pace by shifting core development into plugin development
+* Increase dogfooding. Convert internal components into plugins to reduce core complexity and allow testing in isolation
+
+### Design Anti-goals
+
+* Don't implement resources in plugins; use resource packs for that.
+
 ## How Plugins are Located and Loaded
 
 ### Plugins are usually gems
