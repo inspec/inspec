@@ -226,4 +226,5 @@ class PluginLoaderTests < MiniTest::Test
 
   #   # it should be able to load a config-specified v1 plugin
 
+  # TODO: When loading a plugin that has a version pin, and multiple versions are available, only the pinned one should activate
 end

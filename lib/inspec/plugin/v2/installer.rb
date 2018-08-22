@@ -1,6 +1,7 @@
 # This file is not required by default.
 
 require 'singleton'
+require 'forwardable'
 
 # Gem extensions for unpacking local .gem files - not loaded by Gem default
 require 'rubygems/package'
@@ -15,15 +16,29 @@ module Inspec::Plugin::V2
   # Searching for plugins is handled by ???
   class Installer
     include Singleton
+    extend Forwardable
+
 
     Gem.configuration['verbose'] = false
 
-    def gem_path
-      Inspec::Plugin::V2::Loader.plugin_gem_path
+    attr_reader :loader, :registry
+    def_delegator :loader, :plugin_gem_path, :gem_path
+    def_delegator :loader, :plugin_conf_file_path
+    def_delegator :loader, :plugin_conf_file_path
+    def_delegator :loader, :list_managed_gems
+    def_delegator :loader, :list_installed_plugin_gems
+
+    def initialize
+      @loader = Inspec::Plugin::V2::Loader.new
+      @registry = Inspec::Plugin::V2::Registry.instance
     end
 
-    def plugin_conf_file_path
-      Inspec::Plugin::V2::Loader.plugin_conf_file_path
+    def plugin_installed?(name)
+      list_installed_plugin_gems.detect {|spec| spec.name == name }
+    end
+
+    def plugin_version_installed?(name, version)
+      list_installed_plugin_gems.detect {|spec| spec.name == name && spec.version == Gem::Version.new(version)}
     end
 
     # Installs a plugin. Defaults to assuming the plugin provided is a gem, and will try to install
@@ -53,10 +68,42 @@ module Inspec::Plugin::V2
       update_plugin_config_file(plugin_name, opts.merge({ action: :install }))
     end
 
+
+    # Updates a plugin. Most options same as intall, but will not handle path installs.
+    # If no :version is provided, updates to the latest.
+    # If a version is provided, the plugin becomes pinned at that specified version.
+    #
+    # @param [String] plugin_name
+    # @param [Hash] opts The installation options
+    # @option opts [String] :gem_file Path to a local gem file to install from - NOT IMPLEMENTED
+    # @option opts [String] :version Version constraint for remote gem updates
+    def update(plugin_name, opts = {})
+      # TODO: - check plugins.json for validity before trying anything that needs to modify it.
+      validate_update_opts(plugin_name, opts)
+      opts[:update_mode] = true
+
+      # TODO: Handle installing from a local file
+      # TODO: Perform dependency checks to make sure the new solution is valid
+      install_from_remote_gems(plugin_name, opts)
+
+      update_plugin_config_file(plugin_name, opts.merge({ action: :update }))
+    end
+
+    # Testing API.  Performs a hard reset on the installer and registry, and reloads the loader.
+    # Not for public use.
+    # TODO: bad timing coupling in tests
+    def __reset
+      registry.__reset
+    end
+    def __reset_loader
+      @loader = Loader.new
+    end
+
+
     private
 
     # rubocop: disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    # rationale for rubocop exemption: While ther are many conditionals, they are all of the same form;
+    # rationale for rubocop exemption: While there are many conditionals, they are all of the same form;
     # its goal is to check for several subtle combinations of params, and rais an error if needed. It's
     # straightforward to understand, but has to handle many cases.
     def validate_installation_opts(plugin_name, opts)
@@ -84,8 +131,40 @@ module Inspec::Plugin::V2
           raise InstallError, "Could not find directory for install from source path - #{opts[:path]}"
         end
       end
+
+      if plugin_installed?(plugin_name)
+        if opts.key?(:version) && plugin_version_installed?(plugin_name, opts[:version])
+          raise InstallError, "#{plugin_name} version #{opts[:version]} is already installed."
+        else
+          raise InstallError, "#{plugin_name} is already installed. Use 'inspec plugin update' to change version."
+        end
+      end
+
     end
     # rubocop: enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
+    def validate_update_opts(plugin_name, opts)
+      # Only update plugins we know about
+      unless plugin_name =~ /^(inspec|train)-/
+        raise UpdateError, "All inspec plugins must begin with either 'inspec-' or 'train-' - refusing to update #{plugin_name}"
+      end
+      unless registry.known_plugin?(plugin_name.to_sym)
+        raise UpdateError, "'#{plugin_name}' is not installed - use 'inspec plugin install' to install it"
+      end
+
+      # No local path support for update
+      if registry[plugin_name.to_sym].installation_type == :path
+        raise UpdateError, "'inspec plugin update' will not handle path-based plugins like '#{plugin_name}'. Use 'inspec plugin uninstall' to remove the reference, then install as a gem."
+      end
+      if opts.key?(:path)
+        raise UpdateError, "'inspec plugin update' will not install from a path."
+      end
+
+      if opts.key?(:version) && plugin_version_installed?(plugin_name, opts[:version])
+        raise UpdateError.new("#{plugin_name} version #{opts[:version]} is already installed.")
+      end
+
+    end
 
     def install_from_path(requested_plugin_name, opts)
       # Nothing to do here; we will later update the plugins file with the path.
@@ -103,16 +182,16 @@ module Inspec::Plugin::V2
     end
 
     def install_from_remote_gems(requested_plugin_name, opts)
-      opts[:version] ||= '> 0'
-      plugin_dependency = Gem::Dependency.new(requested_plugin_name, opts[:version])
+      plugin_dependency = Gem::Dependency.new(requested_plugin_name, opts[:version] || '> 0')
       # BestSet is rubygems.org API + indexing
-      install_gem_to_plugins_dir(plugin_dependency, [Gem::Resolver::BestSet.new])
+      install_gem_to_plugins_dir(plugin_dependency, [Gem::Resolver::BestSet.new], opts[:update_mode])
     end
 
-    def install_gem_to_plugins_dir(new_plugin_dependency, extra_request_sets = [])
+    def install_gem_to_plugins_dir(new_plugin_dependency, extra_request_sets = [], update_mode = false)
       # Make a Set of all the gems we already have in the plugin area
       installed_plugins_gem_set = Gem::Resolver::VendorSet.new
       Dir.glob(File.join(gem_path, 'specifications', '*.gemspec')).map { |p| Gem::Specification.load(p) }.each do |spec|
+        next if update_mode && spec.name == new_plugin_dependency.name # If we're updating, pretend we don't already have the requested gem installed
         installed_plugins_gem_set.add_vendor_gem(spec.name, spec.gem_dir)
       end
 
@@ -141,10 +220,11 @@ module Inspec::Plugin::V2
 
     def update_plugin_config_file(plugin_name, opts)
       config = read_or_init_config_data
-      config['plugins'].delete_if { |entry| entry[plugin_name == 'name'] }
+      config['plugins'].delete_if { |entry| entry['name'] == plugin_name }
       entry = { 'name' => plugin_name }
 
-      entry['version'] = opts[:version] if opts.key?(:version)
+      # Parsing by Requirement handles s lot of awkward formattoes
+      entry['version'] = Gem::Requirement.new(opts[:version]).to_s if opts.key?(:version)
 
       if opts.key?(:path)
         entry['installation_type'] = 'path'
