@@ -11,6 +11,13 @@ module InstallerTestHelpers
   def reset_globals
     ENV['HOME'] = @orig_home
     ENV['INSPEC_CONFIG_DIR'] = nil
+    @installer.__reset
+  end
+
+  def copy_in_gem_installation(version = 1)
+    src = Dir.glob(File.join(@config_dir_path, "test-fixture-#{version}-float", '*'))
+    dest = File.join(@config_dir_path, 'empty')
+    src.each { |path| FileUtils.cp_r(path, dest) }
   end
 
   def setup
@@ -193,18 +200,97 @@ class PluginInstallerInstallationTests < MiniTest::Test
 end
 
 #-----------------------------------------------------------------------#
-# Upgrading
+# Updating
 #-----------------------------------------------------------------------#
+class PluginInstallerUpdaterTests < MiniTest::Test
+  include InstallerTestHelpers
 
-# it should be able to update a plugin to a specified later version
-# it should be able to update a plugin to the latest version
-# trying to upgrade a plugin that is already installed at the requested version is a graceful error 2
-# trying to install a plugin that is already installed at the requested version is a graceful error 2
-# trying to install a plugin that is already installed at different version is a graceful error 2 with error mentioning upgrade command
+  def test_update_using_path_not_allowed
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
-# Stretch:
-#   update all
-#   downgrade
+    assert_raises(Inspec::Plugin::V2::UpdateError) do
+      @installer.update('inspec-test-fixture', path: @plugin_fixture_src_path)
+    end
+  end
+
+  def test_update_existing_plugin_at_same_version_not_allowed
+    copy_in_gem_installation
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+
+    assert_raises(Inspec::Plugin::V2::UpdateError) do
+      @installer.update('inspec-test-fixture', version: '0.1.0')
+    end
+  end
+
+  def test_install_plugin_at_existing_version_not_allowed
+    copy_in_gem_installation
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+
+    assert_raises(Inspec::Plugin::V2::InstallError) do
+      @installer.install('inspec-test-fixture', version: '0.1.0')
+    end
+  end
+
+  def test_install_existing_plugin_not_allowed
+    copy_in_gem_installation
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+
+    ex = assert_raises(Inspec::Plugin::V2::InstallError) do
+      @installer.install('inspec-test-fixture')
+    end
+    assert_includes ex.message, "Use 'inspec plugin update'"
+  end
+
+  def test_update_to_latest_version
+    copy_in_gem_installation
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+    @installer.__reset_loader
+    @installer.update('inspec-test-fixture')
+
+    # Verify presence of gemspecs
+    spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.2.0.gemspec')
+    assert File.exists?(spec_path), 'After update, the 0.2.0 gemspec should be installed to the gem path'
+    spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.1.0.gemspec')
+    assert File.exists?(spec_path), 'After update, the 0.1.0 gemspec should remain'
+
+    # Plugins file entry should not be version pinned
+    plugin_json_path = File.join(ENV['INSPEC_CONFIG_DIR'], 'plugins.json')
+    plugin_json_data = JSON.parse(File.read(plugin_json_path))
+    entry = plugin_json_data['plugins'].detect { |e| e["name"] == 'inspec-test-fixture'}
+    refute_includes entry.keys, 'version', 'plugins.json should NOT include version pinning key'
+  end
+
+  def test_update_to_specified_later_version
+    copy_in_gem_installation
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+    @installer.__reset_loader
+
+    # Update to specific (but later) version
+    @installer.update('inspec-test-fixture', version: '0.2.0')
+
+    # Verify presence of gemspecs
+    spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.2.0.gemspec')
+    assert File.exists?(spec_path), 'After update, the 0.2.0 gemspec should be installed to the gem path'
+    spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.1.0.gemspec')
+    assert File.exists?(spec_path), 'After update, the 0.1.0 gemspec should remain'
+
+    # Plugins file entry should be version pinned
+    plugin_json_path = File.join(ENV['INSPEC_CONFIG_DIR'], 'plugins.json')
+    plugin_json_data = JSON.parse(File.read(plugin_json_path))
+    entry = plugin_json_data['plugins'].detect { |e| e["name"] == 'inspec-test-fixture'}
+    assert_includes entry.keys, 'version', 'plugins.json should include version pinning key'
+    assert_equal '= 0.2.0', entry['version'], 'plugins.json should include version pinning value'
+  end
+
+  # TODO: Prevent updating a gem if it will lead to unsolveable dependencies
+  # TODO: allow updating a gem that will lead to unsolveable dependencies if :force is provided
+  # TODO: Prevent downgrading a gem if it will lead to unsolveable dependencies
+  # TODO: allow downgrading a gem that will lead to unsolveable dependencies if :force is provided
+  # TODO: update all
+  # TODO: downgrade a plugin
+  # TODO: Trying to do a gemfile install with an update is an error if the file version matches the installed version
+
+end
 
 #-----------------------------------------------------------------------#
 # Removing
@@ -213,6 +299,8 @@ end
 # Should be able to uninstall a gem plugin
 # Should be able to uninstall a path-based plugin
 # Uninstalling a nonexistant plugin is a code 2 error
+# TODO: Prevent removing a gem if it will lead to unsolveable dependencies
+# TODO: Allow removing a gem that will lead to unsolveable dependencies if :force is provided
 
 #-----------------------------------------------------------------------#
 # Searching

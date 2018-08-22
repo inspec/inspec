@@ -11,6 +11,9 @@ module Inspec
         attr_accessor :version
       end
       class InstallError < Inspec::Plugin::V2::GemActionError; end
+      class UpdateError < Inspec::Plugin::V2::GemActionError
+        attr_accessor :from_version, :to_version
+      end
     end
   end
 end

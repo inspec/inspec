@@ -7,12 +7,6 @@ $LOAD_PATH.unshift('.') unless $LOAD_PATH.include?('.')
 folder = File.expand_path(File.join('..', '..', '..', '..'), __dir__)
 $LOAD_PATH.unshift(folder) unless $LOAD_PATH.include?('folder')
 
-# Add the current directory of the process to the load path
-$LOAD_PATH.unshift('.') unless $LOAD_PATH.include?('.')
-# Add the InSpec source root directory to the load path
-folder = File.expand_path(File.join('..', '..', '..', '..'), __dir__)
-$LOAD_PATH.unshift(folder) unless $LOAD_PATH.include?('folder')
-
 module Inspec::Plugin::V2
   class Loader
     attr_reader :registry, :options
@@ -68,21 +62,6 @@ module Inspec::Plugin::V2
       end
     end
 
-    def activate(plugin_type, hook_name)
-      activator = registry.find_activators(plugin_type: plugin_type, activation_name: hook_name).first
-      # We want to capture literally any possible exception here, since we are storing them.
-      # rubocop: disable Lint/RescueException
-      begin
-        impl_class = activator.activation_proc.call
-        activator.activated = true
-        activator.implementation_class = impl_class
-      rescue Exception => ex
-        activator.exception = ex
-        Inspec::Log.error "Could not activate #{activator.plugin_type} hook named '#{activator.activator_name}' for plugin #{plugin_name}"
-      end
-      # rubocop: enable Lint/RescueException
-    end
-
     def activate_mentioned_cli_plugins(cli_args = ARGV)
       # Get a list of CLI plugin activation hooks
       registry.find_activators(plugin_type: :cli_command).each do |act|
@@ -94,23 +73,6 @@ module Inspec::Plugin::V2
           act.implementation_class.register_with_thor
         end
         # rubocop: enable Lint/RescueException
-      end
-    end
-
-    # TODO: this should be in either lib/inspec/cli.rb or Registry
-    def exit_on_load_error
-      if registry.any_load_failures?
-        Inspec::Log.error 'Errors were encountered while loading plugins...'
-        registry.plugin_statuses.select(&:load_exception).each do |plugin_status|
-          Inspec::Log.error 'Plugin name: ' + plugin_status.name.to_s
-          Inspec::Log.error 'Error: ' + plugin_status.load_exception.message
-          if ARGV.include?('--debug')
-            Inspec::Log.error 'Exception: ' + plugin_status.load_exception.class.name
-            Inspec::Log.error 'Trace: ' + plugin_status.load_exception.backtrace.join("\n")
-          end
-        end
-        Inspec::Log.error('Run again with --debug for a stacktrace.') unless ARGV.include?('--debug')
-        exit 2
       end
     end
 
