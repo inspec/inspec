@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.2.65 -->
+## [v2.2.65](https://github.com/inspec/inspec/tree/v2.2.65) (2018-08-22)
+
+#### Merged Pull Requests
+- Add cloudlinux under redhat family [#2935](https://github.com/inspec/inspec/pull/2935) ([tarcinil](https://github.com/tarcinil))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.2.64 -->
+### Changes since 2.2.64 release
+
+#### Merged Pull Requests
+- Add cloudlinux under redhat family [#2935](https://github.com/inspec/inspec/pull/2935) ([tarcinil](https://github.com/tarcinil)) <!-- 2.2.65 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
