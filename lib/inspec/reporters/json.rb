@@ -22,10 +22,12 @@ module Inspec::Reporters
     private
 
     def platform
-      {
+      platform = {
         name: run_data[:platform][:name],
         release: run_data[:platform][:release],
       }
+      platform[:uuid] = @config['uuid'] if @config['uuid']
+      platform
     end
 
     def profile_results(control)

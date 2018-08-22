@@ -66,6 +66,7 @@ module Inspec::Reporters
       output("Profile: #{format_profile_name(profile)}")
       output("Version: #{profile[:version] || '(not specified)'}")
       output("Target:  #{run_data[:platform][:target]}") unless run_data[:platform][:target].nil?
+      output("UUID:    #{@config['uuid']}") unless @config['uuid'].nil?
       output('')
     end
 
