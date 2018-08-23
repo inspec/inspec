@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.66 -->
-## [v2.2.66](https://github.com/inspec/inspec/tree/v2.2.66) (2018-08-23)
+<!-- latest_release 2.2.67 -->
+## [v2.2.67](https://github.com/inspec/inspec/tree/v2.2.67) (2018-08-23)
 
-#### Merged Pull Requests
-- Suppress logs for json-automate reporter [#3324](https://github.com/inspec/inspec/pull/3324) ([jquick](https://github.com/jquick))
+#### Bug Fixes
+- Fix skip hash being passed instead of boolean value [#3323](https://github.com/inspec/inspec/pull/3323) ([frezbo](https://github.com/frezbo))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.64 -->
 ### Changes since 2.2.64 release
+
+#### Bug Fixes
+- Fix skip hash being passed instead of boolean value [#3323](https://github.com/inspec/inspec/pull/3323) ([frezbo](https://github.com/frezbo)) <!-- 2.2.67 -->
 
 #### Merged Pull Requests
 - Suppress logs for json-automate reporter [#3324](https://github.com/inspec/inspec/pull/3324) ([jquick](https://github.com/jquick)) <!-- 2.2.66 -->
