@@ -85,7 +85,8 @@ module Compliance
           # If version was specified, it will be the first and only result.
           # Note we are calling the sha256 as a string, not a symbol since
           # it was returned as json from the Compliance API.
-          profile_checksum = profile_result.sort { |x| Gem::Version(x['version']) }[0]['sha256']
+          profile_info = profile_result.sort_by { |x| Gem::Version.new(x['version']) }[0]
+          profile_checksum = profile_info.key?('sha256') ? profile_info['sha256'] : ''
         end
       end
       # We need to pass the token to the fetcher
