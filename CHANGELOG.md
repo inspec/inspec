@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.69 -->
-## [v2.2.69](https://github.com/inspec/inspec/tree/v2.2.69) (2018-08-23)
+<!-- latest_release 2.2.70 -->
+## [v2.2.70](https://github.com/inspec/inspec/tree/v2.2.70) (2018-08-23)
 
-#### Enhancements
-- Infer `--sudo` when `--sudo-password` is used [#3313](https://github.com/inspec/inspec/pull/3313) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Merged Pull Requests
+- Rebuild InSpec omni bundles [#3327](https://github.com/inspec/inspec/pull/3327) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.64 -->
@@ -17,6 +17,7 @@
 - Fix skip hash being passed instead of boolean value [#3323](https://github.com/inspec/inspec/pull/3323) ([frezbo](https://github.com/frezbo)) <!-- 2.2.67 -->
 
 #### Merged Pull Requests
+- Rebuild InSpec omni bundles [#3327](https://github.com/inspec/inspec/pull/3327) ([jquick](https://github.com/jquick)) <!-- 2.2.70 -->
 - Suppress logs for json-automate reporter [#3324](https://github.com/inspec/inspec/pull/3324) ([jquick](https://github.com/jquick)) <!-- 2.2.66 -->
 - Add cloudlinux under redhat family [#2935](https://github.com/inspec/inspec/pull/2935) ([tarcinil](https://github.com/tarcinil)) <!-- 2.2.65 -->
 <!-- release_rollup -->
