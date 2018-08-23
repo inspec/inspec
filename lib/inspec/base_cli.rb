@@ -240,7 +240,7 @@ module Inspec
 
     def suppress_log_output?(opts)
       return false if opts['reporter'].nil?
-      match = %w{json json-min json-rspec junit html yaml documentation progress} & opts['reporter'].keys
+      match = %w{json json-min json-rspec json-automate junit html yaml documentation progress} & opts['reporter'].keys
       unless match.empty?
         match.each do |m|
           # check to see if we are outputting to stdout
