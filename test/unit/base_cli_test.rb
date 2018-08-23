@@ -176,6 +176,11 @@ EOF
       cli.send(:suppress_log_output?, opts).must_equal true
     end
 
+    it 'suppresses json-automate' do
+      opts = { 'reporter' => { 'json-automate' => { 'stdout' => true }}}
+      cli.send(:suppress_log_output?, opts).must_equal true
+    end
+
     it 'suppresses junit' do
       opts = { 'reporter' => { 'junit' => { 'stdout' => true }}}
       cli.send(:suppress_log_output?, opts).must_equal true
