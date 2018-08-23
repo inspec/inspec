@@ -228,7 +228,7 @@ module Inspec
       sc = checks(src)
       dst.instance_variable_set(:@__checks, sc) unless sc.empty?
       sr = skip_status(src)
-      set_skip_rule(dst, sr) unless sr.nil?
+      set_skip_rule(dst, sr[:result] || sr) unless sr.nil?
 
       # Save merge history
       dst.instance_variable_set(:@__merge_count, merge_count(dst) + 1)
