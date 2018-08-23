@@ -1,7 +1,7 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.68 -->
-## [v2.2.68](https://github.com/inspec/inspec/tree/v2.2.68) (2018-08-23)
+<!-- latest_release 2.2.69 -->
+## [v2.2.69](https://github.com/inspec/inspec/tree/v2.2.69) (2018-08-23)
 
 #### Enhancements
 - Infer `--sudo` when `--sudo-password` is used [#3313](https://github.com/inspec/inspec/pull/3313) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
