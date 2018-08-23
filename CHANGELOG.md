@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.65 -->
-## [v2.2.65](https://github.com/inspec/inspec/tree/v2.2.65) (2018-08-22)
+<!-- latest_release 2.2.66 -->
+## [v2.2.66](https://github.com/inspec/inspec/tree/v2.2.66) (2018-08-23)
 
 #### Merged Pull Requests
-- Add cloudlinux under redhat family [#2935](https://github.com/inspec/inspec/pull/2935) ([tarcinil](https://github.com/tarcinil))
+- Suppress logs for json-automate reporter [#3324](https://github.com/inspec/inspec/pull/3324) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.64 -->
 ### Changes since 2.2.64 release
 
 #### Merged Pull Requests
+- Suppress logs for json-automate reporter [#3324](https://github.com/inspec/inspec/pull/3324) ([jquick](https://github.com/jquick)) <!-- 2.2.66 -->
 - Add cloudlinux under redhat family [#2935](https://github.com/inspec/inspec/pull/2935) ([tarcinil](https://github.com/tarcinil)) <!-- 2.2.65 -->
 <!-- release_rollup -->
 
