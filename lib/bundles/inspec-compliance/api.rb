@@ -75,9 +75,9 @@ module Compliance
           }
         end
         # filter by name and version if they were specified in profile_filter
-        mapped_profiles.select! { |p|
+        mapped_profiles.select! do |p|
           (!ver || p['version'] == ver) && (!id || p['name'] == id)
-        }
+        end
         return msg, mapped_profiles
       when '401'
         msg = '401 Unauthorized. Please check your token.'
