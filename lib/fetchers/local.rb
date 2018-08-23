@@ -51,6 +51,7 @@ module Fetchers
       @target = target
       @do_vendor = opts[:do_vendor]
       @backend = opts[:backend]
+      @archive_shasum = nil
     end
 
     def fetch(path)
@@ -94,12 +95,17 @@ module Fetchers
     end
 
     def sha256
-      return nil if File.directory?(@target)
-      @archive_shasum ||= perform_shasum(@target)
+      if !@archive_shasum.nil?
+        @archive_shasum
+      elsif File.directory?(@target)
+        nil
+      else
+        perform_shasum(@target)
+      end
     end
 
     def perform_shasum(target)
-      OpenSSL::Digest::SHA256.digest(File.read(target)).unpack('H*')[0]
+      @archive_shasum ||= OpenSSL::Digest::SHA256.digest(File.read(target)).unpack('H*')[0]
     end
 
     def resolved_source
