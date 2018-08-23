@@ -277,6 +277,12 @@ module Inspec
         raise ArgumentError, "Please provide a value for --#{v}. For example: --#{v}=hello."
       end
 
+      # Infer `--sudo` if using `--sudo-password` without `--sudo`
+      if o[:sudo_password] && !o[:sudo]
+        o[:sudo] = true
+        warn 'WARN: `--sudo-password` used without `--sudo`. Adding `--sudo`.'
+      end
+
       # check for compliance settings
       Compliance::API.login(o['compliance']) if o['compliance']
 
