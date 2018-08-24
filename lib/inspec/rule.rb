@@ -227,8 +227,9 @@ module Inspec
       # all checks that were defined in the destination
       sc = checks(src)
       dst.instance_variable_set(:@__checks, sc) unless sc.empty?
-      sr = skip_status(src)[:result]
-      msg = skip_status(src)[:message]
+      skip_check = skip_status(src)
+      sr = skip_check[:result]
+      msg = skip_check[:message]
       set_skip_rule(dst, sr, msg) unless sr.nil?
 
       # Save merge history
