@@ -1,35 +1,32 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.70 -->
-## [v2.2.70](https://github.com/inspec/inspec/tree/v2.2.70) (2018-08-23)
-
-#### Merged Pull Requests
-- Rebuild InSpec omni bundles [#3327](https://github.com/inspec/inspec/pull/3327) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.2.64 -->
-### Changes since 2.2.64 release
-
-#### Enhancements
-- Infer `--sudo` when `--sudo-password` is used [#3313](https://github.com/inspec/inspec/pull/3313) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.68 -->
-
-#### Bug Fixes
-- Fix skip hash being passed instead of boolean value [#3323](https://github.com/inspec/inspec/pull/3323) ([frezbo](https://github.com/frezbo)) <!-- 2.2.67 -->
-
-#### Merged Pull Requests
-- Rebuild InSpec omni bundles [#3327](https://github.com/inspec/inspec/pull/3327) ([jquick](https://github.com/jquick)) <!-- 2.2.70 -->
-- Suppress logs for json-automate reporter [#3324](https://github.com/inspec/inspec/pull/3324) ([jquick](https://github.com/jquick)) <!-- 2.2.66 -->
-- Add cloudlinux under redhat family [#2935](https://github.com/inspec/inspec/pull/2935) ([tarcinil](https://github.com/tarcinil)) <!-- 2.2.65 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.2.70](https://github.com/inspec/inspec/tree/v2.2.70) (2018-08-24)
+
+#### Enhancements
+- Infer `--sudo` when `--sudo-password` is used [#3313](https://github.com/inspec/inspec/pull/3313) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Bug Fixes
+- Fix skip hash being passed instead of boolean value [#3323](https://github.com/inspec/inspec/pull/3323) ([frezbo](https://github.com/frezbo))
+
+#### Merged Pull Requests
+- Add cloudlinux under redhat family [#2935](https://github.com/inspec/inspec/pull/2935) ([tarcinil](https://github.com/tarcinil))
+- Suppress logs for json-automate reporter [#3324](https://github.com/inspec/inspec/pull/3324) ([jquick](https://github.com/jquick))
+- Rebuild InSpec omni bundles [#3327](https://github.com/inspec/inspec/pull/3327) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v2.2.64](https://github.com/inspec/inspec/tree/v2.2.64) (2018-08-17)
 
 #### Merged Pull Requests
 - Update `only_if` to allow user specified messages. [#3267](https://github.com/inspec/inspec/pull/3267) ([miah](https://github.com/miah))
 - Allow the jsonAutomate report to be executed from cli [#3285](https://github.com/inspec/inspec/pull/3285) ([jquick](https://github.com/jquick))
 - Dummy PR to bump expeditor version. [#3298](https://github.com/inspec/inspec/pull/3298) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.2.61](https://github.com/inspec/inspec/tree/v2.2.61) (2018-08-09)
 
