@@ -113,7 +113,7 @@ module Compliance
     # verifies that a profile exists
     def self.exist?(config, profile)
       _msg, profiles = Compliance::API.profiles(config, profile)
-      profiles.empty? ? false : true
+      !profiles.empty?
     end
 
     def self.upload(config, owner, profile_name, archive_path)
