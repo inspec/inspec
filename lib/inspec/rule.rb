@@ -227,9 +227,9 @@ module Inspec
       # all checks that were defined in the destination
       sc = checks(src)
       dst.instance_variable_set(:@__checks, sc) unless sc.empty?
-      # we need only the value of result not the Hash containing value and message
       sr = skip_status(src)[:result]
-      set_skip_rule(dst, sr) unless sr.nil?
+      msg = skip_status(src)[:message]
+      set_skip_rule(dst, sr, msg) unless sr.nil?
 
       # Save merge history
       dst.instance_variable_set(:@__merge_count, merge_count(dst) + 1)
