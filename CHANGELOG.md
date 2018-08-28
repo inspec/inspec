@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.71 -->
-## [v2.2.71](https://github.com/inspec/inspec/tree/v2.2.71) (2018-08-28)
+<!-- latest_release 2.2.72 -->
+## [v2.2.72](https://github.com/inspec/inspec/tree/v2.2.72) (2018-08-28)
 
 #### Merged Pull Requests
-- Cached profiles with Compliance Fetcher [#3221](https://github.com/inspec/inspec/pull/3221) ([itmustbejj](https://github.com/itmustbejj))
+- bump inspec/train version [#3331](https://github.com/inspec/inspec/pull/3331) ([tomqwu](https://github.com/tomqwu))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.70 -->
 ### Changes since 2.2.70 release
 
 #### Merged Pull Requests
+- bump inspec/train version [#3331](https://github.com/inspec/inspec/pull/3331) ([tomqwu](https://github.com/tomqwu)) <!-- 2.2.72 -->
 - Cached profiles with Compliance Fetcher [#3221](https://github.com/inspec/inspec/pull/3221) ([itmustbejj](https://github.com/itmustbejj)) <!-- 2.2.71 -->
 <!-- release_rollup -->
 
