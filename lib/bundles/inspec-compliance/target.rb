@@ -13,50 +13,81 @@ module Compliance
   class Fetcher < Fetchers::Url
     name 'compliance'
     priority 500
-    def self.resolve(target) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
-      uri = if target.is_a?(String) && URI(target).scheme == 'compliance'
-              URI(target)
-            elsif target.respond_to?(:key?) && target.key?(:compliance)
-              URI("compliance://#{target[:compliance]}")
-            end
+    attr_reader :upstream_sha256
 
+    def initialize(target, opts)
+      super(target, opts)
+      if target.is_a?(Hash) && target.key?(:url)
+        @target = target[:url]
+        @upstream_sha256 = target[:sha256]
+      elsif target.is_a?(String)
+        @target = target
+        @upstream_sha256 = ''
+      end
+    end
+
+    def sha256
+      upstream_sha256.empty? ? super : upstream_sha256
+    end
+
+    def self.check_compliance_token(config)
+      if config['token'].nil? && config['refresh_token'].nil?
+        if config['server_type'] == 'automate'
+          server = 'automate'
+          msg = 'inspec compliance login https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --token USERTOKEN'
+        elsif config['server_type'] == 'automate2'
+          server = 'automate2'
+          msg = 'inspec compliance login https://your_automate2_server --user USER --token APITOKEN'
+        else
+          server = 'compliance'
+          msg = "inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
+        end
+        raise Inspec::FetcherFailure, <<~EOF
+
+          Cannot fetch #{uri} because your #{server} token has not been
+          configured.
+
+          Please login using
+
+              #{msg}
+        EOF
+      end
+    end
+
+    def self.get_target_uri(target)
+      if target.is_a?(String) && URI(target).scheme == 'compliance'
+        URI(target)
+      elsif target.respond_to?(:key?) && target.key?(:compliance)
+        URI("compliance://#{target[:compliance]}")
+      end
+    end
+
+    def self.resolve(target)
+      uri = get_target_uri(target)
       return nil if uri.nil?
 
+      config = Compliance::Configuration.new
+      profile = Compliance::API.sanitize_profile_name(uri)
+      profile_fetch_url = Compliance::API.target_url(config, profile)
       # we have detailed information available in our lockfile, no need to ask the server
-      if target.respond_to?(:key?) && target.key?(:url)
-        profile_fetch_url = target[:url]
-        config = {}
+      if target.respond_to?(:key?) && target.key?(:sha256)
+        profile_checksum = target[:sha256]
       else
-        # check if we have a compliance token
-        config = Compliance::Configuration.new
-        if config['token'].nil? && config['refresh_token'].nil?
-          if config['server_type'] == 'automate'
-            server = 'automate'
-            msg = 'inspec compliance login https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --token USERTOKEN'
-          elsif config['server_type'] == 'automate2'
-            server = 'automate2'
-            msg = 'inspec compliance login https://your_automate2_server --user USER --token APITOKEN'
-          else
-            server = 'compliance'
-            msg = "inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
-          end
-          raise Inspec::FetcherFailure, <<~EOF
-
-            Cannot fetch #{uri} because your #{server} token has not been
-            configured.
-
-            Please login using
-
-                #{msg}
-          EOF
-        end
-
+        check_compliance_token(config)
         # verifies that the target e.g base/ssh exists
-        profile = Compliance::API.sanitize_profile_name(uri)
-        if !Compliance::API.exist?(config, profile)
+        # Call profiles directly instead of exist? to capture the results
+        # so we can access the upstream sha256 from the results.
+        _msg, profile_result = Compliance::API.profiles(config, profile)
+        if profile_result.empty?
           raise Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
+        else
+          # Guarantee sorting by verison and grab the latest.
+          # If version was specified, it will be the first and only result.
+          # Note we are calling the sha256 as a string, not a symbol since
+          # it was returned as json from the Compliance API.
+          profile_info = profile_result.sort_by { |x| Gem::Version.new(x['version']) }[0]
+          profile_checksum = profile_info.key?('sha256') ? profile_info['sha256'] : ''
         end
-        profile_fetch_url = Compliance::API.target_url(config, profile)
       end
       # We need to pass the token to the fetcher
       config['token'] = Compliance::API.get_token(config)
@@ -65,7 +96,7 @@ module Compliance
       profile_stub = profile || target[:compliance]
       config['profile'] = Compliance::API.profile_split(profile_stub)
 
-      new(profile_fetch_url, config)
+      new({ url: profile_fetch_url, sha256: profile_checksum }, config)
     rescue URI::Error => _e
       nil
     end
