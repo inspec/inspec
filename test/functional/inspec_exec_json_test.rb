@@ -59,7 +59,7 @@ describe 'inspec exec with json formatter' do
         "summary" => "Demonstrates the use of InSpec Compliance Profile",
         "version" => "1.0.0",
         "sha256" => "57709d3a3d5cd06f4179be7e6fbe254c09e3af25ce274e474d52623e34487cc4",
-        "supports" => [{"os-family" => "unix"}],
+        "supports" => [{"platform-family" => "unix"}],
         "attributes" => []
       })
 
