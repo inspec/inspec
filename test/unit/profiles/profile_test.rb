@@ -99,6 +99,17 @@ describe Inspec::Profile do
     end
   end
 
+  describe 'code info with supports override' do
+    let(:profile_id) { 'skippy-profile-os' }
+
+    it 'overrides os-name and os-family' do
+      path = MockLoader.profile_zip(profile_id)
+      info = MockLoader.load_profile(path).info
+      info[:supports][0][:"platform-family"].must_equal "definitely_not_supported"
+      info[:supports][1][:"platform-name"].must_equal "definitely_also_not_supported"
+    end
+  end
+
   describe 'when checking' do
     describe 'an empty profile' do
       let(:profile_id) { 'empty-metadata' }
