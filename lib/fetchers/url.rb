@@ -21,17 +21,19 @@ module Fetchers
 
     def self.resolve(target, opts = {})
       if target.is_a?(Hash) && target.key?(:url)
-        resolve_from_string(target[:url], opts)
+        resolve_from_string(target[:url], opts, target[:username], target[:password])
       elsif target.is_a?(String)
         resolve_from_string(target, opts)
       end
     end
 
-    def self.resolve_from_string(target, opts)
+    def self.resolve_from_string(target, opts, username = nil, password = nil)
       uri = URI.parse(target)
       return nil if uri.nil? or uri.scheme.nil?
       return nil unless %{ http https }.include? uri.scheme
       target = transform(target)
+      opts[:username] = username if username
+      opts[:password] = password if password
       new(target, opts)
     rescue URI::Error
       nil
@@ -222,6 +224,8 @@ module Fetchers
       elsif @token
         opts['Authorization'] = "Bearer #{@token}"
       end
+
+      opts[:http_basic_authentication] = [@config[:username], @config[:password]] if @config[:username]
 
       # Do not send any headers that have nil values.
       # Net::HTTP does not gracefully handle this situation.
