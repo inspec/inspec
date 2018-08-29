@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.72 -->
-## [v2.2.72](https://github.com/inspec/inspec/tree/v2.2.72) (2018-08-28)
+<!-- latest_release 2.2.73 -->
+## [v2.2.73](https://github.com/inspec/inspec/tree/v2.2.73) (2018-08-29)
 
-#### Merged Pull Requests
-- bump inspec/train version [#3331](https://github.com/inspec/inspec/pull/3331) ([tomqwu](https://github.com/tomqwu))
+#### Bug Fixes
+- fix skip message not being passed for merge [#3329](https://github.com/inspec/inspec/pull/3329) ([frezbo](https://github.com/frezbo))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.70 -->
 ### Changes since 2.2.70 release
+
+#### Bug Fixes
+- fix skip message not being passed for merge [#3329](https://github.com/inspec/inspec/pull/3329) ([frezbo](https://github.com/frezbo)) <!-- 2.2.73 -->
 
 #### Merged Pull Requests
 - bump inspec/train version [#3331](https://github.com/inspec/inspec/pull/3331) ([tomqwu](https://github.com/tomqwu)) <!-- 2.2.72 -->
