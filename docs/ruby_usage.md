@@ -1,3 +1,90 @@
+# InSpec style guide
+
+This is the set of recommended InSpec styles you should use on your daily journey when writing controls.
+
+## Control files
+
+1. All controls should be located in the `controls` directory and end in `.rb`.
+
+Reason: Most syntax highlighters will render InSpec files correctly across a wide list of tools.
+
+Avoid: `controls/ssh_config`
+Use: `controls/ssh_config.rb`
+
+Avoid: `controls/ssh/config.rb`
+Use: `controls/ssh_config.rb`
+
+2. Avoid using `controls` or `control` in the name of your controls files.
+
+Reason: Using `controls` in the filename again duplicates it and creates unnecessary clutter when reading it. Keep the names short and concise.
+
+Avoid: `controls/ssh_controls.rb`
+Use: `controls/ssh.rb`
+
+
+## Controls
+
+3. Do not wrap controls in conditional statements.
+
+Reason: This will create dynamic profiles whose controls depend on the execution. The problem here is that we cannot render the profile or provide its information before scanning a system. We want to be able to inform users of the contents of their profiles before they run them. It is valid to skip controls that are not necessary for a system, as long as you do it via `only_if` conditions. Ruby's internal conditionals will hide parts of the profile to static analysis and should thus be avoided.
+
+Avoid:
+```ruby
+if package('..').installed?
+  control "package-test1" do
+    ..
+  end
+end
+```
+
+Use:
+```ruby
+control "package-test1" do
+  only_if { package('..').installed? }
+end
+```
+
+Avoid:
+```ruby
+case inspec.platform.name
+when /centos/
+  include_controls 'centos-profile'
+...
+```
+Use:
+- Set the `supports` attribute in `inspec.yml` files of the profile you want to include:
+```ruby
+supports:
+- platform-name: centos
+```
+Now whenever you run the base profile you can just `include_controls 'centos-profile'`.
+It will only run the included profiles is the platform matches the supported platform.
+
+
+4. Do not include dynamic elements in the control IDs.
+
+Reason: Control IDs are used to map test results to the tests and profiles. Dynamic control IDs make it impossible to map results back, since the identifier which connects tests and results may change in the process.
+
+Avoid:
+```ruby
+control "test-file-#{name}" do
+  ..
+end
+```
+
+Use:
+```ruby
+control "test-all-files" do
+  ..
+end
+```
+
+Sometimes you may create controls from a static list of elements. If this list stays the same no matter what system is scanned, it may be ok to do so and use it as a generator for static controls.
+
+
+
+vvvv FIND A HOME? vvvv
+
 # Using Ruby in InSpec
 
 The InSpec DSL is a Ruby based DSL for writing audit controls, which
