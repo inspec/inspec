@@ -4,7 +4,7 @@ This is the set of recommended InSpec styles you should use on your daily journe
 
 ## Control files
 
-1. All controls should be located in the "controls" directory and end in ".rb"
+### 1. All controls should be located in the "controls" directory and end in ".rb"
 
 Reason: Most syntax highlighters will render InSpec files correctly across a wide list of tools.
 
@@ -14,7 +14,7 @@ Use: `controls/ssh_config.rb`
 Avoid: `controls/ssh/config.rb`
 Use: `controls/ssh_config.rb`
 
-2. Avoid using "controls" or "control" in the name of your control files
+### 2. Avoid using "controls" or "control" in the name of your control files
 
 Reason: Using `controls` in the filename again duplicates it and creates unnecessary clutter when reading it. Keep the names short and concise.
 
@@ -24,7 +24,7 @@ Use: `controls/ssh.rb`
 
 ## Controls
 
-3. Do not wrap controls in conditional statements
+### 3. Do not wrap controls in conditional statements
 
 Reason: This will create dynamic profiles whose controls depend on the execution. The problem here is that we cannot render the profile or provide its information before scanning a system. We want to be able to inform users of the contents of their profiles before they run them. It is valid to skip controls that are not necessary for a system, as long as you do it via `only_if` conditions. Ruby's internal conditionals will hide parts of the profile to static analysis and should thus be avoided.
 
@@ -61,7 +61,7 @@ Now whenever you run the base profile you can just `include_controls 'centos-pro
 It will only run the included profiles is the platform matches the supported platform.
 
 
-4. Do not include dynamic elements in the control IDs
+### 4. Do not include dynamic elements in the control IDs
 
 Reason: Control IDs are used to map test results to the tests and profiles. Dynamic control IDs make it impossible to map results back, since the identifier which connects tests and results may change in the process.
 
@@ -82,7 +82,7 @@ end
 Sometimes you may create controls from a static list of elements. If this list stays the same no matter what system is scanned, it may be ok to do so and use it as a generator for static controls.
 
 
-5. Avoid Ruby system calls
+### 5. Avoid Ruby system calls
 
 Reason: System calls are often used to interact with the local OS or remote endpoints from a local installation. InSpec tests, however, are designed to be universally executable on all types of runtimes, including local and remote execution. We want to give users the ability to take an OS profile and execute it remotely or locally. We also try to avoid more complexity and programming elements in control files.
 
@@ -103,7 +103,7 @@ Similar to the command interactions these files will only be read locally with R
 In general, try to avoid IO calls from within InSpec controls.
 
 
-6. Avoid debugging methods (in production)
+### 6. Avoid debugging calls (in production)
 
 Reason: One of the best way to develop and explore tests is the interactive debugging shell `pry` (see the section on "Interactive Debugging with Pry" at the end of this page). However, after you finish your profile make sure you have no interactive statements included anymore. Sometimes interactive calls are hidden behind conditionals (`if` statements) that are harder to reach. These calls can easily cause trouble when an automated profiles runs into an interactive `pry` call that stops the execution and waits for user input.
 
