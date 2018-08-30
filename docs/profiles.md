@@ -71,6 +71,24 @@ depends:
 inspec_version: "~> 2.1"
 ```
 
+The `inspec.yml` also supports embedded ERB in the file. For example:
+
+```YAML
+name: dummy
+title: InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: Apache-2.0
+summary: An InSpec Compliance Profile
+version: 0.1.0
+depends:
+- name: inherit
+  url: "https://artifactory.com/artifactory/example-repo-local/inspec/0.4.1.tar.gz"
+  username: <%= ENV['USERNAME'] %>
+  password: <%= ENV['API_KEY'] %>
+```
+
 ## Verify Profiles
 
 Use the `inspec check` command to verify the implementation of a profile:
