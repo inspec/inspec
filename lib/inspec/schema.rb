@@ -102,7 +102,12 @@ module Inspec
       'type' => 'object',
       'additionalProperties' => false,
       'properties' => {
+        'platform-family' => { 'type' => 'string', 'optional' => true },
+        'platform-name' => { 'type' => 'string', 'optional' => true },
+        'platform' => { 'type' => 'string', 'optional' => true },
+        # os-* supports are being deprecated
         'os-family' => { 'type' => 'string', 'optional' => true },
+        'os-name' => { 'type' => 'string', 'optional' => true },
       },
     }.freeze
 

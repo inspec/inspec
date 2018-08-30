@@ -229,7 +229,7 @@ module Inspec
       info(load_params.dup)
     end
 
-    def info(res = params.dup)
+    def info(res = params.dup) # rubocop:disable Metrics/CyclomaticComplexity
       # add information about the controls
       res[:controls] = res[:controls].map do |id, rule|
         next if id.to_s.empty?
@@ -252,6 +252,15 @@ module Inspec
       res[:attributes] = res[:attributes].map(&:to_hash) unless res[:attributes].nil? || res[:attributes].empty?
       res[:sha256] = sha256
       res[:parent_profile] = parent_profile unless parent_profile.nil?
+
+      # convert legacy os-* supports to their platform counterpart
+      if res[:supports] && !res[:supports].empty?
+        res[:supports].each do |support|
+          support[:"platform-family"] = support.delete(:"os-family") if support.key?(:"os-family")
+          support[:"platform-name"] = support.delete(:"os-name") if support.key?(:"os-name")
+        end
+      end
+
       res
     end
 
