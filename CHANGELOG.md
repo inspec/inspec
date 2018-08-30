@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.77 -->
-## [v2.2.77](https://github.com/inspec/inspec/tree/v2.2.77) (2018-08-30)
+<!-- latest_release 2.2.78 -->
+## [v2.2.78](https://github.com/inspec/inspec/tree/v2.2.78) (2018-08-30)
 
-#### New Features
-- Add HTTP basic auth for URL based inspec deps [#3341](https://github.com/inspec/inspec/pull/3341) ([frezbo](https://github.com/frezbo))
+#### Merged Pull Requests
+- Update demo site nom packages [#3343](https://github.com/inspec/inspec/pull/3343) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.70 -->
@@ -18,6 +18,7 @@
 - fix skip message not being passed for merge [#3329](https://github.com/inspec/inspec/pull/3329) ([frezbo](https://github.com/frezbo)) <!-- 2.2.73 -->
 
 #### Merged Pull Requests
+- Update demo site nom packages [#3343](https://github.com/inspec/inspec/pull/3343) ([miah](https://github.com/miah)) <!-- 2.2.78 -->
 - Fix the brew command to install inspec [#3335](https://github.com/inspec/inspec/pull/3335) ([tas50](https://github.com/tas50)) <!-- 2.2.75 -->
 - Convert legacy supports to their platform counterparts [#3333](https://github.com/inspec/inspec/pull/3333) ([jquick](https://github.com/jquick)) <!-- 2.2.74 -->
 - bump inspec/train version [#3331](https://github.com/inspec/inspec/pull/3331) ([tomqwu](https://github.com/tomqwu)) <!-- 2.2.72 -->
