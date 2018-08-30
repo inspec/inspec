@@ -1,31 +1,29 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.78 -->
-## [v2.2.78](https://github.com/inspec/inspec/tree/v2.2.78) (2018-08-30)
-
-#### Merged Pull Requests
-- Update demo site nom packages [#3343](https://github.com/inspec/inspec/pull/3343) ([miah](https://github.com/miah))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.2.70 -->
-### Changes since 2.2.70 release
-
-#### New Features
-- Add HTTP basic auth for URL based inspec deps [#3341](https://github.com/inspec/inspec/pull/3341) ([frezbo](https://github.com/frezbo)) <!-- 2.2.77 -->
-- Support erb rendering [#3338](https://github.com/inspec/inspec/pull/3338) ([frezbo](https://github.com/frezbo)) <!-- 2.2.76 -->
-
-#### Bug Fixes
-- fix skip message not being passed for merge [#3329](https://github.com/inspec/inspec/pull/3329) ([frezbo](https://github.com/frezbo)) <!-- 2.2.73 -->
-
-#### Merged Pull Requests
-- Update demo site nom packages [#3343](https://github.com/inspec/inspec/pull/3343) ([miah](https://github.com/miah)) <!-- 2.2.78 -->
-- Fix the brew command to install inspec [#3335](https://github.com/inspec/inspec/pull/3335) ([tas50](https://github.com/tas50)) <!-- 2.2.75 -->
-- Convert legacy supports to their platform counterparts [#3333](https://github.com/inspec/inspec/pull/3333) ([jquick](https://github.com/jquick)) <!-- 2.2.74 -->
-- bump inspec/train version [#3331](https://github.com/inspec/inspec/pull/3331) ([tomqwu](https://github.com/tomqwu)) <!-- 2.2.72 -->
-- Cached profiles with Compliance Fetcher [#3221](https://github.com/inspec/inspec/pull/3221) ([itmustbejj](https://github.com/itmustbejj)) <!-- 2.2.71 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.2.78](https://github.com/inspec/inspec/tree/v2.2.78) (2018-08-30)
+
+#### New Features
+- Support erb rendering [#3338](https://github.com/inspec/inspec/pull/3338) ([frezbo](https://github.com/frezbo))
+- Add HTTP basic auth for URL based inspec deps [#3341](https://github.com/inspec/inspec/pull/3341) ([frezbo](https://github.com/frezbo))
+
+#### Bug Fixes
+- fix skip message not being passed for merge [#3329](https://github.com/inspec/inspec/pull/3329) ([frezbo](https://github.com/frezbo))
+
+#### Merged Pull Requests
+- Cached profiles with Compliance Fetcher [#3221](https://github.com/inspec/inspec/pull/3221) ([itmustbejj](https://github.com/itmustbejj))
+- bump inspec/train version [#3331](https://github.com/inspec/inspec/pull/3331) ([tomqwu](https://github.com/tomqwu))
+- Convert legacy supports to their platform counterparts [#3333](https://github.com/inspec/inspec/pull/3333) ([jquick](https://github.com/jquick))
+- Fix the brew command to install inspec [#3335](https://github.com/inspec/inspec/pull/3335) ([tas50](https://github.com/tas50))
+- Update demo site nom packages [#3343](https://github.com/inspec/inspec/pull/3343) ([miah](https://github.com/miah))
+<!-- latest_stable_release -->
+
 ## [v2.2.70](https://github.com/inspec/inspec/tree/v2.2.70) (2018-08-24)
 
 #### Enhancements
@@ -38,7 +36,6 @@
 - Add cloudlinux under redhat family [#2935](https://github.com/inspec/inspec/pull/2935) ([tarcinil](https://github.com/tarcinil))
 - Suppress logs for json-automate reporter [#3324](https://github.com/inspec/inspec/pull/3324) ([jquick](https://github.com/jquick))
 - Rebuild InSpec omni bundles [#3327](https://github.com/inspec/inspec/pull/3327) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.2.64](https://github.com/inspec/inspec/tree/v2.2.64) (2018-08-17)
 
