@@ -199,6 +199,16 @@ depends:
   url: https://github.com/myusername/myprofile-repo/archive/master.tar.gz
 ```
 
+`url` also supports basic authentication.
+
+```YAML
+depends:
+- name: my-profile
+  url: https://my.domain/path/to/profile.tgz
+  username: user
+  password: password
+```
+
 ### git
 
 A `git` setting specifies a profile that is located in a git repository, with optional settings for branch, tag, commit, and version. The source location is translated into a URL upon resolution. This type of dependency supports version constraints via semantic versioning as git tags.

@@ -187,6 +187,20 @@ describe Fetchers::Url do
   describe '#http_opts' do
     let(:subject) { Fetchers::Url.new('fake_url', config) }
 
+    describe 'when username and password is specified' do
+      let(:config) { { :username => 'dummy', :password => 'dummy' } }
+      it 'returns a hash containing http_basic_authentication setting' do
+        subject.send(:http_opts)[:http_basic_authentication].must_equal ["dummy", "dummy"]
+      end
+    end
+
+    describe 'when only password is specified' do
+      let(:config) { { :password => 'dummy'} }
+      it 'returns a hash containing http_basic_authentication setting as nil' do
+        subject.send(:http_opts)[:http_basic_authentication].must_equal nil
+      end
+    end
+
     describe 'when insecure is specified' do
       let(:config) { { 'insecure' => true } }
       it 'returns a hash containing an ssl_verify_mode setting' do
