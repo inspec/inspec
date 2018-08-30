@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.76 -->
-## [v2.2.76](https://github.com/inspec/inspec/tree/v2.2.76) (2018-08-30)
+<!-- latest_release 2.2.77 -->
+## [v2.2.77](https://github.com/inspec/inspec/tree/v2.2.77) (2018-08-30)
 
 #### New Features
-- Support erb rendering [#3338](https://github.com/inspec/inspec/pull/3338) ([frezbo](https://github.com/frezbo))
+- Add HTTP basic auth for URL based inspec deps [#3341](https://github.com/inspec/inspec/pull/3341) ([frezbo](https://github.com/frezbo))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.70 -->
 ### Changes since 2.2.70 release
 
 #### New Features
+- Add HTTP basic auth for URL based inspec deps [#3341](https://github.com/inspec/inspec/pull/3341) ([frezbo](https://github.com/frezbo)) <!-- 2.2.77 -->
 - Support erb rendering [#3338](https://github.com/inspec/inspec/pull/3338) ([frezbo](https://github.com/frezbo)) <!-- 2.2.76 -->
 
 #### Bug Fixes
