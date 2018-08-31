@@ -183,10 +183,10 @@ module Inspec
 
     def collect_tests(include_list = @controls)
       unless @tests_collected
+        return unless supports_platform?
         locked_dependencies.each(&:collect_tests)
 
         tests.each do |path, content|
-          next unless supports_platform?
           next if content.nil? || content.empty?
           abs_path = source_reader.target.abs_path(path)
           @runner_context.load_control_file(content, abs_path, nil)
