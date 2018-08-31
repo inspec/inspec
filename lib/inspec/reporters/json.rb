@@ -26,7 +26,7 @@ module Inspec::Reporters
         name: run_data[:platform][:name],
         release: run_data[:platform][:release],
       }
-      platform[:uuid] = @config['uuid'] if @config['uuid']
+      platform[:target_id] = @config['target_id'] if @config['target_id']
       platform
     end
 

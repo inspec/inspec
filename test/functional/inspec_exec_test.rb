@@ -46,13 +46,13 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     File.stat("#{outpath}/foo/bar/test.json").size.must_be :>, 0
   end
 
-  it 'can execute the profile with a uuid passthrough' do
+  it 'can execute the profile with a target_id passthrough' do
     outpath = Dir.tmpdir
-    out = inspec("exec #{example_profile} --no-create-lockfile --uuid 1d3e399f-4d71-4863-ac54-84d437fbc444")
+    out = inspec("exec #{example_profile} --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444")
     out.stderr.must_equal ''
     out.exit_status.must_equal 101
     stdout = out.stdout.force_encoding(Encoding::UTF_8)
-    stdout.must_include "UUID:    1d3e399f-4d71-4863-ac54-84d437fbc444"
+    stdout.must_include "ID:      1d3e399f-4d71-4863-ac54-84d437fbc444"
   end
 
   it 'executes a metadata-only profile' do

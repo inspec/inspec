@@ -123,10 +123,10 @@ EOF
       parsed.must_equal assert
     end
 
-    it 'parses cli report and attaches uuid' do
-      opts = { 'reporter' => ['cli'], 'uuid' => '1d3e399f-4d71-4863-ac54-84d437fbc444' }
+    it 'parses cli report and attaches target_id' do
+      opts = { 'reporter' => ['cli'], 'target_id' => '1d3e399f-4d71-4863-ac54-84d437fbc444' }
       parsed = Inspec::BaseCLI.parse_reporters(opts)
-      assert = {"reporter"=>{"cli"=>{"stdout"=>true, "uuid"=>"1d3e399f-4d71-4863-ac54-84d437fbc444"}}, "uuid"=>"1d3e399f-4d71-4863-ac54-84d437fbc444"}
+      assert = {"reporter"=>{"cli"=>{"stdout"=>true, "target_id"=>"1d3e399f-4d71-4863-ac54-84d437fbc444"}}, "target_id"=>"1d3e399f-4d71-4863-ac54-84d437fbc444"}
       parsed.must_equal assert
     end
 

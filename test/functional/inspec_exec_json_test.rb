@@ -28,12 +28,12 @@ describe 'inspec exec with json formatter' do
     JSON::Schema.validate(data, schema)
   end
 
-  it 'can execute a profile and validate the json schema with uuid' do
-    out = inspec('exec ' + example_profile + ' --reporter json --no-create-lockfile --uuid 1d3e399f-4d71-4863-ac54-84d437fbc444')
+  it 'can execute a profile and validate the json schema with target_id' do
+    out = inspec('exec ' + example_profile + ' --reporter json --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444')
     out.stderr.must_equal ''
     out.exit_status.must_equal 101
     data = JSON.parse(out.stdout)
-    data['platform']['uuid'].must_equal '1d3e399f-4d71-4863-ac54-84d437fbc444'
+    data['platform']['target_id'].must_equal '1d3e399f-4d71-4863-ac54-84d437fbc444'
     sout = inspec('schema exec-json')
     schema = JSON.parse(sout.stdout)
     JSON::Schema.validate(data, schema)
