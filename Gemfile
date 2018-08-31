@@ -2,6 +2,8 @@
 source 'https://rubygems.org'
 gemspec name: 'inspec'
 
+gem 'train', :git => 'https://github.com/inspec/train.git', :branch => 'jq/add_platforms_export'
+
 if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2')
   gem 'json', '~> 1.8'
   gem 'rack', '< 2.0'
