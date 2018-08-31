@@ -243,7 +243,7 @@ module Inspec
       info(load_params.dup)
     end
 
-    def info(res = params.dup)
+    def info(res = params.dup) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       # add information about the controls
       res[:controls] = res[:controls].map do |id, rule|
         next if id.to_s.empty?
