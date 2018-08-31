@@ -218,6 +218,44 @@ describe 'Inspec::Resources::Service' do
     _(resource.params.UnitFileState).must_equal 'static'
   end
 
+  # cloudlinux 7 with systemd
+  it 'verify cloudlinux 7 service parsing' do
+    resource = MockLoader.new(:cloudlinux).load_resource('service', 'sshd')
+    params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
+    _(resource.type).must_equal 'systemd'
+    _(resource.name).must_equal 'sshd.service'
+    _(resource.description).must_equal 'OpenSSH server daemon'
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+  end
+
+  it 'verify cloudlinux 7 service parsing with systemd_service and service_ctl override' do
+    resource = MockLoader.new(:cloudlinux).load_resource('systemd_service', 'sshd', '/path/to/systemctl')
+    params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'UnitFileState' => 'enabled', 'SubState' => 'running' })
+    _(resource.type).must_equal 'systemd'
+    _(resource.name).must_equal 'sshd.service'
+    _(resource.description).must_equal 'OpenSSH server daemon'
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+  end
+
+  it 'verify cloudlinux 7 service parsing with static loaded service' do
+    resource = MockLoader.new(:cloudlinux).load_resource('service', 'dbus')
+    params = Hashie::Mash.new({ 'Description' => 'D-Bus System Message Bus', 'Id' => 'dbus.service', 'LoadState' => 'loaded', 'Names' => 'messagebus.service dbus.service', 'SubState' => 'running', 'UnitFileState' => 'static' })
+    _(resource.type).must_equal 'systemd'
+    _(resource.name).must_equal 'dbus.service'
+    _(resource.description).must_equal 'D-Bus System Message Bus'
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+    _(resource.params.UnitFileState).must_equal 'static'
+  end
+
   # freebsd
   it 'verify freebsd10 service parsing' do
     resource = MockLoader.new(:freebsd10).load_resource('service', 'sendmail')

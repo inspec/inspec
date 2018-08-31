@@ -1,6 +1,5 @@
 # encoding: utf-8
 require 'inspec/cached_fetcher'
-require 'inspec/dependencies/dependency_set'
 require 'semverse'
 
 module Inspec

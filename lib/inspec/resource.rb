@@ -2,7 +2,7 @@
 # copyright: 2015, Vulcano Security GmbH
 # author: Dominik Richter
 # author: Christoph Hartmann
-require 'inspec/plugins'
+require 'inspec/plugin/v1'
 
 module Inspec
   class ProfileNotFound < StandardError; end
@@ -128,6 +128,7 @@ require 'resources/directory'
 require 'resources/docker'
 require 'resources/docker_container'
 require 'resources/docker_image'
+require 'resources/docker_plugin'
 require 'resources/docker_service'
 require 'resources/elasticsearch'
 require 'resources/etc_fstab'
@@ -143,6 +144,7 @@ require 'resources/grub_conf'
 require 'resources/host'
 require 'resources/http'
 require 'resources/iis_app'
+require 'resources/iis_app_pool'
 require 'resources/iis_site'
 require 'resources/inetd_conf'
 require 'resources/interface'

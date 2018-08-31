@@ -204,7 +204,8 @@ module Inspec
 
     def self.from_yaml(ref, content, profile_id, logger = nil)
       res = Metadata.new(ref, logger)
-      res.params = YAML.load(content)
+      require 'erb'
+      res.params = YAML.load(ERB.new(content).result)
       res.content = content
       finalize(res, profile_id, {}, logger)
     end

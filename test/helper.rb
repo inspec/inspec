@@ -18,6 +18,7 @@ require 'pathname'
 require 'tempfile'
 require 'tmpdir'
 require 'zip'
+require 'json'
 
 require 'inspec/base_cli'
 require 'inspec/version'
@@ -31,6 +32,7 @@ require 'inspec/profile'
 require 'inspec/runner'
 require 'inspec/runner_mock'
 require 'fetchers/mock'
+require 'inspec/dependencies/cache'
 
 require_relative '../lib/bundles/inspec-compliance'
 require_relative '../lib/bundles/inspec-habitat'
@@ -49,6 +51,7 @@ class MockLoader
     centos5:    { name: 'centos', family: 'redhat', release: '5.11', arch: 'x86_64' },
     centos6:    { name: 'centos', family: 'redhat', release: '6.6', arch: 'x86_64' },
     centos7:    { name: 'centos', family: 'redhat', release: '7.1.1503', arch: 'x86_64' },
+    cloudlinux: { name: 'cloudlinux', family: 'redhat', release: '7.4', arch: 'x86_64' },
     coreos:     { name: 'coreos', family: 'coreos', release: '1437.0.0', arch: 'x86_64' },
     debian6:    { name: 'debian', family: 'debian', release: '6', arch: 'x86_64' },
     debian7:    { name: 'debian', family: 'debian', release: '7', arch: 'x86_64' },
@@ -425,6 +428,8 @@ class MockLoader
       "83c36bfade9375ae1feb91023cd1f7409b786fd992ad4013bf0f2259d33d6406" => cmd.call('docker-images'),
       # docker services
       %{docker service ls --format '{"ID": {{json .ID}}, "Name": {{json .Name}}, "Mode": {{json .Mode}}, "Replicas": {{json .Replicas}}, "Image": {{json .Image}}, "Ports": {{json .Ports}}}'} => cmd.call('docker-service-ls'),
+      # docker plugins
+      %{docker plugin ls --format '{"id": {{json .ID}}, "name": "{{ with split .Name ":"}}{{index . 0}}{{end}}", "version": "{{ with split .Name ":"}}{{index . 1}}{{end}}", "enabled": {{json .Enabled}} }'} => cmd.call('docker-plugin-ls'),
       # modprobe for kernel_module
       "modprobe --showconfig" => cmd.call('modprobe-config'),
       # get-process cmdlet for processes resource
@@ -517,6 +522,9 @@ class MockLoader
       "curl -k -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call('elasticsearch-cluster-no-ssl'),
       "curl -H 'Content-Type: application/json'  -u es_admin:password http://localhost:9200/_nodes" => cmd.call('elasticsearch-cluster-auth'),
       "curl -H 'Content-Type: application/json' http://elasticsearch.mycompany.biz:1234/_nodes" => cmd.call('elasticsearch-cluster-url'),
+      # iis_app_pool resource
+      "Import-Module WebAdministration; Get-Item 'IIS:\\AppPools\\DefaultAppPool' | Select-Object name,managedruntimeversion,enable32bitapponwin64,managedpipelinemode,processmodel | ConvertTo-Json" => cmd.call('iis-default-app-pool'),
+      "Import-Module WebAdministration; Get-Item 'IIS:\\AppPools\\DefaultAppPool' | Select-Object * | ConvertTo-Json" => cmd.call('iis-default-app-pool'),
 
       #security_policy resource calls
       'Get-Content win_secpol-abc123.cfg' => cmd.call('secedit-export'),

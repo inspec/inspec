@@ -67,6 +67,8 @@ module Inspec
     def self.profile_options
       option :profiles_path, type: :string,
         desc: 'Folder which contains referenced profiles.'
+      option :vendor_cache, type: :string,
+        desc: 'Use the given path for caching dependencies. (default: ~/.inspec/cache)'
     end
 
     def self.exec_options
@@ -83,8 +85,6 @@ module Inspec
         desc: 'Use colors in output.'
       option :attrs, type: :array,
         desc: 'Load attributes file (experimental)'
-      option :vendor_cache, type: :string,
-        desc: 'Use the given path for caching dependencies. (default: ~/.inspec/cache)'
       option :create_lockfile, type: :boolean,
         desc: 'Write out a lockfile based on this execution (unless one already exists)'
       option :backend_cache, type: :boolean,
@@ -168,6 +168,7 @@ module Inspec
         'documentation',
         'html',
         'json',
+        'json-automate',
         'json-min',
         'json-rspec',
         'junit',
@@ -239,7 +240,7 @@ module Inspec
 
     def suppress_log_output?(opts)
       return false if opts['reporter'].nil?
-      match = %w{json json-min json-rspec junit html yaml documentation progress} & opts['reporter'].keys
+      match = %w{json json-min json-rspec json-automate junit html yaml documentation progress} & opts['reporter'].keys
       unless match.empty?
         match.each do |m|
           # check to see if we are outputting to stdout
@@ -274,6 +275,12 @@ module Inspec
         id = v.tr('-', '_').to_sym
         next unless o[id] == -1
         raise ArgumentError, "Please provide a value for --#{v}. For example: --#{v}=hello."
+      end
+
+      # Infer `--sudo` if using `--sudo-password` without `--sudo`
+      if o[:sudo_password] && !o[:sudo]
+        o[:sudo] = true
+        warn 'WARN: `--sudo-password` used without `--sudo`. Adding `--sudo`.'
       end
 
       # check for compliance settings

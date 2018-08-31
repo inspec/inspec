@@ -2,6 +2,7 @@
 
 require 'pathname'
 require_relative 'renderer'
+require 'inspec/base_cli'
 
 module Init
   class CLI < Inspec::BaseCLI

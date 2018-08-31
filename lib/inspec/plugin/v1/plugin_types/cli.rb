@@ -2,6 +2,8 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
+require 'inspec/plugin/v1/registry'
+
 module Inspec
   module Plugins
     # stores all CLI plugin, we expect those to the `Thor` subclasses

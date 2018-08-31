@@ -180,6 +180,15 @@ describe Inspec::ProfileContext do
         get_checks[0][1][0].resource_failed?.must_equal false
       end
 
+      it 'allows specifying a message with true only_if' do
+        profile.load("only_if('this is a only_if skipped message') { false }\n" + control)
+        get_checks.length.must_equal 1
+        get_checks[0][1][0].resource_skipped?.must_equal true
+        get_checks[0][1][0].resource_exception_message.must_equal 'Skipped' \
+         ' control due to only_if condition: this is a only_if skipped message'
+        get_checks[0][1][0].resource_failed?.must_equal false
+      end
+
       it 'doesnt extend into other control files' do
         fake_control_file = if_false + control
         profile.load_control_file(fake_control_file, '(eval)', nil)

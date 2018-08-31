@@ -19,7 +19,7 @@ module Compliance
     # return all compliance profiles available for the user
     # the user is either specified in the options hash or by default
     # the username of the account is used that is logged in
-    def self.profiles(config) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
+    def self.profiles(config, profile_filter = nil) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
       owner = config['owner'] || config['user']
 
       # Chef Compliance
@@ -36,9 +36,14 @@ module Compliance
       end
 
       headers = get_headers(config)
+      if profile_filter
+        _owner, id, ver = profile_split(profile_filter)
+      else
+        id, ver = nil
+      end
 
       if is_automate2_server?(config)
-        body = { owner: owner }.to_json
+        body = { owner: owner, name: id }.to_json
         response = Compliance::HTTP.post_with_headers(url, headers, body, config['insecure'])
       else
         response = Compliance::HTTP.get(url, headers, config['insecure'])
@@ -68,6 +73,10 @@ module Compliance
             e['owner_id'] = owner
             e
           }
+        end
+        # filter by name and version if they were specified in profile_filter
+        mapped_profiles.select! do |p|
+          (!ver || p['version'] == ver) && (!id || p['name'] == id)
         end
         return msg, mapped_profiles
       when '401'
@@ -101,25 +110,10 @@ module Compliance
       parsed
     end
 
-    # verifies that a profile
+    # verifies that a profile exists
     def self.exist?(config, profile)
-      owner, id, ver = profile_split(profile)
-
-      # ensure that we do not manipulate the configuration object
-      user_config = config.dup
-      user_config['owner'] = owner
-      _msg, profiles = Compliance::API.profiles(user_config)
-
-      if !profiles.empty?
-        profiles.any? do |p|
-          profile_owner = p['owner_id'] || p['owner']
-          profile_owner == owner &&
-            p['name'] == id &&
-            (ver.nil? || p['version'] == ver)
-        end
-      else
-        false
-      end
+      _msg, profiles = Compliance::API.profiles(config, profile)
+      !profiles.empty?
     end
 
     def self.upload(config, owner, profile_name, archive_path)

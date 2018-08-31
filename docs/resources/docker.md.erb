@@ -9,6 +9,16 @@ Use the `docker` InSpec audit resource to test configuration data for the Docker
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.21.0 of InSpec.
+
 ## Syntax
 
 A `docker` resource block declares allows you to write test for many containers:
@@ -146,6 +156,17 @@ Or execute the profile directly via URL:
       its('repositories') { should_not include 'my_image' }
       its('tags') { should_not include 'unwanted_tag' }
       its('sizes') { should_not include "1.41 GB" }
+    end
+
+### plugins
+
+`plugins` returns information about Docker plugins as returned by [docker plugin ls](https://docs.docker.com/engine/reference/commandline/plugin/).
+
+    describe docker.plugins do
+      its('names') { should include ["store/weaveworks/net-plugin", "docker4x/cloudstor"] }
+      its('ids') { should cmp ["6ea8176de74b", "771d3ee7c7ea"] }
+      its('versions') { should cmp ["2.3.0", "18.03.1-ce-aws1"] }
+      its('enabled') { should cmp [true, false] }
     end
 
 ### info

@@ -1,0 +1,10 @@
+{
+  "plugins_config_version" : "1.0.0",
+  "plugins": [
+    {
+      "name": "inspec-divide-by-zero",
+      "installation_type": "path",
+      "installation_path": "test/unit/mock/plugins/inspec-divide-by-zero/inspec-divide-by-zero"
+    }
+  ]
+}

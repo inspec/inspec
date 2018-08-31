@@ -7,6 +7,64 @@
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.2.78](https://github.com/inspec/inspec/tree/v2.2.78) (2018-08-30)
+
+#### New Features
+- Support erb rendering [#3338](https://github.com/inspec/inspec/pull/3338) ([frezbo](https://github.com/frezbo))
+- Add HTTP basic auth for URL based inspec deps [#3341](https://github.com/inspec/inspec/pull/3341) ([frezbo](https://github.com/frezbo))
+
+#### Bug Fixes
+- fix skip message not being passed for merge [#3329](https://github.com/inspec/inspec/pull/3329) ([frezbo](https://github.com/frezbo))
+
+#### Merged Pull Requests
+- Cached profiles with Compliance Fetcher [#3221](https://github.com/inspec/inspec/pull/3221) ([itmustbejj](https://github.com/itmustbejj))
+- bump inspec/train version [#3331](https://github.com/inspec/inspec/pull/3331) ([tomqwu](https://github.com/tomqwu))
+- Convert legacy supports to their platform counterparts [#3333](https://github.com/inspec/inspec/pull/3333) ([jquick](https://github.com/jquick))
+- Fix the brew command to install inspec [#3335](https://github.com/inspec/inspec/pull/3335) ([tas50](https://github.com/tas50))
+- Update demo site nom packages [#3343](https://github.com/inspec/inspec/pull/3343) ([miah](https://github.com/miah))
+<!-- latest_stable_release -->
+
+## [v2.2.70](https://github.com/inspec/inspec/tree/v2.2.70) (2018-08-24)
+
+#### Enhancements
+- Infer `--sudo` when `--sudo-password` is used [#3313](https://github.com/inspec/inspec/pull/3313) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Bug Fixes
+- Fix skip hash being passed instead of boolean value [#3323](https://github.com/inspec/inspec/pull/3323) ([frezbo](https://github.com/frezbo))
+
+#### Merged Pull Requests
+- Add cloudlinux under redhat family [#2935](https://github.com/inspec/inspec/pull/2935) ([tarcinil](https://github.com/tarcinil))
+- Suppress logs for json-automate reporter [#3324](https://github.com/inspec/inspec/pull/3324) ([jquick](https://github.com/jquick))
+- Rebuild InSpec omni bundles [#3327](https://github.com/inspec/inspec/pull/3327) ([jquick](https://github.com/jquick))
+
+## [v2.2.64](https://github.com/inspec/inspec/tree/v2.2.64) (2018-08-17)
+
+#### Merged Pull Requests
+- Update `only_if` to allow user specified messages. [#3267](https://github.com/inspec/inspec/pull/3267) ([miah](https://github.com/miah))
+- Allow the jsonAutomate report to be executed from cli [#3285](https://github.com/inspec/inspec/pull/3285) ([jquick](https://github.com/jquick))
+- Dummy PR to bump expeditor version. [#3298](https://github.com/inspec/inspec/pull/3298) ([jquick](https://github.com/jquick))
+
+## [v2.2.61](https://github.com/inspec/inspec/tree/v2.2.61) (2018-08-09)
+
+#### New Resources
+- Add new resource: aws_ecs_cluster [#3213](https://github.com/inspec/inspec/pull/3213) ([meringu](https://github.com/meringu))
+- add iis_app_pool resource [#2400](https://github.com/inspec/inspec/pull/2400) ([strocknar](https://github.com/strocknar))
+
+#### Enhancements
+- Adding docker plugin support [#3074](https://github.com/inspec/inspec/pull/3074) ([frezbo](https://github.com/frezbo))
+
+#### Bug Fixes
+- Add support in aws_route_table to allow 17 hexadecimal characters [#3277](https://github.com/inspec/inspec/pull/3277) ([kchistova](https://github.com/kchistova))
+- Error cleanly if a reporter errors while rendering [#3280](https://github.com/inspec/inspec/pull/3280) ([jquick](https://github.com/jquick))
+
+#### Merged Pull Requests
+- Enable inspec archive, check, and json to run as unpriveleged user [#3263](https://github.com/inspec/inspec/pull/3263) ([phiggins](https://github.com/phiggins))
+
+## [v2.2.55](https://github.com/inspec/inspec/tree/v2.2.55) (2018-08-03)
+
+#### Enhancements
+- Add a merged json report for A2 [#3261](https://github.com/inspec/inspec/pull/3261) ([jquick](https://github.com/jquick))
+
 ## [v2.2.54](https://github.com/inspec/inspec/tree/v2.2.54) (2018-08-02)
 
 #### Enhancements
@@ -16,7 +74,6 @@
 
 #### Merged Pull Requests
 - Ability to render contrib resource pack docs on main website [#3184](https://github.com/inspec/inspec/pull/3184) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v2.2.50](https://github.com/inspec/inspec/tree/v2.2.50) (2018-07-26)
 

@@ -39,7 +39,6 @@ module Inspec
       @target_profiles = []
       @controls = @conf[:controls] || []
       @depends = @conf[:depends] || []
-      @ignore_supports = @conf[:ignore_supports]
       @create_lockfile = @conf[:create_lockfile]
       @cache = Inspec::Cache.new(@conf[:vendor_cache])
 
@@ -108,7 +107,8 @@ module Inspec
       return if @conf['reporter'].nil?
 
       @conf['reporter'].each do |reporter|
-        Inspec::Reporters.render(reporter, run_data)
+        result = Inspec::Reporters.render(reporter, run_data)
+        raise Inspec::ReporterError, "Error generating reporter '#{reporter[0]}'" if result == false
       end
     end
 
@@ -196,8 +196,6 @@ module Inspec
     end
 
     def supports_profile?(profile)
-      return true if @ignore_supports
-
       if !profile.supports_runtime?
         raise 'This profile requires InSpec version '\
              "#{profile.metadata.inspec_requirement}. You are running "\

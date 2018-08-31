@@ -27,6 +27,33 @@ describe 'metadata with supported operating systems' do
       res.content.must_equal(s)
     end
 
+    it 'renders a YAML containing ERB' do
+      data = <<EOF
+      name: dummy
+      title: InSpec Profile
+      maintainer: The Authors
+      copyright: The Authors
+      copyright_email: you@example.com
+      license: Apache-2.0
+      summary: An InSpec Compliance Profile
+      version: 0.1.0
+      depends:
+      - name: inherit
+        url: "https://artifactory.com/artifactory/example-repo-local/inspec/0.4.1.tar.gz"
+        username: <%= ENV['USERNAME'] %>
+        password: <%= ENV['API_KEY'] %>
+EOF
+    ENV['USERNAME'] = 'dummy_user'
+    ENV['API_KEY'] = 'dummy_pass'
+    res = Inspec::Metadata.from_yaml('mock', data, nil)
+    Inspec::Metadata.finalize(res, 'mock', empty_options)
+    res.params[:name].must_equal 'mock'
+    res.params[:depends][0][:name].must_equal 'inherit'
+    res.params[:depends][0][:url].must_equal 'https://artifactory.com/artifactory/example-repo-local/inspec/0.4.1.tar.gz'
+    res.params[:depends][0][:username].must_equal 'dummy_user'
+    res.params[:depends][0][:password].must_equal 'dummy_pass'
+    end
+
     it 'finalizes a loaded metadata via Profile ID' do
       res = Inspec::Metadata.from_yaml('mock', '---', nil)
       Inspec::Metadata.finalize(res, 'mock', empty_options)

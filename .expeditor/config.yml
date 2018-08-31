@@ -66,9 +66,9 @@ artifact_actions:
   promoted_to_current:
     - built_in:tag_docker_image
   promoted_to_stable:
-    - built_in:publish_rubygems
+    - bash:.expeditor/update_dockerfile.sh
     - built_in:rollover_changelog
+    - built_in:publish_rubygems
     - built_in:create_github_release
     - built_in:tag_docker_image
-    - bash:.expeditor/update_dockerfile.sh
     - built_in:notify_chefio_slack_channels
