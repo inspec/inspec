@@ -24,7 +24,6 @@ module Inspec::Plugin::V2
     attr_reader :loader, :registry
     def_delegator :loader, :plugin_gem_path, :gem_path
     def_delegator :loader, :plugin_conf_file_path
-    def_delegator :loader, :plugin_conf_file_path
     def_delegator :loader, :list_managed_gems
     def_delegator :loader, :list_installed_plugin_gems
 
@@ -69,7 +68,7 @@ module Inspec::Plugin::V2
     end
 
 
-    # Updates a plugin. Most options same as intall, but will not handle path installs.
+    # Updates a plugin. Most options same as install, but will not handle path installs.
     # If no :version is provided, updates to the latest.
     # If a version is provided, the plugin becomes pinned at that specified version.
     #
@@ -89,6 +88,29 @@ module Inspec::Plugin::V2
       update_plugin_config_file(plugin_name, opts.merge({ action: :update }))
     end
 
+    # Uninstalls (removes) a plugin. Refers to plugin.json to determine if it
+    # was a gem-based or path-based install.
+    # If it's a gem, uninstalls it.  Dependencies are currently left in place.
+    # If it's a path, removes the reference from the plugins.json, but does not
+    # tamper with the plugin source tree.
+    # Either way, the plugins.json file is updated with the new information.
+    #
+    # @param [String] plugin_name
+    # @param [Hash] opts The uninstallation options. Currently unused.
+    def uninstall(plugin_name, opts = {})
+      # TODO: - check plugins.json for validity before trying anything that needs to modify it.
+      validate_uninstall_opts(plugin_name, opts)
+
+      if loader.path_based_plugin?(plugin_name)
+        uninstall_via_path(plugin_name, opts)
+      else
+        # TODO: Perform dependency checks to make sure the new solution is valid
+        uninstall_via_gem(plugin_name, opts)
+      end
+
+      update_plugin_config_file(plugin_name, opts.merge({ action: :uninstall }))
+    end
+
     # Testing API.  Performs a hard reset on the installer and registry, and reloads the loader.
     # Not for public use.
     # TODO: bad timing coupling in tests
@@ -101,6 +123,10 @@ module Inspec::Plugin::V2
 
 
     private
+
+    #===================================================================#
+    #                       Validation Methods                          #
+    #===================================================================#
 
     # rubocop: disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     # rationale for rubocop exemption: While there are many conditionals, they are all of the same form;
@@ -163,8 +189,21 @@ module Inspec::Plugin::V2
       if opts.key?(:version) && plugin_version_installed?(plugin_name, opts[:version])
         raise UpdateError.new("#{plugin_name} version #{opts[:version]} is already installed.")
       end
-
     end
+
+    def validate_uninstall_opts(plugin_name, opts)
+      # Only uninstall plugins we know about
+      unless plugin_name =~ /^(inspec|train)-/
+        raise UnInstallError, "All inspec plugins must begin with either 'inspec-' or 'train-' - refusing to uninstall #{plugin_name}"
+      end
+      unless registry.known_plugin?(plugin_name.to_sym)
+        raise UnInstallError, "'#{plugin_name}' is not installed, refusing to uninstall."
+      end
+    end
+
+    #===================================================================#
+    #                   Install / Upgrade Methods                       #
+    #===================================================================#
 
     def install_from_path(requested_plugin_name, opts)
       # Nothing to do here; we will later update the plugins file with the path.
@@ -217,6 +256,14 @@ module Inspec::Plugin::V2
       # Ignore deps here, because any needed deps should already be baked into new_plugin_dependency
       request_set.install_into(gem_path, true, ignore_dependencies: true)
     end
+
+    #===================================================================#
+    #                        UnInstall Methods                          #
+    #===================================================================#
+
+    #===================================================================#
+    #                 plugins.json Maintenance Methods                  #
+    #===================================================================#
 
     def update_plugin_config_file(plugin_name, opts)
       config = read_or_init_config_data

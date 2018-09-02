@@ -293,14 +293,32 @@ class PluginInstallerUpdaterTests < MiniTest::Test
 end
 
 #-----------------------------------------------------------------------#
-# Removing
+# Uninstalling
 #-----------------------------------------------------------------------#
+class PluginInstallerUninstallTests < MiniTest::Test
+  include InstallerTestHelpers
 
-# Should be able to uninstall a gem plugin
-# Should be able to uninstall a path-based plugin
-# Uninstalling a nonexistant plugin is a code 2 error
-# TODO: Prevent removing a gem if it will lead to unsolveable dependencies
-# TODO: Allow removing a gem that will lead to unsolveable dependencies if :force is provided
+  def test_uninstalling_a_nonexistant_plugin_is_an_error
+    # Try a mythical one
+    ex = assert_raises(Inspec::Plugin::V2::UnInstallError) do
+      @installer.uninstall('inspec-test-fixture-nonesuch')
+    end
+    assert_includes ex.message, "'inspec-test-fixture-nonesuch' is not installed, refusing to uninstall."
+
+    # Try a real plugin that is not installed
+    ex = assert_raises(Inspec::Plugin::V2::UnInstallError) do
+      @installer.uninstall('inspec-test-fixture')
+    end
+    assert_includes ex.message, "'inspec-test-fixture' is not installed, refusing to uninstall."
+  end
+
+  # Should be able to uninstall a path-based plugin
+
+  # Should be able to uninstall a gem plugin
+
+  # TODO: Prevent removing a gem if it will lead to unsolveable dependencies
+  # TODO: Allow removing a gem that will lead to unsolveable dependencies if :force is provided
+end
 
 #-----------------------------------------------------------------------#
 # Searching
