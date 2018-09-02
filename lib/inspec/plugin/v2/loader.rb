@@ -115,10 +115,12 @@ module Inspec::Plugin::V2
       list_managed_gems.select { |spec| spec.name.match(/^(inspec|train)-/) }
     end
 
+    # TODO: refactor the plugin.json file to have its own class, which Loader consumes
     def plugin_conf_file_path
       self.class.plugin_conf_file_path
     end
 
+    # TODO: refactor the plugin.json file to have its own class, which Loader consumes
     def self.plugin_conf_file_path
       File.join(Inspec.config_dir, 'plugins.json')
     end
@@ -192,8 +194,10 @@ module Inspec::Plugin::V2
         status.loaded = false
         registry[name] = status
       end
-    end # TODO: DRY up re: Installer read_or_init_config_file
+    end
 
+    # TODO: DRY up re: Installer read_or_init_config_file
+    # TODO: refactor the plugin.json file to have its own class, which Loader consumes
     def read_conf_file
       if File.exist?(plugin_conf_file_path)
         @plugin_file_contents = JSON.parse(File.read(plugin_conf_file_path))
@@ -207,6 +211,7 @@ module Inspec::Plugin::V2
       raise Inspec::Plugin::V2::ConfigError, "Failed to load plugins JSON configuration from #{plugin_conf_file_path}:\n#{e}"
     end
 
+    # TODO: refactor the plugin.json file to have its own class, which Loader consumes
     def unpack_conf_file
       validate_conf_file
       @plugin_file_contents['plugins'].each do |plugin_json|
@@ -226,6 +231,7 @@ module Inspec::Plugin::V2
       end
     end
 
+    # TODO: refactor the plugin.json file to have its own class, which Loader consumes
     def validate_conf_file
       unless @plugin_file_contents['plugins_config_version'] == '1.0.0'
         raise Inspec::Plugin::V2::ConfigError, "Unsupported plugins.json file version #{@plugin_file_contents['plugins_config_version']} at #{plugin_conf_file_path} - currently support versions: 1.0.0"

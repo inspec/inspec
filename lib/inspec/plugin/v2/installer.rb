@@ -18,7 +18,6 @@ module Inspec::Plugin::V2
     include Singleton
     extend Forwardable
 
-
     Gem.configuration['verbose'] = false
 
     attr_reader :loader, :registry
@@ -33,11 +32,11 @@ module Inspec::Plugin::V2
     end
 
     def plugin_installed?(name)
-      list_installed_plugin_gems.detect {|spec| spec.name == name }
+      list_installed_plugin_gems.detect { |spec| spec.name == name }
     end
 
     def plugin_version_installed?(name, version)
-      list_installed_plugin_gems.detect {|spec| spec.name == name && spec.version == Gem::Version.new(version)}
+      list_installed_plugin_gems.detect { |spec| spec.name == name && spec.version == Gem::Version.new(version) }
     end
 
     # Installs a plugin. Defaults to assuming the plugin provided is a gem, and will try to install
@@ -66,7 +65,6 @@ module Inspec::Plugin::V2
 
       update_plugin_config_file(plugin_name, opts.merge({ action: :install }))
     end
-
 
     # Updates a plugin. Most options same as install, but will not handle path installs.
     # If no :version is provided, updates to the latest.
@@ -101,7 +99,7 @@ module Inspec::Plugin::V2
       # TODO: - check plugins.json for validity before trying anything that needs to modify it.
       validate_uninstall_opts(plugin_name, opts)
 
-      if loader.path_based_plugin?(plugin_name)
+      if registry.path_based_plugin?(plugin_name)
         uninstall_via_path(plugin_name, opts)
       else
         # TODO: Perform dependency checks to make sure the new solution is valid
@@ -117,10 +115,10 @@ module Inspec::Plugin::V2
     def __reset
       registry.__reset
     end
+
     def __reset_loader
       @loader = Loader.new
     end
-
 
     private
 
@@ -128,7 +126,7 @@ module Inspec::Plugin::V2
     #                       Validation Methods                          #
     #===================================================================#
 
-    # rubocop: disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    # rubocop: disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
     # rationale for rubocop exemption: While there are many conditionals, they are all of the same form;
     # its goal is to check for several subtle combinations of params, and rais an error if needed. It's
     # straightforward to understand, but has to handle many cases.
@@ -165,9 +163,8 @@ module Inspec::Plugin::V2
           raise InstallError, "#{plugin_name} is already installed. Use 'inspec plugin update' to change version."
         end
       end
-
     end
-    # rubocop: enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    # rubocop: enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
 
     def validate_update_opts(plugin_name, opts)
       # Only update plugins we know about
@@ -187,11 +184,11 @@ module Inspec::Plugin::V2
       end
 
       if opts.key?(:version) && plugin_version_installed?(plugin_name, opts[:version])
-        raise UpdateError.new("#{plugin_name} version #{opts[:version]} is already installed.")
+        raise UpdateError, "#{plugin_name} version #{opts[:version]} is already installed."
       end
     end
 
-    def validate_uninstall_opts(plugin_name, opts)
+    def validate_uninstall_opts(plugin_name, _opts)
       # Only uninstall plugins we know about
       unless plugin_name =~ /^(inspec|train)-/
         raise UnInstallError, "All inspec plugins must begin with either 'inspec-' or 'train-' - refusing to uninstall #{plugin_name}"
@@ -261,16 +258,29 @@ module Inspec::Plugin::V2
     #                        UnInstall Methods                          #
     #===================================================================#
 
+    def uninstall_via_path(requested_plugin_name, opts)
+      # Nothing to do here; we will later update the plugins file to remove the plugin entry.
+    end
+
     #===================================================================#
     #                 plugins.json Maintenance Methods                  #
     #===================================================================#
 
+    # TODO: refactor the plugin.json file to have its own class, which Installer consumes
     def update_plugin_config_file(plugin_name, opts)
+      config = update_plugin_config_data(plugin_name, opts)
+      File.write(plugin_conf_file_path, JSON.pretty_generate(config))
+    end
+
+    # TODO: refactor the plugin.json file to have its own class, which Installer consumes
+    def update_plugin_config_data(plugin_name, opts)
       config = read_or_init_config_data
       config['plugins'].delete_if { |entry| entry['name'] == plugin_name }
+      return config if opts[:action] == :uninstall
+
       entry = { 'name' => plugin_name }
 
-      # Parsing by Requirement handles s lot of awkward formattoes
+      # Parsing by Requirement handles lot of awkward formattoes
       entry['version'] = Gem::Requirement.new(opts[:version]).to_s if opts.key?(:version)
 
       if opts.key?(:path)
@@ -279,11 +289,11 @@ module Inspec::Plugin::V2
       end
 
       config['plugins'] << entry
-      File.write(plugin_conf_file_path, JSON.pretty_generate(config))
+      config
     end
 
-    # TODO: - DRY this up
-    # TODO - check for validity
+    # TODO: check for validity
+    # TODO: refactor the plugin.json file to have its own class, which Installer consumes
     def read_or_init_config_data
       if File.exist?(plugin_conf_file_path)
         JSON.parse(File.read(plugin_conf_file_path))

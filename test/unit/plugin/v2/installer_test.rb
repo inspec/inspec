@@ -14,8 +14,8 @@ module InstallerTestHelpers
     @installer.__reset
   end
 
-  def copy_in_gem_installation(version = 1)
-    src = Dir.glob(File.join(@config_dir_path, "test-fixture-#{version}-float", '*'))
+  def copy_in_config_dir(fixture_name)
+    src = Dir.glob(File.join(@config_dir_path, fixture_name, '*'))
     dest = File.join(@config_dir_path, 'empty')
     src.each { |path| FileUtils.cp_r(path, dest) }
   end
@@ -214,7 +214,7 @@ class PluginInstallerUpdaterTests < MiniTest::Test
   end
 
   def test_update_existing_plugin_at_same_version_not_allowed
-    copy_in_gem_installation
+    copy_in_config_dir('test-fixture-1-float')
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     assert_raises(Inspec::Plugin::V2::UpdateError) do
@@ -223,7 +223,7 @@ class PluginInstallerUpdaterTests < MiniTest::Test
   end
 
   def test_install_plugin_at_existing_version_not_allowed
-    copy_in_gem_installation
+    copy_in_config_dir('test-fixture-1-float')
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     assert_raises(Inspec::Plugin::V2::InstallError) do
@@ -232,7 +232,7 @@ class PluginInstallerUpdaterTests < MiniTest::Test
   end
 
   def test_install_existing_plugin_not_allowed
-    copy_in_gem_installation
+    copy_in_config_dir('test-fixture-1-float')
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     ex = assert_raises(Inspec::Plugin::V2::InstallError) do
@@ -242,7 +242,7 @@ class PluginInstallerUpdaterTests < MiniTest::Test
   end
 
   def test_update_to_latest_version
-    copy_in_gem_installation
+    copy_in_config_dir('test-fixture-1-float')
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
     @installer.__reset_loader
     @installer.update('inspec-test-fixture')
@@ -261,7 +261,7 @@ class PluginInstallerUpdaterTests < MiniTest::Test
   end
 
   def test_update_to_specified_later_version
-    copy_in_gem_installation
+    copy_in_config_dir('test-fixture-1-float')
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
     @installer.__reset_loader
 
@@ -312,10 +312,24 @@ class PluginInstallerUninstallTests < MiniTest::Test
     assert_includes ex.message, "'inspec-test-fixture' is not installed, refusing to uninstall."
   end
 
-  # Should be able to uninstall a path-based plugin
+  def test_uninstalling_a_path_based_plugin_works
+    copy_in_config_dir('meaning_by_path')
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+    @installer.__reset_loader
+
+    @installer.uninstall('inspec-meaning-of-life')
+
+    # Plugins file entry should be removed
+    plugin_json_path = File.join(ENV['INSPEC_CONFIG_DIR'], 'plugins.json')
+    plugin_json_data = JSON.parse(File.read(plugin_json_path))
+    entries = plugin_json_data['plugins'].select { |e| e["name"] == 'inspec-meaning-of-life'}
+    assert_empty entries, "After path-based uninstall, plugin name should be removed from plugins.json"
+
+  end
 
   # Should be able to uninstall a gem plugin
 
+  # TODO: Able to uninstall a specific version of a gem plugin
   # TODO: Prevent removing a gem if it will lead to unsolveable dependencies
   # TODO: Allow removing a gem that will lead to unsolveable dependencies if :force is provided
 end
