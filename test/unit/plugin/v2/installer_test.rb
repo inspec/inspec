@@ -140,7 +140,7 @@ class PluginInstallerInstallationTests < MiniTest::Test
 
     # installing a gem with dependencies should result in the deps being installed under the config dir
     spec_path = File.join(@installer.gem_path, 'specifications', 'ordinal_array-0.2.0.gemspec')
-    assert File.exists?(spec_path), 'After installation from a gem file, the emspec should be installed to the gem path'
+    assert File.exists?(spec_path), 'After installation from a gem file, the gemspec should be installed to the gem path'
     installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.2.0')
     assert Dir.exists?(installed_gem_base), 'After installation from a gem file, the gem tree should be installed to the gem path'
 
@@ -327,7 +327,45 @@ class PluginInstallerUninstallTests < MiniTest::Test
 
   end
 
-  # Should be able to uninstall a gem plugin
+  def test_uninstall_a_gem_plugin
+    copy_in_config_dir('test-fixture-1-float')
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+    @installer.__reset_loader
+
+    @installer.uninstall('inspec-test-fixture')
+
+    # UnInstalling a gem removes the gemspec and the gem library code
+    spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.1.0.gemspec')
+    refute File.exists?(spec_path), 'After uninstallation of a gem plugin, the gemspec should be removed.'
+    installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.1.0')
+    refute Dir.exists?(installed_gem_base), 'After uninstallation of a gem plugin, the gem tree should be removed.'
+
+    # Plugins file entry should be removed
+    plugin_json_path = File.join(ENV['INSPEC_CONFIG_DIR'], 'plugins.json')
+    plugin_json_data = JSON.parse(File.read(plugin_json_path))
+    entries = plugin_json_data['plugins'].select { |e| e["name"] == 'inspec-test-fixture'}
+    assert_empty entries, "After gem-based uninstall, plugin name should be removed from plugins.json"
+  end
+
+  def test_uninstall_a_gem_plugin_removes_deps
+    copy_in_config_dir('test-fixture-2-float')
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+    @installer.__reset_loader
+
+    @installer.uninstall('inspec-test-fixture')
+
+    # UnInstalling a gem removes the gemspec and the gem library code
+    spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.2.0.gemspec')
+    refute File.exists?(spec_path), 'After uninstallation of a gem plugin with deps, the gemspec should be removed.'
+    installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.2.0')
+    refute Dir.exists?(installed_gem_base), 'After uninstallation of a gem plugin with deps, the gem tree should be removed.'
+
+    # UnInstalling a gem with dependencies should result in the deps being removed
+    spec_path = File.join(@installer.gem_path, 'specifications', 'ordinal_array-0.2.0.gemspec')
+    refute File.exists?(spec_path), 'After uninstallation of a gem plugin with deps, the dep gemspec should be removed.'
+    installed_gem_base = File.join(@installer.gem_path, 'gems', 'ordinal_array-0.2.0')
+    refute Dir.exists?(installed_gem_base), 'After installation a gem plugin with deps, the gem tree should be removed.'
+  end
 
   # TODO: Able to uninstall a specific version of a gem plugin
   # TODO: Prevent removing a gem if it will lead to unsolveable dependencies

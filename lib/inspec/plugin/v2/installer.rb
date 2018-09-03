@@ -3,9 +3,10 @@
 require 'singleton'
 require 'forwardable'
 
-# Gem extensions for unpacking local .gem files - not loaded by Gem default
+# Gem extensions for doing unusual things - not loaded by Gem default
 require 'rubygems/package'
 require 'rubygems/name_tuple'
+require 'rubygems/uninstaller'
 
 module Inspec::Plugin::V2
   # Handles all actions modifying the user's plugin set:
@@ -88,7 +89,7 @@ module Inspec::Plugin::V2
 
     # Uninstalls (removes) a plugin. Refers to plugin.json to determine if it
     # was a gem-based or path-based install.
-    # If it's a gem, uninstalls it.  Dependencies are currently left in place.
+    # If it's a gem, uninstalls it, and all other unused plugins.
     # If it's a path, removes the reference from the plugins.json, but does not
     # tamper with the plugin source tree.
     # Either way, the plugins.json file is updated with the new information.
@@ -102,7 +103,6 @@ module Inspec::Plugin::V2
       if registry.path_based_plugin?(plugin_name)
         uninstall_via_path(plugin_name, opts)
       else
-        # TODO: Perform dependency checks to make sure the new solution is valid
         uninstall_via_gem(plugin_name, opts)
       end
 
@@ -224,24 +224,14 @@ module Inspec::Plugin::V2
     end
 
     def install_gem_to_plugins_dir(new_plugin_dependency, extra_request_sets = [], update_mode = false)
-      # Make a Set of all the gems we already have in the plugin area
-      installed_plugins_gem_set = Gem::Resolver::VendorSet.new
-      Dir.glob(File.join(gem_path, 'specifications', '*.gemspec')).map { |p| Gem::Specification.load(p) }.each do |spec|
-        next if update_mode && spec.name == new_plugin_dependency.name # If we're updating, pretend we don't already have the requested gem installed
-        installed_plugins_gem_set.add_vendor_gem(spec.name, spec.gem_dir)
-      end
-
-      # Combine the Sets, so the resolver has one composite place to look
-      resolver_source_sets = Gem::Resolver.compose_sets(
-        installed_plugins_gem_set,     # The gems that are in the plugin gem path directory tree
-        Gem::Resolver::CurrentSet.new, # The gems that are already included either with Ruby or with the InSpec install
-        *extra_request_sets,           # Anything else our caller wanted to include
-      )
+      # Get a list of all the gems available to us.
+      gem_to_force_update = update_mode ? new_plugin_dependency.name : nil
+      set_available_for_resolution = build_gem_request_universe(extra_request_sets, gem_to_force_update)
 
       # Solve the dependency (that is, find a way to install the new plugin and anything it needs)
       request_set = Gem::RequestSet.new(new_plugin_dependency)
       begin
-        request_set.resolve(resolver_source_sets)
+        request_set.resolve(set_available_for_resolution)
       rescue Gem::UnsatisfiableDependencyError => gem_ex
         # TODO: use search facility to determine if the requested gem exists at all, vs if the constraints are impossible
         ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
@@ -260,6 +250,80 @@ module Inspec::Plugin::V2
 
     def uninstall_via_path(requested_plugin_name, opts)
       # Nothing to do here; we will later update the plugins file to remove the plugin entry.
+    end
+
+    def uninstall_via_gem(plugin_name_to_be_removed, _opts)
+      # Strategy: excluding the plugin we want to uninstall, determine a gem install solution
+      # based on gems we already have, then remove anything not needed.  This removes 3 kinds
+      # of cruft:
+      #  1. All versions of the unwanted plugin gem
+      #  2. All dependencies of the unwanted plugin gem (that aren't needed by something else)
+      #  3. All other gems installed under the ~/.inspec/gems area that are not needed
+      #     by a plugin gem. TODO: ideally this would be a separate 'clean' operation.
+
+      # Create a list of plugins dependencies, including any version constraints,
+      # excluding any that are path-or-core-based, excluding the gem to be removed
+      plugin_deps_we_still_must_satisfy = registry.plugin_statuses
+      plugin_deps_we_still_must_satisfy = plugin_deps_we_still_must_satisfy.select do |status|
+        status.installation_type == :gem && status.name != plugin_name_to_be_removed.to_sym
+      end
+      plugin_deps_we_still_must_satisfy = plugin_deps_we_still_must_satisfy.map do |status|
+        constraint = status.version || '> 0'
+        Gem::Dependency.new(status.name.to_s, constraint)
+      end
+
+      # Make a Request Set representing the still-needed deps
+      request_set_we_still_must_satisfy = Gem::RequestSet.new(*plugin_deps_we_still_must_satisfy)
+      request_set_we_still_must_satisfy.remote = false
+
+      # Find out which gems we still actually need...
+      names_of_gems_we_actually_need = \
+        request_set_we_still_must_satisfy.resolve(build_gem_request_universe)
+                                         .map(&:full_spec).map(&:full_name)
+
+      # ... vs what we currently have, which should have some cruft
+      cruft_gem_specs = loader.list_managed_gems.reject do |spec|
+        names_of_gems_we_actually_need.include?(spec.full_name)
+      end
+
+      # Ok, delete the unneeded gems
+      cruft_gem_specs.each do |cruft_spec|
+        Gem::Uninstaller.new(
+          cruft_spec.name,
+          version: cruft_spec.version,
+          install_dir: gem_path,
+          # Docs on this class are poor.  Next 4 are reasonable, but cargo-culted.
+          all: true,
+          executables: true,
+          force: true,
+          ignore: true,
+        ).uninstall_gem(cruft_spec)
+      end
+    end
+
+    #===================================================================#
+    #                        Utilities
+    #===================================================================#
+
+    # Provides a RequestSet (a set of gems representing the gems that are available to
+    # solve a dependency request) that represents a combination of:
+    # * the gems included in the system
+    # * the gems included in the inspec install
+    # * the currently installed gems in the ~/.inspec/gems directory
+    # * any other sets you provide
+    def build_gem_request_universe(extra_request_sets = [], gem_to_force_update = nil)
+      installed_plugins_gem_set = Gem::Resolver::VendorSet.new
+      loader.list_managed_gems.each do |spec|
+        next if spec.name == gem_to_force_update
+        installed_plugins_gem_set.add_vendor_gem(spec.name, spec.gem_dir)
+      end
+
+      # Combine the Sets, so the resolver has one composite place to look
+      Gem::Resolver.compose_sets(
+        installed_plugins_gem_set,     # The gems that are in the plugin gem path directory tree
+        Gem::Resolver::CurrentSet.new, # The gems that are already included either with Ruby or with the InSpec install
+        *extra_request_sets,           # Anything else our caller wanted to include
+      )
     end
 
     #===================================================================#
