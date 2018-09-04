@@ -1,5 +1,9 @@
 require 'minitest/autorun'
 require 'minitest/test'
+# Other unit tests include the webmock framework, which is process-wide.
+# We need to disable it, or else mock many, many rubygems API calls.
+require 'webmock/minitest'
+
 require 'fileutils'
 require 'json'
 require_relative '../../../../lib/inspec/plugin/v2'
@@ -33,6 +37,7 @@ module InstallerTestHelpers
 
     @installer = Inspec::Plugin::V2::Installer.instance
     reset_globals
+    WebMock.disable_net_connect!(allow: 'api.rubygems.org')
   end
 
   def teardown
@@ -375,10 +380,33 @@ end
 #-----------------------------------------------------------------------#
 # Searching
 #-----------------------------------------------------------------------#
+class PluginInstallerSearchTests < MiniTest::Test
+  include InstallerTestHelpers
 
-# Should be able to search for available plugins
-# Should be able to search for plugins and assume the inspec- or train- prefixes.
-# Should be able to suggest a train transport plugin when an unsupported --target schema is used and a gem search is successful
-# Should be able to suggest a train transport plugin when an unrecognized profile platform declaration is used and a gem search is successful
-# Should raise an error if no train transport plugin exists and an unsupported --target schema is used
-# Should raise an error if no train transport plugin exists and an unrecognized profile platform declaration is used
+  def test_search_for_plugin_by_exact_name
+    results = @installer.search('inspec-test-fixture', exact: true)
+    assert_kind_of Hash, results, 'Results from searching should be a Hash'
+    assert results.key?('inspec-test-fixture'), 'Search results should have a key for the sought plugin'
+    assert_equal 1, results.count, 'There should be exactly one search result'
+    version_list = results['inspec-test-fixture']
+    assert_includes version_list, '0.1.0', 'Version list should contain 0.1.0'
+    assert_includes version_list, '0.2.0', 'Version list should contain 0.2.0'
+  end
+
+  def test_search_for_plugin_that_does_not_exist
+    results = @installer.search('inspec-test-fixture-nonesuch', exact: true)
+    assert_empty results
+  end
+
+  def test_search_for_plugin_by_wildard
+    results = @installer.search('inspec-test-')
+    assert_kind_of Hash, results, 'Results from searching should be a Hash'
+    assert results.key?('inspec-test-fixture'), 'Search results should have a key for at least one plugin'
+    version_list = results['inspec-test-fixture']
+    assert_includes version_list, '0.1.0', 'Version list should contain 0.1.0'
+    assert_includes version_list, '0.2.0', 'Version list should contain 0.2.0'
+  end
+end
+
+# For Train plugin type: Should raise an error if no train transport plugin exists and an unsupported --target schema is used
+# For train plugin type: Should raise an error if no train transport plugin exists and an unrecognized profile platform declaration is used

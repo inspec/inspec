@@ -73,7 +73,7 @@ module Inspec::Plugin::V2
     #
     # @param [String] plugin_name
     # @param [Hash] opts The installation options
-    # @option opts [String] :gem_file Path to a local gem file to install from - NOT IMPLEMENTED
+    # @option opts [String] :gem_file Reserved for future use.  No effect.
     # @option opts [String] :version Version constraint for remote gem updates
     def update(plugin_name, opts = {})
       # TODO: - check plugins.json for validity before trying anything that needs to modify it.
@@ -107,6 +107,34 @@ module Inspec::Plugin::V2
       end
 
       update_plugin_config_file(plugin_name, opts.merge({ action: :uninstall }))
+    end
+
+    # Search rubygems.org for a plugin gem.
+    #
+    # @param [String] plugin_seach_term
+    # @param [Hash] opts Search options
+    # @option opts [TrueClass, FalseClass] :exact If true, use plugin_search_term exactly.  If false (default), append a wildcard.
+    # @return [Hash of Arrays] - Keys are String names of gems, arrays contain String versions.
+    def search(plugin_query, opts = {})
+      validate_search_opts(plugin_query, opts)
+
+      fetcher = Gem::SpecFetcher.fetcher
+      matched_tuples = []
+      if opts[:exact]
+        matched_tuples = fetcher.detect(:released) { |tuple| tuple.name == plugin_query }
+      else
+        regex = Regexp.new('^' + plugin_query + '.*')
+        matched_tuples = fetcher.detect(:released) do |tuple|
+          tuple.name != 'inspec-core' && tuple.name =~ regex
+        end
+      end
+
+      gem_info = {}
+      matched_tuples.each do |tuple|
+        gem_info[tuple.first.name] ||= []
+        gem_info[tuple.first.name] << tuple.first.version.to_s
+      end
+      gem_info
     end
 
     # Testing API.  Performs a hard reset on the installer and registry, and reloads the loader.
@@ -195,6 +223,12 @@ module Inspec::Plugin::V2
       end
       unless registry.known_plugin?(plugin_name.to_sym)
         raise UnInstallError, "'#{plugin_name}' is not installed, refusing to uninstall."
+      end
+    end
+
+    def validate_search_opts(search_term, _opts)
+      unless search_term =~ /^(inspec|train)-/
+        raise SearchError, "All inspec plugins must begin with either 'inspec-' or 'train-'."
       end
     end
 

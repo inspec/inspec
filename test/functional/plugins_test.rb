@@ -116,3 +116,5 @@ end
 #=========================================================================================#
   # TODO: when a train plugin is installed, we can use it in the -b option
   # TODO: when a train plugin is installed, we can use it in the -t option schema
+# Should be able to suggest a train transport plugin when an unsupported --target schema is used and a gem search is successful
+# Should be able to suggest a train transport plugin when an unrecognized profile platform declaration is used and a gem search is successful
