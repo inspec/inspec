@@ -71,16 +71,15 @@ module Inspec
         destination_dir_name = File.basename(filepath).split('.')[0]
         destination_path = File.join(cache_path, destination_dir_name)
 
-        file_provider = FileProvider.for_path(filepath)
-        if file_provider.is_a?(ZipProvider) || file_provider.is_a?(TarProvider)
-          Inspec::Log.debug("Extracting '#{filepath}' to '#{destination_path}'")
-          file_provider.extract(destination_path)
+        provider = FileProvider.for_path(filepath)
 
-          Inspec::Log.debug("Deleting archive '#{filepath}'")
-          File.delete(filepath)
-        else
-          next
-        end
+        next unless provider.is_a?(ZipProvider) || provider.is_a?(TarProvider)
+
+        Inspec::Log.debug("Extracting '#{filepath}' to '#{destination_path}'")
+        provider.extract(destination_path)
+
+        Inspec::Log.debug("Deleting archive '#{filepath}'")
+        File.delete(filepath)
       end
     end
   end
