@@ -101,9 +101,9 @@ class PluginInstallerInstallationTests < MiniTest::Test
 
     # Installing a gem places it under the config dir gem area
     spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.1.0.gemspec')
-    assert File.exists?(spec_path), 'After installation from a gem file, the gemspec should be installed to the gem path'
+    assert File.exist?(spec_path), 'After installation from a gem file, the gemspec should be installed to the gem path'
     installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.1.0')
-    assert Dir.exists?(installed_gem_base), 'After installation from a gem file, the gem tree should be installed to the gem path'
+    assert Dir.exist?(installed_gem_base), 'After installation from a gem file, the gem tree should be installed to the gem path'
 
     # Installation != gem activation
     spec = Gem::Specification.load(spec_path)
@@ -139,15 +139,15 @@ class PluginInstallerInstallationTests < MiniTest::Test
 
     # Installing a gem places it under the config dir gem area
     spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.2.0.gemspec')
-    assert File.exists?(spec_path), 'After installation from rubygems.org, the gemspec should be installed to the gem path'
+    assert File.exist?(spec_path), 'After installation from rubygems.org, the gemspec should be installed to the gem path'
     installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.2.0')
-    assert Dir.exists?(installed_gem_base), 'After installation from rubygems.org, the gem tree should be installed to the gem path'
+    assert Dir.exist?(installed_gem_base), 'After installation from rubygems.org, the gem tree should be installed to the gem path'
 
     # installing a gem with dependencies should result in the deps being installed under the config dir
     spec_path = File.join(@installer.gem_path, 'specifications', 'ordinal_array-0.2.0.gemspec')
-    assert File.exists?(spec_path), 'After installation from a gem file, the gemspec should be installed to the gem path'
+    assert File.exist?(spec_path), 'After installation from a gem file, the gemspec should be installed to the gem path'
     installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.2.0')
-    assert Dir.exists?(installed_gem_base), 'After installation from a gem file, the gem tree should be installed to the gem path'
+    assert Dir.exist?(installed_gem_base), 'After installation from a gem file, the gem tree should be installed to the gem path'
 
 
     # Installation != gem activation
@@ -169,9 +169,9 @@ class PluginInstallerInstallationTests < MiniTest::Test
 
     # Installing a gem places it under the config dir gem area
     spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.1.0.gemspec')
-    assert File.exists?(spec_path), 'After pinned installation from rubygems.org, the gemspec should be installed to the gem path'
+    assert File.exist?(spec_path), 'After pinned installation from rubygems.org, the gemspec should be installed to the gem path'
     spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.2.0.gemspec')
-    refute File.exists?(spec_path), 'After pinned installation from rubygems.org, the wrong gemspec version should be absent'
+    refute File.exist?(spec_path), 'After pinned installation from rubygems.org, the wrong gemspec version should be absent'
 
     plugin_json_path = File.join(ENV['INSPEC_CONFIG_DIR'], 'plugins.json')
     plugin_json_data = JSON.parse(File.read(plugin_json_path))
@@ -254,9 +254,9 @@ class PluginInstallerUpdaterTests < MiniTest::Test
 
     # Verify presence of gemspecs
     spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.2.0.gemspec')
-    assert File.exists?(spec_path), 'After update, the 0.2.0 gemspec should be installed to the gem path'
+    assert File.exist?(spec_path), 'After update, the 0.2.0 gemspec should be installed to the gem path'
     spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.1.0.gemspec')
-    assert File.exists?(spec_path), 'After update, the 0.1.0 gemspec should remain'
+    assert File.exist?(spec_path), 'After update, the 0.1.0 gemspec should remain'
 
     # Plugins file entry should not be version pinned
     plugin_json_path = File.join(ENV['INSPEC_CONFIG_DIR'], 'plugins.json')
@@ -275,9 +275,9 @@ class PluginInstallerUpdaterTests < MiniTest::Test
 
     # Verify presence of gemspecs
     spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.2.0.gemspec')
-    assert File.exists?(spec_path), 'After update, the 0.2.0 gemspec should be installed to the gem path'
+    assert File.exist?(spec_path), 'After update, the 0.2.0 gemspec should be installed to the gem path'
     spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.1.0.gemspec')
-    assert File.exists?(spec_path), 'After update, the 0.1.0 gemspec should remain'
+    assert File.exist?(spec_path), 'After update, the 0.1.0 gemspec should remain'
 
     # Plugins file entry should be version pinned
     plugin_json_path = File.join(ENV['INSPEC_CONFIG_DIR'], 'plugins.json')
@@ -341,9 +341,9 @@ class PluginInstallerUninstallTests < MiniTest::Test
 
     # UnInstalling a gem removes the gemspec and the gem library code
     spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.1.0.gemspec')
-    refute File.exists?(spec_path), 'After uninstallation of a gem plugin, the gemspec should be removed.'
+    refute File.exist?(spec_path), 'After uninstallation of a gem plugin, the gemspec should be removed.'
     installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.1.0')
-    refute Dir.exists?(installed_gem_base), 'After uninstallation of a gem plugin, the gem tree should be removed.'
+    refute Dir.exist?(installed_gem_base), 'After uninstallation of a gem plugin, the gem tree should be removed.'
 
     # Plugins file entry should be removed
     plugin_json_path = File.join(ENV['INSPEC_CONFIG_DIR'], 'plugins.json')
@@ -361,15 +361,15 @@ class PluginInstallerUninstallTests < MiniTest::Test
 
     # UnInstalling a gem removes the gemspec and the gem library code
     spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.2.0.gemspec')
-    refute File.exists?(spec_path), 'After uninstallation of a gem plugin with deps, the gemspec should be removed.'
+    refute File.exist?(spec_path), 'After uninstallation of a gem plugin with deps, the gemspec should be removed.'
     installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.2.0')
-    refute Dir.exists?(installed_gem_base), 'After uninstallation of a gem plugin with deps, the gem tree should be removed.'
+    refute Dir.exist?(installed_gem_base), 'After uninstallation of a gem plugin with deps, the gem tree should be removed.'
 
     # UnInstalling a gem with dependencies should result in the deps being removed
     spec_path = File.join(@installer.gem_path, 'specifications', 'ordinal_array-0.2.0.gemspec')
-    refute File.exists?(spec_path), 'After uninstallation of a gem plugin with deps, the dep gemspec should be removed.'
+    refute File.exist?(spec_path), 'After uninstallation of a gem plugin with deps, the dep gemspec should be removed.'
     installed_gem_base = File.join(@installer.gem_path, 'gems', 'ordinal_array-0.2.0')
-    refute Dir.exists?(installed_gem_base), 'After installation a gem plugin with deps, the gem tree should be removed.'
+    refute Dir.exist?(installed_gem_base), 'After installation a gem plugin with deps, the gem tree should be removed.'
   end
 
   # TODO: Able to uninstall a specific version of a gem plugin
