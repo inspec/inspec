@@ -16,6 +16,7 @@ require 'inspec/shell'
 require 'inspec/formatters'
 require 'inspec/reporters'
 require 'inspec/globals'
+require 'inspec/impact'
 
 require 'inspec/plugin/v2'
 require 'inspec/plugin/v1'

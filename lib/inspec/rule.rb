@@ -75,7 +75,12 @@ module Inspec
     end
 
     def impact(v = nil)
-      @impact = v unless v.nil?
+      if v.is_a?(Symbol)
+        @impact = Inspec::Impact.impact_from_symbol(v)
+      elsif !v.nil?
+        @impact = v
+      end
+
       @impact
     end
 
