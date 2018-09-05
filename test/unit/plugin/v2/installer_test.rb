@@ -33,7 +33,9 @@ module InstallerTestHelpers
     @plugin_fixture_src_path = File.join(mock_path, 'plugins', 'inspec-test-fixture')
     @plugin_fixture_pkg_path = File.join(@plugin_fixture_src_path, 'pkg')
 
-    @ruby_abi_version = (RUBY_VERSION.split('.')[0,2] << '0').join('.')
+    # This is unstable under CI; see https://github.com/inspec/inspec/issues/3355
+    # @ruby_abi_version = (RUBY_VERSION.split('.')[0,2] << '0').join('.')
+    @ruby_abi_version = (Gem.ruby_version.segments[0, 2] << 0).join('.')
 
     @installer = Inspec::Plugin::V2::Installer.instance
     reset_globals
