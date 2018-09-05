@@ -111,7 +111,12 @@ module Inspec
       Zip::File.open(@path) do |archive|
         archive.each do |file|
           final_path = File.join(destination_path, file.name)
-          archive.extract(file, final_path) unless File.exist?(final_path)
+
+          # This removes the top level directory (and any other files) to ensure
+          # extracted files do not conflict.
+          FileUtils.remove_entry(final_path) if File.exist?(final_path)
+
+          archive.extract(file, final_path)
         end
       end
     end
@@ -168,7 +173,11 @@ module Inspec
         files.each do |file|
           next unless @files.include?(file.full_name)
           final_path = File.join(destination_path, file.full_name)
-          next if File.exist?(final_path)
+
+          # This removes the top level directory (and any other files) to ensure
+          # extracted files do not conflict.
+          FileUtils.remove_entry(final_path) if File.exist?(final_path)
+
           FileUtils.mkdir_p(File.dirname(final_path))
           File.open(final_path, 'wb') { |f| f.write(file.read) }
         end
