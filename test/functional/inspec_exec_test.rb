@@ -120,7 +120,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:json) { JSON.load(out.stdout) }
 
     it 'exits with an error' do
-      out.stderr.must_match(/^This OS\/platform \(.+\) is not supported by this profile.$/)
+      out.stderr.must_match(/This OS\/platform \(.+\) is not supported by this profile\./)
       out.exit_status.must_equal 1
     end
   end
@@ -183,7 +183,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
     it 'does not support this profile' do
       out.exit_status.must_equal 1
-      out.stderr.must_equal "This profile requires InSpec version >= 99.0.0. You are running InSpec v#{Inspec::VERSION}.\n"
+      out.stderr.must_match(/This profile requires InSpec version >= 99\.0\.0\. You are running InSpec v#{Inspec::VERSION}\./)
     end
   end
 
