@@ -74,6 +74,7 @@ module Inspec::Reporters
       header.each do |title, value|
         output(format("%-#{pad}s %s", title + ':', value))
       end
+      output('')
     end
 
     def print_standard_control_results(profile)

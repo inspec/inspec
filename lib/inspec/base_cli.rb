@@ -63,7 +63,7 @@ module Inspec
       option :insecure, type: :boolean, default: false,
         desc: 'Disable SSL verification on select targets'
       option :target_id, type: :string,
-        desc: 'Provide a id which will be included on reports.'
+        desc: 'Provide a ID which will be included on reports'
     end
 
     def self.profile_options
