@@ -62,6 +62,8 @@ module Inspec
         desc: 'Specifies the bastion port if applicable'
       option :insecure, type: :boolean, default: false,
         desc: 'Disable SSL verification on select targets'
+      option :target_id, type: :string,
+        desc: 'Provide a ID which will be included on reports'
     end
 
     def self.profile_options
@@ -142,6 +144,7 @@ module Inspec
               'file' => target,
               'stdout' => false,
             }
+            reports[reporter_name]['target_id'] = opts['target_id'] if opts['target_id']
           end
         end
         opts['reporter'] = reports
@@ -152,6 +155,7 @@ module Inspec
         opts['reporter'].each do |reporter_name, config|
           opts['reporter'][reporter_name] = {} if config.nil?
           opts['reporter'][reporter_name]['stdout'] = true if opts['reporter'][reporter_name].empty?
+          opts['reporter'][reporter_name]['target_id'] = opts['target_id'] if opts['target_id']
         end
       end
 

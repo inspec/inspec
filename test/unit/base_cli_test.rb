@@ -149,15 +149,22 @@ EOF
     it 'parse cli reporters' do
       opts = { 'reporter' => ['cli'] }
       parsed = Inspec::BaseCLI.parse_reporters(opts)
-      assert = { 'reporter' => { 'cli' => { 'stdout' => true }}}
-      parsed.must_equal assert
+      expected_value = { 'reporter' => { 'cli' => { 'stdout' => true }}}
+      parsed.must_equal expected_value
+    end
+
+    it 'parses cli report and attaches target_id' do
+      opts = { 'reporter' => ['cli'], 'target_id' => '1d3e399f-4d71-4863-ac54-84d437fbc444' }
+      parsed = Inspec::BaseCLI.parse_reporters(opts)
+      expected_value = {"reporter"=>{"cli"=>{"stdout"=>true, "target_id"=>"1d3e399f-4d71-4863-ac54-84d437fbc444"}}, "target_id"=>"1d3e399f-4d71-4863-ac54-84d437fbc444"}
+      parsed.must_equal expected_value
     end
 
     it 'parse cli reporters with format' do
       opts = { 'format' => 'json' }
       parsed = Inspec::BaseCLI.parse_reporters(opts)
-      assert = { 'reporter' => { 'json' => { 'stdout' => true }}}
-      parsed.must_equal assert
+      expected_value = { 'reporter' => { 'json' => { 'stdout' => true }}}
+      parsed.must_equal expected_value
     end
 
     it 'parse cli reporters with format and output' do
@@ -166,8 +173,8 @@ EOF
       proc {
         opts = { 'format' => 'json', 'output' => '/tmp/inspec_out.json' }
         parsed = Inspec::BaseCLI.parse_reporters(opts)
-        assert = { 'reporter' => { 'json' => { 'file' => '/tmp/inspec_out.json', 'stdout' => false }}}
-        parsed.must_equal assert
+        expected_value = { 'reporter' => { 'json' => { 'file' => '/tmp/inspec_out.json', 'stdout' => false }}}
+        parsed.must_equal expected_value
       }.must_output nil, error end
     end
 

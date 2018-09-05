@@ -63,9 +63,17 @@ module Inspec::Reporters
     private
 
     def print_profile_header(profile)
-      output("Profile: #{format_profile_name(profile)}")
-      output("Version: #{profile[:version] || '(not specified)'}")
-      output("Target:  #{run_data[:platform][:target]}") unless run_data[:platform][:target].nil?
+      header = {
+        'Profile' => format_profile_name(profile),
+        'Version' => profile[:version] || '(not specified)',
+      }
+      header['Target'] = run_data[:platform][:target] unless run_data[:platform][:target].nil?
+      header['Target ID'] = @config['target_id'] unless @config['target_id'].nil?
+
+      pad = header.keys.max_by(&:length).length + 1
+      header.each do |title, value|
+        output(format("%-#{pad}s %s", title + ':', value))
+      end
       output('')
     end
 
