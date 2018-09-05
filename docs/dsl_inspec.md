@@ -252,3 +252,21 @@ control 'ssh-1' do
   end
 end
 ```
+
+# Using Ruby in InSpec
+
+The InSpec DSL is a Ruby based language. This allows you to be flexible with
+Ruby code in controls:
+
+```ruby
+json_obj = json('/file.json')
+json_obj['keys'].each do |value|
+  ..
+end
+```
+
+Ruby allows a lot of freedoms, but should be limited in controls so that they
+remain portable and easy to understand. Please see our [style guide](./style).
+
+Core and custom resources are written as regular Ruby classes which inherit from
+`Inspec.resource`.

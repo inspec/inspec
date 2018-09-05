@@ -114,26 +114,44 @@ Sometimes you may create controls from a static list of elements. If this list s
 
 ### 6. Avoid Ruby system calls
 
-Reason: System calls are often used to interact with the local OS or remote endpoints from a local installation. InSpec tests, however, are designed to be universally executable on all types of runtimes, including local and remote execution. We want to give users the ability to take an OS profile and execute it remotely or locally. We also try to avoid more complexity and programming elements in control files.
+Reason: Ruby code is executed on the system that runs InSpec. This allows
+InSpec to work without Ruby and rubygems being required on remote
+targets (servers or containers). System calls are often used to interact with
+the local OS or remote endpoints from a local installation.
+InSpec tests, however, are designed to be universally executable on all
+types of runtimes, including local and remote execution. We want to give
+users the ability to take an OS profile and execute it remotely or locally.
 
 Avoid: `` `ls ``\`
 Avoid: `system("ls")`
 Avoid: `IO.popen("ls")`
 Use: `command("ls")` or `powershell("..")`
 
-Ruby's command executors will only run locally. If the profile is pointed to a remote endpoint these commands will not run on the remote OS and may skew results.
+Ruby's command executors will only run localy. If the profile is pointed to a remote endpoint these commands will not run on the remote OS and may skew results.
 
 Avoid: `File.new("filename").read`
 Avoid: `File.read("filename")`
 Avoid: `IO.read("filename")`
 Use: `file("filename")`
 
-Similar to the command interactions these files will only be read locally with Ruby's internal calls. Use the `file` resource to read them on any system.
+Similar to the command interactions these files will only be read localy with Ruby's internal calls. Use the `file` resource to read them on any system.
 
 In general, try to avoid IO calls from within InSpec controls.
 
 
-### 7. Avoid debugging calls (in production)
+### 7. Avoid Ruby gem dependencies in controls
+
+In addition to avoiding system-level gems and modules you should also limit
+the use of external dependencies to resource packs or plugins. Gems need to be
+resolved, installed, vendored, and protected from conflicts. We aim to avoid
+exposing this complexity to users of InSpec, to make it a great tool even if
+you are not a developer.
+
+Developers may still use external gem dependencies but should vendor it
+with their plugins or resource packs.
+
+
+### 8. Avoid debugging calls (in production)
 
 Reason: One of the best way to develop and explore tests is the interactive debugging shell `pry` (see the section on "Interactive Debugging with Pry" at the end of this page). However, after you finish your profile make sure you have no interactive statements included anymore. Sometimes interactive calls are hidden behind conditionals (`if` statements) that are harder to reach. These calls can easily cause trouble when an automated profiles runs into an interactive `pry` call that stops the execution and waits for user input.
 
@@ -144,76 +162,6 @@ Use: Use debugging calls during development only
 
 vvvv FIND A HOME? vvvv
 
-# Using Ruby in InSpec
-
-The InSpec DSL is a Ruby based DSL for writing audit controls, which
-includes audit resources that you can invoke. Core and custom resources
-are written as regular Ruby classes which inherit from
-`Inspec.resource`.
-
-Assuming we have a JSON file like this on the node to be tested:
-
-```json
-{
-  "keys":[
-    {"username":"john", "key":"/opt/keys/johnd.key"},
-    {"username":"jane", "key":"/opt/keys/janed.key"},
-    {"username":"sunny ", "key":"/opt/keys/sunnym.key"}
-  ]
-}
-```
-
-The following example shows how you can use pure Ruby code(variables,
-loops, conditionals, regular expressions, etc) to run a few tests
-against the above JSON file:
-
-```ruby
-control 'check-interns' do
-  # use the json InSpec resource to get the file
-  json_obj = json('/opt/keys/interns.json')
-  describe json_obj do
-    its('keys') { should_not eq nil }
-  end
-  if json_obj['keys']
-    # loop over the keys array
-    json_obj['keys'].each do |intern|
-      username = intern['username'].strip
-      # check for white spaces chars in usernames
-      describe username do
-        it { should_not match(/\s/) }
-      end
-      # check key file owners and permissions
-      describe file(intern['key']) do
-        it { should be_owned_by username }
-        its('mode') { should cmp '0600' }
-      end
-    end
-  end
-end
-```
-
-## Execution
-
-It's important to understand that Ruby code used in custom resources and
-controls DSL is executed on the system that runs InSpec. This allows
-InSpec to work without Ruby and rubygems being required on remote
-targets(servers or containers).
-
-For example, using `` `ls ``\ or `system('ls')` will result in the `ls`
-command being run locally and not on the target(remote) system. In order
-to process the output of `ls` executed on the target system, use
-`inspec.command('ls')` or `inspec.powershell('ls')`
-
-Similarly, use `inspec.file(PATH)` to access files or directories from
-remote systems in your tests or custom resources.
-
-## Using rubygems
-
-Ruby gems are self-contained programs and libraries. If you create a custom
-resource please vendor gems into the library. This ensures that all resources
-are self-contained and complete and don't need any resolution at runtime. We
-vendor resources and requirements through dependency resolution, which is
-independent of programming languages and their resolver mechanisms.
 
 ## Interactive Debugging with Pry
 
