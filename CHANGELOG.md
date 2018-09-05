@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.2.79 -->
+## [v2.2.79](https://github.com/inspec/inspec/tree/v2.2.79) (2018-09-05)
+
+#### Merged Pull Requests
+- Allow target-id passthrough [#3320](https://github.com/inspec/inspec/pull/3320) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.2.78 -->
+### Changes since 2.2.78 release
+
+#### Merged Pull Requests
+- Allow target-id passthrough [#3320](https://github.com/inspec/inspec/pull/3320) ([jquick](https://github.com/jquick)) <!-- 2.2.79 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
