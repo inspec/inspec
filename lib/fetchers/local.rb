@@ -15,13 +15,7 @@ module Fetchers
         new(local_path) if local_path
       elsif target.is_a?(Hash)
         local_path = resolve_from_hash(target)
-        if local_path
-          # If target is a Hash then it is a dependency. We should archive it in
-          # order to create a checksum and vendor it. Unless the command used is
-          # exec then we should not vendor it to make local development easier.
-          target[:do_vendor] = true unless Inspec::BaseCLI.command == :exec
-          new(local_path, target)
-        end
+        new(local_path, target) if local_path
       end
     end
 
@@ -49,13 +43,14 @@ module Fetchers
 
     def initialize(target, opts = {})
       @target = target
-      @do_vendor = opts[:do_vendor]
       @backend = opts[:backend]
       @archive_shasum = nil
     end
 
     def fetch(path)
-      return @target unless @do_vendor
+      # If `inspec exec` is used then we should not vendor/fetch. This makes
+      # local development easier and more predictable.
+      return @target if Inspec::BaseCLI.inspec_cli_command == :exec
 
       # Skip vendoring if @backend is not set (example: ad hoc runners)
       return @target unless @backend
