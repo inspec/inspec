@@ -239,6 +239,16 @@ module Inspec
         data[:impact] = 1.0 if data[:impact] > 1.0
         data[:impact] = 0.0 if data[:impact] < 0.0
         data[:id] = id
+
+        # if the code field is empty try and pull info from dependencies
+        if data[:code].empty?
+          locked_dependencies.dep_list.each do |name, dep|
+            profile = dep.profile
+            if profile.runner_context&.current_load.values.first == data[:source_location][:ref]
+              data[:code] = Inspec::MethodSource.code_at(data[:source_location], profile.source_reader)
+            end
+          end
+        end
         data
       end.compact
 

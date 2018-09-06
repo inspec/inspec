@@ -47,7 +47,7 @@ module Inspec
     end
 
     attr_reader :vendor_path
-    attr_writer :dep_list
+    attr_accessor :dep_list
     # initialize
     #
     # @param cwd [String] current working directory for relative path includes
