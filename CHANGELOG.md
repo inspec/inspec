@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.79 -->
-## [v2.2.79](https://github.com/inspec/inspec/tree/v2.2.79) (2018-09-05)
+<!-- latest_release 2.2.80 -->
+## [v2.2.80](https://github.com/inspec/inspec/tree/v2.2.80) (2018-09-06)
 
-#### Merged Pull Requests
-- Allow target-id passthrough [#3320](https://github.com/inspec/inspec/pull/3320) ([jquick](https://github.com/jquick))
+#### Enhancements
+- handle errors from automate report and display them to the user [#3360](https://github.com/inspec/inspec/pull/3360) ([chris-rock](https://github.com/chris-rock))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.78 -->
 ### Changes since 2.2.78 release
+
+#### Enhancements
+- handle errors from automate report and display them to the user [#3360](https://github.com/inspec/inspec/pull/3360) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.80 -->
 
 #### Merged Pull Requests
 - Allow target-id passthrough [#3320](https://github.com/inspec/inspec/pull/3320) ([jquick](https://github.com/jquick)) <!-- 2.2.79 -->
