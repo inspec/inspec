@@ -11,4 +11,5 @@ module Inspec
   class DuplicateDep < Error; end
   class FetcherFailure < Error; end
   class ReporterError < Error; end
+  class ImpactError < Error; end
 end
