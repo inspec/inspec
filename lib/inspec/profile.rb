@@ -373,6 +373,25 @@ module Inspec
       m_unsupported.each { |u| warn.call(meta_path, 0, 0, nil, "doesn't support: #{u}") }
       @logger.info 'Metadata OK.' if m_errors.empty? && m_unsupported.empty?
 
+      # verify that a lockfile is present if we have dependencies
+      if !metadata.dependencies.empty?
+        error.call(meta_path, 0, 0, nil, 'Profile need to be vendored with `inspec vendor`.') if !lockfile_exists?
+      end
+
+      if lockfile_exists?
+        # verify if metadata and lockfile are out of sync
+        if lockfile.deps.size != metadata.dependencies.size
+          error.call(meta_path, 0, 0, nil, 'inspec.yml and inspec.lock are out-of-sync. Please re-vendor with `inspec vendor`.')
+        end
+
+        metadata.dependencies.each { |dep|
+          # TODO: should we also verify that the soure is the same?
+          if !lockfile.deps.map { |x| x[:name] }.include? dep[:name]
+            error.call(meta_path, 0, 0, nil, "Cannot find #{dep[:name]} in lockfile. Please re-vendor with `inspec vendor`.")
+          end
+        }
+      end
+
       # extract profile name
       result[:summary][:profile] = metadata.params[:name]
 
