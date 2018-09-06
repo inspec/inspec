@@ -53,8 +53,13 @@ module Inspec::Reporters
           http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         end
 
-        http.request(req)
-        return true
+        res = http.request(req)
+        if res.is_a?(Net::HTTPSuccess)
+          return true
+        else
+          Inspec::Log.error "send_report: POST to #{uri.path} returned: #{res.body}"
+          return false
+        end
       rescue => e
         Inspec::Log.error "send_report: POST to #{uri.path} returned: #{e.message}"
         return false
