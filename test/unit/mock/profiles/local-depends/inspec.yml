@@ -1,0 +1,13 @@
+name: local_depends
+title: Test Profile For Local Vendoring
+maintainer: Chef Software, Inc.
+copyright: Chef Software, Inc.
+copyright_email: support@chef.io
+version: 1.0.0
+depends:
+  - name: local_profile
+    path: ../complete-profile
+  - name: tar_profile
+    path: ../tar_profile-1.0.0.tar.gz
+  - name: zip_profile
+    path: ../zip_profile-1.0.0.zip

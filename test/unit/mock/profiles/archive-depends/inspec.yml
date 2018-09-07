@@ -1,0 +1,11 @@
+name: archive_depends
+title: Test Profile For Archive Extraction
+maintainer: Chef Software, Inc.
+copyright: Chef Software, Inc.
+copyright_email: support@chef.io
+version: 1.0.0
+depends:
+  - name: ssh-baseline
+    url: https://github.com/dev-sec/ssh-baseline/archive/master.zip
+  - name: linux-baseline
+    url: https://github.com/dev-sec/linux-baseline/archive/master.tar.gz

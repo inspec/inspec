@@ -55,7 +55,7 @@ module Inspec
       file_provider = FileProvider.for_path(path)
       rp = file_provider.relative_provider
 
-      # copy embedded dependecies into global cache
+      # copy embedded dependencies into global cache
       copy_deps_into_cache(rp, opts) unless opts[:vendor_cache].nil?
 
       reader = Inspec::SourceReader.resolve(rp)

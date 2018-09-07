@@ -8,6 +8,10 @@ require 'inspec/profile_vendor'
 
 module Inspec
   class BaseCLI < Thor
+    class << self
+      attr_accessor :inspec_cli_command
+    end
+
     # https://github.com/erikhuda/thor/issues/244
     def self.exit_on_failure?
       true
@@ -299,6 +303,7 @@ module Inspec
       # start with default options if we have any
       opts = BaseCLI.default_options[type] unless type.nil? || BaseCLI.default_options[type].nil?
       opts['type'] = type unless type.nil?
+      Inspec::BaseCLI.inspec_cli_command = type
 
       # merge in any options from json-config
       json_config = options_json
