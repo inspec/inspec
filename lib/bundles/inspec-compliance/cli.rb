@@ -69,7 +69,8 @@ module Compliance
           li("#{profile['title']} v#{profile['version']} (#{mark_text(owner + '/' + profile['name'])})")
         }
       else
-        puts msg, 'Could not find any profiles'
+        puts msg if msg != 'success'
+        puts 'Could not find any profiles'
         exit 1
       end
     rescue Compliance::ServerConfigurationMissing
