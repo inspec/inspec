@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.82 -->
-## [v2.2.82](https://github.com/inspec/inspec/tree/v2.2.82) (2018-09-07)
+<!-- latest_release 2.2.83 -->
+## [v2.2.83](https://github.com/inspec/inspec/tree/v2.2.83) (2018-09-07)
 
-#### Enhancements
-- do not show success message since its confusing [#3366](https://github.com/inspec/inspec/pull/3366) ([chris-rock](https://github.com/chris-rock))
+#### Bug Fixes
+- ensure we use the mock backend when we upload profiles [#3370](https://github.com/inspec/inspec/pull/3370) ([chris-rock](https://github.com/chris-rock))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.78 -->
 ### Changes since 2.2.78 release
+
+#### Bug Fixes
+- ensure we use the mock backend when we upload profiles [#3370](https://github.com/inspec/inspec/pull/3370) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.83 -->
 
 #### Enhancements
 - do not show success message since its confusing [#3366](https://github.com/inspec/inspec/pull/3366) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.82 -->
