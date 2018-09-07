@@ -3,6 +3,7 @@
 # author: Dominik Richter
 
 require 'net/http'
+require 'net/http/post/multipart'
 require 'uri'
 
 module Compliance
@@ -60,7 +61,7 @@ module Compliance
 
       req.body_stream=File.open(file_path, 'rb')
       req.add_field('Content-Length', File.size(file_path))
-      req.add_field('Content-Type', 'application/x-gtar')
+      req.add_field('Content-Type', 'application/x-gzip')
 
       boundary = 'INSPEC-PROFILE-UPLOAD'
       req.add_field('session', boundary)
@@ -77,24 +78,14 @@ module Compliance
       http.use_ssl = (uri.scheme == 'https')
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE if insecure
 
-      req = Net::HTTP::Post.new(uri)
-      headers.each do |key, value|
-        req.add_field(key, value)
+      File.open(file_path) do |tar|
+        req = Net::HTTP::Post::Multipart.new(uri, 'file' => UploadIO.new(tar, 'application/x-gzip', File.basename(file_path)))
+        headers.each do |key, value|
+          req.add_field(key, value)
+        end
+        res = http.request(req)
+        return res
       end
-
-      boundry = 'AaB03x'
-      req.add_field('Content-Type', "multipart/form-data; boundary=#{boundry}")
-
-      post_body = []
-      post_body << "--#{boundry}\r\n"
-      post_body << "Content-Disposition: form-data; name=\"file\"; filename=\"#{File.basename(file_path)}\"\r\n"
-      post_body << "Content-Type: application/x-gtar\r\n\r\n"
-      post_body << File.read(file_path)
-      post_body << "\r\n\r\n--#{boundry}--\r\n"
-      req.body = post_body.join
-
-      res=http.request(req)
-      res
     end
 
     # sends a http requests
