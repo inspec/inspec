@@ -150,6 +150,12 @@ module Compliance
 
       o = options.dup
       configure_logger(o)
+
+      # only run against the mock backend, otherwise we run against the local system
+      o[:backend] = Inspec::Backend.create(target: 'mock://')
+      o[:check_mode] = true
+      o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
+
       # check the profile, we only allow to upload valid profiles
       profile = Inspec::Profile.for_target(path, o)
 
@@ -191,7 +197,9 @@ module Compliance
       end
 
       # if it is a directory, tar it to tmp directory
+      generated = false
       if File.directory?(path)
+        generated = true
         archive_path = Dir::Tmpname.create([profile_name, '.tar.gz']) {}
         puts "Generate temporary profile archive at #{archive_path}"
         profile.archive({ output: archive_path, ignore_errors: false, overwrite: true })
@@ -208,6 +216,9 @@ module Compliance
         puts 'Uploading to Chef Compliance'
       end
       success, msg = Compliance::API.upload(config, config['owner'], pname, archive_path)
+
+      # delete temp file if it was temporary generated
+      File.delete(archive_path) if generated && File.exist?(archive_path)
 
       if success
         puts 'Successfully uploaded profile'
