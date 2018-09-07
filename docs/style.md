@@ -209,5 +209,5 @@ Use: Use debugging calls during development only
 Also you may find it helpful to use the inspec logging interface:
 
 ```ruby
-Inspec::Log.info("Hi")
+Inspec::Log.info('Hi')
 ```
