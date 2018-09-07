@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.81 -->
-## [v2.2.81](https://github.com/inspec/inspec/tree/v2.2.81) (2018-09-07)
+<!-- latest_release 2.2.82 -->
+## [v2.2.82](https://github.com/inspec/inspec/tree/v2.2.82) (2018-09-07)
 
 #### Enhancements
-- Harmonize vendoring (ensure archives are extracted and local paths do not vendor on exec) [#3286](https://github.com/inspec/inspec/pull/3286) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- do not show success message since its confusing [#3366](https://github.com/inspec/inspec/pull/3366) ([chris-rock](https://github.com/chris-rock))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.78 -->
 ### Changes since 2.2.78 release
 
 #### Enhancements
+- do not show success message since its confusing [#3366](https://github.com/inspec/inspec/pull/3366) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.82 -->
 - Harmonize vendoring (ensure archives are extracted and local paths do not vendor on exec) [#3286](https://github.com/inspec/inspec/pull/3286) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.81 -->
 - handle errors from automate report and display them to the user [#3360](https://github.com/inspec/inspec/pull/3360) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.80 -->
 
