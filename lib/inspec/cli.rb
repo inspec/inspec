@@ -177,9 +177,19 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
     runner = Inspec::Runner.new(o)
     targets.each { |target| runner.add_target(target) }
-
-    exit runner.run
-  rescue ArgumentError, RuntimeError, Train::UserError => e
+    tries = 2
+    begin
+      exit runner.run
+    rescue RuntimeError => e
+      tries -= 1
+      if tries > 0
+        retry
+      else
+        $stderr.puts e.message
+        exit 1
+      end
+    end
+  rescue ArgumentError, Train::UserError => e
     $stderr.puts e.message
     exit 1
   rescue StandardError => e
