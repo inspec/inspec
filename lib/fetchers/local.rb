@@ -10,21 +10,23 @@ module Fetchers
     priority 0
 
     def self.resolve(target)
-      local_path = if target.is_a?(String)
-                     resolve_from_string(target)
-                   elsif target.is_a?(Hash)
-                     resolve_from_hash(target)
-                   end
-
-      new(local_path) if local_path
+      if target.is_a?(String)
+        local_path = resolve_from_string(target)
+        new(local_path) if local_path
+      elsif target.is_a?(Hash)
+        local_path = resolve_from_hash(target)
+        new(local_path, target) if local_path
+      end
     end
 
     def self.resolve_from_hash(target)
       return unless target.key?(:path)
 
-      local_path = target[:path]
-      local_path = File.expand_path(local_path, target[:cwd]) if target.key?(:cwd)
-      local_path
+      if target.key?(:cwd)
+        File.expand_path(target[:path], target[:cwd])
+      else
+        target[:path]
+      end
     end
 
     def self.resolve_from_string(target)
@@ -39,12 +41,40 @@ module Fetchers
       target if File.exist?(target)
     end
 
-    def initialize(target)
+    def initialize(target, opts = {})
       @target = target
+      @backend = opts[:backend]
+      @archive_shasum = nil
     end
 
-    def fetch(_path)
-      archive_path
+    def fetch(path)
+      # If `inspec exec` is used then we should not vendor/fetch. This makes
+      # local development easier and more predictable.
+      return @target if Inspec::BaseCLI.inspec_cli_command == :exec
+
+      # Skip vendoring if @backend is not set (example: ad hoc runners)
+      return @target unless @backend
+
+      if File.directory?(@target)
+        # Create an archive, checksum, and move to the vendor directory
+        Dir.mktmpdir do |tmpdir|
+          final_path = File.join(tmpdir, "#{File.basename(@target)}.tar.gz")
+          opts = {
+            backend: @backend,
+            output: final_path,
+          }
+          Inspec::Profile.for_target(@target, opts).archive(opts)
+          checksum = perform_shasum(final_path)
+          FileUtils.mv(final_path, File.join(path, "#{checksum}.tar.gz"))
+        end
+      else
+        # Verify profile (archive) is valid and extract to vendor directory
+        opts = { backend: @backend }
+        Inspec::Profile.for_target(@target, opts).check
+        Inspec::FileProvider.for_path(@target).extract(path)
+      end
+
+      @target
     end
 
     def archive_path
@@ -60,9 +90,17 @@ module Fetchers
     end
 
     def sha256
-      return nil if File.directory?(@target)
-      @archive_shasum ||=
-        OpenSSL::Digest::SHA256.digest(File.read(@target)).unpack('H*')[0]
+      if !@archive_shasum.nil?
+        @archive_shasum
+      elsif File.directory?(@target)
+        nil
+      else
+        perform_shasum(@target)
+      end
+    end
+
+    def perform_shasum(target)
+      @archive_shasum ||= OpenSSL::Digest::SHA256.digest(File.read(target)).unpack('H*')[0]
     end
 
     def resolved_source

@@ -80,4 +80,15 @@ describe 'inspec archive' do
     out.exit_status.must_equal 0
     Zip::File.new(dst.path).entries.map(&:name).must_include 'inspec.yml'
   end
+
+  it 'vendors dependencies by default' do
+    out = inspec('archive ' + meta_profile  + ' --output ' + dst.path)
+    out.stderr.must_equal ''
+    out.stdout.must_include 'Generate archive ' + dst.path
+    out.exit_status.must_equal 0
+    t = Zlib::GzipReader.open(dst.path)
+    files = Gem::Package::TarReader.new(t).entries.map(&:header).map(&:name)
+    files.must_include 'inspec.lock'
+    files.select { |f| f =~ /vendor/ }.count.must_be :>, 1
+  end
 end

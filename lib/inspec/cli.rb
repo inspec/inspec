@@ -119,6 +119,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: 'Overwrite existing vendored dependencies and lockfile.'
   def vendor(path = nil)
     o = opts.dup
+    configure_logger(o)
+    o[:logger] = Logger.new(STDOUT)
+    o[:logger].level = get_log_level(o.log_level)
+
     vendor_deps(path, o)
   end
 
@@ -141,7 +145,11 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o[:logger] = Logger.new(STDOUT)
     o[:logger].level = get_log_level(o.log_level)
     o[:backend] = Inspec::Backend.create(target: 'mock://')
-    o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
+
+    # Force vendoring with overwrite when archiving
+    vendor_options = o.dup
+    vendor_options[:overwrite] = true
+    vendor_deps(path, vendor_options)
 
     profile = Inspec::Profile.for_target(path, o)
     result = profile.check

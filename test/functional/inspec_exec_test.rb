@@ -46,6 +46,15 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     File.stat("#{outpath}/foo/bar/test.json").size.must_be :>, 0
   end
 
+  it 'can execute the profile with a target_id passthrough' do
+    outpath = Dir.tmpdir
+    out = inspec("exec #{example_profile} --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444")
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 101
+    stdout = out.stdout.force_encoding(Encoding::UTF_8)
+    stdout.must_include "Target ID: 1d3e399f-4d71-4863-ac54-84d437fbc444"
+  end
+
   it 'executes a metadata-only profile' do
     out = inspec('exec ' + File.join(profile_path, 'complete-metadata') + ' --no-create-lockfile')
     out.stderr.must_equal ''
@@ -113,6 +122,26 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     out.exit_status.must_equal 0
     out.stdout.must_include "\nProfile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, 0 controls skipped\n"
     out.stdout.must_include "\nTest Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
+  end
+
+  it 'does not vendor profiles when using the a local path dependecy' do
+    Dir.mktmpdir do |tmpdir|
+      # Other commands (e.g. vendor) might create a vendor directory on this
+      # shared profile during functional testing. We remove `vendor/` here if
+      # it exists to avoid surprises when checking cache contents later.
+      vendor_dir = File.join(inheritance_profile, 'vendor')
+      FileUtils.remove_dir(vendor_dir) if File.exist?(vendor_dir)
+
+      command = 'exec ' + inheritance_profile + ' --no-create-lockfile'
+      out = inspec_with_env(command, INSPEC_CONFIG_DIR: tmpdir)
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 100
+      out.stdout.must_include "Profile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, \e[38;5;247m1 control skipped\e[0m\n"
+      out.stdout.must_include "Test Summary: \e[38;5;41m3 successful\e[0m, \e[38;5;9m1 failure\e[0m, \e[38;5;247m2 skipped\e[0m\n"
+      cache_dir = File.join(tmpdir, 'cache')
+      Dir.exist?(cache_dir).must_equal true
+      Dir.glob(File.join(cache_dir, '**', '*')).must_be_empty
+    end
   end
 
   describe 'with a profile that is not supported on this OS/platform' do

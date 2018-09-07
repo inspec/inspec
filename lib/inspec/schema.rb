@@ -42,6 +42,7 @@ module Inspec
       'properties' => {
         'name' => { 'type' => 'string' },
         'release' => { 'type' => 'string' },
+        'target_id' => { 'type' => 'string', 'optional' => true },
       },
     }.freeze
 

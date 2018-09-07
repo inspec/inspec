@@ -22,8 +22,9 @@ module FunctionalHelper
   let(:integration_test_path) { File.join(repo_path, 'test', 'integration', 'default') }
 
   let(:example_profile) { File.join(examples_path, 'profile') }
+  let(:meta_profile) { File.join(examples_path, 'meta-profile') }
   let(:example_control) { File.join(example_profile, 'controls', 'example.rb') }
-  let(:inheritance_profile) { File.join(examples_path, 'profile') }
+  let(:inheritance_profile) { File.join(examples_path, 'inheritance') }
   let(:failure_control) { File.join(profile_path, 'failures', 'controls', 'failures.rb') }
   let(:simple_inheritance) { File.join(profile_path, 'simple-inheritance') }
   let(:sensitive_profile) { File.join(examples_path, 'profile-sensitive') }

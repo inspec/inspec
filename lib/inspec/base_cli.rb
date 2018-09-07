@@ -8,6 +8,10 @@ require 'inspec/profile_vendor'
 
 module Inspec
   class BaseCLI < Thor
+    class << self
+      attr_accessor :inspec_cli_command
+    end
+
     # https://github.com/erikhuda/thor/issues/244
     def self.exit_on_failure?
       true
@@ -62,6 +66,8 @@ module Inspec
         desc: 'Specifies the bastion port if applicable'
       option :insecure, type: :boolean, default: false,
         desc: 'Disable SSL verification on select targets'
+      option :target_id, type: :string,
+        desc: 'Provide a ID which will be included on reports'
     end
 
     def self.profile_options
@@ -142,6 +148,7 @@ module Inspec
               'file' => target,
               'stdout' => false,
             }
+            reports[reporter_name]['target_id'] = opts['target_id'] if opts['target_id']
           end
         end
         opts['reporter'] = reports
@@ -152,6 +159,7 @@ module Inspec
         opts['reporter'].each do |reporter_name, config|
           opts['reporter'][reporter_name] = {} if config.nil?
           opts['reporter'][reporter_name]['stdout'] = true if opts['reporter'][reporter_name].empty?
+          opts['reporter'][reporter_name]['target_id'] = opts['target_id'] if opts['target_id']
         end
       end
 
@@ -295,6 +303,7 @@ module Inspec
       # start with default options if we have any
       opts = BaseCLI.default_options[type] unless type.nil? || BaseCLI.default_options[type].nil?
       opts['type'] = type unless type.nil?
+      Inspec::BaseCLI.inspec_cli_command = type
 
       # merge in any options from json-config
       json_config = options_json
