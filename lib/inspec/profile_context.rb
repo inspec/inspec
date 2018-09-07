@@ -34,9 +34,8 @@ module Inspec
       @control_subcontexts = []
       @lib_subcontexts = []
       @require_loader = ::Inspec::RequireLoader.new
-      @global_attributes = Inspec::Attributes.instance
-      @global_attributes.register_profile_override(@profile_id, @profile_name) if @profile_id != @profile_name
-      @attributes = @global_attributes.select_profile(@profile_id)
+      Inspec::AttributeRegistry.register_profile_alias(@profile_id, @profile_name) if @profile_id != @profile_name
+      @attributes = Inspec::AttributeRegistry.list_attributes_for_profile(@profile_id)
       # A local resource registry that only contains resources defined
       # in the transitive dependency tree of the loaded profile.
       @resource_registry = Inspec::Resource.new_registry
@@ -188,10 +187,11 @@ module Inspec
       end
     end
 
-    def find_or_create_attribute(name, options = {})
+    def register_attribute(name, options = {})
       # we need to return an attribute object, to allow dermination of default values
-      options[:secrets_override] = @conf['attributes'][name] unless @conf['attributes'].nil? || @conf['attributes'][name].nil?
-      @global_attributes.find_or_create(name, @profile_id, options).value
+      attribute = Inspec::AttributeRegistry.register_attribute(name, @profile_id, options)
+      attribute.value = @conf['attributes'][name] unless @conf['attributes'].nil? || @conf['attributes'][name].nil?
+      attribute.value
     end
 
     def set_header(field, val)

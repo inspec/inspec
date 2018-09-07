@@ -7,6 +7,6 @@ license: Apache-2.0
 summary: My Profile 1 summary
 version: 1.0.0
 attributes:
-- name: val_int
+- name: val_numeric
   type: numeric
   default: 654321

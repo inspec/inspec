@@ -6,20 +6,12 @@ module Inspec
 
     VALID_TYPES = %w{
       String
-      Integer
       Numeric
-      Float
       Regexp
       Array
       Hash
       Boolean
       Any
-    }.freeze
-
-    NUMERIC_TYPES = %w{
-      Integer
-      Float
-      Numeric
     }.freeze
 
     DEFAULT_ATTRIBUTE = Class.new do
@@ -45,12 +37,7 @@ module Inspec
       @name = name
       @opts = options
       validate_value_type(default) if @opts.key?(:type) && @opts.key?(:default)
-      if @opts.key?(:secrets_override)
-        validate_value_type(@opts[:secrets_override]) if @opts.key?(:type)
-        @value = @opts[:secrets_override]
-      else
-        @value = nil
-      end
+      @value = nil
     end
 
     def value=(new_value)
@@ -102,51 +89,54 @@ module Inspec
     private
 
     def validate_required(value)
-      if (!@opts.key?(:defualt) && value.nil?) || (@opts[:default].nil? && value.nil?)
-        raise Inspec::AttributeError, "Attribute '#{@name}' is required and does not have a value."
+      # value will be set already if a secrets file was passed in
+      if (!@opts.key?(:default) && value.nil?) || (@opts[:default].nil? && value.nil?)
+        raise Inspec::AttributeRequiredError, "Attribute '#{@name}' is required and does not have a value."
       end
     end
 
-    def clean_type(type)
-      type = type.gsub(/^:/, '').capitalize
-      case type
-      when 'Int'
-        'Integer'
-      when 'Regex'
-        'Regexp'
-      else
-        type
-      end
+    def validate_type(type)
+      type = type.capitalize
+      abbreviations = {
+        'Num' => 'Numeric',
+        'Regex' => 'Regexp',
+      }
+      type = abbreviations[type] if abbreviations.key?(type)
+      raise Inspec::AttributeTypeError, "Type '#{type}' is not a valid attribute type." if !VALID_TYPES.include?(type)
+      type
     end
 
-    def convert_string_to_numeric(type, value)
-      if value =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/
-        if type == 'Integer'
-          value.to_i
-        else
-          value.to_f
-        end
-      else
-        value
-      end
+    def valid_numeric?(value)
+      Float(value)
+      true
+    rescue
+      false
+    end
+
+    def valid_regexp?(value)
+      # check for invalid regex syntex
+      Regexp.new(value)
+      true
+    rescue
+      false
     end
 
     def validate_value_type(value) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-      type = clean_type(@opts[:type])
+      type = validate_type(@opts[:type])
       return if type == 'Any'
-      raise Inspec::AttributeError, "Type '#{type}' is not a valid attribute type" if !VALID_TYPES.include?(type)
-      value = convert_string_to_numeric(type, value) if NUMERIC_TYPES.include?(type) && value.is_a?(String)
 
       invalid_type = false
       if type == 'Regexp'
-        invalid_type = true if !value.is_a?(String) || (!value.start_with?('/') || !value.end_with?('/'))
+        invalid_type = true if !value.is_a?(String) || !valid_regexp?(value)
+      elsif type == 'Numeric'
+        invalid_type = true if !valid_numeric?(value)
       elsif type == 'Boolean'
         invalid_type = true if ![true, false].include?(value)
-      elsif instance_eval("value.is_a?(#{type})") == false
+      elsif value.is_a?(Module.const_get(type)) == false
         invalid_type = true
       end
 
-      raise Inspec::AttributeError, "Attribute '#{@name}' with value '#{value}' does not validate to type '#{type}'." if invalid_type == true
+      raise Inspec::AttributeValidationError, "Attribute '#{@name}' with value '#{value}' does not validate to type '#{type}'." if invalid_type == true
     end
 
     def default

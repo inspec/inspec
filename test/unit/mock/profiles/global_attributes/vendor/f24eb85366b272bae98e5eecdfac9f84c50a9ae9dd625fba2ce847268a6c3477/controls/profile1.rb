@@ -1,5 +1,5 @@
 describe 'test child attribute when using a profile without a name override' do
-  subject { attribute('val_int') }
+  subject { attribute('val_numeric') }
   it { should cmp 654321 }
 end
 
@@ -17,6 +17,6 @@ end
 
 control 'test child attribute inside a it block when using a profile without a name override' do
   describe '654321' do
-    it { should cmp attribute('val_int') }
+    it { should cmp attribute('val_numeric') }
   end
 end

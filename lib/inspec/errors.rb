@@ -11,5 +11,13 @@ module Inspec
   class DuplicateDep < Error; end
   class FetcherFailure < Error; end
   class ReporterError < Error; end
+
   class AttributeError < Error; end
+  class AttributeValidationError < AttributeError; end
+  class AttributeTypeError < AttributeError; end
+  class AttributeRequiredError < AttributeError; end
+
+  class AttributeRegistryError < Error; end
+  class AttributeRegistryUnknownProfile < AttributeRegistryError; end
+  class AttributeRegistryUnknownAttribute < AttributeRegistryError; end
 end

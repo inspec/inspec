@@ -19,15 +19,15 @@ module Inspec
     #
     # @param [ResourcesDSL] resources_dsl which has all resources to attach
     # @return [RuleContext] the inner context of rules
-    def self.rule_context(resources_dsl, profile_context_owner)
+    def self.rule_context(resources_dsl, profile_id)
       require 'rspec/core/dsl'
       Class.new(Inspec::Rule) do
         include RSpec::Core::DSL
         with_resource_dsl resources_dsl
 
         # allow attributes to be accessed within control blocks
-        define_method :attribute do |name, options = {}|
-          profile_context_owner.find_or_create_attribute(name, options)
+        define_method :attribute do |name|
+          Inspec::AttributeRegistry.find_attribute(name, profile_id).value
         end
       end
     end
@@ -42,8 +42,8 @@ module Inspec
     # @return [ProfileContextClass]
     def self.create(profile_context, resources_dsl) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       profile_context_owner = profile_context
-      rule_class = rule_context(resources_dsl, profile_context_owner)
       profile_id = profile_context.profile_id
+      rule_class = rule_context(resources_dsl, profile_id)
 
       Class.new do # rubocop:disable Metrics/BlockLength
         include Inspec::DSL
@@ -143,7 +143,11 @@ module Inspec
 
         # method for attributes; import attribute handling
         define_method :attribute do |name, options = {}|
-          profile_context_owner.find_or_create_attribute(name, options)
+          if options.empty?
+            Inspec::AttributeRegistry.find_attribute(name, profile_id).value
+          else
+            profile_context_owner.register_attribute(name, options)
+          end
         end
 
         define_method :skip_control do |id|

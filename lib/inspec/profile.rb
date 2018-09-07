@@ -5,7 +5,7 @@
 
 require 'forwardable'
 require 'openssl'
-require 'inspec/attributes'
+require 'inspec/attribute_registry'
 require 'inspec/polyfill'
 require 'inspec/cached_fetcher'
 require 'inspec/file_provider'
@@ -130,7 +130,7 @@ module Inspec
         metadata.params[:attributes].each do |attribute|
           attr_dup = attribute.dup
           name = attr_dup.delete(:name)
-          @runner_context.find_or_create_attribute(name, attr_dup)
+          @runner_context.register_attribute(name, attr_dup)
         end
       end
     end

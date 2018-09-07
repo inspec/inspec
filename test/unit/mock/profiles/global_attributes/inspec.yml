@@ -14,15 +14,9 @@ attributes:
 - name: val_numeric
   type: numeric
   default: 443
-- name: val_int
-  type: int
-  default: '72'
-- name: val_int_override
-  type: int
-  default: '72'
-- name: val_float
-  type: float
-  default: '44.33'
+- name: val_numeric_override
+  type: numeric
+  default: '72.88'
 - name: val_string
   type: string
   default: 'test-attr'
@@ -45,3 +39,5 @@ attributes:
     b: false
     c: '123'
 - name: val_no_default
+- name: val_no_default_with_type
+  type: hash

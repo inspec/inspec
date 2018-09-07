@@ -3,6 +3,11 @@ describe 'test the val_string attribute set in the global inspec.yml' do
   it { should cmp 'test-attr' }
 end
 
+describe 'test the val_numeric attribute set in the global inspec.yml' do
+  subject { attribute('val_numeric') }
+  it { should cmp 443 }
+end
+
 describe 'test the val_boolean attribute set in the global inspec.yml' do
   subject { attribute('val_boolean') }
   it { should cmp true }
@@ -25,18 +30,12 @@ describe 'test the val_hash attribute set in the global inspec.yml' do
   it { should cmp check_hash }
 end
 
-include_controls 'child_profile_NEW_NAME'
+describe 'test attribute when no default or value is set' do
+  subject { attribute('val_no_default').respond_to?(:fake_method) }
+  it { should cmp true }
+end
 
-include_controls 'child_profile2' do
-  control 'test override control on parent using child attribute' do
-    describe attribute('val_int') do
-      it { should cmp 654321 }
-    end
-  end
-
-  control 'test override control on parent using parent attribute' do
-    describe Inspec::Attributes['attributes']['val_int'].value do
-      it { should cmp 72 }
-    end
-  end
+describe 'test attribute with no defualt but has type' do
+  subject { attribute('val_no_default_with_type').respond_to?(:fake_method) }
+  it { should cmp true }
 end
