@@ -38,10 +38,10 @@ module Inspec
     end
 
     def find_attribute(name, profile)
-       profile = @profile_aliases[profile] if !profile_exist?(profile) && @profile_aliases[profile]
-       raise Inspec::AttributeRegistryUnknownProfile, "Profile '#{profile}' does not have any attributes" unless profile_exist?(profile)
-       raise Inspec::AttributeRegistryUnknownAttribute, "Profile '#{profile}' does not have a attribute with name '#{name}'" unless list[profile].key?(name)
-       list[profile][name]
+      profile = @profile_aliases[profile] if !profile_exist?(profile) && @profile_aliases[profile]
+      raise Inspec::AttributeRegistryUnknownProfile, "Profile '#{profile}' does not have any attributes" unless profile_exist?(profile)
+      raise Inspec::AttributeRegistryUnknownAttribute, "Profile '#{profile}' does not have a attribute with name '#{name}'" unless list[profile].key?(name)
+      list[profile][name]
     end
 
     def register_attribute(name, profile, options = {})
