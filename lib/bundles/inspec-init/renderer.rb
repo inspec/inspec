@@ -11,6 +11,7 @@ module Init
     attr_reader :overwrite_mode, :ui
     def initialize(cli_ui, cli_options = {})
       @ui = cli_ui
+      @options = cli_options
       @overwrite_mode = cli_options['overwrite']
     end
 
@@ -24,6 +25,7 @@ module Init
       profile_path = template_values[:name]
       # Use slashes (\, /) to split up the name into an Array then use the last entry
       # to reset the name of the profile.
+      template_values.merge!(@options)
       template_values[:name] = template_values[:name].split(%r{\\|\/}).last
       # Generate the full full_destination_root_path path on disk
       full_destination_root_path = Pathname.new(Dir.pwd).join(profile_path)

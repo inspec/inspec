@@ -1,7 +1,7 @@
 # encoding: utf-8
-# copyright: 2018, The Authors
+# copyright: 2018, <%= copyright %>
 
-title 'sample section'
+title '<%= title %>'
 
 # you can also use plain tests
 describe file('/tmp') do
