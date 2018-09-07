@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.80 -->
-## [v2.2.80](https://github.com/inspec/inspec/tree/v2.2.80) (2018-09-06)
+<!-- latest_release 2.2.81 -->
+## [v2.2.81](https://github.com/inspec/inspec/tree/v2.2.81) (2018-09-07)
 
 #### Enhancements
-- handle errors from automate report and display them to the user [#3360](https://github.com/inspec/inspec/pull/3360) ([chris-rock](https://github.com/chris-rock))
+- Harmonize vendoring (ensure archives are extracted and local paths do not vendor on exec) [#3286](https://github.com/inspec/inspec/pull/3286) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.78 -->
 ### Changes since 2.2.78 release
 
 #### Enhancements
+- Harmonize vendoring (ensure archives are extracted and local paths do not vendor on exec) [#3286](https://github.com/inspec/inspec/pull/3286) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.81 -->
 - handle errors from automate report and display them to the user [#3360](https://github.com/inspec/inspec/pull/3360) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.80 -->
 
 #### Merged Pull Requests
