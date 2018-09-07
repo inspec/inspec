@@ -21,16 +21,36 @@ describe 'attributes' do
     end
   end
 
-  describe 'global attributes' do
-    it "runs using all global attribute types" do
+  describe 'run profile with yaml attributes' do
+    it "runs using yml attributes" do
       cmd = 'exec '
       cmd += File.join(profile_path, 'global_attributes')
       cmd += ' --no-create-lockfile'
       cmd += ' --attrs ' + File.join(profile_path, 'global_attributes', 'files', "attr.yml")
       out = inspec(cmd)
       out.stderr.must_equal ''
-      out.stdout.must_include '19 successful'
+      out.stdout.must_include '20 successful'
       out.exit_status.must_equal 0
+    end
+
+    it "errors with invalid attribute types" do
+      cmd = 'exec '
+      cmd += File.join(profile_path, 'invalid_attributes')
+      cmd += ' --no-create-lockfile'
+      out = inspec(cmd)
+      out.stderr.must_include "Type 'Color' is not a valid attribute type.\n"
+      out.stdout.must_equal ''
+      out.exit_status.must_equal 1
+    end
+
+    it "errors with required attribute not defined" do
+      cmd = 'exec '
+      cmd += File.join(profile_path, 'required_attributes')
+      cmd += ' --no-create-lockfile'
+      out = inspec(cmd)
+      out.stderr.must_include "Attribute 'username' is required and does not have a value.\n"
+      out.stdout.must_equal ''
+      out.exit_status.must_equal 1
     end
   end
 end
