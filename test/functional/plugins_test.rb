@@ -80,3 +80,9 @@ describe 'cli command plugins' do
     outcome.stdout.must_include 'inspec meaningoflife'
   end
 end
+
+#=========================================================================================#
+#                           inspec plugin command
+#=========================================================================================#
+
+# See lib/plugins/inspec-plugin-manager-cli/test
