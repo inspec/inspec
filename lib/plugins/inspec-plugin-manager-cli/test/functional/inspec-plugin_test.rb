@@ -2,28 +2,61 @@
 #                      `inspec plugin SUBCOMMAND` facility
 #=========================================================================================#
 
-# Should be able to install a gem-based plugin
-# Should be able to list plugins when none installed
-# Should be able to list plugins when some installed
-# Train plugins should be included in the list
-# Should be able to list core plugins as well
-# Should be able to uninstall a gem plugin
-# Uninstalling a nonexistant plugin is a code 2 error
+#-----------------------------------------------------------------------------------------#
+#                                   inspec help
+#-----------------------------------------------------------------------------------------#
 
-# Should be able to install a path-based plugin
-# Should be able to uninstall a path-based plugin
+# inspec help subcommand listing
 
-# Should be able to install a v1 (converted legacy) plugin
-# Should be able to install a v2 CLI plugin
-# Should be able to install a train plugin
+#-----------------------------------------------------------------------------------------#
+#                                 inspec plugin list
+#-----------------------------------------------------------------------------------------#
 
+# plugin help list
+# plugin list when empty
+# plugin list when a gem and a path are installed
+# plugin list -a with gem and path
+
+#-----------------------------------------------------------------------------------------#
+#                               inspec plugin search
+#-----------------------------------------------------------------------------------------#
+# plugin search help
+# plugin search inspec-test-fixture
+# plugin search inspec-test-
+# plugin search -e inspec-test-
+# plugin search -a inspec-test-fixture
+# plugin search test-fixture
+# plugin search train-test-fixture
+# plugin search inspec-test-fixture-nonesuch
+
+#-----------------------------------------------------------------------------------------#
+#                               inspec plugin install
+#-----------------------------------------------------------------------------------------#
+# plugin install help
+# plugin install from path
+# plugin install from gemfile
+# plugin install from gem when gem exists, get latest version
+# plugin install train plugin
 # Should refuse to install gems that do not begin with train- or inspec-
+# plugin install with pinned version
+# plugin install nonesuch
+# plugin install already installed same version
+# plugin install already installed need update
 
-# Should be able to install a plugin while pinning the version
-# Should be able to upgrade a plugin
+#-----------------------------------------------------------------------------------------#
+#                               inspec plugin update
+#-----------------------------------------------------------------------------------------#
+# plugin update help
+# plugin update
+# plugin update already current
+# plugin update when not installed
+# plugin update nonesuch
 
-# Should be able to search for available plugins
-# Should be able to search for plugins and assume the inspec- or train- prefixes.
+#-----------------------------------------------------------------------------------------#
+#                               inspec plugin uninstall
+#-----------------------------------------------------------------------------------------#
+# plugin uninstall help
+# plugin uninstall gem-based
+# plugin uninstall path-based
+# plugin uninstall when not installed
 
-# Should be able to suggest a train transport plugin when a gem search is successful
-# Should raise an error if no train transport plugin exists
