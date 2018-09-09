@@ -35,7 +35,7 @@ end
 control "aws_subnets properties by subnet id" do
   # you should be able to test the cidr_block of a subnet
   describe aws_subnets.where(subnet_id: fixtures['subnet_01_id']) do
-    its('cidr_blocks') { should include '172.31.96.0/20' }
+    its('cidr_blocks') { should include '172.31.48.0/28' }
     its('states') { should_not include 'pending' }
   end
 end
@@ -43,7 +43,7 @@ end
 control "aws_subnets properties by vpc_id" do
   # you should be able to test the cidr_block of a subnet
   describe aws_subnets.where(vpc_id: fixtures['subnet_vpc_id']) do
-    its('cidr_blocks') { should include '172.31.96.0/20' }
+    its('cidr_blocks') { should include '172.31.48.0/28' }
     its('states') { should include 'available' }
   end
 end
