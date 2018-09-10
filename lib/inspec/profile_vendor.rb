@@ -8,7 +8,7 @@ module Inspec
     attr_reader :profile_path
 
     def initialize(path)
-      @profile_path = Pathname.new(path)
+      @profile_path = Pathname.new(File.expand_path(path))
     end
 
     def vendor!

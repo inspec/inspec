@@ -191,7 +191,10 @@ module Inspec
     private
 
     def walk_tar(path, &callback)
-      Gem::Package::TarReader.new(Zlib::GzipReader.open(path), &callback)
+      tar_file = Zlib::GzipReader.open(path)
+      Gem::Package::TarReader.new(tar_file, &callback)
+    ensure
+      tar_file.close
     end
 
     def read_from_tar(file)

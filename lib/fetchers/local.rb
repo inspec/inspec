@@ -58,14 +58,19 @@ module Fetchers
       if File.directory?(@target)
         # Create an archive, checksum, and move to the vendor directory
         Dir.mktmpdir do |tmpdir|
-          final_path = File.join(tmpdir, "#{File.basename(@target)}.tar.gz")
+          temp_archive = File.join(tmpdir, "#{File.basename(@target)}.tar.gz")
           opts = {
             backend: @backend,
-            output: final_path,
+            output: temp_archive,
           }
+
+          # Create a temporary archive at `opts[:output]`
           Inspec::Profile.for_target(@target, opts).archive(opts)
-          checksum = perform_shasum(final_path)
-          FileUtils.mv(final_path, File.join(path, "#{checksum}.tar.gz"))
+
+          checksum = perform_shasum(temp_archive)
+          final_path = File.join(path, checksum)
+          FileUtils.mkdir_p(final_path)
+          Inspec::FileProvider.for_path(temp_archive).extract(final_path)
         end
       else
         # Verify profile (archive) is valid and extract to vendor directory
