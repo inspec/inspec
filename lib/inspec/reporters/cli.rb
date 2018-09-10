@@ -149,7 +149,7 @@ module Inspec::Reporters
 
       message_to_format = ''
       message_to_format += "#{INDICATORS[indicator]}  " unless indicator.nil?
-      message_to_format += message.to_s.lstrip
+      message_to_format += message.to_s.lstrip.force_encoding(Encoding::UTF_8)
 
       format_with_color(color, indent_lines(message_to_format, indentation))
     end
