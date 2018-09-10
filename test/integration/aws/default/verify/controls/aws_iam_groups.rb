@@ -19,7 +19,7 @@ control "aws_iam_groups search" do
     its('count') { should cmp 1 }
   end
 
-  describe aws_iam_groups.where(groups_name: /fakegroup/) do
+  describe aws_iam_groups.where(group_name: /fakegroup/) do
     it { should_not exist }
   end
 end
