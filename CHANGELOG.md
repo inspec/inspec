@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.85 -->
-## [v2.2.85](https://github.com/inspec/inspec/tree/v2.2.85) (2018-09-10)
+<!-- latest_release 2.2.86 -->
+## [v2.2.86](https://github.com/inspec/inspec/tree/v2.2.86) (2018-09-10)
 
 #### Bug Fixes
-- Fix vendoring functional test cleanup [#3377](https://github.com/inspec/inspec/pull/3377) ([jquick](https://github.com/jquick))
+- enforce utf encoding for cli output [#3376](https://github.com/inspec/inspec/pull/3376) ([chris-rock](https://github.com/chris-rock))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.78 -->
 ### Changes since 2.2.78 release
 
 #### Bug Fixes
+- enforce utf encoding for cli output [#3376](https://github.com/inspec/inspec/pull/3376) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.86 -->
 - Fix vendoring functional test cleanup [#3377](https://github.com/inspec/inspec/pull/3377) ([jquick](https://github.com/jquick)) <!-- 2.2.85 -->
 - use multipart gem for upload to support upload on windows [#3369](https://github.com/inspec/inspec/pull/3369) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.84 -->
 - ensure we use the mock backend when we upload profiles [#3370](https://github.com/inspec/inspec/pull/3370) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.83 -->
