@@ -11,7 +11,7 @@ title 'Gordon Config Checks'
 # EOF
 # ```
 control 'gordon-1.0' do
-  impact :critical
+  impact 'critical'
   title 'Verify the version number of Gordon'
   desc 'An optional description...'
   tag 'gordon'

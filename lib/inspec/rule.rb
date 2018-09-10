@@ -75,8 +75,8 @@ module Inspec
     end
 
     def impact(v = nil)
-      if v.is_a?(Symbol)
-        @impact = Inspec::Impact.impact_from_symbol(v)
+      if v.is_a?(String)
+        @impact = Inspec::Impact.impact_from_string(v)
       elsif !v.nil?
         @impact = v
       end
