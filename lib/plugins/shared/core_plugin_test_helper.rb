@@ -35,7 +35,7 @@ module CorePluginFunctionalHelper
 
   def run_inspec_process(command_line, env = {})
     env_prefix = env.to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(' ')
-    TRAIN_CONENCTION.run_command("#{env_prefix} #{inspec_bin_path} #{command_line}")
+    TRAIN_CONNECTION.run_command("#{env_prefix} #{inspec_bin_path} #{command_line}")
   end
 end
 
