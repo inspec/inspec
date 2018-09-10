@@ -70,7 +70,7 @@ module Inspec::Plugin::V2
     end
 
     def activate(plugin_type, hook_name)
-      activator = registry.find_activators(plugin_type: plugin_type, activation_name: hook_name).first
+      activator = registry.find_activators(plugin_type: plugin_type, activator_name: hook_name).first
       # We want to capture literally any possible exception here, since we are storing them.
       # rubocop: disable Lint/RescueException
       begin

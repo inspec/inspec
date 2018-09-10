@@ -184,7 +184,7 @@ class PluginLoaderTests < MiniTest::Test
     assert_nil activator.implementation_class, 'Test activator should not know implementation class prior to activation'
     refute InspecPlugins::MeaningOfLife.const_defined?(:MockPlugin), 'impl_class should not be defined prior to activation'
 
-    loader.activate(:mock_plugin_type, 'meaning-of-life-the-universe-and-everything')
+    loader.activate(:mock_plugin_type, :'meaning-of-life-the-universe-and-everything')
 
     # Activation postconditions
     assert activator.activated, 'Test activator should be activated after activate'
