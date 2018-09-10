@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.86 -->
-## [v2.2.86](https://github.com/inspec/inspec/tree/v2.2.86) (2018-09-10)
+<!-- latest_release 2.2.87 -->
+## [v2.2.87](https://github.com/inspec/inspec/tree/v2.2.87) (2018-09-10)
 
 #### Bug Fixes
-- enforce utf encoding for cli output [#3376](https://github.com/inspec/inspec/pull/3376) ([chris-rock](https://github.com/chris-rock))
+- Fixing AWS integration tests. [#3374](https://github.com/inspec/inspec/pull/3374) ([MartinLogan](https://github.com/MartinLogan))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.78 -->
 ### Changes since 2.2.78 release
 
 #### Bug Fixes
+- Fixing AWS integration tests. [#3374](https://github.com/inspec/inspec/pull/3374) ([MartinLogan](https://github.com/MartinLogan)) <!-- 2.2.87 -->
 - enforce utf encoding for cli output [#3376](https://github.com/inspec/inspec/pull/3376) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.86 -->
 - Fix vendoring functional test cleanup [#3377](https://github.com/inspec/inspec/pull/3377) ([jquick](https://github.com/jquick)) <!-- 2.2.85 -->
 - use multipart gem for upload to support upload on windows [#3369](https://github.com/inspec/inspec/pull/3369) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.84 -->
