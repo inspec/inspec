@@ -29,7 +29,7 @@ module Inspec::Resources
       end
     "
 
-    attr_reader :user, :password, :host, :port, :instance, :local_mode
+    attr_reader :user, :password, :host, :port, :instance, :local_mode, :db_name
     def initialize(opts = {})
       @user = opts[:user]
       @password = opts[:password] || opts[:pass]
@@ -46,6 +46,7 @@ module Inspec::Resources
         end
       end
       @instance = opts[:instance]
+      @db_name = opts[:db_name]
 
       # check if sqlcmd is available
       raise Inspec::Exceptions::ResourceSkipped, 'sqlcmd is missing' unless inspec.command('sqlcmd').exist?
@@ -69,6 +70,9 @@ module Inspec::Resources
         else
           cmd_string += "\\#{@instance}'"
         end
+      end
+      unless @db_name.nil? 
+        cmd_string += " -d '#{@db_name}'"
       end
       cmd = inspec.command(cmd_string)
       out = cmd.stdout + "\n" + cmd.stderr
