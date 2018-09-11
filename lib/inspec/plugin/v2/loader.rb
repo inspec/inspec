@@ -200,7 +200,7 @@ module Inspec::Plugin::V2
         File.join(bundle_dir, 'train-*.rb'),
       ]
       Dir.glob(globs).each do |loader_file|
-        name = File.basename(loader_file, '.rb').gsub(/^(inspec|train)-/, '')
+        name = File.basename(loader_file, '.rb').to_sym
         status = Inspec::Plugin::V2::Status.new
         status.name = name
         status.entry_point = loader_file
@@ -216,9 +216,9 @@ module Inspec::Plugin::V2
       # with lib/ dirs, etc.
       Dir.glob(File.join(core_plugins_dir, 'inspec-*')).each do |plugin_dir|
         status = Inspec::Plugin::V2::Status.new
-        status.name = File.basename(plugin_dir)
-        status.entry_point = File.join(plugin_dir, 'lib', status.name + '.rb')
-        status.installation_type = :path
+        status.name = File.basename(plugin_dir).to_sym
+        status.entry_point = File.join(plugin_dir, 'lib', status.name.to_s + '.rb')
+        status.installation_type = :core
         status.loaded = false
         registry[status.name.to_sym] = status
       end
