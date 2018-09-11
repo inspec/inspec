@@ -1,4 +1,3 @@
-# author: Christoph Hartmann
 class AwsEbsVolume < Inspec.resource(1)
   name 'aws_ebs_volume'
   desc 'Verifies settings for an EC2 volume'
@@ -6,7 +5,7 @@ class AwsEbsVolume < Inspec.resource(1)
   example <<-EOX
     describe aws_ebs_volume('i-123456') do
       it { should be_encrypted }
-      its('size') { should = 8 }
+      its('size') { should cmp 8 }
     end
 
     describe aws_ebs_volume(name: 'my-volume') do
@@ -73,7 +72,7 @@ EOX
 
   def exists?
     return false if volume.nil?
-    volume.exists?
+    return true
   end
 
   def encrypted?
@@ -82,7 +81,7 @@ EOX
 
   # attributes that we want to expose
   %w{
-    encrypted size iops
+    availability_zone encrypted iops kms_key_id size snapshot_id state volume_type
   }.each do |attribute|
     define_method attribute do
       catch_aws_errors do
@@ -114,7 +113,7 @@ EOX
   end
 
   def to_s
-    "EC2 Volume #{@display_name}"
+    "EBS Volume #{@display_name}"
   end
 
   private
