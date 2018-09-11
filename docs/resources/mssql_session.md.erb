@@ -62,6 +62,14 @@ The following examples show how to use this InSpec audit resource.
     describe sql.query("SELECT SERVERPROPERTY('ProductVersion') as result").row(0).column('result') do
       its("value") { should cmp > '12.00.4457' }
     end
+  
+### Test a specific database
+
+    sql = mssql_session(user: 'my_user', password: 'password', db_name: 'test')
+
+    describe sql.query("SELECT Name AS result FROM Product WHERE ProductID == 1").row(0).column('result') do
+      its("value") { should eq 'foo' }
+    end
 
 <br>
 
