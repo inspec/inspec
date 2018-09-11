@@ -112,15 +112,23 @@ module Inspec::Plugin::V2
 
     # Lists all gems found in the plugin_gem_path.
     # @return [Array[Gem::Specification]] Specs of all gems found.
-    def list_managed_gems
+    def self.list_managed_gems
       Dir.glob(File.join(plugin_gem_path, 'specifications', '*.gemspec')).map { |p| Gem::Specification.load(p) }
+    end
+
+    def list_managed_gems
+      self.class.list_managed_gems
     end
 
     # Lists all plugin gems found in the plugin_gem_path.
     # This is simply all gems that begin with train- or inspec-.
     # @return [Array[Gem::Specification]] Specs of all gems found.
-    def list_installed_plugin_gems
+    def self.list_installed_plugin_gems
       list_managed_gems.select { |spec| spec.name.match(/^(inspec|train)-/) }
+    end
+
+    def list_installed_plugin_gems
+      self.class.list_managed_gems
     end
 
     # TODO: refactor the plugin.json file to have its own class, which Loader consumes
