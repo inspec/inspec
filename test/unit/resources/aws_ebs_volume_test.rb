@@ -1,17 +1,15 @@
 require 'helper'
 
-class TestEc2 < Minitest::Test
+class TestEbs < Minitest::Test
   Id = 'volume-id'.freeze
 
   def setup
     @mock_conn = Minitest::Mock.new
     @mock_client = Minitest::Mock.new
     @mock_resource = Minitest::Mock.new
-    @mock_iam_resource = Minitest::Mock.new
 
     @mock_conn.expect :ec2_client, @mock_client
     @mock_conn.expect :ec2_resource, @mock_resource
-    @mock_conn.expect :iam_resource, @mock_iam_resource
   end
 
   def test_that_id_returns_id_directly_when_constructed_with_an_id
@@ -51,10 +49,10 @@ class TestEc2 < Minitest::Test
 
   def test_that_exists_returns_false_when_volume_does_not_exist
     mock_volume = Minitest::Mock.new
-    mock_volume.expect :nil?, false
+    mock_volume.expect :nil?, true
     mock_volume.expect :exists?, false
     @mock_resource.expect :volume, mock_volume, [Id]
-    assert !AwsEbsVolume.new(Id, @mock_conn).exists?
+    refute AwsEbsVolume.new(Id, @mock_conn).exists?
   end
 
   def test_that_encrypted_returns_true_when_volume_is_encrypted
@@ -65,11 +63,11 @@ class TestEc2 < Minitest::Test
     assert AwsEbsVolume.new(Id, @mock_conn).encrypted?
   end
 
-  def test_that_encrypted_returns_true_when_volume_is_not_encrypted
+  def test_that_encrypted_returns_false_when_volume_is_not_encrypted
     mock_volume = Minitest::Mock.new
     mock_volume.expect :nil?, false
     mock_volume.expect :encrypted, false
     @mock_resource.expect :volume, mock_volume, [Id]
-    assert !AwsEbsVolume.new(Id, @mock_conn).encrypted?
+    refute AwsEbsVolume.new(Id, @mock_conn).encrypted?
   end
 end

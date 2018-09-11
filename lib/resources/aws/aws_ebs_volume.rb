@@ -1,9 +1,9 @@
 class AwsEbsVolume < Inspec.resource(1)
   name 'aws_ebs_volume'
-  desc 'Verifies settings for an EC2 volume'
+  desc 'Verifies settings for an EBS volume'
 
   example <<-EOX
-    describe aws_ebs_volume('i-123456') do
+    describe aws_ebs_volume('vol-123456') do
       it { should be_encrypted }
       its('size') { should cmp 8 }
     end
@@ -18,10 +18,9 @@ EOX
   # TODO: rewrite to avoid direct injection, match other resources, use AwsSingularResourceMixin
   def initialize(opts, conn = nil)
     @opts = opts
-    @opts.is_a?(Hash) ? @display_name = @opts[:name] : @display_name = opts
+    @display_name = opts.is_a?(Hash) ? @opts[:name] : opts
     @ec2_client = conn ? conn.ec2_client : inspec_runner.backend.aws_client(Aws::EC2::Client)
     @ec2_resource = conn ? conn.ec2_resource : inspec_runner.backend.aws_resource(Aws::EC2::Resource, {})
-    @iam_resource = conn ? conn.iam_resource : inspec_runner.backend.aws_resource(Aws::IAM::Resource, {})
   end
 
   # TODO: DRY up, see https://github.com/chef/inspec/issues/2633
@@ -31,10 +30,10 @@ EOX
   rescue Aws::Errors::MissingCredentialsError
     # The AWS error here is unhelpful:
     # "unable to sign request without credentials set"
-    Inspec::Log.error "It appears that you have not set your AWS credentials.  You may set them using environment variables, or using the 'aws://region/aws_credentials_profile' target.  See https://www.inspec.io/docs/reference/platforms for details."
+    Inspec::Log.error "It appears that you have not set your AWS credentials. You may set them using environment variables, or using the 'aws://region/aws_credentials_profile' target. See https://www.inspec.io/docs/reference/platforms for details."
     fail_resource('No AWS credentials available')
   rescue Aws::Errors::ServiceError => e
-    fail_resource e.message
+    fail_resource(e.message)
   end
 
   # TODO: DRY up, see https://github.com/chef/inspec/issues/2633
@@ -71,8 +70,7 @@ EOX
   alias volume_id id
 
   def exists?
-    return false if volume.nil?
-    return true
+    !volume.nil?
   end
 
   def encrypted?
