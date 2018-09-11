@@ -17,6 +17,7 @@ class PluginManagerCliOptions < MiniTest::Test
 
     assert_includes arg_config.keys, :all, 'The list command should have an --all option'
     assert_equal :boolean, arg_config[:all].type, 'The --all option should be boolean'
+    assert_equal :a, arg_config[:all].aliases.first, 'The --all option should be aliased as -a'
     refute arg_config[:all].required, 'The --all option should not be required'
 
     assert_equal 0, cli_class.instance_method(:list).arity, 'The list command should take no arguments'
@@ -42,5 +43,4 @@ class PluginManagerCliOptions < MiniTest::Test
 
   # def test_uninstall_accepts_arg
   # end
-
 end
