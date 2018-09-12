@@ -75,6 +75,16 @@ namespace :test do
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
 
+  # Functional tests on windows are a WIP. Currently only the
+  # inspec_exec_test is supported.
+  Rake::TestTask.new(:'functional:windows') do |t|
+    t.libs << 'test'
+    t.pattern = 'test/functional/inspec_exec_test.rb'
+    t.warning = true
+    t.verbose = true
+    t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
+  end
+
   task :resources do
     tests = Dir['test/resource/*_test.rb']
     return if tests.empty?
