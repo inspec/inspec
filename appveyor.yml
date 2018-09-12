@@ -13,7 +13,6 @@ skip_tags: true
 branches:
   only:
     - master
-    - release-2.0
 
 cache:
   - vendor/bundle -> appveyor.yml
@@ -30,7 +29,19 @@ install:
 
 build_script:
   - bundle install --path=vendor/bundle --without integration tools maintenance deploy
+  - if not exist C:\tmp mkdir C:\tmp
 
 test_script:
   - SET SPEC_OPTS=--format progress
   - bundle exec rake
+
+for:
+  -
+    matrix:
+      only:
+        - ruby_version: "25"
+    test_script:
+      - SET SPEC_OPTS=--format progress
+      - bundle exec rake
+      - bundle exec rake test:functional:windows
+

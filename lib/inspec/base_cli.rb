@@ -140,7 +140,7 @@ module Inspec
       if opts['reporter'].is_a?(Array)
         reports = {}
         opts['reporter'].each do |report|
-          reporter_name, target = report.split(':')
+          reporter_name, target = report.split(':', 2)
           if target.nil? || target.strip == '-'
             reports[reporter_name] = { 'stdout' => true }
           else

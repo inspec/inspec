@@ -12,14 +12,20 @@ describe 'inspec exec' do
     out.stderr.must_equal ''
     out.exit_status.must_equal 101
     stdout = out.stdout.force_encoding(Encoding::UTF_8)
-    stdout.must_include "\e[38;5;41m  ✔  ssh-1: Allow only SSH Protocol 2\e[0m\n"
     stdout.must_include "\e[38;5;41m  ✔  tmp-1.0: Create /tmp directory\e[0m\n"
     stdout.must_include "
 \e[38;5;247m  ↺  gordon-1.0: Verify the version number of Gordon (1 skipped)\e[0m
 \e[38;5;247m     ↺  Can't find file `/tmp/gordon/config.yaml`\e[0m
 "
-    stdout.must_include "\nProfile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, \e[38;5;247m1 control skipped\e[0m\n"
-    stdout.must_include "\nTest Summary: \e[38;5;41m4 successful\e[0m, 0 failures, \e[38;5;247m1 skipped\e[0m\n"
+    if is_windows?
+      stdout.must_include "\e[38;5;247m  ↺  ssh-1: Allow only SSH Protocol 2\e[0m\n"
+      stdout.must_include "\nProfile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, \e[38;5;247m2 controls skipped\e[0m\n"
+      stdout.must_include "\nTest Summary: \e[38;5;41m3 successful\e[0m, 0 failures, \e[38;5;247m2 skipped\e[0m\n"
+    else
+      stdout.must_include "\e[38;5;41m  ✔  ssh-1: Allow only SSH Protocol 2\e[0m\n"
+      stdout.must_include "\nProfile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, \e[38;5;247m1 control skipped\e[0m\n"
+      stdout.must_include "\nTest Summary: \e[38;5;41m4 successful\e[0m, 0 failures, \e[38;5;247m1 skipped\e[0m\n"
+    end
   end
 
   it 'executes a minimum metadata-only profile' do
@@ -110,9 +116,9 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   end
 
   it 'executes only specified controls when selecting failing controls by regex' do
-    out = inspec('exec ' + File.join(profile_path, 'filter_table') + ' --no-create-lockfile --controls \'/^(2943|2370)_fail/\'')
+    out = inspec('exec ' + File.join(profile_path, 'filter_table') + ' --no-create-lockfile --controls \'/^2943_fail/\'')
     out.exit_status.must_equal 100
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: 0 successful controls, \e[38;5;9m2 control failures\e[0m, 0 controls skipped"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: 0 successful controls, \e[38;5;9m1 control failure\e[0m, 0 controls skipped"
   end
 
 
@@ -138,8 +144,13 @@ Test Summary: 0 successful, 0 failures, 0 skipped
       out = inspec_with_env(command, INSPEC_CONFIG_DIR: tmpdir)
       out.stderr.must_equal ''
       out.exit_status.must_equal 100
-      out.stdout.must_include "Profile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, \e[38;5;247m1 control skipped\e[0m\n"
-      out.stdout.must_include "Test Summary: \e[38;5;41m3 successful\e[0m, \e[38;5;9m1 failure\e[0m, \e[38;5;247m2 skipped\e[0m\n"
+      if is_windows?
+        out.stdout.must_include "Profile Summary: 0 successful controls, 0 control failures, \e[38;5;247m2 controls skipped\e[0m\n"
+        out.stdout.must_include "Test Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m1 failure\e[0m, \e[38;5;247m3 skipped\e[0m\n"
+      else
+        out.stdout.must_include "Profile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, \e[38;5;247m1 control skipped\e[0m\n"
+        out.stdout.must_include "Test Summary: \e[38;5;41m3 successful\e[0m, \e[38;5;9m1 failure\e[0m, \e[38;5;247m2 skipped\e[0m\n"
+      end
       cache_dir = File.join(tmpdir, 'cache')
       Dir.exist?(cache_dir).must_equal true
       Dir.glob(File.join(cache_dir, '**', '*')).must_be_empty
@@ -265,8 +276,11 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "×  7 should cmp >= 9\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "×  7 should not cmp == /^\\d$/\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  7 should cmp == \"7\""
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "  expected: \"01147\"
-          got: \"01777\"\n"
+      if is_windows?
+        out.stdout.force_encoding(Encoding::UTF_8).must_include "  expected: \"01147\"\n          got: \"040755\"\n"
+      else
+        out.stdout.force_encoding(Encoding::UTF_8).must_include "  expected: \"01147\"\n          got: \"01777\"\n"
+      end
     end
   end
 
@@ -275,7 +289,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
 
     it 'should print all the results' do
       out.stdout.force_encoding(Encoding::UTF_8).must_include "×  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "×  should not be directory"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "×  cmp-1.0: Using the cmp matcher for numbers (2 failed)"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "×  undefined method `should_nota'"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "×  should not be directory\n     expected `File /tmp.directory?` to return false, got true\e[0m"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  profiled-1: Create /tmp directory (profile d)"
@@ -320,12 +334,20 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
   describe 'when using profiles on the supermarket' do
     it 'can run supermarket profiles directly from the command line' do
       out = inspec("exec supermarket://nathenharvey/tmp-compliance-profile --no-create-lockfile")
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, 0 controls skipped\n"
+      if is_windows?
+        out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m1 successful control\e[0m, \e[38;5;9m1 control failure\e[0m, 0 controls skipped\n"
+      else
+        out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, 0 controls skipped\n"
+      end
     end
 
     it 'can run supermarket profiles from inspec.yml' do
       out = inspec("exec #{File.join(profile_path, 'supermarket-dep')} --no-create-lockfile")
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, 0 controls skipped\n"
+      if is_windows?
+        out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m1 successful control\e[0m, \e[38;5;9m1 control failure\e[0m, 0 controls skipped\n"
+      else
+        out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, 0 controls skipped\n"
+      end
     end
   end
 
@@ -414,9 +436,13 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     let(:child_control) { child_profile['controls'].select { |c| c['title'] == 'Profile 1 - Control 2-updated' }.first }
     let(:override) { controls.select { |c| c['title'] == 'Profile 1 - Control 2-updated' }.first }
 
-    it 'completes the run with failed controls but no exception' do
+    it 'completes the run with parent control overrides' do
       out.stderr.must_be_empty
-      out.exit_status.must_equal 0
+      if is_windows?
+        out.exit_status.must_equal 100
+      else
+        out.exit_status.must_equal 0
+      end
       controls.count.must_equal 2
 
       # check for json override

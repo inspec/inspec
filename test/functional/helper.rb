@@ -3,6 +3,7 @@
 # author: Christoph Hartmann
 
 require 'helper'
+require 'rbconfig'
 
 require 'minitest/hell'
 class Minitest::Test
@@ -38,8 +39,32 @@ module FunctionalHelper
     TMP_CACHE[res.path] = res
   }
 
+  def convert_windows_output(text)
+    text = text.force_encoding("UTF-8")
+    text.gsub!("[PASS]", '✔')
+    text.gsub!("\033[0;1;32m", "\033[38;5;41m")
+    text.gsub!("[SKIP]", '↺')
+    text.gsub!("\033[0;37m", "\033[38;5;247m")
+    text.gsub!("[FAIL]", '×')
+    text.gsub!("\033[0;1;31m", "\033[38;5;9m")
+  end
+
+  def is_windows?
+    RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
+  end
+
   def inspec(commandline, prefix = nil)
-    CMD.run_command("#{prefix} #{exec_inspec} #{commandline}")
+    if is_windows?
+      result = CMD.run_command("cmd /C \"#{prefix} bundle exec ruby #{exec_inspec} #{commandline}\"")
+      result.stdout.encode!(universal_newline: true)
+      result.stderr.encode!(universal_newline: true)
+      convert_windows_output(result.stdout)
+      # remove the CLIXML header trash in windows
+      result.stderr.gsub!("#< CLIXML\n", '')
+      result
+    else
+      CMD.run_command("#{prefix} #{exec_inspec} #{commandline}")
+    end
   end
 
   def inspec_with_env(commandline, env = {})
@@ -47,8 +72,14 @@ module FunctionalHelper
     # single param for the command line.
     # TODO: what is the intent of using Train here?
     # HACK: glue together env vars
-    env_prefix = env.to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(' ')
-    CMD.run_command("#{env_prefix} #{exec_inspec} #{commandline}")
+    if is_windows?
+      env_prefix = env.to_a.map { |assignment| "set #{assignment[0]}=#{assignment[1]}" }.join('&& ')
+      env_prefix += '&& '
+    else
+      env_prefix = env.to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(' ')
+      env_prefix += ' '
+    end
+    inspec(commandline, env_prefix)
   end
 
   # Copy all examples to a temporary directory for functional tests.
