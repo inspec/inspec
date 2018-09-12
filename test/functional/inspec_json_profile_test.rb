@@ -130,6 +130,25 @@ describe 'inspec json' do
     end
   end
 
+  describe 'inspec json with a inheritance profile' do
+    let(:profile) { File.join(examples_path, 'meta-profile') }
+
+    it 'can execute a profile inheritance' do
+      out = inspec('json ' + profile)
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+      JSON.load(out.stdout).must_be_kind_of Hash
+    end
+
+    it 'populates code from child profiles' do
+      out = inspec('json ' + profile)
+      json = JSON.load(out.stdout)
+      json['controls'].each do |control|
+        control['code'].empty?.must_equal false
+      end
+    end
+  end
+
   describe 'inspec json with a profile containing only_if' do
     it 'ignores the `only_if`' do
       out = inspec('json ' + File.join(profile_path, 'only-if-os-nope'))
