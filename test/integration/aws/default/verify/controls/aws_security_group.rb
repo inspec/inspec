@@ -40,9 +40,11 @@ control "aws_security_group properties" do
     its('inbound_rules') { should be_a_kind_of(Array)}
     its('inbound_rules.first') { should be_a_kind_of(Hash)}
     its('inbound_rules.count') { should cmp 3 } # 3 explicit, one implicit
+    its('inbound_rules_count') { should cmp 4 }
     its('outbound_rules') { should be_a_kind_of(Array)}
     its('outbound_rules.first') { should be_a_kind_of(Hash)}
     its('outbound_rules.count') { should cmp 1 } # 1 explicit
+    its('outbound_rules_count') { should cmp 3 } # 3 CIDR blocks specified
   end  
 end
 
@@ -54,6 +56,7 @@ control "aws_security_group matchers" do
     it { should_not allow_in(ipv4_range: "0.0.0.0/0", port: 22)}
     it { should allow_in(ipv4_range: "10.1.2.0/24", port: 22)}
     it { should allow_in(ipv4_range: ["10.1.2.0/24"], port: 22)}
+    it { should allow_in(ipv6_range: ["2001:db8::/122"], port: 22)}
 
     it { should allow_in({ipv4_range: "10.1.2.32/32", position: 2}) }    
     it { should_not allow_in_only({ipv4_range: "10.1.2.32/32", position: 2}) }
@@ -68,5 +71,7 @@ control "aws_security_group matchers" do
     it { should allow_out(ipv4_range: ["10.1.2.0/24", "10.3.2.0/24"], from_port: 6000, to_port: 6007)}
     it { should allow_out(ipv4_range: ["10.1.2.0/24", "10.3.2.0/24"], from_port: 6000, to_port: 6007, position: 1)}
 
+    it { should allow_out(ipv6_range: ["2001:db8::/122"])}
+    it { should allow_out(ipv6_range: ["2001:db8::/122"], from_port: 6000, to_port: 6007)}
   end
 end

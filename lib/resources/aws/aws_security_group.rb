@@ -12,7 +12,7 @@ class AwsSecurityGroup < Inspec.resource(1)
   supports platform: 'aws'
 
   include AwsSingularResourceMixin
-  attr_reader :description, :group_id, :group_name, :vpc_id, :inbound_rules, :outbound_rules
+  attr_reader :description, :group_id, :group_name, :vpc_id, :inbound_rules, :outbound_rules, :inbound_rules_count, :outbound_rules_count
 
   def to_s
     "EC2 Security Group #{@group_id}"
@@ -57,6 +57,7 @@ class AwsSecurityGroup < Inspec.resource(1)
       matched &&= allow__match_port(rule, criteria)
       matched &&= allow__match_protocol(rule, criteria)
       matched &&= allow__match_ipv4_range(rule, criteria)
+      matched &&= allow__match_ipv6_range(rule, criteria)
       matched
     end
   end
@@ -65,6 +66,7 @@ class AwsSecurityGroup < Inspec.resource(1)
     allowed_criteria = [
       :from_port,
       :ipv4_range,
+      :ipv6_range,
       :port,
       :position,
       :protocol,
@@ -149,11 +151,17 @@ class AwsSecurityGroup < Inspec.resource(1)
     rule[:ip_protocol] == prot
   end
 
-  def allow__match_ipv4_range(rule, criteria)
-    return true unless criteria.key?(:ipv4_range)
-    query = criteria[:ipv4_range]
-    query = [query] unless query.is_a?(Array)
-    ranges = rule[:ip_ranges].map { |rng| rng[:cidr_ip] }
+  def match_ipv4_or_6_range(rule, criteria)
+    if criteria.key?(:ipv4_range)
+      query = criteria[:ipv4_range]
+      query = [query] unless query.is_a?(Array)
+      ranges = rule[:ip_ranges].map { |rng| rng[:cidr_ip] }
+    else # IPv6
+      query = criteria[:ipv6_range]
+      query = [query] unless query.is_a?(Array)
+      ranges = rule[:ipv_6_ranges].map { |rng| rng[:cidr_ipv_6] }
+    end
+
     if criteria[:exact]
       Set.new(query) == Set.new(ranges)
     else
@@ -167,6 +175,16 @@ class AwsSecurityGroup < Inspec.resource(1)
         end
       end
     end
+  end
+
+  def allow__match_ipv4_range(rule, criteria)
+    return true unless criteria.key?(:ipv4_range)
+    match_ipv4_or_6_range(rule, criteria)
+  end
+
+  def allow__match_ipv6_range(rule, criteria)
+    return true unless criteria.key?(:ipv6_range)
+    match_ipv4_or_6_range(rule, criteria)
   end
 
   def validate_params(raw_params)
@@ -194,6 +212,18 @@ class AwsSecurityGroup < Inspec.resource(1)
       raise ArgumentError, 'You must provide parameters to aws_security_group, such as group_name, group_id, or vpc_id.g_group.'
     end
     validated_params
+  end
+
+  def count_sg_rules(ip_permissions)
+    rule_count = 0
+    ip_permissions.each do |ip_permission|
+      [:ip_ranges, :ipv_6_ranges, :user_id_group_pairs].each do |key|
+        if ip_permission.key? key
+          rule_count += ip_permission[key].length
+        end
+      end
+    end
+    rule_count
   end
 
   def fetch_from_api # rubocop: disable Metrics/AbcSize
@@ -233,7 +263,9 @@ class AwsSecurityGroup < Inspec.resource(1)
     @group_name = dsg_response.security_groups[0].group_name
     @vpc_id     = dsg_response.security_groups[0].vpc_id
     @inbound_rules = dsg_response.security_groups[0].ip_permissions.map(&:to_h)
+    @inbound_rules_count = count_sg_rules(dsg_response.security_groups[0].ip_permissions.map(&:to_h))
     @outbound_rules = dsg_response.security_groups[0].ip_permissions_egress.map(&:to_h)
+    @outbound_rules_count = count_sg_rules(dsg_response.security_groups[0].ip_permissions_egress.map(&:to_h))
   end
 
   class Backend
