@@ -246,6 +246,7 @@ module Inspec
             profile = dep.profile
             code = Inspec::MethodSource.code_at(data[:source_location], profile.source_reader)
             data[:code] = code unless code.nil? || code.empty?
+            break if !data[:code].empty?
           end
         end
         data
@@ -272,7 +273,6 @@ module Inspec
 
       res
     end
-    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
     # Check if the profile is internally well-structured. The logger will be
     # used to print information on errors and warnings which are found.
