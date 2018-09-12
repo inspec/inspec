@@ -241,12 +241,11 @@ module Inspec
         data[:id] = id
 
         # if the code field is empty try and pull info from dependencies
-        if data[:code].empty?
+        if data[:code].empty? && parent_profile.nil?
           locked_dependencies.dep_list.each do |_name, dep|
             profile = dep.profile
-            if profile.runner_context&.current_load&.values&.first == data[:source_location][:ref]
-              data[:code] = Inspec::MethodSource.code_at(data[:source_location], profile.source_reader)
-            end
+            code = Inspec::MethodSource.code_at(data[:source_location], profile.source_reader)
+            data[:code] = code unless code.nil? || code.empty?
           end
         end
         data

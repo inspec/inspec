@@ -131,7 +131,8 @@ describe 'inspec json' do
   end
 
   describe 'inspec json with a inheritance profile' do
-    let(:profile) { File.join(profile_path, 'dependencies', 'inheritance') }
+    let(:profile) { File.join(examples_path, 'meta-profile') }
+
     it 'can execute a profile inheritance' do
       out = inspec('json ' + profile)
       out.stderr.must_equal ''
@@ -144,9 +145,6 @@ describe 'inspec json' do
       json = JSON.load(out.stdout)
       json['controls'].each do |control|
         control['code'].empty?.must_equal false
-        if control['id'] == "profilea-2"
-          control['code'].must_equal "control 'profilea-2' do\n  describe gordon_config do\n    its('version') { should eq('1.0') }\n  end\nend\n"
-        end
       end
     end
   end
