@@ -13,6 +13,8 @@ module Inspec
     def_delegator :list, :key?, :profile_exist?
     def_delegator :list, :select
 
+    # These self methods are convenience methods so you dont always
+    # have to specify instance when calling the registry
     def self.find_attribute(name, profile)
       instance.find_attribute(name, profile)
     end
@@ -39,8 +41,18 @@ module Inspec
 
     def find_attribute(name, profile)
       profile = @profile_aliases[profile] if !profile_exist?(profile) && @profile_aliases[profile]
-      raise Inspec::AttributeRegistryUnknownProfile, "Profile '#{profile}' does not have any attributes" unless profile_exist?(profile)
-      raise Inspec::AttributeRegistryUnknownAttribute, "Profile '#{profile}' does not have a attribute with name '#{name}'" unless list[profile].key?(name)
+      unless profile_exist?(profile)
+        error = Inspec::AttributeRegistry::ProfileError.new
+        error.profile_name = profile
+        raise error, "Profile '#{error.profile_name}' does not have any attributes"
+      end
+
+      unless list[profile].key?(name)
+        error = Inspec::AttributeRegistry::AttributeError.new
+        error.attribute_name = name
+        error.profile_name = profile
+        raise error, "Profile '#{error.profile_name}' does not have a attribute with name '#{error.attribute_name}'"
+      end
       list[profile][name]
     end
 

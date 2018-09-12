@@ -58,14 +58,14 @@ describe Inspec::AttributeRegistry do
 
     it 'errors when trying to find a attribute on a unknown profile' do
       attribute = attributes.register_attribute('color', 'dummy_profile')
-      e = proc { attributes.find_attribute('color', 'unknown_profile') }.must_raise(Inspec::AttributeRegistryUnknownProfile) 
-      e.message.must_match "Profile 'unknown_profile' does not have any attributes"
+      ex = assert_raises(Inspec::AttributeRegistry::ProfileError) { attributes.find_attribute('color', 'unknown_profile') }
+      ex.message.must_match "Profile 'unknown_profile' does not have any attributes"
     end
 
-    it 'errors when trying to find a unkown attribute on a known profile' do
+    it 'errors when trying to find a unknown attribute on a known profile' do
       attribute = attributes.register_attribute('color', 'dummy_profile')
-      e = proc { attributes.find_attribute('unknown_attribute', 'dummy_profile') }.must_raise(Inspec::AttributeRegistryUnknownAttribute) 
-      e.message.must_match "Profile 'dummy_profile' does not have a attribute with name 'unknown_attribute'"
+      ex = assert_raises(Inspec::AttributeRegistry::AttributeError) { attributes.find_attribute('unknown_attribute', 'dummy_profile') }
+      ex.message.must_match "Profile 'dummy_profile' does not have a attribute with name 'unknown_attribute'"
     end
   end
 end

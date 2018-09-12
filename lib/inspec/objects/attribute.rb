@@ -91,7 +91,9 @@ module Inspec
     def validate_required(value)
       # value will be set already if a secrets file was passed in
       if (!@opts.key?(:default) && value.nil?) || (@opts[:default].nil? && value.nil?)
-        raise Inspec::AttributeRequiredError, "Attribute '#{@name}' is required and does not have a value."
+        error = Inspec::Attribute::RequiredError.new
+        error.attribute_name = @name
+        raise error, "Attribute '#{error.attribute_name}' is required and does not have a value."
       end
     end
 
@@ -102,7 +104,11 @@ module Inspec
         'Regex' => 'Regexp',
       }
       type = abbreviations[type] if abbreviations.key?(type)
-      raise Inspec::AttributeTypeError, "Type '#{type}' is not a valid attribute type." if !VALID_TYPES.include?(type)
+      if !VALID_TYPES.include?(type)
+        error = Inspec::Attribute::TypeError.new
+        error.attribute_type = type
+        raise error, "Type '#{error.attribute_type}' is not a valid attribute type."
+      end
       type
     end
 
@@ -121,7 +127,8 @@ module Inspec
       false
     end
 
-    def validate_value_type(value) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def validate_value_type(value)
       type = validate_type(@opts[:type])
       return if type == 'Any'
 
@@ -136,8 +143,15 @@ module Inspec
         invalid_type = true
       end
 
-      raise Inspec::AttributeValidationError, "Attribute '#{@name}' with value '#{value}' does not validate to type '#{type}'." if invalid_type == true
+      if invalid_type == true
+        error = Inspec::Attribute::ValidationError.new
+        error.attribute_name = @name
+        error.attribute_value = value
+        error.attribute_type = type
+        raise error, "Attribute '#{error.attribute_name}' with value '#{error.attribute_value}' does not validate to type '#{error.attribute_type}'."
+      end
     end
+    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
     def default
       @opts.key?(:default) ? @opts[:default] : DEFAULT_ATTRIBUTE.new(@name)

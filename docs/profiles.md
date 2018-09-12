@@ -337,13 +337,13 @@ profile `my_dep` using the name `my_res2`.
 
 # Profile Attributes
 
-Attributes may be used in profiles to define secrets, such as user names and passwords, that should not otherwise be stored in plain-text in a cookbook. Attributes may be set for the whole profile in the `inspec.yml`.
+Attributes are frequently used to parameterize a profile for use in different environments or targets. It can also be used define secrets, such as user names and passwords, that should not otherwise be stored in plain-text in a cookbook. Attributes may be set for the whole profile in the `inspec.yml`.
 
 Attributes may contain the following options:
 
 * Use `default` to set a default value for the attribute.
 * Use `type` to restrict an attribute to a specific type (any, string, numeric, array, hash, boolean, regex).
-* Use `required` to ensure the attribute has a default value or a value from a secrets file.
+* Use `required` to mandate the attribute has a default value or a value from a attribute YAML file.
 * Use `description` to set a brief description for the attribute.
 
 
@@ -427,6 +427,50 @@ The following command runs the tests and applies the secrets specified in `profi
 
 ```bash
 $ inspec exec examples/profile-attribute --attrs examples/profile-attribute.yml
+```
+
+To change your attributes for platform specific cases you can setup multiple `--attrs` files.
+
+For example, a inspec.yml:
+```YAML
+attributes:
+  - name: users
+    type: array
+    required: true
+```
+
+A YAML file named `windows.yml`
+```YAML
+users:
+  - Administrator
+  - Guest
+  - Randy
+```
+
+A YAML file named `linux.yml`
+```YAML
+users:
+  - root
+  - shadow
+  - rmadison
+```
+
+The control file:
+```RUBY
+control 'system-users' do
+  impact 0.8
+  desc 'Confirm the proper users are created on the system'
+
+  describe users do
+    its('usernames') { should eq attribute('users') }
+  end
+end
+```
+
+The following command runs the tests and applies the attributes specified:
+```bash
+$ inspec exec examples/profile-attribute --attrs examples/windows.yml
+$ inspec exec examples/profile-attribute --attrs examples/linux.yml
 ```
 
 See the full example in the InSpec open source repository: [Example InSpec Profile with Attributes](https://github.com/chef/inspec/tree/master/examples/profile-attribute)

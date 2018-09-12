@@ -12,12 +12,29 @@ module Inspec
   class FetcherFailure < Error; end
   class ReporterError < Error; end
 
-  class AttributeError < Error; end
-  class AttributeValidationError < AttributeError; end
-  class AttributeTypeError < AttributeError; end
-  class AttributeRequiredError < AttributeError; end
+  class Attribute
+    class Error < Inspec::Error; end
+    class ValidationError < Error
+      attr_accessor :attribute_name
+      attr_accessor :attribute_value
+      attr_accessor :attribute_type
+    end
+    class TypeError < Error
+      attr_accessor :attribute_type
+    end
+    class RequiredError < Error
+      attr_accessor :attribute_name
+    end
+  end
 
-  class AttributeRegistryError < Error; end
-  class AttributeRegistryUnknownProfile < AttributeRegistryError; end
-  class AttributeRegistryUnknownAttribute < AttributeRegistryError; end
+  class AttributeRegistry
+    class Error < Inspec::Error; end
+    class ProfileError < Error
+      attr_accessor :profile_name
+    end
+    class AttributeError < Error
+      attr_accessor :profile_name
+      attr_accessor :attribute_name
+    end
+  end
 end

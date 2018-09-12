@@ -45,7 +45,7 @@ describe Inspec::Attribute do
     end
 
     it 'returns value if overriding the default' do
-      attribute = Inspec::Attribute.new('test_attribute', required: 'default_value')
+      attribute = Inspec::Attribute.new('test_attribute', default: 'default_value')
       attribute.value = 'test_value'
       attribute.value.must_equal 'test_value'
     end
@@ -65,8 +65,8 @@ describe Inspec::Attribute do
 
     it 'returns an error if no value is set' do
       attribute = Inspec::Attribute.new('test_attribute', required: true)
-      e = proc { attribute.value }.must_raise(Inspec::AttributeError)
-      e.message.must_match /Attribute 'test_attribute' is required and does not have a value./
+      ex = assert_raises(Inspec::Attribute::RequiredError) { attribute.value }
+      ex.message.must_match /Attribute 'test_attribute' is required and does not have a value./
     end
   end
 
@@ -81,8 +81,8 @@ describe Inspec::Attribute do
 
     it 'returns an error if a invalid string is set' do
       opts[:type] = 'string'
-      e = proc { attribute.send(:validate_value_type, 123) }.must_raise(Inspec::AttributeValidationError)
-      e.message.must_match /Attribute 'test_attribute' with value '123' does not validate to type 'String'./
+      ex = assert_raises(Inspec::Attribute::ValidationError) { attribute.send(:validate_value_type, 123) }
+      ex.message.must_match /Attribute 'test_attribute' with value '123' does not validate to type 'String'./
     end
 
     it 'validates a numeric type' do
@@ -92,8 +92,8 @@ describe Inspec::Attribute do
 
     it 'returns an error if a invalid numeric is set' do
       opts[:type] = 'numeric'
-      e = proc { attribute.send(:validate_value_type, 'invalid') }.must_raise(Inspec::AttributeValidationError)
-      e.message.must_match /Attribute 'test_attribute' with value 'invalid' does not validate to type 'Numeric'./
+      ex = assert_raises(Inspec::Attribute::ValidationError) { attribute.send(:validate_value_type, 'invalid') }
+      ex.message.must_match /Attribute 'test_attribute' with value 'invalid' does not validate to type 'Numeric'./
     end
 
     it 'validates a regex type' do
@@ -103,8 +103,8 @@ describe Inspec::Attribute do
 
     it 'returns an error if a invalid regex is set' do
       opts[:type] = 'regex'
-      e = proc { attribute.send(:validate_value_type, '/(.+/') }.must_raise(Inspec::AttributeValidationError)
-      e.message.must_match "Attribute 'test_attribute' with value '/(.+/' does not validate to type 'Regexp'."
+      ex = assert_raises(Inspec::Attribute::ValidationError) { attribute.send(:validate_value_type, '/(.+/') }
+      ex.message.must_match "Attribute 'test_attribute' with value '/(.+/' does not validate to type 'Regexp'."
     end
 
     it 'validates a array type' do
@@ -116,8 +116,8 @@ describe Inspec::Attribute do
     it 'returns an error if a invalid array is set' do
       opts[:type] = 'Array'
       value = { a: 1, b: 2, c: 3 }
-      e = proc { attribute.send(:validate_value_type, value) }.must_raise(Inspec::AttributeValidationError)
-      e.message.must_match /Attribute 'test_attribute' with value '{:a=>1, :b=>2, :c=>3}' does not validate to type 'Array'./
+      ex = assert_raises(Inspec::Attribute::ValidationError) { attribute.send(:validate_value_type, value) }
+      ex.message.must_match /Attribute 'test_attribute' with value '{:a=>1, :b=>2, :c=>3}' does not validate to type 'Array'./
     end
 
     it 'validates a hash type' do
@@ -128,8 +128,8 @@ describe Inspec::Attribute do
 
     it 'returns an error if a invalid hash is set' do
       opts[:type] = 'hash'
-      e = proc { attribute.send(:validate_value_type, 'invalid') }.must_raise(Inspec::AttributeValidationError)
-      e.message.must_match /Attribute 'test_attribute' with value 'invalid' does not validate to type 'Hash'./
+      ex = assert_raises(Inspec::Attribute::ValidationError) { attribute.send(:validate_value_type, 'invalid') }
+      ex.message.must_match /Attribute 'test_attribute' with value 'invalid' does not validate to type 'Hash'./
     end
 
     it 'validates a boolean type' do
@@ -138,13 +138,13 @@ describe Inspec::Attribute do
       attribute.send(:validate_value_type, true)
     end
 
-    it 'returns an error if a invalid hash is set' do
+    it 'returns an error if a invalid boolean is set' do
       opts[:type] = 'boolean'
-      e = proc { attribute.send(:validate_value_type, 'not_true') }.must_raise(Inspec::AttributeValidationError)
-      e.message.must_match /Attribute 'test_attribute' with value 'not_true' does not validate to type 'Boolean'./
+      ex = assert_raises(Inspec::Attribute::ValidationError) { attribute.send(:validate_value_type, 'not_true') }
+      ex.message.must_match /Attribute 'test_attribute' with value 'not_true' does not validate to type 'Boolean'./
     end
 
-    it 'validates a boolean type' do
+    it 'validates a any type' do
       opts[:type] = 'any'
       attribute.send(:validate_value_type, false)
       attribute.send(:validate_value_type, true)
@@ -154,7 +154,7 @@ describe Inspec::Attribute do
   end
 
   describe 'validate type method' do
-    it 'converts int to integer' do
+    it 'converts regex to Regexp' do
       attribute.send(:validate_type, 'regex').must_equal 'Regexp'
     end
 
@@ -163,17 +163,17 @@ describe Inspec::Attribute do
     end
 
     it 'returns an error if a invalid type is sent' do
-      e = proc { attribute.send(:validate_type, 'dressing') }.must_raise(Inspec::AttributeTypeError)
-      e.message.must_match /Type 'Dressing' is not a valid attribute type./
+      ex = assert_raises(Inspec::Attribute::TypeError) { attribute.send(:validate_type, 'dressing') }
+      ex.message.must_match /Type 'Dressing' is not a valid attribute type./
     end
   end
 
   describe 'valid_regexp? method' do
-    it 'vaildates a string regex' do
+    it 'validates a string regex' do
       attribute.send(:valid_regexp?, '/.*/').must_equal true
     end
 
-    it 'vaildates a slash regex' do
+    it 'validates a slash regex' do
       attribute.send(:valid_regexp?, /.*/).must_equal true
     end
 
@@ -183,15 +183,15 @@ describe Inspec::Attribute do
   end
 
   describe 'valid_numeric? method' do
-    it 'vaildates a string number' do
+    it 'validates a string number' do
       attribute.send(:valid_numeric?, '123').must_equal true
     end
 
-    it 'vaildates a float number' do
+    it 'validates a float number' do
       attribute.send(:valid_numeric?, 44.55).must_equal true
     end
 
-    it 'validats a wong padded number' do
+    it 'validats a wrong padded number' do
       attribute.send(:valid_numeric?, '00080').must_equal true
     end
 

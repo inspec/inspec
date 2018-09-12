@@ -38,7 +38,7 @@ describe 'attributes' do
       cmd += File.join(profile_path, 'invalid_attributes')
       cmd += ' --no-create-lockfile'
       out = inspec(cmd)
-      out.stderr.must_include "Type 'Color' is not a valid attribute type.\n"
+      out.stderr.must_equal "Type 'Color' is not a valid attribute type.\n"
       out.stdout.must_equal ''
       out.exit_status.must_equal 1
     end
@@ -48,7 +48,7 @@ describe 'attributes' do
       cmd += File.join(profile_path, 'required_attributes')
       cmd += ' --no-create-lockfile'
       out = inspec(cmd)
-      out.stderr.must_include "Attribute 'username' is required and does not have a value.\n"
+      out.stderr.must_equal "Attribute 'username' is required and does not have a value.\n"
       out.stdout.must_equal ''
       out.exit_status.must_equal 1
     end
