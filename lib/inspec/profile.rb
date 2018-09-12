@@ -229,7 +229,7 @@ module Inspec
       info(load_params.dup)
     end
 
-    def info(res = params.dup) # rubocop:disable Metrics/CyclomaticComplexity
+    def info(res = params.dup) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       # add information about the controls
       res[:controls] = res[:controls].map do |id, rule|
         next if id.to_s.empty?
@@ -242,9 +242,9 @@ module Inspec
 
         # if the code field is empty try and pull info from dependencies
         if data[:code].empty?
-          locked_dependencies.dep_list.each do |name, dep|
+          locked_dependencies.dep_list.each do |_name, dep|
             profile = dep.profile
-            if profile.runner_context&.current_load.values.first == data[:source_location][:ref]
+            if profile.runner_context&.current_load&.values&.first == data[:source_location][:ref]
               data[:code] = Inspec::MethodSource.code_at(data[:source_location], profile.source_reader)
             end
           end
@@ -273,6 +273,7 @@ module Inspec
 
       res
     end
+    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
     # Check if the profile is internally well-structured. The logger will be
     # used to print information on errors and warnings which are found.
