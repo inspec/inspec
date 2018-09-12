@@ -277,7 +277,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       if is_windows?
         out.stdout.force_encoding(Encoding::UTF_8).must_include "  expected: \"01147\"\n          got: \"040755\"\n"
       else
-        out.stdout.force_encoding(Encoding::UTF_8).must_include "  expected: \"01147\"\n    got: \"01777\"\n"
+        out.stdout.force_encoding(Encoding::UTF_8).must_include "  expected: \"01147\"\n          got: \"01777\"\n"
       end
     end
   end
@@ -287,7 +287,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
 
     it 'should print all the results' do
       out.stdout.force_encoding(Encoding::UTF_8).must_include "×  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "×  should not be directory"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "×  cmp-1.0: Using the cmp matcher for numbers (2 failed)"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "×  undefined method `should_nota'"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "×  should not be directory\n     expected `File /tmp.directory?` to return false, got true\e[0m"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  profiled-1: Create /tmp directory (profile d)"

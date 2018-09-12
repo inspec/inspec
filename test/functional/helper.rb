@@ -40,6 +40,7 @@ module FunctionalHelper
   }
 
   def convert_windows_output(text)
+    text = text.force_encoding("UTF-8")
     text.gsub!("[PASS]", '✔')
     text.gsub!("\033[0;1;32m", "\033[38;5;41m")
     text.gsub!("[SKIP]", '↺')
