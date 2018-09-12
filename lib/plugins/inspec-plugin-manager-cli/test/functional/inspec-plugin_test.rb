@@ -18,6 +18,12 @@ module PluginManagerHelpers
     src.each { |path| FileUtils.cp_r(path, dest) }
   end
 
+  def copy_in_core_config_dir(fixture_name)
+    src = Dir.glob(File.join(project_config_dirs_path, fixture_name, '*'))
+    dest = File.join(project_config_dirs_path, 'empty')
+    src.each { |path| FileUtils.cp_r(path, dest) }
+  end
+
   def clear_empty_config_dir
     Dir.glob(File.join(project_config_dirs_path, 'empty', '*')).each do |path|
       next if path.end_with? '.gitkeep'
@@ -47,6 +53,7 @@ class PluginManagerCliHelp < MiniTest::Test
     result = run_inspec_process('plugin help')
     assert_includes result.stdout, 'inspec plugin list'
     assert_includes result.stdout, 'inspec plugin search'
+    assert_includes result.stdout, 'inspec plugin install'
   end
 end
 
@@ -169,16 +176,136 @@ end
 #-----------------------------------------------------------------------------------------#
 #                               inspec plugin install
 #-----------------------------------------------------------------------------------------#
-# plugin install help
-# plugin install from path
-# plugin install from gemfile
-# plugin install from gem when gem exists, get latest version
-# plugin install train plugin
-# Should refuse to install gems that do not begin with train- or inspec-
-# plugin install with pinned version
-# plugin install nonesuch
-# plugin install already installed same version
-# plugin install already installed need update
+class PluginManagerCliList < MiniTest::Test
+  include CorePluginFunctionalHelper
+  include PluginManagerHelpers
+
+  def test_install_from_path
+    fixture_plugin_path = File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture')
+    working_dir = empty_config_dir_path
+    install_result = run_inspec_process("plugin install #{fixture_plugin_path}", INSPEC_CONFIG_DIR: working_dir)
+
+    assert_empty install_result.stderr
+    assert_equal 0, install_result.exit_status 'Exit status should be 0'
+    assert_includes install_result.stdout, 'inspec-test-fixture plugin installed'
+
+    list_result = run_inspec_process("plugin list", INSPEC_CONFIG_DIR: working_dir)
+    itf_line = result.stdout.split("\n").grep(/inspec-test-fixture/).first
+    refute_nil itf_line, 'inspec-test-fixture should now appear in the output of inspec list'
+    assert_match(/\s*inspec-test-fixture\s+src\s+path\s+/, itf_line, 'list output should show that it is a path installation')
+  end
+
+  def test_fail_install_from_nonexistant_path
+    bad_path = File.join(project_fixtures_path, 'none', 'such', 'inspec-test-fixture-nonesuch.rb')
+    working_dir = empty_config_dir_path
+    install_result = run_inspec_process("plugin install #{bad_path}", INSPEC_CONFIG_DIR: working_dir)
+
+    assert_empty install_result.stderr
+    assert_equal 1, install_result.exit_status 'Exit status should be 1'
+    assert_match(/No such source code path .+ - installation failed./, install_result.stdout)
+  end
+
+  def test_install_from_gemfile
+    fixture_gemfile_path = File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'pkg', 'inspec-test-fixture-0.1.0.gem')
+    working_dir = empty_config_dir_path
+    install_result = run_inspec_process("plugin install #{fixture_gemfile_path}", INSPEC_CONFIG_DIR: working_dir)
+
+    assert_empty install_result.stderr
+    assert_equal 0, install_result.exit_status 'Exit status should be 0'
+    assert_includes install_result.stdout, 'inspec-test-fixture plugin installed'
+
+    list_result = run_inspec_process("plugin list", INSPEC_CONFIG_DIR: working_dir)
+    itf_line = result.stdout.split("\n").grep(/inspec-test-fixture/).first
+    refute_nil itf_line, 'inspec-test-fixture should now appear in the output of inspec list'
+    assert_match(/\s*inspec-test-fixture\s+0.1.0\s+gem\s+/, itf_line, 'list output should show that it is a gem installation with version')
+  end
+
+  def test_fail_install_from_nonexistant_gemfile
+    bad_path = File.join(project_fixtures_path, 'none', 'such', 'inspec-test-fixture-nonesuch-0.3.0.gem')
+    working_dir = empty_config_dir_path
+    install_result = run_inspec_process("plugin install #{bad_path}", INSPEC_CONFIG_DIR: working_dir)
+
+    assert_empty install_result.stderr
+    assert_equal 1, install_result.exit_status 'Exit status should be 1'
+    assert_match(/No such plugin gem file .+ - installation failed./, install_result.stdout)
+  end
+
+  def test_install_from_rubygems_latest
+    working_dir = empty_config_dir_path
+    install_result = run_inspec_process("plugin install inspec-test-fixture", INSPEC_CONFIG_DIR: working_dir)
+
+    assert_empty install_result.stderr
+    assert_equal 0, install_result.exit_status 'Exit status should be 0'
+    assert_includes install_result.stdout, 'inspec-test-fixture plugin installed'
+
+    list_result = run_inspec_process("plugin list", INSPEC_CONFIG_DIR: working_dir)
+    itf_line = result.stdout.split("\n").grep(/inspec-test-fixture/).first
+    refute_nil itf_line, 'inspec-test-fixture should now appear in the output of inspec list'
+    assert_match(/\s*inspec-test-fixture\s+0.2.0\s+gem\s+/, itf_line, 'list output should show that it is a gem installation with version')
+  end
+
+  def test_fail_install_from_nonexistant_remote_rubygem
+    working_dir = empty_config_dir_path
+    install_result = run_inspec_process('plugin install inspec-test-fixture-nonesuch', INSPEC_CONFIG_DIR: working_dir)
+
+    assert_empty install_result.stderr
+    assert_equal 1, install_result.exit_status 'Exit status should be 1'
+    assert_match(/No such plugin gem .+ could be found on rubygems.org - installation failed./, install_result.stdout)
+  end
+
+  def test_install_from_rubygems_with_pinned_version
+    working_dir = empty_config_dir_path
+    install_result = run_inspec_process("plugin install inspec-test-fixture -v 0.1.0", INSPEC_CONFIG_DIR: working_dir)
+
+    assert_empty install_result.stderr
+    assert_equal 0, install_result.exit_status 'Exit status should be 0'
+    assert_includes install_result.stdout, 'inspec-test-fixture plugin installed'
+
+    list_result = run_inspec_process("plugin list", INSPEC_CONFIG_DIR: working_dir)
+    itf_line = result.stdout.split("\n").grep(/inspec-test-fixture/).first
+    refute_nil itf_line, 'inspec-test-fixture should now appear in the output of inspec list'
+    assert_match(/\s*inspec-test-fixture\s+0.1.0\s+gem\s+/, itf_line, 'list output should show that it is a gem installation with version')
+  end
+
+  def test_fail_install_from_nonexistant_rubygem_version
+    working_dir = empty_config_dir_path
+    install_result = run_inspec_process('plugin install inspec-test-fixture -v 99.99.99', INSPEC_CONFIG_DIR: working_dir)
+
+    assert_empty install_result.stderr
+    assert_equal 1, install_result.exit_status 'Exit status should be 1'
+    assert_match(/Plugin rubygem exists, but no such version 99.99.99 on rubygems.org - installation failed./, install_result.stdout)
+  end
+
+  def test_refuse_install_when_missing_prefix
+    working_dir = empty_config_dir_path
+    install_result = run_inspec_process('plugin install test-fixture', INSPEC_CONFIG_DIR: working_dir)
+
+    assert_empty install_result.stderr
+    assert_equal 1, install_result.exit_status 'Exit status should be 1'
+    assert_equal "All inspec plugins must begin with either 'inspec-' or 'train-'", install_result.stdout
+  end
+
+  def test_refuse_install_when_already_installed_same_version
+    working_dir = empty_config_dir_path
+    copy_in_core_config_dir('test-fixture-2-float')
+    install_result = run_inspec_process('plugin install install-test-fixture', INSPEC_CONFIG_DIR: working_dir)
+
+    assert_empty install_result.stderr
+    assert_equal 2, install_result.exit_status 'Exit status should be 2'
+    assert_equal "Plugin 'inspec-test-fixture' is already installed at latest version, 0.2.0", install_result.stdout
+  end
+
+  def test_refuse_install_when_already_installed_can_update
+    working_dir = empty_config_dir_path
+    copy_in_core_config_dir('test-fixture-1-float')
+    install_result = run_inspec_process('plugin install test-fixture', INSPEC_CONFIG_DIR: working_dir)
+
+    assert_empty install_result.stderr
+    assert_equal 2, install_result.exit_status 'Exit status should be 2'
+    assert_equal "Plugin 'inspec-test-fixture' is already installed version 0.1.0, but latest is 0.2.0.  Use 'inspec update inspec-test-fixture' to upgrade.", install_result.stdout
+  end
+end
+
 
 #-----------------------------------------------------------------------------------------#
 #                               inspec plugin update

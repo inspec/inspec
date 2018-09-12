@@ -43,14 +43,19 @@ class PluginManagerCliOptions < MiniTest::Test
     assert_equal 1, cli_class.instance_method(:search).arity, 'The search command should take one argument'
   end
 
+  def test_install_args
+    arg_config = cli_class.all_commands['install'].options
+    assert_equal 1, arg_config.count, 'The install command should have 1 option'
 
+    assert_includes arg_config.keys, :version, 'The install command should have a --version option'
+    assert_equal :string, arg_config[:version].type, 'The --version option should be a string'
+    assert_equal :v, arg_config[:version].aliases.first, 'The --version option should be aliased as -v'
+    refute_nil arg_config[:version].description, 'The --version option should have a description'
+    refute arg_config[:version].required, 'The --version option should not be required'
 
+    assert_equal 1, cli_class.instance_method(:install).arity, 'The install command should take one argument'
 
-  # def test_install_accepts_arg
-  # end
-
-  # def test_install_accepts_version
-  # end
+  end
 
   # def test_update_accepts_arg
   # end
