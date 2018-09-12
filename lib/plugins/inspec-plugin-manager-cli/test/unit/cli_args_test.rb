@@ -39,16 +39,12 @@ class PluginManagerCliOptions < MiniTest::Test
     assert_equal :e, arg_config[:exact].aliases.first, 'The --exact option should be aliased as -e'
     refute_nil arg_config[:exact].description, 'The --exact option should have a description'
     refute arg_config[:exact].required, 'The --exact option should not be required'
+
+    assert_equal 1, cli_class.instance_method(:search).arity, 'The search command should take one argument'
   end
 
-  # def test_search_accepts_exact
-  # end
 
-  # def test_search_accepts_all
-  # end
 
-  # def test_search_accepts_arg
-  # end
 
   # def test_install_accepts_arg
   # end
