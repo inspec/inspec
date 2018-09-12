@@ -5,6 +5,7 @@
 
 require 'forwardable'
 require 'openssl'
+require 'inspec/attribute_registry'
 require 'inspec/polyfill'
 require 'inspec/cached_fetcher'
 require 'inspec/file_provider'
@@ -79,7 +80,7 @@ module Inspec
     end
 
     attr_reader :source_reader, :backend, :runner_context, :check_mode
-    attr_accessor :parent_profile
+    attr_accessor :parent_profile, :profile_name
     def_delegator :@source_reader, :tests
     def_delegator :@source_reader, :libraries
     def_delegator :@source_reader, :metadata
@@ -93,11 +94,13 @@ module Inspec
       @controls = options[:controls] || []
       @writable = options[:writable] || false
       @profile_id = options[:id]
+      @profile_name = options[:profile_name]
       @cache = options[:vendor_cache] || Cache.new
       @attr_values = options[:attributes]
       @tests_collected = false
       @libraries_loaded = false
       @check_mode = options[:check_mode] || false
+      @parent_profile = options[:parent_profile]
       Metadata.finalize(@source_reader.metadata, @profile_id, options)
 
       # if a backend has already been created, clone it so each profile has its own unique backend object
@@ -119,6 +122,17 @@ module Inspec
 
       @supports_platform = metadata.supports_platform?(@backend)
       @supports_runtime = metadata.supports_runtime?
+      register_metadata_attributes
+    end
+
+    def register_metadata_attributes
+      if metadata.params.key?(:attributes)
+        metadata.params[:attributes].each do |attribute|
+          attr_dup = attribute.dup
+          name = attr_dup.delete(:name)
+          @runner_context.register_attribute(name, attr_dup)
+        end
+      end
     end
 
     def name
@@ -229,7 +243,7 @@ module Inspec
       info(load_params.dup)
     end
 
-    def info(res = params.dup) # rubocop:disable Metrics/CyclomaticComplexity
+    def info(res = params.dup) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       # add information about the controls
       res[:controls] = res[:controls].map do |id, rule|
         next if id.to_s.empty?
@@ -249,7 +263,12 @@ module Inspec
       end
 
       # add information about the required attributes
-      res[:attributes] = res[:attributes].map(&:to_hash) unless res[:attributes].nil? || res[:attributes].empty?
+      if res[:attributes].nil? || res[:attributes].empty?
+        # convert to array for backwords compatability
+        res[:attributes] = []
+      else
+        res[:attributes] = res[:attributes].values.map(&:to_hash)
+      end
       res[:sha256] = sha256
       res[:parent_profile] = parent_profile unless parent_profile.nil?
 

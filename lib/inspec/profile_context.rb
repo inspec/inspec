@@ -18,7 +18,7 @@ module Inspec
                                    'check_mode' => profile.check_mode })
     end
 
-    attr_reader :attributes, :profile_id, :resource_registry, :backend
+    attr_reader :attributes, :backend, :profile_name, :profile_id, :resource_registry
     attr_accessor :rules
     def initialize(profile_id, backend, conf)
       if backend.nil?
@@ -28,12 +28,14 @@ module Inspec
       @profile_id = profile_id
       @backend = backend
       @conf = conf.dup
+      @profile_name = @conf['profile'].profile_name || @profile_id if @conf['profile']
       @skip_only_if_eval = @conf['check_mode']
       @rules = {}
       @control_subcontexts = []
       @lib_subcontexts = []
       @require_loader = ::Inspec::RequireLoader.new
-      @attributes = []
+      Inspec::AttributeRegistry.register_profile_alias(@profile_id, @profile_name) if @profile_id != @profile_name
+      @attributes = Inspec::AttributeRegistry.list_attributes_for_profile(@profile_id)
       # A local resource registry that only contains resources defined
       # in the transitive dependency tree of the loaded profile.
       @resource_registry = Inspec::Resource.new_registry
@@ -187,11 +189,9 @@ module Inspec
 
     def register_attribute(name, options = {})
       # we need to return an attribute object, to allow dermination of default values
-      attr = Attribute.new(name, options)
-      # read value from given gived values
-      attr.value = @conf['attributes'][attr.name] unless @conf['attributes'].nil?
-      @attributes.push(attr)
-      attr.value
+      attribute = Inspec::AttributeRegistry.register_attribute(name, @profile_id, options)
+      attribute.value = @conf['attributes'][name] unless @conf['attributes'].nil? || @conf['attributes'][name].nil?
+      attribute.value
     end
 
     def set_header(field, val)

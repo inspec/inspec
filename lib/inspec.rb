@@ -15,6 +15,8 @@ require 'inspec/runner'
 require 'inspec/shell'
 require 'inspec/formatters'
 require 'inspec/reporters'
+require 'inspec/attribute_registry'
+require 'inspec/rspec_extensions'
 require 'inspec/globals'
 
 require 'inspec/plugin/v2'
