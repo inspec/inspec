@@ -75,8 +75,9 @@ namespace :test do
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
 
-  # Functional tests on windows are a WIP. Currently some
-  # functional test files are supported
+  # Functional tests on Windows are a WIP. Currently only some
+  # functional test files are supported.
+  # TODO: Ensure all functional tests are ran on Windows
   Rake::TestTask.new(:'functional:windows') do |t|
     t.libs << 'test'
     t.test_files = [
