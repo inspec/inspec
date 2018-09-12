@@ -5,6 +5,7 @@
 require 'thor'
 require 'inspec/log'
 require 'inspec/profile_vendor'
+require 'inspec/ui'
 
 # Allow end of options during array type parsing
 # https://github.com/erikhuda/thor/issues/631
@@ -219,6 +220,10 @@ module Inspec
     # but Thor interprets all methods as subcommands.  The no_commands block
     # treats them as regular methods.
     no_commands do
+      def ui
+        @ui ||= Inspec::UI.new(opts)
+      end
+
       def mark_text(text)
         "\e[0;36m#{text}\e[0m"
       end
