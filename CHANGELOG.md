@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.90 -->
-## [v2.2.90](https://github.com/inspec/inspec/tree/v2.2.90) (2018-09-12)
+<!-- latest_release 2.2.91 -->
+## [v2.2.91](https://github.com/inspec/inspec/tree/v2.2.91) (2018-09-12)
 
 #### Merged Pull Requests
-- Revert uuid change from A2 report [#3387](https://github.com/inspec/inspec/pull/3387) ([jquick](https://github.com/jquick))
+- Populate code for inspec json inheritance [#3386](https://github.com/inspec/inspec/pull/3386) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.78 -->
@@ -23,6 +23,7 @@
 - handle errors from automate report and display them to the user [#3360](https://github.com/inspec/inspec/pull/3360) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.80 -->
 
 #### Merged Pull Requests
+- Populate code for inspec json inheritance [#3386](https://github.com/inspec/inspec/pull/3386) ([jquick](https://github.com/jquick)) <!-- 2.2.91 -->
 - Revert uuid change from A2 report [#3387](https://github.com/inspec/inspec/pull/3387) ([jquick](https://github.com/jquick)) <!-- 2.2.90 -->
 - Implement InSpec global attributes [#3318](https://github.com/inspec/inspec/pull/3318) ([jquick](https://github.com/jquick)) <!-- 2.2.89 -->
 - Update rubyzip to resolve a directory traversal security vulnerability. [#3388](https://github.com/inspec/inspec/pull/3388) ([miah](https://github.com/miah)) <!-- 2.2.88 -->
