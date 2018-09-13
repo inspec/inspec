@@ -85,7 +85,7 @@ describe Inspec::ZipProvider do
 
     it 'must contain all files' do
       subject.files.sort.must_equal %w{inspec.yml libraries libraries/testlib.rb
-        controls controls/filesystem_spec.rb files files/a_sub_dir
+        controls controls/host_spec.rb files files/a_sub_dir
         files/a_sub_dir/sub_items.conf files/items.conf}.sort
     end
 
@@ -130,7 +130,7 @@ describe Inspec::ZipProvider do
 
     it 'must contain all files' do
       subject.files.sort.must_equal %w{inspec.yml libraries libraries/testlib.rb
-        controls controls/filesystem_spec.rb files files/a_sub_dir
+        controls controls/host_spec.rb files files/a_sub_dir
         files/a_sub_dir/sub_items.conf files/items.conf}.sort
     end
 
@@ -152,7 +152,7 @@ describe Inspec::TarProvider do
 
     it 'must contain all files' do
       subject.files.sort.must_equal %w{inspec.yml libraries/testlib.rb
-        controls/filesystem_spec.rb files/a_sub_dir/sub_items.conf
+        controls/host_spec.rb files/a_sub_dir/sub_items.conf
         files/items.conf}.sort
     end
 

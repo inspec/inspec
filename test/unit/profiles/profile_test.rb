@@ -68,14 +68,14 @@ describe Inspec::Profile do
     end
 
     it 'works on a complete profile' do
-      MockLoader.load_profile('complete-profile').sha256.must_equal '5a129bd0a06f3d27589871a8dc8c65361d3730e802b926755191b610b7f99d3a'
+      MockLoader.load_profile('complete-profile').sha256.must_equal '25cf05093c695d807e488b04e3551f19de900c1d2b0cbfadb476a5786efa7323'
     end
   end
 
   describe 'code info' do
     let(:profile_id) { 'complete-profile' }
-    let(:code) { "control 'test01' do\n  impact 0.5\n  title 'Catchy title'\n  desc '\n    There should always be a /proc\n  '\n  describe file('/proc') do\n    it { should be_mounted }\n  end\nend\n" }
-    let(:loc) { {:ref=>"controls/filesystem_spec.rb", :line=>6} }
+    let(:code) { "control 'test01' do\n  impact 0.5\n  title 'Catchy title'\n  desc '\n    example.com should always exist.\n  '\n  describe host('example.com') do\n    it { should be_resolvable }\n  end\nend\n" }
+    let(:loc) { {:ref=>"controls/host_spec.rb", :line=>6} }
 
     it 'gets code from an uncompressed profile' do
       info = MockLoader.load_profile(profile_id).info

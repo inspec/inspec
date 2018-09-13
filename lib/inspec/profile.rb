@@ -548,10 +548,12 @@ module Inspec
       params[:controls] = controls = {}
       params[:groups] = groups = {}
       prefix = @source_reader.target.prefix || ''
-      tests.each do |rule|
-        next if rule.nil?
-        f = load_rule_filepath(prefix, rule)
-        load_rule(rule, f, controls, groups)
+      unless tests.nil?
+        tests.each do |rule|
+          next if rule.nil?
+          f = load_rule_filepath(prefix, rule)
+          load_rule(rule, f, controls, groups)
+        end
       end
       params[:attributes] = @runner_context.attributes
       params
