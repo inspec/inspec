@@ -59,6 +59,7 @@ module Inspec::Resources
       # surpress 'x rows affected' in SQLCMD with 'set nocount on;'
       cmd_string = "sqlcmd -Q \"set nocount on; #{escaped_query}\" -W -w 1024 -s ','"
       cmd_string += " -U '#{@user}' -P '#{@password}'" unless @user.nil? || @password.nil?
+      cmd_string += " -d '#{@db_name}'" unless @db_name.nil?
       unless local_mode?
         if @port.nil?
           cmd_string += " -S '#{@host}"
@@ -70,9 +71,6 @@ module Inspec::Resources
         else
           cmd_string += "\\#{@instance}'"
         end
-      end
-      unless @db_name.nil? 
-        cmd_string += " -d '#{@db_name}'"
       end
       cmd = inspec.command(cmd_string)
       out = cmd.stdout + "\n" + cmd.stderr
