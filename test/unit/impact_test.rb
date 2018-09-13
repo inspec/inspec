@@ -29,7 +29,7 @@ describe 'Impact' do
 
     it 'returns an error for a invalid impact string' do
       e = proc { impact.impact_from_string('fake') }.must_raise(Inspec::ImpactError)
-      e.message.must_match "'fake' is not a valid impact name [none, low, medium, high, critical]."
+      e.message.must_match "'fake' is not a valid impact name. Valid impact names: none, low, medium, high, critical."
     end
   end
 
@@ -52,7 +52,7 @@ describe 'Impact' do
 
     it 'returns an error for a invalid impact score' do
       e = proc { impact.string_from_impact(99) }.must_raise(Inspec::ImpactError)
-      e.message.must_match "'99.0' is not a valid impact score [0.0 - 1]."
+      e.message.must_match "'99.0' is not a valid impact score. Valid impact scores: [0.0 - 1.0]."
     end
   end
 
@@ -69,5 +69,4 @@ describe 'Impact' do
       impact.is_number?('abc').must_equal false
     end
   end
-
 end

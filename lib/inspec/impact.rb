@@ -13,7 +13,7 @@ module Inspec::Impact
   def self.impact_from_string(value)
     # return if its a number
     return value if is_number?(value)
-    raise Inspec::ImpactError, "'#{value}' is not a valid impact name [none, low, medium, high, critical]." unless IMPACT_SCORES.key?(value.downcase)
+    raise Inspec::ImpactError, "'#{value}' is not a valid impact name. Valid impact names: none, low, medium, high, critical." unless IMPACT_SCORES.key?(value.downcase)
     IMPACT_SCORES[value]
   end
 
@@ -26,7 +26,7 @@ module Inspec::Impact
 
   def self.string_from_impact(value)
     value = value.to_f
-    raise Inspec::ImpactError, "'#{value}' is not a valid impact score [0.0 - 1]." if value < 0 || value > 1
+    raise Inspec::ImpactError, "'#{value}' is not a valid impact score. Valid impact scores: [0.0 - 1.0]." if value < 0 || value > 1
     IMPACT_SCORES.reverse_each do |name, impact|
       return name if value >= impact
     end
