@@ -35,6 +35,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   def json(target)
     o = opts.dup
     diagnose(o)
+    o['log_location'] = STDERR
+    configure_logger(o)
+
     o[:backend] = Inspec::Backend.create(target: 'mock://')
     o[:check_mode] = true
     o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
