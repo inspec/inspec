@@ -201,9 +201,17 @@ module Inspec
       },
     }.freeze
 
+    # using a proc here so we can lazy load it when we need
+    PLATFORMS = lambda do
+      require 'train'
+      Train.create('mock').connection
+      Train::Platforms.export
+    end
+
     LIST = {
       'exec-json' => EXEC_JSON,
       'exec-jsonmin' => EXEC_JSONMIN,
+      'platforms' => PLATFORMS,
     }.freeze
 
     def self.names
@@ -211,8 +219,13 @@ module Inspec
     end
 
     def self.json(name)
-      v = LIST[name] ||
-          raise("Cannot find schema #{name.inspect}.")
+      if !LIST.key?(name)
+        raise("Cannot find schema #{name.inspect}.")
+      elsif LIST[name].is_a?(Proc)
+        v = LIST[name].call
+      else
+        v = LIST[name]
+      end
       JSON.dump(v)
     end
   end
