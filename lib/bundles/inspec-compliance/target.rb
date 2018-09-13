@@ -17,12 +17,12 @@ module Compliance
 
     def initialize(target, opts)
       super(target, opts)
+      @upstream_sha256 = ''
       if target.is_a?(Hash) && target.key?(:url)
         @target = target[:url]
         @upstream_sha256 = target[:sha256]
       elsif target.is_a?(String)
         @target = target
-        @upstream_sha256 = ''
       end
     end
 
@@ -30,7 +30,7 @@ module Compliance
       upstream_sha256.empty? ? super : upstream_sha256
     end
 
-    def self.check_compliance_token(config)
+    def self.check_compliance_token(uri, config)
       if config['token'].nil? && config['refresh_token'].nil?
         if config['server_type'] == 'automate'
           server = 'automate'
@@ -73,7 +73,7 @@ module Compliance
       if target.respond_to?(:key?) && target.key?(:sha256)
         profile_checksum = target[:sha256]
       else
-        check_compliance_token(config)
+        check_compliance_token(uri, config)
         # verifies that the target e.g base/ssh exists
         # Call profiles directly instead of exist? to capture the results
         # so we can access the upstream sha256 from the results.
