@@ -84,6 +84,7 @@ namespace :test do
       'test/functional/inspec_exec_test.rb',
       'test/functional/inspec_exec_json_test.rb',
       'test/functional/inspec_detect_test.rb',
+      'test/functional/inspec_vendor_test.rb',
       'test/functional/inspec_compliance_test.rb',
       'test/functional/inspec_check_test.rb',
       'test/functional/filter_table_test.rb',

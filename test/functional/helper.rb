@@ -35,6 +35,7 @@ module FunctionalHelper
     # create a temporary path, but we only want an auto-clean helper
     # so remove the file and give back the path
     res = Tempfile.new('inspec-shred')
+    res.close
     FileUtils.rm(res.path)
     TMP_CACHE[res.path] = res
   }
