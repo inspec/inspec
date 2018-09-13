@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.95 -->
-## [v2.2.95](https://github.com/inspec/inspec/tree/v2.2.95) (2018-09-13)
+<!-- latest_release 2.2.96 -->
+## [v2.2.96](https://github.com/inspec/inspec/tree/v2.2.96) (2018-09-13)
 
-#### Merged Pull Requests
-- Bump omnibus ruby to 2.5.1 [#3390](https://github.com/inspec/inspec/pull/3390) ([jquick](https://github.com/jquick))
+#### New Features
+- Add string impact options for controls [#3359](https://github.com/inspec/inspec/pull/3359) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.78 -->
 ### Changes since 2.2.78 release
+
+#### New Features
+- Add string impact options for controls [#3359](https://github.com/inspec/inspec/pull/3359) ([jquick](https://github.com/jquick)) <!-- 2.2.96 -->
 
 #### Bug Fixes
 - Fix the compliance target error checks [#3392](https://github.com/inspec/inspec/pull/3392) ([jquick](https://github.com/jquick)) <!-- 2.2.94 -->
