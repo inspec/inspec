@@ -18,6 +18,7 @@ require 'inspec/reporters'
 require 'inspec/attribute_registry'
 require 'inspec/rspec_extensions'
 require 'inspec/globals'
+require 'inspec/impact'
 
 require 'inspec/plugin/v2'
 require 'inspec/plugin/v1'

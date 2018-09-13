@@ -32,6 +32,7 @@ require 'inspec/profile'
 require 'inspec/runner'
 require 'inspec/runner_mock'
 require 'inspec/globals'
+require 'inspec/impact'
 require 'fetchers/mock'
 require 'inspec/dependencies/cache'
 
