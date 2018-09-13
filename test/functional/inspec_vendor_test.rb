@@ -169,7 +169,13 @@ describe 'example inheritance profile' do
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
 
-      Dir.glob(File.join(profile_tmpdir, 'vendor', '*')).length.must_equal 3
+      vendor_list = Dir.glob(File.join(profile_tmpdir, 'vendor', '*'))
+      vendor_list.length.must_equal 3
+      vendor_list.each do |entry|
+        # confirm archives were extracted into folders
+        File.directory?(entry).must_equal true
+        Dir.glob(File.join(entry, '*')).length.must_be(:>=, 1)
+      end
     end
   end
 
