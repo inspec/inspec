@@ -1,7 +1,7 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.99 -->
-## [v2.2.99](https://github.com/inspec/inspec/tree/v2.2.99) (2018-09-13)
+<!-- latest_release 2.2.100 -->
+## [v2.2.100](https://github.com/inspec/inspec/tree/v2.2.100) (2018-09-13)
 
 #### Merged Pull Requests
 - Add platforms schema command [#3346](https://github.com/inspec/inspec/pull/3346) ([jquick](https://github.com/jquick))
