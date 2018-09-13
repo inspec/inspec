@@ -28,48 +28,22 @@ describe 'example inheritance profile' do
       out.exit_status.must_equal 0
 
       File.exist?(File.join(dir, 'vendor')).must_equal true
-      Dir.glob(File.join(dir, 'vendor', '*')).wont_be_empty
       File.exist?(File.join(dir, 'inspec.lock')).must_equal true
+      Dir.glob(File.join(dir, 'vendor', '*')).wont_be_empty
     end
   end
 
-  it 'can vendor profile dependencies with a backslash in path' do
-    Dir.mktmpdir do |tmpdir|
-      archive_profile_path = File.join(profile_path, 'archive-depends')
-      target_profile_name = File.basename(archive_profile_path)
-
-      if is_windows?
-        FileUtils.cp_r(archive_profile_path, tmpdir)
-        target_profile_path = File.join(
-          tmpdir,
-          target_profile_name,
-          '..\\',
-          target_profile_name,
-          )
-
-        out = inspec('vendor ' + target_profile_path + ' --overwrite')
-
-        # Must expand path for `Dir.glob`
-        expanded_target_path = File.expand_path(target_profile_path)
-        Dir.glob(File.join(expanded_target_path, 'vendor', '*')).wont_be_empty
-      else
-        backslash_path = File.join(tmpdir, 'backslash\\path')
-        FileUtils.mkdir(backslash_path)
-        FileUtils.cp_r(archive_profile_path, backslash_path)
-        target_profile_path = File.join(backslash_path, target_profile_name)
-
-        # Escape backslashes to emulate command ran by user
-        escaped_target_path = target_profile_path.gsub('\\', '\\\\\\')
-        out = inspec('vendor ' + escaped_target_path + ' --overwrite')
-
-        # Must escape backslashes for `Dir.glob`
-        Dir.glob(File.join(escaped_target_path, 'vendor', '*')).wont_be_empty
-      end
-
-      File.exist?(File.join(target_profile_path, 'vendor')).must_equal true
-      File.exist?(File.join(target_profile_path, 'inspec.lock')).must_equal true
+  it 'can vendor profile dependencies with a backslash in path on Windows' do
+    return unless is_windows?
+    prepare_examples('inheritance') do |dir|
+      dir_with_backslash = File.join(dir, '..\\', File.basename(dir))
+      out = inspec('vendor ' + dir_with_backslash + ' --overwrite')
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
+
+      File.exist?(File.join(dir, 'vendor')).must_equal true
+      File.exist?(File.join(dir, 'inspec.lock')).must_equal true
+      Dir.glob(File.join(dir, 'vendor', '*')).wont_be_empty
     end
   end
 

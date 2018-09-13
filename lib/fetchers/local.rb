@@ -33,6 +33,9 @@ module Fetchers
       # Support "urls" in the form of file://
       if target.start_with?('file://')
         target = target.gsub(%r{^file://}, '')
+      else
+        # support for windows paths
+        target = target.tr('\\', '/')
       end
 
       target if File.exist?(File.expand_path(target))
