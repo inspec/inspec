@@ -13,8 +13,8 @@ describe 'inspec schema' do
       data = JSON.parse(out.stdout)
       data.class.must_equal Array
       data.size.must_be :>, 1
-      data[0]['name'].must_equal 'windows'
-      families = ["windows", "os"]
+      data[0]['name'].must_equal 'aix'
+      families = ['aix', 'unix', 'os']
       data[0]['families'].must_equal families
     end
   end
