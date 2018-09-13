@@ -149,6 +149,14 @@ describe 'inspec json' do
     end
   end
 
+  describe 'inspec json does not write logs to STDOUT' do
+    it 'execute a profile with warn calls and parses as valid json' do
+      out = inspec('json ' + File.join(profile_path, 'warn_logs'))
+      out.exit_status.must_equal 0
+      JSON.load(out.stdout)
+    end
+  end
+
   describe 'inspec json with a profile containing only_if' do
     it 'ignores the `only_if`' do
       out = inspec('json ' + File.join(profile_path, 'only-if-os-nope'))
