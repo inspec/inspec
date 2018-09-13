@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.94 -->
-## [v2.2.94](https://github.com/inspec/inspec/tree/v2.2.94) (2018-09-13)
+<!-- latest_release 2.2.95 -->
+## [v2.2.95](https://github.com/inspec/inspec/tree/v2.2.95) (2018-09-13)
 
-#### Bug Fixes
-- Fix the compliance target error checks [#3392](https://github.com/inspec/inspec/pull/3392) ([jquick](https://github.com/jquick))
+#### Merged Pull Requests
+- Bump omnibus ruby to 2.5.1 [#3390](https://github.com/inspec/inspec/pull/3390) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.78 -->
@@ -25,6 +25,7 @@
 - handle errors from automate report and display them to the user [#3360](https://github.com/inspec/inspec/pull/3360) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.80 -->
 
 #### Merged Pull Requests
+- Bump omnibus ruby to 2.5.1 [#3390](https://github.com/inspec/inspec/pull/3390) ([jquick](https://github.com/jquick)) <!-- 2.2.95 -->
 - Add windows functional tests [#3385](https://github.com/inspec/inspec/pull/3385) ([jquick](https://github.com/jquick)) <!-- 2.2.92 -->
 - Populate code for inspec json inheritance [#3386](https://github.com/inspec/inspec/pull/3386) ([jquick](https://github.com/jquick)) <!-- 2.2.91 -->
 - Revert uuid change from A2 report [#3387](https://github.com/inspec/inspec/pull/3387) ([jquick](https://github.com/jquick)) <!-- 2.2.90 -->
