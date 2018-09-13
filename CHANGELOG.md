@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.92 -->
-## [v2.2.92](https://github.com/inspec/inspec/tree/v2.2.92) (2018-09-12)
+<!-- latest_release 2.2.93 -->
+## [v2.2.93](https://github.com/inspec/inspec/tree/v2.2.93) (2018-09-13)
 
-#### Merged Pull Requests
-- Add windows functional tests [#3385](https://github.com/inspec/inspec/pull/3385) ([jquick](https://github.com/jquick))
+#### Bug Fixes
+- Prevent logs from showing up when running inspec json [#3391](https://github.com/inspec/inspec/pull/3391) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.78 -->
 ### Changes since 2.2.78 release
 
 #### Bug Fixes
+- Prevent logs from showing up when running inspec json [#3391](https://github.com/inspec/inspec/pull/3391) ([jquick](https://github.com/jquick)) <!-- 2.2.93 -->
 - Fixing AWS integration tests. [#3374](https://github.com/inspec/inspec/pull/3374) ([MartinLogan](https://github.com/MartinLogan)) <!-- 2.2.87 -->
 - enforce utf encoding for cli output [#3376](https://github.com/inspec/inspec/pull/3376) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.86 -->
 - Fix vendoring functional test cleanup [#3377](https://github.com/inspec/inspec/pull/3377) ([jquick](https://github.com/jquick)) <!-- 2.2.85 -->
