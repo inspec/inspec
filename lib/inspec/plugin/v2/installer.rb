@@ -2,6 +2,7 @@
 
 require 'singleton'
 require 'forwardable'
+require 'fileutils'
 
 # Gem extensions for doing unusual things - not loaded by Gem default
 require 'rubygems/package'
@@ -276,6 +277,18 @@ module Inspec::Plugin::V2
       # OK, perform the installation.
       # Ignore deps here, because any needed deps should already be baked into new_plugin_dependency
       request_set.install_into(gem_path, true, ignore_dependencies: true)
+
+      # Painful aspect of rubygems: the VendorSet request set type needs to be able to find a gemspec
+      # file within the source of the gem (and not all gems include it in their source tree; they are
+      # not obliged to during packaging.)
+      # So, after each install, run a scan for all gem(specs) we manage, and copy in their gemspec file
+      # into the exploded gem source area if absent.
+      loader.list_managed_gems.each do |spec|
+        path_inside_source = File.join(spec.gem_dir, "#{spec.name}.gemspec")
+        unless File.exist?(path_inside_source)
+          File.write(path_inside_source, spec.to_ruby)
+        end
+      end
     end
 
     #===================================================================#
