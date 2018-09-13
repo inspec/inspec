@@ -3,7 +3,7 @@ fixtures = {}
   'vpc_default_vpc_id',
   'vpc_default_cidr_block',
   'vpc_default_dhcp_options_id',  
-  'vpc_non_default_id',
+  'vpc_non_default_vpc_id',
   'vpc_non_default_cidr_block',
   'vpc_non_default_instance_tenancy',
   'vpc_non_default_dhcp_options_id',    
@@ -24,7 +24,7 @@ control "aws_vpc recall" do
     it { should exist }
   end
 
-  describe aws_vpc(vpc_id: fixtures['vpc_non_default_id']) do
+  describe aws_vpc(vpc_id: fixtures['vpc_non_default_vpc_id']) do
     it { should exist }
   end
 
@@ -34,8 +34,8 @@ control "aws_vpc recall" do
 end
 
 control "aws_vpc properties" do
-  describe aws_vpc(fixtures['vpc_non_default_id']) do
-    its('vpc_id') { should eq fixtures['vpc_non_default_id'] }
+  describe aws_vpc(fixtures['vpc_non_default_vpc_id']) do
+    its('vpc_id') { should eq fixtures['vpc_non_default_vpc_id'] }
     its('state') { should eq 'available' }
     its('cidr_block') { should eq fixtures['vpc_non_default_cidr_block']}
     its('instance_tenancy') { should eq fixtures['vpc_non_default_instance_tenancy']}
@@ -56,7 +56,7 @@ control "aws_vpc matchers" do
     it { should be_default }
   end
 
-  describe aws_vpc(fixtures['vpc_non_default_id']) do
+  describe aws_vpc(fixtures['vpc_non_default_vpc_id']) do
     it { should_not be_default }
   end
 end

@@ -3,6 +3,20 @@ require 'helper'
 describe Compliance::Fetcher do
   let(:config) { { 'server' => 'myserver' } }
 
+  describe 'the check_compliance_token method' do
+    let(:fetcher) { fetcher = Compliance::Fetcher.new('a/bad/url', config) }
+
+    it 'returns without error if token is set' do
+      config['token'] = 'my-token'
+      fetcher.class.check_compliance_token('http://test.com', config)
+    end
+
+    it 'returns an error when token is not set' do
+      ex = assert_raises(Inspec::FetcherFailure) { fetcher.class.check_compliance_token('http://test.com', config) }
+      ex.message.must_include "Cannot fetch http://test.com because your compliance token has not been\nconfigured."
+    end
+  end
+
   describe 'when the server is an automate2 server' do
     before { Compliance::API.expects(:is_automate2_server?).with(config).returns(true) }
 

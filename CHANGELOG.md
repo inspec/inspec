@@ -1,16 +1,21 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.84 -->
-## [v2.2.84](https://github.com/inspec/inspec/tree/v2.2.84) (2018-09-07)
+<!-- latest_release 2.2.94 -->
+## [v2.2.94](https://github.com/inspec/inspec/tree/v2.2.94) (2018-09-13)
 
 #### Bug Fixes
-- use multipart gem for upload to support upload on windows [#3369](https://github.com/inspec/inspec/pull/3369) ([chris-rock](https://github.com/chris-rock))
+- Fix the compliance target error checks [#3392](https://github.com/inspec/inspec/pull/3392) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.78 -->
 ### Changes since 2.2.78 release
 
 #### Bug Fixes
+- Fix the compliance target error checks [#3392](https://github.com/inspec/inspec/pull/3392) ([jquick](https://github.com/jquick)) <!-- 2.2.94 -->
+- Prevent logs from showing up when running inspec json [#3391](https://github.com/inspec/inspec/pull/3391) ([jquick](https://github.com/jquick)) <!-- 2.2.93 -->
+- Fixing AWS integration tests. [#3374](https://github.com/inspec/inspec/pull/3374) ([MartinLogan](https://github.com/MartinLogan)) <!-- 2.2.87 -->
+- enforce utf encoding for cli output [#3376](https://github.com/inspec/inspec/pull/3376) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.86 -->
+- Fix vendoring functional test cleanup [#3377](https://github.com/inspec/inspec/pull/3377) ([jquick](https://github.com/jquick)) <!-- 2.2.85 -->
 - use multipart gem for upload to support upload on windows [#3369](https://github.com/inspec/inspec/pull/3369) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.84 -->
 - ensure we use the mock backend when we upload profiles [#3370](https://github.com/inspec/inspec/pull/3370) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.83 -->
 
@@ -20,6 +25,11 @@
 - handle errors from automate report and display them to the user [#3360](https://github.com/inspec/inspec/pull/3360) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.80 -->
 
 #### Merged Pull Requests
+- Add windows functional tests [#3385](https://github.com/inspec/inspec/pull/3385) ([jquick](https://github.com/jquick)) <!-- 2.2.92 -->
+- Populate code for inspec json inheritance [#3386](https://github.com/inspec/inspec/pull/3386) ([jquick](https://github.com/jquick)) <!-- 2.2.91 -->
+- Revert uuid change from A2 report [#3387](https://github.com/inspec/inspec/pull/3387) ([jquick](https://github.com/jquick)) <!-- 2.2.90 -->
+- Implement InSpec global attributes [#3318](https://github.com/inspec/inspec/pull/3318) ([jquick](https://github.com/jquick)) <!-- 2.2.89 -->
+- Update rubyzip to resolve a directory traversal security vulnerability. [#3388](https://github.com/inspec/inspec/pull/3388) ([miah](https://github.com/miah)) <!-- 2.2.88 -->
 - Allow target-id passthrough [#3320](https://github.com/inspec/inspec/pull/3320) ([jquick](https://github.com/jquick)) <!-- 2.2.79 -->
 <!-- release_rollup -->
 

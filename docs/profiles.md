@@ -51,6 +51,7 @@ Each profile must have an `inspec.yml` file that defines the following informati
 * Use `inspec_version` to place SemVer constraints on the version of InSpec that the profile can run under.
 * Use `supports` to specify a list of supported platform targets.
 * Use `depends` to define a list of profiles on which this profile depends.
+* Use `attributes` to define a list of attributes you can use in your controls.
 
 `name` is required; all other profile settings are optional. For example:
 
@@ -336,15 +337,68 @@ profile `my_dep` using the name `my_res2`.
 
 # Profile Attributes
 
-Attributes may be used in profiles to define secrets, such as user names and passwords, that should not otherwise be stored in plain-text in a cookbook. First specify a variable in the control for each secret, then add the secret to a YAML file located on the local machine, and then run `inspec exec` and specify the path to that Yaml file using the `--attrs` attribute.
+Attributes are frequently used to parameterize a profile for use in different environments or targets. It can also be used define secrets, such as user names and passwords, that should not otherwise be stored in plain-text in a cookbook. Attributes may be set for the whole profile in the `inspec.yml`.
 
-For example, a control:
+Attributes may contain the following options:
+
+* Use `default` to set a default value for the attribute.
+* Use `type` to restrict an attribute to a specific type (any, string, numeric, array, hash, boolean, regex).
+* Use `required` to mandate the attribute has a default value or a value from a attribute YAML file.
+* Use `description` to set a brief description for the attribute.
+
+
+You can specify attributes in your `inspec.yml` using the `attributes` setting. For example, to add a `user` attribute for your profile:
+```YAML
+attributes:
+  - name: user
+    type: string
+    default: bob
+```
+
+Example of adding a array object of servers:
+```YAML
+attributes:
+  - name: servers
+    type: array
+    default:
+      - server1
+      - server2
+      - server3
+```
+
+To access an attribute you will use the `attribute` keyword. You can use this anywhere in your control code.
+
+For example:
+```Ruby
+current_user = attribute('user')
+
+control 'system-users' do
+  describe attribute('user') do
+    it { should eq 'bob' }
+  end
+
+  describe current_user do
+    it { should eq attribute('user') }
+  end
+end
+```
+
+For sensitive data it is recomended to use a secrets YAML file located on the local machine to populate the values of attributes. A secrets file will always overwrite a attributes default value. To use the secrets file run `inspec exec` and specify the path to that Yaml file using the `--attrs` attribute.
+
+For example, a inspec.yml:
+```YAML
+attributes:
+  - name: username
+    type: string
+    required: true
+  - name: password
+    type: string
+    required: true
+```
+
+The control:
 
 ```Ruby
-# define these attributes on the top-level of your file and re-use them across all tests!
-val_user = attribute('user', default: 'alice', description: 'An identification for the user')
-val_password = attribute('password', description: 'A value for the password')
-
 control 'system-users' do
   impact 0.8
   desc '
@@ -352,11 +406,11 @@ control 'system-users' do
     specified password.
   '
 
-   val_user do
+  describe attribute('username') do
     it { should eq 'bob' }
   end
 
-  describe val_password do
+  describe attribute('password') do
     it { should eq 'secret' }
   end
 end
@@ -365,7 +419,7 @@ end
 And a YAML file named `profile-attribute.yml`:
 
 ```YAML
-user: bob
+username: bob
 password: secret
 ```
 
@@ -373,6 +427,50 @@ The following command runs the tests and applies the secrets specified in `profi
 
 ```bash
 $ inspec exec examples/profile-attribute --attrs examples/profile-attribute.yml
+```
+
+To change your attributes for platform specific cases you can setup multiple `--attrs` files.
+
+For example, a inspec.yml:
+```YAML
+attributes:
+  - name: users
+    type: array
+    required: true
+```
+
+A YAML file named `windows.yml`
+```YAML
+users:
+  - Administrator
+  - Guest
+  - Randy
+```
+
+A YAML file named `linux.yml`
+```YAML
+users:
+  - root
+  - shadow
+  - rmadison
+```
+
+The control file:
+```RUBY
+control 'system-users' do
+  impact 0.8
+  desc 'Confirm the proper users are created on the system'
+
+  describe users do
+    its('usernames') { should eq attribute('users') }
+  end
+end
+```
+
+The following command runs the tests and applies the attributes specified:
+```bash
+$ inspec exec examples/profile-attribute --attrs examples/windows.yml
+$ inspec exec examples/profile-attribute --attrs examples/linux.yml
 ```
 
 See the full example in the InSpec open source repository: [Example InSpec Profile with Attributes](https://github.com/chef/inspec/tree/master/examples/profile-attribute)

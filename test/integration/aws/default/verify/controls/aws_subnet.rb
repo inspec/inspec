@@ -31,8 +31,8 @@ control "aws_subnet properties of subnet_01" do
   describe aws_subnet(subnet_id: fixtures['subnet_01_id']) do
     its('vpc_id') { should eq fixtures['subnet_vpc_id'] }
     its('subnet_id') { should eq fixtures['subnet_01_id'] }
-    its('cidr_block') { should eq '172.31.96.0/20' }
-    its('available_ip_address_count') { should eq 4091 }
+    its('cidr_block') { should eq '172.31.48.0/28' }
+    its('available_ip_address_count') { should eq 11 } # AWS Reserve 5
     its('availability_zone') { should eq fixtures['subnet_01_az'] }
     its('ipv_6_cidr_block_association_set') { should eq [] }
   end

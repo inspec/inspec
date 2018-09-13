@@ -28,6 +28,8 @@ control 'ssh-1' do
   ref 'DISA-RHEL6-SG - Section 9.2.1', url: 'http://iasecontent.disa.mil/stigs/zip/Jan2016/U_RedHat_6_V1R10_STIG.zip'
   ref 'http://people.redhat.com/swells/scap-security-guide/RHEL/6/output/ssg-centos6-guide-C2S.html'
 
+  only_if { platform.in_family?('unix') }
+
   describe file('/bin/sh') do
     it { should be_owned_by 'root' }
   end
