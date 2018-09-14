@@ -1,2 +1,2 @@
-require 'inspec-test-fixture/version'
-require 'inspec-test-fixture/plugin'
+require_relative 'inspec-test-fixture/version'
+require_relative 'inspec-test-fixture/plugin'
