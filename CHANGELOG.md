@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.100 -->
-## [v2.2.100](https://github.com/inspec/inspec/tree/v2.2.100) (2018-09-13)
+<!-- latest_release 2.2.101 -->
+## [v2.2.101](https://github.com/inspec/inspec/tree/v2.2.101) (2018-09-14)
 
 #### Merged Pull Requests
-- Add platforms schema command [#3346](https://github.com/inspec/inspec/pull/3346) ([jquick](https://github.com/jquick))
+- Fix profile vendoring on Windows [#3378](https://github.com/inspec/inspec/pull/3378) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.78 -->
@@ -28,6 +28,7 @@
 - handle errors from automate report and display them to the user [#3360](https://github.com/inspec/inspec/pull/3360) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.80 -->
 
 #### Merged Pull Requests
+- Fix profile vendoring on Windows [#3378](https://github.com/inspec/inspec/pull/3378) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.101 -->
 - Add platforms schema command [#3346](https://github.com/inspec/inspec/pull/3346) ([jquick](https://github.com/jquick)) <!-- 2.2.97 -->
 - Bump omnibus ruby to 2.5.1 [#3390](https://github.com/inspec/inspec/pull/3390) ([jquick](https://github.com/jquick)) <!-- 2.2.95 -->
 - Add windows functional tests [#3385](https://github.com/inspec/inspec/pull/3385) ([jquick](https://github.com/jquick)) <!-- 2.2.92 -->
