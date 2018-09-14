@@ -354,7 +354,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
   describe 'when a dependency does not support our backend platform' do
     it 'skips the controls from that profile' do
       out = inspec("exec #{File.join(profile_path, 'profile-support-skip')} --no-create-lockfile")
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "WARN: Skipping profile: 'windows-only' on unsupported platform"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "WARN: Skipping profile"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "0 successful, 0 failures, 0 skipped\n"
     end
   end
@@ -421,10 +421,10 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     let(:controls) { json['profiles'][0]['controls'] }
 
     it 'skips loaded inherited profiles on unsupported platforms' do
-      json['profiles'][0]['depends'][0]['name'].must_equal 'windows-only'
+      json['profiles'][0]['depends'][0]['name'].must_equal 'unsupported_inspec'
       controls.must_be_empty
       stderr = out.stderr.force_encoding(Encoding::UTF_8)
-      stderr.must_include "WARN: Skipping profile: 'windows-only'"
+      stderr.must_include "WARN: Skipping profile"
     end
   end
 
