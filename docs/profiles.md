@@ -348,6 +348,7 @@ Attributes may contain the following options:
 
 
 You can specify attributes in your `inspec.yml` using the `attributes` setting. For example, to add a `user` attribute for your profile:
+
 ```YAML
 attributes:
   - name: user
@@ -356,6 +357,7 @@ attributes:
 ```
 
 Example of adding a array object of servers:
+
 ```YAML
 attributes:
   - name: servers
@@ -369,6 +371,7 @@ attributes:
 To access an attribute you will use the `attribute` keyword. You can use this anywhere in your control code.
 
 For example:
+
 ```Ruby
 current_user = attribute('user')
 
@@ -386,6 +389,7 @@ end
 For sensitive data it is recomended to use a secrets YAML file located on the local machine to populate the values of attributes. A secrets file will always overwrite a attributes default value. To use the secrets file run `inspec exec` and specify the path to that Yaml file using the `--attrs` attribute.
 
 For example, a inspec.yml:
+
 ```YAML
 attributes:
   - name: username
@@ -432,6 +436,7 @@ $ inspec exec examples/profile-attribute --attrs examples/profile-attribute.yml
 To change your attributes for platform specific cases you can setup multiple `--attrs` files.
 
 For example, a inspec.yml:
+
 ```YAML
 attributes:
   - name: users
@@ -440,6 +445,7 @@ attributes:
 ```
 
 A YAML file named `windows.yml`
+
 ```YAML
 users:
   - Administrator
@@ -448,6 +454,7 @@ users:
 ```
 
 A YAML file named `linux.yml`
+
 ```YAML
 users:
   - root
@@ -456,6 +463,7 @@ users:
 ```
 
 The control file:
+
 ```RUBY
 control 'system-users' do
   impact 0.8
@@ -468,6 +476,7 @@ end
 ```
 
 The following command runs the tests and applies the attributes specified:
+
 ```bash
 $ inspec exec examples/profile-attribute --attrs examples/windows.yml
 $ inspec exec examples/profile-attribute --attrs examples/linux.yml
