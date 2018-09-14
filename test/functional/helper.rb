@@ -15,7 +15,12 @@ class Module
 end
 
 module FunctionalHelper
-  let(:repo_path) { File.expand_path(File.join( __FILE__, '..', '..', '..')) }
+  let(:repo_path) do
+    path = File.expand_path(File.join( __FILE__, '..', '..', '..'))
+    # fix for vagrant repo pathing
+    path.gsub!('//vboxsrv', 'C:') if is_windows?
+    path
+  end
   let(:exec_inspec) { File.join(repo_path, 'bin', 'inspec') }
   let(:mock_path) { File.join(repo_path, 'test', 'unit', 'mock') }
   let(:profile_path) { File.join(mock_path, 'profiles') }
@@ -50,8 +55,12 @@ module FunctionalHelper
     text.gsub!("\033[0;1;31m", "\033[38;5;9m")
   end
 
-  def is_windows?
+  def self.is_windows?
     RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
+  end
+
+  def is_windows?
+    FunctionalHelper.is_windows?
   end
 
   def inspec(commandline, prefix = nil)

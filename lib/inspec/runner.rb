@@ -238,9 +238,11 @@ module Inspec
 
       # Load local profile dependencies. This is used in inspec shell
       # to provide access to local profiles that add resources.
-      @depends
-        .map { |x| Inspec::Profile.for_path(x, { profile_context: ctx }) }
-        .each(&:load_libraries)
+      @depends.each do |dep|
+        # support for windows paths
+        dep = dep.tr('\\', '/')
+        Inspec::Profile.for_path(dep, { profile_context: ctx }).load_libraries
+      end
 
       ctx.load(command)
     end
