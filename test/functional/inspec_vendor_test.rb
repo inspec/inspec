@@ -20,6 +20,33 @@ describe 'example inheritance profile' do
     end
   end
 
+  it 'can vendor profile dependencies with a relative path' do
+    prepare_examples('inheritance') do |dir|
+      relative_path = File.join(dir, '../', File.basename(dir))
+      out = inspec('vendor ' + relative_path + ' --overwrite')
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+
+      File.exist?(File.join(dir, 'vendor')).must_equal true
+      File.exist?(File.join(dir, 'inspec.lock')).must_equal true
+      Dir.glob(File.join(dir, 'vendor', '*')).wont_be_empty
+    end
+  end
+
+  it 'can vendor profile dependencies with a backslash in path on Windows' do
+    return unless is_windows?
+    prepare_examples('inheritance') do |dir|
+      dir_with_backslash = File.join(dir, '..\\', File.basename(dir))
+      out = inspec('vendor ' + dir_with_backslash + ' --overwrite')
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+
+      File.exist?(File.join(dir, 'vendor')).must_equal true
+      File.exist?(File.join(dir, 'inspec.lock')).must_equal true
+      Dir.glob(File.join(dir, 'vendor', '*')).wont_be_empty
+    end
+  end
+
   it 'can vendor profile dependencies from the profile path' do
     prepare_examples('inheritance') do |dir|
       out = inspec('vendor --overwrite', "cd #{dir} &&")
@@ -169,7 +196,13 @@ describe 'example inheritance profile' do
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
 
-      Dir.glob(File.join(profile_tmpdir, 'vendor', '*')).length.must_equal 3
+      vendor_list = Dir.glob(File.join(profile_tmpdir, 'vendor', '*'))
+      vendor_list.length.must_equal 3
+      vendor_list.each do |entry|
+        # confirm archives were extracted into folders
+        File.directory?(entry).must_equal true
+        Dir.glob(File.join(entry, '*')).length.must_be(:>=, 1)
+      end
     end
   end
 
