@@ -115,6 +115,7 @@ module Inspec::Plugin::V2
     # @param [String] plugin_seach_term
     # @param [Hash] opts Search options
     # @option opts [TrueClass, FalseClass] :exact If true, use plugin_search_term exactly.  If false (default), append a wildcard.
+    # @option opts [Symbol] :scope Which versions to search for.  :released (default) - all released versions.  :prerelease - Also include versioned marked prerelease. :latest - only return one version, the latest one.
     # @return [Hash of Arrays] - Keys are String names of gems, arrays contain String versions.
     def search(plugin_query, opts = {})
       validate_search_opts(plugin_query, opts)
@@ -122,10 +123,10 @@ module Inspec::Plugin::V2
       fetcher = Gem::SpecFetcher.fetcher
       matched_tuples = []
       if opts[:exact]
-        matched_tuples = fetcher.detect(:released) { |tuple| tuple.name == plugin_query }
+        matched_tuples = fetcher.detect(opts[:scope]) { |tuple| tuple.name == plugin_query }
       else
         regex = Regexp.new('^' + plugin_query + '.*')
-        matched_tuples = fetcher.detect(:released) do |tuple|
+        matched_tuples = fetcher.detect(opts[:scope]) do |tuple|
           tuple.name != 'inspec-core' && tuple.name =~ regex
         end
       end
@@ -227,9 +228,14 @@ module Inspec::Plugin::V2
       end
     end
 
-    def validate_search_opts(search_term, _opts)
+    def validate_search_opts(search_term, opts)
       unless search_term =~ /^(inspec|train)-/
         raise SearchError, "All inspec plugins must begin with either 'inspec-' or 'train-'."
+      end
+
+      opts[:scope] ||= :released
+      unless [:prerelease, :released, :latest].include?(opts[:scope])
+        raise SearchError, "Search scope for listing versons must be :prerelease, :released, or :latest."
       end
     end
 
