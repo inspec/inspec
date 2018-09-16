@@ -26,9 +26,11 @@ The software design of the InSpec Plugin v2 API is deeply inspired by the Vagran
 
 The normal distribution and installation method is via gems, handled by the `inspec plugin` command.
 
-TODO: give basic overview of `inspec plugin` and link to docs
+`inspec plugin install inspec-myplugin` will fetch `inspec-myplugin` from rubygems.org, and install it and its gemspec dependencies under the user's `.inspec` directory.  You may also provide a local gemfile.  For local development, however, path-to-source is usually most convenient.
 
-### Plugins may also be found by path
+For more on the `plugin` CLI command, run `inspec plugin help`.
+
+### Plugins may also be found by path to a source tree
 
 For local development or site-specific installations, you can also 'install' a plugin by path using `inspec plugin`, or edit `~/.inspec/plugins.json` directly to add a plugin.
 
