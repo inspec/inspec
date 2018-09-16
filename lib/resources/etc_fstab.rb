@@ -79,7 +79,7 @@ module Inspec::Resources
         'device_name'         => attributes[0],
         'mount_point'         => attributes[1],
         'file_system_type'    => attributes[2],
-        'mount_options'       => attributes[3].split(','),
+        'mount_options'       => attributes[3] =~ /,/ ? attributes[3].split(',') : attributes[3],
         'dump_options'        => attributes[4].to_i,
         'file_system_options' => attributes[5].to_i,
       }
