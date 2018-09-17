@@ -17,7 +17,7 @@ module Inspec::Reporters
 
     def enriched_report
       # grab the report from the parent class
-      final_report = report_merged
+      final_report = report
 
       # Label this content as an inspec_report
       final_report[:type] = 'inspec_report'
