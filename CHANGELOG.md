@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.2.102 -->
+## [v2.2.102](https://github.com/inspec/inspec/tree/v2.2.102) (2018-09-17)
+
+#### Merged Pull Requests
+- Add json-automate to the report method [#3401](https://github.com/inspec/inspec/pull/3401) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.2.101 -->
+### Changes since 2.2.101 release
+
+#### Merged Pull Requests
+- Add json-automate to the report method [#3401](https://github.com/inspec/inspec/pull/3401) ([jquick](https://github.com/jquick)) <!-- 2.2.102 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
