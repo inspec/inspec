@@ -1,20 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.102 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v2.2.102](https://github.com/inspec/inspec/tree/v2.2.102) (2018-09-17)
 
 #### Merged Pull Requests
 - Add json-automate to the report method [#3401](https://github.com/inspec/inspec/pull/3401) ([jquick](https://github.com/jquick))
-<!-- latest_release -->
-
-<!-- release_rollup since=2.2.101 -->
-### Changes since 2.2.101 release
-
-#### Merged Pull Requests
-- Add json-automate to the report method [#3401](https://github.com/inspec/inspec/pull/3401) ([jquick](https://github.com/jquick)) <!-- 2.2.102 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v2.2.101](https://github.com/inspec/inspec/tree/v2.2.101) (2018-09-14)
 
 #### New Features
@@ -44,7 +42,6 @@
 - Bump omnibus ruby to 2.5.1 [#3390](https://github.com/inspec/inspec/pull/3390) ([jquick](https://github.com/jquick))
 - Add platforms schema command [#3346](https://github.com/inspec/inspec/pull/3346) ([jquick](https://github.com/jquick))
 - Fix profile vendoring on Windows [#3378](https://github.com/inspec/inspec/pull/3378) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-<!-- latest_stable_release -->
 
 ## [v2.2.78](https://github.com/inspec/inspec/tree/v2.2.78) (2018-08-30)
 
