@@ -156,7 +156,7 @@ module Inspec::Plugin::V2
 
     # rubocop: disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
     # rationale for rubocop exemption: While there are many conditionals, they are all of the same form;
-    # its goal is to check for several subtle combinations of params, and rais an error if needed. It's
+    # its goal is to check for several subtle combinations of params, and raise an error if needed. It's
     # straightforward to understand, but has to handle many cases.
     def validate_installation_opts(plugin_name, opts)
       unless plugin_name =~ /^(inspec|train)-/

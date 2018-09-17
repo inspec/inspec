@@ -23,14 +23,14 @@ cd ../../../../../
 # Purge and re-install the existing gem installs
 for fver in $FIXTURE_VERSIONS; do
   for info in $RUBY_VERSIONS; do
-    RUBY_VER=$(echo $info | cut -d, -f1)
-    RUBY_ABI=$(echo $info | cut -d, -f2)
+    RUBY_VER=$(echo "$info" | cut -d, -f1)
+    RUBY_ABI=$(echo "$info" | cut -d, -f2)
     GEM_DIR="$FIXTURE_BASE/test-fixture-${fver}-float/gems/$RUBY_ABI"
     echo "Reinstalling inspec-test-fixture-0.${fver}.0 for ABI $RUBY_ABI"
-    rm -rf $GEM_DIR
-    mkdir -p $GEM_DIR
-    rbenv shell $RUBY_VER
-    gem install -N -i $GEM_DIR $PLUGIN_SRC_DIR/pkg/inspec-test-fixture-0.${fver}.0.gem
+    rm -rf "$GEM_DIR"
+    mkdir -p "$GEM_DIR"
+    rbenv shell "$RUBY_VER"
+    gem install -N -i "$GEM_DIR $PLUGIN_SRC_DIR/pkg/inspec-test-fixture-0.${fver}.0.gem"
     echo
   done
 done
@@ -39,7 +39,7 @@ done
 for info in $RUBY_VERSIONS; do
   RUBY_ABI=$(echo $info | cut -d, -f2)
   GEM_DIR="$FIXTURE_BASE/test-fixture-${fver}-float/gems/$RUBY_ABI"
-  cp -v $GEM_DIR/specifications/ordinal_array-0.2.0.gemspec $GEM_DIR/gems/ordinal_array-0.2.0/ordinal_array.gemspec
+  cp -v "$GEM_DIR/specifications/ordinal_array-0.2.0.gemspec" "$GEM_DIR/gems/ordinal_array-0.2.0/ordinal_array.gemspec"
 done
 
 rbenv shell 2.4.2

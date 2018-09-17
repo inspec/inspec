@@ -65,14 +65,13 @@ module Inspec::Plugin::V2
     def activate_mentioned_cli_plugins(cli_args = ARGV)
       # Get a list of CLI plugin activation hooks
       registry.find_activators(plugin_type: :cli_command).each do |act|
-        next if act.activated
+        next if act.activated?
         # If there is anything in the CLI args with the same name, activate it
         # If the word 'help' appears in the first position, load all CLI plugins
         if cli_args.include?(act.activator_name.to_s) || cli_args[0] == 'help'
           activate(:cli_command, act.activator_name)
           act.implementation_class.register_with_thor
         end
-        # rubocop: enable Lint/RescueException
       end
     end
 
@@ -82,7 +81,7 @@ module Inspec::Plugin::V2
       # rubocop: disable Lint/RescueException
       begin
         impl_class = activator.activation_proc.call
-        activator.activated = true
+        activator.activated?(true)
         activator.implementation_class = impl_class
       rescue Exception => ex
         activator.exception = ex
@@ -96,7 +95,7 @@ module Inspec::Plugin::V2
     end
 
     def self.plugin_gem_path
-      # I can't beleive there isn't a simpler way of getting this
+      # I can't believe there isn't a simpler way of getting this
       # 2.4.2.p123 => 2.4.0
       ruby_abi_version = (Gem.ruby_version.segments[0, 2] << 0).join('.')
       File.join(Inspec.config_dir, 'gems', ruby_abi_version)
@@ -144,7 +143,13 @@ module Inspec::Plugin::V2
 
       # So, given what we need, and what we have available, what activations are needed?
       resolver = Gem::Resolver.new(plugin_deps, installed_gem_set)
-      solution = resolver.resolve
+      begin
+        solution = resolver.resolve
+      rescue Gem::UnsatisfiableDependencyError => gem_ex
+        # If you broke your install, or downgraded to a plugin with a bad gemspec, you could get here.
+        ex = Inspec::Plugin::V2::LoadError.new(gem_ex.message)
+        raise ex
+      end
       solution.each do |activation_request|
         next if activation_request.full_spec.activated?
         activation_request.full_spec.activate
@@ -169,7 +174,7 @@ module Inspec::Plugin::V2
       status = registry[plugin_name]
       status.api_generation = 0
       act = Activator.new
-      act.activated = true
+      act.activated?(true)
       act.plugin_type = :cli_command
       act.plugin_name = plugin_name
       act.activator_name = :default

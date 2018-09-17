@@ -4,8 +4,6 @@ require 'minitest/autorun'
 require 'minitest/test'
 require_relative '../../../../lib/inspec/plugin/v2'
 
-require 'byebug'
-
 class PluginLoaderTests < MiniTest::Test
 
   @@orig_home = Dir.home
@@ -187,12 +185,12 @@ class PluginLoaderTests < MiniTest::Test
     assert_equal 'Inspec::Plugin::V2::Activator', registry.find_activators()[0].class.name, 'find_activators should return an array of Activators'
     activator = registry.find_activators(plugin_type: :mock_plugin_type, name: :'meaning-of-life-the-universe-and-everything')[0]
     refute_nil activator, 'find_activators should find the test activator'
-    [ :plugin_name, :plugin_type, :activator_name, :activated, :exception, :activation_proc, :implementation_class ].each do |method_name|
+    [ :plugin_name, :plugin_type, :activator_name, :'activated?', :exception, :activation_proc, :implementation_class ].each do |method_name|
       assert_respond_to activator, method_name
     end
 
     # Activation preconditions
-    refute activator.activated, 'Test activator should start out unactivated'
+    refute activator.activated?, 'Test activator should start out unactivated'
     assert_nil activator.exception, 'Test activator should have no exception prior to activation'
     assert_nil activator.implementation_class, 'Test activator should not know implementation class prior to activation'
     refute InspecPlugins::MeaningOfLife.const_defined?(:MockPlugin), 'impl_class should not be defined prior to activation'
@@ -200,7 +198,7 @@ class PluginLoaderTests < MiniTest::Test
     loader.activate(:mock_plugin_type, 'meaning-of-life-the-universe-and-everything')
 
     # Activation postconditions
-    assert activator.activated, 'Test activator should be activated after activate'
+    assert activator.activated?, 'Test activator should be activated after activate'
     assert_nil activator.exception, 'Test activator should have no exception after activation'
 
     # facts about the implementation class
@@ -212,19 +210,4 @@ class PluginLoaderTests < MiniTest::Test
     assert InspecPlugins::MeaningOfLife.const_defined?(:MockPlugin), 'impl_class should now be defined'
 
   end
-
-  # TODO: loading all plugins does not activate Train plugins
-
-  # load core plugins (or assert that we can interrogate the v1 registr(ies))
-  # output error but not raise when bad entry point
-
-  # it should handle a gem conflict correctly
-  #   # it "should list plugins declared with a custom plugin file" do
-  #   # end
-
-  #   # it should be able to load a config-specified v2 plugin
-
-  #   # it should be able to load a config-specified v1 plugin
-
-  # TODO: When loading a plugin that has a version pin, and multiple versions are available, only the pinned one should activate
 end
