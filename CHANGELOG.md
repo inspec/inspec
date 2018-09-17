@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.2.103 -->
+## [v2.2.103](https://github.com/inspec/inspec/tree/v2.2.103) (2018-09-17)
+
+#### Merged Pull Requests
+- Fix rendering of profiles docs [#3393](https://github.com/inspec/inspec/pull/3393) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.2.102 -->
+### Changes since 2.2.102 release
+
+#### Merged Pull Requests
+- Fix rendering of profiles docs [#3393](https://github.com/inspec/inspec/pull/3393) ([jquick](https://github.com/jquick)) <!-- 2.2.103 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
