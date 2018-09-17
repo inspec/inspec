@@ -68,6 +68,7 @@ class PluginInstallerBasicTests < MiniTest::Test
   def test_it_should_be_a_singleton
     klass = Inspec::Plugin::V2::Installer
     assert_equal klass.instance, klass.instance, "Calling instance on the Installer should always return the same object"
+    assert_kind_of Inspec::Plugin::V2::Installer, klass.instance, 'Calling instance on the INstaller should return the right class'
     assert_raises(NoMethodError, 'Installer should have a private constructor') { klass.new }
   end
 
@@ -91,8 +92,14 @@ end
 class PluginInstallerInstallationTests < MiniTest::Test
   include InstallerTestHelpers
 
-  def test_refuse_to_install_gems_with_wrong_prefix
+  # While this is a negative test case on the prefix checking, there are
+  # several positive test cases following.
+  def test_refuse_to_install_gems_with_wrong_name_prefix
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+
+    # Here, ordinal_array is the name of a simple, small gem available on rubygems.org
+    # There is no significance in choosing that gem over any other.
+    # Main point here is that its name does not begin with 'inspec-'.
     assert_raises(Inspec::Plugin::V2::InstallError) { @installer.install('ordinal_array')}
   end
 
@@ -100,16 +107,27 @@ class PluginInstallerInstallationTests < MiniTest::Test
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
     gem_file = File.join(@plugin_fixture_pkg_path, 'inspec-test-fixture-0.1.0.gem')
     @installer.install('inspec-test-fixture', gem_file: gem_file)
+    # Because no exception was thrown, this is a positive test case for prefix-checking.
 
     # Installing a gem places it under the config dir gem area
+    # Two things should happen: a copy of the gemspec should be left there...
     spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.1.0.gemspec')
     assert File.exist?(spec_path), 'After installation from a gem file, the gemspec should be installed to the gem path'
+    # ... and the actual library code should be decompressed into a directory tree.
     installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.1.0')
     assert Dir.exist?(installed_gem_base), 'After installation from a gem file, the gem tree should be installed to the gem path'
 
     # Installation != gem activation
     spec = Gem::Specification.load(spec_path)
     refute spec.activated?, 'Installing a gem should not cause the gem to activate'
+  end
+
+  def test_install_a_gem_from_missing_local_file
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+    gem_file = File.join(@plugin_fixture_pkg_path, 'inspec-test-fixture-nonesuch-0.0.0.gem')
+    refute File.exist?(gem_file), "The nonexistant gem should not exist prior to install attempt"
+    ex = assert_raises(Inspec::Plugin::V2::InstallError) { @installer.install('inspec-test-fixture-nonesuch', gem_file: gem_file)}
+    assert_includes ex.message, 'Could not find local gem file'
   end
 
   def test_install_a_gem_from_local_file_creates_plugin_json
@@ -138,6 +156,7 @@ class PluginInstallerInstallationTests < MiniTest::Test
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     @installer.install('inspec-test-fixture')
+    # Because no exception was thrown, this is a positive test case for prefix-checking.
 
     # Installing a gem places it under the config dir gem area
     spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.2.0.gemspec')
@@ -150,7 +169,6 @@ class PluginInstallerInstallationTests < MiniTest::Test
     assert File.exist?(spec_path), 'After installation from a gem file, the gemspec should be installed to the gem path'
     installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.2.0')
     assert Dir.exist?(installed_gem_base), 'After installation from a gem file, the gem tree should be installed to the gem path'
-
 
     # Installation != gem activation
     spec = Gem::Specification.load(spec_path)
@@ -182,7 +200,6 @@ class PluginInstallerInstallationTests < MiniTest::Test
     assert_equal '= 0.1.0', entry['version'], 'plugins.json should include version pinning value'
  end
 
-  # Should be able to install a path-based plugin
   def test_install_a_plugin_from_a_path
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
@@ -201,9 +218,6 @@ class PluginInstallerInstallationTests < MiniTest::Test
     assert_includes entry.keys, 'installation_path', 'plugins.json should include installation_path key'
     assert_equal @plugin_fixture_src_path, entry['installation_path'], 'plugins.json should include correct value for installation path'
   end
-
-  # Should be able to install a v2 CLI plugin
-  # Should be able to install a train plugin
 end
 
 #-----------------------------------------------------------------------#
@@ -341,11 +355,17 @@ class PluginInstallerUninstallTests < MiniTest::Test
 
     @installer.uninstall('inspec-test-fixture')
 
-    # UnInstalling a gem removes the gemspec and the gem library code
+    # UnInstalling a gem physically removes the gemspec and the gem library code
     spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.1.0.gemspec')
     refute File.exist?(spec_path), 'After uninstallation of a gem plugin, the gemspec should be removed.'
     installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.1.0')
     refute Dir.exist?(installed_gem_base), 'After uninstallation of a gem plugin, the gem tree should be removed.'
+
+    # Rubygems' idea of what we have installed should be changed.
+    # It should no longer be able to satisfy a request for the formerly installed gem.
+    universe_set = @installer.send(:build_gem_request_universe) # private method
+    request_set = Gem::RequestSet.new(Gem::Dependency.new('inspec-test-fixture'))
+    assert_raises(Gem::UnsatisfiableDependencyError) { request_set.resolve(universe_set) }
 
     # Plugins file entry should be removed
     plugin_json_path = File.join(ENV['INSPEC_CONFIG_DIR'], 'plugins.json')
@@ -372,6 +392,12 @@ class PluginInstallerUninstallTests < MiniTest::Test
     refute File.exist?(spec_path), 'After uninstallation of a gem plugin with deps, the dep gemspec should be removed.'
     installed_gem_base = File.join(@installer.gem_path, 'gems', 'ordinal_array-0.2.0')
     refute Dir.exist?(installed_gem_base), 'After installation a gem plugin with deps, the gem tree should be removed.'
+
+    # Rubygems' idea of what we have installed should be changed.
+    # It should no longer be able to satisfy a request for the formerly installed *dependency*
+    universe_set = @installer.send(:build_gem_request_universe) # private method
+    request_set = Gem::RequestSet.new(Gem::Dependency.new('ordinal_array'))
+    assert_raises(Gem::UnsatisfiableDependencyError) { request_set.resolve(universe_set) }
   end
 
   # TODO: Able to uninstall a specific version of a gem plugin
@@ -410,5 +436,3 @@ class PluginInstallerSearchTests < MiniTest::Test
   end
 end
 
-# For Train plugin type: Should raise an error if no train transport plugin exists and an unsupported --target schema is used
-# For train plugin type: Should raise an error if no train transport plugin exists and an unrecognized profile platform declaration is used
