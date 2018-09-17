@@ -59,6 +59,8 @@ module Inspec::Reporters
       reporter = Inspec::Reporters::Json.new(config)
     when 'json-min'
       reporter = Inspec::Reporters::JsonMin.new(config)
+    when 'json-automate'
+      reporter = Inspec::Reporters::JsonAutomate.new(config)
     when 'yaml'
       reporter = Inspec::Reporters::Yaml.new(config)
     else

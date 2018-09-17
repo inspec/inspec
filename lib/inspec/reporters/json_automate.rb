@@ -13,9 +13,9 @@ module Inspec::Reporters
       output(report_merged.to_json, false)
     end
 
-    def report_merged
+    def report
       # grab profiles from the json parent class
-      @profiles = report[:profiles]
+      @profiles = profiles
 
       {
         platform: platform,
