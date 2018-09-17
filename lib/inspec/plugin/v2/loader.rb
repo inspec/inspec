@@ -90,7 +90,7 @@ module Inspec::Plugin::V2
         next if act.activated
         # If there is anything in the CLI args with the same name, activate it
         # If the word 'help' appears in the first position, load all CLI plugins
-        if cli_args.include?(act.activator_name.to_s) || cli_args[0] == 'help' || cli_args.size == 0
+        if cli_args.include?(act.activator_name.to_s) || cli_args[0] == 'help' || cli_args.size.empty?
           activate(:cli_command, act.activator_name)
           act.implementation_class.register_with_thor
         end
