@@ -54,11 +54,14 @@ class PluginManagerCliOptions < MiniTest::Test
     refute arg_config[:version].required, 'The --version option should not be required'
 
     assert_equal 1, cli_class.instance_method(:install).arity, 'The install command should take one argument'
-
   end
 
-  # def test_update_accepts_arg
-  # end
+  def test_update_args
+    # TODO: allow specifying version
+    arg_config = cli_class.all_commands['update'].options
+    assert_equal 0, arg_config.count, 'The update command should have no options'
+    assert_equal 1, cli_class.instance_method(:update).arity, 'The update command should take one argument'
+  end
 
   # def test_uninstall_accepts_arg
   # end
