@@ -25,8 +25,40 @@ module Init
 
       # register command for the template
       desc "#{template_name} NAME", "Create a new #{template_name}"
-      option :overwrite, type: :boolean, default: false,
-        desc: 'Overwrites existing directory'
+
+      option :copyright,
+             desc: 'Name of the copyright holder',
+             default: 'The Authors'
+
+      option :email,
+             desc: 'Email address of the author',
+             default: 'you@example.com'
+
+      option :license,
+             desc: 'License for the profile',
+             default: 'Apache-2.0'
+
+      option :maintainer,
+             desc: 'Name of the copyright holder',
+             default: 'The Authors'
+
+      option :summary,
+             desc: 'One line summary for the profile',
+             default: 'An InSpec Compliance Profile'
+
+      option :title,
+             desc: 'Human-readable name for the profile',
+             default: 'InSpec Profile'
+
+      option :version,
+             desc: 'Specify the profile version',
+             default: '0.1.0'
+
+      option :overwrite,
+             type: :boolean,
+             default: false,
+             desc: 'Overwrites existing directory'
+
       define_method template_name.to_sym do |name_for_new_structure|
         renderer = Init::Renderer.new(self, options)
         renderer.render_with_values(template_name, name: name_for_new_structure)
