@@ -21,5 +21,11 @@ module Inspec::Resources
     def to_s
       "Directory #{source_path}"
     end
+
+    def file_count
+      return unless file.exist?
+      # intentionally used entries as we don't want to recurse/glob
+      Dir.entries(file).reject { |f| f == '.' || f == '..' }.count
+    end
   end
 end

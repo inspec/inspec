@@ -33,7 +33,37 @@ A `directory` resource block declares the location of the directory to be tested
 
 All of the properties available to `file` may be used with `directory`.
 
+### file_count
+
+The `file_count` property returns an integer of the number of files directly under the directory. It does not recurse directories and removes `.` and `..` entries. This is helpful for both verifying a directory is empty or if there are files present.
+
+  # empty directory
+  its('file_count') { should eq 0 }
+  # one or more files present
+  its('file_count') { should be > 0 }
+
+The original use case was when refacoring an internal sensu cookbook. There are constructs that were not understood correctly and serverside components were being added to clients. As the directory gets created whether its a client or server (as they may be both) checking its existence is not enough we need to verify the file count to ensure that people only add serverside bits on the server and not on the client.
+
 <br>
+
+### property Examples
+
+#### verify that a directory is not empty
+
+  describe directory('/tmp') do
+    it { should exist }
+    it { should be_directory }
+    its('file_count') { should be > 0 }
+  end
+
+#### verify that a directory is empty
+
+  describe directory('/foo') do
+    it { should exist }
+    it { should be_directory }
+    its('file_count') { should eq 0 }
+  end
+
 
 ## Matchers
 
