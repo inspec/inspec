@@ -63,6 +63,9 @@ class PluginManagerCliOptions < MiniTest::Test
     assert_equal 1, cli_class.instance_method(:update).arity, 'The update command should take one argument'
   end
 
-  # def test_uninstall_accepts_arg
-  # end
+  def test_uninstall_args
+    arg_config = cli_class.all_commands['uninstall'].options
+    assert_equal 0, arg_config.count, 'The uninstall command should have no options'
+    assert_equal 1, cli_class.instance_method(:uninstall).arity, 'The uninstall command should take one argument'
+  end
 end

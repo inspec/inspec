@@ -55,6 +55,7 @@ class PluginManagerCliHelp < MiniTest::Test
     assert_includes result.stdout, 'inspec plugin search'
     assert_includes result.stdout, 'inspec plugin install'
     assert_includes result.stdout, 'inspec plugin update'
+    assert_includes result.stdout, 'inspec plugin uninstall'
   end
 end
 
@@ -420,7 +421,69 @@ end
 #-----------------------------------------------------------------------------------------#
 #                               inspec plugin uninstall
 #-----------------------------------------------------------------------------------------#
-# plugin uninstall help
-# plugin uninstall gem-based
-# plugin uninstall path-based
-# plugin uninstall when not installed
+class PluginManagerCliUninstall < MiniTest::Test
+  include CorePluginFunctionalHelper
+  include PluginManagerHelpers
+
+  def test_when_a_gem_plugin_can_be_uninstalled
+    working_dir = empty_config_dir_path
+    copy_in_core_config_dir('test-fixture-1-float')
+
+    # Verify it is installed as a gem first before we attempt uninstall
+    list_result = run_inspec_process("plugin list", INSPEC_CONFIG_DIR: working_dir)
+    itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
+    refute_nil itf_line, 'inspec-test-fixture should appear in the output of inspec list prior to uninstall'
+    assert_match(/\s*inspec-test-fixture\s+0\.1\.0\s+path\s+/, itf_line, 'list output should show that it is a gem installation')
+
+    # Attempt uninstall
+    uninstall_result = run_inspec_process('plugin uninstall inspec-test-fixture', INSPEC_CONFIG_DIR: working_dir)
+
+    assert_empty uninstall_result.stderr
+    assert_equal 0, uninstall_result.exit_status, 'Exit status should be 0'
+
+    success_message = uninstall_result.stdout.split("\n").grep(/uninstalled/).last
+    refute_nil success_message, 'Should find a success message at the end'
+    assert_includes success_message, 'inspec-test-fixture'
+    assert_includes success_message, '0.1.0'
+    assert_includes success_message, 'has been uninstalled'
+
+    list_result = run_inspec_process("plugin list", INSPEC_CONFIG_DIR: working_dir)
+    itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
+    assert_nil itf_line, 'inspec-test-fixture should not appear in the output of inspec list'
+  end
+
+  def test_when_a_path_plugin_can_be_uninstalled
+    working_dir = empty_config_dir_path
+    # This fixture includes a path install for inspec-meaning-of-life
+    copy_in_core_config_dir('test-fixture-1-float')
+
+    # Verify it is installed as a path first before we attempt uninstall
+    list_result = run_inspec_process("plugin list", INSPEC_CONFIG_DIR: working_dir)
+    itf_line = list_result.stdout.split("\n").grep(/inspec-meaning-of-life/).first
+    refute_nil itf_line, 'inspec-meaning-of-life should appear in the output of inspec list prior to uninstall'
+    assert_match(/\s*inspec-meaning-of-life\ssrc\s+path\s+/, itf_line, 'list output should show that it is a path installation')
+
+    uninstall_result = run_inspec_process('plugin uninstall inspec-meaning-of-life', INSPEC_CONFIG_DIR: working_dir)
+
+    assert_empty uninstall_result.stderr
+    assert_equal 0, uninstall_result.exit_status, 'Exit status should be 0'
+
+    success_message = uninstall_result.stdout.split("\n").grep(/uninstalled/).last
+    refute_nil success_message, 'Should find a success message at the end'
+    assert_includes success_message, 'inspec-meaning-of-life'
+    assert_includes success_message, 'path-based plugin install uninstalled'
+
+    list_result = run_inspec_process("plugin list", INSPEC_CONFIG_DIR: working_dir)
+    itf_line = list_result.stdout.split("\n").grep(/inspec-meaning-of-life/).first
+    assert_nil itf_line, 'inspec-meaning-of-life should not appear in the output of inspec list'
+  end
+
+  def test_fail_uninstall_from_plugin_that_is_not_installed
+    working_dir = empty_config_dir_path
+    uninstall_result = run_inspec_process('plugin uninstall inspec-test-fixture-nonesuch', INSPEC_CONFIG_DIR: working_dir)
+
+    assert_empty uninstall_result.stderr
+    assert_equal 1, uninstall_result.exit_status, 'Exit status should be 1'
+    assert_match(/No such plugin installed: .+ - update failed/, uninstall_result.stdout)
+  end
+end
