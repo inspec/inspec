@@ -87,6 +87,20 @@ class AwsSGSProperties < Minitest::Test
     assert_kind_of(Array, rules)
     assert_kind_of(Hash, rules[0])
   end
+
+  def test_property_inbound_rules_count
+    assert_equal(0, AwsSecurityGroup.new('sg-aaaabbbb').inbound_rules_count)
+    count = AwsSecurityGroup.new('sg-12345678').inbound_rules_count
+    assert_equal(7, count)
+    assert_kind_of(Numeric, count)
+  end
+
+  def test_property_outbound_rules_count
+    assert_equal(0, AwsSecurityGroup.new('sg-aaaabbbb').outbound_rules_count)
+    count = AwsSecurityGroup.new('sg-12345678').outbound_rules_count
+    assert_equal(2, count)
+    assert_kind_of(Numeric, count)
+  end
 end
 
 #=============================================================================#
@@ -148,7 +162,6 @@ class AwsSGSProperties < Minitest::Test
 
     # IPv4 range testing
     assert(sg.allow_in?(ipv4_range: ["10.1.4.0/24"]), "match on 1 ipv4 range as array")
-    assert(sg.allow_in?(ipv4_range: ["10.1.4.0/24"]), "match on 1 ipv4 range as array")
     assert(sg.allow_in?(ipv4_range: ["10.1.4.33/32"]), "match on 1 ipv4 range subnet membership")
     assert(sg.allow_in?(ipv4_range: ["10.1.4.33/32", "10.1.4.82/32"]), "match on 2 addrs ipv4 range subnet membership")
     assert(sg.allow_in?(ipv4_range: ["10.1.4.0/25", "10.1.4.128/25"]), "match on 2 subnets ipv4 range subnet membership")
@@ -164,6 +177,14 @@ class AwsSGSProperties < Minitest::Test
     refute(sg.allow_in_only?(ipv4_range: ["10.1.2.0/24"], position: 1))
     refute(sg.allow_in_only?(ipv4_range: ["10.1.3.0/24"], position: 1))
 
+    # IPv6 range testing
+    assert(sg.allow_in?(ipv6_range: ["2001:db8::/122"]), "match on 1 ipv6 range as array")
+    assert(sg.allow_in?(ipv6_range: ["2001:db8::20/128"]), "match on 1 ipv6 range subnet membership")
+    assert(sg.allow_in?(ipv6_range: ["2001:db8::20/128", "2001:db8::3f/128"]), "match on 2 addrs ipv6 range subnet membership")
+    assert(sg.allow_in?(ipv6_range: ["2001:db8::/128", "1968:db8::/124"]), "match on 2 subnets ipv6 range subnet membership")
+    assert(sg.allow_in_only?(ipv6_range: "2018:db8::/122", position: 2), "exact match on 1 ipv6 range with _only")
+    refute(sg.allow_in_only?(ipv6_range: "2001:db8::20/128", position: 2), "no range membership ipv6 range with _only")
+
     # Test _only with a 3-rule group, but omitting position
     refute(sg.allow_in_only?(port: 22), "_only will fail a multi-rule SG even if it has matching criteria")
     refute(sg.allow_in_only?(), "_only will fail a multi-rule SG even if it has match-any criteria")
@@ -171,9 +192,18 @@ class AwsSGSProperties < Minitest::Test
     # Test _only with a single rule group (ie, omitting position)
     sg = AwsSecurityGroup.new('sg-22223333')
     assert_equal(1, sg.inbound_rules.count, "count the number of rules for 1-rule group")
+    assert_equal(1, sg.inbound_rules_count, "Count the number of rule variants for 1-rule group")
     assert(sg.allow_in_only?(ipv4_range: "0.0.0.0/0"), "Match IP range using _only on 1-rule group")
     assert(sg.allow_in_only?(protocol: 'any'), "Match protocol using _only on 1-rule group")
     refute(sg.allow_in_only?(port: 22), "no match port using _only on 1-rule group")
+
+    # Test _only with a single rule group for IPv6
+    sg = AwsSecurityGroup.new('sg-33334444')
+    assert_equal(1, sg.inbound_rules.count, "count the number of rules for 1-rule ipv6 group")
+    assert_equal(1, sg.inbound_rules_count, "Count the number of rule variants for 1-rule gipv6 roup")
+    assert(sg.allow_in_only?(ipv6_range: "::/0"), "Match IP range using _only on 1-rule ipv6 group")
+    assert(sg.allow_in_only?(protocol: 'any'), "Match protocol using _only on 1-rule ipv6 group")
+    refute(sg.allow_in_only?(port: 22), "no match port using _only on 1-rule ipv6 group")
   end
 end
 
@@ -217,7 +247,11 @@ module AwsMESGSB
                 # nested in two levels of Structs.
                 {cidr_ip:"10.1.2.0/24"},
                 {cidr_ip:"10.1.3.0/24"},
-              ]
+              ],
+              ipv_6_ranges: [
+                {cidr_ipv_6:"2001:db8::/122"},
+                {cidr_ipv_6:"1968:db8::/124"},
+              ],
             }),
             OpenStruct.new({
               from_port: nil,
@@ -225,6 +259,9 @@ module AwsMESGSB
               ip_protocol: "-1",
               ip_ranges: [
                 {cidr_ip:"10.1.4.0/24"},
+              ],
+              ipv_6_ranges: [
+                {cidr_ipv_6:"2018:db8::/122"}
               ]
             }),
             OpenStruct.new({
@@ -243,6 +280,9 @@ module AwsMESGSB
               ip_protocol: "udp",
               ip_ranges: [
                 {cidr_ip:"128.138.140.44/32"},
+              ],
+              ipv_6_ranges: [
+                {cidr_ipv_6:"2001:db8::/122"}
               ]
             }),
           ],          
@@ -264,7 +304,23 @@ module AwsMESGSB
           ],
           ip_permissions_egress: [],          
         }),
-      ]
+        OpenStruct.new({
+          description: 'Open Group',
+          group_id: 'sg-33334444',
+          group_name: 'delta',
+          vpc_id: 'vpc-12345678',
+          ip_permissions: [
+            OpenStruct.new({
+              from_port: nil,
+              to_port: nil,
+              ip_protocol: "-1",
+              ipv_6_ranges: [
+                {cidr_ipv_6:"::/0"},
+              ]
+            }),
+          ],
+          ip_permissions_egress: [],
+        }),      ]
 
       selected = fixtures.select do |sg|
         query[:filters].all? do |filter|
