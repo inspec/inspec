@@ -121,7 +121,7 @@ module InspecPlugins
               end
             else
               # There are existing versions, but none of them are what was requested
-              puts(red{ 'Update required' } + " - plugin #{plugin_name}, requested #{requested_version}, have #{pre_installed_versions.join(', ')} - refusing to install.")
+              puts(red{ 'Update required' } + " - plugin #{plugin_name}, requested #{requested_version}, have #{pre_installed_versions.join(', ')}; use `inspec plugin update` - refusing to install.")
             end
 
             exit 2
@@ -152,6 +152,49 @@ module InspecPlugins
         end
       end
 
+      #--------------------------
+      #        update
+      #--------------------------
+      desc 'update PLUGIN', 'Updates a plugin to the latest from from rubygems.org'
+      long_desc 'PLUGIN may be the name of a gem on rubygems.org that begins with inspec- or train-.  Exit codes are 0 on success, 2 if the plugin is already up to date, and 1 if any other error occurs.'
+      def update(plugin_name)
+        installer = Inspec::Plugin::V2::Installer.instance
+
+        pre_update_versions = installer.list_installed_plugin_gems.select {|spec| spec.name == plugin_name }.map {|spec| spec.version.to_s}
+        if pre_update_versions.empty?
+          # Check for path install
+          status = Inspec::Plugin::V2::Registry.instance[plugin_name.to_sym]
+          if !status
+            puts(red { 'No such plugin installed: '} + "#{plugin_name} - update failed")
+            exit 1
+          elsif status.installation_type == :path
+            puts(red { 'Cannot update path-based install: '} + "#{plugin_name} is installed via path reference; use `inspec plugin uninstall` to remove - refusing to update")
+            exit 2
+          end
+        end
+        old_version = pre_update_versions.join(', ')
+
+        # Check for latest version (and implicitly, existance)
+        latest_version = installer.search(plugin_name, exact: true, scope: :latest)
+        latest_version = latest_version[plugin_name]&.last
+
+        if pre_update_versions.include?(latest_version)
+          puts(red { 'Already installed at latest version: '} + "#{plugin_name} is at #{latest_version}, which the latest - refusing to update")
+          exit 2
+        end
+
+        begin
+          installer.update(plugin_name)
+        rescue Inspec::Plugin::V2::UpdateError => ex
+          puts(red { 'Update error: '} + ex.message + ' - update failed')
+          exit 1
+        end
+        post_update_versions = installer.list_installed_plugin_gems.select {|spec| spec.name == plugin_name }.map {|spec| spec.version.to_s}
+        new_version = (post_update_versions - pre_update_versions).first
+
+        puts(bold { plugin_name } + " plugin, version #{old_version} -> #{new_version}, updated from rubygems.org")
+      end
+
       private
       def check_plugin_name(plugin_name, action)
         unless plugin_name =~ /^(inspec|train)-/
@@ -170,7 +213,12 @@ module InspecPlugins
           when :core, :bundle
             Inspec::VERSION
           when :gem
-            Inspec::Plugin::V2::Loader.list_installed_plugin_gems.detect { |spec| spec.name == status.name.to_s }.version
+            # TODO: this is naive, and assumes the latest version is the one that will be used. Logged on #3317
+            # In fact, the logic to determine "what version would be used" belongs in the Loader.
+            Inspec::Plugin::V2::Loader.list_installed_plugin_gems
+                                      .select { |spec| spec.name == status.name.to_s }
+                                      .sort { |a, b| a.version <=> b.version }
+                                      .last.version
           when :path
             'src'
           end

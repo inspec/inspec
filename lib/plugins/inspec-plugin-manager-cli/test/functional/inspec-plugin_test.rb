@@ -19,7 +19,7 @@ module PluginManagerHelpers
   end
 
   def copy_in_core_config_dir(fixture_name)
-    src = Dir.glob(File.join(project_config_dirs_path, fixture_name, '*'))
+    src = Dir.glob(File.join(core_config_dir_path, fixture_name, '*'))
     dest = File.join(project_config_dirs_path, 'empty')
     src.each { |path| FileUtils.cp_r(path, dest) }
   end
@@ -359,9 +359,12 @@ class PluginManagerCliUpdate < MiniTest::Test
   def test_when_a_plugin_can_be_updated
     working_dir = empty_config_dir_path
     copy_in_core_config_dir('test-fixture-1-float')
-    install_result = run_inspec_process('plugin update inspec-test-fixture', INSPEC_CONFIG_DIR: working_dir)
+    update_result = run_inspec_process('plugin update inspec-test-fixture', INSPEC_CONFIG_DIR: working_dir)
 
-    success_message = install_result.stdout.split("\n").grep(/updated/).last
+    assert_empty update_result.stderr
+    assert_equal 0, update_result.exit_status, 'Exit status should be 0'
+
+    success_message = update_result.stdout.split("\n").grep(/updated/).last
     refute_nil success_message, 'Should find a success message at the end'
     assert_includes success_message, 'inspec-test-fixture'
     assert_includes success_message, '0.1.0'
@@ -377,25 +380,40 @@ class PluginManagerCliUpdate < MiniTest::Test
   def test_refuse_update_when_already_current
     working_dir = empty_config_dir_path
     copy_in_core_config_dir('test-fixture-2-float')
-    install_result = run_inspec_process('plugin update inspec-test-fixture', INSPEC_CONFIG_DIR: working_dir)
+    update_result = run_inspec_process('plugin update inspec-test-fixture', INSPEC_CONFIG_DIR: working_dir)
 
-    assert_empty install_result.stderr
-    assert_equal 2, install_result.exit_status, 'Exit status should be 2'
+    assert_empty update_result.stderr
+    assert_equal 2, update_result.exit_status, 'Exit status should be 2'
 
-    refusal_message = install_result.stdout.split("\n").grep(/refusing/).last
+    refusal_message = update_result.stdout.split("\n").grep(/refusing/).last
     refute_nil refusal_message, 'Should find a failure message at the end'
     assert_includes refusal_message, 'inspec-test-fixture'
     assert_includes refusal_message, '0.2.0'
-    assert_includes refusal_message, 'Plugin already installed at latest version'
+    assert_includes refusal_message, 'Already installed at latest version'
   end
 
   def test_fail_update_from_nonexistant_gem
     working_dir = empty_config_dir_path
-    install_result = run_inspec_process('plugin update inspec-test-fixture-nonesuch', INSPEC_CONFIG_DIR: working_dir)
+    update_result = run_inspec_process('plugin update inspec-test-fixture-nonesuch', INSPEC_CONFIG_DIR: working_dir)
 
-    assert_empty install_result.stderr
-    assert_equal 1, install_result.exit_status, 'Exit status should be 1'
-    assert_match(/No such plugin gem .+ is installed - update failed./, install_result.stdout)
+    assert_empty update_result.stderr
+    assert_equal 1, update_result.exit_status, 'Exit status should be 1'
+    assert_match(/No such plugin installed: .+ - update failed/, update_result.stdout)
+  end
+
+  def test_fail_update_path
+    working_dir = empty_config_dir_path
+    copy_in_core_config_dir('meaning_by_path')
+    update_result = run_inspec_process('plugin update inspec-meaning-of-life', INSPEC_CONFIG_DIR: working_dir)
+
+    assert_empty update_result.stderr
+    assert_equal 2, update_result.exit_status, 'Exit status should be 2'
+
+    refusal_message = update_result.stdout.split("\n").grep(/refusing/).last
+    refute_nil refusal_message, 'Should find a failure message at the end'
+    assert_includes refusal_message, 'inspec-meaning-of-life'
+    assert_includes refusal_message, 'inspec plugin uninstall'
+    assert_includes refusal_message, 'Cannot update path-based install'
   end
 end
 
