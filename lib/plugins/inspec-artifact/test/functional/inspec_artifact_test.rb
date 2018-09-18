@@ -10,7 +10,7 @@ class ArtifactCli < MiniTest::Test
   def test_generating_archive_keys
     Dir.mktmpdir do |dir|
       unique_key_name = SecureRandom.uuid()
-      out = run_inspec_process("artifact generate --keyname #{unique_key_name}", "cd #{dir} &&")
+      out = run_inspec_process("artifact generate --keyname #{unique_key_name}", prefix: "cd #{dir} &&")
       assert_equal 0, out.exit_status
 
       stdout = out.stdout.force_encoding(Encoding::UTF_8)
@@ -28,15 +28,15 @@ class ArtifactCli < MiniTest::Test
 
       # create profile
       profile = File.join(dir, 'artifact-profile')
-      run_inspec_process("init profile artifact-profile", "cd #{dir} &&")
+      run_inspec_process("init profile artifact-profile", prefix: "cd #{dir} &&")
 
-      out = run_inspec_process("artifact generate --keyname #{unique_key_name}", "cd #{dir} &&")
+      out = run_inspec_process("artifact generate --keyname #{unique_key_name}", prefix: "cd #{dir} &&")
       assert_equal 0, out.exit_status
 
-      out = run_inspec_process("artifact sign-profile --profile #{profile} --keyname #{unique_key_name}", "cd #{dir} &&")
+      out = run_inspec_process("artifact sign-profile --profile #{profile} --keyname #{unique_key_name}", prefix: "cd #{dir} &&")
       assert_equal 0, out.exit_status
 
-      out = run_inspec_process("artifact install-profile --infile artifact-profile-0.1.0.iaf --destdir #{install_dir}", "cd #{dir} &&")
+      out = run_inspec_process("artifact install-profile --infile artifact-profile-0.1.0.iaf --destdir #{install_dir}", prefix: "cd #{dir} &&")
       assert_equal 0, out.exit_status
 
       assert_includes out.stdout.force_encoding(Encoding::UTF_8), "Installing to #{install_dir}"
