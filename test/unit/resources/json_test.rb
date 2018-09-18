@@ -67,19 +67,19 @@ describe 'Inspec::Resources::JSON' do
 
     it 'raises an exception when the file does not exist' do
       file.expects(:file?).returns(false)
-      proc { resource.send(:load_raw_from_file, path) }.must_raise Inspec::Exceptions::ResourceSkipped
+      proc { resource.send(:load_raw_from_file, path) }.must_raise Inspec::Exceptions::ResourceFailed
     end
 
     it 'raises an exception if the file content is nil' do
       file.expects(:file?).returns(true)
       file.expects(:content).returns(nil)
-      proc { resource.send(:load_raw_from_file, path) }.must_raise Inspec::Exceptions::ResourceSkipped
+      proc { resource.send(:load_raw_from_file, path) }.must_raise Inspec::Exceptions::ResourceFailed
     end
 
     it 'raises an exception if the file content is empty' do
       file.expects(:file?).returns(true)
       file.expects(:content).at_least_once.returns('')
-      proc { resource.send(:load_raw_from_file, path) }.must_raise Inspec::Exceptions::ResourceSkipped
+      proc { resource.send(:load_raw_from_file, path) }.must_raise Inspec::Exceptions::ResourceFailed
     end
 
     it 'returns the file content' do
