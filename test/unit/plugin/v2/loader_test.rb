@@ -25,10 +25,10 @@ class PluginLoaderTests < MiniTest::Test
     @bundled_plugins = [
       :artifact,
       :compliance,
-      :habitat,
       :supermarket,
      ]
      @core_plugins = [
+      :'inspec-habitat',
       :'inspec-init',
      ]
   end

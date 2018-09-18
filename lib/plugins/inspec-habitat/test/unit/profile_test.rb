@@ -1,8 +1,10 @@
-require 'helper'
 require 'mixlib/log'
 require 'ostruct'
+require 'minitest/autorun'
+require 'mocha/setup'
+require_relative '../../lib/inspec-habitat/profile.rb'
 
-describe Habitat::Profile do
+describe InspecPlugins::Habitat::Profile do
   let(:profile) do
     OpenStruct.new(
       name:    'my_profile',
@@ -11,10 +13,10 @@ describe Habitat::Profile do
     )
   end
 
-  let(:subject) { Habitat::Profile.new('/path/to/profile', { 'log_level' => 'fatal' }) }
+  let(:subject) { InspecPlugins::Habitat::Profile.new('/path/to/profile', { 'log_level' => 'fatal' }) }
 
   before do
-    Habitat::Log.level(:fatal)
+    Inspec::Log.level(:fatal)
   end
 
   describe '#verify_profile' do

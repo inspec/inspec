@@ -10,7 +10,7 @@ module Inspec::Reporters
     end
 
     def render
-      output(report_merged.to_json, false)
+      output(report.to_json, false)
     end
 
     def report

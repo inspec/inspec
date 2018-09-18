@@ -8,7 +8,7 @@ describe Inspec::Reporters::JsonAutomate do
     data = JSON.parse(File.read(path + '/../mock/reporters/run_data_wrapper.json'), symbolize_names: true)
     Inspec::Reporters::JsonAutomate.new({ run_data: data })
   end
-  let(:profiles) { report.report[:profiles] }
+  let(:profiles) { report.send(:profiles) }
 
   describe '#render' do
     it 'confirms render output' do
@@ -22,7 +22,7 @@ describe Inspec::Reporters::JsonAutomate do
     it 'outputs the correct report_merged' do
       output = File.read(path + '/../mock/reporters/json_merged_output')
       output = JSON.parse(output, symbolize_names: true)
-      report.report_merged.must_equal output
+      report.report.must_equal output
     end
   end
 
