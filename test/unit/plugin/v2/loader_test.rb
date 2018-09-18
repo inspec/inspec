@@ -29,6 +29,8 @@ class PluginLoaderTests < MiniTest::Test
       :init,
       :supermarket,
      ]
+     @core_plugins = [
+     ]
   end
 
   def teardown
@@ -53,11 +55,27 @@ class PluginLoaderTests < MiniTest::Test
     end
   end
 
+  def test_constructor_should_detect_core_plugins
+    reg = Inspec::Plugin::V2::Registry.instance
+    loader = Inspec::Plugin::V2::Loader.new
+    @core_plugins.each do |core_plugin_name|
+      assert reg.known_plugin?(core_plugin_name), "\n#{core_plugin_name} should be detected as a core plugin"
+    end
+  end
+
   def test_constructor_should_skip_bundles_when_option_is_set
     reg = Inspec::Plugin::V2::Registry.instance
     loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
     @bundled_plugins.each do |bundled_plugin_name|
       refute reg.known_plugin?(bundled_plugin_name), "\n#{bundled_plugin_name} should not be detected when omit_bundles is set"
+    end
+  end
+
+  def test_constructor_should_skip_core_when_option_is_set
+    reg = Inspec::Plugin::V2::Registry.instance
+    loader = Inspec::Plugin::V2::Loader.new(omit_core_plugins: true)
+    @core_plugins.each do |core_plugin_name|
+      refute reg.known_plugin?(core_plugin_name), "\n#{core_plugin_name} should not be detected when omit_core_plugins is set"
     end
   end
 
@@ -97,7 +115,7 @@ class PluginLoaderTests < MiniTest::Test
 
   def test_load_no_plugins_should_load_no_plugins
     reg = Inspec::Plugin::V2::Registry.instance
-    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true)
     loader.load_all
     assert_equal 0, reg.loaded_count, "\nRegistry load count"
   end
@@ -166,7 +184,7 @@ class PluginLoaderTests < MiniTest::Test
     assert_nil activator.implementation_class, 'Test activator should not know implementation class prior to activation'
     refute InspecPlugins::MeaningOfLife.const_defined?(:MockPlugin), 'impl_class should not be defined prior to activation'
 
-    loader.activate(:mock_plugin_type, 'meaning-of-life-the-universe-and-everything')
+    loader.activate(:mock_plugin_type, :'meaning-of-life-the-universe-and-everything')
 
     # Activation postconditions
     assert activator.activated, 'Test activator should be activated after activate'

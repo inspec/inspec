@@ -54,7 +54,10 @@ task default: [:lint, :test]
 
 Rake::TestTask.new do |t|
   t.libs << 'test'
-  t.pattern = 'test/unit/**/*_test.rb'
+  t.test_files = Dir.glob([
+    'test/unit/**/*_test.rb',
+    'lib/plugins/inspec-*/test/unit/**/*_test.rb',
+  ])
   t.warning = true
   t.verbose = true
   t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
@@ -69,7 +72,10 @@ namespace :test do
 
   Rake::TestTask.new(:functional) do |t|
     t.libs << 'test'
-    t.pattern = 'test/functional/**/*_test.rb'
+    t.test_files = Dir.glob([
+      'test/functional/**/*_test.rb',
+      'lib/plugins/inspec-*/test/functional/**/*_test.rb',
+    ])
     t.warning = true
     t.verbose = true
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)

@@ -17,7 +17,14 @@ module Inspec::Plugin::V2
       determine_plugin_conf_file
       read_conf_file
       unpack_conf_file
+
+      # Old-style (v0, v1) co-distributed plugins were called 'bundles'
+      # and were located in lib/bundles
       detect_bundled_plugins unless options[:omit_bundles]
+
+      # New-style (v2) co-distributed plugins are in lib/plugins,
+      # and may be safely loaded
+      detect_core_plugins unless options[:omit_core_plugins]
     end
 
     def load_all
@@ -26,17 +33,20 @@ module Inspec::Plugin::V2
         # rubocop: disable Lint/RescueException
         begin
           # We could use require, but under testing, we need to repeatedly reload the same
-          # plugin.
-          if plugin_details.entry_point.include?('test/unit/mock/plugins')
-            load plugin_details.entry_point + '.rb'
-          else
+          # plugin.  However, gems only work with require (rubygems dooes not overload `load`)
+          if plugin_details.installation_type == :gem
+            activate_managed_gems_for_plugin(plugin_name)
             require plugin_details.entry_point
+          else
+            load_path = plugin_details.entry_point
+            load_path += '.rb' unless plugin_details.entry_point.end_with?('.rb')
+            load load_path
           end
           plugin_details.loaded = true
           annotate_status_after_loading(plugin_name)
         rescue ::Exception => ex
           plugin_details.load_exception = ex
-          Inspec::Log.error "Could not load plugin #{plugin_name}"
+          Inspec::Log.error "Could not load plugin #{plugin_name}: #{ex.message}"
         end
         # rubocop: enable Lint/RescueException
       end
@@ -60,7 +70,7 @@ module Inspec::Plugin::V2
     end
 
     def activate(plugin_type, hook_name)
-      activator = registry.find_activators(plugin_type: plugin_type, activation_name: hook_name).first
+      activator = registry.find_activators(plugin_type: plugin_type, activator_name: hook_name).first
       # We want to capture literally any possible exception here, since we are storing them.
       # rubocop: disable Lint/RescueException
       begin
@@ -80,7 +90,7 @@ module Inspec::Plugin::V2
         next if act.activated
         # If there is anything in the CLI args with the same name, activate it
         # If the word 'help' appears in the first position, load all CLI plugins
-        if cli_args.include?(act.activator_name.to_s) || cli_args[0] == 'help'
+        if cli_args.include?(act.activator_name.to_s) || cli_args[0] == 'help' || cli_args.size.empty?
           activate(:cli_command, act.activator_name)
           act.implementation_class.register_with_thor
         end
@@ -138,6 +148,22 @@ module Inspec::Plugin::V2
       @plugin_conf_file_path = File.join(@plugin_conf_file_path, 'plugins.json')
     end
 
+    def detect_core_plugins
+      core_plugins_dir = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'plugins'))
+      # These are expected to be organized as proper separate projects,
+      # with lib/ dirs, etc.
+      Dir.glob(File.join(core_plugins_dir, 'inspec-*')).each do |plugin_dir|
+        status = Inspec::Plugin::V2::Status.new
+        status.name = File.basename(plugin_dir)
+        status.entry_point = File.join(plugin_dir, 'lib', status.name + '.rb')
+        status.installation_type = :path
+        status.loaded = false
+        registry[status.name.to_sym] = status
+      end
+    end
+
+    # TODO: DRY up re: Installer read_or_init_config_file
+    # TODO: refactor the plugin.json file to have its own class, which Loader consumes
     def read_conf_file
       if File.exist?(@plugin_conf_file_path)
         @plugin_file_contents = JSON.parse(File.read(@plugin_conf_file_path))
