@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.110 -->
-## [v2.2.110](https://github.com/inspec/inspec/tree/v2.2.110) (2018-09-18)
+<!-- latest_release 2.2.111 -->
+## [v2.2.111](https://github.com/inspec/inspec/tree/v2.2.111) (2018-09-18)
 
-#### Merged Pull Requests
-- Move inspec init to v2 plugins [#3407](https://github.com/inspec/inspec/pull/3407) ([jquick](https://github.com/jquick))
+#### New Features
+- Update AWS Security Group to work with IPV6 rules. [#3394](https://github.com/inspec/inspec/pull/3394) ([MartinLogan](https://github.com/MartinLogan))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.102 -->
@@ -15,6 +15,7 @@
 - Plugins: Add support for &#39;bundles&#39; migration [#3384](https://github.com/inspec/inspec/pull/3384) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.105 -->
 
 #### New Features
+- Update AWS Security Group to work with IPV6 rules. [#3394](https://github.com/inspec/inspec/pull/3394) ([MartinLogan](https://github.com/MartinLogan)) <!-- 2.2.111 -->
 - Added db_name flag [#3383](https://github.com/inspec/inspec/pull/3383) ([kdoores](https://github.com/kdoores)) <!-- 2.2.104 -->
 
 #### Merged Pull Requests
