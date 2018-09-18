@@ -49,9 +49,10 @@ module Inspec::Resources
       }
       return @info unless @info[:installed]
 
-      versions = params[2].split(',')
+      versions = params[2].split(',').map(&:strip)
       @info[:name] = params[1]
       @info[:version] = versions[0]
+      @info[:versions] = versions
       @info
     end
 
@@ -61,6 +62,11 @@ module Inspec::Resources
 
     def version
       info[:version]
+    end
+
+    # this returns an array of strings
+    def versions
+      info[:versions]
     end
 
     def to_s
