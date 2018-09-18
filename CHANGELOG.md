@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.108 -->
-## [v2.2.108](https://github.com/inspec/inspec/tree/v2.2.108) (2018-09-18)
+<!-- latest_release 2.2.109 -->
+## [v2.2.109](https://github.com/inspec/inspec/tree/v2.2.109) (2018-09-18)
 
 #### Merged Pull Requests
-- Fix json automate tests and render call [#3408](https://github.com/inspec/inspec/pull/3408) ([jquick](https://github.com/jquick))
+- Fix gem tests from recent merge [#3409](https://github.com/inspec/inspec/pull/3409) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.102 -->
@@ -18,6 +18,7 @@
 - Added db_name flag [#3383](https://github.com/inspec/inspec/pull/3383) ([kdoores](https://github.com/kdoores)) <!-- 2.2.104 -->
 
 #### Merged Pull Requests
+- Fix gem tests from recent merge [#3409](https://github.com/inspec/inspec/pull/3409) ([jquick](https://github.com/jquick)) <!-- 2.2.109 -->
 - Fix json automate tests and render call [#3408](https://github.com/inspec/inspec/pull/3408) ([jquick](https://github.com/jquick)) <!-- 2.2.108 -->
 - Move habitat to v2 plugin [#3404](https://github.com/inspec/inspec/pull/3404) ([jquick](https://github.com/jquick)) <!-- 2.2.106 -->
 - Fix rendering of profiles docs [#3393](https://github.com/inspec/inspec/pull/3393) ([jquick](https://github.com/jquick)) <!-- 2.2.103 -->
