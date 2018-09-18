@@ -15,8 +15,8 @@ module Inspec::Resources
     def initialize(opts = {})
       supported_opt_keys = [:user, :group, :unspecified]
       raise "Invalid security_identifier param '#{opts}'. Please pass a hash with these supported keys: #{supported_opt_keys}" unless opts.respond_to?(:keys)
-      raise "Unsupported security_identifier options '#{opts.keys - supported_opt_keys}'. Supported keys: #[supported_opt_keys]" unless (opts.keys - supported_opt_keys).empty? 
-      raise 'Specifying more than one of :user :group or :unspecified for security_identifier is not supported' unless opts.keys unless (opts.keys & supported_opt_keys).length == 1
+      raise "Unsupported security_identifier options '#{opts.keys - supported_opt_keys}'. Supported keys: #[supported_opt_keys]" unless (opts.keys - supported_opt_keys).empty?
+      raise 'Specifying more than one of :user :group or :unspecified for security_identifier is not supported' unless opts.keys && (opts.keys & supported_opt_keys).length == 1
       if opts[:user]
         @type = :user
         @name = opts[:user]
@@ -38,7 +38,7 @@ module Inspec::Resources
       @sids[@name] || @name
     end
 
-private
+    private
 
     def fetch_sids
       @sids = {}
@@ -49,12 +49,12 @@ private
         sid_data = wmi_results_array("wmic useraccount where 'Name=\"#{@name}\"' get Name\",\"SID /format:csv")
       when :unspecified
         # try group first, then user
-        sid_data = wmi_results_array("wmic group where 'Name=\"#{@name}\"' get Name\",\"SID /format:csv" )
+        sid_data = wmi_results_array("wmic group where 'Name=\"#{@name}\"' get Name\",\"SID /format:csv")
         if sid_data.empty?
           sid_data = wmi_results_array("wmic useraccount where 'Name=\"#{@name}\"' get Name\",\"SID /format:csv")
         end
       else
-        raise "Unhandled entity type '#{@type.to_s}'"
+        raise "Unhandled entity type '#{@type}'"
       end
       sid_data.each { |sid| @sids[sid[1]] = sid[2] }
     end
