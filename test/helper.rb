@@ -38,7 +38,6 @@ require 'fetchers/mock'
 require 'inspec/dependencies/cache'
 
 require_relative '../lib/bundles/inspec-compliance'
-require_relative '../lib/bundles/inspec-habitat'
 
 require 'train'
 CMD = Train.create('local', command_runner: :generic).connection
