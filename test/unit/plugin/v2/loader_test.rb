@@ -26,10 +26,10 @@ class PluginLoaderTests < MiniTest::Test
       :artifact,
       :compliance,
       :habitat,
-      :init,
       :supermarket,
      ]
      @core_plugins = [
+      :'inspec-init',
      ]
   end
 
