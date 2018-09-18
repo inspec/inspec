@@ -8,7 +8,7 @@ class InitCli < MiniTest::Test
   def test_generating_inspec_profile
     Dir.mktmpdir do |dir|
       profile = File.join(dir, 'test-profile')
-      out = run_inspec_process("init profile test-profile", "cd #{dir} &&")
+      out = run_inspec_process("init profile test-profile", prefix: "cd #{dir} &&")
       assert_equal 0, out.exit_status
       assert_includes out.stdout, 'Create new profile at'
       assert_includes out.stdout, profile
@@ -20,7 +20,7 @@ class InitCli < MiniTest::Test
   def test_profile_with_slash_name
     Dir.mktmpdir do |dir|
       profile = dir + '/test/deeper/profile'
-      out = run_inspec_process("init profile test/deeper/profile", "cd #{dir} &&")
+      out = run_inspec_process("init profile test/deeper/profile", prefix: "cd #{dir} &&")
       assert_equal 0, out.exit_status
       assert_equal true, File.exist?(profile)
       profile = YAML.load_file("#{profile}/inspec.yml")
