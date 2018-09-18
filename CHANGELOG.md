@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.104 -->
-## [v2.2.104](https://github.com/inspec/inspec/tree/v2.2.104) (2018-09-18)
+<!-- latest_release 2.2.105 -->
+## [v2.2.105](https://github.com/inspec/inspec/tree/v2.2.105) (2018-09-18)
 
-#### New Features
-- Added db_name flag [#3383](https://github.com/inspec/inspec/pull/3383) ([kdoores](https://github.com/kdoores))
+#### Enhancements
+- Plugins: Add support for &#39;bundles&#39; migration [#3384](https://github.com/inspec/inspec/pull/3384) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.102 -->
 ### Changes since 2.2.102 release
+
+#### Enhancements
+- Plugins: Add support for &#39;bundles&#39; migration [#3384](https://github.com/inspec/inspec/pull/3384) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.105 -->
 
 #### New Features
 - Added db_name flag [#3383](https://github.com/inspec/inspec/pull/3383) ([kdoores](https://github.com/kdoores)) <!-- 2.2.104 -->
