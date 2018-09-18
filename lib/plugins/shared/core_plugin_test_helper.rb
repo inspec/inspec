@@ -33,9 +33,14 @@ module CorePluginFunctionalHelper
   require 'train'
   TRAIN_CONNECTION = Train.create('local', command_runner: :generic).connection
 
-  def run_inspec_process(command_line, env = {})
-    env_prefix = env.to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(' ')
-    TRAIN_CONNECTION.run_command("#{env_prefix} #{inspec_bin_path} #{command_line}")
+  def run_inspec_process(command_line, opts = {})
+    prefix = ''
+    if opts.key?(:prefix)
+      prefix = opts[:prefix]
+    elsif opts.key?(:env)
+      prefix = opts[:env].to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(' ')
+    end
+    TRAIN_CONNECTION.run_command("#{prefix} #{inspec_bin_path} #{command_line}")
   end
 end
 
