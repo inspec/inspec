@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.105 -->
-## [v2.2.105](https://github.com/inspec/inspec/tree/v2.2.105) (2018-09-18)
+<!-- latest_release 2.2.106 -->
+## [v2.2.106](https://github.com/inspec/inspec/tree/v2.2.106) (2018-09-18)
 
-#### Enhancements
-- Plugins: Add support for &#39;bundles&#39; migration [#3384](https://github.com/inspec/inspec/pull/3384) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Move habitat to v2 plugin [#3404](https://github.com/inspec/inspec/pull/3404) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.102 -->
@@ -17,6 +17,7 @@
 - Added db_name flag [#3383](https://github.com/inspec/inspec/pull/3383) ([kdoores](https://github.com/kdoores)) <!-- 2.2.104 -->
 
 #### Merged Pull Requests
+- Move habitat to v2 plugin [#3404](https://github.com/inspec/inspec/pull/3404) ([jquick](https://github.com/jquick)) <!-- 2.2.106 -->
 - Fix rendering of profiles docs [#3393](https://github.com/inspec/inspec/pull/3393) ([jquick](https://github.com/jquick)) <!-- 2.2.103 -->
 <!-- release_rollup -->
 
