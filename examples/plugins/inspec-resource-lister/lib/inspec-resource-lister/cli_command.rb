@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require 'inspec/resource'
+
 module InspecPlugins::ResourceLister
 
   # This class will provide the actual CLI implementation.

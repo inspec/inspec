@@ -28,7 +28,7 @@ module InspecPlugins
     #   The number '2' says you are asking for version 2 of the plugin API. If there are
     # future versions, InSpec promises plugin API v2 will work for at least two more InSpec
     # major versions.
-    class Plugin < Inspec.plugin(2)
+    class Plugin < ::Inspec.plugin(2)
 
       # Internal machine name of the plugin. InSpec will use this in errors, etc.
       plugin_name :'inspec-resource-lister'
