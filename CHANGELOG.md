@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.2.113 -->
+## [v2.2.113](https://github.com/inspec/inspec/tree/v2.2.113) (2018-09-19)
+
+#### New Features
+- Plugins Installer API [#3352](https://github.com/inspec/inspec/pull/3352) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.2.112 -->
+### Changes since 2.2.112 release
+
+#### New Features
+- Plugins Installer API [#3352](https://github.com/inspec/inspec/pull/3352) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.113 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
