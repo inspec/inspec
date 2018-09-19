@@ -5,6 +5,7 @@ AllCops:
   - Gemfile
   - Rakefile
   - 'test/**/*'
+  - 'lib/plugins/*/test/**/*'
   - 'examples/**/*'
   - 'vendor/**/*'
   - 'lib/plugins/inspec-*/test/**/*'

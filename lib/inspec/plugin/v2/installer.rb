@@ -235,7 +235,7 @@ module Inspec::Plugin::V2
 
       opts[:scope] ||= :released
       unless [:prerelease, :released, :latest].include?(opts[:scope])
-        raise SearchError, "Search scope for listing versons must be :prerelease, :released, or :latest."
+        raise SearchError, 'Search scope for listing versons must be :prerelease, :released, or :latest.'
       end
     end
 
