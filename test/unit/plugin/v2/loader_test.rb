@@ -23,11 +23,11 @@ class PluginLoaderTests < MiniTest::Test
 
     @config_dir_path = File.join(mock_path, 'config_dirs')
     @bundled_plugins = [
-      :artifact,
       :compliance,
       :supermarket,
      ]
      @core_plugins = [
+      :'inspec-artifact',
       :'inspec-habitat',
       :'inspec-init',
      ]
