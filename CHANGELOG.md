@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.111 -->
-## [v2.2.111](https://github.com/inspec/inspec/tree/v2.2.111) (2018-09-18)
+<!-- latest_release 2.2.112 -->
+## [v2.2.112](https://github.com/inspec/inspec/tree/v2.2.112) (2018-09-19)
 
-#### New Features
-- Update AWS Security Group to work with IPV6 rules. [#3394](https://github.com/inspec/inspec/pull/3394) ([MartinLogan](https://github.com/MartinLogan))
+#### Merged Pull Requests
+- Move artifact to v2 plugin  [#3406](https://github.com/inspec/inspec/pull/3406) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.102 -->
@@ -19,6 +19,7 @@
 - Added db_name flag [#3383](https://github.com/inspec/inspec/pull/3383) ([kdoores](https://github.com/kdoores)) <!-- 2.2.104 -->
 
 #### Merged Pull Requests
+- Move artifact to v2 plugin  [#3406](https://github.com/inspec/inspec/pull/3406) ([jquick](https://github.com/jquick)) <!-- 2.2.112 -->
 - Move inspec init to v2 plugins [#3407](https://github.com/inspec/inspec/pull/3407) ([jquick](https://github.com/jquick)) <!-- 2.2.110 -->
 - Fix gem tests from recent merge [#3409](https://github.com/inspec/inspec/pull/3409) ([jquick](https://github.com/jquick)) <!-- 2.2.109 -->
 - Fix json automate tests and render call [#3408](https://github.com/inspec/inspec/pull/3408) ([jquick](https://github.com/jquick)) <!-- 2.2.108 -->
