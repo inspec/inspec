@@ -1,38 +1,35 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.112 -->
-## [v2.2.112](https://github.com/inspec/inspec/tree/v2.2.112) (2018-09-19)
-
-#### Merged Pull Requests
-- Move artifact to v2 plugin  [#3406](https://github.com/inspec/inspec/pull/3406) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.2.102 -->
-### Changes since 2.2.102 release
-
-#### Enhancements
-- adding `versions` to the `gem` resource [#3398](https://github.com/inspec/inspec/pull/3398) ([majormoses](https://github.com/majormoses)) <!-- 2.2.107 -->
-- Plugins: Add support for &#39;bundles&#39; migration [#3384](https://github.com/inspec/inspec/pull/3384) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.105 -->
-
-#### New Features
-- Update AWS Security Group to work with IPV6 rules. [#3394](https://github.com/inspec/inspec/pull/3394) ([MartinLogan](https://github.com/MartinLogan)) <!-- 2.2.111 -->
-- Added db_name flag [#3383](https://github.com/inspec/inspec/pull/3383) ([kdoores](https://github.com/kdoores)) <!-- 2.2.104 -->
-
-#### Merged Pull Requests
-- Move artifact to v2 plugin  [#3406](https://github.com/inspec/inspec/pull/3406) ([jquick](https://github.com/jquick)) <!-- 2.2.112 -->
-- Move inspec init to v2 plugins [#3407](https://github.com/inspec/inspec/pull/3407) ([jquick](https://github.com/jquick)) <!-- 2.2.110 -->
-- Fix gem tests from recent merge [#3409](https://github.com/inspec/inspec/pull/3409) ([jquick](https://github.com/jquick)) <!-- 2.2.109 -->
-- Fix json automate tests and render call [#3408](https://github.com/inspec/inspec/pull/3408) ([jquick](https://github.com/jquick)) <!-- 2.2.108 -->
-- Move habitat to v2 plugin [#3404](https://github.com/inspec/inspec/pull/3404) ([jquick](https://github.com/jquick)) <!-- 2.2.106 -->
-- Fix rendering of profiles docs [#3393](https://github.com/inspec/inspec/pull/3393) ([jquick](https://github.com/jquick)) <!-- 2.2.103 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.2.112](https://github.com/inspec/inspec/tree/v2.2.112) (2018-09-19)
+
+#### New Features
+- Added db_name flag [#3383](https://github.com/inspec/inspec/pull/3383) ([kdoores](https://github.com/kdoores))
+- Update AWS Security Group to work with IPV6 rules. [#3394](https://github.com/inspec/inspec/pull/3394) ([MartinLogan](https://github.com/MartinLogan))
+
+#### Enhancements
+- Plugins: Add support for &#39;bundles&#39; migration [#3384](https://github.com/inspec/inspec/pull/3384) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- adding `versions` to the `gem` resource [#3398](https://github.com/inspec/inspec/pull/3398) ([majormoses](https://github.com/majormoses))
+
+#### Merged Pull Requests
+- Fix rendering of profiles docs [#3393](https://github.com/inspec/inspec/pull/3393) ([jquick](https://github.com/jquick))
+- Move habitat to v2 plugin [#3404](https://github.com/inspec/inspec/pull/3404) ([jquick](https://github.com/jquick))
+- Fix json automate tests and render call [#3408](https://github.com/inspec/inspec/pull/3408) ([jquick](https://github.com/jquick))
+- Fix gem tests from recent merge [#3409](https://github.com/inspec/inspec/pull/3409) ([jquick](https://github.com/jquick))
+- Move inspec init to v2 plugins [#3407](https://github.com/inspec/inspec/pull/3407) ([jquick](https://github.com/jquick))
+- Move artifact to v2 plugin  [#3406](https://github.com/inspec/inspec/pull/3406) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v2.2.102](https://github.com/inspec/inspec/tree/v2.2.102) (2018-09-17)
 
 #### Merged Pull Requests
 - Add json-automate to the report method [#3401](https://github.com/inspec/inspec/pull/3401) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.2.101](https://github.com/inspec/inspec/tree/v2.2.101) (2018-09-14)
 
