@@ -195,6 +195,43 @@ module InspecPlugins
         puts(bold { plugin_name } + " plugin, version #{old_version} -> #{new_version}, updated from rubygems.org")
       end
 
+      #--------------------------
+      #        uninstall
+      #--------------------------
+      desc 'uninstall PLUGIN_NAME', 'Uninstalls a gem- or path- based plugin'
+      long_desc <<~EOLD
+      Removes a plugin from the users configuration.
+        In the case of a gem plugin (by far the most common), the plugin gem is removed, along
+      with any of its dependencies that are no longer needed by anything else. Finally, the
+      plugin configuration file is updated to reflect that the plugin is no longer present.
+        In the case of a path-based plugin (often used for plugin development), no changes
+      are made to the referenced plugin source code. Rather, the plugin's entry is simply removed
+      from the plugin config file.
+      EOLD
+      def uninstall(plugin_name)
+        status = Inspec::Plugin::V2::Registry.instance[plugin_name.to_sym]
+        unless status
+          puts(red { 'No such plugin installed: ' } + "#{plugin_name} is not installed - uninstall failed")
+
+          exit 1
+        end
+        installer = Inspec::Plugin::V2::Installer.instance
+
+        pre_uninstall_versions = installer.list_installed_plugin_gems.select {|spec| spec.name == plugin_name }.map {|spec| spec.version.to_s}
+        old_version = pre_uninstall_versions.join(', ')
+
+        installer.uninstall(plugin_name)
+
+        if status.installation_type == :path
+          puts(bold { plugin_name } + ' path-based plugin install has been uninstalled')
+          exit 0
+        else
+          puts(bold { plugin_name } + " plugin, version #{old_version}, has been uninstalled")
+          exit 0
+        end
+
+      end
+
       private
       def check_plugin_name(plugin_name, action)
         unless plugin_name =~ /^(inspec|train)-/

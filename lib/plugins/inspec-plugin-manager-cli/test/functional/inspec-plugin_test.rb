@@ -433,7 +433,7 @@ class PluginManagerCliUninstall < MiniTest::Test
     list_result = run_inspec_process("plugin list", INSPEC_CONFIG_DIR: working_dir)
     itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
     refute_nil itf_line, 'inspec-test-fixture should appear in the output of inspec list prior to uninstall'
-    assert_match(/\s*inspec-test-fixture\s+0\.1\.0\s+path\s+/, itf_line, 'list output should show that it is a gem installation')
+    assert_match(/\s*inspec-test-fixture\s+0\.1\.0\s+gem\s+/, itf_line, 'list output should show that it is a gem installation')
 
     # Attempt uninstall
     uninstall_result = run_inspec_process('plugin uninstall inspec-test-fixture', INSPEC_CONFIG_DIR: working_dir)
@@ -461,7 +461,7 @@ class PluginManagerCliUninstall < MiniTest::Test
     list_result = run_inspec_process("plugin list", INSPEC_CONFIG_DIR: working_dir)
     itf_line = list_result.stdout.split("\n").grep(/inspec-meaning-of-life/).first
     refute_nil itf_line, 'inspec-meaning-of-life should appear in the output of inspec list prior to uninstall'
-    assert_match(/\s*inspec-meaning-of-life\ssrc\s+path\s+/, itf_line, 'list output should show that it is a path installation')
+    assert_match(/\s*inspec-meaning-of-life\s+src\s+path\s+/, itf_line, 'list output should show that it is a path installation')
 
     uninstall_result = run_inspec_process('plugin uninstall inspec-meaning-of-life', INSPEC_CONFIG_DIR: working_dir)
 
@@ -471,7 +471,8 @@ class PluginManagerCliUninstall < MiniTest::Test
     success_message = uninstall_result.stdout.split("\n").grep(/uninstalled/).last
     refute_nil success_message, 'Should find a success message at the end'
     assert_includes success_message, 'inspec-meaning-of-life'
-    assert_includes success_message, 'path-based plugin install uninstalled'
+    assert_includes success_message, 'path-based plugin install'
+    assert_includes success_message, 'has been uninstalled'
 
     list_result = run_inspec_process("plugin list", INSPEC_CONFIG_DIR: working_dir)
     itf_line = list_result.stdout.split("\n").grep(/inspec-meaning-of-life/).first
@@ -484,6 +485,7 @@ class PluginManagerCliUninstall < MiniTest::Test
 
     assert_empty uninstall_result.stderr
     assert_equal 1, uninstall_result.exit_status, 'Exit status should be 1'
-    assert_match(/No such plugin installed: .+ - update failed/, uninstall_result.stdout)
+    refute_includes 'Inspec::Plugin::V2::UnInstallError', uninstall_result.stdout # Stacktrace marker
+    assert_match(/No such plugin installed: .+ - uninstall failed/, uninstall_result.stdout)
   end
 end
