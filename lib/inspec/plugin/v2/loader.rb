@@ -28,12 +28,14 @@ module Inspec::Plugin::V2
         # rubocop: disable Lint/RescueException
         begin
           # We could use require, but under testing, we need to repeatedly reload the same
-          # plugin.
-          if plugin_details.entry_point.include?('test/unit/mock/plugins')
-            load plugin_details.entry_point + '.rb'
-          else
-            activate_managed_gems_for_plugin(plugin_name) if plugin_details.installation_type == :gem
+          # plugin.  However, gems only work with require (rubygems dooes not overload `load`)
+          if plugin_details.installation_type == :gem
+            activate_managed_gems_for_plugin(plugin_name)
             require plugin_details.entry_point
+          else
+            load_path = plugin_details.entry_point
+            load_path += '.rb' unless plugin_details.entry_point.end_with?('.rb')
+            load load_path
           end
           plugin_details.loaded = true
           annotate_status_after_loading(plugin_name)

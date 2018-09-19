@@ -80,4 +80,3 @@ describe 'cli command plugins' do
     outcome.stdout.must_include 'inspec meaningoflife'
   end
 end
-
