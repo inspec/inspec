@@ -37,7 +37,7 @@ end
 build_version Inspec::VERSION
 build_iteration 1
 
-override 'ruby', version: '2.4.3'
+override 'ruby', version: '2.5.1'
 # RubyGems 2.7.0 caused issues in the Jenkins pipelines, trouble installing bundler.
 # This issue is not evident in 2.6.x, hence the pin.
 override 'rubygems', version: '2.6.14'

@@ -19,6 +19,7 @@ describe 'Inspec::Resources::Gem' do
       version: '0.33.0',
       type: 'gem',
       installed: true,
+      versions: ["0.33.0", "0.32.1", "0.28.0"],
     }
     _(resource.installed?).must_equal true
     _(resource.info).must_equal pkg
@@ -32,6 +33,7 @@ describe 'Inspec::Resources::Gem' do
       version: '0.10.4',
       type: 'gem',
       installed: true,
+      versions: ["0.10.4"],
     }
     _(resource.installed?).must_equal true
     _(resource.info).must_equal pkg
@@ -45,9 +47,24 @@ describe 'Inspec::Resources::Gem' do
       version: '3.4.0',
       type: 'gem',
       installed: true,
+      versions: ["3.4.0"],
     }
     _(resource.installed?).must_equal true
     _(resource.info).must_equal pkg
+    _(resource.gem_binary).must_equal '/opt/chef/embedded/bin/gem'
+  end
+
+  it 'verifies gem in :chef when multiple versions are installed' do
+    resource = load_resource('gem', 'chef-sugar', :chef)
+    pkg = {
+      name: 'chef-sugar',
+      versions: ['3.3.0', '3.4.0'],
+      type: 'gem',
+      installed: true,
+    }
+    _(resource.installed?).must_equal true
+    _(resource.versions[0]).must_match /3\.4/
+    _(resource.versions).wont_include /2\.4/
     _(resource.gem_binary).must_equal '/opt/chef/embedded/bin/gem'
   end
 
@@ -58,6 +75,7 @@ describe 'Inspec::Resources::Gem' do
       version: '1.8.3',
       type: 'gem',
       installed: true,
+      versions: ["1.8.3"],
     }
     _(resource.installed?).must_equal true
     _(resource.info).must_equal pkg
@@ -71,6 +89,7 @@ describe 'Inspec::Resources::Gem' do
       version: '0.0.12',
       type: 'gem',
       installed: true,
+      versions: ["0.0.12"],
     }
     _(resource.installed?).must_equal true
     _(resource.info).must_equal pkg

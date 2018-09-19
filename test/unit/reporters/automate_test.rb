@@ -40,7 +40,7 @@ describe Inspec::Reporters::Automate do
       }
       stub = Net::HTTP::Post.new("/data-collector/v0/", headers)
       Net::HTTP::Post.expects(:new).with("/data-collector/v0/", headers).returns(stub)
-      Net::HTTP.any_instance.stubs(:request).returns(true)
+      Net::HTTP.any_instance.stubs(:request).returns(Net::HTTPSuccess.new(nil, nil, nil))
       report.send_report.must_equal true
     end
   end

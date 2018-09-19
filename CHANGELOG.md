@@ -1,32 +1,69 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.87 -->
-## [v2.2.87](https://github.com/inspec/inspec/tree/v2.2.87) (2018-09-10)
-
-#### Bug Fixes
-- Fixing AWS integration tests. [#3374](https://github.com/inspec/inspec/pull/3374) ([MartinLogan](https://github.com/MartinLogan))
-<!-- latest_release -->
-
-<!-- release_rollup since=2.2.78 -->
-### Changes since 2.2.78 release
-
-#### Bug Fixes
-- Fixing AWS integration tests. [#3374](https://github.com/inspec/inspec/pull/3374) ([MartinLogan](https://github.com/MartinLogan)) <!-- 2.2.87 -->
-- enforce utf encoding for cli output [#3376](https://github.com/inspec/inspec/pull/3376) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.86 -->
-- Fix vendoring functional test cleanup [#3377](https://github.com/inspec/inspec/pull/3377) ([jquick](https://github.com/jquick)) <!-- 2.2.85 -->
-- use multipart gem for upload to support upload on windows [#3369](https://github.com/inspec/inspec/pull/3369) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.84 -->
-- ensure we use the mock backend when we upload profiles [#3370](https://github.com/inspec/inspec/pull/3370) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.83 -->
-
-#### Enhancements
-- do not show success message since its confusing [#3366](https://github.com/inspec/inspec/pull/3366) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.82 -->
-- Harmonize vendoring (ensure archives are extracted and local paths do not vendor on exec) [#3286](https://github.com/inspec/inspec/pull/3286) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.81 -->
-- handle errors from automate report and display them to the user [#3360](https://github.com/inspec/inspec/pull/3360) ([chris-rock](https://github.com/chris-rock)) <!-- 2.2.80 -->
+<!-- latest_release 2.2.112 -->
+## [v2.2.112](https://github.com/inspec/inspec/tree/v2.2.112) (2018-09-19)
 
 #### Merged Pull Requests
-- Allow target-id passthrough [#3320](https://github.com/inspec/inspec/pull/3320) ([jquick](https://github.com/jquick)) <!-- 2.2.79 -->
+- Move artifact to v2 plugin  [#3406](https://github.com/inspec/inspec/pull/3406) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
+
+<!-- release_rollup since=2.2.102 -->
+### Changes since 2.2.102 release
+
+#### Enhancements
+- adding `versions` to the `gem` resource [#3398](https://github.com/inspec/inspec/pull/3398) ([majormoses](https://github.com/majormoses)) <!-- 2.2.107 -->
+- Plugins: Add support for &#39;bundles&#39; migration [#3384](https://github.com/inspec/inspec/pull/3384) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.105 -->
+
+#### New Features
+- Update AWS Security Group to work with IPV6 rules. [#3394](https://github.com/inspec/inspec/pull/3394) ([MartinLogan](https://github.com/MartinLogan)) <!-- 2.2.111 -->
+- Added db_name flag [#3383](https://github.com/inspec/inspec/pull/3383) ([kdoores](https://github.com/kdoores)) <!-- 2.2.104 -->
+
+#### Merged Pull Requests
+- Move artifact to v2 plugin  [#3406](https://github.com/inspec/inspec/pull/3406) ([jquick](https://github.com/jquick)) <!-- 2.2.112 -->
+- Move inspec init to v2 plugins [#3407](https://github.com/inspec/inspec/pull/3407) ([jquick](https://github.com/jquick)) <!-- 2.2.110 -->
+- Fix gem tests from recent merge [#3409](https://github.com/inspec/inspec/pull/3409) ([jquick](https://github.com/jquick)) <!-- 2.2.109 -->
+- Fix json automate tests and render call [#3408](https://github.com/inspec/inspec/pull/3408) ([jquick](https://github.com/jquick)) <!-- 2.2.108 -->
+- Move habitat to v2 plugin [#3404](https://github.com/inspec/inspec/pull/3404) ([jquick](https://github.com/jquick)) <!-- 2.2.106 -->
+- Fix rendering of profiles docs [#3393](https://github.com/inspec/inspec/pull/3393) ([jquick](https://github.com/jquick)) <!-- 2.2.103 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.2.102](https://github.com/inspec/inspec/tree/v2.2.102) (2018-09-17)
+
+#### Merged Pull Requests
+- Add json-automate to the report method [#3401](https://github.com/inspec/inspec/pull/3401) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
+## [v2.2.101](https://github.com/inspec/inspec/tree/v2.2.101) (2018-09-14)
+
+#### New Features
+- Add string impact options for controls [#3359](https://github.com/inspec/inspec/pull/3359) ([jquick](https://github.com/jquick))
+
+#### Enhancements
+- handle errors from automate report and display them to the user [#3360](https://github.com/inspec/inspec/pull/3360) ([chris-rock](https://github.com/chris-rock))
+- Harmonize vendoring (ensure archives are extracted and local paths do not vendor on exec) [#3286](https://github.com/inspec/inspec/pull/3286) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- do not show success message since its confusing [#3366](https://github.com/inspec/inspec/pull/3366) ([chris-rock](https://github.com/chris-rock))
+
+#### Bug Fixes
+- ensure we use the mock backend when we upload profiles [#3370](https://github.com/inspec/inspec/pull/3370) ([chris-rock](https://github.com/chris-rock))
+- use multipart gem for upload to support upload on windows [#3369](https://github.com/inspec/inspec/pull/3369) ([chris-rock](https://github.com/chris-rock))
+- Fix vendoring functional test cleanup [#3377](https://github.com/inspec/inspec/pull/3377) ([jquick](https://github.com/jquick))
+- enforce utf encoding for cli output [#3376](https://github.com/inspec/inspec/pull/3376) ([chris-rock](https://github.com/chris-rock))
+- Fixing AWS integration tests. [#3374](https://github.com/inspec/inspec/pull/3374) ([MartinLogan](https://github.com/MartinLogan))
+- Prevent logs from showing up when running inspec json [#3391](https://github.com/inspec/inspec/pull/3391) ([jquick](https://github.com/jquick))
+- Fix the compliance target error checks [#3392](https://github.com/inspec/inspec/pull/3392) ([jquick](https://github.com/jquick))
+
+#### Merged Pull Requests
+- Allow target-id passthrough [#3320](https://github.com/inspec/inspec/pull/3320) ([jquick](https://github.com/jquick))
+- Update rubyzip to resolve a directory traversal security vulnerability. [#3388](https://github.com/inspec/inspec/pull/3388) ([miah](https://github.com/miah))
+- Implement InSpec global attributes [#3318](https://github.com/inspec/inspec/pull/3318) ([jquick](https://github.com/jquick))
+- Revert uuid change from A2 report [#3387](https://github.com/inspec/inspec/pull/3387) ([jquick](https://github.com/jquick))
+- Populate code for inspec json inheritance [#3386](https://github.com/inspec/inspec/pull/3386) ([jquick](https://github.com/jquick))
+- Add windows functional tests [#3385](https://github.com/inspec/inspec/pull/3385) ([jquick](https://github.com/jquick))
+- Bump omnibus ruby to 2.5.1 [#3390](https://github.com/inspec/inspec/pull/3390) ([jquick](https://github.com/jquick))
+- Add platforms schema command [#3346](https://github.com/inspec/inspec/pull/3346) ([jquick](https://github.com/jquick))
+- Fix profile vendoring on Windows [#3378](https://github.com/inspec/inspec/pull/3378) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
 ## [v2.2.78](https://github.com/inspec/inspec/tree/v2.2.78) (2018-08-30)
 
 #### New Features
@@ -42,7 +79,6 @@
 - Convert legacy supports to their platform counterparts [#3333](https://github.com/inspec/inspec/pull/3333) ([jquick](https://github.com/jquick))
 - Fix the brew command to install inspec [#3335](https://github.com/inspec/inspec/pull/3335) ([tas50](https://github.com/tas50))
 - Update demo site nom packages [#3343](https://github.com/inspec/inspec/pull/3343) ([miah](https://github.com/miah))
-<!-- latest_stable_release -->
 
 ## [v2.2.70](https://github.com/inspec/inspec/tree/v2.2.70) (2018-08-24)
 

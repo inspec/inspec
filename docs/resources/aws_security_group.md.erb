@@ -12,7 +12,6 @@ SGs are a networking construct which contain ingress and egress rules for networ
 
 While this resource provides facilities for searching inbound and outbound rules on a variety of criteria, there is currently no support for performing matches based on:
 
- * IPv6 ranges
  * References to other Security Groups
  * References to VPC peers or other AWS services (that is, no support for searches based on 'prefix lists').
 
@@ -143,7 +142,7 @@ A string identifying the VPC that contains the Security Group. Since VPCs common
 <br>
 ## Properties
 
-* [`description`](#description), [`group_id`](#group_id), [`group_name`](#group_name), [`inbound_rules`](#inbound_rules), [`outbound_rules`](#outbound_rules), [`vpc_id`](#vpc_id)
+* [`description`](#description), [`group_id`](#group_id), [`group_name`](#group_name), [`inbound_rules`](#inbound_rules), [`inbound_rules_count`](#inbound_rules_count), [`outbound_rules`](#outbound_rules), [`outbound_rules_count`](#outbound_rules_count), [`vpc_id`](#vpc_id)
 
 <br>
 
@@ -191,6 +190,14 @@ If the Security Group could not be found (that is, `exists` is false), `inbound_
       its('inbound_rules.first') { should include(from_port: '22', ip_ranges: ['10.2.17.0/24']) }
     end
 
+### inbound\_rules\_count
+
+A Number totalling the number of individual rules defined - It is a sum of the combinations of port, protocol, ipv4 rules, ipv6 rules and security group rules.
+
+    describe aws_security_group(group_name: linux_servers) do
+      its('inbound_rules_count'){ should eq 10 }
+    end
+
 ### outbound\_rules
 
 A list of the rules that the Security Group applies to outgoing network traffic initiated by the AWS resource in the Security Group. This is a low-level property that is used by the [`allow_out`](#allow_out) matcher; see it for detailed examples. `outbound_rules` is provided here for those wishing to use Ruby code to inspect the rules directly, instead of using higher-level matchers.
@@ -201,6 +208,14 @@ If the Security Group could not be found (that is, `exists` is false), `outbound
 
     describe aws_security_group(group_name: isolated_servers) do
       its('outbound_rules.last') { should_not include(ip_ranges:['0.0.0.0/0']) }
+    end
+
+### outbound\_rules\_count
+
+A Number totalling the number of individual rules defined - It is a sum of the combinations of port, protocol, ipv4 rules, ipv6 rules and security group rules.
+
+    describe aws_security_group(group_name: linux_servers) do
+      its('outbound_rules_count'){ should eq 2 }
     end
 
 ### vpc\_id
@@ -240,6 +255,7 @@ The matchers accept a key-value list of search criteria.  For a rule to match, i
 
   * from_port - Determines if a rule exists whose port range begins at the specified number. The word 'from_' does *not* relate to inbound/outbound directionality; it relates to the port range ("counting _from_"). `from_port` is an exact criterion; so if the rule allows 1000-2000 and you specify a `from_port` of 1001, it does not match.
   * ipv4_range - Specifies an IPv4 address or subnet as a CIDR, or a list of them, to be checked as a permissible origin (for `allow_in`) or destination (for `allow_out`) for traffic.  Each AWS Security Group rule may have multiple allowed source IP ranges.
+  * ipv6_range - Specifies an IPv6 address or subnet as a CIDR, or a list of them, to be checked as a permissible origin (for `allow_in`) or destination (for `allow_out`) for traffic.  Each AWS Security Group rule may have multiple allowed source IP ranges.
   * port - Determines if a particular TCP/IP port is reachable. allow_in and allow_out examine whether the specified port is included in the port range of a rule, while allow_in. You may specify the port as a string (`'22'`) or as a number.
   * position - A one-based index into the list of rules. If provided, this restricts the evaluation to the rule at that position. You may also use the special values `:first` and `:last`. `position` may also be used to enable `allow_in_only` and `allow_out_only` to work with multi-rule Security Groups.
   * protocol - Specifies the IP protocol. 'tcp', 'udp', and 'icmp' are some typical values. The string "-1" or 'any' is used to indicate any protocol.
@@ -248,6 +264,7 @@ The matchers accept a key-value list of search criteria.  For a rule to match, i
     describe aws_security_group(group_name: 'mixed-functionality-group') do
       # Allow RDP from defined range
       it { should allow_in(port: 3389, ipv4_range: '10.5.0.0/16') }
+      it { should allow_in(port: 3389, ipv6_range: '2001:db8::/122') }
 
       # Allow SSH from two ranges
       it { should allow_in(port: 22, ipv4_range: ['10.5.0.0/16', '10.2.3.0/24']) }

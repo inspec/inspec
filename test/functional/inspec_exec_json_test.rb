@@ -55,6 +55,10 @@ describe 'inspec exec with json formatter' do
       json['profiles'].length.must_equal 1
     end
 
+    it 'maps impact symbols to numbers' do
+      ex3['impact'].must_equal 0.9
+    end
+
     it 'has all the metadata' do
       actual = profile.dup
       key = actual.delete('controls')
@@ -69,8 +73,8 @@ describe 'inspec exec with json formatter' do
         "license" => "Apache-2.0",
         "summary" => "Demonstrates the use of InSpec Compliance Profile",
         "version" => "1.0.0",
-        "sha256" => "57709d3a3d5cd06f4179be7e6fbe254c09e3af25ce274e474d52623e34487cc4",
-        "supports" => [{"platform-family" => "unix"}],
+        "sha256" => "c2416865d6da8cdeb4610442d6eac18be2737453e010d028cb901103fefebf6a",
+        "supports" => [{"platform-family" => "unix"}, {"platform-family"=>"windows"}],
         "attributes" => []
       })
 

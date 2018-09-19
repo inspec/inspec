@@ -251,6 +251,7 @@ resource "aws_security_group_rule" "alpha_x11" {
   to_port           = "6007"
   protocol          = "tcp"
   cidr_blocks       = ["10.1.2.0/24", "10.3.2.0/24"]
+  ipv6_cidr_blocks = ["2001:db8::/122"]
   security_group_id = "${aws_security_group.alpha.id}"
 }
 
@@ -260,6 +261,15 @@ resource "aws_security_group_rule" "alpha_all_ports" {
   to_port           = "65535"
   protocol          = "tcp"
   cidr_blocks       = ["10.1.2.0/24"]
+  security_group_id = "${aws_security_group.alpha.id}"
+}
+
+resource "aws_security_group_rule" "alpha_piv6_all_ports" {
+  type              = "ingress"
+  from_port         = "0"
+  to_port           = "65535"
+  protocol          = "tcp"
+  ipv6_cidr_blocks = ["2001:db8::/122"]
   security_group_id = "${aws_security_group.alpha.id}"
 }
 

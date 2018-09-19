@@ -2,7 +2,7 @@ require 'helper'
 
 class EmptyAwsRouteTablesTest < Minitest::Test
   def setup
-    AwsRouteTables::BackendFactory.select(AwsMRtbB::Empty)
+    AwsRouteTables::BackendFactory.select(AwsMRtbsB::Empty)
   end
 
   def test_constructor_no_args_ok
@@ -20,7 +20,7 @@ end
 
 class BasicAwsRouteTablesTest2 < Minitest::Test
   def setup
-    AwsRouteTables::BackendFactory.select(AwsMRtbB::Basic)
+    AwsRouteTables::BackendFactory.select(AwsMRtbsB::Basic)
   end
 
   def test_search_hit
@@ -45,7 +45,7 @@ class BasicAwsRouteTablesTest2 < Minitest::Test
 end
 
 # MRtbB = Mock Routetable Backend
-module AwsMRtbB
+module AwsMRtbsB
   class Empty < AwsBackendBase
     def describe_route_tables(query)
       OpenStruct.new(route_tables: [])

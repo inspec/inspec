@@ -7,5 +7,5 @@ license: Apache-2.0
 summary: An InSpec Compliance Profile
 version: 0.1.0
 depends:
-  - name: windows-only
-    path: '../windows-only'
+  - name: unsupported_inspec
+    path: '../unsupported_inspec'

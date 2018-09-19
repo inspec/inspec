@@ -29,7 +29,7 @@ module Inspec::Resources
       end
     "
 
-    attr_reader :user, :password, :host, :port, :instance, :local_mode
+    attr_reader :user, :password, :host, :port, :instance, :local_mode, :db_name
     def initialize(opts = {})
       @user = opts[:user]
       @password = opts[:password] || opts[:pass]
@@ -46,6 +46,7 @@ module Inspec::Resources
         end
       end
       @instance = opts[:instance]
+      @db_name = opts[:db_name]
 
       # check if sqlcmd is available
       raise Inspec::Exceptions::ResourceSkipped, 'sqlcmd is missing' unless inspec.command('sqlcmd').exist?
@@ -53,11 +54,12 @@ module Inspec::Resources
       raise Inspec::Exceptions::ResourceSkipped, "Can't connect to the MS SQL Server." unless test_connection
     end
 
-    def query(q)
+    def query(q) # rubocop:disable Metrics/PerceivedComplexity
       escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
       # surpress 'x rows affected' in SQLCMD with 'set nocount on;'
       cmd_string = "sqlcmd -Q \"set nocount on; #{escaped_query}\" -W -w 1024 -s ','"
       cmd_string += " -U '#{@user}' -P '#{@password}'" unless @user.nil? || @password.nil?
+      cmd_string += " -d '#{@db_name}'" unless @db_name.nil?
       unless local_mode?
         if @port.nil?
           cmd_string += " -S '#{@host}"
