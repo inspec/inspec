@@ -223,7 +223,7 @@ module Inspec::Plugin::V2
         registry[status.name.to_sym] = status
       end
     end
-    
+
     # TODO: DRY up re: Installer read_or_init_config_file
     # TODO: refactor the plugin.json file to have its own class, which Loader consumes
     def read_conf_file
