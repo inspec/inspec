@@ -14,7 +14,6 @@ module Inspec::Plugin::V2
     def initialize(options = {})
       @options = options
       @registry = Inspec::Plugin::V2::Registry.instance
-      determine_plugin_conf_file
       read_conf_file
       unpack_conf_file
 
@@ -28,7 +27,10 @@ module Inspec::Plugin::V2
     end
 
     def load_all
-      registry.each do |plugin_name, plugin_details|
+      # Be careful not to actually iterate directly over the registry here;
+      # we want to allow "sidecar loading", in which case a plugin may add an entry to the registry.
+      registry.plugin_names.dup.each do |plugin_name|
+        plugin_details = registry[plugin_name]
         # We want to capture literally any possible exception here, since we are storing them.
         # rubocop: disable Lint/RescueException
         begin
@@ -69,13 +71,26 @@ module Inspec::Plugin::V2
       end
     end
 
+    def activate_mentioned_cli_plugins(cli_args = ARGV)
+      # Get a list of CLI plugin activation hooks
+      registry.find_activators(plugin_type: :cli_command).each do |act|
+        next if act.activated?
+        # If there is anything in the CLI args with the same name, activate it
+        # If the word 'help' appears in the first position, load all CLI plugins
+        if cli_args.include?(act.activator_name.to_s) || cli_args[0] == 'help'
+          activate(:cli_command, act.activator_name)
+          act.implementation_class.register_with_thor
+        end
+      end
+    end
+
     def activate(plugin_type, hook_name)
       activator = registry.find_activators(plugin_type: plugin_type, activator_name: hook_name).first
       # We want to capture literally any possible exception here, since we are storing them.
       # rubocop: disable Lint/RescueException
       begin
         impl_class = activator.activation_proc.call
-        activator.activated = true
+        activator.activated?(true)
         activator.implementation_class = impl_class
       rescue Exception => ex
         activator.exception = ex
@@ -84,20 +99,72 @@ module Inspec::Plugin::V2
       # rubocop: enable Lint/RescueException
     end
 
-    def activate_mentioned_cli_plugins(cli_args = ARGV)
-      # Get a list of CLI plugin activation hooks
-      registry.find_activators(plugin_type: :cli_command).each do |act|
-        next if act.activated
-        # If there is anything in the CLI args with the same name, activate it
-        # If the word 'help' appears in the first position, load all CLI plugins
-        if cli_args.include?(act.activator_name.to_s) || cli_args[0] == 'help' || cli_args.size.zero?
-          activate(:cli_command, act.activator_name)
-          act.implementation_class.register_with_thor
-        end
-      end
+    def plugin_gem_path
+      self.class.plugin_gem_path
+    end
+
+    def self.plugin_gem_path
+      # I can't believe there isn't a simpler way of getting this
+      # 2.4.2.p123 => 2.4.0
+      ruby_abi_version = (Gem.ruby_version.segments[0, 2] << 0).join('.')
+      File.join(Inspec.config_dir, 'gems', ruby_abi_version)
+    end
+
+    # Lists all gems found in the plugin_gem_path.
+    # @return [Array[Gem::Specification]] Specs of all gems found.
+    def list_managed_gems
+      Dir.glob(File.join(plugin_gem_path, 'specifications', '*.gemspec')).map { |p| Gem::Specification.load(p) }
+    end
+
+    # Lists all plugin gems found in the plugin_gem_path.
+    # This is simply all gems that begin with train- or inspec-.
+    # @return [Array[Gem::Specification]] Specs of all gems found.
+    def list_installed_plugin_gems
+      list_managed_gems.select { |spec| spec.name.match(/^(inspec|train)-/) }
+    end
+
+    # TODO: refactor the plugin.json file to have its own class, which Loader consumes
+    def plugin_conf_file_path
+      self.class.plugin_conf_file_path
+    end
+
+    # TODO: refactor the plugin.json file to have its own class, which Loader consumes
+    def self.plugin_conf_file_path
+      File.join(Inspec.config_dir, 'plugins.json')
     end
 
     private
+
+    # 'Activating' a gem adds it to the load path, so 'require "gemname"' will work.
+    # Given a gem name, this activates the gem and all of its dependencies, respecting
+    # version pinning needs.
+    def activate_managed_gems_for_plugin(plugin_gem_name, version_constraint = '> 0')
+      # TODO: enforce first-level version pinning
+      plugin_deps = [Gem::Dependency.new(plugin_gem_name.to_s, version_constraint)]
+      managed_gem_set = Gem::Resolver::VendorSet.new
+      list_managed_gems.each { |spec| managed_gem_set.add_vendor_gem(spec.name, spec.gem_dir) }
+
+      # TODO: Next two lines merge our managed gems with the other gems available
+      # in our "local universe" - which may be the system, or it could be in a Bundler microcosm,
+      # or rbenv, etc. Do we want to merge that, though?
+      distrib_gem_set = Gem::Resolver::CurrentSet.new
+      installed_gem_set = Gem::Resolver.compose_sets(managed_gem_set, distrib_gem_set)
+
+      # So, given what we need, and what we have available, what activations are needed?
+      resolver = Gem::Resolver.new(plugin_deps, installed_gem_set)
+      begin
+        solution = resolver.resolve
+      rescue Gem::UnsatisfiableDependencyError => gem_ex
+        # If you broke your install, or downgraded to a plugin with a bad gemspec, you could get here.
+        ex = Inspec::Plugin::V2::LoadError.new(gem_ex.message)
+        raise ex
+      end
+      solution.each do |activation_request|
+        next if activation_request.full_spec.activated?
+        activation_request.full_spec.activate
+        # TODO: If we are under Bundler, inform it that we loaded a gem
+      end
+    end
 
     def annotate_status_after_loading(plugin_name)
       status = registry[plugin_name]
@@ -116,7 +183,7 @@ module Inspec::Plugin::V2
       status = registry[plugin_name]
       status.api_generation = 0
       act = Activator.new
-      act.activated = true
+      act.activated?(true)
       act.plugin_type = :cli_command
       act.plugin_name = plugin_name
       act.activator_name = :default
@@ -143,11 +210,6 @@ module Inspec::Plugin::V2
       end
     end
 
-    def determine_plugin_conf_file
-      @plugin_conf_file_path = ENV['INSPEC_CONFIG_DIR'] ? ENV['INSPEC_CONFIG_DIR'] : File.join(Dir.home, '.inspec')
-      @plugin_conf_file_path = File.join(@plugin_conf_file_path, 'plugins.json')
-    end
-
     def detect_core_plugins
       core_plugins_dir = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'plugins'))
       # These are expected to be organized as proper separate projects,
@@ -165,8 +227,8 @@ module Inspec::Plugin::V2
     # TODO: DRY up re: Installer read_or_init_config_file
     # TODO: refactor the plugin.json file to have its own class, which Loader consumes
     def read_conf_file
-      if File.exist?(@plugin_conf_file_path)
-        @plugin_file_contents = JSON.parse(File.read(@plugin_conf_file_path))
+      if File.exist?(plugin_conf_file_path)
+        @plugin_file_contents = JSON.parse(File.read(plugin_conf_file_path))
       else
         @plugin_file_contents = {
           'plugins_config_version' => '1.0.0',
@@ -174,19 +236,20 @@ module Inspec::Plugin::V2
         }
       end
     rescue JSON::ParserError => e
-      raise Inspec::Plugin::V2::ConfigError, "Failed to load plugins JSON configuration from #{@plugin_conf_file_path}:\n#{e}"
+      raise Inspec::Plugin::V2::ConfigError, "Failed to load plugins JSON configuration from #{plugin_conf_file_path}:\n#{e}"
     end
 
+    # TODO: refactor the plugin.json file to have its own class, which Loader consumes
     def unpack_conf_file
       validate_conf_file
       @plugin_file_contents['plugins'].each do |plugin_json|
         status = Inspec::Plugin::V2::Status.new
         status.name = plugin_json['name'].to_sym
         status.loaded = false
-        status.installation_type = plugin_json['installation_type'].to_sym || :gem
+        status.installation_type = (plugin_json['installation_type'] || :gem).to_sym
         case status.installation_type
         when :gem
-          status.entry_point = status.name
+          status.entry_point = status.name.to_s
           status.version = plugin_json['version']
         when :path
           status.entry_point = plugin_json['installation_path']
@@ -196,9 +259,10 @@ module Inspec::Plugin::V2
       end
     end
 
+    # TODO: refactor the plugin.json file to have its own class, which Loader consumes
     def validate_conf_file
       unless @plugin_file_contents['plugins_config_version'] == '1.0.0'
-        raise Inspec::Plugin::V2::ConfigError, "Unsupported plugins.json file version #{@plugin_file_contents['plugins_config_version']} at #{@plugin_conf_file_path} - currently support versions: 1.0.0"
+        raise Inspec::Plugin::V2::ConfigError, "Unsupported plugins.json file version #{@plugin_file_contents['plugins_config_version']} at #{plugin_conf_file_path} - currently support versions: 1.0.0"
       end
 
       plugin_entries = @plugin_file_contents['plugins']

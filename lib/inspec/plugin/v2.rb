@@ -6,13 +6,24 @@ module Inspec
       class Exception < Inspec::Error; end
       class ConfigError < Inspec::Plugin::V2::Exception; end
       class LoadError < Inspec::Plugin::V2::Exception; end
+      class GemActionError < Inspec::Plugin::V2::Exception
+        attr_accessor :plugin_name
+        attr_accessor :version
+      end
+      class InstallError < Inspec::Plugin::V2::GemActionError; end
+      class UpdateError < Inspec::Plugin::V2::GemActionError
+        attr_accessor :from_version, :to_version
+      end
+      class UnInstallError < Inspec::Plugin::V2::GemActionError; end
+      class SearchError < Inspec::Plugin::V2::GemActionError; end
     end
   end
 end
 
-require_relative 'v2/registry'
-require_relative 'v2/loader'
-require_relative 'v2/plugin_base'
+require 'inspec/globals'
+require 'inspec/plugin/v2/registry'
+require 'inspec/plugin/v2/loader'
+require 'inspec/plugin/v2/plugin_base'
 
 # Load all plugin type base classes
 Dir.glob(File.join(__dir__, 'v2', 'plugin_types', '*.rb')).each { |file| require file }

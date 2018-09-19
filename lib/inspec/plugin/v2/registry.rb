@@ -25,7 +25,7 @@ module Inspec::Plugin::V2
     end
 
     def loaded_plugin?(name)
-      registry.dig(name, :loaded)
+      registry.dig(name.to_sym, :loaded)
     end
 
     def loaded_count
@@ -38,6 +38,10 @@ module Inspec::Plugin::V2
 
     def loaded_plugin_names
       registry.values.select(&:loaded).map(&:name)
+    end
+
+    def path_based_plugin?(name)
+      known_plugin?(name.to_sym) && registry[name.to_sym].installation_type == :path
     end
 
     def find_status_by_class(klass)

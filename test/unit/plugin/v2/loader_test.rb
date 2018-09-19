@@ -152,6 +152,35 @@ class PluginLoaderTests < MiniTest::Test
     assert reg.loaded_plugin?(plugin_name), "\n#{plugin_name} should be loaded"
   end
 
+  def test_list_managed_gems
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'test-fixture-2-float')
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
+    gemspecs = loader.list_managed_gems
+    gem = gemspecs.detect { |spec| spec.name == 'ordinal_array' }
+    refute_nil gem, 'loader.list_managed_gems should find ordinal_array'
+    assert_equal Gem::Version.new('0.2.0'), gem.version
+  end
+
+  def test_list_installed_plugin_gems
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'test-fixture-1-float')
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
+    gemspecs = loader.list_installed_plugin_gems
+    gem = gemspecs.detect { |spec| spec.name == 'inspec-test-fixture' }
+    refute_nil gem, 'loader.list_installed_plugin_gems should find inspec-test-fixture'
+    assert_equal Gem::Version.new('0.1.0'), gem.version
+  end
+
+  def test_load_mock_plugin_by_gem
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'test-fixture-1-float')
+    reg = Inspec::Plugin::V2::Registry.instance
+    plugin_name = :'inspec-test-fixture'
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
+    assert reg.known_plugin?(plugin_name), "\n#{plugin_name} should be a known plugin"
+    refute reg.loaded_plugin?(plugin_name), "\n#{plugin_name} should not be loaded yet"
+    loader.load_all
+    assert reg.loaded_plugin?(plugin_name), "\n#{plugin_name} should be loaded"
+  end
+
   #====================================================================#
   #                          activation                                #
   #====================================================================#
@@ -174,12 +203,12 @@ class PluginLoaderTests < MiniTest::Test
     assert_equal 'Inspec::Plugin::V2::Activator', registry.find_activators()[0].class.name, 'find_activators should return an array of Activators'
     activator = registry.find_activators(plugin_type: :mock_plugin_type, name: :'meaning-of-life-the-universe-and-everything')[0]
     refute_nil activator, 'find_activators should find the test activator'
-    [ :plugin_name, :plugin_type, :activator_name, :activated, :exception, :activation_proc, :implementation_class ].each do |method_name|
+    [ :plugin_name, :plugin_type, :activator_name, :'activated?', :exception, :activation_proc, :implementation_class ].each do |method_name|
       assert_respond_to activator, method_name
     end
 
     # Activation preconditions
-    refute activator.activated, 'Test activator should start out unactivated'
+    refute activator.activated?, 'Test activator should start out unactivated'
     assert_nil activator.exception, 'Test activator should have no exception prior to activation'
     assert_nil activator.implementation_class, 'Test activator should not know implementation class prior to activation'
     refute InspecPlugins::MeaningOfLife.const_defined?(:MockPlugin), 'impl_class should not be defined prior to activation'
@@ -187,7 +216,7 @@ class PluginLoaderTests < MiniTest::Test
     loader.activate(:mock_plugin_type, :'meaning-of-life-the-universe-and-everything')
 
     # Activation postconditions
-    assert activator.activated, 'Test activator should be activated after activate'
+    assert activator.activated?, 'Test activator should be activated after activate'
     assert_nil activator.exception, 'Test activator should have no exception after activation'
 
     # facts about the implementation class
