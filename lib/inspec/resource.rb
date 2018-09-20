@@ -91,21 +91,12 @@ inspec_core_only = !File.exist?(File.join(File.dirname(__FILE__), '..', 'resourc
 
 # Do not attempt to load cloud resources if we are in inspec-core mode
 unless inspec_core_only
-  # AWS resources are included via their own file,
-  # but only consider loading them if we have the SDK available, and is v2.
-  # https://github.com/inspec/inspec/issues/2571
-  if Gem.loaded_specs.key?('aws-sdk') && Gem.loaded_specs['aws-sdk'].version < Gem::Version.new('3.0.0')
-    require 'resource_support/aws'
-  end
-
-  # Azure resources
-  if Gem.loaded_specs.key?('azure_mgmt_resources')
-    require 'resources/azure/azure_backend.rb'
-    require 'resources/azure/azure_generic_resource.rb'
-    require 'resources/azure/azure_resource_group.rb'
-    require 'resources/azure/azure_virtual_machine.rb'
-    require 'resources/azure/azure_virtual_machine_data_disk.rb'
-  end
+  require 'resource_support/aws'
+  require 'resources/azure/azure_backend.rb'
+  require 'resources/azure/azure_generic_resource.rb'
+  require 'resources/azure/azure_resource_group.rb'
+  require 'resources/azure/azure_virtual_machine.rb'
+  require 'resources/azure/azure_virtual_machine_data_disk.rb'
 end
 
 require 'resources/aide_conf'
