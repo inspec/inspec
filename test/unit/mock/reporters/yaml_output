@@ -16,6 +16,7 @@
   - :id: "(generated from t.rb:1 0aa70d93be7b0cf41b97a1363bb5e8b8)"
     :title: 
     :desc: 
+    :descriptions: []
     :impact: 0.5
     :refs: []
     :tags: {}

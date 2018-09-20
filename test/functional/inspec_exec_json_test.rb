@@ -117,6 +117,9 @@ describe 'inspec exec with json formatter' do
         "id" => "tmp-1.0",
         "title" => "Create /tmp directory",
         "desc" => "An optional description...",
+        "descriptions" => [
+          { 'type' => 'default', 'data' => 'An optional description...' }
+        ],
         "impact" => 0.7,
         "refs" => [
           {
