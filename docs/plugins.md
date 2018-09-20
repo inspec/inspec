@@ -20,14 +20,13 @@ Future work might include new capability types, such as:
  * reporters (output generators)
  * DSL extensions at the file, control, or test level
  * attribute fetchers to allow reading InSpec attributes from new sources (for example, a remote, encrypted key-value store)
- *
 
 ## How do I find out which plugins are available?
 
 The InSpec CLI can tell you which plugins are available:
 
-```
-you@machine $ inspec plugin search
+```bash
+$ inspec plugin search
 ```
 
 ## How do I install and manage plugins?
@@ -36,8 +35,8 @@ The InSpec command line now offers a new subcommand just for managing plugins.
 
 You can install a plugin by running:
 
-```
-you@machine $ inspec plugin install inspec-some-plugin
+```bash
+$ inspec plugin install inspec-some-plugin
 ```
 
 For more details on what the `plugin` command can do, see the [online help](https://www.inspec.io/docs/reference/cli/#plugin), or run `inspec plugin help`.
