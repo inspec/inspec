@@ -6,8 +6,7 @@
 # InSpec core provides a number of such libraries and facilities, in the file
 # lib/pligins/shared/core_plugin_test_helper.rb . So, one job in this file is
 # to locate and load that file.
-# TODO: understand why this breaks the world
-# require 'inspec/../plugins/shared/core_plugin_test_helper'
+require 'inspec/../plugins/shared/core_plugin_test_helper'
 
 # Also load the Inspec plugin system. We need this so we can unit-test the plugin
 # classes, which will rely on the plugin system.
@@ -20,7 +19,7 @@ require 'inspec/plugin/v2'
 # You can select from a number of test harnesses.  Since InSpec uses Spec-style controls
 # in profile code, you will probably want to use something like minitest/spec, which provides
 # Spec-style tests.
-#require 'minitest/spec'
+require 'minitest/spec'
 require 'minitest/autorun'
 
 # You might want to put some debugging tools here.  We run tests to find bugs, after all.

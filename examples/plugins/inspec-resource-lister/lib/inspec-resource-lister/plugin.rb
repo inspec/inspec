@@ -39,11 +39,14 @@ module InspecPlugins
       # Notice that you can define multiple hooks with different names, and they
       # don't have to match the plugin name.
 
-      # BUG in loader: Thor and Loader disagree about hyphen handling.  Must omit to get it to work :(
+      # We'd like this to be list-resources, but Thor does not support hyphens
+      # see https://github.com/erikhuda/thor/pull/613
       cli_command :listresources do
         # Calling this hook doesn't mean list-resources is being executed - just
         # that we should be ready to do so. So, load the file that defines the
         # functionality.
+        # For example, inspec will activate this hook when `inspec help` is
+        # executed, so that this plugin's usage message will be included in the help.
         require 'inspec-resource-lister/cli_command'
 
         # Having loaded our functionality, return a class that will let the
