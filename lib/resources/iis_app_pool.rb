@@ -83,8 +83,6 @@ class IisAppPool < Inspec.resource(1)
 
   private
 
-  # I cannot think of a way to shorten this method
-  # rubocop:disable Metrics/AbcSize
   def iis_app_pool
     return @cache unless @cache.nil?
 
@@ -123,5 +121,4 @@ class IisAppPool < Inspec.resource(1)
       username: process_model['userName'],
     }
   end
-  # rubocop:enable Metrics/AbcSize
 end
