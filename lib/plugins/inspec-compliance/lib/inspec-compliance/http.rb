@@ -1,12 +1,10 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'net/http'
 require 'net/http/post/multipart'
 require 'uri'
 
-module Compliance
+module InspecPlugins::Compliance
   # implements a simple http abstraction on top of Net::HTTP
   class HTTP
     # generic get requires

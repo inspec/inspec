@@ -1,8 +1,6 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
-module Compliance
+module InspecPlugins::Compliance
   # is a helper that provides information which version of compliance supports
   # which feature
   class Support

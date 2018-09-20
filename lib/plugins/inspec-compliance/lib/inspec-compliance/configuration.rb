@@ -1,8 +1,6 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
-module Compliance
+module InspecPlugins::Compliance
   # stores configuration on local filesystem
   class Configuration
     def initialize

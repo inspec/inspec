@@ -58,7 +58,7 @@ Rake::TestTask.new do |t|
     'test/unit/**/*_test.rb',
     'lib/plugins/inspec-*/test/unit/**/*_test.rb',
   ])
-  t.warning = true
+  t.warning = false
   t.verbose = true
   t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
 end
@@ -91,7 +91,6 @@ namespace :test do
       'test/functional/inspec_exec_json_test.rb',
       'test/functional/inspec_detect_test.rb',
       'test/functional/inspec_vendor_test.rb',
-      'test/functional/inspec_compliance_test.rb',
       'test/functional/inspec_check_test.rb',
       'test/functional/filter_table_test.rb',
     ]

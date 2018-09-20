@@ -292,7 +292,7 @@ module Inspec
       end
 
       # check for compliance settings
-      Compliance::API.login(o['compliance']) if o['compliance']
+      InspecPlugins::Compliance::API.login(o['compliance']) if o['compliance']
 
       o
     end

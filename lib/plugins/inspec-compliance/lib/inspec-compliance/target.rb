@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'uri'
 require 'inspec/fetcher'
@@ -9,7 +7,7 @@ require 'inspec/errors'
 # InSpec Target Helper for Chef Compliance
 # reuses UrlHelper, but it knows the target server and the access token already
 # similar to `inspec exec http://localhost:2134/owners/%base%/compliance/%ssh%/tar --user %token%`
-module Compliance
+module InspecPlugins::Compliance
   class Fetcher < Fetchers::Url
     name 'compliance'
     priority 500
@@ -66,9 +64,9 @@ module Compliance
       uri = get_target_uri(target)
       return nil if uri.nil?
 
-      config = Compliance::Configuration.new
-      profile = Compliance::API.sanitize_profile_name(uri)
-      profile_fetch_url = Compliance::API.target_url(config, profile)
+      config = InspecPlugins::Compliance::Configuration.new
+      profile = InspecPlugins::Compliance::API.sanitize_profile_name(uri)
+      profile_fetch_url = InspecPlugins::Compliance::API.target_url(config, profile)
       # we have detailed information available in our lockfile, no need to ask the server
       if target.respond_to?(:key?) && target.key?(:sha256)
         profile_checksum = target[:sha256]
@@ -77,7 +75,7 @@ module Compliance
         # verifies that the target e.g base/ssh exists
         # Call profiles directly instead of exist? to capture the results
         # so we can access the upstream sha256 from the results.
-        _msg, profile_result = Compliance::API.profiles(config, profile)
+        _msg, profile_result = InspecPlugins::Compliance::API.profiles(config, profile)
         if profile_result.empty?
           raise Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
         else
@@ -90,11 +88,11 @@ module Compliance
         end
       end
       # We need to pass the token to the fetcher
-      config['token'] = Compliance::API.get_token(config)
+      config['token'] = InspecPlugins::Compliance::API.get_token(config)
 
       # Needed for automate2 post request
       profile_stub = profile || target[:compliance]
-      config['profile'] = Compliance::API.profile_split(profile_stub)
+      config['profile'] = InspecPlugins::Compliance::API.profile_split(profile_stub)
 
       new({ url: profile_fetch_url, sha256: profile_checksum }, config)
     rescue URI::Error => _e
@@ -119,15 +117,15 @@ module Compliance
 
     # determine the owner_id and the profile name from the url
     def compliance_profile_name
-      m = if Compliance::API.is_automate_server_pre_080?(@config)
+      m = if InspecPlugins::Compliance::API.is_automate_server_pre_080?(@config)
             %r{^#{@config['server']}/(?<owner>[^/]+)/(?<id>[^/]+)/tar$}
-          elsif Compliance::API.is_automate_server_080_and_later?(@config)
+          elsif InspecPlugins::Compliance::API.is_automate_server_080_and_later?(@config)
             %r{^#{@config['server']}/profiles/(?<owner>[^/]+)/(?<id>[^/]+)/tar$}
           else
             %r{^#{@config['server']}/owners/(?<owner>[^/]+)/compliance/(?<id>[^/]+)/tar$}
           end.match(@target)
 
-      if Compliance::API.is_automate2_server?(@config)
+      if InspecPlugins::Compliance::API.is_automate2_server?(@config)
         m = {}
         m[:owner] = @config['profile'][0]
         m[:id] = @config['profile'][1]
