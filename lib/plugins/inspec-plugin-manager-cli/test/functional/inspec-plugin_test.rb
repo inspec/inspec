@@ -179,26 +179,45 @@ end
 #                               inspec plugin install
 #-----------------------------------------------------------------------------------------#
 class PluginManagerCliInstall < MiniTest::Test
-  include CorePluginFunctionalHelper
+  include CorePluginFunctionalHelper # gives us instance methods, like `let` aliases inside test methods
+  extend CorePluginFunctionalHelper  # gives us class methods, like `let` aliases out here outside test methods
+
   include PluginManagerHelpers
 
-  def test_install_from_path
-    fixture_plugin_path = File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture')
-    working_dir = empty_config_dir_path
-    install_result = run_inspec_process("plugin install #{fixture_plugin_path}", env: { INSPEC_CONFIG_DIR: working_dir })
+  # Test multiple hueristics of the path-mode install.
+  # These are all positive tests; they should resolve the entry point to the same path in each case.
+  {
+    'is_perfect' => File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb'),
+    'refers_to_the_entry_point_with_no_extension' => File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture'),
+    'refers_to_the_src_root_of_a_plugin' => File.join(core_fixture_plugins_path, 'inspec-test-fixture'),
+    'refers_to_the_lib_dir_of_a_plugin' => File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib'),
+    'refers_to_a_relative_path' => File.join(*(['..'] * 5), 'test', 'unit', 'mock', 'plugins', 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb'),
+  }.each do |test_name, fixture_plugin_path|
+    define_method(('test_install_from_path_when_path_' + test_name).to_sym) do
+      working_dir = empty_config_dir_path
+      install_result = run_inspec_process("plugin install #{fixture_plugin_path}", env: { INSPEC_CONFIG_DIR: working_dir })
 
-    assert_empty install_result.stderr
-    assert_equal 0, install_result.exit_status, 'Exit status should be 0'
+      assert_empty install_result.stderr
+      assert_equal 0, install_result.exit_status, 'Exit status should be 0'
 
-    success_message = install_result.stdout.split("\n").grep(/installed/).last
-    refute_nil success_message, 'Should find a success message at the end'
-    assert_includes success_message, 'inspec-test-fixture'
-    assert_includes success_message, 'plugin installed via source path reference'
+      # Check UX messaging
+      success_message = install_result.stdout.split("\n").grep(/installed/).last
+      refute_nil success_message, 'Should find a success message at the end'
+      assert_includes success_message, 'inspec-test-fixture'
+      assert_includes success_message, 'plugin installed via source path reference'
 
-    list_result = run_inspec_process('plugin list', env: { INSPEC_CONFIG_DIR: working_dir })
-    itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
-    refute_nil itf_line, 'inspec-test-fixture should now appear in the output of inspec list'
-    assert_match(/\s*inspec-test-fixture\s+src\s+path\s+/, itf_line, 'list output should show that it is a path installation')
+      # Check round-trip UX via list
+      list_result = run_inspec_process('plugin list', env: { INSPEC_CONFIG_DIR: working_dir })
+      itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
+      refute_nil itf_line, 'inspec-test-fixture should now appear in the output of inspec list'
+      assert_match(/\s*inspec-test-fixture\s+src\s+path\s+/, itf_line, 'list output should show that it is a path installation')
+
+      # Check plugin statefile. Extra important in this case, since all should resolve to the same entry point.
+      plugin_data = JSON.parse(File.read(File.join(working_dir, 'plugins.json')))
+      entry = plugin_data['plugins'].detect { |e| e['name'] == 'inspec-test-fixture' }
+      expected = File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb')
+      assert_equal expected, entry['installation_path'], 'Regardless of input, the entry point should be correct.'
+    end
   end
 
   def test_fail_install_from_nonexistant_path
@@ -208,7 +227,42 @@ class PluginManagerCliInstall < MiniTest::Test
 
     assert_empty install_result.stderr
     assert_equal 1, install_result.exit_status, 'Exit status should be 1'
-    assert_match(/No such source code path .+ - installation failed./, install_result.stdout)
+
+    error_message = install_result.stdout.split("\n").last
+    assert_includes error_message, "No such source code path"
+    assert_includes error_message, 'inspec-test-fixture-nonesuch.rb'
+    assert_includes error_message, 'installation failed'
+  end
+
+  def test_fail_install_from_path_with_wrong_name
+    bad_path = File.join(project_fixtures_path, 'plugins', 'wrong-name', 'lib', 'wrong-name.rb')
+    working_dir = empty_config_dir_path
+    install_result = run_inspec_process("plugin install #{bad_path}", env: { INSPEC_CONFIG_DIR: working_dir })
+
+    assert_empty install_result.stderr
+    assert_equal 1, install_result.exit_status, 'Exit status should be 1'
+
+    error_message = install_result.stdout.split("\n").last
+    assert_includes error_message, "Wrong prefix for path plugin"
+    assert_includes error_message, 'wrong-name.rb'
+    assert_includes error_message, "InSpec plugins begin with 'inspec-' or 'train-'"
+    assert_includes error_message, 'installation failed'
+  end
+
+  def test_fail_install_from_path_when_it_is_not_a_plugin
+    bad_path = File.join(project_fixtures_path, 'plugins', 'inspec-egg-white-omelette', 'lib', 'inspec-egg-white-omelette.rb')
+    working_dir = empty_config_dir_path
+    install_result = run_inspec_process("plugin install #{bad_path}", env: { INSPEC_CONFIG_DIR: working_dir })
+
+    assert_empty install_result.stderr
+    assert_equal 1, install_result.exit_status, 'Exit status should be 1'
+
+    error_message = install_result.stdout.split("\n").last
+    assert_includes error_message, "Does not appear to be a plugin"
+    assert_includes error_message, 'inspec-egg-white-omelette.rb'
+    assert_includes error_message, "After probe-loading the supposed plugin, it did not register."
+    assert_includes error_message, "Ensure something inherits from 'Inspec.plugin(2)'"
+    assert_includes error_message, 'installation failed'
   end
 
   def test_install_from_gemfile
