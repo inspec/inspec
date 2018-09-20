@@ -7,14 +7,14 @@ class IisAppPool < Inspec.resource(1)
   name 'iis_app_pool'
   desc 'Tests IIS application pool configuration on windows.'
   supports platform: 'windows'
-  example "
+  example <<~EOH
     describe iis_app_pool('DefaultAppPool') do
       it { should exist }
       its('enable32bit') { should cmp 'True' }
       its('runtime_version') { should eq 'v4.0' }
       its('pipeline_mode') { should eq 'Integrated' }
     end
-  "
+  EOH
 
   def initialize(pool_name)
     @pool_name = pool_name
@@ -78,7 +78,7 @@ class IisAppPool < Inspec.resource(1)
   end
 
   def to_s
-    "iis_app_pool '#{@pool_name}'"
+    "IIS App Pool '#{@pool_name}'"
   end
 
   private
