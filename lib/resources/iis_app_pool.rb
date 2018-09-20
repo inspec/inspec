@@ -6,6 +6,7 @@
 class IisAppPool < Inspec.resource(1)
   name 'iis_app_pool'
   desc 'Tests IIS application pool configuration on windows.'
+  supports platform: 'windows'
   example "
     describe iis_app_pool('DefaultAppPool') do
       it { should exist }
