@@ -3,7 +3,6 @@
 require 'inspec/resource'
 
 module InspecPlugins::ResourceLister
-
   # This class will provide the actual CLI implementation.
   # Its superclass is provided by another call to Inspec.plugin,
   # this time with two args.  The first arg specifies we are requesting
@@ -15,13 +14,11 @@ module InspecPlugins::ResourceLister
   # promises to return a class that is a subclass of Thor.  So, to add
   # commands, usage information, and options, use the Thor documentation.
   class CliCommand < Inspec.plugin(2, :cli_command)
-
     # This isn't provided by Thor, but is needed by InSpec so that it can
     # register the subcommand.  Args are a usage message, and a short decription.
     # These will appear when someone has installed the plugin, and then they
     # run `inspec help`.
     subcommand_desc 'list-resources [COMMAND]', 'List resources that InSpec finds.'
-
 
     # The usual rhythm for a Thor CLI file is description, options, command method.
     # Thor just has you call DSL methods in sequence prior to each command.
@@ -69,7 +66,5 @@ module InspecPlugins::ResourceLister
 
     # Another idea might be to fetch a profile, and list the resources actually
     # used in the controls of the profile, along with counts.
-
   end
 end
-

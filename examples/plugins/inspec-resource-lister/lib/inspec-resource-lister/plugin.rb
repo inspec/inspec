@@ -15,12 +15,10 @@ require 'inspec-resource-lister/version'
 # The 'Inspec' capitalization is used throughout the InSpec source code; yes, it's
 # strange.
 module InspecPlugins
-
   # Pick a reasonable namespace here for your plugin.  A reasonable choice
   # would be the CamelCase version of your plugin gem name.
   # inspec-resource-lister => ResourceLister
   module ResourceLister
-
     # This simple class handles the plugin definition, so calling it simply Plugin is OK.
     #   Inspec.plugin returns various Classes, intended to be superclasses for various
     # plugin components. Here, the one-arg form gives you the Plugin Definition superclass,
@@ -29,7 +27,6 @@ module InspecPlugins
     # future versions, InSpec promises plugin API v2 will work for at least two more InSpec
     # major versions.
     class Plugin < ::Inspec.plugin(2)
-
       # Internal machine name of the plugin. InSpec will use this in errors, etc.
       plugin_name :'inspec-resource-lister'
 
