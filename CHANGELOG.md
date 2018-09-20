@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.113 -->
-## [v2.2.113](https://github.com/inspec/inspec/tree/v2.2.113) (2018-09-19)
+<!-- latest_release 2.2.114 -->
+## [v2.2.114](https://github.com/inspec/inspec/tree/v2.2.114) (2018-09-20)
 
-#### New Features
-- Plugins Installer API [#3352](https://github.com/inspec/inspec/pull/3352) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- Remove load locks for cloud resources [#3420](https://github.com/inspec/inspec/pull/3420) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.112 -->
 ### Changes since 2.2.112 release
+
+#### Bug Fixes
+- Remove load locks for cloud resources [#3420](https://github.com/inspec/inspec/pull/3420) ([jquick](https://github.com/jquick)) <!-- 2.2.114 -->
 
 #### New Features
 - Plugins Installer API [#3352](https://github.com/inspec/inspec/pull/3352) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.113 -->
