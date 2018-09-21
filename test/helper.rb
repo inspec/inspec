@@ -215,7 +215,7 @@ class MockLoader
       mock.mock_command('', '', stderr, 1)
     }
 
-    mock.commands = {
+    mock_cmds = {
       '' => empty.call,
       'sh -c \'find /no/such/mock -type f -maxdepth 1\'' => empty.call,
       'type "brew"' => empty.call,
@@ -287,10 +287,6 @@ class MockLoader
       'netstat -anbo | Select-String  -CaseSensitive -pattern "^\s+UDP|\s+LISTENING\s+\d+$" -context 0,1' => cmd.call('netstat-anbo-pipe-select-string-pattern.utf8'),
       # lsof formatted list of ports (should be quite cross platform)
       'lsof -nP -i -FpctPn' => cmd.call('lsof-nP-i-FpctPn'),
-      # ports on linux
-      %{bash -c 'type "ss"'} => empty.call(), # allow the ss command to exist so the later mock is called
-      'netstat -tulpen' => cmd.call('netstat-tulpen'),
-      'ss -tulpen' => cmd.call('ss-tulpen'),
       # ports on freebsd
       'sockstat -46l' => cmd.call('sockstat'),
       # ports on aix
@@ -538,6 +534,27 @@ class MockLoader
       # alpine package commands
       'apk info -vv --no-network | grep git' => cmd.call('apk-info-grep-git'),
     }
+
+    # ports on linux
+    # allow the ss and/or netstat commands to exist so the later mock is called
+    if @platform && @platform[:name] == 'alpine'
+      mock_cmds.merge!(
+        %{bash -c 'type "netstat"'} => cmd_exit_1.call(),
+        %{bash -c 'type "ss"'} => cmd_exit_1.call(),
+        %{which "ss"} => cmd_exit_1.call(),
+        %{which "netstat"} => empty.call(),
+        'netstat -tulpen' => cmd.call('netstat-tulpen-busybox')
+      )
+    else
+      mock_cmds.merge!(
+        %{bash -c 'type "ss"'} => empty.call(),
+        %{bash -c 'type "netstat"'} => empty.call(),
+        'ss -tulpen' => cmd.call('ss-tulpen'),
+        'netstat -tulpen' => cmd.call('netstat-tulpen')
+      )
+    end
+    mock.commands = mock_cmds
+
     @backend
   end
 
