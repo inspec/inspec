@@ -98,11 +98,6 @@ module Inspec
       end
     end
 
-    def descriptions(desc_array = nil)
-      return @descriptions if desc_array.nil?
-      @descriptions = desc_array
-    end
-
     def ref(ref = nil, opts = {})
       return @refs if ref.nil? && opts.empty?
       if opts.empty? && ref.is_a?(Hash)
