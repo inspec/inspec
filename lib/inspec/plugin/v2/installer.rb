@@ -181,8 +181,8 @@ module Inspec::Plugin::V2
           raise InstallError, "Could not find local gem file to install - #{opts[:gem_file]}"
         end
       elsif opts.key?(:path)
-        unless Dir.exist?(opts[:path])
-          raise InstallError, "Could not find directory for install from source path - #{opts[:path]}"
+        unless File.exist?(opts[:path])
+          raise InstallError, "Could not find path for install from source path - #{opts[:path]}"
         end
       end
 
@@ -386,6 +386,7 @@ module Inspec::Plugin::V2
     # TODO: refactor the plugin.json file to have its own class, which Installer consumes
     def update_plugin_config_file(plugin_name, opts)
       config = update_plugin_config_data(plugin_name, opts)
+      FileUtils.mkdir_p(Inspec.config_dir)
       File.write(plugin_conf_file_path, JSON.pretty_generate(config))
     end
 
