@@ -166,11 +166,19 @@ module InspecPlugins
         end
 
         plugin_name = File.basename(path, '.rb')
-        check_plugin_name(plugin_name, 'installation')
 
         # While installer.install does some rudimentary checking,
         # this file has good UI access, so we promise to validate the
         # input a lot and hand the installer a sure-thing.
+
+        # Name OK?
+        check_plugin_name(plugin_name, 'installation')
+
+        if Inspec::Plugin::V2::Registry.instance.known_plugin?(plugin_name.to_sym)
+          puts(red { 'Plugin already installed' } + " - #{plugin_name} - Use 'inspec plugin list' to see previously installed plugin - installation failed.")
+          exit 2
+        end
+
         entry_point = install_from_path__apply_entry_point_heuristics(path, plugin_name)
         install_from_path__probe_load(entry_point, plugin_name)
 

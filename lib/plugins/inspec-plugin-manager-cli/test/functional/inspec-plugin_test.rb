@@ -274,7 +274,7 @@ class PluginManagerCliInstall < MiniTest::Test
 
     second_install_result = run_inspec_process("plugin install #{plugin_path}", env: { INSPEC_CONFIG_DIR: working_dir })
     assert_empty second_install_result.stderr
-    assert_equal 2, second_install_result.exit_status, 'Exit status on first install should be 2'
+    assert_equal 2, second_install_result.exit_status, 'Exit status on second install should be 2'
 
     error_message = second_install_result.stdout.split("\n").last
     assert_includes error_message, "Plugin already installed"
