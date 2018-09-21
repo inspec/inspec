@@ -75,9 +75,27 @@ module Inspec::Plugin::V2
       # Get a list of CLI plugin activation hooks
       registry.find_activators(plugin_type: :cli_command).each do |act|
         next if act.activated?
-        # If there is anything in the CLI args with the same name, activate it
-        # If the word 'help' appears in the first position, load all CLI plugins
-        if cli_args.include?(act.activator_name.to_s) || cli_args[0] == 'help'
+
+        # Decide whether to activate.  Several conditions, so split them out for clarity.
+        # Assume no, to start.  Each condition may flip it true, which will short-circuit
+        # all following ||= ops.
+        activate_me = false
+
+        # If the user invoked `inspec help`, activate all CLI plugins, so they can
+        # display their usage message.
+        activate_me ||= cli_args.first == 'help'
+
+        # Likewise, if they invoked simply `inspec`, they are confused, and need
+        # usage info.
+        activate_me ||= cli_args.empty?
+
+        # If there is anything in the CLI args with the same name, activate it.
+        # This is the expected usual activation for individual plugins.
+        # `inspec dosomething` => activate the :dosomething hook
+        activate_me ||= cli_args.include?(act.activator_name.to_s)
+
+        # OK, activate.
+        if activate_me
           activate(:cli_command, act.activator_name)
           act.implementation_class.register_with_thor
         end
