@@ -1,4 +1,5 @@
 require 'term/ansicolor'
+require 'pathname'
 require 'inspec/plugin/v2/installer'
 
 module InspecPlugins
@@ -67,10 +68,9 @@ module InspecPlugins
       long_desc 'PLUGIN may be the name of a gem on rubygems.org that begins with inspec- or train-.  PLUGIN may also be the path to a local gemfile, which will then be installed like any other gem.  Finally, if PLUGIN is a path ending in .rb, it is taken to be a local file that will act as athe entry point for a plugin (this mode is provided for local plugin development).  Exit codes are 0 on success, 2 if the plugin is already installed, and 1 if any other error occurs.'
       option :version, desc: 'When installing from rubygems.org, specifies a specific version to install.', aliases: [:v]
       def install(plugin_id_arg)
-        case plugin_id_arg
-        when /\.gem$/ # Does it end in .gem?
+        if plugin_id_arg =~ /\.gem$/ # Does it end in .gem?
           install_from_gemfile(plugin_id_arg)
-        when %r{[\/\\]} # Does the argument have a slash?
+        elsif plugin_id_arg =~ %r{[\/\\]} || Dir.exist(plugin_id_arg) # Does the argument have a slash, or exist as dir in the local directory?
           install_from_path(plugin_id_arg)
         else
           install_from_remote_gem(plugin_id_arg)
@@ -165,13 +165,66 @@ module InspecPlugins
           exit 1
         end
 
-        plugin_name = File.basename(path)
+        plugin_name = File.basename(path, '.rb')
         check_plugin_name(plugin_name, 'installation')
 
-        installer.install(plugin_name, path: path)
+        # While installer.install does some rudimentary checking,
+        # this file has good UI access, so we promise to validate the
+        # input a lot and hand the installer a sure-thing.
+        entry_point = install_from_path__apply_entry_point_heuristics(path, plugin_name)
+        install_from_path__probe_load(entry_point, plugin_name)
 
-        puts(bold { plugin_name } + ' plugin installed via source path reference')
+        installer.install(plugin_name, path: entry_point)
+
+        puts(bold { plugin_name } + ' plugin installed via source path reference, resolved to entry point ' + entry_point)
         exit 0
+      end
+
+      def install_from_path__apply_entry_point_heuristics(path, plugin_name)
+        given = Pathname.new(path)
+        given = given.expand_path  # Resolve any relative paths
+        name_regex = /^(inspec|train)-/
+
+        # What are the last four things like?
+        parts = [
+          given.parent.parent.basename,
+          given.parent.basename,
+          given.basename('.rb'),
+          given.extname,
+        ].map(&:to_s)
+
+        # Simplest case: it was a full entry point, as presented.
+        # /home/you/projects/inspec-something/lib/inspec-something.rb
+        #   parts index:           ^0^        ^1^      ^2^        ^3^
+        if parts[0] =~ name_regex && parts[1] == 'lib' && parts[2] == parts[0] && parts[3] == '.rb'
+          return given.to_s
+        end
+
+        # Also easy: they either referred to the internal library directory,
+        # or left the extansion off.  Those are the same to us.
+        # /home/you/projects/inspec-something/lib/inspec-something
+        #   parts index:           ^0^        ^1^      ^2^          (3 is empty)
+        if parts[0] =~ name_regex && parts[1] == 'lib' && parts[2] == parts[0] && parts[3].empty?
+          return given.to_s + '.rb'
+        end
+
+        # Easy to recognize, but harder to handle: they referred to the project root.
+        #                 /home/you/projects/inspec-something
+        #   parts index:        ^0^   ^1^         ^2^          (3 is empty)
+        #   0 and 1 are not meaningful to us, but we hope to find a parts[2]/lib/inspec-something.rb.
+        entry_point_guess = File.join(given.to_s, 'lib', parts[2] + '.rb')
+        if parts[2] =~ name_regex && File.exist?(entry_point_guess)
+          return entry_point_guess
+        end
+
+        # Well, if we got here, parts[2] matches an inspec/train prefix, but we have no idea about anything.
+        # Give up.
+        puts(red { 'Unrecognizable plugin structure' } + " - #{parts[2]} - When installing from a path, please provide the path of the entry point file - installation failed.")
+        exit 1
+      end
+
+      def install_from_path__probe_load(entry_point, plugin_name)
+        # TODO
       end
 
       def install_from_remote_gem(plugin_name)

@@ -190,8 +190,7 @@ class PluginManagerCliInstall < MiniTest::Test
     'is_perfect' => File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb'),
     'refers_to_the_entry_point_with_no_extension' => File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture'),
     'refers_to_the_src_root_of_a_plugin' => File.join(core_fixture_plugins_path, 'inspec-test-fixture'),
-    'refers_to_the_lib_dir_of_a_plugin' => File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib'),
-    'refers_to_a_relative_path' => File.join(*(['..'] * 5), 'test', 'unit', 'mock', 'plugins', 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb'),
+    'refers_to_a_relative_path' => File.join('test', 'unit', 'mock', 'plugins', 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb'),
   }.each do |test_name, fixture_plugin_path|
     define_method(('test_install_from_path_when_path_' + test_name).to_sym) do
       working_dir = empty_config_dir_path
@@ -243,9 +242,9 @@ class PluginManagerCliInstall < MiniTest::Test
     assert_equal 1, install_result.exit_status, 'Exit status should be 1'
 
     error_message = install_result.stdout.split("\n").last
-    assert_includes error_message, "Wrong prefix for path plugin"
-    assert_includes error_message, 'wrong-name.rb'
-    assert_includes error_message, "InSpec plugins begin with 'inspec-' or 'train-'"
+    assert_includes error_message, "Invalid plugin name"
+    assert_includes error_message, 'wrong-name'
+    assert_includes error_message, "All inspec plugins must begin with either 'inspec-' or 'train-'"
     assert_includes error_message, 'installation failed'
   end
 
@@ -262,6 +261,40 @@ class PluginManagerCliInstall < MiniTest::Test
     assert_includes error_message, 'inspec-egg-white-omelette.rb'
     assert_includes error_message, "After probe-loading the supposed plugin, it did not register."
     assert_includes error_message, "Ensure something inherits from 'Inspec.plugin(2)'"
+    assert_includes error_message, 'installation failed'
+  end
+
+  def test_fail_install_from_path_when_it_is_already_installed
+    plugin_path = File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb')
+    working_dir = empty_config_dir_path
+    first_install_result = run_inspec_process("plugin install #{plugin_path}", env: { INSPEC_CONFIG_DIR: working_dir })
+
+    assert_empty first_install_result.stderr
+    assert_equal 0, first_install_result.exit_status, 'Exit status on first install should be 0'
+
+    second_install_result = run_inspec_process("plugin install #{plugin_path}", env: { INSPEC_CONFIG_DIR: working_dir })
+    assert_empty second_install_result.stderr
+    assert_equal 2, second_install_result.exit_status, 'Exit status on first install should be 2'
+
+    error_message = second_install_result.stdout.split("\n").last
+    assert_includes error_message, "Plugin already installed"
+    assert_includes error_message, 'inspec-test-fixture'
+    assert_includes error_message, "Use 'inspec plugin list' to see previously installed plugin"
+    assert_includes error_message, 'installation failed'
+  end
+
+  def test_fail_install_from_path_when_the_dir_structure_is_wrong
+    bad_path = File.join(project_fixtures_path, 'plugins', 'inspec-wrong-structure')
+    working_dir = empty_config_dir_path
+    install_result = run_inspec_process("plugin install #{bad_path}", env: { INSPEC_CONFIG_DIR: working_dir })
+
+    assert_empty install_result.stderr
+    assert_equal 1, install_result.exit_status, 'Exit status should be 1'
+
+    error_message = install_result.stdout.split("\n").last
+    assert_includes error_message, "Unrecognizable plugin structure"
+    assert_includes error_message, 'inspec-wrong-structure'
+    assert_includes error_message, ' When installing from a path, please provide the path of the entry point file'
     assert_includes error_message, 'installation failed'
   end
 
