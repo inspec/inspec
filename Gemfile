@@ -31,7 +31,7 @@ group :integration do
   gem 'test-kitchen', '~> 1.6'
   gem 'kitchen-vagrant'
   # we need winrm v2 support >= 0.15.1
-  gem 'kitchen-inspec', '>= 0.15.1'
+  gem 'kitchen-inspec', git: 'https://github.com/inspec/kitchen-inspec.git', branch: 'jq/update_for_inspec_plugins'
   gem 'kitchen-ec2'
   gem 'kitchen-dokken'
 end
