@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.114 -->
-## [v2.2.114](https://github.com/inspec/inspec/tree/v2.2.114) (2018-09-20)
+<!-- latest_release 2.2.115 -->
+## [v2.2.115](https://github.com/inspec/inspec/tree/v2.2.115) (2018-09-21)
 
-#### Bug Fixes
-- Remove load locks for cloud resources [#3420](https://github.com/inspec/inspec/pull/3420) ([jquick](https://github.com/jquick))
+#### Merged Pull Requests
+- Add new resource: aws_ebs_volume [#3381](https://github.com/inspec/inspec/pull/3381) ([jmassardo](https://github.com/jmassardo))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.112 -->
 ### Changes since 2.2.112 release
+
+#### Merged Pull Requests
+- Add new resource: aws_ebs_volume [#3381](https://github.com/inspec/inspec/pull/3381) ([jmassardo](https://github.com/jmassardo)) <!-- 2.2.115 -->
 
 #### Bug Fixes
 - Remove load locks for cloud resources [#3420](https://github.com/inspec/inspec/pull/3420) ([jquick](https://github.com/jquick)) <!-- 2.2.114 -->
