@@ -258,8 +258,8 @@ class PluginManagerCliInstall < MiniTest::Test
 
     error_message = install_result.stdout.split("\n").last
     assert_includes error_message, "Does not appear to be a plugin"
-    assert_includes error_message, 'inspec-egg-white-omelette.rb'
-    assert_includes error_message, "After probe-loading the supposed plugin, it did not register."
+    assert_includes error_message, 'inspec-egg-white-omelette'
+    assert_includes error_message, "After probe-loading the supposed plugin, it did not register"
     assert_includes error_message, "Ensure something inherits from 'Inspec.plugin(2)'"
     assert_includes error_message, 'installation failed'
   end

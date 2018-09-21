@@ -70,7 +70,7 @@ module InspecPlugins
       def install(plugin_id_arg)
         if plugin_id_arg =~ /\.gem$/ # Does it end in .gem?
           install_from_gemfile(plugin_id_arg)
-        elsif plugin_id_arg =~ %r{[\/\\]} || Dir.exist(plugin_id_arg) # Does the argument have a slash, or exist as dir in the local directory?
+        elsif plugin_id_arg =~ %r{[\/\\]} || Dir.exist?(plugin_id_arg) # Does the argument have a slash, or exist as dir in the local directory?
           install_from_path(plugin_id_arg)
         else
           install_from_remote_gem(plugin_id_arg)
@@ -174,23 +174,31 @@ module InspecPlugins
         # Name OK?
         check_plugin_name(plugin_name, 'installation')
 
-        if Inspec::Plugin::V2::Registry.instance.known_plugin?(plugin_name.to_sym)
+        # Already installed?
+        if registry.known_plugin?(plugin_name.to_sym)
           puts(red { 'Plugin already installed' } + " - #{plugin_name} - Use 'inspec plugin list' to see previously installed plugin - installation failed.")
           exit 2
         end
 
-        entry_point = install_from_path__apply_entry_point_heuristics(path, plugin_name)
+        # Can we figure out how to load it?
+        entry_point = install_from_path__apply_entry_point_heuristics(path)
+
+        # If you load it, does it act like a plugin?
         install_from_path__probe_load(entry_point, plugin_name)
 
+        # OK, install it!
         installer.install(plugin_name, path: entry_point)
 
         puts(bold { plugin_name } + ' plugin installed via source path reference, resolved to entry point ' + entry_point)
         exit 0
       end
 
-      def install_from_path__apply_entry_point_heuristics(path, plugin_name)
+      # Rationale for rubocop variances: It's a heuristics method, and will be full of
+      # conditionals.  The code is well-commented; refactoring into sub-methods would
+      # reduce clarity.
+      def install_from_path__apply_entry_point_heuristics(path) # rubocop: disable Metrics/AbcSize, Metrics/CyclomaticComplexity
         given = Pathname.new(path)
-        given = given.expand_path  # Resolve any relative paths
+        given = given.expand_path # Resolve any relative paths
         name_regex = /^(inspec|train)-/
 
         # What are the last four things like?
@@ -232,7 +240,20 @@ module InspecPlugins
       end
 
       def install_from_path__probe_load(entry_point, plugin_name)
-        # TODO
+        # Brazenly attempt to load a file, and see if it registers a plugin.
+        begin
+          require entry_point
+        rescue LoadError => ex
+          puts(red { 'Plugin contains errors' } + " - #{plugin_name} - Encountered errors while trying to test laod the plugin entry point, resolved to #{entry_point} - installation failed")
+          puts ex.message
+          exit 1
+        end
+
+        # OK, the wheels didn't fall off.  But is it a plugin?
+        unless Inspec::Plugin::V2::Registry.instance.known_plugin?(plugin_name.to_sym)
+          puts(red { 'Does not appear to be a plugin' } + " - #{plugin_name} - After probe-loading the supposed plugin, it did not register itself. Ensure something inherits from 'Inspec.plugin(2)' - installation failed.")
+          exit 1
+        end
       end
 
       def install_from_remote_gem(plugin_name)
@@ -329,6 +350,10 @@ module InspecPlugins
       #==================================================================#
       def installer
         Inspec::Plugin::V2::Installer.instance
+      end
+
+      def registry
+        Inspec::Plugin::V2::Registry.instance
       end
 
       def check_plugin_name(plugin_name, action)
