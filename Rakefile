@@ -109,7 +109,19 @@ namespace :test do
   task :integration do
     concurrency = ENV['CONCURRENCY'] || 1
     os = ENV['OS'] || ''
-    sh("bundle exec kitchen test -c #{concurrency} #{os}")
+    puts "Building current InSpec gem for audit cookbook testing..."
+    output = %x[gem build inspec-core.gemspec]
+    puts output
+    gem_name = output.split("\n")[-1].split(':')[1].strip
+    path = File.dirname(__FILE__)
+    File.rename(File.join(path, gem_name), File.join(path, 'inspec-core-local.gem'))
+    destination = File.join(path, 'test', 'cookbooks', 'os_prepare', 'files', 'inspec-core-local.gem')
+    begin
+      FileUtils.cp(File.join(path, 'inspec-core-local.gem'), destination)
+      sh("bundle exec kitchen test -c #{concurrency} #{os}")
+    ensure
+      FileUtils.rm(destination)
+    end
   end
 
   task :ssh, [:target] do |_t, args|
