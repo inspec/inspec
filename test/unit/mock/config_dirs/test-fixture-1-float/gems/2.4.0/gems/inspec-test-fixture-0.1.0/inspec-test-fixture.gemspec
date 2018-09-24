@@ -5,7 +5,7 @@ require "inspec-test-fixture/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "inspec-test-fixture"
-  spec.version       = InspecPlugins::TestFixture::VERSION
+  spec.version       = '0.1.0'
   spec.authors       = ["InSpec Engineering Team"]
   spec.email         = ["hello@chef.io"]
 
@@ -24,7 +24,4 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "rake", "~> 10.0"
-  if InspecPlugins::TestFixture::VERSION == '0.2.0'
-    spec.add_dependency "ordinal_array", "~> 0.2.0"
-  end
 end
