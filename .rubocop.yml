@@ -5,9 +5,9 @@ AllCops:
   - Gemfile
   - Rakefile
   - 'test/**/*'
+  - 'lib/plugins/*/test/**/*'
   - 'examples/**/*'
   - 'vendor/**/*'
-  - 'lib/plugins/inspec-*/test/**/*'
   - 'lib/bundles/inspec-init/templates/**/*'
   - 'www/demo/**/*'
 AlignParameters:

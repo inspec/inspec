@@ -2,6 +2,7 @@
 
 require 'singleton'
 require 'forwardable'
+require 'fileutils'
 
 # Gem extensions for doing unusual things - not loaded by Gem default
 require 'rubygems/package'
@@ -114,6 +115,7 @@ module Inspec::Plugin::V2
     # @param [String] plugin_seach_term
     # @param [Hash] opts Search options
     # @option opts [TrueClass, FalseClass] :exact If true, use plugin_search_term exactly.  If false (default), append a wildcard.
+    # @option opts [Symbol] :scope Which versions to search for.  :released (default) - all released versions.  :prerelease - Also include versioned marked prerelease. :latest - only return one version, the latest one.
     # @return [Hash of Arrays] - Keys are String names of gems, arrays contain String versions.
     def search(plugin_query, opts = {})
       validate_search_opts(plugin_query, opts)
@@ -121,10 +123,10 @@ module Inspec::Plugin::V2
       fetcher = Gem::SpecFetcher.fetcher
       matched_tuples = []
       if opts[:exact]
-        matched_tuples = fetcher.detect(:released) { |tuple| tuple.name == plugin_query }
+        matched_tuples = fetcher.detect(opts[:scope]) { |tuple| tuple.name == plugin_query }
       else
         regex = Regexp.new('^' + plugin_query + '.*')
-        matched_tuples = fetcher.detect(:released) do |tuple|
+        matched_tuples = fetcher.detect(opts[:scope]) do |tuple|
           tuple.name != 'inspec-core' && tuple.name =~ regex
         end
       end
@@ -179,8 +181,8 @@ module Inspec::Plugin::V2
           raise InstallError, "Could not find local gem file to install - #{opts[:gem_file]}"
         end
       elsif opts.key?(:path)
-        unless Dir.exist?(opts[:path])
-          raise InstallError, "Could not find directory for install from source path - #{opts[:path]}"
+        unless File.exist?(opts[:path])
+          raise InstallError, "Could not find path for install from source path - #{opts[:path]}"
         end
       end
 
@@ -226,9 +228,14 @@ module Inspec::Plugin::V2
       end
     end
 
-    def validate_search_opts(search_term, _opts)
+    def validate_search_opts(search_term, opts)
       unless search_term =~ /^(inspec|train)-/
         raise SearchError, "All inspec plugins must begin with either 'inspec-' or 'train-'."
+      end
+
+      opts[:scope] ||= :released
+      unless [:prerelease, :released, :latest].include?(opts[:scope])
+        raise SearchError, 'Search scope for listing versons must be :prerelease, :released, or :latest.'
       end
     end
 
@@ -276,6 +283,18 @@ module Inspec::Plugin::V2
       # OK, perform the installation.
       # Ignore deps here, because any needed deps should already be baked into new_plugin_dependency
       request_set.install_into(gem_path, true, ignore_dependencies: true)
+
+      # Painful aspect of rubygems: the VendorSet request set type needs to be able to find a gemspec
+      # file within the source of the gem (and not all gems include it in their source tree; they are
+      # not obliged to during packaging.)
+      # So, after each install, run a scan for all gem(specs) we manage, and copy in their gemspec file
+      # into the exploded gem source area if absent.
+      loader.list_managed_gems.each do |spec|
+        path_inside_source = File.join(spec.gem_dir, "#{spec.name}.gemspec")
+        unless File.exist?(path_inside_source)
+          File.write(path_inside_source, spec.to_ruby)
+        end
+      end
     end
 
     #===================================================================#
@@ -367,6 +386,7 @@ module Inspec::Plugin::V2
     # TODO: refactor the plugin.json file to have its own class, which Installer consumes
     def update_plugin_config_file(plugin_name, opts)
       config = update_plugin_config_data(plugin_name, opts)
+      FileUtils.mkdir_p(Inspec.config_dir)
       File.write(plugin_conf_file_path, JSON.pretty_generate(config))
     end
 

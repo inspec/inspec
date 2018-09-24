@@ -47,4 +47,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'semverse'
   spec.add_dependency 'htmlentities'
   spec.add_dependency 'multipart-post'
+  spec.add_dependency 'term-ansicolor'
 end
