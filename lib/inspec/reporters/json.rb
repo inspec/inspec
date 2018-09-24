@@ -60,7 +60,7 @@ module Inspec::Reporters
         control = {
           id: c[:id],
           title: c[:title],
-          desc: c&.dig(:descriptions, :default),
+          desc: c.dig(:descriptions, :default),
           descriptions: convert_descriptions(c[:descriptions]),
           impact: c[:impact],
           refs: c[:refs],
@@ -121,7 +121,9 @@ module Inspec::Reporters
     def convert_descriptions(data)
       return [] if data.nil?
       results = []
-      data.each { |x| results.push({type: x[0].to_s, data: x[1]} ) }
+      data.each do |label, text|
+        results.push({ label: label.to_s, data: text })
+      end
       results
     end
   end

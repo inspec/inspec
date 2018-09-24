@@ -15,7 +15,7 @@ describe Inspec::Reporters::Automate do
       'job_uuid' => "22ad2f99-f84f-5456-95a0-jobuuid12345",
     }
   end
-  let(:report) do 
+  let(:report) do
     data = JSON.parse(File.read(path + '/../mock/reporters/run_data.json'), symbolize_names: true)
     options.merge!({ run_data: data })
     Inspec::Reporters::Automate.new(options)

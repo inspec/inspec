@@ -446,18 +446,18 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       controls.count.must_equal 2
 
       # check for json override
-      assert = "  control 'pro1-con2' do\n    impact 0.999\n    title 'Profile 1 - Control 2-updated'\n    desc 'Profile 1 - Control 2 description-updated'\n    desc 'overwrite me', 'it is overwritten'\n    desc 'append this', 'it is appended'\n    tag 'password-updated'\n    ref 'Section 3.5.2.1', url: 'https://example.com'\n    describe file('/etc/passwd') do\n      it { should exist }\n    end\n  end\n"
-      override['code'].must_equal assert
+      expected_value = "  control 'pro1-con2' do\n    impact 0.999\n    title 'Profile 1 - Control 2-updated'\n    desc 'Profile 1 - Control 2 description-updated'\n    desc 'overwrite me', 'it is overwritten'\n    desc 'new entry', 'this is appended to the description list'\n    tag 'password-updated'\n    ref 'Section 3.5.2.1', url: 'https://example.com'\n    describe file('/etc/passwd') do\n      it { should exist }\n    end\n  end\n"
+      override['code'].must_equal expected_value
       override['impact'].must_equal 0.999
       override['descriptions'].must_equal([
-        { 'type' => 'default',
+        { 'label' => 'default',
           'data' => 'Profile 1 - Control 2 description-updated'
         },
-        { 'type' => 'overwrite me',
+        { 'label' => 'overwrite me',
           'data' => 'it is overwritten'
         },
-        { 'type' => 'append this',
-          'data' => 'it is appended'
+        { 'label' => 'new entry',
+          'data' => 'this is appended to the description list'
         },
       ])
       override['title'].must_equal "Profile 1 - Control 2-updated"
@@ -466,8 +466,8 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       child_profile['parent_profile'].must_equal 'wrapper-override'
 
       # check for original code on child profile
-      assert = "control 'pro1-con2' do\n  impact 0.9\n  title 'Profile 1 - Control 2'\n  desc 'Profile 1 - Control 2 description'\n  desc 'overwrite me', 'overwrite this'\n  tag 'password'\n  describe file('/etc/passwdddddddddd') do\n    it { should exist }\n  end\nend\n"
-      child_control['code'].must_equal assert
+      expected_value = "control 'pro1-con2' do\n  impact 0.9\n  title 'Profile 1 - Control 2'\n  desc 'Profile 1 - Control 2 description'\n  desc 'overwrite me', 'overwrite this'\n  tag 'password'\n  describe file('/etc/passwdddddddddd') do\n    it { should exist }\n  end\nend\n"
+      child_control['code'].must_equal expected_value
     end
   end
 

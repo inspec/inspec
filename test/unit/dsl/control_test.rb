@@ -28,9 +28,9 @@ describe 'controls' do
   it 'allows multiple desc with keys and values' do
     lines = <<-DESC_EXAMPLES
       desc 'this is default'
-      desc 'foo', 'this is foo'
-      desc 'a space', 'this has a space'
-      desc 'newline', 'this has
+      desc 'example', 'this is foo'
+      desc 'a space', 'this label has a space'
+      desc 'newline', 'this value has
                        a newline'
       desc 'heredoc', <<-EOF
         This is a heredoc
@@ -39,9 +39,9 @@ describe 'controls' do
 
     result = load(lines)
     result[:descriptions][:default].must_equal('this is default')
-    result[:descriptions][:foo].must_equal('this is foo')
-    result[:descriptions][:'a space'].must_equal('this has a space')
-    result[:descriptions][:newline].must_match(/this has\n.*a newline/)
+    result[:descriptions][:example].must_equal('this is foo')
+    result[:descriptions][:'a space'].must_equal('this label has a space')
+    result[:descriptions][:newline].must_match(/this value has\n\s*a newline/)
     result[:descriptions][:heredoc].must_equal('This is a heredoc')
   end
 

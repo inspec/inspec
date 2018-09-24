@@ -98,6 +98,11 @@ module Inspec
       end
     end
 
+    def descriptions(description_hash = nil)
+      return @descriptions if description_hash.nil?
+      @descriptions.merge!(description_hash)
+    end
+
     def ref(ref = nil, opts = {})
       return @refs if ref.nil? && opts.empty?
       if opts.empty? && ref.is_a?(Hash)
@@ -213,7 +218,7 @@ module Inspec
       [['describe', [resource], nil]]
     end
 
-    def self.merge(dst, src) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
+    def self.merge(dst, src) # rubocop:disable Metrics/AbcSize
       if src.id != dst.id
         # TODO: register an error, this case should not happen
         return

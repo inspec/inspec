@@ -32,12 +32,12 @@ module Inspec
     def to_ruby # rubocop:disable Metrics/AbcSize
       res = ["control #{id.inspect} do"]
       res.push "  title #{title.inspect}" unless title.to_s.empty?
-      descriptions&.each do |k, v|
-        if k == :default
-          next if v.nil? or v == '' # don't render empty/nil desc
-          res.push "  desc  #{prettyprint_text(v, 2)}"
+      descriptions.each do |label, text|
+        if label == :default
+          next if text.nil? or text == '' # don't render empty/nil desc
+          res.push "  desc  #{prettyprint_text(text, 2)}"
         else
-          res.push "  desc  #{k.to_s.inspect}, #{prettyprint_text(v, 2)}"
+          res.push "  desc  #{label.to_s.inspect}, #{prettyprint_text(text, 2)}"
         end
       end
       res.push "  impact #{impact}" unless impact.nil?

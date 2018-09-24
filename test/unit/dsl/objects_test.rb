@@ -274,10 +274,9 @@ end
       control.add_test(obj1)
       control.id = 'sample.control.id'
       control.title = 'Sample Control Important Title'
-      control.descriptions[:default] = 'The most critical control the world has ever seen'
       control.descriptions = {
         default: 'The most critical control the world has ever seen',
-        rational: 'It is needed to save the planet',
+        rationale: 'It is needed to save the planet',
         'more info': 'Insert clever joke here',
       }
       control.refs = ['simple ref', {ref: 'title', url: 'my url'}]
@@ -286,7 +285,7 @@ end
 control "sample.control.id" do
   title "Sample Control Important Title"
   desc  "The most critical control the world has ever seen"
-  desc  "rational", "It is needed to save the planet"
+  desc  "rationale", "It is needed to save the planet"
   desc  "more info", "Insert clever joke here"
   impact 1.0
   ref   "simple ref"
