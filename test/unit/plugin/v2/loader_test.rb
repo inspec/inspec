@@ -4,6 +4,8 @@ require 'minitest/autorun'
 require 'minitest/test'
 require_relative '../../../../lib/inspec/plugin/v2'
 
+require 'train' # Needed for Train plugin testing
+
 class PluginLoaderTests < MiniTest::Test
 
   @@orig_home = Dir.home
@@ -227,5 +229,29 @@ class PluginLoaderTests < MiniTest::Test
     assert_includes impl_class.ancestors, Inspec::Plugin::V2::PluginType::Mock, 'impl_class should derive from PluginType::Mock'
     assert InspecPlugins::MeaningOfLife.const_defined?(:MockPlugin), 'impl_class should now be defined'
 
+  end
+
+  #====================================================================#
+  #                       Train Plugin Special Handling                #
+  #====================================================================#
+  def test_when_a_train_plugin_is_installed_via_gem_and_required
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'train-test-fixture')
+
+    reg = Inspec::Plugin::V2::Registry.instance
+    loader = nil
+    assert_silent { loader = Inspec::Plugin::V2::Loader.new }
+
+    plugin_name = :'train-test-fixture'
+    assert(reg.known_plugin?(plugin_name), 'The train plugin should be known after loader init')
+
+    status = reg[plugin_name]
+    assert_equal(:'train-1', status.api_generation, "It should have a special value for api gen (:'train-1')")
+    refute(reg.loaded_plugin?(plugin_name), 'It should not be loaded until needed')
+
+    # 'Requiring' the gem name should succeed
+
+    require 'train-test-fixture'
+    assert_includes(Train::Plugins.registry.keys, 'test-fixture', 'After requiring the gem, the Train Registry should know the plugin is loaded')
+    assert(reg.loaded_plugin?(plugin_name), 'After requiring, InSpec Registry should know the the plugin is loaded')
   end
 end

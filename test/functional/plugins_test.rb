@@ -104,3 +104,11 @@ describe 'plugin cli usage message integration' do
     end
   end
 end
+
+#=========================================================================================#
+#                           Train Plugin Support
+#=========================================================================================#
+
+# Verify that if a train plugin is installed, it will work from the command line.
+# TODO: when a train plugin is installed, we can use it in the -b option to shell
+# TODO: when a train plugin is installed, we can use it in the -t option schema detect shell
