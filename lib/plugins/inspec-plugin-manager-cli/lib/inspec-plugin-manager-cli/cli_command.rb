@@ -65,7 +65,14 @@ module InspecPlugins
       #                       inspec plugin install
       #==================================================================#
       desc 'install [-v VERSION] PLUGIN', 'Installs a plugin from rubygems.org, a gemfile, or a path to local source.'
-      long_desc 'PLUGIN may be the name of a gem on rubygems.org that begins with inspec- or train-.  PLUGIN may also be the path to a local gemfile, which will then be installed like any other gem.  Finally, if PLUGIN is a path ending in .rb, it is taken to be a local file that will act as athe entry point for a plugin (this mode is provided for local plugin development).  Exit codes are 0 on success, 2 if the plugin is already installed, and 1 if any other error occurs.'
+      long_desc <<~EOLD
+        PLUGIN may be the name of a gem on rubygems.org that begins with inspec- or train-.
+        PLUGIN may also be the path to a local gemfile, which will then be installed like
+        any other gem.  Finally, if PLUGIN is a path ending in .rb, it is taken to be a
+        local file that will act as athe entry point for a plugin (this mode is provided
+        for local plugin development).  Exit codes are 0 on success, 2 if the plugin is
+        already installed, and 1 if any other error occurs.
+      EOLD
       option :version, desc: 'When installing from rubygems.org, specifies a specific version to install.', aliases: [:v]
       def install(plugin_id_arg)
         if plugin_id_arg =~ /\.gem$/ # Does it end in .gem?
@@ -81,7 +88,11 @@ module InspecPlugins
       #        update
       #--------------------------
       desc 'update PLUGIN', 'Updates a plugin to the latest from from rubygems.org'
-      long_desc 'PLUGIN may be the name of a gem on rubygems.org that begins with inspec- or train-.  Exit codes are 0 on success, 2 if the plugin is already up to date, and 1 if any other error occurs.'
+      long_desc <<~EOLD
+        PLUGIN may be the name of a gem on rubygems.org that begins with inspec- or train-.
+        Exit codes are 0 on success, 2 if the plugin is already up to date, and 1 if any
+        other error occurs.
+      EOLD
       def update(plugin_name)
         pre_update_versions = installer.list_installed_plugin_gems.select { |spec| spec.name == plugin_name }.map { |spec| spec.version.to_s }
         old_version = pre_update_versions.join(', ')
@@ -244,7 +255,7 @@ module InspecPlugins
         begin
           require entry_point
         rescue LoadError => ex
-          puts(red { 'Plugin contains errors' } + " - #{plugin_name} - Encountered errors while trying to test laod the plugin entry point, resolved to #{entry_point} - installation failed")
+          puts(red { 'Plugin contains errors' } + " - #{plugin_name} - Encountered errors while trying to test load the plugin entry point, resolved to #{entry_point} - installation failed")
           puts ex.message
           exit 1
         end
