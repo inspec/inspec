@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.115 -->
-## [v2.2.115](https://github.com/inspec/inspec/tree/v2.2.115) (2018-09-21)
+<!-- latest_release 2.2.116 -->
+## [v2.2.116](https://github.com/inspec/inspec/tree/v2.2.116) (2018-09-24)
 
 #### Merged Pull Requests
-- Add new resource: aws_ebs_volume [#3381](https://github.com/inspec/inspec/pull/3381) ([jmassardo](https://github.com/jmassardo))
+- Fix v2 loader appveyor issue [#3434](https://github.com/inspec/inspec/pull/3434) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.112 -->
 ### Changes since 2.2.112 release
 
 #### Merged Pull Requests
+- Fix v2 loader appveyor issue [#3434](https://github.com/inspec/inspec/pull/3434) ([jquick](https://github.com/jquick)) <!-- 2.2.116 -->
 - Add new resource: aws_ebs_volume [#3381](https://github.com/inspec/inspec/pull/3381) ([jmassardo](https://github.com/jmassardo)) <!-- 2.2.115 -->
 
 #### Bug Fixes
