@@ -11,20 +11,20 @@ describe Inspec::AttributeRegistry do
   end
 
   describe 'creating a profile attribute' do
-    it 'creates a attribute without options' do
+    it 'creates an attribute without options' do
       attributes.register_attribute('test_attribute', 'dummy_profile')
       # confirm we get the dummy default
       attributes.find_attribute('test_attribute', 'dummy_profile').value.class.must_equal Inspec::Attribute::DEFAULT_ATTRIBUTE
     end
 
-    it 'creates a attribute with a default value' do
+    it 'creates an attribute with a default value' do
       attributes.register_attribute('color', 'dummy_profile', default: 'silver')
       attributes.find_attribute('color', 'dummy_profile').value.must_equal 'silver'
     end
   end
 
   describe 'creating a profile with a name alias' do
-    it 'creates a default attribute on a profile with a alias' do
+    it 'creates a default attribute on a profile with an alias' do
       attributes.register_profile_alias('old_profile', 'new_profile')
       attributes.register_attribute('color', 'new_profile', default: 'blue')
       attributes.find_attribute('color', 'new_profile').value.must_equal 'blue'
@@ -49,23 +49,23 @@ describe Inspec::AttributeRegistry do
   end
 
   describe 'validate find_attribute method' do
-    it 'find a attribute which exist' do
+    it 'find an attribute which exist' do
       attribute = attributes.register_attribute('color', 'dummy_profile')
       attribute.value = 'black'
 
       attributes.find_attribute('color', 'dummy_profile').value.must_equal 'black'
     end
 
-    it 'errors when trying to find a attribute on a unknown profile' do
+    it 'errors when trying to find an attribute on an unknown profile' do
       attribute = attributes.register_attribute('color', 'dummy_profile')
       ex = assert_raises(Inspec::AttributeRegistry::ProfileError) { attributes.find_attribute('color', 'unknown_profile') }
       ex.message.must_match "Profile 'unknown_profile' does not have any attributes"
     end
 
-    it 'errors when trying to find a unknown attribute on a known profile' do
+    it 'errors when trying to find an unknown attribute on a known profile' do
       attribute = attributes.register_attribute('color', 'dummy_profile')
       ex = assert_raises(Inspec::AttributeRegistry::AttributeError) { attributes.find_attribute('unknown_attribute', 'dummy_profile') }
-      ex.message.must_match "Profile 'dummy_profile' does not have a attribute with name 'unknown_attribute'"
+      ex.message.must_match "Profile 'dummy_profile' does not have an attribute with name 'unknown_attribute'"
     end
   end
 end
