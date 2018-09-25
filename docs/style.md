@@ -1,4 +1,4 @@
-# InSpec style guide
+# InSpec profile style guide
 
 This is a set of recommended InSpec rules you should use when writing controls.
 
