@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.116 -->
-## [v2.2.116](https://github.com/inspec/inspec/tree/v2.2.116) (2018-09-24)
+<!-- latest_release 2.2.117 -->
+## [v2.2.117](https://github.com/inspec/inspec/tree/v2.2.117) (2018-09-25)
 
-#### Merged Pull Requests
-- Fix v2 loader appveyor issue [#3434](https://github.com/inspec/inspec/pull/3434) ([jquick](https://github.com/jquick))
+#### Bug Fixes
+- Grammar correction in error message: use &quot;an&quot; with attribute and unknown [#3439](https://github.com/inspec/inspec/pull/3439) ([alexpop](https://github.com/alexpop))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.112 -->
@@ -15,6 +15,7 @@
 - Add new resource: aws_ebs_volume [#3381](https://github.com/inspec/inspec/pull/3381) ([jmassardo](https://github.com/jmassardo)) <!-- 2.2.115 -->
 
 #### Bug Fixes
+- Grammar correction in error message: use &quot;an&quot; with attribute and unknown [#3439](https://github.com/inspec/inspec/pull/3439) ([alexpop](https://github.com/alexpop)) <!-- 2.2.117 -->
 - Remove load locks for cloud resources [#3420](https://github.com/inspec/inspec/pull/3420) ([jquick](https://github.com/jquick)) <!-- 2.2.114 -->
 
 #### New Features
