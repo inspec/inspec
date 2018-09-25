@@ -51,7 +51,7 @@ module Inspec
         error = Inspec::AttributeRegistry::AttributeError.new
         error.attribute_name = name
         error.profile_name = profile
-        raise error, "Profile '#{error.profile_name}' does not have a attribute with name '#{error.attribute_name}'"
+        raise error, "Profile '#{error.profile_name}' does not have an attribute with name '#{error.attribute_name}'"
       end
       list[profile][name]
     end
