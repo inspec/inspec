@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.117 -->
-## [v2.2.117](https://github.com/inspec/inspec/tree/v2.2.117) (2018-09-25)
+<!-- latest_release 2.2.118 -->
+## [v2.2.118](https://github.com/inspec/inspec/tree/v2.2.118) (2018-09-25)
 
-#### Bug Fixes
-- Grammar correction in error message: use &quot;an&quot; with attribute and unknown [#3439](https://github.com/inspec/inspec/pull/3439) ([alexpop](https://github.com/alexpop))
+#### Merged Pull Requests
+- Plugins: Load all CLI commands on usage on empty invocation [#3428](https://github.com/inspec/inspec/pull/3428) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.112 -->
 ### Changes since 2.2.112 release
 
 #### Merged Pull Requests
+- Plugins: Load all CLI commands on usage on empty invocation [#3428](https://github.com/inspec/inspec/pull/3428) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.118 -->
 - Fix v2 loader appveyor issue [#3434](https://github.com/inspec/inspec/pull/3434) ([jquick](https://github.com/jquick)) <!-- 2.2.116 -->
 - Add new resource: aws_ebs_volume [#3381](https://github.com/inspec/inspec/pull/3381) ([jmassardo](https://github.com/jmassardo)) <!-- 2.2.115 -->
 
