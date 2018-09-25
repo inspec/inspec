@@ -64,7 +64,7 @@ module Inspec::Plugin::V2
 
     def register(name, status)
       if known_plugin? name
-        Inspec::Log.warn "PluginLoader: refusing to re-register plugin '#{name}': an existing plugin with that name was loaded via #{existing.installation_type}-loading from #{existing.entry_point}"
+        Inspec::Log.debug "PluginLoader: refusing to re-register plugin '#{name}': an existing plugin with that name was loaded via #{registry[name].installation_type}-loading from #{registry[name].entry_point}"
       else
         registry[name.to_sym] = status
       end

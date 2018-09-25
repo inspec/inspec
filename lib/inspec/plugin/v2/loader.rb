@@ -112,15 +112,23 @@ module Inspec::Plugin::V2
 
     # Lists all gems found in the plugin_gem_path.
     # @return [Array[Gem::Specification]] Specs of all gems found.
-    def list_managed_gems
+    def self.list_managed_gems
       Dir.glob(File.join(plugin_gem_path, 'specifications', '*.gemspec')).map { |p| Gem::Specification.load(p) }
+    end
+
+    def list_managed_gems
+      self.class.list_managed_gems
     end
 
     # Lists all plugin gems found in the plugin_gem_path.
     # This is simply all gems that begin with train- or inspec-.
     # @return [Array[Gem::Specification]] Specs of all gems found.
-    def list_installed_plugin_gems
+    def self.list_installed_plugin_gems
       list_managed_gems.select { |spec| spec.name.match(/^(inspec|train)-/) }
+    end
+
+    def list_installed_plugin_gems
+      self.class.list_managed_gems
     end
 
     # TODO: refactor the plugin.json file to have its own class, which Loader consumes
@@ -200,7 +208,7 @@ module Inspec::Plugin::V2
         File.join(bundle_dir, 'train-*.rb'),
       ]
       Dir.glob(globs).each do |loader_file|
-        name = File.basename(loader_file, '.rb').gsub(/^(inspec|train)-/, '')
+        name = File.basename(loader_file, '.rb').to_sym
         status = Inspec::Plugin::V2::Status.new
         status.name = name
         status.entry_point = loader_file
@@ -216,9 +224,9 @@ module Inspec::Plugin::V2
       # with lib/ dirs, etc.
       Dir.glob(File.join(core_plugins_dir, 'inspec-*')).each do |plugin_dir|
         status = Inspec::Plugin::V2::Status.new
-        status.name = File.basename(plugin_dir)
-        status.entry_point = File.join(plugin_dir, 'lib', status.name + '.rb')
-        status.installation_type = :path
+        status.name = File.basename(plugin_dir).to_sym
+        status.entry_point = File.join(plugin_dir, 'lib', status.name.to_s + '.rb')
+        status.installation_type = :core
         status.loaded = false
         registry[status.name.to_sym] = status
       end
