@@ -95,7 +95,7 @@ suites:
         location: /tmp/json_export.json
       profiles:
         - name: integration
-          url: https://github.com/jquick/profile_with_attributes/archive/master.zip
+          url: https://github.com/inspec/inspec-integration-profile/archive/master.zip
     osprepare:
       docker: true
       application: false

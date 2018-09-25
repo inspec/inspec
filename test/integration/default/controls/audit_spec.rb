@@ -1,5 +1,10 @@
 # encoding: utf-8
 
+# This file tests the audit validation which runs as part of the
+# chef-client process. This is setup to export to a json file in the .kitchen.yml
+#
+# For more info please see docs/dev/integratin_test.md
+
 control 'Test audit cookbook json exist' do
   describe file('/tmp/json_export.json') do
     it { should exist }
