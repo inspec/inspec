@@ -24,42 +24,7 @@ Use: `controls/ssh.rb`
 
 ## Code style
 
-### 3. Use Ruby style conventions
-
-Reason: There are many opinions on how to style code across languages and frameworks. To reduce the differences and make all code more easily readable and understandable we choose to follow some common Ruby style guidelines. The following list is a subset of the current best practices. Since InSpec is focused on writing tests instead of arbitrary programming code we can focus on a subset that is important to test authors.
-
-This is a subset of style conventions taken from [the Ruby style guide](https://github.com/rubocop-hq/ruby-style-guide):
-
-- Use: UTF-8 as source file encoding
-- Use: 2 spaces per indentation level; no hard tabs
-- Use: Unix-style file endings
-- Avoid: multiple expressions per line
-```ruby
-puts 'foo'; puts 'bar'   # Avoid
-
-puts 'foo'               # Good
-puts 'bar'
-```
-- Use: Spaces around operators, after commas, colons, and semicolons
-```ruby
-sum = 1 + 2
-```
-- Avoid: Spaces after `(`, `[` or before `]`, `)`. Use spaces around `{` and before `}`.
-```ruby
-# bad
-some( arg ).other
-[ 1, 2, 3 ].each{|e| puts e}
-
-# good
-some(arg).other
-[1, 2, 3].each { |e| puts e }
-```
-- Avoid: several empty lines in a row
-
-Please refer to the full guide for the recommended style conventions.
-
-
-### 4. Avoid unnecessary parentheses in matchers
+### 3. Avoid unnecessary parentheses in matchers
 
 Adding additional parentheses is not required and provides more readability if it is not used:
 
@@ -71,7 +36,7 @@ The exception are matchers that require additional arguments or named arguments.
 
 ## Controls
 
-### 5. Do not wrap controls in conditional statements
+### 4. Do not wrap controls in conditional statements
 
 Reason: This will create dynamic profiles whose controls depend on the execution. The problem here is that we cannot render the profile or provide its information before scanning a system. We want to be able to inform users of the contents of their profiles before they run them. It is valid to skip controls that are not necessary for a system, as long as you do it via `only_if` conditions. Ruby's internal conditionals will hide parts of the profile to static analysis and should thus be avoided.
 
@@ -110,7 +75,7 @@ Now whenever you run the base profile you can just `include_controls 'centos-pro
 It will only run the included profiles is the platform matches the supported platform.
 
 
-### 6. Do not include dynamic elements in the control IDs
+### 5. Do not include dynamic elements in the control IDs
 
 Reason: Control IDs are used to map test results to the tests and profiles. Dynamic control IDs make it impossible to map results back, since the identifier which connects tests and results may change in the process.
 
@@ -131,7 +96,7 @@ end
 Sometimes you may create controls from a static list of elements. If this list stays the same no matter what system is scanned, it may be ok to do so and use it as a generator for static controls.
 
 
-### 7. Avoid Ruby system calls
+### 6. Avoid Ruby system calls
 
 Reason: Ruby code is executed on the system that runs InSpec. This allows
 InSpec to work without Ruby and rubygems being required on remote
@@ -187,7 +152,7 @@ In general, try to avoid Ruby's IO calls from within InSpec controls and
 use InSpec resources instead.
 
 
-### 8. Avoid Ruby gem dependencies in controls
+### 7. Avoid Ruby gem dependencies in controls
 
 In addition to avoiding system-level gems and modules you should also limit
 the use of external dependencies to resource packs or plugins. Gems need to be
@@ -199,7 +164,7 @@ Developers may still use external gem dependencies but should vendor it
 with their plugins or resource packs.
 
 
-### 9. Avoid debugging calls (in production)
+### 8. Avoid debugging calls (in production)
 
 Reason: One of the best way to develop and explore tests is the interactive debugging shell `pry` (see the section on "Interactive Debugging with Pry" at the end of this page). However, after you finish your profile make sure you have no interactive statements included anymore. Sometimes interactive calls are hidden behind conditionals (`if` statements) that are harder to reach. These calls can easily cause trouble when an automated profiles runs into an interactive `pry` call that stops the execution and waits for user input.
 
