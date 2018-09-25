@@ -2,13 +2,20 @@
 
 ## Introduction
 
-Inspec uses Test Kitchen for its integration testing. You can access the integration tests through the `rake test:integration` command.
+Inspec uses Test Kitchen for its integration testing. Our current testing uses Docker as our backend. You should install and have Docker running befor you run any tests.
 
 ### How to run specific integrations
 
 To run a specific integration test use the following:
 
-`rake test:integration OS_NAME`
+```bash
+bundle exec rake test:integration[OS_NAME]
+```
+
+Example:
+```bash
+bundle exec rake test:integration[default-ubuntu-1604]
+```
 
 # Inspec Integrations
 

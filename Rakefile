@@ -106,9 +106,10 @@ namespace :test do
     sh(Gem.ruby, 'test/docker_test.rb', *tests)
   end
 
-  task :integration do
+  task :integration, [:os] do |task, args|
     concurrency = ENV['CONCURRENCY'] || 1
-    os = ENV['OS'] || ''
+    os = args[:os] || ENV['OS'] || ''
+    ENV['DOCKER'] = 'true' if ENV['docker'].nil?
     puts "Building current InSpec gem for audit cookbook testing..."
     output = %x[gem build inspec-core.gemspec]
     puts output
