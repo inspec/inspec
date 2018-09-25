@@ -13,6 +13,8 @@ provisioner:
 verifier:
   name: inspec
   sudo: true
+  attributes:
+    verifier_attribute: 'Attribute Override!'
 
 platforms:
 - name: ubuntu-12.04
@@ -77,10 +79,23 @@ platforms:
 suites:
 - name: default
   run_list:
+  - recipe[os_prepare]
+  - recipe[audit]
   - recipe[apt]
   - recipe[yum]
-  - recipe[os_prepare]
+  verifier:
+    inspec_tests:
+      - test/integration/default
   attributes:
+    audit:
+      attributes:
+        audit_attribute: 'Attribute Override!'
+      reporter: 'json-file'
+      json_file:
+        location: /tmp/json_export.json
+      profiles:
+        - name: integration
+          url: https://github.com/inspec/inspec-integration-profile/archive/master.zip
     osprepare:
       docker: true
       application: false

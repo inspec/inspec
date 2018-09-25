@@ -1,6 +1,7 @@
 # encoding: utf-8
 source 'https://supermarket.chef.io'
 
+cookbook 'audit'
 cookbook 'apt'
 cookbook 'yum'
 cookbook 'postgresql'
