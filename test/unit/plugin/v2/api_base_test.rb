@@ -54,6 +54,7 @@ class PluginV2BaseDslMethods < MiniTest::Test
   def test_when_calling_plugin_name_the_plugin_is_registered
     test_plugin_name = :dsl_plugin_name_test
     reg = Inspec::Plugin::V2::Registry.instance
+    reg.__reset
     refute reg.known_plugin?(test_plugin_name), 'should not know plugin name in advance'
     assert_equal 0, reg.loaded_count, 'Should start with no plugins loaded'
     assert_equal 0, reg.known_count, 'Should start with no plugins known'
