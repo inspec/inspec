@@ -12,15 +12,22 @@ module PluginManagerHelpers
   let(:project_config_dirs_path) { File.join(project_fixtures_path, 'config_dirs') }
   let(:empty_config_dir_path) { File.join(project_config_dirs_path, 'empty') }
 
-  def copy_in_project_config_dir(fixture_name)
+  let(:list_after_run) do
+    Proc.new do |run_result, tmp_dir|
+      # After installing/uninstalling/whatevering, run list with config in the same dir, and capture it.
+      run_result.payload.list_result = run_inspec_process('plugin list', env: { INSPEC_CONFIG_DIR: tmp_dir })
+    end
+  end
+
+  def copy_in_project_config_dir(fixture_name, dest = nil)
     src = Dir.glob(File.join(project_config_dirs_path, fixture_name, '*'))
-    dest = File.join(project_config_dirs_path, 'empty')
+    dest ||= File.join(project_config_dirs_path, 'empty')
     src.each { |path| FileUtils.cp_r(path, dest) }
   end
 
-  def copy_in_core_config_dir(fixture_name)
+  def copy_in_core_config_dir(fixture_name, dest = nil)
     src = Dir.glob(File.join(core_config_dir_path, fixture_name, '*'))
-    dest = File.join(project_config_dirs_path, 'empty')
+    dest ||= File.join(project_config_dirs_path, 'empty')
     src.each { |path| FileUtils.cp_r(path, dest) }
   end
 
@@ -44,13 +51,13 @@ class PluginManagerCliHelp < MiniTest::Test
 
   # Main inspec help subcommand listing
   def test_inspec_help_includes_plugin
-    result = run_inspec_process('help')
+    result = run_inspec_process_with_this_plugin('help')
     assert_includes result.stdout, 'inspec plugin'
   end
 
   # inspec plugin help subcommand listing
   def test_inspec_plugin_help_includes_plugin
-    result = run_inspec_process('plugin help')
+    result = run_inspec_process_with_this_plugin('plugin help')
     assert_includes result.stdout, 'inspec plugin list'
     assert_includes result.stdout, 'inspec plugin search'
     assert_includes result.stdout, 'inspec plugin install'
@@ -67,26 +74,30 @@ class PluginManagerCliList < MiniTest::Test
   include PluginManagerHelpers
 
   def test_list_when_no_user_plugins_installed
-    result = run_inspec_process('plugin list', env: { INSPEC_CONFIG_DIR: empty_config_dir_path })
+    result = run_inspec_process_with_this_plugin('plugin list')
     assert_equal 0, result.exit_status, 'exist status must be 0'
     assert_includes result.stdout, '0 plugin(s) total', 'Empty list should include zero count'
   end
 
   def test_list_all_when_no_user_plugins_installed
-    result = run_inspec_process('plugin list --all', env: { INSPEC_CONFIG_DIR: empty_config_dir_path })
+    result = run_inspec_process_with_this_plugin('plugin list --all')
     assert_equal 0, result.exit_status, 'exist status must be 0'
     assert_includes result.stdout, '6 plugin(s) total', '--all list should find six'
     assert_includes result.stdout, 'inspec-plugin-manager-cli', '--all list should find inspec-plugin-manager-cli'
     assert_includes result.stdout, 'habitat', '--all list should find habitat'
 
-    result = run_inspec_process('plugin list -a', env: { INSPEC_CONFIG_DIR: empty_config_dir_path })
+    result = run_inspec_process_with_this_plugin('plugin list -a')
     assert_equal 0, result.exit_status, 'exist status must be 0'
     assert_includes result.stdout, '6 plugin(s) total', '-a list should find six'
   end
 
   def test_list_when_gem_and_path_plugins_installed
-    fixture_path = File.join(core_config_dir_path, 'test-fixture-1-float')
-    result = run_inspec_process('plugin list', env: { INSPEC_CONFIG_DIR: fixture_path })
+    pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
+      plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
+      copy_in_core_config_dir('test-fixture-1-float', tmp_dir)
+    end
+
+    result = run_inspec_process_with_this_plugin('plugin list', pre_run: pre_block)
     assert_equal 0, result.exit_status, 'exist status must be 0'
     assert_includes result.stdout, '2 plugin(s) total', 'gem+path should show two plugins'
 
@@ -193,8 +204,7 @@ class PluginManagerCliInstall < MiniTest::Test
     'refers_to_a_relative_path' => File.join('test', 'unit', 'mock', 'plugins', 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb'),
   }.each do |test_name, fixture_plugin_path|
     define_method(('test_install_from_path_when_path_' + test_name).to_sym) do
-      working_dir = empty_config_dir_path
-      install_result = run_inspec_process("plugin install #{fixture_plugin_path}", env: { INSPEC_CONFIG_DIR: working_dir })
+      install_result = run_inspec_process_with_this_plugin("plugin install #{fixture_plugin_path}", post_run: list_after_run)
 
       assert_empty install_result.stderr
       assert_equal 0, install_result.exit_status, 'Exit status should be 0'
@@ -206,13 +216,13 @@ class PluginManagerCliInstall < MiniTest::Test
       assert_includes success_message, 'plugin installed via source path reference'
 
       # Check round-trip UX via list
-      list_result = run_inspec_process('plugin list', env: { INSPEC_CONFIG_DIR: working_dir })
+      list_result = install_result.payload.list_result
       itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
       refute_nil itf_line, 'inspec-test-fixture should now appear in the output of inspec list'
       assert_match(/\s*inspec-test-fixture\s+src\s+path\s+/, itf_line, 'list output should show that it is a path installation')
 
       # Check plugin statefile. Extra important in this case, since all should resolve to the same entry point.
-      plugin_data = JSON.parse(File.read(File.join(working_dir, 'plugins.json')))
+      plugin_data = install_result.payload.plugin_data
       entry = plugin_data['plugins'].detect { |e| e['name'] == 'inspec-test-fixture' }
       expected = File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb')
       assert_equal expected, entry['installation_path'], 'Regardless of input, the entry point should be correct.'
@@ -221,8 +231,7 @@ class PluginManagerCliInstall < MiniTest::Test
 
   def test_fail_install_from_nonexistant_path
     bad_path = File.join(project_fixtures_path, 'none', 'such', 'inspec-test-fixture-nonesuch.rb')
-    working_dir = empty_config_dir_path
-    install_result = run_inspec_process("plugin install #{bad_path}", env: { INSPEC_CONFIG_DIR: working_dir })
+    install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
 
     assert_empty install_result.stderr
     assert_equal 1, install_result.exit_status, 'Exit status should be 1'
@@ -235,8 +244,7 @@ class PluginManagerCliInstall < MiniTest::Test
 
   def test_fail_install_from_path_with_wrong_name
     bad_path = File.join(project_fixtures_path, 'plugins', 'wrong-name', 'lib', 'wrong-name.rb')
-    working_dir = empty_config_dir_path
-    install_result = run_inspec_process("plugin install #{bad_path}", env: { INSPEC_CONFIG_DIR: working_dir })
+    install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
 
     assert_empty install_result.stderr
     assert_equal 1, install_result.exit_status, 'Exit status should be 1'
@@ -250,8 +258,7 @@ class PluginManagerCliInstall < MiniTest::Test
 
   def test_fail_install_from_path_when_it_is_not_a_plugin
     bad_path = File.join(project_fixtures_path, 'plugins', 'inspec-egg-white-omelette', 'lib', 'inspec-egg-white-omelette.rb')
-    working_dir = empty_config_dir_path
-    install_result = run_inspec_process("plugin install #{bad_path}", env: { INSPEC_CONFIG_DIR: working_dir })
+    install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
 
     assert_empty install_result.stderr
     assert_equal 1, install_result.exit_status, 'Exit status should be 1'
@@ -266,17 +273,19 @@ class PluginManagerCliInstall < MiniTest::Test
 
   def test_fail_install_from_path_when_it_is_already_installed
     plugin_path = File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb')
-    working_dir = empty_config_dir_path
-    first_install_result = run_inspec_process("plugin install #{plugin_path}", env: { INSPEC_CONFIG_DIR: working_dir })
+    pre_block = Proc.new do |plugin_data, _tmp_dir|
+      plugin_data["plugins"] << {
+        "name" => "inspec-test-fixture",
+        "installation_type" => "path",
+        "installation_path" => plugin_path,
+      }
+    end
 
-    assert_empty first_install_result.stderr
-    assert_equal 0, first_install_result.exit_status, 'Exit status on first install should be 0'
+    install_result = run_inspec_process_with_this_plugin("plugin install #{plugin_path}", pre_run: pre_block)
+    assert_empty install_result.stderr
+    assert_equal 2, install_result.exit_status, 'Exit status on second install should be 2'
 
-    second_install_result = run_inspec_process("plugin install #{plugin_path}", env: { INSPEC_CONFIG_DIR: working_dir })
-    assert_empty second_install_result.stderr
-    assert_equal 2, second_install_result.exit_status, 'Exit status on second install should be 2'
-
-    error_message = second_install_result.stdout.split("\n").last
+    error_message = install_result.stdout.split("\n").last
     assert_includes error_message, "Plugin already installed"
     assert_includes error_message, 'inspec-test-fixture'
     assert_includes error_message, "Use 'inspec plugin list' to see previously installed plugin"
@@ -285,8 +294,7 @@ class PluginManagerCliInstall < MiniTest::Test
 
   def test_fail_install_from_path_when_the_dir_structure_is_wrong
     bad_path = File.join(project_fixtures_path, 'plugins', 'inspec-wrong-structure')
-    working_dir = empty_config_dir_path
-    install_result = run_inspec_process("plugin install #{bad_path}", env: { INSPEC_CONFIG_DIR: working_dir })
+    install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
 
     assert_empty install_result.stderr
     assert_equal 1, install_result.exit_status, 'Exit status should be 1'
@@ -300,8 +308,7 @@ class PluginManagerCliInstall < MiniTest::Test
 
   def test_install_from_gemfile
     fixture_gemfile_path = File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'pkg', 'inspec-test-fixture-0.1.0.gem')
-    working_dir = empty_config_dir_path
-    install_result = run_inspec_process("plugin install #{fixture_gemfile_path}", env: { INSPEC_CONFIG_DIR: working_dir })
+    install_result = run_inspec_process_with_this_plugin("plugin install #{fixture_gemfile_path}", post_run: list_after_run)
 
     assert_empty install_result.stderr
     assert_equal 0, install_result.exit_status, 'Exit status should be 0'
@@ -312,7 +319,7 @@ class PluginManagerCliInstall < MiniTest::Test
     assert_includes success_message, '0.1.0'
     assert_includes success_message, 'installed from local .gem file'
 
-    list_result = run_inspec_process('plugin list', env: { INSPEC_CONFIG_DIR: working_dir })
+    list_result = install_result.payload.list_result
     itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
     refute_nil itf_line, 'inspec-test-fixture should now appear in the output of inspec list'
     assert_match(/\s*inspec-test-fixture\s+0.1.0\s+gem\s+/, itf_line, 'list output should show that it is a gem installation with version')
@@ -320,8 +327,7 @@ class PluginManagerCliInstall < MiniTest::Test
 
   def test_fail_install_from_nonexistant_gemfile
     bad_path = File.join(project_fixtures_path, 'none', 'such', 'inspec-test-fixture-nonesuch-0.3.0.gem')
-    working_dir = empty_config_dir_path
-    install_result = run_inspec_process("plugin install #{bad_path}", env: { INSPEC_CONFIG_DIR: working_dir })
+    install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
 
     assert_empty install_result.stderr
     assert_equal 1, install_result.exit_status, 'Exit status should be 1'
@@ -329,8 +335,7 @@ class PluginManagerCliInstall < MiniTest::Test
   end
 
   def test_install_from_rubygems_latest
-    working_dir = empty_config_dir_path
-    install_result = run_inspec_process('plugin install inspec-test-fixture', env: { INSPEC_CONFIG_DIR: working_dir })
+    install_result = run_inspec_process_with_this_plugin('plugin install inspec-test-fixture', post_run: list_after_run)
 
     assert_empty install_result.stderr
     assert_equal 0, install_result.exit_status, 'Exit status should be 0'
@@ -341,15 +346,14 @@ class PluginManagerCliInstall < MiniTest::Test
     assert_includes success_message, '0.2.0'
     assert_includes success_message, 'installed from rubygems.org'
 
-    list_result = run_inspec_process('plugin list', env: { INSPEC_CONFIG_DIR: working_dir })
+    list_result = install_result.payload.list_result
     itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
     refute_nil itf_line, 'inspec-test-fixture should now appear in the output of inspec list'
     assert_match(/\s*inspec-test-fixture\s+0.2.0\s+gem\s+/, itf_line, 'list output should show that it is a gem installation with version')
   end
 
   def test_fail_install_from_nonexistant_remote_rubygem
-    working_dir = empty_config_dir_path
-    install_result = run_inspec_process('plugin install inspec-test-fixture-nonesuch', env: { INSPEC_CONFIG_DIR: working_dir })
+    install_result = run_inspec_process_with_this_plugin('plugin install inspec-test-fixture-nonesuch')
 
     assert_empty install_result.stderr
     assert_equal 1, install_result.exit_status, 'Exit status should be 1'
@@ -357,8 +361,7 @@ class PluginManagerCliInstall < MiniTest::Test
   end
 
   def test_install_from_rubygems_with_pinned_version
-    working_dir = empty_config_dir_path
-    install_result = run_inspec_process('plugin install inspec-test-fixture -v 0.1.0', env: { INSPEC_CONFIG_DIR: working_dir })
+    install_result = run_inspec_process_with_this_plugin('plugin install inspec-test-fixture -v 0.1.0', post_run: list_after_run)
 
     assert_empty install_result.stderr
     assert_equal 0, install_result.exit_status, 'Exit status should be 0'
@@ -369,15 +372,14 @@ class PluginManagerCliInstall < MiniTest::Test
     assert_includes success_message, '0.1.0'
     assert_includes success_message, 'installed from rubygems.org'
 
-    list_result = run_inspec_process('plugin list', env: { INSPEC_CONFIG_DIR: working_dir })
+    list_result = install_result.payload.list_result
     itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
     refute_nil itf_line, 'inspec-test-fixture should now appear in the output of inspec list'
     assert_match(/\s*inspec-test-fixture\s+0.1.0\s+gem\s+/, itf_line, 'list output should show that it is a gem installation with version')
   end
 
   def test_fail_install_from_nonexistant_rubygem_version
-    working_dir = empty_config_dir_path
-    install_result = run_inspec_process('plugin install inspec-test-fixture -v 99.99.99', env: { INSPEC_CONFIG_DIR: working_dir })
+    install_result = run_inspec_process_with_this_plugin('plugin install inspec-test-fixture -v 99.99.99')
 
     assert_empty install_result.stderr
     assert_equal 1, install_result.exit_status, 'Exit status should be 1'
@@ -391,8 +393,7 @@ class PluginManagerCliInstall < MiniTest::Test
   end
 
   def test_refuse_install_when_missing_prefix
-    working_dir = empty_config_dir_path
-    install_result = run_inspec_process('plugin install test-fixture', env: { INSPEC_CONFIG_DIR: working_dir })
+    install_result = run_inspec_process_with_this_plugin('plugin install test-fixture')
 
     assert_empty install_result.stderr
     assert_equal 1, install_result.exit_status, 'Exit status should be 1'
@@ -404,10 +405,12 @@ class PluginManagerCliInstall < MiniTest::Test
   end
 
   def test_refuse_install_when_already_installed_same_version
-    working_dir = empty_config_dir_path
-    copy_in_core_config_dir('test-fixture-2-float')
-    install_result = run_inspec_process('plugin install inspec-test-fixture', env: { INSPEC_CONFIG_DIR: working_dir })
+    pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
+      plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
+      copy_in_core_config_dir('test-fixture-2-float', tmp_dir)
+    end
 
+    install_result = run_inspec_process_with_this_plugin('plugin install inspec-test-fixture', pre_run: pre_block)
     assert_empty install_result.stderr
     assert_equal 2, install_result.exit_status, 'Exit status should be 2'
 
@@ -419,10 +422,12 @@ class PluginManagerCliInstall < MiniTest::Test
   end
 
   def test_refuse_install_when_already_installed_can_update
-    working_dir = empty_config_dir_path
-    copy_in_core_config_dir('test-fixture-1-float')
-    install_result = run_inspec_process('plugin install inspec-test-fixture', env: { INSPEC_CONFIG_DIR: working_dir })
+    pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
+      plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
+      copy_in_core_config_dir('test-fixture-1-float', tmp_dir)
+    end
 
+    install_result = run_inspec_process_with_this_plugin('plugin install inspec-test-fixture', pre_run: pre_block)
     assert_empty install_result.stderr
     assert_equal 2, install_result.exit_status, 'Exit status should be 2'
 
@@ -445,10 +450,12 @@ class PluginManagerCliUpdate < MiniTest::Test
   include PluginManagerHelpers
 
   def test_when_a_plugin_can_be_updated
-    working_dir = empty_config_dir_path
-    copy_in_core_config_dir('test-fixture-1-float')
-    update_result = run_inspec_process('plugin update inspec-test-fixture', env: { INSPEC_CONFIG_DIR: working_dir })
+    pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
+      plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
+      copy_in_core_config_dir('test-fixture-1-float', tmp_dir)
+    end
 
+    update_result = run_inspec_process_with_this_plugin('plugin update inspec-test-fixture', pre_run: pre_block, post_run: list_after_run)
     assert_empty update_result.stderr
     assert_equal 0, update_result.exit_status, 'Exit status should be 0'
 
@@ -459,17 +466,19 @@ class PluginManagerCliUpdate < MiniTest::Test
     assert_includes success_message, '0.2.0'
     assert_includes success_message, 'updated from rubygems.org'
 
-    list_result = run_inspec_process('plugin list', env: { INSPEC_CONFIG_DIR: working_dir })
+    list_result = update_result.payload.list_result
     itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
     refute_nil itf_line, 'inspec-test-fixture should appear in the output of inspec list'
     assert_match(/\s*inspec-test-fixture\s+0.2.0\s+gem\s+/, itf_line, 'list output should show that it is a gem installation with version 0.2.0')
   end
 
   def test_refuse_update_when_already_current
-    working_dir = empty_config_dir_path
-    copy_in_core_config_dir('test-fixture-2-float')
-    update_result = run_inspec_process('plugin update inspec-test-fixture', env: { INSPEC_CONFIG_DIR: working_dir })
+    pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
+      plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
+      copy_in_core_config_dir('test-fixture-2-float', tmp_dir)
+    end
 
+    update_result = run_inspec_process_with_this_plugin('plugin update inspec-test-fixture', pre_run: pre_block)
     assert_empty update_result.stderr
     assert_equal 2, update_result.exit_status, 'Exit status should be 2'
 
@@ -481,8 +490,7 @@ class PluginManagerCliUpdate < MiniTest::Test
   end
 
   def test_fail_update_from_nonexistant_gem
-    working_dir = empty_config_dir_path
-    update_result = run_inspec_process('plugin update inspec-test-fixture-nonesuch', env: { INSPEC_CONFIG_DIR: working_dir })
+    update_result = run_inspec_process_with_this_plugin('plugin update inspec-test-fixture-nonesuch')
 
     assert_empty update_result.stderr
     assert_equal 1, update_result.exit_status, 'Exit status should be 1'
@@ -490,10 +498,12 @@ class PluginManagerCliUpdate < MiniTest::Test
   end
 
   def test_fail_update_path
-    working_dir = empty_config_dir_path
-    copy_in_core_config_dir('meaning_by_path')
-    update_result = run_inspec_process('plugin update inspec-meaning-of-life', env: { INSPEC_CONFIG_DIR: working_dir })
+    pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
+      plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
+      copy_in_core_config_dir('meaning_by_path', tmp_dir)
+    end
 
+    update_result = run_inspec_process_with_this_plugin('plugin update inspec-meaning-of-life', pre_run: pre_block)
     assert_empty update_result.stderr
     assert_equal 2, update_result.exit_status, 'Exit status should be 2'
 
@@ -513,18 +523,13 @@ class PluginManagerCliUninstall < MiniTest::Test
   include PluginManagerHelpers
 
   def test_when_a_gem_plugin_can_be_uninstalled
-    working_dir = empty_config_dir_path
-    copy_in_core_config_dir('test-fixture-1-float')
-
-    # Verify it is installed as a gem first before we attempt uninstall
-    list_result = run_inspec_process('plugin list', env: { INSPEC_CONFIG_DIR: working_dir })
-    itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
-    refute_nil itf_line, 'inspec-test-fixture should appear in the output of inspec list prior to uninstall'
-    assert_match(/\s*inspec-test-fixture\s+0\.1\.0\s+gem\s+/, itf_line, 'list output should show that it is a gem installation')
+    pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
+      plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
+      copy_in_core_config_dir('test-fixture-1-float', tmp_dir)
+    end
 
     # Attempt uninstall
-    uninstall_result = run_inspec_process('plugin uninstall inspec-test-fixture', env: { INSPEC_CONFIG_DIR: working_dir })
-
+    uninstall_result = run_inspec_process_with_this_plugin('plugin uninstall inspec-test-fixture', pre_run: pre_block, post_run: list_after_run)
     assert_empty uninstall_result.stderr
     assert_equal 0, uninstall_result.exit_status, 'Exit status should be 0'
 
@@ -534,24 +539,19 @@ class PluginManagerCliUninstall < MiniTest::Test
     assert_includes success_message, '0.1.0'
     assert_includes success_message, 'has been uninstalled'
 
-    list_result = run_inspec_process('plugin list', env: { INSPEC_CONFIG_DIR: working_dir })
+    list_result = uninstall_result.payload.list_result
     itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
     assert_nil itf_line, 'inspec-test-fixture should not appear in the output of inspec list'
   end
 
   def test_when_a_path_plugin_can_be_uninstalled
-    working_dir = empty_config_dir_path
-    # This fixture includes a path install for inspec-meaning-of-life
-    copy_in_core_config_dir('test-fixture-1-float')
+    pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
+      plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
+      # This fixture includes a path install for inspec-meaning-of-life
+      copy_in_core_config_dir('test-fixture-1-float', tmp_dir)
+    end
 
-    # Verify it is installed as a path first before we attempt uninstall
-    list_result = run_inspec_process('plugin list', env: { INSPEC_CONFIG_DIR: working_dir })
-    itf_line = list_result.stdout.split("\n").grep(/inspec-meaning-of-life/).first
-    refute_nil itf_line, 'inspec-meaning-of-life should appear in the output of inspec list prior to uninstall'
-    assert_match(/\s*inspec-meaning-of-life\s+src\s+path\s+/, itf_line, 'list output should show that it is a path installation')
-
-    uninstall_result = run_inspec_process('plugin uninstall inspec-meaning-of-life', env: { INSPEC_CONFIG_DIR: working_dir })
-
+    uninstall_result = run_inspec_process_with_this_plugin('plugin uninstall inspec-meaning-of-life', pre_run: pre_block, post_run: list_after_run)
     assert_empty uninstall_result.stderr
     assert_equal 0, uninstall_result.exit_status, 'Exit status should be 0'
 
@@ -561,14 +561,13 @@ class PluginManagerCliUninstall < MiniTest::Test
     assert_includes success_message, 'path-based plugin install'
     assert_includes success_message, 'has been uninstalled'
 
-    list_result = run_inspec_process('plugin list', env: { INSPEC_CONFIG_DIR: working_dir })
+    list_result = uninstall_result.payload.list_result
     itf_line = list_result.stdout.split("\n").grep(/inspec-meaning-of-life/).first
     assert_nil itf_line, 'inspec-meaning-of-life should not appear in the output of inspec list'
   end
 
   def test_fail_uninstall_from_plugin_that_is_not_installed
-    working_dir = empty_config_dir_path
-    uninstall_result = run_inspec_process('plugin uninstall inspec-test-fixture-nonesuch', env: { INSPEC_CONFIG_DIR: working_dir })
+    uninstall_result = run_inspec_process_with_this_plugin('plugin uninstall inspec-test-fixture-nonesuch')
 
     assert_empty uninstall_result.stderr
     assert_equal 1, uninstall_result.exit_status, 'Exit status should be 1'
