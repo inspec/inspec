@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 require_relative 'api'
-require_relative 'api_automate2'
 
 module InspecPlugins
   module Compliance
