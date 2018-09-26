@@ -28,7 +28,7 @@ sidebar_links:
     link: "/docs/reference/reporters.html"
   - title: InSpec DSL
     link: "/docs/reference/dsl_inspec.html"
-  - title: Style guide
+  - title: Profile Style guide
     link: "/docs/reference/style.html"
   - title: Custom Resources
     link: "/docs/reference/dsl_resource.html"
