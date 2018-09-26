@@ -369,7 +369,7 @@ module Inspec
         error.call(sfile, sline, nil, id, 'Avoid controls with empty IDs') if id.nil? or id.empty?
         next if id.start_with? '(generated '
         warn.call(sfile, sline, nil, id, "Control #{id} has no title") if control[:title].to_s.empty?
-        warn.call(sfile, sline, nil, id, "Control #{id} has no description") if control[:desc].to_s.empty?
+        warn.call(sfile, sline, nil, id, "Control #{id} has no descriptions") if control[:descriptions][:default].to_s.empty?
         warn.call(sfile, sline, nil, id, "Control #{id} has impact > 1.0") if control[:impact].to_f > 1.0
         warn.call(sfile, sline, nil, id, "Control #{id} has impact < 0.0") if control[:impact].to_f < 0.0
         warn.call(sfile, sline, nil, id, "Control #{id} has no tests defined") if control[:checks].nil? or control[:checks].empty?
@@ -561,6 +561,7 @@ module Inspec
       controls[id] = {
         title: rule.title,
         desc: rule.desc,
+        descriptions: rule.descriptions,
         impact: rule.impact,
         refs: rule.ref,
         tags: rule.tag,

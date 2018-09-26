@@ -84,6 +84,7 @@ module Inspec
         'id' => { 'type' => 'string' },
         'title' => { 'type' => %w{string null} },
         'desc' => { 'type' => %w{string null} },
+        'descriptions' => { 'type' => %w{array} },
         'impact' => { 'type' => 'number' },
         'refs' => REFS,
         'tags' => TAGS,

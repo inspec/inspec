@@ -13,6 +13,7 @@ control 'pro1-con2' do
   impact 0.9
   title 'Profile 1 - Control 2'
   desc 'Profile 1 - Control 2 description'
+  desc 'overwrite me', 'overwrite this'
   tag 'password'
   describe file('/etc/passwdddddddddd') do
     it { should exist }

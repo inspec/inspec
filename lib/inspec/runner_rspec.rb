@@ -167,7 +167,7 @@ module Inspec
       metadata[:profile_id] = ::Inspec::Rule.profile_id(rule)
       metadata[:impact] = rule.impact
       metadata[:title] = rule.title
-      metadata[:desc] = rule.desc
+      metadata[:descriptions] = rule.descriptions
       metadata[:code] = rule.instance_variable_get(:@__code)
       metadata[:source_location] = rule.instance_variable_get(:@__source_location)
     end

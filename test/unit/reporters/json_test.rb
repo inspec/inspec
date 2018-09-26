@@ -84,6 +84,7 @@ describe Inspec::Reporters::Json do
         id: '(generated from example.rb:7 871cd54043069c5c4f6e382fd5627830)',
         title: nil,
         desc: nil,
+        descriptions: [],
         impact: 0.5,
         refs: [],
         tags: {},

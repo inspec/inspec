@@ -8,4 +8,4 @@ summary: Profile that wraps other profiles
 version: 0.6.1
 depends:
   - name: myprofile1
-    url: https://s3-eu-west-1.amazonaws.com/apop-bucket/profiles/myprofile1-1.0.0.tar.gz
+    path: does_not_matter_check_vendor

@@ -32,7 +32,7 @@ module Inspec
     def initialize(id, profile_id, opts, &block)
       @impact = nil
       @title = nil
-      @desc = nil
+      @descriptions = {}
       @refs = []
       @tags = {}
 
@@ -89,9 +89,18 @@ module Inspec
       @title
     end
 
-    def desc(v = nil)
-      @desc = unindent(v) unless v.nil?
-      @desc
+    def desc(v = nil, data = nil)
+      return @descriptions[:default] if v.nil?
+      if data.nil?
+        @descriptions[:default] = unindent(v)
+      else
+        @descriptions[v.to_sym] = unindent(data)
+      end
+    end
+
+    def descriptions(description_hash = nil)
+      return @descriptions if description_hash.nil?
+      @descriptions.merge!(description_hash)
     end
 
     def ref(ref = nil, opts = {})
@@ -221,11 +230,11 @@ module Inspec
         return
       end
       # merge all fields
-      dst.impact(src.impact) unless src.impact.nil?
-      dst.title(src.title)   unless src.title.nil?
-      dst.desc(src.desc)     unless src.desc.nil?
-      dst.tag(src.tag)       unless src.tag.nil?
-      dst.ref(src.ref)       unless src.ref.nil?
+      dst.impact(src.impact)                 unless src.impact.nil?
+      dst.title(src.title)                   unless src.title.nil?
+      dst.descriptions(src.descriptions)     unless src.descriptions.nil?
+      dst.tag(src.tag)                       unless src.tag.nil?
+      dst.ref(src.ref)                       unless src.ref.nil?
 
       # merge indirect fields
       # checks defined in the source will completely eliminate

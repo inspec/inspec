@@ -73,7 +73,7 @@ describe 'inspec exec with json formatter' do
         "license" => "Apache-2.0",
         "summary" => "Demonstrates the use of InSpec Compliance Profile",
         "version" => "1.0.0",
-        "sha256" => "c2416865d6da8cdeb4610442d6eac18be2737453e010d028cb901103fefebf6a",
+        "sha256" => "9ce86873d1e0c450ec739883dfe39828b481697f573304ad24c835885085b132",
         "supports" => [{"platform-family" => "unix"}, {"platform-family"=>"windows"}],
         "attributes" => []
       })
@@ -114,21 +114,14 @@ describe 'inspec exec with json formatter' do
       result['start_time'].wont_be :nil?
 
       actual.must_equal({
-        "id" => "tmp-1.0",
-        "title" => "Create /tmp directory",
-        "desc" => "An optional description...",
-        "impact" => 0.7,
-        "refs" => [
-          {
-            "url" => "http://...",
-            "ref" => "Document A-12"
-          }
-        ],
-        "tags" => {
-          "data" => "temp data",
-          "security" => nil
-        },
-        "code" => "control \"tmp-1.0\" do                        # A unique ID for this control\n  impact 0.7                                # The criticality, if this control fails.\n  title \"Create /tmp directory\"             # A human-readable title\n  desc \"An optional description...\"         # Describe why this is needed\n  tag data: \"temp data\"                     # A tag allows you to associate key information\n  tag \"security\"                            # to the test\n  ref \"Document A-12\", url: 'http://...'    # Additional references\n\n  describe file('/tmp') do                  # The actual test\n    it { should be_directory }\n  end\nend\n",
+        "id"=>"tmp-1.0",
+        "title"=>"Create /tmp directory",
+        "desc"=>"An optional description...",
+        "descriptions"=>[{"label"=>"default", "data"=>"An optional description..."}, {"label"=>"label", "data"=>"An optional description with a label"}],
+        "impact"=>0.7,
+        "refs"=>[{"url"=>"http://...", "ref"=>"Document A-12"}],
+        "tags"=>{"data"=>"temp data", "security"=>nil},
+        "code"=>"control \"tmp-1.0\" do                                   # A unique ID for this control\n  impact 0.7                                           # The criticality, if this control fails.\n  title \"Create /tmp directory\"                        # A human-readable title\n  desc \"An optional description...\"                    # Describe why this is needed\n  desc \"label\", \"An optional description with a label\" # Pair a part of the description with a label\n  tag data: \"temp data\"                                # A tag allows you to associate key information\n  tag \"security\"                                       # to the test\n  ref \"Document A-12\", url: 'http://...'               # Additional references\n\n  describe file('/tmp') do                             # The actual test\n    it { should be_directory }\n  end\nend\n"
       })
     end
   end
