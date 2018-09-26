@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.118 -->
-## [v2.2.118](https://github.com/inspec/inspec/tree/v2.2.118) (2018-09-25)
+<!-- latest_release 2.2.119 -->
+## [v2.2.119](https://github.com/inspec/inspec/tree/v2.2.119) (2018-09-26)
 
-#### Merged Pull Requests
-- Plugins: Load all CLI commands on usage on empty invocation [#3428](https://github.com/inspec/inspec/pull/3428) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Enhancements
+- Support the Busybox variant of netstat in the port resource [#3425](https://github.com/inspec/inspec/pull/3425) ([RoboticCheese](https://github.com/RoboticCheese))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.112 -->
 ### Changes since 2.2.112 release
+
+#### Enhancements
+- Support the Busybox variant of netstat in the port resource [#3425](https://github.com/inspec/inspec/pull/3425) ([RoboticCheese](https://github.com/RoboticCheese)) <!-- 2.2.119 -->
 
 #### Merged Pull Requests
 - Plugins: Load all CLI commands on usage on empty invocation [#3428](https://github.com/inspec/inspec/pull/3428) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.118 -->
