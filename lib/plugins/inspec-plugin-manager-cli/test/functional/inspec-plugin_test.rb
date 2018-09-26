@@ -112,6 +112,28 @@ class PluginManagerCliList < MiniTest::Test
     path_line = result.stdout.split("\n").grep(/path/).first
     assert_match(/\s*inspec-\S+\s+src\s+path\s+2/, path_line)
   end
+
+  def test_list_when_a_train_plugin_is_installed
+    pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
+      plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
+      copy_in_core_config_dir('train-test-fixture', tmp_dir)
+    end
+
+    result = run_inspec_process_with_this_plugin('plugin list', pre_run: pre_block)
+    assert_equal 0, result.exit_status, 'exist status must be 0'
+    assert_includes result.stdout, '1 plugin(s) total', 'list train should show one plugins'
+
+    # Plugin Name                   Version   Via     ApiVer
+    # -------------------------------------------------------
+    #  train-test-fixture            0.1.0    gem     train-1
+    # -------------------------------------------------------
+    #  1 plugin(s) total
+    train_line = result.stdout.split("\n").grep(/train/).first
+    assert_includes(train_line, 'train-test-fixture')
+    assert_includes(train_line, '0.1.0')
+    assert_includes(train_line, 'gem')
+    assert_includes(train_line, 'train-1')
+  end
 end
 
 #-----------------------------------------------------------------------------------------#
@@ -182,6 +204,15 @@ class PluginManagerCliSearch < MiniTest::Test
     result = run_inspec_process('plugin search inspec-test-fixture-nonesuch')
     assert_equal 2, result.exit_status, 'Search should exit 2 on a miss'
     assert_includes result.stdout, '0 plugin(s) found', 'Search result should find 0 plugins'
+  end
+
+  def test_search_for_a_real_gem_with_full_name_no_options_and_train_name
+    result = run_inspec_process('plugin search train-test-fixture')
+    assert_equal 0, result.exit_status, 'Search should exit 0 on a hit'
+    assert_includes result.stdout, 'train-test-fixture', 'Search result should contain the gem name'
+    assert_includes result.stdout, '1 plugin(s) found', 'Search result should find 1 plugin'
+    line = result.stdout.split("\n").grep(/train-test-fixture/).first
+    assert_match(/\s*train-test-fixture\s+\((\d+\.\d+\.\d+){1}\)/,line,'Plugin line should include name and exactly one version')
   end
 
 end
@@ -438,6 +469,24 @@ class PluginManagerCliInstall < MiniTest::Test
     assert_includes refusal_message, '0.2.0'
     assert_includes refusal_message, 'Update required'
     assert_includes refusal_message, 'inspec plugin update'
+  end
+
+  def test_install_from_rubygems_latest_with_train_plugin
+    install_result = run_inspec_process_with_this_plugin('plugin install train-test-fixture', post_run: list_after_run)
+
+    assert_empty install_result.stderr
+    assert_equal 0, install_result.exit_status, 'Exit status should be 0'
+
+    success_message = install_result.stdout.split("\n").grep(/installed/).last
+    refute_nil success_message, 'Should find a success message at the end'
+    assert_includes success_message, 'train-test-fixture'
+    assert_includes success_message, '0.1.0'
+    assert_includes success_message, 'installed from rubygems.org'
+
+    list_result = install_result.payload.list_result
+    itf_line = list_result.stdout.split("\n").grep(/train-test-fixture/).first
+    refute_nil itf_line, 'train-test-fixture should now appear in the output of inspec list'
+    assert_match(/\s*train-test-fixture\s+0.1.0\s+gem\s+/, itf_line, 'list output should show that it is a gem installation with version')
   end
 end
 

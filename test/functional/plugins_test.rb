@@ -109,6 +109,33 @@ end
 #                           Train Plugin Support
 #=========================================================================================#
 
+describe 'train plugin support'  do
+  describe 'when a train plugin is installed' do
+    include FunctionalHelper
+    it 'can run inspec detect against a URL target' do
+      outcome = inspec_with_env('detect -t test-fixture://',  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'train-test-fixture'))
+      outcome.exit_status.must_equal(0)
+      outcome.stderr.must_be_empty
+      lines = outcome.stdout.split("\n")
+      lines.grep(/Name/).first.must_include('test-fixture')
+      lines.grep(/Name/).first.wont_include('train-test-fixture')
+      lines.grep(/Release/).first.must_include('0.1.0')
+      lines.grep(/Arch/).first.must_include('mock')
+    end
+    it 'can run inspec detect against a test-fixture backend' do
+      outcome = inspec_with_env('detect -b test-fixture',  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'train-test-fixture'))
+      outcome.exit_status.must_equal(0)
+      outcome.stderr.must_be_empty
+      lines = outcome.stdout.split("\n")
+      lines.grep(/Name/).first.must_include('test-fixture')
+      lines.grep(/Name/).first.wont_include('train-test-fixture')
+      lines.grep(/Release/).first.must_include('0.1.0')
+      lines.grep(/Arch/).first.must_include('mock')
+    end
+  end
+end
 # Verify that if a train plugin is installed, it will work from the command line.
+# For Train plugin type: Should raise an error if no train transport plugin exists and an unsupported --target schema is used
+# For train plugin type: Should raise an error if no train transport plugin exists and an unrecognized profile platform declaration is used
 # TODO: when a train plugin is installed, we can use it in the -b option to shell
 # TODO: when a train plugin is installed, we can use it in the -t option schema detect shell

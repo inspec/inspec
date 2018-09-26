@@ -7,7 +7,7 @@ module InspecPlugins
     class CliCommand < Inspec.plugin(2, :cli_command)
       include Term::ANSIColor
 
-      subcommand_desc 'plugin SUBCOMMAND', 'Manage InSpec plugins'
+      subcommand_desc 'plugin SUBCOMMAND', 'Manage InSpec and Train plugins'
 
       #==================================================================#
       #                      inspec plugin list

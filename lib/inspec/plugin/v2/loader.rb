@@ -199,6 +199,7 @@ module Inspec::Plugin::V2
     def annotate_status_after_loading(plugin_name)
       status = registry[plugin_name]
       return if status.api_generation == 2 # Gen2 have self-annotating superclasses
+      return if status.api_generation == :'train-1' # Train plugins are here as a courtesy, don't poke them
       case status.installation_type
       when :bundle
         annotate_bundle_plugin_status_after_load(plugin_name)
@@ -259,8 +260,10 @@ module Inspec::Plugin::V2
         status = registry[train_plugin_name.to_sym]
         status.api_generation = :'train-1'
 
-        # Activate the gem. This allows train to 'require' the gem later.
-        activate_managed_gems_for_plugin(train_plugin_name)
+        if status.installation_type == :gem
+          # Activate the gem. This allows train to 'require' the gem later.
+          activate_managed_gems_for_plugin(train_plugin_name)
+        end
       end
     end
 
