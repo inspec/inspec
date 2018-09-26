@@ -141,6 +141,63 @@ describe 'Inspec::Resources::Processes' do
     })
   end
 
+  it 'handles regular processes from busybox' do
+    resource = MockLoader.new(:alpine).load_resource('processes', '/some/other/coolprogram')
+    _(resource.entries.length).must_equal 1
+    _(resource.entries[0].to_h).must_equal({
+      label: nil,
+      pid: 5,
+      cpu: nil,
+      mem: nil,
+      vsz: 1528,
+      rss: 4,
+      tty: '136,0',
+      stat: 'R',
+      start: nil,
+      time: '0:00',
+      user: 'joe',
+      command: '/some/other/coolprogram',
+    })
+  end
+
+  it 'handles human readable megabytes from busybox' do
+    resource = MockLoader.new(:alpine).load_resource('processes', '/a/bigger/program')
+    _(resource.entries.length).must_equal 1
+    _(resource.entries[0].to_h).must_equal({
+      label: nil,
+      pid: 82,
+      cpu: nil,
+      mem: nil,
+      vsz: 24576,
+      rss: 2048,
+      tty: '?',
+      stat: 'S',
+      start: nil,
+      time: '3:50',
+      user: 'frank',
+      command: '/a/bigger/program',
+    })
+  end
+
+  it 'handles human readable gigabytes from busybox' do
+    resource = MockLoader.new(:alpine).load_resource('processes', '/the/biggest/program')
+    _(resource.entries.length).must_equal 1
+    _(resource.entries[0].to_h).must_equal({
+      label: nil,
+      pid: 83,
+      cpu: nil,
+      mem: nil,
+      vsz: 2726297,
+      rss: 1048576,
+      tty: '?',
+      stat: 'S',
+      start: nil,
+      time: '39:00',
+      user: 'tim',
+      command: '/the/biggest/program',
+    })
+  end
+
   it 'command name matches with output (string)' do
     resource = MockLoader.new(:windows).load_resource('processes', 'winlogon.exe')
     _(resource.to_s).must_equal 'Processes winlogon.exe'

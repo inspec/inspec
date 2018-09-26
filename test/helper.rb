@@ -206,6 +206,11 @@ class MockLoader
       mock.mock_command('', stdout, '', 0)
     }
 
+    cmd_stderr = lambda { |x = nil|
+      stderr = x.nil? ? '' : File.read(File.join(scriptpath, 'unit/mock/cmd', x))
+      mock.mock_command('', '', stderr, 1)
+    }
+
     empty = lambda {
       mock.mock_command('', '', '', 0)
     }
@@ -235,7 +240,6 @@ class MockLoader
       'ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user,command' => cmd.call('ps-axo'),
       'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command' => cmd.call('ps-axoZ'),
       'ps -o pid,vsz,rss,tty,stat,time,ruser,args' => cmd.call('ps-busybox'),
-      'ps --help' => empty.call,
       'env' => cmd.call('env'),
       '${Env:PATH}'  => cmd.call('$env-PATH'),
       # registry key test using winrm 2.0
@@ -539,6 +543,7 @@ class MockLoader
     # allow the ss and/or netstat commands to exist so the later mock is called
     if @platform && @platform[:name] == 'alpine'
       mock_cmds.merge!(
+        'ps --help' => cmd_stderr.call('ps-help-busybox'),
         %{bash -c 'type "netstat"'} => cmd_exit_1.call(),
         %{bash -c 'type "ss"'} => cmd_exit_1.call(),
         %{which "ss"} => cmd_exit_1.call(),
@@ -547,6 +552,7 @@ class MockLoader
       )
     else
       mock_cmds.merge!(
+        'ps --help' => empty.call(),
         %{bash -c 'type "ss"'} => empty.call(),
         %{bash -c 'type "netstat"'} => empty.call(),
         'ss -tulpen' => cmd.call('ss-tulpen'),
