@@ -473,22 +473,26 @@ module Inspec::Resources
 
     def parse_netstat_line(line)
       # parse each line
-      # 1 - Proto, 2 - Recv-Q, 3 - Send-Q, 4 - Local Address, 5 - Foreign Address, 6 - State, 7 - Inode, 8 - PID/Program name
-      parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)?\s+(\S+)\s+(\S+)\s+(\S+)/.match(line)
+      # 1 - Proto, 2 - Recv-Q, 3 - Send-Q, 4 - Local Address, 5 - Foreign Address, 6 - State, 7 - User, 8 - Inode, 9 - PID/Program name
+      # * UDP lines have an empty State column and the Busybox variant lacks
+      # the User and Inode columns.
+      reg =  /^(?<proto>\S+)\s+(\S+)\s+(\S+)\s+(?<local_addr>\S+)\s+(?<foreign_addr>\S+)\s+(\S+)?\s+((\S+)\s+(\S+)\s+)?(?<pid_prog>\S+)/
+      parsed = reg.match(line)
+
       return {} if parsed.nil? || line.match(/^proto/i)
 
       # parse ip4 and ip6 addresses
-      protocol = parsed[1].downcase
+      protocol = parsed[:proto].downcase
 
       # detect protocol if not provided
-      protocol += '6' if parsed[4].count(':') > 1 && %w{tcp udp}.include?(protocol)
+      protocol += '6' if parsed[:local_addr].count(':') > 1 && %w{tcp udp}.include?(protocol)
 
       # extract host and port information
-      host, port = parse_net_address(parsed[4], protocol)
+      host, port = parse_net_address(parsed[:local_addr], protocol)
       return {} if host.nil?
 
       # extract PID
-      process = parsed[9].split('/')
+      process = parsed[:pid_prog].split('/')
       pid = process[0]
       pid = pid.to_i if pid =~ /^\d+$/
       process = process[1]

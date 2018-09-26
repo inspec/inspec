@@ -1,0 +1,9 @@
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      1/sshd
+tcp6       0      48 2601:1:ad80:1445::54776 2620:0:861:52:208::6667 LISTEN     2043/pidgin
+tcp6       0      0 :::22                   :::*                    LISTEN      1/sshd
+udp        0      0 0.0.0.0:111             0.0.0.0:*                           545/rpcbind
+tcp6       0      0 192.168.1.123:8005      :::*                    LISTEN      1234/java
+udp6       0      0 fe80::42:acff:fe11::123 :::*                                3335/ntpd
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      579/nginx: worker p
