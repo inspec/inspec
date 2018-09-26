@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.119 -->
-## [v2.2.119](https://github.com/inspec/inspec/tree/v2.2.119) (2018-09-26)
+<!-- latest_release 2.2.120 -->
+## [v2.2.120](https://github.com/inspec/inspec/tree/v2.2.120) (2018-09-26)
 
-#### Enhancements
-- Support the Busybox variant of netstat in the port resource [#3425](https://github.com/inspec/inspec/pull/3425) ([RoboticCheese](https://github.com/RoboticCheese))
+#### Merged Pull Requests
+- Add support for multiple descriptions for controls [#3424](https://github.com/inspec/inspec/pull/3424) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.112 -->
@@ -14,6 +14,7 @@
 - Support the Busybox variant of netstat in the port resource [#3425](https://github.com/inspec/inspec/pull/3425) ([RoboticCheese](https://github.com/RoboticCheese)) <!-- 2.2.119 -->
 
 #### Merged Pull Requests
+- Add support for multiple descriptions for controls [#3424](https://github.com/inspec/inspec/pull/3424) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.120 -->
 - Plugins: Load all CLI commands on usage on empty invocation [#3428](https://github.com/inspec/inspec/pull/3428) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.118 -->
 - Fix v2 loader appveyor issue [#3434](https://github.com/inspec/inspec/pull/3434) ([jquick](https://github.com/jquick)) <!-- 2.2.116 -->
 - Add new resource: aws_ebs_volume [#3381](https://github.com/inspec/inspec/pull/3381) ([jmassardo](https://github.com/jmassardo)) <!-- 2.2.115 -->
