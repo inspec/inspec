@@ -7,6 +7,7 @@ Gem::Specification.new do |spec|
   spec.version       = '0.1.0'
   spec.authors       = ["Inspec core engineering team"]
   spec.email         = ["hello@chef.io"]
+  spec.license       = 'Apache-2.0'
 
   spec.summary       = %q{Test train plugin. Not intended for use as an example.}
   spec.description   = <<~EOD
@@ -19,9 +20,12 @@ Gem::Specification.new do |spec|
 
   spec.files         = %w{
     README.md
+    LICENSE
     lib/train-test-fixture.rb
     lib/train-test-fixture/version.rb
     lib/train-test-fixture/transport.rb
+    lib/train-test-fixture/connection.rb
+    lib/train-test-fixture/platform.rb
     train-test-fixture.gemspec
   }
   spec.executables   = []
