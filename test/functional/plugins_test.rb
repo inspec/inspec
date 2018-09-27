@@ -125,6 +125,7 @@ describe 'train plugin support'  do
       lines.grep(/Families/).first.must_include('unix')
       lines.grep(/Arch/).first.must_include('mock')
     end
+
     it 'can run inspec detect against a test-fixture backend' do
       outcome = inspec_with_env('detect -b test-fixture',  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'train-test-fixture'))
       outcome.exit_status.must_equal(0)
@@ -157,6 +158,5 @@ describe 'train plugin support'  do
       outcome.stderr.must_be_empty
       outcome.stdout.chomp.must_equal "Mock Command Result stdout"
     end
-
   end
 end
