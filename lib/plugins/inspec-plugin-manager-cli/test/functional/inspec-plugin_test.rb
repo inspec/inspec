@@ -225,7 +225,7 @@ class PluginManagerCliInstall < MiniTest::Test
   extend CorePluginFunctionalHelper  # gives us class methods, like `let` aliases out here outside test methods
 
   include PluginManagerHelpers
-
+  ruby_abi_version = (Gem.ruby_version.segments[0, 2] << 0).join('.')
   # Test multiple hueristics of the path-mode install.
   # These are all positive tests; they should resolve the entry point to the same path in each case.
   {
@@ -233,6 +233,7 @@ class PluginManagerCliInstall < MiniTest::Test
     'refers_to_the_entry_point_with_no_extension' => File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture'),
     'refers_to_the_src_root_of_a_plugin' => File.join(core_fixture_plugins_path, 'inspec-test-fixture'),
     'refers_to_a_relative_path' => File.join('test', 'unit', 'mock', 'plugins', 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb'),
+    'refers_to_a_train_plugin' => File.join(core_config_dir_path, 'train-test-fixture', 'gems', ruby_abi_version, 'gems', 'train-test-fixture-0.1.0', 'lib', 'train-test-fixture'),
   }.each do |test_name, fixture_plugin_path|
     define_method(('test_install_from_path_when_path_' + test_name).to_sym) do
       install_result = run_inspec_process_with_this_plugin("plugin install #{fixture_plugin_path}", post_run: list_after_run)
