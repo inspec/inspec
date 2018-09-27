@@ -229,14 +229,39 @@ class PluginManagerCliInstall < MiniTest::Test
   # Test multiple hueristics of the path-mode install.
   # These are all positive tests; they should resolve the entry point to the same path in each case.
   {
-    'is_perfect' => File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb'),
-    'refers_to_the_entry_point_with_no_extension' => File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture'),
-    'refers_to_the_src_root_of_a_plugin' => File.join(core_fixture_plugins_path, 'inspec-test-fixture'),
-    'refers_to_a_relative_path' => File.join('test', 'unit', 'mock', 'plugins', 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb'),
-    'refers_to_a_train_plugin' => File.join(core_config_dir_path, 'train-test-fixture', 'gems', ruby_abi_version, 'gems', 'train-test-fixture-0.1.0', 'lib', 'train-test-fixture'),
-  }.each do |test_name, fixture_plugin_path|
+    'is_perfect' => {
+      given: File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb'),
+    },
+    'refers_to_the_entry_point_with_no_extension' => {
+      given: File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture'),
+    },
+    'refers_to_the_src_root_of_a_plugin' => {
+      given: File.join(core_fixture_plugins_path, 'inspec-test-fixture'),
+    },
+    'refers_to_a_versioned_gem_install' => {
+      given: File.join(core_config_dir_path, 'test-fixture-1-float', 'gems', ruby_abi_version, 'gems', 'inspec-test-fixture-0.1.0', 'lib', 'inspec-test-fixture.rb'),
+      resolved_path: File.join(core_config_dir_path, 'test-fixture-1-float', 'gems', ruby_abi_version, 'gems', 'inspec-test-fixture-0.1.0', 'lib', 'inspec-test-fixture.rb'),
+    },
+    'refers_to_a_versioned_gem_install_missing_extension' => {
+      given: File.join(core_config_dir_path, 'test-fixture-1-float', 'gems', ruby_abi_version, 'gems', 'inspec-test-fixture-0.1.0', 'lib', 'inspec-test-fixture'),
+      resolved_path: File.join(core_config_dir_path, 'test-fixture-1-float', 'gems', ruby_abi_version, 'gems', 'inspec-test-fixture-0.1.0', 'lib', 'inspec-test-fixture.rb'),
+    },
+    'refers_to_a_relative_path' => {
+      given: File.join('test', 'unit', 'mock', 'plugins', 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb'),
+    },
+    'refers_to_a_train_plugin' => {
+      given: File.join(core_config_dir_path, 'train-test-fixture', 'gems', ruby_abi_version, 'gems', 'train-test-fixture-0.1.0', 'lib', 'train-test-fixture.rb'),
+      plugin_name: 'train-test-fixture',
+      resolved_path: File.join(core_config_dir_path, 'train-test-fixture', 'gems', ruby_abi_version, 'gems', 'train-test-fixture-0.1.0', 'lib', 'train-test-fixture.rb'),
+    },
+  }.each do |test_name, fixture_info|
     define_method(('test_install_from_path_when_path_' + test_name).to_sym) do
-      install_result = run_inspec_process_with_this_plugin("plugin install #{fixture_plugin_path}", post_run: list_after_run)
+      fixture_info = {
+        plugin_name: 'inspec-test-fixture',
+        resolved_path: File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb')
+      }.merge(fixture_info)
+
+      install_result = run_inspec_process_with_this_plugin("plugin install #{fixture_info[:given]}", post_run: list_after_run)
 
       assert_empty install_result.stderr
       assert_equal 0, install_result.exit_status, 'Exit status should be 0'
@@ -244,20 +269,19 @@ class PluginManagerCliInstall < MiniTest::Test
       # Check UX messaging
       success_message = install_result.stdout.split("\n").grep(/installed/).last
       refute_nil success_message, 'Should find a success message at the end'
-      assert_includes success_message, 'inspec-test-fixture'
+      assert_includes success_message, fixture_info[:plugin_name]
       assert_includes success_message, 'plugin installed via source path reference'
 
       # Check round-trip UX via list
       list_result = install_result.payload.list_result
-      itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
-      refute_nil itf_line, 'inspec-test-fixture should now appear in the output of inspec list'
-      assert_match(/\s*inspec-test-fixture\s+src\s+path\s+/, itf_line, 'list output should show that it is a path installation')
+      itf_line = list_result.stdout.split("\n").grep(Regexp.new(fixture_info[:plugin_name])).first
+      refute_nil itf_line, 'plugin name should now appear in the output of inspec list'
+      assert_match(/\s*(inspec|train)-test-fixture\s+src\s+path\s+/, itf_line, 'list output should show that it is a path installation')
 
       # Check plugin statefile. Extra important in this case, since all should resolve to the same entry point.
       plugin_data = install_result.payload.plugin_data
-      entry = plugin_data['plugins'].detect { |e| e['name'] == 'inspec-test-fixture' }
-      expected = File.join(core_fixture_plugins_path, 'inspec-test-fixture', 'lib', 'inspec-test-fixture.rb')
-      assert_equal expected, entry['installation_path'], 'Regardless of input, the entry point should be correct.'
+      entry = plugin_data['plugins'].detect { |e| e['name'] == fixture_info[:plugin_name] }
+      assert_equal fixture_info[:resolved_path], entry['installation_path'], 'Regardless of input, the entry point should be correct.'
     end
   end
 
