@@ -75,7 +75,7 @@ describe 'inspec check' do
     it 'can check a profile where a lock file is required' do
       out = inspec('check ' + File.join(profile_path, 'profile-lock-required'))
       out.exit_status.must_equal 1
-      out.stdout.must_include 'Profile need to be vendored with `inspec vendor`.'
+      out.stdout.must_include 'profile needs to be vendored with `inspec vendor`.'
     end
 
     it 'can check a profile where lock file and inspec.yml are in synnc' do
