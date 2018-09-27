@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.2 -->
-## [v2.3.2](https://github.com/inspec/inspec/tree/v2.3.2) (2018-09-27)
+<!-- latest_release 2.3.3 -->
+## [v2.3.3](https://github.com/inspec/inspec/tree/v2.3.3) (2018-09-27)
 
 #### Merged Pull Requests
-- Pin postgresql to a lower cookbook version [#3449](https://github.com/inspec/inspec/pull/3449) ([jquick](https://github.com/jquick))
+- Plugins: Example CLI Plugin, a Resource Lister [#3421](https://github.com/inspec/inspec/pull/3421) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.112 -->
@@ -14,6 +14,7 @@
 - Support the Busybox variant of netstat in the port resource [#3425](https://github.com/inspec/inspec/pull/3425) ([RoboticCheese](https://github.com/RoboticCheese)) <!-- 2.2.119 -->
 
 #### Merged Pull Requests
+- Plugins: Example CLI Plugin, a Resource Lister [#3421](https://github.com/inspec/inspec/pull/3421) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.3.3 -->
 - Pin postgresql to a lower cookbook version [#3449](https://github.com/inspec/inspec/pull/3449) ([jquick](https://github.com/jquick)) <!-- 2.3.2 -->
 - RFC inspec style guide [#3356](https://github.com/inspec/inspec/pull/3356) ([arlimus](https://github.com/arlimus)) <!-- 2.3.1 -->
 - Bump minor version [#3448](https://github.com/inspec/inspec/pull/3448) ([jquick](https://github.com/jquick)) <!-- 2.3.0 -->
