@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.3 -->
-## [v2.3.3](https://github.com/inspec/inspec/tree/v2.3.3) (2018-09-27)
+<!-- latest_release 2.3.4 -->
+## [v2.3.4](https://github.com/inspec/inspec/tree/v2.3.4) (2018-09-27)
 
-#### Merged Pull Requests
-- Plugins: Example CLI Plugin, a Resource Lister [#3421](https://github.com/inspec/inspec/pull/3421) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### New Features
+- Plugins: Support for Train Plugins in InSpec [#3444](https://github.com/inspec/inspec/pull/3444) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.112 -->
@@ -28,6 +28,7 @@
 - Remove load locks for cloud resources [#3420](https://github.com/inspec/inspec/pull/3420) ([jquick](https://github.com/jquick)) <!-- 2.2.114 -->
 
 #### New Features
+- Plugins: Support for Train Plugins in InSpec [#3444](https://github.com/inspec/inspec/pull/3444) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.3.4 -->
 - Plugins Installer API [#3352](https://github.com/inspec/inspec/pull/3352) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.113 -->
 <!-- release_rollup -->
 
