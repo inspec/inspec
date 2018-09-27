@@ -7,7 +7,7 @@ require 'inspec/resource'
 describe 'Inspec::Resources::IisAppPool' do
   it 'verify default app pool settings' do
     resource = MockLoader.new(:windows).load_resource('iis_app_pool', 'DefaultAppPool')
-    _(resource.send('to_s')).must_equal 'iis_app_pool \'DefaultAppPool\''
+    _(resource.send('to_s')).must_equal 'IIS App Pool \'DefaultAppPool\''
     _(resource.send('pool_name')).must_equal 'DefaultAppPool'
     _(resource.send('runtime_version')).must_equal 'v4.0'
     _(resource.send('enable32bit')).must_equal true
