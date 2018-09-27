@@ -28,6 +28,8 @@ sidebar_links:
     link: "/docs/reference/reporters.html"
   - title: InSpec DSL
     link: "/docs/reference/dsl_inspec.html"
+  - title: Profile Style guide
+    link: "/docs/reference/style.html"
   - title: Custom Resources
     link: "/docs/reference/dsl_resource.html"
   - title: kitchen-inspec
@@ -36,7 +38,5 @@ sidebar_links:
     link: "/docs/reference/shell.html"
   - title: Habitat Integration
     link: "/docs/reference/habitat.html"
-  - title: Ruby usage
-    link: "/docs/reference/ruby_usage.html"
   - title: Migration from Serverspec
     link: "/docs/reference/migration.html"
