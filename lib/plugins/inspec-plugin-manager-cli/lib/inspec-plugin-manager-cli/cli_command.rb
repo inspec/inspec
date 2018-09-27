@@ -7,7 +7,7 @@ module InspecPlugins
     class CliCommand < Inspec.plugin(2, :cli_command)
       include Term::ANSIColor
 
-      subcommand_desc 'plugin SUBCOMMAND', 'Manage InSpec plugins'
+      subcommand_desc 'plugin SUBCOMMAND', 'Manage InSpec and Train plugins'
 
       #==================================================================#
       #                      inspec plugin list
@@ -207,10 +207,11 @@ module InspecPlugins
       # Rationale for rubocop variances: It's a heuristics method, and will be full of
       # conditionals.  The code is well-commented; refactoring into sub-methods would
       # reduce clarity.
-      def install_from_path__apply_entry_point_heuristics(path) # rubocop: disable Metrics/AbcSize, Metrics/CyclomaticComplexity
+      def install_from_path__apply_entry_point_heuristics(path) # rubocop: disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
         given = Pathname.new(path)
         given = given.expand_path # Resolve any relative paths
         name_regex = /^(inspec|train)-/
+        versioned_regex = /^(inspec|train)-[a-z0-9\-\_]+-\d+\.\d+\.\d+$/
 
         # What are the last four things like?
         parts = [
@@ -220,14 +221,14 @@ module InspecPlugins
           given.extname,
         ].map(&:to_s)
 
-        # Simplest case: it was a full entry point, as presented.
+        # Case 1: Simplest case: it was a full entry point, as presented.
         # /home/you/projects/inspec-something/lib/inspec-something.rb
         #   parts index:           ^0^        ^1^      ^2^        ^3^
         if parts[0] =~ name_regex && parts[1] == 'lib' && parts[2] == parts[0] && parts[3] == '.rb'
           return given.to_s
         end
 
-        # Also easy: they either referred to the internal library directory,
+        # Case 2: Also easy: they either referred to the internal library directory,
         # or left the extansion off.  Those are the same to us.
         # /home/you/projects/inspec-something/lib/inspec-something
         #   parts index:           ^0^        ^1^      ^2^          (3 is empty)
@@ -235,7 +236,22 @@ module InspecPlugins
           return given.to_s + '.rb'
         end
 
-        # Easy to recognize, but harder to handle: they referred to the project root.
+        # Case 3: Maybe they were refering to a path that is inside a gem installation, or an exploded gem?
+        # In that case, we'll have a version on the plugin name in part 0
+        # /home/you/.gems/2.4.0/gems/inspec-something-3.45.1/lib/inspec-something.rb
+        #   parts index:                     ^0^             ^1^      ^2^         ^3^
+        if parts[0] =~ versioned_regex && parts[1] == 'lib' && parts[0].start_with?(parts[2]) && parts[3] == '.rb'
+          return given.to_s
+        end
+
+        # Case 4: Like case 3, but missing the .rb
+        # /home/you/.gems/2.4.0/gems/inspec-something-3.45.1/lib/inspec-something
+        #   parts index:                     ^0^             ^1^      ^2^         ^3^ (empty)
+        if parts[0] =~ versioned_regex && parts[1] == 'lib' && parts[0].start_with?(parts[2]) && parts[3].empty?
+          return given.to_s + '.rb'
+        end
+
+        # Case 5: Easy to recognize, but harder to handle: they referred to the project root.
         #                 /home/you/projects/inspec-something
         #   parts index:        ^0^   ^1^         ^2^          (3 is empty)
         #   0 and 1 are not meaningful to us, but we hope to find a parts[2]/lib/inspec-something.rb.
@@ -261,9 +277,19 @@ module InspecPlugins
         end
 
         # OK, the wheels didn't fall off.  But is it a plugin?
-        unless Inspec::Plugin::V2::Registry.instance.known_plugin?(plugin_name.to_sym)
-          puts(red { 'Does not appear to be a plugin' } + " - #{plugin_name} - After probe-loading the supposed plugin, it did not register itself. Ensure something inherits from 'Inspec.plugin(2)' - installation failed.")
-          exit 1
+        if plugin_name.to_s.start_with?('train')
+          # Train internal names do not include the prix in their registry entries
+          # And the registry is keyed on Strings
+          registry_key = plugin_name.to_s.sub(/^train-/, '')
+          unless Train::Plugins.registry.key?(registry_key)
+            puts(red { 'Does not appear to be a plugin' } + " - #{plugin_name} - After probe-loading the supposed plugin, it did not register itself to Train. Ensure something inherits from 'Train.plugin(1)' - installation failed.")
+            exit 1
+          end
+        else
+          unless registry.known_plugin?(plugin_name.to_sym)
+            puts(red { 'Does not appear to be a plugin' } + " - #{plugin_name} - After probe-loading the supposed plugin, it did not register itself to InSpec. Ensure something inherits from 'Inspec.plugin(2)' - installation failed.")
+            exit 1
+          end
         end
       end
 

@@ -104,3 +104,59 @@ describe 'plugin cli usage message integration' do
     end
   end
 end
+
+#=========================================================================================#
+#                           Train Plugin Support
+#=========================================================================================#
+
+describe 'train plugin support'  do
+  describe 'when a train plugin is installed' do
+    include FunctionalHelper
+    it 'can run inspec detect against a URL target' do
+      outcome = inspec_with_env('detect -t test-fixture://',  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'train-test-fixture'))
+      outcome.exit_status.must_equal(0)
+      outcome.stderr.must_be_empty
+      lines = outcome.stdout.split("\n")
+      lines.grep(/Name/).first.must_include('test-fixture')
+      lines.grep(/Name/).first.wont_include('train-test-fixture')
+      lines.grep(/Release/).first.must_include('0.1.0')
+      lines.grep(/Families/).first.must_include('os')
+      lines.grep(/Families/).first.must_include('windows')
+      lines.grep(/Families/).first.must_include('unix')
+      lines.grep(/Arch/).first.must_include('mock')
+    end
+
+    it 'can run inspec detect against a test-fixture backend' do
+      outcome = inspec_with_env('detect -b test-fixture',  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'train-test-fixture'))
+      outcome.exit_status.must_equal(0)
+      outcome.stderr.must_be_empty
+      lines = outcome.stdout.split("\n")
+      lines.grep(/Name/).first.must_include('test-fixture')
+      lines.grep(/Name/).first.wont_include('train-test-fixture')
+      lines.grep(/Release/).first.must_include('0.1.0')
+      lines.grep(/Families/).first.must_include('os')
+      lines.grep(/Families/).first.must_include('windows')
+      lines.grep(/Families/).first.must_include('unix')
+      lines.grep(/Arch/).first.must_include('mock')
+    end
+
+    it 'can run inspec shell and read a file' do
+      outcome = inspec_with_env("shell -t test-fixture:// -c 'file(\"any-path\").content'",  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'train-test-fixture'))
+      outcome.exit_status.must_equal(0)
+      outcome.stderr.must_be_empty
+      outcome.stdout.chomp.must_equal 'Lorem Ipsum'
+    end
+
+    it 'can run inspec shell and run a command' do
+      outcome = inspec_with_env("shell -t test-fixture:// -c 'command(\"echo hello\").exit_status'",  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'train-test-fixture'))
+      outcome.exit_status.must_equal(0)
+      outcome.stderr.must_be_empty
+      outcome.stdout.chomp.must_equal "17"
+
+      outcome = inspec_with_env("shell -t test-fixture:// -c 'command(\"echo hello\").stdout'",  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'train-test-fixture'))
+      outcome.exit_status.must_equal(0)
+      outcome.stderr.must_be_empty
+      outcome.stdout.chomp.must_equal "Mock Command Result stdout"
+    end
+  end
+end

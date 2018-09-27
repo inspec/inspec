@@ -24,6 +24,10 @@ module Inspec::Plugin::V2
       # New-style (v2) co-distributed plugins are in lib/plugins,
       # and may be safely loaded
       detect_core_plugins unless options[:omit_core_plugins]
+
+      # Train plugins aren't InSpec plugins (they don't use our API)
+      # but InSpec CLI manages them.  So, we have to wrap them a bit.
+      accommodate_train_plugins
     end
 
     def load_all
@@ -195,6 +199,7 @@ module Inspec::Plugin::V2
     def annotate_status_after_loading(plugin_name)
       status = registry[plugin_name]
       return if status.api_generation == 2 # Gen2 have self-annotating superclasses
+      return if status.api_generation == :'train-1' # Train plugins are here as a courtesy, don't poke them
       case status.installation_type
       when :bundle
         annotate_bundle_plugin_status_after_load(plugin_name)
@@ -247,6 +252,18 @@ module Inspec::Plugin::V2
         status.installation_type = :core
         status.loaded = false
         registry[status.name.to_sym] = status
+      end
+    end
+
+    def accommodate_train_plugins
+      registry.plugin_names.map(&:to_s).grep(/^train-/).each do |train_plugin_name|
+        status = registry[train_plugin_name.to_sym]
+        status.api_generation = :'train-1'
+
+        if status.installation_type == :gem
+          # Activate the gem. This allows train to 'require' the gem later.
+          activate_managed_gems_for_plugin(train_plugin_name)
+        end
       end
     end
 
