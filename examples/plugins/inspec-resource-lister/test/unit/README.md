@@ -1,13 +1,13 @@
 # Unit Testing Area for Example Plugins
 
-## What example tests are provided?
+## What Example Tests are Provided?
 
 Here, since this is a CliCommand plugin, we provide two sets of unit tests:
 
  * plugin_def_test.rb - Would be useful in any plugin.  Verifies that the plugin is properly detected and registered.
- * cli_args_test.rb - verifies that the expected command are present, and that they have the expected options and args.
+ * cli_args_test.rb - Verifies that the expected commands are present, and that they have the expected options and args.
 
-## What are unit tests?
+## What are Unit Tests?
 
 Unit tests are tests that verify that the individual components of your plugin work as intended.  To be picked up by the Rake tasks as tests, each test file should end in `_test.rb`.
 

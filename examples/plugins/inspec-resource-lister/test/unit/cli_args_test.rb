@@ -14,7 +14,7 @@ describe InspecPlugins::ResourceLister::CliCommand do
   # When writing tests, you can use `let` to create variables that you
   # can reference easily.
 
-  # This is the CLI COmmand implementation class.
+  # This is the CLI Command implementation class.
   # It is a subclass of Thor, which is a CLI framework.
   # This unit test file is mostly about verifying the Thor settings.
   let(:cli_class) { InspecPlugins::ResourceLister::CliCommand }

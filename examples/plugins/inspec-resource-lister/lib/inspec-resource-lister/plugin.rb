@@ -42,7 +42,7 @@ module InspecPlugins
         # Calling this hook doesn't mean list-resources is being executed - just
         # that we should be ready to do so. So, load the file that defines the
         # functionality.
-        # For example, inspec will activate this hook when `inspec help` is
+        # For example, InSpec will activate this hook when `inspec help` is
         # executed, so that this plugin's usage message will be included in the help.
         require 'inspec-resource-lister/cli_command'
 

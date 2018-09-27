@@ -8,12 +8,12 @@
 # to locate and load that file.
 require 'inspec/../plugins/shared/core_plugin_test_helper'
 
-# Also load the Inspec plugin system. We need this so we can unit-test the plugin
+# Also load the InSpec plugin system. We need this so we can unit-test the plugin
 # classes, which will rely on the plugin system.
 require 'inspec/plugin/v2'
 
-# Caution: loading all of InSpec (ie require 'inspec') may cause interference with
-# minitest/spec; one symptom would be appearring to have no tests.
+# Caution: loading all of InSpec (i.e. require 'inspec') may cause interference with
+# minitest/spec; one symptom would be appearing to have no tests.
 # See https://github.com/inspec/inspec/issues/3380
 
 # You can select from a number of test harnesses.  Since InSpec uses Spec-style controls

@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Clinton Wolfe']
   spec.email         = ['cwolfe@chef.io']
   spec.summary       = 'InSpec Plugin example, lists available resources'
-  spec.description   = 'Example for implementing an InSpec plugin.  This simply lists available resources.'
+  spec.description   = 'Example for implementing an InSpec Plugin.  This simply lists available resources.'
   spec.homepage      = 'https://github.com/inspec/inspec/tree/master/examples/plugin'
   spec.license       = 'Apache-2.0'
 

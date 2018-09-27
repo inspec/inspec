@@ -6,7 +6,7 @@ This plugin provides an example of building a plugin for use with [InSpec](https
 
 You will need InSpec v2.3 or later.
 
-If you just want to use this (not learn how to write a plugin), you can so by simply running:
+If you want to just use this (not learn how to write a plugin), you can do so by simply running:
 
 ```
 you@machine $ inspec plugin install inspec-resource-lister
@@ -46,7 +46,7 @@ You are encouraged to use this plugin as a starting point for real plugins.
 
 ## Development of a Plugin
 
-[Plugin Development](https://github.com/inspec/inspec/blob/master/docs/dev/plugins.md) is documented on the inspec project on GitHub.  Additionally, this example
+[Plugin Development](https://github.com/inspec/inspec/blob/master/docs/dev/plugins.md) is documented on the `inspec` project on GitHub.  Additionally, this example
 plugin has extensive comments explaining what is happening, and why.
 
 ### A Tour of the Plugin

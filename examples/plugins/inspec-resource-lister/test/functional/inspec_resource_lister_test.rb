@@ -96,7 +96,7 @@ describe 'inspec list-resources core' do
   # Exercise the summary option, which defaults to 'true'.
   describe "when run with the no-summary flag" do
     # Alter the command string to include the no-summary option
-    let (:outcome) { run_inspec_process_with_this_plugin('listresources core --no-summary') }
+    let(:outcome) { run_inspec_process_with_this_plugin('listresources core --no-summary') }
 
     # Should be well-behaved...
     it("should exit successfully") { outcome.exit_status.must_equal(0) }
