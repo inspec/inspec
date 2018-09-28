@@ -358,6 +358,18 @@ module Inspec::Plugin::V2
     #                        Utilities
     #===================================================================#
 
+    # This class alows us to build a Vendor set with the gems that are
+    # already included either with Ruby or with the InSpec install
+    class InstalledVendorSet < Gem::Resolver::VendorSet
+      def load_path_gems
+        Gem::Specification.find_all do |spec|
+          @specs[spec.name] = spec
+          @directories[spec] = spec.gem_dir
+        end
+        self
+      end
+    end
+
     # Provides a RequestSet (a set of gems representing the gems that are available to
     # solve a dependency request) that represents a combination of:
     # * the gems included in the system
@@ -374,7 +386,7 @@ module Inspec::Plugin::V2
       # Combine the Sets, so the resolver has one composite place to look
       Gem::Resolver.compose_sets(
         installed_plugins_gem_set,     # The gems that are in the plugin gem path directory tree
-        Gem::Resolver::CurrentSet.new, # The gems that are already included either with Ruby or with the InSpec install
+        InstalledVendorSet.new.load_path_gems,
         *extra_request_sets,           # Anything else our caller wanted to include
       )
     end
