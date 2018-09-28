@@ -54,6 +54,9 @@ module InstallerTestHelpers
       end
     end
 
+    # Clean up any activated gems
+    Gem.loaded_specs.delete('inspec-test-fixture')
+
     # TODO: may need to edit the $LOAD_PATH, if it turns out that we need to "deactivate" gems after installation
   end
 end
@@ -117,9 +120,9 @@ class PluginInstallerInstallationTests < MiniTest::Test
     installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.1.0')
     assert Dir.exist?(installed_gem_base), 'After installation from a gem file, the gem tree should be installed to the gem path'
 
-    # Installation != gem activation
-    spec = Gem::Specification.load(spec_path)
-    refute spec.activated?, 'Installing a gem should not cause the gem to activate'
+    # Installation = gem activation
+    spec = Gem.loaded_specs['inspec-test-fixture']
+    assert spec.activated?, 'Installing a gem should cause the gem to activate'
   end
 
   def test_install_a_gem_from_missing_local_file
@@ -171,8 +174,8 @@ class PluginInstallerInstallationTests < MiniTest::Test
     assert Dir.exist?(installed_gem_base), 'After installation from a gem file, the gem tree should be installed to the gem path'
 
     # Installation != gem activation
-    spec = Gem::Specification.load(spec_path)
-    refute spec.activated?, 'Installing a gem should not cause the gem to activate'
+    spec = Gem.loaded_specs['inspec-test-fixture']
+    assert spec.activated?, 'Installing a gem should cause the gem to activate'
   end
 
   def test_handle_no_such_gem
@@ -198,7 +201,25 @@ class PluginInstallerInstallationTests < MiniTest::Test
     entry = plugin_json_data['plugins'].detect { |e| e["name"] == 'inspec-test-fixture'}
     assert_includes entry.keys, 'version', 'plugins.json should include version pinning key'
     assert_equal '= 0.1.0', entry['version'], 'plugins.json should include version pinning value'
- end
+  end
+
+  def test_install_a_gem_with_conflicting_depends_from_rubygems_org
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+
+    ex = assert_raises(Inspec::Plugin::V2::InstallError) do
+      @installer.install('inspec-test-fixture', version: '= 0.1.1')
+    end
+    assert_includes ex.message, "can't activate rake-0.4.8, already activated rake-"
+  end
+
+  def test_install_a_gem_with_invalid_depends_from_rubygems_org
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+
+    ex = assert_raises(Inspec::Plugin::V2::InstallError) do
+      @installer.install('inspec-test-fixture', version: '= 0.1.2')
+    end
+    assert_includes ex.message, "Could not find 'fake_plugin_dependency' (>= 0)"
+  end
 
   def test_install_a_plugin_from_a_path
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')

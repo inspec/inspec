@@ -248,10 +248,10 @@ module Inspec::Plugin::V2
     end
 
     def install_from_gem_file(requested_plugin_name, opts)
-      plugin_dependency = Gem::Dependency.new(requested_plugin_name)
-
       # Make Set that encompasses just the gemfile that was provided
       plugin_local_source = Gem::Source::SpecificFile.new(opts[:gem_file])
+
+      plugin_dependency = Gem::Dependency.new(requested_plugin_name, plugin_local_source.spec.version)
       requested_local_gem_set = Gem::Resolver::InstallerSet.new(:both) # :both means local and remote; allow satisfying our gemfile's deps from rubygems.org
       requested_local_gem_set.add_local(plugin_dependency.name, plugin_local_source.spec, plugin_local_source)
 
@@ -264,7 +264,7 @@ module Inspec::Plugin::V2
       install_gem_to_plugins_dir(plugin_dependency, [Gem::Resolver::BestSet.new], opts[:update_mode])
     end
 
-    def install_gem_to_plugins_dir(new_plugin_dependency, extra_request_sets = [], update_mode = false)
+    def install_gem_to_plugins_dir(new_plugin_dependency, extra_request_sets = [], update_mode = false) # rubocop: disable Metrics/AbcSize
       # Get a list of all the gems available to us.
       gem_to_force_update = update_mode ? new_plugin_dependency.name : nil
       set_available_for_resolution = build_gem_request_universe(extra_request_sets, gem_to_force_update)
@@ -272,9 +272,32 @@ module Inspec::Plugin::V2
       # Solve the dependency (that is, find a way to install the new plugin and anything it needs)
       request_set = Gem::RequestSet.new(new_plugin_dependency)
       begin
-        request_set.resolve(set_available_for_resolution)
+        solution = request_set.resolve(set_available_for_resolution)
       rescue Gem::UnsatisfiableDependencyError => gem_ex
         # TODO: use search facility to determine if the requested gem exists at all, vs if the constraints are impossible
+        ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
+        ex.plugin_name = new_plugin_dependency.name
+        raise ex
+      end
+
+      # Activate all current plugins before trying to activate the new one
+      loader.list_managed_gems.each do |spec|
+        next if spec.name == new_plugin_dependency.name && update_mode
+        spec.activate
+      end
+
+      # Make sure we remove any previously loaded gem on update
+      Gem.loaded_specs.delete(new_plugin_dependency.name) if update_mode
+
+      # Test activating the solution. This makes sure we do not try to load two different versions
+      # of the same gem on the stack or a malformed dependency.
+      begin
+        solution.each do |activation_request|
+          unless activation_request.full_spec.activated?
+            activation_request.full_spec.activate
+          end
+        end
+      rescue Gem::LoadError => gem_ex
         ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
         ex.plugin_name = new_plugin_dependency.name
         raise ex
@@ -358,6 +381,18 @@ module Inspec::Plugin::V2
     #                        Utilities
     #===================================================================#
 
+    # This class alows us to build a Vendor set with the gems that are
+    # already included either with Ruby or with the InSpec install
+    class InstalledVendorSet < Gem::Resolver::VendorSet
+      def initialize
+        super
+        Gem::Specification.find_all do |spec|
+          @specs[spec.name] = spec
+          @directories[spec] = spec.gem_dir
+        end
+      end
+    end
+
     # Provides a RequestSet (a set of gems representing the gems that are available to
     # solve a dependency request) that represents a combination of:
     # * the gems included in the system
@@ -374,7 +409,7 @@ module Inspec::Plugin::V2
       # Combine the Sets, so the resolver has one composite place to look
       Gem::Resolver.compose_sets(
         installed_plugins_gem_set,     # The gems that are in the plugin gem path directory tree
-        Gem::Resolver::CurrentSet.new, # The gems that are already included either with Ruby or with the InSpec install
+        InstalledVendorSet.new,
         *extra_request_sets,           # Anything else our caller wanted to include
       )
     end
