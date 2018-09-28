@@ -159,13 +159,6 @@ module Inspec
       when Hash   then [finalize_supports_elem(x, logger)]
       when Array  then x.map { |e| finalize_supports_elem(e, logger) }.compact
       when nil    then []
-      else
-        logger ||= Logger.new(nil)
-        logger.warn(
-          "Do not use deprecated `supports: #{x}` syntax. Instead use:\n"\
-          "supports:\n  - os-family: #{x}\n\n",
-        )
-        [{ :'os-family' => x }] # rubocop:disable Style/HashSyntax
       end
     end
 

@@ -333,9 +333,6 @@ module Inspec
 
       @logger.info "Checking profile in #{@target}"
       meta_path = @source_reader.target.abs_path(@source_reader.metadata.ref)
-      if meta_path =~ /metadata\.rb$/
-        warn.call(@target, 0, 0, nil, 'The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
-      end
 
       # verify metadata
       m_errors, m_warnings = metadata.valid
@@ -347,12 +344,6 @@ module Inspec
 
       # extract profile name
       result[:summary][:profile] = metadata.params[:name]
-
-      # check if the profile is using the old test directory instead of the
-      # new controls directory
-      if @source_reader.tests.keys.any? { |x| x =~ %r{^test/$} }
-        warn.call(@target, 0, 0, nil, 'Profile uses deprecated `test` directory, rename it to `controls`.')
-      end
 
       count = controls_count
       result[:summary][:controls] = count
