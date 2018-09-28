@@ -1,38 +1,36 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.4 -->
-## [v2.3.4](https://github.com/inspec/inspec/tree/v2.3.4) (2018-09-27)
-
-#### New Features
-- Plugins: Support for Train Plugins in InSpec [#3444](https://github.com/inspec/inspec/pull/3444) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.2.112 -->
-### Changes since 2.2.112 release
-
-#### Enhancements
-- Support the Busybox variant of netstat in the port resource [#3425](https://github.com/inspec/inspec/pull/3425) ([RoboticCheese](https://github.com/RoboticCheese)) <!-- 2.2.119 -->
-
-#### Merged Pull Requests
-- Plugins: Example CLI Plugin, a Resource Lister [#3421](https://github.com/inspec/inspec/pull/3421) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.3.3 -->
-- Pin postgresql to a lower cookbook version [#3449](https://github.com/inspec/inspec/pull/3449) ([jquick](https://github.com/jquick)) <!-- 2.3.2 -->
-- RFC inspec style guide [#3356](https://github.com/inspec/inspec/pull/3356) ([arlimus](https://github.com/arlimus)) <!-- 2.3.1 -->
-- Bump minor version [#3448](https://github.com/inspec/inspec/pull/3448) ([jquick](https://github.com/jquick)) <!-- 2.3.0 -->
-- Add support for multiple descriptions for controls [#3424](https://github.com/inspec/inspec/pull/3424) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.120 -->
-- Plugins: Load all CLI commands on usage on empty invocation [#3428](https://github.com/inspec/inspec/pull/3428) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.118 -->
-- Fix v2 loader appveyor issue [#3434](https://github.com/inspec/inspec/pull/3434) ([jquick](https://github.com/jquick)) <!-- 2.2.116 -->
-- Add new resource: aws_ebs_volume [#3381](https://github.com/inspec/inspec/pull/3381) ([jmassardo](https://github.com/jmassardo)) <!-- 2.2.115 -->
-
-#### Bug Fixes
-- Grammar correction in error message: use &quot;an&quot; with attribute and unknown [#3439](https://github.com/inspec/inspec/pull/3439) ([alexpop](https://github.com/alexpop)) <!-- 2.2.117 -->
-- Remove load locks for cloud resources [#3420](https://github.com/inspec/inspec/pull/3420) ([jquick](https://github.com/jquick)) <!-- 2.2.114 -->
-
-#### New Features
-- Plugins: Support for Train Plugins in InSpec [#3444](https://github.com/inspec/inspec/pull/3444) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.3.4 -->
-- Plugins Installer API [#3352](https://github.com/inspec/inspec/pull/3352) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.113 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.3.4](https://github.com/inspec/inspec/tree/v2.3.4) (2018-09-28)
+
+#### New Features
+- Plugins Installer API [#3352](https://github.com/inspec/inspec/pull/3352) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Plugins: Support for Train Plugins in InSpec [#3444](https://github.com/inspec/inspec/pull/3444) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Enhancements
+- Support the Busybox variant of netstat in the port resource [#3425](https://github.com/inspec/inspec/pull/3425) ([RoboticCheese](https://github.com/RoboticCheese))
+
+#### Bug Fixes
+- Remove load locks for cloud resources [#3420](https://github.com/inspec/inspec/pull/3420) ([jquick](https://github.com/jquick))
+- Grammar correction in error message: use &quot;an&quot; with attribute and unknown [#3439](https://github.com/inspec/inspec/pull/3439) ([alexpop](https://github.com/alexpop))
+
+#### Merged Pull Requests
+- Add new resource: aws_ebs_volume [#3381](https://github.com/inspec/inspec/pull/3381) ([jmassardo](https://github.com/jmassardo))
+- Fix v2 loader appveyor issue [#3434](https://github.com/inspec/inspec/pull/3434) ([jquick](https://github.com/jquick))
+- Plugins: Load all CLI commands on usage on empty invocation [#3428](https://github.com/inspec/inspec/pull/3428) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add support for multiple descriptions for controls [#3424](https://github.com/inspec/inspec/pull/3424) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Bump minor version [#3448](https://github.com/inspec/inspec/pull/3448) ([jquick](https://github.com/jquick))
+- RFC inspec style guide [#3356](https://github.com/inspec/inspec/pull/3356) ([arlimus](https://github.com/arlimus))
+- Pin postgresql to a lower cookbook version [#3449](https://github.com/inspec/inspec/pull/3449) ([jquick](https://github.com/jquick))
+- Plugins: Example CLI Plugin, a Resource Lister [#3421](https://github.com/inspec/inspec/pull/3421) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v2.2.112](https://github.com/inspec/inspec/tree/v2.2.112) (2018-09-19)
 
 #### New Features
@@ -50,7 +48,6 @@
 - Fix gem tests from recent merge [#3409](https://github.com/inspec/inspec/pull/3409) ([jquick](https://github.com/jquick))
 - Move inspec init to v2 plugins [#3407](https://github.com/inspec/inspec/pull/3407) ([jquick](https://github.com/jquick))
 - Move artifact to v2 plugin  [#3406](https://github.com/inspec/inspec/pull/3406) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.2.102](https://github.com/inspec/inspec/tree/v2.2.102) (2018-09-17)
 
