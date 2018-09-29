@@ -215,6 +215,17 @@ class PluginManagerCliSearch < MiniTest::Test
     assert_match(/\s*train-test-fixture\s+\((\d+\.\d+\.\d+){1}\)/,line,'Plugin line should include name and exactly one version')
   end
 
+  def test_search_omit_excluded_inspec_plugins
+    result = run_inspec_process('plugin search inspec-')
+    assert_equal 0, result.exit_status, 'Search should exit 0'
+    assert_includes result.stdout, 'inspec-test-fixture', 'Search result should contain the test gem'
+    [
+      'inspec-core',
+      'inspec-multi-server',
+    ].each do |plugin_name|
+      refute_includes result.stdout, plugin_name, 'Search result should not contain excluded gems'
+    end
+  end
 end
 
 #-----------------------------------------------------------------------------------------#
@@ -512,6 +523,32 @@ class PluginManagerCliInstall < MiniTest::Test
     itf_line = list_result.stdout.split("\n").grep(/train-test-fixture/).first
     refute_nil itf_line, 'train-test-fixture should now appear in the output of inspec list'
     assert_match(/\s*train-test-fixture\s+0.1.0\s+gem\s+/, itf_line, 'list output should show that it is a gem installation with version')
+  end
+
+  def test_refuse_install_when_plugin_on_exclusion_list
+
+    # Here, 'inspec-core', 'inspec-multiserver', and 'train-tax-collector'
+    # are the names of real rubygems.  They are not InSpec/ Train plugins, though,
+    # and installing them would be a jam-up.
+    # This is configured in etc/plugin-filter.json .
+    [
+      'inspec-core',
+      'inspec-multi-server',
+      'train-tax-calculator',
+    ].each do |plugin_name|
+      install_result = run_inspec_process_with_this_plugin("plugin install #{plugin_name}")
+      assert_empty install_result.stderr
+      assert_equal 2, install_result.exit_status, 'Exit status should be 2'
+
+      refusal_message = install_result.stdout
+      refute_nil refusal_message, 'Should find a failure message at the end'
+      assert_includes refusal_message, plugin_name
+      assert_includes refusal_message, 'Plugin on Exclusion List'
+      assert_includes refusal_message, 'refusing to install'
+      assert_includes refusal_message, 'Rationale:'
+      assert_includes refusal_message, 'etc/plugin_filters.json'
+      assert_includes refusal_message, 'github.com/inspec/inspec/issues/new'
+    end
   end
 end
 
