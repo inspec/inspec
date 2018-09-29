@@ -44,7 +44,7 @@ module InspecPlugins
 
         # TODO: ui object support
         puts
-        puts(bold { format(' %-30s%-50s%', 'Plugin Name', 'Versions Available') })
+        puts(bold { format(' %-30s%-50s', 'Plugin Name', 'Versions Available') })
         puts '-' * 55
         search_results.keys.sort.each do |plugin_name|
           versions = options[:all] ? search_results[plugin_name] : [search_results[plugin_name].first]
@@ -342,8 +342,15 @@ module InspecPlugins
         exit 2
       end
 
-      def install_attempt_install(plugin_name)
+      # Rationale for RuboCop variance: This is a one-line method with heavy UX-focused error handling.
+      def install_attempt_install(plugin_name) # rubocop: disable Metrics/AbcSize
         installer.install(plugin_name, version: options[:version])
+      rescue Inspec::Plugin::V2::PluginExcludedError => ex
+        puts(red { 'Plugin on Exclusion List' } + " - #{plugin_name} is listed as an incompatible gem - refusing to install.")
+        puts "Rationale: #{ex.details.rationale}"
+        puts 'Exclusion list location: ' + File.join(Inspec.src_root, 'etc', 'plugin_filters.json')
+        puts 'If you disagree with this determination, please accept our apologies for the misunderstanding, and open an issue at https://github.com/inspec/inspec/issues/new'
+        exit 2
       rescue Inspec::Plugin::V2::InstallError
         results = installer.search(plugin_name, exact: true)
         if results.empty?
