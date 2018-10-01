@@ -6,16 +6,18 @@ unless os.windows?
 end
 
 describe security_identifier({ user: 'Administrator' }) do
+  it { should exist }
   its('sid') { should match %r{S-1-5-21.+-500} }
 end
 
 describe security_identifier({ unspecified: 'Administrator' }) do
+  it { should exist }
   its('sid') { should match %r{S-1-5-21.+-500} }
 end
 
-# If not appropriate, sid just returns the name back
 describe security_identifier({ group: 'Administrator' }) do
-  its('sid') { should eq 'Administrator' }
+  it { should_not exist }
+  its('sid') { should be nil }
 end
 
 describe security_identifier({ group: 'Administrators' }) do
@@ -26,7 +28,7 @@ describe security_identifier({ unspecified: 'Administrators' }) do
   its('sid') { should eq 'S-1-5-32-544' }
 end
 
-# If not appropriate, sid just returns the name back
 describe security_identifier({ user: 'Administrators' }) do
-  its('sid') { should eq 'Administrators' }
+  it { should_not exist }
+  its('sid') { should be nil }
 end
