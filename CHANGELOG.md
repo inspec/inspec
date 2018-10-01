@@ -1,20 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.5 -->
-## [v2.3.5](https://github.com/inspec/inspec/tree/v2.3.5) (2018-09-28)
-
-#### Bug Fixes
-- Update plugin gem install code [#3453](https://github.com/inspec/inspec/pull/3453) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.3.4 -->
-### Changes since 2.3.4 release
-
-#### Bug Fixes
-- Update plugin gem install code [#3453](https://github.com/inspec/inspec/pull/3453) ([jquick](https://github.com/jquick)) <!-- 2.3.5 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.3.5](https://github.com/inspec/inspec/tree/v2.3.5) (2018-10-01)
+
+#### Bug Fixes
+- Update plugin gem install code [#3453](https://github.com/inspec/inspec/pull/3453) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v2.3.4](https://github.com/inspec/inspec/tree/v2.3.4) (2018-09-28)
 
 #### New Features
@@ -37,7 +35,6 @@
 - RFC inspec style guide [#3356](https://github.com/inspec/inspec/pull/3356) ([arlimus](https://github.com/arlimus))
 - Pin postgresql to a lower cookbook version [#3449](https://github.com/inspec/inspec/pull/3449) ([jquick](https://github.com/jquick))
 - Plugins: Example CLI Plugin, a Resource Lister [#3421](https://github.com/inspec/inspec/pull/3421) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v2.2.112](https://github.com/inspec/inspec/tree/v2.2.112) (2018-09-19)
 
