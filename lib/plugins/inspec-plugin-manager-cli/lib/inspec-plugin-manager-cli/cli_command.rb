@@ -1,5 +1,6 @@
 require 'term/ansicolor'
 require 'pathname'
+require 'inspec/plugin/v2'
 require 'inspec/plugin/v2/installer'
 
 module InspecPlugins
@@ -35,12 +36,27 @@ module InspecPlugins
       #                        inspec plugin search
       #==================================================================#
 
-      desc 'search [options] PATTERN', 'Searches rubygems.org for InSpec plugins. Exits 0 on a search hit, exits 2 on a search miss.'
+      desc 'search [options] PATTERN', 'Searches rubygems.org for plugins.'
+      long_desc <<~EOLD
+        Searches rubygems.org for InSpec plugins. Exits 0 on a search hit, 1 on user error,
+        2 on a search miss. PATTERN is a simple string; a wildcard will be added as
+        a suffix, unles -e is used.
+      EOLD
       option :all, desc: 'List all available versions, not just the latest one.', type: :boolean, aliases: [:a]
       option :exact, desc: 'Assume PATTERN is exact; do not add a wildcard to the end', type: :boolean, aliases: [:e]
+      # Wish we could hide this
+      option :'include-test-fixture', type: :boolean, desc: 'Internal use'
       # Justification for disabling ABC: currently at 33.51/33
       def search(search_term) # rubocop: disable Metrics/AbcSize
         search_results = installer.search(search_term, exact: options[:exact])
+        # The search results have already been filtered by the reject list.  But the
+        # RejectList doesn't filter {inspec, train}-test-fixture because we need those
+        # for testing.  We want to hide those from users, so unless we know we're in
+        # test mode, remove them.
+        unless options[:'include-test-fixture']
+          search_results.delete('inspec-test-fixture')
+          search_results.delete('train-test-fixture')
+        end
 
         # TODO: ui object support
         puts
