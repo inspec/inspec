@@ -26,7 +26,7 @@ class PluginManagerCliOptions < MiniTest::Test
 
   def test_search_args
     arg_config = cli_class.all_commands['search'].options
-    assert_equal 2, arg_config.count, 'The search command should have 2 options'
+    assert_equal 3, arg_config.count, 'The search command should have 2 options'
 
     assert_includes arg_config.keys, :all, 'The search command should have an --all option'
     assert_equal :boolean, arg_config[:all].type, 'The --all option should be boolean'
@@ -39,6 +39,10 @@ class PluginManagerCliOptions < MiniTest::Test
     assert_equal :e, arg_config[:exact].aliases.first, 'The --exact option should be aliased as -e'
     refute_nil arg_config[:exact].description, 'The --exact option should have a description'
     refute arg_config[:exact].required, 'The --exact option should not be required'
+
+    assert_includes arg_config.keys, :'include-test-fixture', 'The search command should have an --include-test-fixture option'
+    assert_equal :boolean, arg_config[:'include-test-fixture'].type, 'The --include-test-fixture option should be boolean'
+    refute arg_config[:'include-test-fixture'].required, 'The --include-test-fixture option should not be required'
 
     assert_equal 1, cli_class.instance_method(:search).arity, 'The search command should take one argument'
   end
