@@ -174,7 +174,7 @@ class PluginManagerCliSearch < MiniTest::Test
     assert_includes result.stdout, 'inspec-test-fixture', 'Search result should contain the gem name'
     assert_includes result.stdout, '1 plugin(s) found', 'Search result should find 1 plugin'
 
-    result = run_inspec_process('plugin search -e inspec-test-fixture')
+    result = run_inspec_process('plugin search -e --include-test-fixture inspec-test-fixture')
     assert_equal 0, result.exit_status, 'Search should exit 0 on a hit'
   end
 
@@ -183,7 +183,7 @@ class PluginManagerCliSearch < MiniTest::Test
     assert_equal 2, result.exit_status, 'Search should exit 2 on a miss'
     assert_includes result.stdout, '0 plugin(s) found', 'Search result should find 0 plugins'
 
-    result = run_inspec_process('plugin search -e inspec-test-')
+    result = run_inspec_process('plugin search -e --include-test-fixture inspec-test-')
     assert_equal 2, result.exit_status, 'Search should exit 2 on a miss'
   end
 
@@ -196,7 +196,7 @@ class PluginManagerCliSearch < MiniTest::Test
     line = result.stdout.split("\n").grep(/inspec-test-fixture/).first
     assert_match(/\s*inspec-test-fixture\s+\((\d+\.\d+\.\d+(,\s)?){2,}\)/,line,'Plugin line should include name and at least two versions')
 
-    result = run_inspec_process('plugin search -a inspec-test-fixture')
+    result = run_inspec_process('plugin search -a --include-test-fixture inspec-test-fixture')
     assert_equal 0, result.exit_status, 'Search should exit 0 on a hit'
   end
 
