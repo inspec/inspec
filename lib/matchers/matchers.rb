@@ -294,13 +294,13 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
   end
 
   failure_message do |actual|
-    actual = ('0' + actual.to_s(8)).inspect if octal?(@expected)
-    "\n" + format_expectation(false) + "\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
+    actual = ('0' + actual.to_s(8)) if octal?(@expected)
+    "\n" + format_expectation(false) + "\n     got: #{actual.inspect}\n\n(compared using `cmp` matcher)\n"
   end
 
   failure_message_when_negated do |actual|
     actual = ('0' + actual.to_s(8)).inspect if octal?(@expected)
-    "\n" + format_expectation(true) + "\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
+    "\n" + format_expectation(true) + "\n     got: #{actual.inspect}\n\n(compared using `cmp` matcher)\n"
   end
 
   description do
