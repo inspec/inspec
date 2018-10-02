@@ -1,4 +1,4 @@
-resource_packs: {}
+resource_packs:
   # Example
   # some-project:
   #   git_repo: the-repo-URL
@@ -6,14 +6,12 @@ resource_packs: {}
   #   doc_group_title: Group Title used on website
   #   resource_file_regex: Regex used to identify files belonging to this group on the website
 
-  # This won't show up because the docs have the wrong file endings
-  # inspec-gcp:
-  #  git_repo: https://github.com/inspec/inspec-gcp.git
-  #  doc_group_title: GCP
-  #  resource_file_regex: ^google_
-  
-  # This is the future location of the REST-based azure resources
-  #inspec-azure-v2:
-  #  git_repo: git@github.com:inspec/inspec-azure
-  #  doc_group_title: Azure
-  #  resource_file_regex: ^azure
+  inspec-gcp:
+    git_repo: https://github.com/inspec/inspec-gcp.git
+    doc_group_title: GCP
+    resource_file_regex: ^google_
+
+  inspec-azure:
+    git_repo: https://github.com/inspec/inspec-azure.git
+    doc_group_title: Azure
+    resource_file_regex: ^azure
