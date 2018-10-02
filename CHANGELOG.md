@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.3.6 -->
+## [v2.3.6](https://github.com/inspec/inspec/tree/v2.3.6) (2018-10-02)
+
+#### Enhancements
+- Modify `cmp` matcher output to use `.inspect` [#3450](https://github.com/inspec/inspec/pull/3450) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.3.5 -->
+### Changes since 2.3.5 release
+
+#### Enhancements
+- Modify `cmp` matcher output to use `.inspect` [#3450](https://github.com/inspec/inspec/pull/3450) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.3.6 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
