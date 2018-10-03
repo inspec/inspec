@@ -26,7 +26,7 @@ module Inspec::Resources
 
     attr_reader :service, :conf_dir, :conf_path, :user
     def initialize
-      warn '[DEPRECATED] The `apache` resource is deprecated and will be removed in InSpec 3.0.'
+      warn '[DEPRECATED] The `apache` resource is deprecated and will be removed in InSpec 4.0'
 
       if inspec.os.debian?
         @service = 'apache2'
