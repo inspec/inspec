@@ -75,10 +75,4 @@ describe 'Inspec::Resources::YumRepo' do
     _(repo.status).must_equal 'enabled'
     _(repo.updated).must_equal 'Tue Mar 31 22:50:46 2015'
   end
-
-  it 'test enabled extra repo (serverspec backwards comptability)' do
-    serverspec = load_resource('yumrepo', 'extras')
-    _(serverspec.exists?).must_equal true
-    _(serverspec.enabled?).must_equal true
-  end
 end

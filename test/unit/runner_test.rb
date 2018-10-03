@@ -21,7 +21,7 @@ describe Inspec::Runner do
       end
 
       it 'does not default when format is set' do
-        opts = { command_runner: :generic, backend_cache: true, 'format' => 'json' }
+        opts = { command_runner: :generic, backend_cache: true, 'reporter' => ['json'] }
         runner = Inspec::Runner.new(opts)
         config = runner.instance_variable_get(:"@conf")
         expected = { 'json' => { 'stdout' => true } }
@@ -29,7 +29,7 @@ describe Inspec::Runner do
       end
 
       it 'delets format if set to a rspec format' do
-        opts = { command_runner: :generic, backend_cache: true, 'format' => 'progress' }
+        opts = { command_runner: :generic, backend_cache: true, 'reporter' => ['progress'] }
         runner = Inspec::Runner.new(opts)
         config = runner.instance_variable_get(:"@conf")
         config['reporter'].must_equal Hash.new

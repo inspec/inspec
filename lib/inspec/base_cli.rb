@@ -82,8 +82,6 @@ module Inspec
       profile_options
       option :controls, type: :array,
         desc: 'A list of control names to run, or a list of /regexes/ to match against control names. Ignore all other tests.'
-      option :format, type: :string,
-        desc: '[DEPRECATED] Please use --reporter - this will be removed in InSpec 3.0'
       option :reporter, type: :array,
         banner: 'one two:/output/file/path',
         desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml'
@@ -116,23 +114,7 @@ module Inspec
       }
     end
 
-    def self.parse_reporters(opts) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-      # merge in any legacy formats as reporter
-      # this method will only be used for ad-hoc runners
-      if !opts['format'].nil? && opts['reporter'].nil?
-        warn '[DEPRECATED] The option --format is being deprecated and will be removed in inspec 3.0. Please use --reporter'
-
-        # see if we are using the legacy output to write to files
-        if opts['output']
-          warn '[DEPRECATED] The option \'output\' is being deprecated and will be removed in inspec 3.0. Please use --reporter name:path'
-          opts['format'] = "#{opts['format']}:#{opts['output']}"
-          opts.delete('output')
-        end
-
-        opts['reporter'] = Array(opts['format'])
-        opts.delete('format')
-      end
-
+    def self.parse_reporters(opts) # rubocop:disable Metrics/AbcSize
       # default to cli report for ad-hoc runners
       opts['reporter'] = ['cli'] if opts['reporter'].nil?
 
@@ -311,10 +293,6 @@ module Inspec
       # merge in any options from json-config
       json_config = options_json
       opts.merge!(json_config)
-
-      # remove the default reporter if we are setting a legacy format on the cli
-      # or via json-config
-      opts.delete('reporter') if options['format'] || json_config['format']
 
       # merge in any options defined via thor
       opts.merge!(options)

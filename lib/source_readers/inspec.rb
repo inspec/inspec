@@ -12,14 +12,6 @@ module SourceReaders
 
     def self.resolve(target)
       return new(target, 'inspec.yml') if target.files.include?('inspec.yml')
-      # TODO: deprecated for 1.0.0 release
-      if target.files.include?('metadata.rb') &&
-         (
-           target.files.include?('controls') ||
-           target.files.include?('test')
-         )
-        return new(target, 'metadata.rb')
-      end
       nil
     end
 

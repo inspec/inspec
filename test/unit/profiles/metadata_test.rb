@@ -131,22 +131,6 @@ EOF
       m.supports_platform?(backend).must_equal true
     end
 
-    it 'supports legacy simple support style, but warns' do
-      # i.e. setting this to something that would fail:
-      logger.expect :warn, nil, ["Do not use deprecated `supports: linux` syntax. Instead use:\nsupports:\n  - os-family: linux\n\n"]
-      m = supports_meta('linux')
-      m.supports_platform?(backend).must_equal true
-      logger.verify
-    end
-
-    it 'supports legacy simple support style, but warns' do
-      # i.e. setting this to something that would fail:
-      logger.expect :warn, nil, ["Do not use deprecated `supports: linux` syntax. Instead use:\nsupports:\n  - os-family: linux\n\n"]
-      m = supports_meta(['linux'])
-      m.supports_platform?(backend).must_equal true
-      logger.verify
-    end
-
     it 'loads a profile which supports os ubuntu' do
       m = supports_meta({ 'os' => 'ubuntu' })
       m.supports_platform?(backend).must_equal true

@@ -68,16 +68,6 @@ module DatabaseHelper
       @results.size
     end
 
-    def stdout
-      warn '[DEPRECATION] The `stdout` method is deprecated. Use `row` instead.'
-      @cmd.stdout
-    end
-
-    def stderr
-      warn '[DEPRECATION] The `stderr` method is deprecated. Use `successful?` instead.'
-      @cmd.stderr
-    end
-
     def inspect
       to_s
     end
