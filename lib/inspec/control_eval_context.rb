@@ -142,8 +142,8 @@ module Inspec
         end
 
         # method for attributes; import attribute handling
-        define_method :attribute do |name, options = {}|
-          if options.empty?
+        define_method :attribute do |name, options = nil|
+          if options.nil?
             Inspec::AttributeRegistry.find_attribute(name, profile_id).value
           else
             profile_context_owner.register_attribute(name, options)

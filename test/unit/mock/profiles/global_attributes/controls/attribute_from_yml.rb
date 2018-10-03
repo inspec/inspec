@@ -39,3 +39,9 @@ describe 'test attribute with no defualt but has type' do
   subject { attribute('val_no_default_with_type').respond_to?(:fake_method) }
   it { should cmp true }
 end
+
+empty_hash_attribute = attribute('val_with_empty_hash_default', {})
+describe 'test attribute with default as empty hash' do
+  subject { empty_hash_attribute }
+  it { should cmp 'success' }
+end

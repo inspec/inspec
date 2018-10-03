@@ -29,7 +29,7 @@ describe 'attributes' do
       cmd += ' --attrs ' + File.join(profile_path, 'global_attributes', 'files', "attr.yml")
       out = inspec(cmd)
       out.stderr.must_equal ''
-      out.stdout.must_include '20 successful'
+      out.stdout.must_include '21 successful'
       out.exit_status.must_equal 0
     end
 
