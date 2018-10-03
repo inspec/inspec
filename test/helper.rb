@@ -537,7 +537,7 @@ class MockLoader
 
       # Windows SID calls
       'wmic useraccount where \'Name="Alice"\' get Name","SID /format:csv' => cmd.call('security-identifier-alice'),
-      'wmic useraccount where \'Name="Bob"\' get Name","SID /format:csv' => empty.call,
+      'wmic useraccount where \'Name="Bob"\' get Name","SID /format:csv' => cmd.call('security-identifier-unknown'),
 
       # alpine package commands
       'apk info -vv --no-network | grep git' => cmd.call('apk-info-grep-git'),

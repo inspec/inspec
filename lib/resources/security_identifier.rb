@@ -77,7 +77,11 @@ module Inspec::Resources
         query += 'useraccount'
       end
       query += " where 'Name=\"#{@name}\"' get Name\",\"SID /format:csv"
-      inspec.command(query).stdout.strip.split("\r\n\r\n")[1..-1].map { |entry| entry.split(',') }
+      # Example output:
+      #     inspec> command("wmic useraccount where 'Name=\"Administrator\"' get Name\",\"SID /format:csv").stdout
+      #     => "\r\n\r\nNode,Name,SID\r\n\r\nComputer1,Administrator,S-1-5-21-650485088-1194226989-968533923-500\r\n\r\n"
+      # Remove the \r characters, split on \n\n, ignore the CSV header row
+      inspec.command(query).stdout.strip.tr("\r", '').split("\n\n")[1..-1].map { |entry| entry.split(',') }
     end
   end
 end
