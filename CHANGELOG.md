@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.6 -->
-## [v2.3.6](https://github.com/inspec/inspec/tree/v2.3.6) (2018-10-02)
+<!-- latest_release 2.3.7 -->
+## [v2.3.7](https://github.com/inspec/inspec/tree/v2.3.7) (2018-10-03)
 
-#### Enhancements
-- Modify `cmp` matcher output to use `.inspect` [#3450](https://github.com/inspec/inspec/pull/3450) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Merged Pull Requests
+- Fix `attribute` with empty hash regression [#3454](https://github.com/inspec/inspec/pull/3454) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.3.5 -->
 ### Changes since 2.3.5 release
+
+#### Merged Pull Requests
+- Fix `attribute` with empty hash regression [#3454](https://github.com/inspec/inspec/pull/3454) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.3.7 -->
 
 #### Enhancements
 - Modify `cmp` matcher output to use `.inspect` [#3450](https://github.com/inspec/inspec/pull/3450) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.3.6 -->
