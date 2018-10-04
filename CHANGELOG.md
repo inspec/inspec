@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.7 -->
-## [v2.3.7](https://github.com/inspec/inspec/tree/v2.3.7) (2018-10-03)
+<!-- latest_release 2.3.8 -->
+## [v2.3.8](https://github.com/inspec/inspec/tree/v2.3.8) (2018-10-04)
 
-#### Merged Pull Requests
-- Fix `attribute` with empty hash regression [#3454](https://github.com/inspec/inspec/pull/3454) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Bug Fixes
+- Fix distinct_exit cli desc to reflect reality [#3463](https://github.com/inspec/inspec/pull/3463) ([teknofire](https://github.com/teknofire))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.3.5 -->
 ### Changes since 2.3.5 release
+
+#### Bug Fixes
+- Fix distinct_exit cli desc to reflect reality [#3463](https://github.com/inspec/inspec/pull/3463) ([teknofire](https://github.com/teknofire)) <!-- 2.3.8 -->
 
 #### Merged Pull Requests
 - Fix `attribute` with empty hash regression [#3454](https://github.com/inspec/inspec/pull/3454) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.3.7 -->
