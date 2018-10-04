@@ -1,33 +1,30 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.10 -->
-## [v2.3.10](https://github.com/inspec/inspec/tree/v2.3.10) (2018-10-04)
-
-#### Enhancements
-- Move compliance to v2 plugin  [#3423](https://github.com/inspec/inspec/pull/3423) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.3.5 -->
-### Changes since 2.3.5 release
-
-#### Bug Fixes
-- Fix distinct_exit cli desc to reflect reality [#3463](https://github.com/inspec/inspec/pull/3463) ([teknofire](https://github.com/teknofire)) <!-- 2.3.8 -->
-
-#### Merged Pull Requests
-- Fix `attribute` with empty hash regression [#3454](https://github.com/inspec/inspec/pull/3454) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.3.7 -->
-
-#### Enhancements
-- Move compliance to v2 plugin  [#3423](https://github.com/inspec/inspec/pull/3423) ([jquick](https://github.com/jquick)) <!-- 2.3.10 -->
-- Support finding larger processes on Busybox [#3446](https://github.com/inspec/inspec/pull/3446) ([RoboticCheese](https://github.com/RoboticCheese)) <!-- 2.3.9 -->
-- Modify `cmp` matcher output to use `.inspect` [#3450](https://github.com/inspec/inspec/pull/3450) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.3.6 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.3.10](https://github.com/inspec/inspec/tree/v2.3.10) (2018-10-04)
+
+#### Enhancements
+- Modify `cmp` matcher output to use `.inspect` [#3450](https://github.com/inspec/inspec/pull/3450) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Support finding larger processes on Busybox [#3446](https://github.com/inspec/inspec/pull/3446) ([RoboticCheese](https://github.com/RoboticCheese))
+- Move compliance to v2 plugin  [#3423](https://github.com/inspec/inspec/pull/3423) ([jquick](https://github.com/jquick))
+
+#### Bug Fixes
+- Fix distinct_exit cli desc to reflect reality [#3463](https://github.com/inspec/inspec/pull/3463) ([teknofire](https://github.com/teknofire))
+
+#### Merged Pull Requests
+- Fix `attribute` with empty hash regression [#3454](https://github.com/inspec/inspec/pull/3454) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_stable_release -->
+
 ## [v2.3.5](https://github.com/inspec/inspec/tree/v2.3.5) (2018-10-01)
 
 #### Bug Fixes
 - Update plugin gem install code [#3453](https://github.com/inspec/inspec/pull/3453) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.3.4](https://github.com/inspec/inspec/tree/v2.3.4) (2018-09-28)
 
