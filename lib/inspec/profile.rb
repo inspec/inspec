@@ -387,7 +387,11 @@ module Inspec
             error.call(meta_path, 0, 0, nil, 'inspec.yml and inspec.lock are out-of-sync. Please re-vendor with `inspec vendor`.')
           end
 
+          # verify if metadata and lockfile have the same dependency names
           metadata.dependencies.each { |dep|
+            # Skip if the dependency does not specify a name
+            next if dep[:name].nil?
+
             # TODO: should we also verify that the soure is the same?
             if !lockfile.deps.map { |x| x[:name] }.include? dep[:name]
               error.call(meta_path, 0, 0, nil, "Cannot find #{dep[:name]} in lockfile. Please re-vendor with `inspec vendor`.")
