@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.9 -->
-## [v2.3.9](https://github.com/inspec/inspec/tree/v2.3.9) (2018-10-04)
+<!-- latest_release 2.3.10 -->
+## [v2.3.10](https://github.com/inspec/inspec/tree/v2.3.10) (2018-10-04)
 
 #### Enhancements
-- Support finding larger processes on Busybox [#3446](https://github.com/inspec/inspec/pull/3446) ([RoboticCheese](https://github.com/RoboticCheese))
+- Move compliance to v2 plugin  [#3423](https://github.com/inspec/inspec/pull/3423) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.3.5 -->
@@ -17,6 +17,7 @@
 - Fix `attribute` with empty hash regression [#3454](https://github.com/inspec/inspec/pull/3454) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.3.7 -->
 
 #### Enhancements
+- Move compliance to v2 plugin  [#3423](https://github.com/inspec/inspec/pull/3423) ([jquick](https://github.com/jquick)) <!-- 2.3.10 -->
 - Support finding larger processes on Busybox [#3446](https://github.com/inspec/inspec/pull/3446) ([RoboticCheese](https://github.com/RoboticCheese)) <!-- 2.3.9 -->
 - Modify `cmp` matcher output to use `.inspect` [#3450](https://github.com/inspec/inspec/pull/3450) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.3.6 -->
 <!-- release_rollup -->
