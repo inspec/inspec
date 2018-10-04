@@ -126,7 +126,7 @@ module Inspec::Resources
     def ps_configuration_for_linux
       if busybox_ps?
         command = 'ps -o pid,vsz,rss,tty,stat,time,ruser,args'
-        regex = /^\s*(\d+)\s+(\d+)\s+(\d+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(.*)$/
+        regex = /^\s*(\d+)\s+(\d+(?:\.\d+)?[gm]?)\s+(\d+(?:\.\d+)?[gm]?)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(.*)$/
         field_map = {
           pid: 1,
           vsz: 2,
@@ -163,6 +163,18 @@ module Inspec::Resources
       @busybox_ps ||= inspec.command('ps --help').stderr.include?('BusyBox')
     end
 
+    def convert_to_kilobytes(param)
+      return param.to_i unless param.is_a?(String)
+
+      if param.end_with?('g')
+        (param[0..-2].to_f * 1024 * 1024).to_i
+      elsif param.end_with?('m')
+        (param[0..-2].to_f * 1024).to_i
+      else
+        param.to_i
+      end
+    end
+
     def build_process_list(command, regex, field_map)
       cmd = inspec.command(command)
       all = cmd.stdout.split("\n")[1..-1]
@@ -187,8 +199,12 @@ module Inspec::Resources
         end
 
         # ensure pid, vsz, and rss are integers for backward compatibility
-        [:pid, :vsz, :rss].each do |int_param|
-          process_data[int_param] = process_data[int_param].to_i if process_data.key?(int_param)
+        process_data[:pid] = process_data[:pid].to_i if process_data.key?(:pid)
+
+        # some ps variants (*cough* busybox) display vsz and rss as human readable MB or GB
+        [:vsz, :rss].each do |param|
+          next unless process_data.key?(param)
+          process_data[param] = convert_to_kilobytes(process_data[param])
         end
 
         # strip any newlines off the command

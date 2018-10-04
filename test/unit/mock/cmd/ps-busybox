@@ -1,3 +1,5 @@
 PID   VSZ  RSS  TT     STAT TIME   RUSER    COMMAND
     1 1536    4 136,0  S      0:00 root     /bin/sh
     5 1528    4 136,0  R      0:00 joe      /some/other/coolprogram
+   82  24m   2m ?      S      3:50 frank    /a/bigger/program
+   83 2.6g   1g ?      S     39:00 tim      /the/biggest/program
