@@ -31,7 +31,7 @@ describe 'BaseCLI' do
       default_options = { mock: { compliance: 'mock' } }
       Inspec::BaseCLI.stubs(:default_options).returns(default_options)
 
-      Compliance::API.expects(:login).with('mock')
+      InspecPlugins::Compliance::API.expects(:login).with('mock')
 
       cli.send(:opts, :mock)
     end
