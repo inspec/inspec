@@ -1,0 +1,17 @@
+name: profile-with-required-attributes
+title: InSpec example for attributes override
+maintainer: Chef Software, Inc.
+copyright: Chef Software, Inc.
+copyright_email: support@chef.io
+license: Apache-2.0
+summary: Demonstrates the use of InSpec profile inheritance
+version: 1.0.0
+supports:
+  - platform-family: unix
+  - platform-family: windows
+inspec_version: '>= 2.3.5'
+attributes:
+  - name: cis_level
+    required: true
+    description: 'CIS profile level to audit'
+    type: numeric

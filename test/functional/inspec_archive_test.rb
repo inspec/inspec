@@ -91,4 +91,16 @@ describe 'inspec archive' do
     files.must_include 'inspec.lock'
     files.select { |f| f =~ /vendor/ }.count.must_be :>, 1
   end
+
+  it 'can archive a profile with required attributes' do
+    archive_depends_path = File.join(profile_path, 'profile-with-required-attributes')
+
+    Dir.mktmpdir do |tmpdir|
+      FileUtils.cp_r(archive_depends_path + '/.', tmpdir)
+
+      out = inspec('archive ' + tmpdir)
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+    end
+  end
 end
