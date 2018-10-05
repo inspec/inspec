@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.3.11 -->
+## [v2.3.11](https://github.com/inspec/inspec/tree/v2.3.11) (2018-10-05)
+
+#### Merged Pull Requests
+- Fix archive with required attributes [#3468](https://github.com/inspec/inspec/pull/3468) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.3.10 -->
+### Changes since 2.3.10 release
+
+#### Merged Pull Requests
+- Fix archive with required attributes [#3468](https://github.com/inspec/inspec/pull/3468) ([jquick](https://github.com/jquick)) <!-- 2.3.11 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
