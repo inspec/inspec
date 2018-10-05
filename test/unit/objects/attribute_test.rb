@@ -64,9 +64,11 @@ describe Inspec::Attribute do
     end
 
     it 'returns an error if no value is set' do
+      Inspec::BaseCLI.inspec_cli_command = :exec
       attribute = Inspec::Attribute.new('test_attribute', required: true)
       ex = assert_raises(Inspec::Attribute::RequiredError) { attribute.value }
       ex.message.must_match /Attribute 'test_attribute' is required and does not have a value./
+      Inspec::BaseCLI.inspec_cli_command = nil
     end
   end
 

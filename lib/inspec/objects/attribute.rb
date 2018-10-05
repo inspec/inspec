@@ -89,6 +89,9 @@ module Inspec
     private
 
     def validate_required(value)
+      # skip if we are not doing an exec call (archive/vendor/check)
+      return unless Inspec::BaseCLI.inspec_cli_command == :exec
+
       # value will be set already if a secrets file was passed in
       if (!@opts.key?(:default) && value.nil?) || (@opts[:default].nil? && value.nil?)
         error = Inspec::Attribute::RequiredError.new
