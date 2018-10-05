@@ -5,7 +5,7 @@ platform: os
 
 # group
 
-Use the `group` InSpec audit resource to test groups on the system.
+Use the `group` InSpec audit resource to test a single group on the system.
 
 <br>
 
@@ -30,7 +30,7 @@ A `group` resource block declares a group, and then the details to be tested, su
 
 where
 
-* `'group_name'` must specify the name of a group on the system
+* `'group_name'` must specify the name of a group to be tested on the system
 * `exist` and `'gid'` are valid matchers for this resource
 
 <br>
@@ -48,6 +48,20 @@ The following examples show how to use this InSpec audit resource.
 
 <br>
 
+## Properties
+
+### gid
+
+The `gid` property tests the named group identifier:
+
+    its('gid') { should eq 1234 }
+
+### members
+
+The `members` property tests the members that belong to the group:
+
+    its('members') { should include 'root' }
+
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
@@ -60,12 +74,6 @@ The `be_local` matcher tests if the group is a local group:
 
 ### exist
 
-The `exist` matcher tests if the named user exists:
+The `exist` matcher tests if the named group exists:
 
     it { should exist }
-
-### gid
-
-The `gid` matcher tests the named group identifier:
-
-    its('gid') { should eq 1234 }

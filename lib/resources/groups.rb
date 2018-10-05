@@ -51,7 +51,7 @@ module Inspec::Resources
     filter.register_column(:names,     field: 'name')
           .register_column(:gids,      field: 'gid')
           .register_column(:domains,   field: 'domain')
-          .register_column(:members,   field: 'members')
+          .register_column(:members,   field: 'members', style: :simple)
     filter.install_filter_methods_on_resource(self, :collect_group_details)
 
     def to_s
@@ -73,10 +73,6 @@ module Inspec::Resources
   #   its('gid') { should eq 0 }
   # end
   #
-  # deprecated has matcher
-  # describe group('root') do
-  #  it { should have_gid 0 }
-  # end
   class Group < Inspec.resource(1)
     include GroupManagementSelector
 
@@ -112,13 +108,7 @@ module Inspec::Resources
       flatten_entry(group_info, 'gid')
     end
 
-    # implements rspec has matcher, to be compatible with serverspec
-    def has_gid?(compare_gid)
-      gid == compare_gid
-    end
-
     def members
-      return unless inspec.os.windows?
       flatten_entry(group_info, 'members')
     end
 
@@ -223,7 +213,7 @@ module Inspec::Resources
       end
 
       # ensure we have an array of groups
-      groups = [groups] if !groups.is_a?(Array)
+      groups = [groups] unless groups.is_a?(Array)
       groups
     end
   end
