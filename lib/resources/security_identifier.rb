@@ -5,14 +5,11 @@ module Inspec::Resources
   class SecurityIdentifier < Inspec.resource(1)
     name 'security_identifier'
     supports platform: 'windows'
-    desc 'Resource that returns a Security Identifier for a given entity name in Windows. Because different entities can have the same name (e.g. a user and group can both be called \'devops\') the resource requires the type of the entity (:user, :group) to be stated to avoid an ambiguous test. If the entity type is unknown (e.g. when working with SCAP content that names an entity but does not declare its type) you may give the type as :unspecified to explicitly state that you need the resource to try to determine a SID when the entity type is not known.'
+    desc 'Resource that returns a Security Identifier for a given entity name in Windows.'
     example <<-EOD
-      describe security_identifier(group: 'Guests') do
+      describe security_identifier(group: 'Everyone') do
         it { should exist }
-      end
-
-      describe security_policy do
-        its(\"SeRemoteInteractiveLogonRight\") { should_not include security_identifier(group: 'Guests') }
+        its('sid') { should eq 'S-1-1-0' }
       end
     EOD
 
