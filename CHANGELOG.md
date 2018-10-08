@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.11 -->
-## [v2.3.11](https://github.com/inspec/inspec/tree/v2.3.11) (2018-10-05)
+<!-- latest_release 2.3.12 -->
+## [v2.3.12](https://github.com/inspec/inspec/tree/v2.3.12) (2018-10-08)
 
 #### Merged Pull Requests
-- Fix archive with required attributes [#3468](https://github.com/inspec/inspec/pull/3468) ([jquick](https://github.com/jquick))
+- Exclude docs and examples from the gem [#3471](https://github.com/inspec/inspec/pull/3471) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.3.10 -->
 ### Changes since 2.3.10 release
 
 #### Merged Pull Requests
+- Exclude docs and examples from the gem [#3471](https://github.com/inspec/inspec/pull/3471) ([tas50](https://github.com/tas50)) <!-- 2.3.12 -->
 - Fix archive with required attributes [#3468](https://github.com/inspec/inspec/pull/3468) ([jquick](https://github.com/jquick)) <!-- 2.3.11 -->
 <!-- release_rollup -->
 
