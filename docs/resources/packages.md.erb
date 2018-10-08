@@ -35,19 +35,19 @@ The following examples show how to use this InSpec audit resource.
 
 ### Verify that no `xserver` packages are installed
 
-    describe package(/xserver/) do
+    describe packages(/xserver/) do
       its('statuses') { should_not cmp 'installed' }
     end
 
 ### Verify all `openssl` packages match a certain version
 
-    describe package(/openssl/) do
+    describe packages(/openssl/) do
       its('versions') { should cmp '1.0.1e-42.el7' }
     end
 
 ### Verify that both the `i686` and `x86_64` versions of `libgcc` are installed
 
-    describe package(/libgcc/) do
+    describe packages(/libgcc/) do
       its('architectures') { should include 'x86_64' }
       its('architectures') { should include 'i686' }
     end
