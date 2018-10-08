@@ -9,6 +9,17 @@ environment:
     - ruby_version: "25"
 clone_folder: c:\projects\inspec
 clone_depth: 1
+
+skip_commits:
+  # version bumps by Expeditor happen as a separate commit after the merge, we can skip
+  author: Chef Expeditor
+  # if ONLY the files listed below are changed in a commit, skip
+  files:
+    - '*.md'
+    - docs/**/*
+    - examples/**/*
+    - MAINTAINERS.toml
+
 skip_tags: true
 branches:
   only:
