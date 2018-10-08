@@ -61,8 +61,10 @@ dependency 'clean-static-libs'
 
 package :rpm do
   signing_passphrase ENV['OMNIBUS_RPM_SIGNING_PASSPHRASE']
-  compression_level 1
-  compression_type :xz
+  unless rhel? && platform_version.satisfies?('< 6')
+    compression_level 1
+    compression_type :xz
+  end
 end
 
 package :deb do
