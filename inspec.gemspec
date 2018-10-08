@@ -10,14 +10,14 @@ Gem::Specification.new do |spec|
   spec.email         = ['dominik.richter@gmail.com']
   spec.summary       = 'Infrastructure and compliance testing.'
   spec.description   = 'InSpec provides a framework for creating end-to-end infrastructure tests. You can use it for integration or even compliance testing. Create fully portable test profiles and use them in your workflow to ensure stability and security. Integrate InSpec in your change lifecycle for local testing, CI/CD, and deployment verification.'
-  spec.homepage      = 'https://github.com/chef/inspec'
+  spec.homepage      = 'https://github.com/inspec/inspec'
   spec.license       = 'Apache-2.0'
 
   spec.files = %w{
-    README.md Rakefile MAINTAINERS.toml MAINTAINERS.md LICENSE inspec.gemspec
+    README.md Rakefile MAINTAINERS.md LICENSE inspec.gemspec
     Gemfile CHANGELOG.md .rubocop.yml
   } + Dir.glob(
-    '{bin,docs,examples,lib}/**/*', File::FNM_DOTMATCH
+    '{bin,lib}/**/*', File::FNM_DOTMATCH
   ).reject { |f| File.directory?(f) }
 
   spec.executables   = %w{inspec}
