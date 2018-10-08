@@ -49,7 +49,7 @@ module Inspec::Resources
       path basename source source_path uid gid
     }.each do |m|
       define_method m.to_sym do |*args|
-        file.method(m.to_sym).call(*args)
+        file.method(m.to_sym).call(*args) unless file.nil?
       end
     end
 
