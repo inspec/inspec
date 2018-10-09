@@ -267,10 +267,10 @@ module FilterTable
     end
 
     def decorate_symbols(thing)
-      return thing.map {|t| decorate_symbols(t) } if thing.is_a?(Array)
+      return thing.map { |t| decorate_symbols(t) } if thing.is_a?(Array)
       return ':' + thing.to_s if thing.is_a? Symbol
       return thing + ' (String)' if thing.is_a? String
-      return thing
+      thing
     end
   end
 
