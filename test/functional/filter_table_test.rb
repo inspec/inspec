@@ -8,11 +8,13 @@ describe '2943 inspec exec for filter table profile, method mode for `where' do
       '2943_pass_undeclared_field_in_hash',
       '2943_pass_irregular_row_key',
       '2943_pass_raise_error_when_key_not_in_data',
+      '2943_pass_allow_symbols_as_criteria_when_data_is_string_keyed',
+      '2943_pass_allow_strings_as_criteria_when_data_is_symbol_keyed',
       '2943_pass_no_error_when_no_data',
     ]
 
     cmd  = 'exec ' + File.join(profile_path, 'filter_table')
-    cmd += ' --reporter json --no-create-lockfile' 
+    cmd += ' --reporter json --no-create-lockfile'
     cmd += ' --controls ' + controls.join(' ')
     cmd = inspec(cmd)
 
@@ -41,7 +43,7 @@ describe '2943 inspec exec for filter table profile, method mode for `where' do
     failed_controls.each do |ctl|
       control_hash[ctl['id']] = ctl['results'][0]['message']
     end
-    controls.each do |expected_control| 
+    controls.each do |expected_control|
       control_hash.keys.must_include(expected_control)
     end
 
@@ -99,7 +101,7 @@ describe '2370 lazy_load for filter table' do
     ]
 
     cmd  = 'exec ' + File.join(profile_path, 'filter_table')
-    cmd += ' --reporter json --no-create-lockfile' 
+    cmd += ' --reporter json --no-create-lockfile'
     cmd += ' --controls ' + controls.join(' ')
     cmd = inspec(cmd)
 
@@ -128,7 +130,7 @@ describe '2370 lazy_load for filter table' do
     failed_controls.each do |ctl|
       control_hash[ctl['id']] = ctl['results'][0]['message']
     end
-    controls.each do |expected_control| 
+    controls.each do |expected_control|
       control_hash.keys.must_include(expected_control)
     end
 
@@ -156,7 +158,7 @@ describe '2929 exceptions in block-mode where' do
     control_hash.must_be_empty
     cmd.stderr.must_equal ''
     cmd.exit_status.must_equal 0
-  end  
+  end
 end
 
 describe '3110 do not expose block-valued properties in raw data' do
@@ -169,7 +171,7 @@ describe '3110 do not expose block-valued properties in raw data' do
     ]
 
     cmd  = 'exec ' + File.join(profile_path, 'filter_table')
-    cmd += ' --reporter json --no-create-lockfile' 
+    cmd += ' --reporter json --no-create-lockfile'
     cmd += ' --controls ' + controls.join(' ')
     cmd = inspec(cmd)
 

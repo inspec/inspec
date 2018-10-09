@@ -5,6 +5,11 @@ raw_data = [
   { id: 2, name: 'Bobby', shoe_size: 10, favorite_color: 'purple'},
 ]
 
+stringy_raw_data = [
+  { 'id' => 1, 'name' => 'Annie', 'shoe_size' => 12},
+  { 'id' => 2, 'name' => 'Bobby', 'shoe_size' => 10, 'favorite_color' => 'purple'},
+]
+
 control '2943_pass_undeclared_field_in_hash' do
   title 'It should tolerate criteria that are keys of the raw data but are not declared as fields'
   # simple_plural only has one declared field, 'id'
@@ -40,3 +45,18 @@ control '2943_fail_derail_check' do
     it { should exist }
   end
 end
+
+control '2943_pass_allow_symbols_as_criteria_when_data_is_string_keyed' do
+  title 'It should tolerate criteria that are Symbols when the raw data is String-keyed'
+  describe simple_plural(stringy_raw_data).where(favorite_color: 'purple') do
+    it { should exist }
+  end
+end
+
+control '2943_pass_allow_strings_as_criteria_when_data_is_symbol_keyed' do
+  title 'It should tolerate criteria that are Strings when the raw data is Symbol-keyed'
+  describe simple_plural(raw_data).where('favorite_color' => 'purple') do
+    it { should exist }
+  end
+end
+
