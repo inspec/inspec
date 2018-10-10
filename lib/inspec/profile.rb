@@ -235,10 +235,12 @@ module Inspec
         # this metadata if the parent profile is supported.
         if supports_platform? && !d.supports_platform?
           # since ruby 1.9 hashes are ordered so we can just use index values here
-          metadata.dependencies[i][:skipped] = true
+          metadata.dependencies[i][:status] = 'skipped'
           msg = "Skipping profile: '#{d.name}' on unsupported platform: '#{d.backend.platform.name}/#{d.backend.platform.release}'."
           metadata.dependencies[i][:skip_message] = msg
           next
+        else
+          metadata.dependencies[i][:status] = 'loaded'
         end
         c = d.load_libraries
         @runner_context.add_resources(c)
@@ -302,9 +304,11 @@ module Inspec
       res[:parent_profile] = parent_profile unless parent_profile.nil?
 
       if !supports_platform?
-        res[:skipped] = true
+        res[:status] = 'skipped'
         msg = "Skipping profile: '#{name}' on unsupported platform: '#{backend.platform.name}/#{backend.platform.release}'."
         res[:skip_message] = msg
+      else
+        res[:status] = 'loaded'
       end
 
       # convert legacy os-* supports to their platform counterpart
