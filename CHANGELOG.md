@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.16 -->
-## [v2.3.16](https://github.com/inspec/inspec/tree/v2.3.16) (2018-10-10)
+<!-- latest_release 2.3.17 -->
+## [v2.3.17](https://github.com/inspec/inspec/tree/v2.3.17) (2018-10-10)
 
-#### Bug Fixes
-- small fix - update to AlpinePkg Class  [#3483](https://github.com/inspec/inspec/pull/3483) ([aaronlippold](https://github.com/aaronlippold))
+#### Merged Pull Requests
+- Skip running appveyor on docs and examples [#3474](https://github.com/inspec/inspec/pull/3474) ([btm](https://github.com/btm))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.3.10 -->
@@ -14,6 +14,7 @@
 - small fix - update to AlpinePkg Class  [#3483](https://github.com/inspec/inspec/pull/3483) ([aaronlippold](https://github.com/aaronlippold)) <!-- 2.3.16 -->
 
 #### Merged Pull Requests
+- Skip running appveyor on docs and examples [#3474](https://github.com/inspec/inspec/pull/3474) ([btm](https://github.com/btm)) <!-- 2.3.17 -->
 - Remove &#39;demo&#39; from website. [#3475](https://github.com/inspec/inspec/pull/3475) ([miah](https://github.com/miah)) <!-- 2.3.15 -->
 - Enable compression for deb/rpm packages [#3472](https://github.com/inspec/inspec/pull/3472) ([tas50](https://github.com/tas50)) <!-- 2.3.14 -->
 - Fix Packages Resource Docs [#3469](https://github.com/inspec/inspec/pull/3469) ([pwelch](https://github.com/pwelch)) <!-- 2.3.13 -->
