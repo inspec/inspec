@@ -50,4 +50,16 @@ class InitCli < MiniTest::Test
       assert_equal 'profile', profile['name']
     end
   end
+
+  def test_generating_inspec_profile_gcp
+    Dir.mktmpdir do |dir|
+      profile = File.join(dir, 'test-gcp-profile')
+      out = run_inspec_process("init profile_gcp test-gcp-profile", prefix: "cd #{dir} &&")
+      assert_equal 0, out.exit_status
+      assert_includes out.stdout, 'Create new profile_gcp at'
+      assert_includes out.stdout, profile
+      assert_includes Dir.entries(profile).join, 'inspec.yml'
+      assert_includes Dir.entries(profile).join, 'README.md'
+    end
+  end
 end
