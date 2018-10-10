@@ -1,3 +1,5 @@
+# These controls are dummy controls to be included in the wrapper
+
 control 'include-01' do
   impact 2.2
   describe '9999' do

@@ -40,7 +40,7 @@ describe 'inspec exec with json formatter' do
   end
 
   it 'does not report skipped dependent profiles' do
-    out = inspec('exec ' + File.join(profile_path, 'unsupported_dependencies') + ' --reporter json --no-create-lockfile')
+    out = inspec('exec ' + File.join(profile_path, 'unsupported_dependencies', 'wrapper-profile') + ' --reporter json --no-create-lockfile')
     out.stderr.must_include "WARN: Skipping profile: 'child_profile' on unsupported platform:"
     out.stderr.must_include "WARN: Skipping profile: 'child_profile2' on unsupported platform:"
     out.exit_status.must_equal 0

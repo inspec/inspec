@@ -1,3 +1,5 @@
+# These controls are dummy controls to be required in the wrapper
+
 control 'require-01' do
   describe '123456' do
     it { should cmp '123456' }
