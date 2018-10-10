@@ -236,7 +236,7 @@ module Inspec
         if supports_platform? && !d.supports_platform?
           # since ruby 1.9 hashes are ordered so we can just use index values here
           metadata.dependencies[i][:skipped] = true
-          msg = "This OS/platform (#{d.backend.platform.name}/#{d.backend.platform.release}) is not supported by this profile."
+          msg = "Skipping profile: '#{d.name}' on unsupported platform: '#{d.backend.platform.name}/#{d.backend.platform.release}'."
           metadata.dependencies[i][:skip_message] = msg
           next
         end
@@ -303,7 +303,7 @@ module Inspec
 
       if !supports_platform?
         res[:skipped] = true
-        msg = "This OS/platform (#{backend.platform.name}/#{backend.platform.release}) is not supported by this profile."
+        msg = "Skipping profile: '#{name}' on unsupported platform: '#{backend.platform.name}/#{backend.platform.release}'."
         res[:skip_message] = msg
       end
 
