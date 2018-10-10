@@ -38,7 +38,7 @@ describe 'attributes' do
       cmd += File.join(profile_path, 'profile-with-empty-attributes')
       cmd += ' --no-create-lockfile'
       out = inspec(cmd)
-      out.stderr.must_equal ''
+      out.stdout.must_include 'WARN: Attributes must be defined as an Array. Skipping current definition.'
       out.exit_status.must_equal 0
     end
 
