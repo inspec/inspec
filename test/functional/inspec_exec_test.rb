@@ -112,7 +112,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   it 'executes only specified controls when selecting passing controls by regex' do
     out = inspec('exec ' + File.join(profile_path, 'filter_table') + ' --no-create-lockfile --controls \'/^2943_pass/\'')
     out.exit_status.must_equal 0
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m4 successful controls\e[0m, 0 control failures, 0 controls skipped"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m6 successful controls\e[0m, 0 control failures, 0 controls skipped"
   end
 
   it 'executes only specified controls when selecting failing controls by regex' do
