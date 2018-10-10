@@ -229,8 +229,17 @@ module Inspec
     def load_libraries
       return @runner_context if @libraries_loaded
 
-      locked_dependencies.each do |d|
-        next unless d.supports_platform?
+      locked_dependencies.dep_list.each_with_index do |(_name, dep), i|
+        d = dep.profile
+        # this will force a dependent profile load so we are only going to add
+        # this metadata if the parent profile is supported.
+        if supports_platform? && !d.supports_platform?
+          # since ruby 1.9 hashes are ordered so we can just use index values here
+          metadata.dependencies[i][:skipped] = true
+          msg = "This OS/platform (#{d.backend.platform.name}/#{d.backend.platform.release}) is not supported by this profile."
+          metadata.dependencies[i][:skip_message] = msg
+          next
+        end
         c = d.load_libraries
         @runner_context.add_resources(c)
       end
@@ -291,6 +300,12 @@ module Inspec
       end
       res[:sha256] = sha256
       res[:parent_profile] = parent_profile unless parent_profile.nil?
+
+      if !supports_platform?
+        res[:skipped] = true
+        msg = "This OS/platform (#{backend.platform.name}/#{backend.platform.release}) is not supported by this profile."
+        res[:skip_message] = msg
+      end
 
       # convert legacy os-* supports to their platform counterpart
       if res[:supports] && !res[:supports].empty?

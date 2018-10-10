@@ -6,8 +6,9 @@ copyright_email: you@example.com
 license: Apache-2.0
 summary: An InSpec wrapper profile for unsupported dependencies
 version: 0.1.0
+# supports:
+#   platform-family: 'bash'
 depends:
   - name: child_profile
     path: ../child_profile
-  - name: child_profile2
-    path: ../child_profile2
+  - path: ../child_profile2
