@@ -258,7 +258,7 @@ module Inspec::Resources
       cmd = inspec.command("apk info -vv --no-network | grep #{package_name}")
       return {} if cmd.exit_status.to_i != 0
 
-      pkg_info = cmd.stdout.split("\n").reject! { |e| e =~ /^WARNING/i }
+      pkg_info = cmd.stdout.split("\n").delete_if { |e| e =~ /^WARNING/i }
       pkg = pkg_info[0].split(' - ')[0]
 
       {
