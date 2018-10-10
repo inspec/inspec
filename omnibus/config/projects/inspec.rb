@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# Copyright:: Copyright 2016, Chef Software Inc.
+# Copyright:: Copyright 2016-2018, Chef Software Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,7 @@ require_relative '../../../lib/inspec/version.rb'
 name 'inspec'
 friendly_name 'InSpec'
 maintainer 'Chef Software, Inc <maintainers@chef.io>'
-homepage 'https://github.com/chef/inspec'
+homepage 'https://github.com/inspec/inspec'
 
 license 'Apache-2.0'
 license_file '../LICENSE'
@@ -61,6 +61,15 @@ dependency 'clean-static-libs'
 
 package :rpm do
   signing_passphrase ENV['OMNIBUS_RPM_SIGNING_PASSPHRASE']
+  unless rhel? && platform_version.satisfies?('< 6')
+    compression_level 1
+    compression_type :xz
+  end
+end
+
+package :deb do
+  compression_level 1
+  compression_type :xz
 end
 
 package :pkg do
