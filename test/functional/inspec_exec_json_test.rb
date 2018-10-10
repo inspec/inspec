@@ -39,6 +39,16 @@ describe 'inspec exec with json formatter' do
     JSON::Schema.validate(data, schema)
   end
 
+  it 'does not report skipped dependent profiles' do
+    out = inspec('exec ' + File.join(profile_path, 'unsupported_dependencies', 'wrapper-profile') + ' --reporter json --no-create-lockfile')
+    out.stderr.must_include "WARN: Skipping profile: 'child_profile' on unsupported platform:"
+    out.stderr.must_include "WARN: Skipping profile: 'child_profile2' on unsupported platform:"
+    out.exit_status.must_equal 0
+    data = JSON.parse(out.stdout)
+    data['profiles'].count.must_equal 1
+    data['profiles'].first['controls'].count.must_equal 1
+  end
+
   describe 'execute a profile with json formatting' do
     let(:json) { JSON.load(inspec('exec ' + example_profile + ' --reporter json --no-create-lockfile').stdout) }
     let(:profile) { json['profiles'][0] }

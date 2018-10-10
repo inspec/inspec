@@ -26,7 +26,7 @@ describe SourceReaders::InspecReader do
     end
 
     it 'retrieves all files' do
-      _(res.tests.keys).must_equal %w{controls/filesystem_spec.rb}
+      _(res.tests.keys).must_equal %w{controls/host_spec.rb}
       _(res.tests.values[0]).must_match(/^control 'test01' do$/)
     end
 

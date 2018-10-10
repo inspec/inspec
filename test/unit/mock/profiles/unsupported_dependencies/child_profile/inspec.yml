@@ -1,0 +1,10 @@
+name: child_profile
+title: Child Profile
+maintainer: Demo, Inc.
+copyright: Demo, Inc.
+copyright_email: support@example.com
+license: Apache-2.0
+summary: Child profile to be required in wrapper
+version: 1.0.0
+supports:
+  platform-family: 'archer'

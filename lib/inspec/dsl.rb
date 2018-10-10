@@ -30,8 +30,11 @@ module Inspec::DSL
   def self.load_spec_files_for_profile(bind_context, opts, &block)
     dependencies = opts[:dependencies]
     profile_id = opts[:profile_id]
-
     dep_entry = dependencies.list[profile_id]
+
+    # do not load any controls if the profile is not supported
+    return unless dep_entry.profile.supports_platform?
+
     if dep_entry.nil?
       raise <<~EOF
         Cannot load #{profile_id} since it is not listed as a dependency of #{bind_context.profile_name}.
