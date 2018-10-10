@@ -126,7 +126,7 @@ module Inspec
     end
 
     def register_metadata_attributes
-      if metadata.params.key?(:attributes)
+      if metadata.params.key?(:attributes) && metadata.params[:attributes].is_a?(Array)
         metadata.params[:attributes].each do |attribute|
           attr_dup = attribute.dup
           name = attr_dup.delete(:name)
