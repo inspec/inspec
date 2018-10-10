@@ -1,15 +1,15 @@
 # encoding: utf-8
 # copyright: 2015, Chef Software, Inc
 
-title 'Proc Filesystem Configuration'
+title 'Host example.com lookup'
 
 control 'test01' do
   impact 0.5
   title 'Catchy title'
   desc '
-    There should always be a /proc
+    example.com should always exist.
   '
-  describe file('/proc') do
-    it { should be_mounted }
+  describe host('example.com') do
+    it { should be_resolvable }
   end
 end

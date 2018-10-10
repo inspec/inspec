@@ -85,6 +85,11 @@ module Inspec
         profile_context = profile.load_libraries
 
         profile_context.dependencies.list.values.each do |requirement|
+          unless requirement.profile.supports_platform?
+            Inspec::Log.warn "Skipping profile: '#{requirement.profile.name}'" \
+             " on unsupported platform: '#{@backend.platform.name}'."
+            next
+          end
           @test_collector.add_profile(requirement.profile)
         end
 
