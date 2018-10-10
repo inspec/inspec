@@ -16,7 +16,7 @@ header.bg-gradient.margin-top-offset.short-bg.relative
         .row.align.columns.margin-top-sm.mobile-row-btn
           a.button.btn-lg.btn-purple.shadow-dark.margin-right-xs.mobile-row-btn href="/downloads"
             i.fa.fa-cloud-download
-            span download inspec 2.0
+            span download inspec 3.0
           a.button.btn-lg.btn-white-o.shadow-dark.mobile-row-btn href="/tutorials" browse tutorials
         a class="github-button" href="https://github.com/chef/inspec" data-size="large" data-show-count="true" aria-label="Star chef/inspec on GitHub" Star
 
@@ -27,29 +27,23 @@ header.bg-gradient.margin-top-offset.short-bg.relative
   /! announcement
   .row.columns
     .box-white.shadow.z-20.slide-left
-      h3.large-11.medium-11 What's new in InSpec 2.0?
-      p.large-11.medium-11 Test AWS, Azure, and your containers; improved performance for Windows and Linux, and more.
+      h3.large-11.medium-11 What's new in InSpec 3.0?
+      p.large-11.medium-11 Plugin system, global attributes, enchanced skip messaging, and more.
       #expand
         .margin-top-sm.brdr-left.large-11.medium-11
           .margin-left-sm
+            h4.t-purple core
+            p New Plugin System for Train and InSpec CLI
+            p Harmonized vendoring (all dependencies get vendored the same way, even local!)
+            p Enhanced skip messaging
+            p Refined output when dependent profiles are unsupported on the execution platform
+            p Global attributes specifiable via `inspec.yml`
+            p Text based severity (is `0.4` low severity? Don't know? Just use `low`)
+            p Tons and tons of security/bug fixes/tiny improvements
+        .margin-top-sm.brdr-left.large-11.medium-11
+          .margin-left-sm
             h4.t-purple cloud
-            p InSpec now supports testing configurations for cloud provider platforms such as AWS or Azure.  Test additional components, such as Docker containers and network infrastructure — without adding anything extra.
-        .margin-top-xs.brdr-left.large-11.medium-11
-          .margin-left-sm
-            h4.t-purple coverage
-            p 30 new resources to get you started writing compliance rules for apps, containers, and system configuration files.
-        .margin-top-xs.brdr-left.large-11.medium-11
-          .margin-left-sm
-            h4.t-purple speed
-            p Significantly faster, with 90% performance gains on Windows and 30% gains on Linux.
-        .margin-top-xs.brdr-left.large-11.medium-11
-          .margin-left-sm
-            h4.t-purple Integration
-            p Chef Automate can be used as a source for compliance profiles and to store InSpec reports for compliance and security audits. InSpec results can be exported in JUnit format for integration into CI/CD tools like Jenkins.
-        .margin-top-xs.brdr-left.large-11.medium-11
-          .margin-left-sm
-            h4.t-purple Ease
-            p It’s now easier to write and debug custom resources you create using InSpec Shell.
+            p Support for VMware ESXi via PowerCLI (Even on Linux!)
       .margin-top-xs
         a#expandBtn Show all new features
   /!  canvas elements
