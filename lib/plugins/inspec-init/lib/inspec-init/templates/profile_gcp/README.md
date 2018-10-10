@@ -16,13 +16,13 @@ Create new profile_gcp at Users/spaterson/gcp-profile
  * Create file libraries/.gitkeep
 ```
 
-# Update `attributes.yml` to point to your project
+## Update `attributes.yml` to point to your project
 
 ```
 gcp_project_id: 'my-gcp-project'
 ```
 
-# Run the tests
+## Run the tests
 
 ```
 $ cd gcp-profile/
