@@ -46,7 +46,44 @@ describe 'inspec exec with json formatter' do
     out.exit_status.must_equal 0
     data = JSON.parse(out.stdout)
     data['profiles'].count.must_equal 1
-    data['profiles'].first['controls'].count.must_equal 1
+    profile = data['profiles'].first
+    profile['controls'].count.must_equal 1
+  end
+
+  it 'flags skipped profiles with correct status' do
+    out = inspec('exec ' + File.join(profile_path, 'unsupported_dependencies', 'wrapper-profile') + ' --reporter json --no-create-lockfile')
+    out.exit_status.must_equal 0
+    data = JSON.parse(out.stdout)
+    data['profiles'].count.must_equal 1
+    profile = data['profiles'].first
+    profile['status'].must_equal 'loaded'
+    profile['depends'].count.must_equal 2
+    profile['depends'].each do |d|
+      d['status'].must_equal 'skipped'
+      d['skip_message'].must_include "Skipping profile: "
+    end
+  end
+
+  it 'flags loaded profiles with correct status' do
+    out = inspec('exec ' + File.join(profile_path, 'dependencies', 'inheritance') + ' --reporter json --no-create-lockfile')
+    out.exit_status.must_equal 0
+    data = JSON.parse(out.stdout)
+    profile = data['profiles'].first
+    profile['status'].must_equal 'loaded'
+    profile['depends'].count.must_equal 2
+    profile['depends'].each do |d|
+      d['status'].must_equal 'loaded'
+      d.key?('skip_message').must_equal false
+    end
+  end
+
+  it 'flags profile with correct status when not supported' do
+    out = inspec('exec ' + File.join(profile_path, 'skippy-profile-os') + ' --reporter json --no-create-lockfile')
+    out.exit_status.must_equal 0
+    data = JSON.parse(out.stdout)
+    profile = data['profiles'].first
+    profile['status'].must_equal 'skipped'
+    profile['skip_message'].must_include "Skipping profile: 'skippy' on unsupported platform:"
   end
 
   describe 'execute a profile with json formatting' do

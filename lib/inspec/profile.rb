@@ -240,7 +240,9 @@ module Inspec
           metadata.dependencies[i][:skip_message] = msg
           next
         else
-          metadata.dependencies[i][:status] = 'loaded'
+          # Currently wrapper profiles will load all dependencies, and then we
+          # load them again when we dive down. This needs to be re-done.
+          metadata.dependencies[i][:status] = 'loaded' if metadata.dependencies[i]
         end
         c = d.load_libraries
         @runner_context.add_resources(c)
