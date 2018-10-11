@@ -222,7 +222,7 @@ A Number totalling the number of individual rules defined - It is a sum of the c
 
 A String in the format 'vpc-' followed by 8 hexadecimal characters reflecting VPC that contains the Security Group.
 
-    # Inspec the VPC ID of a particular Group
+    # Inspect the VPC ID of a particular Group
     describe aws_security_group('sg-12345678') do
       its('vpc_id') { should cmp 'vpc-12345678' }
     end

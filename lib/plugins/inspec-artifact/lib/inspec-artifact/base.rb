@@ -87,7 +87,7 @@ module InspecPlugins
           p = Pathname.new(path_to_profile)
           p = p.join('inspec.yml')
           if not p.exist?
-            raise "#{path_to_profile} doesn't appear to be a valid Inspec profile"
+            raise "#{path_to_profile} doesn't appear to be a valid InSpec profile"
           end
           yaml = YAML.load_file(p.to_s)
           yaml = yaml.to_hash
@@ -101,7 +101,7 @@ module InspecPlugins
           end
         rescue => e
           # rewrap it and pass it up to the CLI
-          raise "Error reading Inspec profile metadata: #{e}"
+          raise "Error reading InSpec profile metadata: #{e}"
         end
 
         yaml

@@ -260,7 +260,7 @@ module InspecPlugins
       end
     end
 
-    # register the subcommand to Inspec CLI registry
+    # register the subcommand to InSpec CLI registry
     # Inspec::Plugins::CLI.add_subcommand(InspecPlugins::ComplianceCLI, 'compliance', 'compliance SUBCOMMAND ...', 'Chef InspecPlugins::Compliance commands', {})
   end
 end

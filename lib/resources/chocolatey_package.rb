@@ -6,7 +6,7 @@ module Inspec::Resources
   class ChocoPkg < Inspec.resource(1)
     name 'chocolatey_package'
     supports platform: 'windows'
-    desc 'Use the chocolatey_package Inspec audit resource to test if the named package and/or package version is installed on the system.'
+    desc 'Use the chocolatey_package InSpec audit resource to test if the named package and/or package version is installed on the system.'
     example <<-EOH
       describe chocolatey_package('git') do
         it { should be_installed }

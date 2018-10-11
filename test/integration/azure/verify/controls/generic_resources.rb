@@ -21,6 +21,6 @@ control 'azure-generic-resource-group-resources-1.0' do
     it { should have_tags }
     its('tag_count') { should be 1 }
     its('tags') { should include 'CreatedBy' }
-    its('CreatedBy_tag') { should cmp 'Inspec Azure Integration Tests' }
+    its('CreatedBy_tag') { should cmp 'InSpec Azure Integration Tests' }
   end
 end

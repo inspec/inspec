@@ -244,7 +244,7 @@ class PluginInstallerInstallationTests < MiniTest::Test
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     # Here, 'inspec-core', 'inspec-multi-server', and 'train-tax-collector'
-    # are the names of real rubygems.  They are not InSPec/Train plugins, though,
+    # are the names of real rubygems.  They are not InSpec/Train plugins, though,
     # and installing them would be a jam-up.
     # This is configured in 'etc/plugin-filter.json'.
     [

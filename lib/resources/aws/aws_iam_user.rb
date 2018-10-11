@@ -97,7 +97,7 @@ class AwsIamUser < Inspec.resource(1)
     mfa_info = backend.list_mfa_devices(user_name: username)
     @has_mfa_enabled = !mfa_info.mfa_devices.empty?
 
-    # TODO: consider returning Inspec AwsIamAccessKey objects
+    # TODO: consider returning InSpec AwsIamAccessKey objects
     @access_keys = backend.list_access_keys(user_name: username).access_key_metadata
     # If the above call fails, we get nil here; but we promise access_keys will be an array.
     @access_keys ||= []

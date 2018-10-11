@@ -7,7 +7,7 @@ module Inspec::Resources
     name 'azure_virtual_machine'
 
     desc '
-      Inspec Resource to test Azure Virtual Machines
+      InSpec Resource to test Azure Virtual Machines
     '
 
     supports platform: 'azure'
@@ -122,7 +122,7 @@ module Inspec::Resources
     #
     # This allows the use of
     #   it { should have_password_authentication }
-    # within the Inspec profile
+    # within the InSpec profile
     #
     # @return boolean
     def has_password_authentication?
@@ -146,7 +146,7 @@ module Inspec::Resources
     #
     # This allows the use of
     #    it { should have_custom_data }
-    # within the Inspec Profile
+    # within the InSpec Profile
     #
     # @return boolean
     def has_custom_data?
@@ -168,7 +168,7 @@ module Inspec::Resources
     #
     # This allows the use of
     #    it { should have_ssh_keys }
-    # within the Inspec Profile
+    # within the InSpec Profile
     #
     # @return boolean
     def has_ssh_keys?
