@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.19 -->
-## [v2.3.19](https://github.com/inspec/inspec/tree/v2.3.19) (2018-10-11)
+<!-- latest_release 2.3.20 -->
+## [v2.3.20](https://github.com/inspec/inspec/tree/v2.3.20) (2018-10-11)
 
-#### Bug Fixes
-- Fix error on empty attributes yaml [#3485](https://github.com/inspec/inspec/pull/3485) ([jquick](https://github.com/jquick))
+#### Enhancements
+- Plugins: Filter Plugins During Search and Install [#3458](https://github.com/inspec/inspec/pull/3458) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.3.10 -->
 ### Changes since 2.3.10 release
+
+#### Enhancements
+- Plugins: Filter Plugins During Search and Install [#3458](https://github.com/inspec/inspec/pull/3458) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.3.20 -->
 
 #### Bug Fixes
 - Fix error on empty attributes yaml [#3485](https://github.com/inspec/inspec/pull/3485) ([jquick](https://github.com/jquick)) <!-- 2.3.19 -->
