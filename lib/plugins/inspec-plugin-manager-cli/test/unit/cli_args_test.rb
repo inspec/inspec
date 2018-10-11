@@ -26,7 +26,7 @@ class PluginManagerCliOptions < MiniTest::Test
 
   def test_search_args
     arg_config = cli_class.all_commands['search'].options
-    assert_equal 3, arg_config.count, 'The search command should have 2 options'
+    assert_equal 3, arg_config.count, 'The search command should have 3 options'
 
     assert_includes arg_config.keys, :all, 'The search command should have an --all option'
     assert_equal :boolean, arg_config[:all].type, 'The --all option should be boolean'

@@ -544,10 +544,10 @@ class PluginManagerCliInstall < MiniTest::Test
 
   def test_refuse_install_when_plugin_on_exclusion_list
 
-    # Here, 'inspec-core', 'inspec-multiserver', and 'train-tax-collector'
-    # are the names of real rubygems.  They are not InSpec/ Train plugins, though,
+    # Here, 'inspec-core', 'inspec-multi-server', and 'train-tax-collector'
+    # are the names of real rubygems.  They are not InSpec/Train plugins, though,
     # and installing them would be a jam-up.
-    # This is configured in etc/plugin-filter.json .
+    # This is configured in 'etc/plugin-filter.json'.
     [
       'inspec-core',
       'inspec-multi-server',

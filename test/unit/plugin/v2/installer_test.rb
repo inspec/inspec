@@ -222,10 +222,10 @@ class PluginInstallerInstallationTests < MiniTest::Test
   def test_refuse_to_install_gem_whose_name_is_on_the_reject_list
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
-    # Here, 'inspec-core', 'inspec-multiserver', and 'train-tax-collector'
-    # are the names of real rubygems.  They are not InSPec/ Train plugins, though,
+    # Here, 'inspec-core', 'inspec-multi-server', and 'train-tax-collector'
+    # are the names of real rubygems.  They are not InSPec/Train plugins, though,
     # and installing them would be a jam-up.
-    # This is configured in etc/plugin-filter.json .
+    # This is configured in 'etc/plugin-filter.json'.
     [
       'inspec-core',
       'inspec-multi-server',
@@ -457,10 +457,10 @@ class PluginInstallerSearchTests < MiniTest::Test
     results = @installer.search('inspec-')
     assert results.key?('inspec-test-fixture')
 
-    # Here, 'inspec-core', 'inspec-multiserver'
-    # are the names of real rubygems.  They are not InSpec/ Train plugins, though,
+    # Here, 'inspec-core', 'inspec-multi-server'
+    # are the names of real rubygems.  They are not InSpec/Train plugins, though,
     # and installing them would be a jam-up.
-    # This is configured in etc/plugin_filters.json .
+    # This is configured in 'etc/plugin_filters.json'.
     [
       'inspec-core',
       'inspec-multi-server',
@@ -474,9 +474,9 @@ class PluginInstallerSearchTests < MiniTest::Test
     assert results.key?('train-test-fixture')
 
     # Here, train-tax-calculator'
-    # is the name of a real rubygem.  They are not InSpec/ Train plugins, though,
-    # and installing them would be a jam-up.
-    # This is configured in etc/plugin_filters.json .
+    # is the name of a real rubygem.  It is not a InSpec/Train plugin, though,
+    # and installing it would be a jam-up.
+    # This is configured in 'etc/plugin_filters.json'.
     [
       'train-tax-calculator'
     ].each do |plugin_name|
