@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.20 -->
-## [v2.3.20](https://github.com/inspec/inspec/tree/v2.3.20) (2018-10-11)
+<!-- latest_release 2.3.21 -->
+## [v2.3.21](https://github.com/inspec/inspec/tree/v2.3.21) (2018-10-11)
 
-#### Enhancements
-- Plugins: Filter Plugins During Search and Install [#3458](https://github.com/inspec/inspec/pull/3458) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- Backport compliance namespace and add testing for A2 audit report. [#3493](https://github.com/inspec/inspec/pull/3493) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.3.10 -->
@@ -14,6 +14,7 @@
 - Plugins: Filter Plugins During Search and Install [#3458](https://github.com/inspec/inspec/pull/3458) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.3.20 -->
 
 #### Bug Fixes
+- Backport compliance namespace and add testing for A2 audit report. [#3493](https://github.com/inspec/inspec/pull/3493) ([jquick](https://github.com/jquick)) <!-- 2.3.21 -->
 - Fix error on empty attributes yaml [#3485](https://github.com/inspec/inspec/pull/3485) ([jquick](https://github.com/jquick)) <!-- 2.3.19 -->
 - small fix - update to AlpinePkg Class  [#3483](https://github.com/inspec/inspec/pull/3483) ([aaronlippold](https://github.com/aaronlippold)) <!-- 2.3.16 -->
 
