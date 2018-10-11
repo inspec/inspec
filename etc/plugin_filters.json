@@ -1,0 +1,25 @@
+{
+  "file_version": "1.0.0",
+  "exclude": [
+    {
+      "plugin_name": "inspec-core",
+      "rationale": "This gem is a stripped-down alternate packaging of InSpec. It is not a plugin."
+    },
+    {
+      "plugin_name": "inspec-multi-server",
+      "rationale": "This gem is a script that attempts to drive a parallel execution of InSpec by wrapping and forking. It is not a plugin."
+    },
+    {
+      "plugin_name": "train-tax-calculator",
+      "rationale": "This gem is a tax calculation tool for the Philippines. It has nothing to do the Chef Train remote execution framework, or the InSpec project."
+    },
+    {
+      "plugin_name": "inspec-plugin-example",
+      "rationale": "This gem is an early self-taught example of a v1 plugin. Please use inspec-resource-lister as an example for PluginV2 development."
+    },
+    {
+      "plugin_name": "train-core",
+      "rationale": "This gem is a stripped-down alternate packaging of Train. It is not a plugin."
+    }
+  ]
+}

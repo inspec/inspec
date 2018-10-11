@@ -239,6 +239,24 @@ class PluginInstallerInstallationTests < MiniTest::Test
     assert_includes entry.keys, 'installation_path', 'plugins.json should include installation_path key'
     assert_equal @plugin_fixture_src_path, entry['installation_path'], 'plugins.json should include correct value for installation path'
   end
+
+  def test_refuse_to_install_gem_whose_name_is_on_the_reject_list
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+
+    # Here, 'inspec-core', 'inspec-multi-server', and 'train-tax-collector'
+    # are the names of real rubygems.  They are not InSPec/Train plugins, though,
+    # and installing them would be a jam-up.
+    # This is configured in 'etc/plugin-filter.json'.
+    [
+      'inspec-core',
+      'inspec-multi-server',
+      'train-tax-calculator',
+    ].each do |plugin_name|
+      ex = assert_raises(Inspec::Plugin::V2::InstallError) { @installer.install(plugin_name)}
+      assert_includes(ex.message, 'on the Plugin Exclusion List')
+      assert_includes(ex.message, 'Rationale:')
+    end
+  end
 end
 
 #-----------------------------------------------------------------------#
@@ -454,6 +472,37 @@ class PluginInstallerSearchTests < MiniTest::Test
     version_list = results['inspec-test-fixture']
     assert_includes version_list, '0.1.0', 'Version list should contain 0.1.0'
     assert_includes version_list, '0.2.0', 'Version list should contain 0.2.0'
+  end
+
+  def test_search_omits_inspec_gem_on_the_reject_list
+    results = @installer.search('inspec-')
+    assert results.key?('inspec-test-fixture')
+
+    # Here, 'inspec-core', 'inspec-multi-server'
+    # are the names of real rubygems.  They are not InSpec/Train plugins, though,
+    # and installing them would be a jam-up.
+    # This is configured in 'etc/plugin_filters.json'.
+    [
+      'inspec-core',
+      'inspec-multi-server',
+    ].each do |plugin_name|
+      refute results.key(plugin_name)
+    end
+  end
+
+  def test_search_omits_train_gem_on_the_reject_list
+    results = @installer.search('train-')
+    assert results.key?('train-test-fixture')
+
+    # Here, train-tax-calculator'
+    # is the name of a real rubygem.  It is not a InSpec/Train plugin, though,
+    # and installing it would be a jam-up.
+    # This is configured in 'etc/plugin_filters.json'.
+    [
+      'train-tax-calculator'
+    ].each do |plugin_name|
+      refute results.key(plugin_name)
+    end
   end
 end
 

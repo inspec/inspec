@@ -9,6 +9,8 @@ require 'rubygems/package'
 require 'rubygems/name_tuple'
 require 'rubygems/uninstaller'
 
+require 'inspec/plugin/v2/filter'
+
 module Inspec::Plugin::V2
   # Handles all actions modifying the user's plugin set:
   # * Modifying the plugins.json file
@@ -127,7 +129,7 @@ module Inspec::Plugin::V2
       else
         regex = Regexp.new('^' + plugin_query + '.*')
         matched_tuples = fetcher.detect(opts[:scope]) do |tuple|
-          tuple.name != 'inspec-core' && tuple.name =~ regex
+          tuple.name =~ regex && !Inspec::Plugin::V2::PluginFilter.exclude?(tuple.name)
         end
       end
 
@@ -192,6 +194,13 @@ module Inspec::Plugin::V2
         else
           raise InstallError, "#{plugin_name} is already installed. Use 'inspec plugin update' to change version."
         end
+      end
+
+      reason = Inspec::Plugin::V2::PluginFilter.exclude?(plugin_name)
+      if reason
+        ex = PluginExcludedError.new("Refusing to install #{plugin_name}.  It is on the Plugin Exclusion List.  Rationale: #{reason.rationale}")
+        ex.details = reason
+        raise ex
       end
     end
     # rubocop: enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize

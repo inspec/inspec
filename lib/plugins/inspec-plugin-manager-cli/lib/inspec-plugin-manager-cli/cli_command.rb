@@ -1,5 +1,6 @@
 require 'term/ansicolor'
 require 'pathname'
+require 'inspec/plugin/v2'
 require 'inspec/plugin/v2/installer'
 
 module InspecPlugins
@@ -35,16 +36,30 @@ module InspecPlugins
       #                        inspec plugin search
       #==================================================================#
 
-      desc 'search [options] PATTERN', 'Searches rubygems.org for InSpec plugins. Exits 0 on a search hit, exits 2 on a search miss.'
+      desc 'search [options] PATTERN', 'Searches rubygems.org for plugins.'
+      long_desc <<~EOLD
+        Searches rubygems.org for InSpec plugins. Exits 0 on a search hit, 1 on user error,
+        2 on a search miss. PATTERN is a simple string; a wildcard will be added as
+        a suffix, unless -e is used.
+      EOLD
       option :all, desc: 'List all available versions, not just the latest one.', type: :boolean, aliases: [:a]
       option :exact, desc: 'Assume PATTERN is exact; do not add a wildcard to the end', type: :boolean, aliases: [:e]
+      option :'include-test-fixture', type: :boolean, desc: 'Internal use', hide: true
       # Justification for disabling ABC: currently at 33.51/33
       def search(search_term) # rubocop: disable Metrics/AbcSize
         search_results = installer.search(search_term, exact: options[:exact])
+        # The search results have already been filtered by the reject list.  But the
+        # RejectList doesn't filter {inspec, train}-test-fixture because we need those
+        # for testing.  We want to hide those from users, so unless we know we're in
+        # test mode, remove them.
+        unless options[:'include-test-fixture']
+          search_results.delete('inspec-test-fixture')
+          search_results.delete('train-test-fixture')
+        end
 
         # TODO: ui object support
         puts
-        puts(bold { format(' %-30s%-50s%', 'Plugin Name', 'Versions Available') })
+        puts(bold { format(' %-30s%-50s', 'Plugin Name', 'Versions Available') })
         puts '-' * 55
         search_results.keys.sort.each do |plugin_name|
           versions = options[:all] ? search_results[plugin_name] : [search_results[plugin_name].first]
@@ -342,8 +357,15 @@ module InspecPlugins
         exit 2
       end
 
-      def install_attempt_install(plugin_name)
+      # Rationale for RuboCop variance: This is a one-line method with heavy UX-focused error handling.
+      def install_attempt_install(plugin_name) # rubocop: disable Metrics/AbcSize
         installer.install(plugin_name, version: options[:version])
+      rescue Inspec::Plugin::V2::PluginExcludedError => ex
+        puts(red { 'Plugin on Exclusion List' } + " - #{plugin_name} is listed as an incompatible gem - refusing to install.")
+        puts "Rationale: #{ex.details.rationale}"
+        puts 'Exclusion list location: ' + File.join(Inspec.src_root, 'etc', 'plugin_filters.json')
+        puts 'If you disagree with this determination, please accept our apologies for the misunderstanding, and open an issue at https://github.com/inspec/inspec/issues/new'
+        exit 2
       rescue Inspec::Plugin::V2::InstallError
         results = installer.search(plugin_name, exact: true)
         if results.empty?
