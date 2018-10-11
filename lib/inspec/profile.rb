@@ -126,12 +126,14 @@ module Inspec
     end
 
     def register_metadata_attributes
-      if metadata.params.key?(:attributes)
+      if metadata.params.key?(:attributes) && metadata.params[:attributes].is_a?(Array)
         metadata.params[:attributes].each do |attribute|
           attr_dup = attribute.dup
           name = attr_dup.delete(:name)
           @runner_context.register_attribute(name, attr_dup)
         end
+      elsif metadata.params.key?(:attributes)
+        Inspec::Log.warn 'Attributes must be defined as an Array. Skipping current definition.'
       end
     end
 

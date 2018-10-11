@@ -33,6 +33,15 @@ describe 'attributes' do
       out.exit_status.must_equal 0
     end
 
+    it "does not error when attributes are empty" do
+      cmd = 'exec '
+      cmd += File.join(profile_path, 'profile-with-empty-attributes')
+      cmd += ' --no-create-lockfile'
+      out = inspec(cmd)
+      out.stdout.must_include 'WARN: Attributes must be defined as an Array. Skipping current definition.'
+      out.exit_status.must_equal 0
+    end
+
     it "errors with invalid attribute types" do
       cmd = 'exec '
       cmd += File.join(profile_path, 'invalid_attributes')
