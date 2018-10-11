@@ -44,7 +44,7 @@ module Inspec::Reporters
 
     def render
       run_data[:profiles].each do |profile|
-        if profile[:skipped] == true
+        if profile[:status] == 'skipped'
           platform = run_data[:platform]
           output("Skipping profile: '#{profile[:name]}' on unsupported platform: '#{platform[:name]}/#{platform[:release]}'.")
           next

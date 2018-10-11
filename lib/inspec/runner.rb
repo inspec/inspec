@@ -96,8 +96,8 @@ module Inspec
         end
 
         @attributes = profile.runner_context.attributes if @attributes.empty?
-        test = profile.collect_tests
-        all_controls += tests unless test.nil?
+        tests = profile.collect_tests
+        all_controls += tests unless tests.nil?
       end
 
       all_controls.each do |rule|

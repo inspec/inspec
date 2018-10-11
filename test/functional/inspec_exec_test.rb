@@ -161,9 +161,9 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec('exec ' + File.join(profile_path, 'skippy-profile-os') + ' --no-create-lockfile') }
     let(:json) { JSON.load(out.stdout) }
 
-    it 'exits with an error' do
-      out.stderr.must_match(/^This OS\/platform \(.+\) is not supported by this profile.$/)
-      out.exit_status.must_equal 1
+    it 'exits with skip message' do
+      out.stdout.must_include("Skipping profile: 'skippy' on unsupported platform:")
+      out.exit_status.must_equal 0
     end
   end
 
