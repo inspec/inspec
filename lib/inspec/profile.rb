@@ -239,10 +239,10 @@ module Inspec
           msg = "Skipping profile: '#{d.name}' on unsupported platform: '#{d.backend.platform.name}/#{d.backend.platform.release}'."
           metadata.dependencies[i][:skip_message] = msg
           next
-        else
+        elsif metadata.dependencies[i]
           # Currently wrapper profiles will load all dependencies, and then we
           # load them again when we dive down. This needs to be re-done.
-          metadata.dependencies[i][:status] = 'loaded' if metadata.dependencies[i]
+          metadata.dependencies[i][:status] = 'loaded'
         end
         c = d.load_libraries
         @runner_context.add_resources(c)
@@ -266,7 +266,7 @@ module Inspec
       info(load_params.dup)
     end
 
-    def info(res = params.dup) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def info(res = params.dup) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
       # add information about the controls
       res[:controls] = res[:controls].map do |id, rule|
         next if id.to_s.empty?
