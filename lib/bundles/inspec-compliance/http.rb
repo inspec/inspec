@@ -2,3 +2,6 @@
 # TODO: Remove in inspec 4.0
 
 require 'plugins/inspec-compliance/lib/inspec-compliance/http'
+
+# Backport old namespace
+Compliance = InspecPlugins::Compliance unless defined?(Compliance)

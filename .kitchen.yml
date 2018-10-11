@@ -9,6 +9,11 @@ transport:
 
 provisioner:
   name: dokken
+  client_rb:
+    data_collector.server_url: <%= ENV['COLLECTOR_URL'] %>
+    data_collector.token: <%= ENV['COLLECTOR_TOKEN'] %>
+    ssl_verify_mode: :verify_none
+    verify_api_cert: false
 
 verifier:
   name: inspec
@@ -90,7 +95,9 @@ suites:
     audit:
       attributes:
         audit_attribute: 'Attribute Override!'
-      reporter: 'json-file'
+      insecure: true
+      reporter: ['json-file','chef-automate']
+      fetcher: 'chef-automate'
       json_file:
         location: /tmp/json_export.json
       profiles:
