@@ -5,15 +5,16 @@ This example shows the implementation of an InSpec profile for GCP that depends 
 ##  Create a profile 
 
 ```
-$ inspec init profile_gcp gcp-profile
-Create new profile_gcp at Users/spaterson/gcp-profile
+$ inspec init profile --platform gcp my-profile
+Create new profile at /Users/spaterson/my-profile
  * Create directory libraries
  * Create file README.md
  * Create directory controls
  * Create file controls/example.rb
  * Create file inspec.yml
  * Create file attributes.yml
- * Create file libraries/.gitkeep
+ * Create file libraries/.gitkeep 
+ 
 ```
 
 ## Update `attributes.yml` to point to your project
@@ -28,7 +29,7 @@ gcp_project_id: 'my-gcp-project'
 $ cd gcp-profile/
 $ inspec exec . -t gcp:// --attrs attributes.yml
 
-Profile: GCP InSpec Profile (gcp-profile)
+Profile: GCP InSpec Profile (my-profile)
 Version: 0.1.0
 Target:  gcp://local-service-account@my-gcp-project.iam.gserviceaccount.com
 
