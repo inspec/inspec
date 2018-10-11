@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.18 -->
-## [v2.3.18](https://github.com/inspec/inspec/tree/v2.3.18) (2018-10-10)
+<!-- latest_release 2.3.19 -->
+## [v2.3.19](https://github.com/inspec/inspec/tree/v2.3.19) (2018-10-11)
 
-#### Merged Pull Requests
-- docs: Add version to multiple descriptions doc [#3477](https://github.com/inspec/inspec/pull/3477) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Bug Fixes
+- Fix error on empty attributes yaml [#3485](https://github.com/inspec/inspec/pull/3485) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.3.10 -->
 ### Changes since 2.3.10 release
 
 #### Bug Fixes
+- Fix error on empty attributes yaml [#3485](https://github.com/inspec/inspec/pull/3485) ([jquick](https://github.com/jquick)) <!-- 2.3.19 -->
 - small fix - update to AlpinePkg Class  [#3483](https://github.com/inspec/inspec/pull/3483) ([aaronlippold](https://github.com/aaronlippold)) <!-- 2.3.16 -->
 
 #### Merged Pull Requests
