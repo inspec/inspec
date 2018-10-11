@@ -1,0 +1,80 @@
+{
+    "name":  "Default Web Site",
+    "state":  "Started",
+    "physicalPath":  "%SystemDrive%\\inetpub\\wwwroot",
+    "bindings":  {
+                     "Attributes":  [
+
+                                    ],
+                     "ChildElements":  [
+
+                                       ],
+                     "ElementTagName":  "bindings",
+                     "Methods":  null,
+                     "Schema":  {
+                                    "AllowUnrecognizedAttributes":  false,
+                                    "AttributeSchemas":  "",
+                                    "ChildElementSchemas":  null,
+                                    "CollectionSchema":  "Microsoft.IIs.PowerShell.Framework.ConfigurationCollectionSchema",
+                                    "IsCollectionDefault":  false,
+                                    "Name":  "bindings"
+                                },
+                     "Collection":  [
+                                        {
+                                            "value":  "Microsoft.IIs.PowerShell.Framework.ConfigurationElement",
+                                            "protocol":  "http",
+                                            "bindingInformation":  "*:80:",
+                                            "sslFlags":  0,
+                                            "isDsMapperEnabled":  false,
+                                            "certificateHash":  "",
+                                            "certificateStoreName":  ""
+                                        },
+                                        {
+                                            "value":  "Microsoft.IIs.PowerShell.Framework.ConfigurationElement",
+                                            "protocol":  "net.tcp",
+                                            "bindingInformation":  "808:*",
+                                            "sslFlags":  0,
+                                            "isDsMapperEnabled":  null,
+                                            "certificateHash":  null,
+                                            "certificateStoreName":  null
+                                        },
+                                        {
+                                            "value":  "Microsoft.IIs.PowerShell.Framework.ConfigurationElement",
+                                            "protocol":  "net.pipe",
+                                            "bindingInformation":  "*",
+                                            "sslFlags":  0,
+                                            "isDsMapperEnabled":  null,
+                                            "certificateHash":  null,
+                                            "certificateStoreName":  null
+                                        },
+                                        {
+                                            "value":  "Microsoft.IIs.PowerShell.Framework.ConfigurationElement",
+                                            "protocol":  "net.msmq",
+                                            "bindingInformation":  "localhost",
+                                            "sslFlags":  0,
+                                            "isDsMapperEnabled":  null,
+                                            "certificateHash":  null,
+                                            "certificateStoreName":  null
+                                        },
+                                        {
+                                            "value":  "Microsoft.IIs.PowerShell.Framework.ConfigurationElement",
+                                            "protocol":  "msmq.formatname",
+                                            "bindingInformation":  "localhost",
+                                            "sslFlags":  0,
+                                            "isDsMapperEnabled":  null,
+                                            "certificateHash":  null,
+                                            "certificateStoreName":  null
+                                        },
+                                        {
+                                            "value":  "Microsoft.IIs.PowerShell.Framework.ConfigurationElement",
+                                            "protocol":  "https",
+                                            "bindingInformation":  "*:443:",
+                                            "sslFlags":  0,
+                                            "isDsMapperEnabled":  false,
+                                            "certificateHash":  "E024B9723C6EBCF17E933466F2B34D008B9334FB",
+                                            "certificateStoreName":  "My"
+                                        }
+                                    ]
+                 },
+    "applicationPool":  "DefaultAppPool"
+}

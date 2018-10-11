@@ -94,7 +94,7 @@ module Inspec::Resources
 
     # want to populate everything using one powershell command here and spit it out as json
     def iis_site(name)
-      command = "Get-Website '#{name}' | select-object -Property Name,State,PhysicalPath,bindings,ApplicationPool | ConvertTo-Json"
+      command = "Get-Website '#{name}' | Select-Object -Property Name,State,PhysicalPath,bindings,ApplicationPool | ConvertTo-Json"
       cmd = @inspec.command(command)
 
       begin
@@ -103,11 +103,8 @@ module Inspec::Resources
         return nil
       end
 
-      bindings_array = site['bindings']['Collection'].map { |k, _str|
-        k['protocol'] <<
-          ' ' <<
-          k['bindingInformation'] <<
-          (k['protocol'] == 'https' ? ' sslFlags=' << flags : '')
+      bindings_array = site['bindings']['Collection'].map { |k|
+        "#{k['protocol']} #{k['bindingInformation']}#{k['protocol'] == 'https' ? " sslFlags=#{k['sslFlags']}" : ''}"
       }
 
       # map our values to a hash table
