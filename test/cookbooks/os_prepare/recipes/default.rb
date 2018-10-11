@@ -16,6 +16,19 @@ chef_gem 'inspec' do
   source '/root/inspec-core-local.gem'
 end
 
+def uuid_from_string(string)
+  require 'digest/sha1'
+  hash = Digest::SHA1.new
+  hash.update(string)
+  ary = hash.digest.unpack('NnnnnN')
+  ary[2] = (ary[2] & 0x0FFF) | (5 << 12)
+  ary[3] = (ary[3] & 0x3FFF) | 0x8000
+  '%08x-%04x-%04x-%04x-%04x%08x' % ary
+end
+
+# set a static node uuid for our testing nodes
+Chef::Config[:chef_guid] = uuid_from_string(node.name)
+
 # container preparation
 include_recipe('os_prepare::prep_container')
 
