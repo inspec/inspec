@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.21 -->
-## [v2.3.21](https://github.com/inspec/inspec/tree/v2.3.21) (2018-10-11)
+<!-- latest_release 2.3.22 -->
+## [v2.3.22](https://github.com/inspec/inspec/tree/v2.3.22) (2018-10-12)
 
-#### Bug Fixes
-- Backport compliance namespace and add testing for A2 audit report. [#3493](https://github.com/inspec/inspec/pull/3493) ([jquick](https://github.com/jquick))
+#### Merged Pull Requests
+- Set a static node GUID for travis runs [#3497](https://github.com/inspec/inspec/pull/3497) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.3.10 -->
@@ -19,6 +19,7 @@
 - small fix - update to AlpinePkg Class  [#3483](https://github.com/inspec/inspec/pull/3483) ([aaronlippold](https://github.com/aaronlippold)) <!-- 2.3.16 -->
 
 #### Merged Pull Requests
+- Set a static node GUID for travis runs [#3497](https://github.com/inspec/inspec/pull/3497) ([jquick](https://github.com/jquick)) <!-- 2.3.22 -->
 - docs: Add version to multiple descriptions doc [#3477](https://github.com/inspec/inspec/pull/3477) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.3.18 -->
 - Skip running appveyor on docs and examples [#3474](https://github.com/inspec/inspec/pull/3474) ([btm](https://github.com/btm)) <!-- 2.3.17 -->
 - Remove &#39;demo&#39; from website. [#3475](https://github.com/inspec/inspec/pull/3475) ([miah](https://github.com/miah)) <!-- 2.3.15 -->
