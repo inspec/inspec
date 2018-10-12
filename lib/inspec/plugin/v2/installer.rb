@@ -395,9 +395,20 @@ module Inspec::Plugin::V2
     class InstalledVendorSet < Gem::Resolver::VendorSet
       def initialize
         super
+
         Gem::Specification.find_all do |spec|
           @specs[spec.name] = spec
           @directories[spec] = spec.gem_dir
+        end
+
+        if !defined?(::Bundler)
+          directories = Gem::Specification.dirs.find_all do |path|
+            !path.start_with?(Gem.user_dir)
+          end
+          Gem::Specification.each_spec(directories) do |spec|
+            @specs[spec.name] = spec
+            @directories[spec] = spec.gem_dir
+          end
         end
       end
     end
