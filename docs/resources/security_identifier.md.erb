@@ -15,11 +15,7 @@ Use the `security_identifier` InSpec resource to test the Security Identifier (S
 
 This resource is distributed along with InSpec itself. You can use it automatically.
 
-### Version
-
-This resource first became available in vX.Y.Z of InSpec.
-
-## Syntax
+## Resource Parameters
 
 A `security_identifier` resource should specify the name and type of the entity to test the SID for:
 
@@ -30,7 +26,7 @@ A `security_identifier` resource should specify the name and type of the entity 
 where
 
 * `group:` specifies that `'Everyone'` should be a group. `user:` can be used to specify a user account.
-** It is necessary to declare the type of the entity because Windows allows users, groups and other entities to share names. If you really need to not specify the type, `unsupported:` can be used. This will attempt to match the name to a group and then a useraccount. This may take longer to execute and comes with the risk of Inspec matching the name to an unintended type of entity. 
+** It is necessary to declare the type of the entity because Windows allows users, groups and other entities to share names. If you really need to not specify the type, `unspecified:` can be used. This will attempt to match the name to a group and then a useraccount. This may take longer to execute and comes with the risk of InSpec matching the name to an unintended type of entity.
 
 <br>
 
@@ -53,11 +49,28 @@ The following examples show how to use this InSpec resource.
 ### Use in conjunction with the security_policy resource to specify the entity to test for in the audit policy
 
     describe security_policy do
-      its(\"SeRemoteInteractiveLogonRight\") { should_not include security_identifier(group: 'Guests') }
+      its("SeRemoteInteractiveLogonRight") { should_not include security_identifier(group: 'Guests') }
     end
 
 <br>
 
+## Properties
+
+* `sid`
+
+## Property Examples
+
+### sid
+
+    describe security_identifier(group: 'Everyone') do
+      its('sid') { should eq 'S-1-1-0' }
+    end
+
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### exists
+
+This resource `exists` if a Security Identifier (SID) exists on the target host for the specified entity.  
+
