@@ -35,7 +35,7 @@ EOX
     validated_params
   end
 
-  def fetch_from_api
+  def fetch_from_api # rubocop:disable Metrics/AbcSize
     backend = BackendFactory.create(inspec_runner)
     begin
       params = { name: cluster_name }
