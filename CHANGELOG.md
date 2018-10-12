@@ -1,20 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.24 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v2.3.24](https://github.com/inspec/inspec/tree/v2.3.24) (2018-10-12)
 
 #### Bug Fixes
 - Fix plugin install issues in different ruby envs [#3505](https://github.com/inspec/inspec/pull/3505) ([jquick](https://github.com/jquick))
-<!-- latest_release -->
-
-<!-- release_rollup since=2.3.23 -->
-### Changes since 2.3.23 release
-
-#### Bug Fixes
-- Fix plugin install issues in different ruby envs [#3505](https://github.com/inspec/inspec/pull/3505) ([jquick](https://github.com/jquick)) <!-- 2.3.24 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v2.3.23](https://github.com/inspec/inspec/tree/v2.3.23) (2018-10-12)
 
 #### Enhancements
@@ -35,7 +33,6 @@
 - docs: Add version to multiple descriptions doc [#3477](https://github.com/inspec/inspec/pull/3477) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Set a static node GUID for travis runs [#3497](https://github.com/inspec/inspec/pull/3497) ([jquick](https://github.com/jquick))
 - Fix plugin issues on omni builds [#3499](https://github.com/inspec/inspec/pull/3499) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.3.10](https://github.com/inspec/inspec/tree/v2.3.10) (2018-10-04)
 
