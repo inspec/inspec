@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.3.24 -->
+## [v2.3.24](https://github.com/inspec/inspec/tree/v2.3.24) (2018-10-12)
+
+#### Bug Fixes
+- Fix plugin install issues in different ruby envs [#3505](https://github.com/inspec/inspec/pull/3505) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.3.23 -->
+### Changes since 2.3.23 release
+
+#### Bug Fixes
+- Fix plugin install issues in different ruby envs [#3505](https://github.com/inspec/inspec/pull/3505) ([jquick](https://github.com/jquick)) <!-- 2.3.24 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
