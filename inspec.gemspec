@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
     README.md Rakefile MAINTAINERS.md LICENSE inspec.gemspec
     Gemfile CHANGELOG.md .rubocop.yml
   } + Dir.glob(
-    '{bin,lib}/**/*', File::FNM_DOTMATCH
+    '{bin,lib,etc}/**/*', File::FNM_DOTMATCH
   ).reject { |f| File.directory?(f) }
 
   spec.executables   = %w{inspec}

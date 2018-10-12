@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
 
   spec.files = %w{README.md MAINTAINERS.toml MAINTAINERS.md LICENSE
                   inspec-core.gemspec Gemfile CHANGELOG.md} +
-               Dir.glob('{bin,docs,examples,lib}/**/*', File::FNM_DOTMATCH)
+               Dir.glob('{bin,lib,etc}/**/*', File::FNM_DOTMATCH)
                   .reject { |f| File.directory?(f) || f =~ /aws|azure|gcp/ }
 
   spec.executables   = %w{inspec}
