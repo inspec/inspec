@@ -103,7 +103,7 @@ module FunctionalHelper
     inspec(commandline, assemble_env_prefix(env))
   end
 
-# This version allows additional options.
+  # This version allows additional options.
   # @param String command_line Invocation, without the word 'inspec'
   # @param Hash opts Additonal options, see below
   #    :env Hash A hash of environment vars to expose to the invocation.
