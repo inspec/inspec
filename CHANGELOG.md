@@ -1,36 +1,34 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.23 -->
-## [v2.3.23](https://github.com/inspec/inspec/tree/v2.3.23) (2018-10-12)
-
-#### Merged Pull Requests
-- Fix plugin issues on omni builds [#3499](https://github.com/inspec/inspec/pull/3499) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.3.10 -->
-### Changes since 2.3.10 release
-
-#### Enhancements
-- Plugins: Filter Plugins During Search and Install [#3458](https://github.com/inspec/inspec/pull/3458) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.3.20 -->
-
-#### Bug Fixes
-- Backport compliance namespace and add testing for A2 audit report. [#3493](https://github.com/inspec/inspec/pull/3493) ([jquick](https://github.com/jquick)) <!-- 2.3.21 -->
-- Fix error on empty attributes yaml [#3485](https://github.com/inspec/inspec/pull/3485) ([jquick](https://github.com/jquick)) <!-- 2.3.19 -->
-- small fix - update to AlpinePkg Class  [#3483](https://github.com/inspec/inspec/pull/3483) ([aaronlippold](https://github.com/aaronlippold)) <!-- 2.3.16 -->
-
-#### Merged Pull Requests
-- Fix plugin issues on omni builds [#3499](https://github.com/inspec/inspec/pull/3499) ([jquick](https://github.com/jquick)) <!-- 2.3.23 -->
-- Set a static node GUID for travis runs [#3497](https://github.com/inspec/inspec/pull/3497) ([jquick](https://github.com/jquick)) <!-- 2.3.22 -->
-- docs: Add version to multiple descriptions doc [#3477](https://github.com/inspec/inspec/pull/3477) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.3.18 -->
-- Skip running appveyor on docs and examples [#3474](https://github.com/inspec/inspec/pull/3474) ([btm](https://github.com/btm)) <!-- 2.3.17 -->
-- Remove &#39;demo&#39; from website. [#3475](https://github.com/inspec/inspec/pull/3475) ([miah](https://github.com/miah)) <!-- 2.3.15 -->
-- Enable compression for deb/rpm packages [#3472](https://github.com/inspec/inspec/pull/3472) ([tas50](https://github.com/tas50)) <!-- 2.3.14 -->
-- Fix Packages Resource Docs [#3469](https://github.com/inspec/inspec/pull/3469) ([pwelch](https://github.com/pwelch)) <!-- 2.3.13 -->
-- Exclude docs and examples from the gem [#3471](https://github.com/inspec/inspec/pull/3471) ([tas50](https://github.com/tas50)) <!-- 2.3.12 -->
-- Fix archive with required attributes [#3468](https://github.com/inspec/inspec/pull/3468) ([jquick](https://github.com/jquick)) <!-- 2.3.11 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.3.23](https://github.com/inspec/inspec/tree/v2.3.23) (2018-10-12)
+
+#### Enhancements
+- Plugins: Filter Plugins During Search and Install [#3458](https://github.com/inspec/inspec/pull/3458) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- small fix - update to AlpinePkg Class  [#3483](https://github.com/inspec/inspec/pull/3483) ([aaronlippold](https://github.com/aaronlippold))
+- Fix error on empty attributes yaml [#3485](https://github.com/inspec/inspec/pull/3485) ([jquick](https://github.com/jquick))
+- Backport compliance namespace and add testing for A2 audit report. [#3493](https://github.com/inspec/inspec/pull/3493) ([jquick](https://github.com/jquick))
+
+#### Merged Pull Requests
+- Fix archive with required attributes [#3468](https://github.com/inspec/inspec/pull/3468) ([jquick](https://github.com/jquick))
+- Exclude docs and examples from the gem [#3471](https://github.com/inspec/inspec/pull/3471) ([tas50](https://github.com/tas50))
+- Fix Packages Resource Docs [#3469](https://github.com/inspec/inspec/pull/3469) ([pwelch](https://github.com/pwelch))
+- Enable compression for deb/rpm packages [#3472](https://github.com/inspec/inspec/pull/3472) ([tas50](https://github.com/tas50))
+- Remove &#39;demo&#39; from website. [#3475](https://github.com/inspec/inspec/pull/3475) ([miah](https://github.com/miah))
+- Skip running appveyor on docs and examples [#3474](https://github.com/inspec/inspec/pull/3474) ([btm](https://github.com/btm))
+- docs: Add version to multiple descriptions doc [#3477](https://github.com/inspec/inspec/pull/3477) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Set a static node GUID for travis runs [#3497](https://github.com/inspec/inspec/pull/3497) ([jquick](https://github.com/jquick))
+- Fix plugin issues on omni builds [#3499](https://github.com/inspec/inspec/pull/3499) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v2.3.10](https://github.com/inspec/inspec/tree/v2.3.10) (2018-10-04)
 
 #### Enhancements
@@ -43,7 +41,6 @@
 
 #### Merged Pull Requests
 - Fix `attribute` with empty hash regression [#3454](https://github.com/inspec/inspec/pull/3454) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-<!-- latest_stable_release -->
 
 ## [v2.3.5](https://github.com/inspec/inspec/tree/v2.3.5) (2018-10-01)
 
