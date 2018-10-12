@@ -390,25 +390,44 @@ module Inspec::Plugin::V2
     #                        Utilities
     #===================================================================#
 
-    # This class alows us to build a Vendor set with the gems that are
+    # This class alows us to build a Resolver set with the gems that are
     # already included either with Ruby or with the InSpec install
-    class InstalledVendorSet < Gem::Resolver::VendorSet
+    #
+    # This code is heavily based on:
+    # https://github.com/hashicorp/vagrant/blob/master/lib/vagrant/bundler.rb#L400
+    # https://github.com/hashicorp/vagrant/blob/master/lib/vagrant/bundler.rb#L565
+    class InstalledVendorSet < Gem::Resolver::Set
       def initialize
         super
+        @remote = false
+        @specs = []
 
+        # Grab any pre loaded gems
         Gem::Specification.find_all do |spec|
-          @specs[spec.name] = spec
-          @directories[spec] = spec.gem_dir
+          @specs << spec
         end
 
+        # find all gem specification directories
+        directories = [Gem::Specification.default_specifications_dir]
         if !defined?(::Bundler)
-          directories = Gem::Specification.dirs.find_all do |path|
+          # add in any others that do not start with the user directory
+          directories += Gem::Specification.dirs.find_all do |path|
             !path.start_with?(Gem.user_dir)
           end
-          Gem::Specification.each_spec(directories) do |spec|
-            @specs[spec.name] = spec
-            @directories[spec] = spec.gem_dir
-          end
+        end
+
+        # add them all to the specs array
+        Gem::Specification.each_spec(directories) do |spec|
+          @specs << spec
+        end
+
+        # resolver expects one of each spec so uniq here.
+        @specs.uniq!
+      end
+
+      def find_all(req)
+        @specs.select { |spec| req.match?(spec) }.map do |spec|
+          Gem::Resolver::InstalledSpecification.new(self, spec)
         end
       end
     end
