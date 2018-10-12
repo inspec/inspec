@@ -178,7 +178,7 @@ InSpec supports a number of dependency sources.
 
 ### path
 
-The `path` setting defines a profile that is located on disk. This setting is typically used during development of profiles and when debugging profiles.
+The `path` setting defines a profile that is located on disk. This setting is typically used during development of profiles and when debugging profiles. The profile path should be somewhere other than the`controls`directory. For example, place them in a directory called `profiles` at the same level as `controls`.
 
 ```YAML
 depends:
