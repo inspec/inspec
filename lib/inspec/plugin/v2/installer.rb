@@ -404,7 +404,7 @@ module Inspec::Plugin::V2
 
         directories = [Gem::Specification.default_specifications_dir]
         if !defined?(::Bundler)
-          directories = Gem::Specification.dirs.find_all do |path|
+          directories += Gem::Specification.dirs.find_all do |path|
             !path.start_with?(Gem.user_dir)
           end
         end
