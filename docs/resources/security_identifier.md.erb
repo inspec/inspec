@@ -5,7 +5,7 @@ platform: windows
 
 # security_identifier
 
-Use the `security_identifier` InSpec resource to test the Security Identifier (SID) for users and groups on Windows..
+Use the `security_identifier` InSpec resource to test the [Security Identifier (SID)](https://docs.microsoft.com/en-us/windows/desktop/secauthz/security-identifiers) for user and group trustees on Windows.  
 
 <br>
 
@@ -17,7 +17,7 @@ This resource is distributed along with InSpec itself. You can use it automatica
 
 ## Resource Parameters
 
-A `security_identifier` resource should specify the name and type of the entity to test the SID for:
+A `security_identifier` resource should specify the name and type of the trustee to test the SID for:
 
     describe security_identifier(group: 'Everyone') do
       its('sid') { should eq 'S-1-1-0' }
@@ -26,7 +26,7 @@ A `security_identifier` resource should specify the name and type of the entity 
 where
 
 * `group:` specifies that `'Everyone'` should be a group. `user:` can be used to specify a user account.
-** It is necessary to declare the type of the entity because Windows allows users, groups and other entities to share names. If you really need to not specify the type, `unspecified:` can be used. This will attempt to match the name to a group and then a useraccount. This may take longer to execute and comes with the risk of InSpec matching the name to an unintended type of entity.
+** It is necessary to declare the type of the trustee because Windows allows users, groups and other entities to share names. If you really need to not specify the type, `unspecified:` can be used. This will attempt to match the name to a group and then a useraccount. This may take longer to execute and comes with the risk of InSpec matching the name to an unintended trustee.
 
 <br>
 
@@ -46,7 +46,7 @@ The following examples show how to use this InSpec resource.
       its('sid') { should eq 'S-1-1-0' }
     end
 
-### Use in conjunction with the security_policy resource to specify the entity to test for in the audit policy
+### Use in conjunction with the security_policy resource to specify the trustee to test for in the audit policy
 
     describe security_policy do
       its("SeRemoteInteractiveLogonRight") { should_not include security_identifier(group: 'Guests') }
@@ -72,5 +72,5 @@ This InSpec audit resource has the following special matchers. For a full list o
 
 ### exists
 
-This resource `exists` if a Security Identifier (SID) exists on the target host for the specified entity.  
+This resource `exists` if a Security Identifier (SID) exists on the target host for the specified trustee.  
 
