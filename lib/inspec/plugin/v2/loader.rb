@@ -31,6 +31,10 @@ module Inspec::Plugin::V2
     end
 
     def load_all
+      # This fixes the gem paths on some bundles
+      Gem.path << plugin_gem_path
+      Gem.refresh
+
       # Be careful not to actually iterate directly over the registry here;
       # we want to allow "sidecar loading", in which case a plugin may add an entry to the registry.
       registry.plugin_names.dup.each do |plugin_name|
