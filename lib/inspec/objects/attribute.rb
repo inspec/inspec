@@ -17,19 +17,23 @@ module Inspec
     DEFAULT_ATTRIBUTE = Class.new do
       def initialize(name)
         @name = name
-      end
-
-      def method_missing(*_)
         Inspec::Log.warn(
-          "Returning DEFAULT_ATTRIBUTE for '#{@name}'. "\
+          "Attribute '#{@name}' does not have a value. "\
           "Use --attrs to provide a value for '#{@name}' or specify a default  "\
           "value with `attribute('#{@name}', default: 'somedefault', ...)`.",
         )
+      end
+
+      def method_missing(*_)
         self
       end
 
       def respond_to_missing?(_, _)
         true
+      end
+
+      def to_s
+        "Attribute '#{@name}' does not have a value. Skipping test."
       end
     end
 

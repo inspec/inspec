@@ -18,6 +18,7 @@ describe Inspec::Attribute do
 
   it 'returns the default value if no value is assigned' do
     attribute.value.must_be_kind_of Inspec::Attribute::DEFAULT_ATTRIBUTE
+    attribute.value.to_s.must_equal "Attribute 'test_attribute' does not have a value. Skipping test."
   end
 
   it 'has a default value that can be called like a nested map' do
