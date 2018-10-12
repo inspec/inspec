@@ -4,6 +4,10 @@
 
 require 'helper'
 require 'rbconfig'
+require 'byebug'
+require 'json'
+require 'fileutils'
+require 'yaml'
 
 require 'minitest/hell'
 class Minitest::Test
@@ -12,6 +16,23 @@ end
 
 class Module
   include Minitest::Spec::DSL
+end
+
+module Inspec
+  class FuncTestRunResult
+    attr_reader :train_result
+    attr_reader :payload
+
+    extend Forwardable
+    def_delegator :train_result, :stdout
+    def_delegator :train_result, :stderr
+    def_delegator :train_result, :exit_status
+
+    def initialize(train_result)
+      @train_result = train_result
+      @payload = OpenStruct.new
+    end
+  end
 end
 
 module FunctionalHelper
@@ -62,26 +83,37 @@ module FunctionalHelper
       convert_windows_output(result.stdout)
       # remove the CLIXML header trash in windows
       result.stderr.gsub!("#< CLIXML\n", '')
-      result
+      Inspec::FuncTestRunResult.new(result)
     else
-      CMD.run_command("#{prefix} #{exec_inspec} #{commandline}")
+      Inspec::FuncTestRunResult.new(CMD.run_command("#{prefix} #{exec_inspec} #{commandline}"))
     end
   end
 
   def inspec_with_env(commandline, env = {})
-    # CMD is a train transport, and does not support anything other than a
-    # single param for the command line.
-    # TODO: what is the intent of using Train here?
-    # HACK: glue together env vars
-    if is_windows?
-      env_prefix = env.to_a.map { |assignment| "set #{assignment[0]}=#{assignment[1]}" }.join('&& ')
-      env_prefix += '&& '
-    else
-      env_prefix = env.to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(' ')
-      env_prefix += ' '
-    end
-    inspec(commandline, env_prefix)
+    inspec(commandline, assemble_env_prefix(env))
   end
+
+  # This version allows many other options
+  def run_inspec_process(command_line, opts)
+    prefix = opts[:prefix] || ''
+    prefix += assemble_env_prefix(opts[:env])
+    command_line += ' --reporter json ' if opts[:json]
+    command_line += ' --no-create-lockfile ' unless opts[:lock]
+
+    run_result = inspec(command_line, prefix)
+
+    if opts[:json]
+      begin
+        run_result.payload.json = JSON.parse(run_result.stdout)
+      rescue JSON::ParserError => e
+        run_result.payload.json = {}
+        run_result.payload.json_error = e
+      end
+    end
+
+    run_result
+  end
+
 
   # Copy all examples to a temporary directory for functional tests.
   # You can provide an optional directory which will be handed to your
@@ -96,5 +128,17 @@ module FunctionalHelper
       bn = File.basename(examples_path)
       block.call(File.join(tmpdir, bn, dir.to_s))
     end
+  end
+
+  private
+  def assemble_env_prefix(env = {})
+    if is_windows?
+      env_prefix = env.to_a.map { |assignment| "set #{assignment[0]}=#{assignment[1]}" }.join('&& ')
+      env_prefix += '&& '
+    else
+      env_prefix = env.to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(' ')
+      env_prefix += ' '
+    end
+    env_prefix
   end
 end
