@@ -80,15 +80,30 @@ module Inspec
       @resolved_source ||= fetcher.resolved_source
     end
 
+    def metadata
+      @metadata ||= Inspec::Metadata.from_unrendered_yaml('mock', File.read(File.join(opts[:cwd], 'inspec.yml')), nil)
+    end
+
     def to_hash
       h = {
         'name' => name,
         'resolved_source' => resolved_source,
         'version_constraints' => version_constraints,
       }
-
       if !dependencies.empty?
         h['dependencies'] = dependencies.map(&:to_hash)
+      end
+      if resolved_source[:url] && opts[:username] && opts[:password]
+        auth_data = metadata.dependencies.detect { |deps| deps[:name] == name }
+        if auth_data
+          resolved_source[:username] = auth_data[:username]
+          resolved_source[:password] = auth_data[:password]
+
+          h['dependencies']&.each do |dep|
+            dep['resolved_source'][:username] = auth_data[:username]
+            dep['resolved_source'][:password] = auth_data[:password]
+          end
+        end
       end
 
       h

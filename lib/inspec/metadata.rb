@@ -210,6 +210,13 @@ module Inspec
       finalize(res, profile_id, {}, logger)
     end
 
+    def self.from_unrendered_yaml(ref, content, profile_id, logger = nil)
+      res = Metadata.new(ref, logger)
+      res.params = YAML.load(content)
+      res.content = content
+      finalize(res, profile_id, {}, logger)
+    end
+
     def self.from_ruby(ref, content, profile_id, logger = nil)
       res = Metadata.new(ref, logger)
       res.instance_eval(content, ref, 1)

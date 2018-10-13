@@ -456,7 +456,7 @@ module Inspec
 
     def lockfile
       @lockfile ||= if lockfile_exists?
-                      Inspec::Lockfile.from_content(@source_reader.target.read('inspec.lock'))
+                      Inspec::Lockfile.from_content(ERB.new(@source_reader.target.read('inspec.lock')).result)
                     else
                       generate_lockfile
                     end
