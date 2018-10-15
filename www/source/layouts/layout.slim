@@ -9,7 +9,7 @@ html
     link href="/favicon.ico" rel="icon"
 
     title = current_page.data.title || "InSpec"
-    meta name= "description" content = current_page.data.description 
+    meta name= "description" content = current_page.data.description
 
     link rel='stylesheet' type='text/css' href='/css/inspec_tutorial.css'
     link rel='stylesheet' type='text/css' href='/stylesheets/vendor/fontawesome.min.css'
@@ -119,11 +119,11 @@ html
 
       $(function() {
         $("#expand").hide();
-        $("#expandBtn").html("Show all new InSpec 2.0 features");
+        $("#expandBtn").html("Show all new InSpec 3.0 features");
 
          $('#expandBtn').click(function() {
             $('#expand').slideToggle("fast");
-            $(this).html($(this).html() == 'Collapse new InSpec 2.0 features' ? 'Show all new InSpec 2.0 features' : 'Collapse new InSpec 2.0 features');
+            $(this).html($(this).html() == 'Collapse new InSpec 3.0 features' ? 'Show all new InSpec 3.0 features' : 'Collapse new InSpec 3.0 features');
          });
       });
 

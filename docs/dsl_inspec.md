@@ -43,10 +43,14 @@ where
 * `'sshd-8'` is the name of the control
 * `impact`, `title`, and `desc` define metadata that fully describes the importance of the control, its purpose, with a succinct and complete description
 * `desc` when given only one argument it sets the default description. As of InSpec 2.3.4, when given 2 arguments (see: `'rationale'`) it will use the first argument as a header when rendering in Automate
-* `impact` is an float that measures the importance of the compliance results and must be a value between `0.0` and `1.0`. The value ranges are:
-  * `0.0 to <0.4` these are controls with minor criticality
-  * `0.4 to <0.7` these are controls with major criticality
-  * `0.7 to 1.0` these are critical controls
+* `impact` is a string, or numeric that measures the importance of the compliance results.
+  Valid strings for impact are `none`, `low`, `medium`, `high`, and `critical`. The values are based off CVSS 3.0.
+  A numeric value must be between `0.0` and `1.0`. The value ranges are:
+  * `0.0 to <0.01` these are controls with no impact, they only provide information
+  * `0.01 to <0.4` these are controls with low impact
+  * `0.4 to <0.7` these are controls with medium impact
+  * `0.7 to <0.9` these are controls with high impact
+  * `0.9 to 1.0` these are critical controls
 * `tag` is optional meta-information with with key or key-value pairs
 * `ref` is a reference to an external document
 * `describe` is a block that contains at least one test. A `control` block must contain at least one `describe` block, but may contain as many as required
@@ -89,7 +93,7 @@ The following test shows how to audit machines running Windows 2012 R2 that pass
 
 ```ruby
 control 'windows-account-102' do
-  impact 1.0
+  impact 'critical'
   title 'Windows Password Complexity is Enabled'
   desc 'Password must meet complexity requirement'
   describe security_policy do
@@ -154,7 +158,7 @@ The following test shows how to audit machines to ensure that Apache is enabled 
 
 ```ruby
 control 'apache-1' do
-  impact 0.3
+  impact 'medium'
   title 'Apache2 should be configured and running'
   describe service(apache.service) do
     it { should be_enabled }
@@ -201,15 +205,18 @@ end
 ## Exclude specific test
 
 This shows how to allow skipping certain tests if conditions are not met, by using `only_if`.
-In this example the test will not be performed if `redis-cli` command does not exist, because for example package on remote host was not installed.
+In this example the test will not be performed if `redis-cli` command does not exist. A optional
+message can say why it was skipped.
 
 ```ruby
 control 'nutcracker-connect-redis-001' do
-  impact 1.0
+  impact 'critical'
   title 'Check if nutcracker can pass commands to redis'
   desc 'execute redis-cli set key command, to check connectivity of the service'
 
-  only_if { command('redis-cli').exist? }
+  only_if('redis is not installed.') do
+    command('redis-cli').exist?
+  end
 
   describe command('redis-cli SET test_inspec "HELLO"') do
     its('stdout') { should match /OK/ }

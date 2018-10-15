@@ -32,6 +32,8 @@ sidebar_links:
     link: "/docs/reference/style.html"
   - title: Custom Resources
     link: "/docs/reference/dsl_resource.html"
+  - title: Plugins
+    link: "/docs/reference/plugins.html"
   - title: kitchen-inspec
     link: "/docs/reference/plugin_kitchen_inspec.html"
   - title: inspec shell

@@ -1,12 +1,12 @@
-# Using InSpec 2.0 on Cloud Platforms
+# Using InSpec on Cloud Platforms
 
-We are pleased to announce that with this release of InSpec 2.0, we have expanded our platform support beyond individual machines and now include support for select AWS and Azure resources.
+As of InSpec 2.0, we have expanded our platform support beyond individual machines and now include support for select AWS and Azure resources.
 
-With InSpec 2.0, you may now use several InSpec resources to audit properties of your cloud infrastructure - for example, an Amazon Web Services S3 bucket.
+Using InSpec, you can use several InSpec resources to audit properties of your cloud infrastructure - for example, an Amazon Web Services S3 bucket.
 
 <br>
 
-## AWS Platform Support in InSpec 2.0
+## AWS Platform Support in InSpec
 
 ### Setting up AWS credentials for InSpec
 
@@ -56,7 +56,7 @@ Release:   aws-sdk-v2.10.125
 
 <br>
 
-## Azure Platform Support in InSpec 2.0
+## Azure Platform Support in InSpec
 
 ### Setting up Azure credentials for InSpec
 
