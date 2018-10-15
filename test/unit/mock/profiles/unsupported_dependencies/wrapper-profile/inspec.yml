@@ -9,5 +9,4 @@ version: 0.1.0
 depends:
   - name: child_profile
     path: ../child_profile
-  - name: child_profile2
-    path: ../child_profile2
+  - path: ../child_profile2

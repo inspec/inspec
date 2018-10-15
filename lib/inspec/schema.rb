@@ -137,6 +137,8 @@ module Inspec
         'copyright_email' => { 'type' => 'string', 'optional' => true },
         'license' => { 'type' => 'string', 'optional' => true },
         'summary' => { 'type' => 'string', 'optional' => true },
+        'status' => { 'type' => 'string', 'optional' => false },
+        'skip_message' => { 'type' => 'string', 'optional' => true },
 
         'supports' => {
           'type' => 'array',

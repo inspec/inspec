@@ -229,8 +229,21 @@ module Inspec
     def load_libraries
       return @runner_context if @libraries_loaded
 
-      locked_dependencies.each do |d|
-        next unless d.supports_platform?
+      locked_dependencies.dep_list.each_with_index do |(_name, dep), i|
+        d = dep.profile
+        # this will force a dependent profile load so we are only going to add
+        # this metadata if the parent profile is supported.
+        if supports_platform? && !d.supports_platform?
+          # since ruby 1.9 hashes are ordered so we can just use index values here
+          metadata.dependencies[i][:status] = 'skipped'
+          msg = "Skipping profile: '#{d.name}' on unsupported platform: '#{d.backend.platform.name}/#{d.backend.platform.release}'."
+          metadata.dependencies[i][:skip_message] = msg
+          next
+        elsif metadata.dependencies[i]
+          # Currently wrapper profiles will load all dependencies, and then we
+          # load them again when we dive down. This needs to be re-done.
+          metadata.dependencies[i][:status] = 'loaded'
+        end
         c = d.load_libraries
         @runner_context.add_resources(c)
       end
@@ -253,7 +266,7 @@ module Inspec
       info(load_params.dup)
     end
 
-    def info(res = params.dup) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def info(res = params.dup) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
       # add information about the controls
       res[:controls] = res[:controls].map do |id, rule|
         next if id.to_s.empty?
@@ -291,6 +304,14 @@ module Inspec
       end
       res[:sha256] = sha256
       res[:parent_profile] = parent_profile unless parent_profile.nil?
+
+      if !supports_platform?
+        res[:status] = 'skipped'
+        msg = "Skipping profile: '#{name}' on unsupported platform: '#{backend.platform.name}/#{backend.platform.release}'."
+        res[:skip_message] = msg
+      else
+        res[:status] = 'loaded'
+      end
 
       # convert legacy os-* supports to their platform counterpart
       if res[:supports] && !res[:supports].empty?

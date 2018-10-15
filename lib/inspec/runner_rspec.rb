@@ -84,11 +84,12 @@ module Inspec
     def exit_code
       return @rspec_exit_code if @formatter.results.empty?
       stats = @formatter.results[:statistics][:controls]
-      if stats[:failed][:total] == 0 && stats[:skipped][:total] == 0
+      skipped = @formatter.results[:profiles].first[:status] == 'skipped'
+      if stats[:failed][:total] == 0 && stats[:skipped][:total] == 0 && !skipped
         0
       elsif stats[:failed][:total] > 0
         @conf['distinct_exit'] ? 100 : 1
-      elsif stats[:skipped][:total] > 0
+      elsif stats[:skipped][:total] > 0 || skipped
         @conf['distinct_exit'] ? 101 : 0
       else
         @rspec_exit_code
