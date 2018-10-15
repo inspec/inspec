@@ -7,23 +7,25 @@
 - Inspec 3.0 [#3512](https://github.com/inspec/inspec/pull/3512) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup since=2.3.24 -->
-### Changes since 2.3.24 release
-
-#### Enhancements
-- Inspec 3.0 [#3512](https://github.com/inspec/inspec/pull/3512) ([jquick](https://github.com/jquick)) <!-- 3.0.0 -->
-
-#### Merged Pull Requests
-- Update the text on the generic default attribute [#3508](https://github.com/inspec/inspec/pull/3508) ([jquick](https://github.com/jquick)) <!-- 2.3.26 -->
-- Change `Inspec ` to `InSpec ` where appropriate [#3494](https://github.com/inspec/inspec/pull/3494) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.3.25 -->
+<!-- release_rollup since=3.0.0 -->
+### Changes since 3.0.0 release
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.0.0](https://github.com/inspec/inspec/tree/v3.0.0) (2018-10-15)
+
+#### Enhancements
+- Inspec 3.0 [#3512](https://github.com/inspec/inspec/pull/3512) ([jquick](https://github.com/jquick))
+
+#### Merged Pull Requests
+- Change `Inspec ` to `InSpec ` where appropriate [#3494](https://github.com/inspec/inspec/pull/3494) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Update the text on the generic default attribute [#3508](https://github.com/inspec/inspec/pull/3508) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v2.3.24](https://github.com/inspec/inspec/tree/v2.3.24) (2018-10-12)
 
 #### Bug Fixes
 - Fix plugin install issues in different ruby envs [#3505](https://github.com/inspec/inspec/pull/3505) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.3.23](https://github.com/inspec/inspec/tree/v2.3.23) (2018-10-12)
 
