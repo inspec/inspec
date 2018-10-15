@@ -159,10 +159,16 @@ module Inspec
       supports_platform? && supports_runtime?
     end
 
+    # We need to check if we're using a Mock'd backend for tests to function.
+    # @returns [TrueClass, FalseClass]
     def supports_platform?
       if @supports_platform.nil?
         @supports_platform = metadata.supports_platform?(@backend)
       end
+      if @backend.backend.class.to_s == 'Train::Transports::Mock::Connection'
+        @supports_platform = true
+      end
+
       @supports_platform
     end
 
@@ -178,7 +184,8 @@ module Inspec
     end
 
     def collect_tests(include_list = @controls)
-      if !@tests_collected
+      unless @tests_collected
+        return unless supports_platform?
         locked_dependencies.each(&:collect_tests)
 
         tests.each do |path, content|
@@ -222,7 +229,21 @@ module Inspec
     def load_libraries
       return @runner_context if @libraries_loaded
 
-      locked_dependencies.each do |d|
+      locked_dependencies.dep_list.each_with_index do |(_name, dep), i|
+        d = dep.profile
+        # this will force a dependent profile load so we are only going to add
+        # this metadata if the parent profile is supported.
+        if supports_platform? && !d.supports_platform?
+          # since ruby 1.9 hashes are ordered so we can just use index values here
+          metadata.dependencies[i][:status] = 'skipped'
+          msg = "Skipping profile: '#{d.name}' on unsupported platform: '#{d.backend.platform.name}/#{d.backend.platform.release}'."
+          metadata.dependencies[i][:skip_message] = msg
+          next
+        elsif metadata.dependencies[i]
+          # Currently wrapper profiles will load all dependencies, and then we
+          # load them again when we dive down. This needs to be re-done.
+          metadata.dependencies[i][:status] = 'loaded'
+        end
         c = d.load_libraries
         @runner_context.add_resources(c)
       end
@@ -245,7 +266,7 @@ module Inspec
       info(load_params.dup)
     end
 
-    def info(res = params.dup) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def info(res = params.dup) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
       # add information about the controls
       res[:controls] = res[:controls].map do |id, rule|
         next if id.to_s.empty?
@@ -283,6 +304,14 @@ module Inspec
       end
       res[:sha256] = sha256
       res[:parent_profile] = parent_profile unless parent_profile.nil?
+
+      if !supports_platform?
+        res[:status] = 'skipped'
+        msg = "Skipping profile: '#{name}' on unsupported platform: '#{backend.platform.name}/#{backend.platform.release}'."
+        res[:skip_message] = msg
+      else
+        res[:status] = 'loaded'
+      end
 
       # convert legacy os-* supports to their platform counterpart
       if res[:supports] && !res[:supports].empty?
@@ -335,9 +364,6 @@ module Inspec
 
       @logger.info "Checking profile in #{@target}"
       meta_path = @source_reader.target.abs_path(@source_reader.metadata.ref)
-      if meta_path =~ /metadata\.rb$/
-        warn.call(@target, 0, 0, nil, 'The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
-      end
 
       # verify metadata
       m_errors, m_warnings = metadata.valid
@@ -349,12 +375,6 @@ module Inspec
 
       # extract profile name
       result[:summary][:profile] = metadata.params[:name]
-
-      # check if the profile is using the old test directory instead of the
-      # new controls directory
-      if @source_reader.tests.keys.any? { |x| x =~ %r{^test/$} }
-        warn.call(@target, 0, 0, nil, 'Profile uses deprecated `test` directory, rename it to `controls`.')
-      end
 
       count = controls_count
       result[:summary][:controls] = count
@@ -542,7 +562,7 @@ module Inspec
       params[:controls] = controls = {}
       params[:groups] = groups = {}
       prefix = @source_reader.target.prefix || ''
-      tests.each do |rule|
+      tests&.each do |rule|
         next if rule.nil?
         f = load_rule_filepath(prefix, rule)
         load_rule(rule, f, controls, groups)

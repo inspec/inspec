@@ -19,18 +19,6 @@ describe Inspec::Profile do
     end
   end
 
-  describe 'with an empty profile (legacy mode)' do
-    let(:profile) { MockLoader.load_profile('legacy-empty-metadata') }
-
-    it 'has a default name containing the original target' do
-      profile.params[:name].must_match(/tests from .*empty-metadata/)
-    end
-
-    it 'has no controls' do
-      profile.params[:controls].must_equal({})
-    end
-  end
-
   describe 'with simple metadata in profile' do
     let(:profile_id) { 'simple-metadata' }
     let(:profile) { MockLoader.load_profile(profile_id) }
@@ -50,32 +38,20 @@ describe Inspec::Profile do
     end
   end
 
-  describe 'with simple metadata in profile (legacy mode)' do
-    let(:profile) { MockLoader.load_profile('legacy-simple-metadata') }
-
-    it 'has metadata' do
-      profile.params[:name].must_equal 'metadata profile'
-    end
-
-    it 'has no controls' do
-      profile.params[:controls].must_equal({})
-    end
-  end
-
   describe 'SHA256 sums' do
     it 'works on an empty profile' do
       MockLoader.load_profile('empty-metadata').sha256.must_equal 'ee95f4cf4258402604d4cc581a672bbd2f73d212b09cd4bcf1c5984e97e68963'
     end
 
     it 'works on a complete profile' do
-      MockLoader.load_profile('complete-profile').sha256.must_equal '5a129bd0a06f3d27589871a8dc8c65361d3730e802b926755191b610b7f99d3a'
+      MockLoader.load_profile('complete-profile').sha256.must_equal '25cf05093c695d807e488b04e3551f19de900c1d2b0cbfadb476a5786efa7323'
     end
   end
 
   describe 'code info' do
     let(:profile_id) { 'complete-profile' }
-    let(:code) { "control 'test01' do\n  impact 0.5\n  title 'Catchy title'\n  desc '\n    There should always be a /proc\n  '\n  describe file('/proc') do\n    it { should be_mounted }\n  end\nend\n" }
-    let(:loc) { {:ref=>"controls/filesystem_spec.rb", :line=>6} }
+    let(:code) { "control 'test01' do\n  impact 0.5\n  title 'Catchy title'\n  desc '\n    example.com should always exist.\n  '\n  describe host('example.com') do\n    it { should be_resolvable }\n  end\nend\n" }
+    let(:loc) { {:ref=>"controls/host_spec.rb", :line=>6} }
 
     it 'gets code from an uncompressed profile' do
       info = MockLoader.load_profile(profile_id).info
@@ -110,6 +86,15 @@ describe Inspec::Profile do
     end
   end
 
+  describe 'skips loading on unsupported platform' do
+    let(:profile_id) { 'windows-only' }
+
+    it 'loads our profile but skips loading controls' do
+      info = MockLoader.load_profile(profile_id).info
+      info[:controls].must_be_empty
+    end
+  end
+
   describe 'when checking' do
     describe 'an empty profile' do
       let(:profile_id) { 'empty-metadata' }
@@ -137,33 +122,6 @@ describe Inspec::Profile do
       end
     end
 
-    describe 'an empty profile (legacy mode)' do
-      let(:profile_id) { 'legacy-empty-metadata' }
-
-      it 'prints loads of warnings' do
-        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
-        logger.expect :warn, nil, ['The use of `metadata.rb` is deprecated. Use `inspec.yml`.']
-        logger.expect :error, nil, ["Missing profile version in metadata.rb"]
-        logger.expect :warn, nil, ["Missing profile summary in metadata.rb"]
-        logger.expect :warn, nil, ["Missing profile maintainer in metadata.rb"]
-        logger.expect :warn, nil, ["Missing profile copyright in metadata.rb"]
-        logger.expect :warn, nil, ["Missing profile license in metadata.rb"]
-        logger.expect :warn, nil, ['No controls or tests were defined.']
-
-        result = MockLoader.load_profile(profile_id, {logger: logger}).check
-        # verify logger output
-        logger.verify
-
-        # verify hash result
-        result[:summary][:valid].must_equal false
-        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
-        result[:summary][:profile].must_match(/tests from .*legacy-empty-metadata/)
-        result[:summary][:controls].must_equal 0
-        result[:errors].length.must_equal 1
-        result[:warnings].length.must_equal 6
-      end
-    end
-
     describe 'a complete metadata profile' do
       let(:profile_id) { 'complete-metadata' }
       let(:profile) { MockLoader.load_profile(profile_id, {logger: logger}) }
@@ -185,37 +143,6 @@ describe Inspec::Profile do
         result[:summary][:controls].must_equal 0
         result[:errors].length.must_equal 0
         result[:warnings].length.must_equal 1
-      end
-    end
-
-    describe 'a complete metadata profile (legacy mode)' do
-      let(:profile_id) { 'legacy-complete-metadata' }
-      let(:profile) { MockLoader.load_profile(profile_id, {logger: logger}) }
-
-      it 'prints ok messages' do
-        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
-        logger.expect :warn, nil, ['The use of `metadata.rb` is deprecated. Use `inspec.yml`.']
-        logger.expect :info, nil, ['Metadata OK.']
-        # NB we only look at content that is loaded, i.e., there're no empty directories anymore
-        # logger.expect :warn, nil, ["Profile uses deprecated `test` directory, rename it to `controls`."]
-        logger.expect :warn, nil, ['No controls or tests were defined.']
-
-        result = profile.check
-
-        # verify logger output
-        logger.verify
-
-        # verify hash result
-        result[:summary][:valid].must_equal true
-        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
-        result[:summary][:profile].must_equal 'name'
-        result[:summary][:controls].must_equal 0
-        result[:errors].length.must_equal 0
-        result[:warnings].length.must_equal 2
-      end
-
-      it 'doesnt have constraints on supported systems' do
-        profile.metadata.params[:supports].must_equal([])
       end
     end
 

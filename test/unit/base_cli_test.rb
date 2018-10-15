@@ -13,7 +13,7 @@ describe 'BaseCLI' do
       Inspec::BaseCLI.stubs(:default_options).returns(default_options)
 
       e = proc { cli.send(:opts, :mock) }.must_raise(ArgumentError)
-      e.message.must_match /Please provide a value for --sudo-password/
+      e.message.must_match(/Please provide a value for --sudo-password/)
     end
 
     it 'assumes `--sudo` if `--sudo-password` is used without it' do
@@ -24,7 +24,7 @@ describe 'BaseCLI' do
       out, err = capture_io do
         cli.send(:opts, :mock)[:sudo].must_equal true
       end
-      err.must_match(/WARN: `--sudo-password` used without `--sudo`/)
+      err.must_match /WARN: `--sudo-password` used without `--sudo`/
     end
 
     it 'calls `Compliance::API.login` if `opts[:compliance] is passed`' do
@@ -93,10 +93,11 @@ EOF
       opts.must_equal expected
     end
 
-    it 'make sure default reporter is overriden by json-config format' do
+    it 'make sure default reporter is overriden by json-config reporter' do
       default_options['reporter'] = ['cli']
       Inspec::BaseCLI.stubs(:default_options).returns(default_options)
-      parsed_json = { 'format' => 'json' }
+
+      parsed_json = { 'reporter' => ['json'] }
       cli.expects(:options_json).returns(parsed_json)
 
       opts = cli.send(:merged_opts, :exec)
@@ -159,24 +160,7 @@ EOF
       expected_value = {"reporter"=>{"cli"=>{"stdout"=>true, "target_id"=>"1d3e399f-4d71-4863-ac54-84d437fbc444"}}, "target_id"=>"1d3e399f-4d71-4863-ac54-84d437fbc444"}
       parsed.must_equal expected_value
     end
-
-    it 'parse cli reporters with format' do
-      opts = { 'format' => 'json' }
-      parsed = Inspec::BaseCLI.parse_reporters(opts)
-      expected_value = { 'reporter' => { 'json' => { 'stdout' => true }}}
-      parsed.must_equal expected_value
-    end
-
-    it 'parse cli reporters with format and output' do
-      error = "[DEPRECATED] The option --format is being deprecated and will be removed in inspec 3.0. Please use --reporter\n"
-      error += "[DEPRECATED] The option 'output' is being deprecated and will be removed in inspec 3.0. Please use --reporter name:path\n"
-      proc {
-        opts = { 'format' => 'json', 'output' => '/tmp/inspec_out.json' }
-        parsed = Inspec::BaseCLI.parse_reporters(opts)
-        expected_value = { 'reporter' => { 'json' => { 'file' => '/tmp/inspec_out.json', 'stdout' => false }}}
-        parsed.must_equal expected_value
-      }.must_output nil, error end
-    end
+  end
 
   describe 'validate_reporters' do
     it 'valid reporter' do

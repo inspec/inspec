@@ -112,6 +112,8 @@ module Inspec::Reporters
           depends: p[:depends],
           groups: profile_groups(p),
           controls: profile_controls(p),
+          status: p[:status],
+          skip_message: p[:skip_message],
         }
         profiles << profile.reject { |_k, v| v.nil? }
       end

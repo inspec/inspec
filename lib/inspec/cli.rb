@@ -213,8 +213,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   target_options
   option :command, aliases: :c,
     desc: 'A single command string to run instead of launching the shell'
-  option :format, type: :string, default: nil, hide: true,
-    desc: '[DEPRECATED] Please use --reporter - this will be removed in InSpec 3.0'
   option :reporter, type: :array,
     banner: 'one two:/output/file/path',
     desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit'

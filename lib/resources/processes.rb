@@ -56,7 +56,7 @@ module Inspec::Resources
     end
 
     def list
-      warn '[DEPRECATION] `processes.list` is deprecated. Please use `processes.entries` instead. It will be removed in version 2.0.0.'
+      warn '[DEPRECATION] `processes.list` is deprecated. Please use `processes.entries` instead. It will be removed in version 4.0.'
       @list
     end
 

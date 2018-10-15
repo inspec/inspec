@@ -80,16 +80,24 @@ module Inspec
 
       @target_profiles.each do |profile|
         @test_collector.add_profile(profile)
+        next unless profile.supports_platform?
+
         write_lockfile(profile) if @create_lockfile
         profile.locked_dependencies
         profile_context = profile.load_libraries
 
         profile_context.dependencies.list.values.each do |requirement|
+          unless requirement.profile.supports_platform?
+            Inspec::Log.warn "Skipping profile: '#{requirement.profile.name}'" \
+             " on unsupported platform: '#{@backend.platform.name}/#{@backend.platform.release}'."
+            next
+          end
           @test_collector.add_profile(requirement.profile)
         end
 
         @attributes = profile.runner_context.attributes if @attributes.empty?
-        all_controls += profile.collect_tests
+        tests = profile.collect_tests
+        all_controls += tests unless tests.nil?
       end
 
       all_controls.each do |rule|
@@ -200,10 +208,6 @@ module Inspec
         raise 'This profile requires InSpec version '\
              "#{profile.metadata.inspec_requirement}. You are running "\
              "InSpec v#{Inspec::VERSION}.\n"
-      end
-
-      if !profile.supports_platform?
-        raise "This OS/platform (#{@backend.platform.name}/#{@backend.platform.release}) is not supported by this profile."
       end
 
       true

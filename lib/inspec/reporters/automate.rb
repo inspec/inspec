@@ -23,7 +23,7 @@ module Inspec::Reporters
       final_report[:type] = 'inspec_report'
 
       final_report[:end_time] = Time.now.utc.strftime('%FT%TZ')
-      final_report[:node_uuid] = @config['node_uuid'] || @run_data[:platform][:uuid]
+      final_report[:node_uuid] = @config['node_uuid'] || @config['target_id']
       raise Inspec::ReporterError, 'Cannot find a UUID for your node. Please specify one via json-config.' if final_report[:node_uuid].nil?
 
       final_report[:report_uuid] = @config['report_uuid'] || uuid_from_string(final_report[:end_time] + final_report[:node_uuid])

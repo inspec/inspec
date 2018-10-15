@@ -152,29 +152,4 @@ module Inspec::Resources
       "YumRepo #{@reponame}"
     end
   end
-
-  # for compatability with serverspec
-  # this is deprecated syntax and will be removed in future versions
-  class YumRepoLegacy < Yum
-    name 'yumrepo'
-
-    def initialize(name)
-      super()
-      @repository = repo(name)
-    end
-
-    def exists?
-      deprecated
-      @repository.exist?
-    end
-
-    def enabled?
-      deprecated
-      @repository.enabled?
-    end
-
-    def deprecated
-      warn '[DEPRECATION] `yumrepo(reponame)` is deprecated.  Please use `yum.repo(reponame)` instead.'
-    end
-  end
 end

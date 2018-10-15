@@ -161,9 +161,9 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec('exec ' + File.join(profile_path, 'skippy-profile-os') + ' --no-create-lockfile') }
     let(:json) { JSON.load(out.stdout) }
 
-    it 'exits with an error' do
-      out.stderr.must_match(/^This OS\/platform \(.+\) is not supported by this profile.$/)
-      out.exit_status.must_equal 1
+    it 'exits with skip message' do
+      out.stdout.must_include("Skipping profile: 'skippy' on unsupported platform:")
+      out.exit_status.must_equal 101
     end
   end
 
@@ -354,7 +354,8 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
   describe 'when a dependency does not support our backend platform' do
     it 'skips the controls from that profile' do
       out = inspec("exec #{File.join(profile_path, 'profile-support-skip')} --no-create-lockfile")
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: 0 successful controls, 0 control failures, \e[38;5;247m2 controls skipped\e[0m\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "WARN: Skipping profile"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "0 successful, 0 failures, 0 skipped\n"
     end
   end
 
@@ -411,6 +412,19 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       stdout.must_include '×  should eq "secret"'
       stdout.must_include '*** sensitive output suppressed ***'
       stdout.must_include "\nTest Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m2 failures\e[0m, 0 skipped\n"
+    end
+  end
+
+  describe 'with a profile that loads dependencies' do
+    let(:out) { inspec('exec ' + File.join(profile_path, 'profile-support-skip') + ' --no-create-lockfile --reporter json') }
+    let(:json) { JSON.load(out.stdout) }
+    let(:controls) { json['profiles'][0]['controls'] }
+
+    it 'skips loaded inherited profiles on unsupported platforms' do
+      json['profiles'][0]['depends'][0]['name'].must_equal 'unsupported_inspec'
+      controls.must_be_empty
+      stderr = out.stderr.force_encoding(Encoding::UTF_8)
+      stderr.must_include "WARN: Skipping profile"
     end
   end
 
