@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.3.25 -->
+## [v2.3.25](https://github.com/inspec/inspec/tree/v2.3.25) (2018-10-15)
+
+#### Merged Pull Requests
+- Change `Inspec ` to `InSpec ` where appropriate [#3494](https://github.com/inspec/inspec/pull/3494) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.3.24 -->
+### Changes since 2.3.24 release
+
+#### Merged Pull Requests
+- Change `Inspec ` to `InSpec ` where appropriate [#3494](https://github.com/inspec/inspec/pull/3494) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.3.25 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
