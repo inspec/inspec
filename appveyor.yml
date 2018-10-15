@@ -24,7 +24,6 @@ skip_tags: true
 branches:
   only:
     - master
-    - inspec-3.0
 
 cache:
   - vendor/bundle -> appveyor.yml
