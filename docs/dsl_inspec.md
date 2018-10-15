@@ -43,7 +43,7 @@ where
 * `'sshd-8'` is the name of the control
 * `impact`, `title`, and `desc` define metadata that fully describes the importance of the control, its purpose, with a succinct and complete description
 * `desc` when given only one argument it sets the default description. As of InSpec 2.3.4, when given 2 arguments (see: `'rationale'`) it will use the first argument as a header when rendering in Automate
-* `impact` is an string, or float that measures the importance of the compliance results.
+* `impact` is a string, or float that measures the importance of the compliance results.
   Valid strings for impact are `none`, `low`, `medium`, `high`, and `critical`. The values are based off CVSS 3.0.
   A Float must be a value between `0.0` and `1.0`. The value ranges are:
   * `0.0 to <0.01` these are controls with none criticality
