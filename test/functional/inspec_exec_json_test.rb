@@ -79,7 +79,7 @@ describe 'inspec exec with json formatter' do
 
   it 'flags profile with correct status when not supported' do
     out = inspec('exec ' + File.join(profile_path, 'skippy-profile-os') + ' --reporter json --no-create-lockfile')
-    out.exit_status.must_equal 0
+    out.exit_status.must_equal 101
     data = JSON.parse(out.stdout)
     profile = data['profiles'].first
     profile['status'].must_equal 'skipped'

@@ -163,7 +163,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
     it 'exits with skip message' do
       out.stdout.must_include("Skipping profile: 'skippy' on unsupported platform:")
-      out.exit_status.must_equal 0
+      out.exit_status.must_equal 101
     end
   end
 
