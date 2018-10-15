@@ -45,7 +45,7 @@ where
 * `desc` when given only one argument it sets the default description. As of InSpec 2.3.4, when given 2 arguments (see: `'rationale'`) it will use the first argument as a header when rendering in Automate
 * `impact` is a string, or numeric that measures the importance of the compliance results.
   Valid strings for impact are `none`, `low`, `medium`, `high`, and `critical`. The values are based off CVSS 3.0.
-  A Float must be a value between `0.0` and `1.0`. The value ranges are:
+  A numeric value must be between `0.0` and `1.0`. The value ranges are:
   * `0.0 to <0.01` these are controls with none criticality
   * `0.01 to <0.4` these are controls with low criticality
   * `0.4 to <0.7` these are controls with medium criticality
