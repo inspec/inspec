@@ -1,4 +1,4 @@
-# Inspec Project GitHub Labeling Policies
+# InSpec Project GitHub Labeling Policies
 
 ## Stakes
 
@@ -24,7 +24,7 @@ The colors don't mean anything at this point; we've generally just accepted the 
 
 Currently, we have one anti-goal:
 
-* Do not indicate priority or timeline information via labelling.  That's high-stakes, and quickly becomes out of date.  The Inspec team internally tracks its Chef, Inc. priorities; all other issues may be addressed on an as-needed, FOSS basis.
+* Do not indicate priority or timeline information via labelling.  That's high-stakes, and quickly becomes out of date.  The InSpec team internally tracks its Chef, Inc. priorities; all other issues may be addressed on an as-needed, FOSS basis.
 
 ### For Machines
 

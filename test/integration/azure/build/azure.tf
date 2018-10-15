@@ -40,7 +40,7 @@ resource "azurerm_resource_group" "rg" {
   location = "${var.location}"
 
   tags {
-    CreatedBy = "Inspec Azure Integration Tests"
+    CreatedBy = "InSpec Azure Integration Tests"
   }
 }
 
@@ -183,7 +183,7 @@ resource "azurerm_virtual_machine" "vm_linux_internal" {
     disable_password_authentication = false
   }
 
-  # Add boot diagnostics to the machine. These will be added to the 
+  # Add boot diagnostics to the machine. These will be added to the
   # created storage acccount
   boot_diagnostics {
     enabled     = true

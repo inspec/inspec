@@ -52,7 +52,7 @@ class AwsIamUserRecallTest < Minitest::Test
   def test_search_hit_via_hash_works
     user = AwsIamUser.new(username: 'erin')
     assert user.exists?
-    assert_equal('erin', user.username)    
+    assert_equal('erin', user.username)
   end
 end
 
@@ -79,7 +79,7 @@ class AwsIamUserPropertiesTest < Minitest::Test
     assert_includes(leslie.attached_policy_names, 'AdministratorAccess')
     assert_equal(1, leslie.attached_policy_arns.count)
     assert_includes(leslie.attached_policy_arns, 'arn:aws:iam::aws:policy/AdministratorAccess')
-    
+
     jared = AwsIamUser.new('jared')
     assert_equal(2, jared.attached_policy_names.count)
     assert_includes(jared.attached_policy_names, 'ReadOnlyAccess')
@@ -98,7 +98,7 @@ class AwsIamUserPropertiesTest < Minitest::Test
     assert_equal(2, leslie.inline_policy_names.count)
     assert_includes(leslie.inline_policy_names, 'leslie-inline-01')
     assert_includes(leslie.inline_policy_names, 'leslie-inline-02')
-    
+
     jared = AwsIamUser.new('jared')
     assert_equal(1, jared.inline_policy_names.count)
     assert_includes(jared.inline_policy_names, 'jared-inline-01')
@@ -124,15 +124,15 @@ class AwsIamUserPropertiesTest < Minitest::Test
     keys = AwsIamUser.new('erin').access_keys
     assert_kind_of(Array, keys)
     assert_equal(keys.length, 2)
-    # We don't currently promise that the results 
-    # will be Inspec resource objects.
-    # assert_kind_of(AwsIamAccessKey, keys.first)    
+    # We don't currently promise that the results
+    # will be InSpec resource objects.
+    # assert_kind_of(AwsIamAccessKey, keys.first)
   end
 
   def test_property_access_keys_negative
     keys = AwsIamUser.new('leslie').access_keys
     assert_kind_of(Array, keys)
-    assert(keys.empty?)    
+    assert(keys.empty?)
   end
 end
 
@@ -195,29 +195,29 @@ module MAIUB
       people = {
         'erin' => OpenStruct.new({
           user: OpenStruct.new({
-            arn: "arn:aws:iam::123456789012:user/erin", 
-            create_date: Time.parse("2016-09-21T23:03:13Z"), 
-            path: "/", 
-            user_id: "AKIAIOSFODNN7EXAERIN", 
-            user_name: "erin", 
+            arn: "arn:aws:iam::123456789012:user/erin",
+            create_date: Time.parse("2016-09-21T23:03:13Z"),
+            path: "/",
+            user_id: "AKIAIOSFODNN7EXAERIN",
+            user_name: "erin",
           }),
         }),
         'leslie' => OpenStruct.new({
           user: OpenStruct.new({
-            arn: "arn:aws:iam::123456789012:user/leslie", 
-            create_date: Time.parse("2017-09-21T23:03:13Z"), 
-            path: "/", 
-            user_id: "AKIAIOSFODNN7EXAERIN", 
-            user_name: "leslie", 
+            arn: "arn:aws:iam::123456789012:user/leslie",
+            create_date: Time.parse("2017-09-21T23:03:13Z"),
+            path: "/",
+            user_id: "AKIAIOSFODNN7EXAERIN",
+            user_name: "leslie",
           }),
         }),
         'jared' => OpenStruct.new({
           user: OpenStruct.new({
-            arn: "arn:aws:iam::123456789012:user/jared", 
-            create_date: Time.parse("2017-09-21T23:03:13Z"), 
-            path: "/", 
-            user_id: "AKIAIOSFODNN7EXAERIN", 
-            user_name: "jared", 
+            arn: "arn:aws:iam::123456789012:user/jared",
+            create_date: Time.parse("2017-09-21T23:03:13Z"),
+            path: "/",
+            user_id: "AKIAIOSFODNN7EXAERIN",
+            user_name: "jared",
           }),
         }),
       }
@@ -323,7 +323,7 @@ module MAIUB
         ),
         'leslie' => Aws::IAM::Types::ListUserPoliciesResponse.new(
           policy_names: ['leslie-inline-01', 'leslie-inline-02'],
-        ), 
+        ),
         'jared' => Aws::IAM::Types::ListUserPoliciesResponse.new(
           policy_names: ['jared-inline-01'],
         )

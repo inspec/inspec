@@ -305,7 +305,7 @@ begin
   ctl = Inspec::PluginCtl.new
   ctl.list.each { |x| ctl.load(x) }
 
-  # load v1 CLI plugins before the Inspec CLI has been started
+  # load v1 CLI plugins before the InSpec CLI has been started
   Inspec::Plugins::CLI.subcommands.each { |_subcommand, params|
     Inspec::InspecCLI.register(
       params[:klass],

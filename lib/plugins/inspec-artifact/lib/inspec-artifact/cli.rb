@@ -12,7 +12,7 @@ require_relative 'base'
 #
 #
 # .IAF file format
-#   .iaf = "Inspec Artifact File", easy to rename if you'd like something more appropriate.
+#   .iaf = "InSpec Artifact File", easy to rename if you'd like something more appropriate.
 #   The iaf file wraps a binary artifact with some metadata. The first implementation
 #   looks like this:
 #
@@ -62,8 +62,8 @@ require_relative 'base'
 #   private keys. We should establish a common key directory (similar to /hab/cache/keys
 #   or ~/.hab/cache/keys in Habitat).
 #
-# Extracting artifacts outside of Inspec
-#   As in Habitat, the artifact format for Inspec allows the use of common
+# Extracting artifacts outside of InSpec
+#   As in Habitat, the artifact format for InSpec allows the use of common
 #   Unix tools to read the header and body of an artifact.
 # To extract the header from a .iaf:
 #        sed '/^$/q' foo.iaf
