@@ -25,7 +25,7 @@ github:
   version_tag_format: v{{version}}
   release_branch:
     - master:
-        version_constraint: 2.*
+        version_constraint: 3.*
     - 1-stable:
         version_constraint: 1.*
 
