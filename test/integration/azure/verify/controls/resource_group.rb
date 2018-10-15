@@ -19,7 +19,7 @@ control 'azure-resource-group-1.0' do
     it { should have_tags }
     its('tag_count') { should be 1 }
     its('tags') { should include 'CreatedBy' }
-    its('CreatedBy_tag') { should cmp 'Inspec Azure Integration Tests' }
+    its('CreatedBy_tag') { should cmp 'InSpec Azure Integration Tests' }
 
     # How many resources are in the resource group in total
     its('total') { should eq 13 }

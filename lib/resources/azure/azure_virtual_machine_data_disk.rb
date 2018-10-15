@@ -8,7 +8,7 @@ module Inspec::Resources
     name 'azure_virtual_machine_data_disk'
 
     desc '
-      Inspec Resource to ensure that the data disks attached to a machine are correct
+      InSpec Resource to ensure that the data disks attached to a machine are correct
     '
 
     supports platform: 'azure'

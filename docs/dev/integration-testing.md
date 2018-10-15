@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Inspec uses Test Kitchen for its integration testing. Our current testing uses Docker as our backend. You should install and have Docker running befor you run any tests.
+InSpec uses Test Kitchen for its integration testing. Our current testing uses Docker as our backend. You should install and have Docker running befor you run any tests.
 
 ### How to run specific integrations
 
@@ -17,7 +17,7 @@ Example:
 bundle exec rake test:integration[default-ubuntu-1604]
 ```
 
-# Inspec Integrations
+# InSpec Integrations
 
 ### Test Kitchen
 

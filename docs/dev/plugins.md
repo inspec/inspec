@@ -256,7 +256,7 @@ module InspecPlugins::Sweeten
 end
 ```
 
-The Inspec plugin v2 system promises the following:
+The InSpec plugin v2 system promises the following:
 
 * The superclass will be an (indirect) subclass of Thor
 * The plugin system will handle registering the subcommand with Thor for you
@@ -266,7 +266,7 @@ The Inspec plugin v2 system promises the following:
 
 Within your `cli.rb`, you need to do two things:
 
-* Inform Inspec of your subcommand's usage and description, so the `help` commands will work properly
+* Inform InSpec of your subcommand's usage and description, so the `help` commands will work properly
 * Implement your subcommands and options using the Thor DSL
 
 See also: [Thor homepage](http://whatisthor.com/) and [Thor docs](https://www.rubydoc.info/github/wycats/thor/Thor).

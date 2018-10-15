@@ -24,7 +24,7 @@ module Secrets
         @attributes = nil
       end
     rescue => e
-      raise "Error reading Inspec attributes: #{e}"
+      raise "Error reading InSpec attributes: #{e}"
     end
   end
 end

@@ -7,7 +7,7 @@ module Inspec::Resources
     name 'azure_resource_group'
 
     desc '
-      Inspec Resource to get metadata about a specific Resource Group
+      InSpec Resource to get metadata about a specific Resource Group
     '
 
     supports platform: 'azure'

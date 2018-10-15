@@ -12,19 +12,23 @@ describe 'Inspec::Resources::X509Certificate' do
     )
   }
 
+  # TODO: Regenerate certificate using `InSpec` not `Inspec`
   it 'verify subject distingushed name' do
     _(resource_cert.send('subject_dn')).must_match 'Inspec Test Certificate'
   end
 
+  # TODO: Regenerate certificate using `InSpec` not `Inspec`
   it 'parses the certificate subject' do
     _(resource_cert.send('subject').CN).must_equal 'Inspec Test Certificate'
     _(resource_cert.send('subject').emailAddress).must_equal 'support@chef.io'
   end
 
+  # TODO: Regenerate certificate using `InSpec` not `Inspec`
   it 'verify issue distingushed name' do
     _(resource_cert.send('issuer_dn')).must_match 'Inspec Test CA'
   end
 
+  # TODO: Regenerate certificate using `InSpec` not `Inspec`
   it 'parses the issuer' do
     _(resource_cert.send('issuer').CN).must_equal 'Inspec Test CA'
   end

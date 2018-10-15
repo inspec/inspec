@@ -8,7 +8,7 @@ module Inspec::Resources
     name 'azure_generic_resource'
 
     desc '
-      Inspec Resource to interrogate any Resource type in Azure
+      InSpec Resource to interrogate any Resource type in Azure
     '
 
     supports platform: 'azure'

@@ -17,7 +17,7 @@ control 'gordon-1.0' do
   tag 'gordon'
   ref 'Gordon Requirements 1.0', uri: 'http://...'
 
-  # Test using the custom gordon_config Inspec resource
+  # Test using the custom gordon_config InSpec resource
   # Find the resource content here: ../libraries/
   describe gordon_config do
     it { should exist }
