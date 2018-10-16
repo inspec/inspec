@@ -17,7 +17,7 @@ class AwsVpcConstructorTest < Minitest::Test
   end
 
   def test_accepts_vpc_id_as_scalar
-    AwsVpc.new('vpc-12345678')
+    AwsVpc.new('vpc-12345678987654321')
   end
 
   def test_accepts_vpc_id_as_hash
@@ -52,7 +52,7 @@ class AwsVpcRecallTest < Minitest::Test
   end
 
   def test_search_hit_via_hash_works
-    assert AwsVpc.new(vpc_id: 'vpc-12344321').exists?
+    assert AwsVpc.new(vpc_id: 'vpc-12345678987654321').exists?
   end
 
   def test_search_miss_is_not_an_exception
@@ -76,8 +76,8 @@ class AwsVpcPropertiesTest < Minitest::Test
   end
 
   def test_property_cidr_block
-    assert_equal('10.0.0.0/16', AwsVpc.new('vpc-aaaabbbb').cidr_block)
-    assert_nil(AwsVpc.new('vpc-00000000').cidr_block)
+    assert_equal('10.0.0.0/16', AwsVpc.new('vpc-aaaabbbbcbbbbaaaa').cidr_block)
+    assert_nil(AwsVpc.new('vpc-00000000000000000').cidr_block)
   end
 
   def test_property_dhcp_options_id
@@ -86,8 +86,8 @@ class AwsVpcPropertiesTest < Minitest::Test
   end
 
   def test_property_state
-    assert_equal('available', AwsVpc.new('vpc-12344321').state)
-    assert_nil(AwsVpc.new('vpc-00000000').state)
+    assert_equal('available', AwsVpc.new('vpc-12345678987654321').state)
+    assert_nil(AwsVpc.new('vpc-00000000000000000').state)
   end
 
   def test_property_instance_tenancy
@@ -107,7 +107,7 @@ class AwsVpcMatchersTest < Minitest::Test
   end
 
   def test_matcher_default_positive
-    assert AwsVpc.new('vpc-aaaabbbb').default?
+    assert AwsVpc.new('vpc-aaaabbbbcbbbbaaaa').default?
   end
 
   def test_matcher_default_negative
@@ -133,7 +133,7 @@ module MAVSB
           cidr_block: '10.0.0.0/16',
           dhcp_options_id: 'dopt-aaaabbbb',
           state: 'available',
-          vpc_id: 'vpc-aaaabbbb',
+          vpc_id: 'vpc-aaaabbbbcbbbbaaaa',
           instance_tenancy: 'default',
           is_default: true
         }),
