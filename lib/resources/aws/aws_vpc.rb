@@ -30,7 +30,7 @@ class AwsVpc < Inspec.resource(1)
       allowed_scalar_type: String,
     )
 
-    if validated_params.key?(:vpc_id) && validated_params[:vpc_id] !~ /^rtb\-([0-9a-f]{8})|(^rtb\-[0-9a-f]{17})$/
+    if validated_params.key?(:vpc_id) && validated_params[:vpc_id] !~ /^vpc\-([0-9a-f]{8})|(^vpc\-[0-9a-f]{17})$/
       raise ArgumentError, 'aws_vpc VPC ID must be in the format "vpc-" followed by 8 or 17 hexadecimal characters.'
     end
 
