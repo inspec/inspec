@@ -43,7 +43,7 @@ content, size, basename, path, owner, group, type
 
 ### Unix/Linux Properties
 
-symlink, mode, link_path, shallow_link_path, mtime, size, selinux\_label, md5sum, sha256sum, path, source, source\_path, uid, gid
+symlink, mode, link\_path, shallow\_link\_path, mtime, size, selinux\_label, md5sum, sha256sum, path, source, source\_path, uid, gid
 
 ### Windows Properties
 
@@ -88,7 +88,7 @@ InSpec will resolve the symlink recursively and return the ultimate linked file.
 
     its('link_path') { should eq '/some/path/to/file' }
 
-### shallow_link_path
+### shallow\_link\_path
 
 The `shallow_link_path`` property returns the path that the file refers to, only resolving
 it once (that is, it performs a readlink operation). If the file is not a symlink, nil is returned.
@@ -203,20 +203,20 @@ or:
 ### Test if a file exists
 
     describe file('/tmp') do
-     it { should exist }
+      it { should exist }
     end
 
 ### Test that a file does not exist
 
     describe file('/tmpest') do
-     it { should_not exist }
+      it { should_not exist }
     end
 
 ### Test if a path is a directory
 
     describe file('/tmp') do
-     its('type') { should eq :directory }
-     it { should be_directory }
+      its('type') { should eq :directory }
+      it { should be_directory }
     end
 
 ### Test if a path is a file and not a directory
@@ -320,7 +320,7 @@ or:
 The following example shows how to use the `file` audit resource to verify if the `ntp.conf` and `leap-seconds` files are present, and then the `command` resource to verify if NTP is installed and running:
 
     describe file('/etc/ntp.conf') do
-       it { should be_file }
+      it { should be_file }
     end
 
     describe file('/etc/ntp.leapseconds') do
@@ -328,7 +328,7 @@ The following example shows how to use the `file` audit resource to verify if th
     end
 
     describe command('pgrep ntp') do
-       its('exit_status') { should eq 0 }
+      its('exit_status') { should eq 0 }
     end
 
 ### Test parameters of symlinked file
