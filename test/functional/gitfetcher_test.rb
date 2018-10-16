@@ -1,6 +1,7 @@
 require 'functional/helper'
 require 'fileutils'
 require 'tmpdir'
+require 'yaml'
 
 describe 'profiles with git-based dependencies' do
   include FunctionalHelper
@@ -22,14 +23,15 @@ describe 'profiles with git-based dependencies' do
       CMD.run_command("git tag antag")
     end
 
-    File.open(File.join(@profile_dir, "inspec.yml"), 'a') do |f|
-      f.write <<EOF
-depends:
-  - name: git-dep
-    git: #{@git_dep_dir}
-    tag: antag
-EOF
-    end
+    inspec_yml = YAML.load(File.read(File.join(@profile_dir, "inspec.yml")))
+    inspec_yml["depends"] = [
+      {
+        'name' => 'git-dep',
+        'git' => @git_dep_dir,
+        'tag' => 'antag'
+      }
+    ]
+    File.write(File.join(@profile_dir, "inspec.yml"), YAML.dump(inspec_yml))
   end
 
   after(:all) do
