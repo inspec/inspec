@@ -15,19 +15,19 @@ describe 'Inspec::Resources::Docker' do
 
     it 'check docker image parsing' do
       _(resource.images.ids).must_equal ['sha256:4a415e3663882fbc554ee830889c68a33b3585503892cc718a4698e91ef2a526', 'sha256:978d85d02b87aea199e4ae8664f6abf32fdea331884818e46b8a01106b114cee', 'sha256:0ef2e08ed3fabfc44002ccb846c4f2416a2135affc3ce39538834059606f32dd', 'sha256:c4e5744dbe11a4f1970ba36d0aa3944c347ab232bb58fb86b240f1bb18a360c2']
-      _(resource.images.repositories).must_equal ["alpine", "debian", "ubuntu", "repo.example.com:5000/ubuntu"]
+      _(resource.images.repositories).must_equal ['alpine', 'debian', 'ubuntu', 'repo.example.com:5000/ubuntu']
     end
 
     it 'check docker service parsing' do
-      _(resource.services.ids).must_equal ["2ghswegspre1", "huhcawfiyddo", "msar8lb56wq2", "mdrfkxckau6c"]
-      _(resource.services.names).must_equal ["service1", "service2", "service3", "service4"]
-      _(resource.services.images).must_equal ["foo/image:1.0", "foo/image:1.1", "bar:latest", "bar:latest"]
+      _(resource.services.ids).must_equal ['2ghswegspre1', 'huhcawfiyddo', 'msar8lb56wq2', 'mdrfkxckau6c']
+      _(resource.services.names).must_equal ['service1', 'service2', 'service3', 'service4']
+      _(resource.services.images).must_equal ['foo/image:1.0', 'foo/image:1.1', 'bar:latest', 'bar:latest']
     end
 
     it 'check docker plugins parsing' do
-      _(resource.plugins.ids).must_equal ["6ea8176de74b", "771d3ee7c7ea"]
-      _(resource.plugins.names).must_equal ["store/weaveworks/net-plugin", "docker4x/cloudstor"]
-      _(resource.plugins.versions).must_equal ["2.3.0", "18.03.1-ce-aws1"]
+      _(resource.plugins.ids).must_equal ['6ea8176de74b', '771d3ee7c7ea']
+      _(resource.plugins.names).must_equal ['store/weaveworks/net-plugin', 'docker4x/cloudstor']
+      _(resource.plugins.versions).must_equal ['2.3.0', '18.03.1-ce-aws1']
       _(resource.plugins.enabled).must_equal [true, false]
     end
 
@@ -40,7 +40,7 @@ describe 'Inspec::Resources::Docker' do
       _(resource.info.ID).must_equal 'HMKB:SOFR:Z3DM:J6ZY:WE6K:47EW:WVGV:C5C3:WNJC:TSG6:43YV:IOGU'
       _(resource.info.Containers).must_equal 93
       _(resource.info.Runtimes.runc.path).must_equal 'docker-runc'
-      _(resource.info.SecurityOptions).must_equal ["name=seccomp,profile=default"]
+      _(resource.info.SecurityOptions).must_equal ['name=seccomp,profile=default']
     end
 
     it 'check docker object parsing' do
