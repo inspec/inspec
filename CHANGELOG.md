@@ -1,7 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 3.0.1 -->
+## [v3.0.1](https://github.com/inspec/inspec/tree/v3.0.1) (2018-10-17)
+
+#### Merged Pull Requests
+- style: Fix quotes/style on the `docker` resource [#3516](https://github.com/inspec/inspec/pull/3516) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 
 #### Enhancements
 - Inspec 3.0 [#3512](https://github.com/inspec/inspec/pull/3512) ([jquick](https://github.com/jquick))
@@ -9,6 +12,9 @@
 
 <!-- release_rollup since=3.0.0 -->
 ### Changes since 3.0.0 release
+
+#### Merged Pull Requests
+- style: Fix quotes/style on the `docker` resource [#3516](https://github.com/inspec/inspec/pull/3516) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
