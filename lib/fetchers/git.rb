@@ -37,10 +37,12 @@ module Fetchers
 
     def initialize(remote_url, opts = {})
       @branch = opts[:branch]
+      @profile_directory = nil
       @tag = opts[:tag]
       @ref = opts[:ref]
       @remote_url = remote_url
       @repo_directory = nil
+      @target_profile_path = opts[:profile_path]
     end
 
     def fetch(dir)
@@ -52,23 +54,35 @@ module Fetchers
       else
         Dir.mktmpdir do |tmpdir|
           checkout(tmpdir)
-          Inspec::Log.debug("Checkout of #{resolved_ref} successful. Moving checkout to #{dir}")
-          FileUtils.cp_r(tmpdir + "/.", @repo_directory)
+          if @target_profile_path
+            @profile_directory = dir
+            Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
+                              "Moving #{@target_profile_path} to #{dir}")
+            target_profile = File.join(tmpdir, @target_profile_path)
+            FileUtils.cp_r(target_profile, dir)
+          else
+            Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
+                              "Moving checkout to #{dir}")
+            FileUtils.cp_r(tmpdir + '/.', dir)
+          end
         end
       end
-      @repo_directory
+      @profile_directory || @repo_directory
     end
 
     def cache_key
-      resolved_ref
+      return resolved_ref unless @target_profile_path
+      OpenSSL::Digest::SHA256.hexdigest(resolved_ref + @target_profile_path)
     end
 
     def archive_path
-      @repo_directory
+      @profile_directory || @repo_directory
     end
 
     def resolved_source
-      { git: @remote_url, ref: resolved_ref }
+      source = { git: @remote_url, ref: resolved_ref }
+      source[:profile_path] = @target_profile_path if @target_profile_path
+      source
     end
 
     private
