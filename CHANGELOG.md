@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.2 -->
-## [v3.0.2](https://github.com/inspec/inspec/tree/v3.0.2) (2018-10-17)
+<!-- latest_release 3.0.3 -->
+## [v3.0.3](https://github.com/inspec/inspec/tree/v3.0.3) (2018-10-17)
 
-#### Bug Fixes
-- FilterTable: allow Strings or Symbols as fields [#3481](https://github.com/inspec/inspec/pull/3481) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Filter out inspec-k8s and inspec-release [#3525](https://github.com/inspec/inspec/pull/3525) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.0 -->
@@ -14,6 +14,7 @@
 - FilterTable: allow Strings or Symbols as fields [#3481](https://github.com/inspec/inspec/pull/3481) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.2 -->
 
 #### Merged Pull Requests
+- Filter out inspec-k8s and inspec-release [#3525](https://github.com/inspec/inspec/pull/3525) ([miah](https://github.com/miah)) <!-- 3.0.3 -->
 - style: Fix quotes/style on the `docker` resource [#3516](https://github.com/inspec/inspec/pull/3516) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.1 -->
 <!-- release_rollup -->
 
