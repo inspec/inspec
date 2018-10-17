@@ -63,9 +63,9 @@ The name of the EKS cluster within AWS. The EKS name is unique within the region
 
 Returns a string containing the current status of the cluster, possible values are: CREATING,ACTIVE,DELETING,FAILED.
 
-    # ensure the cluster is available
+    # ensure the cluster is available or being created
     describe aws_eks_cluster('my-cluster') do
-      its('status') { should eq 'ACTIVE' }
+      its('status') { should be_in %w(ACTIVE CREATING) }
     end
 
 Status can also be called with predicates.
