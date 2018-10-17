@@ -155,7 +155,7 @@ Or execute the profile directly via URL:
       its('ids') { should include 'sha:12b5df59...442b' }
       its('repositories') { should_not include 'my_image' }
       its('tags') { should_not include 'unwanted_tag' }
-      its('sizes') { should_not include "1.41 GB" }
+      its('sizes') { should_not include '1.41 GB' }
     end
 
 ### plugins
@@ -163,9 +163,9 @@ Or execute the profile directly via URL:
 `plugins` returns information about Docker plugins as returned by [docker plugin ls](https://docs.docker.com/engine/reference/commandline/plugin/).
 
     describe docker.plugins do
-      its('names') { should include ["store/weaveworks/net-plugin", "docker4x/cloudstor"] }
-      its('ids') { should cmp ["6ea8176de74b", "771d3ee7c7ea"] }
-      its('versions') { should cmp ["2.3.0", "18.03.1-ce-aws1"] }
+      its('names') { should include ['store/weaveworks/net-plugin', 'docker4x/cloudstor'] }
+      its('ids') { should cmp ['6ea8176de74b', '771d3ee7c7ea'] }
+      its('versions') { should cmp ['2.3.0', '18.03.1-ce-aws1'] }
       its('enabled') { should cmp [true, false] }
     end
 
@@ -223,7 +223,7 @@ Or execute the profile directly via URL:
 ### ports
 
     describe docker_container(name: 'an-echo-server') do
-      its('ports') { should eq "0.0.0.0:1234->1234/tcp" }
+      its('ports') { should eq '0.0.0.0:1234->1234/tcp' }
     end
 
 ### command
