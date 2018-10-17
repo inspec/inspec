@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.1 -->
-## [v3.0.1](https://github.com/inspec/inspec/tree/v3.0.1) (2018-10-17)
+<!-- latest_release 3.0.2 -->
+## [v3.0.2](https://github.com/inspec/inspec/tree/v3.0.2) (2018-10-17)
 
-#### Merged Pull Requests
-- style: Fix quotes/style on the `docker` resource [#3516](https://github.com/inspec/inspec/pull/3516) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-
-#### Enhancements
-- Inspec 3.0 [#3512](https://github.com/inspec/inspec/pull/3512) ([jquick](https://github.com/jquick))
+#### Bug Fixes
+- FilterTable: allow Strings or Symbols as fields [#3481](https://github.com/inspec/inspec/pull/3481) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.0 -->
 ### Changes since 3.0.0 release
+
+#### Bug Fixes
+- FilterTable: allow Strings or Symbols as fields [#3481](https://github.com/inspec/inspec/pull/3481) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.2 -->
 
 #### Merged Pull Requests
 - style: Fix quotes/style on the `docker` resource [#3516](https://github.com/inspec/inspec/pull/3516) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.1 -->
