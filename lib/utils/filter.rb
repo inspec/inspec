@@ -106,7 +106,7 @@ module FilterTable
       # If we were provided params, interpret them as criteria to be evaluated
       # against the raw data. Criteria are assumed to be hash keys.
       conditions.each do |raw_field_name, desired_value|
-        raise(ArgumentError, "'#{raw_field_name}' is not a recognized criterion - expected one of #{list_fields.join(', ')}'") unless field?(raw_field_name)
+        raise(ArgumentError, "'#{decorate_symbols(raw_field_name)}' is not a recognized criterion - expected one of #{decorate_symbols(list_fields).join(', ')}'") unless field?(raw_field_name)
         populate_lazy_field(raw_field_name, desired_value) if is_field_lazy?(raw_field_name)
         new_criteria_string += " #{raw_field_name} == #{desired_value.inspect}"
         filtered_raw_data = filter_raw_data(filtered_raw_data, raw_field_name, desired_value)
@@ -175,7 +175,15 @@ module FilterTable
       # Currently we only know about a field if it is present in a at least one row of the raw data.
       # If we have no rows in the raw data, assume all fields are acceptable (and rely on failing to match on value, nil)
       return true if raw_data.empty?
-      list_fields.include?(proposed_field) || is_field_lazy?(proposed_field)
+
+      # Most resources have Symbol keys in their raw data.  Some have Strings (looking at you, `shadow`).
+      is_field = false
+      is_field ||= list_fields.include?(proposed_field.to_s)
+      is_field ||= list_fields.include?(proposed_field.to_sym)
+      is_field ||= is_field_lazy?(proposed_field.to_s)
+      is_field ||= is_field_lazy?(proposed_field.to_sym)
+
+      is_field
     end
 
     def to_s
@@ -240,6 +248,8 @@ module FilterTable
     end
 
     def filter_raw_data(current_raw_data, field, desired_value)
+      return [] if current_raw_data.empty?
+
       method_ref = case desired_value
                    when Float   then method(:matches_float)
                    when Integer then method(:matches_int)
@@ -247,10 +257,20 @@ module FilterTable
                    else              method(:matches)
                    end
 
+      assume_symbolic_keyed_data = current_raw_data.first.keys.first.is_a? Symbol
+      field = assume_symbolic_keyed_data ? field.to_sym : field.to_s
+
       current_raw_data.find_all do |row|
         next unless row.key?(field)
         method_ref.call(row[field], desired_value)
       end
+    end
+
+    def decorate_symbols(thing)
+      return thing.map { |t| decorate_symbols(t) } if thing.is_a?(Array)
+      return ':' + thing.to_s if thing.is_a? Symbol
+      return thing + ' (String)' if thing.is_a? String
+      thing
     end
   end
 
