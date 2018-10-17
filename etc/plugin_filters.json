@@ -6,8 +6,16 @@
       "rationale": "This gem is a stripped-down alternate packaging of InSpec. It is not a plugin."
     },
     {
+      "plugin_name": "inspec-k8s",
+      "rationale": "This gem is currently only a placeholder, waiting to be built."
+    },
+    {
       "plugin_name": "inspec-multi-server",
       "rationale": "This gem is a script that attempts to drive a parallel execution of InSpec by wrapping and forking. It is not a plugin."
+    },
+    {
+      "plugin_name": "inspec-release",
+      "rationale": "It is not plugin."
     },
     {
       "plugin_name": "train-tax-calculator",
