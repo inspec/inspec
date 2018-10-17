@@ -66,6 +66,7 @@ class AwsEksClusterProperties < Minitest::Test
     AwsEksCluster::BackendFactory.select(MAEKSB::Basic)
     @roo = AwsEksCluster.new('kangaroo')
     @kang = AwsEksCluster.new('kang-the-alien')
+    @kodos = AwsEksCluster.new('kodos-the-alien')
     @gamma = AwsEksCluster.new('gamma')
     @miss = AwsEksCluster.new('nonesuch')
   end
@@ -88,6 +89,16 @@ class AwsEksClusterProperties < Minitest::Test
     assert_equal('ACTIVE', @roo.status)
     assert_equal('CREATING', @kang.status)
     assert_equal('DELETING', @gamma.status)
+    assert_equal('FAILED', @kodos.status)
+    assert_empty(@miss.status)
+  end
+
+  def test_property_with_status_predicate
+    assert(@roo.active?)
+    assert(!@kang.active?)
+    assert(@kang.creating?)
+    assert(@gamma.deleting?)
+    assert(@kodos.failed?)
     assert_empty(@miss.status)
   end
 
@@ -221,6 +232,23 @@ module MAEKSB
                                                               }),
                          role_arn: 'arn:aws:iam::012345678910:role/eks-service-role-AWSServiceRoleForAmazonEKS-J7ONKE3BQ4PI',
                          status: 'DELETING',
+                     }),
+      OpenStruct.new({
+                         version: '2.0',
+                         name: 'kodos-the-alien',
+                         arn: 'arn:aws:eks:ab-region-1:013836573410:cluster/kodos',
+                         certificate_authority: OpenStruct.new({
+                                                                   data: 'LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUN5RENDQWJDZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRFNE1EVXpNVEl6TVRFek1Wb1hEVEk0TURVeU9ESXpNVEV6TVZvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBTTZWCjVUaG4rdFcySm9Xa2hQMzRlVUZMNitaRXJOZGIvWVdrTmtDdWNGS2RaaXl2TjlMVmdvUmV2MjlFVFZlN1ZGbSsKUTJ3ZURyRXJiQyt0dVlibkFuN1ZLYmE3ay9hb1BHekZMdmVnb0t6b0M1N2NUdGVwZzRIazRlK2tIWHNaME10MApyb3NzcjhFM1ROeExETnNJTThGL1cwdjhsTGNCbWRPcjQyV2VuTjFHZXJnaDNSZ2wzR3JIazBnNTU0SjFWenJZCm9hTi8zODFUczlOTFF2QTBXb0xIcjBFRlZpTFdSZEoyZ3lXaC9ybDVyOFNDOHZaQXg1YW1BU0hVd01aTFpWRC8KTDBpOW4wRVM0MkpVdzQyQmxHOEdpd3NhTkJWV3lUTHZKclNhRXlDSHFtVVZaUTFDZkFXUjl0L3JleVVOVXM3TApWV1FqM3BFbk9RMitMSWJrc0RzQ0F3RUFBYU1qTUNFd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFNZ3RsQ1dIQ2U2YzVHMXl2YlFTS0Q4K2hUalkKSm1NSG56L2EvRGt0WG9YUjFVQzIrZUgzT1BZWmVjRVZZZHVaSlZCckNNQ2VWR0ZkeWdBYlNLc1FxWDg0S2RXbAp1MU5QaERDSmEyRHliN2pVMUV6VThTQjFGZUZ5ZFE3a0hNS1E1blpBRVFQOTY4S01hSGUrSm0yQ2x1UFJWbEJVCjF4WlhTS1gzTVZ0K1Q0SU1EV2d6c3JRSjVuQkRjdEtLcUZtM3pKdVVubHo5ZEpVckdscEltMjVJWXJDckxYUFgKWkUwRUtRNWEzMHhkVWNrTHRGQkQrOEtBdFdqSS9yZUZPNzM1YnBMdVoyOTBaNm42QlF3elRrS0p4cnhVc3QvOAppNGsxcnlsaUdWMm5SSjBUYjNORkczNHgrYWdzYTRoSTFPbU90TFM0TmgvRXJxT3lIUXNDc2hEQUtKUT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=',
+                                                               }),
+                         created_at: Time.at(0),
+                         endpoint: 'https://A0DCCD80A04F01705DD065655C30CC3D.yl4.aq-south-3.eks.amazonaws.com',
+                         resources_vpc_config: OpenStruct.new({
+                                                                  security_group_ids: %w[sg-6975fe18 sg-6479fe18],
+                                                                  subnet_ids: [],
+                                                                  vpc_id: 'vpc-366723ec',
+                                                              }),
+                         role_arn: 'arn:aws:iam::012345678910:role/eks-service-role-AWSServiceRoleForAmazonEKS-J7ONKE3BQ4PI',
+                         status: 'FAILED',
                      })
       ]
       if query[:name]

@@ -1,24 +1,3 @@
----
-title: About the aws_eks_cluster Resource
-platform: aws
----
-
-# aws\_eks\_cluster
-
-Use the `aws_eks_cluster` InSpec audit resource to test properties of a single Amazon Elastic Container Service for Kubernetes Cluster (EKS).
-
-<br>
-
-## Availability
-
-### Installation
-
-This resource is distributed along with InSpec itself. You can use it automatically.
-
-### Version
-
-This resource first became available in v<version> of InSpec.
-
 ## Resource Parameters
 
 An `aws_eks_cluster` resource block declares the tests for a single EKS Cluster by Cluster name.
@@ -55,11 +34,11 @@ The following examples show how to use this InSpec audit resource.
 
 ### version
 
-Returns a string identifying the version of the EKS Cluster
+Returns a string identifying the version of the EKS Cluster.
 
     # Verify the version is 1.5
     describe aws_eks_cluster('my-cluster') do
-      its('version') { should eq '1.5' }
+      its('version') { should cmp '1.5' }
     end
 
 ### arn
@@ -82,16 +61,28 @@ The name of the EKS cluster within AWS. The EKS name is unique within the region
 
 ### status
 
-Returns a string containing the current status of the cluster, possible values are: CREATING,ACTIVE,DELETING,FAILED
+Returns a string containing the current status of the cluster, possible values are: CREATING,ACTIVE,DELETING,FAILED.
 
     # ensure the cluster is available
     describe aws_eks_cluster('my-cluster') do
       its('status') { should eq 'ACTIVE' }
     end
 
+Status can also be called with predicates.
+
+    # ensure the cluster is available
+    describe aws_eks_cluster('my-cluster') do
+      it { should be_active }
+    end
+
+    # ensure the cluster is being removed
+    describe aws_eks_cluster('my-cluster') do
+      it { should be_deleting }
+    end
+
 ### endpoint
 
-Returns an string with the K8s API server endpoint. The endpoint is used by kubectl to control the cluster
+Returns a string with the K8s API server endpoint. The endpoint is used by kubectl to control the cluster.
 
     # Ensure that the endpoint is what we expect it to be
     describe aws_eks_cluster('my-cluster') do
@@ -136,7 +127,7 @@ Returns a String reflecting the Amazon resource name of the Amazon EKS Service I
 
 ### certificate\_authority
 
-Returns a String reflecting the certificate authority data used by kubectl to identify to the cluster
+Returns a String reflecting the certificate authority data used by kubectl to identify to the cluster.
 
     # Ensure that the EKS Cluster is using specific certificate authority data
     describe aws_eks_cluster('my-cluster') do
@@ -146,7 +137,7 @@ Returns a String reflecting the certificate authority data used by kubectl to id
 
 ### subnets\_count
 
-Returns the number of subnets associated with the Cluster VPC
+Returns the number of subnets associated with the Cluster VPC.
 
     # Test that an EKS Cluster has 2 subnets
     describe aws_eks_cluster('my-cluster') do
@@ -156,7 +147,7 @@ Returns the number of subnets associated with the Cluster VPC
 
 ### created_at
 
-Returns a Time object for the time the cluster was created at
+Returns a Time object for the time the cluster was created at.
 
     # Test that an EKS Cluster was created after a certain date
     describe aws_eks_cluster('my-cluster') do
@@ -165,13 +156,25 @@ Returns a Time object for the time the cluster was created at
 
 ### security\_groups\_count
 
-Returns the number of security groups associated with the Cluster VPC
+Returns the number of security groups associated with the Cluster VPC.
 
     # Test that an EKS Cluster has 2 security groups
     describe aws_eks_cluster('my-cluster') do
       its('security_groups_count') { should eq 2 }
     end
 
+### integration with other resources
+
+Using the resource together with other AWS resources.
+
+    # find the default security group for our VPC
+    my_vpc_id = aws_eks_cluster('my-cluster').vpc_id
+    default_security_group = aws_security_group(group_name: 'default', vpc_id: my_vpc_id)
+
+    # make sure we are not using the default security group
+    describe aws_eks_cluster('my-cluster') do
+      its('security_group_ids') { should_not include default_security_group.group_id }
+    end
 
 <br>
 

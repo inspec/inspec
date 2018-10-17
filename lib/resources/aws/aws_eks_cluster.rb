@@ -12,7 +12,13 @@ EOX
   include AwsSingularResourceMixin
   attr_reader :version, :arn, :cluster_name, :certificate_authority, :name,
               :status, :endpoint, :subnets_count, :subnet_ids, :security_group_ids,
-              :created_at, :role_arn, :vpc_id, :security_groups_count
+              :created_at, :role_arn, :vpc_id, :security_groups_count, :creating,
+              :active, :failed, :deleting
+  # Use aliases for matchers
+  alias active? active
+  alias failed? failed
+  alias creating? creating
+  alias deleting? deleting
 
   def to_s
     "AWS EKS cluster #{cluster_name}"
@@ -60,6 +66,10 @@ EOX
     @vpc_id = cluster[:resources_vpc_config][:vpc_id]
     @role_arn = cluster[:role_arn]
     @status = cluster[:status]
+    @active = cluster[:status] == 'ACTIVE'
+    @failed = cluster[:status] == 'FAILED'
+    @creating = cluster[:status] == 'CREATING'
+    @deleting = cluster[:status] == 'DELETING'
   end
 
   def populate_as_missing
