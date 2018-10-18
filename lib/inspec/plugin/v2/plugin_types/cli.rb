@@ -2,7 +2,6 @@ require 'inspec/base_cli'
 
 module Inspec::Plugin::V2::PluginType
   class CliCommand < Inspec::BaseCLI
-
     # initalize log options for plugins
     def initialize(args, options, config)
       super(args, options, config)
