@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.5 -->
-## [v3.0.5](https://github.com/inspec/inspec/tree/v3.0.5) (2018-10-18)
+<!-- latest_release 3.0.6 -->
+## [v3.0.6](https://github.com/inspec/inspec/tree/v3.0.6) (2018-10-18)
 
-#### Enhancements
-- Minor cleanups of plugin documentation. &#39;Plugin&#39; instead of &#39;PluginDefinition&#39; [#3527](https://github.com/inspec/inspec/pull/3527) ([mattray](https://github.com/mattray))
+#### Merged Pull Requests
+- Add debug and sort options for plugins [#3530](https://github.com/inspec/inspec/pull/3530) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.0 -->
@@ -17,6 +17,7 @@
 - FilterTable: allow Strings or Symbols as fields [#3481](https://github.com/inspec/inspec/pull/3481) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.2 -->
 
 #### Merged Pull Requests
+- Add debug and sort options for plugins [#3530](https://github.com/inspec/inspec/pull/3530) ([jquick](https://github.com/jquick)) <!-- 3.0.6 -->
 - docs: Fix small issues with the `file` resource [#3515](https://github.com/inspec/inspec/pull/3515) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.4 -->
 - Filter out inspec-k8s and inspec-release [#3525](https://github.com/inspec/inspec/pull/3525) ([miah](https://github.com/miah)) <!-- 3.0.3 -->
 - style: Fix quotes/style on the `docker` resource [#3516](https://github.com/inspec/inspec/pull/3516) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.1 -->
