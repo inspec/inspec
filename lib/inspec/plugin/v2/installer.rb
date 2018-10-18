@@ -133,6 +133,9 @@ module Inspec::Plugin::V2
         end
       end
 
+      # sort tuples
+      matched_tuples.sort! {|a,b| b.first.version <=> a.first.version}
+
       gem_info = {}
       matched_tuples.each do |tuple|
         gem_info[tuple.first.name] ||= []
