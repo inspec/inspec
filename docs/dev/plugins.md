@@ -4,17 +4,17 @@
 
 ### Inspiration
 
-The software design of the InSpec Plugin v2 API is deeply inspired by the Vagrant plugin v2 system.  While the InSpec Plugin v2 system is an independent implementation, acknowledgements are due to the Hashicorp team for such a well-thought-out design.
+The software design of the InSpec Plugin v2 API is deeply inspired by the Vagrant plugin v2 system. While the InSpec Plugin v2 system is an independent implementation, acknowledgements are due to the Hashicorp team for such a well-thought-out design.
 
 ### Note About versions
 
-"v2" refers to the second major version of the Plugin API.  It doesn't refer to the InSpec release number.
+"v2" refers to the second major version of the Plugin API. It doesn't refer to the InSpec release number.
 
 ### Design Goals
 
 * Load-on-demand. Improve `inspec` startup time by making plugins load heavy libraries only if they are being used.
-* Independent velocity. Enable passionate community members to contribute at their own pace by shifting core development into plugin development
-* Increase dogfooding. Convert internal components into plugins to reduce core complexity and allow testing in isolation
+* Independent velocity. Enable passionate community members to contribute at their own pace by shifting core development into plugin development.
+* Increase dogfooding. Convert internal components into plugins to reduce core complexity and allow testing in isolation.
 
 ### Design Anti-goals
 
@@ -26,7 +26,7 @@ The software design of the InSpec Plugin v2 API is deeply inspired by the Vagran
 
 The normal distribution and installation method is via gems, handled by the `inspec plugin` command.
 
-`inspec plugin install inspec-myplugin` will fetch `inspec-myplugin` from rubygems.org, and install it and its gemspec dependencies under the user's `.inspec` directory.  You may also provide a local gemfile.  For local development, however, path-to-source is usually most convenient.
+`inspec plugin install inspec-myplugin` will fetch `inspec-myplugin` from rubygems.org, and install it and its gemspec dependencies under the user's `.inspec` directory. You may also provide a local gemfile. For local development, however, path-to-source is usually most convenient.
 
 For more on the `plugin` CLI command, run `inspec plugin help`.
 
@@ -36,7 +36,7 @@ For local development or site-specific installations, you can also 'install' a p
 
 ### The plugins.json file
 
-InSpec stores its list of known plugins in a file, `~/.inspec/plugins.json`. The purpose of this file is avoid having to do a gem path filesystem scan to locate plugins.  When you install, update, or uninstall a plugin using `inspec plugin`, InSpec updates this file.
+InSpec stores its list of known plugins in a file, `~/.inspec/plugins.json`. The purpose of this file is avoid having to do a gem path filesystem scan to locate plugins. When you install, update, or uninstall a plugin using `inspec plugin`, InSpec updates this file.
 
 You can tell inspec to use a different config directory using the INSPEC_CONFIG_DIR environment variable.
 
@@ -47,9 +47,9 @@ Top-level entries in the JSON file:
 
 Each plugin entry may have the following keys:
 
- * `name` - Required.  String name of the plugin.  Internal machine name of the plugin. Must match `plugin_name` DSL call (see Plugin class below).
- * `installation_type` - Optional, default "gem".  Selects a loading mechanism, may be either "path" or "gem"
- * `installation_path` - Required if installation_type is "path".  A `require` will be attempted against this path.  It may be absolute or relative; InSpec adds both the process current working directory as well as the InSpec installation root to the load path.
+ * `name` - Required. String name of the plugin. Internal machine name of the plugin. Must match `plugin_name` DSL call (see Plugin class below).
+ * `installation_type` - Optional, default "gem". Selects a loading mechanism, may be either "path" or "gem"
+ * `installation_path` - Required if installation_type is "path". A `require` will be attempted against this path. It may be absolute or relative; InSpec adds both the process current working directory as well as the InSpec installation root to the load path.
 
 TODO: keys for gem installations
 
@@ -110,7 +110,7 @@ While you may use any valid Ruby module name, we encourage you to namespace your
 module InspecPlugins
   module MyPlugin
     # Class name doesn't matter, but this is a reasonable default name
-    class PluginDefinition < Inspec.plugin(2)
+    class Plugin < Inspec.plugin(2)
 
       # Metadata
       # Must match entry in plugins.json
@@ -127,7 +127,7 @@ module InspecPlugins
 end
 ```
 
-Note that the block passed to `cli_command` is not executed when the plugin definition is loaded.  It will only be executed if inspec decides it needs to activate that plugin component.
+Note that the block passed to `cli_command` is not executed when the plugin definition is loaded. It will only be executed if inspec decides it needs to activate that plugin component.
 
 Every activation hook is expected to return a `Class` which will be used in post-activation or execution phases. The behavior, duck typing, and superclass of that Class vary depending on the plugin type; see below for details.
 
@@ -165,13 +165,13 @@ plugin_status = registry[:'inspec-meaning-of-life']
 
 ### Discovery (Known Plugins)
 
-If a plugin is mentioned in `plugins.json` or is a plugin distributed with InSpec itself, it is *known*.  You can get its status, a `Inspec::Plugin::V2::Status` object.
+If a plugin is mentioned in `plugins.json` or is a plugin distributed with InSpec itself, it is *known*. You can get its status, a `Inspec::Plugin::V2::Status` object.
 
 Reading the plugins.json file is handled by the Loader when Loader.new is called; at that point the registry should know about plugins.
 
 ### Loading
 
-Next, we load plugins.  Loading means that we `require` the entry point determined from the plugins.json. Your plugin definition file will thus execute.
+Next, we load plugins. Loading means that we `require` the entry point determined from the plugins.json. Your plugin definition file will thus execute.
 
 If things go right, the Status now has a bunch of Activators, each with a block that has not yet executed.
 
@@ -214,7 +214,7 @@ Currently, it cannot create a direct (non-namespaced) command, such as `inspec m
 
 ### Declare your plugin activators
 
-In your `plugin.rb`, include one or more `cli_command` activation blocks.  The activation block name will be matched against the command line arguments; if the name is present, your activator will fire (in which case it should load any needed libraries) and should return your implementation class.
+In your `plugin.rb`, include one or more `cli_command` activation blocks. The activation block name will be matched against the command line arguments; if the name is present, your activator will fire (in which case it should load any needed libraries) and should return your implementation class.
 
 #### CliCommand Activator Example
 
@@ -233,7 +233,7 @@ module InspecPlugins::Sweeten
 end
 ```
 
-Like any activator, the block above will only be called if needed. For CliCommand plugins, the plugin system naively scans through ARGV, looking for the activation name as a whole element.  Multiple CliCommand activations may occur if several different names match, though each activation will only occur once.
+Like any activator, the block above will only be called if needed. For CliCommand plugins, the plugin system naively scans through ARGV, looking for the activation name as a whole element. Multiple CliCommand activations may occur if several different names match, though each activation will only occur once.
 
 ```bash
 you@machine $ inspec sweeten ... # Your CliCommand implementation is activated and executed
@@ -309,7 +309,7 @@ There is a great deal more you can do with Thor, especially concerning handling 
 
 #### Using no_command
 
-One common surprise seen with Thor is that every public instance method of your CliCommand implementation class is expected to be a CLI command definition. Thor will issue a warning if it encounters a public method definition without a `desc` call preceding it.  Two ways around this include:
+One common surprise seen with Thor is that every public instance method of your CliCommand implementation class is expected to be a CLI command definition. Thor will issue a warning if it encounters a public method definition without a `desc` call preceding it. Two ways around this include:
 
 * Make your helper methods private
 * Enclose your non-command methods in a no_command block (a feature of Thor just for this circumstance)
