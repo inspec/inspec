@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.4 -->
-## [v3.0.4](https://github.com/inspec/inspec/tree/v3.0.4) (2018-10-18)
+<!-- latest_release 3.0.5 -->
+## [v3.0.5](https://github.com/inspec/inspec/tree/v3.0.5) (2018-10-18)
 
-#### Merged Pull Requests
-- docs: Fix small issues with the `file` resource [#3515](https://github.com/inspec/inspec/pull/3515) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Enhancements
+- Minor cleanups of plugin documentation. &#39;Plugin&#39; instead of &#39;PluginDefinition&#39; [#3527](https://github.com/inspec/inspec/pull/3527) ([mattray](https://github.com/mattray))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.0 -->
 ### Changes since 3.0.0 release
+
+#### Enhancements
+- Minor cleanups of plugin documentation. &#39;Plugin&#39; instead of &#39;PluginDefinition&#39; [#3527](https://github.com/inspec/inspec/pull/3527) ([mattray](https://github.com/mattray)) <!-- 3.0.5 -->
 
 #### Bug Fixes
 - FilterTable: allow Strings or Symbols as fields [#3481](https://github.com/inspec/inspec/pull/3481) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.2 -->
