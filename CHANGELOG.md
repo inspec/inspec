@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.8 -->
-## [v3.0.8](https://github.com/inspec/inspec/tree/v3.0.8) (2018-10-18)
+<!-- latest_release 3.0.9 -->
+## [v3.0.9](https://github.com/inspec/inspec/tree/v3.0.9) (2018-10-18)
 
 #### Merged Pull Requests
-- Pin inspec to the new train [#3531](https://github.com/inspec/inspec/pull/3531) ([jquick](https://github.com/jquick))
+- Add missing tests for groups resource, document members property, and assorted fixes. [#3467](https://github.com/inspec/inspec/pull/3467) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.0 -->
@@ -18,6 +18,7 @@
 - FilterTable: allow Strings or Symbols as fields [#3481](https://github.com/inspec/inspec/pull/3481) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.2 -->
 
 #### Merged Pull Requests
+- Add missing tests for groups resource, document members property, and assorted fixes. [#3467](https://github.com/inspec/inspec/pull/3467) ([miah](https://github.com/miah)) <!-- 3.0.9 -->
 - Pin inspec to the new train [#3531](https://github.com/inspec/inspec/pull/3531) ([jquick](https://github.com/jquick)) <!-- 3.0.8 -->
 - Add debug and sort options for plugins [#3530](https://github.com/inspec/inspec/pull/3530) ([jquick](https://github.com/jquick)) <!-- 3.0.6 -->
 - docs: Fix small issues with the `file` resource [#3515](https://github.com/inspec/inspec/pull/3515) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.4 -->
