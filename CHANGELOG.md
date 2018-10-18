@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.6 -->
-## [v3.0.6](https://github.com/inspec/inspec/tree/v3.0.6) (2018-10-18)
+<!-- latest_release 3.0.7 -->
+## [v3.0.7](https://github.com/inspec/inspec/tree/v3.0.7) (2018-10-18)
 
-#### Merged Pull Requests
-- Add debug and sort options for plugins [#3530](https://github.com/inspec/inspec/pull/3530) ([jquick](https://github.com/jquick))
+#### Bug Fixes
+- Fixes corrupt plugins.json when testing a plugin outside of core [#3526](https://github.com/inspec/inspec/pull/3526) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.0 -->
@@ -14,6 +14,7 @@
 - Minor cleanups of plugin documentation. &#39;Plugin&#39; instead of &#39;PluginDefinition&#39; [#3527](https://github.com/inspec/inspec/pull/3527) ([mattray](https://github.com/mattray)) <!-- 3.0.5 -->
 
 #### Bug Fixes
+- Fixes corrupt plugins.json when testing a plugin outside of core [#3526](https://github.com/inspec/inspec/pull/3526) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.7 -->
 - FilterTable: allow Strings or Symbols as fields [#3481](https://github.com/inspec/inspec/pull/3481) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.2 -->
 
 #### Merged Pull Requests
