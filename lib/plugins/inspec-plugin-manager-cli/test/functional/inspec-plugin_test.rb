@@ -567,6 +567,14 @@ class PluginManagerCliInstall < MiniTest::Test
       assert_includes refusal_message, 'github.com/inspec/inspec/issues/new'
     end
   end
+
+  def test_error_install_with_debug_enabled
+    install_result = run_inspec_process_with_this_plugin('plugin install inspec-test-fixture -v 0.1.1 --log-level debug')
+
+    assert_equal 1, install_result.exit_status, 'Exit status should be 1'
+    assert_includes install_result.stdout, 'DEBUG'
+    assert_includes install_result.stderr, "can't activate rake"
+  end
 end
 
 
