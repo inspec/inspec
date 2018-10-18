@@ -133,6 +133,7 @@ module CorePluginFunctionalHelper
       'installation_type' => 'path',
       'installation_path' => path,
     }
+    data
   end
 
   def __make_empty_plugin_file_data_structure
