@@ -1,32 +1,30 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.9 -->
-## [v3.0.9](https://github.com/inspec/inspec/tree/v3.0.9) (2018-10-18)
-
-#### Merged Pull Requests
-- Add missing tests for groups resource, document members property, and assorted fixes. [#3467](https://github.com/inspec/inspec/pull/3467) ([miah](https://github.com/miah))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.0.0 -->
-### Changes since 3.0.0 release
-
-#### Enhancements
-- Minor cleanups of plugin documentation. &#39;Plugin&#39; instead of &#39;PluginDefinition&#39; [#3527](https://github.com/inspec/inspec/pull/3527) ([mattray](https://github.com/mattray)) <!-- 3.0.5 -->
-
-#### Bug Fixes
-- Fixes corrupt plugins.json when testing a plugin outside of core [#3526](https://github.com/inspec/inspec/pull/3526) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.7 -->
-- FilterTable: allow Strings or Symbols as fields [#3481](https://github.com/inspec/inspec/pull/3481) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.2 -->
-
-#### Merged Pull Requests
-- Add missing tests for groups resource, document members property, and assorted fixes. [#3467](https://github.com/inspec/inspec/pull/3467) ([miah](https://github.com/miah)) <!-- 3.0.9 -->
-- Pin inspec to the new train [#3531](https://github.com/inspec/inspec/pull/3531) ([jquick](https://github.com/jquick)) <!-- 3.0.8 -->
-- Add debug and sort options for plugins [#3530](https://github.com/inspec/inspec/pull/3530) ([jquick](https://github.com/jquick)) <!-- 3.0.6 -->
-- docs: Fix small issues with the `file` resource [#3515](https://github.com/inspec/inspec/pull/3515) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.4 -->
-- Filter out inspec-k8s and inspec-release [#3525](https://github.com/inspec/inspec/pull/3525) ([miah](https://github.com/miah)) <!-- 3.0.3 -->
-- style: Fix quotes/style on the `docker` resource [#3516](https://github.com/inspec/inspec/pull/3516) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.1 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.0.9](https://github.com/inspec/inspec/tree/v3.0.9) (2018-10-18)
+
+#### Enhancements
+- Minor cleanups of plugin documentation. &#39;Plugin&#39; instead of &#39;PluginDefinition&#39; [#3527](https://github.com/inspec/inspec/pull/3527) ([mattray](https://github.com/mattray))
+
+#### Bug Fixes
+- FilterTable: allow Strings or Symbols as fields [#3481](https://github.com/inspec/inspec/pull/3481) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fixes corrupt plugins.json when testing a plugin outside of core [#3526](https://github.com/inspec/inspec/pull/3526) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- style: Fix quotes/style on the `docker` resource [#3516](https://github.com/inspec/inspec/pull/3516) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Filter out inspec-k8s and inspec-release [#3525](https://github.com/inspec/inspec/pull/3525) ([miah](https://github.com/miah))
+- docs: Fix small issues with the `file` resource [#3515](https://github.com/inspec/inspec/pull/3515) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Add debug and sort options for plugins [#3530](https://github.com/inspec/inspec/pull/3530) ([jquick](https://github.com/jquick))
+- Pin inspec to the new train [#3531](https://github.com/inspec/inspec/pull/3531) ([jquick](https://github.com/jquick))
+- Add missing tests for groups resource, document members property, and assorted fixes. [#3467](https://github.com/inspec/inspec/pull/3467) ([miah](https://github.com/miah))
+<!-- latest_stable_release -->
+
 ## [v3.0.0](https://github.com/inspec/inspec/tree/v3.0.0) (2018-10-15)
 
 #### Enhancements
@@ -35,7 +33,6 @@
 #### Merged Pull Requests
 - Change `Inspec ` to `InSpec ` where appropriate [#3494](https://github.com/inspec/inspec/pull/3494) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Update the text on the generic default attribute [#3508](https://github.com/inspec/inspec/pull/3508) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.3.24](https://github.com/inspec/inspec/tree/v2.3.24) (2018-10-12)
 
