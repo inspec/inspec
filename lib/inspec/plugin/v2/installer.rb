@@ -119,7 +119,7 @@ module Inspec::Plugin::V2
     # @option opts [TrueClass, FalseClass] :exact If true, use plugin_search_term exactly.  If false (default), append a wildcard.
     # @option opts [Symbol] :scope Which versions to search for.  :released (default) - all released versions.  :prerelease - Also include versioned marked prerelease. :latest - only return one version, the latest one.
     # @return [Hash of Arrays] - Keys are String names of gems, arrays contain String versions.
-    def search(plugin_query, opts = {})
+    def search(plugin_query, opts = {}) # rubocop: disable Metrics/AbcSize
       validate_search_opts(plugin_query, opts)
 
       fetcher = Gem::SpecFetcher.fetcher
@@ -132,6 +132,9 @@ module Inspec::Plugin::V2
           tuple.name =~ regex && !Inspec::Plugin::V2::PluginFilter.exclude?(tuple.name)
         end
       end
+
+      # sort tuples
+      matched_tuples.sort! { |a, b| b.first.version <=> a.first.version }
 
       gem_info = {}
       matched_tuples.each do |tuple|

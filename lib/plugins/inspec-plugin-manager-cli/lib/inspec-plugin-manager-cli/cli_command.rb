@@ -367,6 +367,7 @@ module InspecPlugins
         puts 'If you disagree with this determination, please accept our apologies for the misunderstanding, and open an issue at https://github.com/inspec/inspec/issues/new'
         exit 2
       rescue Inspec::Plugin::V2::InstallError
+        raise if Inspec::Log.level == :debug
         results = installer.search(plugin_name, exact: true)
         if results.empty?
           puts(red { 'No such plugin gem ' } + plugin_name + ' could be found on rubygems.org - installation failed.')
