@@ -3,6 +3,50 @@ require 'functional/helper'
 
 
 #=========================================================================================#
+#                                Support
+#=========================================================================================#
+module PluginFunctionalHelper
+  include FunctionalHelper
+
+  def run_inspec_with_plugin(command, opts)
+    pre = Proc.new do |tmp_dir|
+      content = JSON.generate(__make_plugin_file_data_structure_with_path(opts[:plugin_path]))
+      File.write(File.join(tmp_dir, 'plugins.json'), content)
+    end
+
+    opts.merge!({
+      pre_run: pre,
+      tmpdir: true,
+      json: true,
+      env: {
+        "INSPEC_CONFIG_DIR" => '.' # We're in tmpdir
+      }
+    })
+    run_inspec_process(command, opts)
+  end
+
+  def __make_plugin_file_data_structure_with_path(path)
+    # TODO: dry this up, refs #3350
+    plugin_name = File.basename(path, '.rb')
+    data = __make_empty_plugin_file_data_structure
+    data['plugins'] << {
+      'name' => plugin_name,
+      'installation_type' => 'path',
+      'installation_path' => path,
+    }
+    data
+  end
+
+  def __make_empty_plugin_file_data_structure
+    # TODO: dry this up, refs #3350
+    {
+      'plugins_config_version' => '1.0.0',
+      'plugins' => [],
+    }
+  end
+end
+
+#=========================================================================================#
 #                                Loader Errors
 #=========================================================================================#
 describe 'plugin loader' do
@@ -77,6 +121,29 @@ describe 'plugin cli usage message integration' do
       ['habitat', 'artifact'].each do |subcommand|
         outcome.stdout.must_include('inspec ' + subcommand)
       end
+    end
+  end
+end
+
+#=========================================================================================#
+#                           DSL Plugin Support
+#=========================================================================================#
+
+describe 'DSL plugin types support' do
+  include PluginFunctionalHelper
+
+  let(:fixture_path) { File.join(profile_path, 'dsl_plugins', 'controls', profile_file)}
+  let(:dsl_plugin_path) { File.join(mock_path, 'plugins', 'inspec-dsl-test', 'lib', 'inspec-dsl-test.rb')}
+  let(:run_result) { run_inspec_with_plugin("exec #{fixture_path}",  plugin_path: dsl_plugin_path) }
+
+  describe 'control dsl plugin type support' do
+
+    let(:profile_file) { 'control_dsl.rb' }
+    it 'works correctly with control dsl extensions' do
+      run_result.stderr.must_equal ''
+      json_result = run_result.payload.json
+      byebug
+      1
     end
   end
 end
