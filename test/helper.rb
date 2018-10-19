@@ -535,6 +535,13 @@ class MockLoader
       "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-544\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call('security-policy-sid-translated'),
       "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-555\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call('security-policy-sid-untranslated'),
 
+      # Windows SID calls
+      'wmic useraccount where \'Name="Alice"\' get Name","SID /format:csv' => cmd.call('security-identifier-alice'),
+      'wmic useraccount where \'Name="Bob"\' get Name","SID /format:csv' => cmd.call('security-identifier-unknown'),
+      'wmic useraccount where \'Name="DontExist"\' get Name","SID /format:csv' => cmd.call('security-identifier-unknown'),
+      'wmic group where \'Name="Guests"\' get Name","SID /format:csv' => cmd.call('security-identifier-guests'),
+      'wmic group where \'Name="DontExist"\' get Name","SID /format:csv' => cmd.call('security-identifier-unknown'),
+
       # alpine package commands
       'apk info -vv --no-network | grep git' => cmd.call('apk-info-grep-git'),
     }
