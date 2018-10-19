@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 3.0.10 -->
+## [v3.0.10](https://github.com/inspec/inspec/tree/v3.0.10) (2018-10-19)
+
+#### New Resources
+- New resource to work with Windows security identifiers (SIDs) [#3405](https://github.com/inspec/inspec/pull/3405) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.0.9 -->
+### Changes since 3.0.9 release
+
+#### New Resources
+- New resource to work with Windows security identifiers (SIDs) [#3405](https://github.com/inspec/inspec/pull/3405) ([james-stocks](https://github.com/james-stocks)) <!-- 3.0.10 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
