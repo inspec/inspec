@@ -8,6 +8,7 @@ require 'byebug'
 require 'json'
 require 'fileutils'
 require 'yaml'
+require 'tmpdir'
 
 require 'minitest/hell'
 class Minitest::Test
@@ -93,14 +94,38 @@ module FunctionalHelper
     inspec(commandline, assemble_env_prefix(env))
   end
 
-  # This version allows many other options
+  # This version allows additional options.
+  # @param String command_line Invocation, without the word 'inspec'
+  # @param Hash opts Additonal options, see below
+  #    :env Hash A hash of environment vars to expose to the invocation.
+  #    :prefix String A string to prefix to the invocation. Prefix + env + invocation is the order.  Don't 'cd' and also use the tmpdir option.
+  #    :lock Boolean Default false. If false, add `--no-create-lockfile`.
+  #    :json Boolean Default false. If true, add `--reporter json` and parse the output, which is stored in payload.json .
+  #    :tmpdir Boolean default true.  If true, wrap execution in a Dir.tmpdir block. Use pre_run and post_t
+  #    :pre_run: Proc(tmp_dir_path) - optional setup block.
+  #       Your PWD will be in the tmp_dir, and it will exist and be empty.
+  #    :post_run: Proc(FuncTestRunResult, tmp_dir_path) - optional result capture block.
+  #       run_result will be populated, but you can add more to the ostruct .payload
+  #       Your PWD will be the tmp_dir, and it will still exist (for a moment!)
+  # @return FuncTestRunResult. Includes attrs exit_status, stderr, stdout, payload (an openstruct which may be used in many ways)
   def run_inspec_process(command_line, opts)
     prefix = opts[:prefix] || ''
     prefix += assemble_env_prefix(opts[:env])
     command_line += ' --reporter json ' if opts[:json]
     command_line += ' --no-create-lockfile ' unless opts[:lock]
 
-    run_result = inspec(command_line, prefix)
+    run_result = nil
+    if opts[:tmpdir]
+      Dir.mktmpdir do |tmp_dir|
+        Dir.chdir(tmp_dir) do |tmp_dir|
+          opts[:pre_run].call(tmp_dir) if opts[:pre_run]
+          run_result = inspec(command_line, prefix)
+          opts[:post_run].call(run_result, tmp_dir) if opts[:post_run]
+        end
+      end
+    else
+      run_result = inspec(command_line, prefix)
+    end
 
     if opts[:json]
       begin
