@@ -5,7 +5,7 @@
 require 'shellwords'
 
 class CommandWrapper
-  UNIX_SHELLS = %w{sh bash zsh}.freeze
+  UNIX_SHELLS = %w{sh bash zsh ksh}.freeze
 
   def self.wrap(cmd, options)
     unless options.is_a?(Hash)
