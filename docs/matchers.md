@@ -55,8 +55,10 @@ end
 
 ```ruby
 describe sshd_config do
+  # Only `'2'` works
   its('Protocol') { should eq '2' }
 
+  # Both of these work
   its('Protocol') { should cmp '2' }
   its('Protocol') { should cmp 2 }
 end
@@ -74,7 +76,7 @@ end
 * Recognize versions embedded in strings
 
 ```ruby
-describe package(curl) do
+describe package('curl') do
   its('version') { should cmp > '7.35.0-1ubuntu2.10' }
 end
 ```
