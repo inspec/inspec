@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.10 -->
-## [v3.0.10](https://github.com/inspec/inspec/tree/v3.0.10) (2018-10-19)
+<!-- latest_release 3.0.11 -->
+## [v3.0.11](https://github.com/inspec/inspec/tree/v3.0.11) (2018-10-23)
 
-#### New Resources
-- New resource to work with Windows security identifiers (SIDs) [#3405](https://github.com/inspec/inspec/pull/3405) ([james-stocks](https://github.com/james-stocks))
+#### Merged Pull Requests
+- Add inspec/train vault to plugin exclusion [#3532](https://github.com/inspec/inspec/pull/3532) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.9 -->
 ### Changes since 3.0.9 release
+
+#### Merged Pull Requests
+- Add inspec/train vault to plugin exclusion [#3532](https://github.com/inspec/inspec/pull/3532) ([jquick](https://github.com/jquick)) <!-- 3.0.11 -->
 
 #### New Resources
 - New resource to work with Windows security identifiers (SIDs) [#3405](https://github.com/inspec/inspec/pull/3405) ([james-stocks](https://github.com/james-stocks)) <!-- 3.0.10 -->
