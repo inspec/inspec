@@ -84,7 +84,7 @@ module Inspec
     def exit_code
       return @rspec_exit_code if @formatter.results.empty?
       stats = @formatter.results[:statistics][:controls]
-      skipped = @formatter.results[:profiles].first[:status] == 'skipped'
+      skipped = @formatter.results&.fetch(:profiles, nil)&.first&.fetch(:status, nil) == 'skipped'
       if stats[:failed][:total] == 0 && stats[:skipped][:total] == 0 && !skipped
         0
       elsif stats[:failed][:total] > 0
