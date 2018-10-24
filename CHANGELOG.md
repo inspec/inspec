@@ -1,26 +1,24 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.12 -->
-## [v3.0.12](https://github.com/inspec/inspec/tree/v3.0.12) (2018-10-24)
-
-#### Bug Fixes
-- Update to safe navigation exit code search [#3541](https://github.com/inspec/inspec/pull/3541) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.0.9 -->
-### Changes since 3.0.9 release
-
-#### Bug Fixes
-- Update to safe navigation exit code search [#3541](https://github.com/inspec/inspec/pull/3541) ([jquick](https://github.com/jquick)) <!-- 3.0.12 -->
-
-#### Merged Pull Requests
-- Add inspec/train vault to plugin exclusion [#3532](https://github.com/inspec/inspec/pull/3532) ([jquick](https://github.com/jquick)) <!-- 3.0.11 -->
-
-#### New Resources
-- New resource to work with Windows security identifiers (SIDs) [#3405](https://github.com/inspec/inspec/pull/3405) ([james-stocks](https://github.com/james-stocks)) <!-- 3.0.10 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.0.12](https://github.com/inspec/inspec/tree/v3.0.12) (2018-10-24)
+
+#### New Resources
+- New resource to work with Windows security identifiers (SIDs) [#3405](https://github.com/inspec/inspec/pull/3405) ([james-stocks](https://github.com/james-stocks))
+
+#### Bug Fixes
+- Update to safe navigation exit code search [#3541](https://github.com/inspec/inspec/pull/3541) ([jquick](https://github.com/jquick))
+
+#### Merged Pull Requests
+- Add inspec/train vault to plugin exclusion [#3532](https://github.com/inspec/inspec/pull/3532) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v3.0.9](https://github.com/inspec/inspec/tree/v3.0.9) (2018-10-18)
 
 #### Enhancements
@@ -37,7 +35,6 @@
 - Add debug and sort options for plugins [#3530](https://github.com/inspec/inspec/pull/3530) ([jquick](https://github.com/jquick))
 - Pin inspec to the new train [#3531](https://github.com/inspec/inspec/pull/3531) ([jquick](https://github.com/jquick))
 - Add missing tests for groups resource, document members property, and assorted fixes. [#3467](https://github.com/inspec/inspec/pull/3467) ([miah](https://github.com/miah))
-<!-- latest_stable_release -->
 
 ## [v3.0.0](https://github.com/inspec/inspec/tree/v3.0.0) (2018-10-15)
 
