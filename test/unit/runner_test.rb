@@ -36,6 +36,12 @@ describe Inspec::Runner do
       end
     end
 
+    describe 'testing runner.run exit codes' do
+      it 'returns proper exit code when no profile is added' do
+        runner.run.must_equal 0
+      end
+    end
+
     describe 'when backend caching is enabled' do
       it 'returns a backend with caching' do
         opts = { command_runner: :generic, backend_cache: true }
