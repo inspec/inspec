@@ -101,6 +101,7 @@ module Inspec
       @libraries_loaded = false
       @check_mode = options[:check_mode] || false
       @parent_profile = options[:parent_profile]
+      @legacy_profile_path = options[:profiles_path] || false
       Metadata.finalize(@source_reader.metadata, @profile_id, options)
 
       # if a backend has already been created, clone it so each profile has its own unique backend object
@@ -372,6 +373,32 @@ module Inspec
       m_unsupported = metadata.unsupported
       m_unsupported.each { |u| warn.call(meta_path, 0, 0, nil, "doesn't support: #{u}") }
       @logger.info 'Metadata OK.' if m_errors.empty? && m_unsupported.empty?
+
+      # only run the vendor check if the legacy profile-path is not used as argument
+      if @legacy_profile_path == false
+        # verify that a lockfile is present if we have dependencies
+        if !metadata.dependencies.empty?
+          error.call(meta_path, 0, 0, nil, 'Your profile needs to be vendored with `inspec vendor`.') if !lockfile_exists?
+        end
+
+        if lockfile_exists?
+          # verify if metadata and lockfile are out of sync
+          if lockfile.deps.size != metadata.dependencies.size
+            error.call(meta_path, 0, 0, nil, 'inspec.yml and inspec.lock are out-of-sync. Please re-vendor with `inspec vendor`.')
+          end
+
+          # verify if metadata and lockfile have the same dependency names
+          metadata.dependencies.each { |dep|
+            # Skip if the dependency does not specify a name
+            next if dep[:name].nil?
+
+            # TODO: should we also verify that the soure is the same?
+            if !lockfile.deps.map { |x| x[:name] }.include? dep[:name]
+              error.call(meta_path, 0, 0, nil, "Cannot find #{dep[:name]} in lockfile. Please re-vendor with `inspec vendor`.")
+            end
+          }
+        end
+      end
 
       # extract profile name
       result[:summary][:profile] = metadata.params[:name]

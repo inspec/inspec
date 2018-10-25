@@ -1,0 +1,11 @@
+name: profile-lock-required
+title: mock profile for inspec check
+summary: An InSpec Compliance Profile
+maintainer: Chef Software, Inc.
+copyright: Chef Software, Inc.
+copyright_email: support@chef.io
+license: Apache-2.0
+version: 1.0.0
+depends:
+  - name: ssh-baseline
+    url: https://github.com/dev-sec/ssh-baseline

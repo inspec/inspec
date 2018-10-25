@@ -1,0 +1,8 @@
+---
+lockfile_version: 1
+depends:
+- name: ssh-baseline
+  resolved_source:
+    url: https://github.com/dev-sec/ssh-baseline/archive/2.3.0.zip
+    sha256: f15d94086d07cb81d2a69b2b774135b1dbfd1c1918415aec7d266658aecfb47a
+  version_constraints: []

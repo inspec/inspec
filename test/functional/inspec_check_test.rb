@@ -65,4 +65,29 @@ describe 'inspec check' do
       end
     end
   end
+
+  describe 'inspec check for lockfile and dependencies' do
+    it 'can check a profile where a lock file is not required' do
+      out = inspec('check ' + File.join(profile_path, 'profile-lock-notrequired'))
+      out.exit_status.must_equal 0
+    end
+
+    it 'can check a profile where a lock file is required' do
+      out = inspec('check ' + File.join(profile_path, 'profile-lock-required'))
+      out.exit_status.must_equal 1
+      out.stdout.must_include 'profile needs to be vendored with `inspec vendor`.'
+    end
+
+    it 'can check a profile where lock file and inspec.yml are in synnc' do
+      out = inspec('check ' + File.join(profile_path, 'profile-lock-insync'))
+      out.exit_status.must_equal 0
+    end
+
+    it 'can check a profile where lock file and inspec.yml are in not synnc' do
+      out = inspec('check ' + File.join(profile_path, 'profile-lock-outofsync'))
+      out.exit_status.must_equal 1
+      out.stdout.must_include 'inspec.yml and inspec.lock are out-of-sync. Please re-vendor with `inspec vendor`.'
+      out.stdout.must_include 'Cannot find linux-baseline in lockfile. Please re-vendor with `inspec vendor`.'
+    end    
+  end
 end
