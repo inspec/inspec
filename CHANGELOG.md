@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.13 -->
-## [v3.0.13](https://github.com/inspec/inspec/tree/v3.0.13) (2018-10-25)
+<!-- latest_release 3.0.14 -->
+## [v3.0.14](https://github.com/inspec/inspec/tree/v3.0.14) (2018-10-25)
 
-#### Merged Pull Requests
-- Adding inspec init profile for GCP. [#3484](https://github.com/inspec/inspec/pull/3484) ([skpaterson](https://github.com/skpaterson))
+#### Enhancements
+- ✓ adds additional checks for vendored profiles [#3362](https://github.com/inspec/inspec/pull/3362) ([chris-rock](https://github.com/chris-rock))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.12 -->
 ### Changes since 3.0.12 release
+
+#### Enhancements
+- ✓ adds additional checks for vendored profiles [#3362](https://github.com/inspec/inspec/pull/3362) ([chris-rock](https://github.com/chris-rock)) <!-- 3.0.14 -->
 
 #### Merged Pull Requests
 - Adding inspec init profile for GCP. [#3484](https://github.com/inspec/inspec/pull/3484) ([skpaterson](https://github.com/skpaterson)) <!-- 3.0.13 -->
