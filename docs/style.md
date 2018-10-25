@@ -117,7 +117,7 @@ Ruby's command executors will only run localy. Imagine a test like this:
 
 ```ruby
 describe `whoami` do
-  it { should eq "bob\n" }
+  it { should cmp "bob\n" }
 end
 ```
 
@@ -129,7 +129,7 @@ Instead, do this:
 
 ```ruby
 describe command('whoami') do
-  its('stdout') { should eq "bob\n" }
+  its('stdout') { should cmp "bob\n" }
 end
 ```
 
@@ -176,3 +176,25 @@ Also you may find it helpful to use the inspec logging interface:
 ```ruby
 Inspec::Log.info('Hi')
 ```
+
+### 9. Favor `cmp` over `eq`
+
+Reason: The `cmp` matcher handles type conversions, case insensitive comparisons, converting strings to versions (e.g. '7.35.0-1ubuntu2.10'), and many other troublesome things. Unless you are wanting an exact match (if so use the `eq` matcher) then the `cmp` matcher should be used.
+
+For example, this:
+
+```ruby
+describe passwd.uids(0) do
+  its('users') { should cmp 'root' }
+end
+```
+
+is preferred over:
+
+```ruby
+describe passwd.uids(0) do
+  its('users') { should eq ['root'] }
+end
+```
+
+See the [`cmp` matcher documentation](https://www.inspec.io/docs/reference/matchers/#cmp) for more examples.
