@@ -16,9 +16,9 @@ module InspecPlugins
       end
 
       # rubocop: disable Metrics/AbcSize
-      def render_with_values(template_type, template_values = {})
+      def render_with_values(template_subdir_path, template_values = {})
         # look for template directory
-        base_dir = File.join(File.dirname(__FILE__), 'templates', template_type)
+        base_dir = File.join(File.dirname(__FILE__), 'templates', template_subdir_path)
         # prepare glob for all subdirectories and files
         template_glob = File.join(base_dir, '**', '{*,.*}')
         # Use the name attribute to define the path to the profile.
@@ -28,7 +28,10 @@ module InspecPlugins
         template_values[:name] = template_values[:name].split(%r{\\|\/}).last
         # Generate the full full_destination_root_path path on disk
         full_destination_root_path = Pathname.new(Dir.pwd).join(profile_path)
-        ui.plain_text "Create new #{template_type} at #{ui.mark_text(full_destination_root_path)}"
+
+        # This is a bit gross
+        generator_type = template_subdir_path.split(%r{[\/]}).first.sub(/s$/, '')
+        ui.plain_text "Create new #{generator_type} at #{ui.mark_text(full_destination_root_path)}"
 
         # check that the directory does not exist
         if File.exist?(full_destination_root_path) && !overwrite_mode

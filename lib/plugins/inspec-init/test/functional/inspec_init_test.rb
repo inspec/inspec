@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+require 'yaml'
 require_relative '../../../shared/core_plugin_test_helper.rb'
 
 class InitCli < MiniTest::Test
@@ -17,6 +18,28 @@ class InitCli < MiniTest::Test
     end
   end
 
+  def test_generating_inspec_profile_with_explicit_platform
+    Dir.mktmpdir do |dir|
+      profile = File.join(dir, 'test-profile')
+      out = run_inspec_process("init profile --platform os test-profile", prefix: "cd #{dir} &&")
+      assert_equal 0, out.exit_status
+      assert_includes out.stdout, 'Create new profile at'
+      assert_includes out.stdout, profile
+      assert_includes Dir.entries(profile).join, 'inspec.yml'
+      assert_includes Dir.entries(profile).join, 'README.md'
+    end
+  end
+
+  def test_generating_inspec_profile_with_bad_platform
+    Dir.mktmpdir do |dir|
+      profile = File.join(dir, 'test-profile')
+      out = run_inspec_process("init profile --platform nonesuch test-profile", prefix: "cd #{dir} &&")
+      assert_equal 1, out.exit_status
+      assert_includes out.stdout, 'Unable to generate profile'
+      assert_includes out.stdout, "No template available for platform 'nonesuch'"
+    end
+  end
+
   def test_profile_with_slash_name
     Dir.mktmpdir do |dir|
       profile = dir + '/test/deeper/profile'
@@ -25,6 +48,18 @@ class InitCli < MiniTest::Test
       assert_equal true, File.exist?(profile)
       profile = YAML.load_file("#{profile}/inspec.yml")
       assert_equal 'profile', profile['name']
+    end
+  end
+
+  def test_generating_inspec_profile_gcp
+    Dir.mktmpdir do |dir|
+      profile = File.join(dir, 'test-gcp-profile')
+      out = run_inspec_process("init profile --platform gcp test-gcp-profile", prefix: "cd #{dir} &&")
+      assert_equal 0, out.exit_status
+      assert_includes out.stdout, 'Create new profile at'
+      assert_includes out.stdout, profile
+      assert_includes Dir.entries(profile).join, 'inspec.yml'
+      assert_includes Dir.entries(profile).join, 'README.md'
     end
   end
 end
