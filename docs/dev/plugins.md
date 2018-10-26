@@ -321,3 +321,170 @@ no_command do
   end
 end
 ```
+
+## Implementing DSL Plugins
+
+A DSL is a _domain specific language_, or a set of keywords you can use to write InSpec profiles and resources more fluently.
+
+InSpec offers several DSLs:
+
+* The Profile DSL, which is the set of keywords you use when writing profiles. The Profile DSL is internally divided into:
+  * The Outer Profile DSL: those keywords which may appear in a Profile `controls/my-controls.rb` outside of a `control` or `describe` block
+  * The Control DSL: those keywords which may appear in `control` block
+  * The Describe DSL: those keywords which may appear within a `describe` block
+* The Resource DSL: those keywords which may be used when authoring a resource
+
+Correspondingly, there are 4 plugin types in play here: `outer_profile_dsl`, `control_dsl`, `describe_dsl`, and `resource_dsl`.
+
+DSL plugins let you alter the InSpec profile authoring experience in a fundamental way.  For example, if you wish InSpec had a way of expressing that some minimum of a set of tests must pass, but you don't care which, you could implement a `control_dsl` plugin named `threshold`:
+
+```ruby
+# in a hypothetical control file
+
+# This control will pass if at least 2
+# out of the describe blocks pass
+control 'Like Meatloaf Sings' do
+  threshold(2) do
+    describe 'I want you' do
+      it { should be_true }
+    end
+
+    describe 'I need you' do
+      it { should be_true }
+    end
+
+    describe 'I love you' do
+      it { should be_true }
+    end
+  end
+end
+```
+
+### Activation Discipline For DSL Plugins
+
+As DSL keywords are actually method calls, the activation system for the four DSL types is handled by `method_missing`.  For example, if you have registered a `control_dsl` activation hook named `threshold`, when InSpec evaluates the code above and encounters the unknown method `threshold`, InSpec will check for a `control_dsl` hook with that name, and if found, activate the hook, and then include the resulting module into that and all future controls. Once the module is loaded and included, future calls bypass the activation and loading mechanism entirely (because the `threshold` method is now defined, we never hit the `method_missing` that watches for activations).
+
+The Outer Profile DSL, Control DSL, Describe DSL, and Resource DSL plugin types all have the same basic mechanism; only the scope of their activation varies.
+
+### Defining DSL Plugin Activation Hooks
+
+In your `plugin.rb`, include one or more `outer_profile_dsl`, `control_dsl`, `describe_dsl`, or `resource_dsl` activation blocks. A DSL activation block *must* do two things (though it may do more):
+
+ * Return a Module that will be used as a mixin to the file, control, describe block, or resource
+ * Require any files needed to support returning the implementation module.  It's important to require any support files in the activation block, not in the plugin definition; this allows InSpec to only load files as they are needed.
+
+Continuing the above example, one would declare the `threshold` Control DSL activation hook as follows:
+
+```ruby
+# in plugin.rb
+module InspecPlugins::ThresholdDSL
+  class Plugin < Inspec.plugin(2)
+    plugin_name :'inspec-dsl-threshold'
+
+    control_dsl :threshold do
+      require 'inspec-dsl-threshold/control_dsl'
+      # most plugins expect you to return a class name;
+      # but DSL plugins must return a Module, because it
+      # will be used as a mixin.
+      InspecPlugins::ThresholdDSL::ThresholdControlDSL
+    end
+
+  end
+end
+```
+
+### Implementing DSL Methods
+
+Because each DSL plugin type is loaded into a specific context, each method defined in the mixin module you provide will have a specific parent class and state.
+
+Note: these areas are deep within the internals of InSpec and RSpec.  Documentation and stability of these interfaces will vary.
+
+#### Outer Profile DSL Context
+
+TODO
+
+#### Control DSL Context
+
+When your mixin method is called, `self` will be an instance of an anonymous class representing the control being executed; each control gets its own anonymous class. The parent class of the anonymous class will be [Inspec::Rule](https://github.com/inspec/inspec/blob/master/lib/inspec/rule.rb), which is the internal name of a Control.  Please refer to the source for details on methods and instance variables.
+
+#### Describe DSL Context
+
+Please note that the implementation details here refer to the interface between InSpec and RSpec, which may change in the future.
+
+Describe DSL mixin methods will be attached as *class* methods to [RSpec::Core::ExampleGroup](https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb).  Internally, 'describe' blocks are subclasses of the ExampleGroup class.  Please see the source of ExampleGroup for details about how describe blocks are evaluated.
+
+Within your mixin method, you have access the methods RSpec uses to manage an ExampleGroup.  For example, `examples` returns an array of tests (`it`/`its` blocks) that have been encountered in the describe block prior to the invocation of your method; and `metadata` returns a hash of information about the describe block, including description and source code location.
+
+#### Resource DSL
+
+TODO
+
+### Implementation Module Layout Notes
+
+#### Implementing multiple DSL methods of the same type in one Module
+
+You may implement as many DSL methods as you see fit.  You may choose to be fine-grained, and load each individually from separate modules contained in separate files.
+
+If you believe that using one of your suite of DSL methods implies that the user would be likely to use all of your suite, you may choose to implement them all in one mixin.  This saves on loading and activations.
+
+That might look like:
+
+```ruby
+# in plugin.rb
+module InspecPlugins::ColorDSL
+  class Plugin < Inspec.plugin(2)
+    plugin_name :'inspec-dsl-colors'
+
+    control_dsl :red do
+      require 'inspec-dsl-threshold/roygbiv'
+      InspecPlugins::ColorDSL::RoyGBiv
+    end
+
+    control_dsl :orange do
+      require 'inspec-dsl-threshold/roygbiv'
+      InspecPlugins::ColorDSL::RoyGBiv
+    end
+
+    # etc... ... and yes, you could do that in a loop
+  end
+end
+```
+
+Now, when a user says `red` or `orange`, the entire suite of DSL methods will be loaded and included.
+
+#### Implementing multiple DSL methods of the different types in one Module
+
+For the brave, one may also choose to use the same implementation mixin with different types of activation hook.  This has serious implications for the code inside your DSL methods; depending on which context you are in, your class hierarchy (and thus instance methods and variables) may change dramatically.
+
+For DSL plugins that are fairly simple - perhaps adding annotations or having a simple runtime side-effect - this may be a wise choice to avoid duplicating code.  However, DSL methods that are very interested in the state of their context will be obliged to rely on a fair bit of conditionals and introspection.
+
+That might look like:
+
+```ruby
+# in plugin.rb
+module InspecPlugins::ColorDSL
+  class Plugin < Inspec.plugin(2)
+    plugin_name :'inspec-dsl-colors'
+
+    # Install the `red` DSL method at every available place within profiles
+    # (with the same implementation!)
+    outer_profile_dsl :red do
+      require 'inspec-dsl-threshold/red'
+      InspecPlugins::ColorDSL::Red
+    end
+
+    control_dsl :red do
+      require 'inspec-dsl-threshold/red'
+      InspecPlugins::ColorDSL::Red
+    end
+
+    describe_dsl :red do
+      require 'inspec-dsl-threshold/red'
+      InspecPlugins::ColorDSL::Red
+    end
+
+  end
+end
+```
+
+This approach may make sense among the three Profile DSLs; however the Resource DSL is quite different, and is unlikely to respond well to such an approach.

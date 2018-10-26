@@ -6,9 +6,14 @@ module InspecPlugins
     class Plugin < Inspec.plugin(2)
       plugin_name :'inspec-dsl-test'
 
-      control_dsl :test_control_dsl_01 do
+      control_dsl :favorite_fruit do
         require_relative 'control_dsl'
-        InspecPlugins::DslTest::ControlDsl01
+        InspecPlugins::DslTest::ControlDslFavoriteFruit
+      end
+
+      describe_dsl :favorite_vegetable do
+        require_relative 'describe_dsl'
+        InspecPlugins::DslTest::DescribeDslFavoriteVegetable
       end
     end
   end

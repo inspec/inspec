@@ -29,6 +29,34 @@ module Inspec
         define_method :attribute do |name|
           Inspec::AttributeRegistry.find_attribute(name, profile_id).value
         end
+
+        # Support for Control DSL plugins
+        def method_missing(method_name, *arguments, &block)
+          # Check to see if there is a control_dsl plugin activator hook with the method name
+          registry = Inspec::Plugin::V2::Registry.instance
+          hook = registry.find_activators(plugin_type: :control_dsl, activator_name: method_name).first
+          if hook
+            # OK, load the hook if it hasn't been already.  We'll then know a module,
+            # which we can then inject into the context
+            registry.activate(:control_dsl, method_name) unless hook.activated?
+            # Inject the module's methods into the context.
+             # implementation_class is the field name, but this is actually a module.
+            self.class.include(hook.implementation_class)
+            # Now that the module is loaded, it defined one or more methods
+            # (presumably the one we were looking for.)
+            # We still haven't called it, so do so now.
+            self.send(method_name, *arguments, &block)
+          else
+            # If we couldn't find a plugin to match, maybe something up above has it,
+            # or maybe it is just a unknown method error.
+            super
+          end
+        end
+
+        # Implement this so that calls to respond_to? will work correctly.
+        def respond_to_missing?(method_name, include_private = false)
+          Inspec::Plugin::V2::Registry.instance.find_activators(plugin_type: :control_dsl, activator_name: method_name) || super
+        end
       end
     end
 

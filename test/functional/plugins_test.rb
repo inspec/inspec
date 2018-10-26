@@ -135,15 +135,44 @@ describe 'DSL plugin types support' do
   let(:fixture_path) { File.join(profile_path, 'dsl_plugins', 'controls', profile_file)}
   let(:dsl_plugin_path) { File.join(mock_path, 'plugins', 'inspec-dsl-test', 'lib', 'inspec-dsl-test.rb')}
   let(:run_result) { run_inspec_with_plugin("exec #{fixture_path}",  plugin_path: dsl_plugin_path) }
+  let(:json_result) { run_result.payload.json }
 
   describe 'control dsl plugin type support' do
 
     let(:profile_file) { 'control_dsl.rb' }
     it 'works correctly with control dsl extensions' do
       run_result.stderr.must_equal ''
-      json_result = run_result.payload.json
-      byebug
-      1
+
+      # The control_dsl.rb file has one control, with a describe-01, then a call to favorite_fruit, then describe-02
+      # If the plugin exploded, we'd see describe-01 but not describe-02
+      results = json_result['profiles'][0]['controls'][0]['results']
+      results.count.must_equal 2
+
+      # We expect the descriptions to include that the favorite fruit is banana
+      # (this is the functionality of the control_dsl we installed)
+      first_description_section = json_result['profiles'][0]['controls'][0]['descriptions'].first
+      first_description_section.wont_be_nil
+      first_description_section['label'].must_equal 'favorite_fruit'
+      first_description_section['data'].must_equal 'Banana'
+    end
+  end
+
+  describe 'describe dsl plugin type support' do
+    let(:profile_file) { 'describe_dsl.rb' }
+    it 'works correctly with describe dsl extensions' do
+      run_result.stderr.must_equal ''
+
+      # The describe_dsl.rb file has one control, with
+      # describe-01, describe-02 which contains a call to favorite_vegetable, then describe-03
+      # If the plugin exploded, we'd see describe-01 but not describe-02
+      results = json_result['profiles'][0]['controls'][0]['results']
+      results.count.must_equal 3
+
+      # We expect the description of describe-02 to include the word aubergine
+      # (this is the functionality of the describe_dsl we installed)
+      second_result = json_result['profiles'][0]['controls'][0]['results'][1]
+      second_result.wont_be_nil
+      second_result['code_desc'].must_include 'aubergine'
     end
   end
 end
