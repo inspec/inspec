@@ -27,7 +27,7 @@ module Inspec
         RSpec::Core::ExampleGroup.extend(hook.implementation_class)
 
         # We still haven't called the method we were looking for, so do so now.
-        self.send(method_name, *arguments, &block)
+        send(method_name, *arguments, &block)
       else
         super
       end
@@ -48,5 +48,4 @@ class RSpec::Core::ExampleGroup
   # Because it is a class method we're attempting to prepend, we must
   # prepend against the singleton class.
   singleton_class.prepend Inspec::DescribeDslLazyLoader
-
 end

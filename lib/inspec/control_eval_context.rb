@@ -40,12 +40,12 @@ module Inspec
             # which we can then inject into the context
             registry.activate(:control_dsl, method_name) unless hook.activated?
             # Inject the module's methods into the context.
-             # implementation_class is the field name, but this is actually a module.
+            # implementation_class is the field name, but this is actually a module.
             self.class.include(hook.implementation_class)
             # Now that the module is loaded, it defined one or more methods
             # (presumably the one we were looking for.)
             # We still haven't called it, so do so now.
-            self.send(method_name, *arguments, &block)
+            send(method_name, *arguments, &block)
           else
             # If we couldn't find a plugin to match, maybe something up above has it,
             # or maybe it is just a unknown method error.
