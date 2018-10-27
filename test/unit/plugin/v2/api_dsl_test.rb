@@ -11,6 +11,7 @@ module DslUnitTests
   [
     :control_dsl,
     :describe_dsl,
+    :test_dsl,
   ].each do |plugin_type_under_test, base_class_under_test|
 
     Class.new(MiniTest::Test) do

@@ -15,6 +15,11 @@ module InspecPlugins
         require_relative 'describe_dsl'
         InspecPlugins::DslTest::DescribeDslFavoriteVegetable
       end
+
+      test_dsl :favorite_legume do
+        require_relative 'test_dsl'
+        InspecPlugins::DslTest::TestDslFavoriteLegume
+      end
     end
   end
 end

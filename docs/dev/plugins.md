@@ -332,9 +332,10 @@ InSpec offers several DSLs:
   * The Outer Profile DSL: those keywords which may appear in a Profile `controls/my-controls.rb` outside of a `control` or `describe` block
   * The Control DSL: those keywords which may appear in `control` block
   * The Describe DSL: those keywords which may appear within a `describe` block
+  * The Test DSL: those keywords available within an `it`/`its` block
 * The Resource DSL: those keywords which may be used when authoring a resource
 
-Correspondingly, there are 4 plugin types in play here: `outer_profile_dsl`, `control_dsl`, `describe_dsl`, and `resource_dsl`.
+Correspondingly, there are 4 plugin types in play here: `outer_profile_dsl`, `control_dsl`, `describe_dsl`, `test_dsl`, and `resource_dsl`.
 
 DSL plugins let you alter the InSpec profile authoring experience in a fundamental way.  For example, if you wish InSpec had a way of expressing that some minimum of a set of tests must pass, but you don't care which, you could implement a `control_dsl` plugin named `threshold`:
 
@@ -364,7 +365,7 @@ end
 
 As DSL keywords are actually method calls, the activation system for the four DSL types is handled by `method_missing`.  For example, if you have registered a `control_dsl` activation hook named `threshold`, when InSpec evaluates the code above and encounters the unknown method `threshold`, InSpec will check for a `control_dsl` hook with that name, and if found, activate the hook, and then include the resulting module into that and all future controls. Once the module is loaded and included, future calls bypass the activation and loading mechanism entirely (because the `threshold` method is now defined, we never hit the `method_missing` that watches for activations).
 
-The Outer Profile DSL, Control DSL, Describe DSL, and Resource DSL plugin types all have the same basic mechanism; only the scope of their activation varies.
+The Outer Profile DSL, Control DSL, Describe DSL, Test DSL, and Resource DSL plugin types all have the same basic mechanism; only the scope of their activation varies.
 
 ### Defining DSL Plugin Activation Hooks
 
@@ -397,7 +398,9 @@ end
 
 Because each DSL plugin type is loaded into a specific context, each method defined in the mixin module you provide will have a specific parent class and state.
 
-Note: these areas are deep within the internals of InSpec and RSpec.  Documentation and stability of these interfaces will vary.
+*Note*: these areas are deep within the internals of InSpec and RSpec.  Documentation and stability of these interfaces will vary.
+It is recommended to pin your dependency on `inspec` rather tightly, so you can test for compatibility issues prior to your users.
+The InSpec project does not consider the internal interfaces exposed to the DSL plugins to be part of the public interface, and thus may introduce breaking changes at anytime.  In other words, SemVer doesn't apply here, and you should likely use an exact pin.
 
 #### Outer Profile DSL Context
 
@@ -409,11 +412,17 @@ When your mixin method is called, `self` will be an instance of an anonymous cla
 
 #### Describe DSL Context
 
-Please note that the implementation details here refer to the interface between InSpec and RSpec, which may change in the future.
-
 Describe DSL mixin methods will be attached as *class* methods to [RSpec::Core::ExampleGroup](https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb).  Internally, 'describe' blocks are subclasses of the ExampleGroup class.  Please see the source of ExampleGroup for details about how describe blocks are evaluated.
 
 Within your mixin method, you have access the methods RSpec uses to manage an ExampleGroup.  For example, `examples` returns an array of tests (`it`/`its` blocks) that have been encountered in the describe block prior to the invocation of your method; and `metadata` returns a hash of information about the describe block, including description and source code location.
+
+#### Test DSL Context
+
+Test DSL mixin methods will be attached as *instance* methods to [RSpec::Core::ExampleGroup](https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb).  Internally, `it`/`its` blocks are evaluated in the context of an instance which is a subclass of the ExampleGroup class.  Please see the source of ExampleGroup for further details.
+
+These blocks are called Examples in RSpec terminology. InSpec treats Examples as tests, and sends tests and controls to the reporter engine; note that describe block are effectively ignored.
+
+Within your mixin method, you have access the methods RSpec uses to manage an Example. You have access to the testing predicates (such as `should`), but also all InSpec resources are available by name. Some useful class methods include `self.class.example_group`, which returns the example group are a member of; and `self.class.metadata` returns a hash of information about the test block, including description and source code location.
 
 #### Resource DSL
 

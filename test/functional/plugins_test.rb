@@ -175,6 +175,27 @@ describe 'DSL plugin types support' do
       second_result['code_desc'].must_include 'aubergine'
     end
   end
+
+  describe 'test dsl plugin type support' do
+    let(:profile_file) { 'test_dsl.rb' }
+    it 'works correctly with test dsl extensions' do
+      run_result.stderr.must_equal ''
+
+      # The test_dsl.rb file has one control, with
+      # describe-01, describe-02 which contains a call to favorite_legume, then describe-03
+      # If the plugin exploded, we'd see describe-01 but not describe-02
+      results = json_result['profiles'][0]['controls'][0]['results']
+      results.count.must_equal 3
+
+      # I spent a while trying to find a way to get the test to alter its name;
+      # that won't work for various setup reasons.
+      # So, it just throws an exception with the word 'edemame' in it.
+      second_result = json_result['profiles'][0]['controls'][0]['results'][1]
+      second_result.wont_be_nil
+      second_result['status'].must_equal 'failed'
+      second_result['message'].must_include 'edemame'
+    end
+  end
 end
 
 #=========================================================================================#
