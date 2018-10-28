@@ -404,7 +404,9 @@ The InSpec project does not consider the internal interfaces exposed to the DSL 
 
 #### Outer Profile DSL Context
 
-TODO
+When your mixin method is called, `self` will be an instance of an anonymous class representing the profile context being executed; each profile context gets its own anonymous class. No inheritance tree is provided; all meaningful functionality arrives through other DSL methods included.
+
+One useful thing you can do is create macros for generating controls: the `control` DSL keyword is available to you, so you can call it as you see fit to create new controls.
 
 #### Control DSL Context
 

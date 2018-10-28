@@ -27,6 +27,29 @@ module Inspec::DSL
     add_resource(target_name, res)
   end
 
+  # Support for Outer Profile DSL plugins
+  # This is called when an unknown method is encountered
+  # "bare" in a control file - outside of a control or describe block.
+  def method_missing(method_name, *arguments, &block)
+    # Check to see if there is a outer_profile_dsl plugin activator hook with the method name
+    registry = Inspec::Plugin::V2::Registry.instance
+    hook = registry.find_activators(plugin_type: :outer_profile_dsl, activator_name: method_name).first
+    if hook
+      # OK, load the hook if it hasn't been already.  We'll then know a module,
+      # which we can then inject into the context
+      registry.activate(:outer_profile_dsl, method_name) unless hook.activated?
+      # Inject the module's methods into the context
+      # implementation_class is the field name, but this is actually a module.
+      self.class.include(hook.implementation_class)
+      # Now that the module is loaded, it defined one or more methods
+      # (presumably the one we were looking for.)
+      # We still haven't called it, so do so now.
+      send(method_name, *arguments, &block)
+    else
+      super
+    end
+  end
+
   def self.load_spec_files_for_profile(bind_context, opts, &block)
     dependencies = opts[:dependencies]
     profile_id = opts[:profile_id]

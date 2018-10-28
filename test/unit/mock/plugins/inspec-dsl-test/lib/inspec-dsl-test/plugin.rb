@@ -6,6 +6,11 @@ module InspecPlugins
     class Plugin < Inspec.plugin(2)
       plugin_name :'inspec-dsl-test'
 
+      outer_profile_dsl :favorite_grain do
+        require_relative 'outer_profile_dsl'
+        InspecPlugins::DslTest::OuterProfileDslFavoriteGrain
+      end
+
       control_dsl :favorite_fruit do
         require_relative 'control_dsl'
         InspecPlugins::DslTest::ControlDslFavoriteFruit

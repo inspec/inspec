@@ -137,6 +137,25 @@ describe 'DSL plugin types support' do
   let(:run_result) { run_inspec_with_plugin("exec #{fixture_path}",  plugin_path: dsl_plugin_path) }
   let(:json_result) { run_result.payload.json }
 
+  describe 'outer profile dsl plugin type support' do
+    let(:profile_file) { 'outer_profile_dsl.rb' }
+    it 'works correctly with outer_profile dsl extensions' do
+      run_result.stderr.must_equal ''
+
+      # The outer_profile_dsl.rb file has control-01, then a call to favorite_grain
+      # (which generates a control), then control-03.
+      # If the plugin exploded, we'd see control-01 but not control-03
+      controls = json_result['profiles'][0]['controls']
+      controls.count.must_equal 3
+
+      # We expect the second controls id to be 'sorghum'
+      # (this is the functionality of the outer_profile_dsl we installed)
+      generated_control = json_result['profiles'][0]['controls'][1]
+      generated_control['id'].must_equal 'sorghum'
+      generated_control['results'][0]['status'].must_equal 'passed'
+    end
+  end
+
   describe 'control dsl plugin type support' do
 
     let(:profile_file) { 'control_dsl.rb' }

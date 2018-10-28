@@ -9,10 +9,11 @@ require_relative '../../../../lib/inspec/plugin/v2'
 module DslUnitTests
 
   [
+    :outer_profile_dsl,
     :control_dsl,
     :describe_dsl,
     :test_dsl,
-  ].each do |plugin_type_under_test, base_class_under_test|
+  ].each do |plugin_type_under_test|
 
     Class.new(MiniTest::Test) do
       # Assign name to anonymous class, so test output is meaningful

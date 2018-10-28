@@ -30,7 +30,9 @@ module Inspec
           Inspec::AttributeRegistry.find_attribute(name, profile_id).value
         end
 
-        # Support for Control DSL plugins
+        # Support for Control DSL plugins.
+        # This is called when an unknown method is encountered
+        # within a control block.
         def method_missing(method_name, *arguments, &block)
           # Check to see if there is a control_dsl plugin activator hook with the method name
           registry = Inspec::Plugin::V2::Registry.instance
