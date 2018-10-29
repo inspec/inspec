@@ -59,6 +59,8 @@ dependency 'openssl-customization'
 # Remove all .dll.a and .a files needed for static linkage.
 dependency 'clean-static-libs'
 
+dependency 'ruby-cleanup'
+
 package :rpm do
   signing_passphrase ENV['OMNIBUS_RPM_SIGNING_PASSPHRASE']
   unless rhel? && platform_version.satisfies?('< 6')
