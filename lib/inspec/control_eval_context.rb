@@ -55,10 +55,6 @@ module Inspec
           end
         end
 
-        # Implement this so that calls to respond_to? will work correctly.
-        def respond_to_missing?(method_name, include_private = false)
-          Inspec::Plugin::V2::Registry.instance.find_activators(plugin_type: :control_dsl, activator_name: method_name) || super
-        end
       end
     end
 
@@ -74,7 +70,6 @@ module Inspec
       profile_context_owner = profile_context
       profile_id = profile_context.profile_id
       rule_class = rule_context(resources_dsl, profile_id)
-
       Class.new do # rubocop:disable Metrics/BlockLength
         include Inspec::DSL
         include Inspec::DSL::RequireOverride

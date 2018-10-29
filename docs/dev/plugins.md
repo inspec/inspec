@@ -494,8 +494,13 @@ module InspecPlugins::ColorDSL
       InspecPlugins::ColorDSL::Red
     end
 
+    test_dsl :red do
+      require 'inspec-dsl-threshold/red'
+      InspecPlugins::ColorDSL::Red
+    end
+
   end
 end
 ```
 
-This approach may make sense among the three Profile DSLs; however the Resource DSL is quite different, and is unlikely to respond well to such an approach.
+This approach may make sense among the four Profile DSLs; however the Resource DSL is quite different, and is unlikely to respond well to such an approach.

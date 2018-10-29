@@ -25,6 +25,11 @@ module InspecPlugins
         require_relative 'test_dsl'
         InspecPlugins::DslTest::TestDslFavoriteLegume
       end
+
+      resource_dsl :food_type do
+        require_relative 'resource_dsl'
+        InspecPlugins::DslTest::ResourceDslFoodType
+      end
     end
   end
 end
