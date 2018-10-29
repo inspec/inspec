@@ -6,6 +6,20 @@ require 'thor'
 require 'inspec/log'
 require 'inspec/profile_vendor'
 
+# Allow end of options during array type parsing
+# https://github.com/erikhuda/thor/issues/631
+class Thor::Arguments
+  def parse_array(_name)
+    return shift if peek.is_a?(Array)
+    array = []
+    while current_is_value?
+      break unless @parsing_options
+      array << shift
+    end
+    array
+  end
+end
+
 module Inspec
   class BaseCLI < Thor
     class << self
