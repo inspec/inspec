@@ -4,6 +4,7 @@
 
 require 'helper'
 require 'rbconfig'
+require 'byebug'
 
 require 'minitest/hell'
 class Minitest::Test

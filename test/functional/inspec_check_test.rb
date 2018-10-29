@@ -88,6 +88,18 @@ describe 'inspec check' do
       out.exit_status.must_equal 1
       out.stdout.must_include 'inspec.yml and inspec.lock are out-of-sync. Please re-vendor with `inspec vendor`.'
       out.stdout.must_include 'Cannot find linux-baseline in lockfile. Please re-vendor with `inspec vendor`.'
-    end    
+    end
+  end
+
+  describe 'inspec check should catch a duplicate control' do
+    let(:dupe_profile) { File.join(profile_path, 'dupe-controls') }
+    it 'can detect a duplicate control' do
+      run_result = inspec('check ' + dupe_profile + ' --format json')
+      run_result.exit_status.must_equal 0
+      json_result = JSON.parse(run_result.stdout)
+      # Must detect exactly one error
+      json_result['errors'].must_equal 1
+
+    end
   end
 end
