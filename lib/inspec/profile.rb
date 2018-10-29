@@ -325,10 +325,9 @@ module Inspec
       res
     end
 
-    # Check if the profile is internally well-structured. The logger will be
-    # used to print information on errors and warnings which are found.
+    # Sanity check the profile.  This is the core of `inspec check`
     #
-    # @return [Boolean] true if no errors were found, false otherwise
+    # @return [Hash] check results.  See below for structure.
     def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
       # initial values for response object
       result = {
@@ -411,8 +410,8 @@ module Inspec
         @logger.info("Found #{count} controls.")
       end
 
-      # iterate over hash of groups
-      params[:controls].each { |id, control|
+      # iterate over hash of controls
+      params[:controls].each do |id, control|
         sfile = control[:source_location][:ref]
         sline = control[:source_location][:line]
         error.call(sfile, sline, nil, id, 'Avoid controls with empty IDs') if id.nil? or id.empty?
@@ -422,7 +421,19 @@ module Inspec
         warn.call(sfile, sline, nil, id, "Control #{id} has impact > 1.0") if control[:impact].to_f > 1.0
         warn.call(sfile, sline, nil, id, "Control #{id} has impact < 0.0") if control[:impact].to_f < 0.0
         warn.call(sfile, sline, nil, id, "Control #{id} has no tests defined") if control[:checks].nil? or control[:checks].empty?
-      }
+
+        # Check for duplicate IDs within the same profile
+        rule = control[:rule_obj]
+        if Inspec::Rule.merge_count(rule) > 0
+          profile_id = Inspec::Rule.profile_id(rule)
+          Inspec::Rule.merge_changes(rule).select { |merge_location| merge_location[:profile_id] == profile_id }.each do |location|
+            cfile = location[:ref]
+            cline = location[:line]
+            msg = "Control #{id} is duplicated in profile #{profile_id} - clobbered by #{cfile}:#{cline}"
+            error.call(sfile, sline, nil, id, msg)
+          end
+        end
+      end
 
       # profile is valid if we could not find any error
       result[:summary][:valid] = result[:errors].empty?
@@ -607,6 +618,7 @@ module Inspec
     def load_rule(rule, file, controls, groups)
       id = Inspec::Rule.rule_id(rule)
       location = rule.instance_variable_get(:@__source_location)
+      # TODO: why are we constructiong this thing, when the rule object already has this info?
       controls[id] = {
         title: rule.title,
         desc: rule.desc,
@@ -617,6 +629,7 @@ module Inspec
         checks: Inspec::Rule.checks(rule),
         code: Inspec::MethodSource.code_at(location, source_reader),
         source_location: location,
+        rule_obj: rule, # We need the actual object to interrogate merge history
       }
 
       # try and grab code text from merge locations

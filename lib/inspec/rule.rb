@@ -39,7 +39,7 @@ module Inspec
       # not changeable by the user:
       @__code = nil
       @__block = block
-      @__source_location = __get_block_source_location(&block)
+      @__source_location = __get_block_source_location(&block).merge(profile_id: profile_id)
       @__rule_id = id
       @__profile_id = profile_id
       @__checks = []
@@ -176,6 +176,10 @@ module Inspec
 
     def self.set_rule_id(rule, value)
       rule.instance_variable_set(:@__rule_id, value)
+    end
+
+    def self.source_location(rule)
+      rule.instance_variable_get(:@__source_location)
     end
 
     def self.profile_id(rule)
