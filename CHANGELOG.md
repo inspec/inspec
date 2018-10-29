@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.14 -->
-## [v3.0.14](https://github.com/inspec/inspec/tree/v3.0.14) (2018-10-25)
+<!-- latest_release 3.0.15 -->
+## [v3.0.15](https://github.com/inspec/inspec/tree/v3.0.15) (2018-10-29)
 
-#### Enhancements
-- ✓ adds additional checks for vendored profiles [#3362](https://github.com/inspec/inspec/pull/3362) ([chris-rock](https://github.com/chris-rock))
+#### Merged Pull Requests
+- Modernize omnibus config and reduce omnibus package size [#3543](https://github.com/inspec/inspec/pull/3543) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.12 -->
@@ -14,6 +14,7 @@
 - ✓ adds additional checks for vendored profiles [#3362](https://github.com/inspec/inspec/pull/3362) ([chris-rock](https://github.com/chris-rock)) <!-- 3.0.14 -->
 
 #### Merged Pull Requests
+- Modernize omnibus config and reduce omnibus package size [#3543](https://github.com/inspec/inspec/pull/3543) ([tas50](https://github.com/tas50)) <!-- 3.0.15 -->
 - Adding inspec init profile for GCP. [#3484](https://github.com/inspec/inspec/pull/3484) ([skpaterson](https://github.com/skpaterson)) <!-- 3.0.13 -->
 <!-- release_rollup -->
 
