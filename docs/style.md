@@ -4,7 +4,7 @@ This is a set of recommended InSpec rules you should use when writing controls.
 
 # Control Files
 
-## Place control files in "controls/" and end them with ".rb"
+## Place control files in `controls/` and end them with `.rb`
 
 Most syntax highlighters will render InSpec files correctly across a wide list
 of tools.
@@ -15,7 +15,7 @@ Use: `controls/ssh_config.rb`</br>
 Avoid: `controls/ssh/config.rb`</br>
 Use: `controls/ssh_config.rb`
 
-## Avoid "controls"/"control" in your control filenames
+## Avoid `controls`/`control` in your control filenames
 
 Using `controls` in the filename creates unnecessary clutter when reading it.
 Keep the names short and concise.
