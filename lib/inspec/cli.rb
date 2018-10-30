@@ -297,8 +297,11 @@ begin
   # This allows you to use any of the normal help commands after the normal args.
   help_commands = ['-h', '--help', 'help']
   (help_commands & ARGV).each do |cmd|
-    match = ARGV.delete(cmd)
-    ARGV.size > 1 ? ARGV.insert(-2, match) : ARGV.unshift(match)
+    # move the help argument to one place behind the end for Thor to digest
+    if ARGV.size > 1
+      match = ARGV.delete(cmd)
+      ARGV.insert(-2, match)
+    end
   end
 
   # Load v2 plugins

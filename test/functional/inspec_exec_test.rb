@@ -52,8 +52,22 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     File.stat("#{outpath}/foo/bar/test.json").size.must_be :>, 0
   end
 
-  it 'can execute the exec help' do
+  it 'can execute --help after exec command' do
     out = inspec("exec --help")
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 0
+    out.stdout.must_include "Usage:\n  inspec exec PATHS"
+  end
+
+  it 'can execute help after exec command' do
+    out = inspec("exec help")
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 0
+    out.stdout.must_include "Usage:\n  inspec exec PATHS"
+  end
+
+  it 'can execute help before exec command' do
+    out = inspec("help exec")
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     out.stdout.must_include "Usage:\n  inspec exec PATHS"
