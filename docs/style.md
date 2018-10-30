@@ -9,19 +9,24 @@ This is a set of recommended InSpec rules you should use when writing controls.
 Most syntax highlighters will render InSpec files correctly across a wide list
 of tools.
 
-Avoid: `controls/ssh_config`</br>
-Use: `controls/ssh_config.rb`</br>
+Avoid:
+  - `controls/ssh_config`
+  - `controls/ssh/config.rb`
 
-Avoid: `controls/ssh/config.rb`</br>
-Use: `controls/ssh_config.rb`
+Use:
+  - `controls/ssh_config.rb`
+  - `controls/ssh_config.rb`
 
 ## Avoid `controls`/`control` in your control filenames
 
 Using `controls` in the filename creates unnecessary clutter when reading it.
 Keep the names short and concise.
 
-Avoid: `controls/ssh_controls.rb`</br>
-Use: `controls/ssh.rb`
+Avoid:
+  - `controls/ssh_controls.rb`
+
+Use:
+  - `controls/ssh.rb`
 
 # Code Style
 
@@ -30,8 +35,11 @@ Use: `controls/ssh.rb`
 Adding additional parentheses is not required and provides more readability if
 it is not used:
 
-Avoid: `it { should eq(value) }`</br>
-Use: `it { should eq value }`
+Avoid:
+  - `it { should eq(value) }`
+
+Use:
+  - `it { should eq value }`
 
 The exception are matchers that require additional arguments or named arguments.
 
@@ -125,10 +133,14 @@ ability to take an OS profile and execute it remotely or locally.
 
 ## Avoid shelling out
 
-Avoid: `` `ls``\`</br>
-Avoid: `system("ls")`</br>
-Avoid: `IO.popen("ls")`</br>
-Use: `command("ls")` or `powershell("Get-ChildItem")`
+Avoid:
+  - `` `ls``\`
+  - `system("ls")`
+  - `IO.popen("ls")`
+
+Use:
+
+  - `command("ls")` or `powershell("Get-ChildItem")`
 
 Ruby's command executors will only run locally. Imagine a test like this:
 
@@ -161,10 +173,13 @@ Ruby's internal calls. If you run this test against a remote target it won't
 read the file from the remote endpoint, but from the local OS instead. Use the
 `file` resource to read files on the target system.
 
-Avoid: `File.new("filename").read`</br>
-Avoid: `File.read("filename")`</br>
-Avoid: `IO.read("filename")`</br>
-Use: `file("filename")`
+Avoid:
+  - `File.new("filename").read`
+  - `File.read("filename")`
+  - `IO.read("filename")`
+
+Use:
+  - `file("filename")`
 
 In general, try to avoid Ruby's IO calls from within InSpec controls and use
 InSpec resources instead.
@@ -190,8 +205,11 @@ hidden behind conditionals (`if` statements) that are harder to reach. These
 calls can easily cause trouble when an automated profiles runs into an
 interactive `pry` call that stops the execution and waits for user input.
 
-Avoid: `binding.pry` in production profiles</br>
-Use: Use debugging calls during development only
+Avoid:
+  - `binding.pry` in production profiles
+
+Use:
+  - Use debugging calls during development only
 
 Also you may find it helpful to use the InSpec logging interface:
 
