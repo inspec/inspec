@@ -115,7 +115,7 @@ it as a generator for static controls.
 ## Avoid Ruby system calls
 
 Ruby code is executed on the system that runs InSpec. This allows InSpec to work
-without Ruby and rubygems being required on remote targets (servers or
+without Ruby and RubyGems being required on remote targets (servers or
 containers). System calls are often used to interact with the local OS or remote
 endpoints from a local installation.
 
