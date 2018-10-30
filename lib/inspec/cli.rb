@@ -168,9 +168,70 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc 'exec PATHS', 'run all test files at the specified PATH.'
+  desc 'exec LOCATIONS', 'run all test files at the specified LOCATIONS.'
   long_desc <<~EOT
-    Loads the given profile(s) and fetches their dependencies if needed.  Then connects to the target and executes any controls contained in the profiles.  One or more reporters are used to generate output.  If all tests passed (no fails, no skips) exit code 0 is returned.  If some tests skipped but none failed, exit code 101 is returned. If at least one test failed, exit code 100 is returned.  If inspec failed for any other reason, exit code 1 is returned.
+    Loads the given profile(s) and fetches their dependencies if needed. Then
+    connects to the target and executes any controls contained in the profiles.
+    One or more reporters are used to generate output. If all tests passed
+    (no fails, no skips) exit code 0 is returned. If some tests skipped but
+    none failed, exit code 101 is returned. If at least one test failed, exit
+    code 100 is returned. If inspec failed for any other reason, exit code 1
+    is returned.
+
+    Below are some examples of using `exec` with different test LOCATIONS:
+
+    Automate:
+      ```
+      inspec compliance login
+      inspec exec compliance://username/linux-baseline
+      ```
+
+    Supermarket:
+      ```
+      inspec exec supermarket://username/linux-baseline
+      ```
+
+    Local profile (executes all tests in `controls/`):
+      ```
+      inspec exec /path/to/profile
+      ```
+
+    Local single test (doesn't allow attributes or custom resources)
+      ```
+      inspec exec /path/to/a_test.rb
+      ```
+
+    Git via SSH (uses SSH keys if repo is private):
+      ```
+      inspec exec git@github.com:dev-sec/linux-baseline.git
+      ```
+
+    Git via HTTPS (.git is required):
+      ```
+      inspec exec https://github.com/dev-sec/linux-baseline.git
+      ```
+
+    Private Git via HTTPS (.git is required):
+      ```
+      inspec exec https://API_TOKEN@github.com/dev-sec/linux-baseline.git
+      ```
+
+    Private Git via HTTPS and cached credentials (.git is required):
+      ```
+      git config credential.helper cache
+      git ls-remote https://github.com/dev-sec/linux-baseline.git
+      inspec exec https://github.com/dev-sec/linux-baseline.git
+      ```
+
+    Web hosted fileshare (supports .zip):
+      ```
+      inspec exec https://webserver/linux-baseline.tar.gz
+      ```
+
+    Web hosted fileshare with basic authentication (supports .zip):
+      ```
+      inspec exec https://username:password@webserver/linux-baseline.tar.gz
+      ```
   EOT
   exec_options
   def exec(*targets)
