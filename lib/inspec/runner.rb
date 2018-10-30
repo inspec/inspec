@@ -102,6 +102,19 @@ module Inspec
 
       all_controls.each do |rule|
         register_rule(rule) unless rule.nil?
+        # Check for duplicate controls and warn
+        if Inspec::Rule.merge_count(rule) > 0
+          profile_id = Inspec::Rule.profile_id(rule)
+          Inspec::Rule.merge_changes(rule).select { |merge_location| merge_location[:profile_id] == profile_id }.each do |location|
+            sfile = Inspec::Rule.source_location(rule)[:ref]
+            sline = Inspec::Rule.source_location(rule)[:line]
+            cfile = location[:ref]
+            cline = location[:line]
+            id = Inspec::Rule.rule_id(rule)
+            msg = "Control #{id} at #{sfile}:#{sline} is duplicated within the same profile '#{profile_id}' - clobbered by #{cfile}:#{cline}"
+            Inspec::Log.warn(msg)
+          end
+        end
       end
     end
 

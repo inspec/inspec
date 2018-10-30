@@ -5,7 +5,7 @@ control 'dupe-01' do
   desc 'uniq-one', 'one'
 
   describe true do
-    it { should eq true }
+    it { should eq false }
   end
 end
 
@@ -16,6 +16,6 @@ control 'dupe-01' do
   desc 'uniq-two', 'two'
 
   describe true do
-    it { should eq false }
+    it { should eq true }
   end
 end

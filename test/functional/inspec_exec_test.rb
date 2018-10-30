@@ -557,4 +557,19 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       end
     end
   end
+
+  describe 'when using a profile that contains duplicate controls' do
+    it 'merges the controls and emits a warning' do
+      dupe_profile = File.join(profile_path, 'dupe-controls')
+      run_result = inspec('exec ' + dupe_profile)
+      run_result.exit_status.must_equal 0
+
+      warning = run_result.stdout.split("\n").grep(/WARN.+duplicate/).first
+      warning.wont_be_nil
+      warning.must_include 'dupe-01' # Which control
+      warning.must_include "is duplicated within the same profile 'dupe-controls'"
+      warning.must_include 'duplicates.rb:1' # the original location
+      warning.must_include 'duplicates.rb:12' # the duplicate location
+    end
+  end
 end

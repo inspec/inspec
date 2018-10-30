@@ -92,8 +92,8 @@ describe 'inspec check' do
   end
 
   describe 'inspec check should catch a duplicate control' do
-    let(:dupe_profile) { File.join(profile_path, 'dupe-controls') }
     it 'can detect a duplicate control' do
+      dupe_profile = File.join(profile_path, 'dupe-controls')
       run_result = inspec('check ' + dupe_profile + ' --format json')
       run_result.exit_status.must_equal 1
       json_result = JSON.parse(run_result.stdout)
