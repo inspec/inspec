@@ -177,8 +177,8 @@ resolved, installed, vendored, and protected from conflicts. We aim to avoid
 exposing this complexity to users of InSpec, to make it a great tool even if you
 are not a developer.
 
-Developers may still use external gem dependencies but should vendor it with
-their plugins or resource packs.
+Plugins should declare gem dependencies in their gemspec, and then rely on the
+plugin installation facility to install and manage dependencies.
 
 ## Avoid debugging calls (in production)
 
