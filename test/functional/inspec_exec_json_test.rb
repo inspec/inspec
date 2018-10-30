@@ -28,6 +28,16 @@ describe 'inspec exec with json formatter' do
     JSON::Schema.validate(data, schema)
   end
 
+  it 'can execute a simple file while using end of options after reporter cli option' do
+    out = inspec('exec --no-create-lockfile --reporter json -- ' + example_control)
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 0
+    data = JSON.parse(out.stdout)
+    sout = inspec('schema exec-json')
+    schema = JSON.parse(sout.stdout)
+    JSON::Schema.validate(data, schema)
+  end
+
   it 'can execute a profile and validate the json schema with target_id' do
     out = inspec('exec ' + example_profile + ' --reporter json --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444')
     out.stderr.must_equal ''

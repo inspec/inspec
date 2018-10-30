@@ -15,35 +15,41 @@ You can specify one or more reporters using the `--reporter` cli flag. You can a
 Output json to screen.
 
 ```bash
-inspec exec --reporter json
+inspec exec example_profile --reporter json
 or
-inspec exec --reporter json:-
+inspec exec example_profile --reporter json:-
 ```
 
 Output yaml to screen
 
 ```bash
-inspec exec --reporter yaml
+inspec exec example_profile --reporter yaml
 or
-inspec exec --reporter yaml:-
+inspec exec example_profile --reporter yaml:-
 ```
 
 Output cli to screen and write json to a file.
 
 ```bash
-inspec exec --reporter cli json:/tmp/output.json
+inspec exec example_profile --reporter cli json:/tmp/output.json
 ```
 
 Output nothing to screen and write junit and html to a file.
 
 ```bash
-inspec exec --reporter junit:/tmp/junit.xml html:www/index.html
+inspec exec example_profile --reporter junit:/tmp/junit.xml html:www/index.html
 ```
 
 Output json to screen and write to a file. Write junit to a file.
 
 ```bash
-inspec exec --reporter json junit:/tmp/junit.xml | tee out.json
+inspec exec example_profile --reporter json junit:/tmp/junit.xml | tee out.json
+```
+
+If you wish to pass the profiles directly after specifying the reporters you will need to use the end of options flag `--`.
+
+```bash
+inspec exec --reporter json junit:/tmp/junit.xml -- profile1 profile2
 ```
 
 If you are using the cli option `--json-config` you can also set reporters.
