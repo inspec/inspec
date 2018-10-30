@@ -424,14 +424,13 @@ module Inspec
 
         # Check for duplicate IDs within the same profile
         rule = control[:rule_obj]
-        if Inspec::Rule.merge_count(rule) > 0
-          profile_id = Inspec::Rule.profile_id(rule)
-          Inspec::Rule.merge_changes(rule).select { |merge_location| merge_location[:profile_id] == profile_id }.each do |location|
-            cfile = location[:ref]
-            cline = location[:line]
-            msg = "Control #{id} is duplicated in profile #{profile_id} - clobbered by #{cfile}:#{cline}"
-            error.call(sfile, sline, nil, id, msg)
-          end
+        next unless Inspec::Rule.merge_count(rule) > 0
+        profile_id = Inspec::Rule.profile_id(rule)
+        Inspec::Rule.merge_changes(rule).select { |merge_location| merge_location[:profile_id] == profile_id }.each do |location|
+          cfile = location[:ref]
+          cline = location[:line]
+          msg = "Control #{id} is duplicated in profile #{profile_id} - clobbered by #{cfile}:#{cline}"
+          error.call(sfile, sline, nil, id, msg)
         end
       end
 
