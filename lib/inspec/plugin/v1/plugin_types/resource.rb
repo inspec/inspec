@@ -54,7 +54,7 @@ module Inspec
         registry.activate(:resource_dsl, method_name) unless hook.activated?
         # Inject the module's methods into the resource as class methods.
         # implementation_class is the field name, but this is actually a module.
-        self.extend(hook.implementation_class)
+        extend(hook.implementation_class)
         # Now that the module is loaded, it defined one or more methods
         # (presumably the one we were looking for.)
         # We still haven't called it, so do so now.

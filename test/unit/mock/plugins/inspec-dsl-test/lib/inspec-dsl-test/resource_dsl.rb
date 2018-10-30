@@ -4,7 +4,7 @@ module InspecPlugins
       def food_type(food)
         if food == :berries
           # OK, add an instance method to any berry resource
-          define_method :'have_drupals?' do
+          define_method :'has_drupals?' do
             true
           end
         end

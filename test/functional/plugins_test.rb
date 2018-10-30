@@ -217,6 +217,7 @@ describe 'DSL plugin types support' do
   end
 
   describe 'resource dsl plugin type support' do
+    let(:profile_file) { 'unused' }
     it 'works correctly with test dsl extensions' do
       # We have to build a custom command line - need to load the whole profile,
       # so the libraries get loaded.
@@ -229,19 +230,22 @@ describe 'DSL plugin types support' do
       # We should have three controls; 01 and 03 just do a string match.
       # 02 uses the custom resource, which relies on calls to the resource DSL.
       # If the plugin exploded, we'd see rdsl-control-01 but not rdsl-control-02
+      json_result = run_result.payload.json
       results = json_result['profiles'][0]['controls']
       results.count.must_equal 3
 
-      # I spent a while trying to find a way to get the test to alter its name;
-      # that won't work for various setup reasons.
-      # So, it just throws an exception with the word 'edemame' in it.
-      second_result = json_result['profiles'][0]['controls'][0]['results'][1]
-      second_result.wont_be_nil
-      second_result['status'].must_equal 'failed'
-      second_result['message'].must_include 'edemame'
+      # Control 2 has 2 describes; one uses a simple explicit matcher,
+      # while the second uses a matcher defined via a macro provided by the resource DSL.
+      control2_results = results[1]['results']
+      control2_results[0]['status'].must_equal 'passed'
+      control2_results[0]['code_desc'].must_include 'favorite_berry'
+      control2_results[0]['code_desc'].must_include 'blendable'
+
+      control2_results[1]['status'].must_equal 'passed'
+      control2_results[1]['code_desc'].must_include 'favorite_berry'
+      control2_results[1]['code_desc'].must_include 'have drupals'
     end
   end
-
 end
 
 #=========================================================================================#

@@ -428,7 +428,9 @@ Within your mixin method, you have access the methods RSpec uses to manage an Ex
 
 #### Resource DSL
 
-TODO
+Within a Resource DSL method, `self` will be the Class of a Resource that is currently being defined.  Your superclass will be whatever was returned by Inspec.resource(API_VERSION), which will typically be Inspec::Resource.
+
+Resource DSL methods are especially useful for defining macros: adding properties and matchers to a resource.
 
 ### Implementation Module Layout Notes
 

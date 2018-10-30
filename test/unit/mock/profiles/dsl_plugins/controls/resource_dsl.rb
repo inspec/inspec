@@ -5,11 +5,10 @@ control 'rdsl-control-01' do
   end
 end
 
-byebug
 control 'rdsl-control-02' do
   # Try to use a resource that uses a Resource DSL extension
   describe favorite_berry('gooseberry') do
-    it { should blend }
+    it { should be_blendable }
   end
 
   # This directly relies on the effects of the plugin
