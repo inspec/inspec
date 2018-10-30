@@ -49,26 +49,26 @@ describe Inspec::Profile do
   end
 
   describe 'code info' do
-    let(:profile_id) { 'complete-profile' }
+    let(:profile_path) { 'complete-profile' } # Id is 'complete'
     let(:code) { "control 'test01' do\n  impact 0.5\n  title 'Catchy title'\n  desc '\n    example.com should always exist.\n  '\n  describe host('example.com') do\n    it { should be_resolvable }\n  end\nend\n" }
-    let(:loc) { {:ref=>"controls/host_spec.rb", :line=>6} }
+    let(:loc) { {:ref=>"controls/host_spec.rb", :line=>6, :profile_id => 'complete' } }
 
     it 'gets code from an uncompressed profile' do
-      info = MockLoader.load_profile(profile_id).info
+      info = MockLoader.load_profile(profile_path).info
       info[:controls][0][:code].must_equal code
-      loc[:ref] = File.join(MockLoader.profile_path(profile_id), loc[:ref])
+      loc[:ref] = File.join(MockLoader.profile_path(profile_path), loc[:ref])
       info[:controls][0][:source_location].must_equal loc
     end
 
     it 'gets code on zip profiles' do
-      path = MockLoader.profile_zip(profile_id)
+      path = MockLoader.profile_zip(profile_path)
       info = MockLoader.load_profile(path).info
       info[:controls][0][:code].must_equal code
       info[:controls][0][:source_location].must_equal loc
     end
 
     it 'gets code on tgz profiles' do
-      path = MockLoader.profile_tgz(profile_id)
+      path = MockLoader.profile_tgz(profile_path)
       info = MockLoader.load_profile(path).info
       info[:controls][0][:code].must_equal code
       info[:controls][0][:source_location].must_equal loc
