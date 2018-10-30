@@ -95,6 +95,7 @@ module Fetchers
 
     def initialize(url, opts)
       @target = url
+      @target_uri = parse_uri(@target)
       @insecure = opts['insecure']
       @token = opts['token']
       @config = opts
@@ -119,6 +120,16 @@ module Fetchers
     end
 
     private
+
+    def parse_uri(target)
+      if target.is_a?(String)
+        URI.parse(target)
+      elsif target[:url]
+        URI.parse(target[:url])
+      end
+    rescue URI::Error
+      nil
+    end
 
     def sha256
       file = @archive_path || temp_archive_path
@@ -155,9 +166,8 @@ module Fetchers
         version: @config['profile'][2],
       }.to_json
 
-      uri = URI.parse(@target)
       opts = http_opts
-      opts[:use_ssl] = uri.scheme == 'https'
+      opts[:use_ssl] = @target_uri.scheme == 'https'
 
       if @insecure
         opts[:verify_mode] = OpenSSL::SSL::VERIFY_NONE
@@ -165,12 +175,12 @@ module Fetchers
         opts[:verify_mode] = OpenSSL::SSL::VERIFY_PEER
       end
 
-      req = Net::HTTP::Post.new(uri)
+      req = Net::HTTP::Post.new(@target_uri)
       opts.each do |key, value|
         req.add_field(key, value)
       end
       req.body = json
-      res = Net::HTTP.start(uri.host, uri.port, opts) { |http|
+      res = Net::HTTP.start(@target_uri.host, @target_uri.port, opts) { |http|
         http.request(req)
       }
 
@@ -188,7 +198,7 @@ module Fetchers
     def download_archive_to_temp
       return @temp_archive_path if !@temp_archive_path.nil?
       Inspec::Log.debug("Fetching URL: #{@target}")
-      remote = open(@target, http_opts)
+      remote = open_via_uri(@target)
       @archive_type = file_type_from_remote(remote) # side effect :(
       archive = Tempfile.new(['inspec-dl-', @archive_type])
       archive.binmode
@@ -197,6 +207,17 @@ module Fetchers
       archive.close
       Inspec::Log.debug("Archive stored at temporary location: #{archive.path}")
       @temp_archive_path = archive.path
+    end
+
+    def open_via_uri(target)
+      opts = http_opts
+
+      if opts[:http_basic_authentication]
+        # OpenURI does not support userinfo so we need to remove it
+        open(target.sub("#{@target_uri.userinfo}@", ''), opts)
+      else
+        open(target, opts)
+      end
     end
 
     def download_archive(path)
@@ -225,7 +246,9 @@ module Fetchers
         opts['Authorization'] = "Bearer #{@token}"
       end
 
-      opts[:http_basic_authentication] = [@config[:username], @config[:password]] if @config[:username]
+      username = @config[:username] || @target_uri.user
+      password = @config[:password] || @target_uri.password
+      opts[:http_basic_authentication] = [username, password] if username
 
       # Do not send any headers that have nil values.
       # Net::HTTP does not gracefully handle this situation.
