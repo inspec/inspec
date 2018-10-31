@@ -45,6 +45,7 @@ module Inspec
     # Even tho this is defined as an instance method, it gets added to
     # Inspec::Plugins::Resource via `extend`, so this is actually a class defintion.
     def method_missing(method_name, *arguments, &block)
+      require 'inspec/plugin/v2'
       # Check to see if there is a resource_dsl plugin activator hook with the method name
       registry = Inspec::Plugin::V2::Registry.instance
       hook = registry.find_activators(plugin_type: :resource_dsl, activator_name: method_name).first
