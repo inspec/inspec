@@ -103,9 +103,16 @@ module Inspec
       all_controls.each do |rule|
         register_rule(rule) unless rule.nil?
         # Check for duplicate controls and warn
+        next if Inspec::Rule.merge_count(rule).nil?
         next unless Inspec::Rule.merge_count(rule) > 0
         profile_id = Inspec::Rule.profile_id(rule)
-        Inspec::Rule.merge_changes(rule).select { |merge_location| merge_location[:profile_id] == profile_id }.each do |location|
+        merges = Inspec::Rule.merge_changes(rule)
+        merges = merges.select do |merge_location|
+          # Look for rules that had a merge within the same profile...
+          merge_location[:profile_id] == profile_id &&
+            !merge_location[:in_include] # and the merge did not happen in an include/require_controls
+        end
+        merges.each do |location|
           sfile = Inspec::Rule.source_location(rule)[:ref]
           sline = Inspec::Rule.source_location(rule)[:line]
           cfile = location[:ref]

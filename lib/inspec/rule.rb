@@ -39,7 +39,7 @@ module Inspec
       # not changeable by the user:
       @__code = nil
       @__block = block
-      @__source_location = __get_block_source_location(&block).merge(profile_id: profile_id)
+      @__source_location = __get_block_source_location(&block).merge(profile_id: profile_id, in_include: __check_for_include)
       @__rule_id = id
       @__profile_id = profile_id
       @__checks = []
@@ -315,6 +315,19 @@ module Inspec
       { ref: r, line: l }
     rescue MethodSource::SourceNotFoundError
       {}
+    end
+
+    # For duplicate control detection (github 822),
+    # we must only warn on a control being duplicated when
+    # it is *not* being overridden.  Overrides happen within
+    # include_control / require control blocks.
+    # HACK: detect that using the call stack.
+    def __check_for_include
+      # A require_contols / include_controls call will be at least 8 frames back;
+      # the 6 is just a guess for an upper limit.  We don't want to look too far
+      # back - each level of dependency adds about 12 frames.
+      frames = caller_locations(8, 6).map(&:base_label)
+      frames.include?('include_controls') || frames.include?('require_controls')
     end
   end
 end

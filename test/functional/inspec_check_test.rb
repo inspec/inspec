@@ -92,20 +92,45 @@ describe 'inspec check' do
   end
 
   describe 'inspec check should catch a duplicate control' do
-    it 'can detect a duplicate control' do
-      dupe_profile = File.join(profile_path, 'dupe-controls')
-      run_result = inspec('check ' + dupe_profile + ' --format json')
-      run_result.exit_status.must_equal 1
-      json_result = JSON.parse(run_result.stdout)
+    describe 'when a simple profile has duplicates' do
+      it 'can detect a duplicate control' do
+        dupe_profile = File.join(profile_path, 'dupe-controls', 'simple')
+        run_result = inspec('check ' + dupe_profile + ' --format json')
+        run_result.exit_status.must_equal 1
+        json_result = JSON.parse(run_result.stdout)
 
-      # Must detect exactly one error
-      json_result['errors'].count.must_equal 1
+        # Must detect exactly one error
+        json_result['errors'].count.must_equal 1
 
-      json_result['errors'][0]['control_id'].must_equal 'dupe-01' # Find the right control
-      json_result['errors'][0]['msg'].must_include 'is duplicated in profile dupe-controls' # The kernel of the error message
-      json_result['errors'][0]['msg'].must_include 'clobbered by' # And we tell you that is was overwritten
-      json_result['errors'][0]['msg'].must_include 'duplicates.rb:12' # And we tell you what overwrote it
+        json_result['errors'][0]['control_id'].must_equal 'dupe-01' # Find the right control
+        json_result['errors'][0]['msg'].must_include 'is duplicated in profile dupe-controls' # The kernel of the error message
+        json_result['errors'][0]['msg'].must_include 'clobbered by' # And we tell you that is was overwritten
+        json_result['errors'][0]['msg'].must_include 'duplicates.rb:12' # And we tell you what overwrote it
+      end
+    end
 
+    describe 'when a profile uses include_controls without a block' do
+      it 'should not detect a duplicate control' do
+        dupe_profile = File.join(profile_path, 'dupe-controls', 'wrapper-simple-include')
+        run_result = inspec('check ' + dupe_profile + ' --format json')
+        run_result.exit_status.must_equal 0
+        json_result = JSON.parse(run_result.stdout)
+
+        # Must detect no errors
+        json_result['errors'].count.must_equal 0
+      end
+    end
+
+    describe 'when a profile uses include_controls with a block to modify a control' do
+      it 'should not detect a duplicate control' do
+        dupe_profile = File.join(profile_path, 'dupe-controls', 'wrapper-block-include')
+        run_result = inspec('check ' + dupe_profile + ' --format json')
+        run_result.exit_status.must_equal 0
+        json_result = JSON.parse(run_result.stdout)
+
+        # Must detect no errors
+        json_result['errors'].count.must_equal 0
+      end
     end
   end
 end
