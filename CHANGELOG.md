@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.17 -->
-## [v3.0.17](https://github.com/inspec/inspec/tree/v3.0.17) (2018-11-01)
+<!-- latest_release 3.0.18 -->
+## [v3.0.18](https://github.com/inspec/inspec/tree/v3.0.18) (2018-11-01)
 
-#### Enhancements
-- Allow help args after Thor commands [#3553](https://github.com/inspec/inspec/pull/3553) ([jquick](https://github.com/jquick))
+#### Merged Pull Requests
+- Pin to train 1.5.6 [#3568](https://github.com/inspec/inspec/pull/3568) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.12 -->
@@ -15,6 +15,7 @@
 - ✓ adds additional checks for vendored profiles [#3362](https://github.com/inspec/inspec/pull/3362) ([chris-rock](https://github.com/chris-rock)) <!-- 3.0.14 -->
 
 #### Merged Pull Requests
+- Pin to train 1.5.6 [#3568](https://github.com/inspec/inspec/pull/3568) ([jquick](https://github.com/jquick)) <!-- 3.0.18 -->
 - Allow end of options during Thor array parsing [#3547](https://github.com/inspec/inspec/pull/3547) ([jquick](https://github.com/jquick)) <!-- 3.0.16 -->
 - Modernize omnibus config and reduce omnibus package size [#3543](https://github.com/inspec/inspec/pull/3543) ([tas50](https://github.com/tas50)) <!-- 3.0.15 -->
 - Adding inspec init profile for GCP. [#3484](https://github.com/inspec/inspec/pull/3484) ([skpaterson](https://github.com/skpaterson)) <!-- 3.0.13 -->
