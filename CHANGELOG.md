@@ -1,7 +1,7 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.23 -->
-## [v3.0.23](https://github.com/inspec/inspec/tree/v3.0.23) (2018-11-01)
+<!-- latest_release 3.0.24 -->
+## [v3.0.24](https://github.com/inspec/inspec/tree/v3.0.24) (2018-11-01)
 
 #### Bug Fixes
 - Change usage of `Dir.home` to `Inspec.config_dir` [#3567](https://github.com/inspec/inspec/pull/3567) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
