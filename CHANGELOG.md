@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.24 -->
-## [v3.0.24](https://github.com/inspec/inspec/tree/v3.0.24) (2018-11-01)
+<!-- latest_release 3.0.25 -->
+## [v3.0.25](https://github.com/inspec/inspec/tree/v3.0.25) (2018-11-01)
 
-#### Bug Fixes
-- Change usage of `Dir.home` to `Inspec.config_dir` [#3567](https://github.com/inspec/inspec/pull/3567) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Merged Pull Requests
+- bump expeditor version [#3569](https://github.com/inspec/inspec/pull/3569) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.12 -->
@@ -18,6 +18,7 @@
 - ✓ adds additional checks for vendored profiles [#3362](https://github.com/inspec/inspec/pull/3362) ([chris-rock](https://github.com/chris-rock)) <!-- 3.0.14 -->
 
 #### Merged Pull Requests
+- bump expeditor version [#3569](https://github.com/inspec/inspec/pull/3569) ([jquick](https://github.com/jquick)) <!-- 3.0.25 -->
 - Pin to train 1.5.6 [#3568](https://github.com/inspec/inspec/pull/3568) ([jquick](https://github.com/jquick)) <!-- 3.0.18 -->
 - Allow end of options during Thor array parsing [#3547](https://github.com/inspec/inspec/pull/3547) ([jquick](https://github.com/jquick)) <!-- 3.0.16 -->
 - Modernize omnibus config and reduce omnibus package size [#3543](https://github.com/inspec/inspec/pull/3543) ([tas50](https://github.com/tas50)) <!-- 3.0.15 -->
