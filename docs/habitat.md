@@ -72,34 +72,6 @@ InSpec will write a JSON file in the `${svc_var_path}/inspec_results` directory 
 
 Create a Habitat package for an InSpec profile. InSpec will validate the profile, fetch and vendor any dependencies (if necessary), and build the Habitat package with a dependency on the latest InSpec. The resulting package will be saved to the current working directory.
 
-The package file will be named:
-
-```text
-HABITAT_ORIGIN-inspec-profile-PROFILE_NAME-PROFILE_VERSION-BUILD_ID-x86_64-linux.hart
-```
-
-For example:
-
-```text
-adamleff-inspec-profile-frontend1-0.1.0-20170328173005-x86_64-linux.hart
-```
-
-#### Syntax
-
-```bash
-inspec habitat profile create PROFILE_DIRECTORY
-```
-
-Example:
-
-```bash
-inspec habitat profile create ~/profiles/frontend1
-```
-
-### inspec habitat profile create
-
-Create a Habitat package for an InSpec profile. InSpec will validate the profile, fetch and vendor any dependencies (if necessary), and build the Habitat package with a dependency on the latest InSpec. The resulting package will be saved to the current working directory.
-
 The package can then be manually uploaded to a Habitat Depot or manually distributed to a host and installed via `hab pkg install`.
 
 The package file will be named:
@@ -149,6 +121,38 @@ $ habitat profile create ~/profiles/frontend1
 ... more Habitat output here...
 
 [2017-03-28T13:30:18-04:00] INFO: Copying artifact to /Users/aleff...
+```
+
+### inspec habitat profile setup
+
+Create a Habitat directory that includes a plan file, config hooks, and more in a profile directory.
+
+This is the same process that is used by `inspec habitat profile create` - but this adds the generated Habitat
+ directory and file to your system so that you can commit them to source control. If you commit these files to GitHub, you can connect that plan to the [Habitat Builder Service](https://www.habitat.sh/docs/using-builder/).
+
+#### Syntax
+
+```bash
+inspec habitat profile setup PROFILE_DIRECTORY
+```
+
+#### Example
+
+```bash
+inspec habitat profile setup ~/profiles/frontend1
+```
+
+#### Example Output
+
+```bash
+[2018-10-31T23:45:59+00:00] INFO: Setting up profile at /home/nell/profiles/frontend1/ for Habitat...
+[2018-10-31T23:45:59+00:00] INFO: Checking to see if the profile is valid...
+[2018-10-31T23:45:59+00:00] INFO: Profile is valid.
+[2018-10-31T23:45:59+00:00] INFO: Profile's dependencies are already vendored, skipping vendor process.
+[2018-10-31T23:45:59+00:00] INFO: Generating Habitat plan at /home/nell/profiles/frontend1/habitat/plan.sh...
+[2018-10-31T23:45:59+00:00] INFO: Generating a Habitat run hook at /home/nell/profiles/frontend1/habitat/hooks/run...
+[2018-10-31T23:45:59+00:00] INFO: Generating a settings file at /home/nell/profiles/frontend1/habitat/config/settings.sh...
+[2018-10-31T23:45:59+00:00] INFO: Generating Habitat's default.toml configuration...
 ```
 
 ### inspec habitat profile upload
