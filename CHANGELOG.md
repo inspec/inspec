@@ -1,31 +1,29 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.25 -->
-## [v3.0.25](https://github.com/inspec/inspec/tree/v3.0.25) (2018-11-01)
-
-#### Merged Pull Requests
-- bump expeditor version [#3569](https://github.com/inspec/inspec/pull/3569) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.0.12 -->
-### Changes since 3.0.12 release
-
-#### Bug Fixes
-- Change usage of `Dir.home` to `Inspec.config_dir` [#3567](https://github.com/inspec/inspec/pull/3567) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.19 -->
-
-#### Enhancements
-- Allow help args after Thor commands [#3553](https://github.com/inspec/inspec/pull/3553) ([jquick](https://github.com/jquick)) <!-- 3.0.17 -->
-- ✓ adds additional checks for vendored profiles [#3362](https://github.com/inspec/inspec/pull/3362) ([chris-rock](https://github.com/chris-rock)) <!-- 3.0.14 -->
-
-#### Merged Pull Requests
-- bump expeditor version [#3569](https://github.com/inspec/inspec/pull/3569) ([jquick](https://github.com/jquick)) <!-- 3.0.25 -->
-- Pin to train 1.5.6 [#3568](https://github.com/inspec/inspec/pull/3568) ([jquick](https://github.com/jquick)) <!-- 3.0.18 -->
-- Allow end of options during Thor array parsing [#3547](https://github.com/inspec/inspec/pull/3547) ([jquick](https://github.com/jquick)) <!-- 3.0.16 -->
-- Modernize omnibus config and reduce omnibus package size [#3543](https://github.com/inspec/inspec/pull/3543) ([tas50](https://github.com/tas50)) <!-- 3.0.15 -->
-- Adding inspec init profile for GCP. [#3484](https://github.com/inspec/inspec/pull/3484) ([skpaterson](https://github.com/skpaterson)) <!-- 3.0.13 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.0.25](https://github.com/inspec/inspec/tree/v3.0.25) (2018-11-01)
+
+#### Enhancements
+- ✓ adds additional checks for vendored profiles [#3362](https://github.com/inspec/inspec/pull/3362) ([chris-rock](https://github.com/chris-rock))
+- Allow help args after Thor commands [#3553](https://github.com/inspec/inspec/pull/3553) ([jquick](https://github.com/jquick))
+
+#### Bug Fixes
+- Change usage of `Dir.home` to `Inspec.config_dir` [#3567](https://github.com/inspec/inspec/pull/3567) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Merged Pull Requests
+- Adding inspec init profile for GCP. [#3484](https://github.com/inspec/inspec/pull/3484) ([skpaterson](https://github.com/skpaterson))
+- Modernize omnibus config and reduce omnibus package size [#3543](https://github.com/inspec/inspec/pull/3543) ([tas50](https://github.com/tas50))
+- Allow end of options during Thor array parsing [#3547](https://github.com/inspec/inspec/pull/3547) ([jquick](https://github.com/jquick))
+- Pin to train 1.5.6 [#3568](https://github.com/inspec/inspec/pull/3568) ([jquick](https://github.com/jquick))
+- bump expeditor version [#3569](https://github.com/inspec/inspec/pull/3569) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v3.0.12](https://github.com/inspec/inspec/tree/v3.0.12) (2018-10-24)
 
 #### New Resources
@@ -36,7 +34,6 @@
 
 #### Merged Pull Requests
 - Add inspec/train vault to plugin exclusion [#3532](https://github.com/inspec/inspec/pull/3532) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v3.0.9](https://github.com/inspec/inspec/tree/v3.0.9) (2018-10-18)
 
