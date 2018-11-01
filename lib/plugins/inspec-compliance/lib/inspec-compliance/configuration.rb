@@ -5,7 +5,7 @@ module InspecPlugins
     # stores configuration on local filesystem
     class Configuration
       def initialize
-        @config_path = File.join(Dir.home, '.inspec', 'compliance')
+        @config_path = File.join(Inspec.config_dir, 'compliance')
         # ensure the directory is available
         unless File.directory?(@config_path)
           FileUtils.mkdir_p(@config_path)
