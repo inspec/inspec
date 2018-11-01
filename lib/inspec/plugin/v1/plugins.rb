@@ -34,7 +34,7 @@ module Inspec
       @paths += Dir[lib_home+'/inspec-*-*/lib/inspec-*rb']
 
       # traverse out of inspec-vX.Y.Z/lib/inspec/plugins.rb
-      @home = home || File.join(Dir.home, '.inspec', 'plugins')
+      @home = home || File.join(Inspec.config_dir, 'plugins')
       @paths += Dir[File.join(@home, '**{,/*/**}', '*.gemspec')]
                 .map { |x| File.dirname(x) }
                 .map { |x| Dir[File.join(x, 'lib', 'inspec-*.rb')] }
