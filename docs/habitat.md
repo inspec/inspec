@@ -128,7 +128,7 @@ $ habitat profile create ~/profiles/frontend1
 Create a Habitat directory that includes a plan file, config hooks, and more in a profile directory.
 
 This is the same process that is used by `inspec habitat profile create` - but this adds the generated Habitat
- directory and file to your system so that you can commit them to source control. If you commit these files to Github, you can connect that plan to the [https://www.habitat.sh/docs/using-builder/](Habitat Builder Service).
+ directory and file to your system so that you can commit them to source control. If you commit these files to GitHub, you can connect that plan to the [Habitat Builder Service](https://www.habitat.sh/docs/using-builder/).
 
 #### Syntax
 
