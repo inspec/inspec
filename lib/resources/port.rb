@@ -66,7 +66,7 @@ module Inspec::Resources
         LsofPorts.new(inspec)
       elsif os.windows?
         WindowsPorts.new(inspec)
-      elsif ['freebsd'].include?(os[:family])
+      elsif ['bsd'].include?(os[:family])
         FreeBsdPorts.new(inspec)
       elsif os.solaris?
         SolarisPorts.new(inspec)
