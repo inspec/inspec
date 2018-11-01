@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.18 -->
-## [v3.0.18](https://github.com/inspec/inspec/tree/v3.0.18) (2018-11-01)
+<!-- latest_release 3.0.19 -->
+## [v3.0.19](https://github.com/inspec/inspec/tree/v3.0.19) (2018-11-01)
 
-#### Merged Pull Requests
-- Pin to train 1.5.6 [#3568](https://github.com/inspec/inspec/pull/3568) ([jquick](https://github.com/jquick))
+#### Bug Fixes
+- Change usage of `Dir.home` to `Inspec.config_dir` [#3567](https://github.com/inspec/inspec/pull/3567) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.12 -->
 ### Changes since 3.0.12 release
+
+#### Bug Fixes
+- Change usage of `Dir.home` to `Inspec.config_dir` [#3567](https://github.com/inspec/inspec/pull/3567) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.19 -->
 
 #### Enhancements
 - Allow help args after Thor commands [#3553](https://github.com/inspec/inspec/pull/3553) ([jquick](https://github.com/jquick)) <!-- 3.0.17 -->
