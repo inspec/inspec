@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.16 -->
-## [v3.0.16](https://github.com/inspec/inspec/tree/v3.0.16) (2018-10-30)
+<!-- latest_release 3.0.17 -->
+## [v3.0.17](https://github.com/inspec/inspec/tree/v3.0.17) (2018-11-01)
 
-#### Merged Pull Requests
-- Allow end of options during Thor array parsing [#3547](https://github.com/inspec/inspec/pull/3547) ([jquick](https://github.com/jquick))
+#### Enhancements
+- Allow help args after Thor commands [#3553](https://github.com/inspec/inspec/pull/3553) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.12 -->
 ### Changes since 3.0.12 release
 
 #### Enhancements
+- Allow help args after Thor commands [#3553](https://github.com/inspec/inspec/pull/3553) ([jquick](https://github.com/jquick)) <!-- 3.0.17 -->
 - ✓ adds additional checks for vendored profiles [#3362](https://github.com/inspec/inspec/pull/3362) ([chris-rock](https://github.com/chris-rock)) <!-- 3.0.14 -->
 
 #### Merged Pull Requests
