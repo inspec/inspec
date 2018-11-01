@@ -52,6 +52,27 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     File.stat("#{outpath}/foo/bar/test.json").size.must_be :>, 0
   end
 
+  it 'can execute --help after exec command' do
+    out = inspec("exec --help")
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 0
+    out.stdout.must_include "Usage:\n  inspec exec PATHS"
+  end
+
+  it 'can execute help after exec command' do
+    out = inspec("exec help")
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 0
+    out.stdout.must_include "Usage:\n  inspec exec PATHS"
+  end
+
+  it 'can execute help before exec command' do
+    out = inspec("help exec")
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 0
+    out.stdout.must_include "Usage:\n  inspec exec PATHS"
+  end
+
   it 'can execute the profile with a target_id passthrough' do
     outpath = Dir.tmpdir
     out = inspec("exec #{example_profile} --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444")

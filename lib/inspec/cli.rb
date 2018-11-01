@@ -293,6 +293,17 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 end
 
 begin
+  # Handle help commands
+  # This allows you to use any of the normal help commands after the normal args.
+  help_commands = ['-h', '--help', 'help']
+  (help_commands & ARGV).each do |cmd|
+    # move the help argument to one place behind the end for Thor to digest
+    if ARGV.size > 1
+      match = ARGV.delete(cmd)
+      ARGV.insert(-2, match)
+    end
+  end
+
   # Load v2 plugins
   v2_loader = Inspec::Plugin::V2::Loader.new
   v2_loader.load_all
