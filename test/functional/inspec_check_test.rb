@@ -105,7 +105,7 @@ describe 'inspec check' do
         json_result['errors'][0]['control_id'].must_equal 'dupe-01' # Find the right control
         json_result['errors'][0]['msg'].must_include 'is duplicated in profile dupe-controls' # The kernel of the error message
         json_result['errors'][0]['msg'].must_include 'clobbered by' # And we tell you that is was overwritten
-        json_result['errors'][0]['msg'].must_include 'duplicates.rb:12' # And we tell you what overwrote it
+        json_result['errors'][0]['msg'].must_include 'duplicates.rb:14' # And we tell you what overwrote it
       end
     end
 
@@ -115,7 +115,6 @@ describe 'inspec check' do
         run_result = inspec('check ' + dupe_profile + ' --format json')
         run_result.exit_status.must_equal 0
         run_result.stderr.must_be_empty
-        run_result.stdout.must_be_empty # only in place to trigger output in travisci
         json_result = JSON.parse(run_result.stdout)
 
         # Must detect no errors
