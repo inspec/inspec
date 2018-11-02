@@ -1,0 +1,17 @@
+{
+  "plugins_config_version" : "1.0.0",
+  "plugins": [
+    {
+      "name": "inspec-test-fixture-00"
+    },
+    {
+      "installation_type": "gem",
+      "version": "0.2.0"
+    },
+    {
+      "name": "inspec-test-fixture-03",
+      "installation_type": "path",
+      "installation_path": "/somewhere/on/disk/lib/entrypoint.rb"
+    }
+  ]
+}
