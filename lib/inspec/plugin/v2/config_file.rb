@@ -60,6 +60,11 @@ module Inspec::Plugin::V2
       @data[:plugins].delete_if { |entry| entry[:name] == name.to_sym }
     end
 
+    # Save the file to disk as a JSON structure at the path.
+    def save
+      File.write(path, JSON.pretty_generate(@data))
+    end
+
     private
     def blank_structure
       {

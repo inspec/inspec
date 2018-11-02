@@ -1,8 +1,6 @@
 require 'minitest/spec'
 require 'minitest/autorun'
-require 'json'
 require 'tmpdir'
-require 'byebug'
 require_relative '../../../../lib/inspec/plugin/v2'
 
 # This file relies on setting environment variables for some
@@ -314,16 +312,43 @@ describe 'Inspec::Plugin::V2::ConfigFile' do
     end
 
     describe 'writing the file' do
+      let(:fixture_name) { 'unused' }
+
       describe 'when the file does not exist' do
-        let(:fixture_name) { '' }
         it 'is created' do
-          skip
+          Dir.mktmpdir do |tmp_dir|
+            path = File.join(tmp_dir, 'plugins.json')
+            File.exist?(path).must_equal false
+            cfo_writer = Inspec::Plugin::V2::ConfigFile.new(path)
+            cfo_writer.add_entry(name: :'inspec-resource-lister')
+            cfo_writer.save
+
+            File.exist?(path).must_equal true
+            cfo_reader = Inspec::Plugin::V2::ConfigFile.new(path)
+            cfo_reader.existing_entry?(:'inspec-resource-lister').must_equal true
+          end
         end
       end
+
       describe 'when the file does exist' do
-        let(:fixture_name) { '' }
         it 'is overwritten' do
-          skip
+          Dir.mktmpdir do |tmp_dir|
+            path = File.join(tmp_dir, 'plugins.json')
+            cfo_writer = Inspec::Plugin::V2::ConfigFile.new(path)
+            cfo_writer.add_entry(name: :'inspec-resource-lister')
+            cfo_writer.save
+
+            File.exist?(path).must_equal true
+
+            cfo_modifier = Inspec::Plugin::V2::ConfigFile.new(path)
+            cfo_modifier.remove_entry(:'inspec-resource-lister')
+            cfo_modifier.add_entry(name: :'inspec-test-fixture')
+            cfo_modifier.save
+
+            cfo_reader = Inspec::Plugin::V2::ConfigFile.new(path)
+            cfo_reader.existing_entry?(:'inspec-resource-lister').must_equal false
+            cfo_reader.existing_entry?(:'inspec-test-fixture').must_equal true
+          end
         end
       end
     end
