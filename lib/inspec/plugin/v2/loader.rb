@@ -1,5 +1,5 @@
-require 'json'
 require 'inspec/log'
+require 'inspec/plugin/v2/config_file'
 
 # Add the current directory of the process to the load path
 $LOAD_PATH.unshift('.') unless $LOAD_PATH.include?('.')
@@ -9,13 +9,13 @@ $LOAD_PATH.unshift(folder) unless $LOAD_PATH.include?('folder')
 
 module Inspec::Plugin::V2
   class Loader
-    attr_reader :registry, :options
+    attr_reader :conf_file, :registry, :options
 
     def initialize(options = {})
       @options = options
       @registry = Inspec::Plugin::V2::Registry.instance
-      read_conf_file
-      unpack_conf_file
+      @conf_file = Inspec::Plugin::V2::ConfigFile.new
+      read_conf_file_into_registry
 
       # Old-style (v0, v1) co-distributed plugins were called 'bundles'
       # and were located in lib/bundles
@@ -157,16 +157,6 @@ module Inspec::Plugin::V2
       self.class.list_managed_gems
     end
 
-    # TODO: refactor the plugin.json file to have its own class, which Loader consumes
-    def plugin_conf_file_path
-      self.class.plugin_conf_file_path
-    end
-
-    # TODO: refactor the plugin.json file to have its own class, which Loader consumes
-    def self.plugin_conf_file_path
-      File.join(Inspec.config_dir, 'plugins.json')
-    end
-
     private
 
     # 'Activating' a gem adds it to the load path, so 'require "gemname"' will work.
@@ -271,70 +261,21 @@ module Inspec::Plugin::V2
       end
     end
 
-    # TODO: DRY up re: Installer read_or_init_config_file
-    # TODO: refactor the plugin.json file to have its own class, which Loader consumes
-    def read_conf_file
-      if File.exist?(plugin_conf_file_path)
-        @plugin_file_contents = JSON.parse(File.read(plugin_conf_file_path))
-      else
-        @plugin_file_contents = {
-          'plugins_config_version' => '1.0.0',
-          'plugins' => [],
-        }
-      end
-    rescue JSON::ParserError => e
-      raise Inspec::Plugin::V2::ConfigError, "Failed to load plugins JSON configuration from #{plugin_conf_file_path}:\n#{e}"
-    end
-
-    # TODO: refactor the plugin.json file to have its own class, which Loader consumes
-    def unpack_conf_file
-      validate_conf_file
-      @plugin_file_contents['plugins'].each do |plugin_json|
+    def read_conf_file_into_registry
+      conf_file.each do |plugin_entry|
         status = Inspec::Plugin::V2::Status.new
-        status.name = plugin_json['name'].to_sym
+        status.name = plugin_entry[:name]
         status.loaded = false
-        status.installation_type = (plugin_json['installation_type'] || :gem).to_sym
+        status.installation_type = (plugin_entry[:installation_type] || :gem)
         case status.installation_type
         when :gem
           status.entry_point = status.name.to_s
-          status.version = plugin_json['version']
+          status.version = plugin_entry[:version]
         when :path
-          status.entry_point = plugin_json['installation_path']
+          status.entry_point = plugin_entry[:installation_path]
         end
 
         registry[status.name] = status
-      end
-    end
-
-    # TODO: refactor the plugin.json file to have its own class, which Loader consumes
-    def validate_conf_file
-      unless @plugin_file_contents['plugins_config_version'] == '1.0.0'
-        raise Inspec::Plugin::V2::ConfigError, "Unsupported plugins.json file version #{@plugin_file_contents['plugins_config_version']} at #{plugin_conf_file_path} - currently support versions: 1.0.0"
-      end
-
-      plugin_entries = @plugin_file_contents['plugins']
-      unless plugin_entries.is_a?(Array)
-        raise Inspec::Plugin::V2::ConfigError, "Malformed plugins.json file - should have a top-level key named 'plugins', whose value is an array"
-      end
-
-      plugin_entries.each do |plugin_entry|
-        unless plugin_entry.is_a? Hash
-          raise Inspec::Plugin::V2::ConfigError, "Malformed plugins.json file - each 'plugins' entry should be a Hash / JSON object"
-        end
-
-        unless plugin_entry.key? 'name'
-          raise Inspec::Plugin::V2::ConfigError, "Malformed plugins.json file - each 'plugins' entry must have a 'name' field"
-        end
-
-        next unless plugin_entry.key?('installation_type')
-        unless %w{gem path}.include? plugin_entry['installation_type']
-          raise Inspec::Plugin::V2::ConfigError, "Malformed plugins.json file - each 'installation_type' must be one of 'gem' or 'path'"
-        end
-
-        next unless plugin_entry['installation_type'] == 'path'
-        unless plugin_entry.key?('installation_path')
-          raise Inspec::Plugin::V2::ConfigError, "Malformed plugins.json file - each 'plugins' entry with a 'path' installation_type must provide an 'installation_path' field"
-        end
       end
     end
   end
