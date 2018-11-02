@@ -80,8 +80,27 @@ describe 'Inspec::Plugin::V2::ConfigFile' do
     end
 
     describe 'when the file is valid' do
-      it 'can list plugins' do
-        skip
+      let(:fixture_name) { 'basic' }
+      it 'can count plugins' do
+        config_file_obj.count.must_equal 3
+      end
+      it 'can look up plugins by name with a String' do
+        config_file_obj.plugin_by_name('inspec-test-fixture-01').wont_be_nil
+        config_file_obj.plugin_by_name('inspec-test-fixture-99').must_be_nil
+      end
+      it 'can look up plugins by name with a Symbol' do
+        config_file_obj.plugin_by_name(:'inspec-test-fixture-01').wont_be_nil
+        config_file_obj.plugin_by_name(:'inspec-test-fixture-99').must_be_nil
+      end
+      it 'symbolizes the keys of the entries' do
+        config_file_obj.each do |entry|
+          entry.keys.each do |key|
+            key.must_be_kind_of(Symbol)
+          end
+        end
+      end
+      it 'implements Enumerable' do
+        config_file_obj.select { |entry| entry[:name].to_s.start_with?('inspec-test-fixture') }.count.must_equal 3
       end
     end
 
@@ -138,7 +157,7 @@ describe 'Inspec::Plugin::V2::ConfigFile' do
         end
       end
 
-      describe 'because a it contains duplicate plugin entries' do
+      describe 'because it contains duplicate plugin entries' do
         let(:fixture_name) { 'entry_duplicate' }
         it 'throws an exception' do
           ex = assert_raises(Inspec::Plugin::V2::ConfigError) { config_file_obj }
@@ -184,34 +203,70 @@ describe 'Inspec::Plugin::V2::ConfigFile' do
 
   describe 'modifying the conf file' do
     describe 'adding an entry' do
+      let(:fixture_name) { 'no_plugins' }
+
       describe 'when the conf is empty' do
-        let(:fixture_name) { 'no_plugins' }
         it 'should add one valid entry' do
-          skip
+          config_file_obj.count.must_equal 0
+          config_file_obj.add_entry(name: 'inspec-test-fixture')
+          config_file_obj.count.must_equal 1
+          config_file_obj.plugin_by_name(:'inspec-test-fixture').wont_be_nil
         end
       end
+
       describe 'when the conf has entries' do
-        let(:fixture_name) { '' }
+        let(:fixture_name) { 'basic' }
         it 'should append one valid entry' do
-          skip
+          config_file_obj.count.must_equal 3
+          config_file_obj.add_entry(name: 'inspec-test-fixture-03')
+          config_file_obj.count.must_equal 4
+          config_file_obj.plugin_by_name(:'inspec-test-fixture-03').wont_be_nil
         end
       end
-      describe 'adding a gem entry' do
-        let(:fixture_name) { '' }
+
+      describe 'when adding a gem entry' do
         it 'should add a gem entry' do
-          skip
+          config_file_obj.add_entry(
+            name: 'inspec-test-fixture-03',
+            installation_type: :gem,
+          )
+          entry = config_file_obj.plugin_by_name(:'inspec-test-fixture-03')
+          entry.wont_be_nil
+          entry[:installation_type].must_equal :gem
         end
       end
-      describe 'adding a path entry' do
-        let(:fixture_name) { '' }
+
+      describe 'when adding a path entry' do
         it 'should add a path entry' do
-          skip
+          config_file_obj.add_entry(
+            name: 'inspec-test-fixture-03',
+            installation_type: :path,
+            installation_path: '/my/path.rb',
+          )
+          entry = config_file_obj.plugin_by_name(:'inspec-test-fixture-03')
+          entry.wont_be_nil
+          entry[:installation_type].must_equal :path
+          entry[:installation_path].must_equal '/my/path.rb'
         end
       end
-      describe 'adding a duplicate plugin name' do
-        let(:fixture_name) { '' }
+
+      describe 'when adding a duplicate plugin name' do
+        let(:fixture_name) { 'basic' }
         it 'should throw an exception' do
-          skip
+          assert_raises(Inspec::Plugin::V2::ConfigError) { config_file_obj.add_entry(name: 'inspec-test-fixture-02') }
+        end
+      end
+
+      describe 'when adding an invalid entry' do
+        it 'should throw an exception' do
+          [
+            { name: 'inspec-test-fixture', installation_type: :path },
+            {                                 installation_type: :gem },
+            { name: 'inspec-test-fixture', installation_type: :invalid },
+            { 'name' => 'inspec-test-fixture' },
+          ].each do |proposed_entry|
+            assert_raises(Inspec::Plugin::V2::ConfigError) { config_file_obj.add_entry(proposed_entry) }
+          end
         end
       end
     end

@@ -10,7 +10,7 @@
       "version": "0.2.0"
     },
     {
-      "name": "inspec-test-fixture-03",
+      "name": "inspec-test-fixture-02",
       "installation_type": "path",
       "installation_path": "/somewhere/on/disk/lib/entrypoint.rb"
     }
