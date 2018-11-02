@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 3.0.26 -->
+## [v3.0.26](https://github.com/inspec/inspec/tree/v3.0.26) (2018-11-02)
+
+#### Merged Pull Requests
+- Fix functional tests issues with vendoring [#3572](https://github.com/inspec/inspec/pull/3572) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.0.25 -->
+### Changes since 3.0.25 release
+
+#### Merged Pull Requests
+- Fix functional tests issues with vendoring [#3572](https://github.com/inspec/inspec/pull/3572) ([jquick](https://github.com/jquick)) <!-- 3.0.26 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
