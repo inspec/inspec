@@ -114,6 +114,8 @@ describe 'inspec check' do
         dupe_profile = File.join(profile_path, 'dupe-controls', 'wrapper-simple-include')
         run_result = inspec('check ' + dupe_profile + ' --format json')
         run_result.exit_status.must_equal 0
+        run_result.stderr.must_be_empty
+        run_result.stdout.must_be_empty # only in place to trigger output in travisci
         json_result = JSON.parse(run_result.stdout)
 
         # Must detect no errors
@@ -125,8 +127,6 @@ describe 'inspec check' do
       it 'should not detect a duplicate control' do
         dupe_profile = File.join(profile_path, 'dupe-controls', 'wrapper-block-include')
         run_result = inspec('check ' + dupe_profile + ' --format json')
-        run_result.stderr.must_be_empty
-        run_result.stdout.must_be_empty # only in place to trigger output in travisci
         json_result = JSON.parse(run_result.stdout)
         run_result.exit_status.must_equal 0
 
