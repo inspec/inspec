@@ -125,8 +125,9 @@ describe 'inspec check' do
       it 'should not detect a duplicate control' do
         dupe_profile = File.join(profile_path, 'dupe-controls', 'wrapper-block-include')
         run_result = inspec('check ' + dupe_profile + ' --format json')
-        run_result.exit_status.must_equal 0
+        run_result.stderr.must_be_empty
         json_result = JSON.parse(run_result.stdout)
+        run_result.exit_status.must_equal 0
 
         # Must detect no errors
         json_result['errors'].count.must_equal 0
