@@ -24,6 +24,7 @@ module Inspec
 end
 
 require 'inspec/globals'
+require 'inspec/plugin/v2/config_file'
 require 'inspec/plugin/v2/registry'
 require 'inspec/plugin/v2/loader'
 require 'inspec/plugin/v2/plugin_base'
