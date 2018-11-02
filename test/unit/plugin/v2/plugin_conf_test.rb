@@ -330,6 +330,22 @@ describe 'Inspec::Plugin::V2::ConfigFile' do
         end
       end
 
+      describe 'when the directory does not exist' do
+        it 'is created' do
+          Dir.mktmpdir do |tmp_dir|
+            path = File.join(tmp_dir, 'subdir', 'plugins.json')
+            File.exist?(path).must_equal false
+            cfo_writer = Inspec::Plugin::V2::ConfigFile.new(path)
+            cfo_writer.add_entry(name: :'inspec-resource-lister')
+            cfo_writer.save
+
+            File.exist?(path).must_equal true
+            cfo_reader = Inspec::Plugin::V2::ConfigFile.new(path)
+            cfo_reader.existing_entry?(:'inspec-resource-lister').must_equal true
+          end
+        end
+      end
+
       describe 'when the file does exist' do
         it 'is overwritten' do
           Dir.mktmpdir do |tmp_dir|

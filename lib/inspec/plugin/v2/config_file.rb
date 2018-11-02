@@ -62,6 +62,8 @@ module Inspec::Plugin::V2
 
     # Save the file to disk as a JSON structure at the path.
     def save
+      dir = File.dirname(path)
+      FileUtils.mkdir_p(dir)
       File.write(path, JSON.pretty_generate(@data))
     end
 

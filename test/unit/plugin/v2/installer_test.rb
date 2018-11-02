@@ -56,8 +56,6 @@ module InstallerTestHelpers
 
     # Clean up any activated gems
     Gem.loaded_specs.delete('inspec-test-fixture')
-
-    # TODO: may need to edit the $LOAD_PATH, if it turns out that we need to "deactivate" gems after installation
   end
 end
 
@@ -141,18 +139,10 @@ class PluginInstallerInstallationTests < MiniTest::Test
     # Should now be present in plugin.json
     plugin_json_path = File.join(ENV['INSPEC_CONFIG_DIR'], 'plugins.json')
     assert File.exist?(plugin_json_path), 'plugins.json should now exist'
-    plugin_json_data = JSON.parse(File.read(plugin_json_path))
+    config_file = Inspec::Plugin::V2::ConfigFile.new(plugin_json_path)
 
-    assert_includes plugin_json_data.keys, 'plugins_config_version'
-    assert_equal '1.0.0', plugin_json_data['plugins_config_version'], 'Plugin config version should ve initted to 1.0.0'
-    assert_includes plugin_json_data.keys, 'plugins'
-    assert_kind_of Array, plugin_json_data['plugins']
-    assert_equal 1, plugin_json_data['plugins'].count, 'plugins.json should have one entry'
-    entry = plugin_json_data['plugins'].first
-    assert_kind_of Hash, entry
-    assert_includes entry.keys, 'name'
-    assert_equal 'inspec-test-fixture', entry['name']
-    # TODO: any other fields to check? gem version?
+    assert_equal 1, config_file.count, 'plugins.json should have one entry'
+    assert config_file.existing_entry?(:'inspec-test-fixture')
   end
 
   def test_install_a_gem_from_rubygems_org
@@ -196,11 +186,10 @@ class PluginInstallerInstallationTests < MiniTest::Test
     spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.2.0.gemspec')
     refute File.exist?(spec_path), 'After pinned installation from rubygems.org, the wrong gemspec version should be absent'
 
-    plugin_json_path = File.join(ENV['INSPEC_CONFIG_DIR'], 'plugins.json')
-    plugin_json_data = JSON.parse(File.read(plugin_json_path))
-    entry = plugin_json_data['plugins'].detect { |e| e["name"] == 'inspec-test-fixture'}
-    assert_includes entry.keys, 'version', 'plugins.json should include version pinning key'
-    assert_equal '= 0.1.0', entry['version'], 'plugins.json should include version pinning value'
+    config_file = Inspec::Plugin::V2::ConfigFile.new
+    entry = config_file.plugin_by_name(:'inspec-test-fixture')
+    assert_includes entry.keys, :version, 'plugins.json should include version pinning key'
+    assert_equal '= 0.1.0', entry[:version], 'plugins.json should include version pinning value'
   end
 
   def test_install_a_gem_with_conflicting_depends_from_rubygems_org
@@ -230,14 +219,13 @@ class PluginInstallerInstallationTests < MiniTest::Test
     specs = Dir.glob(File.join(@installer.gem_path, 'specifications', '*.gemspec'))
     assert_empty specs, 'After install-from-path, no gemspecs should be installed'
 
-    plugin_json_path = File.join(ENV['INSPEC_CONFIG_DIR'], 'plugins.json')
-    plugin_json_data = JSON.parse(File.read(plugin_json_path))
-    entry = plugin_json_data['plugins'].detect { |e| e["name"] == 'inspec-test-fixture'}
-    assert_includes entry.keys, 'installation_type', 'plugins.json should include installation_type key'
-    assert_equal 'path', entry['installation_type'], 'plugins.json should include path installation_type'
+    config_file = Inspec::Plugin::V2::ConfigFile.new
+    entry = config_file.plugin_by_name(:'inspec-test-fixture')
+    assert_includes entry.keys, :installation_type, 'plugins.json should include installation_type key'
+    assert_equal :path, entry[:installation_type], 'plugins.json should include path installation_type'
 
-    assert_includes entry.keys, 'installation_path', 'plugins.json should include installation_path key'
-    assert_equal @plugin_fixture_src_path, entry['installation_path'], 'plugins.json should include correct value for installation path'
+    assert_includes entry.keys, :installation_path, 'plugins.json should include installation_path key'
+    assert_equal @plugin_fixture_src_path, entry[:installation_path], 'plugins.json should include correct value for installation path'
   end
 
   def test_refuse_to_install_gem_whose_name_is_on_the_reject_list
@@ -335,11 +323,10 @@ class PluginInstallerUpdaterTests < MiniTest::Test
     assert File.exist?(spec_path), 'After update, the 0.1.0 gemspec should remain'
 
     # Plugins file entry should be version pinned
-    plugin_json_path = File.join(ENV['INSPEC_CONFIG_DIR'], 'plugins.json')
-    plugin_json_data = JSON.parse(File.read(plugin_json_path))
-    entry = plugin_json_data['plugins'].detect { |e| e["name"] == 'inspec-test-fixture'}
-    assert_includes entry.keys, 'version', 'plugins.json should include version pinning key'
-    assert_equal '= 0.2.0', entry['version'], 'plugins.json should include version pinning value'
+    config_file = Inspec::Plugin::V2::ConfigFile.new
+    entry = config_file.plugin_by_name(:'inspec-test-fixture')
+    assert_includes entry.keys, :version, 'plugins.json should include version pinning key'
+    assert_equal '= 0.2.0', entry[:version], 'plugins.json should include version pinning value'
   end
 
   # TODO: Prevent updating a gem if it will lead to unsolveable dependencies
@@ -407,10 +394,8 @@ class PluginInstallerUninstallTests < MiniTest::Test
     assert_raises(Gem::UnsatisfiableDependencyError) { request_set.resolve(universe_set) }
 
     # Plugins file entry should be removed
-    plugin_json_path = File.join(ENV['INSPEC_CONFIG_DIR'], 'plugins.json')
-    plugin_json_data = JSON.parse(File.read(plugin_json_path))
-    entries = plugin_json_data['plugins'].select { |e| e["name"] == 'inspec-test-fixture'}
-    assert_empty entries, "After gem-based uninstall, plugin name should be removed from plugins.json"
+    config_file = Inspec::Plugin::V2::ConfigFile.new
+    refute config_file.existing_entry?(:'inspec-test-fixture'), "After gem-based uninstall, plugin name should be removed from plugins.json"
   end
 
   def test_uninstall_a_gem_plugin_removes_deps

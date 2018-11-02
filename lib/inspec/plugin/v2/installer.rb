@@ -24,7 +24,7 @@ module Inspec::Plugin::V2
 
     Gem.configuration['verbose'] = false
 
-    attr_reader :loader, :registry
+    attr_reader :conf_file, :loader, :registry
     def_delegator :loader, :plugin_gem_path, :gem_path
     def_delegator :loader, :plugin_conf_file_path
     def_delegator :loader, :list_managed_gems
@@ -459,45 +459,25 @@ module Inspec::Plugin::V2
     #===================================================================#
     #                 plugins.json Maintenance Methods                  #
     #===================================================================#
-
-    # TODO: refactor the plugin.json file to have its own class, which Installer consumes
     def update_plugin_config_file(plugin_name, opts)
-      config = update_plugin_config_data(plugin_name, opts)
-      FileUtils.mkdir_p(Inspec.config_dir)
-      File.write(plugin_conf_file_path, JSON.pretty_generate(config))
-    end
+      # Be careful no to initialize this until just before we write.
+      # Under testing, ENV['INSPEC_CONFIG_DIR'] may have changed.
+      @conf_file = Inspec::Plugin::V2::ConfigFile.new
 
-    # TODO: refactor the plugin.json file to have its own class, which Installer consumes
-    def update_plugin_config_data(plugin_name, opts)
-      config = read_or_init_config_data
-      config['plugins'].delete_if { |entry| entry['name'] == plugin_name }
-      return config if opts[:action] == :uninstall
-
-      entry = { 'name' => plugin_name }
-
-      # Parsing by Requirement handles lot of awkward formattoes
-      entry['version'] = Gem::Requirement.new(opts[:version]).to_s if opts.key?(:version)
-
-      if opts.key?(:path)
-        entry['installation_type'] = 'path'
-        entry['installation_path'] = opts[:path]
+      # Remove, then optionally rebuild, the entry for the plugin being modified.
+      conf_file.remove_entry(plugin_name) if conf_file.existing_entry?(plugin_name)
+      unless opts[:action] == :uninstall
+        entry = { name: plugin_name }
+        # Parsing by Requirement handles lot of awkward formattoes
+        entry[:version] = Gem::Requirement.new(opts[:version]).to_s if opts.key?(:version)
+        if opts.key?(:path)
+          entry[:installation_type] = :path
+          entry[:installation_path] = opts[:path]
+        end
+        conf_file.add_entry(entry)
       end
 
-      config['plugins'] << entry
-      config
-    end
-
-    # TODO: check for validity
-    # TODO: refactor the plugin.json file to have its own class, which Installer consumes
-    def read_or_init_config_data
-      if File.exist?(plugin_conf_file_path)
-        JSON.parse(File.read(plugin_conf_file_path))
-      else
-        {
-          'plugins_config_version' => '1.0.0',
-          'plugins' => [],
-        }
-      end
+      conf_file.save
     end
   end
 end
