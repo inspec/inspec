@@ -518,10 +518,43 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
   describe 'when using a profile that calls .should explicitly' do
     let(:run_result) { inspec('exec ' + File.join(profile_path, 'rspec-should-deprecation')) }
     it 'should suppress the RSpec deprecation warning' do
-      # Refs inspec github issue 952
+      # See: https://github.com/inspec/inspec/issues/952
       run_result.exit_status.must_equal 0
       run_result.stderr.must_be_empty
       run_result.stdout.wont_include('1 deprecation warning total')
+    end
+  end
+
+  describe 'when targeting private GitHub profiles' do
+    let(:private_profile) {
+      URI.parse('https://github.com/chef/inspec-test-profile-private.git')
+    }
+
+    # This tests requires that a private SSH key be provided for a user that has
+    # access to the private profile repo
+    if ENV['INSPEC_TEST_SSH_KEY_PATH']
+      it 'can use SSH + Git' do
+        target = 'git@' + private_profile.host + ':' + private_profile.path
+        ssh_prefix = 'GIT_SSH_COMMAND="ssh -i ' +
+                     ENV['INSPEC_TEST_SSH_KEY_PATH'] +
+                     '"'
+        inspec_command = 'exec ' + target + ' --reporter json-min'
+        out = inspec(inspec_command, ssh_prefix)
+        JSON.parse(out.stdout)['controls'][0]['status'].must_equal 'passed'
+        out.exit_status.must_equal 0
+      end
+    end
+
+    # This tests requires that a GitHub API token be provided for a user that
+    # has access to the private profile repo
+    if ENV['INSPEC_TEST_GITHUB_TOKEN']
+      it 'can use HTTPS + token + Git' do
+        private_profile.userinfo = ENV['INSPEC_TEST_GITHUB_TOKEN']
+        inspec_command = 'exec ' + private_profile.to_s + ' --reporter json-min'
+        out = inspec(inspec_command)
+        JSON.parse(out.stdout)['controls'][0]['status'].must_equal 'passed'
+        out.exit_status.must_equal 0
+      end
     end
   end
 end
