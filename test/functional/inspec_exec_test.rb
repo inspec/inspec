@@ -153,14 +153,6 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
   it 'does not vendor profiles when using the a local path dependecy' do
     Dir.mktmpdir do |tmpdir|
-      # Other commands (e.g. vendor) might create a vendor directory on this
-      # shared profile during functional testing. We remove `vendor/` here if
-      # it exists to avoid surprises when checking cache contents later.
-      vendor_dir = File.join(inheritance_profile, 'vendor')
-      FileUtils.remove_dir(vendor_dir) if File.exist?(vendor_dir)
-      lock_file = File.join(inheritance_profile, 'inspec.lock')
-      File.delete(lock_file) if File.exist?(lock_file)
-
       command = 'exec ' + inheritance_profile + ' --no-create-lockfile'
       out = inspec_with_env(command, INSPEC_CONFIG_DIR: tmpdir)
       out.stderr.must_equal ''

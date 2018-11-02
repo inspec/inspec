@@ -5,8 +5,6 @@ require 'tmpdir'
 
 describe 'example inheritance profile' do
   include FunctionalHelper
-  let(:inheritance_path) { File.join(examples_path, 'inheritance') }
-  let(:meta_path) { File.join(examples_path, 'meta-profile') }
 
   it 'can vendor profile dependencies' do
     prepare_examples('inheritance') do |dir|
