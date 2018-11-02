@@ -51,7 +51,7 @@ describe Inspec::Profile do
   describe 'code info' do
     let(:profile_path) { 'complete-profile' } # Id is 'complete'
     let(:code) { "control 'test01' do\n  impact 0.5\n  title 'Catchy title'\n  desc '\n    example.com should always exist.\n  '\n  describe host('example.com') do\n    it { should be_resolvable }\n  end\nend\n" }
-    let(:loc) { {:ref=>"controls/host_spec.rb", :line=>6, :profile_id => 'complete' } }
+    let(:loc) { {:ref=>"controls/host_spec.rb", :line=>6, :profile_id => 'complete', :in_include => false } }
 
     it 'gets code from an uncompressed profile' do
       info = MockLoader.load_profile(profile_path).info
