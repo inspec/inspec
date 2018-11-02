@@ -104,6 +104,9 @@ describe 'Inspec::Plugin::V2::ConfigFile' do
       end
     end
 
+    #----------------------------------------------------------#
+    #                     Validation
+    #----------------------------------------------------------#
     describe 'when the file is invalid' do
 
       describe 'because the file version is wrong' do
@@ -202,6 +205,9 @@ describe 'Inspec::Plugin::V2::ConfigFile' do
   end
 
   describe 'modifying the conf file' do
+    #----------------------------------------------------------#
+    #                     Adding Entries
+    #----------------------------------------------------------#
     describe 'adding an entry' do
       let(:fixture_name) { 'no_plugins' }
 
@@ -271,17 +277,38 @@ describe 'Inspec::Plugin::V2::ConfigFile' do
       end
     end
 
+    #----------------------------------------------------------#
+    #                     Removing Entries
+    #----------------------------------------------------------#
     describe 'removing an entry' do
+      let(:fixture_name) { 'basic' }
+
       describe 'when the entry exists' do
-        let(:fixture_name) { '' }
-        it 'should remove the entry' do
-          skip
+        it 'should remove the entry by symbol name' do
+          config_file_obj.count.must_equal 3
+          config_file_obj.plugin_by_name(:'inspec-test-fixture-01').wont_be_nil
+          config_file_obj.remove_entry(:'inspec-test-fixture-01')
+          config_file_obj.count.must_equal 2
+          config_file_obj.plugin_by_name(:'inspec-test-fixture-01').must_be_nil
+        end
+        it 'should remove the entry by String name' do
+          config_file_obj.count.must_equal 3
+          config_file_obj.plugin_by_name('inspec-test-fixture-01').wont_be_nil
+          config_file_obj.remove_entry('inspec-test-fixture-01')
+          config_file_obj.count.must_equal 2
+          config_file_obj.plugin_by_name('inspec-test-fixture-01').must_be_nil
         end
       end
+
       describe 'when the entry does not exist' do
-        let(:fixture_name) { '' }
-        it 'should do nothing' do
-          skip
+        let(:fixture_name) { 'basic' }
+        it 'should throw an exception' do
+          config_file_obj.count.must_equal 3
+          config_file_obj.plugin_by_name(:'inspec-test-fixture-99').must_be_nil
+          ex = assert_raises(Inspec::Plugin::V2::ConfigError) { config_file_obj.remove_entry(:'inspec-test-fixture-99') }
+          ex.message.must_include 'No such entry'
+          ex.message.must_include 'inspec-test-fixture-99'
+          config_file_obj.count.must_equal 3
         end
       end
     end

@@ -32,6 +32,11 @@ module Inspec::Plugin::V2
       detect { |entry| entry[:name] == name.to_sym }
     end
 
+    # Check for a plugin
+    def existing_entry?(name)
+      !plugin_by_name(name).nil?
+    end
+
     # Add an entry with full validation.
     def add_entry(proposed_entry)
       unless proposed_entry.keys.all? { |field| field.is_a? Symbol }
@@ -40,11 +45,19 @@ module Inspec::Plugin::V2
 
       validate_entry(proposed_entry)
 
-      if plugin_by_name(proposed_entry[:name])
+      if existing_entry?(proposed_entry[:name])
         raise Inspec::Plugin::V2::ConfigError, "Duplicate plugin name in call to ConfigFile#add_entry: '#{proposed_entry[:name]}'"
       end
 
       @data[:plugins] << proposed_entry
+    end
+
+    # Removes an entry specified by plugin name.
+    def remove_entry(name)
+      unless existing_entry?(name)
+        raise Inspec::Plugin::V2::ConfigError, "No such entry with plugin name '#{name}'"
+      end
+      @data[:plugins].delete_if { |entry| entry[:name] == name.to_sym }
     end
 
     private
