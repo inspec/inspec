@@ -68,10 +68,11 @@ module Inspec::Plugin::V2
     end
 
     private
+
     def blank_structure
       {
         plugins_config_version: '1.0.0',
-        plugins: []
+        plugins: [],
       }
     end
 
@@ -82,7 +83,7 @@ module Inspec::Plugin::V2
       raise Inspec::Plugin::V2::ConfigError, "Failed to load plugins JSON configuration from #{path}:\n#{e}"
     end
 
-    def validate_file
+    def validate_file # rubocop: disable Metrics/AbcSize
       unless @data[:plugins_config_version]
         raise Inspec::Plugin::V2::ConfigError, "Missing 'plugins_config_version' entry at #{path} - currently support versions: 1.0.0"
       end
@@ -130,7 +131,6 @@ module Inspec::Plugin::V2
 
       # Symbolize the name.
       plugin_entry[:name] = plugin_entry[:name].to_sym
-
 
       if plugin_entry.key? :installation_type
         seen_type = plugin_entry[:installation_type]
