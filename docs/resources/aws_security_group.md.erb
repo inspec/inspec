@@ -12,7 +12,6 @@ SGs are a networking construct which contain ingress and egress rules for networ
 
 While this resource provides facilities for searching inbound and outbound rules on a variety of criteria, there is currently no support for performing matches based on:
 
- * References to other Security Groups
  * References to VPC peers or other AWS services (that is, no support for searches based on 'prefix lists').
 
 <br>
@@ -90,6 +89,26 @@ The following examples show how to use this InSpec audit resource.
       # Expect exactly three rules.
       its('outbound_rules.count') { should cmp 3 }
     end
+
+    # Ensure that one of the security groups in a list allows access from one of the groups in another list
+    # In this example we get the list of groups from Terraform output
+    # load data from Terraform output
+    content = inspec.profile.file("terraform.json")
+    params = JSON.parse(content)
+
+      control 'master to node access security group' do
+        desc 'one of the node security groups should allow all access from:
+      one of the master security groups, so masters can reach all nodes'
+        describe.one do
+          params['node_security_group_ids']['value'].each do |nodeSG|
+            params['master_security_group_ids']['value'].each do |masterSG|
+              describe aws_security_group(id: nodeSG) do
+                it { should allow_in(security_group: masterSG) }
+              end
+            end
+          end
+        end
+      end
 
 <br>
 
