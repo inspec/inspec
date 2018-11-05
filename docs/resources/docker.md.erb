@@ -75,7 +75,7 @@ The following examples show how to use this InSpec audit resource.
       its('Client.Version') { should cmp >= '1.12'}
     end
 
-### Iterate over all containers to verify host coniguration
+### Iterate over all containers to verify host configuration
 
     docker.containers.ids.each do |id|
       # call Docker inspect for a specific container id
