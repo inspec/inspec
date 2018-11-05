@@ -310,6 +310,36 @@ end
 '.strip
     end
 
+    it 'constructs a control with only_if' do
+      control = Inspec::Control.new
+      control.add_test(obj1)
+      control.only_if = "package('ntp').installed?"
+      control.id = 'sample.control.id'
+      control.title = 'Sample Control Important Title'
+      control.descriptions = {
+        default: 'The most critical control the world has ever seen',
+        rationale: 'It is needed to save the planet',
+        'more info': 'Insert clever joke here',
+      }
+      control.refs = ['simple ref', {ref: 'title', url: 'my url'}]
+      control.impact = 1.0
+      control.to_ruby.must_equal '
+control "sample.control.id" do
+  title "Sample Control Important Title"
+  desc  "The most critical control the world has ever seen"
+  desc  "rationale", "It is needed to save the planet"
+  desc  "more info", "Insert clever joke here"
+  impact 1.0
+  ref   "simple ref"
+  ref   ({:ref=>"title", :url=>"my url"})
+  only_if { package(\'ntp\').installed? }
+  describe command("ls /etc") do
+    its("exit_status") { should eq 0 }
+  end
+end
+'.strip
+    end
+
     it 'constructs a multiline desc in a control with indentation' do
       control = Inspec::Control.new
       control.descriptions[:default] = "Multiline\n  control"

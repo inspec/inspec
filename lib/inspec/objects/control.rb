@@ -2,7 +2,7 @@
 
 module Inspec
   class Control
-    attr_accessor :id, :title, :descriptions, :impact, :tests, :tags, :refs
+    attr_accessor :id, :title, :descriptions, :impact, :tests, :tags, :refs, :only_if
     def initialize
       @tests = []
       @tags = []
@@ -43,6 +43,7 @@ module Inspec
       res.push "  impact #{impact}" unless impact.nil?
       tags.each { |t| res.push(indent(t.to_ruby, 2)) }
       refs.each { |t| res.push("  ref   #{print_ref(t)}") }
+      res.push "  only_if { #{only_if} }" if only_if
       tests.each { |t| res.push(indent(t.to_ruby, 2)) }
       res.push 'end'
       res.join("\n")
