@@ -37,7 +37,7 @@ An `aws_vpc` resource block identifies a VPC by id. If no VPC ID is provided, th
     end
 
     # Find a VPC by ID
-    describe aws_vpc('vpc-12345678') do
+    describe aws_vpc('vpc-12345678987654321') do
       it { should exist }
     end
 
@@ -55,6 +55,10 @@ The following examples show how to use this InSpec audit resource.
 ### Test that a VPC does not exist
 
     describe aws_vpc('vpc-87654321') do
+      it { should_not exist }
+    end
+
+    describe aws_vpc('vpc-abcd123454321dcba') do
       it { should_not exist }
     end
 

@@ -16,12 +16,20 @@ class AwsVpcConstructorTest < Minitest::Test
     AwsVpc.new
   end
 
-  def test_accepts_vpc_id_as_scalar
+  def test_accepts_vpc_id_as_scalar_eight_sign
     AwsVpc.new('vpc-12345678')
   end
 
-  def test_accepts_vpc_id_as_hash
+  def test_accepts_vpc_id_as_scalar
+    AwsVpc.new('vpc-12345678987654321')
+  end
+
+  def test_accepts_vpc_id_as_hash_eight_sign
     AwsVpc.new(vpc_id: 'vpc-1234abcd')
+  end
+
+  def test_accepts_vpc_id_as_hash
+    AwsVpc.new(vpc_id: 'vpc-abcd123454321dcba')
   end
 
   def test_rejects_unrecognized_params
@@ -55,8 +63,12 @@ class AwsVpcRecallTest < Minitest::Test
     assert AwsVpc.new(vpc_id: 'vpc-12344321').exists?
   end
 
-  def test_search_miss_is_not_an_exception
+  def test_search_miss_is_not_an_exception_eight_sign
     refute AwsVpc.new(vpc_id: 'vpc-00000000').exists?
+  end
+
+  def test_search_miss_is_not_an_exception
+    refute AwsVpc.new(vpc_id: 'vpc-00000000000000000').exists?
   end
 end
 
