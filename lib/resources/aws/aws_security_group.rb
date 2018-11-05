@@ -44,6 +44,7 @@ class AwsSecurityGroup < Inspec.resource(1)
     # allow_{in_out}_only require either a single-rule group, or you
     # to select a rule using position.
     return false unless rules.count == 1 || criteria.key?(:position)
+    return false if criteria.key?(:security_group) && !rules[0][:user_id_group_pairs].count == 1
     criteria[:exact] = true
     allow(rules, criteria)
   end
@@ -58,6 +59,7 @@ class AwsSecurityGroup < Inspec.resource(1)
       matched &&= allow__match_protocol(rule, criteria)
       matched &&= allow__match_ipv4_range(rule, criteria)
       matched &&= allow__match_ipv6_range(rule, criteria)
+      matched &&= allow__match_security_group(rule, criteria)
       matched
     end
   end
@@ -67,6 +69,7 @@ class AwsSecurityGroup < Inspec.resource(1)
       :from_port,
       :ipv4_range,
       :ipv6_range,
+      :security_group,
       :port,
       :position,
       :protocol,
@@ -185,6 +188,13 @@ class AwsSecurityGroup < Inspec.resource(1)
   def allow__match_ipv6_range(rule, criteria)
     return true unless criteria.key?(:ipv6_range)
     match_ipv4_or_6_range(rule, criteria)
+  end
+
+  def allow__match_security_group(rule, criteria)
+    return true unless criteria.key?(:security_group)
+    query = criteria[:security_group]
+    return false unless rule[:user_id_group_pairs]
+    rule[:user_id_group_pairs].any? {|group| query == group[:group_id]}
   end
 
   def validate_params(raw_params)
