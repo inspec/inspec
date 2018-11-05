@@ -158,6 +158,19 @@ describe service("avahi-daemon").info[\'properties\'][\'UnitFileState\'] do
 end
 '.strip
     end
+
+   it 'constructs a simple resource + only_if' do
+      obj.qualifier = [['resource'], ['version']]
+      obj.matcher = 'cmp >='
+      obj.expectation = '2.4.2'
+      obj.only_if = "package('ntp').installed?"
+      obj.to_ruby.must_equal '
+only_if { package(\'ntp\').installed? }
+describe resource do
+  its("version") { should cmp >= "2.4.2" }
+end
+'.strip
+    end
   end
 
 
