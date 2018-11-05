@@ -194,7 +194,7 @@ class AwsSecurityGroup < Inspec.resource(1)
     return true unless criteria.key?(:security_group)
     query = criteria[:security_group]
     return false unless rule[:user_id_group_pairs]
-    rule[:user_id_group_pairs].any? {|group| query == group[:group_id]}
+    rule[:user_id_group_pairs].any? { |group| query == group[:group_id] }
   end
 
   def validate_params(raw_params)
