@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.26 -->
-## [v3.0.26](https://github.com/inspec/inspec/tree/v3.0.26) (2018-11-02)
+<!-- latest_release 3.0.27 -->
+## [v3.0.27](https://github.com/inspec/inspec/tree/v3.0.27) (2018-11-05)
 
 #### Merged Pull Requests
-- Fix functional tests issues with vendoring [#3572](https://github.com/inspec/inspec/pull/3572) ([jquick](https://github.com/jquick))
+- Fixes (some) ruby warnings related to functional tests [#3561](https://github.com/inspec/inspec/pull/3561) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.25 -->
 ### Changes since 3.0.25 release
 
 #### Merged Pull Requests
+- Fixes (some) ruby warnings related to functional tests [#3561](https://github.com/inspec/inspec/pull/3561) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 3.0.27 -->
 - Fix functional tests issues with vendoring [#3572](https://github.com/inspec/inspec/pull/3572) ([jquick](https://github.com/jquick)) <!-- 3.0.26 -->
 <!-- release_rollup -->
 
