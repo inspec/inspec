@@ -32,7 +32,6 @@ class InitCli < MiniTest::Test
 
   def test_generating_inspec_profile_with_bad_platform
     Dir.mktmpdir do |dir|
-      profile = File.join(dir, 'test-profile')
       out = run_inspec_process("init profile --platform nonesuch test-profile", prefix: "cd #{dir} &&")
       assert_equal 1, out.exit_status
       assert_includes out.stdout, 'Unable to generate profile'

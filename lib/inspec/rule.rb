@@ -37,6 +37,7 @@ module Inspec
       @tags = {}
 
       # not changeable by the user:
+      @__code = nil
       @__block = block
       @__source_location = __get_block_source_location(&block)
       @__rule_id = id

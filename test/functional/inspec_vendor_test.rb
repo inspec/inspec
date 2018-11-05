@@ -215,7 +215,7 @@ describe 'example inheritance profile' do
       out.exit_status.must_equal 0
 
       Dir.glob(File.join(tmpdir, 'vendor', '*')).each do |file|
-        file.wont_match /(\.tar.*$|\.zip$)/
+        file.wont_match(/(\.tar.*$|\.zip$)/)
       end
     end
   end
