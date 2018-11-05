@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.27 -->
-## [v3.0.27](https://github.com/inspec/inspec/tree/v3.0.27) (2018-11-05)
+<!-- latest_release 3.0.28 -->
+## [v3.0.28](https://github.com/inspec/inspec/tree/v3.0.28) (2018-11-05)
 
-#### Merged Pull Requests
-- Fixes (some) ruby warnings related to functional tests [#3561](https://github.com/inspec/inspec/pull/3561) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
+#### Enhancements
+- aws_vpc: accept 17 hexadecimal characters for vpc_id [#3564](https://github.com/inspec/inspec/pull/3564) ([kchistova](https://github.com/kchistova))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.25 -->
 ### Changes since 3.0.25 release
+
+#### Enhancements
+- aws_vpc: accept 17 hexadecimal characters for vpc_id [#3564](https://github.com/inspec/inspec/pull/3564) ([kchistova](https://github.com/kchistova)) <!-- 3.0.28 -->
 
 #### Merged Pull Requests
 - Fixes (some) ruby warnings related to functional tests [#3561](https://github.com/inspec/inspec/pull/3561) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 3.0.27 -->
