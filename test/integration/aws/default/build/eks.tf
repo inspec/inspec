@@ -3,12 +3,7 @@
 #======================================================#
 #                    EKS variables
 #======================================================#
-
-variable "region" {
-  default = "us-west-2"
-}
-
-variable "map_accounts" {
+variable "eks_map_accounts" {
   description = "Additional AWS account numbers to add to the aws-auth configmap."
   type        = "list"
 
@@ -18,7 +13,7 @@ variable "map_accounts" {
   ]
 }
 
-variable "map_roles" {
+variable "eks_map_roles" {
   description = "Additional IAM roles to add to the aws-auth configmap."
   type        = "list"
 
@@ -31,7 +26,7 @@ variable "map_roles" {
   ]
 }
 
-variable "map_users" {
+variable "eks_map_users" {
   description = "Additional IAM users to add to the aws-auth configmap."
   type        = "list"
 
@@ -57,8 +52,6 @@ terraform {
   required_version = "= 0.11.8"
 }
 
-data "aws_availability_zones" "available" {}
-
 locals {
   cluster_name = "test-eks-inspec-${terraform.env}"
 
@@ -66,8 +59,8 @@ locals {
     {
       instance_type                 = "t2.small"
       additional_userdata           = "echo foo bar"
-      subnets                       = "${join(",", module.vpc.private_subnets)}"
-      additional_security_group_ids = "${aws_security_group.worker_group_mgmt_one.id},${aws_security_group.worker_group_mgmt_two.id}"
+      subnets                       = "${join(",", module.eks_vpc.private_subnets)}"
+      additional_security_group_ids = "${aws_security_group.eks_worker_group_mgmt_one.id},${aws_security_group.eks_worker_group_mgmt_two.id}"
     },
   ]
   tags = {
@@ -75,10 +68,10 @@ locals {
   }
 }
 
-resource "aws_security_group" "worker_group_mgmt_one" {
-  name_prefix = "worker_group_mgmt_one-${terraform.env}"
+resource "aws_security_group" "eks_worker_group_mgmt_one" {
+  name_prefix = "eks_worker_group_mgmt_one-${terraform.env}"
   description = "SG to be applied to all *nix machines"
-  vpc_id      = "${module.vpc.vpc_id}"
+  vpc_id      = "${module.eks_vpc.vpc_id}"
 
   ingress {
     from_port = 22
@@ -91,9 +84,9 @@ resource "aws_security_group" "worker_group_mgmt_one" {
   }
 }
 
-resource "aws_security_group" "worker_group_mgmt_two" {
-  name_prefix = "worker_group_mgmt_two-${terraform.env}"
-  vpc_id      = "${module.vpc.vpc_id}"
+resource "aws_security_group" "eks_worker_group_mgmt_two" {
+  name_prefix = "eks_worker_group_mgmt_two-${terraform.env}"
+  vpc_id      = "${module.eks_vpc.vpc_id}"
 
   ingress {
     from_port = 22
@@ -106,9 +99,9 @@ resource "aws_security_group" "worker_group_mgmt_two" {
   }
 }
 
-resource "aws_security_group" "all_worker_mgmt" {
-  name_prefix = "all_worker_management-${terraform.env}"
-  vpc_id      = "${module.vpc.vpc_id}"
+resource "aws_security_group" "eks_all_worker_mgmt" {
+  name_prefix = "eks_all_worker_management-${terraform.env}"
+  vpc_id      = "${module.eks_vpc.vpc_id}"
 
   ingress {
     from_port = 22
@@ -123,10 +116,10 @@ resource "aws_security_group" "all_worker_mgmt" {
   }
 }
 
-module "vpc" {
+module "eks_vpc" {
   source             = "terraform-aws-modules/vpc/aws"
   version            = "1.14.0"
-  name               = "test-vpc"
+  name               = "eks-test-vpc"
   cidr               = "10.0.0.0/16"
   azs                = ["${data.aws_availability_zones.available.names[0]}", "${data.aws_availability_zones.available.names[1]}", "${data.aws_availability_zones.available.names[2]}"]
   private_subnets    = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
@@ -135,31 +128,31 @@ module "vpc" {
   tags               = "${merge(local.tags, map("kubernetes.io/cluster/${local.cluster_name}", "shared"))}"
 }
 
-output "vpc_id" {
-  value = "${module.vpc.vpc_id}"
+output "eks_vpc_id" {
+  value = "${module.eks_vpc.vpc_id}"
 }
 
-output "vpc_private_subnets" {
-  value = "${module.vpc.private_subnets}"
+output "eks_vpc_private_subnets" {
+  value = "${module.eks_vpc.private_subnets}"
 }
 
-output "vpc_public_subnets" {
-  value = "${module.vpc.public_subnets}"
+output "eks_vpc_public_subnets" {
+  value = "${module.eks_vpc.public_subnets}"
 }
 
 module "eks" {
   source                               = "terraform-aws-modules/eks/aws"
   version                              = "1.6.0"
   cluster_name                         = "${local.cluster_name}"
-  subnets                              = ["${module.vpc.private_subnets}"]
+  subnets                              = ["${module.eks_vpc.private_subnets}"]
   tags                                 = "${local.tags}"
-  vpc_id                               = "${module.vpc.vpc_id}"
+  vpc_id                               = "${module.eks_vpc.vpc_id}"
   worker_groups                        = "${local.worker_groups}"
   worker_group_count                   = "1"
-  worker_additional_security_group_ids = ["${aws_security_group.all_worker_mgmt.id}"]
-  map_roles                            = "${var.map_roles}"
-  map_users                            = "${var.map_users}"
-  map_accounts                         = "${var.map_accounts}"
+  worker_additional_security_group_ids = ["${aws_security_group.eks_all_worker_mgmt.id}"]
+  map_roles                            = "${var.eks_map_roles}"
+  map_users                            = "${var.eks_map_users}"
+  map_accounts                         = "${var.eks_map_accounts}"
   manage_aws_auth                      = false
 }
 
@@ -171,15 +164,15 @@ output "eks_cluster_name" {
   value = "${module.eks.cluster_id}"
 }
 
-output "cluster_security_group_id" {
+output "eks_cluster_security_group_id" {
   value = "${module.eks.cluster_security_group_id}"
 }
 
-output "worker_security_group_id" {
+output "eks_worker_security_group_id" {
   value = "${module.eks.worker_security_group_id}"
 }
 
-output "cluster_endpoint" {
+output "eks_cluster_endpoint" {
   value = "${module.eks.cluster_endpoint}"
 }
 

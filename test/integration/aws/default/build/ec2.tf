@@ -18,6 +18,7 @@ resource "aws_instance" "alpha" {
     Name      = "${terraform.env}.alpha"
     X-Project = "inspec"
   }
+  depends_on  = [ "aws_subnet.subnet_01" ]
 }
 
 resource "aws_instance" "beta" {
@@ -29,6 +30,7 @@ resource "aws_instance" "beta" {
     Name      = "${terraform.env}.beta"
     X-Project = "inspec"
   }
+  depends_on  = [ "aws_subnet.subnet_01" ]
 }
 
 #----------------------- Recall -----------------------#
