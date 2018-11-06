@@ -41,10 +41,18 @@ class AwsSecurityGroup < Inspec.resource(1)
   private
 
   def allow_only(rules, criteria)
+    rules = allow__focus_on_position(rules, criteria)
     # allow_{in_out}_only require either a single-rule group, or you
     # to select a rule using position.
     return false unless rules.count == 1 || criteria.key?(:position)
-    return false if criteria.key?(:security_group) && !rules[0][:user_id_group_pairs].count == 1
+    if criteria.key?(:security_group)
+      if criteria.key?(:position)
+        pos = criteria[:position] -1
+      else
+        pos = 0
+      end
+      return false unless rules[pos].key?(:user_id_group_pairs) && rules[pos][:user_id_group_pairs].count == 1
+    end
     criteria[:exact] = true
     allow(rules, criteria)
   end

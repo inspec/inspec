@@ -224,9 +224,16 @@ class AwsSGSProperties < Minitest::Test
     assert(sg.allow_in_only?(security_group: "sg-33334444"), "Match security-group using _only on 1-rule security-group")
     assert(sg.allow_in_only?(protocol: 'any',security_group: "sg-33334444"), "Match protocol using _only on 1-rule security-group")
     refute(sg.allow_in_only?(port: 22, security_group: "sg-33334444"), "no match port using _only on 1-rule security-group")
+
+    # Test _only with a single rule group for security-group with position pinning
+    sg = AwsSecurityGroup.new('sg-33334442')
+    assert(sg.allow_in_only?(security_group: "sg-33334444", position: 2), "Match security-group using _only with numerical position")
+    assert(sg.allow_in_only?(protocol: 'any',security_group: "sg-33334444", position: 2), "Match protocol using _only on 1-rule security-group with numerical position")
+    refute(sg.allow_in_only?(port: 22, security_group: "sg-33334444", position: 2), "no match port using _only on 1-rule security-group with numerical position")
+    assert(sg.allow_in_only?(security_group: "sg-33334444", position: "2"), "Match security-group using _only with string position")
+    assert(sg.allow_in_only?(security_group: "sg-33334444", position: :last), "Match security-group using _only with last position")
   end
 end
-
 
 #=============================================================================#
 #                               Test Fixtures
@@ -342,6 +349,39 @@ module AwsMESGSB
           ip_permissions_egress: [],
         }),
         OpenStruct.new({
+          description: 'Open for group one group rule second position',
+          group_id: 'sg-33334442',
+          group_name: 'etha',
+          vpc_id: 'vpc-12345678',
+          ip_permissions: [
+            OpenStruct.new({
+              from_port: nil,
+              to_port: nil,
+              ip_protocol: "-1",
+              ipv_6_ranges: [
+                {cidr_ipv_6:"::/0"},
+              ]
+            }),
+            OpenStruct.new({
+              from_port: nil,
+              to_port: nil,
+              ip_protocol: "-1",
+              user_id_group_pairs: [
+                OpenStruct.new({
+                  description: 'Open for group one rule second position',
+                  group_id: 'sg-33334444',
+                  group_name: 'delta',
+                  peering_status: "",
+                  user_id: "123456789012",
+                  vpc_id: "",
+                  vpc_peering_connection_id: ""
+                }),
+              ]
+            }),
+          ],
+          ip_permissions_egress: [],
+        }),
+        OpenStruct.new({
           description: 'Open for group one rule',
           group_id: 'sg-33334441',
           group_name: 'zeta',
@@ -353,13 +393,13 @@ module AwsMESGSB
               ip_protocol: "-1",
               user_id_group_pairs: [
                 OpenStruct.new({
-                  description: "String",
-                  group_id: "sg-33334444",
-                  group_name: "String",
-                  peering_status: "String",
-                  user_id: "String",
-                  vpc_id: "String",
-                  vpc_peering_connection_id: "String"
+                  description: 'Open for group one rule',
+                  group_id: 'sg-33334444',
+                  group_name: 'delta',
+                  peering_status: "",
+                  user_id: '123456789012',
+                  vpc_id: "",
+                  vpc_peering_connection_id: ""
                 }),
               ]
             }),
@@ -386,13 +426,13 @@ module AwsMESGSB
               ip_protocol: "-1",
               user_id_group_pairs: [
                 OpenStruct.new({
-                  description: "String",
-                  group_id: "sg-33334441",
-                  group_name: "String",
-                  peering_status: "String",
-                  user_id: "String",
-                  vpc_id: "String",
-                  vpc_peering_connection_id: "String"
+                  description: 'Open for group rule 2',
+                  group_id: 'sg-33334441',
+                  group_name: 'zeta',
+                  peering_status: "",
+                  user_id: '123456789012',
+                  vpc_id: "",
+                  vpc_peering_connection_id: ""
                 }),
               ]
             }),
@@ -402,13 +442,13 @@ module AwsMESGSB
               ip_protocol: "-1",
               user_id_group_pairs: [
                 OpenStruct.new({
-                  description: "String",
-                  group_id: "sg-33334441",
-                  group_name: "String",
-                  peering_status: "String",
-                  user_id: "String",
-                  vpc_id: "String",
-                  vpc_peering_connection_id: "String"
+                  description: 'Open for group rule 3',
+                  group_id: 'sg-33334441',
+                  group_name: 'zeta',
+                  peering_status: "",
+                  user_id: '123456789012',
+                  vpc_id: "",
+                  vpc_peering_connection_id: ""
                 }),
               ]
             }),
@@ -418,31 +458,31 @@ module AwsMESGSB
               ip_protocol: "-1",
               user_id_group_pairs: [
                 OpenStruct.new({
-                  description: "String",
-                  group_id: "sg-33334441",
-                  group_name: "String",
-                  peering_status: "String",
-                  user_id: "String",
-                  vpc_id: "String",
-                  vpc_peering_connection_id: "String"
+                  description: 'allow all from multiple sg',
+                  group_id: 'sg-33334441',
+                  group_name: 'zeta',
+                  peering_status: "",
+                  user_id: '123456789012',
+                  vpc_id: "",
+                  vpc_peering_connection_id: ""
                 }),
                 OpenStruct.new({
-                  description: "String",
-                  group_id: "sg-33334442",
-                  group_name: "String",
-                  peering_status: "String",
-                  user_id: "String",
-                  vpc_id: "vpc-123456",
-                  vpc_peering_connection_id: "String"
+                  description: 'allow all from multiple sg[2]',
+                  group_id: 'sg-33334442',
+                  group_name: 'etha',
+                  peering_status: "",
+                  user_id: '123456789012',
+                  vpc_id: "",
+                  vpc_peering_connection_id: ""
                 }),
                 OpenStruct.new({
-                  description: "String",
-                  group_id: "sg-11112222",
-                  group_name: "String",
-                  peering_status: "String",
-                  user_id: "String",
-                  vpc_id: "vpc-345678",
-                  vpc_peering_connection_id: "String"
+                  description: 'allow all from multiple sg[3]',
+                  group_id: 'sg-11112222',
+                  group_name: 'theta',
+                  peering_status: "",
+                  user_id: '123456789012',
+                  vpc_id: "",
+                  vpc_peering_connection_id: ""
                 }),
               ]
             }),
