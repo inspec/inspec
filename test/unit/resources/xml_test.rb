@@ -43,4 +43,28 @@ describe 'Inspec::Resources::XML' do
       _(resource.send('/beans/bean[@id="dataSource"]/property[@name="url"]/@value')).must_equal ['jdbc:oracle:thin:@databaseserver.domain.tld:1521/DBO.DOMAIN.TLD']
     end
   end
+
+  describe 'when loading xml and requesting a count' do
+    let (:resource) { load_resource('xml', 'database.xml') }
+
+    it 'gets count of nodes in the document' do
+      _(resource.send('count(//*)')).must_equal [9]
+    end
+  end
+
+  describe 'when loading xml and evaluating a boolean result' do
+    let (:resource) { load_resource('xml', 'database.xml') }
+
+    it 'checks if a node is true-like' do
+      _(resource.send('boolean(/beans/bean/@lazy-init)')).must_equal [true]
+    end
+  end
+
+  describe 'when loading xml and evaluating a string result' do
+    let (:resource) { load_resource('xml', 'database.xml') }
+
+    it 'checks if a node is string-like' do
+      _(resource.send('concat(string(/beans/bean/@lazy-init)," <--")')).must_equal ["true <--"]
+    end
+  end
 end

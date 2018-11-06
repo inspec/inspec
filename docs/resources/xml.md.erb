@@ -52,6 +52,8 @@ This file can be queried for attributes using:
       its('root/array[2]/element/@value') { should eq ['one', 'two'] }
       its('root/array[2]/element/attribute::value') { should eq ['one', 'two'] }
       its('root/array[2]/element[2]/attribute::value') { should eq ['two'] }
+      its('count(//*)') { should eq [42] }
+      its('boolean(root/array[2]/element[2]/@valid)') { should eq [false] }
     end
 
 where
