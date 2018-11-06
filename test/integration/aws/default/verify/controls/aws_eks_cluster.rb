@@ -3,8 +3,7 @@ fixtures = {}
   'eks_cluster_id',
   'eks_cluster_name',
   'eks_cluster_security_group_id',
-  'eks_vpc_private_subnets',
-  'eks_vpc_public_subnets',
+  'eks_vpc_subnets',
 ].each do |fixture_name|
   fixtures[fixture_name] = attribute(
     fixture_name,
@@ -29,14 +28,10 @@ control "aws_eks_cluster properties" do
   describe aws_eks_cluster(fixtures['eks_cluster_id']) do
     its('name') { should eq fixtures['eks_cluster_name'] }
     its('status') { should be_in %w(ACTIVE CREATING) }
-    its('subnets_count') { should eq 6 }
+    its('subnets_count') { should eq 3 }
     its('security_groups_count') { should eq 1 }
 
-    fixtures['eks_vpc_private_subnets'].each do |subnet|
-      its('subnet_ids') { should include (subnet) }
-    end
-
-    fixtures['eks_vpc_public_subnets'].each do |subnet|
+    fixtures['eks_vpc_subnets'].each do |subnet|
       its('subnet_ids') { should include (subnet) }
     end
   end

@@ -46,7 +46,7 @@ EOX
     begin
       params = { name: cluster_name }
       resp = backend.describe_cluster(params)
-    rescue Aws::EKS::Errors::ResourceNotFound
+    rescue Aws::EKS::Errors::ResourceNotFoundException
       @exists = false
       populate_as_missing
       return
@@ -73,19 +73,19 @@ EOX
   end
 
   def populate_as_missing
-    @version = ''
-    @name = ''
-    @arn = ''
-    @certificate_authority = ''
-    @created_at = Time.at(0)
-    @endpoint = ''
+    @version = nil
+    @name = nil
+    @arn = nil
+    @certificate_authority = nil
+    @created_at = nil
+    @endpoint = nil
     @security_group_ids = []
     @subnet_ids = []
-    @subnets_count = 0
-    @security_groups_count = 0
-    @vpc_id = ''
-    @role_arn = ''
-    @status = ''
+    @subnets_count = nil
+    @security_groups_count = nil
+    @vpc_id = nil
+    @role_arn = nil
+    @status = nil
   end
 
   class Backend

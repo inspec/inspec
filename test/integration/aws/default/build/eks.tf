@@ -48,10 +48,6 @@ variable "eks_map_users" {
 #                    EKS Cluster
 #======================================================#
 
-terraform {
-  required_version = "= 0.11.8"
-}
-
 locals {
   cluster_name = "test-eks-inspec-${terraform.env}"
 
@@ -123,7 +119,7 @@ module "eks_vpc" {
   cidr               = "10.0.0.0/16"
   azs                = ["${data.aws_availability_zones.available.names[0]}", "${data.aws_availability_zones.available.names[1]}", "${data.aws_availability_zones.available.names[2]}"]
   private_subnets    = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  public_subnets     = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
+  public_subnets     = []
   enable_nat_gateway = false
   tags               = "${merge(local.tags, map("kubernetes.io/cluster/${local.cluster_name}", "shared"))}"
 }
@@ -132,12 +128,8 @@ output "eks_vpc_id" {
   value = "${module.eks_vpc.vpc_id}"
 }
 
-output "eks_vpc_private_subnets" {
+output "eks_vpc_subnets" {
   value = "${module.eks_vpc.private_subnets}"
-}
-
-output "eks_vpc_public_subnets" {
-  value = "${module.eks_vpc.public_subnets}"
 }
 
 module "eks" {
