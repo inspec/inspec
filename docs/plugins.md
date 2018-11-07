@@ -54,4 +54,4 @@ For details on how to author an InSpec Plugin, see the [developer documentation]
 
 ### Train Plugins
 
-For details on how to author a Train Plugin, see the [developer documentation](https://github.com/inspec/train/blob/master/docs/dev/plugins.md)
+For details on how to author a Train Plugin, see the [developer documentation](https://github.com/inspec/train/blob/master/docs/plugins.md)
