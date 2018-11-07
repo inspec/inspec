@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.29 -->
-## [v3.0.29](https://github.com/inspec/inspec/tree/v3.0.29) (2018-11-07)
+<!-- latest_release 3.0.30 -->
+## [v3.0.30](https://github.com/inspec/inspec/tree/v3.0.30) (2018-11-07)
 
-#### Bug Fixes
-- Silence RSpec &#39;should&#39; Warning [#3560](https://github.com/inspec/inspec/pull/3560) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Fixes broken link in documentation [#3588](https://github.com/inspec/inspec/pull/3588) ([dmccown](https://github.com/dmccown))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.25 -->
@@ -17,6 +17,7 @@
 - aws_vpc: accept 17 hexadecimal characters for vpc_id [#3564](https://github.com/inspec/inspec/pull/3564) ([kchistova](https://github.com/kchistova)) <!-- 3.0.28 -->
 
 #### Merged Pull Requests
+- Fixes broken link in documentation [#3588](https://github.com/inspec/inspec/pull/3588) ([dmccown](https://github.com/dmccown)) <!-- 3.0.30 -->
 - Fixes (some) ruby warnings related to functional tests [#3561](https://github.com/inspec/inspec/pull/3561) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 3.0.27 -->
 - Fix functional tests issues with vendoring [#3572](https://github.com/inspec/inspec/pull/3572) ([jquick](https://github.com/jquick)) <!-- 3.0.26 -->
 <!-- release_rollup -->
