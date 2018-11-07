@@ -6,30 +6,28 @@ class AwsBillingReports < Inspec.resource(1)
   desc 'Verifies settings for AWS Cost and Billing Reports.'
   example "
       describe aws_billing_reports do
-        its('report_name') { should include 'inspec1' }
-        its('s3_bucket') { should include 'inspec1-s3-bucket' }
+        its('report_names') { should include 'inspec1' }
+        its('s3_buckets') { should include 'inspec1-s3-bucket' }
       end
 
      describe aws_billing_reports.where { report_name =~ /inspec.*/ } do
-       its ('report_name') { should include ['inspec1'] }
-       its ('time_unit') { should include ['DAILY'] }
-       its ('s3_bucket') { should include ['inspec1-s3-bucket'] }
+       its ('report_names') { should include ['inspec1'] }
+       its ('time_units') { should include ['DAILY'] }
+       its ('s3_buckets') { should include ['inspec1-s3-bucket'] }
      end"
 
   include AwsPluralResourceMixin
 
   filtertable = FilterTable.create
-  filtertable.add_accessor(:entries)
-             .add_accessor(:where)
-             .add(:exists?) { |x| !x.entries.empty? }
-             .add(:report_name, field: :report_name)
-             .add(:time_unit, field: :time_unit)
-             .add(:format, field: :format)
-             .add(:compression, field: :compression)
-             .add(:s3_bucket, field: :s3_bucket)
-             .add(:s3_prefix, field: :s3_prefix)
-             .add(:s3_region, field: :s3_region)
-  filtertable.connect(self, :table)
+  filtertable.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+             .register_column(:report_names, field: :report_name)
+             .register_column(:time_units, field: :time_unit)
+             .register_column(:formats, field: :format)
+             .register_column(:compressions, field: :compression)
+             .register_column(:s3_buckets, field: :s3_bucket)
+             .register_column(:s3_prefixes, field: :s3_prefix)
+             .register_column(:s3_regions, field: :s3_region)
+  filtertable.install_filter_methods_on_resource(self, :table)
 
   def validate_params(resource_params)
     unless resource_params.empty?
@@ -50,7 +48,7 @@ class AwsBillingReports < Inspec.resource(1)
       api_result = backend.describe_report_definitions(pagination_opts)
       api_result.report_definitions.each do |raw_report|
         report = raw_report.to_h
-        %i(time_unit compression).each { |i| report[i].downcase! }
+        %i(time_unit compression).each { |field| report[field].downcase! }
         @table << report
       end
       pagination_opts = { next_token: api_result.next_token }

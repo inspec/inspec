@@ -13,71 +13,71 @@ Use the `aws_billing_reports` InSpec audit resource to test properties of a some
 
   # Verify the number of Billing Reports in the AWS account.
   describe aws_billing_reports do
-    its('entries.count') { should cmp 2 }
+    its('count') { should cmp 2 }
   end
 
   # Use the .where clause to match a property to one or more rules in the available reports.
   describe aws_billing_reports.where { report_name =~ /inspec.*/ } do
-    its('report_name') { should include 'inspec1' }
-    its('time_unit') { should include 'DAILY' }
-    its('s3_bucket') { should include 'inspec1-s3-bucket' }
+    its('report_names') { should include 'inspec1' }
+    its('time_units') { should include 'DAILY' }
+    its('s3_buckets') { should include 'inspec1-s3-bucket' }
   end
 
 ## Properties
 
-  `report_name`, `time_unit`, `compression`, `s3_bucket`, `s3_prefix`, `s3_region`, `additional_artifacts`
+  `report_names`, `time_units`, `compressions`, `s3_buckets`, `s3_prefixs`, `s3_regions`
 
 <br>
 
 ## Propery Examples
 
-### report_name
- The reports name.
-  describe aws_billing_reports do
-    its('report_name') { should cmp ['inspec1', 'inspec2'] }
-  end
+### report_names
 
-### time_unit
- The interval of time covered by the report. Valid values: HOURLY, or Daily.
+A list of the names of the reports matched by the query.
 
-  describe aws_billing_reports do
-    its('time_unit') { should_not include 'HOURLY' }
-  end
+    describe aws_billing_reports do
+      its('report_names') { should include 'myreport' }
+    end
 
-### compression
- The reports compression type. Valid values: ZIP, or GZIP.
+### time_units
 
-  describe aws_billing_reports do
-    its('compression') { should_not include 'ZIP' }
-  end
+A list of the time intervals of the reports matched by the query. Valid values: HOURLY, or Daily.
 
-### s3_bucket
- A list of the S3 buckets the reports are stored in.
+    describe aws_billing_reports do
+      its('time_units') { should_not include 'HOURLY' }
+    end
 
-  describe aws_billing_reports do
-    its('s3_bucket') { should cmp ['inspec-s3-bucket', 'example-s3-bucket'] }
-  end
+### compressions
 
-### s3_prefix
- The prefix that AWS adds to the report when stored.
+A list of the compression types of the reports matched by the query.  Valid values: ZIP, or GZIP.
 
-  describe aws_billing_reports do
-    its('s3_prefix') { should cmp ['inspec1', 'inspec2'] }
-  end
+    describe aws_billing_reports do
+      its('compressions') { should_not include 'ZIP' }
+    end
 
-### s3_region
- The AWS region of the S3 bucket.
+### s3_buckets
 
-  describe aws_billing_reports do
-    its('s3_region') { should cmp ['us-east-1', 'us-west-1'] }
-  end
+A list of the S3 buckets the reports matched by the query are stored in.
 
-### additional_artifacts
- The list of manifests created for the report. Valid values: REDSHIFT, or QUICKSIGHT.
+    describe aws_billing_reports do
+      its('s3_buckets') { should include 'some-s3-bucket'] }
+    end
 
-  describe aws_billing_reports do
-    its('additional_artifacts') { should_not include 'QUICKSIGHT' }
-  end
+### s3_prefixes
+
+A list of the S3 prefixes (analogous to a directory on a filesystem) that the reports matched by the query are stored in.
+
+    describe aws_billing_reports do
+      its('s3_prefixes') { should include '/my/path/here' }
+    end
+
+### s3_regions
+
+A list of the S3 regions that reports matched by the query are stored in.
+
+    describe aws_billing_reports do
+      its('s3_regions') { should_not include 'us-west-1' }
+    end
 
 ## Matchers
 
@@ -85,7 +85,7 @@ For a full list of available matchers, please visit our [matchers page](https://
 
 ### exist
 
-Indicates that the Billing Report provided was found.  Use `should_not` to test for Billing Reports that should not exist.
+Indicates that the query matched at least one report. Use `should_not` to test for Billing Reports that should not exist.
 
   # Verify that at least one Billing Report exists.
   describe aws_billing_reports
