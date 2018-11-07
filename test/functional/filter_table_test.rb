@@ -18,9 +18,7 @@ describe '2943 inspec exec for filter table profile, method mode for `where' do
     cmd += ' --controls ' + controls.join(' ')
     cmd = inspec(cmd)
 
-    # RSpec keeps issuing a deprecation count to stdout; I can't seem to disable it.
-    output = cmd.stdout.split("\n").reject {|line| line =~ /deprecation/}.join("\n")
-    data = JSON.parse(output)
+    data = JSON.parse(cmd.stdout)
     failed_controls = data['profiles'][0]['controls'].select { |ctl| ctl['results'][0]['status'] == 'failed' }
     control_hash = {}
     failed_controls.each do |ctl|
@@ -69,9 +67,7 @@ describe '3103 default methods for filter table' do
     cmd += ' --controls ' + controls.join(' ')
     cmd = inspec(cmd)
 
-    # RSpec keeps issuing a deprecation count to stdout; I can't seem to disable it.
-    output = cmd.stdout.split("\n").reject {|line| line =~ /deprecation/}.join("\n")
-    data = JSON.parse(output)
+    data = JSON.parse(cmd.stdout)
     failed_controls = data['profiles'][0]['controls'].select { |ctl| ctl['results'][0]['status'] == 'failed' }
     control_hash = {}
     failed_controls.each do |ctl|
@@ -105,9 +101,7 @@ describe '2370 lazy_load for filter table' do
     cmd += ' --controls ' + controls.join(' ')
     cmd = inspec(cmd)
 
-    # RSpec keeps issuing a deprecation count to stdout; I can't seem to disable it.
-    output = cmd.stdout.split("\n").reject {|line| line =~ /deprecation/}.join("\n")
-    data = JSON.parse(output)
+    data = JSON.parse(cmd.stdout)
     failed_controls = data['profiles'][0]['controls'].select { |ctl| ctl['results'][0]['status'] == 'failed' }
     control_hash = {}
     failed_controls.each do |ctl|
@@ -175,9 +169,7 @@ describe '3110 do not expose block-valued properties in raw data' do
     cmd += ' --controls ' + controls.join(' ')
     cmd = inspec(cmd)
 
-    # RSpec keeps issuing a deprecation count to stdout; I can't seem to disable it.
-    output = cmd.stdout.split("\n").reject {|line| line =~ /deprecation/}.join("\n")
-    data = JSON.parse(output)
+    data = JSON.parse(cmd.stdout)
     failed_controls = data['profiles'][0]['controls'].select { |ctl| ctl['results'][0]['status'] == 'failed' }
     control_hash = {}
     failed_controls.each do |ctl|
