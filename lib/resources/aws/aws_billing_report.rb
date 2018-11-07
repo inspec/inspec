@@ -59,7 +59,7 @@ class AwsBillingReport < Inspec.resource(1)
     @exists = !report.nil?
     if exists?
       @time_unit = report.time_unit.downcase
-      @format = report.format
+      @format = report.format.downcase
       @compression = report.compression.downcase
       @s3_bucket = report.s3_bucket
       @s3_prefix = report.s3_prefix

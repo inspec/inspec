@@ -36,7 +36,6 @@ class BasicAwsBillingReportTest < Minitest::Test
     r = AwsBillingReport.new('inspec1')
     assert_equal('inspec1', r.report_name)
     assert_equal('hourly', r.time_unit)
-    assert_equal('textORcsv', r.format)
     assert_equal('zip', r.compression)
     assert_equal('inspec1-s3-bucket', r.s3_bucket)
     assert_equal('inspec1/accounting', r.s3_prefix)
