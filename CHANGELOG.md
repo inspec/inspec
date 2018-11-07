@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.28 -->
-## [v3.0.28](https://github.com/inspec/inspec/tree/v3.0.28) (2018-11-05)
+<!-- latest_release 3.0.29 -->
+## [v3.0.29](https://github.com/inspec/inspec/tree/v3.0.29) (2018-11-07)
 
-#### Enhancements
-- aws_vpc: accept 17 hexadecimal characters for vpc_id [#3564](https://github.com/inspec/inspec/pull/3564) ([kchistova](https://github.com/kchistova))
+#### Bug Fixes
+- Silence RSpec &#39;should&#39; Warning [#3560](https://github.com/inspec/inspec/pull/3560) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.25 -->
 ### Changes since 3.0.25 release
+
+#### Bug Fixes
+- Silence RSpec &#39;should&#39; Warning [#3560](https://github.com/inspec/inspec/pull/3560) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.29 -->
 
 #### Enhancements
 - aws_vpc: accept 17 hexadecimal characters for vpc_id [#3564](https://github.com/inspec/inspec/pull/3564) ([kchistova](https://github.com/kchistova)) <!-- 3.0.28 -->
