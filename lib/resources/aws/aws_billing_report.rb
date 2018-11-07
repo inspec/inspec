@@ -56,7 +56,7 @@ class AwsBillingReport < Inspec.resource(1)
 
   def fetch_from_api
     report = find_report(@report)
-    @exists = report.respond_to?(:report_name)
+    @exists = !report.nil?
     if @exists
       @report_name = report.report_name
       @time_unit = report.time_unit.downcase
@@ -68,23 +68,23 @@ class AwsBillingReport < Inspec.resource(1)
     end
   end
 
-  def find_report(report)
+  def find_report(report_name)
     pagination_opts = {}
-    result = nil
-    while result.nil?
+    found_report_def = nil
+    while found_report_def.nil?
       api_result = backend.describe_report_definitions(pagination_opts)
       next_token = api_result.next_token
-      result = api_result.report_definitions.find { |r| r.report_name.eql?(report) }
+      found_report_def = api_result.report_definitions.find { |report_def| report_def.report_name == report_name }
       pagination_opts = { next_token: next_token }
 
-      next if result.nil? & next_token
-      break if result.nil? & next_token.nil?
+      next if found_report_def.nil? && next_token        # Loop again: didn't find it, but there are more results
+      break if found_report_def.nil? && next_token.nil?  # Give up: didn't find it, no more results
     end
-    result
+    found_report_def
   end
 
   def backend
-    BackendFactory.create(inspec_runner)
+    @backend ||= BackendFactory.create(inspec_runner)
   end
 
   class Backend

@@ -32,8 +32,6 @@ module MockAwsBillingReports
     end
   end
 
-  # Paginated backend to provide an environment similar to what exists in the real world.
-  # The aws-sdk provides stub and mock facilities, but they do not emulate paging.
   # This backend will always repond with 5 reports, as if the `max_results` option was passed to
   # `#describe_report_definitions`. I chose 5 because when using `max_results` in the real world
   # it seems to only accept a value of 5.
@@ -45,7 +43,9 @@ module MockAwsBillingReports
   # `next_token` A String set to the start of the next page. When `next_token` is nil, there are no more pages.
   #
   class Paginated < AwsBackendBase
-    def describe_report_definitions(options = {})
+
+    # Generate a set of report data, and shuffle their order.
+    def generate_definitions
       definitions = []
 
       definitions << Aws::CostandUsageReportService::Types::ReportDefinition.new(
@@ -78,13 +78,17 @@ module MockAwsBillingReports
         )
       end
 
-      @definitions ||= definitions.shuffle!
+      definitions.shuffle
+    end
 
-      token = options.fetch(:next_token, nil)
+    def describe_report_definitions(options = {})
 
-      starting_position = token.nil? ? 0 : @definitions.find_index { |i| i[:report_name].eql?(token) }
-      selected_definitions = @definitions.slice(starting_position, 5)
-      next_token = @definitions[starting_position + 5].eql?(nil) ? nil : @definitions[starting_position + 5][:report_name]
+      @definitions ||= generate_definitions
+
+      starting_position = options.fetch(:next_token, 0)
+      selected_definitions = @definitions.slice(starting_position, 5).compact
+      next_token = starting_position + 5
+      next_token = @definitions.count < next_token ? nil : next_token
 
       response = Aws::CostandUsageReportService::Types::DescribeReportDefinitionsResponse
       .new(report_definitions: selected_definitions)
