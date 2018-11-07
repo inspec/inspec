@@ -41,7 +41,7 @@ A list of the names of the reports matched by the query.
 
 ### time_units
 
-A list of the time intervals of the reports matched by the query. Valid values: HOURLY, or Daily.
+A list of the time intervals of the reports matched by the query. Valid values: HOURLY, or Daily. This list is de-duplicated, so its count may not match the query count.
 
     describe aws_billing_reports do
       its('time_units') { should_not include 'HOURLY' }
@@ -49,7 +49,7 @@ A list of the time intervals of the reports matched by the query. Valid values: 
 
 ### compressions
 
-A list of the compression types of the reports matched by the query.  Valid values: ZIP, or GZIP.
+A list of the compression types of the reports matched by the query.  Valid values: ZIP, or GZIP. This list is de-duplicated, so its count may not match the query count.
 
     describe aws_billing_reports do
       its('compressions') { should_not include 'ZIP' }
@@ -57,7 +57,7 @@ A list of the compression types of the reports matched by the query.  Valid valu
 
 ### s3_buckets
 
-A list of the S3 buckets the reports matched by the query are stored in.
+A list of the S3 buckets the reports matched by the query are stored in. This list is de-duplicated, so its count may not match the query count.
 
     describe aws_billing_reports do
       its('s3_buckets') { should include 'some-s3-bucket'] }
@@ -65,7 +65,7 @@ A list of the S3 buckets the reports matched by the query are stored in.
 
 ### s3_prefixes
 
-A list of the S3 prefixes (analogous to a directory on a filesystem) that the reports matched by the query are stored in.
+A list of the S3 prefixes (analogous to a directory on a filesystem) that the reports matched by the query are stored in. This list is de-duplicated, so its count may not match the query count.
 
     describe aws_billing_reports do
       its('s3_prefixes') { should include '/my/path/here' }
@@ -73,7 +73,7 @@ A list of the S3 prefixes (analogous to a directory on a filesystem) that the re
 
 ### s3_regions
 
-A list of the S3 regions that reports matched by the query are stored in.
+A list of the S3 regions that reports matched by the query are stored in. This list is de-duplicated, so its count may not match the query count.
 
     describe aws_billing_reports do
       its('s3_regions') { should_not include 'us-west-1' }

@@ -21,12 +21,12 @@ class AwsBillingReports < Inspec.resource(1)
   filtertable = FilterTable.create
   filtertable.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
              .register_column(:report_names, field: :report_name)
-             .register_column(:time_units, field: :time_unit)
-             .register_column(:formats, field: :format)
-             .register_column(:compressions, field: :compression)
-             .register_column(:s3_buckets, field: :s3_bucket)
-             .register_column(:s3_prefixes, field: :s3_prefix)
-             .register_column(:s3_regions, field: :s3_region)
+             .register_column(:time_units, field: :time_unit, style: :simple)
+             .register_column(:formats, field: :format, style: :simple)
+             .register_column(:compressions, field: :compression, style: :simple)
+             .register_column(:s3_buckets, field: :s3_bucket, style: :simple)
+             .register_column(:s3_prefixes, field: :s3_prefix, style: :simple)
+             .register_column(:s3_regions, field: :s3_region, style: :simple)
   filtertable.install_filter_methods_on_resource(self, :table)
 
   def validate_params(resource_params)
