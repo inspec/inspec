@@ -57,8 +57,8 @@ module Inspec
       @variables = []
     end
 
-    def add_test(its, matcher, expectation)
-      test = Inspec::Describe::Test.new(its, matcher, expectation, false)
+    def add_test(its, matcher, expectation, negated=false)
+      test = Inspec::Describe::Test.new(its, matcher, expectation, negated)
       tests.push(test)
       test
     end
