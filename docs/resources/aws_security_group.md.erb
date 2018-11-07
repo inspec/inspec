@@ -91,7 +91,7 @@ The following examples show how to use this InSpec audit resource.
     end
 
     # Ensure that the canary_deployments Security Group only allows access from one specific security group id on port 443.
-    describe aws_security_group(group_name: 'careful_updates') do
+    describe aws_security_group(group_name: 'canary_deployments') do
 
       it { should allow_in_only(port: 443, security_group: "sg-33334444") }
     end
