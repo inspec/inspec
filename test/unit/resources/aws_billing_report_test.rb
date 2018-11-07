@@ -25,11 +25,11 @@ class BasicAwsBillingReportTest < Minitest::Test
   end
 
   def test_search_hit_via_hash_works
-    assert AwsBillingReport.new(report: 'inspec1').exists?
+    assert AwsBillingReport.new(report_name: 'inspec1').exists?
   end
 
   def test_search_miss_is_not_an_exception
-    refute AwsBillingReport.new(report: 'non-existent').exists?
+    refute AwsBillingReport.new(report_name: 'non-existent').exists?
   end
 
   def test_search_hit_properties

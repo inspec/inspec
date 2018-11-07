@@ -18,7 +18,7 @@ Use the `aws_billing_report` InSpec audit resource to test properties of a singl
   end
 
   # Hash Syntax to verify the time_unit used by the 'inspec1' Billing Report.
-  describe aws_billing_report(report_definition: 'inspec1') do
+  describe aws_billing_report(report_name: 'inspec1') do
     its('time_unit') { should cmp 'daily' }
   end
 
@@ -78,7 +78,7 @@ For a full list of available matchers, please visit our [matchers page](https://
 ### be_hourly
 
   describe aws_billing_report('inspec1') do
-    its('time_unit') { should be_hourly }
+    it { should be_hourly }
   end
 
 ### be_daily

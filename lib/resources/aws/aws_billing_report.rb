@@ -18,23 +18,23 @@ class AwsBillingReport < Inspec.resource(1)
               :s3_prefix, :s3_region
 
   def to_s
-    "AWS Billing Report #{@report}"
+    "AWS Billing Report #{report_name}"
   end
 
   def hourly?
-    @time_unit.eql?('hourly')
+    exists? ? time_unit.eql?('hourly') : nil
   end
 
   def daily?
-    @time_unit.eql?('daily')
+    exists? ? time_unit.eql?('daily') : nil
   end
 
   def zip?
-    @compression.eql?('zip')
+    exists? ? compression.eql?('zip') : nil
   end
 
   def gzip?
-    @compression.eql?('gzip')
+    exists? ? compression.eql?('gzip') : nil
   end
 
   private
@@ -42,23 +42,22 @@ class AwsBillingReport < Inspec.resource(1)
   def validate_params(raw_params)
     validated_params = check_resource_param_names(
       raw_params: raw_params,
-      allowed_params: [:report],
-      allowed_scalar_name: :report,
+      allowed_params: [:report_name],
+      allowed_scalar_name: :report_name,
       allowed_scalar_type: String,
     )
 
     if validated_params.empty?
-      raise ArgumentError, "You must provide the parameter 'report' to aws_billing_report."
+      raise ArgumentError, "You must provide the parameter 'report_name' to aws_billing_report."
     end
 
     validated_params
   end
 
   def fetch_from_api
-    report = find_report(@report)
+    report = find_report(report_name)
     @exists = !report.nil?
-    if @exists
-      @report_name = report.report_name
+    if exists?
       @time_unit = report.time_unit.downcase
       @format = report.format
       @compression = report.compression.downcase
@@ -92,8 +91,8 @@ class AwsBillingReport < Inspec.resource(1)
       AwsBillingReport::BackendFactory.set_default_backend(self)
       self.aws_client_class = Aws::CostandUsageReportService::Client
 
-      def describe_report_definitions(options = {})
-        aws_service_client.describe_report_definitions(options)
+      def describe_report_definitions(query = {})
+        aws_service_client.describe_report_definitions(query)
       end
     end
   end
