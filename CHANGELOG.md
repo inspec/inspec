@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.42 -->
-## [v3.0.42](https://github.com/inspec/inspec/tree/v3.0.42) (2018-11-08)
+<!-- latest_release 3.0.43 -->
+## [v3.0.43](https://github.com/inspec/inspec/tree/v3.0.43) (2018-11-08)
 
 #### Bug Fixes
-- Update iis_site bindingInformation construction and add tests [#3492](https://github.com/inspec/inspec/pull/3492) ([mrshanahan](https://github.com/mrshanahan))
+- port: Correctly detect FreeBSD [#3579](https://github.com/inspec/inspec/pull/3579) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.25 -->
 ### Changes since 3.0.25 release
 
 #### Bug Fixes
+- port: Correctly detect FreeBSD [#3579](https://github.com/inspec/inspec/pull/3579) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.43 -->
 - Update iis_site bindingInformation construction and add tests [#3492](https://github.com/inspec/inspec/pull/3492) ([mrshanahan](https://github.com/mrshanahan)) <!-- 3.0.40 -->
 - Silence RSpec &#39;should&#39; Warning [#3560](https://github.com/inspec/inspec/pull/3560) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.29 -->
 
