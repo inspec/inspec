@@ -525,8 +525,7 @@ class MockLoader
       "curl -H 'Content-Type: application/json'  -u es_admin:password http://localhost:9200/_nodes" => cmd.call('elasticsearch-cluster-auth'),
       "curl -H 'Content-Type: application/json' http://elasticsearch.mycompany.biz:1234/_nodes" => cmd.call('elasticsearch-cluster-url'),
       # iis_app_pool resource
-      "Import-Module WebAdministration; Get-Item 'IIS:\\AppPools\\DefaultAppPool' | Select-Object name,managedruntimeversion,enable32bitapponwin64,managedpipelinemode,processmodel | ConvertTo-Json" => cmd.call('iis-default-app-pool'),
-      "Import-Module WebAdministration; Get-Item 'IIS:\\AppPools\\DefaultAppPool' | Select-Object * | ConvertTo-Json" => cmd.call('iis-default-app-pool'),
+      "Import-Module WebAdministration\nIf (Test-Path 'IIS:\\AppPools\\DefaultAppPool') {\n  Get-Item 'IIS:\\AppPools\\DefaultAppPool' | Select-Object * | ConvertTo-Json\n} Else {\n  Write-Host '{}'\n}" => cmd.call('iis-default-app-pool'),
 
       #security_policy resource calls
       'Get-Content win_secpol-abc123.cfg' => cmd.call('secedit-export'),
