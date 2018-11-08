@@ -63,10 +63,12 @@ module Inspec::Resources
         AixPorts.new(inspec)
       elsif os.darwin?
         # Darwin: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/lsof.8.html
+        # Careful: make sure darwin comes before BSD, below
         LsofPorts.new(inspec)
       elsif os.windows?
         WindowsPorts.new(inspec)
-      elsif ['freebsd'].include?(os[:family])
+      elsif os.bsd?
+        # Relies on sockstat, usually present on FreeBSD and NetBSD (but not MacOS X)
         FreeBsdPorts.new(inspec)
       elsif os.solaris?
         SolarisPorts.new(inspec)
