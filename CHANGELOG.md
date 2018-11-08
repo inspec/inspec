@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.45 -->
-## [v3.0.45](https://github.com/inspec/inspec/tree/v3.0.45) (2018-11-08)
+<!-- latest_release 3.0.46 -->
+## [v3.0.46](https://github.com/inspec/inspec/tree/v3.0.46) (2018-11-08)
 
-#### Bug Fixes
-- port: Correctly detect FreeBSD [#3579](https://github.com/inspec/inspec/pull/3579) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### New Features
+- Add Git SSH and HTTP basic auth support to `inspec exec` [#3562](https://github.com/inspec/inspec/pull/3562) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.25 -->
 ### Changes since 3.0.25 release
+
+#### New Features
+- Add Git SSH and HTTP basic auth support to `inspec exec` [#3562](https://github.com/inspec/inspec/pull/3562) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.46 -->
 
 #### Bug Fixes
 - port: Correctly detect FreeBSD [#3579](https://github.com/inspec/inspec/pull/3579) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.43 -->
