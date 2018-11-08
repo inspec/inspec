@@ -1,7 +1,7 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.35 -->
-## [v3.0.35](https://github.com/inspec/inspec/tree/v3.0.35) (2018-11-08)
+<!-- latest_release 3.0.36 -->
+## [v3.0.36](https://github.com/inspec/inspec/tree/v3.0.36) (2018-11-08)
 
 #### Enhancements
 - Added xml resource support for ints, bools, and string responses [#3583](https://github.com/inspec/inspec/pull/3583) ([greenantdotcom](https://github.com/greenantdotcom))
