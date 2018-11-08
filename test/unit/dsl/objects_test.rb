@@ -158,6 +158,19 @@ describe service("avahi-daemon").info[\'properties\'][\'UnitFileState\'] do
 end
 '.strip
     end
+
+   it 'constructs a simple resource + only_if' do
+      obj.qualifier = [['resource'], ['version']]
+      obj.matcher = 'cmp >='
+      obj.expectation = '2.4.2'
+      obj.only_if = "package('ntp').installed?"
+      obj.to_ruby.must_equal '
+only_if { package(\'ntp\').installed? }
+describe resource do
+  its("version") { should cmp >= "2.4.2" }
+end
+'.strip
+    end
   end
 
 
@@ -290,6 +303,36 @@ control "sample.control.id" do
   impact 1.0
   ref   "simple ref"
   ref   ({:ref=>"title", :url=>"my url"})
+  describe command("ls /etc") do
+    its("exit_status") { should eq 0 }
+  end
+end
+'.strip
+    end
+
+    it 'constructs a control with only_if' do
+      control = Inspec::Control.new
+      control.add_test(obj1)
+      control.only_if = "package('ntp').installed?"
+      control.id = 'sample.control.id'
+      control.title = 'Sample Control Important Title'
+      control.descriptions = {
+        default: 'The most critical control the world has ever seen',
+        rationale: 'It is needed to save the planet',
+        'more info': 'Insert clever joke here',
+      }
+      control.refs = ['simple ref', {ref: 'title', url: 'my url'}]
+      control.impact = 1.0
+      control.to_ruby.must_equal '
+control "sample.control.id" do
+  title "Sample Control Important Title"
+  desc  "The most critical control the world has ever seen"
+  desc  "rationale", "It is needed to save the planet"
+  desc  "more info", "Insert clever joke here"
+  impact 1.0
+  ref   "simple ref"
+  ref   ({:ref=>"title", :url=>"my url"})
+  only_if { package(\'ntp\').installed? }
   describe command("ls /etc") do
     its("exit_status") { should eq 0 }
   end
