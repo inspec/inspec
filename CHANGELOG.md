@@ -1,7 +1,7 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.44 -->
-## [v3.0.44](https://github.com/inspec/inspec/tree/v3.0.44) (2018-11-08)
+<!-- latest_release 3.0.45 -->
+## [v3.0.45](https://github.com/inspec/inspec/tree/v3.0.45) (2018-11-08)
 
 #### Bug Fixes
 - port: Correctly detect FreeBSD [#3579](https://github.com/inspec/inspec/pull/3579) ([clintoncwolfe](https://github.com/clintoncwolfe))
