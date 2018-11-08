@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.30 -->
-## [v3.0.30](https://github.com/inspec/inspec/tree/v3.0.30) (2018-11-07)
+<!-- latest_release 3.0.31 -->
+## [v3.0.31](https://github.com/inspec/inspec/tree/v3.0.31) (2018-11-08)
 
-#### Merged Pull Requests
-- Fixes broken link in documentation [#3588](https://github.com/inspec/inspec/pull/3588) ([dmccown](https://github.com/dmccown))
+#### Enhancements
+- Add only_if to Inspec objects [#3577](https://github.com/inspec/inspec/pull/3577) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.25 -->
@@ -14,6 +14,7 @@
 - Silence RSpec &#39;should&#39; Warning [#3560](https://github.com/inspec/inspec/pull/3560) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.29 -->
 
 #### Enhancements
+- Add only_if to Inspec objects [#3577](https://github.com/inspec/inspec/pull/3577) ([james-stocks](https://github.com/james-stocks)) <!-- 3.0.31 -->
 - aws_vpc: accept 17 hexadecimal characters for vpc_id [#3564](https://github.com/inspec/inspec/pull/3564) ([kchistova](https://github.com/kchistova)) <!-- 3.0.28 -->
 
 #### Merged Pull Requests
