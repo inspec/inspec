@@ -74,7 +74,7 @@ EOX
 
   def populate_as_missing
     @version = nil
-    @name = nil
+    @name = cluster_name # name is an alias for cluster_name, and it is retained on a miss
     @arn = nil
     @certificate_authority = nil
     @created_at = nil

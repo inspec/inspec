@@ -54,7 +54,7 @@ Returns the ARN of the cluster.  This is the Amazon resource name.
 
 The name of the EKS cluster within AWS. The EKS name is unique within the region.
 
-    # Ensure that the ELB's name is what we said it was
+    # Ensure that the EKS's name is what we said it was
     describe aws_eks_cluster('my-cluster') do
       its('name') { should match /my-cluster/ }
     end
