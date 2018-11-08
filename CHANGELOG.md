@@ -7,30 +7,33 @@
 - Add Git SSH and HTTP basic auth support to `inspec exec` [#3562](https://github.com/inspec/inspec/pull/3562) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
-<!-- release_rollup since=3.0.25 -->
-### Changes since 3.0.25 release
-
-#### New Features
-- Add Git SSH and HTTP basic auth support to `inspec exec` [#3562](https://github.com/inspec/inspec/pull/3562) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.46 -->
-
-#### Bug Fixes
-- port: Correctly detect FreeBSD [#3579](https://github.com/inspec/inspec/pull/3579) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.43 -->
-- Update iis_site bindingInformation construction and add tests [#3492](https://github.com/inspec/inspec/pull/3492) ([mrshanahan](https://github.com/mrshanahan)) <!-- 3.0.40 -->
-- Silence RSpec &#39;should&#39; Warning [#3560](https://github.com/inspec/inspec/pull/3560) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.29 -->
-
-#### Enhancements
-- Allow add_test to accept negation [#3586](https://github.com/inspec/inspec/pull/3586) ([rachelrice](https://github.com/rachelrice)) <!-- 3.0.37 -->
-- Added xml resource support for ints, bools, and string responses [#3583](https://github.com/inspec/inspec/pull/3583) ([greenantdotcom](https://github.com/greenantdotcom)) <!-- 3.0.34 -->
-- Add only_if to Inspec objects [#3577](https://github.com/inspec/inspec/pull/3577) ([james-stocks](https://github.com/james-stocks)) <!-- 3.0.31 -->
-- aws_vpc: accept 17 hexadecimal characters for vpc_id [#3564](https://github.com/inspec/inspec/pull/3564) ([kchistova](https://github.com/kchistova)) <!-- 3.0.28 -->
-
-#### Merged Pull Requests
-- Fixes broken link in documentation [#3588](https://github.com/inspec/inspec/pull/3588) ([dmccown](https://github.com/dmccown)) <!-- 3.0.30 -->
-- Fixes (some) ruby warnings related to functional tests [#3561](https://github.com/inspec/inspec/pull/3561) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 3.0.27 -->
-- Fix functional tests issues with vendoring [#3572](https://github.com/inspec/inspec/pull/3572) ([jquick](https://github.com/jquick)) <!-- 3.0.26 -->
+<!-- release_rollup since=3.0.46 -->
+### Changes since 3.0.46 release
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.0.46](https://github.com/inspec/inspec/tree/v3.0.46) (2018-11-08)
+
+#### New Features
+- Add Git SSH and HTTP basic auth support to `inspec exec` [#3562](https://github.com/inspec/inspec/pull/3562) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Enhancements
+- aws_vpc: accept 17 hexadecimal characters for vpc_id [#3564](https://github.com/inspec/inspec/pull/3564) ([kchistova](https://github.com/kchistova))
+- Add only_if to Inspec objects [#3577](https://github.com/inspec/inspec/pull/3577) ([james-stocks](https://github.com/james-stocks))
+- Added xml resource support for ints, bools, and string responses [#3583](https://github.com/inspec/inspec/pull/3583) ([greenantdotcom](https://github.com/greenantdotcom))
+- Allow add_test to accept negation [#3586](https://github.com/inspec/inspec/pull/3586) ([rachelrice](https://github.com/rachelrice))
+
+#### Bug Fixes
+- Silence RSpec &#39;should&#39; Warning [#3560](https://github.com/inspec/inspec/pull/3560) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update iis_site bindingInformation construction and add tests [#3492](https://github.com/inspec/inspec/pull/3492) ([mrshanahan](https://github.com/mrshanahan))
+- port: Correctly detect FreeBSD [#3579](https://github.com/inspec/inspec/pull/3579) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Fix functional tests issues with vendoring [#3572](https://github.com/inspec/inspec/pull/3572) ([jquick](https://github.com/jquick))
+- Fixes (some) ruby warnings related to functional tests [#3561](https://github.com/inspec/inspec/pull/3561) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
+- Fixes broken link in documentation [#3588](https://github.com/inspec/inspec/pull/3588) ([dmccown](https://github.com/dmccown))
+<!-- latest_stable_release -->
+
 ## [v3.0.25](https://github.com/inspec/inspec/tree/v3.0.25) (2018-11-01)
 
 #### Enhancements
@@ -46,7 +49,6 @@
 - Allow end of options during Thor array parsing [#3547](https://github.com/inspec/inspec/pull/3547) ([jquick](https://github.com/jquick))
 - Pin to train 1.5.6 [#3568](https://github.com/inspec/inspec/pull/3568) ([jquick](https://github.com/jquick))
 - bump expeditor version [#3569](https://github.com/inspec/inspec/pull/3569) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v3.0.12](https://github.com/inspec/inspec/tree/v3.0.12) (2018-10-24)
 
