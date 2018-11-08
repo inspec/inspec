@@ -1,7 +1,7 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.31 -->
-## [v3.0.31](https://github.com/inspec/inspec/tree/v3.0.31) (2018-11-08)
+<!-- latest_release 3.0.32 -->
+## [v3.0.32](https://github.com/inspec/inspec/tree/v3.0.32) (2018-11-08)
 
 #### Enhancements
 - Add only_if to Inspec objects [#3577](https://github.com/inspec/inspec/pull/3577) ([james-stocks](https://github.com/james-stocks))
