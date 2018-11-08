@@ -30,7 +30,7 @@ module Fetchers
 
     def self.resolve(target, opts = {})
       if target.is_a?(String)
-        new(target) if target.start_with?('git@') || target.end_with?('.git')
+        new(target, opts) if target.start_with?('git@') || target.end_with?('.git')
       elsif target.respond_to?(:has_key?) && target.key?(:git)
         new(target[:git], opts.merge(target))
       end
