@@ -1,7 +1,7 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.41 -->
-## [v3.0.41](https://github.com/inspec/inspec/tree/v3.0.41) (2018-11-08)
+<!-- latest_release 3.0.42 -->
+## [v3.0.42](https://github.com/inspec/inspec/tree/v3.0.42) (2018-11-08)
 
 #### Bug Fixes
 - Update iis_site bindingInformation construction and add tests [#3492](https://github.com/inspec/inspec/pull/3492) ([mrshanahan](https://github.com/mrshanahan))
