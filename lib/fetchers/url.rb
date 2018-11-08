@@ -122,13 +122,8 @@ module Fetchers
     private
 
     def parse_uri(target)
-      if target.is_a?(String)
-        URI.parse(target)
-      elsif target[:url]
-        URI.parse(target[:url])
-      end
-    rescue URI::Error
-      nil
+      return URI.parse(target) if target.is_a?(String)
+      URI.parse(target[:url])
     end
 
     def sha256
