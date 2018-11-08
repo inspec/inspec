@@ -11,6 +11,18 @@ describe Fetchers::Git do
     _(reg['git']).must_equal fetcher
   end
 
+  it 'handles sources beginning with `git@`' do
+    f = fetcher.resolve('git@github.com:foo/bar')
+    f.wont_be_nil
+    f.must_be_kind_of Fetchers::Git
+  end
+
+  it 'handles sources ending with `.git`' do
+    f = fetcher.resolve('https://github.com/foo/bar.git')
+    f.wont_be_nil
+    f.must_be_kind_of Fetchers::Git
+  end
+
   it "handles sources specified by a :git key" do
     f = fetcher.resolve({git: "https://example.com/foo.gi"})
     f.wont_be_nil
