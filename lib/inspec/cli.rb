@@ -201,29 +201,29 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       inspec exec /path/to/a_test.rb
       ```
 
-    Git via SSH (uses SSH keys if repo is private):
+    Git via SSH
       ```
       inspec exec git@github.com:dev-sec/linux-baseline.git
       ```
 
-    Git via HTTPS (.git is required):
+    Git via HTTPS (.git suffix is required):
       ```
       inspec exec https://github.com/dev-sec/linux-baseline.git
       ```
 
-    Private Git via HTTPS (.git is required):
+    Private Git via HTTPS (.git suffix is required):
       ```
       inspec exec https://API_TOKEN@github.com/dev-sec/linux-baseline.git
       ```
 
-    Private Git via HTTPS and cached credentials (.git is required):
+    Private Git via HTTPS and cached credentials (.git suffix is required):
       ```
       git config credential.helper cache
       git ls-remote https://github.com/dev-sec/linux-baseline.git
       inspec exec https://github.com/dev-sec/linux-baseline.git
       ```
 
-    Web hosted fileshare (supports .zip):
+    Web hosted fileshare (also supports .zip):
       ```
       inspec exec https://webserver/linux-baseline.tar.gz
       ```
