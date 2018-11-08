@@ -59,7 +59,11 @@ describe 'inspec exec with junit formatter' do
         end
 
         it 'should be skipped' do
-          first_gordon_test.elements.to_a('//skipped').length.must_equal 1
+          if is_windows?
+            first_gordon_test.elements.to_a('//skipped').length.must_equal 2
+          else
+            first_gordon_test.elements.to_a('//skipped').length.must_equal 1
+          end
         end
       end
     end

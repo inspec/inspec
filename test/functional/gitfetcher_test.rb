@@ -18,8 +18,10 @@ describe 'profiles with git-based dependencies' do
     Dir.chdir(@git_dep_dir) do
       CMD.run_command("git init")
       CMD.run_command("git add .")
-      CMD.run_command("git commit -m 'initial commit' --no-gpg-sign")
-      CMD.run_command("git commit -m 'another commit' --allow-empty --no-gpg-sign")
+      CMD.run_command("git config user.name \"test\"")
+      CMD.run_command("git config user.email \"test@yahoo.com\"")
+      CMD.run_command("git commit -m \"initial commit\" --no-gpg-sign")
+      CMD.run_command("git commit -m \"another commit\" --allow-empty --no-gpg-sign")
       CMD.run_command("git tag antag")
     end
 

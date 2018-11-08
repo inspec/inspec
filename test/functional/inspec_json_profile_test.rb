@@ -115,16 +115,16 @@ describe 'inspec json' do
   describe 'json test for pax header archives' do
     let(:profile_tgz) { File.join(Dir.mktmpdir, "pax-profile-test.tar.gz") }
 
-    before do
+    it 'successfully reads a pax-formatted tar file' do
+      # TODO: this needs updated to also support windows taring
+      return if is_windows?
       files = Dir.glob("#{example_profile}/**/*").delete_if { |x| !File.file?(x) }
       relatives = files.map { |e| Pathname.new(e).relative_path_from(Pathname.new(example_profile)).to_s }
 
       cmd = Mixlib::ShellOut.new("tar --format=pax -czf #{profile_tgz} #{relatives.join(' ')}", cwd: example_profile)
       cmd.run_command
       cmd.error!
-    end
 
-    it 'successfully reads a pax-formatted tar file' do
       out = inspec("json #{profile_tgz}")
       out.exit_status.must_equal 0
     end

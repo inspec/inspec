@@ -15,7 +15,8 @@ describe 'inspec exec automate' do
             "stdout" : false,
             "url" : "https://fake_url_a2.com/data-collector/v0/",
             "token" : "faketoken123",
-            "insecure" : true
+            "insecure" : true,
+            "node_uuid" : "test123"
             }
         }
     }

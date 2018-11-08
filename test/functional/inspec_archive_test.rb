@@ -7,6 +7,7 @@ require 'tmpdir'
 
 describe 'inspec archive' do
   include FunctionalHelper
+  let(:auto_dst) { File.expand_path(File.join(repo_path, 'profile-1.0.0.tar.gz')) }
 
   it 'archive is successful' do
     prepare_examples('profile') do |dir|
@@ -21,7 +22,7 @@ describe 'inspec archive' do
     prepare_examples('profile') do |dir|
       out = inspec('archive ' + dir + ' --output ' + dst.path)
       out.stderr.must_equal ''
-      out.stdout.must_include 'Generate archive '+ dst.path
+      out.stdout.must_include 'Generate archive ' + dst.path
       out.stdout.must_include 'Finished archive generation.'
       out.exit_status.must_equal 0
       File.exist?(dst.path).must_equal true
@@ -30,7 +31,6 @@ describe 'inspec archive' do
 
   it 'auto-archives when no --output is given' do
     prepare_examples('profile') do |dir|
-      auto_dst = File.join(repo_path, 'profile-1.0.0.tar.gz')
       out = inspec('archive ' + dir + ' --overwrite')
       out.stderr.must_equal ''
       out.stdout.must_include 'Generate archive ' + auto_dst
@@ -42,7 +42,7 @@ describe 'inspec archive' do
 
   it 'archive on invalid archive' do
     Dir.tmpdir do |target_dir|
-      out = inspec('archive #{target_dir} --output ' + dst.path)
+      out = inspec("archive #{target_dir} --output " + dst.path)
       out.stderr.must_include "Don't understand inspec profile in \"#{target_dir}\""
       out.exit_status.must_equal 1
       File.exist?(dst.path).must_equal false

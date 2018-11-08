@@ -19,7 +19,11 @@ describe 'inspec supermakert' do
   end
 
   it 'supermarket exec' do
-    out = inspec('supermarket exec dev-sec/ssh-baseline')
+    if is_windows?
+      out = inspec('supermarket exec dev-sec/windows-patch-baseline')
+    else
+      out = inspec('supermarket exec dev-sec/ssh-baseline')
+    end
     out.exit_status.wont_equal 1
     out.stderr.must_equal ''
     out.stdout.must_include 'Profile Summary'
