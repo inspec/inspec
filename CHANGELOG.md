@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.39 -->
-## [v3.0.39](https://github.com/inspec/inspec/tree/v3.0.39) (2018-11-08)
+<!-- latest_release 3.0.40 -->
+## [v3.0.40](https://github.com/inspec/inspec/tree/v3.0.40) (2018-11-08)
 
-#### Enhancements
-- Allow add_test to accept negation [#3586](https://github.com/inspec/inspec/pull/3586) ([rachelrice](https://github.com/rachelrice))
+#### Bug Fixes
+- Update iis_site bindingInformation construction and add tests [#3492](https://github.com/inspec/inspec/pull/3492) ([mrshanahan](https://github.com/mrshanahan))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.25 -->
 ### Changes since 3.0.25 release
 
 #### Bug Fixes
+- Update iis_site bindingInformation construction and add tests [#3492](https://github.com/inspec/inspec/pull/3492) ([mrshanahan](https://github.com/mrshanahan)) <!-- 3.0.40 -->
 - Silence RSpec &#39;should&#39; Warning [#3560](https://github.com/inspec/inspec/pull/3560) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.29 -->
 
 #### Enhancements
