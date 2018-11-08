@@ -175,7 +175,7 @@ end
 module MAEKSB
   class Empty < AwsBackendBase
     def describe_cluster(query = {})
-      raise Aws::EKS::Errors::ResourceNotFound.new(nil, nil)
+      raise Aws::EKS::Errors::ResourceNotFoundException.new(nil, nil)
     end
   end
 
@@ -256,7 +256,7 @@ module MAEKSB
           query[:name].include? clst.name
         end
         if result.empty?
-          raise Aws::EKS::Errors::ResourceNotFound.new(nil,nil)
+          raise Aws::EKS::Errors::ResourceNotFoundException.new(nil,nil)
         else
           OpenStruct.new({ cluster: result[0] })
         end
