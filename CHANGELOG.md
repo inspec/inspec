@@ -1,7 +1,7 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.47 -->
-## [v3.0.47](https://github.com/inspec/inspec/tree/v3.0.47) (2018-11-08)
+<!-- latest_release 3.0.48 -->
+## [v3.0.48](https://github.com/inspec/inspec/tree/v3.0.48) (2018-11-08)
 
 #### New Features
 - Add Git SSH and HTTP basic auth support to `inspec exec` [#3562](https://github.com/inspec/inspec/pull/3562) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
