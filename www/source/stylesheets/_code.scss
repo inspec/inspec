@@ -19,7 +19,11 @@ code {
 	padding: $percent_xs;
 	border-radius: 4px;
 	background-color: $color-dark;
-	margin: 0 0 1rem;
+  margin: 0 0 1rem;
+}
+
+.custom-box-margin {
+  padding: 16px 0px;
 }
 
 .box-code-overwrite {
@@ -82,3 +86,4 @@ code {
 .hljs-strong{
    font-weight:bold
 }
+
