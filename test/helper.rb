@@ -528,6 +528,9 @@ class MockLoader
       "Import-Module WebAdministration; Get-Item 'IIS:\\AppPools\\DefaultAppPool' | Select-Object name,managedruntimeversion,enable32bitapponwin64,managedpipelinemode,processmodel | ConvertTo-Json" => cmd.call('iis-default-app-pool'),
       "Import-Module WebAdministration; Get-Item 'IIS:\\AppPools\\DefaultAppPool' | Select-Object * | ConvertTo-Json" => cmd.call('iis-default-app-pool'),
 
+      # iis_site resource
+      "Get-Website 'Default Web Site' | Select-Object -Property Name,State,PhysicalPath,bindings,ApplicationPool | ConvertTo-Json" => cmd.call('iis-default-web-site'),
+
       #security_policy resource calls
       'Get-Content win_secpol-abc123.cfg' => cmd.call('secedit-export'),
       'secedit /export /cfg win_secpol-abc123.cfg' => cmd.call('success'),
