@@ -570,7 +570,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
         warning.must_include 'dupe-01' # Which control
         warning.must_include "is duplicated within the same profile 'dupe-controls'"
         warning.must_include 'duplicates.rb:1' # the original location
-        warning.must_include 'duplicates.rb:12' # the duplicate location
+        warning.must_include 'duplicates.rb:14' # the duplicate location
       end
     end
 
