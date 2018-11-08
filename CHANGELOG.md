@@ -1,7 +1,7 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.38 -->
-## [v3.0.38](https://github.com/inspec/inspec/tree/v3.0.38) (2018-11-08)
+<!-- latest_release 3.0.39 -->
+## [v3.0.39](https://github.com/inspec/inspec/tree/v3.0.39) (2018-11-08)
 
 #### Enhancements
 - Allow add_test to accept negation [#3586](https://github.com/inspec/inspec/pull/3586) ([rachelrice](https://github.com/rachelrice))
