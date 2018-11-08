@@ -86,7 +86,7 @@ class IisAppPool < Inspec.resource(1)
   def iis_app_pool
     return @cache unless @cache.nil?
 
-    script = <<-EOH
+    script = <<~EOH
       Import-Module WebAdministration
       If (Test-Path '#{@pool_path}') {
         Get-Item '#{@pool_path}' | Select-Object * | ConvertTo-Json
