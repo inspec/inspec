@@ -12,7 +12,6 @@ SGs are a networking construct which contain ingress and egress rules for networ
 
 While this resource provides facilities for searching inbound and outbound rules on a variety of criteria, there is currently no support for performing matches based on:
 
- * References to other Security Groups
  * References to VPC peers or other AWS services (that is, no support for searches based on 'prefix lists').
 
 <br>
@@ -85,11 +84,35 @@ The following examples show how to use this InSpec audit resource.
       end
 
       # If you have one rule with two CIDRs:
-      it { should allow_out(ipv4_range: [ '10.7.23.12/32', '10.8.23.12/32' ] }
+      it { should allow_out(ipv4_range: [ '10.7.23.12/32', '10.8.23.12/32' ]) }
 
       # Expect exactly three rules.
       its('outbound_rules.count') { should cmp 3 }
     end
+
+    # Ensure that the canary_deployments Security Group only allows access from one specific security group id on port 443.
+    describe aws_security_group(group_name: 'canary_deployments') do
+
+      it { should allow_in_only(port: 443, security_group: "sg-33334444") }
+    end
+
+    # Ensure that one of the security groups in a list allows access from one of the groups in another list.
+    # If you have two lists of groups, check if one of the groups in the first list allows access for one of the
+    # groups in the second list.
+
+      control 'master to node access security group' do
+        desc 'one of the node security groups should allow all access from:
+      one of the master security groups, so masters can reach all nodes'
+        describe.one do
+          [ 'sg-11112222', 'sg-33334444' ].each do |nodeSG|
+            [ 'sg-55556666', 'sg-77778888' ].each do |masterSG|
+              describe aws_security_group(id: nodeSG) do
+                it { should allow_in(security_group: masterSG) }
+              end
+            end
+          end
+        end
+      end
 
 <br>
 
@@ -260,6 +283,7 @@ The matchers accept a key-value list of search criteria.  For a rule to match, i
   * position - A one-based index into the list of rules. If provided, this restricts the evaluation to the rule at that position. You may also use the special values `:first` and `:last`. `position` may also be used to enable `allow_in_only` and `allow_out_only` to work with multi-rule Security Groups.
   * protocol - Specifies the IP protocol. 'tcp', 'udp', and 'icmp' are some typical values. The string "-1" or 'any' is used to indicate any protocol.
   * to_port - Determines if a rule exists whose port range ends at the specified number. The word 'to_' does *not* relate to inbound/outbound directionality; it relates to the port range ("counting _to_"). `to_port` is an exact criterion; so if the rule allows 1000-2000 and you specify a `to_port` of 1999, it does not match.
+  * security_group - Specifies a security-group id, to be checked as permissible origin (for `allow_in`) or destination (for `allow_out`) for traffic. Each AWS Security Group rule may have multiple allowed source or destination security groups.
 
     describe aws_security_group(group_name: 'mixed-functionality-group') do
       # Allow RDP from defined range
@@ -283,6 +307,9 @@ The matchers accept a key-value list of search criteria.  For a rule to match, i
 
       # Do not allow unrestricted IPv4 access.
       it { should_not allow_in(ipv4_range: '0.0.0.0/0') }
+
+      # Allow unrestricted access from security-group.
+      it { should allow_in(security_group: 'sg-11112222') }
     end
 
     # Suppose you have a Group that should allow SSH and RDP from

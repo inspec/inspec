@@ -222,6 +222,38 @@ output "ec2_security_group_alpha_group_name" {
   value = "${aws_security_group.alpha.name}"
 }
 
+# Create another security group
+# in the default VPC
+resource "aws_security_group" "beta" {
+  name        = "${terraform.env}-beta"
+  description = "SG beta"
+  vpc_id      = "${data.aws_vpc.default.id}"
+}
+
+output "ec2_security_group_beta_group_id" {
+  value = "${aws_security_group.beta.id}"
+}
+
+output "ec2_security_group_beta_group_name" {
+  value = "${aws_security_group.beta.name}"
+}
+
+# Create third security group
+# in the default VPC
+resource "aws_security_group" "gamma" {
+  name        = "${terraform.env}-gamma"
+  description = "SG gamma"
+  vpc_id      = "${data.aws_vpc.default.id}"
+}
+
+output "ec2_security_group_gamma_group_id" {
+  value = "${aws_security_group.gamma.id}"
+}
+
+output "ec2_security_group_gamma_group_name" {
+  value = "${aws_security_group.gamma.name}"
+}
+
 # NOTE: AWS (in the console and CLI) creates SGs with a default
 # allow all egress.  Terraform removes that rule, unless you specify it here.
 
@@ -271,6 +303,44 @@ resource "aws_security_group_rule" "alpha_piv6_all_ports" {
   protocol          = "tcp"
   ipv6_cidr_blocks = ["2001:db8::/122"]
   security_group_id = "${aws_security_group.alpha.id}"
+}
+
+# Populate SG Beta with some rules
+resource "aws_security_group_rule" "beta_http_world" {
+  type              = "ingress"
+  from_port         = "80"
+  to_port           = "80"
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.beta.id}"
+}
+
+resource "aws_security_group_rule" "beta_ssh_in_alfa" {
+  type              = "ingress"
+  from_port         = "22"
+  to_port           = "22"
+  protocol          = "tcp"
+  source_security_group_id = "${aws_security_group.alpha.id}"
+  security_group_id = "${aws_security_group.beta.id}"
+}
+
+resource "aws_security_group_rule" "beta_all_ports_in_gamma" {
+  type              = "ingress"
+  from_port         = "0"
+  to_port           = "65535"
+  protocol          = "tcp"
+  source_security_group_id = "${aws_security_group.gamma.id}"
+  security_group_id = "${aws_security_group.beta.id}"
+}
+
+# Populate SG Gamma with a rule
+resource "aws_security_group_rule" "gamma_ssh_in_alfa" {
+  type              = "ingress"
+  from_port         = "22"
+  to_port           = "22"
+  protocol          = "tcp"
+  source_security_group_id = "${aws_security_group.alpha.id}"
+  security_group_id = "${aws_security_group.gamma.id}"
 }
 
 #============================================================#

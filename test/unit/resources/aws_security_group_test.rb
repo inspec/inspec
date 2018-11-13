@@ -123,6 +123,7 @@ class AwsSGSProperties < Minitest::Test
       :position,
       :protocol,
       :to_port,
+      :security_group,
     ].each do |criterion|
       # No errors here
       sg.allow_in?(criterion => 'dummy')
@@ -133,7 +134,7 @@ class AwsSGSProperties < Minitest::Test
     sg = AwsSecurityGroup.new('sg-aaaabbbb')
     rules = sg.inbound_rules
     assert_equal(0, rules.count)
-    refute(sg.allow_in?()) # Should we test this - "open" crieria?
+    refute(sg.allow_in?()) # Should we test this - "open" criteria?
   end
 
   def test_matcher_allow_inbound_complex
@@ -200,13 +201,39 @@ class AwsSGSProperties < Minitest::Test
     # Test _only with a single rule group for IPv6
     sg = AwsSecurityGroup.new('sg-33334444')
     assert_equal(1, sg.inbound_rules.count, "count the number of rules for 1-rule ipv6 group")
-    assert_equal(1, sg.inbound_rules_count, "Count the number of rule variants for 1-rule gipv6 roup")
+    assert_equal(1, sg.inbound_rules_count, "Count the number of rule variants for 1-rule ipv6 group")
     assert(sg.allow_in_only?(ipv6_range: "::/0"), "Match IP range using _only on 1-rule ipv6 group")
     assert(sg.allow_in_only?(protocol: 'any'), "Match protocol using _only on 1-rule ipv6 group")
     refute(sg.allow_in_only?(port: 22), "no match port using _only on 1-rule ipv6 group")
+
+    # security-group
+    sg = AwsSecurityGroup.new('sg-55556666')
+    assert(sg.allow_in?(security_group: "sg-33334441"), "match on group-id")
+    assert(sg.allow_in?(security_group: "sg-33334441", port: 22), "match on group-id, numeric port")
+    assert(sg.allow_in?(security_group: "sg-33334441", port: "22"), "match on group-id, string port")
+    assert(sg.allow_in?(security_group: "sg-33334441", to_port: "22", from_port: "22"), "match on group-id, to/from port")
+    assert(sg.allow_in?(port: 9002, position: 3), "range matching on port with allow_in")
+    refute(sg.allow_in_only?(port: 9002, position: 3), "no range matching on port with allow_in_only")
+    refute(sg.allow_in_only?(security_group: "sg-33334441",), "no matching on group with allow_in_only when multiple group rules")
+    assert(sg.allow_in_only?(from_port: 9001, to_port: 9003, position: 3), "exact range matching on port with allow_in_only")
+
+    # Test _only with a single rule group for security-group
+    sg = AwsSecurityGroup.new('sg-33334441')
+    assert_equal(1, sg.inbound_rules.count, "count the number of rules for 1-rule security-group")
+    assert_equal(1, sg.inbound_rules_count, "Count the number of rule variants for 1-rule security-group")
+    assert(sg.allow_in_only?(security_group: "sg-33334444"), "Match security-group using _only on 1-rule security-group")
+    assert(sg.allow_in_only?(protocol: 'any',security_group: "sg-33334444"), "Match protocol using _only on 1-rule security-group")
+    refute(sg.allow_in_only?(port: 22, security_group: "sg-33334444"), "no match port using _only on 1-rule security-group")
+
+    # Test _only with a single rule group for security-group with position pinning
+    sg = AwsSecurityGroup.new('sg-33334442')
+    assert(sg.allow_in_only?(security_group: "sg-33334444", position: 2), "Match security-group using _only with numerical position")
+    assert(sg.allow_in_only?(protocol: 'any',security_group: "sg-33334444", position: 2), "Match protocol using _only on 1-rule security-group with numerical position")
+    refute(sg.allow_in_only?(port: 22, security_group: "sg-33334444", position: 2), "no match port using _only on 1-rule security-group with numerical position")
+    assert(sg.allow_in_only?(security_group: "sg-33334444", position: "2"), "Match security-group using _only with string position")
+    assert(sg.allow_in_only?(security_group: "sg-33334444", position: :last), "Match security-group using _only with last position")
   end
 end
-
 
 #=============================================================================#
 #                               Test Fixtures
@@ -316,6 +343,147 @@ module AwsMESGSB
               ip_protocol: "-1",
               ipv_6_ranges: [
                 {cidr_ipv_6:"::/0"},
+              ]
+            }),
+          ],
+          ip_permissions_egress: [],
+        }),
+        OpenStruct.new({
+          description: 'Open for group one group rule second position',
+          group_id: 'sg-33334442',
+          group_name: 'etha',
+          vpc_id: 'vpc-12345678',
+          ip_permissions: [
+            OpenStruct.new({
+              from_port: nil,
+              to_port: nil,
+              ip_protocol: "-1",
+              ipv_6_ranges: [
+                {cidr_ipv_6:"::/0"},
+              ]
+            }),
+            OpenStruct.new({
+              from_port: nil,
+              to_port: nil,
+              ip_protocol: "-1",
+              user_id_group_pairs: [
+                OpenStruct.new({
+                  description: 'Open for group one rule second position',
+                  group_id: 'sg-33334444',
+                  group_name: 'delta',
+                  peering_status: "",
+                  user_id: "123456789012",
+                  vpc_id: "",
+                  vpc_peering_connection_id: ""
+                }),
+              ]
+            }),
+          ],
+          ip_permissions_egress: [],
+        }),
+        OpenStruct.new({
+          description: 'Open for group one rule',
+          group_id: 'sg-33334441',
+          group_name: 'zeta',
+          vpc_id: 'vpc-12345678',
+          ip_permissions: [
+            OpenStruct.new({
+              from_port: nil,
+              to_port: nil,
+              ip_protocol: "-1",
+              user_id_group_pairs: [
+                OpenStruct.new({
+                  description: 'Open for group one rule',
+                  group_id: 'sg-33334444',
+                  group_name: 'delta',
+                  peering_status: "",
+                  user_id: '123456789012',
+                  vpc_id: "",
+                  vpc_peering_connection_id: ""
+                }),
+              ]
+            }),
+          ],
+          ip_permissions_egress: [],
+        }),
+        OpenStruct.new({
+          description: 'Open for group',
+          group_id: 'sg-55556666',
+          group_name: 'epsilon',
+          vpc_id: 'vpc-12345678',
+          ip_permissions: [
+            OpenStruct.new({
+              from_port: 80,
+              to_port: 443,
+              ip_protocol: "-1",
+              ip_ranges: [
+                {cidr_ip:"0.0.0.0/0"},
+              ]
+            }),
+            OpenStruct.new({
+              from_port: 22,
+              to_port: 22,
+              ip_protocol: "-1",
+              user_id_group_pairs: [
+                OpenStruct.new({
+                  description: 'Open for group rule 2',
+                  group_id: 'sg-33334441',
+                  group_name: 'zeta',
+                  peering_status: "",
+                  user_id: '123456789012',
+                  vpc_id: "",
+                  vpc_peering_connection_id: ""
+                }),
+              ]
+            }),
+            OpenStruct.new({
+              from_port: 9001,
+              to_port: 9003,
+              ip_protocol: "-1",
+              user_id_group_pairs: [
+                OpenStruct.new({
+                  description: 'Open for group rule 3',
+                  group_id: 'sg-33334441',
+                  group_name: 'zeta',
+                  peering_status: "",
+                  user_id: '123456789012',
+                  vpc_id: "",
+                  vpc_peering_connection_id: ""
+                }),
+              ]
+            }),
+            OpenStruct.new({
+              from_port: nil,
+              to_port: nil,
+              ip_protocol: "-1",
+              user_id_group_pairs: [
+                OpenStruct.new({
+                  description: 'allow all from multiple sg',
+                  group_id: 'sg-33334441',
+                  group_name: 'zeta',
+                  peering_status: "",
+                  user_id: '123456789012',
+                  vpc_id: "",
+                  vpc_peering_connection_id: ""
+                }),
+                OpenStruct.new({
+                  description: 'allow all from multiple sg[2]',
+                  group_id: 'sg-33334442',
+                  group_name: 'etha',
+                  peering_status: "",
+                  user_id: '123456789012',
+                  vpc_id: "",
+                  vpc_peering_connection_id: ""
+                }),
+                OpenStruct.new({
+                  description: 'allow all from multiple sg[3]',
+                  group_id: 'sg-11112222',
+                  group_name: 'theta',
+                  peering_status: "",
+                  user_id: '123456789012',
+                  vpc_id: "",
+                  vpc_peering_connection_id: ""
+                }),
               ]
             }),
           ],

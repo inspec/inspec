@@ -3,6 +3,8 @@ fixtures = {}
   'ec2_security_group_default_vpc_id',
   'ec2_security_group_default_group_id',
   'ec2_security_group_alpha_group_id',
+  'ec2_security_group_beta_group_id',
+  'ec2_security_group_gamma_group_id',
   'ec2_security_group_alpha_group_name',
 ].each do |fixture_name|
   fixtures[fixture_name] = attribute(
@@ -73,5 +75,12 @@ control "aws_security_group matchers" do
 
     it { should allow_out(ipv6_range: ["2001:db8::/122"])}
     it { should allow_out(ipv6_range: ["2001:db8::/122"], from_port: 6000, to_port: 6007)}
+  end
+  describe aws_security_group(fixtures['ec2_security_group_beta_group_id']) do
+    it { should allow_in(port: 22, security_group: fixtures['ec2_security_group_alpha_group_id']) }
+    it { should allow_in(security_group: fixtures['ec2_security_group_gamma_group_id']) }
+  end
+  describe aws_security_group(fixtures['ec2_security_group_gamma_group_id']) do
+    it { should allow_in_only(port: 22, security_group: fixtures['ec2_security_group_alpha_group_id']) }
   end
 end
