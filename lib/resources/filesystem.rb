@@ -20,7 +20,7 @@ module Inspec::Resources
     def initialize(partition)
       @partition = partition
       @cache = nil
-      #select file system manager
+      # select file system manager
       @fsman = nil
 
       os = inspec.os
@@ -33,7 +33,7 @@ module Inspec::Resources
       end
     end
 
-    def info 
+    def info
       return @cache if !@cache.nil?
       return {} if @fsman.nil?
       @fsman.info(@partition)
@@ -41,17 +41,18 @@ module Inspec::Resources
 
     def to_s
       "FileSystem #{@partition}"
-    end	
+    end
 
     def size
       info = @fsman.info(@partition)
       info[:size]
-    end		
+    end
 
     def filesystem
       info = @fsman.info(@partition)
       info[:filesystem]
     end
+
     def name
       info = @fsman.info(@partition)
       info[:name]
@@ -72,7 +73,7 @@ module Inspec::Resources
         raise Inspec::Exceptions::ResourceFailed, "Unable to get available space for partition #{partition}" if cmd.stdout.nil? || cmd.stdout.empty? || !cmd.exit_status.zero?
         value = cmd.stdout.gsub(/\dK-blocks[\r\n]/, '').strip
         {
-          name: partition,				
+          name: partition,
           size: value.to_i,
           filesystem: false,
         }
@@ -92,7 +93,7 @@ module Inspec::Resources
       begin
         fs = JSON.parse(cmd.stdout)
         rescue JSON::ParserError => e
-        raise Inspec::Exceptions::ResourceFailed,
+          raise Inspec::Exceptions::ResourceFailed,
           'Failed to parse JSON from Powershell. ' \
           "Error: #{e}"
         end
@@ -103,5 +104,5 @@ module Inspec::Resources
         filesystem: fs['FileSystem'],
       }
     end
-  end	
+  end
 end
