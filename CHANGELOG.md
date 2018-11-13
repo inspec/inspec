@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.48 -->
-## [v3.0.48](https://github.com/inspec/inspec/tree/v3.0.48) (2018-11-08)
+<!-- latest_release 3.0.49 -->
+## [v3.0.49](https://github.com/inspec/inspec/tree/v3.0.49) (2018-11-13)
 
-#### New Features
-- Add Git SSH and HTTP basic auth support to `inspec exec` [#3562](https://github.com/inspec/inspec/pull/3562) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Enhancements
+- aws_security_group: Query against other security group ids in allow_* matchers [#3576](https://github.com/inspec/inspec/pull/3576) ([j00p34](https://github.com/j00p34))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.46 -->
 ### Changes since 3.0.46 release
+
+#### Enhancements
+- aws_security_group: Query against other security group ids in allow_* matchers [#3576](https://github.com/inspec/inspec/pull/3576) ([j00p34](https://github.com/j00p34)) <!-- 3.0.49 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
