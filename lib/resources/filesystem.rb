@@ -56,9 +56,9 @@ module Inspec::Resources
     def name
       info = @fsman.info(@partition)
       info[:name]
-    end  
+    end
   end
-   
+
   class FsManagement
     attr_reader :inspec
     def initialize(inspec)
@@ -68,7 +68,7 @@ module Inspec::Resources
 
   class LinuxFileSystemResource < FsManagement
     def info(partition)
-      begin
+
         cmd = inspec.command("df #{partition} --output=size")
         raise Inspec::Exceptions::ResourceFailed, "Unable to get available space for partition #{partition}" if cmd.stdout.nil? || cmd.stdout.empty? || !cmd.exit_status.zero?
         value = cmd.stdout.gsub(/\dK-blocks[\r\n]/, '').strip
@@ -77,7 +77,7 @@ module Inspec::Resources
           size: value.to_i,
           filesystem: false,
         }
-      end
+
     end
   end
 
