@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.50 -->
-## [v3.0.50](https://github.com/inspec/inspec/tree/v3.0.50) (2018-11-13)
+<!-- latest_release 3.0.51 -->
+## [v3.0.51](https://github.com/inspec/inspec/tree/v3.0.51) (2018-11-13)
 
-#### Enhancements
-- Adding --no-pager to service checks [#3592](https://github.com/inspec/inspec/pull/3592) ([fernandoalex](https://github.com/fernandoalex))
+#### Bug Fixes
+- Adds protection against zipslip vulnerability [#3604](https://github.com/inspec/inspec/pull/3604) ([hdost](https://github.com/hdost))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.46 -->
 ### Changes since 3.0.46 release
+
+#### Bug Fixes
+- Adds protection against zipslip vulnerability [#3604](https://github.com/inspec/inspec/pull/3604) ([hdost](https://github.com/hdost)) <!-- 3.0.51 -->
 
 #### Enhancements
 - Adding --no-pager to service checks [#3592](https://github.com/inspec/inspec/pull/3592) ([fernandoalex](https://github.com/fernandoalex)) <!-- 3.0.50 -->
