@@ -304,11 +304,11 @@ class MockLoader
       # upstart version on ubuntu
       'initctl --version' => cmd.call('initctl--version'),
       # show ssh service Centos 7
-      'systemctl show --all sshd' => cmd.call('systemctl-show-all-sshd'),
-      'systemctl show --all apache2' => cmd.call('systemctl-show-all-apache2'),
-      '/path/to/systemctl show --all sshd' => cmd.call('systemctl-show-all-sshd'),
-      'systemctl show --all dbus' => cmd.call('systemctl-show-all-dbus'),
-      '/path/to/systemctl show --all dbus' => cmd.call('systemctl-show-all-dbus'),
+      'systemctl show --no-pager --all sshd' => cmd.call('systemctl-show-all-sshd'),
+      'systemctl show --no-pager --all apache2' => cmd.call('systemctl-show-all-apache2'),
+      '/path/to/systemctl show --no-pager --all sshd' => cmd.call('systemctl-show-all-sshd'),
+      'systemctl show --no-pager --all dbus' => cmd.call('systemctl-show-all-dbus'),
+      '/path/to/systemctl show --no-pager --all dbus' => cmd.call('systemctl-show-all-dbus'),
       # services on macos
       'launchctl list' => cmd.call('launchctl-list'),
       # services on freebsd 10

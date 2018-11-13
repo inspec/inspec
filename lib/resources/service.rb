@@ -272,7 +272,7 @@ module Inspec::Resources
     end
 
     def info(service_name)
-      cmd = inspec.command("#{service_ctl} show --all #{service_name}")
+      cmd = inspec.command("#{service_ctl} show --no-pager --all #{service_name}")
       return nil if cmd.exit_status.to_i != 0
 
       # parse data
