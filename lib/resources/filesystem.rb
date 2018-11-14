@@ -68,16 +68,14 @@ module Inspec::Resources
 
   class LinuxFileSystemResource < FsManagement
     def info(partition)
-
-        cmd = inspec.command("df #{partition} --output=size")
-        raise Inspec::Exceptions::ResourceFailed, "Unable to get available space for partition #{partition}" if cmd.stdout.nil? || cmd.stdout.empty? || !cmd.exit_status.zero?
-        value = cmd.stdout.gsub(/\dK-blocks[\r\n]/, '').strip
-        {
-          name: partition,
-          size: value.to_i,
-          filesystem: false,
-        }
-
+      cmd = inspec.command("df #{partition} --output=size")
+      raise Inspec::Exceptions::ResourceFailed, "Unable to get available space for partition #{partition}" if cmd.stdout.nil? || cmd.stdout.empty? || !cmd.exit_status.zero?
+      value = cmd.stdout.gsub(/\dK-blocks[\r\n]/, '').strip
+      {
+        name: partition,
+        size: value.to_i,
+        filesystem: false,
+      }
     end
   end
 
@@ -92,12 +90,11 @@ module Inspec::Resources
       raise Inspec::Exceptions::ResourceSkipped, "Unable to get available space for partition #{partition}" if cmd.stdout == '' || cmd.exit_status.to_i != 0
       begin
         fs = JSON.parse(cmd.stdout)
-        rescue JSON::ParserError => e
-          raise Inspec::Exceptions::ResourceFailed,
-          'Failed to parse JSON from Powershell. ' \
-          "Error: #{e}"
-        end
-
+      rescue JSON::ParserError => e
+        raise Inspec::Exceptions::ResourceFailed,
+              'Failed to parse JSON from Powershell. ' \
+              "Error: #{e}"
+      end
       {
         name: fs['DeviceID'],
         size: fs['Size'].to_i,
