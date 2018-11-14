@@ -3,6 +3,7 @@
 require 'minitest'
 require 'minitest/spec'
 require 'inspec/ui'
+require 'inspec/cli'
 require 'stringio'
 require 'byebug'
 
@@ -15,6 +16,7 @@ ANSI_CODES = {
     red: '\e[38;5;9m',      # 256-color light red
     green: '\e[38;5;41m',  # 256-color light green
     yellow: '\e[33m',
+    cyan: '\e[36m',
     white: '\e[37m',
     grey: '\e[38;5;247m',  # 256-color medium grey
   },
@@ -51,14 +53,16 @@ describe 'Inspec::UI low-level Formatting' do
 
   describe 'when color is enabled' do
     let(:ui) { Inspec::UI.new(color: true, io: fixture_io) }
+
     describe 'bold' do
       it 'uses ANSI bold markers' do
         ui.bold('test')
         output.must_equal(ANSI_CODES[:bold] + 'test' + ANSI_CODES[:reset])
       end
     end
+
     describe 'colors' do
-      [:red, :green, :yellow, :white, :grey].each do |color|
+      [:red, :green, :cyan, :yellow, :white, :grey].each do |color|
         it ('uses the color code for ' + color.to_s) do
           ui.send(color, 'test')
           output.must_equal(ANSI_CODES[:color][color] + 'test' + ANSI_CODES[:reset])
@@ -98,16 +102,23 @@ describe 'Inspec::UI High-Level Formatting' do
   describe 'when color is enabled' do
     let(:ui) { Inspec::UI.new(color: true, io: fixture_io) }
 
+    describe 'emphasis' do
+      it 'uses ANSI escapes' do
+        ui.emphasis('test')
+        output.must_equal(ANSI_CODES[:color][:cyan] + 'test' + ANSI_CODES[:reset])
+      end
+    end
+
     describe 'headline' do
       it 'formats the headline when short' do
         ui.headline('test')
-        output.must_match(/^\n\n/) # Start with two newlines
+        output.must_match(/^\n/) # Start with one newlines
         expected = ''
         expected += ' ' + GLYPHS[:em_dash] * 36 + ' '
         expected += ANSI_CODES[:bold] + ANSI_CODES[:color][:white] + 'test' + ANSI_CODES[:reset]
         expected += ' ' + GLYPHS[:em_dash] * 36 + ' '
         output.must_include(expected)
-        output.must_match(/^\n$/) # End with a newline
+        output.must_match(/\n\n$/) # End with two newline
       end
       it 'formats the headline when longer' do
         ui.headline('Testing is Such a Pleasure!')
@@ -151,6 +162,15 @@ describe 'Inspec::UI High-Level Formatting' do
 
   describe 'when color is disabled' do
     let(:ui) { Inspec::UI.new(color: false, io: fixture_io) }
+
+    describe 'emphasis' do
+      it 'does not use ANSI escapes' do
+        ui.emphasis('test')
+        output.wont_include('\e[') # No ANSI escapes
+        output.wont_match(/[^[:ascii:]]/) # No non-ASCII chars (such as UTF-8 glyphs)
+        output.must_equal('test')
+      end
+    end
 
     describe 'headline' do
       it 'formats the headline when short' do
@@ -198,7 +218,7 @@ end
 #=============================================================================#
 #                          Tables and Lists
 #=============================================================================#
-describe 'Inspec::UI High-Level Formatting' do
+describe 'Inspec::UI Tables and Lists' do
   let(:fixture_io) { StringIO.new() }
   let(:output) { fixture_io.string }
 
@@ -314,21 +334,64 @@ describe 'Inspec::UI High-Level Formatting' do
     end
   end
 end
-# table header
-# table row
+
+#=============================================================================#
+#                       CLI Integration
+#=============================================================================#
+describe 'Inspec::UI CLI integration' do
+  let(:fixture_io) { StringIO.new() }
+  let(:output) { fixture_io.string }
+  let(:cli) { Inspec::InspecCLI.new }
+
+  describe 'ui method' do
+    it 'should respond to ui' do
+      cli.must_respond_to(:ui)
+      cli.must_respond_to(:'ui=')
+    end
+  end
+
+  describe 'backwards compatibility' do
+    it 'should support plain_text' do
+      cli.ui = Inspec::UI.new(io: fixture_io)
+      cli.plain_text('test')
+      output.must_equal "test\n"
+    end
+    it 'should support mark_text' do
+      cli.ui = Inspec::UI.new(io: fixture_io)
+      cli.mark_text('test')
+      output.must_equal ANSI_CODES[:color][:cyan] + 'test' + ANSI_CODES[:reset]
+    end
+    it 'should support headline' do
+      cli.ui = Inspec::UI.new(io: fixture_io)
+      cli.headline('test')
+      output.must_match(/^\n/) # Start with one newlines
+      expected = ''
+      expected += ' ' + GLYPHS[:em_dash] * 36 + ' '
+      expected += ANSI_CODES[:bold] + ANSI_CODES[:color][:white] + 'test' + ANSI_CODES[:reset]
+      expected += ' ' + GLYPHS[:em_dash] * 36 + ' '
+      output.must_include(expected)
+      output.must_match(/\n\n$/) # End with two newline
+    end
+    it 'should support li' do
+      cli.ui = Inspec::UI.new(io: fixture_io)
+      cli.li('test')
+      expected = ' '
+      expected += ANSI_CODES[:bold] + ANSI_CODES[:color][:white]
+      expected += GLYPHS[:bullet]
+      expected += ANSI_CODES[:reset]
+      expected += ' ' + 'test' + "\n"
+      output.must_equal(expected)
+    end
+  end
+end
 
 #=============================================================================#
 #                             Exit Codes
 #=============================================================================#
+# These are tested in functional tests
 # exit(code) => Kernel.exit code
 
-#=============================================================================#
-#                       Backwards Compatibility
-#=============================================================================#
-# mark_text(text) => "\e[0;36m#{text}\e[0m"
-# headline(title) => "\n== #{title}\n\n"
-# plain_text(msg) => msg
-# li(entry) => " #{mark_text('*')} #{entry}"
+
 
 #=============================================================================#
 #                           Interactivity

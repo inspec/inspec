@@ -221,27 +221,44 @@ module Inspec
     # treats them as regular methods.
     no_commands do
       def ui
-        @ui ||= Inspec::UI.new(opts)
+        return @ui if defined?(@ui)
+
+        # Make a new UI object, respecting context
+        if options[:color].nil?
+          enable_color = true # If the command does not support the color option, default to on
+        else
+          enable_color = options[:color]
+        end
+
+        ui = Inspec::UI.new(color: enable_color)
+      end
+
+      def ui=(new_ui)
+        @ui = new_ui
       end
 
       def mark_text(text)
-        "\e[0;36m#{text}\e[0m"
+        # TODO - deprecate, call cli.ui directly
+        ui.emphasis(text)
       end
 
       def headline(title)
-        puts "\n== #{title}\n\n"
+        # TODO - deprecate, call cli.ui directly
+        ui.headline(title)
       end
 
       def li(entry)
-        puts " #{mark_text('*')} #{entry}"
+        # TODO - deprecate, call cli.ui directly
+        ui.list_item(entry)
+      end
+
+      def plain_text(msg)
+        # TODO - deprecate, call cli.ui directly
+        ui.plain(msg + "\n")
       end
 
       def exit(code)
         Kernel.exit code
-      end
-
-      def plain_text(msg)
-        puts msg
       end
     end
 

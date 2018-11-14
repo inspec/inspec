@@ -11,6 +11,7 @@ module Inspec
         red: '\e[38;5;9m',      # 256-color light red
         green: '\e[38;5;41m',  # 256-color light green
         yellow: '\e[33m',
+        cyan: '\e[36m',
         white: '\e[37m',
         grey: '\e[38;5;247m',  # 256-color medium grey
       },
@@ -61,6 +62,10 @@ module Inspec
     #                   High-Level formatting methods
     #=========================================================================#
 
+    def emphasis(str)
+      cyan(str)
+    end
+
     def headline(str)
       if str.length < 76
         dash_length = 80 - str.length - 4 # 4 spaces
@@ -69,13 +74,13 @@ module Inspec
         dash_length = 0
       end
 
-      result = "\n\n"
+      result = "\n"
       result += ' ' + (color? ? GLYPHS[:em_dash] : '-') * dash_length + ' '
       result += color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:white] : ''
       result += str
       result += color? ? ANSI_CODES[:reset] : ''
       result += ' ' + (color? ? GLYPHS[:em_dash] : '-') * dash_length + ' '
-      result += "\n"
+      result += "\n\n"
 
       io.print result
     end
