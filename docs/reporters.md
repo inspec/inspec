@@ -161,15 +161,13 @@ This is your Automate 2 token. You can generate this token by navigating to the 
 
 This will disable or enable the ssl check when accessing the Automate 2 instance.
 
-PLEASE NOTE: These fields are ONLY needed if you do not have chef-client attached to a chef server running on your node. The fields below will be automatically pulled from the chef server.
-
 #### node_name
 
 This will be the node name which shows up in Automate 2.
 
 #### node_uuid
 
-This overrides the node uuid sent up to Automate 2. On non-chef nodes we will try to generate a static node uuid for you from your hardware. This will almost never be needed unless your working with a unique virtual setup.
+This will be the node uuid which shows up to Automate 2. You will want to use a static uuid per node for all your reports.
 
 #### environment
 
