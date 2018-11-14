@@ -4,15 +4,14 @@ require 'inspec/resource'
 describe 'Inspec::Resources::FileSystemResource' do
   # arch linux
   it 'verify filesystem on linux' do
-    resource = MockLoader.new(:arch).load_resource('filesystem','/') 
+    resource = MockLoader.new(:ubuntu1404).load_resource('filesystem','/') 
     _(resource.size).must_be :>=, 1
     _(resource.partition).must_equal '/'
-    _(resource.size).must_equal 28252316
   end
   
   # arch windows
   it 'verify filesystem on windows' do
-    resource = MockLoader.new(:arch).load_resource('filesystem','c:')
+    resource = MockLoader.new(:windows).load_resource('filesystem','c:')
     _(resource.size).must_be :>=, 1
     _(resource.name).must_equal 'c:'
   end
