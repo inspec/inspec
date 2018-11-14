@@ -6,7 +6,7 @@ describe 'Inspec::Resources::FileSystemResource' do
   it 'verify filesystem on linux' do
     resource = MockLoader.new(:ubuntu1404).load_resource('filesystem','/') 
     _(resource.size).must_be :>=, 1
-    _(resource.partition).must_equal '/'
+    _(resource.name).must_equal '/'
   end
   
   # arch windows
