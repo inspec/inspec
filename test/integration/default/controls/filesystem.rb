@@ -4,10 +4,11 @@ if ENV['DOCKER']
 end
 
 if os.windows?
-  STDERR.puts "\033[1;33mTODO: Not running #{__FILE__.split("/").last} because we are not on Linux.\033[0m"
-  return
-end
-
-describe filesystem('/') do
-  its('size') { should be >= 1 }
+  describe filesystem('c:') do
+    its('size') { should be >= 1 }
+  end
+else
+  describe filesystem('/') do
+    its('size') { should be >= 1 }
+  end
 end
