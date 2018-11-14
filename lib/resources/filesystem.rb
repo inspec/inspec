@@ -36,7 +36,7 @@ module Inspec::Resources
     def info
       return @cache if !@cache.nil?
       return {} if @fsman.nil?
-      @fsman.info(@partition)
+      @cache = @fsman.info(@partition)
     end
 
     def to_s
