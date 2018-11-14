@@ -21,12 +21,15 @@ ANSI_CODES = {
 }.freeze
 
 GLYPHS = {
-  list_item: '•', # BULLET, Unicode: U+2022, UTF-8: E2 80 A2
+  bullet: '•', # BULLET, Unicode: U+2022, UTF-8: E2 80 A2
   check: '✔', #  HEAVY CHECK MARK, Unicode: U+2714, UTF-8: E2 9C 94
   swirl: '↺', # ANTICLOCKWISE OPEN CIRCLE ARROW, Unicode U+21BA, UTF-8: E2 86 BA
   script_x: '×', # MULTIPLICATION SIGN, Unicode: U+00D7, UTF-8: C3 97
   question: '?', # normal ASCII question mark
   em_dash: '—', # EM DASH Unicode: U+2014, UTF-8: E2 80 94'
+  heavy_dash: '≖', # RING IN EQUAL TO, Unicode: U+2256, UTF-8: E2 89 96
+  vertical_dash: '|', # VERTICAL LINE, Unicode: U+007C, UTF-8: 7C
+  table_corner: '⨀', # N-ARY CIRCLED DOT OPERATOR, Unicode: U+2A00, UTF-8: E2 A8 80
 }.freeze
 
 
@@ -195,10 +198,124 @@ end
 #=============================================================================#
 #                          Tables and Lists
 #=============================================================================#
+describe 'Inspec::UI High-Level Formatting' do
+  let(:fixture_io) { StringIO.new() }
+  let(:output) { fixture_io.string }
+
+  describe 'when color is enabled' do
+    let(:ui) { Inspec::UI.new(color: true, io: fixture_io) }
+
+    describe('line') do
+      it 'draws a line' do
+        ui.line
+        expected = ANSI_CODES[:bold] + GLYPHS[:heavy_dash]*80 + ANSI_CODES[:reset] + "\n"
+        output.must_equal(expected)
+      end
+    end
+
+    describe('list_item') do
+      it 'makes a bullet point' do
+        ui.list_item('test')
+        expected = ' '
+        expected += ANSI_CODES[:bold] + ANSI_CODES[:color][:white]
+        expected += GLYPHS[:bullet]
+        expected += ANSI_CODES[:reset]
+        expected += ' ' + 'test' + "\n"
+        output.must_equal(expected)
+      end
+    end
+
+    describe('tables') do
+      it 'makes a table' do
+        ui.table do |t|
+          t.head = ['Fruit', 'Tartness', 'Succulence']
+          t.rows << ['Dragonfruit', 'Very Low', 'High']
+          t.rows << ["The Exquisite Lime, Scurvy's Bane", 'High', 'Medium']
+        end
+        lines = output.split("\n")
+
+        # First, third, and last lines should be horizontal dividors
+        [0, 2, -1].each do |idx|
+          lines[idx].must_match(/^#{GLYPHS[:table_corner]}/) # Start with a corner
+          lines[idx].must_match(/#{GLYPHS[:table_corner]}$/) # End with a corner
+          lines[idx].must_match(/#{GLYPHS[:em_dash]}#{GLYPHS[:table_corner]}#{GLYPHS[:em_dash]}/) # Have internal corners
+          lines[idx].wont_include(' ')
+        end
+
+        # Second, fourth, and fifth lines should have custom vertical dividors
+        [1, 3, 4].each do |idx|
+          lines[idx].must_match(/^#{GLYPHS[:vertical_dash]}/) # Start with a vertical line
+          lines[idx].must_match(/#{GLYPHS[:vertical_dash]}$/) # End with a vertical line
+          lines[idx].must_match(/\s#{GLYPHS[:vertical_dash]}\s/) # Have vertical line
+          lines[idx].wont_include(GLYPHS[:table_corner])
+        end
+
+        # Second (header) line should have bold and white on each header label
+        lines[1].split(GLYPHS[:vertical_dash]).map(&:strip).reject{ |e| e == ""}.each do |header_label|
+          header_label.must_include ANSI_CODES[:bold] + ANSI_CODES[:color][:white]
+          header_label.must_include ANSI_CODES[:reset]
+        end
+      end
+    end
+  end
+
+  describe 'when color is disabled' do
+    let(:ui) { Inspec::UI.new(color: false, io: fixture_io) }
+
+    describe('line') do
+      it 'draws a line without ANSI codes or special glyphs' do
+        ui.line
+        output.wont_include('\e[') # No ANSI escapes
+        output.wont_match(/[^[:ascii:]]/) # No non-ASCII chars (such as UTF-8 glyphs)
+        expected = '-' * 80 + "\n"
+        output.must_equal(expected)
+      end
+    end
+
+    describe('list_item') do
+      it 'makes a bullet point without ANSI codes or special glyphs' do
+        ui.list_item('test')
+        output.wont_include('\e[') # No ANSI escapes
+        output.wont_match(/[^[:ascii:]]/) # No non-ASCII chars (such as UTF-8 glyphs)
+        expected = ' ' + '*' + ' ' + 'test' + "\n"
+        output.must_equal(expected)
+      end
+    end
+
+    describe('tables') do
+      it 'makes a table ANSI codes or special glyphs' do
+        ui.table do |t|
+          t.head = ['Fruit', 'Tartness', 'Succulence']
+          t.rows << ['Dragonfruit', 'Very Low', 'High']
+          t.rows << ["The Exquisite Lime, Scurvy's Bane", 'High', 'Medium']
+        end
+
+        output.wont_include('\e[') # No ANSI escapes
+        output.wont_match(/[^[:ascii:]]/) # No non-ASCII chars (such as UTF-8 glyphs)
+
+        lines = output.split("\n")
+
+        # First, third, and last lines should be horizontal dividors
+        [0, 2, -1].each do |idx|
+          lines[idx].must_match(/^\+/) # Start with a corner
+          lines[idx].must_match(/\+$/) # End with a corner
+          lines[idx].must_match(/\-\+\-/) # Have internal corners
+          lines[idx].wont_include(' ')
+        end
+
+        # Second, fourth, and fifth lines should have stock vertical dividors
+        [1, 3, 4].each do |idx|
+          lines[idx].must_match(/^\|/) # Start with a vertical line
+          lines[idx].must_match(/\|$/) # End with a vertical line
+          lines[idx].must_match(/\s\|\s/) # Have vertical line
+          lines[idx].wont_include('+')
+        end
+      end
+    end
+  end
+end
 # table header
 # table row
-# horizontal line
-# list item
 
 #=============================================================================#
 #                             Exit Codes

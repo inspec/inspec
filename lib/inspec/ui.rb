@@ -1,3 +1,5 @@
+require 'text-table'
+
 module Inspec
   # Provides simple terminal UI interaction primitives for CLI commands and plugins.
   class UI
@@ -15,12 +17,15 @@ module Inspec
     }.freeze
 
     GLYPHS = {
-      list_item: '•', # BULLET, Unicode: U+2022, UTF-8: E2 80 A2
+      bullet: '•', # BULLET, Unicode: U+2022, UTF-8: E2 80 A2
       check: '✔', #  HEAVY CHECK MARK, Unicode: U+2714, UTF-8: E2 9C 94
       swirl: '↺', # ANTICLOCKWISE OPEN CIRCLE ARROW, Unicode U+21BA, UTF-8: E2 86 BA
       script_x: '×', # MULTIPLICATION SIGN, Unicode: U+00D7, UTF-8: C3 97
       question: '?', # normal ASCII question mark
       em_dash: '—', # EM DASH Unicode: U+2014, UTF-8: E2 80 94'
+      heavy_dash: '≖', # RING IN EQUAL TO, Unicode: U+2256, UTF-8: E2 89 96
+      vertical_dash: '|', # VERTICAL LINE, Unicode: U+007C, UTF-8: 7C
+      table_corner: '⨀', # N-ARY CIRCLED DOT OPERATOR, Unicode: U+2A00, UTF-8: E2 A8 80
     }.freeze
 
     attr_reader :io
@@ -75,6 +80,7 @@ module Inspec
       io.print result
     end
 
+    # Issues a one-line message, with 'ERROR: ' prepended in bold red.
     def error(str)
       result = ''
       result += color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:red] : ''
@@ -86,6 +92,7 @@ module Inspec
       io.print result
     end
 
+    # Issues a one-line message, with 'WARNING: ' prepended in bold yellow.
     def warning(str)
       result = ''
       result += color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:yellow] : ''
@@ -95,6 +102,56 @@ module Inspec
       result += str
       result += "\n"
       io.print result
+    end
+
+    # Draws a horizontal line.
+    def line
+      if color?
+        io.print ANSI_CODES[:bold] + GLYPHS[:heavy_dash] * 80 + ANSI_CODES[:reset] + "\n"
+      else
+        io.print '-' * 80 + "\n"
+      end
+    end
+
+    # Makes a bullet point.
+    def list_item(str)
+      bullet = color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:white] + GLYPHS[:bullet] + ANSI_CODES[:reset] : '*'
+      io.print ' ' + bullet + ' ' + str + "\n"
+    end
+
+    # Makes a table.  Call with a block; block arg will be a Text::Table object.
+    def table
+      the_table = TableHelper.new(
+        color: color?,
+        vertical_boundary: (color? ? GLYPHS[:em_dash] : '-'),
+        horizontal_boundary:  (color? ? GLYPHS[:vertical_dash] : '|'),
+        boundary_intersection: (color? ? GLYPHS[:table_corner] : '+'),
+      )
+      yield(the_table)
+      io.print(the_table.to_s)
+    end
+
+    # This class exists to apply formatting to the header row.
+    class TableHelper < Text::Table
+      def initialize(opts)
+        @color = opts.delete(:color)
+        super(opts)
+      end
+
+      def color?
+        @color
+      end
+
+      def head=(row)
+        row = row.dup.map do |label|
+          if label.is_a?(String) && color?
+            ANSI_CODES[:bold] + ANSI_CODES[:color][:white] + label + ANSI_CODES[:reset]
+          else
+            label
+          end
+        end
+        super(row)
+      end
     end
 
   end
