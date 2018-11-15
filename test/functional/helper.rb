@@ -114,8 +114,8 @@ module FunctionalHelper
     prefix = opts[:cwd] ? 'cd ' + opts[:cwd] + ' && ' : ''
     prefix += opts[:prefix] || ''
     prefix += assemble_env_prefix(opts[:env])
-    command_line += ' --reporter json ' if opts[:json]
-    command_line += ' --no-create-lockfile ' unless opts[:lock]
+    command_line += ' --reporter json ' if opts[:json] && command_line =~ /\bexec\b/
+    command_line += ' --no-create-lockfile ' if (!opts[:lock]) && command_line =~ /\bexec\b/
 
     run_result = nil
     if opts[:tmpdir]
