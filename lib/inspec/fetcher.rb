@@ -45,5 +45,3 @@ require 'fetchers/git'
 
 # TODO: Remove in 4.0 when Compliance fetcher plugin is created
 require 'plugins/inspec-compliance/lib/inspec-compliance/api'
-require 'plugins/inspec-compliance/lib/inspec-compliance/configuration'
-require 'plugins/inspec-compliance/lib/inspec-compliance/target'
