@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.51 -->
-## [v3.0.51](https://github.com/inspec/inspec/tree/v3.0.51) (2018-11-13)
+<!-- latest_release 3.0.52 -->
+## [v3.0.52](https://github.com/inspec/inspec/tree/v3.0.52) (2018-11-15)
 
-#### Bug Fixes
-- Adds protection against zipslip vulnerability [#3604](https://github.com/inspec/inspec/pull/3604) ([hdost](https://github.com/hdost))
+#### Merged Pull Requests
+- Load the compliance plugin when the fetcher is needed [#3609](https://github.com/inspec/inspec/pull/3609) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.46 -->
 ### Changes since 3.0.46 release
+
+#### Merged Pull Requests
+- Load the compliance plugin when the fetcher is needed [#3609](https://github.com/inspec/inspec/pull/3609) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.52 -->
 
 #### Bug Fixes
 - Adds protection against zipslip vulnerability [#3604](https://github.com/inspec/inspec/pull/3604) ([hdost](https://github.com/hdost)) <!-- 3.0.51 -->
