@@ -173,3 +173,47 @@ module FunctionalHelper
     env_prefix
   end
 end
+
+#=========================================================================================#
+#                                Plugin Support
+#=========================================================================================#
+module PluginFunctionalHelper
+  include FunctionalHelper
+
+  def run_inspec_with_plugin(command, opts)
+    pre = Proc.new do |tmp_dir|
+      content = JSON.generate(__make_plugin_file_data_structure_with_path(opts[:plugin_path]))
+      File.write(File.join(tmp_dir, 'plugins.json'), content)
+    end
+
+    opts.merge!({
+      pre_run: pre,
+      tmpdir: true,
+      json: true,
+      env: {
+        "INSPEC_CONFIG_DIR" => '.' # We're in tmpdir
+      }
+    })
+    run_inspec_process(command, opts)
+  end
+
+  def __make_plugin_file_data_structure_with_path(path)
+    # TODO: dry this up, refs #3350
+    plugin_name = File.basename(path, '.rb')
+    data = __make_empty_plugin_file_data_structure
+    data['plugins'] << {
+      'name' => plugin_name,
+      'installation_type' => 'path',
+      'installation_path' => path,
+    }
+    data
+  end
+
+  def __make_empty_plugin_file_data_structure
+    # TODO: dry this up, refs #3350
+    {
+      'plugins_config_version' => '1.0.0',
+      'plugins' => [],
+    }
+  end
+end
