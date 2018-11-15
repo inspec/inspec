@@ -231,35 +231,33 @@ module Inspec
         # UI will probe for TTY if nil - just send the raw option value
         enable_interactivity = options[:interactive]
 
-        ui = Inspec::UI.new(color: enable_color, interactive: enable_interactivity)
+        @ui = Inspec::UI.new(color: enable_color, interactive: enable_interactivity)
       end
 
-      def ui=(new_ui)
-        @ui = new_ui
-      end
+      attr_writer :ui
 
       def mark_text(text)
-        # TODO - deprecate, call cli.ui directly
+        # TODO: - deprecate, call cli.ui directly
         ui.emphasis(text)
       end
 
       def headline(title)
-        # TODO - deprecate, call cli.ui directly
+        # TODO: - deprecate, call cli.ui directly
         ui.headline(title)
       end
 
       def li(entry)
-        # TODO - deprecate, call cli.ui directly
+        # TODO: - deprecate, call cli.ui directly
         ui.list_item(entry)
       end
 
       def plain_text(msg)
-        # TODO - deprecate, call cli.ui directly
+        # TODO: - deprecate, call cli.ui directly
         ui.plain(msg + "\n")
       end
 
       def exit(code)
-        # TODO - deprecate, call cli.ui directly
+        # TODO: - deprecate, call cli.ui directly
         ui.exit code
       end
     end

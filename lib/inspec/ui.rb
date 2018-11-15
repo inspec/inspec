@@ -4,12 +4,11 @@ require 'tty-prompt'
 module Inspec
   # Provides simple terminal UI interaction primitives for CLI commands and plugins.
   class UI
-
     ANSI_CODES = {
       reset: "\e[0m",
       bold: "\e[1m",
       color: {
-        red: "\e[38;5;9m",      # 256-color light red
+        red: "\e[38;5;9m", # 256-color light red
         green: "\e[38;5;41m",  # 256-color light green
         yellow: "\e[33m",
         cyan: "\e[36m",
@@ -26,7 +25,7 @@ module Inspec
       question: '?', # normal ASCII question mark
       em_dash: '─', # BOX DRAWINGS LIGHT HORIZONTAL Unicode: U+2500, UTF-8: E2 94 80
       heavy_dash: '≖', # RING IN EQUAL TO, Unicode: U+2256, UTF-8: E2 89 96
-      vertical_dash: '│', # │ BOX DRAWINGS LIGHT VERTICAL, Unicode: U+2502, UTF-8: E2 94 82
+      vertical_dash: '│', # BOX DRAWINGS LIGHT VERTICAL, Unicode: U+2502, UTF-8: E2 94 82
       table_corner: '⨀', # N-ARY CIRCLED DOT OPERATOR, Unicode: U+2A00, UTF-8: E2 A8 80
     }.freeze
 
@@ -81,7 +80,7 @@ module Inspec
     def headline(str)
       if str.length < 76
         dash_length = 80 - str.length - 4 # 4 spaces
-        dash_length = dash_length / 2
+        dash_length /= 2
       else
         dash_length = 0
       end
@@ -136,7 +135,7 @@ module Inspec
       io.print ' ' + bullet + ' ' + str + "\n"
     end
 
-    # Makes a table.  Call with a block; block arg will be a TTY::Table object, 
+    # Makes a table.  Call with a block; block arg will be a TTY::Table object,
     # with an extension for setting the header.
     # Typical use:
     # ui.table do |t|
@@ -148,7 +147,7 @@ module Inspec
       the_table = TableHelper.new
       yield(the_table)
 
-      colorizer = Proc.new do |data, row, col|
+      colorizer = proc do |data, row, _col|
         if color? && row == 0
           ANSI_CODES[:bold] + ANSI_CODES[:color][:white] + data + ANSI_CODES[:reset]
         else
@@ -162,7 +161,7 @@ module Inspec
 
     class TableHelper < TTY::Table
       def header=(ary)
-        cells = ary.dup.map { |label| { value: label, alignment: :center} }
+        cells = ary.dup.map { |label| { value: label, alignment: :center } }
         @header = TTY::Table::Header.new(cells)
       end
     end
@@ -172,9 +171,8 @@ module Inspec
     #=========================================================================#
 
     def exit(code_sym = :normal)
-      expected_symbols = [:normal, :usage_error, :plugin_error, :failed_tests, :skipped_tests]
       # If it's a number, give them a pass for now.
-      if code_sym.kind_of? Numeric
+      if code_sym.is_a? Numeric
         code_int = code_sym
       else
         code_const = ('EXIT_' + code_sym.to_s.upcase).to_sym
