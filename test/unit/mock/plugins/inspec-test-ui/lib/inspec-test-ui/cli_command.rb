@@ -6,7 +6,7 @@ module InspecPlugins::TestUI
 
     desc 'headline', 'Inspec::UI#headline'
     def headline
-      ui.headline('test')
+      ui.headline('Big News!')
     end
 
     desc 'table', 'Inspec::UI#table'
@@ -18,5 +18,30 @@ module InspecPlugins::TestUI
         t << ['Talking Heads', 'Moderate', 'High']
       end
     end
+
+    desc 'warning', 'Inspec::UI#warning'
+    def warning
+      ui.warning('Things will be OK in the end')
+    end
+
+    desc 'error', 'Inspec::UI#error'
+    def error
+      ui.error('Burned down, fell over, and then sank into the swamp.')
+    end
+
+    desc 'list_item', 'Inspec::UI#list_item'
+    def list_item
+      ui.list_item('TODO: make more lists')
+    end
+
+    desc 'everything', 'Demo all UI features'
+    def everything
+      headline
+      table
+      warning
+      error
+      list_item
+    end
+
   end
 end

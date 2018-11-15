@@ -31,7 +31,7 @@ describe 'InSpec UI behavior' do
         run_result.exit_status.must_equal 0
          expected = <<-EOT
 
- ──────────────────────────────────── \e[1m\e[37mtest\e[0m ──────────────────────────────────── 
+ ───────────────────────────────── \e[1m\e[37mBig News!\e[0m ───────────────────────────────── 
 
 EOT
         show_spaces(run_result.stdout).must_equal show_spaces(expected)
@@ -50,6 +50,39 @@ EOT
 │ Led Zep              │ High     │ Low       │
 │ Talking Heads        │ Moderate │ High      │
 └──────────────────────┴──────────┴───────────┘
+EOT
+        show_spaces(run_result.stdout).must_equal show_spaces(expected)
+      end
+    end
+
+    describe 'warning' do
+      let(:feature) { 'warning' }
+      it 'has correct output' do
+        run_result.exit_status.must_equal 0
+         expected = <<-EOT
+\e[1m\e[33mWARNING:\e[0m Things will be OK in the end
+EOT
+        show_spaces(run_result.stdout).must_equal show_spaces(expected)
+      end
+    end
+
+    describe 'error' do
+      let(:feature) { 'error' }
+      it 'has correct output' do
+        run_result.exit_status.must_equal 0
+         expected = <<-EOT
+\e[1m\e[38;5;9mERROR:\e[0m Burned down, fell over, and then sank into the swamp.
+EOT
+        show_spaces(run_result.stdout).must_equal show_spaces(expected)
+      end
+    end
+
+    describe 'list_item' do
+      let(:feature) { 'list_item' }
+      it 'has correct output' do
+        run_result.exit_status.must_equal 0
+         expected = <<-EOT
+ \e[1m\e[37m•\e[0m TODO: make more lists
 EOT
         show_spaces(run_result.stdout).must_equal show_spaces(expected)
       end
