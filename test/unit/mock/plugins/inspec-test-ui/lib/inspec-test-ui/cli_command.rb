@@ -48,6 +48,19 @@ module InspecPlugins::TestUI
     end
 
     #--------------------------------------------------#
+    #               Interactivity
+    #--------------------------------------------------#
+    desc 'prompt', 'Tries to prompt the user'
+    def prompt
+      ui.prompt.keypress('Apollo 18, ready to launch! :countdown', timeout: 1)
+    end
+
+    desc 'interactive', 'Inspec::UI#interactive?'
+    def interactive
+      ui.plain_line(ui.interactive?.to_s)
+    end
+
+    #--------------------------------------------------#
     #           Exit code Testing Commands
     #--------------------------------------------------#
     [

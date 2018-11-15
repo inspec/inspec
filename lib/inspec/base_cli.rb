@@ -228,7 +228,10 @@ module Inspec
           enable_color = options[:color]
         end
 
-        ui = Inspec::UI.new(color: enable_color)
+        # UI will probe for TTY if nil - just send the raw option value
+        enable_interactivity = options[:interactive]
+
+        ui = Inspec::UI.new(color: enable_color, interactive: enable_interactivity)
       end
 
       def ui=(new_ui)

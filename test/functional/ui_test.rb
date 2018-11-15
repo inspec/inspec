@@ -164,4 +164,44 @@ EOT
     end
 
   end
+
+  describe 'interactivity' do
+    describe 'in interactive mode' do
+      let(:post_opts) { '--interactive' }
+      describe 'the interactive flag' do
+        let(:feature) { 'interactive' }
+        it "should report the interactive flag is on" do
+          run_result.exit_status.must_equal 0
+          run_result.stdout.must_include 'true'
+        end
+      end
+
+      describe 'prompting' do
+        let(:feature) { 'prompt' }
+        it "should launch apollo" do
+          run_result.exit_status.must_equal 0
+          run_result.stdout.must_include 'Apollo'
+        end
+      end
+    end
+  end
+
+  describe 'in non-interactive mode' do
+    let(:post_opts) { '--no-interactive' }
+    describe 'the interactive flag' do
+      let(:feature) { 'interactive' }
+      it "should report the interactive flag is off" do
+        run_result.exit_status.must_equal 0
+        run_result.stdout.must_include 'false'
+      end
+    end
+
+    describe 'prompting' do
+      let(:feature) { 'prompt' }
+      it "should crash with stacktrace" do
+        run_result.exit_status.must_equal 1
+        run_result.stderr.must_include 'Inspec::UserInteractionRequired'
+      end
+    end
+  end
 end

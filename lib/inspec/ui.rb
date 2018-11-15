@@ -1,4 +1,5 @@
 require 'tty-table'
+require 'tty-prompt'
 
 module Inspec
   # Provides simple terminal UI interaction primitives for CLI commands and plugins.
@@ -39,6 +40,7 @@ module Inspec
 
     def initialize(opts = {})
       @color = opts[:color].nil? ? true : opts[:color]
+      @interactive = opts[:interactive].nil? ? $stdout.isatty : opts[:interactive]
       @io = opts[:io] || $stdout
     end
 
@@ -52,6 +54,10 @@ module Inspec
 
     def plain(str)
       io.print(str)
+    end
+
+    def plain_line(str)
+      io.puts(str)
     end
 
     def bold(str)
@@ -179,6 +185,21 @@ module Inspec
         code_int = self.class.const_get(code_const)
       end
       Kernel.exit(code_int)
+    end
+
+    #=========================================================================#
+    #                        Interactivity
+    #=========================================================================#
+    def interactive?
+      @interactive
+    end
+
+    # This simply returns a TTY::Prompt object, gated on interactivity being enabled.
+    def prompt
+      unless interactive?
+        raise Inspec::UserInteractionRequired, 'Somthing is trying to ask the user a question, but interactivity is disabled.'
+      end
+      @prompt ||= TTY::Prompt.new
     end
   end
 end

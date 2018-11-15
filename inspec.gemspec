@@ -40,6 +40,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'parallel', '~> 1.9'
   spec.add_dependency 'faraday', '>=0.9.0'
   spec.add_dependency 'tty-table', '~> 0.10'
+  spec.add_dependency 'tty-prompt', '~> 0.17'
   # Used for Azure profile until integrated into train
   spec.add_dependency 'faraday_middleware', '~> 0.12.2'
   spec.add_dependency 'tomlrb', '~> 1.2'

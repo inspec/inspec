@@ -3,9 +3,9 @@
 require 'minitest'
 require 'minitest/spec'
 require 'inspec/ui'
-require 'inspec/cli'
+require 'inspec/base_cli'
+require 'inspec/errors'
 require 'stringio'
-require 'byebug'
 
 # https://gist.github.com/chrisopedia/8754917
 # http://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html#256-colors
@@ -337,7 +337,7 @@ end
 describe 'Inspec::UI CLI integration' do
   let(:fixture_io) { StringIO.new() }
   let(:output) { fixture_io.string }
-  let(:cli) { Inspec::InspecCLI.new }
+  let(:cli) { Inspec::BaseCLI.new }
 
   describe 'ui method' do
     it 'should respond to ui' do
@@ -384,8 +384,23 @@ end
 #=============================================================================#
 #                           Interactivity
 #=============================================================================#
-# prompt inline
-# prompt menu
+describe 'interactivity' do
+  describe 'when interactivity is disabled' do
+    describe 'interactive check' do
+      it "should be false" do
+        ui = Inspec::UI.new(interactive: false)
+        ui.interactive?.must_equal false
+      end
+    end
+
+    describe 'prompt' do
+      it 'should throw an exception if interactivity is disabled' do
+        ui = Inspec::UI.new(interactive: false)
+        ->() { ui.prompt }.must_raise Inspec::UserInteractionRequired
+      end
+    end
+  end
+end
 
 #=============================================================================#
 #                             Exit Codes
