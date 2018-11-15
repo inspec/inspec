@@ -5,15 +5,15 @@ module Inspec
   class UI
 
     ANSI_CODES = {
-      reset: '\e[0m',
-      bold: '\e[1m',
+      reset: "\e[0m",
+      bold: "\e[1m",
       color: {
-        red: '\e[38;5;9m',      # 256-color light red
-        green: '\e[38;5;41m',  # 256-color light green
-        yellow: '\e[33m',
-        cyan: '\e[36m',
-        white: '\e[37m',
-        grey: '\e[38;5;247m',  # 256-color medium grey
+        red: "\e[38;5;9m",      # 256-color light red
+        green: "\e[38;5;41m",  # 256-color light green
+        yellow: "\e[33m",
+        cyan: "\e[36m",
+        white: "\e[37m",
+        grey: "\e[38;5;247m",  # 256-color medium grey
       },
     }.freeze
 
@@ -147,6 +147,7 @@ module Inspec
         @color
       end
 
+      # Override this to inject color data
       def head=(row)
         row = row.dup.map do |label|
           if label.is_a?(String) && color?

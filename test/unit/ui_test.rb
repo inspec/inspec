@@ -10,15 +10,15 @@ require 'byebug'
 # https://gist.github.com/chrisopedia/8754917
 # http://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html#256-colors
 ANSI_CODES = {
-  reset: '\e[0m',
-  bold: '\e[1m',
+  reset: "\e[0m",
+  bold: "\e[1m",
   color: {
-    red: '\e[38;5;9m',      # 256-color light red
-    green: '\e[38;5;41m',  # 256-color light green
-    yellow: '\e[33m',
-    cyan: '\e[36m',
-    white: '\e[37m',
-    grey: '\e[38;5;247m',  # 256-color medium grey
+    red: "\e[38;5;9m",      # 256-color light red
+    green: "\e[38;5;41m",  # 256-color light green
+    yellow: "\e[33m",
+    cyan: "\e[36m",
+    white: "\e[37m",
+    grey: "\e[38;5;247m",  # 256-color medium grey
   },
 }.freeze
 
@@ -386,15 +386,13 @@ describe 'Inspec::UI CLI integration' do
 end
 
 #=============================================================================#
-#                             Exit Codes
-#=============================================================================#
-# These are tested in functional tests
-# exit(code) => Kernel.exit code
-
-
-
-#=============================================================================#
 #                           Interactivity
 #=============================================================================#
 # prompt inline
 # prompt menu
+
+#=============================================================================#
+#                             Exit Codes
+#=============================================================================#
+# These are tested in functional tests
+# exit(code) => Kernel.exit code
