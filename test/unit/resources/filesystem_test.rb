@@ -16,7 +16,7 @@ describe 'Inspec::Resources::FileSystemResource' do
     _(resource.name).must_equal 'c:'
   end
 
-  # unsuported
+  # unsuported os
   describe 'when loading filesystem in unsupported OS family' do
     it 'fails on FreeBSD (unix-like)' do
       resource_fail = MockLoader.new(:freebsd10).load_resource('filesystem', '/')
