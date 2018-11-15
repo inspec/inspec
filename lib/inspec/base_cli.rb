@@ -256,7 +256,8 @@ module Inspec
       end
 
       def exit(code)
-        Kernel.exit code
+        # TODO - deprecate, call cli.ui directly
+        ui.exit code
       end
     end
 

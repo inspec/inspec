@@ -115,4 +115,53 @@ EOT
       end
     end
   end
+
+  describe 'exit codes' do
+
+    describe 'normal exit' do
+      let(:feature) { 'exitnormal' }
+      it 'has correct output' do
+        run_result.exit_status.must_equal 0
+        run_result.stderr.must_equal ''
+        run_result.stdout.must_equal "test exit normal\n"
+      end
+    end
+
+    describe 'usage exit' do
+      let(:feature) { 'exitusage' }
+      it 'has correct output' do
+        run_result.exit_status.must_equal 1
+        run_result.stderr.must_equal '' # ie, we intentionally exit-1'd; not a crash
+        run_result.stdout.must_equal "test exit usage_error\n"
+      end
+    end
+
+    describe 'plugin exit' do
+      let(:feature) { 'exitplugin' }
+      it 'has correct output' do
+        run_result.exit_status.must_equal 2
+        run_result.stderr.must_equal ''
+        run_result.stdout.must_equal "test exit plugin_error\n"
+      end
+    end
+
+    describe 'skipped exit' do
+      let(:feature) { 'exitskipped' }
+      it 'has correct output' do
+        run_result.exit_status.must_equal 101
+        run_result.stderr.must_equal ''
+        run_result.stdout.must_equal "test exit skipped_tests\n"
+      end
+    end
+
+    describe 'failed exit' do
+      let(:feature) { 'exitfailed' }
+      it 'has correct output' do
+        run_result.exit_status.must_equal 100
+        run_result.stderr.must_equal ''
+        run_result.stdout.must_equal "test exit failed_tests\n"
+      end
+    end
+
+  end
 end

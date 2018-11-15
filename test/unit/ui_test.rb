@@ -391,4 +391,16 @@ end
 #                             Exit Codes
 #=============================================================================#
 # These are tested in functional tests
-# exit(code) => Kernel.exit code
+describe 'Inspec UI Exit Codes' do
+  [
+    :EXIT_NORMAL,
+    :EXIT_USAGE_ERROR,
+    :EXIT_PLUGIN_ERROR,
+    :EXIT_SKIPPED_TESTS,
+    :EXIT_FAILED_TESTS,
+  ].each do |const_name|
+    it "should define #{const_name}" do
+      Inspec::UI.const_defined?(const_name).must_equal true
+    end
+  end
+end

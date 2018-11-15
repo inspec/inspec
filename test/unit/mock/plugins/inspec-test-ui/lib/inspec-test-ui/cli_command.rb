@@ -4,6 +4,10 @@ module InspecPlugins::TestUI
   class CliCommand < Inspec.plugin(2, :cli_command)
     subcommand_desc 'testui [FEATURE] [OPTS]', 'Exercise Inspec::UI'
 
+
+    #--------------------------------------------------#
+    #                   UI Output Commands
+    #--------------------------------------------------#
     desc 'headline', 'Inspec::UI#headline'
     def headline
       ui.headline('Big News!')
@@ -43,5 +47,23 @@ module InspecPlugins::TestUI
       list_item
     end
 
+    #--------------------------------------------------#
+    #           Exit code Testing Commands
+    #--------------------------------------------------#
+    [
+      :normal,
+      :usage_error,
+      :plugin_error,
+      :skipped_tests,
+      :failed_tests,
+      :tea,
+    ].each do |exit_mode|
+      short = 'exit' + exit_mode.to_s.split('_').first
+      desc short, "Exit with code for #{exit_mode}"
+      define_method short.to_sym do
+        ui.plain("test exit #{exit_mode}\n")
+        ui.exit(exit_mode)
+      end
+    end
   end
 end

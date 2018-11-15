@@ -29,6 +29,12 @@ module Inspec
       table_corner: '⨀', # N-ARY CIRCLED DOT OPERATOR, Unicode: U+2A00, UTF-8: E2 A8 80
     }.freeze
 
+    EXIT_NORMAL = 0
+    EXIT_USAGE_ERROR = 1
+    EXIT_PLUGIN_ERROR = 2
+    EXIT_FAILED_TESTS = 100
+    EXIT_SKIPPED_TESTS = 101
+
     attr_reader :io
 
     def initialize(opts = {})
@@ -153,6 +159,26 @@ module Inspec
         cells = ary.dup.map { |label| { value: label, alignment: :center} }
         @header = TTY::Table::Header.new(cells)
       end
+    end
+
+    #=========================================================================#
+    #                        Exit Codes
+    #=========================================================================#
+
+    def exit(code_sym = :normal)
+      expected_symbols = [:normal, :usage_error, :plugin_error, :failed_tests, :skipped_tests]
+      # If it's a number, give them a pass for now.
+      if code_sym.kind_of? Numeric
+        code_int = code_sym
+      else
+        code_const = ('EXIT_' + code_sym.to_s.upcase).to_sym
+        unless self.class.const_defined?(code_const)
+          warning("Unrecognized exit constant #{code_const} - exit with code 1")
+          exit(:usage_error)
+        end
+        code_int = self.class.const_get(code_const)
+      end
+      Kernel.exit(code_int)
     end
   end
 end
