@@ -163,12 +163,12 @@ This will disable or enable the ssl check when accessing the Automate 2 instance
 
 #### node_name
 
-This will be the node name which shows up in Automate 2.
+This will be the node name which shows up in Automate.
 
 #### node_uuid
 
-This will be the node uuid which shows up to Automate 2. You will want to use a static uuid per node for all your reports.
+This will be the node UUID which shows up in Automate. You will want to use a single static UUID per node for all your reports.
 
 #### environment
 
-This will set the environment metadata for Automate 2.
+This will set the environment metadata for Automate.
