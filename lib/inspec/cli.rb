@@ -26,6 +26,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   class_option :diagnose, type: :boolean,
     desc: 'Show diagnostics (versions, configurations)'
 
+  class_option :color, type: :boolean,
+    desc: 'Use colors in output.'
+
   desc 'json PATH', 'read all tests in PATH and generate a JSON summary'
   option :output, aliases: :o, type: :string,
     desc: 'Save the created profile to a path'

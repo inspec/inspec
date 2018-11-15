@@ -87,6 +87,32 @@ EOT
         show_spaces(run_result.stdout).must_equal show_spaces(expected)
       end
     end
+  end
 
+  describe 'with --no-color option' do
+    # Note: the pre_opts position does not work for any class_option
+    let(:post_opts) { '--no-color' }
+    describe 'everything' do
+      let(:feature) { 'everything' }
+      it 'has correct output' do
+        run_result.exit_status.must_equal 0
+        expected = <<-EOT
+
+ --------------------------------- Big News! --------------------------------- 
+
++----------------------+----------+-----------+
+|         Band         | Coolness | Nerd Cred |
++----------------------+----------+-----------+
+| They Might Be Giants | Low      | Very High |
+| Led Zep              | High     | Low       |
+| Talking Heads        | Moderate | High      |
++----------------------+----------+-----------+
+WARNING: Things will be OK in the end
+ERROR: Burned down, fell over, and then sank into the swamp.
+ * TODO: make more lists
+EOT
+        show_spaces(run_result.stdout).must_equal show_spaces(expected)
+      end
+    end
   end
 end

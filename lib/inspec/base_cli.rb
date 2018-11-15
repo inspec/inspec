@@ -100,8 +100,6 @@ module Inspec
       option :reporter, type: :array,
         banner: 'one two:/output/file/path',
         desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml'
-      option :color, type: :boolean,
-        desc: 'Use colors in output.'
       option :attrs, type: :array,
         desc: 'Load attributes file (experimental)'
       option :create_lockfile, type: :boolean,
