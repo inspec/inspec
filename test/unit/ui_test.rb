@@ -28,9 +28,9 @@ GLYPHS = {
   swirl: '↺', # ANTICLOCKWISE OPEN CIRCLE ARROW, Unicode U+21BA, UTF-8: E2 86 BA
   script_x: '×', # MULTIPLICATION SIGN, Unicode: U+00D7, UTF-8: C3 97
   question: '?', # normal ASCII question mark
-  em_dash: '—', # EM DASH Unicode: U+2014, UTF-8: E2 80 94'
+  em_dash: '─', # BOX DRAWINGS LIGHT HORIZONTAL Unicode: U+2500, UTF-8: E2 94 80
   heavy_dash: '≖', # RING IN EQUAL TO, Unicode: U+2256, UTF-8: E2 89 96
-  vertical_dash: '|', # VERTICAL LINE, Unicode: U+007C, UTF-8: 7C
+  vertical_dash: '│', # │ BOX DRAWINGS LIGHT VERTICAL, Unicode: U+2502, UTF-8: E2 94 82
   table_corner: '⨀', # N-ARY CIRCLED DOT OPERATOR, Unicode: U+2A00, UTF-8: E2 A8 80
 }.freeze
 
@@ -248,17 +248,15 @@ describe 'Inspec::UI Tables and Lists' do
     describe('tables') do
       it 'makes a table' do
         ui.table do |t|
-          t.head = ['Fruit', 'Tartness', 'Succulence']
-          t.rows << ['Dragonfruit', 'Very Low', 'High']
-          t.rows << ["The Exquisite Lime, Scurvy's Bane", 'High', 'Medium']
+          t.header = ['Fruit', 'Tartness', 'Succulence']
+          t << ['Dragonfruit', 'Very Low', 'High']
+          t << ["The Exquisite Lime, Scurvy's Bane", 'High', 'Medium']
         end
         lines = output.split("\n")
 
         # First, third, and last lines should be horizontal dividors
         [0, 2, -1].each do |idx|
-          lines[idx].must_match(/^#{GLYPHS[:table_corner]}/) # Start with a corner
-          lines[idx].must_match(/#{GLYPHS[:table_corner]}$/) # End with a corner
-          lines[idx].must_match(/#{GLYPHS[:em_dash]}#{GLYPHS[:table_corner]}#{GLYPHS[:em_dash]}/) # Have internal corners
+          lines[idx].must_include(GLYPHS[:em_dash]*3)
           lines[idx].wont_include(' ')
         end
 
@@ -266,8 +264,6 @@ describe 'Inspec::UI Tables and Lists' do
         [1, 3, 4].each do |idx|
           lines[idx].must_match(/^#{GLYPHS[:vertical_dash]}/) # Start with a vertical line
           lines[idx].must_match(/#{GLYPHS[:vertical_dash]}$/) # End with a vertical line
-          lines[idx].must_match(/\s#{GLYPHS[:vertical_dash]}\s/) # Have vertical line
-          lines[idx].wont_include(GLYPHS[:table_corner])
         end
 
         # Second (header) line should have bold and white on each header label
@@ -305,9 +301,9 @@ describe 'Inspec::UI Tables and Lists' do
     describe('tables') do
       it 'makes a table ANSI codes or special glyphs' do
         ui.table do |t|
-          t.head = ['Fruit', 'Tartness', 'Succulence']
-          t.rows << ['Dragonfruit', 'Very Low', 'High']
-          t.rows << ["The Exquisite Lime, Scurvy's Bane", 'High', 'Medium']
+          t.header = ['Fruit', 'Tartness', 'Succulence']
+          t << ['Dragonfruit', 'Very Low', 'High']
+          t << ["The Exquisite Lime, Scurvy's Bane", 'High', 'Medium']
         end
 
         output.wont_include('\e[') # No ANSI escapes

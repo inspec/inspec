@@ -41,5 +41,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'semverse'
   spec.add_dependency 'htmlentities'
   spec.add_dependency 'multipart-post'
-  spec.add_dependency 'text-table', '~> 1.2'
+  spec.add_dependency 'tty-table', '~> 0.10'
 end

@@ -1,4 +1,4 @@
-require 'text-table'
+require 'tty-table'
 
 module Inspec
   # Provides simple terminal UI interaction primitives for CLI commands and plugins.
@@ -23,9 +23,9 @@ module Inspec
       swirl: '↺', # ANTICLOCKWISE OPEN CIRCLE ARROW, Unicode U+21BA, UTF-8: E2 86 BA
       script_x: '×', # MULTIPLICATION SIGN, Unicode: U+00D7, UTF-8: C3 97
       question: '?', # normal ASCII question mark
-      em_dash: '—', # EM DASH Unicode: U+2014, UTF-8: E2 80 94'
+      em_dash: '─', # BOX DRAWINGS LIGHT HORIZONTAL Unicode: U+2500, UTF-8: E2 94 80
       heavy_dash: '≖', # RING IN EQUAL TO, Unicode: U+2256, UTF-8: E2 89 96
-      vertical_dash: '|', # VERTICAL LINE, Unicode: U+007C, UTF-8: 7C
+      vertical_dash: '│', # │ BOX DRAWINGS LIGHT VERTICAL, Unicode: U+2502, UTF-8: E2 94 82
       table_corner: '⨀', # N-ARY CIRCLED DOT OPERATOR, Unicode: U+2A00, UTF-8: E2 A8 80
     }.freeze
 
@@ -124,41 +124,35 @@ module Inspec
       io.print ' ' + bullet + ' ' + str + "\n"
     end
 
-    # Makes a table.  Call with a block; block arg will be a Text::Table object.
+    # Makes a table.  Call with a block; block arg will be a TTY::Table object, 
+    # with an extension for setting the header.
+    # Typical use:
+    # ui.table do |t|
+    #   t.header = ['Name', 'Rank', 'Cereal Number']
+    #   t << ['Crunch', 'Captain', 1]
+    #   t << ['', '', 1]
+    #  end
     def table
-      the_table = TableHelper.new(
-        color: color?,
-        vertical_boundary: (color? ? GLYPHS[:em_dash] : '-'),
-        horizontal_boundary:  (color? ? GLYPHS[:vertical_dash] : '|'),
-        boundary_intersection: (color? ? GLYPHS[:table_corner] : '+'),
-      )
+      the_table = TableHelper.new
       yield(the_table)
-      io.print(the_table.to_s)
-    end
 
-    # This class exists to apply formatting to the header row.
-    class TableHelper < Text::Table
-      def initialize(opts)
-        @color = opts.delete(:color)
-        super(opts)
-      end
-
-      def color?
-        @color
-      end
-
-      # Override this to inject color data
-      def head=(row)
-        row = row.dup.map do |label|
-          if label.is_a?(String) && color?
-            ANSI_CODES[:bold] + ANSI_CODES[:color][:white] + label + ANSI_CODES[:reset]
-          else
-            label
-          end
+      colorizer = Proc.new do |data, row, col|
+        if color? && row == 0
+          ANSI_CODES[:bold] + ANSI_CODES[:color][:white] + data + ANSI_CODES[:reset]
+        else
+          data
         end
-        super(row)
       end
+      render_mode = color? ? :unicode : :ascii
+      padding = [0, 1, 0, 1] # T R B L
+      io.print(the_table.render(render_mode, filter: colorizer, padding: padding) + "\n")
     end
 
+    class TableHelper < TTY::Table
+      def header=(ary)
+        cells = ary.dup.map { |label| { value: label, alignment: :center} }
+        @header = TTY::Table::Header.new(cells)
+      end
+    end
   end
 end
