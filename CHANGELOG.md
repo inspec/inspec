@@ -1,27 +1,25 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.52 -->
-## [v3.0.52](https://github.com/inspec/inspec/tree/v3.0.52) (2018-11-15)
-
-#### Merged Pull Requests
-- Load the compliance plugin when the fetcher is needed [#3609](https://github.com/inspec/inspec/pull/3609) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.0.46 -->
-### Changes since 3.0.46 release
-
-#### Merged Pull Requests
-- Load the compliance plugin when the fetcher is needed [#3609](https://github.com/inspec/inspec/pull/3609) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.52 -->
-
-#### Bug Fixes
-- Adds protection against zipslip vulnerability [#3604](https://github.com/inspec/inspec/pull/3604) ([hdost](https://github.com/hdost)) <!-- 3.0.51 -->
-
-#### Enhancements
-- Adding --no-pager to service checks [#3592](https://github.com/inspec/inspec/pull/3592) ([fernandoalex](https://github.com/fernandoalex)) <!-- 3.0.50 -->
-- aws_security_group: Query against other security group ids in allow_* matchers [#3576](https://github.com/inspec/inspec/pull/3576) ([j00p34](https://github.com/j00p34)) <!-- 3.0.49 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.0.52](https://github.com/inspec/inspec/tree/v3.0.52) (2018-11-15)
+
+#### Enhancements
+- aws_security_group: Query against other security group ids in allow_* matchers [#3576](https://github.com/inspec/inspec/pull/3576) ([j00p34](https://github.com/j00p34))
+- Adding --no-pager to service checks [#3592](https://github.com/inspec/inspec/pull/3592) ([fernandoalex](https://github.com/fernandoalex))
+
+#### Bug Fixes
+- Adds protection against zipslip vulnerability [#3604](https://github.com/inspec/inspec/pull/3604) ([hdost](https://github.com/hdost))
+
+#### Merged Pull Requests
+- Load the compliance plugin when the fetcher is needed [#3609](https://github.com/inspec/inspec/pull/3609) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_stable_release -->
+
 ## [v3.0.46](https://github.com/inspec/inspec/tree/v3.0.46) (2018-11-08)
 
 #### New Features
@@ -42,7 +40,6 @@
 - Fix functional tests issues with vendoring [#3572](https://github.com/inspec/inspec/pull/3572) ([jquick](https://github.com/jquick))
 - Fixes (some) ruby warnings related to functional tests [#3561](https://github.com/inspec/inspec/pull/3561) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
 - Fixes broken link in documentation [#3588](https://github.com/inspec/inspec/pull/3588) ([dmccown](https://github.com/dmccown))
-<!-- latest_stable_release -->
 
 ## [v3.0.25](https://github.com/inspec/inspec/tree/v3.0.25) (2018-11-01)
 
