@@ -353,9 +353,11 @@ describe 'Inspec::UI CLI integration' do
       output.must_equal "test\n"
     end
     it 'should support mark_text' do
+      # mark_text applies cyan and DOES NOT PRINT
       cli.ui = Inspec::UI.new(io: fixture_io)
-      cli.mark_text('test')
-      output.must_equal ANSI_CODES[:color][:cyan] + 'test' + ANSI_CODES[:reset]
+      result = cli.mark_text('test')
+      result.must_equal ANSI_CODES[:color][:cyan] + 'test' + ANSI_CODES[:reset]
+      output.must_equal ''
     end
     it 'should support headline' do
       cli.ui = Inspec::UI.new(io: fixture_io)
