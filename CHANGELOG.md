@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.54 -->
-## [v3.0.54](https://github.com/inspec/inspec/tree/v3.0.54) (2018-11-16)
+<!-- latest_release 3.0.55 -->
+## [v3.0.55](https://github.com/inspec/inspec/tree/v3.0.55) (2018-11-16)
 
 #### Merged Pull Requests
-- Improvements to the functional helper run_inspec_process [#3603](https://github.com/inspec/inspec/pull/3603) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Revert setting RSpec expectation syntax to &#39;should&#39; mode [#3620](https://github.com/inspec/inspec/pull/3620) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.52 -->
 ### Changes since 3.0.52 release
 
 #### Merged Pull Requests
+- Revert setting RSpec expectation syntax to &#39;should&#39; mode [#3620](https://github.com/inspec/inspec/pull/3620) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.55 -->
 - Improvements to the functional helper run_inspec_process [#3603](https://github.com/inspec/inspec/pull/3603) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.54 -->
 - Create a class to handle the plugins.json file [#3575](https://github.com/inspec/inspec/pull/3575) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.53 -->
 <!-- release_rollup -->
