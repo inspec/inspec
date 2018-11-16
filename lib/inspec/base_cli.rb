@@ -241,7 +241,8 @@ module Inspec
 
       def mark_text(text)
         # TODO: - deprecate, call cli.ui directly
-        ui.emphasis(text)
+        # Note that this one doesn't automatically print
+        ui.emphasis(text, print: false)
       end
 
       def headline(title)

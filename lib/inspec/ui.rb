@@ -47,25 +47,32 @@ module Inspec
       @color
     end
 
+    def print_or_return(str, print_flag)
+      io.print(str) if print_flag
+      str
+    end
+
     #=========================================================================#
     #                   Low-level formatting methods
     #=========================================================================#
 
-    def plain(str)
-      io.print(str)
+    def plain(str, opts = { print: true })
+      print_or_return(str.to_s, opts[:print])
     end
 
-    def plain_line(str)
-      io.puts(str)
+    def plain_line(str, opts = { print: true })
+      print_or_return(str.to_s + "\n", opts[:print])
     end
 
-    def bold(str)
-      color? ? io.print(ANSI_CODES[:bold] + str + ANSI_CODES[:reset]) : plain(str)
+    def bold(str, opts = { print: true })
+      result = color? ? io.print(ANSI_CODES[:bold] + str.to_s + ANSI_CODES[:reset]) : str.to_s
+      print_or_return(result, opts[:print])
     end
 
     ANSI_CODES[:color].keys.each do |color|
-      define_method(color) do |str|
-        color? ? io.print(ANSI_CODES[:color][color] + str.to_s + ANSI_CODES[:reset]) : plain(str)
+      define_method(color) do |str, opts = { print: true }|
+        result = color? ? (ANSI_CODES[:color][color] + str.to_s + ANSI_CODES[:reset]) : str.to_s
+        print_or_return(result, opts[:print])
       end
     end
 
@@ -73,11 +80,11 @@ module Inspec
     #                   High-Level formatting methods
     #=========================================================================#
 
-    def emphasis(str)
-      cyan(str)
+    def emphasis(str, opts = { print: true })
+      cyan(str, opts)
     end
 
-    def headline(str)
+    def headline(str, opts = { print: true })
       str = str.dup.to_s
       if str.length < 76
         dash_length = 80 - str.length - 4 # 4 spaces
@@ -94,11 +101,11 @@ module Inspec
       result += ' ' + (color? ? GLYPHS[:em_dash] : '-') * dash_length + ' '
       result += "\n\n"
 
-      io.print result
+      print_or_return(result, opts[:print])
     end
 
     # Issues a one-line message, with 'ERROR: ' prepended in bold red.
-    def error(str)
+    def error(str, opts = { print: true })
       str = str.dup.to_s
       result = ''
       result += color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:red] : ''
@@ -107,11 +114,11 @@ module Inspec
       result += ' '
       result += str
       result += "\n"
-      io.print result
+      print_or_return(result, opts[:print])
     end
 
     # Issues a one-line message, with 'WARNING: ' prepended in bold yellow.
-    def warning(str)
+    def warning(str, opts = { print: true })
       str = str.dup.to_s
       result = ''
       result += color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:yellow] : ''
@@ -120,22 +127,24 @@ module Inspec
       result += ' '
       result += str
       result += "\n"
-      io.print result
+      print_or_return(result, opts[:print])
     end
 
     # Draws a horizontal line.
-    def line
+    def line(opts = { print: true })
       if color?
-        io.print ANSI_CODES[:bold] + GLYPHS[:heavy_dash] * 80 + ANSI_CODES[:reset] + "\n"
+        result = ANSI_CODES[:bold] + GLYPHS[:heavy_dash] * 80 + ANSI_CODES[:reset] + "\n"
       else
-        io.print '-' * 80 + "\n"
+        result = '-' * 80 + "\n"
       end
+      print_or_return(result, opts[:print])
     end
 
     # Makes a bullet point.
-    def list_item(str)
+    def list_item(str, opts = { print: true })
       bullet = color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:white] + GLYPHS[:bullet] + ANSI_CODES[:reset] : '*'
-      io.print ' ' + bullet + ' ' + str.to_s + "\n"
+      result = ' ' + bullet + ' ' + str.to_s + "\n"
+      print_or_return(result, opts[:print])
     end
 
     # Makes a table.  Call with a block; block arg will be a TTY::Table object,
@@ -146,7 +155,7 @@ module Inspec
     #   t << ['Crunch', 'Captain', 1]
     #   t << ['', '', 1]
     #  end
-    def table
+    def table(opts = { print: true })
       the_table = TableHelper.new
       yield(the_table)
 
@@ -159,7 +168,8 @@ module Inspec
       end
       render_mode = color? ? :unicode : :ascii
       padding = [0, 1, 0, 1] # T R B L
-      io.print(the_table.render(render_mode, filter: colorizer, padding: padding) + "\n")
+      result = the_table.render(render_mode, filter: colorizer, padding: padding) + "\n"
+      print_or_return(result, opts[:print])
     end
 
     class TableHelper < TTY::Table
