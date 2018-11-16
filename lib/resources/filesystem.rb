@@ -8,11 +8,11 @@ module Inspec::Resources
       'filesystem' currently not supported for Linux
       describe filesystem('/') do
         its('size') { should be >= 32000 }
-        its('filesystem') { should eq false }
+        its('type') { should eq false }
       end
       describe filesystem('c:') do
         its('size') { should be >= 90 }
-        its('filesystem') { should eq 'NTFS' }
+        its('type') { should eq 'NTFS' }
       end
     "
     attr_reader :partition
@@ -48,9 +48,9 @@ module Inspec::Resources
       info[:size]
     end
 
-    def filesystem
+    def type
       info = @fsman.info(@partition)
-      info[:filesystem]
+      info[:type]
     end
 
     def name
@@ -74,7 +74,7 @@ module Inspec::Resources
       {
         name: partition,
         size: value.to_i,
-        filesystem: false,
+        type: false,
       }
     end
   end
@@ -98,7 +98,7 @@ module Inspec::Resources
       {
         name: fs['DeviceID'],
         size: fs['Size'].to_i,
-        filesystem: fs['FileSystem'],
+        type: fs['FileSystem'],
       }
     end
   end
