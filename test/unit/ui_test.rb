@@ -104,8 +104,10 @@ describe 'Inspec::UI High-Level Formatting' do
 
     describe 'emphasis' do
       it 'uses ANSI escapes' do
-        ui.emphasis('test')
-        output.must_equal(ANSI_CODES[:color][:cyan] + 'test' + ANSI_CODES[:reset])
+        result = ui.emphasis('test')
+        # Emphasis does not print by default
+        result.must_equal(ANSI_CODES[:color][:cyan] + 'test' + ANSI_CODES[:reset])
+        output.must_equal ''
       end
     end
 
@@ -165,10 +167,12 @@ describe 'Inspec::UI High-Level Formatting' do
 
     describe 'emphasis' do
       it 'does not use ANSI escapes' do
-        ui.emphasis('test')
-        output.wont_include('\e[') # No ANSI escapes
-        output.wont_match(/[^[:ascii:]]/) # No non-ASCII chars (such as UTF-8 glyphs)
-        output.must_equal('test')
+        result = ui.emphasis('test')
+        # Emphasis does not print by default
+        result.wont_include('\e[') # No ANSI escapes
+        result.wont_match(/[^[:ascii:]]/) # No non-ASCII chars (such as UTF-8 glyphs)
+        result.must_equal('test')
+        output.must_equal ''
       end
     end
 
