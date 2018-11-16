@@ -61,7 +61,7 @@ module Inspec
       print_or_return(str.to_s, opts[:print])
     end
 
-    def plain_line(str, opts = { print: true })
+    def plain_line(str = '', opts = { print: true })
       print_or_return(str.to_s + "\n", opts[:print])
     end
 
