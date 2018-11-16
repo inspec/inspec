@@ -101,16 +101,6 @@ class PluginLoaderTests < MiniTest::Test
     end
   end
 
-  def test_constuctor_when_the_plugin_config_is_corrupt_it_throws_an_exception
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'corrupt')
-    assert_raises(Inspec::Plugin::V2::ConfigError) { Inspec::Plugin::V2::Loader.new }
-  end
-
-  def test_constuctor_when_the_plugin_config_is_a_bad_version_it_throws_an_exception
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'bad_plugin_conf_version')
-    assert_raises(Inspec::Plugin::V2::ConfigError) { Inspec::Plugin::V2::Loader.new }
-  end
-
   #====================================================================#
   #                        basic loading                               #
   #====================================================================#
