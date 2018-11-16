@@ -9,16 +9,17 @@ module InspecPlugins
       # 2. read content in erb
       # 3. write to full_destination_root_path
 
-      attr_reader :overwrite_mode, :ui
+      attr_reader :overwrite_mode, :templates_path, :ui
       def initialize(cli_ui, cli_options = {})
         @ui = cli_ui
-        @overwrite_mode = cli_options['overwrite']
+        @overwrite_mode = cli_options[:overwrite]
+        @templates_path ||= cli_options[:templates_path]
       end
 
       # rubocop: disable Metrics/AbcSize
       def render_with_values(template_subdir_path, template_values = {})
         # look for template directory
-        base_dir = File.join(File.dirname(__FILE__), 'templates', template_subdir_path)
+        base_dir = File.join(templates_path, template_subdir_path)
         # prepare glob for all subdirectories and files
         template_glob = File.join(base_dir, '**', '{*,.*}')
         # Use the name attribute to define the path to the profile.

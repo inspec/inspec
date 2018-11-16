@@ -2,18 +2,21 @@
 
 require 'pathname'
 require_relative 'renderer'
+require 'byebug'
 
 module InspecPlugins
   module Init
     class CLI < Inspec.plugin(2, :cli_command)
       subcommand_desc 'init SUBCOMMAND', 'Generate InSpec code'
 
+      TEMPLATES_PATH = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'templates'))
+
       #-------------------------------------------------------------------#
       #                     inspec init profile
       #-------------------------------------------------------------------#
       def self.valid_profile_platforms
         # Look in the 'template/profiles' directory and detect which platforms are available.
-        profile_templates_dir = File.join(File.dirname(__FILE__), 'templates', 'profiles')
+        profile_templates_dir = File.join(TEMPLATES_PATH, 'profiles')
         Dir.glob(File.join(profile_templates_dir, '*')).select { |p| File.directory?(p) }.map { |d| File.basename(d) }
       end
 
@@ -29,13 +32,23 @@ module InspecPlugins
       option :overwrite, type: :boolean, default: false,
              desc: 'Overwrites existing directory'
       def profile(new_profile_name)
+        byebug
         unless valid_profile_platforms.include?(options[:platform])
           puts "Unable to generate profile: No template available for platform '#{options[:platform]}' (expected one of: #{valid_profile_platforms.join(', ')})"
           exit 1
         end
         template_path = File.join('profiles', options[:platform])
-        renderer = InspecPlugins::Init::Renderer.new(self, options)
-        renderer.render_with_values(template_path, name: new_profile_name)
+
+        render_opts = {
+          templates_path: TEMPLATES_PATH,
+          overwrite: options[:overwrite],
+        }
+        renderer = InspecPlugins::Init::Renderer.new(self, render_opts)
+
+        vars = {
+          name: new_profile_name,
+        }
+        renderer.render_with_values(template_path, vars)
       end
     end
   end
