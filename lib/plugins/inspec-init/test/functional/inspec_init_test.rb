@@ -11,7 +11,7 @@ class InitCli < MiniTest::Test
       profile = File.join(dir, 'test-profile')
       out = run_inspec_process("init profile test-profile", prefix: "cd #{dir} &&")
       assert_equal 0, out.exit_status
-      assert_includes out.stdout, 'Create new profile at'
+      assert_includes out.stdout, 'Creating new profile at'
       assert_includes out.stdout, profile
       assert_includes Dir.entries(profile).join, 'inspec.yml'
       assert_includes Dir.entries(profile).join, 'README.md'
@@ -23,7 +23,7 @@ class InitCli < MiniTest::Test
       profile = File.join(dir, 'test-profile')
       out = run_inspec_process("init profile --platform os test-profile", prefix: "cd #{dir} &&")
       assert_equal 0, out.exit_status
-      assert_includes out.stdout, 'Create new profile at'
+      assert_includes out.stdout, 'Creating new profile at'
       assert_includes out.stdout, profile
       assert_includes Dir.entries(profile).join, 'inspec.yml'
       assert_includes Dir.entries(profile).join, 'README.md'
@@ -55,7 +55,7 @@ class InitCli < MiniTest::Test
       profile = File.join(dir, 'test-gcp-profile')
       out = run_inspec_process("init profile --platform gcp test-gcp-profile", prefix: "cd #{dir} &&")
       assert_equal 0, out.exit_status
-      assert_includes out.stdout, 'Create new profile at'
+      assert_includes out.stdout, 'Creating new profile at'
       assert_includes out.stdout, profile
       assert_includes Dir.entries(profile).join, 'inspec.yml'
       assert_includes Dir.entries(profile).join, 'README.md'

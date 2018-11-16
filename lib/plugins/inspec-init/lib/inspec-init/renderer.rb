@@ -17,49 +17,56 @@ module InspecPlugins
       end
 
       # rubocop: disable Metrics/AbcSize
-      def render_with_values(template_subdir_path, template_values = {})
+      def render_with_values(template_subdir_path, template_type, template_values = {})
         # look for template directory
-        base_dir = File.join(templates_path, template_subdir_path)
-        # prepare glob for all subdirectories and files
-        template_glob = File.join(base_dir, '**', '{*,.*}')
-        # Use the name attribute to define the path to the profile.
-        profile_path = template_values[:name]
-        # Use slashes (\, /) to split up the name into an Array then use the last entry
-        # to reset the name of the profile.
-        template_values[:name] = template_values[:name].split(%r{\\|\/}).last
-        # Generate the full full_destination_root_path path on disk
-        full_destination_root_path = Pathname.new(Dir.pwd).join(profile_path)
+        source_dir = File.join(templates_path, template_subdir_path)
 
-        # This is a bit gross
-        generator_type = template_subdir_path.split(%r{[\/]}).first.sub(/s$/, '')
-        ui.plain_text "Create new #{generator_type} at #{ui.mark_text(full_destination_root_path)}"
+        # prepare glob for all subdirectories and files
+        template_glob = File.join(source_dir, '**', '{*,.*}')
+
+        # Use the name attribute to define the path to the new thing.
+        # May contain slashes.
+        relative_destination_path = template_values[:name]
+
+        # Now reset the :name variable to be the basename.
+        # This is important in profiles, for example.
+        template_values[:name] = File.basename(template_values[:name])
+
+        # Generate the full full_destination_path path on disk
+        full_destination_path = Pathname.new(Dir.pwd).join(relative_destination_path)
 
         # check that the directory does not exist
-        if File.exist?(full_destination_root_path) && !overwrite_mode
-          ui.plain_text "#{ui.mark_text(full_destination_root_path)} exists already, use --overwrite"
-          ui.exit(1)
+        if File.exist?(full_destination_path) && !overwrite_mode
+          ui.plain_line "#{ui.emphasis(full_destination_path)} exists already, use --overwrite"
+          ui.exit(:usage_error)
         end
 
+        ui.headline('InSpec Code Generator')
+
+        ui.plain_line "Creating new #{template_type} at #{ui.emphasis(full_destination_path)}"
+
         # ensure that full_destination_root_path directory is available
-        FileUtils.mkdir_p(full_destination_root_path)
+        FileUtils.mkdir_p(full_destination_path)
 
         # iterate over files and write to full_destination_root_path
-        Dir.glob(template_glob) do |file|
-          relative_destination_item_path = Pathname.new(file).relative_path_from(Pathname.new(base_dir))
-          full_destination_item_path = Pathname.new(full_destination_root_path).join(relative_destination_item_path)
-          if File.directory?(file)
-            ui.li "Create directory #{ui.mark_text(relative_destination_item_path)}"
+        Dir.glob(template_glob) do |source_file|
+          relative_destination_item_path = Pathname.new(source_file).relative_path_from(Pathname.new(source_dir))
+          full_destination_item_path = Pathname.new(full_destination_path).join(relative_destination_item_path)
+          if File.directory?(source_file)
+            ui.list_item "Creating directory #{ui.emphasis(relative_destination_item_path)}"
             FileUtils.mkdir_p(full_destination_item_path)
-          elsif File.file?(file)
-            ui.li "Create file #{ui.mark_text(relative_destination_item_path)}"
+          elsif File.file?(source_file)
+            ui.list_item "Creating file #{ui.emphasis(relative_destination_item_path)}"
             # read & render content
-            content = render(File.read(file), template_values)
+            content = render(File.read(source_file), template_values)
             # write file content
             File.write(full_destination_item_path, content)
           else
-            ui.plain_text "Ignore #{file}, because its not an file or directoy"
+            ui.warning "Ignoring #{ui.emphasis(source_file)}, because its not an file or directoy"
           end
         end
+
+        ui.plain_line
       end
       # rubocop: enable Metrics/AbcSize
 
