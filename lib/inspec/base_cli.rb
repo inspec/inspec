@@ -234,7 +234,10 @@ module Inspec
         @ui = Inspec::UI.new(color: enable_color, interactive: enable_interactivity)
       end
 
-      attr_writer :ui
+      # Rationale: converting this to attr_writer breaks Thor
+      def ui=(new_ui) # rubocop: disable Style/TrivialAccessors
+        @ui = new_ui
+      end
 
       def mark_text(text)
         # TODO: - deprecate, call cli.ui directly
