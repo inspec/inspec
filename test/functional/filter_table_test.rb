@@ -69,7 +69,8 @@ describe '3103 default methods for filter table' do
     cmd += ' --controls ' + controls.join(' ')
     cmd = inspec(cmd)
 
-    # RSpec keeps issuing a deprecation count to stdout; I can't seem to disable it.
+    # RSpec keeps issuing a deprecation count to stdout
+    # See https://github.com/inspec/inspec/pull/3560
     output = cmd.stdout.split("\n").reject {|line| line =~ /deprecation/}.join("\n")
     data = JSON.parse(output)
     failed_controls = data['profiles'][0]['controls'].select { |ctl| ctl['results'][0]['status'] == 'failed' }
@@ -105,7 +106,8 @@ describe '2370 lazy_load for filter table' do
     cmd += ' --controls ' + controls.join(' ')
     cmd = inspec(cmd)
 
-    # RSpec keeps issuing a deprecation count to stdout; I can't seem to disable it.
+    # RSpec keeps issuing a deprecation count to stdout
+    # See https://github.com/inspec/inspec/pull/3560
     output = cmd.stdout.split("\n").reject {|line| line =~ /deprecation/}.join("\n")
     data = JSON.parse(output)
     failed_controls = data['profiles'][0]['controls'].select { |ctl| ctl['results'][0]['status'] == 'failed' }
@@ -175,7 +177,8 @@ describe '3110 do not expose block-valued properties in raw data' do
     cmd += ' --controls ' + controls.join(' ')
     cmd = inspec(cmd)
 
-    # RSpec keeps issuing a deprecation count to stdout; I can't seem to disable it.
+    # RSpec keeps issuing a deprecation count to stdout
+    # See https://github.com/inspec/inspec/pull/3560
     output = cmd.stdout.split("\n").reject {|line| line =~ /deprecation/}.join("\n")
     data = JSON.parse(output)
     failed_controls = data['profiles'][0]['controls'].select { |ctl| ctl['results'][0]['status'] == 'failed' }
