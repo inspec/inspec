@@ -65,7 +65,7 @@ module Inspec
 
     ANSI_CODES[:color].keys.each do |color|
       define_method(color) do |str|
-        color? ? io.print(ANSI_CODES[:color][color] + str + ANSI_CODES[:reset]) : plain(str)
+        color? ? io.print(ANSI_CODES[:color][color] + str.to_s + ANSI_CODES[:reset]) : plain(str)
       end
     end
 
@@ -78,6 +78,7 @@ module Inspec
     end
 
     def headline(str)
+      str = str.dup.to_s
       if str.length < 76
         dash_length = 80 - str.length - 4 # 4 spaces
         dash_length /= 2
@@ -98,6 +99,7 @@ module Inspec
 
     # Issues a one-line message, with 'ERROR: ' prepended in bold red.
     def error(str)
+      str = str.dup.to_s
       result = ''
       result += color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:red] : ''
       result += 'ERROR:'
@@ -110,6 +112,7 @@ module Inspec
 
     # Issues a one-line message, with 'WARNING: ' prepended in bold yellow.
     def warning(str)
+      str = str.dup.to_s
       result = ''
       result += color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:yellow] : ''
       result += 'WARNING:'
@@ -132,7 +135,7 @@ module Inspec
     # Makes a bullet point.
     def list_item(str)
       bullet = color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:white] + GLYPHS[:bullet] + ANSI_CODES[:reset] : '*'
-      io.print ' ' + bullet + ' ' + str + "\n"
+      io.print ' ' + bullet + ' ' + str.to_s + "\n"
     end
 
     # Makes a table.  Call with a block; block arg will be a TTY::Table object,
@@ -149,7 +152,7 @@ module Inspec
 
       colorizer = proc do |data, row, _col|
         if color? && row == 0
-          ANSI_CODES[:bold] + ANSI_CODES[:color][:white] + data + ANSI_CODES[:reset]
+          ANSI_CODES[:bold] + ANSI_CODES[:color][:white] + data.to_s + ANSI_CODES[:reset]
         else
           data
         end

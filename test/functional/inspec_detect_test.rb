@@ -9,7 +9,7 @@ describe 'inspec detect' do
     res.exit_status.must_equal 0
 
     stdout = res.stdout
-    stdout.must_include "\n== Platform Details\n\n"
+    stdout.must_include "Platform Details"
     stdout.must_include "\nName:      \e[1m\e[36m"
     stdout.must_include "\nFamilies:  \e[1m\e[36m"
     stdout.must_include "\nArch:      \e[1m\e[36m"
@@ -22,7 +22,7 @@ describe 'inspec detect' do
     res.exit_status.must_equal 0
 
     stdout = res.stdout
-    stdout.must_include "\n== Platform Details\n\n"
+    stdout.must_include "Platform Details"
     stdout.must_include "\nName:      \e[1m\e[36m"
     stdout.must_include "\nFamilies:  \e[1m\e[36m"
     stdout.must_include "\nRelease:   \e[1m\e[36m"
