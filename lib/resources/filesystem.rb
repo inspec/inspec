@@ -5,7 +5,6 @@ module Inspec::Resources
     supports platform: 'windows'
     desc 'Use the filesystem InSpec resource to test file system'
     example "
-      
       describe filesystem('/') do
         its('size') { should be >= 32000 }
         its('type') { should eq false }
