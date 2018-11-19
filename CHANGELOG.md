@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.55 -->
-## [v3.0.55](https://github.com/inspec/inspec/tree/v3.0.55) (2018-11-16)
+<!-- latest_release 3.0.56 -->
+## [v3.0.56](https://github.com/inspec/inspec/tree/v3.0.56) (2018-11-19)
 
-#### Merged Pull Requests
-- Revert setting RSpec expectation syntax to &#39;should&#39; mode [#3620](https://github.com/inspec/inspec/pull/3620) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Enhancements
+- filesystem: improve Windows support [#3606](https://github.com/inspec/inspec/pull/3606) ([mhackethal](https://github.com/mhackethal))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.52 -->
 ### Changes since 3.0.52 release
+
+#### Enhancements
+- filesystem: improve Windows support [#3606](https://github.com/inspec/inspec/pull/3606) ([mhackethal](https://github.com/mhackethal)) <!-- 3.0.56 -->
 
 #### Merged Pull Requests
 - Revert setting RSpec expectation syntax to &#39;should&#39; mode [#3620](https://github.com/inspec/inspec/pull/3620) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.55 -->
