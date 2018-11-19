@@ -547,6 +547,9 @@ class MockLoader
 
       # alpine package commands
       'apk info -vv --no-network | grep git' => cmd.call('apk-info-grep-git'),
+
+      # filesystem command
+      '2df93b941844efec1eee05c311cb4b4e8e3fd8b31808b785a70bd1a46298c716' => cmd.call('get-wmiobject-filesystem'),
     }
 
     # ports on linux
