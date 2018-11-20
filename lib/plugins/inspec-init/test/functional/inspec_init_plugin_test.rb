@@ -30,7 +30,10 @@ class InitPluginCli < MiniTest::Test
       # Each file must exist, and its contents must match each of the regexen given.
       {
         File.join(plugin, 'README.md') => [],
-        File.join(plugin, 'LICENSE') => [],
+        File.join(plugin, 'LICENSE') => [
+          /(?!opyright)/, # No copyright by default
+          /Apache License/,
+        ],
         File.join(plugin, 'Gemfile') => [],
         File.join(plugin, 'Rakefile') => [],
         File.join(plugin, plugin + '.gemspec') => [
@@ -74,6 +77,7 @@ class InitPluginCli < MiniTest::Test
       opts = ''
       opts += ' --author-email bob@example.com '
       opts += ' --author-name Bob '
+      opts += ' --copyright "Copyright (c) 2018 Bob" '
       opts += ' --description "That you will really like" '
       opts += ' --license-name BSD-Modified '
       opts += ' --summary "A fantastic plugin" '
@@ -91,7 +95,10 @@ class InitPluginCli < MiniTest::Test
       # Each file must exist, and its contents must match each of the regexen given.
       {
         File.join(plugin, 'README.md') => [],
-        File.join(plugin, 'LICENSE') => [],
+        File.join(plugin, 'LICENSE') => [
+          /Copyright \(c\) 2018 Bob/,
+          /used to endorse or promote/,
+        ],
         File.join(plugin, 'Gemfile') => [],
         File.join(plugin, 'Rakefile') => [],
         File.join(plugin, plugin + '.gemspec') => [

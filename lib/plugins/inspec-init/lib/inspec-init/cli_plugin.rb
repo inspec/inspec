@@ -13,6 +13,7 @@ module InspecPlugins
       desc 'PLUGIN_NAME [options]', 'Generates an InSpec plugin, which can extend the functionality of InSpec itself.'
       option :author_email, type: :string, default: 'you@example.com', desc: 'Author Email for gemspec'
       option :author_name, type: :string, default: 'Your Name', desc: 'Author Name for gemspec'
+      option :copyright, type: :string, default: '', desc: 'A copyright statement, to be added to LICENSE'
       option :description, type: :string, default: '', desc: 'Multi-paragraph description of the plugin.'
       option :summary, type: :string, default: 'A plugin with a default summary', desc: 'One-line summary of your plugin'
       option :license_name, type: :string, default: 'Apache-2.0', desc: 'The name of a license'
@@ -73,7 +74,46 @@ module InspecPlugins
           description: options[:description],
           homepage: options[:homepage].empty? ? 'https://github.com/example-org/' + plugin_name : options[:homepage],
           license_name: options[:license_name],
+          license_text: fetch_license_text(options[:license_name]),
+          copyright: options[:copyright],
         }
+      end
+
+      def fetch_license_text(license_name)
+        case license_name
+        when 'Apache-2.0'
+          return <<~EOL
+          Licensed under the Apache License, Version 2.0 (the "License");
+          you may not use this file except in compliance with the License.
+          You may obtain a copy of the License at
+
+              http://www.apache.org/licenses/LICENSE-2.0
+
+          Unless required by applicable law or agreed to in writing, software
+          distributed under the License is distributed on an "AS IS" BASIS,
+          WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+          See the License for the specific language governing permissions and
+          limitations under the License.
+
+          EOL
+        when 'BSD-Modified'
+          return <<~EOL
+
+          Modified BSD License
+
+          Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+          1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+          2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+          3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+          THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+          EOL
+        else
+          ''
+        end
       end
     end
   end
