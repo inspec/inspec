@@ -1,4 +1,4 @@
-# Test helper file for example plugins
+# Test helper file for non-core plugins
 
 # This file's job is to collect any libraries needed for testing, as well as provide
 # any utilities to make testing a plugin easier.

@@ -4,7 +4,7 @@
 # the version stamp, and provide a clean way for the gemspec
 # to learn the current version.
 module InspecPlugins
-  module ResourceLister
+  module <%= module_name %>
     VERSION = '0.1.0'.freeze
   end
 end
