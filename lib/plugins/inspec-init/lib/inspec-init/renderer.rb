@@ -7,13 +7,14 @@ module InspecPlugins
       # Creates a renderer able to render the given template type
       # 1. iterate over all files
       # 2. read content in erb
-      # 3. write to full_destination_root_path
+      # 3. write to destination path
 
-      attr_reader :overwrite_mode, :templates_path, :ui
-      def initialize(cli_ui, cli_options = {})
+      attr_reader :file_rename_map, :overwrite_mode, :templates_path, :ui
+      def initialize(cli_ui, options = {})
         @ui = cli_ui
-        @overwrite_mode = cli_options[:overwrite]
-        @templates_path ||= cli_options[:templates_path]
+        @overwrite_mode = options[:overwrite]
+        @templates_path ||= options[:templates_path]
+        @file_rename_map = options[:file_rename_map] || {}
       end
 
       # rubocop: disable Metrics/AbcSize
@@ -48,9 +49,10 @@ module InspecPlugins
         # ensure that full_destination_root_path directory is available
         FileUtils.mkdir_p(full_destination_path)
 
-        # iterate over files and write to full_destination_root_path
+        # iterate over files and write to full_destination_path
         Dir.glob(template_glob) do |source_file|
-          relative_destination_item_path = Pathname.new(source_file).relative_path_from(Pathname.new(source_dir))
+          relative_destination_item_path = Pathname.new(source_file).relative_path_from(Pathname.new(source_dir)).to_s
+          relative_destination_item_path = file_rename_map[relative_destination_item_path] || relative_destination_item_path
           full_destination_item_path = Pathname.new(full_destination_path).join(relative_destination_item_path)
           if File.directory?(source_file)
             ui.list_item "Creating directory #{ui.emphasis(relative_destination_item_path)}"
