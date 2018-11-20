@@ -8,27 +8,27 @@
 # from a file in the source tree.  The next three lines make that happen.
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'inspec-resource-lister/version'
+require '<%= plugin_name %>/version'
 
 Gem::Specification.new do |spec|
   # Importantly, all InSpec plugins must be prefixed with `inspec-` (most
   # plugins) or `train-` (plugins which add new connectivity features).
-  spec.name          = 'inspec-resource-lister'
+  spec.name          = '<%= plugin_name %>'
 
   # It is polite to namespace your plugin under InspecPlugins::YourPluginInCamelCase
-  spec.version       = InspecPlugins::ResourceLister::VERSION
-  spec.authors       = ['Clinton Wolfe']
-  spec.email         = ['cwolfe@chef.io']
-  spec.summary       = 'InSpec Plugin example, lists available resources'
-  spec.description   = 'Example for implementing an InSpec Plugin.  This simply lists available resources.'
-  spec.homepage      = 'https://github.com/inspec/inspec/tree/master/examples/plugin'
-  spec.license       = 'Apache-2.0'
+  spec.version       = InspecPlugins::<%= module_name %>::VERSION
+  spec.authors       = ['<%= author_name %>']
+  spec.email         = ['<%= author_email %>']
+  spec.summary       = '<%= summary %>'
+  spec.description   = '<%= description %>'
+  spec.homepage      = '<%= homepage %>'
+  spec.license       = '<%= license_name %>'
 
   # Though complicated-looking, this is pretty standard for a gemspec.
   # It just filters what will actually be packaged in the gem (leaving
   # out tests, etc)
   spec.files = %w{
-    README.md inspec-resource-lister.gemspec Gemfile
+    README.md <%= snake_case %>.gemspec Gemfile
   } + Dir.glob(
     'lib/**/*', File::FNM_DOTMATCH
   ).reject { |f| File.directory?(f) }
