@@ -7,7 +7,6 @@ module InspecPlugins
   module Init
     class CLI < Inspec.plugin(2, :cli_command)
 
-      TEMPLATES_PATH = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'templates'))
 
       #-------------------------------------------------------------------#
       #                     inspec init profile
