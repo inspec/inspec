@@ -23,11 +23,11 @@ module Inspec::Resources
          'the system and/or as users that own running processes.'
     example "
       describe shadow do
-        its('user') { should_not include 'forbidden_user' }
+        its('users') { should_not include 'forbidden_user' }
       end
 
       describe shadow.user('bin') do
-        its('password') { should cmp 'x' }
+        its('passwords') { should cmp 'x' }
         its('count') { should eq 1 }
       end
     "
@@ -53,12 +53,6 @@ module Inspec::Resources
       .register_column(:inactive_days, field: 'inactive_days')
       .register_column(:expiry_dates, field: 'expiry_date')
       .register_column(:reserved, field: 'reserved')
-    # These are deprecated, but we need to "alias" them
-    filtertable
-      .register_custom_property(:user) { |table, value| table.resource.user(value) }
-      .register_custom_property(:password) { |table, value| table.resource.password(value) }
-      .register_custom_property(:last_change) { |table, value| table.resource.last_change(value) }
-      .register_custom_property(:expiry_date) { |table, value| table.resource.expiry_date(value) }
 
     filtertable.register_custom_property(:content) { |t, _|
       t.entries.map do |e|
@@ -86,38 +80,6 @@ module Inspec::Resources
       end
       content = res.map { |x| x.values.join(':') }.join("\n")
       Shadow.new(@path, content: content, filters: @filters + filters)
-    end
-
-    # Next 4 are deprecated methods.  We define them here so we can emit a deprecation message.
-    # They are also defined on the Table, above.
-    def user(query = nil)
-      warn '[DEPRECATION] The shadow `user` property is deprecated and will be removed' \
-       ' in InSpec 3.0.  Please use `users` instead.'
-      query.nil? ? where.users : where('user' => query)
-    end
-
-    def password(query = nil)
-      warn '[DEPRECATION] The shadow `password` property is deprecated and will be removed' \
-       ' in InSpec 3.0.  Please use `passwords` instead.'
-      query.nil? ? where.passwords : where('password' => query)
-    end
-
-    def last_change(query = nil)
-      warn '[DEPRECATION] The shadow `last_change` property is deprecated and will be removed' \
-       ' in InSpec 3.0.  Please use `last_changes` instead.'
-      query.nil? ? where.last_changes : where('last_change' => query)
-    end
-
-    def expiry_date(query = nil)
-      warn '[DEPRECATION] The shadow `expiry_date` property is deprecated and will be removed' \
-       ' in InSpec 3.0.  Please use `expiry_dates` instead.'
-      query.nil? ? where.expiry_dates : where('expiry_date' => query)
-    end
-
-    def lines
-      warn '[DEPRECATION] The shadow `lines` property is deprecated and will be removed' \
-        ' in InSpec 3.0.'
-      shadow_content.to_s.split("\n")
     end
 
     def to_s
