@@ -23,7 +23,7 @@ class AwsKmsKey < Inspec.resource(1)
   alias has_rotation_enabled? has_rotation_enabled
 
   def to_s
-    "KMS Key #{@key_id}"
+    "KMS Key #{@key_name}"
   end
 
   def created_days_ago
@@ -57,6 +57,7 @@ class AwsKmsKey < Inspec.resource(1)
 
         @exists = true
         @key = resp.key_metadata.to_h
+        @key_name = @key_id
         @key_id = @key[:key_id]
         @arn = @key[:arn]
         @creation_date = @key[:creation_date]
@@ -70,7 +71,7 @@ class AwsKmsKey < Inspec.resource(1)
         @has_key_expiration = @key[:expiration_model] == 'KEY_MATERIAL_EXPIRES'
         @managed_by_aws = @key[:key_manager] == 'AWS'
 
-        resp = backend.get_key_rotation_status(query)
+        resp = backend.get_key_rotation_status({key_id: @key_id})
         @has_rotation_enabled = resp.key_rotation_enabled unless resp.empty?
       rescue Aws::KMS::Errors::NotFoundException
         @exists = false

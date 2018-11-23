@@ -10,7 +10,7 @@ Use aws_kms_key to verify the properties of a single key. Use aws_kms_keys to ve
 
 AWS Key Management Service (AWS KMS) is a managed service that makes it easy for you to create and control the encryption keys used to encrypt your data. AWS KMS lets you create master keys that can never be exported from the service and which can be used to encrypt and decrypt data based on policies you define.
 
-Each AWS KMS Key is uniquely identified by its key_id or arn.
+Each AWS KMS Key is uniquely identified by its key_id, arn or alias.
 
 <br>
 
@@ -26,7 +26,7 @@ This resource first became available in v2.1.21 of InSpec.
 
 ## Syntax
 
-An aws_kms_key resource block identifies a key by key_arn or the key id.
+An aws_kms_key resource block identifies a key by key_arn, key id or alias.
 
     # Find a kms key by arn
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
@@ -35,6 +35,11 @@ An aws_kms_key resource block identifies a key by key_arn or the key id.
 
     # Find a kms key by just the id
     describe aws_kms_key('4321dcba-21io-23de-85he-ab0987654321') do
+      it { should exist }
+    end
+
+    # Find a kms key by alias
+    describe aws_kms_key('alias/my-kms-key') do
       it { should exist }
     end
 
