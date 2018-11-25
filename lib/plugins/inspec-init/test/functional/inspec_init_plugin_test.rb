@@ -58,30 +58,40 @@ class InitPluginCli < MiniTest::Test
           /\#\s#{plugin}\s=>\s#{module_name}/,
           /module\s#{module_name}/,
           /plugin_name\s+:'#{plugin}'/,
-          # TODO: Default assumes cli
-          #cli_command :listresources
-          #require 'inspec-resource-lister/cli_command'
-          #InspecPlugins::ResourceLister::CliCommand
+          # Default assumes one cli hook
+          /cli_command :my_command/,
+          /require\s'#{plugin}\/cli_command'/,
+          /InspecPlugins::#{module_name}::CliCommand/,
         ],
         File.join(plugin, 'lib', plugin, 'version.rb') => [
           /module\s#{module_name}/,
         ],
         File.join(plugin, 'lib', plugin, 'cli_command.rb') => [
-          # TODO: decide on hook approach
+          /module\sInspecPlugins::#{module_name}/,
+          /\#\smakes\s`inspec\smy-command\s\.\.\.`\swork\./,
+          /subcommand_desc\s'my_command\s\[COMMAND\]'/,
+          /\#\sas\s`inspec\smy-command\sdo-something/,
+          /\#\sin\s`inspec\shelp\smy-command`/,
+          /\#\sruns\s`inspec\smy-command\sdo-something`./,
+          /Edit\slib\/#{plugin}\/cli_command\.rb\sto\smake\sit\sdo/,
         ],
         File.join(plugin, 'test', 'helper.rb') => [], # No interpolation
+        File.join(plugin, 'test', 'functional', 'README.md') => [], # No interpolation
         File.join(plugin, 'test', 'functional', snake_case + '_test.rb') => [
           # Whatever goes here
         ],
         File.join(plugin, 'test', 'unit', 'plugin_def_test.rb') => [
           /require\s'#{plugin}\/plugin'/,
-          /describe\sInspecPlugins::#{module_name}::Plugin\sdo/,
-          /let\(:plugin_name\)\s\{ \:'#{plugin}\' \}/,
+          /describe InspecPlugins::#{module_name}::Plugin\sdo/,
+          /let\(:plugin_name\) \{ \:'#{plugin}\' \}/,
         ],
         File.join(plugin, 'test', 'unit', 'cli_args_test.rb') => [
-          # require 'inspec-resource-lister/cli_command'
-          # describe InspecPlugins::ResourceLister::CliCommand do
-          # let(:cli_class) { InspecPlugins::ResourceLister::CliCommand }
+          /require '#{plugin}\/cli_command'/,
+          /describe InspecPlugins::#{module_name}::CliCommand do/,
+          /let\(\:cli_class\) \{ InspecPlugins::#{module_name}::CliCommand \}/,
+        ],
+        File.join(plugin, 'test', 'unit', 'README.md') => [
+          /cli_args_test\.rb/,
         ],
       }.each do |path, regexen|
         full_path = File.join(dir, path)

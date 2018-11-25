@@ -38,17 +38,17 @@ module InspecPlugins
 
       # We'd like this to be list-resources, but Thor does not support hyphens
       # see https://github.com/erikhuda/thor/pull/613
-      cli_command :listresources do
-        # Calling this hook doesn't mean list-resources is being executed - just
+      cli_command :<%= command_name_snake %> do
+        # Calling this hook doesn't mean the subcommand is being executed - just
         # that we should be ready to do so. So, load the file that defines the
         # functionality.
         # For example, InSpec will activate this hook when `inspec help` is
         # executed, so that this plugin's usage message will be included in the help.
-        require 'inspec-resource-lister/cli_command'
+        require '<%= plugin_name %>/cli_command'
 
         # Having loaded our functionality, return a class that will let the
         # CLI engine tap into it.
-        InspecPlugins::ResourceLister::CliCommand
+        InspecPlugins::<%= module_name %>::CliCommand
       end
     end
   end

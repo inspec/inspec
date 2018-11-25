@@ -1,10 +1,4 @@
-# Functional Testing Area for Example Plugins
-
-## What example tests are provided?
-
-Here, since this is a CliCommand plugin, we provide one set of functional tests:
-
- * inspec_resource_lister_test.rb - Runs `inspec resource-lister` in several circumstances, and verifies the output from the process.
+# Functional Testing Area for Plugins
 
 ## What are functional tests?
 

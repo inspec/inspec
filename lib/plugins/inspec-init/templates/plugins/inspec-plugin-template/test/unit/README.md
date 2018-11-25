@@ -1,11 +1,11 @@
-# Unit Testing Area for Example Plugins
+# Unit Testing Area for Plugins
 
-## What Example Tests are Provided?
-
-Here, since this is a CliCommand plugin, we provide two sets of unit tests:
+## What Tests are Provided?
 
  * plugin_def_test.rb - Would be useful in any plugin.  Verifies that the plugin is properly detected and registered.
- * cli_args_test.rb - Verifies that the expected commands are present, and that they have the expected options and args.
+ <% if hooks.key?(:cli_command) %>
+ * cli_args_test.rb - Tests the CLI options for a CLI Command plugin
+ <% end %>
 
 ## What are Unit Tests?
 

@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 require_relative 'renderer'
-require 'byebug'
 
 module InspecPlugins
   module Init
@@ -17,8 +16,9 @@ module InspecPlugins
       option :description, type: :string, default: '', desc: 'Multi-paragraph description of the plugin.'
       option :summary, type: :string, default: 'A plugin with a default summary', desc: 'One-line summary of your plugin'
       option :license_name, type: :string, default: 'Apache-2.0', desc: 'The name of a license'
+      option :hook, type: :array, default: ['cli_command:my_command'], desc: 'A list of plugin hooks, in the form type1:name1, type2:name2, etc'
 
-      # These vars have calulated defaults
+      # These vars have calculated defaults
       option :homepage, type: :string, default: '', desc: 'A URL for your project, often a GitHub link'
       option :module_name, type: :string, default: '', desc: 'Module Name for your plugin package.  Will change plugin name to CamelCase by default.'
 
@@ -76,7 +76,29 @@ module InspecPlugins
           license_name: options[:license_name],
           license_text: fetch_license_text(options[:license_name]),
           copyright: options[:copyright],
-        }
+          activators: options[:activators],
+        }.merge(parse_hook_option(options[:hook]))
+      end
+
+      def parse_hook_option(raw_option)
+        hooks_by_type = {}
+        raw_option.each do |entry|
+          parts = entry.split(':')
+          type = parts.first.to_sym
+          name = parts.last
+          if hooks_by_type.key?(type)
+            ui.error 'Inspec plugin generate can currently only generate one hook of each type'
+            ui.exit(:usage_error)
+          end
+          hooks_by_type[type] = name
+        end
+
+        vars = { hooks: hooks_by_type }
+        if hooks_by_type.key?(:cli_command)
+          vars[:command_name_dashes] = hooks_by_type[:cli_command].tr('_', '-')
+          vars[:command_name_snake] = hooks_by_type[:cli_command].tr('-', '_')
+        end
+        vars
       end
 
       def fetch_license_text(license_name)
