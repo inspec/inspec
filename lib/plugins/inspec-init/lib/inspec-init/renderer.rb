@@ -9,12 +9,13 @@ module InspecPlugins
       # 2. read content in erb
       # 3. write to destination path
 
-      attr_reader :file_rename_map, :overwrite_mode, :templates_path, :ui
+      attr_reader :file_rename_map, :overwrite_mode, :skip_files, :templates_path, :ui
       def initialize(cli_ui, options = {})
         @ui = cli_ui
         @overwrite_mode = options[:overwrite]
         @templates_path ||= options[:templates_path]
         @file_rename_map = options[:file_rename_map] || {}
+        @skip_files = options[:skip_files] || []
       end
 
       # rubocop: disable Metrics/AbcSize
@@ -52,6 +53,7 @@ module InspecPlugins
         # iterate over files and write to full_destination_path
         Dir.glob(template_glob) do |source_file|
           relative_destination_item_path = Pathname.new(source_file).relative_path_from(Pathname.new(source_dir)).to_s
+          next if skip_files.include? relative_destination_item_path
           relative_destination_item_path = file_rename_map[relative_destination_item_path] || relative_destination_item_path
           full_destination_item_path = Pathname.new(full_destination_path).join(relative_destination_item_path)
           if File.directory?(source_file)

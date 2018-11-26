@@ -12,6 +12,7 @@ module InspecPlugins
       desc 'PLUGIN_NAME [options]', 'Generates an InSpec plugin, which can extend the functionality of InSpec itself.'
       # General options
       option :prompt, type: :boolean, default: true, desc: 'Interactively prompt for information to put in your generated plugin.'
+      option :detail, type: :string, default: 'full', desc: "How detailed of a plugin to generate. 'full' is a normal full gem with tests; 'core' has tests but no gemspec; 'test-fixture' is stripped down for a test fixture."
 
       # Templating vars
       option :author_email, type: :string, default: 'you@example.com', desc: 'Author Email for gemspec'
@@ -65,6 +66,7 @@ module InspecPlugins
           templates_path: TEMPLATES_PATH,
           overwrite: options[:overwrite],
           file_rename_map: rename_map,
+          skip_files: make_skip_list,
         }
         renderer = InspecPlugins::Init::Renderer.new(ui, render_opts)
 
@@ -194,6 +196,40 @@ module InspecPlugins
           EOL
         else
           '"Other" license selected at plugin generation time - please insert your license here.'
+        end
+      end
+
+      def make_skip_list
+        case options[:detail]
+        when 'full'
+          []
+        when 'core'
+          [
+            'Gemfile',
+            'inspec-plugin-template.gemspec',
+            'LICENSE',
+            'Rakefile',
+          ]
+        when 'test-fixture'
+          [
+            'Gemfile',
+            'inspec-plugin-template.gemspec',
+            'LICENSE',
+            'Rakefile',
+            File.join('test','fixtures','README.md'),
+            File.join('test','fixtures'),
+            File.join('test','functional','inspec_plugin_template_test.rb'),
+            File.join('test','functional','README.md'),
+            File.join('test','unit','cli_args_test.rb'),
+            File.join('test','unit','plugin_def_test.rb'),
+            File.join('test','unit','README.md'),
+            File.join('test','unit'),
+            File.join('test','helper.rb'),
+            File.join('test'),
+          ]
+        else
+          ui.error "Unrecognized value for 'detail': #{options[:detail]} - expected one of full, core, test-fixture"
+          ui.exit(:usage_error)
         end
       end
     end
