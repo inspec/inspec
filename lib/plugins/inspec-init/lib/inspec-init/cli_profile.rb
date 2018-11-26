@@ -6,8 +6,6 @@ require_relative 'renderer'
 module InspecPlugins
   module Init
     class CLI < Inspec.plugin(2, :cli_command)
-
-
       #-------------------------------------------------------------------#
       #                     inspec init profile
       #-------------------------------------------------------------------#
