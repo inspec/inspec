@@ -12,7 +12,11 @@ class AwsVpc < Inspec.resource(1)
   include AwsSingularResourceMixin
 
   def to_s
-    "VPC #{vpc_id}"
+    if !@vpc_name.nil?
+      "VPC #{@vpc_name}"
+    else
+      "VPC #{@vpc_id}"
+    end
   end
 
   attr_reader :cidr_block, :dhcp_options_id, :instance_tenancy, :is_default,\
@@ -25,7 +29,7 @@ class AwsVpc < Inspec.resource(1)
   def validate_params(raw_params)
     validated_params = check_resource_param_names(
       raw_params: raw_params,
-      allowed_params: [:vpc_id],
+      allowed_params: [:vpc_id, :vpc_name],
       allowed_scalar_name: :vpc_id,
       allowed_scalar_type: String,
     )
@@ -40,10 +44,12 @@ class AwsVpc < Inspec.resource(1)
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
 
-    if @vpc_id.nil?
-      filter = { name: 'isDefault', values: ['true'] }
-    else
+    if !@vpc_id.nil?
       filter = { name: 'vpc-id', values: [@vpc_id] }
+    elsif !@vpc_name.nil?
+      filter = { name: 'tag:Name', values: [@vpc_name] }
+    else
+      filter = { name: 'isDefault', values: ['true'] }
     end
 
     resp = backend.describe_vpcs({ filters: [filter] })
