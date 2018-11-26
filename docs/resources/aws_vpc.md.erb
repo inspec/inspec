@@ -29,7 +29,7 @@ This resource first became available in v2.0.16 of InSpec.
 
 ## Syntax
 
-An `aws_vpc` resource block identifies a VPC by id. If no VPC ID is provided, the default VPC is used.
+An `aws_vpc` resource block identifies a VPC by id or Name tag. If no VPC ID or Name tag is provided, the default VPC is used.
 
     # Find the default VPC
     describe aws_vpc do
@@ -46,6 +46,10 @@ An `aws_vpc` resource block identifies a VPC by id. If no VPC ID is provided, th
       it { should exist }
     end
 
+    # Find a VPC by Name
+    describe aws_vpc(vpc_name: 'my-vpc') do
+      it { should exist }
+    end
 <br>
 
 ## Examples
