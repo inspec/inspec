@@ -6,7 +6,7 @@ class InitPluginCli < MiniTest::Test
   def test_generating_inspec_plugin_correct_prefix_required
     Dir.mktmpdir do |dir|
       plugin = 'wacky-name'
-      run_result = run_inspec_process("init plugin #{plugin}", prefix: "cd #{dir} &&")
+      run_result = run_inspec_process("init plugin --no-prompt #{plugin} ", prefix: "cd #{dir} &&")
       assert_equal 1, run_result.exit_status
       assert_empty run_result.stderr
       assert_includes run_result.stdout, 'ERROR'
@@ -20,8 +20,9 @@ class InitPluginCli < MiniTest::Test
       snake_case = plugin.tr('-', '_')
       module_name = plugin.sub(/^inspec\-/, '').split('-').map(&:capitalize).join('')
 
-      run_result = run_inspec_process("init plugin #{plugin}", prefix: "cd #{dir} &&")
+      run_result = run_inspec_process("init plugin --no-prompt #{plugin}", prefix: "cd #{dir} &&")
       assert_empty run_result.stderr
+
       assert_equal 0, run_result.exit_status
       assert_includes run_result.stdout, 'Creating new inspec plugin at'
       assert_includes run_result.stdout, plugin
@@ -47,7 +48,7 @@ class InitPluginCli < MiniTest::Test
           /spec\.email\s+=\s+\['you@example\.com'\]/,
           /spec\.summary\s+=\s+'A plugin with a default summary'/,
           /spec\.description\s+=\s+''/,
-          /spec\.homepage\s+=\s+'https:\/\/github.com\/example-org\/#{plugin}'/,
+          /spec\.homepage\s+=\s+'https:\/\/github.com\/you\/#{plugin}'/,
           /spec\.license\s+=\s+'Apache-2\.0'/,
         ],
         File.join(plugin, 'lib', plugin + '.rb') => [
@@ -114,15 +115,15 @@ class InitPluginCli < MiniTest::Test
       opts = ''
       opts += ' --author-email bob@example.com '
       opts += ' --author-name Bob '
-      opts += ' --copyright "Copyright (c) 2018 Bob" '
+      opts += ' --copyright "Copyright © 2018 Bob" '
       opts += ' --description "That you will really like" '
-      opts += ' --license-name BSD-Modified '
+      opts += ' --license-name BSD-3-Clause '
       opts += ' --summary "A fantastic plugin" '
 
       opts += ' --homepage http://example.com '
       opts += ' --module_name FunPlugin'
 
-      run_result = run_inspec_process("init plugin #{plugin} #{opts}", prefix: "cd #{dir} &&")
+      run_result = run_inspec_process("init plugin #{plugin} --no-prompt #{opts}", prefix: "cd #{dir} &&")
       assert_empty run_result.stderr
       assert_equal 0, run_result.exit_status
       assert_includes run_result.stdout, 'Creating new inspec plugin at'
@@ -133,7 +134,7 @@ class InitPluginCli < MiniTest::Test
       {
         File.join(plugin, 'README.md') => [],
         File.join(plugin, 'LICENSE') => [
-          /Copyright \(c\) 2018 Bob/,
+          /Copyright © 2018 Bob/,
           /used to endorse or promote/,
         ],
         File.join(plugin, 'Gemfile') => [],
@@ -145,7 +146,7 @@ class InitPluginCli < MiniTest::Test
           /spec\.summary\s+=\s+'A fantastic plugin'/,
           /spec\.description\s+=\s+'That you will really like'/,
           /spec\.homepage\s+=\s+'http:\/\/example.com'/,
-          /spec\.license\s+=\s+'BSD-Modified'/,
+          /spec\.license\s+=\s+'BSD-3-Clause'/,
         ],
         File.join(plugin, 'lib', plugin + '.rb') => [],
         File.join(plugin, 'lib', plugin, 'plugin.rb') => [],
