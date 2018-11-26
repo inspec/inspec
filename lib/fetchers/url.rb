@@ -95,7 +95,7 @@ module Fetchers
 
     def initialize(url, opts)
       @target = url
-      @target_uri = parse_uri(@target)
+      @target_uri = url.is_a?(URI) ? url : parse_uri(url)
       @insecure = opts['insecure']
       @token = opts['token']
       @config = opts
