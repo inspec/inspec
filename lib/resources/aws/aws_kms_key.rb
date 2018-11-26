@@ -71,7 +71,7 @@ class AwsKmsKey < Inspec.resource(1)
         @has_key_expiration = @key[:expiration_model] == 'KEY_MATERIAL_EXPIRES'
         @managed_by_aws = @key[:key_manager] == 'AWS'
 
-        resp = backend.get_key_rotation_status({key_id: @key_id})
+        resp = backend.get_key_rotation_status({ key_id: @key_id })
         @has_rotation_enabled = resp.key_rotation_enabled unless resp.empty?
       rescue Aws::KMS::Errors::NotFoundException
         @exists = false
