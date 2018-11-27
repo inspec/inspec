@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.58 -->
-## [v3.0.58](https://github.com/inspec/inspec/tree/v3.0.58) (2018-11-27)
+<!-- latest_release 3.0.59 -->
+## [v3.0.59](https://github.com/inspec/inspec/tree/v3.0.59) (2018-11-27)
 
-#### Bug Fixes
-- package: fix package detection on windows [#3607](https://github.com/inspec/inspec/pull/3607) ([mhackethal](https://github.com/mhackethal))
+#### Merged Pull Requests
+- lc/add-aws-platform-template [#3622](https://github.com/inspec/inspec/pull/3622) ([Caprowni](https://github.com/Caprowni))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.52 -->
@@ -18,6 +18,7 @@
 - filesystem: improve Windows support [#3606](https://github.com/inspec/inspec/pull/3606) ([mhackethal](https://github.com/mhackethal)) <!-- 3.0.56 -->
 
 #### Merged Pull Requests
+- lc/add-aws-platform-template [#3622](https://github.com/inspec/inspec/pull/3622) ([Caprowni](https://github.com/Caprowni)) <!-- 3.0.59 -->
 - Revert setting RSpec expectation syntax to &#39;should&#39; mode [#3620](https://github.com/inspec/inspec/pull/3620) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.55 -->
 - Improvements to the functional helper run_inspec_process [#3603](https://github.com/inspec/inspec/pull/3603) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.54 -->
 - Create a class to handle the plugins.json file [#3575](https://github.com/inspec/inspec/pull/3575) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.53 -->
