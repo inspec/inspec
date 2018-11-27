@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.57 -->
-## [v3.0.57](https://github.com/inspec/inspec/tree/v3.0.57) (2018-11-26)
+<!-- latest_release 3.0.58 -->
+## [v3.0.58](https://github.com/inspec/inspec/tree/v3.0.58) (2018-11-27)
 
 #### Bug Fixes
-- www: remove jquery sticky on the sidebar [#3623](https://github.com/inspec/inspec/pull/3623) ([arlimus](https://github.com/arlimus))
+- package: fix package detection on windows [#3607](https://github.com/inspec/inspec/pull/3607) ([mhackethal](https://github.com/mhackethal))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.52 -->
 ### Changes since 3.0.52 release
 
 #### Bug Fixes
+- package: fix package detection on windows [#3607](https://github.com/inspec/inspec/pull/3607) ([mhackethal](https://github.com/mhackethal)) <!-- 3.0.58 -->
 - www: remove jquery sticky on the sidebar [#3623](https://github.com/inspec/inspec/pull/3623) ([arlimus](https://github.com/arlimus)) <!-- 3.0.57 -->
 
 #### Enhancements
