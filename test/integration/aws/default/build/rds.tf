@@ -17,6 +17,7 @@ resource "aws_db_instance" "default" {
   password             = "testpassword"
   parameter_group_name = "default.mysql5.6"
   skip_final_snapshot  = true
+  depends_on  = [ "aws_subnet.subnet_01" ]
 }
 
 output "rds_db_instance_id" {
