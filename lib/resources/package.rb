@@ -288,7 +288,7 @@ module Inspec::Resources
       # Find the package
       cmd = inspec.command <<-EOF.gsub(/^\s*/, '')
         Get-ItemProperty (@("#{search_paths.join('", "')}") | Where-Object { Test-Path $_ }) |
-        Where-Object { $_.DisplayName -match "^\\s*#{package_name.shellescape}\\s*$" -or $_.PSChildName -match "^\\s*#{package_name.shellescape}\\s*$" } |
+        Where-Object { $_.DisplayName -match "^\s*#{package_name.shellescape}\.*" -or $_.PSChildName -match "^\s*#{package_name.shellescape}\.*" } |
         Select-Object -Property DisplayName,DisplayVersion | ConvertTo-Json
       EOF
 
