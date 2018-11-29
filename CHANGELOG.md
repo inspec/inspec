@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.60 -->
-## [v3.0.60](https://github.com/inspec/inspec/tree/v3.0.60) (2018-11-27)
+<!-- latest_release 3.0.61 -->
+## [v3.0.61](https://github.com/inspec/inspec/tree/v3.0.61) (2018-11-29)
 
-#### Merged Pull Requests
-- Add SQLcl to Oracledb_session Doc [#3632](https://github.com/inspec/inspec/pull/3632) ([ibsavage](https://github.com/ibsavage))
+#### New Features
+- Plugin Type: DSLs [#3557](https://github.com/inspec/inspec/pull/3557) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.52 -->
 ### Changes since 3.0.52 release
+
+#### New Features
+- Plugin Type: DSLs [#3557](https://github.com/inspec/inspec/pull/3557) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.61 -->
 
 #### Bug Fixes
 - package: fix package detection on windows [#3607](https://github.com/inspec/inspec/pull/3607) ([mhackethal](https://github.com/mhackethal)) <!-- 3.0.58 -->
