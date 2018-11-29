@@ -24,6 +24,8 @@ module Fetchers
         resolve_from_string(target[:url], opts, target[:username], target[:password])
       elsif target.is_a?(String)
         resolve_from_string(target, opts)
+      elsif target.is_a?(URI)
+        resolve_from_string(target.to_s, opts)
       end
     end
 
@@ -94,7 +96,7 @@ module Fetchers
     attr_reader :files, :archive_path
 
     def initialize(url, opts)
-      @target = url
+      @target = url.to_s
       @target_uri = url.is_a?(URI) ? url : parse_uri(url)
       @insecure = opts['insecure']
       @token = opts['token']

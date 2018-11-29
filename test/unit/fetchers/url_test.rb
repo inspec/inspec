@@ -34,7 +34,14 @@ describe Fetchers::Url do
       res.expects(:open).returns(mock_open)
       _(res).must_be_kind_of Fetchers::Url
       _(res.resolved_source).must_equal({url: 'https://chef.io/some.tar.gz', sha256: expected_shasum})
+    end
 
+    it 'handles an https URI' do
+      uri = URI.parse('https://chef.io/some.tar.gz')
+      res = Fetchers::Url.resolve(uri)
+      res.expects(:open).returns(mock_open)
+      _(res).must_be_kind_of Fetchers::Url
+      _(res.resolved_source).must_equal({url: 'https://chef.io/some.tar.gz', sha256: expected_shasum})
     end
 
     it 'doesnt handle other schemas' do
