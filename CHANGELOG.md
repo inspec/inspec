@@ -1,34 +1,32 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.61 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v3.0.61](https://github.com/inspec/inspec/tree/v3.0.61) (2018-11-29)
 
 #### New Features
 - Plugin Type: DSLs [#3557](https://github.com/inspec/inspec/pull/3557) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_release -->
-
-<!-- release_rollup since=3.0.52 -->
-### Changes since 3.0.52 release
-
-#### New Features
-- Plugin Type: DSLs [#3557](https://github.com/inspec/inspec/pull/3557) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.61 -->
-
-#### Bug Fixes
-- package: fix package detection on windows [#3607](https://github.com/inspec/inspec/pull/3607) ([mhackethal](https://github.com/mhackethal)) <!-- 3.0.58 -->
-- www: remove jquery sticky on the sidebar [#3623](https://github.com/inspec/inspec/pull/3623) ([arlimus](https://github.com/arlimus)) <!-- 3.0.57 -->
 
 #### Enhancements
-- filesystem: improve Windows support [#3606](https://github.com/inspec/inspec/pull/3606) ([mhackethal](https://github.com/mhackethal)) <!-- 3.0.56 -->
+- filesystem: improve Windows support [#3606](https://github.com/inspec/inspec/pull/3606) ([mhackethal](https://github.com/mhackethal))
+
+#### Bug Fixes
+- www: remove jquery sticky on the sidebar [#3623](https://github.com/inspec/inspec/pull/3623) ([arlimus](https://github.com/arlimus))
+- package: fix package detection on windows [#3607](https://github.com/inspec/inspec/pull/3607) ([mhackethal](https://github.com/mhackethal))
 
 #### Merged Pull Requests
-- Add SQLcl to Oracledb_session Doc [#3632](https://github.com/inspec/inspec/pull/3632) ([ibsavage](https://github.com/ibsavage)) <!-- 3.0.60 -->
-- lc/add-aws-platform-template [#3622](https://github.com/inspec/inspec/pull/3622) ([Caprowni](https://github.com/Caprowni)) <!-- 3.0.59 -->
-- Revert setting RSpec expectation syntax to &#39;should&#39; mode [#3620](https://github.com/inspec/inspec/pull/3620) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.55 -->
-- Improvements to the functional helper run_inspec_process [#3603](https://github.com/inspec/inspec/pull/3603) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.54 -->
-- Create a class to handle the plugins.json file [#3575](https://github.com/inspec/inspec/pull/3575) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.53 -->
-<!-- release_rollup -->
-
+- Create a class to handle the plugins.json file [#3575](https://github.com/inspec/inspec/pull/3575) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Improvements to the functional helper run_inspec_process [#3603](https://github.com/inspec/inspec/pull/3603) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Revert setting RSpec expectation syntax to &#39;should&#39; mode [#3620](https://github.com/inspec/inspec/pull/3620) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- lc/add-aws-platform-template [#3622](https://github.com/inspec/inspec/pull/3622) ([Caprowni](https://github.com/Caprowni))
+- Add SQLcl to Oracledb_session Doc [#3632](https://github.com/inspec/inspec/pull/3632) ([ibsavage](https://github.com/ibsavage))
 <!-- latest_stable_release -->
+
 ## [v3.0.52](https://github.com/inspec/inspec/tree/v3.0.52) (2018-11-15)
 
 #### Enhancements
@@ -40,7 +38,6 @@
 
 #### Merged Pull Requests
 - Load the compliance plugin when the fetcher is needed [#3609](https://github.com/inspec/inspec/pull/3609) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-<!-- latest_stable_release -->
 
 ## [v3.0.46](https://github.com/inspec/inspec/tree/v3.0.46) (2018-11-08)
 
