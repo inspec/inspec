@@ -154,7 +154,6 @@ module FunctionalHelper
   end
 
 
-
   # Copy all examples to a temporary directory for functional tests.
   # You can provide an optional directory which will be handed to your
   # test block with its absolute path. If nothing is provided you will

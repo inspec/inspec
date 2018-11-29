@@ -3,6 +3,50 @@ require 'functional/helper'
 
 
 #=========================================================================================#
+#                                Support
+#=========================================================================================#
+module PluginFunctionalHelper
+  include FunctionalHelper
+
+  def run_inspec_with_plugin(command, opts)
+    pre = Proc.new do |tmp_dir|
+      content = JSON.generate(__make_plugin_file_data_structure_with_path(opts[:plugin_path]))
+      File.write(File.join(tmp_dir, 'plugins.json'), content)
+    end
+
+    opts.merge!({
+      pre_run: pre,
+      tmpdir: true,
+      json: true,
+      env: {
+        "INSPEC_CONFIG_DIR" => '.' # We're in tmpdir
+      }
+    })
+    run_inspec_process(command, opts)
+  end
+
+  def __make_plugin_file_data_structure_with_path(path)
+    # TODO: dry this up, refs #3350
+    plugin_name = File.basename(path, '.rb')
+    data = __make_empty_plugin_file_data_structure
+    data['plugins'] << {
+      'name' => plugin_name,
+      'installation_type' => 'path',
+      'installation_path' => path,
+    }
+    data
+  end
+
+  def __make_empty_plugin_file_data_structure
+    # TODO: dry this up, refs #3350
+    {
+      'plugins_config_version' => '1.0.0',
+      'plugins' => [],
+    }
+  end
+end
+
+#=========================================================================================#
 #                                Loader Errors
 #=========================================================================================#
 describe 'plugin loader' do
@@ -77,6 +121,129 @@ describe 'plugin cli usage message integration' do
       ['habitat', 'artifact'].each do |subcommand|
         outcome.stdout.must_include('inspec ' + subcommand)
       end
+    end
+  end
+end
+
+#=========================================================================================#
+#                           DSL Plugin Support
+#=========================================================================================#
+
+describe 'DSL plugin types support' do
+  include PluginFunctionalHelper
+
+  let(:fixture_path) { File.join(profile_path, 'dsl_plugins', 'controls', profile_file)}
+  let(:dsl_plugin_path) { File.join(mock_path, 'plugins', 'inspec-dsl-test', 'lib', 'inspec-dsl-test.rb')}
+  let(:run_result) { run_inspec_with_plugin("exec #{fixture_path}",  plugin_path: dsl_plugin_path) }
+  let(:json_result) { run_result.payload.json }
+
+  describe 'outer profile dsl plugin type support' do
+    let(:profile_file) { 'outer_profile_dsl.rb' }
+    it 'works correctly with outer_profile dsl extensions' do
+      run_result.stderr.must_equal ''
+
+      # The outer_profile_dsl.rb file has control-01, then a call to favorite_grain
+      # (which generates a control), then control-03.
+      # If the plugin exploded, we'd see control-01 but not control-03
+      controls = json_result['profiles'][0]['controls']
+      controls.count.must_equal 3
+
+      # We expect the second controls id to be 'sorghum'
+      # (this is the functionality of the outer_profile_dsl we installed)
+      generated_control = json_result['profiles'][0]['controls'][1]
+      generated_control['id'].must_equal 'sorghum'
+      generated_control['results'][0]['status'].must_equal 'passed'
+    end
+  end
+
+  describe 'control dsl plugin type support' do
+
+    let(:profile_file) { 'control_dsl.rb' }
+    it 'works correctly with control dsl extensions' do
+      run_result.stderr.must_equal ''
+
+      # The control_dsl.rb file has one control, with a describe-01, then a call to favorite_fruit, then describe-02
+      # If the plugin exploded, we'd see describe-01 but not describe-02
+      results = json_result['profiles'][0]['controls'][0]['results']
+      results.count.must_equal 2
+
+      # We expect the descriptions to include that the favorite fruit is banana
+      # (this is the functionality of the control_dsl we installed)
+      first_description_section = json_result['profiles'][0]['controls'][0]['descriptions'].first
+      first_description_section.wont_be_nil
+      first_description_section['label'].must_equal 'favorite_fruit'
+      first_description_section['data'].must_equal 'Banana'
+    end
+  end
+
+  describe 'describe dsl plugin type support' do
+    let(:profile_file) { 'describe_dsl.rb' }
+    it 'works correctly with describe dsl extensions' do
+      run_result.stderr.must_equal ''
+
+      # The describe_dsl.rb file has one control, with
+      # describe-01, describe-02 which contains a call to favorite_vegetable, then describe-03
+      # If the plugin exploded, we'd see describe-01 but not describe-02
+      results = json_result['profiles'][0]['controls'][0]['results']
+      results.count.must_equal 3
+
+      # We expect the description of describe-02 to include the word aubergine
+      # (this is the functionality of the describe_dsl we installed)
+      second_result = json_result['profiles'][0]['controls'][0]['results'][1]
+      second_result.wont_be_nil
+      second_result['code_desc'].must_include 'aubergine'
+    end
+  end
+
+  describe 'test dsl plugin type support' do
+    let(:profile_file) { 'test_dsl.rb' }
+    it 'works correctly with test dsl extensions' do
+      run_result.stderr.must_equal ''
+
+      # The test_dsl.rb file has one control, with
+      # describe-01, describe-02 which contains a call to favorite_legume, then describe-03
+      # If the plugin exploded, we'd see describe-01 but not describe-02
+      results = json_result['profiles'][0]['controls'][0]['results']
+      results.count.must_equal 3
+
+      # I spent a while trying to find a way to get the test to alter its name;
+      # that won't work for various setup reasons.
+      # So, it just throws an exception with the word 'edemame' in it.
+      second_result = json_result['profiles'][0]['controls'][0]['results'][1]
+      second_result.wont_be_nil
+      second_result['status'].must_equal 'failed'
+      second_result['message'].must_include 'edemame'
+    end
+  end
+
+  describe 'resource dsl plugin type support' do
+    let(:profile_file) { 'unused' }
+    it 'works correctly with test dsl extensions' do
+      # We have to build a custom command line - need to load the whole profile,
+      # so the libraries get loaded.
+      cmd = 'exec '
+      cmd += File.join(profile_path, 'dsl_plugins')
+      cmd += ' --controls=/^rdsl-control/ '
+      run_result = run_inspec_with_plugin(cmd, plugin_path: dsl_plugin_path)
+      run_result.stderr.must_equal ''
+
+      # We should have three controls; 01 and 03 just do a string match.
+      # 02 uses the custom resource, which relies on calls to the resource DSL.
+      # If the plugin exploded, we'd see rdsl-control-01 but not rdsl-control-02
+      json_result = run_result.payload.json
+      results = json_result['profiles'][0]['controls']
+      results.count.must_equal 3
+
+      # Control 2 has 2 describes; one uses a simple explicit matcher,
+      # while the second uses a matcher defined via a macro provided by the resource DSL.
+      control2_results = results[1]['results']
+      control2_results[0]['status'].must_equal 'passed'
+      control2_results[0]['code_desc'].must_include 'favorite_berry'
+      control2_results[0]['code_desc'].must_include 'blendable'
+
+      control2_results[1]['status'].must_equal 'passed'
+      control2_results[1]['code_desc'].must_include 'favorite_berry'
+      control2_results[1]['code_desc'].must_include 'have drupals'
     end
   end
 end

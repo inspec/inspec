@@ -104,25 +104,10 @@ module Inspec::Plugin::V2
 
         # OK, activate.
         if activate_me
-          activate(:cli_command, act.activator_name)
+          registry.activate(:cli_command, act.activator_name)
           act.implementation_class.register_with_thor
         end
       end
-    end
-
-    def activate(plugin_type, hook_name)
-      activator = registry.find_activators(plugin_type: plugin_type, activator_name: hook_name).first
-      # We want to capture literally any possible exception here, since we are storing them.
-      # rubocop: disable Lint/RescueException
-      begin
-        impl_class = activator.activation_proc.call
-        activator.activated?(true)
-        activator.implementation_class = impl_class
-      rescue Exception => ex
-        activator.exception = ex
-        Inspec::Log.error "Could not activate #{activator.plugin_type} hook named '#{activator.activator_name}' for plugin #{plugin_name}"
-      end
-      # rubocop: enable Lint/RescueException
     end
 
     def plugin_gem_path
