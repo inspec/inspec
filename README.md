@@ -140,8 +140,7 @@ Currently, this method of installation only supports Linux. See the [Habitat sit
 Download the `hab` binary from the [Habitat](https://www.habitat.sh/docs/get-habitat/) site.
 
 ```bash
-hab pkg install chef/inspec
-export PATH="$(hab pkg path core/ruby)/bin:$(hab pkg path chef/inspec)/bin:$PATH"
+hab pkg install chef/inspec --binlink
 
 inspec
 ```
@@ -452,4 +451,4 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License. 
+limitations under the License.
