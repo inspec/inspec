@@ -13,10 +13,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/inspec/inspec'
   spec.license       = 'Apache-2.0'
 
-  spec.files = %w{
-    README.md Rakefile MAINTAINERS.md LICENSE inspec.gemspec
-    Gemfile CHANGELOG.md .rubocop.yml
-  } + Dir.glob(
+  spec.files = %w{README.md LICENSE} + Dir.glob(
     '{bin,lib,etc}/**/*', File::FNM_DOTMATCH
   ).reject { |f| File.directory?(f) }
 
