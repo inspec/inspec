@@ -10,6 +10,7 @@ pkg_license=('Apache-2.0')
 pkg_deps=(
   core/coreutils
   core/cacerts
+  core/git
   core/ruby
 )
 pkg_build_deps=(
