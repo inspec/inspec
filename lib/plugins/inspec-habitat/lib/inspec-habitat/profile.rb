@@ -51,7 +51,6 @@ module InspecPlugins
         create_habitat_directories(work_dir)
         create_plan(work_dir)
         create_run_hook(work_dir)
-        create_settings_file(work_dir)
         create_default_config(work_dir)
 
         # returns the path to the .hart file in the work directory
@@ -96,7 +95,6 @@ module InspecPlugins
         create_habitat_directories(path)
         create_plan(path)
         create_run_hook(path)
-        create_settings_file(path)
         create_default_config(path)
       end
 
@@ -173,7 +171,6 @@ module InspecPlugins
       def create_habitat_directories(parent_directory)
         [
           File.join(parent_directory, 'habitat'),
-          File.join(parent_directory, 'habitat', 'config'),
           File.join(parent_directory, 'habitat', 'hooks'),
         ].each do |dir|
           Dir.mkdir(dir) unless Dir.exist?(dir)
@@ -205,12 +202,6 @@ module InspecPlugins
         run_hook_file = File.join(directory, 'habitat', 'hooks', 'run')
         @log.info("Generating a Habitat run hook at #{run_hook_file}...")
         File.write(run_hook_file, run_hook_contents)
-      end
-
-      def create_settings_file(directory)
-        settings_file = File.join(directory, 'habitat', 'config', 'settings.sh')
-        @log.info("Generating a settings file at #{settings_file}...")
-        File.write(settings_file, "SLEEP_TIME={{cfg.sleep_time}}\n")
       end
 
       def create_default_config(directory)
@@ -319,30 +310,37 @@ module InspecPlugins
           pkg_name=#{package_name}
           pkg_version=#{profile.version}
           pkg_origin=#{habitat_origin}
-          pkg_deps=(chef/inspec core/ruby core/hab)
-          pkg_svc_user=root
+          pkg_deps=(chef/inspec)
         EOL
 
         plan += "pkg_license='#{profile.metadata.params[:license]}'\n\n" if profile.metadata.params[:license]
 
         plan += <<~EOL
+          do_setup_environment() {
+            ARCHIVE_PATH="$HAB_CACHE_SRC_PATH/$pkg_dirname/$pkg_name-$pkg_version.tar.gz"
+          }
 
           do_build() {
-            cp -vr $PLAN_CONTEXT/../* $HAB_CACHE_SRC_PATH/$pkg_dirname
+            if [ ! -f $PLAN_CONTEXT/../inspec.yml ]; then
+              exit_with 'Cannot find inspec.yml. Please build from profile root.' 1
+            fi
+
+            local profile_files=($(ls $PLAN_CONTEXT/../ -I habitat -I results))
+            local profile_location="$HAB_CACHE_SRC_PATH/$pkg_dirname/build"
+            mkdir -p $profile_location
+
+            build_line "Copying profile files to $profile_location"
+            cp -R ${profile_files[@]} $profile_location
+
+            build_line "Archiving $ARCHIVE_PATH"
+            inspec archive "$HAB_CACHE_SRC_PATH/$pkg_dirname/build" \
+                           -o $ARCHIVE_PATH \
+                           --overwrite
           }
 
           do_install() {
-            local profile_contents
-            local excludes
-            profile_contents=($(ls))
-            excludes=(habitat results *.hart)
-
-            for item in ${excludes[@]}; do
-              profile_contents=(${profile_contents[@]/$item/})
-            done
-
-            mkdir ${pkg_prefix}/dist
-            cp -r ${profile_contents[@]} ${pkg_prefix}/dist/
+            mkdir -p $pkg_prefix/profiles
+            cp $ARCHIVE_PATH $pkg_prefix/profiles
           }
         EOL
 
@@ -351,41 +349,41 @@ module InspecPlugins
 
       def run_hook_contents
         <<~EOL
-          #!/bin/sh
+          #!{{pkgPathFor "core/bash"}}/bin/bash
 
-          # redirect stderr to stdout
-          # ultimately, we'd like to log this somewhere useful, but due to
-          # https://github.com/habitat-sh/habitat/issues/2395, we need to
-          # avoid doing that for now.
+          # Redirect stderr to stdout
+          # This will be captured by Habitat and viewable via `journalctl`
+          # NOTE: We might want log to "{{pkg.svc_path}}/logs" and handle rotation
           exec 2>&1
 
           # InSpec will try to create a .cache directory in the user's home directory
           # so this needs to be someplace writeable by the hab user
           export HOME={{pkg.svc_var_path}}
 
-          PROFILE_IDENT="{{pkg.origin}}/{{pkg.name}}"
           RESULTS_DIR="{{pkg.svc_var_path}}/inspec_results"
           RESULTS_FILE="${RESULTS_DIR}/{{pkg.name}}.json"
 
-          # Create a directory for inspec formatter output
-          mkdir -p {{pkg.svc_var_path}}/inspec_results
+          # Create a directory for InSpec reporter output
+          mkdir -p $(dirname $RESULTS_FILE)
 
           while true; do
-            echo "Executing InSpec for ${PROFILE_IDENT}"
-            inspec exec {{pkg.path}}/dist --format=json > ${RESULTS_FILE}
+            echo "Executing InSpec for {{pkg.ident}}"
+            inspec exec "{{pkg.path}}/profiles/*" --reporter=json > ${RESULTS_FILE}
 
-            if [ $? -eq 0 ]; then
+            EXIT_STATUS=$?
+            if [ $EXIT_STATUS -eq 0 ]; then
               echo "InSpec run completed successfully."
+            elif [ $EXIT_STATUS -eq 100 ]; then
+              echo "InSpec run completed successfully, with at least 1 failed test"
+            elif [ $EXIT_STATUS -eq 101 ]; then
+              echo "InSpec run completed successfully, with skipped tests and no failures"
             else
-              echo "InSpec run did not complete successfully. If you do not see any errors above,"
-              echo "control failures were detected. Check the InSpec results here for details:"
-              echo ${RESULTS_FILE}
-              echo "Otherwise, troubleshoot any errors shown above."
+              echo "InSpec run did not complete successfully. Exited with status: $?"
             fi
+            echo "Results located here: ${RESULTS_FILE}"
 
-            source {{pkg.svc_config_path}}/settings.sh
-            echo "sleeping for ${SLEEP_TIME} seconds"
-            sleep ${SLEEP_TIME}
+            echo "Sleeping for {{cfg.sleep_time}} seconds"
+            sleep {{cfg.sleep_time}}
           done
         EOL
       end
