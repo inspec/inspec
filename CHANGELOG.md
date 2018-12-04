@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 3.0.62 -->
+## [v3.0.62](https://github.com/inspec/inspec/tree/v3.0.62) (2018-12-04)
+
+#### Enhancements
+- Further slim the files we ship in the gem artifact [#3647](https://github.com/inspec/inspec/pull/3647) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.0.61 -->
+### Changes since 3.0.61 release
+
+#### Enhancements
+- Further slim the files we ship in the gem artifact [#3647](https://github.com/inspec/inspec/pull/3647) ([tas50](https://github.com/tas50)) <!-- 3.0.62 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
