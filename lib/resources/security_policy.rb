@@ -138,7 +138,7 @@ module Inspec::Resources
 
       conf = SimpleConfig.new(
         @content,
-        assignment_regex: /^\s*(.*)=\s*(\S*)\s*$/,
+        assignment_regex: /^\s*(.*)=\s*([\S[:space:]]*)\s+$/,
       )
       @params = convert_hash(conf.params)
     end
@@ -149,7 +149,7 @@ module Inspec::Resources
       if val =~ /^\d+$/
         val.to_i
       # special handling for SID array
-      elsif val =~ /[,]{0,1}\*\S/
+      elsif val =~ /[,]{0,1}\*\S|\,\D\S*$/
         if @translate_sid
           val.split(',').map { |v|
             object_name = inspec.command("(New-Object System.Security.Principal.SecurityIdentifier(\"#{v.sub('*S', 'S')}\")).Translate( [System.Security.Principal.NTAccount]).Value").stdout.to_s.strip
