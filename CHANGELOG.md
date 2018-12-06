@@ -1,22 +1,20 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.64 -->
-## [v3.0.64](https://github.com/inspec/inspec/tree/v3.0.64) (2018-12-06)
-
-#### Enhancements
-- Update Habitat plugin [#3646](https://github.com/inspec/inspec/pull/3646) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.0.61 -->
-### Changes since 3.0.61 release
-
-#### Enhancements
-- Update Habitat plugin [#3646](https://github.com/inspec/inspec/pull/3646) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.64 -->
-- Remove Habitat package run time dependencies from Habitat plan [#3645](https://github.com/inspec/inspec/pull/3645) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.63 -->
-- Further slim the files we ship in the gem artifact [#3647](https://github.com/inspec/inspec/pull/3647) ([tas50](https://github.com/tas50)) <!-- 3.0.62 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.0.64](https://github.com/inspec/inspec/tree/v3.0.64) (2018-12-06)
+
+#### Enhancements
+- Further slim the files we ship in the gem artifact [#3647](https://github.com/inspec/inspec/pull/3647) ([tas50](https://github.com/tas50))
+- Remove Habitat package run time dependencies from Habitat plan [#3645](https://github.com/inspec/inspec/pull/3645) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Update Habitat plugin [#3646](https://github.com/inspec/inspec/pull/3646) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_stable_release -->
+
 ## [v3.0.61](https://github.com/inspec/inspec/tree/v3.0.61) (2018-11-29)
 
 #### New Features
@@ -35,7 +33,6 @@
 - Revert setting RSpec expectation syntax to &#39;should&#39; mode [#3620](https://github.com/inspec/inspec/pull/3620) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - lc/add-aws-platform-template [#3622](https://github.com/inspec/inspec/pull/3622) ([Caprowni](https://github.com/Caprowni))
 - Add SQLcl to Oracledb_session Doc [#3632](https://github.com/inspec/inspec/pull/3632) ([ibsavage](https://github.com/ibsavage))
-<!-- latest_stable_release -->
 
 ## [v3.0.52](https://github.com/inspec/inspec/tree/v3.0.52) (2018-11-15)
 
