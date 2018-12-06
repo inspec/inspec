@@ -8,23 +8,10 @@ pkg_upstream_url=https://www.inspec.io/
 pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
 pkg_license=('Apache-2.0')
 pkg_deps=(
-  core/busybox-static
-  core/cacerts
   core/coreutils
-  core/libxml2
-  core/libxslt
-  core/net-tools
-  core/ruby
-
-  # Needed for some InSpec resources
-  core/bind
-  core/curl
-  core/docker
+  core/cacerts
   core/git
-  core/less
-  core/mysql-client
-  core/netcat
-  core/postgresql-client
+  core/ruby
 )
 pkg_build_deps=(
   core/gcc
@@ -34,11 +21,12 @@ pkg_build_deps=(
 )
 pkg_bin_dirs=(bin)
 
-do_prepare() {
+do_setup_environment() {
+  build_line 'Setting GEM_HOME="$pkg_prefix/lib"'
   export GEM_HOME="$pkg_prefix/lib"
-  build_line "Setting GEM_HOME=$GEM_HOME"
+
+  build_line "Setting GEM_PATH=$GEM_HOME"
   export GEM_PATH="$GEM_HOME"
-  build_line "Setting GEM_PATH=$GEM_PATH"
 }
 
 do_unpack() {
@@ -60,17 +48,23 @@ do_install() {
   wrap_inspec_bin
 }
 
-# Need to wrap the InSpec binary to ensure GEM_HOME/GEM_PATH is correct
+# Need to wrap the InSpec binary to ensure paths are correct
 wrap_inspec_bin() {
   local bin="$pkg_prefix/bin/$pkg_name"
   local real_bin="$GEM_HOME/gems/inspec-${pkg_version}/bin/inspec"
   build_line "Adding wrapper $bin to $real_bin"
   cat <<EOF > "$bin"
-#!$(pkg_path_for busybox-static)/bin/sh
+#!$(pkg_path_for bash)/bin/bash
 export SSL_CERT_FILE=$(pkg_path_for cacerts)/ssl/cert.pem
 set -e
+
+# Set binary path that allows InSpec to use non-Hab pkg binaries
+export PATH="/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:$PATH"
+
+# Set Ruby paths defined from 'do_setup_environment()'
 export GEM_HOME="$GEM_HOME"
 export GEM_PATH="$GEM_PATH"
+
 exec $(pkg_path_for core/ruby)/bin/ruby $real_bin \$@
 EOF
   chmod -v 755 "$bin"
