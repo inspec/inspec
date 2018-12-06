@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.63 -->
-## [v3.0.63](https://github.com/inspec/inspec/tree/v3.0.63) (2018-12-06)
+<!-- latest_release 3.0.64 -->
+## [v3.0.64](https://github.com/inspec/inspec/tree/v3.0.64) (2018-12-06)
 
 #### Enhancements
-- Remove Habitat package run time dependencies from Habitat plan [#3645](https://github.com/inspec/inspec/pull/3645) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Update Habitat plugin [#3646](https://github.com/inspec/inspec/pull/3646) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.61 -->
 ### Changes since 3.0.61 release
 
 #### Enhancements
+- Update Habitat plugin [#3646](https://github.com/inspec/inspec/pull/3646) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.64 -->
 - Remove Habitat package run time dependencies from Habitat plan [#3645](https://github.com/inspec/inspec/pull/3645) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.0.63 -->
 - Further slim the files we ship in the gem artifact [#3647](https://github.com/inspec/inspec/pull/3647) ([tas50](https://github.com/tas50)) <!-- 3.0.62 -->
 <!-- release_rollup -->
