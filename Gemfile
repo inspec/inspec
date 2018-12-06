@@ -2,11 +2,6 @@
 source 'https://rubygems.org'
 gemspec name: 'inspec'
 
-if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2')
-  gem 'json', '~> 1.8'
-  gem 'rack', '< 2.0'
-end
-
 gem 'ffi', '>= 1.9.14'
 gem 'aws-sdk', '~> 2'
 
