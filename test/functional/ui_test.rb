@@ -176,11 +176,20 @@ EOT
         end
       end
 
-      describe 'prompting' do
-        let(:feature) { 'prompt' }
-        it "should launch apollo" do
-          run_result.exit_status.must_equal 0
-          run_result.stdout.must_include 'Apollo'
+      # On windows, tty-prompt's prompt() does not support the :timeout option.
+      # This appears to be undocumented. If you run the test plugin
+      # on windows, you'll see this invocation counts down to 0 then
+      # hangs, waiting for an Enter keypress.
+      #
+      # Since we can't do an (automated) interactive test without 
+      # a timeout, skip the test on windows.
+      unless FunctionalHelper.is_windows?
+        describe 'prompting' do
+          let(:feature) { 'prompt' }
+          it "should launch apollo" do
+            run_result.exit_status.must_equal 0
+            run_result.stdout.must_include 'Apollo'
+          end
         end
       end
     end
