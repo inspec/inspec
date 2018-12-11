@@ -12,10 +12,8 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/chef/inspec'
   spec.license       = 'Apache-2.0'
 
-  spec.files = %w{README.md MAINTAINERS.toml MAINTAINERS.md LICENSE
-                  inspec-core.gemspec Gemfile CHANGELOG.md} +
-               Dir.glob('{bin,lib,etc}/**/*', File::FNM_DOTMATCH)
-                  .reject { |f| File.directory?(f) || f =~ /aws|azure|gcp/ }
+  spec.files = %w{README.md LICENSE} + Dir.glob('{bin,lib,etc}/**/*', File::FNM_DOTMATCH)
+                                          .reject { |f| File.directory?(f) || f =~ /aws|azure|gcp/ }
 
   spec.executables   = %w{inspec}
   spec.require_paths = ['lib']

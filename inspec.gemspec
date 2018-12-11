@@ -13,7 +13,8 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/inspec/inspec'
   spec.license       = 'Apache-2.0'
 
-  spec.files = %w{README.md LICENSE} + Dir.glob(
+  # the gemfile and gemspec are necessary for appbundler so don't remove it
+  spec.files = %w{Gemfile inspec.gemspec README.md LICENSE} + Dir.glob(
     '{bin,lib,etc}/**/*', File::FNM_DOTMATCH
   ).reject { |f| File.directory?(f) }
 
