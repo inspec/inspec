@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 3.0.65 -->
+## [v3.0.65](https://github.com/inspec/inspec/tree/v3.0.65) (2018-12-11)
+
+#### Merged Pull Requests
+- Pin train to 1.5.11 [#3657](https://github.com/inspec/inspec/pull/3657) ([jaredledvina](https://github.com/jaredledvina))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.0.64 -->
+### Changes since 3.0.64 release
+
+#### Merged Pull Requests
+- Pin train to 1.5.11 [#3657](https://github.com/inspec/inspec/pull/3657) ([jaredledvina](https://github.com/jaredledvina)) <!-- 3.0.65 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
