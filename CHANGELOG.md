@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.66 -->
-## [v3.0.66](https://github.com/inspec/inspec/tree/v3.0.66) (2018-12-12)
+<!-- latest_release 3.1.0 -->
+## [v3.1.0](https://github.com/inspec/inspec/tree/v3.1.0) (2018-12-12)
 
-#### Bug Fixes
-- Remove extra files from inspec-core + file appbundling inspec [#3663](https://github.com/inspec/inspec/pull/3663) ([tas50](https://github.com/tas50))
+#### Enhancements
+- UI Object for for CLI work [#3618](https://github.com/inspec/inspec/pull/3618) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.64 -->
 ### Changes since 3.0.64 release
+
+#### Enhancements
+- UI Object for for CLI work [#3618](https://github.com/inspec/inspec/pull/3618) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.1.0 -->
 
 #### Bug Fixes
 - Remove extra files from inspec-core + file appbundling inspec [#3663](https://github.com/inspec/inspec/pull/3663) ([tas50](https://github.com/tas50)) <!-- 3.0.66 -->
