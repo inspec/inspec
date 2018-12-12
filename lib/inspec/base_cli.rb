@@ -74,7 +74,7 @@ module Inspec
       option :disable_sspi, type: :boolean,
         desc: 'Whether to use disable sspi authentication, defaults to false (WinRM).'
       option :basic_auth, type: :boolean,
-        desc: 'Whether to use basic authentication, defaults to fallse (WinRM).'
+        desc: 'Whether to use basic authentication, defaults to false (WinRM).'
       option :json_config, type: :string,
         desc: 'Read configuration from JSON file (`-` reads from stdin).'
       option :proxy_command, type: :string,
