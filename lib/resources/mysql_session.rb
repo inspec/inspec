@@ -30,7 +30,7 @@ module Inspec::Resources
       mysql_cmd = create_mysql_cmd(q, db)
       cmd = inspec.command(mysql_cmd)
       out = cmd.stdout + "\n" + cmd.stderr
-      if out =~ /Can't connect to .* MySQL server/ || out.downcase =~ /^error/
+      if out =~ /Can't connect to .* MySQL server/ || out.downcase =~ /^error /
         # skip this test if the server can't run the query
         warn("Can't connect to MySQL instance for SQL checks.")
       end
