@@ -5,6 +5,7 @@
 require 'thor'
 require 'inspec/log'
 require 'inspec/profile_vendor'
+require 'inspec/ui'
 
 # Allow end of options during array type parsing
 # https://github.com/erikhuda/thor/issues/631
@@ -99,8 +100,6 @@ module Inspec
       option :reporter, type: :array,
         banner: 'one two:/output/file/path',
         desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml'
-      option :color, type: :boolean,
-        desc: 'Use colors in output.'
       option :attrs, type: :array,
         desc: 'Load attributes file (experimental)'
       option :create_lockfile, type: :boolean,
@@ -219,24 +218,51 @@ module Inspec
     # but Thor interprets all methods as subcommands.  The no_commands block
     # treats them as regular methods.
     no_commands do
+      def ui
+        return @ui if defined?(@ui)
+
+        # Make a new UI object, respecting context
+        if options[:color].nil?
+          enable_color = true # If the command does not support the color option, default to on
+        else
+          enable_color = options[:color]
+        end
+
+        # UI will probe for TTY if nil - just send the raw option value
+        enable_interactivity = options[:interactive]
+
+        @ui = Inspec::UI.new(color: enable_color, interactive: enable_interactivity)
+      end
+
+      # Rationale: converting this to attr_writer breaks Thor
+      def ui=(new_ui) # rubocop: disable Style/TrivialAccessors
+        @ui = new_ui
+      end
+
       def mark_text(text)
-        "\e[0;36m#{text}\e[0m"
+        # TODO: - deprecate, call cli.ui directly
+        # Note that this one doesn't automatically print
+        ui.emphasis(text, print: false)
       end
 
       def headline(title)
-        puts "\n== #{title}\n\n"
+        # TODO: - deprecate, call cli.ui directly
+        ui.headline(title)
       end
 
       def li(entry)
-        puts " #{mark_text('*')} #{entry}"
-      end
-
-      def exit(code)
-        Kernel.exit code
+        # TODO: - deprecate, call cli.ui directly
+        ui.list_item(entry)
       end
 
       def plain_text(msg)
-        puts msg
+        # TODO: - deprecate, call cli.ui directly
+        ui.plain(msg + "\n")
+      end
+
+      def exit(code)
+        # TODO: - deprecate, call cli.ui directly
+        ui.exit code
       end
     end
 

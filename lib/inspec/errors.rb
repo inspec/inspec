@@ -38,4 +38,6 @@ module Inspec
       attr_accessor :attribute_name
     end
   end
+
+  class UserInteractionRequired < Error; end
 end
