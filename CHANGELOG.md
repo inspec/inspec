@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.0.65 -->
-## [v3.0.65](https://github.com/inspec/inspec/tree/v3.0.65) (2018-12-11)
+<!-- latest_release 3.0.66 -->
+## [v3.0.66](https://github.com/inspec/inspec/tree/v3.0.66) (2018-12-12)
 
-#### Merged Pull Requests
-- Pin train to 1.5.11 [#3657](https://github.com/inspec/inspec/pull/3657) ([jaredledvina](https://github.com/jaredledvina))
+#### Bug Fixes
+- Remove extra files from inspec-core + file appbundling inspec [#3663](https://github.com/inspec/inspec/pull/3663) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.64 -->
 ### Changes since 3.0.64 release
+
+#### Bug Fixes
+- Remove extra files from inspec-core + file appbundling inspec [#3663](https://github.com/inspec/inspec/pull/3663) ([tas50](https://github.com/tas50)) <!-- 3.0.66 -->
 
 #### Merged Pull Requests
 - Pin train to 1.5.11 [#3657](https://github.com/inspec/inspec/pull/3657) ([jaredledvina](https://github.com/jaredledvina)) <!-- 3.0.65 -->
