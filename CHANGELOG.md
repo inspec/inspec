@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.1.0 -->
-## [v3.1.0](https://github.com/inspec/inspec/tree/v3.1.0) (2018-12-12)
+<!-- latest_release 3.1.1 -->
+## [v3.1.1](https://github.com/inspec/inspec/tree/v3.1.1) (2018-12-12)
 
-#### Enhancements
-- UI Object for for CLI work [#3618](https://github.com/inspec/inspec/pull/3618) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Modify URL fetcher to accept URI [#3633](https://github.com/inspec/inspec/pull/3633) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.64 -->
@@ -17,6 +17,7 @@
 - Remove extra files from inspec-core + file appbundling inspec [#3663](https://github.com/inspec/inspec/pull/3663) ([tas50](https://github.com/tas50)) <!-- 3.0.66 -->
 
 #### Merged Pull Requests
+- Modify URL fetcher to accept URI [#3633](https://github.com/inspec/inspec/pull/3633) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.1.1 -->
 - Pin train to 1.5.11 [#3657](https://github.com/inspec/inspec/pull/3657) ([jaredledvina](https://github.com/jaredledvina)) <!-- 3.0.65 -->
 <!-- release_rollup -->
 
