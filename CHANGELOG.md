@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.1.2 -->
-## [v3.1.2](https://github.com/inspec/inspec/tree/v3.1.2) (2018-12-12)
+<!-- latest_release 3.1.3 -->
+## [v3.1.3](https://github.com/inspec/inspec/tree/v3.1.3) (2018-12-12)
 
 #### Bug Fixes
-- Incorrect mysql session failure when rows are returned starting with the string &#39;error&#39; [#3660](https://github.com/inspec/inspec/pull/3660) ([wiebe](https://github.com/wiebe))
+- Fix git fetcher error detection logic [#3665](https://github.com/inspec/inspec/pull/3665) ([frezbo](https://github.com/frezbo))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.64 -->
@@ -14,6 +14,7 @@
 - UI Object for for CLI work [#3618](https://github.com/inspec/inspec/pull/3618) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.1.0 -->
 
 #### Bug Fixes
+- Fix git fetcher error detection logic [#3665](https://github.com/inspec/inspec/pull/3665) ([frezbo](https://github.com/frezbo)) <!-- 3.1.3 -->
 - Incorrect mysql session failure when rows are returned starting with the string &#39;error&#39; [#3660](https://github.com/inspec/inspec/pull/3660) ([wiebe](https://github.com/wiebe)) <!-- 3.1.2 -->
 - Remove extra files from inspec-core + file appbundling inspec [#3663](https://github.com/inspec/inspec/pull/3663) ([tas50](https://github.com/tas50)) <!-- 3.0.66 -->
 
