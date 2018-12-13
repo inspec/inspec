@@ -1,36 +1,33 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.1.3 -->
-## [v3.1.3](https://github.com/inspec/inspec/tree/v3.1.3) (2018-12-12)
-
-#### Bug Fixes
-- Fix git fetcher error detection logic [#3665](https://github.com/inspec/inspec/pull/3665) ([frezbo](https://github.com/frezbo))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.0.64 -->
-### Changes since 3.0.64 release
-
-#### Enhancements
-- UI Object for for CLI work [#3618](https://github.com/inspec/inspec/pull/3618) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.1.0 -->
-
-#### Bug Fixes
-- Fix git fetcher error detection logic [#3665](https://github.com/inspec/inspec/pull/3665) ([frezbo](https://github.com/frezbo)) <!-- 3.1.3 -->
-- Incorrect mysql session failure when rows are returned starting with the string &#39;error&#39; [#3660](https://github.com/inspec/inspec/pull/3660) ([wiebe](https://github.com/wiebe)) <!-- 3.1.2 -->
-- Remove extra files from inspec-core + file appbundling inspec [#3663](https://github.com/inspec/inspec/pull/3663) ([tas50](https://github.com/tas50)) <!-- 3.0.66 -->
-
-#### Merged Pull Requests
-- Modify URL fetcher to accept URI [#3633](https://github.com/inspec/inspec/pull/3633) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.1.1 -->
-- Pin train to 1.5.11 [#3657](https://github.com/inspec/inspec/pull/3657) ([jaredledvina](https://github.com/jaredledvina)) <!-- 3.0.65 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.1.3](https://github.com/inspec/inspec/tree/v3.1.3) (2018-12-13)
+
+#### Enhancements
+- UI Object for for CLI work [#3618](https://github.com/inspec/inspec/pull/3618) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- Remove extra files from inspec-core + file appbundling inspec [#3663](https://github.com/inspec/inspec/pull/3663) ([tas50](https://github.com/tas50))
+- Incorrect mysql session failure when rows are returned starting with the string &#39;error&#39; [#3660](https://github.com/inspec/inspec/pull/3660) ([wiebe](https://github.com/wiebe))
+- Fix git fetcher error detection logic [#3665](https://github.com/inspec/inspec/pull/3665) ([frezbo](https://github.com/frezbo))
+
+#### Merged Pull Requests
+- Pin train to 1.5.11 [#3657](https://github.com/inspec/inspec/pull/3657) ([jaredledvina](https://github.com/jaredledvina))
+- Modify URL fetcher to accept URI [#3633](https://github.com/inspec/inspec/pull/3633) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_stable_release -->
+
 ## [v3.0.64](https://github.com/inspec/inspec/tree/v3.0.64) (2018-12-06)
 
 #### Enhancements
 - Further slim the files we ship in the gem artifact [#3647](https://github.com/inspec/inspec/pull/3647) ([tas50](https://github.com/tas50))
 - Remove Habitat package run time dependencies from Habitat plan [#3645](https://github.com/inspec/inspec/pull/3645) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Update Habitat plugin [#3646](https://github.com/inspec/inspec/pull/3646) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-<!-- latest_stable_release -->
 
 ## [v3.0.61](https://github.com/inspec/inspec/tree/v3.0.61) (2018-11-29)
 
