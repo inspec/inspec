@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 3.1.4 -->
+## [v3.1.4](https://github.com/inspec/inspec/tree/v3.1.4) (2018-12-14)
+
+#### Merged Pull Requests
+- Rebuild Hab package. [#3670](https://github.com/inspec/inspec/pull/3670) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.1.3 -->
+### Changes since 3.1.3 release
+
+#### Merged Pull Requests
+- Rebuild Hab package. [#3670](https://github.com/inspec/inspec/pull/3670) ([jquick](https://github.com/jquick)) <!-- 3.1.4 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
