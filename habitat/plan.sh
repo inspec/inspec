@@ -12,6 +12,7 @@ pkg_deps=(
   core/cacerts
   core/git
   core/ruby
+  core/bash
 )
 pkg_build_deps=(
   core/gcc
