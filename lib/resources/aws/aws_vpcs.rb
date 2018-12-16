@@ -15,6 +15,7 @@ class AwsVpcs < Inspec.resource(1)
   filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
   filter.register_column(:cidr_blocks, field: :cidr_block)
         .register_column(:vpc_ids, field: :vpc_id)
+        .register_column(:tags, field: :tags)
   # We need a dummy here, so FilterTable will define and populate the dhcp_options_id field
   filter.register_column(:dummy, field: :dhcp_options_id)
         .register_column(:dhcp_options_ids) { |obj| obj.entries.map(&:dhcp_options_id).uniq }

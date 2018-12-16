@@ -65,6 +65,14 @@ class AwsVpcsFilterCriteriaTest < Minitest::Test
     miss = AwsVpcs.new.where(:dhcp_options_id => 'dopt-12345678')
     refute(miss.exists?)
   end
+
+  def test_filter_with_name_tag
+    hit = AwsVpcs.new.where { tags.find { |h| h[:key] == 'Name' }[:value] == 'dev-vpc' }
+    assert(hit.exists?)
+
+    miss = AwsVpcs.new.where { tags.find { |h| h[:key] == 'Name' }[:value] == 'prod-vpc' }
+    refute(miss.exists?)
+  end
 end
 
 #=============================================================================#
@@ -94,6 +102,10 @@ class AwsVpcsProperties < Minitest::Test
     # Should be de-duplicated
     assert_equal(1, @vpcs.dhcp_options_ids.count)
   end
+
+  def test_property_tags
+    refute_empty(@vpcs.tags)
+  end
 end
 #=============================================================================#
 #                               Test Fixtures
@@ -114,7 +126,11 @@ module MAVPB
           state: 'available',
           vpc_id: 'vpc-aaaabbbb',
           instance_tenancy: 'default',
-          is_default: true
+          is_default: true,
+          tags: [{
+            key: 'Name',
+            value: 'dev-vpc'
+          }]
         }),
         OpenStruct.new({
           cidr_block: '10.1.0.0/16',
@@ -122,7 +138,11 @@ module MAVPB
           state: 'available',
           vpc_id: 'vpc-12344321',
           instance_tenancy: 'default',
-          is_default: false
+          is_default: false,
+          tags: [{
+            key: 'Name',
+            value: 'test-vpc'
+          }]
         }),
       ]
 

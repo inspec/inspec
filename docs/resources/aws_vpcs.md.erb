@@ -83,6 +83,15 @@ Filters the results to include only those VPCs that have the given DHCP Option S
       it { should_not exist }
     end
 
+### tags
+
+Check the VPC with Name tag 'my-vpc' exists and is unique
+
+    # Check 'my-vpc' exists
+    describe aws_vpcs.where{ !tags.nil? and tags.find { |h| h[:key] == 'Name' }[:value] == 'my-vpc' }
+      its('count') { should cmp 1 }
+    end
+
 ## Properties
 
 ### cidr_blocks
