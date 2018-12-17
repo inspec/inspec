@@ -82,6 +82,7 @@ module Inspec::Resources
           .register_column(:maxdays,   field: :maxdays)
           .register_column(:warndays,  field: :warndays)
           .register_column(:disabled,  field: :disabled)
+          .register_column(:userflags,  field: :userflags)
           .register_custom_matcher(:disabled?) { |x| x.where { disabled == false }.entries.empty? }
           .register_custom_matcher(:enabled?) { |x| x.where { disabled == true }.entries.empty? }
     filter.install_filter_methods_on_resource(self, :collect_user_details)
@@ -209,6 +210,10 @@ module Inspec::Resources
     # returns the days for password change warning
     def warndays
       credentials[:warndays] unless credentials.nil?
+    end
+
+    def userflaggs
+      credentials[:userflags] unless credentials.nil?
     end
 
     # implement 'mindays' method to be compatible with serverspec
