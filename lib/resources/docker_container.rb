@@ -21,6 +21,7 @@ module Inspec::Resources
         its('tag') { should eq 'latest' }
         its('ports') { should eq [] }
         its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
+        its('labels') { should include 'foo=bar' }
       end
 
       describe docker_container(id: 'e2c52a183358') do

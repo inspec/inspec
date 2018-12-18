@@ -203,8 +203,13 @@ module Inspec::Resources
         # does not include a slash since that is not a valid character in a container name
         j['names'] = j['names'].split(',').find { |c| !c.include?('/') } if j.key?('names')
 
+        # Split labels on ','
+        # This allows `its('labels') { should include 'foo=bar' }` to work
+        j['labels'] = j['labels'].split(',') if j.key?('labels')
+
         output.push(j)
       }
+
       output
     rescue JSON::ParserError => _e
       warn "Could not parse `docker #{subcommand}` output"

@@ -24,6 +24,7 @@ describe 'Inspec::Resources::DockerContainer' do
       _(resource.tag).must_equal '12.04'
       _(resource.command).must_equal '/bin/bash'
       _(resource.ports).must_equal ''
+      _(resource.labels).must_equal ['foo=bar', 'spam=eggs']
     end
 
     it 'check image containing repo with port and tag gives correct repo, image, and tag' do
