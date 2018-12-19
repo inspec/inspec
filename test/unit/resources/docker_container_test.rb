@@ -27,6 +27,11 @@ describe 'Inspec::Resources::DockerContainer' do
       _(resource.labels).must_equal ['app=example', 'version=1.5.4']
     end
 
+    it 'returns an empty array when parsing a container with no labels specified' do
+      resource = load_resource('docker_container', 'heuristic_almeida')
+      _(resource.labels).must_equal []
+    end
+
     it 'check image containing repo with port and tag gives correct repo, image, and tag' do
       resource = load_resource('docker_container', 'heuristic_almeida')
       _(resource.repo).must_equal 'repo.example.com:5000/ubuntu'
