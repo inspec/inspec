@@ -8,6 +8,5 @@ cookbook 'omnibus'
 
 group :integration do
   cookbook 'apt'
-  cookbook 'freebsd'
   cookbook 'yum-epel'
 end
