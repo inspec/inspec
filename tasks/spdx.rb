@@ -28,5 +28,6 @@ task :spdx do
   licenses = json_data['licenses'].map { |l| l['licenseId'] }
   # "All Rights Reserved" is non-standard extra value to cover proprietary license
   licenses.push('All Rights Reserved')
+  licenses.sort!
   File.write(File.join(UTILS_DIR, 'spdx.txt'), licenses.join("\n"))
 end
