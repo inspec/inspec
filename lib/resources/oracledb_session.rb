@@ -99,7 +99,9 @@ module Inspec::Resources
     end
 
     def parse_csv_result(stdout)
-      output = stdout.delete(/\r/)
+      output = stdout.delete("\r")
+      # Remove blank first line if it exists
+      output = output.gsub(/^$\n/, '')
       table = CSV.parse(output, { headers: true })
 
       # convert to hash
