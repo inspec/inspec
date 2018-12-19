@@ -48,7 +48,7 @@ module Inspec::Resources
     end
 
     def labels
-      object_info.labels[0] if object_info.entries.length == 1
+      object_info.labels
     end
 
     def ports
