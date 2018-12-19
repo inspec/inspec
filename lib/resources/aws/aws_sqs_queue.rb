@@ -4,7 +4,7 @@ class AwsSqsQueue < Inspec.resource(1)
   example "
     describe aws_sqs_queue('https://sqs.ap-southeast-2.amazonaws.com/519527725796/QueueName') do
       it { should exist }
-      its('confirmed_subscription_count') { should_not be_zero }
+      its('visiblity_timeout') { should be 300}
     end
   "
   supports platform: 'aws'
