@@ -69,6 +69,12 @@ module Inspec
         desc: 'Use SSL for transport layer encryption (WinRM).'
       option :self_signed, type: :boolean,
         desc: 'Allow remote scans with self-signed certificates (WinRM).'
+      option :winrm_transport, type: :string, default: 'negotiate',
+        desc: 'Specify which transport to use, defaults to negotiate (WinRM).'
+      option :winrm_disable_sspi, type: :boolean,
+        desc: 'Whether to use disable sspi authentication, defaults to false (WinRM).'
+      option :winrm_basic_auth, type: :boolean,
+        desc: 'Whether to use basic authentication, defaults to false (WinRM).'
       option :json_config, type: :string,
         desc: 'Read configuration from JSON file (`-` reads from stdin).'
       option :proxy_command, type: :string,
