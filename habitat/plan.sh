@@ -12,6 +12,7 @@ pkg_deps=(
   core/cacerts
   core/git
   core/ruby
+  core/bash
 )
 pkg_build_deps=(
   core/gcc
@@ -54,7 +55,7 @@ wrap_inspec_bin() {
   local real_bin="$GEM_HOME/gems/inspec-${pkg_version}/bin/inspec"
   build_line "Adding wrapper $bin to $real_bin"
   cat <<EOF > "$bin"
-#!$(pkg_path_for bash)/bin/bash
+#!$(pkg_path_for core/bash)/bin/bash
 export SSL_CERT_FILE=$(pkg_path_for cacerts)/ssl/cert.pem
 set -e
 
