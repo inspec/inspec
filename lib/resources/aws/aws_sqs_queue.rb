@@ -33,7 +33,7 @@ class AwsSqsQueue < Inspec.resource(1)
 
   def fetch_from_api
     aws_response = BackendFactory.create(inspec_runner).get_queue_attributes(queue_url: @url, attribute_names: ['All']).attributes
-    @exists = true    
+    @exists = true
     @visibility_timeout = aws_response['VisibilityTimeout'].to_i
     @maximum_message_size = aws_response['MaximumMessageSize'].to_i
     @message_retention_period = aws_response['MessageRetentionPeriod'].to_i
@@ -41,10 +41,10 @@ class AwsSqsQueue < Inspec.resource(1)
     @receive_message_wait_timeout_seconds = aws_response['ReceiveMessageWaitTimeSeconds'].to_i
 
     # FIFO queues - these attributes only exist for FIFO queues, their presence indicates a FIFO
-    # queue 
+    # queue
     @is_fifo_queue = aws_response['FifoQueue'].nil? ? false: true
     @content_based_deduplication = aws_response['ContentBasedDeduplication'].nil? ? false: true
-  rescue Aws::SQS::Errors::NonExistentQueue => e
+  rescue Aws::SQS::Errors::NonExistentQueue
     @exists = false
   end
 
