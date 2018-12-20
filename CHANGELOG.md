@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.2.3 -->
-## [v3.2.3](https://github.com/inspec/inspec/tree/v3.2.3) (2018-12-20)
+<!-- latest_release 3.2.4 -->
+## [v3.2.4](https://github.com/inspec/inspec/tree/v3.2.4) (2018-12-20)
 
-#### New Resources
-- aws_sqs_queue - new resource [#3674](https://github.com/inspec/inspec/pull/3674) ([amitsaha](https://github.com/amitsaha))
+#### Enhancements
+- Remove FreeBSD cookbook from omnibus [#3676](https://github.com/inspec/inspec/pull/3676) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.1.3 -->
 ### Changes since 3.1.3 release
+
+#### Enhancements
+- Remove FreeBSD cookbook from omnibus [#3676](https://github.com/inspec/inspec/pull/3676) ([tas50](https://github.com/tas50)) <!-- 3.2.4 -->
 
 #### New Resources
 - aws_sqs_queue - new resource [#3674](https://github.com/inspec/inspec/pull/3674) ([amitsaha](https://github.com/amitsaha)) <!-- 3.2.3 -->
