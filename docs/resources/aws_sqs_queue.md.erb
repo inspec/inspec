@@ -67,14 +67,6 @@ An integer indicating the delay in seconds for the queue
         its('delay_seconds') { should be 0 }
     end
 
-### is\_fifo\_queue
-
-A boolean value indicate if this queue is a FIFO queue
-
-    describe aws_sqs_queue('https://sqs.ap-southeast-2.amazonaws.com/1212121/MyQueue') do
-        its('is_fifo_queue') { should be false }
-    end
-
 ### message\_retention\_period
 
 An integer indicating the maximum retention period for a message in seconds
@@ -89,6 +81,23 @@ An integer indicating the number of seconds an attempt to recieve a message will
 
     describe aws_sqs_queue('https://sqs.ap-southeast-2.amazonaws.com/1212121/MyQueue') do
         its('receive_message_wait_timeout_seconds') { should be 2 }  
+    end
+
+### is\_fifo\_queue
+
+A boolean value indicate if this queue is a FIFO queue
+
+    describe aws_sqs_queue('https://sqs.ap-southeast-2.amazonaws.com/1212121/MyQueue') do
+        its('is_fifo_queue') { should be false }
+    end
+
+### content\_based\_deduplication
+
+A boolean value indicate if content based dedcuplication is enabled or not
+
+    describe aws_sqs_queue('https://sqs.ap-southeast-2.amazonaws.com/1212121/MyQueue.fifo') do
+        its('is_fifo_queue') { should be true }
+        its('content_based_deduplication') { should be true }
     end
 
 <br>

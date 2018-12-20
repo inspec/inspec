@@ -84,6 +84,7 @@ class AwsSqsQueuePropertiesTest < Minitest::Test
     AwsSqsQueue::BackendFactory.select(AwsMSQB::FifoQueue)
     queue = AwsSqsQueue.new('https://sqs.ap-southeast-2.amazonaws.com/12121/iexist')
     assert queue.is_fifo_queue
+    assert queue.content_based_deduplication
   end  
 end
 
@@ -116,7 +117,8 @@ module AwsMSQB
         attributes: {
           "QueueArn" => "arn:aws:sqs:ap-southeast-2:519527721296:MyQueue.fifo",
           "VisibilityTimeout" => 300,
-          "FifoQueue" => true
+          "FifoQueue" => true,
+          "ContentBasedDeduplication" => true
         }
       })
     end
