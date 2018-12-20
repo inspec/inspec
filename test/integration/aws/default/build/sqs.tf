@@ -23,7 +23,7 @@ output "sqs_queue_1_url" {
 
 
 resource "aws_sqs_queue" "sqs_queue_2" {
-  name                         = "sqs_queue_2"
+  name                         = "sqs_queue_2.fifo"
   fifo_queue                   = true
   content_based_deduplication  = true  
 }

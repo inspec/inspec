@@ -1,7 +1,7 @@
 fixtures = {}
 [
-  'sqs_queue1_url',
-  'sqs_queue2_url',  
+  'sqs_queue_1_url',
+  'sqs_queue_2_url',  
 ].each do |fixture_name|
   fixtures[fixture_name] = attribute(
   fixture_name,
@@ -28,7 +28,7 @@ control 'aws_sqs_queue lookup' do
 end
 
 control "aws_sqs_queue properties" do
-  describe aws_sqs_queue(fixtures['sqs_queue1_url']) do
+  describe aws_sqs_queue(fixtures['sqs_queue_1_url']) do
     its('delay_seconds') { should be 0 }
     its('is_fifo_queue') { should be false }
     its('visibility_timeout') { should be 300 }
@@ -40,7 +40,7 @@ end
 
 
 control "aws_sqs_queue fifo properties" do
-    describe aws_sqs_queue(fixtures['sqs_queue2_url']) do
+    describe aws_sqs_queue(fixtures['sqs_queue_2_url']) do
       its('is_fifo_queue') { should be true }
       its('content_based_deduplication') { should be true }
     end  
