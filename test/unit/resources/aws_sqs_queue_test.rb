@@ -72,6 +72,18 @@ class AwsSqsQueuePropertiesTest < Minitest::Test
     AwsSqsQueue::BackendFactory.select(AwsMSQB::Hit)
     queue = AwsSqsQueue.new('https://sqs.ap-southeast-2.amazonaws.com/12121/iexist')
     assert_equal(300, queue.visibility_timeout)
+  end
+
+  def test_not_fifo_queue
+    AwsSqsQueue::BackendFactory.select(AwsMSQB::Hit)
+    queue = AwsSqsQueue.new('https://sqs.ap-southeast-2.amazonaws.com/12121/iexist')
+    refute queue.is_fifo_queue
+  end  
+
+  def test_fifo_queue
+    AwsSqsQueue::BackendFactory.select(AwsMSQB::FifoQueue)
+    queue = AwsSqsQueue.new('https://sqs.ap-southeast-2.amazonaws.com/12121/iexist')
+    assert queue.is_fifo_queue
   end  
 end
 
@@ -93,6 +105,18 @@ module AwsMSQB
         attributes: {
           "QueueArn" => "arn:aws:sqs:ap-southeast-2:519527721296:MyQueue",
           "VisibilityTimeout" => 300
+        }
+      })
+    end
+  end 
+  
+  class FifoQueue < AwsBackendBase
+    def get_queue_attributes(_criteria)
+      OpenStruct.new({
+        attributes: {
+          "QueueArn" => "arn:aws:sqs:ap-southeast-2:519527721296:MyQueue.fifo",
+          "VisibilityTimeout" => 300,
+          "FifoQueue" => true
         }
       })
     end
