@@ -1,35 +1,33 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.2.6 -->
-## [v3.2.6](https://github.com/inspec/inspec/tree/v3.2.6) (2018-12-20)
-
-#### Merged Pull Requests
-- Add note to install from OS package when possible [#3686](https://github.com/inspec/inspec/pull/3686) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.1.3 -->
-### Changes since 3.1.3 release
-
-#### Enhancements
-- Remove FreeBSD cookbook from omnibus [#3676](https://github.com/inspec/inspec/pull/3676) ([tas50](https://github.com/tas50)) <!-- 3.2.4 -->
-
-#### New Resources
-- aws_sqs_queue - new resource [#3674](https://github.com/inspec/inspec/pull/3674) ([amitsaha](https://github.com/amitsaha)) <!-- 3.2.3 -->
-
-#### Bug Fixes
-- habitat packaging: Fix inspec wrapper linking to /bin/bash instead of the bash hab package [#3671](https://github.com/inspec/inspec/pull/3671) ([teknofire](https://github.com/teknofire)) <!-- 3.2.2 -->
-- docker.containers: Ensure .labels returns an Array [#3673](https://github.com/inspec/inspec/pull/3673) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.2.1 -->
-
-#### New Features
-- Expose additional WinRM options for transport, basic auth, and SSPI  [#3669](https://github.com/inspec/inspec/pull/3669) ([frezbo](https://github.com/frezbo)) <!-- 3.2.0 -->
-
-#### Merged Pull Requests
-- Add note to install from OS package when possible [#3686](https://github.com/inspec/inspec/pull/3686) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.6 -->
-- Adjust version number for availability of aws_sqs_queue [#3685](https://github.com/inspec/inspec/pull/3685) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.5 -->
-- Rebuild Hab package. [#3670](https://github.com/inspec/inspec/pull/3670) ([jquick](https://github.com/jquick)) <!-- 3.1.4 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.2.6](https://github.com/inspec/inspec/tree/v3.2.6) (2018-12-20)
+
+#### New Resources
+- aws_sqs_queue - new resource [#3674](https://github.com/inspec/inspec/pull/3674) ([amitsaha](https://github.com/amitsaha))
+
+#### New Features
+- Expose additional WinRM options for transport, basic auth, and SSPI  [#3669](https://github.com/inspec/inspec/pull/3669) ([frezbo](https://github.com/frezbo))
+
+#### Enhancements
+- Remove FreeBSD cookbook from omnibus [#3676](https://github.com/inspec/inspec/pull/3676) ([tas50](https://github.com/tas50))
+
+#### Bug Fixes
+- docker.containers: Ensure .labels returns an Array [#3673](https://github.com/inspec/inspec/pull/3673) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- habitat packaging: Fix inspec wrapper linking to /bin/bash instead of the bash hab package [#3671](https://github.com/inspec/inspec/pull/3671) ([teknofire](https://github.com/teknofire))
+
+#### Merged Pull Requests
+- Rebuild Hab package. [#3670](https://github.com/inspec/inspec/pull/3670) ([jquick](https://github.com/jquick))
+- Adjust version number for availability of aws_sqs_queue [#3685](https://github.com/inspec/inspec/pull/3685) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add note to install from OS package when possible [#3686](https://github.com/inspec/inspec/pull/3686) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v3.1.3](https://github.com/inspec/inspec/tree/v3.1.3) (2018-12-13)
 
 #### Enhancements
@@ -43,7 +41,6 @@
 #### Merged Pull Requests
 - Pin train to 1.5.11 [#3657](https://github.com/inspec/inspec/pull/3657) ([jaredledvina](https://github.com/jaredledvina))
 - Modify URL fetcher to accept URI [#3633](https://github.com/inspec/inspec/pull/3633) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-<!-- latest_stable_release -->
 
 ## [v3.0.64](https://github.com/inspec/inspec/tree/v3.0.64) (2018-12-06)
 
