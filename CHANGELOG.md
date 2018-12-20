@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.2.0 -->
-## [v3.2.0](https://github.com/inspec/inspec/tree/v3.2.0) (2018-12-20)
+<!-- latest_release 3.2.1 -->
+## [v3.2.1](https://github.com/inspec/inspec/tree/v3.2.1) (2018-12-20)
 
-#### New Features
-- Expose additional WinRM options for transport, basic auth, and SSPI  [#3669](https://github.com/inspec/inspec/pull/3669) ([frezbo](https://github.com/frezbo))
+#### Bug Fixes
+- docker.containers: Ensure .labels returns an Array [#3673](https://github.com/inspec/inspec/pull/3673) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.1.3 -->
 ### Changes since 3.1.3 release
+
+#### Bug Fixes
+- docker.containers: Ensure .labels returns an Array [#3673](https://github.com/inspec/inspec/pull/3673) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.2.1 -->
 
 #### New Features
 - Expose additional WinRM options for transport, basic auth, and SSPI  [#3669](https://github.com/inspec/inspec/pull/3669) ([frezbo](https://github.com/frezbo)) <!-- 3.2.0 -->
