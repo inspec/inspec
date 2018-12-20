@@ -10,7 +10,7 @@ class AwsSqsQueue < Inspec.resource(1)
   supports platform: 'aws'
 
   include AwsSingularResourceMixin
-  attr_reader :arn, :visibility_timeout
+  attr_reader :arn, :is_fifo_queue, :visibility_timeout, :maximum_message_size, :message_retention_period, :delay_seconds, :receive_message_wait_timeout_seconds
 
   private
 
@@ -33,9 +33,13 @@ class AwsSqsQueue < Inspec.resource(1)
   def fetch_from_api
     aws_response = BackendFactory.create(inspec_runner).get_queue_attributes(queue_url: @url, attribute_names: ["All"]).attributes
     @exists = true
-
-    # The response has a plain hash with CamelCase plain string keys and string values    
+    # The response has a plain hash with CamelCase plain string keys and string values
+    @is_fifo_queue = (aws_response['FifoQueue'].nil?) ? false: true
     @visibility_timeout = aws_response['VisibilityTimeout'].to_i
+    @maximum_message_size = aws_response['MaximumMessageSize'].to_i
+    @message_retention_period = aws_response['MessageRetentionPeriod'].to_i
+    @delay_seconds = aws_response['DelaySeconds'].to_i
+    @receive_message_wait_timeout_seconds = aws_response['ReceiveMessageWaitTimeSeconds'].to_i
   rescue Aws::SQS::Errors::NotFound
     @exists = false
   end
