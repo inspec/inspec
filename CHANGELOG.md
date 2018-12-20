@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.1.4 -->
-## [v3.1.4](https://github.com/inspec/inspec/tree/v3.1.4) (2018-12-14)
+<!-- latest_release 3.2.0 -->
+## [v3.2.0](https://github.com/inspec/inspec/tree/v3.2.0) (2018-12-20)
 
-#### Merged Pull Requests
-- Rebuild Hab package. [#3670](https://github.com/inspec/inspec/pull/3670) ([jquick](https://github.com/jquick))
+#### New Features
+- Expose additional WinRM options for transport, basic auth, and SSPI  [#3669](https://github.com/inspec/inspec/pull/3669) ([frezbo](https://github.com/frezbo))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.1.3 -->
 ### Changes since 3.1.3 release
+
+#### New Features
+- Expose additional WinRM options for transport, basic auth, and SSPI  [#3669](https://github.com/inspec/inspec/pull/3669) ([frezbo](https://github.com/frezbo)) <!-- 3.2.0 -->
 
 #### Merged Pull Requests
 - Rebuild Hab package. [#3670](https://github.com/inspec/inspec/pull/3670) ([jquick](https://github.com/jquick)) <!-- 3.1.4 -->
