@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.2.4 -->
-## [v3.2.4](https://github.com/inspec/inspec/tree/v3.2.4) (2018-12-20)
+<!-- latest_release 3.2.5 -->
+## [v3.2.5](https://github.com/inspec/inspec/tree/v3.2.5) (2018-12-20)
 
-#### Enhancements
-- Remove FreeBSD cookbook from omnibus [#3676](https://github.com/inspec/inspec/pull/3676) ([tas50](https://github.com/tas50))
+#### Merged Pull Requests
+- Adjust version number for availability of aws_sqs_queue [#3685](https://github.com/inspec/inspec/pull/3685) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.1.3 -->
@@ -24,6 +24,7 @@
 - Expose additional WinRM options for transport, basic auth, and SSPI  [#3669](https://github.com/inspec/inspec/pull/3669) ([frezbo](https://github.com/frezbo)) <!-- 3.2.0 -->
 
 #### Merged Pull Requests
+- Adjust version number for availability of aws_sqs_queue [#3685](https://github.com/inspec/inspec/pull/3685) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.5 -->
 - Rebuild Hab package. [#3670](https://github.com/inspec/inspec/pull/3670) ([jquick](https://github.com/jquick)) <!-- 3.1.4 -->
 <!-- release_rollup -->
 
