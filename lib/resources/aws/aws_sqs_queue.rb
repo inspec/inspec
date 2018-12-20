@@ -44,7 +44,7 @@ class AwsSqsQueue < Inspec.resource(1)
     # queue 
     @is_fifo_queue = aws_response['FifoQueue'].nil? ? false: true
     @content_based_deduplication = aws_response['ContentBasedDeduplication'].nil? ? false: true
-  rescue Aws::SQS::Errors::NotFound
+  rescue Aws::SQS::Errors::NonExistentQueue => e
     @exists = false
   end
 

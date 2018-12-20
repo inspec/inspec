@@ -96,7 +96,7 @@ module AwsMSQB
 
   class Miss < AwsBackendBase
     def get_queue_attributes(criteria)
-      raise Aws::SQS::Errors::NotFound.new("No SQS queue with URL  #{criteria[:url]}", 'Nope')
+      raise Aws::SQS::Errors::NonExistentQueue.new("No SQS queue with URL  #{criteria[:url]}", 'Nope')
     end
   end
 
