@@ -14,7 +14,7 @@ module Inspec::Resources
     filter.register_column(:commands,       field: 'command')
           .register_column(:ids,            field: 'id')
           .register_column(:images,         field: 'image')
-          .register_column(:labels,         field: 'labels')
+          .register_column(:labels,         field: 'labels', style: :simple)
           .register_column(:local_volumes,  field: 'localvolumes')
           .register_column(:mounts,         field: 'mounts')
           .register_column(:names,          field: 'names')
@@ -190,21 +190,28 @@ module Inspec::Resources
       # since docker is not outputting valid json, we need to parse each row
       raw.each_line { |entry|
         # convert all keys to lower_case to work well with ruby and filter table
-        j = JSON.parse(entry).map { |k, v|
-          [k.downcase, v]
+        row = JSON.parse(entry).map { |key, value|
+          [key.downcase, value]
         }.to_h
 
         # ensure all keys are there
-        j = ensure_keys(j, labels)
+        row = ensure_keys(row, labels)
 
         # strip off any linked container names
         # Depending on how it was linked, the actual container name may come before
         # or after the link information, so we'll just look for the first name that
         # does not include a slash since that is not a valid character in a container name
-        j['names'] = j['names'].split(',').find { |c| !c.include?('/') } if j.key?('names')
+        if row['names']
+          row['names'] = row['names'].split(',').find { |c| !c.include?('/') }
+        end
 
-        output.push(j)
+        # Split labels on ',' or set to empty array
+        # Allows for `docker.containers.where { labels.include?('app=redis') }`
+        row['labels'] = row.key?('labels') ? row['labels'].split(',') : []
+
+        output.push(row)
       }
+
       output
     rescue JSON::ParserError => _e
       warn "Could not parse `docker #{subcommand}` output"

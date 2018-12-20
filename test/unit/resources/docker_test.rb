@@ -11,6 +11,7 @@ describe 'Inspec::Resources::Docker' do
     it 'check docker container parsing' do
       _(resource.containers.ids).must_equal ['3def9aa450f8bd772c3d5b07e27ec934e5f58575e955367a0aca2d93e0687536', 'd94f854370d2b02912e8fc636502bc72b74fbd567a7eba3fc6a52045bb28904e', '5a83c301f30ccd48579a74a84af6fdd0c0e0d66aacc7bb52abfa2ba2544c6c0c', '5a83c301f30ccd48579a74a84af6fdd0c0e0d66aacc7bb52abfa2ba2544c6c0c']
       _(resource.containers.names).must_equal ['sleepy_khorana', 'laughing_austin', 'heuristic_almeida', 'laughing_lamport']
+      _(resource.containers.labels).must_equal ['app=example', 'version=1.5.4']
     end
 
     it 'check docker image parsing' do
