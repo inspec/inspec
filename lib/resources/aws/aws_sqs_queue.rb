@@ -1,3 +1,5 @@
+require 'uri'
+
 class AwsSqsQueue < Inspec.resource(1)
   name 'aws_sqs_queue'
   desc 'Verifies settings for an SQS Queue'
@@ -22,19 +24,18 @@ class AwsSqsQueue < Inspec.resource(1)
       allowed_scalar_type: String,
     )
     # Validate the URL
-    # FIXME
-    #unless validated_params[:url] =~ /^arn:aws:sqs:[\w\-]+:\d{12}:[\S]+$/
-    #  raise ArgumentError, 'Malformed ARN for SQS.  Expected an ARN of the form ' \
-    #                       "'arn:aws:sqs:REGION:ACCOUNT-ID:QUEUE-NAME'"
-    #end
+    unless validated_params[:url] =~ /\A#{URI::DEFAULT_PARSER.make_regexp(%w{https})}\z/
+      raise ArgumentError, 'Malformed URL for SQS.  Expected an ARN of the form ' \
+                           "'https://sqs.ap-southeast-2.amazonaws.com/111212121/MyQeueue'"
+    end
     validated_params
   end
 
   def fetch_from_api
-    aws_response = BackendFactory.create(inspec_runner).get_queue_attributes(queue_url: @url, attribute_names: ["All"]).attributes
+    aws_response = BackendFactory.create(inspec_runner).get_queue_attributes(queue_url: @url, attribute_names: ['All']).attributes
     @exists = true
     # The response has a plain hash with CamelCase plain string keys and string values
-    @is_fifo_queue = (aws_response['FifoQueue'].nil?) ? false: true
+    @is_fifo_queue = aws_response['FifoQueue'].nil? ? false: true
     @visibility_timeout = aws_response['VisibilityTimeout'].to_i
     @maximum_message_size = aws_response['MaximumMessageSize'].to_i
     @message_retention_period = aws_response['MessageRetentionPeriod'].to_i
