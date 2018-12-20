@@ -117,6 +117,8 @@ Finished in 0.04321 seconds (files took 0.54917 seconds to load)
 
 ### Install it from source
 
+Note that installing from OS packages from [the download page](https://downloads.chef.io) is the preferred method.
+
 That requires [bundler](http://bundler.io/):
 
 ```bash
