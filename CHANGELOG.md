@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.2.2 -->
-## [v3.2.2](https://github.com/inspec/inspec/tree/v3.2.2) (2018-12-20)
+<!-- latest_release 3.2.3 -->
+## [v3.2.3](https://github.com/inspec/inspec/tree/v3.2.3) (2018-12-20)
 
-#### Bug Fixes
-- habitat packaging: Fix inspec wrapper linking to /bin/bash instead of the bash hab package [#3671](https://github.com/inspec/inspec/pull/3671) ([teknofire](https://github.com/teknofire))
+#### New Resources
+- aws_sqs_queue - new resource [#3674](https://github.com/inspec/inspec/pull/3674) ([amitsaha](https://github.com/amitsaha))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.1.3 -->
 ### Changes since 3.1.3 release
+
+#### New Resources
+- aws_sqs_queue - new resource [#3674](https://github.com/inspec/inspec/pull/3674) ([amitsaha](https://github.com/amitsaha)) <!-- 3.2.3 -->
 
 #### Bug Fixes
 - habitat packaging: Fix inspec wrapper linking to /bin/bash instead of the bash hab package [#3671](https://github.com/inspec/inspec/pull/3671) ([teknofire](https://github.com/teknofire)) <!-- 3.2.2 -->
