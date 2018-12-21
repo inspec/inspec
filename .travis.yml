@@ -11,45 +11,44 @@ bundler_args: "--without integration tools maintenance deploy"
 before_install:
 - gem update --system
 - gem --version
-- rvm @global do gem install bundler
 - bundle --version
 matrix:
   include:
-  - rvm: 2.3.6
-  - rvm: 2.4.3
-  - rvm: 2.5.1
-  - rvm: 2.4.3
+  - rvm: 2.3.8
+  - rvm: 2.4.5
+  - rvm: 2.5.3
+  - rvm: 2.4.5
     script: bundle exec rake $SUITE
     env: SUITE="test:functional"
-  - rvm: 2.4.3
+  - rvm: 2.4.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-ubuntu-1204]
-  - rvm: 2.4.3
+  - rvm: 2.4.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-ubuntu-1604]
-  - rvm: 2.4.3
+  - rvm: 2.4.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-centos-68]
-  - rvm: 2.4.3
+  - rvm: 2.4.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-centos-7]
-  - rvm: 2.4.3
+  - rvm: 2.4.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-debian-8]
-  - rvm: 2.4.3
+  - rvm: 2.4.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-oracle-72]
-  - rvm: 2.4.3
+  - rvm: 2.4.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-fedora-24]
-  - rvm: 2.4.3
+  - rvm: 2.4.5
     sudo: false
     cache:
       apt: true

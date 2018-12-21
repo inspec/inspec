@@ -39,7 +39,7 @@ module InstallerTestHelpers
 
     @installer = Inspec::Plugin::V2::Installer.instance
     reset_globals
-    WebMock.disable_net_connect!(allow: 'api.rubygems.org')
+    WebMock.disable_net_connect!(allow: %r{(api\.)?rubygems\.org/.*})
   end
 
   def teardown
