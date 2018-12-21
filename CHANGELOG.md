@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 3.2.7 -->
+## [v3.2.7](https://github.com/inspec/inspec/tree/v3.2.7) (2018-12-21)
+
+#### Bug Fixes
+- Update Ruby versions used for testing; fix Travis CI issues [#3678](https://github.com/inspec/inspec/pull/3678) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.2.6 -->
+### Changes since 3.2.6 release
+
+#### Bug Fixes
+- Update Ruby versions used for testing; fix Travis CI issues [#3678](https://github.com/inspec/inspec/pull/3678) ([tas50](https://github.com/tas50)) <!-- 3.2.7 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
