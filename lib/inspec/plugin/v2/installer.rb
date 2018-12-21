@@ -8,6 +8,7 @@ require 'fileutils'
 require 'rubygems/package'
 require 'rubygems/name_tuple'
 require 'rubygems/uninstaller'
+require 'rubygems/remote_fetcher'
 
 require 'inspec/plugin/v2/filter'
 
