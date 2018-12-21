@@ -2,7 +2,7 @@ require 'minitest'
 require 'minitest/spec'
 require 'stringio'
 
-# require 'inspec/deprecation'
+require 'utils/deprecation'
 
 describe 'The global deprecation method' do
   describe 'when you load the deprecation system' do
@@ -11,7 +11,7 @@ describe 'The global deprecation method' do
     end
     it 'must take two required and one optional arg' do
       # See http://ruby-doc.org/core-2.5.3/Method.html#method-i-arity
-      Inspec.class.method(:deprecate).arity.must_equal -3
+      Inspec.method(:deprecate).arity.must_equal -3
     end
   end
 end
