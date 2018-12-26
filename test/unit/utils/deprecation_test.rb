@@ -1,9 +1,9 @@
 require 'minitest'
 require 'minitest/spec'
 require 'stringio'
+require 'byebug'
 
 require 'utils/deprecation'
-
 
 #===========================================================================#
 #                           Mixins and Methods
@@ -24,12 +24,6 @@ end
 #                            Config File
 #===========================================================================#
 describe 'The deprecation config file object' do
-  describe 'when finding the file' do
-    describe 'when you load the default file' do
-    end
-    describe 'when you load from a specified io' do
-    end
-  end
 
   #---------------------------------------------------------------------------#
   #                           Config File Validation
@@ -98,7 +92,7 @@ describe 'The deprecation config file object' do
     describe 'when recognized actions are presented' do
       let(:cfg_fixture) { :basic }
       it 'should see three groups' do
-        config_file.groups.count.must_equal 3
+        config_file.groups.count.must_equal 4
       end
     end
 
@@ -110,17 +104,42 @@ end
 #===========================================================================#
 
 describe 'The Deprecator object' do
+  let(:cfg_io) { DeprecationTestHelper::Config.get_io_for_fixture(cfg_fixture) }
+
   describe 'initializing' do
+    let(:cfg_fixture) { :basic }
+
     describe 'when it has no args' do
+      it 'should create an object with basic ' do
+        dpcr = Inspec::Deprecation::Deprecator.new
+        dpcr.must_respond_to(:handle_deprecation)
+        # more?
+      end
     end
+
     describe 'when it has an io arg' do
+      it 'should support certain methods' do
+        dpcr = Inspec::Deprecation::Deprecator.new(config_io: cfg_io)
+        dpcr.groups.count.must_equal 4
+      end
     end
   end
 
   describe 'when listing groups' do
+    let(:dpcr) { Inspec::Deprecation::Deprecator.new(config_io: cfg_io) }
+
     describe 'when there are no groups' do
+      let(:cfg_fixture) { :empty }
+      it 'should report empty groups' do
+        dpcr.groups.count.must_equal 0
+      end
     end
+
     describe 'when there are some groups' do
+      let(:cfg_fixture) { :basic }
+      it 'should report four groups' do
+        dpcr.groups.count.must_equal 4
+      end
     end
   end
 
@@ -134,26 +153,46 @@ end
 #===========================================================================#
 # These are arguably functional tests
 describe 'Using the deprecation facility' do
-  describe 'when we check the output stream' do
-    describe 'when the output stream is unspecified' do
-    end
-    describe 'when the output stream is stdout' do
-    end
-    describe 'when the output stream is stderr' do
-    end
-  end
+  let(:dpcr) { Inspec::Deprecation::Deprecator.new(config_io: cfg_io) }
+  let(:cfg_io) { DeprecationTestHelper::Config.get_io_for_fixture(cfg_fixture) }
+  let(:cfg_fixture) { :basic }
 
-  describe 'when the global deprecate method is called' do
+  # Note that when issuing a deprecation message, the default Inspec::Log device is used.
+  # By default, that is STDOUT.
+
+  describe 'when the handle_deprecation method is called' do
     describe 'when the group is unrecognized' do
+      it 'should emit a warning including info about the ignored group' do
+        stdout, stderr = capture_io { dpcr.handle_deprecation :some_unknown_group, 'Some deprecation message' }
+        stderr.must_be_empty
+        stdout.must_include 'WARN' # Should default to warn
+        stdout.must_include 'Deprecation:' # Should include a notice that this is a deprecation
+        stdout.must_include 'Some deprecation message' # Include the actual message
+        stdout.must_include "Additionally, the deprecation message is in an unknown group 'some_unknown_group'." # Include a notice about the group
+      end
     end
+
     describe 'when the action is to ignore' do
+      it 'should be silent' do
+        stdout, stderr = capture_io { dpcr.handle_deprecation :an_ignored_group, 'Some deprecation message' }
+        stdout.must_be_empty
+        stderr.must_be_empty
+      end
     end
+
     describe 'when the action is to warn' do
+      it 'should warn' do
+        stdout, stderr = capture_io { dpcr.handle_deprecation :a_group_that_will_warn, 'Some deprecation message' }
+        stderr.must_be_empty
+        stdout.must_include 'WARN' # Should default to warn
+        stdout.must_include 'Deprecation:' # Should include a notice that this is a deprecation
+        stdout.must_include 'Some deprecation message' # Include the actual message
+        stdout.wont_include "Additionally, the deprecation message is in an unknown group" # Should be a recognized group
+      end
     end
-    describe 'when the action is to fail the control' do
-    end
-    describe 'when the action is to abort the run' do
-    end
+
+    # Fail action and exit action will be tested under functional testing
+    # These will be tested as functional controls
   end
 end
 
@@ -165,15 +204,17 @@ module DeprecationTestHelper
       {
         "file_version": "1.0.0", "unknown_group_action": "ignore",
         "groups": {
-          "dinosaurs" : { "action": "warn", "suffix": "Did you know chickens are dinosaurs?" },
-          "jello_molds" : { "action": "exit", "exit_status": 8, "prefix": "No thanks!" },
-          "bell_bottoms" : { "action": "ignore" }
+          "a_group_that_will_warn" : { "action": "warn", "suffix": "Did you know chickens are dinosaurs?" },
+          "a_group_that_will_exit" : { "action": "exit", "exit_status": 8, "prefix": "No thanks!" },
+          "an_ignored_group" : { "action": "ignore" },
+          "a_group_that_will_fail" : { "action": "fail_control" }
         }
       }
       EOC0
       missing_file_version: '{ "unknown_group_action": "ignore", "groups": {} }',
       bad_file_version: '{ "file_version": "99.99.99", "unknown_group_action": "ignore", "groups": {} }',
       groups_not_hash: '{ "file_version": "1.0.0", "groups": [] }',
+      empty: '{ "file_version": "1.0.0", "groups": {} }',
       bad_group_action: '{ "file_version": "1.0.0", "groups": { "methane_pockets" : { "action": "explode" } } }',
       bad_group_field: '{ "file_version": "1.0.0", "groups": { "pansporia" : { "martian": "yes" } } }',
     }
