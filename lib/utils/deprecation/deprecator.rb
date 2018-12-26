@@ -5,16 +5,15 @@ require 'inspec/log'
 module Inspec
   module Deprecation
     class Deprecator
-
       attr_reader :config, :groups
 
       # This is used only in functional testing
-      def self.set_class_test_cfg_io(io)
-        @@test_cfg_io = io
+      def self.class_test_cfg_io(io)
+        @@test_cfg_io = io # rubocop: disable Style/ClassVars
       end
 
       def initialize(opts = {})
-        @@test_cfg_io ||= nil
+        @@test_cfg_io ||= nil # rubocop: disable Style/ClassVars
         @config = Inspec::Deprecation::ConfigFile.new(opts[:config_io] || @@test_cfg_io)
         @groups = @config.groups
       end
@@ -32,7 +31,7 @@ module Inspec
       private
 
       def annotate_stack_information(opts)
-        stack = caller_locations(1,25)
+        stack = caller_locations(1, 25)
 
         # Attempt to give a meaningful stack location of the place
         # where the deprecated functionality was used.  This is likely
@@ -54,14 +53,14 @@ module Inspec
         prefix += ' ' unless prefix.empty?
         suffix = ' ' + suffix unless suffix.empty?
 
-        suffix += (' (used at ' + opts[:used_at_stack_frame].path+ ':' + opts[:used_at_stack_frame].lineno.to_s + ')' ) if opts.key?(:used_at_stack_frame)
+        suffix += (' (used at ' + opts[:used_at_stack_frame].path+ ':' + opts[:used_at_stack_frame].lineno.to_s + ')') if opts.key?(:used_at_stack_frame)
 
         'DEPRECATION: ' + prefix + message + suffix
       end
 
       def called_from_control?
         # Heuristics for determining if the deprecation is coming from within a control
-        stack = caller_locations(10,45)
+        stack = caller_locations(10, 45)
 
         # Within a control block, that is actually an RSpec:ExampleGroup
         stack.each do |frame|
@@ -75,7 +74,7 @@ module Inspec
         # Inspec::Log.debug("Ignoring deprecation message from #{opts[:caller][:path]}:#{opts[:caller][:lineno]}" )
       end
 
-      def handle_log_action(message, level, group)
+      def handle_log_action(message, level, _group)
         case level
         when :warn
           Inspec::Log.warn message
@@ -92,10 +91,9 @@ module Inspec
         handle_log_action(message, :error, group)
       end
 
-
       def handle_fail_control_action(message, group)
         if called_from_control?
-          raise Inspec::Exceptions::ResourceFailed.new(message)
+          raise Inspec::Exceptions::ResourceFailed, message
         else
           handle_warn_action(message, group)
         end
@@ -106,7 +104,6 @@ module Inspec
         status = (group ? group[:exit_status] : :fatal_deprecation) || :fatal_deprecation
         Inspec::UI.new.exit(status)
       end
-
     end
   end
 end

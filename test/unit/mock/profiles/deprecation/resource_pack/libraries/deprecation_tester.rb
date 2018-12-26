@@ -19,7 +19,7 @@ class DeprecationTester < Inspec.resource(1)
   EOC
 
   def fail_me
-    Inspec::Deprecation::Deprecator.set_class_test_cfg_io(StringIO.new(DEPRECATION_CFG))
+    Inspec::Deprecation::Deprecator.class_test_cfg_io(StringIO.new(DEPRECATION_CFG))
 
     #deprecate(:a_group_that_will_fail, 'This should fail')
     Inspec.deprecate(:a_group_that_will_fail, 'This should fail')
@@ -27,7 +27,7 @@ class DeprecationTester < Inspec.resource(1)
   end
 
   def exit_me_default_code
-    Inspec::Deprecation::Deprecator.set_class_test_cfg_io(StringIO.new(DEPRECATION_CFG))
+    Inspec::Deprecation::Deprecator.class_test_cfg_io(StringIO.new(DEPRECATION_CFG))
 
     #deprecate(:a_group_that_will_exit, 'This should exit')
     Inspec.deprecate(:a_group_that_will_exit, 'This should exit')
@@ -35,7 +35,7 @@ class DeprecationTester < Inspec.resource(1)
   end
 
   def exit_me_explicit_code
-    Inspec::Deprecation::Deprecator.set_class_test_cfg_io(StringIO.new(DEPRECATION_CFG))
+    Inspec::Deprecation::Deprecator.class_test_cfg_io(StringIO.new(DEPRECATION_CFG))
 
     #deprecate(:a_group_that_will_exit_with_a_code, 'This should exit')
     Inspec.deprecate(:a_group_that_will_exit_with_a_code, 'This should exit')
@@ -43,7 +43,7 @@ class DeprecationTester < Inspec.resource(1)
   end
 
   def ignore_me
-    Inspec::Deprecation::Deprecator.set_class_test_cfg_io(StringIO.new(DEPRECATION_CFG))
+    Inspec::Deprecation::Deprecator.class_test_cfg_io(StringIO.new(DEPRECATION_CFG))
 
     #deprecate(:an_ignored_group, 'This should be ignored')
     Inspec.deprecate(:an_ignored_group, 'This should be ignored')
@@ -51,7 +51,7 @@ class DeprecationTester < Inspec.resource(1)
   end
 
   def warn_me
-    Inspec::Deprecation::Deprecator.set_class_test_cfg_io(StringIO.new(DEPRECATION_CFG))
+    Inspec::Deprecation::Deprecator.class_test_cfg_io(StringIO.new(DEPRECATION_CFG))
 
     #deprecate(:a_group_that_will_warn, 'This should warn')
     Inspec.deprecate(:a_group_that_will_warn, 'This should warn')
