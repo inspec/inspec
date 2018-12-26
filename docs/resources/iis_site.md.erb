@@ -28,6 +28,7 @@ An `iis_site` resource block declares details about the named site:
       it { should be_running }
       it { should have_app_pool('app_pool_name') }
       it { should have_binding('binding_details') }
+      it { should have_binding_with_cert_hash('binding_details') }
       it { should have_path('path_to_site') }
     end
 
@@ -45,6 +46,7 @@ For example:
       it { should be_running }
       it { should have_app_pool('DefaultAppPool') }
       it { should have_binding('https :443:www.contoso.com sslFlags=0') }
+      it { should have_binding_with_cert_hash('https :443:www.contoso.com sslFlags=0 certificateHash=E024B9723C6EBCF17E933466F2B34D008B9334FB') }
       it { should have_binding('net.pipe *') }
       it { should have_path('C:\\inetpub\\wwwroot') }
     end

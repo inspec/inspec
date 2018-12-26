@@ -8,6 +8,7 @@
 #   it{ should be_in_app_pool('Default App Pool') }
 #   it{ should have_path('C:\\inetpub\wwwroot\\DefaultWebSite') }
 #   it{ should have_binding('https :443:www.contoso.com sslFlags=0') }
+#   it{ should have_binding_with_cert_hash('https :443:www.contoso.com sslFlags=0 certificateHash=E024B9723C6EBCF17E933466F2B34D008B9334FB') }
 #   it{ should have_binding('net.pipe *') }
 # end
 #
@@ -24,6 +25,7 @@ module Inspec::Resources
         it { should be_running }
         it { should have_app_pool('DefaultAppPool') }
         it { should have_binding('https :443:www.contoso.com sslFlags=0') }
+        it { should have_binding_with_cert_hash('https :443:www.contoso.com sslFlags=0 certificateHash=E024B9723C6EBCF17E933466F2B34D008B9334FB') }
         it { should have_binding('net.pipe *') }
         it { should have_path('C:\\inetpub\\wwwroot') }
       end
@@ -45,6 +47,10 @@ module Inspec::Resources
 
     def bindings
       iis_site.nil? ? nil : iis_site[:bindings]
+    end
+
+    def bindings_with_cert_hash
+      iis_site.nil? ? nil : iis_site[:bindings_with_cert_hash]
     end
 
     def state
@@ -73,6 +79,10 @@ module Inspec::Resources
 
     def has_binding?(binding)
       iis_site.nil? ? false : (iis_site[:bindings].include? binding)
+    end
+
+    def has_binding_with_cert_hash?(binding)
+      iis_site.nil? ? false : (iis_site[:bindings_with_cert_hash].include? binding)
     end
 
     def to_s
@@ -107,12 +117,17 @@ module Inspec::Resources
         "#{k['protocol']} #{k['bindingInformation']}#{k['protocol'] == 'https' ? " sslFlags=#{k['sslFlags']}" : ''}"
       }
 
+      bindings_array_with_cert_hash = site['bindings']['Collection'].map { |k|
+        "#{k['protocol']} #{k['bindingInformation']}#{k['protocol'] == 'https' ? " sslFlags=#{k['sslFlags']} certificateHash=#{k['certificateHash']}" : ''}"
+      }
+
       # map our values to a hash table
       info = {
         name: site['name'],
         state: site['state'],
         path: site['physicalPath'],
         bindings: bindings_array,
+        bindings_with_cert_hash: bindings_array_with_cert_hash,
         app_pool: site['applicationPool'],
       }
 
