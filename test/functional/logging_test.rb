@@ -65,8 +65,8 @@ describe 'Deprecation Facility Behavior' do
       let(:control_flag) { '--controls deprecate_exit_mode_implicit' }
 
       it "should result in an exit with a special code" do
-        # 4 is the FATAL_DEPRECATION value from Inspec::UI
-        run_result.exit_status.must_equal 4
+        # 3 is the FATAL_DEPRECATION value from Inspec::UI
+        run_result.exit_status.must_equal 3
 
         # Exactly one error should be output
         stderr_lines = run_result.stderr.split("\n")

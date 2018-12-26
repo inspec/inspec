@@ -22,8 +22,6 @@ module Inspec
 
       VALID_GROUP_FIELDS = [ 'action', 'suffix', 'prefix', 'exit_status'].freeze
 
-      DEFAULT_HARD_EXIT_STATUS = 4
-
       attr_reader :groups, :unknown_group_action
 
       def initialize(io = nil)
@@ -102,7 +100,7 @@ module Inspec
         entry.suffix = opts['suffix']
         entry.prefix = opts['prefix']
         entry.occurences = []
-        entry.exit_status = (opts['exit_status'] || DEFAULT_HARD_EXIT_STATUS).to_i
+        entry.exit_status = opts['exit_status']
 
         groups[name.to_sym] = entry
       end
