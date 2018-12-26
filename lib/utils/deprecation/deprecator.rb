@@ -14,6 +14,7 @@ module Inspec
       end
 
       def initialize(opts = {})
+        @@test_cfg_io ||= nil
         @config = Inspec::Deprecation::ConfigFile.new(opts[:config_io] || @@test_cfg_io)
         @groups = @config.groups
       end

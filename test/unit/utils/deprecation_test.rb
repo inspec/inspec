@@ -148,54 +148,6 @@ describe 'The Deprecator object' do
   # TODO - anything else here?
 end
 
-#===========================================================================#
-#                        Using Deprecation
-#===========================================================================#
-# These are arguably functional tests
-describe 'Using the deprecation facility' do
-  let(:dpcr) { Inspec::Deprecation::Deprecator.new(config_io: cfg_io) }
-  let(:cfg_io) { DeprecationTestHelper::Config.get_io_for_fixture(cfg_fixture) }
-  let(:cfg_fixture) { :basic }
-
-  # Note that when issuing a deprecation message, the default Inspec::Log device is used.
-  # By default, that is STDOUT.
-
-  describe 'when the handle_deprecation method is called' do
-    describe 'when the group is unrecognized' do
-      it 'should emit a warning including info about the ignored group' do
-        stdout, stderr = capture_io { dpcr.handle_deprecation :some_unknown_group, 'Some deprecation message' }
-        stderr.must_be_empty
-        stdout.must_include 'WARN' # Should default to warn
-        stdout.must_include 'Deprecation:' # Should include a notice that this is a deprecation
-        stdout.must_include 'Some deprecation message' # Include the actual message
-        stdout.must_include "Additionally, the deprecation message is in an unknown group 'some_unknown_group'." # Include a notice about the group
-      end
-    end
-
-    describe 'when the action is to ignore' do
-      it 'should be silent' do
-        stdout, stderr = capture_io { dpcr.handle_deprecation :an_ignored_group, 'Some deprecation message' }
-        stdout.must_be_empty
-        stderr.must_be_empty
-      end
-    end
-
-    describe 'when the action is to warn' do
-      it 'should warn' do
-        stdout, stderr = capture_io { dpcr.handle_deprecation :a_group_that_will_warn, 'Some deprecation message' }
-        stderr.must_be_empty
-        stdout.must_include 'WARN' # Should default to warn
-        stdout.must_include 'Deprecation:' # Should include a notice that this is a deprecation
-        stdout.must_include 'Some deprecation message' # Include the actual message
-        stdout.wont_include "Additionally, the deprecation message is in an unknown group" # Should be a recognized group
-      end
-    end
-
-    # Fail action and exit action will be tested under functional testing
-    # These will be tested as functional controls
-  end
-end
-
 
 module DeprecationTestHelper
   class Config
