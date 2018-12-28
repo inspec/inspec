@@ -354,12 +354,14 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     end
 
     it 'can run supermarket profiles from inspec.yml' do
-      out = inspec("exec #{File.join(profile_path, 'supermarket-dep')} --no-create-lockfile")
-      if is_windows?
-        out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m1 successful control\e[0m, \e[38;5;9m1 control failure\e[0m, 0 controls skipped\n"
-      else
-        out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, 0 controls skipped\n"
-      end
+      run_result = run_inspec_process("exec #{File.join(profile_path, 'supermarket-dep')}", json: true)
+
+      # The test only runs controls from the 2nd profile
+      json_result = run_result.payload.json["profiles"][1]["controls"]
+      json_result[0]["results"][0]["status"].must_equal "passed"
+
+      # Expect one control failure on windows, apparently
+      json_result[1]["results"][0]["status"].must_equal (is_windows? ? 'failed' : 'passed')
     end
   end
 
