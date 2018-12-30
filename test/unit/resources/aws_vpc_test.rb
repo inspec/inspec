@@ -32,6 +32,14 @@ class AwsVpcConstructorTest < Minitest::Test
     AwsVpc.new(vpc_id: 'vpc-abcd123454321dcba')
   end
 
+  def test_accepts_vpc_name_as_hash
+    AwsVpc.new(vpc_name: 'my-vpc1')
+  end
+
+  def test_accepts_duplicate_vpc_name_as_hash
+    AwsVpc.new(vpc_name: 'my-vpc2')
+  end
+
   def test_rejects_unrecognized_params
     assert_raises(ArgumentError) { AwsVpc.new(shoe_size: 9) }
   end
@@ -61,6 +69,14 @@ class AwsVpcRecallTest < Minitest::Test
 
   def test_search_hit_via_hash_works
     assert AwsVpc.new(vpc_id: 'vpc-12344321').exists?
+  end
+
+  def test_search_hit_via_vpc_name_works
+    assert AwsVpc.new(vpc_name: 'my-vpc1').exists?
+  end
+
+  def test_rejects_duplicate_vpc_name
+    assert_raises(ArgumentError) { AwsVpc.new(vpc_name: 'my-vpc2').exists? }
   end
 
   def test_search_miss_is_not_an_exception_eight_sign
@@ -106,6 +122,14 @@ class AwsVpcPropertiesTest < Minitest::Test
     assert_equal('default', AwsVpc.new('vpc-12344321').instance_tenancy)
     assert_nil(AwsVpc.new('vpc-00000000').instance_tenancy)
   end
+
+  def test_properties_for_vpc_name
+    assert_equal('10.0.0.0/16', AwsVpc.new(vpc_name: 'my-vpc1').cidr_block)
+    assert_equal('vpc-aaaabbbb', AwsVpc.new(vpc_name: 'my-vpc1').vpc_id)
+    assert_equal('dopt-aaaabbbb', AwsVpc.new(vpc_name: 'my-vpc1').dhcp_options_id)
+    assert_equal('available', AwsVpc.new(vpc_name: 'my-vpc1').state)
+    assert_equal('default', AwsVpc.new(vpc_name: 'my-vpc1').instance_tenancy)
+  end
 end
 
 
@@ -147,7 +171,8 @@ module MAVSB
           state: 'available',
           vpc_id: 'vpc-aaaabbbb',
           instance_tenancy: 'default',
-          is_default: true
+          is_default: true,
+          tag_name: 'my-vpc1',
         }),
         OpenStruct.new({
           cidr_block: '10.1.0.0/16',
@@ -155,7 +180,17 @@ module MAVSB
           state: 'available',
           vpc_id: 'vpc-12344321',
           instance_tenancy: 'default',
-          is_default: false
+          is_default: false,
+          tag_name: 'my-vpc2',
+        }),
+        OpenStruct.new({
+          cidr_block: '10.2.0.0/16',
+          dhcp_options_id: 'dopt-23455432',
+          state: 'available',
+          vpc_id: 'vpc-23455432',
+          instance_tenancy: 'default',
+          is_default: false,
+          tag_name: 'my-vpc2',
         }),
       ]
 
@@ -163,6 +198,8 @@ module MAVSB
         query[:filters].all? do |filter|
           if filter[:name].eql? "isDefault"
             filter[:name] = "is_default"
+          elsif filter[:name].eql? "tag:Name"
+            filter[:name] = "tag_name"
           end
           filter[:values].include?(vpc[filter[:name].tr('-','_')].to_s)
         end
