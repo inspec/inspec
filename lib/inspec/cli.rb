@@ -373,9 +373,20 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   end
 end
 
-begin
-  # Handle help commands
-  # This allows you to use any of the normal help commands after the normal args.
+#=====================================================================#
+#                        Pre-Flight Code
+#=====================================================================#
+
+#---------------------------------------------------------------------#
+# EULA acceptance
+#---------------------------------------------------------------------#
+require 'license-acceptance/acceptor'
+LicenseAcceptance::Acceptor.check_and_persist('inspec', Inspec::VERSION)
+
+#---------------------------------------------------------------------#
+# Adjustments for help handling
+#---------------------------------------------------------------------#
+# This allows you to use any of the normal help commands after the normal args.
   help_commands = ['-h', '--help', 'help']
   (help_commands & ARGV).each do |cmd|
     # move the help argument to one place behind the end for Thor to digest
@@ -385,6 +396,11 @@ begin
     end
   end
 
+
+#---------------------------------------------------------------------#
+# Plugin Loading
+#---------------------------------------------------------------------#
+begin
   # Load v2 plugins.  Manually check for plugin disablement.
   omit_core = ARGV.delete('--disable-core-plugins')
   omit_user = ARGV.delete('--disable-user-plugins')
