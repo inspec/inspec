@@ -62,7 +62,7 @@ module InspecPlugins
 
         plugin_type = plugin_type[1]
         unless plugin_type == 'inspec'
-          ui.error('Sorry, only inspec plugins are supported at this time: train support is not implemented yet.')
+          ui.error('Sorry, only InSpec (inspec-) plugins are supported at this time: Train (train-) support is not implemented yet.')
           ui.exit(:usage_error)
         end
         plugin_type
@@ -157,7 +157,7 @@ module InspecPlugins
           type = parts.first.to_sym
           name = parts.last
           if hooks_by_type.key?(type)
-            ui.error 'Inspec plugin generate can currently only generate one hook of each type'
+            ui.error 'The InSpec plugin generator can currently only generate one hook of each type'
             ui.exit(:usage_error)
           end
           hooks_by_type[type] = name

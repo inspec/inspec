@@ -4,7 +4,7 @@
 # any utilities to make testing a plugin easier.
 
 # InSpec core provides a number of such libraries and facilities, in the file
-# lib/pligins/shared/core_plugin_test_helper.rb . So, one job in this file is
+# lib/plugins/shared/core_plugin_test_helper.rb . So, one job in this file is
 # to locate and load that file.
 require 'inspec/../plugins/shared/core_plugin_test_helper'
 
