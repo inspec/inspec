@@ -58,6 +58,8 @@ class AwsVpc < Inspec.resource(1)
     @exists = !vpc.empty?
     return unless @exists
 
+    raise ArgumentError, "#{to_s} matched multiple VPCs" if resp.vpcs.length > 1
+
     @cidr_block = vpc[:cidr_block]
     @dhcp_options_id = vpc[:dhcp_options_id]
     @instance_tenancy = vpc[:instance_tenancy]
