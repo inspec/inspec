@@ -1,0 +1,11 @@
+name: empty-wrapper
+title: Empty Wrapper Profile
+maintainer: InSpec Authors
+copyright: InSpec Authors
+copyright_email: support@chef.io
+license: Apache-2.0
+summary: An InSpec Profile that is only consuming dependencies
+version: 0.2.0
+depends:
+  - name: simple-profile
+    path: ../simple-profile
