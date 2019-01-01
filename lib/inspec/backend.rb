@@ -41,16 +41,16 @@ module Inspec
     # @param [Hash] config for the transport backend
     # @return [TransportBackend] enriched transport instance
     def self.create(config) # rubocop:disable Metrics/AbcSize
-      conf = Train.target_config(config)
-      name = Train.validate_backend(conf)
-      transport = Train.create(name, conf)
+      train_credentials = Train.unpack_target_creds(config)
+      transport_name = Train.validate_backend(train_credentials)
+      transport = Train.create(transport_name, train_credentials)
       if transport.nil?
-        raise "Can't find transport backend '#{name}'."
+        raise "Can't find transport backend '#{transport_name}'."
       end
 
       connection = transport.connection
       if connection.nil?
-        raise "Can't connect to transport backend '#{name}'."
+        raise "Can't connect to transport backend '#{transport_name}'."
       end
 
       # Set caching settings. We always want to enable caching for

@@ -17,7 +17,6 @@ module Inspec
       @defaults = Defaults.for_command(command_name)
 
       @cli_opts = cli_opts.dup
-
       cfg_io = resolve_cfg_io(@cli_opts, cfg_io)
       @cfg_file_contents = read_cfg_file_io(cfg_io)
 
@@ -27,9 +26,7 @@ module Inspec
     end
 
     def target_uri
-      # Default local:///
-      # May be on CLI as -t or --target
-      # May be in config file as cli_opts/target_uri
+      @final_options[:target]
     end
 
     def fetch_credentials(transport_name, credset_name, options = {})
@@ -83,17 +80,28 @@ module Inspec
     end
 
     def file_version
-      @cfg_file_contents[:version] || :legacy
+      @cfg_file_contents['version'] || :legacy
+    end
+
+    def legacy_file?
+      file_version == :legacy
     end
 
     def config_file_cli_options
-      if file_version == :legacy
+      if legacy_file?
         # Assume everything in the file is a CLI option
         @cfg_file_contents
       else
-        @cfg_file_contents[:cli_options] || {}
+        @cfg_file_contents['cli_options'] || {}
       end
     end
+
+    def config_file_reporter_options
+      # This is assumed to be top-level in both legacy and 1.1.
+      # Technically, you could sneak it in the 1.1 cli opts area.
+      @cfg_file_contents.key?('reporter') ? { 'reporter': @cfg_file_contents['reporter'] } : {}
+    end
+
 
     #-----------------------------------------------------------------------#
     #                            Validation
@@ -163,6 +171,8 @@ module Inspec
 
       # Middle precedence: merge in any CLI options defined from the config file
       options.merge!(config_file_cli_options)
+      # Reporter options may be defined top-level.
+      options.merge!(config_file_reporter_options)
       # options.merge!(compliance_credentials)  # TODO: handle compliance server option reading
 
       # Highest precedence: merge in any options defined via the CLI
@@ -255,24 +265,24 @@ module Inspec
       #   InspecPlugins::Compliance::API.login(compliance_creds)
       # end
     end
-  end
 
-  class Defaults
-    DEFAULTS = {
-      exec: {
-        'reporter' => ['cli'],
-        'show_progress' => false,
-        'color' => true,
-        'create_lockfile' => true,
-        'backend_cache' => true,
-      },
-      shell: {
-        'reporter' => ['cli'],
-      },
-    }.freeze
+    class Defaults
+      DEFAULTS = {
+        exec: {
+          'reporter' => ['cli'],
+          'show_progress' => false,
+          'color' => true,
+          'create_lockfile' => true,
+          'backend_cache' => true,
+        },
+        shell: {
+          'reporter' => ['cli'],
+        },
+      }.freeze
 
-    def self.for_command(command_name)
-      DEFAULTS[command_name] || {}
+      def self.for_command(command_name)
+        DEFAULTS[command_name] || {}
+      end
     end
   end
 

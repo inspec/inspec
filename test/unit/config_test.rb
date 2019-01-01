@@ -32,26 +32,29 @@ describe 'Inspec::Config' do
   describe 'when validating a file' do
     let(:cfg) { Inspec::Config.new({}, cfg_io) }
     let(:cfg_io) { StringIO.new(ConfigTestHelper.fixture(fixture_name)) }
+    let(:seen_fields) { cfg.final_options.keys.sort }
 
     describe 'when the file is a legacy file' do
       let(:fixture_name) { 'legacy' }
       it 'should read the file successfully' do
-        # 2 config entries + 'type' flag
-        cfg.final_options.count.must_equal 2 + 1
+        expected = ['color', 'reporter', 'target_id', 'type'].sort
+        seen_fields.must_equal expected
       end
     end
 
     describe 'when the file is a valid v1.1 file' do
       let(:fixture_name) { 'basic' }
       it 'should read the file successfully' do
-        cfg.final_options.count.must_equal 4 + 1
+        expected = ['create_lockfile', 'reporter', 'type'].sort
+        seen_fields.must_equal expected
       end
     end
 
     describe 'when the file is minimal' do
       let(:fixture_name) { 'minimal' }
       it 'should read the file successfully' do
-        cfg.final_options.count.must_equal 1 + 1
+        expected = ['type'].sort
+        seen_fields.must_equal expected
       end
     end
 
@@ -92,13 +95,13 @@ describe 'Inspec::Config' do
   describe 'reading defaults' do
     let(:cfg) { Inspec::Config.new({}, nil, command) }
     let(:final_options) { cfg.final_options }
+    let(:seen_fields) { cfg.final_options.keys.sort }
 
     describe 'when the exec command is used' do
       let(:command) { :exec }
       it 'should have the correct defaults' do
-        # final_options adds an entry for 'type'
-        final_options.keys.count.must_equal 6+1
-        final_options.keys.all? { |option_name| option_name.is_a? String }.must_equal true
+        expected = ['color', 'create_lockfile', 'backend_cache', 'reporter', 'show_progress', 'type'].sort
+        seen_fields.must_equal expected
         final_options['reporter'].must_be_kind_of Hash
         final_options['reporter'].count.must_equal 1
         final_options['reporter'].keys.must_include 'cli'
@@ -112,8 +115,8 @@ describe 'Inspec::Config' do
     describe 'when the shell command is used' do
       let(:command) { :shell }
       it 'should have the correct defaults' do
-        final_options.keys.count.must_equal 1+2
-        final_options.keys.all? { |option_name| option_name.is_a? String }.must_equal true
+        expected = ['reporter', 'type'].sort
+        seen_fields.must_equal expected
         final_options['reporter'].must_be_kind_of Hash
         final_options['reporter'].count.must_equal 1
         final_options['reporter'].keys.must_include 'cli'
@@ -133,6 +136,7 @@ describe 'Inspec::Config' do
   describe 'reading CLI options' do
     let(:cfg) { Inspec::Config.new(cli_opts) }
     let(:final_options) { cfg.final_options }
+    let(:seen_fields) { cfg.final_options.keys.sort }
 
     describe 'when the CLI opts are present' do
       let(:cli_opts) do
@@ -144,7 +148,8 @@ describe 'Inspec::Config' do
       end
 
       it 'should transparently round-trip the options' do
-        final_options.keys.count.must_equal 3 + 2
+        expected = ['color', 'array_value', 'string_key', 'type'].sort
+        seen_fields.must_equal expected
         final_options[:color].must_equal true
         final_options['color'].must_equal true
         final_options['string_key'].must_equal 'string_value'
@@ -161,10 +166,28 @@ describe 'Inspec::Config' do
   describe 'reading CLI options stored in the config file' do
     let(:cfg) { Inspec::Config.new({}, cfg_io) }
     let(:final_options) { cfg.final_options }
+    let(:cfg_io) { StringIO.new(ConfigTestHelper.fixture(fixture_name)) }
+    let(:seen_fields) { cfg.final_options.keys.sort }
 
+    # These two test cases have the same options but in different file versions.
     describe 'when the CLI opts are present in a 1.1 file' do
+      let(:fixture_name) { :like_legacy }
+      it 'should read the options' do
+        expected = ['color', 'reporter', 'target_id', 'type'].sort
+        seen_fields.must_equal expected
+        final_options['color'].must_equal "true"  # Dubious
+        final_options['target_id'].must_equal 'mynode'
+      end
     end
+
     describe 'when the CLI opts are present in a legacy file' do
+      let(:fixture_name) { :legacy }
+      it 'should read the options' do
+        expected = ['color', 'reporter', 'target_id', 'type'].sort
+        seen_fields.must_equal expected
+        final_options['color'].must_equal "true"  # Dubious
+        final_options['target_id'].must_equal 'mynode'
+      end
     end
   end
 
@@ -172,22 +195,74 @@ describe 'Inspec::Config' do
   #                           Fetching Credentials
   # ========================================================================== #
   describe 'when fetching creds' do
+      # TODO
   end
 
   # ========================================================================== #
   #                             Merging Options
   # ========================================================================== #
   describe 'when merging options' do
+    let(:cfg) { Inspec::Config.new(cli_opts, cfg_io) }
+    let(:cfg_io) { StringIO.new(ConfigTestHelper.fixture(file_fixture_name)) }
+    let(:seen_fields) { cfg.final_options.keys.sort }
+
     describe 'when there is both a default and a config file setting' do
+      let(:file_fixture_name) { :override_check }
+      let(:cli_opts) { {} }
+      it 'the config file setting should prevail' do
+        Inspec::Config::Defaults.stubs(:default_for_command).returns('target_id'=> 'value_from_default')
+        expected = ['reporter', 'target_id', 'type'].sort
+        seen_fields.must_equal expected
+        cfg.final_options['target_id'].must_equal 'value_from_config_file'
+        cfg.final_options[:target_id].must_equal 'value_from_config_file'
+      end
     end
 
     describe 'when there is both a default and a CLI option' do
+      let(:cli_opts) { { target_id: 'value_from_cli_opts' } }
+      let(:cfg_io) { nil }
+      it 'the CLI option should prevail' do
+        Inspec::Config::Defaults.stubs(:default_for_command).returns('target_id'=> 'value_from_default')
+        expected = ['target_id', 'type'].sort
+        seen_fields.must_equal expected
+        cfg.final_options['target_id'].must_equal 'value_from_cli_opts'
+        cfg.final_options[:target_id].must_equal 'value_from_cli_opts'
+      end
     end
 
     describe 'when there is both a config file setting and a CLI option' do
+      let(:file_fixture_name) { :override_check }
+      let(:cli_opts) { { target_id: 'value_from_cli_opts' } }
+      it 'the CLI option should prevail' do
+        expected = ['reporter', 'target_id', 'type'].sort
+        seen_fields.must_equal expected
+        cfg.final_options['target_id'].must_equal 'value_from_cli_opts'
+        cfg.final_options[:target_id].must_equal 'value_from_cli_opts'
+      end
+    end
+
+    describe 'specifically check default vs config file override for "reporter" setting' do
+      let(:file_fixture_name) { :override_check }
+      let(:cli_opts) { {} }
+      it 'the config file setting should prevail' do
+        Inspec::Config::Defaults.stubs(:default_for_command).returns('reporter' => { 'csv' => 'value_from_default'})
+        expected = ['reporter', 'target_id', 'type'].sort
+        seen_fields.must_equal expected
+        cfg.final_options['reporter'].must_be_kind_of Hash
+        cfg.final_options['reporter'].keys.must_equal ['json']
+        cfg.final_options['reporter']['json'].must_equal 'path/from/config/file'
+        cfg.final_options[:reporter].must_be_kind_of Hash
+        cfg.final_options[:reporter].keys.must_equal ['json']
+        cfg.final_options[:reporter]['json'].must_equal 'path/from/config/file'
+      end
     end
   end
 end
+
+
+# ========================================================================== #
+#                              Test Fixtures
+# ========================================================================== #
 
 module ConfigTestHelper
   def fixture(fixture_name)
@@ -198,6 +273,7 @@ module ConfigTestHelper
       <<~EOJ1
       {
         "color": "true",
+        "target_id": "mynode",
         "reporter": {
           "automate" : {
             "url" : "https://YOUR_A2_URL/data-collector/v0/",
@@ -228,6 +304,34 @@ module ConfigTestHelper
         }
       }
       EOJ2
+    when :like_legacy
+      <<~EOJ3
+      {
+        "version": "1.1",
+        "cli_options": {
+          "color": "true",
+          "target_id": "mynode"
+        },
+        "reporter": {
+          "automate" : {
+            "url" : "https://YOUR_A2_URL/data-collector/v0/",
+            "token" : "YOUR_A2_ADMIN_TOKEN"
+          }
+        }
+      }
+      EOJ3
+    when :override_check
+      <<~EOJ4
+      {
+        "version": "1.1",
+        "cli_options": {
+          "target_id": "value_from_config_file"
+        },
+        "reporter": {
+          "json": "path/from/config/file"
+        }
+      }
+      EOJ4
     when :minimal
       '{ "version": "1.1" }'
     when :bad_version
@@ -240,64 +344,3 @@ module ConfigTestHelper
   end
   module_function :fixture
 end
-
-# describe 'merge_options' do
-#   let(:default_options) do
-#     { exec: { 'reporter' => ['json'], 'backend_cache' => false }}
-#   end
-
-#   it 'cli defaults populate correctly' do
-#     Inspec::BaseCLI.stubs(:default_options).returns(default_options)
-
-#     opts = cli.send(:merged_opts, :exec)
-#     expected = {"backend_cache"=>false, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
-#     opts.must_equal expected
-#   end
-
-
-
-#   it 'json-config options override cli defaults' do
-#     Inspec::BaseCLI.stubs(:default_options).returns(default_options)
-
-#     parsed_json = { 'backend_cache' => true }
-#     cli.expects(:options_json).returns(parsed_json)
-
-#     opts = cli.send(:merged_opts, :exec)
-#     expected = {"backend_cache"=>true, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
-#     opts.must_equal expected
-#   end
-
-#   it 'cli options override json-config and default' do
-#     Inspec::BaseCLI.stubs(:default_options).returns(default_options)
-
-#     parsed_json = { 'backend_cache' => false }
-#     cli.expects(:options_json).returns(parsed_json)
-
-#     cli_options = { 'backend_cache' => true }
-#     cli.instance_variable_set(:@options, cli_options)
-
-#     opts = cli.send(:merged_opts, :exec)
-#     expected = {"backend_cache"=>true, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
-#     opts.must_equal expected
-#   end
-
-#   it 'make sure shell does not get exec defaults' do
-#     Inspec::BaseCLI.stubs(:default_options).returns(default_options)
-
-#     opts = cli.send(:merged_opts)
-#     expected = {}
-#     opts.must_equal expected
-#   end
-
-#   it 'make sure default reporter is overriden by json-config reporter' do
-#     default_options['reporter'] = ['cli']
-#     Inspec::BaseCLI.stubs(:default_options).returns(default_options)
-
-#     parsed_json = { 'reporter' => ['json'] }
-#     cli.expects(:options_json).returns(parsed_json)
-
-#     opts = cli.send(:merged_opts, :exec)
-#     expected = {"backend_cache"=>false, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
-#     opts.must_equal expected
-#   end
-# end
