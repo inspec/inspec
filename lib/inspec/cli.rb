@@ -15,6 +15,7 @@ require 'inspec/plugin/v2'
 require 'inspec/runner_mock'
 require 'inspec/env_printer'
 require 'inspec/schema'
+require 'inspec/config'
 
 class Inspec::InspecCLI < Inspec::BaseCLI
   class_option :log_level, aliases: :l, type: :string,
@@ -39,7 +40,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: 'A list of controls to include. Ignore all other tests.'
   profile_options
   def json(target)
-    o = opts.dup
+    o = config
     diagnose(o)
     o['log_location'] = STDERR
     configure_logger(o)
@@ -75,7 +76,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :format, type: :string
   profile_options
   def check(path) # rubocop:disable Metrics/AbcSize
-    o = opts.dup
+    o = config
     diagnose(o)
     o[:backend] = Inspec::Backend.create(target: 'mock://')
     o[:check_mode] = true
@@ -127,7 +128,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :overwrite, type: :boolean, default: false,
     desc: 'Overwrite existing vendored dependencies and lockfile.'
   def vendor(path = nil)
-    o = opts.dup
+    o = config
     configure_logger(o)
     o[:logger] = Logger.new(STDOUT)
     o[:logger].level = get_log_level(o.log_level)
@@ -148,7 +149,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :ignore_errors, type: :boolean, default: false,
     desc: 'Ignore profile warnings.'
   def archive(path)
-    o = opts.dup
+    o = config
     diagnose(o)
 
     o[:logger] = Logger.new(STDOUT)
@@ -241,7 +242,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   EOT
   exec_options
   def exec(*targets)
-    o = opts(:exec).dup
+    o = config
     diagnose(o)
     configure_logger(o)
 
@@ -288,13 +289,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :distinct_exit, type: :boolean, default: true,
     desc: 'Exit with code 100 if any tests fail, and 101 if any are skipped but none failed (default).  If disabled, exit 0 on skips and 1 for failures.'
   def shell_func
-    o = opts(:shell).dup
+    o = config
     diagnose(o)
     o[:debug_shell] = true
 
     log_device = suppress_log_output?(o) ? nil : STDOUT
     o[:logger] = Logger.new(log_device)
-    o[:logger].level = get_log_level(o.log_level)
+    o[:logger].level = get_log_level(o[:log_level])
 
     if o[:command].nil?
       runner = Inspec::Runner.new(o)
@@ -333,7 +334,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   desc 'version', 'prints the version of this tool'
   option :format, type: :string
   def version
-    if opts['format'] == 'json'
+    if config['format'] == 'json'
       v = { version: Inspec::VERSION }
       puts v.to_json
     else

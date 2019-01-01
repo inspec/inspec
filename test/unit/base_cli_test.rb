@@ -37,19 +37,7 @@ describe 'BaseCLI' do
     end
   end
 
-  describe 'merge_options' do
-    let(:default_options) do
-      { exec: { 'reporter' => ['json'], 'backend_cache' => false }}
-    end
-
-    it 'cli defaults populate correctly' do
-      Inspec::BaseCLI.stubs(:default_options).returns(default_options)
-
-      opts = cli.send(:merged_opts, :exec)
-      expected = {"backend_cache"=>false, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
-      opts.must_equal expected
-    end
-
+  describe 'detect command' do
     it 'verify platform detect' do
       hash = { name: 'test-os', families: 'aws, cloud', release: 'aws-sdk-v1' }
       expect = <<EOF
@@ -59,52 +47,8 @@ describe 'BaseCLI' do
 EOF
       _(Inspec::BaseCLI.detect(params: hash, indent: 2, color: 35)).must_equal expect
     end
-
-    it 'json-config options override cli defaults' do
-      Inspec::BaseCLI.stubs(:default_options).returns(default_options)
-
-      parsed_json = { 'backend_cache' => true }
-      cli.expects(:options_json).returns(parsed_json)
-
-      opts = cli.send(:merged_opts, :exec)
-      expected = {"backend_cache"=>true, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
-      opts.must_equal expected
-    end
-
-    it 'cli options override json-config and default' do
-      Inspec::BaseCLI.stubs(:default_options).returns(default_options)
-
-      parsed_json = { 'backend_cache' => false }
-      cli.expects(:options_json).returns(parsed_json)
-
-      cli_options = { 'backend_cache' => true }
-      cli.instance_variable_set(:@options, cli_options)
-
-      opts = cli.send(:merged_opts, :exec)
-      expected = {"backend_cache"=>true, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
-      opts.must_equal expected
-    end
-
-    it 'make sure shell does not get exec defaults' do
-      Inspec::BaseCLI.stubs(:default_options).returns(default_options)
-
-      opts = cli.send(:merged_opts)
-      expected = {}
-      opts.must_equal expected
-    end
-
-    it 'make sure default reporter is overriden by json-config reporter' do
-      default_options['reporter'] = ['cli']
-      Inspec::BaseCLI.stubs(:default_options).returns(default_options)
-
-      parsed_json = { 'reporter' => ['json'] }
-      cli.expects(:options_json).returns(parsed_json)
-
-      opts = cli.send(:merged_opts, :exec)
-      expected = {"backend_cache"=>false, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
-      opts.must_equal expected
-    end
   end
+
 
   describe 'configure_logger' do
     let(:options) do

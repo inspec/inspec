@@ -13,6 +13,11 @@ module Inspec
   class ReporterError < Error; end
   class ImpactError < Error; end
 
+  # Config file loading
+  class ConfigError < Error; end
+  class ConfigError::MalformedJson < ConfigError; end
+  class ConfigError::Invalid < ConfigError; end
+
   class Attribute
     class Error < Inspec::Error; end
     class ValidationError < Error
