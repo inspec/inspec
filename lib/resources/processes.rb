@@ -104,7 +104,7 @@ module Inspec::Resources
           command: 12,
         }
       else
-        command = 'ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user,command'
+        command = 'ps -ww axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user,command'
         regex = /^\s*([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+(.*)$/
         field_map = {
           pid: 1,
@@ -138,7 +138,7 @@ module Inspec::Resources
           command: 8,
         }
       else
-        command = 'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command'
+        command = 'ps -ww axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command'
         regex = /^(.+?)\s+(\d+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+(\w{3} \d{2}|\d{2}:\d{2}:\d{2})\s+([^ ]+)\s+([^ ]+)\s+(.*)$/
         field_map = {
           label: 1,

@@ -227,6 +227,6 @@ describe 'Inspec::Resources::Processes' do
   it 'returns the correct command for non-busybox linux' do
     resource = MockLoader.new(:centos7).load_resource('processes')
     resource.expects(:busybox_ps?).returns(false)
-    resource.send(:ps_configuration_for_linux)[0].must_equal 'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command'
+    resource.send(:ps_configuration_for_linux)[0].must_equal 'ps -ww axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command'
   end
 end
