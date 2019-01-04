@@ -1,0 +1,62 @@
+---
+title: About the aws_sts_caller_identity Resource
+---
+
+# aws\_sts\_caller\_identity
+
+Use the `aws_sts_caller_identity` InSpec audit resource to test properties of AWS credentials being used in the current InSpec scan.
+
+<br>
+
+## Syntax
+
+An `aws_sts_caller_identity` resource block tests can run matchers on the ARN of the AWS credentials being used in the scan.  You can also test if the credentials are in a GovCloud account.
+
+    # Check that the user running the scan is correct
+    describe aws_sts_caller_identity do
+      its("arn") { should match "arn:aws:iam::.*:user/human-user" }
+    end
+
+    # Test if the account is GovCloud
+    describe aws_sts_caller_identity do
+      it { should be_govcloud }
+    end
+
+<br>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+    # Skip a check if GovCloud
+    if aws_sts_caller_identity.govcloud?
+      describe 'Skip Root User MFA check on GovCloud' do
+        skip
+      end
+    else
+      describe aws_iam_root_user do
+        it { should have_mfa_enabled }  
+      end
+    end
+
+<br>
+
+## Properties
+
+### arn
+
+The `arn` property identifies the AWS ARN of the credentials being used in the current InSpec scan.
+
+    describe aws_sts_caller_identity do
+      its('arn') { should match 'arn:aws:iam::.*:user/human-user' }
+    end
+
+## Matchers
+
+This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### be\_govcloud
+
+The `be_govcloud` matcher tests if the account is a 'GovCloud' AWS Account.
+
+    it { should_not be_govcloud }
