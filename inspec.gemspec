@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rspec-its', '~> 1.2'
   spec.add_dependency 'pry', '~> 0'
   spec.add_dependency 'hashie', '~> 3.4'
-  spec.add_dependency 'mixlib-log'
+  spec.add_dependency 'mixlib-log', '< 3.0.0' # Mixlib does not support Ruby <2.5
   spec.add_dependency 'sslshake', '~> 1.2'
   spec.add_dependency 'parallel', '~> 1.9'
   spec.add_dependency 'faraday', '>=0.9.0'
