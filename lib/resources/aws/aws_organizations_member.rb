@@ -1,6 +1,6 @@
 class AwsOrganizationsMember < Inspec.resource(1)
   name 'aws_organizations_member'
-  desc 'Verifies status of an account within AWS Organizations service.'
+  desc 'Verifies status of an account within Organizations service.'
   example '
     describe aws_organizations_member do
       it { should_not be_master }
@@ -14,7 +14,7 @@ class AwsOrganizationsMember < Inspec.resource(1)
   alias master? master
 
   def to_s
-    'AWS Organizations Member'
+    'Organizations Member Status'
   end
 
   private
@@ -54,7 +54,7 @@ class AwsOrganizationsMember < Inspec.resource(1)
       self.aws_client_class = Aws::Organizations::Client
 
       def describe_organization
-        aws_service_client.describe_organization()
+        aws_service_client.describe_organization
       end
 
       def describe_account(account_id)
@@ -63,7 +63,7 @@ class AwsOrganizationsMember < Inspec.resource(1)
 
       def fetch_my_id
         sts = Aws::STS::Client.new(
-          region: 'us-east-1'
+          region: 'us-east-1',
         )
         resp = sts.get_caller_identity({})
 
