@@ -1,0 +1,10 @@
+name: simple-profile
+title: InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: support@chef.io
+license: Apache-2.0
+summary: A very simple InSpec Compliance Profile
+version: 0.1.0
+supports:
+  platform: os
