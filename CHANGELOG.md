@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.2.7 -->
-## [v3.2.7](https://github.com/inspec/inspec/tree/v3.2.7) (2018-12-21)
+<!-- latest_release unreleased -->
+## Unreleased
 
-#### Bug Fixes
-- Update Ruby versions used for testing; fix Travis CI issues [#3678](https://github.com/inspec/inspec/pull/3678) ([tas50](https://github.com/tas50))
+#### Merged Pull Requests
+- Stabilize profile export functional test [#3696](https://github.com/inspec/inspec/pull/3696) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.6 -->
 ### Changes since 3.2.6 release
+
+#### Merged Pull Requests
+- Stabilize profile export functional test [#3696](https://github.com/inspec/inspec/pull/3696) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.7 -->
 
 #### Bug Fixes
 - Update Ruby versions used for testing; fix Travis CI issues [#3678](https://github.com/inspec/inspec/pull/3678) ([tas50](https://github.com/tas50)) <!-- 3.2.7 -->
