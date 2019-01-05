@@ -140,7 +140,7 @@ Finally, we also release our software as gems to [Rubygems](https://rubygems.org
 
 ### Release Timing
 
-We typically aim to make a release every Thursday; however, if there are no changes, the release will be skipped. Releases may also be delayed due to holidays, staffing contraints, or technical problems.
+We typically aim to make a release every Thursday; however, if there are no changes, the release will be skipped. Releases may also be delayed due to holidays, staffing constraints, or technical problems.
 
 ### Versioning
 
