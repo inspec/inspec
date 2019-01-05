@@ -356,6 +356,10 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     it 'can run supermarket profiles from inspec.yml' do
       run_result = run_inspec_process("exec #{File.join(profile_path, 'supermarket-dep')}", json: true)
 
+      # Intentional failure to cause appveyor to print output
+      run_result.stdout.must_equal ''
+      run_result.stderr.must_equal ''
+
       # The test only runs controls from the 2nd profile
       json_result = run_result.payload.json["profiles"][1]["controls"]
       json_result[0]["results"][0]["status"].must_equal "passed"
