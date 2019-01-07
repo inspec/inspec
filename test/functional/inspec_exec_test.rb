@@ -357,8 +357,11 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       run_result = run_inspec_process("exec #{File.join(profile_path, 'supermarket-dep')}", json: true)
 
       # Intentional failure to cause appveyor to print output
-      run_result.stdout.must_equal ''
-      run_result.stderr.must_equal ''
+      msg = ''
+      msg += "\nInvocation:\n" + run_result.payload.invocation
+      msg += "\nSTDOUT:\n" + run_result.stdout
+      msg += "\nSTDERR:\n" + run_result.stderr
+      msg.must_equal ''
 
       # The test only runs controls from the 2nd profile
       json_result = run_result.payload.json["profiles"][1]["controls"]
