@@ -19,6 +19,15 @@ module Inspec::Reporters
       }
     end
 
+    def self.convert_descriptions(data)
+      return [] if data.nil?
+      results = []
+      data.each do |label, text|
+        results.push({ label: label.to_s, data: text })
+      end
+      results
+    end
+
     private
 
     def platform
@@ -61,7 +70,7 @@ module Inspec::Reporters
           id: c[:id],
           title: c[:title],
           desc: c.dig(:descriptions, :default),
-          descriptions: convert_descriptions(c[:descriptions]),
+          descriptions: self.class.convert_descriptions(c[:descriptions]),
           impact: c[:impact],
           refs: c[:refs],
           tags: c[:tags],
@@ -118,15 +127,6 @@ module Inspec::Reporters
         profiles << profile.reject { |_k, v| v.nil? }
       end
       profiles
-    end
-
-    def convert_descriptions(data)
-      return [] if data.nil?
-      results = []
-      data.each do |label, text|
-        results.push({ label: label.to_s, data: text })
-      end
-      results
     end
   end
 end

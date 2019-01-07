@@ -49,7 +49,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
 
     profile = Inspec::Profile.for_target(target, o)
-    info = profile.info
+    info = profile.json
     # add in inspec version
     info[:generator] = {
       name: 'inspec',

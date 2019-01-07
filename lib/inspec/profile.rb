@@ -325,6 +325,15 @@ module Inspec
       res
     end
 
+    def json
+      json = info
+      json[:controls].each do |c|
+        c[:descriptions] = Inspec::Reporters::Json.convert_descriptions(c[:descriptions])
+      end
+
+      json
+    end
+
     # Check if the profile is internally well-structured. The logger will be
     # used to print information on errors and warnings which are found.
     #

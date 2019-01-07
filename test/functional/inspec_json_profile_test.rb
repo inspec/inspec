@@ -62,8 +62,20 @@ describe 'inspec json' do
         control['title'].must_equal 'Create /tmp directory'
       end
 
-      it 'has a description' do
+      it 'has default description' do
         control['desc'].must_equal 'An optional description...'
+      end
+
+      it 'has descriptions' do
+        control['descriptions'].must_be_kind_of Array
+      end
+
+      it 'has one secondary description' do
+        control['descriptions'].length.must_equal 2
+      end
+
+      it 'has secondary description labeled `label`' do
+        control['descriptions'].must_include({'label' => 'label', 'data' => 'An optional description with a label'})
       end
 
       it 'has an impact' do
