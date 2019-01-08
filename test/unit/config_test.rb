@@ -262,6 +262,63 @@ describe 'Inspec::Config' do
       Inspec::Config.new({ backend: 'mock' }, cfg_io)
     end
   end
+  # ========================================================================== #
+  #                           Fetching Credentials
+  # ========================================================================== #
+  describe 'when fetching creds' do
+    let(:cfg) { Inspec::Config.new(cli_opts, cfg_io) }
+    let(:cfg_io) { StringIO.new(ConfigTestHelper.fixture(file_fixture_name)) }
+    let(:seen_fields) { creds.keys.sort }
+    let(:creds) { cfg.unpack_train_credentials }
+
+    describe 'when generic creds are present on the cli' do
+      let(:cfg_io) { nil }
+      let(:cli_opts) { { sudo: true, 'shell_command': 'ksh' } }
+      it 'should pass the credentials as-is' do
+        expected = [:backend, :sudo, :shell_command].sort
+        seen_fields.must_equal expected
+        creds[:sudo].must_equal true
+        creds[:shell_command].must_equal 'ksh'
+        creds[:backend].must_equal 'local' # Checking for default
+      end
+    end
+
+    describe 'when creds are specified on the CLI with a backend and transport prefixes' do
+      let(:cfg_io) { nil }
+      let(:cli_opts) { { backend: 'ssh', ssh_host: 'example.com', ssh_key_files: 'mykey' } }
+      it 'should read the backend and strip prefixes' do
+        expected = [:backend, :host, :key_files].sort
+        seen_fields.must_equal expected
+        creds[:backend].must_equal 'ssh'
+        creds[:host].must_equal 'example.com'
+        creds[:key_files].must_equal 'mykey'
+      end
+    end
+
+    describe 'when creds are specified with a non-credset target_uri' do
+      let(:cfg_io) { nil }
+      let(:cli_opts) { { target: 'ssh://bob@somehost' } }
+      it 'should unpack the options using the URI parser' do
+        expected = [:backend, :host, :user].sort
+        seen_fields.must_equal expected
+        creds[:backend].must_equal 'ssh'
+        creds[:host].must_equal 'somehost'
+        creds[:user].must_equal 'bob'
+      end
+    end
+
+    describe 'when backcompat creds are specified on the CLI without a transport prefix' do
+      let(:cfg_io) { nil }
+      let(:cli_opts) { { target: 'ssh://some.host', user: 'bob' } }
+      it 'should assign the options correctly' do
+        expected = [:backend, :host, :user].sort
+        seen_fields.must_equal expected
+        creds[:backend].must_equal 'ssh'
+        creds[:host].must_equal 'some.host'
+        creds[:user].must_equal 'bob'
+      end
+    end
+  end
 
   # ========================================================================== #
   #                             Merging Options
