@@ -79,7 +79,7 @@ module Inspec::Resources
 
       dir_list.each do |dir|
         data_dir_loc = dir if inspec.directory(dir).exist?
-	break if inspec.directory(dir).exist?
+        break if inspec.directory(dir).exist?
       end
 
       if data_dir_loc.nil?
