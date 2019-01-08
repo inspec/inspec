@@ -30,7 +30,7 @@ module Supermarket
     desc 'exec PROFILE', 'execute a Supermarket profile'
     exec_options
     def exec(*tests)
-      o = opts(:exec).dup
+      o = config
       diagnose(o)
       configure_logger(o)
 

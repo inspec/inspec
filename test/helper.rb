@@ -34,6 +34,7 @@ require 'inspec/runner'
 require 'inspec/runner_mock'
 require 'inspec/globals'
 require 'inspec/impact'
+require 'inspec/config'
 require 'fetchers/mock'
 require 'inspec/dependencies/cache'
 
@@ -89,7 +90,7 @@ class MockLoader
     scriptpath = ::File.realpath(::File.dirname(__FILE__))
 
     # create mock backend
-    @backend = Inspec::Backend.create({ backend: :mock, verbose: true })
+    @backend = Inspec::Backend.create(Inspec::Config.mock)
     mock = @backend.backend
 
     # create all mock files

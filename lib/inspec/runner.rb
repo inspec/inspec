@@ -10,6 +10,7 @@ require 'inspec/profile_context'
 require 'inspec/profile'
 require 'inspec/metadata'
 require 'inspec/secrets'
+require 'inspec/config'
 require 'inspec/dependencies/cache'
 # spec requirements
 
@@ -34,17 +35,16 @@ module Inspec
     attr_reader :backend, :rules, :attributes
     def initialize(conf = {})
       @rules = []
-      @conf = conf.dup
+      # If we were handed a Hash config (by audit cookbook or kitchen-inspec),
+      # upgrade it to a proper config. This handles a lot of config finalization,
+      # like reporter parsing.
+      @conf = conf.is_a?(Hash) ? Inspec::Config.new(conf) : conf
       @conf[:logger] ||= Logger.new(nil)
       @target_profiles = []
       @controls = @conf[:controls] || []
       @depends = @conf[:depends] || []
       @create_lockfile = @conf[:create_lockfile]
       @cache = Inspec::Cache.new(@conf[:vendor_cache])
-
-      # parse any ad-hoc runners reporter formats
-      # this has to happen before we load the test_collector
-      @conf = Inspec::BaseCLI.parse_reporters(@conf) if @conf[:type].nil?
 
       @test_collector = @conf.delete(:test_collector) || begin
         require 'inspec/runner_rspec'

@@ -6,6 +6,7 @@ require 'functional/helper'
 
 describe 'inspec exec' do
   include FunctionalHelper
+  let(:looks_like_a_stacktrace) { %r{lib/inspec/.+\.rb:\d+:in} }
 
   it 'can execute the profile' do
     out = inspec('exec ' + example_profile  + ' --no-create-lockfile')
@@ -377,6 +378,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       str = "Sudo is only valid when running against a remote host. To run this locally with elevated privileges, run the command with `sudo ...`.\n"
       out.stderr.force_encoding(Encoding::UTF_8).must_include str
       out.exit_status.must_equal 1
+      # TODO: check for stacktrace
     end
   end
 
@@ -552,6 +554,144 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
         out = inspec(inspec_command)
         JSON.parse(out.stdout)['controls'][0]['status'].must_equal 'passed'
         out.exit_status.must_equal 0
+      end
+    end
+  end
+
+  describe 'when specifying a config file' do
+    let(:run_result) { run_inspec_process('exec ' + File.join(profile_path, 'simple-metadata') + ' ' + cli_args, json: true, env: env)}
+    let(:seen_target_id) { run_result.payload.json['platform']['target_id'] }
+    let(:stderr) { run_result.stderr }
+    let(:env) { {} }
+
+    describe 'when using the legacy --json-config option' do
+      let(:cli_args) { '--json-config ' + File.join(config_dir_path, 'json-config', 'good.json') }
+      it 'should see the custom target ID value' do
+        stderr.must_be_empty # TODO: one day deprecate the --json-config option
+        seen_target_id.must_equal 'from-config-file'
+      end
+    end
+
+    describe 'when using the --config option to read from a custom file' do
+      let(:cli_args) { '--config ' + File.join(config_dir_path, 'json-config', 'good.json') }
+      it 'should see the custom target ID value' do
+        stderr.must_be_empty
+        seen_target_id.must_equal 'from-config-file'
+      end
+    end
+
+    # TODO - Use bash redirection to populate STDIN
+    # unless windows?
+    #   describe 'when using the --config option to read from STDIN' do
+    #     let(:cli_args) { '--config ' + File.join(config_dir_path, 'json-config', 'good.json') }
+    #     it 'should see the custom target ID value' do
+    #       stderr.must_be_empty
+    #       seen_target_id.must_equal 'from-config-file'
+    #       # TODO
+    #     end
+    #   end
+    # end
+
+    describe 'when reading from the default location' do
+      # Should read from File.join(config_dir_path, 'fakehome-2', '.inspec', 'config.json')
+      let(:env) { { 'HOME' => File.join(config_dir_path, 'fakehome-2') } }
+      let(:cli_args) { '' }
+      it 'should see the homedir target ID value' do
+        stderr.must_be_empty
+        seen_target_id.must_equal 'from-fakehome-config-file'
+      end
+    end
+
+    describe 'when --config points to a nonexistant location' do
+      let(:cli_args) { '--config ' + 'no/such/path' }
+      it 'should issue an error with the file path' do
+        stderr.wont_match looks_like_a_stacktrace
+        run_result.exit_status.must_equal 1
+        stderr.must_include 'Could not read configuration file' # Should specify error
+        stderr.must_include 'no/such/path' # Should include error value seen
+      end
+    end
+
+    describe 'when --config points to a malformed file' do
+      let(:cli_args) { '--config ' + File.join(config_dir_path, 'json-config', 'malformed.json') }
+      it 'should issue an error with the parse message' do
+        stderr.wont_match looks_like_a_stacktrace
+        run_result.exit_status.must_equal 1
+        stderr.must_include 'Failed to load JSON'
+        stderr.must_include 'Config was:'
+      end
+    end
+
+    describe 'when --config points to an invalid file' do
+      let(:cli_args) { '--config ' + File.join(config_dir_path, 'json-config', 'invalid.json') }
+      it 'should issue an error with the parse message' do
+        stderr.wont_match looks_like_a_stacktrace
+        run_result.exit_status.must_equal 1
+        stderr.must_include 'Unrecognized top-level configuration'
+        stderr.must_include 'this_key_is_invalid'
+      end
+    end
+  end
+
+  describe 'when specifying the execution target' do
+    let(:local_plat) do
+      json = run_inspec_process('detect --format json', {}).stdout
+      # .slice is available in ruby 2.5+
+      JSON.parse(json).select{|k,v| ['name', 'release'].include? k }
+    end
+    let(:run_result) { run_inspec_process('exec ' + File.join(profile_path, 'simple-metadata') + ' ' + cli_args, json: true) }
+    let(:seen_platform) { run_result.payload.json['platform'].select{|k,v| ['name', 'release'].include? k } }
+    let(:stderr) { run_result.stderr }
+
+    describe 'when neither target nor backend is specified' do
+      let(:cli_args) { '' }
+      it 'should connect to the local platform' do
+        seen_platform.must_equal local_plat
+      end
+    end
+
+    describe 'when local:// is specified' do
+      let(:cli_args) { ' -t local:// ' }
+      it 'should connect to the local platform' do
+        seen_platform.must_equal local_plat
+      end
+    end
+
+    describe 'when an unrecognized backend is specified' do
+      let(:cli_args) { '-b garble ' }
+      it 'should exit with an error' do
+        run_result.exit_status.must_equal 1
+        stderr.wont_match looks_like_a_stacktrace
+        # "Can't find train plugin garble. Please install it first"
+        stderr.must_include 'Can\'t find train plugin'
+        stderr.must_include 'garble'
+      end
+    end
+
+    describe 'when an unrecognized target schema is specified' do
+      let(:cli_args) { '-t garble:// ' }
+      it 'should exit with an error' do
+        run_result.exit_status.must_equal 1
+        stderr.wont_match looks_like_a_stacktrace
+        # "Can't find train plugin garble. Please install it first"
+        stderr.must_include 'Can\'t find train plugin'
+        stderr.must_include 'garble'
+      end
+    end
+
+    describe 'when a schemaless URI is specified' do
+      let(:cli_args) { '-t garble ' }
+      it 'should exit with an error' do
+        run_result.exit_status.must_equal 1
+        stderr.wont_match looks_like_a_stacktrace
+        # "Could not recognize a backend from the target garble - use a URI
+        # format with the backend name as the URI schema.  Example: 'ssh://somehost.com'
+        # or 'transport://credset' or 'transport://' if credentials are provided
+        #  outside of InSpec."
+        stderr.must_include 'Could not recognize a backend'
+        stderr.must_include 'garble'
+        stderr.must_include 'ssh://somehost.com'
+        stderr.must_include 'transport://credset'
       end
     end
   end
