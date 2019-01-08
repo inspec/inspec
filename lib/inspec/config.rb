@@ -81,7 +81,8 @@ module Inspec
       credentials.merge!(_utc_generic_credentials)
 
       _utc_determine_backend(credentials)
-      credentials.merge!(Train.unpack_target_from_uri(final_options[:target] || '')) # TODO: this will be replaced with the credset work
+      # credentials.merge!(Train.unpack_target_from_uri(final_options[:target])) # TODO: this will be replaced with the credset work
+      credentials.merge!(Train.target_config(final_options)) # TODO: this will be replaced with the credset work
       transport_name = credentials[:backend].to_s
       _utc_merge_transport_options(credentials, transport_name)
 
