@@ -75,8 +75,9 @@ module Inspec
         desc: 'Whether to use disable sspi authentication, defaults to false (WinRM).'
       option :winrm_basic_auth, type: :boolean,
         desc: 'Whether to use basic authentication, defaults to false (WinRM).'
-      option :json_config, type: :string,
+      option :config, type: :string,
         desc: 'Read configuration from JSON file (`-` reads from stdin).'
+      option :json_config, type: :string, hide: true
       option :proxy_command, type: :string,
         desc: 'Specifies the command to use to connect to the server'
       option :bastion_host, type: :string,
@@ -118,92 +119,7 @@ module Inspec
         desc: 'Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures.'
     end
 
-    def self.default_options
-      {
-        exec: {
-          'reporter' => ['cli'],
-          'show_progress' => false,
-          'color' => true,
-          'create_lockfile' => true,
-          'backend_cache' => true,
-        },
-        shell: {
-          'reporter' => ['cli'],
-        },
-      }
-    end
-
-    def self.parse_reporters(opts) # rubocop:disable Metrics/AbcSize
-      # default to cli report for ad-hoc runners
-      opts['reporter'] = ['cli'] if opts['reporter'].nil?
-
-      # parse out cli to proper report format
-      if opts['reporter'].is_a?(Array)
-        reports = {}
-        opts['reporter'].each do |report|
-          reporter_name, target = report.split(':', 2)
-          if target.nil? || target.strip == '-'
-            reports[reporter_name] = { 'stdout' => true }
-          else
-            reports[reporter_name] = {
-              'file' => target,
-              'stdout' => false,
-            }
-            reports[reporter_name]['target_id'] = opts['target_id'] if opts['target_id']
-          end
-        end
-        opts['reporter'] = reports
-      end
-
-      # add in stdout if not specified
-      if opts['reporter'].is_a?(Hash)
-        opts['reporter'].each do |reporter_name, config|
-          opts['reporter'][reporter_name] = {} if config.nil?
-          opts['reporter'][reporter_name]['stdout'] = true if opts['reporter'][reporter_name].empty?
-          opts['reporter'][reporter_name]['target_id'] = opts['target_id'] if opts['target_id']
-        end
-      end
-
-      validate_reporters(opts['reporter'])
-      opts
-    end
-
-    def self.validate_reporters(reporters)
-      return if reporters.nil?
-
-      valid_types = [
-        'automate',
-        'cli',
-        'documentation',
-        'html',
-        'json',
-        'json-automate',
-        'json-min',
-        'json-rspec',
-        'junit',
-        'progress',
-        'yaml',
-      ]
-
-      reporters.each do |k, v|
-        raise NotImplementedError, "'#{k}' is not a valid reporter type." unless valid_types.include?(k)
-
-        next unless k == 'automate'
-        %w{token url}.each do |option|
-          raise Inspec::ReporterError, "You must specify a automate #{option} via the json-config." if v[option].nil?
-        end
-      end
-
-      # check to make sure we are only reporting one type to stdout
-      stdout = 0
-      reporters.each_value do |v|
-        stdout += 1 if v['stdout'] == true
-      end
-
-      raise ArgumentError, 'The option --reporter can only have a single report outputting to stdout.' if stdout > 1
-    end
-
-    def self.detect(params: {}, indent: 0, color: 39)
+    def self.format_platform_info(params: {}, indent: 0, color: 39)
       str = ''
       params.each { |item, info|
         data = info
@@ -286,86 +202,12 @@ module Inspec
       false
     end
 
-    def diagnose(opts)
-      return unless opts['diagnose']
-      puts "InSpec version: #{Inspec::VERSION}"
-      puts "Train version: #{Train::VERSION}"
-      puts 'Command line configuration:'
-      pp options
-      puts 'JSON configuration file:'
-      pp options_json
-      puts 'Merged configuration:'
-      pp opts
-      puts
+    def diagnose(_ = nil)
+      config.diagnose
     end
 
-    def opts(type = nil)
-      o = merged_opts(type)
-
-      # Due to limitations in Thor it is not possible to set an argument to be
-      # both optional and its value to be mandatory. E.g. the user supplying
-      # the --password argument is optional and not always required, but
-      # whenever it is used, it requires a value. Handle options that were
-      # defined above and require a value here:
-      %w{password sudo-password}.each do |v|
-        id = v.tr('-', '_').to_sym
-        next unless o[id] == -1
-        raise ArgumentError, "Please provide a value for --#{v}. For example: --#{v}=hello."
-      end
-
-      # Infer `--sudo` if using `--sudo-password` without `--sudo`
-      if o[:sudo_password] && !o[:sudo]
-        o[:sudo] = true
-        warn 'WARN: `--sudo-password` used without `--sudo`. Adding `--sudo`.'
-      end
-
-      # check for compliance settings
-      if o['compliance']
-        require 'plugins/inspec-compliance/lib/inspec-compliance/api'
-        InspecPlugins::Compliance::API.login(o['compliance'])
-      end
-
-      o
-    end
-
-    def merged_opts(type = nil)
-      opts = {}
-
-      # start with default options if we have any
-      opts = BaseCLI.default_options[type] unless type.nil? || BaseCLI.default_options[type].nil?
-      opts['type'] = type unless type.nil?
-      Inspec::BaseCLI.inspec_cli_command = type
-
-      # merge in any options from json-config
-      json_config = options_json
-      opts.merge!(json_config)
-
-      # merge in any options defined via thor
-      opts.merge!(options)
-
-      # parse reporter options
-      opts = BaseCLI.parse_reporters(opts) if %i(exec shell).include?(type)
-
-      Thor::CoreExt::HashWithIndifferentAccess.new(opts)
-    end
-
-    def options_json
-      conffile = options['json_config']
-      @json ||= conffile ? read_config(conffile) : {}
-    end
-
-    def read_config(file)
-      if file == '-'
-        puts 'WARN: reading JSON config from standard input' if STDIN.tty?
-        config = STDIN.read
-      else
-        config = File.read(file)
-      end
-
-      JSON.parse(config)
-    rescue JSON::ParserError => e
-      puts "Failed to load JSON configuration: #{e}\nConfig was: #{config.inspect}"
-      exit 1
+    def config
+      @config ||= Inspec::Config.new(options) # 'options' here is CLI opts from Thor
     end
 
     # get the log level
@@ -409,12 +251,12 @@ module Inspec
 
     def configure_logger(o)
       #
-      # TODO(ssd): This is a big gross, but this configures the
+      # TODO(ssd): This is a bit gross, but this configures the
       # logging singleton Inspec::Log. Eventually it would be nice to
       # move internal debug logging to use this logging singleton.
       #
-      loc = if o.log_location
-              o.log_location
+      loc = if o['log_location']
+              o['log_location']
             elsif suppress_log_output?(o)
               STDERR
             else
@@ -422,14 +264,14 @@ module Inspec
             end
 
       Inspec::Log.init(loc)
-      Inspec::Log.level = get_log_level(o.log_level)
+      Inspec::Log.level = get_log_level(o['log_level'])
 
       o[:logger] = Logger.new(loc)
       # output json if we have activated the json formatter
       if o['log-format'] == 'json'
         o[:logger].formatter = Logger::JSONFormatter.new
       end
-      o[:logger].level = get_log_level(o.log_level)
+      o[:logger].level = get_log_level(o['log_level'])
     end
   end
 end

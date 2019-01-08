@@ -2,6 +2,7 @@
 # author: Adam Leff
 
 require 'inspec/profile'
+require 'inspec/config'
 
 module Inspec
   class ProfileVendor
@@ -49,7 +50,7 @@ module Inspec
     def profile_opts
       {
         vendor_cache: Inspec::Cache.new(cache_path.to_s),
-        backend: Inspec::Backend.create(target: 'mock://'),
+        backend: Inspec::Backend.create(Inspec::Config.mock),
       }
     end
 
