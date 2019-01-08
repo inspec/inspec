@@ -67,7 +67,8 @@ module Inspec
       new(reader, opts)
     end
 
-    def self.for_fetcher(fetcher, opts)
+    def self.for_fetcher(fetcher, config)
+      opts = config.respond_to?(:final_options) ? config.final_options : config
       opts[:vendor_cache] = opts[:vendor_cache] || Cache.new
       path, writable = fetcher.fetch
       for_path(path, opts.merge(target: fetcher.target, writable: writable))
@@ -113,7 +114,7 @@ module Inspec
       #
       # This will cause issues if a profile attempts to load a file via `inspec.profile.file`
       train_options = options.reject { |k, _| k == 'target' } # See https://github.com/chef/inspec/pull/1646
-      @backend = options[:backend].nil? ? Inspec::Backend.create(train_options) : options[:backend].dup
+      @backend = options[:backend].nil? ? Inspec::Backend.create(Inspec::Config.new(train_options)) : options[:backend].dup
       @runtime_profile = RuntimeProfile.new(self)
       @backend.profile = @runtime_profile
 

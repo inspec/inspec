@@ -45,7 +45,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o['log_location'] = STDERR
     configure_logger(o)
 
-    o[:backend] = Inspec::Backend.create(target: 'mock://')
+    o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
     o[:check_mode] = true
     o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
 
@@ -78,7 +78,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   def check(path) # rubocop:disable Metrics/AbcSize
     o = config
     diagnose(o)
-    o[:backend] = Inspec::Backend.create(target: 'mock://')
+    o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
     o[:check_mode] = true
     o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
 
@@ -131,7 +131,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o = config
     configure_logger(o)
     o[:logger] = Logger.new(STDOUT)
-    o[:logger].level = get_log_level(o.log_level)
+    o[:logger].level = get_log_level(o[:log_level])
 
     vendor_deps(path, o)
   end
@@ -153,8 +153,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     diagnose(o)
 
     o[:logger] = Logger.new(STDOUT)
-    o[:logger].level = get_log_level(o.log_level)
-    o[:backend] = Inspec::Backend.create(target: 'mock://')
+    o[:logger].level = get_log_level(o[:log_level])
+    o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
 
     # Force vendoring with overwrite when archiving
     vendor_options = o.dup
@@ -261,14 +261,14 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   target_options
   option :format, type: :string
   def detect
-    o = opts(:detect).dup
+    o = config
     o[:command] = 'platform.params'
     (_, res) = run_command(o)
     if o['format'] == 'json'
       puts res.to_json
     else
       headline('Platform Details')
-      puts Inspec::BaseCLI.detect(params: res, indent: 0, color: 36)
+      puts Inspec::BaseCLI.format_platform_info(params: res, indent: 0, color: 36)
     end
   rescue ArgumentError, RuntimeError, Train::UserError => e
     $stderr.puts e.message
@@ -351,7 +351,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   private
 
   def run_command(opts)
-    runner = Inspec::Runner.new(opts)
+    runner = Inspec::Runner.new(Inspec::Config.new(opts))
     res = runner.eval_with_virtual_profile(opts[:command])
     runner.load
 

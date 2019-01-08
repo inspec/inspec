@@ -7,14 +7,30 @@ require 'stringio'
 module Inspec
   class Config
 
+    # These are options that apply to any transport
+    GENERIC_CREDENTIALS = [
+      'backend',
+      'sudo',
+      'sudo_password',
+      'sudo_command',
+      'sudo_options',
+      'shell',
+      'shell_options',
+      'shell_command',
+    ]
+
     extend Forwardable
 
     def_delegators :@final_options, :each, :delete, :[], :[]=, :key?
     attr_reader :final_options
 
+    def self.mock
+      Inspec::Config.new({backend: :mock, verbose: true, trace: true}, StringIO.new('{}'))
+    end
+
     def initialize(cli_opts = {}, cfg_io = nil, command_name = nil)
-      @command_name = command_name || ARGV[0].to_sym
-      @defaults = Defaults.for_command(command_name)
+      @command_name = command_name || (ARGV.empty? ? nil : ARGV[0].to_sym)
+      @defaults = Defaults.for_command(@command_name)
 
       @cli_opts = cli_opts.dup
       cfg_io = resolve_cfg_io(@cli_opts, cfg_io)
@@ -22,19 +38,10 @@ module Inspec
 
       @merged_options = merge_options
       @final_options = finalize_options
-      @final_options = Thor::CoreExt::HashWithIndifferentAccess.new(@final_options)
     end
 
     def target_uri
       @final_options[:target]
-    end
-
-    def fetch_credentials(transport_name, credset_name, options = {})
-      credential_option_defaults = options[:option_defaults]
-
-      # Start with defaults for options
-      # Look for credentials/tranport_name/credset
-      # Override with CLI args
     end
 
     def diagnose
@@ -50,19 +57,142 @@ module Inspec
       puts
     end
 
+    #-----------------------------------------------------------------------#
+    #                      Train Credential Handling
+    #-----------------------------------------------------------------------#
+
+    # Returns a Hash with Symbol keys as follows:
+    #   backend: machine name of the Train transport needed
+    #   If present, any of the GENERIC_CREDENTIALS.
+    #   All other keys are specific to the backend.
+    #
+    # The credentials are gleaned from:
+    #  * the Train transport defaults. Train handles this on transport creation,
+    #      so this method doesn't load defaults.
+    #  * individual InSpec CLI options (which in many cases may have the
+    #      transport name prefixed, which is stripped before being added
+    #      to the creds hash)
+    #  * the --target CLI option, which is interpreted in one of two ways:
+    #     - as a transport://credset format, which looks up the creds in
+    #       the config file in the credentials section
+    #     - as an arbitrary URI, which is parsed by Train.unpack_target_from_uri
+
+    def unpack_train_credentials
+      # Internally, use indifferent access while we build the creds
+      credentials = Thor::CoreExt::HashWithIndifferentAccess.new({})
+
+      # Helper methods prefixed with _utc_ (Unpack Train Credentials)
+
+      credentials.merge!(_utc_generic_credentials)
+
+      _utc_determine_backend(credentials)
+      transport_name = credentials[:backend].to_s
+
+      _utc_merge_credset(credentials, transport_name)
+      _utc_merge_transport_options(credentials, transport_name)
+
+      # Convert to all-Symbol keys
+      credentials.each_with_object({}) do |(option, value), creds|
+        creds[option.to_sym] = value
+        creds
+      end
+    end
+
     private
+
+    def fetch_credentials(transport_name, credset_name, options = {})
+      credential_option_defaults = options[:option_defaults]
+    end
+
+    def _utc_merge_transport_options(credentials, transport_name)
+      # Ask Train for the names of the transport options
+      transport_options = Train.options(transport_name).keys.map(&:to_s)
+
+      # If there are any options with those (unprefixed) names, merge them in.
+      unprefixed_transport_options = final_options.select do |option_name, _value|
+        transport_options.include? option_name # e.g., 'host'
+      end
+      credentials.merge!(unprefixed_transport_options)
+
+      # If there are any prefixed options, merge them in, stripping the prefix.
+      transport_prefix = transport_name.downcase.tr('-','_') + '_'
+      transport_options.each do |bare_option_name|
+        prefixed_option_name = transport_prefix + bare_option_name.to_s
+        if final_options.key?(prefixed_option_name)
+          credentials[bare_option_name.to_s]  = final_options[prefixed_option_name]
+        end
+      end
+    end
+
+    def _utc_merge_credset(credentials, transport_name)
+
+      # Look for Config File credentials/transport_name/credset
+      credset_name = _utc_find_credset_name(credentials, transport_name)
+
+      if credset_name
+        credset = @cfg_file_contents.dig('credentials', transport_name, credset_name)
+        if credset
+          credentials.merge!(credset)
+        else
+          # OK, we had a target that looked like transport://something
+          # But we don't know what that something is - there was no
+          # matching credset with it.  Let train parse it.
+          credentials.merge!(Train.unpack_target_from_uri(final_options[:target]))
+        end
+      elsif final_options.key?(:target)
+        # Not sure what target looked like at all!
+        # Let train parse it.
+        credentials.merge!(Train.unpack_target_from_uri(final_options[:target]))
+      end
+    end
+
+    # fetch any info that applies to all transports (like sudo information)
+    def _utc_generic_credentials
+      @final_options.select {|option, _value| GENERIC_CREDENTIALS.include?(option) }
+    end
+
+    def _utc_determine_backend(credentials)
+      return if credentials.key?(:backend)
+
+      # Default to local
+      unless @final_options.key?(:target)
+        credentials[:backend] = 'local'
+        return
+      end
+
+      # Look into target
+      %r{^(?<transport_name>[a-z_\-0-9]+)://.*$} =~ final_options[:target]
+      unless transport_name
+        raise ArgumentError, "Could not recognize a backend from the target #{final_options[:target]} - use a URI format with the backend name as the URI schema.  Example: 'ssh://somehost.com' or 'transport://credset' or 'transport://' if credentials are provided outside of InSpec."
+      end
+      credentials[:backend] = transport_name.to_s # these are indeed stored in Train as Strings.
+    end
+
+    def _utc_find_credset_name(credentials, transport_name)
+      return nil unless final_options[:target]
+      match = final_options[:target].match(%r{^#{transport_name}://(?<credset_name>[a-z_\-0-9]+)$})
+      match ? match[:credset_name] : nil
+    end
 
     #-----------------------------------------------------------------------#
     #                         Reading Config Files
     #-----------------------------------------------------------------------#
+
+    # Regardless of our situation, end up with a readable IO object
     def resolve_cfg_io(cli_opts, cfg_io)
       unless cfg_io
+        # TODO: deprecate --json-config
         path = cli_opts[:config] || cli_opts[:json_config]
         if path == '-'
           Inspec::Log.warn 'Reading JSON config from standard input' if STDIN.tty?
           path = STDIN
+        elsif path.nil?
+          default_path = File.join(Inspec.config_dir, 'config.json')
+          path = default_path if File.exist?(default_path)
+        elsif !File.exist?(path)
+          raise ArgumentError, "Could not read configuration file at #{path}"
         end
-        cfg_io = File.read(path) if path
+        cfg_io = File.open(path) if path
         cfg_io ||= StringIO.new('{ "version": "1.1" }')
       end
       cfg_io
@@ -99,7 +229,7 @@ module Inspec
     def config_file_reporter_options
       # This is assumed to be top-level in both legacy and 1.1.
       # Technically, you could sneak it in the 1.1 cli opts area.
-      @cfg_file_contents.key?('reporter') ? { 'reporter': @cfg_file_contents['reporter'] } : {}
+      @cfg_file_contents.key?('reporter') ? { 'reporter' => @cfg_file_contents['reporter'] } : {}
     end
 
 
@@ -164,7 +294,7 @@ module Inspec
     #                         Merging Options
     #-----------------------------------------------------------------------#
     def merge_options
-      options = {}
+      options = Thor::CoreExt::HashWithIndifferentAccess.new({})
 
       # Lowest precedence: default, which may vary by command
       options.merge!(@defaults)
@@ -173,7 +303,6 @@ module Inspec
       options.merge!(config_file_cli_options)
       # Reporter options may be defined top-level.
       options.merge!(config_file_reporter_options)
-      # options.merge!(compliance_credentials)  # TODO: handle compliance server option reading
 
       # Highest precedence: merge in any options defined via the CLI
       options.merge!(@cli_opts)
@@ -192,7 +321,7 @@ module Inspec
       finalize_handle_sudo(options)
       finalize_compliance_login(options)
 
-      options
+      Thor::CoreExt::HashWithIndifferentAccess.new(options)
     end
 
     def finalize_set_top_level_command(options)
@@ -201,8 +330,6 @@ module Inspec
     end
 
     def finalize_parse_reporters(options) # rubocop:disable Metrics/AbcSize
-      return unless [:exec, :shell].include? @command_name
-
       # default to cli report for ad-hoc runners
       options['reporter'] = ['cli'] if options['reporter'].nil?
 
@@ -242,28 +369,27 @@ module Inspec
       # both optional and its value to be mandatory. E.g. the user supplying
       # the --password argument is optional and not always required, but
       # whenever it is used, it requires a value. Handle options that were
-      # defined above and require a value here:
+      # defined in such a way and require a value here:
       %w{password sudo-password}.each do |option_name|
-        option_name_as_sym = option_name.tr('-', '_').to_sym
-        next unless options[option_name_as_sym] == -1
+        snake_case_option_name = option_name.tr('-', '_').to_s
+        next unless options[snake_case_option_name] == -1 # Dubious - does thor always set -1 for missing value?
         raise ArgumentError, "Please provide a value for --#{option_name}. For example: --#{option_name}=hello."
       end
 
       # Infer `--sudo` if using `--sudo-password` without `--sudo`
-      if options[:sudo_password] && !options[:sudo]
-        options[:sudo] = true
+      if options['sudo_password'] && !options['sudo']
+        options['sudo'] = true
         Inspec::Log.warn '`--sudo-password` used without `--sudo`. Adding `--sudo`.'
       end
     end
 
-    def finalize_compliance_login(_options)
+    def finalize_compliance_login(options)
       # check for compliance settings
       # This is always a hash, comes from config file, not CLI opts
-      # TODO
-      # if compliance_creds
-      #   require 'plugins/inspec-compliance/lib/inspec-compliance/api'
-      #   InspecPlugins::Compliance::API.login(compliance_creds)
-      # end
+      if options.key?('compliance')
+        require 'plugins/inspec-compliance/lib/inspec-compliance/api'
+        InspecPlugins::Compliance::API.login(options['compliance'])
+      end
     end
 
     class Defaults

@@ -75,8 +75,9 @@ module Inspec
         desc: 'Whether to use disable sspi authentication, defaults to false (WinRM).'
       option :winrm_basic_auth, type: :boolean,
         desc: 'Whether to use basic authentication, defaults to false (WinRM).'
-      option :json_config, type: :string,
+      option :config, type: :string,
         desc: 'Read configuration from JSON file (`-` reads from stdin).'
+      option :json_config, type: :string, hide: true
       option :proxy_command, type: :string,
         desc: 'Specifies the command to use to connect to the server'
       option :bastion_host, type: :string,
@@ -118,7 +119,7 @@ module Inspec
         desc: 'Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures.'
     end
 
-    def self.detect(params: {}, indent: 0, color: 39)
+    def self.format_platform_info(params: {}, indent: 0, color: 39)
       str = ''
       params.each { |item, info|
         data = info
@@ -254,8 +255,8 @@ module Inspec
       # logging singleton Inspec::Log. Eventually it would be nice to
       # move internal debug logging to use this logging singleton.
       #
-      loc = if o.log_location
-              o.log_location
+      loc = if o['log_location']
+              o['log_location']
             elsif suppress_log_output?(o)
               STDERR
             else
@@ -263,14 +264,14 @@ module Inspec
             end
 
       Inspec::Log.init(loc)
-      Inspec::Log.level = get_log_level(o.log_level)
+      Inspec::Log.level = get_log_level(o['log_level'])
 
       o[:logger] = Logger.new(loc)
       # output json if we have activated the json formatter
       if o['log-format'] == 'json'
         o[:logger].formatter = Logger::JSONFormatter.new
       end
-      o[:logger].level = get_log_level(o.log_level)
+      o[:logger].level = get_log_level(o['log_level'])
     end
   end
 end

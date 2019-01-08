@@ -24,6 +24,9 @@ describe 'Inspec::Config' do
         cfg.must_respond_to :final_options
       end
     end
+
+    # TODO: add test for reading from default config path
+
   end
 
   # ========================================================================== #
@@ -53,7 +56,7 @@ describe 'Inspec::Config' do
     describe 'when the file is minimal' do
       let(:fixture_name) { 'minimal' }
       it 'should read the file successfully' do
-        expected = ['type'].sort
+        expected = ['reporter', 'type'].sort
         seen_fields.must_equal expected
       end
     end
@@ -148,7 +151,7 @@ describe 'Inspec::Config' do
       end
 
       it 'should transparently round-trip the options' do
-        expected = ['color', 'array_value', 'string_key', 'type'].sort
+        expected = ['color', 'array_value', 'reporter', 'string_key', 'type'].sort
         seen_fields.must_equal expected
         final_options[:color].must_equal true
         final_options['color'].must_equal true
@@ -192,19 +195,164 @@ describe 'Inspec::Config' do
   end
 
   # ========================================================================== #
+  #                     Parsing and Validating Reporters
+  # ========================================================================== #
+
+  # TODO: this should be moved into plugins for the reporters
+  describe 'when parsing reporters' do
+    let(:cfg) { Inspec::Config.new(cli_opts) }
+    let(:seen_reporters) { cfg['reporter'] }
+
+    describe 'when paring CLI reporter' do
+      let(:cli_opts) { { 'reporter' => ['cli'] } }
+      it 'parse cli reporters' do
+        expected_value = { 'cli' => { 'stdout' => true }}
+        seen_reporters.must_equal expected_value
+      end
+    end
+
+    describe 'when paring CLI reporter' do
+      let(:cli_opts) { { 'reporter' => ['cli'], 'target_id' => '1d3e399f-4d71-4863-ac54-84d437fbc444' } }
+      it 'parses cli report and attaches target_id' do
+        expected_value = {"cli"=>{"stdout"=>true, "target_id"=>"1d3e399f-4d71-4863-ac54-84d437fbc444"}}
+        seen_reporters.must_equal expected_value
+      end
+    end
+  end
+
+  describe 'when validating reporters' do
+    # validate_reporters is private, so we use .send
+    let(:cfg) { Inspec::Config.new }
+    it 'valid reporter' do
+      reporters = { 'json' => { 'stdout' => true } }
+      cfg.send(:validate_reporters, reporters)
+    end
+
+    it 'invalid reporter type' do
+      reporters = ['json', 'magenta']
+      proc { cfg.send(:validate_reporters, reporters) }.must_raise NotImplementedError
+    end
+
+    it 'two reporters outputting to stdout' do
+      stdout = { 'stdout' => true }
+      reporters = { 'json' => stdout, 'cli' => stdout }
+      proc { cfg.send(:validate_reporters, reporters) }.must_raise ArgumentError
+    end
+  end
+
+  # ========================================================================== #
+  #                      Miscellaneous Option Finalization
+  # ========================================================================== #
+
+  describe 'option finalization' do
+    it 'raises if `--password/--sudo-password` are used without value' do
+      # When you invoke `inspec shell --password`  (with no value for password,
+      # though it is setup to expect a string) Thor will set the key with value -1
+      ex = proc { Inspec::Config.new({'sudo_password' =>  -1}) }.must_raise(ArgumentError)
+      ex.message.must_match(/Please provide a value for --sudo-password/)
+    end
+
+    it 'assumes `--sudo` if `--sudo-password` is used without it' do
+      cfg = Inspec::Config.new('sudo_password' => 'somepass')
+      cfg.key?('sudo').must_equal true
+    end
+
+    it 'calls `Compliance::API.login` if `opts[:compliance] is passed`' do
+      InspecPlugins::Compliance::API.expects(:login)
+      cfg_io = StringIO.new(ConfigTestHelper.fixture('with_compliance'))
+      Inspec::Config.new({ backend: 'mock' }, cfg_io)
+    end
+  end
+  # ========================================================================== #
   #                           Fetching Credentials
   # ========================================================================== #
   describe 'when fetching creds' do
-      # TODO
+    let(:cfg) { Inspec::Config.new(cli_opts, cfg_io) }
+    let(:cfg_io) { StringIO.new(ConfigTestHelper.fixture(file_fixture_name)) }
+    let(:seen_fields) { creds.keys.sort }
+    let(:creds) { cfg.unpack_train_credentials }
+
+    describe 'when generic creds are present on the cli' do
+      let(:cfg_io) { nil }
+      let(:cli_opts) { { sudo: true, 'shell_command': 'ksh' } }
+      it 'should pass the credentials as-is' do
+        expected = [:backend, :sudo, :shell_command].sort
+        seen_fields.must_equal expected
+        creds[:sudo].must_equal true
+        creds[:shell_command].must_equal 'ksh'
+        creds[:backend].must_equal 'local' # Checking for default
+      end
+    end
+
+    describe 'when creds are specified on the CLI with a backend and transport prefixes' do
+      let(:cfg_io) { nil }
+      let(:cli_opts) { { backend: 'ssh', ssh_host: 'example.com', ssh_key_files: 'mykey' } }
+      it 'should read the backend and strip prefixes' do
+        expected = [:backend, :host, :key_files].sort
+        seen_fields.must_equal expected
+        creds[:backend].must_equal 'ssh'
+        creds[:host].must_equal 'example.com'
+        creds[:key_files].must_equal 'mykey'
+      end
+    end
+
+    describe 'when creds are specified with a credset target_uri in a 1.1 file without transport prefixes' do
+      let(:file_fixture_name) { :basic }
+      let(:cli_opts) { { target: 'ssh://set1' }}
+      it 'should use the credset to lookup the creds in the file' do
+        expected = [:backend, :host, :user].sort
+        seen_fields.must_equal expected
+        creds[:backend].must_equal 'ssh'
+        creds[:host].must_equal 'some.host'
+        creds[:user].must_equal 'some_user'
+      end
+    end
+
+    describe 'when creds are specified with a credset target_uri in a 1.1 file and a prefixed override on the CLI' do
+      let(:file_fixture_name) { :basic }
+      let(:cli_opts) { { target: 'ssh://set1', ssh_user: 'bob' } }
+      it 'should use the credset to lookup the creds in the file then override the single value' do
+        expected = [:backend, :host, :user].sort
+        seen_fields.must_equal expected
+        creds[:backend].must_equal 'ssh'
+        creds[:host].must_equal 'some.host'
+        creds[:user].must_equal 'bob'
+      end
+    end
+
+    describe 'when creds are specified with a non-credset target_uri' do
+      let(:cfg_io) { nil }
+      let(:cli_opts) { { target: 'ssh://bob@somehost' } }
+      it 'should unpack the options using the URI parser' do
+        expected = [:backend, :host, :user].sort
+        seen_fields.must_equal expected
+        creds[:backend].must_equal 'ssh'
+        creds[:host].must_equal 'somehost'
+        creds[:user].must_equal 'bob'
+      end
+    end
+
+    describe 'when backcompat creds are specified on the CLI without a transport prefix' do
+      let(:cfg_io) { nil }
+      let(:cli_opts) { { target: 'ssh://some.host', user: 'bob' } }
+      it 'should assign the options correctly' do
+        expected = [:backend, :host, :user].sort
+        seen_fields.must_equal expected
+        creds[:backend].must_equal 'ssh'
+        creds[:host].must_equal 'some.host'
+        creds[:user].must_equal 'bob'
+      end
+    end
   end
 
   # ========================================================================== #
   #                             Merging Options
   # ========================================================================== #
   describe 'when merging options' do
-    let(:cfg) { Inspec::Config.new(cli_opts, cfg_io) }
+    let(:cfg) { Inspec::Config.new(cli_opts, cfg_io, command) }
     let(:cfg_io) { StringIO.new(ConfigTestHelper.fixture(file_fixture_name)) }
     let(:seen_fields) { cfg.final_options.keys.sort }
+    let(:command) { nil }
 
     describe 'when there is both a default and a config file setting' do
       let(:file_fixture_name) { :override_check }
@@ -223,7 +371,7 @@ describe 'Inspec::Config' do
       let(:cfg_io) { nil }
       it 'the CLI option should prevail' do
         Inspec::Config::Defaults.stubs(:default_for_command).returns('target_id'=> 'value_from_default')
-        expected = ['target_id', 'type'].sort
+        expected = ['reporter', 'target_id', 'type'].sort
         seen_fields.must_equal expected
         cfg.final_options['target_id'].must_equal 'value_from_cli_opts'
         cfg.final_options[:target_id].must_equal 'value_from_cli_opts'
@@ -242,18 +390,18 @@ describe 'Inspec::Config' do
     end
 
     describe 'specifically check default vs config file override for "reporter" setting' do
-      let(:file_fixture_name) { :override_check }
       let(:cli_opts) { {} }
+      let(:command) { :shell } # shell default is [ :cli ]
+      let(:file_fixture_name) { :override_check } # This fixture sets the cfg file contents to request a json reporter
       it 'the config file setting should prevail' do
-        Inspec::Config::Defaults.stubs(:default_for_command).returns('reporter' => { 'csv' => 'value_from_default'})
         expected = ['reporter', 'target_id', 'type'].sort
         seen_fields.must_equal expected
         cfg.final_options['reporter'].must_be_kind_of Hash
         cfg.final_options['reporter'].keys.must_equal ['json']
-        cfg.final_options['reporter']['json'].must_equal 'path/from/config/file'
+        cfg.final_options['reporter']['json']['path'].must_equal 'path/from/config/file'
         cfg.final_options[:reporter].must_be_kind_of Hash
         cfg.final_options[:reporter].keys.must_equal ['json']
-        cfg.final_options[:reporter]['json'].must_equal 'path/from/config/file'
+        cfg.final_options[:reporter]['json']['path'].must_equal 'path/from/config/file'
       end
     end
   end
@@ -291,6 +439,7 @@ module ConfigTestHelper
         },
         "reporter": {
           "automate" : {
+            "url": "http://some.where",
             "token" : "YOUR_A2_ADMIN_TOKEN"
           }
         },
@@ -328,7 +477,9 @@ module ConfigTestHelper
           "target_id": "value_from_config_file"
         },
         "reporter": {
-          "json": "path/from/config/file"
+          "json": {
+            "path": "path/from/config/file"
+          }
         }
       }
       EOJ4
@@ -340,6 +491,16 @@ module ConfigTestHelper
       '{ "version": "1.1", "unsupported_field": "some_value" }'
     when :malformed_json
       '{ "version": "1.1", '
+    when :with_compliance
+      # TODO - this is dubious, need to verify
+      <<~EOJ5
+      {
+        "compliance": {
+          "server":"https://some.host",
+          "user":"someuser"
+        }
+      }
+      EOJ5
     end
   end
   module_function :fixture

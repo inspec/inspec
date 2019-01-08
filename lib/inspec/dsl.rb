@@ -3,6 +3,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 require 'inspec/log'
+require 'stringio'
 
 module Inspec::DSL
   def require_controls(id, &block)
@@ -77,7 +78,7 @@ module Inspec::DSL
   end
 
   def self.filter_included_controls(context, profile, &block)
-    mock = Inspec::Backend.create({ backend: 'mock' })
+    mock = Inspec::Backend.create(Inspec::Config.mock)
     include_ctx = Inspec::ProfileContext.for_profile(profile, mock, {})
     include_ctx.load(block) if block_given?
     # remove all rules that were not registered

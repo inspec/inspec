@@ -104,7 +104,7 @@ module Inspec
       puts <<~EOF
         You are currently running on:
 
-        #{Inspec::BaseCLI.detect(params: ctx.platform.params, indent: 4, color: 39)}
+        #{Inspec::BaseCLI.format_platform_info(params: ctx.platform.params, indent: 4, color: 39)}
       EOF
     end
 
