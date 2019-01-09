@@ -15,7 +15,7 @@ describe 'BaseCLI' do
   Families:  \e[1m\e[35maws, cloud\e[0m
   Release:   \e[1m\e[35maws-sdk-v1\e[0m
 EOF
-      _(Inspec::BaseCLI.format_platform_info(params: hash, indent: 2, color: 35)).must_equal expect
+      _(Inspec::BaseCLI.detect(params: hash, indent: 2, color: 35)).must_equal expect
     end
   end
 
