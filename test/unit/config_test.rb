@@ -298,6 +298,30 @@ describe 'Inspec::Config' do
       end
     end
 
+    describe 'when creds are specified with a credset target_uri in a 1.1 file without transport prefixes' do
+      let(:file_fixture_name) { :basic }
+      let(:cli_opts) { { target: 'ssh://set1' }}
+      it 'should use the credset to lookup the creds in the file' do
+        expected = [:backend, :host, :user].sort
+        seen_fields.must_equal expected
+        creds[:backend].must_equal 'ssh'
+        creds[:host].must_equal 'some.host'
+        creds[:user].must_equal 'some_user'
+      end
+    end
+
+    describe 'when creds are specified with a credset target_uri in a 1.1 file and a prefixed override on the CLI' do
+      let(:file_fixture_name) { :basic }
+      let(:cli_opts) { { target: 'ssh://set1', ssh_user: 'bob' } }
+      it 'should use the credset to lookup the creds in the file then override the single value' do
+        expected = [:backend, :host, :user].sort
+        seen_fields.must_equal expected
+        creds[:backend].must_equal 'ssh'
+        creds[:host].must_equal 'some.host'
+        creds[:user].must_equal 'bob'
+      end
+    end
+
     describe 'when creds are specified with a non-credset target_uri' do
       let(:cfg_io) { nil }
       let(:cli_opts) { { target: 'ssh://bob@somehost' } }
@@ -419,6 +443,14 @@ module ConfigTestHelper
           "automate" : {
             "url": "http://some.where",
             "token" : "YOUR_A2_ADMIN_TOKEN"
+          }
+        },
+        "credentials": {
+          "ssh": {
+            "set1": {
+              "host": "some.host",
+              "user": "some_user"
+            }
           }
         }
       }

@@ -1,0 +1,13 @@
+{
+  "version": "1.1",
+  "cli_options": {
+    "target_id": "from-mock-credset-config-file"
+  },
+  "credentials": {
+    "mock": {
+      "mycredset": {
+        "a_setting": "a_value"
+      }
+    }
+  }
+}
