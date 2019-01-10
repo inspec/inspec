@@ -62,12 +62,12 @@ class InitCli < MiniTest::Test
     end
   end
 
-  def test_generating_inspec_profile_aws
+  def test_generating_inspec_profile_os
     Dir.mktmpdir do |dir|
-      profile = File.join(dir,'test-aws-profile')
-      out = run_inspec_process("init profile --platform aws test-aws-profile", prefix: "cd #{dir} &&")
+      profile = File.join(dir,'test-os-profile')
+      out = run_inspec_process("init profile --platform os test-os-profile", prefix: "cd #{dir} &&")
       assert_equal 0, out.exit_status
-      assert_includes out.stdout, 'Create new profile at'
+      assert_includes out.stdout, 'Creating new profile at'
       assert_includes out.stdout, profile
       assert_includes Dir.entries(profile).join, 'inspec.yml'
       assert_includes Dir.entries(profile).join, 'README.md'
