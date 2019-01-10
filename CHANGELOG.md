@@ -1,7 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 3.3.0 -->
+## [v3.3.0](https://github.com/inspec/inspec/tree/v3.3.0) (2019-01-10)
+
+#### New Resources
+- Add resources for aws_billing_report and aws_billing_reports. [#2838](https://github.com/inspec/inspec/pull/2838) ([miah](https://github.com/miah))
 
 #### Merged Pull Requests
 - Stabilize profile export functional test [#3696](https://github.com/inspec/inspec/pull/3696) ([clintoncwolfe](https://github.com/clintoncwolfe))
@@ -9,6 +12,9 @@
 
 <!-- release_rollup since=3.2.6 -->
 ### Changes since 3.2.6 release
+
+#### New Resources
+- Add resources for aws_billing_report and aws_billing_reports. [#2838](https://github.com/inspec/inspec/pull/2838) ([miah](https://github.com/miah)) <!-- 3.3.0 -->
 
 #### Merged Pull Requests
 - Stabilize profile export functional test [#3696](https://github.com/inspec/inspec/pull/3696) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.7 -->
