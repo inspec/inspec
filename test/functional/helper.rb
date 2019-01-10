@@ -187,7 +187,7 @@ module FunctionalHelper
   def assemble_env_prefix(env = {})
     if is_windows?
       env_prefix = env.to_a.map { |assignment| "set #{assignment[0]}=#{assignment[1]}" }.join('&& ')
-      env_prefix += '&& '
+      env_prefix += '&& ' unless env_prefix.empty?
     else
       env_prefix = env.to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(' ')
       env_prefix += ' '
