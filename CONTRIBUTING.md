@@ -130,9 +130,21 @@ Date:   Wed Sep 18 11:44:40 2015 -0700
 
 ## Release Cycles
 
-Our primary shipping vehicle is operating system specific packages that includes all the requirements of InSpec. We call these [Omnibus packages](https://github.com/chef/omnibus)
+### Release Formats
 
-We also release our software as gems to [Rubygems](https://rubygems.org/) but we strongly recommend using InSpec or ChefDK packages.
+Our primary shipping vehicle is operating system specific packages that includes all the requirements of InSpec. We call these Omnibus packages, and they are available from [downloads.chef.io](https://downloads.chef.io/inspec). InSpec is also bundled with recent Chef Client and ChefDK toolkits.
+
+InSpec is also available as a [Docker image](https://hub.docker.com/r/chef/inspec) and a [Habitat package](https://bldr.habitat.sh/#/pkgs/chef/inspec/latest).
+
+Finally, we also release our software as gems to [Rubygems](https://rubygems.org/) but we strongly recommend using one of the previously packages to ensure a smooth experience.
+
+### Release Timing
+
+We typically aim to make a release every Thursday; however, if there are no changes, the release will be skipped. Releases may also be delayed due to holidays, staffing constraints, or technical problems.
+
+### Versioning
+
+This information is provided for context only.  Contributors are not expected to manage the version number of InSpec - the InSpec team and the CI system will handle any version changes needed.
 
 Our version numbering roughly follows [Semantic Versioning](http://semver.org/) standard. Our standard version numbers look like X.Y.Z which mean:
 
@@ -140,7 +152,7 @@ Our version numbering roughly follows [Semantic Versioning](http://semver.org/) 
 - Y is a minor release, which adds both new features and bug fixes
 - Z is a patch release, which adds just bug fixes
 
-After shipping a release of InSpec we bump at least the `Minor` version by one to start development of the next minor release. We do a release approximately every week. Announcements of releases are made to the [InSpec mailing list](https://discourse.chef.io/c/chef-release) when they are available.
+After shipping a release of InSpec we bump at least the `patch` version by one to start development of the next minor release. We do a release approximately every week. Announcements of releases are made to the [InSpec mailing list](https://discourse.chef.io/c/chef-release) when they are available.
 
 ## InSpec Community
 
