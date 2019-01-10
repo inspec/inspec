@@ -1,13 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.3.0 -->
-## [v3.3.0](https://github.com/inspec/inspec/tree/v3.3.0) (2019-01-10)
+<!-- latest_release 3.3.1 -->
+## [v3.3.1](https://github.com/inspec/inspec/tree/v3.3.1) (2019-01-10)
 
-#### New Resources
-- Add resources for aws_billing_report and aws_billing_reports. [#2838](https://github.com/inspec/inspec/pull/2838) ([miah](https://github.com/miah))
-
-#### Merged Pull Requests
-- Stabilize profile export functional test [#3696](https://github.com/inspec/inspec/pull/3696) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- postgres_session: Fix postgres directory searching on non-debian os [#3708](https://github.com/inspec/inspec/pull/3708) ([Cerebus](https://github.com/Cerebus))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.6 -->
@@ -20,6 +17,7 @@
 - Stabilize profile export functional test [#3696](https://github.com/inspec/inspec/pull/3696) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.7 -->
 
 #### Bug Fixes
+- postgres_session: Fix postgres directory searching on non-debian os [#3708](https://github.com/inspec/inspec/pull/3708) ([Cerebus](https://github.com/Cerebus)) <!-- 3.3.1 -->
 - Update Ruby versions used for testing; fix Travis CI issues [#3678](https://github.com/inspec/inspec/pull/3678) ([tas50](https://github.com/tas50)) <!-- 3.2.7 -->
 <!-- release_rollup -->
 
