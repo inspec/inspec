@@ -78,7 +78,7 @@ module Inspec::Resources
       ]
 
       data_dir_loc = dir_list.detect { |i| inspec.directory(i).exist? }
-      
+
       if data_dir_loc.nil?
         warn 'Unable to find the PostgreSQL data_dir in expected location(s), please
         execute "psql -t -A -p <port> -h <host> -c "show hba_file";" as the PostgreSQL
