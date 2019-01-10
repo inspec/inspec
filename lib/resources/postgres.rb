@@ -69,7 +69,6 @@ module Inspec::Resources
     end
 
     def locate_data_dir_location_by_version(ver = @version)
-      data_dir_loc = nil
       dir_list = [
         "/var/lib/pgsql/#{ver}/data",
         '/var/lib/pgsql/data',
@@ -77,10 +76,7 @@ module Inspec::Resources
         '/var/lib/postgresql/data',
       ]
 
-      dir_list.each do |dir|
-        data_dir_loc = dir if inspec.directory(dir).exist?
-        break
-      end
+      data_dir_loc = dir_list.detect { |i| inspec.directory(i).exist? }
 
       if data_dir_loc.nil?
         warn 'Unable to find the PostgreSQL data_dir in expected location(s), please
