@@ -69,7 +69,6 @@ module Inspec::Resources
     end
 
     def locate_data_dir_location_by_version(ver = @version)
-      data_dir_loc = nil
       dir_list = [
         "/var/lib/pgsql/#{ver}/data",
         '/var/lib/pgsql/data',
