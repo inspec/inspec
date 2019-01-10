@@ -33,6 +33,15 @@ module Inspec
       @train_result = train_result
       @payload = OpenStruct.new
     end
+
+    # Intentional failure to cause CI to print output
+    def diagnose!
+      msg = ''
+      msg += "\nInvocation:\n" + payload.invocation
+      msg += "\nSTDOUT:\n" + stdout
+      msg += "\nSTDERR:\n" + stderr
+      msg.must_equal ''
+    end
   end
 end
 
@@ -87,23 +96,27 @@ module FunctionalHelper
 
   def inspec(commandline, prefix = nil)
     if is_windows?
-      result = CMD.run_command("cmd /C \"#{prefix} bundle exec ruby #{exec_inspec} #{commandline}\"")
+      invocation  = "cmd /C \"#{prefix} bundle exec ruby #{exec_inspec} #{commandline}\""
+      result = CMD.run_command(invocation)
       result.stdout.encode!(universal_newline: true)
       result.stderr.encode!(universal_newline: true)
       convert_windows_output(result.stdout)
       # remove the CLIXML header trash in windows
       result.stderr.gsub!("#< CLIXML\n", '')
-      Inspec::FuncTestRunResult.new(result)
+      ftrr = Inspec::FuncTestRunResult.new(result)
     else
-      Inspec::FuncTestRunResult.new(CMD.run_command("#{prefix} #{exec_inspec} #{commandline}"))
+      invocation = "#{prefix} #{exec_inspec} #{commandline}"
+      ftrr = Inspec::FuncTestRunResult.new(CMD.run_command(invocation))
     end
+    ftrr.payload.invocation = invocation
+    ftrr
   end
 
   def inspec_with_env(commandline, env = {})
     inspec(commandline, assemble_env_prefix(env))
   end
 
-# This version allows additional options.
+  # This version allows additional options.
   # @param String command_line Invocation, without the word 'inspec'
   # @param Hash opts Additonal options, see below
   #    :env Hash A hash of environment vars to expose to the invocation.
