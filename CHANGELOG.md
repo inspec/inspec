@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.3.1 -->
-## [v3.3.1](https://github.com/inspec/inspec/tree/v3.3.1) (2019-01-10)
+<!-- latest_release 3.3.2 -->
+## [v3.3.2](https://github.com/inspec/inspec/tree/v3.3.2) (2019-01-11)
 
-#### Bug Fixes
-- postgres_session: Fix postgres directory searching on non-debian os [#3708](https://github.com/inspec/inspec/pull/3708) ([Cerebus](https://github.com/Cerebus))
+#### Enhancements
+- Fix extra &#39;&amp;&amp;&#39; in windows functional tests, add diagnostics [#3717](https://github.com/inspec/inspec/pull/3717) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.6 -->
 ### Changes since 3.2.6 release
+
+#### Enhancements
+- Fix extra &#39;&amp;&amp;&#39; in windows functional tests, add diagnostics [#3717](https://github.com/inspec/inspec/pull/3717) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.3.2 -->
 
 #### New Resources
 - Add resources for aws_billing_report and aws_billing_reports. [#2838](https://github.com/inspec/inspec/pull/2838) ([miah](https://github.com/miah)) <!-- 3.3.0 -->
