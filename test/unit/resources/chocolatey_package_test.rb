@@ -13,7 +13,7 @@ describe 'Inspec::Resources::ChocoPkg' do
     pkg = { name: 'git', installed: false, version: nil, type: 'chocolatey' }
     resource = MockLoader.new(:windows).load_resource('chocolatey_package', 'git')
     _(resource.installed?).must_equal pkg[:installed]
-    _(resource.version).must_equal pkg[:version]
+    _(resource.version).must_be_nil
     _(resource.info).must_equal pkg
   end
 
