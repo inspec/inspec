@@ -187,7 +187,6 @@ class PluginLoaderTests < MiniTest::Test
     # Management methods for activation
     assert_respond_to status, :activators, 'A plugin status should respond to `activators`'
     assert_respond_to registry, :find_activators, 'Registry should respond to `find_activators`'
-    assert_respond_to registry, :activate, 'Registry should respond to `activate`'
 
     # Finding an Activator
     assert_kind_of Array, status.activators, 'status should have an array for activators'
@@ -205,7 +204,7 @@ class PluginLoaderTests < MiniTest::Test
     assert_nil activator.implementation_class, 'Test activator should not know implementation class prior to activation'
     refute InspecPlugins::MeaningOfLife.const_defined?(:MockPlugin), 'impl_class should not be defined prior to activation'
 
-    registry.activate(:mock_plugin_type, :'meaning-of-life-the-universe-and-everything')
+    activator.activate
 
     # Activation postconditions
     assert activator.activated?, 'Test activator should be activated after activate'

@@ -102,7 +102,7 @@ module Inspec::Plugin::V2
 
         # OK, activate.
         if activate_me
-          registry.activate(:cli_command, act.activator_name)
+          act.activate
           act.implementation_class.register_with_thor
         end
       end
