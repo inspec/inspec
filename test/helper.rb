@@ -508,7 +508,7 @@ class MockLoader
       '/sbin/service sshd status' => empty.call,
       'service apache2 status' => cmd_exit_1.call,
       'type "lsof"' => empty.call,
-
+      'test -f /etc/mysql/debian.cnf && cat /etc/mysql/debian.cnf' => empty.call,
       # http resource - remote worker'
       %{bash -c 'type "curl"'} => cmd.call('bash-c-type-curl'),
       "curl -i -X GET --connect-timeout 60 --max-time 120 'http://www.example.com'" => cmd.call('http-remote-no-options'),
