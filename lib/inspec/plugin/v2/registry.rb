@@ -67,6 +67,17 @@ module Inspec::Plugin::V2
       end
     end
 
+    # Convenience method for when you expect exactly one
+    def find_activator(filters = {})
+      matched_plugins = find_activators(filters)
+      if matched_plugins.count > 1
+        raise Inspec::Plugin::V2::LoadError.new("Plugin hooks search returned multiple results for filter #{filters.inspect} - use more filters, or use find_activators (plural)")
+      elsif matched_plugins.empty?
+        raise Inspec::Plugin::V2::LoadError.new("Plugin hooks search returned zero results for filter #{filters.inspect}")
+      end
+      matched_plugins.first
+    end
+
     def register(name, status)
       if known_plugin? name
         Inspec::Log.debug "PluginLoader: refusing to re-register plugin '#{name}': an existing plugin with that name was loaded via #{registry[name].installation_type}-loading from #{registry[name].entry_point}"
