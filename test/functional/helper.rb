@@ -131,7 +131,7 @@ module FunctionalHelper
   #       run_result will be populated, but you can add more to the ostruct .payload
   #       tmp_dir will still exist (for a moment!)
   # @return FuncTestRunResult. Includes attrs exit_status, stderr, stdout, payload (an openstruct which may be used in many ways)
-  def run_inspec_process(command_line, opts)
+  def run_inspec_process(command_line, opts = {})
     raise 'Do not use tmpdir and cwd in the same invocation' if opts[:cwd] && opts[:tmpdir]
     prefix = opts[:cwd] ? 'cd ' + opts[:cwd] + ' && ' : ''
     prefix += opts[:prefix] || ''
