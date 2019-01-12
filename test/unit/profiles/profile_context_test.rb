@@ -78,7 +78,7 @@ describe Inspec::ProfileContext do
     end
 
     it 'must provide file resource' do
-      load('print file("").type').must_output 'unknown'
+      load('print file("/etc/passwd").type').must_output 'file'
     end
 
     it 'must provide command resource' do
