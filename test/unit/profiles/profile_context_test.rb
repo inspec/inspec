@@ -110,7 +110,7 @@ describe Inspec::ProfileContext do
       end
     end
 
-    it 'does not provide the expect keyword in the global DLS' do
+    it 'does not provide the expect keyword in the global DSL' do
       load('expect(true).to_eq true').must_raise NoMethodError
     end
 
