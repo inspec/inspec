@@ -11,16 +11,16 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   it 'retrieve users via field' do
-    _(shadow.user).must_equal %w{root www-data}
+    _(shadow.users).must_equal %w{root www-data}
     _(shadow.count).must_equal 2
   end
 
   it 'retrieve passwords via field' do
-    _(shadow.password).must_equal %w{x !!}
+    _(shadow.passwords).must_equal %w{x !!}
   end
 
   it 'retrieve last password change via field' do
-    _(shadow.last_change).must_equal %w{1 10}
+    _(shadow.last_changes).must_equal %w{1 10}
   end
 
   it 'retrieve min password days via field' do
@@ -40,7 +40,7 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   it 'retrieve dates when account will expire via field' do
-    _(shadow.expiry_date).must_equal [nil, "60"]
+    _(shadow.expiry_dates).must_equal [nil, "60"]
   end
 
   it 'access all lines of the file' do
@@ -82,8 +82,8 @@ describe 'Inspec::Resources::Shadow' do
 
   describe 'multiple filters' do
     it 'filters with min_days and max_days' do
-      _(shadow.filter(min_days: 20, max_days: 30).user).must_equal ['www-data']
-      _(shadow.filter(last_change: 1, min_days: 2).user).must_equal ['root']
+      _(shadow.filter(min_days: 20, max_days: 30).users).must_equal ['www-data']
+      _(shadow.filter(last_change: 1, min_days: 2).users).must_equal ['root']
     end
   end
 
