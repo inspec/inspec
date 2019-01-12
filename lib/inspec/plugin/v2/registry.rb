@@ -71,9 +71,9 @@ module Inspec::Plugin::V2
     def find_activator(filters = {})
       matched_plugins = find_activators(filters)
       if matched_plugins.count > 1
-        raise Inspec::Plugin::V2::LoadError.new("Plugin hooks search returned multiple results for filter #{filters.inspect} - use more filters, or use find_activators (plural)")
+        raise Inspec::Plugin::V2::LoadError, "Plugin hooks search returned multiple results for filter #{filters.inspect} - use more filters, or use find_activators (plural)"
       elsif matched_plugins.empty?
-        raise Inspec::Plugin::V2::LoadError.new("Plugin hooks search returned zero results for filter #{filters.inspect}")
+        raise Inspec::Plugin::V2::LoadError, "Plugin hooks search returned zero results for filter #{filters.inspect}"
       end
       matched_plugins.first
     end

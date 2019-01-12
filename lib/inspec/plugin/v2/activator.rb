@@ -27,7 +27,7 @@ module Inspec::Plugin::V2
         self[:'activated?'] = true
         self[:implementation_class] = impl_class
       rescue Exception => ex
-        exception = ex
+        self[:exception] = ex
         Inspec::Log.error "Could not activate #{self[:plugin_type]} hook named '#{self[:activator_name]}' for plugin #{self[:plugin_name]}"
       end
       # rubocop: enable Lint/RescueException
