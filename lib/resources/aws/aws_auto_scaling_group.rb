@@ -13,7 +13,7 @@ class AwsAutoScalingGroup < Inspec.resource(1)
   supports platform: 'aws'
 
   include AwsSingularResourceMixin
-  attr_reader :name, :arn, :min_size, :max_size, :desired_capacity, :vpc_zone_identifier, :availability_zones
+  attr_reader :name, :arn, :min_size, :max_size, :desired_capacity, :vpc_zone_identifier, :availability_zones, :launch_configuration_name, :tags
 
   private
 
@@ -40,10 +40,15 @@ class AwsAutoScalingGroup < Inspec.resource(1)
       @min_size = auto_scaling_group[:min_size]
       @max_size = auto_scaling_group[:max_size]
       @desired_capacity = auto_scaling_group[:desired_capacity]
+
+      @vpc_zone_identifier = auto_scaling_group[:vpc_zone_identifier]
+      @availability_zones = auto_scaling_group[:availability_zones]
+      @launch_configuration_name = auto_scaling_group[:launch_configuration_name]
+
+      @tags = auto_scaling_group[:tags]
     else
       @exists = false
     end
-    # No error handling?
   end
 
   # Uses the SDK API to really talk to AWS

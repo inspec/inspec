@@ -62,8 +62,21 @@ class AwsAutoScalingGroupPropertiesTest < Minitest::Test
     assert_equal(1, asg.min_size)
     assert_equal(4, asg.max_size)
     assert_equal(2, asg.desired_capacity)
-  end
+    assert_equal("subnet-12345678", asg.vpc_zone_identifier)
+    assert asg.availability_zones.include?('us-west-2a')
+    assert asg.availability_zones.include?('us-west-2c')
+    assert_equal("my-launch-config", asg.launch_configuration_name)
 
+    assert asg.tags.include?(
+      {
+        'key': 'Application',
+        'value': 'SampleApplicationName',
+        'resource_type': 'auto-scaling-group',
+        'resource_id': 'IExist',
+        'propagate_at_launch': true,
+      }
+    )
+  end
 end
 
 #=============================================================================#
@@ -88,22 +101,30 @@ module AwsMASG
             'auto_scaling_group_arn': "arn:aws:autoscaling:us-west-2:123456789012:autoScalingGroup:930d940e-891e-4781-a11a-7b0acd480f03:autoScalingGroupName/IExist", 
             'auto_scaling_group_name': "IExist", 
             'availability_zones': [
-              "us-west-2c", 
+              "us-west-2a",
+              "us-west-2c"
             ],
-            'default_cooldown': 300, 
-            'desired_capacity': 2, 
-            'enabled_metrics': [
-            ], 
-            'health_check_grace_period': 300, 
+            'desired_capacity': 2,
             'health_check_type': "EC2", 
             'launch_configuration_name': "my-launch-config", 
             'max_size': 4, 
             'min_size': 1, 
             'tags': [
-            ], 
-            'termination_policies': [
-              "Default", 
-            ], 
+              {
+                resource_id: "IExist",
+                resource_type: "auto-scaling-group",
+                key: "Environment",
+                value: "Test",
+                propagate_at_launch: true,
+              },
+              {
+                resource_id: "IExist",
+                resource_type: "auto-scaling-group",
+                key: "Application",
+                value: "SampleApplicationName",
+                propagate_at_launch: true,
+              },
+            ],
             'vpc_zone_identifier': "subnet-12345678", 
           },
         ]
