@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.3.2 -->
-## [v3.3.2](https://github.com/inspec/inspec/tree/v3.3.2) (2019-01-11)
+<!-- latest_release 3.3.3 -->
+## [v3.3.3](https://github.com/inspec/inspec/tree/v3.3.3) (2019-01-14)
 
 #### Enhancements
-- Fix extra &#39;&amp;&amp;&#39; in windows functional tests, add diagnostics [#3717](https://github.com/inspec/inspec/pull/3717) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Support cran packages for non-utf8 locales [#3613](https://github.com/inspec/inspec/pull/3613) ([atward](https://github.com/atward))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.6 -->
 ### Changes since 3.2.6 release
 
 #### Enhancements
+- Support cran packages for non-utf8 locales [#3613](https://github.com/inspec/inspec/pull/3613) ([atward](https://github.com/atward)) <!-- 3.3.3 -->
 - Fix extra &#39;&amp;&amp;&#39; in windows functional tests, add diagnostics [#3717](https://github.com/inspec/inspec/pull/3717) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.3.2 -->
 
 #### New Resources
