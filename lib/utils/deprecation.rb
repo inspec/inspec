@@ -1,4 +1,4 @@
-# A system to provide a unified deprecation facility for inspec
+# A system to provide a unified deprecation facility for InSpec
 
 require 'utils/deprecation/errors'
 require 'utils/deprecation/config_file'

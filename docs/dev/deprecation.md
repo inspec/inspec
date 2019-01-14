@@ -9,13 +9,13 @@ The most important goal of the deprecation facility was to collect decisions abo
 ### Example
 
 ```
-# In some code in Inspec core
+# In some code in InSpec core
 def something_crufty
   Inspec.deprecate :old_feature, 'Don't call something_crufty anymore'
 end
 ```
 
-If that gets called, inspec will consult the deprecation configuration, and then execute one of four actions: warn, fail_control, exit, or ignore.
+If that gets called, `inspec` will consult the deprecation configuration, and then execute one of four actions: warn, fail_control, exit, or ignore.
 
 ## Concepts
 
@@ -48,7 +48,7 @@ For v4:
   }
 ```
 
-Now, a warning (fed through Inspec::Log.warn) will appear each time the property is accessed, but it will otherwise behave normally.
+Now, a warning (fed through `Inspec::Log.warn`) will appear each time the property is accessed, but it will otherwise behave normally.
 
 For v5, you have some choices as to how to harden the deprecation.  `fail_control` will fail any control the deprecation is used in; while `exit` will exit the inspec run entirely.
 
@@ -60,7 +60,6 @@ For v5:
 ```
 
 Again, no need to update the deprecation calls; though in v6 it might make sense to remove the old code entirely.
-
 
 ### Groups
 
@@ -84,7 +83,7 @@ For all actions except `ignore`, a message is assembled, consisting of:
 
 #### exit
 
-Issues an ERROR via Inspec::Log.error with the assembled message, then immediately exits the process via Inspec::UI. The reporters are not executed.  By default, the exit code will be 3; but you can set a different code using the `exit_status` property of the group in the config file.
+Issues an ERROR via `Inspec::Log.error` with the assembled message, then immediately exits the process via Inspec::UI. The reporters are not executed.  By default, the exit code will be 3; but you can set a different code using the `exit_status` property of the group in the config file.
 
 #### fail_control
 
@@ -98,4 +97,4 @@ Does nothing; this is very useful for staging deprecations - you can have the de
 
 #### warn
 
-Issues a WARN to the Inspec::Log.warn facility with the assembled message.
+Issues a WARN to the `Inspec::Log.warn` facility with the assembled message.

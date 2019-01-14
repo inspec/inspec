@@ -1,7 +1,6 @@
 require 'minitest'
 require 'minitest/spec'
 require 'stringio'
-require 'byebug'
 
 require 'utils/deprecation'
 
@@ -15,7 +14,7 @@ describe 'The global deprecation method' do
     end
     it 'must take two required and one optional arg' do
       # See http://ruby-doc.org/core-2.5.3/Method.html#method-i-arity
-      Inspec.method(:deprecate).arity.must_equal -3
+      Inspec.method(:deprecate).arity.must_equal(-3)
     end
   end
 end
@@ -38,7 +37,7 @@ describe 'The deprecation config file object' do
     describe 'when the file version is missing' do
       let(:cfg_fixture) { :missing_file_version }
       it 'should throw an InvalidConfigFileError' do
-        ex = assert_raises (Inspec::Deprecation::InvalidConfigFileError) { config_file }
+        ex = assert_raises(Inspec::Deprecation::InvalidConfigFileError) { config_file }
         ex.message.must_include 'Missing file_version field'
       end
     end
@@ -46,7 +45,7 @@ describe 'The deprecation config file object' do
     describe 'when the file version is unsupported' do
       let(:cfg_fixture) { :bad_file_version }
       it 'should throw an InvalidConfigFileError' do
-        ex = assert_raises (Inspec::Deprecation::InvalidConfigFileError) { config_file }
+        ex = assert_raises(Inspec::Deprecation::InvalidConfigFileError) { config_file }
         ex.message.must_include 'Unrecognized file_version' # message
         ex.message.must_include '1.0.0' # version that IS supported
         ex.message.must_include '99.99.99' # version that was seen
@@ -56,7 +55,7 @@ describe 'The deprecation config file object' do
     describe 'when the groups entry is not a hash' do
       let(:cfg_fixture) { :groups_not_hash }
       it 'should throw an InvalidConfigFileError' do
-        ex = assert_raises (Inspec::Deprecation::InvalidConfigFileError) { config_file }
+        ex = assert_raises(Inspec::Deprecation::InvalidConfigFileError) { config_file }
         ex.message.must_include 'Groups field must be a Hash' # message
       end
     end
@@ -64,7 +63,7 @@ describe 'The deprecation config file object' do
     describe 'when a group entry has an unrecognized action' do
       let(:cfg_fixture) { :bad_group_action }
       it 'should throw an UnrecognizedActionError' do
-        ex = assert_raises (Inspec::Deprecation::UnrecognizedActionError) { config_file }
+        ex = assert_raises(Inspec::Deprecation::UnrecognizedActionError) { config_file }
         ex.message.must_include 'Unrecognized action' # message
         ex.message.must_include 'methane_pockets' # offending group name
         ex.message.must_include 'ignore' # an action that IS supported
@@ -78,7 +77,7 @@ describe 'The deprecation config file object' do
     describe 'when a group entry has an unrecognized field' do
       let(:cfg_fixture) { :bad_group_field }
       it 'should throw an InvalidConfigError' do
-        ex = assert_raises (Inspec::Deprecation::InvalidConfigFileError) { config_file }
+        ex = assert_raises(Inspec::Deprecation::InvalidConfigFileError) { config_file }
         ex.message.must_include 'Unrecognized field' # message
         ex.message.must_include 'pansporia' # offending group name
         ex.message.must_include 'action' # a field that IS supported
@@ -110,10 +109,10 @@ describe 'The Deprecator object' do
     let(:cfg_fixture) { :basic }
 
     describe 'when it has no args' do
-      it 'should create an object with basic ' do
+      it 'should create an object with basic' do
         dpcr = Inspec::Deprecation::Deprecator.new
         dpcr.must_respond_to(:handle_deprecation)
-        # more?
+        # TODO: more?
       end
     end
 
@@ -143,25 +142,24 @@ describe 'The Deprecator object' do
     end
   end
 
-  # TODO - stack analysis
+  # TODO: stack analysis
   #  in_control?
-  # TODO - anything else here?
+  # TODO: anything else here?
 end
-
 
 module DeprecationTestHelper
   class Config
     FIXTURES = {
       basic: <<~EOC0,
-      {
-        "file_version": "1.0.0", "unknown_group_action": "ignore",
-        "groups": {
-          "a_group_that_will_warn" : { "action": "warn", "suffix": "Did you know chickens are dinosaurs?" },
-          "a_group_that_will_exit" : { "action": "exit", "exit_status": 8, "prefix": "No thanks!" },
-          "an_ignored_group" : { "action": "ignore" },
-          "a_group_that_will_fail" : { "action": "fail_control" }
+        {
+          "file_version": "1.0.0", "unknown_group_action": "ignore",
+          "groups": {
+            "a_group_that_will_warn" : { "action": "warn", "suffix": "Did you know chickens are dinosaurs?" },
+            "a_group_that_will_exit" : { "action": "exit", "exit_status": 8, "prefix": "No thanks!" },
+            "an_ignored_group" : { "action": "ignore" },
+            "a_group_that_will_fail" : { "action": "fail_control" }
+          }
         }
-      }
       EOC0
       missing_file_version: '{ "unknown_group_action": "ignore", "groups": {} }',
       bad_file_version: '{ "file_version": "99.99.99", "unknown_group_action": "ignore", "groups": {} }',
@@ -169,7 +167,7 @@ module DeprecationTestHelper
       empty: '{ "file_version": "1.0.0", "groups": {} }',
       bad_group_action: '{ "file_version": "1.0.0", "groups": { "methane_pockets" : { "action": "explode" } } }',
       bad_group_field: '{ "file_version": "1.0.0", "groups": { "pansporia" : { "martian": "yes" } } }',
-    }
+    }.freeze
 
     def self.get_io_for_fixture(fixture)
       StringIO.new(FIXTURES[fixture])

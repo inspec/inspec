@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-# Notice: line numbers are sensitive!  They are used for stacktrace testing in functional/loggin_test.rb
+# Notice: line numbers are sensitive!  They are used for stacktrace testing in functional/logging_test.rb
 
 control 'deprecate_fail_mode' do
 
