@@ -20,7 +20,7 @@ class AwsAutoScalingGroup < Inspec.resource(1)
   supports platform: 'aws'
 
   include AwsSingularResourceMixin
-  attr_reader :name, :arn, :min_size, :max_size, :desired_capacity, :vpc_zone_identifier, :launch_configuration_name, :tags, :health_check_type
+  attr_reader :name, :min_size, :max_size, :desired_capacity, :vpc_zone_identifier, :launch_configuration_name, :tags, :health_check_type
 
   private
 
