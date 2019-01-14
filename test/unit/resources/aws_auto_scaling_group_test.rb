@@ -107,21 +107,19 @@ module AwsMASG
             'launch_configuration_name': "my-launch-config", 
             'max_size': 4, 
             'min_size': 1, 
-            'tags': [
-              {
+            'tags': [OpenStruct.new({
                 resource_id: "IExist",
                 resource_type: "auto-scaling-group",
                 key: "Environment",
                 value: "Test",
                 propagate_at_launch: true,
-              },
-              {
+              }), OpenStruct.new({
                 resource_id: "IExist",
                 resource_type: "auto-scaling-group",
                 key: "Application",
                 value: "SampleApplicationName",
                 propagate_at_launch: true,
-              },
+              }),
             ],
             'vpc_zone_identifier': "subnet-1,subnet-2", 
           },
