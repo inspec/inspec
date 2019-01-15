@@ -9,14 +9,10 @@ module Inspec
 
       # What actions may you specify to be taken when a deprecation is encountered?
       VALID_ACTIONS = [
-        # Hard exit inspec, no stacktrace, exit code specified or DEFAULT_HARD_EXIT_STATUS
-        :exit,
-        # Fail the control with the message. If not in a control, do :warn action instead.
-        :fail_control,
-        # Do nothing.
-        :ignore,
-        # Issue a warning
-        :warn,
+        :exit, # Hard exit `inspec`, no stacktrace, exit code specified or DEFAULT_HARD_EXIT_STATUS
+        :fail_control, # Fail the control with a message. If not in a control, do :warn action instead.
+        :ignore, # Do nothing.
+        :warn, # Issue a warning
       ].freeze
 
       VALID_GROUP_FIELDS = %w{action suffix prefix exit_status}.freeze

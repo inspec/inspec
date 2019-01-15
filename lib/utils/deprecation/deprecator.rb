@@ -1,4 +1,3 @@
-
 require 'utils/deprecation/config_file'
 require 'inspec/log'
 
