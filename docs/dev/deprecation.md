@@ -6,6 +6,10 @@ The centralized deprecation facility is used to deprecate (retire, withdraw, etc
 
 The most important goal of the deprecation facility was to collect decisions about what actions should be taken for a deprecation in a central place, so that it is easier to handle major version changes.
 
+### Audience
+
+The deprecation facility is intended to be used by core InSpec developers, contributors, and resource developers. The configuration file, while intended to be easily understood and editable, is not intended to be modified by a typical InSpec user. The configuration present there should be considered part of the "release configuration," not part of the "runtime configuration."
+
 ### Example
 
 ```
