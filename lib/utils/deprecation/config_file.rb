@@ -5,7 +5,7 @@ require 'inspec/globals'
 module Inspec
   module Deprecation
     class ConfigFile
-      GroupEntry = Struct.new(:name, :action, :prefix, :suffix, :exit_status, :occurences)
+      GroupEntry = Struct.new(:name, :action, :prefix, :suffix, :exit_status)
 
       # What actions may you specify to be taken when a deprecation is encountered?
       VALID_ACTIONS = [
@@ -94,7 +94,6 @@ module Inspec
 
         entry.suffix = opts['suffix']
         entry.prefix = opts['prefix']
-        entry.occurences = []
         entry.exit_status = opts['exit_status']
 
         groups[name.to_sym] = entry
