@@ -115,7 +115,7 @@ module AwsMLCB
                   "sg-456", 
                 ],
                 spot_price: "0.1",
-                user_data: "#!/bin/bash", 
+                user_data: "IyEvYmluL2Jhc2g=", 
               },
         ]
       })

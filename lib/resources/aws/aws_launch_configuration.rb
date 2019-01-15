@@ -53,7 +53,7 @@ class AwsLaunchConfiguration < Inspec.resource(1)
       @security_groups = launch_configuration[:security_groups]
       # associate_public_ip_address is supposed to be true/false, but seems to be nil when false
       @associate_public_ip_address = launch_configuration[:associate_public_ip_address].nil? ? false : true
-      @user_data = launch_configuration[:user_data] ? Base64.decode64(launch_configuration[:user_data]) : ""
+      @user_data = launch_configuration[:user_data] ? Base64.decode64(launch_configuration[:user_data]) : nil
       @ebs_optimized = launch_configuration[:ebs_optimized]
       @instance_monitoring = launch_configuration[:instance_monitoring][:enabled] ? 'detailed': 'basic'
       @spot_price = launch_configuration[:spot_price].to_f
