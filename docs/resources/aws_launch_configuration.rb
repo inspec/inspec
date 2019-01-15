@@ -1,5 +1,6 @@
 ---
-   title: About the aws_launch_configuration Resource
+title: About the aws_launch_configuration Resource
+platform: aws
 ---
 
 # aws\_launch\_configuration
