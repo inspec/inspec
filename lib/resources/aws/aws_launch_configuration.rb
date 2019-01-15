@@ -14,7 +14,7 @@ class AwsLaunchConfiguration < Inspec.resource(1)
       its('associate_public_ip_address') { should be false }
       its('user_data') { should include '#!/bin/bash'}
       its('ebs_optimized') { should be true }
-      its('instance_monitoring') { should be 'detailed' }
+      its('instance_monitoring') { should eq 'detailed' }
       its('spot_price') { should eq 0.121 }
     end
   "
