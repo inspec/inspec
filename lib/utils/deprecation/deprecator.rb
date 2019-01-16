@@ -12,16 +12,24 @@ module Inspec
       end
 
       def handle_deprecation(group_name, message, opts = {})
-        group = groups[group_name.to_sym] # Will be nil if unrecognized group
+        group = groups[group_name.to_sym] || create_group_entry_for_unknown_group(group_name)
         annotate_stack_information(opts)
-        assembled_message = assemble_message(message, group, group_name, opts)
+        assembled_message = assemble_message(message, group, opts)
 
-        action = (group ? group[:action] : :warn) || :warn
+        action = group[:action] || :warn
         action_method = ('handle_' + action.to_s + '_action').to_sym
         send(action_method, assembled_message, group)
       end
 
       private
+
+      def create_group_entry_for_unknown_group(group_name)
+        group = ConfigFile::GroupEntry.new
+        group.name = group_name
+        group.action = config.unknown_group_action
+        group.suffix = "Additionally, the deprecation message is in an unknown group '#{group_name}'."
+        group
+      end
 
       def annotate_stack_information(opts)
         stack = caller_locations(1, 25)
@@ -45,10 +53,9 @@ module Inspec
         opts[:used_at_stack_frame] = used_at if used_at
       end
 
-      def assemble_message(message, group, group_name, opts)
-        prefix = group ? (group.prefix || '') : ''
-        suffix = group ? (group.suffix || '') : ''
-        suffix += "Additionally, the deprecation message is in an unknown group '#{group_name}'." unless group
+      def assemble_message(message, group, opts)
+        prefix = group.prefix || ''
+        suffix = group.suffix || ''
         prefix += ' ' unless prefix.empty?
         suffix = ' ' + suffix unless suffix.empty?
 
@@ -69,11 +76,11 @@ module Inspec
         false
       end
 
-      def handle_ignore_action(message, group)
-        handle_log_action(message, :debug, group)
+      def handle_ignore_action(message, _group)
+        handle_log_action(message, :debug)
       end
 
-      def handle_log_action(message, level, _group)
+      def handle_log_action(message, level)
         case level
         when :debug
           Inspec::Log.debug message
@@ -84,12 +91,12 @@ module Inspec
         end
       end
 
-      def handle_warn_action(message, group)
-        handle_log_action(message, :warn, group)
+      def handle_warn_action(message, _group)
+        handle_log_action(message, :warn)
       end
 
-      def handle_error_action(message, group)
-        handle_log_action(message, :error, group)
+      def handle_error_action(message, _group)
+        handle_log_action(message, :error)
       end
 
       def handle_fail_control_action(message, group)
@@ -102,7 +109,7 @@ module Inspec
 
       def handle_exit_action(message, group)
         handle_error_action(message, group)
-        status = (group ? group[:exit_status] : :fatal_deprecation) || :fatal_deprecation
+        status = group[:exit_status] || :fatal_deprecation
         Inspec::UI.new.exit(status)
       end
     end
