@@ -1,9 +1,9 @@
-require 'helper'
+require "helper"
 
 class TestEc2 < Minitest::Test
-  Id = 'instance-id'.freeze
-  InstanceProfile = 'instance-role'.freeze
-  Arn = 'arn:aws:iam::123456789012:instance-profile/instance-role'.freeze
+  Id = "instance-id".freeze
+  InstanceProfile = "instance-role".freeze
+  Arn = "arn:aws:iam::123456789012:instance-profile/instance-role".freeze
 
   def setup
     @mock_conn = Minitest::Mock.new
@@ -25,7 +25,7 @@ class TestEc2 < Minitest::Test
     mock_instance.expect :nil?, false
     mock_instance.expect :id, Id
     @mock_resource.expect :instances, [mock_instance], [Hash]
-    assert_equal Id, AwsEc2Instance.new({ name: 'cut' }, @mock_conn).id
+    assert_equal Id, AwsEc2Instance.new({ name: "cut" }, @mock_conn).id
   end
 
   def test_that_instance_returns_instance_when_instance_exists
@@ -34,7 +34,7 @@ class TestEc2 < Minitest::Test
     @mock_resource.expect :instance, mock_instance, [Id]
     assert_same(
       mock_instance,
-      AwsEc2Instance.new(Id, @mock_conn).send(:instance),
+      AwsEc2Instance.new(Id, @mock_conn).send(:instance)
     )
   end
 
@@ -78,7 +78,7 @@ class TestEc2 < Minitest::Test
     @mock_iam_resource.expect(
       :instance_profile,
       stub_instance_profile(mock_roles),
-      [InstanceProfile],
+      [InstanceProfile]
     )
 
     refute AwsEc2Instance.new(Id, @mock_conn).has_roles?
@@ -95,7 +95,7 @@ class TestEc2 < Minitest::Test
     @mock_iam_resource.expect(
       :instance_profile,
       stub_instance_profile(mock_roles),
-      [InstanceProfile],
+      [InstanceProfile]
     )
 
     assert AwsEc2Instance.new(Id, @mock_conn).has_roles?
@@ -109,7 +109,7 @@ class TestEc2 < Minitest::Test
     @mock_iam_resource.expect(
       :instance_profile,
       stub_instance_profile(nil),
-      [InstanceProfile],
+      [InstanceProfile]
     )
 
     refute AwsEc2Instance.new(Id, @mock_conn).has_roles?

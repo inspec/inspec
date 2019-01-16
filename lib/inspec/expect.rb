@@ -3,7 +3,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'rspec/expectations'
+require "rspec/expectations"
 
 module Inspec
   class Expect
@@ -25,11 +25,11 @@ module Inspec
     def example_group
       that = self
 
-      opts = { 'caller' => calls[0][3] }
+      opts = { "caller" => calls[0][3] }
       if !calls[0][3].nil? && !calls[0][3].empty? &&
-         (m = calls[0][3][0].match(/^([^:]*):(\d+):/))
-        opts['file_path'] = m[0]
-        opts['line_number'] = m[1]
+          (m = calls[0][3][0].match(/^([^:]*):(\d+):/))
+        opts["file_path"] = m[0]
+        opts["line_number"] = m[1]
       end
 
       RSpec::Core::ExampleGroup.describe(that.value, opts) do

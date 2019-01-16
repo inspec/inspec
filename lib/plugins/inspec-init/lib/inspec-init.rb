@@ -4,7 +4,7 @@ module InspecPlugins
       plugin_name :'inspec-init'
 
       cli_command :init do
-        require_relative 'inspec-init/cli'
+        require_relative "inspec-init/cli"
         InspecPlugins::Init::CLI
       end
     end

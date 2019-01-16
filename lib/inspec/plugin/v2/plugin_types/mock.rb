@@ -6,7 +6,7 @@ module Inspec::Plugin::V2::PluginType
     # This is the API for the mock plugin type: when a mock plugin is
     # activated, it is expected to be able to respond to this, and "do something"
     def mock_hook
-      raise NotImplementedError, 'Mock plugins must implement mock_hook'
+      raise NotImplementedError, "Mock plugins must implement mock_hook"
     end
   end
 end

@@ -1,17 +1,17 @@
 class AwsKmsKeys < Inspec.resource(1)
-  name 'aws_kms_keys'
-  desc 'Verifies settings for AWS KMS Keys in bulk'
+  name "aws_kms_keys"
+  desc "Verifies settings for AWS KMS Keys in bulk"
   example '
     describe aws_kms_keys do
       it { should exist }
     end
   '
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsPluralResourceMixin
   def validate_params(resource_params)
     unless resource_params.empty?
-      raise ArgumentError, 'aws_kms_keys does not accept resource parameters.'
+      raise ArgumentError, "aws_kms_keys does not accept resource parameters."
     end
     resource_params
   end
@@ -24,7 +24,7 @@ class AwsKmsKeys < Inspec.resource(1)
   filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
-    'KMS Keys'
+    "KMS Keys"
   end
 
   def fetch_from_api

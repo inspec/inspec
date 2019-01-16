@@ -1,13 +1,13 @@
 class AwsEksCluster < Inspec.resource(1)
-  name 'aws_eks_cluster'
-  desc 'Verifies settings for an EKS cluster'
+  name "aws_eks_cluster"
+  desc "Verifies settings for an EKS cluster"
 
   example <<-EOX
     describe aws_eks_cluster('default') do
       it { should exist }
     end
 EOX
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
   attr_reader :version, :arn, :cluster_name, :certificate_authority, :name,
@@ -31,11 +31,11 @@ EOX
       raw_params: raw_params,
       allowed_params: [:cluster_name],
       allowed_scalar_name: :cluster_name,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
 
     if validated_params.empty?
-      raise ArgumentError, 'You must provide a cluster_name to aws_eks_cluster.'
+      raise ArgumentError, "You must provide a cluster_name to aws_eks_cluster."
     end
 
     validated_params
@@ -66,10 +66,10 @@ EOX
     @vpc_id = cluster[:resources_vpc_config][:vpc_id]
     @role_arn = cluster[:role_arn]
     @status = cluster[:status]
-    @active = cluster[:status] == 'ACTIVE'
-    @failed = cluster[:status] == 'FAILED'
-    @creating = cluster[:status] == 'CREATING'
-    @deleting = cluster[:status] == 'DELETING'
+    @active = cluster[:status] == "ACTIVE"
+    @failed = cluster[:status] == "FAILED"
+    @creating = cluster[:status] == "CREATING"
+    @deleting = cluster[:status] == "DELETING"
   end
 
   def populate_as_missing

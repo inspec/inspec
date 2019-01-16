@@ -1,7 +1,7 @@
 # author: Christoph Hartmann
 class AwsEc2Instance < Inspec.resource(1)
-  name 'aws_ec2_instance'
-  desc 'Verifies settings for an EC2 instance'
+  name "aws_ec2_instance"
+  desc "Verifies settings for an EC2 instance"
 
   example <<-EOX
     describe aws_ec2_instance('i-123456') do
@@ -14,7 +14,7 @@ class AwsEc2Instance < Inspec.resource(1)
       it { should have_roles }
     end
 EOX
-  supports platform: 'aws'
+  supports platform: "aws"
 
   # TODO: rewrite to avoid direct injection, match other resources, use AwsSingularResourceMixin
   def initialize(opts, conn = nil)
@@ -33,7 +33,7 @@ EOX
     # The AWS error here is unhelpful:
     # "unable to sign request without credentials set"
     Inspec::Log.error "It appears that you have not set your AWS credentials.  You may set them using environment variables, or using the 'aws://region/aws_credentials_profile' target.  See https://www.inspec.io/docs/reference/platforms for details."
-    fail_resource('No AWS credentials available')
+    fail_resource("No AWS credentials available")
   rescue Aws::Errors::ServiceError => e
     fail_resource e.message
   end
@@ -57,10 +57,10 @@ EOX
         first = @ec2_resource.instances(
           {
             filters: [{
-              name: 'tag:Name',
+              name: "tag:Name",
               values: [@opts[:name]],
             }],
-          },
+          }
         ).first
         # catch case where the instance is not known
         @instance_id = first.id unless first.nil?
@@ -88,7 +88,7 @@ EOX
     pending running shutting-down
     terminated stopping stopped unknown
   }.each do |state_name|
-    define_method state_name.tr('-', '_') + '?' do
+    define_method state_name.tr("-", "_") + "?" do
       state == state_name
     end
   end
@@ -111,9 +111,9 @@ EOX
   # is to use dumb things, like arrays of strings - use security_group_ids instead.
   def security_groups
     catch_aws_errors do
-      @security_groups ||= instance.security_groups.map { |sg|
+      @security_groups ||= instance.security_groups.map do |sg|
         { id: sg.group_id, name: sg.group_name }
-      }
+      end
     end
   end
 
@@ -139,7 +139,7 @@ EOX
 
       if instance_profile
         roles = @iam_resource.instance_profile(
-          instance_profile.arn.gsub(%r{^.*\/}, ''),
+          instance_profile.arn.gsub(%r{^.*\/}, "")
         ).roles
       else
         roles = nil

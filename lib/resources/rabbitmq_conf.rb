@@ -1,15 +1,15 @@
 # encoding: utf-8
 
-require 'utils/erlang_parser'
-require 'utils/file_reader'
+require "utils/erlang_parser"
+require "utils/file_reader"
 
 module Inspec::Resources
   class RabbitmqConf < Inspec.resource(1)
-    name 'rabbitmq_config'
-    supports platform: 'unix'
-    desc 'Use the rabbitmq_config InSpec resource to test configuration data '\
-         'for the RabbitMQ service located in /etc/rabbitmq/rabbitmq.config on '\
-         'Linux and UNIX platforms.'
+    name "rabbitmq_config"
+    supports platform: "unix"
+    desc "Use the rabbitmq_config InSpec resource to test configuration data "\
+         "for the RabbitMQ service located in /etc/rabbitmq/rabbitmq.config on "\
+         "Linux and UNIX platforms."
     example "
       describe rabbitmq_config.params('rabbit', 'ssl_listeners') do
         it { should cmp 5671 }
@@ -19,7 +19,7 @@ module Inspec::Resources
     include FileReader
 
     def initialize(conf_path = nil)
-      @conf_path = conf_path || '/etc/rabbitmq/rabbitmq.config'
+      @conf_path = conf_path || "/etc/rabbitmq/rabbitmq.config"
       @content = read_file_content(@conf_path, allow_empty: true)
     end
 

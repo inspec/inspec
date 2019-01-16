@@ -19,6 +19,6 @@ module AwsSingularResourceMixin
       extend AwsBackendFactoryMixin
     end
     # Name that class
-    base.const_set('BackendFactory', resource_backend_factory_class)
+    base.const_set("BackendFactory", resource_backend_factory_class)
   end
 end

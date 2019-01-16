@@ -1,11 +1,11 @@
-require 'yaml'
+require "yaml"
 
 # Custom resource based on the InSpec resource DSL
 class GordonConfig < Inspec.resource(1)
-  name 'gordon_config'
+  name "gordon_config"
 
-  supports platform: 'unix'
-  supports platform: 'windows'
+  supports platform: "unix"
+  supports platform: "windows"
 
   desc "
     Gordon's resource description ...
@@ -21,7 +21,7 @@ class GordonConfig < Inspec.resource(1)
   # Load the configuration file on initialization
   def initialize
     @params = {}
-    @path = '/tmp/gordon/config.yaml'
+    @path = "/tmp/gordon/config.yaml"
     @file = inspec.file(@path)
 
     unless @file.file?
@@ -32,9 +32,9 @@ class GordonConfig < Inspec.resource(1)
     begin
       @params = YAML.load(@file.content)
       # Add two extra matchers
-      @params['file_size'] = @file.size
-      @params['file_path'] = @path
-      @params['ruby'] = 'RUBY IS HERE TO HELP ME!'
+      @params["file_size"] = @file.size
+      @params["file_path"] = @path
+      @params["ruby"] = "RUBY IS HERE TO HELP ME!"
     rescue StandardError => e
       raise Inspec::Exceptions::ResourceSkipped, "#{@file}: #{e.message}"
     end
@@ -49,7 +49,7 @@ class GordonConfig < Inspec.resource(1)
   # Example matcher for the number of commas in the file
   def comma_count
     text = @file.content
-    text.count(',')
+    text.count(",")
   end
 
   # Expose all parameters

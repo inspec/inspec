@@ -17,7 +17,7 @@ RSpec::Matchers.define :be_readable do
   end
 
   description do
-    res = 'be readable'
+    res = "be readable"
     res += " by #{@by}" unless @by.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
@@ -38,7 +38,7 @@ RSpec::Matchers.define :be_writable do
   end
 
   description do
-    res = 'be writable'
+    res = "be writable"
     res += " by #{@by}" unless @by.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
@@ -59,7 +59,7 @@ RSpec::Matchers.define :be_executable do
   end
 
   description do
-    res = 'be executable'
+    res = "be executable"
     res += " by #{@by}" unless @by.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
@@ -95,7 +95,7 @@ RSpec::Matchers.define :be_enabled do
   end
 
   chain :with_level do |_level|
-    raise '[UNSUPPORTED] with level is not supported'
+    raise "[UNSUPPORTED] with level is not supported"
   end
 
   failure_message do |service|
@@ -111,7 +111,7 @@ RSpec::Matchers.define :be_running do
   end
 
   chain :under do |_under|
-    raise '[UNSUPPORTED] under is not supported'
+    raise "[UNSUPPORTED] under is not supported"
   end
 
   failure_message do |service|
@@ -126,7 +126,7 @@ RSpec::Matchers.define :be_reachable do
   end
 
   chain :with do |_attr|
-    raise '[UNSUPPORTED] `with` is not supported in combination with `be_reachable`'
+    raise "[UNSUPPORTED] `with` is not supported in combination with `be_reachable`"
   end
 
   failure_message do |host|
@@ -239,7 +239,7 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
 
   # expects that the values have been checked with boolean?
   def to_boolean(value)
-    value.casecmp('true') == 0
+    value.casecmp("true") == 0
   end
 
   def try_match(actual, op, expected) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
@@ -288,18 +288,18 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
   end
 
   def format_expectation(negate)
-    return 'expected: '+@expected.inspect if @operation == :== && !negate
-    negate_str = negate ? 'not ' : ''
+    return "expected: " + @expected.inspect if @operation == :== && !negate
+    negate_str = negate ? "not " : ""
     "expected it #{negate_str}to be #{@operation} #{@expected.inspect}"
   end
 
   failure_message do |actual|
-    actual = ('0' + actual.to_s(8)) if octal?(@expected)
+    actual = ("0" + actual.to_s(8)) if octal?(@expected)
     "\n" + format_expectation(false) + "\n     got: #{actual.inspect}\n\n(compared using `cmp` matcher)\n"
   end
 
   failure_message_when_negated do |actual|
-    actual = ('0' + actual.to_s(8)).inspect if octal?(@expected)
+    actual = ("0" + actual.to_s(8)).inspect if octal?(@expected)
     "\n" + format_expectation(true) + "\n     got: #{actual.inspect}\n\n(compared using `cmp` matcher)\n"
   end
 

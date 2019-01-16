@@ -1,13 +1,13 @@
 # encoding: utf-8
 
-require 'utils/parser'
-require 'utils/file_reader'
+require "utils/parser"
+require "utils/file_reader"
 
 class EtcHosts < Inspec.resource(1)
-  name 'etc_hosts'
-  supports platform: 'linux'
-  supports platform: 'bsd'
-  supports platform: 'windows'
+  name "etc_hosts"
+  supports platform: "linux"
+  supports platform: "bsd"
+  supports platform: "windows"
   desc 'Use the etc_hosts InSpec audit resource to find an
     ip_address and its associated hosts'
   example "
@@ -23,7 +23,7 @@ class EtcHosts < Inspec.resource(1)
   include CommentParser
   include FileReader
 
-  DEFAULT_UNIX_PATH    = '/etc/hosts'.freeze
+  DEFAULT_UNIX_PATH    = "/etc/hosts".freeze
   DEFAULT_WINDOWS_PATH = 'C:\windows\system32\drivers\etc\hosts'.freeze
 
   def initialize(hosts_path = nil)
@@ -33,9 +33,9 @@ class EtcHosts < Inspec.resource(1)
   end
 
   FilterTable.create
-             .register_column(:ip_address,     field: 'ip_address')
-             .register_column(:primary_name,   field: 'primary_name')
-             .register_column(:all_host_names, field: 'all_host_names')
+             .register_column(:ip_address,     field: "ip_address")
+             .register_column(:primary_name,   field: "primary_name")
+             .register_column(:all_host_names, field: "all_host_names")
              .install_filter_methods_on_resource(self, :params)
 
   private
@@ -49,7 +49,7 @@ class EtcHosts < Inspec.resource(1)
   end
 
   def comment?
-    parse_options = { comment_char: '#', standalone_comments: false }
+    parse_options = { comment_char: "#", standalone_comments: false }
 
     ->(data) { parse_comment_line(data, parse_options).first.empty? }
   end

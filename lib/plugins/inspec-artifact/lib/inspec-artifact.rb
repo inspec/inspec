@@ -4,7 +4,7 @@ module InspecPlugins
       plugin_name :'inspec-artifact'
 
       cli_command :artifact do
-        require_relative 'inspec-artifact/cli'
+        require_relative "inspec-artifact/cli"
         InspecPlugins::Artifact::CLI
       end
     end

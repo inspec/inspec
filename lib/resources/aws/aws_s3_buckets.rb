@@ -1,14 +1,14 @@
 # author: Matthew Dromazos
 # author: Sam Cornwell
 class AwsS3Buckets < Inspec.resource(1)
-  name 'aws_s3_buckets'
-  desc 'Verifies settings for AWS S3 Buckets in bulk'
+  name "aws_s3_buckets"
+  desc "Verifies settings for AWS S3 Buckets in bulk"
   example "
     describe aws_s3_bucket do
       its('bucket_names') { should eq ['my_bucket'] }
     end
   "
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsPluralResourceMixin
 
@@ -19,12 +19,12 @@ class AwsS3Buckets < Inspec.resource(1)
   filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
-    'S3 Buckets'
+    "S3 Buckets"
   end
 
   def validate_params(resource_params)
     unless resource_params.empty?
-      raise ArgumentError, 'aws_s3_buckets does not accept resource parameters.'
+      raise ArgumentError, "aws_s3_buckets does not accept resource parameters."
     end
     resource_params
   end

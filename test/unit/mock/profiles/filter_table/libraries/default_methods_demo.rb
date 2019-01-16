@@ -1,5 +1,5 @@
 class DefaultMethodsDemo < Inspec.resource(1)
-  name 'default_methods_demo'
+  name "default_methods_demo"
 
   attr_reader :plain_data
 

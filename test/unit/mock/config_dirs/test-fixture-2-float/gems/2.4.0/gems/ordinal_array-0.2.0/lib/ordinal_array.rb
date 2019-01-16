@@ -1,12 +1,12 @@
-require_relative './ordinal_array/ordinal'
-require_relative './ordinal_array/ordinal_constants'
+require_relative "./ordinal_array/ordinal"
+require_relative "./ordinal_array/ordinal_constants"
 
 class Array
 
   include OrdinalArray::Constant
   include OrdinalArray
 
-  def self.respond_to?(method_sym, include_private=false)
+  def self.respond_to?(method_sym, include_private = false)
     return true if Array.number_in_letter? method_sym
     super
   end
@@ -19,7 +19,7 @@ class Array
         self[index]
       end
 
-      self.send(name)
+      send(name)
     else
       super
     end
@@ -31,7 +31,7 @@ class Array
     ordinal_figure      = false
     possible_followers  = [:hundred, :decade, :ordinal]
 
-    letter_numbers      = name.to_s.split('_').drop_while do |letter_number|
+    letter_numbers      = name.to_s.split("_").drop_while do |letter_number|
       return false if ordinal_figure
 
       figure = Numbers_in_letter.element_by_name(letter_number)
@@ -48,17 +48,17 @@ class Array
 
   def index_by_number_in_letter(name, *params)
     partial_sum = 1
-    sum = name.to_s.split('_').inject(0) do |sum, letter_number|
+    sum = name.to_s.split("_").inject(0) do |sum, letter_number|
       number = Numbers_in_letter.element_by_name(letter_number).number
       if partial_sum < number
-        partial_sum = partial_sum * number
+        partial_sum *= number
       else
-        sum = sum + partial_sum
+        sum += partial_sum
         partial_sum = number
       end
       sum
     end
-    sum   = sum + partial_sum
+    sum += partial_sum
     index = sum - 1
     index > 0 ? index : nil
   end

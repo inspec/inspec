@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require 'yaml'
+require "yaml"
 
 # Parses a yaml document
 # Usage:
@@ -9,8 +9,8 @@ require 'yaml'
 # end
 module Inspec::Resources
   class YamlConfig < JsonConfig
-    name 'yaml'
-    desc 'Use the yaml InSpec audit resource to test configuration data in a YAML file.'
+    name "yaml"
+    desc "Use the yaml InSpec audit resource to test configuration data in a YAML file."
     example "
       describe yaml('config.yaml') do
         its(['driver', 'name']) { should eq 'vagrant' }
@@ -37,7 +37,7 @@ module Inspec::Resources
     # used by JsonConfig to build up a full to_s method
     # based on whether a file path, content, or command was supplied.
     def resource_base_name
-      'YAML'
+      "YAML"
     end
   end
 end

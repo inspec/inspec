@@ -1,10 +1,10 @@
 # Library resource
 
-require 'gordonlib'
-require 'hashie'
+require "gordonlib"
+require "hashie"
 
 class Gordon < Inspec.resource(1)
-  name 'gordon'
+  name "gordon"
   include GordonLib
   def enabled?
     true

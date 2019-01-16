@@ -1,9 +1,9 @@
 # encoding: utf-8
 
-describe 'bob' do
-  it { should eq 'bob' }
+describe "bob" do
+  it { should eq "bob" }
 end
 
-describe 'sensitivepassword', :sensitive do
-  it { should eq 'sensitivepassword' }
+describe "sensitivepassword", :sensitive do
+  it { should eq "sensitivepassword" }
 end

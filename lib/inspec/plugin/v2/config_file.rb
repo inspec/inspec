@@ -1,4 +1,4 @@
-require 'json'
+require "json"
 
 module Inspec::Plugin::V2
   # Represents the plugin config file on disk.
@@ -17,7 +17,7 @@ module Inspec::Plugin::V2
     # Returns the defaut path for a config file.
     # This respects ENV['INSPEC_CONFIG_DIR'].
     def self.default_path
-      File.join(Inspec.config_dir, 'plugins.json')
+      File.join(Inspec.config_dir, "plugins.json")
     end
 
     # Implement Enumerable. All Enumerable methds act
@@ -40,7 +40,7 @@ module Inspec::Plugin::V2
     # Add an entry with full validation.
     def add_entry(proposed_entry)
       unless proposed_entry.keys.all? { |field| field.is_a? Symbol }
-        raise Inspec::Plugin::V2::ConfigError, 'All keys to ConfigFile#add_entry must be symbols'
+        raise Inspec::Plugin::V2::ConfigError, "All keys to ConfigFile#add_entry must be symbols"
       end
 
       validate_entry(proposed_entry)
@@ -71,7 +71,7 @@ module Inspec::Plugin::V2
 
     def blank_structure
       {
-        plugins_config_version: '1.0.0',
+        plugins_config_version: "1.0.0",
         plugins: [],
       }
     end
@@ -88,7 +88,7 @@ module Inspec::Plugin::V2
         raise Inspec::Plugin::V2::ConfigError, "Missing 'plugins_config_version' entry at #{path} - currently support versions: 1.0.0"
       end
 
-      unless @data[:plugins_config_version] == '1.0.0'
+      unless @data[:plugins_config_version] == "1.0.0"
         raise Inspec::Plugin::V2::ConfigError, "Unsupported plugins.json file version #{@data[:plugins_config_version]} at #{path} - currently support versions: 1.0.0"
       end
 
@@ -106,7 +106,7 @@ module Inspec::Plugin::V2
           validate_entry(plugin_entry)
         rescue Inspec::Plugin::V2::ConfigError => ex
           # append some context to the message
-          raise Inspec::Plugin::V2::ConfigError, 'Malformed plugins.json file - ' + ex.message + " at index #{idx}"
+          raise Inspec::Plugin::V2::ConfigError, "Malformed plugins.json file - " + ex.message + " at index #{idx}"
         end
 
         # Check for duplicates

@@ -1,12 +1,12 @@
 class AwsIamRootUser < Inspec.resource(1)
-  name 'aws_iam_root_user'
-  desc 'Verifies settings for AWS root account'
+  name "aws_iam_root_user"
+  desc "Verifies settings for AWS root account"
   example "
     describe aws_iam_root_user do
       it { should have_access_key }
     end
   "
-  supports platform: 'aws'
+  supports platform: "aws"
 
   # TODO: rewrite to avoid direct injection, match other resources, use AwsSingularResourceMixin
   def initialize(conn = nil)
@@ -21,7 +21,7 @@ class AwsIamRootUser < Inspec.resource(1)
     # The AWS error here is unhelpful:
     # "unable to sign request without credentials set"
     Inspec::Log.error "It appears that you have not set your AWS credentials.  You may set them using environment variables, or using the 'aws://region/aws_credentials_profile' target.  See https://www.inspec.io/docs/reference/platforms for details."
-    fail_resource('No AWS credentials available')
+    fail_resource("No AWS credentials available")
   rescue Aws::Errors::ServiceError => e
     fail_resource e.message
   end
@@ -39,11 +39,11 @@ class AwsIamRootUser < Inspec.resource(1)
   end
 
   def has_access_key?
-    summary_account['AccountAccessKeysPresent'] == 1
+    summary_account["AccountAccessKeysPresent"] == 1
   end
 
   def has_mfa_enabled?
-    summary_account['AccountMFAEnabled'] == 1
+    summary_account["AccountMFAEnabled"] == 1
   end
 
   # if the root account has a Virtual MFA device then it will have a special
@@ -51,7 +51,7 @@ class AwsIamRootUser < Inspec.resource(1)
   def has_virtual_mfa_enabled?
     mfa_device_pattern = %r{arn:aws:iam::\d{12}:mfa\/root-account-mfa-device}
 
-    virtual_mfa_devices.any? { |d| mfa_device_pattern =~ d['serial_number'] }
+    virtual_mfa_devices.any? { |d| mfa_device_pattern =~ d["serial_number"] }
   end
 
   def has_hardware_mfa_enabled?
@@ -59,7 +59,7 @@ class AwsIamRootUser < Inspec.resource(1)
   end
 
   def to_s
-    'AWS Root-User'
+    "AWS Root-User"
   end
 
   private

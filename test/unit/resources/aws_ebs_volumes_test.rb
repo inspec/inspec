@@ -1,4 +1,4 @@
-require 'helper'
+require "helper"
 
 # MAEIPB = MockAwsEbsVolumesPluralBackend
 # Abbreviation not used outside this file
@@ -20,7 +20,6 @@ class AwsEbsVolumesConstructorTest < Minitest::Test
     assert_raises(ArgumentError) { AwsEbsVolumes.new(shoe_size: 9) }
   end
 end
-
 
 #=============================================================================#
 #                               Search / Recall
@@ -54,9 +53,9 @@ class AwsEbsVolumesProperties < Minitest::Test
   def setup
     AwsEbsVolumes::BackendFactory.select(MAEIPB::Basic)
   end
-  
+
   def test_property_volume_ids_when_no_volumes_exist
-    AwsEbsVolumes::BackendFactory.select(MAEIPB::Empty)    
+    AwsEbsVolumes::BackendFactory.select(MAEIPB::Empty)
     empty = AwsEbsVolumes.new
     assert_kind_of(Array, empty.volume_ids)
     assert_empty(empty.volume_ids)
@@ -65,9 +64,9 @@ class AwsEbsVolumesProperties < Minitest::Test
   def test_property_volume_ids_when_volumes_exist
     basic = AwsEbsVolumes.new
     assert_kind_of(Array, basic.volume_ids)
-    assert(basic.volume_ids.include?('vol-deadbeef'))
+    assert(basic.volume_ids.include?("vol-deadbeef"))
     assert_equal(3, basic.volume_ids.length)
-    assert(basic.volume_ids.include?('vol-11112222'))
+    assert(basic.volume_ids.include?("vol-11112222"))
     refute(basic.volume_ids.include?(nil))
   end
 end
@@ -91,19 +90,19 @@ module MAEIPB
               Aws::EC2::Types::VolumeAttachment.new(
                 # Many, many other properties available here.
                 # We're starting with what we support.
-                volume_id: 'vol-0e8541d718e67e1be'
+                volume_id: "vol-0e8541d718e67e1be"
               ),
               Aws::EC2::Types::VolumeAttachment.new(
-                volume_id: 'vol-deadbeef'
+                volume_id: "vol-deadbeef"
               ),
-            ],
+            ]
           ),
           Aws::EC2::Types::Volume.new(
             attachments: [
               Aws::EC2::Types::VolumeAttachment.new(
-                volume_id: 'vol-11112222'
+                volume_id: "vol-11112222"
               ),
-            ],
+            ]
           ),
         ]
       )

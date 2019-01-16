@@ -1,11 +1,11 @@
 # encoding: utf-8
 # Copyright 2015 Dominik Richter
 
-require 'logger'
-require 'rubygems/version'
-require 'rubygems/requirement'
-require 'semverse'
-require 'utils/spdx'
+require "logger"
+require "rubygems/version"
+require "rubygems/requirement"
+require "semverse"
+require "utils/spdx"
 
 module Inspec
   # Extract metadata.rb information
@@ -18,7 +18,7 @@ module Inspec
     def initialize(ref, logger = nil)
       @ref = ref
       @logger = logger || Logger.new(nil)
-      @content = ''
+      @content = ""
       @params = {}
       @missing_methods = []
     end
@@ -78,12 +78,12 @@ module Inspec
 
       if %r{[\/\\]} =~ params[:name]
         errors.push("The profile name (#{params[:name]}) contains a slash" \
-                      ' which is not permitted. Please remove all slashes from `inspec.yml`.')
+                      " which is not permitted. Please remove all slashes from `inspec.yml`.")
       end
 
       # if version is set, ensure it is correct
       if !params[:version].nil? && !valid_version?(params[:version])
-        errors.push('Version needs to be in SemVer format')
+        errors.push("Version needs to be in SemVer format")
       end
 
       %w{title summary maintainer copyright license}.each do |field|
@@ -139,8 +139,8 @@ module Inspec
         x
       when Array
         logger.warn(
-          'Failed to read supports entry that is an array. Please use '\
-          'the `supports: {os-family: xyz}` syntax.',
+          "Failed to read supports entry that is an array. Please use "\
+          "the `supports: {os-family: xyz}` syntax."
         )
         nil
       when nil then nil
@@ -148,7 +148,7 @@ module Inspec
         logger ||= Logger.new(nil)
         logger.warn(
           "Do not use deprecated `supports: #{x}` syntax. Instead use:\n"\
-          "supports:\n  - os-family: #{x}\n\n",
+          "supports:\n  - os-family: #{x}\n\n"
         )
         { :'os-family' => x } # rubocop:disable Style/HashSyntax
       end
@@ -180,14 +180,14 @@ module Inspec
       # unit tests that look for warning sequences
       return if original_target.to_s.empty?
       metadata.params[:title] = "tests from #{original_target}"
-      metadata.params[:name] = metadata.params[:title].gsub(%r{[\/\\]}, '.')
+      metadata.params[:name] = metadata.params[:title].gsub(%r{[\/\\]}, ".")
     end
 
     def self.finalize(metadata, profile_id, options, logger = nil)
       return nil if metadata.nil?
       param = metadata.params || {}
       options ||= {}
-      param['version'] = param['version'].to_s unless param['version'].nil?
+      param["version"] = param["version"].to_s unless param["version"].nil?
       metadata.params = symbolize_keys(param)
       metadata.params[:supports] = finalize_supports(metadata.params[:supports], logger)
       finalize_name(metadata, profile_id, options[:target])
@@ -197,7 +197,7 @@ module Inspec
 
     def self.from_yaml(ref, content, profile_id, logger = nil)
       res = Metadata.new(ref, logger)
-      require 'erb'
+      require "erb"
       res.params = YAML.load(ERB.new(content).result)
       res.content = content
       finalize(res, profile_id, {}, logger)
@@ -214,9 +214,9 @@ module Inspec
       # NOTE there doesn't have to exist an actual file, it may come from an
       # archive (i.e., content)
       case File.basename(ref)
-      when 'inspec.yml'
+      when "inspec.yml"
         from_yaml(ref, content, profile_id, logger)
-      when 'metadata.rb'
+      when "metadata.rb"
         from_ruby(ref, content, profile_id, logger)
       else
         logger ||= Logger.new(nil)

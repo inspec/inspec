@@ -3,16 +3,16 @@
 # https://github.com/knu/ruby-unf_ext/pull/39
 # is merged and released
 
-name 'unf_ext'
+name "unf_ext"
 
-dependency 'ruby'
-dependency 'rubygems'
-dependency 'bundler'
-dependency 'appbundler'
+dependency "ruby"
+dependency "rubygems"
+dependency "bundler"
+dependency "appbundler"
 
 license :project_license
-default_version 'c0b3bd922214a172976f6f368c0b4e4fbf91ed78'
-source git: 'https://github.com/jquick/ruby-unf_ext.git'
+default_version "c0b3bd922214a172976f6f368c0b4e4fbf91ed78"
+source git: "https://github.com/jquick/ruby-unf_ext.git"
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)

@@ -1,9 +1,9 @@
 # encoding: utf-8
 
-require 'utils/nginx_parser'
-require 'utils/find_files'
-require 'utils/file_reader'
-require 'forwardable'
+require "utils/nginx_parser"
+require "utils/find_files"
+require "utils/file_reader"
+require "forwardable"
 
 # STABILITY: Experimental
 # This resouce needs a proper interace to the underlying data, which is currently missing.
@@ -14,11 +14,11 @@ require 'forwardable'
 # when running remotely.
 module Inspec::Resources
   class NginxConf < Inspec.resource(1)
-    name 'nginx_conf'
-    supports platform: 'unix'
-    desc 'Use the nginx_conf InSpec resource to test configuration data '\
-         'for the NginX web server located in /etc/nginx/nginx.conf on '\
-         'Linux and UNIX platforms.'
+    name "nginx_conf"
+    supports platform: "unix"
+    desc "Use the nginx_conf InSpec resource to test configuration data "\
+         "for the NginX web server located in /etc/nginx/nginx.conf on "\
+         "Linux and UNIX platforms."
     example "
       describe nginx_conf.params ...
       describe nginx_conf('/path/to/my/nginx.conf').params ...
@@ -32,9 +32,9 @@ module Inspec::Resources
     attr_reader :contents
 
     def initialize(conf_path = nil)
-      @conf_path = conf_path || '/etc/nginx/nginx.conf'
+      @conf_path = conf_path || "/etc/nginx/nginx.conf"
       @contents = {}
-      return skip_resource 'The `nginx_conf` resource is currently not supported on Windows.' if inspec.os.windows?
+      return skip_resource "The `nginx_conf` resource is currently not supported on Windows." if inspec.os.windows?
       read_content(@conf_path)
     end
 
@@ -46,7 +46,7 @@ module Inspec::Resources
     end
 
     def http
-      NginxConfHttp.new(params['http'], self)
+      NginxConfHttp.new(params["http"], self)
     end
 
     def_delegators :http, :servers, :locations
@@ -91,8 +91,8 @@ module Inspec::Resources
 
       # Any call to `include` gets its data read, parsed, and merged back
       # into the current data structure
-      if data.key?('include')
-        data.delete('include').flatten
+      if data.key?("include")
+        data.delete("include").flatten
             .map { |x| File.expand_path(x, rel_path) }
             .map { |x| find_files(x) }.flatten
             .map { |path| parse_nginx(path) }
@@ -143,7 +143,7 @@ module Inspec::Resources
     end
 
     def to_s
-      @parent.to_s + ', http entries'
+      @parent.to_s + ", http entries"
     end
     alias inspect to_s
   end
@@ -156,7 +156,7 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.register_column(:servers, field: 'server')
+    filter.register_column(:servers, field: "server")
           .install_filter_methods_on_resource(self, :server_table)
 
     def locations
@@ -164,14 +164,14 @@ module Inspec::Resources
     end
 
     def to_s
-      @parent.to_s + ', http entry'
+      @parent.to_s + ", http entry"
     end
     alias inspect to_s
 
     private
 
     def server_table
-      @server_table ||= (params['server'] || []).map { |x| { 'server' => NginxConfServer.new(x, self) } }
+      @server_table ||= (params["server"] || []).map { |x| { "server" => NginxConfServer.new(x, self) } }
     end
   end
 
@@ -183,15 +183,15 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.register_column(:locations, field: 'location')
+    filter.register_column(:locations, field: "location")
           .install_filter_methods_on_resource(self, :location_table)
 
     def to_s
-      server = ''
-      name = Array(params['server_name']).flatten.first
+      server = ""
+      name = Array(params["server_name"]).flatten.first
       unless name.nil?
         server += name
-        listen = Array(params['listen']).flatten.first
+        listen = Array(params["listen"]).flatten.first
         server += ":#{listen}" unless listen.nil?
       end
 
@@ -203,7 +203,7 @@ module Inspec::Resources
     private
 
     def location_table
-      @location_table ||= (params['location'] || []).map { |x| { 'location' => NginxConfLocation.new(x, self) } }
+      @location_table ||= (params["location"] || []).map { |x| { "location" => NginxConfLocation.new(x, self) } }
     end
   end
 
@@ -215,7 +215,7 @@ module Inspec::Resources
     end
 
     def to_s
-      location = Array(params['_']).join(' ')
+      location = Array(params["_"]).join(" ")
       # go three levels up: 1. to the server entry, 2. http entry and 3. to the root nginx conf
       @parent.parent.parent.to_s + ", location #{location.inspect}"
     end

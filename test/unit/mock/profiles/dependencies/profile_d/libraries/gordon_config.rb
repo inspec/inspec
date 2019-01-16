@@ -1,5 +1,5 @@
 class GordonConfig < Inspec.resource(1)
-  name 'gordon_config'
+  name "gordon_config"
 
   desc "Gordon's resource description ..."
 

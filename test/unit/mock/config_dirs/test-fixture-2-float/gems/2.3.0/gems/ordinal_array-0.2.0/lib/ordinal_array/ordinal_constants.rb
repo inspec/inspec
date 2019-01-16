@@ -1,4 +1,4 @@
-require_relative './ordinal'
+require_relative "./ordinal"
 
 module OrdinalArray
   module Constant
@@ -70,11 +70,11 @@ module OrdinalArray
       Tenth, Eleventh, Twelfth, Thirteenth, Fourteenth, Fifteenth, Sixteenth, Seventeenth, Eighteenth, Nineteenth,
       Twentieth, Thirtieth, Fortieth, Fiftieth, Sixtieth, Seventieth, Eightieth, Ninetieth,
       Hundredth
-    ]
+    ].freeze
 
     class << Numbers_in_letter
       def element_by_name(name)
-        index = self.index {|n| n.number_in_letter == name }
+        index = self.index { |n| n.number_in_letter == name }
         return nil unless index
         self.[](index)
       end

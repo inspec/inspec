@@ -1,14 +1,14 @@
 # encoding: utf-8
 
-require_relative 'api'
+require_relative "api"
 
 module InspecPlugins
   module Compliance
     class CLI < Inspec.plugin(2, :cli_command)
-      subcommand_desc 'compliance SUBCOMMAND', 'Chef Compliance commands'
+      subcommand_desc "compliance SUBCOMMAND", "Chef Compliance commands"
 
       # desc "login https://SERVER --insecure --user='USER' --ent='ENTERPRISE' --token='TOKEN'", 'Log in to a Chef Compliance/Chef Automate SERVER'
-      desc 'login', 'Log in to a Chef Compliance/Chef Automate SERVER'
+      desc "login", "Log in to a Chef Compliance/Chef Automate SERVER"
       long_desc <<-LONGDESC
         `login` allows you to use InSpec with Chef Automate or a Chef Compliance Server
 
@@ -20,46 +20,46 @@ module InspecPlugins
       option :insecure, aliases: :k, type: :boolean,
         desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
       option :user, type: :string, required: false,
-        desc: 'Username'
+        desc: "Username"
       option :password, type: :string, required: false,
-        desc: 'Password (Chef Compliance Only)'
+        desc: "Password (Chef Compliance Only)"
       option :token, type: :string, required: false,
-        desc: 'Access token'
+        desc: "Access token"
       option :refresh_token, type: :string, required: false,
-        desc: 'Chef Compliance refresh token (Chef Compliance Only)'
+        desc: "Chef Compliance refresh token (Chef Compliance Only)"
       option :dctoken, type: :string, required: false,
-        desc: 'Data Collector token (Chef Automate Only)'
+        desc: "Data Collector token (Chef Automate Only)"
       option :ent, type: :string, required: false,
-        desc: 'Enterprise for Chef Automate reporting (Chef Automate Only)'
+        desc: "Enterprise for Chef Automate reporting (Chef Automate Only)"
       def login(server)
-        options['server'] = server
+        options["server"] = server
         InspecPlugins::Compliance::API.login(options)
         config = InspecPlugins::Compliance::Configuration.new
         puts "Stored configuration for Chef #{config['server_type'].capitalize}: #{config['server']}' with user: '#{config['user']}'"
       end
 
-      desc 'profiles', 'list all available profiles in Chef Compliance'
+      desc "profiles", "list all available profiles in Chef Compliance"
       option :owner, type: :string, required: false,
-        desc: 'owner whose profiles to list'
+        desc: "owner whose profiles to list"
       def profiles
         config = InspecPlugins::Compliance::Configuration.new
         return if !loggedin(config)
 
         # set owner to config
-        config['owner'] = options['owner'] || config['user']
+        config["owner"] = options["owner"] || config["user"]
 
         msg, profiles = InspecPlugins::Compliance::API.profiles(config)
-        profiles.sort_by! { |hsh| hsh['title'] }
+        profiles.sort_by! { |hsh| hsh["title"] }
         if !profiles.empty?
           # iterate over profiles
-          headline('Available profiles:')
-          profiles.each { |profile|
-            owner = profile['owner_id'] || profile['owner']
+          headline("Available profiles:")
+          profiles.each do |profile|
+            owner = profile["owner_id"] || profile["owner"]
             li("#{profile['title']} v#{profile['version']} (#{mark_text(owner + '/' + profile['name'])})")
-          }
+          end
         else
-          puts msg if msg != 'success'
-          puts 'Could not find any profiles'
+          puts msg if msg != "success"
+          puts "Could not find any profiles"
           exit 1
         end
       rescue InspecPlugins::Compliance::ServerConfigurationMissing
@@ -67,7 +67,7 @@ module InspecPlugins
         exit 1
       end
 
-      desc 'exec PROFILE', 'executes a Chef Compliance profile'
+      desc "exec PROFILE", "executes a Chef Compliance profile"
       exec_options
       def exec(*tests)
         config = InspecPlugins::Compliance::Configuration.new
@@ -77,7 +77,7 @@ module InspecPlugins
         configure_logger(o)
 
         # iterate over tests and add compliance scheme
-        tests = tests.map { |t| 'compliance://' + InspecPlugins::Compliance::API.sanitize_profile_name(t) }
+        tests = tests.map { |t| "compliance://" + InspecPlugins::Compliance::API.sanitize_profile_name(t) }
 
         runner = Inspec::Runner.new(o)
         tests.each { |target| runner.add_target(target) }
@@ -88,9 +88,9 @@ module InspecPlugins
         exit 1
       end
 
-      desc 'download PROFILE', 'downloads a profile from Chef Compliance'
+      desc "download PROFILE", "downloads a profile from Chef Compliance"
       option :name, type: :string,
-        desc: 'Name of the archive filename (file type will be added)'
+        desc: "Name of the archive filename (file type will be added)"
       def download(profile_name)
         o = options.dup
         configure_logger(o)
@@ -105,11 +105,11 @@ module InspecPlugins
           fetcher = InspecPlugins::Compliance::Fetcher.resolve(
             {
               compliance: profile_name,
-            },
+            }
           )
 
           # we provide a name, the fetcher adds the extension
-          _owner, id = profile_name.split('/')
+          _owner, id = profile_name.split("/")
           file_name = fetcher.fetch(o.name || id)
           puts "Profile stored to #{file_name}"
         else
@@ -118,17 +118,17 @@ module InspecPlugins
         end
       end
 
-      desc 'upload PATH', 'uploads a local profile to Chef Compliance'
+      desc "upload PATH", "uploads a local profile to Chef Compliance"
       option :overwrite, type: :boolean, default: false,
-        desc: 'Overwrite existing profile on Server.'
+        desc: "Overwrite existing profile on Server."
       option :owner, type: :string, required: false,
-        desc: 'Owner that should own the profile'
+        desc: "Owner that should own the profile"
       def upload(path) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, PerceivedComplexity, Metrics/CyclomaticComplexity
         config = InspecPlugins::Compliance::Configuration.new
         return if !loggedin(config)
 
         # set owner to config
-        config['owner'] = options['owner'] || config['user']
+        config["owner"] = options["owner"] || config["user"]
 
         unless File.exist?(path)
           puts "Directory #{path} does not exist."
@@ -141,7 +141,7 @@ module InspecPlugins
         configure_logger(o)
 
         # only run against the mock backend, otherwise we run against the local system
-        o[:backend] = Inspec::Backend.create(target: 'mock://')
+        o[:backend] = Inspec::Backend.create(target: "mock://")
         o[:check_mode] = true
         o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
 
@@ -157,14 +157,14 @@ module InspecPlugins
 
         result = profile.check
         unless result[:summary][:valid]
-          error.call('Profile check failed. Please fix the profile before upload.')
+          error.call("Profile check failed. Please fix the profile before upload.")
         else
-          puts('Profile is valid')
+          puts("Profile is valid")
         end
 
         # determine user information
-        if (config['token'].nil? && config['refresh_token'].nil?) || config['user'].nil?
-          error.call('Please login via `inspec compliance login`')
+        if (config["token"].nil? && config["refresh_token"].nil?) || config["user"].nil?
+          error.call("Please login via `inspec compliance login`")
         end
 
         # read profile name from inspec.yml
@@ -175,8 +175,8 @@ module InspecPlugins
 
         # check that the profile is not uploaded already,
         # confirm upload to the user (overwrite with --force)
-        if InspecPlugins::Compliance::API.exist?(config, "#{config['owner']}/#{profile_name}##{profile_version}") && !options['overwrite']
-          error.call('Profile exists on the server, use --overwrite')
+        if InspecPlugins::Compliance::API.exist?(config, "#{config['owner']}/#{profile_name}##{profile_version}") && !options["overwrite"]
+          error.call("Profile exists on the server, use --overwrite")
         end
 
         # abort if we found an error
@@ -189,7 +189,7 @@ module InspecPlugins
         generated = false
         if File.directory?(path)
           generated = true
-          archive_path = Dir::Tmpname.create([profile_name, '.tar.gz']) {}
+          archive_path = Dir::Tmpname.create([profile_name, ".tar.gz"]) {}
           puts "Generate temporary profile archive at #{archive_path}"
           profile.archive({ output: archive_path, ignore_errors: false, overwrite: true })
         else
@@ -200,33 +200,33 @@ module InspecPlugins
         pname = ERB::Util.url_encode(profile_name)
 
         if InspecPlugins::Compliance::API.is_automate_server?(config) || InspecPlugins::Compliance::API.is_automate2_server?(config)
-          puts 'Uploading to Chef Automate'
+          puts "Uploading to Chef Automate"
         else
-          puts 'Uploading to Chef Compliance'
+          puts "Uploading to Chef Compliance"
         end
-        success, msg = InspecPlugins::Compliance::API.upload(config, config['owner'], pname, archive_path)
+        success, msg = InspecPlugins::Compliance::API.upload(config, config["owner"], pname, archive_path)
 
         # delete temp file if it was temporary generated
         File.delete(archive_path) if generated && File.exist?(archive_path)
 
         if success
-          puts 'Successfully uploaded profile'
+          puts "Successfully uploaded profile"
         else
-          puts 'Error during profile upload:'
+          puts "Error during profile upload:"
           puts msg
           exit 1
         end
       end
 
-      desc 'version', 'displays the version of the Chef Compliance server'
+      desc "version", "displays the version of the Chef Compliance server"
       def version
         config = InspecPlugins::Compliance::Configuration.new
         info = InspecPlugins::Compliance::API.version(config)
-        if !info.nil? && info['version']
+        if !info.nil? && info["version"]
           puts "Name:    #{info['api']}"
           puts "Version: #{info['version']}"
         else
-          puts 'Could not determine server version.'
+          puts "Could not determine server version."
           exit 1
         end
       rescue InspecPlugins::Compliance::ServerConfigurationMissing
@@ -234,28 +234,28 @@ module InspecPlugins
         exit 1
       end
 
-      desc 'logout', 'user logout from Chef Compliance'
+      desc "logout", "user logout from Chef Compliance"
       def logout
         config = InspecPlugins::Compliance::Configuration.new
-        unless config.supported?(:oidc) || config['token'].nil? || config['server_type'] == 'automate'
+        unless config.supported?(:oidc) || config["token"].nil? || config["server_type"] == "automate"
           config = InspecPlugins::Compliance::Configuration.new
           url = "#{config['server']}/logout"
-          InspecPlugins::Compliance::HTTP.post(url, config['token'], config['insecure'], !config.supported?(:oidc))
+          InspecPlugins::Compliance::HTTP.post(url, config["token"], config["insecure"], !config.supported?(:oidc))
         end
         success = config.destroy
 
         if success
-          puts 'Successfully logged out'
+          puts "Successfully logged out"
         else
-          puts 'Could not log out'
+          puts "Could not log out"
         end
       end
 
       private
 
       def loggedin(config)
-        serverknown = !config['server'].nil?
-        puts 'You need to login first with `inspec compliance login`' if !serverknown
+        serverknown = !config["server"].nil?
+        puts "You need to login first with `inspec compliance login`" if !serverknown
         serverknown
       end
     end

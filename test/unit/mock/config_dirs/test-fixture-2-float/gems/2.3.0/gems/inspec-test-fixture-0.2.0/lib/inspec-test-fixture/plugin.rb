@@ -5,7 +5,7 @@ module InspecPlugins
       plugin_name :'inspec-test-fixture'
 
       mock_plugin_type :'inspec-test-fixture' do
-        require 'mock_plugin'
+        require "mock_plugin"
         InspecPlugins::TestFixture
       end
     end

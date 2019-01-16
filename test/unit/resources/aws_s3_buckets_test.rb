@@ -1,4 +1,4 @@
-require 'helper'
+require "helper"
 
 # MSBB = MockS3BucketsBackend
 # Abbreviation not used outside this file
@@ -16,7 +16,7 @@ class AwsS3BucketsConstructor < Minitest::Test
   end
 
   def test_constructor_reject_unknown_resource_params
-    assert_raises(ArgumentError) { AwsS3Buckets.new(bla: 'blabla') }
+    assert_raises(ArgumentError) { AwsS3Buckets.new(bla: "blabla") }
   end
 end
 
@@ -56,8 +56,8 @@ class AwsS3bucketsProperties < Minitest::Test
   def test_property_bucket_names
     basic = AwsS3Buckets.new
     assert_kind_of(Array, basic.bucket_names)
-    assert(basic.bucket_names.include?('bucket-01'))
-    assert(!basic.bucket_names.include?('NonExistentBucket'))
+    assert(basic.bucket_names.include?("bucket-01"))
+    assert(!basic.bucket_names.include?("NonExistentBucket"))
     refute(basic.bucket_names.include?(nil))
   end
 end
@@ -71,12 +71,12 @@ module AwsMSBB
       OpenStruct.new({ buckets: [] })
     end
   end
-  
+
   class Basic < AwsBackendBase
     def list_buckets
       fixtures = [
         OpenStruct.new({
-          name: "bucket-01",          
+          name: "bucket-01",
         }),
         OpenStruct.new({
           name: "bucket-02",

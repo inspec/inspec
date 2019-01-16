@@ -1,15 +1,15 @@
-require 'set'
-require 'ipaddr'
+require "set"
+require "ipaddr"
 
 class AwsSecurityGroup < Inspec.resource(1)
-  name 'aws_security_group'
-  desc 'Verifies settings for an individual AWS Security Group.'
+  name "aws_security_group"
+  desc "Verifies settings for an individual AWS Security Group."
   example "
   describe aws_security_group('sg-12345678') do
     it { should exist }
   end
   "
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
   attr_reader :description, :group_id, :group_name, :vpc_id, :inbound_rules, :outbound_rules, :inbound_rules_count, :outbound_rules_count
@@ -47,7 +47,7 @@ class AwsSecurityGroup < Inspec.resource(1)
     return false unless rules.count == 1 || criteria.key?(:position)
     if criteria.key?(:security_group)
       if criteria.key?(:position)
-        pos = criteria[:position] -1
+        pos = criteria[:position] - 1
       else
         pos = 0
       end
@@ -119,7 +119,7 @@ class AwsSecurityGroup < Inspec.resource(1)
     end
 
     unless idx < rules.count
-      raise ArgumentError, "aws_security_group 'allow' 'position' criteria #{idx+1} is out of range - there are only #{rules.count} rules for security group #{group_id}."
+      raise ArgumentError, "aws_security_group 'allow' 'position' criteria #{idx + 1} is out of range - there are only #{rules.count} rules for security group #{group_id}."
     end
 
     [rules[idx]]
@@ -157,7 +157,7 @@ class AwsSecurityGroup < Inspec.resource(1)
     return true unless criteria.key?(:protocol)
     prot = criteria[:protocol]
     # We provide a "fluency alias" for -1 (any).
-    prot = '-1' if prot == 'any'
+    prot = "-1" if prot == "any"
 
     rule[:ip_protocol] == prot
   end
@@ -210,7 +210,7 @@ class AwsSecurityGroup < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:id, :group_id, :group_name, :vpc_id],
       allowed_scalar_name: :group_id,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
 
     # id is an alias for group_id
@@ -227,7 +227,7 @@ class AwsSecurityGroup < Inspec.resource(1)
     validated_params = recognized_params
 
     if validated_params.empty?
-      raise ArgumentError, 'You must provide parameters to aws_security_group, such as group_name, group_id, or vpc_id.g_group.'
+      raise ArgumentError, "You must provide parameters to aws_security_group, such as group_name, group_id, or vpc_id.g_group."
     end
     validated_params
   end
@@ -261,9 +261,9 @@ class AwsSecurityGroup < Inspec.resource(1)
       next if val.nil?
       filters.push(
         {
-          name: criterion_name.to_s.tr('_', '-'),
+          name: criterion_name.to_s.tr("_", "-"),
           values: [val],
-        },
+        }
       )
     end
     dsg_response = backend.describe_security_groups(filters: filters)

@@ -1,12 +1,12 @@
 class AwsVpcs < Inspec.resource(1)
-  name 'aws_vpcs'
-  desc 'Verifies settings for AWS VPCs in bulk'
+  name "aws_vpcs"
+  desc "Verifies settings for AWS VPCs in bulk"
   example '
     describe aws_vpcs do
       it { should exist }
     end
   '
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsPluralResourceMixin
 
@@ -23,13 +23,13 @@ class AwsVpcs < Inspec.resource(1)
   def validate_params(raw_params)
     # No params yet
     unless raw_params.empty?
-      raise ArgumentError, 'aws_vpcs does not accept resource parameters'
+      raise ArgumentError, "aws_vpcs does not accept resource parameters"
     end
     raw_params
   end
 
   def to_s
-    'VPCs'
+    "VPCs"
   end
 
   def fetch_from_api

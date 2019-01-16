@@ -1,13 +1,13 @@
 # encoding: utf-8
 
-require 'functional/helper'
+require "functional/helper"
 
-describe 'inspec report tests' do
+describe "inspec report tests" do
   include FunctionalHelper
 
-  describe 'report' do
-    it 'loads a json report' do
-      o = { 'reporter' => ['json'], 'report' => true }
+  describe "report" do
+    it "loads a json report" do
+      o = { "reporter" => ["json"], "report" => true }
       runner = ::Inspec::Runner.new(o)
       runner.add_target(example_profile)
       runner.run

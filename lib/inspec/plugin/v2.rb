@@ -1,4 +1,4 @@
-require 'inspec/errors'
+require "inspec/errors"
 
 module Inspec
   module Plugin
@@ -23,20 +23,20 @@ module Inspec
   end
 end
 
-require 'inspec/globals'
-require 'inspec/plugin/v2/config_file'
-require 'inspec/plugin/v2/registry'
-require 'inspec/plugin/v2/loader'
-require 'inspec/plugin/v2/plugin_base'
+require "inspec/globals"
+require "inspec/plugin/v2/config_file"
+require "inspec/plugin/v2/registry"
+require "inspec/plugin/v2/loader"
+require "inspec/plugin/v2/plugin_base"
 
 # Load all plugin type base classes
-Dir.glob(File.join(__dir__, 'v2', 'plugin_types', '*.rb')).each { |file| require file }
+Dir.glob(File.join(__dir__, "v2", "plugin_types", "*.rb")).each { |file| require file }
 
 module Inspec
   # Provides the base class that plugin implementors should use.
   def self.plugin(version, plugin_type = nil)
     unless version == 2
-      raise 'Only plugins version 2 is supported!'
+      raise "Only plugins version 2 is supported!"
     end
 
     return Inspec::Plugin::V2::PluginBase if plugin_type.nil?

@@ -1,5 +1,5 @@
 class Batsignal < Inspec.resource(1)
-  name 'batsignal'
+  name "batsignal"
 
   example "
       describe batsignal do
@@ -15,6 +15,6 @@ class Batsignal < Inspec.resource(1)
 
   def local_command_call
     # call out to a core resource
-    inspec.command('echo 4').stdout.to_i
+    inspec.command("echo 4").stdout.to_i
   end
 end

@@ -1,13 +1,13 @@
 # author: Mohamed El-Sharkawi
 class AwsRdsInstance < Inspec.resource(1)
-  name 'aws_rds_instance'
-  desc 'Verifies settings for an rds instance'
+  name "aws_rds_instance"
+  desc "Verifies settings for an rds instance"
   example "
     describe aws_rds_instance(db_instance_identifier: 'test-instance-id') do
       it { should exist }
     end
   "
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
   attr_reader :db_instance_identifier
@@ -23,14 +23,14 @@ class AwsRdsInstance < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:db_instance_identifier],
       allowed_scalar_name: :db_instance_identifier,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
-    if validated_params.empty? or !validated_params.key?(:db_instance_identifier)
-      raise ArgumentError, 'You must provide an id for the aws_rds_instance.'
+    if validated_params.empty? || !validated_params.key?(:db_instance_identifier)
+      raise ArgumentError, "You must provide an id for the aws_rds_instance."
     end
 
     if validated_params.key?(:db_instance_identifier) && validated_params[:db_instance_identifier] !~ /^[a-z]{1}[0-9a-z\-]{0,62}$/
-      raise ArgumentError, 'aws_rds_instance Database Instance ID must be in the format: start with a letter followed by up to 62 letters/numbers/hyphens.'
+      raise ArgumentError, "aws_rds_instance Database Instance ID must be in the format: start with a letter followed by up to 62 letters/numbers/hyphens."
     end
 
     validated_params

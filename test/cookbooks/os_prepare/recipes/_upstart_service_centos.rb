@@ -1,7 +1,7 @@
 # encoding: utf-8
 # author: Stephan Renatus
 
-directory '/etc/init' do
+directory "/etc/init" do
   action :create
 end
 

@@ -1,6 +1,6 @@
 # encoding: utf-8
-require 'inspec/cached_fetcher'
-require 'semverse'
+require "inspec/cached_fetcher"
+require "semverse"
 
 module Inspec
   #
@@ -9,7 +9,7 @@ module Inspec
   #
   class Requirement
     def self.from_metadata(dep, cache, opts)
-      raise 'Cannot load empty dependency.' if dep.nil? || dep.empty?
+      raise "Cannot load empty dependency." if dep.nil? || dep.empty?
 
       req_path = opts[:cwd]
 
@@ -82,13 +82,13 @@ module Inspec
 
     def to_hash
       h = {
-        'name' => name,
-        'resolved_source' => resolved_source,
-        'version_constraints' => version_constraints,
+        "name" => name,
+        "resolved_source" => resolved_source,
+        "version_constraints" => version_constraints,
       }
 
       if !dependencies.empty?
-        h['dependencies'] = dependencies.map(&:to_hash)
+        h["dependencies"] = dependencies.map(&:to_hash)
       end
 
       h

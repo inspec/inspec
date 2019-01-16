@@ -2,7 +2,7 @@
 # copyright: 2015, Vulcano Security GmbH
 # author: Dominik Richter
 # author: Christoph Hartmann
-require 'inspec/plugin/v1'
+require "inspec/plugin/v1"
 
 module Inspec
   class ProfileNotFound < StandardError; end
@@ -78,128 +78,128 @@ module Inspec
   end
 
   def self.validate_resource_dsl_version!(version)
-    raise 'Only resource version 1 is supported!' if version != 1
+    raise "Only resource version 1 is supported!" if version != 1
   end
 end
 
 # Many resources use FilterTable.
-require 'utils/filter'
+require "utils/filter"
 
 # Detect if we are running the stripped-down inspec-core
 # This relies on AWS being stripped from the inspec-core gem
-inspec_core_only = !File.exist?(File.join(File.dirname(__FILE__), '..', 'resource_support', 'aws.rb'))
+inspec_core_only = !File.exist?(File.join(File.dirname(__FILE__), "..", "resource_support", "aws.rb"))
 
 # Do not attempt to load cloud resources if we are in inspec-core mode
 unless inspec_core_only
-  require 'resource_support/aws'
-  require 'resources/azure/azure_backend.rb'
-  require 'resources/azure/azure_generic_resource.rb'
-  require 'resources/azure/azure_resource_group.rb'
-  require 'resources/azure/azure_virtual_machine.rb'
-  require 'resources/azure/azure_virtual_machine_data_disk.rb'
+  require "resource_support/aws"
+  require "resources/azure/azure_backend.rb"
+  require "resources/azure/azure_generic_resource.rb"
+  require "resources/azure/azure_resource_group.rb"
+  require "resources/azure/azure_virtual_machine.rb"
+  require "resources/azure/azure_virtual_machine_data_disk.rb"
 end
 
-require 'resources/aide_conf'
-require 'resources/apache'
-require 'resources/apache_conf'
-require 'resources/apt'
-require 'resources/audit_policy'
-require 'resources/auditd'
-require 'resources/auditd_conf'
-require 'resources/bash'
-require 'resources/bond'
-require 'resources/bridge'
-require 'resources/chocolatey_package'
-require 'resources/command'
-require 'resources/cran'
-require 'resources/cpan'
-require 'resources/crontab'
-require 'resources/dh_params'
-require 'resources/directory'
-require 'resources/docker'
-require 'resources/docker_container'
-require 'resources/docker_image'
-require 'resources/docker_plugin'
-require 'resources/docker_service'
-require 'resources/elasticsearch'
-require 'resources/etc_fstab'
-require 'resources/etc_group'
-require 'resources/etc_hosts_allow_deny'
-require 'resources/etc_hosts'
-require 'resources/file'
-require 'resources/filesystem'
-require 'resources/firewalld'
-require 'resources/gem'
-require 'resources/groups'
-require 'resources/grub_conf'
-require 'resources/host'
-require 'resources/http'
-require 'resources/iis_app'
-require 'resources/iis_app_pool'
-require 'resources/iis_site'
-require 'resources/inetd_conf'
-require 'resources/interface'
-require 'resources/iptables'
-require 'resources/json'
-require 'resources/kernel_module'
-require 'resources/kernel_parameter'
-require 'resources/key_rsa'
-require 'resources/ksh'
-require 'resources/limits_conf'
-require 'resources/login_def'
-require 'resources/mount'
-require 'resources/mssql_session'
-require 'resources/mysql'
-require 'resources/mysql_conf'
-require 'resources/mysql_session'
-require 'resources/nginx'
-require 'resources/nginx_conf'
-require 'resources/npm'
-require 'resources/ntp_conf'
-require 'resources/oneget'
-require 'resources/oracledb_session'
-require 'resources/os'
-require 'resources/os_env'
-require 'resources/package'
-require 'resources/packages'
-require 'resources/parse_config'
-require 'resources/passwd'
-require 'resources/pip'
-require 'resources/platform'
-require 'resources/port'
-require 'resources/postgres'
-require 'resources/postgres_conf'
-require 'resources/postgres_hba_conf'
-require 'resources/postgres_ident_conf'
-require 'resources/postgres_session'
-require 'resources/powershell'
-require 'resources/processes'
-require 'resources/rabbitmq_conf'
-require 'resources/registry_key'
-require 'resources/security_identifier'
-require 'resources/security_policy'
-require 'resources/service'
-require 'resources/shadow'
-require 'resources/ssh_conf'
-require 'resources/ssl'
-require 'resources/sys_info'
-require 'resources/toml'
-require 'resources/users'
-require 'resources/vbscript'
-require 'resources/virtualization'
-require 'resources/windows_feature'
-require 'resources/windows_hotfix'
-require 'resources/windows_task'
-require 'resources/wmi'
-require 'resources/x509_certificate'
-require 'resources/xinetd'
-require 'resources/yum'
-require 'resources/zfs_dataset'
-require 'resources/zfs_pool'
+require "resources/aide_conf"
+require "resources/apache"
+require "resources/apache_conf"
+require "resources/apt"
+require "resources/audit_policy"
+require "resources/auditd"
+require "resources/auditd_conf"
+require "resources/bash"
+require "resources/bond"
+require "resources/bridge"
+require "resources/chocolatey_package"
+require "resources/command"
+require "resources/cran"
+require "resources/cpan"
+require "resources/crontab"
+require "resources/dh_params"
+require "resources/directory"
+require "resources/docker"
+require "resources/docker_container"
+require "resources/docker_image"
+require "resources/docker_plugin"
+require "resources/docker_service"
+require "resources/elasticsearch"
+require "resources/etc_fstab"
+require "resources/etc_group"
+require "resources/etc_hosts_allow_deny"
+require "resources/etc_hosts"
+require "resources/file"
+require "resources/filesystem"
+require "resources/firewalld"
+require "resources/gem"
+require "resources/groups"
+require "resources/grub_conf"
+require "resources/host"
+require "resources/http"
+require "resources/iis_app"
+require "resources/iis_app_pool"
+require "resources/iis_site"
+require "resources/inetd_conf"
+require "resources/interface"
+require "resources/iptables"
+require "resources/json"
+require "resources/kernel_module"
+require "resources/kernel_parameter"
+require "resources/key_rsa"
+require "resources/ksh"
+require "resources/limits_conf"
+require "resources/login_def"
+require "resources/mount"
+require "resources/mssql_session"
+require "resources/mysql"
+require "resources/mysql_conf"
+require "resources/mysql_session"
+require "resources/nginx"
+require "resources/nginx_conf"
+require "resources/npm"
+require "resources/ntp_conf"
+require "resources/oneget"
+require "resources/oracledb_session"
+require "resources/os"
+require "resources/os_env"
+require "resources/package"
+require "resources/packages"
+require "resources/parse_config"
+require "resources/passwd"
+require "resources/pip"
+require "resources/platform"
+require "resources/port"
+require "resources/postgres"
+require "resources/postgres_conf"
+require "resources/postgres_hba_conf"
+require "resources/postgres_ident_conf"
+require "resources/postgres_session"
+require "resources/powershell"
+require "resources/processes"
+require "resources/rabbitmq_conf"
+require "resources/registry_key"
+require "resources/security_identifier"
+require "resources/security_policy"
+require "resources/service"
+require "resources/shadow"
+require "resources/ssh_conf"
+require "resources/ssl"
+require "resources/sys_info"
+require "resources/toml"
+require "resources/users"
+require "resources/vbscript"
+require "resources/virtualization"
+require "resources/windows_feature"
+require "resources/windows_hotfix"
+require "resources/windows_task"
+require "resources/wmi"
+require "resources/x509_certificate"
+require "resources/xinetd"
+require "resources/yum"
+require "resources/zfs_dataset"
+require "resources/zfs_pool"
 
 # file formats, depend on json implementation
-require 'resources/json'
-require 'resources/yaml'
-require 'resources/csv'
-require 'resources/ini'
-require 'resources/xml'
+require "resources/json"
+require "resources/yaml"
+require "resources/csv"
+require "resources/ini"
+require "resources/xml"

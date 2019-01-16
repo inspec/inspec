@@ -1,8 +1,8 @@
 # encoding: utf-8
 
-require_relative '../../../shared/core_plugin_test_helper.rb'
-require 'fileutils'
-require 'securerandom'
+require_relative "../../../shared/core_plugin_test_helper.rb"
+require "fileutils"
+require "securerandom"
 
 class ArtifactCli < MiniTest::Test
   include CorePluginFunctionalHelper
@@ -14,8 +14,8 @@ class ArtifactCli < MiniTest::Test
       assert_equal 0, out.exit_status
 
       stdout = out.stdout.force_encoding(Encoding::UTF_8)
-      assert_includes stdout, 'Generating private key'
-      assert_includes stdout, 'Generating public key'
+      assert_includes stdout, "Generating private key"
+      assert_includes stdout, "Generating public key"
     end
   end
 
@@ -23,11 +23,11 @@ class ArtifactCli < MiniTest::Test
     Dir.mktmpdir do |dir|
       unique_key_name = SecureRandom.uuid()
       install_dir = File.join(dir, SecureRandom.uuid())
-      profile = File.join(dir, 'profile')
+      profile = File.join(dir, "profile")
       FileUtils.mkdir(install_dir)
 
       # create profile
-      profile = File.join(dir, 'artifact-profile')
+      profile = File.join(dir, "artifact-profile")
       run_inspec_process("init profile artifact-profile", prefix: "cd #{dir} &&")
 
       out = run_inspec_process("artifact generate --keyname #{unique_key_name}", prefix: "cd #{dir} &&")
@@ -40,7 +40,7 @@ class ArtifactCli < MiniTest::Test
       assert_equal 0, out.exit_status
 
       assert_includes out.stdout.force_encoding(Encoding::UTF_8), "Installing to #{install_dir}"
-      assert_includes Dir.entries(install_dir).join, 'inspec.yml'
+      assert_includes Dir.entries(install_dir).join, "inspec.yml"
     end
   end
 end

@@ -2,7 +2,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'mixlib/log'
+require "mixlib/log"
 
 module Inspec
   class Log

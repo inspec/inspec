@@ -1,7 +1,7 @@
-require 'helper'
+require "helper"
 
 class TestEbs < Minitest::Test
-  Id = 'volume-id'.freeze
+  Id = "volume-id".freeze
 
   def setup
     @mock_conn = Minitest::Mock.new
@@ -21,7 +21,7 @@ class TestEbs < Minitest::Test
     mock_volume.expect :nil?, false
     mock_volume.expect :id, Id
     @mock_resource.expect :volumes, [mock_volume], [Hash]
-    assert_equal Id, AwsEbsVolume.new({ name: 'cut' }, @mock_conn).id
+    assert_equal Id, AwsEbsVolume.new({ name: "cut" }, @mock_conn).id
   end
 
   def test_that_volume_returns_volume_when_volume_exists
@@ -30,7 +30,7 @@ class TestEbs < Minitest::Test
     @mock_resource.expect :volume, mock_volume, [Id]
     assert_same(
       mock_volume,
-      AwsEbsVolume.new(Id, @mock_conn).send(:volume),
+      AwsEbsVolume.new(Id, @mock_conn).send(:volume)
     )
   end
 

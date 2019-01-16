@@ -1,9 +1,9 @@
-require 'functional/helper'
-require 'fileutils'
-require 'tmpdir'
-require 'yaml'
+require "functional/helper"
+require "fileutils"
+require "tmpdir"
+require "yaml"
 
-describe 'profiles with git-based dependencies' do
+describe "profiles with git-based dependencies" do
   include FunctionalHelper
   before(:all) do
     @tmpdir = Dir.mktmpdir
@@ -28,9 +28,9 @@ describe 'profiles with git-based dependencies' do
     inspec_yml = YAML.load(File.read(File.join(@profile_dir, "inspec.yml")))
     inspec_yml["depends"] = [
       {
-        'name' => 'git-dep',
-        'git' => @git_dep_dir,
-        'tag' => 'antag'
+        "name" => "git-dep",
+        "git" => @git_dep_dir,
+        "tag" => "antag",
       }
     ]
     File.write(File.join(@profile_dir, "inspec.yml"), YAML.dump(inspec_yml))
@@ -40,9 +40,9 @@ describe 'profiles with git-based dependencies' do
     FileUtils.rm_rf(@tmpdir)
   end
 
-  it 'executes a profile with a git based dependency' do
+  it "executes a profile with a git based dependency" do
     out = inspec("exec #{@profile_dir} --no-create-lockfile")
-    out.stderr.must_equal ''
+    out.stderr.must_equal ""
     out.exit_status.must_equal 0
   end
 end

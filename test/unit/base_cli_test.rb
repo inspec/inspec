@@ -1,14 +1,14 @@
 # encoding: utf-8
 # copyright: 2017, Chef Software Inc.
 
-require 'helper'
-require 'thor'
+require "helper"
+require "thor"
 
-describe 'BaseCLI' do
+describe "BaseCLI" do
   let(:cli) { Inspec::BaseCLI.new }
 
-  describe 'opts' do
-    it 'raises if `--password/--sudo-password` are used without value' do
+  describe "opts" do
+    it "raises if `--password/--sudo-password` are used without value" do
       default_options = { mock: { sudo_password: -1 } }
       Inspec::BaseCLI.stubs(:default_options).returns(default_options)
 
@@ -16,8 +16,8 @@ describe 'BaseCLI' do
       e.message.must_match(/Please provide a value for --sudo-password/)
     end
 
-    it 'assumes `--sudo` if `--sudo-password` is used without it' do
-      default_options = { mock: { sudo_password: 'p@ssw0rd' } }
+    it "assumes `--sudo` if `--sudo-password` is used without it" do
+      default_options = { mock: { sudo_password: "p@ssw0rd" } }
       Inspec::BaseCLI.stubs(:default_options).returns(default_options)
 
       opts = {}
@@ -27,31 +27,31 @@ describe 'BaseCLI' do
       err.must_match /WARN: `--sudo-password` used without `--sudo`/
     end
 
-    it 'calls `Compliance::API.login` if `opts[:compliance] is passed`' do
-      default_options = { mock: { compliance: 'mock' } }
+    it "calls `Compliance::API.login` if `opts[:compliance] is passed`" do
+      default_options = { mock: { compliance: "mock" } }
       Inspec::BaseCLI.stubs(:default_options).returns(default_options)
 
-      InspecPlugins::Compliance::API.expects(:login).with('mock')
+      InspecPlugins::Compliance::API.expects(:login).with("mock")
 
       cli.send(:opts, :mock)
     end
   end
 
-  describe 'merge_options' do
+  describe "merge_options" do
     let(:default_options) do
-      { exec: { 'reporter' => ['json'], 'backend_cache' => false }}
+      { exec: { "reporter" => ["json"], "backend_cache" => false } }
     end
 
-    it 'cli defaults populate correctly' do
+    it "cli defaults populate correctly" do
       Inspec::BaseCLI.stubs(:default_options).returns(default_options)
 
       opts = cli.send(:merged_opts, :exec)
-      expected = {"backend_cache"=>false, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
+      expected = { "backend_cache" => false, "reporter" => { "json" => { "stdout" => true } }, "type" => :exec }
       opts.must_equal expected
     end
 
-    it 'verify platform detect' do
-      hash = { name: 'test-os', families: 'aws, cloud', release: 'aws-sdk-v1' }
+    it "verify platform detect" do
+      hash = { name: "test-os", families: "aws, cloud", release: "aws-sdk-v1" }
       expect = <<EOF
   Name:      \e[1m\e[35mtest-os\e[0m
   Families:  \e[1m\e[35maws, cloud\e[0m
@@ -60,32 +60,32 @@ EOF
       _(Inspec::BaseCLI.detect(params: hash, indent: 2, color: 35)).must_equal expect
     end
 
-    it 'json-config options override cli defaults' do
+    it "json-config options override cli defaults" do
       Inspec::BaseCLI.stubs(:default_options).returns(default_options)
 
-      parsed_json = { 'backend_cache' => true }
+      parsed_json = { "backend_cache" => true }
       cli.expects(:options_json).returns(parsed_json)
 
       opts = cli.send(:merged_opts, :exec)
-      expected = {"backend_cache"=>true, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
+      expected = { "backend_cache" => true, "reporter" => { "json" => { "stdout" => true } }, "type" => :exec }
       opts.must_equal expected
     end
 
-    it 'cli options override json-config and default' do
+    it "cli options override json-config and default" do
       Inspec::BaseCLI.stubs(:default_options).returns(default_options)
 
-      parsed_json = { 'backend_cache' => false }
+      parsed_json = { "backend_cache" => false }
       cli.expects(:options_json).returns(parsed_json)
 
-      cli_options = { 'backend_cache' => true }
+      cli_options = { "backend_cache" => true }
       cli.instance_variable_set(:@options, cli_options)
 
       opts = cli.send(:merged_opts, :exec)
-      expected = {"backend_cache"=>true, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
+      expected = { "backend_cache" => true, "reporter" => { "json" => { "stdout" => true } }, "type" => :exec }
       opts.must_equal expected
     end
 
-    it 'make sure shell does not get exec defaults' do
+    it "make sure shell does not get exec defaults" do
       Inspec::BaseCLI.stubs(:default_options).returns(default_options)
 
       opts = cli.send(:merged_opts)
@@ -93,27 +93,27 @@ EOF
       opts.must_equal expected
     end
 
-    it 'make sure default reporter is overriden by json-config reporter' do
-      default_options['reporter'] = ['cli']
+    it "make sure default reporter is overriden by json-config reporter" do
+      default_options["reporter"] = ["cli"]
       Inspec::BaseCLI.stubs(:default_options).returns(default_options)
 
-      parsed_json = { 'reporter' => ['json'] }
+      parsed_json = { "reporter" => ["json"] }
       cli.expects(:options_json).returns(parsed_json)
 
       opts = cli.send(:merged_opts, :exec)
-      expected = {"backend_cache"=>false, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
+      expected = { "backend_cache" => false, "reporter" => { "json" => { "stdout" => true } }, "type" => :exec }
       opts.must_equal expected
     end
   end
 
-  describe 'configure_logger' do
+  describe "configure_logger" do
     let(:options) do
       o = {
-        'log_location' => STDERR,
-        'log_level' => 'debug',
-        'reporter' => {
-          'json' => {
-            'stdout' => true,
+        "log_location" => STDERR,
+        "log_level" => "debug",
+        "reporter" => {
+          "json" => {
+            "stdout" => true,
           },
         },
       }
@@ -124,96 +124,96 @@ EOF
       device.instance_variable_get(:"@dev")
     end
 
-    it 'sets to stderr for log_location' do
+    it "sets to stderr for log_location" do
       cli.send(:configure_logger, options)
       format.must_equal STDERR
     end
 
-    it 'sets to stderr for json' do
-      options.delete('log_location')
-      options.delete('log_level')
+    it "sets to stderr for json" do
+      options.delete("log_location")
+      options.delete("log_level")
       cli.send(:configure_logger, options)
       format.must_equal STDERR
     end
 
-    it 'sets defaults to stdout for everything else' do
-      options.delete('log_location')
-      options.delete('log_level')
-      options.delete('reporter')
+    it "sets defaults to stdout for everything else" do
+      options.delete("log_location")
+      options.delete("log_level")
+      options.delete("reporter")
 
       cli.send(:configure_logger, options)
       format.must_equal STDOUT
     end
   end
 
-  describe 'parse_reporters' do
-    it 'parse cli reporters' do
-      opts = { 'reporter' => ['cli'] }
+  describe "parse_reporters" do
+    it "parse cli reporters" do
+      opts = { "reporter" => ["cli"] }
       parsed = Inspec::BaseCLI.parse_reporters(opts)
-      expected_value = { 'reporter' => { 'cli' => { 'stdout' => true }}}
+      expected_value = { "reporter" => { "cli" => { "stdout" => true } } }
       parsed.must_equal expected_value
     end
 
-    it 'parses cli report and attaches target_id' do
-      opts = { 'reporter' => ['cli'], 'target_id' => '1d3e399f-4d71-4863-ac54-84d437fbc444' }
+    it "parses cli report and attaches target_id" do
+      opts = { "reporter" => ["cli"], "target_id" => "1d3e399f-4d71-4863-ac54-84d437fbc444" }
       parsed = Inspec::BaseCLI.parse_reporters(opts)
-      expected_value = {"reporter"=>{"cli"=>{"stdout"=>true, "target_id"=>"1d3e399f-4d71-4863-ac54-84d437fbc444"}}, "target_id"=>"1d3e399f-4d71-4863-ac54-84d437fbc444"}
+      expected_value = { "reporter" => { "cli" => { "stdout" => true, "target_id" => "1d3e399f-4d71-4863-ac54-84d437fbc444" } }, "target_id" => "1d3e399f-4d71-4863-ac54-84d437fbc444" }
       parsed.must_equal expected_value
     end
   end
 
-  describe 'validate_reporters' do
-    it 'valid reporter' do
-      stdout = { 'stdout' => true }
-      reporters = { 'json' => stdout }
+  describe "validate_reporters" do
+    it "valid reporter" do
+      stdout = { "stdout" => true }
+      reporters = { "json" => stdout }
       Inspec::BaseCLI.validate_reporters(reporters)
     end
 
-    it 'invalid reporter type' do
-      reporters = ['json', 'magenta']
+    it "invalid reporter type" do
+      reporters = %w{json magenta}
       proc { Inspec::BaseCLI.validate_reporters(reporters) }.must_raise NotImplementedError
     end
 
-    it 'two reporters outputting to stdout' do
-      stdout = { 'stdout' => true }
-      reporters = { 'json' => stdout, 'cli' => stdout }
+    it "two reporters outputting to stdout" do
+      stdout = { "stdout" => true }
+      reporters = { "json" => stdout, "cli" => stdout }
       proc { Inspec::BaseCLI.validate_reporters(reporters) }.must_raise ArgumentError
     end
   end
 
-  describe 'suppress_log_output?' do
-    it 'suppresses json' do
-      opts = { 'reporter' => { 'json' => { 'stdout' => true }}}
+  describe "suppress_log_output?" do
+    it "suppresses json" do
+      opts = { "reporter" => { "json" => { "stdout" => true } } }
       cli.send(:suppress_log_output?, opts).must_equal true
     end
 
-    it 'do not suppresses json-min when going to file' do
-      opts = { 'reporter' => { 'json-min' => { 'file' => '/tmp/json' }}}
+    it "do not suppresses json-min when going to file" do
+      opts = { "reporter" => { "json-min" => { "file" => "/tmp/json" } } }
       cli.send(:suppress_log_output?, opts).must_equal false
     end
 
-    it 'suppresses json-rspec' do
-      opts = { 'reporter' => { 'json-rspec' => { 'stdout' => true }}}
+    it "suppresses json-rspec" do
+      opts = { "reporter" => { "json-rspec" => { "stdout" => true } } }
       cli.send(:suppress_log_output?, opts).must_equal true
     end
 
-    it 'suppresses json-automate' do
-      opts = { 'reporter' => { 'json-automate' => { 'stdout' => true }}}
+    it "suppresses json-automate" do
+      opts = { "reporter" => { "json-automate" => { "stdout" => true } } }
       cli.send(:suppress_log_output?, opts).must_equal true
     end
 
-    it 'suppresses junit' do
-      opts = { 'reporter' => { 'junit' => { 'stdout' => true }}}
+    it "suppresses junit" do
+      opts = { "reporter" => { "junit" => { "stdout" => true } } }
       cli.send(:suppress_log_output?, opts).must_equal true
     end
 
-    it 'do not suppresses cli' do
-      opts = { 'reporter' => { 'cli' => nil } }
+    it "do not suppresses cli" do
+      opts = { "reporter" => { "cli" => nil } }
       cli.send(:suppress_log_output?, opts).must_equal false
     end
 
-    it 'do not suppresses cli' do
-      opts = { 'reporter' => { 'cli' => nil, 'json' => {'file' => '/tmp/json' }}}
+    it "do not suppresses cli" do
+      opts = { "reporter" => { "cli" => nil, "json" => { "file" => "/tmp/json" } } }
       cli.send(:suppress_log_output?, opts).must_equal false
     end
   end
