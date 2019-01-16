@@ -15,7 +15,9 @@ module Inspec
         :warn, # Issue a warning
       ].freeze
 
-      VALID_GROUP_FIELDS = %w{action suffix prefix exit_status}.freeze
+      # Note that 'comment' is ignored, but listed here so you can have it present
+      # and pass validation.
+      VALID_GROUP_FIELDS = %w{action suffix prefix exit_status comment}.freeze
 
       attr_reader :groups, :unknown_group_action
 
