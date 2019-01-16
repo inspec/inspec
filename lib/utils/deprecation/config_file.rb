@@ -72,11 +72,11 @@ module Inspec
       end
 
       def validate_unknown_group_action
-        seen = (@raw_data['unknown_group_action'] || @unknown_group_action).to_sym
-        unless VALID_ACTIONS.include?(seen)
-          raise Inspec::Deprecation::UnrecognizedActionError, "Unrecognized action for unknown groups '#{seen}' - supported actions: #{VALID_ACTIONS.map(&:to_s).join(', ')}"
+        seen_action = (@raw_data['unknown_group_action'] || @unknown_group_action).to_sym
+        unless VALID_ACTIONS.include?(seen_action)
+          raise Inspec::Deprecation::UnrecognizedActionError, "Unrecognized value '#{seen_action}' for field 'unknown_group_action' - supported actions: #{VALID_ACTIONS.map(&:to_s).join(', ')}"
         end
-        @unknown_group_action = seen
+        @unknown_group_action = seen_action
       end
 
       def validate_group_entry(name, opts)
