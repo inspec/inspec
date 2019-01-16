@@ -136,16 +136,24 @@ describe 'Deprecation Facility Behavior' do
 
     describe 'when the action is ignore' do
       let(:profile_name) { 'typical' }
-      let(:control_flag) { '--controls deprecate_ignore_mode' }
+      let(:control_flag) { '--controls deprecate_ignore_mode --log-level debug' }
 
-      it 'should appear to be a normal run, no warnings or stacktrace or abort' do
+      it 'should appear to be a normal run, no warnings or stacktrace or abort, but include debug message' do
         run_result.exit_status.must_equal 0
         json_result.count.must_equal 3
         json_result[0]['status'].must_equal 'passed'
         json_result[1]['status'].must_equal 'passed'
         json_result[2]['status'].must_equal 'passed'
 
-        run_result.stderr.must_be_empty
+        # JSON mode will send debug messages to STDERR
+        # [2019-01-15T23:41:41-05:00] DEBUG: DEPRECATION: This should be ignored (used at test/unit/mock/profiles/deprecation/typical/controls/typical.rb:79)
+        deprecation_line = run_result.stderr.split("\n").detect { |line| line.include?('This should be ignored') }
+        deprecation_line.wont_be_nil
+        deprecation_line.must_include 'DEBUG'
+        deprecation_line.must_include 'DEPRECATION'
+        deprecation_line.must_include '(used at' # Beginning of a single-frame stack locator
+        deprecation_line.must_include 'test/unit/mock/profiles/deprecation/typical/controls/typical.rb' # Frame should have been identified as coming from the test profile
+        deprecation_line.must_include 'typical.rb:79' # Line number check
       end
     end
   end

@@ -76,11 +76,13 @@ module Inspec
       end
 
       def handle_ignore_action(message, group)
-        # Inspec::Log.debug("Ignoring deprecation message from #{opts[:caller][:path]}:#{opts[:caller][:lineno]}" )
+        handle_log_action(message, :debug, group)
       end
 
       def handle_log_action(message, level, _group)
         case level
+        when :debug
+          Inspec::Log.debug message
         when :warn
           Inspec::Log.warn message
         when :error
