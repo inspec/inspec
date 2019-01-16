@@ -44,9 +44,9 @@ module Inspec
         # rspec-core surrounds these.
 
         # First, purge the deprecation system frames
-        stack.reject! {|frame| frame.path && frame.path =~ %r{lib/utils/deprecation}  }
+        stack.reject! { |frame| frame.path && frame.path =~ %r{lib/utils/deprecation} }
         # Next, purge all RSpec entries (at least rspec-core, rspec-support, rspec-its).
-        stack.reject! {|frame| frame.path && frame.path =~ %r{rspec-.+/lib/rspec}  }
+        stack.reject! { |frame| frame.path && frame.path =~ %r{rspec-.+/lib/rspec}  }
         # Now look for the frame that includes load_with_context.
         used_at ||= stack.detect { |frame| frame.label.include? 'load_with_context' }
 
