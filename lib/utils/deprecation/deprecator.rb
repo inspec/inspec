@@ -39,8 +39,14 @@ module Inspec
 
         # If we are in a profile, call stack will first include RSpec its,
         # then a single call from the profile that originated within a load_with_context.
+        # rspec-core surrounds these.
+
+        # First, purge the deprecation system frames
+        stack.reject! {|frame| frame.path && frame.path =~ %r{lib/utils/deprecation}  }
+        # Next, purge all RSpec entries (at least rspec-core, rspec-support, rspec-its).
+        stack.reject! {|frame| frame.path && frame.path =~ %r{rspec-.+/lib/rspec}  }
+        # Now look for the frame that includes load_with_context.
         used_at ||= stack.detect { |frame| frame.label.include? 'load_with_context' }
-        # Any additional heuristics?
 
         opts[:used_at_stack_frame] = used_at if used_at
       end
