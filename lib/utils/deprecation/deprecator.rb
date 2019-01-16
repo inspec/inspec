@@ -6,14 +6,8 @@ module Inspec
     class Deprecator
       attr_reader :config, :groups
 
-      # This is used only in functional testing
-      def self.class_test_cfg_io(io)
-        @@test_cfg_io = io # rubocop: disable Style/ClassVars
-      end
-
       def initialize(opts = {})
-        @@test_cfg_io ||= nil # rubocop: disable Style/ClassVars
-        @config = Inspec::Deprecation::ConfigFile.new(opts[:config_io] || @@test_cfg_io)
+        @config = Inspec::Deprecation::ConfigFile.new(opts[:config_io])
         @groups = @config.groups
       end
 
