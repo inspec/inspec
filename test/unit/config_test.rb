@@ -227,18 +227,18 @@ describe 'Inspec::Config' do
     let(:cfg) { Inspec::Config.new }
     it 'valid reporter' do
       reporters = { 'json' => { 'stdout' => true } }
-      cfg.send(:validate_reporters, reporters)
+      cfg.send(:validate_reporters!, reporters)
     end
 
     it 'invalid reporter type' do
       reporters = ['json', 'magenta']
-      proc { cfg.send(:validate_reporters, reporters) }.must_raise NotImplementedError
+      proc { cfg.send(:validate_reporters!, reporters) }.must_raise NotImplementedError
     end
 
     it 'two reporters outputting to stdout' do
       stdout = { 'stdout' => true }
       reporters = { 'json' => stdout, 'cli' => stdout }
-      proc { cfg.send(:validate_reporters, reporters) }.must_raise ArgumentError
+      proc { cfg.send(:validate_reporters!, reporters) }.must_raise ArgumentError
     end
   end
 
