@@ -64,9 +64,12 @@ describe 'Inspec::Config' do
       let(:fixture_name) { 'malformed_json' }
       it 'should throw an exception' do
         ex = proc { cfg }.must_raise(Inspec::ConfigError::MalformedJson)
-        ex.message.must_include 'Failed to load JSON config'
-        ex.message.must_include 'unexpected token'
-        ex.message.must_include 'version'
+        # Failed to load JSON configuration: 765: unexpected token at '{ "hot_garbage": "a", "version": "1.1",
+        # '
+        # Config was: "{ \"hot_garbage\": \"a\", \"version\": \"1.1\", \n"
+        ex.message.must_include 'Failed to load JSON config'  # The message
+        ex.message.must_include 'unexpected token'  # The specific parser error
+        ex.message.must_include 'hot_garbage' # A sample of the unacceptable contents
       end
     end
 
@@ -457,7 +460,7 @@ module ConfigTestHelper
     when :bad_top_level
       '{ "version": "1.1", "unsupported_field": "some_value" }'
     when :malformed_json
-      '{ "version": "1.1", '
+      '{ "hot_garbage": "a", "version": "1.1", '
     when :with_compliance
       # TODO - this is dubious, need to verify
       <<~EOJ5
