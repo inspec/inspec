@@ -175,14 +175,21 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   end
 
   desc 'exec LOCATIONS', 'run all test files at the specified LOCATIONS.'
+  # TODO: find a way for Thor not to butcher the formatting of this
   long_desc <<~EOT
     Loads the given profile(s) and fetches their dependencies if needed. Then
     connects to the target and executes any controls contained in the profiles.
-    One or more reporters are used to generate output. If all tests passed
-    (no fails, no skips) exit code 0 is returned. If some tests skipped but
-    none failed, exit code 101 is returned. If at least one test failed, exit
-    code 100 is returned. If inspec failed for any other reason, exit code 1
-    is returned.
+    One or more reporters are used to generate output.
+
+    ```
+    Exit codes:
+        0  Normal exit, all tests passed
+        1  Usage or general error
+        2  Error in plugin system
+        3  Fatal deprecation encountered
+      100  Normal exit, at least one test failed
+      101  Normal exit, at least one test skipped but none failed
+    ```
 
     Below are some examples of using `exec` with different test LOCATIONS:
 
