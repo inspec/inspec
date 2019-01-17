@@ -17,14 +17,12 @@ describe SolarisNetstatParser do
     end
 
     it "parses udpv4" do
-      content =
-        """
-        UDP: IPv4
-           Local Address        Remote Address      State
-        -------------------- -------------------- ----------
-              *.631                               Idle
-        """
-
+      content = <<-EOT
+UDP: IPv4
+   Local Address        Remote Address      State
+-------------------- -------------------- ----------
+      *.631                               Idle
+EOT
       info = [{
         "protocol" => "udp",
         "local-address" => "*.631",
@@ -35,14 +33,12 @@ describe SolarisNetstatParser do
     end
 
     it "parses udpv6" do
-      content =
-        """
-        UDP: IPv6
-           Local Address                     Remote Address                   State      If
-        --------------------------------- --------------------------------- ---------- -----
-              *.546                                                         Idle
-        """
-
+      content = <<-EOT
+UDP: IPv6
+   Local Address                     Remote Address                   State      If
+--------------------------------- --------------------------------- ---------- -----
+      *.546                                                         Idle
+      EOT
       info = [{
         "protocol" => "udp6",
         "local-address" => "*.546",
@@ -54,14 +50,12 @@ describe SolarisNetstatParser do
     end
 
     it "parses tcpv4" do
-      content =
-        """
-        TCP: IPv4
-           Local Address        Remote Address     Swind  Send-Q  Rwind  Recv-Q    State
-        -------------------- -------------------- ------- ------ ------- ------ -----------
-        127.0.0.1.5999             *.*                  0      0  128000      0 LISTEN
-        """
-
+      content = <<-EOT
+TCP: IPv4
+   Local Address        Remote Address     Swind  Send-Q  Rwind  Recv-Q    State
+-------------------- -------------------- ------- ------ ------- ------ -----------
+127.0.0.1.5999             *.*                  0      0  128000      0 LISTEN
+      EOT
       info = [{
         "protocol" => "tcp",
         "local-address" => "127.0.0.1.5999",
@@ -76,14 +70,12 @@ describe SolarisNetstatParser do
     end
 
     it "parses tcpv6" do
-      content =
-        """
-        TCP: IPv6
-           Local Address                     Remote Address                  Swind  Send-Q  Rwind  Recv-Q   State      If
-        --------------------------------- --------------------------------- ------- ------ ------- ------ ----------- -----
-        ::1.5999                                *.*                               0      0  128000      0 LISTEN
-        """
-
+      content = <<-EOT
+TCP: IPv6
+   Local Address                     Remote Address                  Swind  Send-Q  Rwind  Recv-Q   State      If
+--------------------------------- --------------------------------- ------- ------ ------- ------ ----------- -----
+::1.5999                                *.*                               0      0  128000      0 LISTEN
+      EOT
       info = [{
         "protocol" => "tcp6",
         "local-address" => "::1.5999",
@@ -99,13 +91,12 @@ describe SolarisNetstatParser do
     end
 
     it "parses sctp" do
-      content =
-        """
-        SCTP:
-                Local Address                   Remote Address          Swind  Send-Q Rwind  Recv-Q StrsI/O  State
-        ------------------------------- ------------------------------- ------ ------ ------ ------ ------- -----------
-        0.0.0.0                         0.0.0.0                              0      0 102400      0  32/32  CLOSED
-        """
+      content = <<-EOT
+SCTP:
+        Local Address                   Remote Address          Swind  Send-Q Rwind  Recv-Q StrsI/O  State
+------------------------------- ------------------------------- ------ ------ ------ ------ ------- -----------
+0.0.0.0                         0.0.0.0                              0      0 102400      0  32/32  CLOSED
+      EOT
       info = [{
         "protocol" => "sctp",
         "local-address" => "0.0.0.0",

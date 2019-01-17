@@ -72,7 +72,7 @@ if os.linux?
   end
 
   describe "-12" do
-    it { should cmp -12 }
+    it { should cmp(-12) }
     it { should cmp < -11 }
     it { should cmp > -13 }
     it { should_not cmp < -12 }

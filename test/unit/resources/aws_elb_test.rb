@@ -48,7 +48,7 @@ class AwsElbFilterCriteriaTest < Minitest::Test
     assert_equal("kangaroo", elb.elb_name)
   end
 
-  def test_recall_when_provided_a_string
+  def test_recall_when_provided_a_hash
     elb = AwsElb.new elb_name: "kang-the-alien"
     assert elb.exists?
     assert_equal("kang-the-alien", elb.elb_name)

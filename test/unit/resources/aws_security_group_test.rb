@@ -107,7 +107,7 @@ end
 #                               Matchers
 #=============================================================================#
 
-class AwsSGSProperties < Minitest::Test
+class AwsSGSMatchers < Minitest::Test
   def setup
     AwsSecurityGroup::BackendFactory.select(AwsMESGSB::Basic)
   end

@@ -15,8 +15,8 @@ if os.windows?
   kbs = content.select { |i| i =~ filter }
 
   # test every 10th package for speed
-  for i in (0..kbs.length).step(10) do
-    describe windows_hotfix(kbs[i]) do
+  (0..kbs.length).step(10).each do |package|
+    describe windows_hotfix(kbs[package]) do
       it { should be_installed }
     end
   end

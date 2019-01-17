@@ -5,11 +5,11 @@ class EmptyAwsRouteTableTest < Minitest::Test
     AwsRouteTable::BackendFactory.select(AwsMRtbB::Empty)
   end
 
-  def test_search_hit_via_scalar_works
+  def test_search_hit_via_scalar_works_with_symbol
     assert_empty AwsRouteTable.new[:routetables]
   end
 
-  def test_search_hit_via_scalar_works
+  def test_search_hit_via_scalar_works_with_string
     refute AwsRouteTable.new("rtb-123abcde").exists?
   end
 end

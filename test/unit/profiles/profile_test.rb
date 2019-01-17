@@ -32,9 +32,9 @@ describe Inspec::Profile do
     end
 
     it "can overwrite the profile ID" do
-      testID = rand.to_s
-      res = MockLoader.load_profile(profile_id, id: testID)
-      res.params[:name].must_equal testID
+      test_id = rand.to_s
+      res = MockLoader.load_profile(profile_id, id: test_id)
+      res.params[:name].must_equal test_id
     end
   end
 

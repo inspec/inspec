@@ -54,7 +54,7 @@ end
 #=============================================================================#
 #                               Properties
 #=============================================================================#
-class AwsIamGroupRecallTest < Minitest::Test
+class AwsIamGroupRecallPropertiesTest < Minitest::Test
 
   def setup
     AwsIamGroup::BackendFactory.select(MAIGSB::Basic)

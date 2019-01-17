@@ -24,9 +24,8 @@ end
 #                            Filter Criteria
 #=============================================================================#
 class AwsSGFilterCriteria < Minitest::Test
-  def setup
-    AwsSecurityGroups::BackendFactory.select(AwsMESGB::Basic)
-  end
+
+  # setup defined above
 
   def test_filter_vpc_id
     hit = AwsSecurityGroups.new.where(vpc_id: "vpc-12345678")
