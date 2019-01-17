@@ -1,11 +1,11 @@
 fixtures = {}
 [
-  'sns_topic_recall_hit_arn',
+  "sns_topic_recall_hit_arn",
 ].each do |fixture_name|
   fixtures[fixture_name] = attribute(
     fixture_name,
     default: "default.#{fixture_name}",
-    description: 'See ../build/sns.tf',
+    description: "See ../build/sns.tf"
   )
 end
 
@@ -19,6 +19,6 @@ end
 control "aws_sns_topics properties" do
   # you should be able to get a list of all SNS Topic arns
   describe aws_sns_topics do
-    its('topic_arns') { should include fixtures['sns_topic_recall_hit_arn'] }
+    its("topic_arns") { should include fixtures["sns_topic_recall_hit_arn"] }
   end
 end

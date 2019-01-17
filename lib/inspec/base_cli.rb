@@ -2,10 +2,10 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'thor'
-require 'inspec/log'
-require 'inspec/profile_vendor'
-require 'inspec/ui'
+require "thor"
+require "inspec/log"
+require "inspec/profile_vendor"
+require "inspec/ui"
 
 # Allow end of options during array type parsing
 # https://github.com/erikhuda/thor/issues/631
@@ -34,137 +34,137 @@ module Inspec
 
     def self.target_options # rubocop:disable MethodLength
       option :target, aliases: :t, type: :string,
-        desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'
+        desc: "Simple targeting option using URIs, e.g. ssh://user:pass@host:port"
       option :backend, aliases: :b, type: :string,
-        desc: 'Choose a backend: local, ssh, winrm, docker.'
+        desc: "Choose a backend: local, ssh, winrm, docker."
       option :host, type: :string,
-        desc: 'Specify a remote host which is tested.'
+        desc: "Specify a remote host which is tested."
       option :port, aliases: :p, type: :numeric,
-        desc: 'Specify the login port for a remote scan.'
+        desc: "Specify the login port for a remote scan."
       option :user, type: :string,
-        desc: 'The login user for a remote scan.'
+        desc: "The login user for a remote scan."
       option :password, type: :string, lazy_default: -1,
-        desc: 'Login password for a remote scan, if required.'
+        desc: "Login password for a remote scan, if required."
       option :enable_password, type: :string, lazy_default: -1,
-        desc: 'Password for enable mode on Cisco IOS devices.'
+        desc: "Password for enable mode on Cisco IOS devices."
       option :key_files, aliases: :i, type: :array,
-        desc: 'Login key or certificate file for a remote scan.'
+        desc: "Login key or certificate file for a remote scan."
       option :path, type: :string,
-        desc: 'Login path to use when connecting to the target (WinRM).'
+        desc: "Login path to use when connecting to the target (WinRM)."
       option :sudo, type: :boolean,
-        desc: 'Run scans with sudo. Only activates on Unix and non-root user.'
+        desc: "Run scans with sudo. Only activates on Unix and non-root user."
       option :sudo_password, type: :string, lazy_default: -1,
-        desc: 'Specify a sudo password, if it is required.'
+        desc: "Specify a sudo password, if it is required."
       option :sudo_options, type: :string,
-        desc: 'Additional sudo options for a remote scan.'
+        desc: "Additional sudo options for a remote scan."
       option :sudo_command, type: :string,
-        desc: 'Alternate command for sudo.'
+        desc: "Alternate command for sudo."
       option :shell, type: :boolean,
-        desc: 'Run scans in a subshell. Only activates on Unix.'
+        desc: "Run scans in a subshell. Only activates on Unix."
       option :shell_options, type: :string,
-        desc: 'Additional shell options.'
+        desc: "Additional shell options."
       option :shell_command, type: :string,
-        desc: 'Specify a particular shell to use.'
+        desc: "Specify a particular shell to use."
       option :ssl, type: :boolean,
-        desc: 'Use SSL for transport layer encryption (WinRM).'
+        desc: "Use SSL for transport layer encryption (WinRM)."
       option :self_signed, type: :boolean,
-        desc: 'Allow remote scans with self-signed certificates (WinRM).'
-      option :winrm_transport, type: :string, default: 'negotiate',
-        desc: 'Specify which transport to use, defaults to negotiate (WinRM).'
+        desc: "Allow remote scans with self-signed certificates (WinRM)."
+      option :winrm_transport, type: :string, default: "negotiate",
+        desc: "Specify which transport to use, defaults to negotiate (WinRM)."
       option :winrm_disable_sspi, type: :boolean,
-        desc: 'Whether to use disable sspi authentication, defaults to false (WinRM).'
+        desc: "Whether to use disable sspi authentication, defaults to false (WinRM)."
       option :winrm_basic_auth, type: :boolean,
-        desc: 'Whether to use basic authentication, defaults to false (WinRM).'
+        desc: "Whether to use basic authentication, defaults to false (WinRM)."
       option :json_config, type: :string,
-        desc: 'Read configuration from JSON file (`-` reads from stdin).'
+        desc: "Read configuration from JSON file (`-` reads from stdin)."
       option :proxy_command, type: :string,
-        desc: 'Specifies the command to use to connect to the server'
+        desc: "Specifies the command to use to connect to the server"
       option :bastion_host, type: :string,
-        desc: 'Specifies the bastion host if applicable'
+        desc: "Specifies the bastion host if applicable"
       option :bastion_user, type: :string,
-        desc: 'Specifies the bastion user if applicable'
+        desc: "Specifies the bastion user if applicable"
       option :bastion_port, type: :string,
-        desc: 'Specifies the bastion port if applicable'
+        desc: "Specifies the bastion port if applicable"
       option :insecure, type: :boolean, default: false,
-        desc: 'Disable SSL verification on select targets'
+        desc: "Disable SSL verification on select targets"
       option :target_id, type: :string,
-        desc: 'Provide a ID which will be included on reports'
+        desc: "Provide a ID which will be included on reports"
     end
 
     def self.profile_options
       option :profiles_path, type: :string,
-        desc: 'Folder which contains referenced profiles.'
+        desc: "Folder which contains referenced profiles."
       option :vendor_cache, type: :string,
-        desc: 'Use the given path for caching dependencies. (default: ~/.inspec/cache)'
+        desc: "Use the given path for caching dependencies. (default: ~/.inspec/cache)"
     end
 
     def self.exec_options
       target_options
       profile_options
       option :controls, type: :array,
-        desc: 'A list of control names to run, or a list of /regexes/ to match against control names. Ignore all other tests.'
+        desc: "A list of control names to run, or a list of /regexes/ to match against control names. Ignore all other tests."
       option :reporter, type: :array,
-        banner: 'one two:/output/file/path',
-        desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml'
+        banner: "one two:/output/file/path",
+        desc: "Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml"
       option :attrs, type: :array,
-        desc: 'Load attributes file (experimental)'
+        desc: "Load attributes file (experimental)"
       option :create_lockfile, type: :boolean,
-        desc: 'Write out a lockfile based on this execution (unless one already exists)'
+        desc: "Write out a lockfile based on this execution (unless one already exists)"
       option :backend_cache, type: :boolean,
-        desc: 'Allow caching for backend command output. (default: true)'
+        desc: "Allow caching for backend command output. (default: true)"
       option :show_progress, type: :boolean,
-        desc: 'Show progress while executing tests.'
+        desc: "Show progress while executing tests."
       option :distinct_exit, type: :boolean, default: true,
-        desc: 'Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures.'
+        desc: "Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures."
     end
 
     def self.default_options
       {
         exec: {
-          'reporter' => ['cli'],
-          'show_progress' => false,
-          'color' => true,
-          'create_lockfile' => true,
-          'backend_cache' => true,
+          "reporter" => ["cli"],
+          "show_progress" => false,
+          "color" => true,
+          "create_lockfile" => true,
+          "backend_cache" => true,
         },
         shell: {
-          'reporter' => ['cli'],
+          "reporter" => ["cli"],
         },
       }
     end
 
     def self.parse_reporters(opts) # rubocop:disable Metrics/AbcSize
       # default to cli report for ad-hoc runners
-      opts['reporter'] = ['cli'] if opts['reporter'].nil?
+      opts["reporter"] = ["cli"] if opts["reporter"].nil?
 
       # parse out cli to proper report format
-      if opts['reporter'].is_a?(Array)
+      if opts["reporter"].is_a?(Array)
         reports = {}
-        opts['reporter'].each do |report|
-          reporter_name, target = report.split(':', 2)
-          if target.nil? || target.strip == '-'
-            reports[reporter_name] = { 'stdout' => true }
+        opts["reporter"].each do |report|
+          reporter_name, target = report.split(":", 2)
+          if target.nil? || target.strip == "-"
+            reports[reporter_name] = { "stdout" => true }
           else
             reports[reporter_name] = {
-              'file' => target,
-              'stdout' => false,
+              "file" => target,
+              "stdout" => false,
             }
-            reports[reporter_name]['target_id'] = opts['target_id'] if opts['target_id']
+            reports[reporter_name]["target_id"] = opts["target_id"] if opts["target_id"]
           end
         end
-        opts['reporter'] = reports
+        opts["reporter"] = reports
       end
 
       # add in stdout if not specified
-      if opts['reporter'].is_a?(Hash)
-        opts['reporter'].each do |reporter_name, config|
-          opts['reporter'][reporter_name] = {} if config.nil?
-          opts['reporter'][reporter_name]['stdout'] = true if opts['reporter'][reporter_name].empty?
-          opts['reporter'][reporter_name]['target_id'] = opts['target_id'] if opts['target_id']
+      if opts["reporter"].is_a?(Hash)
+        opts["reporter"].each do |reporter_name, config|
+          opts["reporter"][reporter_name] = {} if config.nil?
+          opts["reporter"][reporter_name]["stdout"] = true if opts["reporter"][reporter_name].empty?
+          opts["reporter"][reporter_name]["target_id"] = opts["target_id"] if opts["target_id"]
         end
       end
 
-      validate_reporters(opts['reporter'])
+      validate_reporters(opts["reporter"])
       opts
     end
 
@@ -172,23 +172,23 @@ module Inspec
       return if reporters.nil?
 
       valid_types = [
-        'automate',
-        'cli',
-        'documentation',
-        'html',
-        'json',
-        'json-automate',
-        'json-min',
-        'json-rspec',
-        'junit',
-        'progress',
-        'yaml',
+        "automate",
+        "cli",
+        "documentation",
+        "html",
+        "json",
+        "json-automate",
+        "json-min",
+        "json-rspec",
+        "junit",
+        "progress",
+        "yaml",
       ]
 
       reporters.each do |k, v|
         raise NotImplementedError, "'#{k}' is not a valid reporter type." unless valid_types.include?(k)
 
-        next unless k == 'automate'
+        next unless k == "automate"
         %w{token url}.each do |option|
           raise Inspec::ReporterError, "You must specify a automate #{option} via the json-config." if v[option].nil?
         end
@@ -197,26 +197,26 @@ module Inspec
       # check to make sure we are only reporting one type to stdout
       stdout = 0
       reporters.each_value do |v|
-        stdout += 1 if v['stdout'] == true
+        stdout += 1 if v["stdout"] == true
       end
 
-      raise ArgumentError, 'The option --reporter can only have a single report outputting to stdout.' if stdout > 1
+      raise ArgumentError, "The option --reporter can only have a single report outputting to stdout." if stdout > 1
     end
 
     def self.detect(params: {}, indent: 0, color: 39)
-      str = ''
-      params.each { |item, info|
+      str = ""
+      params.each do |item, info|
         data = info
 
         # Format Array for better output if applicable
-        data = data.join(', ') if data.is_a?(Array)
+        data = data.join(", ") if data.is_a?(Array)
 
         # Do not output fields of data is missing ('unknown' is fine)
         next if data.nil?
 
         data = "\e[1m\e[#{color}m#{data}\e[0m"
-        str << format("#{' ' * indent}%-10s %s\n", item.to_s.capitalize + ':', data)
-      }
+        str << format("#{' ' * indent}%-10s %s\n", item.to_s.capitalize + ":", data)
+      end
       str
     end
 
@@ -275,26 +275,26 @@ module Inspec
     private
 
     def suppress_log_output?(opts)
-      return false if opts['reporter'].nil?
-      match = %w{json json-min json-rspec json-automate junit html yaml documentation progress} & opts['reporter'].keys
+      return false if opts["reporter"].nil?
+      match = %w{json json-min json-rspec json-automate junit html yaml documentation progress} & opts["reporter"].keys
       unless match.empty?
         match.each do |m|
           # check to see if we are outputting to stdout
-          return true if opts['reporter'][m]['stdout'] == true
+          return true if opts["reporter"][m]["stdout"] == true
         end
       end
       false
     end
 
     def diagnose(opts)
-      return unless opts['diagnose']
+      return unless opts["diagnose"]
       puts "InSpec version: #{Inspec::VERSION}"
       puts "Train version: #{Train::VERSION}"
-      puts 'Command line configuration:'
+      puts "Command line configuration:"
       pp options
-      puts 'JSON configuration file:'
+      puts "JSON configuration file:"
       pp options_json
-      puts 'Merged configuration:'
+      puts "Merged configuration:"
       pp opts
       puts
     end
@@ -308,7 +308,7 @@ module Inspec
       # whenever it is used, it requires a value. Handle options that were
       # defined above and require a value here:
       %w{password sudo-password}.each do |v|
-        id = v.tr('-', '_').to_sym
+        id = v.tr("-", "_").to_sym
         next unless o[id] == -1
         raise ArgumentError, "Please provide a value for --#{v}. For example: --#{v}=hello."
       end
@@ -316,13 +316,13 @@ module Inspec
       # Infer `--sudo` if using `--sudo-password` without `--sudo`
       if o[:sudo_password] && !o[:sudo]
         o[:sudo] = true
-        warn 'WARN: `--sudo-password` used without `--sudo`. Adding `--sudo`.'
+        warn "WARN: `--sudo-password` used without `--sudo`. Adding `--sudo`."
       end
 
       # check for compliance settings
-      if o['compliance']
-        require 'plugins/inspec-compliance/lib/inspec-compliance/api'
-        InspecPlugins::Compliance::API.login(o['compliance'])
+      if o["compliance"]
+        require "plugins/inspec-compliance/lib/inspec-compliance/api"
+        InspecPlugins::Compliance::API.login(o["compliance"])
       end
 
       o
@@ -333,7 +333,7 @@ module Inspec
 
       # start with default options if we have any
       opts = BaseCLI.default_options[type] unless type.nil? || BaseCLI.default_options[type].nil?
-      opts['type'] = type unless type.nil?
+      opts["type"] = type unless type.nil?
       Inspec::BaseCLI.inspec_cli_command = type
 
       # merge in any options from json-config
@@ -344,19 +344,19 @@ module Inspec
       opts.merge!(options)
 
       # parse reporter options
-      opts = BaseCLI.parse_reporters(opts) if %i(exec shell).include?(type)
+      opts = BaseCLI.parse_reporters(opts) if %i{exec shell}.include?(type)
 
       Thor::CoreExt::HashWithIndifferentAccess.new(opts)
     end
 
     def options_json
-      conffile = options['json_config']
+      conffile = options["json_config"]
       @json ||= conffile ? read_config(conffile) : {}
     end
 
     def read_config(file)
-      if file == '-'
-        puts 'WARN: reading JSON config from standard input' if STDIN.tty?
+      if file == "-"
+        puts "WARN: reading JSON config from standard input" if STDIN.tty?
         config = STDIN.read
       else
         config = File.read(file)
@@ -376,7 +376,7 @@ module Inspec
       if valid.include?(level)
         l = level
       else
-        l = 'info'
+        l = "info"
       end
 
       Logger.const_get(l.upcase)
@@ -397,7 +397,7 @@ module Inspec
       profile_vendor = Inspec::ProfileVendor.new(profile_path)
 
       if (profile_vendor.cache_path.exist? || profile_vendor.lockfile.exist?) && !opts[:overwrite]
-        puts 'Profile is already vendored. Use --overwrite.'
+        puts "Profile is already vendored. Use --overwrite."
         return false
       end
 
@@ -426,7 +426,7 @@ module Inspec
 
       o[:logger] = Logger.new(loc)
       # output json if we have activated the json formatter
-      if o['log-format'] == 'json'
+      if o["log-format"] == "json"
         o[:logger].formatter = Logger::JSONFormatter.new
       end
       o[:logger].level = get_log_level(o.log_level)

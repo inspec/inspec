@@ -1,18 +1,18 @@
 class AwsIamGroups < Inspec.resource(1)
-  name 'aws_iam_groups'
-  desc 'Verifies settings for AWS IAM groups in bulk'
+  name "aws_iam_groups"
+  desc "Verifies settings for AWS IAM groups in bulk"
   example '
     describe aws_iam_groups do
       it { should exist }
     end
   '
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsPluralResourceMixin
 
   def validate_params(resource_params)
     unless resource_params.empty?
-      raise ArgumentError, 'aws_iam_groups does not accept resource parameters.'
+      raise ArgumentError, "aws_iam_groups does not accept resource parameters."
     end
     resource_params
   end
@@ -23,7 +23,7 @@ class AwsIamGroups < Inspec.resource(1)
   filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
-    'IAM Groups'
+    "IAM Groups"
   end
 
   def fetch_from_api

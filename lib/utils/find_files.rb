@@ -5,14 +5,14 @@
 
 module FindFiles
   TYPES = {
-    block: 'b',
-    character: 'c',
-    directory: 'd',
-    pipe: 'p',
-    file: 'f',
-    link: 'l',
-    socket: 's',
-    door: 'D',
+    block: "b",
+    character: "c",
+    directory: "d",
+    pipe: "p",
+    file: "f",
+    link: "l",
+    socket: "s",
+    door: "D",
   }.freeze
 
   # ignores errors

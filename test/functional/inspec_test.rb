@@ -1,29 +1,29 @@
 # encoding: utf-8
 
-require 'functional/helper'
+require "functional/helper"
 
-describe 'command tests' do
+describe "command tests" do
   include FunctionalHelper
 
-  describe 'version' do
-    it 'provides the version number on stdout' do
-      out = inspec('version')
-      out.stderr.must_equal ''
+  describe "version" do
+    it "provides the version number on stdout" do
+      out = inspec("version")
+      out.stderr.must_equal ""
       out.exit_status.must_equal 0
-      out.stdout.must_equal Inspec::VERSION+"\n"
+      out.stdout.must_equal Inspec::VERSION + "\n"
     end
 
-    it 'prints the version as JSON when the format is specified as JSON' do
-      out = inspec('version --format=json')
-      out.stderr.must_equal ''
+    it "prints the version as JSON when the format is specified as JSON" do
+      out = inspec("version --format=json")
+      out.stderr.must_equal ""
       out.exit_status.must_equal 0
       out.stdout.must_equal %({"version":"#{Inspec::VERSION}"}\n)
     end
   end
 
-  describe 'check' do
-    it 'verifies that a profile is ok' do
-      out = inspec('check ' + example_profile)
+  describe "check" do
+    it "verifies that a profile is ok" do
+      out = inspec("check " + example_profile)
       out.stdout.must_match(/Valid.*true/)
       out.exit_status.must_equal 0
     end

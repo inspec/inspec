@@ -1,4 +1,4 @@
-require 'helper'
+require "helper"
 
 # MAESB = MockAwsElbSingularBackend
 # Abbreviation not used outside this file
@@ -13,22 +13,21 @@ class AwsElbConstructorTest < Minitest::Test
   end
 
   def test_empty_params_rejected
-    assert_raises(ArgumentError) { AwsElb.new }    
+    assert_raises(ArgumentError) { AwsElb.new }
   end
 
   def test_string_accepted
-    AwsElb.new 'my-elb'    
+    AwsElb.new "my-elb"
   end
 
   def test_hash_accepted
-    AwsElb.new elb_name: 'my-elb'    
+    AwsElb.new elb_name: "my-elb"
   end
 
   def test_rejects_unrecognized_params
     assert_raises(ArgumentError) { AwsElb.new(shoe_size: 9) }
   end
 end
-
 
 #=============================================================================#
 #                            Search / Recall
@@ -40,19 +39,19 @@ class AwsElbFilterCriteriaTest < Minitest::Test
   end
 
   def test_search_miss
-    refute AwsElb.new('nonesuch').exists?
+    refute AwsElb.new("nonesuch").exists?
   end
 
   def test_recall_when_provided_a_string
-    elb = AwsElb.new 'kangaroo'
+    elb = AwsElb.new "kangaroo"
     assert elb.exists?
-    assert_equal('kangaroo', elb.elb_name)
+    assert_equal("kangaroo", elb.elb_name)
   end
 
   def test_recall_when_provided_a_string
-    elb = AwsElb.new elb_name: 'kang-the-alien'
+    elb = AwsElb.new elb_name: "kang-the-alien"
     assert elb.exists?
-    assert_equal('kang-the-alien', elb.elb_name)
+    assert_equal("kang-the-alien", elb.elb_name)
   end
 
 end
@@ -64,15 +63,15 @@ class AwsElbProperties < Minitest::Test
 
   def setup
     AwsElb::BackendFactory.select(MAESB::Basic)
-    @roo = AwsElb.new('kangaroo')
-    @kang = AwsElb.new('kang-the-alien')
-    @gamma = AwsElb.new('gamma')
-    @miss = AwsElb.new('nonesuch')
+    @roo = AwsElb.new("kangaroo")
+    @kang = AwsElb.new("kang-the-alien")
+    @gamma = AwsElb.new("gamma")
+    @miss = AwsElb.new("nonesuch")
   end
 
   def test_property_with_availability_zones
-    assert_includes(@roo.availability_zones, 'us-east-1b')
-    assert_includes(@roo.availability_zones, 'us-east-1c')
+    assert_includes(@roo.availability_zones, "us-east-1b")
+    assert_includes(@roo.availability_zones, "us-east-1c")
     assert_equal(2, @roo.availability_zones.count)
     refute_includes(@roo.availability_zones, nil)
     assert_kind_of(Array, @miss.availability_zones)
@@ -80,8 +79,8 @@ class AwsElbProperties < Minitest::Test
   end
 
   def test_property_with_dns_name
-    assert_equal(@gamma.dns_name, '999999.us-east-1.aws.amazon.com')
-    assert_equal(@roo.dns_name, '12345678.us-east-2.aws.amazon.com')
+    assert_equal(@gamma.dns_name, "999999.us-east-1.aws.amazon.com")
+    assert_equal(@roo.dns_name, "12345678.us-east-2.aws.amazon.com")
   end
 
   def test_property_with_external_ports
@@ -92,10 +91,10 @@ class AwsElbProperties < Minitest::Test
     assert_kind_of(Array, @miss.external_ports)
     assert_empty(@miss.external_ports)
   end
-  
+
   def test_property_with_instance_ids
-    assert_includes(@roo.instance_ids, 'i-87654321')
-    assert_includes(@kang.instance_ids, 'i-12345678')
+    assert_includes(@roo.instance_ids, "i-87654321")
+    assert_includes(@kang.instance_ids, "i-12345678")
     assert_equal(2, @kang.instance_ids.count)
     assert_equal(0, @gamma.instance_ids.count)
     refute_includes(@kang.instance_ids, nil)
@@ -113,8 +112,8 @@ class AwsElbProperties < Minitest::Test
   end
 
   def test_property_with_security_group_ids
-    assert_includes(@kang.security_group_ids, 'sg-12345678')
-    assert_includes(@kang.security_group_ids, 'sg-99998888')
+    assert_includes(@kang.security_group_ids, "sg-12345678")
+    assert_includes(@kang.security_group_ids, "sg-99998888")
     assert_equal(3, @kang.security_group_ids.count)
     refute_includes(@kang.security_group_ids, nil)
     assert_kind_of(Array, @miss.security_group_ids)
@@ -122,8 +121,8 @@ class AwsElbProperties < Minitest::Test
   end
 
   def test_property_with_subnet_ids
-    assert_includes(@gamma.subnet_ids, 'subnet-ccccdddd')
-    assert_includes(@kang.subnet_ids, 'subnet-12345678')
+    assert_includes(@gamma.subnet_ids, "subnet-ccccdddd")
+    assert_includes(@kang.subnet_ids, "subnet-12345678")
     assert_equal(2, @gamma.subnet_ids.count)
     refute_includes(@gamma.subnet_ids, nil)
     assert_kind_of(Array, @miss.subnet_ids)
@@ -131,7 +130,7 @@ class AwsElbProperties < Minitest::Test
   end
 
   def test_property_vpc_id
-    assert_equal(@gamma.vpc_id, 'vpc-87654321')
+    assert_equal(@gamma.vpc_id, "vpc-87654321")
   end
 
 end
@@ -151,113 +150,113 @@ module MAESB
         load_balancer_descriptions: [
           Aws::ElasticLoadBalancing::Types::LoadBalancerDescription.new(
             availability_zones: [
-              'us-east-1a',
-              'us-east-1c',
+              "us-east-1a",
+              "us-east-1c",
             ],
-            dns_name: '12345678.us-east-1.aws.amazon.com',
-            load_balancer_name: 'kang-the-alien',
+            dns_name: "12345678.us-east-1.aws.amazon.com",
+            load_balancer_name: "kang-the-alien",
             listener_descriptions: [
               Aws::ElasticLoadBalancing::Types::ListenerDescription.new(
                 listener: Aws::ElasticLoadBalancing::Types::Listener.new(
-                  protocol: 'http',
+                  protocol: "http",
                   load_balancer_port: 80,
-                  instance_protocol: 'http',
-                  instance_port: 80,
+                  instance_protocol: "http",
+                  instance_port: 80
                 )
-              )
+              ),
             ],
             instances: [
-              Aws::ElasticLoadBalancing::Types::Instance.new(instance_id: 'i-12345678'),
-              Aws::ElasticLoadBalancing::Types::Instance.new(instance_id: 'i-aaaabbbb'),
+              Aws::ElasticLoadBalancing::Types::Instance.new(instance_id: "i-12345678"),
+              Aws::ElasticLoadBalancing::Types::Instance.new(instance_id: "i-aaaabbbb"),
             ],
             security_groups: [
-              'sg-12345678',
-              'sg-aaaabbbb',
-              'sg-99998888',
+              "sg-12345678",
+              "sg-aaaabbbb",
+              "sg-99998888",
             ],
             subnets: [
-              'subnet-12345678',
-              'subnet-aaaabbbb',
+              "subnet-12345678",
+              "subnet-aaaabbbb",
             ],
-            vpc_id: 'vpc-12345678',
+            vpc_id: "vpc-12345678"
           ),
           Aws::ElasticLoadBalancing::Types::LoadBalancerDescription.new(
             availability_zones: [
-              'us-east-1b',
-              'us-east-1c',
+              "us-east-1b",
+              "us-east-1c",
             ],
-            dns_name: '12345678.us-east-2.aws.amazon.com',            
-            load_balancer_name: 'kangaroo',
+            dns_name: "12345678.us-east-2.aws.amazon.com",
+            load_balancer_name: "kangaroo",
             listener_descriptions: [
               Aws::ElasticLoadBalancing::Types::ListenerDescription.new(
                 listener: Aws::ElasticLoadBalancing::Types::Listener.new(
-                  protocol: 'tcp',
+                  protocol: "tcp",
                   load_balancer_port: 1001,
-                  instance_protocol: 'tcp',
-                  instance_port: 1001,
+                  instance_protocol: "tcp",
+                  instance_port: 1001
                 )
-              )
+              ),
             ],
             instances: [
-              Aws::ElasticLoadBalancing::Types::Instance.new(instance_id: 'i-87654321'),
+              Aws::ElasticLoadBalancing::Types::Instance.new(instance_id: "i-87654321"),
             ],
             security_groups: [
-              'sg-12345678',
-              'sg-99998888',
+              "sg-12345678",
+              "sg-99998888",
             ],
             subnets: [
-              'subnet-12345678',
-              'subnet-aaaabbbb',
+              "subnet-12345678",
+              "subnet-aaaabbbb",
             ],
-            vpc_id: 'vpc-12345678',
+            vpc_id: "vpc-12345678"
           ),
           Aws::ElasticLoadBalancing::Types::LoadBalancerDescription.new(
             availability_zones: [
-              'us-east-1a',
-              'us-east-1e',
+              "us-east-1a",
+              "us-east-1e",
             ],
-            dns_name: '999999.us-east-1.aws.amazon.com',            
-            load_balancer_name: 'gamma',
+            dns_name: "999999.us-east-1.aws.amazon.com",
+            load_balancer_name: "gamma",
             listener_descriptions: [
               Aws::ElasticLoadBalancing::Types::ListenerDescription.new(
                 listener: Aws::ElasticLoadBalancing::Types::Listener.new(
-                  protocol: 'http',
+                  protocol: "http",
                   load_balancer_port: 631,
-                  instance_protocol: 'http',
-                  instance_port: 80,
+                  instance_protocol: "http",
+                  instance_port: 80
                 )
-              )
+              ),
             ],
             instances: [
             ],
             security_groups: [
-              'sg-12345678',
-              'sg-99998888',
-              'sg-01010101',
+              "sg-12345678",
+              "sg-99998888",
+              "sg-01010101",
             ],
             subnets: [
-              'subnet-ccccdddd',
-              'subnet-aaaabbbb',
+              "subnet-ccccdddd",
+              "subnet-aaaabbbb",
             ],
-            vpc_id: 'vpc-87654321',
-          )
+            vpc_id: "vpc-87654321"
+          ),
         ]
       )
 
       if query[:load_balancer_names]
         result = data.load_balancer_descriptions.select do |lbd|
-          query[:load_balancer_names].include? lbd.load_balancer_name 
+          query[:load_balancer_names].include? lbd.load_balancer_name
         end
         if result.empty?
           raise Aws::ElasticLoadBalancing::Errors::LoadBalancerNotFound.new(nil, nil)
-        else 
+        else
           Aws::ElasticLoadBalancing::Types::DescribeAccessPointsOutput.new(
             load_balancer_descriptions: result
           )
         end
       else
         data
-      end 
+      end
     end
   end
 end

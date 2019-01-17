@@ -3,8 +3,8 @@
 
 module Inspec::Resources
   class Postgres < Inspec.resource(1)
-    name 'postgres'
-    supports platform: 'unix'
+    name "postgres"
+    supports platform: "unix"
     desc 'The \'postgres\' resource is a helper for the \'postgres_conf\', \'postgres_hba_conf\', \'postgres_ident_conf\' & \'postgres_session\' resources.  Please use those instead.'
 
     attr_reader :service, :data_dir, :conf_dir, :conf_path, :version, :cluster
@@ -16,64 +16,68 @@ module Inspec::Resources
         # Debian allows multiple versions of postgresql to be
         # installed as well as multiple "clusters" to be configured.
         #
-        @version = version_from_psql || version_from_dir('/etc/postgresql')
+        @version = version_from_psql || version_from_dir("/etc/postgresql")
         @cluster = cluster_from_dir("/etc/postgresql/#{@version}")
         @conf_dir = "/etc/postgresql/#{@version}/#{@cluster}"
         @data_dir = "/var/lib/postgresql/#{@version}/#{@cluster}"
       else
         @version = version_from_psql
         if @version.nil?
-          if inspec.directory('/var/lib/pgsql/data').exist?
+          if inspec.directory("/var/lib/pgsql/data").exist?
             warn 'Unable to determine PostgreSQL version: psql did not return
              a version number and unversioned data directories were found.'
             nil
           else
-            @version = version_from_dir('/var/lib/pgsql')
+            @version = version_from_dir("/var/lib/pgsql")
           end
         end
         @data_dir = locate_data_dir_location_by_version(@version)
       end
 
-      @service = 'postgresql'
+      @service = "postgresql"
       @service += "-#{@version}" if @version.to_f >= 9.4
       @conf_dir ||= @data_dir
 
       verify_dirs
       if !@version.nil? && !@conf_dir.empty?
-        @conf_path = File.join @conf_dir, 'postgresql.conf'
+        @conf_path = File.join @conf_dir, "postgresql.conf"
       else
         @conf_path = nil
-        return skip_resource 'Seems like PostgreSQL is not installed on your system'
+        return skip_resource "Seems like PostgreSQL is not installed on your system"
       end
     end
 
     def to_s
-      'PostgreSQL'
+      "PostgreSQL"
     end
 
     private
 
     def verify_dirs
-      warn "Default postgresql configuration directory: #{@conf_dir} does not exist. " \
-        "Postgresql may not be installed or we've misidentified the configuration " \
-        'directory.' unless inspec.directory(@conf_dir).exist?
+      unless inspec.directory(@conf_dir).exist?
+        warn "Default postgresql configuration directory: #{@conf_dir} does not exist. " \
+          "Postgresql may not be installed or we've misidentified the configuration " \
+          "directory."
+      end
 
-      warn "Default postgresql data directory: #{@data_dir} does not exist. " \
-        "Postgresql may not be installed or we've misidentified the data " \
-        'directory.' unless inspec.directory(@data_dir).exist?
+      unless inspec.directory(@data_dir).exist?
+        warn "Default postgresql data directory: #{@data_dir} does not exist. " \
+          "Postgresql may not be installed or we've misidentified the data " \
+          "directory."
+      end
     end
 
     def version_from_psql
-      return unless inspec.command('psql').exist?
+      return unless inspec.command("psql").exist?
       inspec.command("psql --version | awk '{ print $NF }' | awk -F. '{ print $1\".\"$2 }'").stdout.strip
     end
 
     def locate_data_dir_location_by_version(ver = @version)
       dir_list = [
         "/var/lib/pgsql/#{ver}/data",
-        '/var/lib/pgsql/data',
-        '/var/lib/postgres/data',
-        '/var/lib/postgresql/data',
+        "/var/lib/pgsql/data",
+        "/var/lib/postgres/data",
+        "/var/lib/postgresql/data",
       ]
 
       data_dir_loc = dir_list.detect { |i| inspec.directory(i).exist? }
@@ -105,17 +109,17 @@ module Inspec::Resources
     end
 
     def dir_to_version(dir)
-      dir.chomp.split('/').last
+      dir.chomp.split("/").last
     end
 
     def cluster_from_dir(dir)
       # Main is the default cluster name on debian use it if it
       # exists.
       if inspec.directory("#{dir}/main").exist?
-        'main'
+        "main"
       else
         dirs = inspec.command("ls -d #{dir}/*/").stdout.lines
-        first = dirs.first.chomp.split('/').last
+        first = dirs.first.chomp.split("/").last
         if dirs.count > 1
           warn "Multiple postgresql clusters configured or incorrect base dir #{dir}"
           warn "Using the first directory found: #{first}"

@@ -1,9 +1,9 @@
 module Inspec::Resources
   class FileSystemResource < Inspec.resource(1)
-    name 'filesystem'
-    supports platform: 'linux'
-    supports platform: 'windows'
-    desc 'Use the filesystem InSpec resource to test file system'
+    name "filesystem"
+    supports platform: "linux"
+    supports platform: "windows"
+    desc "Use the filesystem InSpec resource to test file system"
     example "
       describe filesystem('/') do
         its('size') { should be >= 32000 }
@@ -28,7 +28,7 @@ module Inspec::Resources
       elsif os.windows?
         @fsman = WindowsFileSystemResource.new(inspec)
       else
-        raise Inspec::Exceptions::ResourceSkipped, 'The `filesystem` resource is not supported on your OS yet.'
+        raise Inspec::Exceptions::ResourceSkipped, "The `filesystem` resource is not supported on your OS yet."
       end
     end
 
@@ -69,7 +69,7 @@ module Inspec::Resources
     def info(partition)
       cmd = inspec.command("df #{partition} --output=size")
       raise Inspec::Exceptions::ResourceFailed, "Unable to get available space for partition #{partition}" if cmd.stdout.nil? || cmd.stdout.empty? || !cmd.exit_status.zero?
-      value = cmd.stdout.gsub(/\dK-blocks[\r\n]/, '').strip
+      value = cmd.stdout.gsub(/\dK-blocks[\r\n]/, "").strip
       {
         name: partition,
         size: value.to_i,
@@ -80,24 +80,24 @@ module Inspec::Resources
 
   class WindowsFileSystemResource < FsManagement
     def info(partition)
-      cmd = inspec.command <<-EOF.gsub(/^\s*/, '')
+      cmd = inspec.command <<-EOF.gsub(/^\s*/, "")
         $disk = Get-WmiObject Win32_LogicalDisk -Filter "DeviceID='#{partition}'"
         $disk.Size = $disk.Size / 1GB
         $disk | select -property DeviceID,Size,FileSystem | ConvertTo-Json
       EOF
 
-      raise Inspec::Exceptions::ResourceSkipped, "Unable to get available space for partition #{partition}" if cmd.stdout == '' || cmd.exit_status.to_i != 0
+      raise Inspec::Exceptions::ResourceSkipped, "Unable to get available space for partition #{partition}" if cmd.stdout == "" || cmd.exit_status.to_i != 0
       begin
         fs = JSON.parse(cmd.stdout)
       rescue JSON::ParserError => e
         raise Inspec::Exceptions::ResourceFailed,
-              'Failed to parse JSON from Powershell. ' \
+              "Failed to parse JSON from Powershell. " \
               "Error: #{e}"
       end
       {
-        name: fs['DeviceID'],
-        size: fs['Size'].to_i,
-        type: fs['FileSystem'],
+        name: fs["DeviceID"],
+        size: fs["Size"].to_i,
+        type: fs["FileSystem"],
       }
     end
   end

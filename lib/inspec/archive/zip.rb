@@ -2,9 +2,9 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'rubygems'
-require 'zip'
-require 'pathname'
+require "rubygems"
+require "zip"
+require "pathname"
 
 module Inspec::Archive
   class ZipArchiveGenerator

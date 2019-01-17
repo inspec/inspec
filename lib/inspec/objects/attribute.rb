@@ -19,11 +19,13 @@ module Inspec
         @name = name
 
         # output warn message if we are in a exec call
-        Inspec::Log.warn(
-          "Attribute '#{@name}' does not have a value. "\
-          "Use --attrs to provide a value for '#{@name}' or specify a default  "\
-          "value with `attribute('#{@name}', default: 'somedefault', ...)`.",
-        ) if Inspec::BaseCLI.inspec_cli_command == :exec
+        if Inspec::BaseCLI.inspec_cli_command == :exec
+          Inspec::Log.warn(
+            "Attribute '#{@name}' does not have a value. "\
+            "Use --attrs to provide a value for '#{@name}' or specify a default  "\
+            "value with `attribute('#{@name}', default: 'somedefault', ...)`."
+          )
+        end
       end
 
       def method_missing(*_)
@@ -69,7 +71,7 @@ module Inspec
     end
 
     def ruby_var_identifier
-      @opts[:identifier] || 'attr_' + @name.downcase.strip.gsub(/\s+/, '-').gsub(/[^\w-]/, '')
+      @opts[:identifier] || "attr_" + @name.downcase.strip.gsub(/\s+/, "-").gsub(/[^\w-]/, "")
     end
 
     def to_hash
@@ -84,7 +86,7 @@ module Inspec
       res.push "  title: '#{title}'," unless title.to_s.empty?
       res.push "  default: #{default.inspect}," unless default.to_s.empty?
       res.push "  description: '#{description}'," unless description.to_s.empty?
-      res.push '})'
+      res.push "})"
       res.join("\n")
     end
 
@@ -109,8 +111,8 @@ module Inspec
     def validate_type(type)
       type = type.capitalize
       abbreviations = {
-        'Num' => 'Numeric',
-        'Regex' => 'Regexp',
+        "Num" => "Numeric",
+        "Regex" => "Regexp",
       }
       type = abbreviations[type] if abbreviations.key?(type)
       if !VALID_TYPES.include?(type)
@@ -139,14 +141,14 @@ module Inspec
     # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def validate_value_type(value)
       type = validate_type(@opts[:type])
-      return if type == 'Any'
+      return if type == "Any"
 
       invalid_type = false
-      if type == 'Regexp'
+      if type == "Regexp"
         invalid_type = true if !value.is_a?(String) || !valid_regexp?(value)
-      elsif type == 'Numeric'
+      elsif type == "Numeric"
         invalid_type = true if !valid_numeric?(value)
-      elsif type == 'Boolean'
+      elsif type == "Boolean"
         invalid_type = true if ![true, false].include?(value)
       elsif value.is_a?(Module.const_get(type)) == false
         invalid_type = true

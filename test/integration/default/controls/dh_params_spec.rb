@@ -5,9 +5,9 @@ if os.windows?
   return
 end
 
-describe dh_params('/tmp/example.dh_pem') do
+describe dh_params("/tmp/example.dh_pem") do
   it { should be_dh_params }
   it { should be_valid }
-  its('generator') { should eq 2 }
-  its('prime_length') { should eq 2048 }
+  its("generator") { should eq 2 }
+  its("prime_length") { should eq 2048 }
 end

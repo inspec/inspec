@@ -1,4 +1,4 @@
-require 'helper'
+require "helper"
 
 # MAEIPB = MockAwsEC2InstancesPluralBackend
 # Abbreviation not used outside this file
@@ -20,7 +20,6 @@ class AwsEc2InstancesConstructorTest < Minitest::Test
     assert_raises(ArgumentError) { AwsEc2Instances.new(shoe_size: 9) }
   end
 end
-
 
 #=============================================================================#
 #                               Search / Recall
@@ -54,9 +53,9 @@ class AwsEc2InstancesProperties < Minitest::Test
   def setup
     AwsEc2Instances::BackendFactory.select(MAEIPB::Basic)
   end
-  
+
   def test_property_instance_ids_when_no_instances_exist
-    AwsEc2Instances::BackendFactory.select(MAEIPB::Empty)    
+    AwsEc2Instances::BackendFactory.select(MAEIPB::Empty)
     empty = AwsEc2Instances.new
     assert_kind_of(Array, empty.instance_ids)
     assert_empty(empty.instance_ids)
@@ -65,9 +64,9 @@ class AwsEc2InstancesProperties < Minitest::Test
   def test_property_instance_ids_when_instances_exist
     basic = AwsEc2Instances.new
     assert_kind_of(Array, basic.instance_ids)
-    assert(basic.instance_ids.include?('i-deadbeef'))
+    assert(basic.instance_ids.include?("i-deadbeef"))
     assert_equal(3, basic.instance_ids.length)
-    assert(basic.instance_ids.include?('i-11112222'))
+    assert(basic.instance_ids.include?("i-11112222"))
     refute(basic.instance_ids.include?(nil))
   end
 end
@@ -91,19 +90,19 @@ module MAEIPB
               Aws::EC2::Types::Instance.new(
                 # Many, many other properties available here.
                 # We're starting with what we support.
-                instance_id: 'i-0e8541d718e67e1be'
+                instance_id: "i-0e8541d718e67e1be"
               ),
               Aws::EC2::Types::Instance.new(
-                instance_id: 'i-deadbeef'
+                instance_id: "i-deadbeef"
               ),
-            ],
+            ]
           ),
           Aws::EC2::Types::Reservation.new(
             instances: [
               Aws::EC2::Types::Instance.new(
-                instance_id: 'i-11112222'
+                instance_id: "i-11112222"
               ),
-            ],
+            ]
           ),
         ]
       )

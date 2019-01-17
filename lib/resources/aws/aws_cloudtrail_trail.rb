@@ -1,13 +1,13 @@
 class AwsCloudTrailTrail < Inspec.resource(1)
-  name 'aws_cloudtrail_trail'
-  desc 'Verifies settings for an individual AWS CloudTrail Trail'
+  name "aws_cloudtrail_trail"
+  desc "Verifies settings for an individual AWS CloudTrail Trail"
   example "
     describe aws_cloudtrail_trail('trail-name') do
       it { should exist }
     end
   "
 
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
   attr_reader :cloud_watch_logs_log_group_arn, :cloud_watch_logs_role_arn, :home_region,
@@ -34,7 +34,7 @@ class AwsCloudTrailTrail < Inspec.resource(1)
     catch_aws_errors do
       begin
         resp = BackendFactory.create(inspec_runner).get_trail_status(query).to_h
-        ((Time.now - resp[:latest_cloud_watch_logs_delivery_time])/(24*60*60)).to_i unless resp[:latest_cloud_watch_logs_delivery_time].nil?
+        ((Time.now - resp[:latest_cloud_watch_logs_delivery_time]) / (24 * 60 * 60)).to_i unless resp[:latest_cloud_watch_logs_delivery_time].nil?
       rescue Aws::CloudTrail::Errors::TrailNotFoundException
         nil
       end
@@ -48,7 +48,7 @@ class AwsCloudTrailTrail < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:trail_name],
       allowed_scalar_name: :trail_name,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
 
     if validated_params.empty?

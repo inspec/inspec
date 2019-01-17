@@ -3,8 +3,8 @@
 # author: Simon Varlow
 # author: Chris Redekop
 class AwsIamUser < Inspec.resource(1)
-  name 'aws_iam_user'
-  desc 'Verifies settings for AWS IAM user'
+  name "aws_iam_user"
+  desc "Verifies settings for AWS IAM user"
   example "
     describe aws_iam_user(username: 'test_user') do
       it { should have_mfa_enabled }
@@ -13,7 +13,7 @@ class AwsIamUser < Inspec.resource(1)
       it { should_not have_attached_user_policies }
     end
   "
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
   attr_reader :access_keys, :attached_policy_names, :attached_policy_arns, \
@@ -47,7 +47,7 @@ class AwsIamUser < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:username, :aws_user_struct, :name, :user],
       allowed_scalar_name: :username,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
     # If someone passed :name, rename it to :username
     if validated_params.key?(:name)
@@ -62,7 +62,7 @@ class AwsIamUser < Inspec.resource(1)
     end
 
     if validated_params.empty?
-      raise ArgumentError, 'You must provide a username to aws_iam_user.'
+      raise ArgumentError, "You must provide a username to aws_iam_user."
     end
     validated_params
   end

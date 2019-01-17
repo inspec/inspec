@@ -3,9 +3,9 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'method_source'
-require 'inspec/describe'
-require 'inspec/expect'
+require "method_source"
+require "inspec/describe"
+require "inspec/expect"
 
 module Inspec
   class Rule
@@ -58,8 +58,8 @@ module Inspec
         # fail the control. Controls are failed by having a failed resource within
         # them; but since our control block is unsafe (and opaque) to us, let's
         # make a dummy and fail that.
-        location = block.source_location.compact.join(':')
-        describe 'Control Source Code Error' do
+        location = block.source_location.compact.join(":")
+        describe "Control Source Code Error" do
           # Rubocop thinks we are raising an exception - we're actually calling RSpec's fail()
           its(location) { fail e.message } # rubocop: disable Style/SignalException
         end
@@ -160,13 +160,13 @@ module Inspec
           include dsl
         end.new(method(:__add_check))
       else
-        __add_check('describe', values, with_dsl(block))
+        __add_check("describe", values, with_dsl(block))
       end
     end
 
     def expect(value, &block)
       target = Inspec::Expect.new(value, &with_dsl(block))
-      __add_check('expect', [value], target)
+      __add_check("expect", [value], target)
       target
     end
 
@@ -209,14 +209,14 @@ module Inspec
       if skip_check[:message]
         msg = "Skipped control due to only_if condition: #{skip_check[:message]}"
       else
-        msg = 'Skipped control due to only_if condition.'
+        msg = "Skipped control due to only_if condition."
       end
 
       # TODO: we use os as the carrier here, but should consider
       # a separate resource to do skipping
       resource = rule.os
       resource.skip_resource(msg)
-      [['describe', [resource], nil]]
+      [["describe", [resource], nil]]
     end
 
     def self.merge(dst, src) # rubocop:disable Metrics/AbcSize
@@ -251,7 +251,7 @@ module Inspec
       dst.instance_variable_set(:@__merge_count, merge_count(dst) + 1)
       dst.instance_variable_set(
         :@__merge_changes,
-        merge_changes(dst) << src.instance_variable_get(:@__source_location),
+        merge_changes(dst) << src.instance_variable_get(:@__source_location)
       )
     end
 
@@ -299,9 +299,9 @@ module Inspec
     # @param [String] text string which needs to be unindented
     # @return [String] input with indentation removed; '' if input is nil
     def unindent(text)
-      return '' if text.nil?
+      return "" if text.nil?
       len = text.split("\n").reject { |l| l.strip.empty? }.map { |x| x.index(/[^\s]/) }.compact.min
-      text.gsub(/^[[:blank:]]{#{len}}/, '').strip
+      text.gsub(/^[[:blank:]]{#{len}}/, "").strip
     end
 
     # get the source location of the block

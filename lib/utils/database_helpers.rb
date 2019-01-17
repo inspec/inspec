@@ -10,11 +10,11 @@ module DatabaseHelper
     end
 
     def value
-      @row.nil? ? '' : @row[@name.downcase]
+      @row.nil? ? "" : @row[@name.downcase]
     end
 
     def to_s
-      'SQL Column'
+      "SQL Column"
     end
   end
 
@@ -29,7 +29,7 @@ module DatabaseHelper
     end
 
     def to_s
-      'SQL Row'
+      "SQL Row"
     end
   end
 
@@ -73,7 +73,7 @@ module DatabaseHelper
     end
 
     def to_s
-      'SQL ResultSet'
+      "SQL ResultSet"
     end
   end
 end

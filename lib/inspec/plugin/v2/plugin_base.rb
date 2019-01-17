@@ -83,7 +83,7 @@ module Inspec::Plugin::V2
         # Under some testing situations, we may not pre-exist.
         status = Inspec::Plugin::V2::Status.new
         reg.register(name, status)
-        status.entry_point = 'inline'
+        status.entry_point = "inline"
         status.installation_type = :mock_inline
       end
 

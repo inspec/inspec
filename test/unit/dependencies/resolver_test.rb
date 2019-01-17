@@ -1,6 +1,6 @@
-require 'helper'
-require 'inspec/errors'
-require 'inspec/dependencies/resolver'
+require "helper"
+require "inspec/errors"
+require "inspec/dependencies/resolver"
 
 class FakeDep
   attr_reader :name
@@ -41,7 +41,6 @@ describe Inspec::Resolver do
       dep2.stubs(:dependencies).returns([dep1])
       lambda { subject.resolve([dep0]) }.must_raise Inspec::CyclicDependencyError
     end
-
 
     it "errors if the source version doesn't match the requirement" do
       dep = FakeDep.new("fake_dep_0")

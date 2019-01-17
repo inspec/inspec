@@ -15,9 +15,9 @@
 
 module Inspec::Resources
   class IisSite < Inspec.resource(1)
-    name 'iis_site'
-    supports platform: 'windows'
-    desc 'Tests IIS site configuration on windows. Supported in server 2012+ only'
+    name "iis_site"
+    supports platform: "windows"
+    desc "Tests IIS site configuration on windows. Supported in server 2012+ only"
     example "
       describe iis_site('Default Web Site') do
         it { should exist }
@@ -36,7 +36,7 @@ module Inspec::Resources
       @site_provider = SiteProvider.new(inspec)
 
       # verify that this resource is only supported on Windows
-      return skip_resource 'The `iis_site` resource is not supported on your OS.' if inspec.os[:family] != 'windows'
+      return skip_resource "The `iis_site` resource is not supported on your OS." if inspec.os[:family] != "windows"
     end
 
     def app_pool
@@ -60,7 +60,7 @@ module Inspec::Resources
     end
 
     def running?
-      iis_site.nil? ? false : (iis_site[:state] == 'Started')
+      iis_site.nil? ? false : (iis_site[:state] == "Started")
     end
 
     def has_app_pool?(app_pool)
@@ -103,17 +103,17 @@ module Inspec::Resources
         return nil
       end
 
-      bindings_array = site['bindings']['Collection'].map { |k|
+      bindings_array = site["bindings"]["Collection"].map do |k|
         "#{k['protocol']} #{k['bindingInformation']}#{k['protocol'] == 'https' ? " sslFlags=#{k['sslFlags']}" : ''}"
-      }
+      end
 
       # map our values to a hash table
       info = {
-        name: site['name'],
-        state: site['state'],
-        path: site['physicalPath'],
+        name: site["name"],
+        state: site["state"],
+        path: site["physicalPath"],
         bindings: bindings_array,
-        app_pool: site['applicationPool'],
+        app_pool: site["applicationPool"],
       }
 
       info
@@ -123,8 +123,8 @@ module Inspec::Resources
   # for compatability with serverspec
   # this is deprecated syntax and will be removed in future versions
   class IisSiteServerSpec < IisSite
-    name 'iis_website'
-    desc 'Tests IIS site configuration on windows. Deprecated, use `iis_site` instead.'
+    name "iis_website"
+    desc "Tests IIS site configuration on windows. Deprecated, use `iis_site` instead."
     example "
       describe iis_website('Default Website') do
         it{ should exist }
@@ -135,7 +135,7 @@ module Inspec::Resources
 
     def initialize(site_name)
       super(site_name)
-      warn '[DEPRECATION] `iis_website(site_name)` is deprecated.  Please use `iis_site(site_name)` instead.'
+      warn "[DEPRECATION] `iis_website(site_name)` is deprecated.  Please use `iis_site(site_name)` instead."
     end
 
     def in_app_pool?(app_pool)

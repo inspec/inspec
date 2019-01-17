@@ -1,6 +1,6 @@
 # encoding: utf-8
-require 'inspec/fetcher'
-require 'forwardable'
+require "inspec/fetcher"
+require "forwardable"
 
 module Inspec
   class CachedFetcher

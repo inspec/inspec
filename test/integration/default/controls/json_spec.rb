@@ -1,11 +1,11 @@
 # encoding: utf-8
 
 if os.unix?
-  filename = '/tmp/example.json'
+  filename = "/tmp/example.json"
 else
-  filename = 'c:/windows/temp/example.json'
+  filename = "c:/windows/temp/example.json"
 end
 
 describe json(filename) do
-  its(['cookbook_locks','omnibus','version']) { should eq('2.2.0') }
+  its(%w{cookbook_locks omnibus version}) { should eq("2.2.0") }
 end

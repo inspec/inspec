@@ -4,25 +4,25 @@
 #
 # adds a yaml file
 
-gid = case node['platform_family']
-      when 'aix'
-        'system'
-      when 'freebsd'
-        'wheel'
-      when 'solaris', 'solaris2'
-        'sys'
+gid = case node["platform_family"]
+      when "aix"
+        "system"
+      when "freebsd"
+        "wheel"
+      when "solaris", "solaris2"
+        "sys"
       else
-        'root'
+        "root"
       end
 
-['yml', 'json', 'csv', 'ini', 'toml', 'xml'].each { |filetype|
+%w{yml json csv ini toml xml}.each do |filetype|
 
-  if node['platform_family'] != 'windows'
+  if node["platform_family"] != "windows"
     cookbook_file "/tmp/example.#{filetype}" do
       source "example.#{filetype}"
-      owner 'root'
+      owner "root"
       group gid
-      mode '0755'
+      mode "0755"
       action :create
     end
   else
@@ -31,4 +31,4 @@ gid = case node['platform_family']
       action :create
     end
   end
-}
+end

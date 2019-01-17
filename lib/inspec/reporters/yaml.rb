@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require 'yaml'
+require "yaml"
 
 module Inspec::Reporters
   class Yaml < Base

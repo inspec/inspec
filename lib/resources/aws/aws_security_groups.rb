@@ -1,6 +1,6 @@
 class AwsSecurityGroups < Inspec.resource(1)
-  name 'aws_security_groups'
-  desc 'Verifies settings for AWS Security Groups in bulk'
+  name "aws_security_groups"
+  desc "Verifies settings for AWS Security Groups in bulk"
   example <<-EOX
     # Verify that you have security groups defined
     describe aws_security_groups do
@@ -12,7 +12,7 @@ class AwsSecurityGroups < Inspec.resource(1)
       its('entries.count') { should be > 1 }
     end
 EOX
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsPluralResourceMixin
 
@@ -23,20 +23,20 @@ EOX
   filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
-    'EC2 Security Groups'
+    "EC2 Security Groups"
   end
 
   private
 
   def validate_params(raw_criteria)
     unless raw_criteria.is_a? Hash
-      raise 'Unrecognized criteria for fetching Security Groups. ' \
+      raise "Unrecognized criteria for fetching Security Groups. " \
             "Use 'criteria: value' format."
     end
 
     # No criteria yet
     unless raw_criteria.empty?
-      raise ArgumentError, 'aws_ec2_security_groups does not currently accept resource parameters.'
+      raise ArgumentError, "aws_ec2_security_groups does not currently accept resource parameters."
     end
     raw_criteria
   end
@@ -47,8 +47,8 @@ EOX
     backend.describe_security_groups({}).security_groups.each do |sg_info|
       @table.push({
                     group_id: sg_info.group_id,
-        group_name: sg_info.group_name,
-        vpc_id: sg_info.vpc_id,
+                    group_name: sg_info.group_name,
+                    vpc_id: sg_info.vpc_id,
                   })
     end
   end

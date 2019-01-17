@@ -1,6 +1,6 @@
 class AwsCloudwatchLogMetricFilter < Inspec.resource(1)
-  name 'aws_cloudwatch_log_metric_filter'
-  desc 'Verifies individual Cloudwatch Log Metric Filters'
+  name "aws_cloudwatch_log_metric_filter"
+  desc "Verifies individual Cloudwatch Log Metric Filters"
   example <<-EOX
   # Look for a LMF by its filter name and log group name.  This combination
   # will always either find at most one LMF - no duplicates.
@@ -20,7 +20,7 @@ class AwsCloudwatchLogMetricFilter < Inspec.resource(1)
     it { should exist }
   end
 EOX
-  supports platform: 'aws'
+  supports platform: "aws"
   include AwsSingularResourceMixin
   attr_reader :filter_name, :log_group_name, :metric_name, :metric_namespace, :pattern
 
@@ -29,10 +29,10 @@ EOX
   def validate_params(raw_params)
     validated_params = check_resource_param_names(
       raw_params: raw_params,
-      allowed_params: [:filter_name, :log_group_name, :pattern],
+      allowed_params: [:filter_name, :log_group_name, :pattern]
     )
     if validated_params.empty?
-      raise ArgumentError, 'You must provide either filter_name, log_group, or pattern to aws_cloudwatch_log_metric_filter.'
+      raise ArgumentError, "You must provide either filter_name, log_group, or pattern to aws_cloudwatch_log_metric_filter."
     end
     validated_params
   end
@@ -60,9 +60,9 @@ EOX
     # Check result count.  We're a singular resource and can tolerate
     # 0 or 1 results, not multiple.
     if aws_results.count > 1
-      raise 'More than one result was returned, but aws_cloudwatch_log_metric_filter '\
-            'can only handle a single AWS resource.  Consider passing more resource '\
-            'parameters to narrow down the search.'
+      raise "More than one result was returned, but aws_cloudwatch_log_metric_filter "\
+            "can only handle a single AWS resource.  Consider passing more resource "\
+            "parameters to narrow down the search."
     elsif aws_results.empty?
       @exists = false
     else

@@ -1,11 +1,11 @@
 fixtures = {}
 [
-  'aws_account_id',
+  "aws_account_id",
 ].each do |fixture_name|
   fixtures[fixture_name] = attribute(
     fixture_name,
     default: "default.#{fixture_name}",
-    description: 'See ../build/iam.tf',
+    description: "See ../build/iam.tf"
   )
 end
 

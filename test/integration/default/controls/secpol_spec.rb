@@ -6,6 +6,6 @@ unless os.windows?
 end
 
 describe security_policy do
-  its('EnableAdminAccount') { should eq 1 }
-  its('EnableGuestAccount') { should eq 0 }
+  its("EnableAdminAccount") { should eq 1 }
+  its("EnableGuestAccount") { should eq 0 }
 end

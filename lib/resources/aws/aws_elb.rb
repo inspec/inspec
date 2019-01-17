@@ -1,12 +1,12 @@
 class AwsElb < Inspec.resource(1)
-  name 'aws_elb'
-  desc 'Verifies settings for AWS Elastic Load Balancer'
+  name "aws_elb"
+  desc "Verifies settings for AWS Elastic Load Balancer"
   example "
     describe aws_elb('myelb') do
       it { should exist }
     end
   "
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
   attr_reader :availability_zones, :dns_name, :elb_name, :external_ports,
@@ -24,11 +24,11 @@ class AwsElb < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:elb_name],
       allowed_scalar_name: :elb_name,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
 
     if validated_params.empty?
-      raise ArgumentError, 'You must provide a elb_name to aws_elb.'
+      raise ArgumentError, "You must provide a elb_name to aws_elb."
     end
 
     validated_params

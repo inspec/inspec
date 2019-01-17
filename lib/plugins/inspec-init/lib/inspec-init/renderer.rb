@@ -1,5 +1,5 @@
-require 'fileutils'
-require 'erb'
+require "fileutils"
+require "erb"
 
 module InspecPlugins
   module Init
@@ -12,15 +12,15 @@ module InspecPlugins
       attr_reader :overwrite_mode, :ui
       def initialize(cli_ui, cli_options = {})
         @ui = cli_ui
-        @overwrite_mode = cli_options['overwrite']
+        @overwrite_mode = cli_options["overwrite"]
       end
 
       # rubocop: disable Metrics/AbcSize
       def render_with_values(template_subdir_path, template_values = {})
         # look for template directory
-        base_dir = File.join(File.dirname(__FILE__), 'templates', template_subdir_path)
+        base_dir = File.join(File.dirname(__FILE__), "templates", template_subdir_path)
         # prepare glob for all subdirectories and files
-        template_glob = File.join(base_dir, '**', '{*,.*}')
+        template_glob = File.join(base_dir, "**", "{*,.*}")
         # Use the name attribute to define the path to the profile.
         profile_path = template_values[:name]
         # Use slashes (\, /) to split up the name into an Array then use the last entry
@@ -30,7 +30,7 @@ module InspecPlugins
         full_destination_root_path = Pathname.new(Dir.pwd).join(profile_path)
 
         # This is a bit gross
-        generator_type = template_subdir_path.split(%r{[\/]}).first.sub(/s$/, '')
+        generator_type = template_subdir_path.split(%r{[\/]}).first.sub(/s$/, "")
         ui.plain_text "Create new #{generator_type} at #{ui.mark_text(full_destination_root_path)}"
 
         # check that the directory does not exist

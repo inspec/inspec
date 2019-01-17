@@ -1,12 +1,12 @@
 class AwsIamGroup < Inspec.resource(1)
-  name 'aws_iam_group'
-  desc 'Verifies settings for AWS IAM Group'
+  name "aws_iam_group"
+  desc "Verifies settings for AWS IAM Group"
   example "
     describe aws_iam_group('mygroup') do
       it { should exist }
     end
   "
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
   attr_reader :group_name, :users
@@ -22,11 +22,11 @@ class AwsIamGroup < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:group_name],
       allowed_scalar_name: :group_name,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
 
     if validated_params.empty?
-      raise ArgumentError, 'You must provide a group_name to aws_iam_group.'
+      raise ArgumentError, "You must provide a group_name to aws_iam_group."
     end
 
     validated_params

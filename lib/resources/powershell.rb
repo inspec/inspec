@@ -3,10 +3,10 @@
 
 module Inspec::Resources
   class PowershellScript < Cmd
-    name 'powershell'
-    supports platform: 'windows'
-    supports platform: 'unix'
-    desc 'Use the powershell InSpec audit resource to test a Windows PowerShell script on the Microsoft Windows platform.'
+    name "powershell"
+    supports platform: "windows"
+    supports platform: "unix"
+    desc "Use the powershell InSpec audit resource to test a Windows PowerShell script on the Microsoft Windows platform."
     example "
       script = <<-EOH
         # your powershell script
@@ -21,15 +21,15 @@ module Inspec::Resources
       # PowerShell is the default shell on Windows, use the `command` resource
       return super(script) if inspec.os.windows?
 
-      unless inspec.command('pwsh').exist?
-        raise Inspec::Exceptions::ResourceSkipped, 'Can not find `pwsh` command'
+      unless inspec.command("pwsh").exist?
+        raise Inspec::Exceptions::ResourceSkipped, "Can not find `pwsh` command"
       end
 
       # Prevent progress stream from leaking into stderr
       command = "$ProgressPreference='SilentlyContinue';" + script
 
       # Encode as Base64 to remove any quotes/escapes/etc issues
-      command = command.encode('UTF-16LE', 'UTF-8')
+      command = command.encode("UTF-16LE", "UTF-8")
       command = Base64.strict_encode64(command)
 
       # Use the `command` resource to execute the command via `pwsh`
@@ -47,13 +47,13 @@ module Inspec::Resources
     end
 
     def to_s
-      'Powershell'
+      "Powershell"
     end
   end
 
   # this is deprecated syntax and will be removed in future versions
   class LegacyPowershellScript < PowershellScript
-    name 'script'
+    name "script"
 
     def initialize(script)
       deprecated
@@ -61,7 +61,7 @@ module Inspec::Resources
     end
 
     def deprecated
-      warn '[DEPRECATION] `script(script)` is deprecated.  Please use `powershell(script)` instead.'
+      warn "[DEPRECATION] `script(script)` is deprecated.  Please use `powershell(script)` instead."
     end
   end
 end

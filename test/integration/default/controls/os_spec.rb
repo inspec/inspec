@@ -8,6 +8,6 @@ describe os[:family] do
 end
 
 # use string
-describe os['family'] do
+describe os["family"] do
   it { should eq family }
 end

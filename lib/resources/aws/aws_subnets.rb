@@ -1,6 +1,6 @@
 class AwsSubnets < Inspec.resource(1)
-  name 'aws_subnets'
-  desc 'Verifies settings for VPC Subnets in bulk'
+  name "aws_subnets"
+  desc "Verifies settings for VPC Subnets in bulk"
   example "
     # you should be able to test the cidr_block of a subnet
     describe aws_subnets.where(vpc_id: 'vpc-123456789') do
@@ -9,13 +9,13 @@ class AwsSubnets < Inspec.resource(1)
       its('states') { should_not include 'pending' }
     end
   "
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsPluralResourceMixin
 
   def validate_params(resource_params)
     unless resource_params.empty?
-      raise ArgumentError, 'aws_vpc_subnets does not accept resource parameters.'
+      raise ArgumentError, "aws_vpc_subnets does not accept resource parameters."
     end
     resource_params
   end
@@ -35,7 +35,7 @@ class AwsSubnets < Inspec.resource(1)
   filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
-    'EC2 VPC Subnets'
+    "EC2 VPC Subnets"
   end
 
   class Backend

@@ -1,16 +1,16 @@
-require 'json'
-require 'set'
-require 'uri'
+require "json"
+require "set"
+require "uri"
 
 class AwsIamPolicy < Inspec.resource(1)
-  name 'aws_iam_policy'
-  desc 'Verifies settings for individual AWS IAM Policy'
+  name "aws_iam_policy"
+  desc "Verifies settings for individual AWS IAM Policy"
   example "
     describe aws_iam_policy('AWSSupportAccess') do
       it { should be_attached }
     end
   "
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
 
@@ -85,8 +85,8 @@ class AwsIamPolicy < Inspec.resource(1)
   def statement_count
     return nil unless exists?
     # Typically it is an array of statements
-    if policy['Statement'].is_a? Array
-      policy['Statement'].count
+    if policy["Statement"].is_a? Array
+      policy["Statement"].count
     else
       # But if there is one statement, it is permissable to degenerate the array,
       # and place the statement as a hash directly under the 'Statement' key
@@ -160,8 +160,8 @@ class AwsIamPolicy < Inspec.resource(1)
     # directly in policy['Statement'], rather than in an
     # Array within it.  See arn:aws:iam::aws:policy/AWSCertificateManagerReadOnly
     # Thus, coerce to Array.
-    policy['Statement'] = [policy['Statement']] if policy['Statement'].is_a? Hash
-    policy['Statement'].map do |statement|
+    policy["Statement"] = [policy["Statement"]] if policy["Statement"].is_a? Hash
+    policy["Statement"].map do |statement|
       # Coerce some values into arrays
       %w{Action Resource}.each do |field|
         if statement.key?(field)
@@ -226,7 +226,7 @@ class AwsIamPolicy < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:policy_name],
       allowed_scalar_name: :policy_name,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
 
     if validated_params.empty?

@@ -1,19 +1,19 @@
 
 # Load test harness - MiniTest
-require 'minitest/autorun'
-require 'minitest/unit'
-require 'minitest/pride'
-require 'minitest/spec'
+require "minitest/autorun"
+require "minitest/unit"
+require "minitest/pride"
+require "minitest/spec"
 
 # Data formats commonly used in testing
-require 'json'
-require 'ostruct'
+require "json"
+require "ostruct"
 
 # Utilities often needed
-require 'fileutils'
-require 'tmpdir'
-require 'pathname'
-require 'forwardable'
+require "fileutils"
+require "tmpdir"
+require "pathname"
+require "forwardable"
 
 # Configure MiniTest to expose things like `let`
 class Module
@@ -38,11 +38,11 @@ module Inspec
 end
 
 module CorePluginBaseHelper
-  let(:repo_path) { File.expand_path(File.join(__FILE__, '..', '..', '..', '..')) }
-  let(:inspec_bin_path) { File.join(repo_path, 'bin', 'inspec') }
-  let(:core_mock_path) { File.join(repo_path, 'test', 'unit', 'mock') }
-  let(:core_fixture_plugins_path) { File.join(core_mock_path, 'plugins') }
-  let(:core_config_dir_path) { File.join(core_mock_path, 'config_dirs') }
+  let(:repo_path) { File.expand_path(File.join(__FILE__, "..", "..", "..", "..")) }
+  let(:inspec_bin_path) { File.join(repo_path, "bin", "inspec") }
+  let(:core_mock_path) { File.join(repo_path, "test", "unit", "mock") }
+  let(:core_fixture_plugins_path) { File.join(core_mock_path, "plugins") }
+  let(:core_config_dir_path) { File.join(core_mock_path, "config_dirs") }
 
   let(:registry) { Inspec::Plugin::V2::Registry.instance }
 end
@@ -50,15 +50,15 @@ end
 module CorePluginFunctionalHelper
   include CorePluginBaseHelper
 
-  require 'train'
-  TRAIN_CONNECTION = Train.create('local', command_runner: :generic).connection
+  require "train"
+  TRAIN_CONNECTION = Train.create("local", command_runner: :generic).connection
 
   def run_inspec_process(command_line, opts = {})
-    prefix = ''
+    prefix = ""
     if opts.key?(:prefix)
       prefix = opts[:prefix]
     elsif opts.key?(:env)
-      prefix = opts[:env].to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(' ')
+      prefix = opts[:env].to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(" ")
     end
     Inspec::FuncTestRunResult.new(TRAIN_CONNECTION.run_command("#{prefix} #{inspec_bin_path} #{command_line}"))
   end
@@ -79,7 +79,7 @@ module CorePluginFunctionalHelper
 
     # If it looks like it is a core plugin under test, don't add it to the plugin file
     # since the loader will auto-load it anyway
-    if plugin_path.include?('lib/plugins/inspec-')
+    if plugin_path.include?("lib/plugins/inspec-")
       plugin_file_data = __make_empty_plugin_file_data_structure
     else
       plugin_file_data = __make_plugin_file_data_structure_with_path(plugin_path)
@@ -87,11 +87,11 @@ module CorePluginFunctionalHelper
 
     Dir.mktmpdir do |tmp_dir|
       opts[:pre_run]&.call(plugin_file_data, tmp_dir)
-      plugin_file_path = File.join(tmp_dir, 'plugins.json')
+      plugin_file_path = File.join(tmp_dir, "plugins.json")
       # HACK: If the block cleared the hash, take that to mean it will provide a plugins.json file of its own.
       File.write(plugin_file_path, JSON.generate(plugin_file_data)) unless plugin_file_data.empty?
       opts[:env] ||= {}
-      opts[:env]['INSPEC_CONFIG_DIR'] = tmp_dir
+      opts[:env]["INSPEC_CONFIG_DIR"] = tmp_dir
       run_result = run_inspec_process(command_line, opts)
 
       # Read the resulting plugins.json into memory, if any
@@ -111,27 +111,27 @@ module CorePluginFunctionalHelper
     # We want:
     # /Users/cwolfe/sandbox/inspec-resource-lister/lib/inspec-resource-lister.rb
     cursor = caller_path
-    until cursor.basename.to_s == 'test' && cursor.parent.basename.to_s =~ /^(inspec|train)-/
+    until cursor.basename.to_s == "test" && cursor.parent.basename.to_s =~ /^(inspec|train)-/
       cursor = cursor.parent
       break if cursor.nil?
     end
-    raise 'Could not comprehend plugin project directory structure' if cursor.nil?
+    raise "Could not comprehend plugin project directory structure" if cursor.nil?
 
     project_dir = cursor.parent
     plugin_name = project_dir.basename
-    entry_point = File.join(project_dir.to_s, 'lib', plugin_name.to_s + '.rb')
-    raise 'Could not find plugin entry point' unless File.exist?(entry_point)
+    entry_point = File.join(project_dir.to_s, "lib", plugin_name.to_s + ".rb")
+    raise "Could not find plugin entry point" unless File.exist?(entry_point)
     entry_point
   end
 
   def __make_plugin_file_data_structure_with_path(path)
     # TODO: dry this up, refs #3350
-    plugin_name = File.basename(path, '.rb')
+    plugin_name = File.basename(path, ".rb")
     data = __make_empty_plugin_file_data_structure
-    data['plugins'] << {
-      'name' => plugin_name,
-      'installation_type' => 'path',
-      'installation_path' => path,
+    data["plugins"] << {
+      "name" => plugin_name,
+      "installation_type" => "path",
+      "installation_path" => path,
     }
     data
   end
@@ -139,8 +139,8 @@ module CorePluginFunctionalHelper
   def __make_empty_plugin_file_data_structure
     # TODO: dry this up, refs #3350
     {
-      'plugins_config_version' => '1.0.0',
-      'plugins' => [],
+      "plugins_config_version" => "1.0.0",
+      "plugins" => [],
     }
   end
 end

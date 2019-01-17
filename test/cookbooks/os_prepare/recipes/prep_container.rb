@@ -5,8 +5,8 @@
 # prepares container for normal use :-)
 
 # install docker pre-conditions
-if ['ubuntu', 'debian'].include?(node['platform'])
-  include_recipe('apt')
+if %w{ubuntu debian}.include?(node["platform"])
+  include_recipe("apt")
 
   # if package lsb-release & procps is not installed
   # chef returns an empty node['lsb']['codename']

@@ -1,7 +1,7 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
 
-require 'shellwords'
+require "shellwords"
 
 module Inspec::Resources
   class Lines
@@ -22,10 +22,10 @@ module Inspec::Resources
   end
 
   class PostgresSession < Inspec.resource(1)
-    name 'postgres_session'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the postgres_session InSpec audit resource to test SQL commands run against a PostgreSQL database.'
+    name "postgres_session"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the postgres_session InSpec audit resource to test SQL commands run against a PostgreSQL database."
     example "
       sql = postgres_session('username', 'password', 'host')
       query('sql_query', ['database_name'])` contains the query and (optional) database to execute
@@ -41,9 +41,9 @@ module Inspec::Resources
     "
 
     def initialize(user, pass, host = nil)
-      @user = user || 'postgres'
+      @user = user || "postgres"
       @pass = pass
-      @host = host || 'localhost'
+      @host = host || "localhost"
     end
 
     def query(query, db = [])
@@ -64,7 +64,7 @@ module Inspec::Resources
     end
 
     def create_psql_cmd(query, db = [])
-      dbs = db.map { |x| "-d #{x}" }.join(' ')
+      dbs = db.map { |x| "-d #{x}" }.join(" ")
       "PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h #{@host} -A -t -c #{escaped_query(query)}"
     end
   end

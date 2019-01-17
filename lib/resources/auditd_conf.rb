@@ -1,13 +1,13 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
 
-require 'utils/simpleconfig'
-require 'utils/file_reader'
+require "utils/simpleconfig"
+require "utils/file_reader"
 
 module Inspec::Resources
   class AuditDaemonConf < Inspec.resource(1)
-    name 'auditd_conf'
-    supports platform: 'unix'
+    name "auditd_conf"
+    supports platform: "unix"
     desc "Use the auditd_conf InSpec audit resource to test the configuration settings for the audit daemon. This file is typically located under /etc/audit/auditd.conf' on UNIX and Linux platforms."
     example "
       describe auditd_conf do
@@ -18,7 +18,7 @@ module Inspec::Resources
     include FileReader
 
     def initialize(path = nil)
-      @conf_path = path || '/etc/audit/auditd.conf'
+      @conf_path = path || "/etc/audit/auditd.conf"
       @content = read_file_content(@conf_path)
     end
 
@@ -27,7 +27,7 @@ module Inspec::Resources
     end
 
     def to_s
-      'Audit Daemon Config'
+      "Audit Daemon Config"
     end
 
     private
@@ -38,7 +38,7 @@ module Inspec::Resources
       # parse the file
       conf = SimpleConfig.new(
         @content,
-        multiple_values: false,
+        multiple_values: false
       )
       @params = conf.params
     end

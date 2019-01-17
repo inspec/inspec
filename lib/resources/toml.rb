@@ -1,12 +1,12 @@
 # encoding: utf-8
 # author: Nolan Davidson
 
-require 'tomlrb'
+require "tomlrb"
 
 module Inspec::Resources
   class TomlConfig < JsonConfig
-    name 'toml'
-    desc 'Use the toml InSpec resource to test configuration data in a TOML file'
+    name "toml"
+    desc "Use the toml InSpec resource to test configuration data in a TOML file"
     example "
       describe toml('default.toml') do
         its('key') { should eq('value') }
@@ -26,7 +26,7 @@ module Inspec::Resources
     # used by JsonConfig to build up a full to_s method
     # based on whether a file path, content, or command was supplied.
     def resource_base_name
-      'TOML'
+      "TOML"
     end
   end
 end

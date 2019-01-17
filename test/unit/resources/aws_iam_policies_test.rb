@@ -1,4 +1,4 @@
-require 'helper'
+require "helper"
 
 # MAIPPB = MockAwsIamPoliciesPluralBackend
 # Abbreviation not used outside this file
@@ -20,7 +20,6 @@ class AwsIamPoliciesConstructorTest < Minitest::Test
     assert_raises(ArgumentError) { AwsIamPolicies.new(shoe_size: 9) }
   end
 end
-
 
 #=============================================================================#
 #                               Search / Recall
@@ -54,18 +53,18 @@ class AwsIamPoliciesProperties < Minitest::Test
   def setup
     AwsIamPolicies::BackendFactory.select(MAIPPB::Basic)
   end
-  
+
   def test_property_policy_names
     basic = AwsIamPolicies.new
     assert_kind_of(Array, basic.policy_names)
-    assert(basic.policy_names.include?('test-policy-1'))
+    assert(basic.policy_names.include?("test-policy-1"))
     refute(basic.policy_names.include?(nil))
   end
 
   def test_property_arns
     basic = AwsIamPolicies.new
     assert_kind_of(Array, basic.arns)
-    assert(basic.arns.include?('arn:aws:iam::aws:policy/test-policy-1'))
+    assert(basic.arns.include?("arn:aws:iam::aws:policy/test-policy-1"))
     refute(basic.arns.include?(nil))
   end
 end
@@ -83,16 +82,16 @@ module MAIPPB
     def list_policies(query = {})
       fixtures = [
         OpenStruct.new({
-          policy_name: 'test-policy-1',
-          arn: 'arn:aws:iam::aws:policy/test-policy-1',
-          default_version_id: 'v1',
+          policy_name: "test-policy-1",
+          arn: "arn:aws:iam::aws:policy/test-policy-1",
+          default_version_id: "v1",
           attachment_count: 3,
           is_attachable: true,
         }),
         OpenStruct.new({
-          policy_name: 'test-policy-2',
-          arn: 'arn:aws:iam::aws:policy/test-policy-2',
-          default_version_id: 'v2',
+          policy_name: "test-policy-2",
+          arn: "arn:aws:iam::aws:policy/test-policy-2",
+          default_version_id: "v2",
           attachment_count: 0,
           is_attachable: false,
         }),

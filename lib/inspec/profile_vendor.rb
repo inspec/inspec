@@ -1,7 +1,7 @@
 # encoding: utf-8
 # author: Adam Leff
 
-require 'inspec/profile'
+require "inspec/profile"
 
 module Inspec
   class ProfileVendor
@@ -33,11 +33,11 @@ module Inspec
     end
 
     def cache_path
-      profile_path.join('vendor')
+      profile_path.join("vendor")
     end
 
     def lockfile
-      profile_path.join('inspec.lock')
+      profile_path.join("inspec.lock")
     end
 
     private
@@ -49,7 +49,7 @@ module Inspec
     def profile_opts
       {
         vendor_cache: Inspec::Cache.new(cache_path.to_s),
-        backend: Inspec::Backend.create(target: 'mock://'),
+        backend: Inspec::Backend.create(target: "mock://"),
       }
     end
 
@@ -65,10 +65,10 @@ module Inspec
     end
 
     def extract_archives
-      Dir.glob(File.join(cache_path, '*')).each do |filepath|
+      Dir.glob(File.join(cache_path, "*")).each do |filepath|
         # Get SHA without extension
         # We use split since '.' is not valid in a SHA checksum
-        destination_dir_name = File.basename(filepath).split('.')[0]
+        destination_dir_name = File.basename(filepath).split(".")[0]
         destination_path = File.join(cache_path, destination_dir_name)
 
         provider = FileProvider.for_path(filepath)

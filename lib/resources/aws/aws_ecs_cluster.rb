@@ -1,13 +1,13 @@
 class AwsEcsCluster < Inspec.resource(1)
-  name 'aws_ecs_cluster'
-  desc 'Verifies settings for an ECS cluster'
+  name "aws_ecs_cluster"
+  desc "Verifies settings for an ECS cluster"
 
   example <<-EOX
     describe aws_ecs_cluster('default') do
       it { should exist }
     end
 EOX
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
   attr_reader :cluster_arn, :cluster_name, :status,
@@ -25,7 +25,7 @@ EOX
       raw_params: raw_params,
       allowed_params: [:cluster_name],
       allowed_scalar_name: :cluster_name,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
 
     validated_params
@@ -61,9 +61,9 @@ EOX
   end
 
   def populate_as_missing
-    @cluster_arn = ''
-    @cluster_name = ''
-    @status = ''
+    @cluster_arn = ""
+    @cluster_name = ""
+    @status = ""
     @registered_container_instances_count = 0
     @running_tasks_count = 0
     @pending_tasks_count = 0

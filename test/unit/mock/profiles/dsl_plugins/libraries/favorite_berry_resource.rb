@@ -1,8 +1,8 @@
 # encoding: utf-8
 
 class FavoriteBerry < Inspec.resource(1)
-  name 'favorite_berry'
-  desc 'Will it blend?'
+  name "favorite_berry"
+  desc "Will it blend?"
   example <<~EOE
   describe favorite_berry('mulberry') do
     it { should blend }

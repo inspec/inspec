@@ -1,9 +1,9 @@
 # encoding: utf-8
 # author: Adam Leff
 
-require 'inspec/profile_vendor'
-require 'mixlib/shellout'
-require 'tomlrb'
+require "inspec/profile_vendor"
+require "mixlib/shellout"
+require "tomlrb"
 
 module InspecPlugins
   module Habitat
@@ -34,7 +34,7 @@ module InspecPlugins
         @options = options
         @cli_config = nil
 
-        log_level = options.fetch('log_level', 'info')
+        log_level = options.fetch("log_level", "info")
         @log = Inspec::Log
         @log.level(log_level.to_sym)
       end
@@ -58,8 +58,8 @@ module InspecPlugins
       rescue => e
         @log.debug(e.backtrace.join("\n"))
         exit_with_error(
-          'Unable to generate Habitat artifact.',
-          "#{e.class} -- #{e.message}",
+          "Unable to generate Habitat artifact.",
+          "#{e.class} -- #{e.message}"
         )
       end
 
@@ -77,8 +77,8 @@ module InspecPlugins
       rescue => e
         @log.debug(e.backtrace.join("\n"))
         exit_with_error(
-          'Unable to upload Habitat artifact.',
-          "#{e.class} -- #{e.message}",
+          "Unable to upload Habitat artifact.",
+          "#{e.class} -- #{e.message}"
         )
       end
 
@@ -103,18 +103,18 @@ module InspecPlugins
       def create_profile_object
         @profile = Inspec::Profile.for_target(
           path,
-          backend: Inspec::Backend.create(target: 'mock://'),
+          backend: Inspec::Backend.create(target: "mock://")
         )
       end
 
       def verify_profile
-        @log.info('Checking to see if the profile is valid...')
+        @log.info("Checking to see if the profile is valid...")
 
         unless profile.check[:summary][:valid]
-          exit_with_error('Profile check failed. Please fix the profile before creating a Habitat artifact.')
+          exit_with_error("Profile check failed. Please fix the profile before creating a Habitat artifact.")
         end
 
-        @log.info('Profile is valid.')
+        @log.info("Profile is valid.")
       end
 
       def vendor_profile_dependencies
@@ -125,7 +125,7 @@ module InspecPlugins
           @log.info("Vendoring the profile's dependencies...")
           profile_vendor.vendor!
 
-          @log.info('Ensuring all vendored content has read permissions...')
+          @log.info("Ensuring all vendored content has read permissions...")
           profile_vendor.make_readable
 
           # refresh the profile object since the profile now has new files
@@ -134,24 +134,28 @@ module InspecPlugins
       end
 
       def validate_habitat_installed
-        @log.info('Checking to see if Habitat is installed...')
-        cmd = Mixlib::ShellOut.new('hab --version')
+        @log.info("Checking to see if Habitat is installed...")
+        cmd = Mixlib::ShellOut.new("hab --version")
         cmd.run_command
-        exit_with_error('Unable to run Habitat commands.', cmd.stderr) if cmd.error?
+        exit_with_error("Unable to run Habitat commands.", cmd.stderr) if cmd.error?
       end
 
       def validate_habitat_origin
-        exit_with_error(
-          'Unable to determine Habitat origin name.',
-          'Run `hab setup` or set the HAB_ORIGIN environment variable.',
-        ) if habitat_origin.nil?
+        if habitat_origin.nil?
+          exit_with_error(
+            "Unable to determine Habitat origin name.",
+            "Run `hab setup` or set the HAB_ORIGIN environment variable."
+          )
+        end
       end
 
       def validate_habitat_auth_token
-        exit_with_error(
-          'Unable to determine Habitat auth token for publishing.',
-          'Run `hab setup` or set the HAB_AUTH_TOKEN environment variable.',
-        ) if habitat_auth_token.nil?
+        if habitat_auth_token.nil?
+          exit_with_error(
+            "Unable to determine Habitat auth token for publishing.",
+            "Run `hab setup` or set the HAB_AUTH_TOKEN environment variable."
+          )
+        end
       end
 
       def validate_output_dir
@@ -162,7 +166,7 @@ module InspecPlugins
       def work_dir
         return @work_dir if @work_dir
 
-        @work_dir ||= Dir.mktmpdir('inspec-habitat-exporter')
+        @work_dir ||= Dir.mktmpdir("inspec-habitat-exporter")
         @log.debug("Generated work directory #{@work_dir}")
 
         @work_dir
@@ -170,15 +174,15 @@ module InspecPlugins
 
       def create_habitat_directories(parent_directory)
         [
-          File.join(parent_directory, 'habitat'),
-          File.join(parent_directory, 'habitat', 'hooks'),
+          File.join(parent_directory, "habitat"),
+          File.join(parent_directory, "habitat", "hooks"),
         ].each do |dir|
           Dir.mkdir(dir) unless Dir.exist?(dir)
         end
       end
 
       def copy_profile_to_work_dir
-        @log.info('Copying profile contents to the work directory...')
+        @log.info("Copying profile contents to the work directory...")
         profile.files.each do |f|
           src = File.join(profile.root_path, f)
           dst = File.join(work_dir, f)
@@ -193,48 +197,48 @@ module InspecPlugins
       end
 
       def create_plan(directory)
-        plan_file = File.join(directory, 'habitat', 'plan.sh')
+        plan_file = File.join(directory, "habitat", "plan.sh")
         @log.info("Generating Habitat plan at #{plan_file}...")
         File.write(plan_file, plan_contents)
       end
 
       def create_run_hook(directory)
-        run_hook_file = File.join(directory, 'habitat', 'hooks', 'run')
+        run_hook_file = File.join(directory, "habitat", "hooks", "run")
         @log.info("Generating a Habitat run hook at #{run_hook_file}...")
         File.write(run_hook_file, run_hook_contents)
       end
 
       def create_default_config(directory)
-        default_toml = File.join(directory, 'habitat', 'default.toml')
+        default_toml = File.join(directory, "habitat", "default.toml")
         @log.info("Generating Habitat's default.toml configuration...")
-        File.write(default_toml, 'sleep_time = 300')
+        File.write(default_toml, "sleep_time = 300")
       end
 
       def build_hart
-        @log.info('Building our Habitat artifact...')
+        @log.info("Building our Habitat artifact...")
 
         env = {
-          'TERM'               => 'vt100',
-          'HAB_ORIGIN'         => habitat_origin,
-          'HAB_NONINTERACTIVE' => 'true',
+          "TERM"               => "vt100",
+          "HAB_ORIGIN"         => habitat_origin,
+          "HAB_NONINTERACTIVE" => "true",
         }
 
-        env['RUST_LOG'] = 'debug' if @log.level == :debug
+        env["RUST_LOG"] = "debug" if @log.level == :debug
 
         # TODO: Would love to use Mixlib::ShellOut here, but it doesn't
         # seem to preserve the STDIN tty, and docker gets angry.
         Dir.chdir(work_dir) do
-          unless system(env, 'hab pkg build .')
-            exit_with_error('Unable to build the Habitat artifact.')
+          unless system(env, "hab pkg build .")
+            exit_with_error("Unable to build the Habitat artifact.")
           end
         end
 
-        hart_files = Dir.glob(File.join(work_dir, 'results', '*.hart'))
+        hart_files = Dir.glob(File.join(work_dir, "results", "*.hart"))
 
         if hart_files.length > 1
-          exit_with_error('More than one Habitat artifact was created which was not expected.')
+          exit_with_error("More than one Habitat artifact was created which was not expected.")
         elsif hart_files.empty?
-          exit_with_error('No Habitat artifact was created.')
+          exit_with_error("No Habitat artifact was created.")
         end
 
         hart_files.first
@@ -249,41 +253,41 @@ module InspecPlugins
       end
 
       def upload_hart(hart_file)
-        @log.info('Uploading the Habitat artifact to our Depot...')
+        @log.info("Uploading the Habitat artifact to our Depot...")
 
         env = {
-          'TERM'               => 'vt100',
-          'HAB_AUTH_TOKEN'     => habitat_auth_token,
-          'HAB_NONINTERACTIVE' => 'true',
+          "TERM"               => "vt100",
+          "HAB_AUTH_TOKEN"     => habitat_auth_token,
+          "HAB_NONINTERACTIVE" => "true",
         }
 
-        env['HAB_DEPOT_URL'] = ENV['HAB_DEPOT_URL'] if ENV['HAB_DEPOT_URL']
+        env["HAB_DEPOT_URL"] = ENV["HAB_DEPOT_URL"] if ENV["HAB_DEPOT_URL"]
 
         cmd = Mixlib::ShellOut.new("hab pkg upload #{hart_file}", env: env)
         cmd.run_command
         if cmd.error?
           exit_with_error(
-            'Unable to upload Habitat artifact to the Depot.',
+            "Unable to upload Habitat artifact to the Depot.",
             cmd.stdout,
-            cmd.stderr,
+            cmd.stderr
           )
         end
 
-        @log.info('Upload complete!')
+        @log.info("Upload complete!")
       end
 
       def habitat_origin
-        ENV['HAB_ORIGIN'] || habitat_cli_config['origin']
+        ENV["HAB_ORIGIN"] || habitat_cli_config["origin"]
       end
 
       def habitat_auth_token
-        ENV['HAB_AUTH_TOKEN'] || habitat_cli_config['auth_token']
+        ENV["HAB_AUTH_TOKEN"] || habitat_cli_config["auth_token"]
       end
 
       def habitat_cli_config
         return @cli_config if @cli_config
 
-        config_file = File.join(ENV['HOME'], '.hab', 'etc', 'cli.toml')
+        config_file = File.join(ENV["HOME"], ".hab", "etc", "cli.toml")
         return {} unless File.exist?(config_file)
 
         @cli_config = Tomlrb.load_file(config_file)

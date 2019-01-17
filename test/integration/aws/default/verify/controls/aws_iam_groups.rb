@@ -1,11 +1,11 @@
 fixtures = {}
 [
-  'iam_group_administrators',
+  "iam_group_administrators",
 ].each do |fixture_name|
   fixtures[fixture_name] = attribute(
     fixture_name,
     default: "default.#{fixture_name}",
-    description: 'See ../build/iam.tf',
+    description: "See ../build/iam.tf"
   )
 end
 
@@ -14,9 +14,9 @@ control "aws_iam_groups search" do
     it { should exist }
   end
 
-  describe aws_iam_groups.where(group_name: fixtures['iam_group_administrators']) do
+  describe aws_iam_groups.where(group_name: fixtures["iam_group_administrators"]) do
     it { should exist }
-    its('count') { should cmp 1 }
+    its("count") { should cmp 1 }
   end
 
   describe aws_iam_groups.where(group_name: /fakegroup/) do
@@ -26,6 +26,6 @@ end
 
 control "aws_iam_groups properties test" do
   describe aws_iam_groups do
-    its('group_names') { should include fixtures['iam_group_administrators'] }
+    its("group_names") { should include fixtures["iam_group_administrators"] }
   end
 end
