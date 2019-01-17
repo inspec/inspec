@@ -19,6 +19,7 @@ group :test do
   gem 'passgen'
   gem 'm'
   gem 'pry-byebug'
+  gem 'chefstyle'
 end
 
 group :integration do

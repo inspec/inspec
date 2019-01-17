@@ -34,12 +34,15 @@ rescue LoadError
   puts 'contrib tasks are unavailable because the git gem is not available.'
 end
 
-# Rubocop
+# chefstyle (RuboCop)
 begin
+  require 'chefstyle'
   require 'rubocop/rake_task'
-  RuboCop::RakeTask.new(:lint)
+  RuboCop::RakeTask.new(:lint) do |task|
+    task.options << "--display-cop-names"
+  end
 rescue LoadError
-  puts 'rubocop is not available. Install the rubocop gem to run the lint tests.'
+  puts 'chefstyle is not available. Install the chefstyle gem to run the lint tests.'
 end
 
 # update command output for demo
