@@ -181,6 +181,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     connects to the target and executes any controls contained in the profiles.
     One or more reporters are used to generate output.
 
+    ```
     Exit codes:
         0  Normal exit, all tests passed
         1  Usage or general error
@@ -188,6 +189,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
         3  Fatal deprecation encountered
       100  Normal exit, at least one test failed
       101  Normal exit, at least one test skipped but none failed
+    ```
 
     Below are some examples of using `exec` with different test LOCATIONS:
 
