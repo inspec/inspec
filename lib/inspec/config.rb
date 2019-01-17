@@ -142,22 +142,28 @@ module Inspec
 
     # Regardless of our situation, end up with a readable IO object
     def resolve_cfg_io(cli_opts, cfg_io)
-      unless cfg_io
-        # TODO: deprecate --json-config
-        path = cli_opts[:config] || cli_opts[:json_config]
-        if path == '-'
-          Inspec::Log.warn 'Reading JSON config from standard input' if STDIN.tty?
-          path = STDIN
-        elsif path.nil?
-          default_path = File.join(Inspec.config_dir, 'config.json')
-          path = default_path if File.exist?(default_path)
-        elsif !File.exist?(path)
-          raise ArgumentError, "Could not read configuration file at #{path}"
-        end
-        cfg_io = File.open(path) if path
-        cfg_io ||= StringIO.new('{ "version": "1.1" }')
+      raise(ArgumentError, 'Inspec::Config must use an IO to read from') if cfg_io && !cfg_io.respond_to?(:read)
+      return cfg_io if cfg_io
+
+      path = determine_cfg_path(cli_opts)
+
+      cfg_io = File.open(path) if path
+      cfg_io || StringIO.new('{ "version": "1.1" }')
+    end
+
+    def determine_cfg_path(cli_opts)
+      path = cli_opts[:config] || cli_opts[:json_config] # TODO: deprecate --json-config see #3661
+
+      if path == '-'
+        Inspec::Log.warn 'Reading JSON config from standard input' if STDIN.tty?
+        path = STDIN
+      elsif path.nil?
+        default_path = File.join(Inspec.config_dir, 'config.json')
+        path = default_path if File.exist?(default_path)
+      elsif !File.exist?(path)
+        raise ArgumentError, "Could not read configuration file at #{path}"
       end
-      cfg_io
+      path
     end
 
     def read_cfg_file_io(cfg_io)
