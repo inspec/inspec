@@ -221,7 +221,7 @@ module Inspec
       end
     end
 
-    def validate_reporters(reporters)
+    def validate_reporters!(reporters)
       return if reporters.nil?
       # TODO: move this into a reporter plugin type system
       valid_types = [
@@ -326,7 +326,7 @@ module Inspec
         end
       end
 
-      validate_reporters(options['reporter'])
+      validate_reporters!(options['reporter'])
       options
     end
 
