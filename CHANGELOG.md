@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.3.3 -->
-## [v3.3.3](https://github.com/inspec/inspec/tree/v3.3.3) (2019-01-14)
+<!-- latest_release 3.3.4 -->
+## [v3.3.4](https://github.com/inspec/inspec/tree/v3.3.4) (2019-01-17)
 
-#### Enhancements
-- Support cran packages for non-utf8 locales [#3613](https://github.com/inspec/inspec/pull/3613) ([atward](https://github.com/atward))
+#### New Features
+- Centralized Deprecation Facility [#3690](https://github.com/inspec/inspec/pull/3690) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.6 -->
 ### Changes since 3.2.6 release
+
+#### New Features
+- Centralized Deprecation Facility [#3690](https://github.com/inspec/inspec/pull/3690) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.3.4 -->
 
 #### Enhancements
 - Support cran packages for non-utf8 locales [#3613](https://github.com/inspec/inspec/pull/3613) ([atward](https://github.com/atward)) <!-- 3.3.3 -->
