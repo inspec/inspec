@@ -180,7 +180,7 @@ describe 'Inspec::Config' do
       it 'should read the options' do
         expected = ['color', 'reporter', 'target_id', 'type'].sort
         seen_fields.must_equal expected
-        final_options['color'].must_equal "true"  # Dubious
+        final_options['color'].must_equal "true"  # Dubious - should this be String or TrueClass?
         final_options['target_id'].must_equal 'mynode'
       end
     end
@@ -190,7 +190,7 @@ describe 'Inspec::Config' do
       it 'should read the options' do
         expected = ['color', 'reporter', 'target_id', 'type'].sort
         seen_fields.must_equal expected
-        final_options['color'].must_equal "true"  # Dubious
+        final_options['color'].must_equal "true"  # Dubious - should this be String or TrueClass?
         final_options['target_id'].must_equal 'mynode'
       end
     end
