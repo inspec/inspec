@@ -338,7 +338,7 @@ module Inspec
       # defined in such a way and require a value here:
       %w{password sudo-password}.each do |option_name|
         snake_case_option_name = option_name.tr('-', '_').to_s
-        next unless options[snake_case_option_name] == -1 # Dubious - does thor always set -1 for missing value?
+        next unless options[snake_case_option_name] == -1 # Thor sets -1 for missing value - see #1918
         raise ArgumentError, "Please provide a value for --#{option_name}. For example: --#{option_name}=hello."
       end
 
