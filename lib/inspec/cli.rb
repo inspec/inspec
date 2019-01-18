@@ -380,7 +380,7 @@ end
 #---------------------------------------------------------------------#
 # EULA acceptance
 #---------------------------------------------------------------------#
-require 'license-acceptance/acceptor'
+require 'license_acceptance/acceptor'
 LicenseAcceptance::Acceptor.check_and_persist('inspec', Inspec::VERSION)
 
 #---------------------------------------------------------------------#
