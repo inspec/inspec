@@ -47,6 +47,10 @@ do_install() {
   popd
 
   wrap_inspec_bin
+
+  # Certain gems (timeliness) are getting installed with world writable files
+  # This is removing write bits for group and other.
+  find "$GEM_HOME" -xdev -perm -0002 -type f -print 2>/dev/null | xargs -I '{}' chmod go-w '{}'
 }
 
 # Need to wrap the InSpec binary to ensure paths are correct
