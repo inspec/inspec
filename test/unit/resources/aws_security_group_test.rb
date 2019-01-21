@@ -10,7 +10,7 @@ class AwsSGSConstructor < Minitest::Test
   def setup
     AwsSecurityGroup::BackendFactory.select(AwsMESGSB::Empty)
   end
-  
+
   def test_constructor_no_args_raises
     assert_raises(ArgumentError) { AwsSecurityGroup.new }
   end
@@ -25,7 +25,7 @@ class AwsSGSConstructor < Minitest::Test
       group_id: 'sg-1234abcd',
       vpc_id: 'vpc-1234abcd',
       group_name: 'some-group',
-    }.each do |param, value| 
+    }.each do |param, value|
       AwsSecurityGroup.new(param => value)
     end
   end
@@ -35,7 +35,7 @@ class AwsSGSConstructor < Minitest::Test
       id: 'sg-xyz-123',
       group_id: '1234abcd',
       vpc_id: 'vpc_1234abcd',
-    }.each do |param, value| 
+    }.each do |param, value|
       assert_raises(ArgumentError) { AwsSecurityGroup.new(param => value) }
     end
   end
@@ -53,7 +53,7 @@ class AwsSGSProperties < Minitest::Test
   def setup
     AwsSecurityGroup::BackendFactory.select(AwsMESGSB::Basic)
   end
-  
+
   def test_property_group_id
     assert_equal('sg-12345678', AwsSecurityGroup.new('sg-12345678').group_id)
     assert_nil(AwsSecurityGroup.new(group_name: 'my-group').group_id)
@@ -107,7 +107,7 @@ end
 #                               Matchers
 #=============================================================================#
 
-class AwsSGSProperties < Minitest::Test
+class AwsSGSMatchers < Minitest::Test
   def setup
     AwsSecurityGroup::BackendFactory.select(AwsMESGSB::Basic)
   end
@@ -156,7 +156,7 @@ class AwsSGSProperties < Minitest::Test
     assert(sg.allow_in_only?(from_port: 9001, to_port: 9003, position: 3), "exact range matching on port with allow_in_only")
 
     # Protocol
-    assert(sg.allow_in?(protocol: 'tcp'), "match on tcp protocol, unpinned")    
+    assert(sg.allow_in?(protocol: 'tcp'), "match on tcp protocol, unpinned")
     assert(sg.allow_in?(protocol: 'tcp', position: 1), "match on tcp protocol")
     assert(sg.allow_in?(protocol: 'any', position: 2), "match on our 'any' alias protocol")
     assert(sg.allow_in?(protocol: '-1', position: 2), "match on AWS spec '-1 for any' protocol")
@@ -270,7 +270,7 @@ module AwsMESGSB
               to_port: 22,
               ip_protocol: 'tcp',
               ip_ranges: [
-                # Apparently AWS returns these as plain hashes, 
+                # Apparently AWS returns these as plain hashes,
                 # nested in two levels of Structs.
                 {cidr_ip:"10.1.2.0/24"},
                 {cidr_ip:"10.1.3.0/24"},
@@ -312,7 +312,7 @@ module AwsMESGSB
                 {cidr_ipv_6:"2001:db8::/122"}
               ]
             }),
-          ],          
+          ],
         }),
         OpenStruct.new({
           description: 'Open Group',
@@ -329,7 +329,7 @@ module AwsMESGSB
               ]
             }),
           ],
-          ip_permissions_egress: [],          
+          ip_permissions_egress: [],
         }),
         OpenStruct.new({
           description: 'Open Group',
