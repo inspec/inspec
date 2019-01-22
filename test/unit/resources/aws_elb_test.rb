@@ -13,15 +13,15 @@ class AwsElbConstructorTest < Minitest::Test
   end
 
   def test_empty_params_rejected
-    assert_raises(ArgumentError) { AwsElb.new }    
+    assert_raises(ArgumentError) { AwsElb.new }
   end
 
   def test_string_accepted
-    AwsElb.new 'my-elb'    
+    AwsElb.new 'my-elb'
   end
 
   def test_hash_accepted
-    AwsElb.new elb_name: 'my-elb'    
+    AwsElb.new elb_name: 'my-elb'
   end
 
   def test_rejects_unrecognized_params
@@ -49,7 +49,7 @@ class AwsElbFilterCriteriaTest < Minitest::Test
     assert_equal('kangaroo', elb.elb_name)
   end
 
-  def test_recall_when_provided_a_string
+  def test_recall_when_provided_a_symbol
     elb = AwsElb.new elb_name: 'kang-the-alien'
     assert elb.exists?
     assert_equal('kang-the-alien', elb.elb_name)
@@ -92,7 +92,7 @@ class AwsElbProperties < Minitest::Test
     assert_kind_of(Array, @miss.external_ports)
     assert_empty(@miss.external_ports)
   end
-  
+
   def test_property_with_instance_ids
     assert_includes(@roo.instance_ids, 'i-87654321')
     assert_includes(@kang.instance_ids, 'i-12345678')
@@ -186,7 +186,7 @@ module MAESB
               'us-east-1b',
               'us-east-1c',
             ],
-            dns_name: '12345678.us-east-2.aws.amazon.com',            
+            dns_name: '12345678.us-east-2.aws.amazon.com',
             load_balancer_name: 'kangaroo',
             listener_descriptions: [
               Aws::ElasticLoadBalancing::Types::ListenerDescription.new(
@@ -216,7 +216,7 @@ module MAESB
               'us-east-1a',
               'us-east-1e',
             ],
-            dns_name: '999999.us-east-1.aws.amazon.com',            
+            dns_name: '999999.us-east-1.aws.amazon.com',
             load_balancer_name: 'gamma',
             listener_descriptions: [
               Aws::ElasticLoadBalancing::Types::ListenerDescription.new(
@@ -246,18 +246,18 @@ module MAESB
 
       if query[:load_balancer_names]
         result = data.load_balancer_descriptions.select do |lbd|
-          query[:load_balancer_names].include? lbd.load_balancer_name 
+          query[:load_balancer_names].include? lbd.load_balancer_name
         end
         if result.empty?
           raise Aws::ElasticLoadBalancing::Errors::LoadBalancerNotFound.new(nil, nil)
-        else 
+        else
           Aws::ElasticLoadBalancing::Types::DescribeAccessPointsOutput.new(
             load_balancer_descriptions: result
           )
         end
       else
         data
-      end 
+      end
     end
   end
 end
