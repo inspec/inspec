@@ -294,7 +294,7 @@ describe Inspec::Profile do
 
       it 'prints ok messages and counts the controls' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
-        logger.expect :warn, nil, ["License 'Invalid License Name' needs to be in SPDX format. See https://spdx.org/licenses/."]
+        logger.expect :warn, nil, ["License 'Invalid License Name' needs to be in SPDX format or marked as 'Proprietary'. See https://spdx.org/licenses/."]
         logger.expect :warn, nil, ['No controls or tests were defined.']
         logger.expect :info, nil, ["Metadata OK."]
 

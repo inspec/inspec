@@ -91,9 +91,9 @@ module Inspec
         warnings.push("Missing profile #{field} in #{ref}")
       end
 
-      # if version is set, ensure it is in SPDX format
-      if !params[:license].nil? && !Spdx.valid_license?(params[:license])
-        warnings.push("License '#{params[:license]}' needs to be in SPDX format. See https://spdx.org/licenses/.")
+      # if license is set, ensure it is in SPDX format or marked as proprietary
+      if !params[:license].nil? && !valid_license?(params[:license])
+        warnings.push("License '#{params[:license]}' needs to be in SPDX format or marked as 'Proprietary'. See https://spdx.org/licenses/.")
       end
 
       [errors, warnings]
@@ -110,6 +110,10 @@ module Inspec
       true
     rescue Semverse::InvalidVersionFormat
       false
+    end
+
+    def valid_license?(value)
+      value =~ /^Proprietary[,;]?\b/ || Spdx.valid_license?(value)
     end
 
     def method_missing(sth, *args)
