@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.3.7 -->
-## [v3.3.7](https://github.com/inspec/inspec/tree/v3.3.7) (2019-01-22)
+<!-- latest_release 3.3.8 -->
+## [v3.3.8](https://github.com/inspec/inspec/tree/v3.3.8) (2019-01-22)
 
-#### Enhancements
-- Allow &#39;Proprietary&#39; as a valid license term. [#3729](https://github.com/inspec/inspec/pull/3729) ([james-stocks](https://github.com/james-stocks))
+#### Bug Fixes
+- habitat package: Prevent world-writable files in gems [#3736](https://github.com/inspec/inspec/pull/3736) ([jaym](https://github.com/jaym))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.6 -->
@@ -25,6 +25,7 @@
 - Stabilize profile export functional test [#3696](https://github.com/inspec/inspec/pull/3696) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.7 -->
 
 #### Bug Fixes
+- habitat package: Prevent world-writable files in gems [#3736](https://github.com/inspec/inspec/pull/3736) ([jaym](https://github.com/jaym)) <!-- 3.3.8 -->
 - Fix SSL tests by allowing multiple cipher counts [#3744](https://github.com/inspec/inspec/pull/3744) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.3.6 -->
 - Fix AWS tests found during ChefStyle spike [#3739](https://github.com/inspec/inspec/pull/3739) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.3.5 -->
 - postgres_session: Fix postgres directory searching on non-debian os [#3708](https://github.com/inspec/inspec/pull/3708) ([Cerebus](https://github.com/Cerebus)) <!-- 3.3.1 -->
