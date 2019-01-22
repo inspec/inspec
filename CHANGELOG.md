@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.3.4 -->
-## [v3.3.4](https://github.com/inspec/inspec/tree/v3.3.4) (2019-01-17)
+<!-- latest_release 3.3.5 -->
+## [v3.3.5](https://github.com/inspec/inspec/tree/v3.3.5) (2019-01-22)
 
-#### New Features
-- Centralized Deprecation Facility [#3690](https://github.com/inspec/inspec/pull/3690) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- Fix AWS tests found during ChefStyle spike [#3739](https://github.com/inspec/inspec/pull/3739) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.6 -->
@@ -24,6 +24,7 @@
 - Stabilize profile export functional test [#3696](https://github.com/inspec/inspec/pull/3696) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.7 -->
 
 #### Bug Fixes
+- Fix AWS tests found during ChefStyle spike [#3739](https://github.com/inspec/inspec/pull/3739) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.3.5 -->
 - postgres_session: Fix postgres directory searching on non-debian os [#3708](https://github.com/inspec/inspec/pull/3708) ([Cerebus](https://github.com/Cerebus)) <!-- 3.3.1 -->
 - Update Ruby versions used for testing; fix Travis CI issues [#3678](https://github.com/inspec/inspec/pull/3678) ([tas50](https://github.com/tas50)) <!-- 3.2.7 -->
 <!-- release_rollup -->
