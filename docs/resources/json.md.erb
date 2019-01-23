@@ -47,6 +47,21 @@ where
 * `name` is a configuration setting in a JSON file
 * `should eq 'foo'` tests a value of `name` as read from a JSON file versus the value declared in the test
 
+The `json` resource can also be used with JSON formatted output from a command.
+Using the same JSON as the previous example, it can be queried using:
+
+    describe json({ command: 'retrieve_data.py --json'}) do
+      its('name') { should eq 'hello' }
+      its(['meta','creator']) { should eq 'John Doe' }
+      its(['array', 1]) { should eq 'one' }
+    end
+
+Finally, content can be passed directly to the resource:
+
+    describe json({ content: '{\"item1\": { \"status\": \"available\" } }' }) do
+      its(['item1', 'status']) { should cmp 'available' }
+    end
+
 <br>
 
 ## Examples
@@ -70,4 +85,3 @@ The `name` matcher tests the value of the filename as read from a JSON file vers
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
-
