@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.3.8 -->
-## [v3.3.8](https://github.com/inspec/inspec/tree/v3.3.8) (2019-01-22)
+<!-- latest_release 3.3.9 -->
+## [v3.3.9](https://github.com/inspec/inspec/tree/v3.3.9) (2019-01-23)
 
-#### Bug Fixes
-- habitat package: Prevent world-writable files in gems [#3736](https://github.com/inspec/inspec/pull/3736) ([jaym](https://github.com/jaym))
+#### Merged Pull Requests
+- Document additional usage of json resource [#3737](https://github.com/inspec/inspec/pull/3737) ([webframp](https://github.com/webframp))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.6 -->
@@ -22,6 +22,7 @@
 - Add resources for aws_billing_report and aws_billing_reports. [#2838](https://github.com/inspec/inspec/pull/2838) ([miah](https://github.com/miah)) <!-- 3.3.0 -->
 
 #### Merged Pull Requests
+- Document additional usage of json resource [#3737](https://github.com/inspec/inspec/pull/3737) ([webframp](https://github.com/webframp)) <!-- 3.3.9 -->
 - Stabilize profile export functional test [#3696](https://github.com/inspec/inspec/pull/3696) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.7 -->
 
 #### Bug Fixes
