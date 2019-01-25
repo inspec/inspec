@@ -341,11 +341,13 @@ Attributes are frequently used to parameterize a profile for use in different en
 
 Attributes may contain the following options:
 
-* Use `default` to set a default value for the attribute.
+* Use `value` to set a value for the attribute.
 * Use `type` to restrict an attribute to a specific type (any, string, numeric, array, hash, boolean, regex).
-* Use `required` to mandate the attribute has a default value or a value from a attribute YAML file.
+* Use `required` to mandate the attribute has a value at the time of evaluation.
 * Use `description` to set a brief description for the attribute.
 
+
+## Setting Attributes in the Profile Metadata File
 
 You can specify attributes in your `inspec.yml` using the `attributes` setting. For example, to add a `user` attribute for your profile:
 
@@ -353,7 +355,7 @@ You can specify attributes in your `inspec.yml` using the `attributes` setting. 
 attributes:
   - name: user
     type: string
-    default: bob
+    value: bob
 ```
 
 Example of adding a array object of servers:
@@ -362,7 +364,7 @@ Example of adding a array object of servers:
 attributes:
   - name: servers
     type: array
-    default:
+    value:
       - server1
       - server2
       - server3
@@ -386,9 +388,11 @@ control 'system-users' do
 end
 ```
 
-For sensitive data it is recomended to use a secrets YAML file located on the local machine to populate the values of attributes. A secrets file will always overwrite a attributes default value. To use the secrets file run `inspec exec` and specify the path to that Yaml file using the `--attrs` attribute.
+## Setting Attributes in an External YAML Attributes File
 
-For example, a inspec.yml:
+For sensitive data it is recommended to use a YAML file located on the local machine to populate the values of attributes. To read values from a YAML file, use run `inspec exec` and specify the path to that YAML file using the `--attrs` attribute.
+
+For example, your profile's metadata file, inspec.yml:
 
 ```YAML
 attributes:
@@ -483,6 +487,14 @@ $ inspec exec examples/profile-attribute --attrs examples/linux.yml
 ```
 
 See the full example in the InSpec open source repository: [Example InSpec Profile with Attributes](https://github.com/chef/inspec/tree/master/examples/profile-attribute)
+
+## Attribute Value Precedence
+
+Attribute values are always set in the following precedence (highest to lowest):
+
+ 1. Values from a file specified on the command line using --attrs
+ 2. Values from a profile metadata file - an inspec.yml with an `attributes:` section
+ 3. Values provided directly in control code - `attribute('user', value: 'bob')`
 
 # Profile files
 
