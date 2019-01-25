@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.3.13 -->
-## [v3.3.13](https://github.com/inspec/inspec/tree/v3.3.13) (2019-01-25)
+<!-- latest_release 3.3.14 -->
+## [v3.3.14](https://github.com/inspec/inspec/tree/v3.3.14) (2019-01-25)
 
 #### Merged Pull Requests
-- Drop bundler contstraint so system ruby on Jenkins can resolve [#3754](https://github.com/inspec/inspec/pull/3754) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update train pin so inspec builds may succeed [#3755](https://github.com/inspec/inspec/pull/3755) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.6 -->
@@ -22,6 +22,7 @@
 - Add resources for aws_billing_report and aws_billing_reports. [#2838](https://github.com/inspec/inspec/pull/2838) ([miah](https://github.com/miah)) <!-- 3.3.0 -->
 
 #### Merged Pull Requests
+- Update train pin so inspec builds may succeed [#3755](https://github.com/inspec/inspec/pull/3755) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.3.14 -->
 - Drop bundler contstraint so system ruby on Jenkins can resolve [#3754](https://github.com/inspec/inspec/pull/3754) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.3.13 -->
 - allow bundler 2.x and bump integration gems [#3723](https://github.com/inspec/inspec/pull/3723) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 3.3.11 -->
 - Clean up unit test output [#3743](https://github.com/inspec/inspec/pull/3743) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.3.10 -->
