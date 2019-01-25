@@ -6,14 +6,15 @@
 class IisAppPool < Inspec.resource(1)
   name 'iis_app_pool'
   desc 'Tests IIS application pool configuration on windows.'
-  example "
+  supports platform: 'windows'
+  example <<~EOH
     describe iis_app_pool('DefaultAppPool') do
       it { should exist }
       its('enable32bit') { should cmp 'True' }
       its('runtime_version') { should eq 'v4.0' }
       its('pipeline_mode') { should eq 'Integrated' }
     end
-  "
+  EOH
 
   def initialize(pool_name)
     @pool_name = pool_name
@@ -77,18 +78,23 @@ class IisAppPool < Inspec.resource(1)
   end
 
   def to_s
-    "iis_app_pool '#{@pool_name}'"
+    "IIS App Pool '#{@pool_name}'"
   end
 
   private
 
-  # I cannot think of a way to shorten this method
-  # rubocop:disable Metrics/AbcSize
   def iis_app_pool
     return @cache unless @cache.nil?
 
-    command = "Import-Module WebAdministration; Get-Item '#{@pool_path}' | Select-Object * | ConvertTo-Json"
-    cmd = inspec.command(command)
+    script = <<~EOH
+      Import-Module WebAdministration
+      If (Test-Path '#{@pool_path}') {
+        Get-Item '#{@pool_path}' | Select-Object * | ConvertTo-Json
+      } Else {
+        Write-Host '{}'
+      }
+    EOH
+    cmd = inspec.powershell(script)
 
     begin
       pool = JSON.parse(cmd.stdout)
@@ -96,21 +102,23 @@ class IisAppPool < Inspec.resource(1)
       raise Inspec::Exceptions::ResourceFailed, 'Unable to parse app pool JSON'
     end
 
+    process_model = pool.fetch('processModel', {})
+    idle_timeout = process_model.fetch('idleTimeout', {})
+
     # map our values to a hash table
     @cache = {
       pool_name: pool['name'],
       version: pool['managedRuntimeVersion'],
       e32b: pool['enable32BitAppOnWin64'],
       mode: pool['managedPipelineMode'],
-      processes: pool['processModel']['maxProcesses'],
-      timeout: "#{pool['processModel']['idleTimeout']['Hours']}:#{pool['processModel']['idleTimeout']['Minutes']}:#{pool['processModel']['idleTimeout']['Seconds']}",
-      timeout_days: pool['processModel']['idleTimeout']['Days'],
-      timeout_hours: pool['processModel']['idleTimeout']['Hours'],
-      timeout_minutes: pool['processModel']['idleTimeout']['Minutes'],
-      timeout_seconds: pool['processModel']['idleTimeout']['Seconds'],
-      user_identity_type: pool['processModel']['identityType'],
-      username: pool['processModel']['userName'],
+      processes: process_model['maxProcesses'],
+      timeout: "#{idle_timeout['Hours']}:#{idle_timeout['Minutes']}:#{idle_timeout['Seconds']}",
+      timeout_days: idle_timeout['Days'],
+      timeout_hours: idle_timeout['Hours'],
+      timeout_minutes: idle_timeout['Minutes'],
+      timeout_seconds: idle_timeout['Seconds'],
+      user_identity_type: process_model['identityType'],
+      username: process_model['userName'],
     }
   end
-  # rubocop:enable Metrics/AbcSize
 end
