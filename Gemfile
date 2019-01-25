@@ -6,7 +6,7 @@ gem 'ffi', '>= 1.9.14'
 gem 'aws-sdk', '~> 2'
 
 group :test do
-  gem 'bundler', '~> 1.5'
+  gem 'bundler', '>= 1.5'
   gem 'minitest', '~> 5.5'
   gem 'rake', '>= 10'
   gem 'rubocop', '= 0.49.1'
@@ -23,7 +23,7 @@ end
 
 group :integration do
   gem 'berkshelf', '~> 5.2'
-  gem 'test-kitchen', '~> 1.6'
+  gem 'test-kitchen', '>= 1.24'
   gem 'kitchen-vagrant'
   # we need winrm v2 support >= 0.15.1
   gem 'kitchen-inspec', '>= 0.15.1'
