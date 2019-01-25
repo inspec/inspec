@@ -13,7 +13,7 @@ describe 'Inspec::Resources::NginxConf' do
   let(:nginx_conf) { MockLoader.new(:ubuntu1404).load_resource('nginx_conf') }
 
   it 'doesnt fail with a missing file' do
-    nginx_conf = MockLoader.new(:ubuntu1404).load_resource('nginx_conf', '/....missing_file')
+    nginx_conf = MockLoader.new(:ubuntu1404).load_resource('nginx_conf', '/missing_file')
     _(nginx_conf.params).must_equal({})
   end
 

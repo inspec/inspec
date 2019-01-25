@@ -204,7 +204,7 @@ describe Fetchers::Url do
     describe 'when only password is specified' do
       let(:config) { { :password => 'dummy'} }
       it 'returns a hash containing http_basic_authentication setting as nil' do
-        subject.send(:http_opts)[:http_basic_authentication].must_equal nil
+        subject.send(:http_opts)[:http_basic_authentication].must_be_nil
       end
     end
 

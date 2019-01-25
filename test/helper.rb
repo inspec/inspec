@@ -198,6 +198,7 @@ class MockLoader
       '/fakepath/fakefile' => emptyfile.call,
       'C:/fakepath/fakefile' => emptyfile.call,
       '/etc/cron.d/crondotd' => mockfile.call('crondotd'),
+      '/missing_file' => emptyfile.call,
     }
 
     # create all mock commands
@@ -229,6 +230,7 @@ class MockLoader
       'bash -c \'type "Rscript"\'' => empty.call,
       'bash -c \'type "perl"\'' => empty.call,
       'bash -c \'type "/sbin/auditctl"\'' => empty.call,
+      'bash -c \'type "sql"\'' => cmd_exit_1.call,
       'type "pwsh"' => empty.call,
       'type "netstat"' => empty.call,
       'sh -c \'find /etc/apache2/ports.conf -type l -maxdepth 1\'' => empty.call,
@@ -508,7 +510,7 @@ class MockLoader
       '/sbin/service sshd status' => empty.call,
       'service apache2 status' => cmd_exit_1.call,
       'type "lsof"' => empty.call,
-
+      'test -f /etc/mysql/debian.cnf && cat /etc/mysql/debian.cnf' => empty.call,
       # http resource - remote worker'
       %{bash -c 'type "curl"'} => cmd.call('bash-c-type-curl'),
       "curl -i -X GET --connect-timeout 60 --max-time 120 'http://www.example.com'" => cmd.call('http-remote-no-options'),

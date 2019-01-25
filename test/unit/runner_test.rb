@@ -38,7 +38,7 @@ describe Inspec::Runner do
 
     describe 'testing runner.run exit codes' do
       it 'returns proper exit code when no profile is added' do
-        runner.run.must_equal 0
+        proc { runner.run.must_equal 0 }
       end
     end
 
