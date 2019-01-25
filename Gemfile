@@ -6,7 +6,7 @@ gem 'ffi', '>= 1.9.14'
 gem 'aws-sdk', '~> 2'
 
 group :test do
-  gem 'bundler', '~> 1.5'
+  gem 'bundler', '>= 2.0.1'
   gem 'minitest', '~> 5.5'
   gem 'rake', '>= 10'
   gem 'rubocop', '= 0.49.1'
