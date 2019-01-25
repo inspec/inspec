@@ -14,8 +14,10 @@ module Inspec::Plugin::V2
     def initialize(options = {})
       @options = options
       @registry = Inspec::Plugin::V2::Registry.instance
-      @conf_file = Inspec::Plugin::V2::ConfigFile.new
-      read_conf_file_into_registry
+      unless options[:omit_user_plugins]
+        @conf_file = Inspec::Plugin::V2::ConfigFile.new
+        read_conf_file_into_registry
+      end
 
       # Old-style (v0, v1) co-distributed plugins were called 'bundles'
       # and were located in lib/bundles
