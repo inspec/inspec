@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.3.10 -->
-## [v3.3.10](https://github.com/inspec/inspec/tree/v3.3.10) (2019-01-25)
+<!-- latest_release 3.3.11 -->
+## [v3.3.11](https://github.com/inspec/inspec/tree/v3.3.11) (2019-01-25)
 
 #### Merged Pull Requests
-- Clean up unit test output [#3743](https://github.com/inspec/inspec/pull/3743) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- allow bundler 2.x and bump integration gems [#3723](https://github.com/inspec/inspec/pull/3723) ([lamont-granquist](https://github.com/lamont-granquist))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.6 -->
@@ -22,6 +22,7 @@
 - Add resources for aws_billing_report and aws_billing_reports. [#2838](https://github.com/inspec/inspec/pull/2838) ([miah](https://github.com/miah)) <!-- 3.3.0 -->
 
 #### Merged Pull Requests
+- allow bundler 2.x and bump integration gems [#3723](https://github.com/inspec/inspec/pull/3723) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 3.3.11 -->
 - Clean up unit test output [#3743](https://github.com/inspec/inspec/pull/3743) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.3.10 -->
 - Document additional usage of json resource [#3737](https://github.com/inspec/inspec/pull/3737) ([webframp](https://github.com/webframp)) <!-- 3.3.9 -->
 - Stabilize profile export functional test [#3696](https://github.com/inspec/inspec/pull/3696) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.7 -->
