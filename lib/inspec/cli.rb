@@ -32,6 +32,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   class_option :interactive, type: :boolean,
     desc: 'Allow or disable user interaction'
 
+  class_option :disable_core_plugins, type: :string, banner: '', # Actually a boolean, but this suppresses the creation of a --no-disable...
+    desc: 'Disable loading all plugins that are shipped in the lib/plugins directory of InSpec. Useful in development.'
+
+  class_option :disable_user_plugins, type: :string, banner: '',
+    desc: 'Disable loading all plugins that the user installed.'
+
   desc 'json PATH', 'read all tests in PATH and generate a JSON summary'
   option :output, aliases: :o, type: :string,
     desc: 'Save the created profile to a path'
