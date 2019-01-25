@@ -1,44 +1,42 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.3.14 -->
-## [v3.3.14](https://github.com/inspec/inspec/tree/v3.3.14) (2019-01-25)
-
-#### Merged Pull Requests
-- Update train pin so inspec builds may succeed [#3755](https://github.com/inspec/inspec/pull/3755) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.2.6 -->
-### Changes since 3.2.6 release
-
-#### New Features
-- Centralized Deprecation Facility [#3690](https://github.com/inspec/inspec/pull/3690) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.3.4 -->
-
-#### Enhancements
-- Allow &#39;Proprietary&#39; as a valid license term. [#3729](https://github.com/inspec/inspec/pull/3729) ([james-stocks](https://github.com/james-stocks)) <!-- 3.3.7 -->
-- Support cran packages for non-utf8 locales [#3613](https://github.com/inspec/inspec/pull/3613) ([atward](https://github.com/atward)) <!-- 3.3.3 -->
-- Fix extra &#39;&amp;&amp;&#39; in windows functional tests, add diagnostics [#3717](https://github.com/inspec/inspec/pull/3717) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.3.2 -->
-
-#### New Resources
-- Add resources for aws_billing_report and aws_billing_reports. [#2838](https://github.com/inspec/inspec/pull/2838) ([miah](https://github.com/miah)) <!-- 3.3.0 -->
-
-#### Merged Pull Requests
-- Update train pin so inspec builds may succeed [#3755](https://github.com/inspec/inspec/pull/3755) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.3.14 -->
-- Drop bundler contstraint so system ruby on Jenkins can resolve [#3754](https://github.com/inspec/inspec/pull/3754) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.3.13 -->
-- allow bundler 2.x and bump integration gems [#3723](https://github.com/inspec/inspec/pull/3723) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 3.3.11 -->
-- Clean up unit test output [#3743](https://github.com/inspec/inspec/pull/3743) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.3.10 -->
-- Document additional usage of json resource [#3737](https://github.com/inspec/inspec/pull/3737) ([webframp](https://github.com/webframp)) <!-- 3.3.9 -->
-- Stabilize profile export functional test [#3696](https://github.com/inspec/inspec/pull/3696) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.7 -->
-
-#### Bug Fixes
-- iis_app_pool:  Fixes error with &#39;should not exist&#39; [#3740](https://github.com/inspec/inspec/pull/3740) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.3.12 -->
-- habitat package: Prevent world-writable files in gems [#3736](https://github.com/inspec/inspec/pull/3736) ([jaym](https://github.com/jaym)) <!-- 3.3.8 -->
-- Fix SSL tests by allowing multiple cipher counts [#3744](https://github.com/inspec/inspec/pull/3744) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.3.6 -->
-- Fix AWS tests found during ChefStyle spike [#3739](https://github.com/inspec/inspec/pull/3739) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.3.5 -->
-- postgres_session: Fix postgres directory searching on non-debian os [#3708](https://github.com/inspec/inspec/pull/3708) ([Cerebus](https://github.com/Cerebus)) <!-- 3.3.1 -->
-- Update Ruby versions used for testing; fix Travis CI issues [#3678](https://github.com/inspec/inspec/pull/3678) ([tas50](https://github.com/tas50)) <!-- 3.2.7 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.3.14](https://github.com/inspec/inspec/tree/v3.3.14) (2019-01-25)
+
+#### New Resources
+- Add resources for aws_billing_report and aws_billing_reports. [#2838](https://github.com/inspec/inspec/pull/2838) ([miah](https://github.com/miah))
+
+#### New Features
+- Centralized Deprecation Facility [#3690](https://github.com/inspec/inspec/pull/3690) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Enhancements
+- Fix extra &#39;&amp;&amp;&#39; in windows functional tests, add diagnostics [#3717](https://github.com/inspec/inspec/pull/3717) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Support cran packages for non-utf8 locales [#3613](https://github.com/inspec/inspec/pull/3613) ([atward](https://github.com/atward))
+- Allow &#39;Proprietary&#39; as a valid license term. [#3729](https://github.com/inspec/inspec/pull/3729) ([james-stocks](https://github.com/james-stocks))
+
+#### Bug Fixes
+- Update Ruby versions used for testing; fix Travis CI issues [#3678](https://github.com/inspec/inspec/pull/3678) ([tas50](https://github.com/tas50))
+- postgres_session: Fix postgres directory searching on non-debian os [#3708](https://github.com/inspec/inspec/pull/3708) ([Cerebus](https://github.com/Cerebus))
+- Fix AWS tests found during ChefStyle spike [#3739](https://github.com/inspec/inspec/pull/3739) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Fix SSL tests by allowing multiple cipher counts [#3744](https://github.com/inspec/inspec/pull/3744) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- habitat package: Prevent world-writable files in gems [#3736](https://github.com/inspec/inspec/pull/3736) ([jaym](https://github.com/jaym))
+- iis_app_pool:  Fixes error with &#39;should not exist&#39; [#3740](https://github.com/inspec/inspec/pull/3740) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Merged Pull Requests
+- Stabilize profile export functional test [#3696](https://github.com/inspec/inspec/pull/3696) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Document additional usage of json resource [#3737](https://github.com/inspec/inspec/pull/3737) ([webframp](https://github.com/webframp))
+- Clean up unit test output [#3743](https://github.com/inspec/inspec/pull/3743) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- allow bundler 2.x and bump integration gems [#3723](https://github.com/inspec/inspec/pull/3723) ([lamont-granquist](https://github.com/lamont-granquist))
+- Drop bundler contstraint so system ruby on Jenkins can resolve [#3754](https://github.com/inspec/inspec/pull/3754) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update train pin so inspec builds may succeed [#3755](https://github.com/inspec/inspec/pull/3755) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v3.2.6](https://github.com/inspec/inspec/tree/v3.2.6) (2018-12-20)
 
 #### New Resources
@@ -58,7 +56,6 @@
 - Rebuild Hab package. [#3670](https://github.com/inspec/inspec/pull/3670) ([jquick](https://github.com/jquick))
 - Adjust version number for availability of aws_sqs_queue [#3685](https://github.com/inspec/inspec/pull/3685) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Add note to install from OS package when possible [#3686](https://github.com/inspec/inspec/pull/3686) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v3.1.3](https://github.com/inspec/inspec/tree/v3.1.3) (2018-12-13)
 
