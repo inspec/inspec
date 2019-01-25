@@ -1,5 +1,7 @@
 # encoding:utf-8
 
+require 'utils/deprecation'
+
 module Inspec
   class Attribute
     attr_accessor :name
@@ -21,8 +23,8 @@ module Inspec
         # output warn message if we are in a exec call
         Inspec::Log.warn(
           "Attribute '#{@name}' does not have a value. "\
-          "Use --attrs to provide a value for '#{@name}' or specify a default  "\
-          "value with `attribute('#{@name}', default: 'somedefault', ...)`.",
+          "Use --attrs to provide a value for '#{@name}' or specify a  "\
+          "value with `attribute('#{@name}', value: 'somevalue', ...)`.",
         ) if Inspec::BaseCLI.inspec_cli_command == :exec
       end
 
@@ -42,8 +44,12 @@ module Inspec
     def initialize(name, options = {})
       @name = name
       @opts = options
-      validate_value_type(default) if @opts.key?(:type) && @opts.key?(:default)
-      @value = nil
+      if @opts.key?(:default)
+        Inspec.deprecate(:attrs_value_replaces_default, "attribute name: '#{name}'")
+        @opts[:value] = @opts.delete(:default)
+      end
+      @value = @opts[:value]
+      validate_value_type(@value) if @opts.key?(:type) && @opts.key?(:value)
     end
 
     def value=(new_value)
@@ -54,7 +60,7 @@ module Inspec
     def value
       if @value.nil?
         validate_required(@value) if @opts[:required] == true
-        @value = default
+        @value = value_or_dummy
       else
         @value
       end
@@ -162,8 +168,8 @@ module Inspec
     end
     # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
-    def default
-      @opts.key?(:default) ? @opts[:default] : DEFAULT_ATTRIBUTE.new(@name)
+    def value_or_dummy
+      @opts.key?(:value) ? @opts[:value] : DEFAULT_ATTRIBUTE.new(@name)
     end
   end
 end

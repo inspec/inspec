@@ -2,5 +2,9 @@
   "file_version": "1.0.0",
   "unknown_group_action": "ignore",
   "groups": {
+    "attrs_value_replaces_default": {
+      "action": "ignore",
+      "prefix": "The 'default' option for attributes is being replaced by 'value' - please use it instead."
+    }
   }
 }
