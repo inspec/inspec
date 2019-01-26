@@ -31,6 +31,7 @@ module Inspec::DSL
   # This is called when an unknown method is encountered
   # "bare" in a control file - outside of a control or describe block.
   def method_missing(method_name, *arguments, &block)
+    require 'inspec/plugin/v2'
     # Check to see if there is a outer_profile_dsl plugin activator hook with the method name
     registry = Inspec::Plugin::V2::Registry.instance
     hook = registry.find_activators(plugin_type: :outer_profile_dsl, activator_name: method_name).first
