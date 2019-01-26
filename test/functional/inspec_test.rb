@@ -28,4 +28,16 @@ describe 'command tests' do
       out.exit_status.must_equal 0
     end
   end
+
+  describe 'help' do
+    it 'outputs the same message when using `help`, `--help`, or no args' do
+      outputs = [
+        inspec('help').stdout,
+        inspec('--help').stdout,
+        inspec('').stdout,
+      ]
+
+      outputs.uniq.length.must_equal 1
+    end
+  end
 end
