@@ -52,6 +52,16 @@ describe Inspec::Attribute do
       attribute.value = 'new_value'
       attribute.value.must_equal 'new_value'
     end
+
+    it 'accepts the legacy ":default" option' do
+      attribute = Inspec::Attribute.new('test_attribute', default: 'a_default')
+      attribute.value.must_equal 'a_default'
+    end
+
+    it 'accepts the legacy ":default" and ":value" options' do
+      attribute = Inspec::Attribute.new('test_attribute', default: 'a_default', value: 'a_value')
+      attribute.value.must_equal 'a_value'
+    end
   end
 
   describe 'validate required method' do

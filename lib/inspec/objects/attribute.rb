@@ -46,7 +46,12 @@ module Inspec
       @opts = options
       if @opts.key?(:default)
         Inspec.deprecate(:attrs_value_replaces_default, "attribute name: '#{name}'")
-        @opts[:value] = @opts.delete(:default)
+        if @opts.key?(:value)
+          Inspec::Log.warn "Attribute #{@name} created using both :default and :value options - ignoring :default"
+          @opts.delete(:default)
+        else
+          @opts[:value] = @opts.delete(:default)
+        end
       end
       @value = @opts[:value]
       validate_value_type(@value) if @opts.key?(:type) && @opts.key?(:value)
