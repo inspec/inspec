@@ -30,14 +30,42 @@ describe 'command tests' do
   end
 
   describe 'help' do
-    it 'outputs the same message when using `help`, `--help`, or no args' do
-      outputs = [
+    let(:outputs) {
+      [
         inspec('help').stdout,
         inspec('--help').stdout,
         inspec('').stdout,
       ]
+    }
 
+    it 'outputs the same message regardless of invocation' do
       outputs.uniq.length.must_equal 1
+    end
+
+    it 'outputs both core commands and v2 CLI plugins' do
+      commands = %w{
+        archive
+        artifact
+        check
+        compliance
+        detect
+        env
+        exec
+        habitat
+        help
+        init
+        json
+        plugin
+        shell
+        supermarket
+        vendor
+        version
+      }
+      outputs.each do |output|
+        commands.each do |subcommand|
+          output.must_include('inspec ' + subcommand)
+        end
+      end
     end
   end
 end
