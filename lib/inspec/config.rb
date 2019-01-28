@@ -25,8 +25,8 @@ module Inspec
     attr_reader :final_options
 
     # This makes it easy to make a config with a mock backend.
-    def self.mock
-      Inspec::Config.new({ backend: :mock }, StringIO.new('{}'))
+    def self.mock(opts = {})
+      Inspec::Config.new({ backend: :mock }.merge(opts), StringIO.new('{}'))
     end
 
     def initialize(cli_opts = {}, cfg_io = nil, command_name = nil)
