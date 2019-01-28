@@ -6,65 +6,80 @@ require 'inspec/objects/attribute'
 describe Inspec::Attribute do
   let(:attribute) { Inspec::Attribute.new('test_attribute') }
 
-  it 'returns the actual value, not the default, if one is assigned' do
-    attribute.value = 'new_value'
-    attribute.value.must_equal 'new_value'
-  end
-
   it 'support storing and returning false' do
     attribute.value = false
     attribute.value.must_equal false
   end
 
-  it 'returns the default value if no value is assigned' do
-    attribute.value.must_be_kind_of Inspec::Attribute::DEFAULT_ATTRIBUTE
-    attribute.value.to_s.must_equal "Attribute 'test_attribute' does not have a value. Skipping test."
-  end
-
-  it 'has a default value that can be called like a nested map' do
-    attribute.value['hello']['world'][1][2]['three'].wont_be_nil
-  end
-
-  it 'has a default value that can take any nested method calls' do
-    attribute.value.call.some.fancy.functions.wont_be_nil
-  end
-
-  describe 'attribute with a default value set' do
-    it 'returns the user-configured default value if no value is assigned' do
-      attribute = Inspec::Attribute.new('test_attribute', default: 'default_value')
-      attribute.value.must_equal 'default_value'
+  describe 'the dummy value used when value is not set' do
+    it 'returns the actual value, not the dummy object, if one is assigned' do
+      attribute.value = 'new_value'
+      attribute.value.must_equal 'new_value'
     end
 
-    it 'returns the user-configured default value if no value is assigned (nil)' do
-      attribute = Inspec::Attribute.new('test_attribute', default: nil)
+    it 'returns the dummy value if no value is assigned' do
+      attribute.value.must_be_kind_of Inspec::Attribute::DEFAULT_ATTRIBUTE
+      attribute.value.to_s.must_equal "Attribute 'test_attribute' does not have a value. Skipping test."
+    end
+
+    it 'has a dummy value that can be called like a nested map' do
+      attribute.value['hello']['world'][1][2]['three'].wont_be_nil
+    end
+
+    it 'has a dummy value that can take any nested method calls' do
+      attribute.value.call.some.fancy.functions.wont_be_nil
+    end
+  end
+
+  describe 'attribute with a value set' do
+    it 'returns the user-configured value' do
+      attribute = Inspec::Attribute.new('test_attribute', value: 'some_value')
+      attribute.value.must_equal 'some_value'
+    end
+
+    it 'returns the user-configured value if nil is explicitly assigned' do
+      attribute = Inspec::Attribute.new('test_attribute', value: nil)
       attribute.value.must_be_nil
     end
 
-    it 'returns the user-configured default value if no value is assigned (false)' do
-      attribute = Inspec::Attribute.new('test_attribute', default: false)
+    it 'returns the user-configured value if false is explicitly assigned' do
+      attribute = Inspec::Attribute.new('test_attribute', value: false)
       attribute.value.must_equal false
     end
 
-    it 'returns value if overriding the default' do
-      attribute = Inspec::Attribute.new('test_attribute', default: 'default_value')
-      attribute.value = 'test_value'
-      attribute.value.must_equal 'test_value'
+    it 'returns a new value if the value has been assigned by value=' do
+      attribute = Inspec::Attribute.new('test_attribute', value: 'original_value')
+      attribute.value = 'new_value'
+      attribute.value.must_equal 'new_value'
+    end
+
+    it 'accepts the legacy ":default" option' do
+      attribute = Inspec::Attribute.new('test_attribute', default: 'a_default')
+      attribute.value.must_equal 'a_default'
+    end
+
+    it 'accepts the legacy ":default" and ":value" options' do
+      attribute = Inspec::Attribute.new('test_attribute', default: 'a_default', value: 'a_value')
+      attribute.value.must_equal 'a_value'
     end
   end
 
   describe 'validate required method' do
-    it 'does not error if a default is set' do
-      attribute = Inspec::Attribute.new('test_attribute', default: 'default_value', required: true)
-      attribute.value.must_equal 'default_value'
+    it 'does not error if a value is set' do
+      attribute = Inspec::Attribute.new('test_attribute', value: 'some_value', required: true)
+      attribute.value.must_equal 'some_value'
     end
 
-    it 'does not error if a value is specified' do
+    it 'does not error if a value is specified by value=' do
       attribute = Inspec::Attribute.new('test_attribute', required: true)
       attribute.value = 'test_value'
       attribute.value.must_equal 'test_value'
     end
 
     it 'returns an error if no value is set' do
+      # Assigning the cli_command is needed because in check mode, we don't error
+      # on unset attributes. This is how you tell the attribute system we are not in
+      # check mode, apparently.
       Inspec::BaseCLI.inspec_cli_command = :exec
       attribute = Inspec::Attribute.new('test_attribute', required: true)
       ex = assert_raises(Inspec::Attribute::RequiredError) { attribute.value }

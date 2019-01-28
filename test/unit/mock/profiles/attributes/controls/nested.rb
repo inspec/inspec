@@ -9,9 +9,9 @@ attr_names = [
 attrs = {}
 attr_names.each do |attr_name|
   # Store as a symbol-fetched attribute
-  attrs[attr_name] = attribute(attr_name, default: "#{attr_name}_sym_default")
+  attrs[attr_name] = attribute(attr_name, value: "#{attr_name}_sym_default")
   # .. and store under a string name, as a string-fetched attribute!
-  attrs[attr_name.to_s] = attribute(attr_name.to_s, default: "#{attr_name}_str_default")
+  attrs[attr_name.to_s] = attribute(attr_name.to_s, value: "#{attr_name}_str_default")
 end
 
 # For now, these all use string keys, as that is normal InSpec behavior
