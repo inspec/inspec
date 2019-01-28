@@ -39,6 +39,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   class_option :disable_user_plugins, type: :string, banner: '',
     desc: 'Disable loading all plugins that the user installed.'
 
+  require 'license_acceptance/cli_flags/thor'
+  include LicenseAcceptance::CLIFlags::Thor
+
   desc 'json PATH', 'read all tests in PATH and generate a JSON summary'
   option :output, aliases: :o, type: :string,
     desc: 'Save the created profile to a path'
@@ -377,24 +380,32 @@ end
 #                        Pre-Flight Code
 #=====================================================================#
 
+help_commands = ['-h', '--help', 'help']
+
 #---------------------------------------------------------------------#
 # EULA acceptance
 #---------------------------------------------------------------------#
 require 'license_acceptance/acceptor'
-LicenseAcceptance::Acceptor.check_and_persist('inspec', Inspec::VERSION)
+begin
+  if (help_commands & ARGV.map(&:downcase)).empty?
+    LicenseAcceptance::Acceptor.check_and_persist('inspec', Inspec::VERSION)
+  end
+rescue LicenseAcceptance::LicenseNotAcceptedError
+  puts 'InSpec cannot execute without accepting the license'
+  exit 1
+end
 
 #---------------------------------------------------------------------#
 # Adjustments for help handling
-#---------------------------------------------------------------------#
 # This allows you to use any of the normal help commands after the normal args.
-  help_commands = ['-h', '--help', 'help']
-  (help_commands & ARGV).each do |cmd|
-    # move the help argument to one place behind the end for Thor to digest
-    if ARGV.size > 1
-      match = ARGV.delete(cmd)
-      ARGV.insert(-2, match)
-    end
+#---------------------------------------------------------------------#
+(help_commands & ARGV).each do |cmd|
+  # move the help argument to one place behind the end for Thor to digest
+  if ARGV.size > 1
+    match = ARGV.delete(cmd)
+    ARGV.insert(-2, match)
   end
+end
 
 
 #---------------------------------------------------------------------#
