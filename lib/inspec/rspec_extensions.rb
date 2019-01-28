@@ -17,7 +17,7 @@ module Inspec
       if hook
         # OK, load the hook if it hasn't been already.  We'll then know a module,
         # which we can then inject into the context
-        registry.activate(:describe_dsl, method_name) unless hook.activated?
+        hook.activate unless hook.activated?
 
         # Inject the module's methods into the example group contexts.
         # implementation_class is the field name, but this is actually a module.
@@ -46,7 +46,7 @@ module Inspec
       if hook
         # OK, load the hook if it hasn't been already.  We'll then know a module,
         # which we can then inject into the context
-        registry.activate(:test_dsl, method_name) unless hook.activated?
+        hook.activate unless hook.activated?
 
         # Inject the module's methods into the example group contexts.
         # implementation_class is the field name, but this is actually a module.
