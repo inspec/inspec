@@ -3,6 +3,7 @@
 # author: Dominik Richter
 
 require 'helper'
+require 'inspec/config'
 
 describe 'controls' do
   def load(content)
@@ -10,7 +11,7 @@ describe 'controls' do
       'inspec.yml' => "name: mock",
       'controls/mock.rb' => "control '1' do\n#{content}\nend\n",
     }
-    opts = { test_collector: Inspec::RunnerMock.new, backend: Inspec::Backend.create({ backend: 'mock' }) }
+    opts = { test_collector: Inspec::RunnerMock.new, backend: Inspec::Backend.create(Inspec::Config.mock) }
     Inspec::Profile.for_target(data, opts)
                    .params[:controls]['1']
   end
