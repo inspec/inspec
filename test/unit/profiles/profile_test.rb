@@ -90,6 +90,7 @@ describe Inspec::Profile do
     let(:profile_id) { 'windows-only' }
 
     it 'loads our profile but skips loading controls' do
+      skip 'Mock loader always supports all platforms - bad test, ref #3750 '
       info = MockLoader.load_profile(profile_id).info
       info[:controls].must_be_empty
     end
