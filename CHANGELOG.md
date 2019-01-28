@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 3.4.0 -->
+## [v3.4.0](https://github.com/inspec/inspec/tree/v3.4.0) (2019-01-28)
+
+#### New Features
+- Allow :value in addition to :default for setting attribute values [#3759](https://github.com/inspec/inspec/pull/3759) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.3.14 -->
+### Changes since 3.3.14 release
+
+#### New Features
+- Allow :value in addition to :default for setting attribute values [#3759](https://github.com/inspec/inspec/pull/3759) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.4.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
