@@ -7,15 +7,15 @@ require 'thor'
 describe 'BaseCLI' do
   let(:cli) { Inspec::BaseCLI.new }
 
-  describe 'detect command' do
-    it 'verify platform detect' do
+  describe 'formats the platfrom information' do
+    it 'verify platform formatting' do
       hash = { name: 'test-os', families: 'aws, cloud', release: 'aws-sdk-v1' }
       expect = <<EOF
   Name:      \e[1m\e[35mtest-os\e[0m
   Families:  \e[1m\e[35maws, cloud\e[0m
   Release:   \e[1m\e[35maws-sdk-v1\e[0m
 EOF
-      _(Inspec::BaseCLI.detect(params: hash, indent: 2, color: 35)).must_equal expect
+      _(Inspec::BaseCLI.format_platform_info(params: hash, indent: 2, color: 35)).must_equal expect
     end
   end
 
