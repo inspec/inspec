@@ -12,13 +12,11 @@ require 'inspec/objects/input'
 
 module Inspec
   class ProfileContext
-    def self.for_profile(profile, backend, inputs)
-      new(profile.name, backend, { 'profile' => profile,
-                                   'inputs' => inputs,
-                                   'check_mode' => profile.check_mode })
+    def self.for_profile(profile, backend)
+      new(profile.name, backend, { 'profile' => profile, 'check_mode' => profile.check_mode })
     end
 
-    attr_reader :inputs, :backend, :profile_name, :profile_id, :resource_registry
+    attr_reader :backend, :profile_name, :profile_id, :resource_registry
     attr_accessor :rules
     def initialize(profile_id, backend, conf)
       if backend.nil?
@@ -35,12 +33,17 @@ module Inspec
       @lib_subcontexts = []
       @require_loader = ::Inspec::RequireLoader.new
       Inspec::InputRegistry.register_profile_alias(@profile_id, @profile_name) if @profile_id != @profile_name
-      @inputs = Inspec::InputRegistry.list_inputs_for_profile(@profile_id)
+      # TODO: consider polling input source plugins; this is a bulk fetch opportunity
+
       # A local resource registry that only contains resources defined
       # in the transitive dependency tree of the loaded profile.
       @resource_registry = Inspec::Resource.new_registry
       @library_eval_context = Inspec::LibraryEvalContext.create(@resource_registry, @require_loader)
       @current_load = nil
+    end
+
+    def attributes
+      Inspec::AttributeRegistry.list_attributes_for_profile(@profile_id)
     end
 
     def dependencies
@@ -185,13 +188,6 @@ module Inspec
       else
         Inspec::Rule.merge(existing, r)
       end
-    end
-
-    def register_input(name, options = {})
-      # we need to return an input object, to allow dermination of values
-      input = Inspec::InputRegistry.register_input(name, @profile_id, options)
-      input.value = @conf['inputs'][name] unless @conf['inputs'].nil? || @conf['inputs'][name].nil?
-      input.value
     end
 
     def set_header(field, val)

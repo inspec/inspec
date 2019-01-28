@@ -118,25 +118,24 @@ module Inspec
       @runtime_profile = RuntimeProfile.new(self)
       @backend.profile = @runtime_profile
 
+      # The AttributeRegistry is in charge of keeping track of inputs;
+      # it is the single source of truth. Now that we have a profile object,
+      # we can create any inputs that were provided by various mechanisms.
+      Inspec::AttributeRegistry.bind_profile_inputs(
+        profile: self, # Every input only exists in the context of a profile
+        # Remaining args are possible sources of inputs
+        # TODO: deprecation checks throughout
+        cli_attr_files: options[:attrs],
+        profile_metadata: metadata,
+        runner_api: options[:attributes], # This is the route the audit_cookbook and kitchen-inspec take
+      )
+
       @runner_context =
         options[:profile_context] ||
-        Inspec::ProfileContext.for_profile(self, @backend, @input_values)
+        Inspec::ProfileContext.for_profile(self, @backend)
 
       @supports_platform = metadata.supports_platform?(@backend)
       @supports_runtime = metadata.supports_runtime?
-      register_metadata_inputs
-    end
-
-    def register_metadata_inputs # TODO: deprecate
-      if metadata.params.key?(:attributes) && metadata.params[:attributes].is_a?(Array)
-        metadata.params[:attributes].each do |attribute|
-          attr_dup = attribute.dup
-          name = attr_dup.delete(:name)
-          @runner_context.register_input(name, attr_dup)
-        end
-      elsif metadata.params.key?(:attributes)
-        Inspec::Log.warn 'Inputs must be defined as an Array. Skipping current definition.'
-      end
     end
 
     def name
