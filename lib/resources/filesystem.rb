@@ -1,6 +1,5 @@
 module Inspec::Resources
   class FileSystemResource < Inspec.resource(1)
-    require "csv"
     name 'filesystem'
     supports platform: 'linux'
     supports platform: 'windows'
