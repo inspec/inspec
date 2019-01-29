@@ -46,7 +46,7 @@ inspec exec test.rb -t docker://container_id
 
 ## Installation
 
-InSpec requires Ruby ( >2.2 ).
+InSpec requires Ruby ( >2.3 ).
 
 ### Install as package
 
