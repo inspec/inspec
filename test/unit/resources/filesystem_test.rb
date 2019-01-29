@@ -7,6 +7,8 @@ describe 'Inspec::Resources::FileSystemResource' do
     resource = MockLoader.new(:ubuntu1404).load_resource('filesystem','/') 
     _(resource.size).must_be :>=, 1
     _(resource.name).must_equal '/'
+    _(resource.type).must_equal 'ext4'
+    _(resource.free).must_be :>=, 1
   end
   
   # arch windows
@@ -14,6 +16,8 @@ describe 'Inspec::Resources::FileSystemResource' do
     resource = MockLoader.new(:windows).load_resource('filesystem','c:')
     _(resource.size).must_be :>=, 1
     _(resource.name).must_equal 'c:'
+    _(resource.type).must_equal 'NTFS'
+    _(resource.free).must_be :>=, 1
   end
 
   # unsuported os

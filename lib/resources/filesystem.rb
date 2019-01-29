@@ -1,5 +1,6 @@
 module Inspec::Resources
   class FileSystemResource < Inspec.resource(1)
+    require "csv"
     name 'filesystem'
     supports platform: 'linux'
     supports platform: 'windows'
@@ -7,11 +8,13 @@ module Inspec::Resources
     example "
       describe filesystem('/') do
         its('size') { should be >= 32000 }
-        its('type') { should eq false }
+        its('free') { should be >= 3200 }
+        its('type') { should cmp 'ext4' }
       end
       describe filesystem('c:') do
         its('size') { should be >= 90 }
-        its('type') { should eq 'NTFS' }
+        its('free') { should be >= 3200 }
+        its('type') { should cmp 'NTFS' }
       end
     "
     attr_reader :partition
@@ -47,6 +50,11 @@ module Inspec::Resources
       info[:size]
     end
 
+    def free
+      info = @fsman.info(@partition)
+      info[:free]
+    end
+
     def type
       info = @fsman.info(@partition)
       info[:type]
@@ -67,13 +75,14 @@ module Inspec::Resources
 
   class LinuxFileSystemResource < FsManagement
     def info(partition)
-      cmd = inspec.command("df #{partition} --output=size")
+      cmd = inspec.command("df #{partition} -T")
       raise Inspec::Exceptions::ResourceFailed, "Unable to get available space for partition #{partition}" if cmd.stdout.nil? || cmd.stdout.empty? || !cmd.exit_status.zero?
-      value = cmd.stdout.gsub(/\dK-blocks[\r\n]/, '').strip
+      value = cmd.stdout.split(/\n/)[1].strip.split(" ")
       {
         name: partition,
-        size: value.to_i,
-        type: false,
+        size: value[2].to_i,
+        free: value[4].to_i,
+        type: value[1].to_s,
       }
     end
   end
@@ -83,7 +92,7 @@ module Inspec::Resources
       cmd = inspec.command <<-EOF.gsub(/^\s*/, '')
         $disk = Get-WmiObject Win32_LogicalDisk -Filter "DeviceID='#{partition}'"
         $disk.Size = $disk.Size / 1GB
-        $disk | select -property DeviceID,Size,FileSystem | ConvertTo-Json
+        $disk | select -property DeviceID,Size,FileSystem,FreeSpace | ConvertTo-Json
       EOF
 
       raise Inspec::Exceptions::ResourceSkipped, "Unable to get available space for partition #{partition}" if cmd.stdout == '' || cmd.exit_status.to_i != 0
@@ -97,6 +106,7 @@ module Inspec::Resources
       {
         name: fs['DeviceID'],
         size: fs['Size'].to_i,
+        free: fs['FreeSpace'].to_i,
         type: fs['FileSystem'],
       }
     end
