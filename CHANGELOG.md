@@ -1,23 +1,21 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.4.1 -->
-## [v3.4.1](https://github.com/inspec/inspec/tree/v3.4.1) (2019-01-29)
-
-#### Merged Pull Requests
-- Update Ruby requirement in README [#3766](https://github.com/inspec/inspec/pull/3766) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.3.14 -->
-### Changes since 3.3.14 release
-
-#### Merged Pull Requests
-- Update Ruby requirement in README [#3766](https://github.com/inspec/inspec/pull/3766) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.4.1 -->
-
-#### New Features
-- Allow :value in addition to :default for setting attribute values [#3759](https://github.com/inspec/inspec/pull/3759) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.4.0 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.4.1](https://github.com/inspec/inspec/tree/v3.4.1) (2019-01-29)
+
+#### New Features
+- Allow :value in addition to :default for setting attribute values [#3759](https://github.com/inspec/inspec/pull/3759) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Update Ruby requirement in README [#3766](https://github.com/inspec/inspec/pull/3766) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v3.3.14](https://github.com/inspec/inspec/tree/v3.3.14) (2019-01-25)
 
 #### New Resources
@@ -46,7 +44,6 @@
 - allow bundler 2.x and bump integration gems [#3723](https://github.com/inspec/inspec/pull/3723) ([lamont-granquist](https://github.com/lamont-granquist))
 - Drop bundler contstraint so system ruby on Jenkins can resolve [#3754](https://github.com/inspec/inspec/pull/3754) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Update train pin so inspec builds may succeed [#3755](https://github.com/inspec/inspec/pull/3755) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v3.2.6](https://github.com/inspec/inspec/tree/v3.2.6) (2018-12-20)
 
