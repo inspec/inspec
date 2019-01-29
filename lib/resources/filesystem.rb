@@ -76,7 +76,7 @@ module Inspec::Resources
     def info(partition)
       cmd = inspec.command("df #{partition} -T")
       raise Inspec::Exceptions::ResourceFailed, "Unable to get available space for partition #{partition}" if cmd.stdout.nil? || cmd.stdout.empty? || !cmd.exit_status.zero?
-      value = cmd.stdout.split(/\n/)[1].strip.split(" ")
+      value = cmd.stdout.split(/\n/)[1].strip.split(' ')
       {
         name: partition,
         size: value[2].to_i,
