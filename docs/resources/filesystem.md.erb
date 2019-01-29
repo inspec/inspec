@@ -25,12 +25,15 @@ A `filesystem` resource block declares tests for disk space in a partition:
 
     describe filesystem('/') do
       its('size') { should be >= 32000 }
+      its('free') { should be >= 5000000 }
+      its('type') { should cmp 'ext4' }
     end
 
 where
 
 * `filesystem('/')` states that the resource will look at the root (/) partition.
-* `size` is measured in kilobytes (KB).
+* `size` is the total partition size and is measured in kilobytes (KB).
+* `free` is the available space on the partition and is measured in kilobytes (KB).
 
 <br>
 
@@ -42,6 +45,22 @@ The following examples show how to use this InSpec audit resource.
 
     describe filesystem('/') do
       its('size') { should be >= 32000 }
+    end
+
+<br>
+
+### Test that the root partition has more than 5GB free
+
+    describe filesystem('/') do
+      its('free') { should be >= 5000000 }
+    end
+
+<br>
+
+### Test if the C:\ partition is NTFS
+
+    describe filesystem('c:\') do
+      its('type') { should cmp 'NTFS' }
     end
 
 <br>
