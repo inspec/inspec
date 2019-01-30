@@ -93,7 +93,7 @@ module Inspec
     def to_ruby
       res = ["#{ruby_var_identifier} = attribute('#{@name}',{"]
       res.push "  title: '#{title}'," unless title.to_s.empty?
-      res.push "  default: #{default.inspect}," unless default.to_s.empty?
+      res.push "  value: #{value.inspect}," unless value.to_s.empty?
       res.push "  description: '#{description}'," unless description.to_s.empty?
       res.push '})'
       res.join("\n")

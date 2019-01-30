@@ -225,4 +225,16 @@ describe Inspec::Attribute do
       attribute.send(:valid_numeric?, '1/2').must_equal false
     end
   end
+
+  describe 'to_ruby method' do
+    it 'generates the code for the attribute' do
+      attribute = Inspec::Attribute.new('application_port', description: 'The port my application uses', value: 80)
+      attribute.to_ruby.must_equal <<-RUBY.chomp
+attr_application_port = attribute('application_port',{
+  value: 80,
+  description: 'The port my application uses',
+})
+RUBY
+    end
+  end
 end
