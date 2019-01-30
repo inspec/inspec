@@ -1,10 +1,10 @@
 name: invalid-include-controls
-title: InSpec Profile
+title: Invalid Include Controls
 maintainer: The Authors
 copyright: The Authors
-copyright_email: you@example.com
+copyright_email: humans@chef.io
 license: Apache-2.0
-summary: An InSpec Compliance Profile
+summary: This profile contains an `include_controls` line with a invalid reference
 version: 0.1.0
 supports:
   platform: os
