@@ -55,17 +55,17 @@ module Inspec::DSL
     profile_id = opts[:profile_id]
     dep_entry = dependencies.list[profile_id]
 
-    # do not load any controls if the profile is not supported
-    return unless dep_entry.profile.supports_platform?
-
     if dep_entry.nil?
       raise <<~EOF
-        Cannot load #{profile_id} since it is not listed as a dependency of #{bind_context.profile_name}.
+        Cannot load '#{profile_id}' since it is not listed as a dependency of #{bind_context.profile_name}.
 
         Dependencies available from this context are:
             #{dependencies.list.keys.join("\n    ")}
       EOF
     end
+
+    # Do not load any controls if the profile is not supported
+    return unless dep_entry.profile.supports_platform?
 
     context = dep_entry.profile.runner_context
     # if we don't want all the rules, then just make 1 pass to get all rule_IDs

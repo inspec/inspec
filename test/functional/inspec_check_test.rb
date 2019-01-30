@@ -88,6 +88,15 @@ describe 'inspec check' do
       out.exit_status.must_equal 1
       out.stdout.must_include 'inspec.yml and inspec.lock are out-of-sync. Please re-vendor with `inspec vendor`.'
       out.stdout.must_include 'Cannot find linux-baseline in lockfile. Please re-vendor with `inspec vendor`.'
-    end    
+    end
+  end
+
+  describe 'inspec check with invalid `include_controls` reference' do
+    it 'raises an error matching /Cannot load \'invalid_name\'/' do
+      invalid_profile = File.join(profile_path, 'invalid-include-controls')
+      out = inspec('check ' + invalid_profile)
+      out.exit_status.must_equal 1
+      out.stderr.must_match /Cannot load 'invalid_name'/
+    end
   end
 end
