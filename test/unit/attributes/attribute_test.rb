@@ -225,4 +225,26 @@ describe Inspec::Attribute do
       attribute.send(:valid_numeric?, '1/2').must_equal false
     end
   end
+
+  describe 'to_ruby method' do
+    it 'generates the code for the attribute' do
+      attribute = Inspec::Attribute.new('application_port', description: 'The port my application uses', value: 80)
+
+      ruby_code = attribute.to_ruby
+      ruby_code.must_include "attr_application_port = " # Should assign to a var
+      ruby_code.must_include "attribute('application_port'" # Should have the DSL call
+      ruby_code.must_include 'value: 80'
+      ruby_code.must_include 'default: 80'
+      ruby_code.must_include "description: 'The port my application uses'"
+
+      # Try to eval the code to verify that the generated code was valid ruby.
+      # Note that the attribute() method is part of the DSL, so we need to
+      # alter the call into something that can respond - the constructor will do
+      ruby_code_for_eval = ruby_code.sub(/attribute\(/,'Inspec::Attribute.new(')
+
+      # This will throw exceptions if there is a problem
+      new_attr = eval(ruby_code_for_eval) # Could use ripper!
+      new_attr.value.must_equal 80
+    end
+  end
 end

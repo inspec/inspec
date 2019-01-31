@@ -93,7 +93,11 @@ module Inspec
     def to_ruby
       res = ["#{ruby_var_identifier} = attribute('#{@name}',{"]
       res.push "  title: '#{title}'," unless title.to_s.empty?
-      res.push "  default: #{default.inspect}," unless default.to_s.empty?
+      res.push "  value: #{value.inspect}," unless value.to_s.empty?
+      # to_ruby may generate code that is to be used by older versions of inspec.
+      # Anything older than 3.4 will not recognize the value: option, so
+      # send the default: option as well. See #3759
+      res.push "  default: #{value.inspect}," unless value.to_s.empty?
       res.push "  description: '#{description}'," unless description.to_s.empty?
       res.push '})'
       res.join("\n")
