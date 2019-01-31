@@ -3,6 +3,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 require 'inspec/log'
+require 'inspec/plugin/v2'
 
 module Inspec::DSL
   def require_controls(id, &block)

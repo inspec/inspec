@@ -1,8 +1,13 @@
 require 'inspec/base_cli'
 
+# The InSpec load order has this file being loaded before `inspec/base_cli` can
+# finish being loaded. So, we must define Inspec::BaseCLI here first to avoid
+# a NameError below.
+class Inspec::BaseCLI < Thor; end
+
 module Inspec::Plugin::V2::PluginType
   class CliCommand < Inspec::BaseCLI
-    # initalize log options for plugins
+    # initialize log options for plugins
     def initialize(args, options, config)
       super(args, options, config)
       class_options = config.fetch(:class_options, nil)
