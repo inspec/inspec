@@ -1,10 +1,6 @@
 # encoding: utf-8
 source 'https://rubygems.org'
 
-# Temporary
-# gem 'train', path: '../train'
-gem 'train', git: 'https://github.com/inspec/train.git', branch: 'cw/cred-set-support'
-
 gemspec name: 'inspec'
 
 gem 'ffi', '>= 1.9.14'
