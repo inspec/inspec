@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 3.4.2 -->
+## [v3.4.2](https://github.com/inspec/inspec/tree/v3.4.2) (2019-01-31)
+
+#### Merged Pull Requests
+- Fix Inspec::Attribute.to_ruby and add unit test [#3773](https://github.com/inspec/inspec/pull/3773) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.4.1 -->
+### Changes since 3.4.1 release
+
+#### Merged Pull Requests
+- Fix Inspec::Attribute.to_ruby and add unit test [#3773](https://github.com/inspec/inspec/pull/3773) ([james-stocks](https://github.com/james-stocks)) <!-- 3.4.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
