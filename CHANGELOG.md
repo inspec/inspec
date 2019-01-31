@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.4.3 -->
-## [v3.4.3](https://github.com/inspec/inspec/tree/v3.4.3) (2019-01-31)
+<!-- latest_release 3.4.4 -->
+## [v3.4.4](https://github.com/inspec/inspec/tree/v3.4.4) (2019-01-31)
 
 #### Bug Fixes
-- tests: Fix profile_context_test NameError [#3758](https://github.com/inspec/inspec/pull/3758) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Add `--help` to CLI plugin activation criteria [#3757](https://github.com/inspec/inspec/pull/3757) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.4.1 -->
 ### Changes since 3.4.1 release
 
 #### Bug Fixes
+- Add `--help` to CLI plugin activation criteria [#3757](https://github.com/inspec/inspec/pull/3757) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.4.4 -->
 - tests: Fix profile_context_test NameError [#3758](https://github.com/inspec/inspec/pull/3758) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.4.3 -->
 
 #### Merged Pull Requests
