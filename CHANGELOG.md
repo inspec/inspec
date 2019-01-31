@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.4.2 -->
-## [v3.4.2](https://github.com/inspec/inspec/tree/v3.4.2) (2019-01-31)
+<!-- latest_release 3.4.3 -->
+## [v3.4.3](https://github.com/inspec/inspec/tree/v3.4.3) (2019-01-31)
 
-#### Merged Pull Requests
-- Fix Inspec::Attribute.to_ruby and add unit test [#3773](https://github.com/inspec/inspec/pull/3773) ([james-stocks](https://github.com/james-stocks))
+#### Bug Fixes
+- tests: Fix profile_context_test NameError [#3758](https://github.com/inspec/inspec/pull/3758) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.4.1 -->
 ### Changes since 3.4.1 release
+
+#### Bug Fixes
+- tests: Fix profile_context_test NameError [#3758](https://github.com/inspec/inspec/pull/3758) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.4.3 -->
 
 #### Merged Pull Requests
 - Fix Inspec::Attribute.to_ruby and add unit test [#3773](https://github.com/inspec/inspec/pull/3773) ([james-stocks](https://github.com/james-stocks)) <!-- 3.4.2 -->
