@@ -9,11 +9,13 @@ module Inspec::Resources
         its('size') { should be >= 32000 }
         its('free') { should be >= 3200 }
         its('type') { should cmp 'ext4' }
+        its('percent_free') { should be >= 20 }
       end
       describe filesystem('c:') do
         its('size') { should be >= 90 }
         its('free') { should be >= 3200 }
         its('type') { should cmp 'NTFS' }
+        its('percent_free') { should be >= 20 }
       end
     "
     attr_reader :partition
@@ -52,6 +54,11 @@ module Inspec::Resources
     def free
       info = @fsman.info(@partition)
       info[:free]
+    end
+
+    def percent_free
+      info = @fsman.info(@partition)
+      100 * info[:free] / info[:size]
     end
 
     def type

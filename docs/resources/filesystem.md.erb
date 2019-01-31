@@ -26,6 +26,7 @@ A `filesystem` resource block declares tests for disk space in a partition:
     describe filesystem('/') do
       its('size') { should be >= 32000 }
       its('free') { should be >= 5000000 }
+      its('percent_free') { should be >= 20 }
       its('type') { should cmp 'ext4' }
     end
 
@@ -34,6 +35,7 @@ where
 * `filesystem('/')` states that the resource will look at the root (/) partition.
 * `size` is the total partition size and is measured in kilobytes (KB).
 * `free` is the available space on the partition and is measured in kilobytes (KB).
+* `percent_free` is the percentage of available free space, and ranges from 0 to 100.
 
 <br>
 
@@ -64,6 +66,12 @@ The following examples show how to use this InSpec audit resource.
     end
 
 <br>
+
+### Test if the /var partition has sufficient free space
+
+    describe filesystem('/var') do
+      its('percent_free') { should be >= 20 }
+    end
 
 ## Matchers
 
