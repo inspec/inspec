@@ -89,13 +89,9 @@ module Inspec::Plugin::V2
         # all following ||= ops.
         activate_me = false
 
-        # If the user invoked `inspec help`, activate all CLI plugins, so they can
-        # display their usage message.
-        activate_me ||= cli_args.first == 'help'
-
-        # Likewise, if they invoked simply `inspec`, they are confused, and need
-        # usage info.
-        activate_me ||= cli_args.empty?
+        # If the user invoked `inspec help`, `inspec --help`, or only `inspec`
+        # then activate all CLI plugins so they can display their usage message.
+        activate_me ||= ['help', '--help', nil].include?(cli_args.first)
 
         # If there is anything in the CLI args with the same name, activate it.
         # This is the expected usual activation for individual plugins.
