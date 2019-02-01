@@ -19,6 +19,8 @@ This resource is distributed along with InSpec itself. You can use it automatica
 
 This resource first became available in v1.51.0 of InSpec.
 
+The `free_kb`, `size_kb`, and `type` properties became available in v3.6 of InSpec.
+
 ### Note
 
 Versions of this resource in InSpec prior to 3.5.x offered a property `size`, which returned a value in GB when on Windows and a value in KB on Linux, though it was documented to always return KB.  All new code should use `size_kb` which is unit-stable.
@@ -28,8 +30,8 @@ Versions of this resource in InSpec prior to 3.5.x offered a property `size`, wh
 A `filesystem` resource block declares tests for disk space in a partition:
 
     describe filesystem('/') do
-      its('size_kb') { should be >= 32000 }
-      its('free') { should be >= 5000000 }
+      its('size_kb') { should be >= 32 * 1024 * 1024}
+      its('free_kb') { should be >= 50 * 1024 }
       its('percent_free') { should be >= 20 }
       its('type') { should cmp 'ext4' }
     end
@@ -38,7 +40,7 @@ where
 
 * `filesystem('/')` states that the resource will look at the root (/) partition.
 * `size_kb` is the total partition size and is measured in kilobytes (KB).
-* `free` is the available space on the partition and is measured in kilobytes (KB).
+* `free_kb` is the available space on the partition and is measured in kilobytes (KB).
 * `percent_free` is the percentage of available free space, and ranges from 0 to 100.
 
 <br>
@@ -58,7 +60,7 @@ The following examples show how to use this InSpec audit resource.
 ### Test that the root partition has more than 5GB free
 
     describe filesystem('/') do
-      its('free') { should be >= 5000000 }
+      its('free_kb') { should be >= 5000000 }
     end
 
 <br>

@@ -6,14 +6,14 @@ module Inspec::Resources
     desc 'Use the filesystem InSpec resource to test file system'
     example "
       describe filesystem('/') do
-        its('size') { should be >= 32000 }
-        its('free') { should be >= 3200 }
+        its('size_kb') { should be >= 32000 }
+        its('free_kb') { should be >= 3200 }
         its('type') { should cmp 'ext4' }
         its('percent_free') { should be >= 20 }
       end
       describe filesystem('c:') do
-        its('size') { should be >= 90 }
-        its('free') { should be >= 3200 }
+        its('size_kb') { should be >= 9000 }
+        its('free_kb') { should be >= 3200 }
         its('type') { should cmp 'NTFS' }
         its('percent_free') { should be >= 20 }
       end
@@ -63,13 +63,13 @@ module Inspec::Resources
       end
     end
 
-    def free
+    def free_kb
       info = @fsman.info(@partition)
       info[:free_kb]
     end
 
     def percent_free
-      100 * free / size_kb
+      100 * free_kb / size_kb
     end
 
     def type
