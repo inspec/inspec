@@ -1,29 +1,27 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.5.0 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v3.5.0](https://github.com/inspec/inspec/tree/v3.5.0) (2019-02-01)
 
 #### New Features
 - Add CLI options to disable loading plugins [#3751](https://github.com/inspec/inspec/pull/3751) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_release -->
-
-<!-- release_rollup since=3.4.1 -->
-### Changes since 3.4.1 release
-
-#### New Features
-- Add CLI options to disable loading plugins [#3751](https://github.com/inspec/inspec/pull/3751) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.5.0 -->
 
 #### Bug Fixes
-- More meaningful error when including controls from a missing dependency [#3770](https://github.com/inspec/inspec/pull/3770) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.4.5 -->
-- Add `--help` to CLI plugin activation criteria [#3757](https://github.com/inspec/inspec/pull/3757) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.4.4 -->
-- tests: Fix profile_context_test NameError [#3758](https://github.com/inspec/inspec/pull/3758) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.4.3 -->
+- tests: Fix profile_context_test NameError [#3758](https://github.com/inspec/inspec/pull/3758) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Add `--help` to CLI plugin activation criteria [#3757](https://github.com/inspec/inspec/pull/3757) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- More meaningful error when including controls from a missing dependency [#3770](https://github.com/inspec/inspec/pull/3770) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 
 #### Merged Pull Requests
-- Temporarily pin train to 1.7.1 [#3775](https://github.com/inspec/inspec/pull/3775) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.4.6 -->
-- Fix Inspec::Attribute.to_ruby and add unit test [#3773](https://github.com/inspec/inspec/pull/3773) ([james-stocks](https://github.com/james-stocks)) <!-- 3.4.2 -->
-<!-- release_rollup -->
-
+- Fix Inspec::Attribute.to_ruby and add unit test [#3773](https://github.com/inspec/inspec/pull/3773) ([james-stocks](https://github.com/james-stocks))
+- Temporarily pin train to 1.7.1 [#3775](https://github.com/inspec/inspec/pull/3775) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_stable_release -->
+
 ## [v3.4.1](https://github.com/inspec/inspec/tree/v3.4.1) (2019-01-29)
 
 #### New Features
@@ -31,7 +29,6 @@
 
 #### Merged Pull Requests
 - Update Ruby requirement in README [#3766](https://github.com/inspec/inspec/pull/3766) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v3.3.14](https://github.com/inspec/inspec/tree/v3.3.14) (2019-01-25)
 
