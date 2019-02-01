@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.4.5 -->
-## [v3.4.5](https://github.com/inspec/inspec/tree/v3.4.5) (2019-01-31)
+<!-- latest_release 3.4.6 -->
+## [v3.4.6](https://github.com/inspec/inspec/tree/v3.4.6) (2019-02-01)
 
-#### Bug Fixes
-- More meaningful error when including controls from a missing dependency [#3770](https://github.com/inspec/inspec/pull/3770) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Merged Pull Requests
+- Temporarily pin train to 1.7.1 [#3775](https://github.com/inspec/inspec/pull/3775) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.4.1 -->
@@ -16,6 +16,7 @@
 - tests: Fix profile_context_test NameError [#3758](https://github.com/inspec/inspec/pull/3758) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.4.3 -->
 
 #### Merged Pull Requests
+- Temporarily pin train to 1.7.1 [#3775](https://github.com/inspec/inspec/pull/3775) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.4.6 -->
 - Fix Inspec::Attribute.to_ruby and add unit test [#3773](https://github.com/inspec/inspec/pull/3773) ([james-stocks](https://github.com/james-stocks)) <!-- 3.4.2 -->
 <!-- release_rollup -->
 
