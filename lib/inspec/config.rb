@@ -143,6 +143,7 @@ module Inspec
     # Regardless of our situation, end up with a readable IO object
     def resolve_cfg_io(cli_opts, cfg_io)
       raise(ArgumentError, 'Inspec::Config must use an IO to read from') if cfg_io && !cfg_io.respond_to?(:read)
+      cfg_io ||= check_for_piped_config(cli_opts)
       return cfg_io if cfg_io
 
       path = determine_cfg_path(cli_opts)
@@ -151,13 +152,20 @@ module Inspec
       cfg_io || StringIO.new('{ "version": "1.1" }')
     end
 
+    def check_for_piped_config(cli_opts)
+      cli_opt = cli_opts[:config] || cli_opts[:json_config]
+      return nil unless cli_opt
+      return nil unless cli_opt == '-'
+      # This warning is here so that if a user invokes inspec with --config=-,
+      # they will have an explanation for why it appears to hang.
+      Inspec::Log.warn 'Reading JSON config from standard input' if STDIN.tty?
+      STDIN
+    end
+
     def determine_cfg_path(cli_opts)
       path = cli_opts[:config] || cli_opts[:json_config] # TODO: deprecate --json-config see #3661
 
-      if path == '-'
-        Inspec::Log.warn 'Reading JSON config from standard input' if STDIN.tty?
-        path = STDIN
-      elsif path.nil?
+      if path.nil?
         default_path = File.join(Inspec.config_dir, 'config.json')
         path = default_path if File.exist?(default_path)
       elsif !File.exist?(path)

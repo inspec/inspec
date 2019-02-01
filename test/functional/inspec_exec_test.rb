@@ -580,17 +580,24 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       end
     end
 
-    # TODO - Use bash redirection to populate STDIN
-    # unless windows?
-    #   describe 'when using the --config option to read from STDIN' do
-    #     let(:cli_args) { '--config ' + File.join(config_dir_path, 'json-config', 'good.json') }
-    #     it 'should see the custom target ID value' do
-    #       stderr.must_be_empty
-    #       seen_target_id.must_equal 'from-config-file'
-    #       # TODO
-    #     end
-    #   end
-    # end
+    unless windows?
+      describe 'when using the --config option to read from STDIN' do
+        let(:json_path) { File.join(config_dir_path, 'json-config', 'good.json') }
+        let(:cli_args) { '--config -' }
+        let(:run_result) do
+          prefix = 'cat ' + json_path + ' | '
+          simple_profile = File.join(profile_path, 'simple-metadata')
+          run_inspec_process(
+            'exec ' + simple_profile + ' ' + cli_args + ' ',
+            { prefix: prefix, json: true, env: env }
+          )
+        end
+        it 'should see the custom target ID value' do
+          stderr.must_be_empty
+          seen_target_id.must_equal 'from-config-file'
+        end
+      end
+    end
 
     describe 'when reading from the default location' do
       # Should read from File.join(config_dir_path, 'fakehome-2', '.inspec', 'config.json')
