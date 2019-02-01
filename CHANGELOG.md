@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.4.6 -->
-## [v3.4.6](https://github.com/inspec/inspec/tree/v3.4.6) (2019-02-01)
+<!-- latest_release 3.5.0 -->
+## [v3.5.0](https://github.com/inspec/inspec/tree/v3.5.0) (2019-02-01)
 
-#### Merged Pull Requests
-- Temporarily pin train to 1.7.1 [#3775](https://github.com/inspec/inspec/pull/3775) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### New Features
+- Add CLI options to disable loading plugins [#3751](https://github.com/inspec/inspec/pull/3751) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.4.1 -->
 ### Changes since 3.4.1 release
+
+#### New Features
+- Add CLI options to disable loading plugins [#3751](https://github.com/inspec/inspec/pull/3751) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.5.0 -->
 
 #### Bug Fixes
 - More meaningful error when including controls from a missing dependency [#3770](https://github.com/inspec/inspec/pull/3770) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.4.5 -->
