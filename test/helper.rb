@@ -551,7 +551,7 @@ class MockLoader
       'apk info -vv --no-network | grep git' => cmd.call('apk-info-grep-git'),
 
       # filesystem command
-      '3744388bdaf198fad4754076ed3a2250fef2097171f68a4c9e3a830ff2637926' => cmd.call('get-wmiobject-filesystem'),
+      '2e7e0d4546342cee799748ec7e2b1c87ca00afbe590fa422a7c27371eefa88f0' => cmd.call('get-wmiobject-filesystem'),
     }
 
     # ports on linux

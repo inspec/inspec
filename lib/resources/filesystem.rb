@@ -46,19 +46,30 @@ module Inspec::Resources
       "FileSystem #{@partition}"
     end
 
-    def size
+    def size_kb
       info = @fsman.info(@partition)
-      info[:size]
+      info[:size_kb]
+    end
+
+    # TODO: deprecate unsafe method
+    def size
+      if inspec.os.windows?
+        # On windows, we had a bug prior to #3767 in which the
+        # value used to be scaled to GB in powershell.
+        # We now collect it in KB.
+        (size_kb / (1024 * 1024)).to_i
+      else
+        size_kb
+      end
     end
 
     def free
       info = @fsman.info(@partition)
-      info[:free]
+      info[:free_kb]
     end
 
     def percent_free
-      info = @fsman.info(@partition)
-      100 * info[:free] / info[:size]
+      100 * free / size_kb
     end
 
     def type
@@ -86,8 +97,8 @@ module Inspec::Resources
       value = cmd.stdout.split(/\n/)[1].strip.split(' ')
       {
         name: partition,
-        size: value[2].to_i,
-        free: value[4].to_i,
+        size_kb: value[2].to_i,
+        free_kb: value[4].to_i,
         type: value[1].to_s,
       }
     end
@@ -97,7 +108,8 @@ module Inspec::Resources
     def info(partition)
       cmd = inspec.command <<-EOF.gsub(/^\s*/, '')
         $disk = Get-WmiObject Win32_LogicalDisk -Filter "DeviceID='#{partition}'"
-        $disk.Size = $disk.Size / 1GB
+        $disk.Size = $disk.Size / 1KB
+        $disk.FreeSpace = $disk.FreeSpace / 1KB
         $disk | select -property DeviceID,Size,FileSystem,FreeSpace | ConvertTo-Json
       EOF
 
@@ -111,8 +123,8 @@ module Inspec::Resources
       end
       {
         name: fs['DeviceID'],
-        size: fs['Size'].to_i,
-        free: fs['FreeSpace'].to_i,
+        size_kb: fs['Size'].to_i,
+        free_kb: fs['FreeSpace'].to_i,
         type: fs['FileSystem'],
       }
     end

@@ -1,6 +1,6 @@
 {
     "DeviceID": "c:",
-    "Size": "100",
+    "Size": "40000000",
     "FileSystem": "NTFS",
-    "FreeSpace": "50000"
+    "FreeSpace": "30000000"
 }
