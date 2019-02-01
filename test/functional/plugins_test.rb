@@ -25,6 +25,32 @@ describe 'plugin loader' do
 end
 
 #=========================================================================================#
+#                              Disabling Plugins
+#=========================================================================================#
+describe 'when disabling plugins' do
+  include FunctionalHelper
+
+  describe 'when disabling the core plugins' do
+    it 'should not be able to use core-provided commands' do
+      run_result = run_inspec_process('--disable-core-plugins habitat')
+      run_result.stderr.must_include 'Could not find command "habitat".'
+      # One might think that this should be code 2 (plugin error)
+      # But because the core plugins are not loaded, 'habitat' is not
+      # a known command, which makes it a usage error, code 1.
+      run_result.exit_status.must_equal 1
+    end
+  end
+
+  describe 'when disabling the user plugins' do
+    it 'should not be able to use user commands' do
+      run_result = run_inspec_process('--disable-user-plugins meaningoflife answer', env: { INSPEC_CONFIG_DIR: File.join(config_dir_path, 'meaning_by_path') })
+      run_result.stderr.must_include 'Could not find command "meaningoflife"'
+      run_result.exit_status.must_equal 1
+    end
+  end
+end
+
+#=========================================================================================#
 #                           CliCommand plugin type
 #=========================================================================================#
 describe 'cli command plugins' do
@@ -61,6 +87,20 @@ end
 #                           inspec plugin command
 #=========================================================================================#
 # See lib/plugins/inspec-plugin-manager-cli/test
+
+#=========================================================================================#
+#                                Plugin Disable Messaging
+#=========================================================================================#
+describe 'disable plugin usage message integration' do
+  include FunctionalHelper
+
+  it "mentions the --disable-{user,core}-plugins options" do
+    outcome = inspec('help')
+    ['--disable-user-plugins', '--disable-core-plugins'].each do |option|
+      outcome.stdout.must_include(option)
+    end
+  end
+end
 
 #=========================================================================================#
 #                           DSL Plugin Support
