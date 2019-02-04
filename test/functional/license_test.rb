@@ -32,7 +32,38 @@ describe 'The license acceptance mechanism' do
       end
     end
 
-    describe 'when the user answers yes to the interactive challenge' do
+    # TODO: find a 'yes | ' equivalent in powershell
+    unless windows?
+      describe 'when the user answers yes to the interactive challenge' do
+        let(:run_result) { run_inspec_process('shell -c platform.family', env: env, prefix: 'yes | ') }
+        it 'should silently work normally' do
+          Dir.tmpdir do |tmp_home|
+            # Check the invocation results
+            run_result.stdout.must_include 'Chef License Acceptance'
+            run_result.stderr.must_equal ''
+            run_result.exit_status.must_equal 0
+          end
+        end
+
+        it 'should write a YAML file' do
+          Dir.tmpdir do |tmp_home|
+            File.exist?(license_persist_path).must_equal false # Sanity check
+            run_result
+            File.exist?(license_persist_path).must_equal true
+          end
+        end
+
+        it 'Should not prompt on subsequent runs' do
+          Dir.tmpdir do |tmp_home|
+            run_result
+            second_run_result = run_inspec_process('shell -c platform.family', env: env)
+
+            second_run_result.stdout.wont_include 'Chef License Acceptance'
+            second_run_result.stderr.must_equal ''
+            second_run_result.exit_status.must_equal 0
+          end
+        end
+      end
     end
 
     describe 'when the user answers no to the interactive challenge' do
