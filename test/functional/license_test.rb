@@ -84,8 +84,18 @@ describe 'The license acceptance mechanism' do
       end
     end
 
-    # describe 'when a command is used that should not be gated on licensure' do
-    # end
+    describe 'when a command is used that should not be gated on licensure' do
+      ['-h', '--help', 'help'].each do |ungated_invocation|
+        it "should not challenge for a license when running `inspec #{ungated_invocation}`" do
+          Dir.tmpdir do |tmp_home|
+            run_result = run_inspec_process(ungated_invocation, env: env)
+            run_result.stdout.wont_include 'Chef License Acceptance'
+            run_result.stderr.must_equal ''
+            run_result.exit_status.must_equal 0
+          end
+        end
+      end
+    end
   end
 
   describe 'when the license has already been accepted' do
