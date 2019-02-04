@@ -33,6 +33,7 @@ module Inspec
     EXIT_USAGE_ERROR = 1
     EXIT_PLUGIN_ERROR = 2
     EXIT_FATAL_DEPRECATION = 3
+    EXIT_LICENSE_NOT_ACCEPTED = 4 # TODO: coordinate value accross products
     EXIT_FAILED_TESTS = 100
     EXIT_SKIPPED_TESTS = 101
 

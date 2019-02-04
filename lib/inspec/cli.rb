@@ -197,6 +197,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
         1  Usage or general error
         2  Error in plugin system
         3  Fatal deprecation encountered
+        4  Chef License not accepted
       100  Normal exit, at least one test failed
       101  Normal exit, at least one test skipped but none failed
     ```
@@ -391,8 +392,8 @@ begin
     LicenseAcceptance::Acceptor.check_and_persist('inspec', Inspec::VERSION)
   end
 rescue LicenseAcceptance::LicenseNotAcceptedError
-  puts 'InSpec cannot execute without accepting the license'
-  exit 1
+  Inspec::Log.error 'InSpec cannot execute without accepting the license'
+  Inspec::UI.new.exit(:license_not_accepted)
 end
 
 #---------------------------------------------------------------------#
