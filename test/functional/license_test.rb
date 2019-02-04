@@ -32,10 +32,10 @@ describe 'The license acceptance mechanism' do
       end
     end
 
-    # TODO: find a 'yes | ' equivalent in powershell
+    # TODO: find a 'yes yes | ' equivalent in powershell
     unless windows?
       describe 'when the user answers yes to the interactive challenge' do
-        let(:run_result) { run_inspec_process('shell -c platform.family', env: env, prefix: 'yes | ') }
+        let(:run_result) { run_inspec_process('shell -c platform.family', env: env, prefix: 'yes yes | ') }
         it 'should silently work normally' do
           Dir.tmpdir do |tmp_home|
             # Check the invocation results
@@ -66,12 +66,26 @@ describe 'The license acceptance mechanism' do
       end
     end
 
-    describe 'when the user answers no to the interactive challenge' do
+    # TODO: find a 'yes no | ' equivalent in powershell
+    unless windows?
+      describe 'when the user answers no to the interactive challenge' do
+        let(:run_result) { run_inspec_process('shell -c platform.family', env: env, prefix: 'yes no | ') }
+        it 'should prompt twice and fail with a special code' do
+          Dir.tmpdir do |tmp_home|
+            # Check the invocation results
+            run_result.stdout.must_include 'Chef License Acceptance'
+            run_result.stderr.must_include 'License that need accepting' # From first challenge
+            run_result.stderr.must_include 'If you do not accept this license' # From second challenge
+            # run_result.stderr.must_include 'ERROR' # From failure message
+            # run_result.exit_status.must_equal 4 # TODO: coordinate error code
+            run_result.exit_status.must_equal 1 # TODO: coordinate error code
+          end
+        end
+      end
     end
 
-    describe 'when a command is used that should not be gated on licensure' do
-    end
-
+    # describe 'when a command is used that should not be gated on licensure' do
+    # end
   end
 
   describe 'when the license has already been accepted' do
