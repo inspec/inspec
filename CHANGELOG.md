@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.5.3 -->
-## [v3.5.3](https://github.com/inspec/inspec/tree/v3.5.3) (2019-02-06)
+<!-- latest_release 3.5.4 -->
+## [v3.5.4](https://github.com/inspec/inspec/tree/v3.5.4) (2019-02-06)
 
-#### Enhancements
-- Formalize Config File [#3750](https://github.com/inspec/inspec/pull/3750) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### New Features
+- filesystem: Add free_kb, size_kb, type, and percent_free properties [#3778](https://github.com/inspec/inspec/pull/3778) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.5.0 -->
 ### Changes since 3.5.0 release
+
+#### New Features
+- filesystem: Add free_kb, size_kb, type, and percent_free properties [#3778](https://github.com/inspec/inspec/pull/3778) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.5.4 -->
 
 #### Enhancements
 - Formalize Config File [#3750](https://github.com/inspec/inspec/pull/3750) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.5.3 -->
