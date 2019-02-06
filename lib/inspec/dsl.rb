@@ -38,7 +38,7 @@ module Inspec::DSL
     if hook
       # OK, load the hook if it hasn't been already.  We'll then know a module,
       # which we can then inject into the context
-      hook.activate unless hook.activated?
+      hook.activate
       # Inject the module's methods into the context
       # implementation_class is the field name, but this is actually a module.
       self.class.include(hook.implementation_class)
