@@ -51,7 +51,7 @@ The following examples show how to use this InSpec audit resource.
       it { should_not be_installed }
     end
 
-### Test if telnet is installed
+### Test that telnet is not installed
 
     describe package('telnetd') do
       it { should_not be_installed }
@@ -69,9 +69,9 @@ The following examples show how to use this InSpec audit resource.
     end
 
     describe service('clamd') do
-      it { should_not be_enabled }
-      it { should_not be_installed }
-      it { should_not be_running }
+      it { should be_enabled }
+      it { should be_installed }
+      it { should be_running }
     end
 
 ### Verify if a package is installed according to my rpm database
