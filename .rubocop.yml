@@ -1,11 +1,13 @@
 ---
 AllCops:
+  DisplayCopNames: true
   TargetRubyVersion: 2.3
   Exclude:
   - Gemfile
   - Rakefile
   - 'test/**/*'
   - 'lib/plugins/*/test/**/*'
+  - 'lib/plugins/inspec-init/templates/**/*'
   # This is delicate; we want to include examples/plugins/*/lib
   # but not anything else.
   - 'examples/*profile*/**/*'
