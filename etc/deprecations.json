@@ -10,6 +10,10 @@
       "action": "ignore",
       "prefix": "The --json-config option is being replaced by the --config option.",
       "comment": "See #3661"
+    },
+    "filesystem_property_size": {
+      "action": "ignore",
+      "comment": "See #3778"
     }
   }
 }

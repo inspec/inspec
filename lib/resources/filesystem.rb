@@ -6,12 +6,16 @@ module Inspec::Resources
     desc 'Use the filesystem InSpec resource to test file system'
     example "
       describe filesystem('/') do
-        its('size') { should be >= 32000 }
-        its('type') { should eq false }
+        its('size_kb') { should be >= 32000 }
+        its('free_kb') { should be >= 3200 }
+        its('type') { should cmp 'ext4' }
+        its('percent_free') { should be >= 20 }
       end
       describe filesystem('c:') do
-        its('size') { should be >= 90 }
-        its('type') { should eq 'NTFS' }
+        its('size_kb') { should be >= 9000 }
+        its('free_kb') { should be >= 3200 }
+        its('type') { should cmp 'NTFS' }
+        its('percent_free') { should be >= 20 }
       end
     "
     attr_reader :partition
@@ -42,9 +46,30 @@ module Inspec::Resources
       "FileSystem #{@partition}"
     end
 
-    def size
+    def size_kb
       info = @fsman.info(@partition)
-      info[:size]
+      info[:size_kb]
+    end
+
+    def size
+      Inspec.deprecate(:filesystem_property_size, 'The `size` property did not reliably use the correct units.  Please use `size_kb` instead.')
+      if inspec.os.windows?
+        # On windows, we had a bug prior to #3767 in which the
+        # 'size' value was be scaled to GB in powershell.
+        # We now collect it in KB.
+        (size_kb / (1024 * 1024)).to_i
+      else
+        size_kb
+      end
+    end
+
+    def free_kb
+      info = @fsman.info(@partition)
+      info[:free_kb]
+    end
+
+    def percent_free
+      100 * free_kb / size_kb
     end
 
     def type
@@ -67,13 +92,14 @@ module Inspec::Resources
 
   class LinuxFileSystemResource < FsManagement
     def info(partition)
-      cmd = inspec.command("df #{partition} --output=size")
+      cmd = inspec.command("df #{partition} -T")
       raise Inspec::Exceptions::ResourceFailed, "Unable to get available space for partition #{partition}" if cmd.stdout.nil? || cmd.stdout.empty? || !cmd.exit_status.zero?
-      value = cmd.stdout.gsub(/\dK-blocks[\r\n]/, '').strip
+      value = cmd.stdout.split(/\n/)[1].strip.split(' ')
       {
         name: partition,
-        size: value.to_i,
-        type: false,
+        size_kb: value[2].to_i,
+        free_kb: value[4].to_i,
+        type: value[1].to_s,
       }
     end
   end
@@ -82,8 +108,9 @@ module Inspec::Resources
     def info(partition)
       cmd = inspec.command <<-EOF.gsub(/^\s*/, '')
         $disk = Get-WmiObject Win32_LogicalDisk -Filter "DeviceID='#{partition}'"
-        $disk.Size = $disk.Size / 1GB
-        $disk | select -property DeviceID,Size,FileSystem | ConvertTo-Json
+        $disk.Size = $disk.Size / 1KB
+        $disk.FreeSpace = $disk.FreeSpace / 1KB
+        $disk | select -property DeviceID,Size,FileSystem,FreeSpace | ConvertTo-Json
       EOF
 
       raise Inspec::Exceptions::ResourceSkipped, "Unable to get available space for partition #{partition}" if cmd.stdout == '' || cmd.exit_status.to_i != 0
@@ -96,7 +123,8 @@ module Inspec::Resources
       end
       {
         name: fs['DeviceID'],
-        size: fs['Size'].to_i,
+        size_kb: fs['Size'].to_i,
+        free_kb: fs['FreeSpace'].to_i,
         type: fs['FileSystem'],
       }
     end
