@@ -3,10 +3,11 @@ platform:
   - x64
 
 
-# Use this to preseve the build VM after the build finishes
+# Use this to preseve the build VM after the build finishes.
+# Note that the appveyor builds will appear to hang; check the build log for details.
 # https://www.appveyor.com/docs/how-to/rdp-to-build-worker/
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+# on_finish:
+#   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 environment:
   matrix:
