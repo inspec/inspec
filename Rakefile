@@ -70,16 +70,25 @@ namespace :test do
     end or fail 'Failures'
   end
 
+  task :touch_license_files do
+    sh 'mkdir -p $HOME/.chef/accepted_licenses'
+    sh 'touch $HOME/.chef/accepted_licenses/inspec'
+    sh 'touch $HOME/.chef/accepted_licenses/chef'    # Needed by kitchen?
+    sh 'touch $HOME/.chef/accepted_licenses/kitchen' # Is this a thing?
+  end
+
   Rake::TestTask.new(:functional) do |t|
     t.libs << 'test'
     t.test_files = Dir.glob([
       'test/functional/**/*_test.rb',
       'lib/plugins/inspec-*/test/functional/**/*_test.rb',
     ])
-    t.warning = false
+    t.warning = false # This just complains about things in underlying libraries
     t.verbose = true
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
+  # Inject a prerequisite task
+  task :functional => [:touch_license_files]
 
   # Functional tests on Windows take a bit to run. This
   # optionally takes a env to breake the tests up into 3 workers.
@@ -93,10 +102,12 @@ namespace :test do
 
     t.libs << 'test'
     t.test_files = files
-    t.warning = false
+    t.warning = false # This just complains about things in underlying libraries
     t.verbose = true
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
+  # Inject a prerequisite task
+  task :'functional:windows' => [:touch_license_files]
 
   task :resources do
     tests = Dir['test/resource/*_test.rb']
@@ -122,6 +133,8 @@ namespace :test do
       FileUtils.rm(destination)
     end
   end
+  # Inject a prerequisite task
+  task :'integration' => [:touch_license_files]
 
   task :ssh, [:target] do |_t, args|
     tests_path = File.join(File.dirname(__FILE__), 'test', 'integration', 'test', 'integration', 'default')
