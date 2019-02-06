@@ -141,6 +141,9 @@ module InspecPlugins
           case prompt_options[:mode]
           when :select
             options[opt_name] = ui.prompt.select('Choose ' + opt_def.description + ':', prompt_options[:choices])
+            if opt_name == :license_name && options[opt_name] == 'Other'
+              ui.plain_line 'OK, be sure to update the ' + ui.emphasis('LICENSE') + ' file with your license details.'
+            end
           when :multiline
             options[opt_name] = ui.prompt.multiline('Enter ' + opt_def.description + '. Press Control-D to end.', default: options[opt_name])
           else
