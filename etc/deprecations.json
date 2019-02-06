@@ -5,6 +5,11 @@
     "attrs_value_replaces_default": {
       "action": "ignore",
       "prefix": "The 'default' option for attributes is being replaced by 'value' - please use it instead."
+    },
+    "cli_option_json_config": {
+      "action": "ignore",
+      "prefix": "The --json-config option is being replaced by the --config option.",
+      "comment": "See #3661"
     }
   }
 }

@@ -1,5 +1,6 @@
 # encoding: utf-8
 source 'https://rubygems.org'
+
 gemspec name: 'inspec'
 
 gem 'ffi', '>= 1.9.14'

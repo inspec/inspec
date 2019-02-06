@@ -49,23 +49,11 @@ describe 'inspec archive' do
     end
   end
 
-  it 'archive wont overwrite existing files' do
+  it 'archive will overwrite existing files even without --overwrite' do
     prepare_examples('profile') do |dir|
       x = rand.to_s
       File.write(dst.path, x)
       out = inspec('archive ' + dir + ' --output ' + dst.path)
-      out.stderr.must_equal '' # uh...
-      out.stdout.must_include "Archive #{dst.path} exists already. Use --overwrite."
-      out.exit_status.must_equal 1
-      File.read(dst.path).must_equal x
-    end
-  end
-
-  it 'archive will overwrite files if necessary' do
-    prepare_examples('profile') do |dir|
-      x = rand.to_s
-      File.write(dst.path, x)
-      out = inspec('archive ' + dir + ' --output ' + dst.path + ' --overwrite')
       out.stderr.must_equal ''
       out.stdout.must_include 'Generate archive ' + dst.path
       out.exit_status.must_equal 0
