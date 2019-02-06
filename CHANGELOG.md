@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.5.1 -->
-## [v3.5.1](https://github.com/inspec/inspec/tree/v3.5.1) (2019-02-06)
+<!-- latest_release 3.5.2 -->
+## [v3.5.2](https://github.com/inspec/inspec/tree/v3.5.2) (2019-02-06)
 
 #### Merged Pull Requests
-- Fixed Wrong References to pg_hba in postgres_ident_conf documentation [#3776](https://github.com/inspec/inspec/pull/3776) ([eloyekunle](https://github.com/eloyekunle))
+- Plugins: Relocate plugin activate() method to Activator class, add simpler search method [#3720](https://github.com/inspec/inspec/pull/3720) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.5.0 -->
 ### Changes since 3.5.0 release
 
 #### Merged Pull Requests
+- Plugins: Relocate plugin activate() method to Activator class, add simpler search method [#3720](https://github.com/inspec/inspec/pull/3720) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.5.2 -->
 - Fixed Wrong References to pg_hba in postgres_ident_conf documentation [#3776](https://github.com/inspec/inspec/pull/3776) ([eloyekunle](https://github.com/eloyekunle)) <!-- 3.5.1 -->
 <!-- release_rollup -->
 
