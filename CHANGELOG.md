@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.5.2 -->
-## [v3.5.2](https://github.com/inspec/inspec/tree/v3.5.2) (2019-02-06)
+<!-- latest_release 3.5.3 -->
+## [v3.5.3](https://github.com/inspec/inspec/tree/v3.5.3) (2019-02-06)
 
-#### Merged Pull Requests
-- Plugins: Relocate plugin activate() method to Activator class, add simpler search method [#3720](https://github.com/inspec/inspec/pull/3720) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Enhancements
+- Formalize Config File [#3750](https://github.com/inspec/inspec/pull/3750) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.5.0 -->
 ### Changes since 3.5.0 release
+
+#### Enhancements
+- Formalize Config File [#3750](https://github.com/inspec/inspec/pull/3750) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.5.3 -->
 
 #### Merged Pull Requests
 - Plugins: Relocate plugin activate() method to Activator class, add simpler search method [#3720](https://github.com/inspec/inspec/pull/3720) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.5.2 -->
