@@ -1,30 +1,28 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.6.2 -->
-## [v3.6.2](https://github.com/inspec/inspec/tree/v3.6.2) (2019-02-07)
-
-#### Merged Pull Requests
-- inspec-habitat: create mock backend properly  [#3785](https://github.com/inspec/inspec/pull/3785) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.5.0 -->
-### Changes since 3.5.0 release
-
-#### New Features
-- inspec-init plugin: generate inspec plugins [#3629](https://github.com/inspec/inspec/pull/3629) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.0 -->
-- filesystem: Add free_kb, size_kb, type, and percent_free properties [#3778](https://github.com/inspec/inspec/pull/3778) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.5.4 -->
-
-#### Enhancements
-- Formalize Config File [#3750](https://github.com/inspec/inspec/pull/3750) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.5.3 -->
-
-#### Merged Pull Requests
-- inspec-habitat: create mock backend properly  [#3785](https://github.com/inspec/inspec/pull/3785) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.6.2 -->
-- Consolidate attribute-related test-fixture profiles [#3784](https://github.com/inspec/inspec/pull/3784) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.1 -->
-- Plugins: Relocate plugin activate() method to Activator class, add simpler search method [#3720](https://github.com/inspec/inspec/pull/3720) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.5.2 -->
-- Fixed Wrong References to pg_hba in postgres_ident_conf documentation [#3776](https://github.com/inspec/inspec/pull/3776) ([eloyekunle](https://github.com/eloyekunle)) <!-- 3.5.1 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.6.2](https://github.com/inspec/inspec/tree/v3.6.2) (2019-02-07)
+
+#### New Features
+- filesystem: Add free_kb, size_kb, type, and percent_free properties [#3778](https://github.com/inspec/inspec/pull/3778) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- inspec-init plugin: generate inspec plugins [#3629](https://github.com/inspec/inspec/pull/3629) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Enhancements
+- Formalize Config File [#3750](https://github.com/inspec/inspec/pull/3750) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Fixed Wrong References to pg_hba in postgres_ident_conf documentation [#3776](https://github.com/inspec/inspec/pull/3776) ([eloyekunle](https://github.com/eloyekunle))
+- Plugins: Relocate plugin activate() method to Activator class, add simpler search method [#3720](https://github.com/inspec/inspec/pull/3720) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Consolidate attribute-related test-fixture profiles [#3784](https://github.com/inspec/inspec/pull/3784) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- inspec-habitat: create mock backend properly  [#3785](https://github.com/inspec/inspec/pull/3785) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_stable_release -->
+
 ## [v3.5.0](https://github.com/inspec/inspec/tree/v3.5.0) (2019-02-01)
 
 #### New Features
@@ -38,7 +36,6 @@
 #### Merged Pull Requests
 - Fix Inspec::Attribute.to_ruby and add unit test [#3773](https://github.com/inspec/inspec/pull/3773) ([james-stocks](https://github.com/james-stocks))
 - Temporarily pin train to 1.7.1 [#3775](https://github.com/inspec/inspec/pull/3775) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v3.4.1](https://github.com/inspec/inspec/tree/v3.4.1) (2019-01-29)
 
