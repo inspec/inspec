@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'helper'
 
 describe 'Backend' do # rubocop:disable Metrics/BlockLength
