@@ -1,0 +1,32 @@
+#!/bin/sh
+
+exec 2>&1
+
+CONFIG="{{pkg.svc_config_path}}/inspec_exec_config.json"
+INTERVAL="{{cfg.interval}}"
+LOG_FILE="{{pkg.svc_path}}/logs/inspec_log.txt"
+PROFILE_IDENT="{{pkg.origin}}/{{pkg.name}}"
+PROFILE_PATH="{{pkg.path}}/{{pkg.name}}-{{pkg.version}}.tar.gz"
+
+while true; do
+  echo "Executing ${PROFILE_IDENT}"
+  exec inspec exec ${PROFILE_PATH} --json-config ${CONFIG} 2>&1 | tee ${LOG_FILE}
+
+  exit_code=$?
+  if [ $exit_code -eq 1 ]; then
+    echo "InSpec run failed."
+  else
+    echo "InSpec run completed successfully."
+    if [ $exit_code -eq 0 ]; then
+      echo "No controls failed or were skipped."
+    elif [ $exit_code -eq 100 ]; then
+      echo "At least 1 control failed."
+    elif [ $exit_code -eq 101 ]; then
+      echo "No controls failed but at least 1 skipped."
+    fi
+  fi
+  echo "Results are logged here: ${LOG_FILE}"
+
+  echo "Sleeping for ${INTERVAL} seconds"
+  sleep ${INTERVAL}
+done

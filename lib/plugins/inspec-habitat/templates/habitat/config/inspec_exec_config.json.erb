@@ -1,0 +1,25 @@
+{
+  "target_id": "{{ sys.member_id }}",
+  "reporter": {
+    "cli": {
+      "stdout": {{cfg.report_to_stdout}}
+    },
+    "json": {
+      "file": "{{pkg.svc_path}}/logs/inspec_last_run.json"
+    }{{#if cfg.automate.token ~}},
+    "automate" : {
+      "url": "{{cfg.automate.url}}/data-collector/v0/",
+      "token": "{{cfg.automate.token}}",
+      "node_name": "{{ sys.hostname }}",
+      "verify_ssl": false
+    }{{/if ~}}
+  }
+  {{#if cfg.automate.token }},
+  "compliance": {
+   "server" : "{{cfg.automate.url}}",
+   "token" : "{{cfg.automate.token}}",
+   "user" : "{{cfg.automate.user}}",
+   "insecure" : true,
+   "ent" : "automate"
+  }{{/if }}
+}
