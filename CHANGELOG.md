@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.6.0 -->
-## [v3.6.0](https://github.com/inspec/inspec/tree/v3.6.0) (2019-02-06)
+<!-- latest_release 3.6.1 -->
+## [v3.6.1](https://github.com/inspec/inspec/tree/v3.6.1) (2019-02-07)
 
-#### New Features
-- inspec-init plugin: generate inspec plugins [#3629](https://github.com/inspec/inspec/pull/3629) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Consolidate attribute-related test-fixture profiles [#3784](https://github.com/inspec/inspec/pull/3784) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.5.0 -->
@@ -18,6 +18,7 @@
 - Formalize Config File [#3750](https://github.com/inspec/inspec/pull/3750) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.5.3 -->
 
 #### Merged Pull Requests
+- Consolidate attribute-related test-fixture profiles [#3784](https://github.com/inspec/inspec/pull/3784) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.1 -->
 - Plugins: Relocate plugin activate() method to Activator class, add simpler search method [#3720](https://github.com/inspec/inspec/pull/3720) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.5.2 -->
 - Fixed Wrong References to pg_hba in postgres_ident_conf documentation [#3776](https://github.com/inspec/inspec/pull/3776) ([eloyekunle](https://github.com/eloyekunle)) <!-- 3.5.1 -->
 <!-- release_rollup -->
