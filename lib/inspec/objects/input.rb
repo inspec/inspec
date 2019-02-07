@@ -22,12 +22,13 @@ module Inspec
     # Each time it changes, an Input::Event is added to the #events array.
     class Event
       EVENT_PROPERTIES = [
+        :action,   # :create, :set, :fetch
         :provider, # Name of the plugin
         :priority, # Priority of this plugin for resolving conflicts.  1-100, higher numbers win.
-        :profile,       # Profile from which the input was being set
-        :value,         # New value, if provided.
-        :file,          # File containing the input-changing action, if known
-        :line,          # Line in file containing the input-changing action, if known
+        :value,    # New value, if provided.
+        :file,     # File containing the attribute-changing action, if known
+        :line,     # Line in file containing the attribute-changing action, if known
+        :hit,      # if action is :fetch, true if the remote source had the attribute
       ]
 
       # Value has a special handler
@@ -58,6 +59,16 @@ module Inspec
 
       def value_has_been_set?
         @value_has_been_set
+      end
+
+      def diagnostic_string
+        to_h.reject { |_, val| val.nil? }.to_a.map { |pair| "#{pair[0]}: '#{pair[1]}'" }.join(', ')
+      end
+
+      def to_h
+        EVENT_PROPERTIES.each_with_object({}) do |prop, hash|
+          hash[prop] = self.send(prop)
+        end
       end
     end
 
@@ -157,8 +168,18 @@ module Inspec
       # the value of the input when value() is called, as well as providing a
       # debugging record of when and how the value changed.
       @events = []
+      events.push make_creation_event(options)
 
       update(options)
+    end
+
+    def set_events
+      events.select { |e| e.action == :set }
+    end
+
+    def diagnostic_string
+      "Attribute #{name}, with history:\n" +
+        events.map(&:diagnostic_string).map { |line| "  #{line}"}.join("\n")
     end
 
     #--------------------------------------------------------------------------#
@@ -175,19 +196,37 @@ module Inspec
       normalize_type_restriction!
 
       # Values are set by passing events in; but we can also infer an event.
-      if options.key?(:event)
-        if options.key?(:value) || options.key?(:default)
-          Inspec::Log.warn "Do not provide both an Event and a value as an option to input('#{name}') - using value from event"
+      if options.key?(:value) || options.key?(:default)
+        if options.key?(:event)
+          if options.key?(:value) || options.key?(:default)
+            Inspec::Log.warn "Do not provide both an Event and a value as an option to attribute('#{name}') - using value from event"
+          end
+        else
+          infer_event(options) # Sets options[:event]
         end
-      else
-        infer_event(options) # Sets option[:event]
       end
-      events << options[:event]
+      events << options[:event] if options.key? :event
 
       enforce_type_restriction!
     end
 
     private
+
+    def make_creation_event(options)
+      loc = options[:location] || probe_stack
+      Attribute::Event.new(
+        action: :create,
+        provider: options[:provider],
+        file: loc.path,
+        line: loc.lineno,
+      )
+    end
+
+    def probe_stack
+      locs = caller_locations(2,40)
+      # TODO - refine huristics
+      locs[0]
+    end
 
     # We can determine a value:
     # 1. By event.value (preferred)
@@ -196,8 +235,9 @@ module Inspec
     def infer_event(options)
       # Don't rely on this working; you really should be passing a proper Input::Event
       # with the context information you have.
-      location = caller_locations(4,1).first # TODO check
-      event = Input::Event.new(
+      location = probe_stack
+      event = Attribute::Event.new(
+        action: :set,
         provider: :unknown,
         priority: options[:priority] || Inspec::Input::DEFAULT_PRIORITY_FOR_UNKNOWN_CALLER,
         file: location.path,
@@ -239,8 +279,9 @@ module Inspec
     def value=(new_value, priority = DEFAULT_PRIORITY_FOR_VALUE_SET)
 
       # Inject a new Event with the new value.
-      location = caller_locations(1,1).first # TODO: check
+      location = probe_stack
       events << Event.new(
+        action: :set,
         provider: :value_setter,
         priority: priority,
         value: new_value,
