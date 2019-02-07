@@ -103,7 +103,7 @@ module InspecPlugins
       def create_profile_object
         @profile = Inspec::Profile.for_target(
           path,
-          backend: Inspec::Backend.create(target: 'mock://'),
+          backend: Inspec::Backend.create(Inspec::Config.mock),
         )
       end
 

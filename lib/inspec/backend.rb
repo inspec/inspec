@@ -39,11 +39,9 @@ module Inspec
 
     # Create the transport backend with aggregated resources.
     #
-    # @param [Hash] config for the transport backend
+    # @param [Inspec::Config] config for the transport backend
     # @return [TransportBackend] enriched transport instance
     def self.create(config) # rubocop:disable Metrics/AbcSize
-      config = Inspec::Config.new(config) if config.is_a?(Hash)
-
       train_credentials = config.unpack_train_credentials
       transport_name = Train.validate_backend(train_credentials)
       transport = Train.create(transport_name, train_credentials)

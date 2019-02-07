@@ -6,11 +6,6 @@ describe 'Backend' do # rubocop:disable Metrics/BlockLength
   let(:backend) { Inspec::Backend.create(Inspec::Config.mock) }
 
   describe 'create' do # rubocop:disable Metrics/BlockLength
-    it 'accepts a Hash' do
-      backend_from_hash = Inspec::Backend.create(backend: 'mock')
-      backend_from_hash.is_a?(Inspec::Backend::Base).must_equal true
-    end
-
     it 'accepts an Inspec::Config' do
       backend.is_a?(Inspec::Backend::Base).must_equal true
     end
@@ -36,11 +31,13 @@ describe 'Backend' do # rubocop:disable Metrics/BlockLength
     end
 
     it 'enables/disables caching based on `config[:backend_cache]`' do
-      cache_enabled_backend = Inspec::Backend.create(backend_cache: true)
+      cache_enabled_config = Inspec::Config.new(backend_cache: true)
+      cache_enabled_backend = Inspec::Backend.create(cache_enabled_config)
       cache_enabled_backend.backend.cache_enabled?(:file).must_equal true
       cache_enabled_backend.backend.cache_enabled?(:command).must_equal true
 
-      cache_disabled_backend = Inspec::Backend.create(backend_cache: false)
+      cache_disabled_config = Inspec::Config.new(backend_cache: false)
+      cache_disabled_backend = Inspec::Backend.create(cache_disabled_config)
       cache_disabled_backend.backend.cache_enabled?(:file).must_equal false
       cache_disabled_backend.backend.cache_enabled?(:command).must_equal false
     end
@@ -51,7 +48,8 @@ describe 'Backend' do # rubocop:disable Metrics/BlockLength
     end
 
     it 'disables caching when `config[:debug_shell]` is true' do
-      debug_shell_backend = Inspec::Backend.create(debug_shell: true)
+      debug_shell_config = Inspec::Config.new(debug_shell: true)
+      debug_shell_backend = Inspec::Backend.create(debug_shell_config)
       debug_shell_backend.backend.cache_enabled?(:file).must_equal false
       debug_shell_backend.backend.cache_enabled?(:command).must_equal false
     end
