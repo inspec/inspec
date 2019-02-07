@@ -4,6 +4,7 @@
 # author: Christoph Hartmann
 
 require 'train'
+require 'inspec/config'
 
 module Inspec
   module Backend
@@ -41,6 +42,8 @@ module Inspec
     # @param [Hash] config for the transport backend
     # @return [TransportBackend] enriched transport instance
     def self.create(config) # rubocop:disable Metrics/AbcSize
+      config = Inspec::Config.new(config) if config.is_a?(Hash)
+
       train_credentials = config.unpack_train_credentials
       transport_name = Train.validate_backend(train_credentials)
       transport = Train.create(transport_name, train_credentials)
