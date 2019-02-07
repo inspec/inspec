@@ -29,10 +29,10 @@ module Inspec
         :file,     # File containing the attribute-changing action, if known
         :line,     # Line in file containing the attribute-changing action, if known
         :hit,      # if action is :fetch, true if the remote source had the attribute
-      ]
+      ].freeze
 
       # Value has a special handler
-      EVENT_PROPERTIES.reject {|p| p == :value }.each do |prop|
+      EVENT_PROPERTIES.reject { |p| p == :value }.each do |prop|
         attr_accessor prop
       end
 
@@ -44,7 +44,7 @@ module Inspec
         properties.each do |prop_name, prop_value|
           if EVENT_PROPERTIES.include? prop_name
             # OK, save the property
-            self.send((prop_name.to_s + '=').to_sym, prop_value)
+            send((prop_name.to_s + '=').to_sym, prop_value)
           else
             raise "Unrecognized property to Input::Event: #{prop_name}"
           end
@@ -67,7 +67,7 @@ module Inspec
 
       def to_h
         EVENT_PROPERTIES.each_with_object({}) do |prop, hash|
-          hash[prop] = self.send(prop)
+          hash[prop] = send(prop)
         end
       end
     end
@@ -151,7 +151,7 @@ module Inspec
     # are free to go higher.
     DEFAULT_PRIORITY_FOR_VALUE_SET = 60
 
-    attr_reader :description, :events, :identifier, :name, :required, :title, :type_restriction
+    attr_reader :description, :events, :identifier, :name, :required, :title, :type
 
     def initialize(name, options = {})
       @name = name
@@ -179,7 +179,7 @@ module Inspec
 
     def diagnostic_string
       "Attribute #{name}, with history:\n" +
-        events.map(&:diagnostic_string).map { |line| "  #{line}"}.join("\n")
+        events.map(&:diagnostic_string).map { |line| "  #{line}" }.join("\n")
     end
 
     #--------------------------------------------------------------------------#
@@ -187,12 +187,7 @@ module Inspec
     #--------------------------------------------------------------------------#
 
     def update(options)
-      # Basic metadata
-      @title = options[:title] if options.key?(:title)
-      @description = options[:description] if options.key?(:description)
-      @required = options[:required] if options.key?(:required)
-      @identifier = options[:identifier] if options.key?(:identifier) # TODO: determine if this is ever used
-      @type_restriction = options[:type] if options.key?(:type)
+      _update_set_metadata(options)
       normalize_type_restriction!
 
       # Values are set by passing events in; but we can also infer an event.
@@ -212,6 +207,15 @@ module Inspec
 
     private
 
+    def _update_set_metadata(options)
+      # Basic metadata
+      @title = options[:title] if options.key?(:title)
+      @description = options[:description] if options.key?(:description)
+      @required = options[:required] if options.key?(:required)
+      @identifier = options[:identifier] if options.key?(:identifier) # TODO: determine if this is ever used
+      @type = options[:type] if options.key?(:type)
+    end
+
     def make_creation_event(options)
       loc = options[:location] || probe_stack
       Attribute::Event.new(
@@ -223,8 +227,8 @@ module Inspec
     end
 
     def probe_stack
-      locs = caller_locations(2,40)
-      # TODO - refine huristics
+      locs = caller_locations(2, 40)
+      # TODO: - refine huristics
       locs[0]
     end
 
@@ -277,7 +281,6 @@ module Inspec
     public
 
     def value=(new_value, priority = DEFAULT_PRIORITY_FOR_VALUE_SET)
-
       # Inject a new Event with the new value.
       location = probe_stack
       events << Event.new(
@@ -306,15 +309,18 @@ module Inspec
     #                               Marshalling
     #--------------------------------------------------------------------------#
 
-    def ruby_var_identifier
-      identifier || 'attr_' + name.downcase.strip.gsub(/\s+/, '-').gsub(/[^\w-]/, '')
+    def to_hash
+      as_hash = { name: name, options: {} }
+      [:description, :title, :identifier, :type, :required, :value].each do |field|
+        val = send(field)
+        next if val.nil?
+        as_hash[:options][field] = val
+      end
+      as_hash
     end
 
-    def to_hash
-      {
-        name: name,
-        options: @opts,  # TODO
-      }
+    def ruby_var_identifier
+      identifier || 'attr_' + name.downcase.strip.gsub(/\s+/, '-').gsub(/[^\w-]/, '')
     end
 
     def to_ruby
@@ -358,22 +364,23 @@ module Inspec
     end
 
     def enforce_type_restriction! # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-      return unless type_restriction
+      return unless type
       return unless has_value?
 
-      type = type_restriction
-      return if type == 'Any'
+      type_req = type
+      return if type_req == 'Any'
 
       proposed_value = current_value
 
       invalid_type = false
-      if type == 'Regexp'
+      if type_req == 'Regexp'
         invalid_type = true if !valid_regexp?(proposed_value)
-      elsif type == 'Numeric'
+      elsif type_req == 'Numeric'
         invalid_type = true if !valid_numeric?(proposed_value)
-      elsif type == 'Boolean'
+      elsif type_req == 'Boolean'
         invalid_type = true if ![true, false].include?(proposed_value)
-      elsif proposed_value.is_a?(Module.const_get(type)) == false
+      elsif proposed_value.is_a?(Module.const_get(type_req)) == false
+        # TODO: why is this case here?
         invalid_type = true
       end
 
@@ -381,26 +388,26 @@ module Inspec
         error = Inspec::Attribute::ValidationError.new
         error.attribute_name = @name
         error.attribute_value = proposed_value
-        error.attribute_type = type
+        error.attribute_type = type_req
         raise error, "Attribute '#{error.attribute_name}' with value '#{error.attribute_value}' does not validate to type '#{error.attribute_type}'."
       end
     end
 
     def normalize_type_restriction!
-      return unless type_restriction
+      return unless type
 
-      type = type_restriction.capitalize
+      type_req = type.capitalize
       abbreviations = {
         'Num' => 'Numeric',
         'Regex' => 'Regexp',
       }
-      type = abbreviations[type] if abbreviations.key?(type)
-      if !VALID_TYPES.include?(type)
-        error = Inspec::Input::TypeError.new
-        error.input_type = type
-        raise error, "Type '#{error.input_type}' is not a valid input type."
+      type_req = abbreviations[type_req] if abbreviations.key?(type_req)
+      if !VALID_TYPES.include?(type_req)
+        error = Inspec::Attribute::TypeError.new
+        error.attribute_type = type_req
+        raise error, "Type '#{error.attribute_type}' is not a valid attribute type."
       end
-      @type_restriction = type
+      @type = type_req
     end
 
     def valid_numeric?(value)
@@ -417,6 +424,5 @@ module Inspec
     rescue
       false
     end
-
   end
 end

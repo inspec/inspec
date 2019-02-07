@@ -9,8 +9,22 @@ describe Inspec::Input do
   #==============================================================#
   #                        Metadata
   #==============================================================#
-
-  # TODO
+  describe 'setting and reading metadata' do
+    {
+      description: 'My favorite attribute',
+      identifier: 'a_ruby_permitted_name',
+      required: true,
+      title: 'how is this different than description',
+      type: 'Numeric'
+    }.each do |field, value|
+      it "should be able to recall the #{field} field" do
+        opts[field] = value
+        ipt = Inspec::Input.new('test_attribute', opts)
+        seen_value = ipt.send(field)
+        seen_value.must_equal value
+      end
+    end
+  end
 
   #==============================================================#
   #                      Code Generation
@@ -36,8 +50,30 @@ describe Inspec::Input do
       new_attr.value.must_equal 80
     end
   end
-
-  #==============================================================#
+  # TODO - deprecate this, not sure it is used
+  describe 'to_hash method' do
+    it 'generates a similar hash' do
+      ipt = Inspec::Input.new(
+        'some_attr',
+        description: 'The port my application uses',
+        value: 80,
+        identifier: 'app_port',
+        required: false,
+        type: 'numeric'
+      )
+      expected = {
+        name: 'some_attr',
+        options: {
+          description: 'The port my application uses',
+          value: 80,
+          identifier: 'app_port',
+          required: false,
+          type: 'Numeric',  # This gets normalized
+        }
+      }
+      ipt.to_hash.must_equal expected
+    end
+  end  #==============================================================#
   #                   Setting Value - One Shot
   #            (see events_test.rb for overwrite support)
   #==============================================================#
