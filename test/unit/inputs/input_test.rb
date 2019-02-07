@@ -7,6 +7,37 @@ describe Inspec::Input do
   let(:input) { Inspec::Input.new('test_input') }
 
   #==============================================================#
+  #                        Metadata
+  #==============================================================#
+
+  # TODO
+
+  #==============================================================#
+  #                      Code Generation
+  #==============================================================#
+  describe 'to_ruby method' do
+    it 'generates the code for the input' do
+      input = Inspec::Input.new('application_port', description: 'The port my application uses', value: 80)
+
+      ruby_code = input.to_ruby
+      ruby_code.must_include "attr_application_port = " # Should assign to a var
+      ruby_code.must_include "attribute('application_port'" # Should have the DSL call
+      ruby_code.must_include 'value: 80'
+      ruby_code.must_include 'default: 80'
+      ruby_code.must_include "description: 'The port my application uses'"
+
+      # Try to eval the code to verify that the generated code was valid ruby.
+      # Note that the attribute() method is part of the DSL, so we need to
+      # alter the call into something that can respond - the constructor will do
+      ruby_code_for_eval = ruby_code.sub(/attribute\(/,'Inspec::Input.new(')
+
+      # This will throw exceptions if there is a problem
+      new_attr = eval(ruby_code_for_eval) # Could use ripper!
+      new_attr.value.must_equal 80
+    end
+  end
+
+  #==============================================================#
   #                   Setting Value - One Shot
   #            (see events_test.rb for overwrite support)
   #==============================================================#
@@ -87,31 +118,6 @@ describe Inspec::Input do
   end
 
   #==============================================================#
-  #                      Code Generation
-  #==============================================================#
-  describe 'to_ruby method' do
-    it 'generates the code for the input' do
-      input = Inspec::Input.new('application_port', description: 'The port my application uses', value: 80)
-
-      ruby_code = input.to_ruby
-      ruby_code.must_include "attr_application_port = " # Should assign to a var
-      ruby_code.must_include "attribute('application_port'" # Should have the DSL call
-      ruby_code.must_include 'value: 80'
-      ruby_code.must_include 'default: 80'
-      ruby_code.must_include "description: 'The port my application uses'"
-
-      # Try to eval the code to verify that the generated code was valid ruby.
-      # Note that the attribute() method is part of the DSL, so we need to
-      # alter the call into something that can respond - the constructor will do
-      ruby_code_for_eval = ruby_code.sub(/attribute\(/,'Inspec::Input.new(')
-
-      # This will throw exceptions if there is a problem
-      new_attr = eval(ruby_code_for_eval) # Could use ripper!
-      new_attr.value.must_equal 80
-    end
-  end
-
-  #==============================================================#
   #                   Validation
   #         (see also validator_types_test.rb)
   #==============================================================#
@@ -144,7 +150,9 @@ describe Inspec::Input do
       'string' => { good: 'a_string', bad: 123.3, norm: 'String' },
       'numeric' => { good: 123, bad: 'not a number', norm: 'Numeric' },
       'regex' => { good: /\d+.+/, bad: '/(.+/', norm: 'Regexp' }
-      # TODO - array, hash, boolean, any
+      'array' => { good: [1, 2, 3], bad: { a: 1, b: 2, c: 3 }, norm: 'Array' },
+      'hash' => { good: { a: 1, b: 2, c: 3 }, bad: 'i am not a hash', norm: 'Hash' },
+      'boolean' => { good: true, bad: 'i am not a boolean', norm: 'Boolean' },
     }.each do |type, examples|
       it "validates a #{type} in the constructor - (good)" do
         opts = { type: type, value: examples[:good] }
@@ -172,5 +180,10 @@ describe Inspec::Input do
         ex.message.must_include "does not validate to type '#{examples[:norm]}'"
       end
     end
-
+    it 'validates the Any type' do
+      Inspec::Input.new('test_input', type: 'any', value: false) # No exception
+      Inspec::Input.new('test_input', type: 'any', value: true) # No exception
+      Inspec::Input.new('test_input', type: 'any', value: 'bob') # No exception
+      Inspec::Input.new('test_input', type: 'any', value: 1) # No exception
+    end
 end

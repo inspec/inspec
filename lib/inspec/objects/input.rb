@@ -298,29 +298,27 @@ module Inspec
       current_value
     end
 
-    def title
-      @opts[:title]
+    def has_value?
+      !current_value.is_a? DEFAULT_ATTRIBUTE
     end
 
-    def description
-      @opts[:description]
-    end
+    #--------------------------------------------------------------------------#
+    #                               Marshalling
+    #--------------------------------------------------------------------------#
 
     def ruby_var_identifier
-      # TODO: start prefixing with input_
-      @opts[:identifier] || 'attr_' + @name.downcase.strip.gsub(/\s+/, '-').gsub(/[^\w-]/, '')
+      identifier || 'attr_' + name.downcase.strip.gsub(/\s+/, '-').gsub(/[^\w-]/, '')
     end
 
     def to_hash
       {
-        name: @name,
-        options: @opts,
+        name: name,
+        options: @opts,  # TODO
       }
     end
 
     def to_ruby
-      # TODO: start generating Ruby code that uses input()
-      res = ["#{ruby_var_identifier} = attribute('#{@name}',{"]
+      res = ["#{ruby_var_identifier} = attribute('#{name}',{"]
       res.push "  title: '#{title}'," unless title.to_s.empty?
       res.push "  value: #{value.inspect}," unless value.to_s.empty?
       # to_ruby may generate code that is to be used by older versions of inspec.
@@ -332,9 +330,17 @@ module Inspec
       res.join("\n")
     end
 
+    #--------------------------------------------------------------------------#
+    #                           Value Type Coercion
+    #--------------------------------------------------------------------------#
+
     def to_s
-      "Input #{@name} with #{@value}"
+      "Attribute #{name} with #{current_value}"
     end
+
+    #--------------------------------------------------------------------------#
+    #                               Validation
+    #--------------------------------------------------------------------------#
 
     private
 
@@ -348,6 +354,35 @@ module Inspec
         error = Inspec::Input::RequiredError.new
         error.input_name = name
         raise error, "Input '#{error.input_name}' is required and does not have a value."
+      end
+    end
+
+    def enforce_type_restriction! # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      return unless type_restriction
+      return unless has_value?
+
+      type = type_restriction
+      return if type == 'Any'
+
+      proposed_value = current_value
+
+      invalid_type = false
+      if type == 'Regexp'
+        invalid_type = true if !valid_regexp?(proposed_value)
+      elsif type == 'Numeric'
+        invalid_type = true if !valid_numeric?(proposed_value)
+      elsif type == 'Boolean'
+        invalid_type = true if ![true, false].include?(proposed_value)
+      elsif proposed_value.is_a?(Module.const_get(type)) == false
+        invalid_type = true
+      end
+
+      if invalid_type == true
+        error = Inspec::Attribute::ValidationError.new
+        error.attribute_name = @name
+        error.attribute_value = proposed_value
+        error.attribute_type = type
+        raise error, "Attribute '#{error.attribute_name}' with value '#{error.attribute_value}' does not validate to type '#{error.attribute_type}'."
       end
     end
 
@@ -376,41 +411,12 @@ module Inspec
     end
 
     def valid_regexp?(value)
-      # check for invalid regex syntex
+      # check for invalid regex syntax
       Regexp.new(value)
       true
     rescue
       false
     end
 
-    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    def enforce_type_restriction!
-      return unless type_restriction
-
-      type = type_restriction
-      return if type == 'Any'
-
-      proposed_value = current_value
-
-      invalid_type = false
-      if type == 'Regexp'
-        invalid_type = true if !proposed_value.is_a?(String) || !valid_regexp?(proposed_value)
-      elsif type == 'Numeric'
-        invalid_type = true if !valid_numeric?(proposed_value)
-      elsif type == 'Boolean'
-        invalid_type = true if ![true, false].include?(proposed_value)
-      elsif proposed_value.is_a?(Module.const_get(type)) == false
-        invalid_type = true
-      end
-
-      if invalid_type == true
-        error = Inspec::Input::ValidationError.new
-        error.input_name = @name
-        error.input_value = value
-        error.input_type = type
-        raise error, "Input '#{error.input_name}' with value '#{error.input_value}' does not validate to type '#{error.input_type}'."
-      end
-    end
-    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   end
 end
