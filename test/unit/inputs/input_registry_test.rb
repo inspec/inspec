@@ -77,13 +77,8 @@ describe Inspec::InputRegistry do
     before do
       Inspec::InputRegistry.any_instance.stubs(:validate_inputs_file_readability!)
     end
-    let(:profile) do
-      p = mock()
-      p.expects(:profile_name).returns('test_fixture_profile').at_least_once
-      p
-    end
     let(:seen_inputs) do
-      registry.bind_profile_inputs(profile, sources)
+      registry.bind_profile_inputs('test_fixture_profile', sources)
       inputs = registry.list_inputs_for_profile('test_fixture_profile')
       # Flatten Input objects down to their values
       inputs.keys.each { |input_name| inputs[input_name] = inputs[input_name].value }

@@ -4,7 +4,8 @@ require 'helper'
 require 'inspec/objects/input'
 
 describe Inspec::Input do
-  let(:input) { Inspec::Input.new('test_input') }
+  let(:opts) { { } }
+  let(:input) { Inspec::Input.new('test_input', opts) }
 
   #==============================================================#
   #                        Metadata
@@ -73,7 +74,9 @@ describe Inspec::Input do
       }
       ipt.to_hash.must_equal expected
     end
-  end  #==============================================================#
+  end
+
+  #==============================================================#
   #                   Setting Value - One Shot
   #            (see events_test.rb for overwrite support)
   #==============================================================#
@@ -90,7 +93,7 @@ describe Inspec::Input do
     end
 
     it 'the dummy value responds true to the legacy class checks' do
-      input.value.is_a?(Inspec::ATTRIBUTE::DEFAULT_ATTRIBUTE).must_equal true
+      input.value.is_a?(Inspec::Attribute::DEFAULT_ATTRIBUTE).must_equal true
       input.value.must_be_kind_of Inspec::Attribute::DEFAULT_ATTRIBUTE
     end
 

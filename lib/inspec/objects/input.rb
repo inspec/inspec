@@ -26,9 +26,9 @@ module Inspec
         :provider, # Name of the plugin
         :priority, # Priority of this plugin for resolving conflicts.  1-100, higher numbers win.
         :value,    # New value, if provided.
-        :file,     # File containing the attribute-changing action, if known
-        :line,     # Line in file containing the attribute-changing action, if known
-        :hit,      # if action is :fetch, true if the remote source had the attribute
+        :file,     # File containing the input-changing action, if known
+        :line,     # Line in file containing the input-changing action, if known
+        :hit,      # if action is :fetch, true if the remote source had the input
       ].freeze
 
       # Value has a special handler
@@ -178,7 +178,7 @@ module Inspec
     end
 
     def diagnostic_string
-      "Attribute #{name}, with history:\n" +
+      "Input #{name}, with history:\n" +
         events.map(&:diagnostic_string).map { |line| "  #{line}" }.join("\n")
     end
 
@@ -218,7 +218,7 @@ module Inspec
 
     def make_creation_event(options)
       loc = options[:location] || probe_stack
-      Attribute::Event.new(
+      Input::Event.new(
         action: :create,
         provider: options[:provider],
         file: loc.path,
@@ -227,9 +227,9 @@ module Inspec
     end
 
     def probe_stack
-      locs = caller_locations(2, 40)
-      # TODO: - refine huristics
-      locs[0]
+      frames = caller_locations(2, 40)
+      frames.reject! { |f| f.path && f.path.include?('/lib/inspec/') }
+      frames.first
     end
 
     # We can determine a value:
@@ -240,7 +240,7 @@ module Inspec
       # Don't rely on this working; you really should be passing a proper Input::Event
       # with the context information you have.
       location = probe_stack
-      event = Attribute::Event.new(
+      event = Input::Event.new(
         action: :set,
         provider: :unknown,
         priority: options[:priority] || Inspec::Input::DEFAULT_PRIORITY_FOR_UNKNOWN_CALLER,
@@ -302,7 +302,7 @@ module Inspec
     end
 
     def has_value?
-      !current_value.is_a? DEFAULT_ATTRIBUTE
+      !current_value.is_a? NO_VALUE_SET
     end
 
     #--------------------------------------------------------------------------#
@@ -341,7 +341,7 @@ module Inspec
     #--------------------------------------------------------------------------#
 
     def to_s
-      "Attribute #{name} with #{current_value}"
+      "Input #{name} with #{current_value}"
     end
 
     #--------------------------------------------------------------------------#
@@ -385,11 +385,11 @@ module Inspec
       end
 
       if invalid_type == true
-        error = Inspec::Attribute::ValidationError.new
-        error.attribute_name = @name
-        error.attribute_value = proposed_value
-        error.attribute_type = type_req
-        raise error, "Attribute '#{error.attribute_name}' with value '#{error.attribute_value}' does not validate to type '#{error.attribute_type}'."
+        error = Inspec::Input::ValidationError.new
+        error.input_name = @name
+        error.input_value = proposed_value
+        error.input_type = type_req
+        raise error, "Input '#{error.input_name}' with value '#{error.input_value}' does not validate to type '#{error.input_type}'."
       end
     end
 
@@ -403,9 +403,9 @@ module Inspec
       }
       type_req = abbreviations[type_req] if abbreviations.key?(type_req)
       if !VALID_TYPES.include?(type_req)
-        error = Inspec::Attribute::TypeError.new
-        error.attribute_type = type_req
-        raise error, "Type '#{error.attribute_type}' is not a valid attribute type."
+        error = Inspec::Input::TypeError.new
+        error.input_type = type_req
+        raise error, "Type '#{error.input_type}' is not a valid input type."
       end
       @type = type_req
     end

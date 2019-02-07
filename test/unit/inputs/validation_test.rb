@@ -39,7 +39,7 @@ describe 'type validation' do
     {
       'string' => { good: 'a_string', bad: 123.3, norm: 'String' },
       'numeric' => { good: 123, bad: 'not a number', norm: 'Numeric' },
-      'regex' => { good: /\d+.+/, bad: '/(.+/', norm: 'Regexp' }
+      'regex' => { good: /\d+.+/, bad: '/(.+/', norm: 'Regexp' },
       'array' => { good: [1, 2, 3], bad: { a: 1, b: 2, c: 3 }, norm: 'Array' },
       'hash' => { good: { a: 1, b: 2, c: 3 }, bad: 'i am not a hash', norm: 'Hash' },
       'boolean' => { good: true, bad: 'i am not a boolean', norm: 'Boolean' },
@@ -84,17 +84,17 @@ describe 'type validation' do
   describe 'validate type option' do
     it 'converts regex to Regexp' do
       opts[:type] = 'regex'
-      input.type_restriction.must_equal 'Regexp'
+      input.type.must_equal 'Regexp'
     end
 
     it 'returns the same value if there is nothing to clean' do
       opts[:type] = 'String'
-      input.type_restriction.must_equal 'String'
+      input.type.must_equal 'String'
     end
 
     it 'returns an error if a invalid type is sent' do
       opts[:type] = 'dressing'
-      ex = assert_raises(Inspec::Attribute::TypeError) { input }
+      ex = assert_raises(Inspec::Input::TypeError) { input }
       ex.message.must_match /Type 'Dressing' is not a valid input type./
     end
   end
