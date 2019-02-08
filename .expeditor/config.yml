@@ -25,9 +25,11 @@ github:
   version_tag_format: v{{version}}
   release_branch:
     - master:
-        version_constraint: 2.*
+        version_constraint: 3.*
     - 1-stable:
         version_constraint: 1.*
+    - 2-stable:
+        version_constraint: 2.*
 
 changelog:
   categories:
@@ -67,6 +69,7 @@ subscriptions:
   - workload: artifact_published:current:inspec:*
     actions:
       - built_in:tag_docker_image
+      - built_in:promote_habitat_packages
   - workload: artifact_published:stable:inspec:*
     actions:
       - bash:.expeditor/update_dockerfile.sh
@@ -74,4 +77,5 @@ subscriptions:
       - built_in:publish_rubygems
       - built_in:create_github_release
       - built_in:tag_docker_image
+      - built_in:promote_habitat_packages
       - built_in:notify_chefio_slack_channels
