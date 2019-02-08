@@ -7,14 +7,17 @@
 - Add the 2.x branch to expeditor [#3789](https://github.com/inspec/inspec/pull/3789) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup since=3.6.2 -->
-### Changes since 3.6.2 release
+<!-- release_rollup since=2.3.28 -->
+### Changes since 2.3.28 release
 
 #### Merged Pull Requests
 - Add the 2.x branch to expeditor [#3789](https://github.com/inspec/inspec/pull/3789) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.3.28](https://github.com/inspec/inspec/tree/v2.3.28) (2019-02-08)
+<!-- latest_stable_release -->
+
 ## [v3.6.2](https://github.com/inspec/inspec/tree/v3.6.2) (2019-02-07)
 
 #### New Features
@@ -29,7 +32,6 @@
 - Plugins: Relocate plugin activate() method to Activator class, add simpler search method [#3720](https://github.com/inspec/inspec/pull/3720) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Consolidate attribute-related test-fixture profiles [#3784](https://github.com/inspec/inspec/pull/3784) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - inspec-habitat: create mock backend properly  [#3785](https://github.com/inspec/inspec/pull/3785) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-<!-- latest_stable_release -->
 
 ## [v3.5.0](https://github.com/inspec/inspec/tree/v3.5.0) (2019-02-01)
 

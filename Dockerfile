@@ -1,7 +1,7 @@
 FROM ruby:alpine
 MAINTAINER Chef Software, Inc. <docker@chef.io>
 
-ARG VERSION=3.6.2
+ARG VERSION=2.3.28
 ARG GEM_SOURCE=https://rubygems.org
 
 RUN mkdir -p /share
