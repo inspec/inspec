@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.3.27 -->
-## [v2.3.27](https://github.com/inspec/inspec/tree/v2.3.27) (2019-02-08)
+<!-- latest_release 2.3.28 -->
+## [v2.3.28](https://github.com/inspec/inspec/tree/v2.3.28) (2019-02-08)
 
 #### Merged Pull Requests
-- Update copyright for 2.x branch [#3794](https://github.com/inspec/inspec/pull/3794) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Remove bundler pin from 2.x series [#3795](https://github.com/inspec/inspec/pull/3795) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.3.24 -->
 ### Changes since 2.3.24 release
 
 #### Merged Pull Requests
+- Remove bundler pin from 2.x series [#3795](https://github.com/inspec/inspec/pull/3795) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.3.28 -->
 - Update copyright for 2.x branch [#3794](https://github.com/inspec/inspec/pull/3794) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.3.27 -->
 - Update the text on the generic default attribute [#3508](https://github.com/inspec/inspec/pull/3508) ([jquick](https://github.com/jquick)) <!-- 2.3.26 -->
 - Change `Inspec ` to `InSpec ` where appropriate [#3494](https://github.com/inspec/inspec/pull/3494) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.3.25 -->
