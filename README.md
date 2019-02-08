@@ -439,7 +439,7 @@ Please see [TESTING_AGAINST_AZURE.md](./test/integration/aws/TESTING_AGAINST_AZU
 | **Author:**    | Dominik Richter (<drichter@chef.io>)      |
 | **Author:**    | Christoph Hartmann (<chartmann@chef.io>)  |
 | **Copyright:** | Copyright (c) 2015 Vulcano Security GmbH. |
-| **Copyright:** | Copyright (c) 2017 Chef Software Inc.     |
+| **Copyright:** | Copyright (c) 2019 Chef Software Inc.     |
 | **License:**   | Apache License, Version 2.0               |
 
 Licensed under the Apache License, Version 2.0 (the "License");
