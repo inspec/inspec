@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 3.6.3 -->
+## [v3.6.3](https://github.com/inspec/inspec/tree/v3.6.3) (2019-02-08)
+
+#### Merged Pull Requests
+- Add the 2.x branch to expeditor [#3789](https://github.com/inspec/inspec/pull/3789) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.6.2 -->
+### Changes since 3.6.2 release
+
+#### Merged Pull Requests
+- Add the 2.x branch to expeditor [#3789](https://github.com/inspec/inspec/pull/3789) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
