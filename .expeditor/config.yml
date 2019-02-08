@@ -28,6 +28,8 @@ github:
         version_constraint: 3.*
     - 1-stable:
         version_constraint: 1.*
+    - 2-stable:
+        version_constraint: 2.*
 
 changelog:
   categories:
