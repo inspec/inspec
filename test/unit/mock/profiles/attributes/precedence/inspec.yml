@@ -1,0 +1,33 @@
+name: precedence
+title: A profile to test attribute precedence
+maintainer: InSpec core engineering
+copyright: InSpec core engineering
+copyright_email: inspec@chef.io
+license: Apache-2.0
+summary: A profile to test attribute precedence
+version: 0.1.0
+supports:
+  platform: os
+
+depends:
+  - name: predence-wrappee
+    path: ../precedence-wrappee
+
+attributes:
+  # See test/functional/attributes_test.rb for a map of these values
+  - name: test_02
+    value: 'value from precedence metadata'
+  - name: test_03
+    value: 'value from precedence metadata'
+  - name: test_06
+    value: 'value from precedence metadata'
+  - name: test_07
+    value: 'value from precedence metadata'
+  - name: test_11
+    default: 'value from precedence metadata'
+  - name: test_12
+    default: 'value from precedence metadata'
+  - name: test_18
+    value: 'value from precedence metadata'
+  - name: test_22
+    value: 'value from precedence metadata'

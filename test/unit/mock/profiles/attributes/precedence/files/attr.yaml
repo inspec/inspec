@@ -1,0 +1,9 @@
+# See test/functional/attributes_test.rb for a map of these values
+test_04: 'value from precedence attrfile'
+test_05: 'value from precedence attrfile'
+test_06: 'value from precedence attrfile'
+test_07: 'value from precedence attrfile'
+test_08: 'value from precedence attrfile'
+test_09: 'value from precedence attrfile'
+test_17: 'value from precedence attrfile'
+test_23: 'value from precedence attrfile'
