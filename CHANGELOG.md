@@ -1,23 +1,20 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.6.4 -->
-## [v3.6.4](https://github.com/inspec/inspec/tree/v3.6.4) (2019-02-08)
-
-#### Merged Pull Requests
-- inspec detect: Fix for --config trying to read from STDIN twice [#3793](https://github.com/inspec/inspec/pull/3793) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.3.28 -->
-### Changes since 2.3.28 release
-
-#### Merged Pull Requests
-- inspec detect: Fix for --config trying to read from STDIN twice [#3793](https://github.com/inspec/inspec/pull/3793) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.4 -->
-- Add the 2.x branch to expeditor [#3789](https://github.com/inspec/inspec/pull/3789) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.3 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
-## [v2.3.28](https://github.com/inspec/inspec/tree/v2.3.28) (2019-02-08)
+## [v3.6.4](https://github.com/inspec/inspec/tree/v3.6.4) (2019-02-08)
+
+#### Merged Pull Requests
+- Add the 2.x branch to expeditor [#3789](https://github.com/inspec/inspec/pull/3789) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- inspec detect: Fix for --config trying to read from STDIN twice [#3793](https://github.com/inspec/inspec/pull/3793) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_stable_release -->
+
+## [v2.3.28](https://github.com/inspec/inspec/tree/v2.3.28) (2019-02-08)
 
 ## [v3.6.2](https://github.com/inspec/inspec/tree/v3.6.2) (2019-02-07)
 
