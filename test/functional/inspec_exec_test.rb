@@ -584,17 +584,26 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       describe 'when using the --config option to read from STDIN' do
         let(:json_path) { File.join(config_dir_path, 'json-config', 'good.json') }
         let(:cli_args) { '--config -' }
-        let(:run_result) do
-          prefix = 'cat ' + json_path + ' | '
-          simple_profile = File.join(profile_path, 'simple-metadata')
-          run_inspec_process(
-            'exec ' + simple_profile + ' ' + cli_args + ' ',
-            { prefix: prefix, json: true, env: env }
-          )
+        let(:opts) { { prefix: 'cat ' + json_path + ' | ', json: true, env: env } }
+
+        # DO NOT use the `let`-defined run_result through here
+        # If you do, it will execute twice, and cause STDIN to read empty on the second time
+        it 'exec should see the custom target ID value' do
+          result = run_inspec_process( 'exec ' + File.join(profile_path, 'simple-metadata') + ' ' + cli_args + ' ', opts )
+          result.stderr.must_be_empty
+          result.payload.json['platform']['target_id'].must_equal 'from-config-file'
         end
-        it 'should see the custom target ID value' do
-          stderr.must_be_empty
-          seen_target_id.must_equal 'from-config-file'
+
+        it 'detect should exit 0' do
+          result = run_inspec_process( 'detect ' + cli_args + ' ', opts )
+          result.stderr.must_be_empty
+          result.exit_status.must_equal 0
+        end
+
+        it 'shell should exit 0' do
+          result = run_inspec_process( 'shell -c "platform.family" ' + cli_args + ' ', opts )
+          result.stderr.must_be_empty
+          result.exit_status.must_equal 0
         end
       end
     end

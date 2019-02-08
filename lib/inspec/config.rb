@@ -177,8 +177,15 @@ module Inspec
       path
     end
 
+    # When reading STDIN, read it once into a class variable and cache it.
+    # Don't cache other IO objects though, as we use several different StringIOs
+    # during unit testing. Refs #3792
+    def self.stdin_contents # rubocop: disable Lint/IneffectiveAccessModifier
+      @stdin_content ||= STDIN.read
+    end
+
     def read_cfg_file_io(cfg_io)
-      contents = cfg_io.read
+      contents = cfg_io == STDIN ? self.class.stdin_contents : cfg_io.read
       begin
         @cfg_file_contents = JSON.parse(contents)
         validate_config_file_contents!
