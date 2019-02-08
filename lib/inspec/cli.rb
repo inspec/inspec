@@ -364,7 +364,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   private
 
   def run_command(opts)
-    runner = Inspec::Runner.new(Inspec::Config.new(opts))
+    runner = Inspec::Runner.new(opts)
     res = runner.eval_with_virtual_profile(opts[:command])
     runner.load
 
