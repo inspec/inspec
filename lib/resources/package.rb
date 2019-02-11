@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require 'utils/which'
+
 # Resource to determine package information
 #
 # Usage:
@@ -193,7 +195,7 @@ module Inspec::Resources
   # MacOS / Darwin implementation
   class Brew < PkgManagement
     def info(package_name)
-      brew_path = inspec.command('brew').exist? ? 'brew' : '/usr/local/bin/brew'
+      brew_path = which('brew')
       cmd = inspec.command("#{brew_path} info --json=v1 #{package_name}")
 
       # If no available formula exists, then `brew` will exit non-zero

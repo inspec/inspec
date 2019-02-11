@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require 'utils/which'
+
 module Inspec::Resources
   class KernelParameter < Inspec.resource(1)
     name 'kernel_parameter'
@@ -18,8 +20,12 @@ module Inspec::Resources
       return skip_resource 'The `kernel_parameter` resource is not supported on your OS.' if !inspec.os.linux?
     end
 
+    def sysctl_os_bin
+      which('sysctl')
+    end
+
     def value
-      cmd = inspec.command("/sbin/sysctl -q -n #{@parameter}")
+      cmd = inspec.command("#{sysctl_os_bin} -q -n #{@parameter}")
       return nil if cmd.exit_status != 0
       # remove whitespace
       cmd = cmd.stdout.chomp.strip

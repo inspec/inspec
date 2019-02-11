@@ -2,6 +2,7 @@
 
 require 'hashie'
 require 'utils/file_reader'
+require 'utils/which'
 
 module Inspec::Resources
   class Runlevels < Hash
@@ -132,14 +133,14 @@ module Inspec::Resources
         if version > 7
           Systemd.new(inspec, service_ctl)
         else
-          SysV.new(inspec, service_ctl || '/usr/sbin/service')
+          SysV.new(inspec, service_ctl || which('service'))
         end
       elsif %w{redhat fedora centos oracle cloudlinux}.include?(platform)
         version = os[:release].to_i
         if (%w{redhat centos oracle cloudlinux}.include?(platform) && version >= 7) || (platform == 'fedora' && version >= 15)
           Systemd.new(inspec, service_ctl)
         else
-          SysV.new(inspec, service_ctl || '/sbin/service')
+          SysV.new(inspec, service_ctl || which('service'))
         end
       elsif %w{wrlinux}.include?(platform)
         SysV.new(inspec, service_ctl)
@@ -157,7 +158,7 @@ module Inspec::Resources
         if os[:release].to_i >= 12
           Systemd.new(inspec, service_ctl)
         else
-          SysV.new(inspec, service_ctl || '/sbin/service')
+          SysV.new(inspec, service_ctl || which('service'))
         end
       elsif %w{aix}.include?(platform)
         SrcMstr.new(inspec)

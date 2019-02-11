@@ -2,6 +2,7 @@
 
 require 'pathname'
 require 'hashie/mash'
+require 'utils/which'
 
 module Inspec::Resources
   class Nginx < Inspec.resource(1)
@@ -21,7 +22,7 @@ module Inspec::Resources
     "
     attr_reader :params, :bin_dir
 
-    def initialize(nginx_path = '/usr/sbin/nginx')
+    def initialize(nginx_path = which('nginx'))
       return skip_resource 'The `nginx` resource is not yet available on your OS.' if inspec.os.windows?
       return skip_resource 'The `nginx` binary not found in the path provided.' unless inspec.command(nginx_path).exist?
 

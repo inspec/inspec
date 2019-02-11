@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require 'utils/which'
+
 # Usage:
 # describe iptables do
 #   it { should have_rule('-P INPUT ACCEPT') }
@@ -70,11 +72,7 @@ module Inspec::Resources
     private
 
     def find_iptables_or_error
-      %w{/usr/sbin/iptables /sbin/iptables iptables}.each do |cmd|
-        return cmd if inspec.command(cmd).exist?
-      end
-
-      raise Inspec::Exceptions::ResourceFailed, 'Could not find `iptables`'
+      which('iptables')
     end
   end
 end

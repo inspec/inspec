@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require 'utils/which'
+
 module Inspec::Resources
   class KernelModule < Inspec.resource(1)
     name 'kernel_module'
@@ -41,11 +43,7 @@ module Inspec::Resources
     end
 
     def loaded?
-      if inspec.os.redhat? || inspec.os.name == 'fedora'
-        lsmod_cmd = '/sbin/lsmod'
-      else
-        lsmod_cmd = 'lsmod'
-      end
+      lsmod_cmd = which('lsmod')
 
       # get list of all modules
       cmd = inspec.command(lsmod_cmd)
@@ -81,19 +79,11 @@ module Inspec::Resources
     end
 
     def modinfo_cmd_for_os
-      if inspec.os.redhat? || inspec.os.name == 'fedora'
-        '/sbin/modinfo'
-      else
-        'modinfo'
-      end
+      which('modinfo')
     end
 
     def modprobe_cmd_for_os
-      if inspec.os.redhat? || inspec.os.name == 'fedora'
-        '/sbin/modprobe'
-      else
-        'modprobe'
-      end
+      which('modprobe')
     end
 
     def disabled_via_bin_true?

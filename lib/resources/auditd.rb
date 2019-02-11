@@ -4,6 +4,7 @@ require 'forwardable'
 require 'utils/filter_array'
 require 'utils/filter'
 require 'utils/parser'
+require 'utils/which'
 
 module Inspec::Resources
   class AuditDaemon < Inspec.resource(1)
@@ -30,12 +31,12 @@ module Inspec::Resources
     "
 
     def initialize
-      unless inspec.command('/sbin/auditctl').exist?
+      unless inspec.command(auditctl_os_cmd).exist?
         raise Inspec::Exceptions::ResourceFailed,
-              'Command `/sbin/auditctl` does not exist'
+              "Command `#{auditctl_os_cmd}` does not exist"
       end
 
-      auditctl_cmd = '/sbin/auditctl -l'
+      auditctl_cmd = "#{auditctl_os_cmd} -l"
       result = inspec.command(auditctl_cmd)
 
       if result.exit_status != 0
@@ -54,6 +55,10 @@ module Inspec::Resources
       parse_content
     end
 
+    def auditctl_os_cmd
+      which('auditctl')
+    end
+
     filter = FilterTable.create
     filter.register_column(:file,         field: 'file')
           .register_column(:list,         field: 'list')
@@ -70,7 +75,7 @@ module Inspec::Resources
     filter.install_filter_methods_on_resource(self, :params)
 
     def status(name = nil)
-      @status_content ||= inspec.command('/sbin/auditctl -s').stdout.chomp
+      @status_content ||= inspec.command(auditctl_os_cmd).stdout.chomp
 
       # See: https://github.com/inspec/inspec/issues/3113
       if @status_content =~ /^AUDIT_STATUS/

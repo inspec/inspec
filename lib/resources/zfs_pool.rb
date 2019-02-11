@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require 'utils/which'
+
 module Inspec::Resources
   class ZfsPool < Inspec.resource(1)
     name 'zfs_pool'
@@ -21,9 +23,13 @@ module Inspec::Resources
       @params = gather
     end
 
+    def zpool_os_cmd
+      which('zpool')
+    end
+
     # method called by 'it { should exist }'
     def exists?
-      inspec.command("/sbin/zpool get -Hp all #{@zfs_pool}").exit_status == 0
+      inspec.command("#{zpool_os_cmd} get -Hp all #{@zfs_pool}").exit_status == 0
     end
 
     def to_s
@@ -31,7 +37,7 @@ module Inspec::Resources
     end
 
     def gather
-      cmd = inspec.command("/sbin/zpool get -Hp all #{@zfs_pool}")
+      cmd = inspec.command("#{zpool_os_cmd} get -Hp all #{@zfs_pool}")
       return nil if cmd.exit_status.to_i != 0
 
       # parse data

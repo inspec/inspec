@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require 'utils/which'
+
 module Inspec::Resources
   class ZfsDataset < Inspec.resource(1)
     name 'zfs_dataset'
@@ -24,7 +26,7 @@ module Inspec::Resources
 
     # method called by 'it { should exist }'
     def exists?
-      inspec.command("/sbin/zfs get -Hp all #{@zfs_dataset}").exit_status == 0
+      inspec.command("#{zfs_os_cmd} get -Hp all #{@zfs_dataset}").exit_status == 0
     end
 
     def mounted?
@@ -36,8 +38,12 @@ module Inspec::Resources
       "ZFS Dataset #{@zfs_dataset}"
     end
 
+    def zfs_os_cmd
+      which('zfs')
+    end
+
     def gather
-      cmd = inspec.command("/sbin/zfs get -Hp all #{@zfs_dataset}")
+      cmd = inspec.command("#{zfs_os_cmd} get -Hp all #{@zfs_dataset}")
       return nil if cmd.exit_status.to_i != 0
 
       # parse data
