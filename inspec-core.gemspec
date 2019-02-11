@@ -41,4 +41,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'multipart-post'
   spec.add_dependency 'tty-table', '~> 0.10'
   spec.add_dependency 'tty-prompt', '~> 0.17'
+  spec.add_dependency 'term-ansicolor'
 end
