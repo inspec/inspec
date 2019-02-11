@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 3.6.5 -->
+## [v3.6.5](https://github.com/inspec/inspec/tree/v3.6.5) (2019-02-11)
+
+#### Merged Pull Requests
+- Add logger to train generic options [#3806](https://github.com/inspec/inspec/pull/3806) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.6.4 -->
+### Changes since 3.6.4 release
+
+#### Merged Pull Requests
+- Add logger to train generic options [#3806](https://github.com/inspec/inspec/pull/3806) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.5 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
