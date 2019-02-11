@@ -14,6 +14,11 @@
     "filesystem_property_size": {
       "action": "ignore",
       "comment": "See #3778"
+    },
+    "rename_attributes_to_inputs": {
+      "action": "ignore",
+      "prefix": "InSpec Attributes are being renamed to InSpec Inputs to avoid confusion with Chef Attributes.",
+      "comment": "See #3802"
     }
   }
 }
