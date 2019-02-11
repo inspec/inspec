@@ -1,6 +1,6 @@
 require 'forwardable'
 require 'singleton'
-require 'inspec/objects/attribute'
+require 'inspec/objects/input'
 
 module Inspec
   class AttributeRegistry

@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 module Inspec
-  autoload :Attribute, 'inspec/objects/attribute'
+  autoload :Attribute, 'inspec/objects/input'
   autoload :Tag, 'inspec/objects/tag'
   autoload :Control, 'inspec/objects/control'
   autoload :Describe, 'inspec/objects/describe'
