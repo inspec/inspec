@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 require 'helper'
-require 'inspec/attribute_registry'
+require 'inspec/inpuut_registry'
 
 describe Inspec::AttributeRegistry do
   let(:attributes) { Inspec::AttributeRegistry }

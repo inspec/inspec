@@ -1,4 +1,4 @@
-require 'inspec/attribute_registry'
+require 'inspec/input_registry'
 require 'inspec/plugin/v2'
 require 'rspec/core/example_group'
 
