@@ -9,6 +9,7 @@ module Inspec
     # These are options that apply to any transport
     GENERIC_CREDENTIALS = %w{
       backend
+      logger
       sudo
       sudo_password
       sudo_command
