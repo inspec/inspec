@@ -27,7 +27,7 @@ module Inspec
 
         # allow attributes to be accessed within control blocks
         define_method :attribute do |name|
-          Inspec::AttributeRegistry.find_attribute(name, profile_id).value
+          Inspec::InputRegistry.find_input(name, profile_id).value
         end
 
         # Support for Control DSL plugins.
@@ -167,12 +167,12 @@ module Inspec
           profile_context_owner.register_rule(control, &block) unless control.nil?
         end
 
-        # method for attributes; import attribute handling
+        # method for inputs; import input handling
         define_method :attribute do |name, options = nil|
           if options.nil?
-            Inspec::AttributeRegistry.find_attribute(name, profile_id).value
+            Inspec::InputRegistry.find_input(name, profile_id).value
           else
-            profile_context_owner.register_attribute(name, options)
+            profile_context_owner.register_input(name, options)
           end
         end
 

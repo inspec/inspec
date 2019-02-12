@@ -38,7 +38,7 @@ describe 'attributes' do
       cmd += File.join(inputs_profiles_path, 'metadata-empty')
       cmd += ' --no-create-lockfile'
       out = inspec(cmd)
-      out.stdout.must_include 'WARN: Attributes must be defined as an Array. Skipping current definition.'
+      out.stdout.must_include 'WARN: Inputs must be defined as an Array. Skipping current definition.'
       out.exit_status.must_equal 0
     end
 
@@ -57,7 +57,7 @@ describe 'attributes' do
       cmd += File.join(inputs_profiles_path, 'required')
       cmd += ' --no-create-lockfile'
       out = inspec(cmd)
-      out.stderr.must_equal "Attribute 'username' is required and does not have a value.\n"
+      out.stderr.must_equal "Input 'username' is required and does not have a value.\n"
       out.stdout.must_equal ''
       out.exit_status.must_equal 1
     end

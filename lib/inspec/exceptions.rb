@@ -3,8 +3,8 @@
 
 module Inspec
   module Exceptions
-    class AttributesFileDoesNotExist < ArgumentError; end
-    class AttributesFileNotReadable < ArgumentError; end
+    class InputsFileDoesNotExist < ArgumentError; end
+    class InputsFileNotReadable < ArgumentError; end
     class ResourceFailed < StandardError; end
     class ResourceSkipped < StandardError; end
     class SecretsBackendNotFound < ArgumentError; end

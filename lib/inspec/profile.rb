@@ -135,7 +135,7 @@ module Inspec
           @runner_context.register_attribute(name, attr_dup)
         end
       elsif metadata.params.key?(:attributes)
-        Inspec::Log.warn 'Attributes must be defined as an Array. Skipping current definition.'
+        Inspec::Log.warn 'Inputs must be defined as an Array. Skipping current definition.'
       end
     end
 
