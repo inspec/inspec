@@ -62,7 +62,7 @@ module Inspec
         list[profile][name]
       else
         list[profile] = {} unless profile_exist?(profile)
-        list[profile][name] = Inspec::Attribute.new(name, options)
+        list[profile][name] = Inspec::Input.new(name, options)
       end
     end
 

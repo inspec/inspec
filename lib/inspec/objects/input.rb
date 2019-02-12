@@ -3,7 +3,7 @@
 require 'utils/deprecation'
 
 module Inspec
-  class Attribute
+  class Input
     attr_accessor :name
 
     VALID_TYPES = %w{
@@ -37,7 +37,7 @@ module Inspec
       end
 
       def to_s
-        "Attribute '#{@name}' does not have a value. Skipping test."
+        "Input '#{@name}' does not have a value. Skipping test."
       end
     end
 
@@ -45,9 +45,9 @@ module Inspec
       @name = name
       @opts = options
       if @opts.key?(:default)
-        Inspec.deprecate(:attrs_value_replaces_default, "attribute name: '#{name}'")
+        Inspec.deprecate(:attrs_value_replaces_default, "input name: '#{name}'")
         if @opts.key?(:value)
-          Inspec::Log.warn "Attribute #{@name} created using both :default and :value options - ignoring :default"
+          Inspec::Log.warn "Input #{@name} created using both :default and :value options - ignoring :default"
           @opts.delete(:default)
         else
           @opts[:value] = @opts.delete(:default)
@@ -104,7 +104,7 @@ module Inspec
     end
 
     def to_s
-      "Attribute #{@name} with #{@value}"
+      "Input #{@name} with #{@value}"
     end
 
     private
@@ -115,9 +115,9 @@ module Inspec
 
       # value will be set already if a secrets file was passed in
       if (!@opts.key?(:default) && value.nil?) || (@opts[:default].nil? && value.nil?)
-        error = Inspec::Attribute::RequiredError.new
-        error.attribute_name = @name
-        raise error, "Attribute '#{error.attribute_name}' is required and does not have a value."
+        error = Inspec::Input::RequiredError.new
+        error.input_name = @name
+        raise error, "Input '#{error.input_name}' is required and does not have a value."
       end
     end
 
@@ -129,9 +129,9 @@ module Inspec
       }
       type = abbreviations[type] if abbreviations.key?(type)
       if !VALID_TYPES.include?(type)
-        error = Inspec::Attribute::TypeError.new
-        error.attribute_type = type
-        raise error, "Type '#{error.attribute_type}' is not a valid attribute type."
+        error = Inspec::Input::TypeError.new
+        error.input_type = type
+        raise error, "Type '#{error.input_type}' is not a valid input type."
       end
       type
     end
@@ -168,11 +168,11 @@ module Inspec
       end
 
       if invalid_type == true
-        error = Inspec::Attribute::ValidationError.new
-        error.attribute_name = @name
-        error.attribute_value = value
-        error.attribute_type = type
-        raise error, "Attribute '#{error.attribute_name}' with value '#{error.attribute_value}' does not validate to type '#{error.attribute_type}'."
+        error = Inspec::Input::ValidationError.new
+        error.input_name = @name
+        error.input_value = value
+        error.input_type = type
+        raise error, "Input '#{error.input_name}' with value '#{error.input_value}' does not validate to type '#{error.input_type}'."
       end
     end
     # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity

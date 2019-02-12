@@ -18,29 +18,29 @@ module Inspec
   class ConfigError::MalformedJson < ConfigError; end
   class ConfigError::Invalid < ConfigError; end
 
-  class Attribute
+  class Input
     class Error < Inspec::Error; end
     class ValidationError < Error
-      attr_accessor :attribute_name
-      attr_accessor :attribute_value
-      attr_accessor :attribute_type
+      attr_accessor :input_name
+      attr_accessor :input_value
+      attr_accessor :input_type
     end
     class TypeError < Error
-      attr_accessor :attribute_type
+      attr_accessor :input_type
     end
     class RequiredError < Error
-      attr_accessor :attribute_name
+      attr_accessor :input_name
     end
   end
 
-  class AttributeRegistry
+  class InputRegistry
     class Error < Inspec::Error; end
     class ProfileError < Error
       attr_accessor :profile_name
     end
-    class AttributeError < Error
+    class InputError < Error
       attr_accessor :profile_name
-      attr_accessor :attribute_name
+      attr_accessor :input_name
     end
   end
 
