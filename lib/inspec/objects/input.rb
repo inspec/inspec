@@ -3,19 +3,8 @@
 require 'utils/deprecation'
 
 module Inspec
-  class Input
-    attr_accessor :name
-
-    VALID_TYPES = %w{
-      String
-      Numeric
-      Regexp
-      Array
-      Hash
-      Boolean
-      Any
-    }.freeze
-
+  # TODO: move this
+  class Attribute
     DEFAULT_ATTRIBUTE = Class.new do
       def initialize(name)
         @name = name
@@ -40,6 +29,21 @@ module Inspec
         "Input '#{@name}' does not have a value. Skipping test."
       end
     end
+  end
+
+  class Input
+    attr_accessor :name
+
+    VALID_TYPES = %w{
+      String
+      Numeric
+      Regexp
+      Array
+      Hash
+      Boolean
+      Any
+    }.freeze
+
 
     def initialize(name, options = {})
       @name = name
@@ -178,7 +182,7 @@ module Inspec
     # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
     def value_or_dummy
-      @opts.key?(:value) ? @opts[:value] : DEFAULT_ATTRIBUTE.new(@name)
+      @opts.key?(:value) ? @opts[:value] : Inspec::Attribute::DEFAULT_ATTRIBUTE.new(@name)
     end
   end
 end

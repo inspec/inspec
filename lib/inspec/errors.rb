@@ -35,10 +35,10 @@ module Inspec
 
   class InputRegistry
     class Error < Inspec::Error; end
-    class ProfileError < Error
+    class ProfileLookupError < Error
       attr_accessor :profile_name
     end
-    class InputError < Error
+    class InputLookupError < Error
       attr_accessor :profile_name
       attr_accessor :input_name
     end
