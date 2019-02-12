@@ -216,7 +216,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       inspec exec /path/to/profile
       ```
 
-    Local single test (doesn't allow attributes or custom resources)
+    Local single test (doesn't allow inputs or custom resources)
       ```
       inspec exec /path/to/a_test.rb
       ```

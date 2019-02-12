@@ -32,7 +32,13 @@ module Inspec
   class Runner
     extend Forwardable
 
-    attr_reader :backend, :rules, :attributes
+    attr_reader :backend, :rules, :inputs
+
+    def attributes
+      Inspec.deprecate(:rename_attributes_to_inputs, "Don't call runner.attributes, call runner.inputs")
+      inputs
+    end
+
     def initialize(conf = {})
       @rules = []
       # If we were handed a Hash config (by audit cookbook or kitchen-inspec),
@@ -51,10 +57,10 @@ module Inspec
         RunnerRspec.new(@conf)
       end
 
-      # list of profile attributes
-      @attributes = {}
+      # list of profile inputs
+      @inputs = {}
 
-      load_attributes(@conf)
+      load_inputs(@conf)
       configure_transport
     end
 
@@ -95,7 +101,7 @@ module Inspec
           @test_collector.add_profile(requirement.profile)
         end
 
-        @attributes = profile.runner_context.attributes if @attributes.empty?
+        @inputs = profile.runner_context.inputs if @inputs.empty?
         tests = profile.collect_tests
         all_controls += tests unless tests.nil?
       end
@@ -143,25 +149,26 @@ module Inspec
       @test_collector.exit_code
     end
 
-    # determine all attributes before the execution, fetch data from secrets backend
-    def load_attributes(options)
+    # determine all inputs before the execution, fetch data from secrets backend
+    def load_inputs(options)
+      # TODO - rename :attributes and :attrs - these are both user-visible
       options[:attributes] ||= {}
 
       secrets_targets = options[:attrs]
       return options[:attributes] if secrets_targets.nil?
 
       secrets_targets.each do |target|
-        validate_attributes_file_readability!(target)
+        validate_inputs_file_readability!(target)
 
         secrets = Inspec::SecretsBackend.resolve(target)
         if secrets.nil?
           raise Inspec::Exceptions::SecretsBackendNotFound,
-                "Cannot find parser for attributes file '#{target}'. " \
+                "Cannot find parser for inputs file '#{target}'. " \
                 'Check to make sure file has the appropriate extension.'
         end
 
-        next if secrets.attributes.nil?
-        options[:attributes].merge!(secrets.attributes)
+        next if secrets.inputs.nil?
+        options[:attributes].merge!(secrets.inputs)
       end
 
       options[:attributes]
@@ -173,7 +180,7 @@ module Inspec
     #
     # A target is a path or URL that points to a profile. Using this
     # target we generate a Profile and a ProfileContext. The content
-    # (libraries, tests, and attributes) from the Profile are loaded
+    # (libraries, tests, and inputs) from the Profile are loaded
     # into the ProfileContext.
     #
     # If the profile depends on other profiles, those profiles will be
@@ -198,7 +205,7 @@ module Inspec
                                            vendor_cache: @cache,
                                            backend: @backend,
                                            controls: @controls,
-                                           attributes: @conf[:attributes])
+                                           inputs: @conf[:attributes]) # TODO: read form :inputs here (user visible)
       raise "Could not resolve #{target} to valid input." if profile.nil?
       @target_profiles << profile if supports_profile?(profile)
     end
@@ -289,16 +296,16 @@ module Inspec
       examples.each { |e| @test_collector.add_test(e, rule) }
     end
 
-    def validate_attributes_file_readability!(target)
+    def validate_inputs_file_readability!(target)
       unless File.exist?(target)
         raise Inspec::Exceptions::InputsFileDoesNotExist,
-              "Cannot find attributes file '#{target}'. " \
+              "Cannot find input file '#{target}'. " \
               'Check to make sure file exists.'
       end
 
       unless File.readable?(target)
         raise Inspec::Exceptions::InputsFileNotReadable,
-              "Cannot read attributes file '#{target}'. " \
+              "Cannot read input file '#{target}'. " \
               'Check to make sure file is readable.'
       end
 

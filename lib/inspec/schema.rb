@@ -153,7 +153,7 @@ module Inspec
           'type' => 'array',
           'items' => CONTROL_GROUP,
         },
-        'attributes' => {
+        'attributes' => { # TODO: rename to inputs, refs #3802
           'type' => 'array',
           # TODO: more detailed specification needed
         },

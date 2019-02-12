@@ -12,13 +12,13 @@ require 'inspec/objects/input'
 
 module Inspec
   class ProfileContext
-    def self.for_profile(profile, backend, attributes)
+    def self.for_profile(profile, backend, inputs)
       new(profile.name, backend, { 'profile' => profile,
-                                   'attributes' => attributes,
+                                   'inputs' => inputs,
                                    'check_mode' => profile.check_mode })
     end
 
-    attr_reader :attributes, :backend, :profile_name, :profile_id, :resource_registry
+    attr_reader :inputs, :backend, :profile_name, :profile_id, :resource_registry
     attr_accessor :rules
     def initialize(profile_id, backend, conf)
       if backend.nil?
@@ -35,7 +35,7 @@ module Inspec
       @lib_subcontexts = []
       @require_loader = ::Inspec::RequireLoader.new
       Inspec::InputRegistry.register_profile_alias(@profile_id, @profile_name) if @profile_id != @profile_name
-      @attributes = Inspec::InputRegistry.list_inputs_for_profile(@profile_id)
+      @inputs = Inspec::InputRegistry.list_inputs_for_profile(@profile_id)
       # A local resource registry that only contains resources defined
       # in the transitive dependency tree of the loaded profile.
       @resource_registry = Inspec::Resource.new_registry
@@ -187,11 +187,11 @@ module Inspec
       end
     end
 
-    def register_attribute(name, options = {})
-      # we need to return an attribute object, to allow dermination of values
-      attribute = Inspec::InputRegistry.register_attribute(name, @profile_id, options)
-      attribute.value = @conf['attributes'][name] unless @conf['attributes'].nil? || @conf['attributes'][name].nil?
-      attribute.value
+    def register_input(name, options = {})
+      # we need to return an input object, to allow dermination of values
+      input = Inspec::InputRegistry.register_input(name, @profile_id, options)
+      input.value = @conf['inputs'][name] unless @conf['inputs'].nil? || @conf['inputs'][name].nil?
+      input.value
     end
 
     def set_header(field, val)

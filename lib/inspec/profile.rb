@@ -97,7 +97,7 @@ module Inspec
       @profile_id = options[:id]
       @profile_name = options[:profile_name]
       @cache = options[:vendor_cache] || Cache.new
-      @attr_values = options[:attributes]
+      @input_values = options[:inputs]
       @tests_collected = false
       @libraries_loaded = false
       @check_mode = options[:check_mode] || false
@@ -120,14 +120,14 @@ module Inspec
 
       @runner_context =
         options[:profile_context] ||
-        Inspec::ProfileContext.for_profile(self, @backend, @attr_values)
+        Inspec::ProfileContext.for_profile(self, @backend, @input_values)
 
       @supports_platform = metadata.supports_platform?(@backend)
       @supports_runtime = metadata.supports_runtime?
-      register_metadata_attributes
+      register_metadata_inputs
     end
 
-    def register_metadata_attributes
+    def register_metadata_inputs # TODO: deprecate
       if metadata.params.key?(:attributes) && metadata.params[:attributes].is_a?(Array)
         metadata.params[:attributes].each do |attribute|
           attr_dup = attribute.dup
@@ -297,12 +297,12 @@ module Inspec
         group
       end
 
-      # add information about the required attributes
-      if res[:attributes].nil? || res[:attributes].empty?
-        # convert to array for backwords compatability
-        res[:attributes] = []
+      # add information about the required inputs
+      if res[:inputs].nil? || res[:inputs].empty?
+        # convert to array for backwards compatability
+        res[:inputs] = []
       else
-        res[:attributes] = res[:attributes].values.map(&:to_hash)
+        res[:inputs] = res[:inputs].values.map(&:to_hash)
       end
       res[:sha256] = sha256
       res[:parent_profile] = parent_profile unless parent_profile.nil?
@@ -530,7 +530,7 @@ module Inspec
         backend: @backend,
         parent_profile: name,
       }
-      Inspec::DependencySet.from_lockfile(lockfile, config, { attributes: @attr_values })
+      Inspec::DependencySet.from_lockfile(lockfile, config, { inputs: @input_values })
     end
 
     # Calculate this profile's SHA256 checksum. Includes metadata, dependencies,
@@ -595,7 +595,7 @@ module Inspec
         f = load_rule_filepath(prefix, rule)
         load_rule(rule, f, controls, groups)
       end
-      params[:attributes] = @runner_context.attributes
+      params[:inputs] = @runner_context.inputs
       params
     end
 

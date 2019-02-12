@@ -6,7 +6,7 @@ module Secrets
   class YAML < Inspec.secrets(1)
     name 'yaml'
 
-    attr_reader :attributes
+    attr_reader :inputs
 
     def self.resolve(target)
       unless target.is_a?(String) && File.file?(target) && ['.yml', '.yaml'].include?(File.extname(target).downcase)
@@ -17,14 +17,14 @@ module Secrets
 
     # array of yaml file paths
     def initialize(target)
-      @attributes = ::YAML.load_file(target)
+      @inputs = ::YAML.load_file(target)
 
-      if @attributes == false || !@attributes.is_a?(Hash)
+      if @inputs == false || !@inputs.is_a?(Hash)
         Inspec::Log.warn("#{self.class} unable to parse #{target}: invalid YAML or contents is not a Hash")
-        @attributes = nil
+        @inputs = nil
       end
     rescue => e
-      raise "Error reading InSpec attributes: #{e}"
+      raise "Error reading InSpec inputs: #{e}"
     end
   end
 end
