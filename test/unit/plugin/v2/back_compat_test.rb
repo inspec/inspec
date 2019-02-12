@@ -24,7 +24,6 @@ module PluginV2BackCompat
       assert_equal Inspec::Plugins::SourceReader, klass
     end
 
-    # TODO: rename to attribute_provider?
     def test_get_plugin_v1_base_for_secrets
       klass = Inspec.secrets(1)
       assert_kind_of Class, klass

@@ -135,7 +135,7 @@ describe Inspec::Reporters::Json do
             release: '17.*',
           },
         ],
-        attributes: [],
+        attributes: [], # TODO: rename  attributes in json reporter
       }
       profile = report.send(:profiles).first
       profile.delete(:groups)

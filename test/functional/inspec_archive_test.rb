@@ -95,7 +95,7 @@ describe 'inspec archive' do
     end
   end
 
-  it 'can archive a profile with required attributes' do
+  it 'can archive a profile with required inputs' do
     archive_depends_path = File.join(profile_path, 'profile-with-required-inputs')
 
     Dir.mktmpdir do |tmpdir|

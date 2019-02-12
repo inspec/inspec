@@ -1,7 +1,7 @@
 # encoding: utf-8
 # copyright: 2017
 # author: Aaron Lippold, lippold@gmail.com
-# author: Rony Xavier, rx294@nyu.edu 
+# author: Rony Xavier, rx294@nyu.edu
 
 require 'helper'
 require 'inspec/resource'
@@ -25,7 +25,7 @@ describe 'Inspec::Resources::PGHbaConf' do
       _(entries.type).must_include 'hostssl'
       _(entries.database).must_include 'acme_test'
     end
-    it 'Verify postgres_hba_conf attributes'  do
+    it 'Verify postgres_hba_conf properties'  do
       _(resource.auth_method).must_include 'cert'
       _(resource.database).must_include 'acme_test'
       _(resource.type).must_include 'hostssl'

@@ -97,7 +97,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 "
   end
 
-  it "executes a profile and reads attributes" do
+  it "executes a profile and reads inputs" do
     out = inspec("exec #{File.join(examples_path, 'profile-attribute')} --no-create-lockfile --attrs #{File.join(examples_path, "profile-attribute.yml")}")
     out.stderr.must_equal ''
     out.exit_status.must_equal 0

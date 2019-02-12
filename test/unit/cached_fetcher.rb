@@ -17,7 +17,7 @@ describe Inspec::CachedFetcher do
           'sha256'=>'132j1kjdasfasdoaefaewo12312',
           'groups'=>[],
           'controls'=>[],
-          'attributes'=>[],
+          'inputs'=>[],
           'latest_version'=>'' }]
     end
     before do

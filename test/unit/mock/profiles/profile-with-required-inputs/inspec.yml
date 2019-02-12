@@ -1,5 +1,5 @@
-name: profile-with-required-attributes
-title: InSpec example for attributes override
+name: profile-with-required-inputs
+title: InSpec example for inputs override
 maintainer: Chef Software, Inc.
 copyright: Chef Software, Inc.
 copyright_email: support@chef.io
