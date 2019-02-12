@@ -63,14 +63,14 @@ merge_actions:
         - built_in:bump_version
 
 subscriptions:
-  - workload: artifact_published:unstable:inspec:*
+  - workload: artifact_published:unstable:inspec:{{version_constraint}}
     actions:
       - built_in:build_docker_image
-  - workload: artifact_published:current:inspec:*
+  - workload: artifact_published:current:inspec:{{version_constraint}}
     actions:
       - built_in:tag_docker_image
       - built_in:promote_habitat_packages
-  - workload: artifact_published:stable:inspec:*
+  - workload: artifact_published:stable:inspec:{{version_constraint}}
     actions:
       - bash:.expeditor/update_dockerfile.sh
       - built_in:rollover_changelog
