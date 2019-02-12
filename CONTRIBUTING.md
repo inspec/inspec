@@ -44,7 +44,7 @@ Once you open a pull request, project maintainers will review your code and resp
 2. When ready, your pull request will be merged into `master`, we may require you to rebase your PR to the latest `master`.
 3. Once the PR is merged, you will be included in `CHANGELOG.md`.
 
-If you would like to learn about when your code will be available in a release of Chef, read more about [Chef Release Cycles](#release-cycles).
+If you would like to learn about when your code will be available in a release of InSpec, read more about [InSpec Release Cycles](#release-cycles).
 
 ### Developer Certification of Origin (DCO)
 
@@ -149,10 +149,10 @@ This information is provided for context only.  Contributors are not expected to
 Our version numbering roughly follows [Semantic Versioning](http://semver.org/) standard. Our standard version numbers look like X.Y.Z which mean:
 
 - X is a major release, which may not be fully compatible with prior major releases
-- Y is a minor release, which adds both new features and bug fixes
+- Y is a minor release, which adds new features and may include bug fixes
 - Z is a patch release, which adds just bug fixes
 
-After shipping a release of InSpec we bump at least the `patch` version by one to start development of the next minor release. We do a release approximately every week. Announcements of releases are made to the [InSpec mailing list](https://discourse.chef.io/c/chef-release) when they are available.
+After shipping a release of InSpec we bump at least the `patch` version by one to start development of the next release. We do a release approximately every week. Announcements of releases are made to the [InSpec mailing list](https://discourse.chef.io/c/chef-release) when they are available.
 
 ## InSpec Community
 
