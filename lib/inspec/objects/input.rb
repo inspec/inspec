@@ -44,7 +44,6 @@ module Inspec
       Any
     }.freeze
 
-
     def initialize(name, options = {})
       @name = name
       @opts = options

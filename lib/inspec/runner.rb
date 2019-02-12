@@ -151,7 +151,7 @@ module Inspec
 
     # determine all inputs before the execution, fetch data from secrets backend
     def load_inputs(options)
-      # TODO - rename :attributes and :attrs - these are both user-visible
+      # TODO: - rename :attributes and :attrs - these are both user-visible
       options[:attributes] ||= {}
 
       secrets_targets = options[:attrs]
