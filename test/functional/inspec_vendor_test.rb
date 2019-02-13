@@ -221,7 +221,7 @@ describe 'example inheritance profile' do
   end
 
   it 'can vendor profile with required attributes' do
-    archive_depends_path = File.join(profile_path, 'profile-with-required-attributes')
+    archive_depends_path = File.join(profile_path, 'profile-with-required-inputs')
 
     Dir.mktmpdir do |tmpdir|
       FileUtils.cp_r(archive_depends_path + '/.', tmpdir)
