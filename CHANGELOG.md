@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 3.6.7 -->
+## [v3.6.7](https://github.com/inspec/inspec/tree/v3.6.7) (2019-02-13)
+
+#### Merged Pull Requests
+- Attributes-Inputs Rename: Move test files [#3796](https://github.com/inspec/inspec/pull/3796) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.6.6 -->
+### Changes since 3.6.6 release
+
+#### Merged Pull Requests
+- Attributes-Inputs Rename: Move test files [#3796](https://github.com/inspec/inspec/pull/3796) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.7 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
