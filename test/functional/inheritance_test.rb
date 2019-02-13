@@ -68,7 +68,7 @@ describe 'example inheritance profile' do
   end
 
   it 'can execute a profile inheritance' do
-    out = inspec('exec ' + path + ' --reporter json --no-create-lockfile --input-file ' + input_file)
+    out = inspec('exec ' + path + ' --reporter json --no-create-lockfile --attrs ' + input_file)
     out.stderr.must_equal ''
     out.exit_status.must_equal 101
     JSON.load(out.stdout).must_be_kind_of Hash

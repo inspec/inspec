@@ -10,7 +10,9 @@ describe 'command tests' do
       out = inspec('version')
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
-      out.stdout.must_equal Inspec::VERSION+"\n"
+      # Tolerate working on an out of date branch
+      output = out.stdout.split("\n").reject { |l| l.start_with?('Your version of InSpec is out of date!') }.join("\n")
+      output.must_equal Inspec::VERSION + "\n"
     end
 
     it 'prints the version as JSON when the format is specified as JSON' do
