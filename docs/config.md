@@ -34,7 +34,7 @@ Config files must contain a top-level key, `version`, which indicates the file f
     "automate" : {
     "stdout" : false,
     "url" : "https://YOUR_A2_URL/data-collector/v0/",
-    "token" : "YOUR_A2_ADMIN_TOKEN",
+    "token" : "YOUR_A2_API_TOKEN",
     "insecure" : true,
     "node_name" : "inspec_test_node",
     "environment" : "prod"
