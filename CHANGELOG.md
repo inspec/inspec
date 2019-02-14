@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.6.9 -->
-## [v3.6.9](https://github.com/inspec/inspec/tree/v3.6.9) (2019-02-14)
+<!-- latest_release 3.6.10 -->
+## [v3.6.10](https://github.com/inspec/inspec/tree/v3.6.10) (2019-02-14)
 
 #### Merged Pull Requests
-- Update support platforms in the readme [#3812](https://github.com/inspec/inspec/pull/3812) ([tas50](https://github.com/tas50))
+- Attribute-Input Rename: Add deprecation group [#3805](https://github.com/inspec/inspec/pull/3805) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.6.6 -->
 ### Changes since 3.6.6 release
 
 #### Merged Pull Requests
+- Attribute-Input Rename: Add deprecation group [#3805](https://github.com/inspec/inspec/pull/3805) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.10 -->
 - Update support platforms in the readme [#3812](https://github.com/inspec/inspec/pull/3812) ([tas50](https://github.com/tas50)) <!-- 3.6.9 -->
 - Attribute-Input Rename: Rename codefiles [#3803](https://github.com/inspec/inspec/pull/3803) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.8 -->
 - Attributes-Inputs Rename: Move test files [#3796](https://github.com/inspec/inspec/pull/3796) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.7 -->
