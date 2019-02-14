@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Stephan Renatus
 
 if platform_family?('rhel', 'debian', 'fedora')

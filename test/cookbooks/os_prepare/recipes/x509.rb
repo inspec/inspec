@@ -1,6 +1,6 @@
 if node['platform_family'] != 'windows'
 
-  openssl_x509 '/tmp/mycert.pem' do
+  openssl_x509_request '/tmp/mycert.pem' do
     common_name 'www.f00bar.com'
     org 'Foo Bar'
     org_unit 'Lab'
@@ -8,7 +8,7 @@ if node['platform_family'] != 'windows'
     expire 360
   end
 
-  openssl_rsa_key '/tmp/server.key' do
+  openssl_rsa_private_key '/tmp/server.key' do
     key_length 2048
   end
 

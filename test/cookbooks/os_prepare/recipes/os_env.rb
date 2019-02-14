@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Omar Irizarry
 #
 # change a few Windows registry keys for testing purposes

@@ -1,9 +1,9 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 #
 # prepare all operating systems with the required configuration
 
+apt_update if platform_family?('debian')
 
 # inject the current inspec gem for use with audit cookbook
 # this is generated via Rake test:integration
@@ -28,9 +28,6 @@ end
 
 # set a static node uuid for our testing nodes
 Chef::Config[:chef_guid] = uuid_from_string(node.name)
-
-# container preparation
-include_recipe('os_prepare::prep_container')
 
 # confgure ssh
 include_recipe('os_prepare::ssh')
