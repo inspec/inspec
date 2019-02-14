@@ -1,8 +1,7 @@
 # encoding: utf-8
 # author: Stephan Renatus
 
-case node['platform']
-when 'ubuntu', 'rhel', 'centos', 'fedora'
+if platform_family?('rhel', 'debian', 'fedora')
   execute 'iptables -A INPUT -i eth0 -p tcp -m tcp '\
           '--dport 80 -m state --state NEW -m comment '\
           '--comment "http on 80" -j ACCEPT'
