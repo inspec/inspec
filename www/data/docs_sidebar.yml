@@ -26,6 +26,8 @@ sidebar_links:
     link: "/docs/reference/matchers.html"
   - title: Reporters
     link: "/docs/reference/reporters.html"
+  - title: Configuration
+    link: "/docs/reference/config.html"
   - title: InSpec DSL
     link: "/docs/reference/dsl_inspec.html"
   - title: Profile Style guide
