@@ -22,6 +22,7 @@ group :test do
 end
 
 group :integration do
+  # this version check can be removed when inspec no longer support ruby 2.3
   if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.4')
     gem 'berkshelf', '~> 7'
   end
