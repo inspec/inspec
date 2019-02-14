@@ -5,7 +5,7 @@
 
 require 'forwardable'
 require 'openssl'
-require 'inspec/attribute_registry'
+require 'inspec/input_registry'
 require 'inspec/polyfill'
 require 'inspec/cached_fetcher'
 require 'inspec/file_provider'

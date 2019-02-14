@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 require 'helper'
-require 'inspec/objects/attribute'
+require 'inspec/objects/input'
 
 describe Inspec::Attribute do
   let(:attribute) { Inspec::Attribute.new('test_attribute') }
