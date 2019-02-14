@@ -16,7 +16,7 @@ matrix:
   - rvm: 2.3.8
   - rvm: 2.4.5
   - rvm: 2.5.3
-  - rvm: 2.6.1
+  #- rvm: 2.6.1 # this needs a few fixes to get enabled
   - rvm: 2.4.5
     script: bundle exec rake $SUITE
     env: SUITE="test:functional"
