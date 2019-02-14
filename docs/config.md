@@ -78,6 +78,12 @@ Each Train transport offers a variety of options. By using the credential set fa
 
 You may have as many credential sets in the config file as you require.
 
+If you use a target URI and the portion after the `://` cannot be matched to credential set name, InSpec will send the URI to Train to be parsed as a Train URI.  Thus, you can still do `ssh://someuser@myhost.com`.
+
+You can use a credential set, and then override individual options using command line options.
+
+Credential sets are intended to work hand-in-hand with the underlying credentials storage facility of the transport. For example, if you have a `~/.ssh/config` file specifying that the sally-key.pem file should be used with the host `somehost.com`, and you have a credential set that specifies that host, then when Train tries to connect to that host, the SSH library will automatically use the SSH config file to use the indicated key.
+
 ### reporter
 
 You may also set output (reporter) options in the config file.  See the [Reporters Page](https://www.inspec.io/docs/reference/reporters/) for details.
