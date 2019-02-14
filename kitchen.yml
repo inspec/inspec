@@ -32,6 +32,16 @@ platforms:
     image: dokken/amazonlinux-2
     pid_one_command: /usr/lib/systemd/systemd
 
+- name: centos-6
+  driver:
+    image: dokken/centos-6
+    pid_one_command: /sbin/init
+
+- name: centos-7
+  driver:
+    image: dokken/centos-7
+    pid_one_command: /usr/lib/systemd/systemd
+
 - name: debian-8
   driver:
     image: dokken/debian-8
@@ -46,15 +56,24 @@ platforms:
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
 
-- name: centos-6
+- name: fedora-29
   driver:
-    image: dokken/centos-6
-    pid_one_command: /sbin/init
-
-- name: centos-7
-  driver:
-    image: dokken/centos-7
+    image: dokken/fedora-29
     pid_one_command: /usr/lib/systemd/systemd
+
+- name: oracle-6.7
+  driver:
+    image: oraclelinux:6.7
+
+- name: oracle-7.2
+  driver:
+    image: oraclelinux:7.2
+    pid_one_command: /usr/lib/systemd/systemd
+
+- name: opensuse-leap
+  driver:
+    image: dokken/opensuse-leap-42
+    pid_one_command: /bin/systemd
 
 - name: ubuntu-14.04
   driver:
@@ -76,25 +95,6 @@ platforms:
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
-- name: oracle-6.7
-  driver:
-    image: oraclelinux:6.7
-- name: oracle-7.2
-  driver:
-    image: oraclelinux:7.2
-    pid_one_command: /usr/lib/systemd/systemd
-- name: fedora-23
-  driver:
-    image: fedora:23
-    pid_one_command: /usr/lib/systemd/systemd
-    intermediate_instructions:
-    - RUN dnf install -y yum
-- name: fedora-24
-  driver:
-    image: fedora:24
-    pid_one_command: /usr/lib/systemd/systemd
-    intermediate_instructions:
-    - RUN dnf install -y yum
 
 suites:
 - name: default

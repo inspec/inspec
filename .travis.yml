@@ -55,7 +55,7 @@ matrix:
   - rvm: 2.5.3
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration[default-fedora-24]
+    env: SUITE=test:integration[default-fedora-29]
   - rvm: 2.4.5
     sudo: false
     cache:
