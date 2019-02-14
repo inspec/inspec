@@ -20,31 +20,39 @@ matrix:
   - rvm: 2.4.5
     script: bundle exec rake $SUITE
     env: SUITE="test:functional"
-  - rvm: 2.4.5
+  - rvm: 2.5.3
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration[default-ubuntu-1204]
-  - rvm: 2.4.5
+    env: SUITE=test:integration[default-ubuntu-1404]
+  - rvm: 2.5.3
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-ubuntu-1604]
-  - rvm: 2.4.5
+  - rvm: 2.5.3
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration[default-centos-68]
-  - rvm: 2.4.5
+    env: SUITE=test:integration[default-ubuntu-1804]
+  - rvm: 2.5.3
+    script: bundle exec rake $SUITE
+    bundler_args: "--without tools maintenance deploy"
+    env: SUITE=test:integration[default-centos-6]
+  - rvm: 2.5.3
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-centos-7]
-  - rvm: 2.4.5
+  - rvm: 2.5.3
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-debian-8]
-  - rvm: 2.4.5
+  - rvm: 2.5.3
+    script: bundle exec rake $SUITE
+    bundler_args: "--without tools maintenance deploy"
+    env: SUITE=test:integration[default-debian-9]
+  - rvm: 2.5.3
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-oracle-72]
-  - rvm: 2.4.5
+  - rvm: 2.5.3
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-fedora-24]
