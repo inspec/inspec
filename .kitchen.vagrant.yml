@@ -10,23 +10,17 @@ verifier:
   sudo: true
 
 platforms:
-  - name: centos-7.1
-  - name: centos-6.7
-  - name: centos-5.11
-  - name: debian-6.0.10
-  - name: debian-7.8
-  - name: debian-8.1
-  - name: fedora-21
-  - name: fedora-22
-  - name: freebsd-9.3
-  - name: freebsd-10.2
-  - name: opensuse-13.2-x86_64
+  - name: centos-6
+  - name: centos-7
+  - name: debian-8
+  - name: debian-9
+  - name: fedora-28
+  - name: fedora-29
+  - name: freebsd-11
+  - name: opensuseleap-42
   - name: ubuntu-14.04
-  - name: ubuntu-12.04
-  - name: ubuntu-10.04
-  - name: mint-17.2-cinnamon
-    driver_config:
-      box: artem-sidorenko/mint-17.2-cinnamon
+  - name: ubuntu-16.04
+  - name: ubuntu-18.04
 
 suites:
   - name: default
@@ -39,4 +33,4 @@ suites:
       inspec_tests:
         - test/integration/find_files
     excludes:
-      - freebsd-10.2
+      - freebsd-11
