@@ -1,0 +1,83 @@
+# The InSpec Configuration File
+
+This documents the InSpec configuration file format introduced in version 3.5 of InSpec.
+
+## Config File Location
+
+By default, InSpec looks for a config file in `~/.inspec/config.json`.  InSpec does not need a configuration file to run.
+
+You may also specify the location using `--config`.  For example, to run the shell using a config file in `/etc/inspec`, use `inspec shell --config /etc/inspec/config.json`.
+
+## Config File Format Versions
+
+Config files must contain a top-level key, `version`, which indicates the file format. This allows us to add new fields without breaking old installations.
+
+## Version 1.1
+
+### Complete Example
+
+```
+{
+  "version": "1.1",
+  "cli_options":{
+    "color": "true"
+  },
+  "credentials": {
+    "ssh": {
+      "my-target": {
+        "host":"somewhere.there.com",
+        "user":"bob"
+      }
+    }
+  },
+  "reporter": {
+    "automate" : {
+    "stdout" : false,
+    "url" : "https://YOUR_A2_URL/data-collector/v0/",
+    "token" : "YOUR_A2_ADMIN_TOKEN",
+    "insecure" : true,
+    "node_name" : "inspec_test_node",
+    "environment" : "prod"
+  }
+}
+```
+
+
+### version
+
+Should have the value '1.1'.
+
+### cli_options
+
+In this key, you can place any long-form command line option, without the leading dashes.
+
+### credentials
+
+Under this key, you may store any Train-transport-specific options.  You store the options keyed first by transport name, then by a name you choose to refer to them later.  The combination of transport name and your chosen name can be used in the `--target` option to `inspec exec`, as `--target transport-name://connection-name`.
+
+For example, if the config file contains:
+
+```
+{
+  "credentials": {
+    "winrm": {
+      "myconn": {
+        "user": "Administrator",
+        "host": "prod01.east.example.com",
+        "disable_sspi": true,
+        "connection_retries": 10
+      }
+    }
+  }
+}
+```
+
+Then you can use `--target winrm://myconn` to connect to the host, with the given extra options.
+
+Each Train transport offers a variety of options. By using the credential set facility, you are able to easily set options that are not accessible via the Train URI.
+
+You may have as many credential sets in the config file as you require.
+
+### reporter
+
+You may also set output (reporter) options in the config file.  See the [Reporters Page](https://www.inspec.io/docs/reference/reporters/) for details.
