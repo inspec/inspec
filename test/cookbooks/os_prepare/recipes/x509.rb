@@ -1,6 +1,6 @@
 if node['platform_family'] != 'windows'
 
-  openssl_x509_request '/tmp/mycert.pem' do
+  openssl_x509_certificate '/tmp/mycert.pem' do
     common_name 'www.f00bar.com'
     org 'Foo Bar'
     org_unit 'Lab'
