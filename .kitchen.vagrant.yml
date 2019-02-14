@@ -31,10 +31,7 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[apt]
-      - recipe[yum]
       - recipe[os_prepare]
-    attributes:
   - name: find_files
     run_list:
       - recipe[os_prepare::find_files]

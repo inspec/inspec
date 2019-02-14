@@ -84,7 +84,4 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[apt]
-      - recipe[yum]
       - recipe[os_prepare]
-    attributes:

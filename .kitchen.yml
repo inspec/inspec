@@ -86,8 +86,6 @@ suites:
   run_list:
   - recipe[os_prepare]
   - recipe[audit]
-  - recipe[apt]
-  - recipe[yum]
   verifier:
     inspec_tests:
       - test/integration/default

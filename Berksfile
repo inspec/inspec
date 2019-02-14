@@ -2,8 +2,6 @@
 source 'https://supermarket.chef.io'
 
 cookbook 'audit'
-cookbook 'apt'
-cookbook 'yum'
 cookbook 'postgresql', '= 7.1.0'
 cookbook 'docker'
 cookbook 'yum-epel'
