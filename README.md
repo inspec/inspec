@@ -288,9 +288,9 @@ Remote Targets
 | ---------------------------- | ------------------------------------------------ | ------------- |
 | AIX                          | 6.1, 7.1, 7.2                                    | ppc64         |
 | CentOS                       | 5, 6, 7                                          | i386, x86_64  |
-| Debian                       | 7, 8                                             | i386, x86_64  |
-| FreeBSD                      | 9, 10                                            | i386, amd64   |
-| Mac OS X                     | 10.9, 10.10, 10.11                               | x86_64        |
+| Debian                       | 7, 8, 9                                          | i386, x86_64  |
+| FreeBSD                      | 9, 10, 11                                        | i386, amd64   |
+| Mac OS X                     | 10.9, 10.10, 10.11, 10.12, 10.13, 10.14          | x86_64        |
 | Oracle Enterprise Linux      | 5, 6, 7                                          | i386, x86_64  |
 | Red Hat Enterprise Linux     | 5, 6, 7                                          | i386, x86_64  |
 | Solaris                      | 10, 11                                           | sparc, x86    |
@@ -299,7 +299,7 @@ Remote Targets
 | SUSE Linux Enterprise Server | 11, 12                                           | x86_64        |
 | Scientific Linux             | 5.x, 6.x and 7.x                                 | i386, x86_64  |
 | Fedora                       |                                                  | x86_64        |
-| OpenSUSE                     | 13.1/13.2/42.1                                   | x86_64        |
+| OpenSUSE                     | 13, 42                                           | x86_64        |
 | OmniOS                       |                                                  | x86_64        |
 | Gentoo Linux                 |                                                  | x86_64        |
 | Arch Linux                   |                                                  | x86_64        |
@@ -311,7 +311,7 @@ In addition, runtime support is provided for:
 
 | Platform | Versions |
 | -------- | -------- |
-| Debian   | 8        |
+| Debian   | 8, 9     |
 | RHEL     | 6, 7     |
 | Ubuntu   | 12.04+   |
 | Windows  | 7+       |
@@ -440,7 +440,7 @@ Please see [TESTING_AGAINST_AZURE.md](./test/integration/aws/TESTING_AGAINST_AZU
 | **Author:**    | Dominik Richter (<drichter@chef.io>)      |
 | **Author:**    | Christoph Hartmann (<chartmann@chef.io>)  |
 | **Copyright:** | Copyright (c) 2015 Vulcano Security GmbH. |
-| **Copyright:** | Copyright (c) 2017 Chef Software Inc.     |
+| **Copyright:** | Copyright (c) 2017-2018 Chef Software Inc.|
 | **License:**   | Apache License, Version 2.0               |
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -453,4 +453,4 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License. 
+limitations under the License.
