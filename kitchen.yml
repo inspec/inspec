@@ -61,13 +61,14 @@ platforms:
     image: dokken/fedora-29
     pid_one_command: /usr/lib/systemd/systemd
 
-- name: oracle-6.7
+- name: oraclelinux-6
   driver:
-    image: oraclelinux:6.7
+    image: dokken/oraclelinux-6
+    pid_one_command: /sbin/init
 
-- name: oracle-7.2
+- name: oraclelinux-7
   driver:
-    image: oraclelinux:7.2
+    image: dokken/oraclelinux-7
     pid_one_command: /usr/lib/systemd/systemd
 
 - name: opensuse-leap
