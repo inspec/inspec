@@ -22,7 +22,7 @@ group :test do
 end
 
 group :integration do
-  gem 'berkshelf', '~> 5.2'
+  gem 'berkshelf', '~> 7'
   gem 'test-kitchen', '>= 1.24'
   gem 'kitchen-vagrant'
   # we need winrm v2 support >= 0.15.1
