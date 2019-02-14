@@ -9,6 +9,7 @@ Berksfile.lock
 .librarian
 Puppetfile.lock
 .kitchen.local.yml
+kitchen.local.yml
 profile.tar.gz
 omnibus/.cache
 omnibus/pkg
