@@ -6,7 +6,7 @@ title: InSpec Reporters
 
 Introduced in InSpec 1.51.6
 
-InSpec allows you to output your test results to one or more reporters. You can configure the reporter(s) using either the `--json-config` option or the `--reporter` option. While you can configure multiple reporters to write to different files, only one reporter can output to the screen(stdout).
+InSpec allows you to output your test results to one or more reporters. You can configure the reporter(s) using either the `--config` (or `--json-config`, prior to v3.6) option or the `--reporter` option. While you can configure multiple reporters to write to different files, only one reporter can output to the screen(stdout).
 
 ## Syntax
 
@@ -52,7 +52,7 @@ If you wish to pass the profiles directly after specifying the reporters you wil
 inspec exec --reporter json junit:/tmp/junit.xml -- profile1 profile2
 ```
 
-If you are using the cli option `--json-config` you can also set reporters.
+If you are using the cli option `--config`, you can also set reporters.
 
 Output cli to screen.
 
@@ -124,7 +124,7 @@ This renders html code to view your tests in a browser. It includes all the test
 
 ## Automate Reporter
 
-The automate reporter type is a special reporter used with the Automate 2 suite. To use this reporter you must pass in the correct configuration via a json config `--json-config`.
+The automate reporter type is a special reporter used with the Automate 2 suite. To use this reporter you must pass in the correct configuration via a json config `--config`.
 
 Example config:
 
