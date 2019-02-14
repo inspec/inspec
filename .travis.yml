@@ -14,13 +14,13 @@ matrix:
   include:
   - rvm: 2.3.8
     bundler_args: "--without integration tools maintenance deploy"
-    env: LINT_AND_TEST_23: 1
+    env: UNIT_23=1
   - rvm: 2.4.5
     bundler_args: "--without integration tools maintenance deploy"
-    env: LINT_AND_TEST_24: 1
+    env: UNIT_24=1
   - rvm: 2.5.3
     bundler_args: "--without integration tools maintenance deploy"
-    env: LINT_AND_TEST_25: 1
+    env: UNIT_25=1
   #- rvm: 2.6.1 # this needs a few fixes to get enabled
   #  bundler_args: "--without integration tools maintenance deploy"
   #  env: LINT_AND_TEST_26: 1
