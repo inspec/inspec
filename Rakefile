@@ -70,11 +70,22 @@ namespace :test do
     end or fail 'Failures'
   end
 
-  task :touch_license_files do
+  task :accept_license do
     sh 'mkdir -p $HOME/.chef/accepted_licenses'
-    sh 'touch $HOME/.chef/accepted_licenses/inspec'
-    sh 'touch $HOME/.chef/accepted_licenses/chef'    # Needed by kitchen?
-    sh 'touch $HOME/.chef/accepted_licenses/kitchen' # Is this a thing?
+    # If the user has not accepted the license, touch the acceptance
+    # file, but also touch a marker that it is only for testing.
+    unless File.exist?(File.join(Dir.home, '.chef', 'accepted_licenses', 'inspec'))
+      sh 'touch $HOME/.chef/accepted_licenses/inspec'
+      sh 'touch $HOME/.chef/accepted_licenses/inspec.for_testing'
+    end
+
+    # Regardless of what happens, when this process exits, check for cleanup.
+    at_exit do
+      if File.exist?(File.join(Dir.home, '.chef', 'accepted_licenses', 'inspec.for_testing'))
+        sh 'rm -f $HOME/.chef/accepted_licenses/inspec'
+        sh 'rm -f $HOME/.chef/accepted_licenses/inspec.for_testing'
+      end
+    end
   end
 
   Rake::TestTask.new(:functional) do |t|
@@ -88,7 +99,7 @@ namespace :test do
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
   # Inject a prerequisite task
-  task :functional => [:touch_license_files]
+  task :functional => [:accept_license]
 
   # Functional tests on Windows take a bit to run. This
   # optionally takes a env to breake the tests up into 3 workers.
@@ -107,7 +118,7 @@ namespace :test do
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
   # Inject a prerequisite task
-  task :'functional:windows' => [:touch_license_files]
+  task :'functional:windows' => [:accept_license]
 
   task :resources do
     tests = Dir['test/resource/*_test.rb']
