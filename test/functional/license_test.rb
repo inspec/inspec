@@ -85,7 +85,7 @@ describe 'The license acceptance mechanism' do
 
     describe 'when a command is used that should not be gated on licensure' do
       [
-        '-h', '--help', 'help',
+        '-h', '--help', 'help', '',     # Empty invocation is treated as `inspec help`
         '-v', '--version', 'version',
       ].each do |ungated_invocation|
         it "should not challenge for a license when running `inspec #{ungated_invocation}`" do

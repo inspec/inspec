@@ -390,7 +390,8 @@ commands_exempt_from_license_check = help_commands + version_commands
 #---------------------------------------------------------------------#
 require 'license_acceptance/acceptor'
 begin
-  if (commands_exempt_from_license_check & ARGV.map(&:downcase)).empty?
+  if (commands_exempt_from_license_check & ARGV.map(&:downcase)).empty? &&  # Did they use a non-exempt command?
+     !ARGV.empty?                                                           # Did they supply at least one command?
     LicenseAcceptance::Acceptor.check_and_persist('inspec', Inspec::VERSION)
   end
 rescue LicenseAcceptance::LicenseNotAcceptedError
