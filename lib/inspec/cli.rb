@@ -382,13 +382,15 @@ end
 #=====================================================================#
 
 help_commands = ['-h', '--help', 'help']
+version_commands = ['-v', '--version', 'version']
+commands_exempt_from_license_check = help_commands + version_commands
 
 #---------------------------------------------------------------------#
 # EULA acceptance
 #---------------------------------------------------------------------#
 require 'license_acceptance/acceptor'
 begin
-  if (help_commands & ARGV.map(&:downcase)).empty?
+  if (commands_exempt_from_license_check & ARGV.map(&:downcase)).empty?
     LicenseAcceptance::Acceptor.check_and_persist('inspec', Inspec::VERSION)
   end
 rescue LicenseAcceptance::LicenseNotAcceptedError
