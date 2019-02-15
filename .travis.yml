@@ -2,6 +2,7 @@ sudo: required
 branches:
   only:
     - master
+    - 4-stable
 language: ruby
 cache: bundler
 dist: trusty
