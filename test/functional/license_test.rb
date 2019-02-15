@@ -3,17 +3,13 @@ require 'tmpdir'
 require 'yaml'
 
 describe 'The license acceptance mechanism' do
-  let(:env) { { HOME => tmp_home } }
-  let(:run_result) { run_inspec_process(invocation, env: env) }
-  let(:license_persist_dir) { File.join(tmp_home, '.chef', 'accepted_licenses') }
-  let(:license_persist_path) { File.join(license_persist_dir, 'inspec') }
+  include FunctionalHelper
 
   describe 'when the license has not been accepted' do
     describe 'when the user passes the --accept-license flag' do
-      let(:invocation) { 'shell -c platform.family --accept-license' }
       it 'should silently work normally' do
-        Dir.tmpdir do |tmp_home|
-          # Check the invocation results
+        Dir.mktmpdir do |tmp_home|
+          run_result = run_inspec_process('shell -c platform.family --accept-license', env: { 'HOME' => tmp_home })
           run_result.stdout.wont_include 'Chef License Acceptance' # --accept-license should not mention accepting the license
           run_result.stderr.must_equal ''
           run_result.exit_status.must_equal 0
@@ -21,10 +17,13 @@ describe 'The license acceptance mechanism' do
       end
 
       it 'should write a YAML file' do
-        Dir.tmpdir do |tmp_home|
+        Dir.mktmpdir do |tmp_home|
+          license_persist_path = File.join(tmp_home, '.chef', 'accepted_licenses', 'inspec')
+
           File.exist?(license_persist_path).must_equal false # Sanity check
-          run_result
+          run_result = run_inspec_process('shell -c platform.family --accept-license', env: { 'HOME' => tmp_home })
           File.exist?(license_persist_path).must_equal true
+
           license_persist_contents = YAML.load(File.read(license_persist_path))
           license_persist_contents.keys.must_include 'accepting_product'
           license_persist_contents['accepting_product'].must_equal 'inspec'
@@ -35,10 +34,9 @@ describe 'The license acceptance mechanism' do
     # TODO: find a 'yes yes | ' equivalent in powershell
     unless windows?
       describe 'when the user answers yes to the interactive challenge' do
-        let(:run_result) { run_inspec_process('shell -c platform.family', env: env, prefix: 'yes yes | ') }
         it 'should silently work normally' do
-          Dir.tmpdir do |tmp_home|
-            # Check the invocation results
+          Dir.mktmpdir do |tmp_home|
+            run_result = run_inspec_process('shell -c platform.family', env: { 'HOME' => tmp_home }, prefix: 'yes yes | ')
             run_result.stdout.must_include 'Chef License Acceptance'
             run_result.stderr.must_equal ''
             run_result.exit_status.must_equal 0
@@ -46,17 +44,19 @@ describe 'The license acceptance mechanism' do
         end
 
         it 'should write a YAML file' do
-          Dir.tmpdir do |tmp_home|
+          Dir.mktmpdir do |tmp_home|
+            license_persist_path = File.join(tmp_home, '.chef', 'accepted_licenses', 'inspec')
+
             File.exist?(license_persist_path).must_equal false # Sanity check
-            run_result
+            run_result = run_inspec_process('shell -c platform.family', env: { 'HOME' => tmp_home }, prefix: 'yes yes | ')
             File.exist?(license_persist_path).must_equal true
           end
         end
 
         it 'Should not prompt on subsequent runs' do
-          Dir.tmpdir do |tmp_home|
-            run_result
-            second_run_result = run_inspec_process('shell -c platform.family', env: env)
+          Dir.mktmpdir do |tmp_home|
+            run_result = run_inspec_process('shell -c platform.family', env: { 'HOME' => tmp_home }, prefix: 'yes yes | ')
+            second_run_result = run_inspec_process('shell -c platform.family', env: { 'HOME' => tmp_home })
 
             second_run_result.stdout.wont_include 'Chef License Acceptance'
             second_run_result.stderr.must_equal ''
@@ -69,26 +69,27 @@ describe 'The license acceptance mechanism' do
     # TODO: find a 'yes no | ' equivalent in powershell
     unless windows?
       describe 'when the user answers no to the interactive challenge' do
-        let(:run_result) { run_inspec_process('shell -c platform.family', env: env, prefix: 'yes no | ') }
         it 'should prompt twice and fail with a special code' do
-          Dir.tmpdir do |tmp_home|
-            # Check the invocation results
+          Dir.mktmpdir do |tmp_home|
+            run_result = run_inspec_process('shell -c platform.family', env: { 'HOME' => tmp_home }, prefix: 'yes no | ')
+
             run_result.stdout.must_include 'Chef License Acceptance'
-            run_result.stderr.must_include 'License that need accepting' # From first challenge
-            run_result.stderr.must_include 'If you do not accept this license' # From second challenge
-            # run_result.stderr.must_include 'ERROR' # From failure message
-            # run_result.exit_status.must_equal 4 # TODO: coordinate error code
-            run_result.exit_status.must_equal 1 # TODO: coordinate error code
+            run_result.stdout.must_include 'License that need accepting' # From first challenge
+            run_result.stdout.must_include 'If you do not accept this license' # From second challenge
+            run_result.stdout.must_include 'ERROR' # From failure message
+            run_result.exit_status.must_equal 4 # TODO: coordinate error code
           end
         end
       end
     end
 
     describe 'when a command is used that should not be gated on licensure' do
-      ['-h', '--help', 'help'].each do |ungated_invocation|
+      [
+        '-h', '--help', 'help',
+      ].each do |ungated_invocation|
         it "should not challenge for a license when running `inspec #{ungated_invocation}`" do
-          Dir.tmpdir do |tmp_home|
-            run_result = run_inspec_process(ungated_invocation, env: env)
+          Dir.mktmpdir do |tmp_home|
+            run_result = run_inspec_process(ungated_invocation, env: { 'HOME' => tmp_home })
             run_result.stdout.wont_include 'Chef License Acceptance'
             run_result.stderr.must_equal ''
             run_result.exit_status.must_equal 0
@@ -99,17 +100,18 @@ describe 'The license acceptance mechanism' do
   end
 
   describe 'when the license has already been accepted' do
-    let(:invocation) { 'shell -c platform.family' }
-
     describe 'when the license was accepted by touching a blank file' do
       it 'should silently work normally' do
-        Dir.tmpdir do |tmp_home|
+        Dir.mktmpdir do |tmp_home|
+          license_persist_dir  = File.join(tmp_home, '.chef', 'accepted_licenses')
+          license_persist_path = File.join(tmp_home, '.chef', 'accepted_licenses', 'inspec')
+
           File.exist?(license_persist_path).must_equal false # Sanity check
           FileUtils.mkdir_p(license_persist_dir)
           FileUtils.touch(license_persist_path)
           File.exist?(license_persist_path).must_equal true # Sanity check
 
-          # Check the invocation results
+          run_result = run_inspec_process('shell -c platform.family', env: { 'HOME' => tmp_home })
           run_result.stdout.wont_include 'Chef License Acceptance'
           run_result.stderr.must_equal ''
           run_result.exit_status.must_equal 0
@@ -119,7 +121,10 @@ describe 'The license acceptance mechanism' do
 
     describe 'when the license persistance file is a YAML file' do
       it 'should silently work normally' do
-        Dir.tmpdir do |tmp_home|
+        Dir.mktmpdir do |tmp_home|
+          license_persist_dir  = File.join(tmp_home, '.chef', 'accepted_licenses')
+          license_persist_path = File.join(tmp_home, '.chef', 'accepted_licenses', 'inspec')
+
           File.exist?(license_persist_path).must_equal false # Sanity check
           FileUtils.mkdir_p(license_persist_dir)
           File.write(license_persist_path, <<~EOY)
@@ -133,7 +138,7 @@ describe 'The license acceptance mechanism' do
           EOY
           File.exist?(license_persist_path).must_equal true # Sanity check
 
-          # Check the invocation results
+          run_result = run_inspec_process('shell -c platform.family', env: { 'HOME' => tmp_home })
           run_result.stdout.wont_include 'Chef License Acceptance'
           run_result.stderr.must_equal ''
           run_result.exit_status.must_equal 0
