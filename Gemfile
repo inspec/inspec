@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 gemspec name: 'inspec'
 
 gem 'ffi', '>= 1.9.14'
-gem 'aws-sdk', '~> 2'
 
 group :test do
   gem 'minitest', '~> 5.5'
