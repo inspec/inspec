@@ -25,9 +25,10 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.3'
 
-  spec.add_dependency 'train', '~> 1.5', '>= 1.7.2'
+  spec.add_dependency 'train', '~> 2.0' # Inspec 4 must have train 2+
   # Train plugins we ship with InSpec
   spec.add_dependency 'train-habitat', '~> 0.1'
+  spec.add_dependency 'train-aws', '~> 0.1'
 
   # Implementation dependencies
   spec.add_dependency 'thor', '~> 0.20'

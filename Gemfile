@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 gem 'inspec', path: '.'
 
 gem 'ffi', '>= 1.9.14'
-gem 'aws-sdk', '~> 2'
 
 group :omnibus do
   gem 'rb-readline'
