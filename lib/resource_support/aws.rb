@@ -1,7 +1,24 @@
 # Main AWS loader file.  The intent is for this to be
 # loaded only if AWS resources are needed.
 
-require 'aws-sdk' # TODO: split once ADK v3 is in use
+
+require 'aws-sdk-core'
+
+require 'aws-sdk-cloudtrail'
+require 'aws-sdk-cloudwatch'
+require 'aws-sdk-cloudwatchlogs'
+require 'aws-sdk-costandusagereportservice'
+require 'aws-sdk-configservice'
+require 'aws-sdk-ec2'
+require 'aws-sdk-ecs'
+require 'aws-sdk-eks'
+require 'aws-sdk-elasticloadbalancing'
+require 'aws-sdk-iam'
+require 'aws-sdk-kms'
+require 'aws-sdk-rds'
+require 'aws-sdk-s3'
+require 'aws-sdk-sqs'
+require 'aws-sdk-sns'
 
 require 'resource_support/aws/aws_backend_factory_mixin'
 require 'resource_support/aws/aws_resource_mixin'
