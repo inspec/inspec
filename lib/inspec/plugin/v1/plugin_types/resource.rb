@@ -147,7 +147,10 @@ module Inspec
       end
 
       # rubocop:enable Lint/NestedMethodDefinition
-      if __resource_registry.key?(name)
+
+      # Warn if a resource pack is overwriting a core resource.
+      # Suppress warning if the resource is an AWS resource, see #3822
+      if __resource_registry.key?(name) && !name.start_with?('aws_')
         Inspec::Log.warn("Overwriting resource #{name}. To reference a specific version of #{name} use the resource() method")
       end
       __resource_registry[name] = cl
