@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.6.10 -->
-## [v3.6.10](https://github.com/inspec/inspec/tree/v3.6.10) (2019-02-14)
+<!-- latest_release 3.6.11 -->
+## [v3.6.11](https://github.com/inspec/inspec/tree/v3.6.11) (2019-02-20)
 
 #### Merged Pull Requests
-- Attribute-Input Rename: Add deprecation group [#3805](https://github.com/inspec/inspec/pull/3805) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Moved the AWS init profile to the correct location. [#3820](https://github.com/inspec/inspec/pull/3820) ([skpaterson](https://github.com/skpaterson))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.6.6 -->
 ### Changes since 3.6.6 release
 
 #### Merged Pull Requests
+- Moved the AWS init profile to the correct location. [#3820](https://github.com/inspec/inspec/pull/3820) ([skpaterson](https://github.com/skpaterson)) <!-- 3.6.11 -->
 - Attribute-Input Rename: Add deprecation group [#3805](https://github.com/inspec/inspec/pull/3805) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.10 -->
 - Update support platforms in the readme [#3812](https://github.com/inspec/inspec/pull/3812) ([tas50](https://github.com/tas50)) <!-- 3.6.9 -->
 - Attribute-Input Rename: Rename codefiles [#3803](https://github.com/inspec/inspec/pull/3803) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.8 -->
