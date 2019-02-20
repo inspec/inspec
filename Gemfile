@@ -1,6 +1,8 @@
 # encoding: utf-8
 source 'https://rubygems.org'
 
+gem 'train-aws', path: '../train-aws'
+
 gemspec name: 'inspec'
 
 gem 'ffi', '>= 1.9.14'
