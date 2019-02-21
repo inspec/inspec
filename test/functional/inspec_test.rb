@@ -11,7 +11,7 @@ describe 'command tests' do
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
       # Tolerate working on an out of date branch
-      output = out.stdout.split("\n").reject { |l| l.start_with?('Your version of InSpec is out of date!') }.join("\n")
+      output = out.stdout.split("\n").reject { |l| l.start_with?('Your version of InSpec is out of date!') }.join("\n") + "\n"
       output.must_equal Inspec::VERSION + "\n"
     end
 
