@@ -79,7 +79,7 @@ For all actions except `ignore`, a message is assembled, consisting of:
 
  * The string 'DEPRECATION'
  * The value of the `prefix` field of the group, if any
- * The specific message provided by the deprecation declaration
+ * The specific message provided by the deprecation declaration, if any
  * The value of the `suffix` field of the group, if any
  * If possible, the string '(used at ' followed by a `path/file.rb:lineno` to help the user locate the deprecation in *their code*.
 

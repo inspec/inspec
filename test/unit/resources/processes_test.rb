@@ -14,8 +14,9 @@ describe 'Inspec::Resources::Processes' do
   it 'verify processes resource' do
     resource = MockLoader.new(:freebsd10).load_resource('processes', 'login -fp apop')
 
-    proc { resource.list.length.must_equal 2 }
-      .must_output nil, "[DEPRECATION] `processes.list` is deprecated. Please use `processes.entries` instead. It will be removed in version 4.0.\n"
+    expect_deprecation_warning do
+      resource.list.length.must_equal 2
+    end
 
     _(resource.entries.length).must_equal 2
     _(resource.entries[0].to_h).must_equal({

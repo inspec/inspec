@@ -56,12 +56,8 @@ module Inspec::Resources
     name 'script'
 
     def initialize(script)
-      deprecated
+      Inspec.deprecate(:resource_script, 'The `script` resource is deprecated. Please use `powershell` instead.')
       super(script)
-    end
-
-    def deprecated
-      warn '[DEPRECATION] `script(script)` is deprecated.  Please use `powershell(script)` instead.'
     end
   end
 end

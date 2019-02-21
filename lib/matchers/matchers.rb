@@ -107,6 +107,7 @@ end
 # Deprecated: You should not use this matcher anymore
 RSpec::Matchers.define :be_running do
   match do |service|
+    Inspec.deprecate(:serverspec_compatibility, 'The service `be_running?` matcher is deprecated.')
     service.running? == true
   end
 
