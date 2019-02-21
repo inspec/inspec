@@ -280,18 +280,12 @@ module Inspec::Resources
     end
   end
 
-  # for compatability with serverspec
-  # this is deprecated syntax and will be removed in future versions
   class WindowsRegistryKey < RegistryKey
     name 'windows_registry_key'
 
     def initialize(name)
-      deprecated
+      Inspec.deprecate(:resource_windows_registry_key, 'The `windows_registry_key` resource is deprecated. Please use `registry_key` instead.')
       super(name)
-    end
-
-    def deprecated
-      warn '[DEPRECATION] `windows_registry_key(reg_key)` is deprecated.  Please use `registry_key(\'path\to\key\')` instead.'
     end
   end
 end

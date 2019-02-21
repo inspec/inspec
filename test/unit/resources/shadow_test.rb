@@ -44,8 +44,9 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   it 'access all lines of the file' do
-    proc { _(shadow.lines[0]).must_equal 'root:x:1:2:3::::' }.must_output nil,
-      "[DEPRECATION] The shadow `lines` property is deprecated and will be removed in InSpec 3.0.\n"
+    expect_deprecation_warning do
+      shadow.lines[0].must_equal 'root:x:1:2:3::::'
+    end
   end
 
   it 'access all params of the file' do
@@ -57,27 +58,27 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   it 'returns deprecation notice on user property' do
-    proc { _(shadow.user).must_equal %w{root www-data} }.must_output nil,
-      '[DEPRECATION] The shadow `user` property is deprecated and will' \
-      " be removed in InSpec 3.0.  Please use `users` instead.\n"
+    expect_deprecation_warning do
+      shadow.user.must_equal %w{root www-data}
+    end
   end
 
   it 'returns deprecatation notice on password property' do
-    proc { _(shadow.password).must_equal %w{x !!} }.must_output nil,
-      '[DEPRECATION] The shadow `password` property is deprecated and will' \
-      " be removed in InSpec 3.0.  Please use `passwords` instead.\n"
+    expect_deprecation_warning do
+      shadow.password.must_equal %w{x !!}
+    end
   end
 
   it 'returns deprecation notice on last_change property' do
-    proc { _(shadow.last_change).must_equal %w{1 10} }.must_output nil,
-      '[DEPRECATION] The shadow `last_change` property is deprecated and will' \
-      " be removed in InSpec 3.0.  Please use `last_changes` instead.\n"
+    expect_deprecation_warning do
+      shadow.last_change.must_equal %w{1 10}
+    end
   end
 
   it 'returns deprecation notice on expiry_date property' do
-    proc { _(shadow.expiry_date).must_equal [nil, "60"] }.must_output nil,
-      '[DEPRECATION] The shadow `expiry_date` property is deprecated and will' \
-      " be removed in InSpec 3.0.  Please use `expiry_dates` instead.\n"
+    expect_deprecation_warning do
+      shadow.expiry_date.must_equal [nil, "60"]
+    end
   end
 
   describe 'multiple filters' do
@@ -92,13 +93,14 @@ describe 'Inspec::Resources::Shadow' do
 
     it 'can read /etc/shadow and #filter matches user with no password and inactive_days' do
       users = shadow.filter(password: /[^x]/).entries.map { |x| x['user'] }
+
       users.each do |expected_user|
-        proc { expect(shadow.user(expected_user).users).must_equal(['www-data']) }.must_output nil,
-          '[DEPRECATION] The shadow `user` property is deprecated and will' \
-          " be removed in InSpec 3.0.  Please use `users` instead.\n"
-        proc { expect(shadow.user(expected_user).inactive_days).must_equal(['50']) }.must_output nil,
-          '[DEPRECATION] The shadow `user` property is deprecated and will' \
-          " be removed in InSpec 3.0.  Please use `users` instead.\n"
+        expect_deprecation_warning do
+          shadow.user(expected_user).users.must_equal(['www-data'])
+        end
+        expect_deprecation_warning do
+          shadow.user(expected_user).inactive_days.must_equal(['50'])
+        end
       end
     end
 

@@ -650,3 +650,13 @@ def load_resource(*args)
   m = MockLoader.new(:ubuntu1404)
   m.send('load_resource', *args)
 end
+
+# Used to capture `Inspec.deprecate()` with warn action
+def expect_deprecation_warning
+  @mock_logger = Minitest::Mock.new
+  @mock_logger.expect(:warn, nil, [/DEPRECATION/])
+  Inspec::Log.stub :warn, proc { |message| @mock_logger.warn(message) } do
+    yield
+  end
+  @mock_logger.verify
+end

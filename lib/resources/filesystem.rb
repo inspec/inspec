@@ -52,7 +52,7 @@ module Inspec::Resources
     end
 
     def size
-      Inspec.deprecate(:filesystem_property_size, 'The `size` property did not reliably use the correct units.  Please use `size_kb` instead.')
+      Inspec.deprecate(:property_filesystem_size, 'The `size` property did not reliably use the correct units. Please use `size_kb` instead.')
       if inspec.os.windows?
         # On windows, we had a bug prior to #3767 in which the
         # 'size' value was be scaled to GB in powershell.

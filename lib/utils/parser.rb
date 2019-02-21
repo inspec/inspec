@@ -88,7 +88,7 @@ module LinuxMountParser
       # parse options as array
       mount_options[:options] = mount[5].gsub(/\(|\)/, '').split(',')
     else
-      # parse options as serverspec uses it, tbis is deprecated
+      Inspec.deprecate(:serverspec_compatibility, 'Parsing mount options in this fashion is deprecated')
       mount_options[:options] = {}
       mount[5].gsub(/\(|\)/, '').split(',').each do |option|
         name, val = option.split('=')
