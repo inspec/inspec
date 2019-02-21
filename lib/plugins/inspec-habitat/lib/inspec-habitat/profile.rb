@@ -8,17 +8,17 @@ require 'ostruct'
 module InspecPlugins
   module Habitat
     class Profile
+      attr_reader :logger
       def initialize(path, options = {})
         @path = path
         @options = options
 
-        log_level = options.fetch(:log_level, 'info')
-        @log = Inspec::Log
-        @log.level(log_level.to_sym)
+        @logger = Inspec::Log
+        logger.level(options.fetch(:log_level, 'info').to_sym)
       end
 
       def create
-        @log.debug("Creating a Habitat artifact for '#{@path}'")
+        logger.debug("Creating a Habitat artifact for '#{@path}'")
         working_dir = create_working_dir
         habitat_config = read_habitat_config
 
@@ -35,28 +35,28 @@ module InspecPlugins
 
         hart_file = build_hart(working_dir, habitat_config)
 
-        @log.debug("Copying artifact to #{output_dir}...")
+        logger.debug("Copying artifact to #{output_dir}...")
         destination = File.join(output_dir, File.basename(hart_file))
         FileUtils.cp(hart_file, destination)
 
         destination
       rescue => e
-        @log.debug(e.backtrace.join("\n"))
+        logger.debug(e.backtrace.join("\n"))
         exit_with_error(
           'Unable to create Habitat artifact.',
           "#{e.class} -- #{e.message}",
         )
       ensure
-        @log.debug("Deleting working directory #{working_dir}")
+        logger.debug("Deleting working directory #{working_dir}")
         FileUtils.rm_rf(working_dir)
       end
 
       def setup(profile = profile_from_path(@path))
         path = profile.root_path
-        @log.debug("Setting up #{path} for Habitat...")
+        logger.debug("Setting up #{path} for Habitat...")
 
         plan_file = File.join(path, 'habitat', 'plan.sh')
-        @log.debug("Generating Habitat plan at #{plan_file}...")
+        logger.debug("Generating Habitat plan at #{plan_file}...")
         vars = {
           profile: profile,
           habitat_origin: read_habitat_config['origin'],
@@ -64,15 +64,15 @@ module InspecPlugins
         create_file_from_template(plan_file, 'plan.sh.erb', vars)
 
         run_hook_file = File.join(path, 'habitat', 'hooks', 'run')
-        @log.debug("Generating a Habitat run hook at #{run_hook_file}...")
+        logger.debug("Generating a Habitat run hook at #{run_hook_file}...")
         create_file_from_template(run_hook_file, 'hooks/run.erb')
 
         default_toml = File.join(path, 'habitat', 'default.toml')
-        @log.debug("Generating a Habitat default.toml at #{default_toml}...")
+        logger.debug("Generating a Habitat default.toml at #{default_toml}...")
         create_file_from_template(default_toml, 'default.toml.erb')
 
         config = File.join(path, 'habitat', 'config', 'inspec_exec_config.json')
-        @log.debug("Generating #{config} for `inspec exec`...")
+        logger.debug("Generating #{config} for `inspec exec`...")
         create_file_from_template(config, 'config/inspec_exec_config.json.erb')
       end
 
@@ -89,10 +89,10 @@ module InspecPlugins
         # Run create command to create habitat artifact
         hart = create
 
-        @log.debug("Uploading Habitat artifact #{hart}")
+        logger.debug("Uploading Habitat artifact #{hart}")
         upload_hart(hart, habitat_config)
       rescue => e
-        @log.debug(e.backtrace.join("\n"))
+        logger.debug(e.backtrace.join("\n"))
         exit_with_error(
           'Unable to upload Habitat artifact.',
           "#{e.class} -- #{e.message}",
@@ -103,7 +103,7 @@ module InspecPlugins
 
       def create_working_dir
         working_dir = Dir.mktmpdir
-        @log.debug("Generated working directory #{working_dir}")
+        logger.debug("Generated working directory #{working_dir}")
         working_dir
       end
 
@@ -127,43 +127,43 @@ module InspecPlugins
       end
 
       def copy_profile_to_working_dir(profile, working_dir)
-        @log.debug('Copying profile contents to the working directory...')
+        logger.debug('Copying profile contents to the working directory...')
         profile.files.each do |profile_file|
           next if File.extname(profile_file) == '.hart'
 
           src = File.join(profile.root_path, profile_file)
           dst = File.join(working_dir, profile_file)
           if File.directory?(profile_file)
-            @log.debug("Creating directory #{dst}")
+            logger.debug("Creating directory #{dst}")
             FileUtils.mkdir_p(dst)
           else
-            @log.debug("Copying file #{src} to #{dst}")
+            logger.debug("Copying file #{src} to #{dst}")
             FileUtils.cp_r(src, dst)
           end
         end
       end
 
       def verify_profile(profile)
-        @log.debug('Checking to see if the profile is valid...')
+        logger.debug('Checking to see if the profile is valid...')
 
         unless profile.check[:summary][:valid]
           exit_with_error('Profile check failed. Please fix the profile ' \
                           'before creating a Habitat artifact.')
         end
 
-        @log.debug('Profile is valid.')
+        logger.debug('Profile is valid.')
       end
 
       def vendor_profile_dependencies!(profile)
         profile_vendor = Inspec::ProfileVendor.new(profile.root_path)
         if profile_vendor.lockfile.exist? && profile_vendor.cache_path.exist?
-          @log.debug("Profile's dependencies are already vendored, skipping " \
+          logger.debug("Profile's dependencies are already vendored, skipping " \
                     'vendor process.')
         else
-          @log.debug("Vendoring the profile's dependencies...")
+          logger.debug("Vendoring the profile's dependencies...")
           profile_vendor.vendor!
 
-          @log.debug('Ensuring all vendored content has read permissions...')
+          logger.debug('Ensuring all vendored content has read permissions...')
           profile_vendor.make_readable
         end
 
@@ -175,7 +175,7 @@ module InspecPlugins
       end
 
       def verify_habitat_setup(habitat_config)
-        @log.debug('Checking to see if Habitat is installed...')
+        logger.debug('Checking to see if Habitat is installed...')
         cmd = Mixlib::ShellOut.new('hab --version')
         cmd.run_command
         if cmd.error?
@@ -199,7 +199,7 @@ module InspecPlugins
       end
 
       def build_hart(working_dir, habitat_config)
-        @log.debug('Building our Habitat artifact...')
+        logger.debug('Building our Habitat artifact...')
 
         env = {
           'TERM'               => 'vt100',
@@ -207,7 +207,7 @@ module InspecPlugins
           'HAB_NONINTERACTIVE' => 'true',
         }
 
-        env['RUST_LOG'] = 'debug' if @log.level == :debug
+        env['RUST_LOG'] = 'debug' if logger.level == :debug
 
         # TODO: Would love to use Mixlib::ShellOut here, but it doesn't
         # seem to preserve the STDIN tty, and docker gets angry.
@@ -230,7 +230,7 @@ module InspecPlugins
       end
 
       def upload_hart(hart_file, habitat_config)
-        @log.debug("Uploading '#{hart_file}' to the Habitat Builder Depot...")
+        logger.debug("Uploading '#{hart_file}' to the Habitat Builder Depot...")
 
         config = habitat_config
 
@@ -253,7 +253,7 @@ module InspecPlugins
           )
         end
 
-        @log.debug('Upload complete!')
+        logger.debug('Upload complete!')
       end
 
       def read_habitat_config
@@ -267,7 +267,7 @@ module InspecPlugins
 
       def exit_with_error(*errors)
         errors.each do |error_msg|
-          @log.error(error_msg)
+          logger.error(error_msg)
         end
 
         raise
