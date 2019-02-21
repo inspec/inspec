@@ -18,7 +18,7 @@ describe Inspec::Input do
     end
 
     it 'returns the dummy value if no value is assigned' do
-      input.value.must_be_kind_of Inspec::Input::DEFAULT_ATTRIBUTE
+      input.value.must_be_kind_of Inspec::Attribute::DEFAULT_ATTRIBUTE # TODO - test for new class too
       input.value.to_s.must_equal "Input 'test_input' does not have a value. Skipping test."
     end
 
