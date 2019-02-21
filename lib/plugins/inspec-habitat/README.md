@@ -12,8 +12,8 @@ any Linux based platform.
 
 When running as a service, an InSpec report will be created in JSON format (by
 default at `/hab/svc/YOUR_SERVICE/logs/inspec_last_run.json`).  Additionally, a
-log of the last run can be located at
-`/hab/svc/YOUR_SERVICE/logs/inspec_last_run.json` and CLI output is viewable in
+log of the last run will be located at
+`/hab/svc/YOUR_SERVICE/logs/inspec_log.txt` and CLI output is viewable in
 the Supervisor logs by default. You can also configure this service to report
 to [Chef Automate](https://www.chef.io/automate/).
 
@@ -30,7 +30,7 @@ inspec habitat profile setup PATH
 ```
 
 This will create the following files:
-  - habitat/plan.sh (Instructs Habitat on how to build the package)
+  - habitat/plan.sh (Provides build time instructions to Habitat)
   - habitat/default.toml (Used to configure the running Habitat service)
   - habitat/hooks/run (Shell script to execute this profile as a service)
   - habitat/config/inspec_exec_config.json (JSON for `inspec exec` CLI options)
@@ -98,7 +98,7 @@ hab sup run YOUR_ORIGIN/inspec-profile-YOUR_PROFILE_NAME
 
 ### Fetching Profiles from Chef Automate During Build
 
-Chef Automate requires authentication to fetch profiles from.
+Fetching profiles from Chef Automate requires authentication.
 
 Run the following commands prior to creating/uploading your Habitat package:
 
@@ -136,14 +136,15 @@ more info on service groups see the
 
 ## Testing
 
-To execute the lint/unit/functional tests run:
+Lint, unit, and functional tests are ran from the root of the InSpec source:
 
 ```
 bundle exec rake test
 ```
 
-To execute the integration tests (Test Kitchen + Vagrant + VirtualBox):
+To execute the integration tests (Test Kitchen + Vagrant + VirtualBox) run the
+following from the directory containing this README.md:
 
 ```
-bundle exec rake test:integration
+bundle exec kitchen test
 ```
