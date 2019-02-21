@@ -19,6 +19,11 @@
       "action": "ignore",
       "prefix": "InSpec Attributes are being renamed to InSpec Inputs to avoid confusion with Chef Attributes.",
       "comment": "See #3802"
+    },
+    "aws_resources_in_resource_pack": {
+      "comment": "See #3822",
+      "action": "ignore",
+      "prefix": "AWS resources shipped with core InSpec are being to moved to a resource pack for faster iteration. Please update your profiles to depend on git@github.com:inspec/inspec-aws.git ."
     }
   }
 }
