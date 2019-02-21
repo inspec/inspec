@@ -18,7 +18,7 @@ module InspecPlugins
       end
 
       def create
-        @log.info("Creating a Habitat artifact for '#{@path}'")
+        @log.debug("Creating a Habitat artifact for '#{@path}'")
         working_dir = create_working_dir
         habitat_config = read_habitat_config
 
@@ -35,7 +35,7 @@ module InspecPlugins
 
         hart_file = build_hart(working_dir, habitat_config)
 
-        @log.info("Copying artifact to #{output_dir}...")
+        @log.debug("Copying artifact to #{output_dir}...")
         destination = File.join(output_dir, File.basename(hart_file))
         FileUtils.cp(hart_file, destination)
 
@@ -53,10 +53,10 @@ module InspecPlugins
 
       def setup(profile = profile_from_path(@path))
         path = profile.root_path
-        @log.info("Setting up #{path} for Habitat...")
+        @log.debug("Setting up #{path} for Habitat...")
 
         plan_file = File.join(path, 'habitat', 'plan.sh')
-        @log.info("Generating Habitat plan at #{plan_file}...")
+        @log.debug("Generating Habitat plan at #{plan_file}...")
         vars = {
           profile: profile,
           habitat_origin: read_habitat_config['origin'],
@@ -64,15 +64,15 @@ module InspecPlugins
         create_file_from_template(plan_file, 'plan.sh.erb', vars)
 
         run_hook_file = File.join(path, 'habitat', 'hooks', 'run')
-        @log.info("Generating a Habitat run hook at #{run_hook_file}...")
+        @log.debug("Generating a Habitat run hook at #{run_hook_file}...")
         create_file_from_template(run_hook_file, 'hooks/run.erb')
 
         default_toml = File.join(path, 'habitat', 'default.toml')
-        @log.info("Generating a Habitat default.toml at #{default_toml}...")
+        @log.debug("Generating a Habitat default.toml at #{default_toml}...")
         create_file_from_template(default_toml, 'default.toml.erb')
 
         config = File.join(path, 'habitat', 'config', 'inspec_exec_config.json')
-        @log.info("Generating #{config} for `inspec exec`...")
+        @log.debug("Generating #{config} for `inspec exec`...")
         create_file_from_template(config, 'config/inspec_exec_config.json.erb')
       end
 
@@ -89,7 +89,7 @@ module InspecPlugins
         # Run create command to create habitat artifact
         hart = create
 
-        @log.info("Uploading Habitat artifact #{hart}")
+        @log.debug("Uploading Habitat artifact #{hart}")
         upload_hart(hart, habitat_config)
       rescue => e
         @log.debug(e.backtrace.join("\n"))
@@ -127,7 +127,7 @@ module InspecPlugins
       end
 
       def copy_profile_to_working_dir(profile, working_dir)
-        @log.info('Copying profile contents to the working directory...')
+        @log.debug('Copying profile contents to the working directory...')
         profile.files.each do |profile_file|
           next if File.extname(profile_file) == '.hart'
 
@@ -144,26 +144,26 @@ module InspecPlugins
       end
 
       def verify_profile(profile)
-        @log.info('Checking to see if the profile is valid...')
+        @log.debug('Checking to see if the profile is valid...')
 
         unless profile.check[:summary][:valid]
           exit_with_error('Profile check failed. Please fix the profile ' \
                           'before creating a Habitat artifact.')
         end
 
-        @log.info('Profile is valid.')
+        @log.debug('Profile is valid.')
       end
 
       def vendor_profile_dependencies!(profile)
         profile_vendor = Inspec::ProfileVendor.new(profile.root_path)
         if profile_vendor.lockfile.exist? && profile_vendor.cache_path.exist?
-          @log.info("Profile's dependencies are already vendored, skipping " \
+          @log.debug("Profile's dependencies are already vendored, skipping " \
                     'vendor process.')
         else
-          @log.info("Vendoring the profile's dependencies...")
+          @log.debug("Vendoring the profile's dependencies...")
           profile_vendor.vendor!
 
-          @log.info('Ensuring all vendored content has read permissions...')
+          @log.debug('Ensuring all vendored content has read permissions...')
           profile_vendor.make_readable
         end
 
@@ -175,7 +175,7 @@ module InspecPlugins
       end
 
       def verify_habitat_setup(habitat_config)
-        @log.info('Checking to see if Habitat is installed...')
+        @log.debug('Checking to see if Habitat is installed...')
         cmd = Mixlib::ShellOut.new('hab --version')
         cmd.run_command
         if cmd.error?
@@ -199,7 +199,7 @@ module InspecPlugins
       end
 
       def build_hart(working_dir, habitat_config)
-        @log.info('Building our Habitat artifact...')
+        @log.debug('Building our Habitat artifact...')
 
         env = {
           'TERM'               => 'vt100',
@@ -230,7 +230,7 @@ module InspecPlugins
       end
 
       def upload_hart(hart_file, habitat_config)
-        @log.info("Uploading '#{hart_file}' to the Habitat Builder Depot...")
+        @log.debug("Uploading '#{hart_file}' to the Habitat Builder Depot...")
 
         config = habitat_config
 
@@ -253,7 +253,7 @@ module InspecPlugins
           )
         end
 
-        @log.info('Upload complete!')
+        @log.debug('Upload complete!')
       end
 
       def read_habitat_config
