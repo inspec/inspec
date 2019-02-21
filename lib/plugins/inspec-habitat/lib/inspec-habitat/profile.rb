@@ -10,10 +10,9 @@ module InspecPlugins
     class Profile
       attr_reader :logger
       def initialize(path, options = {})
-        @path = path
+        @path    = path
         @options = options
-
-        @logger = Inspec::Log
+        @logger  = Inspec::Log
         logger.level(options.fetch(:log_level, 'info').to_sym)
       end
 
