@@ -41,10 +41,7 @@ module InspecPlugins
         destination
       rescue => e
         logger.debug(e.backtrace.join("\n"))
-        exit_with_error(
-          'Unable to create Habitat artifact.',
-          "#{e.class} -- #{e.message}",
-        )
+        exit_with_error('Unable to create Habitat artifact.')
       ensure
         logger.debug("Deleting working directory #{working_dir}")
         FileUtils.rm_rf(working_dir)
@@ -92,10 +89,7 @@ module InspecPlugins
         upload_hart(hart, habitat_config)
       rescue => e
         logger.debug(e.backtrace.join("\n"))
-        exit_with_error(
-          'Unable to upload Habitat artifact.',
-          "#{e.class} -- #{e.message}",
-        )
+        exit_with_error('Unable to upload Habitat artifact.')
       end
 
       private
