@@ -163,7 +163,7 @@ module Inspec
 
     def _utc_find_credset_name(_credentials, transport_name)
       return nil unless final_options[:target]
-      match = final_options[:target].match(%r{^#{transport_name}://(?<credset_name>[a-z_\-0-9]+)$})
+      match = final_options[:target].match(%r{^#{transport_name}://(?<credset_name>[\w\d\-]+)$})
       match ? match[:credset_name] : nil
     end
 
