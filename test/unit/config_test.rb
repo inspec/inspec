@@ -255,8 +255,13 @@ describe 'Inspec::Config' do
     end
 
     it 'assumes `--sudo` if `--sudo-password` is used without it' do
-      cfg = Inspec::Config.new('sudo_password' => 'somepass')
-      cfg.key?('sudo').must_equal true
+      @mock_logger = Minitest::Mock.new
+      @mock_logger.expect(:warn, nil, [/Adding `--sudo`./])
+      Inspec::Log.stub :warn, proc { |message| @mock_logger.warn(message) } do
+        cfg = Inspec::Config.new('sudo_password' => 'somepass')
+        cfg.key?('sudo').must_equal true
+      end
+      @mock_logger.verify
     end
 
     it 'calls `Compliance::API.login` if `opts[:compliance] is passed`' do

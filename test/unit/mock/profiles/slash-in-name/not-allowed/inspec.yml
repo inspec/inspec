@@ -6,5 +6,5 @@ copyright: left
 summary: nothing
 license: Apache-2.0
 supports:
-  - linux
-  - darwin
+  - os: linux
+  - os: darwin
