@@ -49,11 +49,11 @@ Should have the value '1.1'.
 
 ### cli_options
 
-In this key, you can place any long-form command line option, without the leading dashes.
+Any long-form command line option, without the leading dashes.
 
 ### credentials
 
-Under this key, you may store any Train-transport-specific options.  You store the options keyed first by transport name, then by a name you choose to refer to them later.  The combination of transport name and your chosen name can be used in the `--target` option to `inspec exec`, as `--target transport-name://connection-name`.
+Train-transport-specific options. Store the options keyed first by transport name, then by a name you'll use later on. The combination of transport name and your chosen name can be used in the `--target` option to `inspec exec`, as `--target transport-name://connection-name`.
 
 For example, if the config file contains:
 
@@ -72,7 +72,7 @@ For example, if the config file contains:
 }
 ```
 
-Then you can use `--target winrm://myconn` to connect to the host, with the given extra options.
+Then use `-t winrm://myconn` to connect to the host, with the given extra options.
 
 Each Train transport offers a variety of options. By using the credential set facility, you are able to easily set options that are not accessible via the Train URI.
 
