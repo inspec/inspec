@@ -14,7 +14,7 @@ describe Inspec::InputRegistry do
     it 'creates an input without options' do
       registry.register_input('test_input', 'dummy_profile')
       # confirm we get the dummy default
-      registry.find_input('test_input', 'dummy_profile').value.class.must_equal Inspec::Attribute::DEFAULT_ATTRIBUTE
+      registry.find_input('test_input', 'dummy_profile').value.class.must_equal Inspec::Input::NO_VALUE_SET
     end
 
     it 'creates an input with a default value' do
