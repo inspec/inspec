@@ -6,7 +6,9 @@ title: InSpec Reporters
 
 Introduced in InSpec 1.51.6
 
-InSpec allows you to output your test results to one or more reporters. You can configure the reporter(s) using either the `--config` (or `--json-config`, prior to v3.6) option or the `--reporter` option. While you can configure multiple reporters to write to different files, only one reporter can output to the screen(stdout).
+A `reporter` is a facility for formatting and delivering the results of an InSpec auditing run.
+
+InSpec allows you to output your test results to one or more reporters. Configure the reporter(s) using either the `--reporter` option or as part of the general config file using the `--config` (or `--json-config`, prior to v3.6) option. While you can configure multiple reporters to write to different files, only one reporter can output to the screen(stdout).
 
 ## Syntax
 
@@ -16,7 +18,7 @@ Output json to screen.
 
 ```bash
 inspec exec example_profile --reporter json
-or
+# or explicitly specifying output to STDOUT:
 inspec exec example_profile --reporter json:-
 ```
 
@@ -24,7 +26,7 @@ Output yaml to screen
 
 ```bash
 inspec exec example_profile --reporter yaml
-or
+# or
 inspec exec example_profile --reporter yaml:-
 ```
 
@@ -124,7 +126,7 @@ This renders html code to view your tests in a browser. It includes all the test
 
 ## Automate Reporter
 
-The automate reporter type is a special reporter used with the Automate 2 suite. To use this reporter you must pass in the correct configuration via a json config `--config`.
+The `automate` reporter type is a special reporter used with [Chef Automate](https://automate.chef.io/). To use this reporter you must pass in the correct configuration via a json config `--config`.
 
 Example config:
 
