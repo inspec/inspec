@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.6.14 -->
-## [v3.6.14](https://github.com/inspec/inspec/tree/v3.6.14) (2019-02-25)
+<!-- latest_release 3.6.15 -->
+## [v3.6.15](https://github.com/inspec/inspec/tree/v3.6.15) (2019-02-25)
 
 #### Merged Pull Requests
-- Add term-ansicolor to inspec-core gem [#3798](https://github.com/inspec/inspec/pull/3798) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Attribute-&gt;Input Rename:  Rename Classes and Methods [#3811](https://github.com/inspec/inspec/pull/3811) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.6.6 -->
 ### Changes since 3.6.6 release
 
 #### Merged Pull Requests
+- Attribute-&gt;Input Rename:  Rename Classes and Methods [#3811](https://github.com/inspec/inspec/pull/3811) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.15 -->
 - Add term-ansicolor to inspec-core gem [#3798](https://github.com/inspec/inspec/pull/3798) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.6.14 -->
 - Suppress warnings in unit test output [#3828](https://github.com/inspec/inspec/pull/3828) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.6.13 -->
 - Add a deprecation group for core AWS resources [#3824](https://github.com/inspec/inspec/pull/3824) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.12 -->
