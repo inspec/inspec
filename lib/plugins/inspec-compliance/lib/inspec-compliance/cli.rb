@@ -141,7 +141,7 @@ module InspecPlugins
         configure_logger(o)
 
         # only run against the mock backend, otherwise we run against the local system
-        o[:backend] = Inspec::Backend.create(target: 'mock://')
+        o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
         o[:check_mode] = true
         o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
 
