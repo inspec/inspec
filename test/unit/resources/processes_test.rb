@@ -92,7 +92,7 @@ describe 'Inspec::Resources::Processes' do
     })
   end
 
-  it 'access attributes of a process' do
+  it 'access information of a process' do
     resource = MockLoader.new(:centos6).load_resource('processes', 'postgres: bifrost bifrost')
     process = resource.entries[0]
     process.user.must_equal 'opscode-pgsql'

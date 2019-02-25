@@ -38,7 +38,7 @@ module MockAwsBillingReports
   #
   # == Returns:
   # A Aws::CostandUsageReportService::Types::DescribeReportDefinitionsRespons object with two instance
-  # attributes:
+  # properties:
   # `report_definitions` An Array that includes a single page of 5 Reports.
   # `next_token` A String set to the start of the next page. When `next_token` is nil, there are no more pages.
   #

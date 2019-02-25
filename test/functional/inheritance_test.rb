@@ -6,7 +6,7 @@ require 'functional/helper'
 describe 'example inheritance profile' do
   include FunctionalHelper
   let(:path) { File.join(examples_path, 'inheritance') }
-  let(:attrs) { File.join(examples_path, 'profile-attribute.yml') }
+  let(:input_file) { File.join(examples_path, 'profile-attribute.yml') } # TODO rename attributes in examples
 
   it 'check succeeds with --profiles-path' do
     out = inspec('check ' + path + ' --profiles-path ' + examples_path)
@@ -68,7 +68,7 @@ describe 'example inheritance profile' do
   end
 
   it 'can execute a profile inheritance' do
-    out = inspec('exec ' + path + ' --reporter json --no-create-lockfile --attrs ' + attrs)
+    out = inspec('exec ' + path + ' --reporter json --no-create-lockfile --attrs ' + input_file)
     out.stderr.must_equal ''
     out.exit_status.must_equal 101
     JSON.load(out.stdout).must_be_kind_of Hash

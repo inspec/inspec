@@ -107,7 +107,7 @@ module Inspec::Reporters
           copyright: p[:copyright],
           copyright_email: p[:copyright_email],
           supports: p[:supports],
-          attributes: p[:attributes],
+          attributes: (p[:inputs] ? p[:inputs] : p[:attributes]), # TODO: rename exposed field to inputs, see #3802
           parent_profile: p[:parent_profile],
           depends: p[:depends],
           groups: profile_groups(p),

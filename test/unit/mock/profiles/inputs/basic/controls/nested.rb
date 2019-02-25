@@ -1,4 +1,4 @@
-attr_names = [
+input_names = [
   :one_level_array,
   :two_level_array,
   :one_level_hash,
@@ -6,12 +6,12 @@ attr_names = [
   :hash_of_arrays,
   :array_of_hashes,
 ]
-attrs = {}
-attr_names.each do |attr_name|
-  # Store as a symbol-fetched attribute
-  attrs[attr_name] = attribute(attr_name, value: "#{attr_name}_sym_default")
-  # .. and store under a string name, as a string-fetched attribute!
-  attrs[attr_name.to_s] = attribute(attr_name.to_s, value: "#{attr_name}_str_default")
+inputs = {}
+input_names.each do |input_name|
+  # Store as a symbol-fetched input
+  inputs[input_name] = attribute(input_name, value: "#{input_name}_sym_default")
+  # .. and store under a string name, as a string-fetched input!
+  inputs[input_name.to_s] = attribute(input_name.to_s, value: "#{input_name}_str_default")
 end
 
 # For now, these all use string keys, as that is normal InSpec behavior
@@ -19,7 +19,7 @@ end
 control 'nested' do
 
   describe 'one_level_array' do
-    subject { attrs['one_level_array'] }
+    subject { inputs['one_level_array'] }
     it { should be_a_kind_of(Array) }
     it { should respond_to(:[])}
     its([0]) { should eq 'thing1' }
@@ -30,7 +30,7 @@ control 'nested' do
 
   describe 'two_level_array' do
     # Access first row
-    subject { attrs['two_level_array'][0] }
+    subject { inputs['two_level_array'][0] }
     it { should be_a_kind_of(Array) }
     it { should respond_to(:[])}
     its([0]) { should eq 'row1col1' }
@@ -38,7 +38,7 @@ control 'nested' do
   end
 
   describe 'one_level_hash' do
-    subject { attrs['one_level_hash'] }
+    subject { inputs['one_level_hash'] }
     it { should be_a_kind_of(Hash) }
     it { should respond_to(:[])}
     its(['key1']) { should eq 'value1' }
@@ -47,7 +47,7 @@ control 'nested' do
   end
 
   describe 'two_level_hash' do
-    subject { attrs['two_level_hash'] }
+    subject { inputs['two_level_hash'] }
     it { should be_a_kind_of(Hash) }
     it { should respond_to(:[])}
     its(['key1', 'key11']) { should eq 'value11' }
@@ -56,7 +56,7 @@ control 'nested' do
   end
 
   describe 'hash_of_arrays' do
-    subject { attrs['hash_of_arrays'] }
+    subject { inputs['hash_of_arrays'] }
     it { should be_a_kind_of(Hash) }
     it { should respond_to(:[])}
     its(['key1', 0]) { should eq 'thing11' }
@@ -65,7 +65,7 @@ control 'nested' do
   end
 
   describe 'array_of_hashes' do
-    subject { attrs['array_of_hashes'] }
+    subject { inputs['array_of_hashes'] }
     it { should be_a_kind_of(Array) }
     it { should respond_to(:[])}
 

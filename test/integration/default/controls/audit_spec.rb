@@ -25,7 +25,7 @@ control 'Test audit cookbook json output' do
 end
 
 # test kitchen verify attr passthrough
-attr = attribute('verifier_attribute', default: 'none')
+attr = attribute('verifier_attribute', default: 'none') # TODO: update test-kitchen to replace attribute -> input
 control 'validate verifier attribute override' do
   describe attr do
     it { should eq 'Attribute Override!' }

@@ -64,9 +64,9 @@ module Inspec
 end
 
 class RSpec::Core::ExampleGroup
-  # This DSL method allows us to access the values of attributes within InSpec tests
+  # This DSL method allows us to access the values of inputs within InSpec tests
   def attribute(name)
-    Inspec::AttributeRegistry.find_attribute(name, self.class.metadata[:profile_id]).value
+    Inspec::InputRegistry.find_input(name, self.class.metadata[:profile_id]).value
   end
   define_example_method :attribute
 

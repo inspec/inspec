@@ -8,7 +8,7 @@ include_controls 'child_profile2' do
   end
 
   control 'test override control on parent using parent attribute' do
-    describe Inspec::AttributeRegistry.find_attribute('val_numeric', 'attributes').value do
+    describe Inspec::InputRegistry.find_input('val_numeric', 'inputs').value do
       it { should cmp 443 }
     end
   end

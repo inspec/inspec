@@ -3,69 +3,69 @@
 require 'helper'
 require 'inspec/input_registry'
 
-describe Inspec::AttributeRegistry do
-  let(:attributes) { Inspec::AttributeRegistry }
+describe Inspec::InputRegistry do
+  let(:registry) { Inspec::InputRegistry }
 
   def setup
-    Inspec::AttributeRegistry.instance.__reset
+    Inspec::InputRegistry.instance.__reset
   end
 
-  describe 'creating a profile attribute' do
-    it 'creates an attribute without options' do
-      attributes.register_attribute('test_attribute', 'dummy_profile')
+  describe 'creating a profile input' do
+    it 'creates an input without options' do
+      registry.register_input('test_input', 'dummy_profile')
       # confirm we get the dummy default
-      attributes.find_attribute('test_attribute', 'dummy_profile').value.class.must_equal Inspec::Attribute::DEFAULT_ATTRIBUTE
+      registry.find_input('test_input', 'dummy_profile').value.class.must_equal Inspec::Attribute::DEFAULT_ATTRIBUTE
     end
 
-    it 'creates an attribute with a default value' do
-      attributes.register_attribute('color', 'dummy_profile', default: 'silver')
-      attributes.find_attribute('color', 'dummy_profile').value.must_equal 'silver'
+    it 'creates an input with a default value' do
+      registry.register_input('color', 'dummy_profile', default: 'silver')
+      registry.find_input('color', 'dummy_profile').value.must_equal 'silver'
     end
   end
 
   describe 'creating a profile with a name alias' do
-    it 'creates a default attribute on a profile with an alias' do
-      attributes.register_profile_alias('old_profile', 'new_profile')
-      attributes.register_attribute('color', 'new_profile', default: 'blue')
-      attributes.find_attribute('color', 'new_profile').value.must_equal 'blue'
-      attributes.find_attribute('color', 'old_profile').value.must_equal 'blue'
+    it 'creates a default input on a profile with an alias' do
+      registry.register_profile_alias('old_profile', 'new_profile')
+      registry.register_input('color', 'new_profile', default: 'blue')
+      registry.find_input('color', 'new_profile').value.must_equal 'blue'
+      registry.find_input('color', 'old_profile').value.must_equal 'blue'
     end
   end
 
   describe 'creating a profile and select it' do
-    it 'creates a profile with attributes' do
-      attributes.register_attribute('color', 'dummy_profile', default: 'silver')
-      attributes.register_attribute('color2', 'dummy_profile', default: 'blue')
-      attributes.register_attribute('color3', 'dummy_profile', default: 'green')
-      attributes.list_attributes_for_profile('dummy_profile').size.must_equal 3
+    it 'creates a profile with inputs' do
+      registry.register_input('color', 'dummy_profile', default: 'silver')
+      registry.register_input('color2', 'dummy_profile', default: 'blue')
+      registry.register_input('color3', 'dummy_profile', default: 'green')
+      registry.list_inputs_for_profile('dummy_profile').size.must_equal 3
     end
   end
 
   describe 'validate the correct objects are getting created' do
-    it 'creates a profile with attributes' do
-      attributes.register_attribute('color', 'dummy_profile', default: 'silver').class.must_equal Inspec::Attribute
-      attributes.list_attributes_for_profile('dummy_profile').size.must_equal 1
+    it 'creates a profile with inputs' do
+      registry.register_input('color', 'dummy_profile', default: 'silver').class.must_equal Inspec::Input
+      registry.list_inputs_for_profile('dummy_profile').size.must_equal 1
     end
   end
 
-  describe 'validate find_attribute method' do
-    it 'find an attribute which exist' do
-      attribute = attributes.register_attribute('color', 'dummy_profile')
-      attribute.value = 'black'
+  describe 'validate find_input method' do
+    it 'find an input which exist' do
+      input = registry.register_input('color', 'dummy_profile')
+      input.value = 'black'
 
-      attributes.find_attribute('color', 'dummy_profile').value.must_equal 'black'
+      registry.find_input('color', 'dummy_profile').value.must_equal 'black'
     end
 
-    it 'errors when trying to find an attribute on an unknown profile' do
-      attribute = attributes.register_attribute('color', 'dummy_profile')
-      ex = assert_raises(Inspec::AttributeRegistry::ProfileError) { attributes.find_attribute('color', 'unknown_profile') }
-      ex.message.must_match "Profile 'unknown_profile' does not have any attributes"
+    it 'errors when trying to find an input on an unknown profile' do
+      input = registry.register_input('color', 'dummy_profile')
+      ex = assert_raises(Inspec::InputRegistry::ProfileLookupError) { registry.find_input('color', 'unknown_profile') }
+      ex.message.must_match "Profile 'unknown_profile' does not have any inputs"
     end
 
-    it 'errors when trying to find an unknown attribute on a known profile' do
-      attribute = attributes.register_attribute('color', 'dummy_profile')
-      ex = assert_raises(Inspec::AttributeRegistry::AttributeError) { attributes.find_attribute('unknown_attribute', 'dummy_profile') }
-      ex.message.must_match "Profile 'dummy_profile' does not have an attribute with name 'unknown_attribute'"
+    it 'errors when trying to find an unknown input on a known profile' do
+      input = registry.register_input('color', 'dummy_profile')
+      ex = assert_raises(Inspec::InputRegistry::InputLookupError) { registry.find_input('unknown_input', 'dummy_profile') }
+      ex.message.must_match "Profile 'dummy_profile' does not have an input with name 'unknown_input'"
     end
   end
 end

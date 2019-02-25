@@ -1,5 +1,5 @@
-name: attributes
-title: InSpec Profile
+name: global-inputs
+title: Profile to test inputs in a variety of locations
 maintainer: The Authors
 copyright: The Authors
 copyright_email: you@example.com

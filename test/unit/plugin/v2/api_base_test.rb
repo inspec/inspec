@@ -44,7 +44,7 @@ class PluginV2BaseDslMethods < MiniTest::Test
     [
       :plugin_name,
       :mock_plugin_type,
-      # [ :attribute_provider, :platform, :fetcher, :source_reader, :control_dsl, :reporter ]
+      # [ :input_provider, :platform, :fetcher, :source_reader, :reporter ]
     ].each do |method_name|
       klass = Inspec::Plugin::V2::PluginBase
       assert_respond_to klass, method_name, 'Plugin DSL methods'
