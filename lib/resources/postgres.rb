@@ -35,7 +35,12 @@ module Inspec::Resources
       end
 
       @service = 'postgresql'
-      @service += "-#{@version}" if @version.to_f >= 9.4
+      if @version.to_i >= 10
+        @service += "-#{@version.to_i}" 
+      elsif @version.to_f >= 9.4
+       @service += "-#{@version}" 
+      end
+
       @conf_dir ||= @data_dir
 
       verify_dirs
@@ -71,6 +76,8 @@ module Inspec::Resources
     def locate_data_dir_location_by_version(ver = @version)
       dir_list = [
         "/var/lib/pgsql/#{ver}/data",
+        # for 10, the versions are just stored in `10` although their version `10.7`
+        "/var/lib/pgsql/#{ver.to_i}/data",
         '/var/lib/pgsql/data',
         '/var/lib/postgres/data',
         '/var/lib/postgresql/data',
