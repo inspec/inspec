@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.6.12 -->
-## [v3.6.12](https://github.com/inspec/inspec/tree/v3.6.12) (2019-02-21)
+<!-- latest_release 3.6.13 -->
+## [v3.6.13](https://github.com/inspec/inspec/tree/v3.6.13) (2019-02-25)
 
 #### Merged Pull Requests
-- Add a deprecation group for core AWS resources [#3824](https://github.com/inspec/inspec/pull/3824) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Suppress warnings in unit test output [#3828](https://github.com/inspec/inspec/pull/3828) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.6.6 -->
 ### Changes since 3.6.6 release
 
 #### Merged Pull Requests
+- Suppress warnings in unit test output [#3828](https://github.com/inspec/inspec/pull/3828) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.6.13 -->
 - Add a deprecation group for core AWS resources [#3824](https://github.com/inspec/inspec/pull/3824) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.12 -->
 - Moved the AWS init profile to the correct location. [#3820](https://github.com/inspec/inspec/pull/3820) ([skpaterson](https://github.com/skpaterson)) <!-- 3.6.11 -->
 - Attribute-Input Rename: Add deprecation group [#3805](https://github.com/inspec/inspec/pull/3805) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.10 -->
