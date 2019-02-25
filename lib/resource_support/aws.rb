@@ -1,7 +1,6 @@
 # Main AWS loader file.  The intent is for this to be
 # loaded only if AWS resources are needed.
 
-
 require 'aws-sdk-core'
 
 require 'aws-sdk-cloudtrail'
