@@ -42,18 +42,14 @@ Config files must contain a top-level key, `version`, which indicates the file f
 }
 ```
 
+version
+: Should have the value '1.1'.
 
-### version
+cli_options
+: Any long-form command line option, without the leading dashes.
 
-Should have the value '1.1'.
-
-### cli_options
-
-Any long-form command line option, without the leading dashes.
-
-### credentials
-
-Train-transport-specific options. Store the options keyed first by transport name, then by a name you'll use later on. The combination of transport name and your chosen name can be used in the `--target` option to `inspec exec`, as `--target transport-name://connection-name`.
+credentials
+: Train-transport-specific options. Store the options keyed first by transport name, then by a name you'll use later on. The combination of transport name and your chosen name can be used in the `--target` option to `inspec exec`, as `--target transport-name://connection-name`.
 
 For example, if the config file contains:
 
