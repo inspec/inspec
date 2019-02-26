@@ -49,7 +49,7 @@ module Inspec
         raise error, "Profile '#{error.profile_name}' does not have any inputs"
       end
 
-      unless list[profile].key?(name)
+      unless inputs_by_profile[profile].key?(name)
         error = Inspec::InputRegistry::InputLookupError.new
         error.input_name = name
         error.profile_name = profile
@@ -144,6 +144,8 @@ module Inspec
     def bind_inputs_from_metadata(profile_obj, profile_metadata_obj)
       # TODO: move this into a core plugin
       # TODO: add deprecation stuff
+      return if profile_metadata_obj.nil? # Metadata files are technically optional
+
       if profile_metadata_obj.params.key?(:attributes) && profile_metadata_obj.params[:attributes].is_a?(Array)
         profile_metadata_obj.params[:attributes].each do |input|
           input_options = input.dup

@@ -121,8 +121,8 @@ module Inspec
       # The AttributeRegistry is in charge of keeping track of inputs;
       # it is the single source of truth. Now that we have a profile object,
       # we can create any inputs that were provided by various mechanisms.
-      Inspec::AttributeRegistry.bind_profile_inputs(
-        profile: self, # Every input only exists in the context of a profile
+      Inspec::InputRegistry.bind_profile_inputs(
+        self, # Every input only exists in the context of a profile
         # Remaining args are possible sources of inputs
         # TODO: deprecation checks throughout
         cli_attr_files: options[:attrs],
@@ -594,7 +594,7 @@ module Inspec
         f = load_rule_filepath(prefix, rule)
         load_rule(rule, f, controls, groups)
       end
-      params[:inputs] = @runner_context.inputs
+      params[:inputs] = Inspec::InputRegistry.list_inputs_for_profile(@profile_id)
       params
     end
 
