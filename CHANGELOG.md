@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.6.10 -->
-## [v3.6.10](https://github.com/inspec/inspec/tree/v3.6.10) (2019-02-14)
+<!-- latest_release 4.0.1.pre -->
+## [v4.0.1.pre](https://github.com/inspec/inspec/tree/v4.0.1.pre) (2019-02-26)
 
-#### Merged Pull Requests
-- Attribute-Input Rename: Add deprecation group [#3805](https://github.com/inspec/inspec/pull/3805) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Enhancements
+- v4: Support AWS SDK v3 in Core AWS Resources [#3823](https://github.com/inspec/inspec/pull/3823) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.6.6 -->
 ### Changes since 3.6.6 release
+
+#### Enhancements
+- v4: Support AWS SDK v3 in Core AWS Resources [#3823](https://github.com/inspec/inspec/pull/3823) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.1.pre -->
 
 #### Merged Pull Requests
 - Attribute-Input Rename: Add deprecation group [#3805](https://github.com/inspec/inspec/pull/3805) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.10 -->
