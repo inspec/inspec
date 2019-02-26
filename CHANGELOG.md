@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.6.15 -->
-## [v3.6.15](https://github.com/inspec/inspec/tree/v3.6.15) (2019-02-25)
+<!-- latest_release 3.6.16 -->
+## [v3.6.16](https://github.com/inspec/inspec/tree/v3.6.16) (2019-02-26)
 
-#### Merged Pull Requests
-- Attribute-&gt;Input Rename:  Rename Classes and Methods [#3811](https://github.com/inspec/inspec/pull/3811) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- inspec compliance: Fix mocked configuration [#3834](https://github.com/inspec/inspec/pull/3834) ([skylerto](https://github.com/skylerto))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.6.6 -->
 ### Changes since 3.6.6 release
+
+#### Bug Fixes
+- inspec compliance: Fix mocked configuration [#3834](https://github.com/inspec/inspec/pull/3834) ([skylerto](https://github.com/skylerto)) <!-- 3.6.16 -->
 
 #### Merged Pull Requests
 - Attribute-&gt;Input Rename:  Rename Classes and Methods [#3811](https://github.com/inspec/inspec/pull/3811) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.15 -->
