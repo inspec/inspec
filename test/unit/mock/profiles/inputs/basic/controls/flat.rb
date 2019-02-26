@@ -16,10 +16,10 @@ tests = expecteds.keys.map do |test_name|
 end
 
 control 'flat' do
-  tests.each do |info|
-    describe "#{info[:name]} using string key" do
-      subject { info[:input_via_string] }
-      it { should eq info[:expected] }
+  tests.each do |details|
+    describe "#{details[:name]} using string key" do
+      subject { details[:input_via_string] }
+      it { should eq details[:expected] }
     end
   end
 end

@@ -81,7 +81,7 @@ module Inspec
     end
 
     attr_reader :source_reader, :backend, :runner_context, :check_mode
-    attr_accessor :parent_profile, :profile_name
+    attr_accessor :parent_profile, :profile_id, :profile_name
     def_delegator :@source_reader, :tests
     def_delegator :@source_reader, :libraries
     def_delegator :@source_reader, :metadata
@@ -122,12 +122,13 @@ module Inspec
       # it is the single source of truth. Now that we have a profile object,
       # we can create any inputs that were provided by various mechanisms.
       Inspec::InputRegistry.bind_profile_inputs(
-        self, # Every input only exists in the context of a profile
+        # Every input only exists in the context of a profile
+        metadata.params[:name], # TODO: test this with profile aliasing
         # Remaining args are possible sources of inputs
         # TODO: deprecation checks throughout
-        cli_attr_files: options[:attrs],
+        cli_input_files: options[:runner_conf].final_options[:attrs], # From --attrs
         profile_metadata: metadata,
-        runner_api: options[:attributes], # This is the route the audit_cookbook and kitchen-inspec take
+        runner_api: options[:runner_conf].final_options[:attributes], # This is the route the audit_cookbook and kitchen-inspec take
       )
 
       @runner_context =

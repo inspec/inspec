@@ -168,11 +168,12 @@ module Inspec
         end
 
         # method for inputs; import input handling
+        # TODO: deprecate name, use input()
         define_method :attribute do |name, options = nil|
           if options.nil?
             Inspec::InputRegistry.find_input(name, profile_id).value
           else
-            profile_context_owner.register_input(name, options)
+            Inspec::InputRegistry.register_input(name, profile_id, options).value
           end
         end
 

@@ -1,6 +1,8 @@
 require 'forwardable'
 require 'singleton'
 require 'inspec/objects/input'
+require 'inspec/secrets'
+require 'inspec/exceptions'
 
 module Inspec
   # The InputRegistry's responsibilities include:
@@ -58,13 +60,15 @@ module Inspec
       inputs_by_profile[profile][name]
     end
 
-    def register_input(name, profile, options = {})
-      # check for a profile override name
-      if profile_known?(profile) && inputs_by_profile[profile][name] && options.empty?
-        inputs_by_profile[profile][name]
+    def register_input(input_name, profile_name, options = {})
+      if profile_known?(profile_name) && inputs_by_profile[profile_name][input_name] && options.empty?
+        # Just accessing the input - then why did they call register???
+        # TODO: handle the "declaration" case better
+        inputs_by_profile[profile_name][input_name]
       else
-        inputs_by_profile[profile] = {} unless profile_known?(profile)
-        inputs_by_profile[profile][name] = Inspec::Input.new(name, options)
+        inputs_by_profile[profile_name] = {} unless profile_known?(profile_name)
+        # BUG: This a clobbering operation, regardless of precendence!
+        inputs_by_profile[profile_name][input_name] = Inspec::Input.new(input_name, options)
       end
     end
 
@@ -74,20 +78,20 @@ module Inspec
 
     # This method is called by the Profile as soon as it has
     # enough context to allow binding inputs to it.
-    def bind_profile_inputs(profile_obj, sources = {})
-      inputs_by_profile[profile_obj.profile_name] ||= {}
+    def bind_profile_inputs(profile_name, sources = {})
+      inputs_by_profile[profile_name] ||= {}
 
       # In a more perfect world, we could let the core plugins choose
       # self-determine what to do; but as-is, the APIs that call this
       # are a bit over-constrained.
-      bind_inputs_from_metadata(profile_obj, sources[:metadata])
-      bind_inputs_from_input_files(profile_obj, sources[:cli_input_files])
-      bind_inputs_from_runner_api(profile_obj, sources[:runner_api])
+      bind_inputs_from_metadata(profile_name, sources[:metadata])
+      bind_inputs_from_input_files(profile_name, sources[:cli_input_files])
+      bind_inputs_from_runner_api(profile_name, sources[:runner_api])
     end
 
     private
 
-    def bind_inputs_from_runner_api(profile_obj, input_hash)
+    def bind_inputs_from_runner_api(profile_name, input_hash)
       # TODO: move this into a core plugin
 
       return if input_hash.nil?
@@ -96,11 +100,11 @@ module Inspec
       # These arrive as a bare hash - values are raw values, not options
       input_hash.each do |input_name, input_value|
         input_options = { value: input_value }
-        register_input(input_name, profile_obj.profile_name, input_options)
+        register_input(input_name, profile_name, input_options)
       end
     end
 
-    def bind_inputs_from_input_files(profile_obj, file_list)
+    def bind_inputs_from_input_files(profile_name, file_list)
       # TODO: move this into a core plugin
 
       return if file_list.nil?
@@ -120,7 +124,7 @@ module Inspec
         next if data.inputs.nil?
         data.inputs.each do |input_name, input_value|
           input_options = { value: input_value }
-          register_input(input_name, profile_obj.profile_name, input_options)
+          register_input(input_name, profile_name, input_options)
         end
       end
     end
@@ -141,7 +145,7 @@ module Inspec
       true
     end
 
-    def bind_inputs_from_metadata(profile_obj, profile_metadata_obj)
+    def bind_inputs_from_metadata(profile_name, profile_metadata_obj)
       # TODO: move this into a core plugin
       # TODO: add deprecation stuff
       return if profile_metadata_obj.nil? # Metadata files are technically optional
@@ -150,7 +154,7 @@ module Inspec
         profile_metadata_obj.params[:attributes].each do |input|
           input_options = input.dup
           input_name = input_options.delete(:name)
-          register_input(input_name, profile_obj.profile_name, input_options)
+          register_input(input_name, profile_name, input_options)
         end
       elsif profile_metadata_obj.params.key?(:attributes)
         Inspec::Log.warn 'Inputs must be defined as an Array. Skipping current definition.'
