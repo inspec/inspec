@@ -2,10 +2,23 @@
 
 require 'utils/deprecation'
 
+# For backwards compatibility during the rename (see #3802),
+# maintain the Inspec::Attribute namespace for people checking for
+# Inspec::Attribute::DEFAULT_ATTRIBUTE
 module Inspec
-  # TODO: move this
   class Attribute
-    DEFAULT_ATTRIBUTE = Class.new do
+    # This only exists to create the Inspec::Attribute::DEFAULT_ATTRIBUTE symbol with a class
+    class DEFAULT_ATTRIBUTE; end
+  end
+end
+
+
+module Inspec
+  class Input
+    # This special class is used to represent the value when an input has
+    # not been assigned a value. This allows a user to explicitly assign nil
+    # to an input.
+    class NO_VALUE_SET
       def initialize(name)
         @name = name
 
@@ -28,6 +41,25 @@ module Inspec
       def to_s
         "Input '#{@name}' does not have a value. Skipping test."
       end
+
+      def is_a?(klass)
+        if klass == Inspec::Attribute::DEFAULT_ATTRIBUTE
+          Inspec.deprecate(:rename_attributes_to_inputs, "Don't check for `is_a?(Inspec::Attribute::DEFAULT_ATTRIBUTE)`, check for `Inspec::Input::NO_VALUE_SET")
+          true # lie for backward compatibility
+        else
+          super(klass)
+        end
+      end
+
+      def kind_of?(klass)
+        if klass == Inspec::Attribute::DEFAULT_ATTRIBUTE
+          Inspec.deprecate(:rename_attributes_to_inputs, "Don't check for `kind_of?(Inspec::Attribute::DEFAULT_ATTRIBUTE)`, check for `Inspec::Input::NO_VALUE_SET")
+          true # lie for backward compatibility
+        else
+          super(klass)
+        end
+      end
+
     end
   end
 
@@ -181,7 +213,7 @@ module Inspec
     # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
     def value_or_dummy
-      @opts.key?(:value) ? @opts[:value] : Inspec::Attribute::DEFAULT_ATTRIBUTE.new(@name)
+      @opts.key?(:value) ? @opts[:value] : Inspec::Input::NO_VALUE_SET.new(@name)
     end
   end
 end

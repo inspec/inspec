@@ -18,8 +18,14 @@ describe Inspec::Input do
     end
 
     it 'returns the dummy value if no value is assigned' do
-      input.value.must_be_kind_of Inspec::Attribute::DEFAULT_ATTRIBUTE # TODO - test for new class too
+      input.value.must_be_kind_of Inspec::Input::NO_VALUE_SET
+      input.value.is_a?(Inspec::Input::NO_VALUE_SET).must_equal true
       input.value.to_s.must_equal "Input 'test_input' does not have a value. Skipping test."
+    end
+
+    it 'the dummy value responds true to the legacy class checks' do
+      input.value.is_a?(Inspec::Attribute::DEFAULT_ATTRIBUTE).must_equal true
+      input.value.must_be_kind_of Inspec::Attribute::DEFAULT_ATTRIBUTE
     end
 
     it 'has a dummy value that can be called like a nested map' do
