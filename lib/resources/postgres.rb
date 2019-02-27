@@ -9,6 +9,28 @@ module Inspec::Resources
 
     attr_reader :service, :data_dir, :conf_dir, :conf_path, :version, :cluster
     def initialize
+      # determine dirs and service based on versions
+      determine_dirs
+      determine_service
+
+      # print warnings if the dirs do not exist
+      verify_dirs
+
+      if !@version.nil? && !@conf_dir.empty?
+        @conf_path = File.join @conf_dir, 'postgresql.conf'
+      else
+        @conf_path = nil
+        return skip_resource 'Seems like PostgreSQL is not installed on your system'
+      end
+    end
+
+    def to_s
+      'PostgreSQL'
+    end
+
+    private
+
+    def determine_dirs
       if inspec.os.debian?
         #
         # https://wiki.debian.org/PostgreSql
@@ -33,25 +55,17 @@ module Inspec::Resources
         end
         @data_dir = locate_data_dir_location_by_version(@version)
       end
-
-      @service = 'postgresql'
-      @service += "-#{@version}" if @version.to_f >= 9.4
       @conf_dir ||= @data_dir
+    end
 
-      verify_dirs
-      if !@version.nil? && !@conf_dir.empty?
-        @conf_path = File.join @conf_dir, 'postgresql.conf'
-      else
-        @conf_path = nil
-        return skip_resource 'Seems like PostgreSQL is not installed on your system'
+    def determine_service
+      @service = 'postgresql'
+      if @version.to_i >= 10
+        @service += "-#{@version.to_i}"
+      elsif @version.to_f >= 9.4
+        @service += "-#{@version}"
       end
     end
-
-    def to_s
-      'PostgreSQL'
-    end
-
-    private
 
     def verify_dirs
       warn "Default postgresql configuration directory: #{@conf_dir} does not exist. " \
@@ -71,6 +85,8 @@ module Inspec::Resources
     def locate_data_dir_location_by_version(ver = @version)
       dir_list = [
         "/var/lib/pgsql/#{ver}/data",
+        # for 10, the versions are just stored in `10` although their version `10.7`
+        "/var/lib/pgsql/#{ver.to_i}/data",
         '/var/lib/pgsql/data',
         '/var/lib/postgres/data',
         '/var/lib/postgresql/data',
