@@ -82,6 +82,24 @@ The `name` matcher tests the value of the filename as read from a JSON file vers
 
 <br>
 
+### Test JSON output from an HTTP API
+
+Our example API has a `/health` endpoint, which looks like this:
+
+    {
+      "service": {
+        "port": 3000,
+        "status": "ok"
+      }
+    }
+
+Example test:
+
+    describe json(content: http('http://localhost:3000/health').body) do
+      its(['service', 'port']) { should eq 3000 }
+      its(['service', 'status']) { should eq 'ok' }
+    end
+
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
