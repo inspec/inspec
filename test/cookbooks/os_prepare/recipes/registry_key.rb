@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Alex Pop
 # author: Christoph Hartmann
 #

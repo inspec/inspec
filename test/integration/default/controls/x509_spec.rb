@@ -11,9 +11,9 @@ describe x509_certificate('/tmp/mycert.pem') do
   its('signature_algorithm') { should eq 'sha256WithRSAEncryption' }
   its('validity_in_days') { should_not be < 100 }
   its('validity_in_days') { should be >= 100 }
-  its('subject_dn') { should eq '/C=US/ST= /L= /O=Foo Bar/OU=Lab/CN=www.f00bar.com' }
+  its('subject_dn') { should eq '/C=US/O=Foo Bar/OU=Lab/CN=www.f00bar.com' }
   its('subject.C') { should eq 'US' }
-  its('issuer_dn') { should eq '/C=US/ST= /L= /O=Foo Bar/OU=Lab/CN=www.f00bar.com' }
+  its('issuer_dn') { should eq '/C=US/O=Foo Bar/OU=Lab/CN=www.f00bar.com' }
   its('key_length') { should be >= 2048 }
 end
 

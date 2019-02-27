@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Stephan Renatus
 
 include_recipe 'runit::default'

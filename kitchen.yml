@@ -1,7 +1,7 @@
 ---
 driver:
   name: dokken
-  chef_version: 14.3.37
+  chef_version: 14.10.9
   privileged: true # because Docker and SystemD/Upstart
 
 transport:
@@ -22,72 +22,86 @@ verifier:
     verifier_attribute: 'Attribute Override!'
 
 platforms:
-- name: ubuntu-12.04
+- name: amazonlinux
   driver:
-    image: ubuntu:12.04
-- name: ubuntu-14.04
+    image: dokken/amazonlinux
+    pid_one_command: /sbin/init
+
+- name: amazonlinux-2
   driver:
-    image: ubuntu:14.04
-- name: ubuntu-16.04
+    image: dokken/amazonlinux-2
+    pid_one_command: /usr/lib/systemd/systemd
+
+- name: centos-6
   driver:
-    image: ubuntu:16.04
-    intermediate_instructions:
-    - RUN /usr/bin/apt-get update
-    pid_one_command: /bin/systemd
-- name: centos-6.6
-  driver:
-    image: centos:6.6
-- name: centos-6.8
-  driver:
-    image: centos:6.8
-    intermediate_instructions:
-      - RUN yum install -y initscripts
+    image: dokken/centos-6
+    pid_one_command: /sbin/init
+
 - name: centos-7
   driver:
-    image: centos:7
+    image: dokken/centos-7
     pid_one_command: /usr/lib/systemd/systemd
-- name: oracle-6.7
-  driver:
-    image: oraclelinux:6.7
-- name: oracle-7.2
-  driver:
-    image: oraclelinux:7.2
-    pid_one_command: /usr/lib/systemd/systemd
-- name: debian-7
-  driver:
-    image: debian:7.11
-    intermediate_instructions:
-    - RUN /usr/bin/apt-get update
-    # running it within the chef recipe is too late :-(
-    - RUN /usr/bin/apt-get install -y procps lsb-release
+
 - name: debian-8
   driver:
-    image: debian:8.5
-    intermediate_instructions:
-    - RUN /usr/bin/apt-get update
-    # running it within the chef recipe is too late :-(
-    - RUN /usr/bin/apt-get install -y procps lsb-release
+    image: dokken/debian-8
     pid_one_command: /bin/systemd
-- name: fedora-23
-  driver:
-    image: fedora:23
-    pid_one_command: /usr/lib/systemd/systemd
     intermediate_instructions:
-    - RUN dnf install -y yum
-- name: fedora-24
+      - RUN /usr/bin/apt-get update
+
+- name: debian-9
   driver:
-    image: fedora:24
-    pid_one_command: /usr/lib/systemd/systemd
+    image: dokken/debian-9
+    pid_one_command: /bin/systemd
     intermediate_instructions:
-    - RUN dnf install -y yum
+      - RUN /usr/bin/apt-get update
+
+- name: fedora-29
+  driver:
+    image: dokken/fedora-29
+    pid_one_command: /usr/lib/systemd/systemd
+
+- name: oraclelinux-6
+  driver:
+    image: dokken/oraclelinux-6
+    pid_one_command: /sbin/init
+
+- name: oraclelinux-7
+  driver:
+    image: dokken/oraclelinux-7
+    pid_one_command: /usr/lib/systemd/systemd
+
+- name: opensuse-leap
+  driver:
+    image: dokken/opensuse-leap-42
+    pid_one_command: /bin/systemd
+
+- name: ubuntu-14.04
+  driver:
+    image: dokken/ubuntu-14.04
+    pid_one_command: /sbin/init
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update
+
+- name: ubuntu-16.04
+  driver:
+    image: dokken/ubuntu-16.04
+    pid_one_command: /bin/systemd
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update
+
+- name: ubuntu-18.04
+  driver:
+    image: dokken/ubuntu-18.04
+    pid_one_command: /bin/systemd
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update
 
 suites:
 - name: default
   run_list:
   - recipe[os_prepare]
   - recipe[audit]
-  - recipe[apt]
-  - recipe[yum]
   verifier:
     inspec_tests:
       - test/integration/default
