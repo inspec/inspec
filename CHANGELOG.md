@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.6.16 -->
-## [v3.6.16](https://github.com/inspec/inspec/tree/v3.6.16) (2019-02-26)
+<!-- latest_release 3.6.17 -->
+## [v3.6.17](https://github.com/inspec/inspec/tree/v3.6.17) (2019-02-27)
 
-#### Bug Fixes
-- inspec compliance: Fix mocked configuration [#3834](https://github.com/inspec/inspec/pull/3834) ([skylerto](https://github.com/skylerto))
+#### Merged Pull Requests
+- add json example from http request [#3827](https://github.com/inspec/inspec/pull/3827) ([jtimberman](https://github.com/jtimberman))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.6.6 -->
@@ -14,6 +14,7 @@
 - inspec compliance: Fix mocked configuration [#3834](https://github.com/inspec/inspec/pull/3834) ([skylerto](https://github.com/skylerto)) <!-- 3.6.16 -->
 
 #### Merged Pull Requests
+- add json example from http request [#3827](https://github.com/inspec/inspec/pull/3827) ([jtimberman](https://github.com/jtimberman)) <!-- 3.6.17 -->
 - Attribute-&gt;Input Rename:  Rename Classes and Methods [#3811](https://github.com/inspec/inspec/pull/3811) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.15 -->
 - Add term-ansicolor to inspec-core gem [#3798](https://github.com/inspec/inspec/pull/3798) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.6.14 -->
 - Suppress warnings in unit test output [#3828](https://github.com/inspec/inspec/pull/3828) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.6.13 -->
