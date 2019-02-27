@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.6.17 -->
-## [v3.6.17](https://github.com/inspec/inspec/tree/v3.6.17) (2019-02-27)
+<!-- latest_release 3.6.18 -->
+## [v3.6.18](https://github.com/inspec/inspec/tree/v3.6.18) (2019-02-27)
 
-#### Merged Pull Requests
-- add json example from http request [#3827](https://github.com/inspec/inspec/pull/3827) ([jtimberman](https://github.com/jtimberman))
+#### Bug Fixes
+- detect postgres 10 on centos properly [#3833](https://github.com/inspec/inspec/pull/3833) ([chris-rock](https://github.com/chris-rock))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.6.6 -->
 ### Changes since 3.6.6 release
 
 #### Bug Fixes
+- detect postgres 10 on centos properly [#3833](https://github.com/inspec/inspec/pull/3833) ([chris-rock](https://github.com/chris-rock)) <!-- 3.6.18 -->
 - inspec compliance: Fix mocked configuration [#3834](https://github.com/inspec/inspec/pull/3834) ([skylerto](https://github.com/skylerto)) <!-- 3.6.16 -->
 
 #### Merged Pull Requests
