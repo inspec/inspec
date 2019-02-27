@@ -47,7 +47,7 @@ module SourceReaders
       tests = @target.files.find_all do |path|
         path.start_with?('controls') && path.end_with?('.rb')
       end
-      Hash[tests.map { |x| [x, @target.read(x)] }.delete_if { |_file, contents| contents.nil? }]
+      Hash[tests.sort.map { |x| [x, @target.read(x)] }.delete_if { |_file, contents| contents.nil? }]
     end
 
     def load_libs
