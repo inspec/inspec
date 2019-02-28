@@ -18,16 +18,18 @@ module InspecPlugins
 
       def create
         logger.info("Creating a Habitat artifact for '#{@path}'...")
+
+        # Need to create working directory first so `ensure` doesn't error
         working_dir = create_working_dir
+
         habitat_config = read_habitat_config
+        verify_habitat_setup(habitat_config)
 
         output_dir = @options[:output_dir] || Dir.pwd
         unless File.directory?(output_dir)
           exit_with_error("Output directory #{output_dir} is not a directory " \
                           'or does not exist.')
         end
-
-        verify_habitat_setup(habitat_config)
 
         duplicated_profile = duplicate_profile(@path, working_dir)
         prepare_profile!(duplicated_profile)
@@ -44,8 +46,10 @@ module InspecPlugins
         logger.debug(e.backtrace.join("\n"))
         exit_with_error('Unable to create Habitat artifact.')
       ensure
-        logger.debug("Deleting working directory #{working_dir}")
-        FileUtils.rm_rf(working_dir)
+        if Dir.exist?(working_dir)
+          logger.debug("Deleting working directory #{working_dir}")
+          FileUtils.rm_rf(working_dir)
+        end
       end
 
       def setup(profile = profile_from_path(@path))
@@ -265,7 +269,7 @@ module InspecPlugins
           logger.error(error_msg)
         end
 
-        raise
+        exit 1
       end
     end
   end

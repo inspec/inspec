@@ -29,6 +29,11 @@ class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
       { output_dir: @output_dir },
     )
 
+    @mock_hab_config = {
+      'auth_token' => 'FAKETOKEN',
+      'origin' => 'fake_origin',
+    }
+
     Inspec::Log.level(:fatal)
   end
 
@@ -45,16 +50,18 @@ class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
       },
     )
 
-    assert_raises { profile.create }
+    assert_raises(SystemExit) { profile.create }
     # TODO: Figure out how to capture and validate `Inspec::Log.error`
   end
 
   def test_create
     file_count = Dir.glob(File.join(@test_profile_path, '**/*')).count
 
-    @hab_profile.stub :verify_habitat_setup, nil do
-      @hab_profile.stub :build_hart, @fake_hart_file do
-        @hab_profile.create
+    @hab_profile.stub :read_habitat_config, @mock_hab_config do
+      @hab_profile.stub :verify_habitat_setup, nil do
+        @hab_profile.stub :build_hart, @fake_hart_file do
+          @hab_profile.create
+        end
       end
     end
 
@@ -74,7 +81,7 @@ class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
     cmd.expect(:run_command, nil)
 
     Mixlib::ShellOut.stub :new, cmd, 'hab --version' do
-      assert_raises { @hab_profile.create }
+      assert_raises(SystemExit) { @hab_profile.create }
       # TODO: Figure out how to capture and validate `Inspec::Log.error`
     end
 
@@ -82,7 +89,7 @@ class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
   end
 
   def test_upload
-    @hab_profile.stub :read_habitat_config, { 'auth_token' => 'FAKETOKEN' } do
+    @hab_profile.stub :read_habitat_config, @mock_hab_config do
       @hab_profile.stub :create, @fake_hart_file do
         @hab_profile.stub :upload_hart, nil do
           @hab_profile.upload
@@ -94,7 +101,7 @@ class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
 
   def test_upload_raises_if_no_habitat_auth_token_is_found
     @hab_profile.stub :read_habitat_config, {} do
-      assert_raises { @hab_profile.upload(@fake_hart_file) }
+      assert_raises(SystemExit) { @hab_profile.upload }
       # TODO: Figure out how to capture and validate `Inspec::Log.error`
     end
   end
@@ -151,7 +158,7 @@ class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
       bad_profile_path,
       backend: Inspec::Backend.create(Inspec::Config.mock),
     )
-    assert_raises { @hab_profile.send(:verify_profile, bad_profile) }
+    assert_raises(SystemExit) { @hab_profile.send(:verify_profile, bad_profile) }
     # TODO: Figure out how to capture and validate `Inspec::Log.error`
   end
 
@@ -193,9 +200,10 @@ class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
     mock = MiniTest::Mock.new
     mock.expect(:run_command, nil)
     mock.expect(:error?, true)
+    mock.expect(:stderr, 'This would be an error message')
 
     Mixlib::ShellOut.stub(:new, mock) do
-      assert_raises { @hab_profile.send(:verify_habitat_setup, {}) }
+      assert_raises(SystemExit) { @hab_profile.send(:verify_habitat_setup, {}) }
       # TODO: Figure out how to capture and validate `Inspec::Log.error`
     end
     mock.verify
@@ -207,7 +215,7 @@ class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
     mock.expect(:error?, false)
 
     Mixlib::ShellOut.stub(:new, mock) do
-      assert_raises { @hab_profile.send(:verify_habitat_setup, {}) }
+      assert_raises(SystemExit) { @hab_profile.send(:verify_habitat_setup, {}) }
       # TODO: Figure out how to capture and validate `Inspec::Log.error`
     end
     mock.verify
@@ -221,9 +229,11 @@ class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
     mock = MiniTest::Mock.new
     mock.expect(:run_command, nil)
     mock.expect(:error?, true)
+    mock.expect(:stdout, 'This would contain output from `hab`')
+    mock.expect(:stderr, 'This would be an error message')
 
     Mixlib::ShellOut.stub(:new, mock) do
-      assert_raises { @hab_profile.send(:upload_hart, @fake_hart_file, {}) }
+      assert_raises(SystemExit) { @hab_profile.send(:upload_hart, @fake_hart_file, {}) }
       # TODO: Figure out how to capture and validate `Inspec::Log.error`
     end
   end
