@@ -86,7 +86,7 @@ describe "Inspec::Resources::JSON" do
     end
   end
 
-  describe "#load_raw_from_file" do
+  describe "#load_raw_from_command" do
     let(:cmd_str)  { "curl localhost" }
     let(:resource) { Inspec::Resources::JsonConfig.allocate }
     let(:inspec)   { mock }
@@ -97,18 +97,27 @@ describe "Inspec::Resources::JSON" do
       inspec.expects(:command).with(cmd_str).returns(command)
     end
 
-    it "raises an exception if command stdout is nil" do
-      command.expects(:stdout).returns(nil)
-      proc { resource.send(:load_raw_from_command, cmd_str) }.must_raise Inspec::Exceptions::ResourceSkipped
-    end
-
-    it "raises an exception if command stdout is empty" do
+    it "skips the resource if command exits zero and stdout is empty" do
+      command.expects(:exit_status).returns(0)
       command.expects(:stdout).returns("")
       proc { resource.send(:load_raw_from_command, cmd_str) }.must_raise Inspec::Exceptions::ResourceSkipped
     end
 
+    it "fails the resource if the command exits non-zero and stderr is not empty" do
+      command.expects(:exit_status).returns(1)
+      command.expects(:stderr).returns("This is a fake stderr message").twice
+      proc { resource.send(:load_raw_from_command, cmd_str) }.must_raise Inspec::Exceptions::ResourceFailed
+    end
+
+    it "fails the resource if the command exits non-zero and stderr is empty" do
+      command.expects(:exit_status).returns(1)
+      command.expects(:stderr).returns("")
+      proc { resource.send(:load_raw_from_command, cmd_str) }.must_raise Inspec::Exceptions::ResourceFailed
+    end
+
     it "returns the command output" do
-      command.expects(:stdout).returns("json goes here")
+      command.expects(:exit_status).returns(0)
+      command.expects(:stdout).returns("json goes here").twice
       resource.send(:load_raw_from_command, cmd_str).must_equal "json goes here"
     end
   end

@@ -93,10 +93,25 @@ module Inspec::Resources
     end
 
     def load_raw_from_command(command)
-      command_output = inspec.command(command).stdout
-      raise Inspec::Exceptions::ResourceSkipped, "No output from command: #{command}" if command_output.nil? || command_output.empty?
+      command_result = inspec.command(command)
 
-      command_output
+      case command_result.exit_status
+      when 0
+
+        # TODO: Handle case where command exits 0 but STDERR is found.
+
+        if command_result.stdout.empty?
+          raise Inspec::Exceptions::ResourceSkipped, "No output from command: #{command}"
+        end
+      else
+        if command_result.stderr.empty?
+          raise Inspec::Exceptions::ResourceFailed, "Command exited non-zero but STDERR was empty"
+        else
+          raise Inspec::Exceptions::ResourceFailed, "Command exited non-zero. Error:\n #{command_result.stderr}"
+        end
+      end
+
+      command_result.stdout
     end
 
     # for resources the subclass JsonConfig, this allows specification of the resource
