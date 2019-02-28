@@ -63,7 +63,11 @@ module Inspec::Resources
     end
 
     def to_s
-      "http #{http_method} on #{@url}"
+      if @opts and @url
+        "HTTP #{http_method} on #{@url}"
+      else
+        'HTTP Resource'
+      end
     end
 
     class Worker
