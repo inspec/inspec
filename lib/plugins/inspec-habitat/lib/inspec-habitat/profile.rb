@@ -17,7 +17,7 @@ module InspecPlugins
       end
 
       def create
-        logger.debug("Creating a Habitat artifact for '#{@path}'")
+        logger.info("Creating a Habitat artifact for '#{@path}'...")
         working_dir = create_working_dir
         habitat_config = read_habitat_config
 
@@ -38,6 +38,7 @@ module InspecPlugins
         destination = File.join(output_dir, File.basename(hart_file))
         FileUtils.cp(hart_file, destination)
 
+        logger.info("Habitat artifact '#{@destination}' created.")
         destination
       rescue => e
         logger.debug(e.backtrace.join("\n"))
@@ -52,7 +53,7 @@ module InspecPlugins
         logger.debug("Setting up #{path} for Habitat...")
 
         plan_file = File.join(path, 'habitat', 'plan.sh')
-        logger.debug("Generating Habitat plan at #{plan_file}...")
+        logger.info("Generating Habitat plan at #{plan_file}...")
         vars = {
           profile: profile,
           habitat_origin: read_habitat_config['origin'],
@@ -60,15 +61,15 @@ module InspecPlugins
         create_file_from_template(plan_file, 'plan.sh.erb', vars)
 
         run_hook_file = File.join(path, 'habitat', 'hooks', 'run')
-        logger.debug("Generating a Habitat run hook at #{run_hook_file}...")
+        logger.info("Generating a Habitat run hook at #{run_hook_file}...")
         create_file_from_template(run_hook_file, 'hooks/run.erb')
 
         default_toml = File.join(path, 'habitat', 'default.toml')
-        logger.debug("Generating a Habitat default.toml at #{default_toml}...")
+        logger.info("Generating a Habitat default.toml at #{default_toml}...")
         create_file_from_template(default_toml, 'default.toml.erb')
 
         config = File.join(path, 'habitat', 'config', 'inspec_exec_config.json')
-        logger.debug("Generating #{config} for `inspec exec`...")
+        logger.info("Generating #{config} for `inspec exec`...")
         create_file_from_template(config, 'config/inspec_exec_config.json.erb')
       end
 
@@ -85,8 +86,9 @@ module InspecPlugins
         # Run create command to create habitat artifact
         hart = create
 
-        logger.debug("Uploading Habitat artifact #{hart}")
+        logger.info("Uploading Habitat artifact #{hart}...")
         upload_hart(hart, habitat_config)
+        logger.info("Habitat artifact #{hart} uploaded.")
       rescue => e
         logger.debug(e.backtrace.join("\n"))
         exit_with_error('Unable to upload Habitat artifact.')
