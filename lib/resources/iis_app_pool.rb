@@ -89,7 +89,7 @@ class IisAppPool < Inspec.resource(1)
     script = <<~EOH
       Import-Module WebAdministration
       If (Test-Path '#{@pool_path}') {
-        Get-Item '#{@pool_path}' | Select-Object * | ConvertTo-Json
+        Get-Item '#{@pool_path}' | Select-Object * | ConvertTo-Json -Compress
       } Else {
         Write-Host '{}'
       }
