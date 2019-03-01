@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.6.19 -->
-## [v3.6.19](https://github.com/inspec/inspec/tree/v3.6.19) (2019-02-27)
+<!-- latest_release 3.7.0 -->
+## [v3.7.0](https://github.com/inspec/inspec/tree/v3.7.0) (2019-03-01)
 
-#### Merged Pull Requests
-- Update the integration tests to use dokken-images and newer Chef technologies [#3814](https://github.com/inspec/inspec/pull/3814) ([tas50](https://github.com/tas50))
+#### New Features
+- Config file formalization and credential sets: part 3, credential sets [#3713](https://github.com/inspec/inspec/pull/3713) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.6.6 -->
 ### Changes since 3.6.6 release
+
+#### New Features
+- Config file formalization and credential sets: part 3, credential sets [#3713](https://github.com/inspec/inspec/pull/3713) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.7.0 -->
 
 #### Bug Fixes
 - detect postgres 10 on centos properly [#3833](https://github.com/inspec/inspec/pull/3833) ([chris-rock](https://github.com/chris-rock)) <!-- 3.6.18 -->
