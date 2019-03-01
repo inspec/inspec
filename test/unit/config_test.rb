@@ -303,6 +303,77 @@ describe 'Inspec::Config' do
       end
     end
 
+    describe 'when creds are specified with a credset target_uri in a 1.1 file without transport prefixes' do
+      let(:file_fixture_name) { :basic }
+      let(:cli_opts) { { target: 'ssh://set1' }}
+      it 'should use the credset to lookup the creds in the file' do
+        expected = [:backend, :host, :user].sort
+        seen_fields.must_equal expected
+        creds[:backend].must_equal 'ssh'
+        creds[:host].must_equal 'some.host'
+        creds[:user].must_equal 'some_user'
+      end
+    end
+
+    describe 'when creds are specified with a credset that contains odd characters' do
+      let(:file_fixture_name) { :match_checks_in_credset_names }
+      [
+        'ssh://TitleCase',
+        'ssh://snake_case',
+        'ssh://conta1nsnumeral5',
+      ].each do |target_uri|
+        it "should be able to unpack #{target_uri}" do
+          # let() caching breaks things here
+          cfg_io = StringIO.new(ConfigTestHelper.fixture(file_fixture_name))
+          cli_opts = { target: target_uri }
+          cfg = Inspec::Config.new({ target: target_uri }, cfg_io)
+          creds = cfg.unpack_train_credentials
+          creds.count.must_equal 2
+          creds[:backend].must_equal 'ssh'
+          creds[:found].must_equal 'yes'
+        end
+      end
+
+      [
+        'ssh://contains.dots',
+      ].each do |target_uri|
+        it "should handoff unpacking #{target_uri} to train" do
+          # let() caching breaks things here
+          cfg_io = StringIO.new(ConfigTestHelper.fixture(file_fixture_name))
+          cfg = Inspec::Config.new({ target: target_uri }, cfg_io)
+          creds = cfg.unpack_train_credentials
+
+          creds.count.must_equal 2
+          creds[:backend].must_equal 'ssh'
+          creds[:host].must_equal 'contains.dots'
+        end
+      end
+
+      [
+        'ssh://contains spaces',
+      ].each do |target_uri|
+        it "should be not able to unpack #{target_uri}" do
+          # let() caching breaks things here
+          cfg_io = StringIO.new(ConfigTestHelper.fixture(file_fixture_name))
+          cfg = Inspec::Config.new({ target: target_uri }, cfg_io)
+
+          assert_raises(Train::UserError) { creds = cfg.unpack_train_credentials }
+        end
+      end
+    end
+
+    describe 'when creds are specified with a credset target_uri in a 1.1 file and a prefixed override on the CLI' do
+      let(:file_fixture_name) { :basic }
+      let(:cli_opts) { { target: 'ssh://set1', ssh_user: 'bob' } }
+      it 'should use the credset to lookup the creds in the file then override the single value' do
+        expected = [:backend, :host, :user].sort
+        seen_fields.must_equal expected
+        creds[:backend].must_equal 'ssh'
+        creds[:host].must_equal 'some.host'
+        creds[:user].must_equal 'bob'
+      end
+    end
+
     describe 'when creds are specified with a non-credset target_uri' do
       let(:cfg_io) { nil }
       let(:cli_opts) { { target: 'ssh://bob@somehost' } }
@@ -425,6 +496,14 @@ module ConfigTestHelper
             "url": "http://some.where",
             "token" : "YOUR_A2_ADMIN_TOKEN"
           }
+        },
+        "credentials": {
+          "ssh": {
+            "set1": {
+              "host": "some.host",
+              "user": "some_user"
+            }
+          }
         }
       }
       EOJ2
@@ -476,6 +555,31 @@ module ConfigTestHelper
         }
       }
       EOJ5
+    when :match_checks_in_credset_names
+      <<~EOJ6
+      {
+        "version": "1.1",
+        "credentials": {
+          "ssh": {
+            "TitleCase": {
+              "found": "yes"
+            },
+            "snake_case": {
+              "found": "yes"
+            },
+            "conta1nsnumeral5": {
+              "found": "yes"
+            },
+            "contains.dots": {
+              "found": "no"
+            },
+            "contains spaces": {
+              "found": "no"
+            }
+          }
+        }
+      }
+      EOJ6
     end
   end
   module_function :fixture

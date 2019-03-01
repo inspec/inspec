@@ -656,7 +656,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       JSON.parse(json).select{|k,v| ['name', 'release'].include? k }
     end
     let(:run_result) { run_inspec_process('exec ' + File.join(profile_path, 'simple-metadata') + ' ' + cli_args, json: true) }
-    let(:seen_platform) { run_result.payload.json['platform'].select{|k,v| ['name', 'release'].include? k } }
+    let(:seen_platform) { run_result.payload.json['platform'].select{|k,v| ['name', 'release', 'target_id'].include? k } }
     let(:stderr) { run_result.stderr }
 
     describe 'when neither target nor backend is specified' do
@@ -708,6 +708,13 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
         stderr.must_include 'garble'
         stderr.must_include 'ssh://somehost.com'
         stderr.must_include 'transport://credset'
+      end
+    end
+
+    describe 'when a target URI with a known credset is used' do
+      let(:cli_args) { '--target mock://mycredset' + ' --config ' + File.join(config_dir_path, 'json-config', 'mock-credset.json') }
+      it 'should connect to the mock platform' do
+        seen_platform.must_equal({"name" => "mock","release" => "unknown","target_id" => "from-mock-credset-config-file"})
       end
     end
   end

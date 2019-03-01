@@ -71,6 +71,8 @@ module Inspec
     #      transport name prefixed, which is stripped before being added
     #      to the creds hash)
     #  * the --target CLI option, which is interpreted:
+    #     - as a transport://credset format, which looks up the creds in
+    #       the config file in the credentials section
     #     - as an arbitrary URI, which is parsed by Train.unpack_target_from_uri
 
     def unpack_train_credentials
@@ -82,8 +84,9 @@ module Inspec
       credentials.merge!(_utc_generic_credentials)
 
       _utc_determine_backend(credentials)
-      credentials.merge!(Train.unpack_target_from_uri(final_options[:target] || '')) # TODO: this will be replaced with the credset work
       transport_name = credentials[:backend].to_s
+
+      _utc_merge_credset(credentials, transport_name)
       _utc_merge_transport_options(credentials, transport_name)
 
       # Convert to all-Symbol keys
@@ -135,6 +138,33 @@ module Inspec
         raise ArgumentError, "Could not recognize a backend from the target #{final_options[:target]} - use a URI format with the backend name as the URI schema.  Example: 'ssh://somehost.com' or 'transport://credset' or 'transport://' if credentials are provided outside of InSpec."
       end
       credentials[:backend] = transport_name.to_s # these are indeed stored in Train as Strings.
+    end
+
+    def _utc_merge_credset(credentials, transport_name)
+      # Look for Config File credentials/transport_name/credset
+      credset_name = _utc_find_credset_name(credentials, transport_name)
+
+      if credset_name
+        credset = @cfg_file_contents.dig('credentials', transport_name, credset_name)
+        if credset
+          credentials.merge!(credset)
+        else
+          # OK, we had a target that looked like transport://something
+          # But we don't know what that something is - there was no
+          # matching credset with it.  Let train parse it.
+          credentials.merge!(Train.unpack_target_from_uri(final_options[:target]))
+        end
+      elsif final_options.key?(:target)
+        # Not sure what target looked like at all!
+        # Let train parse it.
+        credentials.merge!(Train.unpack_target_from_uri(final_options[:target]))
+      end
+    end
+
+    def _utc_find_credset_name(_credentials, transport_name)
+      return nil unless final_options[:target]
+      match = final_options[:target].match(%r{^#{transport_name}://(?<credset_name>[\w\d\-]+)$})
+      match ? match[:credset_name] : nil
     end
 
     #-----------------------------------------------------------------------#
