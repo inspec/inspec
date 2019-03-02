@@ -1,44 +1,41 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.7.1 -->
-## [v3.7.1](https://github.com/inspec/inspec/tree/v3.7.1) (2019-03-02)
-
-#### Bug Fixes
-- Force omnibus to link to train 1.7.4 [#3858](https://github.com/inspec/inspec/pull/3858) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.6.6 -->
-### Changes since 3.6.6 release
-
-#### New Features
-- Config file formalization and credential sets: part 3, credential sets [#3713](https://github.com/inspec/inspec/pull/3713) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.7.0 -->
-
-#### Bug Fixes
-- Force omnibus to link to train 1.7.4 [#3858](https://github.com/inspec/inspec/pull/3858) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.7.1 -->
-- detect postgres 10 on centos properly [#3833](https://github.com/inspec/inspec/pull/3833) ([chris-rock](https://github.com/chris-rock)) <!-- 3.6.18 -->
-- inspec compliance: Fix mocked configuration [#3834](https://github.com/inspec/inspec/pull/3834) ([skylerto](https://github.com/skylerto)) <!-- 3.6.16 -->
-
-#### Merged Pull Requests
-- Update the integration tests to use dokken-images and newer Chef technologies [#3814](https://github.com/inspec/inspec/pull/3814) ([tas50](https://github.com/tas50)) <!-- 3.6.19 -->
-- add json example from http request [#3827](https://github.com/inspec/inspec/pull/3827) ([jtimberman](https://github.com/jtimberman)) <!-- 3.6.17 -->
-- Attribute-&gt;Input Rename:  Rename Classes and Methods [#3811](https://github.com/inspec/inspec/pull/3811) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.15 -->
-- Add term-ansicolor to inspec-core gem [#3798](https://github.com/inspec/inspec/pull/3798) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.6.14 -->
-- Suppress warnings in unit test output [#3828](https://github.com/inspec/inspec/pull/3828) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.6.13 -->
-- Add a deprecation group for core AWS resources [#3824](https://github.com/inspec/inspec/pull/3824) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.12 -->
-- Moved the AWS init profile to the correct location. [#3820](https://github.com/inspec/inspec/pull/3820) ([skpaterson](https://github.com/skpaterson)) <!-- 3.6.11 -->
-- Attribute-Input Rename: Add deprecation group [#3805](https://github.com/inspec/inspec/pull/3805) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.10 -->
-- Update support platforms in the readme [#3812](https://github.com/inspec/inspec/pull/3812) ([tas50](https://github.com/tas50)) <!-- 3.6.9 -->
-- Attribute-Input Rename: Rename codefiles [#3803](https://github.com/inspec/inspec/pull/3803) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.8 -->
-- Attributes-Inputs Rename: Move test files [#3796](https://github.com/inspec/inspec/pull/3796) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.7 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.7.1](https://github.com/inspec/inspec/tree/v3.7.1) (2019-03-02)
+
+#### New Features
+- Config file formalization and credential sets: part 3, credential sets [#3713](https://github.com/inspec/inspec/pull/3713) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- inspec compliance: Fix mocked configuration [#3834](https://github.com/inspec/inspec/pull/3834) ([skylerto](https://github.com/skylerto))
+- detect postgres 10 on centos properly [#3833](https://github.com/inspec/inspec/pull/3833) ([chris-rock](https://github.com/chris-rock))
+- Force omnibus to link to train 1.7.4 [#3858](https://github.com/inspec/inspec/pull/3858) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Attributes-Inputs Rename: Move test files [#3796](https://github.com/inspec/inspec/pull/3796) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Attribute-Input Rename: Rename codefiles [#3803](https://github.com/inspec/inspec/pull/3803) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update support platforms in the readme [#3812](https://github.com/inspec/inspec/pull/3812) ([tas50](https://github.com/tas50))
+- Attribute-Input Rename: Add deprecation group [#3805](https://github.com/inspec/inspec/pull/3805) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Moved the AWS init profile to the correct location. [#3820](https://github.com/inspec/inspec/pull/3820) ([skpaterson](https://github.com/skpaterson))
+- Add a deprecation group for core AWS resources [#3824](https://github.com/inspec/inspec/pull/3824) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Suppress warnings in unit test output [#3828](https://github.com/inspec/inspec/pull/3828) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Add term-ansicolor to inspec-core gem [#3798](https://github.com/inspec/inspec/pull/3798) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Attribute-&gt;Input Rename:  Rename Classes and Methods [#3811](https://github.com/inspec/inspec/pull/3811) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- add json example from http request [#3827](https://github.com/inspec/inspec/pull/3827) ([jtimberman](https://github.com/jtimberman))
+- Update the integration tests to use dokken-images and newer Chef technologies [#3814](https://github.com/inspec/inspec/pull/3814) ([tas50](https://github.com/tas50))
+<!-- latest_stable_release -->
+
 ## [v3.6.6](https://github.com/inspec/inspec/tree/v3.6.6) (2019-02-12)
 
 #### Merged Pull Requests
 - Add logger to train generic options [#3806](https://github.com/inspec/inspec/pull/3806) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Update CONTRIBUTING for CI [#3809](https://github.com/inspec/inspec/pull/3809) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v3.6.4](https://github.com/inspec/inspec/tree/v3.6.4) (2019-02-08)
 
