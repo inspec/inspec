@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.7.0 -->
-## [v3.7.0](https://github.com/inspec/inspec/tree/v3.7.0) (2019-03-01)
+<!-- latest_release 3.7.1 -->
+## [v3.7.1](https://github.com/inspec/inspec/tree/v3.7.1) (2019-03-02)
 
-#### New Features
-- Config file formalization and credential sets: part 3, credential sets [#3713](https://github.com/inspec/inspec/pull/3713) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- Force omnibus to link to train 1.7.4 [#3858](https://github.com/inspec/inspec/pull/3858) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.6.6 -->
@@ -14,6 +14,7 @@
 - Config file formalization and credential sets: part 3, credential sets [#3713](https://github.com/inspec/inspec/pull/3713) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.7.0 -->
 
 #### Bug Fixes
+- Force omnibus to link to train 1.7.4 [#3858](https://github.com/inspec/inspec/pull/3858) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.7.1 -->
 - detect postgres 10 on centos properly [#3833](https://github.com/inspec/inspec/pull/3833) ([chris-rock](https://github.com/chris-rock)) <!-- 3.6.18 -->
 - inspec compliance: Fix mocked configuration [#3834](https://github.com/inspec/inspec/pull/3834) ([skylerto](https://github.com/skylerto)) <!-- 3.6.16 -->
 
