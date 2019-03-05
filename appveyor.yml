@@ -58,6 +58,8 @@ install:
   - bundler --version
   - ruby -r rubygems -e "p Gem.path"
 
+build: off
+
 build_script:
   - bundle install --path=vendor/bundle --without integration tools maintenance deploy
   - if not exist C:\tmp mkdir C:\tmp
