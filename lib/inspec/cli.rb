@@ -197,9 +197,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
         1  Usage or general error
         2  Error in plugin system
         3  Fatal deprecation encountered
-        4  Chef License not accepted
       100  Normal exit, at least one test failed
       101  Normal exit, at least one test skipped but none failed
+      172  Chef License not accepted
     ```
 
     Below are some examples of using `exec` with different test LOCATIONS:

@@ -77,7 +77,7 @@ describe 'The license acceptance mechanism' do
             run_result.stdout.must_include 'License that need accepting' # From first challenge
             run_result.stdout.must_include 'If you do not accept this license' # From second challenge
             run_result.stdout.must_include 'ERROR' # From failure message
-            run_result.exit_status.must_equal 4 # TODO: coordinate error code
+            run_result.exit_status.must_equal 172
           end
         end
       end
