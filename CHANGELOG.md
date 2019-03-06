@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.30 -->
-## [v1.51.30](https://github.com/inspec/inspec/tree/v1.51.30) (2018-06-26)
+<!-- latest_release 1.51.31 -->
+## [v1.51.31](https://github.com/inspec/inspec/tree/v1.51.31) (2019-03-06)
 
-#### Bug Fixes
-- Backport control-level exception catching to 1.x [#3126](https://github.com/inspec/inspec/pull/3126) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Trigger new InSpec 1.x stable habitat build [#3863](https://github.com/inspec/inspec/pull/3863) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.25 -->
@@ -17,6 +17,7 @@
 - Backport filtertable / &#39;where&#39; functionality on shadow resource to 1.x series [#3154](https://github.com/inspec/inspec/pull/3154) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.51.28 -->
 
 #### Merged Pull Requests
+- Trigger new InSpec 1.x stable habitat build [#3863](https://github.com/inspec/inspec/pull/3863) ([miah](https://github.com/miah)) <!-- 1.51.31 -->
 - Rebuild 1.x hab package [#3172](https://github.com/inspec/inspec/pull/3172) ([jquick](https://github.com/jquick)) <!-- 1.51.29 -->
 - Fix 1.x inspec unit tests [#3148](https://github.com/inspec/inspec/pull/3148) ([jquick](https://github.com/jquick)) <!-- 1.51.27 -->
 - Hard code ruby path in binstub to avoid cross-ruby contamination [#3130](https://github.com/inspec/inspec/pull/3130) ([scotthain](https://github.com/scotthain)) <!-- 1.51.26 -->
