@@ -1,55 +1,74 @@
-sudo: required
 branches:
   only:
     - master
-    - 1-stable
 language: ruby
 cache: bundler
-dist: trusty
+dist: xenial
 services:
 - docker
 bundler_args: "--without integration tools maintenance deploy"
 before_install:
 - gem update --system
 - gem --version
-- rvm @global do gem install bundler
 - bundle --version
 matrix:
   include:
-  - rvm: 2.3.6
-  - rvm: 2.4.3
-  - rvm: 2.4.3
+  - rvm: 2.3.8
+    env: UNIT_TESTS_23=1
+  - rvm: 2.4.5
+    env: UNIT_TESTS_24=1
+  - rvm: 2.5.3
+    env: UNIT_TESTS_25=1
+  #- rvm: 2.6.1 # this needs a few fixes to get enabled
+  #  bundler_args: "--without integration tools maintenance deploy"
+  #  env: UNIT_TESTS_26=1
+  - rvm: 2.4.5
     script: bundle exec rake $SUITE
     env: SUITE="test:functional"
-  - rvm: 2.4.3
+  - rvm: 2.5.3
+    script: bundle exec rake $SUITE
+    env: SUITE="test:functional"
+  - rvm: 2.5.3
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration OS=default-ubuntu-1204 DOCKER=true
-  - rvm: 2.4.3
+    env: SUITE=test:integration[default-ubuntu-1404]
+  - rvm: 2.5.3
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration OS='default-ubuntu-1604' DOCKER=true
-  - rvm: 2.4.3
+    env: SUITE=test:integration[default-ubuntu-1604]
+  - rvm: 2.5.3
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration OS='default-centos-68' DOCKER=true
-  - rvm: 2.4.3
+    env: SUITE=test:integration[default-ubuntu-1804]
+  - rvm: 2.5.3
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration OS='default-centos-7' DOCKER=true
-  - rvm: 2.4.3
+    env: SUITE=test:integration[default-centos-6]
+  - rvm: 2.5.3
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration OS='default-debian-8' DOCKER=true
-  - rvm: 2.4.3
+    env: SUITE=test:integration[default-centos-7]
+  - rvm: 2.5.3
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration OS='default-oracle-72' DOCKER=true
-  - rvm: 2.4.3
+    env: SUITE=test:integration[default-debian-8]
+  - rvm: 2.5.3
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration OS='default-fedora-24' DOCKER=true
-  - rvm: 2.4.3
+    env: SUITE=test:integration[default-debian-9]
+  - rvm: 2.5.3
+    script: bundle exec rake $SUITE
+    bundler_args: "--without tools maintenance deploy"
+    env: SUITE=test:integration[default-oraclelinux-6]
+  - rvm: 2.5.3
+    script: bundle exec rake $SUITE
+    bundler_args: "--without tools maintenance deploy"
+    env: SUITE=test:integration[default-oraclelinux-7]
+  - rvm: 2.5.3
+    script: bundle exec rake $SUITE
+    bundler_args: "--without tools maintenance deploy"
+    env: SUITE=test:integration[default-fedora-29]
+  - rvm: 2.4.5
     sudo: false
     cache:
       apt: true

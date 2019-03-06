@@ -1,0 +1,36 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_solo
+
+verifier:
+  name: inspec
+  sudo: true
+
+platforms:
+  - name: centos-6
+  - name: centos-7
+  - name: debian-8
+  - name: debian-9
+  - name: fedora-28
+  - name: fedora-29
+  - name: freebsd-11
+  - name: opensuseleap-42
+  - name: ubuntu-14.04
+  - name: ubuntu-16.04
+  - name: ubuntu-18.04
+
+suites:
+  - name: default
+    run_list:
+      - recipe[os_prepare]
+  - name: find_files
+    run_list:
+      - recipe[os_prepare::find_files]
+    verifier:
+      inspec_tests:
+        - test/integration/find_files
+    excludes:
+      - freebsd-11
