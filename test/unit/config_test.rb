@@ -29,6 +29,31 @@ describe 'Inspec::Config' do
   end
 
   # ========================================================================== #
+  #                              Global Caching
+  # ========================================================================== #
+
+  describe 'caching' do
+    # Note that since unit tests are randomized, we have no idea what is in
+    # the cache.  We just want to validate that we get the same thing.
+    it 'should cache the config object' do
+      cfg_1 = Inspec::Config.new # in the unlikely event we are the first unit test
+
+      # Type check
+      cfg_cached = Inspec::Config.cached
+      cfg_cached.must_be_kind_of Inspec::Config
+
+      # Multiple calls to cached should return the same thing
+      cfg_2 = Inspec::Config.cached
+      cfg_2.must_equal cfg_cached
+
+      # Cached value unaffected by later instance creation
+      cfg_3 = Inspec::Config.new(shoe_size: 9)
+      cfg_4 = Inspec::Config.cached
+      cfg_4.must_equal cfg_cached
+    end
+  end
+
+  # ========================================================================== #
   #                              File Validation
   # ========================================================================== #
   describe 'when validating a file' do
