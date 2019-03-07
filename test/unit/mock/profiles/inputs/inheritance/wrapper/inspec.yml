@@ -1,0 +1,32 @@
+name: inheritance-wrapper
+title: Tests inputs being set accross inheritance boundaries
+maintainer: InSpec Core Engineering Team
+copyright: InSpec Core Engineering Team
+copyright_email: inspec@chef.io
+license: Apache-2.0
+summary: Tests inputs being set accross inheritance boundaries
+version: 0.1.0
+supports:
+  platform: os
+
+depends:
+- path: ../child-01
+# Assign this one a name, which does not match the name in child-02/inspec.yml
+# This should cause an alias record to be created in InputRegistry
+- name: inheritance-child-02-aliased
+  path: ../child-02
+
+attributes:
+# test-01 is set in both wrapper metadata and child-01 metadata
+# and tested for each profile's idea of the value
+# All profiles are namespaced, so they exist independently.
+- name: test-01
+  value: value-from-wrapper-metadata
+# Set a value in a child profile from a wrapper profile
+- name: test-02
+  profile: inheritance-child-01
+  value: value-from-wrapper-metadata
+# Set a value in an aliased child profile
+- name: test-03
+  profile: inheritance-child-02-aliased
+  value: value-from-wrapper-metadata
