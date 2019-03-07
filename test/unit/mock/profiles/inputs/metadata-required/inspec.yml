@@ -7,6 +7,6 @@ license: Apache-2.0
 summary: An InSpec Compliance Profile
 version: 0.1.0
 attributes:
-- name: username
+- name: a_required_input
   type: string
   required: true

@@ -23,6 +23,7 @@ module Inspec
   # implementation of the fetcher being used.
   #
   class Resolver
+    # Here deps is an Array of Hashes
     def self.resolve(dependencies, cache, working_dir, backend)
       reqs = dependencies.map do |dep|
         req = Inspec::Requirement.from_metadata(dep, cache, cwd: working_dir, backend: backend)
@@ -47,6 +48,7 @@ module Inspec
       end
     end
 
+    # Here deps is an Array of Inspec::Requirement
     def resolve(deps, top_level = true, seen_items = {}, path_string = '') # rubocop:disable Metrics/AbcSize
       graph = {}
       if top_level

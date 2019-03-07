@@ -121,14 +121,15 @@ module Inspec
       # The AttributeRegistry is in charge of keeping track of inputs;
       # it is the single source of truth. Now that we have a profile object,
       # we can create any inputs that were provided by various mechanisms.
+      options[:runner_conf] ||= Inspec::Config.cached
       Inspec::InputRegistry.bind_profile_inputs(
         # Every input only exists in the context of a profile
         metadata.params[:name], # TODO: test this with profile aliasing
         # Remaining args are possible sources of inputs
         # TODO: deprecation checks throughout
-        cli_input_files: options[:runner_conf].final_options[:attrs], # From --attrs
+        cli_input_files: options[:runner_conf][:attrs], # From --attrs
         profile_metadata: metadata,
-        runner_api: options[:runner_conf].final_options[:attributes], # This is the route the audit_cookbook and kitchen-inspec take
+        runner_api: options[:runner_conf][:attributes], # This is the route the audit_cookbook and kitchen-inspec take
       )
 
       @runner_context =

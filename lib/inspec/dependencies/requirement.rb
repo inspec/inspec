@@ -118,6 +118,7 @@ module Inspec
       return @profile unless @profile.nil?
       opts = @opts.dup
       opts[:backend] = @backend
+      opts[:runner_conf] = Inspec::Config.cached
       if !@dependencies.nil? && !@dependencies.empty?
         opts[:dependencies] = Inspec::DependencySet.from_array(@dependencies, @cwd, @cache, @backend)
       end

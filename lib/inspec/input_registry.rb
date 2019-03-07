@@ -12,11 +12,12 @@ module Inspec
     include Singleton
     extend Forwardable
 
-    attr_reader :inputs_by_profile
+    attr_reader :inputs_by_profile, :profile_aliases
     def_delegator :inputs_by_profile, :each
     def_delegator :inputs_by_profile, :[]
     def_delegator :inputs_by_profile, :key?, :profile_known?
     def_delegator :inputs_by_profile, :select
+    def_delegator :profile_aliases, :key?, :profile_alias?
 
     def initialize
       # Keyed on String profile_name => Hash of String input_name => Input object
@@ -43,35 +44,44 @@ module Inspec
     #              Support for Individual Inputs
     #-------------------------------------------------------------#
 
-    def find_input(name, profile)
-      profile = @profile_aliases[profile] if !profile_known?(profile) && @profile_aliases[profile]
-      unless profile_known?(profile)
-        error = Inspec::InputRegistry::ProfileLookupError.new
-        error.profile_name = profile
-        raise error, "Profile '#{error.profile_name}' does not have any inputs"
+    def find_or_register_input(input_name, profile_name, options = {})
+      if profile_alias?(profile_name)
+        alias_name = profile_name
+        profile_name = profile_aliases[profile_name]
+        handle_late_arriving_alias(alias_name, profile_name) if profile_known?(alias_name)
       end
 
-      unless inputs_by_profile[profile].key?(name)
-        error = Inspec::InputRegistry::InputLookupError.new
-        error.input_name = name
-        error.profile_name = profile
-        raise error, "Profile '#{error.profile_name}' does not have an input with name '#{error.input_name}'"
-      end
-      inputs_by_profile[profile][name]
-    end
-
-    def register_input(input_name, profile_name, options = {})
-      if profile_known?(profile_name) && inputs_by_profile[profile_name][input_name] && options.empty?
-        # Just accessing the input - then why did they call register???
-        # TODO: handle the "declaration" case better
-        inputs_by_profile[profile_name][input_name]
+      inputs_by_profile[profile_name] ||= {}
+      if inputs_by_profile[profile_name].key?(input_name)
+        inputs_by_profile[profile_name][input_name].update(options)
       else
-        inputs_by_profile[profile_name] = {} unless profile_known?(profile_name)
-        # BUG: This a clobbering operation, regardless of precendence!
         inputs_by_profile[profile_name][input_name] = Inspec::Input.new(input_name, options)
       end
+
+      inputs_by_profile[profile_name][input_name]
     end
 
+    # It is possible for a wrapper profile to create an input in metadata,
+    # referring to the child profile by an alias that has not yet been registered.
+    # The registry will then store the inputs under the alias, as if the alias
+    # were a true profile.
+    # If that happens and the child profile also mentions the input, we will
+    # need to move some things - all inputs should be stored under the true
+    # profile name, and no inputs should be stored under the alias.
+    def handle_late_arriving_alias(alias_name, profile_name)
+      inputs_by_profile[profile_name] ||= {}
+      inputs_by_profile[alias_name].each do |input_name, input_from_alias|
+        # Move the inpuut, or if it exists, merge events
+        existing = inputs_by_profile[profile_name][input_name]
+        if existing
+          existing.events.concat(input_from_alias.events)
+        else
+          inputs_by_profile[profile_name][input_name] = input_from_alias
+        end
+      end
+      # Finally, delete the (now copied-out) entry for the alias
+      inputs_by_profile.delete(alias_name)
+    end
     #-------------------------------------------------------------#
     #               Support for Binding Inputs
     #-------------------------------------------------------------#
@@ -84,7 +94,7 @@ module Inspec
       # In a more perfect world, we could let the core plugins choose
       # self-determine what to do; but as-is, the APIs that call this
       # are a bit over-constrained.
-      bind_inputs_from_metadata(profile_name, sources[:metadata])
+      bind_inputs_from_metadata(profile_name, sources[:profile_metadata])
       bind_inputs_from_input_files(profile_name, sources[:cli_input_files])
       bind_inputs_from_runner_api(profile_name, sources[:runner_api])
     end
@@ -99,8 +109,15 @@ module Inspec
 
       # These arrive as a bare hash - values are raw values, not options
       input_hash.each do |input_name, input_value|
-        input_options = { value: input_value }
-        register_input(input_name, profile_name, input_options)
+        loc = Inspec::Input::Event.probe_stack # TODO: likely modify this to look for a kitchen.yml, if that is realistic
+        evt = Inspec::Input::Event.new(
+          value: input_value,
+          provider: :runner_api, # TODO: suss out if audit cookbook or kitchen-inspec or something unknown
+          priority: 40,
+          file: loc.path,
+          line: loc.lineno,
+        )
+        find_or_register_input(input_name, profile_name, event: evt)
       end
     end
 
@@ -123,8 +140,14 @@ module Inspec
 
         next if data.inputs.nil?
         data.inputs.each do |input_name, input_value|
-          input_options = { value: input_value }
-          register_input(input_name, profile_name, input_options)
+          evt = Inspec::Input::Event.new(
+            value: input_value,
+            provider: :cli_files,
+            priority: 40,
+            file: path,
+            # TODO: any way we could get a line number?
+          )
+          find_or_register_input(input_name, profile_name, event: evt)
         end
       end
     end
@@ -151,10 +174,23 @@ module Inspec
       return if profile_metadata_obj.nil? # Metadata files are technically optional
 
       if profile_metadata_obj.params.key?(:attributes) && profile_metadata_obj.params[:attributes].is_a?(Array)
-        profile_metadata_obj.params[:attributes].each do |input|
-          input_options = input.dup
+        profile_metadata_obj.params[:attributes].each do |input_orig|
+          input_options = input_orig.dup
           input_name = input_options.delete(:name)
-          register_input(input_name, profile_name, input_options)
+          input_options.merge!({ priority: 30, provider: :profile_metadata, file: File.join(profile_name, 'inspec.yml') })
+          evt = Inspec::Input.infer_event(input_options)
+
+          # Profile metadata may set inputs in other profiles by naming them.
+          if input_options[:profile]
+            profile_name = input_options[:profile] || profile_name
+            # Override priority to force this to win.  Allow user to set their own priority.
+            evt.priority = input_orig[:priority] || 35
+          end
+          find_or_register_input(input_name,
+                                 profile_name,
+                                 type: input_options[:type],
+                                 required: input_options[:required],
+                                 event: evt)
         end
       elsif profile_metadata_obj.params.key?(:attributes)
         Inspec::Log.warn 'Inputs must be defined as an Array. Skipping current definition.'
@@ -175,8 +211,7 @@ module Inspec
     # These class methods are convenience methods so you don't always
     # have to call #instance when calling the registry
     [
-      :find_input,
-      :register_input,
+      :find_or_register_input,
       :register_profile_alias,
       :list_inputs_for_profile,
       :bind_profile_inputs,

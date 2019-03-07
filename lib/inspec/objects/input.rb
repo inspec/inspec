@@ -70,6 +70,12 @@ module Inspec
           hash[prop] = send(prop)
         end
       end
+
+      def self.probe_stack
+        frames = caller_locations(2, 40)
+        frames.reject! { |f| f.path && f.path.include?('/lib/inspec/') }
+        frames.first
+      end
     end
 
     #===========================================================================#
@@ -197,7 +203,7 @@ module Inspec
             Inspec::Log.warn "Do not provide both an Event and a value as an option to attribute('#{name}') - using value from event"
           end
         else
-          infer_event(options) # Sets options[:event]
+          self.class.infer_event(options) # Sets options[:event]
         end
       end
       events << options[:event] if options.key? :event
@@ -205,44 +211,17 @@ module Inspec
       enforce_type_restriction!
     end
 
-    private
-
-    def _update_set_metadata(options)
-      # Basic metadata
-      @title = options[:title] if options.key?(:title)
-      @description = options[:description] if options.key?(:description)
-      @required = options[:required] if options.key?(:required)
-      @identifier = options[:identifier] if options.key?(:identifier) # TODO: determine if this is ever used
-      @type = options[:type] if options.key?(:type)
-    end
-
-    def make_creation_event(options)
-      loc = options[:location] || probe_stack
-      Input::Event.new(
-        action: :create,
-        provider: options[:provider],
-        file: loc.path,
-        line: loc.lineno,
-      )
-    end
-
-    def probe_stack
-      frames = caller_locations(2, 40)
-      frames.reject! { |f| f.path && f.path.include?('/lib/inspec/') }
-      frames.first
-    end
-
     # We can determine a value:
     # 1. By event.value (preferred)
     # 2. By options[:value]
     # 3. By options[:default] (deprecated)
-    def infer_event(options)
+    def self.infer_event(options)
       # Don't rely on this working; you really should be passing a proper Input::Event
       # with the context information you have.
-      location = probe_stack
+      location = Input::Event.probe_stack
       event = Input::Event.new(
         action: :set,
-        provider: :unknown,
+        provider: options[:provider] || :unknown,
         priority: options[:priority] || Inspec::Input::DEFAULT_PRIORITY_FOR_UNKNOWN_CALLER,
         file: location.path,
         line: location.lineno,
@@ -259,6 +238,27 @@ module Inspec
       end
       event.value = options[:value] if options.key?(:value)
       options[:event] = event
+    end
+
+    private
+
+    def _update_set_metadata(options)
+      # Basic metadata
+      @title = options[:title] if options.key?(:title)
+      @description = options[:description] if options.key?(:description)
+      @required = options[:required] if options.key?(:required)
+      @identifier = options[:identifier] if options.key?(:identifier) # TODO: determine if this is ever used
+      @type = options[:type] if options.key?(:type)
+    end
+
+    def make_creation_event(options)
+      loc = options[:location] || Event.probe_stack
+      Input::Event.new(
+        action: :create,
+        provider: options[:provider],
+        file: loc.path,
+        line: loc.lineno,
+      )
     end
 
     # Determine the current winning value, but don't validate it
@@ -282,7 +282,7 @@ module Inspec
 
     def value=(new_value, priority = DEFAULT_PRIORITY_FOR_VALUE_SET)
       # Inject a new Event with the new value.
-      location = probe_stack
+      location = Event.probe_stack
       events << Event.new(
         action: :set,
         provider: :value_setter,
