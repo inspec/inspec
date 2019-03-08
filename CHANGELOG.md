@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.7.2 -->
-## [v3.7.2](https://github.com/inspec/inspec/tree/v3.7.2) (2019-03-07)
+<!-- latest_release 3.7.3 -->
+## [v3.7.3](https://github.com/inspec/inspec/tree/v3.7.3) (2019-03-08)
 
 #### Merged Pull Requests
-- Add InSpec init profile for Azure. [#3861](https://github.com/inspec/inspec/pull/3861) ([skpaterson](https://github.com/skpaterson))
+- Rewrite inspec-habitat plugin [#3818](https://github.com/inspec/inspec/pull/3818) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.7.1 -->
 ### Changes since 3.7.1 release
 
 #### Merged Pull Requests
+- Rewrite inspec-habitat plugin [#3818](https://github.com/inspec/inspec/pull/3818) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.7.3 -->
 - Add InSpec init profile for Azure. [#3861](https://github.com/inspec/inspec/pull/3861) ([skpaterson](https://github.com/skpaterson)) <!-- 3.7.2 -->
 <!-- release_rollup -->
 
