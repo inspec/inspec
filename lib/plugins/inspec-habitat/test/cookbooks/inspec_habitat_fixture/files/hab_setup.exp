@@ -1,0 +1,28 @@
+#!/usr/bin/expect -f
+
+set timeout -1
+
+spawn hab setup
+
+expect "Connect to an on-premises bldr instance?"
+send -- "No\r"
+
+expect "Set up a default origin?"
+send -- "Yes\r"
+
+expect "Default origin name"
+send -- "vagrant\r"
+
+expect "Create an origin key for `vagrant'?"
+send -- "Yes\r"
+
+expect "Set up a default Habitat personal access token?"
+send -- "No\r"
+
+expect "Set up a default Habitat Supervisor CtlGateway secret?"
+send -- "No\r"
+
+expect "Enable analytics?"
+send -- "No\r"
+
+expect eof

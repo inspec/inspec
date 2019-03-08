@@ -1,184 +1,240 @@
 require 'mixlib/log'
-require 'ostruct'
+require 'fileutils'
 require 'minitest/autorun'
-require 'mocha/setup'
 require_relative '../../lib/inspec-habitat/profile.rb'
 
-describe InspecPlugins::Habitat::Profile do
-  let(:profile) do
-    OpenStruct.new(
-      name:    'my_profile',
-      version: '1.2.3',
-      files:   %w(file1 file2)
+class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
+  def setup
+    @tmpdir = Dir.mktmpdir
+
+    @output_dir = File.join(@tmpdir, 'output')
+    FileUtils.mkdir(@output_dir)
+
+    @fake_hart_file = FileUtils.touch(File.join(@tmpdir, 'fake-hart.hart'))[0]
+
+    # Path from `__FILE__` needed to support running tests in `inspec/inspec`
+    @test_profile_path = File.join(
+      File.expand_path(File.dirname(__FILE__)),
+      '../',
+      'support',
+      'example_profile'
     )
-  end
+    @test_profile = Inspec::Profile.for_target(
+      @test_profile_path,
+      backend: Inspec::Backend.create(Inspec::Config.mock),
+    )
 
-  let(:subject) { InspecPlugins::Habitat::Profile.new('/path/to/profile', { 'log_level' => 'fatal' }) }
+    @hab_profile = InspecPlugins::Habitat::Profile.new(
+      @test_profile_path,
+      { output_dir: @output_dir },
+    )
 
-  before do
+    @mock_hab_config = {
+      'auth_token' => 'FAKETOKEN',
+      'origin' => 'fake_origin',
+    }
+
     Inspec::Log.level(:fatal)
   end
 
-  describe '#verify_profile' do
-    it 'exits if the profile is not valid' do
-      profile = mock
-      profile.stubs(:check).returns(summary: { valid: false })
-      subject.expects(:profile).returns(profile)
-      proc { subject.send(:verify_profile) }.must_raise SystemExit
-    end
-
-    it 'does not exist if the profile is valid' do
-      profile = mock
-      profile.stubs(:check).returns(summary: { valid: true })
-      subject.expects(:profile).returns(profile)
-      subject.send(:verify_profile)
-    end
+  def after_run
+    FileUtils.remove_entry_secure(@tmpdir)
   end
 
-  describe '#vendor_profile_dependencies' do
-    let(:profile_vendor) do
-      profile_vendor = mock
-      profile_vendor.stubs(:lockfile).returns(lockfile)
-      profile_vendor.stubs(:cache_path).returns(cache_path)
-      profile_vendor
-    end
-    let(:lockfile) { mock }
-    let(:cache_path) { mock }
+  def test_create_raises_if_output_dir_does_not_exist
+    profile = InspecPlugins::Habitat::Profile.new(
+      @test_profile_path,
+      {
+        output_dir: '/not/a/real/path',
+        log_level: 'fatal',
+      },
+    )
 
-    before do
-      Inspec::ProfileVendor.expects(:new).returns(profile_vendor)
-    end
+    assert_raises(SystemExit) { profile.create }
+    # TODO: Figure out how to capture and validate `Inspec::Log.error`
+  end
 
-    describe 'when lockfile exists and cache dir exists' do
-      it 'does not vendor the dependencies' do
-        lockfile.expects(:exist?).returns(true)
-        cache_path.expects(:exist?).returns(true)
-        profile_vendor.expects(:vendor!).never
-        profile_vendor.expects(:make_readable).never
-        subject.send(:vendor_profile_dependencies)
+  def test_create
+    file_count = Dir.glob(File.join(@test_profile_path, '**/*')).count
+
+    @hab_profile.stub :read_habitat_config, @mock_hab_config do
+      @hab_profile.stub :verify_habitat_setup, nil do
+        @hab_profile.stub :build_hart, @fake_hart_file do
+          @hab_profile.create
+        end
       end
     end
 
-    describe 'when the lockfile exists but the cache dir does not' do
-      it 'vendors the dependencies and refreshes the profile object' do
-        lockfile.expects(:exist?).returns(true)
-        cache_path.expects(:exist?).returns(false)
-        profile_vendor.expects(:vendor!)
-        profile_vendor.expects(:make_readable)
-        subject.expects(:create_profile_object)
+    # It should not modify target profile
+    new_file_count = Dir.glob(File.join(@test_profile_path, '**/*')).count
+    assert_equal new_file_count, file_count
 
-        subject.send(:vendor_profile_dependencies)
+    # It should create 1 Habitat artifact
+    output_files = Dir.glob(File.join(@output_dir, '**/*'))
+    assert_equal 1, output_files.count
+    assert_equal 'fake-hart.hart', File.basename(output_files.first)
+  end
+
+  def test_create_rasies_if_habitat_is_not_installed
+    cmd = MiniTest::Mock.new
+    cmd.expect(:error?, true)
+    cmd.expect(:run_command, nil)
+
+    Mixlib::ShellOut.stub :new, cmd, 'hab --version' do
+      assert_raises(SystemExit) { @hab_profile.create }
+      # TODO: Figure out how to capture and validate `Inspec::Log.error`
+    end
+
+    cmd.verify
+  end
+
+  def test_upload
+    @hab_profile.stub :read_habitat_config, @mock_hab_config do
+      @hab_profile.stub :create, @fake_hart_file do
+        @hab_profile.stub :upload_hart, nil do
+          @hab_profile.upload
+          # TODO: Figure out how to capture and validate `Inspec::Log.error`
+        end
       end
     end
+  end
 
-    describe 'when the lockfile does not exist' do
-      it 'vendors the dependencies and refreshes the profile object' do
-        lockfile.expects(:exist?).returns(false)
-        profile_vendor.expects(:vendor!)
-        profile_vendor.expects(:make_readable)
-        subject.expects(:create_profile_object)
-
-        subject.send(:vendor_profile_dependencies)
-      end
+  def test_upload_raises_if_no_habitat_auth_token_is_found
+    @hab_profile.stub :read_habitat_config, {} do
+      assert_raises(SystemExit) { @hab_profile.upload }
+      # TODO: Figure out how to capture and validate `Inspec::Log.error`
     end
   end
 
-  describe '#validate_habitat_installed' do
-    it 'exits if hab --version fails' do
-      cmd = mock
-      cmd.stubs(:error?).returns(true)
-      cmd.stubs(:run_command)
-      cmd.stubs(:stdout)
-      cmd.stubs(:stderr)
-      Mixlib::ShellOut.expects(:new).with('hab --version').returns(cmd)
-      proc { subject.send(:validate_habitat_installed) }.must_raise SystemExit
+  def test_create_working_dir
+    Dir.stub :mktmpdir, '/tmp/fakedir' do
+      assert_equal '/tmp/fakedir', @hab_profile.send(:create_working_dir)
     end
   end
 
-  describe '#validate_habitat_origin' do
-    it 'does not exit if the origin key exists' do
-      subject.expects(:habitat_origin).returns('12345')
-      subject.send(:validate_habitat_origin)
-    end
+  def test_duplicate_profile
+    current_profile = @test_profile
+    duplicated_profile = @hab_profile.send(:duplicate_profile,
+                                           @test_profile_path,
+                                           @tmpdir)
+    assert duplicated_profile.is_a?(Inspec::Profile)
+    assert duplicated_profile.sha256 == current_profile.sha256.to_s
+    refute_same duplicated_profile.root_path, current_profile.root_path
+  end
 
-    it 'exits if no origin key exists' do
-      subject.expects(:habitat_origin).returns(nil)
-      proc { subject.send(:validate_habitat_origin) }.must_raise SystemExit
+  def test_profile_from_path
+    profile = @hab_profile.send(:profile_from_path, @test_profile_path)
+    assert profile.is_a?(Inspec::Profile)
+  end
+
+  def test_copy_profile_to_working_dir
+    duplicated_profile = @hab_profile.send(:duplicate_profile,
+                                           @test_profile_path,
+                                           @tmpdir)
+
+    dst = File.join(@tmpdir, 'working_dir')
+    FileUtils.mkdir_p(dst)
+    @hab_profile.send(:copy_profile_to_working_dir, duplicated_profile, dst)
+
+    expected_files = %w{
+      README.md
+      inspec.yml
+      example.rb
+    }
+
+    actual_files = Dir.glob(File.join(dst, '**/*')).map do |path|
+      next unless File.file?(path)
+      File.basename(path)
+    end.compact
+
+    assert(actual_files.sort == expected_files.sort)
+  end
+
+  def test_verify_profile_raises_if_profile_is_not_valid
+    bad_profile_path = File.join(@tmpdir, 'bad_profile')
+    FileUtils.mkdir_p(File.join(bad_profile_path))
+    FileUtils.touch(File.join(bad_profile_path, 'inspec.yml'))
+    bad_profile = Inspec::Profile.for_target(
+      bad_profile_path,
+      backend: Inspec::Backend.create(Inspec::Config.mock),
+    )
+    assert_raises(SystemExit) { @hab_profile.send(:verify_profile, bad_profile) }
+    # TODO: Figure out how to capture and validate `Inspec::Log.error`
+  end
+
+  def test_vendor_profile_dependencies_does_not_vendor_if_already_vendored
+    mock_lock_file = MiniTest::Mock.new
+    mock_lock_file.expect(:exist?, true)
+    mock_cache_path = MiniTest::Mock.new
+    mock_cache_path.expect(:exist?, true)
+
+    mock = MiniTest::Mock.new
+    mock.expect(:lockfile, mock_lock_file)
+    mock.expect(:cache_path, mock_cache_path)
+
+    Inspec::ProfileVendor.stub :new, mock do
+      new_profile = @hab_profile.send(:vendor_profile_dependencies!,
+                                      @test_profile)
+      assert new_profile.is_a?(Inspec::Profile)
     end
   end
 
-  describe '#validate_habitat_auth_token' do
-    it 'does not exit if the auth_token exists' do
-      subject.expects(:habitat_auth_token).returns('12345')
-      subject.send(:validate_habitat_auth_token)
-    end
+  def test_vendor_profile_dependencies
+    mock_lock_file = MiniTest::Mock.new
+    mock_lock_file.expect(:exist?, false)
 
-    it 'exits if no auth_token exists' do
-      subject.expects(:habitat_auth_token).returns(nil)
-      proc { subject.send(:validate_habitat_auth_token) }.must_raise SystemExit
+    mock = MiniTest::Mock.new
+    mock.expect(:lockfile, mock_lock_file)
+    mock.expect(:vendor!, nil)
+    mock.expect(:make_readable, nil)
+
+    Inspec::ProfileVendor.stub :new, mock do
+      new_profile = @hab_profile.send(:vendor_profile_dependencies!,
+                                      @test_profile)
+      assert new_profile.is_a?(Inspec::Profile)
     end
+    mock.verify
   end
 
-  describe '#build_hart' do
-    before do
-      subject.expects(:work_dir).at_least_once.returns(Dir.tmpdir)
-    end
+  def test_verify_habitat_setup_raises_if_hab_version_errors
+    mock = MiniTest::Mock.new
+    mock.expect(:run_command, nil)
+    mock.expect(:error?, true)
+    mock.expect(:stderr, 'This would be an error message')
 
-    it 'exits if the build fails' do
-      subject.expects(:system).returns(false)
-      proc { subject.send(:build_hart) }.must_raise SystemExit
+    Mixlib::ShellOut.stub(:new, mock) do
+      assert_raises(SystemExit) { @hab_profile.send(:verify_habitat_setup, {}) }
+      # TODO: Figure out how to capture and validate `Inspec::Log.error`
     end
-
-    it 'exits if more than one hart is created' do
-      subject.expects(:system).returns(true)
-      Dir.expects(:glob).returns(%w(hart1 hart2))
-      proc { subject.send(:build_hart) }.must_raise SystemExit
-    end
-
-    it 'exits if more than no hart is created' do
-      subject.expects(:system).returns(true)
-      Dir.expects(:glob).returns([])
-      proc { subject.send(:build_hart) }.must_raise SystemExit
-    end
-
-    it 'returns the hart filename' do
-      subject.expects(:system).returns(true)
-      Dir.expects(:glob).returns(%w(hart1))
-      subject.send(:build_hart).must_equal('hart1')
-    end
+    mock.verify
   end
 
-  describe '#upload_hart' do
-    it 'exits if the upload failed' do
-      env = {
-        'TERM'               => 'vt100',
-        'HAB_AUTH_TOKEN'     => 'my_token',
-        'HAB_NONINTERACTIVE' => 'true',
-      }
+  def test_verify_habitat_setup_raises_if_not_habitat_origin
+    mock = MiniTest::Mock.new
+    mock.expect(:run_command, nil)
+    mock.expect(:error?, false)
 
-      cmd = mock
-      cmd.stubs(:run_command)
-      cmd.stubs(:error?).returns(true)
-      cmd.stubs(:stdout)
-      cmd.stubs(:stderr)
-
-      subject.expects(:habitat_auth_token).returns('my_token')
-      Mixlib::ShellOut.expects(:new).with("hab pkg upload my_hart", env: env).returns(cmd)
-      proc { subject.send(:upload_hart, 'my_hart') }.must_raise SystemExit
+    Mixlib::ShellOut.stub(:new, mock) do
+      assert_raises(SystemExit) { @hab_profile.send(:verify_habitat_setup, {}) }
+      # TODO: Figure out how to capture and validate `Inspec::Log.error`
     end
+    mock.verify
   end
 
-  describe '#habitat_cli_config' do
-    it 'returns an empty hash if the CLI config does not exist' do
-      File.expects(:exist?).with(File.join(ENV['HOME'], '.hab', 'etc', 'cli.toml')).returns(false)
-      subject.send(:habitat_cli_config).must_equal({})
-    end
+  # TODO: Figure out how to stub system()
+  # def test_build_hart
+  # end
 
-    it 'returns parsed TOML from the hab config file' do
-      config_file = File.join(ENV['HOME'], '.hab', 'etc', 'cli.toml')
-      File.expects(:exist?).with(config_file).returns(true)
-      Tomlrb.expects(:load_file).with(config_file).returns(foo: 1)
-      subject.send(:habitat_cli_config).must_equal(foo: 1)
+  def test_upload_hart_raises_if_hab_pkg_upload_fails
+    mock = MiniTest::Mock.new
+    mock.expect(:run_command, nil)
+    mock.expect(:error?, true)
+    mock.expect(:stdout, 'This would contain output from `hab`')
+    mock.expect(:stderr, 'This would be an error message')
+
+    Mixlib::ShellOut.stub(:new, mock) do
+      assert_raises(SystemExit) { @hab_profile.send(:upload_hart, @fake_hart_file, {}) }
+      # TODO: Figure out how to capture and validate `Inspec::Log.error`
     end
   end
 end
