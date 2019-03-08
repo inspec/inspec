@@ -23,8 +23,8 @@ module Inspec
 
         # output warn message if we are in a exec call
         Inspec::Log.warn(
-          "Attribute '#{@name}' does not have a value. "\
-          "Use --attrs to provide a value for '#{@name}' or specify a  "\
+          "Input '#{@name}' does not have a value. "\
+          "Use --input-file to provide a value for '#{@name}' or specify a  "\
           "value with `attribute('#{@name}', value: 'somevalue', ...)`.",
         ) if Inspec::BaseCLI.inspec_cli_command == :exec
       end

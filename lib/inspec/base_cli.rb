@@ -107,8 +107,10 @@ module Inspec
       option :reporter, type: :array,
         banner: 'one two:/output/file/path',
         desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml'
-      option :attrs, type: :array,
+      option :input_file, type: :array,
         desc: 'Load one or more input files, a YAML file with values for the profile to use'
+      option :attrs, type: :array,
+        desc: 'Legacy name for --input-file - deprecated.'
       option :create_lockfile, type: :boolean,
         desc: 'Write out a lockfile based on this execution (unless one already exists)'
       option :backend_cache, type: :boolean,
