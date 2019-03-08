@@ -75,6 +75,7 @@ module Inspec
     def run(with = nil)
       with ||= RSpec::Core::Runner.new(nil)
       @rspec_exit_code = with.run_specs(tests)
+      Inspec.telemetry_report(@formatter.results)
       @formatter.results
     end
 
