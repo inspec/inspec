@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.7.5 -->
-## [v3.7.5](https://github.com/inspec/inspec/tree/v3.7.5) (2019-03-11)
+<!-- latest_release 3.7.6 -->
+## [v3.7.6](https://github.com/inspec/inspec/tree/v3.7.6) (2019-03-11)
 
 #### Bug Fixes
-- http resource: Add fallback to `#to_s` [#3843](https://github.com/inspec/inspec/pull/3843) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- iis_app_pool: Fix PowerShell JSON parsing error [#3842](https://github.com/inspec/inspec/pull/3842) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.7.1 -->
 ### Changes since 3.7.1 release
 
 #### Bug Fixes
+- iis_app_pool: Fix PowerShell JSON parsing error [#3842](https://github.com/inspec/inspec/pull/3842) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.7.6 -->
 - http resource: Add fallback to `#to_s` [#3843](https://github.com/inspec/inspec/pull/3843) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.7.5 -->
 
 #### Merged Pull Requests
