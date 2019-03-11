@@ -528,7 +528,7 @@ class MockLoader
       "curl -H 'Content-Type: application/json'  -u es_admin:password http://localhost:9200/_nodes" => cmd.call('elasticsearch-cluster-auth'),
       "curl -H 'Content-Type: application/json' http://elasticsearch.mycompany.biz:1234/_nodes" => cmd.call('elasticsearch-cluster-url'),
       # iis_app_pool resource
-      "Import-Module WebAdministration\nIf (Test-Path 'IIS:\\AppPools\\DefaultAppPool') {\n  Get-Item 'IIS:\\AppPools\\DefaultAppPool' | Select-Object * | ConvertTo-Json\n} Else {\n  Write-Host '{}'\n}\n" => cmd.call('iis-default-app-pool'),
+      "Import-Module WebAdministration\nIf (Test-Path 'IIS:\\AppPools\\DefaultAppPool') {\n  Get-Item 'IIS:\\AppPools\\DefaultAppPool' | Select-Object * | ConvertTo-Json -Compress\n} Else {\n  Write-Host '{}'\n}\n" => cmd.call('iis-default-app-pool'),
 
       # iis_site resource
       "Get-Website 'Default Web Site' | Select-Object -Property Name,State,PhysicalPath,bindings,ApplicationPool | ConvertTo-Json" => cmd.call('iis-default-web-site'),

@@ -86,10 +86,13 @@ class IisAppPool < Inspec.resource(1)
   def iis_app_pool
     return @cache unless @cache.nil?
 
+    # We use `-Compress` here to avoid a bug in PowerShell
+    # It does not affect validity of the output, only the representation
+    # See: https://github.com/inspec/inspec/pull/3842
     script = <<~EOH
       Import-Module WebAdministration
       If (Test-Path '#{@pool_path}') {
-        Get-Item '#{@pool_path}' | Select-Object * | ConvertTo-Json
+        Get-Item '#{@pool_path}' | Select-Object * | ConvertTo-Json -Compress
       } Else {
         Write-Host '{}'
       }
