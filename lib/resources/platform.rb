@@ -19,7 +19,7 @@ module Inspec::Resources
     end
 
     # add helper methods for easy access of properties
-    %w{family release arch}.each do |property|
+    %w{family release arch network hostname fqdn domain_name guid}.each do |property|
       define_method(property.to_sym) do
         @platform[property]
       end
@@ -27,6 +27,26 @@ module Inspec::Resources
 
     def families
       @platform.family_hierarchy
+    end
+
+    def network
+      @platform.network
+    end
+
+    def hostname
+      @platform.hostname
+    end
+
+    def domain_name
+      @platform.domain_name
+    end
+
+    def fqdn
+      @platform.fqdn
+    end
+
+    def guid
+      @platform.guid
     end
 
     def name
@@ -55,6 +75,11 @@ module Inspec::Resources
         name: name,
         families: families,
         release: release,
+        network: network,
+        hostname: hostname,
+        domain_name: domain_name,
+        fqdn: fqdn,
+        guid: guid,
       }
 
       # Avoid adding Arch for APIs (not applicable)

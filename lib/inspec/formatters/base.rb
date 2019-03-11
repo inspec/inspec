@@ -68,6 +68,11 @@ module Inspec::Formatters
       run_data[:platform] = {
         name: platform(:name),
         release: platform(:release),
+        network: platform(:network),
+        hostname: platform(:hostname),
+        domain_name: platform(:domain_name),
+        fqdn: platform(:fqdn),
+        guid: platform(:guid),
         target: backend_target,
       }
     end

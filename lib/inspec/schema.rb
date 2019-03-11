@@ -42,6 +42,16 @@ module Inspec
       'properties' => {
         'name' => { 'type' => 'string' },
         'release' => { 'type' => 'string' },
+        'network' => { 'type' => 'array', 'items' => { 'type' => 'object', 'properties' => {
+            'name' => { 'type' => 'string' },
+            'mac' => { 'type' => 'string' },
+            'ip' => { 'type' => 'array', 'items' => { 'type' => 'string' }, 'optional' => true },
+          }},   'optional' => true,
+        },
+        'hostname' => { 'type' => 'string', 'optional' => true },
+        'domain_name' => { 'type' => 'string', 'optional' => true },
+        'fqdn' => { 'type' => 'string', 'optional' => true },
+        'guid' => { 'type' => 'string', 'optional' => true },
         'target_id' => { 'type' => 'string', 'optional' => true },
       },
     }.freeze

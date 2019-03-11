@@ -25,7 +25,12 @@ module Inspec::Reporters
       platform = {
         name: run_data[:platform][:name],
         release: run_data[:platform][:release],
+        network: run_data[:platform][:network],
+        hostname: run_data[:platform][:hostname],
+        fqdn: run_data[:platform][:fqdn],
+        guid: run_data[:platform][:guid],
       }
+      platform[:domain_name] = run_data[:platform][:domain_name] if run_data[:platform][:domain_name]
       platform[:target_id] = @config['target_id'] if @config['target_id']
       platform
     end
