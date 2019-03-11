@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.7.4 -->
-## [v3.7.4](https://github.com/inspec/inspec/tree/v3.7.4) (2019-03-08)
+<!-- latest_release 3.7.5 -->
+## [v3.7.5](https://github.com/inspec/inspec/tree/v3.7.5) (2019-03-11)
 
-#### Merged Pull Requests
-- Adds a v4 release to the expeditor config [#3816](https://github.com/inspec/inspec/pull/3816) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- http resource: Add fallback to `#to_s` [#3843](https://github.com/inspec/inspec/pull/3843) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.7.1 -->
 ### Changes since 3.7.1 release
+
+#### Bug Fixes
+- http resource: Add fallback to `#to_s` [#3843](https://github.com/inspec/inspec/pull/3843) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.7.5 -->
 
 #### Merged Pull Requests
 - Adds a v4 release to the expeditor config [#3816](https://github.com/inspec/inspec/pull/3816) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.7.4 -->
