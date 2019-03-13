@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# Copyright:: Copyright 2016, Chef Software Inc.
+# Copyright:: Copyright 2016-2019, Chef Software Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,10 +22,6 @@ name 'inspec'
 dependency 'ruby'
 dependency 'rubygems'
 dependency 'bundler'
-dependency 'rb-readline'
-dependency 'appbundler'
-dependency 'unf_ext'
-dependency 'train'
 
 license :project_license
 

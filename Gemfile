@@ -1,10 +1,16 @@
 # encoding: utf-8
 source 'https://rubygems.org'
 
-gemspec name: 'inspec'
+gem 'inspec', path: '.'
 
 gem 'ffi', '>= 1.9.14'
 gem 'aws-sdk', '~> 2'
+
+group :omnibus do
+  gem 'rb-readline'
+  gem 'appbundler'
+  gem 'unf_ext', git: 'https://github.com/jquick/ruby-unf_ext.git', ref: 'c0b3bd922214a172976f6f368c0b4e4fbf91ed78'
+end
 
 group :test do
   gem 'minitest', '~> 5.5'
@@ -36,7 +42,6 @@ end
 
 group :tools do
   gem 'pry', '~> 0.10'
-  gem 'rb-readline'
   gem 'license_finder'
   gem 'git', '~> 1.4'
 end
