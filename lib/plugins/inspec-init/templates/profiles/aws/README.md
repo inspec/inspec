@@ -44,6 +44,9 @@ Target:  aws://eu-west-2
 
   ✔  aws-single-vpc-exists-check: Check to see if custom VPC exists.
      ✔  VPC vpc-1ea06476 should exist
+  ✔  aws-vpcs-check: Check in all the VPCs for default sg not allowing 22 inwards
+     ✔  EC2 Security Group sg-067cd21e928c3a2f1 should allow in {:port=>22}
+     ✔  EC2 Security Group sg-9bb3b9f3 should allow in {:port=>22}
   ✔  aws-vpcs-multi-region-status-check: Check AWS VPCs in all regions have status "available"
      ✔  VPC vpc-6458b70d in eu-north-1 should exist
      ✔  VPC vpc-6458b70d in eu-north-1 should be available
@@ -57,8 +60,8 @@ Target:  aws://eu-west-2
      ✔  VPC vpc-1ea06476 in eu-west-2 should be available
      ✔  VPC vpc-169dee70 in eu-west-1 should exist
      ✔  VPC vpc-169dee70 in eu-west-1 should be available
-     ✔  VPC vpc-0179e75c347607887 in eu-west-1 should exist
-     ✔  VPC vpc-0179e75c347607887 in eu-west-1 should be available
+     ✔  VPC vpc-01ac7ba0be447a1c4 in eu-west-1 should exist
+     ✔  VPC vpc-01ac7ba0be447a1c4 in eu-west-1 should be available
      ✔  VPC vpc-09ff83d71da9d2b6e in eu-west-1 should exist
      ✔  VPC vpc-09ff83d71da9d2b6e in eu-west-1 should be available
      ✔  VPC vpc-0ebccac2337a90f13 in eu-west-1 should exist
@@ -83,8 +86,8 @@ Target:  aws://eu-west-2
      ✔  VPC vpc-071b6f0c69d1d0311 in eu-central-1 should be available
      ✔  VPC vpc-807dfdeb in eu-central-1 should exist
      ✔  VPC vpc-807dfdeb in eu-central-1 should be available
-     ✔  VPC vpc-04071aa6604b8750f in eu-central-1 should exist
-     ✔  VPC vpc-04071aa6604b8750f in eu-central-1 should be available
+     ✔  VPC vpc-0be54a71311bc362d in eu-central-1 should exist
+     ✔  VPC vpc-0be54a71311bc362d in eu-central-1 should be available
      ✔  VPC vpc-f060cd8b in us-east-1 should exist
      ✔  VPC vpc-f060cd8b in us-east-1 should be available
      ✔  VPC vpc-0c3a7e116c58d714b in us-east-1 should exist
@@ -103,9 +106,8 @@ Target:  aws://eu-west-2
 
      No tests executed.
 
-Profile Summary: 2 successful controls, 0 control failures, 0 controls skipped
-Test Summary: 51 successful, 0 failures, 0 skipped
-
+Profile Summary: 3 successful controls, 0 control failures, 0 controls skipped
+Test Summary: 53 successful, 0 failures, 0 skipped
 ```
 
 
@@ -123,6 +125,9 @@ Target:  aws://eu-west-2
 
   ↺  aws-single-vpc-exists-check: Check to see if custom VPC exists.
      ↺  Skipped control due to only_if condition.
+  ✔  aws-vpcs-check: Check in all the VPCs for default sg not allowing 22 inwards
+     ✔  EC2 Security Group sg-067cd21e928c3a2f1 should allow in {:port=>22}
+     ✔  EC2 Security Group sg-9bb3b9f3 should allow in {:port=>22}
   ✔  aws-vpcs-multi-region-status-check: Check AWS VPCs in all regions have status "available"
      ✔  VPC vpc-6458b70d in eu-north-1 should exist
      ✔  VPC vpc-6458b70d in eu-north-1 should be available
@@ -136,8 +141,8 @@ Target:  aws://eu-west-2
      ✔  VPC vpc-1ea06476 in eu-west-2 should be available
      ✔  VPC vpc-169dee70 in eu-west-1 should exist
      ✔  VPC vpc-169dee70 in eu-west-1 should be available
-     ✔  VPC vpc-0179e75c347607887 in eu-west-1 should exist
-     ✔  VPC vpc-0179e75c347607887 in eu-west-1 should be available
+     ✔  VPC vpc-01ac7ba0be447a1c4 in eu-west-1 should exist
+     ✔  VPC vpc-01ac7ba0be447a1c4 in eu-west-1 should be available
      ✔  VPC vpc-09ff83d71da9d2b6e in eu-west-1 should exist
      ✔  VPC vpc-09ff83d71da9d2b6e in eu-west-1 should be available
      ✔  VPC vpc-0ebccac2337a90f13 in eu-west-1 should exist
@@ -162,8 +167,8 @@ Target:  aws://eu-west-2
      ✔  VPC vpc-071b6f0c69d1d0311 in eu-central-1 should be available
      ✔  VPC vpc-807dfdeb in eu-central-1 should exist
      ✔  VPC vpc-807dfdeb in eu-central-1 should be available
-     ✔  VPC vpc-04071aa6604b8750f in eu-central-1 should exist
-     ✔  VPC vpc-04071aa6604b8750f in eu-central-1 should be available
+     ✔  VPC vpc-0be54a71311bc362d in eu-central-1 should exist
+     ✔  VPC vpc-0be54a71311bc362d in eu-central-1 should be available
      ✔  VPC vpc-f060cd8b in us-east-1 should exist
      ✔  VPC vpc-f060cd8b in us-east-1 should be available
      ✔  VPC vpc-0c3a7e116c58d714b in us-east-1 should exist
@@ -182,6 +187,6 @@ Target:  aws://eu-west-2
 
      No tests executed.
 
-Profile Summary: 1 successful control, 0 control failures, 1 control skipped
-Test Summary: 50 successful, 0 failures, 1 skipped
+Profile Summary: 2 successful controls, 0 control failures, 1 control skipped
+Test Summary: 52 successful, 0 failures, 1 skipped
 ```
