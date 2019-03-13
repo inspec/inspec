@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.7.6 -->
-## [v3.7.6](https://github.com/inspec/inspec/tree/v3.7.6) (2019-03-11)
+<!-- latest_release 3.7.7 -->
+## [v3.7.7](https://github.com/inspec/inspec/tree/v3.7.7) (2019-03-13)
 
-#### Bug Fixes
-- iis_app_pool: Fix PowerShell JSON parsing error [#3842](https://github.com/inspec/inspec/pull/3842) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Enhancements
+- Move all gem installation to Gemfile/bundle install [#3860](https://github.com/inspec/inspec/pull/3860) ([lamont-granquist](https://github.com/lamont-granquist))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.7.1 -->
 ### Changes since 3.7.1 release
+
+#### Enhancements
+- Move all gem installation to Gemfile/bundle install [#3860](https://github.com/inspec/inspec/pull/3860) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 3.7.7 -->
 
 #### Bug Fixes
 - iis_app_pool: Fix PowerShell JSON parsing error [#3842](https://github.com/inspec/inspec/pull/3842) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.7.6 -->
