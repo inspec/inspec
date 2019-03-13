@@ -256,6 +256,10 @@ module Inspec
       parent.binread(abs_path(file))
     end
 
+    def sort_files
+      @files.sort!
+    end
+
     private
 
     def get_prefix(fs)

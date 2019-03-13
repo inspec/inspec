@@ -117,6 +117,8 @@ module Inspec
         desc: 'Show progress while executing tests.'
       option :distinct_exit, type: :boolean, default: true,
         desc: 'Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures.'
+      option :sort_files, type: :boolean, default: false,
+        desc: 'Sort the files in the controls folder before execution. (default: false)'
     end
 
     def self.format_platform_info(params: {}, indent: 0, color: 39)

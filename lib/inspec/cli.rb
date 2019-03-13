@@ -301,6 +301,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: 'A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell'
   option :distinct_exit, type: :boolean, default: true,
     desc: 'Exit with code 100 if any tests fail, and 101 if any are skipped but none failed (default).  If disabled, exit 0 on skips and 1 for failures.'
+  option :sort_files, type: :boolean, default: false,
+    desc: 'Sort the files in the controls folder before execution. (default: false)'
+
   def shell_func
     o = config
     diagnose(o)

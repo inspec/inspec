@@ -205,6 +205,7 @@ module Inspec
                                            vendor_cache: @cache,
                                            backend: @backend,
                                            controls: @controls,
+                                           sort_files: @conf['sort_files'],
                                            inputs: @conf[:attributes]) # TODO: read form :inputs here (user visible)
       raise "Could not resolve #{target} to valid input." if profile.nil?
       @target_profiles << profile if supports_profile?(profile)
