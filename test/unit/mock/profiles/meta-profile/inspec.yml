@@ -1,0 +1,13 @@
+name: meta-profile
+title: Meta Compliance Profile
+maintainer: InSpec Authors
+copyright: InSpec Authors
+copyright_email: support@chef.io
+license: Apache-2.0
+summary: InSpec Profile that is only consuming dependencies
+version: 0.2.0
+depends:
+  - name: dev-sec/ssh-baseline  # defaults to supermarket
+  - url: https://github.com/dev-sec/ssl-baseline
+  - name: windows-patch-benchmark
+    url: https://github.com/chris-rock/windows-patch-benchmark

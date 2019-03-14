@@ -98,7 +98,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   end
 
   it "executes a profile and reads inputs" do
-    out = inspec("exec #{File.join(examples_path, 'profile-attribute')} --no-create-lockfile --attrs #{File.join(examples_path, "profile-attribute.yml")}")
+    out = inspec("exec #{File.join(profile_path, 'profile-attribute')} --no-create-lockfile --attrs #{File.join(profile_path, "profile-attribute.yml")}")
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     out.stdout.force_encoding(Encoding::UTF_8).must_include "Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped"
@@ -254,7 +254,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec('exec ' + example_control + ' --no-create-lockfile') }
 
     it 'prints the control results, then the anonymous describe block results' do
-      out.stdout.force_encoding(Encoding::UTF_8).must_match(%r{Profile: tests from .*examples.profile.controls.example.rb})
+      out.stdout.force_encoding(Encoding::UTF_8).must_match(%r{Profile: tests from .*test.unit.mock.profiles.profile.controls.example.rb})
       out.stdout.force_encoding(Encoding::UTF_8).must_include "
 Version: (not specified)
 Target:  local://
@@ -508,7 +508,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
   end
 
   describe 'when using multiple custom resources with each other' do
-    let(:out) { inspec('exec ' + File.join(examples_path, 'custom-resource') + ' --no-create-lockfile') }
+    let(:out) { inspec('exec ' + File.join(profile_path, 'custom-resource') + ' --no-create-lockfile') }
 
     it 'completes the run with failed controls but no exception' do
       out.stderr.must_be_empty
