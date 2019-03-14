@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.9.2 -->
-## [v3.9.2](https://github.com/inspec/inspec/tree/v3.9.2) (2019-04-08)
+<!-- latest_release 4.0.2 -->
+## [v4.0.2](https://github.com/inspec/inspec/tree/v4.0.2.pre) (2019-03-14)
 
-#### Merged Pull Requests
-- apt: correct docs to clarify that it matches repositories not packages [#3915](https://github.com/inspec/inspec/pull/3915) ([nqb](https://github.com/nqb))
+#### Enhancements
+- Update AWS profile generation for InSpec 4 to depend on the new resou… [#3831](https://github.com/inspec/inspec/pull/3831) ([skpaterson](https://github.com/skpaterson))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.0 -->
@@ -14,6 +14,29 @@
 - apt: correct docs to clarify that it matches repositories not packages [#3915](https://github.com/inspec/inspec/pull/3915) ([nqb](https://github.com/nqb)) <!-- 3.9.2 -->
 - crontab: Add validation for path param [#3899](https://github.com/inspec/inspec/pull/3899) ([skpaterson](https://github.com/skpaterson)) <!-- 3.9.1 -->
 - Fix broken links in migration docs. [#3907](https://github.com/inspec/inspec/pull/3907) ([joshlarsen](https://github.com/joshlarsen)) <!-- 3.9.0 -->
+
+#### Enhancements
+- Update AWS profile generation for InSpec 4 to depend on the new resou… [#3831](https://github.com/inspec/inspec/pull/3831) ([skpaterson](https://github.com/skpaterson)) <!-- 4.0.2 -->
+
+#### Bug Fixes
+- detect postgres 10 on centos properly [#3833](https://github.com/inspec/inspec/pull/3833) ([chris-rock](https://github.com/chris-rock)) <!-- 3.6.18 -->
+- inspec compliance: Fix mocked configuration [#3834](https://github.com/inspec/inspec/pull/3834) ([skylerto](https://github.com/skylerto)) <!-- 3.6.16 -->
+
+## [v3.9.2](https://github.com/inspec/inspec/tree/v3.9.2) (2019-04-08)
+
+#### Merged Pull Requests
+- apt: correct docs to clarify that it matches repositories not packages [#3915](https://github.com/inspec/inspec/pull/3915) ([nqb](https://github.com/nqb))
+- Update the integration tests to use dokken-images and newer Chef technologies [#3814](https://github.com/inspec/inspec/pull/3814) ([tas50](https://github.com/tas50)) <!-- 3.6.19 -->
+- add json example from http request [#3827](https://github.com/inspec/inspec/pull/3827) ([jtimberman](https://github.com/jtimberman)) <!-- 3.6.17 -->
+- Attribute-&gt;Input Rename:  Rename Classes and Methods [#3811](https://github.com/inspec/inspec/pull/3811) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.15 -->
+- Add term-ansicolor to inspec-core gem [#3798](https://github.com/inspec/inspec/pull/3798) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.6.14 -->
+- Suppress warnings in unit test output [#3828](https://github.com/inspec/inspec/pull/3828) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.6.13 -->
+- Add a deprecation group for core AWS resources [#3824](https://github.com/inspec/inspec/pull/3824) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.12 -->
+- Moved the AWS init profile to the correct location. [#3820](https://github.com/inspec/inspec/pull/3820) ([skpaterson](https://github.com/skpaterson)) <!-- 3.6.11 -->
+- Attribute-Input Rename: Add deprecation group [#3805](https://github.com/inspec/inspec/pull/3805) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.10 -->
+- Update support platforms in the readme [#3812](https://github.com/inspec/inspec/pull/3812) ([tas50](https://github.com/tas50)) <!-- 3.6.9 -->
+- Attribute-Input Rename: Rename codefiles [#3803](https://github.com/inspec/inspec/pull/3803) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.8 -->
+- Attributes-Inputs Rename: Move test files [#3796](https://github.com/inspec/inspec/pull/3796) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.7 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
