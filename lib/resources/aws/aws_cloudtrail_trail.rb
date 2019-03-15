@@ -41,6 +41,18 @@ class AwsCloudTrailTrail < Inspec.resource(1)
     end
   end
 
+  def logging?
+    query = { name: @trail_name }
+    catch_aws_errors do
+      begin
+        resp = BackendFactory.create(inspec_runner).get_trail_status(query).to_h
+        resp[:is_logging] unless resp[:is_logging].nil?
+      rescue Aws::CloudTrail::Errors::TrailNotFoundException
+        nil
+      end
+    end
+  end
+
   private
 
   def validate_params(raw_params)

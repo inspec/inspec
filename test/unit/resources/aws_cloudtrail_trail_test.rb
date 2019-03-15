@@ -95,6 +95,12 @@ class AwsCloudTrailTrailPropertiesTest < Minitest::Test
     assert_equal(0, AwsCloudTrailTrail.new('test-trail-1').delivered_logs_days_ago)
     assert_nil(AwsCloudTrailTrail.new(trail_name: 'non-existant').delivered_logs_days_ago)
   end
+
+  def test_property_is_logging
+    assert_equal(true, AwsCloudTrailTrail.new('test-trail-1').logging?)
+    assert_equal(false, AwsCloudTrailTrail.new('test-trail-2').logging?)
+    assert_nil(AwsCloudTrailTrail.new(trail_name: 'non-existant').logging?)
+  end
 end
 
 
@@ -176,6 +182,12 @@ module MACTTSB
       fixtures = [
         OpenStruct.new({
           name: "test-trail-1",
+          is_logging: true,
+          latest_cloud_watch_logs_delivery_time: Time.now
+        }),
+        OpenStruct.new({
+          name: "test-trail-2",
+          is_logging: false,
           latest_cloud_watch_logs_delivery_time: Time.now
         })
       ]

@@ -55,6 +55,12 @@ The following examples show how to use this InSpec audit resource.
       it { should be_encrypted }
     end
 
+### Test that the specified trail has logging turned on (ie is not disabled)
+
+    describe aws_cloudtrail_trail('trail-name') do
+      it { should be_logging }
+    end
+
 ### Test that the specified trail is a multi-region trail
 
     describe aws_cloudtrail_trail('trail-name') do
