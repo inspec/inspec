@@ -75,6 +75,7 @@ namespace :test do
     # If the user has not accepted the license, touch the acceptance
     # file, but also touch a marker that it is only for testing.
     unless File.exist?(File.join(Dir.home, '.chef', 'accepted_licenses', 'inspec'))
+      puts "\n\nTemporarily accepting Chef user license for the duration of testing...\n"
       sh 'touch $HOME/.chef/accepted_licenses/inspec'
       sh 'touch $HOME/.chef/accepted_licenses/inspec.for_testing'
     end
@@ -82,6 +83,7 @@ namespace :test do
     # Regardless of what happens, when this process exits, check for cleanup.
     at_exit do
       if File.exist?(File.join(Dir.home, '.chef', 'accepted_licenses', 'inspec.for_testing'))
+        puts "\n\nRemoving temporary Chef user license acceptance file that was placed for test duration.\n"
         sh 'rm -f $HOME/.chef/accepted_licenses/inspec'
         sh 'rm -f $HOME/.chef/accepted_licenses/inspec.for_testing'
       end
