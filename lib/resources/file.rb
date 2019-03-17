@@ -133,6 +133,17 @@ module Inspec::Resources
 
     alias sticky? sticky
 
+    def more_permissive_than?(max_mode = nil)
+      raise 'You must provide a value for the `maximum permission target` for the file.' if max_mode.nil?
+      raise 'You must proivde the `maximum permission target` as a `String`, you provided: ' + max_mode.class.to_s unless max_mode.is_a?(String)
+      raise 'The value of the `maximum permission target` must be a valid file gitmode in the form `(0)?([0-7])([0-7])([0-7])`' unless /(0)?([0-7])([0-7])([0-7])/.match?(max_mode)
+      raise 'The file' + file.path + 'doesn\'t seem to exist' unless exist?
+      max_mode = max_mode.rjust(4, '0')
+      binary_desired_mode = format('%04b', max_mode).to_i(2)
+      desired_mode_inverse = (binary_desired_mode ^ 0b111111111)
+      (desired_mode_inverse & file.mode).zero? ? false : true
+    end
+
     def to_s
       "File #{source_path}"
     end
@@ -210,6 +221,10 @@ module Inspec::Resources
   class WindowsFilePermissions < FilePermissions
     def check_file_permission_by_mask(_file, _access_type, _usergroup, _specific_user)
       raise '`check_file_permission_by_mask` is not supported on Windows'
+    end
+
+    def more_permissive_than?(*)
+      raise '`more_permissive_than?` is not supported on Windows'
     end
 
     def check_file_permission_by_user(access_type, user, path)

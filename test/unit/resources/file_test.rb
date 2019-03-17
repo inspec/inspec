@@ -22,6 +22,7 @@ describe Inspec::Resources::FileResource do
     resource.stubs(:file_permission_granted?).with('write', 'by_usergroup', 'by_specific_user').returns('test_result')
     resource.stubs(:file_permission_granted?).with('execute', 'by_usergroup', 'by_specific_user').returns('test_result')
     _(resource.content).must_equal 'content'
+    _(resource.more_permissive_than?('000').must_equal false)
     _(resource.exist?).must_equal true
     _(resource.mounted?).must_equal true
     _(resource.to_s).must_equal 'File /fakepath/fakefile'
@@ -34,6 +35,8 @@ describe Inspec::Resources::FileResource do
     _(resource.suid).must_equal true
     _(resource.sgid).must_equal true
     _(resource.sticky).must_equal true
+    proc { resource.send(:more_permissive_than?, nil) }.must_raise(RuntimeError)
+    proc { resource.send(:more_permissive_than?, 0700) }.must_raise(RuntimeError)
   end
   it 'responds on Windows' do
     resource = MockLoader.new(:windows).load_resource('file', 'C:/fakepath/fakefile')
@@ -77,5 +80,16 @@ describe Inspec::Resources::FileResource do
     _(resource.executable?('by_usergroup', 'by_specific_user')).must_equal '`executable?` is not supported on your OS yet.'
     _(resource.allowed?('permission', by: 'by_usergroup', by_user: 'by_specific_user')).must_equal '`allowed?` is not supported on your OS yet.'
     proc { resource.send(:contain, nil) }.must_raise(RuntimeError)
+  end
+end
+
+describe Inspec::Resources::FileResource do
+  let(:file) { stub(unix_mode_mask: 000, mode: 644) }
+  it 'responds on Ubuntu' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('file', '/fakepath/fakefile')
+    _(resource.more_permissive_than?('755').must_equal false)
+    _(resource.more_permissive_than?('644').must_equal false)
+    _(resource.more_permissive_than?('640').must_equal true)
+    proc { resource.send(:more_permissive_than?, '0888') }.must_raise(RuntimeError)
   end
 end

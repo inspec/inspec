@@ -43,7 +43,7 @@ content, size, basename, path, owner, group, type
 
 ### Unix/Linux Properties
 
-symlink, mode, link\_path, shallow\_link\_path, mtime, size, selinux\_label, md5sum, sha256sum, path, source, source\_path, uid, gid
+symlink, mode, link\_path, shallow\_link\_path, mtime, size, selinux\_label, md5sum, sha256sum, path, source, source\_path, uid, gid, more_permissive_than?
 
 ### Windows Properties
 
@@ -118,6 +118,22 @@ not
     { should cmp '644' }
 
 Without the zero prefix for the octal value, InSpec will interpret it as the _decimal_ value 644, which is octal 1024 or `-----w-r-T`, and any test for a file that is `-rw-r--r--` will fail.
+
+### `more_permissive_than?(max_mode[String]) [Boolean]
+
+`more_permissive_than?` takes the maximum desired mode of your file as a `String` and returns a `Boolean`. It will return `true` if your file has a mode with greater permissions than specified.
+
+    describe file('/etc/passwd') do
+      it { should_not be_more_permissive_than?('0644') }
+      it { shold be_more_permissive_than?('0000') }
+    end
+
+    my_file = file('/etc/passwd')
+    describe "The file #{my_file.path} with permissions: `#{my_file.mode.to_s(8)}`" do
+      subject { my_file }
+      it { should_not be_more_permissive_than?('0644') }
+      it { should be_more_permissive_than?('0000') }
+    end
 
 ### mtime
 
