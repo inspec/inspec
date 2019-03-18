@@ -4,6 +4,7 @@
 # license: Apache v2
 
 require 'faraday'
+require 'faraday_middleware'
 require 'hashie'
 
 module Inspec::Resources
@@ -114,6 +115,10 @@ module Inspec::Resources
         def ssl_verify?
           opts.fetch(:ssl_verify, true)
         end
+
+        def max_redirects
+          opts.fetch(:max_redirects, 0)
+        end
       end
 
       class Local < Base
@@ -133,7 +138,11 @@ module Inspec::Resources
 
         def response
           return @response if @response
-          conn = Faraday.new url: url, headers: request_headers, params: params, ssl: { verify: ssl_verify? }
+          conn = Faraday.new(url: url, headers: request_headers, params: params, ssl: { verify: ssl_verify? }) do |builder|
+            builder.request :url_encoded
+            builder.use FaradayMiddleware::FollowRedirects, limit: max_redirects if max_redirects > 0
+            builder.adapter Faraday.default_adapter
+          end
 
           # set basic authentication
           conn.basic_auth username, password unless username.nil? || password.nil?
@@ -191,7 +200,12 @@ module Inspec::Resources
           response.delete!("\r")
 
           # split the prelude (status line and headers) and the body
-          prelude, @body = response.split("\n\n", 2)
+          prelude, remainder = response.split("\n\n", 2)
+          loop do
+            break unless remainder =~ %r{^HTTP/}
+            prelude, remainder = remainder.split("\n\n", 2)
+          end
+          @body = remainder
           prelude = prelude.lines
 
           # grab the status off of the first line of the prelude
@@ -224,6 +238,8 @@ module Inspec::Resources
           cmd << "--user \'#{username}:#{password}\'" unless username.nil? || password.nil?
           cmd << '--insecure' unless ssl_verify?
           cmd << "--data #{Shellwords.shellescape(request_body)}" unless request_body.nil?
+          cmd << '--location' if max_redirects > 0
+          cmd << "--max-redirs #{max_redirects}" if max_redirects > 0
 
           request_headers.each do |k, v|
             cmd << "-H '#{k}: #{v}'"

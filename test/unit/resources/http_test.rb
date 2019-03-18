@@ -31,6 +31,26 @@ describe 'Inspec::Resources::Http' do
       end
     end
 
+    describe 'request with redirect enabled' do
+      let(:opts) { { max_redirects: 1 } }
+
+      it 'follows the redirect' do
+        stub_request(:get, domain).to_return(status: 302, headers: { location: 'http://example.com' } )
+        stub_request(:get, 'example.com').to_return(status: 200, body: 'redirect ok')
+
+        _(worker.status).must_equal 200
+        _(worker.body).must_equal 'redirect ok'
+      end
+
+      it 'does not exceed max_redirects' do
+        stub_request(:get, domain).to_return(status: 302, headers: { location: 'http://redirect1.com' } )
+        stub_request(:get, 'redirect1.com').to_return(status: 302, headers: { location: 'http://redirect2.com' } )
+        stub_request(:get, 'redirect2.com').to_return(status: 200, body: 'should not get here')
+
+        proc { worker.status }.must_raise FaradayMiddleware::RedirectLimitReached
+      end
+    end
+
     describe 'POST request with data' do
       let(:http_method) { 'POST'}
       let(:opts)        { { data: {a: '1', b: 'five'} } }
@@ -106,6 +126,15 @@ describe 'Inspec::Resources::Http' do
       it 'returns correct data' do
         _(worker.status).must_equal 200
         _(worker.body).must_equal 'auth ok'
+      end
+    end
+
+    describe 'request with redirect enabled' do
+      let(:opts) { { max_redirects: 1 } }
+
+      it 'follows the redirect' do
+        _(worker.status).must_equal 200
+        _(worker.body).must_equal 'followed redirect'
       end
     end
 

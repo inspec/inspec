@@ -1,0 +1,21 @@
+HTTP/1.1 301 Moved Permanently
+Date: Sat, 13 Oct 2018 05:06:12 GMT
+Content-Type: text/html
+Content-Length: 186
+Connection: keep-alive
+Server: gws
+Location: http://example.com
+
+HTTP/1.1 200 OK
+Date: Sat, 13 Oct 2018 05:06:12 GMT
+Expires: -1
+Cache-Control: private, max-age=0
+Content-Type: text/html; charset=ISO-8859-1
+Server: gws
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Accept-Ranges: none
+Vary: Accept-Encoding
+Transfer-Encoding: chunked
+
+followed redirect
