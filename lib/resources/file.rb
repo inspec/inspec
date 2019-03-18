@@ -133,6 +133,35 @@ module Inspec::Resources
 
     alias sticky? sticky
 
+    def more_permissive_than?(max_mode = nil)
+      raise Inspec::Exceptions::ResourceFailed, 'The file' + file.path + 'doesn\'t seem to exist' unless exist?
+      raise ArgumentError, 'You must provide a value for the `maximum permission target` for the file.' if max_mode.nil?
+      raise ArgumentError, 'You must proivde the `maximum permission target` as a `String`, you provided: ' + max_mode.class.to_s unless max_mode.is_a?(String)
+      raise ArgumentError, 'The value of the `maximum permission target` should be a valid file mode in 4-ditgit octal format: for example, `0644` or `0777`' unless /(0)?([0-7])([0-7])([0-7])/.match?(max_mode)
+
+      # Using the files mode and a few bit-wise calculations we can ensure a
+      # file is no more permisive than desired.
+      #
+      # 1. Calculate the inverse of the desired mode (e.g., 0644) by XOR it with
+      # 0777 (all 1s). We are interested in the bits that are currently 0 since
+      # it indicates that the actual mode is more permissive than the desired mode.
+      # Conversely, we dont care about the bits that are currently 1 because they
+      # cannot be any more permissive and we can safely ignore them.
+      #
+      # 2. Calculate the above result of ANDing the actual mode and the inverse
+      # mode. This will determine if any of the bits that would indicate a more
+      # permissive mode are set in the actual mode.
+      #
+      # 3. If the result is 0000. If the result is 0000, the files mode is equal
+      # to or less permissive than the desired mode (PASS). Otherwise, the files
+      # mode is more permissive than the desired mode (FAIL).
+
+      max_mode = max_mode.rjust(4, '0')
+      binary_desired_mode = format('%04b', max_mode).to_i(2)
+      desired_mode_inverse = (binary_desired_mode ^ 0b111111111)
+      (desired_mode_inverse & file.mode).zero? ? false : true
+    end
+
     def to_s
       "File #{source_path}"
     end
@@ -210,6 +239,10 @@ module Inspec::Resources
   class WindowsFilePermissions < FilePermissions
     def check_file_permission_by_mask(_file, _access_type, _usergroup, _specific_user)
       raise '`check_file_permission_by_mask` is not supported on Windows'
+    end
+
+    def more_permissive_than?(*)
+      raise Inspec::Exceptions::ResourceSkipped, 'The `more_permissive_than?` matcher is not supported on your OS yet.'
     end
 
     def check_file_permission_by_user(access_type, user, path)

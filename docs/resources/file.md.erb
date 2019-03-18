@@ -119,6 +119,8 @@ not
 
 Without the zero prefix for the octal value, InSpec will interpret it as the _decimal_ value 644, which is octal 1024 or `-----w-r-T`, and any test for a file that is `-rw-r--r--` will fail.
 
+#### Note: If you want to validate that a file has an upper or lower bound in `mode` see the [`more_permissive_than?`(mode)](#more_permissive_than?(mode)) matcher below.
+
 ### mtime
 
 The `mtime` property tests if the file modification time for the file matches the specified value. The mtime, where supported, is returned as the number of seconds since the epoch.
@@ -541,3 +543,21 @@ The `exist` matcher tests if the named file exists:
 The `have_mode` matcher tests if a file has a mode assigned to it:
 
     it { should have_mode }
+
+### `more_permissive_than?(mode)`
+
+`more_permissive_than?(mode)` takes the maximum desired mode - in `octal format`
+('0644' or '0777') - of your file as a `String` and returns a `Boolean`. It will
+return `true` if your file has a mode with greater permissions than specified.
+
+    describe file('/etc/passwd') do
+      it { should_not be_more_permissive_than?('0644') }
+      it { should be_more_permissive_than?('0000') }
+    end
+
+    my_file = file('/etc/passwd')
+    describe "The file #{my_file.path} with permissions: `#{my_file.mode.to_s(8)}`" do
+      subject { my_file }
+      it { should_not be_more_permissive_than?('0644') }
+      it { should be_more_permissive_than?('0000') }
+    end
