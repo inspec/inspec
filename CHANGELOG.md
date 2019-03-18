@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.7.7 -->
-## [v3.7.7](https://github.com/inspec/inspec/tree/v3.7.7) (2019-03-13)
+<!-- latest_release 3.7.8 -->
+## [v3.7.8](https://github.com/inspec/inspec/tree/v3.7.8) (2019-03-18)
 
 #### Enhancements
-- Move all gem installation to Gemfile/bundle install [#3860](https://github.com/inspec/inspec/pull/3860) ([lamont-granquist](https://github.com/lamont-granquist))
+- Allow http resource to follow redirects [#3509](https://github.com/inspec/inspec/pull/3509) ([cattywampus](https://github.com/cattywampus))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.7.1 -->
 ### Changes since 3.7.1 release
 
 #### Enhancements
+- Allow http resource to follow redirects [#3509](https://github.com/inspec/inspec/pull/3509) ([cattywampus](https://github.com/cattywampus)) <!-- 3.7.8 -->
 - Move all gem installation to Gemfile/bundle install [#3860](https://github.com/inspec/inspec/pull/3860) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 3.7.7 -->
 
 #### Bug Fixes
