@@ -55,15 +55,16 @@ module FunctionalHelper
   let(:exec_inspec) { File.join(repo_path, 'bin', 'inspec') }
   let(:mock_path) { File.join(repo_path, 'test', 'unit', 'mock') }
   let(:profile_path) { File.join(mock_path, 'profiles') }
+  let(:examples_path) { File.join(profile_path, 'old-examples') }
   let(:integration_test_path) { File.join(repo_path, 'test', 'integration', 'default') }
 
-  let(:example_profile) { File.join(profile_path, 'profile') }
-  let(:meta_profile) { File.join(profile_path, 'meta-profile') }
+  let(:example_profile) { File.join(examples_path, 'profile') }
+  let(:meta_profile) { File.join(examples_path, 'meta-profile') }
   let(:example_control) { File.join(example_profile, 'controls', 'example.rb') }
-  let(:inheritance_profile) { File.join(profile_path, 'inheritance') }
+  let(:inheritance_profile) { File.join(examples_path, 'inheritance') }
   let(:failure_control) { File.join(profile_path, 'failures', 'controls', 'failures.rb') }
   let(:simple_inheritance) { File.join(profile_path, 'simple-inheritance') }
-  let(:sensitive_profile) { File.join(profile_path, 'profile-sensitive') }
+  let(:sensitive_profile) { File.join(examples_path, 'profile-sensitive') }
   let(:config_dir_path) { File.join(mock_path, 'config_dirs') }
 
   let(:dst) {
@@ -176,8 +177,8 @@ module FunctionalHelper
   # @param &block [Type] actual test block
   def prepare_examples(dir = nil, &block)
     Dir.mktmpdir do |tmpdir|
-      FileUtils.cp_r(profile_path, tmpdir)
-      bn = File.basename(profile_path)
+      FileUtils.cp_r(examples_path, tmpdir)
+      bn = File.basename(examples_path)
       block.call(File.join(tmpdir, bn, dir.to_s))
     end
   end

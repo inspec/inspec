@@ -5,11 +5,11 @@ require 'functional/helper'
 
 describe 'example inheritance profile' do
   include FunctionalHelper
-  let(:path) { File.join(profile_path, 'inheritance') }
-  let(:input_file) { File.join(profile_path, 'profile-attribute.yml') } # TODO rename attributes in examples
+  let(:path) { File.join(examples_path, 'inheritance') }
+  let(:input_file) { File.join(examples_path, 'profile-attribute.yml') } # TODO rename attributes in examples
 
   it 'check succeeds with --profiles-path' do
-    out = inspec('check ' + path + ' --profiles-path ' + profile_path)
+    out = inspec('check ' + path + ' --profiles-path ' + examples_path)
     out.stderr.must_equal ''
     out.stdout.must_match(/Valid.*true/)
     out.exit_status.must_equal 0
@@ -27,7 +27,7 @@ describe 'example inheritance profile' do
 
   it 'archive is successful with --profiles-path' do
     prepare_examples('inheritance') do |dir|
-      out = inspec('archive ' + dir + ' --output ' + dst.path + ' --profiles-path ' + profile_path)
+      out = inspec('archive ' + dir + ' --output ' + dst.path + ' --profiles-path ' + examples_path)
       out.stderr.must_equal ''
       out.stdout.must_include 'Generate archive '+ dst.path
       out.stdout.must_include 'Finished archive generation.'
@@ -48,7 +48,7 @@ describe 'example inheritance profile' do
   end
 
   it 'read the profile json with --profiles-path' do
-    out = inspec('json ' + path + ' --profiles-path '+profile_path)
+    out = inspec('json ' + path + ' --profiles-path '+examples_path)
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     s = out.stdout
