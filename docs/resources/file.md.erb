@@ -554,10 +554,3 @@ return `true` if your file has a mode with greater permissions than specified.
       it { should_not be_more_permissive_than?('0644') }
       it { should be_more_permissive_than?('0000') }
     end
-
-    my_file = file('/etc/passwd')
-    describe "The file #{my_file.path} with permissions: `#{my_file.mode.to_s(8)}`" do
-      subject { my_file }
-      it { should_not be_more_permissive_than?('0644') }
-      it { should be_more_permissive_than?('0000') }
-    end
