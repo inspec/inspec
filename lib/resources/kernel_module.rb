@@ -13,25 +13,24 @@ module Inspec::Resources
     method.'
 
     example <<~EXAMPLE
+      describe kernel_module('video') do
+        it { should be_loaded }
+        it { should_not be_disabled }
+        it { should_not be_blacklisted }
+      end
 
-    describe kernel_module('video') do
-      it { should be_loaded }
-      it { should_not be_disabled }
-      it { should_not be_blacklisted }
-    end
+      describe kernel_module('sstfb') do
+        it { should_not be_loaded }
+        it { should be_disabled }
+      end
 
-    describe kernel_module('sstfb') do
-      it { should_not be_loaded }
-      it { should be_disabled }
-    end
+      describe kernel_module('floppy') do
+        it { should be_blacklisted }
+      end
 
-    describe kernel_module('floppy') do
-      it { should be_blacklisted }
-    end
-
-    describe kernel_module('dhcp') do
-      it { should_not be_loaded }
-    end
+      describe kernel_module('dhcp') do
+        it { should_not be_loaded }
+      end
     EXAMPLE
 
     def initialize(modulename = nil)
