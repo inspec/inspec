@@ -12,7 +12,7 @@ module Inspec::Resources
     or if a module is disabled via a fake install using the `bin_true` or `bin_false`
     method.'
 
-    example "
+    example <<~EXAMPLE
 
     describe kernel_module('video') do
       it { should be_loaded }
@@ -32,7 +32,7 @@ module Inspec::Resources
     describe kernel_module('dhcp') do
       it { should_not be_loaded }
     end
-    "
+    EXAMPLE
 
     def initialize(modulename = nil)
       @module = modulename

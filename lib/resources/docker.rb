@@ -94,7 +94,7 @@ module Inspec::Resources
       A resource to retrieve information about docker
     "
 
-    example "
+    example <<~EXAMPLE
       describe docker.containers do
         its('images') { should_not include 'u12:latest' }
       end
@@ -127,7 +127,7 @@ module Inspec::Resources
           its(%w(HostConfig Privileged)) { should_not cmp true }
         end
       end
-    "
+    EXAMPLE
 
     def containers
       DockerContainerFilter.new(parse_containers)

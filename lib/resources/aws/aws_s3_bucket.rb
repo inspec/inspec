@@ -2,11 +2,11 @@
 class AwsS3Bucket < Inspec.resource(1)
   name 'aws_s3_bucket'
   desc 'Verifies settings for a s3 bucket'
-  example "
+  example <<~EXAMPLE
     describe aws_s3_bucket(bucket_name: 'test_bucket') do
       it { should exist }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsSingularResourceMixin

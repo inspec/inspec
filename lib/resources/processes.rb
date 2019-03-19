@@ -10,7 +10,7 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the processes InSpec audit resource to test properties for programs that are running on the system.'
-    example "
+    example <<~EXAMPLE
       describe processes('mysqld') do
         its('entries.length') { should eq 1 }
         its('users') { should eq ['mysql'] }
@@ -25,7 +25,7 @@ module Inspec::Resources
       describe processes do
         its('entries.length') { should be <= 100 }
       end
-    "
+    EXAMPLE
 
     def initialize(grep = /.*/)
       @grep = grep

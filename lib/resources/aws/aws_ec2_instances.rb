@@ -1,11 +1,11 @@
 class AwsEc2Instances < Inspec.resource(1)
   name 'aws_ec2_instances'
   desc 'Verifies settings for AWS EC2 Instances in bulk'
-  example '
+  example <<~EXAMPLE
     describe aws_ec2_instances do
       it { should exist }
     end
-  '
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsPluralResourceMixin

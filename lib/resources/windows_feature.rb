@@ -5,7 +5,7 @@ module Inspec::Resources
     name 'windows_feature'
     supports platform: 'windows'
     desc 'Use the windows_feature InSpec audit resource to test features on Microsoft Windows.'
-    example <<-EOX
+    example <<~EXAMPLE
       # By default this resource will use Get-WindowsFeature.
       # Failing that, it will use DISM.
 
@@ -23,7 +23,7 @@ module Inspec::Resources
       describe windows_feature('IIS-WebServer') do
         it { should be_installed }
       end
-    EOX
+    EXAMPLE
 
     def initialize(feature, method = nil)
       @feature = feature

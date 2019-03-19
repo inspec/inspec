@@ -1,11 +1,11 @@
 class AwsKmsKeys < Inspec.resource(1)
   name 'aws_kms_keys'
   desc 'Verifies settings for AWS KMS Keys in bulk'
-  example '
+  example <<~EXAMPLE
     describe aws_kms_keys do
       it { should exist }
     end
-  '
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsPluralResourceMixin

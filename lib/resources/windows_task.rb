@@ -4,7 +4,7 @@ module Inspec::Resources
     name 'windows_task'
     supports platform: 'windows'
     desc 'Use the windows_task InSpec audit resource to test task schedules on Microsoft Windows.'
-    example "
+    example <<~EXAMPLE
       describe windows_task('\\Microsoft\\Windows\\Time Synchronization\\SynchronizeTime') do
         it { should be_enabled }
       end
@@ -23,7 +23,7 @@ module Inspec::Resources
         its('task_to_run') { should cmp '%Windir%\\system32\\appidpolicyconverter.exe' }
         its('run_as_user') { should eq 'LOCAL SERVICE' }
       end
-    "
+    EXAMPLE
 
     def initialize(taskuri)
       @taskuri = taskuri

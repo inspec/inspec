@@ -30,13 +30,13 @@ module Inspec::Resources
     name 'etc_group'
     supports platform: 'unix'
     desc 'Use the etc_group InSpec audit resource to test groups that are defined on Linux and UNIX platforms. The /etc/group file stores details about each group---group name, password, group identifier, along with a comma-separate list of users that belong to the group.'
-    example "
+    example <<~EXAMPLE
       describe etc_group do
         its('gids') { should_not contain_duplicates }
         its('groups') { should include 'my_user' }
         its('users') { should include 'my_user' }
       end
-    "
+    EXAMPLE
 
     include FileReader
 

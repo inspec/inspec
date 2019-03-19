@@ -8,7 +8,7 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the os InSpec audit resource to test the platform on which the system is running.'
-    example "
+    example <<~EXAMPLE
       describe os[:family] do
         it { should eq 'redhat' }
       end
@@ -20,7 +20,7 @@ module Inspec::Resources
       describe os.linux? do
         it { should eq true }
       end
-    "
+    EXAMPLE
 
     # reuse helper methods from backend
     %w{aix? redhat? debian? suse? bsd? solaris? linux? unix? windows? hpux? darwin?}.each do |os_family|

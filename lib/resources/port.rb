@@ -12,7 +12,7 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc "Use the port InSpec audit resource to test basic port properties, such as port, process, if it's listening."
-    example "
+    example <<~EXAMPLE
       describe port(80) do
         it { should be_listening }
         its('protocols') {should eq ['tcp']}
@@ -22,7 +22,7 @@ module Inspec::Resources
       describe port.where { protocol =~ /tcp/ && port > 80 } do
         it { should_not be_listening }
       end
-    "
+    EXAMPLE
 
     def initialize(*args)
       args.unshift(nil) if args.length <= 1 # add the ip address to the front

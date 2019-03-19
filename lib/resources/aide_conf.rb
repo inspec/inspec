@@ -9,7 +9,7 @@ module Inspec::Resources
     supports platform: 'unix'
     desc 'Use the aide_conf InSpec audit resource to test the rules established for
       the file integrity tool AIDE. Controlled by the aide.conf file typically at /etc/aide.conf.'
-    example "
+    example <<~EXAMPLE
       describe aide_conf do
         its('selection_lines') { should include '/sbin' }
       end
@@ -21,7 +21,7 @@ module Inspec::Resources
       describe aide_conf.all_have_rule('sha512') do
         it { should eq true }
       end
-    "
+    EXAMPLE
 
     attr_reader :params
 

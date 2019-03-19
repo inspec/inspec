@@ -8,7 +8,7 @@ module Inspec::Resources
   class JsonConfig < Inspec.resource(1)
     name 'json'
     desc 'Use the json InSpec audit resource to test data in a JSON file.'
-    example "
+    example <<~EXAMPLE
       describe json('policyfile.lock.json') do
         its(['cookbook_locks','omnibus','version']) { should eq('2.2.0') }
       end
@@ -20,8 +20,7 @@ module Inspec::Resources
       describe json({ content: '{\"item1\": { \"status\": \"available\" } }' }) do
         its(['item1', 'status']) { should cmp 'available' }
       end
-
-    "
+    EXAMPLE
 
     include ObjectTraverser
     include FileReader

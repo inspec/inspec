@@ -9,13 +9,13 @@ module Inspec::Resources
     name 'ssh_config'
     supports platform: 'unix'
     desc 'Use the `ssh_config` InSpec audit resource to test OpenSSH client configuration data located at `/etc/ssh/ssh_config` on Linux and Unix platforms.'
-    example "
+    example <<~EXAMPLE
       describe ssh_config do
         its('cipher') { should contain '3des' }
         its('port') { should eq '22' }
         its('hostname') { should include('example.com') }
       end
-    "
+    EXAMPLE
 
     include FileReader
 
@@ -80,11 +80,11 @@ module Inspec::Resources
     name 'sshd_config'
     supports platform: 'unix'
     desc 'Use the sshd_config InSpec audit resource to test configuration data for the Open SSH daemon located at /etc/ssh/sshd_config on Linux and UNIX platforms. sshd---the Open SSH daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command execution, and data exchanges.'
-    example "
+    example <<~EXAMPLE
       describe sshd_config do
         its('Protocol') { should eq '2' }
       end
-    "
+    EXAMPLE
 
     def initialize(path = nil)
       super(path || '/etc/ssh/sshd_config')

@@ -2,7 +2,7 @@ class AwsBillingReport < Inspec.resource(1)
   name 'aws_billing_report'
   supports platform: 'aws'
   desc 'Verifies settings for AWS Cost and Billing Reports.'
-  example "
+  example <<~EXAMPLE
     describe aws_billing_report('inspec1') do
       its('report_name') { should cmp 'inspec1' }
       its('time_unit') { should cmp 'hourly' }
@@ -10,7 +10,8 @@ class AwsBillingReport < Inspec.resource(1)
 
     describe aws_billing_report(report: 'inspec1') do
       it { should exist }
-    end"
+    end
+  EXAMPLE
 
   include AwsSingularResourceMixin
 

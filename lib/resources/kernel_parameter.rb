@@ -5,11 +5,11 @@ module Inspec::Resources
     name 'kernel_parameter'
     supports platform: 'unix'
     desc 'Use the kernel_parameter InSpec audit resource to test kernel parameters on Linux platforms.'
-    example "
+    example <<~EXAMPLE
       describe kernel_parameter('net.ipv4.conf.all.forwarding') do
         its('value') { should eq 0 }
       end
-    "
+    EXAMPLE
 
     def initialize(parameter = nil)
       @parameter = parameter

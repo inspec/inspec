@@ -12,13 +12,13 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the package InSpec audit resource to test if the named package and/or package version is installed on the system.'
-    example "
+    example <<~EXAMPLE
       describe package('nginx') do
         it { should be_installed }
         it { should_not be_held } # for dpkg platforms that support holding a version from being upgraded
         its('version') { should eq 1.9.5 }
       end
-    "
+    EXAMPLE
     def initialize(package_name, opts = {}) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       @package_name = package_name
       @name = @package_name

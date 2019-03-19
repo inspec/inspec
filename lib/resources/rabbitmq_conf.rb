@@ -10,11 +10,11 @@ module Inspec::Resources
     desc 'Use the rabbitmq_config InSpec resource to test configuration data '\
          'for the RabbitMQ service located in /etc/rabbitmq/rabbitmq.config on '\
          'Linux and UNIX platforms.'
-    example "
+    example <<~EXAMPLE
       describe rabbitmq_config.params('rabbit', 'ssl_listeners') do
         it { should cmp 5671 }
       end
-    "
+    EXAMPLE
 
     include FileReader
 

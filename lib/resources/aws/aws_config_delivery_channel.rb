@@ -1,13 +1,13 @@
 class AwsConfigDeliveryChannel < Inspec.resource(1)
   name 'aws_config_delivery_channel'
   desc 'Verifies settings for AWS Config Delivery Channel'
-  example "
+  example <<~EXAMPLE
     describe aws_config_delivery_channel do
       it { should exist }
       its('s3_bucket_name') { should eq 'my_bucket' }
       its('sns_topic_arn') { should eq arn:aws:sns:us-east-1:721741954427:sns_topic' }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsSingularResourceMixin

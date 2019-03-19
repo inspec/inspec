@@ -1,11 +1,11 @@
 class AwsRouteTable < Inspec.resource(1)
   name 'aws_route_table'
   desc 'Verifies settings for an AWS Route Table'
-  example "
+  example <<~EXAMPLE
     describe aws_route_table do
       its('route_table_id') { should cmp 'rtb-05462d2278326a79c' }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsSingularResourceMixin

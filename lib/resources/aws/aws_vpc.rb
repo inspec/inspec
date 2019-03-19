@@ -1,12 +1,12 @@
 class AwsVpc < Inspec.resource(1)
   name 'aws_vpc'
   desc 'Verifies settings for AWS VPC'
-  example "
+  example <<~EXAMPLE
     describe aws_vpc do
       it { should be_default }
       its('cidr_block') { should cmp '10.0.0.0/16' }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsSingularResourceMixin

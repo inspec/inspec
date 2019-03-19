@@ -9,11 +9,11 @@ module Inspec::Resources
     name 'limits_conf'
     supports platform: 'unix'
     desc 'Use the limits_conf InSpec audit resource to test configuration settings in the /etc/security/limits.conf file. The limits.conf defines limits for processes (by user and/or group names) and helps ensure that the system on which those processes are running remains stable. Each process may be assigned a hard or soft limit.'
-    example "
+    example <<~EXAMPLE
       describe limits_conf do
         its('*') { should include ['hard','core','0'] }
       end
-    "
+    EXAMPLE
 
     include FileReader
 

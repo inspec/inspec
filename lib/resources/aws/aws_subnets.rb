@@ -1,14 +1,14 @@
 class AwsSubnets < Inspec.resource(1)
   name 'aws_subnets'
   desc 'Verifies settings for VPC Subnets in bulk'
-  example "
+  example <<~EXAMPLE
     # you should be able to test the cidr_block of a subnet
     describe aws_subnets.where(vpc_id: 'vpc-123456789') do
       its('subnet_ids') { should eq ['subnet-12345678', 'subnet-87654321'] }
       its('cidr_blocks') { should eq ['172.31.96.0/20'] }
       its('states') { should_not include 'pending' }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsPluralResourceMixin

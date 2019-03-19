@@ -3,7 +3,7 @@ class AwsIamPasswordPolicy < Inspec.resource(1)
   name 'aws_iam_password_policy'
   desc 'Verifies iam password policy'
 
-  example <<-EOX
+  example <<~EXAMPLE
     describe aws_iam_password_policy do
       its('requires_lowercase_characters?') { should be true }
     end
@@ -11,7 +11,7 @@ class AwsIamPasswordPolicy < Inspec.resource(1)
     describe aws_iam_password_policy do
       its('requires_uppercase_characters?') { should be true }
     end
-EOX
+  EXAMPLE
   supports platform: 'aws'
 
   # TODO: rewrite to avoid direct injection, match other resources, use AwsSingularResourceMixin

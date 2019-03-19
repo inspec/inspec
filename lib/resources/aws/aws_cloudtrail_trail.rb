@@ -1,11 +1,11 @@
 class AwsCloudTrailTrail < Inspec.resource(1)
   name 'aws_cloudtrail_trail'
   desc 'Verifies settings for an individual AWS CloudTrail Trail'
-  example "
+  example <<~EXAMPLE
     describe aws_cloudtrail_trail('trail-name') do
       it { should exist }
     end
-  "
+  EXAMPLE
 
   supports platform: 'aws'
 

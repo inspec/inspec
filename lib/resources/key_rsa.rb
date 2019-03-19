@@ -11,7 +11,7 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'public/private RSA key pair test'
-    example "
+    example <<~EXAMPLE
       describe key_rsa('/etc/pki/www.mywebsite.com.key') do
         its('public_key') { should match /BEGIN RSA PUBLIC KEY/ }
       end
@@ -20,7 +20,7 @@ module Inspec::Resources
         it { should be_private }
         it { should be_public }
       end
-    "
+    EXAMPLE
 
     include FileReader
     include PkeyReader

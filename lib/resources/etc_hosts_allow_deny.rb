@@ -9,12 +9,12 @@ module Inspec::Resources
     supports platform: 'unix'
     desc 'Use the etc_hosts_allow InSpec audit resource to test the connections
           the client will allow. Controlled by the /etc/hosts.allow file.'
-    example "
+    example <<~EXAMPLE
       describe etc_hosts_allow.where { daemon == 'ALL' } do
         its('client_list') { should include ['127.0.0.1', '[::1]'] }
         its('options') { should eq [[]] }
       end
-    "
+    EXAMPLE
 
     attr_reader :params
 
@@ -91,12 +91,12 @@ module Inspec::Resources
     supports platform: 'unix'
     desc 'Use the etc_hosts_deny InSpec audit resource to test the connections
           the client will deny. Controlled by the /etc/hosts.deny file.'
-    example "
+    example <<~EXAMPLE
       describe etc_hosts_deny.where { daemon_list == 'ALL' } do
         its('client_list') { should eq [['127.0.0.1', '[::1]']] }
         its('options') { should eq [] }
       end
-    "
+    EXAMPLE
 
     def initialize(path = nil)
       return skip_resource '`etc_hosts_deny` is not supported on your OS' unless inspec.os.linux?

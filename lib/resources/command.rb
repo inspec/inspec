@@ -7,7 +7,7 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the command InSpec audit resource to test an arbitrary command that is run on the system.'
-    example "
+    example <<~EXAMPLE
       describe command('ls -al /') do
         its('stdout') { should match /bin/ }
         its('stderr') { should eq '' }
@@ -18,7 +18,7 @@ module Inspec::Resources
       describe command('ls') do
         it { should exist }
       end
-    "
+    EXAMPLE
 
     attr_reader :command
 

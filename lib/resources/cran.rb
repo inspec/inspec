@@ -11,11 +11,11 @@ module Inspec::Resources
     name 'cran'
     supports platform: 'unix'
     desc 'Use the `cran` InSpec audit resource to test R modules that are installed from CRAN package repository.'
-    example "
+    example <<~EXAMPLE
       describe cran('DBI') do
         it { should be_installed }
       end
-    "
+    EXAMPLE
 
     def initialize(package_name)
       @package_name = package_name

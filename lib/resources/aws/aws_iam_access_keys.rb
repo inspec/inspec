@@ -1,11 +1,11 @@
 class AwsIamAccessKeys < Inspec.resource(1)
   name 'aws_iam_access_keys'
   desc 'Verifies settings for AWS IAM Access Keys in bulk'
-  example '
+  example <<~EXAMPLE
     describe aws_iam_access_keys do
       it { should_not exist }
     end
-  '
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsPluralResourceMixin

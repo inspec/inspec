@@ -21,7 +21,7 @@ module Inspec::Resources
     desc 'Use the shadow InSpec resource to test the contents of /etc/shadow, '\
          'which contains information for users that may log into '\
          'the system and/or as users that own running processes.'
-    example "
+    example <<~EXAMPLE
       describe shadow do
         its('user') { should_not include 'forbidden_user' }
       end
@@ -30,7 +30,7 @@ module Inspec::Resources
         its('password') { should cmp 'x' }
         its('count') { should eq 1 }
       end
-    "
+    EXAMPLE
 
     include FileReader
 

@@ -5,11 +5,11 @@ module Inspec::Resources
     name 'windows_hotfix'
     supports platform: 'windows'
     desc 'Use the windows_hotfix InSpec audit resource to test if the hotfix has been installed on the Windows system.'
-    example "
+    example <<~EXAMPLE
       describe windows_hotfix('KB4012212') do
         it { should be_installed }
       end
-    "
+    EXAMPLE
 
     attr_accessor :content
 

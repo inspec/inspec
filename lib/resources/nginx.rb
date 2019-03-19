@@ -8,7 +8,7 @@ module Inspec::Resources
     name 'nginx'
     supports platform: 'unix'
     desc 'Use the nginx InSpec audit resource to test information about your NGINX instance.'
-    example "
+    example <<~EXAMPLE
       describe nginx do
         its('conf_path') { should cmp '/etc/nginx/nginx.conf' }
       end
@@ -18,7 +18,7 @@ module Inspec::Resources
       describe nginx do
         its('modules') { should include 'my_module' }
       end
-    "
+    EXAMPLE
     attr_reader :params, :bin_dir
 
     def initialize(nginx_path = '/usr/sbin/nginx')

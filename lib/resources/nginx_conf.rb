@@ -19,10 +19,10 @@ module Inspec::Resources
     desc 'Use the nginx_conf InSpec resource to test configuration data '\
          'for the NginX web server located in /etc/nginx/nginx.conf on '\
          'Linux and UNIX platforms.'
-    example "
+    example <<~EXAMPLE
       describe nginx_conf.params ...
       describe nginx_conf('/path/to/my/nginx.conf').params ...
-    "
+    EXAMPLE
 
     extend Forwardable
 

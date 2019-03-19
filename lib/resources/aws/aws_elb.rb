@@ -1,11 +1,11 @@
 class AwsElb < Inspec.resource(1)
   name 'aws_elb'
   desc 'Verifies settings for AWS Elastic Load Balancer'
-  example "
+  example <<~EXAMPLE
     describe aws_elb('myelb') do
       it { should exist }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsSingularResourceMixin

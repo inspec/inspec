@@ -2,12 +2,12 @@
 class AwsS3BucketObject < Inspec.resource(1)
   name 'aws_s3_bucket_object'
   desc 'Verifies settings for a s3 bucket object'
-  example "
+  example <<~EXAMPLE
     describe aws_s3_bucket_object(bucket_name: 'bucket_name', key: 'file_name') do
       it { should exist }
       it { should_not be_public }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsSingularResourceMixin

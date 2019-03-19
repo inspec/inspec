@@ -16,11 +16,11 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the os_env InSpec audit resource to test the environment variables for the platform on which the system is running.'
-    example "
+    example <<~EXAMPLE
       describe os_env('VARIABLE') do
         its('matcher') { should eq 1 }
       end
-    "
+    EXAMPLE
 
     def initialize(env = nil, target = nil)
       @osenv = env

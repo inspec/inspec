@@ -1,11 +1,11 @@
 class AwsRouteTables < Inspec.resource(1)
   name 'aws_route_tables'
   desc 'Verifies settings for AWS Route Tables in bulk'
-  example '
+  example <<~EXAMPLE
     describe aws_route_tables do
       it { should exist }
     end
-  '
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsPluralResourceMixin

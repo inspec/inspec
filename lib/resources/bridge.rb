@@ -11,12 +11,12 @@ module Inspec::Resources
     name 'bridge'
     supports platform: 'unix'
     desc 'Use the bridge InSpec audit resource to test basic network bridge properties, such as name, if an interface is defined, and the associations for any defined interface.'
-    example "
+    example <<~EXAMPLE
       describe bridge 'br0' do
         it { should exist }
         it { should have_interface 'eth0' }
       end
-    "
+    EXAMPLE
 
     def initialize(bridge_name)
       @bridge_name = bridge_name
