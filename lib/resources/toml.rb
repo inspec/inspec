@@ -7,13 +7,13 @@ module Inspec::Resources
   class TomlConfig < JsonConfig
     name 'toml'
     desc 'Use the toml InSpec resource to test configuration data in a TOML file'
-    example "
+    example <<~EXAMPLE
       describe toml('default.toml') do
         its('key') { should eq('value') }
         its (['arr', 1]) { should eq 2 }
         its (['mytable', 'key1']) { should eq 'value1' }
       end
-    "
+    EXAMPLE
 
     def parse(content)
       Tomlrb.parse(content)

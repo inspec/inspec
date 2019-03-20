@@ -1,11 +1,11 @@
 class AwsIamRootUser < Inspec.resource(1)
   name 'aws_iam_root_user'
   desc 'Verifies settings for AWS root account'
-  example "
+  example <<~EXAMPLE
     describe aws_iam_root_user do
       it { should have_access_key }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   # TODO: rewrite to avoid direct injection, match other resources, use AwsSingularResourceMixin

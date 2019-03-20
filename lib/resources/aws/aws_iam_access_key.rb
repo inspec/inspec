@@ -1,14 +1,14 @@
 class AwsIamAccessKey < Inspec.resource(1)
   name 'aws_iam_access_key'
   desc 'Verifies settings for an individual IAM access key'
-  example "
+  example <<~EXAMPLE
     describe aws_iam_access_key(username: 'username', id: 'access-key id') do
       it { should exist }
       it { should_not be_active }
       its('create_date') { should be > Time.now - 365 * 86400 }
       its('last_used_date') { should be > Time.now - 90 * 86400 }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsSingularResourceMixin

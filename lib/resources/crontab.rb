@@ -8,7 +8,7 @@ module Inspec::Resources
     name 'crontab'
     supports platform: 'unix'
     desc 'Use the crontab InSpec audit resource to test the contents of the crontab for a given user which contains information about scheduled tasks owned by that user.'
-    example "
+    example <<~EXAMPLE
       describe crontab(user: 'root') do
         its('commands') { should include '/path/to/some/script' }
       end
@@ -29,7 +29,7 @@ module Inspec::Resources
       describe crontab(path: '/etc/cron.d/some_crontab') do
         its('commands') { should include '/path/to/some/script' }
       end
-    "
+    EXAMPLE
 
     attr_reader :params
 

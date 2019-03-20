@@ -4,7 +4,7 @@ module Inspec::Resources
     supports platform: 'linux'
     supports platform: 'windows'
     desc 'Use the filesystem InSpec resource to test file system'
-    example "
+    example <<~EXAMPLE
       describe filesystem('/') do
         its('size_kb') { should be >= 32000 }
         its('free_kb') { should be >= 3200 }
@@ -17,7 +17,7 @@ module Inspec::Resources
         its('type') { should cmp 'NTFS' }
         its('percent_free') { should be >= 20 }
       end
-    "
+    EXAMPLE
     attr_reader :partition
 
     def initialize(partition)

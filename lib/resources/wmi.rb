@@ -11,7 +11,7 @@ module Inspec::Resources
     name 'wmi'
     supports platform: 'windows'
     desc 'request wmi information'
-    example "
+    example <<~EXAMPLE
       describe wmi({
         class: 'RSOP_SecuritySettingNumeric',
         namespace: 'root\\rsop\\computer',
@@ -19,7 +19,7 @@ module Inspec::Resources
       }) do
          its('Setting') { should eq true }
       end
-    "
+    EXAMPLE
 
     include ObjectTraverser
     attr_accessor :content

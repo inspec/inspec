@@ -8,7 +8,7 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the npm InSpec audit resource to test if a global npm package is installed. npm is the the package manager for Nodejs packages, such as bower and StatsD.'
-    example "
+    example <<~EXAMPLE
       describe npm('bower') do
         it { should be_installed }
       end
@@ -16,7 +16,7 @@ module Inspec::Resources
       describe npm('tar', path: '/path/to/project') do
         it { should be_installed }
       end
-    "
+    EXAMPLE
 
     def initialize(package_name, opts = {})
       @package_name = package_name

@@ -3,12 +3,12 @@ require 'uri'
 class AwsSqsQueue < Inspec.resource(1)
   name 'aws_sqs_queue'
   desc 'Verifies settings for an SQS Queue'
-  example "
+  example <<~EXAMPLE
     describe aws_sqs_queue('https://sqs.ap-southeast-2.amazonaws.com/519527725796/QueueName') do
       it { should exist }
       its('visiblity_timeout') { should be 300}
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsSingularResourceMixin

@@ -8,7 +8,7 @@ module Inspec::Resources
     name 'ksh'
     supports platform: 'unix'
     desc 'Run a command or script in KornShell.'
-    example "
+    example <<~EXAMPLE
       describe ksh('ls -al /') do
         its('stdout') { should match /bin/ }
         its('stderr') { should eq '' }
@@ -20,7 +20,7 @@ module Inspec::Resources
 
       # Specify arguments (defaults to -c)
       ksh('...', args: '-x -c')
-    "
+    EXAMPLE
 
     def initialize(command, options = {})
       @raw_command = command

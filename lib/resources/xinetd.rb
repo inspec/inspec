@@ -9,7 +9,7 @@ module Inspec::Resources
     name 'xinetd_conf'
     supports platform: 'unix'
     desc 'Xinetd services configuration.'
-    example "
+    example <<~EXAMPLE
       describe xinetd_conf.services('chargen') do
         its('socket_types') { should include 'dgram' }
       end
@@ -17,7 +17,7 @@ module Inspec::Resources
       describe xinetd_conf.services('chargen').socket_types('dgram') do
         it { should be_disabled }
       end
-    "
+    EXAMPLE
 
     include XinetdParser
     include FileReader

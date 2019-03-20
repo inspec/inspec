@@ -12,7 +12,7 @@ module Inspec::Resources
     name 'http'
     supports platform: 'unix'
     desc 'Use the http InSpec audit resource to test http call.'
-    example "
+    example <<~EXAMPLE
       describe http('http://localhost:8080/ping', auth: {user: 'user', pass: 'test'}, params: {format: 'html'}) do
         its('status') { should cmp 200 }
         its('body') { should cmp 'pong' }
@@ -23,7 +23,7 @@ module Inspec::Resources
         its('Content-Length') { should cmp 258 }
         its('Content-Type') { should cmp 'text/html; charset=UTF-8' }
       end
-    "
+    EXAMPLE
 
     def initialize(url, opts = {})
       @url = url

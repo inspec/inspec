@@ -18,7 +18,7 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the parse_config InSpec audit resource to test arbitrary configuration files.'
-    example "
+    example <<~EXAMPLE
       output = command('some-command').stdout
       describe parse_config(output, { data_config_option: value } ) do
         its('setting') { should eq 1 }
@@ -41,7 +41,7 @@ module Inspec::Resources
       describe parse_config(output2, options2 ).params['listen queue'].to_i do
         it { should be < 100 }
       end
-    "
+    EXAMPLE
 
     include FileReader
 
@@ -94,11 +94,11 @@ module Inspec::Resources
   class PConfigFile < PConfig
     name 'parse_config_file'
     desc 'Use the parse_config_file InSpec resource to test arbitrary configuration files. It works identically to parse_config. Instead of using a command output, this resource works with files.'
-    example "
+    example <<~EXAMPLE
       describe parse_config_file('/path/to/file') do
         its('setting') { should eq 1 }
       end
-    "
+    EXAMPLE
 
     def initialize(path, opts = nil)
       super(nil, opts)

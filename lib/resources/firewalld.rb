@@ -10,7 +10,7 @@ module Inspec::Resources
     name 'firewalld'
     supports platform: 'linux'
     desc 'Use the firewalld resource to check and see if firewalld is configured to grand or deny access to specific hosts or services'
-    example "
+    example <<~EXAMPLE
       describe firewalld do
         it { should be_running }
         its('default_zone') { should eq 'public' }
@@ -23,7 +23,7 @@ module Inspec::Resources
         its('sources') { should cmp ['ssh', 'icmp'] }
         its('services') { should cmp ['192.168.1.0/24', '192.168.1.2'] }
       end
-    "
+    EXAMPLE
 
     attr_reader :params
 

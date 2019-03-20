@@ -14,7 +14,7 @@ module Inspec::Resources
     name 'mssql_session'
     supports platform: 'windows'
     desc 'Use the mssql_session InSpec audit resource to test SQL commands run against a MS Sql Server database.'
-    example "
+    example <<~EXAMPLE
       # Using SQL authentication
       sql = mssql_session(user: 'myuser', pass: 'mypassword')
       describe sql.query('SELECT * FROM table').row(0).column('columnname') do
@@ -27,7 +27,7 @@ module Inspec::Resources
         its('value') { should_not be_empty }
         its('value') { should cmp == 1 }
       end
-    "
+    EXAMPLE
 
     attr_reader :user, :password, :host, :port, :instance, :local_mode, :db_name
     def initialize(opts = {})

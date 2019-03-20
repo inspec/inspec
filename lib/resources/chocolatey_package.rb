@@ -7,12 +7,12 @@ module Inspec::Resources
     name 'chocolatey_package'
     supports platform: 'windows'
     desc 'Use the chocolatey_package InSpec audit resource to test if the named package and/or package version is installed on the system.'
-    example <<-EOH
+    example <<~EXAMPLE
       describe chocolatey_package('git') do
         it { should be_installed }
         its('version') { should eq '2.15.1' }
       end
-    EOH
+    EXAMPLE
 
     attr_reader :package_name
 

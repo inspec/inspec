@@ -9,12 +9,12 @@ module Inspec::Resources
     name 'ntp_conf'
     supports platform: 'unix'
     desc 'Use the ntp_conf InSpec audit resource to test the synchronization settings defined in the ntp.conf file. This file is typically located at /etc/ntp.conf.'
-    example "
+    example <<~EXAMPLE
       describe ntp_conf do
         its('server') { should_not eq nil }
         its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
       end
-    "
+    EXAMPLE
 
     include FileReader
 

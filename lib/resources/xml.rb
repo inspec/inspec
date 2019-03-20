@@ -6,12 +6,12 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the xml InSpec resource to test configuration data in an XML file'
-    example "
+    example <<~EXAMPLE
       describe xml('default.xml') do
         its('key/sub_key') { should eq(['value']) }
         its(['root/name.with.a.period']) { should cmp 'so_many_dots' }
       end
-    "
+    EXAMPLE
 
     def parse(content)
       require 'rexml/document'

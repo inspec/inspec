@@ -30,7 +30,7 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the host InSpec audit resource to test the name used to refer to a specific host and its availability, including the Internet protocols and ports over which that host name should be available.'
-    example "
+    example <<~EXAMPLE
       describe host('example.com') do
         it { should be_reachable }
         it { should be_resolvable }
@@ -40,7 +40,7 @@ module Inspec::Resources
       describe host('example.com', port: '80', protocol: 'tcp') do
         it { should be_reachable }
       end
-    "
+    EXAMPLE
 
     attr_reader :hostname, :port, :protocol
 

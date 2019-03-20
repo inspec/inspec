@@ -2,11 +2,11 @@ class AwsFlowLog < Inspec.resource(1)
   name 'aws_flow_log'
   supports platform: 'aws'
   desc 'This resource is used to test the attributes of a Flow Log.'
-  example <<~EOT
+  example <<~EXAMPLE
     describe aws_flow_log('fl-9c718cf5') do
       it { should exist }
     end
-    EOT
+  EXAMPLE
 
   include AwsSingularResourceMixin
 

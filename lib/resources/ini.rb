@@ -8,11 +8,11 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the ini InSpec audit resource to test data in a INI file.'
-    example "
+    example <<~EXAMPLE
       descibe ini do
         its('auth_protocol') { should eq 'https' }
       end
-    "
+    EXAMPLE
     # override file load and parse hash with simple config
     def parse(content)
       SimpleConfig.new(content).params

@@ -7,7 +7,7 @@ module Inspec::Resources
     name 'iis_app'
     supports platform: 'windows'
     desc 'Tests IIS application configuration on windows. Supported in server 2012+ only'
-    example "
+    example <<~EXAMPLE
       describe iis_app('/myapp', 'Default Web Site') do
         it { should exist }
         it { should have_application_pool('MyAppPool') }
@@ -16,7 +16,7 @@ module Inspec::Resources
         it { should have_physical_path('C:\\inetpub\\wwwroot\\myapp') }
         it { should have_path('\\My Application') }
       end
-    "
+    EXAMPLE
 
     def initialize(path, site_name)
       @path = path

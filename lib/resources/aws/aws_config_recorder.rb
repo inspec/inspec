@@ -1,14 +1,14 @@
 class AwsConfigurationRecorder < Inspec.resource(1)
   name 'aws_config_recorder'
   desc 'Verifies settings for AWS Configuration Recorder'
-  example "
+  example <<~EXAMPLE
     describe aws_config_recorder('My_Recorder') do
       it { should exist }
       it { should be_recording }
       it { should be_all_supported }
       it { should have_include_global_resource_types }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsSingularResourceMixin

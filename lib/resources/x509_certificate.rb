@@ -10,7 +10,7 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Used to test x.509 certificates'
-    example "
+    example <<~EXAMPLE
       describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
         its('subject') { should match /CN=My Website/ }
         its('validity_in_days') { should be > 30 }
@@ -31,7 +31,7 @@ module Inspec::Resources
         its('key_length') { should be >= 2048 }
         its('extensions.subjectKeyIdentifier') { should cmp 'A5:16:0B:12:F4:48:0F:06:6C:32:29:67:98:12:DF:3D:0D:75:9D:5C' }
       end
-    "
+    EXAMPLE
 
     include FileReader
 

@@ -1,11 +1,11 @@
 class AwsIamGroups < Inspec.resource(1)
   name 'aws_iam_groups'
   desc 'Verifies settings for AWS IAM groups in bulk'
-  example '
+  example <<~EXAMPLE
     describe aws_iam_groups do
       it { should exist }
     end
-  '
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsPluralResourceMixin

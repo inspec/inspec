@@ -1,11 +1,11 @@
 class AwsEbsVolumes < Inspec.resource(1)
   name 'aws_ebs_volumes'
   desc 'Verifies settings for AWS EBS Volumes in bulk'
-  example '
+  example <<~EXAMPLE
     describe aws_ebs_volumes do
       it { should exist }
     end
-  '
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsPluralResourceMixin

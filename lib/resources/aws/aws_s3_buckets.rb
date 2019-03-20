@@ -3,11 +3,11 @@
 class AwsS3Buckets < Inspec.resource(1)
   name 'aws_s3_buckets'
   desc 'Verifies settings for AWS S3 Buckets in bulk'
-  example "
+  example <<~EXAMPLE
     describe aws_s3_bucket do
       its('bucket_names') { should eq ['my_bucket'] }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsPluralResourceMixin

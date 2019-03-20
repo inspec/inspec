@@ -1,12 +1,12 @@
 class AwsSnsTopic < Inspec.resource(1)
   name 'aws_sns_topic'
   desc 'Verifies settings for an SNS Topic'
-  example "
+  example <<~EXAMPLE
     describe aws_sns_topic('arn:aws:sns:us-east-1:123456789012:some-topic') do
       it { should exist }
       its('confirmed_subscription_count') { should_not be_zero }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsSingularResourceMixin

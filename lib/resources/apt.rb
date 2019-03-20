@@ -31,12 +31,12 @@ module Inspec::Resources
     name 'apt'
     supports platform: 'unix'
     desc 'Use the apt InSpec audit resource to verify Apt repositories on the Debian and Ubuntu platforms, and also PPA repositories on the Ubuntu platform.'
-    example "
+    example <<~EXAMPLE
       describe apt('nginx/stable') do
         it { should exist }
         it { should be_enabled }
       end
-    "
+    EXAMPLE
 
     def initialize(ppa_name)
       @deb_url = nil

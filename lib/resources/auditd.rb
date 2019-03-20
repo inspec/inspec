@@ -14,7 +14,7 @@ module Inspec::Resources
     name 'auditd'
     supports platform: 'unix'
     desc 'Use the auditd InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files. These rules are output using the auditcl -l command.'
-    example "
+    example <<~EXAMPLE
       describe auditd.syscall('chown').where {arch == 'b32'} do
         its('action') { should eq ['always'] }
         its('list') { should eq ['exit'] }
@@ -27,7 +27,7 @@ module Inspec::Resources
       describe auditd do
         its('lines') { should include %r(-w /etc/ssh/sshd_config) }
       end
-    "
+    EXAMPLE
 
     def initialize
       unless inspec.command('/sbin/auditctl').exist?

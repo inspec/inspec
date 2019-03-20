@@ -24,11 +24,11 @@ module Inspec::Resources
     name 'iptables'
     supports platform: 'linux'
     desc 'Use the iptables InSpec audit resource to test rules that are defined in iptables, which maintains tables of IP packet filtering rules. There may be more than one table. Each table contains one (or more) chains (both built-in and custom). A chain is a list of rules that match packets. When the rule matches, the rule defines what target to assign to the packet.'
-    example "
+    example <<~EXAMPLE
       describe iptables do
         it { should have_rule('-P INPUT ACCEPT') }
       end
-    "
+    EXAMPLE
 
     def initialize(params = {})
       @table = params[:table]

@@ -1,11 +1,11 @@
 class AwsVpcs < Inspec.resource(1)
   name 'aws_vpcs'
   desc 'Verifies settings for AWS VPCs in bulk'
-  example '
+  example <<~EXAMPLE
     describe aws_vpcs do
       it { should exist }
     end
-  '
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsPluralResourceMixin

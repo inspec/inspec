@@ -1,11 +1,11 @@
 class AwsIamRole < Inspec.resource(1)
   name 'aws_iam_role'
   desc 'Verifies settings for an IAM Role'
-  example "
+  example <<~EXAMPLE
     describe aws_iam_role('my-role') do
       it { should exist }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsSingularResourceMixin

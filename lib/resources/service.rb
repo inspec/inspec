@@ -71,7 +71,7 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the service InSpec audit resource to test if the named service is installed, running and/or enabled.'
-    example "
+    example <<~EXAMPLE
       describe service('service_name') do
         it { should be_installed }
         it { should be_enabled }
@@ -87,7 +87,7 @@ module Inspec::Resources
       describe service('service_name').params do
         its('UnitFileState') { should eq 'enabled' }
       end
-    "
+    EXAMPLE
 
     attr_reader :service_ctl
 
@@ -658,7 +658,7 @@ module Inspec::Resources
     name 'systemd_service'
     supports platform: 'unix'
     desc 'Use the systemd_service InSpec audit resource to test if the named service (controlled by systemd) is installed, running and/or enabled.'
-    example "
+    example <<~EXAMPLE
       # to override service mgmt auto-detection
       describe systemd_service('service_name') do
         it { should be_installed }
@@ -670,7 +670,7 @@ module Inspec::Resources
       describe systemd_service('service_name', '/path/to/systemctl') do
         it { should be_running }
       end
-    "
+    EXAMPLE
 
     def select_service_mgmt
       Systemd.new(inspec, service_ctl)
@@ -681,7 +681,7 @@ module Inspec::Resources
     name 'upstart_service'
     supports platform: 'unix'
     desc 'Use the upstart_service InSpec audit resource to test if the named service (controlled by upstart) is installed, running and/or enabled.'
-    example "
+    example <<~EXAMPLE
       # to override service mgmt auto-detection
       describe upstart_service('service_name') do
         it { should be_installed }
@@ -693,7 +693,7 @@ module Inspec::Resources
       describe upstart_service('service_name', '/path/to/initctl') do
         it { should be_running }
       end
-    "
+    EXAMPLE
 
     def select_service_mgmt
       Upstart.new(inspec, service_ctl)
@@ -704,7 +704,7 @@ module Inspec::Resources
     name 'sysv_service'
     supports platform: 'unix'
     desc 'Use the sysv_service InSpec audit resource to test if the named service (controlled by SysV) is installed, running and/or enabled.'
-    example "
+    example <<~EXAMPLE
       # to override service mgmt auto-detection
       describe sysv_service('service_name') do
         it { should be_installed }
@@ -716,7 +716,7 @@ module Inspec::Resources
       describe sysv_service('service_name', '/path/to/service') do
         it { should be_running }
       end
-    "
+    EXAMPLE
 
     def select_service_mgmt
       SysV.new(inspec, service_ctl)
@@ -727,7 +727,7 @@ module Inspec::Resources
     name 'bsd_service'
     supports platform: 'unix'
     desc 'Use the bsd_service InSpec audit resource to test if the named service (controlled by BSD init) is installed, running and/or enabled.'
-    example "
+    example <<~EXAMPLE
       # to override service mgmt auto-detection
       describe bsd_service('service_name') do
         it { should be_installed }
@@ -739,7 +739,7 @@ module Inspec::Resources
       describe bsd_service('service_name', '/path/to/service') do
         it { should be_running }
       end
-    "
+    EXAMPLE
 
     def select_service_mgmt
       BSDInit.new(inspec, service_ctl)
@@ -750,7 +750,7 @@ module Inspec::Resources
     name 'launchd_service'
     supports platform: 'unix'
     desc 'Use the launchd_service InSpec audit resource to test if the named service (controlled by launchd) is installed, running and/or enabled.'
-    example "
+    example <<~EXAMPLE
       # to override service mgmt auto-detection
       describe launchd_service('service_name') do
         it { should be_installed }
@@ -762,7 +762,7 @@ module Inspec::Resources
       describe launchd_service('service_name', '/path/to/launchctl') do
         it { should be_running }
       end
-    "
+    EXAMPLE
 
     def select_service_mgmt
       LaunchCtl.new(inspec, service_ctl)
@@ -773,7 +773,7 @@ module Inspec::Resources
     name 'runit_service'
     supports platform: 'unix'
     desc 'Use the runit_service InSpec audit resource to test if the named service (controlled by runit) is installed, running and/or enabled.'
-    example "
+    example <<~EXAMPLE
       # to override service mgmt auto-detection
       describe runit_service('service_name') do
         it { should be_installed }
@@ -785,7 +785,7 @@ module Inspec::Resources
       describe runit_service('service_name', '/path/to/sv') do
         it { should be_running }
       end
-    "
+    EXAMPLE
 
     def select_service_mgmt
       Runit.new(inspec, service_ctl)

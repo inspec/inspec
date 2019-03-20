@@ -4,7 +4,7 @@ module Inspec::Resources
   class PlatformResource < Inspec.resource(1)
     name 'platform'
     desc 'Use the platform InSpec resource to test the platform on which the system is running.'
-    example "
+    example <<~EXAMPLE
       describe platform do
         its('name') { should eq 'redhat' }
       end
@@ -12,7 +12,7 @@ module Inspec::Resources
       describe platform do
         it { should be_in_family('unix') }
       end
-    "
+    EXAMPLE
 
     def initialize
       @platform = inspec.backend.platform

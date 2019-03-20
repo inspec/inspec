@@ -3,7 +3,7 @@ class AwsEc2Instance < Inspec.resource(1)
   name 'aws_ec2_instance'
   desc 'Verifies settings for an EC2 instance'
 
-  example <<-EOX
+  example <<~EXAMPLE
     describe aws_ec2_instance('i-123456') do
       it { should be_running }
       it { should have_roles }
@@ -13,7 +13,7 @@ class AwsEc2Instance < Inspec.resource(1)
       it { should be_running }
       it { should have_roles }
     end
-EOX
+  EXAMPLE
   supports platform: 'aws'
 
   # TODO: rewrite to avoid direct injection, match other resources, use AwsSingularResourceMixin

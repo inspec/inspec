@@ -8,13 +8,13 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the interface InSpec audit resource to test basic network adapter properties, such as name, status, and link speed (in MB/sec).'
-    example "
+    example <<~EXAMPLE
       describe interface('eth0') do
         it { should exist }
         it { should be_up }
         its('speed') { should eq 1000 }
       end
-    "
+    EXAMPLE
     def initialize(iface)
       @iface = iface
 

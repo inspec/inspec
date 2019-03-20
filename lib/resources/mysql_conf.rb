@@ -31,7 +31,7 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the mysql_conf InSpec audit resource to test the contents of the configuration file for MySQL, typically located at /etc/mysql/my.cnf or /etc/my.cnf.'
-    example "
+    example <<~EXAMPLE
       describe mysql_conf('path') do
         its('setting') { should eq 'value' }
       end
@@ -45,7 +45,7 @@ module Inspec::Resources
       describe mysql_conf do
         its(['mariadb', 'max-connections']) { should_not be_nil }
       end
-    "
+    EXAMPLE
 
     include FindFiles
     include FileReader

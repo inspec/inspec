@@ -11,7 +11,7 @@ module Inspec::Resources
     name 'docker_service'
     supports platform: 'unix'
     desc 'Swarm-mode service'
-    example "
+    example <<~EXAMPLE
       describe docker_service('service1') do
         it { should exist }
         its('id') { should_not eq '' }
@@ -27,7 +27,7 @@ module Inspec::Resources
       describe docker_service(image: 'alpine:latest') do
         it { should exist }
       end
-    "
+    EXAMPLE
 
     def initialize(opts = {})
       # do sanitizion of input values

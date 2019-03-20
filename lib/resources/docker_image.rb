@@ -11,7 +11,7 @@ module Inspec::Resources
     name 'docker_image'
     supports platform: 'unix'
     desc ''
-    example "
+    example <<~EXAMPLE
       describe docker_image('alpine:latest') do
         it { should exist }
         its('id') { should_not eq '' }
@@ -27,7 +27,7 @@ module Inspec::Resources
       describe docker_image(id: '4a415e366388') do
         it { should exist }
       end
-    "
+    EXAMPLE
 
     def initialize(opts = {})
       # do sanitizion of input values

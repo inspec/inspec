@@ -1,25 +1,25 @@
 class AwsCloudwatchLogMetricFilter < Inspec.resource(1)
   name 'aws_cloudwatch_log_metric_filter'
   desc 'Verifies individual Cloudwatch Log Metric Filters'
-  example <<-EOX
-  # Look for a LMF by its filter name and log group name.  This combination
-  # will always either find at most one LMF - no duplicates.
-  describe aws_cloudwatch_log_metric_filter(
-    filter_name: 'my-filter',
-    log_group_name: 'my-log-group'
-  ) do
-    it { should exist }
-  end
+  example <<~EXAMPLE
+    # Look for a LMF by its filter name and log group name.  This combination
+    # will always either find at most one LMF - no duplicates.
+    describe aws_cloudwatch_log_metric_filter(
+      filter_name: 'my-filter',
+      log_group_name: 'my-log-group'
+    ) do
+      it { should exist }
+    end
 
-  # Search for an LMF by pattern and log group.
-  # This could result in an error if the results are not unique.
-  describe aws_cloudwatch_log_metric_filter(
-    log_group_name:  'my-log-group',
-    pattern: 'my-filter'
-  ) do
-    it { should exist }
-  end
-EOX
+    # Search for an LMF by pattern and log group.
+    # This could result in an error if the results are not unique.
+    describe aws_cloudwatch_log_metric_filter(
+      log_group_name:  'my-log-group',
+      pattern: 'my-filter'
+    ) do
+      it { should exist }
+    end
+  EXAMPLE
   supports platform: 'aws'
   include AwsSingularResourceMixin
   attr_reader :filter_name, :log_group_name, :metric_name, :metric_namespace, :pattern

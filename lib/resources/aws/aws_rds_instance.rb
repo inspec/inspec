@@ -2,11 +2,11 @@
 class AwsRdsInstance < Inspec.resource(1)
   name 'aws_rds_instance'
   desc 'Verifies settings for an rds instance'
-  example "
+  example <<~EXAMPLE
     describe aws_rds_instance(db_instance_identifier: 'test-instance-id') do
       it { should exist }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsSingularResourceMixin

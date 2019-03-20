@@ -32,12 +32,12 @@ module Inspec::Resources
     name 'yum'
     supports platform: 'unix'
     desc 'Use the yum InSpec audit resource to test the configuration of Yum repositories.'
-    example "
+    example <<~EXAMPLE
       describe yum.repo('name') do
         it { should exist }
         it { should be_enabled }
       end
-    "
+    EXAMPLE
 
     # returns all repositories
     # works as following:

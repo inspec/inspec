@@ -2,7 +2,7 @@ class AwsEbsVolume < Inspec.resource(1)
   name 'aws_ebs_volume'
   desc 'Verifies settings for an EBS volume'
 
-  example <<-EOX
+  example <<~EXAMPLE
     describe aws_ebs_volume('vol-123456') do
       it { should be_encrypted }
       its('size') { should cmp 8 }
@@ -12,7 +12,7 @@ class AwsEbsVolume < Inspec.resource(1)
       its('encrypted') { should eq true }
       its('iops') { should cmp 100 }
     end
-EOX
+  EXAMPLE
   supports platform: 'aws'
 
   # TODO: rewrite to avoid direct injection, match other resources, use AwsSingularResourceMixin

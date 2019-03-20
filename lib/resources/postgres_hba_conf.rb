@@ -9,11 +9,11 @@ module Inspec::Resources
     supports platform: 'unix'
     desc 'Use the `postgres_hba_conf` InSpec audit resource to test the client
           authentication data defined in the pg_hba.conf file.'
-    example "
+    example <<~EXAMPLE
       describe postgres_hba_conf.where { type == 'local' } do
         its('auth_method') { should eq ['peer'] }
       end
-    "
+    EXAMPLE
 
     include FileReader
 

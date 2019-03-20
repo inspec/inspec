@@ -1,14 +1,14 @@
 class AwsCloudwatchAlarm < Inspec.resource(1)
   name 'aws_cloudwatch_alarm'
-  desc <<-EOD
-  # Look for a specific alarm
-  aws_cloudwatch_alarm(
-    metric_name: 'my-metric-name',
-    metric_namespace: 'my-metric-namespace',
-  ) do
-    it { should exist }
-  end
-  EOD
+  desc <<~EXAMPLE
+    # Look for a specific alarm
+    aws_cloudwatch_alarm(
+      metric_name: 'my-metric-name',
+      metric_namespace: 'my-metric-namespace',
+    ) do
+      it { should exist }
+    end
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsSingularResourceMixin

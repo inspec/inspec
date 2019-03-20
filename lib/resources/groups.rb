@@ -28,7 +28,7 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the group InSpec audit resource to test groups on the system. Groups can be filtered.'
-    example "
+    example <<~EXAMPLE
       describe groups.where { name == 'root'} do
         its('names') { should eq ['root'] }
         its('gids') { should eq [0] }
@@ -38,7 +38,7 @@ module Inspec::Resources
         its('names') { should eq ['Administrators'] }
         its('gids') { should eq ['S-1-5-32-544'] }
       end
-    "
+    EXAMPLE
 
     def initialize
       # select group manager
@@ -80,7 +80,7 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the group InSpec audit resource to test groups on the system.'
-    example "
+    example <<~EXAMPLE
       describe group('root') do
         it { should exist }
         its('gid') { should eq 0 }
@@ -89,7 +89,7 @@ module Inspec::Resources
       describe group('Administrators') do
         its('members') { should include 'Administrator' }
       end
-    "
+    EXAMPLE
 
     def initialize(groupname)
       @group = groupname

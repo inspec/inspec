@@ -56,13 +56,13 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the users InSpec audit resource to test local user profiles. Users can be filtered by groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
-    example "
+    example <<~EXAMPLE
       describe users.where { uid == 0 }.entries do
         it { should eq ['root'] }
         its('uids') { should eq [1234] }
         its('gids') { should eq [1234] }
       end
-    "
+    EXAMPLE
     def initialize
       # select user provider
       @user_provider = select_user_manager(inspec.os)
@@ -141,13 +141,13 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the user InSpec audit resource to test user profiles, including the groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
-    example "
+    example <<~EXAMPLE
       describe user('root') do
         it { should exist }
         its('uid') { should eq 1234 }
         its('gid') { should eq 1234 }
       end
-    "
+    EXAMPLE
     def initialize(username = nil)
       @username = username
       # select user provider

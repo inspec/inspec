@@ -5,14 +5,14 @@
 class AwsIamUser < Inspec.resource(1)
   name 'aws_iam_user'
   desc 'Verifies settings for AWS IAM user'
-  example "
+  example <<~EXAMPLE
     describe aws_iam_user(username: 'test_user') do
       it { should have_mfa_enabled }
       it { should_not have_console_password }
       it { should_not have_inline_user_policies }
       it { should_not have_attached_user_policies }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsSingularResourceMixin

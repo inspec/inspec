@@ -4,17 +4,18 @@ class AwsBillingReports < Inspec.resource(1)
   name 'aws_billing_reports'
   supports platform: 'aws'
   desc 'Verifies settings for AWS Cost and Billing Reports.'
-  example "
-      describe aws_billing_reports do
-        its('report_names') { should include 'inspec1' }
-        its('s3_buckets') { should include 'inspec1-s3-bucket' }
-      end
+  example <<~EXAMPLE
+    describe aws_billing_reports do
+      its('report_names') { should include 'inspec1' }
+      its('s3_buckets') { should include 'inspec1-s3-bucket' }
+    end
 
-     describe aws_billing_reports.where { report_name =~ /inspec.*/ } do
-       its ('report_names') { should include ['inspec1'] }
-       its ('time_units') { should include ['DAILY'] }
-       its ('s3_buckets') { should include ['inspec1-s3-bucket'] }
-     end"
+    describe aws_billing_reports.where { report_name =~ /inspec.*/ } do
+      its ('report_names') { should include ['inspec1'] }
+      its ('time_units') { should include ['DAILY'] }
+      its ('s3_buckets') { should include ['inspec1-s3-bucket'] }
+    end
+  EXAMPLE
 
   include AwsPluralResourceMixin
 

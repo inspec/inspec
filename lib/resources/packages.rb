@@ -8,7 +8,7 @@ module Inspec::Resources
     name 'packages'
     supports platform: 'unix'
     desc 'Use the packages InSpec audit resource to test properties for multiple packages installed on the system'
-    example "
+    example <<~EXAMPLE
       describe packages(/xserver-xorg.*/) do
         its('entries') { should be_empty }
       end
@@ -18,7 +18,7 @@ module Inspec::Resources
       describe packages(/vi.+/).where { status != 'installed' } do
         its('statuses') { should be_empty }
       end
-    "
+    EXAMPLE
 
     def initialize(pattern)
       os = inspec.os
