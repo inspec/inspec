@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.7.8 -->
-## [v3.7.8](https://github.com/inspec/inspec/tree/v3.7.8) (2019-03-18)
+<!-- latest_release unreleased -->
+## Unreleased
 
-#### Enhancements
-- Allow http resource to follow redirects [#3509](https://github.com/inspec/inspec/pull/3509) ([cattywampus](https://github.com/cattywampus))
+#### Bug Fixes
+- Repair anchor links to use dashes instead of underscores [#3890](https://github.com/inspec/inspec/pull/3890) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.7.1 -->
@@ -15,6 +15,7 @@
 - Move all gem installation to Gemfile/bundle install [#3860](https://github.com/inspec/inspec/pull/3860) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 3.7.7 -->
 
 #### Bug Fixes
+- Repair anchor links to use dashes instead of underscores [#3890](https://github.com/inspec/inspec/pull/3890) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.7.8 -->
 - iis_app_pool: Fix PowerShell JSON parsing error [#3842](https://github.com/inspec/inspec/pull/3842) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.7.6 -->
 - http resource: Add fallback to `#to_s` [#3843](https://github.com/inspec/inspec/pull/3843) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.7.5 -->
 
