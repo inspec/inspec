@@ -1,7 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 3.7.9 -->
+## [v3.7.9](https://github.com/inspec/inspec/tree/v3.7.9) (2019-03-20)
+
+#### Merged Pull Requests
+- Fixes resource example indentation [#3898](https://github.com/inspec/inspec/pull/3898) ([burtlo](https://github.com/burtlo))
 
 #### Enhancements
 - Decoupling test profiles from example profiles [#3889](https://github.com/inspec/inspec/pull/3889) ([devoptimist](https://github.com/devoptimist))
@@ -24,6 +27,7 @@
 - http resource: Add fallback to `#to_s` [#3843](https://github.com/inspec/inspec/pull/3843) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.7.5 -->
 
 #### Merged Pull Requests
+- Fixes resource example indentation [#3898](https://github.com/inspec/inspec/pull/3898) ([burtlo](https://github.com/burtlo)) <!-- 3.7.9 -->
 - Adds a v4 release to the expeditor config [#3816](https://github.com/inspec/inspec/pull/3816) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.7.4 -->
 - Rewrite inspec-habitat plugin [#3818](https://github.com/inspec/inspec/pull/3818) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.7.3 -->
 - Add InSpec init profile for Azure. [#3861](https://github.com/inspec/inspec/pull/3861) ([skpaterson](https://github.com/skpaterson)) <!-- 3.7.2 -->
