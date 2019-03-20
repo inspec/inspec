@@ -3,6 +3,9 @@
 <!-- latest_release unreleased -->
 ## Unreleased
 
+#### Enhancements
+- Decoupling test profiles from example profiles [#3889](https://github.com/inspec/inspec/pull/3889) ([devoptimist](https://github.com/devoptimist))
+
 #### Bug Fixes
 - Repair anchor links to use dashes instead of underscores [#3890](https://github.com/inspec/inspec/pull/3890) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
@@ -11,6 +14,7 @@
 ### Changes since 3.7.1 release
 
 #### Enhancements
+- Decoupling test profiles from example profiles [#3889](https://github.com/inspec/inspec/pull/3889) ([devoptimist](https://github.com/devoptimist)) <!-- 3.7.8 -->
 - Allow http resource to follow redirects [#3509](https://github.com/inspec/inspec/pull/3509) ([cattywampus](https://github.com/cattywampus)) <!-- 3.7.8 -->
 - Move all gem installation to Gemfile/bundle install [#3860](https://github.com/inspec/inspec/pull/3860) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 3.7.7 -->
 
