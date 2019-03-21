@@ -51,12 +51,8 @@ module Inspec::Resources
 
     def read_crontab
       if is_system_crontab?
-        # raise Inspec::Exceptions::ResourceFailed, "Supplied crontab path '#{@path}' must exist!" if !File.file?(@path)
         raise Inspec::Exceptions::ResourceFailed, "Supplied crontab path '#{@path}' must exist!" if !inspec.file(@path).exist?
         ct = inspec.file(@path).content
-        #ct = IO.read(@path)
-        # require 'pry'
-        # binding.pry
       else
         ct = inspec.command(crontab_cmd).stdout
       end
