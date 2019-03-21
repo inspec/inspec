@@ -27,6 +27,14 @@ A `crontab` resource block declares a user (which defaults to the current user, 
       its('commands') { should include '/some/scheduled/task.sh' }
     end
 
+The path to the system crontab can also be supplied via:
+
+    describe crontab(path: '/etc/cron.d/some_crontab') do
+      its('commands') { should include '/path/to/some/script' }
+    end
+
+Note that only the path or the user (and not both) should be supplied as arguments to the resource.
+
 <br>
 
 ## Examples
