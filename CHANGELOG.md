@@ -1,22 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.7.9 -->
-## [v3.7.9](https://github.com/inspec/inspec/tree/v3.7.9) (2019-03-20)
-
-#### Merged Pull Requests
-- Fixes resource example indentation [#3898](https://github.com/inspec/inspec/pull/3898) ([burtlo](https://github.com/burtlo))
+<!-- latest_release 3.7.10 -->
+## [v3.7.10](https://github.com/inspec/inspec/tree/v3.7.10) (2019-03-21)
 
 #### Enhancements
-- Decoupling test profiles from example profiles [#3889](https://github.com/inspec/inspec/pull/3889) ([devoptimist](https://github.com/devoptimist))
-
-#### Bug Fixes
-- Repair anchor links to use dashes instead of underscores [#3890](https://github.com/inspec/inspec/pull/3890) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add caching to Inspec::Config [#3873](https://github.com/inspec/inspec/pull/3873) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.7.1 -->
 ### Changes since 3.7.1 release
 
 #### Enhancements
+- Add caching to Inspec::Config [#3873](https://github.com/inspec/inspec/pull/3873) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.7.10 -->
 - Decoupling test profiles from example profiles [#3889](https://github.com/inspec/inspec/pull/3889) ([devoptimist](https://github.com/devoptimist)) <!-- 3.7.8 -->
 - Allow http resource to follow redirects [#3509](https://github.com/inspec/inspec/pull/3509) ([cattywampus](https://github.com/cattywampus)) <!-- 3.7.8 -->
 - Move all gem installation to Gemfile/bundle install [#3860](https://github.com/inspec/inspec/pull/3860) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 3.7.7 -->
