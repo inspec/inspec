@@ -9,7 +9,7 @@ gem 'aws-sdk', '~> 2'
 group :omnibus do
   gem 'rb-readline'
   gem 'appbundler'
-  gem 'unf_ext', git: 'https://github.com/jquick/ruby-unf_ext.git', ref: 'c0b3bd922214a172976f6f368c0b4e4fbf91ed78'
+  gem 'unf_ext', git: 'https://github.com/chef/ruby-unf_ext.git', ref: '55d872fb15f3a26e4ee8f8dbe7ba859c80d40383'
 end
 
 group :test do
