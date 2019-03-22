@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.7.10 -->
-## [v3.7.10](https://github.com/inspec/inspec/tree/v3.7.10) (2019-03-21)
+<!-- latest_release 3.7.11 -->
+## [v3.7.11](https://github.com/inspec/inspec/tree/v3.7.11) (2019-03-22)
 
-#### Enhancements
-- Add caching to Inspec::Config [#3873](https://github.com/inspec/inspec/pull/3873) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- Re-add a bespoke unf_ext to our omnibus build [#3902](https://github.com/inspec/inspec/pull/3902) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.7.1 -->
@@ -17,6 +17,7 @@
 - Move all gem installation to Gemfile/bundle install [#3860](https://github.com/inspec/inspec/pull/3860) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 3.7.7 -->
 
 #### Bug Fixes
+- Re-add a bespoke unf_ext to our omnibus build [#3902](https://github.com/inspec/inspec/pull/3902) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.7.11 -->
 - Repair anchor links to use dashes instead of underscores [#3890](https://github.com/inspec/inspec/pull/3890) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.7.8 -->
 - iis_app_pool: Fix PowerShell JSON parsing error [#3842](https://github.com/inspec/inspec/pull/3842) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.7.6 -->
 - http resource: Add fallback to `#to_s` [#3843](https://github.com/inspec/inspec/pull/3843) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.7.5 -->
