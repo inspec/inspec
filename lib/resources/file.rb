@@ -135,7 +135,7 @@ module Inspec::Resources
 
     def more_permissive_than?(max_mode = nil)
       raise Inspec::Exceptions::ResourceFailed, 'The file' + file.path + 'doesn\'t seem to exist' unless exist?
-      raise ArgumentError, 'You must provide a value for the `maximum permission target` for the file.' if max_mode.nil?
+      raise ArgumentError, 'You must proivde a value for the `maximum allowable permission` for the file.' if max_mode.nil?
       raise ArgumentError, 'You must proivde the `maximum permission target` as a `String`, you provided: ' + max_mode.class.to_s unless max_mode.is_a?(String)
       raise ArgumentError, 'The value of the `maximum permission target` should be a valid file mode in 4-ditgit octal format: for example, `0644` or `0777`' unless /(0)?([0-7])([0-7])([0-7])/.match?(max_mode)
 
@@ -152,7 +152,7 @@ module Inspec::Resources
       # mode. This will determine if any of the bits that would indicate a more
       # permissive mode are set in the actual mode.
       #
-      # 3. If the result is 0000. If the result is 0000, the files mode is equal
+      # 3. If the result is 0000, the files mode is equal
       # to or less permissive than the desired mode (PASS). Otherwise, the files
       # mode is more permissive than the desired mode (FAIL).
 
