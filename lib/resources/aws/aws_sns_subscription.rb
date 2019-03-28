@@ -1,7 +1,7 @@
 class AwsSnsSubscription < Inspec.resource(1)
   name 'aws_sns_subscription'
   desc 'Verifies settings for an SNS Subscription'
-  example "
+  example <<~EXAMPLE
     describe aws_sns_subscription('arn:aws:sns:us-east-1::test-topic-01:b214aff5-a2c7-438f-a753-8494493f2ff6') do
       it { should_not have_raw_message_delivery }
       it { should be_confirmation_authenticated }
@@ -10,7 +10,7 @@ class AwsSnsSubscription < Inspec.resource(1)
       its('endpoint') { should cmp 'arn:aws:sqs:us-east-1::test-queue-01' }
       its('protocol') { should cmp 'sqs' }
     end
-  "
+  EXAMPLE
 
   supports platform: 'aws'
 

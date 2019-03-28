@@ -9,11 +9,11 @@ module Inspec::Resources
     supports platform: 'unix'
     desc 'Use the postgres_ident_conf InSpec audit resource to test the client
           authentication data is controlled by a pg_ident.conf file.'
-    example "
+    example <<~EXAMPLE
       describe postgres_ident_conf.where { pg_username == 'acme_user' } do
         its('map_name') { should eq ['ssl-test'] }
       end
-    "
+    EXAMPLE
 
     include FileReader
 

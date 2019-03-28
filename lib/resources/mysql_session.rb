@@ -9,12 +9,12 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the mysql_session InSpec audit resource to test SQL commands run against a MySQL database.'
-    example "
+    example <<~EXAMPLE
       sql = mysql_session('my_user','password','host')
       describe sql.query('show databases like \'test\';') do
         its('stdout') { should_not match(/test/) }
       end
-    "
+    EXAMPLE
 
     def initialize(user = nil, pass = nil, host = 'localhost', port = nil, socket = nil)
       @user = user

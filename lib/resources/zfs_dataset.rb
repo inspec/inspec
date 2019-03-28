@@ -8,12 +8,12 @@ module Inspec::Resources
       Use the zfs_dataset InSpec audit resource to test if the named
       ZFS Dataset is present and/or has certain properties.
     "
-    example "
+    example <<~EXAMPLE
       describe zfs_dataset('tank/tmp') do
         its('exec') { should eq('off') }
         its('setuid') { should eq('off') }
       end
-    "
+    EXAMPLE
 
     def initialize(zfs_dataset)
       return skip_resource 'The `zfs_dataset` resource is not supported on your OS yet.' if !inspec.os.bsd?

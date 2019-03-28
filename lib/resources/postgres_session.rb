@@ -26,7 +26,7 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the postgres_session InSpec audit resource to test SQL commands run against a PostgreSQL database.'
-    example "
+    example <<~EXAMPLE
       sql = postgres_session('username', 'password', 'host')
       query('sql_query', ['database_name'])` contains the query and (optional) database to execute
 
@@ -38,7 +38,7 @@ module Inspec::Resources
       describe sql.query('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
         its('output') { should eq '' }
       end
-    "
+    EXAMPLE
 
     def initialize(user, pass, host = nil)
       @user = user || 'postgres'

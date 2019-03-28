@@ -11,11 +11,11 @@ module Inspec::Resources
     name 'cpan'
     supports platform: 'unix'
     desc 'Use the `cpan` InSpec audit resource to test Perl modules that are installed by system packages or the CPAN installer.'
-    example "
+    example <<~EXAMPLE
       describe cpan('DBD::Pg') do
         it { should be_installed }
       end
-    "
+    EXAMPLE
 
     def initialize(package_name, perl_lib_path = nil)
       @package_name = package_name

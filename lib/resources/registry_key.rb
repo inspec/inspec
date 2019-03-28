@@ -50,11 +50,11 @@ module Inspec::Resources
     name 'registry_key'
     supports platform: 'windows'
     desc 'Use the registry_key InSpec audit resource to test key values in the Microsoft Windows registry.'
-    example "
+    example <<~EXAMPLE
       describe registry_key('path\to\key') do
         its('name') { should eq 'value' }
       end
-    "
+    EXAMPLE
 
     def initialize(name, reg_key = nil)
       # if we have one parameter, we use it as name

@@ -11,7 +11,7 @@ class DhParams < Inspec.resource(1)
     parameters.
   '
 
-  example "
+  example <<~EXAMPLE
     describe dh_params('/path/to/file.dh_pem') do
       it { should be_dh_params }
       it { should be_valid }
@@ -21,7 +21,7 @@ class DhParams < Inspec.resource(1)
       its('pem') { should eq '-----BEGIN DH PARAMETERS...' }
       its('text') { should eq 'PKCS#3 DH Parameters: (2048 bit)...' }
     end
-  "
+  EXAMPLE
 
   include FileReader
 

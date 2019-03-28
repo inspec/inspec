@@ -11,7 +11,7 @@ module Inspec::Resources
     desc "Use the Elasticsearch InSpec audit resource to test the status of nodes in
       an Elasticsearch cluster."
 
-    example "
+    example <<~EXAMPLE
       describe elasticsearch('http://eshost.mycompany.biz:9200/', username: 'elastic', password: 'changeme', ssl_verify: false) do
         its('node_count') { should >= 3 }
       end
@@ -21,7 +21,7 @@ module Inspec::Resources
         its('os') { should_not include 'MacOS' }
         its('version') { should cmp > 1.2.0 }
       end
-    "
+    EXAMPLE
 
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }

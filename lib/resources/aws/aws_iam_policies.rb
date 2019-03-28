@@ -1,11 +1,11 @@
 class AwsIamPolicies < Inspec.resource(1)
   name 'aws_iam_policies'
   desc 'Verifies settings for AWS IAM Policies in bulk'
-  example '
+  example <<~EXAMPLE
     describe aws_iam_policies do
       it { should exist }
     end
-  '
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsPluralResourceMixin

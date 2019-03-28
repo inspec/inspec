@@ -80,19 +80,6 @@ module Inspec
       "\e[1m\e[39m#{x}\e[0m"
     end
 
-    def print_example(example)
-      # determine min whitespace that can be removed
-      min = nil
-      example.lines.each do |line|
-        if !line.strip.empty? # ignore empty lines
-          line_whitespace = line.length - line.lstrip.length
-          min = line_whitespace if min.nil? || line_whitespace < min
-        end
-      end
-      # remove whitespace from each line
-      example.gsub(/\n\s{#{min}}/, "\n")
-    end
-
     def intro
       puts 'Welcome to the interactive InSpec Shell'
       puts "To find out how to use it, type: #{mark 'help'}"
@@ -142,8 +129,8 @@ module Inspec
         end
 
         unless topic_info.example.nil?
-          info += "#{mark 'Example:'}\n"
-          info += "#{print_example(topic_info.example)}\n\n"
+          info += "#{mark 'Example:'}\n\n"
+          info += "#{topic_info.example}\n\n"
         end
 
         info += "#{mark 'Web Reference:'}\n\n"

@@ -6,12 +6,12 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the gem InSpec audit resource to test if a global gem package is installed.'
-    example "
+    example <<~EXAMPLE
       describe gem('rubocop') do
         it { should be_installed }
         its('version') { should eq '0.33.0' }
       end
-    "
+    EXAMPLE
 
     attr_reader :gem_binary
 

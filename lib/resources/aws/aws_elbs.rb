@@ -1,11 +1,11 @@
 class AwsElbs < Inspec.resource(1)
   name 'aws_elbs'
   desc 'Verifies settings for AWS ELBs (classic Elastic Load Balancers) in bulk'
-  example '
+  example <<~EXAMPLE
     describe aws_elbs do
       it { should exist }
     end
-  '
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsPluralResourceMixin

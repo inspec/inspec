@@ -2,11 +2,11 @@ class AwsEksCluster < Inspec.resource(1)
   name 'aws_eks_cluster'
   desc 'Verifies settings for an EKS cluster'
 
-  example <<-EOX
+  example <<~EXAMPLE
     describe aws_eks_cluster('default') do
       it { should exist }
     end
-EOX
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsSingularResourceMixin

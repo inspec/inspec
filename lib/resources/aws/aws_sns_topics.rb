@@ -1,11 +1,11 @@
 class AwsSnsTopics < Inspec.resource(1)
   name 'aws_sns_topics'
   desc 'Verifies settings for SNS Topics in bulk'
-  example "
+  example <<~EXAMPLE
     describe aws_sns_topics do
       its('topic_arns') { should include '' }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsPluralResourceMixin

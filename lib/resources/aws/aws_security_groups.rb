@@ -1,7 +1,7 @@
 class AwsSecurityGroups < Inspec.resource(1)
   name 'aws_security_groups'
   desc 'Verifies settings for AWS Security Groups in bulk'
-  example <<-EOX
+  example <<~EXAMPLE
     # Verify that you have security groups defined
     describe aws_security_groups do
       it { should exist }
@@ -11,7 +11,7 @@ class AwsSecurityGroups < Inspec.resource(1)
     describe aws_security_groups do
       its('entries.count') { should be > 1 }
     end
-EOX
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsPluralResourceMixin

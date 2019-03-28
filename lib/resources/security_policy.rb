@@ -69,7 +69,7 @@ module Inspec::Resources
     name 'security_policy'
     supports platform: 'windows'
     desc 'Use the security_policy InSpec audit resource to test security policies on the Microsoft Windows platform.'
-    example "
+    example <<~EXAMPLE
       describe security_policy do
         its('SeNetworkLogonRight') { should include 'S-1-5-11' }
       end
@@ -77,7 +77,7 @@ module Inspec::Resources
       describe security_policy(translate_sid: true) do
         its('SeNetworkLogonRight') { should include 'NT AUTHORITY\\Authenticated Users' }
       end
-    "
+    EXAMPLE
 
     def initialize(opts = {})
       @translate_sid = opts[:translate_sid] || false

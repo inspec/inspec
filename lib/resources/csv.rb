@@ -7,11 +7,11 @@ module Inspec::Resources
   class CsvConfig < JsonConfig
     name 'csv'
     desc 'Use the csv InSpec audit resource to test configuration data in a CSV file.'
-    example "
+    example <<~EXAMPLE
       describe csv('example.csv') do
         its('name') { should eq(['John', 'Alice']) }
       end
-    "
+    EXAMPLE
 
     # override the parse method from JsonConfig
     # Assuming a header row of name,col1,col2, it will output an array of hashes like so:

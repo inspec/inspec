@@ -6,12 +6,12 @@ module Inspec::Resources
     name 'security_identifier'
     supports platform: 'windows'
     desc 'Resource that returns a Security Identifier for a given entity name in Windows.'
-    example <<-EOD
+    example <<~EXAMPLE
       describe security_identifier(group: 'Everyone') do
         it { should exist }
         its('sid') { should eq 'S-1-1-0' }
       end
-    EOD
+    EXAMPLE
 
     def initialize(opts = {})
       supported_opt_keys = [:user, :group, :unspecified]

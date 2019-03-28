@@ -7,11 +7,11 @@ module Inspec::Resources
     supports platform: 'windows'
 
     desc 'Use the user InSpec system resource to test for operating system properties.'
-    example "
+    example <<~EXAMPLE
       describe sys_info do
         its('hostname') { should eq 'example.com' }
       end
-    "
+    EXAMPLE
 
     # returns the hostname of the local system
     def hostname

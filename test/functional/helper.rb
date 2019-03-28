@@ -55,7 +55,7 @@ module FunctionalHelper
   let(:exec_inspec) { File.join(repo_path, 'bin', 'inspec') }
   let(:mock_path) { File.join(repo_path, 'test', 'unit', 'mock') }
   let(:profile_path) { File.join(mock_path, 'profiles') }
-  let(:examples_path) { File.join(repo_path, 'examples') }
+  let(:examples_path) { File.join(profile_path, 'old-examples') }
   let(:integration_test_path) { File.join(repo_path, 'test', 'integration', 'default') }
 
   let(:example_profile) { File.join(examples_path, 'profile') }

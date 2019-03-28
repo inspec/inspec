@@ -22,7 +22,7 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the file InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.'
-    example "
+    example <<~EXAMPLE
       describe file('path') do
         it { should exist }
         it { should be_file }
@@ -32,7 +32,7 @@ module Inspec::Resources
         it { should be_owned_by 'root' }
         its('mode') { should cmp '0644' }
       end
-    "
+    EXAMPLE
 
     attr_reader :file, :mount_options
     def initialize(path)

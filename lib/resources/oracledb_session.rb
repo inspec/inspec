@@ -15,12 +15,12 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the oracledb_session InSpec resource to test commands against an Oracle database'
-    example "
+    example <<~EXAMPLE
       sql = oracledb_session(user: 'my_user', pass: 'password')
       describe sql.query(\"SELECT UPPER(VALUE) AS VALUE FROM V$PARAMETER WHERE UPPER(NAME)='AUDIT_SYS_OPERATIONS'\").row(0).column('value') do
         its('value') { should eq 'TRUE' }
       end
-    "
+    EXAMPLE
 
     attr_reader :user, :password, :host, :service, :as_os_user, :as_db_role
     # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity

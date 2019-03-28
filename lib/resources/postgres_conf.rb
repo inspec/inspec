@@ -12,11 +12,11 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the postgres_conf InSpec audit resource to test the contents of the configuration file for PostgreSQL, typically located at /etc/postgresql/<version>/main/postgresql.conf or /var/lib/postgres/data/postgresql.conf, depending on the platform.'
-    example "
+    example <<~EXAMPLE
       describe postgres_conf do
         its('max_connections') { should eq '5' }
       end
-    "
+    EXAMPLE
 
     include FindFiles
     include FileReader

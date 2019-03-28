@@ -16,7 +16,7 @@ class SSL < Inspec.resource(1)
     SSL test resource
   "
 
-  example "
+  example <<~EXAMPLE
     describe ssl(port: 443) do
       it { should be_enabled }
     end
@@ -30,7 +30,7 @@ class SSL < Inspec.resource(1)
     describe ssl(port: 443).ciphers(/rc4/i) do
       it { should_not be_enabled }
     end
-  "
+  EXAMPLE
 
   VERSIONS = [
     'ssl2',

@@ -1,11 +1,11 @@
 class AwsCloudTrailTrails < Inspec.resource(1)
   name 'aws_cloudtrail_trails'
   desc 'Verifies settings for AWS CloudTrail Trails in bulk'
-  example '
+  example <<~EXAMPLE
     describe aws_cloudtrail_trails do
       it { should exist }
     end
-  '
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsPluralResourceMixin

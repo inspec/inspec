@@ -7,7 +7,7 @@ module Inspec::Resources
     supports platform: 'windows'
     supports platform: 'unix'
     desc 'Use the powershell InSpec audit resource to test a Windows PowerShell script on the Microsoft Windows platform.'
-    example "
+    example <<~EXAMPLE
       script = <<-EOH
         # your powershell script
       EOH
@@ -15,7 +15,7 @@ module Inspec::Resources
       describe powershell(script) do
         its('matcher') { should eq 'output' }
       end
-    "
+    EXAMPLE
 
     def initialize(script)
       # PowerShell is the default shell on Windows, use the `command` resource

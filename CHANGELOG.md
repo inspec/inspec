@@ -1,30 +1,33 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.7.8 -->
-## [v3.7.8](https://github.com/inspec/inspec/tree/v3.7.8) (2019-03-18)
-
-#### Enhancements
-- Allow http resource to follow redirects [#3509](https://github.com/inspec/inspec/pull/3509) ([cattywampus](https://github.com/cattywampus))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.7.1 -->
-### Changes since 3.7.1 release
-
-#### Enhancements
-- Allow http resource to follow redirects [#3509](https://github.com/inspec/inspec/pull/3509) ([cattywampus](https://github.com/cattywampus)) <!-- 3.7.8 -->
-- Move all gem installation to Gemfile/bundle install [#3860](https://github.com/inspec/inspec/pull/3860) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 3.7.7 -->
-
-#### Bug Fixes
-- iis_app_pool: Fix PowerShell JSON parsing error [#3842](https://github.com/inspec/inspec/pull/3842) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.7.6 -->
-- http resource: Add fallback to `#to_s` [#3843](https://github.com/inspec/inspec/pull/3843) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.7.5 -->
-
-#### Merged Pull Requests
-- Adds a v4 release to the expeditor config [#3816](https://github.com/inspec/inspec/pull/3816) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.7.4 -->
-- Rewrite inspec-habitat plugin [#3818](https://github.com/inspec/inspec/pull/3818) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.7.3 -->
-- Add InSpec init profile for Azure. [#3861](https://github.com/inspec/inspec/pull/3861) ([skpaterson](https://github.com/skpaterson)) <!-- 3.7.2 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.7.11](https://github.com/inspec/inspec/tree/v3.7.11) (2019-03-22)
+
+#### Enhancements
+- Move all gem installation to Gemfile/bundle install [#3860](https://github.com/inspec/inspec/pull/3860) ([lamont-granquist](https://github.com/lamont-granquist))
+- Allow http resource to follow redirects [#3509](https://github.com/inspec/inspec/pull/3509) ([cattywampus](https://github.com/cattywampus))
+- Decoupling test profiles from example profiles [#3889](https://github.com/inspec/inspec/pull/3889) ([devoptimist](https://github.com/devoptimist))
+- Add caching to Inspec::Config [#3873](https://github.com/inspec/inspec/pull/3873) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- http resource: Add fallback to `#to_s` [#3843](https://github.com/inspec/inspec/pull/3843) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- iis_app_pool: Fix PowerShell JSON parsing error [#3842](https://github.com/inspec/inspec/pull/3842) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Repair anchor links to use dashes instead of underscores [#3890](https://github.com/inspec/inspec/pull/3890) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Re-add a bespoke unf_ext to our omnibus build [#3902](https://github.com/inspec/inspec/pull/3902) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Add InSpec init profile for Azure. [#3861](https://github.com/inspec/inspec/pull/3861) ([skpaterson](https://github.com/skpaterson))
+- Rewrite inspec-habitat plugin [#3818](https://github.com/inspec/inspec/pull/3818) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Adds a v4 release to the expeditor config [#3816](https://github.com/inspec/inspec/pull/3816) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fixes resource example indentation [#3898](https://github.com/inspec/inspec/pull/3898) ([burtlo](https://github.com/burtlo))
+<!-- latest_stable_release -->
+
 ## [v3.7.1](https://github.com/inspec/inspec/tree/v3.7.1) (2019-03-02)
 
 #### New Features
@@ -47,7 +50,6 @@
 - Attribute-&gt;Input Rename:  Rename Classes and Methods [#3811](https://github.com/inspec/inspec/pull/3811) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - add json example from http request [#3827](https://github.com/inspec/inspec/pull/3827) ([jtimberman](https://github.com/jtimberman))
 - Update the integration tests to use dokken-images and newer Chef technologies [#3814](https://github.com/inspec/inspec/pull/3814) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v3.6.6](https://github.com/inspec/inspec/tree/v3.6.6) (2019-02-12)
 

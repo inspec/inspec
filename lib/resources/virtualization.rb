@@ -7,7 +7,7 @@ module Inspec::Resources
     name 'virtualization'
     supports platform: 'linux'
     desc 'Use the virtualization InSpec audit resource to test the virtualization platform on which the system is running'
-    example "
+    example <<~EXAMPLE
       describe virtualization do
         its('system') { should eq 'docker' }
       end
@@ -22,7 +22,7 @@ module Inspec::Resources
         end
         only_if { virtualization.system == 'docker' }
       end
-    "
+    EXAMPLE
 
     def initialize
       @virtualization_data = Hashie::Mash.new

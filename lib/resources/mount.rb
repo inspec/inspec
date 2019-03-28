@@ -7,7 +7,7 @@ module Inspec::Resources
     name 'mount'
     supports platform: 'unix'
     desc 'Use the mount InSpec audit resource to test if mount points.'
-    example "
+    example <<~EXAMPLE
       describe mount('/') do
         it { should be_mounted }
         its('count') { should eq 1 }
@@ -16,7 +16,7 @@ module Inspec::Resources
         its('options') { should eq ['rw', 'mode=620'] }
         its('options') { should include 'nodev' }
       end
-    "
+    EXAMPLE
     attr_reader :file
 
     def initialize(path)

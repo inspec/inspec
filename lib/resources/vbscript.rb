@@ -23,7 +23,7 @@ module Inspec::Resources
     name 'vbscript'
     supports platform: 'windows'
     desc ''
-    example "
+    example <<~EXAMPLE
       script = <<-EOH
         # you vbscript
       EOH
@@ -31,7 +31,7 @@ module Inspec::Resources
       describe vbscript(script) do
         its('stdout') { should eq 'output' }
       end
-    "
+    EXAMPLE
 
     def initialize(vbscript)
       @seperator = SecureRandom.uuid

@@ -6,7 +6,7 @@ module Inspec::Resources
     name 'apache'
     supports platform: 'unix'
     desc 'Use the apache InSpec audit resource to retrieve Apache environment settings.'
-    example "
+    example <<~EXAMPLE
       describe apache do
         its ('service') { should cmp 'apache2' }
       end
@@ -22,7 +22,7 @@ module Inspec::Resources
       describe apache do
         its ('user') { should cmp 'www-data' }
       end
-    "
+    EXAMPLE
 
     attr_reader :service, :conf_dir, :conf_path, :user
     def initialize

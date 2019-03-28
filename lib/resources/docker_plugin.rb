@@ -5,7 +5,7 @@ module Inspec::Resources
     name 'docker_plugin'
     supports platform: 'unix'
     desc 'Retrieves info about docker plugins'
-    example "
+    example <<~EXAMPLE
       describe docker_plugin('rexray/ebs') do
         it { should exist }
         its('id') { should_not eq '0ac30b93ad40' }
@@ -20,7 +20,7 @@ module Inspec::Resources
       describe docker_plugin(id: '4a415e366388') do
         it { should exist }
       end
-    "
+    EXAMPLE
 
     def initialize(opts = {})
       # do sanitizion of input values

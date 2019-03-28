@@ -19,7 +19,7 @@ module Inspec::Resources
     name 'passwd'
     supports platform: 'unix'
     desc 'Use the passwd InSpec audit resource to test the contents of /etc/passwd, which contains the following information for users that may log into the system and/or as users that own running processes.'
-    example "
+    example <<~EXAMPLE
       describe passwd do
         its('users') { should_not include 'forbidden_user' }
       end
@@ -32,7 +32,7 @@ module Inspec::Resources
         # find all users with a nologin shell
         its('users') { should_not include 'my_login_user' }
       end
-    "
+    EXAMPLE
 
     include PasswdParser
     include FileReader

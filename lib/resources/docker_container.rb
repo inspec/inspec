@@ -11,7 +11,7 @@ module Inspec::Resources
     name 'docker_container'
     supports platform: 'unix'
     desc ''
-    example "
+    example <<~EXAMPLE
       describe docker_container('an-echo-server') do
         it { should exist }
         it { should be_running }
@@ -28,7 +28,7 @@ module Inspec::Resources
         it { should exist }
         it { should be_running }
       end
-    "
+    EXAMPLE
 
     def initialize(opts = {})
       # if a string is provided, we expect it is the name

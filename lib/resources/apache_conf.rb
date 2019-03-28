@@ -11,11 +11,11 @@ module Inspec::Resources
     supports platform: 'linux'
     supports platform: 'debian'
     desc 'Use the apache_conf InSpec audit resource to test the configuration settings for Apache. This file is typically located under /etc/apache2 on the Debian and Ubuntu platforms and under /etc/httpd on the Fedora, CentOS, Red Hat Enterprise Linux, and Arch Linux platforms. The configuration settings may vary significantly from platform to platform.'
-    example "
+    example <<~EXAMPLE
       describe apache_conf do
         its('setting_name') { should eq 'value' }
       end
-    "
+    EXAMPLE
 
     include FindFiles
     include FileReader

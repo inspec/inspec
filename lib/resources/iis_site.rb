@@ -18,7 +18,7 @@ module Inspec::Resources
     name 'iis_site'
     supports platform: 'windows'
     desc 'Tests IIS site configuration on windows. Supported in server 2012+ only'
-    example "
+    example <<~EXAMPLE
       describe iis_site('Default Web Site') do
         it { should exist }
         it { should be_running }
@@ -27,7 +27,7 @@ module Inspec::Resources
         it { should have_binding('net.pipe *') }
         it { should have_path('C:\\inetpub\\wwwroot') }
       end
-    "
+    EXAMPLE
 
     def initialize(site_name)
       @site_name = site_name
@@ -125,13 +125,13 @@ module Inspec::Resources
   class IisSiteServerSpec < IisSite
     name 'iis_website'
     desc 'Tests IIS site configuration on windows. Deprecated, use `iis_site` instead.'
-    example "
+    example <<~EXAMPLE
       describe iis_website('Default Website') do
         it{ should exist }
         it{ should be_running }
         it{ should be_in_app_pool('Default App Pool') }
       end
-    "
+    EXAMPLE
 
     def initialize(site_name)
       super(site_name)

@@ -10,13 +10,13 @@ class EtcHosts < Inspec.resource(1)
   supports platform: 'windows'
   desc 'Use the etc_hosts InSpec audit resource to find an
     ip_address and its associated hosts'
-  example "
+  example <<~EXAMPLE
     describe etc_hosts.where { ip_address == '127.0.0.1' } do
       its('ip_address') { should cmp '127.0.0.1' }
       its('primary_name') { should cmp 'localhost' }
       its('all_host_names') { should eq [['localhost', 'localhost.localdomain', 'localhost4', 'localhost4.localdomain4']] }
     end
-  "
+  EXAMPLE
 
   attr_reader :params
 

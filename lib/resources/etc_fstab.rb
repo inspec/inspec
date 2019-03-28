@@ -9,7 +9,7 @@ module Inspec::Resources
     name 'etc_fstab'
     supports platform: 'unix'
     desc 'Use the etc_fstab InSpec audit resource to check the configuration of the etc/fstab file.'
-    example "
+    example <<~EXAMPLE
       nfs_systems = etc_fstab.nfs_file_systems.entries
       nfs_systems.each do |file_system|
         describe file_system do
@@ -22,7 +22,7 @@ module Inspec::Resources
       describe etc_fstab do
         its ('home_mount_options') { should include 'nosuid' }
       end
-    "
+    EXAMPLE
 
     attr_reader :params
 

@@ -1,12 +1,12 @@
 class AwsSubnet < Inspec.resource(1)
   name 'aws_subnet'
   desc 'This resource is used to test the attributes of a VPC subnet'
-  example "
+  example <<~EXAMPLE
     describe aws_subnet(subnet_id: 'subnet-12345678') do
       it { should exist }
       its('cidr_block') { should eq '10.0.1.0/24' }
     end
-  "
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsSingularResourceMixin

@@ -1,11 +1,11 @@
 class AwsKmsKey < Inspec.resource(1)
   name 'aws_kms_key'
   desc 'Verifies settings for an individual AWS KMS Key'
-  example "
+  example <<~EXAMPLE
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
       it { should exist }
     end
-  "
+  EXAMPLE
 
   supports platform: 'aws'
 

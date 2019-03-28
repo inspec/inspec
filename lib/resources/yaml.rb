@@ -11,7 +11,7 @@ module Inspec::Resources
   class YamlConfig < JsonConfig
     name 'yaml'
     desc 'Use the yaml InSpec audit resource to test configuration data in a YAML file.'
-    example "
+    example <<~EXAMPLE
       describe yaml('config.yaml') do
         its(['driver', 'name']) { should eq 'vagrant' }
       end
@@ -23,7 +23,7 @@ module Inspec::Resources
       describe yaml({ content: \"key1: value1\nkey2: value2\" }) do
         its('key2') { should cmp 'value2' }
       end
-    "
+    EXAMPLE
 
     # override file load and parse hash from yaml
     def parse(content)

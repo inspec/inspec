@@ -8,7 +8,7 @@ module Inspec::Resources
     name 'bash'
     supports platform: 'unix'
     desc 'Run a command or script in BASH.'
-    example "
+    example <<~EXAMPLE
       describe bash('ls -al /') do
         its('stdout') { should match /bin/ }
         its('stderr') { should eq '' }
@@ -20,7 +20,7 @@ module Inspec::Resources
 
       # Specify arguments (defaults to -c)
       bash('...', args: '-x -c')
-    "
+    EXAMPLE
 
     def initialize(command, options = {})
       @raw_command = command

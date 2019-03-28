@@ -26,11 +26,11 @@ module Inspec::Resources
     name 'audit_policy'
     supports platform: 'windows'
     desc 'Use the audit_policy InSpec audit resource to test auditing policies on the Microsoft Windows platform. An auditing policy is a category of security-related events to be audited. Auditing is disabled by default and may be enabled for categories like account management, logon events, policy changes, process tracking, privilege use, system events, or object access. For each enabled auditing category property, the auditing level may be set to No Auditing, Not Specified, Success, Success and Failure, or Failure.'
-    example "
+    example <<~EXAMPLE
       describe audit_policy do
         its('parameter') { should eq 'value' }
       end
-    "
+    EXAMPLE
 
     def method_missing(method)
       key = method.to_s

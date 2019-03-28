@@ -12,7 +12,7 @@ module Inspec::Resources
     supports platform: 'unix'
     supports platform: 'windows'
     desc 'Use the pip InSpec audit resource to test packages that are installed using the pip installer.'
-    example "
+    example <<~EXAMPLE
       describe pip('Jinja2') do
         it { should be_installed }
       end
@@ -21,7 +21,7 @@ module Inspec::Resources
         it { should be_installed }
         its('version') { should eq('1.11.4')}
       end
-    "
+    EXAMPLE
 
     def initialize(package_name, pip_path = nil)
       @package_name = package_name

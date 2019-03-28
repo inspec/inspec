@@ -8,11 +8,11 @@ module Inspec::Resources
     name 'bond'
     supports platform: 'unix'
     desc 'Use the bond InSpec audit resource to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On Linux platforms, any value in the /proc/net/bonding directory may be tested.'
-    example "
+    example <<~EXAMPLE
       describe bond('bond0') do
         it { should exist }
       end
-    "
+    EXAMPLE
 
     include FileReader
 

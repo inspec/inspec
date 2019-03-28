@@ -30,6 +30,17 @@ module Inspec
       Inspec::Config.new({ backend: :mock }.merge(opts), StringIO.new('{}'))
     end
 
+    # Use this to get a cached version of the config.  This prevents you from
+    # being required to pass it around everywhere.
+    def self.cached
+      @cached_config
+    end
+
+    def self.cached=(cfg)
+      @cached_config ||= cfg
+    end
+
+    # This gets called when the first config is created.
     def initialize(cli_opts = {}, cfg_io = nil, command_name = nil)
       @command_name = command_name || (ARGV.empty? ? nil : ARGV[0].to_sym)
       @defaults = Defaults.for_command(@command_name)
@@ -40,6 +51,7 @@ module Inspec
 
       @merged_options = merge_options
       @final_options = finalize_options
+      self.class.cached = self
     end
 
     def diagnose

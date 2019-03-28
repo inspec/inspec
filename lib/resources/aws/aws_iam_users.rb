@@ -5,7 +5,7 @@
 class AwsIamUsers < Inspec.resource(1)
   name 'aws_iam_users'
   desc 'Verifies settings for AWS IAM users'
-  example '
+  example <<~EXAMPLE
     describe aws_iam_users.where(has_mfa_enabled?: false) do
       it { should_not exist }
     end
@@ -18,7 +18,7 @@ class AwsIamUsers < Inspec.resource(1)
     describe aws_iam_users.where(has_attached_policies?: true) do
       it { should_not exist }
     end
-  '
+  EXAMPLE
   supports platform: 'aws'
 
   include AwsPluralResourceMixin
