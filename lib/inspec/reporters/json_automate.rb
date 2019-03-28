@@ -17,7 +17,7 @@ module Inspec::Reporters
       # grab profiles from the json parent class
       @profiles = profiles
 
-      {
+      output = {
         platform: platform,
         profiles: merge_profiles,
         statistics: {
@@ -25,6 +25,12 @@ module Inspec::Reporters
         },
         version: run_data[:version],
       }
+
+      # optional json-config passthrough options
+      %w{node_name environment roles recipies job_uuid}.each do |option|
+        output[option.to_sym] = @config[option] unless @config[option].nil?
+      end
+      output
     end
 
     private
