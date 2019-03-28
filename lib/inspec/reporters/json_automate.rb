@@ -27,7 +27,7 @@ module Inspec::Reporters
       }
 
       # optional json-config passthrough options
-      %w{node_name environment roles recipies job_uuid}.each do |option|
+      %w{node_name environment roles job_uuid}.each do |option|
         output[option.to_sym] = @config[option] unless @config[option].nil?
       end
       output
