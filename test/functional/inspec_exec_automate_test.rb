@@ -93,7 +93,7 @@ describe 'inspec exec automate' do
 
       # Added in InSpec v3.7.11+
       json.keys.must_include 'passthrough'
-      json['passthrough'].keys.sort.must_equal ['projects', 'another_tramp_datum']
+      json['passthrough'].keys.sort.must_equal ['another_tramp_datum', 'projects']
       json['passthrough']['projects'].must_equal ['alpha', 'beta']
 
     end
