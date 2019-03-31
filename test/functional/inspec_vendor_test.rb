@@ -68,8 +68,8 @@ describe "example inheritance profile" do
     end
   end
 
-  it "can vendor profile dependencies from git" do
-    git_depends_path = File.join(profile_path, "git-depends")
+  it 'can vendor profile dependencies from git' do
+    git_depends_path = File.join(profile_path, 'git-fetcher', 'basic')
 
     Dir.mktmpdir do |tmpdir|
       FileUtils.cp_r(git_depends_path + "/.", tmpdir)
