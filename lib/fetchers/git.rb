@@ -42,7 +42,7 @@ module Fetchers
       @ref = opts[:ref]
       @remote_url = remote_url
       @repo_directory = nil
-      @target_profile_path = opts[:profile_path]
+      @path_within_repo = opts[:path_within_repo]
     end
 
     def fetch(dir)
@@ -54,11 +54,11 @@ module Fetchers
       else
         Dir.mktmpdir do |tmpdir|
           checkout(tmpdir)
-          if @target_profile_path
+          if @path_within_repo
             @profile_directory = dir
             Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
-                              "Moving #{@target_profile_path} to #{dir}")
-            target_profile = File.join(tmpdir, @target_profile_path)
+                              "Moving #{@path_within_repo} to #{dir}")
+            target_profile = File.join(tmpdir, @path_within_repo)
             FileUtils.cp_r(target_profile, dir)
           else
             Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
@@ -71,8 +71,8 @@ module Fetchers
     end
 
     def cache_key
-      return resolved_ref unless @target_profile_path
-      OpenSSL::Digest::SHA256.hexdigest(resolved_ref + @target_profile_path)
+      return resolved_ref unless @path_within_repo
+      OpenSSL::Digest::SHA256.hexdigest(resolved_ref + @path_within_repo)
     end
 
     def archive_path
@@ -81,7 +81,7 @@ module Fetchers
 
     def resolved_source
       source = { git: @remote_url, ref: resolved_ref }
-      source[:profile_path] = @target_profile_path if @target_profile_path
+      source[:path_within_repo] = @path_within_repo if @path_within_repo
       source
     end
 

@@ -222,7 +222,7 @@ depends:
   tag:     desired_version
   commit:  pinned_commit
   version: semver_via_tags
-  profile_path: optional/path/to/profile
+  path_within_repo: relative/optional/path/to/profile
 ```
 
 ### supermarket

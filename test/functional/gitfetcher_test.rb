@@ -33,12 +33,12 @@ describe "profiles with git-based dependencies" do
       {
         'name' => 'deep-git-dep',
         'git' => @deep_git_dep_dir,
-        'profile_path' => 'profiles/deep-profile'
+        'path_within_repo' => 'profiles/deep-profile'
       },
       {
         'name' => 'another-deep-git-dep',
         'git' => @deep_git_dep_dir,
-        'profile_path' => 'profiles/another-deep-profile'
+        'path_within_repo' => 'profiles/another-deep-profile'
       }
     ]
     File.write(File.join(@profile_dir, 'inspec.yml'), YAML.dump(inspec_yml))
