@@ -18,7 +18,6 @@ platforms:
   - name: fedora-29
   - name: freebsd-11
   - name: opensuseleap-42
-  - name: ubuntu-14.04
   - name: ubuntu-16.04
   - name: ubuntu-18.04
 
