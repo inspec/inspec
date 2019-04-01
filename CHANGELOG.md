@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.7.12 -->
-## [v3.7.12](https://github.com/inspec/inspec/tree/v3.7.12) (2019-04-01)
+<!-- latest_release 3.8.0 -->
+## [v3.8.0](https://github.com/inspec/inspec/tree/v3.8.0) (2019-04-01)
 
-#### Merged Pull Requests
-- Don&#39;t include plugin test files in the gem file [#3911](https://github.com/inspec/inspec/pull/3911) ([tas50](https://github.com/tas50))
+#### New Features
+- automate reporter: Add top-level &#39;passthrough&#39; field [#3906](https://github.com/inspec/inspec/pull/3906) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.7.11 -->
 ### Changes since 3.7.11 release
+
+#### New Features
+- automate reporter: Add top-level &#39;passthrough&#39; field [#3906](https://github.com/inspec/inspec/pull/3906) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.8.0 -->
 
 #### Merged Pull Requests
 - Don&#39;t include plugin test files in the gem file [#3911](https://github.com/inspec/inspec/pull/3911) ([tas50](https://github.com/tas50)) <!-- 3.7.12 -->
