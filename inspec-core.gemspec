@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.license       = 'Apache-2.0'
 
   spec.files = %w{README.md LICENSE} + Dir.glob('{bin,lib,etc}/**/*', File::FNM_DOTMATCH)
-                                          .reject { |f| File.directory?(f) || f =~ /aws|azure|gcp/ }
+                                          .reject { |f| File.directory?(f) || f =~ /aws|azure|gcp/ || f =~ %r{lib/plugins/.*/test/} }
 
   spec.executables   = %w{inspec}
   spec.require_paths = ['lib']

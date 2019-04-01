@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.executables   = %w{inspec}
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+                           .reject { |f| File.directory?(f) || f =~ %r{lib/plugins/.*/test/} }
   spec.require_paths = ['lib']
 
   spec.required_ruby_version = '>= 2.3'
