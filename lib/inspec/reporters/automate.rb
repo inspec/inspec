@@ -28,10 +28,6 @@ module Inspec::Reporters
 
       final_report[:report_uuid] = @config['report_uuid'] || uuid_from_string(final_report[:end_time] + final_report[:node_uuid])
 
-      # optional json-config passthrough options
-      %w{node_name environment roles recipies job_uuid}.each do |option|
-        final_report[option.to_sym] = @config[option] unless @config[option].nil?
-      end
       final_report
     end
 
