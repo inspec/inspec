@@ -1,24 +1,22 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.8.1 -->
-## [v3.8.1](https://github.com/inspec/inspec/tree/v3.8.1) (2019-04-01)
-
-#### Merged Pull Requests
-- Include train-habitat gem with InSpec [#3912](https://github.com/inspec/inspec/pull/3912) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.7.11 -->
-### Changes since 3.7.11 release
-
-#### New Features
-- automate reporter: Add top-level &#39;passthrough&#39; field [#3906](https://github.com/inspec/inspec/pull/3906) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.8.0 -->
-
-#### Merged Pull Requests
-- Include train-habitat gem with InSpec [#3912](https://github.com/inspec/inspec/pull/3912) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.8.1 -->
-- Don&#39;t include plugin test files in the gem file [#3911](https://github.com/inspec/inspec/pull/3911) ([tas50](https://github.com/tas50)) <!-- 3.7.12 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.9.0](https://github.com/inspec/inspec/tree/v3.9.0) (2019-04-02)
+
+#### New Features
+- automate reporter: Add top-level &#39;passthrough&#39; field [#3906](https://github.com/inspec/inspec/pull/3906) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Don&#39;t include plugin test files in the gem file [#3911](https://github.com/inspec/inspec/pull/3911) ([tas50](https://github.com/tas50))
+- Include train-habitat gem with InSpec [#3912](https://github.com/inspec/inspec/pull/3912) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v3.7.11](https://github.com/inspec/inspec/tree/v3.7.11) (2019-03-22)
 
 #### Enhancements
@@ -38,7 +36,6 @@
 - Rewrite inspec-habitat plugin [#3818](https://github.com/inspec/inspec/pull/3818) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Adds a v4 release to the expeditor config [#3816](https://github.com/inspec/inspec/pull/3816) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Fixes resource example indentation [#3898](https://github.com/inspec/inspec/pull/3898) ([burtlo](https://github.com/burtlo))
-<!-- latest_stable_release -->
 
 ## [v3.7.1](https://github.com/inspec/inspec/tree/v3.7.1) (2019-03-02)
 
