@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Fix broken links in migration docs. [#3907](https://github.com/inspec/inspec/pull/3907) ([joshlarsen](https://github.com/joshlarsen))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.9.0 -->
+### Changes since 3.9.0 release
+
+#### Merged Pull Requests
+- Fix broken links in migration docs. [#3907](https://github.com/inspec/inspec/pull/3907) ([joshlarsen](https://github.com/joshlarsen)) <!-- 3.9.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
