@@ -28,8 +28,8 @@ The following resources are available in InSpec:
 | [`group`](http://serverspec.org/resource_types.html#group)                                   | [`group`](https://www.inspec.io/docs/reference/resources/group/)                       |
 | [`host`](http://serverspec.org/resource_types.html#host)                                     | [`host`](https://www.inspec.io/docs/reference/resources/host/)                         |
 | [`interface`](http://serverspec.org/resource_types.html#interface)                           | [`interface`](https://www.inspec.io/docs/reference/resources/interface/)               |
-| [`iis_website`](http://serverspec.org/resource_types.html#iis_website)                       | [`iis_website`](https://www.inspec.io/docs/reference/resources/iis_website/)           |
-| [`iis_app_pool`](http://serverspec.org/resource_types.html#iis_app_pool)                     | [`iis_website`](https://www.inspec.io/docs/reference/resources/iis_website/)           |
+| [`iis_website`](http://serverspec.org/resource_types.html#iis_website)                       | [`iis_site`](https://www.inspec.io/docs/reference/resources/iis_site/)           |
+| [`iis_app_pool`](http://serverspec.org/resource_types.html#iis_app_pool)                     | [`iis_app`](https://www.inspec.io/docs/reference/resources/iis_app/)           |
 | [`iptables`](http://serverspec.org/resource_types.html#iptables)                             | [`iptables`](https://www.inspec.io/docs/reference/resources/iptables/)                 |
 | [`kernel_module`](http://serverspec.org/resource_types.html#kernel_module)                   | [`kernel_module`](https://www.inspec.io/docs/reference/resources/kernel_module/)       |
 | [`linux_kernel_parameter`](http://serverspec.org/resource_types.html#linux_kernel_parameter) | [`kernel_parameter`](https://www.inspec.io/docs/reference/resources/kernel_parameter/) |
