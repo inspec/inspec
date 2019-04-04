@@ -41,6 +41,7 @@ module Inspec::Resources
         @user = opts.fetch(:user, nil)
         @path = opts.fetch(:path, nil)
         raise Inspec::Exceptions::ResourceFailed, 'A user or path must be supplied.' if @user.nil? && @path.nil?
+        raise Inspec::Exceptions::ResourceFailed, 'Either user or path must be supplied, not both!' if !@user.nil? && !@path.nil?
       else
         @user = opts
         @path = nil
@@ -49,7 +50,12 @@ module Inspec::Resources
     end
 
     def read_crontab
-      ct = is_system_crontab? ? inspec.file(@path).content : inspec.command(crontab_cmd).stdout
+      if is_system_crontab?
+        raise Inspec::Exceptions::ResourceFailed, "Supplied crontab path '#{@path}' must exist!" if !inspec.file(@path).exist?
+        ct = inspec.file(@path).content
+      else
+        ct = inspec.command(crontab_cmd).stdout
+      end
       ct.lines.map { |l| parse_crontab_line(l) }.compact
     end
 
