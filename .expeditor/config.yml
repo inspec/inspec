@@ -14,6 +14,11 @@ docker_images:
 
 pipelines:
   - habitat/build
+  - omnibus/release
+  - omnibus/adhoc:
+      definition: .expeditor/release.omnibus.yml
+      env:
+        - ADHOC: true
 
 # Slack channel in Chef Software slack to send notifications about build failures, etc
 slack:
