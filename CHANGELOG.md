@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 3.9.1 -->
+## [v3.9.1](https://github.com/inspec/inspec/tree/v3.9.1) (2019-04-04)
 
 #### Merged Pull Requests
+- crontab: Add validation for path param [#3899](https://github.com/inspec/inspec/pull/3899) ([skpaterson](https://github.com/skpaterson))
 - Fix broken links in migration docs. [#3907](https://github.com/inspec/inspec/pull/3907) ([joshlarsen](https://github.com/joshlarsen))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 3.9.0 release
 
 #### Merged Pull Requests
+- crontab: Add validation for path param [#3899](https://github.com/inspec/inspec/pull/3899) ([skpaterson](https://github.com/skpaterson)) <!-- 3.9.1 -->
 - Fix broken links in migration docs. [#3907](https://github.com/inspec/inspec/pull/3907) ([joshlarsen](https://github.com/joshlarsen)) <!-- 3.9.0 -->
 <!-- release_rollup -->
 
