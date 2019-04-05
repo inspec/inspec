@@ -29,8 +29,7 @@ Start-Process "$package_file" /quiet -Wait
 
 Write-Output "--- Testing $channel $product $version"
 
-$INSTALL_DIR = "C:\opscode\inspec"
-$Env:PATH = "${INSTALL_DIR};${Env:PATH}"
+$Env:PATH = "C:\opscode\inspec\bin;${Env:PATH}"
 
 Write-Output "Running verification for $product"
 
@@ -39,5 +38,4 @@ Write-Output "Running verification for $product"
 $Env:GEM_HOME = "C:\SHOULD_NOT_EXIST"
 $Env:GEM_PATH = "C:\SHOULD_NOT_EXIST"
 
-Set-Location -Path C:\opscode\inspec\bin
 inspec version

@@ -14,7 +14,7 @@ check-omnibus-package-signed "$package_file"
 echo "--- Testing $channel $product $version"
 
 export INSTALL_DIR=/opt/inspec
-export PATH=/opt/inspec/bin:$PATH
+export PATH="/opt/inspec/bin:$PATH"
 
 echo "Verifying ownership of package files"
 
