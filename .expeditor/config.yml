@@ -24,9 +24,13 @@ github:
   version_tag_format: v{{version}}
   release_branch:
     - master:
-        version_constraint: 2.*
+        version_constraint: 4.*
     - 1-stable:
         version_constraint: 1.*
+    - 2-stable:
+        version_constraint: 2.*
+    - 3-stable:
+        version_constraint: 3.*
 
 changelog:
   categories:
