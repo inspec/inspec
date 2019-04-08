@@ -27,9 +27,8 @@ platforms:
 #   KITCHEN_LOCAL_YAML=.kitchen.vmware.yml kitchen converge inspec-macosx-109
 #
 <% %w(
-  10.9
-  10.10
   10.11
+  10.12
 ).each do |mac_version| %>
 - name: macosx-<%= mac_version %>
   driver:
