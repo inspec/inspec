@@ -47,14 +47,14 @@ platforms:
     image: dokken/debian-8
     pid_one_command: /bin/systemd
     intermediate_instructions:
-      - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get update -y
 
 - name: debian-9
   driver:
     image: dokken/debian-9
     pid_one_command: /bin/systemd
     intermediate_instructions:
-      - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get update -y
 
 - name: fedora-29
   driver:
@@ -81,21 +81,21 @@ platforms:
     image: dokken/ubuntu-14.04
     pid_one_command: /sbin/init
     intermediate_instructions:
-      - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get update -y
 
 - name: ubuntu-16.04
   driver:
     image: dokken/ubuntu-16.04
     pid_one_command: /bin/systemd
     intermediate_instructions:
-      - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get update -y
 
 - name: ubuntu-18.04
   driver:
     image: dokken/ubuntu-18.04
     pid_one_command: /bin/systemd
     intermediate_instructions:
-      - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get update -y
 
 suites:
 - name: default
