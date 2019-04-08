@@ -104,7 +104,7 @@ suites:
   - recipe[audit]
   verifier:
     inspec_tests:
-      - test/integration/default -y
+      - test/integration/default
   attributes:
     audit:
       attributes:
