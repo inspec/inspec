@@ -65,34 +65,34 @@ describe Inspec::Runner do
       end
     end
 
-    describe 'when no attrs are specified' do
+    describe 'when no input files are specified' do
       it 'returns an empty hash' do
         options = {}
         runner.load_inputs(options).must_equal({})
       end
     end
 
-    describe 'when an attr is provided and does not resolve' do
+    describe 'when an input file is provided and does not resolve' do
       it 'raises an exception' do
-        options = { attrs: ['nope.jpg'] }
+        options = { input_file: ['nope.jpg'] }
         Inspec::SecretsBackend.expects(:resolve).with('nope.jpg').returns(nil)
         proc { runner.load_inputs(options) }.must_raise Inspec::Exceptions::SecretsBackendNotFound
       end
     end
 
-    describe 'when an attr is provided and has no inputs' do
+    describe 'when an input file is provided and has no inputs' do
       it 'returns an empty hash' do
         secrets = mock
         secrets.stubs(:inputs).returns(nil)
-        options = { attrs: ['empty.yaml'] }
+        options = { input_file: ['empty.yaml'] }
         Inspec::SecretsBackend.expects(:resolve).with('empty.yaml').returns(secrets)
         runner.load_inputs(options).must_equal({})
       end
     end
 
-    describe 'when an attr is provided and has inputs' do
+    describe 'when an input file is provided and has inputs' do
       it 'returns a hash containing the inputs' do
-        options = { attrs: ['file1.yaml'] }
+        options = { input_file: ['file1.yaml'] }
         inputs = { foo: 'bar' }
         secrets = mock
         secrets.stubs(:inputs).returns(inputs)
@@ -101,9 +101,9 @@ describe Inspec::Runner do
       end
     end
 
-    describe 'when multiple attrs are provided and one fails' do
+    describe 'when multiple input files are provided and one fails' do
       it 'raises an exception' do
-        options = { attrs: ['file1.yaml', 'file2.yaml'] }
+        options = { input_file: ['file1.yaml', 'file2.yaml'] }
         secrets = mock
         secrets.stubs(:inputs).returns(nil)
         Inspec::SecretsBackend.expects(:resolve).with('file1.yaml').returns(secrets)
@@ -112,9 +112,9 @@ describe Inspec::Runner do
       end
     end
 
-    describe 'when multiple attrs are provided and one has no inputs' do
+    describe 'when multiple input files are provided and one has no inputs' do
       it 'returns a hash containing the inputs from the valid files' do
-        options = { attrs: ['file1.yaml', 'file2.yaml'] }
+        options = {  input_file: ['file1.yaml', 'file2.yaml'] }
         inputs = { foo: 'bar' }
         secrets1 = mock
         secrets1.stubs(:inputs).returns(nil)
@@ -126,9 +126,9 @@ describe Inspec::Runner do
       end
     end
 
-    describe 'when multiple attrs are provided and all have inputs' do
+    describe 'when multiple input files are provided and all have inputs' do
       it 'returns a hash containing all the inputs' do
-        options = { attrs: ['file1.yaml', 'file2.yaml'] }
+        options = { input_file: ['file1.yaml', 'file2.yaml'] }
         secrets1 = mock
         secrets1.stubs(:inputs).returns({ key1: 'value1' })
         secrets2 = mock

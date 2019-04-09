@@ -13,11 +13,48 @@ describe 'inputs' do
       cmd = 'exec '
       cmd += File.join(inputs_profiles_path, 'basic')
       cmd += ' --no-create-lockfile'
-      cmd += ' --attrs ' + File.join(inputs_profiles_path, 'basic', 'files', "#{input_file}.yaml")
+      cmd += ' --input-file ' + File.join(inputs_profiles_path, 'basic', 'files', "#{input_file}.yaml")
       cmd += ' --controls ' + input_file
       out = inspec(cmd)
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
+    end
+  end
+
+  describe 'when asking for usage help' do
+    it 'includes the new --input-file option' do
+      result = run_inspec_process('exec help', lock: true) # --no-create-lockfile option breaks usage help
+      lines = result.stdout.split("\n")
+      line = lines.detect { |l| l.include? '--input-file' }
+      line.wont_be_nil
+    end
+    it 'includes the legacy --attrs option' do
+      result = run_inspec_process('exec help', lock: true)
+      lines = result.stdout.split("\n")
+      line = lines.detect { |l| l.include? '--attrs' }
+      line.wont_be_nil
+    end
+  end
+
+  describe 'when using a cli-specified file' do
+    let(:result) do
+      cmd =  'exec '
+      cmd += File.join(inputs_profiles_path, 'basic') + ' '
+      cmd += flag + ' ' + File.join(inputs_profiles_path, 'basic', 'files', 'flat.yaml')
+      cmd += ' --controls flat'
+      run_inspec_process(cmd)
+    end
+    describe 'when the --input-file flag is used' do
+      let(:flag) { '--input-file' }
+      it 'works' do
+        result.exit_status.must_equal 0
+      end
+    end
+    describe 'when the --attrs flag is used' do
+      let(:flag) { '--attrs' }
+      it 'works' do
+        result.exit_status.must_equal 0
+      end
     end
   end
 
@@ -26,7 +63,7 @@ describe 'inputs' do
       cmd = 'exec '
       cmd += File.join(inputs_profiles_path, 'global')
       cmd += ' --no-create-lockfile'
-      cmd += ' --attrs ' + File.join(inputs_profiles_path, 'global', 'files', "inputs.yml")
+      cmd += ' --input-file ' + File.join(inputs_profiles_path, 'global', 'files', "inputs.yml")
       out = inspec(cmd)
       out.stderr.must_equal ''
       # TODO: fix attribute inheritance override test

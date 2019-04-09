@@ -151,10 +151,14 @@ module Inspec
 
     # determine all inputs before the execution, fetch data from secrets backend
     def load_inputs(options)
-      # TODO: - rename :attributes and :attrs - these are both user-visible
+      # TODO: - rename :attributes - it is user-visible
       options[:attributes] ||= {}
 
-      secrets_targets = options[:attrs]
+      if options.key?(:attrs)
+        Inspec.deprecate(:rename_attributes_to_inputs, 'Use --input-file on the command line instead of --attrs.')
+        options[:input_file] = options.delete(:attrs)
+      end
+      secrets_targets = options[:input_file]
       return options[:attributes] if secrets_targets.nil?
 
       secrets_targets.each do |target|
