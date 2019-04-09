@@ -76,7 +76,7 @@ namespace :test do
       'test/functional/**/*_test.rb',
       'lib/plugins/inspec-*/test/functional/**/*_test.rb',
     ])
-    t.warning = true
+    t.warning = false
     t.verbose = true
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
@@ -93,7 +93,7 @@ namespace :test do
 
     t.libs << 'test'
     t.test_files = files
-    t.warning = true
+    t.warning = false
     t.verbose = true
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
