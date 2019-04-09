@@ -98,7 +98,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   end
 
   it "executes a profile and reads inputs" do
-    out = inspec("exec #{File.join(examples_path, 'profile-attribute')} --no-create-lockfile --attrs #{File.join(examples_path, "profile-attribute.yml")}")
+    out = inspec("exec #{File.join(examples_path, 'profile-attribute')} --no-create-lockfile --input-file #{File.join(examples_path, "profile-attribute.yml")}")
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     out.stdout.force_encoding(Encoding::UTF_8).must_include "Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped"
