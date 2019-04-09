@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.0.4 -->
-## [v4.0.4](https://github.com/inspec/inspec/tree/v4.0.4) (2019-04-09)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Attribute-&gt;Input Rename: Rename cli option [#3879](https://github.com/inspec/inspec/pull/3879) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix winrm no-such-transport test [#3927](https://github.com/inspec/inspec/pull/3927) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.0 -->
 ### Changes since 3.9.0 release
 
 #### Merged Pull Requests
+- Fix winrm no-such-transport test [#3927](https://github.com/inspec/inspec/pull/3927) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.4 -->
 - Attribute-&gt;Input Rename: Rename cli option [#3879](https://github.com/inspec/inspec/pull/3879) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.4 -->
 - Remove EOL Ubuntu / macOS platform testing [#3910](https://github.com/inspec/inspec/pull/3910) ([tas50](https://github.com/tas50)) <!-- 4.0.3 -->
 - apt: correct docs to clarify that it matches repositories not packages [#3915](https://github.com/inspec/inspec/pull/3915) ([nqb](https://github.com/nqb)) <!-- 3.9.2 -->
@@ -27,6 +28,7 @@
 ## [v3.9.2](https://github.com/inspec/inspec/tree/v3.9.2) (2019-04-08)
 
 #### Merged Pull Requests
+- Fix winrm no-such-transport test [#3927](https://github.com/inspec/inspec/pull/3927) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.4 -->
 - Attribute-&gt;Input Rename: Rename cli option [#3879](https://github.com/inspec/inspec/pull/3879) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.4 -->
 - Remove EOL Ubuntu / macOS platform testing [#3910](https://github.com/inspec/inspec/pull/3910) ([tas50](https://github.com/tas50)) <!-- 4.0.3 -->
 - apt: correct docs to clarify that it matches repositories not packages [#3915](https://github.com/inspec/inspec/pull/3915) ([nqb](https://github.com/nqb))
