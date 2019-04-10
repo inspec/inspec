@@ -1,7 +1,7 @@
 branches:
   only:
     - master
-    - 4-stable
+    - 3-stable
 language: ruby
 cache: bundler
 dist: xenial
