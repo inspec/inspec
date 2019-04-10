@@ -62,6 +62,94 @@ module Inspec::Resources
       info[:run_as_user]
     end
 
+    def hostname
+      info[:hostname]
+    end
+
+    def taskname
+      info[:taskname]
+    end
+
+    def next_run_time
+      info[:next_run_time].to_s.strip
+    end
+
+    def status
+      info[:status]
+    end
+
+    def author
+      info[:author]
+    end
+
+    def last_run_time
+      info[:last_run_time].to_s.strip
+    end
+
+    def start_in
+      info[:start_in]
+    end
+
+    def comment
+      info[:comment]
+    end
+
+    def idle_time
+      info[:idle_time].to_s.strip
+    end
+
+    def power_management
+      info[:power_management]
+    end
+
+    def delete_task_if_not_rescheduled
+      info[:delete_task_if_not_rescheduled]
+    end
+
+    def stop_task_if_runs
+      info[:stop_task_if_runs]
+    end
+
+    def schedule_type
+      info[:schedule_type].to_s.strip
+    end
+
+    def start_time
+      info[:start_time].to_s.strip
+    end
+
+    def start_date
+      info[:start_date].to_s.strip
+    end
+
+    def end_date
+      info[:end_date].to_s.strip
+    end
+
+    def days
+      info[:days]
+    end
+
+    def months
+      info[:months]
+    end
+
+    def repeat_every
+      info[:repeat_every]
+    end
+
+    def repeat_until_time
+      info[:repeat_until_time].to_s.strip
+    end
+
+    def repeat_until_duration
+      info[:repeat_until_duration]
+    end
+
+    def repeat_stop_if_still_running
+      info[:repeat_stop_if_still_running]
+    end
+
     def type
       info[:type] unless info.nil?
     end
@@ -73,7 +161,38 @@ module Inspec::Resources
       # script = "Get-ScheduledTask | ? { $_.URI -eq '#{@taskuri}' } | Select-Object URI,@{N='State';E={$_.State.ToString()}} | ConvertTo-Json"
 
       # Using schtasks as suggested by @modille but aligning property names to match cmdlet to future proof.
-      script = "schtasks /query /v /fo csv /tn '#{@taskuri}' | ConvertFrom-Csv | Select @{N='URI';E={$_.TaskName}},@{N='State';E={$_.Status.ToString()}},'Logon Mode','Last Result','Task To Run','Run As User','Scheduled Task State' | ConvertTo-Json -Compress"
+      script = "schtasks /query /v /fo csv /tn '#{@taskuri}' |
+      ConvertFrom-Csv |
+      Select @{N='URI';E={$_.TaskName}},
+      @{N='State';E={$_.Status.ToString()}},
+      'Logon Mode',
+      'Last Result',
+      'Task To Run',
+      'Run As User',
+      'Scheduled Task State',
+      'Hostname',
+      'TaskName',
+      'Next Run Time',
+      'Status',
+      'Last Run Time',
+      'Author',
+      'Start In',
+      'Comment',
+      'Idle Time',
+      'Power Management',
+      'Delete Task If Not Rescheduled',
+      'Stop Task If Runs X Hours and X Mins',
+      'Schedule Type',
+      'Start Time',
+      'Start Date',
+      'End Date',
+      'Days',
+      'Months',
+      'Repeat: Every',
+      'Repeat: Until: Time',
+      'Repeat: Until: Duration',
+      'Repeat: Stop If Still Running' |
+      ConvertTo-Json -Compress"
 
       cmd = inspec.powershell(script)
 
@@ -90,8 +209,30 @@ module Inspec::Resources
         last_result: params['Last Result'],
         task_to_run: params['Task To Run'],
         run_as_user: params['Run As User'],
+        hostname: params['HostName'],
+        taskname: params['TaskName'],
+        next_run_time: params['Next Run Time'],
+        status: params['Status'],
+        last_run_time: params['Last Run Time'],
+        author: params['Author'],
+        start_in: params['Start In'],
+        comment: params['Comment'],
+        idle_time: params['Idle Time'],
+        power_management: params['Power Management'],
+        delete_task_if_not_rescheduled: params['Delete Task If Not Rescheduled'],
+        stop_task_if_runs: params['Stop Task If Runs X Hours and X Mins'],
+        schedule_type: params['Schedule Type'],
+        start_time: params['Start Time'],
+        start_date: params['Start Date'],
+        end_date: params['End Date'],
+        days: params['Days'],
+        months: params['Months'],
+        repeat_every: params['Repeat: Every'],
+        repeat_until_time: params['Repeat: Until: Time'],
+        repeat_until_duration: params['Repeat: Until: Duration'],
+        repeat_stop_if_still_running: params['Repeat: Stop If Still Running'],
         scheduled_task_state: params['Scheduled Task State'],
-        type: 'windows-task',
+        type: 'windows-task'
       }
     end
 
