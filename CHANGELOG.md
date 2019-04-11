@@ -1,7 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.0.5 -->
+## [v4.0.5](https://github.com/inspec/inspec/tree/v4.0.5) (2019-04-11)
+
+#### New Features
+- Telemetry Object Model [#3928](https://github.com/inspec/inspec/pull/3928) ([miah](https://github.com/miah))
 
 #### Merged Pull Requests
 - Fix winrm no-such-transport test [#3927](https://github.com/inspec/inspec/pull/3927) ([clintoncwolfe](https://github.com/clintoncwolfe))
@@ -9,6 +12,9 @@
 
 <!-- release_rollup since=3.9.0 -->
 ### Changes since 3.9.0 release
+
+#### New Features
+- Telemetry Object Model [#3928](https://github.com/inspec/inspec/pull/3928) ([miah](https://github.com/miah)) <!-- 4.0.5 -->
 
 #### Merged Pull Requests
 - Fix winrm no-such-transport test [#3927](https://github.com/inspec/inspec/pull/3927) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.4 -->
