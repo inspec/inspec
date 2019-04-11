@@ -16,54 +16,52 @@ matrix:
   include:
   - rvm: 2.4.5
     env: UNIT_TESTS_24=1
-  - rvm: 2.5.3
+  - rvm: 2.5.5
     env: UNIT_TESTS_25=1
-  #- rvm: 2.6.1 # this needs a few fixes to get enabled
-  #  bundler_args: "--without integration tools maintenance deploy"
-  #  env: UNIT_TESTS_26=1
+  - rvm: 2.6.2
+    env: UNIT_TESTS_26=1
   - rvm: 2.4.5
     script: bundle exec rake $SUITE
     env: SUITE="test:functional"
-  - rvm: 2.5.3
+  - rvm: 2.5.5
     script: bundle exec rake $SUITE
     env: SUITE="test:functional"
-  - rvm: 2.5.3
+  - rvm: 2.6.2
     script: bundle exec rake $SUITE
-    bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration[default-ubuntu-1404]
-  - rvm: 2.5.3
+    env: SUITE="test:functional"
+  - rvm: 2.5.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-ubuntu-1604]
-  - rvm: 2.5.3
+  - rvm: 2.5.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-ubuntu-1804]
-  - rvm: 2.5.3
+  - rvm: 2.5.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-centos-6]
-  - rvm: 2.5.3
+  - rvm: 2.5.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-centos-7]
-  - rvm: 2.5.3
+  - rvm: 2.5.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-debian-8]
-  - rvm: 2.5.3
+  - rvm: 2.5.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-debian-9]
-  - rvm: 2.5.3
+  - rvm: 2.5.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-oraclelinux-6]
-  - rvm: 2.5.3
+  - rvm: 2.5.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-oraclelinux-7]
-  - rvm: 2.5.3
+  - rvm: 2.5.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-fedora-29]
