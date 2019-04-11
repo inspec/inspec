@@ -17,7 +17,13 @@ class TestTelemetryCollector < Minitest::Test
   end
 
   def test_list_data_series
-    assert @collector.list_data_series
+    assert_empty @collector.list_data_series
+    @collector.add_data_series(Inspec::Telemetry::DataSeries.new('/resource/File'))
+    @collector.add_data_series(Inspec::Telemetry::DataSeries.new(:deprecation_group))
+    assert_equal 2, @collector.list_data_series.count
+    assert_equal 1, @collector.list_data_series.select { |d| d.name.eql?(:deprecation_group) }.count
+    assert_kind_of Array, @collector.list_data_series
+    assert_kind_of Inspec::Telemetry::DataSeries, @collector.list_data_series.first
   end
 
   def test_find_or_create_data_series
