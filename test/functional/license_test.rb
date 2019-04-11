@@ -31,54 +31,17 @@ describe 'The license acceptance mechanism' do
       end
     end
 
-    # TODO: find a 'yes yes | ' equivalent in powershell
-    unless windows?
-      describe 'when the user answers yes to the interactive challenge' do
-        it 'should silently work normally' do
-          Dir.mktmpdir do |tmp_home|
-            run_result = run_inspec_process('shell -c platform.family', env: { 'HOME' => tmp_home }, prefix: 'yes yes | ')
-            run_result.stdout.must_include 'Chef License Acceptance'
-            run_result.stderr.must_equal ''
-            run_result.exit_status.must_equal 0
-          end
-        end
-
-        it 'should write a YAML file' do
-          Dir.mktmpdir do |tmp_home|
-            license_persist_path = File.join(tmp_home, '.chef', 'accepted_licenses', 'inspec')
-
-            File.exist?(license_persist_path).must_equal false # Sanity check
-            run_result = run_inspec_process('shell -c platform.family', env: { 'HOME' => tmp_home }, prefix: 'yes yes | ')
-            File.exist?(license_persist_path).must_equal true
-          end
-        end
-
-        it 'Should not prompt on subsequent runs' do
-          Dir.mktmpdir do |tmp_home|
-            run_result = run_inspec_process('shell -c platform.family', env: { 'HOME' => tmp_home }, prefix: 'yes yes | ')
-            second_run_result = run_inspec_process('shell -c platform.family', env: { 'HOME' => tmp_home })
-
-            second_run_result.stdout.wont_include 'Chef License Acceptance'
-            second_run_result.stderr.must_equal ''
-            second_run_result.exit_status.must_equal 0
-          end
-        end
-      end
-    end
-
-    # TODO: find a 'yes no | ' equivalent in powershell
-    unless windows?
-      describe 'when the user answers no to the interactive challenge' do
-        it 'should prompt twice and fail with a special code' do
-          Dir.mktmpdir do |tmp_home|
-            run_result = run_inspec_process('shell -c platform.family', env: { 'HOME' => tmp_home }, prefix: 'yes no | ')
-
-            run_result.stdout.must_include 'Chef License Acceptance'
-            run_result.stdout.must_include 'License that need accepting' # From first challenge
-            run_result.stdout.must_include 'If you do not accept this license' # From second challenge
-            run_result.stdout.must_include 'ERROR' # From failure message
-            run_result.exit_status.must_equal 172
-          end
+    # Since the license-acceptance library detects TTYs, and changes behavior
+    # if not found, we can't test interactive acceptance anymore
+    describe 'when no mechanism is used to accept the license and we are non-interactive' do
+      it 'should exit ASAP with code 172' do
+        Dir.mktmpdir do |tmp_home|
+          run_result = run_inspec_process('shell -c platform.family', env: { 'HOME' => tmp_home })
+          # [2019-04-11T11:06:00-04:00] ERROR: InSpec cannot execute without accepting the license
+          run_result.stdout.must_include 'cannot execute'
+          run_result.stdout.must_include 'the license'
+          run_result.stdout.must_include 'ERROR' # From failure message
+          run_result.exit_status.must_equal 172
         end
       end
     end
