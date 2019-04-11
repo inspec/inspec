@@ -416,9 +416,9 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
 
   describe 'when --winrm-transport is used' do
     it 'raises an exception when an invalid transport is given' do
-      out = inspec('exec ' + example_profile + ' -t winrm://administrator@dummy --password dummy --winrm-transport kerberos')
+      out = inspec('exec ' + example_profile + ' -t winrm://administrator@dummy --password dummy --winrm-transport nonesuch')
       out.exit_status.must_equal 1
-      out.stderr.must_include "Client error, can't connect to 'winrm' backend: Unsupported transport type: :kerberos\n"
+      out.stderr.must_include "Client error, can't connect to 'winrm' backend: Unsupported transport type: :nonesuch\n"
     end
   end
 
