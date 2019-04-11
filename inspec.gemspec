@@ -31,6 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'train-aws', '~> 0.1'
 
   # Implementation dependencies
+  spec.add_dependency 'license-acceptance', '~> 0.2'
   spec.add_dependency 'thor', '~> 0.20'
   spec.add_dependency 'json', '>= 1.8', '< 3.0'
   spec.add_dependency 'method_source', '~> 0.8'
