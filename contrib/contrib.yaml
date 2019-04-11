@@ -15,3 +15,8 @@ resource_packs:
     git_repo: https://github.com/inspec/inspec-azure.git
     doc_group_title: Azure
     resource_file_regex: ^azure
+
+  inspec-habitat:
+    git_repo: https://github.com/inspec/inspec-habitat.git
+    doc_group_title: Habitat
+    resource_file_regex: ^habitat_
