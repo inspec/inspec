@@ -34,12 +34,15 @@ class TestTelemetryDataSeries < Minitest::Test
     ds = Inspec::Telemetry::DataSeries.new('fizz')
     ds << 'foo'
     assert_kind_of Hash, ds.to_h
+    assert_equal 'fizz', ds.to_h[:name]
+    assert_equal ['foo'], ds.to_h[:data]
   end
 
   def test_to_json
     ds = Inspec::Telemetry::DataSeries.new('fizz')
     ds << 'foo'
     assert_kind_of String, ds.to_json
+    assert_equal '{"name":"fizz","data":["foo"]}', ds.to_json
     assert JSON.parse(ds.to_json)
   end
 end
