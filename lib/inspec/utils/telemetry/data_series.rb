@@ -8,13 +8,10 @@ module Inspec::Telemetry
     def initialize(name)
       @name = name
       @enabled = true
-    end
-
-    attr_reader :name
-
-    def data
       @data ||= []
     end
+
+    attr_reader :data, :name
 
     # This needs to also be set by configuration.
     def enabled?
