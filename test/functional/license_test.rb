@@ -6,12 +6,13 @@ describe 'The license acceptance mechanism' do
   include FunctionalHelper
 
   describe 'when the license has not been accepted' do
-    describe 'when the user passes the --accept-license flag' do
+    describe 'when the user passes the --chef-license accept flag' do
       it 'should silently work normally' do
         Dir.mktmpdir do |tmp_home|
-          run_result = run_inspec_process('shell -c platform.family --accept-license', env: { 'HOME' => tmp_home })
-          run_result.stdout.wont_include 'Chef License Acceptance' # --accept-license should not mention accepting the license
+          run_result = run_inspec_process('shell -c platform.family --chef-license accept', env: { 'HOME' => tmp_home })
+          run_result.stdout.wont_include 'Chef License Acceptance' # --chef-license should not mention accepting the license
           run_result.stderr.must_equal ''
+
           run_result.exit_status.must_equal 0
         end
       end
@@ -21,7 +22,7 @@ describe 'The license acceptance mechanism' do
           license_persist_path = File.join(tmp_home, '.chef', 'accepted_licenses', 'inspec')
 
           File.exist?(license_persist_path).must_equal false # Sanity check
-          run_result = run_inspec_process('shell -c platform.family --accept-license', env: { 'HOME' => tmp_home })
+          run_result = run_inspec_process('shell -c platform.family --chef-license accept', env: { 'HOME' => tmp_home })
           File.exist?(license_persist_path).must_equal true
 
           license_persist_contents = YAML.load(File.read(license_persist_path))
