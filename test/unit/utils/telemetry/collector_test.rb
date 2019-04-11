@@ -27,16 +27,6 @@ class TestTelemetryCollector < Minitest::Test
     assert_equal @collector.find_or_create_data_series(:deprecation_group), dg
   end
 
-  def test_list_data_series_names
-    data_series = Inspec::Telemetry::DataSeries.new('/resource/File')
-    data_series2 = Inspec::Telemetry::DataSeries.new('/resource/Dir')
-    @collector.add_data_series(data_series)
-    @collector.add_data_series(data_series2)
-    list = @collector.list_data_series_by_name('/resource/File')
-    assert_kind_of Array, list
-    assert_equal 1, list.count
-  end
-
   def test_reset_singleton
     data_series = Inspec::Telemetry::DataSeries.new('/resource/File')
     @collector.add_data_series(data_series)

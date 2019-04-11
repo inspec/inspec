@@ -51,12 +51,6 @@ module Inspec::Telemetry
       end
     end
 
-    # Lists all the data series objects that match the specified name.
-    # @return [Array]
-    def list_data_series_by_name(name)
-      @data_series.select { |ds| ds.name.eql?(name) }
-    end
-
     # Blanks the contents of the data series collection.
     # @return [True]
     def reset
