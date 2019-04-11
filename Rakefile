@@ -8,6 +8,7 @@ require 'passgen'
 require 'train'
 require_relative 'tasks/maintainers'
 require_relative 'tasks/spdx'
+require 'fileutils'
 
 Bundler::GemHelper.install_tasks name: 'inspec'
 
@@ -70,16 +71,38 @@ namespace :test do
     end or fail 'Failures'
   end
 
+  task :accept_license do
+    FileUtils.mkdir_p(File.join(Dir.home, '.chef', 'accepted_licenses'))
+    # If the user has not accepted the license, touch the acceptance
+    # file, but also touch a marker that it is only for testing.
+    unless File.exist?(File.join(Dir.home, '.chef', 'accepted_licenses', 'inspec'))
+      puts "\n\nTemporarily accepting Chef user license for the duration of testing...\n"
+      FileUtils.touch(File.join(Dir.home, '.chef', 'accepted_licenses', 'inspec'))
+      FileUtils.touch(File.join(Dir.home, '.chef', 'accepted_licenses', 'inspec.for_testing'))
+    end
+
+    # Regardless of what happens, when this process exits, check for cleanup.
+    at_exit do
+      if File.exist?(File.join(Dir.home, '.chef', 'accepted_licenses', 'inspec.for_testing'))
+        puts "\n\nRemoving temporary Chef user license acceptance file that was placed for test duration.\n"
+        FileUtils.rm_f(File.join(Dir.home, '.chef', 'accepted_licenses', 'inspec'))
+        FileUtils.rm_f(File.join(Dir.home, '.chef', 'accepted_licenses', 'inspec.for_testing'))
+      end
+    end
+  end
+
   Rake::TestTask.new(:functional) do |t|
     t.libs << 'test'
     t.test_files = Dir.glob([
       'test/functional/**/*_test.rb',
       'lib/plugins/inspec-*/test/functional/**/*_test.rb',
     ])
-    t.warning = false
+    t.warning = false # This just complains about things in underlying libraries
     t.verbose = true
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
+  # Inject a prerequisite task
+  task :functional => [:accept_license]
 
   # Functional tests on Windows take a bit to run. This
   # optionally takes a env to breake the tests up into 3 workers.
@@ -93,10 +116,12 @@ namespace :test do
 
     t.libs << 'test'
     t.test_files = files
-    t.warning = false
+    t.warning = false # This just complains about things in underlying libraries
     t.verbose = true
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
+  # Inject a prerequisite task
+  task :'functional:windows' => [:accept_license]
 
   task :resources do
     tests = Dir['test/resource/*_test.rb']
@@ -122,6 +147,8 @@ namespace :test do
       FileUtils.rm(destination)
     end
   end
+  # Inject a prerequisite task
+  task :'integration' => [:accept_license]
 
   task :ssh, [:target] do |_t, args|
     tests_path = File.join(File.dirname(__FILE__), 'test', 'integration', 'test', 'integration', 'default')

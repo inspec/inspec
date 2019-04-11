@@ -39,6 +39,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   class_option :disable_user_plugins, type: :string, banner: '',
     desc: 'Disable loading all plugins that the user installed.'
 
+  require 'license_acceptance/cli_flags/thor'
+  include LicenseAcceptance::CLIFlags::Thor
+
   desc 'json PATH', 'read all tests in PATH and generate a JSON summary'
   option :output, aliases: :o, type: :string,
     desc: 'Save the created profile to a path'
@@ -196,6 +199,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
         3  Fatal deprecation encountered
       100  Normal exit, at least one test failed
       101  Normal exit, at least one test skipped but none failed
+      172  Chef License not accepted
     ```
 
     Below are some examples of using `exec` with different test LOCATIONS:
@@ -373,18 +377,44 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   end
 end
 
-begin
-  # Handle help commands
-  # This allows you to use any of the normal help commands after the normal args.
-  help_commands = ['-h', '--help', 'help']
-  (help_commands & ARGV).each do |cmd|
-    # move the help argument to one place behind the end for Thor to digest
-    if ARGV.size > 1
-      match = ARGV.delete(cmd)
-      ARGV.insert(-2, match)
-    end
-  end
+#=====================================================================#
+#                        Pre-Flight Code
+#=====================================================================#
 
+help_commands = ['-h', '--help', 'help']
+version_commands = ['-v', '--version', 'version']
+commands_exempt_from_license_check = help_commands + version_commands
+
+#---------------------------------------------------------------------#
+# EULA acceptance
+#---------------------------------------------------------------------#
+require 'license_acceptance/acceptor'
+begin
+  if (commands_exempt_from_license_check & ARGV.map(&:downcase)).empty? &&  # Did they use a non-exempt command?
+     !ARGV.empty?                                                           # Did they supply at least one command?
+    LicenseAcceptance::Acceptor.check_and_persist('inspec', Inspec::VERSION)
+  end
+rescue LicenseAcceptance::LicenseNotAcceptedError
+  Inspec::Log.error 'InSpec cannot execute without accepting the license'
+  Inspec::UI.new.exit(:license_not_accepted)
+end
+
+#---------------------------------------------------------------------#
+# Adjustments for help handling
+# This allows you to use any of the normal help commands after the normal args.
+#---------------------------------------------------------------------#
+(help_commands & ARGV).each do |cmd|
+  # move the help argument to one place behind the end for Thor to digest
+  if ARGV.size > 1
+    match = ARGV.delete(cmd)
+    ARGV.insert(-2, match)
+  end
+end
+
+#---------------------------------------------------------------------#
+# Plugin Loading
+#---------------------------------------------------------------------#
+begin
   # Load v2 plugins.  Manually check for plugin disablement.
   omit_core = ARGV.delete('--disable-core-plugins')
   omit_user = ARGV.delete('--disable-user-plugins')
