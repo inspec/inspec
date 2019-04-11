@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.9.2 -->
-## [v3.9.2](https://github.com/inspec/inspec/tree/v3.9.2) (2019-04-08)
+<!-- latest_release 3.9.3 -->
+## [v3.9.3](https://github.com/inspec/inspec/tree/v3.9.3) (2019-04-11)
 
-#### Merged Pull Requests
-- apt: correct docs to clarify that it matches repositories not packages [#3915](https://github.com/inspec/inspec/pull/3915) ([nqb](https://github.com/nqb))
+#### New Features
+- Telemetry Object model - backport to 3.x [#3938](https://github.com/inspec/inspec/pull/3938) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.0 -->
 ### Changes since 3.9.0 release
+
+#### New Features
+- Telemetry Object model - backport to 3.x [#3938](https://github.com/inspec/inspec/pull/3938) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.9.3 -->
 
 #### Merged Pull Requests
 - apt: correct docs to clarify that it matches repositories not packages [#3915](https://github.com/inspec/inspec/pull/3915) ([nqb](https://github.com/nqb)) <!-- 3.9.2 -->
