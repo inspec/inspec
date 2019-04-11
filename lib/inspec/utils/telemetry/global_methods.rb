@@ -6,7 +6,6 @@ module Inspec
   # the same object.
   # `data_point` is optional, you may also supply a block with several data points.
   # All data points should allow #to_s
-  # @return [True]
   def self.record_telemetry_data(data_series_name, data_point = nil)
     coll = Inspec::Telemetry::Collector.instance
     return unless coll.telemetry_enabled?
