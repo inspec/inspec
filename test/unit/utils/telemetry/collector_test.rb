@@ -12,8 +12,9 @@ class TestTelemetryCollector < Minitest::Test
   end
 
   def test_add_data_series
-    data_series = Inspec::Telemetry::DataSeries.new('/resource/File')
-    assert @collector.add_data_series(data_series)
+    assert_empty @collector.list_data_series
+    assert @collector.add_data_series(Inspec::Telemetry::DataSeries.new('/resource/File'))
+    refute_empty @collector.list_data_series
   end
 
   def test_list_data_series
