@@ -147,7 +147,7 @@ namespace :test do
     end
   end
   # Inject a prerequisite task
-  task :'integration' => [:touch_license_files]
+  task :'integration' => [:accept_license]
 
   task :ssh, [:target] do |_t, args|
     tests_path = File.join(File.dirname(__FILE__), 'test', 'integration', 'test', 'integration', 'default')
