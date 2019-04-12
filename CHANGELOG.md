@@ -1,13 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.0.7 -->
-## [v4.0.7](https://github.com/inspec/inspec/tree/v4.0.7) (2019-04-12)
+<!-- latest_release 4.0.8 -->
+## [v4.0.8](https://github.com/inspec/inspec/tree/v4.0.8) (2019-04-12)
 
 #### Merged Pull Requests
-- Remove the omnibus override to use train 1.X [#3940](https://github.com/inspec/inspec/pull/3940) ([tas50](https://github.com/tas50))
-
-#### Enhancements
-- Add inspec-habitat resources to website docs [#3941](https://github.com/inspec/inspec/pull/3941) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Test with webmock 3+ [#3939](https://github.com/inspec/inspec/pull/3939) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.0 -->
@@ -18,6 +15,7 @@
 - Telemetry Object Model [#3928](https://github.com/inspec/inspec/pull/3928) ([miah](https://github.com/miah)) <!-- 4.0.5 -->
 
 #### Merged Pull Requests
+- Test with webmock 3+ [#3939](https://github.com/inspec/inspec/pull/3939) ([tas50](https://github.com/tas50)) <!-- 4.0.8 -->
 - Remove the omnibus override to use train 1.X [#3940](https://github.com/inspec/inspec/pull/3940) ([tas50](https://github.com/tas50)) <!-- 4.0.7 -->
 - Fix winrm no-such-transport test [#3927](https://github.com/inspec/inspec/pull/3927) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.4 -->
 - Attribute-&gt;Input Rename: Rename cli option [#3879](https://github.com/inspec/inspec/pull/3879) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.4 -->
@@ -37,6 +35,7 @@
 ## [v3.9.2](https://github.com/inspec/inspec/tree/v3.9.2) (2019-04-08)
 
 #### Merged Pull Requests
+- Test with webmock 3+ [#3939](https://github.com/inspec/inspec/pull/3939) ([tas50](https://github.com/tas50)) <!-- 4.0.8 -->
 - Remove the omnibus override to use train 1.X [#3940](https://github.com/inspec/inspec/pull/3940) ([tas50](https://github.com/tas50)) <!-- 4.0.7 -->
 - Fix winrm no-such-transport test [#3927](https://github.com/inspec/inspec/pull/3927) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.4 -->
 - Attribute-&gt;Input Rename: Rename cli option [#3879](https://github.com/inspec/inspec/pull/3879) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.4 -->
