@@ -168,7 +168,7 @@ class ResourceDocs
     # doc_file looks like /resources/foo.md.erb - trim off directory and file extension
     trimmed_doc_files = resource_doc_files.dup.map { |file| File.basename(file).sub(/\.md(\.erb)?$/, '') }
     resources_by_group = Hash[group_regexes.map { |info| [info[:group_name], []] }] # Initialize each group to an empty array
-    resources_by_group['OS resources'] = []
+    resources_by_group['OS'] = []
     trimmed_doc_files.each do |doc_file|
       matched = false
       group_regexes.each do |group_info|
@@ -179,7 +179,7 @@ class ResourceDocs
         end
       end
       # Any resources that don't match a regex are assumed to be 'os' resources.
-      resources_by_group['OS resources'] << doc_file unless matched
+      resources_by_group['OS'] << doc_file unless matched
     end
 
     # Now transform the resource lists into HTML
@@ -196,7 +196,7 @@ class ResourceDocs
     # Generate the big buttons that jump to the section of the page for each group.
     markdown << '<div class="row columns align">'
     # "Sorted, except OS is always in first place"
-    ordered_group_names = ['OS resources'] + resources_by_group.keys.sort.reject { |group_name| group_name == 'OS resources' }
+    ordered_group_names = ['OS'] + resources_by_group.keys.sort.reject { |group_name| group_name == 'OS' }
     button_template = '<a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="%s">%s</a>'
     ordered_group_names.each do |group_name|
       markdown << format(button_template, '#'+(group_name+'-resources').downcase, group_name)
