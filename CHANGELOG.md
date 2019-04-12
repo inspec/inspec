@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.0.6 -->
-## [v4.0.6](https://github.com/inspec/inspec/tree/v4.0.6) (2019-04-11)
+<!-- latest_release unreleased -->
+## Unreleased
 
-#### New Features
-- Add license acceptance to InSpec v4 [#3935](https://github.com/inspec/inspec/pull/3935) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Enhancements
+- Add inspec-habitat resources to website docs [#3941](https://github.com/inspec/inspec/pull/3941) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.0 -->
@@ -23,6 +23,7 @@
 - Fix broken links in migration docs. [#3907](https://github.com/inspec/inspec/pull/3907) ([joshlarsen](https://github.com/joshlarsen)) <!-- 3.9.0 -->
 
 #### Enhancements
+- Add inspec-habitat resources to website docs [#3941](https://github.com/inspec/inspec/pull/3941) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.6 -->
 - Update AWS profile generation for InSpec 4 to depend on the new resou… [#3831](https://github.com/inspec/inspec/pull/3831) ([skpaterson](https://github.com/skpaterson)) <!-- 4.0.2 -->
 
 #### Bug Fixes
