@@ -1,5 +1,11 @@
 # InSpec: Inspect Your Infrastructure
 
+* **Project State: Active**
+* **Issues Response SLA: 3 business days**
+* **Pull Request Response SLA: 3 business days**
+
+For more information on project states and SLAs, see [this documentation](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md).
+
 [![Slack](https://community-slack.chef.io/badge.svg)](https://community-slack.chef.io/)
 [![Build Status Master](https://travis-ci.org/inspec/inspec.svg?branch=master)](https://travis-ci.org/inspec/inspec)
 [![Build Status Master](https://ci.appveyor.com/api/projects/status/github/inspec/inspec?branch=master&svg=true&passingText=master%20-%20Ok&pendingText=master%20-%20Pending&failingText=master%20-%20Failing)](https://ci.appveyor.com/project/Chef/inspec/branch/master)
