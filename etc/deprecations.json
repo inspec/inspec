@@ -1,6 +1,6 @@
 {
   "file_version": "1.0.0",
-  "unknown_group_action": "exit",
+  "unknown_group_action": "ignore",
   "groups": {
     "attrs_value_replaces_default": {
       "action": "ignore",
@@ -26,7 +26,8 @@
     },
     "inspec_ui_methods": {
       "action": "ignore",
-      "suffix": "Please call `cli.ui` directly"
+      "suffix": "Please call `cli.ui` directly",
+      "comment": "See #3715"
     },
     "mssql_session_pass_option": {
       "action": "warn",
@@ -84,9 +85,8 @@
       "action": "warn",
       "suffix": "This resource will be removed in InSpec 4.0"
     },
-    "resource_user": {
-      "action": "warn",
-      "suffix": "This resource will be removed in InSpec 4.0."
+    "resource_user_serverspec_compat": {
+      "action": "warn"
     },
     "resource_windows_registry_key": {
       "action": "warn",
@@ -98,6 +98,9 @@
       "suffix": "This is only allowed for compatibility with ServerSpec"
     },
     "supports_syntax": {
+      "action": "warn"
+    },
+    "mount_parser_serverspec_compat": {
       "action": "warn"
     },
     "wmi_non_hash_usage": {

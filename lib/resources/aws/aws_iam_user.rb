@@ -22,7 +22,7 @@ class AwsIamUser < Inspec.resource(1)
   alias has_console_password? has_console_password
 
   def name
-    Inspec.deprecate(:properties_aws_iam_user, 'The aws_iam_users `name` property is deprecated. Please use `username` instead')
+    Inspec.deprecate(:properties_aws_iam_user, 'The aws_iam_user `name` property is deprecated. Please use `username` instead')
     username
   end
 

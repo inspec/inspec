@@ -49,7 +49,7 @@ module Inspec::Resources
       @port = params[:port]
 
       if params[:proto]
-        Inspec.deprecate(:host_resource_proto_usage, 'The host resource `proto` parameter is deprecated. Please use `protocol`.')
+        Inspec.deprecate(:host_resource_proto_usage, 'The `host` resource `proto` resource parameter is deprecated. Please use `protocol`.')
         @protocol = params[:proto]
       else
         @protocol = params.fetch(:protocol, 'icmp')

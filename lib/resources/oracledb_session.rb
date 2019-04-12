@@ -28,7 +28,7 @@ module Inspec::Resources
       @user = opts[:user]
       @password = opts[:password] || opts[:pass]
       if opts[:pass]
-        Inspec.deprecate(:oracaldb_session_pass_option, 'The oracledb_session `pass` option is deprecated. Please use `password`.')
+        Inspec.deprecate(:oracledb_session_pass_option, 'The oracledb_session `pass` option is deprecated. Please use `password`.')
       end
 
       @host = opts[:host] || 'localhost'

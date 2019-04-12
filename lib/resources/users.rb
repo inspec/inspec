@@ -213,35 +213,35 @@ module Inspec::Resources
 
     # implement 'mindays' method to be compatible with serverspec
     def minimum_days_between_password_change
-      Inspec.deprecate(:resource_user, 'The user resource `minimum_days_between_password_change` property is deprecated. Please use `mindays`.')
+      Inspec.deprecate(:resource_user_serverspec_compat, 'The user resource `minimum_days_between_password_change` property is deprecated. Please use `mindays`.')
       mindays
     end
 
     # implement 'maxdays' method to be compatible with serverspec
     def maximum_days_between_password_change
-      Inspec.deprecate(:resource_user, 'The user resource `maximum_days_between_password_change` property is deprecated. Please use `maxdays`.')
+      Inspec.deprecate(:resource_user_serverspec_compat, 'The user resource `maximum_days_between_password_change` property is deprecated. Please use `maxdays`.')
       maxdays
     end
 
     # implements rspec has matcher, to be compatible with serverspec
     # @see: https://github.com/rspec/rspec-expectations/blob/master/lib/rspec/matchers/built_in/has.rb
     def has_uid?(compare_uid)
-      Inspec.deprecate(:serverspec_compatibility, 'The user resource `has_uid?` matcher is deprecated.')
+      Inspec.deprecate(:resource_user_serverspec_compat, 'The user resource `has_uid?` matcher is deprecated.')
       uid == compare_uid
     end
 
     def has_home_directory?(compare_home)
-      Inspec.deprecate(:resource_user, 'The user resource `has_home_directory?` matcher is deprecated. Please use `its(\'home\')`.')
+      Inspec.deprecate(:resource_user_serverspec_compat, 'The user resource `has_home_directory?` matcher is deprecated. Please use `its(\'home\')`.')
       home == compare_home
     end
 
     def has_login_shell?(compare_shell)
-      Inspec.deprecate(:resource_user, 'The user resource `has_login_shell?` matcher is deprecated. Please use `its(\'shell\')`.')
+      Inspec.deprecate(:resource_user_serverspec_compat, 'The user resource `has_login_shell?` matcher is deprecated. Please use `its(\'shell\')`.')
       shell == compare_shell
     end
 
     def has_authorized_key?(_compare_key)
-      Inspec.deprecate(:resource_user, 'The user resource `has_authorized_key?` matcher is deprecated. There is no currently implemented alternative')
+      Inspec.deprecate(:resource_user_serverspec_compat, 'The user resource `has_authorized_key?` matcher is deprecated. There is no currently implemented alternative')
       raise NotImplementedError
     end
 
