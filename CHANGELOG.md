@@ -1,25 +1,23 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.9.3 -->
-## [v3.9.3](https://github.com/inspec/inspec/tree/v3.9.3) (2019-04-11)
-
-#### New Features
-- Telemetry Object model - backport to 3.x [#3938](https://github.com/inspec/inspec/pull/3938) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.9.0 -->
-### Changes since 3.9.0 release
-
-#### New Features
-- Telemetry Object model - backport to 3.x [#3938](https://github.com/inspec/inspec/pull/3938) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.9.3 -->
-
-#### Merged Pull Requests
-- apt: correct docs to clarify that it matches repositories not packages [#3915](https://github.com/inspec/inspec/pull/3915) ([nqb](https://github.com/nqb)) <!-- 3.9.2 -->
-- crontab: Add validation for path param [#3899](https://github.com/inspec/inspec/pull/3899) ([skpaterson](https://github.com/skpaterson)) <!-- 3.9.1 -->
-- Fix broken links in migration docs. [#3907](https://github.com/inspec/inspec/pull/3907) ([joshlarsen](https://github.com/joshlarsen)) <!-- 3.9.0 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.9.3](https://github.com/chef/inspec/tree/v3.9.3) (2019-04-15)
+
+#### New Features
+- Telemetry Object model - backport to 3.x [#3938](https://github.com/inspec/inspec/pull/3938) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Fix broken links in migration docs. [#3907](https://github.com/inspec/inspec/pull/3907) ([joshlarsen](https://github.com/joshlarsen))
+- crontab: Add validation for path param [#3899](https://github.com/inspec/inspec/pull/3899) ([skpaterson](https://github.com/skpaterson))
+- apt: correct docs to clarify that it matches repositories not packages [#3915](https://github.com/inspec/inspec/pull/3915) ([nqb](https://github.com/nqb))
+<!-- latest_stable_release -->
+
 ## [v3.9.0](https://github.com/inspec/inspec/tree/v3.9.0) (2019-04-02)
 
 #### New Features
@@ -28,7 +26,6 @@
 #### Merged Pull Requests
 - Don&#39;t include plugin test files in the gem file [#3911](https://github.com/inspec/inspec/pull/3911) ([tas50](https://github.com/tas50))
 - Include train-habitat gem with InSpec [#3912](https://github.com/inspec/inspec/pull/3912) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v3.7.11](https://github.com/inspec/inspec/tree/v3.7.11) (2019-03-22)
 
