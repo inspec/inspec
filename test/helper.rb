@@ -19,6 +19,7 @@ require 'tempfile'
 require 'tmpdir'
 require 'zip'
 require 'json'
+require 'byebug'
 
 require 'inspec/base_cli'
 require 'inspec/version'
@@ -659,4 +660,63 @@ def expect_deprecation_warning
     yield
   end
   @mock_logger.verify
+end
+
+# Low-level deprecation handler. Use the more convenient version when possible.
+# a_group => :expect_warn
+# a_group => :expect_fail
+# a_group => :expect_ignore
+# a_group => :expect_something
+# a_group => :tolerate # No opinion
+# all => ... # Any of the 5 values above
+# all_others => ... # Any of the 5 values above
+def handle_deprecations(opts_in, &block)
+  opts = opts_in.dup
+
+  # Determine the default expectation
+  opts[:all_others] = opts.delete(:all) if opts.key?(:all) && opts.count == 1
+  expectations = {}
+  expectations[:all_others] = opts.delete(:all_others) || :tolerate
+  expectations.merge!(opts)
+
+  # Expand the list of deprecation groups given
+  known_group_names = Inspec::Deprecation::ConfigFile.new.groups.keys
+  known_group_names.each do |group_name|
+    next if opts.key?(group_name)
+    expectations[group_name] = expectations[:all_others]
+  end
+
+  # Wire up Insepc.deprecator accordingly using mocha stubbing
+  expectations.each do |group_name, expectation|
+    inst = Inspec::Deprecation::Deprecator.any_instance
+    case expectation
+    when :tolerate
+      inst.stubs(:handle_deprecation).with(group_name, anything, anything)
+    when :expect_something
+      inst.stubs(:handle_deprecation).with(group_name, anything, anything).at_least_once
+    when :expect_warn
+      inst.stubs(:handle_warn_action).with(group_name, anything).at_least_once
+    when :expect_fail
+      inst.stubs(:handle_fail_control_action).with(group_name, anything).at_least_once
+    when :expect_ignore
+      inst.stubs(:handle_ignore_action).with(group_name, anything).at_least_once
+    when :expect_exit
+      inst.stubs(:handle_exit_action).with(group_name, anything).at_least_once
+    end
+  end
+
+  yield
+end
+
+# Use this to absorb everything.
+def tolerate_all_deprecations(&block)
+  handle_deprecations(all: :tolerate, &block)
+end
+
+def expect_deprecation_warning(group, &block)
+  handle_deprecations(group => :expect_warn, all_others: :tolerate, &block)
+end
+
+def expect_deprecation(group, &block)
+  handle_deprecations(group => :expect_something, all_others: :tolerate, &block)
 end
