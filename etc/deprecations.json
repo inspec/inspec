@@ -51,7 +51,7 @@
     },
     "properties_shadow": {
       "action": "warn",
-      "suffix": "This property will be removed in InSpec 3.0."
+      "suffix": "This property will be removed in InSpec 4.0."
     },
     "rename_attributes_to_inputs": {
       "action": "ignore",
