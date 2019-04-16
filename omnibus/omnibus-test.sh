@@ -13,11 +13,9 @@ check-omnibus-package-signed "$package_file"
 
 echo "--- Testing $channel $product $version"
 
-export INSTALL_DIR=/opt/inspec
-export PATH="/opt/inspec/bin:$PATH"
-
 echo "Verifying ownership of package files"
 
+export INSTALL_DIR=/opt/inspec
 NONROOT_FILES="$(find "$INSTALL_DIR" ! -uid 0 -print)"
 if [[ "$NONROOT_FILES" == "" ]]; then
   echo "Packages files are owned by root.  Continuing verification."
@@ -34,5 +32,4 @@ echo "Running verification for $product"
 export GEM_HOME=/SHOULD_NOT_EXIST
 export GEM_PATH=/SHOULD_NOT_EXIST
 
-export PATH="$PATH:/usr/local/bin"
 inspec version
