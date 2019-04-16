@@ -44,7 +44,7 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   it 'access all lines of the file' do
-    expect_deprecation_warning do
+    expect_deprecation(:properties_shadow) do
       shadow.lines[0].must_equal 'root:x:1:2:3::::'
     end
   end
@@ -58,25 +58,25 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   it 'returns deprecation notice on user property' do
-    expect_deprecation_warning do
+    expect_deprecation(:properties_shadow) do
       shadow.user.must_equal %w{root www-data}
     end
   end
 
   it 'returns deprecatation notice on password property' do
-    expect_deprecation_warning do
+    expect_deprecation(:properties_shadow) do
       shadow.password.must_equal %w{x !!}
     end
   end
 
   it 'returns deprecation notice on last_change property' do
-    expect_deprecation_warning do
+    expect_deprecation(:properties_shadow) do
       shadow.last_change.must_equal %w{1 10}
     end
   end
 
   it 'returns deprecation notice on expiry_date property' do
-    expect_deprecation_warning do
+    expect_deprecation(:properties_shadow) do
       shadow.expiry_date.must_equal [nil, "60"]
     end
   end
@@ -95,10 +95,10 @@ describe 'Inspec::Resources::Shadow' do
       users = shadow.filter(password: /[^x]/).entries.map { |x| x['user'] }
 
       users.each do |expected_user|
-        expect_deprecation_warning do
+        expect_deprecation(:properties_shadow) do
           shadow.user(expected_user).users.must_equal(['www-data'])
         end
-        expect_deprecation_warning do
+        expect_deprecation(:properties_shadow) do
           shadow.user(expected_user).inactive_days.must_equal(['50'])
         end
       end

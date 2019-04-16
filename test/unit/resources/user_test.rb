@@ -37,27 +37,27 @@ describe 'Inspec::Resources::User' do
   it 'returns deprecation notices' do
     resource = MockLoader.new(:ubuntu1404).load_resource('user', 'root')
 
-    expect_deprecation_warning do
+    expect_deprecation(:resource_user_serverspec_compat) do
       resource.has_uid?(0).must_equal true
     end
 
-    expect_deprecation_warning do
+    expect_deprecation(:resource_user_serverspec_compat) do
       resource.has_home_directory?('/root').must_equal true
     end
 
-    expect_deprecation_warning do
+    expect_deprecation(:resource_user_serverspec_compat) do
       resource.has_login_shell?('/bin/bash').must_equal true
     end
 
-    expect_deprecation_warning do
+    expect_deprecation(:resource_user_serverspec_compat) do
       resource.minimum_days_between_password_change.must_equal 0
     end
 
-    expect_deprecation_warning do
+    expect_deprecation(:resource_user_serverspec_compat) do
       resource.maximum_days_between_password_change.must_equal 99999
     end
 
-    expect_deprecation_warning do
+    expect_deprecation(:resource_user_serverspec_compat) do
       proc { resource.has_authorized_key?('abc') }.must_raise NotImplementedError
     end
   end

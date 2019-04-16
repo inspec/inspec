@@ -14,7 +14,7 @@ describe 'Inspec::Resources::Processes' do
   it 'verify processes resource' do
     resource = MockLoader.new(:freebsd10).load_resource('processes', 'login -fp apop')
 
-    expect_deprecation_warning do
+    expect_deprecation(:property_processes_list) do
       resource.list.length.must_equal 2
     end
 

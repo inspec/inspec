@@ -21,11 +21,11 @@ describe 'Inspec::Resources::PowershellScript' do
   end
 
   it 'properly generates command if deprecated `script` is used' do
-    expect_deprecation_warning do
+    expect_deprecation(:resource_script) do
       resource = MockLoader.new(:windows).load_resource('script', 'Get-Help')
       _(resource.command).must_equal 'Get-Help'
     end
-    expect_deprecation_warning do
+    expect_deprecation(:resource_script) do
       resource = MockLoader.new(:osx104).load_resource('script', 'Get-Help')
       _(resource.command).must_equal("pwsh -encodedCommand '#{base64_command}'")
     end
