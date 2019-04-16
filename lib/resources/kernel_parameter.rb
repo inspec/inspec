@@ -33,22 +33,17 @@ module Inspec::Resources
     end
   end
 
-  # for compatability with serverspec
-  # this is deprecated syntax and will be removed in future versions
   class LinuxKernelParameter < KernelParameter
     name 'linux_kernel_parameter'
 
     def initialize(parameter)
+      Inspec.deprecate(:resource_linux_kernel_parameter, 'The `linux_kernel_parameter` resource is deprecated. Please use `kernel_parameter`')
       super(parameter)
     end
 
     def value
-      deprecated
+      Inspec.deprecate(:resource_linux_kernel_parameter, 'The `linux_kernel_parameter` resource is deprecated. Please use `kernel_parameter`')
       super()
-    end
-
-    def deprecated
-      warn '[DEPRECATION] `linux_kernel_parameter(parameter)` is deprecated.  Please use `kernel_parameter(parameter)` instead.'
     end
 
     def to_s

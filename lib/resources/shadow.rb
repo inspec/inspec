@@ -91,32 +91,27 @@ module Inspec::Resources
     # Next 4 are deprecated methods.  We define them here so we can emit a deprecation message.
     # They are also defined on the Table, above.
     def user(query = nil)
-      warn '[DEPRECATION] The shadow `user` property is deprecated and will be removed' \
-       ' in InSpec 3.0.  Please use `users` instead.'
+      Inspec.deprecate(:properties_shadow, 'The shadow `user` property is deprecated. Please use `users` instead.')
       query.nil? ? where.users : where('user' => query)
     end
 
     def password(query = nil)
-      warn '[DEPRECATION] The shadow `password` property is deprecated and will be removed' \
-       ' in InSpec 3.0.  Please use `passwords` instead.'
+      Inspec.deprecate(:properties_shadow, 'The shadow `password` property is deprecated. Please use `passwords` instead.')
       query.nil? ? where.passwords : where('password' => query)
     end
 
     def last_change(query = nil)
-      warn '[DEPRECATION] The shadow `last_change` property is deprecated and will be removed' \
-       ' in InSpec 3.0.  Please use `last_changes` instead.'
+      Inspec.deprecate(:properties_shadow, 'The shadow `last_change` property is deprecated. Please use `last_changes` instead.')
       query.nil? ? where.last_changes : where('last_change' => query)
     end
 
     def expiry_date(query = nil)
-      warn '[DEPRECATION] The shadow `expiry_date` property is deprecated and will be removed' \
-       ' in InSpec 3.0.  Please use `expiry_dates` instead.'
+      Inspec.deprecate(:properties_shadow, 'The shadow `expiry_date` property is deprecated. Please use `expiry_dates` instead.')
       query.nil? ? where.expiry_dates : where('expiry_date' => query)
     end
 
     def lines
-      warn '[DEPRECATION] The shadow `lines` property is deprecated and will be removed' \
-        ' in InSpec 3.0.'
+      Inspec.deprecate(:properties_shadow, 'The shadow `lines` property is deprecated.')
       shadow_content.to_s.split("\n")
     end
 

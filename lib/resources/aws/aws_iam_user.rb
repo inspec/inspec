@@ -22,7 +22,7 @@ class AwsIamUser < Inspec.resource(1)
   alias has_console_password? has_console_password
 
   def name
-    warn "[DEPRECATION] - Property ':name' is deprecated on the aws_iam_user resource.  Use ':username' instead."
+    Inspec.deprecate(:properties_aws_iam_user, 'The aws_iam_user `name` property is deprecated. Please use `username` instead')
     username
   end
 
@@ -51,13 +51,13 @@ class AwsIamUser < Inspec.resource(1)
     )
     # If someone passed :name, rename it to :username
     if validated_params.key?(:name)
-      warn "[DEPRECATION] - Resource parameter ':name' is deprecated on the aws_iam_user resource.  Use ':username' instead."
+      Inspec.deprecate(:properties_aws_iam_user, 'The aws_iam_users `name` property is deprecated. Please use `username` instead')
       validated_params[:username] = validated_params.delete(:name)
     end
 
     # If someone passed :user, rename it to :aws_user_struct
     if validated_params.key?(:user)
-      warn "[DEPRECATION] - Resource parameter ':user' is deprecated on the aws_iam_user resource.  Use ':aws_user_struct' instead."
+      Inspec.deprecate(:properties_aws_iam_user, 'The aws_iam_users `user` property is deprecated. Please use `aws_user_struct` instead')
       validated_params[:aws_user_struct] = validated_params.delete(:user)
     end
 

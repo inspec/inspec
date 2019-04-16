@@ -34,7 +34,7 @@ module Inspec::Resources
       @user = opts[:user]
       @password = opts[:password] || opts[:pass]
       if opts[:pass]
-        warn '[DEPRECATED] use `password` option to supply password instead of `pass`'
+        Inspec.deprecate(:mssql_session_pass_option, 'The mssql_session `pass` option is deprecated. Please use `password`.')
       end
       @local_mode = opts[:local_mode]
       unless local_mode?

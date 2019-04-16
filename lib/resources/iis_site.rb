@@ -134,8 +134,8 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize(site_name)
+      Inspec.deprecate(:resource_iis_website, 'The `iis_website` resource is deprecated. Please use `iis_site` instead.')
       super(site_name)
-      warn '[DEPRECATION] `iis_website(site_name)` is deprecated.  Please use `iis_site(site_name)` instead.'
     end
 
     def in_app_pool?(app_pool)

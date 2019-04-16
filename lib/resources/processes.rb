@@ -56,7 +56,7 @@ module Inspec::Resources
     end
 
     def list
-      warn '[DEPRECATION] `processes.list` is deprecated. Please use `processes.entries` instead. It will be removed in version 4.0.'
+      Inspec.deprecate(:property_processes_list, 'The processes `list` property is deprecated. Please use `entries` instead.')
       @list
     end
 

@@ -26,11 +26,10 @@ module Inspec::Resources
 
     def initialize(wmiclass = nil, opts = nil)
       @options = opts || {}
-      # if wmiclass is not a hash, we have to handle deprecation behavior
       if wmiclass.is_a?(Hash)
         @options.merge!(wmiclass)
       else
-        warn '[DEPRECATION] `wmi(\'wmiclass\')` is deprecated.  Please use `wmi({class: \'wmiclass\'})` instead.'
+        Inspec.deprecate(:wmi_non_hash_usage, 'Using `wmi(\'wmisclass\')` is deprecated. Please use`wmi({class: \'wmisclass\'})`')
         @options[:class] = wmiclass
       end
     end

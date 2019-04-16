@@ -18,7 +18,7 @@ module Inspec
 
         action = group[:action] || :warn
         action_method = ('handle_' + action.to_s + '_action').to_sym
-        send(action_method, assembled_message, group)
+        send(action_method, group_name.to_sym, assembled_message)
       end
 
       private
@@ -76,7 +76,8 @@ module Inspec
         false
       end
 
-      def handle_ignore_action(message, _group)
+      # Unused args needed for unit test deprecation harness
+      def handle_ignore_action(_group_name, message)
         handle_log_action(message, :debug)
       end
 
@@ -91,24 +92,24 @@ module Inspec
         end
       end
 
-      def handle_warn_action(message, _group)
+      def handle_warn_action(_group_name, message)
         handle_log_action(message, :warn)
       end
 
-      def handle_error_action(message, _group)
+      def handle_error_action(_group_name, message)
         handle_log_action(message, :error)
       end
 
-      def handle_fail_control_action(message, group)
+      def handle_fail_control_action(group_name, message)
         if called_from_control?
           raise Inspec::Exceptions::ResourceFailed, message
         else
-          handle_warn_action(message, group)
+          handle_warn_action(group_name, message)
         end
       end
 
-      def handle_exit_action(message, group)
-        handle_error_action(message, group)
+      def handle_exit_action(group_name, message)
+        handle_error_action(group_name, message)
         status = group[:exit_status] || :fatal_deprecation
         Inspec::UI.new.exit(status)
       end

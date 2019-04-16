@@ -127,8 +127,6 @@ module Inspec::Resources
     end
   end
 
-  # for compatability with serverspec
-  # this is deprecated syntax and will be removed in future versions
   class PpaRepository < AptRepository
     name 'ppa'
 
@@ -143,7 +141,7 @@ module Inspec::Resources
     end
 
     def deprecated
-      warn '[DEPRECATION] `ppa(reponame)` is deprecated.  Please use `apt(reponame)` instead.'
+      Inspec.deprecate(:resource_ppa, 'The `ppa` resource is deprecated. Please use `apt`')
     end
   end
 end
