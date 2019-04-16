@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.0.8 -->
-## [v4.0.8](https://github.com/inspec/inspec/tree/v4.0.8) (2019-04-12)
+<!-- latest_release 4.1.0 -->
+## [v4.1.0](https://github.com/inspec/inspec/tree/v4.1.0) (2019-04-16)
 
-#### Merged Pull Requests
-- Test with webmock 3+ [#3939](https://github.com/inspec/inspec/pull/3939) ([tas50](https://github.com/tas50))
+#### New Features
+- file: add `more_permissive_than?(mode)` matcher [#3895](https://github.com/inspec/inspec/pull/3895) ([aaronlippold](https://github.com/aaronlippold))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.0 -->
 ### Changes since 3.9.0 release
 
 #### New Features
+- file: add `more_permissive_than?(mode)` matcher [#3895](https://github.com/inspec/inspec/pull/3895) ([aaronlippold](https://github.com/aaronlippold)) <!-- 4.1.0 -->
 - Add license acceptance to InSpec v4 [#3935](https://github.com/inspec/inspec/pull/3935) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.6 -->
 - Telemetry Object Model [#3928](https://github.com/inspec/inspec/pull/3928) ([miah](https://github.com/miah)) <!-- 4.0.5 -->
 
