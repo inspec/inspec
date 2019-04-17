@@ -37,3 +37,5 @@ terraform.tfstate.backup
 inspec-azure.plan
 inspec-aws-*.plan
 contrib/*
+inspec-deprecations-in-cfg.txt
+inspec-deprecations-in-lib.txt
