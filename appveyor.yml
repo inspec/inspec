@@ -11,8 +11,6 @@ platform:
 
 environment:
   matrix:
-    - name: unit-tests-ruby-2.3.3
-      ruby_version: "23"
     - name: unit-tests-ruby-2.4.4
       ruby_version: "24"
     - name: unit-tests-ruby-2.5.1

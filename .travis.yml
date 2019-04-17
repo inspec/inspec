@@ -14,8 +14,6 @@ before_install:
 - bundle --version
 matrix:
   include:
-  - rvm: 2.3.8
-    env: UNIT_TESTS_23=1
   - rvm: 2.4.5
     env: UNIT_TESTS_24=1
   - rvm: 2.5.3
