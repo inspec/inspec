@@ -55,6 +55,8 @@ Metrics/PerceivedComplexity:
   Max: 11
 NumericLiterals:
   MinDigits: 10
+Performance/RegexpMatch:
+  Enabled: false
 Security/YAMLLoad:
   Enabled: false
 Style/AndOr:
