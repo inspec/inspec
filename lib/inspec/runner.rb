@@ -12,6 +12,7 @@ require 'inspec/metadata'
 require 'inspec/secrets'
 require 'inspec/config'
 require 'inspec/dependencies/cache'
+require 'inspec/dist'
 # spec requirements
 
 module Inspec
@@ -216,9 +217,9 @@ module Inspec
 
     def supports_profile?(profile)
       if !profile.supports_runtime?
-        raise 'This profile requires InSpec version '\
+        raise "This profile requires #{Inspec::Dist::PRODUCT_NAME} version "\
              "#{profile.metadata.inspec_requirement}. You are running "\
-             "InSpec v#{Inspec::VERSION}.\n"
+             "#{Inspec::Dist::PRODUCT_NAME} v#{Inspec::VERSION}.\n"
       end
 
       true
