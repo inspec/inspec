@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 3.9.4 -->
+## [v3.9.4](https://github.com/inspec/inspec/tree/v3.9.4) (2019-04-17)
+
+#### Merged Pull Requests
+- Use deprecation everywhere (v3 port) [#3952](https://github.com/inspec/inspec/pull/3952) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.9.3 -->
+### Changes since 3.9.3 release
+
+#### Merged Pull Requests
+- Use deprecation everywhere (v3 port) [#3952](https://github.com/inspec/inspec/pull/3952) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.9.4 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
