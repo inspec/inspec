@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
                            .reject { |f| File.directory?(f) || f =~ %r{lib/plugins/.*/test/} }
   spec.require_paths = ['lib']
 
-  spec.required_ruby_version = '>= 2.3'
+  spec.required_ruby_version = '>= 2.4'
 
   spec.add_dependency 'train', '~> 2.0' # Inspec 4 must have train 2+
   # Train plugins we ship with InSpec

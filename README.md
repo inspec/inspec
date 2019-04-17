@@ -46,7 +46,7 @@ inspec exec test.rb -t docker://container_id
 
 ## Installation
 
-InSpec requires Ruby ( >2.3 ).
+InSpec requires Ruby ( >= 2.4 ).
 
 ### Install as package
 
@@ -454,4 +454,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
