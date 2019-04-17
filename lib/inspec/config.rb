@@ -197,7 +197,7 @@ module Inspec
 
     def check_for_piped_config(cli_opts)
       cli_opt = cli_opts[:config] || cli_opts[:json_config]
-      Inspec.deprecate(:cli_option_json_config, '') if cli_opts.key?(:json_config)
+      Inspec.deprecate(:cli_option_json_config) if cli_opts.key?(:json_config)
 
       return nil unless cli_opt
       return nil unless cli_opt == '-'
@@ -209,7 +209,7 @@ module Inspec
 
     def determine_cfg_path(cli_opts)
       path = cli_opts[:config] || cli_opts[:json_config]
-      Inspec.deprecate(:cli_option_json_config, '') if cli_opts.key?(:json_config)
+      Inspec.deprecate(:cli_option_json_config) if cli_opts.key?(:json_config)
 
       if path.nil?
         default_path = File.join(Inspec.config_dir, 'config.json')

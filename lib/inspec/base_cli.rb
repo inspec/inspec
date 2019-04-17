@@ -164,28 +164,28 @@ module Inspec
       end
 
       def mark_text(text)
-        # TODO: - deprecate, call cli.ui directly
+        Inspec.deprecate(:inspec_ui_methods)
         # Note that this one doesn't automatically print
         ui.emphasis(text, print: false)
       end
 
       def headline(title)
-        # TODO: - deprecate, call cli.ui directly
+        Inspec.deprecate(:inspec_ui_methods)
         ui.headline(title)
       end
 
       def li(entry)
-        # TODO: - deprecate, call cli.ui directly
+        Inspec.deprecate(:inspec_ui_methods)
         ui.list_item(entry)
       end
 
       def plain_text(msg)
-        # TODO: - deprecate, call cli.ui directly
+        Inspec.deprecate(:inspec_ui_methods)
         ui.plain(msg + "\n")
       end
 
       def exit(code)
-        # TODO: - deprecate, call cli.ui directly
+        Inspec.deprecate(:inspec_ui_methods)
         ui.exit code
       end
     end

@@ -36,18 +36,28 @@ describe 'Inspec::Resources::User' do
   # serverspec compatibility tests (do not test matcher)
   it 'returns deprecation notices' do
     resource = MockLoader.new(:ubuntu1404).load_resource('user', 'root')
-    proc { resource.has_uid?(0).must_equal true }
-      .must_output nil, "[DEPRECATION] has_uid? is deprecated. \n"
-    proc { resource.has_home_directory?('/root').must_equal true }
-      .must_output nil, "[DEPRECATION] has_home_directory? is deprecated. Please use: its('home')\n"
-    proc { resource.has_login_shell?('/bin/bash').must_equal true }
-      .must_output nil, "[DEPRECATION] has_login_shell? is deprecated. Please use: its('shell')\n"
-    proc { resource.minimum_days_between_password_change.must_equal 0 }
-      .must_output nil, "[DEPRECATION] minimum_days_between_password_change is deprecated. Please use: its('mindays')\n"
-    proc { resource.maximum_days_between_password_change.must_equal 99999 }
-      .must_output nil, "[DEPRECATION] maximum_days_between_password_change is deprecated. Please use: its('maxdays')\n"
 
-    assert_output(nil, "[DEPRECATION] has_authorized_key? is deprecated. \n") do
+    expect_deprecation(:resource_user_serverspec_compat) do
+      resource.has_uid?(0).must_equal true
+    end
+
+    expect_deprecation(:resource_user_serverspec_compat) do
+      resource.has_home_directory?('/root').must_equal true
+    end
+
+    expect_deprecation(:resource_user_serverspec_compat) do
+      resource.has_login_shell?('/bin/bash').must_equal true
+    end
+
+    expect_deprecation(:resource_user_serverspec_compat) do
+      resource.minimum_days_between_password_change.must_equal 0
+    end
+
+    expect_deprecation(:resource_user_serverspec_compat) do
+      resource.maximum_days_between_password_change.must_equal 99999
+    end
+
+    expect_deprecation(:resource_user_serverspec_compat) do
       proc { resource.has_authorized_key?('abc') }.must_raise NotImplementedError
     end
   end

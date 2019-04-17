@@ -12,9 +12,9 @@ describe 'The global deprecation method' do
     it 'Inspec must have a class method' do
       Inspec.must_respond_to :deprecate
     end
-    it 'must take two required and one optional arg' do
+    it 'must take one required and two optional arg' do
       # See http://ruby-doc.org/core-2.5.3/Method.html#method-i-arity
-      Inspec.method(:deprecate).arity.must_equal(-3)
+      Inspec.method(:deprecate).arity.must_equal(-2)
     end
   end
 end
