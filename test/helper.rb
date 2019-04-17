@@ -343,7 +343,10 @@ class MockLoader
       # network interface
       'fddd70e8b8510f5fcc0413cfdc41598c55d6922bb2a0a4075e2118633a0bf422' => cmd.call('find-net-interface'),
       'c33821dece09c8b334e03a5bb9daefdf622007f73af4932605e758506584ec3f' => empty.call,
+      '/sbin/ip -br -4 address show dev eth0' => cmd.call('interface-addresses-4'),
+      '/sbin/ip -br -6 address show dev eth0' => cmd.call('interface-addresses-6'),
       'Get-NetAdapter | Select-Object -Property Name, InterfaceDescription, Status, State, MacAddress, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed, Virtual | ConvertTo-Json' => cmd.call('Get-NetAdapter'),
+      'Get-NetIPAddress | Select-Object -Property IPv6Address, IPv4Address, InterfaceAlias, PrefixLength | ConvertTo-Json' => cmd.call('Get-NetIPAddress'),
       # bridge on linux
       'ls -1 /sys/class/net/br0/brif/' => cmd.call('ls-sys-class-net-br'),
       # bridge on Windows
