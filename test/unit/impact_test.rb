@@ -12,7 +12,7 @@ describe 'Impact' do
     end
 
     it 'returns the proper impact for low string' do
-      impact.impact_from_string('low').must_equal 0.01
+      impact.impact_from_string('low').must_equal 0.1
     end
 
     it 'returns the proper impact for medium string' do
