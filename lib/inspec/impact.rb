@@ -4,7 +4,7 @@
 module Inspec::Impact
   IMPACT_SCORES = {
     'none'     => 0.0,
-    'low'      => 0.01,
+    'low'      => 0.1,
     'medium'   => 0.4,
     'high'     => 0.7,
     'critical' => 0.9,
