@@ -8,7 +8,6 @@ gem 'ffi', '>= 1.9.14'
 group :omnibus do
   gem 'rb-readline'
   gem 'appbundler'
-  gem 'unf_ext', git: 'https://github.com/chef/ruby-unf_ext.git', ref: '55d872fb15f3a26e4ee8f8dbe7ba859c80d40383'
 end
 
 group :test do
