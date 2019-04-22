@@ -22,7 +22,6 @@ name 'inspec'
 dependency 'ruby'
 dependency 'rubygems'
 dependency 'bundler'
-dependency 'unf_ext'
 
 license :project_license
 
