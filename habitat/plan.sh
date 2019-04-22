@@ -51,7 +51,7 @@ do_install() {
   pushd "$pkg_prefix"
     mkdir -p "$GEM_HOME/gems/inspec-${pkg_version}/bin/"
     # Note that we generate a wrapper; this is the real executable
-    cp "$HAB_CACHE_SRC_PATH/$pkg_dirname/test/support/inspec" "$GEM_HOME/gems/inspec-${pkg_version}/bin/inspec"
+    cp "$HAB_CACHE_SRC_PATH/$pkg_dirname/test/inspec-test-binstub" "$GEM_HOME/gems/inspec-${pkg_version}/bin/inspec"
   popd
 
   wrap_inspec_bin
