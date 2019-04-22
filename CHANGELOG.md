@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.9.4 -->
-## [v3.9.4](https://github.com/inspec/inspec/tree/v3.9.4) (2019-04-17)
+<!-- latest_release 3.9.5 -->
+## [v3.9.5](https://github.com/inspec/inspec/tree/v3.9.5) (2019-04-22)
 
 #### Merged Pull Requests
-- Use deprecation everywhere (v3 port) [#3952](https://github.com/inspec/inspec/pull/3952) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Use the upstream unf_ext again [#3965](https://github.com/inspec/inspec/pull/3965) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.3 -->
 ### Changes since 3.9.3 release
 
 #### Merged Pull Requests
+- Use the upstream unf_ext again [#3965](https://github.com/inspec/inspec/pull/3965) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.9.5 -->
 - Use deprecation everywhere (v3 port) [#3952](https://github.com/inspec/inspec/pull/3952) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.9.4 -->
 <!-- release_rollup -->
 
