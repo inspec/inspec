@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.files = %w{README.md LICENSE} + Dir.glob('{bin,lib,etc}/**/*', File::FNM_DOTMATCH)
                                           .reject { |f| File.directory?(f) || f =~ /aws|azure|gcp/ || f =~ %r{lib/plugins/.*/test/} }
 
-  spec.executables   = %w{inspec}
+  spec.executables   = []
   spec.require_paths = ['lib']
 
   spec.required_ruby_version = '>= 2.4'
