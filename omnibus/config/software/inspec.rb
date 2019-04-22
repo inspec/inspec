@@ -43,5 +43,13 @@ build do
   gem "build #{name}.gemspec", env: env
   gem "install #{name}-*.gem --no-document", env: env
 
-  appbundle 'inspec', env: env
+  # OK, we still need to inject the binstub...
+
+  # ... into the embedded tools dir
+  copy "#{project_dir}/inspec-test-binstub", "#{install_dir}/embedded/bin/inspec"
+  # ... into the embedded gem bin dir
+  inspec_gem_path = File.expand_path("../..", shellout!("#{install_dir}/embedded/bin/gem which #{name}").stdout.chomp)
+  copy "#{project_dir}/inspec-test-binstub", "#{inspec_gem_path}/bin/inspec"
+
+  appbundle 'inspec', extra_bin_files: ['inspec'], env: env
 end
