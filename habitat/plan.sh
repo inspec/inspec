@@ -46,6 +46,14 @@ do_install() {
     gem install inspec-*.gem --no-document
   popd
 
+  # Binstub removed from gem distro, so it will not have been installed
+  # Do so manually
+  pushd "$pkg_prefix"
+    mkdir -p "$GEM_HOME/gems/inspec-${pkg_version}/bin/"
+    # Note that we generate a wrapper; this is the real executable
+    cp "$HAB_CACHE_SRC_PATH/$pkg_dirname/test/support/inspec" "$GEM_HOME/gems/inspec-${pkg_version}/bin/inspec"
+  popd
+
   wrap_inspec_bin
 
   # Certain gems (timeliness) are getting installed with world writable files
