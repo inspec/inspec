@@ -42,6 +42,14 @@ module Inspec
       msg += "\nSTDERR:\n" + stderr
       msg.must_equal ''
     end
+
+    def stderr_ignore_deprecations
+      stderr.split("\n").reject { |l| l.include? ' DEPRECATION: ' }.join("\n")
+    end
+
+    def stdout_ignore_deprecations
+      stdout.split("\n").reject { |l| l.include? ' DEPRECATION: ' }.join("\n")
+    end
   end
 end
 
