@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.1.4 -->
-## [v4.1.4](https://github.com/inspec/inspec/tree/v4.1.4) (2019-04-22)
+<!-- latest_release 4.1.5 -->
+## [v4.1.5](https://github.com/inspec/inspec/tree/v4.1.5) (2019-04-23)
 
 #### Merged Pull Requests
-- Use the upstream unf_ext again [#3963](https://github.com/inspec/inspec/pull/3963) ([tas50](https://github.com/tas50))
+- Add ed25519 gems in the omnibus group [#3970](https://github.com/inspec/inspec/pull/3970) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.0 -->
@@ -16,6 +16,7 @@
 - Telemetry Object Model [#3928](https://github.com/inspec/inspec/pull/3928) ([miah](https://github.com/miah)) <!-- 4.0.5 -->
 
 #### Merged Pull Requests
+- Add ed25519 gems in the omnibus group [#3970](https://github.com/inspec/inspec/pull/3970) ([tas50](https://github.com/tas50)) <!-- 4.1.5 -->
 - Use the upstream unf_ext again [#3963](https://github.com/inspec/inspec/pull/3963) ([tas50](https://github.com/tas50)) <!-- 4.1.4 -->
 - Require Ruby 2.4 or later [#3953](https://github.com/inspec/inspec/pull/3953) ([tas50](https://github.com/tas50)) <!-- 4.1.2 -->
 - Support address matchers on interface resource [#3897](https://github.com/inspec/inspec/pull/3897) ([mattlqx](https://github.com/mattlqx)) <!-- 4.1.1 -->
@@ -40,6 +41,7 @@
 ## [v3.9.2](https://github.com/inspec/inspec/tree/v3.9.2) (2019-04-08)
 
 #### Merged Pull Requests
+- Add ed25519 gems in the omnibus group [#3970](https://github.com/inspec/inspec/pull/3970) ([tas50](https://github.com/tas50)) <!-- 4.1.5 -->
 - Use the upstream unf_ext again [#3963](https://github.com/inspec/inspec/pull/3963) ([tas50](https://github.com/tas50)) <!-- 4.1.4 -->
 - Require Ruby 2.4 or later [#3953](https://github.com/inspec/inspec/pull/3953) ([tas50](https://github.com/tas50)) <!-- 4.1.2 -->
 - Support address matchers on interface resource [#3897](https://github.com/inspec/inspec/pull/3897) ([mattlqx](https://github.com/mattlqx)) <!-- 4.1.1 -->
