@@ -82,7 +82,7 @@
       "comment": "Needed for ServerSpec compatibility"
     },
     "resource_script": {
-      "action": "warn",
+      "action": "exit",
       "suffix": "This resource will be removed in InSpec 4.0"
     },
     "resource_user_serverspec_compat": {
