@@ -47,9 +47,11 @@ build do
 
   # ... into the embedded tools dir
   copy "#{project_dir}/inspec-test-binstub", "#{install_dir}/embedded/bin/inspec"
-  # ... into the embedded gem bin dir
-  inspec_gem_path = File.expand_path("../..", shellout!("#{install_dir}/embedded/bin/gem which #{name}").stdout.chomp)
-  copy "#{project_dir}/inspec-test-binstub", "#{inspec_gem_path}/bin/inspec"
+  # ... into the embedded gem bin dir. Need a block here to trigger `shellout!` properly
+  block do
+    inspec_gem_path = File.expand_path("../..", shellout!("#{install_dir}/embedded/bin/gem which #{name}").stdout.chomp)
+    copy "#{project_dir}/inspec-test-binstub", "#{inspec_gem_path}/bin/inspec"
+  end
 
   appbundle 'inspec', extra_bin_files: ['inspec'], env: env
 end
