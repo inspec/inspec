@@ -8,6 +8,8 @@ gem 'ffi', '>= 1.9.14'
 group :omnibus do
   gem 'rb-readline'
   gem 'appbundler'
+  gem 'ed25519' # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
+  gem 'bcrypt_pbkdf' # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
 end
 
 group :test do
