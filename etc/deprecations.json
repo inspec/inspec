@@ -104,8 +104,8 @@
       "action": "warn"
     },
     "wmi_non_hash_usage": {
-      "action": "warn",
-      "suffix": "This property will be removed in InSpec 4.0."
+      "action": "fail_control",
+      "suffix": "This property was removed in InSpec 4.0."
     }
   }
 }
