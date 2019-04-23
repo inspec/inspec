@@ -101,7 +101,7 @@
       "action": "warn"
     },
     "mount_parser_serverspec_compat": {
-      "action": "warn"
+      "action": "fail_control"
     },
     "wmi_non_hash_usage": {
       "action": "fail_control",
