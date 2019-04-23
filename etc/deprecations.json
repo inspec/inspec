@@ -89,8 +89,8 @@
       "action": "warn"
     },
     "resource_windows_registry_key": {
-      "action": "warn",
-      "suffix": "This resource will be removed in InSpec 4.0.",
+      "action": "exit",
+      "suffix": "This resource was removed in InSpec 4.0.",
       "comment": "Needed for ServerSpec compatibility"
     },
     "serverspec_compatibility": {
