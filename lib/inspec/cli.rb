@@ -44,6 +44,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: 'Save the created profile to a path'
   option :controls, type: :array,
     desc: 'A list of controls to include. Ignore all other tests.'
+  class_option :chef_license, type: :string,
+    desc: 'Non-Operational Backwards Compatibility option' \
+          'for Chef Licensing added in v4.'
   profile_options
   def json(target)
     o = config
