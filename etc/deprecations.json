@@ -86,7 +86,7 @@
       "suffix": "This resource will be removed in InSpec 4.0"
     },
     "resource_user_serverspec_compat": {
-      "action": "warn"
+      "action": "fail_control"
     },
     "resource_windows_registry_key": {
       "action": "exit",
