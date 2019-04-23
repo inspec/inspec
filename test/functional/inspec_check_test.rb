@@ -11,7 +11,7 @@ describe 'inspec check' do
 
   describe 'inspec check with json formatter' do
     it 'can check a profile and produce valid JSON' do
-      out = inspec('check ' + integration_test_path + ' --format json')
+      out = inspec('check ' + example_profile + ' --format json')
       out.exit_status.must_equal 0
       JSON.parse(out.stdout)
     end

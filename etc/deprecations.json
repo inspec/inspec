@@ -3,7 +3,7 @@
   "unknown_group_action": "ignore",
   "groups": {
     "attrs_value_replaces_default": {
-      "action": "ignore",
+      "action": "warn",
       "prefix": "The 'default' option for attributes is being replaced by 'value' - please use it instead."
     },
     "aws_resources_in_resource_pack": {

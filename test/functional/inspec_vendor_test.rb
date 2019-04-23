@@ -107,7 +107,9 @@ describe 'example inheritance profile' do
       out.exit_status.must_equal 0
 
       out = inspec('json ' + dir + ' --output ' + dst.path)
-      out.stderr.must_equal ''
+
+      # the profile used has 'default' style attributes
+      out.stderr_ignore_deprecations.must_equal ''
       out.exit_status.must_equal 0
 
       hm = JSON.load(File.read(dst.path))
