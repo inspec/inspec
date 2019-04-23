@@ -52,7 +52,8 @@ module FunctionalHelper
     path.gsub!('//vboxsrv', 'C:') if is_windows?
     path
   end
-  let(:exec_inspec) { File.join(repo_path, 'test', 'inspec-test-binstub') }
+  let(:inspec_bin_name) { 'inspec-test-binstub' }
+  let(:exec_inspec) { File.join(repo_path, 'test', inspec_bin_name) }
   let(:mock_path) { File.join(repo_path, 'test', 'unit', 'mock') }
   let(:profile_path) { File.join(mock_path, 'profiles') }
   let(:examples_path) { File.join(profile_path, 'old-examples') }

@@ -68,7 +68,7 @@ describe 'cli command plugins' do
     outcome = inspec_with_env('help meaningoflife',  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'meaning_by_path'))
     outcome.exit_status.must_equal 0
     outcome.stderr.must_equal ''
-    outcome.stdout.must_include 'inspec meaningoflife answer'
+    outcome.stdout.must_include "#{inspec_bin_name} meaningoflife answer"
     # Full text:
     # 'Exits immediately with an exit code reflecting the answer to life the universe, and everything.'
     # but Thor will ellipsify based on the terminal width
@@ -79,7 +79,7 @@ describe 'cli command plugins' do
   it 'includes plugin-based cli commands in top-level help' do
     outcome = inspec_with_env('help',  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'meaning_by_path'))
     outcome.exit_status.must_equal 0
-    outcome.stdout.must_include 'inspec meaningoflife'
+    outcome.stdout.must_include "#{inspec_bin_name} meaningoflife"
   end
 end
 

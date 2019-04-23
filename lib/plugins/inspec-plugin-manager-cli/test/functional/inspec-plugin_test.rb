@@ -52,17 +52,17 @@ class PluginManagerCliHelp < MiniTest::Test
   # Main inspec help subcommand listing
   def test_inspec_help_includes_plugin
     result = run_inspec_process_with_this_plugin('help')
-    assert_includes result.stdout, 'inspec plugin'
+    assert_includes result.stdout, "#{inspec_bin_name} plugin"
   end
 
   # inspec plugin help subcommand listing
   def test_inspec_plugin_help_includes_plugin
     result = run_inspec_process_with_this_plugin('plugin help')
-    assert_includes result.stdout, 'inspec plugin list'
-    assert_includes result.stdout, 'inspec plugin search'
-    assert_includes result.stdout, 'inspec plugin install'
-    assert_includes result.stdout, 'inspec plugin update'
-    assert_includes result.stdout, 'inspec plugin uninstall'
+    assert_includes result.stdout, "#{inspec_bin_name} plugin list"
+    assert_includes result.stdout, "#{inspec_bin_name} plugin search"
+    assert_includes result.stdout, "#{inspec_bin_name} plugin install"
+    assert_includes result.stdout, "#{inspec_bin_name} plugin update"
+    assert_includes result.stdout, "#{inspec_bin_name} plugin uninstall"
   end
 end
 

@@ -8,7 +8,7 @@ class ComplianceCli < MiniTest::Test
   def test_help_output
     out = run_inspec_process('compliance help')
     assert_equal out.exit_status, 0
-    assert_includes out.stdout, 'inspec compliance exec PROFILE'
+    assert_includes out.stdout, "#{inspec_bin_name} compliance exec PROFILE"
   end
 
   def test_logout_command
@@ -20,7 +20,7 @@ class ComplianceCli < MiniTest::Test
   def test_error_login_with_invalid_url
     out = run_inspec_process('compliance login')
     assert_equal out.exit_status, 1
-    assert_includes out.stderr, 'ERROR: "inspec compliance login" was called with no arguments'
+    assert_includes out.stderr, "ERROR: \"#{inspec_bin_name} compliance login\" was called with no arguments"
   end
 
   def test_profile_list_without_auth
@@ -32,7 +32,7 @@ class ComplianceCli < MiniTest::Test
   def test_error_upload_without_args
     out = run_inspec_process('compliance upload')
     assert_equal out.exit_status, 1
-    assert_includes out.stderr, 'ERROR: "inspec compliance upload" was called with no arguments'
+    assert_includes out.stderr, "ERROR: \"#{inspec_bin_name} compliance upload\" was called with no arguments"
   end
 
   def test_error_upload_with_fake_path

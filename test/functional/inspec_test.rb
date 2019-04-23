@@ -65,7 +65,7 @@ describe 'command tests' do
       }
       outputs.each do |output|
         commands.each do |subcommand|
-          output.must_include('inspec ' + subcommand)
+          output.must_include(inspec_bin_name + ' ' + subcommand)
         end
       end
     end

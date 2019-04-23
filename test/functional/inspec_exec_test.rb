@@ -57,21 +57,21 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     out = inspec("exec --help")
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    out.stdout.must_include "Usage:\n  inspec exec LOCATIONS"
+    out.stdout.must_include "Usage:\n  #{inspec_bin_name} exec LOCATIONS"
   end
 
   it 'can execute help after exec command' do
     out = inspec("exec help")
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    out.stdout.must_include "Usage:\n  inspec exec LOCATIONS"
+    out.stdout.must_include "Usage:\n  #{inspec_bin_name} exec LOCATIONS"
   end
 
   it 'can execute help before exec command' do
     out = inspec("help exec")
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    out.stdout.must_include "Usage:\n  inspec exec LOCATIONS"
+    out.stdout.must_include "Usage:\n  #{inspec_bin_name} exec LOCATIONS"
   end
 
   it 'can execute the profile with a target_id passthrough' do
