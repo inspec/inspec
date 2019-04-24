@@ -162,6 +162,12 @@ module FunctionalHelper
       run_result = inspec(command_line, prefix)
     end
 
+    if opts[:ignore_rspec_deprecations]
+      # RSpec keeps issuing a deprecation count to stdout when .should is called explicitly
+      # See https://github.com/inspec/inspec/pull/3560
+      run_result.stdout.sub!("\n1 deprecation warning total\n", '')
+    end
+
     if opts[:json]
       begin
         run_result.payload.json = JSON.parse(run_result.stdout)
