@@ -3,7 +3,7 @@ require 'fileutils'
 require 'minitest/autorun'
 require_relative '../../lib/inspec-habitat/profile.rb'
 
-class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
+class InspecPlugins::Habitat::ProfileTest < Minitest::Test
   def setup
     @tmpdir = Dir.mktmpdir
 
@@ -76,7 +76,7 @@ class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
   end
 
   def test_create_rasies_if_habitat_is_not_installed
-    cmd = MiniTest::Mock.new
+    cmd = Minitest::Mock.new
     cmd.expect(:error?, true)
     cmd.expect(:run_command, nil)
 
@@ -163,12 +163,12 @@ class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
   end
 
   def test_vendor_profile_dependencies_does_not_vendor_if_already_vendored
-    mock_lock_file = MiniTest::Mock.new
+    mock_lock_file = Minitest::Mock.new
     mock_lock_file.expect(:exist?, true)
-    mock_cache_path = MiniTest::Mock.new
+    mock_cache_path = Minitest::Mock.new
     mock_cache_path.expect(:exist?, true)
 
-    mock = MiniTest::Mock.new
+    mock = Minitest::Mock.new
     mock.expect(:lockfile, mock_lock_file)
     mock.expect(:cache_path, mock_cache_path)
 
@@ -180,10 +180,10 @@ class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
   end
 
   def test_vendor_profile_dependencies
-    mock_lock_file = MiniTest::Mock.new
+    mock_lock_file = Minitest::Mock.new
     mock_lock_file.expect(:exist?, false)
 
-    mock = MiniTest::Mock.new
+    mock = Minitest::Mock.new
     mock.expect(:lockfile, mock_lock_file)
     mock.expect(:vendor!, nil)
     mock.expect(:make_readable, nil)
@@ -197,7 +197,7 @@ class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
   end
 
   def test_verify_habitat_setup_raises_if_hab_version_errors
-    mock = MiniTest::Mock.new
+    mock = Minitest::Mock.new
     mock.expect(:run_command, nil)
     mock.expect(:error?, true)
     mock.expect(:stderr, 'This would be an error message')
@@ -210,7 +210,7 @@ class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
   end
 
   def test_verify_habitat_setup_raises_if_not_habitat_origin
-    mock = MiniTest::Mock.new
+    mock = Minitest::Mock.new
     mock.expect(:run_command, nil)
     mock.expect(:error?, false)
 
@@ -226,7 +226,7 @@ class InspecPlugins::Habitat::ProfileTest < MiniTest::Unit::TestCase
   # end
 
   def test_upload_hart_raises_if_hab_pkg_upload_fails
-    mock = MiniTest::Mock.new
+    mock = Minitest::Mock.new
     mock.expect(:run_command, nil)
     mock.expect(:error?, true)
     mock.expect(:stdout, 'This would contain output from `hab`')

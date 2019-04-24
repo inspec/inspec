@@ -2,7 +2,7 @@
 
 require_relative '../../../shared/core_plugin_test_helper.rb'
 
-class ComplianceCli < MiniTest::Test
+class ComplianceCli < Minitest::Test
   include CorePluginFunctionalHelper
 
   def test_help_output

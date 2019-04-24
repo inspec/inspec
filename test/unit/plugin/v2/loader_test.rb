@@ -1,12 +1,11 @@
 # Unit tests for Inspec::PluginLoader and Registry
 
 require 'minitest/autorun'
-require 'minitest/test'
 require_relative '../../../../lib/inspec/plugin/v2'
 
 require 'train' # Needed for Train plugin testing
 
-class PluginLoaderTests < MiniTest::Test
+class PluginLoaderTests < Minitest::Test
 
   @@orig_home = Dir.home
 

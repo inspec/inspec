@@ -1,7 +1,6 @@
 # Tests for the *DSL plugin types
 
 require 'minitest/autorun'
-require 'minitest/test'
 require 'byebug'
 
 require_relative '../../../../lib/inspec/plugin/v2'
@@ -16,7 +15,7 @@ module DslUnitTests
     :resource_dsl,
   ].each do |plugin_type_under_test|
 
-    Class.new(MiniTest::Test) do
+    Class.new(Minitest::Test) do
       # Assign name to anonymous class, so test output is meaningful
       Object.const_set(plugin_type_under_test.to_s.upcase + '_UnitTests', self)
 

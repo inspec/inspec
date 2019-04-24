@@ -3,7 +3,7 @@ require_relative '../../../shared/core_plugin_test_helper.rb'
 #-----------------------------------------------------------------------#
 # Thor option defs
 #-----------------------------------------------------------------------#
-class PluginManagerCliOptions < MiniTest::Test
+class PluginManagerCliOptions < Minitest::Test
   include CorePluginUnitHelper
   let(:cli_class) { InspecPlugins::PluginManager::CliCommand }
 

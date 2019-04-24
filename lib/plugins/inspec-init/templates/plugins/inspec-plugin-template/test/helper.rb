@@ -19,8 +19,7 @@ require 'inspec/plugin/v2'
 # You can select from a number of test harnesses.  Since InSpec uses Spec-style controls
 # in profile code, you will probably want to use something like minitest/spec, which provides
 # Spec-style tests.
-require 'minitest/spec'
-require 'minitest/autorun'
+require 'minitest/autorun' # loads all styles and runs tests automatically
 
 # You might want to put some debugging tools here.  We run tests to find bugs, after all.
 require 'byebug'
