@@ -42,8 +42,8 @@
       "comment": "See #3778"
     },
     "property_processes_list": {
-      "action": "warn",
-      "suffix": "This property will be removed in InSpec 4.0."
+      "action": "fail_control",
+      "suffix": "This property was removed in InSpec 4.0."
     },
     "properties_aws_iam_user": {
       "action": "fail_control",
