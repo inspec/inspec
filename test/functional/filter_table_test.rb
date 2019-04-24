@@ -47,7 +47,7 @@ describe '2943 inspec exec for filter table profile, method mode for `where' do
       control_hash.keys.must_include(expected_control)
     end
 
-    cmd.stderr_ignore_deprecations.must_equal ''
+    cmd.stderr.must_equal ''
     cmd.exit_status.must_equal 100
   end
 end
@@ -136,7 +136,7 @@ describe '2370 lazy_load for filter table' do
       control_hash.keys.must_include(expected_control)
     end
 
-    cmd.stderr_ignore_deprecations.must_equal ''
+    cmd.stderr.must_equal ''
     cmd.exit_status.must_equal 100
   end
 end
@@ -158,7 +158,7 @@ describe '2929 exceptions in block-mode where' do
       control_hash[ctl['id']] = ctl['results'][0]['message']
     end
     control_hash.must_be_empty
-    cmd.stderr_ignore_deprecations.must_equal ''
+    cmd.stderr.must_equal ''
     cmd.exit_status.must_equal 0
   end
 end

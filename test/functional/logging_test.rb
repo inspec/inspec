@@ -20,7 +20,7 @@ describe 'Deprecation Facility Behavior' do
         let(:control_flag) { '--controls deprecate_fail_mode' }
 
         it 'should result in a failed control' do
-          run_result.stderr_ignore_deprecations.must_be_empty
+          run_result.stderr.must_be_empty
           run_result.exit_status.must_equal 100
           json_result.count.must_equal 3
           json_result[0]['status'].must_equal 'passed'
@@ -43,7 +43,7 @@ describe 'Deprecation Facility Behavior' do
           json_result.count.must_equal 1
           json_result[0]['status'].must_equal 'passed'
 
-          stderr_lines = run_result.stderr_ignore_deprecations.split("\n")
+          stderr_lines = run_result.stderr.split("\n")
           stderr_lines.count.must_equal 1
 
           deprecation_line = stderr_lines.first

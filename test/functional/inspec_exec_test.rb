@@ -33,7 +33,7 @@ describe 'inspec exec' do
     out = inspec('exec ' + File.join(profile_path, 'simple-metadata') + ' --no-create-lockfile')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    out.stdout_ignore_deprecations.must_equal "
+    out.stdout.must_equal "
 Profile: yumyum profile
 Version: (not specified)
 Target:  local://
@@ -86,7 +86,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     out = inspec('exec ' + File.join(profile_path, 'complete-metadata') + ' --no-create-lockfile')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    out.stdout_ignore_deprecations.must_equal "
+    out.stdout.must_equal "
 Profile: title (name)
 Version: 1.2.3
 Target:  local://
@@ -456,7 +456,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     let(:controls) { json['profiles'][0]['controls'] }
 
     it 'completes the run with failed controls but no exception' do
-      out.stderr_ignore_deprecations.must_be_empty
+      out.stderr.must_be_empty
       out.exit_status.must_equal 100
       controls.count.must_equal 10
       controls.select { |c| c['results'][0]['status'] == 'failed' }.count.must_be :>, 1
@@ -590,7 +590,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
         # If you do, it will execute twice, and cause STDIN to read empty on the second time
         it 'exec should see the custom target ID value' do
           result = run_inspec_process( 'exec ' + File.join(profile_path, 'simple-metadata') + ' ' + cli_args + ' ', opts )
-          result.stderr_ignore_deprecations.must_be_empty
+          result.stderr.must_be_empty
           result.payload.json['platform']['target_id'].must_equal 'from-config-file'
         end
 

@@ -10,7 +10,7 @@ describe 'inspec exec with json formatter' do
 
   it 'can execute a simple file and validate the json schema' do
     out = inspec('exec ' + example_control + ' --reporter json --no-create-lockfile')
-    out.stderr_ignore_deprecations.must_equal ''
+    out.stderr.must_equal ''
     out.exit_status.must_equal 0
     data = JSON.parse(out.stdout)
     sout = inspec('schema exec-json')
@@ -20,7 +20,7 @@ describe 'inspec exec with json formatter' do
 
   it 'can execute a profile and validate the json schema' do
     out = inspec('exec ' + example_profile + ' --reporter json --no-create-lockfile')
-    out.stderr_ignore_deprecations.must_equal ''
+    out.stderr.must_equal ''
     out.exit_status.must_equal 101
     data = JSON.parse(out.stdout)
     sout = inspec('schema exec-json')
@@ -30,7 +30,7 @@ describe 'inspec exec with json formatter' do
 
   it 'can execute a simple file while using end of options after reporter cli option' do
     out = inspec('exec --no-create-lockfile --reporter json -- ' + example_control)
-    out.stderr_ignore_deprecations.must_equal ''
+    out.stderr.must_equal ''
     out.exit_status.must_equal 0
     data = JSON.parse(out.stdout)
     sout = inspec('schema exec-json')
@@ -40,7 +40,7 @@ describe 'inspec exec with json formatter' do
 
   it 'can execute a profile and validate the json schema with target_id' do
     out = inspec('exec ' + example_profile + ' --reporter json --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444')
-    out.stderr_ignore_deprecations.must_equal ''
+    out.stderr.must_equal ''
     out.exit_status.must_equal 101
     data = JSON.parse(out.stdout)
     data['platform']['target_id'].must_equal '1d3e399f-4d71-4863-ac54-84d437fbc444'

@@ -90,7 +90,7 @@ describe 'inputs' do
       cmd += ' --no-create-lockfile'
       out = inspec(cmd)
       out.stderr.must_equal "Type 'Color' is not a valid input type.\n"
-      out.stdout_ignore_deprecations.must_equal ''
+      out.stdout.must_equal ''
       out.exit_status.must_equal 1
     end
 
@@ -100,7 +100,7 @@ describe 'inputs' do
       cmd += ' --no-create-lockfile'
       out = inspec(cmd)
       out.stderr.must_equal "Input 'username' is required and does not have a value.\n"
-      out.stdout_ignore_deprecations.must_equal ''
+      out.stdout.must_equal ''
       out.exit_status.must_equal 1
     end
 
