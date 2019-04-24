@@ -21,7 +21,7 @@
       "suffix": "This will not be supported in InSpec 4.0."
     },
     "host_resource_proto_usage": {
-      "action": "warn",
+      "action": "fail_control",
       "suffix": "This will not be supported in InSpec 4.0."
     },
     "inspec_ui_methods": {
