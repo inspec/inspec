@@ -67,8 +67,8 @@
       "prefix": "The azure_generic_resource is deprecated. Please use a specific resource. See: 'https://github.com/inspec/inspec/issues/3131'"
     },
     "resource_iis_website": {
-      "action": "warn",
-      "suffix": "This resource will be removed in InSpec 4.0.",
+      "action": "exit",
+      "suffix": "This resource was removed in InSpec 4.0.",
       "comment": "Needed for ServerSpec compatibility"
     },
     "resource_linux_kernel_parameter": {
