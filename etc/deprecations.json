@@ -30,7 +30,7 @@
       "comment": "See #3715"
     },
     "mssql_session_pass_option": {
-      "action": "warn",
+      "action": "exit",
       "suffix": "This will not be supported in InSpec 4.0."
     },
     "oracledb_session_pass_option": {
