@@ -38,7 +38,7 @@
       "suffix": "This will not be supported in InSpec 4.0."
     },
     "property_filesystem_size": {
-      "action": "ignore",
+      "action": "warn",
       "comment": "See #3778"
     },
     "property_processes_list": {
