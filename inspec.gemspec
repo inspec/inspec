@@ -18,7 +18,6 @@ Gem::Specification.new do |spec|
     '{bin,lib,etc}/**/*', File::FNM_DOTMATCH
   ).reject { |f| File.directory?(f) }
 
-  spec.executables   = []
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
                            .reject { |f| File.directory?(f) || f =~ %r{lib/plugins/.*/test/} }
   spec.require_paths = ['lib']
