@@ -59,8 +59,8 @@
       "comment": "See #3802"
     },
     "resource_apache": {
-      "action": "warn",
-      "suffix": "This resource will be removed in InSpec 4.0."
+      "action": "exit",
+      "suffix": "This resource was removed in InSpec 4.0."
     },
     "resource_azure_generic_resource": {
       "action": "warn",
