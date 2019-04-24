@@ -34,8 +34,8 @@
       "suffix": "This will not be supported in InSpec 4.0."
     },
     "oracledb_session_pass_option": {
-      "action": "warn",
-      "suffix": "This will not be supported in InSpec 4.0."
+      "action": "exit",
+      "suffix": "This is not supported in InSpec 4.0."
     },
     "property_filesystem_size": {
       "action": "warn",
