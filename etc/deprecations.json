@@ -25,7 +25,7 @@
       "suffix": "This will not be supported in InSpec 4.0."
     },
     "inspec_ui_methods": {
-      "action": "ignore",
+      "action": "warn",
       "suffix": "Please call `cli.ui` directly",
       "comment": "See #3715"
     },
