@@ -19,24 +19,24 @@ describe 'inspec shell tests' do
       res = inspec("shell -c 'gordon_config' --depends #{example_profile}")
       res.stderr.must_equal ''
       res.exit_status.must_equal 0
-      res.stdout.chop.must_equal 'gordon_config'
+      res.stdout_ignore_deprecations.must_equal 'gordon_config'
     end
 
     it 'confirm file caching is disabled' do
       out = do_shell_c('inspec.backend.cache_enabled?(:file)', 0)
-      out.stdout.chop.must_equal 'false'
+      out.stdout_ignore_deprecations.must_equal 'false'
     end
 
     it 'confirm command caching is disabled' do
       out = do_shell_c('inspec.backend.cache_enabled?(:command)', 0)
-      out.stdout.chop.must_equal 'false'
+      out.stdout_ignore_deprecations.must_equal 'false'
     end
 
     it 'can run ruby expressions (json output)' do
       x = rand
       y = rand
       out = do_shell_c("#{x} + #{y}", 0, true)
-      j = JSON.load(out.stdout)
+      j = JSON.load(out.stdout_ignore_deprecations)
       j.must_equal x+y
     end
 
@@ -44,14 +44,14 @@ describe 'inspec shell tests' do
       x = rand
       y = rand
       out = do_shell_c("#{x} + #{y}", 0)
-      out.stdout.must_equal "#{x+y}\n"
+      out.stdout_ignore_deprecations.must_equal "#{x+y}\n"
     end
 
     it 'can run arbitrary ruby (json output)' do
       # You cannot have a pipe in a windows command line
       return if is_windows?
       out = do_shell_c('x = [1,2,3].inject(0) {|a,v| a + v*v}; x+10', 0, true)
-      j = JSON.load(out.stdout)
+      j = JSON.load(out.stdout_ignore_deprecations)
       j.must_equal 24  # 1^2 + 2^2 + 3^2 + 10
     end
 
@@ -59,12 +59,12 @@ describe 'inspec shell tests' do
       # You cannot have a pipe in a windows command line
       return if is_windows?
       out = do_shell_c('x = [1,2,3].inject(0) {|a,v| a + v*v}; x+10', 0)
-      out.stdout.must_equal "24\n"
+      out.stdout_ignore_deprecations.must_equal "24\n"
     end
 
     it 'retrieves resources (json output)' do
       out = do_shell_c('platform.params', 0, true)
-      j = JSON.load(out.stdout)
+      j = JSON.load(out.stdout_ignore_deprecations)
       j.keys.must_include 'name'
       j.keys.must_include 'families'
       j.keys.must_include 'arch'

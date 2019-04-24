@@ -60,7 +60,7 @@ describe 'cli command plugins' do
     outcome = inspec_with_env('meaningoflife answer',  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'meaning_by_path'))
     outcome.stderr.wont_include 'Could not find command "meaningoflife"'
     outcome.stderr.must_equal ''
-    outcome.stdout.must_equal ''
+    outcome.stdout_ignore_deprecations.must_equal ''
     outcome.exit_status.must_equal 42
   end
 
@@ -117,7 +117,7 @@ describe 'DSL plugin types support' do
   describe 'outer profile dsl plugin type support' do
     let(:profile_file) { 'outer_profile_dsl.rb' }
     it 'works correctly with outer_profile dsl extensions' do
-      run_result.stderr.must_equal ''
+      run_result.stderr_ignore_deprecations.must_equal ''
 
       # The outer_profile_dsl.rb file has control-01, then a call to favorite_grain
       # (which generates a control), then control-03.
@@ -137,7 +137,7 @@ describe 'DSL plugin types support' do
 
     let(:profile_file) { 'control_dsl.rb' }
     it 'works correctly with control dsl extensions' do
-      run_result.stderr.must_equal ''
+      run_result.stderr_ignore_deprecations.must_equal ''
 
       # The control_dsl.rb file has one control, with a describe-01, then a call to favorite_fruit, then describe-02
       # If the plugin exploded, we'd see describe-01 but not describe-02
@@ -156,7 +156,7 @@ describe 'DSL plugin types support' do
   describe 'describe dsl plugin type support' do
     let(:profile_file) { 'describe_dsl.rb' }
     it 'works correctly with describe dsl extensions' do
-      run_result.stderr.must_equal ''
+      run_result.stderr_ignore_deprecations.must_equal ''
 
       # The describe_dsl.rb file has one control, with
       # describe-01, describe-02 which contains a call to favorite_vegetable, then describe-03
@@ -175,7 +175,7 @@ describe 'DSL plugin types support' do
   describe 'test dsl plugin type support' do
     let(:profile_file) { 'test_dsl.rb' }
     it 'works correctly with test dsl extensions' do
-      run_result.stderr.must_equal ''
+      run_result.stderr_ignore_deprecations.must_equal ''
 
       # The test_dsl.rb file has one control, with
       # describe-01, describe-02 which contains a call to favorite_legume, then describe-03
@@ -202,7 +202,7 @@ describe 'DSL plugin types support' do
       cmd += File.join(profile_path, 'dsl_plugins')
       cmd += ' --controls=/^rdsl-control/ '
       run_result = run_inspec_with_plugin(cmd, plugin_path: dsl_plugin_path)
-      run_result.stderr.must_equal ''
+      run_result.stderr_ignore_deprecations.must_equal ''
 
       # We should have three controls; 01 and 03 just do a string match.
       # 02 uses the custom resource, which relies on calls to the resource DSL.

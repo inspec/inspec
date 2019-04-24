@@ -291,7 +291,7 @@ class PluginManagerCliInstall < MiniTest::Test
 
       install_result = run_inspec_process_with_this_plugin("plugin install #{fixture_info[:given]}", post_run: list_after_run)
 
-      assert_empty install_result.stderr
+      assert_empty install_result.stderr_ignore_deprecations
       assert_equal 0, install_result.exit_status, 'Exit status should be 0'
 
       # Check UX messaging
@@ -320,7 +320,7 @@ class PluginManagerCliInstall < MiniTest::Test
     assert_empty install_result.stderr
     assert_equal 1, install_result.exit_status, 'Exit status should be 1'
 
-    error_message = install_result.stdout.split("\n").last
+    error_message = install_result.stdout_ignore_deprecations.split("\n").last
     assert_includes error_message, "No such source code path"
     assert_includes error_message, 'inspec-test-fixture-nonesuch.rb'
     assert_includes error_message, 'installation failed'
@@ -333,7 +333,7 @@ class PluginManagerCliInstall < MiniTest::Test
     assert_empty install_result.stderr
     assert_equal 1, install_result.exit_status, 'Exit status should be 1'
 
-    error_message = install_result.stdout.split("\n").last
+    error_message = install_result.stdout_ignore_deprecations.split("\n").last
     assert_includes error_message, "Invalid plugin name"
     assert_includes error_message, 'wrong-name'
     assert_includes error_message, "All inspec plugins must begin with either 'inspec-' or 'train-'"
@@ -347,7 +347,7 @@ class PluginManagerCliInstall < MiniTest::Test
     assert_empty install_result.stderr
     assert_equal 1, install_result.exit_status, 'Exit status should be 1'
 
-    error_message = install_result.stdout.split("\n").last
+    error_message = install_result.stdout_ignore_deprecations.split("\n").last
     assert_includes error_message, "Does not appear to be a plugin"
     assert_includes error_message, 'inspec-egg-white-omelette'
     assert_includes error_message, "After probe-loading the supposed plugin, it did not register"
@@ -369,7 +369,7 @@ class PluginManagerCliInstall < MiniTest::Test
     assert_empty install_result.stderr
     assert_equal 2, install_result.exit_status, 'Exit status on second install should be 2'
 
-    error_message = install_result.stdout.split("\n").last
+    error_message = install_result.stdout_ignore_deprecations.split("\n").last
     assert_includes error_message, "Plugin already installed"
     assert_includes error_message, 'inspec-test-fixture'
     assert_includes error_message, "Use 'inspec plugin list' to see previously installed plugin"
@@ -383,7 +383,7 @@ class PluginManagerCliInstall < MiniTest::Test
     assert_empty install_result.stderr
     assert_equal 1, install_result.exit_status, 'Exit status should be 1'
 
-    error_message = install_result.stdout.split("\n").last
+    error_message = install_result.stdout_ignore_deprecations.split("\n").last
     assert_includes error_message, "Unrecognizable plugin structure"
     assert_includes error_message, 'inspec-wrong-structure'
     assert_includes error_message, ' When installing from a path, please provide the path of the entry point file'
@@ -498,7 +498,7 @@ class PluginManagerCliInstall < MiniTest::Test
     assert_empty install_result.stderr
     assert_equal 2, install_result.exit_status, 'Exit status should be 2'
 
-    refusal_message = install_result.stdout.split("\n").grep(/refusing/).last
+    refusal_message = install_result.stdout_ignore_deprecations.split("\n").grep(/refusing/).last
     refute_nil refusal_message, 'Should find a failure message at the end'
     assert_includes refusal_message, 'inspec-test-fixture'
     assert_includes refusal_message, '0.2.0'
@@ -515,7 +515,7 @@ class PluginManagerCliInstall < MiniTest::Test
     assert_empty install_result.stderr
     assert_equal 2, install_result.exit_status, 'Exit status should be 2'
 
-    refusal_message = install_result.stdout.split("\n").grep(/refusing/).last
+    refusal_message = install_result.stdout_ignore_deprecations.split("\n").grep(/refusing/).last
     refute_nil refusal_message, 'Should find a failure message at the end'
     assert_includes refusal_message, 'inspec-test-fixture'
     assert_includes refusal_message, '0.1.0'
@@ -592,7 +592,7 @@ class PluginManagerCliUpdate < MiniTest::Test
     end
 
     update_result = run_inspec_process_with_this_plugin('plugin update inspec-test-fixture', pre_run: pre_block, post_run: list_after_run)
-    assert_empty update_result.stderr
+    assert_empty update_result.stderr_ignore_deprecations
     assert_equal 0, update_result.exit_status, 'Exit status should be 0'
 
     success_message = update_result.stdout.split("\n").grep(/updated/).last
@@ -618,7 +618,7 @@ class PluginManagerCliUpdate < MiniTest::Test
     assert_empty update_result.stderr
     assert_equal 2, update_result.exit_status, 'Exit status should be 2'
 
-    refusal_message = update_result.stdout.split("\n").grep(/refusing/).last
+    refusal_message = update_result.stdout_ignore_deprecations.split("\n").grep(/refusing/).last
     refute_nil refusal_message, 'Should find a failure message at the end'
     assert_includes refusal_message, 'inspec-test-fixture'
     assert_includes refusal_message, '0.2.0'

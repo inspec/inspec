@@ -67,7 +67,7 @@ describe 'inspec exec automate' do
     end
 
     it 'should include tramp data' do
-      run_result.stderr.must_equal ''
+      run_result.stderr_ignore_deprecations.must_equal ''
       run_result.exit_status.wont_equal 1
 
       # Can't use json-mode on run_inspec_process - it sets
