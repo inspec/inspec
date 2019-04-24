@@ -54,7 +54,7 @@
       "suffix": "This property will be removed in InSpec 4.0."
     },
     "rename_attributes_to_inputs": {
-      "action": "ignore",
+      "action": "warn",
       "prefix": "InSpec Attributes are being renamed to InSpec Inputs to avoid confusion with Chef Attributes.",
       "comment": "See #3802"
     },
