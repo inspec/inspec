@@ -15,6 +15,8 @@ environment:
       ruby_version: "24"
     - name: unit-tests-ruby-2.5.1
       ruby_version: "25"
+    - name: unit-tests-ruby-2.6
+      ruby_version: "26"
     - name: functional-tests-1
       ruby_version: "25"
     - name: functional-tests-2
