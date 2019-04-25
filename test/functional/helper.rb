@@ -44,11 +44,13 @@ module Inspec
     end
 
     def stderr_ignore_deprecations
-      stderr.split("\n").reject { |l| l.include? ' DEPRECATION: ' }.join("\n")
+      suffix = stderr.end_with?("\n") ? "\n" : ''
+      stderr.split("\n").reject { |l| l.include? ' DEPRECATION: ' }.join("\n") + suffix
     end
 
     def stdout_ignore_deprecations
-      stdout.split("\n").reject { |l| l.include? ' DEPRECATION: ' }.join("\n")
+      suffix = stdout.end_with?("\n") ? "\n" : ''
+      stdout.split("\n").reject { |l| l.include? ' DEPRECATION: ' }.join("\n") + suffix
     end
   end
 end
