@@ -17,11 +17,11 @@ environment:
     - name: unit-tests-ruby-2.6
       ruby_version: "26"
     - name: functional-tests-1
-      ruby_version: "25"
+      ruby_version: "26"
     - name: functional-tests-2
-      ruby_version: "25"
+      ruby_version: "26"
     - name: functional-tests-3
-      ruby_version: "25"
+      ruby_version: "26"
 clone_folder: c:\projects\inspec
 clone_depth: 1
 
