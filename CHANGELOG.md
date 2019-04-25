@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.1.6 -->
-## [v4.1.6](https://github.com/inspec/inspec/tree/v4.1.6) (2019-04-24)
+<!-- latest_release 4.1.7 -->
+## [v4.1.7](https://github.com/inspec/inspec/tree/v4.1.7) (2019-04-25)
 
-#### Merged Pull Requests
-- Remove be_immutable matcher [#3975](https://github.com/inspec/inspec/pull/3975) ([mjingle](https://github.com/mjingle))
+#### Bug Fixes
+- Improve ss parsing code for IPv6 addresses [#3962](https://github.com/inspec/inspec/pull/3962) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.0 -->
@@ -36,6 +36,7 @@
 - Update AWS profile generation for InSpec 4 to depend on the new resou… [#3831](https://github.com/inspec/inspec/pull/3831) ([skpaterson](https://github.com/skpaterson)) <!-- 4.0.2 -->
 
 #### Bug Fixes
+- Improve ss parsing code for IPv6 addresses [#3962](https://github.com/inspec/inspec/pull/3962) ([miah](https://github.com/miah)) <!-- 4.1.7 -->
 - detect postgres 10 on centos properly [#3833](https://github.com/inspec/inspec/pull/3833) ([chris-rock](https://github.com/chris-rock)) <!-- 3.6.18 -->
 - inspec compliance: Fix mocked configuration [#3834](https://github.com/inspec/inspec/pull/3834) ([skylerto](https://github.com/skylerto)) <!-- 3.6.16 -->
 
