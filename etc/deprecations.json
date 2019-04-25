@@ -17,7 +17,7 @@
       "comment": "See #3661"
     },
     "file_resource_be_mounted_matchers": {
-      "action": "warn",
+      "action": "fail_control",
       "suffix": "This will not be supported in InSpec 4.0."
     },
     "host_resource_proto_usage": {
@@ -25,7 +25,7 @@
       "suffix": "This will not be supported in InSpec 4.0."
     },
     "inspec_ui_methods": {
-      "action": "warn",
+      "action": "ignore",
       "suffix": "Please call `cli.ui` directly",
       "comment": "See #3715"
     },
