@@ -1,0 +1,3 @@
+# we need to force the install in order to overwrite the binstubs from
+# old inspec gems.
+Bundler::GemHelper.install_tasks force: true

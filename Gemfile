@@ -5,6 +5,9 @@ gem 'inspec', path: '.'
 
 gem 'ffi', '>= 1.9.14'
 
+# Include the Chef-branded inspec executable here, as we can't put it in the gem
+gem 'inspec-bin', path: 'inspec-bin'
+
 group :omnibus do
   gem 'rb-readline'
   gem 'appbundler'
