@@ -3,12 +3,12 @@
   "unknown_group_action": "ignore",
   "groups": {
     "attrs_value_replaces_default": {
-      "action": "ignore",
+      "action": "warn",
       "prefix": "The 'default' option for attributes is being replaced by 'value' - please use it instead."
     },
     "aws_resources_in_resource_pack": {
       "comment": "See #3822",
-      "action": "ignore",
+      "action": "warn",
       "prefix": "AWS resources shipped with core InSpec are being to moved to a resource pack for faster iteration. Please update your profiles to depend on git@github.com:inspec/inspec-aws.git ."
     },
     "cli_option_json_config": {
@@ -17,11 +17,11 @@
       "comment": "See #3661"
     },
     "file_resource_be_mounted_matchers": {
-      "action": "warn",
+      "action": "fail_control",
       "suffix": "This will not be supported in InSpec 4.0."
     },
     "host_resource_proto_usage": {
-      "action": "warn",
+      "action": "fail_control",
       "suffix": "This will not be supported in InSpec 4.0."
     },
     "inspec_ui_methods": {
@@ -30,67 +30,67 @@
       "comment": "See #3715"
     },
     "mssql_session_pass_option": {
-      "action": "warn",
+      "action": "exit",
       "suffix": "This will not be supported in InSpec 4.0."
     },
     "oracledb_session_pass_option": {
-      "action": "warn",
-      "suffix": "This will not be supported in InSpec 4.0."
+      "action": "exit",
+      "suffix": "This is not supported in InSpec 4.0."
     },
     "property_filesystem_size": {
-      "action": "ignore",
+      "action": "warn",
       "comment": "See #3778"
     },
     "property_processes_list": {
-      "action": "warn",
-      "suffix": "This property will be removed in InSpec 4.0."
+      "action": "fail_control",
+      "suffix": "This property was removed in InSpec 4.0."
     },
     "properties_aws_iam_user": {
-      "action": "warn",
-      "suffix": "This property will be removed in InSpec 4.0."
+      "action": "fail_control",
+      "suffix": "This property was removed in InSpec 4.0."
     },
     "properties_shadow": {
-      "action": "warn",
-      "suffix": "This property will be removed in InSpec 4.0."
+      "action": "fail_control",
+      "suffix": "This property was removed in InSpec 4.0."
     },
     "rename_attributes_to_inputs": {
-      "action": "ignore",
+      "action": "warn",
       "prefix": "InSpec Attributes are being renamed to InSpec Inputs to avoid confusion with Chef Attributes.",
       "comment": "See #3802"
     },
     "resource_apache": {
-      "action": "warn",
-      "suffix": "This resource will be removed in InSpec 4.0."
+      "action": "exit",
+      "suffix": "This resource was removed in InSpec 4.0."
     },
     "resource_azure_generic_resource": {
       "action": "warn",
       "prefix": "The azure_generic_resource is deprecated. Please use a specific resource. See: 'https://github.com/inspec/inspec/issues/3131'"
     },
     "resource_iis_website": {
-      "action": "warn",
-      "suffix": "This resource will be removed in InSpec 4.0.",
+      "action": "exit",
+      "suffix": "This resource was removed in InSpec 4.0.",
       "comment": "Needed for ServerSpec compatibility"
     },
     "resource_linux_kernel_parameter": {
-      "action": "warn",
-      "suffix": "This resource will be removed in InSpec 4.0.",
+      "action": "exit",
+      "suffix": "This resource was removed in InSpec 4.0.",
       "comment": "Needed for ServerSpec compatibility"
     },
     "resource_ppa": {
-      "action": "warn",
-      "suffix": "This resource will be removed in InSpec 4.0.",
+      "action": "exit",
+      "suffix": "This resource was removed in InSpec 4.0.",
       "comment": "Needed for ServerSpec compatibility"
     },
     "resource_script": {
-      "action": "warn",
+      "action": "exit",
       "suffix": "This resource will be removed in InSpec 4.0"
     },
     "resource_user_serverspec_compat": {
-      "action": "warn"
+      "action": "fail_control"
     },
     "resource_windows_registry_key": {
-      "action": "warn",
-      "suffix": "This resource will be removed in InSpec 4.0.",
+      "action": "exit",
+      "suffix": "This resource was removed in InSpec 4.0.",
       "comment": "Needed for ServerSpec compatibility"
     },
     "serverspec_compatibility": {
@@ -101,11 +101,11 @@
       "action": "warn"
     },
     "mount_parser_serverspec_compat": {
-      "action": "warn"
+      "action": "fail_control"
     },
     "wmi_non_hash_usage": {
-      "action": "warn",
-      "suffix": "This property will be removed in InSpec 4.0."
+      "action": "fail_control",
+      "suffix": "This property was removed in InSpec 4.0."
     }
   }
 }

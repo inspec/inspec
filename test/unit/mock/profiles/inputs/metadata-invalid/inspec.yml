@@ -9,4 +9,4 @@ version: 0.1.0
 attributes:
 - name: val_color
   type: color
-  default: black
+  value: black

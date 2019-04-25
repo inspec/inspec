@@ -42,6 +42,16 @@ module Inspec
       msg += "\nSTDERR:\n" + stderr
       msg.must_equal ''
     end
+
+    def stderr_ignore_deprecations
+      suffix = stderr.end_with?("\n") ? "\n" : ''
+      stderr.split("\n").reject { |l| l.include? ' DEPRECATION: ' }.join("\n") + suffix
+    end
+
+    def stdout_ignore_deprecations
+      suffix = stdout.end_with?("\n") ? "\n" : ''
+      stdout.split("\n").reject { |l| l.include? ' DEPRECATION: ' }.join("\n") + suffix
+    end
   end
 end
 
@@ -152,6 +162,12 @@ module FunctionalHelper
       end
     else
       run_result = inspec(command_line, prefix)
+    end
+
+    if opts[:ignore_rspec_deprecations]
+      # RSpec keeps issuing a deprecation count to stdout when .should is called explicitly
+      # See https://github.com/inspec/inspec/pull/3560
+      run_result.stdout.sub!("\n1 deprecation warning total\n", '')
     end
 
     if opts[:json]

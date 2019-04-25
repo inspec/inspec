@@ -101,18 +101,19 @@ describe 'example inheritance profile' do
   end
 
   it 'ensure json/check command do not fetch remote profiles if vendored' do
-    prepare_examples('meta-profile') do |dir|
+    prepare_examples('profile') do |dir|
       out = inspec('vendor ' + dir + ' --overwrite')
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
 
       out = inspec('json ' + dir + ' --output ' + dst.path)
+
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
 
       hm = JSON.load(File.read(dst.path))
-      hm['name'].must_equal 'meta-profile'
-      hm['controls'].length.must_be :>=, 78
+      hm['name'].must_equal 'profile'
+      hm['controls'].length.must_be :>=, 4
 
       # out.stdout.scan(/Copy .* to cache directory/).length.must_equal 3
       # out.stdout.scan(/Dependency does not exist in the cache/).length.must_equal 1
