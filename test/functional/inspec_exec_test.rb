@@ -567,12 +567,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     describe 'when using the legacy --json-config option' do
       let(:cli_args) { '--json-config ' + File.join(config_dir_path, 'json-config', 'good.json') }
       it 'should see the custom target ID value' do
-        # The Inspec::Config reads the config and issues a deprecation warning
-        # before Inspec::BaseCLI#suppress_log_output? is called. So, the warning goes to stdout,
-        # invalidating the JSON.
-        # See #3979
-        skip '--json-config issues deprecation warning to STDOUT, corrupting JSON'
-        stderr.must_be_empty
+        stderr.must_be_empty # TODO: one day deprecate the --json-config option
         seen_target_id.must_equal 'from-config-file'
       end
     end
