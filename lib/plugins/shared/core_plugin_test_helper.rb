@@ -39,7 +39,7 @@ end
 
 module CorePluginBaseHelper
   let(:repo_path) { File.expand_path(File.join(__FILE__, '..', '..', '..', '..')) }
-  let(:inspec_bin_path) { File.join(repo_path, 'bin', 'inspec') }
+  let(:inspec_bin_path) { File.join(repo_path, 'inspec-bin', 'bin', 'inspec') }
   let(:core_mock_path) { File.join(repo_path, 'test', 'unit', 'mock') }
   let(:core_fixture_plugins_path) { File.join(core_mock_path, 'plugins') }
   let(:core_config_dir_path) { File.join(core_mock_path, 'config_dirs') }
