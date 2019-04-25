@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.1.9 -->
-## [v4.1.9](https://github.com/inspec/inspec/tree/v4.1.9) (2019-04-25)
+<!-- latest_release 4.1.10 -->
+## [v4.1.10](https://github.com/inspec/inspec/tree/v4.1.10) (2019-04-25)
 
-#### Merged Pull Requests
-- Update plugin test fixtures for Ruby 2.6 and remove for 2.3 [#3978](https://github.com/inspec/inspec/pull/3978) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- update &#39;low&#39; impact value to align with CVSS 3.0 [#3961](https://github.com/inspec/inspec/pull/3961) ([aaronlippold](https://github.com/aaronlippold))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.0 -->
@@ -38,6 +38,7 @@
 - Update AWS profile generation for InSpec 4 to depend on the new resou… [#3831](https://github.com/inspec/inspec/pull/3831) ([skpaterson](https://github.com/skpaterson)) <!-- 4.0.2 -->
 
 #### Bug Fixes
+- update &#39;low&#39; impact value to align with CVSS 3.0 [#3961](https://github.com/inspec/inspec/pull/3961) ([aaronlippold](https://github.com/aaronlippold)) <!-- 4.1.10 -->
 - Improve ss parsing code for IPv6 addresses [#3962](https://github.com/inspec/inspec/pull/3962) ([miah](https://github.com/miah)) <!-- 4.1.7 -->
 - detect postgres 10 on centos properly [#3833](https://github.com/inspec/inspec/pull/3833) ([chris-rock](https://github.com/chris-rock)) <!-- 3.6.18 -->
 - inspec compliance: Fix mocked configuration [#3834](https://github.com/inspec/inspec/pull/3834) ([skylerto](https://github.com/skylerto)) <!-- 3.6.16 -->
