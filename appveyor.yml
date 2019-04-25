@@ -52,7 +52,7 @@ cache:
 install:
   - systeminfo
   - winrm quickconfig -q
-  - SET PATH=C:\Ruby%ruby_version%-x64\bin;%PATH%
+  - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
   - echo %PATH%
   - ruby --version
   - gem --version
