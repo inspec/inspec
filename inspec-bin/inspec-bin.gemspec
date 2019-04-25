@@ -15,14 +15,13 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.required_ruby_version = '>= 2.4'
 
-
   spec.add_dependency 'inspec', "= #{InspecBin::VERSION}"
   spec.add_development_dependency 'rake'
 
   spec.files = %w{Rakefile LICENSE} + Dir.glob('*.gemspec') +
-    Dir.glob('{lib}/**/*', File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
+               Dir.glob('{lib}/**/*', File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
 
   spec.bindir = 'bin'
-  spec.executables = %w{ inspec }
+  spec.executables = %w{inspec}
 
 end
