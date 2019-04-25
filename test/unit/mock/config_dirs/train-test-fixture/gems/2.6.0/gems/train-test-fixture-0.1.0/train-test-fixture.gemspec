@@ -5,7 +5,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 Gem::Specification.new do |spec|
   spec.name          = "train-test-fixture"
   spec.version       = '0.1.0'
-  spec.authors       = ["InSpec core engineering team"]
+  spec.authors       = ["Inspec core engineering team"]
   spec.email         = ["hello@chef.io"]
   spec.license       = 'Apache-2.0'
 
