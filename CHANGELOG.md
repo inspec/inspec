@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.1.14 -->
-## [v4.1.14](https://github.com/inspec/inspec/tree/v4.1.14) (2019-04-25)
+<!-- latest_release 4.1.15 -->
+## [v4.1.15](https://github.com/inspec/inspec/tree/v4.1.15) (2019-04-25)
 
 #### Merged Pull Requests
-- Update deprecation settings for v4 [#3973](https://github.com/inspec/inspec/pull/3973) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Appveyor Config Changes [#3983](https://github.com/inspec/inspec/pull/3983) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.0 -->
@@ -16,6 +16,7 @@
 - Telemetry Object Model [#3928](https://github.com/inspec/inspec/pull/3928) ([miah](https://github.com/miah)) <!-- 4.0.5 -->
 
 #### Merged Pull Requests
+- Appveyor Config Changes [#3983](https://github.com/inspec/inspec/pull/3983) ([miah](https://github.com/miah)) <!-- 4.1.15 -->
 - Update deprecation settings for v4 [#3973](https://github.com/inspec/inspec/pull/3973) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.1.14 -->
 - Provide logger to license-acceptance for help debugging in the future [#3958](https://github.com/inspec/inspec/pull/3958) ([tyler-ball](https://github.com/tyler-ball)) <!-- 4.1.13 -->
 - Bump appveyor.yml to build on 2.6 for unit-tests-ruby-2.6. [#3980](https://github.com/inspec/inspec/pull/3980) ([zenspider](https://github.com/zenspider)) <!-- 4.1.12 -->
@@ -50,6 +51,7 @@
 ## [v3.9.2](https://github.com/inspec/inspec/tree/v3.9.2) (2019-04-08)
 
 #### Merged Pull Requests
+- Appveyor Config Changes [#3983](https://github.com/inspec/inspec/pull/3983) ([miah](https://github.com/miah)) <!-- 4.1.15 -->
 - Update deprecation settings for v4 [#3973](https://github.com/inspec/inspec/pull/3973) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.1.14 -->
 - Provide logger to license-acceptance for help debugging in the future [#3958](https://github.com/inspec/inspec/pull/3958) ([tyler-ball](https://github.com/tyler-ball)) <!-- 4.1.13 -->
 - Bump appveyor.yml to build on 2.6 for unit-tests-ruby-2.6. [#3980](https://github.com/inspec/inspec/pull/3980) ([zenspider](https://github.com/zenspider)) <!-- 4.1.12 -->
