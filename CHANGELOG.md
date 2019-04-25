@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.1.7 -->
-## [v4.1.7](https://github.com/inspec/inspec/tree/v4.1.7) (2019-04-25)
+<!-- latest_release 4.1.8 -->
+## [v4.1.8](https://github.com/inspec/inspec/tree/v4.1.8) (2019-04-25)
 
-#### Bug Fixes
-- Improve ss parsing code for IPv6 addresses [#3962](https://github.com/inspec/inspec/pull/3962) ([miah](https://github.com/miah))
+#### Merged Pull Requests
+- When mssql response is parsed, header might be nil. [#3971](https://github.com/inspec/inspec/pull/3971) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.0 -->
@@ -16,6 +16,7 @@
 - Telemetry Object Model [#3928](https://github.com/inspec/inspec/pull/3928) ([miah](https://github.com/miah)) <!-- 4.0.5 -->
 
 #### Merged Pull Requests
+- When mssql response is parsed, header might be nil. [#3971](https://github.com/inspec/inspec/pull/3971) ([miah](https://github.com/miah)) <!-- 4.1.8 -->
 - Remove be_immutable matcher [#3975](https://github.com/inspec/inspec/pull/3975) ([mjingle](https://github.com/mjingle)) <!-- 4.1.6 -->
 - Add ed25519 gems in the omnibus group [#3970](https://github.com/inspec/inspec/pull/3970) ([tas50](https://github.com/tas50)) <!-- 4.1.5 -->
 - Use the upstream unf_ext again [#3963](https://github.com/inspec/inspec/pull/3963) ([tas50](https://github.com/tas50)) <!-- 4.1.4 -->
@@ -43,6 +44,7 @@
 ## [v3.9.2](https://github.com/inspec/inspec/tree/v3.9.2) (2019-04-08)
 
 #### Merged Pull Requests
+- When mssql response is parsed, header might be nil. [#3971](https://github.com/inspec/inspec/pull/3971) ([miah](https://github.com/miah)) <!-- 4.1.8 -->
 - Remove be_immutable matcher [#3975](https://github.com/inspec/inspec/pull/3975) ([mjingle](https://github.com/mjingle)) <!-- 4.1.6 -->
 - Add ed25519 gems in the omnibus group [#3970](https://github.com/inspec/inspec/pull/3970) ([tas50](https://github.com/tas50)) <!-- 4.1.5 -->
 - Use the upstream unf_ext again [#3963](https://github.com/inspec/inspec/pull/3963) ([tas50](https://github.com/tas50)) <!-- 4.1.4 -->
