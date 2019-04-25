@@ -569,6 +569,10 @@ module Inspec::Resources
       # example: ::ffff:10.0.2.15:9200
       host.delete!('::ffff:') if host.start_with?('::ffff:')
 
+      # To remove brackets that might surround the IPv6 address
+      # example: [::] and [fe80::dc11:b9b6:514b:134]%eth0:123
+      host = host.tr('[]', '')
+
       # if there's an interface name in the local address, which is common for
       # IPv6 listeners, strip that out too.
       # example: fe80::a00:27ff:fe32:ed09%enp0s3
