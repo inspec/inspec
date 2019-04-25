@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.1.10 -->
-## [v4.1.10](https://github.com/inspec/inspec/tree/v4.1.10) (2019-04-25)
+<!-- latest_release 4.1.11 -->
+## [v4.1.11](https://github.com/inspec/inspec/tree/v4.1.11) (2019-04-25)
 
-#### Bug Fixes
-- update &#39;low&#39; impact value to align with CVSS 3.0 [#3961](https://github.com/inspec/inspec/pull/3961) ([aaronlippold](https://github.com/aaronlippold))
+#### Merged Pull Requests
+- Make sure we test on Ruby 2.6 [#3937](https://github.com/inspec/inspec/pull/3937) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.0 -->
@@ -16,6 +16,7 @@
 - Telemetry Object Model [#3928](https://github.com/inspec/inspec/pull/3928) ([miah](https://github.com/miah)) <!-- 4.0.5 -->
 
 #### Merged Pull Requests
+- Make sure we test on Ruby 2.6 [#3937](https://github.com/inspec/inspec/pull/3937) ([tas50](https://github.com/tas50)) <!-- 4.1.11 -->
 - Update plugin test fixtures for Ruby 2.6 and remove for 2.3 [#3978](https://github.com/inspec/inspec/pull/3978) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.1.9 -->
 - When mssql response is parsed, header might be nil. [#3971](https://github.com/inspec/inspec/pull/3971) ([miah](https://github.com/miah)) <!-- 4.1.8 -->
 - Remove be_immutable matcher [#3975](https://github.com/inspec/inspec/pull/3975) ([mjingle](https://github.com/mjingle)) <!-- 4.1.6 -->
@@ -46,6 +47,7 @@
 ## [v3.9.2](https://github.com/inspec/inspec/tree/v3.9.2) (2019-04-08)
 
 #### Merged Pull Requests
+- Make sure we test on Ruby 2.6 [#3937](https://github.com/inspec/inspec/pull/3937) ([tas50](https://github.com/tas50)) <!-- 4.1.11 -->
 - Update plugin test fixtures for Ruby 2.6 and remove for 2.3 [#3978](https://github.com/inspec/inspec/pull/3978) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.1.9 -->
 - When mssql response is parsed, header might be nil. [#3971](https://github.com/inspec/inspec/pull/3971) ([miah](https://github.com/miah)) <!-- 4.1.8 -->
 - Remove be_immutable matcher [#3975](https://github.com/inspec/inspec/pull/3975) ([mjingle](https://github.com/mjingle)) <!-- 4.1.6 -->
