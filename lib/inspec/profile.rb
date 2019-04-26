@@ -122,13 +122,19 @@ module Inspec
       # it is the single source of truth. Now that we have a profile object,
       # we can create any inputs that were provided by various mechanisms.
       options[:runner_conf] ||= Inspec::Config.cached
+
+      if options[:runner_conf].key?(:attrs)
+        Inspec.deprecate(:rename_attributes_to_inputs, 'Use --input-file on the command line instead of --attrs.')
+        options[:runner_conf][:input_file] = options[:runner_conf].delete(:attrs)
+      end
+
       Inspec::InputRegistry.bind_profile_inputs(
         # Every input only exists in the context of a profile
         metadata.params[:name], # TODO: test this with profile aliasing
         # Remaining args are possible sources of inputs
-        # TODO: deprecation checks throughout
-        cli_input_files: options[:runner_conf][:attrs], # From --attrs
+        cli_input_files: options[:runner_conf][:input_file], # From CLI --input-file
         profile_metadata: metadata,
+        # TODO: deprecation checks here
         runner_api: options[:runner_conf][:attributes], # This is the route the audit_cookbook and kitchen-inspec take
       )
 
