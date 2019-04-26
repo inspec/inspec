@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.1.16 -->
-## [v4.1.16](https://github.com/inspec/inspec/tree/v4.1.16) (2019-04-26)
+<!-- latest_release 4.2.0 -->
+## [v4.2.0](https://github.com/inspec/inspec/tree/v4.2.0) (2019-04-26)
 
-#### Merged Pull Requests
-- Use a updated OS Image in Appveyor [#3985](https://github.com/inspec/inspec/pull/3985) ([miah](https://github.com/miah))
+#### New Features
+- Internal overhaul of Inputs system [#3875](https://github.com/inspec/inspec/pull/3875) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.0 -->
 ### Changes since 3.9.0 release
 
 #### New Features
+- Internal overhaul of Inputs system [#3875](https://github.com/inspec/inspec/pull/3875) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.2.0 -->
 - file: add `more_permissive_than?(mode)` matcher [#3895](https://github.com/inspec/inspec/pull/3895) ([aaronlippold](https://github.com/aaronlippold)) <!-- 4.1.0 -->
 - Add license acceptance to InSpec v4 [#3935](https://github.com/inspec/inspec/pull/3935) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.6 -->
 - Telemetry Object Model [#3928](https://github.com/inspec/inspec/pull/3928) ([miah](https://github.com/miah)) <!-- 4.0.5 -->
