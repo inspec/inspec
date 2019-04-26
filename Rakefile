@@ -43,6 +43,12 @@ rescue LoadError
   puts 'rubocop is not available. Install the rubocop gem to run the lint tests.'
 end
 
+task :install do
+  inspec_bin_path = ::File.join(::File.dirname(__FILE__), "inspec-bin")
+  Dir.chdir(inspec_bin_path)
+  sh("rake install")
+end
+
 # update command output for demo
 desc 'Run inspec commands and save results to www/app/responses'
 task :update_demo do
