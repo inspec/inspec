@@ -1,3 +1,5 @@
-# we need to force the install in order to overwrite the binstubs from
-# old inspec gems.
-Bundler::GemHelper.install_tasks force: true
+task :install do
+  sh('gem build inspec-bin.gemspec')
+  # Not likely to be portable
+  sh('yes | gem install *.gem')
+end
