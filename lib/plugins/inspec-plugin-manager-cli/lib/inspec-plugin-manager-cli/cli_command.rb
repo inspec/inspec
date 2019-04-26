@@ -1,13 +1,11 @@
-require "term/ansicolor"
-require "pathname"
-require "inspec/plugin/v2"
-require "inspec/plugin/v2/installer"
-require "inspec/dist"
+require 'pathname'
+require 'inspec/plugin/v2'
+require 'inspec/plugin/v2/installer'
+require 'inspec/dist'
 
 module InspecPlugins
   module PluginManager
     class CliCommand < Inspec.plugin(2, :cli_command)
-      include Term::ANSIColor
       include Inspec::Dist
 
       subcommand_desc "plugin SUBCOMMAND", "Manage #{PRODUCT_NAME} and Train plugins"
@@ -22,15 +20,17 @@ module InspecPlugins
         plugin_statuses = Inspec::Plugin::V2::Registry.instance.plugin_statuses
         plugin_statuses.reject! { |s| %i{core bundle}.include?(s.installation_type) } unless options[:all]
 
-        # TODO: ui object support
         puts
-        puts(bold { format(" %-30s%-10s%-8s%-6s", "Plugin Name", "Version", "Via", "ApiVer") })
-        puts "-" * 55
+        ui.bold(format(' %-30s%-10s%-8s%-6s', 'Plugin Name', 'Version', 'Via', 'ApiVer'))
+        ui.line
         plugin_statuses.sort_by(&:name).each do |status|
-          puts(format(" %-30s%-10s%-8s%-6s", status.name, make_pretty_version(status), status.installation_type, status.api_generation.to_s))
+          ui.plain(format(' %-30s%-10s%-8s%-6s', status.name,
+                          make_pretty_version(status),
+                          status.installation_type,
+                          status.api_generation.to_s))
         end
-        puts "-" * 55
-        puts(" #{plugin_statuses.count} plugin(s) total")
+        ui.line
+        ui.plain(" #{plugin_statuses.count} plugin(s) total")
         puts
       end
 
@@ -59,23 +59,22 @@ module InspecPlugins
           search_results.delete("train-test-fixture")
         end
 
-        # TODO: ui object support
         puts
-        puts(bold { format(" %-30s%-50s", "Plugin Name", "Versions Available") })
-        puts "-" * 55
+        ui.bold(format(' %-30s%-50s', 'Plugin Name', 'Versions Available'))
+        ui.line
         search_results.keys.sort.each do |plugin_name|
           versions = options[:all] ? search_results[plugin_name] : [search_results[plugin_name].first]
-          versions = "(" + versions.join(", ") + ")"
-          puts(format(" %-30s%-50s", plugin_name, versions))
+          versions = '(' + versions.join(', ') + ')'
+          ui.plain(format(' %-30s%-50s', plugin_name, versions))
         end
-        puts "-" * 55
-        puts(" #{search_results.count} plugin(s) found")
+        ui.line
+        ui.plain(" #{search_results.count} plugin(s) found")
         puts
 
-        exit 2 if search_results.empty?
+        ui.exit 2 if search_results.empty?
       rescue Inspec::Plugin::V2::SearchError => ex
         Inspec::Log.error ex.message
-        exit 1
+        ui.exit 1
       end
 
       #==================================================================#
@@ -119,13 +118,14 @@ module InspecPlugins
         begin
           installer.update(plugin_name)
         rescue Inspec::Plugin::V2::UpdateError => ex
-          puts(red { "Update error: " } + ex.message + " - update failed")
-          exit 1
+          ui.red('Update error: ' + ex.message + ' - update failed')
+          ui.exit 1
         end
         post_update_versions = installer.list_installed_plugin_gems.select { |spec| spec.name == plugin_name }.map { |spec| spec.version.to_s }
         new_version = (post_update_versions - pre_update_versions).first
 
-        puts(bold { plugin_name } + " plugin, version #{old_version} -> #{new_version}, updated from rubygems.org")
+        ui.bold(plugin_name + " plugin, version #{old_version} -> " \
+                "#{new_version}, updated from rubygems.org")
       end
 
       #--------------------------
@@ -144,9 +144,9 @@ module InspecPlugins
       def uninstall(plugin_name)
         status = Inspec::Plugin::V2::Registry.instance[plugin_name.to_sym]
         unless status
-          puts(red { "No such plugin installed: " } + "#{plugin_name} is not installed - uninstall failed")
-
-          exit 1
+          ui.red("No such plugin installed: #{plugin_name} is not " \
+                 'installed - uninstall failed')
+          ui.exit 1
         end
         installer = Inspec::Plugin::V2::Installer.instance
 
@@ -156,11 +156,13 @@ module InspecPlugins
         installer.uninstall(plugin_name)
 
         if status.installation_type == :path
-          puts(bold { plugin_name } + " path-based plugin install has been uninstalled")
+          ui.bold(plugin_name + ' path-based plugin install has been ' \
+                  'uninstalled')
         else
-          puts(bold { plugin_name } + " plugin, version #{old_version}, has been uninstalled")
+          ui.bold(plugin_name + " plugin, version #{old_version}, has " \
+                  'been uninstalled')
         end
-        exit 0
+        ui.exit 0
       end
 
       private
@@ -172,8 +174,8 @@ module InspecPlugins
 
       def install_from_gemfile(gem_file)
         unless File.exist? gem_file
-          puts(red { "No such plugin gem file " } + gem_file + " - installation failed.")
-          exit 1
+          ui.red("No such plugin gem file #{gem_file} - installation failed.")
+          ui.exit 1
         end
 
         plugin_name_parts = File.basename(gem_file, ".gem").split("-")
@@ -183,14 +185,15 @@ module InspecPlugins
 
         installer.install(plugin_name, gem_file: gem_file)
 
-        puts(bold { plugin_name } + " plugin, version #{version}, installed from local .gem file")
-        exit 0
+        ui.bold("#{plugin_name} plugin, version #{version}, installed from " \
+                'local .gem file')
+        ui.exit 0
       end
 
       def install_from_path(path)
         unless File.exist? path
-          puts(red { "No such source code path " } + path + " - installation failed.")
-          exit 1
+          ui.red('No such source code path ' + path + ' - installation failed.')
+          ui.exit 1
         end
 
         plugin_name = File.basename(path, ".rb")
@@ -204,8 +207,10 @@ module InspecPlugins
 
         # Already installed?
         if registry.known_plugin?(plugin_name.to_sym)
-          puts(red { "Plugin already installed" } + " - #{plugin_name} - Use '#{EXEC_NAME} plugin list' to see previously installed plugin - installation failed.")
-          exit 2
+          ui.red("Plugin already installed - #{plugin_name} - Use '#{EXEC_NAME}" \
+                 "plugin list' to see previously installed plugin - " \
+                 'installation failed.')
+          ui.exit 2
         end
 
         # Can we figure out how to load it?
@@ -217,8 +222,9 @@ module InspecPlugins
         # OK, install it!
         installer.install(plugin_name, path: entry_point)
 
-        puts(bold { plugin_name } + " plugin installed via source path reference, resolved to entry point " + entry_point)
-        exit 0
+        ui.bold("#{plugin_name} plugin installed via source path reference, " \
+                "resolved to entry point #{entry_point}")
+        ui.exit 0
       end
 
       # Rationale for rubocop variances: It's a heuristics method, and will be full of
@@ -279,8 +285,10 @@ module InspecPlugins
 
         # Well, if we got here, parts[2] matches an inspec/train prefix, but we have no idea about anything.
         # Give up.
-        puts(red { "Unrecognizable plugin structure" } + " - #{parts[2]} - When installing from a path, please provide the path of the entry point file - installation failed.")
-        exit 1
+        ui.red("Unrecognizable plugin structure - #{parts[2]} - When " \
+               'installing from a path, please provide the path of the ' \
+               'entry point file - installation failed.')
+        ui.exit 1
       end
 
       def install_from_path__probe_load(entry_point, plugin_name)
@@ -288,9 +296,11 @@ module InspecPlugins
         begin
           require entry_point
         rescue LoadError => ex
-          puts(red { "Plugin contains errors" } + " - #{plugin_name} - Encountered errors while trying to test load the plugin entry point, resolved to #{entry_point} - installation failed")
-          puts ex.message
-          exit 1
+          ui.red("Plugin contains errors - #{plugin_name} - Encountered " \
+                 'errors while trying to test load the plugin entry point, ' \
+                 "resolved to #{entry_point} - installation failed")
+          ui.plain ex.message
+          ui.exit 1
         end
 
         # OK, the wheels didn't fall off.  But is it a plugin?
@@ -299,13 +309,19 @@ module InspecPlugins
           # And the registry is keyed on Strings
           registry_key = plugin_name.to_s.sub(/^train-/, "")
           unless Train::Plugins.registry.key?(registry_key)
-            puts(red { "Does not appear to be a plugin" } + " - #{plugin_name} - After probe-loading the supposed plugin, it did not register itself to Train. Ensure something inherits from 'Train.plugin(1)' - installation failed.")
-            exit 1
+            ui.red("Does not appear to be a plugin - #{plugin_name} - After " \
+                   'probe-loading the supposed plugin, it did not register ' \
+                   'itself to Train. Ensure something inherits from ' \
+                   "'Train.plugin(1)' - installation failed.")
+            ui.exit 1
           end
         else
           unless registry.known_plugin?(plugin_name.to_sym)
-            puts(red { "Does not appear to be a plugin" } + " - #{plugin_name} - After probe-loading the supposed plugin, it did not register itself to InSpec. Ensure something inherits from 'Inspec.plugin(2)' - installation failed.")
-            exit 1
+            ui.red("Does not appear to be a plugin - #{plugin_name} - After " \
+                   'probe-loading the supposed plugin, it did not register ' \
+                   'itself to InSpec. Ensure something inherits from ' \
+                   "'Inspec.plugin(2)' - installation failed.")
+            ui.exit 1
           end
         end
       end
@@ -325,8 +341,9 @@ module InspecPlugins
         post_installed_versions = installer.list_installed_plugin_gems.select { |spec| spec.name == plugin_name }.map { |spec| spec.version.to_s }
         new_version = (post_installed_versions - pre_installed_versions).first
 
-        puts(bold { plugin_name } + " plugin, version #{new_version}, installed from rubygems.org")
-        exit 0
+        ui.bold("#{plugin_name} plugin, version #{new_version}, installed " \
+                'from rubygems.org')
+        ui.exit 0
       end
 
       def install_from_remote_gem_verson_preflight_check(plugin_name, requested_version, pre_installed_versions)
@@ -348,38 +365,50 @@ module InspecPlugins
         they_explicitly_asked_for_a_version = !options[:version].nil?
         what_we_would_install_is_already_installed = pre_installed_versions.include?(requested_version)
         if what_we_would_install_is_already_installed && they_explicitly_asked_for_a_version
-          puts(red { "Plugin already installed at requested version" } + " - plugin #{plugin_name} #{requested_version} - refusing to install.")
+          ui.red('Plugin already installed at requested version - plugin ' \
+                 "#{plugin_name} #{requested_version} - refusing to install.")
         elsif what_we_would_install_is_already_installed && !they_explicitly_asked_for_a_version
-          puts(red { "Plugin already installed at latest version" } + " - plugin #{plugin_name} #{requested_version} - refusing to install.")
+          ui.red('Plugin already installed at latest version - plugin ' \
+                 "#{plugin_name} #{requested_version} - refusing to install.")
         else
           # There are existing versions installed, but none of them are what was requested
-          puts(red { "Update required" } + " - plugin #{plugin_name}, requested #{requested_version}, have #{pre_installed_versions.join(", ")}; use `inspec plugin update` - refusing to install.")
+          ui.red("Update required - plugin #{plugin_name}, requested " \
+                 "#{requested_version}, have " \
+                 "#{pre_installed_versions.join(', ')}; use `inspec " \
+                 'plugin update` - refusing to install.')
         end
 
-        exit 2
+        ui.exit 2
       end
 
       # Rationale for RuboCop variance: This is a one-line method with heavy UX-focused error handling.
       def install_attempt_install(plugin_name) # rubocop: disable Metrics/AbcSize
         installer.install(plugin_name, version: options[:version])
       rescue Inspec::Plugin::V2::PluginExcludedError => ex
-        puts(red { "Plugin on Exclusion List" } + " - #{plugin_name} is listed as an incompatible gem - refusing to install.")
-        puts "Rationale: #{ex.details.rationale}"
-        puts "Exclusion list location: " + File.join(Inspec.src_root, "etc", "plugin_filters.json")
-        puts "If you disagree with this determination, please accept our apologies for the misunderstanding, and open an issue at https://github.com/inspec/inspec/issues/new"
-        exit 2
+        ui.red("Plugin on Exclusion List - #{plugin_name} is listed as an " \
+               'incompatible gem - refusing to install.')
+        ui.plain("Rationale: #{ex.details.rationale}")
+        ui.plain('Exclusion list location: ' +
+                 File.join(Inspec.src_root, 'etc', 'plugin_filters.json'))
+        ui.plain('If you disagree with this determination, please accept ' \
+                 'our apologies for the misunderstanding, and open an issue ' \
+                 'at https://github.com/inspec/inspec/issues/new')
+        ui.exit 2
       rescue Inspec::Plugin::V2::InstallError
         raise if Inspec::Log.level == :debug
 
         results = installer.search(plugin_name, exact: true)
         if results.empty?
-          puts(red { "No such plugin gem " } + plugin_name + " could be found on rubygems.org - installation failed.")
+          ui.red("No such plugin gem #{plugin_name} could be found on " \
+                 'rubygems.org - installation failed.')
         elsif options[:version] && !results[plugin_name].include?(options[:version])
-          puts(red { "No such version" } + " - " + plugin_name + " exists, but no such version #{options[:version]} found on rubygems.org - installation failed.")
+          ui.red("No such version - #{plugin_name} exists, but no such " \
+                 "version #{options[:version]} found on rubygems.org - " \
+                 'installation failed.')
         else
-          puts(red { "Unknown error occured " } + " - installation failed.")
+          ui.red('Unknown error occured - installation failed.')
         end
-        exit 1
+        ui.exit 1
       end
 
       #==================================================================#
@@ -390,11 +419,13 @@ module InspecPlugins
           # Check for path install
           status = Inspec::Plugin::V2::Registry.instance[plugin_name.to_sym]
           if !status
-            puts(red { "No such plugin installed: " } + "#{plugin_name} - update failed")
-            exit 1
+            ui.red("No such plugin installed: #{plugin_name} - update failed")
+            ui.exit 1
           elsif status.installation_type == :path
-            puts(red { "Cannot update path-based install: " } + "#{plugin_name} is installed via path reference; use `inspec plugin uninstall` to remove - refusing to update")
-            exit 2
+            ui.red("Cannot update path-based install: #{plugin_name} is " \
+                   'installed via path reference; use `inspec plugin ' \
+                   'uninstall` to remove - refusing to update')
+            ui.exit 2
           end
         end
 
@@ -403,8 +434,9 @@ module InspecPlugins
         latest_version = latest_version[plugin_name]&.last
 
         if pre_update_versions.include?(latest_version)
-          puts(red { "Already installed at latest version: " } + "#{plugin_name} is at #{latest_version}, which the latest - refusing to update")
-          exit 2
+          ui.red("Already installed at latest version: #{plugin_name} is at " \
+                 "#{latest_version}, which the latest - refusing to update")
+          ui.exit 2
         end
       end
 
@@ -421,8 +453,10 @@ module InspecPlugins
 
       def check_plugin_name(plugin_name, action)
         unless plugin_name =~ /^(inspec|train)-/
-          puts(red { "Invalid plugin name" } + " - #{plugin_name} - All inspec plugins must begin with either 'inspec-' or 'train-' - #{action} failed.")
-          exit 1
+          ui.red("Invalid plugin name - #{plugin_name} - All inspec " \
+                 "plugins must begin with either 'inspec-' or 'train-' " \
+                 "- #{action} failed.")
+          ui.exit 1
         end
       end
 
