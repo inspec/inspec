@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Chef InSpec Core Engineering ']
   spec.email         = ['inspec@chef.io']
   spec.summary       = 'Infrastructure and compliance testing.'
-  spec.description   = 'InSpec executable for inspec gem. Use of this executable requires a commercial relationship Chef Software.'
-  spec.homepage      = 'https://github.com/inspec/inspec'
+  spec.description   = 'InSpec executable for inspec gem. Use of this executable may require accepting a license agreement.'
+  spec.homepage      = 'https://github.com/inspec/inspec/tree/master/inspec-bin'
   spec.license       = 'Apache-2.0'
 
   spec.require_paths = ['lib']

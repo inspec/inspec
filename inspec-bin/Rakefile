@@ -1,5 +1,0 @@
-task :install do
-  sh('gem build inspec-bin.gemspec')
-  # Not likely to be portable
-  sh('yes | gem install *.gem')
-end
