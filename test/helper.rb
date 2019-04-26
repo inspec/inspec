@@ -1,7 +1,13 @@
 # encoding: utf-8
-# author: Dominik Richter
-# author: Christoph Hartmann
+
 require 'simplecov'
+require 'coveralls'
+
+SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+])
+
 SimpleCov.start do
   add_filter '/test/'
   add_group 'Resources', 'lib/resources'
