@@ -5,7 +5,7 @@ platform: linux
 
 # postgres\_ident\_conf
 
-Use the `postgres_ident_conf` InSpec audit resource to test the client authentication data defined in the pg_ident.conf file.
+Use the `postgres_ident_conf` Chef InSpec audit resource to test the client authentication data defined in the pg_ident.conf file.
 
 <br>
 
@@ -13,7 +13,7 @@ Use the `postgres_ident_conf` InSpec audit resource to test the client authentic
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -21,7 +21,7 @@ This resource first became available in v1.31.0 of InSpec.
 
 ## Syntax
 
-An `postgres_ident_conf` InSpec audit resource block declares client authentication data that should be tested:
+An `postgres_ident_conf` Chef InSpec audit resource block declares client authentication data that should be tested:
 
     describe postgres_ident_conf.where { pg_username == 'filter_value' } do
       its('attribute') { should eq ['value'] }
@@ -70,7 +70,7 @@ where
 
 ## Matchers
 
-This InSpec audit resource matches any service that is listed in the pg ident configuration file. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource matches any service that is listed in the pg ident configuration file. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
     its('pg_username') { should_not eq ['peer'] }
 

@@ -1,6 +1,6 @@
-# InSpec documentation
+# Chef InSpec documentation
 
-This is the home of the InSpec documentation. This documentation provides an introduction to this mechanism and shows how to write custom tests.
+This is the home of the Chef InSpec documentation. This documentation provides an introduction to this mechanism and shows how to write custom tests.
 
 The goal of this folder is for any community member to clone these docs, make the changes, check if they are valid, and contribute to the project.
 
@@ -30,7 +30,7 @@ bundle exec rake --tasks docs
 
 ## Stability Index
 
-Every available InSpec resource will indicate its stability. As InSpec matures, certain parts are more reliable than others. Brand new features are likely to be redesigned and marked as such.
+Every available Chef InSpec resource will indicate its stability. As Chef InSpec matures, certain parts are more reliable than others. Brand new features are likely to be redesigned and marked as such.
 
 The stability indices are as follows:
 

@@ -4,7 +4,7 @@ title: About the aws_s3_bucket_object Resource
 
 # aws\_s3\_bucket\_object
 
-Use the `aws_s3_bucket_object` InSpec audit resource to test properties of a single AWS bucket object.
+Use the `aws_s3_bucket_object` Chef InSpec audit resource to test properties of a single AWS bucket object.
 
 Each S3 Object has a 'key' which can be thought of as the name of the S3 Object which uniquely identifies it.
 
@@ -21,7 +21,7 @@ As of January 2018, this resource supports evaluating S3 Object ACLs. In particu
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -40,7 +40,7 @@ An `aws_s3_bucket_object` resource block declares a bucket and an object key by 
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test a object's object-level ACL
 
@@ -79,7 +79,7 @@ The value of object_acl is an Array of simple objects.  Each object has a `permi
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource has the following special matchers. For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be\_public
 

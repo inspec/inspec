@@ -5,7 +5,7 @@ platform: aws
 
 # aws\_kms\_keys
 
-Use the `aws_kms_keys` InSpec audit resource to test properties of some or all AWS KMS Keys.
+Use the `aws_kms_keys` Chef InSpec audit resource to test properties of some or all AWS KMS Keys.
 
 AWS Key Management Service (KMS) is a managed service that makes creating and controlling your encryption keys for your data easier. KMS uses Hardware Security Modules (HSMs) to protect the security of your keys.
 
@@ -19,7 +19,7 @@ Each AWS KMS Key is uniquely identified by its key-id or key-arn.
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -38,7 +38,7 @@ An `aws_kms_keys` resource block uses an optional filter to select a group of KM
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 As this is the initial release of `aws_kms_keys`, its limited functionality precludes examples.
 
@@ -81,7 +81,7 @@ Provides a list of key ids for all KMS Keys in the AWS account.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exists
 

@@ -5,7 +5,7 @@ platform: os
 
 # package
 
-Use the `package` InSpec audit resource to test if the named package and/or package version is installed on the system.
+Use the `package` Chef InSpec audit resource to test if the named package and/or package version is installed on the system.
 
 <br>
 
@@ -13,7 +13,7 @@ Use the `package` InSpec audit resource to test if the named package and/or pack
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -36,7 +36,7 @@ where
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test if NGINX version 1.9.5 is installed
 
@@ -82,7 +82,7 @@ The following examples show how to use this InSpec audit resource.
 
 ### Verify if Memcached is installed, enabled, and running
 
-Memcached is an in-memory key-value store that helps improve the performance of database-driven websites and can be installed, maintained, and tested using the `memcached` cookbook (maintained by Chef). The following example is from the `memcached` cookbook and shows how to use a combination of the `package`, `service`, and `port` InSpec audit resources to test if Memcached is installed, enabled, and running:
+Memcached is an in-memory key-value store that helps improve the performance of database-driven websites and can be installed, maintained, and tested using the `memcached` cookbook (maintained by Chef). The following example is from the `memcached` cookbook and shows how to use a combination of the `package`, `service`, and `port` Chef InSpec audit resources to test if Memcached is installed, enabled, and running:
 
     describe package('memcached') do
       it { should be_installed }

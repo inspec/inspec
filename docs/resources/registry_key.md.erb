@@ -5,7 +5,7 @@ platform: windows
 
 # registry_key
 
-Use the `registry_key` InSpec audit resource to test key values in the Windows registry.
+Use the `registry_key` Chef InSpec audit resource to test key values in the Windows registry.
 
 <br>
 
@@ -13,7 +13,7 @@ Use the `registry_key` InSpec audit resource to test key values in the Windows r
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -78,7 +78,7 @@ Please make sure that you use backslashes instead of forward slashes. Forward sl
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test the start time for the Schedule service
 
@@ -170,7 +170,7 @@ Any name with a dot will not work as expected: <code>its('explorer.exe') { shoul
     # ...or provide the name in an array
     its(['explorer.exe']) { should eq 'test' }
 
-The latter workaround may be preferable because upon failure, InSpec will present the expected and actual values:
+The latter workaround may be preferable because upon failure, Chef InSpec will present the expected and actual values:
 
     inspec> describe registry_key('HKEY_USERS\S-1-5-20\Software\Policies\Microsoft\Windows\Control Panel\Desktop') do
     inspec>   its(["SCRNSAVE.EXE"]) { should eq "FlyingToasters.scr" }

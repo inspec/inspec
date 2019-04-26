@@ -5,7 +5,7 @@ platform: linux
 
 # passwd
 
-Use the `passwd` InSpec audit resource to test the contents of `/etc/passwd`, which contains the following information for users that may log into the system and/or as users that own running processes. The format for `/etc/passwd` includes:
+Use the `passwd` Chef InSpec audit resource to test the contents of `/etc/passwd`, which contains the following information for users that may log into the system and/or as users that own running processes. The format for `/etc/passwd` includes:
 
 * A username
 * The password for that user (on newer systems passwords should be stored in `/etc/shadow` )
@@ -25,7 +25,7 @@ These entries are defined as a colon-delimited row in the file, one row per user
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -54,7 +54,7 @@ where
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test usernames and UIDs
 

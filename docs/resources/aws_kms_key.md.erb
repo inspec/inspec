@@ -4,7 +4,7 @@ title: About the aws_kms_key Resource
 
 # aws\_kms\_key
 
-Use the `aws_kms_key` InSpec audit resource to test properties of a single AWS KMS Key.
+Use the `aws_kms_key` Chef InSpec audit resource to test properties of a single AWS KMS Key.
 
 Use aws_kms_key to verify the properties of a single key. Use aws_kms_keys to verify the properties of all or a group of keys.
 
@@ -18,7 +18,7 @@ Each AWS KMS Key is uniquely identified by its key_id or arn.
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -47,7 +47,7 @@ An aws_kms_key resource block identifies a key by key_arn or the key id.
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test that the specified key does exist
 
@@ -139,7 +139,7 @@ Provides the date and time until the key is not valid.  Once the key is not vali
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource has the following special matchers. For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be\_enabled
 

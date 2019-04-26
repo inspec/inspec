@@ -1,10 +1,10 @@
 ---
-title: InSpec Universal Matchers Reference
+title: Chef InSpec Universal Matchers Reference
 ---
 
-# InSpec Universal Matchers Reference
+# Chef InSpec Universal Matchers Reference
 
-InSpec uses matchers to help compare resource values to expectations.
+Chef InSpec uses matchers to help compare resource values to expectations.
 The following matchers are available:
 
 You may also use any matcher provided by [RSpec::Expectations](https://relishapp.com/rspec/rspec-expectations/docs), but those matchers are outside of InSpec's [scope of support](https://www.inspec.io/docs/reference/inspec_and_friends/#rspec).
@@ -18,7 +18,7 @@ The following InSpec-supported universal matchers are available:
 * [`include`](#include) - look for an expected value in a list-valued property
 * [`match`](#match) - look for patterns in text using regular expressions
 
-See [Explore InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on Learn Chef Rally to learn more about InSpec's built-in matchers.
+See [Explore Chef InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on Learn Chef Rally to learn more about InSpec's built-in matchers.
 
 ## be
 

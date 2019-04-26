@@ -1,12 +1,12 @@
-# InSpec profile style guide
+# Chef InSpec profile style guide
 
-This is a set of recommended InSpec rules you should use when writing controls.
+This is a set of recommended Chef InSpec rules you should use when writing controls.
 
 # Control Files
 
 ## Place control files in `controls/` and end them with `.rb`
 
-Most syntax highlighters will render InSpec files correctly across a wide list
+Most syntax highlighters will render Chef InSpec files correctly across a wide list
 of tools.
 
 Avoid:
@@ -122,12 +122,12 @@ it as a generator for static controls.
 
 ## Avoid Ruby system calls
 
-Ruby code is executed on the system that runs InSpec. This allows InSpec to work
+Ruby code is executed on the system that runs InSpec. This allows Chef InSpec to work
 without Ruby and RubyGems being required on remote targets (servers or
 containers). System calls are often used to interact with the local OS or remote
 endpoints from a local installation.
 
-InSpec tests, however, are designed to be universally executable on all types
+Chef InSpec tests, however, are designed to be universally executable on all types
 of runtimes, including local and remote execution. We want to give users the
 ability to take an OS profile and execute it remotely or locally.
 
@@ -181,8 +181,8 @@ Avoid:
 Use:
   - `file("filename")`
 
-In general, try to avoid Ruby's IO calls from within InSpec controls and use
-InSpec resources instead.
+In general, try to avoid Ruby's IO calls from within Chef InSpec controls and use
+Chef InSpec resources instead.
 
 ## Avoid Ruby gem dependencies in controls
 
@@ -211,7 +211,7 @@ Avoid:
 Use:
   - Use debugging calls during development only
 
-Also you may find it helpful to use the InSpec logging interface:
+Also you may find it helpful to use the Chef InSpec logging interface:
 
 ```ruby
 Inspec::Log.info('Hi')

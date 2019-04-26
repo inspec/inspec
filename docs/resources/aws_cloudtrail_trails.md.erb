@@ -5,7 +5,7 @@ platform: aws
 
 # aws\_cloudtrail\_trails
 
-Use the `aws_cloudtrail_trails` InSpec audit resource to test properties of some or all AWS CloudTrail Trails.
+Use the `aws_cloudtrail_trails` Chef InSpec audit resource to test properties of some or all AWS CloudTrail Trails.
 
 AWS CloudTrail is a service that enables governance, compliance, operational auditing, and risk auditing of your AWS account. With CloudTrail, you can log, continuously monitor, and retain account activity related to actions across your AWS infrastructure. CloudTrail provides event history of your AWS account activity, including actions taken through the AWS Management Console, AWS SDKs, command line tools, and other AWS services. This event history simplifies security analysis, resource change tracking, and troubleshooting.
 
@@ -17,7 +17,7 @@ Each AWS CloudTrail Trails is uniquely identified by its trail name or trail arn
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -36,7 +36,7 @@ An `aws_cloudtrail_trails` resource block collects a group of CloudTrail Trails 
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 As this is the initial release of `aws_cloudtrail_trails`, its limited functionality precludes examples.
 
@@ -78,7 +78,7 @@ Provides a list of trail arns for all CloudTrail Trails in the AWS account.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exists
 

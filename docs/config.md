@@ -1,10 +1,10 @@
-# The InSpec Configuration File
+# The Chef InSpec Configuration File
 
-This documents the InSpec configuration file format introduced in version 3.5 of InSpec.
+This documents the Chef InSpec configuration file format introduced in version 3.5 of InSpec.
 
 ## Config File Location
 
-By default, InSpec looks for a config file in `~/.inspec/config.json`.  InSpec does not need a configuration file to run.
+By default, Chef InSpec looks for a config file in `~/.inspec/config.json`.  Chef InSpec does not need a configuration file to run.
 
 You may also specify the location using `--config`.  For example, to run the shell using a config file in `/etc/inspec`, use `inspec shell --config /etc/inspec/config.json`.
 
@@ -74,7 +74,7 @@ Each Train transport offers a variety of options. By using the credential set fa
 
 You may have as many credential sets in the config file as you require.
 
-If you use a target URI and the portion after the `://` cannot be matched to credential set name, InSpec will send the URI to Train to be parsed as a Train URI.  Thus, you can still do `ssh://someuser@myhost.com`.
+If you use a target URI and the portion after the `://` cannot be matched to credential set name, Chef InSpec will send the URI to Train to be parsed as a Train URI.  Thus, you can still do `ssh://someuser@myhost.com`.
 
 You can use a credential set, and then override individual options using command line options.
 

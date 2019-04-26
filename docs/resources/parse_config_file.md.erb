@@ -5,7 +5,7 @@ platform: os
 
 # parse\_config\_file
 
-Use the `parse_config_file` InSpec audit resource to test arbitrary configuration files. It works in the same way as `parse_config`. Instead of using a command output, this resource works with files.
+Use the `parse_config_file` Chef InSpec audit resource to test arbitrary configuration files. It works in the same way as `parse_config`. Instead of using a command output, this resource works with files.
 
 <br>
 
@@ -13,7 +13,7 @@ Use the `parse_config_file` InSpec audit resource to test arbitrary configuratio
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -21,7 +21,7 @@ This resource first became available in v1.0.0 of InSpec.
 
 ## Syntax
 
-A `parse_config_file` InSpec audit resource block declares the location of the configuration file to be tested, and then which settings in that file are to be tested.
+A `parse_config_file` Chef InSpec audit resource block declares the location of the configuration file to be tested, and then which settings in that file are to be tested.
 
     describe parse_config_file('/path/to/file', { data_config_option: value } ) do
       its('setting') { should eq 1 }
@@ -63,7 +63,7 @@ This resource supports the following options for parsing configuration data. Use
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test a configuration setting
 

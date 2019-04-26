@@ -1,14 +1,14 @@
 ---
-title: InSpec DSL
+title: Chef InSpec DSL
 ---
 
-# InSpec DSL
+# Chef InSpec DSL
 
-InSpec is a run-time framework and rule language used to specify compliance, security, and policy requirements. It includes a collection of resources that help you write auditing controls quickly and easily. The syntax used by both open source and |chef compliance| auditing is the same. The open source |InSpec resource| framework is compatible with |chef compliance|.
+Chef InSpec is a run-time framework and rule language used to specify compliance, security, and policy requirements. It includes a collection of resources that help you write auditing controls quickly and easily. The syntax used by both open source and |chef compliance| auditing is the same. The open source |Chef InSpec resource| framework is compatible with |chef compliance|.
 
-The InSpec DSL is a Ruby DSL for writing audit controls, which includes audit resources that you can invoke.
+The Chef InSpec DSL is a Ruby DSL for writing audit controls, which includes audit resources that you can invoke.
 
-The following sections describe the syntax and show some simple examples of using the InSpec resources.
+The following sections describe the syntax and show some simple examples of using the Chef InSpec resources.
 
 ## Syntax
 
@@ -27,7 +27,7 @@ control 'sshd-8' do
   impact 0.6
   title 'Server: Configure the service port'
   desc 'Always specify which port the SSH server should listen.'
-  desc 'rationale', 'This ensures that there are no unexpected settings' # Requires InSpec >=2.3.4
+  desc 'rationale', 'This ensures that there are no unexpected settings' # Requires Chef InSpec >=2.3.4
   tag 'ssh','sshd','openssh-server'
   tag cce: 'CCE-27072-8'
   ref 'NSA-RH6-STIG - Section 3.5.2.1', url: 'https://www.nsa.gov/ia/_files/os/redhat/rhel5-guide-i731.pdf'
@@ -42,7 +42,7 @@ where
 
 * `'sshd-8'` is the name of the control
 * `impact`, `title`, and `desc` define metadata that fully describes the importance of the control, its purpose, with a succinct and complete description
-* `desc` when given only one argument it sets the default description. As of InSpec 2.3.4, when given 2 arguments (see: `'rationale'`) it will use the first argument as a header when rendering in Automate
+* `desc` when given only one argument it sets the default description. As of Chef InSpec 2.3.4, when given 2 arguments (see: `'rationale'`) it will use the first argument as a header when rendering in Automate
 * `impact` is a string, or numeric that measures the importance of the compliance results.
   Valid strings for impact are `none`, `low`, `medium`, `high`, and `critical`. The values are based off CVSS 3.0.
   A numeric value must be between `0.0` and `1.0`. The value ranges are:
@@ -54,12 +54,12 @@ where
 * `tag` is optional meta-information with with key or key-value pairs
 * `ref` is a reference to an external document
 * `describe` is a block that contains at least one test. A `control` block must contain at least one `describe` block, but may contain as many as required
-* `sshd_config` is an InSpec resource. For the full list of InSpec resources, see InSpec resource documentation
+* `sshd_config` is an Chef InSpec resource. For the full list of Chef InSpec resources, see Chef InSpec resource documentation
 * `its('Port')` is the matcher; `{ should eq '22' }` is the test. A `describe` block must contain at least one matcher, but may contain as many as required
 
 ## Advanced concepts
 
-With InSpec it is possible to check if at least one of a collection of checks is true. For example: If a setting is configured in two different locations, you may want to test if either configuration A or configuration B have been set. This is accomplished via `describe.one`. It defines a block of tests with at least one valid check.
+With Chef InSpec it is possible to check if at least one of a collection of checks is true. For example: If a setting is configured in two different locations, you may want to test if either configuration A or configuration B have been set. This is accomplished via `describe.one`. It defines a block of tests with at least one valid check.
 
 ```ruby
 describe.one do
@@ -261,7 +261,7 @@ end
 
 # Using Ruby in InSpec
 
-The InSpec DSL is a Ruby based language. This allows you to be flexible with
+The Chef InSpec DSL is a Ruby based language. This allows you to be flexible with
 Ruby code in controls:
 
 ```ruby
@@ -280,8 +280,8 @@ Core and custom resources are written as regular Ruby classes which inherit from
 
 ## Interactive Debugging with Pry
 
-Here's a sample InSpec control that users Ruby variables to instantiate
-an InSpec resource once and use the content in multiple tests.
+Here's a sample Chef InSpec control that users Ruby variables to instantiate
+an Chef InSpec resource once and use the content in multiple tests.
 
 ```ruby
 control 'check-perl' do

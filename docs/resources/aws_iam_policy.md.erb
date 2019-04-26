@@ -5,7 +5,7 @@ platform: aws
 
 # aws\_iam\_policy
 
-Use the `aws_iam_policy` InSpec audit resource to test properties of a single managed AWS IAM Policy. Use `aws_iam_policies` to audit IAM policies in bulk.
+Use the `aws_iam_policy` Chef InSpec audit resource to test properties of a single managed AWS IAM Policy. Use `aws_iam_policies` to audit IAM policies in bulk.
 
 A policy defines the permissions of an identity or resource within AWS. AWS evaluates these policies when a principal, such as a user, makes a request. Policy permissions, also called "policy statements" in AWS, determine if a request is authorized -- and allow or deny it accordingly.
 
@@ -17,7 +17,7 @@ Each IAM Policy is uniquely identified by either its policy\_name or arn.
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -46,7 +46,7 @@ An `aws_iam_policy` resource block identifies a policy by policy name.
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test that a policy does exist
 
@@ -158,7 +158,7 @@ Returns the number of statements present in the `policy`.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [Universal Matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [Universal Matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be\_attached
 

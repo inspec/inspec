@@ -4,15 +4,15 @@ title: About the azure_generic_resource Resource
 
 # azure\_generic\_resource
 
-<p class="warning">This resource is deprecated and should not be used. It will be removed in InSpec 3.0.</p>
+<p class="warning">This resource is deprecated and should not be used. It will be removed in Chef InSpec 3.0.</p>
 
-Use the `azure_generic_resource` InSpec audit resource to test any valid Azure Resource. This is very useful if you need to test something that we do not yet have a specific InSpec resource for.
+Use the `azure_generic_resource` Chef InSpec audit resource to test any valid Azure Resource. This is very useful if you need to test something that we do not yet have a specific Chef InSpec resource for.
 
 ## Availability
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -98,13 +98,13 @@ When the options have been set as well as the environment variables, the environ
 
 The properties that can be tested are entirely dependent on the Azure Resource that is under scrutiny. That means the properties vary. The best way to see what is available please use the [Azure Resources Portal](https://resources.azure.com) to select the resource you are interested in and see what can be tested.
 
-This resource allows you to test _any_ valid Azure Resource. The trade off for this is that the language to check each item is not as natural as it would be for a native InSpec resource.
+This resource allows you to test _any_ valid Azure Resource. The trade off for this is that the language to check each item is not as natural as it would be for a native Chef InSpec resource.
 
 <br>
 
 ## Property Examples
 
-The following examples show how to use some of the InSpec audit properties:
+The following examples show how to use some of the Chef InSpec audit properties:
 
 ### Tests the virtual machine's location
 
@@ -172,7 +172,7 @@ The following examples show how to use some of the InSpec audit properties:
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 <br>
 
@@ -180,4 +180,4 @@ This InSpec audit resource has the following special matchers. For a full list o
 
 Please see the integration tests for in depth examples of how this resource can be used.
 
-[InSpec Integration Tests for Azure Generic Resources](https://github.com/chef/inspec/tree/master/test/integration/azure/verify/controls)
+[Chef InSpec Integration Tests for Azure Generic Resources](https://github.com/chef/inspec/tree/master/test/integration/azure/verify/controls)

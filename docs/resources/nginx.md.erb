@@ -5,7 +5,7 @@ platform: linux
 
 # nginx
 
-Use the `nginx` InSpec audit resource to test the fields and validity of nginx.
+Use the `nginx` Chef InSpec audit resource to test the fields and validity of nginx.
 
 Nginx resource extracts and exposes data reported by the command 'nginx -V'
 
@@ -15,7 +15,7 @@ Nginx resource extracts and exposes data reported by the command 'nginx -V'
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -23,7 +23,7 @@ This resource first became available in v1.37.6 of InSpec.
 
 ## Syntax
 
-An `nginx` InSpec audit resource block extracts configuration settings that should be tested:
+An `nginx` Chef InSpec audit resource block extracts configuration settings that should be tested:
 
     describe nginx do
       its('attribute') { should eq 'value' }

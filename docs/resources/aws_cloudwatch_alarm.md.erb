@@ -5,7 +5,7 @@ platform: aws
 
 # aws\_cloudwatch\_alarm
 
-Use the `aws_cloudwatch_alarm` InSpec audit resource to test properties of a single Cloudwatch Alarm.
+Use the `aws_cloudwatch_alarm` Chef InSpec audit resource to test properties of a single Cloudwatch Alarm.
 
 Cloudwatch Alarms are currently identified using the metric name and metric namespace. Future work may allow other approaches to identifying alarms.
 
@@ -15,7 +15,7 @@ Cloudwatch Alarms are currently identified using the metric name and metric name
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -37,7 +37,7 @@ An `aws_cloudwatch_alarm` resource block searches for a Cloudwatch Alarm, specif
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Ensure an Alarm has at least one alarm action
 
@@ -72,7 +72,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exists
 

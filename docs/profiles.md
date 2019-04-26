@@ -1,10 +1,10 @@
 ---
-title: About InSpec Profiles
+title: About Chef InSpec Profiles
 ---
 
-# InSpec Profiles
+# Chef InSpec Profiles
 
-InSpec supports the creation of complex test and compliance profiles, which organize controls to support dependency management and code reuse. Each profile is a standalone structure with its own distribution and execution flow.
+Chef InSpec supports the creation of complex test and compliance profiles, which organize controls to support dependency management and code reuse. Each profile is a standalone structure with its own distribution and execution flow.
 
 # Profile Structure
 
@@ -27,13 +27,13 @@ where:
 
 * `inspec.yml` includes the profile description (required)
 * `controls` is the directory in which all tests are located (required)
-* `libraries` is the directory in which all InSpec resource extensions are located (optional)
+* `libraries` is the directory in which all Chef InSpec resource extensions are located (optional)
 * `files` is the directory with additional files that a profile can access (optional)
 * `README.md` should be used to explain the profile, its scope, and usage
 
-See a complete example profile in the InSpec open source repository: [Example InSpec Profile](https://github.com/chef/inspec/tree/master/examples/profile)
+See a complete example profile in the Chef InSpec open source repository: [Example Chef InSpec Profile](https://github.com/chef/inspec/tree/master/examples/profile)
 
-Also check out [Explore InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on Learn Chef Rally to learn more about how profiles are structured with hands-on examples.
+Also check out [Explore Chef InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on Learn Chef Rally to learn more about how profiles are structured with hands-on examples.
 
 ## inspec.yml
 
@@ -48,7 +48,7 @@ Each profile must have an `inspec.yml` file that defines the following informati
 * Use `summary` to specify a one line summary for the profile.
 * Use `description` to specify a multiple line description of the profile.
 * Use `version` to specify the profile version.
-* Use `inspec_version` to place SemVer constraints on the version of InSpec that the profile can run under.
+* Use `inspec_version` to place SemVer constraints on the version of Chef InSpec that the profile can run under.
 * Use `supports` to specify a list of supported platform targets.
 * Use `depends` to define a list of profiles on which this profile depends.
 * Use `attributes` to define a list of attributes you can use in your controls.
@@ -109,7 +109,7 @@ Use the `supports` setting in the `inspec.yml` file to specify one (or more) pla
 
 For compatibility we support `os-name` and `os-family`. We recommend all users to change `os-name` to `platform-name` and `os-family` to `platform-family`.
 
-With InSpec 2.0, we introduced new families to help distinguish the cloud platforms. The new families can restrict the platform family to `os`, `aws`, `azure` or `gcp`.
+With Chef InSpec 2.0, we introduced new families to help distinguish the cloud platforms. The new families can restrict the platform family to `os`, `aws`, `azure` or `gcp`.
 
 For example, to target anything running Debian Linux:
 
@@ -158,9 +158,9 @@ supports:
 
 # Profile Dependencies
 
-An InSpec profile can bring in the controls and custom resources from another InSpec profile. Additionally, when inheriting the controls of another profile, a profile can skip or even modify those included controls.
+An Chef InSpec profile can bring in the controls and custom resources from another Chef InSpec profile. Additionally, when inheriting the controls of another profile, a profile can skip or even modify those included controls.
 
-For hands-on examples, check out [Create a custom InSpec profile](https://learn.chef.io/modules/create-a-custom-profile#/) on Learn Chef Rally.
+For hands-on examples, check out [Create a custom Chef InSpec profile](https://learn.chef.io/modules/create-a-custom-profile#/) on Learn Chef Rally.
 
 ## Defining the Dependencies
 
@@ -174,7 +174,7 @@ depends:
   url: https://github.com/dev-sec/ssh-baseline/archive/master.tar.gz
 ```
 
-InSpec supports a number of dependency sources.
+Chef InSpec supports a number of dependency sources.
 
 ### path
 
@@ -281,7 +281,7 @@ including controls from other profiles!
 
 ### Skipping a Control from a Profile
 
-What if one of the controls from the included profile does not apply to your environment? Luckily, it is not necessary to maintain a slightly-modified copy of the included profile just to delete a control. The `skip_control` command tells InSpec to not run a particular control.
+What if one of the controls from the included profile does not apply to your environment? Luckily, it is not necessary to maintain a slightly-modified copy of the included profile just to delete a control. The `skip_control` command tells Chef InSpec to not run a particular control.
 
 ![Include Controls with Skip](/images/profile_inheritance/include_controls_with_skip.png)
 
@@ -486,7 +486,7 @@ $ inspec exec examples/profile-attribute --attrs examples/windows.yml
 $ inspec exec examples/profile-attribute --attrs examples/linux.yml
 ```
 
-See the full example in the InSpec open source repository: [Example InSpec Profile with Attributes](https://github.com/chef/inspec/tree/master/examples/profile-attribute)
+See the full example in the Chef InSpec open source repository: [Example Chef InSpec Profile with Attributes](https://github.com/chef/inspec/tree/master/examples/profile-attribute)
 
 ## Attribute Value Precedence
 
@@ -498,7 +498,7 @@ Attribute values are always set in the following precedence (highest to lowest):
 
 # Profile files
 
-An InSpec profile may contain additional files that can be accessed during tests. A profile file enables you to separate the logic of your tests from the data your tests check for, for example, the list of ports you require to be open.
+An Chef InSpec profile may contain additional files that can be accessed during tests. A profile file enables you to separate the logic of your tests from the data your tests check for, for example, the list of ports you require to be open.
 
 To access these files, they must be stored in the `files` directory at the root of a profile. They are accessed by their name relative to this folder with `inspec.profile.file(...)`.
 
@@ -538,13 +538,13 @@ describe port(s['port']) do
 end
 ```
 
-For a more complete example that uses a profile file, see [Explore InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on Learn Chef Rally.
+For a more complete example that uses a profile file, see [Explore Chef InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on Learn Chef Rally.
 
 # "should" vs. "expect" syntax
 
-Users familiar with the RSpec testing framework may know that there are two ways to write test statements: `should` and `expect`. The RSpec community decided that `expect` is the preferred syntax. However, InSpec recommends the `should` syntax as it tends to read more easily to those users who are not as technical.
+Users familiar with the RSpec testing framework may know that there are two ways to write test statements: `should` and `expect`. The RSpec community decided that `expect` is the preferred syntax. However, Chef InSpec recommends the `should` syntax as it tends to read more easily to those users who are not as technical.
 
-InSpec will continue to support both methods of writing tests. Consider this `file` test:
+Chef InSpec will continue to support both methods of writing tests. Consider this `file` test:
 
 ```Ruby
 describe file('/tmp/test.txt') do

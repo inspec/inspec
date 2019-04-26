@@ -5,7 +5,7 @@ platform: aws
 
 # aws\_security\_groups
 
-Use the `aws_security_groups` InSpec audit resource to test properties of some or all security groups.
+Use the `aws_security_groups` Chef InSpec audit resource to test properties of some or all security groups.
 
 Security groups are a networking construct that contain ingress and egress rules for network communications. Security groups may be attached to EC2 instances, as well as certain other AWS resources. Along with Network Access Control Lists, Security Groups are one of the two main mechanisms of enforcing network-level security.
 
@@ -15,7 +15,7 @@ Security groups are a networking construct that contain ingress and egress rules
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -34,7 +34,7 @@ An `aws_security_groups` resource block uses an optional filter to select a grou
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 As this is the initial release of `aws_security_groups`, its limited functionality precludes examples.
 
@@ -89,7 +89,7 @@ Provides a list of all security group IDs matched.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exists
 
