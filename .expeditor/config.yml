@@ -6,6 +6,8 @@ product_key: inspec
 rubygems:
  - inspec
  - inspec-core
+ - inspec-bin:
+     gemspec_path: ./inspec-bin/
 
 docker_images:
   - inspec:
