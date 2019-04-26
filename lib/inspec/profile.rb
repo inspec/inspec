@@ -81,7 +81,7 @@ module Inspec
     end
 
     attr_reader :source_reader, :backend, :runner_context, :check_mode
-    attr_accessor :parent_profile, :profile_name
+    attr_accessor :parent_profile, :profile_id, :profile_name
     def_delegator :@source_reader, :tests
     def_delegator :@source_reader, :libraries
     def_delegator :@source_reader, :metadata
@@ -118,25 +118,32 @@ module Inspec
       @runtime_profile = RuntimeProfile.new(self)
       @backend.profile = @runtime_profile
 
+      # The AttributeRegistry is in charge of keeping track of inputs;
+      # it is the single source of truth. Now that we have a profile object,
+      # we can create any inputs that were provided by various mechanisms.
+      options[:runner_conf] ||= Inspec::Config.cached
+
+      if options[:runner_conf].key?(:attrs)
+        Inspec.deprecate(:rename_attributes_to_inputs, 'Use --input-file on the command line instead of --attrs.')
+        options[:runner_conf][:input_file] = options[:runner_conf].delete(:attrs)
+      end
+
+      Inspec::InputRegistry.bind_profile_inputs(
+        # Every input only exists in the context of a profile
+        metadata.params[:name], # TODO: test this with profile aliasing
+        # Remaining args are possible sources of inputs
+        cli_input_files: options[:runner_conf][:input_file], # From CLI --input-file
+        profile_metadata: metadata,
+        # TODO: deprecation checks here
+        runner_api: options[:runner_conf][:attributes], # This is the route the audit_cookbook and kitchen-inspec take
+      )
+
       @runner_context =
         options[:profile_context] ||
-        Inspec::ProfileContext.for_profile(self, @backend, @input_values)
+        Inspec::ProfileContext.for_profile(self, @backend)
 
       @supports_platform = metadata.supports_platform?(@backend)
       @supports_runtime = metadata.supports_runtime?
-      register_metadata_inputs
-    end
-
-    def register_metadata_inputs # TODO: deprecate
-      if metadata.params.key?(:attributes) && metadata.params[:attributes].is_a?(Array)
-        metadata.params[:attributes].each do |attribute|
-          attr_dup = attribute.dup
-          name = attr_dup.delete(:name)
-          @runner_context.register_input(name, attr_dup)
-        end
-      elsif metadata.params.key?(:attributes)
-        Inspec::Log.warn 'Inputs must be defined as an Array. Skipping current definition.'
-      end
     end
 
     def name
@@ -595,7 +602,7 @@ module Inspec
         f = load_rule_filepath(prefix, rule)
         load_rule(rule, f, controls, groups)
       end
-      params[:inputs] = @runner_context.inputs
+      params[:inputs] = Inspec::InputRegistry.list_inputs_for_profile(@profile_id)
       params
     end
 

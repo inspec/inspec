@@ -26,8 +26,23 @@ module Inspec
         with_resource_dsl resources_dsl
 
         # allow attributes to be accessed within control blocks
-        define_method :attribute do |name|
-          Inspec::InputRegistry.find_input(name, profile_id).value
+        # TODO: deprecate name, use input()
+        define_method :attribute do |input_name, options = {}|
+          if options.empty?
+            # Simply an access, no event here
+            Inspec::InputRegistry.find_or_register_input(input_name, profile_id).value
+          else
+            options[:priority] = 20
+            options[:provider] = :inline_control_code
+            evt = Inspec::Input.infer_event(options)
+            Inspec::InputRegistry.find_or_register_input(input_name, profile_name, event: evt).value
+          end
+        end
+
+        # Find the Input object, but don't collapse to a value.
+        # Will return nil on a miss.
+        define_method :input_object do |input_name|
+          Inspec::InputRegistry.find_or_register_input(input_name, profile_id)
         end
 
         # Support for Control DSL plugins.
@@ -168,12 +183,23 @@ module Inspec
         end
 
         # method for inputs; import input handling
-        define_method :attribute do |name, options = nil|
-          if options.nil?
-            Inspec::InputRegistry.find_input(name, profile_id).value
+        # TODO: deprecate name, use input()
+        define_method :attribute do |input_name, options = {}|
+          if options.empty?
+            # Simply an access, no event here
+            Inspec::InputRegistry.find_or_register_input(input_name, profile_id).value
           else
-            profile_context_owner.register_input(name, options)
+            options[:priority] = 20
+            options[:provider] = :inline_control_code
+            evt = Inspec::Input.infer_event(options)
+            Inspec::InputRegistry.find_or_register_input(input_name, profile_name, event: evt).value
           end
+        end
+
+        # Find the Input object, but don't collapse to a value.
+        # Will return nil on a miss.
+        define_method :input_object do |input_name|
+          Inspec::InputRegistry.find_or_register_input(input_name, profile_id)
         end
 
         define_method :skip_control do |id|

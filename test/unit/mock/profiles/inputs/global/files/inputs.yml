@@ -1,3 +1,0 @@
-val_user_override: bob
-val_numeric_override: 9999
-val_with_empty_hash_default: 'success'

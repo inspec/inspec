@@ -6,4 +6,6 @@ require 'minitest/pride'
 require 'json'
 require 'ostruct'
 
+require 'byebug'
+
 require_relative 'lib/resource_support/aws'

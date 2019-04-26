@@ -1,0 +1,15 @@
+name: inheritance-child-02
+title: Tests inputs being set accross inheritance boundaries
+maintainer: InSpec Core Engineering Team
+copyright: InSpec Core Engineering Team
+copyright_email: inspec@chef.io
+license: Apache-2.0
+summary: Tests inputs being set accross inheritance boundaries
+version: 0.1.0
+supports:
+  platform: os
+
+attributes:
+# Set a value in an aliased child profile
+- name: test-03
+  value: value-from-child-02-metadata

@@ -52,6 +52,27 @@ module Inspec
       suffix = stdout.end_with?("\n") ? "\n" : ''
       stdout.split("\n").reject { |l| l.include? ' DEPRECATION: ' }.join("\n") + suffix
     end
+
+    # This works if you use json: true on an exec call
+    def must_have_all_controls_passing
+      # Strategy: assemble an array of tests that failed or skipped, and insist it is empty
+      # result.payload.json['profiles'][0]['controls'][0]['results'][0]['status']
+      failed_tests = []
+      payload.json['profiles'].each do |profile_struct|
+        profile_name = profile_struct['name']
+        profile_struct['controls'].each do |control_struct|
+          control_name = control_struct['id']
+          control_struct['results'].compact.each do |test_struct|
+            test_desc = test_struct['code_desc']
+            if test_struct['status'] != 'passed'
+              failed_tests << "#{profile_name}/#{control_name}/#{test_desc}"
+            end
+          end
+        end
+      end
+
+      failed_tests.must_be_empty
+    end
   end
 end
 
