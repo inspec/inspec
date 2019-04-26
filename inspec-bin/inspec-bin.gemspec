@@ -18,8 +18,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'inspec', "= #{InspecBin::VERSION}"
   spec.add_development_dependency 'rake'
 
-  spec.files = %w{Rakefile LICENSE} + Dir.glob('*.gemspec') +
-               Dir.glob('{lib}/**/*', File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
+  spec.files = %w{README.md LICENSE} + Dir.glob('*.gemspec') +
+               Dir.glob('{lib,bin}/**/*', File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
 
   spec.bindir = 'bin'
   spec.executables = %w{inspec}
