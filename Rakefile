@@ -123,9 +123,14 @@ namespace :test do
   Rake::TestTask.new(:unit) do |t|
     t.libs << "test"
     t.test_files = Dir.glob([
+      "test/unit/**/pam_test.rb",
+    ])
+=begin
+    t.test_files = Dir.glob([
       "test/unit/**/*_test.rb",
       "lib/plugins/inspec-*/test/unit/**/*_test.rb",
     ])
+=end
     t.warning = !!ENV["W"]
     t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
     t.ruby_opts = ["--dev"] if defined?(JRUBY_VERSION)

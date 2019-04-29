@@ -1,0 +1,6 @@
+auth optional pam_ecryptfs.so unwrap
+password optional pam_ecryptfs.so unwrap
+session optional pam_ecryptfs.so unwrap
+session [success=1 default=ignore] pam_succeed_if.so service !~ gdm* service !~ su* quiet
+session [default=1] pam_lastlog.so nowtmp silent
+session optional pam_lastlog.so silent noupdate showfailed

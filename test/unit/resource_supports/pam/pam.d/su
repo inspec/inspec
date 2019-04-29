@@ -1,0 +1,12 @@
+auth sufficient pam_rootok.so
+auth substack system-auth
+auth include postlogin
+
+account sufficint pam_succeed_if.so uid = 0 use_uid quiet
+account include system-auth
+
+password include system-auth
+
+session include system-auth
+session include postlogin
+session optional pam_xauth.so
