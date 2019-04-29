@@ -2,11 +2,11 @@
 .bundle
 .cache/*
 .kitchen/
-.kitchen.local.yml
 vendor/bundle
 pkg/*
-.vagrant
+kitchen.local.yml
 bin/*
 files/**/cache/
 vendor/cookbooks
 Berksfile.lock
+Gemfile.local

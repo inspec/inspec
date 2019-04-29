@@ -38,7 +38,7 @@ build_version Inspec::VERSION
 build_iteration 1
 
 # Load dynamically updated overrides
-overrides_path = File.expand_path('../../../../omnibus_overrides.rb', current_file)
+overrides_path = File.expand_path('../../../../omnibus_overrides.rb', __FILE__)
 instance_eval(IO.read(overrides_path), overrides_path)
 
 dependency 'preparation'
@@ -58,10 +58,8 @@ dependency 'ruby-cleanup'
 
 package :rpm do
   signing_passphrase ENV['OMNIBUS_RPM_SIGNING_PASSPHRASE']
-  unless rhel? && platform_version.satisfies?('< 6')
-    compression_level 1
-    compression_type :xz
-  end
+  compression_level 1
+  compression_type :xz
 end
 
 package :deb do
