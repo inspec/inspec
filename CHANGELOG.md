@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.2.0 -->
-## [v4.2.0](https://github.com/inspec/inspec/tree/v4.2.0) (2019-04-26)
+<!-- latest_release 4.3.0 -->
+## [v4.3.0](https://github.com/inspec/inspec/tree/v4.3.0) (2019-04-29)
 
-#### New Features
-- Internal overhaul of Inputs system [#3875](https://github.com/inspec/inspec/pull/3875) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Package inspec executable as a separate gem [#3982](https://github.com/inspec/inspec/pull/3982) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.0 -->
@@ -17,6 +17,7 @@
 - Telemetry Object Model [#3928](https://github.com/inspec/inspec/pull/3928) ([miah](https://github.com/miah)) <!-- 4.0.5 -->
 
 #### Merged Pull Requests
+- Package inspec executable as a separate gem [#3982](https://github.com/inspec/inspec/pull/3982) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.0 -->
 - Use a updated OS Image in Appveyor [#3985](https://github.com/inspec/inspec/pull/3985) ([miah](https://github.com/miah)) <!-- 4.1.16 -->
 - Appveyor Config Changes [#3983](https://github.com/inspec/inspec/pull/3983) ([miah](https://github.com/miah)) <!-- 4.1.15 -->
 - Update deprecation settings for v4 [#3973](https://github.com/inspec/inspec/pull/3973) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.1.14 -->
@@ -53,6 +54,7 @@
 ## [v3.9.2](https://github.com/inspec/inspec/tree/v3.9.2) (2019-04-08)
 
 #### Merged Pull Requests
+- Package inspec executable as a separate gem [#3982](https://github.com/inspec/inspec/pull/3982) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.0 -->
 - Use a updated OS Image in Appveyor [#3985](https://github.com/inspec/inspec/pull/3985) ([miah](https://github.com/miah)) <!-- 4.1.16 -->
 - Appveyor Config Changes [#3983](https://github.com/inspec/inspec/pull/3983) ([miah](https://github.com/miah)) <!-- 4.1.15 -->
 - Update deprecation settings for v4 [#3973](https://github.com/inspec/inspec/pull/3973) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.1.14 -->
