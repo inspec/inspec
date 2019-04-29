@@ -12,14 +12,14 @@ the required gems are installed:
 $ bundle install --binstubs
 ```
 
-Usage
------
+## Usage
+
 ### Build
 
 You create a platform-specific package using the `build project` command:
 
 ```shell
-$ bin/omnibus build inspec
+$ bundle exec omnibus build inspec
 ```
 
 The platform/architecture type of the package created will match the platform
@@ -33,34 +33,30 @@ You can clean up all temporary files generated during the build process with
 the `clean` command:
 
 ```shell
-$ bin/omnibus clean inspec
-```
+$ bundle exec omnibus clean inspec
 
 Adding the `--purge` purge option removes __ALL__ files generated during the
 build including the project install directory (`/opt/inspec`) and
 the package cache directory (`/var/cache/omnibus/pkg`):
 
 ```shell
-$ bin/omnibus clean inspec --purge
+$ bundle exec omnibus clean inspec --purge
 ```
 
 ### Publish
 
-Omnibus has a built-in mechanism for releasing to a variety of "backends", such
-as Amazon S3. You must set the proper credentials in your `omnibus.rb` config
-file or specify them via the command line.
+Omnibus has a built-in mechanism for releasing to a variety of "backends", such as Amazon S3 and Artifactory. You must set the proper credentials in your `omnibus.rb` config file or specify them via the command line.
 
 ```shell
-$ bin/omnibus publish path/to/*.deb --backend s3
+$ bundle exec omnibus publish path/to/*.deb --backend s3
 ```
 
 ### Help
 
-Full help for the Omnibus command line interface can be accessed with the
-`help` command:
+Full help for the Omnibus command line interface can be accessed with the `help` command:
 
 ```shell
-$ bin/omnibus help
+$ bundle exec omnibus help
 ```
 
 Version Manifest
