@@ -2,6 +2,7 @@
 source 'https://rubygems.org'
 
 gem 'inspec', path: '.'
+gem 'inspec-bin', path: './inspec-bin'
 
 gem 'ffi', '>= 1.9.14'
 

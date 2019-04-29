@@ -15,13 +15,12 @@ Gem::Specification.new do |spec|
   spec.files = %w{README.md LICENSE} + Dir.glob('{bin,lib,etc}/**/*', File::FNM_DOTMATCH)
                                           .reject { |f| File.directory?(f) || f =~ /aws|azure|gcp/ || f =~ %r{lib/plugins/.*/test/} }
 
-  spec.executables   = %w{inspec}
   spec.require_paths = ['lib']
 
   spec.required_ruby_version = '>= 2.4'
 
   spec.add_dependency 'train-core', '~> 2.0'
-  spec.add_dependency 'license-acceptance', '~> 0.2'
+  spec.add_dependency 'license-acceptance', '>= 0.2.13', '< 2.0'
   spec.add_dependency 'thor', '~> 0.20'
   spec.add_dependency 'json', '>= 1.8', '< 3.0'
   spec.add_dependency 'method_source', '~> 0.8'
