@@ -43,12 +43,12 @@ build do
   gem "build #{name}.gemspec", env: env
   gem "install #{name}-*.gem --no-document", env: env
 
-  gem "build inspec-bin.gemspec", env: env, cwd: "#{project_dir}/inspec-bin"
-  gem "install inspec-bin-*.gem --no-document", env: env, cwd: "#{project_dir}/inspec-bin"
+  gem 'build inspec-bin.gemspec', env: env, cwd: "#{project_dir}/inspec-bin"
+  gem 'install inspec-bin-*.gem --no-document', env: env, cwd: "#{project_dir}/inspec-bin"
 
   if Dir.exist?("#{project_dir}/inspec-bin")
-    appbundle "inspec", lockdir: project_dir, gem: "inspec-bin", env: env
+    appbundle 'inspec', lockdir: project_dir, gem: 'inspec-bin', env: env
   else
-    appbundle "inspec", env: env
+    appbundle 'inspec', env: env
   end
 end
