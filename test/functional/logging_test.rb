@@ -157,4 +157,16 @@ describe 'Deprecation Facility Behavior' do
       end
     end
   end
+
+  describe 'when inspec check is used in json mode against a profile with a deprecation' do
+    describe 'inspec check with json formatter' do
+      let(:profile_name) { 'check' }
+      it 'can check a profile and produce valid JSON' do
+        run_result = run_inspec_process('check ' + profile + ' --format json')
+        run_result.stdout.wont_include 'DEPRECATION'
+        run_result.stderr.must_include 'DEPRECATION'
+        JSON.parse(run_result.stdout) # No exception here
+      end
+    end
+  end
 end

@@ -1,0 +1,13 @@
+name: deprecation-check
+title: Deprecation Testing profile, to trigger deprecations during inspec check
+maintainer: inspec@chef.io
+copyright: The Authors
+copyright_email: inspec@chef.io
+license: Apache-2.0
+summary: An InSpec Compliance Profile
+version: 0.1.0
+
+# This test relies on these deprecation groups remaining :warn
+attributes:
+  - name: favorite_fruit
+    default: banana # This should trigger attrs_value_replaces_default
