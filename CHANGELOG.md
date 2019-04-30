@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.3.1 -->
-## [v4.3.1](https://github.com/inspec/inspec/tree/v4.3.1) (2019-04-30)
+<!-- latest_release 4.3.2 -->
+## [v4.3.2](https://github.com/inspec/inspec/tree/v4.3.2) (2019-04-30)
 
-#### Merged Pull Requests
-- Accidently not updating main InSpec version via Expeditor [#3997](https://github.com/inspec/inspec/pull/3997) ([tyler-ball](https://github.com/tyler-ball))
+#### Enhancements
+- Update to Ruby 2.6.2 and Rubygems 3.0.3 [#3994](https://github.com/inspec/inspec/pull/3994) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.0 -->
@@ -42,6 +42,7 @@
 - Fix broken links in migration docs. [#3907](https://github.com/inspec/inspec/pull/3907) ([joshlarsen](https://github.com/joshlarsen)) <!-- 3.9.0 -->
 
 #### Enhancements
+- Update to Ruby 2.6.2 and Rubygems 3.0.3 [#3994](https://github.com/inspec/inspec/pull/3994) ([tas50](https://github.com/tas50)) <!-- 4.3.2 -->
 - Use deprecation facility everywhere - v4 port [#3956](https://github.com/inspec/inspec/pull/3956) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.1.3 -->
 - Add inspec-habitat resources to website docs [#3941](https://github.com/inspec/inspec/pull/3941) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.6 -->
 - Update AWS profile generation for InSpec 4 to depend on the new resou… [#3831](https://github.com/inspec/inspec/pull/3831) ([skpaterson](https://github.com/skpaterson)) <!-- 4.0.2 -->
