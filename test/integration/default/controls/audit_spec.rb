@@ -13,7 +13,8 @@ end
 
 # Grab bundled inspec version. This should be the same as the one
 # passed for audit cookbook. If its not, you should do a `bundle install`
-inspec_version = Gem.loaded_specs['inspec'].version.to_s
+inspec_version = Inspec::VERSION
+# or: Gem.loaded_specs['inspec'].version.to_s rescue Inspec::VERSION
 
 control 'Test audit cookbook json output' do
   describe json('/tmp/json_export.json') do
