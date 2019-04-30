@@ -142,7 +142,6 @@ describe 'inspec shell tests' do
       def do_shell(code, exit_status = 0, stderr = '')
         cmd = "echo '#{code.tr('\'','\\\'')}' | #{exec_inspec} shell"
         out = CMD.run_command(cmd)
-        #out.stderr.must_equal stderr
         out.exit_status.must_equal exit_status
         out
       end
