@@ -1,96 +1,69 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.3.2 -->
-## [v4.3.2](https://github.com/inspec/inspec/tree/v4.3.2) (2019-04-30)
-
-#### Enhancements
-- Update to Ruby 2.6.2 and Rubygems 3.0.3 [#3994](https://github.com/inspec/inspec/pull/3994) ([tas50](https://github.com/tas50))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.9.0 -->
-### Changes since 3.9.0 release
-
-#### New Features
-- Internal overhaul of Inputs system [#3875](https://github.com/inspec/inspec/pull/3875) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.2.0 -->
-- file: add `more_permissive_than?(mode)` matcher [#3895](https://github.com/inspec/inspec/pull/3895) ([aaronlippold](https://github.com/aaronlippold)) <!-- 4.1.0 -->
-- Add license acceptance to InSpec v4 [#3935](https://github.com/inspec/inspec/pull/3935) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.6 -->
-- Telemetry Object Model [#3928](https://github.com/inspec/inspec/pull/3928) ([miah](https://github.com/miah)) <!-- 4.0.5 -->
-
-#### Merged Pull Requests
-- Accidently not updating main InSpec version via Expeditor [#3997](https://github.com/inspec/inspec/pull/3997) ([tyler-ball](https://github.com/tyler-ball)) <!-- 4.3.1 -->
-- Package inspec executable as a separate gem [#3982](https://github.com/inspec/inspec/pull/3982) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.0 -->
-- Use a updated OS Image in Appveyor [#3985](https://github.com/inspec/inspec/pull/3985) ([miah](https://github.com/miah)) <!-- 4.1.16 -->
-- Appveyor Config Changes [#3983](https://github.com/inspec/inspec/pull/3983) ([miah](https://github.com/miah)) <!-- 4.1.15 -->
-- Update deprecation settings for v4 [#3973](https://github.com/inspec/inspec/pull/3973) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.1.14 -->
-- Provide logger to license-acceptance for help debugging in the future [#3958](https://github.com/inspec/inspec/pull/3958) ([tyler-ball](https://github.com/tyler-ball)) <!-- 4.1.13 -->
-- Bump appveyor.yml to build on 2.6 for unit-tests-ruby-2.6. [#3980](https://github.com/inspec/inspec/pull/3980) ([zenspider](https://github.com/zenspider)) <!-- 4.1.12 -->
-- Make sure we test on Ruby 2.6 [#3937](https://github.com/inspec/inspec/pull/3937) ([tas50](https://github.com/tas50)) <!-- 4.1.11 -->
-- Update plugin test fixtures for Ruby 2.6 and remove for 2.3 [#3978](https://github.com/inspec/inspec/pull/3978) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.1.9 -->
-- When mssql response is parsed, header might be nil. [#3971](https://github.com/inspec/inspec/pull/3971) ([miah](https://github.com/miah)) <!-- 4.1.8 -->
-- Remove be_immutable matcher [#3975](https://github.com/inspec/inspec/pull/3975) ([mjingle](https://github.com/mjingle)) <!-- 4.1.6 -->
-- Add ed25519 gems in the omnibus group [#3970](https://github.com/inspec/inspec/pull/3970) ([tas50](https://github.com/tas50)) <!-- 4.1.5 -->
-- Use the upstream unf_ext again [#3963](https://github.com/inspec/inspec/pull/3963) ([tas50](https://github.com/tas50)) <!-- 4.1.4 -->
-- Require Ruby 2.4 or later [#3953](https://github.com/inspec/inspec/pull/3953) ([tas50](https://github.com/tas50)) <!-- 4.1.2 -->
-- Support address matchers on interface resource [#3897](https://github.com/inspec/inspec/pull/3897) ([mattlqx](https://github.com/mattlqx)) <!-- 4.1.1 -->
-- Test with webmock 3+ [#3939](https://github.com/inspec/inspec/pull/3939) ([tas50](https://github.com/tas50)) <!-- 4.0.8 -->
-- Remove the omnibus override to use train 1.X [#3940](https://github.com/inspec/inspec/pull/3940) ([tas50](https://github.com/tas50)) <!-- 4.0.7 -->
-- Fix winrm no-such-transport test [#3927](https://github.com/inspec/inspec/pull/3927) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.4 -->
-- Attribute-&gt;Input Rename: Rename cli option [#3879](https://github.com/inspec/inspec/pull/3879) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.4 -->
-- Remove EOL Ubuntu / macOS platform testing [#3910](https://github.com/inspec/inspec/pull/3910) ([tas50](https://github.com/tas50)) <!-- 4.0.3 -->
-- apt: correct docs to clarify that it matches repositories not packages [#3915](https://github.com/inspec/inspec/pull/3915) ([nqb](https://github.com/nqb)) <!-- 3.9.2 -->
-- crontab: Add validation for path param [#3899](https://github.com/inspec/inspec/pull/3899) ([skpaterson](https://github.com/skpaterson)) <!-- 3.9.1 -->
-- Fix broken links in migration docs. [#3907](https://github.com/inspec/inspec/pull/3907) ([joshlarsen](https://github.com/joshlarsen)) <!-- 3.9.0 -->
-
-#### Enhancements
-- Update to Ruby 2.6.2 and Rubygems 3.0.3 [#3994](https://github.com/inspec/inspec/pull/3994) ([tas50](https://github.com/tas50)) <!-- 4.3.2 -->
-- Use deprecation facility everywhere - v4 port [#3956](https://github.com/inspec/inspec/pull/3956) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.1.3 -->
-- Add inspec-habitat resources to website docs [#3941](https://github.com/inspec/inspec/pull/3941) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.6 -->
-- Update AWS profile generation for InSpec 4 to depend on the new resou… [#3831](https://github.com/inspec/inspec/pull/3831) ([skpaterson](https://github.com/skpaterson)) <!-- 4.0.2 -->
-
-#### Bug Fixes
-- update &#39;low&#39; impact value to align with CVSS 3.0 [#3961](https://github.com/inspec/inspec/pull/3961) ([aaronlippold](https://github.com/aaronlippold)) <!-- 4.1.10 -->
-- Improve ss parsing code for IPv6 addresses [#3962](https://github.com/inspec/inspec/pull/3962) ([miah](https://github.com/miah)) <!-- 4.1.7 -->
-- detect postgres 10 on centos properly [#3833](https://github.com/inspec/inspec/pull/3833) ([chris-rock](https://github.com/chris-rock)) <!-- 3.6.18 -->
-- inspec compliance: Fix mocked configuration [#3834](https://github.com/inspec/inspec/pull/3834) ([skylerto](https://github.com/skylerto)) <!-- 3.6.16 -->
-
-## [v3.9.2](https://github.com/inspec/inspec/tree/v3.9.2) (2019-04-08)
-
-#### Merged Pull Requests
-- Accidently not updating main InSpec version via Expeditor [#3997](https://github.com/inspec/inspec/pull/3997) ([tyler-ball](https://github.com/tyler-ball)) <!-- 4.3.1 -->
-- Package inspec executable as a separate gem [#3982](https://github.com/inspec/inspec/pull/3982) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.0 -->
-- Use a updated OS Image in Appveyor [#3985](https://github.com/inspec/inspec/pull/3985) ([miah](https://github.com/miah)) <!-- 4.1.16 -->
-- Appveyor Config Changes [#3983](https://github.com/inspec/inspec/pull/3983) ([miah](https://github.com/miah)) <!-- 4.1.15 -->
-- Update deprecation settings for v4 [#3973](https://github.com/inspec/inspec/pull/3973) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.1.14 -->
-- Provide logger to license-acceptance for help debugging in the future [#3958](https://github.com/inspec/inspec/pull/3958) ([tyler-ball](https://github.com/tyler-ball)) <!-- 4.1.13 -->
-- Bump appveyor.yml to build on 2.6 for unit-tests-ruby-2.6. [#3980](https://github.com/inspec/inspec/pull/3980) ([zenspider](https://github.com/zenspider)) <!-- 4.1.12 -->
-- Make sure we test on Ruby 2.6 [#3937](https://github.com/inspec/inspec/pull/3937) ([tas50](https://github.com/tas50)) <!-- 4.1.11 -->
-- Update plugin test fixtures for Ruby 2.6 and remove for 2.3 [#3978](https://github.com/inspec/inspec/pull/3978) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.1.9 -->
-- When mssql response is parsed, header might be nil. [#3971](https://github.com/inspec/inspec/pull/3971) ([miah](https://github.com/miah)) <!-- 4.1.8 -->
-- Remove be_immutable matcher [#3975](https://github.com/inspec/inspec/pull/3975) ([mjingle](https://github.com/mjingle)) <!-- 4.1.6 -->
-- Add ed25519 gems in the omnibus group [#3970](https://github.com/inspec/inspec/pull/3970) ([tas50](https://github.com/tas50)) <!-- 4.1.5 -->
-- Use the upstream unf_ext again [#3963](https://github.com/inspec/inspec/pull/3963) ([tas50](https://github.com/tas50)) <!-- 4.1.4 -->
-- Require Ruby 2.4 or later [#3953](https://github.com/inspec/inspec/pull/3953) ([tas50](https://github.com/tas50)) <!-- 4.1.2 -->
-- Support address matchers on interface resource [#3897](https://github.com/inspec/inspec/pull/3897) ([mattlqx](https://github.com/mattlqx)) <!-- 4.1.1 -->
-- Test with webmock 3+ [#3939](https://github.com/inspec/inspec/pull/3939) ([tas50](https://github.com/tas50)) <!-- 4.0.8 -->
-- Remove the omnibus override to use train 1.X [#3940](https://github.com/inspec/inspec/pull/3940) ([tas50](https://github.com/tas50)) <!-- 4.0.7 -->
-- Fix winrm no-such-transport test [#3927](https://github.com/inspec/inspec/pull/3927) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.4 -->
-- Attribute-&gt;Input Rename: Rename cli option [#3879](https://github.com/inspec/inspec/pull/3879) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.0.4 -->
-- Remove EOL Ubuntu / macOS platform testing [#3910](https://github.com/inspec/inspec/pull/3910) ([tas50](https://github.com/tas50)) <!-- 4.0.3 -->
-- apt: correct docs to clarify that it matches repositories not packages [#3915](https://github.com/inspec/inspec/pull/3915) ([nqb](https://github.com/nqb))
-- Update the integration tests to use dokken-images and newer Chef technologies [#3814](https://github.com/inspec/inspec/pull/3814) ([tas50](https://github.com/tas50)) <!-- 3.6.19 -->
-- add json example from http request [#3827](https://github.com/inspec/inspec/pull/3827) ([jtimberman](https://github.com/jtimberman)) <!-- 3.6.17 -->
-- Attribute-&gt;Input Rename:  Rename Classes and Methods [#3811](https://github.com/inspec/inspec/pull/3811) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.15 -->
-- Add term-ansicolor to inspec-core gem [#3798](https://github.com/inspec/inspec/pull/3798) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.6.14 -->
-- Suppress warnings in unit test output [#3828](https://github.com/inspec/inspec/pull/3828) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 3.6.13 -->
-- Add a deprecation group for core AWS resources [#3824](https://github.com/inspec/inspec/pull/3824) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.12 -->
-- Moved the AWS init profile to the correct location. [#3820](https://github.com/inspec/inspec/pull/3820) ([skpaterson](https://github.com/skpaterson)) <!-- 3.6.11 -->
-- Attribute-Input Rename: Add deprecation group [#3805](https://github.com/inspec/inspec/pull/3805) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.10 -->
-- Update support platforms in the readme [#3812](https://github.com/inspec/inspec/pull/3812) ([tas50](https://github.com/tas50)) <!-- 3.6.9 -->
-- Attribute-Input Rename: Rename codefiles [#3803](https://github.com/inspec/inspec/pull/3803) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.8 -->
-- Attributes-Inputs Rename: Move test files [#3796](https://github.com/inspec/inspec/pull/3796) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.7 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.3.2](https://github.com/inspec/inspec/tree/v4.3.2) (2019-04-30)
+
+#### New Features
+- Telemetry Object Model [#3928](https://github.com/inspec/inspec/pull/3928) ([miah](https://github.com/miah))
+- Add license acceptance to InSpec v4 [#3935](https://github.com/inspec/inspec/pull/3935) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- file: add `more_permissive_than?(mode)` matcher [#3895](https://github.com/inspec/inspec/pull/3895) ([aaronlippold](https://github.com/aaronlippold))
+- Internal overhaul of Inputs system [#3875](https://github.com/inspec/inspec/pull/3875) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Enhancements
+- Update AWS profile generation for InSpec 4 to depend on the new resou… [#3831](https://github.com/inspec/inspec/pull/3831) ([skpaterson](https://github.com/skpaterson))
+- Add inspec-habitat resources to website docs [#3941](https://github.com/inspec/inspec/pull/3941) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Use deprecation facility everywhere - v4 port [#3956](https://github.com/inspec/inspec/pull/3956) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update to Ruby 2.6.2 and Rubygems 3.0.3 [#3994](https://github.com/inspec/inspec/pull/3994) ([tas50](https://github.com/tas50))
+
+#### Bug Fixes
+- inspec compliance: Fix mocked configuration [#3834](https://github.com/inspec/inspec/pull/3834) ([skylerto](https://github.com/skylerto))
+- detect postgres 10 on centos properly [#3833](https://github.com/inspec/inspec/pull/3833) ([chris-rock](https://github.com/chris-rock))
+- Improve ss parsing code for IPv6 addresses [#3962](https://github.com/inspec/inspec/pull/3962) ([miah](https://github.com/miah))
+- update &#39;low&#39; impact value to align with CVSS 3.0 [#3961](https://github.com/inspec/inspec/pull/3961) ([aaronlippold](https://github.com/aaronlippold))
+
+#### Merged Pull Requests
+- Attributes-Inputs Rename: Move test files [#3796](https://github.com/inspec/inspec/pull/3796) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Attribute-Input Rename: Rename codefiles [#3803](https://github.com/inspec/inspec/pull/3803) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update support platforms in the readme [#3812](https://github.com/inspec/inspec/pull/3812) ([tas50](https://github.com/tas50))
+- Attribute-Input Rename: Add deprecation group [#3805](https://github.com/inspec/inspec/pull/3805) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Moved the AWS init profile to the correct location. [#3820](https://github.com/inspec/inspec/pull/3820) ([skpaterson](https://github.com/skpaterson))
+- Add a deprecation group for core AWS resources [#3824](https://github.com/inspec/inspec/pull/3824) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Suppress warnings in unit test output [#3828](https://github.com/inspec/inspec/pull/3828) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Add term-ansicolor to inspec-core gem [#3798](https://github.com/inspec/inspec/pull/3798) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Attribute-&gt;Input Rename:  Rename Classes and Methods [#3811](https://github.com/inspec/inspec/pull/3811) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- add json example from http request [#3827](https://github.com/inspec/inspec/pull/3827) ([jtimberman](https://github.com/jtimberman))
+- Update the integration tests to use dokken-images and newer Chef technologies [#3814](https://github.com/inspec/inspec/pull/3814) ([tas50](https://github.com/tas50))
+- Fix broken links in migration docs. [#3907](https://github.com/inspec/inspec/pull/3907) ([joshlarsen](https://github.com/joshlarsen))
+- crontab: Add validation for path param [#3899](https://github.com/inspec/inspec/pull/3899) ([skpaterson](https://github.com/skpaterson))
+- apt: correct docs to clarify that it matches repositories not packages [#3915](https://github.com/inspec/inspec/pull/3915) ([nqb](https://github.com/nqb))
+- Remove EOL Ubuntu / macOS platform testing [#3910](https://github.com/inspec/inspec/pull/3910) ([tas50](https://github.com/tas50))
+- Attribute-&gt;Input Rename: Rename cli option [#3879](https://github.com/inspec/inspec/pull/3879) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix winrm no-such-transport test [#3927](https://github.com/inspec/inspec/pull/3927) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Remove the omnibus override to use train 1.X [#3940](https://github.com/inspec/inspec/pull/3940) ([tas50](https://github.com/tas50))
+- Test with webmock 3+ [#3939](https://github.com/inspec/inspec/pull/3939) ([tas50](https://github.com/tas50))
+- Support address matchers on interface resource [#3897](https://github.com/inspec/inspec/pull/3897) ([mattlqx](https://github.com/mattlqx))
+- Require Ruby 2.4 or later [#3953](https://github.com/inspec/inspec/pull/3953) ([tas50](https://github.com/tas50))
+- Use the upstream unf_ext again [#3963](https://github.com/inspec/inspec/pull/3963) ([tas50](https://github.com/tas50))
+- Add ed25519 gems in the omnibus group [#3970](https://github.com/inspec/inspec/pull/3970) ([tas50](https://github.com/tas50))
+- Remove be_immutable matcher [#3975](https://github.com/inspec/inspec/pull/3975) ([mjingle](https://github.com/mjingle))
+- When mssql response is parsed, header might be nil. [#3971](https://github.com/inspec/inspec/pull/3971) ([miah](https://github.com/miah))
+- Update plugin test fixtures for Ruby 2.6 and remove for 2.3 [#3978](https://github.com/inspec/inspec/pull/3978) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Make sure we test on Ruby 2.6 [#3937](https://github.com/inspec/inspec/pull/3937) ([tas50](https://github.com/tas50))
+- Bump appveyor.yml to build on 2.6 for unit-tests-ruby-2.6. [#3980](https://github.com/inspec/inspec/pull/3980) ([zenspider](https://github.com/zenspider))
+- Provide logger to license-acceptance for help debugging in the future [#3958](https://github.com/inspec/inspec/pull/3958) ([tyler-ball](https://github.com/tyler-ball))
+- Update deprecation settings for v4 [#3973](https://github.com/inspec/inspec/pull/3973) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Appveyor Config Changes [#3983](https://github.com/inspec/inspec/pull/3983) ([miah](https://github.com/miah))
+- Use a updated OS Image in Appveyor [#3985](https://github.com/inspec/inspec/pull/3985) ([miah](https://github.com/miah))
+- Package inspec executable as a separate gem [#3982](https://github.com/inspec/inspec/pull/3982) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Accidently not updating main InSpec version via Expeditor [#3997](https://github.com/inspec/inspec/pull/3997) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_stable_release -->
+
 ## [v3.9.0](https://github.com/inspec/inspec/tree/v3.9.0) (2019-04-02)
 
 #### New Features
@@ -99,7 +72,6 @@
 #### Merged Pull Requests
 - Don&#39;t include plugin test files in the gem file [#3911](https://github.com/inspec/inspec/pull/3911) ([tas50](https://github.com/tas50))
 - Include train-habitat gem with InSpec [#3912](https://github.com/inspec/inspec/pull/3912) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v3.7.11](https://github.com/inspec/inspec/tree/v3.7.11) (2019-03-22)
 
