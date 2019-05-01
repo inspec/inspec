@@ -6,15 +6,3 @@ copyright_email: inspec@chef.io
 license: Apache-2.0
 summary: Profile to test reading attributes in a variety of scopes
 version: 0.1.0
-
-attributes:
-- name: test-01
-  value: test-01
-- name: test-02
-  value: test-02
-- name: test-03
-  value: test-03
-- name: test-04
-  value: test-04
-- name: test-05
-  value: test-05

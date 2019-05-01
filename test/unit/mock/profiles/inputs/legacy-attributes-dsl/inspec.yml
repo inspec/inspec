@@ -1,0 +1,8 @@
+name: legacy_attribute_dsl
+title: InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: Apache-2.0
+summary: A profile using the legacy attribute() syntax in control file code
+version: 0.1.0

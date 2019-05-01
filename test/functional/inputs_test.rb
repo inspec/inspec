@@ -61,10 +61,14 @@ describe 'inputs' do
     end
   end
 
-  describe 'when accessing inputs in a variety of scopes' do
-    it "is able to read the inputs" do
-      cmd = 'exec '
-      cmd += File.join(inputs_profiles_path, 'scoping')
+  describe 'when accessing inputs in a variety of scopes using the DSL' do
+    it "is able to read the inputs using the input keyword" do
+      cmd = "exec #{inputs_profiles_path}/scoping"
+      result = run_inspec_process(cmd, json: true)
+      result.must_have_all_controls_passing
+    end
+    it "is able to read the inputs using the legacy attribute keyword" do
+      cmd = "exec #{inputs_profiles_path}/legacy-attributes-dsl"
       result = run_inspec_process(cmd, json: true)
       result.must_have_all_controls_passing
     end
@@ -102,8 +106,5 @@ describe 'inputs' do
         result.must_have_all_controls_passing
       end
     end
-
-
-  #   # TODO - add test for backwards compatibility using 'attribute' in DSL
   end
 end
