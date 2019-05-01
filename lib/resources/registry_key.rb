@@ -5,7 +5,7 @@ require 'json'
 
 # Three constructor methods are available:
 # 1. resistry_key(path'):
-# describe registry_key('Task Scheduler','HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule') do
+# describe registry_key('HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule') do
 #   its('Start') { should eq 2 }
 # end
 #
