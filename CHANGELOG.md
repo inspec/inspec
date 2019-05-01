@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.3.3 -->
-## [v4.3.3](https://github.com/inspec/inspec/tree/v4.3.3) (2019-05-01)
+<!-- latest_release 4.3.4 -->
+## [v4.3.4](https://github.com/inspec/inspec/tree/v4.3.4) (2019-05-01)
 
 #### Merged Pull Requests
-- Update software names in readme [#4014](https://github.com/inspec/inspec/pull/4014) ([mjingle](https://github.com/mjingle))
+- Update resource registry_key documentation example [#4004](https://github.com/inspec/inspec/pull/4004) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
 ### Changes since 4.3.2 release
 
 #### Merged Pull Requests
+- Update resource registry_key documentation example [#4004](https://github.com/inspec/inspec/pull/4004) ([miah](https://github.com/miah)) <!-- 4.3.4 -->
 - Update software names in readme [#4014](https://github.com/inspec/inspec/pull/4014) ([mjingle](https://github.com/mjingle)) <!-- 4.3.3 -->
 <!-- release_rollup -->
 
