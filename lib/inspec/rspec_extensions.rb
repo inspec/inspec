@@ -65,14 +65,15 @@ end
 
 class RSpec::Core::ExampleGroup
   # This DSL method allows us to access the values of inputs within InSpec tests
-  def attribute(name)
-    Inspec::InputRegistry.find_or_register_input(name, self.class.metadata[:profile_id]).value
+  def attribute(name, options = {})
+    Inspec::InputRegistry.find_or_register_input(name, self.class.metadata[:profile_id], options).value
   end
   define_example_method :attribute
-  def input_obj(name)
-    Inspec::InputRegistry.find_or_register_input(name, self.class.metadata[:profile_id])
+
+  def input_object(name, options = {})
+    Inspec::InputRegistry.find_or_register_input(name, self.class.metadata[:profile_id], options)
   end
-  define_example_method :input_obj
+  define_example_method :input_object
 
   # Here, we have to ensure our method_missing gets called prior
   # to RSpec::Core::ExampleGroup.method_missing (the class method).

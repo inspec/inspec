@@ -35,7 +35,7 @@ module Inspec
             options[:priority] = 20
             options[:provider] = :inline_control_code
             evt = Inspec::Input.infer_event(options)
-            Inspec::InputRegistry.find_or_register_input(input_name, profile_name, event: evt).value
+            Inspec::InputRegistry.find_or_register_input(input_name, profile_id, event: evt).value
           end
         end
 
