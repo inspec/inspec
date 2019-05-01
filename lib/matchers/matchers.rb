@@ -246,26 +246,26 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
     # if actual and expected are strings
     if expected.is_a?(String) && actual.is_a?(String)
       return actual.casecmp(expected) == 0 if op == :==
-      return Gem::Version.new(actual).method(op).call(Gem::Version.new(expected)) if
+      return Gem::Version.new(actual).send(op, Gem::Version.new(expected)) if
         version?(expected) && version?(actual)
     elsif expected.is_a?(Regexp) && (actual.is_a?(String) || actual.is_a?(Integer))
       return !actual.to_s.match(expected).nil?
     elsif expected.is_a?(String) && integer?(expected) && actual.is_a?(Integer)
-      return actual.method(op).call(expected.to_i)
+      return actual.send(op, expected.to_i)
     elsif expected.is_a?(String) && boolean?(expected) && [true, false].include?(actual)
-      return actual.method(op).call(to_boolean(expected))
+      return actual.send(op, to_boolean(expected))
     elsif expected.is_a?(Integer) && integer?(actual)
-      return actual.to_i.method(op).call(expected)
+      return actual.to_i.send(op, expected)
     elsif expected.is_a?(Float) && float?(actual)
-      return actual.to_f.method(op).call(expected)
+      return actual.to_f.send(op, expected)
     elsif actual.is_a?(Symbol) && expected.is_a?(String)
-      return actual.to_s.method(op).call(expected)
+      return actual.to_s.send(op, expected)
     elsif octal?(expected) && actual.is_a?(Integer)
-      return actual.method(op).call(expected.to_i(8))
+      return actual.send(op, expected.to_i(8))
     end
 
     # fallback to simple operation
-    actual.method(op).call(expected)
+    actual.send(op, expected)
   rescue NameError => _
     false
   rescue ArgumentError
