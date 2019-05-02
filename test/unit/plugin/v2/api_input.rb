@@ -22,13 +22,14 @@ describe 'Input plugin type' do
 
   describe 'when examining the specific plugin type API' do
     [
-      # TODO - API instance methods
-      # fetch?
-      # default_priority?
+      # API instance methods
+      :fetch,
+      :default_priority,
+      :list_inputs,
     ].each do |api_method|
-      it "should define an #{api_method} in the superclass" do
-        klass = Inspec::Plugin::V2::PluginType::CliCommand
-        klass.method_defined?(api_method).must_eq true
+      it "should define a '#{api_method}' method in the superclass" do
+        klass = Inspec::Plugin::V2::PluginType::Input
+        klass.method_defined?(api_method).must_equal true
       end
     end
   end
