@@ -205,30 +205,41 @@ module Inspec
 
     def bind_inputs_from_metadata(profile_name, profile_metadata_obj)
       # TODO: move this into a core plugin
-      # TODO: add deprecation stuff
       return if profile_metadata_obj.nil? # Metadata files are technically optional
 
-      if profile_metadata_obj.params.key?(:attributes) && profile_metadata_obj.params[:attributes].is_a?(Array)
-        profile_metadata_obj.params[:attributes].each do |input_orig|
-          input_options = input_orig.dup
-          input_name = input_options.delete(:name)
-          input_options.merge!({ priority: 30, provider: :profile_metadata, file: File.join(profile_name, "inspec.yml") })
-          evt = Inspec::Input.infer_event(input_options)
-
-          # Profile metadata may set inputs in other profiles by naming them.
-          if input_options[:profile]
-            profile_name = input_options[:profile] || profile_name
-            # Override priority to force this to win.  Allow user to set their own priority.
-            evt.priority = input_orig[:priority] || 35
-          end
-          find_or_register_input(input_name,
-                                 profile_name,
-                                 type: input_options[:type],
-                                 required: input_options[:required],
-                                 event: evt)
-        end
+      if profile_metadata_obj.params.key?(:inputs)
+        raw_inputs = profile_metadata_obj.params[:inputs]
       elsif profile_metadata_obj.params.key?(:attributes)
-        Inspec::Log.warn "Inputs must be defined as an Array. Skipping current definition."
+        Inspec.deprecate(:attrs_rename_in_metadata, "Profile: '#{profile_name}'.")
+        raw_inputs = profile_metadata_obj.params[:attributes]
+      else
+        return
+      end
+
+      unless raw_inputs.is_a?(Array)
+        Inspec::Log.warn "Inputs must be defined as an Array in metadata files. Skipping definition from #{profile_name}."
+        return
+      end
+
+      raw_inputs.each do |input_orig|
+        input_options = input_orig.dup
+        input_name = input_options.delete(:name)
+        input_options[:provider] = :profile_metadata
+        input_options[:file] = File.join(profile_name, 'inspec.yml')
+        input_options[:priority] ||= 30
+        evt = Inspec::Input.infer_event(input_options)
+
+        # Profile metadata may set inputs in other profiles by naming them.
+        if input_options[:profile]
+          profile_name = input_options[:profile] || profile_name
+          # Override priority to force this to win.  Allow user to set their own priority.
+          evt.priority = input_orig[:priority] || 35
+        end
+        find_or_register_input(input_name,
+                               profile_name,
+                               type: input_options[:type],
+                               required: input_options[:required],
+                               event: evt)
       end
     end
 
