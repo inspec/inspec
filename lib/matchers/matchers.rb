@@ -217,13 +217,13 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
   def float?(value)
     Float(value)
     true
-  rescue ArgumentError => _ex
+  rescue ArgumentError, TypeError
     false
   end
 
   def octal?(value)
     return false unless value.is_a?(String)
-    !(value =~ /\A0+\d+\Z/).nil?
+    !(value =~ /\A0+[0-7]+\Z/).nil?
   end
 
   def boolean?(value)
@@ -259,7 +259,7 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
     elsif expected.is_a?(Float) && float?(actual)
       return actual.to_f.send(op, expected)
     elsif actual.is_a?(Symbol) && expected.is_a?(String)
-      return actual.to_s.send(op, expected)
+      return try_match(actual.to_s, op, expected)
     elsif octal?(expected) && actual.is_a?(Integer)
       return actual.send(op, expected.to_i(8))
     end
