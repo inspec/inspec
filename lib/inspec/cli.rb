@@ -87,7 +87,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   def check(path) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     o = config
     diagnose(o)
-    o['log_location'] = STDERR if o['format'] == 'json'
+    o['log_location'] ||= STDERR if o['format'] == 'json'
     o['log_level'] ||= 'warn'
     configure_logger(o)
 
