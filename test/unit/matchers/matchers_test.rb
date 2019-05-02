@@ -103,18 +103,18 @@ describe 'inspec matchers' do
     end
 
     it "Float cmp String(!float)" do
-      # FIX: refute_cmp 3.14159, :not_float
+      refute_cmp 3.14159, :not_float
     end
 
     it "String cmp Symbol" do
       assert_cmp "abc", :abc
-      # FIX? assert_cmp "abc", :ABC
+      assert_cmp "abc", :ABC
     end
 
     it "String(oct) cmp Int" do
       assert_cmp "0777", 0777
       refute_cmp "0777", 0777+1
-      # FIX: refute_cmp "0999", 0 # bad octal regexp
+      refute_cmp "0999", 0 # bad octal regexp
     end
 
     it "String(!oct) cmp Int" do
