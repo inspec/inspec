@@ -1,0 +1,12 @@
+name: metadata_legacy
+title: InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: Apache-2.0
+summary: A profile with a single simple input defined in metadata, using the attributes key
+version: 0.1.0
+
+attributes: # Use legacy "attributes" key
+- name: test_01
+  value: test_value_01
