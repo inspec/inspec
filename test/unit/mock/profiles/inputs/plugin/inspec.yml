@@ -1,0 +1,8 @@
+name: input-test-fixture
+title: A title
+maintainer: Chef InSpec team
+copyright: Chef InSpec team
+copyright_email: inspec@chef.io
+license: Apache-2.0
+summary: Profile to test reading and listing inputs from a plugin
+version: 0.1.0
