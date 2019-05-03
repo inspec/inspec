@@ -322,6 +322,102 @@ no_command do
 end
 ```
 
+## Implementing Input Plugins
+
+Input plugins provide values for Chef InSpec Inputs - the parameters you can place within profile control code.
+
+For example, you might implement an Input plugin to fetch vales from a key-value store, such as `etcd`.
+
+Input plugins have a simple API which is intended to be easy to adapt to a number of input backend implementations.
+
+### Declare your input plugin activators
+
+Generally speaking, an input plugin will only need to have one activator.
+
+In your `plugin.rb`, include one or more `input` activation blocks. The activation block will fire when the InputRegistry is initialized, and you (in which case it should load any needed libraries) and should return your implementation class.
+
+The Input subsystem always activates all activators.
+
+#### Input Activator Example
+
+```ruby
+
+# In plugin.rb
+module InspecPlugins::Sweeten
+  class Plugin < Inspec.plugin(2)
+    # ... other plugin stuff
+
+    input :coffee_fixins_bar do
+      require_relative 'input.rb'
+      InspecPlugins::Sweeten::Input
+    end
+  end
+end
+```
+
+The Input subsystem always activates all activators when InputRegistry is initialized. Future work may enable us to dynamically load plugins; but we need to poll plugins when any input value is used.
+
+### Implementation class for Input plugins
+
+In your `input.rb`, you should begin by requesting the superclass from `Inspec.plugin`:
+
+```ruby
+module InspecPlugins::Sweeten
+  class Input < Inspec.plugin(2, :input)
+    # ...
+  end
+end
+```
+
+### Implementing your Input plugin
+
+Within your implementation, you need to implement 2 mandatory methods and two optional methods.
+
+#### default_priority
+
+Optional, returns an integer 0-100, default 60. This value determines precedence when multiple input providers supply a value; higher values lend more precedence.
+
+#### list_inputs(profile_name)
+
+Mandatory. Given a String profile name, return an Array of String input names that may be fetched from this plugin. This may be used to optimize calls to fetch().
+
+#### fetch(profile_name, input_name)
+
+Mandatory. Given a String profile_name and String input_name, return the input value (whatever that means for your plugin).
+
+#### Using a constructor to get config values
+
+Optional. Implement `initialize()` to perform any startup tasks such as authorization. You can get to the InSpec config settings via `Inspec::Config.cached[some_key]`.
+
+#### Implementation example
+
+```ruby
+module InspecPlugins::Sweeten
+  class Input < Inspec.plugin(2, :input)
+
+    def default_priority
+      99 # Extremely opinionated
+    end
+
+    def fetch(profile_name, input_name)
+      return nil unless profile_name = 'coffee_shop'
+
+      case input_name
+      when 'sugar'
+        'delicious raw sugar in an eclectic brown packet'
+      when "sweet'n'low"
+        'how can you even do that to yourself'
+      end
+    end
+
+    def list_input_names
+      ['sugar',"sweet'n'low"]
+    end
+  end
+end
+```
+
+
 ## Implementing DSL Plugins
 
 A DSL is a _domain specific language_, or a set of keywords you can use to write Chef InSpec profiles and resources more fluently.
