@@ -12,7 +12,7 @@ module Inspec
     include Singleton
     extend Forwardable
 
-    attr_reader :inputs_by_profile, :profile_aliases
+    attr_reader :inputs_by_profile, :profile_aliases, :plugins
     def_delegator :inputs_by_profile, :each
     def_delegator :inputs_by_profile, :[]
     def_delegator :inputs_by_profile, :key?, :profile_known?
@@ -25,6 +25,13 @@ module Inspec
 
       # this is a list of optional profile name overrides set in the inspec.yml
       @profile_aliases = {}
+
+      # Upon creation, activate all input plugins
+      @plugins = []
+      Inspec::Plugin::V2::Registry.instance.find_activators(plugin_type: :input).each do |activator|
+        activator.activate!
+        plugins << activator.implementation_class.new
+      end
     end
 
     #-------------------------------------------------------------#
@@ -35,9 +42,21 @@ module Inspec
       @profile_aliases[name] = alias_name
     end
 
+    # Returns an Hash, name => Input that have actually been mentioned
     def list_inputs_for_profile(profile)
       inputs_by_profile[profile] = {} unless profile_known?(profile)
       inputs_by_profile[profile]
+    end
+
+    # Returns an Array of input names. This includes input names
+    # that plugins may be able to fetch, but have not actually been
+    # mentioned in the control code.
+    def list_potential_input_names_for_profile(profile_name)
+      input_names = inputs_by_profile[profile_name].keys
+      plugins.each do |plugin|
+        input_names += plugin.list_inputs(profile_name)
+      end
+      input_names.uniq
     end
 
     #-------------------------------------------------------------#
@@ -51,11 +70,18 @@ module Inspec
         handle_late_arriving_alias(alias_name, profile_name) if profile_known?(alias_name)
       end
 
+      # Find or create the input
       inputs_by_profile[profile_name] ||= {}
       if inputs_by_profile[profile_name].key?(input_name)
         inputs_by_profile[profile_name][input_name].update(options)
       else
         inputs_by_profile[profile_name][input_name] = Inspec::Input.new(input_name, options)
+      end
+
+      # Poll the plugins
+      plugins.each do |plugin|
+        evt = plugin.fetch(profile_name, input_name)
+        inputs_by_profile[profile_name][input_name].events << evt if evt
       end
 
       inputs_by_profile[profile_name][input_name]
@@ -214,6 +240,7 @@ module Inspec
       :find_or_register_input,
       :register_profile_alias,
       :list_inputs_for_profile,
+      :list_potential_input_names_for_profile,
       :bind_profile_inputs,
     ].each do |meth|
       define_singleton_method(meth) do |*args|

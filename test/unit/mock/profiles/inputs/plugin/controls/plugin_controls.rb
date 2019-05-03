@@ -17,13 +17,9 @@ control 'collide_inline_higher' do
 end
 
 control 'list_inputs' do
-  inputs = Inspec::InputRegistry.list_inputs_for_profile(:'input-test-fixture')
-  describe inputs do
-    it { should_not be_nil }
-    it { should be_kind_of Hash }
-  end
+  inputs = Inspec::InputRegistry.list_potential_input_names_for_profile('input-test-fixture')
 
-  describe inputs.keys do
+  describe inputs do
     [
       'test_only_in_plugin',
       'test_collide_inline_higher',

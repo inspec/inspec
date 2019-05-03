@@ -5,7 +5,7 @@ module InspecPlugins
     class Plugin < ::Inspec.plugin(2)
       plugin_name :'inspec-input-test-fixture'
       input :test_fixture do
-        require 'inspec-inspec-test-fixture/input'
+        require 'inspec-input-test-fixture/input'
         InspecPlugins::InputTestFixture::InputImplementation
       end
     end
