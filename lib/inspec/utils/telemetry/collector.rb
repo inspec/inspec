@@ -1,3 +1,4 @@
+require 'inspec/config'
 require 'inspec/utils/telemetry/data_series'
 require 'singleton'
 
