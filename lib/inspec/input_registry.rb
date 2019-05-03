@@ -96,7 +96,6 @@ module Inspec
       end
     end
 
-
     # It is possible for a wrapper profile to create an input in metadata,
     # referring to the child profile by an alias that has not yet been registered.
     # The registry will then store the inputs under the alias, as if the alias
