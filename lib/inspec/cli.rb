@@ -39,6 +39,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   class_option :disable_user_plugins, type: :string, banner: '',
     desc: 'Disable loading all plugins that the user installed.'
 
+  class_option :telemetry, type: :boolean,
+    desc: 'Allow or disable telemetry', default: true
+
   require 'license_acceptance/cli_flags/thor'
   include LicenseAcceptance::CLIFlags::Thor
 
