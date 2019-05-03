@@ -129,7 +129,7 @@ namespace :test do
   task :'functional:windows' => [:accept_license]
 
   task :resources do
-    tests = Dir['test/resource/*_test.rb']
+    tests = Dir['test/unit/resource/*_test.rb']
     return if tests.empty?
     sh(Gem.ruby, 'test/docker_test.rb', *tests)
   end
