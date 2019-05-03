@@ -70,10 +70,29 @@ Rake::TestTask.new do |t|
 end
 
 namespace :test do
+  GLOBS = [
+    "test/unit/**/*_test.rb",
+    "test/functional/**/*_test.rb",
+    "lib/plugins/inspec-*/test/**/*_test.rb",
+  ]
+
+  task :list do
+    puts Dir[*GLOBS].sort
+  end
+
   task :isolated do
-    Dir.glob('test/unit/*_test.rb').all? do |file|
-      sh(Gem.ruby, '-w', '-Ilib:test', file)
-    end or fail 'Failures'
+    clean = true
+
+    failures = Dir[*GLOBS]
+    failures.reject! { |file|
+      system(Gem.ruby, '-Ilib:test', file)
+    }
+
+    unless failures.empty?
+      puts "These test files failed:\n"
+      puts failures
+      raise "broken tests..."
+    end
   end
 
   task :accept_license do
