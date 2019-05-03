@@ -8,7 +8,11 @@ module Inspec::Telemetry
 
     def initialize
       @data_series = []
-      @enabled = true
+      load_config
+    end
+
+    def load_config(config = Inspec::Config.cached)
+      @config = config
     end
 
     # Add a data series to the collection.
@@ -21,7 +25,11 @@ module Inspec::Telemetry
     # Always true until we add configuration parsing.
     # @return [True, False]
     def telemetry_enabled?
-      @enabled
+      if @config.telemetry_enabled?.nil?
+        @enabled = true
+      else
+        @enabled = @config.telemetry_enabled?
+      end
     end
 
     # A way to disable the telemetry system.
