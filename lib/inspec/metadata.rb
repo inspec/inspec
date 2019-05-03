@@ -7,6 +7,8 @@ require 'semverse'
 require 'utils/spdx'
 require 'erb'
 
+require 'inspec/version'
+
 module Inspec
   # Extract metadata.rb information
   # A Metadata object may be created and finalized with invalid data.
