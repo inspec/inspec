@@ -12,6 +12,7 @@ module Inspec::Telemetry
       load_config
     end
 
+    # Allow loading a configuration, useful when testing.
     def load_config(config = Inspec::Config.cached)
       @config = config
     end
