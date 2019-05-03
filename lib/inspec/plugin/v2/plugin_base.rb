@@ -57,6 +57,13 @@ module Inspec::Plugin::V2
       @@plugin_type_classes[plugin_type_name]
     end
 
+    def self.find_type_by_implementation_class(impl_class)
+      # This is super awkward
+      activators = Inspec::Plugin::V2::Registry.instance.find_activators
+      activator = activators.detect { |a| a.implementation_class == impl_class }
+      activator.plugin_name
+    end
+
     #=====================================================================#
     #                           DSL Methods
     #=====================================================================#
@@ -71,7 +78,13 @@ module Inspec::Plugin::V2
     # @returns [Symbol] Name of the plugin
     def self.plugin_name(name = nil)
       reg = Inspec::Plugin::V2::Registry.instance
-      return reg.find_status_by_class(self).name if name.nil?
+      if name.nil?
+        # If called from a Plugin definition class...
+        stat = reg.find_status_by_class(self)
+        return stat.name if stat
+        # Called from an implementation class
+        return find_type_by_implementation_class(self)
+      end
 
       name = name.to_sym
 
