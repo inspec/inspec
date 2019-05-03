@@ -1,4 +1,6 @@
 
+require 'inspec/globals'
+
 module InspecPlugins
   module Compliance
     # stores configuration on local filesystem
