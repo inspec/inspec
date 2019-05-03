@@ -9,15 +9,7 @@ module InspecPlugins::InputTestFixture
     def fetch(profile_name, input_name)
       return nil unless test_fixture_data.key?(profile_name)
       return nil unless test_fixture_data[profile_name].key?(input_name)
-      value = test_fixture_data[profile_name][input_name]
-      Inspec::Input::Event.new(
-        action: :fetch,
-        provider: :'inspec-input-test-fixture',
-        priority: default_priority,
-        value: value,
-        file: __FILE__,
-        hit: true,
-      )
+      test_fixture_data[profile_name][input_name]
     end
 
     def list_inputs(profile_name)

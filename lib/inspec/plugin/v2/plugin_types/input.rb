@@ -15,12 +15,9 @@ module Inspec::Plugin::V2::PluginType
     end
 
     # Indicates an attempt is being made to read the value for an input.
-    # Return nil or an Event if the plugin is choosing to respond with a value.
-    # Note that the Input system will still log the attempt in the event log,
-    # even if nil is returned.
-    # If you wish to indicate nil as a value for the input, return an
-    # Event explicitly setting value to nil.
-    # @return Inspec::Input::Event
+    # Return nil if the input is not supplied by the plugin, otherwise
+    # return the value.
+    # @return Object or nil
     def fetch(_profile_name, _input_name)
       raise NotImplementedError, "Plugin #{plugin_name} must implement the #fetch method"
     end

@@ -76,16 +76,26 @@ module Inspec
         inputs_by_profile[profile_name][input_name].update(options)
       else
         inputs_by_profile[profile_name][input_name] = Inspec::Input.new(input_name, options)
-      end
-
-      # Poll the plugins
-      plugins.each do |plugin|
-        evt = plugin.fetch(profile_name, input_name)
-        inputs_by_profile[profile_name][input_name].events << evt if evt
+        poll_plugins_for_update(profile_name, input_name)
       end
 
       inputs_by_profile[profile_name][input_name]
     end
+
+    def poll_plugins_for_update(profile_name, input_name)
+      plugins.each do |plugin|
+        val = plugin.fetch(profile_name, input_name)
+        evt = Inspec::Input::Event.new(
+          action: :fetch,
+          provider: plugin.class.plugin_name,
+          priority: plugin.default_priority,
+          hit: !val.nil?,
+        )
+        evt.value = val unless val.nil?
+        inputs_by_profile[profile_name][input_name].events << evt
+      end
+    end
+
 
     # It is possible for a wrapper profile to create an input in metadata,
     # referring to the child profile by an alias that has not yet been registered.
