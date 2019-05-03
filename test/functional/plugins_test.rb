@@ -100,7 +100,7 @@ end
 #=========================================================================================#
 describe 'input plugins' do
   include FunctionalHelper
-  let(:env) { { INSPEC_CONFIG_DIR: "#{config_dir_path}/input_plugin") }
+  let(:env) { { INSPEC_CONFIG_DIR: "#{config_dir_path}/input_plugin" } }
   let(:profile) { "#{profile_path}/inputs/plugin" }
 
   describe 'when an input is provided only by a plugin' do
