@@ -67,6 +67,10 @@ module Inspec
       puts
     end
 
+    def telemetry_enabled?
+      final_options['telemetry']
+    end
+
     #-----------------------------------------------------------------------#
     #                      Train Credential Handling
     #-----------------------------------------------------------------------#
