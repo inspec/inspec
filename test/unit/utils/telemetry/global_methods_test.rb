@@ -25,4 +25,9 @@ class TestTelemetryGlobalMethods < Minitest::Test
     assert_equal ['serverspec_compat'], depgrp.data
     assert_equal :deprecation_group, depgrp.name
   end
+
+  def test_telemetry_disabled
+    @collector.load_config(Inspec::Config.mock(telemetry: false))
+    refute Inspec.record_telemetry_data(:deprecation_group, 'serverspec_compat')
+  end
 end
