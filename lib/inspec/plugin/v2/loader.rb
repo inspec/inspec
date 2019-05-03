@@ -113,9 +113,8 @@ module Inspec::Plugin::V2
     end
 
     def self.plugin_gem_path
-      # I can't believe there isn't a simpler way of getting this
-      # 2.4.2.p123 => 2.4.0
-      ruby_abi_version = (Gem.ruby_version.segments[0, 2] << 0).join('.')
+      require 'rbconfig'
+      ruby_abi_version = RbConfig::CONFIG['ruby_version']
       File.join(Inspec.config_dir, 'gems', ruby_abi_version)
     end
 
