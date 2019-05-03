@@ -37,8 +37,11 @@ module Inspec
 end
 
 module CorePluginBaseHelper
+  libdir = File.expand_path 'lib'
+
   let(:repo_path) { File.expand_path(File.join(__FILE__, '..', '..', '..', '..')) }
-  let(:inspec_bin_path) { File.join(repo_path, 'inspec-bin', 'bin', 'inspec') }
+  let(:inspec_path) { File.join(repo_path, 'inspec-bin', 'bin', 'inspec') }
+  let(:exec_inspec) { [Gem.ruby, "-I#{libdir}", inspec_path].join ' ' }
   let(:core_mock_path) { File.join(repo_path, 'test', 'unit', 'mock') }
   let(:core_fixture_plugins_path) { File.join(core_mock_path, 'plugins') }
   let(:core_config_dir_path) { File.join(core_mock_path, 'config_dirs') }
@@ -59,7 +62,7 @@ module CorePluginFunctionalHelper
     elsif opts.key?(:env)
       prefix = opts[:env].to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(' ')
     end
-    Inspec::FuncTestRunResult.new(TRAIN_CONNECTION.run_command("#{prefix} #{inspec_bin_path} #{command_line}"))
+    Inspec::FuncTestRunResult.new(TRAIN_CONNECTION.run_command("#{prefix} #{exec_inspec} #{command_line}"))
   end
 
   # This helper does some fancy footwork to make InSpec think a plugin
