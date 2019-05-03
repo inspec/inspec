@@ -40,4 +40,14 @@ class TestTelemetryCollector < Minitest::Test
     @collector.reset
     assert_equal 0, @collector.list_data_series.count
   end
+
+  def test_telemetry_disabled
+    @collector.load_config(Inspec::Config.mock(telemetry: false))
+    refute @collector.telemetry_enabled?
+  end
+
+  def test_telemetry_enabled
+    @collector.load_config(Inspec::Config.mock(telemetry: true))
+    assert @collector.telemetry_enabled?
+  end
 end
