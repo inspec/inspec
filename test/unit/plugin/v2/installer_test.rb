@@ -8,6 +8,8 @@ require 'json'
 require_relative '../../../../lib/inspec/plugin/v2'
 require_relative '../../../../lib/inspec/plugin/v2/installer'
 
+Gem.done_installing_hooks.clear # Remove rdoc generation
+
 module InstallerTestHelpers
   def reset_globals
     ENV['HOME'] = @orig_home
