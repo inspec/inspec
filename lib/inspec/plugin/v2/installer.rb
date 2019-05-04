@@ -394,12 +394,12 @@ module Inspec::Plugin::V2
     #                        Utilities
     #===================================================================#
 
-    # This class alows us to build a Resolver set with the gems that are
+    # This class allows us to build a Resolver set with the gems that are
     # already included either with Ruby or with the InSpec install
     #
     # This code is heavily based on:
-    # https://github.com/hashicorp/vagrant/blob/master/lib/vagrant/bundler.rb#L400
-    # https://github.com/hashicorp/vagrant/blob/master/lib/vagrant/bundler.rb#L565
+    # https://github.com/hashicorp/vagrant/blob/32237377/lib/vagrant/bundler.rb#L400
+    # https://github.com/hashicorp/vagrant/blob/32237377/lib/vagrant/bundler.rb#L565
     class InstalledVendorSet < Gem::Resolver::Set
       def initialize
         super
