@@ -6,6 +6,11 @@
       "action": "warn",
       "prefix": "The 'default' option for attributes is being replaced by 'value' - please use it instead."
     },
+    "attrs_dsl": {
+      "action": "ignore",
+      "comment": "See #3853",
+      "prefix": "The 'attribute' DSL keyword is being replaced by 'input' - please use it instead."
+    },
     "aws_resources_in_resource_pack": {
       "comment": "See #3822",
       "action": "warn",
