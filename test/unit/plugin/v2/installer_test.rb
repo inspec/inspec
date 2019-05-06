@@ -55,6 +55,7 @@ module InstallerTestHelpers
 
     # Clean up any activated gems
     Gem.loaded_specs.delete('inspec-test-fixture')
+    Gem.loaded_specs.delete('ordinal_array')
   end
 end
 
@@ -193,6 +194,9 @@ class PluginInstallerInstallationTests < Minitest::Test
 
   def test_install_a_gem_with_conflicting_depends_from_rubygems_org
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+
+    spec = Gem::Specification._all.find { |s| s.name == "rake" }
+    spec.activate
 
     ex = assert_raises(Inspec::Plugin::V2::InstallError) do
       @installer.install('inspec-test-fixture', version: '= 0.1.1')
