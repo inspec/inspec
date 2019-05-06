@@ -11,10 +11,16 @@ require_relative '../../../../lib/inspec/plugin/v2/installer'
 Gem.done_installing_hooks.clear # Remove rdoc generation
 
 module InstallerTestHelpers
+  RUN_SLOW = ENV["SLOW"]
+
+  def skip_slow_tests
+    skip "slow" unless RUN_SLOW
+  end
+
   def reset_globals
     ENV['HOME'] = @orig_home
     ENV['INSPEC_CONFIG_DIR'] = nil
-    @installer.__reset
+    @installer.__reset if @installer
   end
 
   def copy_in_config_dir(fixture_name)
@@ -50,7 +56,7 @@ module InstallerTestHelpers
       Dir.glob(File.join(@config_dir_path, 'empty', '*')).each do |path|
         next if path.end_with? '.gitkeep'
         FileUtils.rm_rf(path)
-      end
+      end if @config_dir_path
     end
 
     # Clean up any activated gems
@@ -146,6 +152,8 @@ class PluginInstallerInstallationTests < Minitest::Test
   end
 
   def test_install_a_gem_from_rubygems_org
+    skip_slow_tests
+
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     @installer.install('inspec-test-fixture')
@@ -169,6 +177,8 @@ class PluginInstallerInstallationTests < Minitest::Test
   end
 
   def test_handle_no_such_gem
+    skip_slow_tests
+
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     assert_raises(Inspec::Plugin::V2::InstallError) { @installer.install('inspec-test-fixture-nonesuch') }
@@ -176,6 +186,8 @@ class PluginInstallerInstallationTests < Minitest::Test
 
   # Should be able to install a plugin while pinning the version
   def test_install_a_pinned_gem_from_rubygems_org
+    skip_slow_tests
+
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     @installer.install('inspec-test-fixture', version: '= 0.1.0')
@@ -205,6 +217,8 @@ class PluginInstallerInstallationTests < Minitest::Test
   end
 
   def test_install_a_gem_with_invalid_depends_from_rubygems_org
+    skip_slow_tests
+
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     ex = assert_raises(Inspec::Plugin::V2::InstallError) do
@@ -293,6 +307,8 @@ class PluginInstallerUpdaterTests < Minitest::Test
   end
 
   def test_update_to_latest_version
+    skip_slow_tests
+
     copy_in_config_dir('test-fixture-1-float')
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
     @installer.__reset_loader
@@ -312,6 +328,8 @@ class PluginInstallerUpdaterTests < Minitest::Test
   end
 
   def test_update_to_specified_later_version
+    skip_slow_tests
+
     copy_in_config_dir('test-fixture-1-float')
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
     @installer.__reset_loader
@@ -378,6 +396,8 @@ class PluginInstallerUninstallTests < Minitest::Test
   end
 
   def test_uninstall_a_gem_plugin
+    skip_slow_tests # not that slow, just noisy
+
     copy_in_config_dir('test-fixture-1-float')
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
     @installer.__reset_loader
@@ -402,6 +422,8 @@ class PluginInstallerUninstallTests < Minitest::Test
   end
 
   def test_uninstall_a_gem_plugin_removes_deps
+    skip_slow_tests # not that slow, just noisy
+
     copy_in_config_dir('test-fixture-2-float')
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
     @installer.__reset_loader
@@ -437,6 +459,19 @@ end
 #-----------------------------------------------------------------------#
 class PluginInstallerSearchTests < Minitest::Test
   include InstallerTestHelpers
+
+  def setup
+    # This is not ideal. I want to skip all of them, as it is the
+    # first test that is slow, but I just debugged a really complex
+    # interaction where if none of these tests are run, a whole slew
+    # of other tests are trying to set up config under /var/empty
+    # instead of our fixture dir. I don't have the knowhow to dig that
+    # deep yet, but I do know how to make the tests pass even if that
+    # is a bit slower.
+    skip_slow_tests unless name =~ /omits_inspec_gem/ # the first test in particular has a ~2.5s hit
+
+    super
+  end
 
   def test_search_for_plugin_by_exact_name
     results = @installer.search('inspec-test-fixture', exact: true)
@@ -493,4 +528,3 @@ class PluginInstallerSearchTests < Minitest::Test
     end
   end
 end
-
