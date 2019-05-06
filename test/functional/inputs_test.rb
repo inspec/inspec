@@ -99,7 +99,7 @@ describe "inputs" do
       cmd = "exec "
       cmd += File.join(inputs_profiles_path, "metadata-empty")
       result = run_inspec_process(cmd, json: true)
-      result.stderr.must_include "WARN: Inputs must be defined as an Array. Skipping current definition."
+      result.stderr.must_include 'WARN: Inputs must be defined as an Array in metadata files. Skipping definition from profile-with-empty-attributes.'
       assert_exit_code 0, result
     end
 
