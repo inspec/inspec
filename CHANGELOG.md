@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.3.5 -->
-## [v4.3.5](https://github.com/inspec/inspec/tree/v4.3.5) (2019-05-03)
+<!-- latest_release 4.4.0 -->
+## [v4.4.0](https://github.com/inspec/inspec/tree/v4.4.0) (2019-05-06)
 
-#### Enhancements
-- Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### New Features
+- Rename &#39;attribute&#39; DSL method to &#39;input&#39; [#4008](https://github.com/inspec/inspec/pull/4008) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
 ### Changes since 4.3.2 release
+
+#### New Features
+- Rename &#39;attribute&#39; DSL method to &#39;input&#39; [#4008](https://github.com/inspec/inspec/pull/4008) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.0 -->
 
 #### Enhancements
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
