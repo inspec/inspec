@@ -107,4 +107,14 @@ describe 'inputs' do
       end
     end
   end
+
+  describe 'when using a profile with undeclared (valueless) inputs' do
+    it 'should warn about them and not abort the run' do
+      cmd = "exec #{inputs_profiles_path}/undeclared"
+      result = run_inspec_process(cmd, json: true)
+      result.stderr.must_include "WARN: Input 'undeclared_01'"
+      result.stderr.must_include 'does not have a value'
+      result.must_have_all_controls_passing
+    end
+  end
 end
