@@ -1,4 +1,3 @@
-# encoding: utf-8
 # helper methods for source/layouts/sidebar.slim
 module SidebarHelpers
   SIDEBAR_LAYOUTS = %w{docs}.freeze

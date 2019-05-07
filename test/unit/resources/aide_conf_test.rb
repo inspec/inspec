@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Jen Burns, burnsjennifere@gmail.com
 
 require 'helper'

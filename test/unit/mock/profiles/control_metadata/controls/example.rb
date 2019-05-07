@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 control 'tmp-1.0' do
   impact 0.7

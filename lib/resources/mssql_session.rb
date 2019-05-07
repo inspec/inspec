@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 require 'hashie/mash'
 require 'utils/database_helpers'

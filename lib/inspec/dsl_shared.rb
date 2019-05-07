@@ -1,4 +1,3 @@
-# encoding: utf-8
 module Inspec
   #
   # Contains methods we would like in multiple DSL

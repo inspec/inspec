@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Matt Shanahan, matt.shanahan@relativity.com
 
 require 'helper'

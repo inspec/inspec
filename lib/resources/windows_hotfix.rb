@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 module Inspec::Resources
   class WindowsHotfix < Inspec.resource(1)

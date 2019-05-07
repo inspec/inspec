@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Guilhem Lettron
 
 require 'helper'

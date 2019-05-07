@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 require_controls 'profile_a'
 require_controls 'profile_b' do

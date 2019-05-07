@@ -1,4 +1,3 @@
-# encoding: utf-8
 if ['centos', 'redhat', 'fedora', 'suse', 'debian', 'ubuntu'].include?(os[:family])
   userinfo = {
     username: 'root',

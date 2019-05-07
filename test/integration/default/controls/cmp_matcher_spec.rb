@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 if os.linux?
   # uses the `cmp` matcher instead of the eq matcher

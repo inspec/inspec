@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 # options
 inspec_bin = 'BUNDLE_GEMFILE=/inspec/Gemfile bundle exec inspec'

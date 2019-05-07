@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Robert Van Kleeck, robert@vankleeck.net
 
 require 'helper'

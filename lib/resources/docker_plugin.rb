@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 module Inspec::Resources
   class DockerPlugin < Inspec.resource(1)

@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 module InspecPlugins::TestUI
   class CliCommand < Inspec.plugin(2, :cli_command)

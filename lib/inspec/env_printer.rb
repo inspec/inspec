@@ -1,4 +1,3 @@
-# encoding: utf-8
 require 'inspec/shell_detector'
 require 'erb'
 require 'shellwords'

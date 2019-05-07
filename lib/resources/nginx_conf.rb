@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 require 'utils/nginx_parser'
 require 'utils/find_files'

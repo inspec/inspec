@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 # Usage:
 # describe pip('Jinja2') do

@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 # checks[0]
 describe exception_resource_test('should raise ResourceSkipped', :skip_me) do

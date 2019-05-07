@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 module Inspec::Reporters
   class CLI < Base

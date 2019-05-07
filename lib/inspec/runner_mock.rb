@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
 

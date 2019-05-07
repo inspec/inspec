@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 require 'helper'
 require 'inspec/profile_context'
@@ -44,14 +43,14 @@ describe Inspec::Profile do
     end
 
     it 'works on a complete profile' do
-      MockLoader.load_profile('complete-profile').sha256.must_equal '25cf05093c695d807e488b04e3551f19de900c1d2b0cbfadb476a5786efa7323'
+      MockLoader.load_profile('complete-profile').sha256.must_equal 'f63142e0e4c62469339eab2c16fee2ead2e3dd781492a1dcb1a218424e4d90b3'
     end
   end
 
   describe 'code info' do
     let(:profile_id) { 'complete-profile' }
     let(:code) { "control 'test01' do\n  impact 0.5\n  title 'Catchy title'\n  desc '\n    example.com should always exist.\n  '\n  describe host('example.com') do\n    it { should be_resolvable }\n  end\nend\n" }
-    let(:loc) { {:ref=>"controls/host_spec.rb", :line=>6} }
+    let(:loc) { {:ref=>"controls/host_spec.rb", :line=>5} }
 
     it 'gets code from an uncompressed profile' do
       info = MockLoader.load_profile(profile_id).info

@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 require 'utils/parser'
 require 'utils/filter'

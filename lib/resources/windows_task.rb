@@ -1,4 +1,3 @@
-# encoding: utf-8
 module Inspec::Resources
   class WindowsTasks < Inspec.resource(1)
     name 'windows_task'

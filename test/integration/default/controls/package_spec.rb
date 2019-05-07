@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 case os[:family]
 when 'centos', 'fedora', 'opensuse', 'debian', 'ubuntu'
