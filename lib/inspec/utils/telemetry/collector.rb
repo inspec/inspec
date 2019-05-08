@@ -29,7 +29,7 @@ module Inspec::Telemetry
     # telemetry, if not default to false.
     # @return [True, False]
     def telemetry_enabled?
-      config_telemetry_options.fetch("enable_telemetry", false)
+      config_telemetry_options.fetch('enable_telemetry', false)
     end
 
     # A way to disable the telemetry system.

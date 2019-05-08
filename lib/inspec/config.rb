@@ -70,7 +70,7 @@ module Inspec
     # return all telemetry options from config
     # @return [Hash]
     def telemetry_options
-      final_options.select { |key,_| key.include?('telemetry') }
+      final_options.select { |key, _| key.include?('telemetry') }
     end
 
     #-----------------------------------------------------------------------#
