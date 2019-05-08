@@ -4,7 +4,7 @@ require_relative '../../../helper.rb'
 class TestTelemetryCollector < Minitest::Test
   def setup
     @collector = Inspec::Telemetry::Collector.instance
-    @collector.reset
+    @collector.reset!
   end
 
   def test_collector_singleton
@@ -37,7 +37,7 @@ class TestTelemetryCollector < Minitest::Test
   def test_reset_singleton
     data_series = Inspec::Telemetry::DataSeries.new('/resource/File')
     @collector.add_data_series(data_series)
-    @collector.reset
+    @collector.reset!
     assert_equal 0, @collector.list_data_series.count
   end
 

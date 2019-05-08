@@ -64,9 +64,11 @@ module Inspec::Telemetry
     end
 
     # Blanks the contents of the data series collection.
+    # Reset telemetry toggle
     # @return [True]
-    def reset
+    def reset!
       @data_series = []
+      @telemetry_toggled_off = false
     end
 
     private
