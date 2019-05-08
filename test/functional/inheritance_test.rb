@@ -70,12 +70,6 @@ describe 'example inheritance profile' do
   it 'can execute a profile inheritance' do
     out = inspec('exec ' + path + ' --reporter json --no-create-lockfile --input-file ' + input_file)
     out.stderr.must_equal ''
-    # This test is intending to show that STDOUT is JSON. But
-    # if we get code 1, we hit an error, and inspec unfortunately
-    # sent the log message to stdout, not stderr.
-    if out.exit_status == 1
-      out.stdout.must_equal '' # this should fail
-    end
     out.exit_status.must_equal 101
     JSON.load(out.stdout).must_be_kind_of Hash
   end
