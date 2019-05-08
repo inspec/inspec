@@ -1,9 +1,8 @@
 require 'minitest/autorun'
-require 'minitest/test'
 require_relative '../../../../lib/inspec'
 
 module PluginV2BackCompat
-  class PluginV1TypeClassFetchers < MiniTest::Test
+  class PluginV1TypeClassFetchers < Minitest::Test
 
     # Note: we can't call klass.name, because that is redefined as a setter.
 

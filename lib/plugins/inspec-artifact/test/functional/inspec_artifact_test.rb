@@ -4,7 +4,7 @@ require_relative '../../../shared/core_plugin_test_helper.rb'
 require 'fileutils'
 require 'securerandom'
 
-class ArtifactCli < MiniTest::Test
+class ArtifactCli < Minitest::Test
   include CorePluginFunctionalHelper
 
   def test_generating_archive_keys

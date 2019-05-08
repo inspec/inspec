@@ -1,5 +1,4 @@
-require 'minitest'
-require 'minitest/spec'
+require 'minitest/autorun'
 require 'stringio'
 
 require 'utils/deprecation'

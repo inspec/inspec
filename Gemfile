@@ -3,6 +3,13 @@ source 'https://rubygems.org'
 
 gem 'inspec', path: '.'
 
+# This dependency is NOT used for normal gem deployment
+# - instead, inspec-bin gemspec-depends on inspec
+#
+# However, AppBundler requires a top-level Gemfile.lock with inspec-bin
+# in it in order to package the executable. Hence the odd backwards dependency.
+gem 'inspec-bin', path: './inspec-bin'
+
 gem 'ffi', '>= 1.9.14'
 
 group :omnibus do

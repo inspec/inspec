@@ -3,7 +3,7 @@
 require 'yaml'
 require_relative '../../../shared/core_plugin_test_helper.rb'
 
-class InitCli < MiniTest::Test
+class InitCli < Minitest::Test
   include CorePluginFunctionalHelper
 
   def test_generating_inspec_profile

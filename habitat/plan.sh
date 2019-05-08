@@ -39,11 +39,18 @@ do_build() {
   pushd "$HAB_CACHE_SRC_PATH/$pkg_dirname/"
     gem build inspec.gemspec
   popd
+  pushd "$HAB_CACHE_SRC_PATH/$pkg_dirname/inspec-bin"
+    gem build inspec-bin.gemspec
+  popd
 }
 
 do_install() {
+  # MUST install inspec first because inspec-bin depends on it via gemspec
   pushd "$HAB_CACHE_SRC_PATH/$pkg_dirname/"
     gem install inspec-*.gem --no-document
+  popd
+  pushd "$HAB_CACHE_SRC_PATH/$pkg_dirname/inspec-bin"
+    gem install inspec-bin*.gem --no-document
   popd
 
   wrap_inspec_bin
@@ -56,7 +63,7 @@ do_install() {
 # Need to wrap the InSpec binary to ensure paths are correct
 wrap_inspec_bin() {
   local bin="$pkg_prefix/bin/$pkg_name"
-  local real_bin="$GEM_HOME/gems/inspec-${pkg_version}/bin/inspec"
+  local real_bin="$GEM_HOME/gems/inspec-bin-${pkg_version}/bin/inspec"
   build_line "Adding wrapper $bin to $real_bin"
   cat <<EOF > "$bin"
 #!$(pkg_path_for core/bash)/bin/bash

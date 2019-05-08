@@ -1,7 +1,7 @@
 require_relative '../../../shared/core_plugin_test_helper.rb'
 require 'fileutils'
 
-class ProfileCli < MiniTest::Test
+class ProfileCli < Minitest::Test
   include CorePluginFunctionalHelper
 
   def setup

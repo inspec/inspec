@@ -26,8 +26,7 @@ module Inspec
         with_resource_dsl resources_dsl
 
         # allow attributes to be accessed within control blocks
-        # TODO: deprecate name, use input()
-        define_method :attribute do |input_name, options = {}|
+        define_method :input do |input_name, options = {}|
           if options.empty?
             # Simply an access, no event here
             Inspec::InputRegistry.find_or_register_input(input_name, profile_id).value
@@ -35,7 +34,7 @@ module Inspec
             options[:priority] = 20
             options[:provider] = :inline_control_code
             evt = Inspec::Input.infer_event(options)
-            Inspec::InputRegistry.find_or_register_input(input_name, profile_name, event: evt).value
+            Inspec::InputRegistry.find_or_register_input(input_name, profile_id, event: evt).value
           end
         end
 
@@ -43,6 +42,11 @@ module Inspec
         # Will return nil on a miss.
         define_method :input_object do |input_name|
           Inspec::InputRegistry.find_or_register_input(input_name, profile_id)
+        end
+
+        define_method :attribute do |name, options = {}|
+          Inspec.deprecate(:attrs_dsl, "Input name: #{name}, Profile: #{profile_id}")
+          input(name, options)
         end
 
         # Support for Control DSL plugins.
@@ -182,9 +186,7 @@ module Inspec
           profile_context_owner.register_rule(control, &block) unless control.nil?
         end
 
-        # method for inputs; import input handling
-        # TODO: deprecate name, use input()
-        define_method :attribute do |input_name, options = {}|
+        define_method :input do |input_name, options = {}|
           if options.empty?
             # Simply an access, no event here
             Inspec::InputRegistry.find_or_register_input(input_name, profile_id).value
@@ -192,7 +194,7 @@ module Inspec
             options[:priority] = 20
             options[:provider] = :inline_control_code
             evt = Inspec::Input.infer_event(options)
-            Inspec::InputRegistry.find_or_register_input(input_name, profile_name, event: evt).value
+            Inspec::InputRegistry.find_or_register_input(input_name, profile_id, event: evt).value
           end
         end
 
@@ -200,6 +202,11 @@ module Inspec
         # Will return nil on a miss.
         define_method :input_object do |input_name|
           Inspec::InputRegistry.find_or_register_input(input_name, profile_id)
+        end
+
+        define_method :attribute do |name, options = {}|
+          Inspec.deprecate(:attrs_dsl, "Input name: #{name}, Profile: #{profile_id}")
+          input(name, options)
         end
 
         define_method :skip_control do |id|

@@ -1,5 +1,4 @@
 require 'minitest/autorun'
-require 'minitest/unit'
 require 'minitest/pride'
 
 # Data formats commonly used in testing

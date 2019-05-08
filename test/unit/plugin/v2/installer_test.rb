@@ -1,5 +1,4 @@
 require 'minitest/autorun'
-require 'minitest/test'
 # Other unit tests include the webmock framework, which is process-wide.
 # We need to disable it, or else mock many, many rubygems API calls.
 require 'webmock/minitest'
@@ -62,7 +61,7 @@ end
 #-----------------------------------------------------------------------#
 # basics
 #-----------------------------------------------------------------------#
-class PluginInstallerBasicTests < MiniTest::Test
+class PluginInstallerBasicTests < Minitest::Test
   include InstallerTestHelpers
 
   # it's a singleton
@@ -90,7 +89,7 @@ end
 #-----------------------------------------------------------------------#
 # Installing
 #-----------------------------------------------------------------------#
-class PluginInstallerInstallationTests < MiniTest::Test
+class PluginInstallerInstallationTests < Minitest::Test
   include InstallerTestHelpers
 
   # While this is a negative test case on the prefix checking, there are
@@ -250,7 +249,7 @@ end
 #-----------------------------------------------------------------------#
 # Updating
 #-----------------------------------------------------------------------#
-class PluginInstallerUpdaterTests < MiniTest::Test
+class PluginInstallerUpdaterTests < Minitest::Test
   include InstallerTestHelpers
 
   def test_update_using_path_not_allowed
@@ -342,7 +341,7 @@ end
 #-----------------------------------------------------------------------#
 # Uninstalling
 #-----------------------------------------------------------------------#
-class PluginInstallerUninstallTests < MiniTest::Test
+class PluginInstallerUninstallTests < Minitest::Test
   include InstallerTestHelpers
 
   def test_uninstalling_a_nonexistant_plugin_is_an_error
@@ -432,7 +431,7 @@ end
 #-----------------------------------------------------------------------#
 # Searching
 #-----------------------------------------------------------------------#
-class PluginInstallerSearchTests < MiniTest::Test
+class PluginInstallerSearchTests < Minitest::Test
   include InstallerTestHelpers
 
   def test_search_for_plugin_by_exact_name

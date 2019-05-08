@@ -16,7 +16,7 @@ header.bg-gradient.margin-top-offset.short-bg.relative
         .row.align.columns.margin-top-sm.mobile-row-btn
           a.button.btn-lg.btn-purple.shadow-dark.margin-right-xs.mobile-row-btn href="/downloads"
             i.fa.fa-cloud-download
-            span download inspec 3.0
+            span download inspec 4
           a.button.btn-lg.btn-white-o.shadow-dark.mobile-row-btn href="/tutorials" browse tutorials
         a class="github-button" href="https://github.com/chef/inspec" data-size="large" data-show-count="true" aria-label="Star chef/inspec on GitHub" Star
 
@@ -27,24 +27,23 @@ header.bg-gradient.margin-top-offset.short-bg.relative
   /! announcement
   .row.columns
     .box-white.shadow.z-20.slide-left
-      h3.large-11.medium-11 Announcing Chef InSpec 3.0
-      p.large-11.medium-11 Plugin system, global attributes, enchanced skip messaging, and more.
+      h3.large-11.medium-11 Announcing InSpec 4
+      p.large-11.medium-11 Inputs system overhaul, updated AWS-SDK to v3, support for the new Chef License, and many bugfixes and minor features
       #expand
         .margin-top-sm.brdr-left.large-11.medium-11
           .margin-left-sm
             h4.t-purple core
-            p New plugin system for Chef InSpec CLI and Train
-            p Enhanced "only_if" skip messaging
-            p Unsupported profiles are now hidden from output
-            p Attributes are now specified in <a href="/docs/reference/profiles/">inspec.yml</a>
-            p Text based severity (e.g. "impact 'low'" )
-            p Tons of security/bug fixes and improvements
+            p Inputs system overhaul - more consistent, extensible, and predictable
+            p Updated AWS-SDK to v3
+            p Laying the foundation for opt-in telemetry
+            p Support for the new Chef License
+            p Add support for more_permissive_than? on the File resource
+            p Many other minor bugfixes!
         .margin-top-sm.brdr-left.large-11.medium-11
           .margin-left-sm
-            h4.t-purple cloud
-            p
-              | New <a href="http://www.inspec.io/docs/reference/resources/#azure-resources">Azure</a> and <a href="/docs/reference/resources/#gcp-resources">GCP resources</a>
-            p Support for VMware ESXi via PowerCLI (Even on Linux!)
+            h4.t-purple inspec-bin
+            p Moved the `inspec` executable to a separate gem, `inspec-bin`. This allows the use of the `inspec` gem as a library without the licensing restrictions placed on the executable.
+            p This release is the first to require accepting a license before using it as an executable.
       .margin-top-xs
         a#expandBtn Show all new features
   /!  canvas elements

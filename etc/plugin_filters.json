@@ -6,6 +6,14 @@
       "rationale": "This gem is a stripped-down alternate packaging of InSpec. It is not a plugin."
     },
     {
+      "plugin_name": "inspec-bin",
+      "rationale": "This gem contains the executable for Chef InSpec.  It is not a plugin."
+    },
+    {
+      "plugin_name": "inspec-core-bin",
+      "rationale": "This gem contains the executable for a lightweight version of Chef InSpec. It is not a plugin."
+    },
+    {
       "plugin_name": "inspec-k8s",
       "rationale": "This gem is currently only a placeholder, waiting to be built."
     },

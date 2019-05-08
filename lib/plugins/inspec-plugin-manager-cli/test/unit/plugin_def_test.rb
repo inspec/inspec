@@ -3,7 +3,7 @@ require_relative '../../../shared/core_plugin_test_helper.rb'
 #-----------------------------------------------------------------------#
 # Plugin Definition
 #-----------------------------------------------------------------------#
-class PluginManagerCliDefinitionTests < MiniTest::Test
+class PluginManagerCliDefinitionTests < Minitest::Test
   include CorePluginUnitHelper
 
   def test_plugin_registered

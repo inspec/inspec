@@ -7,3 +7,4 @@
 set -evx
 
 sed -i -r "s/VERSION = '.*'/VERSION = '$(cat VERSION)'/" lib/inspec/version.rb
+sed -i -r "s/VERSION = '.*'/VERSION = '$(cat VERSION)'/" inspec-bin/lib/inspec-bin/version.rb
