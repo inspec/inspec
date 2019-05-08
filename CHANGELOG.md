@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.2 -->
-## [v4.4.2](https://github.com/inspec/inspec/tree/v4.4.2) (2019-05-08)
+<!-- latest_release 4.4.3 -->
+## [v4.4.3](https://github.com/inspec/inspec/tree/v4.4.3) (2019-05-08)
 
 #### Merged Pull Requests
-- Modernize use of Minitest. [#4023](https://github.com/inspec/inspec/pull/4023) ([zenspider](https://github.com/zenspider))
+- Change software name from InSpec to Chef Inspec in documentation [#3987](https://github.com/inspec/inspec/pull/3987) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -18,6 +18,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Change software name from InSpec to Chef Inspec in documentation [#3987](https://github.com/inspec/inspec/pull/3987) ([IanMadd](https://github.com/IanMadd)) <!-- 4.4.3 -->
 - Modernize use of Minitest. [#4023](https://github.com/inspec/inspec/pull/4023) ([zenspider](https://github.com/zenspider)) <!-- 4.4.2 -->
 - Update the omnibus build license to the Chef EULA [#4038](https://github.com/inspec/inspec/pull/4038) ([btm](https://github.com/btm)) <!-- 4.4.1 -->
 - Update resource registry_key documentation example [#4004](https://github.com/inspec/inspec/pull/4004) ([miah](https://github.com/miah)) <!-- 4.3.4 -->
