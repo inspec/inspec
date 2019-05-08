@@ -5,9 +5,9 @@ platform: linux
 
 # apache
 
-Use the `apache` InSpec audit resource to test the state of the Apache server on Linux/Unix systems.
+Use the `apache` Chef InSpec audit resource to test the state of the Apache server on Linux/Unix systems.
 
-<p class="warning">This resource is deprecated and should not be used. It will be removed in InSpec 3.0.</p>
+<p class="warning">This resource is deprecated and should not be used. It will be removed in Chef InSpec 3.0.</p>
 
 <br>
 
@@ -15,7 +15,7 @@ Use the `apache` InSpec audit resource to test the state of the Apache server on
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -23,7 +23,7 @@ This resource first became available in v1.51.15 of InSpec.
 
 ## Syntax
 
-An `apache` InSpec audit resource block declares settings that should be tested:
+An `apache` Chef InSpec audit resource block declares settings that should be tested:
 
     describe apache do
       its('setting_name') { should cmp 'value' }
@@ -44,7 +44,7 @@ where
 
 ## Property Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test the service name.
 

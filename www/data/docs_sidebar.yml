@@ -4,15 +4,15 @@ sidebar_links:
   links:
   - title: Overview
     link: "/docs"
-  - title: Get InSpec
+  - title: Get Chef InSpec
     link: "/downloads"
-  - title: InSpec for the cloud
+  - title: Chef InSpec for the cloud
     link: "/docs/reference/platforms.html"
   - title: Tutorials
     link: "/tutorials"
-  - title: InSpec and friends
+  - title: Chef InSpec and friends
     link: "/docs/reference/inspec_and_friends.html"
-  - title: InSpec Glossary
+  - title: Chef InSpec Glossary
     link: "/docs/reference/glossary.html"
 - title: Reference
   links:
@@ -28,7 +28,7 @@ sidebar_links:
     link: "/docs/reference/reporters.html"
   - title: Configuration
     link: "/docs/reference/config.html"
-  - title: InSpec DSL
+  - title: Chef InSpec DSL
     link: "/docs/reference/dsl_inspec.html"
   - title: Profile Style guide
     link: "/docs/reference/style.html"
@@ -40,7 +40,7 @@ sidebar_links:
     link: "/docs/reference/plugin_kitchen_inspec.html"
   - title: inspec shell
     link: "/docs/reference/shell.html"
-  - title: Habitat Integration
+  - title: Chef Habitat Integration
     link: "/docs/reference/habitat.html"
   - title: Migration from Serverspec
     link: "/docs/reference/migration.html"

@@ -5,7 +5,7 @@ platform: aws
 
 # aws\_ebs\_volumes
 
-Use the `aws_ebs_volumes` InSpec audit resource to test properties of some or all AWS EBS volumes. To audit a single EBS volume, use `aws_ebs_volume` (singular).
+Use the `aws_ebs_volumes` Chef InSpec audit resource to test properties of some or all AWS EBS volumes. To audit a single EBS volume, use `aws_ebs_volume` (singular).
 
 EBS volumes are persistent block storage volumes for use with Amazon EC2 instances in the AWS Cloud.
 
@@ -17,7 +17,7 @@ Each EBS volume is uniquely identified by its ID.
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ## Syntax
 
@@ -28,7 +28,7 @@ An `aws_ebs_volumes` resource block collects a group of EBS volumes and then tes
       its('volume_ids.count') { should cmp 3 }
     end
 
-    # Use the InSpec resource to enumerate IDs, then test in-depth using `aws_ebs_volume`.
+    # Use the Chef InSpec resource to enumerate IDs, then test in-depth using `aws_ebs_volume`.
     aws_ebs_volumes.volume_ids.each do |volume_id|
       describe aws_ebs_volume(volume_id) do
         it { should exist }

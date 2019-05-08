@@ -5,7 +5,7 @@ platform: linux
 
 # filesystem
 
-Use the `filesystem` InSpec resource to audit filesystem disk space usage.
+Use the `filesystem` Chef InSpec resource to audit filesystem disk space usage.
 
 <br>
 
@@ -13,7 +13,7 @@ Use the `filesystem` InSpec resource to audit filesystem disk space usage.
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -23,7 +23,7 @@ The `free_kb`, `size_kb`, and `type` properties became available in v3.6 of InSp
 
 ### Note
 
-Versions of this resource in InSpec prior to 3.5.x offered a property `size`, which returned a value in GB when on Windows and a value in KB on Linux, though it was documented to always return KB.  All new code should use `size_kb` which is unit-stable. The property `size` will remain available in InSpec v3 and 4, but will be deprecated in the future.
+Versions of this resource in Chef InSpec prior to 3.5.x offered a property `size`, which returned a value in GB when on Windows and a value in KB on Linux, though it was documented to always return KB.  All new code should use `size_kb` which is unit-stable. The property `size` will remain available in Chef InSpec v3 and 4, but will be deprecated in the future.
 
 ## Syntax
 
@@ -47,7 +47,7 @@ where
 
 ## Resource Property Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test if the root partition is greater than 32000 KB
 

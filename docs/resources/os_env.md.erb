@@ -5,7 +5,7 @@ platform: os
 
 # os_env
 
-Use the `os_env` InSpec audit resource to test the environment variables for the platform on which the system is running.
+Use the `os_env` Chef InSpec audit resource to test the environment variables for the platform on which the system is running.
 
 <br>
 
@@ -13,7 +13,7 @@ Use the `os_env` InSpec audit resource to test the environment variables for the
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -36,7 +36,7 @@ where
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test the PATH environment variable
 
@@ -56,11 +56,11 @@ On windows a User's environment variable may obscure the local machine (system) 
 
 where
 
-* `'target'` may be either `system` or `user` 
+* `'target'` may be either `system` or `user`
 
-### Test Habitat environment variables
+### Test Chef Habitat environment variables
 
-Habitat uses the `os_env` resource to test environment variables. The environment variables are first defined in a whitespace array, after which each environment variable is tested:
+Chef Habitat uses the `os_env` resource to test environment variables. The environment variables are first defined in a whitespace array, after which each environment variable is tested:
 
     hab_env_vars = %w(HAB_AUTH_TOKEN
                       HAB_CACHE_KEY_PATH

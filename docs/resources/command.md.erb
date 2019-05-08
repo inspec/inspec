@@ -5,7 +5,7 @@ platform: os
 
 # command
 
-Use the `command` InSpec audit resource to test an arbitrary command that is run on the system.
+Use the `command` Chef InSpec audit resource to test an arbitrary command that is run on the system.
 
 <br>
 
@@ -13,7 +13,7 @@ Use the `command` InSpec audit resource to test an arbitrary command that is run
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -38,7 +38,7 @@ where
 
 ## Property Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### exit_status
 
@@ -136,7 +136,7 @@ Wix includes several tools -- such as `candle` (preprocesses and compiles source
 
 ### Redacting Sensitive Commands
 
-By default the command that is ran is shown in the InSpec output. This can be problematic if the command contains sensitive arguments such as a password. These sensitive parts can be redacted by passing in `redact_regex` and a regular expression to redact. Optionally, you can use 2 capture groups to fine tune what is redacted.
+By default the command that is ran is shown in the Chef InSpec output. This can be problematic if the command contains sensitive arguments such as a password. These sensitive parts can be redacted by passing in `redact_regex` and a regular expression to redact. Optionally, you can use 2 capture groups to fine tune what is redacted.
 
 The following examples show how to use `redact_regex`:
 

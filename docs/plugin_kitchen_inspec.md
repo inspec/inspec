@@ -4,9 +4,9 @@ title: About kitchen-inspec
 
 # kitchen-inspec
 
-Use InSpec as a Kitchen verifier with `kitchen-inspec`.
+Use Chef InSpec as a Kitchen verifier with `kitchen-inspec`.
 
-Add the InSpec verifier to the `.kitchen.yml` file:
+Add the Chef InSpec verifier to the `.kitchen.yml` file:
 
 ```YML
   verifier:
@@ -45,7 +45,7 @@ Use a compliance profile from the Chef Supermarket:
           - supermarket://dev-sec/ssh-baseline
 ```
 
-Use InSpec tests from the local file system:
+Use Chef InSpec tests from the local file system:
 
 ```YML
   suites:
@@ -57,4 +57,4 @@ Use InSpec tests from the local file system:
           - test/integration/default
 ```
 
-Check out [Detect and correct with Test Kitchen](https://learn.chef.io/modules/detect-correct-kitchen#/) on Learn Chef Rally for a hands-on look at how to use Test Kitchen to run InSpec profiles.
+Check out [Detect and correct with Test Kitchen](https://learn.chef.io/modules/detect-correct-kitchen#/) on Learn Chef Rally for a hands-on look at how to use Test Kitchen to run Chef InSpec profiles.

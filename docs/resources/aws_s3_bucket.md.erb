@@ -5,7 +5,7 @@ platform: aws
 
 # aws\_s3\_bucket
 
-Use the `aws_s3_bucket` InSpec audit resource to test properties of a single AWS bucket.
+Use the `aws_s3_bucket` Chef InSpec audit resource to test properties of a single AWS bucket.
 
 To test properties of a multiple S3 buckets, use the `aws_s3_buckets` resource.
 
@@ -25,7 +25,7 @@ In particular, users of the `be_public` matcher should carefully examine the con
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -48,7 +48,7 @@ An `aws_s3_bucket` resource block declares a bucket by name, and then lists test
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test the bucket-level ACL
 
@@ -123,7 +123,7 @@ If there is no bucket policy, this property returns an empty array.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be\_public
 

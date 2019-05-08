@@ -5,7 +5,7 @@ platform: aws
 
 # aws\_iam\_access\_keys
 
-Use the `aws_iam_access_keys` InSpec audit resource to test properties of some or all IAM Access Keys.
+Use the `aws_iam_access_keys` Chef InSpec audit resource to test properties of some or all IAM Access Keys.
 
 To test properties of a single Access Key, use the `aws_iam_access_key` resource instead.
 To test properties of an individual user's access keys, use the `aws_iam_user` resource.
@@ -18,7 +18,7 @@ Access Keys are closely related to AWS User resources. Use this resource to perf
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -47,7 +47,7 @@ An `aws_iam_access_keys` resource block uses an optional filter to select a grou
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Disallow access keys created more than 90 days ago
 
@@ -191,7 +191,7 @@ Provides access to the raw results of the query. This can be useful for checking
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exists
 

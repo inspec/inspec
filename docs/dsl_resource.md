@@ -4,7 +4,7 @@ title: Resource DSL
 
 # Resource DSL
 
-InSpec provides a mechanism for defining custom resources. These become
+Chef InSpec provides a mechanism for defining custom resources. These become
 available with their respective names and provide easy functionality to
 profiles.
 
@@ -32,7 +32,7 @@ end
 
 Resources are written as a regular Ruby class which inherits from
 Inspec.resource. The number (1) specifies the version this resource
-plugin targets. As InSpec evolves, this interface may change and may
+plugin targets. As Chef InSpec evolves, this interface may change and may
 require a higher version.
 
 The following attributes can be configured:
@@ -40,7 +40,7 @@ The following attributes can be configured:
 - name - Identifier of the resource (required)
 - desc - Description of the resource (optional)
 - example - Example usage of the resource (optional)
-- supports - (InSpec 2.0+) Platform restrictions of the resource (optional)
+- supports - (Chef InSpec 2.0+) Platform restrictions of the resource (optional)
 
 The following methods are available to the resource:
 

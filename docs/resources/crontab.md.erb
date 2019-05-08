@@ -5,7 +5,7 @@ platform: linux
 
 # crontab
 
-Use the `crontab` InSpec audit resource to test the crontab entries for a particular user on the system. It recognizes special time strings (@yearly, @weekly, etc).
+Use the `crontab` Chef InSpec audit resource to test the crontab entries for a particular user on the system. It recognizes special time strings (@yearly, @weekly, etc).
 
 <br>
 
@@ -13,7 +13,7 @@ Use the `crontab` InSpec audit resource to test the crontab entries for a partic
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -39,7 +39,7 @@ Note that only the path or the user (and not both) should be supplied as argumen
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test that root's crontab has a particular command
 
@@ -102,7 +102,7 @@ end
       its('commands') { should include '/some/scheduled/task.sh' }
     end
 
-InSpec will automatically interpret crontab-supported special time strings. For example, a crontab entry set to run `@yearly` can be tested as if the entry was manually configured to run on January 1, 12 AM.
+Chef InSpec will automatically interpret crontab-supported special time strings. For example, a crontab entry set to run `@yearly` can be tested as if the entry was manually configured to run on January 1, 12 AM.
 
 <br>
 

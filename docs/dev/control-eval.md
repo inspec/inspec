@@ -6,8 +6,8 @@
 
 ## Tips
 
-* In the early days of InSpec / ServerSpec, controls were called "rules".  Throughout various places in the code, the word "rule" is used to mean "control".  Make the mental subsitution.
-* InSpec supports reading profiles from tarballs, local files, git repos, etc.  So, don't count on local file reading; instead it uses a special source reader to obtain the contents of the files.
+* In the early days of Chef InSpec / ServerSpec, controls were called "rules".  Throughout various places in the code, the word "rule" is used to mean "control".  Make the mental subsitution.
+* Chef InSpec supports reading profiles from tarballs, local files, git repos, etc.  So, don't count on local file reading; instead it uses a special source reader to obtain the contents of the files.
 
 ## The basics of the stack
 
@@ -20,7 +20,7 @@
 
 ## A profile context is created
 
-Like many things in InSpec core, a profile context is an anonymous class. (verify)
+Like many things in Chef InSpec core, a profile context is an anonymous class. (verify)
 
 Additionally, a control_eval_context is created.  It is an instance of an anonymous class; it has a class<->relationship with its profile context.  See `lib/inspec/control_eval_context.rb`.
 

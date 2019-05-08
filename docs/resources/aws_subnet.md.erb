@@ -5,7 +5,7 @@ platform: aws
 
 # aws\_subnet
 
-Use the `aws_subnet` InSpec audit resource to test properties of a vpc subnet.
+Use the `aws_subnet` Chef InSpec audit resource to test properties of a vpc subnet.
 
 To test properties of a single VPC subnet, use the `aws_subnet` resource.
 
@@ -17,7 +17,7 @@ To test properties of all or a group of VPC subnets, use the `aws_subnets` resou
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -36,7 +36,7 @@ An `aws_subnet` resource block uses the parameter to select a VPC and a subnet i
 
 ## Resource Parameters
 
-This InSpec resource accepts the following parameters, which are used to search for the VPCs subnet.
+This Chef InSpec resource accepts the following parameters, which are used to search for the VPCs subnet.
 
 ### subnet\_id
 
@@ -101,7 +101,7 @@ Provides the ID of the VPC the subnet is in.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### assigning\_ipv\_6\_address\_on\_creation
 

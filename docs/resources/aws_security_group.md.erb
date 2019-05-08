@@ -4,7 +4,7 @@ title: About the aws_security_group Resource
 
 # aws\_security\_group
 
-Use the `aws_security_group` InSpec audit resource to test detailed properties of an individual Security Group (SG).
+Use the `aws_security_group` Chef InSpec audit resource to test detailed properties of an individual Security Group (SG).
 
 SGs are a networking construct which contain ingress and egress rules for network communications.  SGs may be attached to EC2 instances, as well as certain other AWS resources.  Along with Network Access Control Lists, SGs are one of the two main mechanisms of enforcing network-level security.
 
@@ -20,7 +20,7 @@ While this resource provides facilities for searching inbound and outbound rules
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -59,7 +59,7 @@ An `aws_security_group` resource block uses resource parameters to search for an
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
     # Ensure that the linux_servers Security Group permits
     # SSH from the 10.5.0.0/16 range, but not the world.
@@ -118,7 +118,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Resource Parameters
 
-This InSpec resource accepts the following parameters, which are used to search for the Security Group.
+This Chef InSpec resource accepts the following parameters, which are used to search for the Security Group.
 
 ### id, group\_id
 
@@ -254,7 +254,7 @@ A String in the format 'vpc-' followed by 8 hexadecimal characters reflecting VP
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of additional available matchers, please visit our [Universal Matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource has the following special matchers. For a full list of additional available matchers, please visit our [Universal Matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 * [`allow_in`](#allow_in), [`allow_in_only`](#allow_in_only), [`allow_out`](#allow_out), [`allow_out_only`](#allow_out_only)
 

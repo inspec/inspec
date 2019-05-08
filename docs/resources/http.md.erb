@@ -5,7 +5,7 @@ platform: linux
 
 # http
 
-Use the `http` InSpec audit resource to test an http endpoint.
+Use the `http` Chef InSpec audit resource to test an http endpoint.
 
 <br>
 
@@ -13,7 +13,7 @@ Use the `http` InSpec audit resource to test an http endpoint.
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -46,7 +46,7 @@ where
 
 ## Example
 
-The following examples show how to use this InSpec audit resource. An `http` resource block declares the configuration settings to be tested:
+The following examples show how to use this Chef InSpec audit resource. An `http` resource block declares the configuration settings to be tested:
 
 ### Simple http test
 
@@ -73,13 +73,13 @@ For example, a service is listening on default http port can be tested like this
 
 ## Local vs. Remote
 
-Beginning with InSpec 1.41, you can enable the ability to have the HTTP test execute on the remote target:
+Beginning with Chef InSpec 1.41, you can enable the ability to have the HTTP test execute on the remote target:
 
     describe http('http://www.example.com', enable_remote_worker: true) do
       its('body') { should cmp 'awesome' }
     end
 
-In InSpec 2.0, the HTTP test will automatically execute remotely whenever InSpec is testing a remote node.
+In Chef InSpec 2.0, the HTTP test will automatically execute remotely whenever Chef InSpec is testing a remote node.
 
 <br>
 

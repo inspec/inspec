@@ -7,7 +7,7 @@ title: About the aws_config_delivery_channel Resource
 The AWS Config service can monitor and record changes to your AWS resource configurations. A Delivery Channel can record the changes
 to an S3 Bucket, an SNS or both.
 
-Use the `aws_config_delivery_channel` InSpec audit resource to examine how the AWS Config service delivers those change notifications.
+Use the `aws_config_delivery_channel` Chef InSpec audit resource to examine how the AWS Config service delivers those change notifications.
 
 As of April 2018, each AWS region may have only one Delivery Channel.
 
@@ -17,7 +17,7 @@ As of April 2018, each AWS region may have only one Delivery Channel.
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -37,7 +37,7 @@ You may specify the Delivery Channel name:
       it { should exist }
     end
 
-However, since you may only have one Delivery Channel per region, and InSpec connections are per-region, you may also omit the `channel_name` to obtain the one Delivery Channel (if any) that exists:
+However, since you may only have one Delivery Channel per region, and Chef InSpec connections are per-region, you may also omit the `channel_name` to obtain the one Delivery Channel (if any) that exists:
 
     describe aws_config_delivery_channel do
       it { should exist }
@@ -47,7 +47,7 @@ However, since you may only have one Delivery Channel per region, and InSpec con
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test how frequently the channel writes configuration changes to the s3 bucket.
 

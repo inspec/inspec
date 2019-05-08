@@ -5,7 +5,7 @@ platform: aws
 
 # aws\_iam\_users
 
-Use the `aws_iam_users` InSpec audit resource to test properties of a all or multiple users.
+Use the `aws_iam_users` Chef InSpec audit resource to test properties of a all or multiple users.
 
 To test properties of a single user, use the `aws_iam_user` resource.
 
@@ -17,7 +17,7 @@ To test properties of the special AWS root user (which owns the account), use th
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -41,7 +41,7 @@ An `aws_iam_users` resource block uses a filter to select a group of users and t
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test that all users have Multi-Factor Authentication enabled
 
@@ -232,7 +232,7 @@ Array of strings. Each entry is the name of a user that matched. There will be e
 
 ## Matchers
 
-This InSpec audit resource has the following resource-specific matchers.
+This Chef InSpec audit resource has the following resource-specific matchers.
 For a full list of available matchers, please visit our [universal matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 As a plural resource, all matchers beginning with `have_` will return true if _any_ of the selected users match.
