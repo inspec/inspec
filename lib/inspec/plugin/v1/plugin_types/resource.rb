@@ -118,7 +118,7 @@ module Inspec
 
         def check_supports
           status = inspec.platform.supported?(@supports)
-          fail_msg = "Resource #{@__resource_name__.capitalize} is not supported on platform #{inspec.platform.name}/#{inspec.platform.release}."
+          fail_msg = "Resource `#{@__resource_name__}` is not supported on platform #{inspec.platform.name}/#{inspec.platform.release}."
           fail_resource(fail_msg) unless status
           status
         end

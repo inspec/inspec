@@ -216,9 +216,9 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec('exec ' + File.join(profile_path, 'aws-profile')) }
     let(:stdout) { out.stdout.force_encoding(Encoding::UTF_8) }
     it 'exits with an error' do
-      stdout.must_include 'Resource Aws_iam_users is not supported on platform'
-      stdout.must_include 'Resource Aws_iam_access_keys is not supported on platform'
-      stdout.must_include 'Resource Aws_s3_bucket is not supported on platform'
+      stdout.must_include 'Resource `aws_iam_users` is not supported on platform'
+      stdout.must_include 'Resource `aws_iam_access_keys` is not supported on platform'
+      stdout.must_include 'Resource `aws_s3_bucket` is not supported on platform'
       stdout.must_include '3 failures'
       out.exit_status.must_equal 100
     end

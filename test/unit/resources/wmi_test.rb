@@ -27,6 +27,6 @@ describe 'Inspec::Resources::WMI' do
     resource = MockLoader.new(:ubuntu1404).load_resource('wmi', {class: 'win32_service', filter: "name like '%winrm%'" })
     _(resource.resource_failed?).must_equal true
     _(resource.resource_exception_message)
-      .must_equal 'Resource Wmi is not supported on platform ubuntu/14.04.'
+      .must_equal 'Resource `wmi` is not supported on platform ubuntu/14.04.'
   end
 end
