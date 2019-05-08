@@ -1,7 +1,7 @@
 
 require 'utils/filter'
 require 'hashie/mash'
-require 'resources/package'
+require 'inspec/resources/package'
 
 module Inspec::Resources
   class Elasticsearch < Inspec.resource(1)

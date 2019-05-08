@@ -1,6 +1,6 @@
 
 require 'utils/command_wrapper'
-require 'resources/command'
+require 'inspec/resources/command'
 
 module Inspec::Resources
   class Bash < Cmd

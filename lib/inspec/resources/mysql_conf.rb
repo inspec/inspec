@@ -4,7 +4,7 @@ require 'utils/simpleconfig'
 require 'utils/find_files'
 require 'utils/file_reader'
 require 'utils/hash'
-require 'resources/mysql'
+require 'inspec/resources/mysql'
 
 module Inspec::Resources
   class MysqlConfEntry

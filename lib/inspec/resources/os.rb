@@ -1,5 +1,5 @@
 
-require 'resources/platform'
+require 'inspec/resources/platform'
 
 module Inspec::Resources
   class OSResource < PlatformResource

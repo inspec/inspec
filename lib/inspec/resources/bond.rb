@@ -1,5 +1,5 @@
 
-require 'resources/file'
+require 'inspec/resources/file'
 require 'utils/file_reader'
 
 module Inspec::Resources
