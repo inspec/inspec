@@ -10,6 +10,9 @@ gem 'inspec', path: '.'
 # in it in order to package the executable. Hence the odd backwards dependency.
 gem 'inspec-bin', path: './inspec-bin'
 
+# TEMPORARY
+gem 'train', '= 2.0.12'
+
 gem 'ffi', '>= 1.9.14'
 
 group :omnibus do
