@@ -27,6 +27,7 @@ slack:
   notify_channel: inspec-notify
 
 github:
+  delete_branch_on_merge: true
   maintainer_group: chef/inspec-maintainers
   minor_bump_labels:
     - "Version: Bump Minor"
