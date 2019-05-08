@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'inspec-core', "= #{InspecBin::VERSION}"
   spec.add_development_dependency 'rake'
 
-  spec.files = %w{README.md LICENSE Gemfile} + [ 'inspec-core-bin.gemspec' ] +
+  spec.files = %w{README.md LICENSE Gemfile} + ['inspec-core-bin.gemspec'] +
                Dir.glob('{lib,bin}/**/*', File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
 
   spec.bindir = 'bin'
