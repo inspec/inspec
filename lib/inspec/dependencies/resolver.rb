@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Steven Danna <steve@chef.io>
 require 'inspec/log'
 require 'inspec/errors'

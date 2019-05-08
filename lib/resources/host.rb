@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 # Usage:
 # describe host('example.com') do

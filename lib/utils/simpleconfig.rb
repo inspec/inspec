@@ -1,4 +1,3 @@
-# encoding: utf-8
 # copyright: 2015, Dominik Richter
 # author: Dominik Richter
 # author: Christoph Hartmann

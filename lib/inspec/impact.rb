@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 # Impact scores based off CVSS 3.0
 module Inspec::Impact

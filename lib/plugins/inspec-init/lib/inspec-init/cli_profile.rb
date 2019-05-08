@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 require 'pathname'
 require_relative 'renderer'

@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Adam Leff
 
 require 'inspec/profile'

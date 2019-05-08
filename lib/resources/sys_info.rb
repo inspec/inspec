@@ -1,4 +1,3 @@
-# encoding: utf-8
 module Inspec::Resources
   # this resource returns additional system informatio
   class System < Inspec.resource(1)

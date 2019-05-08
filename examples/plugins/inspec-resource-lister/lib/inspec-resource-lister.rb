@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 # This file is known as the "entry point."
 # This is the file InSpec will try to load if it

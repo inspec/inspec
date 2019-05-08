@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 require 'utils/object_traversal'
 require 'utils/enumerable_delegation'

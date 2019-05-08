@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 if os[:name] == 'ubuntu'
 

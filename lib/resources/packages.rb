@@ -1,4 +1,3 @@
-# encoding: utf-8
 # copyright: 2017, Chef Software, Inc. <legal@chef.io>
 
 require 'utils/filter'

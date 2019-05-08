@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 # test root group on linux
 if os.linux?

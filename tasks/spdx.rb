@@ -1,4 +1,3 @@
-# encoding: utf-8
 # Copyright:: Copyright (c) 2017 Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #

@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 unless os.windows?
   STDERR.puts "\033[1;33mTODO: Not running #{__FILE__} because we are not on Windows.\033[0m"

@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 require 'resources/postgres'
 require 'utils/file_reader'

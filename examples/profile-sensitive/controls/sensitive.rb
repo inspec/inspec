@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 describe 'bob' do
   it { should eq 'bob' }

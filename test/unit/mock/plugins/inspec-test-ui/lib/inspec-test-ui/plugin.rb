@@ -1,4 +1,3 @@
-# encoding: UTF-8
 
 require 'inspec-test-ui/version'
 

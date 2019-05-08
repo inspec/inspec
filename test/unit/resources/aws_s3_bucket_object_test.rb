@@ -1,4 +1,3 @@
-# encoding: utf-8
 require 'helper'
 
 # MSBOSB = MockS3BucketObjectSingleBackend

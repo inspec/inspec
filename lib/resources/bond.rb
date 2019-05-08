@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 require 'resources/file'
 require 'utils/file_reader'

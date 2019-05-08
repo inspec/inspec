@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 require 'yaml'
 require_relative '../../../shared/core_plugin_test_helper.rb'

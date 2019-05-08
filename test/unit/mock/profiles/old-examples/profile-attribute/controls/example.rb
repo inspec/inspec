@@ -1,4 +1,3 @@
-# encoding: utf-8
 val_user = attribute('user', value: 'alice', description: 'An identification for the user')
 val_password = attribute('password', description: 'A value for the password')
 

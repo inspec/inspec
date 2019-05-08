@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Steven Danna
 # author: Victoria Jeffrey
 require 'inspec/plugin/v1/plugin_types/resource'

@@ -1,4 +1,3 @@
-# encoding: utf-8
 # copyright: 2015, The Authors
 
 require_resource(profile: 'profile_c', resource: 'gordon_config', as: 'gordy_config')

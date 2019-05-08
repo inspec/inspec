@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 # Usage:
 # describe bridge('br0') do

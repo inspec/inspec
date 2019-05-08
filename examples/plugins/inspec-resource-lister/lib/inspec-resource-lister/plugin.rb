@@ -1,4 +1,3 @@
-# encoding: UTF-8
 
 # Plugin Definition file
 # The purpose of this file is to declare to InSpec what plugin_types (capabilities)

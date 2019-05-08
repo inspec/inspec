@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 class FavoriteBerry < Inspec.resource(1)
   name 'favorite_berry'

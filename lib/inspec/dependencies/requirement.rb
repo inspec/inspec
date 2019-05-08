@@ -1,4 +1,3 @@
-# encoding: utf-8
 require 'inspec/cached_fetcher'
 require 'semverse'
 

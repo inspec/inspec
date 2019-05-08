@@ -1,4 +1,3 @@
-# encoding: utf-8
 # copyright: 2017, Criteo
 # copyright: 2017, Chef Software Inc
 # license: Apache v2

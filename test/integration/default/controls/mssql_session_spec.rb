@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 # the following test will query the MSSQL database for the Server Property of IsIntegratedSecurityOnly which should be
 # 0 which means that it is using both Windows Authentication and SQL Server Authentication.

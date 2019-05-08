@@ -1,4 +1,3 @@
-# encoding: utf-8
 #
 # This file is used to configure the inspec project. It contains
 # some minimal configuration examples for working with Omnibus. For a full list
