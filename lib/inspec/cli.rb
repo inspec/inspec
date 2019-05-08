@@ -15,6 +15,7 @@ require 'inspec/runner_mock'
 require 'inspec/env_printer'
 require 'inspec/schema'
 require 'inspec/config'
+require 'inspec/dist'
 
 class Inspec::InspecCLI < Inspec::BaseCLI
   class_option :log_level, aliases: :l, type: :string,
@@ -37,6 +38,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
   class_option :disable_user_plugins, type: :string, banner: '',
     desc: 'Disable loading all plugins that the user installed.'
+
+  class_option :enable_telemetry, type: :boolean,
+    desc: 'Allow or disable telemetry', default: false
 
   require 'license_acceptance/cli_flags/thor'
   include LicenseAcceptance::CLIFlags::Thor
@@ -205,55 +209,55 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
     Automate:
       ```
-      inspec compliance login
-      inspec exec compliance://username/linux-baseline
+      #{Inspec::Dist::EXEC_NAME} compliance login
+      #{Inspec::Dist::EXEC_NAME} exec compliance://username/linux-baseline
       ```
 
     Supermarket:
       ```
-      inspec exec supermarket://username/linux-baseline
+      #{Inspec::Dist::EXEC_NAME} exec supermarket://username/linux-baseline
       ```
 
     Local profile (executes all tests in `controls/`):
       ```
-      inspec exec /path/to/profile
+      #{Inspec::Dist::EXEC_NAME} exec /path/to/profile
       ```
 
     Local single test (doesn't allow inputs or custom resources)
       ```
-      inspec exec /path/to/a_test.rb
+      #{Inspec::Dist::EXEC_NAME} exec /path/to/a_test.rb
       ```
 
     Git via SSH
       ```
-      inspec exec git@github.com:dev-sec/linux-baseline.git
+      #{Inspec::Dist::EXEC_NAME} exec git@github.com:dev-sec/linux-baseline.git
       ```
 
     Git via HTTPS (.git suffix is required):
       ```
-      inspec exec https://github.com/dev-sec/linux-baseline.git
+      #{Inspec::Dist::EXEC_NAME} exec https://github.com/dev-sec/linux-baseline.git
       ```
 
     Private Git via HTTPS (.git suffix is required):
       ```
-      inspec exec https://API_TOKEN@github.com/dev-sec/linux-baseline.git
+      #{Inspec::Dist::EXEC_NAME} exec https://API_TOKEN@github.com/dev-sec/linux-baseline.git
       ```
 
     Private Git via HTTPS and cached credentials (.git suffix is required):
       ```
       git config credential.helper cache
       git ls-remote https://github.com/dev-sec/linux-baseline.git
-      inspec exec https://github.com/dev-sec/linux-baseline.git
+      #{Inspec::Dist::EXEC_NAME} exec https://github.com/dev-sec/linux-baseline.git
       ```
 
     Web hosted fileshare (also supports .zip):
       ```
-      inspec exec https://webserver/linux-baseline.tar.gz
+      #{Inspec::Dist::EXEC_NAME} exec https://webserver/linux-baseline.tar.gz
       ```
 
     Web hosted fileshare with basic authentication (supports .zip):
       ```
-      inspec exec https://username:password@webserver/linux-baseline.tar.gz
+      #{Inspec::Dist::EXEC_NAME} exec https://username:password@webserver/linux-baseline.tar.gz
       ```
   EOT
   exec_options
@@ -358,7 +362,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       # display outdated version
       latest = LatestInSpecVersion.new.latest
       if Gem::Version.new(Inspec::VERSION) < Gem::Version.new(latest)
-        puts "\nYour version of InSpec is out of date! The latest version is #{latest}."
+        puts "\nYour version of #{Inspec::Dist::PRODUCT_NAME} is out of date! The latest version is #{latest}."
       end
     end
   end

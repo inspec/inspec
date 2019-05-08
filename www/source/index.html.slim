@@ -1,6 +1,6 @@
 ---
-title: InSpec - Audit and Automated Testing Framework
-description: InSpec is an open source (OSS) automated testing tool for integration, compliance, security, and other policy requirements. Easily test your network and systems on-site or on cloud platforms such as AWS, Azure, and Docker Containers.
+title: Chef InSpec - Audit and Automated Testing Framework
+description: Chef InSpec is an open source (OSS) automated testing tool for integration, compliance, security, and other policy requirements. Easily test your network and systems on-site or on cloud platforms such as AWS, Azure, and Docker Containers.
 priority: 1.0
 change_frequency: daily
 ---
@@ -10,13 +10,13 @@ header.bg-gradient.margin-top-offset.short-bg.relative
   .row.align.margin-top-sm
     .large-7.medium-7.mobile-12.columns.z-20
       .margin-both
-        h1.t-white InSpec is compliance as code
+        h1.t-white Chef InSpec is compliance as code
         h3.t-white Turn your compliance, security, and other policy requirements into automated tests.
         /! buttons
         .row.align.columns.margin-top-sm.mobile-row-btn
           a.button.btn-lg.btn-purple.shadow-dark.margin-right-xs.mobile-row-btn href="/downloads"
             i.fa.fa-cloud-download
-            span download inspec 3.0
+            span download inspec 4
           a.button.btn-lg.btn-white-o.shadow-dark.mobile-row-btn href="/tutorials" browse tutorials
         a class="github-button" href="https://github.com/chef/inspec" data-size="large" data-show-count="true" aria-label="Star chef/inspec on GitHub" Star
 
@@ -27,24 +27,23 @@ header.bg-gradient.margin-top-offset.short-bg.relative
   /! announcement
   .row.columns
     .box-white.shadow.z-20.slide-left
-      h3.large-11.medium-11 Announcing InSpec 3.0
-      p.large-11.medium-11 Plugin system, global attributes, enchanced skip messaging, and more.
+      h3.large-11.medium-11 Announcing InSpec 4
+      p.large-11.medium-11 Inputs system overhaul, updated AWS-SDK to v3, support for the new Chef License, and many bugfixes and minor features
       #expand
         .margin-top-sm.brdr-left.large-11.medium-11
           .margin-left-sm
             h4.t-purple core
-            p New plugin system for InSpec CLI and Train
-            p Enhanced "only_if" skip messaging
-            p Unsupported profiles are now hidden from output
-            p Attributes are now specified in <a href="/docs/reference/profiles/">inspec.yml</a>
-            p Text based severity (e.g. "impact 'low'" )
-            p Tons of security/bug fixes and improvements
+            p Inputs system overhaul - more consistent, extensible, and predictable
+            p Updated AWS-SDK to v3
+            p Laying the foundation for opt-in telemetry
+            p Support for the new Chef License
+            p Add support for more_permissive_than? on the File resource
+            p Many other minor bugfixes!
         .margin-top-sm.brdr-left.large-11.medium-11
           .margin-left-sm
-            h4.t-purple cloud
-            p
-              | New <a href="http://www.inspec.io/docs/reference/resources/#azure-resources">Azure</a> and <a href="/docs/reference/resources/#gcp-resources">GCP resources</a>
-            p Support for VMware ESXi via PowerCLI (Even on Linux!)
+            h4.t-purple inspec-bin
+            p Moved the `inspec` executable to a separate gem, `inspec-bin`. This allows the use of the `inspec` gem as a library without the licensing restrictions placed on the executable.
+            p This release is the first to require accepting a license before using it as an executable.
       .margin-top-xs
         a#expandBtn Show all new features
   /!  canvas elements
@@ -57,8 +56,8 @@ header.bg-gradient.margin-top-offset.short-bg.relative
   .row.relative
    .columns
      hr
-     small.t-gray How InSpec works
-     h2.txt-margin Get started with InSpec in 3 simple steps
+     small.t-gray How Chef InSpec works
+     h2.txt-margin Get started with Chef InSpec in 3 simple steps
      hr
    .large-5.medium-5.columns.blue-grid.mobile-hide
      img.grid-animate.fit src="/images/community/blue-web.svg" onerror="this.src='/images/community/blue-web.png'" alt="image of grid"
@@ -115,7 +114,7 @@ header.bg-gradient.margin-top-offset.short-bg.relative
          .tooltip-triangle
          .box-dark.box-scroll.tip.shadow
            pre.slide-up-slow.animate-delay-20
-            code Profile: InSpec Profile (example_profile)
+            code Profile: Chef InSpec Profile (example_profile)
             code Version: 0.1.0
             code Target:  local://
             br
@@ -130,26 +129,26 @@ header.bg-gradient.margin-top-offset.short-bg.relative
 .row.relative.margin-under-sm
  .columns.strict-center
    hr.center
-   small.t-gray Features of InSpec
-   h2.txt-margin InSpec is compliance by design
+   small.t-gray Features of Chef InSpec
+   h2.txt-margin Chef InSpec is compliance by design
    hr.center
 
 .row.strict-center.mobile-row
   .large-6.medium-6.columns.mobile-12.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
-      img.icon-art.margin-under-xs src="/images/home/platform.svg" onerror="this.src='/images/home/platform.png'" alt="image for InSpec platform support"/
+      img.icon-art.margin-under-xs src="/images/home/platform.svg" onerror="this.src='/images/home/platform.png'" alt="image for Chef InSpec platform support"/
       h4.t-purple Platform Agnostic
       p
-        |  InSpec supports all major operating systems and is platform agnostic, allowing you the freedom to run compliance and security tests anywhere.
+        |  Chef InSpec supports all major operating systems and is platform agnostic, allowing you the freedom to run compliance and security tests anywhere.
       a title="Linux, Windows/Azure, Mac, Ubuntu, Docker, AWS, VMware, RedHat"
         img.icon-logos src="/images/home/platform-logos.svg" onerror="this.src='/images/home/platform-logos.png'" alt="logos for Linux, Windows/Azure, Mac, Ubuntu, Docker container, AWS, VMware"/
       .triangle-right
   .large-6.medium-6.columns.mobile-12.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
-      img.icon-art.margin-under-xs src="/images/home/test.svg" onerror="this.src='/images/home/test.png'" alt="image for InSpec remote and local testing"/
+      img.icon-art.margin-under-xs src="/images/home/test.svg" onerror="this.src='/images/home/test.png'" alt="image for Chef InSpec remote and local testing"/
       h4.t-purple Test locally or remotely
       p
-        |  InSpec provides a local agent for host-based assessments, as well as full remote testing support via SSH and WinRM.
+        |  Chef InSpec provides a local agent for host-based assessments, as well as full remote testing support via SSH and WinRM.
       a title="SSH, WinRM"
         img.icon-logos src="/images/home/test-logos.svg" onerror="this.src='/images/home/test-logos.png'" alt="logos for SSH and WinRM" /
       .triangle-right
@@ -157,17 +156,17 @@ header.bg-gradient.margin-top-offset.short-bg.relative
 .row.strict-center.mobile-row
   .large-6.medium-6.mobile-12.columns.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
-      img.icon-art.margin-under-xs src="/images/home/run.svg" onerror="this.src='/images/home/run.png'" alt="image for InSpec freedom"/
+      img.icon-art.margin-under-xs src="/images/home/run.svg" onerror="this.src='/images/home/run.png'" alt="image for Chef InSpec freedom"/
       h4.t-purple Free to run anywhere
       p
-        |  InSpec is an open-source language that can easily express compliance as code, with the freedom to run anywhere.
+        |  Chef InSpec is an open-source language that can easily express compliance as code, with the freedom to run anywhere.
       .triangle-right
   .large-6.medium-6.mobile-12.columns.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
-      img.icon-art.margin-under-xs src="/images/home/extensible.svg" onerror="this.src='/images/home/extensible.png'" alt="image for InSpec's extensible language" /
+      img.icon-art.margin-under-xs src="/images/home/extensible.svg" onerror="this.src='/images/home/extensible.png'" alt="image for Chef InSpec's extensible language" /
       h4.t-purple Extensible language
       p
-        |  Easily extend the InSpec language to cover new operating systems, devices, or applications.
+        |  Easily extend the Chef InSpec language to cover new operating systems, devices, or applications.
       .triangle-right
 
 
@@ -260,7 +259,7 @@ header.bg-gradient.margin-top-offset.short-bg.relative
                 p Verify all necessary settings of your favorite public cloud providers.
               .block.margin-under-xs
                 h4.t-purple Test provisioners
-                p InSpec can be used in combination with Cloudformation, Azure resource manager templates and Terraform.
+                p Chef InSpec can be used in combination with Cloudformation, Azure resource manager templates and Terraform.
               .block
                 h4.t-purple Verify security configuration
                 p Ensure that your cloud deployments are not open to malicious attacks due to misconfiguration.

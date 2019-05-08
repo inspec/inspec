@@ -1,14 +1,14 @@
 ---
-title: InSpec Reporters
+title: Chef InSpec Reporters
 ---
 
-# InSpec Reporters
+# Chef InSpec Reporters
 
-Introduced in InSpec 1.51.6
+Introduced in Chef InSpec 1.51.6
 
-A `reporter` is a facility for formatting and delivering the results of an InSpec auditing run.
+A `reporter` is a facility for formatting and delivering the results of an Chef InSpec auditing run.
 
-InSpec allows you to output your test results to one or more reporters. Configure the reporter(s) using either the `--reporter` option or as part of the general config file using the `--config` (or `--json-config`, prior to v3.6) option. While you can configure multiple reporters to write to different files, only one reporter can output to the screen(stdout).
+Chef InSpec allows you to output your test results to one or more reporters. Configure the reporter(s) using either the `--reporter` option or as part of the general config file using the `--config` (or `--json-config`, prior to v3.6) option. While you can configure multiple reporters to write to different files, only one reporter can output to the screen(stdout).
 
 ## Syntax
 

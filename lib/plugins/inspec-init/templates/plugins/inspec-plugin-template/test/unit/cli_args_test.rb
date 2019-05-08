@@ -7,7 +7,7 @@ require_relative '../helper'
 # Load the class under test, the CliCommand definition.
 require '<%= plugin_name %>/cli_command'
 
-# Because InSpec is a Spec-style test suite, we're going to use MiniTest::Spec
+# Because InSpec is a Spec-style test suite, we're going to use Minitest::Spec
 # here, for familiar look and feel. However, this isn't InSpec (or RSpec) code.
 describe InspecPlugins::<%= module_name %>::CliCommand do
 
@@ -31,7 +31,7 @@ describe InspecPlugins::<%= module_name %>::CliCommand do
 
     # Some tests through here use minitest Expectations, which attach to all
     # Objects, and begin with 'must' (positive) or 'wont' (negative)
-    # See https://ruby-doc.org/stdlib-2.1.0/libdoc/minitest/rdoc/MiniTest/Expectations.html
+    # See http://docs.seattlerb.org/minitest/Minitest/Expectations.html
 
     # Option count OK?
     it "should take one option" do

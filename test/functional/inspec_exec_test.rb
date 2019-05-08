@@ -237,7 +237,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
     it 'does not support this profile' do
       out.exit_status.must_equal 1
-      out.stderr.must_equal "This profile requires InSpec version >= 99.0.0. You are running InSpec v#{Inspec::VERSION}.\n"
+      out.stderr.must_equal "This profile requires Chef InSpec version >= 99.0.0. You are running Chef InSpec v#{Inspec::VERSION}.\n"
     end
   end
 

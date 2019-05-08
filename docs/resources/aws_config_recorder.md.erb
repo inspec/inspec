@@ -4,7 +4,7 @@ title: About the aws_config_recorder Resource
 
 # aws\_config\_recorder
 
-Use the `aws_config_recorder` InSpec audit resource to test properties of your AWS Config Service.
+Use the `aws_config_recorder` Chef InSpec audit resource to test properties of your AWS Config Service.
 
 The AWS Config service can monitor and record changes to your AWS resource configurations.  The Aws Config Recorder is used to detect changes in resource configurations and capture these changes as configuration items.
 
@@ -16,7 +16,7 @@ As of April 2018, you are only permitted one configuration recorder per region.
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -36,7 +36,7 @@ You may specify a recorder by name:
       it { should exist }
     end
 
-However, since you may only have one recorder per region, and InSpec connections are per-region, you may also omit the `recorder_name` to obtain the one recorder (if any) that exists:
+However, since you may only have one recorder per region, and Chef InSpec connections are per-region, you may also omit the `recorder_name` to obtain the one recorder (if any) that exists:
 
     describe aws_config_recorder do
       it { should exist }
@@ -46,7 +46,7 @@ However, since you may only have one recorder per region, and InSpec connections
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test if the recorder is active and recording.
 

@@ -5,7 +5,7 @@ platform: aws
 
 # aws\_ec2\_instances
 
-Use the `aws_ec2_instances` InSpec audit resource to test properties of some or all AWS EC2 instances. To audit a single EC2 instance, use `aws_ec2_instance` (singular).
+Use the `aws_ec2_instances` Chef InSpec audit resource to test properties of some or all AWS EC2 instances. To audit a single EC2 instance, use `aws_ec2_instance` (singular).
 
 EC2 instances are the basic unit of computing within AWS.  An instance is a virtual machine that contains a running OS, and may be created or destroyed by code.
 
@@ -17,7 +17,7 @@ Each EC2 instance is uniquely identified by its ID.
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -32,7 +32,7 @@ An `aws_ec2_instances` resource block collects a group of EC2 Instances and then
       its('instance_ids.count') { should cmp 3 }
     end
 
-    # Use the InSpec resource to enumerate IDs, then test in-depth using `aws_ec2_instance`.
+    # Use the Chef InSpec resource to enumerate IDs, then test in-depth using `aws_ec2_instance`.
     aws_ec2_instances.instance_ids.each do |instance_id|
       describe aws_ec2_instance(instance_id) do
         its('key_name') { should cmp 'admin-ssh-key' }

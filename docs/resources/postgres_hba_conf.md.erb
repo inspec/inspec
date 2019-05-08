@@ -5,7 +5,7 @@ platform: linux
 
 # postgres\_hba\_conf
 
-Use the `postgres_hba_conf` InSpec audit resource to test the client authentication data defined in the pg_hba.conf file.
+Use the `postgres_hba_conf` Chef InSpec audit resource to test the client authentication data defined in the pg_hba.conf file.
 
 <br>
 
@@ -13,7 +13,7 @@ Use the `postgres_hba_conf` InSpec audit resource to test the client authenticat
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -21,7 +21,7 @@ This resource first became available in v1.31.0 of InSpec.
 
 ## Syntax
 
-An `postgres_hba_conf` InSpec audit resource block declares client authentication data that should be tested:
+An `postgres_hba_conf` Chef InSpec audit resource block declares client authentication data that should be tested:
 
     describe postgres_hba_conf.where { type == 'local' } do
      its('auth_method') { should eq ['peer'] }
@@ -87,7 +87,7 @@ where
 
 ## Matchers
 
-This InSpec audit resource matches any service that is listed in the HBA configuration file. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource matches any service that is listed in the HBA configuration file. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
     its('auth_method') { should_not cmp 'peer' }
 

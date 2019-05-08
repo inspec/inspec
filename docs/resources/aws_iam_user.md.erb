@@ -5,7 +5,7 @@ platform: aws
 
 # aws\_iam\_user
 
-Use the `aws_iam_user` InSpec audit resource to test properties of a single AWS IAM user.
+Use the `aws_iam_user` Chef InSpec audit resource to test properties of a single AWS IAM user.
 
 To test properties of more than one user, use the `aws_iam_users` resource.
 
@@ -17,7 +17,7 @@ To test properties of the special AWS root user (which owns the account), use th
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -35,7 +35,7 @@ An `aws_iam_user` resource block declares a user by name, and then lists tests t
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test that a user does not exist
 
@@ -93,7 +93,7 @@ Returns a list of IAM Inline Policy Names as strings that identify the inline po
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [universal matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [universal matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### have\_attached\_policies
 

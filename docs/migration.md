@@ -1,22 +1,22 @@
 ---
-title: InSpec Migration Guide
+title: Chef InSpec Migration Guide
 ---
 
 # Migrate from Serverspec to InSpec
 
-## How is InSpec different from Serverspec
+## How is Chef InSpec different from Serverspec
 
 We've written a complete blog post about that topic: [The Road to InSpec](https://blog.chef.io/2015/11/04/the-road-to-inspec/)
 
-## Is InSpec suitable for infrastructure testing?
+## Is Chef InSpec suitable for infrastructure testing?
 
-InSpec is a framework that allows you to run infrastructure testing as well as compliance testing. The compliance features are always optional and provide customers a way to use InSpec for both use-cases. To ensure we build the best infrastructure testing, we migrate our cookbooks [chef-cookbooks](https://github.com/chef-cookbooks) to InSpec.
+Chef InSpec is a framework that allows you to run infrastructure testing as well as compliance testing. The compliance features are always optional and provide customers a way to use Chef InSpec for both use-cases. To ensure we build the best infrastructure testing, we migrate our cookbooks [chef-cookbooks](https://github.com/chef-cookbooks) to InSpec.
 
 ## Which Serverspec resources are available in InSpec?
 
 The following resources are available in InSpec:
 
-|                                         Serverspec                                         |                                        InSpec                                        |
+|                                         Serverspec                                         |                                        Chef InSpec                                        |
 |:------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------:|
 | [`bond`](http://serverspec.org/resource_types.html#bond)                                     | [`bond`](https://www.inspec.io/docs/reference/resources/bond/)                         |
 | [`bridge`](http://serverspec.org/resource_types.html#bridge)                                 | [`bridge`](https://www.inspec.io/docs/reference/resources/bridge/)                     |
@@ -62,7 +62,7 @@ Some Serverspec resources are not available yet. We will implement those resourc
 * [`selinux_module`](http://serverspec.org/resource_types.html#selinux_module)
 * [`x509_private_key`](http://serverspec.org/resource_types.html#x509_private_key)
 
-In addition InSpec provides additional [resources](https://www.inspec.io/docs/reference/resources/) that are not available in Serverspec:
+In addition Chef InSpec provides additional [resources](https://www.inspec.io/docs/reference/resources/) that are not available in Serverspec:
 
 * [`apache_conf`](https://www.inspec.io/docs/reference/resources/apache_conf/)
 * [`apt`](https://www.inspec.io/docs/reference/resources/apt/)
@@ -88,7 +88,7 @@ In addition InSpec provides additional [resources](https://www.inspec.io/docs/re
 
 ## How do I migrate my Serverspec tests to InSpec
 
-For most cases, the migration to InSpec is pretty straight forward. First, replace the current verifier in `kitchen.yml` configuration with:
+For most cases, the migration to Chef InSpec is pretty straight forward. First, replace the current verifier in `kitchen.yml` configuration with:
 
 ```
 verifier:
@@ -107,7 +107,7 @@ require 'serverspec'
 set :backend, :exec
 ```
 
-InSpec is now configured with Test-Kitchen:
+Chef InSpec is now configured with Test-Kitchen:
 
 ```
 kitchen verify package-install-centos-72
@@ -143,7 +143,7 @@ Some general recommendations:
 
 ## Do I still need the backend configuration?
 
-InSpec does not attach backend information to test files. All tests are defined independently of any backend. Therefore a Serverspec test file:
+Chef InSpec does not attach backend information to test files. All tests are defined independently of any backend. Therefore a Serverspec test file:
 
 ```
 require 'serverspec'
@@ -166,7 +166,7 @@ describe 'PHP' do
 end
 ```
 
-will become the following InSpec test file:
+will become the following Chef InSpec test file:
 
 ```
 describe 'PHP' do
@@ -184,7 +184,7 @@ describe 'PHP' do
 end
 ```
 
-As you can see, the InSpec test files just focuses on tests and tries to avoid all clutter.
+As you can see, the Chef InSpec test files just focuses on tests and tries to avoid all clutter.
 
 ## Nested describe blocks
 
@@ -216,7 +216,7 @@ describe 'chef-server-directories' do
 end
 ```
 
-In InSpec you would split up groups into files.
+In Chef InSpec you would split up groups into files.
 
 ```
 tests

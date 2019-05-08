@@ -2,18 +2,18 @@
 
 ## Overview
 
-The centralized deprecation facility is used to deprecate (retire, withdraw, etc) features both within InSpec core code, InSpec core resources, plugins, and custom resources.
+The centralized deprecation facility is used to deprecate (retire, withdraw, etc) features both within Chef InSpec core code, Chef InSpec core resources, plugins, and custom resources.
 
 The most important goal of the deprecation facility was to collect decisions about what actions should be taken for a deprecation in a central place, so that it is easier to handle major version changes.
 
 ### Audience
 
-The deprecation facility is intended to be used by core InSpec developers, contributors, and resource developers. The configuration file, while intended to be easily understood and editable, is not intended to be modified by a typical InSpec user. The configuration present there should be considered part of the "release configuration," not part of the "runtime configuration."
+The deprecation facility is intended to be used by core Chef InSpec developers, contributors, and resource developers. The configuration file, while intended to be easily understood and editable, is not intended to be modified by a typical Chef InSpec user. The configuration present there should be considered part of the "release configuration," not part of the "runtime configuration."
 
 ### Example
 
 ```
-# In some code in InSpec core
+# In some code in Chef InSpec core
 def something_crufty
   Inspec.deprecate :old_feature, 'Don't call something_crufty anymore'
 end
@@ -48,7 +48,7 @@ This makes the deprecation silent - it is there and ready to be triggered, but h
 For v4:
 ```
   "groups": {
-    "old_shadow_features": { "action": "warn", "suffix": "Certain properties of shadow will be withdrawn in InSpec v5.0" }
+    "old_shadow_features": { "action": "warn", "suffix": "Certain properties of shadow will be withdrawn in Chef InSpec v5.0" }
   }
 ```
 
@@ -67,9 +67,9 @@ Again, no need to update the deprecation calls; though in v6 it might make sense
 
 ### Groups
 
-When you make a deprecation message, you add it to a group. InSpec will read the file `$INSPEC_INSTALL_ROOT/etc/deprecation.json` to determine the known groups - you may add to that file at any time.
+When you make a deprecation message, you add it to a group. Chef InSpec will read the file `$INSPEC_INSTALL_ROOT/etc/deprecation.json` to determine the known groups - you may add to that file at any time.
 
-If you make a deprecation using a group that is unknown, InSpec will by default treat it as a warning.  You can change that behavior by setting the "unknown_group_action" top-level property to any of the valid actions.
+If you make a deprecation using a group that is unknown, Chef InSpec will by default treat it as a warning.  You can change that behavior by setting the "unknown_group_action" top-level property to any of the valid actions.
 
 There are no restrictions on the number or the naming of groups; you can have as many or as few as needed.
 

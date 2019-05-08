@@ -5,7 +5,7 @@ platform: aws
 
 # aws\_iam\_root\_user
 
-Use the `aws_iam_root_user` InSpec audit resource to test properties of the root user (owner of the account).
+Use the `aws_iam_root_user` Chef InSpec audit resource to test properties of the root user (owner of the account).
 
 To test properties of all or multiple users, use the `aws_iam_users` resource.
 
@@ -17,7 +17,7 @@ To test properties of a specific AWS user use the `aws_iam_user` resource.
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -35,7 +35,7 @@ An `aws_iam_root_user` resource block requires no parameters but has several mat
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test that the AWS root account has at-least one access key
 
@@ -53,7 +53,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### have\_mfa\_enabled
 

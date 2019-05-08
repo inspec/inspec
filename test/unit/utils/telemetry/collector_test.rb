@@ -4,7 +4,7 @@ require_relative '../../../helper.rb'
 class TestTelemetryCollector < Minitest::Test
   def setup
     @collector = Inspec::Telemetry::Collector.instance
-    @collector.reset
+    @collector.reset!
   end
 
   def test_collector_singleton
@@ -37,7 +37,24 @@ class TestTelemetryCollector < Minitest::Test
   def test_reset_singleton
     data_series = Inspec::Telemetry::DataSeries.new('/resource/File')
     @collector.add_data_series(data_series)
-    @collector.reset
+    @collector.reset!
     assert_equal 0, @collector.list_data_series.count
+  end
+
+  def test_telemetry_enabled
+    @collector.load_config(Inspec::Config.mock('enable_telemetry'=>true))
+    assert @collector.telemetry_enabled?
+  end
+
+  def test_telemetry_disabled
+    @collector.load_config(Inspec::Config.mock('enable_telemetry'=>false))
+    refute @collector.telemetry_enabled?
+  end
+
+  def test_disable_telemetry
+    @collector.load_config(Inspec::Config.mock('enable_telemetry'=>true))
+    assert @collector.telemetry_enabled?
+    @collector.disable_telemetry
+    refute @collector.telemetry_enabled?
   end
 end

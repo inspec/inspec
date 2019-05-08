@@ -60,10 +60,14 @@ describe 'inputs' do
     end
   end
 
-  describe 'when accessing inputs in a variety of scopes' do
-    it "is able to read the inputs" do
-      cmd = 'exec '
-      cmd += File.join(inputs_profiles_path, 'scoping')
+  describe 'when accessing inputs in a variety of scopes using the DSL' do
+    it "is able to read the inputs using the input keyword" do
+      cmd = "exec #{inputs_profiles_path}/scoping"
+      result = run_inspec_process(cmd, json: true)
+      result.must_have_all_controls_passing
+    end
+    it "is able to read the inputs using the legacy attribute keyword" do
+      cmd = "exec #{inputs_profiles_path}/legacy-attributes-dsl"
       result = run_inspec_process(cmd, json: true)
       result.must_have_all_controls_passing
     end
@@ -101,8 +105,15 @@ describe 'inputs' do
         result.must_have_all_controls_passing
       end
     end
+  end
 
-
-  #   # TODO - add test for backwards compatibility using 'attribute' in DSL
+  describe 'when using a profile with undeclared (valueless) inputs' do
+    it 'should warn about them and not abort the run' do
+      cmd = "exec #{inputs_profiles_path}/undeclared"
+      result = run_inspec_process(cmd, json: true)
+      result.stderr.must_include "WARN: Input 'undeclared_01'"
+      result.stderr.must_include 'does not have a value'
+      result.must_have_all_controls_passing
+    end
   end
 end

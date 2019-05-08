@@ -1,24 +1,24 @@
 ---
-title: InSpec Shell
+title: Chef InSpec Shell
 ---
 
-# InSpec Shell
+# Chef InSpec Shell
 
-The InSpec interactive shell is a pry based REPL that can be used to
-quickly run InSpec controls and tests without having to write it to a
+The Chef InSpec interactive shell is a pry based REPL that can be used to
+quickly run Chef InSpec controls and tests without having to write it to a
 file. Its functionality is similar to [chef-shell](https://docs.chef.io/chef_shell.html) as it provides a way
-to exercise the InSpec DSL, its resources, tests, and plugins without
+to exercise the Chef InSpec DSL, its resources, tests, and plugins without
 having to create a profile or write a test file. See
 [http://pryrepl.org/](http://pryrepl.org/) for an introduction to what pry is and what it can
 do.
 
-See [Explore InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on Learn Chef Rally for a hands-on example that uses InSpec shell.
+See [Explore Chef InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on Learn Chef Rally for a hands-on example that uses Chef InSpec shell.
 
 ## Launching the shell
 
-If you are using InSpec from a platform-specific package (rpm, msi,
+If you are using Chef InSpec from a platform-specific package (rpm, msi,
 etc.) or from a chef prepared shell in ChefDK, you can directly launch
-InSpec shell against your local machine using the following. See
+Chef InSpec shell against your local machine using the following. See
 <https://docs.chef.io/install_dk.html#set-system-ruby> for details.
 
 ```bash
@@ -44,10 +44,10 @@ $ inspec shell -t docker://container_id # Login to a Docker container.
 
 ## Resource Packs
 
-Use resource packs to share custom resources with other InSpec users.
-A resource pack is an InSpec profile that contains only custom resources and no other controls or tests.
+Use resource packs to share custom resources with other Chef InSpec users.
+A resource pack is an Chef InSpec profile that contains only custom resources and no other controls or tests.
 
-For example, the profile in [`examples/profile`](https://github.com/chef/inspec/tree/master/examples/profile)in the InSpec git repo defines a [`gordon_config` resource](https://github.com/chef/inspec/blob/master/examples/profile/controls/gordon.rb). To use these resources within the InSpec shell, you will need to download and specify them as a dependency.
+For example, the profile in [`examples/profile`](https://github.com/chef/inspec/tree/master/examples/profile)in the Chef InSpec git repo defines a [`gordon_config` resource](https://github.com/chef/inspec/blob/master/examples/profile/controls/gordon.rb). To use these resources within the Chef InSpec shell, you will need to download and specify them as a dependency.
 
 Once you have local access to the profile, you can use the `gordon_config` custom resource provided in the `examples/profile` GitHub repo in your local environment :
 
@@ -61,9 +61,9 @@ Once inside the shell your resource will be available:
 inspec> gordon_config
 ```
 
-## Using Ruby in InSpec shell
+## Using Ruby in Chef InSpec shell
 
-Since InSpec shell is pry based, you may treat the shell as an
+Since Chef InSpec shell is pry based, you may treat the shell as an
 interactive Ruby session. You may write Ruby expressions and evaluate
 them. Source high-lighting, automatic indentation and command history
 (using the up and down arrow keys) are available to make your experience
@@ -79,17 +79,17 @@ inspec> 1 + 2
 inspec> exit
 ```
 
-## Using InSpec DSL in InSpec shell
+## Using Chef InSpec DSL in Chef InSpec shell
 
-InSpec shell will automatically evaluate the result of every command as
+Chef InSpec shell will automatically evaluate the result of every command as
 if it were a test file. If you type in a Ruby command that is not an
-InSpec control or test, the shell will evaluate it as if it were a
+Chef InSpec control or test, the shell will evaluate it as if it were a
 regular ruby command.
 
-Bare InSpec resources are instantiated and their help text is presented.
+Bare Chef InSpec resources are instantiated and their help text is presented.
 You may also access the resource contents or other matchers that they
 define. Run `help <resource>` to get more help on using a particular
-resource or see the InSpec resources documentation online.
+resource or see the Chef InSpec resources documentation online.
 
 ```bash
 $ inspec shell
@@ -105,7 +105,7 @@ inspec> os_env('HOME').content
 inspec> exit
 ```
 
-InSpec tests are immediately executed.
+Chef InSpec tests are immediately executed.
 
 ```bash
 inspec> describe file('/Users')     # Empty test.
@@ -151,9 +151,9 @@ inspec> end
   Summary: 0 successful, 1 failures, 0 skipped
 ```
 
-## Running a single InSpec command
+## Running a single Chef InSpec command
 
-If you wish to run a single InSpec command and fetch its results, you
+If you wish to run a single Chef InSpec command and fetch its results, you
 may use the `-c` flag. This is similar to using `bash -c`.
 
 ```bash

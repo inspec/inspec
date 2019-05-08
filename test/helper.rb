@@ -1,6 +1,14 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
+
 require 'simplecov'
+require 'coveralls'
+
+SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+])
+
 SimpleCov.start do
   add_filter '/test/'
   add_group 'Resources', 'lib/resources'
@@ -9,7 +17,6 @@ SimpleCov.start do
 end
 
 require 'minitest/autorun'
-require 'minitest/spec'
 require 'webmock/minitest'
 require 'mocha/setup'
 require 'fileutils'

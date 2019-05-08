@@ -1,7 +1,6 @@
 # require 'helper'
 
-require 'minitest'
-require 'minitest/spec'
+require 'minitest/autorun'
 require 'inspec/ui'
 require 'inspec/base_cli'
 require 'inspec/errors'

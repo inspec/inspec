@@ -1,10 +1,10 @@
 ---
-title: InSpec and friends
+title: Chef InSpec and friends
 ---
 
-# InSpec and friends
+# Chef InSpec and friends
 
-This page looks at projects that are similar to InSpec to explain how they
+This page looks at projects that are similar to Chef InSpec to explain how they
 relate to each other.
 
 ## RSpec
@@ -13,16 +13,16 @@ RSpec is an awesome framework that is widely used by software engineers to test
 Ruby code. It enables test-driven development (TDD) and helps developers to write
 better code every day.
 
-InSpec is built on top of RSpec and uses it as the underlying foundation
+Chef InSpec is built on top of RSpec and uses it as the underlying foundation
 to execute tests. It uses the key strengths of RSpec, easily execute
 tests and a DSL to write tests, but extends the functionality for use as
-compliance audits. InSpec ships with custom audit resources that make it
+compliance audits. Chef InSpec ships with custom audit resources that make it
 easy to write audit checks and with the ability to run those checks on
 remote servers. These audit resources provided know the differences
 between operating systems and help you abstract from the local operating
 system, similar to other resources you might use in your Chef recipes.
 
-A complete InSpec rule looks like:
+A complete Chef InSpec rule looks like:
 
 ```ruby
 control "sshd-11" do
@@ -40,12 +40,12 @@ control "sshd-11" do
 end
 ```
 
-That said, InSpec is not RSpec. Some key differences:
+That said, Chef InSpec is not RSpec. Some key differences:
 
 * In InSpec, `describe` blocks should not be nested; instead use `control` blocks to describe a higher-level grouping of tests.
 * The RSpec `shared_example` construct is not supported.  Instead, create a simple custom resource that executes repetitious tasks.
-* InSpec is aimed at compliance practitioners and infrastructure testers, so our focus is providing a few, well-supported, easy-to-use [universal matchers](https://www.inspec.io/docs/reference/matchers/), such as `cmp`. In contrast, RSpec is a tool designed for software engineers. It thus supports a very large range of matchers, to enable testing of software engineering constructs such as exceptions, Object Oriented Programming relationships, and so on.
-* While InSpec uses parts of the RSpec project and codebase, it is a separate project from InSpec. Rspec's release schedule and feature set are beyond the control of the InSpec team. While it is possible to use many of the RSpec core features within InSpec profiles, InSpec can only guarantee that the features described at [docs.inspec.io](https://docs.inspec.io) will function correctly. Some RSpec core functionality may be removed in future versions of InSpec as needed to ensure stability in the InSpec project.
+* Chef InSpec is aimed at compliance practitioners and infrastructure testers, so our focus is providing a few, well-supported, easy-to-use [universal matchers](https://www.inspec.io/docs/reference/matchers/), such as `cmp`. In contrast, RSpec is a tool designed for software engineers. It thus supports a very large range of matchers, to enable testing of software engineering constructs such as exceptions, Object Oriented Programming relationships, and so on.
+* While Chef InSpec uses parts of the RSpec project and codebase, it is a separate project from InSpec. Rspec's release schedule and feature set are beyond the control of the Chef InSpec team. While it is possible to use many of the RSpec core features within Chef InSpec profiles, Chef InSpec can only guarantee that the features described at [docs.inspec.io](https://docs.inspec.io) will function correctly. Some RSpec core functionality may be removed in future versions of Chef InSpec as needed to ensure stability in the Chef InSpec project.
 
 ## Serverspec
 
@@ -53,7 +53,7 @@ Serverspec is the first extension of RSpec that enabled
 users to run RSpec tests on servers to verify deployed artifacts. It was
 created in March 2013 by Gosuke Miyashita and has been widely adopted.
 It is also one of the core test frameworks within test-kitchen and has
-been widely used within the Chef ecosystem. InSpec takes lessons learned
+been widely used within the Chef ecosystem. Chef InSpec takes lessons learned
 implementing and using Serverspec and builds on them to make auditing
 and compliance easier.
 
@@ -67,11 +67,11 @@ Lessons learned from Serverspec include:
 * Support for Windows is a first-class requirement.
 * A command line interface (CLI) is required for faster iteration of test code.
 
-You can also watch this [podcast](http://foodfightshow.org/2016/02/inspec.html) to find out more on the relationship of InSpec and Serverspec.
+You can also watch this [podcast](http://foodfightshow.org/2016/02/inspec.html) to find out more on the relationship of Chef InSpec and Serverspec.
 
-### How is InSpec different from Serverspec
+### How is Chef InSpec different from Serverspec
 
-One of the key differences is that InSpec targets more user groups. It
+One of the key differences is that Chef InSpec targets more user groups. It
 is optimized for DevOps, Security, and Compliance professionals.
 Additional metadata, such as impact, title, and description, make it
 easier to fully describe the controls which makes it easier to share the
@@ -97,18 +97,18 @@ end
 
 **Why not fork Serverspec?**
 
-InSpec started as an extension of Serverspec. As the extension grew, it
+Chef InSpec started as an extension of Serverspec. As the extension grew, it
 became clear that a new library was required. Creating and maintaining a
 fork was not practical so a new project was born.
 
-**Will InSpec only work on machines managed by Chef?**
+**Will Chef InSpec only work on machines managed by Chef?**
 
-No, InSpec can be used on any machine. It doesn’t matter if that machine
+No, Chef InSpec can be used on any machine. It doesn’t matter if that machine
 was configured by Chef or configured lovingly by the hands of your local
 System Administrator.
 
-**Is InSpec a replacement of Serverspec?**
+**Is Chef InSpec a replacement of Serverspec?**
 
-InSpec is intended to be a drop-in replacement of Serverspec. Popular
+Chef InSpec is intended to be a drop-in replacement of Serverspec. Popular
 Serverspec resources have been ported to InSpec. It changed some
 behaviour as documented in our migration guide.

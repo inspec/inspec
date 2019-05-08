@@ -1,10 +1,17 @@
-# InSpec: Inspect Your Infrastructure
+# Chef InSpec: Inspect Your Infrastructure
+
+* **Project State: Active**
+* **Issues Response SLA: 3 business days**
+* **Pull Request Response SLA: 3 business days**
+
+For more information on project states and SLAs, see [this documentation](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md).
 
 [![Slack](https://community-slack.chef.io/badge.svg)](https://community-slack.chef.io/)
 [![Build Status Master](https://travis-ci.org/inspec/inspec.svg?branch=master)](https://travis-ci.org/inspec/inspec)
 [![Build Status Master](https://ci.appveyor.com/api/projects/status/github/inspec/inspec?branch=master&svg=true&passingText=master%20-%20Ok&pendingText=master%20-%20Pending&failingText=master%20-%20Failing)](https://ci.appveyor.com/project/Chef/inspec/branch/master)
+[![Coverage Status](https://coveralls.io/repos/github/inspec/inspec/badge.svg?branch=master)](https://coveralls.io/github/inspec/inspec?branch=master)
 
-InSpec is an open-source testing framework for infrastructure with a human- and machine-readable language for specifying compliance, security and policy requirements.
+Chef InSpec is an open-source testing framework for infrastructure with a human- and machine-readable language for specifying compliance, security and policy requirements.
 
 ```ruby
 # Disallow insecure protocols by testing
@@ -18,7 +25,7 @@ describe inetd_conf do
 end
 ```
 
-InSpec makes it easy to run your tests wherever you need. More options are found in our [CLI docs](https://www.inspec.io/docs/reference/cli/).
+Chef InSpec makes it easy to run your tests wherever you need. More options are found in our [CLI docs](https://www.inspec.io/docs/reference/cli/).
 
 ```bash
 # run test locally
@@ -27,7 +34,7 @@ inspec exec test.rb
 # run test on remote host on SSH
 inspec exec test.rb -t ssh://user@hostname -i /path/to/key
 
-# run test on remote host using SSH agent private key authentication. Requires InSpec 1.7.1
+# run test on remote host using SSH agent private key authentication. Requires Chef InSpec 1.7.1
 inspec exec test.rb -t ssh://user@hostname
 
 # run test on remote windows host on WinRM
@@ -40,17 +47,17 @@ inspec exec test.rb -t docker://container_id
 # Features
 
 - Built-in Compliance: Compliance no longer occurs at the end of the release cycle
-- Targeted Tests: InSpec writes tests that specifically target compliance issues
+- Targeted Tests: Chef InSpec writes tests that specifically target compliance issues
 - Metadata: Includes the metadata required by security and compliance pros
 - Easy Testing: Includes a command-line interface to run tests quickly
 
 ## Installation
 
-InSpec requires Ruby ( >= 2.4 ).
+Chef InSpec requires Ruby ( >= 2.4 ).
 
 ### Install as package
 
-The InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Download the latest package at [InSpec Downloads](https://downloads.chef.io/inspec) or install InSpec via script:
+The Chef InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Download the latest package at [Chef InSpec Downloads](https://downloads.chef.io/inspec) or install Chef InSpec via script:
 
 ```
 # RedHat, Ubuntu, and macOS
@@ -135,11 +142,11 @@ gem install inspec-*.gem
 
 On Windows, you need to install [Ruby](http://rubyinstaller.org/downloads/) with [Ruby Development Kit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit) to build dependencies with its native extensions.
 
-### Install via Habitat
+### Install via Chef Habitat
 
-Currently, this method of installation only supports Linux. See the [Habitat site](https://www.habitat.sh/) for more information.
+Currently, this method of installation only supports Linux. See the [Chef Habitat site](https://www.habitat.sh/) for more information.
 
-Download the `hab` binary from the [Habitat](https://www.habitat.sh/docs/get-habitat/) site.
+Download the `hab` binary from the [Chef Habitat](https://www.habitat.sh/docs/get-habitat/) site.
 
 ```bash
 hab pkg install chef/inspec --binlink
@@ -147,7 +154,7 @@ hab pkg install chef/inspec --binlink
 inspec
 ```
 
-### Run InSpec
+### Run Chef InSpec
 
 You should now be able to run:
 
@@ -203,10 +210,10 @@ end
 ```
 
 Also have a look at our examples for:
-- [Using InSpec with Test Kitchen & Chef](https://github.com/chef/inspec/tree/master/examples/kitchen-chef)
-- [Using InSpec with Test Kitchen & Puppet](https://github.com/chef/inspec/tree/master/examples/kitchen-puppet)
-- [Using InSpec with Test Kitchen & Ansible](https://github.com/chef/inspec/tree/master/examples/kitchen-ansible)
-- [Implementing an InSpec profile](https://github.com/chef/inspec/tree/master/examples/profile)
+- [Using Chef InSpec with Test Kitchen & Chef Infra](https://github.com/chef/inspec/tree/master/examples/kitchen-chef)
+- [Using Chef InSpec with Test Kitchen & Puppet](https://github.com/chef/inspec/tree/master/examples/kitchen-puppet)
+- [Using Chef InSpec with Test Kitchen & Ansible](https://github.com/chef/inspec/tree/master/examples/kitchen-ansible)
+- [Implementing an Chef InSpec profile](https://github.com/chef/inspec/tree/master/examples/profile)
 
 ## Or tests: Testing for a OR b
 
@@ -335,13 +342,13 @@ Relationship to other tools (RSpec, Serverspec):
 
 ## Share your Profiles
 
-You may share your InSpec Profiles in the [Tools &amp; Plugins section](https://supermarket.chef.io/tools-directory) of the [Chef Supermarket](https://supermarket.chef.io/).  [Sign in](https://supermarket.chef.io/sign-in) and [add the details of your profile](https://supermarket.chef.io/tools/new).
+You may share your Chef InSpec Profiles in the [Tools &amp; Plugins section](https://supermarket.chef.io/tools-directory) of the [Chef Supermarket](https://supermarket.chef.io/). [Sign in](https://supermarket.chef.io/sign-in) and [add the details of your profile](https://supermarket.chef.io/tools/new).
 
 You may also [browse the Supermarket for shared Compliance Profiles](https://supermarket.chef.io/tools?type=compliance_profile).
 
 ## Kudos
 
-InSpec is inspired by the wonderful [Serverspec](http://serverspec.org) project. Kudos to [mizzy](https://github.com/mizzy) and [all contributors](https://github.com/mizzy/serverspec/graphs/contributors)!
+Chef InSpec is inspired by the wonderful [Serverspec](http://serverspec.org) project. Kudos to [mizzy](https://github.com/mizzy) and [all contributors](https://github.com/mizzy/serverspec/graphs/contributors)!
 
 The AWS resources were inspired by [inspec-aws](https://github.com/arothian/inspec-aws) from [arothian](https://github.com/arothian).
 
@@ -353,7 +360,7 @@ The AWS resources were inspired by [inspec-aws](https://github.com/arothian/insp
 1. Push to the branch (git push origin my-new-feature)
 1. Create new Pull Request
 
-The InSpec community and maintainers are very active and helpful. This project benefits greatly from this activity.
+The Chef InSpec community and maintainers are very active and helpful. This project benefits greatly from this activity.
 
 If you'd like to chat with the community and maintainers directly join us in the `#inspec` channel on the [Chef Community Slack](http://community-slack.chef.io/).
 
@@ -361,7 +368,7 @@ As a reminder, all participants are expected to follow the [Code of Conduct](htt
 
 [![Slack](https://community-slack.chef.io/badge.svg)](https://community-slack.chef.io/)
 
-## Testing InSpec
+## Testing Chef InSpec
 
 We offer `unit`, `integration`, and `aws` tests.
 
@@ -389,7 +396,7 @@ bundle exec m test/unit/resources/user_test.rb -l 123
 
 ### Integration tests
 
-These tests download various virtual machines, to ensure InSpec is working as expected across different operating systems.
+These tests download various virtual machines, to ensure Chef InSpec is working as expected across different operating systems.
 
 These tests require the following gems:
 

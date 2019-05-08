@@ -1,14 +1,14 @@
-# Developing InSpec Plugins for the v2 plugin API
+# Developing Chef InSpec Plugins for the v2 plugin API
 
 ## Introduction
 
 ### Inspiration
 
-The software design of the InSpec Plugin v2 API is deeply inspired by the Vagrant plugin v2 system. While the InSpec Plugin v2 system is an independent implementation, acknowledgements are due to the Hashicorp team for such a well-thought-out design.
+The software design of the Chef InSpec Plugin v2 API is deeply inspired by the Vagrant plugin v2 system. While the Chef InSpec Plugin v2 system is an independent implementation, acknowledgements are due to the Hashicorp team for such a well-thought-out design.
 
 ### Note About versions
 
-"v2" refers to the second major version of the Plugin API. It doesn't refer to the InSpec release number.
+"v2" refers to the second major version of the Plugin API. It doesn't refer to the Chef InSpec release number.
 
 ### Design Goals
 
@@ -36,9 +36,9 @@ For local development or site-specific installations, you can also 'install' a p
 
 ### The plugins.json file
 
-InSpec stores its list of known plugins in a file, `~/.inspec/plugins.json`. The purpose of this file is avoid having to do a gem path filesystem scan to locate plugins. When you install, update, or uninstall a plugin using `inspec plugin`, InSpec updates this file.
+Chef InSpec stores its list of known plugins in a file, `~/.inspec/plugins.json`. The purpose of this file is avoid having to do a gem path filesystem scan to locate plugins. When you install, update, or uninstall a plugin using `inspec plugin`, Chef InSpec updates this file.
 
-You can tell inspec to use a different config directory using the INSPEC_CONFIG_DIR environment variable.
+You can tell Chef InSpec to use a different config directory using the INSPEC_CONFIG_DIR environment variable.
 
 Top-level entries in the JSON file:
 
@@ -49,11 +49,11 @@ Each plugin entry may have the following keys:
 
  * `name` - Required. String name of the plugin. Internal machine name of the plugin. Must match `plugin_name` DSL call (see Plugin class below).
  * `installation_type` - Optional, default "gem". Selects a loading mechanism, may be either "path" or "gem"
- * `installation_path` - Required if installation_type is "path". A `require` will be attempted against this path. It may be absolute or relative; InSpec adds both the process current working directory as well as the InSpec installation root to the load path.
+ * `installation_path` - Required if installation_type is "path". A `require` will be attempted against this path. It may be absolute or relative; Chef InSpec adds both the process current working directory as well as the Chef InSpec installation root to the load path.
 
 TODO: keys for gem installations
 
-Putting this all together, here is a plugins.json file from the InSpec test suite:
+Putting this all together, here is a plugins.json file from the Chef InSpec test suite:
 
 ```json
 {
@@ -86,9 +86,9 @@ Generally, except for the entry point, you may name these files anything you lik
 
 ### Gemspec and Plugin Dependencies
 
-This is a normal Gem specification file. When you release your plugin as a gem, you can declare dependencies here, and InSpec will automatically install them along with your plugin.
+This is a normal Gem specification file. When you release your plugin as a gem, you can declare dependencies here, and Chef InSpec will automatically install them along with your plugin.
 
-If you are using a path-based install, InSpec will not manage your dependencies.
+If you are using a path-based install, Chef InSpec will not manage your dependencies.
 
 ### Entry Point
 
@@ -165,7 +165,7 @@ plugin_status = registry[:'inspec-meaning-of-life']
 
 ### Discovery (Known Plugins)
 
-If a plugin is mentioned in `plugins.json` or is a plugin distributed with InSpec itself, it is *known*. You can get its status, a `Inspec::Plugin::V2::Status` object.
+If a plugin is mentioned in `plugins.json` or is a plugin distributed with Chef InSpec itself, it is *known*. You can get its status, a `Inspec::Plugin::V2::Status` object.
 
 Reading the plugins.json file is handled by the Loader when Loader.new is called; at that point the registry should know about plugins.
 
@@ -187,7 +187,7 @@ Refer to the sections below for details about activation and execution timing.
 
 ## Implementing a CLI Command Plugin
 
-The CliCommand plugin_type allows you to extend the InSpec command line interface by adding a namespace of new commands. InSpec is based on [Thor](http://whatisthor.com/) ([docs](https://www.rubydoc.info/github/wycats/thor/Thor)), and the plugin system exposes Thor directly.
+The CliCommand plugin_type allows you to extend the Chef InSpec command line interface by adding a namespace of new commands. Chef InSpec is based on [Thor](http://whatisthor.com/) ([docs](https://www.rubydoc.info/github/wycats/thor/Thor)), and the plugin system exposes Thor directly.
 
 CliCommand can do things like:
 
@@ -256,7 +256,7 @@ module InspecPlugins::Sweeten
 end
 ```
 
-The InSpec plugin v2 system promises the following:
+The Chef InSpec plugin v2 system promises the following:
 
 * The superclass will be an (indirect) subclass of Thor
 * The plugin system will handle registering the subcommand with Thor for you
@@ -266,7 +266,7 @@ The InSpec plugin v2 system promises the following:
 
 Within your `cli.rb`, you need to do two things:
 
-* Inform InSpec of your subcommand's usage and description, so the `help` commands will work properly
+* Inform Chef InSpec of your subcommand's usage and description, so the `help` commands will work properly
 * Implement your subcommands and options using the Thor DSL
 
 See also: [Thor homepage](http://whatisthor.com/) and [Thor docs](https://www.rubydoc.info/github/wycats/thor/Thor).
@@ -324,9 +324,9 @@ end
 
 ## Implementing DSL Plugins
 
-A DSL is a _domain specific language_, or a set of keywords you can use to write InSpec profiles and resources more fluently.
+A DSL is a _domain specific language_, or a set of keywords you can use to write Chef InSpec profiles and resources more fluently.
 
-InSpec offers several DSLs:
+Chef InSpec offers several DSLs:
 
 * The Profile DSL, which is the set of keywords you use when writing profiles. The Profile DSL is internally divided into:
   * The Outer Profile DSL: those keywords which may appear in a Profile `controls/my-controls.rb` outside of a `control` or `describe` block
@@ -337,7 +337,7 @@ InSpec offers several DSLs:
 
 Correspondingly, there are 4 plugin types in play here: `outer_profile_dsl`, `control_dsl`, `describe_dsl`, `test_dsl`, and `resource_dsl`.
 
-DSL plugins let you alter the InSpec profile authoring experience in a fundamental way.  For example, if you wish InSpec had a way of expressing that some minimum of a set of tests must pass, but you don't care which, you could implement a `control_dsl` plugin named `threshold`:
+DSL plugins let you alter the Chef InSpec profile authoring experience in a fundamental way.  For example, if you wish Chef InSpec had a way of expressing that some minimum of a set of tests must pass, but you don't care which, you could implement a `control_dsl` plugin named `threshold`:
 
 ```ruby
 # in a hypothetical control file
@@ -363,7 +363,7 @@ end
 
 ### Activation Discipline For DSL Plugins
 
-As DSL keywords are actually method calls, the activation system for the four DSL types is handled by `method_missing`.  For example, if you have registered a `control_dsl` activation hook named `threshold`, when InSpec evaluates the code above and encounters the unknown method `threshold`, InSpec will check for a `control_dsl` hook with that name, and if found, activate the hook, and then include the resulting module into that and all future controls. Once the module is loaded and included, future calls bypass the activation and loading mechanism entirely (because the `threshold` method is now defined, we never hit the `method_missing` that watches for activations).
+As DSL keywords are actually method calls, the activation system for the four DSL types is handled by `method_missing`.  For example, if you have registered a `control_dsl` activation hook named `threshold`, when Chef InSpec evaluates the code above and encounters the unknown method `threshold`, Chef InSpec will check for a `control_dsl` hook with that name, and if found, activate the hook, and then include the resulting module into that and all future controls. Once the module is loaded and included, future calls bypass the activation and loading mechanism entirely (because the `threshold` method is now defined, we never hit the `method_missing` that watches for activations).
 
 The Outer Profile DSL, Control DSL, Describe DSL, Test DSL, and Resource DSL plugin types all have the same basic mechanism; only the scope of their activation varies.
 
@@ -372,7 +372,7 @@ The Outer Profile DSL, Control DSL, Describe DSL, Test DSL, and Resource DSL plu
 In your `plugin.rb`, include one or more `outer_profile_dsl`, `control_dsl`, `describe_dsl`, or `resource_dsl` activation blocks. A DSL activation block *must* do two things (though it may do more):
 
  * Return a Module that will be used as a mixin to the file, control, describe block, or resource
- * Require any files needed to support returning the implementation module.  It's important to require any support files in the activation block, not in the plugin definition; this allows InSpec to only load files as they are needed.
+ * Require any files needed to support returning the implementation module.  It's important to require any support files in the activation block, not in the plugin definition; this allows Chef InSpec to only load files as they are needed.
 
 Continuing the above example, one would declare the `threshold` Control DSL activation hook as follows:
 
@@ -398,9 +398,9 @@ end
 
 Because each DSL plugin type is loaded into a specific context, each method defined in the mixin module you provide will have a specific parent class and state.
 
-*Note*: these areas are deep within the internals of InSpec and RSpec.  Documentation and stability of these interfaces will vary.
+*Note*: these areas are deep within the internals of Chef InSpec and RSpec.  Documentation and stability of these interfaces will vary.
 It is recommended to pin your dependency on `inspec` rather tightly, so you can test for compatibility issues prior to your users.
-The InSpec project does not consider the internal interfaces exposed to the DSL plugins to be part of the public interface, and thus may introduce breaking changes at anytime.  In other words, SemVer doesn't apply here, and you should likely use an exact pin.
+The Chef InSpec project does not consider the internal interfaces exposed to the DSL plugins to be part of the public interface, and thus may introduce breaking changes at anytime.  In other words, SemVer doesn't apply here, and you should likely use an exact pin.
 
 #### Outer Profile DSL Context
 
@@ -422,9 +422,9 @@ Within your mixin method, you have access the methods RSpec uses to manage an Ex
 
 Test DSL mixin methods will be attached as *instance* methods to [RSpec::Core::ExampleGroup](https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb).  Internally, `it`/`its` blocks are evaluated in the context of an instance which is a subclass of the ExampleGroup class.  Please see the source of ExampleGroup for further details.
 
-These blocks are called Examples in RSpec terminology. InSpec treats Examples as tests, and sends tests and controls to the reporter engine; note that describe block are effectively ignored.
+These blocks are called Examples in RSpec terminology. Chef InSpec treats Examples as tests, and sends tests and controls to the reporter engine; note that describe block are effectively ignored.
 
-Within your mixin method, you have access the methods RSpec uses to manage an Example. You have access to the testing predicates (such as `should`), but also all InSpec resources are available by name. Some useful class methods include `self.class.example_group`, which returns the example group are a member of; and `self.class.metadata` returns a hash of information about the test block, including description and source code location.
+Within your mixin method, you have access the methods RSpec uses to manage an Example. You have access to the testing predicates (such as `should`), but also all Chef InSpec resources are available by name. Some useful class methods include `self.class.example_group`, which returns the example group are a member of; and `self.class.metadata` returns a hash of information about the test block, including description and source code location.
 
 #### Resource DSL
 

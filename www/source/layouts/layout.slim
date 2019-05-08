@@ -8,7 +8,7 @@ html
     link href="/favicon.png" rel="icon" type="image/png"
     link href="/favicon.ico" rel="icon"
 
-    title = current_page.data.title || "InSpec"
+    title = current_page.data.title || "Chef InSpec"
     meta name= "description" content = current_page.data.description
 
     link rel='stylesheet' type='text/css' href='/css/inspec_tutorial.css'
@@ -110,11 +110,11 @@ html
 
       $(function() {
         $("#expand").hide();
-        $("#expandBtn").html("Show all new InSpec 3.0 features");
+        $("#expandBtn").html("Show all new InSpec 4 features");
 
          $('#expandBtn').click(function() {
             $('#expand').slideToggle("fast");
-            $(this).html($(this).html() == 'Collapse new InSpec 3.0 features' ? 'Show all new InSpec 3.0 features' : 'Collapse new InSpec 3.0 features');
+            $(this).html($(this).html() == 'Collapse new InSpec 4 features' ? 'Show all new InSpec 4 features' : 'Collapse new InSpec 4 features');
          });
       });
 

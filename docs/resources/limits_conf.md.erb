@@ -5,7 +5,7 @@ platform: linux
 
 # limits_conf
 
-Use the `limits_conf` InSpec audit resource to test configuration settings in the `/etc/security/limits.conf` file. The `limits.conf` defines limits for processes (by user and/or group names) and helps ensure that the system running those processes remains stable. Each process may be assigned a hard or soft limit.
+Use the `limits_conf` Chef InSpec audit resource to test configuration settings in the `/etc/security/limits.conf` file. The `limits.conf` defines limits for processes (by user and/or group names) and helps ensure that the system running those processes remains stable. Each process may be assigned a hard or soft limit.
 
 * Soft limits are maintained by the shell and defines the number of file handles (or open files) available to the user or group after login
 * Hard limits are maintained by the kernel and defines the maximum number of allowed file handles
@@ -24,7 +24,7 @@ Entries in the `limits.conf` file are similar to:
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -57,7 +57,7 @@ where
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### domain
 

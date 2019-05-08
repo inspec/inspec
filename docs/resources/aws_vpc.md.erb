@@ -5,7 +5,7 @@ platform: aws
 
 # aws\_vpc
 
-Use the `aws_vpc` InSpec audit resource to test properties of a single AWS Virtual Private Cloud (VPC).
+Use the `aws_vpc` Chef InSpec audit resource to test properties of a single AWS Virtual Private Cloud (VPC).
 
 To test properties of all or multiple VPCs, use the `aws_vpcs` resource.
 
@@ -21,7 +21,7 @@ Every AWS account has at least one VPC, the "default" VPC, in every region.
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -50,7 +50,7 @@ An `aws_vpc` resource block identifies a VPC by id. If no VPC ID is provided, th
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test that a VPC does not exist
 
@@ -122,7 +122,7 @@ The ID of the VPC.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be\_default
 

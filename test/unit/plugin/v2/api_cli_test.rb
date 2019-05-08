@@ -1,10 +1,9 @@
 require 'minitest/autorun'
-require 'minitest/test'
 require 'byebug'
 
 require_relative '../../../../lib/inspec/plugin/v2'
 
-class CliCommandSuperclassTests < MiniTest::Test
+class CliCommandSuperclassTests < Minitest::Test
   # you can call Inspec.plugin(2, :cli_command) and get the plugin base class
   def test_calling_Inspec_dot_plugin_with_cli_returns_the_cli_base_class
     klass = Inspec.plugin(2, :cli_command)
@@ -29,7 +28,7 @@ class CliCommandSuperclassTests < MiniTest::Test
   end
 end
 
-class CliCommandPluginV2API < MiniTest::Test
+class CliCommandPluginV2API < Minitest::Test
   def test_cli_command_api_methods_present
     # instance methods
     [

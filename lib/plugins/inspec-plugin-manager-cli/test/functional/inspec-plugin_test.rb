@@ -46,7 +46,7 @@ end
 #-----------------------------------------------------------------------------------------#
 #                                   inspec help
 #-----------------------------------------------------------------------------------------#
-class PluginManagerCliHelp < MiniTest::Test
+class PluginManagerCliHelp < Minitest::Test
   include CorePluginFunctionalHelper
 
   # Main inspec help subcommand listing
@@ -69,7 +69,7 @@ end
 #-----------------------------------------------------------------------------------------#
 #                                 inspec plugin list
 #-----------------------------------------------------------------------------------------#
-class PluginManagerCliList < MiniTest::Test
+class PluginManagerCliList < Minitest::Test
   include CorePluginFunctionalHelper
   include PluginManagerHelpers
 
@@ -139,7 +139,7 @@ end
 #-----------------------------------------------------------------------------------------#
 #                               inspec plugin search
 #-----------------------------------------------------------------------------------------#
-class PluginManagerCliSearch < MiniTest::Test
+class PluginManagerCliSearch < Minitest::Test
   include CorePluginFunctionalHelper
   include PluginManagerHelpers
 
@@ -248,7 +248,7 @@ end
 #-----------------------------------------------------------------------------------------#
 #                               inspec plugin install
 #-----------------------------------------------------------------------------------------#
-class PluginManagerCliInstall < MiniTest::Test
+class PluginManagerCliInstall < Minitest::Test
   include CorePluginFunctionalHelper # gives us instance methods, like `let` aliases inside test methods
   extend CorePluginFunctionalHelper  # gives us class methods, like `let` aliases out here outside test methods
 
@@ -581,7 +581,7 @@ end
 #-----------------------------------------------------------------------------------------#
 #                               inspec plugin update
 #-----------------------------------------------------------------------------------------#
-class PluginManagerCliUpdate < MiniTest::Test
+class PluginManagerCliUpdate < Minitest::Test
   include CorePluginFunctionalHelper
   include PluginManagerHelpers
 
@@ -654,7 +654,7 @@ end
 #-----------------------------------------------------------------------------------------#
 #                               inspec plugin uninstall
 #-----------------------------------------------------------------------------------------#
-class PluginManagerCliUninstall < MiniTest::Test
+class PluginManagerCliUninstall < Minitest::Test
   include CorePluginFunctionalHelper
   include PluginManagerHelpers
 

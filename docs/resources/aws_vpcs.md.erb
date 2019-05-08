@@ -5,7 +5,7 @@ platform: aws
 
 # aws\_vpcs
 
-Use the `aws_vpcs` InSpec audit resource to test properties of some or all AWS Virtual Private Clouds (VPCs).
+Use the `aws_vpcs` Chef InSpec audit resource to test properties of some or all AWS Virtual Private Clouds (VPCs).
 
 A VPC is a networking construct that provides an isolated environment. A VPC is contained in a geographic region, but spans availability zones in that region. A VPC may have multiple subnets, internet gateways, and other networking resources. Computing resources--such as EC2 instances--reside on subnets within the VPC.
 
@@ -19,7 +19,7 @@ Every AWS account has at least one VPC, the "default" VPC, in every region.
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -45,7 +45,7 @@ An `aws_vpcs` resource block uses an optional filter to select a group of VPCs a
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Check for a Particular VPC ID
 
@@ -117,7 +117,7 @@ The vpc_ids property provides a list of the IDs of the matched VPCs.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [Universal Matchers page](https://www.inspec.io/docs/reference/matchers/).
+This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [Universal Matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exists
 

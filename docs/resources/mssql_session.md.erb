@@ -5,7 +5,7 @@ platform: windows
 
 # mssql_session
 
-Use the `mssql_session` InSpec audit resource to test SQL commands run against a Microsoft SQL database.
+Use the `mssql_session` Chef InSpec audit resource to test SQL commands run against a Microsoft SQL database.
 
 <br>
 
@@ -13,7 +13,7 @@ Use the `mssql_session` InSpec audit resource to test SQL commands run against a
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -29,7 +29,7 @@ A `mssql_session` resource block declares the username and password to use for t
 
 where
 
-* `mssql_session` declares a username and password with permission to run the query.  Omitting the username or password parameters results in the use of Windows authentication as the user InSpec is executing as.  You may also optionally pass a host and instance name.  If omitted, they will default to host: localhost and the default instance.
+* `mssql_session` declares a username and password with permission to run the query.  Omitting the username or password parameters results in the use of Windows authentication as the user Chef InSpec is executing as.  You may also optionally pass a host and instance name.  If omitted, they will default to host: localhost and the default instance.
 * `query('QUERY')` contains the query to be run
 * `its('value') { should eq('') }` compares the results of the query against the expected result in the test
 
@@ -37,7 +37,7 @@ where
 
 ## Examples
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### Test for matching databases
 

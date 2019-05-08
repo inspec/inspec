@@ -5,7 +5,7 @@ platform: os
 
 # file
 
-Use the `file` InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.
+Use the `file` Chef InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.
 
 <br>
 
@@ -13,7 +13,7 @@ Use the `file` InSpec audit resource to test all system file types, including fi
 
 ### Installation
 
-This resource is distributed along with InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
 ### Version
 
@@ -79,12 +79,12 @@ The `group` property tests if the group to which a file belongs matches the spec
 
     its('group') { should eq 'admins' }
 
-The following examples show how to use this InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource.
 
 ### link_path
 
 The `link_path` property tests if the file exists at the specified path. If the file is a symlink,
-InSpec will resolve the symlink recursively and return the ultimate linked file.
+Chef InSpec will resolve the symlink recursively and return the ultimate linked file.
 
     its('link_path') { should eq '/some/path/to/file' }
 
@@ -107,7 +107,7 @@ The `mode` property tests if the mode assigned to the file matches the specified
 
     its('mode') { should cmp '0644' }
 
-InSpec [octal](https://en.wikipedia.org/wiki/Leading_zero#0_as_a_prefix) values begin the numeric mode specification with zero.
+Chef InSpec [octal](https://en.wikipedia.org/wiki/Leading_zero#0_as_a_prefix) values begin the numeric mode specification with zero.
 
 For example, write:
 
@@ -117,7 +117,7 @@ not
 
     { should cmp '644' }
 
-Without the zero prefix for the octal value, InSpec will interpret it as the _decimal_ value 644, which is octal 1024 or `-----w-r-T`, and any test for a file that is `-rw-r--r--` will fail.
+Without the zero prefix for the octal value, Chef InSpec will interpret it as the _decimal_ value 644, which is octal 1024 or `-----w-r-T`, and any test for a file that is `-rw-r--r--` will fail.
 
 Note: see the [`be_more_permissive_than(mode)`](#be_more_permissive_than?(mode)) matcher for upper and lower bounds on file mode.
 

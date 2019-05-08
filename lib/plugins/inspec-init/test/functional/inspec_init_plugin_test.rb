@@ -1,6 +1,6 @@
 require_relative '../../../shared/core_plugin_test_helper.rb'
 
-class InitPluginCli < MiniTest::Test
+class InitPluginCli < Minitest::Test
   include CorePluginFunctionalHelper
 
   def test_generating_inspec_plugin_correct_prefix_required

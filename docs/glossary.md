@@ -1,6 +1,6 @@
-# InSpec Glossary
+# Chef InSpec Glossary
 
-This document should help you become familiar with some of the terminology used by the InSpec project.
+This document should help you become familiar with some of the terminology used by the Chef InSpec project.
 
 There are two ways to use it:
 
@@ -11,7 +11,7 @@ There are two ways to use it:
 
 ### Motivating Example
 
-Suppose we are interested in auditing cars. Let's suppose we have two InSpec resources for auditing: `cars`, which searches for and filters groups of cars, and `car`, which performs detailed auditing of a single car.
+Suppose we are interested in auditing cars. Let's suppose we have two Chef InSpec resources for auditing: `cars`, which searches for and filters groups of cars, and `car`, which performs detailed auditing of a single car.
 
 ### Basic Syntax
 
@@ -108,7 +108,7 @@ _be >=_ is an [operator matcher](#operator matcher). It allows you to perform nu
 
 ### attribute
 
-An _attribute_ is a parameter that InSpec reads from a YAML file provided on the command line. You can use this feature either to change a [profile's](#profile) behavior by passing different attribute files or to store secrets that should not be directly present in a profile. InSpec attributes are unrelated to Chef attributes.
+An _attribute_ is a parameter that Chef InSpec reads from a YAML file provided on the command line. You can use this feature either to change a [profile's](#profile) behavior by passing different attribute files or to store secrets that should not be directly present in a profile. Chef InSpec attributes are unrelated to Chef attributes.
 
 The CLI syntax for attributes is documented under the [`inspec exec`](https://www.inspec.io/docs/reference/cli/#exec) command.
 
@@ -132,7 +132,7 @@ A [resource](#resource) that is _not_ included with InSpec. It may be a resource
 
 ### describe block
 
-The _`describe`_ keyword is used with a _`describe block`_ to refer to an InSpec resource. You use the `describe` keyword along with the name of a [resource](#resource) to enclose related [tests](#test) that apply to the resource. Multiple describe blocks are usually grouped together in a [control](#control), but you can also use them outside of a control.
+The _`describe`_ keyword is used with a _`describe block`_ to refer to an Chef InSpec resource. You use the `describe` keyword along with the name of a [resource](#resource) to enclose related [tests](#test) that apply to the resource. Multiple describe blocks are usually grouped together in a [control](#control), but you can also use them outside of a control.
 
 ```Ruby
 control 'Rule 1.1 - Color restrictions' do
@@ -145,7 +145,7 @@ end
 
 ### DSL
 
-_DSL_ is an acronym for _Domain Specific Language_. It refers to the language extensions InSpec provides to make authoring resources and controls easier. While InSpec control files are use Ruby, the _Control DSL_ makes it easy to write controls without knowledge of Ruby by providing DSL keywords such as [describe](#describe), [control](#control), [it](#it) and [its](#its). See the [InSpec DSL page](https://www.inspec.io/docs/reference/dsl_inspec/) for details about keywords available to control authors.
+_DSL_ is an acronym for _Domain Specific Language_. It refers to the language extensions Chef InSpec provides to make authoring resources and controls easier. While Chef InSpec control files are use Ruby, the _Control DSL_ makes it easy to write controls without knowledge of Ruby by providing DSL keywords such as [describe](#describe), [control](#control), [it](#it) and [its](#its). See the [Chef InSpec DSL page](https://www.inspec.io/docs/reference/dsl_inspec/) for details about keywords available to control authors.
 
 For [custom resource](#custom-resource) authors, an additional DSL is available - see the [Resource DSL page](https://www.inspec.io/docs/reference/dsl_resource/).
 
@@ -245,7 +245,7 @@ A _`matcher`_ performs the actual assertions against [resources](#resource) or t
 
 Some matchers accept parameters, called [expected results](#expected-results).
 
-For information on how RSpec matchers are related o InSpec matchers, see [InSpec and RSpec](https://www.inspec.io/docs/reference/inspec_and_friends/#rspec).
+For information on how RSpec matchers are related o Chef InSpec matchers, see [Chef InSpec and RSpec](https://www.inspec.io/docs/reference/inspec_and_friends/#rspec).
 
 Here, `be_classy` is a resource-specific matcher operating directly on the `car`, while `cmp` is a universal matcher operating on the `manufacturer` property.
 
@@ -308,7 +308,7 @@ An output format for the `inspec exec` command line. Several reporters are avail
 
 ### resource
 
-A _`resource`_ represents a category of things on the [target](#target) you wish to examine. For example, to check for the existence and permissions of a file, you would use the [`file`](https://www.inspec.io/docs/reference/resources/file/) resource. InSpec offers dozens of different resources, from the highly specialized (such as `aws_security_group`, which examines firewall rules in AWS) to the very general (such as `command`, which runs a command and lets you examine its output).
+A _`resource`_ represents a category of things on the [target](#target) you wish to examine. For example, to check for the existence and permissions of a file, you would use the [`file`](https://www.inspec.io/docs/reference/resources/file/) resource. Chef InSpec offers dozens of different resources, from the highly specialized (such as `aws_security_group`, which examines firewall rules in AWS) to the very general (such as `command`, which runs a command and lets you examine its output).
 
 Resources are generally categorized as either [singular](#singular-resource) or [plural](#plural-resource), though there are some irregular resources that cannot be cleanly considered one or the other.
 
@@ -346,7 +346,7 @@ A [matcher](#matcher) that operates directly on the [resource](#resource), as op
 
 Resource-specific matchers often provide highly customized behavior. Check the [resource documentation](#https://www.inspec.io/docs/reference/resources/) to discover which resource-specific matchers are available for your resource.
 
-For example, the hypothetical `car` resource defines a `classy?` method, which is exposed as the `be_classy` matcher in InSpec tests.
+For example, the hypothetical `car` resource defines a `classy?` method, which is exposed as the `be_classy` matcher in Chef InSpec tests.
 
 ```Ruby
 describe car(owner: 'Tony Clifton') do
@@ -360,7 +360,7 @@ A [resource](#resource) intended to uniquely identify a single object on the [ta
 
 ### target
 
-The _`target`_ is the OS or API on which InSpec is performing audits. In InSpec 1.x, this was always an operating system target (a bare metal machine, VM, or container). In InSpec 2.x and later, this can be an OS target, or an API target, including cloud providers such as AWS. InSpec is agentless, meaning that the InSpec code and profiles remain on your workstation, and the target is remotely interrogated without installing anything.
+The _`target`_ is the OS or API on which Chef InSpec is performing audits. In Chef InSpec 1.x, this was always an operating system target (a bare metal machine, VM, or container). In Chef InSpec 2.x and later, this can be an OS target, or an API target, including cloud providers such as AWS. Chef InSpec is agentless, meaning that the Chef InSpec code and profiles remain on your workstation, and the target is remotely interrogated without installing anything.
 
 ### test
 
