@@ -23,8 +23,8 @@ friendly_name 'InSpec'
 maintainer 'Chef Software, Inc <maintainers@chef.io>'
 homepage 'https://github.com/inspec/inspec'
 
-license 'Apache-2.0'
-license_file '../LICENSE'
+license 'Chef EULA'
+license_file 'https://www.chef.io/end-user-license-agreement/'
 
 # Defaults to C:/opscode/inspec on Windows
 # and /opt/inspec on all other platforms.
