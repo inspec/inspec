@@ -45,4 +45,16 @@ class TestTelemetryDataSeries < Minitest::Test
     assert_equal '{"name":"fizz","data":["foo"]}', ds.to_json
     assert JSON.parse(ds.to_json)
   end
+
+  def test_enabled
+    ds = Inspec::Telemetry::DataSeries.new('fizz')
+    assert ds.enabled?
+  end
+
+  def test_disable
+    ds = Inspec::Telemetry::DataSeries.new('fizz')
+    assert ds.enabled?
+    ds.disable
+    refute ds.enabled?
+  end
 end
