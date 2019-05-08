@@ -37,8 +37,7 @@ describe 'filtertable functional tests' do
       outcome_hash.keys.must_include(expected_control)
     end
 
-    run_result.stderr_ignore_deprecations.must_equal '' # TODO: we have a cli_option_json_config triggering somewheres
-    run_result.diagnose! # TEMPORARY - for debugging
+    run_result.stderr_ignore_deprecations.must_equal '' # TODO: we have a cli_option_json_config triggering somewhere
     run_result.exit_status.must_equal 100
   end
 

@@ -9,8 +9,7 @@ describe 'inspec shell tests' do
     def do_shell_c(code, exit_status, json = false, stderr = '')
       json_suffix = " --reporter 'json'" if json
       command = "shell -c '#{code.tr('\'','\\\'')}'#{json_suffix}"
-      out = run_inspec_command(command)
-      out.diagnose!
+      out = inspec(command)
       out.stderr.must_equal stderr
       out.exit_status.must_equal exit_status
       out
