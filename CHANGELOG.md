@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.9 -->
-## [v4.4.9](https://github.com/inspec/inspec/tree/v4.4.9) (2019-05-08)
+<!-- latest_release 4.4.10 -->
+## [v4.4.10](https://github.com/inspec/inspec/tree/v4.4.10) (2019-05-08)
 
 #### Merged Pull Requests
-- Configure expeditor to delete the branch after it is merged. [#4024](https://github.com/inspec/inspec/pull/4024) ([miah](https://github.com/miah))
+- Convert Chef EULA to a local file [#4045](https://github.com/inspec/inspec/pull/4045) ([btm](https://github.com/btm))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Convert Chef EULA to a local file [#4045](https://github.com/inspec/inspec/pull/4045) ([btm](https://github.com/btm)) <!-- 4.4.10 -->
 - Configure expeditor to delete the branch after it is merged. [#4024](https://github.com/inspec/inspec/pull/4024) ([miah](https://github.com/miah)) <!-- 4.4.9 -->
 - Remove `# encoding: utf8` magic comments [#4041](https://github.com/inspec/inspec/pull/4041) ([miah](https://github.com/miah)) <!-- 4.4.8 -->
 - Add Coveralls.io support to InSpec [#3988](https://github.com/inspec/inspec/pull/3988) ([miah](https://github.com/miah)) <!-- 4.4.7 -->
