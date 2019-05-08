@@ -1,9 +1,6 @@
-
-# Load test harness - MiniTest
+# Load test harness - Minitest
 require 'minitest/autorun'
-require 'minitest/unit'
 require 'minitest/pride'
-require 'minitest/spec'
 
 # Data formats commonly used in testing
 require 'json'
@@ -15,7 +12,7 @@ require 'tmpdir'
 require 'pathname'
 require 'forwardable'
 
-# Configure MiniTest to expose things like `let`
+# Configure Minitest to expose things like `let`
 class Module
   include Minitest::Spec::DSL
 end

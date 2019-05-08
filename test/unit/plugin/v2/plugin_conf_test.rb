@@ -1,4 +1,3 @@
-require 'minitest/spec'
 require 'minitest/autorun'
 require 'tmpdir'
 require_relative '../../../../lib/inspec/plugin/v2'

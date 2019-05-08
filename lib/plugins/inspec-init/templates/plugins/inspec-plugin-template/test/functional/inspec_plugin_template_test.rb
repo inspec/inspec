@@ -6,7 +6,7 @@
 # Include our test harness
 require_relative '../helper'
 
-# Because InSpec is a Spec-style test suite, we're going to use MiniTest::Spec
+# Because InSpec is a Spec-style test suite, we're going to use Minitest::Spec
 # here, for familiar look and feel. However, this isn't InSpec (or RSpec) code.
 describe 'inspec list-resources core' do
   # Our helper.rb locates this library from the InSpec install that
@@ -34,7 +34,7 @@ describe 'inspec list-resources core' do
 
     # Some tests through here use minitest Expectations, which attach to all
     # Objects, and begin with 'must' (positive) or 'wont' (negative)
-    # See https://ruby-doc.org/stdlib-2.1.0/libdoc/minitest/rdoc/MiniTest/Expectations.html
+    # See http://docs.seattlerb.org/minitest/Minitest/Expectations.html
     it("should exit successfully") { outcome.exit_status.must_equal(0) }
     it("should be silent on stderr") { outcome.stderr.must_be_empty }
 

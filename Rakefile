@@ -66,7 +66,7 @@ Rake::TestTask.new do |t|
     'lib/plugins/inspec-*/test/unit/**/*_test.rb',
   ])
   t.warning = false
-  t.verbose = true
+  t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
   t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
 end
 

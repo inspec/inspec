@@ -4,7 +4,6 @@
 
 # TODO: do not use helper, since all plugins are loaded statically
 require 'minitest/autorun'
-require 'minitest/spec'
 require 'mocha/setup'
 
 require 'inspec/plugin/v1/plugin_types/cli'

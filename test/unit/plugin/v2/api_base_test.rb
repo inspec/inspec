@@ -1,9 +1,8 @@
 require 'minitest/autorun'
-require 'minitest/test'
 
 require_relative '../../../../lib/inspec/plugin/v2'
 
-class PluginV2VersionedApiTests < MiniTest::Test
+class PluginV2VersionedApiTests < Minitest::Test
   # you can call Inspec.plugin(2) and get the plugin base class
   def test_calling_Inspec_dot_plugin_with_2_returns_the_plugin_base_class
     klass = Inspec.plugin(2)
@@ -19,7 +18,7 @@ class PluginV2VersionedApiTests < MiniTest::Test
 
 end
 
-class PluginV2BaseMgmtMethods < MiniTest::Test
+class PluginV2BaseMgmtMethods < Minitest::Test
   def test_plugin_v2_management_class_methods_present
     [
       :base_class_for_type,
@@ -39,7 +38,7 @@ class PluginV2BaseMgmtMethods < MiniTest::Test
   end
 end
 
-class PluginV2BaseDslMethods < MiniTest::Test
+class PluginV2BaseDslMethods < Minitest::Test
   def test_plugin_v2_dsl_methods_present
     [
       :plugin_name,

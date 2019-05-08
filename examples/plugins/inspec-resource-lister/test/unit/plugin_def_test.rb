@@ -7,7 +7,7 @@ require_relative '../helper'
 # Load the class under test, the Plugin definition.
 require 'inspec-resource-lister/plugin'
 
-# Because InSpec is a Spec-style test suite, we're going to use MiniTest::Spec
+# Because InSpec is a Spec-style test suite, we're going to use Minitest::Spec
 # here, for familiar look and feel. However, this isn't InSpec (or RSpec) code.
 
 describe InspecPlugins::ResourceLister::Plugin do
@@ -36,7 +36,7 @@ describe InspecPlugins::ResourceLister::Plugin do
 
   # Some tests through here use minitest Expectations, which attach to all
   # Objects, and begin with 'must' (positive) or 'wont' (negative)
-  # See https://ruby-doc.org/stdlib-2.1.0/libdoc/minitest/rdoc/MiniTest/Expectations.html
+  # See http://docs.seattlerb.org/minitest/Minitest/Expectations.html
 
   # The plugin system had an undocumented v1 API; this should be a v2 example.
   it "should be an api-v2 plugin" do
