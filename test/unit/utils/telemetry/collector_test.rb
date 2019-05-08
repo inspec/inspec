@@ -42,9 +42,19 @@ class TestTelemetryCollector < Minitest::Test
   end
 
   def test_telemetry_enabled
-    @collector.load_config(Inspec::Config.mock("enable_telemetry"=>false))
-    refute @collector.telemetry_enabled?
-    @collector.load_config(Inspec::Config.mock("enable_telemetry"=>true))
+    @collector.load_config(Inspec::Config.mock('enable_telemetry'=>true))
     assert @collector.telemetry_enabled?
+  end
+
+  def test_telemetry_disabled
+    @collector.load_config(Inspec::Config.mock('enable_telemetry'=>false))
+    refute @collector.telemetry_enabled?
+  end
+
+  def test_disable_telemetry
+    @collector.load_config(Inspec::Config.mock('enable_telemetry'=>true))
+    assert @collector.telemetry_enabled?
+    @collector.disable_telemetry
+    refute @collector.telemetry_enabled?
   end
 end

@@ -11,6 +11,7 @@ module Inspec::Telemetry
 
     def initialize
       @data_series = []
+      @telemetry_toggled_off = false
       load_config
     end
 
@@ -29,13 +30,16 @@ module Inspec::Telemetry
     # telemetry, if not default to false.
     # @return [True, False]
     def telemetry_enabled?
-      config_telemetry_options.fetch('enable_telemetry', false)
+      if @telemetry_toggled_off
+        false
+      else
+        config_telemetry_options.fetch('enable_telemetry', false)
+      end
     end
 
     # A way to disable the telemetry system.
-    # @return [True]
     def disable_telemetry
-      @enabled = false
+      @telemetry_toggled_off = true
     end
 
     # The entire data series collection.
