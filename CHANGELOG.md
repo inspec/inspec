@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.4 -->
-## [v4.4.4](https://github.com/inspec/inspec/tree/v4.4.4) (2019-05-08)
+<!-- latest_release 4.4.5 -->
+## [v4.4.5](https://github.com/inspec/inspec/tree/v4.4.5) (2019-05-08)
 
-#### Merged Pull Requests
-- First step to get inspec names changeable [#3954](https://github.com/inspec/inspec/pull/3954) ([artem-sidorenko](https://github.com/artem-sidorenko))
+#### Enhancements
+- Add missing tests for DataSeries#enabled? #disable [#4036](https://github.com/inspec/inspec/pull/4036) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -14,6 +14,7 @@
 - Rename &#39;attribute&#39; DSL method to &#39;input&#39; [#4008](https://github.com/inspec/inspec/pull/4008) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.0 -->
 
 #### Enhancements
+- Add missing tests for DataSeries#enabled? #disable [#4036](https://github.com/inspec/inspec/pull/4036) ([miah](https://github.com/miah)) <!-- 4.4.5 -->
 - Improve testing on inputs that do not have values [#4007](https://github.com/inspec/inspec/pull/4007) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.0 -->
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
