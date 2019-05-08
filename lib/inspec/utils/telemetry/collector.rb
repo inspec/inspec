@@ -1,3 +1,4 @@
+require 'inspec/config'
 require 'inspec/utils/telemetry/data_series'
 require 'singleton'
 
@@ -6,9 +7,17 @@ module Inspec::Telemetry
   class Collector
     include Singleton
 
+    attr_reader :config
+
     def initialize
       @data_series = []
-      @enabled = true
+      @telemetry_toggled_off = false
+      load_config
+    end
+
+    # Allow loading a configuration, useful when testing.
+    def load_config(config = Inspec::Config.cached)
+      @config = config
     end
 
     # Add a data series to the collection.
@@ -17,17 +26,20 @@ module Inspec::Telemetry
       @data_series << data_series
     end
 
-    # Is the Telemetry system enabled or disabled?
-    # Always true until we add configuration parsing.
+    # The loaded configuration should have a option to configure
+    # telemetry, if not default to false.
     # @return [True, False]
     def telemetry_enabled?
-      @enabled
+      if @telemetry_toggled_off
+        false
+      else
+        config_telemetry_options.fetch('enable_telemetry', false)
+      end
     end
 
     # A way to disable the telemetry system.
-    # @return [True]
     def disable_telemetry
-      @enabled = false
+      @telemetry_toggled_off = true
     end
 
     # The entire data series collection.
@@ -52,9 +64,18 @@ module Inspec::Telemetry
     end
 
     # Blanks the contents of the data series collection.
+    # Reset telemetry toggle
     # @return [True]
-    def reset
+    def reset!
       @data_series = []
+      @telemetry_toggled_off = false
+    end
+
+    private
+
+    # Minimize exposure of Inspec::Config interface
+    def config_telemetry_options
+      config.telemetry_options
     end
   end
 end
