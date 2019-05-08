@@ -76,7 +76,7 @@ describe 'inspec json' do
       it 'has a source location' do
         loc = File.join(example_profile, '/controls/example.rb')
         control['source_location']['ref'].must_equal loc
-        control['source_location']['line'].must_equal 7
+        control['source_location']['line'].must_equal 6
       end
 
       it 'has a the source code' do
