@@ -3,7 +3,7 @@
 require 'utils/simpleconfig'
 require 'utils/find_files'
 require 'utils/file_reader'
-require 'resources/postgres'
+require 'inspec/resources/postgres'
 
 module Inspec::Resources
   class PostgresConf < Inspec.resource(1)

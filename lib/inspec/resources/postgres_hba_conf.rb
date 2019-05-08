@@ -1,5 +1,5 @@
 
-require 'resources/postgres'
+require 'inspec/resources/postgres'
 require 'utils/file_reader'
 
 module Inspec::Resources
