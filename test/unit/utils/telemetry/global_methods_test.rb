@@ -4,7 +4,7 @@ require_relative '../../../helper.rb'
 class TestTelemetryGlobalMethods < Minitest::Test
   def setup
     @collector = Inspec::Telemetry::Collector.instance
-    @collector.load_config(Inspec::Config.mock(telemetry: true))
+    @collector.load_config(Inspec::Config.mock('enable_telemetry'=>true))
     @collector.reset
   end
 
