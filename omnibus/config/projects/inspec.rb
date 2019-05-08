@@ -24,7 +24,7 @@ maintainer 'Chef Software, Inc <maintainers@chef.io>'
 homepage 'https://github.com/inspec/inspec'
 
 license 'Chef EULA'
-license_file 'https://www.chef.io/end-user-license-agreement/'
+license_file 'CHEF-EULA.md'
 
 # Defaults to C:/opscode/inspec on Windows
 # and /opt/inspec on all other platforms.
