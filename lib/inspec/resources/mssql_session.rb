@@ -11,7 +11,6 @@ module Inspec::Resources
   # @see https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-connect-and-query-sqlcmd
   class MssqlSession < Inspec.resource(1)
     name 'mssql_session'
-    supports platform: 'windows'
     desc 'Use the mssql_session InSpec audit resource to test SQL commands run against a MS Sql Server database.'
     example <<~EXAMPLE
       # Using SQL authentication
