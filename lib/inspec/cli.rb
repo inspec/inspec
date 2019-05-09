@@ -124,7 +124,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     else
       %w{location profile controls timestamp valid}.each do |item|
         prepared_string = format('%-12s %s',
-                                 ("#{item.to_s.capitalize} :"),
+                                 "#{item.to_s.capitalize} :",
                                  result[:summary][item.to_sym])
         ui.plain_line(prepared_string)
       end
