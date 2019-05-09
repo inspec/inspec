@@ -47,8 +47,8 @@ module Inspec::Resources
         @version = version_from_psql
         if @version.to_s.empty?
           if inspec.directory('/var/lib/pgsql/data').exist?
-            warn 'Unable to determine PostgreSQL version: psql did not return
-              a version number and unversioned data directories were found.'
+            warn 'Unable to determine PostgreSQL version: psql did not return' \
+                 'a version number and unversioned data directories were found.'
           else
             @version = version_from_dir('/var/lib/pgsql')
           end
@@ -131,7 +131,7 @@ module Inspec::Resources
         'main'
       else
         dirs = inspec.command("ls -d #{dir}/*/").stdout.lines
-        if dirs.count == 0
+        if dirs.empty?
           warn "No postgresql clusters configured or incorrect base dir #{dir}"
           return nil
         end
