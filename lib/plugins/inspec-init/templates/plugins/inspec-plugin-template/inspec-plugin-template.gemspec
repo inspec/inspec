@@ -1,5 +1,3 @@
-# coding: utf-8
-
 # As plugins are usually packaged and distributed as a RubyGem,
 # we have to provide a .gemspec file, which controls the gembuild
 # and publish process.  This is a fairly generic gemspec.
