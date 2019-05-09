@@ -124,7 +124,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     else
       %w{location profile controls timestamp valid}.each do |item|
         prepared_string = format('%-12s %s',
-                                 (item.to_s.capitalize + ':'),
+                                 ("#{item.to_s.capitalize} :"),
                                  result[:summary][item.to_sym])
         ui.plain_line(prepared_string)
       end
@@ -143,8 +143,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
         puts
 
-        errors = ui.red(result[:errors].length.to_s + ' errors', print: false)
-        warnings = ui.yellow(result[:warnings].length.to_s + ' warnings', print: false)
+        errors = ui.red("#{result[:errors].length} errors", print: false)
+        warnings = ui.yellow("#{result[:warnings].length} warnings", print: false)
         ui.plain_line("Summary:     #{errors}, #{warnings}")
       end
     end
