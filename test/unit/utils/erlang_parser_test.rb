@@ -2,7 +2,7 @@
 # author: Christoph Hartmann
 
 require 'helper'
-require 'utils/erlang_parser'
+require 'inspec/utils/erlang_parser'
 
 describe ErlangParser do
   def parse(c)

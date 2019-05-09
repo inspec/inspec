@@ -1,6 +1,6 @@
 
 require 'openssl'
-require 'utils/file_reader'
+require 'inspec/utils/file_reader'
 
 class DhParams < Inspec.resource(1)
   name 'dh_params'

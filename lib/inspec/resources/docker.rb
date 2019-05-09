@@ -2,7 +2,7 @@
 # Copyright 2017, Christoph Hartmann
 #
 
-require 'utils/filter'
+require 'inspec/utils/filter'
 require 'hashie/mash'
 
 module Inspec::Resources

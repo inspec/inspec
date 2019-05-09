@@ -1,7 +1,7 @@
 
-require 'utils/object_traversal'
-require 'utils/enumerable_delegation'
-require 'utils/file_reader'
+require 'inspec/utils/object_traversal'
+require 'inspec/utils/enumerable_delegation'
+require 'inspec/utils/file_reader'
 
 module Inspec::Resources
   class JsonConfig < Inspec.resource(1)

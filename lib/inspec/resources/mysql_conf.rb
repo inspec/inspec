@@ -1,9 +1,9 @@
 # copyright: 2015, Vulcano Security GmbH
 
-require 'utils/simpleconfig'
-require 'utils/find_files'
-require 'utils/file_reader'
-require 'utils/hash'
+require 'inspec/utils/simpleconfig'
+require 'inspec/utils/find_files'
+require 'inspec/utils/file_reader'
+require 'inspec/utils/hash'
 require 'inspec/resources/mysql'
 
 module Inspec::Resources

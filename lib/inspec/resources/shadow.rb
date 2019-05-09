@@ -1,7 +1,7 @@
 # copyright: 2016, Chef Software Inc.
 
-require 'utils/filter'
-require 'utils/file_reader'
+require 'inspec/utils/filter'
+require 'inspec/utils/file_reader'
 
 # The file format consists of
 # - user

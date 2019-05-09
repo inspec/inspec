@@ -9,9 +9,9 @@
 # - home directory
 # - command
 
-require 'utils/parser'
-require 'utils/filter'
-require 'utils/file_reader'
+require 'inspec/utils/parser'
+require 'inspec/utils/filter'
+require 'inspec/utils/file_reader'
 
 module Inspec::Resources
   class Passwd < Inspec.resource(1)

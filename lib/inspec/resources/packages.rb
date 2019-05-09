@@ -1,6 +1,6 @@
 # copyright: 2017, Chef Software, Inc. <legal@chef.io>
 
-require 'utils/filter'
+require 'inspec/utils/filter'
 
 module Inspec::Resources
   class Packages < Inspec.resource(1)

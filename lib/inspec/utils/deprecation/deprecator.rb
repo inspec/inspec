@@ -1,4 +1,4 @@
-require 'utils/deprecation/config_file'
+require 'inspec/utils/deprecation/config_file'
 require 'inspec/log'
 
 module Inspec
@@ -44,7 +44,7 @@ module Inspec
         # rspec-core surrounds these.
 
         # First, purge the deprecation system frames
-        stack.reject! { |frame| frame.path && frame.path =~ %r{lib/utils/deprecation} }
+        stack.reject! { |frame| frame.path && frame.path =~ %r{lib/inspec/utils/deprecation} }
         # Next, purge all RSpec entries (at least rspec-core, rspec-support, rspec-its).
         stack.reject! { |frame| frame.path && frame.path =~ %r{rspec-.+/lib/rspec}  }
         # Now look for the frame that includes load_with_context.

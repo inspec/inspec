@@ -1,8 +1,8 @@
 
 require 'openssl'
 require 'hashie/mash'
-require 'utils/file_reader'
-require 'utils/pkey_reader'
+require 'inspec/utils/file_reader'
+require 'inspec/utils/pkey_reader'
 
 module Inspec::Resources
   class RsaKey < Inspec.resource(1)

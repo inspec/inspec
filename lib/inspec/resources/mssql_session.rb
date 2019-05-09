@@ -1,6 +1,6 @@
 
 require 'hashie/mash'
-require 'utils/database_helpers'
+require 'inspec/utils/database_helpers'
 
 module Inspec::Resources
   # STABILITY: Experimental

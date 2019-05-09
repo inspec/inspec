@@ -1,6 +1,6 @@
 
-require 'utils/parser'
-require 'utils/file_reader'
+require 'inspec/utils/parser'
+require 'inspec/utils/file_reader'
 
 module Inspec::Resources
   class EtcHostsAllow < Inspec.resource(1)

@@ -17,9 +17,9 @@
 #   its('users') { should include 'my_user' }
 # end
 
-require 'utils/convert'
-require 'utils/parser'
-require 'utils/file_reader'
+require 'inspec/utils/convert'
+require 'inspec/utils/parser'
+require 'inspec/utils/file_reader'
 
 module Inspec::Resources
   class EtcGroup < Inspec.resource(1)

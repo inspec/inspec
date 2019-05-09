@@ -1,9 +1,9 @@
 # copyright: 2015, Vulcano Security GmbH
 
-require 'utils/object_traversal'
-require 'utils/simpleconfig'
-require 'utils/find_files'
-require 'utils/file_reader'
+require 'inspec/utils/object_traversal'
+require 'inspec/utils/simpleconfig'
+require 'inspec/utils/find_files'
+require 'inspec/utils/file_reader'
 require 'inspec/resources/postgres'
 
 module Inspec::Resources

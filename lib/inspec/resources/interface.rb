@@ -1,5 +1,5 @@
 
-require 'utils/convert'
+require 'inspec/utils/convert'
 
 module Inspec::Resources
   class NetworkInterface < Inspec.resource(1)

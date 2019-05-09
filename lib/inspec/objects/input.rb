@@ -1,5 +1,5 @@
 
-require 'utils/deprecation'
+require 'inspec/utils/deprecation'
 
 # For backwards compatibility during the rename (see #3802),
 # maintain the Inspec::Attribute namespace for people checking for

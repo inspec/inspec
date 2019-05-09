@@ -1,6 +1,6 @@
 
-require 'utils/parser'
-require 'utils/filter'
+require 'inspec/utils/parser'
+require 'inspec/utils/filter'
 require 'ipaddr'
 
 # TODO: currently we return local ip only

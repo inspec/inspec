@@ -7,7 +7,7 @@ $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
 require 'inspec/version'
 require 'inspec/exceptions'
-require 'utils/deprecation'
+require 'inspec/utils/deprecation'
 require 'inspec/profile'
 require 'inspec/rule'
 require 'matchers/matchers'

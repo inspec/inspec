@@ -1,5 +1,5 @@
 
-require 'utils/filter'
+require 'inspec/utils/filter'
 
 module Inspec::Resources
   # This file contains two resources, the `group` and `groups` resource.

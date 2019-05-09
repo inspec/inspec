@@ -1,4 +1,4 @@
-require 'utils/filter'
+require 'inspec/utils/filter'
 
 class AwsBillingReports < Inspec.resource(1)
   name 'aws_billing_reports'

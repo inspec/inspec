@@ -1,6 +1,6 @@
 # A system to provide a unified deprecation facility for InSpec
 
-require 'utils/deprecation/errors'
-require 'utils/deprecation/config_file'
-require 'utils/deprecation/deprecator'
-require 'utils/deprecation/global_method'
+require 'inspec/utils/deprecation/errors'
+require 'inspec/utils/deprecation/config_file'
+require 'inspec/utils/deprecation/deprecator'
+require 'inspec/utils/deprecation/global_method'
