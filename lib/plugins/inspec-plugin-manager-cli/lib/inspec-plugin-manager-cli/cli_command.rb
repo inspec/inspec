@@ -71,10 +71,10 @@ module InspecPlugins
         ui.plain(" #{search_results.count} plugin(s) found")
         puts
 
-        ui.exit 2 if search_results.empty?
+        ui.exit Inspec::UI::EXIT_PLUGIN_ERROR if search_results.empty?
       rescue Inspec::Plugin::V2::SearchError => ex
         Inspec::Log.error ex.message
-        ui.exit 1
+        ui.exit Inspec::UI::EXIT_USAGE_ERROR
       end
 
       #==================================================================#
@@ -119,7 +119,7 @@ module InspecPlugins
           installer.update(plugin_name)
         rescue Inspec::Plugin::V2::UpdateError => ex
           ui.red('Update error: ' + ex.message + ' - update failed')
-          ui.exit 1
+          ui.exit Inspec::UI::EXIT_USAGE_ERROR
         end
         post_update_versions = installer.list_installed_plugin_gems.select { |spec| spec.name == plugin_name }.map { |spec| spec.version.to_s }
         new_version = (post_update_versions - pre_update_versions).first
@@ -146,7 +146,7 @@ module InspecPlugins
         unless status
           ui.red("No such plugin installed: #{plugin_name} is not " \
                  'installed - uninstall failed')
-          ui.exit 1
+          ui.exit Inspec::UI::EXIT_USAGE_ERROR
         end
         installer = Inspec::Plugin::V2::Installer.instance
 
@@ -162,7 +162,7 @@ module InspecPlugins
           ui.bold(plugin_name + " plugin, version #{old_version}, has " \
                   'been uninstalled')
         end
-        ui.exit 0
+        ui.exit Inspec::UI::EXIT_NORMAL
       end
 
       private
@@ -175,7 +175,7 @@ module InspecPlugins
       def install_from_gemfile(gem_file)
         unless File.exist? gem_file
           ui.red("No such plugin gem file #{gem_file} - installation failed.")
-          ui.exit 1
+          ui.exit Inspec::UI::EXIT_USAGE_ERROR
         end
 
         plugin_name_parts = File.basename(gem_file, ".gem").split("-")
@@ -187,13 +187,13 @@ module InspecPlugins
 
         ui.bold("#{plugin_name} plugin, version #{version}, installed from " \
                 'local .gem file')
-        ui.exit 0
+        ui.exit Inspec::UI::EXIT_NORMAL
       end
 
       def install_from_path(path)
         unless File.exist? path
           ui.red('No such source code path ' + path + ' - installation failed.')
-          ui.exit 1
+          ui.exit Inspec::UI::EXIT_USAGE_ERROR
         end
 
         plugin_name = File.basename(path, ".rb")
@@ -210,7 +210,7 @@ module InspecPlugins
           ui.red("Plugin already installed - #{plugin_name} - Use '#{EXEC_NAME}" \
                  "plugin list' to see previously installed plugin - " \
                  'installation failed.')
-          ui.exit 2
+          ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
         end
 
         # Can we figure out how to load it?
@@ -224,7 +224,7 @@ module InspecPlugins
 
         ui.bold("#{plugin_name} plugin installed via source path reference, " \
                 "resolved to entry point #{entry_point}")
-        ui.exit 0
+        ui.exit Inspec::UI::EXIT_NORMAL
       end
 
       # Rationale for rubocop variances: It's a heuristics method, and will be full of
@@ -288,7 +288,7 @@ module InspecPlugins
         ui.red("Unrecognizable plugin structure - #{parts[2]} - When " \
                'installing from a path, please provide the path of the ' \
                'entry point file - installation failed.')
-        ui.exit 1
+        ui.exit Inspec::UI::EXIT_USAGE_ERROR
       end
 
       def install_from_path__probe_load(entry_point, plugin_name)
@@ -300,7 +300,7 @@ module InspecPlugins
                  'errors while trying to test load the plugin entry point, ' \
                  "resolved to #{entry_point} - installation failed")
           ui.plain ex.message
-          ui.exit 1
+          ui.exit Inspec::UI::EXIT_USAGE_ERROR
         end
 
         # OK, the wheels didn't fall off.  But is it a plugin?
@@ -313,7 +313,7 @@ module InspecPlugins
                    'probe-loading the supposed plugin, it did not register ' \
                    'itself to Train. Ensure something inherits from ' \
                    "'Train.plugin(1)' - installation failed.")
-            ui.exit 1
+            ui.exit Inspec::UI::EXIT_USAGE_ERROR
           end
         else
           unless registry.known_plugin?(plugin_name.to_sym)
@@ -321,7 +321,7 @@ module InspecPlugins
                    'probe-loading the supposed plugin, it did not register ' \
                    'itself to InSpec. Ensure something inherits from ' \
                    "'Inspec.plugin(2)' - installation failed.")
-            ui.exit 1
+            ui.exit Inspec::UI::EXIT_USAGE_ERROR
           end
         end
       end
@@ -343,7 +343,7 @@ module InspecPlugins
 
         ui.bold("#{plugin_name} plugin, version #{new_version}, installed " \
                 'from rubygems.org')
-        ui.exit 0
+        ui.exit Inspec::UI::EXIT_NORMAL
       end
 
       def install_from_remote_gem_verson_preflight_check(plugin_name, requested_version, pre_installed_versions)
@@ -378,7 +378,7 @@ module InspecPlugins
                  'plugin update` - refusing to install.')
         end
 
-        ui.exit 2
+        ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
       end
 
       # Rationale for RuboCop variance: This is a one-line method with heavy UX-focused error handling.
@@ -393,7 +393,7 @@ module InspecPlugins
         ui.plain('If you disagree with this determination, please accept ' \
                  'our apologies for the misunderstanding, and open an issue ' \
                  'at https://github.com/inspec/inspec/issues/new')
-        ui.exit 2
+        ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
       rescue Inspec::Plugin::V2::InstallError
         raise if Inspec::Log.level == :debug
 
@@ -408,7 +408,7 @@ module InspecPlugins
         else
           ui.red('Unknown error occured - installation failed.')
         end
-        ui.exit 1
+        ui.exit Inspec::UI::EXIT_USAGE_ERROR
       end
 
       #==================================================================#
@@ -420,12 +420,12 @@ module InspecPlugins
           status = Inspec::Plugin::V2::Registry.instance[plugin_name.to_sym]
           if !status
             ui.red("No such plugin installed: #{plugin_name} - update failed")
-            ui.exit 1
+            ui.exit Inspec::UI::EXIT_USAGE_ERROR
           elsif status.installation_type == :path
             ui.red("Cannot update path-based install: #{plugin_name} is " \
                    'installed via path reference; use `inspec plugin ' \
                    'uninstall` to remove - refusing to update')
-            ui.exit 2
+            ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
           end
         end
 
@@ -436,7 +436,7 @@ module InspecPlugins
         if pre_update_versions.include?(latest_version)
           ui.red("Already installed at latest version: #{plugin_name} is at " \
                  "#{latest_version}, which the latest - refusing to update")
-          ui.exit 2
+          ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
         end
       end
 
@@ -456,7 +456,7 @@ module InspecPlugins
           ui.red("Invalid plugin name - #{plugin_name} - All inspec " \
                  "plugins must begin with either 'inspec-' or 'train-' " \
                  "- #{action} failed.")
-          ui.exit 1
+          ui.exit Inspec::UI::EXIT_USAGE_ERROR
         end
       end
 
