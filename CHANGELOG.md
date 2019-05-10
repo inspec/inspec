@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.13 -->
-## [v4.4.13](https://github.com/inspec/inspec/tree/v4.4.13) (2019-05-09)
+<!-- latest_release 4.4.14 -->
+## [v4.4.14](https://github.com/inspec/inspec/tree/v4.4.14) (2019-05-10)
 
 #### Merged Pull Requests
-- Fix broken tests after removing magic comments. [#4046](https://github.com/inspec/inspec/pull/4046) ([miah](https://github.com/miah))
+- Remove more magic comments [#4050](https://github.com/inspec/inspec/pull/4050) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Remove more magic comments [#4050](https://github.com/inspec/inspec/pull/4050) ([miah](https://github.com/miah)) <!-- 4.4.14 -->
 - Fix broken tests after removing magic comments. [#4046](https://github.com/inspec/inspec/pull/4046) ([miah](https://github.com/miah)) <!-- 4.4.13 -->
 - Wrap resources in backticks and remove resource name capitalizing [#4043](https://github.com/inspec/inspec/pull/4043) ([alexpop](https://github.com/alexpop)) <!-- 4.4.12 -->
 - Relocate core resources from lib/resources to lib/inspec/resources [#4042](https://github.com/inspec/inspec/pull/4042) ([miah](https://github.com/miah)) <!-- 4.4.11 -->
