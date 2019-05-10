@@ -106,7 +106,7 @@ class PluginLoaderTests < Minitest::Test
 
   def test_load_no_plugins_should_load_no_plugins
     reg = Inspec::Plugin::V2::Registry.instance
-    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true)
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true, omit_user_plugins: true)
     loader.load_all
     assert_equal 0, reg.loaded_count, "\nRegistry load count"
   end
