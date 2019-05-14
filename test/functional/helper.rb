@@ -8,11 +8,13 @@ require 'json'
 require 'fileutils'
 require 'yaml'
 require 'tmpdir'
+require 'shellwords'
+require 'pry'
 
-require 'minitest/hell'
-class Minitest::Test
-  parallelize_me!
-end
+#require 'minitest/hell'
+#class Minitest::Test
+#  parallelize_me!
+#end
 
 class Module
   include Minitest::Spec::DSL
