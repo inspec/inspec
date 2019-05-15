@@ -57,7 +57,7 @@ module Inspec::Plugin::V2
       @@plugin_type_classes[plugin_type_name]
     end
 
-    def self.find_type_by_implementation_class(impl_class)
+    def self.find_name_by_implementation_class(impl_class)
       # This is super awkward
       activators = Inspec::Plugin::V2::Registry.instance.find_activators
       activator = activators.detect { |a| a.implementation_class == impl_class }
@@ -83,7 +83,7 @@ module Inspec::Plugin::V2
         stat = reg.find_status_by_class(self)
         return stat.name if stat
         # Called from an implementation class
-        return find_type_by_implementation_class(self)
+        return find_name_by_implementation_class(self)
       end
 
       name = name.to_sym

@@ -222,6 +222,8 @@ class PluginLoaderTests < Minitest::Test
     assert_includes impl_class.ancestors, Inspec::Plugin::V2::PluginType::Mock, 'impl_class should derive from PluginType::Mock'
     assert InspecPlugins::MeaningOfLife.const_defined?(:MockPlugin), 'impl_class should now be defined'
 
+    assert_equal :'inspec-meaning-of-life', Inspec::Plugin::V2::PluginBase.find_name_by_implementation_class(impl_class), 'find_name_by_implementation_class should work'
+
   end
 
   #====================================================================#

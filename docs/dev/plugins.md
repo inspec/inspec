@@ -334,7 +334,7 @@ Input plugins have a simple API which is intended to be easy to adapt to a numbe
 
 Generally speaking, an input plugin will only need to have one activator.
 
-In your `plugin.rb`, include one or more `input` activation blocks. The activation block will fire when the InputRegistry is initialized, and you (in which case it should load any needed libraries) and should return your implementation class.
+In your `plugin.rb`, include one or more `input` activation blocks. The activation block will fire when the InputRegistry is initialized, at which time case it should load any needed libraries and should return your implementation class.
 
 The Input subsystem always activates all activators.
 

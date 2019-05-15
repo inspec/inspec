@@ -5,13 +5,13 @@ describe 'Input plugin type' do
     it 'returns the superclass when calling the global defintion method' do
       klass = Inspec.plugin(2, :input)
       klass.must_be_kind_of Class
-      klass.name.must_equal 'Inspec::Plugin::V2::PluginType::Input'
+      klass.must_equal Inspec::Plugin::V2::PluginType::Input
     end
 
     it 'returns the superclass when referenced by alias' do
       klass = Inspec::Plugin::V2::PluginBase.base_class_for_type(:input)
       klass.must_be_kind_of Class
-      klass.name.must_equal 'Inspec::Plugin::V2::PluginType::Input'
+      klass.must_equal Inspec::Plugin::V2::PluginType::Input
     end
 
     it 'registers an activation dsl method' do

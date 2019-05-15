@@ -27,11 +27,12 @@ module Inspec
       @profile_aliases = {}
 
       # Upon creation, activate all input plugins
-      @plugins = []
-      Inspec::Plugin::V2::Registry.instance.find_activators(plugin_type: :input).each do |activator|
+      activators = Inspec::Plugin::V2::Registry.instance.find_activators(plugin_type: :input)
+
+      @plugins = activators.map { |activator|
         activator.activate!
-        plugins << activator.implementation_class.new
-      end
+        activator.implementation_class.new
+      }
     end
 
     #-------------------------------------------------------------#
@@ -52,11 +53,9 @@ module Inspec
     # that plugins may be able to fetch, but have not actually been
     # mentioned in the control code.
     def list_potential_input_names_for_profile(profile_name)
-      input_names = inputs_by_profile[profile_name].keys
-      plugins.each do |plugin|
-        input_names += plugin.list_inputs(profile_name)
-      end
-      input_names.uniq
+      input_names_from_dsl = inputs_by_profile[profile_name].keys
+      input_names_from_plugins = plugins.map { |plugin| plugin.list_inputs(profile_name) }
+      (input_names_from_dsl + input_names_from_plugins).flatten.uniq
     end
 
     #-------------------------------------------------------------#
@@ -84,14 +83,14 @@ module Inspec
 
     def poll_plugins_for_update(profile_name, input_name)
       plugins.each do |plugin|
-        val = plugin.fetch(profile_name, input_name)
+        response = plugin.fetch(profile_name, input_name)
         evt = Inspec::Input::Event.new(
           action: :fetch,
           provider: plugin.class.plugin_name,
           priority: plugin.default_priority,
-          hit: !val.nil?,
+          hit: !response.nil?,
         )
-        evt.value = val unless val.nil?
+        evt.value = response unless response.nil?
         inputs_by_profile[profile_name][input_name].events << evt
       end
     end

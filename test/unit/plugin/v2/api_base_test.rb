@@ -22,6 +22,7 @@ class PluginV2BaseMgmtMethods < Minitest::Test
   def test_plugin_v2_management_class_methods_present
     [
       :base_class_for_type,
+      :find_type_by_implementation_class,
       :registry,
       :register_plugin_type,
       :plugin_name,
