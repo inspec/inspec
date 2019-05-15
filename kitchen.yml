@@ -76,13 +76,6 @@ platforms:
     image: dokken/opensuse-leap-42
     pid_one_command: /bin/systemd
 
-- name: ubuntu-14.04
-  driver:
-    image: dokken/ubuntu-14.04
-    pid_one_command: /sbin/init
-    intermediate_instructions:
-      - RUN /usr/bin/apt-get update -y
-
 - name: ubuntu-16.04
   driver:
     image: dokken/ubuntu-16.04
