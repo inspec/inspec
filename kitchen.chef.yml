@@ -57,11 +57,9 @@ platforms:
     - ['../..', '/vagrant/code']
 <% end %>
 
-<% [ '10.11', '11.3' ].each do |solaris_version| %>
 - name: solaris-<%= solaris_version %>
   driver:
-    box: chef/solaris-<%= solaris_version %>
-<% end %>
+    box: chef/solaris-11.3
 
 <% [ '11-sp2-x86_64' ].each do |sles_version| %>
 - name: sles-<%= sles_version %>
