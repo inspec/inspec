@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.22 -->
-## [v4.4.22](https://github.com/inspec/inspec/tree/v4.4.22) (2019-05-15)
+<!-- latest_release 4.4.23 -->
+## [v4.4.23](https://github.com/inspec/inspec/tree/v4.4.23) (2019-05-15)
 
 #### Merged Pull Requests
-- Cleanup and fix failing Kitchen tests [#4074](https://github.com/inspec/inspec/pull/4074) ([tas50](https://github.com/tas50))
+- Add kitchen rake testing [#4076](https://github.com/inspec/inspec/pull/4076) ([lamont-granquist](https://github.com/lamont-granquist))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Add kitchen rake testing [#4076](https://github.com/inspec/inspec/pull/4076) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 4.4.23 -->
 - Cleanup and fix failing Kitchen tests [#4074](https://github.com/inspec/inspec/pull/4074) ([tas50](https://github.com/tas50)) <!-- 4.4.22 -->
 - Upgrade to Ruby 2.6.3 [#4073](https://github.com/inspec/inspec/pull/4073) ([tas50](https://github.com/tas50)) <!-- 4.4.21 -->
 - Update our Code of Conduct [#4072](https://github.com/inspec/inspec/pull/4072) ([miah](https://github.com/miah)) <!-- 4.4.20 -->
