@@ -15,7 +15,7 @@ module Inspec::Resources
       # print warnings if the dirs do not exist
       verify_dirs
 
-      if !@version.nil? && !@conf_dir.empty?
+      if !@version.to_s.empty? && !@conf_dir.to_s.empty?
         @conf_path = File.join @conf_dir, 'postgresql.conf'
       else
         @conf_path = nil
@@ -38,16 +38,17 @@ module Inspec::Resources
         # installed as well as multiple "clusters" to be configured.
         #
         @version = version_from_psql || version_from_dir('/etc/postgresql')
-        @cluster = cluster_from_dir("/etc/postgresql/#{@version}")
-        @conf_dir = "/etc/postgresql/#{@version}/#{@cluster}"
-        @data_dir = "/var/lib/postgresql/#{@version}/#{@cluster}"
+        if !@version.to_s.empty?
+          @cluster = cluster_from_dir("/etc/postgresql/#{@version}")
+          @conf_dir = "/etc/postgresql/#{@version}/#{@cluster}"
+          @data_dir = "/var/lib/postgresql/#{@version}/#{@cluster}"
+        end
       else
         @version = version_from_psql
-        if @version.nil?
+        if @version.to_s.empty?
           if inspec.directory('/var/lib/pgsql/data').exist?
-            warn 'Unable to determine PostgreSQL version: psql did not return
-             a version number and unversioned data directories were found.'
-            nil
+            warn 'Unable to determine PostgreSQL version: psql did not return' \
+                 'a version number and unversioned data directories were found.'
           else
             @version = version_from_dir('/var/lib/pgsql')
           end
@@ -130,6 +131,10 @@ module Inspec::Resources
         'main'
       else
         dirs = inspec.command("ls -d #{dir}/*/").stdout.lines
+        if dirs.empty?
+          warn "No postgresql clusters configured or incorrect base dir #{dir}"
+          return nil
+        end
         first = dirs.first.chomp.split('/').last
         if dirs.count > 1
           warn "Multiple postgresql clusters configured or incorrect base dir #{dir}"
