@@ -56,6 +56,10 @@ matrix:
   - rvm: 2.5.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
+    env: SUITE=test:integration[default-debian-10]  
+  - rvm: 2.5.5
+    script: bundle exec rake $SUITE
+    bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-oraclelinux-6]
   - rvm: 2.5.5
     script: bundle exec rake $SUITE
