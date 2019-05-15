@@ -3,7 +3,6 @@
 
 require 'helper'
 require 'rbconfig'
-require 'byebug'
 require 'json'
 require 'fileutils'
 require 'yaml'

@@ -1,7 +1,6 @@
 # Tests for the *DSL plugin types
 
 require 'minitest/autorun'
-require 'byebug'
 
 require_relative '../../../../lib/inspec/plugin/v2'
 

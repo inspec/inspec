@@ -8,8 +8,6 @@ require 'json'
 require_relative '../../../../lib/inspec/plugin/v2'
 require_relative '../../../../lib/inspec/plugin/v2/installer'
 
-require 'byebug'
-
 module InstallerTestHelpers
   def reset_globals
     ENV['HOME'] = @orig_home

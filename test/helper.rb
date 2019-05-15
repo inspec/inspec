@@ -25,7 +25,6 @@ require 'tempfile'
 require 'tmpdir'
 require 'zip'
 require 'json'
-require 'byebug'
 
 require 'inspec/base_cli'
 require 'inspec/version'
