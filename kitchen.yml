@@ -1,7 +1,7 @@
 ---
 driver:
   name: dokken
-  chef_version: 14.10.9
+  chef_version: 14.12.9
   privileged: true # because Docker and SystemD/Upstart
 
 transport:
@@ -56,6 +56,13 @@ platforms:
     intermediate_instructions:
       - RUN /usr/bin/apt-get update -y
 
+- name: debian-10
+  driver:
+    image: dokken/debian-10
+    pid_one_command: /bin/systemd
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update -y
+
 - name: fedora-29
   driver:
     image: dokken/fedora-29
@@ -75,13 +82,6 @@ platforms:
   driver:
     image: dokken/opensuse-leap-42
     pid_one_command: /bin/systemd
-
-- name: ubuntu-14.04
-  driver:
-    image: dokken/ubuntu-14.04
-    pid_one_command: /sbin/init
-    intermediate_instructions:
-      - RUN /usr/bin/apt-get update -y
 
 - name: ubuntu-16.04
   driver:

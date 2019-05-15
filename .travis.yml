@@ -18,7 +18,7 @@ matrix:
     env: UNIT_TESTS_24=1
   - rvm: 2.5.5
     env: UNIT_TESTS_25=1
-  - rvm: 2.6.2
+  - rvm: 2.6.3
     env: UNIT_TESTS_26=1
   - rvm: 2.4.5
     script: bundle exec rake $SUITE
@@ -53,6 +53,10 @@ matrix:
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-debian-9]
+  - rvm: 2.5.5
+    script: bundle exec rake $SUITE
+    bundler_args: "--without tools maintenance deploy"
+    env: SUITE=test:integration[default-debian-10]
   - rvm: 2.5.5
     script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
