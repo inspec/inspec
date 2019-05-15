@@ -61,11 +61,9 @@ platforms:
   driver:
     box: chef/solaris-11.3
 
-<% [ '11-sp2-x86_64' ].each do |sles_version| %>
 - name: sles-<%= sles_version %>
   driver:
-    box: chef/sles-<%= sles_version %>
-<% end %>
+    box: chef/sles-11-sp2-x86_64
 
 suites:
   - name: default
