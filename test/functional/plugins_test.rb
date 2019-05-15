@@ -133,6 +133,16 @@ describe 'input plugins' do
     end
   end
 
+  describe 'when examining the event log' do
+    it 'should include the expected events' do
+      controls = 'event_log'
+      cmd = "exec #{profile} --controls #{controls}"
+      run_result = run_inspec_process(cmd, json: true, env: env)
+      run_result.must_have_all_controls_passing
+      run_result.stderr.must_be_empty
+    end
+  end
+
   describe 'when listing available inputs' do
     it 'should list available inputs' do
       controls = 'list_inputs'

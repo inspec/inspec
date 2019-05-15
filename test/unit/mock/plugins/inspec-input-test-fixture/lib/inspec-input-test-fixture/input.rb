@@ -25,6 +25,7 @@ module InspecPlugins::InputTestFixture
           'test_collide_plugin_higher' => 'collide_plugin_higher',
           'test_collide_inline_higher' => 'wrong',
           'test_not_mentioned_inline' => 'anything',
+          'test_event_log' => 'setting_in_plugin',
         }
       }
     end
