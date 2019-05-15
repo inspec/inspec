@@ -52,9 +52,4 @@ if os.linux?
   describe kernel_parameter('net.ipv4.conf.all.forwarding') do
     its('value') { should eq test_values[:forwarding] }
   end
-
-  # serverspec compatability
-  describe linux_kernel_parameter('net.ipv4.conf.all.forwarding') do
-    its('value') { should eq test_values[:forwarding] }
-  end
 end
