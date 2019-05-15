@@ -9,6 +9,10 @@ verifier:
   name: inspec
   sudo: true
 
+lifecycle:
+  pre_converge:
+    - local: gem build inspec-core.gemspec --output test/cookbooks/os_prepare/files/inspec-core-local.gem
+
 platforms:
 # The following (private) boxes are shared via VagrantCloud and are only
 # available to users working for Chef. Sorry, it's about software licensing.
@@ -20,7 +24,7 @@ platforms:
 # 3.  Do `vagrant login` with your VagrantCloud creds so that you can download
 #     the private boxes.
 #
-# The Mac OS X boxes are VMware only also. You can enable VMware Fusion
+# The macOS boxes are VMware only also. You can enable VMware Fusion
 # by activating the `.kitchen.vmware.yml` file with the `KITCHEN_LOCAL_YAML`
 # environment variable:
 #
@@ -30,9 +34,9 @@ platforms:
   10.11
   10.12
 ).each do |mac_version| %>
-- name: macosx-<%= mac_version %>
+- name: macos-<%= mac_version %>
   driver:
-    box: chef/macosx-<%= mac_version %> # private
+    box: chef/macos-<%= mac_version %> # private
     synced_folders:
     - ['..', '/Users/vagrant/chef']
     - ['../../omnibus', '/Users/vagrant/omnibus']
@@ -53,17 +57,13 @@ platforms:
     - ['../..', '/vagrant/code']
 <% end %>
 
-<% [ '10.11', '11.3' ].each do |solaris_version| %>
 - name: solaris-<%= solaris_version %>
   driver:
-    box: chef/solaris-<%= solaris_version %>
-<% end %>
+    box: chef/solaris-11.3
 
-<% [ '11-sp2-x86_64' ].each do |sles_version| %>
 - name: sles-<%= sles_version %>
   driver:
-    box: chef/sles-<%= sles_version %>
-<% end %>
+    box: chef/sles-11-sp2-x86_64
 
 suites:
   - name: default
