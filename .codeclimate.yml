@@ -1,0 +1,19 @@
+version: "2"
+checks:
+  file-lines:
+    enabled: false
+plugins:
+  fixme:
+    enabled: true
+    config:
+      strings:
+        - TODO
+  flog:
+    enabled: true
+  markdownlint:
+    enabled: true
+  rubocop:
+    enabled: true
+    channel: rubocop-0-49
+    config:
+      file: .rubocop.yml
