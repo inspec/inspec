@@ -36,7 +36,7 @@ platforms:
 ).each do |mac_version| %>
 - name: macos-<%= mac_version %>
   driver:
-    box: chef/macosx-<%= mac_version %> # private
+    box: chef/macos-<%= mac_version %> # private
     synced_folders:
     - ['..', '/Users/vagrant/chef']
     - ['../../omnibus', '/Users/vagrant/omnibus']
