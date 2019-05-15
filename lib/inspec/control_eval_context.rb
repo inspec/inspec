@@ -2,6 +2,7 @@
 # author: Christoph Hartmann
 require 'inspec/dsl'
 require 'inspec/dsl_shared'
+require 'rspec/core/dsl'
 
 module Inspec
   #
@@ -19,7 +20,6 @@ module Inspec
     # @param [ResourcesDSL] resources_dsl which has all resources to attach
     # @return [RuleContext] the inner context of rules
     def self.rule_context(resources_dsl, profile_id)
-      require 'rspec/core/dsl'
       Class.new(Inspec::Rule) do
         include RSpec::Core::DSL
         with_resource_dsl resources_dsl

@@ -11,6 +11,7 @@ require 'inspec/metadata'
 require 'inspec/config'
 require 'inspec/dependencies/cache'
 require 'inspec/dist'
+require 'inspec/runner_rspec'
 # spec requirements
 
 module Inspec
@@ -52,7 +53,6 @@ module Inspec
       @cache = Inspec::Cache.new(@conf[:vendor_cache])
 
       @test_collector = @conf.delete(:test_collector) || begin
-        require 'inspec/runner_rspec'
         RunnerRspec.new(@conf)
       end
 
