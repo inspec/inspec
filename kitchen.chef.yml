@@ -9,6 +9,10 @@ verifier:
   name: inspec
   sudo: true
 
+lifecycle:
+  pre_converge:
+    - local: gem build inspec-core.gemspec --output test/cookbooks/os_prepare/files/inspec-core-local.gem
+
 platforms:
 # The following (private) boxes are shared via VagrantCloud and are only
 # available to users working for Chef. Sorry, it's about software licensing.

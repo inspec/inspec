@@ -7,6 +7,10 @@ driver:
 transport:
   name: dokken
 
+lifecycle:
+  pre_converge:
+    - local: gem build inspec-core.gemspec --output test/cookbooks/os_prepare/files/inspec-core-local.gem
+
 provisioner:
   name: dokken
   client_rb:
