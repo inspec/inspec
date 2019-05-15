@@ -5,7 +5,7 @@ require 'helper'
 require 'bundles/inspec-supermarket/target'
 require 'bundles/inspec-supermarket/api'
 
-describe Inspec::Fetcher do
+describe "Inspec::Fetcher" do
   it 'loads the local fetcher for this file' do
     res = Inspec::Fetcher.resolve(__FILE__)
     res.must_be_kind_of Fetchers::Local
