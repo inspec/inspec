@@ -1,0 +1,24 @@
+driver:
+  name: docker
+
+platforms:
+- name: ubuntu-18.04
+  driver_config:
+    image: ubuntu:18.04
+    platform: ubuntu
+    provision_command:
+      - curl -L https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
+      - apt-get -y install build-essential
+    require_chef_omnibus: false
+    volume: <%= File.expand_path("../..", File.dirname(__FILE__)) %>:/inspec
+
+provisioner:
+  name: shell
+
+verifier:
+  name: shell
+  remote_exec: true
+  command: cd /inspec && PATH=/opt/inspec/embedded/bin:$PATH bundle exec rake test
+
+suites:
+- name: default
