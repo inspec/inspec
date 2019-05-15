@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.15 -->
-## [v4.4.15](https://github.com/inspec/inspec/tree/v4.4.15) (2019-05-15)
+<!-- latest_release 4.4.16 -->
+## [v4.4.16](https://github.com/inspec/inspec/tree/v4.4.16) (2019-05-15)
 
 #### Merged Pull Requests
-- Emergency test fixes! [#4066](https://github.com/inspec/inspec/pull/4066) ([zenspider](https://github.com/zenspider))
+- Add codeclimate to our pipeline [#4044](https://github.com/inspec/inspec/pull/4044) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Add codeclimate to our pipeline [#4044](https://github.com/inspec/inspec/pull/4044) ([miah](https://github.com/miah)) <!-- 4.4.16 -->
 - Emergency test fixes! [#4066](https://github.com/inspec/inspec/pull/4066) ([zenspider](https://github.com/zenspider)) <!-- 4.4.15 -->
 - Remove more magic comments [#4050](https://github.com/inspec/inspec/pull/4050) ([miah](https://github.com/miah)) <!-- 4.4.14 -->
 - Fix broken tests after removing magic comments. [#4046](https://github.com/inspec/inspec/pull/4046) ([miah](https://github.com/miah)) <!-- 4.4.13 -->
