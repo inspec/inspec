@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.19 -->
-## [v4.4.19](https://github.com/inspec/inspec/tree/v4.4.19) (2019-05-15)
+<!-- latest_release 4.4.20 -->
+## [v4.4.20](https://github.com/inspec/inspec/tree/v4.4.20) (2019-05-15)
 
 #### Merged Pull Requests
-- Include info about Chef License Requirements [#4071](https://github.com/inspec/inspec/pull/4071) ([mjingle](https://github.com/mjingle))
+- Update our Code of Conduct [#4072](https://github.com/inspec/inspec/pull/4072) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Update our Code of Conduct [#4072](https://github.com/inspec/inspec/pull/4072) ([miah](https://github.com/miah)) <!-- 4.4.20 -->
 - Include info about Chef License Requirements [#4071](https://github.com/inspec/inspec/pull/4071) ([mjingle](https://github.com/mjingle)) <!-- 4.4.19 -->
 - Removed unneeded &#39;supports: windows&#39; [#4052](https://github.com/inspec/inspec/pull/4052) ([aaronlippold](https://github.com/aaronlippold)) <!-- 4.4.18 -->
 - Make the postgres resource more defensive [#4037](https://github.com/inspec/inspec/pull/4037) ([alexpop](https://github.com/alexpop)) <!-- 4.4.17 -->
