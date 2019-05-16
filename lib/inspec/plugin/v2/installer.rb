@@ -282,9 +282,9 @@ module Inspec::Plugin::V2
       install_gem_to_plugins_dir(plugin_dependency, [Gem::Resolver::BestSet.new], opts[:update_mode])
     end
 
-    def install_gem_to_plugins_dir(new_plugin_dependency,
+    def install_gem_to_plugins_dir(new_plugin_dependency, # rubocop: disable Metrics/AbcSize
                                    extra_request_sets = [],
-                                   update_mode = false) # rubocop: disable Metrics/AbcSize
+                                   update_mode = false)
 
       # Get a list of all the gems available to us.
       gem_to_force_update = update_mode ? new_plugin_dependency.name : nil
