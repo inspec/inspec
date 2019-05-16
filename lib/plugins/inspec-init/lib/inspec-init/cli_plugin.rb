@@ -7,7 +7,7 @@ module InspecPlugins
       #-------------------------------------------------------------------#
       #                 inspec init plugin
       #-------------------------------------------------------------------#
-      desc 'PLUGIN_NAME [options]', 'Generates an InSpec plugin, which can extend the functionality of InSpec itself.'
+      desc 'plugin PLUGIN_NAME [options]', 'Generates an InSpec plugin, which can extend the functionality of InSpec itself.'
       # General options
       option :prompt, type: :boolean, default: true, desc: 'Interactively prompt for information to put in your generated plugin.'
       option :detail, type: :string, default: 'full', desc: "How detailed of a plugin to generate. 'full' is a normal full gem with tests; 'core' has tests but no gemspec; 'test-fixture' is stripped down for a test fixture."
