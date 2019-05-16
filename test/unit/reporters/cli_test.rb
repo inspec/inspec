@@ -288,13 +288,6 @@ describe Inspec::Reporters::CLI do
     it 'return unique controls' do
       report.send(:all_unique_controls).count.must_equal 4
     end
-
-    it 'return unique controls cached' do
-      instance_variable_get(:@unique_controls).must_be_nil
-      report.send(:all_unique_controls).count.must_equal 4
-      assert = report.instance_variable_get(:@unique_controls)
-      assert.count.must_equal 4
-    end
   end
 
   describe '#profile_summary' do
