@@ -166,9 +166,9 @@ module Inspec::Reporters
     end
 
     def all_unique_controls
-      return @unique_controls unless @unique_controls.nil?
+      @unique_controls ||= Set.new
+      return @unique_controls unless @unique_controls.empty?
 
-      @unique_controls = Set.new
       run_data[:profiles].each do |profile|
         profile[:controls].map { |control| @unique_controls.add(control) }
       end
