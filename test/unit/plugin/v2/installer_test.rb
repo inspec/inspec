@@ -18,9 +18,9 @@ module InstallerTestHelpers
   end
 
   def reset_globals
-    ENV['HOME'] = @orig_home
+    ENV['HOME'] = @@orig_home
     ENV['INSPEC_CONFIG_DIR'] = nil
-    @installer.__reset if @installer
+    @installer.__reset
   end
 
   def copy_in_config_dir(fixture_name)
@@ -29,22 +29,27 @@ module InstallerTestHelpers
     src.each { |path| FileUtils.cp_r(path, dest) }
   end
 
-  def setup
-    @orig_home = Dir.home
+  @@orig_home = Dir.home
 
+  def setup
+    WebMock.disable_net_connect!(allow: %r{(api\.)?rubygems\.org/.*})
     repo_path = File.expand_path(File.join( __FILE__, '..', '..', '..', '..', '..'))
     mock_path = File.join(repo_path, 'test', 'unit', 'mock')
+
     @config_dir_path = File.join(mock_path, 'config_dirs')
     @plugin_fixture_src_path = File.join(mock_path, 'plugins', 'inspec-test-fixture')
     @plugin_fixture_pkg_path = File.join(@plugin_fixture_src_path, 'pkg')
 
     # This is unstable under CI; see https://github.com/inspec/inspec/issues/3355
-    # @ruby_abi_version = (RUBY_VERSION.split('.')[0,2] << '0').join('.')
-    @ruby_abi_version = (Gem.ruby_version.segments[0, 2] << 0).join('.')
+    @ruby_abi_version = RbConfig::CONFIG['ruby_version']
 
     @installer = Inspec::Plugin::V2::Installer.instance
-    reset_globals
-    WebMock.disable_net_connect!(allow: %r{(api\.)?rubygems\.org/.*})
+
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
+    ENV['HOME'] = File.join(@config_dir_path, 'fakehome')
+    Gem.paths = ENV
+    @installer.__reset_loader
+    @installer.__reset
   end
 
   def teardown
@@ -81,6 +86,7 @@ class PluginInstallerBasicTests < Minitest::Test
 
   # it should know its gem path
   def test_it_should_know_its_gem_path_with_a_default_location
+    ENV.delete 'INSPEC_CONFIG_DIR'
     ENV['HOME'] = File.join(@config_dir_path, 'fakehome')
     expected = File.join(ENV['HOME'], '.inspec', 'gems', @ruby_abi_version)
     assert_equal expected, @installer.gem_path
@@ -112,26 +118,35 @@ class PluginInstallerInstallationTests < Minitest::Test
 
   def test_install_a_gem_from_local_file
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
-    gem_file = File.join(@plugin_fixture_pkg_path, 'inspec-test-fixture-0.1.0.gem')
-    @installer.install('inspec-test-fixture', gem_file: gem_file)
-    # Because no exception was thrown, this is a positive test case for prefix-checking.
 
-    # Installing a gem places it under the config dir gem area
-    # Two things should happen: a copy of the gemspec should be left there...
-    spec_path = File.join(@installer.gem_path, 'specifications', 'inspec-test-fixture-0.1.0.gemspec')
-    assert File.exist?(spec_path), 'After installation from a gem file, the gemspec should be installed to the gem path'
-    # ... and the actual library code should be decompressed into a directory tree.
-    installed_gem_base = File.join(@installer.gem_path, 'gems', 'inspec-test-fixture-0.1.0')
-    assert Dir.exist?(installed_gem_base), 'After installation from a gem file, the gem tree should be installed to the gem path'
+    gem_file = File.join(@plugin_fixture_pkg_path, 'inspec-test-fixture-0.1.0.gem')
+
+    assert_operator File, :exist?, gem_file
+
+    reg = Inspec::Plugin::V2::Registry.instance
+    plugin_name = :'inspec-test-fixture'
+    refute_operator reg, :known_plugin?,  plugin_name
+    refute_operator reg, :loaded_plugin?, plugin_name
+
+    result = @installer.install('inspec-test-fixture', gem_file: gem_file)
+
+    base = @installer.gem_path
+    spec_path = "#{base}/specifications/inspec-test-fixture-0.1.0.gemspec"
+    installed_gem_base = "#{base}/gems/inspec-test-fixture-0.1.0"
+
+    assert_operator File, :exist?, spec_path
+    assert_operator Dir, :exist?, installed_gem_base
 
     # Installation = gem activation
     spec = Gem.loaded_specs['inspec-test-fixture']
-    assert spec.activated?, 'Installing a gem should cause the gem to activate'
+
+    assert_operator spec, :activated?
   end
 
   def test_install_a_gem_from_missing_local_file
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
     gem_file = File.join(@plugin_fixture_pkg_path, 'inspec-test-fixture-nonesuch-0.0.0.gem')
+
     refute File.exist?(gem_file), "The nonexistant gem should not exist prior to install attempt"
     ex = assert_raises(Inspec::Plugin::V2::InstallError) { @installer.install('inspec-test-fixture-nonesuch', gem_file: gem_file)}
     assert_includes ex.message, 'Could not find local gem file'
