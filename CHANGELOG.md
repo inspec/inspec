@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.25 -->
-## [v4.4.25](https://github.com/inspec/inspec/tree/v4.4.25) (2019-05-15)
+<!-- latest_release 4.4.26 -->
+## [v4.4.26](https://github.com/inspec/inspec/tree/v4.4.26) (2019-05-16)
 
 #### Merged Pull Requests
-- Remove the deprecated linux_kernel_parameter resource test [#4078](https://github.com/inspec/inspec/pull/4078) ([tas50](https://github.com/tas50))
+- `rubocop -a` on kitchen directory [#4082](https://github.com/inspec/inspec/pull/4082) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- `rubocop -a` on kitchen directory [#4082](https://github.com/inspec/inspec/pull/4082) ([miah](https://github.com/miah)) <!-- 4.4.26 -->
 - Remove the deprecated linux_kernel_parameter resource test [#4078](https://github.com/inspec/inspec/pull/4078) ([tas50](https://github.com/tas50)) <!-- 4.4.25 -->
 -  Build the InSpec gem directly in Kitchen so we can run locally  [#4077](https://github.com/inspec/inspec/pull/4077) ([tas50](https://github.com/tas50)) <!-- 4.4.24 -->
 - Add kitchen rake testing [#4076](https://github.com/inspec/inspec/pull/4076) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 4.4.23 -->
