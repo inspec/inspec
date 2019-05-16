@@ -93,7 +93,6 @@ class PluginInstallerBasicTests < Minitest::Test
   end
 
   def test_it_should_know_its_gem_path_with_a_custom_config_dir_from_env
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
     expected = File.join(ENV['INSPEC_CONFIG_DIR'], 'gems', @ruby_abi_version)
     assert_equal expected, @installer.gem_path
   end
@@ -108,7 +107,6 @@ class PluginInstallerInstallationTests < Minitest::Test
   # While this is a negative test case on the prefix checking, there are
   # several positive test cases following.
   def test_refuse_to_install_gems_with_wrong_name_prefix
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     # Here, ordinal_array is the name of a simple, small gem available on rubygems.org
     # There is no significance in choosing that gem over any other.
@@ -117,7 +115,6 @@ class PluginInstallerInstallationTests < Minitest::Test
   end
 
   def test_install_a_gem_from_local_file
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     gem_file = File.join(@plugin_fixture_pkg_path, 'inspec-test-fixture-0.1.0.gem')
 
@@ -144,7 +141,6 @@ class PluginInstallerInstallationTests < Minitest::Test
   end
 
   def test_install_a_gem_from_missing_local_file
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
     gem_file = File.join(@plugin_fixture_pkg_path, 'inspec-test-fixture-nonesuch-0.0.0.gem')
 
     refute File.exist?(gem_file), "The nonexistant gem should not exist prior to install attempt"
@@ -153,7 +149,6 @@ class PluginInstallerInstallationTests < Minitest::Test
   end
 
   def test_install_a_gem_from_local_file_creates_plugin_json
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
     gem_file = File.join(@plugin_fixture_pkg_path, 'inspec-test-fixture-0.1.0.gem')
     @installer.install('inspec-test-fixture', gem_file: gem_file)
 
@@ -169,7 +164,6 @@ class PluginInstallerInstallationTests < Minitest::Test
   def test_install_a_gem_from_rubygems_org
     skip_slow_tests
 
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     @installer.install('inspec-test-fixture')
     # Because no exception was thrown, this is a positive test case for prefix-checking.
@@ -194,7 +188,6 @@ class PluginInstallerInstallationTests < Minitest::Test
   def test_handle_no_such_gem
     skip_slow_tests
 
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     assert_raises(Inspec::Plugin::V2::InstallError) { @installer.install('inspec-test-fixture-nonesuch') }
   end
@@ -203,7 +196,6 @@ class PluginInstallerInstallationTests < Minitest::Test
   def test_install_a_pinned_gem_from_rubygems_org
     skip_slow_tests
 
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     @installer.install('inspec-test-fixture', version: '= 0.1.0')
 
@@ -220,7 +212,6 @@ class PluginInstallerInstallationTests < Minitest::Test
   end
 
   def test_install_a_gem_with_conflicting_depends_from_rubygems_org
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     spec = Gem::Specification._all.find { |s| s.name == "rake" }
     spec.activate
@@ -234,7 +225,6 @@ class PluginInstallerInstallationTests < Minitest::Test
   def test_install_a_gem_with_invalid_depends_from_rubygems_org
     skip_slow_tests
 
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     ex = assert_raises(Inspec::Plugin::V2::InstallError) do
       @installer.install('inspec-test-fixture', version: '= 0.1.2')
@@ -243,7 +233,6 @@ class PluginInstallerInstallationTests < Minitest::Test
   end
 
   def test_install_a_plugin_from_a_path
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     @installer.install('inspec-test-fixture', path: @plugin_fixture_src_path)
 
@@ -261,7 +250,6 @@ class PluginInstallerInstallationTests < Minitest::Test
   end
 
   def test_refuse_to_install_gem_whose_name_is_on_the_reject_list
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     # Here, 'inspec-core', 'inspec-multi-server', and 'train-tax-collector'
     # are the names of real rubygems.  They are not InSpec/Train plugins, though,
@@ -286,7 +274,6 @@ class PluginInstallerUpdaterTests < Minitest::Test
   include InstallerTestHelpers
 
   def test_update_using_path_not_allowed
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     assert_raises(Inspec::Plugin::V2::UpdateError) do
       @installer.update('inspec-test-fixture', path: @plugin_fixture_src_path)
@@ -295,7 +282,6 @@ class PluginInstallerUpdaterTests < Minitest::Test
 
   def test_update_existing_plugin_at_same_version_not_allowed
     copy_in_config_dir('test-fixture-1-float')
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     assert_raises(Inspec::Plugin::V2::UpdateError) do
       @installer.update('inspec-test-fixture', version: '0.1.0')
@@ -304,7 +290,6 @@ class PluginInstallerUpdaterTests < Minitest::Test
 
   def test_install_plugin_at_existing_version_not_allowed
     copy_in_config_dir('test-fixture-1-float')
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     assert_raises(Inspec::Plugin::V2::InstallError) do
       @installer.install('inspec-test-fixture', version: '0.1.0')
@@ -313,7 +298,6 @@ class PluginInstallerUpdaterTests < Minitest::Test
 
   def test_install_existing_plugin_not_allowed
     copy_in_config_dir('test-fixture-1-float')
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
 
     ex = assert_raises(Inspec::Plugin::V2::InstallError) do
       @installer.install('inspec-test-fixture')
@@ -325,7 +309,6 @@ class PluginInstallerUpdaterTests < Minitest::Test
     skip_slow_tests
 
     copy_in_config_dir('test-fixture-1-float')
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
     @installer.__reset_loader
     @installer.update('inspec-test-fixture')
 
@@ -346,7 +329,6 @@ class PluginInstallerUpdaterTests < Minitest::Test
     skip_slow_tests
 
     copy_in_config_dir('test-fixture-1-float')
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
     @installer.__reset_loader
 
     # Update to specific (but later) version
@@ -397,7 +379,6 @@ class PluginInstallerUninstallTests < Minitest::Test
 
   def test_uninstalling_a_path_based_plugin_works
     copy_in_config_dir('meaning_by_path')
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
     @installer.__reset_loader
 
     @installer.uninstall('inspec-meaning-of-life')
@@ -414,7 +395,6 @@ class PluginInstallerUninstallTests < Minitest::Test
     skip_slow_tests # not that slow, just noisy
 
     copy_in_config_dir('test-fixture-1-float')
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
     @installer.__reset_loader
 
     @installer.uninstall('inspec-test-fixture')
@@ -440,7 +420,6 @@ class PluginInstallerUninstallTests < Minitest::Test
     skip_slow_tests # not that slow, just noisy
 
     copy_in_config_dir('test-fixture-2-float')
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'empty')
     @installer.__reset_loader
 
     @installer.uninstall('inspec-test-fixture')
