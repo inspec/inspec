@@ -60,6 +60,8 @@ module Inspec::Plugin::V2
       # TODO: - check plugins.json for validity before trying anything that needs to modify it.
       validate_installation_opts(plugin_name, opts)
 
+      # TODO: change all of these to return installed spec/gem/thingy
+      # TODO: return installed thingy
       if opts[:path]
         install_from_path(plugin_name, opts)
       elsif opts[:gem_file]
@@ -264,9 +266,12 @@ module Inspec::Plugin::V2
       # Make Set that encompasses just the gemfile that was provided
       plugin_local_source = Gem::Source::SpecificFile.new(opts[:gem_file])
 
-      plugin_dependency = Gem::Dependency.new(requested_plugin_name, plugin_local_source.spec.version)
-      requested_local_gem_set = Gem::Resolver::InstallerSet.new(:both) # :both means local and remote; allow satisfying our gemfile's deps from rubygems.org
-      requested_local_gem_set.add_local(plugin_dependency.name, plugin_local_source.spec, plugin_local_source)
+      plugin_dependency = Gem::Dependency.new(requested_plugin_name,
+                                              plugin_local_source.spec.version)
+
+      requested_local_gem_set = Gem::Resolver::InstallerSet.new(:both)
+      requested_local_gem_set.add_local(plugin_dependency.name,
+                                        plugin_local_source.spec, plugin_local_source)
 
       install_gem_to_plugins_dir(plugin_dependency, [requested_local_gem_set])
     end
@@ -277,13 +282,17 @@ module Inspec::Plugin::V2
       install_gem_to_plugins_dir(plugin_dependency, [Gem::Resolver::BestSet.new], opts[:update_mode])
     end
 
-    def install_gem_to_plugins_dir(new_plugin_dependency, extra_request_sets = [], update_mode = false) # rubocop: disable Metrics/AbcSize
+    def install_gem_to_plugins_dir(new_plugin_dependency,
+                                   extra_request_sets = [],
+                                   update_mode = false) # rubocop: disable Metrics/AbcSize
+
       # Get a list of all the gems available to us.
       gem_to_force_update = update_mode ? new_plugin_dependency.name : nil
       set_available_for_resolution = build_gem_request_universe(extra_request_sets, gem_to_force_update)
 
       # Solve the dependency (that is, find a way to install the new plugin and anything it needs)
       request_set = Gem::RequestSet.new(new_plugin_dependency)
+
       begin
         solution = request_set.resolve(set_available_for_resolution)
       rescue Gem::UnsatisfiableDependencyError => gem_ex
@@ -325,6 +334,7 @@ module Inspec::Plugin::V2
       # not obliged to during packaging.)
       # So, after each install, run a scan for all gem(specs) we manage, and copy in their gemspec file
       # into the exploded gem source area if absent.
+
       loader.list_managed_gems.each do |spec|
         path_inside_source = File.join(spec.gem_dir, "#{spec.name}.gemspec")
         unless File.exist?(path_inside_source)
@@ -479,6 +489,8 @@ module Inspec::Plugin::V2
       end
 
       conf_file.save
+
+      conf_file
     end
   end
 end
