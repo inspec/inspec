@@ -12,6 +12,9 @@ before_install:
 - gem update --system
 - gem --version
 - bundle --version
+env:
+  global:
+    - CHEF_LICENSE=accept-no-persist
 matrix:
   include:
   - rvm: 2.4.5

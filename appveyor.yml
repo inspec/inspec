@@ -9,6 +9,7 @@ platform:
 #   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 environment:
+  CHEF_LICENSE: "accept-no-persist"
   matrix:
     - name: unit-tests-ruby-2.4.4
       ruby_version: "24-x64"
