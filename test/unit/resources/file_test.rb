@@ -84,11 +84,17 @@ end
 
 describe Inspec::Resources::FileResource do
   let(:file) { stub(unix_mode_mask: 000, mode: 644) }
+
   it 'more_permissive_than?' do
     resource = MockLoader.new(:ubuntu1404).load_resource('file', '/fakepath/fakefile')
-    _(resource.more_permissive_than?('755')).must_equal false
-    _(resource.more_permissive_than?('644')).must_equal false
-    _(resource.more_permissive_than?('640')).must_equal true
+
+    require "pp"
+    pp File.stat(resource.file.path)
+
+    _(resource).wont_be :more_permissive_than?, '755'
+    _(resource).wont_be :more_permissive_than?, '644'
+    _(resource).must_be :more_permissive_than?, '640'
+
     proc { resource.send(:more_permissive_than?, '0888') }.must_raise(ArgumentError)
   end
 end
