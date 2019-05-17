@@ -62,9 +62,11 @@ Rake::TestTask.new do |t|
   t.libs << 'test'
   t.test_files = Dir.glob([
     'test/unit/**/*_test.rb',
+    'test/functional/**/*_test.rb',
     'lib/plugins/inspec-*/test/unit/**/*_test.rb',
+    'lib/plugins/inspec-*/test/functional/**/*_test.rb',
   ])
-  t.warning = false
+  t.warning = true
   t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
   t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
 end
@@ -121,31 +123,25 @@ namespace :test do
       'test/functional/**/*_test.rb',
       'lib/plugins/inspec-*/test/functional/**/*_test.rb',
     ])
-    t.warning = false # This just complains about things in underlying libraries
+    t.warning = true
     t.verbose = true
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
   # Inject a prerequisite task
   task :functional => [:accept_license]
 
-  # Functional tests on Windows take a bit to run. This
-  # optionally takes a env to breake the tests up into 3 workers.
-  Rake::TestTask.new(:'functional:windows') do |t, args|
-    files = Dir.glob('test/functional/*_test.rb').sort
-    if ENV['WORKER_NUMBER']
-      count = (files.count / 3).abs+1
-      start = (ENV['WORKER_NUMBER'].to_i - 1) * count
-      files = files[start..start+count-1]
-    end
-
+  Rake::TestTask.new(:unit) do |t|
     t.libs << 'test'
-    t.test_files = files
-    t.warning = false # This just complains about things in underlying libraries
+    t.test_files = Dir.glob([
+      'test/unit/**/*_test.rb',
+      'lib/plugins/inspec-*/test/unit/**/*_test.rb',
+    ])
+    t.warning = true
     t.verbose = true
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
   # Inject a prerequisite task
-  task :'functional:windows' => [:accept_license]
+  task :functional => [:accept_license]
 
   task :resources do
     tests = Dir['test/unit/resource/*_test.rb']
