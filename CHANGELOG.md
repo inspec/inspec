@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.29 -->
-## [v4.4.29](https://github.com/inspec/inspec/tree/v4.4.29) (2019-05-17)
+<!-- latest_release 4.4.30 -->
+## [v4.4.30](https://github.com/inspec/inspec/tree/v4.4.30) (2019-05-17)
 
 #### Merged Pull Requests
-- Fix circular require in telemetry [#4083](https://github.com/inspec/inspec/pull/4083) ([miah](https://github.com/miah))
+- Fix @profile_name not initialized [#4081](https://github.com/inspec/inspec/pull/4081) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Fix @profile_name not initialized [#4081](https://github.com/inspec/inspec/pull/4081) ([miah](https://github.com/miah)) <!-- 4.4.30 -->
 - Fix circular require in telemetry [#4083](https://github.com/inspec/inspec/pull/4083) ([miah](https://github.com/miah)) <!-- 4.4.29 -->
 - Fix up sporadically failing tests and ensure tests can run independently [#4031](https://github.com/inspec/inspec/pull/4031) ([zenspider](https://github.com/zenspider)) <!-- 4.4.28 -->
 - Updates the init profile description to show proper usage [#4085](https://github.com/inspec/inspec/pull/4085) ([burtlo](https://github.com/burtlo)) <!-- 4.4.27 -->
