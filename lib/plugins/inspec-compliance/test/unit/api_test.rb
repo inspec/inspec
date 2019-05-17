@@ -253,7 +253,7 @@ describe InspecPlugins::Compliance::API do
     it 'works with profiles returned by Automate' do
       # ruby 2.3.3 has issues running stub_requests properly
       # skipping for that specific version
-      return if RUBY_VERSION = '2.3.3'
+      return if RUBY_VERSION == '2.3.3'
 
       config = InspecPlugins::Compliance::Configuration.new
       config.clean

@@ -10,19 +10,15 @@ class PluginLoaderTests < Minitest::Test
   @@orig_home = Dir.home
 
   def reset_globals
-    # These are effectively globals
-    Inspec::Plugin::V2::Registry.instance.__reset
     ENV['HOME'] = @@orig_home
     ENV['INSPEC_CONFIG_DIR'] = nil
+    Inspec::Plugin::V2::Registry.instance.__reset
   end
 
   def setup
     reset_globals
 
-    repo_path = File.expand_path(File.join( __FILE__, '..', '..', '..', '..', '..'))
-    mock_path = File.join(repo_path, 'test', 'unit', 'mock')
-
-    @config_dir_path = File.join(mock_path, 'config_dirs')
+    @config_dir_path = File.expand_path "test/unit/mock/config_dirs"
     @bundled_plugins = [
       :'inspec-supermarket',
      ]
@@ -36,6 +32,10 @@ class PluginLoaderTests < Minitest::Test
 
   def teardown
     reset_globals
+
+    # Clean up any activated gems
+    Gem.loaded_specs.delete('inspec-test-fixture')
+    Gem.loaded_specs.delete('ordinal_array')
   end
 
   #====================================================================#
@@ -106,7 +106,7 @@ class PluginLoaderTests < Minitest::Test
 
   def test_load_no_plugins_should_load_no_plugins
     reg = Inspec::Plugin::V2::Registry.instance
-    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true)
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true, omit_user_plugins: true)
     loader.load_all
     assert_equal 0, reg.loaded_count, "\nRegistry load count"
   end
@@ -163,13 +163,18 @@ class PluginLoaderTests < Minitest::Test
 
   def test_load_mock_plugin_by_gem
     ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'test-fixture-1-float')
+
     reg = Inspec::Plugin::V2::Registry.instance
     plugin_name = :'inspec-test-fixture'
+
     loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
-    assert reg.known_plugin?(plugin_name), "\n#{plugin_name} should be a known plugin"
-    refute reg.loaded_plugin?(plugin_name), "\n#{plugin_name} should not be loaded yet"
+
+    assert_operator reg, :known_plugin?,  plugin_name
+    refute_operator reg, :loaded_plugin?, plugin_name
+
     loader.load_all
-    assert reg.loaded_plugin?(plugin_name), "\n#{plugin_name} should be loaded"
+
+    assert_operator reg, :loaded_plugin?, plugin_name
   end
 
   #====================================================================#

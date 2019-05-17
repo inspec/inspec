@@ -1,5 +1,7 @@
 require 'json'
 
+module Inspec; end
+
 # A minimal Dataseries Object
 # Stores the name of the data series and an array of data.
 # Stored data should be a object that supports #to_s

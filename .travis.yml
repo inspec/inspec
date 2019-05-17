@@ -12,6 +12,8 @@ before_install:
 - gem update --system
 - gem --version
 - bundle --version
+env:
+  - SLOW=1
 matrix:
   include:
   - rvm: 2.4.5

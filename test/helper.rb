@@ -786,3 +786,12 @@ end
 def expect_deprecation(group, &block)
   handle_deprecations(group => :expect_something, all_others: :tolerate, &block)
 end
+
+class Minitest::Test
+  raise "You must remove skip_now" if Time.now > Time.local(2019, 6, 14)
+
+  def skip_until y,m,d,msg
+    raise msg if Time.now > Time.local(y, m, d)
+    skip msg
+  end
+end

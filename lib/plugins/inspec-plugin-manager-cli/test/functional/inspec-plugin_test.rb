@@ -569,6 +569,8 @@ class PluginManagerCliInstall < Minitest::Test
   end
 
   def test_error_install_with_debug_enabled
+    skip "this test requires bundler to pass" unless defined? ::Bundler
+
     install_result = run_inspec_process_with_this_plugin('plugin install inspec-test-fixture -v 0.1.1 --log-level debug')
 
     assert_equal 1, install_result.exit_status, 'Exit status should be 1'
@@ -586,6 +588,8 @@ class PluginManagerCliUpdate < Minitest::Test
   include PluginManagerHelpers
 
   def test_when_a_plugin_can_be_updated
+    skip "this test requires bundler to pass" unless defined? ::Bundler
+
     pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
       plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
       copy_in_core_config_dir('test-fixture-1-float', tmp_dir)
