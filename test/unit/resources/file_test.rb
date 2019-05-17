@@ -21,7 +21,7 @@ describe Inspec::Resources::FileResource do
     resource.stubs(:file_permission_granted?).with('write', 'by_usergroup', 'by_specific_user').returns('test_result')
     resource.stubs(:file_permission_granted?).with('execute', 'by_usergroup', 'by_specific_user').returns('test_result')
     _(resource.content).must_equal 'content'
-    _(resource.more_permissive_than?('000').must_equal false)
+    _(resource.more_permissive_than?('000')).must_equal false
     _(resource.exist?).must_equal true
     _(resource.mounted?).must_equal true
     _(resource.to_s).must_equal 'File /fakepath/fakefile'
@@ -84,11 +84,11 @@ end
 
 describe Inspec::Resources::FileResource do
   let(:file) { stub(unix_mode_mask: 000, mode: 644) }
-  it 'responds on Ubuntu' do
+  it 'more_permissive_than?' do
     resource = MockLoader.new(:ubuntu1404).load_resource('file', '/fakepath/fakefile')
-    _(resource.more_permissive_than?('755').must_equal false)
-    _(resource.more_permissive_than?('644').must_equal false)
-    _(resource.more_permissive_than?('640').must_equal true)
+    _(resource.more_permissive_than?('755')).must_equal false
+    _(resource.more_permissive_than?('644')).must_equal false
+    _(resource.more_permissive_than?('640')).must_equal true
     proc { resource.send(:more_permissive_than?, '0888') }.must_raise(ArgumentError)
   end
 end
