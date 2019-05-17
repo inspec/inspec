@@ -18,10 +18,7 @@ class PluginLoaderTests < Minitest::Test
   def setup
     reset_globals
 
-    repo_path = File.expand_path(File.join( __FILE__, '..', '..', '..', '..', '..'))
-    mock_path = File.join(repo_path, 'test', 'unit', 'mock')
-
-    @config_dir_path = File.join(mock_path, 'config_dirs')
+    @config_dir_path = File.expand_path "test/unit/mock/config_dirs"
     @bundled_plugins = [
       :'inspec-supermarket',
      ]
