@@ -25,7 +25,7 @@ module Inspec
       @profile_id = profile_id
       @backend = backend
       @conf = conf.dup
-      @profile_name = @conf['profile'].profile_name || @profile_id if @conf['profile']
+      @profile_name = @conf.has_key?('profile') ? @conf['profile'].profile_name : @profile_id
       @skip_only_if_eval = @conf['check_mode']
       @rules = {}
       @control_subcontexts = []
