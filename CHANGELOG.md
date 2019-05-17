@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.28 -->
-## [v4.4.28](https://github.com/inspec/inspec/tree/v4.4.28) (2019-05-17)
+<!-- latest_release 4.4.29 -->
+## [v4.4.29](https://github.com/inspec/inspec/tree/v4.4.29) (2019-05-17)
 
 #### Merged Pull Requests
-- Fix up sporadically failing tests and ensure tests can run independently [#4031](https://github.com/inspec/inspec/pull/4031) ([zenspider](https://github.com/zenspider))
+- Fix circular require in telemetry [#4083](https://github.com/inspec/inspec/pull/4083) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Fix circular require in telemetry [#4083](https://github.com/inspec/inspec/pull/4083) ([miah](https://github.com/miah)) <!-- 4.4.29 -->
 - Fix up sporadically failing tests and ensure tests can run independently [#4031](https://github.com/inspec/inspec/pull/4031) ([zenspider](https://github.com/zenspider)) <!-- 4.4.28 -->
 - Updates the init profile description to show proper usage [#4085](https://github.com/inspec/inspec/pull/4085) ([burtlo](https://github.com/burtlo)) <!-- 4.4.27 -->
 - `rubocop -a` on kitchen directory [#4082](https://github.com/inspec/inspec/pull/4082) ([miah](https://github.com/miah)) <!-- 4.4.26 -->
