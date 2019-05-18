@@ -162,7 +162,7 @@ class PluginLoaderTests < Minitest::Test
   end
 
   def test_load_mock_plugin_by_gem
-    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'test-fixture-1-float')
+    ENV['INSPEC_CONFIG_DIR'] = File.join(@config_dir_path, 'test-fixture-2-float')
 
     reg = Inspec::Plugin::V2::Registry.instance
     plugin_name = :'inspec-test-fixture'
