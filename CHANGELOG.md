@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.32 -->
-## [v4.4.32](https://github.com/inspec/inspec/tree/v4.4.32) (2019-05-18)
+<!-- latest_release 4.4.33 -->
+## [v4.4.33](https://github.com/inspec/inspec/tree/v4.4.33) (2019-05-18)
 
 #### Merged Pull Requests
-- Turn off logging in our test. [#4103](https://github.com/inspec/inspec/pull/4103) ([zenspider](https://github.com/zenspider))
+- Fix @unique_controls uninitialized warning [#4079](https://github.com/inspec/inspec/pull/4079) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Fix @unique_controls uninitialized warning [#4079](https://github.com/inspec/inspec/pull/4079) ([miah](https://github.com/miah)) <!-- 4.4.33 -->
 - Turn off logging in our test. [#4103](https://github.com/inspec/inspec/pull/4103) ([zenspider](https://github.com/zenspider)) <!-- 4.4.32 -->
 - Use #key? rather than #has_key? in profile_name ternary [#4101](https://github.com/inspec/inspec/pull/4101) ([miah](https://github.com/miah)) <!-- 4.4.31 -->
 - Fix @profile_name not initialized [#4081](https://github.com/inspec/inspec/pull/4081) ([miah](https://github.com/miah)) <!-- 4.4.30 -->
