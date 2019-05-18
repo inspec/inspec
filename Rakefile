@@ -34,7 +34,6 @@ rescue LoadError
   puts 'contrib tasks are unavailable because the git gem is not available.'
 end
 
-# Rubocop
 begin
   require 'rubocop/rake_task'
   RuboCop::RakeTask.new(:lint)
@@ -48,35 +47,25 @@ task :install do
   sh("rake install")
 end
 
-# update command output for demo
-desc 'Run inspec commands and save results to www/app/responses'
-task :update_demo do
-  ruby 'www/tutorial/scripts/build_simulator_runtime.rb'
-  ruby 'www/tutorial/scripts/run_simulator_recording.rb'
-end
+GLOBS = [
+  "test/unit/**/*_test.rb",
+  "test/functional/**/*_test.rb",
+  "lib/plugins/inspec-*/test/**/*_test.rb",
+]
 
 # run tests
 task default: [:lint, :test]
 
 Rake::TestTask.new do |t|
   t.libs << 'test'
-  t.test_files = Dir.glob([
-    'test/unit/**/*_test.rb',
-    'test/functional/**/*_test.rb',
-    'lib/plugins/inspec-*/test/unit/**/*_test.rb',
-    'lib/plugins/inspec-*/test/functional/**/*_test.rb',
-  ])
+  t.test_files = Dir[*GLOBS].sort
   t.warning = true
   t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
   t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
 end
 
 namespace :test do
-  GLOBS = [
-    "test/unit/**/*_test.rb",
-    "test/functional/**/*_test.rb",
-    "lib/plugins/inspec-*/test/**/*_test.rb",
-  ]
+
 
   task :list do
     puts Dir[*GLOBS].sort
