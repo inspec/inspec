@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.30 -->
-## [v4.4.30](https://github.com/inspec/inspec/tree/v4.4.30) (2019-05-17)
+<!-- latest_release 4.4.31 -->
+## [v4.4.31](https://github.com/inspec/inspec/tree/v4.4.31) (2019-05-18)
 
 #### Merged Pull Requests
-- Fix @profile_name not initialized [#4081](https://github.com/inspec/inspec/pull/4081) ([miah](https://github.com/miah))
+- Use #key? rather than #has_key? in profile_name ternary [#4101](https://github.com/inspec/inspec/pull/4101) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Use #key? rather than #has_key? in profile_name ternary [#4101](https://github.com/inspec/inspec/pull/4101) ([miah](https://github.com/miah)) <!-- 4.4.31 -->
 - Fix @profile_name not initialized [#4081](https://github.com/inspec/inspec/pull/4081) ([miah](https://github.com/miah)) <!-- 4.4.30 -->
 - Fix circular require in telemetry [#4083](https://github.com/inspec/inspec/pull/4083) ([miah](https://github.com/miah)) <!-- 4.4.29 -->
 - Fix up sporadically failing tests and ensure tests can run independently [#4031](https://github.com/inspec/inspec/pull/4031) ([zenspider](https://github.com/zenspider)) <!-- 4.4.28 -->
