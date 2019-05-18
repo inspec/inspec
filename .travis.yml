@@ -23,7 +23,9 @@ before_install:
 - bundle --version
 env:
   - SLOW=1
+  - CI_ENABLE_COVERAGE=true
 matrix:
+  fast_finish: true
   include:
   - rvm: 2.6.3
   - rvm: 2.5.5
