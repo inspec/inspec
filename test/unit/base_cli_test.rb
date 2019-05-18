@@ -18,8 +18,12 @@ EOF
     end
   end
 
-
   describe 'configure_logger' do
+    after do
+      Inspec::Log.init
+      Inspec::Log.level = :fatal
+    end
+
     let(:options) do
       o = {
         'log_location' => STDERR,
