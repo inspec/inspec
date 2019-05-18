@@ -29,6 +29,8 @@ matrix:
   exclude:
   - os: osx
     env: CI_ENABLE_COVERAGE=true
+  - os: linux
+    env: SLOW=1
   include:
   - rvm: 2.6.3
   - rvm: 2.5.5
@@ -65,4 +67,4 @@ matrix:
     env: SUITE=test:integration[default-fedora-29]
   allow_failures:
   - script: bundle exec rake test
-    env: CI_ENABLE_COVERAGE=true
+    env: CI_ENABLE_COVERAGE=true SLOW=1
