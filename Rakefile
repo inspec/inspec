@@ -113,7 +113,7 @@ namespace :test do
       'lib/plugins/inspec-*/test/functional/**/*_test.rb',
     ])
     t.warning = true
-    t.verbose = true
+    t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
   # Inject a prerequisite task
@@ -126,7 +126,7 @@ namespace :test do
       'lib/plugins/inspec-*/test/unit/**/*_test.rb',
     ])
     t.warning = true
-    t.verbose = true
+    t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
   # Inject a prerequisite task
