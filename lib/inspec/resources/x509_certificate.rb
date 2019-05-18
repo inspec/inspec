@@ -46,8 +46,8 @@ module Inspec::Resources
 
     # Forward these methods directly to OpenSSL::X509::Certificate instance
     %w{version not_before not_after signature_algorithm public_key}.each do |m|
-      define_method m.to_sym do |*args|
-        @cert.method(m.to_sym).call(*args)
+      define_method m do |*args|
+        @cert.send(m, *args)
       end
     end
 
