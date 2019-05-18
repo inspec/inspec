@@ -167,7 +167,7 @@ module Inspec::Reporters
 
     def all_unique_controls
       @unique_controls ||= begin
-                             run_data[:profiles].map { |profile|
+                             run_data[:profiles].flat_map { |profile|
                                profile[:controls]
                              }.uniq
                            end
