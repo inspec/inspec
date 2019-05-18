@@ -6,9 +6,9 @@
 # coveralls only until the next code block:
 
 if ENV['CI_ENABLE_COVERAGE']
-  require 'simplecov/no_defaults'
+  require "simplecov/no_defaults"
   require "helpers/simplecov_minitest"
-  require 'coveralls'
+  require "coveralls"
 
   SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
     SimpleCov::Formatter::HTMLFormatter,
