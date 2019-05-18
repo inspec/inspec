@@ -44,7 +44,7 @@ describe 'inspec exec automate' do
     end
   end
 
-  describe 'when outputting to STDOUT' do
+  describe 'when outputting to $stdout' do
     let(:config_data) do
       data = <<~EOF
       {

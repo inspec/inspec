@@ -259,9 +259,9 @@ module Inspec
       loc = if o['log_location']
               o['log_location']
             elsif suppress_log_output?(o)
-              STDERR
+              $stderr
             else
-              STDOUT
+              $stdout
             end
 
       Inspec::Log.init(loc)

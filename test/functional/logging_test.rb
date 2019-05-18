@@ -7,7 +7,7 @@ describe 'Deprecation Facility Behavior' do
 
   let(:profile) { File.join(profile_path, 'deprecation', profile_name) }
   let(:invocation) { "exec #{profile} #{control_flag}" }
-  # Running in JSON mode has the side-effect of sending log messages to STDERR
+  # Running in JSON mode has the side-effect of sending log messages to $stderr
   let(:run_result) { run_inspec_process(invocation, json: true) }
 
   # Expect one control, 3 results
@@ -145,7 +145,7 @@ describe 'Deprecation Facility Behavior' do
         json_result[1]['status'].must_equal 'passed'
         json_result[2]['status'].must_equal 'passed'
 
-        # JSON mode will send debug messages to STDERR
+        # JSON mode will send debug messages to $stderr
         # [2019-01-15T23:41:41-05:00] DEBUG: DEPRECATION: This should be ignored (used at test/unit/mock/profiles/deprecation/typical/controls/typical.rb:79)
         deprecation_line = run_result.stderr.split("\n").detect { |line| line.include?('This should be ignored') }
         deprecation_line.wont_be_nil
