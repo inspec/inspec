@@ -62,7 +62,7 @@ module InspecPlugins
           exit 1
         end
       rescue InspecPlugins::Compliance::ServerConfigurationMissing
-        STDERR.puts "\nServer configuration information is missing. Please login using `inspec compliance login`"
+        $stderr.puts "\nServer configuration information is missing. Please login using `inspec compliance login`"
         exit 1
       end
 

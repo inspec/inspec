@@ -18,11 +18,15 @@ EOF
     end
   end
 
-
   describe 'configure_logger' do
+    after do
+      Inspec::Log.init
+      Inspec::Log.level = :fatal
+    end
+
     let(:options) do
       o = {
-        'log_location' => STDERR,
+        'log_location' => $stderr,
         'log_level' => 'debug',
         'reporter' => {
           'json' => {
@@ -32,6 +36,7 @@ EOF
       }
       Thor::CoreExt::HashWithIndifferentAccess.new(o)
     end
+
     let(:format) do
       device = options[:logger].instance_variable_get(:"@logdev")
       device.instance_variable_get(:"@dev")
@@ -39,14 +44,14 @@ EOF
 
     it 'sets to stderr for log_location' do
       cli.send(:configure_logger, options)
-      format.must_equal STDERR
+      format.must_equal $stderr
     end
 
     it 'sets to stderr for json' do
       options.delete('log_location')
       options.delete('log_level')
       cli.send(:configure_logger, options)
-      format.must_equal STDERR
+      format.must_equal $stderr
     end
 
     it 'sets defaults to stdout for everything else' do
@@ -55,7 +60,7 @@ EOF
       options.delete('reporter')
 
       cli.send(:configure_logger, options)
-      format.must_equal STDOUT
+      format.must_equal $stdout
     end
   end
 

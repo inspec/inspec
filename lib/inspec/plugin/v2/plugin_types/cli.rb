@@ -44,6 +44,6 @@ module Inspec::Plugin::V2::PluginType
                  desc: 'Set the log level: info (default), debug, warn, error'
 
     class_option :log_location, type: :string,
-                desc: 'Location to send diagnostic log messages to. (default: STDOUT or Inspec::Log.error)'
+                desc: 'Location to send diagnostic log messages to. (default: $stdout or Inspec::Log.error)'
   end
 end

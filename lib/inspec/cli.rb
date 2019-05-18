@@ -22,7 +22,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
                desc: 'Set the log level: info (default), debug, warn, error'
 
   class_option :log_location, type: :string,
-               desc: 'Location to send diagnostic log messages to. (default: STDOUT or Inspec::Log.error)'
+               desc: 'Location to send diagnostic log messages to. (default: $stdout or Inspec::Log.error)'
 
   class_option :diagnose, type: :boolean,
     desc: 'Show diagnostics (versions, configurations)'
@@ -54,7 +54,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   def json(target)
     o = config
     diagnose(o)
-    o['log_location'] = STDERR
+    o['log_location'] = $stderr
     configure_logger(o)
 
     o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
@@ -142,7 +142,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   def vendor(path = nil)
     o = config
     configure_logger(o)
-    o[:logger] = Logger.new(STDOUT)
+    o[:logger] = Logger.new($stdout)
     o[:logger].level = get_log_level(o[:log_level])
 
     vendor_deps(path, o)
@@ -164,7 +164,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o = config
     diagnose(o)
 
-    o[:logger] = Logger.new(STDOUT)
+    o[:logger] = Logger.new($stdout)
     o[:logger].level = get_log_level(o[:log_level])
     o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
 
@@ -313,7 +313,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     diagnose(o)
     o[:debug_shell] = true
 
-    log_device = suppress_log_output?(o) ? nil : STDOUT
+    log_device = suppress_log_output?(o) ? nil : $stdout
     o[:logger] = Logger.new(log_device)
     o[:logger].level = get_log_level(o[:log_level])
 

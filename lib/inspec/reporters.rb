@@ -47,7 +47,7 @@ module Inspec::Reporters
       File.write(config['file'], output)
     elsif config['stdout'] == true
       print output
-      STDOUT.flush
+      $stdout.flush
     end
   end
 
