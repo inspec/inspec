@@ -11,6 +11,10 @@ cache:
   - directories:
     - /home/travis/.rvm
 dist: xenial
+os:
+  - linux
+  - osx
+  - windows
 services:
 - docker
 bundler_args: "--without integration tools maintenance deploy"
@@ -22,92 +26,39 @@ env:
   - SLOW=1
 matrix:
   include:
-  - rvm: 2.4.5
-    env: UNIT_TESTS_24=1
-  - rvm: 2.5.5
-    env: UNIT_TESTS_25=1
   - rvm: 2.6.3
-    env: UNIT_TESTS_26=1
+  - rvm: 2.5.5
   - rvm: 2.4.5
-    script: bundle exec rake $SUITE
-    env: SUITE="test:functional"
-  - rvm: 2.5.5
-    script: bundle exec rake $SUITE
-    env: SUITE="test:functional"
-  - rvm: 2.6.2
-    script: bundle exec rake $SUITE
-    env: SUITE="test:functional"
-  - rvm: 2.5.5
-    script: bundle exec rake $SUITE
+  - script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-ubuntu-1604]
-  - rvm: 2.5.5
-    script: bundle exec rake $SUITE
+  - script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-ubuntu-1804]
-  - rvm: 2.5.5
-    script: bundle exec rake $SUITE
+  - script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-centos-6]
-  - rvm: 2.5.5
-    script: bundle exec rake $SUITE
+  - script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-centos-7]
-  - rvm: 2.5.5
-    script: bundle exec rake $SUITE
+  - script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-debian-8]
-  - rvm: 2.5.5
-    script: bundle exec rake $SUITE
+  - script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-debian-9]
-  - rvm: 2.5.5
-    script: bundle exec rake $SUITE
+  - script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-debian-10]
-  - rvm: 2.5.5
-    script: bundle exec rake $SUITE
+  - script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-oraclelinux-6]
-  - rvm: 2.5.5
-    script: bundle exec rake $SUITE
+  - script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-oraclelinux-7]
-  - rvm: 2.5.5
-    script: bundle exec rake $SUITE
+  - script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-fedora-29]
-  - rvm: 2.4.5
-    sudo: false
-    cache:
-      apt: true
-      bundle: true
-    addons:
-      apt:
-        packages:
-        - curl
-        - nodejs
-    env:
-      - AFFECTED_DIRS="www"
-      - secure: "jdzXUhP1o7RkfSikZLKgUcCIaKqLjqWa35dnxWnz7qAQ2draRKa7I7cXmUv76BZkW8HBUUH11dOi8YOVxPYPOzaqvcTCfqNqGVxsT9epgWa7rA8aXMXkECp548ry1rYJQpti9zpwsoe2GQyNPr9vNiWMiyj51CaABmZ6JzmFEEqlZc8vqpqWeqJvIqaibQGk7ByLKmi4R44fVwFKIG39RuxV+alc/G4nnQ2zmNTFuy8uFGs5EghQvRytzWY+s2AKtDiZ0YXYOII1Nl1unXNnNoQt9oI209ztlSm1+XOuTPelW6bEIx5i7OZFaSRPgJzWnkGN85C9nBE08L2az9Jz18/rYJF4fdVRttdGskueyYI21lh1FwlAg51ZG0RfLTYk2Pq+k4c+NO1cfmGcaXBwihfD5BWqrILU5HHkYszXCSmgl4hscC7/BS4Kgcq2z32JJwV8B+x4XngM0G4uzIn1Soia3lZXEKdnfVsxFDdMQ7FK60F3uQlq/44LRkZujRhqfAKOiz+0tsLexWzj7wK+DJY9Y00CUfh7xcxRxDxFNpOv1FWYFB9lUlaOt3HDHgUoksqbURiUzhOZZzTE/1MAtF2K6mbpME5CbN08J88L5JBlb+CX79XCzj30lNMeS0I/dCRQEmkygr2eJYxvRO2qsBNuphs4SWk8NZyS/llVZFI="
-    before_install: ./support/ci/fast_pass.sh || exit 0
-    script: ./support/ci/deploy_website_to_acceptance.sh
-
   allow_failures:
-  - env:
-     - AFFECTED_DIRS="www"
-     - secure: "jdzXUhP1o7RkfSikZLKgUcCIaKqLjqWa35dnxWnz7qAQ2draRKa7I7cXmUv76BZkW8HBUUH11dOi8YOVxPYPOzaqvcTCfqNqGVxsT9epgWa7rA8aXMXkECp548ry1rYJQpti9zpwsoe2GQyNPr9vNiWMiyj51CaABmZ6JzmFEEqlZc8vqpqWeqJvIqaibQGk7ByLKmi4R44fVwFKIG39RuxV+alc/G4nnQ2zmNTFuy8uFGs5EghQvRytzWY+s2AKtDiZ0YXYOII1Nl1unXNnNoQt9oI209ztlSm1+XOuTPelW6bEIx5i7OZFaSRPgJzWnkGN85C9nBE08L2az9Jz18/rYJF4fdVRttdGskueyYI21lh1FwlAg51ZG0RfLTYk2Pq+k4c+NO1cfmGcaXBwihfD5BWqrILU5HHkYszXCSmgl4hscC7/BS4Kgcq2z32JJwV8B+x4XngM0G4uzIn1Soia3lZXEKdnfVsxFDdMQ7FK60F3uQlq/44LRkZujRhqfAKOiz+0tsLexWzj7wK+DJY9Y00CUfh7xcxRxDxFNpOv1FWYFB9lUlaOt3HDHgUoksqbURiUzhOZZzTE/1MAtF2K6mbpME5CbN08J88L5JBlb+CX79XCzj30lNMeS0I/dCRQEmkygr2eJYxvRO2qsBNuphs4SWk8NZyS/llVZFI="
-
-notifications:
-  slack:
-    secure: zwOu1gWt8wBDzlhXrYJ39jBDYTYj4Zb8/Z5XH6PalFOyYBytOLYqmpPzxw5KTzFapmcxYt1/biViX25+zapSSmDBuDa94ZneaXuCZAPXX0UJb82ORALMDsdbV1TkkS4Q6N4soigLJ5UaJwIgkZze9VtXeUvo3g8L8+mDYX4J0Poi7Kf/f1KZycNhgaVs7N/i2AI3lBeiVJv+giQbA99OR5dxPzkbx1BeZCK+W+YEPFmg1xycAItiHq0unT+kBN4pm9gW8TT1s/ZucUsKVu6Q8inw5N0PjZwboOkqsQFi5BweVicZBcbOVsW3Xs/f8DX2G823y73Al3QQg+ENxnIpizsHfjE+YzXUVsZ7v/UdsOq01Khxz1GK/X/PYrvIdHQKBwZ86RPJP61BvGIaQ4Hy6f9z+o2Tl/EaAmiOMScpdFi7sMskm8xknI0G24ZG5hkd7XNQ1eVvu33dvs+u12DsBGIylnwrppMDGnh022I5Hg8pS9tJ9gAsJlSFoIBn/yOryoFYb4avB8ujvN6+8cbZgkQ41k6ydqCHk2DxWmhsM4dUVXqC36sOePDE8a/DK5uQ057DSai5M+go5LeEJyK5r4fT5nbTk3nW6CGH0k2bPGWH5aP22mSKB9r2alDzqVfVyArfgtBIX2OXS/cZLER26a1EcB4mf3PMPDB06Aekyj0=
-    on_success: change
-    on_failure: always
-    on_pull_requests: false
-
-deploy:
-  provider: rubygems
-  on:
-    tags: true
-  api_key:
-    secure: uI2Zy3z4ljvOoG/6E4XPmSDg4QX5jmUfp6N9lzOfOosuZGjiGG6cWe4QMfidIz4/B5Ctp9X78bYCPxLkhCPmY9qcsR6eimQsC5AwGJhQF2Fz5fSX12LO+P4H7bis/A7cP+6QYNU8n9oXy6MYIdaw8aLJoEK4tKlNueWYhKG99O1taiF6qXsKkuNXZW7LT3B774IRCK0+BUknfW22ksAOeSpk10dkPXW5lEluXq/Q60L6+Cy01Yix1gLNav7ftMeOtE968mK3L1mzf0L3q8Tih3PLwEzYZRYQRTsd8f1J6XmNZtpdW5QiehvX08ZiFT28Dx15GMp5OKc7TnfU5avm8ryxFJB8xfdrkwNPf/UB3z1IVpHIJ6ZQlHDaiJBL429ZgYSCwrdk71IHWaAK4zSuOZyE+y9EmXbdgLLMgY6QIVrgoBLzzHLCQADXchrMaYR8LIkKI5euOfl3d96sSqXrIN/v1LSlPG/Z1LVO07cYarVGy3J/iM5aTghw3ixZcdlepGrU9DIxe7kRhmz7OLDGTZiPyRzXX1IRjaxSBMGmQSJVv6+r2UJRLmpC3W+1ysXY7nZtffzrFXHGacyvcIHxm8KSPvHgfloPvgFeebcTHcly50TOcZuBc4ZF9HZwWR5lEg/1OX5puBYE7IYfLyFm48+pqFk++tbn2glE742BhkY=
+  - script: bundle exec rake test
+    env: CI_ENABLE_COVERAGE=true
