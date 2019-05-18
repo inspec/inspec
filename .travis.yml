@@ -62,4 +62,5 @@ matrix:
     env: SUITE=test:integration[default-fedora-29]
   allow_failures:
   - script: bundle exec rake test
+    os: linux
     env: CI_ENABLE_COVERAGE=true
