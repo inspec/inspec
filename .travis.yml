@@ -23,12 +23,12 @@ before_install:
 - bundle --version
 env:
   - SLOW=1
-  - CI_ENABLE_COVERAGE=true
+  - CI_ENABLE_COVERAGE=true SLOW=1
 matrix:
   fast_finish: true
   exclude:
   - os: osx
-    env: CI_ENABLE_COVERAGE=true
+    env: CI_ENABLE_COVERAGE=true SLOW=1
   - os: linux
     env: SLOW=1
   include:
