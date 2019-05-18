@@ -34,13 +34,6 @@ rescue LoadError
   puts 'contrib tasks are unavailable because the git gem is not available.'
 end
 
-begin
-  require 'rubocop/rake_task'
-  RuboCop::RakeTask.new(:lint)
-rescue LoadError
-  puts 'rubocop is not available. Install the rubocop gem to run the lint tests.'
-end
-
 task :install do
   inspec_bin_path = ::File.join(::File.dirname(__FILE__), "inspec-bin")
   Dir.chdir(inspec_bin_path)
@@ -54,18 +47,25 @@ GLOBS = [
 ]
 
 # run tests
-task default: [:lint, :test]
-
-Rake::TestTask.new do |t|
-  t.libs << 'test'
-  t.test_files = Dir[*GLOBS].sort
-  t.warning = true
-  t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
-  t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
-end
+task default: ['test:lint', 'test:default']
 
 namespace :test do
 
+  Rake::TestTask.new(:default) do |t|
+    t.libs << 'test'
+    t.test_files = Dir[*GLOBS].sort
+    t.warning = true
+    t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
+    t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
+  end
+  task :default => [:accept_license]
+
+  begin
+    require 'rubocop/rake_task'
+    RuboCop::RakeTask.new(:lint)
+  rescue LoadError
+    puts 'rubocop is not available. Install the rubocop gem to run the lint tests.'
+  end
 
   task :list do
     puts Dir[*GLOBS].sort
@@ -130,7 +130,7 @@ namespace :test do
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
   # Inject a prerequisite task
-  task :functional => [:accept_license]
+  task :unit => [:accept_license]
 
   task :resources do
     tests = Dir['test/unit/resource/*_test.rb']
