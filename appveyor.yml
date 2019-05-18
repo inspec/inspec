@@ -10,8 +10,11 @@ platform:
 
 environment:
   matrix:
+    - name: ruby-2.6
       ruby_version: "26-x64"
+    - name: ruby-2.5
       ruby_version: "25-x64"
+    - name: ruby-2.4
       ruby_version: "24-x64"
 clone_folder: c:\projects\inspec
 clone_depth: 1
