@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.34 -->
-## [v4.4.34](https://github.com/inspec/inspec/tree/v4.4.34) (2019-05-18)
+<!-- latest_release 4.4.35 -->
+## [v4.4.35](https://github.com/inspec/inspec/tree/v4.4.35) (2019-05-19)
 
 #### Merged Pull Requests
-- This needed to be a flat_map because :profiles was an array. [#4110](https://github.com/inspec/inspec/pull/4110) ([zenspider](https://github.com/zenspider))
+- Fixes a test interaction bug between installer and loader. [#4111](https://github.com/inspec/inspec/pull/4111) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Fixes a test interaction bug between installer and loader. [#4111](https://github.com/inspec/inspec/pull/4111) ([zenspider](https://github.com/zenspider)) <!-- 4.4.35 -->
 - This needed to be a flat_map because :profiles was an array. [#4110](https://github.com/inspec/inspec/pull/4110) ([zenspider](https://github.com/zenspider)) <!-- 4.4.34 -->
 - Fix @unique_controls uninitialized warning [#4079](https://github.com/inspec/inspec/pull/4079) ([miah](https://github.com/miah)) <!-- 4.4.33 -->
 - Turn off logging in our test. [#4103](https://github.com/inspec/inspec/pull/4103) ([zenspider](https://github.com/zenspider)) <!-- 4.4.32 -->
