@@ -1,9 +1,6 @@
-# require 'helper'
-
 require 'minitest/autorun'
 require 'inspec/ui'
 require 'inspec/base_cli'
-require 'inspec/errors'
 require 'stringio'
 
 # https://gist.github.com/chrisopedia/8754917

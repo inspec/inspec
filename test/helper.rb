@@ -101,10 +101,9 @@ require 'inspec/impact'
 require 'inspec/config'
 require 'fetchers/mock'
 require 'inspec/dependencies/cache'
-
-require_relative '../lib/bundles/inspec-supermarket'
-
+require 'bundles/inspec-supermarket'
 require 'train'
+
 CMD = Train.create('local', command_runner: :generic).connection
 TMP_CACHE = {}
 
