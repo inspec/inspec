@@ -261,7 +261,7 @@ module FilterTable
 
       current_raw_data.find_all do |row|
         next unless row.key?(field)
-        self.send(method_ref, row[field], desired_value)
+        send(method_ref, row[field], desired_value)
       end
     end
 
@@ -358,7 +358,7 @@ module FilterTable
         resource_class.send(:define_method, method_name) do |*args, &block|
           begin
             # self here is the resource instance
-            filter_table_instance = table_class.new(self, self.send(raw_data_fetcher_method_name), ' with')
+            filter_table_instance = table_class.new(self, send(raw_data_fetcher_method_name), ' with')
             filter_table_instance.send(method_name, *args, &block)
           rescue Inspec::Exceptions::ResourceFailed, Inspec::Exceptions::ResourceSkipped => e
             FilterTable::ExceptionCatcher.new(resource_class, e)
