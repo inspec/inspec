@@ -65,6 +65,7 @@ matrix:
   - script: bundle exec rake $SUITE
     bundler_args: "--without tools maintenance deploy"
     env: SUITE=test:integration[default-fedora-29]
+
   allow_failures:
-  - script: bundle exec rake test
-    env: CI_ENABLE_COVERAGE=true SLOW=1
+  - env: CI_ENABLE_COVERAGE=true SLOW=1
+    script: bundle exec rake
