@@ -24,7 +24,7 @@ module Inspec
     def example_group
       that = self
 
-      opts = { 'caller' => calls[0][3] }
+      opts = { 'caller' => calls[0][3] } # TODO: this needs overhaul. no magic #s
       if !calls[0][3].nil? && !calls[0][3].empty? &&
          (m = calls[0][3][0].match(/^([^:]*):(\d+):/))
         opts['file_path'] = m[0]
