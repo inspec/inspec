@@ -1,6 +1,7 @@
 # author: Nolan Davidson
 
 require 'tomlrb'
+require 'inspec/resources/json'
 
 module Inspec::Resources
   class TomlConfig < JsonConfig

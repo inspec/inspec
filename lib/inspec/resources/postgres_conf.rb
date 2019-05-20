@@ -1,5 +1,6 @@
 # copyright: 2015, Vulcano Security GmbH
 
+require 'utils/object_traversal'
 require 'utils/simpleconfig'
 require 'utils/find_files'
 require 'utils/file_reader'
