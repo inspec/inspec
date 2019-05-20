@@ -47,8 +47,8 @@ module Inspec::Resources
       product_version file_version version? md5sum sha256sum
       path basename source source_path uid gid
     }.each do |m|
-      define_method m.to_sym do |*args|
-        file.method(m.to_sym).call(*args)
+      define_method m do |*args|
+        file.send(m, *args)
       end
     end
 

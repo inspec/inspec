@@ -250,10 +250,10 @@ module FilterTable
       return [] if current_raw_data.empty?
 
       method_ref = case desired_value
-                   when Float   then method(:matches_float)
-                   when Integer then method(:matches_int)
-                   when Regexp  then method(:matches_regex)
-                   else              method(:matches)
+                   when Float   then :matches_float
+                   when Integer then :matches_int
+                   when Regexp  then :matches_regex
+                   else              :matches
                    end
 
       assume_symbolic_keyed_data = current_raw_data.first.keys.first.is_a? Symbol
@@ -261,7 +261,7 @@ module FilterTable
 
       current_raw_data.find_all do |row|
         next unless row.key?(field)
-        method_ref.call(row[field], desired_value)
+        send(method_ref, row[field], desired_value)
       end
     end
 
@@ -355,11 +355,11 @@ module FilterTable
       # the tests are run.
       methods_to_install_on_resource_class = @filter_methods + @custom_properties.keys
       methods_to_install_on_resource_class.each do |method_name|
-        resource_class.send(:define_method, method_name.to_sym) do |*args, &block|
+        resource_class.send(:define_method, method_name) do |*args, &block|
           begin
             # self here is the resource instance
-            filter_table_instance = table_class.new(self, method(raw_data_fetcher_method_name).call, ' with')
-            filter_table_instance.method(method_name.to_sym).call(*args, &block)
+            filter_table_instance = table_class.new(self, send(raw_data_fetcher_method_name), ' with')
+            filter_table_instance.send(method_name, *args, &block)
           rescue Inspec::Exceptions::ResourceFailed, Inspec::Exceptions::ResourceSkipped => e
             FilterTable::ExceptionCatcher.new(resource_class, e)
           end
