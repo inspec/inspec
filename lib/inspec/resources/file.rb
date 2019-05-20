@@ -155,10 +155,10 @@ module Inspec::Resources
       # to or less permissive than the desired mode (PASS). Otherwise, the files
       # mode is more permissive than the desired mode (FAIL).
 
-      max_mode = max_mode.rjust(4, '0')
-      binary_desired_mode = format('%04b', max_mode).to_i(2)
-      desired_mode_inverse = (binary_desired_mode ^ 0b111111111)
-      (desired_mode_inverse & file.mode).zero? ? false : true
+      max_mode = max_mode.to_i(8)
+      inv_mode = 0777 ^ max_mode
+
+      inv_mode & file.mode != 0
     end
 
     def to_s
