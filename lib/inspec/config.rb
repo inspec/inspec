@@ -3,6 +3,7 @@
 
 require 'pp'
 require 'stringio'
+require 'forwardable'
 
 module Inspec
   class Config
