@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.44 -->
-## [v4.4.44](https://github.com/inspec/inspec/tree/v4.4.44) (2019-05-20)
+<!-- latest_release 4.4.45 -->
+## [v4.4.45](https://github.com/inspec/inspec/tree/v4.4.45) (2019-05-20)
 
 #### Merged Pull Requests
-- Fixed missing requires. [#4100](https://github.com/inspec/inspec/pull/4100) ([zenspider](https://github.com/zenspider))
+- Minor require cleanup for telemetry. [#4107](https://github.com/inspec/inspec/pull/4107) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Minor require cleanup for telemetry. [#4107](https://github.com/inspec/inspec/pull/4107) ([zenspider](https://github.com/zenspider)) <!-- 4.4.45 -->
 - Fixed missing requires. [#4100](https://github.com/inspec/inspec/pull/4100) ([zenspider](https://github.com/zenspider)) <!-- 4.4.44 -->
 - Delete test/unit/helper.rb [#4108](https://github.com/inspec/inspec/pull/4108) ([zenspider](https://github.com/zenspider)) <!-- 4.4.43 -->
 - Stop using method(...).call(...) [#4115](https://github.com/inspec/inspec/pull/4115) ([zenspider](https://github.com/zenspider)) <!-- 4.4.42 -->
