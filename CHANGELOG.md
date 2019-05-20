@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.38 -->
-## [v4.4.38](https://github.com/inspec/inspec/tree/v4.4.38) (2019-05-20)
+<!-- latest_release 4.4.39 -->
+## [v4.4.39](https://github.com/inspec/inspec/tree/v4.4.39) (2019-05-20)
 
 #### Merged Pull Requests
-- Add support for Gemfile.local [#4105](https://github.com/inspec/inspec/pull/4105) ([zenspider](https://github.com/zenspider))
+- Clean up API doco [#4114](https://github.com/inspec/inspec/pull/4114) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Clean up API doco [#4114](https://github.com/inspec/inspec/pull/4114) ([zenspider](https://github.com/zenspider)) <!-- 4.4.39 -->
 - Add support for Gemfile.local [#4105](https://github.com/inspec/inspec/pull/4105) ([zenspider](https://github.com/zenspider)) <!-- 4.4.38 -->
 - Fix missing requires in toml, postgres_conf resources [#4119](https://github.com/inspec/inspec/pull/4119) ([miah](https://github.com/miah)) <!-- 4.4.37 -->
 - json was required twice. [#4118](https://github.com/inspec/inspec/pull/4118) ([miah](https://github.com/miah)) <!-- 4.4.36 -->
