@@ -1,6 +1,6 @@
 require 'inspec/utils/telemetry'
 require 'json'
-require_relative '../../../helper.rb'
+require 'helper'
 
 class TestTelemetryDataSeries < Minitest::Test
   def test_name

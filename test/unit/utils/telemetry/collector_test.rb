@@ -1,5 +1,5 @@
 require 'inspec/utils/telemetry'
-require_relative '../../../helper.rb'
+require 'helper'
 
 class TestTelemetryCollector < Minitest::Test
   def setup
