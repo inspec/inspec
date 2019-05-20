@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.40 -->
-## [v4.4.40](https://github.com/inspec/inspec/tree/v4.4.40) (2019-05-20)
+<!-- latest_release 4.4.41 -->
+## [v4.4.41](https://github.com/inspec/inspec/tree/v4.4.41) (2019-05-20)
 
 #### Merged Pull Requests
-- Just use math. [#4113](https://github.com/inspec/inspec/pull/4113) ([zenspider](https://github.com/zenspider))
+- Clean more requires [#4116](https://github.com/inspec/inspec/pull/4116) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Clean more requires [#4116](https://github.com/inspec/inspec/pull/4116) ([zenspider](https://github.com/zenspider)) <!-- 4.4.41 -->
 - Just use math. [#4113](https://github.com/inspec/inspec/pull/4113) ([zenspider](https://github.com/zenspider)) <!-- 4.4.40 -->
 - Clean up API doco [#4114](https://github.com/inspec/inspec/pull/4114) ([zenspider](https://github.com/zenspider)) <!-- 4.4.39 -->
 - Add support for Gemfile.local [#4105](https://github.com/inspec/inspec/pull/4105) ([zenspider](https://github.com/zenspider)) <!-- 4.4.38 -->
