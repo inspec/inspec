@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.36 -->
-## [v4.4.36](https://github.com/inspec/inspec/tree/v4.4.36) (2019-05-20)
+<!-- latest_release 4.4.37 -->
+## [v4.4.37](https://github.com/inspec/inspec/tree/v4.4.37) (2019-05-20)
 
 #### Merged Pull Requests
-- json was required twice. [#4118](https://github.com/inspec/inspec/pull/4118) ([miah](https://github.com/miah))
+- Fix missing requires in toml, postgres_conf resources [#4119](https://github.com/inspec/inspec/pull/4119) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Fix missing requires in toml, postgres_conf resources [#4119](https://github.com/inspec/inspec/pull/4119) ([miah](https://github.com/miah)) <!-- 4.4.37 -->
 - json was required twice. [#4118](https://github.com/inspec/inspec/pull/4118) ([miah](https://github.com/miah)) <!-- 4.4.36 -->
 - Fixes a test interaction bug between installer and loader. [#4111](https://github.com/inspec/inspec/pull/4111) ([zenspider](https://github.com/zenspider)) <!-- 4.4.35 -->
 - This needed to be a flat_map because :profiles was an array. [#4110](https://github.com/inspec/inspec/pull/4110) ([zenspider](https://github.com/zenspider)) <!-- 4.4.34 -->
