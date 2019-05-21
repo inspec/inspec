@@ -78,6 +78,16 @@ describe Fetchers::Url do
       end
     end
 
+    it "resolves a github url with dot" do
+      expect_url_transform do
+        github = 'https://github.com/mitre/aws-rds-oracle-mysql-ee-5.7-cis-baseline'
+        res = Fetchers::Url.resolve(github)
+        res.expects(:open).returns(mock_open)
+        _(res).wont_be_nil
+        _(res.resolved_source).must_equal({url: 'https://github.com/mitre/aws-rds-oracle-mysql-ee-5.7-cis-baseline/archive/master.tar.gz', sha256: expected_shasum})
+      end
+    end
+
     it "resolves a github branch url" do
       expect_url_transform do
         github = 'https://github.com/hardening-io/tests-os-hardening/tree/2.0'
