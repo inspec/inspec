@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.46 -->
-## [v4.4.46](https://github.com/inspec/inspec/tree/v4.4.46) (2019-05-21)
+<!-- latest_release 4.4.47 -->
+## [v4.4.47](https://github.com/inspec/inspec/tree/v4.4.47) (2019-05-21)
 
 #### Merged Pull Requests
-- Ensure AwsResourceMixin returns a resource name in deprecation message [#4104](https://github.com/inspec/inspec/pull/4104) ([miah](https://github.com/miah))
+- Fix github url regex. Add period for repo [#4089](https://github.com/inspec/inspec/pull/4089) ([mirskiy](https://github.com/mirskiy))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Fix github url regex. Add period for repo [#4089](https://github.com/inspec/inspec/pull/4089) ([mirskiy](https://github.com/mirskiy)) <!-- 4.4.47 -->
 - Ensure AwsResourceMixin returns a resource name in deprecation message [#4104](https://github.com/inspec/inspec/pull/4104) ([miah](https://github.com/miah)) <!-- 4.4.46 -->
 - Minor require cleanup for telemetry. [#4107](https://github.com/inspec/inspec/pull/4107) ([zenspider](https://github.com/zenspider)) <!-- 4.4.45 -->
 - Fixed missing requires. [#4100](https://github.com/inspec/inspec/pull/4100) ([zenspider](https://github.com/zenspider)) <!-- 4.4.44 -->
