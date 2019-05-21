@@ -43,7 +43,7 @@ aws_secret_access_key = 1234....abcd
 
 You may now run Chef InSpec using the `--target` / `-t` option, using the format `-t aws://region/profile`.  For example, to connect to the Ohio region using a profile named 'auditing', use `-t aws://us-east-2/auditing`.
 
-To verify your credentials,
+To verify your credentials, run
 
 ```bash
 you$ inspec detect -t aws://
@@ -72,7 +72,7 @@ The information from the SPN can be specified either in the file `~/.azure/crede
 
 #### Setting up the Azure Credentials File
 
-By default Chef InSpec is configured to look at ~/.azure/credentials, and it should contain:
+By default, Chef InSpec is configured to look at `~/.azure/credentials`, and it should contain:
 
 ```powershell
 [<SUBSCRIPTION_ID>]
@@ -86,7 +86,7 @@ NOTE: In the Azure web portal, these values are labeled differently:
 * The client_secret is referred to as the 'Key (Password Type)'
 * The tenant_id is referred to as the 'Directory ID'
 
-With the credentials are in place you may now execute InSpec:
+With the credentials are in place, you may now execute InSpec:
 
 ```bash
 inspec exec my-inspec-profile -t azure://
@@ -116,4 +116,66 @@ If you have created a `~/.azure/credentials` file as above, you may also use the
 
 ```bash
 inspec exec my-profile -t azure://2fbdbb02-df2e-11e6-bf01-fe55135034f3
+```
+
+<br>
+
+## GCP Platform Support in InSpec
+
+### Setting up GCP credentials for InSpec
+
+To use Chef InSpec GCP resources, you will need to install and configure the Google Cloud SDK. Instructions for this pre-requisite can be found in the [Google CLoud SDK documentation](https://cloud.google.com/sdk/docs/). Be sure that your InSpec installation is the latest version. The minimal required InSpec version is 3.0.25. 
+
+
+### Create an InSpec profile that makes use of `inspec-gcp`.
+
+With a version of InSpec above 4.0.0, it is possible to create a profile with the following command:
+
+```
+$ inspec init profile --platform gcp my-profile
+Create new profile at /Users/me/my-profile
+ * Creating directory libraries
+ * Creating file README.md
+ * Creating directory controls
+ * Creating file controls/example.rb
+ * Creating file inspec.yml
+ * Creating file attributes.yml
+ * Creating file libraries/.gitkeep
+```
+
+Assuming the attributes yml file contains your GCP project ID, this sample profile can then be executed using the following command:
+
+```
+$ inspec exec my-profile --attrs my-profile/attributes.yml -t gcp:// 
+```
+
+
+#### Setting up the GCP Credentials File
+
+While InSpec can use user accounts for authentication, [Google Cloud documentation](https://cloud.google.com/docs/authentication/) recommends using service accounts. Following GCP best practices, first create a service account with the scopes appropriate for your needs. See [these instructions](https://cloud.google.com/docs/authentication/getting-started) on creating a service account.
+
+Then, download the credential JSON file, e.g. `project-credentials.json`, to your workspace and run the following command to activate your service account:
+
+```bash
+$ gcloud auth activate-service-account --key-file project-credentials.json
+```
+
+#### Using Environment variables to provide credentials
+
+You may also set the GCP credentials json file via the `GOOGLE_APPLICATION_CREDENTIALS` environment variable.
+
+```bash
+$ export GOOGLE_APPLICATION_CREDENTIALS='/Users/me/.config/gcloud/myproject-1-feb7993e8660.json'
+```
+
+Once you have your environment variables set, you can verify your credentials by running:
+
+```bash
+$ inspec detect -t gcp://
+
+== Platform Details
+
+Name:      gcp
+Families:  cloud, api
+Release:   google-cloud-v
 ```
