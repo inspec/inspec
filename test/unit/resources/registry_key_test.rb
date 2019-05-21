@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::RegistryKey' do
   it 'read reg key with human readable name' do

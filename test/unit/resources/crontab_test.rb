@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::Crontab' do
   let(:crontab) { load_resource('crontab') }

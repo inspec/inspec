@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::Packages' do
   it 'verify packages resource' do

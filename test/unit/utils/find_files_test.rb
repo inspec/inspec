@@ -1,5 +1,6 @@
 
 require 'helper'
+require 'utils/find_files'
 
 describe FindFiles do
   let (:helper) do

@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::AuditDaemon' do
   it 'auditd interface' do

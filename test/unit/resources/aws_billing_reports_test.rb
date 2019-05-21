@@ -1,5 +1,9 @@
 require 'helper'
+
 require_relative 'aws_billing_backend'
+
+require 'resource_support/aws'
+require 'resources/aws/aws_billing_reports'
 
 class ConstructorAwsBillingReportsTest < Minitest::Test
   def setup

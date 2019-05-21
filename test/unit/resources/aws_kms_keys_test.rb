@@ -1,5 +1,8 @@
 require 'helper'
 
+require 'resource_support/aws'
+require 'resources/aws/aws_kms_keys'
+
 # MAKKPB = MockAwsKmsKeysPluralBackend
 # Abbreviation not used outside this file
 

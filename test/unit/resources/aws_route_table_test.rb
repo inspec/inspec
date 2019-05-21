@@ -1,5 +1,8 @@
 require 'helper'
 
+require 'resource_support/aws'
+require 'resources/aws/aws_route_table'
+
 class EmptyAwsRouteTableTest < Minitest::Test
   def setup
     AwsRouteTable::BackendFactory.select(AwsMRtbB::Empty)

@@ -1,7 +1,6 @@
 # copyright: 2017
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::PGHbaConf' do
   describe 'PGHbaConf Paramaters' do

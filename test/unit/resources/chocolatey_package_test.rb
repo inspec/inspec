@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 def skip(*args)
   # noop

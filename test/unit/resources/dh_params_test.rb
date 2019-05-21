@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::DhParams' do
   let (:resource_dh_params) { load_resource('dh_params', 'dh_params.dh_pem')}

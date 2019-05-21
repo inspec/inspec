@@ -1,6 +1,4 @@
-
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::Shadow' do
   let(:shadow) { load_resource('shadow') }

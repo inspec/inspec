@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::AuditDaemonConf' do
   it 'check audit daemon config parsing' do

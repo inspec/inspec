@@ -1,5 +1,8 @@
 require 'helper'
 
+require 'resource_support/aws'
+require 'resources/aws/aws_s3_bucket_object'
+
 # MSBOSB = MockS3BucketObjectSingleBackend
 # Abbreviation not used outside this file
 

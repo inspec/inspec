@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::InetdConf' do
   it 'verify limits.conf config parsing' do

@@ -1,5 +1,6 @@
 
 require 'helper'
+require 'inspec/utils/object_traversal'
 
 class Tester
   include ObjectTraverser

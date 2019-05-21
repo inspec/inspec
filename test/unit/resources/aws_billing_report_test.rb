@@ -1,5 +1,9 @@
 require 'helper'
-require_relative 'aws_billing_backend'
+
+require_relative 'aws_billing_backend' # TODO: move this to mocks
+
+require 'resource_support/aws'
+require 'resources/aws/aws_billing_report'
 
 class EmptyAwsBillingReportTest < Minitest::Test
   def setup

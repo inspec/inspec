@@ -1,5 +1,8 @@
 require 'helper'
 
+require 'resource_support/aws'
+require 'resources/aws/aws_flow_log'
+
 class EmptyAwsFlowLog < Minitest::Test
   def setup
     AwsFlowLog::BackendFactory.select(MockAwsFlowLog::Empty)

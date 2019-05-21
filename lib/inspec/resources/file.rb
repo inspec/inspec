@@ -1,6 +1,7 @@
 # copyright: 2015, Vulcano Security GmbH
 
 require 'shellwords'
+require 'inspec/utils/parser'
 
 module Inspec::Resources
   module FilePermissionsSelector
@@ -13,6 +14,7 @@ module Inspec::Resources
     end
   end
 
+  # TODO: rename file_resource.rb
   class FileResource < Inspec.resource(1)
     include FilePermissionsSelector
     include LinuxMountParser

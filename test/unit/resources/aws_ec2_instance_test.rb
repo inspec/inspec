@@ -1,5 +1,8 @@
 require 'helper'
 
+require 'resource_support/aws'
+require 'resources/aws/aws_ec2_instance'
+
 class TestEc2 < Minitest::Test
   Id = 'instance-id'.freeze
   InstanceProfile = 'instance-role'.freeze

@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 require 'rexml/document'
 
 describe 'Inspec::Resources::XML' do

@@ -1,5 +1,6 @@
 
 require 'helper'
+require 'inspec/utils/simpleconfig'
 
 describe 'SimpleConfig Default Parser' do
   it 'should parse an empty string' do

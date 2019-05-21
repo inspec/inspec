@@ -1,5 +1,8 @@
 require 'helper'
 
+require 'resource_support/aws'
+require 'resources/aws/aws_cloudwatch_alarm'
+
 # MCWAB = MockCloudwatchAlarmBackend
 # Abbreviation not used outside this file
 

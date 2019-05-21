@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::PGIdentConf' do
   describe 'PGIdentConf Paramaters' do

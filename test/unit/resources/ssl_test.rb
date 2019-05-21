@@ -1,6 +1,5 @@
-
 require 'helper'
-require 'inspec/resource'
+require 'sslshake'
 
 describe 'Inspec::Resources::SSL' do
   it 'verify cipher enabled' do

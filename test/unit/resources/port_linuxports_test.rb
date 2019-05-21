@@ -1,5 +1,5 @@
 require 'helper'
-require 'inspec/resource'
+require 'utils/parser'
 
 class TestLinuxPorts < Minitest::Test
   def setup

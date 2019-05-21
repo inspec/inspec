@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::Virtualization' do
   def mock_proc(mocked_files)
@@ -14,6 +13,7 @@ describe 'Inspec::Resources::Virtualization' do
   it 'fails the resource if OS is not Linux' do
     mocked_files = []
     mock_loader = MockLoader.new(:windows)
+
     mock_loader.backend.stub :file, mock_proc(mocked_files) do
       mock_resource = mock_loader.load_resource('virtualization')
       mock_resource.resource_failed?.must_equal true

@@ -1,5 +1,5 @@
 module Inspec::Resources
-  class WindowsTasks < Inspec.resource(1)
+  class WindowsTasks < Inspec.resource(1) # TODO: rename singular
     name 'windows_task'
     supports platform: 'windows'
     desc 'Use the windows_task InSpec audit resource to test task schedules on Microsoft Windows.'

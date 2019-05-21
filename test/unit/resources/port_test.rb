@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::Port' do
   it 'verify port on Ubuntu 14.04' do

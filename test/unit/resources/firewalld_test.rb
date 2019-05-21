@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::FirewallD' do
   centResource = MockLoader.new(:centos7).load_resource('firewalld')

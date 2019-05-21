@@ -1,5 +1,6 @@
 
 require 'helper'
+require 'inspec/utils/filter_array'
 
 describe FilterArray do
   let (:data) {[

@@ -1,5 +1,8 @@
 require 'helper'
 
+require 'resource_support/aws'
+require 'resources/aws/aws_iam_access_key'
+
 class AwsIamAccessKeyConstructorTest < Minitest::Test
   def setup
     AwsIamAccessKey::BackendFactory.select(EmptyMAIKSB)

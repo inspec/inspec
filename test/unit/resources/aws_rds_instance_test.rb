@@ -1,5 +1,8 @@
 require 'helper'
 
+require 'resource_support/aws'
+require 'resources/aws/aws_rds_instance'
+
 # MRDSIB = MockRDSInstanceBackend
 # Abbreviation not used outside this file
 

@@ -1,5 +1,8 @@
 require 'helper'
 
+require 'resource_support/aws'
+require 'resources/aws/aws_iam_user'
+
 # MAUIB = MockAwsIamUserBackend
 # Abbreviation not used outside this file
 

@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::LoginDef' do
   it 'verify login.def config parsing' do

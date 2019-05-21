@@ -3,6 +3,8 @@
 require 'method_source'
 require 'inspec/describe'
 require 'inspec/expect'
+require 'inspec/resource'
+require 'inspec/resources/os'
 
 module Inspec
   class Rule

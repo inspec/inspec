@@ -1,6 +1,7 @@
 # copyright: 2015, Dominik Richter
 
 require 'inspec/utils/parser'
+require 'hashie'
 
 class SimpleConfig
   include CommentParser

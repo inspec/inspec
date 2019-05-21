@@ -18,7 +18,7 @@ module Inspec::Resources
   # Since Windows does not delete tmp files automatically, we remove the VBScript
   # after we executed it
   # @see https://msdn.microsoft.com/en-us/library/aa364991.aspx
-  class VBScript < PowershellScript
+  class VBScript < Powershell
     name 'vbscript'
     supports platform: 'windows'
     desc ''

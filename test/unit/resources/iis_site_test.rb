@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::IisSite' do
   it 'verify Default Web Site settings' do

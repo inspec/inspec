@@ -1,5 +1,8 @@
 require 'helper'
 
+require 'resource_support/aws'
+require 'resources/aws/aws_eks_cluster'
+
 # MAEKSB = MockAwsEksClusterSingularBackend
 # Abbreviation not used outside this file
 

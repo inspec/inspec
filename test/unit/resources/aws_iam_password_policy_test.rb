@@ -1,5 +1,8 @@
 require 'helper'
 
+require 'resource_support/aws'
+require 'resources/aws/aws_iam_password_policy'
+
 class AwsIamPasswordPolicyTest < Minitest::Test
   def setup
     @mock_conn = Minitest::Mock.new

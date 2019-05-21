@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::EtcGroup' do
   let(:resource) { load_resource('etc_group') }

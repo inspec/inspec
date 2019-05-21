@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe Inspec::Resources::FileResource do
   let(:root_resource) { load_resource('mount', '/') }

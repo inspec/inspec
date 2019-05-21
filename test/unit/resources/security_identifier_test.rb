@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::SecurityIdentifier' do
   it 'returns a SID for an existing user' do

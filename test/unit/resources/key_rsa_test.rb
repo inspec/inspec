@@ -1,6 +1,5 @@
 
 require 'helper'
-require 'inspec/resource'
 
 describe 'Inspec::Resources::RsaKey' do
   let (:resource_key) { load_resource('key_rsa', 'test_certificate.rsa.key.pem')}

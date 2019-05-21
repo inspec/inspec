@@ -1,6 +1,8 @@
 
 require 'helper'
 require 'inspec/profile_context'
+require 'inspec/resources/file'
+require 'inspec/resources/command'
 
 class Module
   include Minitest::Spec::DSL
