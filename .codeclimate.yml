@@ -8,6 +8,7 @@ plugins:
     config:
       strings:
         - TODO
+        - rubocop:disable
   flog:
     enabled: true
   markdownlint:
