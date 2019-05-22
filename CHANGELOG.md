@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.48 -->
-## [v4.4.48](https://github.com/inspec/inspec/tree/v4.4.48) (2019-05-21)
+<!-- latest_release 4.4.49 -->
+## [v4.4.49](https://github.com/inspec/inspec/tree/v4.4.49) (2019-05-22)
 
 #### Merged Pull Requests
-- GCP Update for InSpec Cloud Platform documentation [#4122](https://github.com/inspec/inspec/pull/4122) ([mjingle](https://github.com/mjingle))
+- Flag `rubocop:disable` comments as something to be fixed. [#4123](https://github.com/inspec/inspec/pull/4123) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Flag `rubocop:disable` comments as something to be fixed. [#4123](https://github.com/inspec/inspec/pull/4123) ([miah](https://github.com/miah)) <!-- 4.4.49 -->
 - GCP Update for InSpec Cloud Platform documentation [#4122](https://github.com/inspec/inspec/pull/4122) ([mjingle](https://github.com/mjingle)) <!-- 4.4.48 -->
 - Fix github url regex. Add period for repo [#4089](https://github.com/inspec/inspec/pull/4089) ([mirskiy](https://github.com/mirskiy)) <!-- 4.4.47 -->
 - Ensure AwsResourceMixin returns a resource name in deprecation message [#4104](https://github.com/inspec/inspec/pull/4104) ([miah](https://github.com/miah)) <!-- 4.4.46 -->
