@@ -1,12 +1,15 @@
+require 'inspec/dist'
 
 module InspecPlugins
   module Compliance
     class API
       module Login
+        include Inspec::Dist
+
         class CannotDetermineServerType < StandardError; end
 
         def login(options)
-          raise ArgumentError, 'Please specify a server using `inspec compliance login https://SERVER`' unless options['server']
+          raise ArgumentError, "Please specify a server using `#{EXEC_NAME} compliance login https://SERVER`" unless options['server']
 
           options['server'] = URI("https://#{options['server']}").to_s if URI(options['server']).scheme.nil?
 
@@ -20,7 +23,7 @@ module InspecPlugins
           when :compliance
             Login::ComplianceServer.login(options)
           else
-            raise CannotDetermineServerType, "Unable to determine if #{options['server']} is a Chef Automate or Chef Compliance server"
+            raise CannotDetermineServerType, "Unable to determine if #{options['server']} is a #{AUTOMATE_PRODUCT_NAME} or #{COMPLIANCE_PRODUCT_NAME} server"
           end
         end
 
@@ -115,6 +118,8 @@ module InspecPlugins
         end
 
         module ComplianceServer
+          include Inspec::Dist
+
           def self.login(options)
             compliance_verify_thor_options(options)
 
@@ -172,7 +177,7 @@ module InspecPlugins
           def self.compliance_verify_thor_options(o)
             error_msg = []
 
-            error_msg.push('Please specify a server using `inspec compliance login https://SERVER`') if o['server'].nil?
+            error_msg.push("Please specify a server using `#{EXEC_NAME} compliance login https://SERVER`") if o['server'].nil?
 
             if o['user'].nil? && o['refresh_token'].nil?
               error_msg.push('Please specify a `--user=\'USER\'` or a `--refresh-token=\'TOKEN\'`')
