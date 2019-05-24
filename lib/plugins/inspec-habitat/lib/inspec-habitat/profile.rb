@@ -3,10 +3,13 @@ require 'inspec/profile_vendor'
 require 'mixlib/shellout'
 require 'tomlrb'
 require 'ostruct'
+require 'inspec/dist'
 
 module InspecPlugins
   module Habitat
     class Profile
+      include Inspec::Dist
+
       attr_reader :logger
       def initialize(path, options = {})
         @path    = path
@@ -72,7 +75,7 @@ module InspecPlugins
         create_file_from_template(default_toml, 'default.toml.erb')
 
         config = File.join(path, 'habitat', 'config', 'inspec_exec_config.json')
-        logger.info("Generating #{config} for `inspec exec`...")
+        logger.info("Generating #{config} for `#{EXEC_NAME} exec`...")
         create_file_from_template(config, 'config/inspec_exec_config.json.erb')
       end
 

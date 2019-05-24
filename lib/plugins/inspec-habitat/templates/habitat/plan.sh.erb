@@ -18,7 +18,7 @@ do_before() {
     return 1
   fi
 
-  # Execute an 'inspec compliance login' if a profile needs to be fetched from
+  # Execute an '<%= Inspec::Dist::EXEC_NAME %> compliance login' if a profile needs to be fetched from
   # the Automate server
   if [ "$(grep "compliance: " "$PLAN_CONTEXT/../inspec.yml")" ]; then
     _do_compliance_login;
@@ -29,10 +29,10 @@ do_setup_environment() {
   set_buildtime_env PROFILE_CACHE_DIR "$HAB_CACHE_SRC_PATH/$pkg_dirname"
   set_buildtime_env ARCHIVE_NAME "$pkg_name-$pkg_version.tar.gz"
 
-  # InSpec loads `pry` which tries to expand `~`. This fails if HOME isn't set.
+  # <%= Inspec::Dist::PRODUCT_NAME %> loads `pry` which tries to expand `~`. This fails if HOME isn't set.
   set_runtime_env HOME "$pkg_svc_var_path"
 
-  # InSpec will create a `.inspec` directory in the user's home directory.
+  # <%= Inspec::Dist::PRODUCT_NAME %> will create a `.inspec` directory in the user's home directory.
   # This overrides that to write to a place within the running service's path.
   # NOTE: Setting HOME does the same currently. This is here to be explicit.
   set_runtime_env INSPEC_CONFIG_DIR  "$pkg_svc_var_path"
@@ -52,9 +52,9 @@ do_unpack() {
 }
 
 do_build() {
-  inspec archive "$PROFILE_CACHE_DIR" \
-                 --overwrite \
-                 -o "$PROFILE_CACHE_DIR/$ARCHIVE_NAME"
+  <%= Inspec::Dist::EXEC_NAME %> archive "$PROFILE_CACHE_DIR" \
+                                         --overwrite \
+                                         -o "$PROFILE_CACHE_DIR/$ARCHIVE_NAME"
 }
 
 do_install() {
@@ -63,7 +63,7 @@ do_install() {
 
 _do_compliance_login() {
   if [ -z $COMPLIANCE_CREDS ]; then
-    message="ERROR: Please perform an 'inspec compliance login' and set"
+    message="ERROR: Please perform an '<%= Inspec::Dist::EXEC_NAME %> compliance login' and set"
     message="$message \$HAB_STUDIO_SECRET_COMPLIANCE_CREDS to the contents of"
     message="$message '~/.inspec/compliance/config.json'"
     build_line "$message"
@@ -78,8 +78,8 @@ _do_compliance_login() {
                     sed 's/"//g'
                    )
   insecure=$(echo $COMPLIANCE_CREDS | jq .insecure)
-  inspec compliance login --insecure $insecure \
-                          --user $user \
-                          --token $token \
-                          $automate_server
+  <%= Inspec::Dist::EXEC_NAME %> compliance login --insecure $insecure \
+                                                  --user $user \
+                                                  --token $token \
+                                                  $automate_server
 }
