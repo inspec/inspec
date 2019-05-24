@@ -2,20 +2,22 @@ require 'term/ansicolor'
 require 'pathname'
 require 'inspec/plugin/v2'
 require 'inspec/plugin/v2/installer'
+require 'inspec/dist'
 
 module InspecPlugins
   module PluginManager
     class CliCommand < Inspec.plugin(2, :cli_command)
       include Term::ANSIColor
+      include Inspec::Dist
 
-      subcommand_desc 'plugin SUBCOMMAND', 'Manage InSpec and Train plugins'
+      subcommand_desc 'plugin SUBCOMMAND', "Manage #{PRODUCT_NAME} and Train plugins"
 
       #==================================================================#
       #                      inspec plugin list
       #==================================================================#
 
-      desc 'list [options]', 'Lists user-installed InSpec plugins.'
-      option :all, desc: 'Include plugins shipped with InSpec as well.', type: :boolean, aliases: [:a]
+      desc 'list [options]', "Lists user-installed #{PRODUCT_NAME} plugins."
+      option :all, desc: "Include plugins shipped with #{PRODUCT_NAME} as well.", type: :boolean, aliases: [:a]
       def list
         plugin_statuses = Inspec::Plugin::V2::Registry.instance.plugin_statuses
         plugin_statuses.reject! { |s| [:core, :bundle].include?(s.installation_type) } unless options[:all]
@@ -38,7 +40,7 @@ module InspecPlugins
 
       desc 'search [options] PATTERN', 'Searches rubygems.org for plugins.'
       long_desc <<~EOLD
-        Searches rubygems.org for InSpec plugins. Exits 0 on a search hit, 1 on user error,
+        Searches rubygems.org for #{PRODUCT_NAME} plugins. Exits 0 on a search hit, 1 on user error,
         2 on a search miss. PATTERN is a simple string; a wildcard will be added as
         a suffix, unless -e is used.
       EOLD
@@ -202,7 +204,7 @@ module InspecPlugins
 
         # Already installed?
         if registry.known_plugin?(plugin_name.to_sym)
-          puts(red { 'Plugin already installed' } + " - #{plugin_name} - Use 'inspec plugin list' to see previously installed plugin - installation failed.")
+          puts(red { 'Plugin already installed' } + " - #{plugin_name} - Use '#{EXEC_NAME} plugin list' to see previously installed plugin - installation failed.")
           exit 2
         end
 
