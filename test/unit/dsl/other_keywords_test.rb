@@ -1,6 +1,7 @@
 
 require 'helper'
 require 'inspec/runner_mock'
+require 'inspec/runner'
 
 describe 'inspec keyword' do
   def load(content)

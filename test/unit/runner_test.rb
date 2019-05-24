@@ -2,6 +2,7 @@
 
 require 'helper'
 require 'inspec/secrets'
+require 'inspec/runner'
 
 describe Inspec::Runner do
   let(:runner) { Inspec::Runner.new({ command_runner: :generic }) }
