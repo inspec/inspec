@@ -4,10 +4,13 @@ require 'pathname'
 require 'set'
 require 'tempfile'
 require 'yaml'
+require 'inspec/dist'
 
 module InspecPlugins
   module Artifact
     class Base
+      include Inspec::Dist
+
       KEY_BITS=2048
       KEY_ALG=OpenSSL::PKey::RSA
 
@@ -87,7 +90,7 @@ module InspecPlugins
           p = Pathname.new(path_to_profile)
           p = p.join('inspec.yml')
           if not p.exist?
-            raise "#{path_to_profile} doesn't appear to be a valid InSpec profile"
+            raise "#{path_to_profile} doesn't appear to be a valid #{PRODUCT_NAME} profile"
           end
           yaml = YAML.load_file(p.to_s)
           yaml = yaml.to_hash
@@ -101,7 +104,7 @@ module InspecPlugins
           end
         rescue => e
           # rewrap it and pass it up to the CLI
-          raise "Error reading InSpec profile metadata: #{e}"
+          raise "Error reading #{PRODUCT_NAME} profile metadata: #{e}"
         end
 
         yaml
