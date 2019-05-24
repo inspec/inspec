@@ -4,6 +4,9 @@
 require 'pp'
 require 'stringio'
 require 'forwardable'
+require 'thor'
+require 'base64'
+require 'inspec/base_cli'
 
 module Inspec
   class Config

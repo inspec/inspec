@@ -1,5 +1,8 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/users'
+require 'inspec/resources/command'
 
 describe 'Inspec::Resources::User' do
 

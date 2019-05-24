@@ -1,4 +1,5 @@
 # copyright: 2015, Vulcano Security GmbH
+require 'inspec/resources/command'
 
 module Inspec::Resources
   class Powershell < Cmd

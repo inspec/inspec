@@ -1,7 +1,8 @@
-
 require 'inspec/utils/parser'
 require 'inspec/utils/convert'
 require 'inspec/utils/filter'
+require 'inspec/utils/simpleconfig'
+require 'inspec/resources/powershell'
 
 module Inspec::Resources
   # This file contains two resources, the `user` and `users` resource.
