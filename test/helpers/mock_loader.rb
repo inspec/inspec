@@ -46,10 +46,6 @@ class MockLoader
     @backend = Inspec::Backend.create(Inspec::Config.mock)
     mock = @backend.backend
 
-    def @backend.file(*) # BS version of it so stub calls won't blow up
-      super
-    end
-
     # create all mock files
     local = Train.create('local', command_runner: :generic).connection
 
