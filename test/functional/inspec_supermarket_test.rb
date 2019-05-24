@@ -1,7 +1,7 @@
 
 require 'functional/helper'
 
-describe 'inspec supermakert' do
+describe 'inspec supermarket' do
   include FunctionalHelper
 
   it 'help' do
