@@ -83,6 +83,8 @@ require 'zip'
 require 'json'
 
 require 'inspec/base_cli'
+require 'inspec/resource'
+require 'inspec/resources'
 require 'inspec/version'
 require 'inspec/exceptions'
 require 'inspec/fetcher'
