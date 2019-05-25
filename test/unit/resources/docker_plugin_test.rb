@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/docker_plugin'
 
 describe 'Inspec::Resources::DockerContainer' do
   describe 'docker_plugin' do

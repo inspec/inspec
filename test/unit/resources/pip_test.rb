@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/pip'
 
 describe 'Inspec::Resources::Pip' do
   it 'verify pip package detail parsing' do

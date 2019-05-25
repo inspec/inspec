@@ -2,6 +2,7 @@
 # Copyright 2017, Christoph Hartmann
 #
 
+require 'inspec/resources/command'
 require 'inspec/utils/filter'
 require 'hashie/mash'
 

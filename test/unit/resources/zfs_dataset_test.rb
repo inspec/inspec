@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/zfs_dataset'
 
 describe Inspec::Resources::ZfsDataset do
   let(:loader) { MockLoader.new(:freebsd10) }

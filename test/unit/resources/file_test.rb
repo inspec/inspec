@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/file'
 
 describe Inspec::Resources::FileResource do
   let(:file) { stub(unix_mode_mask: 000, mode: 000) }

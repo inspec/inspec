@@ -1,3 +1,4 @@
+require 'inspec/resources/command'
 
 module Inspec::Resources
   class ZfsDataset < Inspec.resource(1)

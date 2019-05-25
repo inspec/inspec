@@ -1,4 +1,6 @@
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/filesystem'
 
 describe 'Inspec::Resources::FileSystemResource' do
   # arch linux

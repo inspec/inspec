@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/gem'
 
 describe 'Inspec::Resources::Gem' do
   it 'verify gem is not installed' do

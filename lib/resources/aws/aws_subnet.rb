@@ -1,3 +1,7 @@
+require 'resource_support/aws/aws_singular_resource_mixin'
+require 'resource_support/aws/aws_backend_base'
+require 'aws-sdk-ec2'
+
 class AwsSubnet < Inspec.resource(1)
   name 'aws_subnet'
   desc 'This resource is used to test the attributes of a VPC subnet'

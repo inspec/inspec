@@ -1,3 +1,7 @@
+require 'resource_support/aws/aws_plural_resource_mixin'
+require 'resource_support/aws/aws_backend_base'
+require 'aws-sdk-elasticloadbalancing'
+
 class AwsElbs < Inspec.resource(1)
   name 'aws_elbs'
   desc 'Verifies settings for AWS ELBs (classic Elastic Load Balancers) in bulk'

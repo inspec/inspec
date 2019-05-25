@@ -1,3 +1,4 @@
+require 'inspec/resources/json'
 
 module Inspec::Resources
   class XmlConfig < JsonConfig

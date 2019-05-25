@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/bridge'
 
 describe 'Inspec::Resources::Bridge' do
 

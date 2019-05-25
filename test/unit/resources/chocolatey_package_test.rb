@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/chocolatey_package'
 
 def skip(*args)
   # noop

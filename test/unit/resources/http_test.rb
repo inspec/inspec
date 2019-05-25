@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/http'
 require "faraday_middleware/response/follow_redirects"
 
 describe 'Inspec::Resources::Http' do

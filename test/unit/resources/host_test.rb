@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/host'
 
 describe 'Inspec::Resources::Host' do
 

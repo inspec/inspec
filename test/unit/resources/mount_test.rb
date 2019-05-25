@@ -1,5 +1,8 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/file' # TODO: rename this test file?
+require 'inspec/resources/mount'
 
 describe Inspec::Resources::FileResource do
   let(:root_resource) { load_resource('mount', '/') }

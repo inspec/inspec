@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/nginx'
 
 describe 'Inspec::Resources::Nginx' do
   describe 'NGINX Methods' do

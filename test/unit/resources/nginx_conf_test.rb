@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/nginx_conf'
 
 describe 'Inspec::Resources::NginxConf' do
   # None of these tests currently work correctly on windows. See the

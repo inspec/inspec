@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/interface'
 
 describe 'Inspec::Resources::Interface' do
 

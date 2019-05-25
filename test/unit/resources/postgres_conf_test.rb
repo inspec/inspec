@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/postgres_conf'
 
 describe 'Inspec::Resources::Postgres' do
   it 'verify postgresql.conf config parsing of a simple key value' do

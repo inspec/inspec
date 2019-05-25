@@ -1,5 +1,6 @@
-
+require 'inspec/resources/command'
 require 'inspec/utils/convert'
+require 'inspec/utils/simpleconfig'
 
 module Inspec::Resources
   class NetworkInterface < Inspec.resource(1)

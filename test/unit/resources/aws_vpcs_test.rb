@@ -1,4 +1,6 @@
 require 'helper'
+require 'inspec/resource'
+require 'resources/aws/aws_vpcs'
 require 'ipaddr'
 
 require 'resource_support/aws'

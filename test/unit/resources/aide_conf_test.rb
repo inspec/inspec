@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/aide_conf'
 
 describe 'Inspec::Resources::AideConf' do
   describe 'AideConf Parameters' do

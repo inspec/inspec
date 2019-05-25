@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/etc_hosts_allow_deny'
 
 describe 'Inspec::Resources::EtcHostsAllow' do
   describe 'EtcHostsAllow Paramaters' do

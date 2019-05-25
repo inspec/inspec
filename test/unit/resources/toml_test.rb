@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/toml'
 
 describe 'Inspec::Resources::TOML' do
   describe 'when loading valid TOML' do

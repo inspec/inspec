@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/rabbitmq_config'
 
 describe 'Inspec::Resources::RabbitmqConf' do
 

@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/processes'
 
 describe 'Inspec::Resources::Processes' do
   it 'handles empty process results' do

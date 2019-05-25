@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/etc_hosts'
 
 describe 'Inspec::Resources::EtcHosts' do
   let(:resource) { load_resource('etc_hosts') }

@@ -1,4 +1,6 @@
 require 'helper'
+require 'inspec/resource'
+require 'resources/aws/aws_billing_report'
 
 require_relative 'aws_billing_backend' # TODO: move this to mocks
 

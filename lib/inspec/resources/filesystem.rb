@@ -1,3 +1,5 @@
+require 'inspec/resources/command'
+
 module Inspec::Resources
   class FileSystemResource < Inspec.resource(1)
     name 'filesystem'

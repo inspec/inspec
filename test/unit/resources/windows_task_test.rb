@@ -1,4 +1,6 @@
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/windows_task'
 
 describe 'Inspec::Resources::WindowsTasks' do
   it 'verify parsing a windows task that does not exist' do

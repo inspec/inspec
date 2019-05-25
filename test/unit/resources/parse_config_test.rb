@@ -1,4 +1,6 @@
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/parse_config'
 
 describe 'Inspec::Resources::ParseConfig' do
 

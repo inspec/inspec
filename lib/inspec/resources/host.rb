@@ -1,3 +1,4 @@
+require 'inspec/resources/command'
 
 # Usage:
 # describe host('example.com') do

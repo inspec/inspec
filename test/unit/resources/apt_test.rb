@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/apt'
 
 describe 'Inspec::Resources::AptRepo' do
 

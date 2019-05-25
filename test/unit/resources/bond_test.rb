@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/bond'
 
 describe 'Inspec::Resources::Bond' do
 

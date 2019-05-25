@@ -1,3 +1,5 @@
+require 'inspec/resources/powershell'
+
 module Inspec::Resources
   class WindowsTasks < Inspec.resource(1) # TODO: rename singular
     name 'windows_task'

@@ -1,4 +1,6 @@
 require 'helper'
+require 'inspec/resource'
+require 'resources/aws/aws_billing_reports'
 
 require_relative 'aws_billing_backend'
 

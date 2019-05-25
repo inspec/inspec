@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/cran'
 
 describe 'Inspec::Resources::Cran' do
   it 'verify cran package detail parsing' do

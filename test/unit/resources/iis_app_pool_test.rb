@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/iis_app_pool'
 
 describe 'Inspec::Resources::IisAppPool' do
   it 'verify default app pool settings' do

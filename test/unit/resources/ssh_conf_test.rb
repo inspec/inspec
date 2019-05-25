@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/ssh_config'
 
 describe 'Inspec::Resources::SshConfig' do
 

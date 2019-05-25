@@ -1,5 +1,8 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/postgres_ident_conf'
+require 'inspec/resources/directory'
 
 describe 'Inspec::Resources::PGIdentConf' do
   describe 'PGIdentConf Paramaters' do

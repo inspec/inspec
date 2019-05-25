@@ -1,4 +1,4 @@
-
+require 'inspec/resources/command'
 require 'shellwords'
 
 module Inspec::Resources

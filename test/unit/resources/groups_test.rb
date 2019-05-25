@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/groups'
 
 describe 'groups resource on unix platform' do
   let(:resource) { MockLoader.new(:ubuntu1404).load_resource('groups') }

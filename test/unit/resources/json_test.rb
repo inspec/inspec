@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/json'
 
 describe 'Inspec::Resources::JSON' do
   describe 'when loading a valid json' do

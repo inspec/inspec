@@ -1,4 +1,4 @@
-
+require 'inspec/resources/file'
 require 'inspec/utils/parser'
 require 'inspec/utils/filter'
 

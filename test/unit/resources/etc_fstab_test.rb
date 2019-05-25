@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/etc_fstab'
 
 describe 'Inspec::Resources::Fstab' do
   let(:resource) { load_resource('etc_fstab') }

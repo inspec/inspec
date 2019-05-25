@@ -1,5 +1,8 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/file'
+require 'inspec/resources/virtualization'
 
 describe 'Inspec::Resources::Virtualization' do
   def mock_proc(mocked_files)

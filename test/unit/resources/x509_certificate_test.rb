@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/x509_certificate'
 
 describe 'Inspec::Resources::X509Certificate' do
   let (:resource_cert) {

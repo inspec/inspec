@@ -1,4 +1,6 @@
 require 'helper'
+require 'inspec/resource'
+require 'resources/aws/aws_security_groups'
 
 require 'resource_support/aws'
 require 'resources/aws/aws_security_groups'

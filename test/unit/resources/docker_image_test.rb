@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/docker_image'
 
 describe 'Inspec::Resources::DockerImage' do
   describe 'docker_image' do

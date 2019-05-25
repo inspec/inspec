@@ -1,5 +1,6 @@
 # copyright: 2015, Vulcano Security GmbH
 
+require 'inspec/resources/command'
 require 'shellwords'
 
 module Inspec::Resources

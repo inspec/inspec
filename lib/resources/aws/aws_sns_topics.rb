@@ -1,3 +1,7 @@
+require 'resource_support/aws/aws_plural_resource_mixin'
+require 'resource_support/aws/aws_backend_base'
+require 'aws-sdk-sns'
+
 class AwsSnsTopics < Inspec.resource(1)
   name 'aws_sns_topics'
   desc 'Verifies settings for SNS Topics in bulk'

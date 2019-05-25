@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/elasticsearch'
 
 describe 'Inspec::Resources::Elasticsearch' do
   let(:resource) { load_resource('elasticsearch') }

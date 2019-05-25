@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/yum'
 
 describe 'Inspec::Resources::YumRepo' do
   it 'get repository details' do

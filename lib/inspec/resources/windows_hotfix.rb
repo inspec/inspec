@@ -1,3 +1,4 @@
+require 'inspec/resources/powershell'
 
 module Inspec::Resources
   class WindowsHotfix < Inspec.resource(1)

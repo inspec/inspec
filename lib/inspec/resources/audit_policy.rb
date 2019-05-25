@@ -1,3 +1,5 @@
+require 'inspec/resources/command'
+
 # copyright: 2015, Vulcano Security GmbH
 
 # Advanced Auditing:

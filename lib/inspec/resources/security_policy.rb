@@ -11,6 +11,8 @@
 # parameters. Therefore we need a combination of Registry and secedit output
 
 require 'hashie'
+require 'inspec/resources/command'
+require 'inspec/utils/simpleconfig'
 
 module Inspec::Resources
   # known and supported MS privilege rights

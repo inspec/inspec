@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/service'
 require 'hashie'
 
 describe 'Inspec::Resources::Service' do

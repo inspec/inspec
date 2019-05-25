@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/kernel_parameter'
 
 describe 'Inspec::Resources::KernelParameter' do
   it 'verify kernel_parameter parsing' do

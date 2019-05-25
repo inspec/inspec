@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/windows_hotfix'
 
 describe 'Inspec::Resources::WindowsHotfix' do
 

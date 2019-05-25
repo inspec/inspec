@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/xinetd_conf'
 
 describe 'Inspec::Resources::XinetdConf' do
   let(:resource) { load_resource('xinetd_conf') }

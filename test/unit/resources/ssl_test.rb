@@ -1,4 +1,6 @@
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/ssl'
 require 'sslshake'
 
 describe 'Inspec::Resources::SSL' do

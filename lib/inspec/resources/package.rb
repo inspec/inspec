@@ -1,3 +1,5 @@
+require 'inspec/resources/directory'
+require 'inspec/utils/simpleconfig'
 
 # Resource to determine package information
 #

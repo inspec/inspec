@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/iptables'
 
 describe 'Inspec::Resources::Iptables' do
 

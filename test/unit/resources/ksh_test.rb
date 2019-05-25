@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/ksh'
 
 describe Inspec::Resources::Ksh do
   let(:x) { rand.to_s }

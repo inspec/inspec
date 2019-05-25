@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/security_policy'
 
 describe 'Inspec::Resources::SecurityPolicy' do
   it 'verify processes resource' do

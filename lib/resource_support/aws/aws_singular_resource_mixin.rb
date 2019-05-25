@@ -1,3 +1,6 @@
+require 'resource_support/aws/aws_resource_mixin'
+require 'resource_support/aws/aws_backend_factory_mixin'
+
 module AwsSingularResourceMixin
   include AwsResourceMixin
 

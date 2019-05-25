@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/windows_feature'
 
 describe 'Inspec::Resources::WindowsFeature' do
   it 'can retrieve feature info using PowerShell' do

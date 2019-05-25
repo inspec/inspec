@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/ntp_conf'
 
 describe 'Inspec::Resources::NtpConf' do
   it 'verify ntp config parsing' do

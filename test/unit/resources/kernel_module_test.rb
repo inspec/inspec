@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/kernel_module'
 
 describe 'Inspec::Resources::KernelModule' do
 

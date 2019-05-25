@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/os'
 
 describe 'Inspec::Resources::Os' do
   it 'verify os parsing on CentOS' do

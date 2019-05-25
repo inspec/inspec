@@ -1,3 +1,7 @@
+require 'resource_support/aws/aws_singular_resource_mixin'
+require 'resource_support/aws/aws_backend_base'
+require 'aws-sdk-configservice'
+
 class AwsConfigDeliveryChannel < Inspec.resource(1)
   name 'aws_config_delivery_channel'
   desc 'Verifies settings for AWS Config Delivery Channel'

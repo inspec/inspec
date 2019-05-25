@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/os_env'
 
 describe 'Inspec::Resources::OsEnv' do
   it 'verify env parsing' do

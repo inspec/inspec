@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/login_defs' # TODO: rename file
 
 describe 'Inspec::Resources::LoginDef' do
   it 'verify login.def config parsing' do

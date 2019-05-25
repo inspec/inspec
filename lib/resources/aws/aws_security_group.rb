@@ -1,6 +1,10 @@
 require 'set'
 require 'ipaddr'
 
+require 'resource_support/aws/aws_singular_resource_mixin'
+require 'resource_support/aws/aws_backend_base'
+require 'aws-sdk-ec2'
+
 class AwsSecurityGroup < Inspec.resource(1)
   name 'aws_security_group'
   desc 'Verifies settings for an individual AWS Security Group.'

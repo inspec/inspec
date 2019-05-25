@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/sys_info'
 
 describe 'Inspec::Resources::SysInfo' do
   describe 'sys_info' do

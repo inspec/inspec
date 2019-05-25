@@ -1,4 +1,6 @@
 require 'helper'
+require 'inspec/resource'
+require 'resources/aws/aws_kms_keys'
 
 require 'resource_support/aws'
 require 'resources/aws/aws_kms_keys'

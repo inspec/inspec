@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/passwd'
 
 describe 'Inspec::Resources::Passwd' do
   let(:passwd) { load_resource('passwd') }

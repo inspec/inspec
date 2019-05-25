@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/audit_policy'
 
 describe 'Inspec::Resources::AuditPolicy' do
   it 'check audit policy parsing' do

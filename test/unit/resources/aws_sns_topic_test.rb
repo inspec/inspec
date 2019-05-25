@@ -1,4 +1,6 @@
 require 'helper'
+require 'inspec/resource'
+require 'resources/aws/aws_sns_topic'
 
 require 'resource_support/aws'
 require 'resources/aws/aws_sns_topic'

@@ -2,6 +2,7 @@
 
 require 'inspec/utils/filter'
 require 'ostruct'
+require 'inspec/resources/command'
 
 module Inspec::Resources
   class Processes < Inspec.resource(1)

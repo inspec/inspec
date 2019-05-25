@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/wmi'
 
 describe 'Inspec::Resources::WMI' do
 

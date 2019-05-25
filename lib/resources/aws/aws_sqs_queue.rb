@@ -1,3 +1,7 @@
+require 'resource_support/aws/aws_singular_resource_mixin'
+require 'resource_support/aws/aws_backend_base'
+require 'aws-sdk-sqs'
+
 require 'uri'
 
 class AwsSqsQueue < Inspec.resource(1)

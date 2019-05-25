@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/package'
 
 describe 'Inspec::Resources::Package' do
   # arch linux

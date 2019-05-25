@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/vbscript'
 
 describe 'Inspec::Resources::VbScript' do
 

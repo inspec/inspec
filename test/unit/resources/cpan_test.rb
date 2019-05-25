@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/cpan'
 
 describe 'Inspec::Resources::Cpan' do
   it 'verify cpan package detail parsing' do

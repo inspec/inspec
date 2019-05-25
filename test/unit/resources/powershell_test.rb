@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/powershell'
 
 describe 'Inspec::Resources::Powershell' do
   let(:base64_command) {

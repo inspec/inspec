@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/oneget'
 
 describe 'Inspec::Resources::OneGet' do
 

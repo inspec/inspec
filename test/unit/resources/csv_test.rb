@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/csv'
 
 describe 'Inspec::Resources::CSV' do
   describe 'when loading a valid csv' do

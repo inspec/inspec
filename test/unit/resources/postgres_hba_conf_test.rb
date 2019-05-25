@@ -1,6 +1,8 @@
 # copyright: 2017
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/postgres_hba_conf'
 
 describe 'Inspec::Resources::PGHbaConf' do
   describe 'PGHbaConf Paramaters' do
