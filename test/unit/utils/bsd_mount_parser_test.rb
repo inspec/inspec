@@ -16,9 +16,9 @@ describe BsdMountParser do
 
     it 'parses a valid mount line' do
       info = {
-      	:device => 'tank/tmp',
-      	:type => 'zfs',
-      	:options => ['local', 'noexec', 'nosuid', 'nfsv4acls'],
+        :device => 'tank/tmp',
+        :type => 'zfs',
+        :options => ['local', 'noexec', 'nosuid', 'nfsv4acls'],
       }
       parser.parse_mount_options('tank/tmp on /tmp (zfs, local, noexec, nosuid, nfsv4acls)').must_equal(info)
     end
