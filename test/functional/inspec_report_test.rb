@@ -1,5 +1,6 @@
-
 require 'functional/helper'
+require 'inspec/runner'
+require 'inspec/resources/file'
 
 describe 'inspec report tests' do
   include FunctionalHelper
