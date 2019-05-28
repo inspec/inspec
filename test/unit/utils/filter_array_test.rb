@@ -1,4 +1,3 @@
-
 require 'helper'
 
 describe FilterArray do

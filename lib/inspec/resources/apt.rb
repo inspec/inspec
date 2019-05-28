@@ -1,4 +1,3 @@
-
 # Verifies apt and ppa repositories
 #
 # Usage:

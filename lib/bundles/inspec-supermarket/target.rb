@@ -1,4 +1,3 @@
-
 require 'uri'
 require 'inspec/fetcher'
 require 'fetchers/url'

@@ -9,4 +9,3 @@ To be picked up by the Rake tasks as tests, each test file should end in `_test.
 ## Unit vs Functional Tests
 
 A practical difference between unit tests and functional tests is that unit tests all run within one process, while functional tests might exercise a CLI plugin by shelling out to an `inspec` invocation in a subprocess, and examining the results.
-

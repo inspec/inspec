@@ -1,4 +1,3 @@
-
 module Inspec::Resources
   class WindowsFeature < Inspec.resource(1)
     name 'windows_feature'

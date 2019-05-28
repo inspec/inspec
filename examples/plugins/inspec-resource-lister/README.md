@@ -59,4 +59,3 @@ One nice circuit of the plugin might be:
  * look at lib/inspec-resource-lister.rb, the entry point which InSpec will always load if the plugin is installed
  * look at lib/inspec-resource-lister/plugin.rb, the plugin definition which InSpec uses to understand what the plugin _can_ do.
  * look at lib/inspec-resource-lister/cli_command.rb, the CLI Command implementation itself.
-

@@ -1,4 +1,3 @@
-
 require 'hashie/mash'
 require 'inspec/utils/database_helpers'
 

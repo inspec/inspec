@@ -1,4 +1,3 @@
-
 # Usage:
 # describe pip('Jinja2') do
 #   it { should be_installed }

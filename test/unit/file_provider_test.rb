@@ -1,4 +1,3 @@
-
 require 'helper'
 
 describe Inspec::MockProvider do

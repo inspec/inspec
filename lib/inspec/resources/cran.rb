@@ -1,4 +1,3 @@
-
 # Usage:
 # describe cran('DBI') do
 #   it { should be_installed }

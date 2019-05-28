@@ -1,4 +1,3 @@
-
 module InspecPlugins
   module Compliance
     class API

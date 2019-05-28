@@ -1,4 +1,3 @@
-
 require 'inspec-test-ui/version'
 
 module InspecPlugins

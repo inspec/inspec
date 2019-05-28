@@ -25,4 +25,3 @@ control "aws_s3_buckets properties" do
     its('bucket_names') { should_not include 'i_dont_exist' }
   end
 end
-

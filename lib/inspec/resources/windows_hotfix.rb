@@ -1,4 +1,3 @@
-
 module Inspec::Resources
   class WindowsHotfix < Inspec.resource(1)
     name 'windows_hotfix'

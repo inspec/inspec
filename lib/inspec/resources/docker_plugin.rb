@@ -1,4 +1,3 @@
-
 module Inspec::Resources
   class DockerPlugin < Inspec.resource(1)
     name 'docker_plugin'

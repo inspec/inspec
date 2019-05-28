@@ -1,4 +1,3 @@
-
 require 'pathname'
 require_relative 'renderer'
 

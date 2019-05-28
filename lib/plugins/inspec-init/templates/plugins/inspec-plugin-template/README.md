@@ -25,4 +25,3 @@ The generated plugin contains everything a real-world, industrial grade plugin w
 * a Gemfile, for managing its dependencies
 * a Rakefile, for running development tasks
 * Rubocop linting support for using the base InSpec project rubocop.yml (See Rakefile)
-

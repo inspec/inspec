@@ -1,4 +1,3 @@
-
 # Usage:
 # describe cpan('DBD::Pg') do
 #   it { should be_installed }

@@ -1,4 +1,3 @@
-
 require 'inspec/utils/erlang_parser'
 require 'inspec/utils/file_reader'
 

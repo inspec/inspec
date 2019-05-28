@@ -1,4 +1,3 @@
-
 require 'shellwords'
 
 module Inspec::Resources

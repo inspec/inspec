@@ -1,4 +1,3 @@
-
 # Resource to determine package information
 #
 # Usage:

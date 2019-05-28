@@ -1,4 +1,3 @@
-
 module Inspec::Resources
   class ZfsDataset < Inspec.resource(1)
     name 'zfs_dataset'

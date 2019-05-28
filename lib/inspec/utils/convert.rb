@@ -1,4 +1,3 @@
-
 module Converter
   # convert the value to an integer if we have numbers only
   # otherwise we return the string

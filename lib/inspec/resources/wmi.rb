@@ -1,4 +1,3 @@
-
 require 'inspec/utils/object_traversal'
 
 module Inspec::Resources

@@ -1,4 +1,3 @@
-
 include_controls 'failures'
 
 describe file('/tmp') do

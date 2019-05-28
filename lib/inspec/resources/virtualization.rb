@@ -1,4 +1,3 @@
-
 require 'hashie/mash'
 
 module Inspec::Resources

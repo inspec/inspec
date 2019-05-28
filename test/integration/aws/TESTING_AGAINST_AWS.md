@@ -103,6 +103,3 @@ bundle exec rake test:aws:setup:default
 bundle exec rake test:aws:run:default
 bundle exec rake test:aws:cleanup:default
 ```
-
-
-

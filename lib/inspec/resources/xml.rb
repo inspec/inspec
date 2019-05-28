@@ -1,4 +1,3 @@
-
 module Inspec::Resources
   class XmlConfig < JsonConfig
     name 'xml'

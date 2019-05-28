@@ -1,4 +1,3 @@
-
 require 'mixlib/log'
 
 module Inspec

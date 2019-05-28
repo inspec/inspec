@@ -11,6 +11,3 @@ with code, docs, and tests.
 
 This directory contains material that is reusable for core plugins, such as a test helper tuned to assisting
 core plugin testing.
-
-
-

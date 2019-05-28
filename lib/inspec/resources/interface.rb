@@ -1,4 +1,3 @@
-
 require 'inspec/utils/convert'
 
 module Inspec::Resources

@@ -1,4 +1,3 @@
-
 module FileReader
   def read_file_content(path, allow_empty = false)
     # these are currently ResourceSkipped to maintain consistency with the resource

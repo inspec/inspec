@@ -1,4 +1,3 @@
-
 require 'yaml'
 
 # Parses a yaml document

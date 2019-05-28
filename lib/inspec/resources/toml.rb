@@ -1,4 +1,3 @@
-
 require 'tomlrb'
 require 'inspec/resources/json'
 

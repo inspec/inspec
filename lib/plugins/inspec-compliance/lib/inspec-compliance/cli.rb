@@ -1,4 +1,3 @@
-
 require_relative 'api'
 
 module InspecPlugins

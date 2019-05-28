@@ -18,4 +18,3 @@ class Gordon < Inspec.resource(1)
     true
   end
 end
-

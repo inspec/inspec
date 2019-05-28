@@ -1,4 +1,3 @@
-
 require 'helper'
 require 'rbconfig'
 require 'json'

@@ -1,4 +1,3 @@
-
 module Inspec::Resources
   class KernelParameter < Inspec.resource(1)
     name 'kernel_parameter'

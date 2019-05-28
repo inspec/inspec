@@ -1,4 +1,3 @@
-
 fixtures = {}
 [
   'ec2_instance_recall_hit_id',

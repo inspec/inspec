@@ -1,4 +1,3 @@
-
 require 'inspec/resources/file'
 require 'inspec/utils/file_reader'
 

@@ -1,4 +1,3 @@
-
 require 'hashie'
 require 'inspec/utils/file_reader'
 

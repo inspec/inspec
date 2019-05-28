@@ -1,4 +1,3 @@
-
 if os.unix?
   filename = '/tmp/example.yml'
 else

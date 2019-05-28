@@ -1,4 +1,3 @@
-
 return unless os.windows?
 
 if os.release.to_f == 6.3

@@ -1,5 +1,3 @@
-
-
 require 'helper'
 require 'inspec/profile_context'
 

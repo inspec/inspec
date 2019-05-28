@@ -1,4 +1,3 @@
-
 # Because this is a core plugin, we place the plugin definition here in the entry point.
 # This is needed because under core testing, the entry point may be reloaded multiple times,
 # and we need plugin registration to properly occur each time.

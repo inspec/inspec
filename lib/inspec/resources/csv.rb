@@ -1,4 +1,3 @@
-
 # Parses a csv document
 # This implementation was inspired by a blog post
 # @see http://technicalpickles.com/posts/parsing-csv-with-ruby

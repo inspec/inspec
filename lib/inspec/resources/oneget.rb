@@ -1,4 +1,3 @@
-
 # This resource talks with OneGet (https://github.com/OneGet/oneget)
 # Its part of Windows Management Framework 5.0 and part of Windows 10
 #

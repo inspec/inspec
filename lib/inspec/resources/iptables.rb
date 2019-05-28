@@ -1,4 +1,3 @@
-
 # Usage:
 # describe iptables do
 #   it { should have_rule('-P INPUT ACCEPT') }

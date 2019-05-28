@@ -1,4 +1,3 @@
-
 # you add controls here
 control 'tmp-1.0' do                        # A unique ID for this control
   impact 0.7                                # The criticality, if this control fails.

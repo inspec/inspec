@@ -1,4 +1,3 @@
-
 require 'helper'
 
 describe 'SimpleConfig Default Parser' do

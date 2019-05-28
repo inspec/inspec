@@ -1,4 +1,3 @@
-
 # Usage:
 # describe yum do
 #   its('repos') { should exist }

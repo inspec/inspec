@@ -14,4 +14,3 @@ Unit tests are tests that verify that the individual components of your plugin w
 ## Unit vs Functional Tests
 
 A practical difference between unit tests and functional tests is that unit tests all run within one process, while functional tests might exercise a CLI plugin by shelling out to an inspec command in a subprocess, and examining the results.
-

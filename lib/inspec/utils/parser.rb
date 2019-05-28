@@ -1,4 +1,3 @@
-
 module PasswdParser
   # Parse /etc/passwd files.
   #

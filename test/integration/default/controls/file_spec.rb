@@ -1,4 +1,3 @@
-
 if os[:family] == 'windows'
   filedata = {
     user: os_env('COMPUTERNAME').content + '\TestUser'

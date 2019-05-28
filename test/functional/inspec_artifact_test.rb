@@ -1,4 +1,3 @@
-
 require 'fileutils'
 require 'functional/helper'
 require 'securerandom'

@@ -1,4 +1,3 @@
-
 module Inspec::Resources
   class ZfsPool < Inspec.resource(1)
     name 'zfs_pool'

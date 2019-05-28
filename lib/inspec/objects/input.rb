@@ -1,4 +1,3 @@
-
 require 'inspec/utils/deprecation'
 
 # For backwards compatibility during the rename (see #3802),

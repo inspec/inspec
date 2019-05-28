@@ -1,4 +1,3 @@
-
 module Inspec::Reporters
   class CLI < Base
     case RUBY_PLATFORM

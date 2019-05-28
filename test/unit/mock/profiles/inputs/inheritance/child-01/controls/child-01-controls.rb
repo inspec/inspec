@@ -1,4 +1,3 @@
-
 control 'child-01-control-01' do
   describe attribute('test-01') do
     # This is an independent value, inheritance-child-01/test-01

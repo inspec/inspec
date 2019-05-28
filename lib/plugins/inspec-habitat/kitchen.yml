@@ -25,4 +25,3 @@ suites:
     run_list:
       - recipe[inspec_habitat_fixture]
     attributes:
-

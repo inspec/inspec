@@ -1,4 +1,3 @@
-
 if os.linux?
   # uses the `cmp` matcher instead of the eq matcher
   describe sshd_config do

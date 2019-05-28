@@ -1,4 +1,3 @@
-
 # Usage:
 # describe host('example.com') do
 #   it { should be_resolvable }

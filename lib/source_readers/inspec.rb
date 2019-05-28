@@ -1,4 +1,3 @@
-
 require 'inspec/fetcher'
 require 'inspec/metadata'
 

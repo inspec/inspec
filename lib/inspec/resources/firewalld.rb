@@ -1,4 +1,3 @@
-
 module Inspec::Resources
   class FirewallD < Inspec.resource(1)
     ###

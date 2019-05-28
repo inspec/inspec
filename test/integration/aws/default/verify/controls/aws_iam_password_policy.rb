@@ -30,4 +30,3 @@ control "aws_iam_password_policy matchers" do
     it { should prevent_password_reuse }
   end
 end
-

@@ -1,4 +1,3 @@
-
 module Inspec
   class OrTest
     attr_reader :tests

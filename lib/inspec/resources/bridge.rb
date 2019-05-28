@@ -1,4 +1,3 @@
-
 # Usage:
 # describe bridge('br0') do
 #   it { should exist }

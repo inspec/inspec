@@ -1,4 +1,3 @@
-
 require 'securerandom'
 
 module Inspec::Resources

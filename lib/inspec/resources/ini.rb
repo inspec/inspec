@@ -1,4 +1,3 @@
-
 require 'inspec/utils/simpleconfig'
 
 module Inspec::Resources

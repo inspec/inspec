@@ -1,4 +1,3 @@
-
 title 'Check Azure Resources'
 
 control 'azure-generic-resource-group-resources-1.0' do

@@ -1,4 +1,3 @@
-
 require 'inspec/utils/command_wrapper'
 require 'inspec/resources/command'
 

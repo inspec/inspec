@@ -1,4 +1,3 @@
-
 require 'functional/helper'
 
 describe 'inspec report tests' do

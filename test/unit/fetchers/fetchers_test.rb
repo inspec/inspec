@@ -1,4 +1,3 @@
-
 require 'helper'
 require 'bundles/inspec-supermarket/target'
 require 'bundles/inspec-supermarket/api'

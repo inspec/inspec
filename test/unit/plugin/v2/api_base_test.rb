@@ -95,4 +95,3 @@ class PluginV2BaseDslMethods < Minitest::Test
     assert_respond_to klass, :mock_plugin_type, 'Activation method for mock_plugin_type'
   end
 end
-

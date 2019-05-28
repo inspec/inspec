@@ -1,4 +1,3 @@
-
 module Inspec
   autoload :Input, 'inspec/objects/input'
   autoload :Tag, 'inspec/objects/tag'

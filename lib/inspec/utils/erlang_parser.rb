@@ -1,4 +1,3 @@
-
 require 'parslet'
 
 class ErlangParser < Parslet::Parser
