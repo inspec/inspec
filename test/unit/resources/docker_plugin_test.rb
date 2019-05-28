@@ -1,4 +1,3 @@
-# author: Noel Georgi
 
 require 'helper'
 require 'inspec/resource'

@@ -1,4 +1,3 @@
-# author: Dominik Richter
 
 require 'docker'
 require 'yaml'

@@ -1,4 +1,3 @@
-# author: Stephan Renatus
 
 require 'helper'
 

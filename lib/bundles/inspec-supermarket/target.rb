@@ -1,5 +1,3 @@
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'uri'
 require 'inspec/fetcher'

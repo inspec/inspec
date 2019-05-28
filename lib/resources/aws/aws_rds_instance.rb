@@ -1,4 +1,3 @@
-# author: Mohamed El-Sharkawi
 class AwsRdsInstance < Inspec.resource(1)
   name 'aws_rds_instance'
   desc 'Verifies settings for an rds instance'

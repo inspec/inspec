@@ -1,4 +1,3 @@
-# author: Matt Shanahan, matt.shanahan@relativity.com
 
 require 'helper'
 require 'inspec/resource'

@@ -1,7 +1,3 @@
-# author: Alex Bedley
-# author: Steffanie Freeman
-# author: Simon Varlow
-# author: Chris Redekop
 class AwsIamUser < Inspec.resource(1)
   name 'aws_iam_user'
   desc 'Verifies settings for AWS IAM user'

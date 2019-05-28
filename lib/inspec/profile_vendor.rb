@@ -1,4 +1,3 @@
-# author: Adam Leff
 
 require 'inspec/profile'
 require 'inspec/config'

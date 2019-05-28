@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 # Copyright 2015 Dominik Richter
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8

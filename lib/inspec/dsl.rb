@@ -1,6 +1,4 @@
 # copyright: 2015, Dominik Richter
-# author: Dominik Richter
-# author: Christoph Hartmann
 require 'inspec/log'
 require 'inspec/plugin/v2'
 

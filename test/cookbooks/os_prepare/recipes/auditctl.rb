@@ -1,4 +1,3 @@
-# author: Stephan Renatus
 
 case node['platform']
 when 'centos'

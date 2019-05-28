@@ -1,4 +1,3 @@
-# author: Steven Danna <steve@chef.io>
 require 'inspec/log'
 require 'inspec/errors'
 

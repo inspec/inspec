@@ -1,6 +1,3 @@
-# author: Dominik Richter
-# author: Stephan Renatus
-# author: Christoph Hartmann
 
 require 'helper'
 

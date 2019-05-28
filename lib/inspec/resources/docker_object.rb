@@ -1,10 +1,6 @@
 #
 # Copyright 2017, Christoph Hartmann
 #
-# author: Christoph Hartmann
-# author: Patrick Muench
-# author: Dominik Richter
-# author: Matt Kulka
 
 module Inspec::Resources::DockerObject
   def exist?

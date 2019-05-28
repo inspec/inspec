@@ -1,4 +1,3 @@
-# author: Stephan Renatus
 #
 # installs everyting for the postgres tests
 

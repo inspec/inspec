@@ -1,4 +1,3 @@
-# author: Stephan Renatus
 
 include_recipe 'runit::default'
 

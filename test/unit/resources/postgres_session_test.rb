@@ -1,4 +1,3 @@
-# author: Aaron Lippold
 
 require 'helper'
 

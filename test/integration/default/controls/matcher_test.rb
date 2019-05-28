@@ -1,4 +1,3 @@
-# author: Rony Xavier, rx294@gmail.com
 
 # matcher be_in test
 

@@ -1,4 +1,3 @@
-# author: Christoph Hartmann
 
 case node['platform_family']
 when 'rhel'

@@ -1,6 +1,3 @@
-# author: Christoph Hartmann
-# author: Dominik Richter
-# author: Joe Nuspl
 
 require 'helper'
 require 'inspec/resource'

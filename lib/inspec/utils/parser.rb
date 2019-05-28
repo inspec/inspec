@@ -1,5 +1,3 @@
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 module PasswdParser
   # Parse /etc/passwd files.

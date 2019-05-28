@@ -1,5 +1,3 @@
-# author: Aaron Lippold, lippold@gmail.com
-# author: Rony Xavier, rx294@nyu.edu
 
 require 'helper'
 require 'inspec/resource'

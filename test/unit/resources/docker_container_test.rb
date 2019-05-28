@@ -1,4 +1,3 @@
-# author: Christoph Hartmann
 
 require 'helper'
 require 'inspec/resource'

@@ -1,5 +1,3 @@
-# author: Alex Pop
-# author: Christoph Hartmann
 #
 # change a few Windows registry keys for testing purposes
 

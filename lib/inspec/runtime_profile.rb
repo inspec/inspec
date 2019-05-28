@@ -1,6 +1,4 @@
 # Copyright 2017 Chef Software
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 module Inspec
   class RuntimeProfile

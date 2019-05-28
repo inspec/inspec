@@ -1,6 +1,3 @@
-# author: Christoph Hartmann
-# author: Dominik Richter
-# author: Markus Grobelin
 
 require 'helper'
 require 'inspec/resource'

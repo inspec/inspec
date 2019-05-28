@@ -1,4 +1,3 @@
-# author: Thomas Cate
 
 require 'helper'
 require 'inspec/resource'

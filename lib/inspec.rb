@@ -1,6 +1,4 @@
 # copyright: 2015, Dominik Richter
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 libdir = File.dirname(__FILE__)
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)

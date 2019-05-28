@@ -1,5 +1,3 @@
-# author: Dominik Richter
-# author: Christoph Hartmann
 require 'helper'
 
 describe Fetchers::Url do

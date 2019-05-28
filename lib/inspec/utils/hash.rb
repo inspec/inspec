@@ -1,5 +1,3 @@
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 class ::Hash
   # Inspired by: http://stackoverflow.com/a/9381776

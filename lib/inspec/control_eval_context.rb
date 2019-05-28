@@ -1,5 +1,3 @@
-# author: Dominik Richter
-# author: Christoph Hartmann
 require 'inspec/dsl'
 require 'inspec/dsl_shared'
 require 'rspec/core/dsl'

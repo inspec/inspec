@@ -1,5 +1,3 @@
-# author: Nolan Davidson
-# author: Christoph Hartmann
 
 require 'helper'
 

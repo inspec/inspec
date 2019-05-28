@@ -1,5 +1,3 @@
-# author: Dominik Richter
-# author: Christoph Hartmann
 require 'inspec/log'
 require 'inspec/rule'
 require 'inspec/resource'

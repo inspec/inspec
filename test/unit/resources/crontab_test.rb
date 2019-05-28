@@ -1,4 +1,3 @@
-# author: Adam Leff
 
 require 'helper'
 require 'inspec/resource'

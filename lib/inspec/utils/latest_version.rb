@@ -1,4 +1,3 @@
-# author: Christoph Hartmann
 
 require 'json'
 require 'net/http'

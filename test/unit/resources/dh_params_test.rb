@@ -1,4 +1,3 @@
-# author: Doc Walker
 
 require 'helper'
 require 'inspec/resource'

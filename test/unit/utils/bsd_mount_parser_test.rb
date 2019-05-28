@@ -1,4 +1,3 @@
-# author: Joseph Benden
 
 require 'helper'
 

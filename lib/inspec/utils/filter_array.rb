@@ -1,5 +1,4 @@
 # copyright: 2015, Chef Software, Inc.
-# author: Stephan Renatus
 
 class FilterArray
   attr_accessor :rules
