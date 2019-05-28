@@ -5,8 +5,8 @@ require 'inspec/version'
 Gem::Specification.new do |spec|
   spec.name          = 'inspec'
   spec.version       = Inspec::VERSION
-  spec.authors       = ['Dominik Richter']
-  spec.email         = ['dominik.richter@gmail.com']
+  spec.authors       = ['Chef InSpec Team']
+  spec.email         = ['inspec@chef.io']
   spec.summary       = 'Infrastructure and compliance testing.'
   spec.description   = 'InSpec provides a framework for creating end-to-end infrastructure tests. You can use it for integration or even compliance testing. Create fully portable test profiles and use them in your workflow to ensure stability and security. Integrate InSpec in your change lifecycle for local testing, CI/CD, and deployment verification.'
   spec.homepage      = 'https://github.com/inspec/inspec'
