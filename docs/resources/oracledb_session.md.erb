@@ -94,7 +94,7 @@ The following examples show how to use this Chef InSpec audit resource.
 
     sql.query('SELECT * FROM files;').rows.each do |file_row|
       describe file(file_row['path']) do
-	its('owner') { should eq file_row['owner']}
+        its('owner') { should eq file_row['owner']}
       end
     end
 <br>

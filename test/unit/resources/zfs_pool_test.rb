@@ -11,6 +11,6 @@ describe Inspec::Resources::ZfsPool do
     tank_resource.send(:health).must_equal('ONLINE')
     tank_resource.send(:guid).must_equal('4711279777582057513')
     tank_resource.send(:failmode).must_equal('continue')
-	tank_resource.send(:'feature@lz4_compress').must_equal('active')
+    tank_resource.send(:'feature@lz4_compress').must_equal('active')
   end
 end

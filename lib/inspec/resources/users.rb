@@ -523,10 +523,10 @@ module Inspec::Resources
   # @see: https://www.freebsd.org/doc/handbook/users-synopsis.html
   # @see: https://www.freebsd.org/cgi/man.cgi?pw(8)
   # It offers the following commands:
-  # - adduser(8)	The recommended command-line application for adding new users.
-  # - rmuser(8)	The recommended command-line application for removing users.
-  # - chpass(1)	A flexible tool for changing user database information.
-  # - passwd(1)	The command-line tool to change user passwords.
+  # - adduser(8) The recommended command-line application for adding new users.
+  # - rmuser(8)  The recommended command-line application for removing users.
+  # - chpass(1)  A flexible tool for changing user database information.
+  # - passwd(1)  The command-line tool to change user passwords.
   class FreeBSDUser < UnixUser
     include PasswdParser
 
