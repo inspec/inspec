@@ -1,15 +1,19 @@
 
+require 'inspec/dist'
+
 require_relative 'api'
 
 module InspecPlugins
   module Compliance
     class CLI < Inspec.plugin(2, :cli_command)
-      subcommand_desc 'compliance SUBCOMMAND', 'Chef Compliance commands'
+      include Inspec::Dist
+
+      subcommand_desc 'compliance SUBCOMMAND', "#{COMPLIANCE_PRODUCT_NAME} commands"
 
       # desc "login https://SERVER --insecure --user='USER' --ent='ENTERPRISE' --token='TOKEN'", 'Log in to a Chef Compliance/Chef Automate SERVER'
-      desc 'login', 'Log in to a Chef Compliance/Chef Automate SERVER'
+      desc 'login', "Log in to a #{COMPLIANCE_PRODUCT_NAME}/#{AUTOMATE_PRODUCT_NAME} SERVER"
       long_desc <<-LONGDESC
-        `login` allows you to use InSpec with Chef Automate or a Chef Compliance Server
+        `login` allows you to use InSpec with #{AUTOMATE_PRODUCT_NAME} or a #{COMPLIANCE_PRODUCT_NAME} Server
 
         You need to a token for communication. More information about token retrieval
         is available at:
@@ -21,15 +25,15 @@ module InspecPlugins
       option :user, type: :string, required: false,
         desc: 'Username'
       option :password, type: :string, required: false,
-        desc: 'Password (Chef Compliance Only)'
+        desc: "Password (#{COMPLIANCE_PRODUCT_NAME} Only)"
       option :token, type: :string, required: false,
         desc: 'Access token'
       option :refresh_token, type: :string, required: false,
-        desc: 'Chef Compliance refresh token (Chef Compliance Only)'
+        desc: "#{COMPLIANCE_PRODUCT_NAME} refresh token (#{COMPLIANCE_PRODUCT_NAME} Only)"
       option :dctoken, type: :string, required: false,
-        desc: 'Data Collector token (Chef Automate Only)'
+        desc: "Data Collector token (#{AUTOMATE_PRODUCT_NAME} Only)"
       option :ent, type: :string, required: false,
-        desc: 'Enterprise for Chef Automate reporting (Chef Automate Only)'
+        desc: "Enterprise for #{AUTOMATE_PRODUCT_NAME} reporting (#{AUTOMATE_PRODUCT_NAME} Only)"
       def login(server)
         options['server'] = server
         InspecPlugins::Compliance::API.login(options)
@@ -37,7 +41,7 @@ module InspecPlugins
         puts "Stored configuration for Chef #{config['server_type'].capitalize}: #{config['server']}' with user: '#{config['user']}'"
       end
 
-      desc 'profiles', 'list all available profiles in Chef Compliance'
+      desc 'profiles', "list all available profiles in #{COMPLIANCE_PRODUCT_NAME}"
       option :owner, type: :string, required: false,
         desc: 'owner whose profiles to list'
       def profiles
@@ -62,11 +66,11 @@ module InspecPlugins
           exit 1
         end
       rescue InspecPlugins::Compliance::ServerConfigurationMissing
-        $stderr.puts "\nServer configuration information is missing. Please login using `inspec compliance login`"
+        $stderr.puts "\nServer configuration information is missing. Please login using `#{EXEC_NAME} compliance login`"
         exit 1
       end
 
-      desc 'exec PROFILE', 'executes a Chef Compliance profile'
+      desc 'exec PROFILE', "executes a #{COMPLIANCE_PRODUCT_NAME} profile"
       exec_options
       def exec(*tests)
         config = InspecPlugins::Compliance::Configuration.new
@@ -87,7 +91,7 @@ module InspecPlugins
         exit 1
       end
 
-      desc 'download PROFILE', 'downloads a profile from Chef Compliance'
+      desc 'download PROFILE', "downloads a profile from #{COMPLIANCE_PRODUCT_NAME}"
       option :name, type: :string,
         desc: 'Name of the archive filename (file type will be added)'
       def download(profile_name)
@@ -112,12 +116,12 @@ module InspecPlugins
           file_name = fetcher.fetch(o.name || id)
           puts "Profile stored to #{file_name}"
         else
-          puts "Profile #{profile_name} is not available in Chef Compliance."
+          puts "Profile #{profile_name} is not available in #{COMPLIANCE_PRODUCT_NAME}."
           exit 1
         end
       end
 
-      desc 'upload PATH', 'uploads a local profile to Chef Compliance'
+      desc 'upload PATH', "uploads a local profile to #{COMPLIANCE_PRODUCT_NAME}"
       option :overwrite, type: :boolean, default: false,
         desc: 'Overwrite existing profile on Server.'
       option :owner, type: :string, required: false,
@@ -163,7 +167,7 @@ module InspecPlugins
 
         # determine user information
         if (config['token'].nil? && config['refresh_token'].nil?) || config['user'].nil?
-          error.call('Please login via `inspec compliance login`')
+          error.call("Please login via `#{EXEC_NAME} compliance login`")
         end
 
         # read profile name from inspec.yml
@@ -199,9 +203,9 @@ module InspecPlugins
         pname = ERB::Util.url_encode(profile_name)
 
         if InspecPlugins::Compliance::API.is_automate_server?(config) || InspecPlugins::Compliance::API.is_automate2_server?(config)
-          puts 'Uploading to Chef Automate'
+          puts "Uploading to #{AUTOMATE_PRODUCT_NAME}"
         else
-          puts 'Uploading to Chef Compliance'
+          puts "Uploading to #{COMPLIANCE_PRODUCT_NAME}"
         end
         success, msg = InspecPlugins::Compliance::API.upload(config, config['owner'], pname, archive_path)
 
@@ -217,7 +221,7 @@ module InspecPlugins
         end
       end
 
-      desc 'version', 'displays the version of the Chef Compliance server'
+      desc 'version', "displays the version of the #{COMPLIANCE_PRODUCT_NAME} server"
       def version
         config = InspecPlugins::Compliance::Configuration.new
         info = InspecPlugins::Compliance::API.version(config)
@@ -229,11 +233,11 @@ module InspecPlugins
           exit 1
         end
       rescue InspecPlugins::Compliance::ServerConfigurationMissing
-        puts "\nServer configuration information is missing. Please login using `inspec compliance login`"
+        puts "\nServer configuration information is missing. Please login using `#{EXEC_NAME} compliance login`"
         exit 1
       end
 
-      desc 'logout', 'user logout from Chef Compliance'
+      desc 'logout', "user logout from #{COMPLIANCE_PRODUCT_NAME}"
       def logout
         config = InspecPlugins::Compliance::Configuration.new
         unless config.supported?(:oidc) || config['token'].nil? || config['server_type'] == 'automate'
@@ -254,7 +258,7 @@ module InspecPlugins
 
       def loggedin(config)
         serverknown = !config['server'].nil?
-        puts 'You need to login first with `inspec compliance login`' if !serverknown
+        puts "You need to login first with `#{EXEC_NAME} compliance login`" if !serverknown
         serverknown
       end
     end

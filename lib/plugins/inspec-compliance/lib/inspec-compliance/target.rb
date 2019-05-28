@@ -2,6 +2,7 @@
 require 'uri'
 require 'inspec/fetcher'
 require 'inspec/errors'
+require 'inspec/dist'
 
 # InSpec Target Helper for Chef Compliance
 # reuses UrlHelper, but it knows the target server and the access token already
@@ -9,6 +10,8 @@ require 'inspec/errors'
 module InspecPlugins
   module Compliance
     class Fetcher < Fetchers::Url
+      include Inspec::Dist
+
       name 'compliance'
       priority 500
       attr_reader :upstream_sha256
@@ -32,13 +35,13 @@ module InspecPlugins
         if config['token'].nil? && config['refresh_token'].nil?
           if config['server_type'] == 'automate'
             server = 'automate'
-            msg = 'inspec compliance login https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --token USERTOKEN'
+            msg = "#{EXEC_NAME} compliance login https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --token USERTOKEN"
           elsif config['server_type'] == 'automate2'
             server = 'automate2'
-            msg = 'inspec compliance login https://your_automate2_server --user USER --token APITOKEN'
+            msg = "#{EXEC_NAME} compliance login https://your_automate2_server --user USER --token APITOKEN"
           else
             server = 'compliance'
-            msg = "inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
+            msg = "#{EXEC_NAME} compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
           end
           raise Inspec::FetcherFailure, <<~EOF
 
@@ -110,7 +113,7 @@ module InspecPlugins
       end
 
       def to_s
-        'Chef Compliance Profile Loader'
+        "#{COMPLIANCE_PRODUCT_NAME} Profile Loader"
       end
 
       private
@@ -133,7 +136,7 @@ module InspecPlugins
 
         raise 'Unable to determine compliance profile name. This can be caused by ' \
           'an incorrect server in your configuration. Try to login to compliance ' \
-          'via the `inspec compliance login` command.' if m.nil?
+          "via the `#{EXEC_NAME} compliance login` command." if m.nil?
 
         "#{m[:owner]}/#{m[:id]}"
       end

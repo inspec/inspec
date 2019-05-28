@@ -10,13 +10,13 @@ PROFILE_PATH="{{pkg.path}}/{{pkg.name}}-{{pkg.version}}.tar.gz"
 
 while true; do
   echo "Executing ${PROFILE_IDENT}"
-  exec inspec exec ${PROFILE_PATH} --json-config ${CONFIG} 2>&1 | tee ${LOG_FILE}
+  exec <%= Inspec::Dist::EXEC_NAME %> exec ${PROFILE_PATH} --json-config ${CONFIG} 2>&1 | tee ${LOG_FILE}
 
   exit_code=$?
   if [ $exit_code -eq 1 ]; then
-    echo "InSpec run failed."
+    echo "<%= Inspec::Dist::PRODUCT_NAME %> run failed."
   else
-    echo "InSpec run completed successfully."
+    echo "<%= Inspec::Dist::PRODUCT_NAME %> run completed successfully."
     if [ $exit_code -eq 0 ]; then
       echo "No controls failed or were skipped."
     elif [ $exit_code -eq 100 ]; then

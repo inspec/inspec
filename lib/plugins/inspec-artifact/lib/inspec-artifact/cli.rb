@@ -1,4 +1,5 @@
 require_relative 'base'
+require 'inspec/dist'
 
 #
 # Notes:
@@ -72,7 +73,9 @@ require_relative 'base'
 module InspecPlugins
   module Artifact
     class CLI < Inspec.plugin(2, :cli_command)
-      subcommand_desc 'artifact SUBCOMMAND', 'Manage InSpec Artifacts'
+      include Inspec::Dist
+
+      subcommand_desc 'artifact SUBCOMMAND', "Manage #{PRODUCT_NAME} Artifacts"
 
       desc 'generate', 'Generate a RSA key pair for signing and verification'
       option :keyname, type: :string, required: true,
