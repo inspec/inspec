@@ -3,7 +3,10 @@ branches:
     - master
     - 3-stable
 language: ruby
-cache: bundler
+cache:
+  - bundler
+  directories:
+    - /home/travis/.rvm
 dist: xenial
 services:
 - docker
