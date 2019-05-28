@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.53 -->
-## [v4.4.53](https://github.com/inspec/inspec/tree/v4.4.53) (2019-05-28)
+<!-- latest_release 4.4.54 -->
+## [v4.4.54](https://github.com/inspec/inspec/tree/v4.4.54) (2019-05-28)
 
 #### Merged Pull Requests
-- Update author/email tags in gemspec [#4137](https://github.com/inspec/inspec/pull/4137) ([miah](https://github.com/miah))
+- Move utils under inspec directory namespace [#4063](https://github.com/inspec/inspec/pull/4063) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Move utils under inspec directory namespace [#4063](https://github.com/inspec/inspec/pull/4063) ([miah](https://github.com/miah)) <!-- 4.4.54 -->
 - Update author/email tags in gemspec [#4137](https://github.com/inspec/inspec/pull/4137) ([miah](https://github.com/miah)) <!-- 4.4.53 -->
 - Extracting mock_loader to its own helper file. [#4141](https://github.com/inspec/inspec/pull/4141) ([zenspider](https://github.com/zenspider)) <!-- 4.4.52 -->
 - supermakert -&gt; supermarket [#4140](https://github.com/inspec/inspec/pull/4140) ([zenspider](https://github.com/zenspider)) <!-- 4.4.51 -->
