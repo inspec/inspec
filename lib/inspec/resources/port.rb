@@ -1,4 +1,3 @@
-
 require 'inspec/utils/parser'
 require 'inspec/utils/filter'
 require 'ipaddr'

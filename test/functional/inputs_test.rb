@@ -1,4 +1,3 @@
-
 require 'functional/helper'
 
 describe 'inputs' do

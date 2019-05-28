@@ -1,4 +1,3 @@
-
 require 'helper'
 require 'inspec/library_eval_context'
 

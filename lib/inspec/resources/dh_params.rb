@@ -1,4 +1,3 @@
-
 require 'openssl'
 require 'inspec/utils/file_reader'
 

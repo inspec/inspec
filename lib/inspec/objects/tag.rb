@@ -1,4 +1,3 @@
-
 module Inspec
   class Tag
     attr_accessor :key, :value

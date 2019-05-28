@@ -1,4 +1,3 @@
-
 module Inspec
   class Test
     attr_accessor :qualifier, :matcher, :expectation, :skip, :negated, :variables, :only_if

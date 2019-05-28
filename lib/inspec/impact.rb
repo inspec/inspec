@@ -1,4 +1,3 @@
-
 # Impact scores based off CVSS 3.0
 module Inspec::Impact
   IMPACT_SCORES = {

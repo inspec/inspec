@@ -1,4 +1,3 @@
-
 module Inspec
   class EachLoop < List
     attr_reader :variables

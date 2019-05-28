@@ -1,4 +1,3 @@
-
 # Plugin Definition file
 # The purpose of this file is to declare to InSpec what plugin_types (capabilities)
 # are included in this plugin, and provide hooks that will load them as needed.

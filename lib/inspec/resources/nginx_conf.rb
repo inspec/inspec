@@ -1,4 +1,3 @@
-
 require 'inspec/utils/nginx_parser'
 require 'inspec/utils/find_files'
 require 'inspec/utils/file_reader'

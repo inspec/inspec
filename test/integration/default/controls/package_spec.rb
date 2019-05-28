@@ -1,4 +1,3 @@
-
 case os[:family]
 when 'centos', 'fedora', 'opensuse', 'debian', 'ubuntu'
   describe package('curl') do

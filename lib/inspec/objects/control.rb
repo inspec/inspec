@@ -1,4 +1,3 @@
-
 module Inspec
   class Control
     attr_accessor :id, :title, :descriptions, :impact, :tests, :tags, :refs, :only_if

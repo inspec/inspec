@@ -1,4 +1,3 @@
-
 require 'inspec/profile'
 require 'inspec/config'
 

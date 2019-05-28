@@ -1,4 +1,3 @@
-
 require 'docker'
 require 'yaml'
 require 'concurrent'

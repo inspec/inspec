@@ -1,4 +1,3 @@
-
 module Inspec::Reporters
   class Junit < Base
     def render

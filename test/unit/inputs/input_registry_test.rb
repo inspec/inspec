@@ -1,4 +1,3 @@
-
 require 'helper'
 require 'inspec/input_registry'
 require 'inspec/secrets'

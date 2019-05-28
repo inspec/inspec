@@ -1,4 +1,3 @@
-
 module Inspec
   module MethodSource
     def self.code_at(location, source_reader)

@@ -1,4 +1,3 @@
-
 # matcher be_in test
 
 INSTALLED_MODULES = ['module1', 'module2', 'module3', 'module4', 'module5']

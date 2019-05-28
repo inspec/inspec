@@ -1,4 +1,3 @@
-
 require 'helper'
 require 'inspec/resource'
 require 'inspec/resources/apache_conf'

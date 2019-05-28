@@ -1,4 +1,3 @@
-
 # Calling this outside a control should trigger a warning, not a failure
 deprecation_tester.fail_me
 

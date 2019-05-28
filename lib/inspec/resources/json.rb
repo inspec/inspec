@@ -1,4 +1,3 @@
-
 require 'inspec/utils/object_traversal'
 require 'inspec/utils/enumerable_delegation'
 require 'inspec/utils/file_reader'

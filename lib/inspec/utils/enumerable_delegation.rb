@@ -1,4 +1,3 @@
-
 module EnumerableDelegation
   include Enumerable
 

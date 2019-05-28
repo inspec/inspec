@@ -1,4 +1,3 @@
-
 require 'rspec/core'
 require 'rspec/its'
 require 'inspec/formatters'

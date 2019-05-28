@@ -1,4 +1,3 @@
-
 # add nginx apt repository
 case node['platform']
 when 'ubuntu'

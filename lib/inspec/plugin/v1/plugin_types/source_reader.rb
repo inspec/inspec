@@ -1,4 +1,3 @@
-
 require 'inspec/plugin/v1/registry'
 
 module Inspec

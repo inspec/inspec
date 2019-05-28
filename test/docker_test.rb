@@ -1,4 +1,3 @@
-
 require_relative 'docker_run'
 require_relative '../lib/inspec'
 #

@@ -1,4 +1,3 @@
-
 require 'shellwords'
 
 class CommandWrapper

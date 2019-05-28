@@ -1,4 +1,3 @@
-
 require 'thor'
 require 'inspec/log'
 require 'inspec/profile_vendor'

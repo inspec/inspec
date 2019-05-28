@@ -1,4 +1,3 @@
-
 require 'helper'
 
 describe Fetchers::Local do

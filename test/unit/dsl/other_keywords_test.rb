@@ -1,4 +1,3 @@
-
 require 'helper'
 require 'inspec/runner_mock'
 require 'inspec/runner'

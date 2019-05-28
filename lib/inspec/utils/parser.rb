@@ -1,4 +1,3 @@
-
 require 'inspec/resources/command'
 
 module PasswdParser

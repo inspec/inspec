@@ -1,4 +1,3 @@
-
 require 'yaml'
 
 module Secrets

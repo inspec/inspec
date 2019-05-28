@@ -1,4 +1,3 @@
-
 #---------------------- Recall ------------------------#
 # Password policy is a per-account singleton.  If it's been configured, it exists.
 control "aws_iam_password_policy properties" do

@@ -1,4 +1,3 @@
-
 require 'resources/azure/azure_backend'
 
 module Inspec::Resources

@@ -1,4 +1,3 @@
-
 module Inspec
   class List < Value
     def map

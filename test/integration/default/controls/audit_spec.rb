@@ -1,4 +1,3 @@
-
 # This file tests the audit validation which runs as part of the
 # chef-client process. This is setup to export to a json file in the .kitchen.yml
 #

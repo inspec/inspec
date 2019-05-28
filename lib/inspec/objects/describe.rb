@@ -1,4 +1,3 @@
-
 module Inspec
   class Describe
     # Internal helper to structure test objects.

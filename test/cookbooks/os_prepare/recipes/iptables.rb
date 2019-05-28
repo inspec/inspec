@@ -1,4 +1,3 @@
-
 if platform_family?('rhel', 'debian', 'fedora')
   execute 'iptables -A INPUT -i eth0 -p tcp -m tcp '\
           '--dport 80 -m state --state NEW -m comment '\

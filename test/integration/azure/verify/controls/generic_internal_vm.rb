@@ -1,4 +1,3 @@
-
 title 'Internal Virtual Machine Properties'
 
 control 'azure-generic-vm-linux-internal-2.0' do

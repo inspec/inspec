@@ -1,4 +1,3 @@
-
 module DatabaseHelper
   class SQLColumn
     def initialize(row, name)

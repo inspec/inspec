@@ -1,4 +1,3 @@
-
 require_relative '../../../shared/core_plugin_test_helper.rb'
 
 class ComplianceCli < Minitest::Test

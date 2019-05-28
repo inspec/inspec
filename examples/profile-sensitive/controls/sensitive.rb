@@ -1,4 +1,3 @@
-
 describe 'bob' do
   it { should eq 'bob' }
 end

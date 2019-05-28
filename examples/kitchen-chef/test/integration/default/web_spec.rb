@@ -1,4 +1,3 @@
-
 # use basic tests
 describe package('nginx') do
   it { should be_installed }
