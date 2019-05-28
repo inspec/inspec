@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.54 -->
-## [v4.4.54](https://github.com/inspec/inspec/tree/v4.4.54) (2019-05-28)
+<!-- latest_release 4.4.55 -->
+## [v4.4.55](https://github.com/inspec/inspec/tree/v4.4.55) (2019-05-28)
 
-#### Merged Pull Requests
-- Move utils under inspec directory namespace [#4063](https://github.com/inspec/inspec/pull/4063) ([miah](https://github.com/miah))
+#### Bug Fixes
+- inspec check: Send log to STDERR when running with --format json [#4001](https://github.com/inspec/inspec/pull/4001) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
 ### Changes since 4.3.2 release
+
+#### Bug Fixes
+- inspec check: Send log to STDERR when running with --format json [#4001](https://github.com/inspec/inspec/pull/4001) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.55 -->
 
 #### New Features
 - Rename &#39;attribute&#39; DSL method to &#39;input&#39; [#4008](https://github.com/inspec/inspec/pull/4008) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.0 -->
