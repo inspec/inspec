@@ -1,6 +1,6 @@
 # copyright: 2015, Vulcano Security GmbH
 
-require 'utils/filter'
+require 'inspec/utils/filter'
 require 'ostruct'
 
 module Inspec::Resources

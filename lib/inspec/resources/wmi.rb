@@ -1,5 +1,5 @@
 
-require 'utils/object_traversal'
+require 'inspec/utils/object_traversal'
 
 module Inspec::Resources
   # This resource simplifies the access to wmi

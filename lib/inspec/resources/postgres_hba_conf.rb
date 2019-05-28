@@ -1,6 +1,6 @@
 
 require 'inspec/resources/postgres'
-require 'utils/file_reader'
+require 'inspec/utils/file_reader'
 
 module Inspec::Resources
   class PostgresHbaConf < Inspec.resource(1)

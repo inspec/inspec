@@ -82,7 +82,7 @@ module Inspec
 end
 
 # Many resources use FilterTable.
-require 'utils/filter'
+require 'inspec/utils/filter'
 
 # Detect if we are running the stripped-down inspec-core
 # This relies on AWS being stripped from the inspec-core gem

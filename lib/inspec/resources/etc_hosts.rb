@@ -1,6 +1,6 @@
 
-require 'utils/parser'
-require 'utils/file_reader'
+require 'inspec/utils/parser'
+require 'inspec/utils/file_reader'
 
 class EtcHosts < Inspec.resource(1)
   name 'etc_hosts'

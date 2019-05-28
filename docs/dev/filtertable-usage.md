@@ -28,7 +28,7 @@ Suppose you are writing a resource, `things`.  You want it to behave like any pl
 
 ```ruby
 
-require 'utils/filter'
+require 'inspec/utils/filter'
 
 class Thing < Inspec.resource(1)
   #... other Resource DSL work goes here ...

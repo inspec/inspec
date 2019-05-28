@@ -1,7 +1,6 @@
-
-require 'utils/parser'
-require 'utils/filter'
-require 'utils/file_reader'
+require 'inspec/utils/parser'
+require 'inspec/utils/filter'
+require 'inspec/utils/file_reader'
 
 module Inspec::Resources
   class XinetdConf < Inspec.resource(1)

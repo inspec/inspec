@@ -2,7 +2,7 @@
 # author: Christoph Hartmann
 
 require 'helper'
-require 'utils/nginx_parser'
+require 'inspec/utils/nginx_parser'
 
 describe NginxParser do
   def parse(c)

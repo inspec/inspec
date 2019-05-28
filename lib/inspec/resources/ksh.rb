@@ -1,5 +1,5 @@
 
-require 'utils/command_wrapper'
+require 'inspec/utils/command_wrapper'
 require 'inspec/resources/command'
 
 module Inspec::Resources

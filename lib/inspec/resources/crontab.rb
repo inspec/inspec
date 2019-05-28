@@ -1,6 +1,6 @@
 
-require 'utils/parser'
-require 'utils/filter'
+require 'inspec/utils/parser'
+require 'inspec/utils/filter'
 
 module Inspec::Resources
   class Crontab < Inspec.resource(1)

@@ -2,7 +2,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'utils/parser'
+require 'inspec/utils/parser'
 
 class SimpleConfig
   include CommentParser

@@ -9,7 +9,7 @@
 #  }
 #  describe parse_config(audit, options ) do
 
-require 'utils/file_reader'
+require 'inspec/utils/file_reader'
 
 module Inspec::Resources
   class PConfig < Inspec.resource(1)

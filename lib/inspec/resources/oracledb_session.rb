@@ -1,6 +1,6 @@
 
 require 'hashie/mash'
-require 'utils/database_helpers'
+require 'inspec/utils/database_helpers'
 require 'htmlentities'
 require 'rexml/document'
 require 'csv'

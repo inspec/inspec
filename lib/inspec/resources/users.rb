@@ -1,7 +1,7 @@
 
-require 'utils/parser'
-require 'utils/convert'
-require 'utils/filter'
+require 'inspec/utils/parser'
+require 'inspec/utils/convert'
+require 'inspec/utils/filter'
 
 module Inspec::Resources
   # This file contains two resources, the `user` and `users` resource.
