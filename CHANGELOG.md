@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.49 -->
-## [v4.4.49](https://github.com/inspec/inspec/tree/v4.4.49) (2019-05-22)
+<!-- latest_release 4.4.50 -->
+## [v4.4.50](https://github.com/inspec/inspec/tree/v4.4.50) (2019-05-28)
 
 #### Merged Pull Requests
-- Flag `rubocop:disable` comments as something to be fixed. [#4123](https://github.com/inspec/inspec/pull/4123) ([miah](https://github.com/miah))
+- No tabs. [#4143](https://github.com/inspec/inspec/pull/4143) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -19,6 +19,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- No tabs. [#4143](https://github.com/inspec/inspec/pull/4143) ([zenspider](https://github.com/zenspider)) <!-- 4.4.50 -->
 - Flag `rubocop:disable` comments as something to be fixed. [#4123](https://github.com/inspec/inspec/pull/4123) ([miah](https://github.com/miah)) <!-- 4.4.49 -->
 - GCP Update for InSpec Cloud Platform documentation [#4122](https://github.com/inspec/inspec/pull/4122) ([mjingle](https://github.com/mjingle)) <!-- 4.4.48 -->
 - Fix github url regex. Add period for repo [#4089](https://github.com/inspec/inspec/pull/4089) ([mirskiy](https://github.com/mirskiy)) <!-- 4.4.47 -->
