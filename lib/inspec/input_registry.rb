@@ -221,26 +221,30 @@ module Inspec
         return
       end
 
-      raw_inputs.each do |input_orig|
-        input_options = input_orig.dup
-        input_name = input_options.delete(:name)
-        input_options[:provider] = :profile_metadata
-        input_options[:file] = File.join(profile_name, 'inspec.yml')
-        input_options[:priority] ||= 30
-        evt = Inspec::Input.infer_event(input_options)
+      raw_inputs.each { |i| handle_raw_input_from_metadata(i) }
+    end
 
-        # Profile metadata may set inputs in other profiles by naming them.
-        if input_options[:profile]
-          profile_name = input_options[:profile] || profile_name
-          # Override priority to force this to win.  Allow user to set their own priority.
-          evt.priority = input_orig[:priority] || 35
-        end
-        find_or_register_input(input_name,
-                               profile_name,
-                               type: input_options[:type],
-                               required: input_options[:required],
-                               event: evt)
+    def handle_raw_input_from_metadata(input_orig)
+      input_options = input_orig.dup
+      input_name = input_options.delete(:name)
+      input_options[:provider] = :profile_metadata
+      input_options[:file] = File.join(profile_name, 'inspec.yml')
+      input_options[:priority] ||= 30
+      evt = Inspec::Input.infer_event(input_options)
+
+      # Profile metadata may set inputs in other profiles by naming them.
+      if input_options[:profile]
+        profile_name = input_options[:profile] || profile_name
+        # Override priority to force this to win.  Allow user to set their own priority.
+        evt.priority = input_orig[:priority] || 35
       end
+      find_or_register_input(
+        input_name,
+        profile_name,
+        type: input_options[:type],
+        required: input_options[:required],
+        event: evt,
+      )
     end
 
     #-------------------------------------------------------------#
