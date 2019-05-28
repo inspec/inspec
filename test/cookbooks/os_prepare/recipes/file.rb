@@ -1,5 +1,3 @@
-# author: Christoph Hartmann
-# author: Dominik Richter
 #
 # prepares a sample file for verification
 

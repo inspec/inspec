@@ -1,4 +1,3 @@
-# author: Jen Burns, burnsjennifere@gmail.com
 
 require 'helper'
 require 'inspec/resource'

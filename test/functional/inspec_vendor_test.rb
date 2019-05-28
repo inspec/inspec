@@ -1,4 +1,3 @@
-# author: Christoph Hartmann
 require 'functional/helper'
 require 'tmpdir'
 

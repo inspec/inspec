@@ -1,4 +1,3 @@
-# author: Miles Tjandrawidjaja
 require 'helper'
 
 class AwsIamRootUserTest < Minitest::Test

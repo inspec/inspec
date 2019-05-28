@@ -1,5 +1,3 @@
-# author: Gary Bright
-# author: Chris Beard
 
 return unless os.windows?
 

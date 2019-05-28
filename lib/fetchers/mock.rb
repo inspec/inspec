@@ -1,5 +1,3 @@
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 module Fetchers
   class Mock < Inspec.fetcher(1)

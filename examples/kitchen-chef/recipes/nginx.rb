@@ -1,5 +1,3 @@
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # install repositories for nginx
 case node['platform']

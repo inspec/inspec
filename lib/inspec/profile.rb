@@ -1,6 +1,4 @@
 # Copyright 2015 Dominik Richter
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'forwardable'
 require 'openssl'

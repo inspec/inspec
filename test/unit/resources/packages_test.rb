@@ -1,4 +1,3 @@
-# author: Joshua Timberman
 
 require 'helper'
 require 'inspec/resource'

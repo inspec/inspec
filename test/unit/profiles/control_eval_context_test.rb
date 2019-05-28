@@ -1,4 +1,3 @@
-# author: Steven Danna
 
 require 'helper'
 require 'inspec/control_eval_context'

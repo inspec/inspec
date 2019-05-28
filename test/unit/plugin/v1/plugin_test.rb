@@ -1,5 +1,3 @@
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # TODO: do not use helper, since all plugins are loaded statically
 require 'minitest/autorun'

@@ -1,5 +1,3 @@
-# author: Dominik Richter
-# author: Christoph Hartmann
 require 'functional/helper'
 
 describe 'example inheritance profile' do

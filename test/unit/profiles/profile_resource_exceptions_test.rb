@@ -1,5 +1,4 @@
 
-# author: Jerry Aldrich
 
 require 'helper'
 require 'inspec/profile_context'

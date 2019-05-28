@@ -1,5 +1,3 @@
-# author: Dominik Richter
-# author: Christoph Hartmann
 module ObjectTraverser
   def extract_value(keys, value)
     return nil if value.nil?

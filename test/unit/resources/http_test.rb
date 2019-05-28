@@ -1,4 +1,3 @@
-# author: Guilhem Lettron
 
 require 'helper'
 require 'inspec/resource'

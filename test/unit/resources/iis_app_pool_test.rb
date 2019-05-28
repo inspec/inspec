@@ -1,4 +1,3 @@
-# author: Robert Van Kleeck, robert@vankleeck.net
 
 require 'helper'
 require 'inspec/resource'

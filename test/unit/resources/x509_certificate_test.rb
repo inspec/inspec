@@ -1,4 +1,3 @@
-# author: Richard Nixon
 
 require 'helper'
 require 'inspec/resource'

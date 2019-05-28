@@ -1,6 +1,3 @@
-# author: Dominik Richter
-# author: Stephan Renatus
-# author: Christoph Hartmann
 
 module FilterTable
   # This is used as a sentinel value in custom property filtering

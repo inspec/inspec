@@ -1,5 +1,3 @@
-# author: Dominik Richter
-# author: Christoph Hartmann
 module Modulator
   def modules
     @modules ||= {}

@@ -1,6 +1,4 @@
 # frozen_string_literal: true
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'net/http'
 require 'addressable/uri'

@@ -1,5 +1,3 @@
-# author: Gary Bright
-# author: Chris Beard
 require 'helper'
 require 'inspec/resource'
 

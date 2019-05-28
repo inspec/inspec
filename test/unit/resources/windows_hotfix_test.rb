@@ -1,4 +1,3 @@
-# author: Matt Ray
 
 require 'helper'
 require 'inspec/resource'

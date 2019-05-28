@@ -1,4 +1,3 @@
-# author: Nolan Davidson
 
 require 'tomlrb'
 require 'inspec/resources/json'

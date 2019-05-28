@@ -1,4 +1,3 @@
-# author: Steven Danna <steve@chef.io>
 #
 require 'helper'
 require 'rbconfig'

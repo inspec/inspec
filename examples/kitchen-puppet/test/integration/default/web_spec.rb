@@ -1,5 +1,3 @@
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # use basic tests
 describe package('nginx') do

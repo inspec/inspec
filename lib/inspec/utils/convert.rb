@@ -1,5 +1,3 @@
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 module Converter
   # convert the value to an integer if we have numbers only

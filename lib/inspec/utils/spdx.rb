@@ -1,5 +1,3 @@
-# author: Christoph Hartmann
-# author: Dominik Richter
 class Spdx
   def self.licenses
     spdx_file = File.join(File.dirname(__FILE__), 'spdx.txt').freeze

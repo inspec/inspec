@@ -1,4 +1,3 @@
-# author: Matthew Dromazos
 
 require 'helper'
 require 'inspec/resource'

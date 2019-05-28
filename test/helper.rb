@@ -1,5 +1,3 @@
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 ##
 # Do not add any code above this line.

@@ -1,4 +1,3 @@
-# author: Omar Irizarry
 #
 # change a few Windows registry keys for testing purposes
 if node['platform_family'] == 'windows'

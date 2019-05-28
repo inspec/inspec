@@ -1,4 +1,3 @@
-# author: Stephan Renatus
 
 directory '/etc/init' do
   action :create

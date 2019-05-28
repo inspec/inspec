@@ -1,5 +1,3 @@
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # add nginx apt repository
 case node['platform']

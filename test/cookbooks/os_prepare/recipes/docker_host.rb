@@ -1,4 +1,3 @@
-# author: Christoph Hartmann
 
 if platform_family?('rhel', 'debian', 'fedora')
   docker_service 'default' do

@@ -1,4 +1,3 @@
-# author: Simon Varlow
 require 'helper'
 
 # MAUIB = MockAwsIamUserBackend

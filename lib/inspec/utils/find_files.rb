@@ -1,6 +1,4 @@
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 module FindFiles
   TYPES = {

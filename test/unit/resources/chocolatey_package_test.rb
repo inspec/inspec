@@ -1,4 +1,3 @@
-# author: David Alexander <opensource@thelonelyghost.com>
 
 require 'helper'
 require 'inspec/resource'

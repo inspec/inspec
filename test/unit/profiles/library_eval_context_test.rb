@@ -1,4 +1,3 @@
-# author: Steven Danna
 
 require 'helper'
 require 'inspec/resource'
