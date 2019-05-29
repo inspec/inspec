@@ -11,13 +11,9 @@ package_file="$(install-omnibus-product -c "$channel" -P "$product" -v "$version
 echo "--- Verifying omnibus package is signed"
 check-omnibus-package-signed "$package_file"
 
-echo "--- Testing $channel $product $version"
+echo "--- Verifying ownership of package files"
 
 export INSTALL_DIR=/opt/inspec
-export PATH="/opt/inspec/bin:$PATH"
-
-echo "Verifying ownership of package files"
-
 NONROOT_FILES="$(find "$INSTALL_DIR" ! -uid 0 -print)"
 if [[ "$NONROOT_FILES" == "" ]]; then
   echo "Packages files are owned by root.  Continuing verification."
@@ -27,12 +23,11 @@ else
   exit 1
 fi
 
-echo "Running verification for $product"
+echo "--- Running verification for $channel $product $version"
 
 # Set GEM_HOME and GEM_PATH to verify our appbundle inspec shim is correctly
 # removing them from the environment while launching from our embedded ruby.
 export GEM_HOME=/SHOULD_NOT_EXIST
 export GEM_PATH=/SHOULD_NOT_EXIST
 
-export PATH="$PATH:/usr/local/bin"
 inspec version
