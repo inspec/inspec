@@ -5,7 +5,7 @@ branches:
 language: ruby
 cache:
   - bundler
-  directories:
+  - directories:
     - /home/travis/.rvm
 dist: xenial
 services:
