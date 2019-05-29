@@ -1,15 +1,12 @@
-
 require 'helper'
-require 'rbconfig'
-require 'json'
-require 'fileutils'
-require 'yaml'
-require 'tmpdir'
+require 'train'
 
 require 'minitest/hell'
 class Minitest::Test
   parallelize_me!
 end
+
+CMD = Train.create('local', command_runner: :generic).connection
 
 class Module
   include Minitest::Spec::DSL

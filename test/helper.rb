@@ -75,24 +75,13 @@ end
 
 require 'webmock/minitest'
 require 'mocha/setup'
-require 'fileutils'
-require 'pathname'
-require 'tempfile'
-require 'tmpdir'
-require 'zip'
-require 'json'
-
-require 'inspec/version'
 require 'inspec/log'
 require 'inspec/backend'
-require 'train'
+require "helpers/mock_loader"
 
-CMD = Train.create('local', command_runner: :generic).connection
 TMP_CACHE = {}
 
 Inspec::Log.logger = Logger.new(nil)
-
-require "helpers/mock_loader"
 
 def load_resource(*args)
   m = MockLoader.new(:ubuntu1404)
