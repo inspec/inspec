@@ -23,6 +23,32 @@ module Inspec
       attr_accessor :inspec_cli_command
     end
 
+    def self.start(given_args = ARGV, config = {})
+      check_license! if config[:enforce_license] || config[:enforce_license].nil?
+
+      super(given_args, config)
+    end
+
+    # EULA acceptance
+    def self.check_license!
+      allowed_commands = ['-h', '--help', 'help', '-v', '--version', 'version']
+
+      require 'license_acceptance/acceptor'
+      begin
+        if (allowed_commands & ARGV.map(&:downcase)).empty? && # Did they use a non-exempt command?
+           !ARGV.empty?                                        # Did they supply at least one command?
+          LicenseAcceptance::Acceptor.check_and_persist(
+            'inspec',
+            Inspec::VERSION,
+            logger: Inspec::Log,
+          )
+        end
+      rescue LicenseAcceptance::LicenseNotAcceptedError
+        Inspec::Log.error 'InSpec cannot execute without accepting the license'
+        Inspec::UI.new.exit(:license_not_accepted)
+      end
+    end
+
     # https://github.com/erikhuda/thor/issues/244
     def self.exit_on_failure?
       true

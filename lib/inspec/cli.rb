@@ -387,26 +387,6 @@ end
 #=====================================================================#
 
 help_commands = ['-h', '--help', 'help']
-version_commands = ['-v', '--version', 'version']
-commands_exempt_from_license_check = help_commands + version_commands
-
-#---------------------------------------------------------------------#
-# EULA acceptance
-#---------------------------------------------------------------------#
-require 'license_acceptance/acceptor'
-begin
-  if (commands_exempt_from_license_check & ARGV.map(&:downcase)).empty? &&  # Did they use a non-exempt command?
-     !ARGV.empty?                                                           # Did they supply at least one command?
-    LicenseAcceptance::Acceptor.check_and_persist(
-      'inspec',
-      Inspec::VERSION,
-      logger: Inspec::Log,
-    )
-  end
-rescue LicenseAcceptance::LicenseNotAcceptedError
-  Inspec::Log.error 'InSpec cannot execute without accepting the license'
-  Inspec::UI.new.exit(:license_not_accepted)
-end
 
 #---------------------------------------------------------------------#
 # Adjustments for help handling
