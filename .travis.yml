@@ -7,8 +7,8 @@ branches:
     - /zenspider.*/
 language: ruby
 cache:
-  - bundler
-  - directories:
+  bundler: true
+  directories:
     - /home/travis/.rvm
 dist: xenial
 os:
@@ -24,6 +24,7 @@ before_install:
 env:
   - SLOW=1
   - CI_ENABLE_COVERAGE=true SLOW=1
+script: bundle exec rake $SUITE
 matrix:
   fast_finish: true
   exclude:
@@ -35,37 +36,15 @@ matrix:
   - rvm: 2.6.3
   - rvm: 2.5.5
   - rvm: 2.4.5
-  - script: bundle exec rake $SUITE
-    bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration[default-ubuntu-1604]
-  - script: bundle exec rake $SUITE
-    bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration[default-ubuntu-1804]
-  - script: bundle exec rake $SUITE
-    bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration[default-centos-6]
-  - script: bundle exec rake $SUITE
-    bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration[default-centos-7]
-  - script: bundle exec rake $SUITE
-    bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration[default-debian-8]
-  - script: bundle exec rake $SUITE
-    bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration[default-debian-9]
-  - script: bundle exec rake $SUITE
-    bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration[default-debian-10]
-  - script: bundle exec rake $SUITE
-    bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration[default-oraclelinux-6]
-  - script: bundle exec rake $SUITE
-    bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration[default-oraclelinux-7]
-  - script: bundle exec rake $SUITE
-    bundler_args: "--without tools maintenance deploy"
-    env: SUITE=test:integration[default-fedora-29]
-
+  - env: SUITE=test:integration[default-ubuntu-1604]
+  - env: SUITE=test:integration[default-ubuntu-1804]
+  - env: SUITE=test:integration[default-centos-6]
+  - env: SUITE=test:integration[default-centos-7]
+  - env: SUITE=test:integration[default-debian-8]
+  - env: SUITE=test:integration[default-debian-9]
+  - env: SUITE=test:integration[default-debian-10]
+  - env: SUITE=test:integration[default-oraclelinux-6]
+  - env: SUITE=test:integration[default-oraclelinux-7]
+  - env: SUITE=test:integration[default-fedora-29]
   allow_failures:
   - env: CI_ENABLE_COVERAGE=true SLOW=1
-    script: bundle exec rake
