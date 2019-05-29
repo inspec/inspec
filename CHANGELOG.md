@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.57 -->
-## [v4.4.57](https://github.com/inspec/inspec/tree/v4.4.57) (2019-05-28)
+<!-- latest_release 4.4.58 -->
+## [v4.4.58](https://github.com/inspec/inspec/tree/v4.4.58) (2019-05-29)
 
 #### Merged Pull Requests
-- Dist branding for some of plugins [#4136](https://github.com/inspec/inspec/pull/4136) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Cache the .rvm directory in travis [#4153](https://github.com/inspec/inspec/pull/4153) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -22,6 +22,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Cache the .rvm directory in travis [#4153](https://github.com/inspec/inspec/pull/4153) ([miah](https://github.com/miah)) <!-- 4.4.58 -->
 - Dist branding for some of plugins [#4136](https://github.com/inspec/inspec/pull/4136) ([artem-sidorenko](https://github.com/artem-sidorenko)) <!-- 4.4.57 -->
 - Remove authors tags from source files. [#4147](https://github.com/inspec/inspec/pull/4147) ([miah](https://github.com/miah)) <!-- 4.4.56 -->
 - Move utils under inspec directory namespace [#4063](https://github.com/inspec/inspec/pull/4063) ([miah](https://github.com/miah)) <!-- 4.4.54 -->
