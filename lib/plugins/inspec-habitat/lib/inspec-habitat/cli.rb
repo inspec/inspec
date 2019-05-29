@@ -4,8 +4,6 @@ require 'inspec/dist'
 module InspecPlugins
   module Habitat
     class ProfileCLI < Inspec.plugin(2, :cli_command)
-      include Inspec::Dist
-
       # Override banner method to correct missing subcommand.
       # @see https://github.com/erikhuda/thor/issues/261
       def self.banner(command, _namespace = nil, _subcommand = false)
@@ -31,6 +29,8 @@ module InspecPlugins
     end
 
     class CLI < Inspec.plugin(2, :cli_command)
+      include Inspec::Dist
+
       subcommand_desc 'habitat SUBCOMMAND', "Manage Habitat with #{PRODUCT_NAME}"
       namespace 'habitat'
 
