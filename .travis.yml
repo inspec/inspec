@@ -1,7 +1,7 @@
 branches:
   only:
     - master
-    - 3-stable
+    - /.*-stable/
     - /cw.*/
     - /mj.*/
     - /zenspider.*/
