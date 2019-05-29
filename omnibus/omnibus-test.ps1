@@ -10,8 +10,17 @@ If ([string]::IsNullOrEmpty($product)) { $product = "inspec" }
 $version = "$Env:VERSION"
 If ([string]::IsNullOrEmpty($version)) { $version = "latest" }
 
+. C:\buildkite-agent\bin\load-omnibus-toolchain.ps1
+
+If ($env:OMNIBUS_WINDOWS_ARCH -eq "x86") {
+  $architecture = "i386"
+}
+ElseIf ($env:OMNIBUS_WINDOWS_ARCH -eq "x64") {
+  $architecture = "x86_64"
+}
+
 Write-Output "--- Downloading $channel $product $version"
-$download_url = C:\opscode\omnibus-toolchain\embedded\bin\mixlib-install.bat download --url --channel "$channel" "$product" --version "$version"
+$download_url = C:\opscode\omnibus-toolchain\embedded\bin\mixlib-install.bat download --url --channel "$channel" "$product" --version "$version" --architecture "$architecture"
 $package_file = "$Env:Temp\$(Split-Path -Path $download_url -Leaf)"
 Invoke-WebRequest -OutFile "$package_file" -Uri "$download_url"
 
@@ -27,9 +36,7 @@ Else {
 Write-Output "--- Installing $channel $product $version"
 Start-Process "$package_file" /quiet -Wait
 
-Write-Output "--- Testing $channel $product $version"
-
-Write-Output "Running verification for $product"
+Write-Output "--- Running verification for $channel $product $version"
 
 # reload Env:PATH to ensure it gets any changes that the install made (e.g. C:\opscode\inspec\bin\ )
 $Env:PATH = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
