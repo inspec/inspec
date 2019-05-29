@@ -2,6 +2,7 @@ require 'thor'
 require 'inspec/log'
 require 'inspec/profile_vendor'
 require 'inspec/ui'
+require 'inspec/dist'
 
 # Allow end of options during array type parsing
 # https://github.com/erikhuda/thor/issues/631
@@ -38,13 +39,13 @@ module Inspec
         if (allowed_commands & ARGV.map(&:downcase)).empty? && # Did they use a non-exempt command?
            !ARGV.empty?                                        # Did they supply at least one command?
           LicenseAcceptance::Acceptor.check_and_persist(
-            'inspec',
+            Inspec::Dist::EXEC_NAME,
             Inspec::VERSION,
             logger: Inspec::Log,
           )
         end
       rescue LicenseAcceptance::LicenseNotAcceptedError
-        Inspec::Log.error 'InSpec cannot execute without accepting the license'
+        Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without accepting the license"
         Inspec::UI.new.exit(:license_not_accepted)
       end
     end
