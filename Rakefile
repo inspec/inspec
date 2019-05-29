@@ -54,7 +54,7 @@ namespace :test do
   Rake::TestTask.new(:default) do |t|
     t.libs << 'test'
     t.test_files = Dir[*GLOBS].sort
-    t.warning = true
+    t.warning = ENV.fetch("W", true)
     t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
@@ -112,7 +112,7 @@ namespace :test do
       'test/functional/**/*_test.rb',
       'lib/plugins/inspec-*/test/functional/**/*_test.rb',
     ])
-    t.warning = true
+    t.warning = ENV.fetch("W", true)
     t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
@@ -125,7 +125,7 @@ namespace :test do
       'test/unit/**/*_test.rb',
       'lib/plugins/inspec-*/test/unit/**/*_test.rb',
     ])
-    t.warning = true
+    t.warning = ENV.fetch("W", true)
     t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
