@@ -6,6 +6,8 @@ require 'fileutils'
 require 'yaml'
 require 'tmpdir'
 
+ENV["CHEF_LICENSE"] = "accept-no-persist"
+
 require 'minitest/hell'
 class Minitest::Test
   parallelize_me!
@@ -125,7 +127,7 @@ module FunctionalHelper
 
   def inspec(commandline, prefix = nil)
     if is_windows?
-      invocation  = "cmd /C \"#{prefix} bundle exec ruby #{exec_inspec} #{commandline}\""
+      invocation  = "powershell -NonInteractive -Command \"#{prefix} bundle exec #{exec_inspec} #{commandline}\""
       result = CMD.run_command(invocation)
       result.stdout.encode!(universal_newline: true)
       result.stderr.encode!(universal_newline: true)
