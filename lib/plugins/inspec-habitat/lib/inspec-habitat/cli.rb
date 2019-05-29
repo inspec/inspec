@@ -31,6 +31,8 @@ module InspecPlugins
     end
 
     class CLI < Inspec.plugin(2, :cli_command)
+      include Inspec::Dist
+
       subcommand_desc 'habitat SUBCOMMAND', "Manage Habitat with #{PRODUCT_NAME}"
       namespace 'habitat'
 
