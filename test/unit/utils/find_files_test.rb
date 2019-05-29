@@ -1,4 +1,3 @@
-
 require 'helper'
 require 'inspec/utils/find_files'
 require 'inspec/resources/command'
