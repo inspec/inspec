@@ -30,6 +30,7 @@ group :test do
   gem 'webmock', '~> 3.0'
   gem 'passgen'
   gem 'm'
+  gem 'pry', '~> 0.10'
   gem 'pry-byebug'
 end
 
@@ -41,11 +42,6 @@ group :integration do
   gem 'kitchen-inspec', '>= 0.15.1'
   gem 'kitchen-ec2'
   gem 'kitchen-dokken'
-end
-
-group :tools do
-  gem 'pry', '~> 0.10'
-  gem 'license_finder'
   gem 'git', '~> 1.4'
 end
 
