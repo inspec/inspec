@@ -53,7 +53,7 @@ inspec exec test.rb -t docker://container_id
 
 ## Installation
 
-Chef InSpec requires Ruby ( >= 2.4 ). 
+Chef InSpec requires Ruby ( >= 2.4 ).
 
 Note: Versions of Chef InSpec 4.0 and later require accepting the EULA to use. Please visit the [license acceptance page](https://docs.chef.io/chef_license_accept.html) on the Chef docs site for more information.
 
@@ -85,11 +85,18 @@ For Ubuntu:
 apt-get -y install ruby ruby-dev gcc g++ make
 ```
 
-To install inspec from [rubygems](https://rubygems.org/):
+To install the `inspec` executable, which requires accepting the [Chef License](https://docs.chef.io/chef_license_accept.html), run:
+
+```bash
+gem install inspec-bin
+```
+
+You may also use `inspec` as a library, with no executable; this does not require accepting the license. To install the library as a gem, run:
 
 ```bash
 gem install inspec
 ```
+
 
 ### Usage via Docker
 
