@@ -91,7 +91,7 @@ To install the `inspec` executable, which requires accepting the [Chef License](
 gem install inspec-bin
 ```
 
-You may also use `inspec` as a library, with no executable; this does not require accepting the license. To install the library as a gem, run:
+You may also use `inspec` as a library, with no executable. This does not require accepting the license. To install the library as a gem, run:
 
 ```bash
 gem install inspec
