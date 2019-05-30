@@ -16,7 +16,7 @@ os:
   - osx
 services:
 - docker
-bundler_args: "--without integration tools maintenance deploy"
+bundler_args: "--without tools maintenance deploy"
 before_install:
 - gem --version
 - bundle --version
