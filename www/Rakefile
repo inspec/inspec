@@ -31,6 +31,27 @@ task :default do
 end
 
 namespace :www do # rubocop:disable Metrics/BlockLength
+
+  task :accept_license do
+    FileUtils.mkdir_p(File.join(Dir.home, '.chef', 'accepted_licenses'))
+    # If the user has not accepted the license, touch the acceptance
+    # file, but also touch a marker that it is only for testing.
+    unless File.exist?(File.join(Dir.home, '.chef', 'accepted_licenses', 'inspec'))
+      puts "\n\nTemporarily accepting Chef user license for the duration of testing...\n"
+      FileUtils.touch(File.join(Dir.home, '.chef', 'accepted_licenses', 'inspec'))
+      FileUtils.touch(File.join(Dir.home, '.chef', 'accepted_licenses', 'inspec.for_testing'))
+    end
+
+    # Regardless of what happens, when this process exits, check for cleanup.
+    at_exit do
+      if File.exist?(File.join(Dir.home, '.chef', 'accepted_licenses', 'inspec.for_testing'))
+        puts "\n\nRemoving temporary Chef user license acceptance file that was placed for test duration.\n"
+        FileUtils.rm_f(File.join(Dir.home, '.chef', 'accepted_licenses', 'inspec'))
+        FileUtils.rm_f(File.join(Dir.home, '.chef', 'accepted_licenses', 'inspec.for_testing'))
+      end
+    end
+  end
+
   desc 'Builds the middleman site'
   task :site do
     Log.section 'Build middleman project'
@@ -41,15 +62,18 @@ namespace :www do # rubocop:disable Metrics/BlockLength
     Verify.file('build/javascripts/all.js')
     Verify.file('build/stylesheets/site.css')
   end
+  task :site => [:accept_license]
 
   desc 'Assemble the website site from middleman'
   task :assemble do
     Log.section 'Copy only tutorial into middleman build directory'
     sh('rsync -a --exclude=index.html build/')
   end
+  task :assemble => [:accept_license]
 
   desc 'Builds the full site locally'
   task build: ['www:site', 'www:assemble']
+  task :build => [:accept_license]
 
   task :clean do
     dst = 'build'
