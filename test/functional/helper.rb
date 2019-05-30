@@ -104,6 +104,14 @@ module FunctionalHelper
     TMP_CACHE[res.path] = res
   }
 
+  def without_license
+    ENV.delete "CHEF_LICENSE"
+
+    yield
+  ensure
+    ENV["CHEF_LICENSE"] = "accept-no-persist"
+  end
+
   def convert_windows_output(text)
     text = text.force_encoding("UTF-8")
     text.gsub!("[PASS]", '✔')
