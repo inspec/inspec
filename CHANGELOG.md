@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.60 -->
-## [v4.4.60](https://github.com/inspec/inspec/tree/v4.4.60) (2019-05-30)
+<!-- latest_release 4.4.61 -->
+## [v4.4.61](https://github.com/inspec/inspec/tree/v4.4.61) (2019-05-30)
 
 #### Merged Pull Requests
-- Windows fixes [#4159](https://github.com/inspec/inspec/pull/4159) ([zenspider](https://github.com/zenspider))
+- Clean unnecessary requires [#4142](https://github.com/inspec/inspec/pull/4142) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -22,6 +22,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Clean unnecessary requires [#4142](https://github.com/inspec/inspec/pull/4142) ([zenspider](https://github.com/zenspider)) <!-- 4.4.61 -->
 - Windows fixes [#4159](https://github.com/inspec/inspec/pull/4159) ([zenspider](https://github.com/zenspider)) <!-- 4.4.60 -->
 - Make travis green again [#4160](https://github.com/inspec/inspec/pull/4160) ([zenspider](https://github.com/zenspider)) <!-- 4.4.59 -->
 - Cache the .rvm directory in travis [#4153](https://github.com/inspec/inspec/pull/4153) ([miah](https://github.com/miah)) <!-- 4.4.58 -->
