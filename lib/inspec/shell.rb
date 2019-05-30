@@ -117,7 +117,7 @@ module Inspec
         end
       elsif topic == 'matchers'
         print_matchers_help
-      elsif !Inspec::Resource.registry[topic].nil?
+      elsif !Inspec::Resource.registry[topic].nil? # TODO: fix unnecessary logic
         topic_info = Inspec::Resource.registry[topic]
         info = "#{mark 'Name:'} #{topic}\n\n"
         unless topic_info.desc.nil?

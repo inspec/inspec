@@ -1,3 +1,6 @@
+require 'inspec/resources/command'
+require 'inspec/resources/powershell'
+
 module Inspec::Resources
   # this resource returns additional system informatio
   class System < Inspec.resource(1)

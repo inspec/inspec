@@ -1,8 +1,9 @@
 
 require 'helper'
 require 'inspec/resource'
+require 'inspec/resources/ssh_config'
 
-describe 'Inspec::Resources::SshConf' do
+describe 'Inspec::Resources::SshConfig' do
 
   describe 'ssh_config' do
     it 'check ssh config parsing' do

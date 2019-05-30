@@ -1,4 +1,9 @@
 require 'helper'
+require 'inspec/resource'
+require 'resources/aws/aws_ebs_volume'
+
+require 'resource_support/aws'
+require 'resources/aws/aws_ebs_volume'
 
 class TestEbs < Minitest::Test
   Id = 'volume-id'.freeze

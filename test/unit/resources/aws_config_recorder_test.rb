@@ -1,4 +1,9 @@
 require 'helper'
+require 'inspec/resource'
+require 'resources/aws/aws_config_recorder'
+
+require 'resource_support/aws'
+require 'resources/aws/aws_config_recorder'
 
 # MCRSB = MockConfigRecorderSingleBackend
 # Abbreviation not used outside this file

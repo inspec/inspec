@@ -1,5 +1,5 @@
-
 require 'helper'
+require 'inspec/reporters'
 
 describe Inspec::Reporters::CLI do
   WINDOWS = RUBY_PLATFORM =~ /windows|mswin|msys|mingw|cygwin/

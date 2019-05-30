@@ -1,6 +1,7 @@
 
 require 'pathname'
 require 'hashie/mash'
+require 'inspec/resources/command'
 
 module Inspec::Resources
   class Nginx < Inspec.resource(1)

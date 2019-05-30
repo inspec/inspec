@@ -1,6 +1,7 @@
 #
 # Copyright 2017, Christoph Hartmann
 
+require 'inspec/resources/docker'
 require_relative 'docker_object'
 
 module Inspec::Resources

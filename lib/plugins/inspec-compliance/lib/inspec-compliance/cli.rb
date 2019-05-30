@@ -1,4 +1,3 @@
-
 require 'inspec/dist'
 
 require_relative 'api'

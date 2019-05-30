@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/mssql_session'
 
 describe 'Inspec::Resources::MssqlSession' do
   it 'verify default mssql_session configuration' do

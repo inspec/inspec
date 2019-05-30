@@ -174,7 +174,7 @@ module Inspec::Resources
     end
   end
 
-  class NginxConfServer
+  class NginxConfServer # TODO: rename NginxServer
     attr_reader :params, :parent
     def initialize(params, parent)
       @parent = parent
@@ -216,6 +216,7 @@ module Inspec::Resources
     def to_s
       location = Array(params['_']).join(' ')
       # go three levels up: 1. to the server entry, 2. http entry and 3. to the root nginx conf
+      # TODO: fix parent.parent.parent
       @parent.parent.parent.to_s + ", location #{location.inspect}"
     end
     alias inspect to_s

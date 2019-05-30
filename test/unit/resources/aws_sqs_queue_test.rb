@@ -1,4 +1,9 @@
 require 'helper'
+require 'inspec/resource'
+require 'resources/aws/aws_sqs_queue'
+
+require 'resource_support/aws'
+require 'resources/aws/aws_sqs_queue'
 
 # MSQB = MockSQsBackend
 # Abbreviation not used outside this file

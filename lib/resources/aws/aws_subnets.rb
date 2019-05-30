@@ -1,3 +1,7 @@
+require 'resource_support/aws/aws_plural_resource_mixin'
+require 'resource_support/aws/aws_backend_base'
+require 'aws-sdk-ec2'
+
 class AwsSubnets < Inspec.resource(1)
   name 'aws_subnets'
   desc 'Verifies settings for VPC Subnets in bulk'

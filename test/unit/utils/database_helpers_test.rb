@@ -1,5 +1,5 @@
-
 require 'helper'
+require 'inspec/utils/database_helpers'
 
 describe DatabaseHelper do
   describe DatabaseHelper::SQLColumn do

@@ -1,3 +1,7 @@
+require 'resource_support/aws/aws_singular_resource_mixin'
+require 'resource_support/aws/aws_backend_base'
+require 'aws-sdk-configservice'
+
 class AwsConfigurationRecorder < Inspec.resource(1)
   name 'aws_config_recorder'
   desc 'Verifies settings for AWS Configuration Recorder'

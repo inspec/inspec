@@ -1,6 +1,7 @@
 # copyright: 2015, Vulcano Security GmbH
 
 require 'json'
+require 'inspec/resources/powershell'
 
 # Three constructor methods are available:
 # 1. resistry_key(path'):

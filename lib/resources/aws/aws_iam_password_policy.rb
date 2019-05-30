@@ -1,3 +1,7 @@
+require 'resource_support/aws/aws_singular_resource_mixin'
+require 'resource_support/aws/aws_backend_base'
+require 'aws-sdk-iam'
+
 class AwsIamPasswordPolicy < Inspec.resource(1)
   name 'aws_iam_password_policy'
   desc 'Verifies iam password policy'

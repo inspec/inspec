@@ -1,3 +1,4 @@
+require 'inspec/resources/command'
 
 # Usage:
 # describe cpan('DBD::Pg') do

@@ -1,3 +1,4 @@
+require 'inspec/resources/file'
 
 # Usage:
 # describe bridge('br0') do

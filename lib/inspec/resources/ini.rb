@@ -1,4 +1,4 @@
-
+require 'inspec/resources/json'
 require 'inspec/utils/simpleconfig'
 
 module Inspec::Resources

@@ -1,5 +1,5 @@
 require 'helper'
-require 'inspec-supermarket/api'
+require 'bundles/inspec-supermarket/api'
 
 def default_url?(supermarket_url)
   supermarket_url == Supermarket::API::SUPERMARKET_URL

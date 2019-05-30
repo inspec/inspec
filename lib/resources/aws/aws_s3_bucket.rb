@@ -1,3 +1,7 @@
+require 'resource_support/aws/aws_singular_resource_mixin'
+require 'resource_support/aws/aws_backend_base'
+require 'aws-sdk-s3'
+
 class AwsS3Bucket < Inspec.resource(1)
   name 'aws_s3_bucket'
   desc 'Verifies settings for a s3 bucket'

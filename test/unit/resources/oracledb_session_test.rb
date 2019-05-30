@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/oracledb_session'
 
 describe 'Inspec::Resources::OracledbSession' do
   it 'verify oracledb_session configuration' do

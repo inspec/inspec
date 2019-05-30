@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/mysql_conf'
 
 describe 'Inspec::Resources::MysqlConf' do
   it 'verify mysql.conf config parsing' do

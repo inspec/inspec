@@ -2,6 +2,9 @@
 
 require 'helper'
 
+require 'resource_support/aws'
+require 'resource_support/aws/aws_resource_mixin'
+
 describe 'AwsResourceMixin' do
   describe 'initialize' do
     class AwsResourceMixinError

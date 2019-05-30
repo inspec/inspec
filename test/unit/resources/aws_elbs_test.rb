@@ -1,4 +1,9 @@
 require 'helper'
+require 'inspec/resource'
+require 'resources/aws/aws_elbs'
+
+require 'resource_support/aws'
+require 'resources/aws/aws_elbs'
 
 # MAEPB = MockAwsELBsPluralBackend
 # Abbreviation not used outside this file

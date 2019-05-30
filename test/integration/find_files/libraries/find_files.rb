@@ -12,7 +12,7 @@ class TestFindFiles < Inspec.resource(1)
     end
   "
 
-  require 'utils/find_files'
+  require 'inspec/utils/find_files'
   include FindFiles
 
   attr_reader :results

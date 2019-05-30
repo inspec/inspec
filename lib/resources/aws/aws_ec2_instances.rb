@@ -1,3 +1,7 @@
+require 'resource_support/aws/aws_plural_resource_mixin'
+require 'resource_support/aws/aws_backend_base'
+require 'aws-sdk-ec2'
+
 class AwsEc2Instances < Inspec.resource(1)
   name 'aws_ec2_instances'
   desc 'Verifies settings for AWS EC2 Instances in bulk'

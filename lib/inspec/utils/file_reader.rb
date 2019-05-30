@@ -1,3 +1,4 @@
+require 'inspec/resources/file'
 
 module FileReader
   def read_file_content(path, allow_empty = false)

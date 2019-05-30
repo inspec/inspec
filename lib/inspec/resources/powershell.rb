@@ -1,7 +1,8 @@
 # copyright: 2015, Vulcano Security GmbH
+require 'inspec/resources/command'
 
 module Inspec::Resources
-  class PowershellScript < Cmd
+  class Powershell < Cmd
     name 'powershell'
     supports platform: 'windows'
     supports platform: 'unix'
@@ -50,8 +51,10 @@ module Inspec::Resources
     end
   end
 
+  PowershellScript = Powershell
+
   # this is deprecated syntax and will be removed in future versions
-  class LegacyPowershellScript < PowershellScript
+  class LegacyPowershell < Powershell
     name 'script'
 
     def initialize(script)
@@ -59,4 +62,6 @@ module Inspec::Resources
       super(script)
     end
   end
+
+  LegacyPowershellScript = LegacyPowershell
 end

@@ -1,4 +1,3 @@
-
 require 'inspec/resources/platform'
 
 module Inspec::Resources

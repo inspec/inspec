@@ -1,4 +1,4 @@
-
+require 'inspec/resources/command'
 require 'hashie/mash'
 require 'inspec/utils/database_helpers'
 

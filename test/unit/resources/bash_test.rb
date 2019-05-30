@@ -1,8 +1,9 @@
 
 require 'helper'
 require 'inspec/resource'
+require 'inspec/resources/bash'
 
-describe Inspec::Resources::Bash do
+describe "Inspec::Resources::Bash" do
   let(:x) { rand.to_s }
   let(:resource) { load_resource('bash', '$("'+x+'")') }
 

@@ -1,4 +1,9 @@
 require 'helper'
+require 'inspec/resource'
+require 'resources/aws/aws_s3_bucket'
+
+require 'resource_support/aws'
+require 'resources/aws/aws_s3_bucket'
 
 # MSBSB = MockS3BucketSingleBackend
 # Abbreviation not used outside this file

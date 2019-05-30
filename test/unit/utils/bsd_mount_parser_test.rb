@@ -1,5 +1,5 @@
-
 require 'helper'
+require 'inspec/utils/parser'
 
 describe BsdMountParser do
   let (:parser) { Class.new() { include BsdMountParser }.new }

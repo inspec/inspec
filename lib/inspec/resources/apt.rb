@@ -1,3 +1,4 @@
+require 'inspec/resources/command'
 
 # Verifies apt and ppa repositories
 #

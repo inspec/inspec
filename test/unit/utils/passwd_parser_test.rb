@@ -1,5 +1,5 @@
-
 require 'helper'
+require 'inspec/utils/parser'
 
 describe PasswdParser do
   let (:parser) { Class.new() { include PasswdParser }.new }

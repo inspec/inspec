@@ -1,3 +1,4 @@
+require 'inspec/resources/command'
 
 module Inspec::Resources
   class KernelParameter < Inspec.resource(1)

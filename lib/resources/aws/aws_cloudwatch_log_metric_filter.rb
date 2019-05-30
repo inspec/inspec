@@ -1,3 +1,7 @@
+require 'resource_support/aws/aws_singular_resource_mixin'
+require 'resource_support/aws/aws_backend_base'
+require 'aws-sdk-cloudwatchlogs'
+
 class AwsCloudwatchLogMetricFilter < Inspec.resource(1)
   name 'aws_cloudwatch_log_metric_filter'
   desc 'Verifies individual Cloudwatch Log Metric Filters'

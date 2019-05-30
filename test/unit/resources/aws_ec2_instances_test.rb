@@ -1,4 +1,9 @@
 require 'helper'
+require 'inspec/resource'
+require 'resources/aws/aws_ec2_instances'
+
+require 'resource_support/aws'
+require 'resources/aws/aws_ec2_instances'
 
 # MAEIPB = MockAwsEC2InstancesPluralBackend
 # Abbreviation not used outside this file

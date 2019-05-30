@@ -1,3 +1,7 @@
+require 'resource_support/aws/aws_singular_resource_mixin'
+require 'resource_support/aws/aws_backend_base'
+require 'aws-sdk-elasticloadbalancing'
+
 class AwsElb < Inspec.resource(1)
   name 'aws_elb'
   desc 'Verifies settings for AWS Elastic Load Balancer'

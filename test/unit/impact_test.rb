@@ -1,6 +1,7 @@
 # copyright: 2017, Chef Software Inc.
 
 require 'helper'
+require 'inspec/impact'
 
 describe 'Impact' do
   let(:impact) { Inspec::Impact }

@@ -1,4 +1,6 @@
 
+require 'inspec/resources/command'
+
 module PasswdParser
   # Parse /etc/passwd files.
   #
@@ -269,3 +271,5 @@ module XinetdParser
     res
   end
 end
+
+require 'inspec/utils/simpleconfig'

@@ -1,4 +1,9 @@
 require 'helper'
+require 'inspec/resource'
+require 'resources/aws/aws_vpc'
+
+require 'resource_support/aws'
+require 'resources/aws/aws_vpc'
 
 # MAVSB = MockAwsVpcSingularBackend
 # Abbreviation not used outside this file

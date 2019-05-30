@@ -1,3 +1,7 @@
+require 'resource_support/aws/aws_plural_resource_mixin'
+require 'resource_support/aws/aws_backend_base'
+require 'aws-sdk-s3'
+
 class AwsS3Buckets < Inspec.resource(1)
   name 'aws_s3_buckets'
   desc 'Verifies settings for AWS S3 Buckets in bulk'

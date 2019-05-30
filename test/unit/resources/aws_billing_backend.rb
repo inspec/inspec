@@ -1,3 +1,5 @@
+require 'resource_support/aws'
+
 module MockAwsBillingReports
   class Empty < AwsBackendBase
     def describe_report_definitions(_query)

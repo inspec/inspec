@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/mysql_session'
 
 describe 'Inspec::Resources::MysqlSession' do
   it 'verify mysql_session escaped login details with single quotes correctly' do

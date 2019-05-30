@@ -1,6 +1,9 @@
-
 require 'helper'
 require 'inspec/profile_context'
+require 'inspec/runner_mock'
+require 'inspec/resource'
+require 'inspec/resources/command'
+
 
 describe Inspec::Profile do
   let(:logger) { Minitest::Mock.new }

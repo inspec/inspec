@@ -1,3 +1,7 @@
+require 'resource_support/aws/aws_singular_resource_mixin'
+require 'resource_support/aws/aws_backend_base'
+require 'aws-sdk-ec2'
+
 class AwsFlowLog < Inspec.resource(1)
   name 'aws_flow_log'
   supports platform: 'aws'

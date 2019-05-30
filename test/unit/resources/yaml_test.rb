@@ -1,6 +1,9 @@
 
 require 'helper'
 require 'inspec/resource'
+require 'inspec/resources/yaml'
+require 'inspec/resource'
+require 'inspec/resources/yaml'
 
 describe 'Inspec::Resources::YAML' do
   describe 'when loading a valid yaml' do

@@ -1,4 +1,7 @@
 # frozen_string_literal: true
+
+require 'inspec/resources/command'
+
 # check for site in IIS
 # Usage:
 # describe iis_site('Default Web Site') do

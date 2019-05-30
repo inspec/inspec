@@ -1,4 +1,9 @@
 require 'helper'
+require 'inspec/resource'
+require 'resources/aws/aws_route_table'
+
+require 'resource_support/aws'
+require 'resources/aws/aws_route_table'
 
 class EmptyAwsRouteTableTest < Minitest::Test
   def setup

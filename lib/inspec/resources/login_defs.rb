@@ -16,7 +16,7 @@ require 'inspec/utils/file_reader'
 # end
 
 module Inspec::Resources
-  class LoginDef < Inspec.resource(1)
+  class LoginDefs < Inspec.resource(1)
     name 'login_defs'
     supports platform: 'unix'
     desc 'Use the login_defs InSpec audit resource to test configuration settings in the /etc/login.defs file. The logins.defs file defines site-specific configuration for the shadow password suite on Linux and UNIX platforms, such as password expiration ranges, minimum/maximum values for automatic selection of user and group identifiers, or the method with which passwords are encrypted.'

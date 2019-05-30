@@ -1,5 +1,5 @@
-
 require 'helper'
+require 'inspec/reporters'
 
 describe Inspec::Reporters::Json do
   let(:path) { File.expand_path(File.dirname(__FILE__)) }

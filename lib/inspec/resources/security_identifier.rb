@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'inspec/resources/command'
+
 module Inspec::Resources
   class SecurityIdentifier < Inspec.resource(1)
     name 'security_identifier'

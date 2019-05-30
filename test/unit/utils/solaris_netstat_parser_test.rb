@@ -1,5 +1,5 @@
-
 require 'helper'
+require 'inspec/utils/parser'
 
 describe SolarisNetstatParser do
   let (:parser) { Class.new() { include SolarisNetstatParser }.new }

@@ -1,9 +1,10 @@
+require 'inspec/resources/command'
+require 'inspec/utils/simpleconfig'
 
 # Usage:
 # describe pip('Jinja2') do
 #   it { should be_installed }
 # end
-#
 
 module Inspec::Resources
   class PipPackage < Inspec.resource(1)

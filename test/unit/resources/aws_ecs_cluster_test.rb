@@ -1,4 +1,9 @@
 require 'helper'
+require 'inspec/resource'
+require 'resources/aws/aws_ecs_cluster'
+
+require 'resource_support/aws'
+require 'resources/aws/aws_ecs_cluster'
 
 # MAECSB = MockAwsEcsClusterSingularBackend
 # Abbreviation not used outside this file

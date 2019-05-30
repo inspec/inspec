@@ -1,4 +1,9 @@
 require 'helper'
+require 'inspec/resource'
+require 'resources/aws/aws_security_groups'
+
+require 'resource_support/aws'
+require 'resources/aws/aws_security_groups'
 
 # MESGB = MockSecurityGroupBackend
 # Abbreviation not used outside this file

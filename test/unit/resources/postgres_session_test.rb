@@ -1,5 +1,7 @@
 
 require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/postgres_session'
 
 describe 'Inspec::Resources::PostgresSession' do
   it 'verify postgres_session create_psql_cmd with a basic query' do

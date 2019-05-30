@@ -1,9 +1,9 @@
-
 require 'inspec/utils/erlang_parser'
 require 'inspec/utils/file_reader'
 
 module Inspec::Resources
-  class RabbitmqConf < Inspec.resource(1)
+  class RabbitmqConfig < Inspec.resource(1)
+    name 'rabbitmq_conf' # TODO: this is an alias. do we want this?
     name 'rabbitmq_config'
     supports platform: 'unix'
     desc 'Use the rabbitmq_config InSpec resource to test configuration data '\

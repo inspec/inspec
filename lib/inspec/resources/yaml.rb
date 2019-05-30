@@ -1,5 +1,6 @@
 
 require 'yaml'
+require 'inspec/resources/json'
 
 # Parses a yaml document
 # Usage:
