@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.61 -->
-## [v4.4.61](https://github.com/inspec/inspec/tree/v4.4.61) (2019-05-30)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Clean unnecessary requires [#4142](https://github.com/inspec/inspec/pull/4142) ([zenspider](https://github.com/zenspider))
+- Update sunset messages on 2 resources [#4164](https://github.com/inspec/inspec/pull/4164) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -22,6 +22,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Update sunset messages on 2 resources [#4164](https://github.com/inspec/inspec/pull/4164) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.61 -->
 - Clean unnecessary requires [#4142](https://github.com/inspec/inspec/pull/4142) ([zenspider](https://github.com/zenspider)) <!-- 4.4.61 -->
 - Windows fixes [#4159](https://github.com/inspec/inspec/pull/4159) ([zenspider](https://github.com/zenspider)) <!-- 4.4.60 -->
 - Make travis green again [#4160](https://github.com/inspec/inspec/pull/4160) ([zenspider](https://github.com/zenspider)) <!-- 4.4.59 -->
