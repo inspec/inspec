@@ -35,14 +35,13 @@ group :test do
 end
 
 group :integration do
-  gem 'berkshelf', '~> 7'
-  gem 'test-kitchen', '~> 1.17'
+  gem 'berkshelf'
+  gem 'test-kitchen'
   gem 'kitchen-vagrant'
-  # we need winrm v2 support >= 0.15.1
-  gem 'kitchen-inspec', '>= 0.15.1'
+  gem 'kitchen-inspec'
   gem 'kitchen-ec2'
   gem 'kitchen-dokken'
-  gem 'git', '~> 1.4'
+  gem 'git'
 end
 
 # gems for Maintainers.md generation
