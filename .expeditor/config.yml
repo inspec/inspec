@@ -57,7 +57,7 @@ merge_actions:
       ignore_labels:
         - "Changelog: Skip Update"
         - "Expeditor: Skip All"
-  - built_in:trigger_omnibus_release_build:
+  - trigger_pipeline:omnibus/release:
       ignore_labels:
         - "Omnibus: Skip Build"
         - "Expeditor: Skip All"
