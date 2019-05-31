@@ -1,11 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.62 -->
-## [v4.4.62](https://github.com/inspec/inspec/tree/v4.4.62) (2019-05-30)
+<!-- latest_release 4.4.63 -->
+## [v4.4.63](https://github.com/inspec/inspec/tree/v4.4.63) (2019-05-31)
 
 #### Merged Pull Requests
-- This should fix our licensing failures [#4165](https://github.com/inspec/inspec/pull/4165) ([zenspider](https://github.com/zenspider))
-- Update sunset messages on 2 resources [#4164](https://github.com/inspec/inspec/pull/4164) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Replace Jenkins omnibus build/test pipeline with Buildkite [#4169](https://github.com/inspec/inspec/pull/4169) ([jeremiahsnapp](https://github.com/jeremiahsnapp))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -23,6 +22,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Replace Jenkins omnibus build/test pipeline with Buildkite [#4169](https://github.com/inspec/inspec/pull/4169) ([jeremiahsnapp](https://github.com/jeremiahsnapp)) <!-- 4.4.63 -->
 - This should fix our licensing failures [#4165](https://github.com/inspec/inspec/pull/4165) ([zenspider](https://github.com/zenspider)) <!-- 4.4.62 -->
 - Update sunset messages on 2 resources [#4164](https://github.com/inspec/inspec/pull/4164) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.61 -->
 - Clean unnecessary requires [#4142](https://github.com/inspec/inspec/pull/4142) ([zenspider](https://github.com/zenspider)) <!-- 4.4.61 -->
