@@ -1,4 +1,3 @@
-
 module Inspec
   module ResourceBehaviors
     def to_s

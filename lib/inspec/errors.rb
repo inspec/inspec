@@ -1,4 +1,3 @@
-
 module Inspec
   class Error < StandardError; end
 

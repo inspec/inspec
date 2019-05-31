@@ -1,4 +1,3 @@
-
 require 'openssl'
 require 'hashie/mash'
 require 'inspec/utils/file_reader'

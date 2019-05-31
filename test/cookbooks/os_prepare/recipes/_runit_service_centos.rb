@@ -1,4 +1,3 @@
-
 include_recipe 'runit::default'
 
 # put ctl in alt location

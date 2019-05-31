@@ -1,4 +1,3 @@
-
 # inheritance-child-01 is a simple dependency
 include_controls('inheritance-child-01')
 

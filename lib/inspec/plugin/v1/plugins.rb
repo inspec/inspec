@@ -1,4 +1,3 @@
-
 require 'forwardable'
 
 module Inspec

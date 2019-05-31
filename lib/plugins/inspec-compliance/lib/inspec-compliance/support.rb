@@ -1,4 +1,3 @@
-
 module InspecPlugins
   module Compliance
     # is a helper that provides information which version of compliance supports

@@ -1,4 +1,3 @@
-
 window.addEventListener("load", windowLoadHandler, false);
 var sphereRad = 280;
 var radius_sp=1;

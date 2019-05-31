@@ -1,4 +1,3 @@
-
 module Inspec
   class RequireLoader
     Item = Struct.new(:content, :ref, :line, :loaded)

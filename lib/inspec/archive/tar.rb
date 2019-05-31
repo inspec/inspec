@@ -1,4 +1,3 @@
-
 require 'rubygems/package'
 
 module Inspec::Archive

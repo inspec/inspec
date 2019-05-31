@@ -1,4 +1,3 @@
-
 require_relative 'renderer'
 
 module InspecPlugins

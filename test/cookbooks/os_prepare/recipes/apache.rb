@@ -1,4 +1,3 @@
-
 case node['platform_family']
 when 'rhel'
   apache_conf_dir = 'httpd'

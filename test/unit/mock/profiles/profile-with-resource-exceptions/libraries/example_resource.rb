@@ -1,4 +1,3 @@
-
 class ExceptionResourceTest < Inspec.resource(1)
   name 'exception_resource_test'
 

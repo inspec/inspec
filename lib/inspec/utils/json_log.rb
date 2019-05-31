@@ -1,4 +1,3 @@
-
 require 'json'
 
 # a simple streaming json logger

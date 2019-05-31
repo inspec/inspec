@@ -1,4 +1,3 @@
-
 # the following test will iterate over all packages retrieved via Powershell and
 # verify that the a sampling of them are installed
 if os.windows?

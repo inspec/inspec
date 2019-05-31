@@ -1,4 +1,3 @@
-
 # install repositories for nginx
 case node['platform']
 when 'ubuntu'

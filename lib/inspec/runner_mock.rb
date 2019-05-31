@@ -1,4 +1,3 @@
-
 module Inspec
   class RunnerMock
     attr_reader :tests, :profiles

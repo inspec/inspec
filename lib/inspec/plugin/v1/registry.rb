@@ -1,4 +1,3 @@
-
 class PluginRegistry
   attr_reader :registry
 

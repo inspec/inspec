@@ -1,4 +1,3 @@
-
 # options
 inspec_bin = 'BUNDLE_GEMFILE=/inspec/Gemfile bundle exec inspec'
 api_url = 'https://0.0.0.0'

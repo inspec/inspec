@@ -1,4 +1,3 @@
-
 # Software End User License Agreement  
 (Personal, Non-Commercial, Experimental)
 

@@ -1,4 +1,3 @@
-
 class FavoriteBerry < Inspec.resource(1)
   name 'favorite_berry'
   desc 'Will it blend?'

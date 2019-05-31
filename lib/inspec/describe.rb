@@ -1,4 +1,3 @@
-
 module Inspec
   class DescribeBase
     def initialize(action)

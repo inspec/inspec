@@ -1,4 +1,3 @@
-
 require 'helper'
 require 'inspec/utils/nginx_parser'
 

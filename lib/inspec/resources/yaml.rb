@@ -1,4 +1,3 @@
-
 require 'yaml'
 require 'inspec/resources/json'
 

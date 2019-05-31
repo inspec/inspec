@@ -1,4 +1,3 @@
-
 return unless os.windows?
 
 # iis service is running

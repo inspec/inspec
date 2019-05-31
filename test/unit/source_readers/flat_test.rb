@@ -1,4 +1,3 @@
-
 require 'helper'
 
 describe SourceReaders::Flat do

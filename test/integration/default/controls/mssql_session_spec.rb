@@ -1,4 +1,3 @@
-
 # the following test will query the MSSQL database for the Server Property of IsIntegratedSecurityOnly which should be
 # 0 which means that it is using both Windows Authentication and SQL Server Authentication.
 # @see https://docs.microsoft.com/en-us/sql/t-sql/functions/serverproperty-transact-sql

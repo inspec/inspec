@@ -1,4 +1,3 @@
-
 require 'inspec/utils/simpleconfig'
 require 'inspec/utils/file_reader'
 

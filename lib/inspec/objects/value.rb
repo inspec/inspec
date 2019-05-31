@@ -1,4 +1,3 @@
-
 module Inspec
   class Value
     include ::Inspec::RubyHelper

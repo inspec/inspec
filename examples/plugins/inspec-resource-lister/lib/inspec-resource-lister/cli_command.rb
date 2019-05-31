@@ -1,4 +1,3 @@
-
 require 'inspec/resource'
 
 module InspecPlugins::ResourceLister

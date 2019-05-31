@@ -1,4 +1,3 @@
-
 require 'inspec/utils/file_reader'
 require 'inspec/resources/postgres'
 

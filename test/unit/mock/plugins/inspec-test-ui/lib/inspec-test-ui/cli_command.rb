@@ -1,4 +1,3 @@
-
 module InspecPlugins::TestUI
   class CliCommand < Inspec.plugin(2, :cli_command)
     subcommand_desc 'testui [FEATURE] [OPTS]', 'Exercise Inspec::UI'

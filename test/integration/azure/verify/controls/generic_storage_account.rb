@@ -1,4 +1,3 @@
-
 title 'Check Azure Resources'
 
 control 'azure-generic-storage-account-2.0' do

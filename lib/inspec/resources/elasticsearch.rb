@@ -1,4 +1,3 @@
-
 require 'inspec/utils/filter'
 require 'hashie/mash'
 require 'inspec/resources/package'

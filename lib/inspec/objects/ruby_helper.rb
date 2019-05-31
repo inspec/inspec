@@ -1,4 +1,3 @@
-
 module Inspec
   module RubyHelper
     def ruby_qualifier(q)

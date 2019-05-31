@@ -1,4 +1,3 @@
-
 if os[:name] == 'ubuntu'
 
   describe apt('ppa:nginx/stable') do

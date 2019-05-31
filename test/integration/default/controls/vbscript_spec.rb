@@ -1,4 +1,3 @@
-
 return unless os.windows?
 
 describe vbscript("WScript.Echo \"hello\"") do

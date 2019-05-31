@@ -1,4 +1,3 @@
-
 require 'forwardable'
 require 'inspec/utils/filter_array'
 require 'inspec/utils/filter'

@@ -1,4 +1,3 @@
-
 title 'External Virtual Machine Properties'
 
 control 'azure-generic-vm-linux-external-2.0' do

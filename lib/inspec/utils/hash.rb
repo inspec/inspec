@@ -1,4 +1,3 @@
-
 class ::Hash
   # Inspired by: http://stackoverflow.com/a/9381776
   def deep_merge(second)

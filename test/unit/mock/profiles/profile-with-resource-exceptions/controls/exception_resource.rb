@@ -1,4 +1,3 @@
-
 # checks[0]
 describe exception_resource_test('should raise ResourceSkipped', :skip_me) do
   its('value') { should eq 'does not matter' }

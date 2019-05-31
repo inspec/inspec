@@ -1,3 +1,5 @@
+require 'inspec/utils/simpleconfig'
+
 module Inspec::Resources
   class Mount < Inspec.resource(1)
     name 'mount'

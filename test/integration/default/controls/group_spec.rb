@@ -1,4 +1,3 @@
-
 # test root group on linux
 if os.linux?
   describe group('root') do

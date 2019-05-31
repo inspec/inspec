@@ -1,4 +1,3 @@
-
 require 'inspec/globals'
 
 module InspecPlugins
