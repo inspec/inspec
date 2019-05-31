@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.9.6 -->
-## [v3.9.6](https://github.com/inspec/inspec/tree/v3.9.6) (2019-04-23)
+<!-- latest_release 3.9.7 -->
+## [v3.9.7](https://github.com/inspec/inspec/tree/v3.9.7) (2019-05-31)
 
 #### Merged Pull Requests
-- Add backwards compat `--chef-license` option to v3. [#3968](https://github.com/inspec/inspec/pull/3968) ([miah](https://github.com/miah))
+- Replace Jenkins omnibus build/test pipeline with Buildkite for 3-stable branch [#4170](https://github.com/inspec/inspec/pull/4170) ([jeremiahsnapp](https://github.com/jeremiahsnapp))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.3 -->
 ### Changes since 3.9.3 release
 
 #### Merged Pull Requests
+- Replace Jenkins omnibus build/test pipeline with Buildkite for 3-stable branch [#4170](https://github.com/inspec/inspec/pull/4170) ([jeremiahsnapp](https://github.com/jeremiahsnapp)) <!-- 3.9.7 -->
 - Add backwards compat `--chef-license` option to v3. [#3968](https://github.com/inspec/inspec/pull/3968) ([miah](https://github.com/miah)) <!-- 3.9.6 -->
 - Use the upstream unf_ext again [#3965](https://github.com/inspec/inspec/pull/3965) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.9.5 -->
 - Use deprecation everywhere (v3 port) [#3952](https://github.com/inspec/inspec/pull/3952) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.9.4 -->
