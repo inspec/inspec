@@ -25,7 +25,7 @@ module Inspec::Resources
       return skip_resource "The `nginx` binary not found in the path provided." unless inspec.command(nginx_path).exist?
 
       cmd = inspec.command("#{nginx_path} -V 2>&1")
-      if !cmd.exit_status.zero?
+      if cmd.exit_status != 0
         return skip_resource "Error using the command nginx -V"
       end
       @data = cmd.stdout
