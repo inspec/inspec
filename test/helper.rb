@@ -67,6 +67,7 @@ require 'mocha/setup'
 require 'inspec/log'
 require 'inspec/backend'
 require "helpers/mock_loader"
+require "minitest/hell"
 
 TMP_CACHE = {}
 
