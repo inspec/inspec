@@ -67,6 +67,7 @@ module Inspec
 end
 
 module FunctionalHelper
+  extend Minitest::Spec::DSL
   let(:repo_path) do
     path = File.expand_path(File.join( __FILE__, "..", "..", ".."))
     # fix for vagrant repo pathing

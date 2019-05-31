@@ -56,7 +56,7 @@ class InitPluginCli < Minitest::Test
           /spec\.license\s+=\s+'Apache-2\.0'/,
         ],
         File.join(plugin, "lib", plugin + ".rb") => [
-          /require\s'#{plugin}\/plugin'/,
+          /require\s"#{plugin}\/plugin"/,
         ],
         File.join(plugin, "lib", plugin, "plugin.rb") => [
           /require\s'#{plugin}\/version'/,

@@ -6,7 +6,7 @@ describe InspecPlugins::Compliance::Fetcher do
   let(:config) { { "server" => "myserver" } }
 
   describe "the check_compliance_token method" do
-    let(:fetcher) { fetcher = InspecPlugins::Compliance::Fetcher.new("a/bad/url", config) }
+    let(:fetcher) { InspecPlugins::Compliance::Fetcher.new("a/bad/url", config) }
 
     it "returns without error if token is set" do
       config["token"] = "my-token"

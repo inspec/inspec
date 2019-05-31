@@ -3,9 +3,9 @@ require "inspec/resource"
 require "inspec/resources/dh_params"
 
 describe "Inspec::Resources::DhParams" do
-  let (:resource_dh_params) { load_resource("dh_params", "dh_params.dh_pem") }
+  let(:resource_dh_params) { load_resource("dh_params", "dh_params.dh_pem") }
 
-  let (:modulus) do
+  let(:modulus) do
     # regex removes all whitespace
     <<-EOF.gsub(/[[:space:]]+/, "")
       00:8c:bd:f0:27:91:00:30:7e:92:c6:04:96:ad:21:
@@ -29,7 +29,7 @@ describe "Inspec::Resources::DhParams" do
     EOF
   end
 
-  let (:output_as_pem) do
+  let(:output_as_pem) do
     # regex removes all leading spaces
     <<-EOF.gsub(/^[[:blank:]]+/, "")
       -----BEGIN DH PARAMETERS-----
@@ -43,7 +43,7 @@ describe "Inspec::Resources::DhParams" do
     EOF
   end
 
-  let (:output_as_text) do
+  let(:output_as_text) do
     # note: mock file loader munges first line of output w/ASCII-8BIT line
     # regex removes 2 leading spaces
     <<-EOF.gsub(/^[[:blank:]]{2}/, "")

@@ -33,9 +33,9 @@ describe Inspec::Profile do
     end
 
     it "can overwrite the profile ID" do
-      testID = rand.to_s
-      res = MockLoader.load_profile(profile_id, id: testID)
-      res.params[:name].must_equal testID
+      testid = rand.to_s
+      res = MockLoader.load_profile(profile_id, id: testid)
+      res.params[:name].must_equal testid
     end
   end
 
@@ -45,13 +45,15 @@ describe Inspec::Profile do
     end
 
     it "works on a complete profile" do
-      MockLoader.load_profile("complete-profile").sha256.must_equal "f63142e0e4c62469339eab2c16fee2ead2e3dd781492a1dcb1a218424e4d90b3"
+      MockLoader.load_profile("complete-profile").sha256.must_equal "deeabf92dda1cdb8c5a559f26aff6112c126cc504c4379b651a66fde1c082e2a"
     end
   end
 
   describe "code info" do
     let(:profile_id) { "complete-profile" }
-    let(:code) { "control 'test01' do\n  impact 0.5\n  title 'Catchy title'\n  desc '\n    example.com should always exist.\n  '\n  describe host('example.com') do\n    it { should be_resolvable }\n  end\nend\n" }
+
+    let(:code) { "control \"test01\" do\n  impact 0.5\n  title \"Catchy title\"\n  desc \"example.com should always exist.\"\n  describe host(\"example.com\") do\n    it { should be_resolvable }\n  end\nend\n" }
+
     let(:loc) { { ref: "controls/host_spec.rb", line: 5 } }
 
     it "gets code from an uncompressed profile" do

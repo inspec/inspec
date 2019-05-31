@@ -240,7 +240,7 @@ class AzureResourceDynamicMethods
         value
       end
     when "Hash"
-      value.count.zero? ? return_value = value : return_value = AzureResourceProbe.new(value)
+      value.count == 0 ? return_value = value : return_value = AzureResourceProbe.new(value)
       object.define_singleton_method name do
         return_value
       end

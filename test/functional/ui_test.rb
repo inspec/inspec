@@ -35,8 +35,7 @@ describe "InSpec UI behavior" do
         run_result.exit_status.must_equal 0
         expected = <<-EOT
 
- ───────────────────────────────── \e[1m\e[37mBig News!\e[0m ─────────────────────────────────
-
+ ───────────────────────────────── \e[1m\e[37mBig News!\e[0m ───────────────────────────────── \n
         EOT
         show_spaces(run_result.stdout).must_equal show_spaces(expected)
       end
@@ -102,8 +101,7 @@ describe "InSpec UI behavior" do
         run_result.exit_status.must_equal 0
         expected = <<~EOT
 
-           --------------------------------- Big News! ---------------------------------
-
+           --------------------------------- Big News! --------------------------------- \n
           +----------------------+----------+-----------+
           |         Band         | Coolness | Nerd Cred |
           +----------------------+----------+-----------+

@@ -16,28 +16,26 @@ describe "inspec exec automate" do
   end
 
   let(:invocation) do
-    cmd = "exec "
-    cmd += example_profile + " "
-    cmd += "--config " + config_path
+    "exec #{example_profile} --config #{config_path}"
   end
 
   let(:run_result) { run_inspec_process(invocation) }
 
   describe "when the the URL is fake" do
     let(:config_data) do
-      data = <<~EOF
-        {
+      <<~END
+      {
         "reporter": {
-            "automate" : {
-                "stdout" : false,
-                "url" : "https://fake_url_a2.com/data-collector/v0/",
-                "token" : "faketoken123",
-                "insecure" : true,
-                "node_uuid" : "test123"
-                }
-            }
+          "automate": {
+          "stdout": false,
+          "url": "https://fake_url_a2.com/data-collector/v0/",
+          "token": "faketoken123",
+          "insecure": true,
+          "node_uuid": "test123"
+          }
         }
-      EOF
+      }
+      END
     end
 
     it "should fail" do
@@ -49,23 +47,23 @@ describe "inspec exec automate" do
 
   describe "when outputting to $stdout" do
     let(:config_data) do
-      data = <<~EOF
-        {
-          "reporter": {
-            "json-automate" : {
-              "stdout" : true,
-              "job_uuid" : "test123",
-              "roles" : ["stuff"],
-              "environment": "prod",
-              "node_name": "some_node",
-              "passthrough": {
-                "projects": ["alpha", "beta"],
-                "another_tramp_datum": "another_value"
-              }
+      <<~END
+      {
+        "reporter": {
+          "json-automate": {
+            "stdout": true,
+            "job_uuid": "test123",
+            "roles": ["stuff"],
+            "environment": "prod",
+            "node_name": "some_node",
+            "passthrough": {
+              "projects": ["alpha", "beta"],
+              "another_tramp_datum": "another_value"
             }
           }
         }
-      EOF
+      }
+      END
     end
 
     it "should include tramp data" do

@@ -29,9 +29,13 @@ module InspecPlugins
       def self.keygen(options)
         key = KEY_ALG.new KEY_BITS
         puts "Generating private key"
-        open "#{options['keyname']}.pem.key", "w" do |io| io.write key.to_pem end
+        open "#{options['keyname']}.pem.key", "w" do |io|
+          io.write key.to_pem
+        end
         puts "Generating public key"
-        open "#{options['keyname']}.pem.pub", "w" do |io| io.write key.public_key.to_pem end
+        open "#{options['keyname']}.pem.pub", "w" do |io|
+          io.write key.public_key.to_pem
+        end
       end
 
       def self.profile_sign(options)

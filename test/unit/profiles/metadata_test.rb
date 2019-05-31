@@ -14,7 +14,7 @@ describe "metadata with supported operating systems" do
   end
 
   describe "running on ubuntu 14.04" do
-    let (:backend) { MockLoader.new(:ubuntu1404).backend }
+    let(:backend) { MockLoader.new(:ubuntu1404).backend }
 
     it "provides all metadata content" do
       s = "---\nname: hello #{rand}"

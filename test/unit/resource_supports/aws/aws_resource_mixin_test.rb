@@ -16,7 +16,7 @@ describe "AwsResourceMixin" do
 
     it "confirm ArgumentError is raised when testing" do
       proc {
-        mixin = AwsResourceMixinError.new({})
+        AwsResourceMixinError.new({})
       }.must_raise ArgumentError
     end
 
@@ -34,7 +34,7 @@ describe "AwsResourceMixin" do
 
     it "confirm ResourceFailed is raised when live" do
       proc {
-        mixin = AwsResourceMixinLive.new({})
+        AwsResourceMixinLive.new({})
       }.must_raise Inspec::Exceptions::ResourceFailed
     end
   end

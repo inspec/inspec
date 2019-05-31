@@ -35,7 +35,7 @@ describe "Inspec::Config" do
     # Note that since unit tests are randomized, we have no idea what is in
     # the cache.  We just want to validate that we get the same thing.
     it "should cache the config object" do
-      cfg_1 = Inspec::Config.new # in the unlikely event we are the first unit test
+      Inspec::Config.new # in the unlikely event we are the first unit test
 
       # Type check
       cfg_cached = Inspec::Config.cached
@@ -46,7 +46,7 @@ describe "Inspec::Config" do
       cfg_2.must_equal cfg_cached
 
       # Cached value unaffected by later instance creation
-      cfg_3 = Inspec::Config.new(shoe_size: 9)
+      Inspec::Config.new(shoe_size: 9)
       cfg_4 = Inspec::Config.cached
       cfg_4.must_equal cfg_cached
     end
@@ -281,7 +281,7 @@ describe "Inspec::Config" do
     it "assumes `--sudo` if `--sudo-password` is used without it" do
       @mock_logger = Minitest::Mock.new
       @mock_logger.expect(:warn, nil, [/Adding `--sudo`./])
-      Inspec::Log.stub :warn, proc { |message| @mock_logger.warn(message) } do
+      Inspec::Log.stub :warn, (proc { |message| @mock_logger.warn(message) }) do
         cfg = Inspec::Config.new("sudo_password" => "somepass")
         cfg.key?("sudo").must_equal true
       end
@@ -349,7 +349,6 @@ describe "Inspec::Config" do
         it "should be able to unpack #{target_uri}" do
           # let() caching breaks things here
           cfg_io = StringIO.new(ConfigTestHelper.fixture(file_fixture_name))
-          cli_opts = { target: target_uri }
           cfg = Inspec::Config.new({ target: target_uri }, cfg_io)
           creds = cfg.unpack_train_credentials
           creds.count.must_equal 2
@@ -381,7 +380,7 @@ describe "Inspec::Config" do
           cfg_io = StringIO.new(ConfigTestHelper.fixture(file_fixture_name))
           cfg = Inspec::Config.new({ target: target_uri }, cfg_io)
 
-          assert_raises(Train::UserError) { creds = cfg.unpack_train_credentials }
+          assert_raises(Train::UserError) { cfg.unpack_train_credentials }
         end
       end
     end

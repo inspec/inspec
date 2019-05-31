@@ -27,7 +27,7 @@ describe "type validation" do
       Inspec::BaseCLI.inspec_cli_command = :exec
       input = Inspec::Input.new("test_input", required: true)
       ex = assert_raises(Inspec::Input::RequiredError) { input.value }
-      ex.message.must_match /Input 'test_input' is required and does not have a value./
+      ex.message.must_match(/Input 'test_input' is required and does not have a value./)
       Inspec::BaseCLI.inspec_cli_command = nil
     end
   end
@@ -95,7 +95,7 @@ describe "type validation" do
     it "returns an error if a invalid type is sent" do
       opts[:type] = "dressing"
       ex = assert_raises(Inspec::Input::TypeError) { input }
-      ex.message.must_match /Type 'Dressing' is not a valid input type./
+      ex.message.must_match(/Type 'Dressing' is not a valid input type./)
     end
   end
 

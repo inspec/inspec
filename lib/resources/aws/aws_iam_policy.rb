@@ -41,7 +41,7 @@ class AwsIamPolicy < Inspec.resource(1)
   end
 
   def attached?
-    !attachment_count.zero?
+    attachment_count > 0
   end
 
   def attached_users

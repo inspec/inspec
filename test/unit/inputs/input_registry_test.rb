@@ -138,7 +138,6 @@ describe Inspec::InputRegistry do
     describe "when multiple CLI --attrs option args are provided and all have inputs" do
       let(:sources) { { cli_input_files: ["file1.yaml", "file2.yaml"] } }
       it "returns a hash containing all the inputs" do
-        options = { attrs: ["file1.yaml", "file2.yaml"] }
         secrets1 = mock
         secrets1.stubs(:inputs).returns({ key1: "value1" })
         secrets2 = mock

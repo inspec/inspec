@@ -60,7 +60,7 @@ describe "Inspec::UI low-level Formatting" do
 
     describe "colors" do
       [:red, :green, :cyan, :yellow, :white, :grey].each do |color|
-        it ("uses the color code for " + color.to_s) do
+        it("uses the color code for " + color.to_s) do
           ui.send(color, "test")
           output.must_equal(ANSI_CODES[:color][color] + "test" + ANSI_CODES[:reset])
         end
@@ -79,7 +79,7 @@ describe "Inspec::UI low-level Formatting" do
     end
     describe "colors" do
       [:red, :green, :yellow, :white, :grey].each do |color|
-        it ("uses no ANSI codes for " + color.to_s) do
+        it("uses no ANSI codes for " + color.to_s) do
           ui.send(color, "test")
           output.wont_include('\e[')
           output.must_equal("test")

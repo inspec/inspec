@@ -4,8 +4,8 @@ require "inspec/resources/csv"
 
 describe "Inspec::Resources::CSV" do
   describe "when loading a valid csv" do
-    let (:resource) { load_resource("csv", "example.csv") }
-    let (:params) do
+    let(:resource) { load_resource("csv", "example.csv") }
+    let(:params) do
       {}
     end
 

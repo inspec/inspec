@@ -119,7 +119,6 @@ class AwsSGSMatchers < Minitest::Test
 
   def test_matcher_allow_criteria_validation
     sg = AwsSecurityGroup.new("sg-aaaabbbb")
-    rules = sg.inbound_rules
     assert_raises(ArgumentError, "allow should reject unrecognized criteria") { sg.allow_in?(shoe_size: 9) }
     [
       :from_port,

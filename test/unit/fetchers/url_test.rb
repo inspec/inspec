@@ -21,7 +21,7 @@ describe Fetchers::Url do
       @mock_logger = Minitest::Mock.new
       @mock_logger.expect(:warn, nil, [/URL target.*transformed/])
 
-      Inspec::Log.stub :warn, proc { |message| @mock_logger.warn(message) } do
+      Inspec::Log.stub :warn, (proc { |message| @mock_logger.warn(message) }) do
         yield
       end
 

@@ -25,7 +25,6 @@ class ArtifactCli < Minitest::Test
     Dir.mktmpdir do |dir|
       unique_key_name = SecureRandom.uuid()
       install_dir = File.join(dir, SecureRandom.uuid())
-      profile = File.join(dir, "profile")
       FileUtils.mkdir(install_dir)
 
       # create profile

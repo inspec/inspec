@@ -23,8 +23,8 @@ describe "Inspec::Resources::Fstab" do
   end
 
   it "Verify parsing an entry where mount_options is a single item" do
-    resourceOneMount = load_resource("etc_fstab", "fstab_one_mount")
-    entries = resourceOneMount.where { file_system_options == 0 }
+    resource_one_mount = load_resource("etc_fstab", "fstab_one_mount")
+    entries = resource_one_mount.where { file_system_options == 0 }
     _(entries.mount_options).must_equal [["defaults", "x-systemd.device-timeout=0"]]
   end
 
@@ -42,10 +42,10 @@ describe "Inspec::Resources::Fstab" do
   end
 
   it "verify home_mount_options returns something when /home is not configured" do
-    resourceNoHome = load_resource("etc_fstab", "fstab_no_home")
-    entries = resourceNoHome.where { mount_point == "/home" }
+    resource_no_home = load_resource("etc_fstab", "fstab_no_home")
+    entries = resource_no_home.where { mount_point == "/home" }
     _(entries.configured?).must_equal false
-    _(resourceNoHome.home_mount_options).must_be_nil
+    _(resource_no_home.home_mount_options).must_be_nil
   end
 
   it "verify etc_fstab can detect all nfs file systems" do

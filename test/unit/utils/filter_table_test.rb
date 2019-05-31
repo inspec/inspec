@@ -1,14 +1,14 @@
 require "helper"
 
 describe FilterTable do
-  let (:data) do
+  let(:data) do
      [
     { foo: 3, bar: true, baz: "yay", num: nil, snum: "0" },
     { foo: 2, bar: false, baz: "noo", num: 1, snum: nil },
     { foo: 2, bar: false, baz: "whatever", num: 2, snum: "1.00" },
   ] end
 
-  let (:resource) do
+  let(:resource) do
     Class.new do
       attr_reader :data
       def initialize(data)
@@ -17,8 +17,8 @@ describe FilterTable do
     end
   end
 
-  let (:factory) { FilterTable.create }
-  let (:instance) { resource.new(data) }
+  let(:factory) { FilterTable.create }
+  let(:instance) { resource.new(data) }
 
   it "has a create utility which creates a filter factory" do
     factory.must_be_kind_of FilterTable::Factory

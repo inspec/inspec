@@ -44,13 +44,13 @@ class PluginLoaderTests < Minitest::Test
 
   def test_constructor_should_not_load_anything_automatically
     reg = Inspec::Plugin::V2::Registry.instance
-    loader = Inspec::Plugin::V2::Loader.new
+    Inspec::Plugin::V2::Loader.new
     assert_equal 0, reg.loaded_count, "\nRegistry load count"
   end
 
   def test_constructor_should_detect_bundled_plugins
     reg = Inspec::Plugin::V2::Registry.instance
-    loader = Inspec::Plugin::V2::Loader.new
+    Inspec::Plugin::V2::Loader.new
     @bundled_plugins.each do |bundled_plugin_name|
       assert reg.known_plugin?(bundled_plugin_name), "\n#{bundled_plugin_name} should be detected as a bundled plugin"
     end
@@ -58,7 +58,7 @@ class PluginLoaderTests < Minitest::Test
 
   def test_constructor_should_detect_core_plugins
     reg = Inspec::Plugin::V2::Registry.instance
-    loader = Inspec::Plugin::V2::Loader.new
+    Inspec::Plugin::V2::Loader.new
     @core_plugins.each do |core_plugin_name|
       assert reg.known_plugin?(core_plugin_name), "\n#{core_plugin_name} should be detected as a core plugin"
     end
@@ -66,7 +66,7 @@ class PluginLoaderTests < Minitest::Test
 
   def test_constructor_should_skip_bundles_when_option_is_set
     reg = Inspec::Plugin::V2::Registry.instance
-    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
+    Inspec::Plugin::V2::Loader.new(omit_bundles: true)
     @bundled_plugins.each do |bundled_plugin_name|
       refute reg.known_plugin?(bundled_plugin_name), "\n#{bundled_plugin_name} should not be detected when omit_bundles is set"
     end
@@ -74,7 +74,7 @@ class PluginLoaderTests < Minitest::Test
 
   def test_constructor_should_skip_core_when_option_is_set
     reg = Inspec::Plugin::V2::Registry.instance
-    loader = Inspec::Plugin::V2::Loader.new(omit_core_plugins: true)
+    Inspec::Plugin::V2::Loader.new(omit_core_plugins: true)
     @core_plugins.each do |core_plugin_name|
       refute reg.known_plugin?(core_plugin_name), "\n#{core_plugin_name} should not be detected when omit_core_plugins is set"
     end
@@ -83,7 +83,7 @@ class PluginLoaderTests < Minitest::Test
   def test_constructor_when_using_home_dir_detects_declared_plugins
     ENV["HOME"] = File.join(@config_dir_path, "fakehome")
     reg = Inspec::Plugin::V2::Registry.instance
-    loader = Inspec::Plugin::V2::Loader.new
+    Inspec::Plugin::V2::Loader.new
     assert reg.known_plugin?(:'inspec-test-home-marker'), "\ninspec-test-home-marker should be detected as a plugin"
   end
 
@@ -94,7 +94,7 @@ class PluginLoaderTests < Minitest::Test
   def test_constructor_when_the_plugin_config_is_absent_it_detects_bundled_plugins
     ENV["INSPEC_CONFIG_DIR"] = File.join(@config_dir_path, "empty")
     reg = Inspec::Plugin::V2::Registry.instance
-    loader = Inspec::Plugin::V2::Loader.new
+    Inspec::Plugin::V2::Loader.new
     @bundled_plugins.each do |bundled_plugin_name|
       assert reg.known_plugin?(bundled_plugin_name), "\n#{bundled_plugin_name} should be detected as a bundled plugin"
     end
@@ -232,8 +232,7 @@ class PluginLoaderTests < Minitest::Test
     ENV["INSPEC_CONFIG_DIR"] = File.join(@config_dir_path, "train-test-fixture")
 
     reg = Inspec::Plugin::V2::Registry.instance
-    loader = nil
-    assert_silent { loader = Inspec::Plugin::V2::Loader.new }
+    assert_silent { Inspec::Plugin::V2::Loader.new }
 
     plugin_name = :'train-test-fixture'
     assert(reg.known_plugin?(plugin_name), "The train plugin should be known after loader init")

@@ -23,7 +23,7 @@ describe SourceReaders::InspecReader do
 
     it "retrieves all files" do
       _(res.tests.keys).must_equal %w{controls/host_spec.rb}
-      _(res.tests.values[0]).must_match(/^control 'test01' do$/)
+      _(res.tests.values[0]).must_match(/^control "test01" do$/)
     end
 
     it "retrieves all libraries" do

@@ -95,8 +95,8 @@ describe "inspec check" do
       invalid_profile = File.join(profile_path, "invalid-include-controls")
       out = inspec("check " + invalid_profile)
       out.exit_status.must_equal 1
-      out.stderr.must_match /Cannot load 'no_such_profile'/
-      out.stderr.must_match /not listed as a dependency/
+      out.stderr.must_match(/Cannot load 'no_such_profile'/)
+      out.stderr.must_match(/not listed as a dependency/)
     end
   end
 end

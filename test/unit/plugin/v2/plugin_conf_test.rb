@@ -60,7 +60,6 @@ describe "Inspec::Plugin::V2::ConfigFile" do
       let(:fixture_name) { "nonesuch" }
       it "creates a empty datastructure" do
         Dir.mktmpdir do |tmp_dir|
-          constructor_arg = File.join(tmp_dir, "plugins.json")
           config_file_obj.count.must_equal 0
         end
       end

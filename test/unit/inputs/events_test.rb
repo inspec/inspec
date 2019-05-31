@@ -116,7 +116,7 @@ describe "Inspec::Input and Events" do
       lines.shift # Not testing the inputs top line here
 
       lines.each do |line|
-        line.must_match /^\s\s([a-z]+:\s\'.+\',\s)*?([a-z]+:\s\'.+\')$/ # key: 'value', key: 'value' ...
+        line.must_match(/^\s\s([a-z]+:\s\'.+\',\s)*?([a-z]+:\s\'.+\')$/) # key: 'value', key: 'value' ...
       end
 
       lines[0].must_include "action: 'create',"

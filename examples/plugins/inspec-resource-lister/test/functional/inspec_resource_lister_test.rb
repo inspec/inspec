@@ -30,7 +30,7 @@ describe "inspec list-resources core" do
     # think that this plugin we are currently testing is installed as a
     # user plugin, by writing a plugin config file in a temp dir.
     # To use it, just provide a command line, minus the word `inspec`.
-    let (:outcome) { run_inspec_process_with_this_plugin("listresources core") }
+    let(:outcome) { run_inspec_process_with_this_plugin("listresources core") }
 
     # Some tests through here use minitest Expectations, which attach to all
     # Objects, and begin with 'must' (positive) or 'wont' (negative)
@@ -56,7 +56,7 @@ describe "inspec list-resources core" do
   describe "when run with a search pattern that matches things" do
     # Notice that the command line is changed here:
     # "list all resources that have the word user in them"
-    let (:outcome) { run_inspec_process_with_this_plugin("listresources core user") }
+    let(:outcome) { run_inspec_process_with_this_plugin("listresources core user") }
 
     # Should be well-behaved...
     it("should exit successfully") { outcome.exit_status.must_equal(0) }
@@ -76,7 +76,7 @@ describe "inspec list-resources core" do
   end
   describe "when run with a search pattern that matches nothing" do
     # Unlikely we'll have a resource with the string 'autogyro' in it.
-    let (:outcome) { run_inspec_process_with_this_plugin("listresources core autogyro") }
+    let(:outcome) { run_inspec_process_with_this_plugin("listresources core autogyro") }
 
     # Should be well-behaved...
     it("should exit successfully") { outcome.exit_status.must_equal(0) }

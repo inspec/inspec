@@ -29,7 +29,7 @@ describe "The license acceptance mechanism" do
             license_persist_path = File.join(tmp_home, ".chef", "accepted_licenses", "inspec")
 
             File.exist?(license_persist_path).must_equal false # Sanity check
-            run_result = run_inspec_process("shell -c platform.family --chef-license accept", env: { "HOME" => tmp_home })
+            run_inspec_process("shell -c platform.family --chef-license accept", env: { "HOME" => tmp_home })
             File.exist?(license_persist_path).must_equal true
 
             license_persist_contents = YAML.load(File.read(license_persist_path))

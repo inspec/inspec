@@ -4,7 +4,7 @@ require "inspec/resources/toml"
 
 describe "Inspec::Resources::TOML" do
   describe "when loading valid TOML" do
-    let (:resource) { load_resource("toml", "default.toml") }
+    let(:resource) { load_resource("toml", "default.toml") }
 
     it "gets params as a hash" do
       _(resource.params).must_be_kind_of Hash

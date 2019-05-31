@@ -72,8 +72,6 @@ namespace :test do
   end
 
   task :isolated do
-    clean = true
-
     failures = Dir[*GLOBS]
     failures.reject! do |file|
       system(Gem.ruby, "-Ilib:test", file)
@@ -277,8 +275,6 @@ namespace :test do
       abort("You must set the INSPEC_TERRAFORM_ENV variable.") unless tf_workspace
 
       puts "----> Generating Plan"
-
-      result = sh("cd #{integration_dir}/build/ && terraform workspace select #{tf_workspace}")
 
       sh("cd #{integration_dir}/build/ && terraform plan -out inspec-azure.plan")
     end

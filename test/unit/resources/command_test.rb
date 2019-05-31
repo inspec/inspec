@@ -36,7 +36,7 @@ describe Inspec::Resources::Cmd do
   it "fails the resource if `redact_regex` is not a regular expression" do
     result = resource("env", redact_regex: "string")
     result.resource_failed?.must_equal true
-    result.resource_exception_message.must_match /must be a regular expression/
+    result.resource_exception_message.must_match(/must be a regular expression/)
   end
 
   it "redacts output if `redact_regex` is passed with caputure groups" do

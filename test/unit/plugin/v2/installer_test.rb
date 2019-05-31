@@ -125,7 +125,7 @@ class PluginInstallerInstallationTests < Minitest::Test
     refute_operator reg, :known_plugin?,  plugin_name
     refute_operator reg, :loaded_plugin?, plugin_name
 
-    result = @installer.install("inspec-test-fixture", gem_file: gem_file)
+    @installer.install("inspec-test-fixture", gem_file: gem_file)
 
     base = @installer.gem_path
     spec_path = "#{base}/specifications/inspec-test-fixture-0.1.0.gemspec"

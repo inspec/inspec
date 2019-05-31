@@ -3,7 +3,7 @@ require "inspec/utils/find_files"
 require "inspec/resources/command"
 
 describe FindFiles do
-  let (:helper) do
+  let(:helper) do
     class FindFilesTest
       include FindFiles
       def inspec
