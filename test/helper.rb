@@ -28,46 +28,36 @@ end
 # Before ANYTHING else happens, this must happen:
 #
 # 1) require minitest/autorun
-# 2) alias describe to mt_describe
-# 3) require rspec
-# 4) disable_monkey_patching from rspec
-# 5) alias mt_describe back to describe using change_global_dsl.
+# 2) require rspec/core/dsl
+# 3) override RSpec::Core::DSL.expose_globally! to do nothing.
+# 4) require rspec
 #
 # Explanation: eventually, our tests get around to inspec/runner_rspec
-# (and a few others), and they load rspec. When rspec loads, it
-# creates it's own global `describe` method, overwriting minitest's.
-# When you tell RSpec to disable_monkey_patching, instead of using
-# remove_method, they use undef_method, which blocks access to our
-# Kernel.describe. We then need to go back in and reactivate it in
-# order for our tests to finish declaring their tests and eventually
-# actually running.
+# (and a few others), and they load rspec. By default, when rspec
+# loads, it creates it's own global `describe` method, overwriting
+# minitest's.
+#
+# Another aspect of rspec's expose_globally! is that it also messes
+# with mocha's methods. Any tests that occur after our runner has run
+# RSpec::Core::ExampleGroup.describe will fail if they use any mocha
+# stubs (specifially any_instance) as the method will be gone. Don't
+# know why, but the above sequence avoids that.
 #
 # Before this, the tests would get to the point of loading rspec, then
 # all subsequently loaded spec-style tests would just disappear into
 # the aether. Differences in test load order created differences in
 # test count and vast differences in test time (which should have been
 # a clue that something was up--windows is just NOT THAT FAST).
-#
-# The OTHER way to fix this is to ban spec style tests in our
-# codebase. This is a more rational approach but requires more work. I
-# need these tests up and all running and dependable. We can make them
-# right later.
 
 require "minitest/autorun"
 
-module Kernel
-  alias mt_describe describe
+require "rspec/core/dsl"
+module RSpec::Core::DSL
+  def self.expose_globally!
+    # do nothing
+  end
 end
-
 require "rspec"
-
-RSpec.configure do |config|
-  config.disable_monkey_patching!
-end
-
-RSpec::Core::DSL.change_global_dsl do
-  alias describe mt_describe
-end
 
 # End of rspec vs minitest fight
 ########################################################################
