@@ -62,18 +62,18 @@ namespace :www do # rubocop:disable Metrics/BlockLength
     Verify.file('build/javascripts/all.js')
     Verify.file('build/stylesheets/site.css')
   end
-  task :site => [:accept_license]
+  task site: [:accept_license]
 
   desc 'Assemble the website site from middleman'
   task :assemble do
     Log.section 'Copy only tutorial into middleman build directory'
     sh('rsync -a --exclude=index.html build/')
   end
-  task :assemble => [:accept_license]
+  task assemble: [:accept_license]
 
   desc 'Builds the full site locally'
   task build: ['www:site', 'www:assemble']
-  task :build => [:accept_license]
+  task build: [:accept_license]
 
   task :clean do
     dst = 'build'
