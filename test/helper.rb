@@ -67,7 +67,6 @@ require 'mocha/setup'
 require 'inspec/log'
 require 'inspec/backend'
 require "helpers/mock_loader"
-require "minitest/hell"
 
 TMP_CACHE = {}
 
@@ -153,4 +152,12 @@ class Minitest::Test
     raise msg if Time.now > Time.local(y, m, d)
     skip msg
   end
+end
+
+class InspecTest < Minitest::Test
+  # shared stuff here
+end
+
+class ParallelTest < InspecTest
+  parallelize_me!
 end
