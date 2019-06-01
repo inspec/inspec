@@ -518,16 +518,16 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
 
       # check for original code on child profile
       expected_value = <<~END
-      control "pro1-con2" do
-        impact 0.9
-        title "Profile 1 - Control 2"
-        desc "Profile 1 - Control 2 description"
-        desc "overwrite me", "overwrite this"
-        tag "password"
-        describe file("/etc/passwdddddddddd") do
-          it { should exist }
+        control "pro1-con2" do
+          impact 0.9
+          title "Profile 1 - Control 2"
+          desc "Profile 1 - Control 2 description"
+          desc "overwrite me", "overwrite this"
+          tag "password"
+          describe file("/etc/passwdddddddddd") do
+            it { should exist }
+          end
         end
-      end
       END
       child_control["code"].must_equal expected_value
     end

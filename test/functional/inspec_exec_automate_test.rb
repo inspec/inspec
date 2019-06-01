@@ -24,17 +24,17 @@ describe "inspec exec automate" do
   describe "when the the URL is fake" do
     let(:config_data) do
       <<~END
-      {
-        "reporter": {
-          "automate": {
-          "stdout": false,
-          "url": "https://fake_url_a2.com/data-collector/v0/",
-          "token": "faketoken123",
-          "insecure": true,
-          "node_uuid": "test123"
+        {
+          "reporter": {
+            "automate": {
+            "stdout": false,
+            "url": "https://fake_url_a2.com/data-collector/v0/",
+            "token": "faketoken123",
+            "insecure": true,
+            "node_uuid": "test123"
+            }
           }
         }
-      }
       END
     end
 
@@ -48,21 +48,21 @@ describe "inspec exec automate" do
   describe "when outputting to $stdout" do
     let(:config_data) do
       <<~END
-      {
-        "reporter": {
-          "json-automate": {
-            "stdout": true,
-            "job_uuid": "test123",
-            "roles": ["stuff"],
-            "environment": "prod",
-            "node_name": "some_node",
-            "passthrough": {
-              "projects": ["alpha", "beta"],
-              "another_tramp_datum": "another_value"
+        {
+          "reporter": {
+            "json-automate": {
+              "stdout": true,
+              "job_uuid": "test123",
+              "roles": ["stuff"],
+              "environment": "prod",
+              "node_name": "some_node",
+              "passthrough": {
+                "projects": ["alpha", "beta"],
+                "another_tramp_datum": "another_value"
+              }
             }
           }
         }
-      }
       END
     end
 

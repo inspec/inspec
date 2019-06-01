@@ -95,8 +95,10 @@ module Inspec::Resources
   class LinuxFileSystemResource < FsManagement
     def info(partition)
       cmd = inspec.command("df #{partition} -T")
-      raise Inspec::Exceptions::ResourceFailed,
-        "Unable to get available space for partition #{partition}" if cmd.stdout.nil? || cmd.stdout.empty? || cmd.exit_status != 0
+      if cmd.stdout.nil? || cmd.stdout.empty? || cmd.exit_status != 0
+        raise Inspec::Exceptions::ResourceFailed,
+          "Unable to get available space for partition #{partition}"
+      end
       value = cmd.stdout.split(/\n/)[1].strip.split(" ")
       {
         name: partition,
