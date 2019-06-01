@@ -114,7 +114,6 @@ class InitPluginCli < Minitest::Test
     Dir.mktmpdir do |dir|
       plugin = "inspec-test-generated-plugin"
       snake_case = plugin.tr("-", "_")
-      camel_case = plugin.sub(/^inspec\-/, "").split("-").map(&:capitalize).join("")
 
       opts = ""
       opts += " --author-email bob@example.com "
