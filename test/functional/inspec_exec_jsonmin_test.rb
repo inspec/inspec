@@ -1,5 +1,5 @@
 require 'functional/helper'
-require 'jsonschema'
+require 'json-schema'
 
 describe 'inspec exec' do
   include FunctionalHelper
@@ -11,7 +11,7 @@ describe 'inspec exec' do
     data = JSON.parse(out.stdout)
     sout = inspec('schema exec-jsonmin')
     schema = JSON.parse(sout.stdout)
-    JSON::Schema.validate(data, schema)
+    JSON::Validator.validate(schema, data).wont_equal false
   end
 
   it 'can execute a simple file with the mini json formatter and validate its schema' do
@@ -21,7 +21,7 @@ describe 'inspec exec' do
     data = JSON.parse(out.stdout)
     sout = inspec('schema exec-jsonmin')
     schema = JSON.parse(sout.stdout)
-    JSON::Schema.validate(data, schema)
+    JSON::Validator.validate(schema, data).wont_equal false
   end
 
   it 'does not contain any dupilcate results with describe.one' do

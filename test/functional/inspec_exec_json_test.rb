@@ -1,5 +1,5 @@
 require 'functional/helper'
-require 'jsonschema'
+require 'json-schema'
 
 describe 'inspec exec with json formatter' do
   include FunctionalHelper
@@ -11,7 +11,7 @@ describe 'inspec exec with json formatter' do
     data = JSON.parse(out.stdout)
     sout = inspec('schema exec-json')
     schema = JSON.parse(sout.stdout)
-    JSON::Schema.validate(data, schema)
+    JSON::Validator.validate(schema, data).wont_equal false
   end
 
   it 'can execute a profile and validate the json schema' do
@@ -21,7 +21,7 @@ describe 'inspec exec with json formatter' do
     data = JSON.parse(out.stdout)
     sout = inspec('schema exec-json')
     schema = JSON.parse(sout.stdout)
-    JSON::Schema.validate(data, schema)
+    JSON::Validator.validate(schema, data).wont_equal false
   end
 
   it 'can execute a simple file while using end of options after reporter cli option' do
@@ -31,7 +31,7 @@ describe 'inspec exec with json formatter' do
     data = JSON.parse(out.stdout)
     sout = inspec('schema exec-json')
     schema = JSON.parse(sout.stdout)
-    JSON::Schema.validate(data, schema)
+    JSON::Validator.validate(schema, data).wont_equal false
   end
 
   it 'can execute a profile and validate the json schema with target_id' do
@@ -42,7 +42,7 @@ describe 'inspec exec with json formatter' do
     data['platform']['target_id'].must_equal '1d3e399f-4d71-4863-ac54-84d437fbc444'
     sout = inspec('schema exec-json')
     schema = JSON.parse(sout.stdout)
-    JSON::Schema.validate(data, schema)
+    JSON::Validator.validate(schema, data).wont_equal false
   end
 
   it 'does not report skipped dependent profiles' do

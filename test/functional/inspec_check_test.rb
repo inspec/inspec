@@ -1,5 +1,4 @@
 require 'functional/helper'
-require 'jsonschema'
 require 'tmpdir'
 
 describe 'inspec check' do
