@@ -28,7 +28,6 @@ group :test do
   gem 'mocha', '~> 1.1'
   gem 'ruby-progressbar', '~> 1.8'
   gem 'webmock', '~> 3.0'
-  gem 'jsonschema', '~> 2.0.2'
   gem 'passgen'
   gem 'm'
   gem 'pry-byebug'
