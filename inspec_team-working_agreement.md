@@ -7,19 +7,15 @@ While the key audience of the working agreement is the Chef InSpec product and e
 # Practices
 *(e.g. Test Driven Development, Pairing, etc)*
 
-## Other
+## Architecture/Design
+* Group discussion for new major tickets or responsibilities
+  * We do Agile, and this tends to get covered in sprint planning.
+* Software design / architecture is a group effort
+  * done with pictures or prose, not code
 * Graphical software design technology
   * google slides is generally "good enough"
   * capture final approach in version control ... or GH issue?
   * must link or otherwise ensure searchability later
-* When doing a pairing session, mention it in the group chat in case others want to watch and learn.
-* Keep your calendar up to date. Make it a reliable place to know your availability.
-* It's OK to iterate. For example, a new resource doesn't have to be 100% "feature complete" (whatever that means!)... if it adds value to our users, and their feedback can help make the next iteration better, it's worth shipping.
-  * What we DO ship should still be our best work for the value that we choose to ship.
-* We strictly follow SemVer, especially with regards to breaking changes.
-  * Any breaking change must happen in a major release and be preceded by deprecation warnings.
-* "Author" header comments at the top of source files can be removed when a file is touched. Git history shall serve as our authoritative source of who was involved in the development of our source code.
-  * Copyright lines must remain
 
 ## Testing
 * We embrace TDD as often as possible, which (practically) means tests for functionality exists on the same or a preceding commit.
@@ -28,11 +24,13 @@ While the key audience of the working agreement is the Chef InSpec product and e
   * may have an initiative to improve in 2019H2
   * may adopt PRs - discuss in triage
 
-## Architecture/Design
-* Group discussion for new major tickets or responsibilities
-  * We do Agile, and this tends to get covered in sprint planning.
-* Software design / architecture is a group effort
-  * done with pictures or prose, not code
+## Other
+* When doing a pairing session, mention it in the group chat in case others want to watch and learn.
+* Keep your calendar up to date. Make it a reliable place to know your availability.
+* It's OK to iterate. For example, a new resource doesn't have to be 100% "feature complete" (whatever that means!)... if it adds value to our users, and their feedback can help make the next iteration better, it's worth shipping.
+  * What we DO ship should still be our best work for the value that we choose to ship.
+* We strictly follow SemVer, especially with regards to breaking changes.
+  * Any breaking change must happen in a major release and be preceded by deprecation warnings.
 
 # Processes
 *(e.g. board, demos, etc)*
@@ -59,18 +57,18 @@ While the key audience of the working agreement is the Chef InSpec product and e
   * To break down, pull out all info from the parent ticket then close it.
 * When a PR resolves an open issue, use GitHub keywords in the PR description to automatically close the issue upon merge.
   * https://help.GitHub.com/articles/closing-issues-using-keywords/
-* Use GitHub action words in the PR to close issues and create links in the GitHub UI
 
 # Communication
 *(e.g. leaving context, cross team coordination)*
-* Keep conversations as public as possible.
+* Keep conversations as public as possible
   * Default to team chat rather than DMs
   * Default to GitHub issues or PR comments as much as possible
-  * Also use community-slack inpsec-dev, but be sure to capture important conversations in a persistent medium
-* Feedback on code reviews go in GitHub reviews.
+  * Also use community-slack inpsec-dev, but be sure to capture important conversations in a persistent medium (i.e. issues)
+* Feedback on code reviews go in GitHub reviews
+  * InSpec code reviews require two sign-offs
 
 ## Chat
-* Doesn't convey emotion well.
+* Does not convey emotion well.
   * Emojis can help that.
 * If conversations become tense in chat, shift to Zoom.
   * Please recap the conversation from zoom with any outcome. This way anyone who saw the conversation started in slack can see the outcome
@@ -103,6 +101,10 @@ While the key audience of the working agreement is the Chef InSpec product and e
   * We will endeavor to respond to our colleagues in a timely manner, but there is no guarantee on response time.
   * @here messages in #inspec-team are completely acceptable; users should alter their own personal notification settings as they see fit.
   * Recommended Channels
-    * #inspec
-    * #inspec-dev
-    * #general (treated like #random)
+    * #inspec - where community members can chat with each other about how to use InSpec, idea sharing, etc.
+    * #inspec-dev - where developers go to chat about specific development efforts around InSpec
+    * #general - treated like #random
+
+# Coordination
+*(e.g. how we prioritize work)*
+
