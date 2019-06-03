@@ -25,7 +25,7 @@ In the profile's control code:
 input('amplifier_max_volume', value: 10)
 
 control 'Big Rock Show' do
-  describe input('amplifier_max_volume') do
+  describe input('amplifier_max_volume') do    # This line reads the value of the input
     it { should eq 11 } # The UK'S LOUDEST BAND
   end
 end
@@ -61,8 +61,6 @@ Test Summary: 1 successful, 0 failures, 0 skipped
 
 ### Which profiles support Inputs?
 
-TODO - add proposed input listing CLI tool here
-
 The best way for a profile to indicate it supports inputs is to list them in the metadata file, `inspec.yml`. Any profile that has an `inputs` (or the deprecated `attributes`) section in its `inspec.yml` metadata file is [configuring](TODO - link) (and likely setting) inputs.
 
 That said, any profile that uses the DSL keyword `input()` (or the deprecated `attribute()`) in the control source code supports inputs.  These profiles are *reading* (and possibly setting) Input values and using them to make decisions.
@@ -81,18 +79,18 @@ In addition, Chef InSpec supports Input Plugins, which provide optional integrat
 
 ### How does Input precedence work?
 
-####
+#### Simple Precedence
 
 Briefly,
 
-{ cli input-file, kitchen-inspec, audit-cookbook } > metadata > inline DSL
+( cli-input-file or kitchen-inspec or audit-cookbook ) > metadata > inline DSL
 
 In addition, for inherited profiles,
 
 wrapper metadata > dependency metadata
 
 This lets you override input values on the command line, as well as override child profile inline values from the parent profile.
-This matches the general behavior of InSPec v3, while also making some edge cases easier to reason about.
+This matches the general behavior of InSpec v3, while also making some edge cases easier to reason about.
 
 #### The Details of Input Precedence
 
@@ -137,23 +135,13 @@ Based on these concerns, InSpec Attributes have been renamed to InSpec Inputs in
 
 Support for using the DSL keyword `attribute()`, the metadata field `attributes:`, and the corresponding kitchen-inspec and audit cookbook values are anticipated to continue through Chef InSpec v5.
 
-## Input Options
-
-### Name
-
-### Value
-
-### Type
-
-### Required
-
-### Priority
-
-### Profile
-
-## Defining Inputs in Control Code
+## Working with Inputs in Control Code
 
 ### Input Scope
+
+### Setting Inputs in Control DSL
+
+### Reading Inputs in Control DSL
 
 ## Configuring Inputs in Profile Metadata
 
@@ -161,11 +149,49 @@ Support for using the DSL keyword `attribute()`, the metadata field `attributes:
 
 ## Setting Input values using `--input-file`
 
+## Input Options Reference
+
+### Name
+
+Required `String`. This identifies the Input.
+
+Allowed in: All. When used in DSL and Metadata, the name is unique with the current profile; when used in CLI input files, audit cookbook, and kitchen-inspec, the input is copied across all profiles using the same name.
+
+### Value
+
+Optional, any Ruby or YAML type. This is the value that will be available when you read the input. See [Reading Inputs](TODO - LINK).
+
+Allowed in: All
+
+### Type
+
+Optional, `String`, one of `String`, `Numeric`, `Regexp`, `Array`, `Hash`, `Boolean`, or `Any`. If provided, the value with be checked to see if it is of the corresponding type. Note that `Regexp` indicates that the value itself should be a regular expression, not that it should match any particular one.
+
+Allowed in: DSL, Metadata
+
+### Required
+
+Optional, `true` or `false`. If `true`, a control using the input will be failed if it [reads](TODO - LINK) the value when none has been set.
+
+Allowed in: DSL, Metadata
+
+### Priority
+
+Optional, `Integer`, 0-100. Higher values make this assignment have higher precedence. This is an advanced feature.
+
+Allowed in: DSL, Metadata
+
+### Profile
+
+Optional, `String`. Allows you to set an input in another profile from your profile.
+
+Allowed in: DSL, Metadata
+
 ## Practices to Avoid
 
 ### Routinely assigning Input values to variables
 
-You may also see this anti-pattern in a control file:
+You may see this anti-pattern in a control file:
 
 ```ruby
 some_value = input('some_name', ...)
@@ -189,12 +215,14 @@ Instead, write the above example like this:
 
 control 'Some Control' do
   describe some_resource do
-    # use the input directly here
+    # just use the input directly here
     its('some_property') { should cmp input('some_name', ...) }
   end
 end
 ```
 
-# NameTODO
+## Advanced Topics
 
-## Advanced Topic - Debugging Inputs
+### Debugging Inputs with the Event Log
+
+TODO
