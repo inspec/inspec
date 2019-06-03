@@ -83,8 +83,7 @@ TMP_CACHE = {}
 Inspec::Log.logger = Logger.new(nil)
 
 def load_resource(*args)
-  m = MockLoader.new(:ubuntu1404)
-  m.send('load_resource', *args)
+  MockLoader.new.load_resource(*args)
 end
 
 # Used to capture `Inspec.deprecate()` with warn action

@@ -32,9 +32,9 @@ class MockLoader
   }
 
   # pass the os identifier to emulate a specific operating system
-  def initialize(os = nil)
+  def initialize(os = :ubuntu1404)
     # selects operating system
-    @platform = OPERATING_SYSTEMS[os || :ubuntu1404]
+    @platform = OPERATING_SYSTEMS[os]
   end
 
   def backend
@@ -56,6 +56,7 @@ class MockLoader
       path = ::File.join(scriptpath, '/unit/mock/files', x)
       local.file(path)
     }
+
     mockdir = lambda { |x|
       md = Object.new
 
@@ -69,6 +70,7 @@ class MockLoader
       end
       md
     }
+
     emptyfile = lambda {
       mockfile.call('emptyfile')
     }
