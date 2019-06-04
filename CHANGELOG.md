@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.67 -->
-## [v4.4.67](https://github.com/inspec/inspec/tree/v4.4.67) (2019-06-04)
+<!-- latest_release unreleased -->
+## Unreleased
 
-#### Merged Pull Requests
-- Creating and Publishing InSpec Team Working Agreement [#4171](https://github.com/inspec/inspec/pull/4171) ([kekaichinose](https://github.com/kekaichinose))
+#### Bug Fixes
+- Fix two misrendering hyperlinks in resource docs [#4173](https://github.com/inspec/inspec/pull/4173) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
 ### Changes since 4.3.2 release
 
 #### Bug Fixes
+- Fix two misrendering hyperlinks in resource docs [#4173](https://github.com/inspec/inspec/pull/4173) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.67 -->
 - inspec check: Send log to STDERR when running with --format json [#4001](https://github.com/inspec/inspec/pull/4001) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.55 -->
 
 #### New Features
