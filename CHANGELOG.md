@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.66 -->
-## [v4.4.66](https://github.com/inspec/inspec/tree/v4.4.66) (2019-06-03)
+<!-- latest_release 4.4.67 -->
+## [v4.4.67](https://github.com/inspec/inspec/tree/v4.4.67) (2019-06-04)
 
 #### Merged Pull Requests
-- Minor cleanup on test/helper.rb [#4109](https://github.com/inspec/inspec/pull/4109) ([zenspider](https://github.com/zenspider))
+- Creating and Publishing InSpec Team Working Agreement [#4171](https://github.com/inspec/inspec/pull/4171) ([kekaichinose](https://github.com/kekaichinose))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -22,6 +22,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Creating and Publishing InSpec Team Working Agreement [#4171](https://github.com/inspec/inspec/pull/4171) ([kekaichinose](https://github.com/kekaichinose)) <!-- 4.4.67 -->
 - Minor cleanup on test/helper.rb [#4109](https://github.com/inspec/inspec/pull/4109) ([zenspider](https://github.com/zenspider)) <!-- 4.4.66 -->
 - Remove all leading newlines. [#4152](https://github.com/inspec/inspec/pull/4152) ([miah](https://github.com/miah)) <!-- 4.4.65 -->
 - Mention inspec-bin gem in installation instructions [#4163](https://github.com/inspec/inspec/pull/4163) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.64 -->
