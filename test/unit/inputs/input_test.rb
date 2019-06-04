@@ -45,7 +45,7 @@ describe Inspec::Input do
       ruby_code_for_eval = ruby_code.sub(/attribute\(/, "Inspec::Input.new(")
 
       # This will throw exceptions if there is a problem
-      new_attr = eval(ruby_code_for_eval) # Could use ripper!
+      new_attr = eval(ruby_code_for_eval) # rubocop:disable Security/Eval # Could use ripper!
       new_attr.value.must_equal 80
     end
   end

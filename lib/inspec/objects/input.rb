@@ -6,7 +6,7 @@ require "inspec/utils/deprecation"
 module Inspec
   class Attribute
     # This only exists to create the Inspec::Attribute::DEFAULT_ATTRIBUTE symbol with a class
-    class DEFAULT_ATTRIBUTE; end # rubocop: disable Style/ClassAndModuleCamelCase
+    class DEFAULT_ATTRIBUTE; end # rubocop: disable Naming/ClassAndModuleCamelCase
   end
 end
 
@@ -82,7 +82,7 @@ module Inspec
     # This special class is used to represent the value when an input has
     # not been assigned a value. This allows a user to explicitly assign nil
     # to an input.
-    class NO_VALUE_SET # rubocop: disable Style/ClassAndModuleCamelCase
+    class NO_VALUE_SET # rubocop: disable Naming/ClassAndModuleCamelCase
       def initialize(name)
         @name = name
 

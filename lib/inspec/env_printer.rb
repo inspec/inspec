@@ -108,7 +108,7 @@ module Inspec
         @command_class = command_class
       end
 
-      def get_bindings # rubocop:disable Style/AccessorMethodName
+      def get_bindings # rubocop:disable Naming/AccessorMethodName
         binding
       end
 
