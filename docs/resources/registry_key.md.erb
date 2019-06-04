@@ -61,9 +61,8 @@ or may be enclosed in a double-quoted string with an extra backslash as an escap
     "HKCU\\SOFTWARE\\path\\to\\key\\Themes"
 
 
-<p class="warning">
-Please make sure that you use backslashes instead of forward slashes. Forward slashes will not work for registry keys.
-</p>
+**Warning**: Please make sure that you use backslashes instead of forward slashes. Forward slashes will not work for registry keys.
+
 
     # The following will not work:
     # describe registry_key('HKLM/SOFTWARE/Microsoft/NET Framework Setup/NDP/v4/Full/1033') do
@@ -158,9 +157,8 @@ The `name` matcher tests the value for the specified registry setting:
     its('name') { should eq 'value' }
 
 
-<p class="warning">
-Any name with a dot will not work as expected: <code>its('explorer.exe') { should eq 'test' }</code>. For details, see <a href="https://github.com/inspec/inspec/issues/1281">https://github.com/inspec/inspec/issues/1281</a>
-</p>
+**Warning**: Any name with a dot will not work as expected: <code>its('explorer.exe') { should eq 'test' }</code>. For details, see <a href="https://github.com/inspec/inspec/issues/1281">https://github.com/inspec/inspec/issues/1281</a>
+
 
     # instead of:
     # its('explorer.exe') { should eq 'test' }
