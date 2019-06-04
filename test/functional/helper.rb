@@ -127,7 +127,7 @@ module FunctionalHelper
 
   def inspec(commandline, prefix = nil)
     if is_windows?
-      invocation  = "powershell -NonInteractive -Command \"#{prefix} bundle exec #{exec_inspec} #{commandline}\""
+      invocation  = "cmd /C \"#{prefix} #{exec_inspec} #{commandline}\""
       result = CMD.run_command(invocation)
       result.stdout.encode!(universal_newline: true)
       result.stderr.encode!(universal_newline: true)
