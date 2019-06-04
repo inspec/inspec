@@ -1,13 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.68 -->
-## [v4.4.68](https://github.com/inspec/inspec/tree/v4.4.68) (2019-06-04)
+<!-- latest_release 4.4.69 -->
+## [v4.4.69](https://github.com/inspec/inspec/tree/v4.4.69) (2019-06-04)
 
 #### Merged Pull Requests
-- Replace jsonschema with json-schema [#4172](https://github.com/inspec/inspec/pull/4172) ([miah](https://github.com/miah))
-
-#### Bug Fixes
-- Fix two misrendering hyperlinks in resource docs [#4173](https://github.com/inspec/inspec/pull/4173) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Turn off parallel testing (for now?) [#4177](https://github.com/inspec/inspec/pull/4177) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -26,6 +23,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Turn off parallel testing (for now?) [#4177](https://github.com/inspec/inspec/pull/4177) ([zenspider](https://github.com/zenspider)) <!-- 4.4.69 -->
 - Replace jsonschema with json-schema [#4172](https://github.com/inspec/inspec/pull/4172) ([miah](https://github.com/miah)) <!-- 4.4.68 -->
 - Creating and Publishing InSpec Team Working Agreement [#4171](https://github.com/inspec/inspec/pull/4171) ([kekaichinose](https://github.com/kekaichinose)) <!-- 4.4.67 -->
 - Minor cleanup on test/helper.rb [#4109](https://github.com/inspec/inspec/pull/4109) ([zenspider](https://github.com/zenspider)) <!-- 4.4.66 -->
