@@ -362,7 +362,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     else
       puts Inspec::VERSION
       # display outdated version
-      latest = LatestInSpecVersion.new.latest
+      latest = LatestInSpecVersion.new.latest || Inspec::VERSION
       if Gem::Version.new(Inspec::VERSION) < Gem::Version.new(latest)
         puts "\nYour version of #{Inspec::Dist::PRODUCT_NAME} is out of date! The latest version is #{latest}."
       end
