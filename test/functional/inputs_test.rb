@@ -37,7 +37,6 @@ describe 'inputs' do
     it 'includes the legacy --attrs option' do
       result = run_inspec_process('exec help', lock: true)
       lines = result.stdout.split("\n")
-p lines
       line = lines.detect { |l| l.include? '--attrs' }
       line.wont_be_nil
     end
