@@ -71,7 +71,7 @@ require "inspec/log"
 require "inspec/backend"
 require "helpers/mock_loader"
 
-TMP_CACHE = {}
+TMP_CACHE = {} # rubocop: disable Style/MutableConstant
 
 Inspec::Log.logger = Logger.new(nil)
 
@@ -83,7 +83,7 @@ end
 def expect_deprecation_warning
   @mock_logger = Minitest::Mock.new
   @mock_logger.expect(:warn, nil, [/DEPRECATION/])
-  Inspec::Log.stub :warn, proc { |message| @mock_logger.warn(message) } do
+  Inspec::Log.stub(:warn, proc { |message| @mock_logger.warn(message) }) do
     yield
   end
   @mock_logger.verify
