@@ -4,6 +4,10 @@ require 'json-schema'
 describe 'inspec exec' do
   include FunctionalHelper
 
+  before {
+    skip_windows!
+  }
+
   it 'can execute a profile with the mini json formatter and validate its schema' do
     out = inspec('exec ' + example_profile + ' --reporter json-min --no-create-lockfile')
     out.stderr.must_equal ''

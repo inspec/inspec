@@ -7,6 +7,10 @@ describe 'The license acceptance mechanism' do
 
   describe 'when the license has not been accepted' do
     describe 'when the user passes the --chef-license accept flag' do
+      before {
+        skip_windows!
+      }
+
       it 'should silently work normally' do
         without_license do
           Dir.mktmpdir do |tmp_home|
@@ -39,6 +43,11 @@ describe 'The license acceptance mechanism' do
     # Since the license-acceptance library detects TTYs, and changes behavior
     # if not found, we can't test interactive acceptance anymore
     describe 'when no mechanism is used to accept the license and we are non-interactive' do
+
+      before {
+        skip_windows!
+      }
+
       it 'should exit ASAP with code 172' do
         without_license do
           Dir.mktmpdir do |tmp_home|

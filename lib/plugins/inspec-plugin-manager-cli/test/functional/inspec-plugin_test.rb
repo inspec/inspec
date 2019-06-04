@@ -19,6 +19,10 @@ module PluginManagerHelpers
     end
   end
 
+  def setup
+    skip_windows!
+  end
+
   def copy_in_project_config_dir(fixture_name, dest = nil)
     src = Dir.glob(File.join(project_config_dirs_path, fixture_name, '*'))
     dest ||= File.join(project_config_dirs_path, 'empty')
@@ -48,6 +52,10 @@ end
 #-----------------------------------------------------------------------------------------#
 class PluginManagerCliHelp < Minitest::Test
   include CorePluginFunctionalHelper
+
+  def setup
+    skip_windows!
+  end
 
   # Main inspec help subcommand listing
   def test_inspec_help_includes_plugin

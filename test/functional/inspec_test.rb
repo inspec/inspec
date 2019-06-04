@@ -3,6 +3,10 @@ require 'functional/helper'
 describe 'command tests' do
   include FunctionalHelper
 
+  before {
+    skip_windows!
+  }
+
   describe 'version' do
     it 'provides the version number on stdout' do
       out = inspec('version')

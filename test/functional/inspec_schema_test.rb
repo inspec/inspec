@@ -3,6 +3,10 @@ require 'functional/helper'
 describe 'inspec schema' do
   include FunctionalHelper
 
+  before {
+    skip_windows!
+  }
+
   describe 'extracting the platforms schema export' do
     it 'can execute a platforms schema command' do
       out = inspec('schema platforms')

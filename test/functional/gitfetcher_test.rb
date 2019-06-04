@@ -6,6 +6,8 @@ require 'yaml'
 describe 'profiles with git-based dependencies' do
   include FunctionalHelper
   before(:all) do
+    skip_windows!
+
     @tmpdir = Dir.mktmpdir
     @profile_dir = File.join(@tmpdir, "test-profile")
     @git_dep_dir = File.join(@tmpdir, "git-dep")

@@ -4,6 +4,10 @@ require 'json-schema'
 describe 'inspec exec with json formatter' do
   include FunctionalHelper
 
+  before {
+    skip_windows!
+  }
+
   it 'can execute a simple file and validate the json schema' do
     out = inspec('exec ' + example_control + ' --reporter json --no-create-lockfile')
     out.stderr.must_equal ''

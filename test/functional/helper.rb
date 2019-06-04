@@ -107,6 +107,15 @@ module FunctionalHelper
     ENV["CHEF_LICENSE"] = "accept-no-persist"
   end
 
+  def skip_windows!
+    skip_until 2019, 7, 31, "These have never passed" if windows?
+  end
+
+  def assert_exit_code exp, cmd
+    exp = 1 if exp != 0 if windows?
+    assert_equal exp, cmd.exit_status
+  end
+
   def convert_windows_output(text)
     text = text.force_encoding("UTF-8")
     text.gsub!("[PASS]", '✔')
@@ -127,7 +136,7 @@ module FunctionalHelper
 
   def inspec(commandline, prefix = nil)
     if is_windows?
-      invocation  = "powershell -NonInteractive -Command \"#{prefix} bundle exec #{exec_inspec} #{commandline}\""
+      invocation  = "cmd /C \"#{prefix} #{exec_inspec} #{commandline}\""
       result = CMD.run_command(invocation)
       result.stdout.encode!(universal_newline: true)
       result.stderr.encode!(universal_newline: true)

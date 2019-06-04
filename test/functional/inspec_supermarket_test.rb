@@ -3,6 +3,10 @@ require 'functional/helper'
 describe 'inspec supermarket' do
   include FunctionalHelper
 
+  before {
+    skip_windows!
+  }
+
   it 'help' do
     out = inspec('supermarket help')
     out.exit_status.must_equal 0

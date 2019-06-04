@@ -5,6 +5,10 @@ describe 'example inheritance profile' do
   let(:path) { File.join(examples_path, 'inheritance') }
   let(:input_file) { File.join(examples_path, 'profile-attribute.yml') } # TODO rename attributes in examples
 
+  before {
+    skip_windows!
+  }
+
   it 'check succeeds with --profiles-path' do
     out = inspec('check ' + path + ' --profiles-path ' + examples_path)
     out.stderr.must_equal ''

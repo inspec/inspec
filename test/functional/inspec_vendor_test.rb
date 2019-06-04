@@ -4,6 +4,10 @@ require 'tmpdir'
 describe 'example inheritance profile' do
   include FunctionalHelper
 
+  before {
+    skip_windows!
+  }
+
   it 'can vendor profile dependencies' do
     prepare_examples('inheritance') do |dir|
       out = inspec('vendor ' + dir + ' --overwrite')

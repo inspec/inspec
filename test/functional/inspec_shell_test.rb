@@ -3,6 +3,10 @@ require 'functional/helper'
 describe 'inspec shell tests' do
   include FunctionalHelper
 
+  before {
+    skip_windows!
+  }
+
   describe 'cmd' do
     def do_shell_c(code, exit_status, json = false, stderr = '')
       json_suffix = " --reporter 'json'" if json

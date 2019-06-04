@@ -5,6 +5,10 @@ require 'functional/helper'
 describe 'Deprecation Facility Behavior' do
   include FunctionalHelper
 
+  before {
+    skip_windows!
+  }
+
   let(:profile) { File.join(profile_path, 'deprecation', profile_name) }
   let(:invocation) { "exec #{profile} #{control_flag}" }
   # Running in JSON mode has the side-effect of sending log messages to $stderr

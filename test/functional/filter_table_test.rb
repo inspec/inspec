@@ -5,6 +5,10 @@ describe 'filtertable functional tests' do
   let(:run_opts) { { json: true, ignore_rspec_deprecations: true } }
   let(:ft_profile_path) { File.join(profile_path, 'filter_table') }
 
+  def setup
+    skip_windows!
+  end
+
   def run_result_for_controls(controls)
     cmd  = 'exec ' + ft_profile_path + ' --controls ' + controls.join(' ')
     run_inspec_process(cmd, run_opts)

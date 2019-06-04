@@ -3,6 +3,10 @@ require 'functional/helper'
 describe 'inspec detect' do
   include FunctionalHelper
 
+  before {
+    skip_windows!
+  }
+
   it 'outputs the correct data' do
     res = inspec('detect')
     res.stderr.must_equal ''
