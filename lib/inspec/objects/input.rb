@@ -292,8 +292,6 @@ module Inspec
         line: location.lineno
       )
       enforce_type_restriction!
-
-      new_value
     end
 
     def value
