@@ -3,11 +3,6 @@ require 'train'
 
 ENV["CHEF_LICENSE"] = "accept-no-persist"
 
-require 'minitest/hell'
-class Minitest::Test
-  parallelize_me!
-end
-
 CMD = Train.create('local', command_runner: :generic).connection
 
 class Module
