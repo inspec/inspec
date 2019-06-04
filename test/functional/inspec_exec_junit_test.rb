@@ -4,6 +4,10 @@ require 'rexml/document'
 describe 'inspec exec with junit formatter' do
   include FunctionalHelper
 
+  before {
+    skip_windows!
+  }
+
   it 'can execute a simple file with the junit formatter' do
     out = inspec('exec ' + example_control + ' --reporter junit --no-create-lockfile')
     out.stderr.must_equal ''

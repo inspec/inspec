@@ -16,7 +16,7 @@ require 'inspec/plugin/v2'
 
 # Configure Minitest to expose things like `let`
 class Module
-  include Minitest::Spec::DSL
+  include Minitest::Spec::DSL # TODO: NO! remove this!
 end
 
 module Inspec
@@ -49,8 +49,11 @@ module CorePluginBaseHelper
   let(:registry) { Inspec::Plugin::V2::Registry.instance }
 end
 
+require 'functional/helper'
+
 module CorePluginFunctionalHelper
   include CorePluginBaseHelper
+  include FunctionalHelper
 
   require 'train'
   TRAIN_CONNECTION = Train.create('local', command_runner: :generic).connection

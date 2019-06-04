@@ -8,6 +8,10 @@ require 'functional/helper'
 describe 'plugin loader' do
   include FunctionalHelper
 
+  before {
+    skip_windows!
+  }
+
   it 'handles an unloadable plugin correctly' do
     outcome = inspec_with_env('version',  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'plugin_error_on_load'))
     outcome.exit_status.must_equal 2
@@ -29,6 +33,10 @@ end
 #=========================================================================================#
 describe 'when disabling plugins' do
   include FunctionalHelper
+
+  before {
+    skip_windows!
+  }
 
   describe 'when disabling the core plugins' do
     it 'should not be able to use core-provided commands' do
@@ -55,6 +63,10 @@ end
 #=========================================================================================#
 describe 'cli command plugins' do
   include FunctionalHelper
+
+  before {
+    skip_windows!
+  }
 
   it 'is able to respond to a plugin-based cli subcommand' do
     outcome = inspec_with_env('meaningoflife answer',  INSPEC_CONFIG_DIR: File.join(config_dir_path, 'meaning_by_path'))
@@ -94,6 +106,10 @@ end
 describe 'disable plugin usage message integration' do
   include FunctionalHelper
 
+  before {
+    skip_windows!
+  }
+
   it "mentions the --disable-{user,core}-plugins options" do
     outcome = inspec('help')
     ['--disable-user-plugins', '--disable-core-plugins'].each do |option|
@@ -108,6 +124,10 @@ end
 
 describe 'DSL plugin types support' do
   include PluginFunctionalHelper
+
+  before {
+    skip_windows!
+  }
 
   let(:fixture_path) { File.join(profile_path, 'dsl_plugins', 'controls', profile_file)}
   let(:dsl_plugin_path) { File.join(mock_path, 'plugins', 'inspec-dsl-test', 'lib', 'inspec-dsl-test.rb')}
@@ -230,6 +250,10 @@ end
 #=========================================================================================#
 
 describe 'train plugin support'  do
+  before {
+    skip_windows!
+  }
+
   describe 'when a train plugin is installed' do
     include FunctionalHelper
     it 'can run inspec detect against a URL target' do

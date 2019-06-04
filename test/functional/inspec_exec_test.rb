@@ -4,6 +4,10 @@ describe 'inspec exec' do
   include FunctionalHelper
   let(:looks_like_a_stacktrace) { %r{lib/inspec/.+\.rb:\d+:in} }
 
+  before {
+    skip_windows!
+  }
+
   it 'can execute the profile' do
     out = inspec('exec ' + example_profile  + ' --no-create-lockfile')
     out.stderr.must_equal ''
@@ -181,9 +185,11 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:json) { JSON.load(out.stdout) }
 
     it 'exits with an error' do
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "skippy\e[0m\n\e[38;5;247m     ↺  This will be skipped super intentionally.\e[0m\n"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "  ↺  CONTROL database: MySQL Session\e[0m\n\e[38;5;247m     ↺  Can't run MySQL SQL checks without authentication\e[0m\n"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: 0 successful controls, 0 control failures, \e[38;5;247m2 controls skipped\e[0m\nTest Summary: 0 successful, 0 failures, \e[38;5;247m2 skipped\e[0m\n"
+      stdout = out.stdout.force_encoding(Encoding::UTF_8)
+
+      stdout.must_include "skippy\e[0m\n\e[38;5;247m     ↺  This will be skipped super intentionally.\e[0m\n"
+      stdout.must_include "  ↺  CONTROL database: MySQL Session\e[0m\n\e[38;5;247m     ↺  Can't run MySQL SQL checks without authentication\e[0m\n"
+      stdout.must_include "Profile Summary: 0 successful controls, 0 control failures, \e[38;5;247m2 controls skipped\e[0m\nTest Summary: 0 successful, 0 failures, \e[38;5;247m2 skipped\e[0m\n"
       out.exit_status.must_equal 101
     end
   end

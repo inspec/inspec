@@ -5,6 +5,10 @@ require 'securerandom'
 class ArtifactCli < Minitest::Test
   include CorePluginFunctionalHelper
 
+  before {
+    skip_windows!
+  }
+
   def test_generating_archive_keys
     Dir.mktmpdir do |dir|
       unique_key_name = SecureRandom.uuid()

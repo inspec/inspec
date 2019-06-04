@@ -5,6 +5,10 @@ require 'securerandom'
 describe 'inspec exec' do
   include FunctionalHelper
 
+  before {
+    skip_windows!
+  }
+
   it 'can generate keys' do
     prepare_examples do |dir|
       unique_key_name = SecureRandom.uuid()

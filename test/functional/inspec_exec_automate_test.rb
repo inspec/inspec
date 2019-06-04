@@ -4,6 +4,10 @@ require 'tempfile'
 describe 'inspec exec automate' do
   include FunctionalHelper
 
+  before {
+    skip_windows!
+  }
+
   let(:config_path) do
     file = Tempfile.new('config.json')
     file.write(config_data)

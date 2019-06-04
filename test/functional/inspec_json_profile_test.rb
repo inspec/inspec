@@ -4,6 +4,10 @@ require 'mixlib/shellout'
 describe 'inspec json' do
   include FunctionalHelper
 
+  before {
+    skip_windows!
+  }
+
   it 'read the profile json' do
     out = inspec('json ' + example_profile)
     out.stderr.must_equal ''
@@ -149,7 +153,8 @@ describe 'inspec json' do
     it 'can execute a profile with warn calls and parse STDOUT as valid JSON' do
       out = inspec('json ' + File.join(profile_path, 'warn_logs'))
       out.exit_status.must_equal 0
-      JSON.load(out.stdout)
+      refute_empty out.stdout
+      assert_kind_of Hash, JSON.load(out.stdout)
     end
   end
 

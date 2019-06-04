@@ -18,6 +18,10 @@ describe 'InSpec UI behavior' do
   include PluginFunctionalHelper
   include VisibleSpaces
 
+  before {
+    skip_windows!
+  }
+
   let(:plugin_path) { File.join(mock_path, 'plugins', 'inspec-test-ui', 'lib', 'inspec-test-ui') }
   let(:run_result) { run_inspec_with_plugin("#{pre_opts} testui #{feature} #{post_opts}", plugin_path: plugin_path) }
   let(:pre_opts) { '' }
@@ -117,11 +121,10 @@ EOT
   end
 
   describe 'exit codes' do
-
     describe 'normal exit' do
       let(:feature) { 'exitnormal' }
       it 'has correct output' do
-        run_result.exit_status.must_equal 0
+        assert_exit_code 0, run_result
         run_result.stderr.must_equal ''
         run_result.stdout.must_equal "test exit normal\n"
       end
@@ -130,7 +133,7 @@ EOT
     describe 'usage exit' do
       let(:feature) { 'exitusage' }
       it 'has correct output' do
-        run_result.exit_status.must_equal 1
+        assert_exit_code 1, run_result
         run_result.stderr.must_equal '' # ie, we intentionally exit-1'd; not a crash
         run_result.stdout.must_equal "test exit usage_error\n"
       end
@@ -139,7 +142,7 @@ EOT
     describe 'plugin exit' do
       let(:feature) { 'exitplugin' }
       it 'has correct output' do
-        run_result.exit_status.must_equal 2
+        assert_exit_code 2, run_result
         run_result.stderr.must_equal ''
         run_result.stdout.must_equal "test exit plugin_error\n"
       end
@@ -148,7 +151,7 @@ EOT
     describe 'skipped exit' do
       let(:feature) { 'exitskipped' }
       it 'has correct output' do
-        run_result.exit_status.must_equal 101
+        assert_exit_code 101, run_result
         run_result.stderr.must_equal ''
         run_result.stdout.must_equal "test exit skipped_tests\n"
       end
@@ -157,7 +160,7 @@ EOT
     describe 'failed exit' do
       let(:feature) { 'exitfailed' }
       it 'has correct output' do
-        run_result.exit_status.must_equal 100
+        assert_exit_code 100, run_result
         run_result.stderr.must_equal ''
         run_result.stdout.must_equal "test exit failed_tests\n"
       end
@@ -171,7 +174,7 @@ EOT
       describe 'the interactive flag' do
         let(:feature) { 'interactive' }
         it "should report the interactive flag is on" do
-          run_result.exit_status.must_equal 0
+          assert_exit_code 0, run_result
           run_result.stdout.must_include 'true'
         end
       end
@@ -187,7 +190,7 @@ EOT
         describe 'prompting' do
           let(:feature) { 'prompt' }
           it "should launch apollo" do
-            run_result.exit_status.must_equal 0
+            assert_exit_code 0, run_result
             run_result.stdout.must_include 'Apollo'
           end
         end
@@ -200,7 +203,7 @@ EOT
     describe 'the interactive flag' do
       let(:feature) { 'interactive' }
       it "should report the interactive flag is off" do
-        run_result.exit_status.must_equal 0
+        assert_exit_code 0, run_result
         run_result.stdout.must_include 'false'
       end
     end
@@ -208,7 +211,7 @@ EOT
     describe 'prompting' do
       let(:feature) { 'prompt' }
       it "should crash with stacktrace" do
-        run_result.exit_status.must_equal 1
+        assert_exit_code 1, run_result
         run_result.stderr.must_include 'Inspec::UserInteractionRequired'
       end
     end
