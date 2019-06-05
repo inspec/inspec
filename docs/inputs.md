@@ -83,11 +83,11 @@ In addition, Chef InSpec supports Input Plugins, which can provide optional inte
 
 Briefly,
 
-( cli-input-file or kitchen-inspec or audit-cookbook ) > metadata > inline DSL
+inline DSL < metadata < ( cli-input-file or kitchen-inspec or audit-cookbook )
 
 In addition, for inherited profiles,
 
-wrapper metadata > dependency metadata
+dependent profile metadata < wrapper profile metadata
 
 This lets you override input values on the command line, as well as override child profile inline values from the parent profile.
 This matches the general behavior of InSpec v3, while also making some edge cases easier to reason about.
@@ -150,7 +150,7 @@ control 'control-1' do
   input('control_dsl_input', value: 2) # here too
   describe some_resource do
     input('test_dsl_input', value: 3) # even here
-    it { should cmp input('expectation_dsl_input') } #
+    it { should cmp input('expectation_dsl_input') } # and yes here too
   end
 end
 ```
@@ -161,7 +161,7 @@ When you write `input('some_name', value: 'some_value')`, you are *setting* an i
 
 ### Reading Inputs in Control DSL
 
-When you call `input('some_name')`, with or without additional options, the value of the input will be resolved and returned. Note that this may involve sourcing the value from another provider, or overriding the value provided in the same call.
+When you call `input('some_name')`, with or without additional options, the value of the input will be resolved and returned. Note that this may involve sourcing the value from another provider, using the value set in DSL, or overriding the value provided in the same call.
 
 ```ruby
 
@@ -188,7 +188,7 @@ The value returned can be used anywhere a Ruby value is used.
 
 ## Configuring Inputs in Profile Metadata
 
-Each profile has a metadata file at the top level, `inspec.yml`. In that file, you may add a section for Inputs. You may define inputs there, clearly setting options including values, type checking, and whether the input is required.
+Each Chef InSpec profile has a metadata file at the top level named `inspec.yml`. In that file, you may add a section for Inputs. You may define inputs there, clearly setting options including values, type checking, and whether the input is required.
 
 ```yaml
 name: my_profile
@@ -215,7 +215,7 @@ When your profile relies on another profile using the `depends` key in the metad
 
 
 ```yaml
-# Child inspec.yml
+# child inspec.yml
 name: child
 inputs:
 - name: favorite_food
@@ -223,7 +223,7 @@ inputs:
 ```
 
 ```yaml
-# Wrapper inspec.yml
+# wrapper inspec.yml
 name: wrapper
 depends:
 - name: child
@@ -234,7 +234,7 @@ inputs:
   profile: child       # <----- REQUIRED to override the value in InSpec 4
 ```
 
-In Chef InSpec 4+, every Input is namespaced: so you could have an input named `wrapper/broccoli` and one named `child/broccoli`. Within the `wrapper` profile metadata file, if no explicit profile option is set, `wrapper` is assumed to be the profile.
+In Chef InSpec 4+, every Input is namespaced: so you could have an input named `wrapper/favorite_food` and one named `child/favorite_food`. Within the `wrapper` profile metadata file, if no explicit profile option is set, `wrapper` is assumed to be the profile.
 
 ## Setting Input values using `--input-file`
 
@@ -259,6 +259,12 @@ As of Chef InSpec 4.3.2, this mechanism has the following limitations:
 Required `String`. This identifies the Input.
 
 Allowed in: All. When used in DSL and Metadata, the name is unique with the current profile; when used in CLI input files, audit cookbook, and kitchen-inspec, the input is copied across all profiles using the same name.
+
+### Description
+
+Optional `String`. Human-meaningful explanation of the Input.
+
+Allowed in: DSL, Metadata
 
 ### Value
 
