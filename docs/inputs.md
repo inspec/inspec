@@ -238,6 +238,20 @@ In Chef InSpec 4+, every Input is namespaced: so you could have an input named `
 
 ## Setting Input values using `--input-file`
 
+You may also provide inputs and values via YAML files on the command line. The format is simple:
+
+```yaml
+an_input: a_value
+another_input: another_value
+```
+
+CLI-set Inputs have a priority of 40.
+
+As of Chef InSpec 4.3.2, this mechanism has the following limitations:
+
+  1. No [input options](TODO LINK) may be set - only the name and value
+  2. Because the CLI is outside the scope of any one profile and the inputs don't take options, the Inputs are clumsily copied into every profile, effectively making the CLI mechanism global.
+
 ## Input Options Reference
 
 ### Name
@@ -280,4 +294,20 @@ Allowed in: DSL, Metadata
 
 ### Debugging Inputs with the Event Log
 
-TODO
+If you are having difficulty determining why a particular value is being used, you can use the Event Log to determine what is going on.
+
+First, use the `input_object()` DSL method. It's like `input()` in that it looks up an Input, but instead of evaluating the current value, it returns the underlying `Inspec::Input` object.
+
+```ruby
+
+puts input_object('troublesome_input').diagnostic_string
+
+# Or
+require 'pp'
+pp input_object('troublesome_input').events
+
+```
+
+`diagnostic_string` assembles the Event Log into a printable log message for convenience.
+
+The Event Log contains entries for every time that the value changed, as well as one for when the input was first created. When possible, stack probing is used to determine file and line numbers. Most importantly, you will see priority numbers; remember that highest priority wins; order only matters to break a tie.
