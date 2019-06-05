@@ -108,11 +108,7 @@ _be >=_ is an [operator matcher](#operator matcher). It allows you to perform nu
 
 ### attribute
 
-An _attribute_ is a parameter that Chef InSpec reads from a YAML file provided on the command line. You can use this feature either to change a [profile's](#profile) behavior by passing different attribute files or to store secrets that should not be directly present in a profile. Chef InSpec attributes are unrelated to Chef attributes.
-
-The CLI syntax for attributes is documented under the [`inspec exec`](https://www.inspec.io/docs/reference/cli/#exec) command.
-
-The syntax for accessing attributes within a profile is documented in the [profiles documentation](https://www.inspec.io/docs/reference/profiles/#profile-attributes).
+Deprecated name for [input](#input).
 
 ### control
 
@@ -203,6 +199,16 @@ describe cars.where { engine_cylinders >= 6 } do
   its('city_mpg_ratings') { should_not include '4-star' }
 end
 ```
+
+### input
+
+An _input_ is a value that Chef InSpec can source from a number of providers, including from the command line, profile metadata, or withing the control file DSL itself. You can use this feature either to change a [profile's](#profile) behavior by passing different attribute files or to store secrets that should not be directly present in a profile.
+
+Inputs were formerly known as `attributes`. Chef InSpec Inputs are unrelated to Chef attributes.
+
+The CLI syntax for inputs is documented under the [`inspec exec`](https://www.inspec.io/docs/reference/cli/#exec) command.
+
+Inputs are documented in detail in the [input documentation](/docs/reference/inputs/).
 
 ### it
 
