@@ -2,7 +2,7 @@
 
 ## What are Inputs?
 
-Inputs are the "knobs" you can use to customize the behavior of Chef InSpec profiles. If a profile supports Inputs, you can set the inputs in a variety of ways, allowing flexibility.  Profiles that include other profiles can set inputs in the included profile, enabling a multi-layered approach to configuring profiles.
+Inputs are the "knobs" you can use to customize the behavior of Chef InSpec profiles. If a profile supports inputs, you can set the inputs in a variety of ways, allowing flexibility.  Profiles that include other profiles can set inputs in the included profile, enabling a multi-layered approach to configuring profiles.
 
 ### A Simple Example
 
@@ -31,7 +31,7 @@ control 'Big Rock Show' do
 end
 ```
 
-When the above profile is executed, using (say) `inspec exec rock_critic`, you would see something like:
+When the above profile is executed by using `inspec exec rock_critic`, you would see something like:
 
 ```
   11
@@ -44,13 +44,13 @@ When the above profile is executed, using (say) `inspec exec rock_critic`, you w
 Test Summary: 0 successful, 1 failure, 0 skipped
 ```
 
-That clearly won't do; let's override that. Create a file, `custom_amps.yml`:
+That result clearly won't do. Let's override the input's default value. Create a file, `custom_amps.yml`:
 
 ```yaml
 amplifier_max_volume: 11
 ```
 
-We can now run that with `inspec exec rock_critic --input_file custom_amps.yaml`:
+We can now run that profile with `inspec exec rock_critic --input_file custom_amps.yaml`:
 
 ```
   11
@@ -59,15 +59,15 @@ We can now run that with `inspec exec rock_critic --input_file custom_amps.yaml`
 Test Summary: 1 successful, 0 failures, 0 skipped
 ```
 
-### Which profiles support Inputs?
+### Which profiles support inputs?
 
 The best way for a profile to indicate it supports inputs is to list them in the metadata file, `inspec.yml`. Any profile that has an `inputs` (or the deprecated `attributes`) section in its `inspec.yml` metadata file is [configuring](#configuring-inputs-in-profile-metadata) inputs.
 
-That said, any profile that uses the DSL keyword `input()` (or the deprecated `attribute()`) in the control source code supports inputs.  These profiles are *reading* (and possibly setting) Input values and using them to make decisions.
+That said, any profile that uses the DSL keyword `input()` (or the deprecated `attribute()`) in the control source code supports inputs.  These profiles are *reading* (and possibly setting) input values and using them to make decisions.
 
 ### How can I set Inputs?
 
-As installed (without specialized plugins), Chef InSpec supports five ways of setting Inputs:
+As installed (without specialized plugins), Chef InSpec supports five ways of setting inputs:
 
  * Inline in control code, using `input('input_name', value: 42)`.
  * In profile `inspec.yml` metadata files
@@ -81,20 +81,20 @@ In addition, Chef InSpec supports Input Plugins, which can provide optional inte
 
 #### Simple Precedence
 
-Briefly,
+Briefly:
 
 inline DSL < metadata < ( cli-input-file or kitchen-inspec or audit-cookbook )
 
-In addition, for inherited profiles,
+In addition, for inherited profiles:
 
 dependent profile metadata < wrapper profile metadata
 
-This lets you override input values on the command line, as well as override child profile inline values from the parent profile.
-This matches the general behavior of InSpec v3, while also making some edge cases easier to reason about.
+This precedence lets you override input values on the command line, as well as override child profile inline values from the parent profile.
+This description matches the general behavior of InSpec v3, while also making some edge cases easier to reason.
 
 #### The Details of Input Precedence
 
-Whenever an input provider sets a value on an input, a *priority value* is assigned to the operation.  Over the life of the input, multiple assignments, with varying priority values, may occur. When the input is evaluated, the current value is determined by finding the setting event with the highest priority.
+Whenever an input provider sets a value on an input, a *priority value* is assigned to the operation.  Over the life of the input, multiple assignments with varying priority values may occur. When the input is evaluated, the current value is determined by finding the setting event with the highest priority.
 
 Note that this approach does not rely on execution order, nor does it rely on multiple named precedence levels. Each setting operation is preserved; this allows
 
@@ -131,7 +131,7 @@ When originally introduced, the Input facility was named *Attributes*. This name
  * Chef attributes have a completely different and much more complex precedence system
  * Confusion about passing Chef Attributes into InSpec when using Audit Cookbook and kitchen-inspec
 
-Based on these concerns, InSpec Attributes have been renamed to InSpec Inputs in Chef InSpec v4.
+Based on these concerns, InSpec attributes have been renamed to InSpec inputs in Chef InSpec v4.
 
 Support for using the DSL keyword `attribute()`, the metadata field `attributes:`, and the corresponding kitchen-inspec and audit cookbook values are anticipated to continue through Chef InSpec v5.
 
@@ -161,7 +161,7 @@ When you write `input('some_name', value: 'some_value')`, you are *setting* an i
 
 ### Reading Inputs in Control DSL
 
-When you call `input('some_name')`, with or without additional options, the value of the input will be resolved and returned. Note that this may involve sourcing the value from another provider, using the value set in DSL, or overriding the value provided in the same call.
+When you call `input('some_name')`, with or without additional options, the value of the input will be resolved and returned. Note that this process may involve sourcing the value from another provider, using the value set in DSL, or overriding the value provided in the same call.
 
 ```ruby
 
@@ -188,7 +188,7 @@ The value returned can be used anywhere a Ruby value is used.
 
 ## Configuring Inputs in Profile Metadata
 
-Each Chef InSpec profile has a metadata file at the top level named `inspec.yml`. In that file, you may add a section for Inputs. You may define inputs there, clearly setting options including values, type checking, and whether the input is required.
+Each Chef InSpec profile has a metadata file at the top level named `inspec.yml`. In that file, you may add a section for inputs. You may define inputs there, clearly setting options including values, type checking, and whether the input is required.
 
 ```yaml
 name: my_profile
@@ -211,7 +211,7 @@ There are two major advantages to defining inputs in profile metadata:
 
 ### Using inputs with Profile inheritance
 
-When your profile relies on another profile using the `depends` key in the metadata file, you can set (that is, override) the value of the input in the dependent profile by including the `profile` option and naming the dependent profile.
+When your profile relies on another profile using the `depends` key in the metadata file, you can set — that is, override — the value of the input in the dependent profile by including the `profile` option and naming the dependent profile.
 
 
 ```yaml
@@ -234,41 +234,41 @@ inputs:
   profile: child       # <----- REQUIRED to override the value in InSpec 4
 ```
 
-In Chef InSpec 4+, every Input is namespaced: so you could have an input named `wrapper/favorite_food` and one named `child/favorite_food`. Within the `wrapper` profile metadata file, if no explicit profile option is set, `wrapper` is assumed to be the profile.
+In Chef InSpec 4+, every input is namespaced. For example, you could have an input named `wrapper/favorite_food` and one named `child/favorite_food`. If no explicit profile option is set within the `wrapper` profile metadata file, then `wrapper` is assumed to be the profile.
 
 ## Setting Input values using `--input-file`
 
-You may also provide inputs and values via YAML files on the command line. The format is simple:
+You may also provide inputs and values via YAML files on the command line. The format can be seen below:
 
 ```yaml
 an_input: a_value
 another_input: another_value
 ```
 
-CLI-set Inputs have a priority of 40.
+CLI-set inputs have a priority of 40.
 
 As of Chef InSpec 4.3.2, this mechanism has the following limitations:
 
-  1. No [input options](#input-options-reference) may be set - only the name and value
-  2. Because the CLI is outside the scope of any one profile and the inputs don't take options, the Inputs are clumsily copied into every profile, effectively making the CLI mechanism global.
+  1. No [input options](#input-options-reference) may be set - only the name and value.
+  2. Because the CLI is outside the scope of any individual profile and the inputs don't take options, the inputs are clumsily copied into every profile, effectively making the CLI mechanism global.
 
 ## Input Options Reference
 
 ### Name
 
-Required `String`. This identifies the Input.
+Required `String`. This option identifies the input.
 
-Allowed in: All. When used in DSL and Metadata, the name is unique with the current profile; when used in CLI input files, audit cookbook, and kitchen-inspec, the input is copied across all profiles using the same name.
+Allowed in: All. When used in DSL and Metadata, the name is unique within the current profile. When used in CLI input files, audit cookbook, and kitchen-inspec, the input is copied across all profiles using the same name.
 
 ### Description
 
-Optional `String`. Human-meaningful explanation of the Input.
+Optional `String`. Human-meaningful explanation of the input.
 
 Allowed in: DSL, Metadata
 
 ### Value
 
-Optional, any Ruby or YAML type. This is the value that will be available when you read the input. See [Reading Inputs](#reading-inputs-in-control-dsl).
+Optional, any Ruby or YAML type. This is the value that will be available when you read the input. See the [Reading Inputs](#reading-inputs-in-control-dsl) section for more information.
 
 Allowed in: All
 
@@ -300,9 +300,9 @@ Allowed in: DSL, Metadata
 
 ### Debugging Inputs with the Event Log
 
-If you are having difficulty determining why a particular value is being used, you can use the Event Log to determine what is going on.
+If it is difficult to determine why a particular value is being used, you can use the Event Log to determine what is happening.
 
-First, use the `input_object()` DSL method. It's like `input()` in that it looks up an Input, but instead of evaluating the current value, it returns the underlying `Inspec::Input` object.
+First, use the `input_object()` DSL method. This method is like `input()` in that it looks up an input, but instead of evaluating the current value, it returns the underlying `Inspec::Input` object.
 
 ```ruby
 
