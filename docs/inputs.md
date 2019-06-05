@@ -188,7 +188,53 @@ The value returned can be used anywhere a Ruby value is used.
 
 ## Configuring Inputs in Profile Metadata
 
+Each profile has a metadata file at the top level, `inspec.yml`. In that file, you may add a section for Inputs. You may define inputs there, clearly setting options including values, type checking, and whether the input is required.
+
+```yaml
+name: my_profile
+inputs:
+- name: webserver_user  # Name is the only required field
+- name: favorite_fruit
+  value: banana         # You can set a value; priority is 30 for metadata
+- name: meaning_of_life
+  type: Numeric
+  value: 42
+  required: true
+  priority: 70
+```
+
+All [input options](TODO link) are supported in metadata files.
+
+There are two major advantages to defining inputs in profile metadata:
+ 1. The inputs and their configuration are listed explicitly in simple YAML in one place - a consumer of your profile does not need to read through the control code to find the inputs.
+ 2. You can set inputs in other profiles that you depend on using profile inheritance.
+
 ### Using inputs with Profile inheritance
+
+When your profile relies on another profile using the `depends` key in the metadata file, you can set (that is, override) the value of the input in the dependent profile by including the `profile` option and naming the dependent profile.
+
+
+```yaml
+# Child inspec.yml
+name: child
+inputs:
+- name: favorite_food
+  value: pizza
+```
+
+```yaml
+# Wrapper inspec.yml
+name: wrapper
+depends:
+- name: child
+  path: ../child
+inputs:
+- name: favorite_food
+  value: broccoli
+  profile: child       # <----- REQUIRED to override the value in InSpec 4
+```
+
+In Chef InSpec 4+, every Input is namespaced: so you could have an input named `wrapper/broccoli` and one named `child/broccoli`. Within the `wrapper` profile metadata file, if no explicit profile option is set, `wrapper` is assumed to be the profile.
 
 ## Setting Input values using `--input-file`
 
