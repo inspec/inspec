@@ -19,10 +19,10 @@ group :omnibus do
 end
 
 group :test do
+  gem 'chefstyle', '~> 0.6'
   gem 'coveralls', require: false
   gem 'minitest', '~> 5.5'
   gem 'rake', '>= 10'
-  gem 'rubocop', '= 0.49.1'
   gem 'simplecov', '~> 0.10'
   gem 'concurrent-ruby', '~> 1.0'
   gem 'mocha', '~> 1.1'
