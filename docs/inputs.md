@@ -61,7 +61,7 @@ Test Summary: 1 successful, 0 failures, 0 skipped
 
 ### Which profiles support Inputs?
 
-The best way for a profile to indicate it supports inputs is to list them in the metadata file, `inspec.yml`. Any profile that has an `inputs` (or the deprecated `attributes`) section in its `inspec.yml` metadata file is [configuring](TODO - link) (and likely setting) inputs.
+The best way for a profile to indicate it supports inputs is to list them in the metadata file, `inspec.yml`. Any profile that has an `inputs` (or the deprecated `attributes`) section in its `inspec.yml` metadata file is [configuring](#configuring-inputs-in-profile-metadata) inputs.
 
 That said, any profile that uses the DSL keyword `input()` (or the deprecated `attribute()`) in the control source code supports inputs.  These profiles are *reading* (and possibly setting) Input values and using them to make decisions.
 
@@ -72,10 +72,10 @@ As installed (without specialized plugins), Chef InSpec supports five ways of se
  * Inline in control code, using `input('input_name', value: 42)`.
  * In profile `inspec.yml` metadata files
  * Using the CLI option `--input-file somefile.yaml`
- * In kitchen-inspec, using the `verifier/inputs` settings (TODO - verify)
+ * In kitchen-inspec, using the `verifier/inputs` settings
  * In the Audit Cookbook, using the `node[:audit][:inputs]`
 
-In addition, Chef InSpec supports Input Plugins, which provide optional integrations to specific key-value stores. (TODO - mention new plugins)
+In addition, Chef InSpec supports Input Plugins, which can provide optional integrations to specific key-value stores.
 
 ### How does Input precedence work?
 
@@ -157,7 +157,7 @@ end
 
 ### Setting Inputs in Control DSL
 
-When you write `input('some_name', value: 'some_value')`, you are *setting* an input value in the DSL. Because the `value:` option is present, a new value will be set.  You may also pass any other option listed in the [input option reference](link TODO).
+When you write `input('some_name', value: 'some_value')`, you are *setting* an input value in the DSL. Because the `value:` option is present, a new value will be set.  You may also pass any other option listed in the [input option reference](#input-options-reference).
 
 ### Reading Inputs in Control DSL
 
@@ -203,7 +203,7 @@ inputs:
   priority: 70
 ```
 
-All [input options](TODO link) are supported in metadata files.
+All [input options](#input-options-reference) are supported in metadata files.
 
 There are two major advantages to defining inputs in profile metadata:
  1. The inputs and their configuration are listed explicitly in simple YAML in one place - a consumer of your profile does not need to read through the control code to find the inputs.
@@ -249,7 +249,7 @@ CLI-set Inputs have a priority of 40.
 
 As of Chef InSpec 4.3.2, this mechanism has the following limitations:
 
-  1. No [input options](TODO LINK) may be set - only the name and value
+  1. No [input options](#input-options-reference) may be set - only the name and value
   2. Because the CLI is outside the scope of any one profile and the inputs don't take options, the Inputs are clumsily copied into every profile, effectively making the CLI mechanism global.
 
 ## Input Options Reference
@@ -262,7 +262,7 @@ Allowed in: All. When used in DSL and Metadata, the name is unique with the curr
 
 ### Value
 
-Optional, any Ruby or YAML type. This is the value that will be available when you read the input. See [Reading Inputs](TODO - LINK).
+Optional, any Ruby or YAML type. This is the value that will be available when you read the input. See [Reading Inputs](#reading-inputs-in-control-dsl).
 
 Allowed in: All
 
@@ -274,7 +274,7 @@ Allowed in: DSL, Metadata
 
 ### Required
 
-Optional, `true` or `false`. If `true`, a control using the input will be failed if it [reads](TODO - LINK) the value when none has been set.
+Optional, `true` or `false`. If `true`, a control using the input will be failed if it [reads](#reading-inputs-in-control-dsl) the value when none has been set.
 
 Allowed in: DSL, Metadata
 
