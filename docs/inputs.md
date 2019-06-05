@@ -139,9 +139,52 @@ Support for using the DSL keyword `attribute()`, the metadata field `attributes:
 
 ### Input Scope
 
+Inputs are available throughout the InSpec profile DSL. You can use them anywhere.
+
+```ruby
+# some_controls.rb
+
+input('outer_input', value: 1) # here
+
+control 'control-1' do
+  input('control_dsl_input', value: 2) # here too
+  describe some_resource do
+    input('test_dsl_input', value: 3) # even here
+    it { should cmp input('expectation_dsl_input') } #
+  end
+end
+```
+
 ### Setting Inputs in Control DSL
 
+When you write `input('some_name', value: 'some_value')`, you are *setting* an input value in the DSL. Because the `value:` option is present, a new value will be set.  You may also pass any other option listed in the [input option reference](link TODO).
+
 ### Reading Inputs in Control DSL
+
+When you call `input('some_name')`, with or without additional options, the value of the input will be resolved and returned. Note that this may involve sourcing the value from another provider, or overriding the value provided in the same call.
+
+```ruby
+
+# You can use the value in a Ruby variable
+some_var = input('some_input_name')
+
+# Or more directly in a resource parameter
+describe file(input('important_path')) do
+  it { should exist }
+end
+
+# Or as the resource itself (this could be a string, here)
+describe input('some_setting') do
+  it { should cmp 'correct_value' }
+end
+
+# Or as the expected value
+describe file('/etc/httpd/httpd.conf') do
+  its('owner') { should_not cmp input('webserver_user') }
+end
+```
+
+The value returned can be used anywhere a Ruby value is used.
 
 ## Configuring Inputs in Profile Metadata
 
@@ -186,40 +229,6 @@ Allowed in: DSL, Metadata
 Optional, `String`. Allows you to set an input in another profile from your profile.
 
 Allowed in: DSL, Metadata
-
-## Practices to Avoid
-
-### Routinely assigning Input values to variables
-
-You may see this anti-pattern in a control file:
-
-```ruby
-some_value = input('some_name', ...)
-another_value = input('another_name', ...)
-# additional variable-assignment code here...
-
-control 'Some Control' do
-  describe some_resource do
-    # use the variable here, instead of using the input directly
-    its('some_property') { should cmp some_value }
-  end
-end
-```
-
- in which a control file has a long sequence of statements assigning Input values to variables, then using the variables within controls. This was required in the early days of inputs, but is no longer needed since [`input()` has broad scoping](TODO - link)
-
-Instead, write the above example like this:
-
-```ruby
-# Omit unneeded variable assignments
-
-control 'Some Control' do
-  describe some_resource do
-    # just use the input directly here
-    its('some_property') { should cmp input('some_name', ...) }
-  end
-end
-```
 
 ## Advanced Topics
 
