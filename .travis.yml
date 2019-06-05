@@ -18,7 +18,7 @@ services:
 - docker
 bundler_args: "--without tools maintenance deploy"
 before_install:
-- "gem update --system '~> 3.0'"
+- "gem update --system '3.0'"
 - gem --version
 - bundle --version
 env:
