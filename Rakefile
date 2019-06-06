@@ -34,47 +34,38 @@ rescue LoadError
   puts 'contrib tasks are unavailable because the git gem is not available.'
 end
 
-# Rubocop
-begin
-  require 'rubocop/rake_task'
-  RuboCop::RakeTask.new(:lint)
-rescue LoadError
-  puts 'rubocop is not available. Install the rubocop gem to run the lint tests.'
-end
-
 task :install do
   inspec_bin_path = ::File.join(::File.dirname(__FILE__), "inspec-bin")
   Dir.chdir(inspec_bin_path)
   sh("rake install")
 end
 
-# update command output for demo
-desc 'Run inspec commands and save results to www/app/responses'
-task :update_demo do
-  ruby 'www/tutorial/scripts/build_simulator_runtime.rb'
-  ruby 'www/tutorial/scripts/run_simulator_recording.rb'
-end
+GLOBS = [
+  "test/unit/**/*_test.rb",
+  "test/functional/**/*_test.rb",
+  "lib/plugins/inspec-*/test/**/*_test.rb",
+]
 
 # run tests
-task default: [:lint, :test]
-
-Rake::TestTask.new do |t|
-  t.libs << 'test'
-  t.test_files = Dir.glob([
-    'test/unit/**/*_test.rb',
-    'lib/plugins/inspec-*/test/unit/**/*_test.rb',
-  ])
-  t.warning = false
-  t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
-  t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
-end
+task default: ['test:lint', 'test:default']
 
 namespace :test do
-  GLOBS = [
-    "test/unit/**/*_test.rb",
-    "test/functional/**/*_test.rb",
-    "lib/plugins/inspec-*/test/**/*_test.rb",
-  ]
+
+  Rake::TestTask.new(:default) do |t|
+    t.libs << 'test'
+    t.test_files = Dir[*GLOBS].sort
+    t.warning = !!ENV["W"]
+    t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
+    t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
+  end
+  task :default => [:accept_license]
+
+  begin
+    require 'rubocop/rake_task'
+    RuboCop::RakeTask.new(:lint)
+  rescue LoadError
+    puts 'rubocop is not available. Install the rubocop gem to run the lint tests.'
+  end
 
   task :list do
     puts Dir[*GLOBS].sort
@@ -121,31 +112,25 @@ namespace :test do
       'test/functional/**/*_test.rb',
       'lib/plugins/inspec-*/test/functional/**/*_test.rb',
     ])
-    t.warning = false # This just complains about things in underlying libraries
-    t.verbose = true
+    t.warning = !!ENV["W"]
+    t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
   # Inject a prerequisite task
   task :functional => [:accept_license]
 
-  # Functional tests on Windows take a bit to run. This
-  # optionally takes a env to breake the tests up into 3 workers.
-  Rake::TestTask.new(:'functional:windows') do |t, args|
-    files = Dir.glob('test/functional/*_test.rb').sort
-    if ENV['WORKER_NUMBER']
-      count = (files.count / 3).abs+1
-      start = (ENV['WORKER_NUMBER'].to_i - 1) * count
-      files = files[start..start+count-1]
-    end
-
+  Rake::TestTask.new(:unit) do |t|
     t.libs << 'test'
-    t.test_files = files
-    t.warning = false # This just complains about things in underlying libraries
-    t.verbose = true
+    t.test_files = Dir.glob([
+      'test/unit/**/*_test.rb',
+      'lib/plugins/inspec-*/test/unit/**/*_test.rb',
+    ])
+    t.warning = !!ENV["W"]
+    t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
     t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
   end
   # Inject a prerequisite task
-  task :'functional:windows' => [:accept_license]
+  task :unit => [:accept_license]
 
   task :resources do
     tests = Dir['test/unit/resource/*_test.rb']
@@ -414,18 +399,3 @@ task :release_docker do
   sh('sh', '-c', cmd)
 end
 
-desc 'Release the website [deprecated]'
-task :www do
-  puts 'The Rake tasks for releasing the website are now in the www/ directory.'
-  puts 'Run `cd www` and then `rake --tasks` for a list of the www-related tasks available.'
-  exit(1)
-end
-
-namespace :www do
-  desc 'Release the website [deprecated]'
-  task :release do
-    puts 'The Rake tasks for releasing the website are now in the www/ directory.'
-    puts 'Run `cd www` and then `rake --tasks` for a list of the www-related tasks available.'
-    exit(1)
-  end
-end
