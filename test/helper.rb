@@ -5,19 +5,22 @@
 # Do not add any other code to this code block. Simplecov and
 # coveralls only until the next code block:
 
-require 'simplecov'
-require 'coveralls'
+if ENV['CI_ENABLE_COVERAGE']
+  require 'simplecov/no_defaults'
+  require "helpers/simplecov_minitest"
+  require 'coveralls'
 
-SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
-  SimpleCov::Formatter::HTMLFormatter,
-  Coveralls::SimpleCov::Formatter
-])
+  SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
+    SimpleCov::Formatter::HTMLFormatter,
+    Coveralls::SimpleCov::Formatter
+  ])
 
-SimpleCov.start do
-  add_filter '/test/'
-  add_group 'Resources', 'lib/resources'
-  add_group 'Matchers', 'lib/matchers'
-  add_group 'Backends', 'lib/inspec/backend'
+  SimpleCov.start do
+    add_filter '/test/'
+    add_group 'Resources', 'lib/resources'
+    add_group 'Matchers', 'lib/matchers'
+    add_group 'Backends', 'lib/inspec/backend'
+  end
 end
 
 ##
