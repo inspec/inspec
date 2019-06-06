@@ -2,12 +2,6 @@ version: "2"
 checks:
   file-lines:
     enabled: false
-  identical-code:
-    # Certain areas of the DSL are repetitive - like
-    # lib/inspec/control_eval_context  - which requires
-    # identical defs in both instance and class scope
-    config:
-      threshold: 20
 plugins:
   fixme:
     enabled: true
@@ -17,7 +11,6 @@ plugins:
         - rubocop:disable
   flog:
     enabled: true
-    score_threshold: 30.0
   markdownlint:
     enabled: true
   rubocop:
