@@ -50,7 +50,7 @@ That result clearly won't do. Let's override the input's default value. Create a
 amplifier_max_volume: 11
 ```
 
-We can now run that profile with `inspec exec rock_critic --input_file custom_amps.yaml`:
+We can now run that profile with `inspec exec rock_critic --input-file custom_amps.yaml`:
 
 ```
   11
@@ -96,7 +96,7 @@ This description matches the general behavior of InSpec v3, while also making so
 
 Whenever an input provider sets a value on an input, a *priority value* is assigned to the operation.  Over the life of the input, multiple assignments with varying priority values may occur. When the input is evaluated, the current value is determined by finding the setting event with the highest priority.
 
-Note that this approach does not rely on execution order, nor does it rely on multiple named precedence levels. Each setting operation is preserved; this allows
+Note that this approach does not rely on execution order, nor does it rely on multiple named precedence levels. Each setting operation is preserved; this allows the user to [debug](#debugging-inputs-with-the-event-log) the history of the input values.
 
 Some input providers allow you to set a priority when you set the value.  For example, to set a priority of 50 in a metadata file, use:
 
@@ -126,10 +126,11 @@ As packaged, Chef InSpec uses the following priority values:
 
 ### What happened to "Attributes"?
 
-When originally introduced, the Input facility was named *Attributes*. This name was problematic, as the Chef Infra Client tool uses the same word to describe its parameterization system.
+When originally introduced, the Input facility was named *Attributes*. This name was problematic, because:
 
- * Chef attributes have a completely different and much more complex precedence system
- * Confusion about passing Chef Attributes into InSpec when using Audit Cookbook and kitchen-inspec
+ * The Chef Infra tool uses the same word to describe its parameterization system.
+ * Chef Infra attributes have a completely different and much more complex precedence system.
+ * This caused confusion about passing Chef Infra attributes into InSpec when using Audit Cookbook and kitchen-inspec.
 
 Based on these concerns, InSpec attributes have been renamed to InSpec inputs in Chef InSpec v4.
 
@@ -274,7 +275,7 @@ Allowed in: All
 
 ### Type
 
-Optional, `String`, one of `String`, `Numeric`, `Regexp`, `Array`, `Hash`, `Boolean`, or `Any`. If provided, the value with be checked to see if it is of the corresponding type. Note that `Regexp` indicates that the value itself should be a regular expression, not that it should match any particular one.
+Optional, `String`. This value must be one of `String`, `Numeric`, `Regexp`, `Array`, `Hash`, `Boolean`, or `Any`. If provided, the value of the input will be checked to see if it is of the corresponding type. Note that `Regexp` indicates that the input value itself should be a regular expression, not that it should match any particular regular expression.
 
 Allowed in: DSL, Metadata
 
