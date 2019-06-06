@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.72 -->
-## [v4.4.72](https://github.com/inspec/inspec/tree/v4.4.72) (2019-06-04)
+<!-- latest_release 4.4.73 -->
+## [v4.4.73](https://github.com/inspec/inspec/tree/v4.4.73) (2019-06-06)
 
 #### Merged Pull Requests
-- Changed version check network timeout from 1 to 3 seconds. [#4132](https://github.com/inspec/inspec/pull/4132) ([zenspider](https://github.com/zenspider))
+- Fixed up interactions between minitest &amp; simplecov. [#4188](https://github.com/inspec/inspec/pull/4188) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -23,6 +23,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Fixed up interactions between minitest &amp; simplecov. [#4188](https://github.com/inspec/inspec/pull/4188) ([zenspider](https://github.com/zenspider)) <!-- 4.4.73 -->
 - Changed version check network timeout from 1 to 3 seconds. [#4132](https://github.com/inspec/inspec/pull/4132) ([zenspider](https://github.com/zenspider)) <!-- 4.4.72 -->
 - Fixing docs so Warning note appears [#4183](https://github.com/inspec/inspec/pull/4183) ([mjingle](https://github.com/mjingle)) <!-- 4.4.71 -->
 - Stabilize windows functional testing [#4180](https://github.com/inspec/inspec/pull/4180) ([zenspider](https://github.com/zenspider)) <!-- 4.4.70 -->
