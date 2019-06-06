@@ -204,7 +204,7 @@ end
 
 An _`input`_ is a value that Chef InSpec can source from a number of providers, including from the command line, profile metadata, or within the control file DSL itself. You can use this feature either to change a [profile's](#profile) behavior by passing different attribute files or to store secrets that should not be directly present in a profile.
 
-Inputs were formerly known as `attributes`. Chef InSpec inputs are unrelated to Chef attributes.
+Inputs were formerly known as `attributes`. Chef InSpec inputs are unrelated to Chef Infra attributes.
 
 The CLI syntax for inputs is documented under the [`inspec exec`](https://www.inspec.io/docs/reference/cli/#exec) command.
 
