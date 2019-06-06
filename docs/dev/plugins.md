@@ -417,7 +417,6 @@ module InspecPlugins::Sweeten
 end
 ```
 
-
 ## Implementing DSL Plugins
 
 A DSL is a _domain specific language_, or a set of keywords you can use to write Chef InSpec profiles and resources more fluently.
