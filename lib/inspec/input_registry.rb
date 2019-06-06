@@ -63,7 +63,7 @@ module Inspec
     #-------------------------------------------------------------#
 
     def find_or_register_input(input_name, profile_name, options = {})
-      if profile_alias?(profile_name)
+      if profile_alias?(profile_name) && !profile_aliases[profile_name].nil?
         alias_name = profile_name
         profile_name = profile_aliases[profile_name]
         handle_late_arriving_alias(alias_name, profile_name) if profile_known?(alias_name)
