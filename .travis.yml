@@ -2,6 +2,9 @@ branches:
   only:
     - master
     - 3-stable
+    - /cw.*/
+    - /mj.*/
+    - /zenspider.*/
 language: ruby
 cache:
   - bundler
