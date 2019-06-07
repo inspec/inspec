@@ -7,6 +7,5 @@ Encoding.default_internal = Encoding::UTF_8
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require "inspec"
 require "inspec/cli"
 Inspec::InspecCLI.start(ARGV)

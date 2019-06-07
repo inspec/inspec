@@ -1,19 +1,30 @@
 # Copyright 2015 Dominik Richter
 
-require "logger"
-require "thor"
-require "json"
-require "pp"
-require "inspec/utils/json_log"
-require "inspec/utils/latest_version"
-require "inspec/base_cli"
-require "inspec/plugin/v1"
-require "inspec/plugin/v2"
-require "inspec/runner_mock"
-require "inspec/env_printer"
-require "inspec/schema"
-require "inspec/config"
-require "inspec/dist"
+require "inspec/utils/deprecation/deprecator"
+
+module Inspec # TODO: move this somewhere "better"?
+  autoload :BaseCLI,       "inspec/base_cli"
+  autoload :Deprecation,   "inspec/utils/deprecation"
+  autoload :Exceptions,    "inspec/exceptions"
+  autoload :Fetcher,       "inspec/fetcher"
+  autoload :Formatters,    "inspec/formatters"
+  autoload :Globals,       "inspec/globals"
+  autoload :Impact,        "inspec/impact"
+  autoload :Impact,        "inspec/impact"
+  autoload :InputRegistry, "inspec/input_registry"
+  autoload :Profile,       "inspec/profile"
+  autoload :Reporters,     "inspec/reporters"
+  autoload :Resource,      "inspec/resource"
+  autoload :Rule,          "inspec/rule"
+  autoload :Runner,        "inspec/runner"
+  autoload :Runner,        "inspec/runner"
+  autoload :Shell,         "inspec/shell"
+  autoload :SourceReader,  "inspec/source_reader"
+  autoload :Telemetry,     "inspec/utils/telemetry"
+  autoload :V1,            "inspec/plugin/v1"
+  autoload :V2,            "inspec/plugin/v2"
+  autoload :VERSION,       "inspec/version"
+end
 
 class Inspec::InspecCLI < Inspec::BaseCLI
   class_option :log_level, aliases: :l, type: :string,
@@ -50,6 +61,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "A list of controls to include. Ignore all other tests."
   profile_options
   def json(target)
+    require 'inspec/resources'
+    require 'json'
+
     o = config
     diagnose(o)
     o["log_location"] = $stderr
@@ -86,6 +100,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :format, type: :string
   profile_options
   def check(path) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+    require 'inspec/resources'
+
     o = config
     diagnose(o)
     o["log_location"] ||= STDERR if o["format"] == "json"
@@ -142,6 +158,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :overwrite, type: :boolean, default: false,
     desc: "Overwrite existing vendored dependencies and lockfile."
   def vendor(path = nil)
+    require 'inspec/resources'
+
     o = config
     configure_logger(o)
     o[:logger] = Logger.new($stdout)
@@ -163,6 +181,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :ignore_errors, type: :boolean, default: false,
     desc: "Ignore profile warnings."
   def archive(path)
+    require 'inspec/resources'
+
     o = config
     diagnose(o)
 
@@ -347,6 +367,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
   desc "schema NAME", "print the JSON schema", hide: true
   def schema(name)
+    require 'inspec/schema'
+
     puts Inspec::Schema.json(name)
   rescue StandardError => e
     puts e
@@ -360,8 +382,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       v = { version: Inspec::VERSION }
       puts v.to_json
     else
+      require 'inspec/utils/latest_version'
       puts Inspec::VERSION
       # display outdated version
+      # TODO: remove this. Don't notify of update to a gem when they install omnibus
       latest = LatestInSpecVersion.new.latest || Inspec::VERSION
       if Gem::Version.new(Inspec::VERSION) < Gem::Version.new(latest)
         puts "\nYour version of #{Inspec::Dist::PRODUCT_NAME} is out of date! The latest version is #{latest}."
@@ -369,6 +393,11 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     end
   end
   map %w{-v --version} => :version
+
+  desc 'nothing', 'does nothing'
+  def nothing
+    puts 'you did nothing'
+  end
 
   private
 
