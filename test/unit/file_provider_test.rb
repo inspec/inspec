@@ -1,4 +1,5 @@
 require "helper"
+require "inspec/file_provider" # TODO: split
 
 describe Inspec::MockProvider do
   let(:subject) { Inspec::MockProvider.new(target) }

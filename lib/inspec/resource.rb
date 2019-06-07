@@ -1,5 +1,6 @@
 # copyright: 2015, Vulcano Security GmbH
 require "inspec/plugin/v1"
+require "inspec/utils/deprecation/global_method" # for resources
 
 module Inspec
   class ProfileNotFound < StandardError; end

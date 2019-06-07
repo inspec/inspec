@@ -1,4 +1,7 @@
 require "helper"
+require "inspec/resource"
+require "inspec/resources/os"
+# require 'inspec/plugin/v1/plugin_types/resource'
 
 describe Inspec::Plugins::Resource do
   let(:base) { Inspec::Plugins::Resource }
@@ -17,7 +20,8 @@ describe Inspec::Plugins::Resource do
   end
 
   def create(&block)
-    random_name = (0...50).map { (65 + rand(26)).chr }.join
+    # random_name = (0...50).map { (65 + rand(26)).chr }.join
+    random_name = "NotSoRandomName"
     Class.new(base) do
       name random_name
       instance_eval(&block)

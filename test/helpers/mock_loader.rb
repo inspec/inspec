@@ -1,3 +1,5 @@
+require "inspec/resources"
+
 class MockLoader
   # collects emulation operating systems
   OPERATING_SYSTEMS = {
@@ -568,6 +570,7 @@ class MockLoader
   end
 
   def self.load_profile(name, opts = {})
+    require "inspec/profile"
     opts[:test_collector] = Inspec::RunnerMock.new
     opts[:backend] = Inspec::Backend.create(Inspec::Config.mock(opts))
     Inspec::Profile.for_target(profile_path(name), opts)

@@ -1,6 +1,9 @@
 # Copyright 2015 Dominik Richter
 
 require "inspec/utils/deprecation/deprecator"
+require "inspec/dist"
+require "inspec/backend"
+require "inspec/dependencies/cache"
 
 module Inspec # TODO: move this somewhere "better"?
   autoload :BaseCLI,       "inspec/base_cli"
@@ -61,8 +64,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "A list of controls to include. Ignore all other tests."
   profile_options
   def json(target)
-    require 'inspec/resources'
-    require 'json'
+    require "inspec/resources"
+    require "json"
 
     o = config
     diagnose(o)
@@ -100,7 +103,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :format, type: :string
   profile_options
   def check(path) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-    require 'inspec/resources'
+    require "inspec/resources"
 
     o = config
     diagnose(o)
@@ -158,7 +161,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :overwrite, type: :boolean, default: false,
     desc: "Overwrite existing vendored dependencies and lockfile."
   def vendor(path = nil)
-    require 'inspec/resources'
+    require "inspec/resources"
 
     o = config
     configure_logger(o)
@@ -181,7 +184,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :ignore_errors, type: :boolean, default: false,
     desc: "Ignore profile warnings."
   def archive(path)
-    require 'inspec/resources'
+    require "inspec/resources"
 
     o = config
     diagnose(o)
@@ -367,7 +370,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
   desc "schema NAME", "print the JSON schema", hide: true
   def schema(name)
-    require 'inspec/schema'
+    require "inspec/schema"
 
     puts Inspec::Schema.json(name)
   rescue StandardError => e
@@ -382,7 +385,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       v = { version: Inspec::VERSION }
       puts v.to_json
     else
-      require 'inspec/utils/latest_version'
+      require "inspec/utils/latest_version"
       puts Inspec::VERSION
       # display outdated version
       # TODO: remove this. Don't notify of update to a gem when they install omnibus
@@ -394,9 +397,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   end
   map %w{-v --version} => :version
 
-  desc 'nothing', 'does nothing'
+  desc "nothing", "does nothing"
   def nothing
-    puts 'you did nothing'
+    puts "you did nothing"
   end
 
   private
@@ -452,6 +455,8 @@ end
 #---------------------------------------------------------------------#
 # Plugin Loading
 #---------------------------------------------------------------------#
+require "inspec/plugin/v2"
+
 begin
   # Load v2 plugins.  Manually check for plugin disablement.
   omit_core = ARGV.delete("--disable-core-plugins")

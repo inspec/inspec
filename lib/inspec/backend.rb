@@ -2,6 +2,7 @@
 
 require "train"
 require "inspec/config"
+require "inspec/version"
 
 module Inspec
   module Backend

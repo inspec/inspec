@@ -1,3 +1,5 @@
+require "inspec/objects/input"
+
 module PkeyReader
   def read_pkey(filecontent, passphrase)
     raise_if_unset(passphrase)

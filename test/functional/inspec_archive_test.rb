@@ -1,5 +1,7 @@
 require "functional/helper"
 require "tmpdir"
+require "zip"
+require "rubygems/package"
 
 describe "inspec archive" do
   include FunctionalHelper

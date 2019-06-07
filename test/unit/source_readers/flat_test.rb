@@ -1,4 +1,6 @@
 require "helper"
+require "inspec/source_reader"
+require "source_readers/flat" # TODO: break circular
 
 describe SourceReaders::Flat do
   let(:reader) { SourceReaders::Flat }

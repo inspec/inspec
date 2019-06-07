@@ -1,5 +1,6 @@
 require "helper"
 require "inspec/control_eval_context"
+require "inspec/profile_context"
 
 describe Inspec::ControlEvalContext do
   module FakeDSL
