@@ -3,6 +3,7 @@
 require "train"
 require "inspec/config"
 require "inspec/version"
+require "inspec/resource"
 
 module Inspec
   module Backend

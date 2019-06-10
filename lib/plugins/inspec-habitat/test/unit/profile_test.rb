@@ -1,6 +1,7 @@
 require "mixlib/log"
 require "fileutils"
 require "minitest/autorun"
+require "inspec/backend"
 require_relative "../../lib/inspec-habitat/profile.rb"
 
 class InspecPlugins::Habitat::ProfileTest < Minitest::Test
