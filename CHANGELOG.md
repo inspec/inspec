@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.75 -->
-## [v4.4.75](https://github.com/inspec/inspec/tree/v4.4.75) (2019-06-06)
+<!-- latest_release 4.5.0 -->
+## [v4.5.0](https://github.com/inspec/inspec/tree/v4.5.0) (2019-06-10)
 
-#### Merged Pull Requests
-- Test execution changes for Rake, Travis, and Appveyor [#4102](https://github.com/inspec/inspec/pull/4102) ([miah](https://github.com/miah))
+#### New Features
+- New plugin type: Input [#4019](https://github.com/inspec/inspec/pull/4019) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -15,6 +15,7 @@
 - inspec check: Send log to STDERR when running with --format json [#4001](https://github.com/inspec/inspec/pull/4001) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.55 -->
 
 #### New Features
+- New plugin type: Input [#4019](https://github.com/inspec/inspec/pull/4019) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.5.0 -->
 - Rename &#39;attribute&#39; DSL method to &#39;input&#39; [#4008](https://github.com/inspec/inspec/pull/4008) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.0 -->
 
 #### Enhancements
