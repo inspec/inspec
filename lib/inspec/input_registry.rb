@@ -221,10 +221,10 @@ module Inspec
         return
       end
 
-      raw_inputs.each { |i| handle_raw_input_from_metadata(i) }
+      raw_inputs.each { |i| handle_raw_input_from_metadata(i, profile_name) }
     end
 
-    def handle_raw_input_from_metadata(input_orig)
+    def handle_raw_input_from_metadata(input_orig, profile_name)
       input_options = input_orig.dup
       input_name = input_options.delete(:name)
       input_options[:provider] = :profile_metadata
