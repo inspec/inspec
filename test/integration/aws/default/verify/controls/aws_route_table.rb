@@ -3,7 +3,7 @@ fixtures = {}
   'route_table_1_id',
   'route_table_1_vpc_id',
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
     fixture_name,
     default: "default.#{fixture_name}",
     description: 'See ../build/route_table.tf',

@@ -3,7 +3,7 @@ fixtures = {}
   'role_for_config_recorder_arn',
   'config_recorder_name',
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
     fixture_name,
     default: "default.#{fixture_name}",
     description: 'See ../build/config.tf',

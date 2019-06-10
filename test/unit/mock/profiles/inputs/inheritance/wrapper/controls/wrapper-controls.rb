@@ -5,7 +5,7 @@ include_controls('inheritance-child-01')
 include_controls('inheritance-child-02-aliased')
 
 control 'wrapper-control-01' do
-  describe attribute('test-01') do
+  describe input('test-01') do
     # This is an independent value, inheritance-wrapper/test-01
     it { should cmp 'value-from-wrapper-metadata' }
   end

@@ -1,17 +1,17 @@
 control 'only_in_plugin' do
-  describe attribute('test_only_in_plugin') do
+  describe input('test_only_in_plugin') do
     it { should cmp 'only_in_plugin' }
   end
 end
 
 control 'collide_plugin_higher' do
-  describe attribute('test_collide_plugin_higher', value: 'wrong', priority: 10) do
+  describe input('test_collide_plugin_higher', value: 'wrong', priority: 10) do
     it { should cmp 'collide_plugin_higher' }
   end
 end
 
 control 'collide_inline_higher' do
-  describe attribute('test_collide_inline_higher', value: 'collide_inline_higher', priority: 70) do
+  describe input('test_collide_inline_higher', value: 'collide_inline_higher', priority: 70) do
     it { should cmp 'collide_inline_higher' }
   end
 end
@@ -19,7 +19,7 @@ end
 control 'event_log' do
   # This attribute is set here here in the DSL and in the plugin
   # An attribute with this history should have 3 events - a create, a DSL set, and a plugin fetch.
-  attribute('test_event_log', value: 'setting_in_dsl')
+  input('test_event_log', value: 'setting_in_dsl')
 
   # Fetch the attribute object from the registry
   input_obj = Inspec::InputRegistry.find_or_register_input('test_event_log', 'input-test-fixture')

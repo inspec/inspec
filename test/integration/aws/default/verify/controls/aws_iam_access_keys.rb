@@ -4,7 +4,7 @@ fixtures = {}
   'iam_user_without_access_key',  
   'iam_access_key_recall_hit',
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
     fixture_name,
     default: "default.#{fixture_name}",
     description: 'See ../build/iam.tf',

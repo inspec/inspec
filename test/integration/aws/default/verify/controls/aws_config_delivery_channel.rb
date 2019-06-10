@@ -6,7 +6,7 @@ fixtures = {}
   'delivery_channel_01_bucket_prefix',
   'sns_topic_for_delivery_channel_arn'
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
     fixture_name,
     default: "default.#{fixture_name}",
     description: 'See ../build/iam.tf',

@@ -4,7 +4,7 @@ fixtures = {}
   'cloudwatch_alarm_1_metric_name',
   'cloudwatch_alarm_1_namespace',
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
   fixture_name,
   default: "default.#{fixture_name}",
   description: 'See ../build/cloudwatch.tf',

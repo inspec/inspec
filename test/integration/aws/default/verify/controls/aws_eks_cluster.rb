@@ -5,7 +5,7 @@ fixtures = {}
   'eks_cluster_security_group_id',
   'eks_vpc_subnets',
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
     fixture_name,
     default: "default.#{fixture_name}",
     description: 'See ../build/eks.tf',

@@ -4,7 +4,7 @@ fixtures = {}
   'subnet_01_id',
   'subnet_01_az',
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
     fixture_name,
     default: "default.#{fixture_name}",
     description: 'See ../build/ec2.tf',
