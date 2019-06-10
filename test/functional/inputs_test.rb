@@ -1,5 +1,7 @@
 require 'functional/helper'
 
+# For tests related to reading inputs from plugins, see plugins_test.rb
+
 describe 'inputs' do
   include FunctionalHelper
   let(:inputs_profiles_path) { File.join(profile_path, 'inputs') }

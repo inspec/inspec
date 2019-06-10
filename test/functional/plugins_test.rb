@@ -96,6 +96,51 @@ describe 'cli command plugins' do
 end
 
 #=========================================================================================#
+#                             Input plugin type
+#=========================================================================================#
+describe 'input plugins' do
+  include FunctionalHelper
+  let(:env) { { INSPEC_CONFIG_DIR: "#{config_dir_path}/input_plugin" } }
+  let(:profile) { "#{profile_path}/inputs/plugin" }
+  def run_input_plugin_test_with_controls(controls)
+    cmd = "exec #{profile} --controls #{controls}"
+    run_result = run_inspec_process(cmd, json: true, env: env)
+    run_result.must_have_all_controls_passing
+    run_result.stderr.must_be_empty
+  end
+
+  describe 'when an input is provided only by a plugin' do
+    it 'should find the value' do
+      run_input_plugin_test_with_controls('only_in_plugin')
+    end
+  end
+
+  describe 'when an input is provided both inline and by a higher-precedence plugin' do
+    it 'should use the value from the plugin' do
+      run_input_plugin_test_with_controls('collide_plugin_higher')
+    end
+  end
+
+  describe 'when an input is provided both inline and by a lower-precedence plugin' do
+    it 'should use the value from inline' do
+      run_input_plugin_test_with_controls('collide_inline_higher')
+    end
+  end
+
+  describe 'when examining the event log' do
+    it 'should include the expected events' do
+      run_input_plugin_test_with_controls('event_log')
+    end
+  end
+
+  describe 'when listing available inputs' do
+    it 'should list available inputs' do
+      run_input_plugin_test_with_controls('list_events')
+    end
+  end
+end
+
+#=========================================================================================#
 #                           inspec plugin command
 #=========================================================================================#
 # See lib/plugins/inspec-plugin-manager-cli/test

@@ -18,6 +18,7 @@ AllCops:
   - 'vendor/**/*'
   - 'lib/bundles/inspec-init/templates/**/*'
   - 'www/demo/**/*'
+  - 'kitchen/**/*'
 AlignParameters:
   Enabled: true
 BlockDelimiters:
