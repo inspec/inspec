@@ -34,15 +34,17 @@ describe Inspec::Input do
 
       ruby_code = input.to_ruby
       ruby_code.must_include "attr_application_port = " # Should assign to a var
-      ruby_code.must_include "attribute('application_port'" # Should have the DSL call
-      ruby_code.must_include "value: 80"
-      ruby_code.must_include "default: 80"
+      # Should have the DSL call. This should be attribute(), not input(), for the
+      # foreseeable future, to maintain backwards compatibility.
+      ruby_code.must_include "attribute('application_port'"
+      ruby_code.must_include 'value: 80'
+      ruby_code.must_include 'default: 80'
       ruby_code.must_include "description: 'The port my application uses'"
 
       # Try to eval the code to verify that the generated code was valid ruby.
-      # Note that the attribute() method is part of the DSL, so we need to
+      # Note that the input() method is part of the DSL, so we need to
       # alter the call into something that can respond - the constructor will do
-      ruby_code_for_eval = ruby_code.sub(/attribute\(/, "Inspec::Input.new(")
+      ruby_code_for_eval = ruby_code.sub(/input\(/,'Inspec::Input.new(')
 
       # This will throw exceptions if there is a problem
       new_attr = eval(ruby_code_for_eval) # rubocop:disable Security/Eval # Could use ripper!
