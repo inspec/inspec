@@ -61,8 +61,11 @@ namespace :test do
   task default: [:accept_license]
 
   begin
+    require "chefstyle"
     require "rubocop/rake_task"
-    RuboCop::RakeTask.new(:lint)
+    RuboCop::RakeTask.new(:lint) do |task|
+      task.options += ["--display-cop-names", "--no-color", "--parallel"]
+    end
   rescue LoadError
     puts "rubocop is not available. Install the rubocop gem to run the lint tests."
   end
