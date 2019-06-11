@@ -1,7 +1,7 @@
 # Number of days of inactivity before an issue becomes stale
 daysUntilStale: 365
 # Number of days of inactivity before a stale issue is closed
-daysUntilClose: false
+daysUntilClose: 400
 # Issues with these labels will never be considered stale
 exemptLabels:
   - "Aspect: Security"
@@ -11,8 +11,11 @@ staleLabel: Stale
 # Comment to post when marking an issue as stale. Set to `false` to disable
 markComment: >
   This issue has been automatically marked as stale because it has not had
-  recent activity. It will be closed if no further activity occurs. 
+  recent activity. It will be closed if no further activity occurs.
   We value your input and contribution.
-  Please leave a comment if this issue still affects you. 
+  Please leave a comment if this issue still affects you.
 # Comment to post when closing a stale issue. Set to `false` to disable
-closeComment: false
+closeComment: >
+  This issue has been automatically closed after being stale for 400 days.
+  We still value your input and contribution.
+  Please re-open the issue if desired and leave a comment with details.
