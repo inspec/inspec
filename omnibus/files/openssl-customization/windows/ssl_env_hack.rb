@@ -21,13 +21,13 @@
 #
 # This is required to make Chef tools use https URLs out of the box.
 
-unless ENV.key?('SSL_CERT_FILE')
+unless ENV.key?("SSL_CERT_FILE")
   base_dirs = File.dirname(__FILE__).split(File::SEPARATOR)
 
   (base_dirs.length - 1).downto(0) do |i|
-    candidate_ca_bundle = File.join(base_dirs[0..i] + ['ssl/certs/cacert.pem'])
+    candidate_ca_bundle = File.join(base_dirs[0..i] + ["ssl/certs/cacert.pem"])
     if File.exist?(candidate_ca_bundle)
-      ENV['SSL_CERT_FILE'] = candidate_ca_bundle
+      ENV["SSL_CERT_FILE"] = candidate_ca_bundle
       break
     end
   end

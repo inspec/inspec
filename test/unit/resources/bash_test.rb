@@ -1,26 +1,26 @@
-require 'helper'
-require 'inspec/resource'
-require 'inspec/resources/bash'
+require "helper"
+require "inspec/resource"
+require "inspec/resources/bash"
 
 describe "Inspec::Resources::Bash" do
   let(:x) { rand.to_s }
-  let(:resource) { load_resource('bash', '$("'+x+'")') }
+  let(:resource) { load_resource("bash", '$("' + x + '")') }
 
-  it 'prints as a bash command' do
-    resource.to_s.must_equal 'Bash command $("'+x+'")'
+  it "prints as a bash command" do
+    resource.to_s.must_equal 'Bash command $("' + x + '")'
   end
 
-  it 'wraps the command' do
+  it "wraps the command" do
     resource.command.must_equal "bash -c \\$\\(\\\"#{x}\\\"\\)"
   end
 
-  it 'can specify an executable path' do
-    resource = load_resource('bash', '$("'+x+'")', path: '/bin/bash')
+  it "can specify an executable path" do
+    resource = load_resource("bash", '$("' + x + '")', path: "/bin/bash")
     resource.command.must_equal "/bin/bash -c \\$\\(\\\"#{x}\\\"\\)"
   end
 
-  it 'can specify a arguments' do
-    resource = load_resource('bash', '$("'+x+'")', args: '-x -c')
+  it "can specify a arguments" do
+    resource = load_resource("bash", '$("' + x + '")', args: "-x -c")
     resource.command.must_equal "bash -x -c \\$\\(\\\"#{x}\\\"\\)"
   end
 end

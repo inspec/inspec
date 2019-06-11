@@ -5,8 +5,8 @@ require "matchers/matchers"
 
 require "pry"
 
-describe 'inspec matchers' do
-  describe 'cmp matcher' do
+describe "inspec matchers" do
+  describe "cmp matcher" do
     include RSpec::Matchers
 
     ##
@@ -14,14 +14,14 @@ describe 'inspec matchers' do
     #
     # expect(expression).to be expected_value
 
-    def rspec_expect value, &block
+    def rspec_expect(value, &block)
       ::RSpec::Expectations::ExpectationTarget.for(value, block)
     end
 
     ##
     # Assert using the `cmp` matcher.
 
-    def assert_cmp expect, actual
+    def assert_cmp(expect, actual)
       # expect(Account.new.balance).to eq(Money.new(0))
       # => expect(actual).to cmp expect
 
@@ -34,7 +34,7 @@ describe 'inspec matchers' do
     ##
     # Refute using the `cmp` matcher.
 
-    def refute_cmp expect, actual
+    def refute_cmp(expect, actual)
       actual = rspec_expect actual
       expect = cmp expect
 
@@ -113,7 +113,7 @@ describe 'inspec matchers' do
 
     it "String(oct) cmp Int" do
       assert_cmp "0777", 0777
-      refute_cmp "0777", 0777+1
+      refute_cmp "0777", 0777 + 1
       refute_cmp "0999", 0 # bad octal regexp
     end
 

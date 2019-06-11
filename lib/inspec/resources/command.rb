@@ -2,10 +2,10 @@
 
 module Inspec::Resources
   class Cmd < Inspec.resource(1)
-    name 'command'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the command InSpec audit resource to test an arbitrary command that is run on the system.'
+    name "command"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the command InSpec audit resource to test an arbitrary command that is run on the system."
     example <<~EXAMPLE
       describe command('ls -al /') do
         its('stdout') { should match /bin/ }
@@ -23,7 +23,7 @@ module Inspec::Resources
 
     def initialize(cmd, options = {})
       if cmd.nil?
-        raise 'InSpec `command` was called with `nil` as the argument. This is not supported. Please provide a valid command instead.'
+        raise "InSpec `command` was called with `nil` as the argument. This is not supported. Please provide a valid command instead."
       end
 
       @command = cmd
@@ -31,9 +31,9 @@ module Inspec::Resources
       if options[:redact_regex]
         unless options[:redact_regex].is_a?(Regexp)
           # Make sure command is replaced so sensitive output isn't shown
-          @command = 'ERROR'
+          @command = "ERROR"
           raise Inspec::Exceptions::ResourceFailed,
-                'The `redact_regex` option must be a regular expression'
+                "The `redact_regex` option must be a regular expression"
         end
         @redact_regex = options[:redact_regex]
       end
@@ -57,10 +57,10 @@ module Inspec::Resources
 
     def exist? # rubocop:disable Metrics/AbcSize
       # silent for mock resources
-      return false if inspec.os.name.nil? || inspec.os.name == 'mock'
+      return false if inspec.os.name.nil? || inspec.os.name == "mock"
 
       if inspec.os.linux?
-        res = if inspec.platform.name == 'alpine'
+        res = if inspec.platform.name == "alpine"
                 inspec.backend.run_command("which \"#{@command}\"")
               else
                 inspec.backend.run_command("bash -c 'type \"#{@command}\"'")

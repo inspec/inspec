@@ -1,12 +1,12 @@
 #
 # adds a yaml file
 
-['yml', 'json', 'csv', 'ini', 'toml', 'xml'].each { |filetype|
+%w{yml json csv ini toml xml}.each do |filetype|
 
-  if node['platform_family'] != 'windows'
+  if node["platform_family"] != "windows"
     cookbook_file "/tmp/example.#{filetype}" do
       source "example.#{filetype}"
-      mode '0755'
+      mode "0755"
       action :create
     end
   else
@@ -15,4 +15,4 @@
       action :create
     end
   end
-}
+end

@@ -1,9 +1,9 @@
-require 'helper'
-require 'inspec/resource'
-require 'resources/aws/aws_iam_user'
+require "helper"
+require "inspec/resource"
+require "resources/aws/aws_iam_user"
 
-require 'resource_support/aws'
-require 'resources/aws/aws_iam_user'
+require "resource_support/aws"
+require "resources/aws/aws_iam_user"
 
 # MAUIB = MockAwsIamUserBackend
 # Abbreviation not used outside this file
@@ -22,11 +22,11 @@ class AwsIamUserConstructorTest < Minitest::Test
   end
 
   def test_accepts_username_as_scalar
-    AwsIamUser.new('erin')
+    AwsIamUser.new("erin")
   end
 
   def test_accepts_username_as_hash
-    AwsIamUser.new(username: 'erin')
+    AwsIamUser.new(username: "erin")
   end
 
   def test_rejects_unrecognized_params
@@ -43,20 +43,20 @@ class AwsIamUserRecallTest < Minitest::Test
   end
 
   def test_search_miss_is_not_an_exception
-    user = AwsIamUser.new('tommy')
+    user = AwsIamUser.new("tommy")
     refute user.exists?
   end
 
   def test_search_hit_via_scalar_works
-    user = AwsIamUser.new('erin')
+    user = AwsIamUser.new("erin")
     assert user.exists?
-    assert_equal('erin', user.username)
+    assert_equal("erin", user.username)
   end
 
   def test_search_hit_via_hash_works
-    user = AwsIamUser.new(username: 'erin')
+    user = AwsIamUser.new(username: "erin")
     assert user.exists?
-    assert_equal('erin', user.username)
+    assert_equal("erin", user.username)
   end
 end
 
@@ -70,62 +70,62 @@ class AwsIamUserPropertiesTest < Minitest::Test
   end
 
   def test_property_attached_policies
-    noone = AwsIamUser.new('nonesuch')
+    noone = AwsIamUser.new("nonesuch")
     assert_empty(noone.attached_policy_names)
     assert_empty(noone.attached_policy_arns)
 
-    erin = AwsIamUser.new('erin')
+    erin = AwsIamUser.new("erin")
     assert_empty(erin.attached_policy_names)
     assert_empty(erin.attached_policy_arns)
 
-    leslie = AwsIamUser.new('leslie')
+    leslie = AwsIamUser.new("leslie")
     assert_equal(1, leslie.attached_policy_names.count)
-    assert_includes(leslie.attached_policy_names, 'AdministratorAccess')
+    assert_includes(leslie.attached_policy_names, "AdministratorAccess")
     assert_equal(1, leslie.attached_policy_arns.count)
-    assert_includes(leslie.attached_policy_arns, 'arn:aws:iam::aws:policy/AdministratorAccess')
+    assert_includes(leslie.attached_policy_arns, "arn:aws:iam::aws:policy/AdministratorAccess")
 
-    jared = AwsIamUser.new('jared')
+    jared = AwsIamUser.new("jared")
     assert_equal(2, jared.attached_policy_names.count)
-    assert_includes(jared.attached_policy_names, 'ReadOnlyAccess')
+    assert_includes(jared.attached_policy_names, "ReadOnlyAccess")
     assert_equal(2, jared.attached_policy_arns.count)
-    assert_includes(jared.attached_policy_arns, 'arn:aws:iam::aws:policy/ReadOnlyAccess')
+    assert_includes(jared.attached_policy_arns, "arn:aws:iam::aws:policy/ReadOnlyAccess")
   end
 
   def test_property_inline_policies
-    noone = AwsIamUser.new('nonesuch')
+    noone = AwsIamUser.new("nonesuch")
     assert_empty(noone.inline_policy_names)
 
-    erin = AwsIamUser.new('erin')
+    erin = AwsIamUser.new("erin")
     assert_empty(erin.inline_policy_names)
 
-    leslie = AwsIamUser.new('leslie')
+    leslie = AwsIamUser.new("leslie")
     assert_equal(2, leslie.inline_policy_names.count)
-    assert_includes(leslie.inline_policy_names, 'leslie-inline-01')
-    assert_includes(leslie.inline_policy_names, 'leslie-inline-02')
+    assert_includes(leslie.inline_policy_names, "leslie-inline-01")
+    assert_includes(leslie.inline_policy_names, "leslie-inline-02")
 
-    jared = AwsIamUser.new('jared')
+    jared = AwsIamUser.new("jared")
     assert_equal(1, jared.inline_policy_names.count)
-    assert_includes(jared.inline_policy_names, 'jared-inline-01')
+    assert_includes(jared.inline_policy_names, "jared-inline-01")
   end
 
   #-----------------------------------------------------#
   # username property
   #-----------------------------------------------------#
   def test_property_username_correct_on_hit
-    user = AwsIamUser.new('erin')
-    assert_equal('erin', user.username)
+    user = AwsIamUser.new("erin")
+    assert_equal("erin", user.username)
   end
 
   def test_property_username_correct_on_miss
-    user = AwsIamUser.new('nonesuch')
-    assert_equal('nonesuch', user.username)
+    user = AwsIamUser.new("nonesuch")
+    assert_equal("nonesuch", user.username)
   end
 
   #-----------------------------------------------------#
   # access_keys property
   #-----------------------------------------------------#
   def test_property_access_keys_positive
-    keys = AwsIamUser.new('erin').access_keys
+    keys = AwsIamUser.new("erin").access_keys
     assert_kind_of(Array, keys)
     assert_equal(keys.length, 2)
     # We don't currently promise that the results
@@ -134,7 +134,7 @@ class AwsIamUserPropertiesTest < Minitest::Test
   end
 
   def test_property_access_keys_negative
-    keys = AwsIamUser.new('leslie').access_keys
+    keys = AwsIamUser.new("leslie").access_keys
     assert_kind_of(Array, keys)
     assert(keys.empty?)
   end
@@ -150,41 +150,41 @@ class AwsIamUserMatchersTest < Minitest::Test
   end
 
   def test_matcher_mfa_positive
-    user = AwsIamUser.new('erin')
+    user = AwsIamUser.new("erin")
     assert_equal(true, user.has_mfa_enabled)
     assert_equal(true, user.has_mfa_enabled?)
   end
 
   def test_matcher_mfa_negative
-    user = AwsIamUser.new('leslie')
+    user = AwsIamUser.new("leslie")
     assert_equal(false, user.has_mfa_enabled)
     assert_equal(false, user.has_mfa_enabled?)
   end
 
   def test_matcher_password_positive
-    user = AwsIamUser.new('erin')
+    user = AwsIamUser.new("erin")
     assert_equal(true, user.has_console_password)
     assert_equal(true, user.has_console_password?)
   end
 
   def test_matcher_password_negative
-    user = AwsIamUser.new('leslie')
+    user = AwsIamUser.new("leslie")
     assert_equal(false, user.has_console_password)
     assert_equal(false, user.has_console_password?)
   end
 
   def test_matcher_has_attached_policies
-    assert_nil(AwsIamUser.new('nonesuch').has_attached_policies?)
-    refute(AwsIamUser.new('erin').has_attached_policies?)
-    assert(AwsIamUser.new('leslie').has_attached_policies?)
-    assert(AwsIamUser.new('jared').has_attached_policies?)
+    assert_nil(AwsIamUser.new("nonesuch").has_attached_policies?)
+    refute(AwsIamUser.new("erin").has_attached_policies?)
+    assert(AwsIamUser.new("leslie").has_attached_policies?)
+    assert(AwsIamUser.new("jared").has_attached_policies?)
   end
 
   def test_matcher_has_inline_policies
-    assert_nil(AwsIamUser.new('nonesuch').has_inline_policies?)
-    refute(AwsIamUser.new('erin').has_inline_policies?)
-    assert(AwsIamUser.new('leslie').has_inline_policies?)
-    assert(AwsIamUser.new('jared').has_inline_policies?)
+    assert_nil(AwsIamUser.new("nonesuch").has_inline_policies?)
+    refute(AwsIamUser.new("erin").has_inline_policies?)
+    assert(AwsIamUser.new("leslie").has_inline_policies?)
+    assert(AwsIamUser.new("jared").has_inline_policies?)
   end
 
 end
@@ -197,7 +197,7 @@ module MAIUB
   class Three < AwsBackendBase
     def get_user(criteria)
       people = {
-        'erin' => OpenStruct.new({
+        "erin" => OpenStruct.new({
           user: OpenStruct.new({
             arn: "arn:aws:iam::123456789012:user/erin",
             create_date: Time.parse("2016-09-21T23:03:13Z"),
@@ -206,7 +206,7 @@ module MAIUB
             user_name: "erin",
           }),
         }),
-        'leslie' => OpenStruct.new({
+        "leslie" => OpenStruct.new({
           user: OpenStruct.new({
             arn: "arn:aws:iam::123456789012:user/leslie",
             create_date: Time.parse("2017-09-21T23:03:13Z"),
@@ -215,7 +215,7 @@ module MAIUB
             user_name: "leslie",
           }),
         }),
-        'jared' => OpenStruct.new({
+        "jared" => OpenStruct.new({
           user: OpenStruct.new({
             arn: "arn:aws:iam::123456789012:user/jared",
             create_date: Time.parse("2017-09-21T23:03:13Z"),
@@ -233,16 +233,16 @@ module MAIUB
       # Leslie has no password
       # Jared's is expired
       people = {
-        'erin' => OpenStruct.new({
+        "erin" => OpenStruct.new({
           login_profile: OpenStruct.new({
-            user_name: 'erin',
+            user_name: "erin",
             password_reset_required: false,
             create_date: Time.parse("2016-09-21T23:03:13Z"),
           }),
         }),
-        'jared' => OpenStruct.new({
+        "jared" => OpenStruct.new({
           login_profile: OpenStruct.new({
-            user_name: 'jared',
+            user_name: "jared",
             password_reset_required: true,
             create_date: Time.parse("2017-09-21T23:03:13Z"),
           }),
@@ -251,34 +251,35 @@ module MAIUB
       raise Aws::IAM::Errors::NoSuchEntity.new(nil, nil) unless people.key?(criteria[:user_name])
       people[criteria[:user_name]]
     end
+
     def list_mfa_devices(criteria)
       # Erin has 2, one soft and one hw
       # Leslie has none
       # Jared has one soft
       people = {
-        'erin' => OpenStruct.new({
+        "erin" => OpenStruct.new({
           mfa_devices: [
             OpenStruct.new({
-              user_name: 'erin',
-              serial_number: 'arn:blahblahblah',
+              user_name: "erin",
+              serial_number: "arn:blahblahblah",
               enable_date: Time.parse("2016-09-21T23:03:13Z"),
             }),
             OpenStruct.new({
-              user_name: 'erin',
-              serial_number: '1234567890',
+              user_name: "erin",
+              serial_number: "1234567890",
               enable_date: Time.parse("2016-09-21T23:03:13Z"),
             }),
-          ]
+          ],
         }),
-        'leslie' => OpenStruct.new({mfa_devices: []}),
-        'jared' => OpenStruct.new({
+        "leslie" => OpenStruct.new({ mfa_devices: [] }),
+        "jared" => OpenStruct.new({
           mfa_devices: [
             OpenStruct.new({
-              user_name: 'jared',
-              serial_number: 'arn:blahblahblah',
+              user_name: "jared",
+              serial_number: "arn:blahblahblah",
               enable_date: Time.parse("2016-09-21T23:03:13Z"),
             }),
-          ]
+          ],
         }),
       }
       people[criteria[:user_name]]
@@ -289,32 +290,32 @@ module MAIUB
       # Leslie has none
       # Jared has one
       people = {
-        'erin' => OpenStruct.new({
+        "erin" => OpenStruct.new({
           access_key_metadata: [
             OpenStruct.new({
-              user_name: 'erin',
-              access_key_id: 'AKIA111111111EXAMPLE',
+              user_name: "erin",
+              access_key_id: "AKIA111111111EXAMPLE",
               create_date: Time.parse("2016-09-21T23:03:13Z"),
-              status: 'Active',
+              status: "Active",
             }),
             OpenStruct.new({
-              user_name: 'erin',
-              access_key_id: 'AKIA222222222EXAMPLE',
+              user_name: "erin",
+              access_key_id: "AKIA222222222EXAMPLE",
               create_date: Time.parse("2016-09-21T23:03:13Z"),
-              status: 'Active',
+              status: "Active",
             }),
-          ]
+          ],
         }),
-        'leslie' => OpenStruct.new({access_key_metadata: []}),
-        'jared' => OpenStruct.new({
+        "leslie" => OpenStruct.new({ access_key_metadata: [] }),
+        "jared" => OpenStruct.new({
           access_key_metadata: [
             OpenStruct.new({
-              user_name: 'jared',
-              access_key_id: 'AKIA3333333333EXAMPLE',
+              user_name: "jared",
+              access_key_id: "AKIA3333333333EXAMPLE",
               create_date: Time.parse("2017-10-21T23:03:13Z"),
-              status: 'Active',
+              status: "Active",
             }),
-          ]
+          ],
         }),
       }
       people[criteria[:user_name]]
@@ -322,41 +323,41 @@ module MAIUB
 
     def list_user_policies(query)
       people = {
-        'erin' => Aws::IAM::Types::ListUserPoliciesResponse.new(
+        "erin" => Aws::IAM::Types::ListUserPoliciesResponse.new(
           policy_names: []
         ),
-        'leslie' => Aws::IAM::Types::ListUserPoliciesResponse.new(
-          policy_names: ['leslie-inline-01', 'leslie-inline-02'],
+        "leslie" => Aws::IAM::Types::ListUserPoliciesResponse.new(
+          policy_names: ["leslie-inline-01", "leslie-inline-02"]
         ),
-        'jared' => Aws::IAM::Types::ListUserPoliciesResponse.new(
-          policy_names: ['jared-inline-01'],
-        )
+        "jared" => Aws::IAM::Types::ListUserPoliciesResponse.new(
+          policy_names: ["jared-inline-01"]
+        ),
       }
       people[query[:user_name]]
     end
 
     def list_attached_user_policies(query)
       people = {
-        'erin' => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
-          attached_policies: [],
+        "erin" => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
+          attached_policies: []
         ),
-        'leslie' => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
+        "leslie" => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
           attached_policies: [
             {
-              policy_arn: 'arn:aws:iam::aws:policy/AdministratorAccess',
-              policy_name: 'AdministratorAccess',
+              policy_arn: "arn:aws:iam::aws:policy/AdministratorAccess",
+              policy_name: "AdministratorAccess",
             },
           ]
         ),
-        'jared' => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
+        "jared" => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
           attached_policies: [
             {
-              policy_arn: 'arn:aws:iam::aws:policy/ReadOnlyAccess',
-              policy_name: 'ReadOnlyAccess',
+              policy_arn: "arn:aws:iam::aws:policy/ReadOnlyAccess",
+              policy_name: "ReadOnlyAccess",
             },
             {
-              policy_arn: 'arn:aws:iam::123456789012:policy/some-policy',
-              policy_name: 'some-policy',
+              policy_arn: "arn:aws:iam::123456789012:policy/some-policy",
+              policy_name: "some-policy",
             },
           ]
         ),

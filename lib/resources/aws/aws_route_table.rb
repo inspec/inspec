@@ -1,16 +1,16 @@
-require 'resource_support/aws/aws_singular_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-ec2'
+require "resource_support/aws/aws_singular_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-ec2"
 
 class AwsRouteTable < Inspec.resource(1)
-  name 'aws_route_table'
-  desc 'Verifies settings for an AWS Route Table'
+  name "aws_route_table"
+  desc "Verifies settings for an AWS Route Table"
   example <<~EXAMPLE
     describe aws_route_table do
       its('route_table_id') { should cmp 'rtb-05462d2278326a79c' }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
 
@@ -27,13 +27,13 @@ class AwsRouteTable < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:route_table_id],
       allowed_scalar_name: :route_table_id,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
 
     if validated_params.key?(:route_table_id) &&
-       validated_params[:route_table_id] !~ /^rtb\-([0-9a-f]{17})|(^rtb\-[0-9a-f]{8})$/
+        validated_params[:route_table_id] !~ /^rtb\-([0-9a-f]{17})|(^rtb\-[0-9a-f]{8})$/
       raise ArgumentError,
-            'aws_route_table Route Table ID must be in the' \
+            "aws_route_table Route Table ID must be in the" \
             ' format "rtb-" followed by 8 or 17 hexadecimal characters.'
     end
 
@@ -46,7 +46,7 @@ class AwsRouteTable < Inspec.resource(1)
     if @route_table_id.nil?
       args = nil
     else
-      args = { filters: [{ name: 'route-table-id', values: [@route_table_id] }] }
+      args = { filters: [{ name: "route-table-id", values: [@route_table_id] }] }
     end
 
     resp = backend.describe_route_tables(args)

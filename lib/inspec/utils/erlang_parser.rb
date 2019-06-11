@@ -1,105 +1,105 @@
-require 'parslet'
+require "parslet"
 
 class ErlangParser < Parslet::Parser
   root :outermost
   # only designed for rabbitmq config files for now:
   rule(:outermost) { filler? >> array.maybe >> dot.maybe }
 
-  rule(:exp) {
+  rule(:exp) do
     (tuple | array | binary | string | bool | identifier | float | integer) >> filler?
-  }
+  end
 
-  rule(:array) {
-    str('[') >> filler? >> (
+  rule(:array) do
+    str("[") >> filler? >> (
       exp.repeat(1) >>
       (comma >> exp).repeat
-    ).maybe.as(:array) >> str(']') >> filler?
-  }
+    ).maybe.as(:array) >> str("]") >> filler?
+  end
 
-  rule(:tuple) {
-    str('{') >> filler? >> (
+  rule(:tuple) do
+    str("{") >> filler? >> (
       exp.repeat(1) >> filler? >>
       (comma >> exp).repeat
-    ).maybe.as(:tuple) >> str('}') >> filler?
-  }
+    ).maybe.as(:tuple) >> str("}") >> filler?
+  end
 
   rule(:filler?) { space.repeat }
   rule(:space)   { match('\s+') | match["\n"] | comment }
 
-  rule(:comment) { str('%') >> (match["\n\r"].absent? >> any).repeat }
-  rule(:comma) { str(',') >> filler? }
-  rule(:dot) { str('.') >> filler? }
-  rule(:bool) { str('true').as(:bool) | str('false').as(:bool) }
+  rule(:comment) { str("%") >> (match["\n\r"].absent? >> any).repeat }
+  rule(:comma) { str(",") >> filler? }
+  rule(:dot) { str(".") >> filler? }
+  rule(:bool) { str("true").as(:bool) | str("false").as(:bool) }
 
-  rule(:identifier) {
-    (match('[a-zA-Z]') >> match('[a-zA-Z0-9_]').repeat).as(:identifier) >> filler?
-  }
+  rule(:identifier) do
+    (match("[a-zA-Z]") >> match("[a-zA-Z0-9_]").repeat).as(:identifier) >> filler?
+  end
 
-  rule(:float) {
+  rule(:float) do
     (
       integer >> (
-        str('.') >> match('[0-9]').repeat(1) |
-        str('e') >> match('[0-9]').repeat(1)
+        str(".") >> match("[0-9]").repeat(1) |
+        str("e") >> match("[0-9]").repeat(1)
       ).as(:e)
     ).as(:float) >> filler?
-  }
+  end
 
-  rule(:integer) {
-    ((str('+') | str('-')).maybe >> match('[0-9]').repeat(1)).as(:integer) >> filler?
-  }
+  rule(:integer) do
+    ((str("+") | str("-")).maybe >> match("[0-9]").repeat(1)).as(:integer) >> filler?
+  end
 
   rule(:string) { stringS | stringD }
 
-  rule(:stringS) {
+  rule(:stringS) do
     str("'") >> (
       str('\\') >> any | str("'").absent? >> any
     ).repeat.as(:string) >> str("'") >> filler?
-  }
+  end
 
-  rule(:stringD) {
+  rule(:stringD) do
     str('"') >> (
       str('\\') >> any | str('"').absent? >> any
     ).repeat.as(:string) >> str('"') >> filler?
-  }
+  end
 
-  rule(:binary_item) {
+  rule(:binary_item) do
     (string | integer) >>
-      (str(':') >> integer).maybe.as(:size) >>
-      (str('/') >> identifier).maybe.as(:type) >>
+      (str(":") >> integer).maybe.as(:size) >>
+      (str("/") >> identifier).maybe.as(:type) >>
       filler?
-  }
+  end
 
-  rule(:binary) {
-    str('<<') >> filler? >> (
+  rule(:binary) do
+    str("<<") >> filler? >> (
       binary_item.repeat(1) >>
       (comma >> binary_item).repeat
-    ).maybe.as(:binary) >> str('>>') >> filler?
-  }
+    ).maybe.as(:binary) >> str(">>") >> filler?
+  end
 end
 
 class ErlangBitstream
   def initialize
     @data = []     # a stream of 8-bit numbers
-    @cur_bits = '' # a string of binary bits 10010010...
+    @cur_bits = "" # a string of binary bits 10010010...
   end
 
   TYPES = {
-    'integer' => 8,
-    'float'   => 8*8,
-    'utf8'    => 8,
-    'utf16'   => 8*2,
-    'utf32'   => 8*4,
+    "integer" => 8,
+    "float" => 8 * 8,
+    "utf8" => 8,
+    "utf16" => 8 * 2,
+    "utf32" => 8 * 4,
   }.freeze
 
   def bit_size(size, type)
-    raise 'Cannot specify size and type at the same time.' if !type.nil? && !size.nil?
+    raise "Cannot specify size and type at the same time." if !type.nil? && !size.nil?
     return (size || 8).to_i if type.nil?
     TYPES[type] || raise("Cannot handle binary-stream type #{type}")
   end
 
   def add(i)
     if i[:integer].nil? && i[:string].nil?
-      raise 'No data provided, internal error for binary-stream processing!'
+      raise "No data provided, internal error for binary-stream processing!"
     end
     s = bit_size(i[:size], i[:type])
     unless i[:string].nil?
@@ -108,17 +108,17 @@ class ErlangBitstream
       add_int(i[:integer], s)
     end
   rescue RuntimeError => e
-    raise 'Error processing Erlang bit string '\
+    raise "Error processing Erlang bit string "\
           "'#{i[:string] || i[:integer]}:#{i[:size]}/#{i[:type]}'. #{e.message}"
   end
 
   def str2int(s, type)
     case type
-    when 'utf8' then s.encode('utf-8').unpack('C*')
-    when 'utf16' then s.encode('utf-16').unpack('C*').drop(2)
-    when 'utf32' then s.encode('utf-32').unpack('C*').drop(4)
-    when 'integer', 'float' then raise "Cannot handle bit string as type #{type}"
-    else s.split('').map { |x| x.ord & 0xff }
+    when "utf8" then s.encode("utf-8").unpack("C*")
+    when "utf16" then s.encode("utf-16").unpack("C*").drop(2)
+    when "utf32" then s.encode("utf-32").unpack("C*").drop(4)
+    when "integer", "float" then raise "Cannot handle bit string as type #{type}"
+    else s.split("").map { |x| x.ord & 0xff }
     end
   end
 
@@ -137,11 +137,11 @@ class ErlangBitstream
     @cur_bits = b.last
   end
 
-  def value(encoding = 'utf-8')
+  def value(encoding = "utf-8")
     # fill in the rest
-    rest = '0' * (8 - @cur_bits.length) + @cur_bits
+    rest = "0" * (8 - @cur_bits.length) + @cur_bits
     arr = @data + [rest.to_i(2)]
-    s = arr.pack('C*')
+    s = arr.pack("C*")
     s.force_encoding(encoding) unless encoding.nil?
     s
   end
@@ -158,17 +158,17 @@ class ErlangTransform < Parslet::Transform
   end
 
   rule(string: simple(:x)) { x.to_s }
-  rule(string: []) { '' }
+  rule(string: []) { "" }
   rule(integer: simple(:x)) { x.to_i }
-  rule(float: { integer: simple(:a), e: simple(:b) }) { (a+b).to_f }
-  rule(bool: 'true') { true }
-  rule(bool: 'false') { false }
-  rule(binary: subtree(:x)) { x.nil? ? '' : ErlangTransform.assemble_binary(x) }
+  rule(float: { integer: simple(:a), e: simple(:b) }) { (a + b).to_f }
+  rule(bool: "true") { true }
+  rule(bool: "false") { false }
+  rule(binary: subtree(:x)) { x.nil? ? "" : ErlangTransform.assemble_binary(x) }
   rule(identifier: simple(:x)) { Identifier.new(x.to_s) }
   rule(array: subtree(:x)) { Array(x) }
-  rule(tuple: subtree(:x)) {
+  rule(tuple: subtree(:x)) do
     x.nil? ? Tuple.new : Tuple.new(x)
-  }
+  end
 end
 
 class ErlangConfigFile

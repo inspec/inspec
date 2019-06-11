@@ -1,5 +1,5 @@
-require 'tty-table'
-require 'tty-prompt'
+require "tty-table"
+require "tty-prompt"
 
 module Inspec
   # Provides simple terminal UI interaction primitives for CLI commands and plugins.
@@ -18,15 +18,15 @@ module Inspec
     }.freeze
 
     GLYPHS = {
-      bullet: '•', # BULLET, Unicode: U+2022, UTF-8: E2 80 A2
-      check: '✔', #  HEAVY CHECK MARK, Unicode: U+2714, UTF-8: E2 9C 94
-      swirl: '↺', # ANTICLOCKWISE OPEN CIRCLE ARROW, Unicode U+21BA, UTF-8: E2 86 BA
-      script_x: '×', # MULTIPLICATION SIGN, Unicode: U+00D7, UTF-8: C3 97
-      question: '?', # normal ASCII question mark
-      em_dash: '─', # BOX DRAWINGS LIGHT HORIZONTAL Unicode: U+2500, UTF-8: E2 94 80
-      heavy_dash: '≖', # RING IN EQUAL TO, Unicode: U+2256, UTF-8: E2 89 96
-      vertical_dash: '│', # BOX DRAWINGS LIGHT VERTICAL, Unicode: U+2502, UTF-8: E2 94 82
-      table_corner: '⨀', # N-ARY CIRCLED DOT OPERATOR, Unicode: U+2A00, UTF-8: E2 A8 80
+      bullet: "•", # BULLET, Unicode: U+2022, UTF-8: E2 80 A2
+      check: "✔", #  HEAVY CHECK MARK, Unicode: U+2714, UTF-8: E2 9C 94
+      swirl: "↺", # ANTICLOCKWISE OPEN CIRCLE ARROW, Unicode U+21BA, UTF-8: E2 86 BA
+      script_x: "×", # MULTIPLICATION SIGN, Unicode: U+00D7, UTF-8: C3 97
+      question: "?", # normal ASCII question mark
+      em_dash: "─", # BOX DRAWINGS LIGHT HORIZONTAL Unicode: U+2500, UTF-8: E2 94 80
+      heavy_dash: "≖", # RING IN EQUAL TO, Unicode: U+2256, UTF-8: E2 89 96
+      vertical_dash: "│", # BOX DRAWINGS LIGHT VERTICAL, Unicode: U+2502, UTF-8: E2 94 82
+      table_corner: "⨀", # N-ARY CIRCLED DOT OPERATOR, Unicode: U+2A00, UTF-8: E2 A8 80
     }.freeze
 
     EXIT_NORMAL = 0
@@ -62,7 +62,7 @@ module Inspec
       print_or_return(str.to_s, opts[:print])
     end
 
-    def plain_line(str = '', opts = { print: true })
+    def plain_line(str = "", opts = { print: true })
       print_or_return(str.to_s + "\n", opts[:print])
     end
 
@@ -96,11 +96,11 @@ module Inspec
       end
 
       result = "\n"
-      result += ' ' + (color? ? GLYPHS[:em_dash] : '-') * dash_length + ' '
-      result += color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:white] : ''
+      result += " " + (color? ? GLYPHS[:em_dash] : "-") * dash_length + " "
+      result += color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:white] : ""
       result += str
-      result += color? ? ANSI_CODES[:reset] : ''
-      result += ' ' + (color? ? GLYPHS[:em_dash] : '-') * dash_length + ' '
+      result += color? ? ANSI_CODES[:reset] : ""
+      result += " " + (color? ? GLYPHS[:em_dash] : "-") * dash_length + " "
       result += "\n\n"
 
       print_or_return(result, opts[:print])
@@ -109,11 +109,11 @@ module Inspec
     # Issues a one-line message, with 'ERROR: ' prepended in bold red.
     def error(str, opts = { print: true })
       str = str.dup.to_s
-      result = ''
-      result += color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:red] : ''
-      result += 'ERROR:'
-      result += color? ? ANSI_CODES[:reset] : ''
-      result += ' '
+      result = ""
+      result += color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:red] : ""
+      result += "ERROR:"
+      result += color? ? ANSI_CODES[:reset] : ""
+      result += " "
       result += str
       result += "\n"
       print_or_return(result, opts[:print])
@@ -122,11 +122,11 @@ module Inspec
     # Issues a one-line message, with 'WARNING: ' prepended in bold yellow.
     def warning(str, opts = { print: true })
       str = str.dup.to_s
-      result = ''
-      result += color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:yellow] : ''
-      result += 'WARNING:'
-      result += color? ? ANSI_CODES[:reset] : ''
-      result += ' '
+      result = ""
+      result += color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:yellow] : ""
+      result += "WARNING:"
+      result += color? ? ANSI_CODES[:reset] : ""
+      result += " "
       result += str
       result += "\n"
       print_or_return(result, opts[:print])
@@ -137,15 +137,15 @@ module Inspec
       if color?
         result = ANSI_CODES[:bold] + GLYPHS[:heavy_dash] * 80 + ANSI_CODES[:reset] + "\n"
       else
-        result = '-' * 80 + "\n"
+        result = "-" * 80 + "\n"
       end
       print_or_return(result, opts[:print])
     end
 
     # Makes a bullet point.
     def list_item(str, opts = { print: true })
-      bullet = color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:white] + GLYPHS[:bullet] + ANSI_CODES[:reset] : '*'
-      result = ' ' + bullet + ' ' + str.to_s + "\n"
+      bullet = color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:white] + GLYPHS[:bullet] + ANSI_CODES[:reset] : "*"
+      result = " " + bullet + " " + str.to_s + "\n"
       print_or_return(result, opts[:print])
     end
 
@@ -190,7 +190,7 @@ module Inspec
       if code_sym.is_a? Numeric
         code_int = code_sym
       else
-        code_const = ('EXIT_' + code_sym.to_s.upcase).to_sym
+        code_const = ("EXIT_" + code_sym.to_s.upcase).to_sym
         unless self.class.const_defined?(code_const)
           warning("Unrecognized exit constant #{code_const} - exit with code 1")
           exit(:usage_error)
@@ -210,7 +210,7 @@ module Inspec
     # This simply returns a TTY::Prompt object, gated on interactivity being enabled.
     def prompt
       unless interactive?
-        raise Inspec::UserInteractionRequired, 'Somthing is trying to ask the user a question, but interactivity is disabled.'
+        raise Inspec::UserInteractionRequired, "Somthing is trying to ask the user a question, but interactivity is disabled."
       end
       @prompt ||= TTY::Prompt.new
     end

@@ -1,14 +1,14 @@
-require 'resources/azure/azure_backend'
+require "resources/azure/azure_backend"
 
 module Inspec::Resources
   class AzureResourceGroup < AzureResourceBase
-    name 'azure_resource_group'
+    name "azure_resource_group"
 
     desc '
       InSpec Resource to get metadata about a specific Resource Group
     '
 
-    supports platform: 'azure'
+    supports platform: "azure"
 
     attr_reader :name, :location, :id, :total, :counts, :mapping
 
@@ -28,15 +28,15 @@ module Inspec::Resources
 
       # set the mapping for the Azure Resources
       @mapping = {
-        nic: 'Microsoft.Network/networkInterfaces',
-        vm: 'Microsoft.Compute/virtualMachines',
-        extension: 'Microsoft.Compute/virtualMachines/extensions',
-        nsg: 'Microsoft.Network/networkSecurityGroups',
-        vnet: 'Microsoft.Network/virtualNetworks',
-        managed_disk: 'Microsoft.Compute/disks',
-        managed_disk_image: 'Microsoft.Compute/images',
-        sa: 'Microsoft.Storage/storageAccounts',
-        public_ip: 'Microsoft.Network/publicIPAddresses',
+        nic: "Microsoft.Network/networkInterfaces",
+        vm: "Microsoft.Compute/virtualMachines",
+        extension: "Microsoft.Compute/virtualMachines/extensions",
+        nsg: "Microsoft.Network/networkSecurityGroups",
+        vnet: "Microsoft.Network/virtualNetworks",
+        managed_disk: "Microsoft.Compute/disks",
+        managed_disk_image: "Microsoft.Compute/images",
+        sa: "Microsoft.Storage/storageAccounts",
+        public_ip: "Microsoft.Network/publicIPAddresses",
       }
 
       # Get information about the resource group itself
@@ -79,8 +79,8 @@ module Inspec::Resources
     def parse_resource(resource)
       # return a hash of information
       parsed = {
-        'name' => resource.name,
-        'type' => resource.type,
+        "name" => resource.name,
+        "type" => resource.type,
       }
 
       parsed
@@ -98,7 +98,7 @@ module Inspec::Resources
     # @param [Symbol] method_id The name of the method that was called
     def method_missing(method_id)
       # Determine the mapping_key based on the method_id
-      mapping_key = method_id.to_s.chomp('_count').to_sym
+      mapping_key = method_id.to_s.chomp("_count").to_sym
 
       if mapping.key?(mapping_key)
         # based on the method id get the
@@ -112,7 +112,7 @@ module Inspec::Resources
           0
         end
       else
-        msg = format('undefined method `%s` for %s', method_id, self.class)
+        msg = format("undefined method `%s` for %s", method_id, self.class)
         raise NoMethodError, msg
       end
     end
@@ -135,7 +135,7 @@ module Inspec::Resources
       # This is a quick test to show that the resource group has at least one of these things
       mapping.each do |name, type|
         # Determine the name of the method name
-        method_name = format('has_%ss?', name)
+        method_name = format("has_%ss?", name)
         namespace, type_name = type.split(/\./)
 
         # use the namespace and the type_name to determine if the resource group has this type or not

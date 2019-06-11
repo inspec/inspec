@@ -1,10 +1,10 @@
 # copyright: 2015, Vulcano Security GmbH
 
-require 'inspec/utils/simpleconfig'
-require 'inspec/utils/find_files'
-require 'inspec/utils/file_reader'
-require 'inspec/utils/hash'
-require 'inspec/resources/mysql'
+require "inspec/utils/simpleconfig"
+require "inspec/utils/find_files"
+require "inspec/utils/file_reader"
+require "inspec/utils/hash"
+require "inspec/resources/mysql"
 
 module Inspec::Resources
   class MysqlConfEntry
@@ -26,10 +26,10 @@ module Inspec::Resources
   end
 
   class MysqlConf < Inspec.resource(1)
-    name 'mysql_conf'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the mysql_conf InSpec audit resource to test the contents of the configuration file for MySQL, typically located at /etc/mysql/my.cnf or /etc/my.cnf.'
+    name "mysql_conf"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the mysql_conf InSpec audit resource to test the contents of the configuration file for MySQL, typically located at /etc/mysql/my.cnf or /etc/my.cnf."
     example <<~EXAMPLE
       describe mysql_conf('path') do
         its('setting') { should eq 'value' }
@@ -76,7 +76,7 @@ module Inspec::Resources
     end
 
     def read_content
-      @content = ''
+      @content = ""
       @params = {}
 
       to_read = [@conf_path]
@@ -105,13 +105,13 @@ module Inspec::Resources
       dirs = conf.scan(/^!includedir\s+(.*)\s*/).flatten.compact.map { |x| abs_path(reldir, x) }
       dirs.map do |dir|
         # @TODO: non local glob
-        files += find_files(dir, depth: 1, type: 'file')
+        files += find_files(dir, depth: 1, type: "file")
       end
       files
     end
 
     def abs_path(dir, f)
-      return f if f.start_with? '/'
+      return f if f.start_with? "/"
       File.join(dir, f)
     end
 
@@ -120,7 +120,7 @@ module Inspec::Resources
     end
 
     def to_s
-      'MySQL Configuration'
+      "MySQL Configuration"
     end
   end
 end

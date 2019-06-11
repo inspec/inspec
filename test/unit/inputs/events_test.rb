@@ -1,25 +1,25 @@
-require 'helper'
-require 'inspec/objects/input'
+require "helper"
+require "inspec/objects/input"
 
-describe 'Inspec::Input and Events' do
-  let(:ipt) { Inspec::Input.new('input') }
+describe "Inspec::Input and Events" do
+  let(:ipt) { Inspec::Input.new("input") }
 
   #==============================================================#
   #                    Create Event
   #==============================================================#
-  describe 'when creating an input' do
-    it 'should have a creation event' do
+  describe "when creating an input" do
+    it "should have a creation event" do
       creation_events = ipt.events.select { |e| e.action == :create }
       creation_events.wont_be_empty
     end
 
-    it 'should only have a creation event if no value was provided' do
+    it "should only have a creation event if no value was provided" do
       creation_events = ipt.events.select { |e| e.action == :create }
       creation_events.count.must_equal 1
     end
 
-    it 'should have a create and a set event if a value was provided' do
-      ipt = Inspec::Input.new('input', value: 42)
+    it "should have a create and a set event if a value was provided" do
+      ipt = Inspec::Input.new("input", value: 42)
       creation_events = ipt.events.select { |e| e.action == :create }
       creation_events.count.must_equal 1
       set_events = ipt.set_events
@@ -31,14 +31,14 @@ describe 'Inspec::Input and Events' do
   #==============================================================#
   #                    Set Events
   #==============================================================#
-  describe 'when setting an input using value=' do
-    it 'should add a set event' do
+  describe "when setting an input using value=" do
+    it "should add a set event" do
       ipt.set_events.count.must_equal 0
       ipt.value = 42
       ipt.set_events.count.must_equal 1
     end
 
-    it 'should add one event for each value= operation' do
+    it "should add one event for each value= operation" do
       ipt.set_events.count.must_equal 0
       ipt.value = 1
       ipt.value = 2
@@ -53,14 +53,14 @@ describe 'Inspec::Input and Events' do
 
   # For more real-world testing of metadata vs --attrs vs inline, see
   # test/functional/inputs_test.rb
-  describe 'priority voting' do
-    it 'value() should return the correct value when there is just one set operation' do
+  describe "priority voting" do
+    it "value() should return the correct value when there is just one set operation" do
       evt = Inspec::Input::Event.new(value: 42, priority: 25, action: :set)
       ipt.update(event: evt)
       ipt.value.must_equal 42
     end
 
-    it 'should return the highest priority regardless of order' do
+    it "should return the highest priority regardless of order" do
       evt1 = Inspec::Input::Event.new(value: 1, priority: 25, action: :set)
       ipt.update(event: evt1)
       evt2 = Inspec::Input::Event.new(value: 2, priority: 35, action: :set)
@@ -71,7 +71,7 @@ describe 'Inspec::Input and Events' do
       ipt.value.must_equal 2
     end
 
-    it 'breaks ties using the last event of the highest priority' do
+    it "breaks ties using the last event of the highest priority" do
       evt1 = Inspec::Input::Event.new(value: 1, priority: 15, action: :set)
       ipt.update(event: evt1)
       evt2 = Inspec::Input::Event.new(value: 2, priority: 25, action: :set)
@@ -87,10 +87,10 @@ describe 'Inspec::Input and Events' do
   #                    Stack Hueristics
   #==============================================================#
 
-  describe 'when determining where the call came from' do
-    it 'should get the line and file correct in the constructor' do
+  describe "when determining where the call came from" do
+    it "should get the line and file correct in the constructor" do
       expected_file = __FILE__
-      expected_line = __LINE__; ipt = Inspec::Input.new('some_input') # Important to keep theses on one line
+      expected_line = __LINE__; ipt = Inspec::Input.new("some_input") # Important to keep theses on one line
       event = ipt.events.first
       event.file.must_equal expected_file
       event.line.must_equal expected_line
@@ -101,13 +101,13 @@ describe 'Inspec::Input and Events' do
   #                    Diagnostics
   #==============================================================#
 
-  describe 'input diagnostics' do
-    it 'should dump the events' do
-      evt1 = Inspec::Input::Event.new(value: {a:1, b:2}, priority: 15, action: :set, provider: :unit_test)
+  describe "input diagnostics" do
+    it "should dump the events" do
+      evt1 = Inspec::Input::Event.new(value: { a: 1, b: 2 }, priority: 15, action: :set, provider: :unit_test)
       ipt.update(event: evt1)
       evt2 = Inspec::Input::Event.new(action: :fetch, provider: :alcubierre, hit: false)
       ipt.update(event: evt2)
-      evt3 = Inspec::Input::Event.new(value: 12, action: :set, provider: :control_dsl, file: '/tmp/some/file.rb', line: 2)
+      evt3 = Inspec::Input::Event.new(value: 12, action: :set, provider: :control_dsl, file: "/tmp/some/file.rb", line: 2)
       ipt.update(event: evt3)
 
       text = ipt.diagnostic_string

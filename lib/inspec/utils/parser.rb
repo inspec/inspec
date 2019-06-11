@@ -1,4 +1,4 @@
-require 'inspec/resources/command'
+require "inspec/resources/command"
 
 module PasswdParser
   # Parse /etc/passwd files.
@@ -7,7 +7,7 @@ module PasswdParser
   # @return [Array] Collection of passwd entries
   def parse_passwd(content)
     content.to_s.split("\n").map do |line|
-      next if line[0] == '#'
+      next if line[0] == "#"
       parse_passwd_line(line)
     end.compact
   end
@@ -17,15 +17,15 @@ module PasswdParser
   # @param [String] line a line of /etc/passwd
   # @return [Hash] Map of entries in this line
   def parse_passwd_line(line)
-    x = line.split(':')
+    x = line.split(":")
     {
-      'user' => x.at(0),
-      'password' => x.at(1),
-      'uid' => x.at(2),
-      'gid' => x.at(3),
-      'desc' => x.at(4),
-      'home' => x.at(5),
-      'shell' => x.at(6),
+      "user" => x.at(0),
+      "password" => x.at(1),
+      "uid" => x.at(2),
+      "gid" => x.at(3),
+      "desc" => x.at(4),
+      "home" => x.at(5),
+      "shell" => x.at(6),
     }
   end
 end
@@ -42,7 +42,7 @@ module CommentParser
     idx_comment = raw.index(opts[:comment_char])
     idx_nl = raw.length if idx_nl.nil?
     idx_comment = idx_nl + 1 if idx_comment.nil?
-    line = ''
+    line = ""
 
     # is a comment inside this line
     if idx_comment < idx_nl && idx_comment != 0
@@ -68,11 +68,11 @@ module LinuxMountParser
     if includes_whitespaces?(mount_line)
       # Device-/Sharenames and Mountpoints including whitespaces require special treatment:
       # We use the keyword ' type ' to split up and rebuild the desired array of fields
-      type_split = mount_line.split(' type ')
+      type_split = mount_line.split(" type ")
       fs_path = type_split[0]
       other_opts = type_split[1]
       fs, path = fs_path.match(%r{^(.+?)\son\s(/.+?)$}).captures
-      mount = [fs, 'on', path, 'type']
+      mount = [fs, "on", path, "type"]
       mount.concat(other_opts.scan(/\S+/))
     else
       # ... otherwise we just split the fields by whitespaces
@@ -84,12 +84,12 @@ module LinuxMountParser
 
     if compatibility == false
       # parse options as array
-      mount_options[:options] = mount[5].gsub(/\(|\)/, '').split(',')
+      mount_options[:options] = mount[5].gsub(/\(|\)/, "").split(",")
     else
-      Inspec.deprecate(:mount_parser_serverspec_compat, 'Parsing mount options in this fashion is deprecated')
+      Inspec.deprecate(:mount_parser_serverspec_compat, "Parsing mount options in this fashion is deprecated")
       mount_options[:options] = {}
-      mount[5].gsub(/\(|\)/, '').split(',').each do |option|
-        name, val = option.split('=')
+      mount[5].gsub(/\(|\)/, "").split(",").each do |option|
+        name, val = option.split("=")
         if val.nil?
           val = true
         elsif val =~ /^\d+$/
@@ -106,7 +106,7 @@ module LinuxMountParser
   # Device-/Sharename or Mountpoint includes whitespaces?
   def includes_whitespaces?(mount_line)
     ws = mount_line.match(/^(.+)\son\s(.+)\stype\s.*$/)
-    ws.captures[0].include?(' ') or ws.captures[1].include?(' ')
+    ws.captures[0].include?(" ") || ws.captures[1].include?(" ")
   end
 end
 
@@ -116,8 +116,8 @@ module BsdMountParser
   def parse_mount_options(mount_line, _compatibility = false)
     return {} if mount_line.nil? || mount_line.empty?
 
-    mount = mount_line.chomp.split(' ', 4)
-    options = mount[3].tr('()', '').split(', ')
+    mount = mount_line.chomp.split(" ", 4)
+    options = mount[3].tr("()", "").split(", ")
 
     # parse device and type
     { device: mount[0], type: options.shift, options: options }
@@ -138,15 +138,15 @@ module SolarisNetstatParser
     ports = []
     cache_name_line = nil
 
-    content.each_line { |line|
+    content.each_line do |line|
       # find header, its delimiter
       if line =~ /TCP:|UDP:|SCTP:/
         # get protocol
-        protocol = line.split(':')[0].chomp.strip.downcase
+        protocol = line.split(":")[0].chomp.strip.downcase
 
         # determine version tcp, tcp6, udp, udp6
-        proto_version = line.split(':')[1].chomp.strip
-        protocol += '6' if proto_version == 'IPv6'
+        proto_version = line.split(":")[1].chomp.strip
+        protocol += "6" if proto_version == "IPv6"
 
         # reset names cache
         column_widths = nil
@@ -166,19 +166,19 @@ module SolarisNetstatParser
 
         # parse the header names
         # TODO: names should be optional
-        names = split_columns(column_widths, cache_name_line).to_a.map { |v| v.chomp.strip.downcase.tr(' ', '-').gsub(/[^\w-]/, '_') }
+        names = split_columns(column_widths, cache_name_line).to_a.map { |v| v.chomp.strip.downcase.tr(" ", "-").gsub(/[^\w-]/, "_") }
         info = {
-          'protocol' => protocol.downcase,
+          "protocol" => protocol.downcase,
         }
 
         # generate hash for each line and use the names as keys
-        names.each_index { |i|
+        names.each_index do |i|
           info[names[i]] = port[i] if i != 0
-        }
+        end
 
         ports.push(info)
       end
-    }
+    end
     ports
   end
 
@@ -198,12 +198,12 @@ module SolarisNetstatParser
     # generate regex based on columns
     sep = '\\s'
     length = columns.length
-    arr = columns.map.with_index { |x, i|
+    arr = columns.map.with_index do |x, i|
       reg = "(.{#{x}})#{sep}" # add seperator between columns
       reg = "(.{,#{x}})#{sep}" if i == length - 2 # make the pre-last one optional
       reg = "(.{,#{x}})" if i == length - 1 # use , to say max value
       reg
-    }
+    end
     # extracts the columns
     line.match(Regexp.new(arr.join))
   end
@@ -230,38 +230,38 @@ module XinetdParser
     rest = raw + "\n"
     until rest.empty?
       # extract content line
-      nl = rest.index("\n") || (rest.length-1)
-      comment = rest.index('#') || (rest.length-1)
+      nl = rest.index("\n") || (rest.length - 1)
+      comment = rest.index("#") || (rest.length - 1)
       dst_idx = comment < nl ? comment : nl
-      inner_line = dst_idx == 0 ? '' : rest[0..dst_idx-1].strip
+      inner_line = dst_idx == 0 ? "" : rest[0..dst_idx - 1].strip
       # update unparsed content
-      rest = rest[nl+1..-1]
+      rest = rest[nl + 1..-1]
       next if inner_line.empty?
 
-      if inner_line == '}'
-        if cur_group == 'defaults'
+      if inner_line == "}"
+        if cur_group == "defaults"
           res[cur_group] = SimpleConfig.new(simple_conf.join("\n"))
         else
           res[cur_group] ||= []
           res[cur_group].push(SimpleConfig.new(simple_conf.join("\n")))
         end
         cur_group = nil
-      elsif rest.lstrip[0] == '{'
+      elsif rest.lstrip[0] == "{"
         cur_group = inner_line
         simple_conf = []
-        rest = rest[rest.index("\n")+1..-1]
+        rest = rest[rest.index("\n") + 1..-1]
       elsif cur_group.nil?
         # parse all included files
         others = xinetd_include_dir(inner_line[/includedir (.+)/, 1])
 
         # complex merging of included configurations, as multiple services
         # may be defined with the same name but different configuration
-        others.each { |ores|
-          ores.each { |k, v|
+        others.each do |ores|
+          ores.each do |k, v|
             res[k] ||= []
             res[k].concat(v)
-          }
-        }
+          end
+        end
       else
         simple_conf.push(inner_line)
       end
@@ -271,4 +271,4 @@ module XinetdParser
   end
 end
 
-require 'inspec/utils/simpleconfig'
+require "inspec/utils/simpleconfig"

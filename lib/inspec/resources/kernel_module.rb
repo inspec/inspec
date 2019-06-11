@@ -1,9 +1,9 @@
-require 'inspec/resources/command'
+require "inspec/resources/command"
 
 module Inspec::Resources
   class KernelModule < Inspec.resource(1)
-    name 'kernel_module'
-    supports platform: 'unix'
+    name "kernel_module"
+    supports platform: "unix"
     desc 'Use the kernel_module InSpec audit resource to test kernel modules on
     Linux platforms. These parameters are located under /lib/modules. Any submodule
     may be tested using this resource.
@@ -36,14 +36,14 @@ module Inspec::Resources
     def initialize(modulename = nil)
       @module = modulename
       # this resource is only supported on Linux
-      return skip_resource 'The `kernel_parameter` resource is not supported on your OS.' if !inspec.os.linux?
+      return skip_resource "The `kernel_parameter` resource is not supported on your OS." if !inspec.os.linux?
     end
 
     def loaded?
-      if inspec.os.redhat? || inspec.os.name == 'fedora'
-        lsmod_cmd = '/sbin/lsmod'
+      if inspec.os.redhat? || inspec.os.name == "fedora"
+        lsmod_cmd = "/sbin/lsmod"
       else
-        lsmod_cmd = 'lsmod'
+        lsmod_cmd = "lsmod"
       end
 
       # get list of all modules
@@ -51,7 +51,7 @@ module Inspec::Resources
       return false if cmd.exit_status != 0
 
       # check if module is loaded
-      re = Regexp.new('^'+Regexp.quote(@module)+'\s')
+      re = Regexp.new("^" + Regexp.quote(@module) + '\s')
       found = cmd.stdout.match(re)
       !found.nil?
     end
@@ -80,18 +80,18 @@ module Inspec::Resources
     end
 
     def modinfo_cmd_for_os
-      if inspec.os.redhat? || inspec.os.name == 'fedora'
-        '/sbin/modinfo'
+      if inspec.os.redhat? || inspec.os.name == "fedora"
+        "/sbin/modinfo"
       else
-        'modinfo'
+        "modinfo"
       end
     end
 
     def modprobe_cmd_for_os
-      if inspec.os.redhat? || inspec.os.name == 'fedora'
-        '/sbin/modprobe'
+      if inspec.os.redhat? || inspec.os.name == "fedora"
+        "/sbin/modprobe"
       else
-        'modprobe'
+        "modprobe"
       end
     end
 

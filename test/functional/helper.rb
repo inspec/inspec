@@ -1,9 +1,9 @@
-require 'helper'
-require 'train'
+require "helper"
+require "train"
 
 ENV["CHEF_LICENSE"] = "accept-no-persist"
 
-CMD = Train.create('local', command_runner: :generic).connection
+CMD = Train.create("local", command_runner: :generic).connection
 
 class Module
   include Minitest::Spec::DSL
@@ -26,21 +26,21 @@ module Inspec
 
     # Intentional failure to cause CI to print output
     def diagnose!
-      msg = ''
+      msg = ""
       msg += "\nInvocation:\n" + payload.invocation
       msg += "\nSTDOUT:\n" + stdout
       msg += "\nSTDERR:\n" + stderr
-      msg.must_equal ''
+      msg.must_equal ""
     end
 
     def stderr_ignore_deprecations
-      suffix = stderr.end_with?("\n") ? "\n" : ''
-      stderr.split("\n").reject { |l| l.include? ' DEPRECATION: ' }.join("\n") + suffix
+      suffix = stderr.end_with?("\n") ? "\n" : ""
+      stderr.split("\n").reject { |l| l.include? " DEPRECATION: " }.join("\n") + suffix
     end
 
     def stdout_ignore_deprecations
-      suffix = stdout.end_with?("\n") ? "\n" : ''
-      stdout.split("\n").reject { |l| l.include? ' DEPRECATION: ' }.join("\n") + suffix
+      suffix = stdout.end_with?("\n") ? "\n" : ""
+      stdout.split("\n").reject { |l| l.include? " DEPRECATION: " }.join("\n") + suffix
     end
 
     # This works if you use json: true on an exec call
@@ -48,13 +48,13 @@ module Inspec
       # Strategy: assemble an array of tests that failed or skipped, and insist it is empty
       # result.payload.json['profiles'][0]['controls'][0]['results'][0]['status']
       failed_tests = []
-      payload.json['profiles'].each do |profile_struct|
-        profile_name = profile_struct['name']
-        profile_struct['controls'].each do |control_struct|
-          control_name = control_struct['id']
-          control_struct['results'].compact.each do |test_struct|
-            test_desc = test_struct['code_desc']
-            if test_struct['status'] != 'passed'
+      payload.json["profiles"].each do |profile_struct|
+        profile_name = profile_struct["name"]
+        profile_struct["controls"].each do |control_struct|
+          control_name = control_struct["id"]
+          control_struct["results"].compact.each do |test_struct|
+            test_desc = test_struct["code_desc"]
+            if test_struct["status"] != "passed"
               failed_tests << "#{profile_name}/#{control_name}/#{test_desc}"
             end
           end
@@ -68,36 +68,36 @@ end
 
 module FunctionalHelper
   let(:repo_path) do
-    path = File.expand_path(File.join( __FILE__, '..', '..', '..'))
+    path = File.expand_path(File.join( __FILE__, "..", "..", ".."))
     # fix for vagrant repo pathing
-    path.gsub!('//vboxsrv', 'C:') if is_windows?
+    path.gsub!("//vboxsrv", "C:") if is_windows?
     path
   end
-  let(:inspec_path) { File.join(repo_path, 'inspec-bin', 'bin', 'inspec') }
+  let(:inspec_path) { File.join(repo_path, "inspec-bin", "bin", "inspec") }
   libdir = File.expand_path "lib"
   let(:exec_inspec) { [Gem.ruby, "-I#{libdir}", inspec_path].join " " }
-  let(:mock_path) { File.join(repo_path, 'test', 'unit', 'mock') }
-  let(:profile_path) { File.join(mock_path, 'profiles') }
-  let(:examples_path) { File.join(profile_path, 'old-examples') }
-  let(:integration_test_path) { File.join(repo_path, 'test', 'integration', 'default') }
+  let(:mock_path) { File.join(repo_path, "test", "unit", "mock") }
+  let(:profile_path) { File.join(mock_path, "profiles") }
+  let(:examples_path) { File.join(profile_path, "old-examples") }
+  let(:integration_test_path) { File.join(repo_path, "test", "integration", "default") }
 
-  let(:example_profile) { File.join(examples_path, 'profile') }
-  let(:meta_profile) { File.join(examples_path, 'meta-profile') }
-  let(:example_control) { File.join(example_profile, 'controls', 'example.rb') }
-  let(:inheritance_profile) { File.join(examples_path, 'inheritance') }
-  let(:failure_control) { File.join(profile_path, 'failures', 'controls', 'failures.rb') }
-  let(:simple_inheritance) { File.join(profile_path, 'simple-inheritance') }
-  let(:sensitive_profile) { File.join(examples_path, 'profile-sensitive') }
-  let(:config_dir_path) { File.join(mock_path, 'config_dirs') }
+  let(:example_profile) { File.join(examples_path, "profile") }
+  let(:meta_profile) { File.join(examples_path, "meta-profile") }
+  let(:example_control) { File.join(example_profile, "controls", "example.rb") }
+  let(:inheritance_profile) { File.join(examples_path, "inheritance") }
+  let(:failure_control) { File.join(profile_path, "failures", "controls", "failures.rb") }
+  let(:simple_inheritance) { File.join(profile_path, "simple-inheritance") }
+  let(:sensitive_profile) { File.join(examples_path, "profile-sensitive") }
+  let(:config_dir_path) { File.join(mock_path, "config_dirs") }
 
-  let(:dst) {
+  let(:dst) do
     # create a temporary path, but we only want an auto-clean helper
     # so remove the file and give back the path
-    res = Tempfile.new('inspec-shred')
+    res = Tempfile.new("inspec-shred")
     res.close
     FileUtils.rm(res.path)
     TMP_CACHE[res.path] = res
-  }
+  end
 
   def without_license
     ENV.delete "CHEF_LICENSE"
@@ -111,23 +111,23 @@ module FunctionalHelper
     skip_until 2019, 7, 31, "These have never passed" if windows?
   end
 
-  def assert_exit_code exp, cmd
-    exp = 1 if exp != 0 if windows?
+  def assert_exit_code(exp, cmd)
+    exp = 1 if windows? && (exp != 0)
     assert_equal exp, cmd.exit_status
   end
 
   def convert_windows_output(text)
     text = text.force_encoding("UTF-8")
-    text.gsub!("[PASS]", '✔')
+    text.gsub!("[PASS]", "✔")
     text.gsub!("\033[0;1;32m", "\033[38;5;41m")
-    text.gsub!("[SKIP]", '↺')
+    text.gsub!("[SKIP]", "↺")
     text.gsub!("\033[0;37m", "\033[38;5;247m")
-    text.gsub!("[FAIL]", '×')
+    text.gsub!("[FAIL]", "×")
     text.gsub!("\033[0;1;31m", "\033[38;5;9m")
   end
 
   def self.is_windows?
-    RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
+    RbConfig::CONFIG["host_os"] =~ /mswin|mingw|cygwin/
   end
 
   def is_windows?
@@ -136,13 +136,13 @@ module FunctionalHelper
 
   def inspec(commandline, prefix = nil)
     if is_windows?
-      invocation  = "cmd /C \"#{prefix} #{exec_inspec} #{commandline}\""
+      invocation = "cmd /C \"#{prefix} #{exec_inspec} #{commandline}\""
       result = CMD.run_command(invocation)
       result.stdout.encode!(universal_newline: true)
       result.stderr.encode!(universal_newline: true)
       convert_windows_output(result.stdout)
       # remove the CLIXML header trash in windows
-      result.stderr.gsub!("#< CLIXML\n", '')
+      result.stderr.gsub!("#< CLIXML\n", "")
       ftrr = Inspec::FuncTestRunResult.new(result)
     else
       invocation = "#{prefix} #{exec_inspec} #{commandline}"
@@ -172,12 +172,12 @@ module FunctionalHelper
   #       tmp_dir will still exist (for a moment!)
   # @return FuncTestRunResult. Includes attrs exit_status, stderr, stdout, payload (an openstruct which may be used in many ways)
   def run_inspec_process(command_line, opts = {})
-    raise 'Do not use tmpdir and cwd in the same invocation' if opts[:cwd] && opts[:tmpdir]
-    prefix = opts[:cwd] ? 'cd ' + opts[:cwd] + ' && ' : ''
-    prefix += opts[:prefix] || ''
+    raise "Do not use tmpdir and cwd in the same invocation" if opts[:cwd] && opts[:tmpdir]
+    prefix = opts[:cwd] ? "cd " + opts[:cwd] + " && " : ""
+    prefix += opts[:prefix] || ""
     prefix += assemble_env_prefix(opts[:env])
-    command_line += ' --reporter json ' if opts[:json] && command_line =~ /\bexec\b/
-    command_line += ' --no-create-lockfile ' if (!opts[:lock]) && command_line =~ /\bexec\b/
+    command_line += " --reporter json " if opts[:json] && command_line =~ /\bexec\b/
+    command_line += " --no-create-lockfile " if (!opts[:lock]) && command_line =~ /\bexec\b/
 
     run_result = nil
     if opts[:tmpdir]
@@ -186,7 +186,7 @@ module FunctionalHelper
         # Do NOT Dir.chdir here - chdir / pwd is per-process, and we are in the
         # test harness process, which will be multithreaded because we parallelize the tests.
         # Instead, make the spawned process change dirs using a cd prefix.
-        prefix = 'cd ' + tmp_dir + ' && ' + prefix
+        prefix = "cd " + tmp_dir + " && " + prefix
         run_result = inspec(command_line, prefix)
         opts[:post_run].call(run_result, tmp_dir) if opts[:post_run]
       end
@@ -197,7 +197,7 @@ module FunctionalHelper
     if opts[:ignore_rspec_deprecations]
       # RSpec keeps issuing a deprecation count to stdout when .should is called explicitly
       # See https://github.com/inspec/inspec/pull/3560
-      run_result.stdout.sub!("\n1 deprecation warning total\n", '')
+      run_result.stdout.sub!("\n1 deprecation warning total\n", "")
     end
 
     if opts[:json]
@@ -212,8 +212,6 @@ module FunctionalHelper
     run_result
   end
 
-
-
   # Copy all examples to a temporary directory for functional tests.
   # You can provide an optional directory which will be handed to your
   # test block with its absolute path. If nothing is provided you will
@@ -225,18 +223,19 @@ module FunctionalHelper
     Dir.mktmpdir do |tmpdir|
       FileUtils.cp_r(examples_path, tmpdir)
       bn = File.basename(examples_path)
-      block.call(File.join(tmpdir, bn, dir.to_s))
+      yield(File.join(tmpdir, bn, dir.to_s))
     end
   end
 
   private
+
   def assemble_env_prefix(env = {})
     if is_windows?
-      env_prefix = env.to_a.map { |assignment| "set #{assignment[0]}=#{assignment[1]}" }.join('&& ')
-      env_prefix += '&& ' unless env_prefix.empty?
+      env_prefix = env.to_a.map { |assignment| "set #{assignment[0]}=#{assignment[1]}" }.join("&& ")
+      env_prefix += "&& " unless env_prefix.empty?
     else
-      env_prefix = env.to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(' ')
-      env_prefix += ' '
+      env_prefix = env.to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(" ")
+      env_prefix += " "
     end
     env_prefix
   end
@@ -251,7 +250,7 @@ module PluginFunctionalHelper
   def run_inspec_with_plugin(command, opts)
     pre = Proc.new do |tmp_dir|
       content = JSON.generate(__make_plugin_file_data_structure_with_path(opts[:plugin_path]))
-      File.write(File.join(tmp_dir, 'plugins.json'), content)
+      File.write(File.join(tmp_dir, "plugins.json"), content)
     end
 
     opts.merge!({
@@ -259,20 +258,20 @@ module PluginFunctionalHelper
       tmpdir: true,
       json: true,
       env: {
-        "INSPEC_CONFIG_DIR" => '.' # We're in tmpdir
-      }
+        "INSPEC_CONFIG_DIR" => ".", # We're in tmpdir
+      },
     })
     run_inspec_process(command, opts)
   end
 
   def __make_plugin_file_data_structure_with_path(path)
     # TODO: dry this up, refs #3350
-    plugin_name = File.basename(path, '.rb')
+    plugin_name = File.basename(path, ".rb")
     data = __make_empty_plugin_file_data_structure
-    data['plugins'] << {
-      'name' => plugin_name,
-      'installation_type' => 'path',
-      'installation_path' => path,
+    data["plugins"] << {
+      "name" => plugin_name,
+      "installation_type" => "path",
+      "installation_path" => path,
     }
     data
   end
@@ -280,8 +279,8 @@ module PluginFunctionalHelper
   def __make_empty_plugin_file_data_structure
     # TODO: dry this up, refs #3350
     {
-      'plugins_config_version' => '1.0.0',
-      'plugins' => [],
+      "plugins_config_version" => "1.0.0",
+      "plugins" => [],
     }
   end
 end

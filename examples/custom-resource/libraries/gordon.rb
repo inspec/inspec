@@ -1,5 +1,5 @@
 class Gordon < Inspec.resource(1)
-  name 'gordon'
+  name "gordon"
 
   example "
     describe gordon do
@@ -18,4 +18,3 @@ class Gordon < Inspec.resource(1)
     true
   end
 end
-

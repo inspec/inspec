@@ -1,13 +1,13 @@
-require 'helper'
-require 'inspec/resource'
-require 'inspec/resources/dh_params'
+require "helper"
+require "inspec/resource"
+require "inspec/resources/dh_params"
 
-describe 'Inspec::Resources::DhParams' do
-  let (:resource_dh_params) { load_resource('dh_params', 'dh_params.dh_pem')}
+describe "Inspec::Resources::DhParams" do
+  let (:resource_dh_params) { load_resource("dh_params", "dh_params.dh_pem") }
 
   let (:modulus) do
     # regex removes all whitespace
-    <<-EOF.gsub(/[[:space:]]+/, '')
+    <<-EOF.gsub(/[[:space:]]+/, "")
       00:8c:bd:f0:27:91:00:30:7e:92:c6:04:96:ad:21:
       c8:b4:39:a3:1e:d5:c5:0b:fc:fd:b0:6e:32:b4:39:
       06:da:23:bd:50:f9:1c:63:cd:b7:d6:a2:4d:37:42:
@@ -31,7 +31,7 @@ describe 'Inspec::Resources::DhParams' do
 
   let (:output_as_pem) do
     # regex removes all leading spaces
-    <<-EOF.gsub(/^[[:blank:]]+/, '')
+    <<-EOF.gsub(/^[[:blank:]]+/, "")
       -----BEGIN DH PARAMETERS-----
       MIIBCAKCAQEAjL3wJ5EAMH6SxgSWrSHItDmjHtXFC/z9sG4ytDkG2iO9UPkcY823
       1qJNN0JW7B88JtQfeXVBaSGSHc0DmbkhrT6hK7oR+v4so6fVnDNUYOnAtyakLlCS
@@ -46,7 +46,7 @@ describe 'Inspec::Resources::DhParams' do
   let (:output_as_text) do
     # note: mock file loader munges first line of output w/ASCII-8BIT line
     # regex removes 2 leading spaces
-    <<-EOF.gsub(/^[[:blank:]]{2}/, '')
+    <<-EOF.gsub(/^[[:blank:]]{2}/, "")
       PKCS#3 DH Parameters: (2048 bit)
           prime:
               00:8c:bd:f0:27:91:00:30:7e:92:c6:04:96:ad:21:
@@ -68,27 +68,27 @@ describe 'Inspec::Resources::DhParams' do
               d5:05:f8:4d:1e:99:10:2e:41:a1:fb:e5:4b:19:a2:
               0d:93
           generator: 2 (0x2)
-      EOF
+    EOF
   end
 
-  it 'parses the generator used for the Diffie-Hellman operation' do
-    _(resource_dh_params.send('generator')).must_equal 2
+  it "parses the generator used for the Diffie-Hellman operation" do
+    _(resource_dh_params.send("generator")).must_equal 2
   end
 
-  it 'parses the modulus used for the Diffie-Hellman operation' do
-    _(resource_dh_params.send('modulus')).must_equal modulus
+  it "parses the modulus used for the Diffie-Hellman operation" do
+    _(resource_dh_params.send("modulus")).must_equal modulus
   end
 
-  it 'determines the prime length' do
-    _(resource_dh_params.send('prime_length')).must_equal 2048
+  it "determines the prime length" do
+    _(resource_dh_params.send("prime_length")).must_equal 2048
   end
 
-  it 'verifies PEM output' do
-    _(resource_dh_params.send('pem')).must_equal output_as_pem
+  it "verifies PEM output" do
+    _(resource_dh_params.send("pem")).must_equal output_as_pem
   end
 
-  it 'verifies text output' do
-    _(resource_dh_params.send('text'))
-      .must_match 'DH Parameters: (2048 bit)'
+  it "verifies text output" do
+    _(resource_dh_params.send("text"))
+      .must_match "DH Parameters: (2048 bit)"
   end
 end

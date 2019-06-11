@@ -1,13 +1,13 @@
 # copyright: 2017, Chef Software, Inc. <legal@chef.io>
 
-require 'inspec/utils/filter'
-require 'inspec/resources/command'
+require "inspec/utils/filter"
+require "inspec/resources/command"
 
 module Inspec::Resources
   class Packages < Inspec.resource(1)
-    name 'packages'
-    supports platform: 'unix'
-    desc 'Use the packages InSpec audit resource to test properties for multiple packages installed on the system'
+    name "packages"
+    supports platform: "unix"
+    desc "Use the packages InSpec audit resource to test properties for multiple packages installed on the system"
     example <<~EXAMPLE
       describe packages(/xserver-xorg.*/) do
         its('entries') { should be_empty }
@@ -42,10 +42,10 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.register_column(:statuses,  field: 'status', style: :simple)
-          .register_column(:names,     field: 'name')
-          .register_column(:versions,  field: 'version')
-          .register_column(:architectures, field: 'architecture')
+    filter.register_column(:statuses,  field: "status", style: :simple)
+          .register_column(:names,     field: "name")
+          .register_column(:versions,  field: "version")
+          .register_column(:architectures, field: "architecture")
           .install_filter_methods_on_resource(self, :filtered_packages)
 
     private
@@ -84,8 +84,8 @@ module Inspec::Resources
       return [] if all.nil?
       all.map do |m|
         a = m.split(/ {2,}/)
-        a[0] = 'installed' if a[0] =~ /^.i/
-        a[2] = a[2].split(':').last
+        a[0] = "installed" if a[0] =~ /^.i/
+        a[2] = a[2].split(":").last
         PackageStruct.new(*a)
       end
     end
@@ -100,8 +100,8 @@ module Inspec::Resources
       all = cmd.stdout.split("\n")
       return [] if all.nil?
       all.map do |m|
-        a = m.split('  ')
-        a.unshift('installed')
+        a = m.split("  ")
+        a.unshift("installed")
         PackageStruct.new(*a)
       end
     end

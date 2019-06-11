@@ -1,4 +1,4 @@
-source 'https://www.rubygems.org'
+source "https://www.rubygems.org"
 
-gem 'kitchen-docker'
-gem 'test-kitchen'
+gem "kitchen-docker"
+gem "test-kitchen"

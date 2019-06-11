@@ -1,15 +1,15 @@
-require 'inspec/shell_detector'
-require 'erb'
-require 'shellwords'
+require "inspec/shell_detector"
+require "erb"
+require "shellwords"
 
 module Inspec
   class EnvPrinter
     attr_reader :shell
 
     EVAL_COMMANDS = {
-      'bash' => 'eval \"$(inspec env bash)\"',
-      'fish' => 'inspec env fish > ~/.config/fish/completions/inspec.fish',
-      'zsh' => 'eval \"$(inspec env zsh)\"',
+      "bash" => 'eval \"$(inspec env bash)\"',
+      "fish" => "inspec env fish > ~/.config/fish/completions/inspec.fish",
+      "zsh" => 'eval \"$(inspec env zsh)\"',
     }.freeze
 
     def initialize(command_class, shell = nil)
@@ -35,7 +35,7 @@ module Inspec
     private
 
     def print_completion_for_shell
-      erb = ERB.new(File.read(completion_template_path), nil, '-')
+      erb = ERB.new(File.read(completion_template_path), nil, "-")
       puts erb.result(TemplateContext.new(@command_class).get_bindings)
     end
 
@@ -48,7 +48,7 @@ module Inspec
     end
 
     def completion_dir
-      File.join(File.dirname(__FILE__), 'completions')
+      File.join(File.dirname(__FILE__), "completions")
     end
 
     def completion_template_path
@@ -56,7 +56,7 @@ module Inspec
     end
 
     def shells_with_completions
-      Dir.glob("#{completion_dir}/*.sh.erb").map { |f| File.basename(f, '.sh.erb') }
+      Dir.glob("#{completion_dir}/*.sh.erb").map { |f| File.basename(f, ".sh.erb") }
     end
 
     def print_usage_guidance
@@ -90,7 +90,7 @@ module Inspec
 
     def exit_no_shell
       if @detected
-        $stderr.puts '# Unable to automatically detect shell and no shell was provided.'
+        $stderr.puts "# Unable to automatically detect shell and no shell was provided."
       end
       $stderr.puts <<~EOF
         #

@@ -1,4 +1,4 @@
-require 'inspec/plugin/v1'
+require "inspec/plugin/v1"
 
 module Inspec
   class FetcherRegistry < PluginRegistry
@@ -29,15 +29,15 @@ module Inspec
 
   def self.fetcher(version)
     if version != 1
-      raise 'Only fetcher version 1 is supported!'
+      raise "Only fetcher version 1 is supported!"
     end
     Inspec::Plugins::Fetcher
   end
 end
 
-require 'fetchers/local'
-require 'fetchers/url'
-require 'fetchers/git'
+require "fetchers/local"
+require "fetchers/url"
+require "fetchers/git"
 
 # TODO: Remove in 4.0 when Compliance fetcher plugin is created
-require 'plugins/inspec-compliance/lib/inspec-compliance/api'
+require "plugins/inspec-compliance/lib/inspec-compliance/api"

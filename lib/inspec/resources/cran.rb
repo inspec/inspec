@@ -1,4 +1,4 @@
-require 'inspec/resources/command'
+require "inspec/resources/command"
 
 # Usage:
 # describe cran('DBI') do
@@ -8,9 +8,9 @@ require 'inspec/resources/command'
 
 module Inspec::Resources
   class CranPackage < Inspec.resource(1)
-    name 'cran'
-    supports platform: 'unix'
-    desc 'Use the `cran` InSpec audit resource to test R modules that are installed from CRAN package repository.'
+    name "cran"
+    supports platform: "unix"
+    desc "Use the `cran` InSpec audit resource to test R modules that are installed from CRAN package repository."
     example <<~EXAMPLE
       describe cran('DBI') do
         it { should be_installed }
@@ -19,18 +19,18 @@ module Inspec::Resources
 
     def initialize(package_name)
       @package_name = package_name
-      @r_cmd = 'Rscript'
+      @r_cmd = "Rscript"
 
       # this resource is not supported on Windows
-      return skip_resource 'The `cran` resource is not supported on your OS yet.' if inspec.os.windows?
-      return skip_resource 'Rscript not found' unless inspec.command(@r_cmd).exist?
+      return skip_resource "The `cran` resource is not supported on your OS yet." if inspec.os.windows?
+      return skip_resource "Rscript not found" unless inspec.command(@r_cmd).exist?
     end
 
     def info
       return @info if defined?(@info)
 
       @info = {}
-      @info[:type] = 'cran'
+      @info[:type] = "cran"
       @info[:name] = @package_name
       cmd = inspec.command("#{@r_cmd} -e 'packageVersion(\"#{@package_name}\")'")
       return @info unless cmd.exit_status.zero?

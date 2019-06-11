@@ -2,14 +2,14 @@
 
 module FindFiles
   TYPES = {
-    block: 'b',
-    character: 'c',
-    directory: 'd',
-    pipe: 'p',
-    file: 'f',
-    link: 'l',
-    socket: 's',
-    door: 'D',
+    block: "b",
+    character: "c",
+    directory: "d",
+    pipe: "p",
+    file: "f",
+    link: "l",
+    socket: "s",
+    door: "D",
   }.freeze
 
   # ignores errors
@@ -22,7 +22,7 @@ module FindFiles
     type = TYPES[opts[:type].to_sym] if opts[:type]
 
     # If `path` contains a `'` we must modify how we quote the `sh -c` argument
-    quote = path.include?("'") ? '"' : '\''
+    quote = path.include?("'") ? '"' : "'"
 
     cmd = "sh -c #{quote}find #{path}"
     cmd += " -type #{type}" unless type.nil?

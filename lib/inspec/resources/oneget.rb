@@ -1,4 +1,4 @@
-require 'inspec/resources/command'
+require "inspec/resources/command"
 
 # This resource talks with OneGet (https://github.com/OneGet/oneget)
 # Its part of Windows Management Framework 5.0 and part of Windows 10
@@ -9,9 +9,9 @@ require 'inspec/resources/command'
 # end
 module Inspec::Resources
   class OneGetPackage < Inspec.resource(1)
-    name 'oneget'
-    supports platform: 'windows'
-    desc 'Use the oneget InSpec audit resource to test if the named package and/or package version is installed on the system. This resource uses OneGet, which is part of the Windows Management Framework 5.0 and Windows 10. This resource uses the Get-Package cmdlet to return all of the package names in the OneGet repository.'
+    name "oneget"
+    supports platform: "windows"
+    desc "Use the oneget InSpec audit resource to test if the named package and/or package version is installed on the system. This resource uses OneGet, which is part of the Windows Management Framework 5.0 and Windows 10. This resource uses the Get-Package cmdlet to return all of the package names in the OneGet repository."
     example <<~EXAMPLE
       describe oneget('zoomit') do
         it { should be_installed }
@@ -23,14 +23,14 @@ module Inspec::Resources
       @package_name = package_name
 
       # verify that this resource is only supported on Windows
-      return skip_resource 'The `oneget` resource is not supported on your OS.' if !inspec.os.windows?
+      return skip_resource "The `oneget` resource is not supported on your OS." if !inspec.os.windows?
     end
 
     def info
       return @info if defined?(@info)
 
       @info = {}
-      @info[:type] = 'oneget'
+      @info[:type] = "oneget"
       @info[:installed] = false
 
       cmd = inspec.command("Get-Package -Name '#{@package_name}' | ConvertTo-Json")
@@ -51,8 +51,8 @@ module Inspec::Resources
         return @info
       end
 
-      @info[:name] = pkgs['Name'] if pkgs.key?('Name')
-      @info[:version] = pkgs['Version'] if pkgs.key?('Version')
+      @info[:name] = pkgs["Name"] if pkgs.key?("Name")
+      @info[:version] = pkgs["Version"] if pkgs.key?("Version")
       @info
     end
 

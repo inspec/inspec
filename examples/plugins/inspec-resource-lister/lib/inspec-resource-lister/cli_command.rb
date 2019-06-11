@@ -1,4 +1,4 @@
-require 'inspec/resource'
+require "inspec/resource"
 
 module InspecPlugins::ResourceLister
   # This class will provide the actual CLI implementation.
@@ -16,18 +16,18 @@ module InspecPlugins::ResourceLister
     # register the subcommand.  Args are a usage message, and a short decription.
     # These will appear when someone has installed the plugin, and then they
     # run `inspec help`.
-    subcommand_desc 'list-resources [COMMAND]', 'List resources that InSpec finds.'
+    subcommand_desc "list-resources [COMMAND]", "List resources that InSpec finds."
 
     # The usual rhythm for a Thor CLI file is description, options, command method.
     # Thor just has you call DSL methods in sequence prior to each command.
     # Let's make a command, 'core', that lists all of the resources included with InSpec.
 
     # First, provide a usage / description. This will appear in `inspec help list-resources`.
-    desc 'core [OPTIONS]', 'List resources that are included with InSpec.'
+    desc "core [OPTIONS]", "List resources that are included with InSpec."
 
     # Let's include an option, -s, to summarize the list.
     # Refer to the Thors docs; there is a lot you can do here.
-    option :summary, desc: 'Include a total at the bottom', \
+    option :summary, desc: "Include a total at the bottom", \
                      type: :boolean, default: true, aliases: [:s]
 
     # OK, now the actual method itself.  If you provide params, you're telling Thor that
@@ -42,7 +42,7 @@ module InspecPlugins::ResourceLister
       # If we were passed a CLI arg, wrap the arg in Regexp matchers so
       # we will match anywhere in the name.
       unless pattern == /.+/
-        pattern = Regexp.new('.*' + pattern + '.*')
+        pattern = Regexp.new(".*" + pattern + ".*")
       end
 
       # This gets a bit into InSpec innards; but this is simply a Hash.
@@ -53,7 +53,7 @@ module InspecPlugins::ResourceLister
       resource_names.each { |name| puts name }
 
       if options[:summary]
-        puts '-' * 30
+        puts "-" * 30
         puts "#{resource_names.count} resources total"
       end
     end

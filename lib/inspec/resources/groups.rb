@@ -1,7 +1,7 @@
-require 'inspec/resources/etc_group'
-require 'inspec/resources/powershell'
-require 'inspec/resources/parse_config'
-require 'inspec/utils/filter'
+require "inspec/resources/etc_group"
+require "inspec/resources/powershell"
+require "inspec/resources/parse_config"
+require "inspec/utils/filter"
 
 module Inspec::Resources
   # This file contains two resources, the `group` and `groups` resource.
@@ -25,10 +25,10 @@ module Inspec::Resources
   class Groups < Inspec.resource(1)
     include GroupManagementSelector
 
-    name 'groups'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the group InSpec audit resource to test groups on the system. Groups can be filtered.'
+    name "groups"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the group InSpec audit resource to test groups on the system. Groups can be filtered."
     example <<~EXAMPLE
       describe groups.where { name == 'root'} do
         its('names') { should eq ['root'] }
@@ -44,19 +44,19 @@ module Inspec::Resources
     def initialize
       # select group manager
       @group_provider = select_group_manager(inspec.os)
-      return skip_resource 'The `groups` resource is not supported on your OS yet.' if @group_provider.nil?
+      return skip_resource "The `groups` resource is not supported on your OS yet." if @group_provider.nil?
     end
 
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
-    filter.register_column(:names,     field: 'name')
-          .register_column(:gids,      field: 'gid')
-          .register_column(:domains,   field: 'domain')
-          .register_column(:members,   field: 'members', style: :simple)
+    filter.register_column(:names,     field: "name")
+          .register_column(:gids,      field: "gid")
+          .register_column(:domains,   field: "domain")
+          .register_column(:members,   field: "members", style: :simple)
     filter.install_filter_methods_on_resource(self, :collect_group_details)
 
     def to_s
-      'Groups'
+      "Groups"
     end
 
     private
@@ -77,10 +77,10 @@ module Inspec::Resources
   class Group < Inspec.resource(1)
     include GroupManagementSelector
 
-    name 'group'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the group InSpec audit resource to test groups on the system.'
+    name "group"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the group InSpec audit resource to test groups on the system."
     example <<~EXAMPLE
       describe group('root') do
         it { should exist }
@@ -97,7 +97,7 @@ module Inspec::Resources
 
       # select group manager
       @group_provider = select_group_manager(inspec.os)
-      return skip_resource 'The `group` resource is not supported on your OS yet.' if @group_provider.nil?
+      return skip_resource "The `group` resource is not supported on your OS yet." if @group_provider.nil?
     end
 
     # verifies if a group exists
@@ -106,11 +106,11 @@ module Inspec::Resources
     end
 
     def gid
-      flatten_entry(group_info, 'gid')
+      flatten_entry(group_info, "gid")
     end
 
     def members
-      flatten_entry(group_info, 'members')
+      flatten_entry(group_info, "members")
     end
 
     def local
@@ -131,7 +131,7 @@ module Inspec::Resources
       elsif entries.size == 1
         entries.first.send(prop)
       else
-        raise 'found more than one group with the same name, please use `groups` resource'
+        raise "found more than one group with the same name, please use `groups` resource"
       end
     end
 
@@ -149,7 +149,7 @@ module Inspec::Resources
     end
 
     def groups
-      raise 'group provider must implement the `groups` method'
+      raise "group provider must implement the `groups` method"
     end
   end
 
@@ -164,7 +164,7 @@ module Inspec::Resources
   # This uses `dscacheutil` to get the group info instead of `etc_group`
   class DarwinGroup < GroupInfo
     def groups
-      group_info = inspec.command('dscacheutil -q group').stdout.split("\n\n")
+      group_info = inspec.command("dscacheutil -q group").stdout.split("\n\n")
 
       groups = []
       regex = /^([^:]*?)\s*:\s(.*?)\s*$/
@@ -173,11 +173,11 @@ module Inspec::Resources
       end
 
       # Convert the `dscacheutil` groups to match `inspec.etc_group.entries`
-      groups.each { |g| g['gid'] = g['gid'].to_i }
+      groups.each { |g| g["gid"] = g["gid"].to_i }
       groups.each do |g|
-        next if g['users'].nil?
-        g['members'] = g.delete('users')
-        g['members'].tr!(' ', ',')
+        next if g["users"].nil?
+        g["members"] = g.delete("users")
+        g["members"].tr!(" ", ",")
       end
     end
   end

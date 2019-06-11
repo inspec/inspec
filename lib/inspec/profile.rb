@@ -1,22 +1,22 @@
 # Copyright 2015 Dominik Richter
 
-require 'forwardable'
-require 'openssl'
-require 'inspec/input_registry'
-require 'inspec/polyfill'
-require 'inspec/cached_fetcher'
-require 'inspec/file_provider'
-require 'inspec/source_reader'
-require 'inspec/metadata'
-require 'inspec/backend'
-require 'inspec/rule'
-require 'inspec/log'
-require 'inspec/profile_context'
-require 'inspec/runtime_profile'
-require 'inspec/method_source'
-require 'inspec/dependencies/cache'
-require 'inspec/dependencies/lockfile'
-require 'inspec/dependencies/dependency_set'
+require "forwardable"
+require "openssl"
+require "inspec/input_registry"
+require "inspec/polyfill"
+require "inspec/cached_fetcher"
+require "inspec/file_provider"
+require "inspec/source_reader"
+require "inspec/metadata"
+require "inspec/backend"
+require "inspec/rule"
+require "inspec/log"
+require "inspec/profile_context"
+require "inspec/runtime_profile"
+require "inspec/method_source"
+require "inspec/dependencies/cache"
+require "inspec/dependencies/lockfile"
+require "inspec/dependencies/dependency_set"
 
 module Inspec
   class Profile
@@ -33,14 +33,14 @@ module Inspec
     def self.copy_deps_into_cache(file_provider, opts)
       # filter content
       cache = file_provider.files.find_all do |entry|
-        entry.start_with?('vendor')
+        entry.start_with?("vendor")
       end
       content = Hash[cache.map { |x| [x, file_provider.binread(x)] }]
       keys = content.keys
       keys.each do |key|
         next if content[key].nil?
         # remove prefix
-        rel = Pathname.new(key).relative_path_from(Pathname.new('vendor')).to_s
+        rel = Pathname.new(key).relative_path_from(Pathname.new("vendor")).to_s
         tar = Pathname.new(opts[:vendor_cache].path).join(rel)
 
         FileUtils.mkdir_p tar.dirname.to_s
@@ -110,7 +110,7 @@ module Inspec
       # we share the backend between profiles.
       #
       # This will cause issues if a profile attempts to load a file via `inspec.profile.file`
-      train_options = options.reject { |k, _| k == 'target' } # See https://github.com/chef/inspec/pull/1646
+      train_options = options.reject { |k, _| k == "target" } # See https://github.com/chef/inspec/pull/1646
       @backend = options[:backend].nil? ? Inspec::Backend.create(Inspec::Config.new(train_options)) : options[:backend].dup
       @runtime_profile = RuntimeProfile.new(self)
       @backend.profile = @runtime_profile
@@ -121,7 +121,7 @@ module Inspec
       options[:runner_conf] ||= Inspec::Config.cached
 
       if options[:runner_conf].key?(:attrs)
-        Inspec.deprecate(:rename_attributes_to_inputs, 'Use --input-file on the command line instead of --attrs.')
+        Inspec.deprecate(:rename_attributes_to_inputs, "Use --input-file on the command line instead of --attrs.")
         options[:runner_conf][:input_file] = options[:runner_conf].delete(:attrs)
       end
 
@@ -171,7 +171,7 @@ module Inspec
       if @supports_platform.nil?
         @supports_platform = metadata.supports_platform?(@backend)
       end
-      if @backend.backend.class.to_s == 'Train::Transports::Mock::Connection'
+      if @backend.backend.class.to_s == "Train::Transports::Mock::Connection"
         @supports_platform = true
       end
 
@@ -211,7 +211,7 @@ module Inspec
       include_list.each_with_index do |inclusion, index|
         next if inclusion.is_a?(Regexp)
         # Insist the user wrap the regex in slashes to demarcate it as a regex
-        next unless inclusion.start_with?('/') && inclusion.end_with?('/')
+        next unless inclusion.start_with?("/") && inclusion.end_with?("/")
         inclusion = inclusion[1..-2] # Trim slashes
         begin
           re = Regexp.new(inclusion)
@@ -241,14 +241,14 @@ module Inspec
         # this metadata if the parent profile is supported.
         if supports_platform? && !d.supports_platform?
           # since ruby 1.9 hashes are ordered so we can just use index values here
-          metadata.dependencies[i][:status] = 'skipped'
+          metadata.dependencies[i][:status] = "skipped"
           msg = "Skipping profile: '#{d.name}' on unsupported platform: '#{d.backend.platform.name}/#{d.backend.platform.release}'."
           metadata.dependencies[i][:skip_message] = msg
           next
         elsif metadata.dependencies[i]
           # Currently wrapper profiles will load all dependencies, and then we
           # load them again when we dive down. This needs to be re-done.
-          metadata.dependencies[i][:status] = 'loaded'
+          metadata.dependencies[i][:status] = "loaded"
         end
         c = d.load_libraries
         @runner_context.add_resources(c)
@@ -312,11 +312,11 @@ module Inspec
       res[:parent_profile] = parent_profile unless parent_profile.nil?
 
       if !supports_platform?
-        res[:status] = 'skipped'
+        res[:status] = "skipped"
         msg = "Skipping profile: '#{name}' on unsupported platform: '#{backend.platform.name}/#{backend.platform.release}'."
         res[:skip_message] = msg
       else
-        res[:status] = 'loaded'
+        res[:status] = "loaded"
       end
 
       # convert legacy os-* supports to their platform counterpart
@@ -377,23 +377,23 @@ module Inspec
       m_warnings.each { |msg| warn.call(meta_path, 0, 0, nil, msg) }
       m_unsupported = metadata.unsupported
       m_unsupported.each { |u| warn.call(meta_path, 0, 0, nil, "doesn't support: #{u}") }
-      @logger.info 'Metadata OK.' if m_errors.empty? && m_unsupported.empty?
+      @logger.info "Metadata OK." if m_errors.empty? && m_unsupported.empty?
 
       # only run the vendor check if the legacy profile-path is not used as argument
       if @legacy_profile_path == false
         # verify that a lockfile is present if we have dependencies
         if !metadata.dependencies.empty?
-          error.call(meta_path, 0, 0, nil, 'Your profile needs to be vendored with `inspec vendor`.') if !lockfile_exists?
+          error.call(meta_path, 0, 0, nil, "Your profile needs to be vendored with `inspec vendor`.") if !lockfile_exists?
         end
 
         if lockfile_exists?
           # verify if metadata and lockfile are out of sync
           if lockfile.deps.size != metadata.dependencies.size
-            error.call(meta_path, 0, 0, nil, 'inspec.yml and inspec.lock are out-of-sync. Please re-vendor with `inspec vendor`.')
+            error.call(meta_path, 0, 0, nil, "inspec.yml and inspec.lock are out-of-sync. Please re-vendor with `inspec vendor`.")
           end
 
           # verify if metadata and lockfile have the same dependency names
-          metadata.dependencies.each { |dep|
+          metadata.dependencies.each do |dep|
             # Skip if the dependency does not specify a name
             next if dep[:name].nil?
 
@@ -401,7 +401,7 @@ module Inspec
             if !lockfile.deps.map { |x| x[:name] }.include? dep[:name]
               error.call(meta_path, 0, 0, nil, "Cannot find #{dep[:name]} in lockfile. Please re-vendor with `inspec vendor`.")
             end
-          }
+          end
         end
       end
 
@@ -411,28 +411,28 @@ module Inspec
       count = controls_count
       result[:summary][:controls] = count
       if count == 0
-        warn.call(nil, nil, nil, nil, 'No controls or tests were defined.')
+        warn.call(nil, nil, nil, nil, "No controls or tests were defined.")
       else
         @logger.info("Found #{count} controls.")
       end
 
       # iterate over hash of groups
-      params[:controls].each { |id, control|
+      params[:controls].each do |id, control|
         sfile = control[:source_location][:ref]
         sline = control[:source_location][:line]
-        error.call(sfile, sline, nil, id, 'Avoid controls with empty IDs') if id.nil? or id.empty?
-        next if id.start_with? '(generated '
+        error.call(sfile, sline, nil, id, "Avoid controls with empty IDs") if id.nil? || id.empty?
+        next if id.start_with? "(generated "
         warn.call(sfile, sline, nil, id, "Control #{id} has no title") if control[:title].to_s.empty?
         warn.call(sfile, sline, nil, id, "Control #{id} has no descriptions") if control[:descriptions][:default].to_s.empty?
         warn.call(sfile, sline, nil, id, "Control #{id} has impact > 1.0") if control[:impact].to_f > 1.0
         warn.call(sfile, sline, nil, id, "Control #{id} has impact < 0.0") if control[:impact].to_f < 0.0
-        warn.call(sfile, sline, nil, id, "Control #{id} has no tests defined") if control[:checks].nil? or control[:checks].empty?
-      }
+        warn.call(sfile, sline, nil, id, "Control #{id} has no tests defined") if control[:checks].nil? || control[:checks].empty?
+      end
 
       # profile is valid if we could not find any error
       result[:summary][:valid] = result[:errors].empty?
 
-      @logger.info 'Control definitions OK.' if result[:warnings].empty?
+      @logger.info "Control definitions OK." if result[:warnings].empty?
       result
     end
 
@@ -458,22 +458,22 @@ module Inspec
       # TODO ignore all .files, but add the files to debug output
 
       # display all files that will be part of the archive
-      @logger.debug 'Add the following files to archive:'
-      files.each { |f| @logger.debug '    ' + f }
+      @logger.debug "Add the following files to archive:"
+      files.each { |f| @logger.debug "    " + f }
 
       if opts[:zip]
         # generate zip archive
-        require 'inspec/archive/zip'
+        require "inspec/archive/zip"
         zag = Inspec::Archive::ZipArchiveGenerator.new
         zag.archive(root_path, files, dst)
       else
         # generate tar archive
-        require 'inspec/archive/tar'
+        require "inspec/archive/tar"
         tag = Inspec::Archive::TarArchiveGenerator.new
         tag.archive(root_path, files, dst)
       end
 
-      @logger.info 'Finished archive generation.'
+      @logger.info "Finished archive generation."
       true
     end
 
@@ -482,11 +482,11 @@ module Inspec
     end
 
     def lockfile_exists?
-      @source_reader.target.files.include?('inspec.lock')
+      @source_reader.target.files.include?("inspec.lock")
     end
 
     def lockfile_path
-      File.join(cwd, 'inspec.lock')
+      File.join(cwd, "inspec.lock")
     end
 
     def root_path
@@ -503,12 +503,12 @@ module Inspec
     # tarballs.
     #
     def cwd
-      @target.is_a?(String) && File.directory?(@target) ? @target : './'
+      @target.is_a?(String) && File.directory?(@target) ? @target : "./"
     end
 
     def lockfile
       @lockfile ||= if lockfile_exists?
-                      Inspec::Lockfile.from_content(@source_reader.target.read('inspec.lock'))
+                      Inspec::Lockfile.from_content(@source_reader.target.read("inspec.lock"))
                     else
                       generate_lockfile
                     end
@@ -547,14 +547,14 @@ module Inspec
 
       res = OpenSSL::Digest::SHA256.new
       files = source_reader.tests.to_a + source_reader.libraries.to_a +
-              source_reader.data_files.to_a +
-              [['inspec.yml', source_reader.metadata.content]] +
-              [['inspec.lock.deps', YAML.dump(deps)]]
+        source_reader.data_files.to_a +
+        [["inspec.yml", source_reader.metadata.content]] +
+        [["inspec.lock.deps", YAML.dump(deps)]]
 
       files.sort_by { |a| a[0] }
            .map { |f| res << f[0] << "\0" << f[1] << "\0" }
 
-      res.digest.unpack('H*')[0]
+      res.digest.unpack("H*")[0]
     end
 
     private
@@ -570,13 +570,13 @@ module Inspec
       end
 
       name = params[:name] ||
-             raise('Cannot create an archive without a profile name! Please '\
-                  'specify the name in metadata or use --output to create the archive.')
+        raise("Cannot create an archive without a profile name! Please "\
+             "specify the name in metadata or use --output to create the archive.")
       version = params[:version] ||
-                raise('Cannot create an archive without a profile version! Please '\
-                     'specify the version in metadata or use --output to create the archive.')
-      ext = opts[:zip] ? 'zip' : 'tar.gz'
-      slug = name.downcase.strip.tr(' ', '-').gsub(/[^\w-]/, '_')
+        raise("Cannot create an archive without a profile version! Please "\
+             "specify the version in metadata or use --output to create the archive.")
+      ext = opts[:zip] ? "zip" : "tar.gz"
+      slug = name.downcase.strip.tr(" ", "-").gsub(/[^\w-]/, "_")
       Pathname.new(Dir.pwd).join("#{slug}-#{version}.#{ext}")
     end
 
@@ -593,7 +593,7 @@ module Inspec
       tests = collect_tests
       params[:controls] = controls = {}
       params[:groups] = groups = {}
-      prefix = @source_reader.target.prefix || ''
+      prefix = @source_reader.target.prefix || ""
       tests&.each do |rule|
         next if rule.nil?
         f = load_rule_filepath(prefix, rule)

@@ -1,2 +1,2 @@
 # install nginx
-include_recipe('prepare::nginx')
+include_recipe("prepare::nginx")

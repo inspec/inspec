@@ -1,15 +1,15 @@
 # copyright: 2015, Vulcano Security GmbH
 
-require 'inspec/utils/filter'
-require 'ostruct'
-require 'inspec/resources/command'
+require "inspec/utils/filter"
+require "ostruct"
+require "inspec/resources/command"
 
 module Inspec::Resources
   class Processes < Inspec.resource(1)
-    name 'processes'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the processes InSpec audit resource to test properties for programs that are running on the system.'
+    name "processes"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the processes InSpec audit resource to test properties for programs that are running on the system."
     example <<~EXAMPLE
       describe processes('mysqld') do
         its('entries.length') { should eq 1 }
@@ -33,10 +33,10 @@ module Inspec::Resources
       if grep.class == String
         # if windows ignore case as we can't make up our minds
         if inspec.os.windows?
-          grep = '(?i)' + grep
+          grep = "(?i)" + grep
         else
-          grep = '(/[^/]*)*' + grep unless grep[0] == '/'
-          grep = '^' + grep + '(\s|$)'
+          grep = "(/[^/]*)*" + grep unless grep[0] == "/"
+          grep = "^" + grep + '(\s|$)'
         end
         grep = Regexp.new(grep)
       end
@@ -56,23 +56,23 @@ module Inspec::Resources
     end
 
     def list
-      Inspec.deprecate(:property_processes_list, 'The processes `list` property is deprecated. Please use `entries` instead.')
+      Inspec.deprecate(:property_processes_list, "The processes `list` property is deprecated. Please use `entries` instead.")
       @list
     end
 
     filter = FilterTable.create
-    filter.register_column(:labels,   field: 'label')
-          .register_column(:pids,     field: 'pid')
-          .register_column(:cpus,     field: 'cpu')
-          .register_column(:mem,      field: 'mem')
-          .register_column(:vsz,      field: 'vsz')
-          .register_column(:rss,      field: 'rss')
-          .register_column(:tty,      field: 'tty')
-          .register_column(:states,   field: 'stat')
-          .register_column(:start,    field: 'start')
-          .register_column(:time,     field: 'time')
-          .register_column(:users,    field: 'user')
-          .register_column(:commands, field: 'command')
+    filter.register_column(:labels,   field: "label")
+          .register_column(:pids,     field: "pid")
+          .register_column(:cpus,     field: "cpu")
+          .register_column(:mem,      field: "mem")
+          .register_column(:vsz,      field: "vsz")
+          .register_column(:rss,      field: "rss")
+          .register_column(:tty,      field: "tty")
+          .register_column(:states,   field: "stat")
+          .register_column(:start,    field: "start")
+          .register_column(:time,     field: "time")
+          .register_column(:users,    field: "user")
+          .register_column(:commands, field: "command")
           .install_filter_methods_on_resource(self, :filtered_processes)
 
     private
@@ -104,7 +104,7 @@ module Inspec::Resources
           command: 12,
         }
       else
-        command = 'ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user,command'
+        command = "ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user,command"
         regex = /^\s*([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+(.*)$/
         field_map = {
           pid: 1,
@@ -125,7 +125,7 @@ module Inspec::Resources
 
     def ps_configuration_for_linux
       if busybox_ps?
-        command = 'ps -o pid,vsz,rss,tty,stat,time,ruser,args'
+        command = "ps -o pid,vsz,rss,tty,stat,time,ruser,args"
         regex = /^\s*(\d+)\s+(\d+(?:\.\d+)?[gm]?)\s+(\d+(?:\.\d+)?[gm]?)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(.*)$/
         field_map = {
           pid: 1,
@@ -138,7 +138,7 @@ module Inspec::Resources
           command: 8,
         }
       else
-        command = 'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command'
+        command = "ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command"
         regex = /^(.+?)\s+(\d+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+(\w{3} \d{2}|\d{2}:\d{2}:\d{2})\s+([^ ]+)\s+([^ ]+)\s+(.*)$/
         field_map = {
           label: 1,
@@ -160,15 +160,15 @@ module Inspec::Resources
     end
 
     def busybox_ps?
-      @busybox_ps ||= inspec.command('ps --help').stderr.include?('BusyBox')
+      @busybox_ps ||= inspec.command("ps --help").stderr.include?("BusyBox")
     end
 
     def convert_to_kilobytes(param)
       return param.to_i unless param.is_a?(String)
 
-      if param.end_with?('g')
+      if param.end_with?("g")
         (param[0..-2].to_f * 1024 * 1024).to_i
-      elsif param.end_with?('m')
+      elsif param.end_with?("m")
         (param[0..-2].to_f * 1024).to_i
       else
         param.to_i

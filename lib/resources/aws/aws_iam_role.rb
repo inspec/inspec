@@ -1,16 +1,16 @@
-require 'resource_support/aws/aws_singular_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-iam'
+require "resource_support/aws/aws_singular_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-iam"
 
 class AwsIamRole < Inspec.resource(1)
-  name 'aws_iam_role'
-  desc 'Verifies settings for an IAM Role'
+  name "aws_iam_role"
+  desc "Verifies settings for an IAM Role"
   example <<~EXAMPLE
     describe aws_iam_role('my-role') do
       it { should exist }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
   attr_reader :description, :role_name
@@ -26,10 +26,10 @@ class AwsIamRole < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:role_name],
       allowed_scalar_name: :role_name,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
     if validated_params.empty?
-      raise ArgumentError, 'You must provide a role_name to aws_iam_role.'
+      raise ArgumentError, "You must provide a role_name to aws_iam_role."
     end
     validated_params
   end

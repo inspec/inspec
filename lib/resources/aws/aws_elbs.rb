@@ -1,21 +1,21 @@
-require 'resource_support/aws/aws_plural_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-elasticloadbalancing'
+require "resource_support/aws/aws_plural_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-elasticloadbalancing"
 
 class AwsElbs < Inspec.resource(1)
-  name 'aws_elbs'
-  desc 'Verifies settings for AWS ELBs (classic Elastic Load Balancers) in bulk'
+  name "aws_elbs"
+  desc "Verifies settings for AWS ELBs (classic Elastic Load Balancers) in bulk"
   example <<~EXAMPLE
     describe aws_elbs do
       it { should exist }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsPluralResourceMixin
   def validate_params(resource_params)
     unless resource_params.empty?
-      raise ArgumentError, 'aws_elbs does not accept resource parameters.'
+      raise ArgumentError, "aws_elbs does not accept resource parameters."
     end
     resource_params
   end
@@ -38,7 +38,7 @@ class AwsElbs < Inspec.resource(1)
   filter.connect(self, :table)
 
   def to_s
-    'AWS ELBs'
+    "AWS ELBs"
   end
 
   def fetch_from_api

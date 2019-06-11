@@ -1,4 +1,4 @@
-require 'inspec/resources/command'
+require "inspec/resources/command"
 
 # Usage:
 # describe host('example.com') do
@@ -22,14 +22,14 @@ require 'inspec/resources/command'
 #   it { should be_resolvable.by('dns') }
 # end
 
-require 'resolv'
+require "resolv"
 
 module Inspec::Resources
   class Host < Inspec.resource(1)
-    name 'host'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the host InSpec audit resource to test the name used to refer to a specific host and its availability, including the Internet protocols and ports over which that host name should be available.'
+    name "host"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the host InSpec audit resource to test the name used to refer to a specific host and its availability, including the Internet protocols and ports over which that host name should be available."
     example <<~EXAMPLE
       describe host('example.com') do
         it { should be_reachable }
@@ -49,33 +49,35 @@ module Inspec::Resources
       @port = params[:port]
 
       if params[:proto]
-        Inspec.deprecate(:host_resource_proto_usage, 'The `host` resource `proto` resource parameter is deprecated. Please use `protocol`.')
+        Inspec.deprecate(:host_resource_proto_usage, "The `host` resource `proto` resource parameter is deprecated. Please use `protocol`.")
         @protocol = params[:proto]
       else
-        @protocol = params.fetch(:protocol, 'icmp')
+        @protocol = params.fetch(:protocol, "icmp")
       end
 
       @host_provider = nil
       if inspec.os.linux?
         @host_provider = LinuxHostProvider.new(inspec)
       elsif inspec.os.windows?
-        return skip_resource 'Invalid protocol: only `tcp` and `icmp` protocols are support for the `host` resource on your OS.' unless
+        return skip_resource "Invalid protocol: only `tcp` and `icmp` protocols are support for the `host` resource on your OS." unless
           %w{icmp tcp}.include?(@protocol)
 
         @host_provider = WindowsHostProvider.new(inspec)
       elsif inspec.os.darwin?
         @host_provider = DarwinHostProvider.new(inspec)
       else
-        return skip_resource 'The `host` resource is not supported on your OS yet.'
+        return skip_resource "The `host` resource is not supported on your OS yet."
       end
 
       missing_requirements = @host_provider.missing_requirements(protocol)
-      return skip_resource 'The following requirements are not met for this resource: ' \
-        "#{missing_requirements.join(', ')}" unless missing_requirements.empty?
+      unless missing_requirements.empty?
+        return skip_resource "The following requirements are not met for this resource: " \
+          "#{missing_requirements.join(', ')}"
+      end
     end
 
     def proto
-      Inspec.deprecate(:host_resource_proto_usage, 'The host resource `proto` method is deprecated. Please use `protocol`.')
+      Inspec.deprecate(:host_resource_proto_usage, "The host resource `proto` method is deprecated. Please use `protocol`.")
       protocol
     end
 
@@ -87,7 +89,7 @@ module Inspec::Resources
 
     def reachable?
       # ping checks do not require port or protocol
-      return ping.fetch(:success, false) if protocol == 'icmp'
+      return ping.fetch(:success, false) if protocol == "icmp"
 
       # if either port or protocol are specified but not both, we cannot proceed.
       if port.nil? || protocol.nil?
@@ -150,8 +152,8 @@ module Inspec::Resources
     def initialize(inspec)
       super
 
-      @has_nc = inspec.command('nc').exist?
-      @has_ncat = inspec.command('ncat').exist?
+      @has_nc = inspec.command("nc").exist?
+      @has_ncat = inspec.command("ncat").exist?
       @has_net_redirections = inspec.command("strings `which bash` | grep -qE '/dev/(tcp|udp)/'").exit_status == 0
     end
 
@@ -162,7 +164,7 @@ module Inspec::Resources
         if @has_net_redirections
           missing << "#{timeout} (part of coreutils) or netcat must be installed" unless inspec.command(timeout).exist?
         else
-          missing << 'netcat must be installed'
+          missing << "netcat must be installed"
         end
       end
 
@@ -190,24 +192,24 @@ module Inspec::Resources
 
     def netcat_check_command(hostname, port, protocol)
       if @has_nc
-        base_cmd = 'nc'
+        base_cmd = "nc"
       elsif @has_ncat
-        base_cmd = 'ncat'
+        base_cmd = "ncat"
       else
         return
       end
 
-      if protocol == 'udp'
-        extra_flags = '-u'
+      if protocol == "udp"
+        extra_flags = "-u"
       else
-        extra_flags = ''
+        extra_flags = ""
       end
 
       "echo | #{base_cmd} -v -w 1 #{extra_flags} #{hostname} #{port}"
     end
 
     def timeout
-      'timeout'
+      "timeout"
     end
 
     def resolve_with_dig(hostname)
@@ -255,7 +257,7 @@ module Inspec::Resources
 
   class DarwinHostProvider < UnixHostProvider
     def timeout
-      'gtimeout'
+      "gtimeout"
     end
 
     def resolve(hostname)
@@ -279,7 +281,7 @@ module Inspec::Resources
       # TCP and port: Test-NetConnection -ComputerName www.microsoft.com -RemotePort 80
       request = "Test-NetConnection -ComputerName #{hostname} -WarningAction SilentlyContinue"
       request += " -RemotePort #{port}" unless port.nil?
-      request += '| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json'
+      request += "| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json"
       cmd = inspec.command(request)
 
       begin
@@ -288,7 +290,7 @@ module Inspec::Resources
         return {}
       end
 
-      { success: port.nil? ? ping['PingSucceeded'] : ping['TcpTestSucceeded'] }
+      { success: port.nil? ? ping["PingSucceeded"] : ping["TcpTestSucceeded"] }
     end
 
     def resolve(hostname)
@@ -300,7 +302,7 @@ module Inspec::Resources
       end
 
       resolv = [resolv] unless resolv.is_a?(Array)
-      resolv.map { |entry| entry['IPAddress'] }
+      resolv.map { |entry| entry["IPAddress"] }
     end
   end
 end

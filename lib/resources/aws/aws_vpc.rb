@@ -1,17 +1,17 @@
-require 'resource_support/aws/aws_singular_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-ec2'
+require "resource_support/aws/aws_singular_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-ec2"
 
 class AwsVpc < Inspec.resource(1)
-  name 'aws_vpc'
-  desc 'Verifies settings for AWS VPC'
+  name "aws_vpc"
+  desc "Verifies settings for AWS VPC"
   example <<~EXAMPLE
     describe aws_vpc do
       it { should be_default }
       its('cidr_block') { should cmp '10.0.0.0/16' }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
 
@@ -31,7 +31,7 @@ class AwsVpc < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:vpc_id],
       allowed_scalar_name: :vpc_id,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
 
     if validated_params.key?(:vpc_id) && validated_params[:vpc_id] !~ /^vpc\-([0-9a-f]{8})|(^vpc\-[0-9a-f]{17})$/
@@ -45,9 +45,9 @@ class AwsVpc < Inspec.resource(1)
     backend = BackendFactory.create(inspec_runner)
 
     if @vpc_id.nil?
-      filter = { name: 'isDefault', values: ['true'] }
+      filter = { name: "isDefault", values: ["true"] }
     else
-      filter = { name: 'vpc-id', values: [@vpc_id] }
+      filter = { name: "vpc-id", values: [@vpc_id] }
     end
 
     resp = backend.describe_vpcs({ filters: [filter] })

@@ -1,6 +1,6 @@
-require 'hashie'
-require 'inspec/utils/file_reader'
-require 'inspec/utils/simpleconfig'
+require "hashie"
+require "inspec/utils/file_reader"
+require "inspec/utils/simpleconfig"
 
 module Inspec::Resources
   class Runlevels < Hash
@@ -66,10 +66,10 @@ module Inspec::Resources
   #
   # TODO: extend the logic to detect the running init system, independently of OS
   class Service < Inspec.resource(1)
-    name 'service'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the service InSpec audit resource to test if the named service is installed, running and/or enabled.'
+    name "service"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the service InSpec audit resource to test if the named service is installed, running and/or enabled."
     example <<~EXAMPLE
       describe service('service_name') do
         it { should be_installed }
@@ -97,7 +97,7 @@ module Inspec::Resources
       @cache = nil
       @service_mgmt = select_service_mgmt
 
-      return skip_resource 'The `service` resource is not supported on your OS yet.' if @service_mgmt.nil?
+      return skip_resource "The `service` resource is not supported on your OS yet." if @service_mgmt.nil?
     end
 
     def select_service_mgmt # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
@@ -131,14 +131,14 @@ module Inspec::Resources
         if version > 7
           Systemd.new(inspec, service_ctl)
         else
-          SysV.new(inspec, service_ctl || '/usr/sbin/service')
+          SysV.new(inspec, service_ctl || "/usr/sbin/service")
         end
       elsif %w{redhat fedora centos oracle cloudlinux}.include?(platform)
         version = os[:release].to_i
-        if (%w{redhat centos oracle cloudlinux}.include?(platform) && version >= 7) || (platform == 'fedora' && version >= 15)
+        if (%w{redhat centos oracle cloudlinux}.include?(platform) && version >= 7) || (platform == "fedora" && version >= 15)
           Systemd.new(inspec, service_ctl)
         else
-          SysV.new(inspec, service_ctl || '/sbin/service')
+          SysV.new(inspec, service_ctl || "/sbin/service")
         end
       elsif %w{wrlinux}.include?(platform)
         SysV.new(inspec, service_ctl)
@@ -156,7 +156,7 @@ module Inspec::Resources
         if os[:release].to_i >= 12
           Systemd.new(inspec, service_ctl)
         else
-          SysV.new(inspec, service_ctl || '/sbin/service')
+          SysV.new(inspec, service_ctl || "/sbin/service")
         end
       elsif %w{aix}.include?(platform)
         SrcMstr.new(inspec)
@@ -201,7 +201,7 @@ module Inspec::Resources
 
     # get all runlevels that are available and their configuration
     def runlevels(*args)
-      return Runlevels.new(self) if info.nil? or info[:runlevels].nil?
+      return Runlevels.new(self) if info.nil? || info[:runlevels].nil?
       Runlevels.from_hash(self, info[:runlevels], args)
     end
 
@@ -248,7 +248,7 @@ module Inspec::Resources
   # @see: http://www.freedesktop.org/software/systemd/man/systemd-system.conf.html
   class Systemd < ServiceManager
     def initialize(inspec, service_ctl = nil)
-      @service_ctl = service_ctl || 'systemctl'
+      @service_ctl = service_ctl || "systemctl"
       super
     end
 
@@ -278,19 +278,19 @@ module Inspec::Resources
       params = SimpleConfig.new(
         cmd.stdout.chomp,
         assignment_regex: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
-        multiple_values: false,
+        multiple_values: false
       ).params
 
       # LoadState values eg. loaded, not-found
-      installed = params['LoadState'] == 'loaded'
+      installed = params["LoadState"] == "loaded"
 
       {
-        name: params['Id'],
-        description: params['Description'],
+        name: params["Id"],
+        description: params["Description"],
         installed: installed,
         running: is_active?(service_name),
         enabled: is_enabled?(service_name),
-        type: 'systemd',
+        type: "systemd",
         params: params,
       }
     end
@@ -311,7 +311,7 @@ module Inspec::Resources
         installed: true,
         running: running,
         enabled: enabled?,
-        type: 'srcmstr',
+        type: "srcmstr",
       }
     end
 
@@ -329,7 +329,7 @@ module Inspec::Resources
 
     def enabled_rc_tcpip?
       inspec.command(
-        "grep -v ^# /etc/rc.tcpip | grep 'start ' | grep -Eq '(/{0,1}| )#{name} '",
+        "grep -v ^# /etc/rc.tcpip | grep 'start ' | grep -Eq '(/{0,1}| )#{name} '"
       ).exit_status == 0
     end
 
@@ -343,7 +343,7 @@ module Inspec::Resources
     include FileReader
 
     def initialize(service_name, service_ctl = nil)
-      @service_ctl = service_ctl || 'initctl'
+      @service_ctl = service_ctl || "initctl"
       super
     end
 
@@ -352,7 +352,7 @@ module Inspec::Resources
       status = inspec.command("#{service_ctl} status #{service_name}")
 
       # fallback for systemv services, those are not handled via `initctl`
-      return SysV.new(inspec).info(service_name) if status.exit_status.to_i != 0 || status.stdout == ''
+      return SysV.new(inspec).info(service_name) if status.exit_status.to_i != 0 || status.stdout == ""
 
       # @see: http://upstart.ubuntu.com/cookbook/#job-states
       # grep for running to indicate the service is there
@@ -365,7 +365,7 @@ module Inspec::Resources
         installed: true,
         running: running,
         enabled: enabled,
-        type: 'upstart',
+        type: "upstart",
       }
     end
 
@@ -387,17 +387,17 @@ module Inspec::Resources
   end
 
   class SysV < ServiceManager
-    RUNLEVELS = { 0=>false, 1=>false, 2=>false, 3=>false, 4=>false, 5=>false, 6=>false }.freeze
+    RUNLEVELS = { 0 => false, 1 => false, 2 => false, 3 => false, 4 => false, 5 => false, 6 => false }.freeze
 
     def initialize(service_name, service_ctl = nil)
-      @service_ctl = service_ctl || 'service'
+      @service_ctl = service_ctl || "service"
       super
     end
 
     def info(service_name)
       # check if service is installed
       # read all available services via ls /etc/init.d/
-      srvlist = inspec.command('ls -1 /etc/init.d/')
+      srvlist = inspec.command("ls -1 /etc/init.d/")
       return nil if srvlist.exit_status != 0
 
       # check if the service is in list
@@ -411,9 +411,9 @@ module Inspec::Resources
       # bash: for i in `find /etc/rc*.d -name S*`; do basename $i | sed -r 's/^S[0-9]+//'; done | sort | uniq
       enabled_services_cmd = inspec.command('find /etc/rc*.d /etc/init.d/rc*.d -name "S*"').stdout
       service_line = %r{rc(?<runlevel>[0-6])\.d/S[^/]*?#{Regexp.escape service_name}$}
-      all_services = enabled_services_cmd.split("\n").map { |line|
+      all_services = enabled_services_cmd.split("\n").map do |line|
         service_line.match(line)
-      }.compact
+      end.compact
       enabled = !all_services.empty?
 
       # Determine a list of runlevels which this service is activated for
@@ -433,7 +433,7 @@ module Inspec::Resources
         running: running,
         enabled: enabled,
         runlevels: runlevels,
-        type: 'sysv',
+        type: "sysv",
       }
     end
   end
@@ -442,7 +442,7 @@ module Inspec::Resources
   # @see: https://www.freebsd.org/cgi/man.cgi?query=rc.conf&sektion=5
   class BSDInit < ServiceManager
     def initialize(service_name, service_ctl = nil)
-      @service_ctl = service_ctl || 'service'
+      @service_ctl = service_ctl || "service"
       super
     end
 
@@ -472,14 +472,14 @@ module Inspec::Resources
         installed: true,
         running: running,
         enabled: enabled,
-        type: 'bsd-init',
+        type: "bsd-init",
       }
     end
   end
 
   class Runit < ServiceManager
     def initialize(service_name, service_ctl = nil)
-      @service_ctl = service_ctl || 'sv'
+      @service_ctl = service_ctl || "sv"
       super
     end
 
@@ -499,7 +499,7 @@ module Inspec::Resources
         installed: installed,
         running: running,
         enabled: enabled,
-        type: 'runit',
+        type: "runit",
       }
     end
   end
@@ -508,7 +508,7 @@ module Inspec::Resources
   # new launctl on macos 10.10
   class LaunchCtl < ServiceManager
     def initialize(service_name, service_ctl = nil)
-      @service_ctl = service_ctl || 'launchctl'
+      @service_ctl = service_ctl || "launchctl"
       super
     end
 
@@ -523,14 +523,14 @@ module Inspec::Resources
 
       # extract values from service
       parsed_srv = /^(?<pid>[0-9-]+)\t(?<exit>[0-9]+)\t(?<name>\S*)$/.match(srv[0])
-      enabled = !parsed_srv['name'].nil? # it's in the list
+      enabled = !parsed_srv["name"].nil? # it's in the list
 
       # check if the service is running
-      pid = parsed_srv['pid']
-      running = pid != '-'
+      pid = parsed_srv["pid"]
+      running = pid != "-"
 
       # extract service label
-      srv = parsed_srv['name'] || service_name
+      srv = parsed_srv["name"] || service_name
 
       {
         name: srv,
@@ -538,7 +538,7 @@ module Inspec::Resources
         installed: true,
         running: running,
         enabled: enabled,
-        type: 'darwin',
+        type: "darwin",
       }
     end
   end
@@ -589,16 +589,16 @@ module Inspec::Resources
       end
 
       # check that we got a response
-      return nil if service.nil? || service['Service'].nil?
+      return nil if service.nil? || service["Service"].nil?
 
       {
-        name: service['Service']['Name'],
-        description: service['Service']['DisplayName'],
+        name: service["Service"]["Name"],
+        description: service["Service"]["DisplayName"],
         installed: true,
         running: service_running?(service),
         enabled: service_enabled?(service),
-        startmode: service['WMI']['StartMode'],
-        type: 'windows',
+        startmode: service["WMI"]["StartMode"],
+        type: "windows",
       }
     end
 
@@ -606,22 +606,22 @@ module Inspec::Resources
 
     # detect if service is enabled
     def service_enabled?(service)
-      !service['WMI'].nil? &&
-        !service['WMI']['StartMode'].nil? &&
-        (service['WMI']['StartMode'] == 'Auto' ||
-        service['WMI']['StartMode'] == 'Manual')
+      !service["WMI"].nil? &&
+        !service["WMI"]["StartMode"].nil? &&
+        (service["WMI"]["StartMode"] == "Auto" ||
+        service["WMI"]["StartMode"] == "Manual")
     end
 
     # detect if service is running
     def service_running?(service)
-      !service['Service']['Status'].nil? && service['Service']['Status'] == 4
+      !service["Service"]["Status"].nil? && service["Service"]["Status"] == 4
     end
   end
 
   # Solaris services
   class Svcs < ServiceManager
     def initialize(service_name, service_ctl = nil)
-      @service_ctl = service_ctl || 'svcs'
+      @service_ctl = service_ctl || "svcs"
       super
     end
 
@@ -633,20 +633,20 @@ module Inspec::Resources
       params = SimpleConfig.new(
         cmd.stdout.chomp,
         assignment_regex: /^(\w+)\s*(.*)$/,
-        multiple_values: false,
+        multiple_values: false
       ).params
 
       installed = cmd.exit_status == 0
-      running = installed && (params['state'] == 'online')
-      enabled = installed && (params['enabled'] == 'true')
+      running = installed && (params["state"] == "online")
+      enabled = installed && (params["enabled"] == "true")
 
       {
         name: service_name,
-        description: params['name'],
+        description: params["name"],
         installed: installed,
         running: running,
         enabled: enabled,
-        type: 'svcs',
+        type: "svcs",
       }
     end
   end
@@ -654,9 +654,9 @@ module Inspec::Resources
   # specific resources for specific service managers
 
   class SystemdService < Service
-    name 'systemd_service'
-    supports platform: 'unix'
-    desc 'Use the systemd_service InSpec audit resource to test if the named service (controlled by systemd) is installed, running and/or enabled.'
+    name "systemd_service"
+    supports platform: "unix"
+    desc "Use the systemd_service InSpec audit resource to test if the named service (controlled by systemd) is installed, running and/or enabled."
     example <<~EXAMPLE
       # to override service mgmt auto-detection
       describe systemd_service('service_name') do
@@ -677,9 +677,9 @@ module Inspec::Resources
   end
 
   class UpstartService < Service
-    name 'upstart_service'
-    supports platform: 'unix'
-    desc 'Use the upstart_service InSpec audit resource to test if the named service (controlled by upstart) is installed, running and/or enabled.'
+    name "upstart_service"
+    supports platform: "unix"
+    desc "Use the upstart_service InSpec audit resource to test if the named service (controlled by upstart) is installed, running and/or enabled."
     example <<~EXAMPLE
       # to override service mgmt auto-detection
       describe upstart_service('service_name') do
@@ -700,9 +700,9 @@ module Inspec::Resources
   end
 
   class SysVService < Service
-    name 'sysv_service'
-    supports platform: 'unix'
-    desc 'Use the sysv_service InSpec audit resource to test if the named service (controlled by SysV) is installed, running and/or enabled.'
+    name "sysv_service"
+    supports platform: "unix"
+    desc "Use the sysv_service InSpec audit resource to test if the named service (controlled by SysV) is installed, running and/or enabled."
     example <<~EXAMPLE
       # to override service mgmt auto-detection
       describe sysv_service('service_name') do
@@ -723,9 +723,9 @@ module Inspec::Resources
   end
 
   class BSDService < Service
-    name 'bsd_service'
-    supports platform: 'unix'
-    desc 'Use the bsd_service InSpec audit resource to test if the named service (controlled by BSD init) is installed, running and/or enabled.'
+    name "bsd_service"
+    supports platform: "unix"
+    desc "Use the bsd_service InSpec audit resource to test if the named service (controlled by BSD init) is installed, running and/or enabled."
     example <<~EXAMPLE
       # to override service mgmt auto-detection
       describe bsd_service('service_name') do
@@ -746,9 +746,9 @@ module Inspec::Resources
   end
 
   class LaunchdService < Service
-    name 'launchd_service'
-    supports platform: 'unix'
-    desc 'Use the launchd_service InSpec audit resource to test if the named service (controlled by launchd) is installed, running and/or enabled.'
+    name "launchd_service"
+    supports platform: "unix"
+    desc "Use the launchd_service InSpec audit resource to test if the named service (controlled by launchd) is installed, running and/or enabled."
     example <<~EXAMPLE
       # to override service mgmt auto-detection
       describe launchd_service('service_name') do
@@ -769,9 +769,9 @@ module Inspec::Resources
   end
 
   class RunitService < Service
-    name 'runit_service'
-    supports platform: 'unix'
-    desc 'Use the runit_service InSpec audit resource to test if the named service (controlled by runit) is installed, running and/or enabled.'
+    name "runit_service"
+    supports platform: "unix"
+    desc "Use the runit_service InSpec audit resource to test if the named service (controlled by runit) is installed, running and/or enabled."
     example <<~EXAMPLE
       # to override service mgmt auto-detection
       describe runit_service('service_name') do

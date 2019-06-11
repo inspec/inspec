@@ -1,22 +1,22 @@
-require 'resource_support/aws/aws_plural_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-sns'
+require "resource_support/aws/aws_plural_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-sns"
 
 class AwsSnsTopics < Inspec.resource(1)
-  name 'aws_sns_topics'
-  desc 'Verifies settings for SNS Topics in bulk'
+  name "aws_sns_topics"
+  desc "Verifies settings for SNS Topics in bulk"
   example <<~EXAMPLE
     describe aws_sns_topics do
       its('topic_arns') { should include '' }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsPluralResourceMixin
 
   def validate_params(resource_params)
     unless resource_params.empty?
-      raise ArgumentError, 'aws_sns_topics does not accept resource parameters.'
+      raise ArgumentError, "aws_sns_topics does not accept resource parameters."
     end
     resource_params
   end
@@ -42,7 +42,7 @@ class AwsSnsTopics < Inspec.resource(1)
   filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
-    'EC2 SNS Topics'
+    "EC2 SNS Topics"
   end
 
   class Backend

@@ -1,6 +1,6 @@
-require 'rspec/core'
-require 'rspec/its'
-require 'inspec/formatters'
+require "rspec/core"
+require "rspec/its"
+require "inspec/formatters"
 
 # There be dragons!! Or borgs, or something...
 # This file and all its contents cannot be unit-tested. both test-suits
@@ -80,13 +80,13 @@ module Inspec
     def exit_code
       return @rspec_exit_code if @formatter.results.empty?
       stats = @formatter.results[:statistics][:controls]
-      skipped = @formatter.results&.fetch(:profiles, nil)&.first&.fetch(:status, nil) == 'skipped'
+      skipped = @formatter.results&.fetch(:profiles, nil)&.first&.fetch(:status, nil) == "skipped"
       if stats[:failed][:total] == 0 && stats[:skipped][:total] == 0 && !skipped
         0
       elsif stats[:failed][:total] > 0
-        @conf['distinct_exit'] ? 100 : 1
+        @conf["distinct_exit"] ? 100 : 1
       elsif stats[:skipped][:total] > 0 || skipped
-        @conf['distinct_exit'] ? 101 : 0
+        @conf["distinct_exit"] ? 101 : 0
       else
         @rspec_exit_code
       end
@@ -108,26 +108,26 @@ module Inspec
     #
     #
     def set_optional_formatters
-      return if @conf['reporter'].nil?
-      if @conf['reporter'].key?('json-rspec')
+      return if @conf["reporter"].nil?
+      if @conf["reporter"].key?("json-rspec")
         # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
-        if @conf['reporter']['json-rspec']&.[]('file').nil?
+        if @conf["reporter"]["json-rspec"]&.[]("file").nil?
           RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson)
         else
-          RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson, @conf['reporter']['json-rspec']['file'])
+          RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson, @conf["reporter"]["json-rspec"]["file"])
         end
-        @conf['reporter'].delete('json-rspec')
+        @conf["reporter"].delete("json-rspec")
       end
 
-      formats = @conf['reporter'].select { |k, _v| %w{documentation progress html}.include?(k) }
+      formats = @conf["reporter"].select { |k, _v| %w{documentation progress html}.include?(k) }
       formats.each do |k, v|
         # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
-        if v&.[]('file').nil?
+        if v&.[]("file").nil?
           RSpec.configuration.add_formatter(k.to_sym)
         else
-          RSpec.configuration.add_formatter(k.to_sym, v['file'])
+          RSpec.configuration.add_formatter(k.to_sym, v["file"])
         end
-        @conf['reporter'].delete(k)
+        @conf["reporter"].delete(k)
       end
     end
 
@@ -139,7 +139,7 @@ module Inspec
       @formatter = RSpec.configuration.add_formatter(Inspec::Formatters::Base)
       RSpec.configuration.add_formatter(Inspec::Formatters::ShowProgress, $stderr) if @conf[:show_progress]
       set_optional_formatters
-      RSpec.configuration.color = @conf['color']
+      RSpec.configuration.color = @conf["color"]
     end
 
     # Make sure that all RSpec example groups use the provided ID.

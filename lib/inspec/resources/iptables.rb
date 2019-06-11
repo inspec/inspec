@@ -1,4 +1,4 @@
-require 'inspec/resources/command'
+require "inspec/resources/command"
 
 # Usage:
 # describe iptables do
@@ -21,9 +21,9 @@ require 'inspec/resources/command'
 # @see https://www.frozentux.net/iptables-tutorial/iptables-tutorial.html
 module Inspec::Resources
   class IpTables < Inspec.resource(1)
-    name 'iptables'
-    supports platform: 'linux'
-    desc 'Use the iptables InSpec audit resource to test rules that are defined in iptables, which maintains tables of IP packet filtering rules. There may be more than one table. Each table contains one (or more) chains (both built-in and custom). A chain is a list of rules that match packets. When the rule matches, the rule defines what target to assign to the packet.'
+    name "iptables"
+    supports platform: "linux"
+    desc "Use the iptables InSpec audit resource to test rules that are defined in iptables, which maintains tables of IP packet filtering rules. There may be more than one table. Each table contains one (or more) chains (both built-in and custom). A chain is a list of rules that match packets. When the rule matches, the rule defines what target to assign to the packet."
     example <<~EXAMPLE
       describe iptables do
         it { should have_rule('-P INPUT ACCEPT') }
@@ -39,7 +39,7 @@ module Inspec::Resources
 
       # ensures, all calls are aborted for non-supported os
       @iptables_cache = []
-      skip_resource 'The `iptables` resource is not supported on your OS yet.'
+      skip_resource "The `iptables` resource is not supported on your OS yet."
     end
 
     def has_rule?(rule = nil, _table = nil, _chain = nil)
@@ -54,7 +54,7 @@ module Inspec::Resources
       # construct iptables command to read all rules
       bin = find_iptables_or_error
       table_cmd = "-t #{@table}" if @table
-      iptables_cmd = format('%s %s -S %s', bin, table_cmd, @chain).strip
+      iptables_cmd = format("%s %s -S %s", bin, table_cmd, @chain).strip
 
       cmd = inspec.command(iptables_cmd)
       return [] if cmd.exit_status.to_i != 0
@@ -64,7 +64,7 @@ module Inspec::Resources
     end
 
     def to_s
-      format('Iptables %s %s', @table && "table: #{@table}", @chain && "chain: #{@chain}").strip
+      format("Iptables %s %s", @table && "table: #{@table}", @chain && "chain: #{@chain}").strip
     end
 
     private
@@ -74,7 +74,7 @@ module Inspec::Resources
         return cmd if inspec.command(cmd).exist?
       end
 
-      raise Inspec::Exceptions::ResourceFailed, 'Could not find `iptables`'
+      raise Inspec::Exceptions::ResourceFailed, "Could not find `iptables`"
     end
   end
 end

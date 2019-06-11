@@ -1,9 +1,9 @@
-require 'inspec/resources/command'
+require "inspec/resources/command"
 
 module Inspec::Resources
   class ZfsDataset < Inspec.resource(1)
-    name 'zfs_dataset'
-    supports platform: 'unix'
+    name "zfs_dataset"
+    supports platform: "unix"
     desc "
       Use the zfs_dataset InSpec audit resource to test if the named
       ZFS Dataset is present and/or has certain properties.
@@ -16,7 +16,7 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize(zfs_dataset)
-      return skip_resource 'The `zfs_dataset` resource is not supported on your OS yet.' if !inspec.os.bsd?
+      return skip_resource "The `zfs_dataset` resource is not supported on your OS yet." if !inspec.os.bsd?
       @zfs_dataset = zfs_dataset
 
       @params = gather
@@ -29,7 +29,7 @@ module Inspec::Resources
 
     def mounted?
       return false if !exists?
-      inspec.mount(@params['mountpoint']).mounted?
+      inspec.mount(@params["mountpoint"]).mounted?
     end
 
     def to_s
@@ -49,7 +49,7 @@ module Inspec::Resources
 
     # override method
     def exec
-      @params['exec']
+      @params["exec"]
     end
 
     # expose all parameters

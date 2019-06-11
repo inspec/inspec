@@ -4,7 +4,7 @@ require "inspec-test-fixture/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "inspec-test-fixture"
-  spec.version       = '0.2.0'
+  spec.version       = "0.2.0"
   spec.authors       = ["InSpec Engineering Team"]
   spec.email         = ["hello@chef.io"]
 
@@ -13,11 +13,11 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/inspec/inspec"
 
   spec.files         = [
-    'inspec-test-fixture.gemspec',
-    'lib/inspec-test-fixture.rb',
-    'lib/inspec-test-fixture/plugin.rb',
-    'lib/inspec-test-fixture/mock_plugin.rb',
-    'lib/inspec-test-fixture/version.rb',
+    "inspec-test-fixture.gemspec",
+    "lib/inspec-test-fixture.rb",
+    "lib/inspec-test-fixture/plugin.rb",
+    "lib/inspec-test-fixture/mock_plugin.rb",
+    "lib/inspec-test-fixture/version.rb",
   ]
   spec.executables   = []
   spec.require_paths = ["lib"]

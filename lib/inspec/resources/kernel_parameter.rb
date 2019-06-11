@@ -1,10 +1,10 @@
-require 'inspec/resources/command'
+require "inspec/resources/command"
 
 module Inspec::Resources
   class KernelParameter < Inspec.resource(1)
-    name 'kernel_parameter'
-    supports platform: 'unix'
-    desc 'Use the kernel_parameter InSpec audit resource to test kernel parameters on Linux platforms.'
+    name "kernel_parameter"
+    supports platform: "unix"
+    desc "Use the kernel_parameter InSpec audit resource to test kernel parameters on Linux platforms."
     example <<~EXAMPLE
       describe kernel_parameter('net.ipv4.conf.all.forwarding') do
         its('value') { should eq 0 }
@@ -15,7 +15,7 @@ module Inspec::Resources
       @parameter = parameter
 
       # this resource is only supported on Linux
-      return skip_resource 'The `kernel_parameter` resource is not supported on your OS.' if !inspec.os.linux?
+      return skip_resource "The `kernel_parameter` resource is not supported on your OS." if !inspec.os.linux?
     end
 
     def value
@@ -34,15 +34,15 @@ module Inspec::Resources
   end
 
   class LinuxKernelParameter < KernelParameter
-    name 'linux_kernel_parameter'
+    name "linux_kernel_parameter"
 
     def initialize(parameter)
-      Inspec.deprecate(:resource_linux_kernel_parameter, 'The `linux_kernel_parameter` resource is deprecated. Please use `kernel_parameter`')
+      Inspec.deprecate(:resource_linux_kernel_parameter, "The `linux_kernel_parameter` resource is deprecated. Please use `kernel_parameter`")
       super(parameter)
     end
 
     def value
-      Inspec.deprecate(:resource_linux_kernel_parameter, 'The `linux_kernel_parameter` resource is deprecated. Please use `kernel_parameter`')
+      Inspec.deprecate(:resource_linux_kernel_parameter, "The `linux_kernel_parameter` resource is deprecated. Please use `kernel_parameter`")
       super()
     end
 

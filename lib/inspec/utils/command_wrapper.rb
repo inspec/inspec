@@ -1,11 +1,11 @@
-require 'shellwords'
+require "shellwords"
 
 class CommandWrapper
   UNIX_SHELLS = %w{sh bash zsh ksh}.freeze
 
   def self.wrap(cmd, options)
     unless options.is_a?(Hash)
-      raise 'All options for the command wrapper must be provided as a hash. '\
+      raise "All options for the command wrapper must be provided as a hash. "\
         "You entered: #{options.inspect}. Please consult the documentation."
     end
 
@@ -17,7 +17,7 @@ class CommandWrapper
     raise "Don't know how to wrap commands for shell: #{shell.inspect}." unless UNIX_SHELLS.include?(shell)
 
     path = options[:path] || shell
-    args = options[:args] || '-c'
-    path.to_s + ' ' + args + ' ' + Shellwords.escape(cmd)
+    args = options[:args] || "-c"
+    path.to_s + " " + args + " " + Shellwords.escape(cmd)
   end
 end

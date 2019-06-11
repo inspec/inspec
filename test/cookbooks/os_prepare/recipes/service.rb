@@ -1,15 +1,15 @@
 #
 # prepares services
 
-case node['platform']
-when 'ubuntu'
+case node["platform"]
+when "ubuntu"
   # install ntp as a service
-  package 'ntp'
+  package "ntp"
 
-when 'centos'
+when "centos"
   # install runit for alternative service mgmt
-  if node['platform_version'].to_i == 6
-    include_recipe 'os_prepare::_runit_service_centos' unless node['osprepare']['docker']
-    include_recipe 'os_prepare::_upstart_service_centos' unless node['osprepare']['docker']
+  if node["platform_version"].to_i == 6
+    include_recipe "os_prepare::_runit_service_centos" unless node["osprepare"]["docker"]
+    include_recipe "os_prepare::_upstart_service_centos" unless node["osprepare"]["docker"]
   end
 end

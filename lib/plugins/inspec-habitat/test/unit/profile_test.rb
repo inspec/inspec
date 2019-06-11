@@ -1,37 +1,37 @@
-require 'mixlib/log'
-require 'fileutils'
-require 'minitest/autorun'
-require_relative '../../lib/inspec-habitat/profile.rb'
+require "mixlib/log"
+require "fileutils"
+require "minitest/autorun"
+require_relative "../../lib/inspec-habitat/profile.rb"
 
 class InspecPlugins::Habitat::ProfileTest < Minitest::Test
   def setup
     @tmpdir = Dir.mktmpdir
 
-    @output_dir = File.join(@tmpdir, 'output')
+    @output_dir = File.join(@tmpdir, "output")
     FileUtils.mkdir(@output_dir)
 
-    @fake_hart_file = FileUtils.touch(File.join(@tmpdir, 'fake-hart.hart'))[0]
+    @fake_hart_file = FileUtils.touch(File.join(@tmpdir, "fake-hart.hart"))[0]
 
     # Path from `__FILE__` needed to support running tests in `inspec/inspec`
     @test_profile_path = File.join(
       File.expand_path(File.dirname(__FILE__)),
-      '../',
-      'support',
-      'example_profile'
+      "../",
+      "support",
+      "example_profile"
     )
     @test_profile = Inspec::Profile.for_target(
       @test_profile_path,
-      backend: Inspec::Backend.create(Inspec::Config.mock),
+      backend: Inspec::Backend.create(Inspec::Config.mock)
     )
 
     @hab_profile = InspecPlugins::Habitat::Profile.new(
       @test_profile_path,
-      { output_dir: @output_dir },
+      { output_dir: @output_dir }
     )
 
     @mock_hab_config = {
-      'auth_token' => 'FAKETOKEN',
-      'origin' => 'fake_origin',
+      "auth_token" => "FAKETOKEN",
+      "origin" => "fake_origin",
     }
 
     Inspec::Log.level(:fatal)
@@ -45,9 +45,9 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
     profile = InspecPlugins::Habitat::Profile.new(
       @test_profile_path,
       {
-        output_dir: '/not/a/real/path',
-        log_level: 'fatal',
-      },
+        output_dir: "/not/a/real/path",
+        log_level: "fatal",
+      }
     )
 
     assert_raises(SystemExit) { profile.create }
@@ -55,7 +55,7 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
   end
 
   def test_create
-    file_count = Dir.glob(File.join(@test_profile_path, '**/*')).count
+    file_count = Dir.glob(File.join(@test_profile_path, "**/*")).count
 
     @hab_profile.stub :read_habitat_config, @mock_hab_config do
       @hab_profile.stub :verify_habitat_setup, nil do
@@ -66,13 +66,13 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
     end
 
     # It should not modify target profile
-    new_file_count = Dir.glob(File.join(@test_profile_path, '**/*')).count
+    new_file_count = Dir.glob(File.join(@test_profile_path, "**/*")).count
     assert_equal new_file_count, file_count
 
     # It should create 1 Habitat artifact
-    output_files = Dir.glob(File.join(@output_dir, '**/*'))
+    output_files = Dir.glob(File.join(@output_dir, "**/*"))
     assert_equal 1, output_files.count
-    assert_equal 'fake-hart.hart', File.basename(output_files.first)
+    assert_equal "fake-hart.hart", File.basename(output_files.first)
   end
 
   def test_create_rasies_if_habitat_is_not_installed
@@ -80,7 +80,7 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
     cmd.expect(:error?, true)
     cmd.expect(:run_command, nil)
 
-    Mixlib::ShellOut.stub :new, cmd, 'hab --version' do
+    Mixlib::ShellOut.stub :new, cmd, "hab --version" do
       assert_raises(SystemExit) { @hab_profile.create }
       # TODO: Figure out how to capture and validate `Inspec::Log.error`
     end
@@ -107,8 +107,8 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
   end
 
   def test_create_working_dir
-    Dir.stub :mktmpdir, '/tmp/fakedir' do
-      assert_equal '/tmp/fakedir', @hab_profile.send(:create_working_dir)
+    Dir.stub :mktmpdir, "/tmp/fakedir" do
+      assert_equal "/tmp/fakedir", @hab_profile.send(:create_working_dir)
     end
   end
 
@@ -132,7 +132,7 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
                                            @test_profile_path,
                                            @tmpdir)
 
-    dst = File.join(@tmpdir, 'working_dir')
+    dst = File.join(@tmpdir, "working_dir")
     FileUtils.mkdir_p(dst)
     @hab_profile.send(:copy_profile_to_working_dir, duplicated_profile, dst)
 
@@ -142,7 +142,7 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
       example.rb
     }
 
-    actual_files = Dir.glob(File.join(dst, '**/*')).map do |path|
+    actual_files = Dir.glob(File.join(dst, "**/*")).map do |path|
       next unless File.file?(path)
       File.basename(path)
     end.compact
@@ -151,12 +151,12 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
   end
 
   def test_verify_profile_raises_if_profile_is_not_valid
-    bad_profile_path = File.join(@tmpdir, 'bad_profile')
+    bad_profile_path = File.join(@tmpdir, "bad_profile")
     FileUtils.mkdir_p(File.join(bad_profile_path))
-    FileUtils.touch(File.join(bad_profile_path, 'inspec.yml'))
+    FileUtils.touch(File.join(bad_profile_path, "inspec.yml"))
     bad_profile = Inspec::Profile.for_target(
       bad_profile_path,
-      backend: Inspec::Backend.create(Inspec::Config.mock),
+      backend: Inspec::Backend.create(Inspec::Config.mock)
     )
     assert_raises(SystemExit) { @hab_profile.send(:verify_profile, bad_profile) }
     # TODO: Figure out how to capture and validate `Inspec::Log.error`
@@ -200,7 +200,7 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
     mock = Minitest::Mock.new
     mock.expect(:run_command, nil)
     mock.expect(:error?, true)
-    mock.expect(:stderr, 'This would be an error message')
+    mock.expect(:stderr, "This would be an error message")
 
     Mixlib::ShellOut.stub(:new, mock) do
       assert_raises(SystemExit) { @hab_profile.send(:verify_habitat_setup, {}) }
@@ -229,8 +229,8 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
     mock = Minitest::Mock.new
     mock.expect(:run_command, nil)
     mock.expect(:error?, true)
-    mock.expect(:stdout, 'This would contain output from `hab`')
-    mock.expect(:stderr, 'This would be an error message')
+    mock.expect(:stdout, "This would contain output from `hab`")
+    mock.expect(:stderr, "This would be an error message")
 
     Mixlib::ShellOut.stub(:new, mock) do
       assert_raises(SystemExit) { @hab_profile.send(:upload_hart, @fake_hart_file, {}) }

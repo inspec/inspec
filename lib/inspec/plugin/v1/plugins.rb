@@ -1,15 +1,15 @@
-require 'forwardable'
+require "forwardable"
 
 module Inspec
   # Resource Plugins
   # NOTE: the autoloading here is rendered moot by the fact that
   # all core plugins are `require`'d by the base inspec.rb
   module Plugins
-    autoload :Resource, 'inspec/plugin/v1/plugin_types/resource'
-    autoload :CLI, 'inspec/plugin/v1/plugin_types/cli'
-    autoload :Fetcher, 'inspec/plugin/v1/plugin_types/fetcher'
-    autoload :SourceReader, 'inspec/plugin/v1/plugin_types/source_reader'
-    autoload :Secret, 'inspec/plugin/v1/plugin_types/secret'
+    autoload :Resource, "inspec/plugin/v1/plugin_types/resource"
+    autoload :CLI, "inspec/plugin/v1/plugin_types/cli"
+    autoload :Fetcher, "inspec/plugin/v1/plugin_types/fetcher"
+    autoload :SourceReader, "inspec/plugin/v1/plugin_types/source_reader"
+    autoload :Secret, "inspec/plugin/v1/plugin_types/secret"
   end
 
   # PLEASE NOTE: The Plugin system is an internal mechanism for connecting
@@ -26,24 +26,24 @@ module Inspec
       @paths = []
 
       # load plugins in the same gem installation
-      lib_home = File.expand_path(File.join(__FILE__, '..', '..', '..', '..'))
-      @paths += Dir[lib_home+'/inspec-*-*/lib/inspec-*rb']
+      lib_home = File.expand_path(File.join(__FILE__, "..", "..", "..", ".."))
+      @paths += Dir[lib_home + "/inspec-*-*/lib/inspec-*rb"]
 
       # traverse out of inspec-vX.Y.Z/lib/inspec/plugins.rb
-      @home = home || File.join(Inspec.config_dir, 'plugins')
-      @paths += Dir[File.join(@home, '**{,/*/**}', '*.gemspec')]
+      @home = home || File.join(Inspec.config_dir, "plugins")
+      @paths += Dir[File.join(@home, "**{,/*/**}", "*.gemspec")]
                 .map { |x| File.dirname(x) }
-                .map { |x| Dir[File.join(x, 'lib', 'inspec-*.rb')] }
+                .map { |x| Dir[File.join(x, "lib", "inspec-*.rb")] }
                 .flatten
 
       # load bundled plugins
       bundled_dir = File.expand_path(File.dirname(__FILE__))
-      @paths += Dir[File.join(bundled_dir, '..', 'bundles', 'inspec-*.rb')].flatten
+      @paths += Dir[File.join(bundled_dir, "..", "bundles", "inspec-*.rb")].flatten
 
       # map paths to names
-      @registry = Hash[@paths.map { |x|
-        [File.basename(x, '.rb'), x]
-      }]
+      @registry = Hash[@paths.map do |x|
+        [File.basename(x, ".rb"), x]
+      end]
     end
 
     def load(name)

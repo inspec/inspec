@@ -1,11 +1,11 @@
-require 'inspec/resources/command'
+require "inspec/resources/command"
 
 module Inspec::Resources
   class GemPackage < Inspec.resource(1)
-    name 'gem'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the gem InSpec audit resource to test if a global gem package is installed.'
+    name "gem"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the gem InSpec audit resource to test if a global gem package is installed."
     example <<~EXAMPLE
       describe gem('rubocop') do
         it { should be_installed }
@@ -19,19 +19,19 @@ module Inspec::Resources
       @package_name = package_name
       @gem_binary = case gem_binary
                     when nil
-                      'gem'
+                      "gem"
                     when :chef
                       if inspec.os.windows?
                         'c:\opscode\chef\embedded\bin\gem.bat'
                       else
-                        '/opt/chef/embedded/bin/gem'
+                        "/opt/chef/embedded/bin/gem"
                       end
                     when :chef_server
-                      '/opt/opscode/embedded/bin/gem'
+                      "/opt/opscode/embedded/bin/gem"
                     else
                       gem_binary
                     end
-      skip_resource 'Unable to retrieve gem information' if info.empty?
+      skip_resource "Unable to retrieve gem information" if info.empty?
     end
 
     def info
@@ -45,11 +45,11 @@ module Inspec::Resources
       params = /^\s*([^\(]*?)\s*\((.*?)\)\s*$/.match(cmd.stdout.chomp)
       @info = {
         installed: !params.nil?,
-        type: 'gem',
+        type: "gem",
       }
       return @info unless @info[:installed]
 
-      versions = params[2].split(',').map(&:strip)
+      versions = params[2].split(",").map(&:strip)
       @info[:name] = params[1]
       @info[:version] = versions[0]
       @info[:versions] = versions

@@ -1,4 +1,4 @@
-require 'inspec/errors'
+require "inspec/errors"
 
 module Inspec
   module Deprecation

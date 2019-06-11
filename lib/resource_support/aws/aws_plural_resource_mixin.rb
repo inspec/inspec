@@ -1,5 +1,5 @@
-require 'resource_support/aws/aws_resource_mixin'
-require 'resource_support/aws/aws_backend_factory_mixin'
+require "resource_support/aws/aws_resource_mixin"
+require "resource_support/aws/aws_backend_factory_mixin"
 
 module AwsPluralResourceMixin
   include AwsResourceMixin
@@ -19,6 +19,6 @@ module AwsPluralResourceMixin
       extend AwsBackendFactoryMixin
     end
     # Name that class
-    base.const_set('BackendFactory', resource_backend_factory_class)
+    base.const_set("BackendFactory", resource_backend_factory_class)
   end
 end

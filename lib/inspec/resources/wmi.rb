@@ -1,5 +1,5 @@
-require 'inspec/resources/powershell'
-require 'inspec/utils/object_traversal'
+require "inspec/resources/powershell"
+require "inspec/utils/object_traversal"
 
 module Inspec::Resources
   # This resource simplifies the access to wmi
@@ -7,9 +7,9 @@ module Inspec::Resources
   # WMIC /NAMESPACE:\\root\rsop\computer PATH RSOP_SecuritySettingNumeric WHERE "KeyName = 'MinimumPasswordAge' And precedence=1" GET Setting
   # We use Get-WmiObject via Powershell to retrieve all values.
   class WMI < Inspec.resource(1)
-    name 'wmi'
-    supports platform: 'windows'
-    desc 'request wmi information'
+    name "wmi"
+    supports platform: "windows"
+    desc "request wmi information"
     example <<~EXAMPLE
       describe wmi({
         class: 'RSOP_SecuritySettingNumeric',
@@ -28,7 +28,7 @@ module Inspec::Resources
       if wmiclass.is_a?(Hash)
         @options.merge!(wmiclass)
       else
-        Inspec.deprecate(:wmi_non_hash_usage, 'Using `wmi(\'wmisclass\')` is deprecated. Please use`wmi({class: \'wmisclass\'})`')
+        Inspec.deprecate(:wmi_non_hash_usage, "Using `wmi('wmisclass')` is deprecated. Please use`wmi({class: 'wmisclass'})`")
         @options[:class] = wmiclass
       end
     end
@@ -60,7 +60,7 @@ module Inspec::Resources
       args = @options.select { |key, _value| [:class, :namespace, :query, :filter].include?(key) }
 
       # convert to Get-WmiObject arguments
-      params = ''
+      params = ""
       args.each { |key, value| params += " -#{key} \"#{value.gsub('"', '`"')}\"" }
 
       # run wmi command and filter empty wmi

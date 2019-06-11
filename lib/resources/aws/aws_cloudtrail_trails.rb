@@ -1,22 +1,22 @@
-require 'resource_support/aws/aws_plural_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-cloudtrail'
+require "resource_support/aws/aws_plural_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-cloudtrail"
 
 class AwsCloudTrailTrails < Inspec.resource(1)
-  name 'aws_cloudtrail_trails'
-  desc 'Verifies settings for AWS CloudTrail Trails in bulk'
+  name "aws_cloudtrail_trails"
+  desc "Verifies settings for AWS CloudTrail Trails in bulk"
   example <<~EXAMPLE
     describe aws_cloudtrail_trails do
       it { should exist }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsPluralResourceMixin
 
   def validate_params(resource_params)
     unless resource_params.empty?
-      raise ArgumentError, 'aws_cloudtrail_trails does not accept resource parameters.'
+      raise ArgumentError, "aws_cloudtrail_trails does not accept resource parameters."
     end
     resource_params
   end
@@ -29,7 +29,7 @@ class AwsCloudTrailTrails < Inspec.resource(1)
   filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
-    'CloudTrail Trails'
+    "CloudTrail Trails"
   end
 
   def fetch_from_api

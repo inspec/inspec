@@ -1,14 +1,14 @@
-require 'resource_support/aws/aws_singular_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
+require "resource_support/aws/aws_singular_resource_mixin"
+require "resource_support/aws/aws_backend_base"
 
-require 'resource_support/aws/aws_singular_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-costandusagereportservice.rb'
+require "resource_support/aws/aws_singular_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-costandusagereportservice.rb"
 
 class AwsBillingReport < Inspec.resource(1)
-  name 'aws_billing_report'
-  supports platform: 'aws'
-  desc 'Verifies settings for AWS Cost and Billing Reports.'
+  name "aws_billing_report"
+  supports platform: "aws"
+  desc "Verifies settings for AWS Cost and Billing Reports."
   example <<~EXAMPLE
     describe aws_billing_report('inspec1') do
       its('report_name') { should cmp 'inspec1' }
@@ -30,19 +30,19 @@ class AwsBillingReport < Inspec.resource(1)
   end
 
   def hourly?
-    exists? ? time_unit.eql?('hourly') : nil
+    exists? ? time_unit.eql?("hourly") : nil
   end
 
   def daily?
-    exists? ? time_unit.eql?('daily') : nil
+    exists? ? time_unit.eql?("daily") : nil
   end
 
   def zip?
-    exists? ? compression.eql?('zip') : nil
+    exists? ? compression.eql?("zip") : nil
   end
 
   def gzip?
-    exists? ? compression.eql?('gzip') : nil
+    exists? ? compression.eql?("gzip") : nil
   end
 
   private
@@ -52,7 +52,7 @@ class AwsBillingReport < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:report_name],
       allowed_scalar_name: :report_name,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
 
     if validated_params.empty?

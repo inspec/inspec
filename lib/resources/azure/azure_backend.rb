@@ -26,10 +26,10 @@ module Inspec::Resources
 
       # Determine if the environment variables for the options have been set
       option_var_names = {
-        group_name: 'AZURE_RESOURCE_GROUP_NAME',
-        name: 'AZURE_RESOURCE_NAME',
-        type: 'AZURE_RESOURCE_TYPE',
-        apiversion: 'AZURE_RESOURCE_API_VERSION',
+        group_name: "AZURE_RESOURCE_GROUP_NAME",
+        name: "AZURE_RESOURCE_NAME",
+        type: "AZURE_RESOURCE_TYPE",
+        apiversion: "AZURE_RESOURCE_API_VERSION",
       }
       option_var_names.each do |option_name, env_var_name|
         opts[option_name] = ENV[env_var_name] unless ENV[env_var_name].nil?
@@ -153,12 +153,14 @@ module Inspec::Resources
     # @author Russell Seymour
     def create_tag_methods
       # Iterate around the items of the tags and create the necessary access methods
-      tags.item.each do |name, value|
-        method_name = format('%s_tag', name)
-        define_singleton_method method_name do
-          value
+      if defined?(tags.item)
+        tags.item.each do |name, value|
+          method_name = format("%s_tag", name)
+          define_singleton_method method_name do
+            value
+          end
         end
-      end if defined?(tags.item)
+      end
     end
 
     private
@@ -206,11 +208,11 @@ class AzureResourceDynamicMethods
          /^Azure::Resources::Mgmt::.*::Models::ResourceGroup$/
       # iterate around the instance variables
       data.instance_variables.each do |var|
-        create_method(object, var.to_s.delete('@'), data.instance_variable_get(var))
+        create_method(object, var.to_s.delete("@"), data.instance_variable_get(var))
       end
     # When the data is a Hash object iterate around each of the key value pairs and
     # craete a method for each one.
-    when 'Hash'
+    when "Hash"
       data.each do |key, value|
         create_method(object, key, value)
       end
@@ -233,11 +235,11 @@ class AzureResourceDynamicMethods
     # Create the necessary method based on the var that has been passed
     # Test the value for its type so that the method can be setup correctly
     case value.class.to_s
-    when 'String', 'Integer', 'TrueClass', 'FalseClass', 'Fixnum'
+    when "String", "Integer", "TrueClass", "FalseClass", "Fixnum"
       object.define_singleton_method name do
         value
       end
-    when 'Hash'
+    when "Hash"
       value.count.zero? ? return_value = value : return_value = AzureResourceProbe.new(value)
       object.define_singleton_method name do
         return_value
@@ -247,16 +249,16 @@ class AzureResourceDynamicMethods
       # This is because the plugin is using the Azure SDK to get this information so it is an SDK object
       # that has to be interrogated in a different way. This is the only object type that behaves like this
       value.instance_variables.each do |var|
-        create_method(object, var.to_s.delete('@'), value.instance_variable_get(var))
+        create_method(object, var.to_s.delete("@"), value.instance_variable_get(var))
       end
-    when 'Array'
+    when "Array"
       # Some things are just string or integer arrays
       # Check this by seeing if the first element is a string / integer / boolean or
       # a hashtable
       # This may not be the best methid, but short of testing all elements in the array, this is
       # the quickest test
       case value[0].class.to_s
-      when 'String', 'Integer', 'TrueClass', 'FalseClass', 'Fixnum'
+      when "String", "Integer", "TrueClass", "FalseClass", "Fixnum"
         probes = value
       else
         probes = []
@@ -369,7 +371,7 @@ class AzureResourceProbe
   #
   # @return string
   def camel_case(data)
-    camel_case_data = data.split('_').inject([]) { |buffer, e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
+    camel_case_data = data.split("_").inject([]) { |buffer, e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
 
     # Ensure that gb (as in gigabytes) is uppercased
     camel_case_data.gsub(/[gb]/, &:upcase)

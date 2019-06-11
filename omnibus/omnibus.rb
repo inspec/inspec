@@ -31,9 +31,9 @@
 # Enable S3 asset caching
 # ------------------------------
 use_s3_caching true
-s3_access_key  ENV['AWS_ACCESS_KEY_ID']
-s3_secret_key  ENV['AWS_SECRET_ACCESS_KEY']
-s3_bucket      'opscode-omnibus-cache'
+s3_access_key  ENV["AWS_ACCESS_KEY_ID"]
+s3_secret_key  ENV["AWS_SECRET_ACCESS_KEY"]
+s3_bucket      "opscode-omnibus-cache"
 
 build_retries 3
 fetcher_retries 3
@@ -41,8 +41,8 @@ fetcher_read_timeout 120
 
 # Windows architecture defaults
 # ------------------------------
-arch = if %w{x86 x64}.include?((ENV['OMNIBUS_WINDOWS_ARCH'] || '').downcase)
-         ENV['OMNIBUS_WINDOWS_ARCH'].downcase.to_sym
+arch = if %w{x86 x64}.include?((ENV["OMNIBUS_WINDOWS_ARCH"] || "").downcase)
+         ENV["OMNIBUS_WINDOWS_ARCH"].downcase.to_sym
        else
          :x86
        end

@@ -1,6 +1,6 @@
-require 'inspec/config'
-require 'inspec/utils/telemetry/data_series'
-require 'singleton'
+require "inspec/config"
+require "inspec/utils/telemetry/data_series"
+require "singleton"
 
 module Inspec::Telemetry
   # A Singleton collection of data series objects.
@@ -33,7 +33,7 @@ module Inspec::Telemetry
       if @telemetry_toggled_off
         false
       else
-        config_telemetry_options.fetch('enable_telemetry', false)
+        config_telemetry_options.fetch("enable_telemetry", false)
       end
     end
 

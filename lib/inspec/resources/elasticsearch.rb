@@ -1,11 +1,11 @@
-require 'inspec/utils/filter'
-require 'hashie/mash'
-require 'inspec/resources/package'
+require "inspec/utils/filter"
+require "hashie/mash"
+require "inspec/resources/package"
 
 module Inspec::Resources
   class Elasticsearch < Inspec.resource(1)
-    name 'elasticsearch'
-    supports platform: 'unix'
+    name "elasticsearch"
+    supports platform: "unix"
     desc "Use the Elasticsearch InSpec audit resource to test the status of nodes in
       an Elasticsearch cluster."
 
@@ -23,39 +23,39 @@ module Inspec::Resources
 
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
-    filter.register_column(:cluster_name,          field: 'cluster_name')
-          .register_column(:node_name,             field: 'name')
-          .register_column(:transport_address,     field: 'transport_address')
-          .register_column(:host,                  field: 'host')
-          .register_column(:ip,                    field: 'ip')
-          .register_column(:version,               field: 'version')
-          .register_column(:build_hash,            field: 'build_hash')
-          .register_column(:total_indexing_buffer, field: 'total_indexing_buffer')
-          .register_column(:roles,                 field: 'roles')
-          .register_column(:settings,              field: 'settings')
-          .register_column(:os,                    field: 'os')
-          .register_column(:process,               field: 'process')
-          .register_column(:jvm,                   field: 'jvm')
-          .register_column(:transport,             field: 'transport')
-          .register_column(:http,                  field: 'http')
-          .register_column(:plugins,               field: 'plugins')
-          .register_column(:plugin_list,           field: 'plugin_list')
-          .register_column(:modules,               field: 'modules')
-          .register_column(:module_list,           field: 'module_list')
-          .register_column(:node_id,               field: 'node_id')
-          .register_column(:ingest,                field: 'ingest')
-          .register_custom_property(:node_count) { |t, _|
+    filter.register_column(:cluster_name,          field: "cluster_name")
+          .register_column(:node_name,             field: "name")
+          .register_column(:transport_address,     field: "transport_address")
+          .register_column(:host,                  field: "host")
+          .register_column(:ip,                    field: "ip")
+          .register_column(:version,               field: "version")
+          .register_column(:build_hash,            field: "build_hash")
+          .register_column(:total_indexing_buffer, field: "total_indexing_buffer")
+          .register_column(:roles,                 field: "roles")
+          .register_column(:settings,              field: "settings")
+          .register_column(:os,                    field: "os")
+          .register_column(:process,               field: "process")
+          .register_column(:jvm,                   field: "jvm")
+          .register_column(:transport,             field: "transport")
+          .register_column(:http,                  field: "http")
+          .register_column(:plugins,               field: "plugins")
+          .register_column(:plugin_list,           field: "plugin_list")
+          .register_column(:modules,               field: "modules")
+          .register_column(:module_list,           field: "module_list")
+          .register_column(:node_id,               field: "node_id")
+          .register_column(:ingest,                field: "ingest")
+          .register_custom_property(:node_count) do |t, _|
             t.entries.length
-          }
+          end
 
     filter.install_filter_methods_on_resource(self, :nodes)
 
     attr_reader :nodes, :url
 
     def initialize(opts = {})
-      return skip_resource 'Package `curl` not avaiable on the host' unless inspec.command('curl').exist?
+      return skip_resource "Package `curl` not avaiable on the host" unless inspec.command("curl").exist?
 
-      @url = opts.fetch(:url, 'http://localhost:9200')
+      @url = opts.fetch(:url, "http://localhost:9200")
 
       username   = opts.fetch(:username, nil)
       password   = opts.fetch(:password, nil)
@@ -92,11 +92,11 @@ module Inspec::Resources
     private
 
     def parse_cluster(content)
-      return [] unless content['nodes']
+      return [] unless content["nodes"]
 
       nodes = []
 
-      content['nodes'].each do |node_id, node_data|
+      content["nodes"].each do |node_id, node_data|
         node_data = fix_mash_key_collision(node_data)
 
         node = Hashie::Mash.new(node_data)
@@ -132,13 +132,13 @@ module Inspec::Resources
     end
 
     def curl_command_string(username, password, ssl_verify)
-      cmd_string = ['curl']
-      cmd_string << '-k' unless ssl_verify
+      cmd_string = ["curl"]
+      cmd_string << "-k" unless ssl_verify
       cmd_string << "-H 'Content-Type: application/json'"
       cmd_string << " -u #{username}:#{password}" unless username.nil? || password.nil?
-      cmd_string << URI.join(url, '_nodes')
+      cmd_string << URI.join(url, "_nodes")
 
-      cmd_string.join(' ')
+      cmd_string.join(" ")
     end
 
     def verify_curl_success!(cmd)
@@ -148,18 +148,18 @@ module Inspec::Resources
       end
 
       if cmd.stderr =~ /Peer's Certificate issuer is not recognized/
-        raise 'Connection refused - peer certificate issuer is not recognized'
+        raise "Connection refused - peer certificate issuer is not recognized"
       end
 
       raise "Error fetching Elastcsearch data from curl #{url}: #{cmd.stderr}" unless cmd.exit_status.zero?
     end
 
     def verify_json_payload!(content)
-      unless content['error'].nil?
+      unless content["error"].nil?
         raise "#{content['error']['type']}: #{content['error']['reason']}"
       end
 
-      raise 'No successful nodes available in cluster' if content['_nodes']['successful'].zero?
+      raise "No successful nodes available in cluster" if content["_nodes"]["successful"].zero?
     end
   end
 end

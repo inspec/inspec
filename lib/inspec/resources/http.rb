@@ -2,16 +2,16 @@
 # copyright: 2017, Chef Software Inc
 # license: Apache v2
 
-require 'inspec/resources/command'
-require 'faraday'
-require 'faraday_middleware'
-require 'hashie'
+require "inspec/resources/command"
+require "faraday"
+require "faraday_middleware"
+require "hashie"
 
 module Inspec::Resources
   class Http < Inspec.resource(1)
-    name 'http'
-    supports platform: 'unix'
-    desc 'Use the http InSpec audit resource to test http call.'
+    name "http"
+    supports platform: "unix"
+    desc "Use the http InSpec audit resource to test http call."
     example <<~EXAMPLE
       describe http('http://localhost:8080/ping', auth: {user: 'user', pass: 'test'}, params: {format: 'html'}) do
         its('status') { should cmp 200 }
@@ -34,9 +34,9 @@ module Inspec::Resources
       # to give users an opportunity to remove the unused option from their
       # profiles.
       if opts.key?(:enable_remote_worker) && !inspec.local_transport?
-        warn 'Ignoring `enable_remote_worker` option, the `http` resource ',
-             'remote worker is enabled by default for remote targets and ',
-             'cannot be disabled'
+        warn "Ignoring `enable_remote_worker` option, the `http` resource ",
+             "remote worker is enabled by default for remote targets and ",
+             "cannot be disabled"
       end
 
       # Run locally if InSpec is ran locally and remotely if ran remotely
@@ -60,14 +60,14 @@ module Inspec::Resources
     end
 
     def http_method
-      @opts.fetch(:method, 'GET')
+      @opts.fetch(:method, "GET")
     end
 
     def to_s
-      if @opts and @url
+      if @opts && @url
         "HTTP #{http_method} on #{@url}"
       else
-        'HTTP Resource'
+        "HTTP Resource"
       end
     end
 
@@ -161,9 +161,9 @@ module Inspec::Resources
         attr_reader :inspec
 
         def initialize(inspec, http_method, url, opts)
-          unless inspec.command('curl').exist?
+          unless inspec.command("curl").exist?
             raise Inspec::Exceptions::ResourceSkipped,
-                  'curl is not available on the target machine'
+                  "curl is not available on the target machine"
           end
 
           @ran_curl = false
@@ -210,35 +210,35 @@ module Inspec::Resources
 
           # grab the status off of the first line of the prelude
           status_line = prelude.shift
-          @status = status_line.split(' ', 3)[1].to_i
+          @status = status_line.split(" ", 3)[1].to_i
 
           # parse the rest of the prelude which will be all the HTTP headers
           @response_headers = {}
           prelude.each do |line|
             line.strip!
-            key, value = line.split(':', 2)
+            key, value = line.split(":", 2)
             @response_headers[key] = value.strip
           end
         end
 
         def curl_command # rubocop:disable Metrics/AbcSize
-          cmd = ['curl -i']
+          cmd = ["curl -i"]
 
           # Use curl's --head option when the method requested is HEAD. Otherwise,
           # the user may experience a timeout when curl does not properly close
           # the connection after the response is received.
-          if http_method.casecmp('HEAD') == 0
-            cmd << '--head'
+          if http_method.casecmp("HEAD") == 0
+            cmd << "--head"
           else
             cmd << "-X #{http_method}"
           end
 
           cmd << "--connect-timeout #{open_timeout}"
-          cmd << "--max-time #{open_timeout+read_timeout}"
+          cmd << "--max-time #{open_timeout + read_timeout}"
           cmd << "--user \'#{username}:#{password}\'" unless username.nil? || password.nil?
-          cmd << '--insecure' unless ssl_verify?
+          cmd << "--insecure" unless ssl_verify?
           cmd << "--data #{Shellwords.shellescape(request_body)}" unless request_body.nil?
-          cmd << '--location' if max_redirects > 0
+          cmd << "--location" if max_redirects > 0
           cmd << "--max-redirs #{max_redirects}" if max_redirects > 0
 
           request_headers.each do |k, v|
@@ -251,7 +251,7 @@ module Inspec::Resources
             cmd << "'#{url}?#{params.map { |e| e.join('=') }.join('&')}'"
           end
 
-          cmd.join(' ')
+          cmd.join(" ")
         end
       end
     end

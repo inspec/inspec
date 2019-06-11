@@ -1,16 +1,16 @@
 #
 # Copyright 2017, Christoph Hartmann
 
-require 'inspec/resources/docker'
-require_relative 'docker_object'
+require "inspec/resources/docker"
+require_relative "docker_object"
 
 module Inspec::Resources
   class DockerService < Inspec.resource(1)
     include Inspec::Resources::DockerObject
 
-    name 'docker_service'
-    supports platform: 'unix'
-    desc 'Swarm-mode service'
+    name "docker_service"
+    supports platform: "unix"
+    desc "Swarm-mode service"
     example <<~EXAMPLE
       describe docker_service('service1') do
         it { should exist }
@@ -82,9 +82,9 @@ module Inspec::Resources
     def object_info
       return @info if defined?(@info)
       opts = @opts
-      @info = inspec.docker.services.where {
+      @info = inspec.docker.services.where do
         name == opts[:name] || image == opts[:image] || (!id.nil? && !opts[:id].nil? && (id == opts[:id] || id.start_with?(opts[:id])))
-      }
+      end
     end
   end
 end

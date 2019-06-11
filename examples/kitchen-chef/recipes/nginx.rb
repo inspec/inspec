@@ -1,25 +1,25 @@
 # install repositories for nginx
-case node['platform']
-when 'ubuntu'
+case node["platform"]
+when "ubuntu"
   # if ubuntu, install
-  apt_repository 'nginx-php' do
-    uri 'ppa:nginx/stable'
-    distribution node['lsb']['codename']
+  apt_repository "nginx-php" do
+    uri "ppa:nginx/stable"
+    distribution node["lsb"]["codename"]
   end
-when 'centos'
+when "centos"
   # add repo for Centos 7
-  yum_repository 'nginx' do
-    description 'Nginx Repo'
-    baseurl 'http://nginx.org/packages/centos/7/x86_64'
-    gpgkey 'http://nginx.org/keys/nginx_signing.key'
+  yum_repository "nginx" do
+    description "Nginx Repo"
+    baseurl "http://nginx.org/packages/centos/7/x86_64"
+    gpgkey "http://nginx.org/keys/nginx_signing.key"
     action :create
   end
 end
 
 # install nginx package
-package 'nginx'
+package "nginx"
 
 # start the service
-service 'nginx' do
+service "nginx" do
   action :start
 end

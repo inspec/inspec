@@ -1,28 +1,28 @@
-require 'docker'
-require 'yaml'
-require 'concurrent'
+require "docker"
+require "yaml"
+require "concurrent"
 
 class DockerRunner
   def initialize(conf_path = nil)
     @conf_path = conf_path ||
-                 ENV['config']
+      ENV["config"]
 
-    docker_run_concurrency = (ENV['N'] || 5).to_i
+    docker_run_concurrency = (ENV["N"] || 5).to_i
 
     if @conf_path.nil?
-      fail "You must provide a configuration file with docker boxes"
+      raise "You must provide a configuration file with docker boxes"
     end
 
     unless File.file?(@conf_path)
-      fail "Can't find configuration in #{@conf_path}"
+      raise "Can't find configuration in #{@conf_path}"
     end
 
     @conf = YAML.load_file(@conf_path)
-    if @conf.nil? or @conf.empty?
-      fail "Can't read configuration in #{@conf_path}"
+    if @conf.nil? || @conf.empty?
+      raise "Can't read configuration in #{@conf_path}"
     end
-    if @conf['images'].nil?
-      fail "You must configure test images in your #{@conf_path}"
+    if @conf["images"].nil?
+      raise "You must configure test images in your #{@conf_path}"
     end
 
     @images = docker_images_by_tag
@@ -31,9 +31,9 @@ class DockerRunner
   end
 
   def run_all(&block)
-    fail 'You must provide a block for run_all' unless block_given?
+    raise "You must provide a block for run_all" unless block_given?
 
-    promises = @conf['images'].map do |id|
+    promises = @conf["images"].map do |id|
       run_on_target(id, &block)
     end
 
@@ -45,10 +45,10 @@ class DockerRunner
   end
 
   def run_on_target(name, &block)
-    pr = Concurrent::Promise.new {
+    pr = Concurrent::Promise.new do
       begin
         container = start_container(name)
-        res = block.call(name, container)
+        res = yield(name, container)
       # special rescue block to handle not implemented error
       rescue NotImplementedError => err
         stop_container(container)
@@ -60,7 +60,7 @@ class DockerRunner
       # always stop the container
       stop_container(container)
       res
-    }.execute
+    end.execute
 
     # failure handling
     pr.rescue do |err|
@@ -71,8 +71,8 @@ class DockerRunner
   end
 
   def provision_image(image, prov, files)
-    return image if prov['script'].nil?
-    path = File.join(File.dirname(@conf_path), prov['script'])
+    return image if prov["script"].nil?
+    path = File.join(File.dirname(@conf_path), prov["script"])
     unless File.file?(path)
       puts "Can't find script file #{path}"
       return image
@@ -80,12 +80,12 @@ class DockerRunner
     puts "    script #{path}"
     dst = "/bootstrap#{files.length}.sh"
     files.push(dst)
-    image.insert_local('localPath' => path, 'outputPath' => dst)
+    image.insert_local("localPath" => path, "outputPath" => dst)
   end
 
   def bootstrap_image(name, image)
     files = []
-    provisions = Array(@conf['provision'])
+    provisions = Array(@conf["provision"])
     puts "--> provision docker #{name}" unless provisions.empty?
     provisions.each do |prov|
       image = provision_image(image, prov, files)
@@ -94,8 +94,8 @@ class DockerRunner
   end
 
   def start_container(name, version = nil)
-    unless name.include?(':')
-      version ||= 'latest'
+    unless name.include?(":")
+      version ||= "latest"
       name = "#{name}:#{version}"
     end
     puts "--> schedule docker #{name}"
@@ -107,7 +107,7 @@ class DockerRunner
 
       @image_pull_tickets.acquire(1)
       puts "... start pull image #{name}"
-      image = Docker::Image.create('fromImage' => name)
+      image = Docker::Image.create("fromImage" => name)
       @image_pull_tickets.release(1)
 
       unless image.nil?
@@ -115,7 +115,7 @@ class DockerRunner
       end
     end
 
-    fail "Can't find nor pull docker image #{name}" if image.nil?
+    raise "Can't find nor pull docker image #{name}" if image.nil?
 
     image, scripts = bootstrap_image(name, image)
 
@@ -123,9 +123,9 @@ class DockerRunner
 
     puts "--> start docker #{name}"
     container = Docker::Container.create(
-      'Cmd' => %w{sleep 3600},
-      'Image' => image.id,
-      'OpenStdin' => true,
+      "Cmd" => %w{sleep 3600},
+      "Image" => image.id,
+      "OpenStdin" => true
     )
     container.start
 
@@ -150,7 +150,7 @@ class DockerRunner
   def docker_images_by_tag
     images = {}
     Docker::Image.all.map do |img|
-      Array(img.info['RepoTags']).each do |tag|
+      Array(img.info["RepoTags"]).each do |tag|
         images[tag] = img
       end
     end

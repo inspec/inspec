@@ -7,7 +7,7 @@
 # fast and light by only loading heavy things when they are needed.
 
 # Presumably this is light
-require 'inspec-resource-lister/version'
+require "inspec-resource-lister/version"
 
 # The InspecPlugins namespace is where all plugins should declare themselves.
 # The 'Inspec' capitalization is used throughout the InSpec source code; yes, it's
@@ -42,7 +42,7 @@ module InspecPlugins
         # functionality.
         # For example, InSpec will activate this hook when `inspec help` is
         # executed, so that this plugin's usage message will be included in the help.
-        require 'inspec-resource-lister/cli_command'
+        require "inspec-resource-lister/cli_command"
 
         # Having loaded our functionality, return a class that will let the
         # CLI engine tap into it.

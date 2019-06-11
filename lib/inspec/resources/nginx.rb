@@ -1,12 +1,12 @@
-require 'pathname'
-require 'hashie/mash'
-require 'inspec/resources/command'
+require "pathname"
+require "hashie/mash"
+require "inspec/resources/command"
 
 module Inspec::Resources
   class Nginx < Inspec.resource(1)
-    name 'nginx'
-    supports platform: 'unix'
-    desc 'Use the nginx InSpec audit resource to test information about your NGINX instance.'
+    name "nginx"
+    supports platform: "unix"
+    desc "Use the nginx InSpec audit resource to test information about your NGINX instance."
     example <<~EXAMPLE
       describe nginx do
         its('conf_path') { should cmp '/etc/nginx/nginx.conf' }
@@ -20,13 +20,13 @@ module Inspec::Resources
     EXAMPLE
     attr_reader :params, :bin_dir
 
-    def initialize(nginx_path = '/usr/sbin/nginx')
-      return skip_resource 'The `nginx` resource is not yet available on your OS.' if inspec.os.windows?
-      return skip_resource 'The `nginx` binary not found in the path provided.' unless inspec.command(nginx_path).exist?
+    def initialize(nginx_path = "/usr/sbin/nginx")
+      return skip_resource "The `nginx` resource is not yet available on your OS." if inspec.os.windows?
+      return skip_resource "The `nginx` binary not found in the path provided." unless inspec.command(nginx_path).exist?
 
       cmd = inspec.command("#{nginx_path} -V 2>&1")
       if !cmd.exit_status.zero?
-        return skip_resource 'Error using the command nginx -V'
+        return skip_resource "Error using the command nginx -V"
       end
       @data = cmd.stdout
       @params = {}
@@ -41,17 +41,17 @@ module Inspec::Resources
 
     def openssl_version
       result = @data.scan(/built with OpenSSL\s(\S+)\s(\d+\s\S+\s\d{4})/).flatten
-      Hashie::Mash.new({ 'version' => result[0], 'date' => result[1] })
+      Hashie::Mash.new({ "version" => result[0], "date" => result[1] })
     end
 
     def compiler_info
       result = @data.scan(/built by (\S+)\s(\S+)\s(\S+)/).flatten
-      Hashie::Mash.new({ 'compiler' => result[0], 'version' => result[1], 'date' => result[2] })
+      Hashie::Mash.new({ "compiler" => result[0], "version" => result[1], "date" => result[2] })
     end
 
     def support_info
       support_info = @data.scan(/(.*\S+) support enabled/).flatten
-      support_info.empty? ? nil : support_info.join(' ')
+      support_info.empty? ? nil : support_info.join(" ")
     end
 
     def modules
@@ -59,7 +59,7 @@ module Inspec::Resources
     end
 
     def to_s
-      'Nginx Environment'
+      "Nginx Environment"
     end
 
     private
@@ -72,7 +72,7 @@ module Inspec::Resources
 
     def parse_config
       @params[:prefix] = @data.scan(/--prefix=(\S+)\s/).flatten.first
-      @params[:service] = 'nginx'
+      @params[:service] = "nginx"
       @params[:version] = @data.scan(%r{nginx version: nginx\/(\S+)\s}).flatten.first
     end
 

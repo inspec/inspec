@@ -1,2 +1,2 @@
-source 'https://rubygems.org'
-gemspec name: 'inspec-bin'
+source "https://rubygems.org"
+gemspec name: "inspec-bin"

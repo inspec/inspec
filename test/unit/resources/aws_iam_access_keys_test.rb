@@ -1,9 +1,9 @@
-require 'helper'
-require 'inspec/resource'
-require 'resources/aws/aws_iam_access_keys'
+require "helper"
+require "inspec/resource"
+require "resources/aws/aws_iam_access_keys"
 
-require 'resource_support/aws'
-require 'resources/aws/aws_iam_access_keys'
+require "resource_support/aws"
+require "resources/aws/aws_iam_access_keys"
 
 #==========================================================#
 #                 Constructor Tests                        #
@@ -61,9 +61,9 @@ class AwsIamAccessKeysFilterCriteriaTest < Minitest::Test
     # Here we always want no results.
     AwsIamAccessKeys::BackendFactory.select(AlwaysEmptyMAKP)
     @valued_criteria = {
-      username: 'bob',
-      id: 'AKIA1234567890ABCDEF',
-      access_key_id: 'AKIA1234567890ABCDEF',
+      username: "bob",
+      id: "AKIA1234567890ABCDEF",
+      access_key_id: "AKIA1234567890ABCDEF",
     }
   end
 
@@ -82,29 +82,29 @@ class AwsIamAccessKeysFilterCriteriaTest < Minitest::Test
   # Negative cases
   def test_criteria_when_used_in_constructor_with_bad_criterion
     assert_raises(ArgumentError) do
-      AwsIamAccessKeys.new(nope: 'some_val')
+      AwsIamAccessKeys.new(nope: "some_val")
     end
   end
 
   def test_criteria_when_used_in_where_with_bad_criterion
     assert_raises(ArgumentError) do
-      AwsIamAccessKeys.new(nope: 'some_val')
+      AwsIamAccessKeys.new(nope: "some_val")
     end
   end
 
   # Identity criterion is allowed based on regex
   def test_identity_criterion_when_used_in_constructor_positive
-    AwsIamAccessKeys.new('AKIA1234567890ABCDEF')
+    AwsIamAccessKeys.new("AKIA1234567890ABCDEF")
   end
 
   # Permitted by FilterTable?
   def test_identity_criterion_when_used_in_where_positive
-    AwsIamAccessKeys.new.where('AKIA1234567890ABCDEF')
+    AwsIamAccessKeys.new.where("AKIA1234567890ABCDEF")
   end
 
   def test_identity_criterion_when_used_in_constructor_negative
     assert_raises(RuntimeError) do
-      AwsIamAccessKeys.new('NopeAKIA1234567890ABCDEF')
+      AwsIamAccessKeys.new("NopeAKIA1234567890ABCDEF")
     end
   end
 
@@ -132,13 +132,13 @@ class AwsIamAccessKeysPropertiesTest < Minitest::Test
   def test_property_created_date
     assert_kind_of(DateTime, @all_basic.entries.first.create_date)
 
-    arg_filtered = @all_basic.where(create_date: DateTime.parse('2017-10-27T17:58:00Z'))
+    arg_filtered = @all_basic.where(create_date: DateTime.parse("2017-10-27T17:58:00Z"))
     assert_equal(1, arg_filtered.entries.count)
-    assert arg_filtered.access_key_ids.first.end_with?('BOB')
+    assert arg_filtered.access_key_ids.first.end_with?("BOB")
 
     block_filtered = @all_basic.where { create_date.friday? }
     assert_equal(1, block_filtered.entries.count)
-    assert block_filtered.access_key_ids.first.end_with?('BOB')
+    assert block_filtered.access_key_ids.first.end_with?("BOB")
   end
 
   def test_property_created_days_ago
@@ -146,7 +146,7 @@ class AwsIamAccessKeysPropertiesTest < Minitest::Test
 
     arg_filtered = @all_basic.where(created_days_ago: 9)
     assert_equal(1, arg_filtered.entries.count)
-    assert arg_filtered.access_key_ids.first.end_with?('SALLY')
+    assert arg_filtered.access_key_ids.first.end_with?("SALLY")
 
     block_filtered = @all_basic.where { created_days_ago > 2 }
     assert_equal(2, block_filtered.entries.count)
@@ -157,7 +157,7 @@ class AwsIamAccessKeysPropertiesTest < Minitest::Test
 
     arg_filtered = @all_basic.where(created_hours_ago: 222)
     assert_equal(1, arg_filtered.entries.count)
-    assert arg_filtered.access_key_ids.first.end_with?('SALLY')
+    assert arg_filtered.access_key_ids.first.end_with?("SALLY")
 
     block_filtered = @all_basic.where { created_hours_ago > 100 }
     assert_equal(2, block_filtered.entries.count)
@@ -172,7 +172,7 @@ class AwsIamAccessKeysPropertiesTest < Minitest::Test
 
     arg_filtered = @all_basic.where(created_with_user: true)
     assert_equal(2, arg_filtered.entries.count)
-    assert arg_filtered.access_key_ids.first.end_with?('BOB')
+    assert arg_filtered.access_key_ids.first.end_with?("BOB")
 
     block_filtered = @all_basic.where { created_with_user }
     assert_equal(2, block_filtered.entries.count)
@@ -189,7 +189,7 @@ class AwsIamAccessKeysPropertiesTest < Minitest::Test
 
     block_filtered = @all_basic.where { active }
     assert_equal(2, block_filtered.entries.count)
-    assert block_filtered.access_key_ids.first.end_with?('BOB')
+    assert block_filtered.access_key_ids.first.end_with?("BOB")
   end
 
   def test_property_inactive
@@ -200,7 +200,7 @@ class AwsIamAccessKeysPropertiesTest < Minitest::Test
 
     block_filtered = @all_basic.where { inactive }
     assert_equal(1, block_filtered.entries.count)
-    assert block_filtered.access_key_ids.first.end_with?('ROBIN')
+    assert block_filtered.access_key_ids.first.end_with?("ROBIN")
   end
 
   #-----------------------------------------------------------#
@@ -210,13 +210,13 @@ class AwsIamAccessKeysPropertiesTest < Minitest::Test
     assert_kind_of(NilClass, @all_basic.entries[0].last_used_date)
     assert_kind_of(DateTime, @all_basic.entries[1].last_used_date)
 
-    arg_filtered = @all_basic.where(last_used_date: DateTime.parse('2017-10-27T17:58:00Z'))
+    arg_filtered = @all_basic.where(last_used_date: DateTime.parse("2017-10-27T17:58:00Z"))
     assert_equal(1, arg_filtered.entries.count)
-    assert arg_filtered.access_key_ids.first.end_with?('SALLY')
+    assert arg_filtered.access_key_ids.first.end_with?("SALLY")
 
-    block_filtered = @all_basic.where { last_used_date and last_used_date.friday? }
+    block_filtered = @all_basic.where { last_used_date && last_used_date.friday? }
     assert_equal(1, block_filtered.entries.count)
-    assert block_filtered.access_key_ids.first.end_with?('SALLY')
+    assert block_filtered.access_key_ids.first.end_with?("SALLY")
   end
 
   def test_property_last_used_days_ago
@@ -225,11 +225,11 @@ class AwsIamAccessKeysPropertiesTest < Minitest::Test
 
     arg_filtered = @all_basic.where(last_used_days_ago: 4)
     assert_equal(1, arg_filtered.entries.count)
-    assert arg_filtered.access_key_ids.first.end_with?('SALLY')
+    assert arg_filtered.access_key_ids.first.end_with?("SALLY")
 
-    block_filtered = @all_basic.where { last_used_days_ago and last_used_days_ago < 2 }
+    block_filtered = @all_basic.where { last_used_days_ago && (last_used_days_ago < 2) }
     assert_equal(1, block_filtered.entries.count)
-    assert block_filtered.access_key_ids.first.end_with?('ROBIN')
+    assert block_filtered.access_key_ids.first.end_with?("ROBIN")
   end
 
   def test_property_last_used_hours_ago
@@ -238,11 +238,11 @@ class AwsIamAccessKeysPropertiesTest < Minitest::Test
 
     arg_filtered = @all_basic.where(last_used_hours_ago: 102)
     assert_equal(1, arg_filtered.entries.count)
-    assert arg_filtered.access_key_ids.first.end_with?('SALLY')
+    assert arg_filtered.access_key_ids.first.end_with?("SALLY")
 
-    block_filtered = @all_basic.where { last_used_hours_ago and last_used_hours_ago < 10 }
+    block_filtered = @all_basic.where { last_used_hours_ago && (last_used_hours_ago < 10) }
     assert_equal(1, block_filtered.entries.count)
-    assert block_filtered.access_key_ids.first.end_with?('ROBIN')
+    assert block_filtered.access_key_ids.first.end_with?("ROBIN")
   end
 
   #-----------------------------------------------------------#
@@ -257,7 +257,7 @@ class AwsIamAccessKeysPropertiesTest < Minitest::Test
 
     block_filtered = @all_basic.where { ever_used }
     assert_equal(2, block_filtered.entries.count)
-    assert block_filtered.access_key_ids.first.end_with?('SALLY')
+    assert block_filtered.access_key_ids.first.end_with?("SALLY")
   end
 
   def test_property_never_used
@@ -269,7 +269,7 @@ class AwsIamAccessKeysPropertiesTest < Minitest::Test
 
     block_filtered = @all_basic.where { never_used }
     assert_equal(1, block_filtered.entries.count)
-    assert block_filtered.access_key_ids.first.end_with?('BOB')
+    assert block_filtered.access_key_ids.first.end_with?("BOB")
   end
 
   #----------------------------------------------------------#
@@ -277,13 +277,13 @@ class AwsIamAccessKeysPropertiesTest < Minitest::Test
   #----------------------------------------------------------#
   def test_property_user_created_date
     assert_kind_of(DateTime, @all_basic.entries.first.user_created_date)
-    arg_filtered = @all_basic.where(user_created_date: DateTime.parse('2017-10-21T17:58:00Z'))
+    arg_filtered = @all_basic.where(user_created_date: DateTime.parse("2017-10-21T17:58:00Z"))
     assert_equal(1, arg_filtered.entries.count)
-    assert arg_filtered.access_key_ids.first.end_with?('SALLY')
+    assert arg_filtered.access_key_ids.first.end_with?("SALLY")
 
     block_filtered = @all_basic.where { user_created_date.saturday? }
     assert_equal(1, block_filtered.entries.count)
-    assert block_filtered.access_key_ids.first.end_with?('SALLY')
+    assert block_filtered.access_key_ids.first.end_with?("SALLY")
   end
 end
 #==========================================================#
@@ -303,14 +303,14 @@ class BasicMAKP < AwsBackendBase
   def fetch(_filter_criteria)
     [
       {
-        username: 'bob',
-        access_key_id: 'AKIA1234567890123BOB',
-        id: 'AKIA1234567890123BOB',
-        create_date: DateTime.parse('2017-10-27T17:58:00Z'),
+        username: "bob",
+        access_key_id: "AKIA1234567890123BOB",
+        id: "AKIA1234567890123BOB",
+        create_date: DateTime.parse("2017-10-27T17:58:00Z"),
         created_days_ago: 4,
         created_hours_ago: 102,
         created_with_user: true,
-        status: 'Active',
+        status: "Active",
         active: true,
         inactive: false,
         last_used_date: nil,
@@ -318,43 +318,43 @@ class BasicMAKP < AwsBackendBase
         last_used_hours_ago: nil,
         ever_used: false,
         never_used: true,
-        user_created_date: DateTime.parse('2017-10-27T17:58:00Z'),
+        user_created_date: DateTime.parse("2017-10-27T17:58:00Z"),
       },
       {
-        username: 'sally',
-        access_key_id: 'AKIA12345678901SALLY',
-        id: 'AKIA12345678901SALLY',
-        create_date: DateTime.parse('2017-10-22T17:58:00Z'),
+        username: "sally",
+        access_key_id: "AKIA12345678901SALLY",
+        id: "AKIA12345678901SALLY",
+        create_date: DateTime.parse("2017-10-22T17:58:00Z"),
         created_days_ago: 9,
         created_hours_ago: 222,
-        created_with_user: false,        
-        status: 'Active',
+        created_with_user: false,
+        status: "Active",
         active: true,
         inactive: false,
-        last_used_date: DateTime.parse('2017-10-27T17:58:00Z'),
+        last_used_date: DateTime.parse("2017-10-27T17:58:00Z"),
         last_used_days_ago: 4,
         last_used_hours_ago: 102,
         ever_used: true,
         never_used: false,
-        user_created_date: DateTime.parse('2017-10-21T17:58:00Z'),        
+        user_created_date: DateTime.parse("2017-10-21T17:58:00Z"),
       },
       {
-        username: 'robin',
-        access_key_id: 'AKIA12345678901ROBIN',
-        id: 'AKIA12345678901ROBIN',
-        create_date: DateTime.parse('2017-10-31T17:58:00Z'),
+        username: "robin",
+        access_key_id: "AKIA12345678901ROBIN",
+        id: "AKIA12345678901ROBIN",
+        create_date: DateTime.parse("2017-10-31T17:58:00Z"),
         created_days_ago: 1,
         created_hours_ago: 12,
-        created_with_user: true,        
-        status: 'Inactive',
+        created_with_user: true,
+        status: "Inactive",
         active: false,
         inactive: true,
-        last_used_date: DateTime.parse('2017-10-31T20:58:00Z'),
+        last_used_date: DateTime.parse("2017-10-31T20:58:00Z"),
         last_used_days_ago: 0,
         last_used_hours_ago: 5,
         ever_used: true,
         never_used: false,
-        user_created_date: DateTime.parse('2017-10-31T17:58:00Z'),  
+        user_created_date: DateTime.parse("2017-10-31T17:58:00Z"),
       },
     ]
   end

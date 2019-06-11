@@ -1,5 +1,5 @@
-require 'inspec/utils/deprecation/config_file'
-require 'inspec/log'
+require "inspec/utils/deprecation/config_file"
+require "inspec/log"
 
 module Inspec
   module Deprecation
@@ -17,7 +17,7 @@ module Inspec
         assembled_message = assemble_message(message, group, opts)
 
         action = group[:action] || :warn
-        action_method = ('handle_' + action.to_s + '_action').to_sym
+        action_method = ("handle_" + action.to_s + "_action").to_sym
         send(action_method, group_name.to_sym, assembled_message, group)
       end
 
@@ -48,20 +48,20 @@ module Inspec
         # Next, purge all RSpec entries (at least rspec-core, rspec-support, rspec-its).
         stack.reject! { |frame| frame.path && frame.path =~ %r{rspec-.+/lib/rspec}  }
         # Now look for the frame that includes load_with_context.
-        used_at ||= stack.detect { |frame| frame.label.include? 'load_with_context' }
+        used_at ||= stack.detect { |frame| frame.label.include? "load_with_context" }
 
         opts[:used_at_stack_frame] = used_at if used_at
       end
 
       def assemble_message(message, group, opts)
-        prefix = group.prefix || ''
-        suffix = group.suffix || ''
-        prefix += ' ' unless prefix.empty?
-        suffix = ' ' + suffix unless suffix.empty?
+        prefix = group.prefix || ""
+        suffix = group.suffix || ""
+        prefix += " " unless prefix.empty?
+        suffix = " " + suffix unless suffix.empty?
 
-        suffix += (' (used at ' + opts[:used_at_stack_frame].path+ ':' + opts[:used_at_stack_frame].lineno.to_s + ')') if opts.key?(:used_at_stack_frame)
+        suffix += (" (used at " + opts[:used_at_stack_frame].path + ":" + opts[:used_at_stack_frame].lineno.to_s + ")") if opts.key?(:used_at_stack_frame)
 
-        'DEPRECATION: ' + prefix + message + suffix
+        "DEPRECATION: " + prefix + message + suffix
       end
 
       def called_from_control?
@@ -70,7 +70,7 @@ module Inspec
 
         # Within a control block, that is actually an RSpec:ExampleGroup
         stack.each do |frame|
-          return true if frame.path.end_with?('rspec/core/example_group.rb')
+          return true if frame.path.end_with?("rspec/core/example_group.rb")
         end
 
         false

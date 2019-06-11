@@ -4,7 +4,7 @@ module InspecPlugins
       plugin_name :'inspec-plugin-manager-cli'
 
       cli_command :plugin do
-        require_relative 'cli'
+        require_relative "cli"
         InspecPlugins::PluginManager::CliCommand
       end
     end

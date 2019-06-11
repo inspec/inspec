@@ -1,16 +1,16 @@
-require 'resource_support/aws/aws_singular_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-s3'
+require "resource_support/aws/aws_singular_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-s3"
 
 class AwsS3Bucket < Inspec.resource(1)
-  name 'aws_s3_bucket'
-  desc 'Verifies settings for a s3 bucket'
+  name "aws_s3_bucket"
+  desc "Verifies settings for a s3 bucket"
   example <<~EXAMPLE
     describe aws_s3_bucket(bucket_name: 'test_bucket') do
       it { should exist }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
   attr_reader :bucket_name, :has_default_encryption_enabled, :has_access_logging_enabled, :region
@@ -33,9 +33,9 @@ class AwsS3Bucket < Inspec.resource(1)
   def public?
     # first line just for formatting
     false || \
-      bucket_acl.any? { |g| g.grantee.type == 'Group' && g.grantee.uri =~ /AllUsers/ } || \
-      bucket_acl.any? { |g| g.grantee.type == 'Group' && g.grantee.uri =~ /AuthenticatedUsers/ } || \
-      bucket_policy.any? { |s| s.effect == 'Allow' && s.principal == '*' }
+      bucket_acl.any? { |g| g.grantee.type == "Group" && g.grantee.uri =~ /AllUsers/ } || \
+      bucket_acl.any? { |g| g.grantee.type == "Group" && g.grantee.uri =~ /AuthenticatedUsers/ } || \
+      bucket_policy.any? { |s| s.effect == "Allow" && s.principal == "*" }
   end
 
   def has_default_encryption_enabled?
@@ -57,10 +57,10 @@ class AwsS3Bucket < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:bucket_name],
       allowed_scalar_name: :bucket_name,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
-    if validated_params.empty? or !validated_params.key?(:bucket_name)
-      raise ArgumentError, 'You must provide a bucket_name to aws_s3_bucket.'
+    if validated_params.empty? || !validated_params.key?(:bucket_name)
+      raise ArgumentError, "You must provide a bucket_name to aws_s3_bucket."
     end
 
     validated_params
@@ -86,7 +86,7 @@ class AwsS3Bucket < Inspec.resource(1)
       begin
         # AWS SDK returns a StringIO, we have to read()
         raw_policy = backend.get_bucket_policy(bucket: bucket_name).policy
-        return JSON.parse(raw_policy.read)['Statement'].map do |statement|
+        return JSON.parse(raw_policy.read)["Statement"].map do |statement|
           lowercase_hash = {}
           statement.each_key { |k| lowercase_hash[k.downcase] = statement[k] }
           @bucket_policy = OpenStruct.new(lowercase_hash)
