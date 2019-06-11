@@ -130,7 +130,8 @@ describe "inspec exec with json formatter" do
         "license" => "Apache-2.0",
         "summary" => "Demonstrates the use of InSpec Compliance Profile",
         "version" => "1.0.0",
-        "sha256" => "c8e0826741fdd105b96e61730f266220a02a1b8c1ad3bb9445fe6d801b657891",
+        # TODO: this is brittle and nonsensical
+        "sha256" => "de67a044d7be7090982740755ff582af1cefaf37261c5adda57b9502ffefc973",
         "supports" => [{ "platform-family" => "unix" }, { "platform-family" => "windows" }],
         "status" => "loaded",
         "attributes" => [],
@@ -172,15 +173,16 @@ describe "inspec exec with json formatter" do
       result["start_time"].wont_be :nil?
 
       example_rb_code = <<~END
-        control "tmp-1.0" do                                   # A unique ID for this control
+        control 'tmp-1.0' do                                   # A unique ID for this control
           impact 0.7                                           # The criticality, if this control fails.
-          title "Create /tmp directory"                        # A human-readable title
-          desc "An optional description..."                    # Describe why this is needed
-          desc "label", "An optional description with a label" # Pair a part of the description with a label
-          tag data: "temp data"                                # A tag allows you to associate key information
-          tag "security"                                       # to the test
-          ref "Document A-12", url: "http://..."               # Additional references
-           describe file("/tmp") do                             # The actual test
+          title 'Create /tmp directory'                        # A human-readable title
+          desc 'An optional description...'                    # Describe why this is needed
+          desc 'label', 'An optional description with a label' # Pair a part of the description with a label
+          tag data: 'temp data'                                # A tag allows you to associate key information
+          tag 'security'                                       # to the test
+          ref 'Document A-12', url: 'http://...'               # Additional references
+
+          describe file('/tmp') do                             # The actual test
             it { should be_directory }
           end
         end

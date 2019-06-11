@@ -184,7 +184,7 @@ module Inspec::Resources
       end
 
       {
-        success: resp.exit_status.to_i.zero?,
+        success: resp.exit_status.to_i == 0,
         connection: resp.stderr,
         socket: resp.stdout,
       }
@@ -234,7 +234,7 @@ module Inspec::Resources
 
     def resolve_with_getent(hostname)
       cmd = inspec.command("getent ahosts #{hostname}")
-      return nil unless cmd.exit_status.to_i.zero?
+      return nil unless cmd.exit_status.to_i == 0
 
       # getent ahosts output is formatted like so:
       # $ getent ahosts www.google.com

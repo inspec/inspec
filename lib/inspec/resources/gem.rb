@@ -38,7 +38,7 @@ module Inspec::Resources
       return @info if defined?(@info)
 
       cmd = inspec.command("#{@gem_binary} list --local -a -q \^#{@package_name}\$")
-      return {} unless cmd.exit_status.zero?
+      return {} unless cmd.exit_status == 0
 
       # extract package name and version
       # parses data like winrm (1.3.4, 1.3.3)

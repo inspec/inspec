@@ -277,7 +277,7 @@ module Inspec::Resources
       return nil unless inspec.command("netstat").exist?
 
       cmd = inspec.command("netstat -Aan | grep LISTEN")
-      return nil unless cmd.exit_status.to_i.zero?
+      return nil unless cmd.exit_status.to_i == 0
 
       ports = []
       # parse all lines
@@ -390,7 +390,7 @@ module Inspec::Resources
       return nil unless inspec.command("ss").exist?
 
       cmd = inspec.command("ss -tulpen")
-      return nil unless cmd.exit_status.to_i.zero?
+      return nil unless cmd.exit_status.to_i == 0
 
       ports = []
 
@@ -406,7 +406,7 @@ module Inspec::Resources
       return nil unless inspec.command("netstat").exist?
 
       cmd = inspec.command("netstat -tulpen")
-      return nil unless cmd.exit_status.to_i.zero?
+      return nil unless cmd.exit_status.to_i == 0
 
       ports = []
       # parse all lines

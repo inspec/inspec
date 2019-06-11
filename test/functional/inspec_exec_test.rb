@@ -485,15 +485,15 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       # check for json override
       # TODO: Brittle test expects the leading spaces.
       expected_value = <<-END
-  control "pro1-con2" do
+  control 'pro1-con2' do
     impact 0.999
-    title "Profile 1 - Control 2-updated"
-    desc "Profile 1 - Control 2 description-updated"
-    desc "overwrite me", "it is overwritten"
-    desc "new entry", "this is appended to the description list"
-    tag "password-updated"
-    ref "Section 3.5.2.1", url: "https://example.com"
-    describe file("/etc/passwd") do
+    title 'Profile 1 - Control 2-updated'
+    desc 'Profile 1 - Control 2 description-updated'
+    desc 'overwrite me', 'it is overwritten'
+    desc 'new entry', 'this is appended to the description list'
+    tag 'password-updated'
+    ref 'Section 3.5.2.1', url: 'https://example.com'
+    describe file('/etc/passwd') do
       it { should exist }
     end
   end
@@ -518,13 +518,13 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
 
       # check for original code on child profile
       expected_value = <<~END
-        control "pro1-con2" do
+        control 'pro1-con2' do
           impact 0.9
-          title "Profile 1 - Control 2"
-          desc "Profile 1 - Control 2 description"
-          desc "overwrite me", "overwrite this"
-          tag "password"
-          describe file("/etc/passwdddddddddd") do
+          title 'Profile 1 - Control 2'
+          desc 'Profile 1 - Control 2 description'
+          desc 'overwrite me', 'overwrite this'
+          tag 'password'
+          describe file('/etc/passwdddddddddd') do
             it { should exist }
           end
         end

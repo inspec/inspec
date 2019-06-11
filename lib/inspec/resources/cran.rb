@@ -33,7 +33,7 @@ module Inspec::Resources
       @info[:type] = "cran"
       @info[:name] = @package_name
       cmd = inspec.command("#{@r_cmd} -e 'packageVersion(\"#{@package_name}\")'")
-      return @info unless cmd.exit_status.zero?
+      return @info unless cmd.exit_status == 0
 
       # Extract package version from Rscript output
       # Output includes unicode punctuation (backticks) characters like so:

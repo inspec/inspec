@@ -66,7 +66,7 @@ module Inspec::Resources
 
     def version
       cmd = inspec.command("#{modinfo_cmd_for_os} -F version #{@module}")
-      cmd.exit_status.zero? ? cmd.stdout.delete("\n") : nil
+      cmd.exit_status == 0 ? cmd.stdout.delete("\n") : nil
     end
 
     def to_s

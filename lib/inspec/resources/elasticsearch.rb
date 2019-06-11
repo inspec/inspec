@@ -151,7 +151,7 @@ module Inspec::Resources
         raise "Connection refused - peer certificate issuer is not recognized"
       end
 
-      raise "Error fetching Elastcsearch data from curl #{url}: #{cmd.stderr}" unless cmd.exit_status.zero?
+      raise "Error fetching Elastcsearch data from curl #{url}: #{cmd.stderr}" unless cmd.exit_status == 0
     end
 
     def verify_json_payload!(content)
@@ -159,7 +159,7 @@ module Inspec::Resources
         raise "#{content['error']['type']}: #{content['error']['reason']}"
       end
 
-      raise "No successful nodes available in cluster" if content["_nodes"]["successful"].zero?
+      raise "No successful nodes available in cluster" if content["_nodes"]["successful"] == 0
     end
   end
 end

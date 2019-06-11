@@ -35,7 +35,7 @@ describe "Deprecation Facility Behavior" do
           json_result[1]["message"].must_include "(used at"
           json_result[1]["message"].must_include "test/unit/mock/profiles/deprecation/typical/controls/typical.rb"
           # TODO: Brittle Test
-          json_result[1]["message"].must_include "typical.rb:11" # Line number check
+          json_result[1]["message"].must_include "typical.rb:10" # Line number check
         end
       end
 
@@ -58,7 +58,7 @@ describe "Deprecation Facility Behavior" do
           deprecation_line.must_include "(used at"
           deprecation_line.must_include "test/unit/mock/profiles/deprecation/bare/controls/bare.rb"
           # TODO: Brittle Test
-          deprecation_line.must_include "bare.rb:3"
+          deprecation_line.must_include "bare.rb:2"
         end
       end
     end

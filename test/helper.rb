@@ -79,16 +79,6 @@ def load_resource(*args)
   MockLoader.new.load_resource(*args)
 end
 
-# Used to capture `Inspec.deprecate()` with warn action
-def expect_deprecation_warning
-  @mock_logger = Minitest::Mock.new
-  @mock_logger.expect(:warn, nil, [/DEPRECATION/])
-  Inspec::Log.stub(:warn, proc { |message| @mock_logger.warn(message) }) do
-    yield
-  end
-  @mock_logger.verify
-end
-
 # Low-level deprecation handler. Use the more convenient version when possible.
 # a_group => :expect_warn
 # a_group => :expect_fail
