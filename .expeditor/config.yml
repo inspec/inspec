@@ -8,6 +8,8 @@ rubygems:
  - inspec-core
  - inspec-bin:
      gemspec_path: ./inspec-bin/
+ - inspec-core-bin:
+     gemspec_path: ./inspec-bin/
 
 docker_images:
   - inspec:
