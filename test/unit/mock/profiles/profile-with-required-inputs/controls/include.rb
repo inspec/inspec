@@ -1,4 +1,4 @@
-cis_level = attribute('cis_level')
+cis_level = input('cis_level')
 
 control 'control1' do
   title 'title'

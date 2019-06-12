@@ -5,7 +5,7 @@ fixtures = {}
   'sqs_for_sub_03_arn',
   'aws_account_id',
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
     fixture_name,
     default: "default.#{fixture_name}",
     description: 'See ../build/sns.tf',

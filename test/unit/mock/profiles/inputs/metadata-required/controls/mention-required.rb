@@ -1,1 +1,1 @@
-attribute('a_required_input')
+input('a_required_input')

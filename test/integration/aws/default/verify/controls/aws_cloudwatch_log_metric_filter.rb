@@ -7,7 +7,7 @@ fixtures = {}
 'log_metric_filter_2_log_group_name',
 'log_metric_filter_2_pattern',
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
   fixture_name,
   default: "default.#{fixture_name}",
   description: 'See ../build/cloudwatch.tf',

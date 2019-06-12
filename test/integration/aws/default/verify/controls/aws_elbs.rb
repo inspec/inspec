@@ -13,7 +13,7 @@ fixtures = {}
   'elb_security_group_to_lb_id',
   'elb_vpc_id',
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
     fixture_name,
     default: "default.#{fixture_name}",
     description: 'See ../build/ec2.tf',

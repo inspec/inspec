@@ -14,7 +14,7 @@ fixtures = {}
   'iam_policy_user_attached_0i_2a_2_arn',
   'iam_policy_user_attached_0i_2a_2_name',
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
     fixture_name,
     default: "default.#{fixture_name}",
     description: 'See ../build/iam.tf',
