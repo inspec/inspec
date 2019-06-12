@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.5.4 -->
-## [v4.5.4](https://github.com/inspec/inspec/tree/v4.5.4) (2019-06-12)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Disable rubocop on Code Climate. [#4195](https://github.com/inspec/inspec/pull/4195) ([miah](https://github.com/miah))
+- Create Inputs documentation page [#4185](https://github.com/inspec/inspec/pull/4185) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -25,6 +25,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Create Inputs documentation page [#4185](https://github.com/inspec/inspec/pull/4185) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.5.4 -->
 - Disable rubocop on Code Climate. [#4195](https://github.com/inspec/inspec/pull/4195) ([miah](https://github.com/miah)) <!-- 4.5.4 -->
 - Speed up inspec [#4193](https://github.com/inspec/inspec/pull/4193) ([zenspider](https://github.com/zenspider)) <!-- 4.5.3 -->
 - Apply chefstyle to codebase [#4194](https://github.com/inspec/inspec/pull/4194) ([zenspider](https://github.com/zenspider)) <!-- 4.5.2 -->
