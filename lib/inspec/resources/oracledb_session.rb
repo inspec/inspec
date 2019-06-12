@@ -1,19 +1,19 @@
-require 'inspec/resources/command'
-require 'hashie/mash'
-require 'inspec/utils/database_helpers'
-require 'htmlentities'
-require 'rexml/document'
-require 'csv'
+require "inspec/resources/command"
+require "hashie/mash"
+require "inspec/utils/database_helpers"
+require "htmlentities"
+require "rexml/document"
+require "csv"
 
 module Inspec::Resources
   # STABILITY: Experimental
   # This resource needs further testing and refinement
   #
   class OracledbSession < Inspec.resource(1)
-    name 'oracledb_session'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the oracledb_session InSpec resource to test commands against an Oracle database'
+    name "oracledb_session"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the oracledb_session InSpec resource to test commands against an Oracle database"
     example <<~EXAMPLE
       sql = oracledb_session(user: 'my_user', pass: 'password')
       describe sql.query(\"SELECT UPPER(VALUE) AS VALUE FROM V$PARAMETER WHERE UPPER(NAME)='AUDIT_SYS_OPERATIONS'\").row(0).column('value') do
@@ -27,11 +27,11 @@ module Inspec::Resources
       @user = opts[:user]
       @password = opts[:password] || opts[:pass]
       if opts[:pass]
-        Inspec.deprecate(:oracledb_session_pass_option, 'The oracledb_session `pass` option is deprecated. Please use `password`.')
+        Inspec.deprecate(:oracledb_session_pass_option, "The oracledb_session `pass` option is deprecated. Please use `password`.")
       end
 
-      @host = opts[:host] || 'localhost'
-      @port = opts[:port] || '1521'
+      @host = opts[:host] || "localhost"
+      @port = opts[:port] || "1521"
       @service = opts[:service]
 
       # connection as sysdba stuff
@@ -40,21 +40,21 @@ module Inspec::Resources
       @db_role = opts[:as_db_role]
 
       # we prefer sqlci although it is way slower than sqlplus, but it understands csv properly
-      @sqlcl_bin = 'sql' unless opts.key?(:sqlplus_bin) # don't use it if user specified sqlplus_bin option
-      @sqlplus_bin = opts[:sqlplus_bin] || 'sqlplus'
+      @sqlcl_bin = "sql" unless opts.key?(:sqlplus_bin) # don't use it if user specified sqlplus_bin option
+      @sqlplus_bin = opts[:sqlplus_bin] || "sqlplus"
 
       return fail_resource "Can't run Oracle checks without authentication" if @su_user.nil? && (@user.nil? || @password.nil?)
-      return fail_resource 'You must provide a service name for the session' if @service.nil?
+      return fail_resource "You must provide a service name for the session" if @service.nil?
     end
 
     def query(q)
       escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"')
       # escape tables with $
-      escaped_query = escaped_query.gsub('$', '\\$')
+      escaped_query = escaped_query.gsub("$", '\\$')
 
       p = nil
       # use sqlplus if sqlcl is not available
-      if @sqlcl_bin and inspec.command(@sqlcl_bin).exist?
+      if @sqlcl_bin && inspec.command(@sqlcl_bin).exist?
         bin = @sqlcl_bin
         opts = "set sqlformat csv\nSET FEEDBACK OFF"
         p = :parse_csv_result
@@ -65,7 +65,7 @@ module Inspec::Resources
       end
 
       query = verify_query(escaped_query)
-      query += ';' unless query.end_with?(';')
+      query += ";" unless query.end_with?(";")
       if @db_role.nil?
         command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
       elsif @su_user.nil?
@@ -86,14 +86,14 @@ module Inspec::Resources
     end
 
     def to_s
-      'Oracle Session'
+      "Oracle Session"
     end
 
     private
 
     def verify_query(query)
       # ensure we have a ; at the end
-      query + ';' if !query.strip.end_with?(';')
+      query + ";" if !query.strip.end_with?(";")
       query
     end
 
@@ -104,44 +104,44 @@ module Inspec::Resources
       # convert to hash
       headers = table.headers
 
-      results = table.map { |row|
+      results = table.map do |row|
         res = {}
-        headers.each { |header|
+        headers.each do |header|
           res[header.downcase] = row[header]
-        }
+        end
         Hashie::Mash.new(res)
-      }
+      end
       results
     end
 
     def parse_html_result(stdout) # rubocop:disable Metrics/AbcSize
       result = stdout
       # make oracle html valid html by removing the p tag, it does not include a closing tag
-      result = result.gsub('<p>', '').gsub('</p>', '').gsub('<br>', '')
+      result = result.gsub("<p>", "").gsub("</p>", "").gsub("<br>", "")
       doc = REXML::Document.new result
-      table = doc.elements['table']
+      table = doc.elements["table"]
       hash = []
       if !table.nil?
         rows = table.elements.to_a
-        headers = rows[0].elements.to_a('th').map { |entry| entry.text.strip }
+        headers = rows[0].elements.to_a("th").map { |entry| entry.text.strip }
         rows.delete_at(0)
 
         # iterate over each row, first row is header
         hash = []
         if !rows.nil? && !rows.empty?
-          hash = rows.map { |row|
+          hash = rows.map do |row|
             res = {}
-            entries = row.elements.to_a('td')
+            entries = row.elements.to_a("td")
             # ignore if we have empty entries, oracle is adding th rows in between
             return nil if entries.empty?
-            headers.each_with_index { |header, index|
+            headers.each_with_index do |header, index|
               # we need htmlentities since we do not have nokogiri
               coder = HTMLEntities.new
               val = coder.decode(entries[index].text).strip
               res[header.downcase] = val
-            }
+            end
             Hashie::Mash.new(res)
-          }.compact
+          end.compact
         end
       end
       hash

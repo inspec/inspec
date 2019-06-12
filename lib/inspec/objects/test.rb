@@ -41,17 +41,17 @@ module Inspec
       return nil if @qualifier.empty?
 
       resource = @qualifier.length > 1 ? @qualifier[0..-2] : [@qualifier[0]]
-      res = resource.map { |q| ruby_qualifier(q) }.join('.')
+      res = resource.map { |q| ruby_qualifier(q) }.join(".")
       xres = nil
 
       if @qualifier.length > 1
         last = @qualifier[-1]
-        last_call = last.is_a?(Array) ? last[0].to_s : ''
-        if last.length == 1 && last_call !~ /^to_.$/ && !last_call.include?('[') && !last_call.empty?
+        last_call = last.is_a?(Array) ? last[0].to_s : ""
+        if last.length == 1 && last_call !~ /^to_.$/ && !last_call.include?("[") && !last_call.empty?
           # this will go in its()
           xres = last_call
         else
-          res += '.' + ruby_qualifier(last) unless last_call.empty?
+          res += "." + ruby_qualifier(last) unless last_call.empty?
         end
       end
 
@@ -63,15 +63,15 @@ module Inspec
       vars = variables.map(&:to_ruby).join("\n")
       vars += "\n" unless vars.empty?
       res, xtra = describe_chain
-      itsy = xtra.nil? ? 'it' : 'its(' + xtra.to_s.inspect + ')'
-      naughty = @negated ? '_not' : ''
+      itsy = xtra.nil? ? "it" : "its(" + xtra.to_s.inspect + ")"
+      naughty = @negated ? "_not" : ""
       xpect = if !defined?(@expectation)
-                ''
+                ""
               elsif @expectation.class == Regexp
                 # without this, xpect values like / \/zones\// will not be parsed properly
                 "(#{@expectation.inspect})"
-              elsif xpect != ''
-                ' ' + expectation.inspect
+              elsif xpect != ""
+                " " + expectation.inspect
               end
       format("%s%sdescribe %s do\n  %s { should%s %s%s }\nend",
              only_if_clause, vars, res, itsy, naughty, matcher, xpect)

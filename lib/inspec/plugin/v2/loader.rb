@@ -1,11 +1,11 @@
-require 'inspec/log'
-require 'inspec/plugin/v2/config_file'
+require "inspec/log"
+require "inspec/plugin/v2/config_file"
 
 # Add the current directory of the process to the load path
-$LOAD_PATH.unshift('.') unless $LOAD_PATH.include?('.')
+$LOAD_PATH.unshift(".") unless $LOAD_PATH.include?(".")
 # Add the InSpec source root directory to the load path
-folder = File.expand_path(File.join('..', '..', '..', '..'), __dir__)
-$LOAD_PATH.unshift(folder) unless $LOAD_PATH.include?('folder')
+folder = File.expand_path(File.join("..", "..", "..", ".."), __dir__)
+$LOAD_PATH.unshift(folder) unless $LOAD_PATH.include?("folder")
 
 module Inspec::Plugin::V2
   class Loader
@@ -51,7 +51,7 @@ module Inspec::Plugin::V2
             require plugin_details.entry_point
           else
             load_path = plugin_details.entry_point
-            load_path += '.rb' unless plugin_details.entry_point.end_with?('.rb')
+            load_path += ".rb" unless plugin_details.entry_point.end_with?(".rb")
             load load_path
           end
           plugin_details.loaded = true
@@ -67,16 +67,16 @@ module Inspec::Plugin::V2
     # This should possibly be in either lib/inspec/cli.rb or Registry
     def exit_on_load_error
       if registry.any_load_failures?
-        Inspec::Log.error 'Errors were encountered while loading plugins...'
+        Inspec::Log.error "Errors were encountered while loading plugins..."
         registry.plugin_statuses.select(&:load_exception).each do |plugin_status|
-          Inspec::Log.error 'Plugin name: ' + plugin_status.name.to_s
-          Inspec::Log.error 'Error: ' + plugin_status.load_exception.message
-          if ARGV.include?('--debug')
-            Inspec::Log.error 'Exception: ' + plugin_status.load_exception.class.name
-            Inspec::Log.error 'Trace: ' + plugin_status.load_exception.backtrace.join("\n")
+          Inspec::Log.error "Plugin name: " + plugin_status.name.to_s
+          Inspec::Log.error "Error: " + plugin_status.load_exception.message
+          if ARGV.include?("--debug")
+            Inspec::Log.error "Exception: " + plugin_status.load_exception.class.name
+            Inspec::Log.error "Trace: " + plugin_status.load_exception.backtrace.join("\n")
           end
         end
-        Inspec::Log.error('Run again with --debug for a stacktrace.') unless ARGV.include?('--debug')
+        Inspec::Log.error("Run again with --debug for a stacktrace.") unless ARGV.include?("--debug")
         exit 2
       end
     end
@@ -93,7 +93,7 @@ module Inspec::Plugin::V2
 
         # If the user invoked `inspec help`, `inspec --help`, or only `inspec`
         # then activate all CLI plugins so they can display their usage message.
-        activate_me ||= ['help', '--help', nil].include?(cli_args.first)
+        activate_me ||= ["help", "--help", nil].include?(cli_args.first)
 
         # If there is anything in the CLI args with the same name, activate it.
         # This is the expected usual activation for individual plugins.
@@ -113,16 +113,16 @@ module Inspec::Plugin::V2
     end
 
     def self.plugin_gem_path
-      require 'rbconfig'
-      ruby_abi_version = RbConfig::CONFIG['ruby_version']
+      require "rbconfig"
+      ruby_abi_version = RbConfig::CONFIG["ruby_version"]
       # TODO: why are we installing under the api directory for plugins?
-      File.join(Inspec.config_dir, 'gems', ruby_abi_version)
+      File.join(Inspec.config_dir, "gems", ruby_abi_version)
     end
 
     # Lists all gems found in the plugin_gem_path.
     # @return [Array[Gem::Specification]] Specs of all gems found.
     def self.list_managed_gems
-      Dir.glob(File.join(plugin_gem_path, 'specifications', '*.gemspec')).map { |p| Gem::Specification.load(p) }
+      Dir.glob(File.join(plugin_gem_path, "specifications", "*.gemspec")).map { |p| Gem::Specification.load(p) }
     end
 
     def list_managed_gems
@@ -145,7 +145,7 @@ module Inspec::Plugin::V2
     # 'Activating' a gem adds it to the load path, so 'require "gemname"' will work.
     # Given a gem name, this activates the gem and all of its dependencies, respecting
     # version pinning needs.
-    def activate_managed_gems_for_plugin(plugin_gem_name, version_constraint = '> 0')
+    def activate_managed_gems_for_plugin(plugin_gem_name, version_constraint = "> 0")
       # TODO: enforce first-level version pinning
       plugin_deps = [Gem::Dependency.new(plugin_gem_name.to_s, version_constraint)]
       managed_gem_set = Gem::Resolver::VendorSet.new
@@ -197,18 +197,18 @@ module Inspec::Plugin::V2
       act.activator_name = :default
       status.activators = [act]
 
-      v0_subcommand_name = plugin_name.to_s.gsub('inspec-', '')
+      v0_subcommand_name = plugin_name.to_s.gsub("inspec-", "")
       status.plugin_class = Inspec::Plugins::CLI.subcommands[v0_subcommand_name][:klass]
     end
 
     def detect_bundled_plugins
-      bundle_dir = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'bundles'))
+      bundle_dir = File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "..", "bundles"))
       globs = [
-        File.join(bundle_dir, 'inspec-*.rb'),
-        File.join(bundle_dir, 'train-*.rb'),
+        File.join(bundle_dir, "inspec-*.rb"),
+        File.join(bundle_dir, "train-*.rb"),
       ]
       Dir.glob(globs).each do |loader_file|
-        name = File.basename(loader_file, '.rb').to_sym
+        name = File.basename(loader_file, ".rb").to_sym
         status = Inspec::Plugin::V2::Status.new
         status.name = name
         status.entry_point = loader_file
@@ -219,13 +219,13 @@ module Inspec::Plugin::V2
     end
 
     def detect_core_plugins
-      core_plugins_dir = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'plugins'))
+      core_plugins_dir = File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "..", "plugins"))
       # These are expected to be organized as proper separate projects,
       # with lib/ dirs, etc.
-      Dir.glob(File.join(core_plugins_dir, 'inspec-*')).each do |plugin_dir|
+      Dir.glob(File.join(core_plugins_dir, "inspec-*")).each do |plugin_dir|
         status = Inspec::Plugin::V2::Status.new
         status.name = File.basename(plugin_dir).to_sym
-        status.entry_point = File.join(plugin_dir, 'lib', status.name.to_s + '.rb')
+        status.entry_point = File.join(plugin_dir, "lib", status.name.to_s + ".rb")
         status.installation_type = :core
         status.loaded = false
         registry[status.name.to_sym] = status

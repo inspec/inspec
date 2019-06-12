@@ -1,16 +1,16 @@
-require 'resource_support/aws/aws_plural_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-iam'
+require "resource_support/aws/aws_plural_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-iam"
 
 class AwsIamAccessKeys < Inspec.resource(1)
-  name 'aws_iam_access_keys'
-  desc 'Verifies settings for AWS IAM Access Keys in bulk'
+  name "aws_iam_access_keys"
+  desc "Verifies settings for AWS IAM Access Keys in bulk"
   example <<~EXAMPLE
     describe aws_iam_access_keys do
       it { should_not exist }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsPluralResourceMixin
 
@@ -19,15 +19,15 @@ class AwsIamAccessKeys < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:username, :id, :access_key_id, :created_date],
       allowed_scalar_name: :access_key_id,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
 
     # id and access_key_id are aliases; standardize on access_key_id
     recognized_params[:access_key_id] = recognized_params.delete(:id) if recognized_params.key?(:id)
-    if recognized_params[:access_key_id] and
-       recognized_params[:access_key_id] !~ /^AKIA[0-9A-Z]{16}$/
-      raise 'Incorrect format for Access Key ID - expected AKIA followed ' \
-            'by 16 letters or numbers'
+    if recognized_params[:access_key_id] &&
+        recognized_params[:access_key_id] !~ (/^AKIA[0-9A-Z]{16}$/)
+      raise "Incorrect format for Access Key ID - expected AKIA followed " \
+            "by 16 letters or numbers"
     end
 
     recognized_params
@@ -60,7 +60,7 @@ class AwsIamAccessKeys < Inspec.resource(1)
   filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
-    'IAM Access Keys'
+    "IAM Access Keys"
   end
 
   # Internal support class.  This is used to fetch
@@ -127,12 +127,12 @@ class AwsIamAccessKeys < Inspec.resource(1)
 
       def add_synthetic_fields(key_info, user_details) # rubocop:disable Metrics/AbcSize
         key_info[:id] = key_info[:access_key_id]
-        key_info[:active] = key_info[:status] == 'Active'
-        key_info[:inactive] = key_info[:status] != 'Active'
-        key_info[:created_hours_ago] = ((Time.now - key_info[:create_date]) / (60*60)).to_i
+        key_info[:active] = key_info[:status] == "Active"
+        key_info[:inactive] = key_info[:status] != "Active"
+        key_info[:created_hours_ago] = ((Time.now - key_info[:create_date]) / (60 * 60)).to_i
         key_info[:created_days_ago] = (key_info[:created_hours_ago] / 24).to_i
         key_info[:user_created_date] = user_details[:create_date]
-        key_info[:created_with_user] = (key_info[:create_date] - key_info[:user_created_date]).abs < 1.0/24.0
+        key_info[:created_with_user] = (key_info[:create_date] - key_info[:user_created_date]).abs < 1.0 / 24.0
 
         # Last used is a separate API call
         iam_client = aws_service_client
@@ -143,8 +143,8 @@ class AwsIamAccessKeys < Inspec.resource(1)
         key_info[:never_used] = last_used.nil?
         key_info[:last_used_time] = last_used
         return unless last_used
-        key_info[:last_used_hours_ago] = ((Time.now - last_used) / (60*60)).to_i
-        key_info[:last_used_days_ago] = (key_info[:last_used_hours_ago]/24).to_i
+        key_info[:last_used_hours_ago] = ((Time.now - last_used) / (60 * 60)).to_i
+        key_info[:last_used_days_ago] = (key_info[:last_used_hours_ago] / 24).to_i
       end
     end
   end

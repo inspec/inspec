@@ -1,11 +1,11 @@
-require 'inspec/resources/json'
+require "inspec/resources/json"
 
 module Inspec::Resources
   class XmlConfig < JsonConfig
-    name 'xml'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the xml InSpec resource to test configuration data in an XML file'
+    name "xml"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the xml InSpec resource to test configuration data in an XML file"
     example <<~EXAMPLE
       describe xml('default.xml') do
         its('key/sub_key') { should eq(['value']) }
@@ -14,7 +14,7 @@ module Inspec::Resources
     EXAMPLE
 
     def parse(content)
-      require 'rexml/document'
+      require "rexml/document"
       REXML::Document.new(content)
     rescue => e
       raise Inspec::Exceptions::ResourceFailed, "Unable to parse XML: #{e.message}"
@@ -42,7 +42,7 @@ module Inspec::Resources
     # used by JsonConfig to build up a full to_s method
     # based on whether a file path, content, or command was supplied.
     def resource_base_name
-      'XML'
+      "XML"
     end
   end
 end

@@ -3,9 +3,9 @@
 # Note: this is only supported in windows 2012 and later
 module Inspec::Resources
   class IisApp < Inspec.resource(1)
-    name 'iis_app'
-    supports platform: 'windows'
-    desc 'Tests IIS application configuration on windows. Supported in server 2012+ only'
+    name "iis_app"
+    supports platform: "windows"
+    desc "Tests IIS application configuration on windows. Supported in server 2012+ only"
     example <<~EXAMPLE
       describe iis_app('/myapp', 'Default Web Site') do
         it { should exist }
@@ -89,9 +89,9 @@ module Inspec::Resources
       info = {
         site_name: @site_name,
         path: @path,
-        application_pool: app['applicationPool'],
-        physical_path: app['PhysicalPath'],
-        protocols: app['enabledProtocols'],
+        application_pool: app["applicationPool"],
+        physical_path: app["PhysicalPath"],
+        protocols: app["enabledProtocols"],
       }
 
       @cache = info unless info.nil?

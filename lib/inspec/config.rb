@@ -1,12 +1,12 @@
 # Represents InSpec configuration.  Merges defaults, config file options,
 # and CLI arguments.
 
-require 'pp'
-require 'stringio'
-require 'forwardable'
-require 'thor'
-require 'base64'
-require 'inspec/base_cli'
+require "pp"
+require "stringio"
+require "forwardable"
+require "thor"
+require "base64"
+require "inspec/base_cli"
 
 module Inspec
   class Config
@@ -31,7 +31,7 @@ module Inspec
 
     # This makes it easy to make a config with a mock backend.
     def self.mock(opts = {})
-      Inspec::Config.new({ backend: :mock }.merge(opts), StringIO.new('{}'))
+      Inspec::Config.new({ backend: :mock }.merge(opts), StringIO.new("{}"))
     end
 
     # Use this to get a cached version of the config.  This prevents you from
@@ -62,11 +62,11 @@ module Inspec
       return unless self[:diagnose]
       puts "InSpec version: #{Inspec::VERSION}"
       puts "Train version: #{Train::VERSION}"
-      puts 'Command line configuration:'
+      puts "Command line configuration:"
       pp @cli_opts
-      puts 'JSON configuration file:'
+      puts "JSON configuration file:"
       pp @cfg_file_contents
-      puts 'Merged configuration:'
+      puts "Merged configuration:"
       pp @merged_options
       puts
     end
@@ -74,7 +74,7 @@ module Inspec
     # return all telemetry options from config
     # @return [Hash]
     def telemetry_options
-      final_options.select { |key, _| key.include?('telemetry') }
+      final_options.select { |key, _| key.include?("telemetry") }
     end
 
     #-----------------------------------------------------------------------#
@@ -131,7 +131,7 @@ module Inspec
       credentials.merge!(unprefixed_transport_options)
 
       # If there are any prefixed options, merge them in, stripping the prefix.
-      transport_prefix = transport_name.downcase.tr('-', '_') + '_'
+      transport_prefix = transport_name.downcase.tr("-", "_") + "_"
       transport_options.each do |bare_option_name|
         prefixed_option_name = transport_prefix + bare_option_name.to_s
         if final_options.key?(prefixed_option_name)
@@ -150,7 +150,7 @@ module Inspec
 
       # Default to local
       unless @final_options.key?(:target)
-        credentials[:backend] = 'local'
+        credentials[:backend] = "local"
         return
       end
 
@@ -167,7 +167,7 @@ module Inspec
       credset_name = _utc_find_credset_name(credentials, transport_name)
 
       if credset_name
-        credset = @cfg_file_contents.dig('credentials', transport_name, credset_name)
+        credset = @cfg_file_contents.dig("credentials", transport_name, credset_name)
         if credset
           credentials.merge!(credset)
         else
@@ -195,7 +195,7 @@ module Inspec
 
     # Regardless of our situation, end up with a readable IO object
     def resolve_cfg_io(cli_opts, cfg_io)
-      raise(ArgumentError, 'Inspec::Config must use an IO to read from') if cfg_io && !cfg_io.respond_to?(:read)
+      raise(ArgumentError, "Inspec::Config must use an IO to read from") if cfg_io && !cfg_io.respond_to?(:read)
       cfg_io ||= check_for_piped_config(cli_opts)
       return cfg_io if cfg_io
 
@@ -210,10 +210,10 @@ module Inspec
       Inspec.deprecate(:cli_option_json_config) if cli_opts.key?(:json_config)
 
       return nil unless cli_opt
-      return nil unless cli_opt == '-'
+      return nil unless cli_opt == "-"
       # This warning is here so that if a user invokes inspec with --config=-,
       # they will have an explanation for why it appears to hang.
-      Inspec::Log.warn 'Reading JSON config from standard input' if STDIN.tty?
+      Inspec::Log.warn "Reading JSON config from standard input" if STDIN.tty?
       STDIN
     end
 
@@ -222,7 +222,7 @@ module Inspec
       Inspec.deprecate(:cli_option_json_config) if cli_opts.key?(:json_config)
 
       if path.nil?
-        default_path = File.join(Inspec.config_dir, 'config.json')
+        default_path = File.join(Inspec.config_dir, "config.json")
         path = default_path if File.exist?(default_path)
       elsif !File.exist?(path)
         raise ArgumentError, "Could not read configuration file at #{path}"
@@ -249,7 +249,7 @@ module Inspec
     end
 
     def file_version
-      @cfg_file_contents['version'] || :legacy
+      @cfg_file_contents["version"] || :legacy
     end
 
     def legacy_file?
@@ -261,26 +261,26 @@ module Inspec
         # Assume everything in the file is a CLI option
         @cfg_file_contents
       else
-        @cfg_file_contents['cli_options'] || {}
+        @cfg_file_contents["cli_options"] || {}
       end
     end
 
     def config_file_reporter_options
       # This is assumed to be top-level in both legacy and 1.1.
       # Technically, you could sneak it in the 1.1 cli opts area.
-      @cfg_file_contents.key?('reporter') ? { 'reporter' => @cfg_file_contents['reporter'] } : {}
+      @cfg_file_contents.key?("reporter") ? { "reporter" => @cfg_file_contents["reporter"] } : {}
     end
 
     #-----------------------------------------------------------------------#
     #                            Validation
     #-----------------------------------------------------------------------#
     def validate_config_file_contents!
-      version = @cfg_file_contents['version']
+      version = @cfg_file_contents["version"]
 
       # Assume legacy format, which is unconstrained
       return unless version
 
-      unless version == '1.1'
+      unless version == "1.1"
         raise Inspec::ConfigError::Invalid, "Unsupported config file version '#{version}' - currently supported versions: 1.1"
       end
 
@@ -296,23 +296,23 @@ module Inspec
       return if reporters.nil?
       # TODO: move this into a reporter plugin type system
       valid_types = [
-        'automate',
-        'cli',
-        'documentation',
-        'html',
-        'json',
-        'json-automate',
-        'json-min',
-        'json-rspec',
-        'junit',
-        'progress',
-        'yaml',
+        "automate",
+        "cli",
+        "documentation",
+        "html",
+        "json",
+        "json-automate",
+        "json-min",
+        "json-rspec",
+        "junit",
+        "progress",
+        "yaml",
       ]
 
       reporters.each do |reporter_name, reporter_config|
         raise NotImplementedError, "'#{reporter_name}' is not a valid reporter type." unless valid_types.include?(reporter_name)
 
-        next unless reporter_name == 'automate'
+        next unless reporter_name == "automate"
         %w{token url}.each do |option|
           raise Inspec::ReporterError, "You must specify a automate #{option} via the config file." if reporter_config[option].nil?
         end
@@ -321,10 +321,10 @@ module Inspec
       # check to make sure we are only reporting one type to stdout
       stdout_reporters = 0
       reporters.each_value do |reporter_config|
-        stdout_reporters += 1 if reporter_config['stdout'] == true
+        stdout_reporters += 1 if reporter_config["stdout"] == true
       end
 
-      raise ArgumentError, 'The option --reporter can only have a single report outputting to stdout.' if stdout_reporters > 1
+      raise ArgumentError, "The option --reporter can only have a single report outputting to stdout." if stdout_reporters > 1
     end
 
     #-----------------------------------------------------------------------#
@@ -368,36 +368,36 @@ module Inspec
 
     def finalize_parse_reporters(options) # rubocop:disable Metrics/AbcSize
       # default to cli report for ad-hoc runners
-      options['reporter'] = ['cli'] if options['reporter'].nil?
+      options["reporter"] = ["cli"] if options["reporter"].nil?
 
       # parse out cli to proper report format
-      if options['reporter'].is_a?(Array)
+      if options["reporter"].is_a?(Array)
         reports = {}
-        options['reporter'].each do |report|
-          reporter_name, destination = report.split(':', 2)
-          if destination.nil? || destination.strip == '-'
-            reports[reporter_name] = { 'stdout' => true }
+        options["reporter"].each do |report|
+          reporter_name, destination = report.split(":", 2)
+          if destination.nil? || destination.strip == "-"
+            reports[reporter_name] = { "stdout" => true }
           else
             reports[reporter_name] = {
-              'file' => destination,
-              'stdout' => false,
+              "file" => destination,
+              "stdout" => false,
             }
-            reports[reporter_name]['target_id'] = options['target_id'] if options['target_id']
+            reports[reporter_name]["target_id"] = options["target_id"] if options["target_id"]
           end
         end
-        options['reporter'] = reports
+        options["reporter"] = reports
       end
 
       # add in stdout if not specified
-      if options['reporter'].is_a?(Hash)
-        options['reporter'].each do |reporter_name, config|
-          options['reporter'][reporter_name] = {} if config.nil?
-          options['reporter'][reporter_name]['stdout'] = true if options['reporter'][reporter_name].empty?
-          options['reporter'][reporter_name]['target_id'] = options['target_id'] if options['target_id']
+      if options["reporter"].is_a?(Hash)
+        options["reporter"].each do |reporter_name, config|
+          options["reporter"][reporter_name] = {} if config.nil?
+          options["reporter"][reporter_name]["stdout"] = true if options["reporter"][reporter_name].empty?
+          options["reporter"][reporter_name]["target_id"] = options["target_id"] if options["target_id"]
         end
       end
 
-      validate_reporters!(options['reporter'])
+      validate_reporters!(options["reporter"])
       options
     end
 
@@ -408,38 +408,38 @@ module Inspec
       # whenever it is used, it requires a value. Handle options that were
       # defined in such a way and require a value here:
       %w{password sudo-password}.each do |option_name|
-        snake_case_option_name = option_name.tr('-', '_').to_s
+        snake_case_option_name = option_name.tr("-", "_").to_s
         next unless options[snake_case_option_name] == -1 # Thor sets -1 for missing value - see #1918
         raise ArgumentError, "Please provide a value for --#{option_name}. For example: --#{option_name}=hello."
       end
 
       # Infer `--sudo` if using `--sudo-password` without `--sudo`
-      if options['sudo_password'] && !options['sudo']
-        options['sudo'] = true
-        Inspec::Log.warn '`--sudo-password` used without `--sudo`. Adding `--sudo`.'
+      if options["sudo_password"] && !options["sudo"]
+        options["sudo"] = true
+        Inspec::Log.warn "`--sudo-password` used without `--sudo`. Adding `--sudo`."
       end
     end
 
     def finalize_compliance_login(options)
       # check for compliance settings
       # This is always a hash, comes from config file, not CLI opts
-      if options.key?('compliance')
-        require 'plugins/inspec-compliance/lib/inspec-compliance/api'
-        InspecPlugins::Compliance::API.login(options['compliance'])
+      if options.key?("compliance")
+        require "plugins/inspec-compliance/lib/inspec-compliance/api"
+        InspecPlugins::Compliance::API.login(options["compliance"])
       end
     end
 
     class Defaults
       DEFAULTS = {
         exec: {
-          'reporter' => ['cli'],
-          'show_progress' => false,
-          'color' => true,
-          'create_lockfile' => true,
-          'backend_cache' => true,
+          "reporter" => ["cli"],
+          "show_progress" => false,
+          "color" => true,
+          "create_lockfile" => true,
+          "backend_cache" => true,
         },
         shell: {
-          'reporter' => ['cli'],
+          "reporter" => ["cli"],
         },
       }.freeze
 

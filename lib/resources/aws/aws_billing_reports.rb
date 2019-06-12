@@ -1,12 +1,12 @@
-require 'inspec/utils/filter'
-require 'resource_support/aws/aws_plural_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-costandusagereportservice'
+require "inspec/utils/filter"
+require "resource_support/aws/aws_plural_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-costandusagereportservice"
 
 class AwsBillingReports < Inspec.resource(1)
-  name 'aws_billing_reports'
-  supports platform: 'aws'
-  desc 'Verifies settings for AWS Cost and Billing Reports.'
+  name "aws_billing_reports"
+  supports platform: "aws"
+  desc "Verifies settings for AWS Cost and Billing Reports."
   example <<~EXAMPLE
     describe aws_billing_reports do
       its('report_names') { should include 'inspec1' }
@@ -35,13 +35,13 @@ class AwsBillingReports < Inspec.resource(1)
 
   def validate_params(resource_params)
     unless resource_params.empty?
-      raise ArgumentError, 'aws_billing_reports does not accept resource parameters.'
+      raise ArgumentError, "aws_billing_reports does not accept resource parameters."
     end
     resource_params
   end
 
   def to_s
-    'AWS Billing Reports'
+    "AWS Billing Reports"
   end
 
   def fetch_from_api
@@ -52,7 +52,7 @@ class AwsBillingReports < Inspec.resource(1)
       api_result = backend.describe_report_definitions(pagination_opts)
       api_result.report_definitions.each do |raw_report|
         report = raw_report.to_h
-        %i(time_unit compression).each { |field| report[field].downcase! }
+        %i{time_unit compression}.each { |field| report[field].downcase! }
         @table << report
       end
       pagination_opts = { next_token: api_result.next_token }

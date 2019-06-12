@@ -1,5 +1,5 @@
-require 'rspec/core'
-require 'rspec/core/formatters/base_formatter'
+require "rspec/core"
+require "rspec/core/formatters/base_formatter"
 
 module Inspec::Formatters
   class Base < RSpec::Core::Formatters::BaseFormatter
@@ -43,7 +43,7 @@ module Inspec::Formatters
           next unless e
 
           if example.metadata[:sensitive]
-            hash[:message] = '*** sensitive output suppressed ***'
+            hash[:message] = "*** sensitive output suppressed ***"
           else
             hash[:message] = exception_message(e)
           end
@@ -101,9 +101,9 @@ module Inspec::Formatters
 
       all_unique_controls.each do |control|
         next unless control[:results]
-        if control[:results].any? { |r| r[:status] == 'failed' }
+        if control[:results].any? { |r| r[:status] == "failed" }
           failed += 1
-        elsif control[:results].any? { |r| r[:status] == 'skipped' }
+        elsif control[:results].any? { |r| r[:status] == "skipped" }
           skipped += 1
         else
           passed += 1
@@ -162,8 +162,8 @@ module Inspec::Formatters
         res[:profile_id] = pid
       end
 
-      if res[:status] == 'pending'
-        res[:status] = 'skipped'
+      if res[:status] == "pending"
+        res[:status] = "skipped"
         res[:skip_message] = example.metadata[:description]
         res[:resource] = example.metadata[:described_class].to_s
       end
@@ -173,7 +173,7 @@ module Inspec::Formatters
 
     def format_expectation_message(example)
       if (example.metadata[:example_group][:description_args].first == example.metadata[:example_group][:described_class]) ||
-         example.metadata[:example_group][:described_class].nil?
+          example.metadata[:example_group][:described_class].nil?
         example.metadata[:description]
       else
         "#{example.metadata[:example_group][:description]} #{example.metadata[:description]}"

@@ -1,7 +1,7 @@
 module Inspec::Resources
   class PlatformResource < Inspec.resource(1)
-    name 'platform'
-    desc 'Use the platform InSpec resource to test the platform on which the system is running.'
+    name "platform"
+    desc "Use the platform InSpec resource to test the platform on which the system is running."
     example <<~EXAMPLE
       describe platform do
         its('name') { should eq 'redhat' }
@@ -56,7 +56,7 @@ module Inspec::Resources
       }
 
       # Avoid adding Arch for APIs (not applicable)
-      unless in_family?('api')
+      unless in_family?("api")
         h[:arch] = arch
       end
 
@@ -69,11 +69,11 @@ module Inspec::Resources
       status = true
       supports.each do |s|
         s.each do |k, v|
-          if %i(os_family os-family platform_family platform-family).include?(k)
+          if %i{os_family os-family platform_family platform-family}.include?(k)
             status = in_family?(v)
-          elsif %i(os platform).include?(k)
+          elsif %i{os platform}.include?(k)
             status = platform?(v)
-          elsif %i(os_name os-name platform_name platform-name).include?(k)
+          elsif %i{os_name os-name platform_name platform-name}.include?(k)
             status = name == v
           elsif k == :release
             status = check_release(v)
@@ -89,15 +89,15 @@ module Inspec::Resources
     end
 
     def to_s
-      'Platform Detection'
+      "Platform Detection"
     end
 
     private
 
     def check_release(value)
       # allow wild card matching
-      if value.include?('*')
-        cleaned = Regexp.escape(value).gsub('\*', '.*?')
+      if value.include?("*")
+        cleaned = Regexp.escape(value).gsub('\*', ".*?")
         !(release =~ /#{cleaned}/).nil?
       else
         release == value

@@ -2,9 +2,9 @@
 
 module Inspec::Resources
   class Postgres < Inspec.resource(1)
-    name 'postgres'
-    supports platform: 'unix'
-    desc 'The \'postgres\' resource is a helper for the \'postgres_conf\', \'postgres_hba_conf\', \'postgres_ident_conf\' & \'postgres_session\' resources.  Please use those instead.'
+    name "postgres"
+    supports platform: "unix"
+    desc "The 'postgres' resource is a helper for the 'postgres_conf', 'postgres_hba_conf', 'postgres_ident_conf' & 'postgres_session' resources.  Please use those instead."
 
     attr_reader :service, :data_dir, :conf_dir, :conf_path, :version, :cluster
     def initialize
@@ -16,15 +16,15 @@ module Inspec::Resources
       verify_dirs
 
       if !@version.to_s.empty? && !@conf_dir.to_s.empty?
-        @conf_path = File.join @conf_dir, 'postgresql.conf'
+        @conf_path = File.join @conf_dir, "postgresql.conf"
       else
         @conf_path = nil
-        return skip_resource 'Seems like PostgreSQL is not installed on your system'
+        return skip_resource "Seems like PostgreSQL is not installed on your system"
       end
     end
 
     def to_s
-      'PostgreSQL'
+      "PostgreSQL"
     end
 
     private
@@ -37,7 +37,7 @@ module Inspec::Resources
         # Debian allows multiple versions of postgresql to be
         # installed as well as multiple "clusters" to be configured.
         #
-        @version = version_from_psql || version_from_dir('/etc/postgresql')
+        @version = version_from_psql || version_from_dir("/etc/postgresql")
         if !@version.to_s.empty?
           @cluster = cluster_from_dir("/etc/postgresql/#{@version}")
           @conf_dir = "/etc/postgresql/#{@version}/#{@cluster}"
@@ -46,11 +46,11 @@ module Inspec::Resources
       else
         @version = version_from_psql
         if @version.to_s.empty?
-          if inspec.directory('/var/lib/pgsql/data').exist?
-            warn 'Unable to determine PostgreSQL version: psql did not return' \
-                 'a version number and unversioned data directories were found.'
+          if inspec.directory("/var/lib/pgsql/data").exist?
+            warn "Unable to determine PostgreSQL version: psql did not return" \
+                 "a version number and unversioned data directories were found."
           else
-            @version = version_from_dir('/var/lib/pgsql')
+            @version = version_from_dir("/var/lib/pgsql")
           end
         end
         @data_dir = locate_data_dir_location_by_version(@version)
@@ -59,7 +59,7 @@ module Inspec::Resources
     end
 
     def determine_service
-      @service = 'postgresql'
+      @service = "postgresql"
       if @version.to_i >= 10
         @service += "-#{@version.to_i}"
       elsif @version.to_f >= 9.4
@@ -68,17 +68,21 @@ module Inspec::Resources
     end
 
     def verify_dirs
-      warn "Default postgresql configuration directory: #{@conf_dir} does not exist. " \
-        "Postgresql may not be installed or we've misidentified the configuration " \
-        'directory.' unless inspec.directory(@conf_dir).exist?
+      unless inspec.directory(@conf_dir).exist?
+        warn "Default postgresql configuration directory: #{@conf_dir} does not exist. " \
+          "Postgresql may not be installed or we've misidentified the configuration " \
+          "directory."
+      end
 
-      warn "Default postgresql data directory: #{@data_dir} does not exist. " \
-        "Postgresql may not be installed or we've misidentified the data " \
-        'directory.' unless inspec.directory(@data_dir).exist?
+      unless inspec.directory(@data_dir).exist?
+        warn "Default postgresql data directory: #{@data_dir} does not exist. " \
+          "Postgresql may not be installed or we've misidentified the data " \
+          "directory."
+      end
     end
 
     def version_from_psql
-      return unless inspec.command('psql').exist?
+      return unless inspec.command("psql").exist?
       inspec.command("psql --version | awk '{ print $NF }' | awk -F. '{ print $1\".\"$2 }'").stdout.strip
     end
 
@@ -87,9 +91,9 @@ module Inspec::Resources
         "/var/lib/pgsql/#{ver}/data",
         # for 10, the versions are just stored in `10` although their version `10.7`
         "/var/lib/pgsql/#{ver.to_i}/data",
-        '/var/lib/pgsql/data',
-        '/var/lib/postgres/data',
-        '/var/lib/postgresql/data',
+        "/var/lib/pgsql/data",
+        "/var/lib/postgres/data",
+        "/var/lib/postgresql/data",
       ]
 
       data_dir_loc = dir_list.detect { |i| inspec.directory(i).exist? }
@@ -121,21 +125,21 @@ module Inspec::Resources
     end
 
     def dir_to_version(dir)
-      dir.chomp.split('/').last
+      dir.chomp.split("/").last
     end
 
     def cluster_from_dir(dir)
       # Main is the default cluster name on debian use it if it
       # exists.
       if inspec.directory("#{dir}/main").exist?
-        'main'
+        "main"
       else
         dirs = inspec.command("ls -d #{dir}/*/").stdout.lines
         if dirs.empty?
           warn "No postgresql clusters configured or incorrect base dir #{dir}"
           return nil
         end
-        first = dirs.first.chomp.split('/').last
+        first = dirs.first.chomp.split("/").last
         if dirs.count > 1
           warn "Multiple postgresql clusters configured or incorrect base dir #{dir}"
           warn "Using the first directory found: #{first}"

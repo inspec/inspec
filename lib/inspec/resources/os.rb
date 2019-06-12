@@ -1,11 +1,11 @@
-require 'inspec/resources/platform'
+require "inspec/resources/platform"
 
 module Inspec::Resources
   class OSResource < PlatformResource
-    name 'os'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the os InSpec audit resource to test the platform on which the system is running.'
+    name "os"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the os InSpec audit resource to test the platform on which the system is running."
     example <<~EXAMPLE
       describe os[:family] do
         it { should eq 'redhat' }
@@ -28,7 +28,7 @@ module Inspec::Resources
     end
 
     def to_s
-      'Operating System Detection'
+      "Operating System Detection"
     end
   end
 end

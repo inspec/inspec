@@ -1,5 +1,5 @@
-source 'https://supermarket.chef.io'
+source "https://supermarket.chef.io"
 
 group :integration do
-  cookbook 'inspec_habitat_fixture', path: 'test/cookbooks/inspec_habitat_fixture/'
+  cookbook "inspec_habitat_fixture", path: "test/cookbooks/inspec_habitat_fixture/"
 end

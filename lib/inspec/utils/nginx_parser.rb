@@ -1,4 +1,4 @@
-require 'parslet'
+require "parslet"
 
 class NginxParser < Parslet::Parser
   root :outermost
@@ -8,60 +8,60 @@ class NginxParser < Parslet::Parser
   rule(:filler?) { one_filler.repeat }
   rule(:one_filler) { match('\s+') | match["\n"] | comment }
   rule(:space)   { match('\s+') }
-  rule(:comment) { str('#') >> (match["\n\r"].absent? >> any).repeat }
+  rule(:comment) { str("#") >> (match["\n\r"].absent? >> any).repeat }
 
-  rule(:exp) {
+  rule(:exp) do
     section | assignment
-  }
-  rule(:assignment) {
-    (identifier >> values.maybe.as(:args)).as(:assignment) >> str(';') >> filler?
-  }
+  end
+  rule(:assignment) do
+    (identifier >> values.maybe.as(:args)).as(:assignment) >> str(";") >> filler?
+  end
 
-  rule(:standard_identifier) {
-    (match('[a-zA-Z]') >> match('\S').repeat).as(:identifier) >> space >> space.repeat
-  }
+  rule(:standard_identifier) do
+    (match("[a-zA-Z]") >> match('\S').repeat).as(:identifier) >> space >> space.repeat
+  end
 
-  rule(:quoted_identifier) {
+  rule(:quoted_identifier) do
     str('"') >> (str('"').absent? >> any).repeat.as(:identifier) >> str('"') >> space.repeat
-  }
+  end
 
-  rule(:identifier) {
+  rule(:identifier) do
     standard_identifier | quoted_identifier
-  }
+  end
 
-  rule(:standard_value) {
+  rule(:standard_value) do
     ((match(/[#;{'"]/).absent? >> any) >> (
       str('\\') >> any | match('[#;{]|\s').absent? >> any
     ).repeat).as(:value) >> space.repeat
-  }
+  end
 
-  rule(:single_quoted_value) {
+  rule(:single_quoted_value) do
     str("'") >> (
       str('\\') >> any | str("'").absent? >> any
     ).repeat.as(:value) >> str("'") >> space.repeat
-  }
+  end
 
-  rule(:double_quoted_value) {
+  rule(:double_quoted_value) do
     str('"') >> (
       str('\\') >> any | str('"').absent? >> any
     ).repeat.as(:value) >> str('"') >> space.repeat
-  }
+  end
 
-  rule(:quoted_value) {
+  rule(:quoted_value) do
     single_quoted_value | double_quoted_value
-  }
+  end
 
-  rule(:value) {
+  rule(:value) do
     standard_value | quoted_value
-  }
+  end
 
-  rule(:values) {
+  rule(:values) do
     value.repeat >> space.maybe
-  }
+  end
 
-  rule(:section) {
-    identifier.as(:section) >> values.maybe.as(:args) >> str('{') >> filler? >> exp.repeat.as(:expressions) >> str('}') >> filler?
-  }
+  rule(:section) do
+    identifier.as(:section) >> values.maybe.as(:args) >> str("{") >> filler? >> exp.repeat.as(:expressions) >> str("}") >> filler?
+  end
 end
 
 class NginxTransform < Parslet::Transform
@@ -83,7 +83,7 @@ class NginxConfig
   def self.parse(content)
     lex = NginxParser.new.parse(content)
     tree = NginxTransform.new.apply(lex)
-    gtree = NginxTransform::Group.new(nil, '', tree)
+    gtree = NginxTransform::Group.new(nil, "", tree)
     read_nginx_group(gtree)
   rescue Parslet::ParseFailed => err
     raise "Failed to parse NginX config: #{err}"
@@ -91,7 +91,7 @@ class NginxConfig
 
   def self.read_nginx_group(t)
     agg_conf = Hash.new([])
-    agg_conf['_'] = t.args unless t.args == ''
+    agg_conf["_"] = t.args unless t.args == ""
 
     groups, conf = t.body.partition { |i| i.is_a? NginxTransform::Group }
     conf.each { |x| agg_conf[x.key] += [x.vals] }

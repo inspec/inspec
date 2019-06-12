@@ -1,5 +1,5 @@
-require 'inspec/log'
-require 'inspec/errors'
+require "inspec/log"
+require "inspec/errors"
 
 module Inspec
   #
@@ -35,7 +35,7 @@ module Inspec
       deps.each do |dep|
         if seen_items_local.include?(dep.name)
           problem_cookbook = if top_level
-                               'the inspec.yml for this profile.'
+                               "the inspec.yml for this profile."
                              else
                                "the dependency information for #{path_string.split(' ').last}"
                              end
@@ -47,7 +47,7 @@ module Inspec
     end
 
     # Here deps is an Array of Inspec::Requirement
-    def resolve(deps, top_level = true, seen_items = {}, path_string = '') # rubocop:disable Metrics/AbcSize
+    def resolve(deps, top_level = true, seen_items = {}, path_string = "") # rubocop:disable Metrics/AbcSize
       graph = {}
       if top_level
         Inspec::Log.debug("Starting traversal of dependencies #{deps.map(&:to_s)}")
@@ -79,7 +79,7 @@ module Inspec
         end
       end
 
-      Inspec::Log.debug('Dependency traversal complete.') if top_level
+      Inspec::Log.debug("Dependency traversal complete.") if top_level
       graph
     end
   end

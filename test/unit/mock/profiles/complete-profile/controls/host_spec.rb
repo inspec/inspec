@@ -5,9 +5,7 @@ title 'Host example.com lookup'
 control 'test01' do
   impact 0.5
   title 'Catchy title'
-  desc '
-    example.com should always exist.
-  '
+  desc 'example.com should always exist.'
   describe host('example.com') do
     it { should be_resolvable }
   end

@@ -31,7 +31,7 @@ module Inspec
     end
 
     def run(_with = nil)
-      puts 'uhm.... nothing or something... dunno, ask your admin'
+      puts "uhm.... nothing or something... dunno, ask your admin"
     end
   end
 end

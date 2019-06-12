@@ -1,52 +1,52 @@
-require 'functional/helper'
+require "functional/helper"
 
-describe 'command tests' do
+describe "command tests" do
   include FunctionalHelper
 
-  before {
+  before do
     skip_windows!
-  }
+  end
 
-  describe 'version' do
-    it 'provides the version number on stdout' do
-      out = inspec('version')
-      out.stderr.must_equal ''
+  describe "version" do
+    it "provides the version number on stdout" do
+      out = inspec("version")
+      out.stderr.must_equal ""
       out.exit_status.must_equal 0
       # Tolerate working on an out of date branch
-      output = out.stdout.split("\n").reject { |l| l.start_with?('Your version of InSpec is out of date!') }.join("\n") + "\n"
+      output = out.stdout.split("\n").reject { |l| l.start_with?("Your version of InSpec is out of date!") }.join("\n") + "\n"
       output.must_equal Inspec::VERSION + "\n"
     end
 
-    it 'prints the version as JSON when the format is specified as JSON' do
-      out = inspec('version --format=json')
-      out.stderr.must_equal ''
+    it "prints the version as JSON when the format is specified as JSON" do
+      out = inspec("version --format=json")
+      out.stderr.must_equal ""
       out.exit_status.must_equal 0
       out.stdout.must_equal %({"version":"#{Inspec::VERSION}"}\n)
     end
   end
 
-  describe 'check' do
-    it 'verifies that a profile is ok' do
-      out = inspec('check ' + example_profile)
+  describe "check" do
+    it "verifies that a profile is ok" do
+      out = inspec("check " + example_profile)
       out.stdout.must_match(/Valid.*true/)
       out.exit_status.must_equal 0
     end
   end
 
-  describe 'help' do
-    let(:outputs) {
+  describe "help" do
+    let(:outputs) do
       [
-        inspec('help').stdout,
-        inspec('--help').stdout,
-        inspec('').stdout,
+        inspec("help").stdout,
+        inspec("--help").stdout,
+        inspec("").stdout,
       ]
-    }
+    end
 
-    it 'outputs the same message regardless of invocation' do
+    it "outputs the same message regardless of invocation" do
       outputs.uniq.length.must_equal 1
     end
 
-    it 'outputs both core commands and v2 CLI plugins' do
+    it "outputs both core commands and v2 CLI plugins" do
       commands = %w{
         archive
         artifact
@@ -67,7 +67,7 @@ describe 'command tests' do
       }
       outputs.each do |output|
         commands.each do |subcommand|
-          output.must_include('inspec ' + subcommand)
+          output.must_include("inspec " + subcommand)
         end
       end
     end

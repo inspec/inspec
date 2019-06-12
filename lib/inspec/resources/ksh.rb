@@ -1,11 +1,11 @@
-require 'inspec/utils/command_wrapper'
-require 'inspec/resources/command'
+require "inspec/utils/command_wrapper"
+require "inspec/resources/command"
 
 module Inspec::Resources
   class Ksh < Cmd
-    name 'ksh'
-    supports platform: 'unix'
-    desc 'Run a command or script in KornShell.'
+    name "ksh"
+    supports platform: "unix"
+    desc "Run a command or script in KornShell."
     example <<~EXAMPLE
       describe ksh('ls -al /') do
         its('stdout') { should match /bin/ }
@@ -22,7 +22,7 @@ module Inspec::Resources
 
     def initialize(command, options = {})
       @raw_command = command
-      options[:shell] = 'ksh' if options.is_a?(Hash)
+      options[:shell] = "ksh" if options.is_a?(Hash)
       super(CommandWrapper.wrap(command, options))
     end
 

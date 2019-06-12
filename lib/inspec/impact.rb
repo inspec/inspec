@@ -1,11 +1,11 @@
 # Impact scores based off CVSS 3.0
 module Inspec::Impact
   IMPACT_SCORES = {
-    'none'     => 0.0,
-    'low'      => 0.1,
-    'medium'   => 0.4,
-    'high'     => 0.7,
-    'critical' => 0.9,
+    "none" => 0.0,
+    "low" => 0.1,
+    "medium" => 0.4,
+    "high" => 0.7,
+    "critical" => 0.9,
   }.freeze
 
   def self.impact_from_string(value)

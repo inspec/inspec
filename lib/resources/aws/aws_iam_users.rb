@@ -1,10 +1,10 @@
-require 'resource_support/aws/aws_plural_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-iam'
+require "resource_support/aws/aws_plural_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-iam"
 
 class AwsIamUsers < Inspec.resource(1)
-  name 'aws_iam_users'
-  desc 'Verifies settings for AWS IAM users'
+  name "aws_iam_users"
+  desc "Verifies settings for AWS IAM users"
   example <<~EXAMPLE
     describe aws_iam_users.where(has_mfa_enabled?: false) do
       it { should_not exist }
@@ -19,7 +19,7 @@ class AwsIamUsers < Inspec.resource(1)
       it { should_not exist }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsPluralResourceMixin
 
@@ -90,7 +90,7 @@ class AwsIamUsers < Inspec.resource(1)
   def validate_params(raw_params)
     # No params yet
     unless raw_params.empty?
-      raise ArgumentError, 'aws_iam_users does not accept resource parameters'
+      raise ArgumentError, "aws_iam_users does not accept resource parameters"
     end
     raw_params
   end
@@ -116,14 +116,14 @@ class AwsIamUsers < Inspec.resource(1)
       user[:password_ever_used?] = !password_last_used.nil?
       user[:password_never_used?] = password_last_used.nil?
       if user[:password_ever_used?]
-        user[:password_last_used_days_ago] = ((Time.now - password_last_used) / (24*60*60)).to_i
+        user[:password_last_used_days_ago] = ((Time.now - password_last_used) / (24 * 60 * 60)).to_i
       end
     end
     @table
   end
 
   def to_s
-    'IAM Users'
+    "IAM Users"
   end
 
   #===========================================================================#

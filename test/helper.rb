@@ -5,7 +5,7 @@
 # Do not add any other code to this code block. Simplecov and
 # coveralls only until the next code block:
 
-if ENV['CI_ENABLE_COVERAGE']
+if ENV["CI_ENABLE_COVERAGE"]
   require "simplecov/no_defaults"
   require "helpers/simplecov_minitest"
   require "coveralls"
@@ -16,10 +16,10 @@ if ENV['CI_ENABLE_COVERAGE']
   ])
 
   SimpleCov.start do
-    add_filter '/test/'
-    add_group 'Resources', ['lib/resources', 'lib/inspec/resources']
-    add_group 'Matchers', ['lib/matchers', 'lib/inspec/matchers']
-    add_group 'Backends', 'lib/inspec/backend'
+    add_filter "/test/"
+    add_group "Resources", ["lib/resources", "lib/inspec/resources"]
+    add_group "Matchers", ["lib/matchers", "lib/inspec/matchers"]
+    add_group "Backends", "lib/inspec/backend"
   end
 end
 
@@ -65,28 +65,18 @@ require "rspec"
 # End of rspec vs minitest fight
 ########################################################################
 
-require 'webmock/minitest'
-require 'mocha/setup'
-require 'inspec/log'
-require 'inspec/backend'
+require "webmock/minitest"
+require "mocha/setup"
+require "inspec/log"
+require "inspec/backend"
 require "helpers/mock_loader"
 
-TMP_CACHE = {}
+TMP_CACHE = {} # rubocop: disable Style/MutableConstant
 
 Inspec::Log.logger = Logger.new(nil)
 
 def load_resource(*args)
   MockLoader.new.load_resource(*args)
-end
-
-# Used to capture `Inspec.deprecate()` with warn action
-def expect_deprecation_warning
-  @mock_logger = Minitest::Mock.new
-  @mock_logger.expect(:warn, nil, [/DEPRECATION/])
-  Inspec::Log.stub :warn, proc { |message| @mock_logger.warn(message) } do
-    yield
-  end
-  @mock_logger.verify
 end
 
 # Low-level deprecation handler. Use the more convenient version when possible.
@@ -151,7 +141,7 @@ end
 class Minitest::Test
   raise "You must remove skip_now" if Time.now > Time.local(2019, 6, 14)
 
-  def skip_until y,m,d,msg
+  def skip_until(y, m, d, msg)
     raise msg if Time.now > Time.local(y, m, d)
     skip msg
   end

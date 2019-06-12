@@ -2,10 +2,10 @@
 # the inspec-resource-lister plugin is configured correctly.
 
 # Include our test harness
-require_relative '../helper'
+require_relative "../helper"
 
 # Load the class under test, the Plugin definition.
-require 'inspec-resource-lister/plugin'
+require "inspec-resource-lister/plugin"
 
 # Because InSpec is a Spec-style test suite, we're going to use Minitest::Spec
 # here, for familiar look and feel. However, this isn't InSpec (or RSpec) code.

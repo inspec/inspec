@@ -4,7 +4,7 @@ module InspecPlugins
 
       # Do mockish things
       def execute(opts)
-        return 42
+        42
       end
     end
 

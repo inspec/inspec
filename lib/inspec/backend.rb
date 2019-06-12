@@ -1,7 +1,7 @@
 # copyright: 2015, Dominik Richter
 
-require 'train'
-require 'inspec/config'
+require "train"
+require "inspec/config"
 
 module Inspec
   module Backend
@@ -25,7 +25,7 @@ module Inspec
 
       # Ruby internal for printing a nice name for this class
       def to_s
-        'Inspec::Backend::Class'
+        "Inspec::Backend::Class"
       end
 
       # Ruby internal for pretty-printing a summary for this class
@@ -54,15 +54,15 @@ module Inspec
       # Set caching settings. We always want to enable caching for
       # the Mock transport for testing.
       if config[:backend_cache] || config[:backend] == :mock
-        Inspec::Log.debug 'Option backend_cache is enabled'
+        Inspec::Log.debug "Option backend_cache is enabled"
         connection.enable_cache(:file)
         connection.enable_cache(:command)
       elsif config[:debug_shell]
-        Inspec::Log.debug 'Option backend_cache is disabled'
+        Inspec::Log.debug "Option backend_cache is disabled"
         connection.disable_cache(:file)
         connection.disable_cache(:command)
       else
-        Inspec::Log.debug 'Option backend_cache is disabled'
+        Inspec::Log.debug "Option backend_cache is disabled"
         connection.disable_cache(:file)
         connection.disable_cache(:command)
       end

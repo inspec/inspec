@@ -1,21 +1,21 @@
-require 'resource_support/aws/aws_plural_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-iam'
+require "resource_support/aws/aws_plural_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-iam"
 
 class AwsIamPolicies < Inspec.resource(1)
-  name 'aws_iam_policies'
-  desc 'Verifies settings for AWS IAM Policies in bulk'
+  name "aws_iam_policies"
+  desc "Verifies settings for AWS IAM Policies in bulk"
   example <<~EXAMPLE
     describe aws_iam_policies do
       it { should exist }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsPluralResourceMixin
   def validate_params(resource_params)
     unless resource_params.empty?
-      raise ArgumentError, 'aws_iam_policies does not accept resource parameters.'
+      raise ArgumentError, "aws_iam_policies does not accept resource parameters."
     end
     resource_params
   end
@@ -28,7 +28,7 @@ class AwsIamPolicies < Inspec.resource(1)
   filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
-    'IAM Policies'
+    "IAM Policies"
   end
 
   def fetch_from_api

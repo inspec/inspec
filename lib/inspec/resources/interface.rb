@@ -1,13 +1,13 @@
-require 'inspec/resources/command'
-require 'inspec/utils/convert'
-require 'inspec/utils/simpleconfig'
+require "inspec/resources/command"
+require "inspec/utils/convert"
+require "inspec/utils/simpleconfig"
 
 module Inspec::Resources
   class NetworkInterface < Inspec.resource(1)
-    name 'interface'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the interface InSpec audit resource to test basic network adapter properties, such as name, status, and link speed (in MB/sec).'
+    name "interface"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the interface InSpec audit resource to test basic network adapter properties, such as name, status, and link speed (in MB/sec)."
     example <<~EXAMPLE
       describe interface('eth0') do
         it { should exist }
@@ -26,7 +26,7 @@ module Inspec::Resources
       elsif inspec.os.windows?
         @interface_provider = WindowsInterface.new(inspec)
       else
-        return skip_resource 'The `interface` resource is not supported on your OS yet.'
+        return skip_resource "The `interface` resource is not supported on your OS yet."
       end
     end
 
@@ -52,15 +52,15 @@ module Inspec::Resources
     end
 
     def ipv4_addresses
-      ipv4_cidrs.map { |i| i.split('/')[0] }
+      ipv4_cidrs.map { |i| i.split("/")[0] }
     end
 
     def ipv6_addresses
-      ipv6_cidrs.map { |i| i.split('/')[0] }
+      ipv6_cidrs.map { |i| i.split("/")[0] }
     end
 
     def ipv4_addresses_netmask
-      ipv4_cidrs.map { |i| i.split('/') }.map do |addr, netlen|
+      ipv4_cidrs.map { |i| i.split("/") }.map do |addr, netlen|
         binmask = "#{'1' * netlen.to_i}#{'0' * (32 - netlen.to_i)}".to_i(2)
         netmask = []
         (1..4).each do |_byte|
@@ -113,15 +113,15 @@ module Inspec::Resources
 
       # parse state
       state = false
-      if params.key?('operstate')
-        operstate, _value = params['operstate'].first
-        state = operstate == 'up'
+      if params.key?("operstate")
+        operstate, _value = params["operstate"].first
+        state = operstate == "up"
       end
 
       # parse speed
       speed = nil
-      if params.key?('speed')
-        speed, _value = params['speed'].first
+      if params.key?("speed")
+        speed, _value = params["speed"].first
         speed = convert_to_i(speed)
       end
 
@@ -130,19 +130,19 @@ module Inspec::Resources
         name: iface,
         up: state,
         speed: speed,
-        ipv4_addresses: family_addresses['inet'],
-        ipv6_addresses: family_addresses['inet6'],
+        ipv4_addresses: family_addresses["inet"],
+        ipv6_addresses: family_addresses["inet6"],
       }
     end
 
     private
 
     def addresses(iface)
-      addrs_by_family = { 'inet6' => [], 'inet' => [] }
+      addrs_by_family = { "inet6" => [], "inet" => [] }
       [4, 6].each do |v|
         cmd = inspec.command("/sbin/ip -br -#{v} address show dev #{iface}")
         next unless cmd.exit_status.to_i == 0
-        family = v == 6 ? 'inet6' : 'inet'
+        family = v == 6 ? "inet6" : "inet"
 
         cmd.stdout.each_line do |line|
           _dev, _state, *addrs = line.split(/\s+/)
@@ -156,11 +156,11 @@ module Inspec::Resources
   class WindowsInterface < InterfaceInfo
     def interface_info(iface)
       # gather all network interfaces
-      cmd = inspec.command('Get-NetAdapter | Select-Object -Property Name, InterfaceDescription, Status, State, ' \
-                           'MacAddress, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed, Virtual | ConvertTo-Json')
+      cmd = inspec.command("Get-NetAdapter | Select-Object -Property Name, InterfaceDescription, Status, State, " \
+                           "MacAddress, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed, Virtual | ConvertTo-Json")
 
-      addr_cmd = inspec.command('Get-NetIPAddress | Select-Object -Property IPv6Address, IPv4Address, InterfaceAlias,' \
-                                ' PrefixLength | ConvertTo-Json')
+      addr_cmd = inspec.command("Get-NetIPAddress | Select-Object -Property IPv6Address, IPv4Address, InterfaceAlias," \
+                                " PrefixLength | ConvertTo-Json")
 
       # filter network interface
       begin
@@ -178,11 +178,11 @@ module Inspec::Resources
       adapters = net_adapter.each_with_object([]) do |adapter, adapter_collection|
         # map object
         info = {
-          name: adapter['Name'],
-          up: adapter['State'] == 2,
-          speed: adapter['ReceiveLinkSpeed'] / 1000,
-          ipv4_addresses: addresses_for_proto(addresses, adapter['Name'], 'IPv4'),
-          ipv6_addresses: addresses_for_proto(addresses, adapter['Name'], 'IPv6'),
+          name: adapter["Name"],
+          up: adapter["State"] == 2,
+          speed: adapter["ReceiveLinkSpeed"] / 1000,
+          ipv4_addresses: addresses_for_proto(addresses, adapter["Name"], "IPv4"),
+          ipv6_addresses: addresses_for_proto(addresses, adapter["Name"], "IPv6"),
         }
         adapter_collection.push(info) if info[:name].casecmp(iface) == 0
       end
@@ -195,7 +195,7 @@ module Inspec::Resources
     private
 
     def addresses_for_proto(all_addresses, iface, proto)
-      all_addresses.select { |i| i['InterfaceAlias'] == iface }
+      all_addresses.select { |i| i["InterfaceAlias"] == iface }
                    .map { |i| "#{i["#{proto}Address"]}/#{i['PrefixLength']}" unless i["#{proto}Address"].nil? }
                    .compact
     end

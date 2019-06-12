@@ -1,6 +1,6 @@
-require 'rubygems/package'
-require 'zlib'
-require 'zip'
+require "rubygems/package"
+require "zlib"
+require "zip"
 
 module Inspec
   class FileProvider
@@ -9,9 +9,9 @@ module Inspec
         MockProvider.new(path)
       elsif File.directory?(path)
         DirProvider.new(path)
-      elsif File.exist?(path) && path.end_with?('.tar.gz', 'tgz')
+      elsif File.exist?(path) && path.end_with?(".tar.gz", "tgz")
         TarProvider.new(path)
-      elsif File.exist?(path) && path.end_with?('.zip')
+      elsif File.exist?(path) && path.end_with?(".zip")
         ZipProvider.new(path)
       elsif File.exist?(path)
         DirProvider.new(path)
@@ -71,7 +71,7 @@ module Inspec
       @files = if File.file?(path)
                  [path]
                else
-                 Dir[File.join(Shellwords.shellescape(path), '**', '*')]
+                 Dir[File.join(Shellwords.shellescape(path), "**", "*")]
                end
       @path = path
     end
@@ -98,13 +98,13 @@ module Inspec
       @files = []
       walk_zip(@path) do |io|
         while (entry = io.get_next_entry)
-          name = entry.name.sub(%r{/+$}, '')
-          @files.push(name) unless name.empty? || name.squeeze('/') =~ %r{\.{2}(?:/|\z)}
+          name = entry.name.sub(%r{/+$}, "")
+          @files.push(name) unless name.empty? || name.squeeze("/") =~ %r{\.{2}(?:/|\z)}
         end
       end
     end
 
-    def extract(destination_path = '.')
+    def extract(destination_path = ".")
       FileUtils.mkdir_p(destination_path)
 
       Zip::File.open(@path) do |archive|
@@ -155,17 +155,17 @@ module Inspec
         @files = tar.find_all(&:file?)
 
         # delete all entries with no name
-        @files = @files.find_all { |x| !x.full_name.empty? && x.full_name.squeeze('/') !~ %r{\.{2}(?:/|\z)} }
+        @files = @files.find_all { |x| !x.full_name.empty? && x.full_name.squeeze("/") !~ %r{\.{2}(?:/|\z)} }
 
         # delete all entries that have a PaxHeader
-        @files = @files.delete_if { |x| x.full_name.include?('PaxHeader/') }
+        @files = @files.delete_if { |x| x.full_name.include?("PaxHeader/") }
 
         # replace all items of the array simply with the relative filename of the file
-        @files.map! { |x| Pathname.new(x.full_name).relative_path_from(Pathname.new('.')).to_s }
+        @files.map! { |x| Pathname.new(x.full_name).relative_path_from(Pathname.new(".")).to_s }
       end
     end
 
-    def extract(destination_path = '.')
+    def extract(destination_path = ".")
       FileUtils.mkdir_p(destination_path)
 
       walk_tar(@path) do |files|
@@ -178,7 +178,7 @@ module Inspec
           FileUtils.remove_entry(final_path) if File.exist?(final_path)
 
           FileUtils.mkdir_p(File.dirname(final_path))
-          File.open(final_path, 'wb') { |f| f.write(file.read) }
+          File.open(final_path, "wb") { |f| f.write(file.read) }
         end
       end
     end
@@ -213,8 +213,8 @@ module Inspec
 
   class RelativeFileProvider
     BLACKLIST_FILES = [
-      '/pax_global_header',
-      'pax_global_header',
+      "/pax_global_header",
+      "pax_global_header",
     ].freeze
 
     attr_reader :files
@@ -238,7 +238,7 @@ module Inspec
                      .map { |x| x[prefix.length..-1] }
                      .map do |x|
                        path = Pathname.new(x)
-                       path.absolute? ? path.to_s : path.relative_path_from(Pathname.new('.')).to_s
+                       path.absolute? ? path.to_s : path.relative_path_from(Pathname.new(".")).to_s
                      end
     end
 
@@ -258,7 +258,7 @@ module Inspec
     private
 
     def get_prefix(fs)
-      return '' if fs.empty?
+      return "" if fs.empty?
 
       # filter backlisted files
       fs -= BLACKLIST_FILES
@@ -287,15 +287,15 @@ module Inspec
     end
 
     def get_files_prefix(fs)
-      return '' if fs.empty?
+      return "" if fs.empty?
 
       file = fs[0]
       bn = File.basename(file)
       # no more prefixes
-      return '' if bn == file
+      return "" if bn == file
 
       i = file.rindex(bn)
-      pre = file[0..i-1]
+      pre = file[0..i - 1]
 
       rest = fs.find_all { |f| !f.start_with?(pre) }
       return pre if rest.empty?
@@ -303,8 +303,8 @@ module Inspec
       new_pre = get_prefix(rest)
       return new_pre if pre.start_with? new_pre
       # edge case: completely different prefixes; retry prefix detection
-      a = File.dirname(pre + 'a')
-      b = File.dirname(new_pre + 'b')
+      a = File.dirname(pre + "a")
+      b = File.dirname(new_pre + "b")
       get_prefix([a, b])
     end
   end

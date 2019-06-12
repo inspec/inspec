@@ -1,9 +1,9 @@
-require 'openssl'
-require 'inspec/utils/file_reader'
+require "openssl"
+require "inspec/utils/file_reader"
 
 class DhParams < Inspec.resource(1)
-  name 'dh_params'
-  supports platform: 'unix'
+  name "dh_params"
+  supports platform: "unix"
   desc '
     Use the `dh_params` InSpec audit resource to test Diffie-Hellman (DH)
     parameters.
@@ -42,7 +42,7 @@ class DhParams < Inspec.resource(1)
   # its('modulus') { should eq '00:91:a0:15:89:e5:bc:38:93:12:02:fc:...' }
   def modulus
     return if @dh_params.nil?
-    '00:' + @dh_params.p.to_s(16).downcase.scan(/.{2}/).join(':')
+    "00:" + @dh_params.p.to_s(16).downcase.scan(/.{2}/).join(":")
   end
 
   # its('pem') { should eq '-----BEGIN DH PARAMETERS...' }

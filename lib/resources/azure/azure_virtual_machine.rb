@@ -1,14 +1,14 @@
-require 'resources/azure/azure_backend'
+require "resources/azure/azure_backend"
 
 module Inspec::Resources
   class AzureVirtualMachine < AzureResourceBase
-    name 'azure_virtual_machine'
+    name "azure_virtual_machine"
 
     desc '
       InSpec Resource to test Azure Virtual Machines
     '
 
-    supports platform: 'azure'
+    supports platform: "azure"
 
     # Constructor for the resource. This calls the parent constructor to
     # get the generic resource for the specified machine. This will provide
@@ -17,7 +17,7 @@ module Inspec::Resources
     # @author Russell Seymour
     def initialize(opts = {})
       # The generic resource needs to pass back a Microsoft.Compute/virtualMachines object so force it
-      opts[:type] = 'Microsoft.Compute/virtualMachines'
+      opts[:type] = "Microsoft.Compute/virtualMachines"
       super(opts)
 
       # Find the virtual machines
@@ -46,8 +46,8 @@ module Inspec::Resources
 
       # determine the method name to call by converting the snake_case to camelCase
       # method_name = self.camel_case(method_id.to_s)
-      method_name = method_id.to_s.split('_').inject([]) { |buffer, e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
-      method_name.end_with?('Gb') ? method_name.gsub!(/Gb/, &:upcase) : false
+      method_name = method_id.to_s.split("_").inject([]) { |buffer, e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
+      method_name.end_with?("Gb") ? method_name.gsub!(/Gb/, &:upcase) : false
 
       if image_reference_attrs.include?(method_id.to_s)
         properties.storageProfile.imageReference.send(method_name)

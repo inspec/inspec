@@ -5,36 +5,36 @@ module Inspec::Reporters
       # Most currently available Windows terminals have poor support
       # for ANSI extended colors
       COLORS = {
-        'failed'   => "\033[0;1;31m",
-        'passed'   => "\033[0;1;32m",
-        'skipped'  => "\033[0;37m",
-        'reset'    => "\033[0m",
+        "failed" => "\033[0;1;31m",
+        "passed" => "\033[0;1;32m",
+        "skipped" => "\033[0;37m",
+        "reset" => "\033[0m",
       }.freeze
 
       # Most currently available Windows terminals have poor support
       # for UTF-8 characters so use these boring indicators
       INDICATORS = {
-        'failed'   => '[FAIL]',
-        'skipped'  => '[SKIP]',
-        'passed'   => '[PASS]',
-        'unknown'  => '[UNKN]',
+        "failed" => "[FAIL]",
+        "skipped" => "[SKIP]",
+        "passed" => "[PASS]",
+        "unknown" => "[UNKN]",
       }.freeze
     else
       # Extended colors for everyone else
       COLORS = {
-        'failed'   => "\033[38;5;9m",
-        'passed'   => "\033[38;5;41m",
-        'skipped'  => "\033[38;5;247m",
-        'reset'    => "\033[0m",
+        "failed" => "\033[38;5;9m",
+        "passed" => "\033[38;5;41m",
+        "skipped" => "\033[38;5;247m",
+        "reset" => "\033[0m",
       }.freeze
 
       # Groovy UTF-8 characters for everyone else...
       # ...even though they probably only work on Mac
       INDICATORS = {
-        'failed'   => '×',
-        'skipped'  => '↺',
-        'passed'   => '✔',
-        'unknown'  => '?',
+        "failed" => "×",
+        "skipped" => "↺",
+        "passed" => "✔",
+        "unknown" => "?",
       }.freeze
     end
 
@@ -42,23 +42,25 @@ module Inspec::Reporters
 
     def render
       run_data[:profiles].each do |profile|
-        if profile[:status] == 'skipped'
+        if profile[:status] == "skipped"
           platform = run_data[:platform]
           output("Skipping profile: '#{profile[:name]}' on unsupported platform: '#{platform[:name]}/#{platform[:release]}'.")
           next
         end
         @control_count = 0
-        output('')
+        output("")
         print_profile_header(profile)
         print_standard_control_results(profile)
         print_anonymous_control_results(profile)
-        output(format_message(
-                 indentation: 5,
-                 message: 'No tests executed.',
-        )) if @control_count == 0
+        if @control_count == 0
+          output(format_message(
+                   indentation: 5,
+                   message: "No tests executed."
+          ))
+        end
       end
 
-      output('')
+      output("")
       print_profile_summary
       print_tests_summary
     end
@@ -67,17 +69,17 @@ module Inspec::Reporters
 
     def print_profile_header(profile)
       header = {
-        'Profile' => format_profile_name(profile),
-        'Version' => profile[:version] || '(not specified)',
+        "Profile" => format_profile_name(profile),
+        "Version" => profile[:version] || "(not specified)",
       }
-      header['Target'] = run_data[:platform][:target] unless run_data[:platform][:target].nil?
-      header['Target ID'] = @config['target_id'] unless @config['target_id'].nil?
+      header["Target"] = run_data[:platform][:target] unless run_data[:platform][:target].nil?
+      header["Target ID"] = @config["target_id"] unless @config["target_id"].nil?
 
       pad = header.keys.max_by(&:length).length + 1
       header.each do |title, value|
-        output(format("%-#{pad}s %s", title + ':', value))
+        output(format("%-#{pad}s %s", title + ":", value))
       end
-      output('')
+      output("")
     end
 
     def print_standard_control_results(profile)
@@ -90,7 +92,7 @@ module Inspec::Reporters
           @control_count += 1
         end
       end
-      output('') if @control_count > 0
+      output("") if @control_count > 0
     end
 
     def print_anonymous_control_results(profile)
@@ -107,7 +109,7 @@ module Inspec::Reporters
 
     def format_profile_name(profile)
       if profile[:title].nil?
-        (profile[:name] || 'unknown').to_s
+        (profile[:name] || "unknown").to_s
       else
         "#{profile[:title]} (#{profile[:name] || 'unknown'})"
       end
@@ -118,14 +120,14 @@ module Inspec::Reporters
       format_message(
         color: impact,
         indicator: impact,
-        message: control.title_for_report,
+        message: control.title_for_report
       )
     end
 
     def format_result(control, result, type)
       impact = control.impact_string_for_result(result)
 
-      message = if result[:status] == 'skipped'
+      message = if result[:status] == "skipped"
                   result[:skip_message]
                 elsif type == :anonymous
                   result[:expectation_message]
@@ -140,7 +142,7 @@ module Inspec::Reporters
         color: impact,
         indicator: impact,
         indentation: 5,
-        message: message,
+        message: message
       )
     end
 
@@ -150,7 +152,7 @@ module Inspec::Reporters
       indentation = message_info.fetch(:indentation, 2)
       message = message_info[:message]
 
-      message_to_format = ''
+      message_to_format = ""
       message_to_format += "#{INDICATORS[indicator]}  " unless indicator.nil?
       message_to_format += message.to_s.lstrip.force_encoding(Encoding::UTF_8)
 
@@ -166,9 +168,9 @@ module Inspec::Reporters
 
     def all_unique_controls
       @unique_controls ||= begin
-                             run_data[:profiles].flat_map { |profile|
+                             run_data[:profiles].flat_map do |profile|
                                profile[:controls]
-                             }.uniq
+                             end.uniq
                            end
     end
 
@@ -178,11 +180,11 @@ module Inspec::Reporters
       passed = 0
 
       all_unique_controls.each do |control|
-        next if control[:id].start_with? '(generated from '
+        next if control[:id].start_with? "(generated from "
         next unless control[:results]
-        if control[:results].any? { |r| r[:status] == 'failed' }
+        if control[:results].any? { |r| r[:status] == "failed" }
           failed += 1
-        elsif control[:results].any? { |r| r[:status] == 'skipped' }
+        elsif control[:results].any? { |r| r[:status] == "skipped" }
           skipped += 1
         else
           passed += 1
@@ -192,10 +194,10 @@ module Inspec::Reporters
       total = failed + passed + skipped
 
       {
-        'total' => total,
-        'failed' => failed,
-        'skipped' => skipped,
-        'passed' => passed,
+        "total" => total,
+        "failed" => failed,
+        "skipped" => skipped,
+        "passed" => passed,
       }
     end
 
@@ -208,9 +210,9 @@ module Inspec::Reporters
       all_unique_controls.each do |control|
         next unless control[:results]
         control[:results].each do |result|
-          if result[:status] == 'failed'
+          if result[:status] == "failed"
             failed += 1
-          elsif result[:status] == 'skipped'
+          elsif result[:status] == "skipped"
             skipped += 1
           else
             passed += 1
@@ -219,48 +221,48 @@ module Inspec::Reporters
       end
 
       {
-        'total' => total,
-        'failed' => failed,
-        'skipped' => skipped,
-        'passed' => passed,
+        "total" => total,
+        "failed" => failed,
+        "skipped" => skipped,
+        "passed" => passed,
       }
     end
 
     def print_profile_summary
       summary = profile_summary
-      return unless summary['total'] > 0
+      return unless summary["total"] > 0
 
-      success_str = summary['passed'] == 1 ? '1 successful control' : "#{summary['passed']} successful controls"
-      failed_str  = summary['failed'] == 1 ? '1 control failure' : "#{summary['failed']} control failures"
-      skipped_str = summary['skipped'] == 1 ? '1 control skipped' : "#{summary['skipped']} controls skipped"
+      success_str = summary["passed"] == 1 ? "1 successful control" : "#{summary['passed']} successful controls"
+      failed_str  = summary["failed"] == 1 ? "1 control failure" : "#{summary['failed']} control failures"
+      skipped_str = summary["skipped"] == 1 ? "1 control skipped" : "#{summary['skipped']} controls skipped"
 
-      success_color = summary['passed'] > 0 ? 'passed' : 'no_color'
-      failed_color = summary['failed'] > 0 ? 'failed' : 'no_color'
-      skipped_color = summary['skipped'] > 0 ? 'skipped' : 'no_color'
+      success_color = summary["passed"] > 0 ? "passed" : "no_color"
+      failed_color = summary["failed"] > 0 ? "failed" : "no_color"
+      skipped_color = summary["skipped"] > 0 ? "skipped" : "no_color"
 
       s = format(
-        'Profile Summary: %s, %s, %s',
+        "Profile Summary: %s, %s, %s",
         format_with_color(success_color, success_str),
         format_with_color(failed_color, failed_str),
-        format_with_color(skipped_color, skipped_str),
+        format_with_color(skipped_color, skipped_str)
       )
-      output(s) if summary['total'] > 0
+      output(s) if summary["total"] > 0
     end
 
     def print_tests_summary
       summary = tests_summary
 
-      failed_str = summary['failed'] == 1 ? '1 failure' : "#{summary['failed']} failures"
+      failed_str = summary["failed"] == 1 ? "1 failure" : "#{summary['failed']} failures"
 
-      success_color = summary['passed'] > 0 ? 'passed' : 'no_color'
-      failed_color = summary['failed'] > 0 ? 'failed' : 'no_color'
-      skipped_color = summary['skipped'] > 0 ? 'skipped' : 'no_color'
+      success_color = summary["passed"] > 0 ? "passed" : "no_color"
+      failed_color = summary["failed"] > 0 ? "failed" : "no_color"
+      skipped_color = summary["skipped"] > 0 ? "skipped" : "no_color"
 
       s = format(
-        'Test Summary: %s, %s, %s',
+        "Test Summary: %s, %s, %s",
         format_with_color(success_color, "#{summary['passed']} successful"),
         format_with_color(failed_color, failed_str),
-        format_with_color(skipped_color, "#{summary['skipped']} skipped"),
+        format_with_color(skipped_color, "#{summary['skipped']} skipped")
       )
 
       output(s)
@@ -275,11 +277,11 @@ module Inspec::Reporters
     end
 
     def is_anonymous_control?(control)
-      control[:id].start_with?('(generated from ')
+      control[:id].start_with?("(generated from ")
     end
 
     def indent_lines(message, indentation)
-      message.lines.map { |line| ' ' * indentation + line }.join
+      message.lines.map { |line| " " * indentation + line }.join
     end
 
     class Control
@@ -306,7 +308,7 @@ module Inspec::Reporters
       end
 
       def anonymous?
-        id.start_with?('(generated from ')
+        id.start_with?("(generated from ")
       end
 
       def title_for_report
@@ -330,34 +332,34 @@ module Inspec::Reporters
         if anonymous?
           nil
         elsif impact.nil?
-          'unknown'
-        elsif results&.find { |r| r[:status] == 'skipped' }
-          'skipped'
-        elsif results.nil? || results.empty? || results.all? { |r| r[:status] == 'passed' }
-          'passed'
+          "unknown"
+        elsif results&.find { |r| r[:status] == "skipped" }
+          "skipped"
+        elsif results.nil? || results.empty? || results.all? { |r| r[:status] == "passed" }
+          "passed"
         else
-          'failed'
+          "failed"
         end
       end
 
       def impact_string_for_result(result)
-        if result[:status] == 'skipped'
-          'skipped'
-        elsif result[:status] == 'passed'
-          'passed'
+        if result[:status] == "skipped"
+          "skipped"
+        elsif result[:status] == "passed"
+          "passed"
         elsif impact.nil?
-          'unknown'
+          "unknown"
         else
-          'failed'
+          "failed"
         end
       end
 
       def failure_count
-        results.select { |r| r[:status] == 'failed' }.size
+        results.select { |r| r[:status] == "failed" }.size
       end
 
       def skipped_count
-        results.select { |r| r[:status] == 'skipped' }.size
+        results.select { |r| r[:status] == "skipped" }.size
       end
     end
   end

@@ -1,4 +1,4 @@
-require 'inspec/objects/input'
+require "inspec/objects/input"
 
 module InspecPlugins::InputTestFixture
   class InputImplementation < Inspec.plugin(2, :input)
@@ -18,15 +18,16 @@ module InspecPlugins::InputTestFixture
     end
 
     private
+
     def test_fixture_data
       {
-        'input-test-fixture' => {
-          'test_only_in_plugin' => 'only_in_plugin',
-          'test_collide_plugin_higher' => 'collide_plugin_higher',
-          'test_collide_inline_higher' => 'wrong',
-          'test_not_mentioned_inline' => 'anything',
-          'test_event_log' => 'setting_in_plugin',
-        }
+        "input-test-fixture" => {
+          "test_only_in_plugin" => "only_in_plugin",
+          "test_collide_plugin_higher" => "collide_plugin_higher",
+          "test_collide_inline_higher" => "wrong",
+          "test_not_mentioned_inline" => "anything",
+          "test_event_log" => "setting_in_plugin",
+        },
       }
     end
   end

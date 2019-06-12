@@ -1,17 +1,17 @@
 # copyright: 2015, Vulcano Security GmbH
 
-require 'inspec/utils/object_traversal'
-require 'inspec/utils/simpleconfig'
-require 'inspec/utils/find_files'
-require 'inspec/utils/file_reader'
-require 'inspec/resources/postgres'
+require "inspec/utils/object_traversal"
+require "inspec/utils/simpleconfig"
+require "inspec/utils/find_files"
+require "inspec/utils/file_reader"
+require "inspec/resources/postgres"
 
 module Inspec::Resources
   class PostgresConf < Inspec.resource(1)
-    name 'postgres_conf'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the postgres_conf InSpec audit resource to test the contents of the configuration file for PostgreSQL, typically located at /etc/postgresql/<version>/main/postgresql.conf or /var/lib/postgres/data/postgresql.conf, depending on the platform.'
+    name "postgres_conf"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the postgres_conf InSpec audit resource to test the contents of the configuration file for PostgreSQL, typically located at /etc/postgresql/<version>/main/postgresql.conf or /var/lib/postgres/data/postgresql.conf, depending on the platform."
     example <<~EXAMPLE
       describe postgres_conf do
         its('max_connections') { should eq '5' }
@@ -25,7 +25,7 @@ module Inspec::Resources
     def initialize(conf_path = nil)
       @conf_path = conf_path || inspec.postgres.conf_path
       if @conf_path.nil?
-        return skip_resource 'PostgreSQL conf path is not set'
+        return skip_resource "PostgreSQL conf path is not set"
       end
       @conf_dir = File.expand_path(File.dirname(@conf_path))
       @files_contents = {}
@@ -61,13 +61,13 @@ module Inspec::Resources
     end
 
     def to_s
-      'PostgreSQL Configuration'
+      "PostgreSQL Configuration"
     end
 
     private
 
     def read_content
-      @content = ''
+      @content = ""
       @params = {}
 
       to_read = [@conf_path]
@@ -93,16 +93,16 @@ module Inspec::Resources
     end
 
     def include_files(params, base_dir)
-      include_files = Array(params['include']) || []
-      include_files += Array(params['include_if_exists']) || []
+      include_files = Array(params["include"]) || []
+      include_files += Array(params["include_if_exists"]) || []
       include_files.map! do |f|
         Pathname.new(f).absolute? ? f : File.join(base_dir, f)
       end
 
-      dirs = Array(params['include_dir']) || []
+      dirs = Array(params["include_dir"]) || []
       dirs.each do |dir|
-        dir = File.join(base_dir, dir) if dir[0] != '/'
-        include_files += find_files(dir, depth: 1, type: 'file')
+        dir = File.join(base_dir, dir) if dir[0] != "/"
+        include_files += find_files(dir, depth: 1, type: "file")
       end
       include_files
     end

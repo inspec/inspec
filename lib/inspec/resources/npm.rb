@@ -1,12 +1,12 @@
-require 'inspec/resources/command'
-require 'shellwords'
+require "inspec/resources/command"
+require "shellwords"
 
 module Inspec::Resources
   class NpmPackage < Inspec.resource(1)
-    name 'npm'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the npm InSpec audit resource to test if a global npm package is installed. npm is the the package manager for Nodejs packages, such as bower and StatsD.'
+    name "npm"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the npm InSpec audit resource to test if a global npm package is installed. npm is the the package manager for Nodejs packages, such as bower and StatsD."
     example <<~EXAMPLE
       describe npm('bower') do
         it { should be_installed }
@@ -29,19 +29,19 @@ module Inspec::Resources
       if @location
         npm = "cd #{Shellwords.escape @location} && npm"
       else
-        npm = 'npm -g'
+        npm = "npm -g"
       end
 
       cmd = inspec.command("#{npm} ls --json #{@package_name}")
       @info = {
         name: @package_name,
-        type: 'npm',
+        type: "npm",
         installed: cmd.exit_status == 0,
       }
       return @info unless @info[:installed]
 
       pkgs = JSON.parse(cmd.stdout)
-      @info[:version] = pkgs['dependencies'][@package_name]['version']
+      @info[:version] = pkgs["dependencies"][@package_name]["version"]
       @info
     end
 

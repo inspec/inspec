@@ -7,7 +7,7 @@ module Inspec
     def initialize(profile)
       @src = profile.source_reader
       @files = @src.data_files.keys.map do |k|
-        k.sub('files' + File::SEPARATOR, '')
+        k.sub("files" + File::SEPARATOR, "")
       end
     end
 
@@ -16,7 +16,7 @@ module Inspec
     # @param name [String] the name of the file
     # @return [String] contents of the file of RuntimeError if missing
     def file(name)
-      @src.data_files[File.join('files', name)] ||
+      @src.data_files[File.join("files", name)] ||
         raise("Cannot find file #{name} in profile.")
     end
   end

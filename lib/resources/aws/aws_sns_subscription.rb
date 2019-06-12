@@ -1,10 +1,10 @@
-require 'resource_support/aws/aws_singular_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-sns'
+require "resource_support/aws/aws_singular_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-sns"
 
 class AwsSnsSubscription < Inspec.resource(1)
-  name 'aws_sns_subscription'
-  desc 'Verifies settings for an SNS Subscription'
+  name "aws_sns_subscription"
+  desc "Verifies settings for an SNS Subscription"
   example <<~EXAMPLE
     describe aws_sns_subscription('arn:aws:sns:us-east-1::test-topic-01:b214aff5-a2c7-438f-a753-8494493f2ff6') do
       it { should_not have_raw_message_delivery }
@@ -16,7 +16,7 @@ class AwsSnsSubscription < Inspec.resource(1)
     end
   EXAMPLE
 
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
   attr_reader :arn, :owner, :raw_message_delivery, :topic_arn, :endpoint, :protocol,
@@ -40,11 +40,11 @@ class AwsSnsSubscription < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:subscription_arn],
       allowed_scalar_name: :subscription_arn,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
 
     if validated_params.empty?
-      raise ArgumentError, 'You must provide a subscription_arn to aws_sns_subscription.'
+      raise ArgumentError, "You must provide a subscription_arn to aws_sns_subscription."
     end
 
     validated_params
@@ -56,12 +56,12 @@ class AwsSnsSubscription < Inspec.resource(1)
       begin
         aws_response = backend.get_subscription_attributes(subscription_arn: @subscription_arn).attributes
         @exists = true
-        @owner = aws_response['Owner']
-        @raw_message_delivery = aws_response['RawMessageDelivery'].eql?('true')
-        @topic_arn = aws_response['TopicArn']
-        @endpoint = aws_response['Endpoint']
-        @protocol = aws_response['Protocol']
-        @confirmation_was_authenticated = aws_response['ConfirmationWasAuthenticated'].eql?('true')
+        @owner = aws_response["Owner"]
+        @raw_message_delivery = aws_response["RawMessageDelivery"].eql?("true")
+        @topic_arn = aws_response["TopicArn"]
+        @endpoint = aws_response["Endpoint"]
+        @protocol = aws_response["Protocol"]
+        @confirmation_was_authenticated = aws_response["ConfirmationWasAuthenticated"].eql?("true")
       rescue Aws::SNS::Errors::NotFound
         @exists = false
         return

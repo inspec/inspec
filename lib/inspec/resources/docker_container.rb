@@ -1,16 +1,16 @@
 #
 # Copyright 2017, Christoph Hartmann
 
-require 'inspec/resources/docker'
-require_relative 'docker_object'
+require "inspec/resources/docker"
+require_relative "docker_object"
 
 module Inspec::Resources
   class DockerContainer < Inspec.resource(1)
     include Inspec::Resources::DockerObject
 
-    name 'docker_container'
-    supports platform: 'unix'
-    desc ''
+    name "docker_container"
+    supports platform: "unix"
+    desc ""
     example <<~EXAMPLE
       describe docker_container('an-echo-server') do
         it { should exist }
@@ -40,7 +40,7 @@ module Inspec::Resources
     end
 
     def running?
-      status.downcase.start_with?('up') if object_info.entries.length == 1
+      status.downcase.start_with?("up") if object_info.entries.length == 1
     end
 
     def status

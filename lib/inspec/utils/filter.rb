@@ -65,15 +65,15 @@ module FilterTable
 
     def self.to_ruby(trace)
       chain = trace.instance_variable_get(:@chain)
-      return '' if chain.empty?
-      ' ' + chain.map do |el|
+      return "" if chain.empty?
+      " " + chain.map do |el|
         m = el[0][0]
         args = el[0].drop(1)
         nxt = to_ruby(el[1])
         next m.to_s + nxt if args.empty?
-        next m.to_s + ' ' + args[0].inspect + nxt if args.length == 1
-        m.to_s + '(' + args.map(&:inspect).join(', ') + ')' + nxt
-      end.join(' ')
+        next m.to_s + " " + args[0].inspect + nxt if args.length == 1
+        m.to_s + "(" + args.map(&:inspect).join(", ") + ")" + nxt
+      end.join(" ")
     end
   end
 
@@ -112,7 +112,7 @@ module FilterTable
       # against the struct.
       if block_given?
         # Perform the filtering.
-        filtered_raw_data = filtered_raw_data.find_all { |row_as_hash| create_eval_context_for_row(row_as_hash, '').instance_eval(&block) }
+        filtered_raw_data = filtered_raw_data.find_all { |row_as_hash| create_eval_context_for_row(row_as_hash, "").instance_eval(&block) }
         # Try to interpret the block for updating the stringification.
         src = Trace.new
         # Swallow any exceptions raised here.
@@ -134,8 +134,8 @@ module FilterTable
 
     def create_eval_context_for_row(*_)
       raise "#{self.class} must not be used on its own. It must be inherited "\
-           'and the #create_eval_context_for_row method must be implemented. This is an internal '\
-           'error and should not happen.'
+           "and the #create_eval_context_for_row method must be implemented. This is an internal "\
+           "error and should not happen."
     end
 
     def resource
@@ -148,7 +148,7 @@ module FilterTable
     end
 
     def entries
-      row_criteria_string = resource.to_s + criteria_string + ' one entry'
+      row_criteria_string = resource.to_s + criteria_string + " one entry"
       raw_data.map do |row|
         create_eval_context_for_row(row, row_criteria_string)
       end
@@ -263,8 +263,8 @@ module FilterTable
 
     def decorate_symbols(thing)
       return thing.map { |t| decorate_symbols(t) } if thing.is_a?(Array)
-      return ':' + thing.to_s if thing.is_a? Symbol
-      return thing + ' (String)' if thing.is_a? String
+      return ":" + thing.to_s if thing.is_a? Symbol
+      return thing + " (String)" if thing.is_a? String
       thing
     end
   end
@@ -284,13 +284,15 @@ module FilterTable
     def install_filter_methods_on_resource(resource_class, raw_data_fetcher_method_name) # rubocop: disable Metrics/AbcSize, Metrics/MethodLength
       # A context in which you can access the fields as accessors
       non_block_struct_fields = @custom_properties.values.reject(&:block).map(&:field_name)
-      row_eval_context_type = Struct.new(*non_block_struct_fields.map(&:to_sym)) do
-        attr_accessor :criteria_string
-        attr_accessor :filter_table
-        def to_s
-          @criteria_string || super
+      unless non_block_struct_fields.empty?
+        row_eval_context_type = Struct.new(*non_block_struct_fields.map(&:to_sym)) do
+          attr_accessor :criteria_string
+          attr_accessor :filter_table
+          def to_s
+            @criteria_string || super
+          end
         end
-      end unless non_block_struct_fields.empty?
+      end
 
       properties_to_define = @custom_properties.map do |method_name, custom_property_structure|
         { method_name: method_name, method_body: create_custom_property_body(custom_property_structure) }
@@ -298,7 +300,7 @@ module FilterTable
 
       # Define the filter table subclass
       custom_properties = @custom_properties # We need a local var, not an instance var, for a closure below
-      table_class = Class.new(Table) {
+      table_class = Class.new(Table) do
         # Install each custom property onto the FilterTable subclass
         properties_to_define.each do |property_info|
           define_method property_info[:method_name], &property_info[:method_body]
@@ -309,14 +311,14 @@ module FilterTable
         end
 
         # Install a method that can wrap all the fields into a context with accessors
-        define_method :create_eval_context_for_row do |row_as_hash, criteria_string = ''|
+        define_method :create_eval_context_for_row do |row_as_hash, criteria_string = ""|
           return row_eval_context_type.new if row_as_hash.nil?
           context = row_eval_context_type.new(*non_block_struct_fields.map { |field| row_as_hash[field] })
           context.criteria_string = criteria_string
           context.filter_table = self
           context
         end
-      }
+      end
 
       # Now that the table class is defined and the row eval context struct is defined,
       # extend the row eval context struct to support triggering population of lazy fields
@@ -354,7 +356,7 @@ module FilterTable
         resource_class.send(:define_method, method_name) do |*args, &block|
           begin
             # self here is the resource instance
-            filter_table_instance = table_class.new(self, send(raw_data_fetcher_method_name), ' with')
+            filter_table_instance = table_class.new(self, send(raw_data_fetcher_method_name), " with")
             filter_table_instance.send(method_name, *args, &block)
           rescue Inspec::Exceptions::ResourceFailed, Inspec::Exceptions::ResourceSkipped => e
             FilterTable::ExceptionCatcher.new(resource_class, e)

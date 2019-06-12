@@ -1,10 +1,10 @@
-require 'resource_support/aws/aws_singular_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-ec2'
+require "resource_support/aws/aws_singular_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-ec2"
 
 class AwsEbsVolume < Inspec.resource(1)
-  name 'aws_ebs_volume'
-  desc 'Verifies settings for an EBS volume'
+  name "aws_ebs_volume"
+  desc "Verifies settings for an EBS volume"
 
   example <<~EXAMPLE
     describe aws_ebs_volume('vol-123456') do
@@ -17,7 +17,7 @@ class AwsEbsVolume < Inspec.resource(1)
       its('iops') { should cmp 100 }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   # TODO: rewrite to avoid direct injection, match other resources, use AwsSingularResourceMixin
   def initialize(opts, conn = nil)
@@ -35,7 +35,7 @@ class AwsEbsVolume < Inspec.resource(1)
     # The AWS error here is unhelpful:
     # "unable to sign request without credentials set"
     Inspec::Log.error "It appears that you have not set your AWS credentials. You may set them using environment variables, or using the 'aws://region/aws_credentials_profile' target. See https://www.inspec.io/docs/reference/platforms for details."
-    fail_resource('No AWS credentials available')
+    fail_resource("No AWS credentials available")
   rescue Aws::Errors::ServiceError => e
     fail_resource(e.message)
   end
@@ -59,10 +59,10 @@ class AwsEbsVolume < Inspec.resource(1)
         first = @ec2_resource.volumes(
           {
             filters: [{
-              name: 'tag:Name',
+              name: "tag:Name",
               values: [@opts[:name]],
             }],
-          },
+          }
         ).first
         # catch case where the volume is not known
         @volume_id = first.id unless first.nil?
@@ -96,9 +96,9 @@ class AwsEbsVolume < Inspec.resource(1)
   # is to use dumb things, like arrays of strings - use security_group_ids instead.
   def security_groups
     catch_aws_errors do
-      @security_groups ||= volume.security_groups.map { |sg|
+      @security_groups ||= volume.security_groups.map do |sg|
         { id: sg.group_id, name: sg.group_name }
-      }
+      end
     end
   end
 

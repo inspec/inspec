@@ -1,8 +1,8 @@
-require 'openssl'
+require "openssl"
 
 module Fetchers
   class Local < Inspec.fetcher(1)
-    name 'local'
+    name "local"
     priority 0
 
     def self.resolve(target)
@@ -27,11 +27,11 @@ module Fetchers
 
     def self.resolve_from_string(target)
       # Support "urls" in the form of file://
-      if target.start_with?('file://')
-        target = target.gsub(%r{^file://}, '')
+      if target.start_with?("file://")
+        target = target.gsub(%r{^file://}, "")
       else
         # support for windows paths
-        target = target.tr('\\', '/')
+        target = target.tr('\\', "/")
       end
 
       target if File.exist?(File.expand_path(target))
@@ -101,7 +101,7 @@ module Fetchers
     end
 
     def perform_shasum(target)
-      @archive_shasum ||= OpenSSL::Digest::SHA256.digest(File.read(target)).unpack('H*')[0]
+      @archive_shasum ||= OpenSSL::Digest::SHA256.digest(File.read(target)).unpack("H*")[0]
     end
 
     def resolved_source

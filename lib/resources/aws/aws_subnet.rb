@@ -1,17 +1,17 @@
-require 'resource_support/aws/aws_singular_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-ec2'
+require "resource_support/aws/aws_singular_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-ec2"
 
 class AwsSubnet < Inspec.resource(1)
-  name 'aws_subnet'
-  desc 'This resource is used to test the attributes of a VPC subnet'
+  name "aws_subnet"
+  desc "This resource is used to test the attributes of a VPC subnet"
   example <<~EXAMPLE
     describe aws_subnet(subnet_id: 'subnet-12345678') do
       it { should exist }
       its('cidr_block') { should eq '10.0.1.0/24' }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
   attr_reader :assigning_ipv_6_address_on_creation, :availability_zone, :available_ip_address_count,
@@ -33,7 +33,7 @@ class AwsSubnet < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:subnet_id],
       allowed_scalar_name: :subnet_id,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
 
     # Make sure the subnet_id parameter was specified and in the correct form.
@@ -42,7 +42,7 @@ class AwsSubnet < Inspec.resource(1)
     end
 
     if validated_params.empty?
-      raise ArgumentError, 'You must provide a subnet_id to aws_subnet.'
+      raise ArgumentError, "You must provide a subnet_id to aws_subnet."
     end
 
     validated_params
@@ -53,7 +53,7 @@ class AwsSubnet < Inspec.resource(1)
 
     # Transform into filter format expected by AWS
     filters = []
-    filters.push({ name: 'subnet-id', values: [@subnet_id] })
+    filters.push({ name: "subnet-id", values: [@subnet_id] })
     ds_response = backend.describe_subnets(filters: filters)
 
     # If no subnets exist in the VPC, exist is false.
@@ -73,7 +73,7 @@ class AwsSubnet < Inspec.resource(1)
     @available_ip_address_count          = ds_response.subnets[0].available_ip_address_count
     @default_for_az                      = ds_response.subnets[0].default_for_az
     @mapping_public_ip_on_launch         = ds_response.subnets[0].map_public_ip_on_launch
-    @available                           = ds_response.subnets[0].state == 'available'
+    @available                           = ds_response.subnets[0].state == "available"
     @ipv_6_cidr_block_association_set    = ds_response.subnets[0].ipv_6_cidr_block_association_set
     @assigning_ipv_6_address_on_creation = ds_response.subnets[0].assign_ipv_6_address_on_creation
   end

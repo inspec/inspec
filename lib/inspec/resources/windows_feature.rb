@@ -1,10 +1,10 @@
-require 'inspec/resources/command'
+require "inspec/resources/command"
 
 module Inspec::Resources
   class WindowsFeature < Inspec.resource(1)
-    name 'windows_feature'
-    supports platform: 'windows'
-    desc 'Use the windows_feature InSpec audit resource to test features on Microsoft Windows.'
+    name "windows_feature"
+    supports platform: "windows"
+    desc "Use the windows_feature InSpec audit resource to test features on Microsoft Windows."
     example <<~EXAMPLE
       # By default this resource will use Get-WindowsFeature.
       # Failing that, it will use DISM.
@@ -72,7 +72,7 @@ module Inspec::Resources
       if cmd.exit_status != 0
         feature_info = {
           name: feature,
-          description: 'N/A',
+          description: "N/A",
           installed: false,
         }
       else
@@ -100,7 +100,7 @@ module Inspec::Resources
       # non-server OS. This attempts to use the `dism` command to get the info.
       if cmd.stderr =~ /The term 'Get-WindowsFeature' is not recognized/
         feature_info[:name] = feature
-        feature_info[:error] = 'Could not find `Get-WindowsFeature`'
+        feature_info[:error] = "Could not find `Get-WindowsFeature`"
       else
         # We cannot rely on `cmd.exit_status != 0` because by default the
         # command will exit 1 even on success. So, if we cannot parse the JSON
@@ -109,9 +109,9 @@ module Inspec::Resources
           result = JSON.parse(cmd.stdout)
 
           feature_info = {
-            name: result['Name'],
-            description: result['Description'],
-            installed: result['Installed'],
+            name: result["Name"],
+            description: result["Description"],
+            installed: result["Installed"],
           }
         rescue JSON::ParserError => _e
           feature_info[:name] = feature

@@ -1,17 +1,17 @@
-require_relative 'docker_run'
-require_relative '../lib/inspec'
+require_relative "docker_run"
+require_relative "../lib/inspec"
 #
 # BUGON: These requires are to get around concurrency issues with
 # autoloading in Ruby
 #
-require 'train'
-require 'train/plugins'
-require 'train/plugins/transport'
-require 'train/transports/docker'
+require "train"
+require "train/plugins"
+require "train/plugins/transport"
+require "train/transports/docker"
 
 tests = ARGV
 if tests.empty?
-  puts 'Nothing to do.'
+  puts "Nothing to do."
   exit 0
 end
 
@@ -22,8 +22,8 @@ class DockerTester
   end
 
   def run
-    puts ['Running tests:', @tests].flatten.join("\n- ")
-    puts ''
+    puts ["Running tests:", @tests].flatten.join("\n- ")
+    puts ""
 
     conf = RSpec.configuration
     reporter = conf.reporter
@@ -40,12 +40,12 @@ class DockerTester
     # check if we were successful
     failures = results.compact
     failures.each { |f| puts "\033[31;1m#{f}\033[0m\n\n" }
-    failures.empty? or fail 'Test failures'
+    failures.empty? || raise("Test failures")
   end
 
   def test_container(container, report)
     puts "--> run test on docker #{container.id}"
-    opts = { 'target' => "docker://#{container.id}" }
+    opts = { "target" => "docker://#{container.id}" }
     runner = Inspec::Runner.new(opts)
     @tests.each { |test| runner.add_target(test) }
     runner.tests.map { |g| g.run(report) }

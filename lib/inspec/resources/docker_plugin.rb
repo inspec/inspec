@@ -1,10 +1,10 @@
-require 'inspec/resources/docker'
+require "inspec/resources/docker"
 
 module Inspec::Resources
   class DockerPlugin < Inspec.resource(1)
-    name 'docker_plugin'
-    supports platform: 'unix'
-    desc 'Retrieves info about docker plugins'
+    name "docker_plugin"
+    supports platform: "unix"
+    desc "Retrieves info about docker plugins"
     example <<~EXAMPLE
       describe docker_plugin('rexray/ebs') do
         it { should exist }
@@ -55,9 +55,9 @@ module Inspec::Resources
     def object_info
       return @info if defined?(@info)
       opts = @opts
-      @info = inspec.docker.plugins.where {
+      @info = inspec.docker.plugins.where do
         (name == opts[:name]) || (!id.nil? && !opts[:id].nil? && (id == opts[:id]))
-      }
+      end
     end
   end
 end

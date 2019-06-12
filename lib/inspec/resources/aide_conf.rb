@@ -1,11 +1,11 @@
-require 'inspec/utils/filter'
-require 'inspec/utils/parser'
-require 'inspec/utils/file_reader'
+require "inspec/utils/filter"
+require "inspec/utils/parser"
+require "inspec/utils/file_reader"
 
 module Inspec::Resources
   class AideConf < Inspec.resource(1)
-    name 'aide_conf'
-    supports platform: 'unix'
+    name "aide_conf"
+    supports platform: "unix"
     desc 'Use the aide_conf InSpec audit resource to test the rules established for
       the file integrity tool AIDE. Controlled by the aide.conf file typically at /etc/aide.conf.'
     example <<~EXAMPLE
@@ -28,7 +28,7 @@ module Inspec::Resources
     include FileReader
 
     def initialize(aide_conf_path = nil)
-      @conf_path = aide_conf_path || '/etc/aide.conf'
+      @conf_path = aide_conf_path || "/etc/aide.conf"
       @content = nil
       @rules = nil
       read_content
@@ -38,13 +38,13 @@ module Inspec::Resources
       # Case when file didn't exist or perms didn't allow an open
       return false if @content.nil?
 
-      lines = @params.reject { |line| line['rules'].include? rule }
+      lines = @params.reject { |line| line["rules"].include? rule }
       lines.empty?
     end
 
     filter = FilterTable.create
-    filter.register_column(:selection_lines, field: 'selection_line')
-          .register_column(:rules,           field: 'rules')
+    filter.register_column(:selection_lines, field: "selection_line")
+          .register_column(:rules,           field: "rules")
 
     filter.install_filter_methods_on_resource(self, :params)
 
@@ -64,7 +64,7 @@ module Inspec::Resources
     def filter_comments(data)
       content = []
       data.each do |line|
-        content_line, = parse_comment_line(line, comment_char: '#', standalone_comments: false)
+        content_line, = parse_comment_line(line, comment_char: "#", standalone_comments: false)
         content.push(content_line)
       end
       content
@@ -74,7 +74,7 @@ module Inspec::Resources
       params = []
       content.each do |line|
         param = parse_line(line)
-        if !param['selection_line'].nil?
+        if !param["selection_line"].nil?
           params.push(param)
         end
       end
@@ -84,19 +84,19 @@ module Inspec::Resources
     def parse_line(line)
       line_and_rules = {}
       # Case when line is a rule line
-      if line.include?(' = ')
+      if line.include?(" = ")
         parse_rule_line(line)
       # Case when line is a selection line
-      elsif line.start_with?('/', '!', '=')
+      elsif line.start_with?("/", "!", "=")
         line_and_rules = parse_selection_line(line)
       end
       line_and_rules
     end
 
     def parse_rule_line(line)
-      line.gsub!(/\s+/, '')
-      rule_line_arr = line.split('=')
-      rules_list = rule_line_arr.last.split('+')
+      line.gsub!(/\s+/, "")
+      rule_line_arr = line.split("=")
+      rules_list = rule_line_arr.last.split("+")
       rule_name = rule_line_arr.first
       rules_list.each_index do |i|
         # Cases where rule respresents one or more other rules
@@ -109,10 +109,10 @@ module Inspec::Resources
     end
 
     def parse_selection_line(line)
-      selec_line_arr = line.split(' ')
+      selec_line_arr = line.split(" ")
       selection_line = selec_line_arr.first
-      selection_line.chop! if selection_line.end_with?('/')
-      rule_list = selec_line_arr.last.split('+')
+      selection_line.chop! if selection_line.end_with?("/")
+      rule_list = selec_line_arr.last.split("+")
       rule_list.each_index do |i|
         hash_list = @rules[rule_list[i]]
         # Cases where rule respresents one or more other rules
@@ -123,8 +123,8 @@ module Inspec::Resources
       end
       rule_list.flatten!
       {
-        'selection_line' => selection_line,
-        'rules' => rule_list,
+        "selection_line" => selection_line,
+        "rules" => rule_list,
       }
     end
 
@@ -135,11 +135,11 @@ module Inspec::Resources
       grow_log_rules = %w{p l u g i n S}
 
       case rule_list[i]
-      when 'R'
+      when "R"
         return r_rules
-      when 'L'
+      when "L"
         return l_rules
-      when '>'
+      when ">"
         return grow_log_rules
       end
       rule_list[i]

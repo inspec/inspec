@@ -7,14 +7,14 @@
 #   its('split') { should_not include('.') }
 # end
 
-require 'inspec/utils/simpleconfig'
+require "inspec/utils/simpleconfig"
 
 module Inspec::Resources
   class OsEnv < Inspec.resource(1)
-    name 'os_env'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the os_env InSpec audit resource to test the environment variables for the platform on which the system is running.'
+    name "os_env"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the os_env InSpec audit resource to test the environment variables for the platform on which the system is running."
     example <<~EXAMPLE
       describe os_env('VARIABLE') do
         its('matcher') { should eq 1 }
@@ -24,10 +24,10 @@ module Inspec::Resources
     def initialize(env = nil, target = nil)
       @osenv = env
       @target = unless target.nil?
-                  if target.casecmp('system') == 0
-                    'Machine'
+                  if target.casecmp("system") == 0
+                    "Machine"
                   else
-                    'User'
+                    "User"
                   end
                 end
     end
@@ -35,7 +35,7 @@ module Inspec::Resources
     def split
       # we can't take advantage of `File::PATH_SEPARATOR` as code is
       # evaluated on the host machine
-      path_separator = inspec.os.windows? ? ';' : ':'
+      path_separator = inspec.os.windows? ? ";" : ":"
       # -1 is required to catch cases like dir1::dir2:
       # where we have a trailing :
       content.nil? ? [] : content.split(path_separator, -1)
@@ -48,7 +48,7 @@ module Inspec::Resources
 
     def to_s
       if @osenv.nil?
-        'Environment variables'
+        "Environment variables"
       else
         "Environment variable #{@osenv}"
       end
@@ -64,7 +64,7 @@ module Inspec::Resources
                     "[System.Environment]::GetEnvironmentVariable('#{env}', [System.EnvironmentVariableTarget]::#{target})"
                   end
                 else
-                  'env'
+                  "env"
                 end
 
       out = inspec.command(command)

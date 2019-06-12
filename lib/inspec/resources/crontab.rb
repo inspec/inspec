@@ -1,12 +1,12 @@
-require 'inspec/resources/file'
-require 'inspec/utils/parser'
-require 'inspec/utils/filter'
+require "inspec/resources/file"
+require "inspec/utils/parser"
+require "inspec/utils/filter"
 
 module Inspec::Resources
   class Crontab < Inspec.resource(1)
-    name 'crontab'
-    supports platform: 'unix'
-    desc 'Use the crontab InSpec audit resource to test the contents of the crontab for a given user which contains information about scheduled tasks owned by that user.'
+    name "crontab"
+    supports platform: "unix"
+    desc "Use the crontab InSpec audit resource to test the contents of the crontab for a given user which contains information about scheduled tasks owned by that user."
     example <<~EXAMPLE
       describe crontab(user: 'root') do
         its('commands') { should include '/path/to/some/script' }
@@ -39,8 +39,8 @@ module Inspec::Resources
         Hash[opts.map { |k, v| [k.to_sym, v] }]
         @user = opts.fetch(:user, nil)
         @path = opts.fetch(:path, nil)
-        raise Inspec::Exceptions::ResourceFailed, 'A user or path must be supplied.' if @user.nil? && @path.nil?
-        raise Inspec::Exceptions::ResourceFailed, 'Either user or path must be supplied, not both!' if !@user.nil? && !@path.nil?
+        raise Inspec::Exceptions::ResourceFailed, "A user or path must be supplied." if @user.nil? && @path.nil?
+        raise Inspec::Exceptions::ResourceFailed, "Either user or path must be supplied, not both!" if !@user.nil? && !@path.nil?
       else
         @user = opts
         @path = nil
@@ -59,31 +59,31 @@ module Inspec::Resources
     end
 
     def parse_crontab_line(l)
-      data, = parse_comment_line(l, comment_char: '#', standalone_comments: false)
+      data, = parse_comment_line(l, comment_char: "#", standalone_comments: false)
       return nil if data.nil? || data.empty?
 
       is_system_crontab? ? parse_system_crontab(data) : parse_user_crontab(data)
     end
 
     def crontab_cmd
-      @user.nil? ? 'crontab -l' : "crontab -l -u #{@user}"
+      @user.nil? ? "crontab -l" : "crontab -l -u #{@user}"
     end
 
     filter = FilterTable.create
-    filter.register_column(:minutes,  field: 'minute')
-          .register_column(:hours,    field: 'hour')
-          .register_column(:days,     field: 'day')
-          .register_column(:months,   field: 'month')
-          .register_column(:weekdays, field: 'weekday')
-          .register_column(:user,     field: 'user')
-          .register_column(:commands, field: 'command')
+    filter.register_column(:minutes,  field: "minute")
+          .register_column(:hours,    field: "hour")
+          .register_column(:days,     field: "day")
+          .register_column(:months,   field: "month")
+          .register_column(:weekdays, field: "weekday")
+          .register_column(:user,     field: "user")
+          .register_column(:commands, field: "command")
 
     # rebuild the crontab line from raw content
-    filter.register_custom_property(:content) { |t, _|
+    filter.register_custom_property(:content) do |t, _|
       t.entries.map do |e|
-        [e.minute, e.hour, e.day, e.month, e.weekday, e.user, e.command].compact.join(' ')
+        [e.minute, e.hour, e.day, e.month, e.weekday, e.user, e.command].compact.join(" ")
       end.join("\n")
-    }
+    end
 
     filter.install_filter_methods_on_resource(self, :params)
 
@@ -93,7 +93,7 @@ module Inspec::Resources
       elsif is_user_crontab?
         "crontab for user #{@user}"
       else
-        'crontab for current user'
+        "crontab for current user"
       end
     end
 
@@ -111,32 +111,32 @@ module Inspec::Resources
       case data
       when /@hourly .*/
         elements = data.split(/\s+/, 3)
-        { 'minute' => '0', 'hour' => '*', 'day' => '*', 'month' => '*', 'weekday' => '*', 'user' => elements.at(1), 'command' => elements.at(2) }
+        { "minute" => "0", "hour" => "*", "day" => "*", "month" => "*", "weekday" => "*", "user" => elements.at(1), "command" => elements.at(2) }
       when /@(midnight|daily) .*/
         elements = data.split(/\s+/, 3)
-        { 'minute' => '0', 'hour' => '0', 'day' => '*', 'month' => '*', 'weekday' => '*', 'user' => elements.at(1), 'command' => elements.at(2) }
+        { "minute" => "0", "hour" => "0", "day" => "*", "month" => "*", "weekday" => "*", "user" => elements.at(1), "command" => elements.at(2) }
       when /@weekly .*/
         elements = data.split(/\s+/, 3)
-        { 'minute' => '0', 'hour' => '0', 'day' => '*', 'month' => '*', 'weekday' => '0', 'user' => elements.at(1), 'command' => elements.at(2) }
+        { "minute" => "0", "hour" => "0", "day" => "*", "month" => "*", "weekday" => "0", "user" => elements.at(1), "command" => elements.at(2) }
       when /@monthly ./
         elements = data.split(/\s+/, 3)
-        { 'minute' => '0', 'hour' => '0', 'day' => '1', 'month' => '*', 'weekday' => '*', 'user' => elements.at(1), 'command' => elements.at(2) }
+        { "minute" => "0", "hour" => "0", "day" => "1", "month" => "*", "weekday" => "*", "user" => elements.at(1), "command" => elements.at(2) }
       when /@(annually|yearly) .*/
         elements = data.split(/\s+/, 3)
-        { 'minute' => '0', 'hour' => '0', 'day' => '1', 'month' => '1', 'weekday' => '*', 'user' => elements.at(1), 'command' => elements.at(2) }
+        { "minute" => "0", "hour" => "0", "day" => "1", "month" => "1", "weekday" => "*", "user" => elements.at(1), "command" => elements.at(2) }
       when /@reboot .*/
         elements = data.split(/\s+/, 3)
-        { 'minute' => '-1', 'hour' => '-1', 'day' => '-1', 'month' => '-1', 'weekday' => '-1', 'user' => elements.at(1), 'command' => elements.at(2) }
+        { "minute" => "-1", "hour" => "-1", "day" => "-1", "month" => "-1", "weekday" => "-1", "user" => elements.at(1), "command" => elements.at(2) }
       else
         elements = data.split(/\s+/, 7)
         {
-          'minute'  => elements.at(0),
-          'hour'    => elements.at(1),
-          'day'     => elements.at(2),
-          'month'   => elements.at(3),
-          'weekday' => elements.at(4),
-          'user'    => elements.at(5),
-          'command' => elements.at(6),
+          "minute" => elements.at(0),
+          "hour" => elements.at(1),
+          "day" => elements.at(2),
+          "month" => elements.at(3),
+          "weekday" => elements.at(4),
+          "user" => elements.at(5),
+          "command" => elements.at(6),
         }
       end
     end
@@ -144,27 +144,27 @@ module Inspec::Resources
     def parse_user_crontab(data)
       case data
       when /@hourly .*/
-        { 'minute' => '0', 'hour' => '*', 'day' => '*', 'month' => '*', 'weekday' => '*', 'user' => @user, 'command' => data.split(/\s+/, 2).at(1) }
+        { "minute" => "0", "hour" => "*", "day" => "*", "month" => "*", "weekday" => "*", "user" => @user, "command" => data.split(/\s+/, 2).at(1) }
       when /@(midnight|daily) .*/
-        { 'minute' => '0', 'hour' => '0', 'day' => '*', 'month' => '*', 'weekday' => '*', 'user' => @user, 'command' => data.split(/\s+/, 2).at(1) }
+        { "minute" => "0", "hour" => "0", "day" => "*", "month" => "*", "weekday" => "*", "user" => @user, "command" => data.split(/\s+/, 2).at(1) }
       when /@weekly .*/
-        { 'minute' => '0', 'hour' => '0', 'day' => '*', 'month' => '*', 'weekday' => '0', 'user' => @user, 'command' => data.split(/\s+/, 2).at(1) }
+        { "minute" => "0", "hour" => "0", "day" => "*", "month" => "*", "weekday" => "0", "user" => @user, "command" => data.split(/\s+/, 2).at(1) }
       when /@monthly ./
-        { 'minute' => '0', 'hour' => '0', 'day' => '1', 'month' => '*', 'weekday' => '*', 'user' => @user, 'command' => data.split(/\s+/, 2).at(1) }
+        { "minute" => "0", "hour" => "0", "day" => "1", "month" => "*", "weekday" => "*", "user" => @user, "command" => data.split(/\s+/, 2).at(1) }
       when /@(annually|yearly) .*/
-        { 'minute' => '0', 'hour' => '0', 'day' => '1', 'month' => '1', 'weekday' => '*', 'user' => @user, 'command' => data.split(/\s+/, 2).at(1) }
+        { "minute" => "0", "hour" => "0", "day" => "1", "month" => "1", "weekday" => "*", "user" => @user, "command" => data.split(/\s+/, 2).at(1) }
       when /@reboot .*/
-        { 'minute' => '-1', 'hour' => '-1', 'day' => '-1', 'month' => '-1', 'weekday' => '-1', 'user' => @user, 'command' => data.split(/\s+/, 2).at(1) }
+        { "minute" => "-1", "hour" => "-1", "day" => "-1", "month" => "-1", "weekday" => "-1", "user" => @user, "command" => data.split(/\s+/, 2).at(1) }
       else
         elements = data.split(/\s+/, 6)
         {
-          'minute'  => elements.at(0),
-          'hour'    => elements.at(1),
-          'day'     => elements.at(2),
-          'month'   => elements.at(3),
-          'weekday' => elements.at(4),
-          'user'    => @user,
-          'command' => elements.at(5),
+          "minute" => elements.at(0),
+          "hour" => elements.at(1),
+          "day" => elements.at(2),
+          "month" => elements.at(3),
+          "weekday" => elements.at(4),
+          "user" => @user,
+          "command" => elements.at(5),
         }
       end
     end

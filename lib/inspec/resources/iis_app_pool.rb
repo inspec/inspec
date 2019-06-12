@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-require 'inspec/resources/powershell'
+require "inspec/resources/powershell"
 
 # check for web applications in IIS
 # Note: this is only supported in windows 2012 and later
 
 class IisAppPool < Inspec.resource(1)
-  name 'iis_app_pool'
-  desc 'Tests IIS application pool configuration on windows.'
-  supports platform: 'windows'
+  name "iis_app_pool"
+  desc "Tests IIS application pool configuration on windows."
+  supports platform: "windows"
   example <<~EXAMPLE
     describe iis_app_pool('DefaultAppPool') do
       it { should exist }
@@ -24,7 +24,7 @@ class IisAppPool < Inspec.resource(1)
     @cache = nil
 
     # verify that this resource is only supported on Windows
-    return skip_resource 'The `iis_app_pool` resource is not supported on your OS.' unless inspec.os.windows?
+    return skip_resource "The `iis_app_pool` resource is not supported on your OS." unless inspec.os.windows?
   end
 
   def pool_name
@@ -104,26 +104,26 @@ class IisAppPool < Inspec.resource(1)
     begin
       pool = JSON.parse(cmd.stdout)
     rescue JSON::ParserError => _e
-      raise Inspec::Exceptions::ResourceFailed, 'Unable to parse app pool JSON'
+      raise Inspec::Exceptions::ResourceFailed, "Unable to parse app pool JSON"
     end
 
-    process_model = pool.fetch('processModel', {})
-    idle_timeout = process_model.fetch('idleTimeout', {})
+    process_model = pool.fetch("processModel", {})
+    idle_timeout = process_model.fetch("idleTimeout", {})
 
     # map our values to a hash table
     @cache = {
-      pool_name: pool['name'],
-      version: pool['managedRuntimeVersion'],
-      e32b: pool['enable32BitAppOnWin64'],
-      mode: pool['managedPipelineMode'],
-      processes: process_model['maxProcesses'],
+      pool_name: pool["name"],
+      version: pool["managedRuntimeVersion"],
+      e32b: pool["enable32BitAppOnWin64"],
+      mode: pool["managedPipelineMode"],
+      processes: process_model["maxProcesses"],
       timeout: "#{idle_timeout['Hours']}:#{idle_timeout['Minutes']}:#{idle_timeout['Seconds']}",
-      timeout_days: idle_timeout['Days'],
-      timeout_hours: idle_timeout['Hours'],
-      timeout_minutes: idle_timeout['Minutes'],
-      timeout_seconds: idle_timeout['Seconds'],
-      user_identity_type: process_model['identityType'],
-      username: process_model['userName'],
+      timeout_days: idle_timeout["Days"],
+      timeout_hours: idle_timeout["Hours"],
+      timeout_minutes: idle_timeout["Minutes"],
+      timeout_seconds: idle_timeout["Seconds"],
+      user_identity_type: process_model["identityType"],
+      username: process_model["userName"],
     }
   end
 end

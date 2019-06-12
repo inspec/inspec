@@ -1,6 +1,6 @@
-require 'singleton'
-require 'json'
-require 'inspec/globals'
+require "singleton"
+require "json"
+require "inspec/globals"
 
 module Inspec::Plugin::V2
   Exclusion = Struct.new(:plugin_name, :rationale)
@@ -27,33 +27,33 @@ module Inspec::Plugin::V2
     private
 
     def read_filter_data
-      path = File.join(Inspec.src_root, 'etc', 'plugin_filters.json')
+      path = File.join(Inspec.src_root, "etc", "plugin_filters.json")
       @filter_data = JSON.parse(File.read(path))
 
-      unless @filter_data['file_version'] == '1.0.0'
+      unless @filter_data["file_version"] == "1.0.0"
         raise Inspec::Plugin::V2::ConfigError, "Unknown plugin fillter file format at #{path}"
       end
 
-      validate_plugin_filter_file('1.0.0')
+      validate_plugin_filter_file("1.0.0")
 
-      @filter_data[:exclude] = @filter_data['exclude'].map do |entry|
-        Exclusion.new(entry['plugin_name'], entry['rationale'])
+      @filter_data[:exclude] = @filter_data["exclude"].map do |entry|
+        Exclusion.new(entry["plugin_name"], entry["rationale"])
       end
-      @filter_data.delete('exclude')
+      @filter_data.delete("exclude")
     end
 
     def validate_plugin_filter_file(_file_version)
-      unless @filter_data.key?('exclude') && @filter_data['exclude'].is_a?(Array)
+      unless @filter_data.key?("exclude") && @filter_data["exclude"].is_a?(Array)
         raise Inspec::Plugin::V2::ConfigError, 'Unknown plugin fillter file format: expected "exclude" to be an array'
       end
-      @filter_data['exclude'].each_with_index do |entry, idx|
+      @filter_data["exclude"].each_with_index do |entry, idx|
         unless entry.is_a? Hash
           raise Inspec::Plugin::V2::ConfigError, "Unknown plugin fillter file format: expected entry #{idx} to be a Hash / JS Object"
         end
-        unless entry.key?('plugin_name')
+        unless entry.key?("plugin_name")
           raise Inspec::Plugin::V2::ConfigError, "Unknown plugin fillter file format: expected entry #{idx} to have a \"plugin_name\" field"
         end
-        unless entry.key?('rationale')
+        unless entry.key?("rationale")
           raise Inspec::Plugin::V2::ConfigError, "Unknown plugin fillter file format: expected entry #{idx} to have a \"rationale\" field"
         end
       end

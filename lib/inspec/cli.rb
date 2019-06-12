@@ -1,58 +1,58 @@
 # Copyright 2015 Dominik Richter
 
-require 'logger'
-require 'thor'
-require 'json'
-require 'pp'
-require 'inspec/utils/json_log'
-require 'inspec/utils/latest_version'
-require 'inspec/base_cli'
-require 'inspec/plugin/v1'
-require 'inspec/plugin/v2'
-require 'inspec/runner_mock'
-require 'inspec/env_printer'
-require 'inspec/schema'
-require 'inspec/config'
-require 'inspec/dist'
+require "logger"
+require "thor"
+require "json"
+require "pp"
+require "inspec/utils/json_log"
+require "inspec/utils/latest_version"
+require "inspec/base_cli"
+require "inspec/plugin/v1"
+require "inspec/plugin/v2"
+require "inspec/runner_mock"
+require "inspec/env_printer"
+require "inspec/schema"
+require "inspec/config"
+require "inspec/dist"
 
 class Inspec::InspecCLI < Inspec::BaseCLI
   class_option :log_level, aliases: :l, type: :string,
-               desc: 'Set the log level: info (default), debug, warn, error'
+               desc: "Set the log level: info (default), debug, warn, error"
 
   class_option :log_location, type: :string,
-               desc: 'Location to send diagnostic log messages to. (default: $stdout or Inspec::Log.error)'
+               desc: "Location to send diagnostic log messages to. (default: $stdout or Inspec::Log.error)"
 
   class_option :diagnose, type: :boolean,
-    desc: 'Show diagnostics (versions, configurations)'
+    desc: "Show diagnostics (versions, configurations)"
 
   class_option :color, type: :boolean,
-    desc: 'Use colors in output.'
+    desc: "Use colors in output."
 
   class_option :interactive, type: :boolean,
-    desc: 'Allow or disable user interaction'
+    desc: "Allow or disable user interaction"
 
-  class_option :disable_core_plugins, type: :string, banner: '', # Actually a boolean, but this suppresses the creation of a --no-disable...
-    desc: 'Disable loading all plugins that are shipped in the lib/plugins directory of InSpec. Useful in development.'
+  class_option :disable_core_plugins, type: :string, banner: "", # Actually a boolean, but this suppresses the creation of a --no-disable...
+    desc: "Disable loading all plugins that are shipped in the lib/plugins directory of InSpec. Useful in development."
 
-  class_option :disable_user_plugins, type: :string, banner: '',
-    desc: 'Disable loading all plugins that the user installed.'
+  class_option :disable_user_plugins, type: :string, banner: "",
+    desc: "Disable loading all plugins that the user installed."
 
   class_option :enable_telemetry, type: :boolean,
-    desc: 'Allow or disable telemetry', default: false
+    desc: "Allow or disable telemetry", default: false
 
-  require 'license_acceptance/cli_flags/thor'
+  require "license_acceptance/cli_flags/thor"
   include LicenseAcceptance::CLIFlags::Thor
 
-  desc 'json PATH', 'read all tests in PATH and generate a JSON summary'
+  desc "json PATH", "read all tests in PATH and generate a JSON summary"
   option :output, aliases: :o, type: :string,
-    desc: 'Save the created profile to a path'
+    desc: "Save the created profile to a path"
   option :controls, type: :array,
-    desc: 'A list of controls to include. Ignore all other tests.'
+    desc: "A list of controls to include. Ignore all other tests."
   profile_options
   def json(target)
     o = config
     diagnose(o)
-    o['log_location'] = $stderr
+    o["log_location"] = $stderr
     configure_logger(o)
 
     o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
@@ -63,7 +63,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     info = profile.info
     # add in inspec version
     info[:generator] = {
-      name: 'inspec',
+      name: "inspec",
       version: Inspec::VERSION,
     }
     dst = o[:output].to_s
@@ -82,14 +82,14 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc 'check PATH', 'verify all tests at the specified PATH'
+  desc "check PATH", "verify all tests at the specified PATH"
   option :format, type: :string
   profile_options
   def check(path) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     o = config
     diagnose(o)
-    o['log_location'] ||= STDERR if o['format'] == 'json'
-    o['log_level'] ||= 'warn'
+    o["log_location"] ||= STDERR if o["format"] == "json"
+    o["log_level"] ||= "warn"
     configure_logger(o)
 
     o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
@@ -100,25 +100,25 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     profile = Inspec::Profile.for_target(path, o)
     result = profile.check
 
-    if o['format'] == 'json'
+    if o["format"] == "json"
       puts JSON.generate(result)
     else
       %w{location profile controls timestamp valid}.each do |item|
-        puts format('%-12s %s', item.to_s.capitalize + ':',
+        puts format("%-12s %s", item.to_s.capitalize + ":",
                     mark_text(result[:summary][item.to_sym]))
       end
       puts
 
-      if result[:errors].empty? and result[:warnings].empty?
-        puts 'No errors or warnings'
+      if result[:errors].empty? && result[:warnings].empty?
+        puts "No errors or warnings"
       else
         red    = "\033[31m"
         yellow = "\033[33m"
         rst    = "\033[0m"
 
         item_msg = lambda { |item|
-          pos = [item[:file], item[:line], item[:column]].compact.join(':')
-          pos.empty? ? item[:msg] : pos + ': ' + item[:msg]
+          pos = [item[:file], item[:line], item[:column]].compact.join(":")
+          pos.empty? ? item[:msg] : pos + ": " + item[:msg]
         }
         result[:errors].each do |item|
           puts "#{red}  ✖  #{item_msg.call(item)}#{rst}"
@@ -128,7 +128,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
         end
 
         puts
-        puts format('Summary:     %s%d errors%s, %s%d warnings%s',
+        puts format("Summary:     %s%d errors%s, %s%d warnings%s",
                     red, result[:errors].length, rst,
                     yellow, result[:warnings].length, rst)
       end
@@ -138,9 +138,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc 'vendor PATH', 'Download all dependencies and generate a lockfile in a `vendor` directory'
+  desc "vendor PATH", "Download all dependencies and generate a lockfile in a `vendor` directory"
   option :overwrite, type: :boolean, default: false,
-    desc: 'Overwrite existing vendored dependencies and lockfile.'
+    desc: "Overwrite existing vendored dependencies and lockfile."
   def vendor(path = nil)
     o = config
     configure_logger(o)
@@ -150,18 +150,18 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     vendor_deps(path, o)
   end
 
-  desc 'archive PATH', 'archive a profile to tar.gz (default) or zip'
+  desc "archive PATH", "archive a profile to tar.gz (default) or zip"
   profile_options
   option :output, aliases: :o, type: :string,
-    desc: 'Save the archive to a path'
+    desc: "Save the archive to a path"
   option :zip, type: :boolean, default: false,
-    desc: 'Generates a zip archive.'
+    desc: "Generates a zip archive."
   option :tar, type: :boolean, default: false,
-    desc: 'Generates a tar.gz archive.'
+    desc: "Generates a tar.gz archive."
   option :overwrite, type: :boolean, default: false,
-    desc: 'Overwrite existing archive.'
+    desc: "Overwrite existing archive."
   option :ignore_errors, type: :boolean, default: false,
-    desc: 'Ignore profile warnings.'
+    desc: "Ignore profile warnings."
   def archive(path)
     o = config
     diagnose(o)
@@ -179,7 +179,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     result = profile.check
 
     if result && !o[:ignore_errors] == false
-      o[:logger].info 'Profile check failed. Please fix the profile before generating an archive.'
+      o[:logger].info "Profile check failed. Please fix the profile before generating an archive."
       return exit 1
     end
 
@@ -189,7 +189,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc 'exec LOCATIONS', 'run all test files at the specified LOCATIONS.'
+  desc "exec LOCATIONS", "run all test files at the specified LOCATIONS."
   # TODO: find a way for Thor not to butcher the formatting of this
   long_desc <<~EOT
     Loads the given profile(s) and fetches their dependencies if needed. Then
@@ -279,17 +279,17 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc 'detect', 'detect the target OS'
+  desc "detect", "detect the target OS"
   target_options
   option :format, type: :string
   def detect
     o = config
-    o[:command] = 'platform.params'
+    o[:command] = "platform.params"
     (_, res) = run_command(o)
-    if o['format'] == 'json'
+    if o["format"] == "json"
       puts res.to_json
     else
-      headline('Platform Details')
+      headline("Platform Details")
       puts Inspec::BaseCLI.format_platform_info(params: res, indent: 0, color: 36)
     end
   rescue ArgumentError, RuntimeError, Train::UserError => e
@@ -299,17 +299,17 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc 'shell', 'open an interactive debugging shell'
+  desc "shell", "open an interactive debugging shell"
   target_options
   option :command, aliases: :c,
-    desc: 'A single command string to run instead of launching the shell'
+    desc: "A single command string to run instead of launching the shell"
   option :reporter, type: :array,
-    banner: 'one two:/output/file/path',
-    desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit'
+    banner: "one two:/output/file/path",
+    desc: "Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit"
   option :depends, type: :array, default: [],
-    desc: 'A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell'
+    desc: "A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell"
   option :distinct_exit, type: :boolean, default: true,
-    desc: 'Exit with code 100 if any tests fail, and 101 if any are skipped but none failed (default).  If disabled, exit 0 on skips and 1 for failures.'
+    desc: "Exit with code 100 if any tests fail, and 101 if any are skipped but none failed (default).  If disabled, exit 0 on skips and 1 for failures."
   def shell_func
     o = config
     diagnose(o)
@@ -328,7 +328,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     exit res unless run_type == :ruby_eval
 
     # No InSpec tests - just print evaluation output.
-    res = (res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)) if o['reporter']&.keys&.include?('json')
+    res = (res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)) if o["reporter"]&.keys&.include?("json")
     puts res
     exit 0
   rescue RuntimeError, Train::UserError => e
@@ -337,7 +337,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc 'env', 'Output shell-appropriate completion configuration'
+  desc "env", "Output shell-appropriate completion configuration"
   def env(shell = nil)
     p = Inspec::EnvPrinter.new(self.class, shell)
     p.print_and_exit!
@@ -345,7 +345,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc 'schema NAME', 'print the JSON schema', hide: true
+  desc "schema NAME", "print the JSON schema", hide: true
   def schema(name)
     puts Inspec::Schema.json(name)
   rescue StandardError => e
@@ -353,10 +353,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     puts "Valid schemas are #{Inspec::Schema.names.join(', ')}"
   end
 
-  desc 'version', 'prints the version of this tool'
+  desc "version", "prints the version of this tool"
   option :format, type: :string
   def version
-    if config['format'] == 'json'
+    if config["format"] == "json"
       v = { version: Inspec::VERSION }
       puts v.to_json
     else
@@ -386,25 +386,25 @@ end
 #                        Pre-Flight Code
 #=====================================================================#
 
-help_commands = ['-h', '--help', 'help']
-version_commands = ['-v', '--version', 'version']
+help_commands = ["-h", "--help", "help"]
+version_commands = ["-v", "--version", "version"]
 commands_exempt_from_license_check = help_commands + version_commands
 
 #---------------------------------------------------------------------#
 # EULA acceptance
 #---------------------------------------------------------------------#
-require 'license_acceptance/acceptor'
+require "license_acceptance/acceptor"
 begin
-  if (commands_exempt_from_license_check & ARGV.map(&:downcase)).empty? &&  # Did they use a non-exempt command?
-     !ARGV.empty?                                                           # Did they supply at least one command?
+  if (commands_exempt_from_license_check & ARGV.map(&:downcase)).empty? && # Did they use a non-exempt command?
+      !ARGV.empty? # Did they supply at least one command?
     LicenseAcceptance::Acceptor.check_and_persist(
-      'inspec',
+      "inspec",
       Inspec::VERSION,
-      logger: Inspec::Log,
+      logger: Inspec::Log
     )
   end
 rescue LicenseAcceptance::LicenseNotAcceptedError
-  Inspec::Log.error 'InSpec cannot execute without accepting the license'
+  Inspec::Log.error "InSpec cannot execute without accepting the license"
   Inspec::UI.new.exit(:license_not_accepted)
 end
 
@@ -425,8 +425,8 @@ end
 #---------------------------------------------------------------------#
 begin
   # Load v2 plugins.  Manually check for plugin disablement.
-  omit_core = ARGV.delete('--disable-core-plugins')
-  omit_user = ARGV.delete('--disable-user-plugins')
+  omit_core = ARGV.delete("--disable-core-plugins")
+  omit_user = ARGV.delete("--disable-user-plugins")
   v2_loader = Inspec::Plugin::V2::Loader.new(omit_core_plugins: omit_core, omit_user_plugins: omit_user)
   v2_loader.load_all
   v2_loader.exit_on_load_error
@@ -437,23 +437,23 @@ begin
   ctl.list.each { |x| ctl.load(x) }
 
   # load v1 CLI plugins before the InSpec CLI has been started
-  Inspec::Plugins::CLI.subcommands.each { |_subcommand, params|
+  Inspec::Plugins::CLI.subcommands.each do |_subcommand, params|
     Inspec::InspecCLI.register(
       params[:klass],
       params[:subcommand_name],
       params[:usage],
       params[:description],
-      params[:options],
+      params[:options]
     )
-  }
+  end
 rescue Inspec::Plugin::V2::Exception => v2ex
   Inspec::Log.error v2ex.message
 
-  if ARGV.include?('--debug')
+  if ARGV.include?("--debug")
     Inspec::Log.error v2ex.class.name
     Inspec::Log.error v2ex.backtrace.join("\n")
   else
-    Inspec::Log.error 'Run again with --debug for a stacktrace.'
+    Inspec::Log.error "Run again with --debug for a stacktrace."
   end
   exit 2
 end

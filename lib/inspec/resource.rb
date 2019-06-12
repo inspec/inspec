@@ -1,5 +1,5 @@
 # copyright: 2015, Vulcano Security GmbH
-require 'inspec/plugin/v1'
+require "inspec/plugin/v1"
 
 module Inspec
   class ProfileNotFound < StandardError; end
@@ -75,9 +75,9 @@ module Inspec
   end
 
   def self.validate_resource_dsl_version!(version)
-    raise 'Only resource version 1 is supported!' if version != 1
+    raise "Only resource version 1 is supported!" if version != 1
   end
 end
 
 # Many resources use FilterTable.
-require 'inspec/utils/filter'
+require "inspec/utils/filter"

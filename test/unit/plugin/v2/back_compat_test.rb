@@ -1,5 +1,5 @@
-require 'minitest/autorun'
-require_relative '../../../../lib/inspec'
+require "minitest/autorun"
+require_relative "../../../../lib/inspec"
 
 module PluginV2BackCompat
   class PluginV1TypeClassFetchers < Minitest::Test

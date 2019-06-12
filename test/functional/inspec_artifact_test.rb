@@ -1,27 +1,27 @@
-require 'fileutils'
-require 'functional/helper'
-require 'securerandom'
+require "fileutils"
+require "functional/helper"
+require "securerandom"
 
-describe 'inspec exec' do
+describe "inspec exec" do
   include FunctionalHelper
 
-  before {
+  before do
     skip_windows!
-  }
+  end
 
-  it 'can generate keys' do
+  it "can generate keys" do
     prepare_examples do |dir|
       unique_key_name = SecureRandom.uuid()
       out = inspec("artifact generate --keyname #{unique_key_name}", "cd #{dir} && ")
       out.exit_status.must_equal 0
 
       stdout = out.stdout.force_encoding(Encoding::UTF_8)
-      stdout.must_include 'Generating private key'
-      stdout.must_include 'Generating public key'
+      stdout.must_include "Generating private key"
+      stdout.must_include "Generating public key"
     end
   end
 
-  it 'can sign, verify and install a signed profile' do
+  it "can sign, verify and install a signed profile" do
     # The arcive install commands do not currently support windows and
     # use specific linux extract tar commands. Since artifact is still
     # experimental we are skipping it for now.
@@ -29,7 +29,7 @@ describe 'inspec exec' do
     prepare_examples do |dir|
       unique_key_name = SecureRandom.uuid()
       install_dir = File.join(dir, SecureRandom.uuid())
-      profile = File.join(dir, 'profile')
+      profile = File.join(dir, "profile")
       FileUtils.mkdir(install_dir)
 
       out = inspec("artifact generate --keyname #{unique_key_name}", "cd #{dir} &&")

@@ -1,12 +1,12 @@
 # copyright: 2015, Vulcano Security GmbH
-require 'inspec/resources/command'
+require "inspec/resources/command"
 
 module Inspec::Resources
   class Powershell < Cmd
-    name 'powershell'
-    supports platform: 'windows'
-    supports platform: 'unix'
-    desc 'Use the powershell InSpec audit resource to test a Windows PowerShell script on the Microsoft Windows platform.'
+    name "powershell"
+    supports platform: "windows"
+    supports platform: "unix"
+    desc "Use the powershell InSpec audit resource to test a Windows PowerShell script on the Microsoft Windows platform."
     example <<~EXAMPLE
       script = <<-EOH
         # your powershell script
@@ -21,15 +21,15 @@ module Inspec::Resources
       # PowerShell is the default shell on Windows, use the `command` resource
       return super(script) if inspec.os.windows?
 
-      unless inspec.command('pwsh').exist?
-        raise Inspec::Exceptions::ResourceSkipped, 'Can not find `pwsh` command'
+      unless inspec.command("pwsh").exist?
+        raise Inspec::Exceptions::ResourceSkipped, "Can not find `pwsh` command"
       end
 
       # Prevent progress stream from leaking into stderr
       command = "$ProgressPreference='SilentlyContinue';" + script
 
       # Encode as Base64 to remove any quotes/escapes/etc issues
-      command = command.encode('UTF-16LE', 'UTF-8')
+      command = command.encode("UTF-16LE", "UTF-8")
       command = Base64.strict_encode64(command)
 
       # Use the `command` resource to execute the command via `pwsh`
@@ -47,7 +47,7 @@ module Inspec::Resources
     end
 
     def to_s
-      'Powershell'
+      "Powershell"
     end
   end
 
@@ -55,10 +55,10 @@ module Inspec::Resources
 
   # this is deprecated syntax and will be removed in future versions
   class LegacyPowershell < Powershell
-    name 'script'
+    name "script"
 
     def initialize(script)
-      Inspec.deprecate(:resource_script, 'The `script` resource is deprecated. Please use `powershell` instead.')
+      Inspec.deprecate(:resource_script, "The `script` resource is deprecated. Please use `powershell` instead.")
       super(script)
     end
   end

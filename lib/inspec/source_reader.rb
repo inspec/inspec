@@ -1,4 +1,4 @@
-require 'inspec/plugin/v1'
+require "inspec/plugin/v1"
 
 module Inspec
   # Pre-checking of target resolution. Make sure that SourceReader plugins
@@ -14,11 +14,11 @@ module Inspec
 
   def self.source_reader(version)
     if version != 1
-      raise 'Only source readers version 1 is supported!'
+      raise "Only source readers version 1 is supported!"
     end
     Inspec::Plugins::SourceReader
   end
 end
 
-require 'source_readers/inspec'
-require 'source_readers/flat'
+require "source_readers/inspec"
+require "source_readers/flat"

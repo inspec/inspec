@@ -20,7 +20,7 @@ end
 SimpleCov::CommandGuesser.original_run_command = "#{$PROGRAM_NAME} #{ARGV.join(' ')}"
 
 at_exit do
-  if defined? Minitest then
+  if defined? Minitest
     Minitest.after_run do
       simplecov_at_exit
     end

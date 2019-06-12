@@ -1,8 +1,8 @@
-require 'forwardable'
-require 'singleton'
-require 'inspec/objects/input'
-require 'inspec/secrets'
-require 'inspec/exceptions'
+require "forwardable"
+require "singleton"
+require "inspec/objects/input"
+require "inspec/secrets"
+require "inspec/exceptions"
 
 module Inspec
   # The InputRegistry's responsibilities include:
@@ -29,10 +29,10 @@ module Inspec
       # Upon creation, activate all input plugins
       activators = Inspec::Plugin::V2::Registry.instance.find_activators(plugin_type: :input)
 
-      @plugins = activators.map { |activator|
+      @plugins = activators.map do |activator|
         activator.activate!
         activator.implementation_class.new
-      }
+      end
     end
 
     #-------------------------------------------------------------#
@@ -88,7 +88,7 @@ module Inspec
           action: :fetch,
           provider: plugin.class.plugin_name,
           priority: plugin.default_priority,
-          hit: !response.nil?,
+          hit: !response.nil?
         )
         evt.value = response unless response.nil?
         inputs_by_profile[profile_name][input_name].events << evt
@@ -149,7 +149,7 @@ module Inspec
           provider: :runner_api, # TODO: suss out if audit cookbook or kitchen-inspec or something unknown
           priority: 40,
           file: loc.path,
-          line: loc.lineno,
+          line: loc.lineno
         )
         find_or_register_input(input_name, profile_name, event: evt)
       end
@@ -169,7 +169,7 @@ module Inspec
         if data.nil?
           raise Inspec::Exceptions::SecretsBackendNotFound,
                 "Cannot find parser for inputs file '#{path}'. " \
-                'Check to make sure file has the appropriate extension.'
+                "Check to make sure file has the appropriate extension."
         end
 
         next if data.inputs.nil?
@@ -178,7 +178,7 @@ module Inspec
             value: input_value,
             provider: :cli_files,
             priority: 40,
-            file: path,
+            file: path
             # TODO: any way we could get a line number?
           )
           find_or_register_input(input_name, profile_name, event: evt)
@@ -190,13 +190,13 @@ module Inspec
       unless File.exist?(path)
         raise Inspec::Exceptions::InputsFileDoesNotExist,
               "Cannot find input file '#{path}'. " \
-              'Check to make sure file exists.'
+              "Check to make sure file exists."
       end
 
       unless File.readable?(path)
         raise Inspec::Exceptions::InputsFileNotReadable,
               "Cannot read input file '#{path}'. " \
-              'Check to make sure file is readable.'
+              "Check to make sure file is readable."
       end
 
       true
@@ -211,7 +211,7 @@ module Inspec
         profile_metadata_obj.params[:attributes].each do |input_orig|
           input_options = input_orig.dup
           input_name = input_options.delete(:name)
-          input_options.merge!({ priority: 30, provider: :profile_metadata, file: File.join(profile_name, 'inspec.yml') })
+          input_options.merge!({ priority: 30, provider: :profile_metadata, file: File.join(profile_name, "inspec.yml") })
           evt = Inspec::Input.infer_event(input_options)
 
           # Profile metadata may set inputs in other profiles by naming them.
@@ -227,7 +227,7 @@ module Inspec
                                  event: evt)
         end
       elsif profile_metadata_obj.params.key?(:attributes)
-        Inspec::Log.warn 'Inputs must be defined as an Array. Skipping current definition.'
+        Inspec::Log.warn "Inputs must be defined as an Array. Skipping current definition."
       end
     end
 

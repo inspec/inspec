@@ -1,5 +1,5 @@
-require 'inspec/dependencies/requirement'
-require 'inspec/dependencies/resolver'
+require "inspec/dependencies/requirement"
+require "inspec/dependencies/resolver"
 
 module Inspec
   #

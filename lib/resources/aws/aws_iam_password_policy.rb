@@ -1,10 +1,10 @@
-require 'resource_support/aws/aws_singular_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-iam'
+require "resource_support/aws/aws_singular_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-iam"
 
 class AwsIamPasswordPolicy < Inspec.resource(1)
-  name 'aws_iam_password_policy'
-  desc 'Verifies iam password policy'
+  name "aws_iam_password_policy"
+  desc "Verifies iam password policy"
 
   example <<~EXAMPLE
     describe aws_iam_password_policy do
@@ -15,7 +15,7 @@ class AwsIamPasswordPolicy < Inspec.resource(1)
       its('requires_uppercase_characters?') { should be true }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   # TODO: rewrite to avoid direct injection, match other resources, use AwsSingularResourceMixin
   def initialize(conn = nil)
@@ -44,7 +44,7 @@ class AwsIamPasswordPolicy < Inspec.resource(1)
     # The AWS error here is unhelpful:
     # "unable to sign request without credentials set"
     Inspec::Log.error "It appears that you have not set your AWS credentials.  You may set them using environment variables, or using the 'aws://region/aws_credentials_profile' target.  See https://www.inspec.io/docs/reference/platforms for details."
-    fail_resource('No AWS credentials available')
+    fail_resource("No AWS credentials available")
   rescue Aws::Errors::ServiceError => e
     fail_resource e.message
   end
@@ -62,7 +62,7 @@ class AwsIamPasswordPolicy < Inspec.resource(1)
   end
 
   def to_s
-    'IAM Password-Policy'
+    "IAM Password-Policy"
   end
 
   def exists?
@@ -76,12 +76,12 @@ class AwsIamPasswordPolicy < Inspec.resource(1)
   end
 
   def max_password_age_in_days
-    raise 'this policy does not expire passwords' unless expire_passwords?
+    raise "this policy does not expire passwords" unless expire_passwords?
     @policy.max_password_age
   end
 
   def number_of_passwords_to_remember
-    raise 'this policy does not prevent password reuse' \
+    raise "this policy does not prevent password reuse" \
       unless prevent_password_reuse?
     @policy.password_reuse_prevention
   end
@@ -95,13 +95,13 @@ class AwsIamPasswordPolicy < Inspec.resource(1)
     :expire_passwords,
   ].each do |matcher_stem|
     # Create our predicates (for example, 'require_symbols?')
-    stem_with_question_mark = (matcher_stem.to_s + '?').to_sym
+    stem_with_question_mark = (matcher_stem.to_s + "?").to_sym
     define_method stem_with_question_mark do
       @policy.send(matcher_stem)
     end
     # RSpec will expose that as (for example) `be_require_symbols`.
     # To undo that, we have to make a matcher alias.
-    stem_with_be = ('be_' + matcher_stem.to_s).to_sym
+    stem_with_be = ("be_" + matcher_stem.to_s).to_sym
     RSpec::Matchers.alias_matcher matcher_stem, stem_with_be
   end
 

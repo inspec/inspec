@@ -1,16 +1,16 @@
 # copyright: 2015, Dominik Richter
 
-require 'forwardable'
-require 'uri'
-require 'inspec/backend'
-require 'inspec/profile_context'
-require 'inspec/profile'
-require 'inspec/metadata'
-require 'inspec/config'
-require 'inspec/dependencies/cache'
-require 'inspec/dist'
-require 'inspec/reporters'
-require 'inspec/runner_rspec'
+require "forwardable"
+require "uri"
+require "inspec/backend"
+require "inspec/profile_context"
+require "inspec/profile"
+require "inspec/metadata"
+require "inspec/config"
+require "inspec/dependencies/cache"
+require "inspec/dist"
+require "inspec/reporters"
+require "inspec/runner_rspec"
 # spec requirements
 
 module Inspec
@@ -122,16 +122,16 @@ module Inspec
     end
 
     def render_output(run_data)
-      return if @conf['reporter'].nil?
+      return if @conf["reporter"].nil?
 
-      @conf['reporter'].each do |reporter|
+      @conf["reporter"].each do |reporter|
         result = Inspec::Reporters.render(reporter, run_data)
         raise Inspec::ReporterError, "Error generating reporter '#{reporter[0]}'" if result == false
       end
     end
 
     def report
-      Inspec::Reporters.report(@conf['reporter'].first, @run_data)
+      Inspec::Reporters.report(@conf["reporter"].first, @run_data)
     end
 
     def write_lockfile(profile)
@@ -149,7 +149,7 @@ module Inspec
     def run_tests(with = nil)
       @run_data = @test_collector.run(with)
       # dont output anything if we want a report
-      render_output(@run_data) unless @conf['report']
+      render_output(@run_data) unless @conf["report"]
       @test_collector.exit_code
     end
 
@@ -217,8 +217,8 @@ module Inspec
     end
 
     def eval_with_virtual_profile(command)
-      require 'fetchers/mock'
-      add_target({ 'inspec.yml' => 'name: inspec-shell' })
+      require "fetchers/mock"
+      add_target({ "inspec.yml" => "name: inspec-shell" })
       our_profile = @target_profiles.first
       ctx = our_profile.runner_context
 
@@ -226,7 +226,7 @@ module Inspec
       # to provide access to local profiles that add resources.
       @depends.each do |dep|
         # support for windows paths
-        dep = dep.tr('\\', '/')
+        dep = dep.tr('\\', "/")
         Inspec::Profile.for_path(dep, { profile_context: ctx }).load_libraries
       end
 
@@ -239,8 +239,8 @@ module Inspec
       return {} if block.nil? || !block.respond_to?(:source_location)
       opts = {}
       file_path, line = block.source_location
-      opts['file_path'] = file_path
-      opts['line_number'] = line
+      opts["file_path"] = file_path
+      opts["line_number"] = line
       opts
     end
 
@@ -285,7 +285,7 @@ module Inspec
     def rspec_failed_block(arg, opts, message)
       @test_collector.example_group(*arg, opts) do
         # Send custom `it` block to RSpec
-        it '' do
+        it "" do
           # Raising here to fail the test and get proper formatting
           raise Inspec::Exceptions::ResourceFailed, message
         end
@@ -294,11 +294,11 @@ module Inspec
 
     def add_resource(method_name, arg, opts, block)
       case method_name
-      when 'describe'
+      when "describe"
         @test_collector.example_group(*arg, opts, &block)
-      when 'expect'
+      when "expect"
         block.example_group
-      when 'describe.one'
+      when "describe.one"
         tests = arg.map do |x|
           @test_collector.example_group(x[1][0], block_source_info(x[2]), &x[2])
         end
