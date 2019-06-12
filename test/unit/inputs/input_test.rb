@@ -44,7 +44,7 @@ describe Inspec::Input do
       # Try to eval the code to verify that the generated code was valid ruby.
       # Note that the input() method is part of the DSL, so we need to
       # alter the call into something that can respond - the constructor will do
-      ruby_code_for_eval = ruby_code.sub(/input\(/,'Inspec::Input.new(')
+      ruby_code_for_eval = ruby_code.sub(/attribute\(/,'Inspec::Input.new(')
 
       # This will throw exceptions if there is a problem
       new_attr = eval(ruby_code_for_eval) # rubocop:disable Security/Eval # Could use ripper!
