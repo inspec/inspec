@@ -1,13 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.5.1 -->
-## [v4.5.1](https://github.com/inspec/inspec/tree/v4.5.1) (2019-06-11)
-
-#### Enhancements
-- Add inspec-core-bin as a gem [#4009](https://github.com/inspec/inspec/pull/4009) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release 4.5.2 -->
+## [v4.5.2](https://github.com/inspec/inspec/tree/v4.5.2) (2019-06-12)
 
 #### Merged Pull Requests
-- Close at 400 days, with a message. [#4189](https://github.com/inspec/inspec/pull/4189) ([miah](https://github.com/miah))
+- Apply chefstyle to codebase [#4194](https://github.com/inspec/inspec/pull/4194) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -28,6 +25,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Apply chefstyle to codebase [#4194](https://github.com/inspec/inspec/pull/4194) ([zenspider](https://github.com/zenspider)) <!-- 4.5.2 -->
 - Close at 400 days, with a message. [#4189](https://github.com/inspec/inspec/pull/4189) ([miah](https://github.com/miah)) <!-- 4.5.0 -->
 - Test execution changes for Rake, Travis, and Appveyor [#4102](https://github.com/inspec/inspec/pull/4102) ([miah](https://github.com/miah)) <!-- 4.4.75 -->
 - Add maintainer branches to travis [#4184](https://github.com/inspec/inspec/pull/4184) ([zenspider](https://github.com/zenspider)) <!-- 4.4.74 -->
