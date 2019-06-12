@@ -1,7 +1,8 @@
 require "thor"
 require "inspec/log"
-require "inspec/profile_vendor"
 require "inspec/ui"
+require "inspec/config"
+require "inspec/utils/deprecation/global_method"
 
 # Allow end of options during array type parsing
 # https://github.com/erikhuda/thor/issues/631
@@ -233,6 +234,8 @@ module Inspec
     end
 
     def vendor_deps(path, opts)
+      require "inspec/profile_vendor"
+
       profile_path = path || Dir.pwd
       profile_vendor = Inspec::ProfileVendor.new(profile_path)
 

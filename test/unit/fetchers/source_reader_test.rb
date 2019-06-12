@@ -1,4 +1,5 @@
 require "helper"
+require "inspec/source_reader"
 
 describe Inspec::SourceReader do
   let(:reg) { Inspec::SourceReader }

@@ -1,3 +1,5 @@
+require "inspec/fetcher"
+
 module Fetchers
   class Mock < Inspec.fetcher(1)
     name "mock"

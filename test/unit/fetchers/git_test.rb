@@ -1,4 +1,5 @@
 require "helper"
+require "inspec/fetcher"
 
 describe Fetchers::Git do
   let(:fetcher) { Fetchers::Git }

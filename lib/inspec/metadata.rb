@@ -4,7 +4,6 @@ require "logger"
 require "rubygems/version"
 require "rubygems/requirement"
 require "semverse"
-require "erb"
 
 require "inspec/version"
 require "inspec/utils/spdx"
@@ -200,6 +199,7 @@ module Inspec
     end
 
     def self.from_yaml(ref, content, profile_id, logger = nil)
+      require "erb"
       res = Metadata.new(ref, logger)
       res.params = YAML.load(ERB.new(content).result)
       res.content = content

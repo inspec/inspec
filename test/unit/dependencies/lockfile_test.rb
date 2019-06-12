@@ -1,4 +1,5 @@
 require "helper"
+require "inspec/dependencies/lockfile" # TODO: move files or namespace properly
 
 describe Inspec::Lockfile do
   # Ruby 1.9: .to_yaml format is slightly different

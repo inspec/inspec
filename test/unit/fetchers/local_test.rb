@@ -1,4 +1,5 @@
 require "helper"
+require "inspec/fetcher"
 
 describe Fetchers::Local do
   let(:fetcher) { Fetchers::Local }

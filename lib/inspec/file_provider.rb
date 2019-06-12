@@ -1,4 +1,5 @@
 require "rubygems/package"
+require "pathname"
 require "zlib"
 require "zip"
 

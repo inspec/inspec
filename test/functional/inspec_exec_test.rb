@@ -217,6 +217,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec("exec " + File.join(profile_path, "aws-profile")) }
     let(:stdout) { out.stdout.force_encoding(Encoding::UTF_8) }
     it "exits with an error" do
+      skip if ENV["NO_AWS"]
       stdout.must_include "Resource `aws_iam_users` is not supported on platform"
       stdout.must_include "Resource `aws_iam_access_keys` is not supported on platform"
       stdout.must_include "Resource `aws_s3_bucket` is not supported on platform"

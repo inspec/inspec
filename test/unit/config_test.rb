@@ -2,6 +2,7 @@ require "helper"
 require "stringio"
 
 require "inspec/config"
+require "plugins/inspec-compliance/lib/inspec-compliance/api"
 
 describe "Inspec::Config" do
 

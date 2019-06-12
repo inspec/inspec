@@ -2,15 +2,10 @@
 
 require "forwardable"
 require "openssl"
+require "pathname"
 require "inspec/input_registry"
-require "inspec/polyfill"
-require "inspec/cached_fetcher"
-require "inspec/file_provider"
+require "inspec/cached_fetcher" # TODO: split or rename
 require "inspec/source_reader"
-require "inspec/metadata"
-require "inspec/backend"
-require "inspec/rule"
-require "inspec/log"
 require "inspec/profile_context"
 require "inspec/runtime_profile"
 require "inspec/method_source"

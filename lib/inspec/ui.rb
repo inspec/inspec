@@ -1,6 +1,3 @@
-require "tty-table"
-require "tty-prompt"
-
 module Inspec
   # Provides simple terminal UI interaction primitives for CLI commands and plugins.
   class UI
@@ -158,6 +155,8 @@ module Inspec
     #   t << ['', '', 1]
     #  end
     def table(opts = { print: true })
+      require "inspec/ui_table_helper"
+
       the_table = TableHelper.new
       yield(the_table)
 
@@ -172,13 +171,6 @@ module Inspec
       padding = [0, 1, 0, 1] # T R B L
       result = the_table.render(render_mode, filter: colorizer, padding: padding) + "\n"
       print_or_return(result, opts[:print])
-    end
-
-    class TableHelper < TTY::Table
-      def header=(ary)
-        cells = ary.dup.map { |label| { value: label, alignment: :center } }
-        @header = TTY::Table::Header.new(cells)
-      end
     end
 
     #=========================================================================#
@@ -212,6 +204,8 @@ module Inspec
       unless interactive?
         raise Inspec::UserInteractionRequired, "Somthing is trying to ask the user a question, but interactivity is disabled."
       end
+      require "tty-prompt"
+
       @prompt ||= TTY::Prompt.new
     end
   end

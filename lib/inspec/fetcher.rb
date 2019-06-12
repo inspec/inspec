@@ -35,6 +35,7 @@ module Inspec
   end
 end
 
+# TODO: remove. require up, not down.
 require "fetchers/local"
 require "fetchers/url"
 require "fetchers/git"

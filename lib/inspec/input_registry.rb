@@ -3,6 +3,7 @@ require "singleton"
 require "inspec/objects/input"
 require "inspec/secrets"
 require "inspec/exceptions"
+require "inspec/plugin/v2"
 
 module Inspec
   # The InputRegistry's responsibilities include:

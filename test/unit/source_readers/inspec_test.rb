@@ -1,4 +1,6 @@
 require "helper"
+require "inspec/source_reader"
+require "source_readers/inspec" # TODO: break circular
 
 describe SourceReaders::InspecReader do
   let(:reader) { SourceReaders::InspecReader }

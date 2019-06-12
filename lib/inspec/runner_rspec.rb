@@ -1,6 +1,8 @@
 require "rspec/core"
 require "rspec/its"
 require "inspec/formatters"
+require "matchers/matchers"
+require "inspec/rspec_extensions"
 
 # There be dragons!! Or borgs, or something...
 # This file and all its contents cannot be unit-tested. both test-suits

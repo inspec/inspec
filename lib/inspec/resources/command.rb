@@ -1,5 +1,7 @@
 # copyright: 2015, Vulcano Security GmbH
 
+require "inspec/resource"
+
 module Inspec::Resources
   class Cmd < Inspec.resource(1)
     name "command"

@@ -1,5 +1,6 @@
 require "helper"
 require "inspec/config"
+require "inspec/profile"
 require "inspec/runner_mock"
 require "fetchers/mock"
 
