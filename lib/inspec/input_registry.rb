@@ -228,7 +228,7 @@ module Inspec
       input_options = input_orig.dup
       input_name = input_options.delete(:name)
       input_options[:provider] = :profile_metadata
-      input_options[:file] = File.join(profile_name, 'inspec.yml')
+      input_options[:file] = File.join(profile_name, "inspec.yml")
       input_options[:priority] ||= 30
       evt = Inspec::Input.infer_event(input_options)
 
@@ -243,7 +243,7 @@ module Inspec
         profile_name,
         type: input_options[:type],
         required: input_options[:required],
-        event: evt,
+        event: evt
       )
     end
 

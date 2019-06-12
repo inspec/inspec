@@ -79,7 +79,7 @@ describe "inputs" do
     end
   end
 
-  describe 'run profile with metadata inputs' do
+  describe "run profile with metadata inputs" do
 
     it "works when using the new 'inputs' key" do
       cmd = "exec #{inputs_profiles_path}/metadata-basic"
@@ -99,7 +99,7 @@ describe "inputs" do
       cmd = "exec "
       cmd += File.join(inputs_profiles_path, "metadata-empty")
       result = run_inspec_process(cmd, json: true)
-      result.stderr.must_include 'WARN: Inputs must be defined as an Array in metadata files. Skipping definition from profile-with-empty-attributes.'
+      result.stderr.must_include "WARN: Inputs must be defined as an Array in metadata files. Skipping definition from profile-with-empty-attributes."
       assert_exit_code 0, result
     end
 
