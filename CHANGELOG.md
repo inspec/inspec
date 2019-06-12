@@ -1,11 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.5.5 -->
-## [v4.5.5](https://github.com/inspec/inspec/tree/v4.5.5) (2019-06-12)
+<!-- latest_release 4.5.6 -->
+## [v4.5.6](https://github.com/inspec/inspec/tree/v4.5.6) (2019-06-12)
 
 #### Merged Pull Requests
-- Re-add `rake test:` [#4197](https://github.com/inspec/inspec/pull/4197) ([miah](https://github.com/miah))
-- Create Inputs documentation page [#4185](https://github.com/inspec/inspec/pull/4185) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update test code to rename attribute() to input() in DSL [#4192](https://github.com/inspec/inspec/pull/4192) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -26,6 +25,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Update test code to rename attribute() to input() in DSL [#4192](https://github.com/inspec/inspec/pull/4192) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.5.6 -->
 - Re-add `rake test:` [#4197](https://github.com/inspec/inspec/pull/4197) ([miah](https://github.com/miah)) <!-- 4.5.5 -->
 - Create Inputs documentation page [#4185](https://github.com/inspec/inspec/pull/4185) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.5.4 -->
 - Disable rubocop on Code Climate. [#4195](https://github.com/inspec/inspec/pull/4195) ([miah](https://github.com/miah)) <!-- 4.5.4 -->
