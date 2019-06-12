@@ -96,7 +96,7 @@ This description matches the general behavior of InSpec v3, while also making so
 
 Whenever an input provider sets a value on an input, a *priority value* is assigned to the operation.  Over the life of the input, multiple assignments with varying priority values may occur. When the input is evaluated, the current value is determined by finding the setting event with the highest priority.
 
-Note that this approach does not rely on execution order, nor does it rely on multiple named precedence levels. Each setting operation is preserved; this allows the user to [debug](#debugging-inputs-with-the-event-log) the history of the input values.
+Note that this approach does not rely on execution order, nor does it rely on multiple named precedence levels. Each setting operation is preserved and this allows the user to [debug](#debugging-inputs-with-the-event-log) the history of the input values.
 
 Some input providers allow you to set a priority when you set the value.  For example, to set a priority of 50 in a metadata file, use:
 
