@@ -37,12 +37,12 @@ module Fetchers
 
     def initialize(remote_url, opts = {})
       @branch = opts[:branch]
-      @profile_directory = nil
       @tag = opts[:tag]
       @ref = opts[:ref]
       @remote_url = remote_url
       @repo_directory = nil
-      @path_within_repo = opts[:path_within_repo]
+      @profile_directory = nil # TODO remove this if possible, distinction without a difference
+      @relative_path = opts[:relative_path]
     end
 
     def fetch(dir)
@@ -51,14 +51,15 @@ module Fetchers
 
       if cloned?
         checkout
+        # TODO - verify this still works with relative path
       else
         Dir.mktmpdir do |tmpdir|
           checkout(tmpdir)
-          if @path_within_repo
+          if @relative_path
             @profile_directory = dir
             Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
-                              "Moving #{@path_within_repo} to #{dir}")
-            target_profile = File.join(tmpdir, @path_within_repo)
+                              "Moving #{@relative_path} to #{dir}")
+            target_profile = File.join(tmpdir, @relative_path)
             FileUtils.cp_r(target_profile, dir)
           else
             Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
@@ -71,8 +72,8 @@ module Fetchers
     end
 
     def cache_key
-      return resolved_ref unless @path_within_repo
-      OpenSSL::Digest::SHA256.hexdigest(resolved_ref + @path_within_repo)
+      return resolved_ref unless @relative_path
+      OpenSSL::Digest::SHA256.hexdigest(resolved_ref + @relative_path)
     end
 
     def archive_path
@@ -81,7 +82,7 @@ module Fetchers
 
     def resolved_source
       source = { git: @remote_url, ref: resolved_ref }
-      source[:path_within_repo] = @path_within_repo if @path_within_repo
+      source[:relative_path] = @relative_path if @relative_path
       source
     end
 

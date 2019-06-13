@@ -212,7 +212,7 @@ depends:
 
 ### git
 
-A `git` setting specifies a profile that is located in a git repository, with optional settings for branch, tag, commit, version, and profile_path. The source location is translated into a URL upon resolution. This type of dependency supports version constraints via semantic versioning as git tags.
+A `git` setting specifies a profile that is located in a git repository, with optional settings for branch, tag, commit, version, and relative_path. The source location is translated into a URL upon resolution. This type of dependency supports version constraints via semantic versioning as git tags.
 
 ```YAML
 depends:
@@ -222,7 +222,7 @@ depends:
   tag:     desired_version
   commit:  pinned_commit
   version: semver_via_tags
-  path_within_repo: relative/optional/path/to/profile
+  relative_path: relative/optional/path/to/profile
 ```
 
 ### supermarket
