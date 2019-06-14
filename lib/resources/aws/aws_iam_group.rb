@@ -13,7 +13,7 @@ class AwsIamGroup < Inspec.resource(1)
   supports platform: "aws"
 
   include AwsSingularResourceMixin
-  attr_reader :group_name, :users
+  attr_reader :group_name, :users, :users_count
 
   def to_s
     "IAM Group #{group_name}"
@@ -44,6 +44,7 @@ class AwsIamGroup < Inspec.resource(1)
       @exists = true
       @aws_group_struct = resp[:group]
       @users = resp[:users].map(&:user_name)
+      @users_count = resp[:users].map(&:user_name).length
     rescue Aws::IAM::Errors::NoSuchEntity
       @exists = false
     end
