@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright 2016-2018, Chef Software Inc.
+# Copyright:: Copyright 2016-2019, Chef Software Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,9 +50,8 @@ dependency "gem-permissions"
 dependency "shebang-cleanup"
 # Ensure our SSL cert files are accessible to ruby.
 dependency "openssl-customization"
-# Remove all .dll.a and .a files needed for static linkage.
-dependency "clean-static-libs"
 
+# cleanup various ruby leftovers we don't need in the shipped artifact
 dependency "ruby-cleanup"
 
 package :rpm do
