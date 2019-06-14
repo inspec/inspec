@@ -40,7 +40,25 @@ While the key audience of the working agreement is the Chef InSpec product and e
   * Naming convention: `<initials/name>/<shortname>`
 * Remember when creating an issue to add plenty of context - even things that are "obvious". Depending on when the issue is addressed, you may not be the one working on it so giving context to the assignee is important.
 
-## History/Pull Requests
+## Issues
+* __SLA: 3 business days__
+  * This applies to all contributors - both InSpec team members as well as the community
+  * EXAMPLE:
+    * I'm a community member
+    * I file a PR
+    * InSpec team member reviews PR; provides feedback to be fixed
+    * If I don't respond within 3 business days, I can expect the issue to be closed
+  * For more info on SLAs, see [this documentation](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md)
+
+## Pull Requests
+* __SLA: 3 business days__
+  * This applies to all contributors - both InSpec team members as well as the community
+  * EXAMPLE:
+    * I'm a community member
+    * I file a PR
+    * InSpec team member reviews PR; provides feedback to be fixed
+    * If I don't respond within 3 business days, I can expect the PR to be closed
+  * For more info on SLAs, see [this documentation](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md)
 * Have a reasonable number of commits per PR.
  * For a typical PR, 1 is too few and 50 is too many.
  * As we work on a PR, we occasionally rebase to master. We always rebase prior to merge.
