@@ -1,0 +1,8 @@
+name: basic-local
+title: basic-local
+license: Apache-2.0
+summary: A profile to be executed as a local git checkout
+version: 0.1.0
+supports:
+  platform: os
+

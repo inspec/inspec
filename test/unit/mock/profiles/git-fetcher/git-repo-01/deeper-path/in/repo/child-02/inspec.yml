@@ -1,0 +1,8 @@
+name: child-02
+title: child-02
+license: Apache-2.0
+summary: A profile to be included via git and a deep relative path
+version: 0.1.0
+supports:
+  platform: os
+

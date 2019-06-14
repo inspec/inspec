@@ -1,0 +1,14 @@
+name: top-level-relative
+title: top-level-relative
+license: Apache-2.0
+summary: A profile that depends on profiles that are stored in a repo in subdirs
+version: 0.1.0
+supports:
+  platform: os
+depends:
+- name: child-01
+  git: test/unit/mock/profiles/git-fetcher/git-repo-01
+  relative_path: child-01
+# - name: child-02
+#   git: ./git-repo-01
+#   relative_path: deeper-path/in/repo/child-01
