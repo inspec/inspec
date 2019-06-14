@@ -84,7 +84,7 @@ describe Inspec::Resources::FileResource do
   let(:file) { stub(unix_mode_mask: 000, mode: 644) }
 
   it "more_permissive_than?" do
-    skip_until 2019, 6, 13, "Breaks on travis-ci because file has 664, not 644"
+    skip_until 2019, 6, 21, "Breaks on travis-ci because file has 664, not 644"
     resource = MockLoader.new(:ubuntu1404).load_resource("file", "/fakepath/fakefile")
 
     _(resource).wont_be :more_permissive_than?, "755"
