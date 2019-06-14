@@ -64,7 +64,7 @@ module Fetchers
           else
             Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
                               "Moving checkout to #{dir}")
-            FileUtils.cp_r(tmpdir + '/.', dir)
+            FileUtils.cp_r(tmpdir + "/.", dir)
           end
         end
       end
