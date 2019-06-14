@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.6.0 -->
-## [v4.6.0](https://github.com/inspec/inspec/tree/v4.6.0) (2019-06-13)
+<!-- latest_release 4.6.1 -->
+## [v4.6.1](https://github.com/inspec/inspec/tree/v4.6.1) (2019-06-14)
 
-#### New Features
-- Rename attributes -&gt; inputs in profile metadata files [#4017](https://github.com/inspec/inspec/pull/4017) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Lets discuss this next week when we&#39;re all around =) [#4204](https://github.com/inspec/inspec/pull/4204) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
@@ -26,6 +26,7 @@
 - Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
 
 #### Merged Pull Requests
+- Lets discuss this next week when we&#39;re all around =) [#4204](https://github.com/inspec/inspec/pull/4204) ([miah](https://github.com/miah)) <!-- 4.6.1 -->
 - Update test code to rename attribute() to input() in DSL [#4192](https://github.com/inspec/inspec/pull/4192) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.5.6 -->
 - Re-add `rake test:` [#4197](https://github.com/inspec/inspec/pull/4197) ([miah](https://github.com/miah)) <!-- 4.5.5 -->
 - Create Inputs documentation page [#4185](https://github.com/inspec/inspec/pull/4185) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.5.4 -->
