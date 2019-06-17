@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.6.2 -->
-## [v4.6.2](https://github.com/inspec/inspec/tree/v4.6.2) (2019-06-17)
+<!-- latest_release 4.6.3 -->
+## [v4.6.3](https://github.com/inspec/inspec/tree/v4.6.3) (2019-06-17)
 
 #### Bug Fixes
-- Fix Expeditor Version Bump Script [#4205](https://github.com/inspec/inspec/pull/4205) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Remove clean-static-libs from omnibus build [#4207](https://github.com/inspec/inspec/pull/4207) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.3.2 -->
 ### Changes since 4.3.2 release
 
 #### Bug Fixes
+- Remove clean-static-libs from omnibus build [#4207](https://github.com/inspec/inspec/pull/4207) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.6.3 -->
 - Fix Expeditor Version Bump Script [#4205](https://github.com/inspec/inspec/pull/4205) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.6.2 -->
 - Fix two misrendering hyperlinks in resource docs [#4173](https://github.com/inspec/inspec/pull/4173) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.67 -->
 - inspec check: Send log to STDERR when running with --format json [#4001](https://github.com/inspec/inspec/pull/4001) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.55 -->
