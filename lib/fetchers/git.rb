@@ -39,10 +39,21 @@ module Fetchers
       @branch = opts[:branch]
       @tag = opts[:tag]
       @ref = opts[:ref]
-      @remote_url = remote_url
+      @remote_url = expand_local_path(remote_url)
       @repo_directory = nil
       @profile_directory = nil # TODO remove this if possible, distinction without a difference
       @relative_path = opts[:relative_path]
+    end
+
+    def expand_local_path(url_or_file_path)
+      # We could try to do something clever with URI
+      # processing, but then again, if you passed a relative path
+      # to an on-disk repo, you probably expect it to exist.
+      return url_or_file_path unless File.exist?(url_or_file_path)
+      # It's important to expand this path, because it may be specified
+      # locally in the metadata files, and when we clone, we will be
+      # in a temp dir.
+      File.expand_path(url_or_file_path)
     end
 
     def fetch(dir)
