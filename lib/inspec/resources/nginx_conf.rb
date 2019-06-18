@@ -63,6 +63,11 @@ module Inspec::Resources
     def parse_nginx(path)
       return nil if inspec.os.windows?
       content = read_content(path)
+
+      # Don't attempt to parse file if it contains only comments or is empty
+      # https://regexper.com/#%2F%5E%5Cs*%23%7C%5E%24%2F
+      return {} if content.split("\n").reject { |l| l =~ /^\s*#|^$/ } == []
+
       data = NginxConfig.parse(content)
       resolve_references(data, File.dirname(path))
     rescue StandardError => _
