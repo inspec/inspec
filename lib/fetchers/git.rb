@@ -46,6 +46,9 @@ module Fetchers
     end
 
     def expand_local_path(url_or_file_path)
+      # This paths to local on-disk repos, not relative paths within repos.
+      # This is especially needed with testing.
+
       # We could try to do something clever with URI
       # processing, but then again, if you passed a relative path
       # to an on-disk repo, you probably expect it to exist.
@@ -62,7 +65,6 @@ module Fetchers
 
       if cloned?
         checkout
-        # TODO - verify this still works with relative path
       else
         Dir.mktmpdir do |tmpdir|
           checkout(tmpdir)
@@ -70,7 +72,11 @@ module Fetchers
             @profile_directory = dir
             Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
                               "Moving #{@relative_path} to #{dir}")
+            unless File.exist?("#{tmpdir}/#{@relative_path}")
+              raise ArgumentError.new("Cannot find relative path '#{@relative_path}' within profile in git repo specified by '#{@remote_url}'")
+            end
             target_profile = File.join(tmpdir, @relative_path)
+
             FileUtils.cp_r(target_profile, dir)
           else
             Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
