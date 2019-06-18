@@ -73,7 +73,24 @@ describe "running profiles with git-based dependencies" do
       refute_includes controls, "red-dye"
     end
   end
-  # describe "running a profile with a deep relative path dependency"
+
+  describe "running a profile with a deep relative path dependency" do
+    it "should find the relative path profile and execute exactly those controls" do
+      run_result = run_inspec_process("exec #{git_profiles}/relative-deep", json: true)
+      assert_empty run_result.stderr
+      run_result.must_have_all_controls_passing
+
+      # Should know about the top-level profile and the child profile
+      assert_equal ["relative-deep", "child-02"], (run_result.payload.json["profiles"].map { |p| p["name"] })
+
+      controls = run_result.payload.json["profiles"].map { |p| p["controls"] }.flatten.map { |c| c["id"] }.uniq
+      # Should have controls from the top-level and and included child profile
+      assert_includes controls, "relative-deep-01"
+      assert_includes controls, "child-02"
+      # should not have controls from the profile defined at the top of the repo of the child profile
+      refute_includes controls, "red-dye"
+    end
+  end
   # describe "running a profile with a combination of relative path dependencies"
 
   #------------ Edge Cases for Relative Path Support -------------------#

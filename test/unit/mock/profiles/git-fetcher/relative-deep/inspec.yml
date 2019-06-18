@@ -1,0 +1,11 @@
+name: relative-deep
+title: releative-deep
+license: Apache-2.0
+summary: A profile that uses git to depend on profiles in deep subdirs
+version: 0.1.0
+supports:
+  platform: os
+depends:
+- name: child-02
+  git: test/unit/mock/profiles/git-fetcher/git-repo-01
+  relative_path: deeper-path/in/repo/child-02
