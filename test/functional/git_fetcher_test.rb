@@ -98,7 +98,12 @@ describe "running profiles with git-based dependencies" do
   end
 
   #------------ Edge Cases for Relative Path Support -------------------#
-  # describe "running a profile with an '' relative path dependency"
+  describe "running a profile with an '' relative path dependency" do
+    it "should find the top-level profile in the git-referenced child profile and execute that" do
+      assert_relative_fetch_works("relative-empty", ["relative-empty", "basic-local"], ["relative-empty-01", "basic-local-01"])
+    end
+  end
+
   # describe "running a profile with an ./ relative path dependency"
   # describe "running a profile with a relative path dependency that does not exist"
 
