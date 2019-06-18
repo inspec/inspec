@@ -32,7 +32,24 @@ describe "running profiles with git-based dependencies" do
     end
   end
 
-  # TODO: move private SSH+git test from inspec_exec_test to here
+  #======================================================================#
+  #                        Custom Local Assertions
+  #======================================================================#
+  def assert_relative_fetch_works(profile_name, expected_profiles, expected_controls)
+    run_result = run_inspec_process("exec #{git_profiles}/#{profile_name}", json: true)
+    assert_empty run_result.stderr
+    run_result.must_have_all_controls_passing
+
+    # Should know about the top-level profile and the child profile
+    assert_equal expected_profiles, (run_result.payload.json["profiles"].map { |p| p["name"] })
+
+    controls = run_result.payload.json["profiles"].map { |p| p["controls"] }.flatten.map { |c| c["id"] }.uniq
+    # Should have controls from the top-level and included child profile
+    expected_controls.each { |control| assert_includes controls, control }
+
+    # should not have controls from the profile defined at the top of the repo of the child profile
+    refute_includes controls, "red-dye"
+  end
 
   #======================================================================#
   #                        Basic Git Fetching
@@ -46,6 +63,8 @@ describe "running profiles with git-based dependencies" do
   end
   # describe "running a profile with a basic remote dependency"
 
+  # TODO: move private SSH+git test from inspec_exec_test to here
+
   #======================================================================#
   #                        Revision Selection
   #======================================================================#
@@ -58,40 +77,25 @@ describe "running profiles with git-based dependencies" do
   #------------ Happy Cases for Relative Path Support -------------------#
   describe "running a profile with a shallow relative path dependency" do
     it "should find the relative path profile and execute exactly those controls" do
-      run_result = run_inspec_process("exec #{git_profiles}/relative-shallow", json: true)
-      assert_empty run_result.stderr
-      run_result.must_have_all_controls_passing
-
-      # Should know about the top-level profile and the child profile
-      assert_equal ["relative-shallow", "child-01"], (run_result.payload.json["profiles"].map { |p| p["name"] })
-
-      controls = run_result.payload.json["profiles"].map { |p| p["controls"] }.flatten.map { |c| c["id"] }.uniq
-      # Should have controls from the top-level and and included child profile
-      assert_includes controls, "top-level-01"
-      assert_includes controls, "child-01"
-      # should not have controls from the profile defined at the top of the repo of the child profile
-      refute_includes controls, "red-dye"
+      assert_relative_fetch_works("relative-shallow", ["relative-shallow", "child-01"], ["top-level-01", "child-01"])
     end
   end
 
   describe "running a profile with a deep relative path dependency" do
     it "should find the relative path profile and execute exactly those controls" do
-      run_result = run_inspec_process("exec #{git_profiles}/relative-deep", json: true)
-      assert_empty run_result.stderr
-      run_result.must_have_all_controls_passing
-
-      # Should know about the top-level profile and the child profile
-      assert_equal ["relative-deep", "child-02"], (run_result.payload.json["profiles"].map { |p| p["name"] })
-
-      controls = run_result.payload.json["profiles"].map { |p| p["controls"] }.flatten.map { |c| c["id"] }.uniq
-      # Should have controls from the top-level and and included child profile
-      assert_includes controls, "relative-deep-01"
-      assert_includes controls, "child-02"
-      # should not have controls from the profile defined at the top of the repo of the child profile
-      refute_includes controls, "red-dye"
+      assert_relative_fetch_works("relative-deep", ["relative-deep", "child-02"], ["relative-deep-01", "child-02"])
     end
   end
-  # describe "running a profile with a combination of relative path dependencies"
+
+  describe "running a profile with a combination of relative path dependencies" do
+    it "should find the relative path profiles and execute exactly those controls" do
+      assert_relative_fetch_works(
+        "relative-combo",
+        ["relative-combo", "child-01", "child-02"],
+        ["relative-combo-01", "child-01", "child-02"]
+      )
+    end
+  end
 
   #------------ Edge Cases for Relative Path Support -------------------#
   # describe "running a profile with an '' relative path dependency"
