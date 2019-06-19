@@ -2,6 +2,7 @@ require "thor"
 require "inspec/log"
 require "inspec/ui"
 require "inspec/config"
+require "inspec/dist"
 require "inspec/utils/deprecation/global_method"
 
 # Allow end of options during array type parsing
@@ -22,6 +23,32 @@ module Inspec
   class BaseCLI < Thor
     class << self
       attr_accessor :inspec_cli_command
+    end
+
+    def self.start(given_args = ARGV, config = {})
+      check_license! if config[:enforce_license] || config[:enforce_license].nil?
+
+      super(given_args, config)
+    end
+
+    # EULA acceptance
+    def self.check_license!
+      allowed_commands = ['-h', '--help', 'help', '-v', '--version', 'version']
+
+      require 'license_acceptance/acceptor'
+      begin
+        if (allowed_commands & ARGV.map(&:downcase)).empty? && # Did they use a non-exempt command?
+           !ARGV.empty?                                        # Did they supply at least one command?
+          LicenseAcceptance::Acceptor.check_and_persist(
+            Inspec::Dist::EXEC_NAME,
+            Inspec::VERSION,
+            logger: Inspec::Log,
+          )
+        end
+      rescue LicenseAcceptance::LicenseNotAcceptedError
+        Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without accepting the license"
+        Inspec::UI.new.exit(:license_not_accepted)
+      end
     end
 
     # https://github.com/erikhuda/thor/issues/244
