@@ -1,20 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.6.4 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v4.6.4](https://github.com/inspec/inspec/tree/v4.6.4) (2019-06-19)
 
 #### Bug Fixes
 - nginx_conf: Fix commented/empty file parsing [#4215](https://github.com/inspec/inspec/pull/4215) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-<!-- latest_release -->
-
-<!-- release_rollup since=4.6.3 -->
-### Changes since 4.6.3 release
-
-#### Bug Fixes
-- nginx_conf: Fix commented/empty file parsing [#4215](https://github.com/inspec/inspec/pull/4215) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 4.6.4 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v4.6.3](https://github.com/inspec/inspec/tree/v4.6.3) (2019-06-17)
 
 #### New Features
@@ -119,7 +117,6 @@
 - Re-add `rake test:` [#4197](https://github.com/inspec/inspec/pull/4197) ([miah](https://github.com/miah))
 - Update test code to rename attribute() to input() in DSL [#4192](https://github.com/inspec/inspec/pull/4192) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Lets discuss this next week when we&#39;re all around =) [#4204](https://github.com/inspec/inspec/pull/4204) ([miah](https://github.com/miah))
-<!-- latest_stable_release -->
 
 ## [v4.3.2](https://github.com/inspec/inspec/tree/v4.3.2) (2019-04-30)
 
