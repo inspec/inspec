@@ -1,2 +1,4 @@
+/etc/nginx/conf.d/comments_only.conf
+/etc/nginx/conf.d/empty.conf
 /etc/nginx/conf.d/foobar.conf
 /etc/nginx/conf.d/multiple.conf

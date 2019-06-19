@@ -118,6 +118,8 @@ class MockLoader
       "/etc/nginx/nginx.conf" => mockfile.call("nginx.conf"),
       "/etc/nginx/proxy.conf" => mockfile.call("nginx_proxy.conf"),
       "/etc/nginx/conf/mime.types" => mockfile.call("nginx_mime.types"),
+      "/etc/nginx/conf.d/comments_only.conf" => mockfile.call("nginx_confd_comments_only.conf"),
+      "/etc/nginx/conf.d/empty.conf" => mockfile.call("nginx_confd_empty.conf"),
       "/etc/nginx/conf.d/foobar.conf" => mockfile.call("nginx_confd_foobar.conf"),
       "/etc/nginx/conf.d/multiple.conf" => mockfile.call("nginx_confd_multiple.conf"),
       "/etc/nginx/quotes.d/example.conf" => mockfile.call("nginx_quotesd_example.conf"),
@@ -156,7 +158,6 @@ class MockLoader
       "/fakepath/fakefile" => emptyfile.call,
       "C:/fakepath/fakefile" => emptyfile.call,
       "/etc/cron.d/crondotd" => mockfile.call("crondotd"),
-      "/missing_file" => emptyfile.call,
     }
 
     # create all mock commands

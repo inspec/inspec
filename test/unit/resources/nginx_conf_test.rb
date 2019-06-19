@@ -10,7 +10,19 @@ describe "Inspec::Resources::NginxConf" do
   let(:nginx_conf) { MockLoader.new(:ubuntu1404).load_resource("nginx_conf") }
 
   it "doesnt fail with a missing file" do
-    nginx_conf = MockLoader.new(:ubuntu1404).load_resource("nginx_conf", "/missing_file")
+    # This path is not mocked because we cannot mock File.exist?
+    # ...As far as I know
+    nginx_conf = MockLoader.new(:ubuntu1404).load_resource("nginx_conf", "/this/path/does/not/exist")
+    _(nginx_conf.params).must_equal({})
+  end
+
+  it "does not fail with an empty file" do
+    nginx_conf = MockLoader.new(:ubuntu1404).load_resource("nginx_conf", "/etc/nginx/conf.d/empty.conf")
+    _(nginx_conf.params).must_equal({})
+  end
+
+  it "does not fail with a file that all lines are commented out" do
+    nginx_conf = MockLoader.new(:ubuntu1404).load_resource("nginx_conf", "/etc/nginx/conf.d/comments_only.conf")
     _(nginx_conf.params).must_equal({})
   end
 
@@ -26,6 +38,8 @@ describe "Inspec::Resources::NginxConf" do
       /etc/nginx/nginx.conf
       /etc/nginx/conf/mime.types
       /etc/nginx/proxy.conf
+      /etc/nginx/conf.d/comments_only.conf
+      /etc/nginx/conf.d/empty.conf
       /etc/nginx/conf.d/foobar.conf
       /etc/nginx/conf.d/multiple.conf
       /etc/nginx/quotes.d/example.conf
