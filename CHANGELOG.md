@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.6.5 -->
+## [v4.6.5](https://github.com/inspec/inspec/tree/v4.6.5) (2019-06-19)
+
+#### Merged Pull Requests
+- Allow to switch off the license check for community distributions [#4156](https://github.com/inspec/inspec/pull/4156) ([artem-sidorenko](https://github.com/artem-sidorenko))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.6.4 -->
+### Changes since 4.6.4 release
+
+#### Merged Pull Requests
+- Allow to switch off the license check for community distributions [#4156](https://github.com/inspec/inspec/pull/4156) ([artem-sidorenko](https://github.com/artem-sidorenko)) <!-- 4.6.5 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
