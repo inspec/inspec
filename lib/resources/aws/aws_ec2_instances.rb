@@ -1,21 +1,21 @@
-require 'resource_support/aws/aws_plural_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-ec2'
+require "resource_support/aws/aws_plural_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-ec2"
 
 class AwsEc2Instances < Inspec.resource(1)
-  name 'aws_ec2_instances'
-  desc 'Verifies settings for AWS EC2 Instances in bulk'
+  name "aws_ec2_instances"
+  desc "Verifies settings for AWS EC2 Instances in bulk"
   example <<~EXAMPLE
     describe aws_ec2_instances do
       it { should exist }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsPluralResourceMixin
   def validate_params(resource_params)
     unless resource_params.empty?
-      raise ArgumentError, 'aws_ec2_instances does not accept resource parameters.'
+      raise ArgumentError, "aws_ec2_instances does not accept resource parameters."
     end
     resource_params
   end
@@ -27,7 +27,7 @@ class AwsEc2Instances < Inspec.resource(1)
   filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
-    'EC2 Instances'
+    "EC2 Instances"
   end
 
   def fetch_from_api

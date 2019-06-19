@@ -1,6 +1,6 @@
-require 'inspec/resources/command'
-require 'hashie/mash'
-require 'inspec/utils/database_helpers'
+require "inspec/resources/command"
+require "hashie/mash"
+require "inspec/utils/database_helpers"
 
 module Inspec::Resources
   # STABILITY: Experimental
@@ -10,8 +10,8 @@ module Inspec::Resources
   # @see https://docs.microsoft.com/en-us/sql/relational-databases/scripting/sqlcmd-use-the-utility
   # @see https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-connect-and-query-sqlcmd
   class MssqlSession < Inspec.resource(1)
-    name 'mssql_session'
-    desc 'Use the mssql_session InSpec audit resource to test SQL commands run against a MS Sql Server database.'
+    name "mssql_session"
+    desc "Use the mssql_session InSpec audit resource to test SQL commands run against a MS Sql Server database."
     example <<~EXAMPLE
       # Using SQL authentication
       sql = mssql_session(user: 'myuser', pass: 'mypassword')
@@ -32,22 +32,22 @@ module Inspec::Resources
       @user = opts[:user]
       @password = opts[:password] || opts[:pass]
       if opts[:pass]
-        Inspec.deprecate(:mssql_session_pass_option, 'The mssql_session `pass` option is deprecated. Please use `password`.')
+        Inspec.deprecate(:mssql_session_pass_option, "The mssql_session `pass` option is deprecated. Please use `password`.")
       end
       @local_mode = opts[:local_mode]
       unless local_mode?
-        @host = opts[:host] || 'localhost'
+        @host = opts[:host] || "localhost"
         if opts.key?(:port)
           @port = opts[:port]
         else
-          @port = '1433'
+          @port = "1433"
         end
       end
       @instance = opts[:instance]
       @db_name = opts[:db_name]
 
       # check if sqlcmd is available
-      raise Inspec::Exceptions::ResourceSkipped, 'sqlcmd is missing' unless inspec.command('sqlcmd').exist?
+      raise Inspec::Exceptions::ResourceSkipped, "sqlcmd is missing" unless inspec.command("sqlcmd").exist?
       # check that database is reachable
       raise Inspec::Exceptions::ResourceSkipped, "Can't connect to the MS SQL Server." unless test_connection
     end
@@ -80,7 +80,7 @@ module Inspec::Resources
     end
 
     def to_s
-      'MSSQL session'
+      "MSSQL session"
     end
 
     private
@@ -90,11 +90,11 @@ module Inspec::Resources
     end
 
     def test_connection
-      !query('select getdate()').empty?
+      !query("select getdate()").empty?
     end
 
     def parse_csv_result(cmd)
-      require 'csv'
+      require "csv"
       table = CSV.parse(cmd.stdout, { headers: true })
 
       # remove first row, since it will be a seperator line
@@ -103,13 +103,13 @@ module Inspec::Resources
       # convert to hash
       headers = table.headers
 
-      results = table.map { |row|
+      results = table.map do |row|
         res = {}
-        headers.each { |header|
+        headers.each do |header|
           res[header.downcase] = row[header] if header
-        }
+        end
         Hashie::Mash.new(res)
-      }
+      end
       results
     end
   end

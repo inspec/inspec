@@ -1,16 +1,16 @@
 #
 # Copyright 2017, Christoph Hartmann
 
-require 'inspec/resources/docker'
-require_relative 'docker_object'
+require "inspec/resources/docker"
+require_relative "docker_object"
 
 module Inspec::Resources
   class DockerImage < Inspec.resource(1)
     include Inspec::Resources::DockerObject
 
-    name 'docker_image'
-    supports platform: 'unix'
-    desc ''
+    name "docker_image"
+    supports platform: "unix"
+    desc ""
     example <<~EXAMPLE
       describe docker_image('alpine:latest') do
         it { should exist }
@@ -59,11 +59,11 @@ module Inspec::Resources
       opts.merge!(parse_components_from_image(opts[:image]))
 
       # assume a "latest" tag if we don't have one
-      opts[:tag] ||= 'latest'
+      opts[:tag] ||= "latest"
 
       # if the ID isn't nil and doesn't contain a hash indicator (indicated by the presence
       # of a colon, which separates the indicator from the actual hash), we assume it's sha256.
-      opts[:id] = 'sha256:' + opts[:id] unless opts[:id].nil? || opts[:id].include?(':')
+      opts[:id] = "sha256:" + opts[:id] unless opts[:id].nil? || opts[:id].include?(":")
 
       # Assemble/reassemble the image from the repo and tag
       opts[:image] = "#{opts[:repo]}:#{opts[:tag]}" unless opts[:repo].nil?
@@ -75,9 +75,9 @@ module Inspec::Resources
     def object_info
       return @info if defined?(@info)
       opts = @opts
-      @info = inspec.docker.images.where {
+      @info = inspec.docker.images.where do
         (repository == opts[:repo] && tag == opts[:tag]) || (!id.nil? && !opts[:id].nil? && (id == opts[:id] || id.start_with?(opts[:id])))
-      }
+      end
     end
   end
 end

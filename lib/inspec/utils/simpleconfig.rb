@@ -1,7 +1,7 @@
 # copyright: 2015, Dominik Richter
 
-require 'inspec/utils/parser'
-require 'hashie'
+require "inspec/utils/parser"
+require "hashie"
 
 class SimpleConfig
   include CommentParser
@@ -84,18 +84,18 @@ class SimpleConfig
     if opts[:multiple_values]
       @vals[line.strip] ||= []
     else
-      @vals[line.strip] = ''
+      @vals[line.strip] = ""
     end
   end
 
   def parse_rest(rest, opts)
     line, idx_nl = parse_comment_line(rest, opts)
-    parse_params_line(line, opts) or
-      parse_group_line(line, opts) or
+    parse_params_line(line, opts) ||
+      parse_group_line(line, opts) ||
       parse_implicit_assignment_line(line, opts)
 
     # return whatever is left
-    rest[(idx_nl + 1)..-1] || ''
+    rest[(idx_nl + 1)..-1] || ""
   end
 
   def is_empty_line(l)
@@ -104,9 +104,9 @@ class SimpleConfig
 
   def default_options
     {
-      quotes: '',
+      quotes: "",
       multiline: false,
-      comment_char: '#',
+      comment_char: "#",
       line_separator: nil, # uses this char to seperate lines before parsing
       assignment_regex: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
       group_re: /\[([^\]]+)\]\s*$/,

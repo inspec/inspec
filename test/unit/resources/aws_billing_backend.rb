@@ -1,4 +1,4 @@
-require 'resource_support/aws'
+require "resource_support/aws"
 
 module MockAwsBillingReports
   class Empty < AwsBackendBase
@@ -13,22 +13,22 @@ module MockAwsBillingReports
         .new(report_definitions:
       [
         Aws::CostandUsageReportService::Types::ReportDefinition.new(
-          report_name: 'inspec1',
-          time_unit: 'HOURLY',
-          format: 'textORcsv',
-          compression: 'ZIP',
-          s3_bucket: 'inspec1-s3-bucket',
-          s3_prefix: 'inspec1/accounting',
-          s3_region: 'us-east-1',
+          report_name: "inspec1",
+          time_unit: "HOURLY",
+          format: "textORcsv",
+          compression: "ZIP",
+          s3_bucket: "inspec1-s3-bucket",
+          s3_prefix: "inspec1/accounting",
+          s3_region: "us-east-1"
         ),
         Aws::CostandUsageReportService::Types::ReportDefinition.new(
-          report_name: 'inspec2',
-          time_unit: 'DAILY',
-          format: 'textORcsv',
-          compression: 'GZIP',
-          s3_bucket: 'inspec2-s3-bucket',
-          s3_prefix: 'inspec2/accounting',
-          s3_region: 'us-west-1',
+          report_name: "inspec2",
+          time_unit: "DAILY",
+          format: "textORcsv",
+          compression: "GZIP",
+          s3_bucket: "inspec2-s3-bucket",
+          s3_prefix: "inspec2/accounting",
+          s3_region: "us-west-1"
         ),
       ])
     end
@@ -51,40 +51,39 @@ module MockAwsBillingReports
       definitions = []
 
       definitions << Aws::CostandUsageReportService::Types::ReportDefinition.new(
-        report_name: 'inspec1',
-        time_unit: 'HOURLY',
-        format: 'textORcsv',
-        compression: 'ZIP',
-        s3_bucket: 'inspec1-s3-bucket',
-        s3_prefix: 'inspec1/accounting',
-        s3_region: 'us-east-1')
+        report_name: "inspec1",
+        time_unit: "HOURLY",
+        format: "textORcsv",
+        compression: "ZIP",
+        s3_bucket: "inspec1-s3-bucket",
+        s3_prefix: "inspec1/accounting",
+        s3_region: "us-east-1")
       definitions << Aws::CostandUsageReportService::Types::ReportDefinition.new(
-        report_name: 'inspec2',
-        time_unit: 'DAILY',
-        format: 'textORcsv',
-        compression: 'GZIP',
-        s3_bucket: 'inspec2-s3-bucket',
-        s3_prefix: 'inspec2/accounting',
-        s3_region: 'us-west-1')
+        report_name: "inspec2",
+        time_unit: "DAILY",
+        format: "textORcsv",
+        compression: "GZIP",
+        s3_bucket: "inspec2-s3-bucket",
+        s3_prefix: "inspec2/accounting",
+        s3_region: "us-west-1")
 
       (3..12).each do |i|
         definitions <<
-        Aws::CostandUsageReportService::Types::ReportDefinition.new(
-          report_name: "inspec#{i}",
-          time_unit: %w{HOURLY DAILY}.sample,
-          format: 'textORcsv',
-          compression: %w{ZIP GZIP}.sample,
-          s3_bucket: "inspec#{i}-s3-bucket",
-          s3_prefix: "inspec#{i}",
-          s3_region: 'us-east-1'
-        )
+          Aws::CostandUsageReportService::Types::ReportDefinition.new(
+            report_name: "inspec#{i}",
+            time_unit: %w{HOURLY DAILY}.sample,
+            format: "textORcsv",
+            compression: %w{ZIP GZIP}.sample,
+            s3_bucket: "inspec#{i}-s3-bucket",
+            s3_prefix: "inspec#{i}",
+            s3_region: "us-east-1"
+          )
       end
 
       definitions.shuffle
     end
 
     def describe_report_definitions(options = {})
-
       @definitions ||= generate_definitions
 
       starting_position = options.fetch(:next_token, 0)

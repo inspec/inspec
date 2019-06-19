@@ -1,5 +1,5 @@
-require 'inspec/resources/directory'
-require 'inspec/utils/simpleconfig'
+require "inspec/resources/directory"
+require "inspec/utils/simpleconfig"
 
 # Resource to determine package information
 #
@@ -9,10 +9,10 @@ require 'inspec/utils/simpleconfig'
 # end
 module Inspec::Resources
   class Package < Inspec.resource(1)
-    name 'package'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the package InSpec audit resource to test if the named package and/or package version is installed on the system.'
+    name "package"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the package InSpec audit resource to test if the named package and/or package version is installed on the system."
     example <<~EXAMPLE
       describe package('nginx') do
         it { should be_installed }
@@ -32,22 +32,22 @@ module Inspec::Resources
         @pkgman = Deb.new(inspec)
       elsif os.redhat? || %w{suse amazon fedora}.include?(os[:family])
         @pkgman = Rpm.new(inspec, opts)
-      elsif ['arch'].include?(os[:name])
+      elsif ["arch"].include?(os[:name])
         @pkgman = Pacman.new(inspec)
-      elsif ['darwin'].include?(os[:family])
+      elsif ["darwin"].include?(os[:family])
         @pkgman = Brew.new(inspec)
       elsif os.windows?
         @pkgman = WindowsPkg.new(inspec)
-      elsif ['aix'].include?(os[:family])
+      elsif ["aix"].include?(os[:family])
         @pkgman = BffPkg.new(inspec)
       elsif os.solaris?
         @pkgman = SolarisPkg.new(inspec)
-      elsif ['hpux'].include?(os[:family])
+      elsif ["hpux"].include?(os[:family])
         @pkgman = HpuxPkg.new(inspec)
-      elsif ['alpine'].include?(os[:name])
+      elsif ["alpine"].include?(os[:name])
         @pkgman = AlpinePkg.new(inspec)
       else
-        raise Inspec::Exceptions::ResourceSkipped, 'The `package` resource is not supported on your OS yet.'
+        raise Inspec::Exceptions::ResourceSkipped, "The `package` resource is not supported on your OS yet."
       end
 
       evaluate_missing_requirements
@@ -86,7 +86,7 @@ module Inspec::Resources
     private
 
     def evaluate_missing_requirements
-      missing_requirements_string = @pkgman.missing_requirements.uniq.join(', ')
+      missing_requirements_string = @pkgman.missing_requirements.uniq.join(", ")
       return if missing_requirements_string.empty?
       raise Inspec::Exceptions::ResourceSkipped, "The following requirements are not met for this resource: #{missing_requirements_string}"
     end
@@ -114,18 +114,18 @@ module Inspec::Resources
       params = SimpleConfig.new(
         cmd.stdout.chomp,
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-        multiple_values: false,
+        multiple_values: false
       ).params
       # If the package is installed, Status is "install ok installed"
       # If the package is installed and marked hold, Status is "hold ok installed"
       # If the package is removed and not purged, Status is "deinstall ok config-files" with exit_status 0
       # If the package is purged cmd fails with non-zero exit status
       {
-        name: params['Package'],
-        installed: params['Status'].split(' ')[2] == 'installed',
-        held: params['Status'].split(' ')[0] == 'hold',
-        version: params['Version'],
-        type: 'deb',
+        name: params["Package"],
+        installed: params["Status"].split(" ")[2] == "installed",
+        held: params["Status"].split(" ")[0] == "hold",
+        version: params["Version"],
+        type: "deb",
       }
     end
   end
@@ -157,35 +157,35 @@ module Inspec::Resources
       params = SimpleConfig.new(
         cmd.stdout.chomp,
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-        multiple_values: false,
+        multiple_values: false
       ).params
       # On some (all?) systems, the linebreak before the vendor line is missing
-      if params['Version'] =~ /\s*Vendor:/
-        v = params['Version'].split(' ')[0]
+      if params["Version"] =~ /\s*Vendor:/
+        v = params["Version"].split(" ")[0]
       else
-        v = params['Version']
+        v = params["Version"]
       end
       # On some (all?) systems, the linebreak before the build line is missing
-      if params['Release'] =~ /\s*Build Date:/
-        r = params['Release'].split(' ')[0]
+      if params["Release"] =~ /\s*Build Date:/
+        r = params["Release"].split(" ")[0]
       else
-        r = params['Release']
+        r = params["Release"]
       end
       {
-        name: params['Name'],
+        name: params["Name"],
         installed: true,
         version: "#{v}-#{r}",
-        type: 'rpm',
+        type: "rpm",
       }
     end
 
     private
 
     def rpm_command(package_name)
-      cmd = ''
-      cmd += 'rpm -qi'
+      cmd = ""
+      cmd += "rpm -qi"
       cmd += " --dbpath #{@dbpath}" if @dbpath
-      cmd += ' ' + package_name
+      cmd += " " + package_name
 
       cmd
     end
@@ -194,7 +194,7 @@ module Inspec::Resources
   # MacOS / Darwin implementation
   class Brew < PkgManagement
     def info(package_name)
-      brew_path = inspec.command('brew').exist? ? 'brew' : '/usr/local/bin/brew'
+      brew_path = inspec.command("brew").exist? ? "brew" : "/usr/local/bin/brew"
       cmd = inspec.command("#{brew_path} info --json=v1 #{package_name}")
 
       # If no available formula exists, then `brew` will exit non-zero
@@ -204,17 +204,17 @@ module Inspec::Resources
 
       # If package exists but is not installed, then `brew` output will not
       # contain `pkg['installed'][0]['version']
-      return {} unless pkg.dig('installed', 0, 'version')
+      return {} unless pkg.dig("installed", 0, "version")
 
       {
-        name: pkg['name'],
+        name: pkg["name"],
         installed: true,
-        version: pkg['installed'][0]['version'],
-        type: 'brew',
+        version: pkg["installed"][0]["version"],
+        type: "brew",
       }
     rescue JSON::ParserError => e
       raise Inspec::Exceptions::ResourceFailed,
-            'Failed to parse JSON from `brew` command. ' \
+            "Failed to parse JSON from `brew` command. " \
             "Error: #{e}"
     end
   end
@@ -228,14 +228,14 @@ module Inspec::Resources
       params = SimpleConfig.new(
         cmd.stdout.chomp,
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-        multiple_values: false,
+        multiple_values: false
       ).params
 
       {
-        name: params['Name'],
+        name: params["Name"],
         installed: true,
-        version: params['Version'],
-        type: 'pacman',
+        version: params["Version"],
+        type: "pacman",
       }
     end
   end
@@ -244,12 +244,12 @@ module Inspec::Resources
     def info(package_name)
       cmd = inspec.command("swlist -l product | grep #{package_name}")
       return {} if cmd.exit_status.to_i != 0
-      pkg = cmd.stdout.strip.split(' ')
+      pkg = cmd.stdout.strip.split(" ")
       {
         name: pkg[0],
         installed: true,
         version: pkg[1],
-        type: 'pkg',
+        type: "pkg",
       }
     end
   end
@@ -260,13 +260,13 @@ module Inspec::Resources
       return {} if cmd.exit_status.to_i != 0
 
       pkg_info = cmd.stdout.split("\n").delete_if { |e| e =~ /^WARNING/i }
-      pkg = pkg_info[0].split(' - ')[0]
+      pkg = pkg_info[0].split(" - ")[0]
 
       {
-        name: pkg.partition('-')[0],
+        name: pkg.partition("-")[0],
         installed: true,
-        version: pkg.partition('-')[2],
-        type: 'pkg',
+        version: pkg.partition("-")[2],
+        type: "pkg",
       }
     end
   end
@@ -281,13 +281,13 @@ module Inspec::Resources
       ]
 
       # add 64 bit search paths
-      if inspec.os.arch == 'x86_64'
+      if inspec.os.arch == "x86_64"
         search_paths << 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*'
         search_paths << 'HKCU:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*'
       end
 
       # Find the package
-      cmd = inspec.command <<-EOF.gsub(/^\s*/, '')
+      cmd = inspec.command <<-EOF.gsub(/^\s*/, "")
         Get-ItemProperty (@("#{search_paths.join('", "')}") | Where-Object { Test-Path $_ }) |
         Where-Object { $_.DisplayName -match "^\s*#{package_name.shellescape}\.*" -or $_.PSChildName -match "^\s*#{package_name.shellescape}\.*" } |
         Select-Object -Property DisplayName,DisplayVersion | ConvertTo-Json
@@ -297,13 +297,13 @@ module Inspec::Resources
       # above command. Instead, if no package is found the output of the command
       # will be `''` so we can use that to return `{}` to match the behavior of
       # other package managers.
-      return {} if cmd.stdout == ''
+      return {} if cmd.stdout == ""
 
       begin
         package = JSON.parse(cmd.stdout)
       rescue JSON::ParserError => e
         raise Inspec::Exceptions::ResourceFailed,
-              'Failed to parse JSON from PowerShell. ' \
+              "Failed to parse JSON from PowerShell. " \
               "Error: #{e}"
       end
 
@@ -311,10 +311,10 @@ module Inspec::Resources
       package = package[0] if package.is_a?(Array)
 
       {
-        name: package['DisplayName'],
+        name: package["DisplayName"],
         installed: true,
-        version: package['DisplayVersion'],
-        type: 'windows',
+        version: package["DisplayVersion"],
+        type: "windows",
       }
     end
   end
@@ -325,12 +325,12 @@ module Inspec::Resources
       cmd = inspec.command("lslpp -cL #{package_name}")
       return {} if cmd.exit_status.to_i != 0
 
-      bff_pkg = cmd.stdout.split("\n").last.split(':')
+      bff_pkg = cmd.stdout.split("\n").last.split(":")
       {
-        name:      bff_pkg[1],
+        name: bff_pkg[1],
         installed: true,
-        version:   bff_pkg[2],
-        type:      'bff',
+        version: bff_pkg[2],
+        type: "bff",
       }
     end
   end
@@ -353,16 +353,16 @@ module Inspec::Resources
       params = SimpleConfig.new(
         cmd.stdout.chomp,
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-        multiple_values: false,
+        multiple_values: false
       ).params
 
       # parse 11.10.0,REV=2006.05.18.01.46
-      v = params['VERSION'].split(',')
+      v = params["VERSION"].split(",")
       {
-        name: params['PKGINST'],
+        name: params["PKGINST"],
         installed: true,
-        version: v[0] + '-' + v[1].split('=')[1],
-        type: 'pkg',
+        version: v[0] + "-" + v[1].split("=")[1],
+        type: "pkg",
       }
     end
 
@@ -374,15 +374,15 @@ module Inspec::Resources
       params = SimpleConfig.new(
         cmd.stdout.chomp,
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-        multiple_values: false,
+        multiple_values: false
       ).params
 
       {
-        name: params['Name'],
+        name: params["Name"],
         installed: true,
         # 0.5.11-0.175.3.1.0.5.0
         version: "#{params['Version']}-#{params['Branch']}",
-        type: 'pkg',
+        type: "pkg",
       }
     end
   end

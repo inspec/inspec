@@ -1,9 +1,9 @@
-require 'helper'
-require 'inspec/resource'
-require 'resources/aws/aws_iam_role'
+require "helper"
+require "inspec/resource"
+require "resources/aws/aws_iam_role"
 
-require 'resource_support/aws'
-require 'resources/aws/aws_iam_role'
+require "resource_support/aws"
+require "resources/aws/aws_iam_role"
 
 # MIRB = MockIamRoleBackend
 # Abbreviation not used outside this file
@@ -21,15 +21,15 @@ class AwsIamRoleConstructorTest < Minitest::Test
   end
 
   def test_constructor_accepts_scalar_role_name
-    AwsIamRole.new('alpha')
+    AwsIamRole.new("alpha")
   end
 
   def test_constructor_accepts_role_name_as_hash
-    AwsIamRole.new(role_name: 'alpha')    
+    AwsIamRole.new(role_name: "alpha")
   end
-  
+
   def test_constructor_rejects_unrecognized_resource_params
-    assert_raises(ArgumentError) { AwsIamRole.new(beep: 'boop') }
+    assert_raises(ArgumentError) { AwsIamRole.new(beep: "boop") }
   end
 end
 
@@ -42,15 +42,14 @@ class AwsIamRoleRecallTest < Minitest::Test
 
   def test_recall_no_match_is_no_exception
     AwsIamRole::BackendFactory.select(AwsMIRB::Miss)
-    refute AwsIamRole.new('nonesuch').exists?
+    refute AwsIamRole.new("nonesuch").exists?
   end
 
   def test_recall_match_single_result_works
     AwsIamRole::BackendFactory.select(AwsMIRB::Basic)
-    assert AwsIamRole.new('alpha').exists?
+    assert AwsIamRole.new("alpha").exists?
   end
 end
-
 
 #=============================================================================#
 #                                Properties
@@ -65,14 +64,13 @@ class AwsIamRolePropertiesTest < Minitest::Test
   #       description
   #---------------------------------------
   def test_property_description
-    assert_equal('alpha role', AwsIamRole.new('alpha').description)
+    assert_equal("alpha role", AwsIamRole.new("alpha").description)
   end
 
   def test_prop_conf_sub_count_zero
-    assert_empty(AwsIamRole.new('beta').description)    
+    assert_empty(AwsIamRole.new("beta").description)
   end
 end
-
 
 #=============================================================================#
 #                               Test Fixtures
@@ -80,27 +78,27 @@ end
 module AwsMIRB
   class Miss < AwsBackendBase
     def get_role(query)
-      raise Aws::IAM::Errors::NoSuchEntity.new('Nope', 'Nope')
+      raise Aws::IAM::Errors::NoSuchEntity.new("Nope", "Nope")
     end
   end
 
   class Basic < AwsBackendBase
     def get_role(query)
       fixtures = {
-        'alpha' => OpenStruct.new({
-          role_name: 'alpha',
-          description: 'alpha role',
+        "alpha" => OpenStruct.new({
+          role_name: "alpha",
+          description: "alpha role",
         }),
-        'beta' => OpenStruct.new({
-          role_name: 'beta',
-          description: '',
+        "beta" => OpenStruct.new({
+          role_name: "beta",
+          description: "",
         }),
       }
       unless fixtures.key?(query[:role_name])
-        raise Aws::IAM::Errors::NoSuchEntity.new('Nope', 'Nope')
+        raise Aws::IAM::Errors::NoSuchEntity.new("Nope", "Nope")
       end
       OpenStruct.new({
-        role: fixtures[query[:role_name]]
+        role: fixtures[query[:role_name]],
       })
     end
   end

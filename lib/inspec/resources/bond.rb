@@ -1,11 +1,11 @@
-require 'inspec/resources/file'
-require 'inspec/utils/file_reader'
-require 'inspec/utils/simpleconfig'
+require "inspec/resources/file"
+require "inspec/utils/file_reader"
+require "inspec/utils/simpleconfig"
 
 module Inspec::Resources
   class Bond < FileResource
-    name 'bond'
-    supports platform: 'unix'
+    name "bond"
+    supports platform: "unix"
     desc 'Use the bond InSpec audit resource to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On Linux platforms, any value in the /proc/net/bonding directory may be tested.'
     example <<~EXAMPLE
       describe bond('bond0') do
@@ -25,11 +25,13 @@ module Inspec::Resources
     end
 
     def read_content
-      @params = SimpleConfig.new(
-        @content,
-        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-        multiple_values: true,
-      ).params if @file.exist?
+      if @file.exist?
+        @params = SimpleConfig.new(
+          @content,
+          assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+          multiple_values: true
+        ).params
+      end
       @loaded = true
       @content
     end
@@ -50,15 +52,15 @@ module Inspec::Resources
     end
 
     def has_interface?(interface)
-      params['Slave Interface'].include?(interface)
+      params["Slave Interface"].include?(interface)
     end
 
     def interfaces
-      params['Slave Interface']
+      params["Slave Interface"]
     end
 
     def mode
-      params['Bonding Mode'].first
+      params["Bonding Mode"].first
     end
 
     def to_s

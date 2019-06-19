@@ -1,5 +1,5 @@
-require_relative 'base'
-require 'inspec/dist'
+require_relative "base"
+require "inspec/dist"
 
 #
 # Notes:
@@ -75,39 +75,39 @@ module InspecPlugins
     class CLI < Inspec.plugin(2, :cli_command)
       include Inspec::Dist
 
-      subcommand_desc 'artifact SUBCOMMAND', "Manage #{PRODUCT_NAME} Artifacts"
+      subcommand_desc "artifact SUBCOMMAND", "Manage #{PRODUCT_NAME} Artifacts"
 
-      desc 'generate', 'Generate a RSA key pair for signing and verification'
+      desc "generate", "Generate a RSA key pair for signing and verification"
       option :keyname, type: :string, required: true,
-        desc: 'Desriptive name of key'
-      option :keydir, type: :string, default: './',
-        desc: 'Directory to search for keys'
+        desc: "Desriptive name of key"
+      option :keydir, type: :string, default: "./",
+        desc: "Directory to search for keys"
       def generate_keys
-        puts 'Generating keys'
+        puts "Generating keys"
         InspecPlugins::Artifact::Base.keygen(options)
       end
 
-      desc 'sign-profile', 'Create a signed .iaf artifact'
+      desc "sign-profile", "Create a signed .iaf artifact"
       option :profile, type: :string, required: true,
-        desc: 'Path to profile directory'
+        desc: "Path to profile directory"
       option :keyname, type: :string, required: true,
-        desc: 'Desriptive name of key'
+        desc: "Desriptive name of key"
       def sign_profile
         InspecPlugins::Artifact::Base.profile_sign(options)
       end
 
-      desc 'verify-profile', 'Verify a signed .iaf artifact'
+      desc "verify-profile", "Verify a signed .iaf artifact"
       option :infile, type: :string, required: true,
-          desc: '.iaf file to verify'
+          desc: ".iaf file to verify"
       def verify_profile
         InspecPlugins::Artifact::Base.profile_verify(options)
       end
 
-      desc 'install-profile', 'Verify and install a signed .iaf artifact'
+      desc "install-profile", "Verify and install a signed .iaf artifact"
       option :infile, type: :string, required: true,
-          desc: '.iaf file to install'
+          desc: ".iaf file to install"
       option :destdir, type: :string, required: true,
-        desc: 'Installation directory'
+        desc: "Installation directory"
       def install_profile
         InspecPlugins::Artifact::Base.profile_install(options)
       end

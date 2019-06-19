@@ -1,4 +1,4 @@
-require 'yaml'
+require "yaml"
 
 module Inspec
   class Lockfile
@@ -8,15 +8,15 @@ module Inspec
 
     def self.from_dependency_set(dep_set)
       lockfile_content = {
-        'lockfile_version' => CURRENT_LOCKFILE_VERSION,
-        'depends' => dep_set.to_array,
+        "lockfile_version" => CURRENT_LOCKFILE_VERSION,
+        "depends" => dep_set.to_array,
       }
       new(lockfile_content)
     end
 
     def self.from_content(content)
       parsed_content = YAML.load(content)
-      version = parsed_content['lockfile_version']
+      version = parsed_content["lockfile_version"]
       raise "No lockfile_version set in #{path}!" if version.nil?
       validate_lockfile_version!(version.to_i)
       new(parsed_content)
@@ -50,15 +50,15 @@ module Inspec
 
     attr_reader :version, :deps
     def initialize(lockfile_content_hash)
-      version = lockfile_content_hash['lockfile_version']
+      version = lockfile_content_hash["lockfile_version"]
       @version = version.to_i
       parse_content_hash(lockfile_content_hash)
     end
 
     def to_yaml
       {
-        'lockfile_version' => CURRENT_LOCKFILE_VERSION,
-        'depends' => @deps.map { |i| stringify_keys(i) },
+        "lockfile_version" => CURRENT_LOCKFILE_VERSION,
+        "depends" => @deps.map { |i| stringify_keys(i) },
       }.to_yaml
     end
 
@@ -84,7 +84,7 @@ module Inspec
     end
 
     def parse_content_hash_1(lockfile_content_hash)
-      @deps = lockfile_content_hash['depends']&.map { |i| symbolize_keys(i) }
+      @deps = lockfile_content_hash["depends"]&.map { |i| symbolize_keys(i) }
     end
 
     def mutate_hash_keys_with(hash, fun)

@@ -23,14 +23,6 @@ control 'Test audit cookbook json output' do
   end
 end
 
-# test kitchen verify attr passthrough
-attr = attribute('verifier_attribute', default: 'none') # TODO: update test-kitchen to replace attribute -> input
-control 'validate verifier attribute override' do
-  describe attr do
-    it { should eq 'Attribute Override!' }
-  end
-end
-
 # make sure all tests passed
 file = file('/tmp/json_export.json')
 if file.exist?

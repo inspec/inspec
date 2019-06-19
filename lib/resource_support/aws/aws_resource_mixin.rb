@@ -26,7 +26,7 @@ module AwsResourceMixin
       if value_seen.is_a?(allowed_scalar_type)
         raw_params = { allowed_scalar_name => value_seen }
       else
-        raise ArgumentError, 'If you pass a single value to the resource, it must ' \
+        raise ArgumentError, "If you pass a single value to the resource, it must " \
                              "be a #{allowed_scalar_type}, not an #{value_seen.class}."
       end
     end
@@ -61,7 +61,7 @@ module AwsResourceMixin
     # The AWS error here is unhelpful:
     # "unable to sign request without credentials set"
     Inspec::Log.error "It appears that you have not set your AWS credentials.  You may set them using environment variables, or using the 'aws://region/aws_credentials_profile' target.  See https://www.inspec.io/docs/reference/platforms for details."
-    fail_resource('No AWS credentials available')
+    fail_resource("No AWS credentials available")
   rescue Aws::Errors::ServiceError => e
     fail_resource e.message
   end

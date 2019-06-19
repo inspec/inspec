@@ -1,4 +1,4 @@
-require 'inspec/utils/deprecation'
+require "inspec/utils/deprecation"
 
 # For backwards compatibility during the rename (see #3802),
 # maintain the Inspec::Attribute namespace for people checking for
@@ -6,7 +6,7 @@ require 'inspec/utils/deprecation'
 module Inspec
   class Attribute
     # This only exists to create the Inspec::Attribute::DEFAULT_ATTRIBUTE symbol with a class
-    class DEFAULT_ATTRIBUTE; end # rubocop: disable Style/ClassAndModuleCamelCase
+    class DEFAULT_ATTRIBUTE; end # rubocop: disable Naming/ClassAndModuleCamelCase
   end
 end
 
@@ -42,7 +42,7 @@ module Inspec
         properties.each do |prop_name, prop_value|
           if EVENT_PROPERTIES.include? prop_name
             # OK, save the property
-            send((prop_name.to_s + '=').to_sym, prop_value)
+            send((prop_name.to_s + "=").to_sym, prop_value)
           else
             raise "Unrecognized property to Input::Event: #{prop_name}"
           end
@@ -60,7 +60,7 @@ module Inspec
       end
 
       def diagnostic_string
-        to_h.reject { |_, val| val.nil? }.to_a.map { |pair| "#{pair[0]}: '#{pair[1]}'" }.join(', ')
+        to_h.reject { |_, val| val.nil? }.to_a.map { |pair| "#{pair[0]}: '#{pair[1]}'" }.join(", ")
       end
 
       def to_h
@@ -71,7 +71,7 @@ module Inspec
 
       def self.probe_stack
         frames = caller_locations(2, 40)
-        frames.reject! { |f| f.path && f.path.include?('/lib/inspec/') }
+        frames.reject! { |f| f.path && f.path.include?("/lib/inspec/") }
         frames.first
       end
     end
@@ -82,16 +82,18 @@ module Inspec
     # This special class is used to represent the value when an input has
     # not been assigned a value. This allows a user to explicitly assign nil
     # to an input.
-    class NO_VALUE_SET # rubocop: disable Style/ClassAndModuleCamelCase
+    class NO_VALUE_SET # rubocop: disable Naming/ClassAndModuleCamelCase
       def initialize(name)
         @name = name
 
         # output warn message if we are in a exec call
-        Inspec::Log.warn(
-          "Input '#{@name}' does not have a value. "\
-          "Use --input-file to provide a value for '#{@name}' or specify a  "\
-          "value with `attribute('#{@name}', value: 'somevalue', ...)`.",
-        ) if Inspec::BaseCLI.inspec_cli_command == :exec
+        if Inspec::BaseCLI.inspec_cli_command == :exec
+          Inspec::Log.warn(
+            "Input '#{@name}' does not have a value. "\
+            "Use --input-file to provide a value for '#{@name}' or specify a  "\
+            "value with `attribute('#{@name}', value: 'somevalue', ...)`."
+          )
+        end
       end
 
       def method_missing(*_)
@@ -222,7 +224,7 @@ module Inspec
         provider: options[:provider] || :unknown,
         priority: options[:priority] || Inspec::Input::DEFAULT_PRIORITY_FOR_UNKNOWN_CALLER,
         file: location.path,
-        line: location.lineno,
+        line: location.lineno
       )
 
       if options.key?(:default)
@@ -255,7 +257,7 @@ module Inspec
         action: :create,
         provider: options[:provider],
         file: loc.path,
-        line: loc.lineno,
+        line: loc.lineno
       )
     end
 
@@ -287,11 +289,9 @@ module Inspec
         priority: priority,
         value: new_value,
         file: location.path,
-        line: location.lineno,
+        line: location.lineno
       )
       enforce_type_restriction!
-
-      new_value
     end
 
     def value
@@ -318,7 +318,7 @@ module Inspec
     end
 
     def ruby_var_identifier
-      identifier || 'attr_' + name.downcase.strip.gsub(/\s+/, '-').gsub(/[^\w-]/, '')
+      identifier || "attr_" + name.downcase.strip.gsub(/\s+/, "-").gsub(/[^\w-]/, "")
     end
 
     def to_ruby
@@ -330,7 +330,7 @@ module Inspec
       # send the default: option as well. See #3759
       res.push "  default: #{value.inspect}," unless value.to_s.empty?
       res.push "  description: '#{description}'," unless description.to_s.empty?
-      res.push '})'
+      res.push "})"
       res.join("\n")
     end
 
@@ -366,16 +366,16 @@ module Inspec
       return unless has_value?
 
       type_req = type
-      return if type_req == 'Any'
+      return if type_req == "Any"
 
       proposed_value = current_value
 
       invalid_type = false
-      if type_req == 'Regexp'
+      if type_req == "Regexp"
         invalid_type = true if !valid_regexp?(proposed_value)
-      elsif type_req == 'Numeric'
+      elsif type_req == "Numeric"
         invalid_type = true if !valid_numeric?(proposed_value)
-      elsif type_req == 'Boolean'
+      elsif type_req == "Boolean"
         invalid_type = true if ![true, false].include?(proposed_value)
       elsif proposed_value.is_a?(Module.const_get(type_req)) == false
         # TODO: why is this case here?
@@ -396,8 +396,8 @@ module Inspec
 
       type_req = type.capitalize
       abbreviations = {
-        'Num' => 'Numeric',
-        'Regex' => 'Regexp',
+        "Num" => "Numeric",
+        "Regex" => "Regexp",
       }
       type_req = abbreviations[type_req] if abbreviations.key?(type_req)
       if !VALID_TYPES.include?(type_req)

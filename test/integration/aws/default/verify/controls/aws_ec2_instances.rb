@@ -4,7 +4,7 @@ fixtures = {}
   'ec2_instance_centos_id',
   'ec2_instance_debian_id',  
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
     fixture_name,
     default: "default.#{fixture_name}",
     description: 'See ../build/ec2.tf',

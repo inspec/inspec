@@ -1,5 +1,5 @@
-require 'inspec/plugin/v1/plugin_types/resource'
-require 'inspec/dsl_shared'
+require "inspec/plugin/v1/plugin_types/resource"
+require "inspec/dsl_shared"
 
 module Inspec
   #
@@ -48,7 +48,7 @@ module Inspec
       # Provide the local binding for this context which is necessary for
       # calls to `require` to create all dependent objects in the correct
       # context.
-      res.instance_variable_set('@inspec_binding', res.instance_eval('binding'))
+      res.instance_variable_set("@inspec_binding", res.instance_eval("binding"))
       res
     end
   end

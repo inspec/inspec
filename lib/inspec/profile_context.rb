@@ -1,30 +1,30 @@
-require 'inspec/log'
-require 'inspec/rule'
-require 'inspec/resource'
-require 'inspec/library_eval_context'
-require 'inspec/control_eval_context'
-require 'inspec/require_loader'
-require 'securerandom'
-require 'inspec/objects/input'
+require "inspec/log"
+require "inspec/rule"
+require "inspec/resource"
+require "inspec/library_eval_context"
+require "inspec/control_eval_context"
+require "inspec/require_loader"
+require "securerandom"
+require "inspec/objects/input"
 
 module Inspec
   class ProfileContext
     def self.for_profile(profile, backend)
-      new(profile.name, backend, { 'profile' => profile, 'check_mode' => profile.check_mode })
+      new(profile.name, backend, { "profile" => profile, "check_mode" => profile.check_mode })
     end
 
     attr_reader :backend, :profile_name, :profile_id, :resource_registry
     attr_accessor :rules
     def initialize(profile_id, backend, conf)
       if backend.nil?
-        raise 'ProfileContext is initiated with a backend == nil. ' \
-             'This is a backend error which must be fixed upstream.'
+        raise "ProfileContext is initiated with a backend == nil. " \
+             "This is a backend error which must be fixed upstream."
       end
       @profile_id = profile_id
       @backend = backend
       @conf = conf.dup
-      @profile_name = @conf.key?('profile') ? @conf['profile'].profile_name : @profile_id
-      @skip_only_if_eval = @conf['check_mode']
+      @profile_name = @conf.key?("profile") ? @conf["profile"].profile_name : @profile_id
+      @skip_only_if_eval = @conf["check_mode"]
       @rules = {}
       @control_subcontexts = []
       @lib_subcontexts = []
@@ -44,10 +44,10 @@ module Inspec
     end
 
     def dependencies
-      if @conf['profile'].nil?
+      if @conf["profile"].nil?
         {}
       else
-        @conf['profile'].locked_dependencies
+        @conf["profile"].locked_dependencies
       end
     end
 
@@ -67,15 +67,15 @@ module Inspec
     end
 
     def profile_supports_platform?
-      return true if @conf['profile'].nil?
+      return true if @conf["profile"].nil?
 
-      @conf['profile'].supports_platform?
+      @conf["profile"].supports_platform?
     end
 
     def profile_supports_inspec_version?
-      return true if @conf['profile'].nil?
+      return true if @conf["profile"].nil?
 
-      @conf['profile'].supports_runtime?
+      @conf["profile"].supports_runtime?
     end
 
     def remove_rule(id)
@@ -116,15 +116,15 @@ module Inspec
     end
 
     def load_libraries(libs)
-      lib_prefix = 'libraries' + File::SEPARATOR
+      lib_prefix = "libraries" + File::SEPARATOR
       autoloads = []
 
       libs.sort_by! { |l| l[1] } # Sort on source path so load order is deterministic
       libs.each do |content, source, line|
         path = source
         if source.start_with?(lib_prefix)
-          path = source.sub(lib_prefix, '')
-          autoloads.push(path) if File.dirname(path) == '.'
+          path = source.sub(lib_prefix, "")
+          autoloads.push(path) if File.dirname(path) == "."
         end
 
         @require_loader.add(path, content, source, line)
@@ -132,7 +132,7 @@ module Inspec
 
       # load all files directly that are flat inside the libraries folder
       autoloads.each do |path|
-        next unless path.end_with?('.rb')
+        next unless path.end_with?(".rb")
         load_library_file(*@require_loader.load(path)) unless @require_loader.loaded?(path)
       end
       reload_dsl
@@ -157,7 +157,7 @@ module Inspec
       elsif source.nil? && line.nil?
         context.instance_eval(content)
       else
-        context.instance_eval(content, source || 'unknown', line || 1)
+        context.instance_eval(content, source || "unknown", line || 1)
       end
     end
 
@@ -170,9 +170,9 @@ module Inspec
     def register_rule(r)
       # get the full ID
       file = if @current_load.nil?
-               'unknown'
+               "unknown"
              else
-               @current_load[:file] || 'unknown'
+               @current_load[:file] || "unknown"
              end
       r.instance_variable_set(:@__file, file)
       r.instance_variable_set(:@__group_title, current_load[:title])
@@ -195,7 +195,7 @@ module Inspec
 
     def full_id(pid, rid)
       return rid.to_s if pid.to_s.empty?
-      pid.to_s + '/' + rid.to_s
+      pid.to_s + "/" + rid.to_s
     end
   end
 end

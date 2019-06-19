@@ -1,10 +1,10 @@
-require 'resource_support/aws/aws_singular_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-iam'
+require "resource_support/aws/aws_singular_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-iam"
 
 class AwsIamUser < Inspec.resource(1)
-  name 'aws_iam_user'
-  desc 'Verifies settings for AWS IAM user'
+  name "aws_iam_user"
+  desc "Verifies settings for AWS IAM user"
   example <<~EXAMPLE
     describe aws_iam_user(username: 'test_user') do
       it { should have_mfa_enabled }
@@ -13,7 +13,7 @@ class AwsIamUser < Inspec.resource(1)
       it { should_not have_attached_user_policies }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
   attr_reader :access_keys, :attached_policy_names, :attached_policy_arns, \
@@ -22,7 +22,7 @@ class AwsIamUser < Inspec.resource(1)
   alias has_console_password? has_console_password
 
   def name
-    Inspec.deprecate(:properties_aws_iam_user, 'The aws_iam_user `name` property is deprecated. Please use `username` instead')
+    Inspec.deprecate(:properties_aws_iam_user, "The aws_iam_user `name` property is deprecated. Please use `username` instead")
     username
   end
 
@@ -47,22 +47,22 @@ class AwsIamUser < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:username, :aws_user_struct, :name, :user],
       allowed_scalar_name: :username,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
     # If someone passed :name, rename it to :username
     if validated_params.key?(:name)
-      Inspec.deprecate(:properties_aws_iam_user, 'The aws_iam_users `name` property is deprecated. Please use `username` instead')
+      Inspec.deprecate(:properties_aws_iam_user, "The aws_iam_users `name` property is deprecated. Please use `username` instead")
       validated_params[:username] = validated_params.delete(:name)
     end
 
     # If someone passed :user, rename it to :aws_user_struct
     if validated_params.key?(:user)
-      Inspec.deprecate(:properties_aws_iam_user, 'The aws_iam_users `user` property is deprecated. Please use `aws_user_struct` instead')
+      Inspec.deprecate(:properties_aws_iam_user, "The aws_iam_users `user` property is deprecated. Please use `aws_user_struct` instead")
       validated_params[:aws_user_struct] = validated_params.delete(:user)
     end
 
     if validated_params.empty?
-      raise ArgumentError, 'You must provide a username to aws_iam_user.'
+      raise ArgumentError, "You must provide a username to aws_iam_user."
     end
     validated_params
   end

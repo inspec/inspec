@@ -10,7 +10,7 @@ fixtures = {}
   's3_bucket_access_logging_enabled_name',
   's3_bucket_access_logging_not_enabled_name',
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
     fixture_name,
     default: "default.#{fixture_name}",
     description: 'See ../build/s3.tf',

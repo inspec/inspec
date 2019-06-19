@@ -1,4 +1,4 @@
-require 'inspec/resources/file'
+require "inspec/resources/file"
 
 # Usage:
 # describe bridge('br0') do
@@ -8,9 +8,9 @@ require 'inspec/resources/file'
 
 module Inspec::Resources
   class Bridge < Inspec.resource(1)
-    name 'bridge'
-    supports platform: 'unix'
-    desc 'Use the bridge InSpec audit resource to test basic network bridge properties, such as name, if an interface is defined, and the associations for any defined interface.'
+    name "bridge"
+    supports platform: "unix"
+    desc "Use the bridge InSpec audit resource to test basic network bridge properties, such as name, if an interface is defined, and the associations for any defined interface."
     example <<~EXAMPLE
       describe bridge 'br0' do
         it { should exist }
@@ -27,7 +27,7 @@ module Inspec::Resources
       elsif inspec.os.windows?
         @bridge_provider = WindowsBridge.new(inspec)
       else
-        return skip_resource 'The `bridge` resource is not supported on your OS yet.'
+        return skip_resource "The `bridge` resource is not supported on your OS yet."
       end
     end
 
@@ -36,7 +36,7 @@ module Inspec::Resources
     end
 
     def has_interface?(interface)
-      return skip_resource 'The `bridge` resource does not provide interface detection for Windows yet' if inspec.os.windows?
+      return skip_resource "The `bridge` resource does not provide interface detection for Windows yet" if inspec.os.windows?
       bridge_info.nil? ? false : bridge_info[:interfaces].include?(interface)
     end
 
@@ -92,7 +92,7 @@ module Inspec::Resources
   class WindowsBridge < BridgeDetection
     def bridge_info(bridge_name)
       # find all bridge adapters
-      cmd = inspec.command('Get-NetAdapterBinding -ComponentID ms_bridge | Get-NetAdapter | Select-Object -Property Name, InterfaceDescription | ConvertTo-Json')
+      cmd = inspec.command("Get-NetAdapterBinding -ComponentID ms_bridge | Get-NetAdapter | Select-Object -Property Name, InterfaceDescription | ConvertTo-Json")
 
       # filter network interface
       begin
@@ -108,7 +108,7 @@ module Inspec::Resources
       bridges = bridges.each_with_object([]) do |adapter, adapter_collection|
         # map object
         info = {
-          name: adapter['Name'],
+          name: adapter["Name"],
           interfaces: nil,
         }
         adapter_collection.push(info) if info[:name].casecmp(bridge_name) == 0

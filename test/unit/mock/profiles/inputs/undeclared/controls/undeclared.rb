@@ -5,21 +5,21 @@ control 'start_marker' do
 end
 
 control 'undeclared_in_control_body' do
-  attribute('undeclared_01')
-  assignment_outcome = attribute('undeclared_02')
+  input('undeclared_01')
+  assignment_outcome = input('undeclared_02')
   describe('dummy_test_02') do
     it { should cmp 'dummy_test_02'}
   end
 end
 
 control 'undeclared_in_only_if' do
-  only_if { attribute('undeclared_03') }
+  only_if { input('undeclared_03') }
   describe('dummy_test_03') do
     it { should cmp 'dummy_test_03'}
   end
 end
 
-attribute('undeclared_04')
+input('undeclared_04')
 
 control 'end_marker' do
   describe('dummy_test_04') do

@@ -1,11 +1,11 @@
-source 'https://supermarket.chef.io'
+source "https://supermarket.chef.io"
 
-cookbook 'omnibus'
+cookbook "omnibus"
 
 # Uncomment to use the latest version of the Omnibus cookbook from GitHub
 # cookbook 'omnibus', github: 'chef-cookbooks/omnibus'
 
 group :integration do
-  cookbook 'apt'
-  cookbook 'yum-epel'
+  cookbook "apt"
+  cookbook "yum-epel"
 end

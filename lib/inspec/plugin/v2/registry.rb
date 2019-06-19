@@ -1,9 +1,9 @@
-require 'forwardable'
-require 'singleton'
-require 'train'
+require "forwardable"
+require "singleton"
+require "train"
 
-require_relative 'status'
-require_relative 'activator'
+require_relative "status"
+require_relative "activator"
 
 module Inspec::Plugin::V2
   class Registry
@@ -29,8 +29,8 @@ module Inspec::Plugin::V2
     def loaded_plugin?(name)
       # HACK: Status is normally the source of truth for loadedness, unless it is a train plugin; then the Train::Registry is the source of truth.
       # Also, InSpec registry is keyed on Symbols; Train is keyed on Strings.
-      return registry.dig(name.to_sym, :loaded) unless name.to_s.start_with?('train-')
-      Train::Plugins.registry.key?(name.to_s.sub(/^train-/, ''))
+      return registry.dig(name.to_sym, :loaded) unless name.to_s.start_with?("train-")
+      Train::Plugins.registry.key?(name.to_s.sub(/^train-/, ""))
     end
 
     def loaded_count

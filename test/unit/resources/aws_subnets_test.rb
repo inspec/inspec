@@ -1,9 +1,9 @@
-require 'helper'
-require 'inspec/resource'
-require 'resources/aws/aws_subnets'
+require "helper"
+require "inspec/resource"
+require "resources/aws/aws_subnets"
 
-require 'resource_support/aws'
-require 'resources/aws/aws_subnets'
+require "resource_support/aws"
+require "resources/aws/aws_subnets"
 
 # MVSB = MockVpcSubnetsBackend
 # Abbreviation not used outside this file
@@ -21,7 +21,7 @@ class AwsSubnetsConstructor < Minitest::Test
   end
 
   def test_constructor_reject_unknown_resource_params
-    assert_raises(ArgumentError) { AwsSubnets.new(bla: 'blabla') }
+    assert_raises(ArgumentError) { AwsSubnets.new(bla: "blabla") }
   end
 end
 
@@ -34,19 +34,18 @@ class AwsSubnetsFilterCriteria < Minitest::Test
   end
 
   def test_filter_vpc_id
-    hit = AwsSubnets.new.where(vpc_id: 'vpc-01234567')
+    hit = AwsSubnets.new.where(vpc_id: "vpc-01234567")
     assert(hit.exists?)
 
-    miss = AwsSubnets.new.where(vpc_id: 'vpc-87654321')
+    miss = AwsSubnets.new.where(vpc_id: "vpc-87654321")
     refute(miss.exists?)
-
   end
 
   def test_filter_subnet_id
-    hit = AwsSubnets.new.where(subnet_id: 'subnet-01234567')
+    hit = AwsSubnets.new.where(subnet_id: "subnet-01234567")
     assert(hit.exists?)
 
-    miss = AwsSubnets.new.where(subnet_id: 'subnet-98765432')
+    miss = AwsSubnets.new.where(subnet_id: "subnet-98765432")
     refute(miss.exists?)
   end
 
@@ -63,28 +62,28 @@ class AwsSubnetProperties < Minitest::Test
   def test_property_vpc_ids
     basic = AwsSubnets.new
     assert_kind_of(Array, basic.vpc_ids)
-    assert(basic.vpc_ids.include?('vpc-01234567'))
+    assert(basic.vpc_ids.include?("vpc-01234567"))
     refute(basic.vpc_ids.include?(nil))
   end
 
   def test_property_subnet_ids
     basic = AwsSubnets.new
     assert_kind_of(Array, basic.subnet_ids)
-    assert(basic.subnet_ids.include?('subnet-01234567'))
+    assert(basic.subnet_ids.include?("subnet-01234567"))
     refute(basic.subnet_ids.include?(nil))
   end
 
   def test_property_cidr_blocks
     basic = AwsSubnets.new
     assert_kind_of(Array, basic.cidr_blocks)
-    assert(basic.cidr_blocks.include?('10.0.1.0/24'))
+    assert(basic.cidr_blocks.include?("10.0.1.0/24"))
     refute(basic.cidr_blocks.include?(nil))
   end
 
   def test_property_states
     basic = AwsSubnets.new
     assert_kind_of(Array, basic.states)
-    assert(basic.states.include?('available'))
+    assert(basic.states.include?("available"))
     refute(basic.states.include?(nil))
   end
 end

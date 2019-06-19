@@ -1,16 +1,16 @@
 # This file is not required by default.
 
-require 'singleton'
-require 'forwardable'
-require 'fileutils'
+require "singleton"
+require "forwardable"
+require "fileutils"
 
 # Gem extensions for doing unusual things - not loaded by Gem default
-require 'rubygems/package'
-require 'rubygems/name_tuple'
-require 'rubygems/uninstaller'
-require 'rubygems/remote_fetcher'
+require "rubygems/package"
+require "rubygems/name_tuple"
+require "rubygems/uninstaller"
+require "rubygems/remote_fetcher"
 
-require 'inspec/plugin/v2/filter'
+require "inspec/plugin/v2/filter"
 
 module Inspec::Plugin::V2
   # Handles all actions modifying the user's plugin set:
@@ -23,7 +23,7 @@ module Inspec::Plugin::V2
     include Singleton
     extend Forwardable
 
-    Gem.configuration['verbose'] = false
+    Gem.configuration["verbose"] = false
 
     attr_reader :conf_file, :loader, :registry
     def_delegator :loader, :plugin_gem_path, :gem_path
@@ -130,7 +130,7 @@ module Inspec::Plugin::V2
       if opts[:exact]
         matched_tuples = fetcher.detect(opts[:scope]) { |tuple| tuple.name == plugin_query }
       else
-        regex = Regexp.new('^' + plugin_query + '.*')
+        regex = Regexp.new("^" + plugin_query + ".*")
         matched_tuples = fetcher.detect(opts[:scope]) do |tuple|
           tuple.name =~ regex && !Inspec::Plugin::V2::PluginFilter.exclude?(tuple.name)
         end
@@ -174,15 +174,15 @@ module Inspec::Plugin::V2
       end
 
       if opts.key?(:gem_file) && opts.key?(:path)
-        raise InstallError, 'May not specify both gem_file and a path (for installing from source)'
+        raise InstallError, "May not specify both gem_file and a path (for installing from source)"
       end
 
       if opts.key?(:version) && (opts.key?(:gem_file) || opts.key?(:path))
-        raise InstallError, 'May not specify a version when installing from a gem file or source path'
+        raise InstallError, "May not specify a version when installing from a gem file or source path"
       end
 
       if opts.key?(:gem_file)
-        unless opts[:gem_file].end_with?('.gem')
+        unless opts[:gem_file].end_with?(".gem")
           raise InstallError, "When installing from a local gem file, gem file must have '.gem' extension - saw #{opts[:gem_file]}"
         end
         unless File.exist?(opts[:gem_file])
@@ -250,7 +250,7 @@ module Inspec::Plugin::V2
 
       opts[:scope] ||= :released
       unless [:prerelease, :released, :latest].include?(opts[:scope])
-        raise SearchError, 'Search scope for listing versons must be :prerelease, :released, or :latest.'
+        raise SearchError, "Search scope for listing versons must be :prerelease, :released, or :latest."
       end
     end
 
@@ -277,7 +277,7 @@ module Inspec::Plugin::V2
     end
 
     def install_from_remote_gems(requested_plugin_name, opts)
-      plugin_dependency = Gem::Dependency.new(requested_plugin_name, opts[:version] || '> 0')
+      plugin_dependency = Gem::Dependency.new(requested_plugin_name, opts[:version] || "> 0")
       # BestSet is rubygems.org API + indexing
       install_gem_to_plugins_dir(plugin_dependency, [Gem::Resolver::BestSet.new], opts[:update_mode])
     end
@@ -367,7 +367,7 @@ module Inspec::Plugin::V2
         status.installation_type == :gem && status.name != plugin_name_to_be_removed.to_sym
       end
       plugin_deps_we_still_must_satisfy = plugin_deps_we_still_must_satisfy.map do |status|
-        constraint = status.version || '> 0'
+        constraint = status.version || "> 0"
         Gem::Dependency.new(status.name.to_s, constraint)
       end
 
@@ -395,7 +395,7 @@ module Inspec::Plugin::V2
           all: true,
           executables: true,
           force: true,
-          ignore: true,
+          ignore: true
         ).uninstall_gem(cruft_spec)
       end
     end

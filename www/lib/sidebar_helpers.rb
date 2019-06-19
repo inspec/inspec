@@ -11,7 +11,7 @@ module SidebarHelpers
   end
 
   def link_classes(current_url, item_link)
-    't-purple' if same_link?(current_url, item_link.link)
+    "t-purple" if same_link?(current_url, item_link.link)
   end
 
   def print_sub_links?(current_url, item_link)
@@ -23,14 +23,14 @@ module SidebarHelpers
 
   def same_link?(one, two)
     # fix comparing '.html' to empty suffix links
-    if !one.end_with?('.html') && two.end_with?('.html')
-      two = two.sub(/\.html$/, '')
+    if !one.end_with?(".html") && two.end_with?(".html")
+      two = two.sub(/\.html$/, "")
     end
     strip_trailing_slash(one) == strip_trailing_slash(two)
   end
 
   def strip_trailing_slash(str)
-    str.end_with?('/') ? str[0..-2] : str
+    str.end_with?("/") ? str[0..-2] : str
   end
 
   def active_child?(current_url, item_link)

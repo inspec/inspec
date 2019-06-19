@@ -10,7 +10,7 @@ module Inspec
 
     def add_test(t = nil)
       t ||= Test.new
-      t.qualifier[0] = ['entry']
+      t.qualifier[0] = ["entry"]
       @tests.push(t)
       t
     end

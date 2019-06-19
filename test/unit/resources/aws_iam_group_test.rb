@@ -1,9 +1,9 @@
-require 'helper'
-require 'inspec/resource'
-require 'resources/aws/aws_iam_group'
+require "helper"
+require "inspec/resource"
+require "resources/aws/aws_iam_group"
 
-require 'resource_support/aws'
-require 'resources/aws/aws_iam_group'
+require "resource_support/aws"
+require "resources/aws/aws_iam_group"
 
 # MAIGSB = MockAwsIamGroupSingularBackend
 # Abbreviation not used outside this file
@@ -22,18 +22,17 @@ class AwsIamGroupConstructorTest < Minitest::Test
   end
 
   def test_accepts_group_name_as_scalar
-    AwsIamGroup.new('Whatever')
+    AwsIamGroup.new("Whatever")
   end
 
   def test_accepts_group_name_as_hash
-    AwsIamGroup.new(group_name: 'Whatever')
+    AwsIamGroup.new(group_name: "Whatever")
   end
 
   def test_rejects_unrecognized_params
     assert_raises(ArgumentError) { AwsIamGroup.new(shoe_size: 9) }
   end
 end
-
 
 #=============================================================================#
 #                               Search / Recall
@@ -45,15 +44,15 @@ class AwsIamGroupRecallTest < Minitest::Test
   end
 
   def test_search_hit_via_scalar_works
-    assert AwsIamGroup.new('Administrator').exists?
+    assert AwsIamGroup.new("Administrator").exists?
   end
 
   def test_search_hit_via_hash_works
-    assert AwsIamGroup.new(group_name: 'Administrator').exists?
+    assert AwsIamGroup.new(group_name: "Administrator").exists?
   end
 
   def test_search_miss_is_not_an_exception
-    refute AwsIamGroup.new(group_name: 'Whatever').exists?
+    refute AwsIamGroup.new(group_name: "Whatever").exists?
   end
 end
 
@@ -67,8 +66,8 @@ class AwsIamGroupPropertiesTest < Minitest::Test
   end
 
   def test_property_users
-    assert_equal(['user1', 'user2'], AwsIamGroup.new('Administrator').users)
-    assert_nil(AwsIamGroup.new('nonexistent').users)
+    assert_equal(%w{user1 user2}, AwsIamGroup.new("Administrator").users)
+    assert_nil(AwsIamGroup.new("nonexistent").users)
   end
 end
 
@@ -78,7 +77,7 @@ end
 module MAIGSB
   class Empty < AwsBackendBase
     def get_group(query = {})
-      raise Aws::IAM::Errors::NoSuchEntity.new(nil,nil)
+      raise Aws::IAM::Errors::NoSuchEntity.new(nil, nil)
     end
   end
 
@@ -86,26 +85,26 @@ module MAIGSB
     def get_group(query = {})
       fixtures = [
         OpenStruct.new({
-          path: '/',
-          group_name: 'Administrator',
-          group_id: 'AGPAQWERQWERQWERQWERQ',
-          arn: 'arn:aws:iam::111111111111:group/Administrator',
-          create_date: DateTime.parse('2017-12-14 05:29:57 UTC'),
+          path: "/",
+          group_name: "Administrator",
+          group_id: "AGPAQWERQWERQWERQWERQ",
+          arn: "arn:aws:iam::111111111111:group/Administrator",
+          create_date: DateTime.parse("2017-12-14 05:29:57 UTC"),
           users: [
             OpenStruct.new({
-              user_name: 'user1',
+              user_name: "user1",
             }),
             OpenStruct.new({
-              user_name: 'user2',
+              user_name: "user2",
             }),
-          ]
+          ],
         }),
         OpenStruct.new({
-          path: '/',
-          group_name: 'AmazonEC2ReadOnlyAccess',
-          group_id: 'AGPAASDFASDFASDFASDFA',
-          arn: 'arn:aws:iam::111111111111:group/AmazonEC2ReadOnlyAccess',
-          create_date: DateTime.parse('2017-12-15 17:37:14 UTC')
+          path: "/",
+          group_name: "AmazonEC2ReadOnlyAccess",
+          group_id: "AGPAASDFASDFASDFASDFA",
+          arn: "arn:aws:iam::111111111111:group/AmazonEC2ReadOnlyAccess",
+          create_date: DateTime.parse("2017-12-15 17:37:14 UTC"),
         }),
       ]
 
@@ -114,7 +113,7 @@ module MAIGSB
       end
 
       if selected.empty?
-        raise Aws::IAM::Errors::NoSuchEntity.new(nil,nil)
+        raise Aws::IAM::Errors::NoSuchEntity.new(nil, nil)
       end
 
       OpenStruct.new({ group: selected[0], users: selected[0].users })

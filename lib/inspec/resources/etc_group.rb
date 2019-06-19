@@ -17,18 +17,18 @@
 #   its('users') { should include 'my_user' }
 # end
 
-require 'inspec/utils/convert'
-require 'inspec/utils/parser'
-require 'inspec/utils/file_reader'
+require "inspec/utils/convert"
+require "inspec/utils/parser"
+require "inspec/utils/file_reader"
 
 module Inspec::Resources
   class EtcGroup < Inspec.resource(1)
     include Converter
     include CommentParser
 
-    name 'etc_group'
-    supports platform: 'unix'
-    desc 'Use the etc_group InSpec audit resource to test groups that are defined on Linux and UNIX platforms. The /etc/group file stores details about each group---group name, password, group identifier, along with a comma-separate list of users that belong to the group.'
+    name "etc_group"
+    supports platform: "unix"
+    desc "Use the etc_group InSpec audit resource to test groups that are defined on Linux and UNIX platforms. The /etc/group file stores details about each group---group name, password, group identifier, along with a comma-separate list of users that belong to the group."
     example <<~EXAMPLE
       describe etc_group do
         its('gids') { should_not contain_duplicates }
@@ -41,25 +41,25 @@ module Inspec::Resources
 
     attr_accessor :gid, :entries
     def initialize(path = nil)
-      @path = path || '/etc/group'
+      @path = path || "/etc/group"
       @entries = parse_group(@path)
     end
 
     def groups(filter = nil)
-      (filter || @entries)&.map { |x| x['name'] }
+      (filter || @entries)&.map { |x| x["name"] }
     end
 
     def gids(filter = nil)
-      (filter || @entries)&.map { |x| x['gid'] }
+      (filter || @entries)&.map { |x| x["gid"] }
     end
 
     def users(filter = nil)
       entries = filter || @entries
       return nil if entries.nil?
       # filter the user entry
-      res = entries.map { |x|
-        x['members'].split(',') if !x.nil? && !x['members'].nil?
-      }.flatten
+      res = entries.map do |x|
+        x["members"].split(",") if !x.nil? && !x["members"].nil?
+      end.flatten
       # filter nil elements
       res.reject { |x| x.nil? || x.empty? }
     end
@@ -67,13 +67,13 @@ module Inspec::Resources
     def where(conditions = {})
       return if conditions.empty?
       fields = {
-        name: 'name',
-        group_name: 'name',
-        password: 'password',
-        gid: 'gid',
-        group_id: 'gid',
-        users: 'members',
-        members: 'members',
+        name: "name",
+        group_name: "name",
+        password: "password",
+        gid: "gid",
+        group_id: "gid",
+        users: "members",
+        members: "members",
       }
       res = entries
 
@@ -89,7 +89,7 @@ module Inspec::Resources
     end
 
     def to_s
-      '/etc/group'
+      "/etc/group"
     end
 
     private
@@ -106,19 +106,19 @@ module Inspec::Resources
 
     def parse_group_line(line)
       opts = {
-        comment_char: '#',
+        comment_char: "#",
         standalone_comments: false,
       }
       line, _idx_nl = parse_comment_line(line, opts)
-      x = line.split(':')
+      x = line.split(":")
       # abort if we have an empty or comment line
       return nil if x.empty?
       # map data
       {
-        'name' => x.at(0), # Name of the group.
-        'password' => x.at(1), # Group's encrypted password.
-        'gid' => convert_to_i(x.at(2)), # The group's decimal ID.
-        'members' => x.at(3), # Group members.
+        "name" => x.at(0), # Name of the group.
+        "password" => x.at(1), # Group's encrypted password.
+        "gid" => convert_to_i(x.at(2)), # The group's decimal ID.
+        "members" => x.at(3), # Group members.
       }
     end
   end

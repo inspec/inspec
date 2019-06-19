@@ -1,14 +1,14 @@
-require 'openssl'
-require 'hashie/mash'
-require 'inspec/utils/file_reader'
-require 'inspec/utils/pkey_reader'
+require "openssl"
+require "hashie/mash"
+require "inspec/utils/file_reader"
+require "inspec/utils/pkey_reader"
 
 module Inspec::Resources
   class RsaKey < Inspec.resource(1)
-    name 'key_rsa'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'public/private RSA key pair test'
+    name "key_rsa"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "public/private RSA key pair test"
     example <<~EXAMPLE
       describe key_rsa('/etc/pki/www.mywebsite.com.key') do
         its('public_key') { should match /BEGIN RSA PUBLIC KEY/ }

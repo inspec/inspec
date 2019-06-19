@@ -2,10 +2,10 @@
 # inspec-resource-lister are correct.
 
 # Include our test harness
-require_relative '../helper'
+require_relative "../helper"
 
 # Load the class under test, the CliCommand definition.
-require 'inspec-resource-lister/cli_command'
+require "inspec-resource-lister/cli_command"
 
 # Because InSpec is a Spec-style test suite, we're going to use Minitest::Spec
 # here, for familiar look and feel. However, this isn't InSpec (or RSpec) code.
@@ -20,11 +20,11 @@ describe InspecPlugins::ResourceLister::CliCommand do
   let(:cli_class) { InspecPlugins::ResourceLister::CliCommand }
 
   # This is a Hash of Structs that tells us details of options for the 'core' subcommand.
-  let(:core_options) { cli_class.all_commands['core'].options }
+  let(:core_options) { cli_class.all_commands["core"].options }
 
   # To group tests together, you can nest 'describe' in minitest/spec
   # (that is discouraged in InSpec control code.)
-  describe 'the core command' do
+  describe "the core command" do
 
     # Some tests through here use minitest Expectations, which attach to all
     # Objects, and begin with 'must' (positive) or 'wont' (negative)

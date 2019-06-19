@@ -1,1 +1,1 @@
-require 'inspec/resources/powershell'
+require "inspec/resources/powershell"

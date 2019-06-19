@@ -1,9 +1,9 @@
 # set up test site for iis resource
 
-return unless node['platform_family'] == 'windows'
+return unless node["platform_family"] == "windows"
 
 # make sure the iis windows feature is installed
-dsc_script 'Web-Server' do
+dsc_script "Web-Server" do
   code <<-EOH
   WindowsFeature InstallWebServer
   {
@@ -17,7 +17,7 @@ directory "C:\\www\\inetpub\\Test" do
   recursive true
 end
 
-powershell_script 'Create-WebApplication' do
+powershell_script "Create-WebApplication" do
   code <<-EOH
   Import-Module WebAdministration
   New-WebApplication -Name "TestApp" -Site 'Default Web Site' -PhysicalPath "C:\\www\\inetpub\\Test" -ApplicationPool "DefaultAppPool"

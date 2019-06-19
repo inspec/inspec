@@ -1,0 +1,10 @@
+{
+  "plugins_config_version" : "1.0.0",
+  "plugins": [
+    {
+      "name": "inspec-input-test-fixture",
+      "installation_type": "path",
+      "installation_path": "test/unit/mock/plugins/inspec-input-test-fixture/lib/inspec-input-test-fixture.rb"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
-require 'inspec/input_registry'
-require 'inspec/plugin/v2'
-require 'rspec/core/example_group'
+require "inspec/input_registry"
+require "inspec/plugin/v2"
+require "rspec/core/example_group"
 
 # Any additions to RSpec::Core::ExampleGroup (the RSpec class behind describe blocks) should go here.
 

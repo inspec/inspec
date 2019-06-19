@@ -22,8 +22,6 @@ provisioner:
 verifier:
   name: inspec
   sudo: true
-  attributes:
-    verifier_attribute: 'Attribute Override!'
 
 platforms:
 - name: amazonlinux

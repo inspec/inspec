@@ -6,7 +6,7 @@ module Inspec::Plugin::V2
     :activated?,
     :exception,
     :activation_proc,
-    :implementation_class,
+    :implementation_class
   ) do
     def initialize(*)
       super

@@ -1,7 +1,7 @@
-require 'tmpdir'
-require 'fileutils'
-require 'mixlib/shellout'
-require 'inspec/log'
+require "tmpdir"
+require "fileutils"
+require "mixlib/shellout"
+require "inspec/log"
 
 module Fetchers
   #
@@ -24,12 +24,12 @@ module Fetchers
   # omnibus source for hints.
   #
   class Git < Inspec.fetcher(1)
-    name 'git'
+    name "git"
     priority 200
 
     def self.resolve(target, opts = {})
       if target.is_a?(String)
-        new(target, opts) if target.start_with?('git@') || target.end_with?('.git')
+        new(target, opts) if target.start_with?("git@") || target.end_with?(".git")
       elsif target.respond_to?(:has_key?) && target.key?(:git)
         new(target[:git], opts.merge(target))
       end
@@ -53,7 +53,7 @@ module Fetchers
         Dir.mktmpdir do |tmpdir|
           checkout(tmpdir)
           Inspec::Log.debug("Checkout of #{resolved_ref} successful. Moving checkout to #{dir}")
-          FileUtils.cp_r(tmpdir + '/.', @repo_directory)
+          FileUtils.cp_r(tmpdir + "/.", @repo_directory)
         end
       end
       @repo_directory
@@ -81,7 +81,7 @@ module Fetchers
                         elsif @tag
                           resolve_ref(@tag)
                         else
-                          resolve_ref('master')
+                          resolve_ref("master")
                         end
     end
 
@@ -129,7 +129,7 @@ module Fetchers
     end
 
     def cloned?
-      File.directory?(File.join(@repo_directory, '.git'))
+      File.directory?(File.join(@repo_directory, ".git"))
     end
 
     def clone(dir = @repo_directory)
@@ -148,7 +148,7 @@ module Fetchers
       cmd.error!
       cmd.status
     rescue Errno::ENOENT
-      raise 'To use git sources, you must have git installed.'
+      raise "To use git sources, you must have git installed."
     end
 
     def shellout(cmd, opts = {})
@@ -156,12 +156,12 @@ module Fetchers
       cmd = Mixlib::ShellOut.new(cmd, opts)
       cmd.run_command
       Inspec::Log.debug("External command: completed with exit status: #{cmd.exitstatus}")
-      Inspec::Log.debug('External command: STDOUT BEGIN')
+      Inspec::Log.debug("External command: STDOUT BEGIN")
       Inspec::Log.debug(cmd.stdout)
-      Inspec::Log.debug('External command: STDOUT END')
-      Inspec::Log.debug('External command: STDERR BEGIN')
+      Inspec::Log.debug("External command: STDOUT END")
+      Inspec::Log.debug("External command: STDERR BEGIN")
       Inspec::Log.debug(cmd.stderr)
-      Inspec::Log.debug('External command: STDERR END')
+      Inspec::Log.debug("External command: STDERR END")
       cmd
     end
   end

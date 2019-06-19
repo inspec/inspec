@@ -1,6 +1,6 @@
-require 'inspec/dsl'
-require 'inspec/dsl_shared'
-require 'rspec/core/dsl'
+require "inspec/dsl"
+require "inspec/dsl_shared"
+require "rspec/core/dsl"
 
 module Inspec
   #
@@ -28,7 +28,7 @@ module Inspec
             # Simply an access, no event here
             Inspec::InputRegistry.find_or_register_input(input_name, profile_id).value
           else
-            options[:priority] = 20
+            options[:priority] ||= 20
             options[:provider] = :inline_control_code
             evt = Inspec::Input.infer_event(options)
             Inspec::InputRegistry.find_or_register_input(input_name, profile_id, event: evt).value
@@ -188,7 +188,7 @@ module Inspec
             # Simply an access, no event here
             Inspec::InputRegistry.find_or_register_input(input_name, profile_id).value
           else
-            options[:priority] = 20
+            options[:priority] ||= 20
             options[:provider] = :inline_control_code
             evt = Inspec::Input.infer_event(options)
             Inspec::InputRegistry.find_or_register_input(input_name, profile_id, event: evt).value
@@ -233,7 +233,7 @@ module Inspec
 
         def block_location(block, alternate_caller)
           if block.nil?
-            alternate_caller[/^(.+:\d+):in .+$/, 1] || 'unknown'
+            alternate_caller[/^(.+:\d+):in .+$/, 1] || "unknown"
           else
             path, line = block.source_location
             "#{File.basename(path)}:#{line}"

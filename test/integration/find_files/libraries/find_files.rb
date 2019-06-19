@@ -1,6 +1,6 @@
 # Custom resource for Utils::FindFIles
 class TestFindFiles < Inspec.resource(1)
-  name 'test_find_files'
+  name "test_find_files"
 
   desc "
     Resource used for testing the funcitonality of Utils::FindFiles
@@ -12,7 +12,7 @@ class TestFindFiles < Inspec.resource(1)
     end
   "
 
-  require 'inspec/utils/find_files'
+  require "inspec/utils/find_files"
   include FindFiles
 
   attr_reader :results

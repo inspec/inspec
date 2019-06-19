@@ -1,7 +1,7 @@
 fixtures = {}
 %w[flow_log_alpha_vpc_log_id flow_log_alpha_subnet_log_id
    flow_log_alpha_subnet_id flow_log_vpc_id].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
     fixture_name,
     default: "default.#{fixture_name}",
     description: 'See ../build/flow_log.tf',

@@ -7,7 +7,7 @@ fixtures = {}
   'ec2_security_group_gamma_group_id',
   'ec2_security_group_alpha_group_name',
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
     fixture_name,
     default: "default.#{fixture_name}",
     description: 'See ../build/ec2.tf',

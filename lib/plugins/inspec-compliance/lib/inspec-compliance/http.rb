@@ -1,6 +1,6 @@
-require 'net/http'
-require 'net/http/post/multipart'
-require 'uri'
+require "net/http"
+require "net/http/post/multipart"
+require "uri"
 
 module InspecPlugins
   module Compliance
@@ -22,11 +22,11 @@ module InspecPlugins
         uri = _parse_url(url)
         req = Net::HTTP::Post.new(uri.path)
         if basic_auth
-          req.basic_auth token, ''
+          req.basic_auth token, ""
         else
-          req['Authorization'] = "Bearer #{token}"
+          req["Authorization"] = "Bearer #{token}"
         end
-        req.form_data={}
+        req.form_data = {}
 
         send_request(uri, req, insecure)
       end
@@ -48,7 +48,7 @@ module InspecPlugins
         http = Net::HTTP.new(uri.host, uri.port)
 
         # set connection flags
-        http.use_ssl = (uri.scheme == 'https')
+        http.use_ssl = (uri.scheme == "https")
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE if insecure
 
         req = Net::HTTP::Post.new(uri.path)
@@ -56,13 +56,13 @@ module InspecPlugins
           req.add_field(key, value)
         end
 
-        req.body_stream=File.open(file_path, 'rb')
-        req.add_field('Content-Length', File.size(file_path))
-        req.add_field('Content-Type', 'application/x-gzip')
+        req.body_stream = File.open(file_path, "rb")
+        req.add_field("Content-Length", File.size(file_path))
+        req.add_field("Content-Type", "application/x-gzip")
 
-        boundary = 'INSPEC-PROFILE-UPLOAD'
-        req.add_field('session', boundary)
-        res=http.request(req)
+        boundary = "INSPEC-PROFILE-UPLOAD"
+        req.add_field("session", boundary)
+        res = http.request(req)
         res
       end
 
@@ -72,11 +72,11 @@ module InspecPlugins
         http = Net::HTTP.new(uri.host, uri.port)
 
         # set connection flags
-        http.use_ssl = (uri.scheme == 'https')
+        http.use_ssl = (uri.scheme == "https")
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE if insecure
 
         File.open(file_path) do |tar|
-          req = Net::HTTP::Post::Multipart.new(uri, 'file' => UploadIO.new(tar, 'application/x-gzip', File.basename(file_path)))
+          req = Net::HTTP::Post::Multipart.new(uri, "file" => UploadIO.new(tar, "application/x-gzip", File.basename(file_path)))
           headers.each do |key, value|
             req.add_field(key, value)
           end
@@ -88,20 +88,20 @@ module InspecPlugins
       # sends a http requests
       def self.send_request(uri, req, insecure)
         opts = {
-          use_ssl: uri.scheme == 'https',
+          use_ssl: uri.scheme == "https",
         }
         opts[:verify_mode] = OpenSSL::SSL::VERIFY_NONE if insecure
 
         raise "Unable to parse URI: #{uri}" if uri.nil? || uri.host.nil?
-        res = Net::HTTP.start(uri.host, uri.port, opts) { |http|
+        res = Net::HTTP.start(uri.host, uri.port, opts) do |http|
           http.request(req)
-        }
+        end
         res
       rescue OpenSSL::SSL::SSLError => e
-        raise e unless e.message.include? 'certificate verify failed'
+        raise e unless e.message.include? "certificate verify failed"
 
         puts "Error: Failed to connect to #{uri}."
-        puts 'If the server uses a self-signed certificate, please re-run the login command with the --insecure option.'
+        puts "If the server uses a self-signed certificate, please re-run the login command with the --insecure option."
         exit 1
       end
 

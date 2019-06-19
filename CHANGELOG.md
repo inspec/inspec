@@ -1,96 +1,123 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.4.65 -->
-## [v4.4.65](https://github.com/inspec/inspec/tree/v4.4.65) (2019-05-31)
-
-#### Merged Pull Requests
-- Remove all leading newlines. [#4152](https://github.com/inspec/inspec/pull/4152) ([miah](https://github.com/miah))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.3.2 -->
-### Changes since 4.3.2 release
-
-#### Bug Fixes
-- inspec check: Send log to STDERR when running with --format json [#4001](https://github.com/inspec/inspec/pull/4001) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.55 -->
-
-#### New Features
-- Rename &#39;attribute&#39; DSL method to &#39;input&#39; [#4008](https://github.com/inspec/inspec/pull/4008) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.0 -->
-
-#### Enhancements
-- Add missing tests for DataSeries#enabled? #disable [#4036](https://github.com/inspec/inspec/pull/4036) ([miah](https://github.com/miah)) <!-- 4.4.5 -->
-- Improve testing on inputs that do not have values [#4007](https://github.com/inspec/inspec/pull/4007) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.0 -->
-- Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.3.5 -->
-
-#### Merged Pull Requests
-- Remove all leading newlines. [#4152](https://github.com/inspec/inspec/pull/4152) ([miah](https://github.com/miah)) <!-- 4.4.65 -->
-- Mention inspec-bin gem in installation instructions [#4163](https://github.com/inspec/inspec/pull/4163) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.64 -->
-- Replace Jenkins omnibus build/test pipeline with Buildkite [#4169](https://github.com/inspec/inspec/pull/4169) ([jeremiahsnapp](https://github.com/jeremiahsnapp)) <!-- 4.4.63 -->
-- This should fix our licensing failures [#4165](https://github.com/inspec/inspec/pull/4165) ([zenspider](https://github.com/zenspider)) <!-- 4.4.62 -->
-- Update sunset messages on 2 resources [#4164](https://github.com/inspec/inspec/pull/4164) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.4.61 -->
-- Clean unnecessary requires [#4142](https://github.com/inspec/inspec/pull/4142) ([zenspider](https://github.com/zenspider)) <!-- 4.4.61 -->
-- Windows fixes [#4159](https://github.com/inspec/inspec/pull/4159) ([zenspider](https://github.com/zenspider)) <!-- 4.4.60 -->
-- Make travis green again [#4160](https://github.com/inspec/inspec/pull/4160) ([zenspider](https://github.com/zenspider)) <!-- 4.4.59 -->
-- Cache the .rvm directory in travis [#4153](https://github.com/inspec/inspec/pull/4153) ([miah](https://github.com/miah)) <!-- 4.4.58 -->
-- Dist branding for some of plugins [#4136](https://github.com/inspec/inspec/pull/4136) ([artem-sidorenko](https://github.com/artem-sidorenko)) <!-- 4.4.57 -->
-- Remove authors tags from source files. [#4147](https://github.com/inspec/inspec/pull/4147) ([miah](https://github.com/miah)) <!-- 4.4.56 -->
-- Move utils under inspec directory namespace [#4063](https://github.com/inspec/inspec/pull/4063) ([miah](https://github.com/miah)) <!-- 4.4.54 -->
-- Update author/email tags in gemspec [#4137](https://github.com/inspec/inspec/pull/4137) ([miah](https://github.com/miah)) <!-- 4.4.53 -->
-- Extracting mock_loader to its own helper file. [#4141](https://github.com/inspec/inspec/pull/4141) ([zenspider](https://github.com/zenspider)) <!-- 4.4.52 -->
-- supermakert -&gt; supermarket [#4140](https://github.com/inspec/inspec/pull/4140) ([zenspider](https://github.com/zenspider)) <!-- 4.4.51 -->
-- No tabs. [#4143](https://github.com/inspec/inspec/pull/4143) ([zenspider](https://github.com/zenspider)) <!-- 4.4.50 -->
-- Flag `rubocop:disable` comments as something to be fixed. [#4123](https://github.com/inspec/inspec/pull/4123) ([miah](https://github.com/miah)) <!-- 4.4.49 -->
-- GCP Update for InSpec Cloud Platform documentation [#4122](https://github.com/inspec/inspec/pull/4122) ([mjingle](https://github.com/mjingle)) <!-- 4.4.48 -->
-- Fix github url regex. Add period for repo [#4089](https://github.com/inspec/inspec/pull/4089) ([mirskiy](https://github.com/mirskiy)) <!-- 4.4.47 -->
-- Ensure AwsResourceMixin returns a resource name in deprecation message [#4104](https://github.com/inspec/inspec/pull/4104) ([miah](https://github.com/miah)) <!-- 4.4.46 -->
-- Minor require cleanup for telemetry. [#4107](https://github.com/inspec/inspec/pull/4107) ([zenspider](https://github.com/zenspider)) <!-- 4.4.45 -->
-- Fixed missing requires. [#4100](https://github.com/inspec/inspec/pull/4100) ([zenspider](https://github.com/zenspider)) <!-- 4.4.44 -->
-- Delete test/unit/helper.rb [#4108](https://github.com/inspec/inspec/pull/4108) ([zenspider](https://github.com/zenspider)) <!-- 4.4.43 -->
-- Stop using method(...).call(...) [#4115](https://github.com/inspec/inspec/pull/4115) ([zenspider](https://github.com/zenspider)) <!-- 4.4.42 -->
-- Clean more requires [#4116](https://github.com/inspec/inspec/pull/4116) ([zenspider](https://github.com/zenspider)) <!-- 4.4.41 -->
-- Just use math. [#4113](https://github.com/inspec/inspec/pull/4113) ([zenspider](https://github.com/zenspider)) <!-- 4.4.40 -->
-- Clean up API doco [#4114](https://github.com/inspec/inspec/pull/4114) ([zenspider](https://github.com/zenspider)) <!-- 4.4.39 -->
-- Add support for Gemfile.local [#4105](https://github.com/inspec/inspec/pull/4105) ([zenspider](https://github.com/zenspider)) <!-- 4.4.38 -->
-- Fix missing requires in toml, postgres_conf resources [#4119](https://github.com/inspec/inspec/pull/4119) ([miah](https://github.com/miah)) <!-- 4.4.37 -->
-- json was required twice. [#4118](https://github.com/inspec/inspec/pull/4118) ([miah](https://github.com/miah)) <!-- 4.4.36 -->
-- Fixes a test interaction bug between installer and loader. [#4111](https://github.com/inspec/inspec/pull/4111) ([zenspider](https://github.com/zenspider)) <!-- 4.4.35 -->
-- This needed to be a flat_map because :profiles was an array. [#4110](https://github.com/inspec/inspec/pull/4110) ([zenspider](https://github.com/zenspider)) <!-- 4.4.34 -->
-- Fix @unique_controls uninitialized warning [#4079](https://github.com/inspec/inspec/pull/4079) ([miah](https://github.com/miah)) <!-- 4.4.33 -->
-- Turn off logging in our test. [#4103](https://github.com/inspec/inspec/pull/4103) ([zenspider](https://github.com/zenspider)) <!-- 4.4.32 -->
-- Use #key? rather than #has_key? in profile_name ternary [#4101](https://github.com/inspec/inspec/pull/4101) ([miah](https://github.com/miah)) <!-- 4.4.31 -->
-- Fix @profile_name not initialized [#4081](https://github.com/inspec/inspec/pull/4081) ([miah](https://github.com/miah)) <!-- 4.4.30 -->
-- Fix circular require in telemetry [#4083](https://github.com/inspec/inspec/pull/4083) ([miah](https://github.com/miah)) <!-- 4.4.29 -->
-- Fix up sporadically failing tests and ensure tests can run independently [#4031](https://github.com/inspec/inspec/pull/4031) ([zenspider](https://github.com/zenspider)) <!-- 4.4.28 -->
-- Updates the init profile description to show proper usage [#4085](https://github.com/inspec/inspec/pull/4085) ([burtlo](https://github.com/burtlo)) <!-- 4.4.27 -->
-- `rubocop -a` on kitchen directory [#4082](https://github.com/inspec/inspec/pull/4082) ([miah](https://github.com/miah)) <!-- 4.4.26 -->
-- Remove the deprecated linux_kernel_parameter resource test [#4078](https://github.com/inspec/inspec/pull/4078) ([tas50](https://github.com/tas50)) <!-- 4.4.25 -->
--  Build the InSpec gem directly in Kitchen so we can run locally  [#4077](https://github.com/inspec/inspec/pull/4077) ([tas50](https://github.com/tas50)) <!-- 4.4.24 -->
-- Add kitchen rake testing [#4076](https://github.com/inspec/inspec/pull/4076) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 4.4.23 -->
-- Cleanup and fix failing Kitchen tests [#4074](https://github.com/inspec/inspec/pull/4074) ([tas50](https://github.com/tas50)) <!-- 4.4.22 -->
-- Upgrade to Ruby 2.6.3 [#4073](https://github.com/inspec/inspec/pull/4073) ([tas50](https://github.com/tas50)) <!-- 4.4.21 -->
-- Update our Code of Conduct [#4072](https://github.com/inspec/inspec/pull/4072) ([miah](https://github.com/miah)) <!-- 4.4.20 -->
-- Include info about Chef License Requirements [#4071](https://github.com/inspec/inspec/pull/4071) ([mjingle](https://github.com/mjingle)) <!-- 4.4.19 -->
-- Removed unneeded &#39;supports: windows&#39; [#4052](https://github.com/inspec/inspec/pull/4052) ([aaronlippold](https://github.com/aaronlippold)) <!-- 4.4.18 -->
-- Make the postgres resource more defensive [#4037](https://github.com/inspec/inspec/pull/4037) ([alexpop](https://github.com/alexpop)) <!-- 4.4.17 -->
-- Add codeclimate to our pipeline [#4044](https://github.com/inspec/inspec/pull/4044) ([miah](https://github.com/miah)) <!-- 4.4.16 -->
-- Emergency test fixes! [#4066](https://github.com/inspec/inspec/pull/4066) ([zenspider](https://github.com/zenspider)) <!-- 4.4.15 -->
-- Remove more magic comments [#4050](https://github.com/inspec/inspec/pull/4050) ([miah](https://github.com/miah)) <!-- 4.4.14 -->
-- Fix broken tests after removing magic comments. [#4046](https://github.com/inspec/inspec/pull/4046) ([miah](https://github.com/miah)) <!-- 4.4.13 -->
-- Wrap resources in backticks and remove resource name capitalizing [#4043](https://github.com/inspec/inspec/pull/4043) ([alexpop](https://github.com/alexpop)) <!-- 4.4.12 -->
-- Relocate core resources from lib/resources to lib/inspec/resources [#4042](https://github.com/inspec/inspec/pull/4042) ([miah](https://github.com/miah)) <!-- 4.4.11 -->
-- Convert Chef EULA to a local file [#4045](https://github.com/inspec/inspec/pull/4045) ([btm](https://github.com/btm)) <!-- 4.4.10 -->
-- Configure expeditor to delete the branch after it is merged. [#4024](https://github.com/inspec/inspec/pull/4024) ([miah](https://github.com/miah)) <!-- 4.4.9 -->
-- Remove `# encoding: utf8` magic comments [#4041](https://github.com/inspec/inspec/pull/4041) ([miah](https://github.com/miah)) <!-- 4.4.8 -->
-- Add Coveralls.io support to InSpec [#3988](https://github.com/inspec/inspec/pull/3988) ([miah](https://github.com/miah)) <!-- 4.4.7 -->
-- Enable user telemetry opt-in / opt-out on cli [#4025](https://github.com/inspec/inspec/pull/4025) ([miah](https://github.com/miah)) <!-- 4.4.6 -->
-- First step to get inspec names changeable [#3954](https://github.com/inspec/inspec/pull/3954) ([artem-sidorenko](https://github.com/artem-sidorenko)) <!-- 4.4.4 -->
-- Change software name from InSpec to Chef Inspec in documentation [#3987](https://github.com/inspec/inspec/pull/3987) ([IanMadd](https://github.com/IanMadd)) <!-- 4.4.3 -->
-- Modernize use of Minitest. [#4023](https://github.com/inspec/inspec/pull/4023) ([zenspider](https://github.com/zenspider)) <!-- 4.4.2 -->
-- Update the omnibus build license to the Chef EULA [#4038](https://github.com/inspec/inspec/pull/4038) ([btm](https://github.com/btm)) <!-- 4.4.1 -->
-- Update resource registry_key documentation example [#4004](https://github.com/inspec/inspec/pull/4004) ([miah](https://github.com/miah)) <!-- 4.3.4 -->
-- Update software names in readme [#4014](https://github.com/inspec/inspec/pull/4014) ([mjingle](https://github.com/mjingle)) <!-- 4.3.3 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.6.4](https://github.com/inspec/inspec/tree/v4.6.4) (2019-06-19)
+
+#### Bug Fixes
+- nginx_conf: Fix commented/empty file parsing [#4215](https://github.com/inspec/inspec/pull/4215) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_stable_release -->
+
+## [v4.6.3](https://github.com/inspec/inspec/tree/v4.6.3) (2019-06-17)
+
+#### New Features
+- Rename &#39;attribute&#39; DSL method to &#39;input&#39; [#4008](https://github.com/inspec/inspec/pull/4008) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- New plugin type: Input [#4019](https://github.com/inspec/inspec/pull/4019) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Rename attributes -&gt; inputs in profile metadata files [#4017](https://github.com/inspec/inspec/pull/4017) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Enhancements
+- Add inspec-*-bin to the plugin filter list [#4018](https://github.com/inspec/inspec/pull/4018) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Improve testing on inputs that do not have values [#4007](https://github.com/inspec/inspec/pull/4007) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add missing tests for DataSeries#enabled? #disable [#4036](https://github.com/inspec/inspec/pull/4036) ([miah](https://github.com/miah))
+- Add inspec-core-bin as a gem [#4009](https://github.com/inspec/inspec/pull/4009) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- inspec check: Send log to STDERR when running with --format json [#4001](https://github.com/inspec/inspec/pull/4001) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix two misrendering hyperlinks in resource docs [#4173](https://github.com/inspec/inspec/pull/4173) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix Expeditor Version Bump Script [#4205](https://github.com/inspec/inspec/pull/4205) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Remove clean-static-libs from omnibus build [#4207](https://github.com/inspec/inspec/pull/4207) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Update software names in readme [#4014](https://github.com/inspec/inspec/pull/4014) ([mjingle](https://github.com/mjingle))
+- Update resource registry_key documentation example [#4004](https://github.com/inspec/inspec/pull/4004) ([miah](https://github.com/miah))
+- Update the omnibus build license to the Chef EULA [#4038](https://github.com/inspec/inspec/pull/4038) ([btm](https://github.com/btm))
+- Modernize use of Minitest. [#4023](https://github.com/inspec/inspec/pull/4023) ([zenspider](https://github.com/zenspider))
+- Change software name from InSpec to Chef Inspec in documentation [#3987](https://github.com/inspec/inspec/pull/3987) ([IanMadd](https://github.com/IanMadd))
+- First step to get inspec names changeable [#3954](https://github.com/inspec/inspec/pull/3954) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Enable user telemetry opt-in / opt-out on cli [#4025](https://github.com/inspec/inspec/pull/4025) ([miah](https://github.com/miah))
+- Add Coveralls.io support to InSpec [#3988](https://github.com/inspec/inspec/pull/3988) ([miah](https://github.com/miah))
+- Remove `# encoding: utf8` magic comments [#4041](https://github.com/inspec/inspec/pull/4041) ([miah](https://github.com/miah))
+- Configure expeditor to delete the branch after it is merged. [#4024](https://github.com/inspec/inspec/pull/4024) ([miah](https://github.com/miah))
+- Convert Chef EULA to a local file [#4045](https://github.com/inspec/inspec/pull/4045) ([btm](https://github.com/btm))
+- Relocate core resources from lib/resources to lib/inspec/resources [#4042](https://github.com/inspec/inspec/pull/4042) ([miah](https://github.com/miah))
+- Wrap resources in backticks and remove resource name capitalizing [#4043](https://github.com/inspec/inspec/pull/4043) ([alexpop](https://github.com/alexpop))
+- Fix broken tests after removing magic comments. [#4046](https://github.com/inspec/inspec/pull/4046) ([miah](https://github.com/miah))
+- Remove more magic comments [#4050](https://github.com/inspec/inspec/pull/4050) ([miah](https://github.com/miah))
+- Emergency test fixes! [#4066](https://github.com/inspec/inspec/pull/4066) ([zenspider](https://github.com/zenspider))
+- Add codeclimate to our pipeline [#4044](https://github.com/inspec/inspec/pull/4044) ([miah](https://github.com/miah))
+- Make the postgres resource more defensive [#4037](https://github.com/inspec/inspec/pull/4037) ([alexpop](https://github.com/alexpop))
+- Removed unneeded &#39;supports: windows&#39; [#4052](https://github.com/inspec/inspec/pull/4052) ([aaronlippold](https://github.com/aaronlippold))
+- Include info about Chef License Requirements [#4071](https://github.com/inspec/inspec/pull/4071) ([mjingle](https://github.com/mjingle))
+- Update our Code of Conduct [#4072](https://github.com/inspec/inspec/pull/4072) ([miah](https://github.com/miah))
+- Upgrade to Ruby 2.6.3 [#4073](https://github.com/inspec/inspec/pull/4073) ([tas50](https://github.com/tas50))
+- Cleanup and fix failing Kitchen tests [#4074](https://github.com/inspec/inspec/pull/4074) ([tas50](https://github.com/tas50))
+- Add kitchen rake testing [#4076](https://github.com/inspec/inspec/pull/4076) ([lamont-granquist](https://github.com/lamont-granquist))
+-  Build the InSpec gem directly in Kitchen so we can run locally  [#4077](https://github.com/inspec/inspec/pull/4077) ([tas50](https://github.com/tas50))
+- Remove the deprecated linux_kernel_parameter resource test [#4078](https://github.com/inspec/inspec/pull/4078) ([tas50](https://github.com/tas50))
+- `rubocop -a` on kitchen directory [#4082](https://github.com/inspec/inspec/pull/4082) ([miah](https://github.com/miah))
+- Updates the init profile description to show proper usage [#4085](https://github.com/inspec/inspec/pull/4085) ([burtlo](https://github.com/burtlo))
+- Fix up sporadically failing tests and ensure tests can run independently [#4031](https://github.com/inspec/inspec/pull/4031) ([zenspider](https://github.com/zenspider))
+- Fix circular require in telemetry [#4083](https://github.com/inspec/inspec/pull/4083) ([miah](https://github.com/miah))
+- Fix @profile_name not initialized [#4081](https://github.com/inspec/inspec/pull/4081) ([miah](https://github.com/miah))
+- Use #key? rather than #has_key? in profile_name ternary [#4101](https://github.com/inspec/inspec/pull/4101) ([miah](https://github.com/miah))
+- Turn off logging in our test. [#4103](https://github.com/inspec/inspec/pull/4103) ([zenspider](https://github.com/zenspider))
+- Fix @unique_controls uninitialized warning [#4079](https://github.com/inspec/inspec/pull/4079) ([miah](https://github.com/miah))
+- This needed to be a flat_map because :profiles was an array. [#4110](https://github.com/inspec/inspec/pull/4110) ([zenspider](https://github.com/zenspider))
+- Fixes a test interaction bug between installer and loader. [#4111](https://github.com/inspec/inspec/pull/4111) ([zenspider](https://github.com/zenspider))
+- json was required twice. [#4118](https://github.com/inspec/inspec/pull/4118) ([miah](https://github.com/miah))
+- Fix missing requires in toml, postgres_conf resources [#4119](https://github.com/inspec/inspec/pull/4119) ([miah](https://github.com/miah))
+- Add support for Gemfile.local [#4105](https://github.com/inspec/inspec/pull/4105) ([zenspider](https://github.com/zenspider))
+- Clean up API doco [#4114](https://github.com/inspec/inspec/pull/4114) ([zenspider](https://github.com/zenspider))
+- Just use math. [#4113](https://github.com/inspec/inspec/pull/4113) ([zenspider](https://github.com/zenspider))
+- Clean more requires [#4116](https://github.com/inspec/inspec/pull/4116) ([zenspider](https://github.com/zenspider))
+- Stop using method(...).call(...) [#4115](https://github.com/inspec/inspec/pull/4115) ([zenspider](https://github.com/zenspider))
+- Delete test/unit/helper.rb [#4108](https://github.com/inspec/inspec/pull/4108) ([zenspider](https://github.com/zenspider))
+- Fixed missing requires. [#4100](https://github.com/inspec/inspec/pull/4100) ([zenspider](https://github.com/zenspider))
+- Minor require cleanup for telemetry. [#4107](https://github.com/inspec/inspec/pull/4107) ([zenspider](https://github.com/zenspider))
+- Ensure AwsResourceMixin returns a resource name in deprecation message [#4104](https://github.com/inspec/inspec/pull/4104) ([miah](https://github.com/miah))
+- Fix github url regex. Add period for repo [#4089](https://github.com/inspec/inspec/pull/4089) ([mirskiy](https://github.com/mirskiy))
+- GCP Update for InSpec Cloud Platform documentation [#4122](https://github.com/inspec/inspec/pull/4122) ([mjingle](https://github.com/mjingle))
+- Flag `rubocop:disable` comments as something to be fixed. [#4123](https://github.com/inspec/inspec/pull/4123) ([miah](https://github.com/miah))
+- No tabs. [#4143](https://github.com/inspec/inspec/pull/4143) ([zenspider](https://github.com/zenspider))
+- supermakert -&gt; supermarket [#4140](https://github.com/inspec/inspec/pull/4140) ([zenspider](https://github.com/zenspider))
+- Extracting mock_loader to its own helper file. [#4141](https://github.com/inspec/inspec/pull/4141) ([zenspider](https://github.com/zenspider))
+- Update author/email tags in gemspec [#4137](https://github.com/inspec/inspec/pull/4137) ([miah](https://github.com/miah))
+- Move utils under inspec directory namespace [#4063](https://github.com/inspec/inspec/pull/4063) ([miah](https://github.com/miah))
+- Remove authors tags from source files. [#4147](https://github.com/inspec/inspec/pull/4147) ([miah](https://github.com/miah))
+- Dist branding for some of plugins [#4136](https://github.com/inspec/inspec/pull/4136) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Cache the .rvm directory in travis [#4153](https://github.com/inspec/inspec/pull/4153) ([miah](https://github.com/miah))
+- Make travis green again [#4160](https://github.com/inspec/inspec/pull/4160) ([zenspider](https://github.com/zenspider))
+- Windows fixes [#4159](https://github.com/inspec/inspec/pull/4159) ([zenspider](https://github.com/zenspider))
+- Clean unnecessary requires [#4142](https://github.com/inspec/inspec/pull/4142) ([zenspider](https://github.com/zenspider))
+- Update sunset messages on 2 resources [#4164](https://github.com/inspec/inspec/pull/4164) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- This should fix our licensing failures [#4165](https://github.com/inspec/inspec/pull/4165) ([zenspider](https://github.com/zenspider))
+- Replace Jenkins omnibus build/test pipeline with Buildkite [#4169](https://github.com/inspec/inspec/pull/4169) ([jeremiahsnapp](https://github.com/jeremiahsnapp))
+- Mention inspec-bin gem in installation instructions [#4163](https://github.com/inspec/inspec/pull/4163) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Remove all leading newlines. [#4152](https://github.com/inspec/inspec/pull/4152) ([miah](https://github.com/miah))
+- Minor cleanup on test/helper.rb [#4109](https://github.com/inspec/inspec/pull/4109) ([zenspider](https://github.com/zenspider))
+- Creating and Publishing InSpec Team Working Agreement [#4171](https://github.com/inspec/inspec/pull/4171) ([kekaichinose](https://github.com/kekaichinose))
+- Replace jsonschema with json-schema [#4172](https://github.com/inspec/inspec/pull/4172) ([miah](https://github.com/miah))
+- Turn off parallel testing (for now?) [#4177](https://github.com/inspec/inspec/pull/4177) ([zenspider](https://github.com/zenspider))
+- Stabilize windows functional testing [#4180](https://github.com/inspec/inspec/pull/4180) ([zenspider](https://github.com/zenspider))
+- Fixing docs so Warning note appears [#4183](https://github.com/inspec/inspec/pull/4183) ([mjingle](https://github.com/mjingle))
+- Changed version check network timeout from 1 to 3 seconds. [#4132](https://github.com/inspec/inspec/pull/4132) ([zenspider](https://github.com/zenspider))
+- Fixed up interactions between minitest &amp; simplecov. [#4188](https://github.com/inspec/inspec/pull/4188) ([zenspider](https://github.com/zenspider))
+- Add maintainer branches to travis [#4184](https://github.com/inspec/inspec/pull/4184) ([zenspider](https://github.com/zenspider))
+- Test execution changes for Rake, Travis, and Appveyor [#4102](https://github.com/inspec/inspec/pull/4102) ([miah](https://github.com/miah))
+- Close at 400 days, with a message. [#4189](https://github.com/inspec/inspec/pull/4189) ([miah](https://github.com/miah))
+- Apply chefstyle to codebase [#4194](https://github.com/inspec/inspec/pull/4194) ([zenspider](https://github.com/zenspider))
+- Speed up inspec [#4193](https://github.com/inspec/inspec/pull/4193) ([zenspider](https://github.com/zenspider))
+- Disable rubocop on Code Climate. [#4195](https://github.com/inspec/inspec/pull/4195) ([miah](https://github.com/miah))
+- Create Inputs documentation page [#4185](https://github.com/inspec/inspec/pull/4185) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Re-add `rake test:` [#4197](https://github.com/inspec/inspec/pull/4197) ([miah](https://github.com/miah))
+- Update test code to rename attribute() to input() in DSL [#4192](https://github.com/inspec/inspec/pull/4192) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Lets discuss this next week when we&#39;re all around =) [#4204](https://github.com/inspec/inspec/pull/4204) ([miah](https://github.com/miah))
+
 ## [v4.3.2](https://github.com/inspec/inspec/tree/v4.3.2) (2019-04-30)
 
 #### New Features
@@ -146,7 +173,6 @@
 - Use a updated OS Image in Appveyor [#3985](https://github.com/inspec/inspec/pull/3985) ([miah](https://github.com/miah))
 - Package inspec executable as a separate gem [#3982](https://github.com/inspec/inspec/pull/3982) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Accidently not updating main InSpec version via Expeditor [#3997](https://github.com/inspec/inspec/pull/3997) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_stable_release -->
 
 ## [v3.9.0](https://github.com/inspec/inspec/tree/v3.9.0) (2019-04-02)
 

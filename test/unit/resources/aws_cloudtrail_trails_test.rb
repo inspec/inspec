@@ -1,9 +1,9 @@
-require 'helper'
-require 'inspec/resource'
-require 'resources/aws/aws_cloudtrail_trails'
+require "helper"
+require "inspec/resource"
+require "resources/aws/aws_cloudtrail_trails"
 
-require 'resource_support/aws'
-require 'resources/aws/aws_cloudtrail_trails'
+require "resource_support/aws"
+require "resources/aws/aws_cloudtrail_trails"
 
 # MACTTPB = MockAwsCloudTrailTrailsPluralBackend
 # Abbreviation not used outside this file
@@ -25,7 +25,6 @@ class AwsCloudTrailTrailsConstructorTest < Minitest::Test
     assert_raises(ArgumentError) { AwsCloudTrailTrails.new(shoe_size: 9) }
   end
 end
-
 
 #=============================================================================#
 #                               Search / Recall
@@ -59,18 +58,18 @@ class AwsCloudTrailTrailsProperties < Minitest::Test
   def setup
     AwsCloudTrailTrails::BackendFactory.select(MACTTPB::Basic)
   end
-  
+
   def test_property_names
     basic = AwsCloudTrailTrails.new
     assert_kind_of(Array, basic.names)
-    assert(basic.names.include?('test-trail-1'))
+    assert(basic.names.include?("test-trail-1"))
     refute(basic.names.include?(nil))
   end
 
   def test_property_trail_arns
     basic = AwsCloudTrailTrails.new
     assert_kind_of(Array, basic.trail_arns)
-    assert(basic.trail_arns.include?('arn:aws:cloudtrail:us-east-1::trail/test-trail-1'))
+    assert(basic.trail_arns.include?("arn:aws:cloudtrail:us-east-1::trail/test-trail-1"))
     refute(basic.trail_arns.include?(nil))
   end
 end
@@ -96,7 +95,7 @@ module MACTTPB
           log_file_validation_enabled: true,
           cloud_watch_logs_log_group_arn: "arn:aws:logs:us-east-1::log-group:test:*",
           cloud_watch_logs_role_arn: "arn:aws:iam:::role/CloudTrail_CloudWatchLogs_Role",
-          kms_key_id: "arn:aws:kms:us-east-1::key/88197884-041f-4f8e-a801-cf120e4845a8"
+          kms_key_id: "arn:aws:kms:us-east-1::key/88197884-041f-4f8e-a801-cf120e4845a8",
         }),
         OpenStruct.new({
           name: "test-trail-2",

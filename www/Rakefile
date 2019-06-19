@@ -15,168 +15,192 @@
 # limitations under the License.
 #
 
-$LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib'))
+$LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), "..", "lib"))
 
-require 'uri'
-require 'net/http'
-require 'fastly'
+require "uri"
+require "net/http"
+require "fastly"
 
-require_relative '../tasks/docs.rb'
-require_relative '../tasks/shared.rb'
+require_relative "../tasks/docs.rb"
+require_relative "../tasks/shared.rb"
 
 task :default do
-  puts 'There is no default task - see `rake --tasks` for available www-related tasks.'
-  puts 'Run `rake www` to do a full website release.'
+  puts "There is no default task - see `rake --tasks` for available www-related tasks."
+  puts "Run `rake www` to do a full website release."
   exit(1)
 end
 
 namespace :www do # rubocop:disable Metrics/BlockLength
-  desc 'Builds the middleman site'
+
+  task :accept_license do
+    FileUtils.mkdir_p(File.join(Dir.home, ".chef", "accepted_licenses"))
+    # If the user has not accepted the license, touch the acceptance
+    # file, but also touch a marker that it is only for testing.
+    unless File.exist?(File.join(Dir.home, ".chef", "accepted_licenses", "inspec"))
+      puts "\n\nTemporarily accepting Chef user license for the duration of testing...\n"
+      FileUtils.touch(File.join(Dir.home, ".chef", "accepted_licenses", "inspec"))
+      FileUtils.touch(File.join(Dir.home, ".chef", "accepted_licenses", "inspec.for_testing"))
+    end
+
+    # Regardless of what happens, when this process exits, check for cleanup.
+    at_exit do
+      if File.exist?(File.join(Dir.home, ".chef", "accepted_licenses", "inspec.for_testing"))
+        puts "\n\nRemoving temporary Chef user license acceptance file that was placed for test duration.\n"
+        FileUtils.rm_f(File.join(Dir.home, ".chef", "accepted_licenses", "inspec"))
+        FileUtils.rm_f(File.join(Dir.home, ".chef", "accepted_licenses", "inspec.for_testing"))
+      end
+    end
+  end
+
+  desc "Builds the middleman site"
   task :site do
-    Log.section 'Build middleman project'
-    Bundler.with_clean_env {
-      sh('bundle install && bundle exec middleman build')
-    }
-    Verify.file('build/index.html')
-    Verify.file('build/javascripts/all.js')
-    Verify.file('build/stylesheets/site.css')
+    Log.section "Build middleman project"
+    Bundler.with_clean_env do
+      sh("bundle install && bundle exec middleman build")
+    end
+    Verify.file("build/index.html")
+    Verify.file("build/javascripts/all.js")
+    Verify.file("build/stylesheets/site.css")
   end
+  task site: [:accept_license]
 
-  desc 'Assemble the website site from middleman'
+  desc "Assemble the website site from middleman"
   task :assemble do
-    Log.section 'Copy only tutorial into middleman build directory'
-    sh('rsync -a --exclude=index.html build/')
+    Log.section "Copy only tutorial into middleman build directory"
+    sh("rsync -a --exclude=index.html build/")
   end
+  task assemble: [:accept_license]
 
-  desc 'Builds the full site locally'
-  task build: ['www:site', 'www:assemble']
+  desc "Builds the full site locally"
+  task build: ["www:site", "www:assemble"]
+  task build: [:accept_license]
 
   task :clean do
-    dst = 'build'
+    dst = "build"
     FileUtils.rm_rf(dst) if File.directory?(dst)
   end
 
-  desc 'Releases the site to gh-pages'
+  desc "Releases the site to gh-pages"
   task :release do
     # This folder contains the built files
-    dst = 'build'
-    unless File.directory?(dst) && File.file?(File.join(dst, 'index.html'))
-      puts 'It looks like you have not built the site yet. Calling rake www:build'
-      Rake::Task['www:build'].invoke
+    dst = "build"
+    unless File.directory?(dst) && File.file?(File.join(dst, "index.html"))
+      puts "It looks like you have not built the site yet. Calling rake www:build"
+      Rake::Task["www:build"].invoke
     end
 
-    unless File.directory?(dst) && File.file?(File.join(dst, 'index.html'))
-      raise 'It looks like the site was not build. Aborting.'
+    unless File.directory?(dst) && File.file?(File.join(dst, "index.html"))
+      raise "It looks like the site was not build. Aborting."
     end
 
     # check if git exists
-    sh('command -v git >/dev/null 2>&1') ||
+    sh("command -v git >/dev/null 2>&1") ||
       raise("It looks like `git` isn't installed. It is required to run this build task.")
 
-    unless sh('git diff-index --quiet HEAD --')
-      raise 'Please make sure you have no uncommitted changes in this repository.'
+    unless sh("git diff-index --quiet HEAD --")
+      raise "Please make sure you have no uncommitted changes in this repository."
     end
 
-    File.write(File.join(dst, 'CNAME'), 'origin.inspec.io')
-    file_count = Dir[File.join(dst, '*')].length
-    file_size = `du -hs #{dst}`.sub(/\s+.*$/m, '')
+    File.write(File.join(dst, "CNAME"), "origin.inspec.io")
+    file_count = Dir[File.join(dst, "*")].length
+    file_size = `du -hs #{dst}`.sub(/\s+.*$/m, "")
 
-    if system('git rev-parse --verify gh-pages')
-      Log.info 'Remove local gh-pages branch'
-      sh('git branch -D gh-pages')
+    if system("git rev-parse --verify gh-pages")
+      Log.info "Remove local gh-pages branch"
+      sh("git branch -D gh-pages")
     end
 
     current_branch = `git rev-parse --abbrev-ref HEAD`.strip
     if current_branch.empty?
-      raise 'Cannot determine current branch to go back to! Aborting.'
+      raise "Cannot determine current branch to go back to! Aborting."
     end
 
-    Log.info 'Create empty gh-pages branch'
-    sh('git checkout --orphan gh-pages')
+    Log.info "Create empty gh-pages branch"
+    sh("git checkout --orphan gh-pages")
 
     # this rest of this task needs to be run from the root of the inspec repo
     # so it can properly move and clean files in the gh-pages branch
-    Dir.chdir(File.join(Dir.pwd, '..')) do
-      dst_from_root = File.join('www', dst)
+    Dir.chdir(File.join(Dir.pwd, "..")) do
+      dst_from_root = File.join("www", dst)
 
-      Log.info 'Clear out all local git files!'
-      sh('git rm -rf .')
+      Log.info "Clear out all local git files!"
+      sh("git rm -rf .")
 
       Log.info "Add the built files in #{dst_from_root}"
       sh("git add #{dst_from_root}")
 
-      Log.info 'Remove all other files in this empty branch'
-      sh('git clean -df')
+      Log.info "Remove all other files in this empty branch"
+      sh("git clean -df")
 
-      Log.info 'Move the site to the root directory'
+      Log.info "Move the site to the root directory"
       sh("git mv #{File.join(dst_from_root, '*')} .")
 
-      Log.info 'Commit to gh-pages'
+      Log.info "Commit to gh-pages"
       sh("git commit -m 'website update'")
 
-      require 'inquirer'
+      require "inquirer"
       if Ask.confirm("Ready to go, I have #{file_count} files at #{file_size}. "\
-                     'Do you want to push this live?', default: false)
-        Log.info 'push to origin, this may take a moment'
-        sh('git push -u origin --force-with-lease gh-pages')
+                     "Do you want to push this live?", default: false)
+        Log.info "push to origin, this may take a moment"
+        sh("git push -u origin --force-with-lease gh-pages")
       else
-        puts 'Aborted.'
+        puts "Aborted."
       end
     end
 
     sh("git checkout #{current_branch}")
   end
 
-  desc 'Release the site to the Netlify acceptance environment'
+  desc "Release the site to the Netlify acceptance environment"
   task :acceptance do
-    raise 'NETLIFYKEY environment variable not set' unless ENV.key?('NETLIFYKEY')
+    raise "NETLIFYKEY environment variable not set" unless ENV.key?("NETLIFYKEY")
 
-    Log.info 'Cleaning the existing build directory'
-    Rake::Task['www:clean'].invoke
+    Log.info "Cleaning the existing build directory"
+    Rake::Task["www:clean"].invoke
 
-    Log.info 'Building the docs'
-    Rake::Task['docs'].invoke
+    Log.info "Building the docs"
+    Rake::Task["docs"].invoke
 
-    Log.info 'Building the site'
-    Rake::Task['www:build'].invoke
+    Log.info "Building the site"
+    Rake::Task["www:build"].invoke
 
-    Log.info 'Creating zip file of website contents'
-    Dir.chdir(File.join(Dir.pwd, 'build')) do
-      sh('zip -r inspec-acceptance.zip *')
+    Log.info "Creating zip file of website contents"
+    Dir.chdir(File.join(Dir.pwd, "build")) do
+      sh("zip -r inspec-acceptance.zip *")
     end
 
-    Log.info 'Uploading to Netlify'
-    uri = URI.parse('https://api.netlify.com/api/v1/sites/inspec-acceptance.netlify.com/deploys')
+    Log.info "Uploading to Netlify"
+    uri = URI.parse("https://api.netlify.com/api/v1/sites/inspec-acceptance.netlify.com/deploys")
     request = Net::HTTP::Post.new(uri)
-    request['Content-Type'] = 'application/zip'
-    request['Authorization'] = "Bearer #{ENV['NETLIFYKEY']}"
-    request.body = File.read(File.join(Dir.pwd, 'build', 'inspec-acceptance.zip'), mode: 'rb')
+    request["Content-Type"] = "application/zip"
+    request["Authorization"] = "Bearer #{ENV['NETLIFYKEY']}"
+    request.body = File.read(File.join(Dir.pwd, "build", "inspec-acceptance.zip"), mode: "rb")
 
     response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
       http.request(request)
     end
 
-    raise "Failed to upload to Netlify: #{response.code} -- #{response.body}" unless response.code == '200'
+    raise "Failed to upload to Netlify: #{response.code} -- #{response.body}" unless response.code == "200"
 
-    Log.info 'Removing zip file'
-    File.unlink(File.join(Dir.pwd, 'build', 'inspec-acceptance.zip'))
+    Log.info "Removing zip file"
+    File.unlink(File.join(Dir.pwd, "build", "inspec-acceptance.zip"))
   end
 
-  desc 'Flush the inspec.io cache at Fastly'
+  desc "Flush the inspec.io cache at Fastly"
   task :flush do
-    api_key    = ENV['FASTLY_API_KEY']
-    service_id = ENV['FASTLY_SERVICE_ID']
+    api_key    = ENV["FASTLY_API_KEY"]
+    service_id = ENV["FASTLY_SERVICE_ID"]
 
     if api_key.nil? || service_id.nil?
-      puts ''
-      puts 'WARNING: could not flush the Fastly cache for inspec.io.'
-      puts 'Please set FASTLY_API_KEY and FASTLY_SERVICE_ID environment variables'
-      puts 'and run `rake www:flush`.'
-      puts ''
+      puts ""
+      puts "WARNING: could not flush the Fastly cache for inspec.io."
+      puts "Please set FASTLY_API_KEY and FASTLY_SERVICE_ID environment variables"
+      puts "and run `rake www:flush`."
+      puts ""
       next
     end
 
-    Log.info 'Flushing the Fastly cache'
+    Log.info "Flushing the Fastly cache"
 
     begin
       fastly_client  = Fastly.new(api_key: api_key)
@@ -187,19 +211,19 @@ namespace :www do # rubocop:disable Metrics/BlockLength
       next
     end
 
-    if purge_result['status'] == 'ok'
-      puts 'Success! The Fastly cache is purged.'
+    if purge_result["status"] == "ok"
+      puts "Success! The Fastly cache is purged."
     else
       puts "ERROR: Fastly cache could not be purged: #{purge_result}"
     end
   end
 end
 
-desc 'Full website release: includes local clean, docs build, site build, and then release'
+desc "Full website release: includes local clean, docs build, site build, and then release"
 task :www do
-  Rake::Task['www:clean'].invoke
-  Rake::Task['docs'].invoke
-  Rake::Task['www:build'].invoke
-  Rake::Task['www:release'].invoke
-  Rake::Task['www:flush'].invoke
+  Rake::Task["www:clean"].invoke
+  Rake::Task["docs"].invoke
+  Rake::Task["www:build"].invoke
+  Rake::Task["www:release"].invoke
+  Rake::Task["www:flush"].invoke
 end

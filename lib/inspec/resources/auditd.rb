@@ -1,7 +1,7 @@
-require 'forwardable'
-require 'inspec/utils/filter_array'
-require 'inspec/utils/filter'
-require 'inspec/utils/parser'
+require "forwardable"
+require "inspec/utils/filter_array"
+require "inspec/utils/filter"
+require "inspec/utils/parser"
 
 module Inspec::Resources
   class AuditDaemon < Inspec.resource(1)
@@ -9,9 +9,9 @@ module Inspec::Resources
     attr_accessor :lines
     attr_reader :params
 
-    name 'auditd'
-    supports platform: 'unix'
-    desc 'Use the auditd InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files. These rules are output using the auditcl -l command.'
+    name "auditd"
+    supports platform: "unix"
+    desc "Use the auditd InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files. These rules are output using the auditcl -l command."
     example <<~EXAMPLE
       describe auditd.syscall('chown').where {arch == 'b32'} do
         its('action') { should eq ['always'] }
@@ -28,12 +28,12 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize
-      unless inspec.command('/sbin/auditctl').exist?
+      unless inspec.command("/sbin/auditctl").exist?
         raise Inspec::Exceptions::ResourceFailed,
-              'Command `/sbin/auditctl` does not exist'
+              "Command `/sbin/auditctl` does not exist"
       end
 
-      auditctl_cmd = '/sbin/auditctl -l'
+      auditctl_cmd = "/sbin/auditctl -l"
       result = inspec.command(auditctl_cmd)
 
       if result.exit_status != 0
@@ -46,35 +46,35 @@ module Inspec::Resources
 
       if @content =~ /^LIST_RULES:/
         raise Inspec::Exceptions::RsourceFailed,
-              'The version of audit is outdated.' \
-              'The `auditd` resource supports versions of audit >= 2.3.'
+              "The version of audit is outdated." \
+              "The `auditd` resource supports versions of audit >= 2.3."
       end
       parse_content
     end
 
     filter = FilterTable.create
-    filter.register_column(:file,         field: 'file')
-          .register_column(:list,         field: 'list')
-          .register_column(:action,       field: 'action')
-          .register_column(:fields,       field: 'fields')
-          .register_column(:fields_nokey, field: 'fields_nokey')
-          .register_column(:syscall,      field: 'syscall')
-          .register_column(:key,          field: 'key')
-          .register_column(:arch,         field: 'arch')
-          .register_column(:path,         field: 'path')
-          .register_column(:permissions,  field: 'permissions')
-          .register_column(:exit,         field: 'exit')
+    filter.register_column(:file,         field: "file")
+          .register_column(:list,         field: "list")
+          .register_column(:action,       field: "action")
+          .register_column(:fields,       field: "fields")
+          .register_column(:fields_nokey, field: "fields_nokey")
+          .register_column(:syscall,      field: "syscall")
+          .register_column(:key,          field: "key")
+          .register_column(:arch,         field: "arch")
+          .register_column(:path,         field: "path")
+          .register_column(:permissions,  field: "permissions")
+          .register_column(:exit,         field: "exit")
 
     filter.install_filter_methods_on_resource(self, :params)
 
     def status(name = nil)
-      @status_content ||= inspec.command('/sbin/auditctl -s').stdout.chomp
+      @status_content ||= inspec.command("/sbin/auditctl -s").stdout.chomp
 
       # See: https://github.com/inspec/inspec/issues/3113
       if @status_content =~ /^AUDIT_STATUS/
-        @status_content = @status_content.gsub('AUDIT_STATUS: ', '')
-                                         .tr(' ', "\n")
-                                         .tr('=', ' ')
+        @status_content = @status_content.gsub("AUDIT_STATUS: ", "")
+                                         .tr(" ", "\n")
+                                         .tr("=", " ")
       end
 
       @status_params ||= Hash[@status_content.scan(/^([^ ]+) (.*)$/)]
@@ -105,19 +105,19 @@ module Inspec::Resources
       action, list = action_list_for(line)
       fields = rule_fields_for(line)
       key_field, fields_nokey = remove_key_from(fields)
-      key = key_in(key_field.join(''))
+      key = key_in(key_field.join(""))
       perms = perms_in(fields)
 
       @params.push(
         {
-          'file' => file,
-          'list' => list,
-          'action' => action,
-          'fields' => fields,
-          'permissions' => perms,
-          'key' => key,
-          'fields_nokey' => fields_nokey,
-        },
+          "file" => file,
+          "list" => list,
+          "action" => action,
+          "fields" => fields,
+          "permissions" => perms,
+          "key" => key,
+          "fields_nokey" => fields_nokey,
+        }
       )
     end
 
@@ -126,7 +126,7 @@ module Inspec::Resources
       action, list = action_list_for(line)
       fields = rule_fields_for(line)
       key_field, fields_nokey = remove_key_from(fields)
-      key = key_in(key_field.join(''))
+      key = key_in(key_field.join(""))
       arch = arch_in(fields)
       path = path_in(fields)
       perms = perms_in(fields)
@@ -135,17 +135,17 @@ module Inspec::Resources
       syscalls.each do |s|
         @params.push(
           {
-            'syscall' => s,
-            'list' => list,
-            'action' => action,
-            'fields' => fields,
-            'key' => key,
-            'arch' => arch,
-            'path' => path,
-            'permissions' => perms,
-            'exit' => exit_field,
-            'fields_nokey' => fields_nokey,
-          },
+            "syscall" => s,
+            "list" => list,
+            "action" => action,
+            "fields" => fields,
+            "key" => key,
+            "arch" => arch,
+            "path" => path,
+            "permissions" => perms,
+            "exit" => exit_field,
+            "fields_nokey" => fields_nokey,
+          }
         )
       end
     end
@@ -157,15 +157,15 @@ module Inspec::Resources
 
       @params.push(
         {
-          'file' => file,
-          'key' => key,
-          'permissions' => perms,
-        },
+          "file" => file,
+          "key" => key,
+          "permissions" => perms,
+        }
       )
     end
 
     def to_s
-      'Auditd Rules'
+      "Auditd Rules"
     end
 
     private
@@ -183,7 +183,7 @@ module Inspec::Resources
     end
 
     def syscalls_for(line)
-      line.scan(/-S ([^ ]+)\s?/).flatten.first.split(',')
+      line.scan(/-S ([^ ]+)\s?/).flatten.first.split(",")
     end
 
     def action_list_for(line)
@@ -191,7 +191,7 @@ module Inspec::Resources
     end
 
     def key_for(line)
-      line.match(/-k ([^ ]+)\s?/)[1] if line.include?('-k ')
+      line.match(/-k ([^ ]+)\s?/)[1] if line.include?("-k ")
     end
 
     def file_for(line)
@@ -207,44 +207,44 @@ module Inspec::Resources
     end
 
     def rule_fields_for(line)
-      line.gsub(/-[aS] [^ ]+ /, '').split('-F ').map { |l| l.split(' ') }.flatten
+      line.gsub(/-[aS] [^ ]+ /, "").split("-F ").map { |l| l.split(" ") }.flatten
     end
 
     def arch_in(fields)
       fields.each do |field|
-        return field.match(/arch=(\S+)\s?/)[1] if field.start_with?('arch=')
+        return field.match(/arch=(\S+)\s?/)[1] if field.start_with?("arch=")
       end
       nil
     end
 
     def perms_in(fields)
       fields.each do |field|
-        return field.match(/perm=(\S+)\s?/)[1].scan(/\w/) if field.start_with?('perm=')
+        return field.match(/perm=(\S+)\s?/)[1].scan(/\w/) if field.start_with?("perm=")
       end
       nil
     end
 
     def path_in(fields)
       fields.each do |field|
-        return field.match(/path=(\S+)\s?/)[1] if field.start_with?('path=')
+        return field.match(/path=(\S+)\s?/)[1] if field.start_with?("path=")
       end
       nil
     end
 
     def exit_in(fields)
       fields.each do |field|
-        return field.match(/exit=(\S+)\s?/)[1] if field.start_with?('exit=')
+        return field.match(/exit=(\S+)\s?/)[1] if field.start_with?("exit=")
       end
       nil
     end
 
     def key_in(field)
-      _, v = field.split('=')
+      _, v = field.split("=")
       v
     end
 
     def remove_key_from(fields)
-      fields.partition { |x| x.start_with? 'key' }
+      fields.partition { |x| x.start_with? "key" }
     end
   end
 end

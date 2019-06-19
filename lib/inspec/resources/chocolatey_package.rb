@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-require 'inspec/resources/command'
-require 'inspec/resources/powershell'
+require "inspec/resources/command"
+require "inspec/resources/powershell"
 
 # Check for Chocolatey packages to be installed
 module Inspec::Resources
   class ChocoPkg < Inspec.resource(1)
-    name 'chocolatey_package'
-    supports platform: 'windows'
-    desc 'Use the chocolatey_package InSpec audit resource to test if the named package and/or package version is installed on the system.'
+    name "chocolatey_package"
+    supports platform: "windows"
+    desc "Use the chocolatey_package InSpec audit resource to test if the named package and/or package version is installed on the system."
     example <<~EXAMPLE
       describe chocolatey_package('git') do
         it { should be_installed }
@@ -19,7 +19,7 @@ module Inspec::Resources
     attr_reader :package_name
 
     def initialize(package_name, _opts = {})
-      raise 'Chocolatey is not installed' unless inspec.command('choco').exist?
+      raise "Chocolatey is not installed" unless inspec.command("choco").exist?
       @package_name = package_name
       @cache = base_data.update(generate_cache)
     end
@@ -55,7 +55,7 @@ module Inspec::Resources
         name: package_name,
         version: nil,
         installed: false,
-        type: 'chocolatey',
+        type: "chocolatey",
       }
     end
 
@@ -69,12 +69,12 @@ module Inspec::Resources
       return {} if cmd.exit_status != 0 || cmd.stdout.strip.empty?
       out = JSON.parse(cmd.stdout)
 
-      return {
+      {
         version: out.fetch(package_name),
         installed: true,
       }
     rescue JSON::ParserError, KeyError
-      return {}
+      {}
     end
   end
 end

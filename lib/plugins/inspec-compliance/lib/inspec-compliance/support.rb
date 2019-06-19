@@ -9,9 +9,9 @@ module InspecPlugins
       def self.version_with_support(feature)
         case feature.to_sym
         when :oidc # open id connect authentication
-          Gem::Version.new('0.16.19')
+          Gem::Version.new("0.16.19")
         else
-          Gem::Version.new('0.0.0')
+          Gem::Version.new("0.0.0")
         end
       end
 

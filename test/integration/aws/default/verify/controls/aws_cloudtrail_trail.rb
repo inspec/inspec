@@ -10,7 +10,7 @@ fixtures = {}
   'cloudtrail_trail_2_arn',
   'cloudtrail_trail_2_s3_bucket_name'
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
     fixture_name,
     default: "default.#{fixture_name}",
     description: 'See ../build/cloudtrail.tf',

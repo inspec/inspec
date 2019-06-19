@@ -1,13 +1,13 @@
-require 'openssl'
-require 'hashie/mash'
-require 'inspec/utils/file_reader'
+require "openssl"
+require "hashie/mash"
+require "inspec/utils/file_reader"
 
 module Inspec::Resources
   class X509CertificateResource < Inspec.resource(1)
-    name 'x509_certificate'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Used to test x.509 certificates'
+    name "x509_certificate"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Used to test x.509 certificates"
     example <<~EXAMPLE
       describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
         its('subject') { should match /CN=My Website/ }

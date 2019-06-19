@@ -1,11 +1,11 @@
-require 'helper'
-require 'inspec/resource'
-require 'resources/aws/aws_billing_report'
+require "helper"
+require "inspec/resource"
+require "resources/aws/aws_billing_report"
 
-require_relative 'aws_billing_backend' # TODO: move this to mocks
+require_relative "aws_billing_backend" # TODO: move this to mocks
 
-require 'resource_support/aws'
-require 'resources/aws/aws_billing_report'
+require "resource_support/aws"
+require "resources/aws/aws_billing_report"
 
 class EmptyAwsBillingReportTest < Minitest::Test
   def setup
@@ -23,49 +23,49 @@ class BasicAwsBillingReportTest < Minitest::Test
   end
 
   def test_search_hit_via_scalar
-    assert AwsBillingReport.new('inspec1').exists?
+    assert AwsBillingReport.new("inspec1").exists?
   end
 
   def test_search_miss_via_scalar
-    refute AwsBillingReport.new('non-existent').exists?
+    refute AwsBillingReport.new("non-existent").exists?
   end
 
   def test_search_hit_via_hash_works
-    assert AwsBillingReport.new(report_name: 'inspec1').exists?
+    assert AwsBillingReport.new(report_name: "inspec1").exists?
   end
 
   def test_search_miss_is_not_an_exception
-    refute AwsBillingReport.new(report_name: 'non-existent').exists?
+    refute AwsBillingReport.new(report_name: "non-existent").exists?
   end
 
   def test_search_hit_properties
-    r = AwsBillingReport.new('inspec1')
-    assert_equal('inspec1', r.report_name)
-    assert_equal('hourly', r.time_unit)
-    assert_equal('zip', r.compression)
-    assert_equal('inspec1-s3-bucket', r.s3_bucket)
-    assert_equal('inspec1/accounting', r.s3_prefix)
-    assert_equal('us-east-1', r.s3_region)
+    r = AwsBillingReport.new("inspec1")
+    assert_equal("inspec1", r.report_name)
+    assert_equal("hourly", r.time_unit)
+    assert_equal("zip", r.compression)
+    assert_equal("inspec1-s3-bucket", r.s3_bucket)
+    assert_equal("inspec1/accounting", r.s3_prefix)
+    assert_equal("us-east-1", r.s3_region)
   end
 
   def test_hourly?
-    assert AwsBillingReport.new('inspec1').hourly?
-    refute AwsBillingReport.new('inspec2').hourly?
+    assert AwsBillingReport.new("inspec1").hourly?
+    refute AwsBillingReport.new("inspec2").hourly?
   end
 
   def test_daily?
-    assert AwsBillingReport.new('inspec2').daily?
-    refute AwsBillingReport.new('inspec1').daily?
+    assert AwsBillingReport.new("inspec2").daily?
+    refute AwsBillingReport.new("inspec1").daily?
   end
 
   def test_zip?
-    assert AwsBillingReport.new('inspec1').zip?
-    refute AwsBillingReport.new('inspec2').zip?
+    assert AwsBillingReport.new("inspec1").zip?
+    refute AwsBillingReport.new("inspec2").zip?
   end
 
   def test_gzip?
-    assert AwsBillingReport.new('inspec2').gzip?
-    refute AwsBillingReport.new('inspec1').gzip?
+    assert AwsBillingReport.new("inspec2").gzip?
+    refute AwsBillingReport.new("inspec1").gzip?
   end
 end
 
@@ -75,10 +75,10 @@ class PaginatedAwsBillingReportTest < Minitest::Test
   end
 
   def test_paginated_search_hit_via_scalar
-    assert AwsBillingReport.new('inspec8').exists?
+    assert AwsBillingReport.new("inspec8").exists?
   end
 
   def test_paginated_search_miss_via_scalar
-    refute AwsBillingReport.new('non-existent').exists?
+    refute AwsBillingReport.new("non-existent").exists?
   end
 end

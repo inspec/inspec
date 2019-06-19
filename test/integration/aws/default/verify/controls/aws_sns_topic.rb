@@ -4,7 +4,7 @@ fixtures = {}
   'sns_topic_with_subscription_arn',
   'sns_topic_no_subscription_arn',
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
   fixture_name,
   default: "default.#{fixture_name}",
   description: 'See ../build/sns.tf',

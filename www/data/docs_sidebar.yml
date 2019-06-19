@@ -22,6 +22,8 @@ sidebar_links:
     link: "/docs/reference/profiles.html"
   - title: Resources
     link: "/docs/reference/resources.html"
+  - title: Inputs
+    link: "/docs/reference/inputs.html"
   - title: Matchers
     link: "/docs/reference/matchers.html"
   - title: Reporters

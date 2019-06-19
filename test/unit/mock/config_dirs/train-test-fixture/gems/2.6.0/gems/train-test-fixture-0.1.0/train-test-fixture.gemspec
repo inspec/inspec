@@ -3,10 +3,10 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "train-test-fixture"
-  spec.version       = '0.1.0'
+  spec.version       = "0.1.0"
   spec.authors       = ["Inspec core engineering team"]
   spec.email         = ["hello@chef.io"]
-  spec.license       = 'Apache-2.0'
+  spec.license       = "Apache-2.0"
 
   spec.summary       = %q{Test train plugin. Not intended for use as an example.}
   spec.description   = <<~EOD

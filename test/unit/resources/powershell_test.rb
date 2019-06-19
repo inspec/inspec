@@ -1,29 +1,29 @@
-require 'helper'
-require 'inspec/resource'
-require 'inspec/resources/powershell'
+require "helper"
+require "inspec/resource"
+require "inspec/resources/powershell"
 
-describe 'Inspec::Resources::Powershell' do
-  let(:base64_command) {
+describe "Inspec::Resources::Powershell" do
+  let(:base64_command) do
     # Encoded version of `$ProgressPreference='SilentlyContinue';Get-Help`
-    'JABQAHIAbwBnAHIAZQBzAHMAUAByAGUAZgBlAHIAZQBuAGMAZQA9ACcAUwBpAGwA' \
-    'ZQBuAHQAbAB5AEMAbwBuAHQAaQBuAHUAZQAnADsARwBlAHQALQBIAGUAbABwAA=='
-  }
+    "JABQAHIAbwBnAHIAZQBzAHMAUAByAGUAZgBlAHIAZQBuAGMAZQA9ACcAUwBpAGwA" \
+    "ZQBuAHQAbAB5AEMAbwBuAHQAaQBuAHUAZQAnADsARwBlAHQALQBIAGUAbABwAA=="
+  end
 
-  it 'properly generates command' do
-    resource = MockLoader.new(:windows).load_resource('powershell', 'Get-Help')
-    _(resource.command).must_equal 'Get-Help'
+  it "properly generates command" do
+    resource = MockLoader.new(:windows).load_resource("powershell", "Get-Help")
+    _(resource.command).must_equal "Get-Help"
 
-    resource = MockLoader.new(:osx104).load_resource('powershell', 'Get-Help')
+    resource = MockLoader.new(:osx104).load_resource("powershell", "Get-Help")
     _(resource.command).must_equal("pwsh -encodedCommand '#{base64_command}'")
   end
 
-  it 'properly generates command if deprecated `script` is used' do
+  it "properly generates command if deprecated `script` is used" do
     expect_deprecation(:resource_script) do
-      resource = MockLoader.new(:windows).load_resource('script', 'Get-Help')
-      _(resource.command).must_equal 'Get-Help'
+      resource = MockLoader.new(:windows).load_resource("script", "Get-Help")
+      _(resource.command).must_equal "Get-Help"
     end
     expect_deprecation(:resource_script) do
-      resource = MockLoader.new(:osx104).load_resource('script', 'Get-Help')
+      resource = MockLoader.new(:osx104).load_resource("script", "Get-Help")
       _(resource.command).must_equal("pwsh -encodedCommand '#{base64_command}'")
     end
   end

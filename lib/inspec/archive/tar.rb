@@ -1,9 +1,9 @@
-require 'rubygems/package'
+require "rubygems/package"
 
 module Inspec::Archive
   class TarArchiveGenerator
     def archive(base_dir, files, archive)
-      File.open(archive, 'wb') do |file|
+      File.open(archive, "wb") do |file|
         Zlib::GzipWriter.wrap(file) do |gz|
           Gem::Package::TarWriter.new(gz) do |tar|
             files.each do |input_filename|

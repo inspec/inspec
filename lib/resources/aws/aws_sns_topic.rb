@@ -1,17 +1,17 @@
-require 'resource_support/aws/aws_singular_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-sns'
+require "resource_support/aws/aws_singular_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-sns"
 
 class AwsSnsTopic < Inspec.resource(1)
-  name 'aws_sns_topic'
-  desc 'Verifies settings for an SNS Topic'
+  name "aws_sns_topic"
+  desc "Verifies settings for an SNS Topic"
   example <<~EXAMPLE
     describe aws_sns_topic('arn:aws:sns:us-east-1:123456789012:some-topic') do
       it { should exist }
       its('confirmed_subscription_count') { should_not be_zero }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
   attr_reader :arn, :confirmed_subscription_count
@@ -23,11 +23,11 @@ class AwsSnsTopic < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:arn],
       allowed_scalar_name: :arn,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
     # Validate the ARN
     unless validated_params[:arn] =~ /^arn:aws:sns:[\w\-]+:\d{12}:[\S]+$/
-      raise ArgumentError, 'Malformed ARN for SNS topics.  Expected an ARN of the form ' \
+      raise ArgumentError, "Malformed ARN for SNS topics.  Expected an ARN of the form " \
                            "'arn:aws:sns:REGION:ACCOUNT-ID:TOPIC-NAME'"
     end
     validated_params
@@ -38,7 +38,7 @@ class AwsSnsTopic < Inspec.resource(1)
     @exists = true
 
     # The response has a plain hash with CamelCase plain string keys and string values
-    @confirmed_subscription_count = aws_response['SubscriptionsConfirmed'].to_i
+    @confirmed_subscription_count = aws_response["SubscriptionsConfirmed"].to_i
   rescue Aws::SNS::Errors::NotFound
     @exists = false
   end

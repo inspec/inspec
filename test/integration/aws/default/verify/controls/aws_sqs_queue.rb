@@ -3,7 +3,7 @@ fixtures = {}
   'sqs_queue_1_url',
   'sqs_queue_2_url',  
 ].each do |fixture_name|
-  fixtures[fixture_name] = attribute(
+  fixtures[fixture_name] = input(
   fixture_name,
   default: "default.#{fixture_name}",
   description: 'See ../build/sqs.tf',

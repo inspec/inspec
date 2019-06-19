@@ -1,10 +1,10 @@
-require 'inspec/utils/simpleconfig'
+require "inspec/utils/simpleconfig"
 
 module Inspec::Resources
   class Mount < Inspec.resource(1)
-    name 'mount'
-    supports platform: 'unix'
-    desc 'Use the mount InSpec audit resource to test if mount points.'
+    name "mount"
+    supports platform: "unix"
+    desc "Use the mount InSpec audit resource to test if mount points."
     example <<~EXAMPLE
       describe mount('/') do
         it { should be_mounted }
@@ -20,7 +20,7 @@ module Inspec::Resources
     def initialize(path)
       @path = path
       @mount_manager = mount_manager_for_os
-      return skip_resource 'The `mount` resource is not supported on your OS yet.' if @mount_manager.nil?
+      return skip_resource "The `mount` resource is not supported on your OS yet." if @mount_manager.nil?
       @file = inspec.backend.file(@path)
     end
 
@@ -59,7 +59,7 @@ module Inspec::Resources
       os = inspec.os
       if os.linux?
         LinuxMounts.new(inspec)
-      elsif ['freebsd'].include?(os[:family])
+      elsif ["freebsd"].include?(os[:family])
         BsdMounts.new(inspec)
       end
     end

@@ -1,4 +1,4 @@
-require 'inspec/resources/command'
+require "inspec/resources/command"
 
 # Verifies apt and ppa repositories
 #
@@ -24,13 +24,13 @@ require 'inspec/resources/command'
 # apt-get install software-properties-common
 # add-apt-repository ppa:ubuntu-wine/ppa
 
-require 'uri'
+require "uri"
 
 module Inspec::Resources
   class AptRepository < Inspec.resource(1)
-    name 'apt'
-    supports platform: 'unix'
-    desc 'Use the apt InSpec audit resource to verify Apt repositories on the Debian and Ubuntu platforms, and also PPA repositories on the Ubuntu platform.'
+    name "apt"
+    supports platform: "unix"
+    desc "Use the apt InSpec audit resource to verify Apt repositories on the Debian and Ubuntu platforms, and also PPA repositories on the Ubuntu platform."
     example <<~EXAMPLE
       describe apt('nginx/stable') do
         it { should exist }
@@ -45,7 +45,7 @@ module Inspec::Resources
         @deb_url = determine_ppa_url(ppa_name)
       else
         # this resource is only supported on ubuntu and debian
-        skip_resource 'The `apt` resource is not supported on your OS yet.'
+        skip_resource "The `apt` resource is not supported on your OS yet."
       end
     end
 
@@ -67,10 +67,10 @@ module Inspec::Resources
     private
 
     def find_repo
-      read_debs.select { |repo| repo[:url] == @deb_url && repo[:type] == 'deb' }
+      read_debs.select { |repo| repo[:url] == @deb_url && repo[:type] == "deb" }
     end
 
-    HTTP_URL_RE = /\A#{URI::DEFAULT_PARSER.make_regexp(%w{http https})}\z/
+    HTTP_URL_RE = /\A#{URI::DEFAULT_PARSER.make_regexp(%w{http https})}\z/.freeze
 
     # read
     def read_debs
@@ -84,7 +84,7 @@ module Inspec::Resources
         active = true
 
         # detect if the repo is commented out
-        line = raw_line.gsub(/^(#\s*)*/, '')
+        line = raw_line.gsub(/^(#\s*)*/, "")
         active = false if raw_line != line
 
         # eg.: deb http://archive.ubuntu.com/ubuntu/ wily main restricted
@@ -99,10 +99,10 @@ module Inspec::Resources
           type: parse_repo[1],
           url: parse_repo[2],
           distro: parse_repo[3],
-          components: parse_repo[4].chomp.split(' '),
+          components: parse_repo[4].chomp.split(" "),
           active: active,
         }
-        next unless ['deb', 'deb-src'].include? repo[:type]
+        next unless ["deb", "deb-src"].include? repo[:type]
 
         lines.push(repo)
       end
@@ -116,19 +116,19 @@ module Inspec::Resources
       # otherwise start generating the ppa url
 
       # special care if the name stats with :
-      ppa_url = ppa_url.split(':')[1] if ppa_url.start_with?('ppa:')
+      ppa_url = ppa_url.split(":")[1] if ppa_url.start_with?("ppa:")
 
       # parse ppa owner and repo
-      ppa_owner, ppa_repo = ppa_url.split('/')
-      ppa_repo = 'ppa' if ppa_repo.nil?
+      ppa_owner, ppa_repo = ppa_url.split("/")
+      ppa_repo = "ppa" if ppa_repo.nil?
 
       # construct new ppa url and return it
-      format('http://ppa.launchpad.net/%s/%s/ubuntu', ppa_owner, ppa_repo)
+      format("http://ppa.launchpad.net/%s/%s/ubuntu", ppa_owner, ppa_repo)
     end
   end
 
   class PpaRepository < AptRepository
-    name 'ppa'
+    name "ppa"
 
     def exists?
       deprecated
@@ -141,7 +141,7 @@ module Inspec::Resources
     end
 
     def deprecated
-      Inspec.deprecate(:resource_ppa, 'The `ppa` resource is deprecated. Please use `apt`')
+      Inspec.deprecate(:resource_ppa, "The `ppa` resource is deprecated. Please use `apt`")
     end
   end
 end

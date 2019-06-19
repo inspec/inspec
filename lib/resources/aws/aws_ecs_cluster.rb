@@ -1,17 +1,17 @@
-require 'resource_support/aws/aws_singular_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-ecs'
+require "resource_support/aws/aws_singular_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-ecs"
 
 class AwsEcsCluster < Inspec.resource(1)
-  name 'aws_ecs_cluster'
-  desc 'Verifies settings for an ECS cluster'
+  name "aws_ecs_cluster"
+  desc "Verifies settings for an ECS cluster"
 
   example <<~EXAMPLE
     describe aws_ecs_cluster('default') do
       it { should exist }
     end
   EXAMPLE
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
   attr_reader :cluster_arn, :cluster_name, :status,
@@ -29,7 +29,7 @@ class AwsEcsCluster < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:cluster_name],
       allowed_scalar_name: :cluster_name,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
 
     validated_params
@@ -65,9 +65,9 @@ class AwsEcsCluster < Inspec.resource(1)
   end
 
   def populate_as_missing
-    @cluster_arn = ''
-    @cluster_name = ''
-    @status = ''
+    @cluster_arn = ""
+    @cluster_name = ""
+    @status = ""
     @registered_container_instances_count = 0
     @running_tasks_count = 0
     @pending_tasks_count = 0

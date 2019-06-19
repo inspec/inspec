@@ -9,9 +9,9 @@ input_names = [
 inputs = {}
 input_names.each do |input_name|
   # Store as a symbol-fetched input
-  inputs[input_name] = attribute(input_name, value: "#{input_name}_sym_default")
+  inputs[input_name] = input(input_name, value: "#{input_name}_sym_default")
   # .. and store under a string name, as a string-fetched input!
-  inputs[input_name.to_s] = attribute(input_name.to_s, value: "#{input_name}_str_default")
+  inputs[input_name.to_s] = input(input_name.to_s, value: "#{input_name}_str_default")
 end
 
 # For now, these all use string keys, as that is normal InSpec behavior

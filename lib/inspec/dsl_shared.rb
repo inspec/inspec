@@ -9,7 +9,7 @@ module Inspec
       alias __ruby_require require
 
       def require(path)
-        rbpath = path + '.rb'
+        rbpath = path + ".rb"
         return __ruby_require(path) if !@require_loader.exists?(rbpath)
         return false if @require_loader.loaded?(rbpath)
 

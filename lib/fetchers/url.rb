@@ -1,18 +1,18 @@
-require 'uri'
-require 'openssl'
-require 'tempfile'
-require 'open-uri'
+require "uri"
+require "openssl"
+require "tempfile"
+require "open-uri"
 
 module Fetchers
   class Url < Inspec.fetcher(1)
     MIME_TYPES = {
-      'application/x-zip-compressed' => '.zip',
-      'application/zip' => '.zip',
-      'application/x-gzip' => '.tar.gz',
-      'application/gzip' => '.tar.gz',
+      "application/x-zip-compressed" => ".zip",
+      "application/zip" => ".zip",
+      "application/x-gzip" => ".tar.gz",
+      "application/gzip" => ".tar.gz",
     }.freeze
 
-    name 'url'
+    name "url"
     priority 200
 
     def self.resolve(target, opts = {})
@@ -27,7 +27,7 @@ module Fetchers
 
     def self.resolve_from_string(target, opts, username = nil, password = nil)
       uri = URI.parse(target)
-      return nil if uri.nil? or uri.scheme.nil?
+      return nil if uri.nil? || uri.scheme.nil?
       return nil unless %{ http https }.include? uri.scheme
       target = transform(target)
       opts[:username] = username if username
@@ -62,11 +62,11 @@ module Fetchers
     # https://bitbucket.org/username/repo/commits/95ce1f83d5bbe9eec34c5973f6894617e8d6d8cc is transformed to
     # https://bitbucket.org/username/repo/get/95ce1f83d5bbe9eec34c5973f6894617e8d6d8cc.tar.gz
 
-    GITHUB_URL_REGEX = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w.-]+?)(\.git)?(/)?$}
-    GITHUB_URL_WITH_TREE_REGEX = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w.-]+)/tree/(?<commit>[\w\.]+)(/)?$}
-    BITBUCKET_URL_REGEX = %r{^https?://(www\.)?bitbucket\.org/(?<user>[\w-]+)/(?<repo>[\w-]+)(\.git)?(/)?$}
-    BITBUCKET_URL_BRANCH_REGEX = %r{^https?://(www\.)?bitbucket\.org/(?<user>[\w-]+)/(?<repo>[\w-]+)/branch/(?<branch>[\w\.]+)(/)?$}
-    BITBUCKET_URL_COMMIT_REGEX = %r{^https?://(www\.)?bitbucket\.org/(?<user>[\w-]+)/(?<repo>[\w-]+)/commits/(?<commit>[\w\.]+)(/)?$}
+    GITHUB_URL_REGEX = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w.-]+?)(\.git)?(/)?$}.freeze
+    GITHUB_URL_WITH_TREE_REGEX = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w.-]+)/tree/(?<commit>[\w\.]+)(/)?$}.freeze
+    BITBUCKET_URL_REGEX = %r{^https?://(www\.)?bitbucket\.org/(?<user>[\w-]+)/(?<repo>[\w-]+)(\.git)?(/)?$}.freeze
+    BITBUCKET_URL_BRANCH_REGEX = %r{^https?://(www\.)?bitbucket\.org/(?<user>[\w-]+)/(?<repo>[\w-]+)/branch/(?<branch>[\w\.]+)(/)?$}.freeze
+    BITBUCKET_URL_COMMIT_REGEX = %r{^https?://(www\.)?bitbucket\.org/(?<user>[\w-]+)/(?<repo>[\w-]+)/commits/(?<commit>[\w\.]+)(/)?$}.freeze
 
     def self.transform(target)
       transformed_target = if m = GITHUB_URL_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
@@ -94,8 +94,8 @@ module Fetchers
     def initialize(url, opts)
       @target = url.to_s
       @target_uri = url.is_a?(URI) ? url : parse_uri(url)
-      @insecure = opts['insecure']
-      @token = opts['token']
+      @insecure = opts["insecure"]
+      @token = opts["token"]
       @config = opts
       @archive_path = nil
       @temp_archive_path = nil
@@ -126,23 +126,23 @@ module Fetchers
 
     def sha256
       file = @archive_path || temp_archive_path
-      OpenSSL::Digest::SHA256.digest(File.read(file)).unpack('H*')[0]
+      OpenSSL::Digest::SHA256.digest(File.read(file)).unpack("H*")[0]
     end
 
     def file_type_from_remote(remote)
-      content_type = remote.meta['content-type']
+      content_type = remote.meta["content-type"]
       file_type = MIME_TYPES[content_type]
 
       if file_type.nil?
         Inspec::Log.warn("Unrecognized content type: #{content_type}. Assuming tar.gz")
-        file_type = '.tar.gz'
+        file_type = ".tar.gz"
       end
 
       file_type
     end
 
     def temp_archive_path
-      @temp_archive_path ||= if @config['server_type'] == 'automate2'
+      @temp_archive_path ||= if @config["server_type"] == "automate2"
                                download_automate2_archive_to_temp
                              else
                                download_archive_to_temp
@@ -154,13 +154,13 @@ module Fetchers
 
       Inspec::Log.debug("Fetching URL: #{@target}")
       json = {
-        owner: @config['profile'][0],
-        name: @config['profile'][1],
-        version: @config['profile'][2],
+        owner: @config["profile"][0],
+        name: @config["profile"][1],
+        version: @config["profile"][2],
       }.to_json
 
       opts = http_opts
-      opts[:use_ssl] = @target_uri.scheme == 'https'
+      opts[:use_ssl] = @target_uri.scheme == "https"
 
       if @insecure
         opts[:verify_mode] = OpenSSL::SSL::VERIFY_NONE
@@ -173,12 +173,12 @@ module Fetchers
         req.add_field(key, value)
       end
       req.body = json
-      res = Net::HTTP.start(@target_uri.host, @target_uri.port, opts) { |http|
+      res = Net::HTTP.start(@target_uri.host, @target_uri.port, opts) do |http|
         http.request(req)
-      }
+      end
 
-      @archive_type = '.tar.gz'
-      archive = Tempfile.new(['inspec-dl-', @archive_type])
+      @archive_type = ".tar.gz"
+      archive = Tempfile.new(["inspec-dl-", @archive_type])
       archive.binmode
       archive.write(res.body)
       archive.rewind
@@ -193,7 +193,7 @@ module Fetchers
       Inspec::Log.debug("Fetching URL: #{@target}")
       remote = open_via_uri(@target)
       @archive_type = file_type_from_remote(remote) # side effect :(
-      archive = Tempfile.new(['inspec-dl-', @archive_type])
+      archive = Tempfile.new(["inspec-dl-", @archive_type])
       archive.binmode
       archive.write(remote.read)
       archive.rewind
@@ -207,7 +207,7 @@ module Fetchers
 
       if opts[:http_basic_authentication]
         # OpenURI does not support userinfo so we need to remove it
-        open(target.sub("#{@target_uri.userinfo}@", ''), opts)
+        open(target.sub("#{@target_uri.userinfo}@", ""), opts)
       else
         open(target, opts)
       end
@@ -227,16 +227,16 @@ module Fetchers
       opts = {}
       opts[:ssl_verify_mode] = OpenSSL::SSL::VERIFY_NONE if @insecure
 
-      if @config['server_type'] =~ /automate/
-        opts['chef-delivery-enterprise'] = @config['automate']['ent']
-        if @config['automate']['token_type'] == 'dctoken'
-          opts['x-data-collector-token'] = @config['token']
+      if @config["server_type"] =~ /automate/
+        opts["chef-delivery-enterprise"] = @config["automate"]["ent"]
+        if @config["automate"]["token_type"] == "dctoken"
+          opts["x-data-collector-token"] = @config["token"]
         else
-          opts['chef-delivery-user'] = @config['user']
-          opts['chef-delivery-token'] = @config['token']
+          opts["chef-delivery-user"] = @config["user"]
+          opts["chef-delivery-token"] = @config["token"]
         end
       elsif @token
-        opts['Authorization'] = "Bearer #{@token}"
+        opts["Authorization"] = "Bearer #{@token}"
       end
 
       username = @config[:username] || @target_uri.user
@@ -260,8 +260,10 @@ module Fetchers
           true
         end
       end
-      raise 'Unable to fetch profile - the following HTTP headers have no value: ' \
-        "#{keys_missing_values.join(', ')}" unless keys_missing_values.empty?
+      unless keys_missing_values.empty?
+        raise "Unable to fetch profile - the following HTTP headers have no value: " \
+          "#{keys_missing_values.join(', ')}"
+      end
     end
   end
 end

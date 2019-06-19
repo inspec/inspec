@@ -1,13 +1,13 @@
-require 'inspec/fetcher'
-require 'inspec/metadata'
+require "inspec/fetcher"
+require "inspec/metadata"
 
 module SourceReaders
   class InspecReader < Inspec.source_reader(1)
-    name 'inspec'
+    name "inspec"
     priority 10
 
     def self.resolve(target)
-      return new(target, 'inspec.yml') if target.files.include?('inspec.yml')
+      return new(target, "inspec.yml") if target.files.include?("inspec.yml")
       nil
     end
 
@@ -31,7 +31,7 @@ module SourceReaders
       Inspec::Metadata.from_ref(
         metadata_source,
         @target.read(metadata_source),
-        nil,
+        nil
       )
     rescue Psych::SyntaxError => e
       raise "Unable to parse inspec.yml: line #{e.line}, #{e.problem} #{e.context}"
@@ -41,21 +41,21 @@ module SourceReaders
 
     def load_tests
       tests = @target.files.find_all do |path|
-        path.start_with?('controls') && path.end_with?('.rb')
+        path.start_with?("controls") && path.end_with?(".rb")
       end
       Hash[tests.map { |x| [x, @target.read(x)] }.delete_if { |_file, contents| contents.nil? }]
     end
 
     def load_libs
       tests = @target.files.find_all do |path|
-        path.start_with?('libraries') && path.end_with?('.rb')
+        path.start_with?("libraries") && path.end_with?(".rb")
       end
       Hash[tests.map { |x| [x, @target.read(x)] }.delete_if { |_file, contents| contents.nil? }]
     end
 
     def load_data_files
       files = @target.files.find_all do |path|
-        path.start_with?('files' + File::SEPARATOR)
+        path.start_with?("files" + File::SEPARATOR)
       end
       Hash[files.map { |x| [x, @target.read(x)] }.delete_if { |_file, contents| contents.nil? }]
     end

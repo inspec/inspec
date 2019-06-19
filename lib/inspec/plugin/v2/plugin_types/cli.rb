@@ -1,4 +1,4 @@
-require 'inspec/base_cli'
+require "inspec/base_cli"
 
 # The InSpec load order has this file being loaded before `inspec/base_cli` can
 # finish being loaded. So, we must define Inspec::BaseCLI here first to avoid
@@ -12,8 +12,8 @@ module Inspec::Plugin::V2::PluginType
       super(args, options, config)
       class_options = config.fetch(:class_options, nil)
       if class_options
-        Inspec::Log.init(class_options['log_location']) if class_options.key?('log_location')
-        Inspec::Log.level = get_log_level(class_options['log_level']) if class_options.key?('log_level')
+        Inspec::Log.init(class_options["log_location"]) if class_options.key?("log_location")
+        Inspec::Log.level = get_log_level(class_options["log_level"]) if class_options.key?("log_level")
       end
     end
 
@@ -41,9 +41,9 @@ module Inspec::Plugin::V2::PluginType
 
     # Allow plugins to use inspec log settings
     class_option :log_level, type: :string,
-                 desc: 'Set the log level: info (default), debug, warn, error'
+                 desc: "Set the log level: info (default), debug, warn, error"
 
     class_option :log_location, type: :string,
-                desc: 'Location to send diagnostic log messages to. (default: $stdout or Inspec::Log.error)'
+                desc: "Location to send diagnostic log messages to. (default: $stdout or Inspec::Log.error)"
   end
 end

@@ -5,7 +5,7 @@ module Inspec::Reporters
     def initialize(config)
       @config = config
       @run_data = config[:run_data]
-      @output = ''
+      @output = ""
     end
 
     def output(str, newline = true)

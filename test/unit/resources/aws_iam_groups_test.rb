@@ -1,9 +1,9 @@
-require 'helper'
-require 'inspec/resource'
-require 'resources/aws/aws_iam_groups'
+require "helper"
+require "inspec/resource"
+require "resources/aws/aws_iam_groups"
 
-require 'resource_support/aws'
-require 'resources/aws/aws_iam_groups'
+require "resource_support/aws"
+require "resources/aws/aws_iam_groups"
 
 # MAIGPB = MockAwsIamGroupsPluralBackend
 # Abbreviation not used outside this file
@@ -25,7 +25,6 @@ class AwsIamGroupsConstructorTest < Minitest::Test
     assert_raises(ArgumentError) { AwsIamGroups.new(shoe_size: 9) }
   end
 end
-
 
 #=============================================================================#
 #                               Search / Recall
@@ -66,18 +65,18 @@ module MAIGPB
     def list_groups(query = {})
       fixtures = [
         OpenStruct.new({
-          path: '/',
-          group_name: 'Administrator',
-          group_id: 'AGPAQWERQWERQWERQWERQ',
-          arn: 'arn:aws:iam::111111111111:group/Administrator',
-          create_date: DateTime.parse('2017-12-14 05:29:57 UTC')
+          path: "/",
+          group_name: "Administrator",
+          group_id: "AGPAQWERQWERQWERQWERQ",
+          arn: "arn:aws:iam::111111111111:group/Administrator",
+          create_date: DateTime.parse("2017-12-14 05:29:57 UTC"),
         }),
         OpenStruct.new({
-          path: '/',
-          group_name: 'AmazonEC2ReadOnlyAccess',
-          group_id: 'AGPAASDFASDFASDFASDFA',
-          arn: 'arn:aws:iam::111111111111:group/AmazonEC2ReadOnlyAccess',
-          create_date: DateTime.parse('2017-12-15 17:37:14 UTC')
+          path: "/",
+          group_name: "AmazonEC2ReadOnlyAccess",
+          group_id: "AGPAASDFASDFASDFASDFA",
+          arn: "arn:aws:iam::111111111111:group/AmazonEC2ReadOnlyAccess",
+          create_date: DateTime.parse("2017-12-15 17:37:14 UTC"),
         }),
       ]
 

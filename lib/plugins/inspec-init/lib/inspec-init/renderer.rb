@@ -1,5 +1,5 @@
-require 'fileutils'
-require 'erb'
+require "fileutils"
+require "erb"
 
 module InspecPlugins
   module Init
@@ -24,7 +24,7 @@ module InspecPlugins
         source_dir = File.join(templates_path, template_subdir_path)
 
         # prepare glob for all subdirectories and files
-        template_glob = File.join(source_dir, '**', '{*,.*}')
+        template_glob = File.join(source_dir, "**", "{*,.*}")
 
         # Use the name attribute to define the path to the new thing.
         # May contain slashes.
@@ -43,7 +43,7 @@ module InspecPlugins
           ui.exit(:usage_error)
         end
 
-        ui.headline('InSpec Code Generator')
+        ui.headline("InSpec Code Generator")
 
         ui.plain_line "Creating new #{template_type} at #{ui.emphasis(full_destination_path)}"
 

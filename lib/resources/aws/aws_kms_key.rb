@@ -1,17 +1,17 @@
-require 'resource_support/aws/aws_singular_resource_mixin'
-require 'resource_support/aws/aws_backend_base'
-require 'aws-sdk-kms'
+require "resource_support/aws/aws_singular_resource_mixin"
+require "resource_support/aws/aws_backend_base"
+require "aws-sdk-kms"
 
 class AwsKmsKey < Inspec.resource(1)
-  name 'aws_kms_key'
-  desc 'Verifies settings for an individual AWS KMS Key'
+  name "aws_kms_key"
+  desc "Verifies settings for an individual AWS KMS Key"
   example <<~EXAMPLE
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
       it { should exist }
     end
   EXAMPLE
 
-  supports platform: 'aws'
+  supports platform: "aws"
 
   include AwsSingularResourceMixin
   attr_reader :key_id, :arn, :creation_date, :key_usage, :key_state, :description,
@@ -31,7 +31,7 @@ class AwsKmsKey < Inspec.resource(1)
   end
 
   def created_days_ago
-    ((Time.now - creation_date)/(24*60*60)).to_i unless creation_date.nil?
+    ((Time.now - creation_date) / (24 * 60 * 60)).to_i unless creation_date.nil?
   end
 
   private
@@ -41,7 +41,7 @@ class AwsKmsKey < Inspec.resource(1)
       raw_params: raw_params,
       allowed_params: [:key_id],
       allowed_scalar_name: :key_id,
-      allowed_scalar_type: String,
+      allowed_scalar_type: String
     )
 
     if validated_params.empty?
@@ -70,9 +70,9 @@ class AwsKmsKey < Inspec.resource(1)
         @key_state = @key[:key_state]
         @deletion_date = @key[:deletion_date]
         @valid_to = @key[:valid_to]
-        @external = @key[:origin] == 'EXTERNAL'
-        @has_key_expiration = @key[:expiration_model] == 'KEY_MATERIAL_EXPIRES'
-        @managed_by_aws = @key[:key_manager] == 'AWS'
+        @external = @key[:origin] == "EXTERNAL"
+        @has_key_expiration = @key[:expiration_model] == "KEY_MATERIAL_EXPIRES"
+        @managed_by_aws = @key[:key_manager] == "AWS"
 
         resp = backend.get_key_rotation_status(query)
         @has_rotation_enabled = resp.key_rotation_enabled unless resp.empty?

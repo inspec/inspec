@@ -1,4 +1,4 @@
-require 'inspec/resources/command'
+require "inspec/resources/command"
 
 # Usage:
 # describe yum do
@@ -29,9 +29,9 @@ require 'inspec/resources/command'
 
 module Inspec::Resources
   class Yum < Inspec.resource(1)
-    name 'yum'
-    supports platform: 'unix'
-    desc 'Use the yum InSpec audit resource to test the configuration of Yum repositories.'
+    name "yum"
+    supports platform: "unix"
+    desc "Use the yum InSpec audit resource to test the configuration of Yum repositories."
     example <<~EXAMPLE
       describe yum.repo('name') do
         it { should exist }
@@ -49,7 +49,7 @@ module Inspec::Resources
       return @cache if defined?(@cache)
       # parse the repository data from yum
       # we cannot use -C, because this is not reliable and may lead to errors
-      @command_result = inspec.command('yum -v repolist all')
+      @command_result = inspec.command("yum -v repolist all")
       @content = @command_result.stdout
       @cache = []
       repo = {}
@@ -73,7 +73,7 @@ module Inspec::Resources
     end
 
     def repos
-      repositories.map { |repo| repo['id'] }
+      repositories.map { |repo| repo["id"] }
     end
 
     def repo(repo)
@@ -86,7 +86,7 @@ module Inspec::Resources
     end
 
     def to_s
-      'Yum Repository'
+      "Yum Repository"
     end
 
     private
@@ -99,7 +99,7 @@ module Inspec::Resources
     # Optimize the key value
     def repo_key(key)
       return key if key.nil?
-      key.gsub('Repo-', '').downcase
+      key.gsub("Repo-", "").downcase
     end
   end
 
@@ -118,7 +118,7 @@ module Inspec::Resources
 
     def info
       return @cache if defined?(@cache)
-      selection = @yum.repositories.select { |e| e['id'] == @reponame || shortname(e['id']) == @reponame }
+      selection = @yum.repositories.select { |e| e["id"] == @reponame || shortname(e["id"]) == @reponame }
       @cache = selection.empty? ? {} : selection.first
       @cache
     end
@@ -129,7 +129,7 @@ module Inspec::Resources
 
     def enabled?
       return false unless exist?
-      info['status'] == 'enabled'
+      info["status"] == "enabled"
     end
 
     # provide a method for each of the repo metadata items we know about

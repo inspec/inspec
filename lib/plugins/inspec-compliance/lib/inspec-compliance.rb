@@ -4,7 +4,7 @@ module InspecPlugins
       plugin_name :'inspec-compliance'
 
       cli_command :compliance do
-        require_relative 'inspec-compliance/cli'
+        require_relative "inspec-compliance/cli"
         InspecPlugins::Compliance::CLI
       end
     end

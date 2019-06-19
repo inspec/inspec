@@ -1,15 +1,15 @@
-require 'resources/azure/azure_backend'
-require 'uri'
+require "resources/azure/azure_backend"
+require "uri"
 
 module Inspec::Resources
   class AzureVirtualMachineDataDisk < AzureResourceBase
-    name 'azure_virtual_machine_data_disk'
+    name "azure_virtual_machine_data_disk"
 
     desc '
       InSpec Resource to ensure that the data disks attached to a machine are correct
     '
 
-    supports platform: 'azure'
+    supports platform: "azure"
 
     # Create a filter table so that tests on the disk can be performed
     filter = FilterTable.create
@@ -36,7 +36,7 @@ module Inspec::Resources
     # @author Russell Seymour
     def initialize(opts = {})
       # The generic resource needs to pass back a Microsoft.Compute/virtualMachines object so force it
-      opts[:type] = 'Microsoft.Compute/virtualMachines'
+      opts[:type] = "Microsoft.Compute/virtualMachines"
       super(opts)
 
       # Get the data disks
@@ -104,7 +104,7 @@ module Inspec::Resources
         # Parse the uri of the disk URI so that the storage account can be retrieved
         uri = URI.parse(disk.vhd.uri)
         parsed[:vhd_uri] = disk.vhd.uri
-        parsed[:storage_account_name] = uri.host.split('.').first
+        parsed[:storage_account_name] = uri.host.split(".").first
 
       elsif defined?(disk.managedDisk)
         # State that this is a managed disk
