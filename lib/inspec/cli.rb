@@ -418,7 +418,7 @@ end
 #                        Pre-Flight Code
 #=====================================================================#
 
-help_commands = ['-h', '--help', 'help']
+help_commands = ["-h", "--help", "help"]
 
 #---------------------------------------------------------------------#
 # Adjustments for help handling
