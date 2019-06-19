@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.6.4 -->
+## [v4.6.4](https://github.com/inspec/inspec/tree/v4.6.4) (2019-06-19)
+
+#### Bug Fixes
+- nginx_conf: Fix commented/empty file parsing [#4215](https://github.com/inspec/inspec/pull/4215) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.6.3 -->
+### Changes since 4.6.3 release
+
+#### Bug Fixes
+- nginx_conf: Fix commented/empty file parsing [#4215](https://github.com/inspec/inspec/pull/4215) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 4.6.4 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
