@@ -41,7 +41,6 @@ module Fetchers
       @ref = opts[:ref]
       @remote_url = expand_local_path(remote_url)
       @repo_directory = nil
-      @profile_directory = nil # TODO remove this if possible, distinction without a difference
       @relative_path = opts[:relative_path]
     end
 
@@ -59,33 +58,30 @@ module Fetchers
       File.expand_path(url_or_file_path)
     end
 
-    def fetch(dir)
-      @repo_directory = dir
-      FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
+    def fetch(destination_path)
+      @repo_directory = destination_path
+      FileUtils.mkdir_p(destination_path) unless Dir.exist?(destination_path)
 
       if cloned?
         checkout
       else
-        Dir.mktmpdir do |tmpdir|
-          checkout(tmpdir)
+        Dir.mktmpdir do |working_dir|
+          checkout(working_dir)
           if @relative_path
-            @profile_directory = dir
             Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
-                              "Moving #{@relative_path} to #{dir}")
-            unless File.exist?("#{tmpdir}/#{@relative_path}")
+                              "Moving #{@relative_path} to #{destination_path}")
+            unless File.exist?("#{working_dir}/#{@relative_path}")
               raise ArgumentError.new("Cannot find relative path '#{@relative_path}' within profile in git repo specified by '#{@remote_url}'")
             end
-            target_profile = File.join(tmpdir, @relative_path)
-
-            FileUtils.cp_r(target_profile, dir)
+            FileUtils.cp_r("#{working_dir}/#{@relative_path}", destination_path)
           else
             Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
-                              "Moving checkout to #{dir}")
-            FileUtils.cp_r(tmpdir + "/.", dir)
+                              "Moving checkout to #{destination_path}")
+            FileUtils.cp_r(working_dir + "/.", destination_path)
           end
         end
       end
-      @profile_directory || @repo_directory
+      @repo_directory
     end
 
     def cache_key
@@ -94,7 +90,7 @@ module Fetchers
     end
 
     def archive_path
-      @profile_directory || @repo_directory
+      @repo_directory
     end
 
     def resolved_source
