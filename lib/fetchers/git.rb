@@ -68,19 +68,7 @@ module Fetchers
         Dir.mktmpdir do |working_dir|
           checkout(working_dir)
           if @relative_path
-            Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
-                              "Moving #{@relative_path} to #{destination_path}")
-            unless File.exist?("#{working_dir}/#{@relative_path}")
-              # Cleanup the destination path - otherwise we'll have an empty dir
-              # in the cache, which is enough to confuse the cache reader
-              # This is acourtesy, assuming we're writing to the cache; if we're
-              # vendoring to somthing more complex, don't bother.
-              FileUtils.rmdir(destination_path) if Dir.empty?(destination_path)
-
-              raise ArgumentError.new("Cannot find relative path '#{@relative_path}' " \
-                                      "within profile in git repo specified by '#{@remote_url}'")
-            end
-            FileUtils.cp_r("#{working_dir}/#{@relative_path}", destination_path)
+            perform_relative_path_fetch(destination_path, working_dir)
           else
             Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
                               "Moving checkout to #{destination_path}")
@@ -89,6 +77,22 @@ module Fetchers
         end
       end
       @repo_directory
+    end
+
+    def perform_relative_path_fetch(destination_path, working_dir)
+      Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
+                        "Moving #{@relative_path} to #{destination_path}")
+      unless File.exist?("#{working_dir}/#{@relative_path}")
+        # Cleanup the destination path - otherwise we'll have an empty dir
+        # in the cache, which is enough to confuse the cache reader
+        # This is acourtesy, assuming we're writing to the cache; if we're
+        # vendoring to somthing more complex, don't bother.
+        FileUtils.rmdir(destination_path) if Dir.empty?(destination_path)
+
+        raise ArgumentError.new("Cannot find relative path '#{@relative_path}' " \
+                        "within profile in git repo specified by '#{@remote_url}'")
+      end
+      FileUtils.cp_r("#{working_dir}/#{@relative_path}", destination_path)
     end
 
     def cache_key

@@ -68,7 +68,7 @@ describe "running profiles with git-based dependencies" do
   #======================================================================#
   #                        Revision Selection
   #======================================================================#
-  # TODO: test branch, rev, and tag capabilities
+  # NOTE: test branch, rev, and tag capabilities are tested in unit tests
 
   #======================================================================#
   #                     Relative Path Support
@@ -98,9 +98,6 @@ describe "running profiles with git-based dependencies" do
   end
 
   #------------ Edge Cases for Relative Path Support -------------------#
-
-  # TODO: These next two tests trigger a bug, in which the profile appears
-  # to have a key collision in the cache.
 
   describe "running a profile with an '' relative path dependency" do
     it "should find the top-level profile in the git-referenced child profile and execute that" do
