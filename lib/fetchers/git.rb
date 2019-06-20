@@ -41,7 +41,7 @@ module Fetchers
       @ref = opts[:ref]
       @remote_url = expand_local_path(remote_url)
       @repo_directory = nil
-      @relative_path = opts[:relative_path]
+      @relative_path = opts[:relative_path] if opts[:relative_path] && !opts[:relative_path].empty?
     end
 
     def expand_local_path(url_or_file_path)
@@ -59,7 +59,7 @@ module Fetchers
     end
 
     def fetch(destination_path)
-      @repo_directory = destination_path
+      @repo_directory = destination_path # Might be the cache, or vendoring, or something else
       FileUtils.mkdir_p(destination_path) unless Dir.exist?(destination_path)
 
       if cloned?
@@ -71,7 +71,14 @@ module Fetchers
             Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
                               "Moving #{@relative_path} to #{destination_path}")
             unless File.exist?("#{working_dir}/#{@relative_path}")
-              raise ArgumentError.new("Cannot find relative path '#{@relative_path}' within profile in git repo specified by '#{@remote_url}'")
+              # Cleanup the destination path - otherwise we'll have an empty dir
+              # in the cache, which is enough to confuse the cache reader
+              # This is acourtesy, assuming we're writing to the cache; if we're
+              # vendoring to somthing more complex, don't bother.
+              FileUtils.rmdir(destination_path) if Dir.empty?(destination_path)
+
+              raise ArgumentError.new("Cannot find relative path '#{@relative_path}' " \
+                                      "within profile in git repo specified by '#{@remote_url}'")
             end
             FileUtils.cp_r("#{working_dir}/#{@relative_path}", destination_path)
           else
