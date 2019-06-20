@@ -84,12 +84,17 @@ describe Inspec::Resources::FileResource do
   let(:file) { stub(unix_mode_mask: 000, mode: 644) }
 
   it "more_permissive_than?" do
-    skip_until 2019, 6, 21, "Breaks on travis-ci because file has 664, not 644"
     resource = MockLoader.new(:ubuntu1404).load_resource("file", "/fakepath/fakefile")
 
-    _(resource).wont_be :more_permissive_than?, "755"
-    _(resource).wont_be :more_permissive_than?, "644"
-    _(resource).must_be :more_permissive_than?, "640"
+    # TODO: this is NOT a valid way to test. Please use _actual_ mock files
+    # so we aren't beholden to the CI umask and other trivialities.
+    path = "test/unit/mock/files/emptyfile"
+    File.chmod 0644, path
+    perms = "perms = %03o" % [File.stat(path).mode]
+
+    _(resource).wont_be :more_permissive_than?, "755", perms
+    _(resource).wont_be :more_permissive_than?, "644", perms
+    _(resource).must_be :more_permissive_than?, "640", perms
 
     proc { resource.send(:more_permissive_than?, "0888") }.must_raise(ArgumentError)
   end

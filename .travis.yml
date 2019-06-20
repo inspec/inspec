@@ -21,6 +21,7 @@ before_install:
 - "gem update --system '3.0'"
 - gem --version
 - bundle --version
+- umask 0022
 env:
   - SLOW=1 NO_AWS=1
   - CI_ENABLE_COVERAGE=true SLOW=1
