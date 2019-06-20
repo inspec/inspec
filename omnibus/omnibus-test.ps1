@@ -10,31 +10,11 @@ If ([string]::IsNullOrEmpty($product)) { $product = "inspec" }
 $version = "$Env:VERSION"
 If ([string]::IsNullOrEmpty($version)) { $version = "latest" }
 
-. C:\buildkite-agent\bin\load-omnibus-toolchain.ps1
-
-If ($env:OMNIBUS_WINDOWS_ARCH -eq "x86") {
-  $architecture = "i386"
-}
-ElseIf ($env:OMNIBUS_WINDOWS_ARCH -eq "x64") {
-  $architecture = "x86_64"
-}
-
-Write-Output "--- Downloading $channel $product $version"
-$download_url = C:\opscode\omnibus-toolchain\embedded\bin\mixlib-install.bat download --url --channel "$channel" "$product" --version "$version" --architecture "$architecture"
-$package_file = "$Env:Temp\$(Split-Path -Path $download_url -Leaf)"
-Invoke-WebRequest -OutFile "$package_file" -Uri "$download_url"
-
-Write-Output "--- Checking that $package_file has been signed."
-If ((Get-AuthenticodeSignature "$package_file").Status -eq 'Valid') {
-  Write-Output "Verified $package_file has been signed."
-}
-Else {
-  Write-Output "Exiting with an error because $package_file has not been signed. Check your omnibus project config."
-  exit 1
-}
-
 Write-Output "--- Installing $channel $product $version"
-Start-Process "$package_file" /quiet -Wait
+$package_file = $(C:\opscode\omnibus-toolchain\bin\install-omnibus-product.ps1 -Product "$product" -Channel "$channel" -Version "$version" | Select-Object -Last 1)
+
+Write-Output "--- Verifying omnibus package is signed"
+C:\opscode\omnibus-toolchain\bin\check-omnibus-package-signed.ps1 "$package_file"
 
 Write-Output "--- Running verification for $channel $product $version"
 

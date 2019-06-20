@@ -6,15 +6,17 @@ product="${PRODUCT:-inspec}"
 version="${VERSION:-latest}"
 
 echo "--- Installing $channel $product $version"
-package_file="$(install-omnibus-product -c "$channel" -P "$product" -v "$version" | tail -n 1)"
+package_file="$(/opt/omnibus-toolchain/bin/install-omnibus-product -c "$channel" -P "$product" -v "$version" | tail -n 1)"
 
 echo "--- Verifying omnibus package is signed"
-check-omnibus-package-signed "$package_file"
+/opt/omnibus-toolchain/bin/check-omnibus-package-signed "$package_file"
+
+sudo rm -f "$package_file"
 
 echo "--- Verifying ownership of package files"
 
 export INSTALL_DIR=/opt/inspec
-NONROOT_FILES="$(find "$INSTALL_DIR" ! -uid 0 -print)"
+NONROOT_FILES="$(find "$INSTALL_DIR" ! -user 0 -print)"
 if [[ "$NONROOT_FILES" == "" ]]; then
   echo "Packages files are owned by root.  Continuing verification."
 else
