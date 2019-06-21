@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.6.6 -->
-## [v4.6.6](https://github.com/inspec/inspec/tree/v4.6.6) (2019-06-20)
+<!-- latest_release 4.6.7 -->
+## [v4.6.7](https://github.com/inspec/inspec/tree/v4.6.7) (2019-06-21)
 
-#### Bug Fixes
-- Set the umask on travis in before_install so that file resource permission matcher can be tested [#4223](https://github.com/inspec/inspec/pull/4223) ([zenspider](https://github.com/zenspider))
+#### Merged Pull Requests
+- Update date on our timebomb. [#4232](https://github.com/inspec/inspec/pull/4232) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.6.4 -->
@@ -14,6 +14,7 @@
 - Set the umask on travis in before_install so that file resource permission matcher can be tested [#4223](https://github.com/inspec/inspec/pull/4223) ([zenspider](https://github.com/zenspider)) <!-- 4.6.6 -->
 
 #### Merged Pull Requests
+- Update date on our timebomb. [#4232](https://github.com/inspec/inspec/pull/4232) ([miah](https://github.com/miah)) <!-- 4.6.7 -->
 - Allow to switch off the license check for community distributions [#4156](https://github.com/inspec/inspec/pull/4156) ([artem-sidorenko](https://github.com/artem-sidorenko)) <!-- 4.6.5 -->
 <!-- release_rollup -->
 
