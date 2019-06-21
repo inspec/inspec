@@ -369,6 +369,14 @@ class MockLoader
       "hostname" => cmd.call("hostname"),
       # hostname windows
       "$env:computername" => cmd.call("$env-computername"),
+      # Manufacturer linux
+      "dmidecode | grep 'Vendor: '" => cmd.call("manufacturer"),
+      # Manufacturer windows
+      "Get-CimInstance -ClassName Win32_ComputerSystem | Select Manufacturer -ExpandProperty Manufacturer" => cmd.call("manufacturer"),
+      # Model linux
+      "dmidecode | grep 'Product Name: '" => cmd.call("model"),
+      # Model windows
+      "Get-CimInstance -ClassName Win32_ComputerSystem | Select Model -ExpandProperty Model" => cmd.call("model"),
       # windows_hotfix windows
       "get-hotfix -id KB4019215" => cmd.call("kb4019215"),
       # windows_hotfix windows doesn't exist
