@@ -26,5 +26,29 @@ module Inspec::Resources
         skip_resource "The `sys_info.hostname` resource is not supported on your OS yet."
       end
     end
+
+    # returns the Manufacturer of the local system
+    def manufacturer
+      os = inspec.os
+      if os.linux? || os.darwin?
+        inspec.command("dmidecode | grep 'Vendor :'").split(": ").last.chomp
+      elsif os.windows?
+        inspec.powershell("Get-CimInstance -ClassName Win32_ComputerSystem | Select Manufacturer -ExpandProperty Manufacturer").stdout.chomp
+      else
+        skip_resource "The `sys_info.model` resource is not supported on your OS yet."
+      end
+    end
+
+    # returns the ServerModel of the local system
+    def model
+      os = inspec.os
+      if os.linux? || os.darwin?
+        inspec.command("dmidecode | grep 'Product Name: '").split(": ").last.chomp
+      elsif os.windows?
+        inspec.powershell("Get-CimInstance -ClassName Win32_ComputerSystem | Select Model -ExpandProperty Model").stdout.chomp
+      else
+        skip_resource "The `sys_info.model` resource is not supported on your OS yet."
+      end
+    end
   end
 end
