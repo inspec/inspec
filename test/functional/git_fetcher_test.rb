@@ -68,7 +68,7 @@ describe "running profiles with git-based dependencies" do
   #======================================================================#
   #                        Revision Selection
   #======================================================================#
-  # NOTE: test branch, rev, and tag capabilities are tested in unit tests
+  # NOTE: test branch, rev, and tag capabilities are (lighty) tested in unit tests
 
   #======================================================================#
   #                     Relative Path Support
@@ -114,7 +114,6 @@ describe "running profiles with git-based dependencies" do
   describe "running a profile with a relative path dependency that does not exist" do
     it "should fail gracefully" do
       run_result = run_inspec_process("exec #{git_profiles}/relative-nonesuch")
-      assert_exit_code(1, run_result) # General user error
       assert_empty run_result.stdout
       refute_includes run_result.stderr, "Errno::ENOENT" # No ugly file missing error
       assert_equal 1, run_result.stderr.lines.count # Not a giant stacktrace
@@ -124,6 +123,7 @@ describe "running profiles with git-based dependencies" do
       assert_includes run_result.stderr, "profile in git repo"
       # The containing git repo (the only identifier the user will have)
       assert_includes run_result.stderr, "test/unit/mock/profiles/git-fetcher/git-repo-01"
+      assert_exit_code(1, run_result) # General user error
     end
   end
 end

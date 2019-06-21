@@ -85,12 +85,12 @@ module Fetchers
       unless File.exist?("#{working_dir}/#{@relative_path}")
         # Cleanup the destination path - otherwise we'll have an empty dir
         # in the cache, which is enough to confuse the cache reader
-        # This is acourtesy, assuming we're writing to the cache; if we're
-        # vendoring to somthing more complex, don't bother.
+        # This is a courtesy, assuming we're writing to the cache; if we're
+        # vendoring to something more complex, don't bother.
         FileUtils.rmdir(destination_path) if Dir.empty?(destination_path)
 
-        raise ArgumentError.new("Cannot find relative path '#{@relative_path}' " \
-                        "within profile in git repo specified by '#{@remote_url}'")
+        raise ArgumentError, "Cannot find relative path '#{@relative_path}' " \
+                             "within profile in git repo specified by '#{@remote_url}'"
       end
       FileUtils.cp_r("#{working_dir}/#{@relative_path}", destination_path)
     end
