@@ -139,7 +139,7 @@ def expect_deprecation(group, &block)
 end
 
 class Minitest::Test
-  raise "You must remove skip_now" if Time.now > Time.local(2019, 6, 21)
+  raise "You must remove skip_now" if Time.now > Time.local(2019, 7, 12)
 
   def skip_until(y, m, d, msg)
     raise msg if Time.now > Time.local(y, m, d)
