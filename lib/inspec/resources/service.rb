@@ -127,10 +127,14 @@ module Inspec::Resources
           Systemd.new(inspec, service_ctl)
         end
       elsif %w{debian}.include?(platform)
-        version = os[:release].to_i
+        if os[:release] == "buster/sid"
+          version = 10
+        else
+          version = os[:release].to_i
+        end
         if version > 7
           Systemd.new(inspec, service_ctl)
-        else
+        elsif version > 0
           SysV.new(inspec, service_ctl || "/usr/sbin/service")
         end
       elsif %w{redhat fedora centos oracle cloudlinux}.include?(platform)
