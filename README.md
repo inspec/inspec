@@ -31,14 +31,17 @@ Chef InSpec makes it easy to run your tests wherever you need. More options are 
 # run test locally
 inspec exec test.rb
 
-# run test on remote host on SSH
+# run test on remote host via SSH
 inspec exec test.rb -t ssh://user@hostname -i /path/to/key
 
 # run test on remote host using SSH agent private key authentication. Requires Chef InSpec 1.7.1
 inspec exec test.rb -t ssh://user@hostname
 
-# run test on remote windows host on WinRM
+# run test on remote windows host via WinRM
 inspec exec test.rb -t winrm://Administrator@windowshost --password 'your-password'
+
+# run test on remote windows host via WinRM as a domain user
+inspec exec test.rb -t winrm://windowshost --user 'UserName@domain' --password 'your-password'
 
 # run test on docker container
 inspec exec test.rb -t docker://container_id
