@@ -72,7 +72,7 @@ describe "Inspec::Config" do
     describe "when the file is a valid v1.1 file" do
       let(:fixture_name) { "basic" }
       it "should read the file successfully" do
-        expected = %w{create_lockfile reporter type}.sort
+        expected = %w{cli_options create_lockfile credentials reporter type version}.sort
         seen_fields.must_equal expected
       end
     end
@@ -80,7 +80,7 @@ describe "Inspec::Config" do
     describe "when the file is minimal" do
       let(:fixture_name) { "minimal" }
       it "should read the file successfully" do
-        expected = %w{reporter type}.sort
+        expected = %w{reporter type version}.sort
         seen_fields.must_equal expected
       end
     end
@@ -130,7 +130,7 @@ describe "Inspec::Config" do
     describe "when the exec command is used" do
       let(:command) { :exec }
       it "should have the correct defaults" do
-        expected = %w{color create_lockfile backend_cache reporter show_progress type}.sort
+        expected = %w{color create_lockfile backend_cache reporter show_progress type version}.sort
         seen_fields.must_equal expected
         final_options["reporter"].must_be_kind_of Hash
         final_options["reporter"].count.must_equal 1
@@ -145,7 +145,7 @@ describe "Inspec::Config" do
     describe "when the shell command is used" do
       let(:command) { :shell }
       it "should have the correct defaults" do
-        expected = %w{reporter type}.sort
+        expected = %w{reporter type version}.sort
         seen_fields.must_equal expected
         final_options["reporter"].must_be_kind_of Hash
         final_options["reporter"].count.must_equal 1
@@ -178,7 +178,7 @@ describe "Inspec::Config" do
       end
 
       it "should transparently round-trip the options" do
-        expected = %w{color array_value reporter string_key type}.sort
+        expected = %w{array_value color reporter string_key type version}.sort
         seen_fields.must_equal expected
         final_options[:color].must_equal true
         final_options["color"].must_equal true
@@ -203,7 +203,7 @@ describe "Inspec::Config" do
     describe "when the CLI opts are present in a 1.1 file" do
       let(:fixture_name) { :like_legacy }
       it "should read the options" do
-        expected = %w{color reporter target_id type}.sort
+        expected = %w{cli_options color reporter target_id type version}.sort
         seen_fields.must_equal expected
         final_options["color"].must_equal "true"  # Dubious - should this be String or TrueClass?
         final_options["target_id"].must_equal "mynode"
@@ -437,7 +437,7 @@ describe "Inspec::Config" do
       let(:cli_opts) { {} }
       it "the config file setting should prevail" do
         Inspec::Config::Defaults.stubs(:default_for_command).returns("target_id" => "value_from_default")
-        expected = %w{reporter target_id type}.sort
+        expected = %w{cli_options reporter target_id type version}.sort
         seen_fields.must_equal expected
         cfg.final_options["target_id"].must_equal "value_from_config_file"
         cfg.final_options[:target_id].must_equal "value_from_config_file"
@@ -449,7 +449,7 @@ describe "Inspec::Config" do
       let(:cfg_io) { nil }
       it "the CLI option should prevail" do
         Inspec::Config::Defaults.stubs(:default_for_command).returns("target_id" => "value_from_default")
-        expected = %w{reporter target_id type}.sort
+        expected = %w{reporter target_id type version}.sort
         seen_fields.must_equal expected
         cfg.final_options["target_id"].must_equal "value_from_cli_opts"
         cfg.final_options[:target_id].must_equal "value_from_cli_opts"
@@ -460,7 +460,7 @@ describe "Inspec::Config" do
       let(:file_fixture_name) { :override_check }
       let(:cli_opts) { { target_id: "value_from_cli_opts" } }
       it "the CLI option should prevail" do
-        expected = %w{reporter target_id type}.sort
+        expected = %w{cli_options reporter target_id type version}.sort
         seen_fields.must_equal expected
         cfg.final_options["target_id"].must_equal "value_from_cli_opts"
         cfg.final_options[:target_id].must_equal "value_from_cli_opts"
@@ -472,7 +472,7 @@ describe "Inspec::Config" do
       let(:command) { :shell } # shell default is [ :cli ]
       let(:file_fixture_name) { :override_check } # This fixture sets the cfg file contents to request a json reporter
       it "the config file setting should prevail" do
-        expected = %w{reporter target_id type}.sort
+        expected = %w{cli_options reporter target_id type version}.sort
         seen_fields.must_equal expected
         cfg.final_options["reporter"].must_be_kind_of Hash
         cfg.final_options["reporter"].keys.must_equal ["json"]
