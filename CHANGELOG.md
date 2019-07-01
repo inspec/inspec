@@ -1,31 +1,28 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.6.9 -->
-## [v4.6.9](https://github.com/inspec/inspec/tree/v4.6.9) (2019-07-01)
-
-#### Merged Pull Requests
-- use stdlib SecureRandom to generate a password [#4246](https://github.com/inspec/inspec/pull/4246) ([robbkidd](https://github.com/robbkidd))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.6.4 -->
-### Changes since 4.6.4 release
-
-#### Bug Fixes
-- Set the umask on travis in before_install so that file resource permission matcher can be tested [#4223](https://github.com/inspec/inspec/pull/4223) ([zenspider](https://github.com/zenspider)) <!-- 4.6.6 -->
-
-#### Merged Pull Requests
-- use stdlib SecureRandom to generate a password [#4246](https://github.com/inspec/inspec/pull/4246) ([robbkidd](https://github.com/robbkidd)) <!-- 4.6.9 -->
-- Add .bldr.toml for Linux 2 Habitat builds [#4231](https://github.com/inspec/inspec/pull/4231) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.6.8 -->
-- Update date on our timebomb. [#4232](https://github.com/inspec/inspec/pull/4232) ([miah](https://github.com/miah)) <!-- 4.6.7 -->
-- Allow to switch off the license check for community distributions [#4156](https://github.com/inspec/inspec/pull/4156) ([artem-sidorenko](https://github.com/artem-sidorenko)) <!-- 4.6.5 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.6.9](https://github.com/inspec/inspec/tree/v4.6.9) (2019-07-01)
+
+#### Bug Fixes
+- Set the umask on travis in before_install so that file resource permission matcher can be tested [#4223](https://github.com/inspec/inspec/pull/4223) ([zenspider](https://github.com/zenspider))
+
+#### Merged Pull Requests
+- Allow to switch off the license check for community distributions [#4156](https://github.com/inspec/inspec/pull/4156) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Update date on our timebomb. [#4232](https://github.com/inspec/inspec/pull/4232) ([miah](https://github.com/miah))
+- Add .bldr.toml for Linux 2 Habitat builds [#4231](https://github.com/inspec/inspec/pull/4231) ([TheLunaticScripter](https://github.com/TheLunaticScripter))
+- use stdlib SecureRandom to generate a password [#4246](https://github.com/inspec/inspec/pull/4246) ([robbkidd](https://github.com/robbkidd))
+<!-- latest_stable_release -->
+
 ## [v4.6.4](https://github.com/inspec/inspec/tree/v4.6.4) (2019-06-19)
 
 #### Bug Fixes
 - nginx_conf: Fix commented/empty file parsing [#4215](https://github.com/inspec/inspec/pull/4215) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-<!-- latest_stable_release -->
 
 ## [v4.6.3](https://github.com/inspec/inspec/tree/v4.6.3) (2019-06-17)
 
