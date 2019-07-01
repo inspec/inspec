@@ -3,7 +3,6 @@
 require "bundler"
 require "bundler/gem_helper"
 require "rake/testtask"
-require "passgen"
 require "train"
 require_relative "tasks/maintainers"
 require_relative "tasks/spdx"
@@ -252,8 +251,9 @@ namespace :test do
       creds = connection.options
 
       # Determine the storage account name and the admin password
+      require "securerandom"
       sa_name = (0...15).map { (65 + rand(26)).chr }.join.downcase
-      admin_password = Passgen.generate(length: 12, uppercase: true, lowercase: true, symbols: true, digits: true)
+      admin_password = SecureRandom.alphanumeric(72)
 
       # Use the first 4 characters of the storage account to create a suffix
       suffix = sa_name[0..3]
