@@ -265,8 +265,8 @@ namespace :test do
 
       # Determine the storage account name and the admin password
       require "securerandom"
-      sa_name = (0...15).map { (65 + rand(26)).chr }.join.downcase
-      admin_password = SecureRandom.alphanumeric(72)
+      sa_name = ("a".."z").to_a.sample(15).join
+      admin_password = SecureRandom.alphanumeric 72
 
       # Use the first 4 characters of the storage account to create a suffix
       suffix = sa_name[0..3]
