@@ -13,6 +13,7 @@ class MockLoader
     debian6: { name: "debian", family: "debian", release: "6", arch: "x86_64" },
     debian7: { name: "debian", family: "debian", release: "7", arch: "x86_64" },
     debian8: { name: "debian", family: "debian", release: "8", arch: "x86_64" },
+    debian10: { name: "debian", family: "debian", release: "buster/sid", arch: "x86_64" },
     freebsd9: { name: "freebsd", family: "freebsd", release: "9", arch: "amd64" },
     freebsd10: { name: "freebsd", family: "freebsd", release: "10", arch: "amd64" },
     osx104: { name: "mac_os_x", family: "darwin", release: "10.10.4", arch: nil },

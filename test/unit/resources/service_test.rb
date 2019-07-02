@@ -330,6 +330,19 @@ describe "Inspec::Resources::Service" do
     _(resource.params).must_equal params
   end
 
+  # debian 10 with systemd
+  it "verify debian 10 service parsing" do
+    resource = MockLoader.new(:debian10).load_resource("service", "sshd")
+    params = Hashie::Mash.new({ "ActiveState" => "active", "Description" => "OpenSSH server daemon", "Id" => "sshd.service", "LoadState" => "loaded", "Names" => "sshd.service", "SubState" => "running", "UnitFileState" => "enabled" })
+    _(resource.type).must_equal "systemd"
+    _(resource.name).must_equal "sshd.service"
+    _(resource.description).must_equal "OpenSSH server daemon"
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+  end
+
   # debian 8 with systemd but no service file
   it "gets the correct service info when the `.service` file is missing" do
     resource = MockLoader.new(:debian8).load_resource("service", "apache2")
