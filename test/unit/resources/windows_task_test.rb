@@ -20,8 +20,8 @@ describe "Inspec::Resources::WindowsTasks" do
     _(resource_fail.exists?).must_equal false
   end
 
-  %w(WeLovePizza WeLoveMultiplePizzas).each do |task_name|
-    it 'parses a Windows task correctly regardless of the number of triggers' do
+  %w{WeLovePizza WeLoveMultiplePizzas}.each do |task_name|
+    it "parses a Windows task correctly regardless of the number of triggers" do
       assert_windows_task_parsing(task_name)
     end
   end
