@@ -39,6 +39,7 @@ path, `--ssl` to use SSL for transport layer encryption.
 $ inspec shell -t ssh://root@192.168.64.2:11022  # Login to remote machine using ssh as root.
 $ inspec shell -t ssh://user@hostname:1234 -i /path/to/user_key  # Login to hostname on port 1234 as user using given ssh key.
 $ inspec shell -t winrm://UserName:Password@windowsmachine:1234  # Login to windowsmachine over WinRM as UserName.
+$ inspec shell -t winrm://windowsmachine --user 'UserName@domain' --password 'Secret123!' # Login to windowsmachine as UserName@domain.org.
 $ inspec shell -t docker://container_id # Login to a Docker container.
 ```
 
