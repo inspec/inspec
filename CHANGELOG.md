@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Enhancements
+- Add CLI target examples for Windows domain users [#4238](https://github.com/inspec/inspec/pull/4238) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.6.9 -->
+### Changes since 4.6.9 release
+
+#### Enhancements
+- Add CLI target examples for Windows domain users [#4238](https://github.com/inspec/inspec/pull/4238) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 4.6.9 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
