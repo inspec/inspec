@@ -248,11 +248,11 @@ class PluginInstallerInstallationTests < Minitest::Test
     # are the names of real rubygems.  They are not InSpec/Train plugins, though,
     # and installing them would be a jam-up.
     # This is configured in 'etc/plugin-filter.json'.
-    [
-      "inspec-core",
-      "inspec-multi-server",
-      "train-tax-calculator",
-    ].each do |plugin_name|
+    %w{
+      inspec-core
+      inspec-multi-server
+      train-tax-calculator
+    }.each do |plugin_name|
       ex = assert_raises(Inspec::Plugin::V2::InstallError) { @installer.install(plugin_name) }
       assert_includes(ex.message, "on the Plugin Exclusion List")
       assert_includes(ex.message, "Rationale:")
@@ -490,10 +490,10 @@ class PluginInstallerSearchTests < Minitest::Test
     # are the names of real rubygems.  They are not InSpec/Train plugins, though,
     # and installing them would be a jam-up.
     # This is configured in 'etc/plugin_filters.json'.
-    [
-      "inspec-core",
-      "inspec-multi-server",
-    ].each do |plugin_name|
+    %w{
+      inspec-core
+      inspec-multi-server
+    }.each do |plugin_name|
       refute results.key(plugin_name)
     end
   end

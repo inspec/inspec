@@ -213,10 +213,10 @@ module MAEPB
       Aws::ElasticLoadBalancing::Types::DescribeAccessPointsOutput.new(
         load_balancer_descriptions: [
           Aws::ElasticLoadBalancing::Types::LoadBalancerDescription.new(
-            availability_zones: [
-              "us-east-1a",
-              "us-east-1c",
-            ],
+            availability_zones: %w{
+              us-east-1a
+              us-east-1c
+            },
             dns_name: "12345678.us-east-1.aws.amazon.com",
             load_balancer_name: "kang-the-alien",
             listener_descriptions: [
@@ -233,22 +233,22 @@ module MAEPB
               Aws::ElasticLoadBalancing::Types::Instance.new(instance_id: "i-12345678"),
               Aws::ElasticLoadBalancing::Types::Instance.new(instance_id: "i-aaaabbbb"),
             ],
-            security_groups: [
-              "sg-12345678",
-              "sg-aaaabbbb",
-              "sg-99998888",
-            ],
-            subnets: [
-              "subnet-12345678",
-              "subnet-aaaabbbb",
-            ],
+            security_groups: %w{
+              sg-12345678
+              sg-aaaabbbb
+              sg-99998888
+            },
+            subnets: %w{
+              subnet-12345678
+              subnet-aaaabbbb
+            },
             vpc_id: "vpc-12345678"
           ),
           Aws::ElasticLoadBalancing::Types::LoadBalancerDescription.new(
-            availability_zones: [
-              "us-east-1b",
-              "us-east-1c",
-            ],
+            availability_zones: %w{
+              us-east-1b
+              us-east-1c
+            },
             dns_name: "12345678.us-east-2.aws.amazon.com",
             load_balancer_name: "kangaroo",
             listener_descriptions: [
@@ -264,21 +264,21 @@ module MAEPB
             instances: [
               Aws::ElasticLoadBalancing::Types::Instance.new(instance_id: "i-87654321"),
             ],
-            security_groups: [
-              "sg-12345678",
-              "sg-99998888",
-            ],
-            subnets: [
-              "subnet-12345678",
-              "subnet-aaaabbbb",
-            ],
+            security_groups: %w{
+              sg-12345678
+              sg-99998888
+            },
+            subnets: %w{
+              subnet-12345678
+              subnet-aaaabbbb
+            },
             vpc_id: "vpc-12345678"
           ),
           Aws::ElasticLoadBalancing::Types::LoadBalancerDescription.new(
-            availability_zones: [
-              "us-east-1a",
-              "us-east-1e",
-            ],
+            availability_zones: %w{
+              us-east-1a
+              us-east-1e
+            },
             dns_name: "999999.us-east-1.aws.amazon.com",
             load_balancer_name: "gamma",
             listener_descriptions: [
@@ -293,15 +293,15 @@ module MAEPB
             ],
             instances: [
             ],
-            security_groups: [
-              "sg-12345678",
-              "sg-99998888",
-              "sg-01010101",
-            ],
-            subnets: [
-              "subnet-ccccdddd",
-              "subnet-aaaabbbb",
-            ],
+            security_groups: %w{
+              sg-12345678
+              sg-99998888
+              sg-01010101
+            },
+            subnets: %w{
+              subnet-ccccdddd
+              subnet-aaaabbbb
+            },
             vpc_id: "vpc-87654321"
           )
         ]

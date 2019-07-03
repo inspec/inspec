@@ -461,9 +461,9 @@ module Inspec::Plugin::V2
 
       # Combine the Sets, so the resolver has one composite place to look
       Gem::Resolver.compose_sets(
-        installed_plugins_gem_set,     # The gems that are in the plugin gem path directory tree
+        installed_plugins_gem_set, # The gems that are in the plugin gem path directory tree
         InstalledVendorSet.new,
-        *extra_request_sets,           # Anything else our caller wanted to include
+        *extra_request_sets # Anything else our caller wanted to include
       )
     end
 

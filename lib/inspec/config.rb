@@ -295,19 +295,19 @@ module Inspec
     def validate_reporters!(reporters)
       return if reporters.nil?
       # TODO: move this into a reporter plugin type system
-      valid_types = [
-        "automate",
-        "cli",
-        "documentation",
-        "html",
-        "json",
-        "json-automate",
-        "json-min",
-        "json-rspec",
-        "junit",
-        "progress",
-        "yaml",
-      ]
+      valid_types = %w{
+        automate
+        cli
+        documentation
+        html
+        json
+        json-automate
+        json-min
+        json-rspec
+        junit
+        progress
+        yaml
+      }
 
       reporters.each do |reporter_name, reporter_config|
         raise NotImplementedError, "'#{reporter_name}' is not a valid reporter type." unless valid_types.include?(reporter_name)

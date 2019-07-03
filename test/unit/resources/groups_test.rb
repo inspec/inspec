@@ -58,8 +58,8 @@ describe "groups resource on windows platform" do
 
     it "finds no group domains" do
       _(resource.domains.count).must_equal 4
-      _(resource.domains).must_equal ["WIN-CIV7VMLVHLD", "WIN-CIV7VMLVHLD",
-                                      "WIN-CIV7VMLVHLD", "WIN-CIV7VMLVHLD"]
+      _(resource.domains).must_equal %w{WIN-CIV7VMLVHLD WIN-CIV7VMLVHLD
+                                      WIN-CIV7VMLVHLD WIN-CIV7VMLVHLD}
     end
   end
 

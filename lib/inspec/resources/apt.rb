@@ -102,7 +102,7 @@ module Inspec::Resources
           components: parse_repo[4].chomp.split(" "),
           active: active,
         }
-        next unless ["deb", "deb-src"].include? repo[:type]
+        next unless %w{deb deb-src}.include? repo[:type]
 
         lines.push(repo)
       end

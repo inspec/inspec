@@ -54,7 +54,7 @@ describe "Inspec::Resources::Processes" do
   it "verify processes resource using where filters on linux os. String match regex" do
     resource = MockLoader.new(:centos6).load_resource("processes", ".+")
     _(resource.entries.length).must_equal 8
-    _(resource.where { pid < 11663 && cpu == "0.0" }.users).must_equal(["opscode-pgsql", "opscode", "root", "httpd"])
+    _(resource.where { pid < 11663 && cpu == "0.0" }.users).must_equal(%w{opscode-pgsql opscode root httpd})
     _(resource.where { user =~ /opscode-.*/ }.entries[0].to_h).must_equal({
       label: "system_u:system_r:init_t:s0",
       pid: 5127,

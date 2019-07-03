@@ -233,10 +233,10 @@ class PluginManagerCliSearch < Minitest::Test
     result = run_inspec_process("plugin search --include-test-fixture inspec-")
     assert_equal 0, result.exit_status, "Search should exit 0"
     assert_includes result.stdout, "inspec-test-fixture", "Search result should contain the test gem"
-    [
-      "inspec-core",
-      "inspec-multi-server",
-    ].each do |plugin_name|
+    %w{
+      inspec-core
+      inspec-multi-server
+    }.each do |plugin_name|
       refute_includes result.stdout, plugin_name, "Search result should not contain excluded gems"
     end
   end
@@ -555,11 +555,11 @@ class PluginManagerCliInstall < Minitest::Test
     # are the names of real rubygems.  They are not InSpec/Train plugins, though,
     # and installing them would be a jam-up.
     # This is configured in 'etc/plugin-filter.json'.
-    [
-      "inspec-core",
-      "inspec-multi-server",
-      "train-tax-calculator",
-    ].each do |plugin_name|
+    %w{
+      inspec-core
+      inspec-multi-server
+      train-tax-calculator
+    }.each do |plugin_name|
       install_result = run_inspec_process_with_this_plugin("plugin install #{plugin_name}")
       assert_empty install_result.stderr
       assert_equal 2, install_result.exit_status, "Exit status should be 2"

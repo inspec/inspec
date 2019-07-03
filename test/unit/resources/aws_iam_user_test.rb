@@ -327,7 +327,7 @@ module MAIUB
           policy_names: []
         ),
         "leslie" => Aws::IAM::Types::ListUserPoliciesResponse.new(
-          policy_names: ["leslie-inline-01", "leslie-inline-02"]
+          policy_names: %w{leslie-inline-01 leslie-inline-02}
         ),
         "jared" => Aws::IAM::Types::ListUserPoliciesResponse.new(
           policy_names: ["jared-inline-01"]
