@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.6.10 -->
-## [v4.6.10](https://github.com/inspec/inspec/tree/v4.6.10) (2019-07-02)
+<!-- latest_release 4.6.11 -->
+## [v4.6.11](https://github.com/inspec/inspec/tree/v4.6.11) (2019-07-03)
 
-#### Bug Fixes
-- Debian service detection for Buster [#4233](https://github.com/inspec/inspec/pull/4233) ([jaredledvina](https://github.com/jaredledvina))
-
-#### Enhancements
-- Add CLI target examples for Windows domain users [#4238](https://github.com/inspec/inspec/pull/4238) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Merged Pull Requests
+- Deprecate Ubuntu-14 [#4254](https://github.com/inspec/inspec/pull/4254) ([christopher-snapp](https://github.com/christopher-snapp))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.6.9 -->
 ### Changes since 4.6.9 release
+
+#### Merged Pull Requests
+- Deprecate Ubuntu-14 [#4254](https://github.com/inspec/inspec/pull/4254) ([christopher-snapp](https://github.com/christopher-snapp)) <!-- 4.6.11 -->
 
 #### Bug Fixes
 - Debian service detection for Buster [#4233](https://github.com/inspec/inspec/pull/4233) ([jaredledvina](https://github.com/jaredledvina)) <!-- 4.6.10 -->
