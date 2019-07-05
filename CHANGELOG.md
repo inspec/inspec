@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Add test coverage to pipeline [#4264](https://github.com/inspec/inspec/pull/4264) ([miah](https://github.com/miah))
 - maintainer_group is deprecated [#4263](https://github.com/inspec/inspec/pull/4263) ([miah](https://github.com/miah))
 - properly declare environment variable [#4262](https://github.com/inspec/inspec/pull/4262) ([miah](https://github.com/miah))
 <!-- latest_release -->
@@ -12,6 +13,7 @@
 ### Changes since 4.6.9 release
 
 #### Merged Pull Requests
+- Add test coverage to pipeline [#4264](https://github.com/inspec/inspec/pull/4264) ([miah](https://github.com/miah)) <!-- 4.6.13 -->
 - maintainer_group is deprecated [#4263](https://github.com/inspec/inspec/pull/4263) ([miah](https://github.com/miah)) <!-- 4.6.13 -->
 - properly declare environment variable [#4262](https://github.com/inspec/inspec/pull/4262) ([miah](https://github.com/miah)) <!-- 4.6.13 -->
 - Add steps to verify pipeline [#4258](https://github.com/inspec/inspec/pull/4258) ([miah](https://github.com/miah)) <!-- 4.6.13 -->
