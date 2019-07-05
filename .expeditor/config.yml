@@ -13,8 +13,8 @@ rubygems:
 
 docker_images:
  - inspec:
-   build_args:
-    - GEM_SOURCE: http://artifactory.chef.co/omnibus-gems-local
+    build_args:
+     - GEM_SOURCE: http://artifactory.chef.co/omnibus-gems-local
 
 pipelines:
  - habitat/build
@@ -46,13 +46,13 @@ github:
  version_tag_format: v{{version}}
  release_branch:
   - master:
-    version_constraint: 4.*
+     version_constraint: 4.*
   - 1-stable:
-    version_constraint: 1.*
+     version_constraint: 1.*
   - 2-stable:
-    version_constraint: 2.*
+     version_constraint: 2.*
   - 3-stable:
-    version_constraint: 3.*
+     version_constraint: 3.*
 
 changelog:
  categories:
