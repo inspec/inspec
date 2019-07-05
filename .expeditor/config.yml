@@ -7,14 +7,14 @@ rubygems:
  - inspec
  - inspec-core
  - inspec-bin:
-     gemspec_path: ./inspec-bin/
+    gemspec_path: ./inspec-bin/
  - inspec-core-bin:
-     gemspec_path: ./inspec-bin/
+    gemspec_path: ./inspec-bin/
 
 docker_images:
-  - inspec:
-      build_args:
-        - GEM_SOURCE: http://artifactory.chef.co/omnibus-gems-local
+ - inspec:
+   build_args:
+    - GEM_SOURCE: http://artifactory.chef.co/omnibus-gems-local
 
 pipelines:
  - habitat/build
@@ -36,70 +36,68 @@ pipelines:
      - CI_ENABLE_COVERAGE: true
      - SLOW: 1
 
-# Slack channel in Chef Software slack to send notifications about build failures, etc
 slack:
-  notify_channel: inspec-notify
+ notify_channel: inspec-notify
 
 github:
-  delete_branch_on_merge: true
-  minor_bump_labels:
-    - "Version: Bump Minor"
-  version_tag_format: v{{version}}
-  release_branch:
-    - master:
-        version_constraint: 4.*
-    - 1-stable:
-        version_constraint: 1.*
-    - 2-stable:
-        version_constraint: 2.*
-    - 3-stable:
-        version_constraint: 3.*
+ delete_branch_on_merge: true
+ minor_bump_labels:
+  - "Version: Bump Minor"
+ version_tag_format: v{{version}}
+ release_branch:
+  - master:
+    version_constraint: 4.*
+  - 1-stable:
+    version_constraint: 1.*
+  - 2-stable:
+    version_constraint: 2.*
+  - 3-stable:
+    version_constraint: 3.*
 
 changelog:
-  categories:
-    - "Type: New Resource": "New Resources"
-    - "Type: New Feature": "New Features"
-    - "Type: Enhancement": "Enhancements"
-    - "Type: Bug": "Bug Fixes"
+ categories:
+  - "Type: New Resource": "New Resources"
+  - "Type: New Feature": "New Features"
+  - "Type: Enhancement": "Enhancements"
+  - "Type: Bug": "Bug Fixes"
 
 merge_actions:
-  - built_in:bump_version:
-      ignore_labels:
-        - "Version: Skip Bump"
-        - "Expeditor: Skip All"
-  - bash:.expeditor/update_version.sh:
-      only_if: built_in:bump_version
-  - built_in:update_changelog:
-      ignore_labels:
-        - "Changelog: Skip Update"
-        - "Expeditor: Skip All"
-  - trigger_pipeline:omnibus/release:
-      ignore_labels:
-        - "Omnibus: Skip Build"
-        - "Expeditor: Skip All"
-      only_if: built_in:bump_version
-  - trigger_pipeline:habitat/build:
-      ignore_labels:
-        - "Habitat: Skip Build"
-        - "Expeditor: Skip All"
-  - built_in:build_gem:
-      only_if:
-        - built_in:bump_version
+ - built_in:bump_version:
+    ignore_labels:
+     - "Version: Skip Bump"
+     - "Expeditor: Skip All"
+ - bash:.expeditor/update_version.sh:
+    only_if: built_in:bump_version
+ - built_in:update_changelog:
+    ignore_labels:
+     - "Changelog: Skip Update"
+     - "Expeditor: Skip All"
+ - trigger_pipeline:omnibus/release:
+    ignore_labels:
+     - "Omnibus: Skip Build"
+     - "Expeditor: Skip All"
+ - trigger_pipeline:habitat/build:
+    ignore_labels:
+     - "Habitat: Skip Build"
+     - "Expeditor: Skip All"
+ - built_in:build_gem:
+    only_if:
+     - built_in:bump_version
 
 subscriptions:
-  - workload: artifact_published:unstable:inspec:{{version_constraint}}
-    actions:
-      - built_in:build_docker_image
-  - workload: artifact_published:current:inspec:{{version_constraint}}
-    actions:
-      - built_in:tag_docker_image
-      - built_in:promote_habitat_packages
-  - workload: artifact_published:stable:inspec:{{version_constraint}}
-    actions:
-      - bash:.expeditor/update_dockerfile.sh
-      - built_in:rollover_changelog
-      - built_in:publish_rubygems
-      - built_in:create_github_release
-      - built_in:tag_docker_image
-      - built_in:promote_habitat_packages
-      - built_in:notify_chefio_slack_channels
+ - workload: artifact_published:unstable:inspec:{{version_constraint}}
+   actions:
+    - built_in:build_docker_image
+ - workload: artifact_published:current:inspec:{{version_constraint}}
+   actions:
+    - built_in:tag_docker_image
+    - built_in:promote_habitat_packages
+ - workload: artifact_published:stable:inspec:{{version_constraint}}
+   actions:
+    - bash:.expeditor/update_dockerfile.sh
+    - built_in:rollover_changelog
+    - built_in:publish_rubygems
+    - built_in:create_github_release
+    - built_in:tag_docker_image
+    - built_in:promote_habitat_packages
+    - built_in:notify_chefio_slack_channels
