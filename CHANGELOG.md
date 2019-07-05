@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.6.13 -->
-## [v4.6.13](https://github.com/inspec/inspec/tree/v4.6.13) (2019-07-05)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Add steps to verify pipeline [#4258](https://github.com/inspec/inspec/pull/4258) ([miah](https://github.com/miah))
-- Update azure_resource_group.md.erb [#4259](https://github.com/inspec/inspec/pull/4259) ([kekaichinose](https://github.com/kekaichinose))
+- properly declare environment variable [#4262](https://github.com/inspec/inspec/pull/4262) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.6.9 -->
 ### Changes since 4.6.9 release
 
 #### Merged Pull Requests
+- properly declare environment variable [#4262](https://github.com/inspec/inspec/pull/4262) ([miah](https://github.com/miah)) <!-- 4.6.13 -->
 - Add steps to verify pipeline [#4258](https://github.com/inspec/inspec/pull/4258) ([miah](https://github.com/miah)) <!-- 4.6.13 -->
 - Update azure_resource_group.md.erb [#4259](https://github.com/inspec/inspec/pull/4259) ([kekaichinose](https://github.com/kekaichinose)) <!-- 4.6.12 -->
 - Add a verify pipeline to buildkite [#4257](https://github.com/inspec/inspec/pull/4257) ([miah](https://github.com/miah)) <!-- 4.6.12 -->
