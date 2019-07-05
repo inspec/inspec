@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.6.13 -->
+## [v4.6.13](https://github.com/inspec/inspec/tree/v4.6.13) (2019-07-05)
 
 #### Merged Pull Requests
+- Add steps to verify pipeline [#4258](https://github.com/inspec/inspec/pull/4258) ([miah](https://github.com/miah))
 - Update azure_resource_group.md.erb [#4259](https://github.com/inspec/inspec/pull/4259) ([kekaichinose](https://github.com/kekaichinose))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.6.9 release
 
 #### Merged Pull Requests
+- Add steps to verify pipeline [#4258](https://github.com/inspec/inspec/pull/4258) ([miah](https://github.com/miah)) <!-- 4.6.13 -->
 - Update azure_resource_group.md.erb [#4259](https://github.com/inspec/inspec/pull/4259) ([kekaichinose](https://github.com/kekaichinose)) <!-- 4.6.12 -->
 - Add a verify pipeline to buildkite [#4257](https://github.com/inspec/inspec/pull/4257) ([miah](https://github.com/miah)) <!-- 4.6.12 -->
 - Deprecate Ubuntu-14 [#4254](https://github.com/inspec/inspec/pull/4254) ([christopher-snapp](https://github.com/christopher-snapp)) <!-- 4.6.11 -->
