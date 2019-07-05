@@ -27,8 +27,8 @@ pipelines:
       description: Pull Request validation tests
       public: true
       env:
-        - SLOW=1
-        - NO_AWS=1
+        - SLOW: 1
+        - NO_AWS: 1
 
 # Slack channel in Chef Software slack to send notifications about build failures, etc
 slack:
