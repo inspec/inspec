@@ -1,10 +1,12 @@
+---
+
 steps:
 
-- label: coverage
-  command:
-    - bundle install --jobs=7 --retry=3 --without tools maintenance deploy
-    - bundle exec rake test
-  expeditor:
-    executor:
-      docker:
-        image: ruby:2.6-stretch
+  - label: coverage
+    command:
+      - bundle install --jobs=7 --retry=3 --without tools maintenance deploy
+      - bundle exec rake test
+    expeditor:
+      executor:
+        docker:
+          image: ruby:2.6-stretch

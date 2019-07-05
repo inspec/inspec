@@ -17,24 +17,24 @@ docker_images:
         - GEM_SOURCE: http://artifactory.chef.co/omnibus-gems-local
 
 pipelines:
-  - habitat/build
-  - omnibus/release
-  - omnibus/adhoc:
-      definition: .expeditor/release.omnibus.yml
-      env:
-        - ADHOC: true
-  - verify:
-      description: Pull Request validation tests
-      public: true
-      env:
-        - SLOW: 1
-        - NO_AWS: 1
-  - coverage:
-      description: Generate test coverage report
-      public: true
-      env:
-        - CI_ENABLE_COVERAGE: true
-	- SLOW: 1
+ - habitat/build
+ - omnibus/release
+ - omnibus/adhoc:
+    definition: .expeditor/release.omnibus.yml
+    env:
+     - ADHOC: true
+ - verify:
+    description: Pull Request validation tests
+    public: true
+    env:
+     - SLOW: 1
+     - NO_AWS: 1
+ - coverage:
+    description: Generate test coverage report
+    public: true
+    env:
+     - CI_ENABLE_COVERAGE: true
+     - SLOW: 1
 
 # Slack channel in Chef Software slack to send notifications about build failures, etc
 slack:
