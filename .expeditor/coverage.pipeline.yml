@@ -5,7 +5,7 @@ steps:
   - label: coverage
     command:
       - bundle install --jobs=7 --retry=3 --without tools maintenance deploy
-      - bundle exec rake test
+      - bundle exec rake test:default
     expeditor:
       executor:
         docker:
