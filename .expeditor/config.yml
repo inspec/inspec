@@ -36,7 +36,6 @@ slack:
 
 github:
   delete_branch_on_merge: true
-  maintainer_group: chef/inspec-maintainers
   minor_bump_labels:
     - "Version: Bump Minor"
   version_tag_format: v{{version}}
