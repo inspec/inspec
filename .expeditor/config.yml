@@ -29,6 +29,12 @@ pipelines:
       env:
         - SLOW: 1
         - NO_AWS: 1
+  - coverage:
+      description: Generate test coverage report
+      public: true
+      env:
+        - CI_ENABLE_COVERAGE: true
+	- SLOW: 1
 
 # Slack channel in Chef Software slack to send notifications about build failures, etc
 slack:
