@@ -1,11 +1,11 @@
 ---
-title: About the azure_resource_group_resource_counts Resource
+title: About the azure_resource_group_resource_count Resource
 platform: azure
 ---
 
-# azure\_resource\_group\_resource\_counts
+# azure\_resource\_group\_resource\_count
 
-Use the `azure_resource_group_resource_counts` Chef InSpec audit resource to check the number of Azure resources in a resource group.
+Use the `azure_resource_group_resource_count` Chef InSpec audit resource to check the number of Azure resources in a resource group.
 
 ## Availability
 
@@ -37,13 +37,13 @@ The following examples show how to use this Chef InSpec audit resource:
 
 ### Ensure the Resource Group has the correct number of resources
 
-    describe azure_resource_group_resource_counts(name: 'Inspec-Azure') do
+    describe azure_resource_group_resource_count(name: 'InSpec-Azure') do
       its('total') { should eq 7}
     end
 
 ### Ensure that the Resource Group contains the correct resources
 
-    describe azure_resource_group_resource_counts(name: 'Inspec-Azure') do
+    describe azure_resource_group_resource_count(name: 'InSpec-Azure') do
       its('total') { should eq 7 }
       its('vm_count') { should eq 2 }
       its('nic_count') { should eq 2 }
@@ -91,7 +91,7 @@ When the options have been set as well as the environment variables, the environ
 
 ## Parameter Example
 
-    describe azure_generic_resource(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM') do
+    describe azure_generic_resource(group_name: 'InSpec-Azure', name: 'Linux-Internal-VM') do
       its('location') { should eq 'westeurope' }
     end
 
@@ -111,7 +111,7 @@ This Chef InSpec audit resource has the following properties:
 
 Tests the name of the resource group.
 
-    its('name') { should cmp 'Inspec-Azure' }
+    its('name') { should cmp 'InSpec-Azure' }
 
 ### location
 
