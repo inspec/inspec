@@ -127,7 +127,7 @@ module Inspec
         cli_input_files: options[:runner_conf][:input_file], # From CLI --input-file
         profile_metadata: metadata,
         # TODO: deprecation checks here
-        runner_api: options[:runner_conf][:attributes], # This is the route the audit_cookbook and kitchen-inspec take
+        runner_api: options[:runner_conf][:attributes] # This is the route the audit_cookbook and kitchen-inspec take
       )
 
       @runner_context =

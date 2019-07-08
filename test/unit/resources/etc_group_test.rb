@@ -22,7 +22,7 @@ describe "Inspec::Resources::EtcGroup" do
     www_filter = resource.where(name: "www-data")
     _(www_filter.gids).must_equal [33]
     _(www_filter.groups).must_equal ["www-data"]
-    _(www_filter.users).must_equal ["www-data", "root"]
+    _(www_filter.users).must_equal %w{www-data root}
   end
 
   it "verify group filter with wrong group" do
@@ -36,7 +36,7 @@ describe "Inspec::Resources::EtcGroup" do
     www_filter = resource.where(gid: 33)
     _(www_filter.gids).must_equal [33]
     _(www_filter.groups).must_equal ["www-data"]
-    _(www_filter.users).must_equal ["www-data", "root"]
+    _(www_filter.users).must_equal %w{www-data root}
   end
 
   it "verify group filter with wrong gid" do
@@ -50,7 +50,7 @@ describe "Inspec::Resources::EtcGroup" do
     www_filter = resource.where(users: "www-data,root")
     _(www_filter.gids).must_equal [33]
     _(www_filter.groups).must_equal ["www-data"]
-    _(www_filter.users).must_equal ["www-data", "root"]
+    _(www_filter.users).must_equal %w{www-data root}
   end
 
   it "verify group filter with no group members" do

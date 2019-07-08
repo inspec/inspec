@@ -14,7 +14,7 @@ module Inspec::Plugin::V2
     :loaded,                  # true, false False could mean not attempted or failed
     :load_exception,          # Exception class if it failed to load
     :name,                    # String name
-    :version,                 # three-digit version.  Core / bundled plugins use InSpec version here.
+    :version # three-digit version.  Core / bundled plugins use InSpec version here.
   ) do
     def initialize(*)
       super

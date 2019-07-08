@@ -95,7 +95,7 @@ end
     end
 
     it "constructs a resource+argument block without a property call" do
-      obj.qualifier = [["service", "avahi-daemon"]]
+      obj.qualifier = [%w{service avahi-daemon}]
       obj.qualifier.push(["info['properties']['UnitFileState']"])
       obj.add_test(nil, "eq", "enabled")
       obj.to_ruby.must_equal '
