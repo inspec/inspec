@@ -1,6 +1,6 @@
 if platform_family?("rhel", "debian", "fedora", "amazon", "suse")
   package value_for_platform_family(
-    [ "centos", "oracle"] => [ "iptables", "iptables-ipv6" ],
+    %w{centos oracle} => %w{iptables iptables-ipv6},
     "default" => [ "iptables" ]
   )
   # IPv4
