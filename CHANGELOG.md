@@ -1,17 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.7.0 -->
-## [v4.7.0](https://github.com/inspec/inspec/tree/v4.7.0) (2019-07-08)
-
-#### New Resources
-- Add ip6tables resource [#4236](https://github.com/inspec/inspec/pull/4236) ([ramereth](https://github.com/ramereth))
+<!-- latest_release 4.7.1 -->
+## [v4.7.1](https://github.com/inspec/inspec/tree/v4.7.1) (2019-07-08)
 
 #### Merged Pull Requests
-- skip lint, just run tests [#4266](https://github.com/inspec/inspec/pull/4266) ([miah](https://github.com/miah))
-- Use correct indentation levels in .expeditor/config.yml [#4267](https://github.com/inspec/inspec/pull/4267) ([tduffield](https://github.com/tduffield))
-- Add test coverage to pipeline [#4264](https://github.com/inspec/inspec/pull/4264) ([miah](https://github.com/miah))
-- maintainer_group is deprecated [#4263](https://github.com/inspec/inspec/pull/4263) ([miah](https://github.com/miah))
-- properly declare environment variable [#4262](https://github.com/inspec/inspec/pull/4262) ([miah](https://github.com/miah))
+- Add allowed users example to Users resource [#4269](https://github.com/inspec/inspec/pull/4269) ([shoekstra](https://github.com/shoekstra))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.6.9 -->
@@ -21,6 +14,7 @@
 - Add ip6tables resource [#4236](https://github.com/inspec/inspec/pull/4236) ([ramereth](https://github.com/ramereth)) <!-- 4.7.0 -->
 
 #### Merged Pull Requests
+- Add allowed users example to Users resource [#4269](https://github.com/inspec/inspec/pull/4269) ([shoekstra](https://github.com/shoekstra)) <!-- 4.7.1 -->
 - skip lint, just run tests [#4266](https://github.com/inspec/inspec/pull/4266) ([miah](https://github.com/miah)) <!-- 4.6.13 -->
 - Use correct indentation levels in .expeditor/config.yml [#4267](https://github.com/inspec/inspec/pull/4267) ([tduffield](https://github.com/tduffield)) <!-- 4.6.13 -->
 - Add test coverage to pipeline [#4264](https://github.com/inspec/inspec/pull/4264) ([miah](https://github.com/miah)) <!-- 4.6.13 -->
