@@ -147,7 +147,7 @@ RSpec::Matchers.define :be_resolvable do
   end
 end
 
-# matcher for iptables
+# matcher for iptables and ip6tables
 RSpec::Matchers.define :have_rule do |rule|
   match do |tables|
     tables.has_rule?(rule)

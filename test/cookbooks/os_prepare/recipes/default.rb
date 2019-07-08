@@ -37,7 +37,7 @@ include_recipe("os_prepare::service")
 include_recipe("os_prepare::package")
 include_recipe("os_prepare::registry_key")
 include_recipe("os_prepare::iis")
-include_recipe("os_prepare::iptables") unless node["osprepare"]["docker"]
+include_recipe("os_prepare::iptables")
 include_recipe("os_prepare::x509")
 include_recipe("os_prepare::dh_params")
 
