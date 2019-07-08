@@ -1,7 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.7.0 -->
+## [v4.7.0](https://github.com/inspec/inspec/tree/v4.7.0) (2019-07-08)
+
+#### New Resources
+- Add ip6tables resource [#4236](https://github.com/inspec/inspec/pull/4236) ([ramereth](https://github.com/ramereth))
 
 #### Merged Pull Requests
 - skip lint, just run tests [#4266](https://github.com/inspec/inspec/pull/4266) ([miah](https://github.com/miah))
@@ -13,6 +16,9 @@
 
 <!-- release_rollup since=4.6.9 -->
 ### Changes since 4.6.9 release
+
+#### New Resources
+- Add ip6tables resource [#4236](https://github.com/inspec/inspec/pull/4236) ([ramereth](https://github.com/ramereth)) <!-- 4.7.0 -->
 
 #### Merged Pull Requests
 - skip lint, just run tests [#4266](https://github.com/inspec/inspec/pull/4266) ([miah](https://github.com/miah)) <!-- 4.6.13 -->
