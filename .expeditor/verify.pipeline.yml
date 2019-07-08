@@ -1,7 +1,7 @@
 steps:
 
 - label: run-tests-ruby-2.4
-  command:
+  commands:
     - bundle install --jobs=7 --retry=3 --without tools maintenance deploy
     - bundle exec rake
   expeditor:
@@ -10,7 +10,7 @@ steps:
         image: ruby:2.4-stretch
 
 - label: run-tests-ruby-2.5
-  command:
+  commands:
     - bundle install --jobs=7 --retry=3 --without tools maintenance deploy
     - bundle exec rake
   expeditor:
@@ -19,7 +19,7 @@ steps:
         image: ruby:2.5-stretch
 
 - label: run-tests-ruby-2.6
-  command:
+  commands:
     - bundle install --jobs=7 --retry=3 --without tools maintenance deploy
     - bundle exec rake
   expeditor:
