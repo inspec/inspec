@@ -58,6 +58,20 @@ The following examples show how to use this Chef InSpec audit resource.
       it { should exist }
     end
 
+### Test only allowed users exist
+
+    allowed_users = %w(user1 user2 user3)
+
+    users.where { uid > 1000 && uid < 65534 }.usernames.sort.each do |u|
+      describe user(u) do
+        if allowed_users.include?(u)
+          it { should exist }
+        else
+          it { should_not exist }
+        end
+      end
+    end
+
 <br>
 
 ## Matchers
