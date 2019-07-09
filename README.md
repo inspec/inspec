@@ -100,7 +100,6 @@ You may also use `inspec` as a library, with no executable. This does not requir
 gem install inspec
 ```
 
-
 ### Usage via Docker
 
 Download the image and define a function for convenience:
