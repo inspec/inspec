@@ -1,41 +1,39 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.7.3 -->
-## [v4.7.3](https://github.com/inspec/inspec/tree/v4.7.3) (2019-07-09)
-
-#### Merged Pull Requests
-- Pin Chefstyle. [#4280](https://github.com/inspec/inspec/pull/4280) ([miah](https://github.com/miah))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.6.9 -->
-### Changes since 4.6.9 release
-
-#### New Resources
-- Add ip6tables resource [#4236](https://github.com/inspec/inspec/pull/4236) ([ramereth](https://github.com/ramereth)) <!-- 4.7.0 -->
-
-#### Merged Pull Requests
-- Pin Chefstyle. [#4280](https://github.com/inspec/inspec/pull/4280) ([miah](https://github.com/miah)) <!-- 4.7.3 -->
-- 30 minute timeout [#4275](https://github.com/inspec/inspec/pull/4275) ([miah](https://github.com/miah)) <!-- 4.7.2 -->
-- chefstyle recent pr [#4272](https://github.com/inspec/inspec/pull/4272) ([miah](https://github.com/miah)) <!-- 4.7.1 -->
-- Add allowed users example to Users resource [#4269](https://github.com/inspec/inspec/pull/4269) ([shoekstra](https://github.com/shoekstra)) <!-- 4.7.1 -->
-- skip lint, just run tests [#4266](https://github.com/inspec/inspec/pull/4266) ([miah](https://github.com/miah)) <!-- 4.6.13 -->
-- Use correct indentation levels in .expeditor/config.yml [#4267](https://github.com/inspec/inspec/pull/4267) ([tduffield](https://github.com/tduffield)) <!-- 4.6.13 -->
-- Add test coverage to pipeline [#4264](https://github.com/inspec/inspec/pull/4264) ([miah](https://github.com/miah)) <!-- 4.6.13 -->
-- maintainer_group is deprecated [#4263](https://github.com/inspec/inspec/pull/4263) ([miah](https://github.com/miah)) <!-- 4.6.13 -->
-- properly declare environment variable [#4262](https://github.com/inspec/inspec/pull/4262) ([miah](https://github.com/miah)) <!-- 4.6.13 -->
-- Add steps to verify pipeline [#4258](https://github.com/inspec/inspec/pull/4258) ([miah](https://github.com/miah)) <!-- 4.6.13 -->
-- Update azure_resource_group.md.erb [#4259](https://github.com/inspec/inspec/pull/4259) ([kekaichinose](https://github.com/kekaichinose)) <!-- 4.6.12 -->
-- Add a verify pipeline to buildkite [#4257](https://github.com/inspec/inspec/pull/4257) ([miah](https://github.com/miah)) <!-- 4.6.12 -->
-- Deprecate Ubuntu-14 [#4254](https://github.com/inspec/inspec/pull/4254) ([christopher-snapp](https://github.com/christopher-snapp)) <!-- 4.6.11 -->
-
-#### Bug Fixes
-- Debian service detection for Buster [#4233](https://github.com/inspec/inspec/pull/4233) ([jaredledvina](https://github.com/jaredledvina)) <!-- 4.6.10 -->
-
-#### Enhancements
-- Add CLI target examples for Windows domain users [#4238](https://github.com/inspec/inspec/pull/4238) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 4.6.9 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.7.3](https://github.com/inspec/inspec/tree/v4.7.3) (2019-07-09)
+
+#### New Resources
+- Add ip6tables resource [#4236](https://github.com/inspec/inspec/pull/4236) ([ramereth](https://github.com/ramereth))
+
+#### Enhancements
+- Add CLI target examples for Windows domain users [#4238](https://github.com/inspec/inspec/pull/4238) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Bug Fixes
+- Debian service detection for Buster [#4233](https://github.com/inspec/inspec/pull/4233) ([jaredledvina](https://github.com/jaredledvina))
+
+#### Merged Pull Requests
+- Deprecate Ubuntu-14 [#4254](https://github.com/inspec/inspec/pull/4254) ([christopher-snapp](https://github.com/christopher-snapp))
+- Add a verify pipeline to buildkite [#4257](https://github.com/inspec/inspec/pull/4257) ([miah](https://github.com/miah))
+- Update azure_resource_group.md.erb [#4259](https://github.com/inspec/inspec/pull/4259) ([kekaichinose](https://github.com/kekaichinose))
+- Add steps to verify pipeline [#4258](https://github.com/inspec/inspec/pull/4258) ([miah](https://github.com/miah))
+- properly declare environment variable [#4262](https://github.com/inspec/inspec/pull/4262) ([miah](https://github.com/miah))
+- maintainer_group is deprecated [#4263](https://github.com/inspec/inspec/pull/4263) ([miah](https://github.com/miah))
+- Add test coverage to pipeline [#4264](https://github.com/inspec/inspec/pull/4264) ([miah](https://github.com/miah))
+- Use correct indentation levels in .expeditor/config.yml [#4267](https://github.com/inspec/inspec/pull/4267) ([tduffield](https://github.com/tduffield))
+- skip lint, just run tests [#4266](https://github.com/inspec/inspec/pull/4266) ([miah](https://github.com/miah))
+- Add allowed users example to Users resource [#4269](https://github.com/inspec/inspec/pull/4269) ([shoekstra](https://github.com/shoekstra))
+- chefstyle recent pr [#4272](https://github.com/inspec/inspec/pull/4272) ([miah](https://github.com/miah))
+- 30 minute timeout [#4275](https://github.com/inspec/inspec/pull/4275) ([miah](https://github.com/miah))
+- Pin Chefstyle. [#4280](https://github.com/inspec/inspec/pull/4280) ([miah](https://github.com/miah))
+<!-- latest_stable_release -->
+
 ## [v4.6.9](https://github.com/inspec/inspec/tree/v4.6.9) (2019-07-01)
 
 #### Bug Fixes
@@ -46,7 +44,6 @@
 - Update date on our timebomb. [#4232](https://github.com/inspec/inspec/pull/4232) ([miah](https://github.com/miah))
 - Add .bldr.toml for Linux 2 Habitat builds [#4231](https://github.com/inspec/inspec/pull/4231) ([TheLunaticScripter](https://github.com/TheLunaticScripter))
 - use stdlib SecureRandom to generate a password [#4246](https://github.com/inspec/inspec/pull/4246) ([robbkidd](https://github.com/robbkidd))
-<!-- latest_stable_release -->
 
 ## [v4.6.4](https://github.com/inspec/inspec/tree/v4.6.4) (2019-06-19)
 
