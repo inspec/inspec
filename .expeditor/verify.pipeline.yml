@@ -1,3 +1,9 @@
+---
+expeditor:
+  defaults:
+    buildkite:
+      timeout_in_minutes: 30
+      
 steps:
 
 - label: run-tests-ruby-2.4
