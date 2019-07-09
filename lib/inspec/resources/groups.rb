@@ -49,10 +49,10 @@ module Inspec::Resources
 
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
-    filter.register_column(:names,     field: "name")
-          .register_column(:gids,      field: "gid")
-          .register_column(:domains,   field: "domain")
-          .register_column(:members,   field: "members", style: :simple)
+    filter.register_column(:names, field: "name")
+      .register_column(:gids,      field: "gid")
+      .register_column(:domains,   field: "domain")
+      .register_column(:members,   field: "members", style: :simple)
     filter.install_filter_methods_on_resource(self, :collect_group_details)
 
     def to_s
@@ -64,6 +64,7 @@ module Inspec::Resources
     # collects information about every group
     def collect_group_details
       return @groups_cache ||= @group_provider.groups unless @group_provider.nil?
+
       []
     end
   end
@@ -176,6 +177,7 @@ module Inspec::Resources
       groups.each { |g| g["gid"] = g["gid"].to_i }
       groups.each do |g|
         next if g["users"].nil?
+
         g["members"] = g.delete("users")
         g["members"].tr!(" ", ",")
       end

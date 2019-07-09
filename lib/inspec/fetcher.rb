@@ -11,12 +11,13 @@ module Inspec
       end
     end
 
-    NON_FETCHER_KEYS = [:name, :version_constraint, :cwd, :backend, :cache, :sha256].freeze
+    NON_FETCHER_KEYS = %i{name version_constraint cwd backend cache sha256}.freeze
     def fetcher_specified?(target)
       # Only set a default for Hash-based (i.e. from
       # inspec.yml/inspec.lock) targets
 
-      return true if !target.respond_to?(:keys)
+      return true unless target.respond_to?(:keys)
+
       !(target.keys - NON_FETCHER_KEYS).empty?
     end
 
@@ -31,6 +32,7 @@ module Inspec
     if version != 1
       raise "Only fetcher version 1 is supported!"
     end
+
     Inspec::Plugins::Fetcher
   end
 end

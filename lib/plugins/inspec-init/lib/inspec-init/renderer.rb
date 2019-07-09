@@ -54,6 +54,7 @@ module InspecPlugins
         Dir.glob(template_glob) do |source_file|
           relative_destination_item_path = Pathname.new(source_file).relative_path_from(Pathname.new(source_dir)).to_s
           next if skip_files.include? relative_destination_item_path
+
           relative_destination_item_path = file_rename_map[relative_destination_item_path] || relative_destination_item_path
           full_destination_item_path = Pathname.new(full_destination_path).join(relative_destination_item_path)
           if File.directory?(source_file)

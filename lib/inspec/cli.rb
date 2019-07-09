@@ -124,7 +124,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     else
       %w{location profile controls timestamp valid}.each do |item|
         puts format("%-12s %s", item.to_s.capitalize + ":",
-                    mark_text(result[:summary][item.to_sym]))
+          mark_text(result[:summary][item.to_sym]))
       end
       puts
 
@@ -148,8 +148,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
         puts
         puts format("Summary:     %s%d errors%s, %s%d warnings%s",
-                    red, result[:errors].length, rst,
-                    yellow, result[:warnings].length, rst)
+          red, result[:errors].length, rst,
+          yellow, result[:warnings].length, rst)
       end
     end
     exit 1 unless result[:summary][:valid]
@@ -375,7 +375,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     puts Inspec::Schema.json(name)
   rescue StandardError => e
     puts e
-    puts "Valid schemas are #{Inspec::Schema.names.join(', ')}"
+    puts "Valid schemas are #{Inspec::Schema.names.join(", ")}"
   end
 
   desc "version", "prints the version of this tool"
@@ -410,6 +410,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     runner.load
 
     return :ruby_eval, res if runner.all_rules.empty?
+
     return :rspec_run, runner.run_tests # rubocop:disable Style/RedundantReturn
   end
 end

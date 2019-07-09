@@ -21,11 +21,11 @@ class AwsCWLMFConstructor < Minitest::Test
   end
 
   def test_constructor_accepts_known_resource_params
-    [
-      :filter_name,
-      :pattern,
-      :log_group_name,
-    ].each do |resource_param|
+    %i{
+      filter_name
+      pattern
+      log_group_name
+    }.each do |resource_param|
       AwsCloudwatchLogMetricFilter.new(resource_param => "some_val")
     end
   end
@@ -145,8 +145,9 @@ class AwsMockCWLMFBackend
       selection = everything
       # Here we filter on anything the AWS SDK lets us filter on remotely
       # - which notably does not include the 'pattern' criteria
-      [:log_group_name, :filter_name].each do |remote_filter|
+      %i{log_group_name filter_name}.each do |remote_filter|
         next unless criteria.key?(remote_filter)
+
         selection.select! { |lmf| lmf[remote_filter] == criteria[remote_filter] }
       end
       selection

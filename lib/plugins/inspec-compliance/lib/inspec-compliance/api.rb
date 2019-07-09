@@ -27,13 +27,13 @@ module InspecPlugins
 
         # Chef Compliance
         if is_compliance_server?(config)
-          url = "#{config['server']}/user/compliance"
+          url = "#{config["server"]}/user/compliance"
         # Chef Automate2
         elsif is_automate2_server?(config)
-          url = "#{config['server']}/compliance/profiles/search"
+          url = "#{config["server"]}/compliance/profiles/search"
         # Chef Automate
         elsif is_automate_server?(config)
-          url = "#{config['server']}/profiles/#{owner}"
+          url = "#{config["server"]}/profiles/#{owner}"
         else
           raise ServerConfigurationMissing
         end
@@ -122,15 +122,15 @@ module InspecPlugins
       def self.upload(config, owner, profile_name, archive_path)
         # Chef Compliance
         if is_compliance_server?(config)
-          url = "#{config['server']}/owners/#{owner}/compliance/#{profile_name}/tar"
+          url = "#{config["server"]}/owners/#{owner}/compliance/#{profile_name}/tar"
         # Chef Automate pre 0.8.0
         elsif is_automate_server_pre_080?(config)
-          url = "#{config['server']}/#{owner}"
+          url = "#{config["server"]}/#{owner}"
         elsif is_automate2_server?(config)
-          url = "#{config['server']}/compliance/profiles?owner=#{owner}"
+          url = "#{config["server"]}/compliance/profiles?owner=#{owner}"
         # Chef Automate
         else
-          url = "#{config['server']}/profiles/#{owner}"
+          url = "#{config["server"]}/profiles/#{owner}"
         end
 
         headers = get_headers(config)
@@ -209,6 +209,7 @@ module InspecPlugins
 
       def self.get_token(config)
         return config["token"] unless config["refresh_token"]
+
         _success, _msg, token = get_token_via_refresh_token(config["server"], config["refresh_token"], config["insecure"])
         token
       end
@@ -216,13 +217,13 @@ module InspecPlugins
       def self.target_url(config, profile)
         owner, id, ver = profile_split(profile)
 
-        return "#{config['server']}/compliance/profiles/tar" if is_automate2_server?(config)
-        return "#{config['server']}/owners/#{owner}/compliance/#{id}/tar" unless is_automate_server?(config)
+        return "#{config["server"]}/compliance/profiles/tar" if is_automate2_server?(config)
+        return "#{config["server"]}/owners/#{owner}/compliance/#{id}/tar" unless is_automate_server?(config)
 
         if ver.nil?
-          "#{config['server']}/profiles/#{owner}/#{id}/tar"
+          "#{config["server"]}/profiles/#{owner}/#{id}/tar"
         else
-          "#{config['server']}/profiles/#{owner}/#{id}/version/#{ver}/tar"
+          "#{config["server"]}/profiles/#{owner}/#{id}/version/#{ver}/tar"
         end
       end
 
@@ -249,6 +250,7 @@ module InspecPlugins
       def self.is_automate_server_pre_080?(config)
         # Automate versions before 0.8.x do not have a valid version in the config
         return false unless config["server_type"] == "automate"
+
         server_version_from_config(config).nil?
       end
 
@@ -256,6 +258,7 @@ module InspecPlugins
         # Automate versions 0.8.x and later will have a "version" key in the config
         # that is properly parsed out via server_version_from_config below
         return false unless config["server_type"] == "automate"
+
         !server_version_from_config(config).nil?
       end
 
@@ -272,6 +275,7 @@ module InspecPlugins
         # that looks like: "version":{"api":"compliance","version":"0.8.24"}
         return nil unless config.key?("version")
         return nil unless config["version"].is_a?(Hash)
+
         config["version"]["version"]
       end
 

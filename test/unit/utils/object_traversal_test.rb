@@ -83,7 +83,7 @@ describe ObjectTraverser do
 
   it "supports returning values with symbol keys" do
     subject.extract_value([:symbol_key_1], sample_data).must_equal(123)
-    subject.extract_value([:symbol_key_2, :symbol_under_symbol], sample_data).must_equal(456)
+    subject.extract_value(%i{symbol_key_2 symbol_under_symbol}, sample_data).must_equal(456)
     subject.extract_value([:symbol_key_2, "string_under_symbol"], sample_data).must_equal(789)
   end
 end

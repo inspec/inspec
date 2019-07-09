@@ -10,7 +10,7 @@ describe Supermarket::API do
 
   [Supermarket::API::SUPERMARKET_URL, "https://my.custom.supermarket"].each do |supermarket_url|
 
-    describe "With #{default_url?(supermarket_url) ? 'default' : supermarket_url} Supermarket URL" do
+    describe "With #{default_url?(supermarket_url) ? "default" : supermarket_url} Supermarket URL" do
 
       let(:profile_search_response_body) do
         {
@@ -24,7 +24,7 @@ describe Supermarket::API do
                     "tool_description" => "test_description",
                     "tool_owner" => "test_owner",
                     "tool" => "#{supermarket_url}/api/v1/tools/test_name",
-                }
+                },
             ],
         }
       end
@@ -34,7 +34,7 @@ describe Supermarket::API do
       describe "#profiles" do
         it "returns the profile list" do
           stub_request(:get, "#{supermarket_url}/api/v1/tools-search?items=100&type=compliance_profile")
-              .to_return(status: 200, body: profile_search_response_body.to_json)
+            .to_return(status: 200, body: profile_search_response_body.to_json)
           test_profile = default_url?(supermarket_url) ? subject.profiles.first : subject.profiles(supermarket_url).first
 
           test_profile.must_equal(profile_search_response_body["items"].first.merge({ "slug" => "test_name" }))
@@ -65,7 +65,7 @@ describe Supermarket::API do
 
         it "returns profile info" do
           stub_request(:get, "#{supermarket_url}/api/v1/tools/test_name")
-              .to_return(status: 200, body: profile_list_response_body.to_json)
+            .to_return(status: 200, body: profile_list_response_body.to_json)
 
           profile_info = default_url?(supermarket_url) ? subject.info("test_owner/test_name") : subject.info("test_owner/test_name", supermarket_url)
 
@@ -102,7 +102,7 @@ describe Supermarket::API do
 
         it "returns nil if profiles are empty" do
           stub_request(:get, "#{supermarket_url}/api/v1/tools-search?items=100&type=compliance_profile")
-              .to_return(status: 200, body: empty_profile_search_response_body.to_json)
+            .to_return(status: 200, body: empty_profile_search_response_body.to_json)
 
           search = default_url?(supermarket_url) ? subject.find(profile_name) : subject.find(profile_name, supermarket_url)
           search.must_be_nil
@@ -110,7 +110,7 @@ describe Supermarket::API do
 
         it "returns nil if profile not found" do
           stub_request(:get, "#{supermarket_url}/api/v1/tools-search?items=100&type=compliance_profile")
-              .to_return(status: 200, body: profile_search_response_body.to_json)
+            .to_return(status: 200, body: profile_search_response_body.to_json)
 
           profile_name_cant_find = "supermarket://cant_find/not_found"
           search = default_url?(supermarket_url) ? subject.find(profile_name_cant_find) : subject.find(profile_name_cant_find, supermarket_url)
@@ -119,7 +119,7 @@ describe Supermarket::API do
 
         it "returns profile if it is found" do
           stub_request(:get, "#{supermarket_url}/api/v1/tools-search?items=100&type=compliance_profile")
-              .to_return(status: 200, body: profile_search_response_body.to_json)
+            .to_return(status: 200, body: profile_search_response_body.to_json)
 
           profile = default_url?(supermarket_url) ? subject.find(profile_name) : subject.find(profile_name, supermarket_url)
 
@@ -129,7 +129,7 @@ describe Supermarket::API do
         it "downcases profile name for Supermarket API URL" do
           profile_name = "supermarket://test_owner/Test_Name"
           stub_request(:get, "#{supermarket_url}/api/v1/tools-search?items=100&type=compliance_profile")
-              .to_return(status: 200, body: profile_search_response_body.to_json)
+            .to_return(status: 200, body: profile_search_response_body.to_json)
 
           profile = if default_url?(supermarket_url)
                       subject.find(profile_name)
@@ -143,7 +143,7 @@ describe Supermarket::API do
         it "raises an error if tool name is not present" do
           profile_name = "supermarket://owner_only"
           stub_request(:get, "#{supermarket_url}/api/v1/tools-search?items=100&type=compliance_profile")
-              .to_return(status: 200, body: profile_search_response_body.to_json)
+            .to_return(status: 200, body: profile_search_response_body.to_json)
 
           e = proc { subject.find(profile_name, supermarket_url) }.must_raise
           e.message.must_equal("Could not parse tool name from #{profile_name}")

@@ -21,6 +21,7 @@ module Inspec::Resources
       @path = path
       @mount_manager = mount_manager_for_os
       return skip_resource "The `mount` resource is not supported on your OS yet." if @mount_manager.nil?
+
       @file = inspec.backend.file(@path)
     end
 
@@ -31,11 +32,12 @@ module Inspec::Resources
     def count
       mounted = file.mounted
       return nil if mounted.nil? || mounted.stdout.nil?
+
       mounted.stdout.lines.count
     end
 
     def method_missing(name)
-      return nil if !file.mounted?
+      return nil unless file.mounted?
 
       mounted = file.mounted
       return nil if mounted.nil? || mounted.stdout.nil?

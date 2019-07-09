@@ -32,10 +32,10 @@ module Inspec::Resources
     # Define the filter table so that it can be interrogated
     @filter = FilterTable.create
     @filter.register_filter_method(:contains)
-           .register_column(:type, field: "type")
-           .register_column(:name, field: "name")
-           .register_column(:location, field: "location")
-           .register_column(:properties, field: "properties")
+      .register_column(:type, field: "type")
+      .register_column(:name, field: "name")
+      .register_column(:location, field: "location")
+      .register_column(:properties, field: "properties")
 
     @filter.install_filter_methods_on_resource(self, :probes)
 

@@ -29,6 +29,7 @@ module Fetchers
       uri = URI.parse(target)
       return nil if uri.nil? || uri.scheme.nil?
       return nil unless %{ http https }.include? uri.scheme
+
       target = transform(target)
       opts[:username] = username if username
       opts[:password] = password if password
@@ -121,6 +122,7 @@ module Fetchers
 
     def parse_uri(target)
       return URI.parse(target) if target.is_a?(String)
+
       URI.parse(target[:url])
     end
 
@@ -150,7 +152,7 @@ module Fetchers
     end
 
     def download_automate2_archive_to_temp
-      return @temp_archive_path if !@temp_archive_path.nil?
+      return @temp_archive_path unless @temp_archive_path.nil?
 
       Inspec::Log.debug("Fetching URL: #{@target}")
       json = {
@@ -189,7 +191,8 @@ module Fetchers
 
     # Downloads archive to temporary file with side effect :( of setting @archive_type
     def download_archive_to_temp
-      return @temp_archive_path if !@temp_archive_path.nil?
+      return @temp_archive_path unless @temp_archive_path.nil?
+
       Inspec::Log.debug("Fetching URL: #{@target}")
       remote = open_via_uri(@target)
       @archive_type = file_type_from_remote(remote) # side effect :(
@@ -262,7 +265,7 @@ module Fetchers
       end
       unless keys_missing_values.empty?
         raise "Unable to fetch profile - the following HTTP headers have no value: " \
-          "#{keys_missing_values.join(', ')}"
+          "#{keys_missing_values.join(", ")}"
       end
     end
   end

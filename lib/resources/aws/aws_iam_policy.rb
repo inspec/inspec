@@ -46,18 +46,21 @@ class AwsIamPolicy < Inspec.resource(1)
 
   def attached_users
     return @attached_users if defined? @attached_users
+
     fetch_attached_entities
     @attached_users
   end
 
   def attached_groups
     return @attached_groups if defined? @attached_groups
+
     fetch_attached_entities
     @attached_groups
   end
 
   def attached_roles
     return @attached_roles if defined? @attached_roles
+
     fetch_attached_entities
     @attached_roles
   end
@@ -88,6 +91,7 @@ class AwsIamPolicy < Inspec.resource(1)
 
   def statement_count
     return nil unless exists?
+
     # Typically it is an array of statements
     if policy["Statement"].is_a? Array
       policy["Statement"].count
@@ -100,6 +104,7 @@ class AwsIamPolicy < Inspec.resource(1)
 
   def has_statement?(provided_criteria = {})
     return nil unless exists?
+
     raw_criteria = provided_criteria.dup # provided_criteria is used for output formatting - can't delete from it.
     criteria = has_statement__validate_criteria(raw_criteria)
     @normalized_statements ||= has_statement__normalize_statements
@@ -146,7 +151,7 @@ class AwsIamPolicy < Inspec.resource(1)
 
     # If anything is left, it's spurious
     unless raw_criteria.empty?
-      raise ArgumentError, "Unrecognized criteria #{raw_criteria.keys.join(', ')} to have_statement.  Recognized criteria: #{EXPECTED_CRITERIA.join(', ')}"
+      raise ArgumentError, "Unrecognized criteria #{raw_criteria.keys.join(", ")} to have_statement.  Recognized criteria: #{EXPECTED_CRITERIA.join(", ")}"
     end
 
     # Effect has only 2 permitted values
@@ -184,6 +189,7 @@ class AwsIamPolicy < Inspec.resource(1)
 
   def has_statement__focus_on_sid(statements, criteria)
     return statements unless criteria.key?(:sid)
+
     sid_seek = criteria[:sid]
     statements.select do |statement|
       if sid_seek.is_a? Regexp
@@ -200,6 +206,7 @@ class AwsIamPolicy < Inspec.resource(1)
 
   def has_statement__array_criterion(crit_name, statement, criteria)
     return true unless criteria.key?(crit_name)
+
     check = criteria[crit_name]
     # This is an array due to normalize_statements
     # If it is nil, the statement does not have an entry for that dimension;
@@ -252,12 +259,14 @@ class AwsIamPolicy < Inspec.resource(1)
       end
       break if policy # Found it!
       break unless api_result.is_truncated # Not found and no more results
+
       pagination_opts[:marker] = api_result.marker
     end
 
     @exists = !policy.nil?
 
     return unless @exists
+
     @arn = policy[:arn]
     @default_version_id = policy[:default_version_id]
     @attachment_count = policy[:attachment_count]

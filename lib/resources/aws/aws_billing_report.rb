@@ -23,7 +23,7 @@ class AwsBillingReport < Inspec.resource(1)
   include AwsSingularResourceMixin
 
   attr_reader :report_name, :time_unit, :format, :compression, :s3_bucket,
-              :s3_prefix, :s3_region
+    :s3_prefix, :s3_region
 
   def to_s
     "AWS Billing Report #{report_name}"

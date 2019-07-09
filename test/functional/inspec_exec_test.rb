@@ -98,7 +98,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   end
 
   it "executes a profile and reads inputs" do
-    out = inspec("exec #{File.join(examples_path, 'profile-attribute')} --no-create-lockfile --input-file #{File.join(examples_path, "profile-attribute.yml")}")
+    out = inspec("exec #{File.join(examples_path, "profile-attribute")} --no-create-lockfile --input-file #{File.join(examples_path, "profile-attribute.yml")}")
     out.stderr.must_equal ""
     out.exit_status.must_equal 0
     out.stdout.force_encoding(Encoding::UTF_8).must_include "Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped"
@@ -256,7 +256,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec("exec " + example_control + " --no-create-lockfile") }
 
     it "prints the control results, then the anonymous describe block results" do
-      out.stdout.force_encoding(Encoding::UTF_8).must_match(%r{Profile: tests from .*test.unit.mock.profiles.old-examples.profile.controls.example.rb})
+      out.stdout.force_encoding(Encoding::UTF_8).must_match(/Profile: tests from .*test.unit.mock.profiles.old-examples.profile.controls.example.rb/)
       out.stdout.force_encoding(Encoding::UTF_8).must_include "
 Version: (not specified)
 Target:  local://
@@ -357,7 +357,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     end
 
     it "can run supermarket profiles from inspec.yml" do
-      out = inspec("exec #{File.join(profile_path, 'supermarket-dep')} --no-create-lockfile")
+      out = inspec("exec #{File.join(profile_path, "supermarket-dep")} --no-create-lockfile")
       if is_windows?
         out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m1 successful control\e[0m, \e[38;5;9m1 control failure\e[0m, 0 controls skipped\n"
       else
@@ -368,7 +368,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
 
   describe "when a dependency does not support our backend platform" do
     it "skips the controls from that profile" do
-      out = inspec("exec #{File.join(profile_path, 'profile-support-skip')} --no-create-lockfile")
+      out = inspec("exec #{File.join(profile_path, "profile-support-skip")} --no-create-lockfile")
       out.stdout.force_encoding(Encoding::UTF_8).must_include "WARN: Skipping profile"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "0 successful, 0 failures, 0 skipped\n"
     end
@@ -376,7 +376,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
 
   describe "when trying to use --sudo with a local target" do
     it "must print an error and exit" do
-      out = inspec("exec #{File.join(profile_path, 'profile-support-skip')} --sudo")
+      out = inspec("exec #{File.join(profile_path, "profile-support-skip")} --sudo")
       str = "Sudo is only valid when running against a remote host. To run this locally with elevated privileges, run the command with `sudo ...`.\n"
       out.stderr.force_encoding(Encoding::UTF_8).must_include str
       out.exit_status.must_equal 1

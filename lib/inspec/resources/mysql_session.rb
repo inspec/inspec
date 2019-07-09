@@ -73,12 +73,14 @@ module Inspec::Resources
     def init_fallback
       # support debian mysql administration login
       return if inspec.platform.in_family?("windows")
+
       debian = inspec.command("test -f /etc/mysql/debian.cnf && cat /etc/mysql/debian.cnf").stdout
       return if debian.empty?
 
       user = debian.match(/^\s*user\s*=\s*([^ ]*)\s*$/)
       pass = debian.match(/^\s*password\s*=\s*([^ ]*)\s*$/)
       return if user.nil? || pass.nil?
+
       @user = user[1]
       @pass = pass[1]
     end

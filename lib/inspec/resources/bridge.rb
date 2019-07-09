@@ -37,6 +37,7 @@ module Inspec::Resources
 
     def has_interface?(interface)
       return skip_resource "The `bridge` resource does not provide interface detection for Windows yet" if inspec.os.windows?
+
       bridge_info.nil? ? false : bridge_info[:interfaces].include?(interface)
     end
 
@@ -52,7 +53,8 @@ module Inspec::Resources
 
     def bridge_info
       return @cache if defined?(@cache)
-      @cache = @bridge_provider.bridge_info(@bridge_name) if !@bridge_provider.nil?
+
+      @cache = @bridge_provider.bridge_info(@bridge_name) unless @bridge_provider.nil?
     end
   end
 
@@ -102,7 +104,7 @@ module Inspec::Resources
       end
 
       # ensure we have an array of groups
-      bridges = [bridges] if !bridges.is_a?(Array)
+      bridges = [bridges] unless bridges.is_a?(Array)
 
       # select the requested interface
       bridges = bridges.each_with_object([]) do |adapter, adapter_collection|
@@ -115,6 +117,7 @@ module Inspec::Resources
       end
 
       return nil if bridges.empty?
+
       warn "[Possible Error] detected multiple bridges interfaces with the name #{bridge_name}" if bridges.size > 1
       bridges[0]
     end

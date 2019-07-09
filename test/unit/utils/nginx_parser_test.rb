@@ -112,9 +112,9 @@ describe NginxTransform do
     _(parse("f { g { h {\na b;\n}}}")).must_equal [
       NginxTransform::Group.new("f", "", [
         NginxTransform::Group.new("g", "", [
-          NginxTransform::Group.new("h", "", [NginxTransform::Exp.new("a", ["b"])])
-        ])
-      ])
+          NginxTransform::Group.new("h", "", [NginxTransform::Exp.new("a", ["b"])]),
+        ]),
+      ]),
     ]
   end
 end

@@ -97,6 +97,7 @@ module AwsMIRB
       unless fixtures.key?(query[:role_name])
         raise Aws::IAM::Errors::NoSuchEntity.new("Nope", "Nope")
       end
+
       OpenStruct.new({
         role: fixtures[query[:role_name]],
       })

@@ -17,7 +17,7 @@ class AwsIamUser < Inspec.resource(1)
 
   include AwsSingularResourceMixin
   attr_reader :access_keys, :attached_policy_names, :attached_policy_arns, \
-              :has_console_password, :has_mfa_enabled, :inline_policy_names, :username
+    :has_console_password, :has_mfa_enabled, :inline_policy_names, :username
   alias has_mfa_enabled? has_mfa_enabled
   alias has_console_password? has_console_password
 
@@ -32,11 +32,13 @@ class AwsIamUser < Inspec.resource(1)
 
   def has_attached_policies?
     return nil unless exists?
+
     !attached_policy_names.empty?
   end
 
   def has_inline_policies?
     return nil unless exists?
+
     !inline_policy_names.empty?
   end
 
@@ -45,7 +47,7 @@ class AwsIamUser < Inspec.resource(1)
   def validate_params(raw_params)
     validated_params = check_resource_param_names(
       raw_params: raw_params,
-      allowed_params: [:username, :aws_user_struct, :name, :user],
+      allowed_params: %i{username aws_user_struct name user},
       allowed_scalar_name: :username,
       allowed_scalar_type: String
     )
@@ -64,6 +66,7 @@ class AwsIamUser < Inspec.resource(1)
     if validated_params.empty?
       raise ArgumentError, "You must provide a username to aws_iam_user."
     end
+
     validated_params
   end
 

@@ -23,8 +23,8 @@ module Inspec
     end
 
     def print_and_exit!
-      exit_no_shell if !have_shell?
-      exit_no_completion if !have_shell_completion?
+      exit_no_shell unless have_shell?
+      exit_no_completion unless have_shell_completion?
 
       print_completion_for_shell
       print_detection_warning($stdout) if @detected
@@ -77,7 +77,7 @@ module Inspec
         #
         #     inspec env SHELLNAME
         #
-        # Currently supported shells are: #{shells_with_completions.join(', ')}
+        # Currently supported shells are: #{shells_with_completions.join(", ")}
         #
       EOF
     end
@@ -98,7 +98,7 @@ module Inspec
         #
         #    inspec env SHELLNAME
         #
-        # Currently supported shells are: #{shells_with_completions.join(', ')}
+        # Currently supported shells are: #{shells_with_completions.join(", ")}
       EOF
       exit 1
     end

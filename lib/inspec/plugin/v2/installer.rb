@@ -249,7 +249,7 @@ module Inspec::Plugin::V2
       end
 
       opts[:scope] ||= :released
-      unless [:prerelease, :released, :latest].include?(opts[:scope])
+      unless %i{prerelease released latest}.include?(opts[:scope])
         raise SearchError, "Search scope for listing versons must be :prerelease, :released, or :latest."
       end
     end
@@ -267,11 +267,11 @@ module Inspec::Plugin::V2
       plugin_local_source = Gem::Source::SpecificFile.new(opts[:gem_file])
 
       plugin_dependency = Gem::Dependency.new(requested_plugin_name,
-                                              plugin_local_source.spec.version)
+        plugin_local_source.spec.version)
 
       requested_local_gem_set = Gem::Resolver::InstallerSet.new(:both)
       requested_local_gem_set.add_local(plugin_dependency.name,
-                                        plugin_local_source.spec, plugin_local_source)
+        plugin_local_source.spec, plugin_local_source)
 
       install_gem_to_plugins_dir(plugin_dependency, [requested_local_gem_set])
     end
@@ -283,8 +283,8 @@ module Inspec::Plugin::V2
     end
 
     def install_gem_to_plugins_dir(new_plugin_dependency, # rubocop: disable Metrics/AbcSize
-                                   extra_request_sets = [],
-                                   update_mode = false)
+      extra_request_sets = [],
+      update_mode = false)
 
       # Get a list of all the gems available to us.
       gem_to_force_update = update_mode ? new_plugin_dependency.name : nil
@@ -305,6 +305,7 @@ module Inspec::Plugin::V2
       # Activate all current plugins before trying to activate the new one
       loader.list_managed_gems.each do |spec|
         next if spec.name == new_plugin_dependency.name && update_mode
+
         spec.activate
       end
 
@@ -378,7 +379,7 @@ module Inspec::Plugin::V2
       # Find out which gems we still actually need...
       names_of_gems_we_actually_need = \
         request_set_we_still_must_satisfy.resolve(build_gem_request_universe)
-                                         .map(&:full_spec).map(&:full_name)
+          .map(&:full_spec).map(&:full_name)
 
       # ... vs what we currently have, which should have some cruft
       cruft_gem_specs = loader.list_managed_gems.reject do |spec|
@@ -423,7 +424,7 @@ module Inspec::Plugin::V2
 
         # find all gem specification directories
         directories = [Gem::Specification.default_specifications_dir]
-        if !defined?(::Bundler)
+        unless defined?(::Bundler)
           # add in any others that do not start with the user directory
           directories += Gem::Specification.dirs.find_all do |path|
             !path.start_with?(Gem.user_dir)
@@ -456,6 +457,7 @@ module Inspec::Plugin::V2
       installed_plugins_gem_set = Gem::Resolver::VendorSet.new
       loader.list_managed_gems.each do |spec|
         next if spec.name == gem_to_force_update
+
         installed_plugins_gem_set.add_vendor_gem(spec.name, spec.gem_dir)
       end
 

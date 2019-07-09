@@ -36,7 +36,7 @@ module Inspec::Resources
     def initialize(modulename = nil)
       @module = modulename
       # this resource is only supported on Linux
-      return skip_resource "The `kernel_parameter` resource is not supported on your OS." if !inspec.os.linux?
+      return skip_resource "The `kernel_parameter` resource is not supported on your OS." unless inspec.os.linux?
     end
 
     def loaded?

@@ -168,6 +168,7 @@ module Inspec::Plugin::V2
       end
       solution.each do |activation_request|
         next if activation_request.full_spec.activated?
+
         activation_request.full_spec.activate
         # TODO: If we are under Bundler, inform it that we loaded a gem
       end
@@ -177,6 +178,7 @@ module Inspec::Plugin::V2
       status = registry[plugin_name]
       return if status.api_generation == 2 # Gen2 have self-annotating superclasses
       return if status.api_generation == :'train-1' # Train plugins are here as a courtesy, don't poke them
+
       case status.installation_type
       when :bundle
         annotate_bundle_plugin_status_after_load(plugin_name)

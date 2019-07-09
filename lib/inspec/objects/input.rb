@@ -309,9 +309,10 @@ module Inspec
 
     def to_hash
       as_hash = { name: name, options: {} }
-      [:description, :title, :identifier, :type, :required, :value].each do |field|
+      %i{description title identifier type required value}.each do |field|
         val = send(field)
         next if val.nil?
+
         as_hash[:options][field] = val
       end
       as_hash
@@ -372,11 +373,11 @@ module Inspec
 
       invalid_type = false
       if type_req == "Regexp"
-        invalid_type = true if !valid_regexp?(proposed_value)
+        invalid_type = true unless valid_regexp?(proposed_value)
       elsif type_req == "Numeric"
-        invalid_type = true if !valid_numeric?(proposed_value)
+        invalid_type = true unless valid_numeric?(proposed_value)
       elsif type_req == "Boolean"
-        invalid_type = true if ![true, false].include?(proposed_value)
+        invalid_type = true unless [true, false].include?(proposed_value)
       elsif proposed_value.is_a?(Module.const_get(type_req)) == false
         # TODO: why is this case here?
         invalid_type = true
@@ -400,7 +401,7 @@ module Inspec
         "Regex" => "Regexp",
       }
       type_req = abbreviations[type_req] if abbreviations.key?(type_req)
-      if !VALID_TYPES.include?(type_req)
+      unless VALID_TYPES.include?(type_req)
         error = Inspec::Input::TypeError.new
         error.input_type = type_req
         raise error, "Type '#{error.input_type}' is not a valid input type."

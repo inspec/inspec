@@ -15,6 +15,7 @@ module ObjectTraverser
 
     # if there are no more keys, just return the value
     return value if keys.first.nil?
+
     # if there are more keys, extract more
     extract_value(keys.clone, value)
   end

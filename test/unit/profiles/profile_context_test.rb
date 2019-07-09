@@ -268,8 +268,7 @@ describe Inspec::ProfileContext do
     describe "adds a check via describe" do
       let(:check) do
         profile.load(format(context_format,
-          "describe(os[:family]) { it { must_equal 'debian' } }"
-          ))
+          "describe(os[:family]) { it { must_equal 'debian' } }"))
         get_checks[0]
       end
 
@@ -289,8 +288,7 @@ describe Inspec::ProfileContext do
     describe "adds a check via expect" do
       let(:check) do
         profile.load(format(context_format,
-          "expect(os[:family]).to eq('debian')"
-          ))
+          "expect(os[:family]).to eq('debian')"))
         get_checks[0]
       end
 
@@ -312,8 +310,7 @@ describe Inspec::ProfileContext do
         profile.load(format(context_format,
           "describe 'the actual test' do
             expect(os[:family]).to eq('debian')
-          end"
-          ))
+          end"))
         get_checks[0]
       end
 
@@ -379,7 +376,7 @@ describe Inspec::ProfileContext do
     it "supports creating a simple library file (no require)" do
       # this test will throw an exception if chaining doesn't work
       profile.load_libraries([
-        ["module A; end", "libraries/a.rb"]
+        ["module A; end", "libraries/a.rb"],
       ])
     end
 
@@ -387,7 +384,7 @@ describe Inspec::ProfileContext do
       # this test will throw an exception if chaining doesn't work
       profile.load_libraries([
         ["require 'a'\nA", "libraries/b.rb"],
-        ["module A; end", "libraries/a.rb"]
+        ["module A; end", "libraries/a.rb"],
       ])
     end
 
@@ -396,20 +393,20 @@ describe Inspec::ProfileContext do
       profile.load_libraries([
         ["require 'b'\nA", "libraries/c.rb"],
         ["require 'a'\nA", "libraries/b.rb"],
-        ["module A; end", "libraries/a.rb"]
+        ["module A; end", "libraries/a.rb"],
       ])
     end
 
     it "supports loading a regular ruby gem" do
       profile.load_libraries([
-        ["require 'erb'\nERB", "libraries/a.rb"]
+        ["require 'erb'\nERB", "libraries/a.rb"],
       ])
     end
 
     it "fails if a required gem or lib doesnt exist" do
       proc {
         profile.load_libraries([
-          ["require 'erbluuuuub'", "libraries/a.rb"]
+          ["require 'erbluuuuub'", "libraries/a.rb"],
         ])
       }.must_raise LoadError
     end
@@ -418,7 +415,7 @@ describe Inspec::ProfileContext do
       proc {
         profile.load_libraries([
           ["require 'a'\nB", "libraries/b.rb"],
-          ["module A; end", "libraries/a.rb"]
+          ["module A; end", "libraries/a.rb"],
         ])
       }.must_raise NameError
     end

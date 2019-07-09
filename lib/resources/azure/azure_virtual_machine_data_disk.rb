@@ -15,18 +15,18 @@ module Inspec::Resources
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
     filter.register_column(:disk, field: :disk)
-          .register_column(:number, field: :number)
-          .register_column(:name, field: :name)
-          .register_column(:size, field: :size)
-          .register_column(:vhd_uri, field: :vhd_uri)
-          .register_column(:storage_account_name, field: :storage_account_name)
-          .register_column(:lun, field: :lun)
-          .register_column(:caching, field: :caching)
-          .register_column(:create_option, field: :create_option)
-          .register_column(:is_managed_disk?, field: :is_managed_disk?)
-          .register_column(:storage_account_type, field: :storage_account_type)
-          .register_column(:subscription_id, field: :subscription_id)
-          .register_column(:resource_group, field: :resource_group)
+      .register_column(:number, field: :number)
+      .register_column(:name, field: :name)
+      .register_column(:size, field: :size)
+      .register_column(:vhd_uri, field: :vhd_uri)
+      .register_column(:storage_account_name, field: :storage_account_name)
+      .register_column(:lun, field: :lun)
+      .register_column(:caching, field: :caching)
+      .register_column(:create_option, field: :create_option)
+      .register_column(:is_managed_disk?, field: :is_managed_disk?)
+      .register_column(:storage_account_type, field: :storage_account_type)
+      .register_column(:subscription_id, field: :subscription_id)
+      .register_column(:resource_group, field: :resource_group)
     filter.install_filter_methods_on_resource(self, :datadisk_details)
 
     # Constructor for the resource. This calls the parent constructor to
@@ -49,6 +49,7 @@ module Inspec::Resources
     # @author Russell Seymour
     def datadisk_details
       return if failed_resource?
+
       # Iterate around the data disks on the machine
       properties.storageProfile.dataDisks.each_with_index.map do |datadisk, index|
         # Call function to parse the data disks and return an object based on the parameters

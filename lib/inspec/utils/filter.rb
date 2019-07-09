@@ -66,12 +66,14 @@ module FilterTable
     def self.to_ruby(trace)
       chain = trace.instance_variable_get(:@chain)
       return "" if chain.empty?
+
       " " + chain.map do |el|
         m = el[0][0]
         args = el[0].drop(1)
         nxt = to_ruby(el[1])
         next m.to_s + nxt if args.empty?
         next m.to_s + " " + args[0].inspect + nxt if args.length == 1
+
         m.to_s + "(" + args.map(&:inspect).join(", ") + ")" + nxt
       end.join(" ")
     end
@@ -91,7 +93,7 @@ module FilterTable
     # block; then construct a new Table of the same class as ourselves,
     # wrapping the filtered data, and return it.
     def where(conditions = {}, &block)
-      return self if !conditions.is_a?(Hash)
+      return self unless conditions.is_a?(Hash)
       return self if conditions.empty? && !block_given?
 
       # Initialize the details of the new Table.
@@ -101,7 +103,8 @@ module FilterTable
       # If we were provided params, interpret them as criteria to be evaluated
       # against the raw data. Criteria are assumed to be hash keys.
       conditions.each do |raw_field_name, desired_value|
-        raise(ArgumentError, "'#{decorate_symbols(raw_field_name)}' is not a recognized criterion - expected one of #{decorate_symbols(list_fields).join(', ')}'") unless field?(raw_field_name)
+        raise(ArgumentError, "'#{decorate_symbols(raw_field_name)}' is not a recognized criterion - expected one of #{decorate_symbols(list_fields).join(", ")}'") unless field?(raw_field_name)
+
         populate_lazy_field(raw_field_name, desired_value) if is_field_lazy?(raw_field_name)
         new_criteria_string += " #{raw_field_name} == #{desired_value.inspect}"
         filtered_raw_data = filter_raw_data(filtered_raw_data, raw_field_name, desired_value)
@@ -190,8 +193,10 @@ module FilterTable
     def populate_lazy_field(field_name, criterion)
       return unless is_field_lazy?(field_name)
       return if field_populated?(field_name)
+
       raw_data.each do |row|
         next if row.key?(field_name) # skip row if pre-existing data is present
+
         callback_for_lazy_field(field_name).call(row, criterion, self)
       end
       mark_lazy_field_populated(field_name)
@@ -206,6 +211,7 @@ module FilterTable
 
     def callback_for_lazy_field(field_name)
       return unless is_field_lazy?(field_name)
+
       custom_properties_schema.values.find do |property_struct|
         property_struct.field_name == field_name
       end.opts[:lazy]
@@ -224,17 +230,20 @@ module FilterTable
     def matches_float(x, y)
       return false if x.nil?
       return false if !x.is_a?(Float) && (x =~ /\A[-+]?(\d+\.?\d*|\.\d+)\z/).nil?
+
       x.to_f == y
     end
 
     def matches_int(x, y)
       return false if x.nil?
       return false if !x.is_a?(Integer) && (x =~ /\A[-+]?\d+\z/).nil?
+
       x.to_i == y
     end
 
     def matches_regex(x, y)
       return x == y if x.is_a?(Regexp)
+
       !x.to_s.match(y).nil?
     end
 
@@ -257,6 +266,7 @@ module FilterTable
 
       current_raw_data.find_all do |row|
         next unless row.key?(field)
+
         send(method_ref, row[field], desired_value)
       end
     end
@@ -265,6 +275,7 @@ module FilterTable
       return thing.map { |t| decorate_symbols(t) } if thing.is_a?(Array)
       return ":" + thing.to_s if thing.is_a? Symbol
       return thing + " (String)" if thing.is_a? String
+
       thing
     end
   end
@@ -273,7 +284,7 @@ module FilterTable
     CustomPropertyType = Struct.new(:field_name, :block, :opts)
 
     def initialize
-      @filter_methods = [:where, :entries, :raw_data]
+      @filter_methods = %i{where entries raw_data}
       @custom_properties = {}
       register_custom_matcher(:exist?) { |table| !table.raw_data.empty? }
       register_custom_property(:count) { |table|  table.raw_data.count }
@@ -313,6 +324,7 @@ module FilterTable
         # Install a method that can wrap all the fields into a context with accessors
         define_method :create_eval_context_for_row do |row_as_hash, criteria_string = ""|
           return row_eval_context_type.new if row_as_hash.nil?
+
           context = row_eval_context_type.new(*non_block_struct_fields.map { |field| row_as_hash[field] })
           context.criteria_string = criteria_string
           context.filter_table = self
@@ -330,6 +342,7 @@ module FilterTable
       # a setter for each field.
       @custom_properties.values.each do |property_info|
         next unless property_info.opts[:lazy]
+
         field_name = property_info.field_name.to_sym
         row_eval_context_type.send(:define_method, field_name) do
           unless filter_table.field_populated?(field_name)

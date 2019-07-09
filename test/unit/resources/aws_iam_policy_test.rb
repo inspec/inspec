@@ -171,7 +171,7 @@ class AwsIamPolicyMatchersTest < Minitest::Test
         criterion,
         criterion.downcase,
         criterion.to_sym,
-        criterion.downcase.to_sym
+        criterion.downcase.to_sym,
       ].each do |variant|
         AwsIamPolicy.new("test-policy-1").has_statement?(variant => test_value)
       end
@@ -449,6 +449,7 @@ module MAIPSB
       }
       pv = fixtures.dig(query[:policy_arn], query[:version_id])
       return OpenStruct.new(policy_version: pv) if pv
+
       raise Aws::IAM::Errors::NoSuchEntity.new(nil, nil)
     end
   end

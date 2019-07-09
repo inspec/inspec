@@ -22,12 +22,12 @@ class PluginLoaderTests < Minitest::Test
     @bundled_plugins = [
       :'inspec-supermarket',
      ]
-    @core_plugins = [
-     :'inspec-artifact',
-     :'inspec-compliance',
-     :'inspec-habitat',
-     :'inspec-init',
-    ]
+    @core_plugins = %i{
+     inspec-artifact
+     inspec-compliance
+     inspec-habitat
+     inspec-init
+    }
   end
 
   def teardown
@@ -194,11 +194,11 @@ class PluginLoaderTests < Minitest::Test
 
     # Finding an Activator
     assert_kind_of Array, status.activators, "status should have an array for activators"
-    assert_kind_of Array, registry.find_activators(), "find_activators should return an array"
-    assert_equal "Inspec::Plugin::V2::Activator", registry.find_activators()[0].class.name, "find_activators should return an array of Activators"
+    assert_kind_of Array, registry.find_activators, "find_activators should return an array"
+    assert_equal "Inspec::Plugin::V2::Activator", registry.find_activators[0].class.name, "find_activators should return an array of Activators"
     activator = registry.find_activators(plugin_type: :mock_plugin_type, name: :'meaning-of-life-the-universe-and-everything')[0]
     refute_nil activator, "find_activators should find the test activator"
-    [ :plugin_name, :plugin_type, :activator_name, :'activated?', :exception, :activation_proc, :implementation_class ].each do |method_name|
+    %i{plugin_name plugin_type activator_name activated? exception activation_proc implementation_class}.each do |method_name|
       assert_respond_to activator, method_name
     end
 

@@ -57,7 +57,8 @@ module MockAwsBillingReports
         compression: "ZIP",
         s3_bucket: "inspec1-s3-bucket",
         s3_prefix: "inspec1/accounting",
-        s3_region: "us-east-1")
+        s3_region: "us-east-1"
+      )
       definitions << Aws::CostandUsageReportService::Types::ReportDefinition.new(
         report_name: "inspec2",
         time_unit: "DAILY",
@@ -65,7 +66,8 @@ module MockAwsBillingReports
         compression: "GZIP",
         s3_bucket: "inspec2-s3-bucket",
         s3_prefix: "inspec2/accounting",
-        s3_region: "us-west-1")
+        s3_region: "us-west-1"
+      )
 
       (3..12).each do |i|
         definitions <<
@@ -92,7 +94,7 @@ module MockAwsBillingReports
       next_token = @definitions.count < next_token ? nil : next_token
 
       response = Aws::CostandUsageReportService::Types::DescribeReportDefinitionsResponse
-      .new(report_definitions: selected_definitions)
+        .new(report_definitions: selected_definitions)
       response.next_token = next_token
       response
     end

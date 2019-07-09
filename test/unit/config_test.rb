@@ -308,7 +308,7 @@ describe "Inspec::Config" do
       let(:cfg_io) { nil }
       let(:cli_opts) { { sudo: true, 'shell_command': "ksh" } }
       it "should pass the credentials as-is" do
-        expected = [:backend, :sudo, :shell_command].sort
+        expected = %i{backend sudo shell_command}.sort
         seen_fields.must_equal expected
         creds[:sudo].must_equal true
         creds[:shell_command].must_equal "ksh"
@@ -320,7 +320,7 @@ describe "Inspec::Config" do
       let(:cfg_io) { nil }
       let(:cli_opts) { { backend: "ssh", ssh_host: "example.com", ssh_key_files: "mykey" } }
       it "should read the backend and strip prefixes" do
-        expected = [:backend, :host, :key_files].sort
+        expected = %i{backend host key_files}.sort
         seen_fields.must_equal expected
         creds[:backend].must_equal "ssh"
         creds[:host].must_equal "example.com"
@@ -332,7 +332,7 @@ describe "Inspec::Config" do
       let(:file_fixture_name) { :basic }
       let(:cli_opts) { { target: "ssh://set1" } }
       it "should use the credset to lookup the creds in the file" do
-        expected = [:backend, :host, :user].sort
+        expected = %i{backend host user}.sort
         seen_fields.must_equal expected
         creds[:backend].must_equal "ssh"
         creds[:host].must_equal "some.host"
@@ -390,7 +390,7 @@ describe "Inspec::Config" do
       let(:file_fixture_name) { :basic }
       let(:cli_opts) { { target: "ssh://set1", ssh_user: "bob" } }
       it "should use the credset to lookup the creds in the file then override the single value" do
-        expected = [:backend, :host, :user].sort
+        expected = %i{backend host user}.sort
         seen_fields.must_equal expected
         creds[:backend].must_equal "ssh"
         creds[:host].must_equal "some.host"
@@ -402,7 +402,7 @@ describe "Inspec::Config" do
       let(:cfg_io) { nil }
       let(:cli_opts) { { target: "ssh://bob@somehost" } }
       it "should unpack the options using the URI parser" do
-        expected = [:backend, :host, :user].sort
+        expected = %i{backend host user}.sort
         seen_fields.must_equal expected
         creds[:backend].must_equal "ssh"
         creds[:host].must_equal "somehost"
@@ -414,7 +414,7 @@ describe "Inspec::Config" do
       let(:cfg_io) { nil }
       let(:cli_opts) { { target: "ssh://some.host", user: "bob" } }
       it "should assign the options correctly" do
-        expected = [:backend, :host, :user].sort
+        expected = %i{backend host user}.sort
         seen_fields.must_equal expected
         creds[:backend].must_equal "ssh"
         creds[:host].must_equal "some.host"

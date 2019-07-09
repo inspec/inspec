@@ -20,7 +20,7 @@ class AwsVpc < Inspec.resource(1)
   end
 
   attr_reader :cidr_block, :dhcp_options_id, :instance_tenancy, :is_default,\
-              :state, :vpc_id
+    :state, :vpc_id
 
   alias default? is_default
 

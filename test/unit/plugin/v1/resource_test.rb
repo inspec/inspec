@@ -64,7 +64,7 @@ describe Inspec::Plugins::Resource do
     it "loads a profile which supports multiple families" do
       m = supports_meta([
         { os_family: "windows" },
-        { os_family: "unix" }
+        { os_family: "unix" },
       ])
       m.check_supports.must_equal true
       Inspec::Resource.supports["os"] = nil
@@ -73,7 +73,7 @@ describe Inspec::Plugins::Resource do
     it "loads a profile which supports multiple names" do
       m = supports_meta([
         { os_family: "windows", os_name: "windows_2000" },
-        { os_family: "unix", os_name: "ubuntu" }
+        { os_family: "unix", os_name: "ubuntu" },
       ])
       m.check_supports.must_equal true
       Inspec::Resource.supports["os"] = nil
@@ -82,7 +82,7 @@ describe Inspec::Plugins::Resource do
     it "reject a profile which supports multiple families" do
       m = supports_meta([
         { os_family: "windows" },
-        { os_family: "redhat" }
+        { os_family: "redhat" },
       ])
       m.check_supports.must_equal false
       Inspec::Resource.supports["os"] = nil

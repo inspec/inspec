@@ -20,6 +20,7 @@ module Inspec::Resources
 
     def initialize(package_name, _opts = {})
       raise "Chocolatey is not installed" unless inspec.command("choco").exist?
+
       @package_name = package_name
       @cache = base_data.update(generate_cache)
     end
@@ -67,6 +68,7 @@ module Inspec::Resources
       cmd = inspec.powershell(command.strip)
 
       return {} if cmd.exit_status != 0 || cmd.stdout.strip.empty?
+
       out = JSON.parse(cmd.stdout)
 
       {

@@ -62,7 +62,8 @@ module Inspec
     end
 
     def to_ruby
-      return rb_skip if !skip.nil?
+      return rb_skip unless skip.nil?
+
       rb_describe
     end
 
@@ -72,6 +73,7 @@ module Inspec
 
     def resource
       return nil if qualifier.empty? || qualifier[0].empty? || qualifier[0][0].empty?
+
       qualifier[0][0]
     end
 

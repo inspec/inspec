@@ -31,10 +31,10 @@ module Inspec
     # @return [nil]
     def add_profile(profile)
       RSpec.configuration.formatters
-           .find_all { |c| c.is_a?(Inspec::Formatters::Base) }
-           .each do |fmt|
-        fmt.add_profile(profile)
-      end
+        .find_all { |c| c.is_a?(Inspec::Formatters::Base) }
+        .each do |fmt|
+          fmt.add_profile(profile)
+        end
     end
 
     # Configure the backend of the runner.
@@ -43,10 +43,10 @@ module Inspec
     # @return [nil]
     def backend=(backend)
       RSpec.configuration.formatters
-           .find_all { |c| c.is_a?(Inspec::Formatters::Base) }
-           .each do |fmt|
-        fmt.backend = backend
-      end
+        .find_all { |c| c.is_a?(Inspec::Formatters::Base) }
+        .each do |fmt|
+          fmt.backend = backend
+        end
     end
 
     # Add an example group to the list of registered tests.
@@ -81,6 +81,7 @@ module Inspec
     # @return [int] exit code
     def exit_code
       return @rspec_exit_code if @formatter.results.empty?
+
       stats = @formatter.results[:statistics][:controls]
       skipped = @formatter.results&.fetch(:profiles, nil)&.first&.fetch(:status, nil) == "skipped"
       if stats[:failed][:total] == 0 && stats[:skipped][:total] == 0 && !skipped
@@ -111,6 +112,7 @@ module Inspec
     #
     def set_optional_formatters
       return if @conf["reporter"].nil?
+
       if @conf["reporter"].key?("json-rspec")
         # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
         if @conf["reporter"]["json-rspec"]&.[]("file").nil?

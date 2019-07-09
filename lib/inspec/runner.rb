@@ -136,7 +136,7 @@ module Inspec
     end
 
     def write_lockfile(profile)
-      return false if !profile.writable?
+      return false unless profile.writable?
 
       if profile.lockfile_exists?
         Inspec::Log.debug "Using existing lockfile #{profile.lockfile_path}"
@@ -182,16 +182,17 @@ module Inspec
     #
     def add_target(target, _opts = [])
       profile = Inspec::Profile.for_target(target,
-                                           vendor_cache: @cache,
-                                           backend: @backend,
-                                           controls: @controls,
-                                           runner_conf: @conf)
+        vendor_cache: @cache,
+        backend: @backend,
+        controls: @controls,
+        runner_conf: @conf)
       raise "Could not resolve #{target} to valid input." if profile.nil?
+
       @target_profiles << profile if supports_profile?(profile)
     end
 
     def supports_profile?(profile)
-      if !profile.supports_runtime?
+      unless profile.supports_runtime?
         raise "This profile requires #{Inspec::Dist::PRODUCT_NAME} version "\
              "#{profile.metadata.inspec_requirement}. You are running "\
              "#{Inspec::Dist::PRODUCT_NAME} v#{Inspec::VERSION}.\n"
@@ -211,6 +212,7 @@ module Inspec
       new_tests = false
       ctx.rules.each do |rule_id, rule|
         next if block_given? && !(yield rule_id, rule)
+
         new_tests = true
         register_rule(rule)
       end
@@ -238,6 +240,7 @@ module Inspec
 
     def block_source_info(block)
       return {} if block.nil? || !block.respond_to?(:source_location)
+
       opts = {}
       file_path, line = block.source_location
       opts["file_path"] = file_path

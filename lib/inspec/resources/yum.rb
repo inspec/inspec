@@ -47,6 +47,7 @@ module Inspec::Resources
     # until \n
     def repositories
       return @cache if defined?(@cache)
+
       # parse the repository data from yum
       # we cannot use -C, because this is not reliable and may lead to errors
       @command_result = inspec.command("yum -v repolist all")
@@ -82,7 +83,7 @@ module Inspec::Resources
 
     # alias for yum.repo('reponame')
     def method_missing(name)
-      repo(name.to_s) if !name.nil?
+      repo(name.to_s) unless name.nil?
     end
 
     def to_s
@@ -99,6 +100,7 @@ module Inspec::Resources
     # Optimize the key value
     def repo_key(key)
       return key if key.nil?
+
       key.gsub("Repo-", "").downcase
     end
   end
@@ -118,6 +120,7 @@ module Inspec::Resources
 
     def info
       return @cache if defined?(@cache)
+
       selection = @yum.repositories.select { |e| e["id"] == @reponame || shortname(e["id"]) == @reponame }
       @cache = selection.empty? ? {} : selection.first
       @cache
@@ -129,20 +132,21 @@ module Inspec::Resources
 
     def enabled?
       return false unless exist?
+
       info["status"] == "enabled"
     end
 
     # provide a method for each of the repo metadata items we know about
-    [
-      :baseurl,
-      :expire,
-      :filename,
-      :mirrors,
-      :pkgs,
-      :size,
-      :status,
-      :updated,
-    ].each do |key|
+    %i{
+      baseurl
+      expire
+      filename
+      mirrors
+      pkgs
+      size
+      status
+      updated
+    }.each do |key|
       define_method key do
         info[key.to_s]
       end

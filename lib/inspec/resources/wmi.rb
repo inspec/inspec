@@ -51,13 +51,14 @@ module Inspec::Resources
 
     def params
       return @content if defined?(@content)
+
       @content = {}
 
       # abort if no options are available
       return @content unless defined?(@options)
 
       # filter for supported options
-      args = @options.select { |key, _value| [:class, :namespace, :query, :filter].include?(key) }
+      args = @options.select { |key, _value| %i{class namespace query filter}.include?(key) }
 
       # convert to Get-WmiObject arguments
       params = ""

@@ -8,6 +8,7 @@ module SourceReaders
 
     def self.resolve(target)
       return new(target, "inspec.yml") if target.files.include?("inspec.yml")
+
       nil
     end
 

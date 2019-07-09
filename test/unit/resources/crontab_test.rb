@@ -148,7 +148,7 @@ describe "Inspec::Resources::Crontab" do
           "weekday" => "-1",
           "user" => "special",
           "command" => '/bin/echo "Rebooting" > /var/log/rebooting.log',
-        }
+        },
       ])
     end
   end

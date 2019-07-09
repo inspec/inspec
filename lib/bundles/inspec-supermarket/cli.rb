@@ -20,7 +20,7 @@ module Supermarket
 
       headline("Available profiles:")
       supermarket_profiles.each do |p|
-        li("#{p['tool_name']} #{mark_text(p['tool_owner'] + '/' + p['slug'])}")
+        li("#{p["tool_name"]} #{mark_text(p["tool_owner"] + "/" + p["slug"])}")
       end
     end
 
@@ -48,7 +48,7 @@ module Supermarket
       # check that the profile is available
       supermarket_profiles = Supermarket::API.profiles
       found = supermarket_profiles.select do |p|
-        profile == "#{p['tool_owner']}/#{p['slug']}"
+        profile == "#{p["tool_owner"]}/#{p["slug"]}"
       end
 
       if found.empty?
@@ -58,11 +58,11 @@ module Supermarket
 
       # load details for the specific profile
       info = Supermarket::API.info(profile)
-      puts "#{mark_text('name: ')}  #{info['slug']}"
-      puts "#{mark_text('owner:')}  #{info['owner']}"
-      puts "#{mark_text('url:  ')}  #{info['source_url']}"
+      puts "#{mark_text("name: ")}  #{info["slug"]}"
+      puts "#{mark_text("owner:")}  #{info["owner"]}"
+      puts "#{mark_text("url:  ")}  #{info["source_url"]}"
       puts
-      puts "#{mark_text('description:  ')} #{info['description']}"
+      puts "#{mark_text("description:  ")} #{info["description"]}"
     end
   end
 

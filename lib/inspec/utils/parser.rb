@@ -8,6 +8,7 @@ module PasswdParser
   def parse_passwd(content)
     content.to_s.split("\n").map do |line|
       next if line[0] == "#"
+
       parse_passwd_line(line)
     end.compact
   end
@@ -224,6 +225,7 @@ module XinetdParser
 
   def parse_xinetd(raw) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     return {} if raw.nil?
+
     res = {}
     cur_group = nil
     simple_conf = []

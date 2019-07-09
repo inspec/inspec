@@ -120,15 +120,15 @@ class AwsSGSMatchers < Minitest::Test
   def test_matcher_allow_criteria_validation
     sg = AwsSecurityGroup.new("sg-aaaabbbb")
     assert_raises(ArgumentError, "allow should reject unrecognized criteria") { sg.allow_in?(shoe_size: 9) }
-    [
-      :from_port,
-      :ipv4_range,
-      :port,
-      :position,
-      :protocol,
-      :to_port,
-      :security_group,
-    ].each do |criterion|
+    %i{
+      from_port
+      ipv4_range
+      port
+      position
+      protocol
+      to_port
+      security_group
+    }.each do |criterion|
       # No errors here
       sg.allow_in?(criterion => "dummy")
     end
@@ -138,7 +138,7 @@ class AwsSGSMatchers < Minitest::Test
     sg = AwsSecurityGroup.new("sg-aaaabbbb")
     rules = sg.inbound_rules
     assert_equal(0, rules.count)
-    refute(sg.allow_in?()) # Should we test this - "open" criteria?
+    refute(sg.allow_in?) # Should we test this - "open" criteria?
   end
 
   def test_matcher_allow_inbound_complex
@@ -192,7 +192,7 @@ class AwsSGSMatchers < Minitest::Test
 
     # Test _only with a 3-rule group, but omitting position
     refute(sg.allow_in_only?(port: 22), "_only will fail a multi-rule SG even if it has matching criteria")
-    refute(sg.allow_in_only?(), "_only will fail a multi-rule SG even if it has match-any criteria")
+    refute(sg.allow_in_only?, "_only will fail a multi-rule SG even if it has match-any criteria")
 
     # Test _only with a single rule group (ie, omitting position)
     sg = AwsSecurityGroup.new("sg-22223333")
@@ -292,7 +292,7 @@ module AwsMESGSB
                 { cidr_ip: "10.1.4.0/24" },
               ],
               ipv_6_ranges: [
-                { cidr_ipv_6: "2018:db8::/122" }
+                { cidr_ipv_6: "2018:db8::/122" },
               ],
             }),
             OpenStruct.new({
@@ -313,7 +313,7 @@ module AwsMESGSB
                 { cidr_ip: "128.138.140.44/32" },
               ],
               ipv_6_ranges: [
-                { cidr_ipv_6: "2001:db8::/122" }
+                { cidr_ipv_6: "2001:db8::/122" },
               ],
             }),
           ],
@@ -492,7 +492,7 @@ module AwsMESGSB
             }),
           ],
           ip_permissions_egress: [],
-        }),      ]
+        }) ]
 
       selected = fixtures.select do |sg|
         query[:filters].all? do |filter|

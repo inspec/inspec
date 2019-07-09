@@ -17,11 +17,12 @@ module Inspec::Resources
       k = name.to_s
       res = @params[k]
       return true if res.nil? && @params.key?(k)
+
       @params[k]
     end
 
     def to_s
-      "MySQL Config entry [#{@path.join(' ')}]"
+      "MySQL Config entry [#{@path.join(" ")}]"
     end
   end
 
@@ -112,6 +113,7 @@ module Inspec::Resources
 
     def abs_path(dir, f)
       return f if f.start_with? "/"
+
       File.join(dir, f)
     end
 

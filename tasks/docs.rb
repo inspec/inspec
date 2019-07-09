@@ -172,6 +172,7 @@ class ResourceDocs
       matched = false
       group_regexes.each do |group_info|
         next if matched
+
         if doc_file =~ group_info[:regex]
           resources_by_group[group_info[:group_name]] << doc_file
           matched = true
@@ -248,6 +249,7 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
     cmds = Inspec::InspecCLI.all_commands
     cmds.keys.sort.each do |key|
       next if skip_commands.include? key
+
       cmd = cmds[key]
 
       res << f.h2(cmd.usage.split.first)
@@ -269,10 +271,10 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
           opt = cmd.options[option]
           # TODO: remove when UX of help is reworked 1.0
           usage = opt.usage.split(", ")
-                     .map { |x| x.tr("[]", "") }
-                     .map { |x| x.start_with?("-") ? x : "-" + x }
-                     .map { |x| "``" + x + "``" }
-          list << f.li("#{usage.join(', ')}  \n#{opt.description}")
+            .map { |x| x.tr("[]", "") }
+            .map { |x| x.start_with?("-") ? x : "-" + x }
+            .map { |x| "``" + x + "``" }
+          list << f.li("#{usage.join(", ")}  \n#{opt.description}")
         end.join
         res << f.ul(list)
       end
@@ -289,17 +291,17 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
   desc "Create resources docs"
   # This task injects the contrib:cleanup_docs as a followup
   # to the actual doc building.
-  task resources: [:resources_actual, :'contrib:cleanup_docs']
+  task resources: %i{resources_actual contrib:cleanup_docs}
 
-  task resources_actual: [:clean, :'contrib:copy_docs'] do
+  task resources_actual: %i{clean contrib:copy_docs} do
     src = DOCS_DIR
     dst = File.join(WWW_DIR, "source", "docs", "reference", "resources")
     FileUtils.mkdir_p(dst)
 
     docs = ResourceDocs.new(src)
     resources = Dir.glob([File.join(src, "resources/*.md.erb"), File.join(src, "resources/*.md")])
-                   .map { |x| x.sub(/^#{src}/, "") }
-                   .sort
+      .map { |x| x.sub(/^#{src}/, "") }
+      .sort
     puts "Found #{resources.length} resource docs"
     puts "Rendering docs to #{dst}/"
 
@@ -329,7 +331,7 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
   end
 
   desc "Copy fixed doc files"
-  task copy: [:clean, :resources] do
+  task copy: %i{clean resources} do
     src = DOCS_DIR
     dst = File.join(WWW_DIR, "source", "docs", "reference")
     files = Dir[File.join(src, "*.md")]

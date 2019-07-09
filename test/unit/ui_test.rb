@@ -37,7 +37,7 @@ GLYPHS = {
 #                        Low-Level Formatting
 #=============================================================================#
 describe "Inspec::UI low-level Formatting" do
-  let(:fixture_io) { StringIO.new() }
+  let(:fixture_io) { StringIO.new }
   let(:output) { fixture_io.string }
   let(:ui) { Inspec::UI.new(io: fixture_io) }
 
@@ -60,7 +60,7 @@ describe "Inspec::UI low-level Formatting" do
     end
 
     describe "colors" do
-      [:red, :green, :cyan, :yellow, :white, :grey].each do |color|
+      %i{red green cyan yellow white grey}.each do |color|
         it("uses the color code for " + color.to_s) do
           ui.send(color, "test")
           output.must_equal(ANSI_CODES[:color][color] + "test" + ANSI_CODES[:reset])
@@ -79,7 +79,7 @@ describe "Inspec::UI low-level Formatting" do
       end
     end
     describe "colors" do
-      [:red, :green, :yellow, :white, :grey].each do |color|
+      %i{red green yellow white grey}.each do |color|
         it("uses no ANSI codes for " + color.to_s) do
           ui.send(color, "test")
           output.wont_include('\e[')
@@ -94,7 +94,7 @@ end
 #                        High-Level Formatting
 #=============================================================================#
 describe "Inspec::UI High-Level Formatting" do
-  let(:fixture_io) { StringIO.new() }
+  let(:fixture_io) { StringIO.new }
   let(:output) { fixture_io.string }
 
   describe "when color is enabled" do
@@ -221,7 +221,7 @@ end
 #                          Tables and Lists
 #=============================================================================#
 describe "Inspec::UI Tables and Lists" do
-  let(:fixture_io) { StringIO.new() }
+  let(:fixture_io) { StringIO.new }
   let(:output) { fixture_io.string }
 
   describe "when color is enabled" do
@@ -337,7 +337,7 @@ end
 #                       CLI Integration
 #=============================================================================#
 describe "Inspec::UI CLI integration" do
-  let(:fixture_io) { StringIO.new() }
+  let(:fixture_io) { StringIO.new }
   let(:output) { fixture_io.string }
   let(:cli) { Inspec::BaseCLI.new }
 
@@ -411,13 +411,13 @@ end
 #=============================================================================#
 # These are tested in functional tests
 describe "Inspec UI Exit Codes" do
-  [
-    :EXIT_NORMAL,
-    :EXIT_USAGE_ERROR,
-    :EXIT_PLUGIN_ERROR,
-    :EXIT_SKIPPED_TESTS,
-    :EXIT_FAILED_TESTS,
-  ].each do |const_name|
+  %i{
+    EXIT_NORMAL
+    EXIT_USAGE_ERROR
+    EXIT_PLUGIN_ERROR
+    EXIT_SKIPPED_TESTS
+    EXIT_FAILED_TESTS
+  }.each do |const_name|
     it "should define #{const_name}" do
       Inspec::UI.const_defined?(const_name).must_equal true
     end

@@ -11,7 +11,7 @@ describe "inspec exec" do
 
   it "can generate keys" do
     prepare_examples do |dir|
-      unique_key_name = SecureRandom.uuid()
+      unique_key_name = SecureRandom.uuid
       out = inspec("artifact generate --keyname #{unique_key_name}", "cd #{dir} && ")
       out.exit_status.must_equal 0
 
@@ -26,9 +26,10 @@ describe "inspec exec" do
     # use specific linux extract tar commands. Since artifact is still
     # experimental we are skipping it for now.
     return if is_windows?
+
     prepare_examples do |dir|
-      unique_key_name = SecureRandom.uuid()
-      install_dir = File.join(dir, SecureRandom.uuid())
+      unique_key_name = SecureRandom.uuid
+      install_dir = File.join(dir, SecureRandom.uuid)
       profile = File.join(dir, "profile")
       FileUtils.mkdir(install_dir)
 

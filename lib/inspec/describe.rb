@@ -12,6 +12,7 @@ module Inspec
     # @return [nil]
     def one(&block)
       return unless block_given?
+
       instance_eval(&block)
       @action.call("describe.one", @checks, nil)
     end

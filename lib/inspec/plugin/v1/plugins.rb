@@ -32,9 +32,9 @@ module Inspec
       # traverse out of inspec-vX.Y.Z/lib/inspec/plugins.rb
       @home = home || File.join(Inspec.config_dir, "plugins")
       @paths += Dir[File.join(@home, "**{,/*/**}", "*.gemspec")]
-                .map { |x| File.dirname(x) }
-                .map { |x| Dir[File.join(x, "lib", "inspec-*.rb")] }
-                .flatten
+        .map { |x| File.dirname(x) }
+        .map { |x| Dir[File.join(x, "lib", "inspec-*.rb")] }
+        .flatten
 
       # load bundled plugins
       bundled_dir = File.expand_path(File.dirname(__FILE__))
@@ -51,6 +51,7 @@ module Inspec
       if path.nil?
         raise "Couldn't find plugin #{name}. Searching in #{@home}"
       end
+
       # puts "Loading plugin #{name} from #{path}"
       require path
     end

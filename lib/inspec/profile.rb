@@ -34,6 +34,7 @@ module Inspec
       keys = content.keys
       keys.each do |key|
         next if content[key].nil?
+
         # remove prefix
         rel = Pathname.new(key).relative_path_from(Pathname.new("vendor")).to_s
         tar = Pathname.new(opts[:vendor_cache].path).join(rel)
@@ -187,10 +188,12 @@ module Inspec
     def collect_tests(include_list = @controls)
       unless @tests_collected
         return unless supports_platform?
+
         locked_dependencies.each(&:collect_tests)
 
         tests.each do |path, content|
           next if content.nil? || content.empty?
+
           abs_path = source_reader.target.abs_path(path)
           @runner_context.load_control_file(content, abs_path, nil)
         end
@@ -207,6 +210,7 @@ module Inspec
         next if inclusion.is_a?(Regexp)
         # Insist the user wrap the regex in slashes to demarcate it as a regex
         next unless inclusion.start_with?("/") && inclusion.end_with?("/")
+
         inclusion = inclusion[1..-2] # Trim slashes
         begin
           re = Regexp.new(inclusion)
@@ -271,6 +275,7 @@ module Inspec
       # add information about the controls
       res[:controls] = res[:controls].map do |id, rule|
         next if id.to_s.empty?
+
         data = rule.dup
         data.delete(:checks)
         data[:impact] ||= 0.5
@@ -284,7 +289,7 @@ module Inspec
             profile = dep.profile
             code = Inspec::MethodSource.code_at(data[:source_location], profile.source_reader)
             data[:code] = code unless code.nil? || code.empty?
-            break if !data[:code].empty?
+            break unless data[:code].empty?
           end
         end
         data
@@ -377,8 +382,8 @@ module Inspec
       # only run the vendor check if the legacy profile-path is not used as argument
       if @legacy_profile_path == false
         # verify that a lockfile is present if we have dependencies
-        if !metadata.dependencies.empty?
-          error.call(meta_path, 0, 0, nil, "Your profile needs to be vendored with `inspec vendor`.") if !lockfile_exists?
+        unless metadata.dependencies.empty?
+          error.call(meta_path, 0, 0, nil, "Your profile needs to be vendored with `inspec vendor`.") unless lockfile_exists?
         end
 
         if lockfile_exists?
@@ -393,7 +398,7 @@ module Inspec
             next if dep[:name].nil?
 
             # TODO: should we also verify that the soure is the same?
-            if !lockfile.deps.map { |x| x[:name] }.include? dep[:name]
+            unless lockfile.deps.map { |x| x[:name] }.include? dep[:name]
               error.call(meta_path, 0, 0, nil, "Cannot find #{dep[:name]} in lockfile. Please re-vendor with `inspec vendor`.")
             end
           end
@@ -417,6 +422,7 @@ module Inspec
         sline = control[:source_location][:line]
         error.call(sfile, sline, nil, id, "Avoid controls with empty IDs") if id.nil? || id.empty?
         next if id.start_with? "(generated "
+
         warn.call(sfile, sline, nil, id, "Control #{id} has no title") if control[:title].to_s.empty?
         warn.call(sfile, sline, nil, id, "Control #{id} has no descriptions") if control[:descriptions][:default].to_s.empty?
         warn.call(sfile, sline, nil, id, "Control #{id} has impact > 1.0") if control[:impact].to_f > 1.0
@@ -547,7 +553,7 @@ module Inspec
         [["inspec.lock.deps", YAML.dump(deps)]]
 
       files.sort_by { |a| a[0] }
-           .map { |f| res << f[0] << "\0" << f[1] << "\0" }
+        .map { |f| res << f[0] << "\0" << f[1] << "\0" }
 
       res.digest.unpack("H*")[0]
     end
@@ -591,6 +597,7 @@ module Inspec
       prefix = @source_reader.target.prefix || ""
       tests&.each do |rule|
         next if rule.nil?
+
         f = load_rule_filepath(prefix, rule)
         load_rule(rule, f, controls, groups)
       end
@@ -623,7 +630,7 @@ module Inspec
       if controls[id][:code].empty? && Inspec::Rule.merge_count(rule) > 0
         Inspec::Rule.merge_changes(rule).each do |merge_location|
           code = Inspec::MethodSource.code_at(merge_location, source_reader)
-          if !code.empty?
+          unless code.empty?
             controls[id][:code] = code
             break
           end

@@ -49,13 +49,13 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.register_column(:users,     field: "user")
-          .register_column(:passwords, field: "password")
-          .register_column(:uids,      field: "uid")
-          .register_column(:gids,      field: "gid")
-          .register_column(:descs,     field: "desc")
-          .register_column(:homes,     field: "home")
-          .register_column(:shells,    field: "shell")
+    filter.register_column(:users, field: "user")
+      .register_column(:passwords, field: "password")
+      .register_column(:uids,      field: "uid")
+      .register_column(:gids,      field: "gid")
+      .register_column(:descs,     field: "desc")
+      .register_column(:homes,     field: "home")
+      .register_column(:shells,    field: "shell")
 
     # rebuild the passwd line from raw content
     filter.register_custom_property(:content) do |t, _|

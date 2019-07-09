@@ -59,20 +59,21 @@ class SSL < Inspec.resource(1)
   filter = FilterTable.create
   filter.register_custom_matcher(:enabled?) do |x|
     raise "Cannot determine host for SSL test. Please specify it or use a different target." if x.resource.host.nil?
+
     x.handshake.values.any? { |i| i["success"] }
   end
   filter.register_column(:ciphers, field: "cipher")
-        .register_column(:protocols, field: "protocol")
-        .register_custom_property(:handshake) do |x|
-          groups = x.entries.group_by(&:protocol)
-          res = Parallel.map(groups, in_threads: 8) do |proto, e|
-            [proto, SSLShake.hello(x.resource.host, port: x.resource.port,
-              protocol: proto, ciphers: e.map(&:cipher),
-              timeout: x.resource.timeout, retries: x.resource.retries, servername: x.resource.host)]
-          end
-          Hash[res]
-        end
-        .install_filter_methods_on_resource(self, :scan_config)
+    .register_column(:protocols, field: "protocol")
+    .register_custom_property(:handshake) do |x|
+      groups = x.entries.group_by(&:protocol)
+      res = Parallel.map(groups, in_threads: 8) do |proto, e|
+        [proto, SSLShake.hello(x.resource.host, port: x.resource.port,
+          protocol: proto, ciphers: e.map(&:cipher),
+          timeout: x.resource.timeout, retries: x.resource.retries, servername: x.resource.host)]
+      end
+      Hash[res]
+    end
+    .install_filter_methods_on_resource(self, :scan_config)
 
   def to_s
     "SSL/TLS on #{@host}:#{@port}"

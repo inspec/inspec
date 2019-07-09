@@ -15,7 +15,7 @@ class AwsCloudTrailTrail < Inspec.resource(1)
 
   include AwsSingularResourceMixin
   attr_reader :cloud_watch_logs_log_group_arn, :cloud_watch_logs_role_arn, :home_region,
-              :kms_key_id, :s3_bucket_name, :trail_arn
+    :kms_key_id, :s3_bucket_name, :trail_arn
 
   def to_s
     "CloudTrail #{@trail_name}"

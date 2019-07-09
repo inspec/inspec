@@ -68,7 +68,7 @@ module Inspec::DSL
     context = dep_entry.profile.runner_context
     # if we don't want all the rules, then just make 1 pass to get all rule_IDs
     # that we want to keep from the original
-    filter_included_controls(context, dep_entry.profile, &block) if !opts[:include_all]
+    filter_included_controls(context, dep_entry.profile, &block) unless opts[:include_all]
     # interpret the block and skip/modify as required
     context.load(block) if block_given?
     bind_context.add_subcontext(context)

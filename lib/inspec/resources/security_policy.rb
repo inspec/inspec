@@ -104,6 +104,7 @@ module Inspec::Resources
 
       # return an empty array if configuration does not include rights configuration
       return [] if res.nil? && MS_PRIVILEGES_RIGHTS.include?(name.to_s)
+
       res
     end
 
@@ -153,7 +154,7 @@ module Inspec::Resources
       elsif val =~ /[,]{0,1}\*\S/
         if @translate_sid
           val.split(",").map do |v|
-            object_name = inspec.command("(New-Object System.Security.Principal.SecurityIdentifier(\"#{v.sub('*S', 'S')}\")).Translate( [System.Security.Principal.NTAccount]).Value").stdout.to_s.strip
+            object_name = inspec.command("(New-Object System.Security.Principal.SecurityIdentifier(\"#{v.sub("*S", "S")}\")).Translate( [System.Security.Principal.NTAccount]).Value").stdout.to_s.strip
             object_name.empty? || object_name.nil? ? v.sub("*S", "S") : object_name
           end
         else

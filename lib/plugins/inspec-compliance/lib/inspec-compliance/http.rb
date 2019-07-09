@@ -45,6 +45,7 @@ module InspecPlugins
       def self.post_file(url, headers, file_path, insecure)
         uri = _parse_url(url)
         raise "Unable to parse URL: #{url}" if uri.nil? || uri.host.nil?
+
         http = Net::HTTP.new(uri.host, uri.port)
 
         # set connection flags
@@ -69,6 +70,7 @@ module InspecPlugins
       def self.post_multipart_file(url, headers, file_path, insecure)
         uri = _parse_url(url)
         raise "Unable to parse URL: #{url}" if uri.nil? || uri.host.nil?
+
         http = Net::HTTP.new(uri.host, uri.port)
 
         # set connection flags
@@ -93,6 +95,7 @@ module InspecPlugins
         opts[:verify_mode] = OpenSSL::SSL::VERIFY_NONE if insecure
 
         raise "Unable to parse URI: #{uri}" if uri.nil? || uri.host.nil?
+
         res = Net::HTTP.start(uri.host, uri.port, opts) do |http|
           http.request(req)
         end

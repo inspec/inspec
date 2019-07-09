@@ -26,6 +26,7 @@ module Inspec::Resources
       param = read_params[name.to_s]
       # extract first value if we have only one value in array
       return param[0] if param.is_a?(Array) && (param.length == 1)
+
       param
     end
 

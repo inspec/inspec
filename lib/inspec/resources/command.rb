@@ -35,7 +35,7 @@ module Inspec::Resources
           # Make sure command is replaced so sensitive output isn't shown
           @command = "ERROR"
           raise Inspec::Exceptions::ResourceFailed,
-                "The `redact_regex` option must be a regular expression"
+            "The `redact_regex` option must be a regular expression"
         end
         @redact_regex = options[:redact_regex]
       end

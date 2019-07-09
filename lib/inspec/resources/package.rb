@@ -65,11 +65,12 @@ module Inspec::Resources
 
     # returns the package description
     def info
-      return @cache if !@cache.nil?
+      return @cache unless @cache.nil?
       # All `@pkgman.info` methods return `{}`. This matches that
       # behavior if `@pkgman` can't be determined, thus avoiding the
       # `undefined method 'info' for nil:NilClass` error
       return {} if @pkgman.nil?
+
       @pkgman.info(@package_name)
     end
 
@@ -88,6 +89,7 @@ module Inspec::Resources
     def evaluate_missing_requirements
       missing_requirements_string = @pkgman.missing_requirements.uniq.join(", ")
       return if missing_requirements_string.empty?
+
       raise Inspec::Exceptions::ResourceSkipped, "The following requirements are not met for this resource: #{missing_requirements_string}"
     end
   end
@@ -154,6 +156,7 @@ module Inspec::Resources
       # CentOS does not return an error code if the package is not installed,
       # therefore we need to check for emptyness
       return {} if cmd.exit_status.to_i != 0 || cmd.stdout.chomp.empty?
+
       params = SimpleConfig.new(
         cmd.stdout.chomp,
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
@@ -214,8 +217,8 @@ module Inspec::Resources
       }
     rescue JSON::ParserError => e
       raise Inspec::Exceptions::ResourceFailed,
-            "Failed to parse JSON from `brew` command. " \
-            "Error: #{e}"
+        "Failed to parse JSON from `brew` command. " \
+        "Error: #{e}"
     end
   end
 
@@ -244,6 +247,7 @@ module Inspec::Resources
     def info(package_name)
       cmd = inspec.command("swlist -l product | grep #{package_name}")
       return {} if cmd.exit_status.to_i != 0
+
       pkg = cmd.stdout.strip.split(" ")
       {
         name: pkg[0],
@@ -303,8 +307,8 @@ module Inspec::Resources
         package = JSON.parse(cmd.stdout)
       rescue JSON::ParserError => e
         raise Inspec::Exceptions::ResourceFailed,
-              "Failed to parse JSON from PowerShell. " \
-              "Error: #{e}"
+          "Failed to parse JSON from PowerShell. " \
+          "Error: #{e}"
       end
 
       # What if we match multiple packages?  just pick the first one for now.
@@ -381,7 +385,7 @@ module Inspec::Resources
         name: params["Name"],
         installed: true,
         # 0.5.11-0.175.3.1.0.5.0
-        version: "#{params['Version']}-#{params['Branch']}",
+        version: "#{params["Version"]}-#{params["Branch"]}",
         type: "pkg",
       }
     end

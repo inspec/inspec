@@ -24,8 +24,8 @@ class PluginRegistry
   # @return [Array[Plugin]] sorted list of plugins
   def modules
     @registry.values
-             .sort_by { |x| x.respond_to?(:priority) ? x.priority : 0 }
-             .reverse
+      .sort_by { |x| x.respond_to?(:priority) ? x.priority : 0 }
+      .reverse
   end
 end
 
@@ -44,6 +44,7 @@ class PluginRegistry
     # @return [nil] disregard
     def self.name(name)
       raise "Trying to register #{self} with name == nil" if name.nil?
+
       @name = name
       plugin_registry.registry[name] = self
     end

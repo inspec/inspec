@@ -48,14 +48,14 @@ class AwsFlowLog < Inspec.resource(1)
   def validate_params(raw_params)
     validated_params = check_resource_param_names(
       raw_params: raw_params,
-      allowed_params: [:flow_log_id, :subnet_id, :vpc_id],
+      allowed_params: %i{flow_log_id subnet_id vpc_id},
       allowed_scalar_name: :flow_log_id,
       allowed_scalar_type: String
     )
 
     if validated_params.empty?
       raise ArgumentError,
-            "aws_flow_log requires a parameter: flow_log_id, subnet_id, or vpc_id"
+        "aws_flow_log requires a parameter: flow_log_id, subnet_id, or vpc_id"
     end
 
     validated_params

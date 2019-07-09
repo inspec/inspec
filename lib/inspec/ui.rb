@@ -204,6 +204,7 @@ module Inspec
       unless interactive?
         raise Inspec::UserInteractionRequired, "Somthing is trying to ask the user a question, but interactivity is disabled."
       end
+
       require "tty-prompt"
 
       @prompt ||= TTY::Prompt.new

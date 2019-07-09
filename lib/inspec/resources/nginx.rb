@@ -28,6 +28,7 @@ module Inspec::Resources
       if cmd.exit_status != 0
         return skip_resource "Error using the command nginx -V"
       end
+
       @data = cmd.stdout
       @params = {}
       read_content

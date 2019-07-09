@@ -83,6 +83,7 @@ module Inspec::Resources
 
     def object_info
       return @info if defined?(@info)
+
       opts = @opts
       @info = inspec.docker.containers.where { names == opts[:name] || (!id.nil? && !opts[:id].nil? && (id == opts[:id] || id.start_with?(opts[:id]))) }
     end

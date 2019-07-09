@@ -30,6 +30,7 @@ module Inspec::Plugin::V2
       # HACK: Status is normally the source of truth for loadedness, unless it is a train plugin; then the Train::Registry is the source of truth.
       # Also, InSpec registry is keyed on Symbols; Train is keyed on Strings.
       return registry.dig(name.to_sym, :loaded) unless name.to_s.start_with?("train-")
+
       Train::Plugins.registry.key?(name.to_s.sub(/^train-/, ""))
     end
 
@@ -61,7 +62,7 @@ module Inspec::Plugin::V2
     # @returns [Array] Possibly empty array of Activators
     def find_activators(filters = {})
       plugin_statuses.map(&:activators).flatten.select do |act|
-        [:plugin_name, :plugin_type, :activator_name, :implementation_class].all? do |criteria|
+        %i{plugin_name plugin_type activator_name implementation_class}.all? do |criteria|
           !filters.key?(criteria) || act[criteria] == filters[criteria]
         end
       end
@@ -75,6 +76,7 @@ module Inspec::Plugin::V2
       elsif matched_plugins.empty?
         raise Inspec::Plugin::V2::LoadError, "Plugin hooks search returned zero results for filter #{filters.inspect}"
       end
+
       matched_plugins.first
     end
 

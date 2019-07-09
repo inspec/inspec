@@ -32,8 +32,8 @@ module Inspec::Plugin::V2::PluginType
     def self.register_with_thor
       # Figure out my activator name (= subcommand group name)
       subcommand_name = Inspec::Plugin::V2::Registry.instance \
-                                                    .find_activators(plugin_type: :cli_command, implementation_class: self) \
-                                                    .first.activator_name.to_s
+        .find_activators(plugin_type: :cli_command, implementation_class: self) \
+        .first.activator_name.to_s
 
       # Register with Thor
       Inspec::InspecCLI.register(self, subcommand_name, @usage_msg, @desc_msg, {})

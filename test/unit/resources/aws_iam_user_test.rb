@@ -226,6 +226,7 @@ module MAIUB
         }),
       }
       raise Aws::IAM::Errors::NoSuchEntity.new(nil, nil) unless people.key?(criteria[:user_name])
+
       people[criteria[:user_name]]
     end
 
@@ -249,6 +250,7 @@ module MAIUB
         }),
       }
       raise Aws::IAM::Errors::NoSuchEntity.new(nil, nil) unless people.key?(criteria[:user_name])
+
       people[criteria[:user_name]]
     end
 

@@ -94,6 +94,7 @@ class ErlangBitstream
   def bit_size(size, type)
     raise "Cannot specify size and type at the same time." if !type.nil? && !size.nil?
     return (size || 8).to_i if type.nil?
+
     TYPES[type] || raise("Cannot handle binary-stream type #{type}")
   end
 
@@ -101,6 +102,7 @@ class ErlangBitstream
     if i[:integer].nil? && i[:string].nil?
       raise "No data provided, internal error for binary-stream processing!"
     end
+
     s = bit_size(i[:size], i[:type])
     unless i[:string].nil?
       str2int(i[:string].to_s, i[:type]).map { |e| add_bits(int2bits(e, 8)) }

@@ -53,7 +53,7 @@ module Inspec::Resources
     def filter_comments(data)
       content = ""
       data.each_line do |line|
-        if !line.match(/^\s*#/)
+        unless line.match(/^\s*#/)
           content << line
         end
       end

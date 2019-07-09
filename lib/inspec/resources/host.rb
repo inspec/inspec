@@ -72,7 +72,7 @@ module Inspec::Resources
       missing_requirements = @host_provider.missing_requirements(protocol)
       unless missing_requirements.empty?
         return skip_resource "The following requirements are not met for this resource: " \
-          "#{missing_requirements.join(', ')}"
+          "#{missing_requirements.join(", ")}"
       end
     end
 
@@ -83,7 +83,7 @@ module Inspec::Resources
 
     # if we get the IP address, the host is resolvable
     def resolvable?(type = nil)
-      warn "The `host` resource ignores #{type} parameters. Continue to resolve host." if !type.nil?
+      warn "The `host` resource ignores #{type} parameters. Continue to resolve host." unless type.nil?
       resolve.nil? || resolve.empty? ? false : true
     end
 
@@ -131,7 +131,8 @@ module Inspec::Resources
 
     def resolve
       return @ip_cache if defined?(@ip_cache)
-      @ip_cache = @host_provider.resolve(hostname) if !@host_provider.nil?
+
+      @ip_cache = @host_provider.resolve(hostname) unless @host_provider.nil?
     end
   end
 
@@ -248,6 +249,7 @@ module Inspec::Resources
       cmd.stdout.lines.each do |line|
         ip, = line.split(/\s+/, 2)
         next unless ip.match(Resolv::IPv4::Regex) || ip.match(Resolv::IPv6::Regex)
+
         addresses << ip unless addresses.include?(ip)
       end
 

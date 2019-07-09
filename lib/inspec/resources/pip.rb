@@ -88,6 +88,7 @@ module Inspec::Resources
     # @return [Hash] of windows_paths
     def windows_paths
       return @__windows_paths if @__windows_paths
+
       cmd = inspec.command(
         'New-Object -Type PSObject |
          Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru |
@@ -115,6 +116,7 @@ module Inspec::Resources
         # calculate path on windows
         if defined?(windows_paths["Python"]) && pipcmd.nil?
           return nil if windows_paths["Pip"].nil?
+
           pipdir = windows_paths["Python"].split('\\')
           # remove python.exe
           pipdir.pop

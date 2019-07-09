@@ -18,10 +18,10 @@ class AwsVpcs < Inspec.resource(1)
   filter = FilterTable.create
   filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
   filter.register_column(:cidr_blocks, field: :cidr_block)
-        .register_column(:vpc_ids, field: :vpc_id)
+    .register_column(:vpc_ids, field: :vpc_id)
   # We need a dummy here, so FilterTable will define and populate the dhcp_options_id field
   filter.register_column(:dummy, field: :dhcp_options_id)
-        .register_column(:dhcp_options_ids) { |obj| obj.entries.map(&:dhcp_options_id).uniq }
+    .register_column(:dhcp_options_ids) { |obj| obj.entries.map(&:dhcp_options_id).uniq }
   filter.install_filter_methods_on_resource(self, :table)
 
   def validate_params(raw_params)
@@ -29,6 +29,7 @@ class AwsVpcs < Inspec.resource(1)
     unless raw_params.empty?
       raise ArgumentError, "aws_vpcs does not accept resource parameters"
     end
+
     raw_params
   end
 

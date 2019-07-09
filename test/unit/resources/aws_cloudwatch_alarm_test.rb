@@ -132,7 +132,7 @@ module AwsMCWAB
             namespace: "metric-namespace-01",
             statistic: "SampleCount",
             alarm_actions: [
-              "arn::::" # TODO: get SNS ARN format
+              "arn::::", # TODO: get SNS ARN format
             ],
           }),
           OpenStruct.new({

@@ -27,6 +27,7 @@ module Inspec::Resources
       if @conf_path.nil?
         return skip_resource "PostgreSQL conf path is not set"
       end
+
       @conf_dir = File.expand_path(File.dirname(@conf_path))
       @files_contents = {}
       @content = nil
@@ -57,6 +58,7 @@ module Inspec::Resources
       return nil if param.nil?
       # extract first value if we have only one value in array
       return param[0] if param.length == 1
+
       param
     end
 

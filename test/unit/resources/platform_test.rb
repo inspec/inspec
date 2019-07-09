@@ -41,7 +41,7 @@ describe "Inspec::Resources::Platform" do
   it "verify supported? with multiple families" do
     supports = [
       { os_family: "windows" },
-      { os_family: "unix" }
+      { os_family: "unix" },
     ]
     resource.supported?(supports).must_equal true
   end
@@ -49,7 +49,7 @@ describe "Inspec::Resources::Platform" do
   it "loads a profile which supports multiple names" do
     supports = [
       { 'os-family': "windows", 'os-name': "windows_2000" },
-      { 'os-family': "unix", 'os-name': "ubuntu" }
+      { 'os-family': "unix", 'os-name': "ubuntu" },
     ]
     resource.supported?(supports).must_equal true
   end
@@ -57,7 +57,7 @@ describe "Inspec::Resources::Platform" do
   it "reject a profile which supports multiple families" do
     supports = [
       { os_family: "windows" },
-      { os_family: "redhat" }
+      { os_family: "redhat" },
     ]
     resource.supported?(supports).must_equal false
   end
@@ -65,7 +65,7 @@ describe "Inspec::Resources::Platform" do
   it "loads a profile which supports release 15.04" do
     supports = [
       { 'os-family': "windows", 'os-name': "windows_2000" },
-      { 'os-name': "ubuntu", 'release': "15.04" }
+      { 'os-name': "ubuntu", 'release': "15.04" },
     ]
     resource.supported?(supports).must_equal true
   end
@@ -73,7 +73,7 @@ describe "Inspec::Resources::Platform" do
   it "loads a profile which supports release 15.*" do
     supports = [
       { 'os-family': "windows", 'os-name': "windows_2000" },
-      { 'os-name': "ubuntu", 'release': "15.*" }
+      { 'os-name': "ubuntu", 'release': "15.*" },
     ]
     resource.supported?(supports).must_equal true
   end
@@ -81,7 +81,7 @@ describe "Inspec::Resources::Platform" do
   it "loads a profile which supports release *.04" do
     supports = [
       { 'os-family': "windows", 'os-name': "windows_2000" },
-      { 'os-name': "ubuntu", 'release': "*.04" }
+      { 'os-name': "ubuntu", 'release': "*.04" },
     ]
     resource.supported?(supports).must_equal true
   end
@@ -89,7 +89,7 @@ describe "Inspec::Resources::Platform" do
   it "reject a profile which supports release 12.*" do
     supports = [
       { 'os-family': "windows", 'os-name': "windows_2000" },
-      { 'os-name': "ubuntu", 'release': "12.*" }
+      { 'os-name': "ubuntu", 'release': "12.*" },
     ]
     resource.supported?(supports).must_equal false
   end

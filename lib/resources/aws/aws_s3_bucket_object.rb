@@ -23,6 +23,7 @@ class AwsS3BucketObject < Inspec.resource(1)
 
   def object_acl
     return @object_acl if defined? @object_acl
+
     catch_aws_errors do
       @object_acl = BackendFactory.create(inspec_runner).get_object_acl(bucket: bucket_name, key: key).grants
     end
@@ -42,11 +43,12 @@ class AwsS3BucketObject < Inspec.resource(1)
   def validate_params(raw_params)
     validated_params = check_resource_param_names(
       raw_params: raw_params,
-      allowed_params: [:bucket_name, :key, :id]
+      allowed_params: %i{bucket_name key id}
     )
     if validated_params.empty? || !validated_params.key?(:bucket_name) || !validated_params.key?(:key)
       raise ArgumentError, "You must provide a bucket_name and key to aws_s3_bucket_object."
     end
+
     validated_params
   end
 

@@ -76,6 +76,7 @@ module Inspec::Resources
 
     def iis_app
       return @cache unless @cache.nil?
+
       command = "Import-Module WebAdministration; Get-WebApplication -Name '#{@path}' -Site '#{@site_name}' | Select-Object * | ConvertTo-Json"
       cmd = @inspec.command(command)
 

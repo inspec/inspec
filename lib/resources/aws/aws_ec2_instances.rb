@@ -17,6 +17,7 @@ class AwsEc2Instances < Inspec.resource(1)
     unless resource_params.empty?
       raise ArgumentError, "aws_ec2_instances does not accept resource parameters."
     end
+
     resource_params
   end
 
@@ -38,6 +39,7 @@ class AwsEc2Instances < Inspec.resource(1)
       api_result = backend.describe_instances(pagination_opts)
       @table += unpack_describe_instances_response(api_result.reservations)
       break unless api_result.next_token
+
       pagination_opts = { next_token: api_result.next_token }
     end
   end

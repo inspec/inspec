@@ -38,6 +38,7 @@ module PluginManagerHelpers
   def clear_empty_config_dir
     Dir.glob(File.join(project_config_dirs_path, "empty", "*")).each do |path|
       next if path.end_with? ".gitkeep"
+
       FileUtils.rm_rf(path)
     end
   end

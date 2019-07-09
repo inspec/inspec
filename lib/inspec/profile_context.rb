@@ -94,7 +94,7 @@ module Inspec
 
     def subcontext_by_name(name)
       found = @lib_subcontexts.find { |c| c.profile_id == name }
-      if !found
+      unless found
         @lib_subcontexts.each do |c|
           found = c.subcontext_by_name(name)
           break if found
@@ -133,6 +133,7 @@ module Inspec
       # load all files directly that are flat inside the libraries folder
       autoloads.each do |path|
         next unless path.end_with?(".rb")
+
         load_library_file(*@require_loader.load(path)) unless @require_loader.loaded?(path)
       end
       reload_dsl
@@ -150,7 +151,7 @@ module Inspec
     end
 
     def load_with_context(context, content, source = nil, line = nil)
-      Inspec::Log.debug("Loading #{source || '<anonymous content>'} into #{self}")
+      Inspec::Log.debug("Loading #{source || "<anonymous content>"} into #{self}")
       @current_load = { file: source }
       if content.is_a? Proc
         context.instance_eval(&content)
@@ -195,6 +196,7 @@ module Inspec
 
     def full_id(pid, rid)
       return rid.to_s if pid.to_s.empty?
+
       pid.to_s + "/" + rid.to_s
     end
   end

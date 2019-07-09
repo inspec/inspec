@@ -33,7 +33,7 @@ describe Fetchers::Git do
     let(:git_branch_ref) { "b979579e5fc8edb72511fe5d2a1230dede71eff7" }
     let(:git_tag_ref) { "efc85d89ee9d5798ca93ee95db0c711b99061590" }
     let(:git_output) do
-      out = mock()
+      out = mock
       out.stubs(:stdout).returns("")
       out.stubs(:exitstatus).returns(0)
       out.stubs(:stderr).returns("")
@@ -44,7 +44,7 @@ describe Fetchers::Git do
     end
 
     let(:git_ls_remote_output) do
-      out = mock()
+      out = mock
       out.stubs(:stdout).returns("9abea97db10a428709353fd582b969d0e17cb923\tHEAD
 bf4d5774f02d24155bfc34b5897d22785a304cfa\trefs/heads/master
 b979579e5fc8edb72511fe5d2a1230dede71eff7\trefs/heads/somebranch
@@ -108,9 +108,9 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
 
     it "fetches to the given location" do
       expect_ls_remote("master")
-      expect_clone()
+      expect_clone
       expect_checkout(git_master_ref)
-      expect_mv_into_place()
+      expect_mv_into_place
       result = fetcher.resolve({ git: git_dep_dir })
       result.fetch("fetchpath")
     end

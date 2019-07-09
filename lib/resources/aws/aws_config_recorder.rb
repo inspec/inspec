@@ -32,6 +32,7 @@ class AwsConfigurationRecorder < Inspec.resource(1)
 
   def status
     return {} unless @exists
+
     backend = BackendFactory.create(inspec_runner)
     catch_aws_errors do
       response = backend.describe_configuration_recorder_status(configuration_recorder_names: [@recorder_name])
@@ -41,6 +42,7 @@ class AwsConfigurationRecorder < Inspec.resource(1)
 
   def recording?
     return unless @exists
+
     status[:recording]
   end
 

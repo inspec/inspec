@@ -141,6 +141,7 @@ module AwsMASSSB
         }),
       })
       return OpenStruct.new(fixtures[query[:subscription_arn]] ) unless fixtures[query[:subscription_arn]].nil?
+
       raise Aws::SNS::Errors::NotFound.new(Seahorse::Client::Http::Request, "Key does not exist")
     end
   end

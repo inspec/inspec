@@ -18,6 +18,7 @@ class AwsCloudTrailTrails < Inspec.resource(1)
     unless resource_params.empty?
       raise ArgumentError, "aws_cloudtrail_trails does not accept resource parameters."
     end
+
     resource_params
   end
 

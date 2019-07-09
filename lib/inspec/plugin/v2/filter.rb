@@ -46,6 +46,7 @@ module Inspec::Plugin::V2
       unless @filter_data.key?("exclude") && @filter_data["exclude"].is_a?(Array)
         raise Inspec::Plugin::V2::ConfigError, 'Unknown plugin fillter file format: expected "exclude" to be an array'
       end
+
       @filter_data["exclude"].each_with_index do |entry, idx|
         unless entry.is_a? Hash
           raise Inspec::Plugin::V2::ConfigError, "Unknown plugin fillter file format: expected entry #{idx} to be a Hash / JS Object"

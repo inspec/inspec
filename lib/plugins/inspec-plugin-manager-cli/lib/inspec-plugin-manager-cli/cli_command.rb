@@ -20,7 +20,7 @@ module InspecPlugins
       option :all, desc: "Include plugins shipped with #{PRODUCT_NAME} as well.", type: :boolean, aliases: [:a]
       def list
         plugin_statuses = Inspec::Plugin::V2::Registry.instance.plugin_statuses
-        plugin_statuses.reject! { |s| [:core, :bundle].include?(s.installation_type) } unless options[:all]
+        plugin_statuses.reject! { |s| %i{core bundle}.include?(s.installation_type) } unless options[:all]
 
         # TODO: ui object support
         puts
@@ -353,7 +353,7 @@ module InspecPlugins
           puts(red { "Plugin already installed at latest version" } + " - plugin #{plugin_name} #{requested_version} - refusing to install.")
         else
           # There are existing versions installed, but none of them are what was requested
-          puts(red { "Update required" } + " - plugin #{plugin_name}, requested #{requested_version}, have #{pre_installed_versions.join(', ')}; use `inspec plugin update` - refusing to install.")
+          puts(red { "Update required" } + " - plugin #{plugin_name}, requested #{requested_version}, have #{pre_installed_versions.join(", ")}; use `inspec plugin update` - refusing to install.")
         end
 
         exit 2
@@ -370,6 +370,7 @@ module InspecPlugins
         exit 2
       rescue Inspec::Plugin::V2::InstallError
         raise if Inspec::Log.level == :debug
+
         results = installer.search(plugin_name, exact: true)
         if results.empty?
           puts(red { "No such plugin gem " } + plugin_name + " could be found on rubygems.org - installation failed.")
@@ -433,9 +434,9 @@ module InspecPlugins
           # TODO: this is naive, and assumes the latest version is the one that will be used. Logged on #3317
           # In fact, the logic to determine "what version would be used" belongs in the Loader.
           Inspec::Plugin::V2::Loader.list_installed_plugin_gems
-                                    .select { |spec| spec.name == status.name.to_s }
-                                    .sort_by(&:version)
-                                    .last.version
+            .select { |spec| spec.name == status.name.to_s }
+            .sort_by(&:version)
+            .last.version
         when :path
           "src"
         end

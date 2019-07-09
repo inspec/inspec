@@ -15,12 +15,14 @@ module Inspec::Plugin::V2
 
     def activated?(new_value = nil)
       return self[:activated?] if new_value.nil?
+
       self[:activated?] = new_value
     end
 
     # Load a plugin, but if an error is encountered, store it and continue
     def activate
       return if activated?
+
       # rubocop: disable Lint/RescueException
       begin
         impl_class = self[:activation_proc].call

@@ -180,7 +180,7 @@ module MACTTSB
         OpenStruct.new({
           name: "test-trail-1",
           latest_cloud_watch_logs_delivery_time: Time.now,
-        })
+        }),
       ]
 
       fixtures.detect { |f| f.name == query[:name] }

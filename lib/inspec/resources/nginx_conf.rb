@@ -33,6 +33,7 @@ module Inspec::Resources
       @conf_path = conf_path || "/etc/nginx/nginx.conf"
       @contents = {}
       return skip_resource "The `nginx_conf` resource is currently not supported on Windows." if inspec.os.windows?
+
       read_content(@conf_path)
     end
 
@@ -57,11 +58,13 @@ module Inspec::Resources
 
     def read_content(path)
       return @contents[path] if @contents.key?(path)
+
       @contents[path] = read_file_content(path, allow_empty: true)
     end
 
     def parse_nginx(path)
       return nil if inspec.os.windows?
+
       content = read_content(path)
 
       # Don't attempt to parse file if it contains only comments or is empty
@@ -96,10 +99,10 @@ module Inspec::Resources
       # into the current data structure
       if data.key?("include")
         data.delete("include").flatten
-            .map { |x| File.expand_path(x, rel_path) }
-            .map { |x| find_files(x) }.flatten
-            .map { |path| parse_nginx(path) }
-            .each { |conf| merge_config!(data, conf) }
+          .map { |x| File.expand_path(x, rel_path) }
+          .map { |x| find_files(x) }.flatten
+          .map { |path| parse_nginx(path) }
+          .each { |conf| merge_config!(data, conf) }
       end
 
       # Walk through the remaining hash fields to find more references
@@ -114,6 +117,7 @@ module Inspec::Resources
     def merge_config!(data, conf)
       # Catch edge-cases
       return if data.nil? || conf.nil?
+
       # Step through all conf items and create combined return value
       data.merge!(conf) do |_, v1, v2|
         if v1.is_a?(Array) && v2.is_a?(Array)
@@ -160,7 +164,7 @@ module Inspec::Resources
 
     filter = FilterTable.create
     filter.register_column(:servers, field: "server")
-          .install_filter_methods_on_resource(self, :server_table)
+      .install_filter_methods_on_resource(self, :server_table)
 
     def locations
       servers.map(&:locations).flatten
@@ -187,7 +191,7 @@ module Inspec::Resources
 
     filter = FilterTable.create
     filter.register_column(:locations, field: "location")
-          .install_filter_methods_on_resource(self, :location_table)
+      .install_filter_methods_on_resource(self, :location_table)
 
     def to_s
       server = ""

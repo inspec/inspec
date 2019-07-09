@@ -69,6 +69,7 @@ module Inspec::Resources
 
     def filter(query = {})
       return self if query.nil? || query.empty?
+
       res = set_params
       filters = ""
       query.each do |attr, condition|

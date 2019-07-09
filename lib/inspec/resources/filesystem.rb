@@ -39,8 +39,9 @@ module Inspec::Resources
     end
 
     def info
-      return @cache if !@cache.nil?
+      return @cache unless @cache.nil?
       return {} if @fsman.nil?
+
       @cache = @fsman.info(@partition)
     end
 
@@ -119,12 +120,13 @@ module Inspec::Resources
       EOF
 
       raise Inspec::Exceptions::ResourceSkipped, "Unable to get available space for partition #{partition}" if cmd.stdout == "" || cmd.exit_status.to_i != 0
+
       begin
         fs = JSON.parse(cmd.stdout)
       rescue JSON::ParserError => e
         raise Inspec::Exceptions::ResourceFailed,
-              "Failed to parse JSON from Powershell. " \
-              "Error: #{e}"
+          "Failed to parse JSON from Powershell. " \
+          "Error: #{e}"
       end
       {
         name: fs["DeviceID"],

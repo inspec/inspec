@@ -12,7 +12,7 @@ if ENV["CI_ENABLE_COVERAGE"]
 
   SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
     SimpleCov::Formatter::HTMLFormatter,
-    Coveralls::SimpleCov::Formatter
+    Coveralls::SimpleCov::Formatter,
   ])
 
   SimpleCov.start do
@@ -100,6 +100,7 @@ def handle_deprecations(opts_in, &block)
   known_group_names = Inspec::Deprecation::ConfigFile.new.groups.keys
   known_group_names.each do |group_name|
     next if opts.key?(group_name)
+
     expectations[group_name] = expectations[:all_others]
   end
 
@@ -143,6 +144,7 @@ class Minitest::Test
 
   def skip_until(y, m, d, msg)
     raise msg if Time.now > Time.local(y, m, d)
+
     skip msg
   end
 end

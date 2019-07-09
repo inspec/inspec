@@ -21,16 +21,16 @@ module Inspec
       }
 
       new(dep[:name],
-          dep[:version],
-          config,
-          opts.merge(dep))
+        dep[:version],
+        config,
+        opts.merge(dep))
     end
 
     def self.from_lock_entry(entry, config, opts = {})
       req = new(entry[:name],
-                entry[:version_constraints],
-                config,
-                entry[:resolved_source].merge(backend: config[:backend]).merge(opts))
+        entry[:version_constraints],
+        config,
+        entry[:resolved_source].merge(backend: config[:backend]).merge(opts))
 
       locked_deps = []
       Array(entry[:dependencies]).each do |dep_entry|
@@ -86,7 +86,7 @@ module Inspec
         "version_constraints" => version_constraints,
       }
 
-      if !dependencies.empty?
+      unless dependencies.empty?
         h["dependencies"] = dependencies.map(&:to_hash)
       end
 
@@ -115,6 +115,7 @@ module Inspec
     # load the profile for the requirement
     def profile
       return @profile unless @profile.nil?
+
       opts = @opts.dup
       opts[:backend] = @backend
       opts[:runner_conf] = Inspec::Config.cached

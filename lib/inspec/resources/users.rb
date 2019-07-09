@@ -72,18 +72,18 @@ module Inspec::Resources
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
     filter.register_column(:usernames, field: :username)
-          .register_column(:uids,      field: :uid)
-          .register_column(:gids,      field: :gid)
-          .register_column(:groupnames, field: :groupname)
-          .register_column(:groups,    field: :groups)
-          .register_column(:homes,     field: :home)
-          .register_column(:shells,    field: :shell)
-          .register_column(:mindays,   field: :mindays)
-          .register_column(:maxdays,   field: :maxdays)
-          .register_column(:warndays,  field: :warndays)
-          .register_column(:disabled,  field: :disabled)
-          .register_custom_matcher(:disabled?) { |x| x.where { disabled == false }.entries.empty? }
-          .register_custom_matcher(:enabled?) { |x| x.where { disabled == true }.entries.empty? }
+      .register_column(:uids,      field: :uid)
+      .register_column(:gids,      field: :gid)
+      .register_column(:groupnames, field: :groupname)
+      .register_column(:groups,    field: :groups)
+      .register_column(:homes,     field: :home)
+      .register_column(:shells,    field: :shell)
+      .register_column(:mindays,   field: :mindays)
+      .register_column(:maxdays,   field: :maxdays)
+      .register_column(:warndays,  field: :warndays)
+      .register_column(:disabled,  field: :disabled)
+      .register_custom_matcher(:disabled?) { |x| x.where { disabled == false }.entries.empty? }
+      .register_custom_matcher(:enabled?) { |x| x.where { disabled == true }.entries.empty? }
     filter.install_filter_methods_on_resource(self, :collect_user_details)
 
     def to_s
@@ -254,17 +254,20 @@ module Inspec::Resources
     # returns the iden
     def identity
       return @id_cache if defined?(@id_cache)
-      @id_cache = @user_provider.identity(@username) if !@user_provider.nil?
+
+      @id_cache = @user_provider.identity(@username) unless @user_provider.nil?
     end
 
     def meta_info
       return @meta_cache if defined?(@meta_cache)
-      @meta_cache = @user_provider.meta_info(@username) if !@user_provider.nil?
+
+      @meta_cache = @user_provider.meta_info(@username) unless @user_provider.nil?
     end
 
     def credentials
       return @cred_cache if defined?(@cred_cache)
-      @cred_cache = @user_provider.credentials(@username) if !@user_provider.nil?
+
+      @cred_cache = @user_provider.credentials(@username) unless @user_provider.nil?
     end
   end
 
@@ -346,6 +349,7 @@ module Inspec::Resources
     def list_users
       cmd = inspec.command(list_users_cmd)
       return [] if cmd.exit_status != 0
+
       cmd.stdout.chomp.lines
     end
 
@@ -389,7 +393,7 @@ module Inspec::Resources
         data.push(raw[0, index + 1]) # inclue closing )
         raw = raw[index + 2, raw.length - index - 2]
       end
-      data.push(raw) if !raw.nil?
+      data.push(raw) unless raw.nil?
       data.join("\n")
     end
   end
@@ -401,6 +405,7 @@ module Inspec::Resources
     def meta_info(username)
       cmd = inspec.command("getent passwd #{username}")
       return nil if cmd.exit_status != 0
+
       # returns: root:x:0:0:root:/root:/bin/bash
       passwd = parse_passwd_line(cmd.stdout.chomp)
       {
@@ -440,6 +445,7 @@ module Inspec::Resources
     def identity(username)
       id = super(username)
       return nil if id.nil?
+
       # AIX 'id' command doesn't include the primary group in the supplementary
       # yet it can be somewhere in the supplementary list if someone added root
       # to a groups list in /etc/group
@@ -483,6 +489,7 @@ module Inspec::Resources
     def meta_info(username)
       hpuxuser = inspec.command("logins -x -l #{username}")
       return nil if hpuxuser.exit_status != 0
+
       user = hpuxuser.stdout.chomp.split(" ")
       {
         home: user[4],
@@ -534,6 +541,7 @@ module Inspec::Resources
     def meta_info(username)
       cmd = inspec.command("pw usershow #{username} -7")
       return nil if cmd.exit_status != 0
+
       # returns: root:*:0:0:Charlie &:/root:/bin/csh
       passwd = parse_passwd_line(cmd.stdout.chomp)
       {
@@ -552,7 +560,7 @@ module Inspec::Resources
     def parse_windows_account(username)
       account = username.split('\\')
       name = account.pop
-      domain = account.pop if !account.empty?
+      domain = account.pop unless account.empty?
       [name, domain]
     end
 
@@ -560,8 +568,9 @@ module Inspec::Resources
       # TODO: we look for local users only at this point
       name, _domain = parse_windows_account(username)
       return if collect_user_details.nil?
+
       res = collect_user_details.select { |user| user[:username] == name }
-      res[0] if !res.empty?
+      res[0] unless res.empty?
     end
 
     def list_users
@@ -571,6 +580,7 @@ module Inspec::Resources
     # https://msdn.microsoft.com/en-us/library/aa746340(v=vs.85).aspx
     def collect_user_details # rubocop:disable Metrics/MethodLength
       return @users_cache if defined?(@users_cache)
+
       script = <<~EOH
         Function ConvertTo-SID { Param([byte[]]$BinarySID)
           (New-Object System.Security.Principal.SecurityIdentifier($BinarySID,0)).Value
@@ -640,7 +650,7 @@ module Inspec::Resources
       end
 
       # ensure we have an array of groups
-      users = [users] if !users.is_a?(Array)
+      users = [users] unless users.is_a?(Array)
       # convert keys to symbols
       @users_cache = users.map { |user| user.each_with_object({}) { |(k, v), h| h[k.to_sym] = v } }
     end

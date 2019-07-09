@@ -18,6 +18,7 @@ class AwsSnsTopics < Inspec.resource(1)
     unless resource_params.empty?
       raise ArgumentError, "aws_sns_topics does not accept resource parameters."
     end
+
     resource_params
   end
 
@@ -30,6 +31,7 @@ class AwsSnsTopics < Inspec.resource(1)
         api_result = backend.list_topics(pagination_opts)
         @table += api_result.topics.map(&:to_h)
         break if api_result.next_token.nil?
+
         pagination_opts = { next_token: api_result.next_token }
       end
     end

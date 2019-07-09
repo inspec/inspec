@@ -49,6 +49,7 @@ class AwsSecurityGroup < Inspec.resource(1)
     # allow_{in_out}_only require either a single-rule group, or you
     # to select a rule using position.
     return false unless rules.count == 1 || criteria.key?(:position)
+
     if criteria.key?(:security_group)
       if criteria.key?(:position)
         pos = criteria[:position] - 1
@@ -97,7 +98,7 @@ class AwsSecurityGroup < Inspec.resource(1)
 
     # Any leftovers are unwelcome
     unless raw_criteria.empty?
-      raise ArgumentError, "Unrecognized security group rule 'allow' criteria '#{raw_criteria.keys.join(',')}'. Expected criteria: #{allowed_criteria.join(', ')}"
+      raise ArgumentError, "Unrecognized security group rule 'allow' criteria '#{raw_criteria.keys.join(",")}'. Expected criteria: #{allowed_criteria.join(", ")}"
     end
 
     recognized_criteria
@@ -138,12 +139,14 @@ class AwsSecurityGroup < Inspec.resource(1)
       from = criteria[:from_port]
       # It's a match if neither criteria was specified
       return true if to.nil? && from.nil?
+
       # Normalize to integers
       to = to.to_i unless to.nil?
       from = from.to_i unless from.nil?
       # It's a match if either was specified and the other was not
       return true if rule[:to_port] == to && from.nil?
       return true if rule[:from_port] == from && to.nil?
+
       # Finally, both must match.
       rule[:to_port] == to && rule[:from_port] == from
     elsif !criteria[:port]
@@ -159,6 +162,7 @@ class AwsSecurityGroup < Inspec.resource(1)
 
   def allow__match_protocol(rule, criteria)
     return true unless criteria.key?(:protocol)
+
     prot = criteria[:protocol]
     # We provide a "fluency alias" for -1 (any).
     prot = "-1" if prot == "any"
@@ -194,25 +198,29 @@ class AwsSecurityGroup < Inspec.resource(1)
 
   def allow__match_ipv4_range(rule, criteria)
     return true unless criteria.key?(:ipv4_range)
+
     match_ipv4_or_6_range(rule, criteria)
   end
 
   def allow__match_ipv6_range(rule, criteria)
     return true unless criteria.key?(:ipv6_range)
+
     match_ipv4_or_6_range(rule, criteria)
   end
 
   def allow__match_security_group(rule, criteria)
     return true unless criteria.key?(:security_group)
+
     query = criteria[:security_group]
     return false unless rule[:user_id_group_pairs]
+
     rule[:user_id_group_pairs].any? { |group| query == group[:group_id] }
   end
 
   def validate_params(raw_params)
     recognized_params = check_resource_param_names(
       raw_params: raw_params,
-      allowed_params: [:id, :group_id, :group_name, :vpc_id],
+      allowed_params: %i{id group_id group_name vpc_id},
       allowed_scalar_name: :group_id,
       allowed_scalar_type: String
     )
@@ -233,13 +241,14 @@ class AwsSecurityGroup < Inspec.resource(1)
     if validated_params.empty?
       raise ArgumentError, "You must provide parameters to aws_security_group, such as group_name, group_id, or vpc_id.g_group."
     end
+
     validated_params
   end
 
   def count_sg_rules(ip_permissions)
     rule_count = 0
     ip_permissions.each do |ip_permission|
-      [:ip_ranges, :ipv_6_ranges, :user_id_group_pairs].each do |key|
+      %i{ip_ranges ipv_6_ranges user_id_group_pairs}.each do |key|
         if ip_permission.key? key
           rule_count += ip_permission[key].length
         end
@@ -253,16 +262,18 @@ class AwsSecurityGroup < Inspec.resource(1)
 
     # Transform into filter format expected by AWS
     filters = []
-    [
-      :description,
-      :group_id,
-      :group_name,
-      :vpc_id,
-    ].each do |criterion_name|
+    %i{
+      description
+      group_id
+      group_name
+      vpc_id
+    }.each do |criterion_name|
       instance_var = "@#{criterion_name}".to_sym
       next unless instance_variable_defined?(instance_var)
+
       val = instance_variable_get(instance_var)
       next if val.nil?
+
       filters.push(
         {
           name: criterion_name.to_s.tr("_", "-"),

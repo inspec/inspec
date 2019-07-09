@@ -38,7 +38,7 @@ module Inspec::Resources
 
     # returns the package description
     def info
-      return @cache if !@cache.nil?
+      return @cache unless @cache.nil?
 
       case @method
       when :powershell

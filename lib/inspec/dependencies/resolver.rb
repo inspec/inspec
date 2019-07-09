@@ -37,7 +37,7 @@ module Inspec
           problem_cookbook = if top_level
                                "the inspec.yml for this profile."
                              else
-                               "the dependency information for #{path_string.split(' ').last}"
+                               "the dependency information for #{path_string.split(" ").last}"
                              end
           raise Inspec::DuplicateDep, "The dependency #{dep.name} is listed twice in #{problem_cookbook}"
         else
@@ -68,13 +68,13 @@ module Inspec
 
         new_seen_items[dep.resolved_source] = true
 
-        if !dep.source_satisfies_spec?
+        unless dep.source_satisfies_spec?
           raise Inspec::UnsatisfiedVersionSpecification, "The profile #{dep.name} from #{dep.resolved_source} has a version #{dep.source_version} which doesn't match #{dep.version_constraints}"
         end
 
         Inspec::Log.debug("Adding dependency #{dep.name} (#{dep.resolved_source})")
         graph[dep.name] = dep
-        if !dep.dependencies.empty?
+        unless dep.dependencies.empty?
           resolve(dep.dependencies, false, new_seen_items.dup, new_path_string)
         end
       end

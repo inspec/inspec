@@ -18,6 +18,7 @@ class AwsIamGroups < Inspec.resource(1)
     unless resource_params.empty?
       raise ArgumentError, "aws_iam_groups does not accept resource parameters."
     end
+
     resource_params
   end
 

@@ -67,7 +67,7 @@ module AwsMRtbsB
         OpenStruct.new({
                           route_table_id: "rtb-58508630",
                           vpc_id: "vpc-169f777d",
-        })
+        }),
       ]
       OpenStruct.new({ route_tables: fixtures })
     end

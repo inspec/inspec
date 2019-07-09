@@ -61,19 +61,19 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.register_column(:labels,   field: "label")
-          .register_column(:pids,     field: "pid")
-          .register_column(:cpus,     field: "cpu")
-          .register_column(:mem,      field: "mem")
-          .register_column(:vsz,      field: "vsz")
-          .register_column(:rss,      field: "rss")
-          .register_column(:tty,      field: "tty")
-          .register_column(:states,   field: "stat")
-          .register_column(:start,    field: "start")
-          .register_column(:time,     field: "time")
-          .register_column(:users,    field: "user")
-          .register_column(:commands, field: "command")
-          .install_filter_methods_on_resource(self, :filtered_processes)
+    filter.register_column(:labels, field: "label")
+      .register_column(:pids,     field: "pid")
+      .register_column(:cpus,     field: "cpu")
+      .register_column(:mem,      field: "mem")
+      .register_column(:vsz,      field: "vsz")
+      .register_column(:rss,      field: "rss")
+      .register_column(:tty,      field: "tty")
+      .register_column(:states,   field: "stat")
+      .register_column(:start,    field: "start")
+      .register_column(:time,     field: "time")
+      .register_column(:users,    field: "user")
+      .register_column(:commands, field: "command")
+      .install_filter_methods_on_resource(self, :filtered_processes)
 
     private
 
@@ -193,7 +193,7 @@ module Inspec::Resources
 
         # build a hash of process data that we'll turn into a struct for FilterTable
         process_data = {}
-        [:label, :pid, :cpu, :mem, :vsz, :rss, :tty, :stat, :start, :time, :user, :command].each do |param|
+        %i{label pid cpu mem vsz rss tty stat start time user command}.each do |param|
           # not all operating systems support all fields, so skip the field if we don't have it
           process_data[param] = line[field_map[param]] if field_map.key?(param)
         end
@@ -202,8 +202,9 @@ module Inspec::Resources
         process_data[:pid] = process_data[:pid].to_i if process_data.key?(:pid)
 
         # some ps variants (*cough* busybox) display vsz and rss as human readable MB or GB
-        [:vsz, :rss].each do |param|
+        %i{vsz rss}.each do |param|
           next unless process_data.key?(param)
+
           process_data[param] = convert_to_kilobytes(process_data[param])
         end
 

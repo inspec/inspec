@@ -96,7 +96,8 @@ module MockAwsFlowLog
   class Empty < AwsBackendBase
     def describe_flow_logs(query)
       Aws::EC2::Types::DescribeFlowLogsResult.new(
-        flow_logs: [])
+        flow_logs: []
+      )
     end
   end
 
@@ -118,7 +119,7 @@ module MockAwsFlowLog
             flow_log_id: "fl-abcd3333",
             log_group_name: "inspec-abcd3333",
             resource_id: "subnet-abcd3333"
-          )
+          ),
         ]
       )
 

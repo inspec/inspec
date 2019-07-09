@@ -12,7 +12,7 @@ describe "Inspec::Resources::IisSite" do
         "net.pipe *",
         "net.msmq localhost",
         "msmq.formatname localhost",
-        "https *:443: sslFlags=0"
+        "https *:443: sslFlags=0",
     ]
     _(resource.send("state")).must_equal "Started"
     _(resource.send("path")).must_equal '%SystemDrive%\\inetpub\\wwwroot'

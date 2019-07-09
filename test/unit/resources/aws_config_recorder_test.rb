@@ -148,6 +148,7 @@ module AwsMCRSB
         "empty" => {},
       }
       return recorders[query[:configuration_recorder_names][0]] unless recorders[query[:configuration_recorder_names][0]].nil?
+
       raise Aws::ConfigService::Errors::NoSuchConfigurationRecorderException(nil, nil)
     end
   end

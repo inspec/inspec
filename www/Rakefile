@@ -133,7 +133,7 @@ namespace :www do # rubocop:disable Metrics/BlockLength
       sh("git clean -df")
 
       Log.info "Move the site to the root directory"
-      sh("git mv #{File.join(dst_from_root, '*')} .")
+      sh("git mv #{File.join(dst_from_root, "*")} .")
 
       Log.info "Commit to gh-pages"
       sh("git commit -m 'website update'")
@@ -173,7 +173,7 @@ namespace :www do # rubocop:disable Metrics/BlockLength
     uri = URI.parse("https://api.netlify.com/api/v1/sites/inspec-acceptance.netlify.com/deploys")
     request = Net::HTTP::Post.new(uri)
     request["Content-Type"] = "application/zip"
-    request["Authorization"] = "Bearer #{ENV['NETLIFYKEY']}"
+    request["Authorization"] = "Bearer #{ENV["NETLIFYKEY"]}"
     request.body = File.read(File.join(Dir.pwd, "build", "inspec-acceptance.zip"), mode: "rb")
 
     response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|

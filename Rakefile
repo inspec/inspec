@@ -136,6 +136,7 @@ namespace :test do
   task :resources do
     tests = Dir["test/unit/resource/*_test.rb"]
     return if tests.empty?
+
     sh(Gem.ruby, "test/docker_test.rb", *tests)
   end
 
@@ -153,11 +154,11 @@ namespace :test do
     key_files = ENV["key_files"] || File.join(ENV["HOME"], ".ssh", "id_rsa")
 
     sh_cmd =  "bin/inspec exec #{tests_path}/"
-    sh_cmd += ENV["test"] ? "#{ENV['test']}_spec.rb" : "*"
+    sh_cmd += ENV["test"] ? "#{ENV["test"]}_spec.rb" : "*"
     sh_cmd += " --sudo" unless args[:target].split("@")[0] == "root"
     sh_cmd += " -t ssh://#{args[:target]}"
     sh_cmd += " --key_files=#{key_files}"
-    sh_cmd += " --format=#{ENV['format']}" if ENV["format"]
+    sh_cmd += " --format=#{ENV["format"]}" if ENV["format"]
 
     sh("sh", "-c", sh_cmd)
   end
@@ -217,7 +218,7 @@ namespace :test do
     end
   end
   desc "Perform AWS Integration Tests"
-  task aws: [:'aws:default', :'aws:minimal']
+  task aws: %i{aws:default aws:minimal}
 
   namespace :azure do
     # Specify the directory for the integration tests
@@ -268,7 +269,7 @@ namespace :test do
         suffix = "#{suffix}"
       VARS
 
-      content << "location = \"#{ENV['AZURE_LOCATION']}\"\n" if ENV["AZURE_LOCATION"]
+      content << "location = \"#{ENV["AZURE_LOCATION"]}\"\n" if ENV["AZURE_LOCATION"]
 
       File.write(tf_vars_file, content)
     end
@@ -359,6 +360,7 @@ end
 # @param [Type] msg the message to display if the command is missing
 def require_command(x, msg = nil)
   return if system("command -v #{x} || exit 1")
+
   msg ||= "Please install it first!"
   puts "\033[31;1mCan't find command #{x.inspect}. #{msg}\033[0m"
   exit 1
@@ -371,6 +373,7 @@ end
 def require_env(x, msg = nil)
   exists = `env | grep "^#{x}="`
   return unless exists.empty?
+
   puts "\033[31;1mCan't find environment variable #{x.inspect}. #{msg}\033[0m"
   exit 1
 end

@@ -29,11 +29,11 @@ module InspecPlugins
       def self.keygen(options)
         key = KEY_ALG.new KEY_BITS
         puts "Generating private key"
-        open "#{options['keyname']}.pem.key", "w" do |io|
+        open "#{options["keyname"]}.pem.key", "w" do |io|
           io.write key.to_pem
         end
         puts "Generating public key"
-        open "#{options['keyname']}.pem.pub", "w" do |io|
+        open "#{options["keyname"]}.pem.pub", "w" do |io|
           io.write key.public_key.to_pem
         end
       end
@@ -41,13 +41,13 @@ module InspecPlugins
       def self.profile_sign(options)
         artifact = new
         Dir.mktmpdir do |workdir|
-          puts "Signing #{options['profile']} with key #{options['keyname']}"
+          puts "Signing #{options["profile"]} with key #{options["keyname"]}"
           path_to_profile = options["profile"]
           profile_md = artifact.read_profile_metadata(path_to_profile)
-          artifact_filename = "#{profile_md['name']}-#{profile_md['version']}.#{SIGNED_PROFILE_SUFFIX}"
+          artifact_filename = "#{profile_md["name"]}-#{profile_md["version"]}.#{SIGNED_PROFILE_SUFFIX}"
           tarfile = artifact.profile_compress(path_to_profile, profile_md, workdir)
           content = IO.binread(tarfile)
-          signing_key = KEY_ALG.new File.read "#{options['keyname']}.pem.key"
+          signing_key = KEY_ALG.new File.read "#{options["keyname"]}.pem.key"
           sha = ARTIFACT_DIGEST.new
           signature = signing_key.sign sha, content
           # convert the signature to Base64
@@ -93,17 +93,18 @@ module InspecPlugins
         begin
           p = Pathname.new(path_to_profile)
           p = p.join("inspec.yml")
-          if not p.exist?
+          unless p.exist?
             raise "#{path_to_profile} doesn't appear to be a valid #{PRODUCT_NAME} profile"
           end
+
           yaml = YAML.load_file(p.to_s)
           yaml = yaml.to_hash
 
-          if not yaml.key? "name"
+          unless yaml.key? "name"
             raise "Profile is invalid, name is not defined"
           end
 
-          if not yaml.key? "version"
+          unless yaml.key? "version"
             raise "Profile is invalid, version is not defined"
           end
         rescue => e
@@ -125,12 +126,12 @@ module InspecPlugins
       def valid_header?(file_alg, file_version, file_keyname)
         public_keyfile = "#{file_keyname}.pem.pub"
         puts "Looking for #{public_keyfile} to verify artifact"
-        if !File.exist? public_keyfile
+        unless File.exist? public_keyfile
           raise "Can't find #{public_keyfile}"
         end
 
-        raise "Invalid artifact digest algorithm detected" if !VALID_PROFILE_DIGESTS.member?(file_alg)
-        raise "Invalid artifact version detected" if !VALID_PROFILE_VERSIONS.member?(file_version)
+        raise "Invalid artifact digest algorithm detected" unless VALID_PROFILE_DIGESTS.member?(file_alg)
+        raise "Invalid artifact version detected" unless VALID_PROFILE_VERSIONS.member?(file_version)
       end
 
       def verify(file_to_verifiy, &content_block)

@@ -11,7 +11,7 @@ module InspecPlugins
         def login(options)
           raise ArgumentError, "Please specify a server using `#{EXEC_NAME} compliance login https://SERVER`" unless options["server"]
 
-          options["server"] = URI("https://#{options['server']}").to_s if URI(options["server"]).scheme.nil?
+          options["server"] = URI("https://#{options["server"]}").to_s if URI(options["server"]).scheme.nil?
 
           options["server_type"] = InspecPlugins::Compliance::API.determine_server_type(options["server"], options["insecure"])
 
@@ -23,7 +23,7 @@ module InspecPlugins
           when :compliance
             Login::ComplianceServer.login(options)
           else
-            raise CannotDetermineServerType, "Unable to determine if #{options['server']} is a #{AUTOMATE_PRODUCT_NAME} or #{COMPLIANCE_PRODUCT_NAME} server"
+            raise CannotDetermineServerType, "Unable to determine if #{options["server"]} is a #{AUTOMATE_PRODUCT_NAME} or #{COMPLIANCE_PRODUCT_NAME} server"
           end
         end
 
@@ -143,6 +143,7 @@ module InspecPlugins
             )
 
             raise msg unless success
+
             compliance_store_access_token(options, token)
           end
 
@@ -154,6 +155,7 @@ module InspecPlugins
             )
 
             raise msg unless success
+
             compliance_store_access_token(options, token)
           end
 

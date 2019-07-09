@@ -416,7 +416,7 @@ end
   describe "Inspec::Variable, take #2" do
     it "constructs a control with variable, loop and var reference" do
       control = Inspec::Control.new
-      command_value = /^\/usr\/bin\/chrony/
+      command_value = %r{^/usr/bin/chrony}
       pid_filter = ">"
       pid_value = 0
       loopy = Inspec::EachLoop.new

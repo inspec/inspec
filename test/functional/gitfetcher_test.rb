@@ -33,7 +33,7 @@ describe "profiles with git-based dependencies" do
         "name" => "git-dep",
         "git" => @git_dep_dir,
         "tag" => "antag",
-      }
+      },
     ]
     File.write(File.join(@profile_dir, "inspec.yml"), YAML.dump(inspec_yml))
   end

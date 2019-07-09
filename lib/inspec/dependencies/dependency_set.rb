@@ -71,6 +71,7 @@ module Inspec
 
     def to_array
       return [] if @dep_list.nil?
+
       @dep_list.map do |_k, v|
         v.to_hash
       end.compact
@@ -85,6 +86,7 @@ module Inspec
     #
     def vendor(dependencies)
       return nil if dependencies.nil? || dependencies.empty?
+
       @dep_list = Resolver.resolve(dependencies, @cache, @cwd, @backend)
     end
   end

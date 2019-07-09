@@ -83,7 +83,7 @@ describe "Inspec::Resources::Packages" do
 
   it "fails if the packages name is not a string or regexp" do
     proc {
-      resources = MockLoader.new(:ubuntu1604).load_resource("packages", [:a, :b])
+      resources = MockLoader.new(:ubuntu1604).load_resource("packages", %i{a b})
       resources.send(:entries, nil)
     }.must_raise(RuntimeError)
   end

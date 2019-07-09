@@ -36,6 +36,7 @@ module Inspec::Resources
 
       # connection as sysdba stuff
       return skip_resource "Option 'as_os_user' not available in Windows" if inspec.os.windows? && opts[:as_os_user]
+
       @su_user = opts[:as_os_user]
       @db_role = opts[:as_db_role]
 
@@ -93,7 +94,7 @@ module Inspec::Resources
 
     def verify_query(query)
       # ensure we have a ; at the end
-      query + ";" if !query.strip.end_with?(";")
+      query + ";" unless query.strip.end_with?(";")
       query
     end
 
@@ -121,7 +122,7 @@ module Inspec::Resources
       doc = REXML::Document.new result
       table = doc.elements["table"]
       hash = []
-      if !table.nil?
+      unless table.nil?
         rows = table.elements.to_a
         headers = rows[0].elements.to_a("th").map { |entry| entry.text.strip }
         rows.delete_at(0)
@@ -134,6 +135,7 @@ module Inspec::Resources
             entries = row.elements.to_a("td")
             # ignore if we have empty entries, oracle is adding th rows in between
             return nil if entries.empty?
+
             headers.each_with_index do |header, index|
               # we need htmlentities since we do not have nokogiri
               coder = HTMLEntities.new

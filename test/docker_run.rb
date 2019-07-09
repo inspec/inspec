@@ -72,6 +72,7 @@ class DockerRunner
 
   def provision_image(image, prov, files)
     return image if prov["script"].nil?
+
     path = File.join(File.dirname(@conf_path), prov["script"])
     unless File.file?(path)
       puts "Can't find script file #{path}"

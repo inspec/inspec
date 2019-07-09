@@ -36,36 +36,42 @@ class DhParams < Inspec.resource(1)
   # its('generator') { should eq 2 }
   def generator
     return if @dh_params.nil?
+
     @dh_params.g.to_i
   end
 
   # its('modulus') { should eq '00:91:a0:15:89:e5:bc:38:93:12:02:fc:...' }
   def modulus
     return if @dh_params.nil?
+
     "00:" + @dh_params.p.to_s(16).downcase.scan(/.{2}/).join(":")
   end
 
   # its('pem') { should eq '-----BEGIN DH PARAMETERS...' }
   def pem
     return if @dh_params.nil?
+
     @dh_params.to_pem
   end
 
   # its('prime_length') { should be 2048 }
   def prime_length
     return if @dh_params.nil?
+
     @dh_params.p.num_bits
   end
 
   # its('text') { should eq 'human-readable-text' }
   def text
     return if @dh_params.nil?
+
     @dh_params.to_text
   end
 
   # it { should be_valid }
   def valid?
     return if @dh_params.nil?
+
     @dh_params.params_ok?
   end
 

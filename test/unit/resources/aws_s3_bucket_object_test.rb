@@ -188,8 +188,10 @@ module AwsMSBOSB
       }
       bucket = buckets[query[:bucket]]
       raise Aws::S3::Errors::NoSuchBucket.new(Seahorse::Client::Http::Request, "Bucket does not exist") if bucket.nil?
+
       object = bucket[query[:key]]
       raise Aws::S3::Errors::NoSuchKey.new(Seahorse::Client::Http::Request, "Key does not exist") if object.nil?
+
       object
     end
   end

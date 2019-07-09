@@ -17,6 +17,7 @@ class AwsEbsVolumes < Inspec.resource(1)
     unless resource_params.empty?
       raise ArgumentError, "aws_ebs_volumes does not accept resource parameters."
     end
+
     resource_params
   end
 
@@ -38,6 +39,7 @@ class AwsEbsVolumes < Inspec.resource(1)
       api_result = backend.describe_volumes(pagination_opts)
       @table += unpack_describe_volumes_response(api_result.volumes)
       break unless api_result.next_token
+
       pagination_opts = { next_token: api_result.next_token }
     end
   end

@@ -57,6 +57,7 @@ module Inspec::Plugin::V2
       unless existing_entry?(name)
         raise Inspec::Plugin::V2::ConfigError, "No such entry with plugin name '#{name}'"
       end
+
       @data[:plugins].delete_if { |entry| entry[:name] == name.to_sym }
     end
 
@@ -114,6 +115,7 @@ module Inspec::Plugin::V2
           next if idx == other_idx
           next unless other_entry.is_a? Hash # We'll catch that invalid entry later
           next if plugin_entry[:name] != other_entry[:name]
+
           indices = [idx, other_idx].sort
           raise Inspec::Plugin::V2::ConfigError, "Malformed plugins.json file - duplicate plugin entry '#{plugin_entry[:name]}' detected at index #{indices[0]} and #{indices[1]}"
         end
@@ -134,9 +136,10 @@ module Inspec::Plugin::V2
 
       if plugin_entry.key? :installation_type
         seen_type = plugin_entry[:installation_type]
-        unless [:gem, :path].include? seen_type.to_sym
+        unless %i{gem path}.include? seen_type.to_sym
           raise Inspec::Plugin::V2::ConfigError, "'plugins' entry with unrecognized installation_type (must be one of 'gem' or 'path')"
         end
+
         plugin_entry[:installation_type] = seen_type.to_sym
 
         if plugin_entry[:installation_type] == :path && !plugin_entry.key?(:installation_path)

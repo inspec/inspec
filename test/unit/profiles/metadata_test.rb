@@ -185,7 +185,7 @@ EOF
     it "loads a profile which supports multiple families" do
       m = supports_meta([
         { "os-family" => "windows" },
-        { "os-family" => "unix" }
+        { "os-family" => "unix" },
       ])
       m.supports_platform?(backend).must_equal true
     end
@@ -193,7 +193,7 @@ EOF
     it "loads a profile which supports multiple names" do
       m = supports_meta([
         { "os-family" => "windows", "os-name" => "windows_2000" },
-        { "os-family" => "unix", "os-name" => "ubuntu" }
+        { "os-family" => "unix", "os-name" => "ubuntu" },
       ])
       m.supports_platform?(backend).must_equal true
     end
@@ -201,7 +201,7 @@ EOF
     it "reject a profile which supports multiple families" do
       m = supports_meta([
         { "os-family" => "windows" },
-        { "os-family" => "redhat" }
+        { "os-family" => "redhat" },
       ])
       m.supports_platform?(backend).must_equal false
     end

@@ -90,7 +90,8 @@ describe "Inspec::Resources::Http" do
       let(:opts) do
         { headers: { "Access-Control-Request-Method" => "GET",
                      "Access-Control-Request-Headers" => "origin, x-requested-with",
-                     "Origin" => "http://www.example.com" } } end
+                     "Origin" => "http://www.example.com" } }
+      end
 
       it "returns correct data" do
         stub_request(:options, "http://www.example.com/")
@@ -181,7 +182,8 @@ describe "Inspec::Resources::Http" do
       let(:opts) do
         { headers: { "Access-Control-Request-Method" => "GET",
                      "Access-Control-Request-Headers" => "origin, x-requested-with",
-                     "Origin" => "http://www.example.com" } } end
+                     "Origin" => "http://www.example.com" } }
+      end
 
       it "returns correct data" do
         _(worker.status).must_equal 200
@@ -194,22 +196,22 @@ describe "Inspec::Resources::Http" do
     describe "run_curl request" do
       it "returns nil when nil is returned" do
         Inspec::Resources::Cmd.any_instance
-                              .stubs(:stdout)
-                              .returns(nil)
+          .stubs(:stdout)
+          .returns(nil)
         _(worker.send(:run_curl)).must_be_nil
       end
 
       it "returns nil when failure is returned" do
         Inspec::Resources::Cmd.any_instance
-                              .stubs(:exit_status)
-                              .returns(1)
+          .stubs(:exit_status)
+          .returns(1)
         _(worker.send(:run_curl)).must_be_nil
       end
 
       it "returns html when html is returned" do
         Inspec::Resources::Cmd.any_instance
-                              .stubs(:stdout)
-                              .returns("HTTP/1.1 200 OK\nDate: Tue, 03 Oct 2017 20:30:08 GMT\nExpires: -1\nCache-Control: private")
+          .stubs(:stdout)
+          .returns("HTTP/1.1 200 OK\nDate: Tue, 03 Oct 2017 20:30:08 GMT\nExpires: -1\nCache-Control: private")
         assert = ["Date: Tue, 03 Oct 2017 20:30:08 GMT", "Expires: -1", "Cache-Control: private"]
         _(worker.send(:run_curl)).must_equal assert
       end

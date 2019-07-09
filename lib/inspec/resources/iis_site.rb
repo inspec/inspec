@@ -82,8 +82,9 @@ module Inspec::Resources
     end
 
     def iis_site
-      return @cache if !@cache.nil?
-      @cache = @site_provider.iis_site(@site_name) if !@site_provider.nil?
+      return @cache unless @cache.nil?
+
+      @cache = @site_provider.iis_site(@site_name) unless @site_provider.nil?
     end
   end
 
@@ -106,7 +107,7 @@ module Inspec::Resources
       end
 
       bindings_array = site["bindings"]["Collection"].map do |k|
-        "#{k['protocol']} #{k['bindingInformation']}#{k['protocol'] == 'https' ? " sslFlags=#{k['sslFlags']}" : ''}"
+        "#{k["protocol"]} #{k["bindingInformation"]}#{k["protocol"] == "https" ? " sslFlags=#{k["sslFlags"]}" : ""}"
       end
 
       # map our values to a hash table

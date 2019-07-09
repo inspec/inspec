@@ -36,6 +36,7 @@ module Inspec::Reporters
     def merge_profiles
       @profiles.each do |profile|
         next unless profile.key?(:parent_profile)
+
         parent_profile = find_master_parent(profile)
         merge_controls(parent_profile, profile)
         merge_depends(parent_profile, profile)
@@ -62,6 +63,7 @@ module Inspec::Reporters
         control.each do |name, _value|
           child_value = child_control[name]
           next if child_value.nil? || (child_value.respond_to?(:empty?) && child_value.empty?)
+
           control[name] = child_value
         end
       end
@@ -69,6 +71,7 @@ module Inspec::Reporters
 
     def merge_depends(parent, child)
       return unless child.key?(:depends)
+
       child[:depends].each do |d|
         parent[:depends] << d
       end

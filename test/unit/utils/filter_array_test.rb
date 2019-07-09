@@ -3,11 +3,12 @@ require "inspec/utils/filter_array"
 
 describe FilterArray do
   let(:data) do
-     [
-    { foo: 3, bar: true, baz: "yay" },
-    { foo: 2, bar: false, baz: "noo" },
-    { foo: 2, bar: false, baz: "whatever" },
-  ] end
+    [
+   { foo: 3, bar: true, baz: "yay" },
+   { foo: 2, bar: false, baz: "noo" },
+   { foo: 2, bar: false, baz: "whatever" },
+    ]
+  end
 
   let(:instance) do
     FilterArray.new data
