@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.7.4 -->
+## [v4.7.4](https://github.com/inspec/inspec/tree/v4.7.4) (2019-07-10)
+
+#### Merged Pull Requests
+- use --- and +++ to improve the log view on buildkite [#4281](https://github.com/inspec/inspec/pull/4281) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.7.3 -->
+### Changes since 4.7.3 release
+
+#### Merged Pull Requests
+- use --- and +++ to improve the log view on buildkite [#4281](https://github.com/inspec/inspec/pull/4281) ([miah](https://github.com/miah)) <!-- 4.7.4 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
