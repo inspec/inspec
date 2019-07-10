@@ -151,7 +151,9 @@ class PluginInstallerInstallationTests < Minitest::Test
 
   def test_install_a_gem_from_local_file_creates_plugin_json
     gem_file = File.join(@plugin_fixture_pkg_path, "inspec-test-fixture-0.1.0.gem")
-    @installer.install("inspec-test-fixture", gem_file: gem_file)
+    stdout, stderr = capture_io do
+      @installer.install("inspec-test-fixture", gem_file: gem_file)
+    end
 
     # Should now be present in plugin.json
     plugin_json_path = File.join(ENV["INSPEC_CONFIG_DIR"], "plugins.json")
@@ -160,6 +162,12 @@ class PluginInstallerInstallationTests < Minitest::Test
 
     assert_equal 1, config_file.count, "plugins.json should have one entry"
     assert config_file.existing_entry?(:'inspec-test-fixture')
+
+    # Should not try to install docs
+    # Installing ri documentation for ...
+    # Parsing documentation for ...
+    refute_match /Installing ri documentation for/, stdout
+    refute_match /Installing rdoc documentation for/, stdout
   end
 
   def test_install_a_gem_from_rubygems_org
