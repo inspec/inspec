@@ -33,3 +33,7 @@ export GEM_HOME=/SHOULD_NOT_EXIST
 export GEM_PATH=/SHOULD_NOT_EXIST
 
 inspec version
+
+inspec shell -c platform.family
+
+inspec plugin list

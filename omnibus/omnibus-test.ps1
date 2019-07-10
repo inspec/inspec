@@ -28,3 +28,9 @@ $Env:GEM_PATH = "C:\SHOULD_NOT_EXIST"
 
 inspec version
 If ($lastexitcode -ne 0) { Exit $lastexitcode }
+
+inspec shell -c platform.family
+If ($lastexitcode -ne 0) { Exit $lastexitcode }
+
+inspec plugin list
+If ($lastexitcode -ne 0) { Exit $lastexitcode }
