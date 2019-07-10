@@ -151,7 +151,7 @@ class PluginInstallerInstallationTests < Minitest::Test
 
   def test_install_a_gem_from_local_file_creates_plugin_json
     gem_file = File.join(@plugin_fixture_pkg_path, "inspec-test-fixture-0.1.0.gem")
-    stdout, stderr = capture_io do
+    stdout, _stderr = capture_io do
       @installer.install("inspec-test-fixture", gem_file: gem_file)
     end
 
@@ -166,8 +166,8 @@ class PluginInstallerInstallationTests < Minitest::Test
     # Should not try to install docs
     # Installing ri documentation for ...
     # Parsing documentation for ...
-    refute_match /Installing ri documentation for/, stdout
-    refute_match /Installing rdoc documentation for/, stdout
+    refute_match(/Installing ri documentation for/, stdout)
+    refute_match(/Installing rdoc documentation for/, stdout)
   end
 
   def test_install_a_gem_from_rubygems_org
