@@ -328,7 +328,7 @@ module Inspec::Plugin::V2
 
       # OK, perform the installation.
       # Ignore deps here, because any needed deps should already be baked into new_plugin_dependency
-      request_set.install_into(gem_path, true, ignore_dependencies: true)
+      request_set.install_into(gem_path, true, ignore_dependencies: true, document: [])
 
       # Painful aspect of rubygems: the VendorSet request set type needs to be able to find a gemspec
       # file within the source of the gem (and not all gems include it in their source tree; they are
