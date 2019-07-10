@@ -8,10 +8,7 @@ steps:
 
 - label: run-tests-ruby-2.4
   command:
-    - echo "--- bundle install"
-    - bundle install --jobs=7 --retry=3 --without tools maintenance deploy
-    - echo "+++ bundle exec rake"
-    - bundle exec rake
+    - /workdir/.expeditor/buildkite/verify.sh
   expeditor:
     executor:
       docker:
@@ -19,10 +16,7 @@ steps:
 
 - label: run-tests-ruby-2.5
   command:
-    - echo "--- bundle install"
-    - bundle install --jobs=7 --retry=3 --without tools maintenance deploy
-    - echo "+++ bundle exec rake"
-    - bundle exec rake
+    - /workdir/.expeditor/buildkite/verify.sh
   expeditor:
     executor:
       docker:
@@ -30,10 +24,7 @@ steps:
 
 - label: run-tests-ruby-2.6
   command:
-    - echo "--- bundle install"
-    - bundle install --jobs=7 --retry=3 --without tools maintenance deploy
-    - echo "+++ bundle exec rake"
-    - bundle exec rake
+    - /workdir/.expeditor/buildkite/verify.sh
   expeditor:
     executor:
       docker:
