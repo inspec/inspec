@@ -37,7 +37,7 @@ describe FilterTable do
 
   it "retrieves the resource from all entries" do
     factory.add_accessor(:where)
-      .add(:baz?, &:resource)
+      .add(:baz?) { |x| x.resource } # rubocop: disable Style/SymbolProc
       .connect(resource, :data)
     instance.baz?.must_equal instance
   end
