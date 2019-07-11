@@ -22,14 +22,6 @@ $pkg_build_deps=@(
 )
 $pkg_bin_dirs=@("bin")
 
-do_setup_environment() {
-  build_line 'Setting GEM_HOME="$pkg_prefix/lib"'
-  export GEM_HOME="$pkg_prefix/lib"
-
-  build_line "Setting GEM_PATH=$GEM_HOME"
-  export GEM_PATH="$GEM_HOME"
-}
-
 function Invoke-Unpack {
   mkdir "$HAB_CACHE_SRC_PATH/$pkg_dirname"
   Copy-Item "$PLAN_CONTEXT"/.. "$HAB_CACHE_SRC_PATH/$pkg_dirname/" -Recurse
