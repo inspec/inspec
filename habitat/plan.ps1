@@ -1,5 +1,5 @@
 $pkg_name="inspec"
-$pkg_origin="chef"
+$pkg_origin="miah"
 $pkg_version=$(cat "$PLAN_CONTEXT/../VERSION")
 $pkg_description="InSpec is an open-source testing framework for infrastructure
   with a human- and machine-readable language for specifying compliance,
