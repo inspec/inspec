@@ -77,29 +77,29 @@ class PluginManagerCliList < Minitest::Test
   include PluginManagerHelpers
 
   def test_list_when_no_user_plugins_installed
+    skip_windows!
     result = run_inspec_process_with_this_plugin("plugin list")
 
-    skip_windows!
     assert_includes result.stdout, "0 plugin(s) total", "Empty list should include zero count"
 
     assert_exit_code 0, result
   end
 
   def test_list_all_when_no_user_plugins_installed
-    result = run_inspec_process_with_this_plugin("plugin list --all")
-
     skip_windows!
-    assert_includes result.stdout, "6 plugin(s) total", "--all list should find six"
-    assert_includes result.stdout, "inspec-plugin-manager-cli", "--all list should find inspec-plugin-manager-cli"
-    assert_includes result.stdout, "habitat", "--all list should find habitat"
+    result = run_inspec_process_with_this_plugin("plugin list --all")
+    plugin_lines = result.stdout.lines.filter { |line| line.match(/^\s*(inspec|train)-/) }
 
-    assert_exit_code 0, result
-
-    # TODO: split
-    result = run_inspec_process_with_this_plugin("plugin list -a")
-
-    assert_includes result.stdout, "6 plugin(s) total", "-a list should find six"
-
+    # Look for a specific plugin of each type - core, bundle, and system
+    [
+      { name: "inspec-plugin-manager-cli", type: "core" },
+      { name: "inspec-supermarket", type: "bundle" },
+      { name: "train-aws", type: "gem (system)" },
+    ].each do |test_case|
+      plugin_line = plugin_lines.detect { |line| line.include? test_case[:name] }
+      refute_nil plugin_line, "#{test_case[:name]} should be detected in plugin list --all output"
+      assert_includes plugin_line, test_case[:type], "#{test_case[:name]} should be detected as a '#{test_case[:type]}' type in list --all "
+    end
     assert_exit_code 0, result
   end
 
@@ -114,14 +114,14 @@ class PluginManagerCliList < Minitest::Test
     skip_windows!
     assert_includes result.stdout, "2 plugin(s) total", "gem+path should show two plugins"
 
-    # Plugin Name                   Version   Via     ApiVer
-    # -------------------------------------------------------
-    #  inspec-meaning-of-life        src       path    2
-    #  inspec-test-fixture           0.1.0     gem     2
-    # -------------------------------------------------------
+    # Plugin Name                   Version   Via         ApiVer
+    # ---------------------------------------------------------
+    #  inspec-meaning-of-life        src       path         2
+    #  inspec-test-fixture           0.1.0     gem (user)   2
+    # ---------------------------------------------------------
     #  2 plugin(s) total
-    gem_line = result.stdout.split("\n").grep(/gem/).first
-    assert_match(/\s*inspec-\S+\s+\d+\.\d+\.\d+\s+gem\s+2/, gem_line)
+    gem_line = result.stdout.split("\n").grep(/gem \(user\)/).first
+    assert_match(/\s*inspec-\S+\s+\d+\.\d+\.\d+\s+gem \(user\)\s+2/, gem_line)
     path_line = result.stdout.split("\n").grep(/path/).first
     assert_match(/\s*inspec-\S+\s+src\s+path\s+2/, path_line)
 
@@ -139,15 +139,15 @@ class PluginManagerCliList < Minitest::Test
     skip_windows!
     assert_includes result.stdout, "1 plugin(s) total", "list train should show one plugins"
 
-    # Plugin Name                   Version   Via     ApiVer
-    # -------------------------------------------------------
-    #  train-test-fixture            0.1.0    gem     train-1
-    # -------------------------------------------------------
+    # Plugin Name                   Version   Via        ApiVer
+    # -------------------------------------------------------------
+    #  train-test-fixture            0.1.0    gem (user)  train-1
+    # -------------------------------------------------------------
     #  1 plugin(s) total
     train_line = result.stdout.split("\n").grep(/train/).first
     assert_includes(train_line, "train-test-fixture")
     assert_includes(train_line, "0.1.0")
-    assert_includes(train_line, "gem")
+    assert_includes(train_line, "gem (user)")
     assert_includes(train_line, "train-1")
 
     assert_exit_code 0, result
