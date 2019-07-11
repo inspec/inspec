@@ -54,7 +54,7 @@ module Inspec::Plugin::V2
         begin
           # We could use require, but under testing, we need to repeatedly reload the same
           # plugin.  However, gems only work with require (rubygems dooes not overload `load`)
-          if plugin_details.installation_type == :gem
+          if plugin_details.installation_type == :user_gem
             activate_managed_gems_for_plugin(plugin_name)
             require plugin_details.entry_point
           else
@@ -247,9 +247,9 @@ module Inspec::Plugin::V2
         status = Inspec::Plugin::V2::Status.new
         status.name = plugin_entry[:name]
         status.loaded = false
-        status.installation_type = (plugin_entry[:installation_type] || :gem)
+        status.installation_type = (plugin_entry[:installation_type] || :user_gem)
         case status.installation_type
-        when :gem
+        when :user_gem
           status.entry_point = status.name.to_s
           status.version = plugin_entry[:version]
         when :path
@@ -266,7 +266,7 @@ module Inspec::Plugin::V2
 
     def fixup_train_plugin_status(status)
       status.api_generation = :'train-1'
-      if status.installation_type == :gem
+      if status.installation_type == :user_gem
         # Activate the gem. This allows train to 'require' the gem later.
         activate_managed_gems_for_plugin(status.entry_point)
       end

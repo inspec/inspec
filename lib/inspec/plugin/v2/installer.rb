@@ -365,7 +365,7 @@ module Inspec::Plugin::V2
       # excluding any that are path-or-core-based, excluding the gem to be removed
       plugin_deps_we_still_must_satisfy = registry.plugin_statuses
       plugin_deps_we_still_must_satisfy = plugin_deps_we_still_must_satisfy.select do |status|
-        status.installation_type == :gem && status.name != plugin_name_to_be_removed.to_sym
+        status.installation_type == :user_gem && status.name != plugin_name_to_be_removed.to_sym
       end
       plugin_deps_we_still_must_satisfy = plugin_deps_we_still_must_satisfy.map do |status|
         constraint = status.version || "> 0"

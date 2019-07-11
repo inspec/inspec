@@ -467,7 +467,7 @@ module InspecPlugins
         case status.installation_type
         when :core, :bundle
           Inspec::VERSION
-        when :gem
+        when :user_gem
           # TODO: this is naive, and assumes the latest version is the one that will be used. Logged on #3317
           # In fact, the logic to determine "what version would be used" belongs in the Loader.
           Inspec::Plugin::V2::Loader.list_installed_plugin_gems
@@ -484,8 +484,8 @@ module InspecPlugins
           bundle: "bundle", # We could call this core, too - not much of a distinction
           core: "core",
           path: "path",
-          gem: "gem (user)",
-          system: "gem (system)",
+          user_gem: "gem (user)",
+          system_gem: "gem (system)",
         }[status.installation_type]
       end
     end
