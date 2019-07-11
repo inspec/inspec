@@ -60,4 +60,14 @@ module Inspec::Plugin::V2
       end
     end
   end
+
+  module FilterPredicates
+    def train_plugin_name?(name)
+      name.to_s.start_with?("train-") && ! Inspec::Plugin::V2::PluginFilter.exclude?(name)
+    end
+
+    def inspec_plugin_name?(name)
+      name.to_s.start_with?("inspec-") && ! Inspec::Plugin::V2::PluginFilter.exclude?(name)
+    end
+  end
 end
