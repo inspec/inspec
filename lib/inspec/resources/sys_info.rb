@@ -13,13 +13,38 @@ module Inspec::Resources
       describe sys_info do
         its('hostname') { should eq 'example.com' }
       end
+
+      describe sys_info do
+        its('hostname') { should eq 'example.com' }
+      end
+
     EXAMPLE
 
+    %w{ alias domain fqdn ip-address short }.each do |opt|
+      define_method(opt.to_sym) do
+        hostname(opt)
+      end
+    end
+
     # returns the hostname of the local system
-    def hostname
+    def hostname(opt = nil)
       os = inspec.os
       if os.linux? || os.darwin?
-        inspec.command("hostname").stdout.chomp
+        opt = case opt
+              when "f", "long", "fqdn", "full"
+                " -f"
+              when "a", "alias"
+                " -a"
+              when "d", "domain"
+                " -d"
+              when "i", "ip-address"
+                " -i"
+              when "s", "short"
+                " -s"
+              else
+                nil
+              end
+        inspec.command("hostname#{opt}").stdout.chomp
       elsif os.windows?
         inspec.powershell("$env:computername").stdout.chomp
       else
