@@ -26,7 +26,7 @@ module InspecPlugins
         plugin_statuses.sort_by(&:name).each do |status|
           ui.plain(format(" %-30s%-10s%-8s%-6s", status.name,
             make_pretty_version(status),
-            status.installation_type,
+            make_pretty_install_type(status),
             status.api_generation.to_s))
         end
         ui.line
@@ -477,6 +477,16 @@ module InspecPlugins
         when :path
           "src"
         end
+      end
+
+      def make_pretty_install_type(status)
+        {
+          bundle: "bundle", # We could call this core, too - not much of a distinction
+          core: "core",
+          path: "path",
+          gem: "gem (user)",
+          system: "gem (system)",
+        }[status.installation_type]
       end
     end
   end
