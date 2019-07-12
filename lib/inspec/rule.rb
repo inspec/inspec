@@ -49,6 +49,7 @@ module Inspec
 
       # evaluate the given definition
       return unless block_given?
+
       begin
         instance_eval(&block)
       rescue StandardError => e
@@ -91,6 +92,7 @@ module Inspec
 
     def desc(v = nil, data = nil)
       return @descriptions[:default] if v.nil?
+
       if data.nil?
         @descriptions[:default] = unindent(v)
       else
@@ -100,11 +102,13 @@ module Inspec
 
     def descriptions(description_hash = nil)
       return @descriptions if description_hash.nil?
+
       @descriptions.merge!(description_hash)
     end
 
     def ref(ref = nil, opts = {})
       return @refs if ref.nil? && opts.empty?
+
       if opts.empty? && ref.is_a?(Hash)
         opts = ref
       else
@@ -191,7 +195,7 @@ module Inspec
 
     def self.set_skip_rule(rule, value, message = nil)
       rule.instance_variable_set(:@__skip_rule,
-                                 { result: value, message: message })
+        { result: value, message: message })
     end
 
     def self.merge_count(rule)
@@ -205,6 +209,7 @@ module Inspec
     def self.prepare_checks(rule)
       skip_check = skip_status(rule)
       return checks(rule) unless skip_check[:result].eql?(true)
+
       if skip_check[:message]
         msg = "Skipped control due to only_if condition: #{skip_check[:message]}"
       else
@@ -223,12 +228,14 @@ module Inspec
         # TODO: register an error, this case should not happen
         return
       end
+
       sp = rule_id(src)
       dp = rule_id(dst)
       if sp != dp
         # TODO: register an error, this case should not happen
         return
       end
+
       # merge all fields
       dst.impact(src.impact)                 unless src.impact.nil?
       dst.title(src.title)                   unless src.title.nil?
@@ -274,6 +281,7 @@ module Inspec
     #
     def with_dsl(block)
       return nil if block.nil?
+
       if self.class.resource_dsl
         dsl = self.class.resource_dsl
         proc do |*args|
@@ -299,6 +307,7 @@ module Inspec
     # @return [String] input with indentation removed; '' if input is nil
     def unindent(text)
       return "" if text.nil?
+
       len = text.split("\n").reject { |l| l.strip.empty? }.map { |x| x.index(/[^\s]/) }.compact.min
       text.gsub(/^[[:blank:]]{#{len}}/, "").strip
     end
@@ -306,6 +315,7 @@ module Inspec
     # get the source location of the block
     def __get_block_source_location(&block)
       return {} unless block_given?
+
       r, l = block.source_location
       { ref: r, line: l }
     rescue MethodSource::SourceNotFoundError

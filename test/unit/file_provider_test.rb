@@ -234,7 +234,7 @@ describe Inspec::RelativeFileProvider do
     Inspec::RelativeFileProvider.new(src_fetcher)
   end
 
-  let(:src_fetcher) { mock() }
+  let(:src_fetcher) { mock }
 
   IN_AND_OUT = {
     [] => [],

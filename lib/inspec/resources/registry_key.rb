@@ -71,7 +71,7 @@ module Inspec::Resources
         @options[:path] = reg_key
       end
 
-      return skip_resource "The `registry_key` resource is not supported on your OS yet." if !inspec.os.windows?
+      return skip_resource "The `registry_key` resource is not supported on your OS yet." unless inspec.os.windows?
     end
 
     def exists?
@@ -133,24 +133,28 @@ module Inspec::Resources
 
     def registry_property_exists(regkey, property)
       return false if regkey.nil? || property.nil?
+
       # always ensure the key is lower case
       !regkey[prep_prop(property)].nil?
     end
 
     def registry_property_value(regkey, property)
-      return nil if !registry_property_exists(regkey, property)
+      return nil unless registry_property_exists(regkey, property)
+
       # always ensure the key is lower case
       regkey[prep_prop(property)]["value"]
     end
 
     def registry_property_type(regkey, property)
-      return nil if !registry_property_exists(regkey, property)
+      return nil unless registry_property_exists(regkey, property)
+
       # always ensure the key is lower case
       regkey[prep_prop(property)]["type"]
     end
 
     def registry_key(path)
       return @registry_cache if defined?(@registry_cache)
+
       # load registry key and all properties
       script = <<-EOH
       Function InSpec-GetRegistryKey($path) {
@@ -199,6 +203,7 @@ module Inspec::Resources
 
     def children_keys(path, filter = "")
       return @children_cache if defined?(@children_cache)
+
       filter = filter.source if filter.is_a? ::Regexp
       script = <<-EOH
       Function InSpec-FindChildsRegistryKeys($path, $filter) {

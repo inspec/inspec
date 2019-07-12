@@ -74,6 +74,7 @@ module Inspec
 
       %w{name version}.each do |field|
         next unless params[field.to_sym].nil?
+
         errors.push("Missing profile #{field} in #{ref}")
       end
 
@@ -89,6 +90,7 @@ module Inspec
 
       %w{title summary maintainer copyright license}.each do |field|
         next unless params[field.to_sym].nil?
+
         warnings.push("Missing profile #{field} in #{ref}")
       end
 
@@ -151,8 +153,8 @@ module Inspec
       when nil then nil
       else
         Inspec.deprecate(:supports_syntax,
-                         "Do not use deprecated `supports: #{x}` syntax. Instead use:\n"\
-                         "supports:\n  - os-family: #{x}\n\n")
+          "Do not use deprecated `supports: #{x}` syntax. Instead use:\n"\
+          "supports:\n  - os-family: #{x}\n\n")
         { :'os-family' => x } # rubocop:disable Style/HashSyntax
       end
     end
@@ -182,12 +184,14 @@ module Inspec
       # Crudely slug the target to not contain slashes, to avoid breaking
       # unit tests that look for warning sequences
       return if original_target.to_s.empty?
+
       metadata.params[:title] = "tests from #{original_target}"
       metadata.params[:name] = metadata.params[:title].gsub(%r{[\/\\]}, ".")
     end
 
     def self.finalize(metadata, profile_id, options, logger = nil)
       return nil if metadata.nil?
+
       param = metadata.params || {}
       options ||= {}
       param["version"] = param["version"].to_s unless param["version"].nil?

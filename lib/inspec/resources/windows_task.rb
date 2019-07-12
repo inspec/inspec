@@ -33,17 +33,20 @@ module Inspec::Resources
 
     def exists?
       return true unless info.nil? || info[:uri].nil?
+
       false
     end
 
     # rubocop:disable Style/WordArray
     def enabled?
       return false if info.nil? || info[:state].nil?
+
       ["Ready", "Running"].include?(info[:state])
     end
 
     def disabled?
       return false if info.nil? || info[:state].nil?
+
       info[:scheduled_task_state] == "Disabled" || info[:state] == "Disabled"
     end
 
@@ -69,6 +72,7 @@ module Inspec::Resources
 
     def info
       return @cache unless @cache.nil?
+
       # PowerShell v5 has Get-ScheduledTask cmdlet,
       # _using something with backward support to v3_
       # script = "Get-ScheduledTask | ? { $_.URI -eq '#{@taskuri}' } | Select-Object URI,@{N='State';E={$_.State.ToString()}} | ConvertTo-Json"

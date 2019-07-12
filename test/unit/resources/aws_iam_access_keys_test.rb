@@ -28,7 +28,7 @@ class AwsIamAccessKeysFilterTest < Minitest::Test
   def test_filter_methods_should_exist
     AwsIamAccessKeys::BackendFactory.select(AlwaysEmptyMAKP)
     resource = AwsIamAccessKeys.new
-    [:where, :'exists?'].each do |meth|
+    %i{where exists?}.each do |meth|
       assert_respond_to(resource, meth)
     end
   end

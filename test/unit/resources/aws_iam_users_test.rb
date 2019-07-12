@@ -220,7 +220,7 @@ module Maiusb
               user_name: criteria[:user_name],
               serial_number: "1234567890",
               enable_date: DateTime.parse("2017-10-10T16:19:30Z"),
-            })
+            }),
           ],
         })
       else

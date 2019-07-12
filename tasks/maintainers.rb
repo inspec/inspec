@@ -98,7 +98,7 @@ begin
   end
 
   def create_team(team)
-    puts "creating new github team: #{team} with title: #{teams[team]['title']} "
+    puts "creating new github team: #{team} with title: #{teams[team]["title"]} "
     t = github.create_team("chef", name: team, description: teams[team]["title"],
                        privacy: "closed", repo_names: REPOSITORIES,
                        accept: "application/vnd.github.ironman-preview+json")
@@ -153,7 +153,7 @@ begin
     deletions.each do |member|
       puts "Removing #{member} from #{team}"
       github.remove_team_membership(gh_teams[team]["id"], member,
-                                    accept: "application/vnd.github.ironman-preview+json")
+        accept: "application/vnd.github.ironman-preview+json")
     end
   end
 
@@ -173,7 +173,7 @@ begin
   def components(list, cmp)
     out = "## " + cmp.delete("title") + "\n\n"
     out << cmp.delete("text") + "\n" if cmp.key?("text")
-    out << "To mention the team, use @chef/#{cmp.delete('team')}\n\n" if cmp.key?("team")
+    out << "To mention the team, use @chef/#{cmp.delete("team")}\n\n" if cmp.key?("team")
     if cmp.key?("lieutenant")
       out << "### Lieutenant\n\n"
       out << person(list, cmp.delete("lieutenant")) + "\n\n"
@@ -195,15 +195,15 @@ begin
   # rubocop:disable Metrics/AbcSize
   def person(list, person)
     out = if list[person].key?("GitHub")
-            "* [#{list[person]['Name']}](https://github.com/#{list[person]['GitHub']})"
+            "* [#{list[person]["Name"]}](https://github.com/#{list[person]["GitHub"]})"
           else
-            "* #{list[person]['Name']}"
+            "* #{list[person]["Name"]}"
           end
-    out << "\n  * IRC - #{list[person]['IRC']}" if list[person].key?("IRC")
-    out << "\n  * [@#{list[person]['Twitter']}](https://twitter.com/#{list[person]['Twitter']})" if list[person].key?("Twitter")
-    out << "\n  * [#{list[person]['email']}](mailto:#{list[person]['email']})" if list[person].key?("email")
-    out << "\n  * #{list[person]['phone']}" if list[person].key?("phone")
-    out << "\n  * [ServerFault](#{list[person]['ServerFault']})" if list[person].key?("ServerFault")
+    out << "\n  * IRC - #{list[person]["IRC"]}" if list[person].key?("IRC")
+    out << "\n  * [@#{list[person]["Twitter"]}](https://twitter.com/#{list[person]["Twitter"]})" if list[person].key?("Twitter")
+    out << "\n  * [#{list[person]["email"]}](mailto:#{list[person]["email"]})" if list[person].key?("email")
+    out << "\n  * #{list[person]["phone"]}" if list[person].key?("phone")
+    out << "\n  * [ServerFault](#{list[person]["ServerFault"]})" if list[person].key?("ServerFault")
     out
   end
   # rubocop:enable all

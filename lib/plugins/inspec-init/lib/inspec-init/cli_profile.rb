@@ -21,12 +21,12 @@ module InspecPlugins
 
       desc "profile [OPTIONS] NAME", "Generate a new profile"
       option :platform, default: "os", type: :string, aliases: [:p],
-             desc: "Which platform to generate a profile for: choose from #{valid_profile_platforms.join(', ')}"
+             desc: "Which platform to generate a profile for: choose from #{valid_profile_platforms.join(", ")}"
       option :overwrite, type: :boolean, default: false,
              desc: "Overwrites existing directory"
       def profile(new_profile_name)
         unless valid_profile_platforms.include?(options[:platform])
-          ui.error "Unable to generate profile: No template available for platform '#{options[:platform]}' (expected one of: #{valid_profile_platforms.join(', ')})"
+          ui.error "Unable to generate profile: No template available for platform '#{options[:platform]}' (expected one of: #{valid_profile_platforms.join(", ")})"
           ui.exit(:usage_error)
         end
         template_path = File.join("profiles", options[:platform])

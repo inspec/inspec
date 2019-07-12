@@ -49,6 +49,7 @@ module Inspec::Formatters
           end
 
           next if e.is_a? RSpec::Expectations::ExpectationNotMetError
+
           hash[:exception] = e.class.name
           hash[:backtrace] = e.backtrace
         end
@@ -101,6 +102,7 @@ module Inspec::Formatters
 
       all_unique_controls.each do |control|
         next unless control[:results]
+
         if control[:results].any? { |r| r[:status] == "failed" }
           failed += 1
         elsif control[:results].any? { |r| r[:status] == "skipped" }
@@ -185,6 +187,7 @@ module Inspec::Formatters
     # the proper report.
     def platform(field)
       return nil if @backend.nil?
+
       begin
         @backend.platform[field]
       rescue Train::Error => e
@@ -195,6 +198,7 @@ module Inspec::Formatters
 
     def backend_target
       return nil if @backend.nil?
+
       connection = @backend.backend
       connection.respond_to?(:uri) ? connection.uri : nil
     end
@@ -218,6 +222,7 @@ module Inspec::Formatters
     def example2control(example)
       profile = profile_from_example(example)
       return nil unless profile&.[](:controls)
+
       profile[:controls].find { |x| x[:id] == example[:id] }
     end
 

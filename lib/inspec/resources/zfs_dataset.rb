@@ -16,7 +16,8 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize(zfs_dataset)
-      return skip_resource "The `zfs_dataset` resource is not supported on your OS yet." if !inspec.os.bsd?
+      return skip_resource "The `zfs_dataset` resource is not supported on your OS yet." unless inspec.os.bsd?
+
       @zfs_dataset = zfs_dataset
 
       @params = gather
@@ -28,7 +29,8 @@ module Inspec::Resources
     end
 
     def mounted?
-      return false if !exists?
+      return false unless exists?
+
       inspec.mount(@params["mountpoint"]).mounted?
     end
 

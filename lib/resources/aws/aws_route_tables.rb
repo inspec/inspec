@@ -17,7 +17,7 @@ class AwsRouteTables < Inspec.resource(1)
   filter = FilterTable.create
   filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
   filter.register_column(:vpc_ids, field: :vpc_id)
-        .register_column(:route_table_ids, field: :route_table_id)
+    .register_column(:route_table_ids, field: :route_table_id)
   filter.install_filter_methods_on_resource(self, :routes_data)
 
   def routes_data
@@ -40,6 +40,7 @@ class AwsRouteTables < Inspec.resource(1)
     unless raw_criteria.empty?
       raise ArgumentError, "aws_route_tables does not currently accept resource parameters."
     end
+
     raw_criteria
   end
 

@@ -221,6 +221,7 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
 
   def octal?(value)
     return false unless value.is_a?(String)
+
     !(value =~ /\A0+[0-7]+\Z/).nil?
   end
 
@@ -274,11 +275,12 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
     @operation ||= :==
     @expected ||= first_expected
     return actual === @expected if @operation == :=== # rubocop:disable Style/CaseEquality
+
     actual = actual[0] if actual.is_a?(Array) && !@expected.is_a?(Array) && actual.length == 1
     try_match(actual, @operation, @expected)
   end
 
-  [:==, :'!=', :<, :<=, :>=, :>, :===, :=~].each do |op|
+  %i{== != < <= >= > === =~}.each do |op|
     chain(op) do |x|
       @operation = op
       @expected = x
@@ -287,6 +289,7 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
 
   def format_expectation(negate)
     return "expected: " + @expected.inspect if @operation == :== && !negate
+
     negate_str = negate ? "not " : ""
     "expected it #{negate_str}to be #{@operation} #{@expected.inspect}"
   end

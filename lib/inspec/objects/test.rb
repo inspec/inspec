@@ -14,7 +14,8 @@ module Inspec
     end
 
     def to_ruby
-      return rb_skip if !skip.nil?
+      return rb_skip unless skip.nil?
+
       rb_describe
     end
 
@@ -74,7 +75,7 @@ module Inspec
                 " " + expectation.inspect
               end
       format("%s%sdescribe %s do\n  %s { should%s %s%s }\nend",
-             only_if_clause, vars, res, itsy, naughty, matcher, xpect)
+        only_if_clause, vars, res, itsy, naughty, matcher, xpect)
     end
 
     def rb_skip

@@ -116,8 +116,8 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
   def test_duplicate_profile
     current_profile = @test_profile
     duplicated_profile = @hab_profile.send(:duplicate_profile,
-                                           @test_profile_path,
-                                           @tmpdir)
+      @test_profile_path,
+      @tmpdir)
     assert duplicated_profile.is_a?(Inspec::Profile)
     assert duplicated_profile.sha256 == current_profile.sha256.to_s
     refute_same duplicated_profile.root_path, current_profile.root_path
@@ -130,8 +130,8 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
 
   def test_copy_profile_to_working_dir
     duplicated_profile = @hab_profile.send(:duplicate_profile,
-                                           @test_profile_path,
-                                           @tmpdir)
+      @test_profile_path,
+      @tmpdir)
 
     dst = File.join(@tmpdir, "working_dir")
     FileUtils.mkdir_p(dst)
@@ -145,6 +145,7 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
 
     actual_files = Dir.glob(File.join(dst, "**/*")).map do |path|
       next unless File.file?(path)
+
       File.basename(path)
     end.compact
 
@@ -175,7 +176,7 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
 
     Inspec::ProfileVendor.stub :new, mock do
       new_profile = @hab_profile.send(:vendor_profile_dependencies!,
-                                      @test_profile)
+        @test_profile)
       assert new_profile.is_a?(Inspec::Profile)
     end
   end
@@ -191,7 +192,7 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
 
     Inspec::ProfileVendor.stub :new, mock do
       new_profile = @hab_profile.send(:vendor_profile_dependencies!,
-                                      @test_profile)
+        @test_profile)
       assert new_profile.is_a?(Inspec::Profile)
     end
     mock.verify

@@ -26,12 +26,12 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.register_column(:type,     field: "type")
-          .register_column(:database, field: "database")
-          .register_column(:user,     field: "user")
-          .register_column(:address,  field: "address")
-          .register_column(:auth_method, field: "auth_method")
-          .register_column(:auth_params, field: "auth_params")
+    filter.register_column(:type, field: "type")
+      .register_column(:database, field: "database")
+      .register_column(:user,     field: "user")
+      .register_column(:address,  field: "address")
+      .register_column(:auth_method, field: "auth_method")
+      .register_column(:auth_params, field: "auth_params")
 
     filter.install_filter_methods_on_resource(self, :params)
 

@@ -15,9 +15,9 @@ class AwsEksCluster < Inspec.resource(1)
 
   include AwsSingularResourceMixin
   attr_reader :version, :arn, :cluster_name, :certificate_authority, :name,
-              :status, :endpoint, :subnets_count, :subnet_ids, :security_group_ids,
-              :created_at, :role_arn, :vpc_id, :security_groups_count, :creating,
-              :active, :failed, :deleting
+    :status, :endpoint, :subnets_count, :subnet_ids, :security_group_ids,
+    :created_at, :role_arn, :vpc_id, :security_groups_count, :creating,
+    :active, :failed, :deleting
   # Use aliases for matchers
   alias active? active
   alias failed? failed

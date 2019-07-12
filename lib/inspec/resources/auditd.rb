@@ -30,7 +30,7 @@ module Inspec::Resources
     def initialize
       unless inspec.command("/sbin/auditctl").exist?
         raise Inspec::Exceptions::ResourceFailed,
-              "Command `/sbin/auditctl` does not exist"
+          "Command `/sbin/auditctl` does not exist"
       end
 
       auditctl_cmd = "/sbin/auditctl -l"
@@ -38,7 +38,7 @@ module Inspec::Resources
 
       if result.exit_status != 0
         raise Inspec::Exceptions::ResourceFailed,
-              "Command `#{auditctl_cmd}` failed with error: #{result.stderr}"
+          "Command `#{auditctl_cmd}` failed with error: #{result.stderr}"
       end
 
       @content = result.stdout
@@ -46,24 +46,24 @@ module Inspec::Resources
 
       if @content =~ /^LIST_RULES:/
         raise Inspec::Exceptions::RsourceFailed,
-              "The version of audit is outdated." \
-              "The `auditd` resource supports versions of audit >= 2.3."
+          "The version of audit is outdated." \
+          "The `auditd` resource supports versions of audit >= 2.3."
       end
       parse_content
     end
 
     filter = FilterTable.create
-    filter.register_column(:file,         field: "file")
-          .register_column(:list,         field: "list")
-          .register_column(:action,       field: "action")
-          .register_column(:fields,       field: "fields")
-          .register_column(:fields_nokey, field: "fields_nokey")
-          .register_column(:syscall,      field: "syscall")
-          .register_column(:key,          field: "key")
-          .register_column(:arch,         field: "arch")
-          .register_column(:path,         field: "path")
-          .register_column(:permissions,  field: "permissions")
-          .register_column(:exit,         field: "exit")
+    filter.register_column(:file, field: "file")
+      .register_column(:list,         field: "list")
+      .register_column(:action,       field: "action")
+      .register_column(:fields,       field: "fields")
+      .register_column(:fields_nokey, field: "fields_nokey")
+      .register_column(:syscall,      field: "syscall")
+      .register_column(:key,          field: "key")
+      .register_column(:arch,         field: "arch")
+      .register_column(:path,         field: "path")
+      .register_column(:permissions,  field: "permissions")
+      .register_column(:exit,         field: "exit")
 
     filter.install_filter_methods_on_resource(self, :params)
 
@@ -73,13 +73,14 @@ module Inspec::Resources
       # See: https://github.com/inspec/inspec/issues/3113
       if @status_content =~ /^AUDIT_STATUS/
         @status_content = @status_content.gsub("AUDIT_STATUS: ", "")
-                                         .tr(" ", "\n")
-                                         .tr("=", " ")
+          .tr(" ", "\n")
+          .tr("=", " ")
       end
 
       @status_params ||= Hash[@status_content.scan(/^([^ ]+) (.*)$/)]
 
       return @status_params[name] if name
+
       @status_params
     end
 

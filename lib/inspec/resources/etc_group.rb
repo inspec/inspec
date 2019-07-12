@@ -56,6 +56,7 @@ module Inspec::Resources
     def users(filter = nil)
       entries = filter || @entries
       return nil if entries.nil?
+
       # filter the user entry
       res = entries.map do |x|
         x["members"].split(",") if !x.nil? && !x["members"].nil?
@@ -66,6 +67,7 @@ module Inspec::Resources
 
     def where(conditions = {})
       return if conditions.empty?
+
       fields = {
         name: "name",
         group_name: "name",
@@ -81,6 +83,7 @@ module Inspec::Resources
         conditions.each do |k, v|
           idx = fields[k.to_sym]
           next if idx.nil?
+
           res = res.select { |x| x[idx].to_s == v.to_s }
         end
       end
@@ -113,6 +116,7 @@ module Inspec::Resources
       x = line.split(":")
       # abort if we have an empty or comment line
       return nil if x.empty?
+
       # map data
       {
         "name" => x.at(0), # Name of the group.

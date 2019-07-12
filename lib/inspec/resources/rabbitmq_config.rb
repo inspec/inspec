@@ -36,12 +36,14 @@ module Inspec::Resources
 
     def read_content
       return @content if defined?(@content)
+
       @content = read_file_content(@conf_path, allow_empty: true)
     end
 
     def read_params
       return @params if defined?(@params)
       return @params = {} if read_content.nil?
+
       @params = ErlangConfigFile.parse(read_content)
     rescue Parslet::ParseFailed
       raise "Cannot parse RabbitMQ config: \"#{read_content}\""

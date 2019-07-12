@@ -126,6 +126,7 @@ module CorePluginFunctionalHelper
     plugin_name = project_dir.basename
     entry_point = File.join(project_dir.to_s, "lib", plugin_name.to_s + ".rb")
     raise "Could not find plugin entry point" unless File.exist?(entry_point)
+
     entry_point
   end
 

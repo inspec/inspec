@@ -61,6 +61,7 @@ module InstallerTestHelpers
       if @config_dir_path
         Dir.glob(File.join(@config_dir_path, "empty", "*")).each do |path|
           next if path.end_with? ".gitkeep"
+
           FileUtils.rm_rf(path)
         end
       end
@@ -507,7 +508,7 @@ class PluginInstallerSearchTests < Minitest::Test
     # and installing it would be a jam-up.
     # This is configured in 'etc/plugin_filters.json'.
     [
-      "train-tax-calculator"
+      "train-tax-calculator",
     ].each do |plugin_name|
       refute results.key(plugin_name)
     end

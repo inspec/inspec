@@ -194,7 +194,7 @@ module InspecPlugins
         FileUtils.mkdir_p(File.dirname(file))
         template_path = File.join(__dir__, "../../templates/habitat", template)
         contents = ERB.new(File.read(template_path))
-                      .result(OpenStruct.new(vars).instance_eval { binding })
+          .result(OpenStruct.new(vars).instance_eval { binding })
         File.write(file, contents)
       end
 

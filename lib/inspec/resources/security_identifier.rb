@@ -15,10 +15,11 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize(opts = {})
-      supported_opt_keys = [:user, :group, :unspecified]
+      supported_opt_keys = %i{user group unspecified}
       raise ArgumentError, "Invalid security_identifier param '#{opts}'. Please pass a hash with these supported keys: #{supported_opt_keys}" unless opts.respond_to?(:keys)
       raise ArgumentError, "Unsupported security_identifier options '#{opts.keys - supported_opt_keys}'. Supported keys: #[supported_opt_keys]" unless (opts.keys - supported_opt_keys).empty?
       raise ArgumentError, "Specifying more than one of :user :group or :unspecified for security_identifier is not supported" unless opts.keys && (opts.keys & supported_opt_keys).length == 1
+
       if opts[:user]
         @type = :user
         @name = opts[:user]
@@ -32,6 +33,7 @@ module Inspec::Resources
         @name = opts[:unspecified]
       end
       raise ArgumentError, "Specify one of :user :group or :unspecified for security_identifier" unless @name
+
       @sids = nil
     end
 

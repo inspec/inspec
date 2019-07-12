@@ -7,6 +7,7 @@ module Inspec
     if version != 1
       raise "Only secrets version 1 is supported!"
     end
+
     Inspec::Plugins::Secret
   end
 end

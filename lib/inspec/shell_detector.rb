@@ -23,7 +23,7 @@ module Inspec
     end
 
     def shell
-      @shell = detect if !detected?(@shell)
+      @shell = detect unless detected?(@shell)
       @shell
     end
 

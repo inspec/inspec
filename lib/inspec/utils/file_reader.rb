@@ -6,7 +6,7 @@ module FileReader
     # pre-refactor (which used skip_resource). These should likely be changed to
     # ResourceFailed during a major version bump.
     file = inspec.file(path)
-    if !file.file?
+    unless file.file?
       raise Inspec::Exceptions::ResourceSkipped, "Can't find file: #{path}"
     end
 

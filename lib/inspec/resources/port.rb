@@ -37,12 +37,12 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.register_column(:ports,     field: "port", style: :simple)
-          .register_column(:addresses, field: "address", style: :simple)
-          .register_column(:protocols, field: "protocol", style: :simple)
-          .register_column(:processes, field: "process", style: :simple)
-          .register_column(:pids,      field: "pid", style: :simple)
-          .register_custom_matcher(:listening?) { |x| !x.entries.empty? }
+    filter.register_column(:ports, field: "port", style: :simple)
+      .register_column(:addresses, field: "address", style: :simple)
+      .register_column(:protocols, field: "protocol", style: :simple)
+      .register_column(:processes, field: "process", style: :simple)
+      .register_column(:pids,      field: "pid", style: :simple)
+      .register_custom_matcher(:listening?) { |x| !x.entries.empty? }
     filter.install_filter_methods_on_resource(self, :info)
 
     def to_s
@@ -76,9 +76,10 @@ module Inspec::Resources
     end
 
     def info
-      return @cache if !@cache.nil?
+      return @cache unless @cache.nil?
       # abort if os detection has not worked
       return @cache = [] if @port_manager.nil?
+
       # query ports
       cache = @port_manager.info || []
       cache.select! { |x| x["port"] == @port } unless @port.nil?
@@ -141,6 +142,7 @@ module Inspec::Resources
       # also UDP ports have nothing in the State column
       cmd = inspec.command('netstat -anbo | Select-String  -CaseSensitive -pattern "^\s+UDP|\s+LISTENING\s+\d+$" -context 0,1')
       return nil if cmd.exit_status != 0
+
       lines = cmd.stdout.scan(/^>\s*(tcp\S*|udp\S*)\s+(\S+):(\d+)\s+(\S+)\s+(\S*)\s+(\d+)\s+(.+)/i)
       lines.map do |line|
         pid = line[5].to_i
@@ -170,7 +172,7 @@ module Inspec::Resources
       ports = []
 
       # check that lsof is available, otherwise fail
-      raise "Please ensure `lsof` is available on the machine." if !inspec.command(@lsof.to_s).exist?
+      raise "Please ensure `lsof` is available on the machine." unless inspec.command(@lsof.to_s).exist?
 
       # -F p=pid, c=command, P=protocol name, t=type, n=internet addresses
       # see 'OUTPUT FOR OTHER PROGRAMS' in LSOF(8)
@@ -270,6 +272,7 @@ module Inspec::Resources
 
     def ports_via_lsof
       return nil unless inspec.command("lsof").exist?
+
       LsofPorts.new(inspec).info
     end
 
@@ -286,6 +289,7 @@ module Inspec::Resources
 
         # only push protocols we are interested in
         next unless %w{tcp tcp6 udp udp6}.include?(port_info["protocol"])
+
         ports.push(port_info)
       end
 
@@ -313,6 +317,7 @@ module Inspec::Resources
       cmd = inspec.command("rmsock #{parsed[1]} tcpcb")
       parsed_pid = /^The socket (\S+) is being held by proccess (\d+) \((\S+)\)/.match(cmd.stdout)
       return {} if parsed_pid.nil?
+
       process = parsed_pid[3]
       pid = parsed_pid[2]
       pid = pid.to_i if pid =~ /^\d+$/
@@ -415,6 +420,7 @@ module Inspec::Resources
 
         # only push protocols we are interested in
         next unless %w{tcp tcp6 udp udp6}.include?(port_info["protocol"])
+
         ports.push(port_info)
       end
       ports
@@ -554,6 +560,7 @@ module Inspec::Resources
       #   fe80::a00:27ff:fe32:ed09%enp0s3:9200
       parsed_net_address = parsed[:local_addr].match(/(\S+):(\*|\d+)$/)
       return nil if parsed_net_address.nil?
+
       host = parsed_net_address[1]
       port = parsed_net_address[2]
       return nil if host.nil? && port.nil?
@@ -631,6 +638,7 @@ module Inspec::Resources
 
         # push data, if not headerfile
         next unless %w{tcp tcp6 udp udp6}.include?(port_info["protocol"])
+
         ports.push(port_info)
       end
       ports
@@ -646,6 +654,7 @@ module Inspec::Resources
         port = ip_addr.port
       when "tcp6", "udp6"
         return [] if net_addr == "*:*" # abort for now
+
         # replace * with 0:0:0:0:0:0:0:0
         net_addr = net_addr.gsub(/^\*:/, "0:0:0:0:0:0:0:0:") if net_addr =~ /^*:(\d+)$/
         # extract port
@@ -738,14 +747,17 @@ module Inspec::Resources
       ## Can't use 'netstat -an -f inet -f inet6' as the latter -f option overrides the former one and return only inet ports
       cmd1 = inspec.command("netstat -an -f inet")
       return nil if cmd1.exit_status.to_i != 0
+
       cmd2 = inspec.command("netstat -an -f inet6")
       return nil if cmd2.exit_status.to_i != 0
+
       cmd = cmd1.stdout + cmd2.stdout
       ports = []
       # parse all lines
       cmd.each_line do |line|
         port_info = parse_netstat_line(line)
         next unless %w{tcp tcp6 udp udp6}.include?(port_info["protocol"])
+
         ports.push(port_info)
       end
       # select all ports, where we `listen`
@@ -758,6 +770,7 @@ module Inspec::Resources
       parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)?/.match(line)
 
       return {} if parsed.nil? || line.match(/^proto/i) || line.match(/^active/i)
+
       protocol = parsed[1].downcase
       state = parsed[6].nil? ? " " : parsed[6].downcase
       local_addr = parsed[4]
@@ -765,6 +778,7 @@ module Inspec::Resources
       # extract host and port information
       host, port = parse_net_address(local_addr, protocol)
       return {} if host.nil?
+
       # map data
       {
         "port" => port,

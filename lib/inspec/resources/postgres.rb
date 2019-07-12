@@ -38,7 +38,7 @@ module Inspec::Resources
         # installed as well as multiple "clusters" to be configured.
         #
         @version = version_from_psql || version_from_dir("/etc/postgresql")
-        if !@version.to_s.empty?
+        unless @version.to_s.empty?
           @cluster = cluster_from_dir("/etc/postgresql/#{@version}")
           @conf_dir = "/etc/postgresql/#{@version}/#{@cluster}"
           @data_dir = "/var/lib/postgresql/#{@version}/#{@cluster}"
@@ -83,6 +83,7 @@ module Inspec::Resources
 
     def version_from_psql
       return unless inspec.command("psql").exist?
+
       inspec.command("psql --version | awk '{ print $NF }' | awk -F. '{ print $1\".\"$2 }'").stdout.strip
     end
 

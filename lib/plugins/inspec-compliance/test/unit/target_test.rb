@@ -147,7 +147,7 @@ describe InspecPlugins::Compliance::Fetcher do
     it "contains the upstream_sha256" do
       InspecPlugins::Compliance::API.stubs(:profiles).returns(["success", profiles_result])
       prof = profiles_result[0]
-      target = "compliance://#{prof['owner']}/#{prof['name']}"
+      target = "compliance://#{prof["owner"]}/#{prof["name"]}"
       fetcher = InspecPlugins::Compliance::Fetcher.resolve(target)
       fetcher.upstream_sha256.must_equal prof["sha256"]
     end

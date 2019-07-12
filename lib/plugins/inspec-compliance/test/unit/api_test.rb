@@ -292,8 +292,8 @@ describe InspecPlugins::Compliance::API do
       good_response.stubs(:code).returns("400")
 
       InspecPlugins::Compliance::HTTP.expects(:get)
-                      .with(url + automate2_endpoint, headers, insecure)
-                      .returns(good_response)
+        .with(url + automate2_endpoint, headers, insecure)
+        .returns(good_response)
 
       InspecPlugins::Compliance::API.determine_server_type(url, insecure).must_equal(:automate2)
     end
@@ -303,11 +303,11 @@ describe InspecPlugins::Compliance::API do
       bad_response.stubs(:code).returns("404")
 
       InspecPlugins::Compliance::HTTP.expects(:get)
-                      .with(url + automate2_endpoint, headers, insecure)
-                      .returns(bad_response)
+        .with(url + automate2_endpoint, headers, insecure)
+        .returns(bad_response)
       InspecPlugins::Compliance::HTTP.expects(:get)
-                      .with(url + automate_endpoint, headers, insecure)
-                      .returns(good_response)
+        .with(url + automate_endpoint, headers, insecure)
+        .returns(good_response)
 
       InspecPlugins::Compliance::API.determine_server_type(url, insecure).must_equal(:automate)
     end
@@ -321,11 +321,11 @@ describe InspecPlugins::Compliance::API do
       good_response.stubs(:body).returns("Are You Looking For the Chef Server?")
 
       InspecPlugins::Compliance::HTTP.expects(:get)
-                      .with(url + automate2_endpoint, headers, insecure)
-                      .returns(bad_response)
+        .with(url + automate2_endpoint, headers, insecure)
+        .returns(bad_response)
       InspecPlugins::Compliance::HTTP.expects(:get)
-                      .with(url + automate_endpoint, headers, insecure)
-                      .returns(good_response)
+        .with(url + automate_endpoint, headers, insecure)
+        .returns(good_response)
 
       InspecPlugins::Compliance::API.determine_server_type(url, insecure).must_equal(:automate)
     end
@@ -335,17 +335,17 @@ describe InspecPlugins::Compliance::API do
       bad_response.stubs(:body).returns("No Chef Manage here")
 
       InspecPlugins::Compliance::HTTP.expects(:get)
-                      .with(url + automate_endpoint, headers, insecure)
-                      .returns(bad_response)
+        .with(url + automate_endpoint, headers, insecure)
+        .returns(bad_response)
       InspecPlugins::Compliance::HTTP.expects(:get)
-                      .with(url + automate2_endpoint, headers, insecure)
-                      .returns(bad_response)
+        .with(url + automate2_endpoint, headers, insecure)
+        .returns(bad_response)
 
       mock_compliance_response = mock
       mock_compliance_response.stubs(:code).returns("404")
       InspecPlugins::Compliance::HTTP.expects(:get)
-                      .with(url + compliance_endpoint, headers, insecure)
-                      .returns(mock_compliance_response)
+        .with(url + compliance_endpoint, headers, insecure)
+        .returns(mock_compliance_response)
 
       InspecPlugins::Compliance::API.determine_server_type(url, insecure).must_be_nil
     end
@@ -355,14 +355,14 @@ describe InspecPlugins::Compliance::API do
       bad_response.stubs(:code).returns("404")
 
       InspecPlugins::Compliance::HTTP.expects(:get)
-                      .with(url + automate_endpoint, headers, insecure)
-                      .returns(bad_response)
+        .with(url + automate_endpoint, headers, insecure)
+        .returns(bad_response)
       InspecPlugins::Compliance::HTTP.expects(:get)
-                      .with(url + automate2_endpoint, headers, insecure)
-                      .returns(bad_response)
+        .with(url + automate2_endpoint, headers, insecure)
+        .returns(bad_response)
       InspecPlugins::Compliance::HTTP.expects(:get)
-                      .with(url + compliance_endpoint, headers, insecure)
-                      .returns(good_response)
+        .with(url + compliance_endpoint, headers, insecure)
+        .returns(good_response)
 
       InspecPlugins::Compliance::API.determine_server_type(url, insecure).must_equal(:compliance)
     end
@@ -371,14 +371,14 @@ describe InspecPlugins::Compliance::API do
       bad_response.stubs(:code).returns("404")
 
       InspecPlugins::Compliance::HTTP.expects(:get)
-                      .with(url + automate2_endpoint, headers, insecure)
-                      .returns(bad_response)
+        .with(url + automate2_endpoint, headers, insecure)
+        .returns(bad_response)
       InspecPlugins::Compliance::HTTP.expects(:get)
-                      .with(url + automate_endpoint, headers, insecure)
-                      .returns(bad_response)
+        .with(url + automate_endpoint, headers, insecure)
+        .returns(bad_response)
       InspecPlugins::Compliance::HTTP.expects(:get)
-                      .with(url + compliance_endpoint, headers, insecure)
-                      .returns(bad_response)
+        .with(url + compliance_endpoint, headers, insecure)
+        .returns(bad_response)
 
       InspecPlugins::Compliance::API.determine_server_type(url, insecure).must_be_nil
     end

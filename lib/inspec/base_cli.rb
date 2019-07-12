@@ -10,9 +10,11 @@ require "inspec/utils/deprecation/global_method"
 class Thor::Arguments
   def parse_array(_name)
     return shift if peek.is_a?(Array)
+
     array = []
     while current_is_value?
       break unless @parsing_options
+
       array << shift
     end
     array
@@ -157,7 +159,7 @@ module Inspec
         next if data.nil?
 
         data = "\e[1m\e[#{color}m#{data}\e[0m"
-        str << format("#{' ' * indent}%-10s %s\n", item.to_s.capitalize + ":", data)
+        str << format("#{" " * indent}%-10s %s\n", item.to_s.capitalize + ":", data)
       end
       str
     end
@@ -218,6 +220,7 @@ module Inspec
 
     def suppress_log_output?(opts)
       return false if opts["reporter"].nil?
+
       match = %w{json json-min json-rspec json-automate junit html yaml documentation progress} & opts["reporter"].keys
       unless match.empty?
         match.each do |m|

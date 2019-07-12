@@ -17,6 +17,7 @@ class AwsKmsKeys < Inspec.resource(1)
     unless resource_params.empty?
       raise ArgumentError, "aws_kms_keys does not accept resource parameters."
     end
+
     resource_params
   end
 
@@ -24,7 +25,7 @@ class AwsKmsKeys < Inspec.resource(1)
   filter = FilterTable.create
   filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
   filter.register_column(:key_arns, field: :key_arn)
-        .register_column(:key_ids, field: :key_id)
+    .register_column(:key_ids, field: :key_id)
   filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
@@ -39,6 +40,7 @@ class AwsKmsKeys < Inspec.resource(1)
       api_result = backend.list_keys(pagination_opts)
       @table += api_result.keys.map(&:to_h)
       break unless api_result.truncated
+
       pagination_opts = { marker: api_result.next_marker }
     end
   end

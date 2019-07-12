@@ -57,6 +57,7 @@ module Inspec::Resources
     def content
       res = file.content
       return nil if res.nil?
+
       res.force_encoding("utf-8")
     end
 
@@ -102,7 +103,7 @@ module Inspec::Resources
       Inspec.deprecate(:file_resource_be_mounted_matchers, "The file resource `be_mounted.with` and `be_mounted.only_with` matchers are deprecated. Please use the `mount` resource instead")
 
       # we cannot read mount data on non-Linux systems
-      return nil if !inspec.os.linux?
+      return nil unless inspec.os.linux?
 
       # parse content if we are on linux
       @mount_options ||= parse_mount_options(mounted.stdout, true)
@@ -171,6 +172,7 @@ module Inspec::Resources
 
     def file_permission_granted?(access_type, by_usergroup, by_specific_user)
       raise "`file_permission_granted?` is not supported on your OS" if @perms_provider.nil?
+
       if by_specific_user.nil? || by_specific_user.empty?
         @perms_provider.check_file_permission_by_mask(file, access_type, by_usergroup, by_specific_user)
       else
@@ -215,6 +217,7 @@ module Inspec::Resources
       flag = permission_flag(access_type)
       mask = file.unix_mode_mask(usergroup, flag)
       raise "Invalid usergroup/owner provided" if mask.nil?
+
       (file.mode & mask) != 0
     end
 

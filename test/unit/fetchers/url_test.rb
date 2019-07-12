@@ -67,15 +67,15 @@ describe Fetchers::Url do
        http://github.com/chef/inspec
        http://github.com/chef/inspec.git
        http://www.github.com/chef/inspec.git}.each do |github|
-      it "resolves a github url #{github}" do
-        expect_url_transform do
-          res = Fetchers::Url.resolve(github)
-          res.expects(:open).returns(mock_open)
-          _(res).wont_be_nil
-          _(res.resolved_source).must_equal({ url: "https://github.com/chef/inspec/archive/master.tar.gz", sha256: expected_shasum })
-        end
-      end
-    end
+         it "resolves a github url #{github}" do
+           expect_url_transform do
+             res = Fetchers::Url.resolve(github)
+             res.expects(:open).returns(mock_open)
+             _(res).wont_be_nil
+             _(res.resolved_source).must_equal({ url: "https://github.com/chef/inspec/archive/master.tar.gz", sha256: expected_shasum })
+           end
+         end
+       end
 
     it "resolves a github url with dot" do
       expect_url_transform do
@@ -114,15 +114,15 @@ describe Fetchers::Url do
        http://bitbucket.org/chef/inspec
        http://bitbucket.org/chef/inspec.git
        http://www.bitbucket.org/chef/inspec.git}.each do |bitbucket|
-      it "resolves a bitbucket url #{bitbucket}" do
-        expect_url_transform do
-          res = Fetchers::Url.resolve(bitbucket)
-          res.expects(:open).returns(mock_open)
-          _(res).wont_be_nil
-          _(res.resolved_source).must_equal({ url: "https://bitbucket.org/chef/inspec/get/master.tar.gz", sha256: expected_shasum })
-        end
-      end
-    end
+         it "resolves a bitbucket url #{bitbucket}" do
+           expect_url_transform do
+             res = Fetchers::Url.resolve(bitbucket)
+             res.expects(:open).returns(mock_open)
+             _(res).wont_be_nil
+             _(res.resolved_source).must_equal({ url: "https://bitbucket.org/chef/inspec/get/master.tar.gz", sha256: expected_shasum })
+           end
+         end
+       end
 
     it "resolves a bitbucket branch url" do
       expect_url_transform do
@@ -165,7 +165,7 @@ describe Fetchers::Url do
       mock = Object.new
       mock.stubs(:body).returns("this is the body")
       Net::HTTP.expects(:start)
-               .returns(mock)
+        .returns(mock)
 
       path = subject.send(:download_automate2_archive_to_temp)
       File.read(path).must_equal "this is the body"
@@ -176,8 +176,8 @@ describe Fetchers::Url do
       mock.stubs(:body).returns("this is the body")
       opts = { "chef-delivery-enterprise" => "automate", "x-data-collector-token" => "1234abcd", :use_ssl => true, :verify_mode => 1 }
       Net::HTTP.expects(:start)
-               .with("myurl", 443, opts)
-               .returns(mock)
+        .with("myurl", 443, opts)
+        .returns(mock)
 
       subject.send(:download_automate2_archive_to_temp)
     end
@@ -188,8 +188,8 @@ describe Fetchers::Url do
       mock.stubs(:body).returns("this is the body")
       opts = { :ssl_verify_mode => 0, "chef-delivery-enterprise" => "automate", "x-data-collector-token" => "1234abcd", :use_ssl => true, :verify_mode => 0 }
       Net::HTTP.expects(:start)
-               .with("myurl", 443, opts)
-               .returns(mock)
+        .with("myurl", 443, opts)
+        .returns(mock)
 
       subject.send(:download_automate2_archive_to_temp)
     end

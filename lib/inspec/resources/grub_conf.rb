@@ -90,6 +90,7 @@ class GrubConfig < Inspec.resource(1)
     lines = content.split("\n")
     lines.each_with_index do |line, index|
       next unless line =~ /^menuentry\s+.*/
+
       entry = {}
       entry["insmod"] = []
 
@@ -104,6 +105,7 @@ class GrubConfig < Inspec.resource(1)
       # Begin processing from index forward until a `}` line is met
       lines.drop(index + 1).each do |mline|
         break if mline =~ /^\s*}\s*$/
+
         case mline
         when /(?:^|\s*)initrd.*/
           entry["initrd"] = mline.split(" ")[1]
@@ -155,6 +157,7 @@ class GrubConfig < Inspec.resource(1)
     kernel_opts = {}
     lines.each_with_index do |file_line, index|
       next unless file_line =~ /^title.*/
+
       current_kernel = file_line.split(" ", 2)[1]
       lines.drop(index + 1).each do |kernel_line|
         if kernel_line =~ /^\s.*/

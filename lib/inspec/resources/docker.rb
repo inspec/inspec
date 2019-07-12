@@ -11,21 +11,21 @@ module Inspec::Resources
     # use filtertable for containers
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
-    filter.register_column(:commands,       field: "command")
-          .register_column(:ids,            field: "id")
-          .register_column(:images,         field: "image")
-          .register_column(:labels,         field: "labels", style: :simple)
-          .register_column(:local_volumes,  field: "localvolumes")
-          .register_column(:mounts,         field: "mounts")
-          .register_column(:names,          field: "names")
-          .register_column(:networks,       field: "networks")
-          .register_column(:ports,          field: "ports")
-          .register_column(:running_for,    field: "runningfor")
-          .register_column(:sizes,          field: "size")
-          .register_column(:status,         field: "status")
-          .register_custom_matcher(:running?) do |x|
-            x.where { status.downcase.start_with?("up") }
-          end
+    filter.register_column(:commands, field: "command")
+      .register_column(:ids,            field: "id")
+      .register_column(:images,         field: "image")
+      .register_column(:labels,         field: "labels", style: :simple)
+      .register_column(:local_volumes,  field: "localvolumes")
+      .register_column(:mounts,         field: "mounts")
+      .register_column(:names,          field: "names")
+      .register_column(:networks,       field: "networks")
+      .register_column(:ports,          field: "ports")
+      .register_column(:running_for,    field: "runningfor")
+      .register_column(:sizes,          field: "size")
+      .register_column(:status,         field: "status")
+      .register_custom_matcher(:running?) do |x|
+        x.where { status.downcase.start_with?("up") }
+      end
     filter.install_filter_methods_on_resource(self, :containers)
 
     attr_reader :containers
@@ -37,13 +37,13 @@ module Inspec::Resources
   class DockerImageFilter
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
-    filter.register_column(:ids,           field: "id")
-          .register_column(:repositories,  field: "repository")
-          .register_column(:tags,          field: "tag")
-          .register_column(:sizes,         field: "size")
-          .register_column(:digests,       field: "digest")
-          .register_column(:created,       field: "createdat")
-          .register_column(:created_since, field: "createdsize")
+    filter.register_column(:ids, field: "id")
+      .register_column(:repositories,  field: "repository")
+      .register_column(:tags,          field: "tag")
+      .register_column(:sizes,         field: "size")
+      .register_column(:digests,       field: "digest")
+      .register_column(:created,       field: "createdat")
+      .register_column(:created_since, field: "createdsize")
     filter.install_filter_methods_on_resource(self, :images)
 
     attr_reader :images
@@ -54,10 +54,10 @@ module Inspec::Resources
 
   class DockerPluginFilter
     filter = FilterTable.create
-    filter.add(:ids,      field: "id")
-          .add(:names,    field: "name")
-          .add(:versions, field: "version")
-          .add(:enabled,  field: "enabled")
+    filter.add(:ids, field: "id")
+      .add(:names,    field: "name")
+      .add(:versions, field: "version")
+      .add(:enabled,  field: "enabled")
     filter.connect(self, :plugins)
 
     attr_reader :plugins
@@ -69,12 +69,12 @@ module Inspec::Resources
   class DockerServiceFilter
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
-    filter.register_column(:ids,      field: "id")
-          .register_column(:names,    field: "name")
-          .register_column(:modes,    field: "mode")
-          .register_column(:replicas, field: "replicas")
-          .register_column(:images,   field: "image")
-          .register_column(:ports,    field: "ports")
+    filter.register_column(:ids, field: "id")
+      .register_column(:names,    field: "name")
+      .register_column(:modes,    field: "mode")
+      .register_column(:replicas, field: "replicas")
+      .register_column(:images,   field: "image")
+      .register_column(:ports,    field: "ports")
     filter.install_filter_methods_on_resource(self, :services)
 
     attr_reader :services
@@ -147,6 +147,7 @@ module Inspec::Resources
 
     def version
       return @version if defined?(@version)
+
       data = {}
       cmd = inspec.command("docker version --format '{{ json . }}'")
       data = JSON.parse(cmd.stdout) if cmd.exit_status == 0
@@ -157,6 +158,7 @@ module Inspec::Resources
 
     def info
       return @info if defined?(@info)
+
       data = {}
       # docke info format is only supported for Docker 17.03+
       cmd = inspec.command("docker info --format '{{ json . }}'")
@@ -169,6 +171,7 @@ module Inspec::Resources
     # returns information about docker objects
     def object(id)
       return @inspect if defined?(@inspect)
+
       data = JSON.parse(inspec.command("docker inspect #{id}").stdout)
       data = data[0] if data.is_a?(Array)
       @inspect = Hashie::Mash.new(data)
@@ -185,7 +188,7 @@ module Inspec::Resources
     def parse_json_command(labels, subcommand)
       # build command
       format = labels.map { |label| "\"#{label}\": {{json .#{label}}}" }
-      raw = inspec.command("docker #{subcommand} --format '{#{format.join(', ')}}'").stdout
+      raw = inspec.command("docker #{subcommand} --format '{#{format.join(", ")}}'").stdout
       output = []
       # since docker is not outputting valid json, we need to parse each row
       raw.each_line do |entry|
@@ -238,7 +241,7 @@ module Inspec::Resources
 
     def ensure_keys(entry, labels)
       labels.each do |key|
-        entry[key.downcase] = nil if !entry.key?(key.downcase)
+        entry[key.downcase] = nil unless entry.key?(key.downcase)
       end
       entry
     end

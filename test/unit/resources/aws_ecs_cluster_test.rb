@@ -178,7 +178,7 @@ module MAECSB
       else
         Aws::ECS::Types::DescribeClustersResponse.new(
           clusters: [
-            clusters["default"]
+            clusters["default"],
           ],
           failures: []
         )

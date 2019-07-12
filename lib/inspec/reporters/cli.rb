@@ -54,8 +54,8 @@ module Inspec::Reporters
         print_anonymous_control_results(profile)
         if @control_count == 0
           output(format_message(
-                   indentation: 5,
-                   message: "No tests executed."
+            indentation: 5,
+            message: "No tests executed."
           ))
         end
       end
@@ -86,6 +86,7 @@ module Inspec::Reporters
       standard_controls_from_profile(profile).each do |control_from_profile|
         control = Control.new(control_from_profile)
         next if control.results.nil?
+
         output(format_control_header(control))
         control.results.each do |result|
           output(format_result(control, result, :standard))
@@ -99,6 +100,7 @@ module Inspec::Reporters
       anonymous_controls_from_profile(profile).each do |control_from_profile|
         control = Control.new(control_from_profile)
         next if control.results.nil?
+
         output(format_control_header(control))
         control.results.each do |result|
           output(format_result(control, result, :anonymous))
@@ -111,7 +113,7 @@ module Inspec::Reporters
       if profile[:title].nil?
         (profile[:name] || "unknown").to_s
       else
-        "#{profile[:title]} (#{profile[:name] || 'unknown'})"
+        "#{profile[:title]} (#{profile[:name] || "unknown"})"
       end
     end
 
@@ -163,7 +165,7 @@ module Inspec::Reporters
       return text if defined?(RSpec.configuration) && !RSpec.configuration.color
       return text unless COLORS.key?(color_name)
 
-      "#{COLORS[color_name]}#{text}#{COLORS['reset']}"
+      "#{COLORS[color_name]}#{text}#{COLORS["reset"]}"
     end
 
     def all_unique_controls
@@ -182,6 +184,7 @@ module Inspec::Reporters
       all_unique_controls.each do |control|
         next if control[:id].start_with? "(generated from "
         next unless control[:results]
+
         if control[:results].any? { |r| r[:status] == "failed" }
           failed += 1
         elsif control[:results].any? { |r| r[:status] == "skipped" }
@@ -209,6 +212,7 @@ module Inspec::Reporters
 
       all_unique_controls.each do |control|
         next unless control[:results]
+
         control[:results].each do |result|
           if result[:status] == "failed"
             failed += 1
@@ -232,9 +236,9 @@ module Inspec::Reporters
       summary = profile_summary
       return unless summary["total"] > 0
 
-      success_str = summary["passed"] == 1 ? "1 successful control" : "#{summary['passed']} successful controls"
-      failed_str  = summary["failed"] == 1 ? "1 control failure" : "#{summary['failed']} control failures"
-      skipped_str = summary["skipped"] == 1 ? "1 control skipped" : "#{summary['skipped']} controls skipped"
+      success_str = summary["passed"] == 1 ? "1 successful control" : "#{summary["passed"]} successful controls"
+      failed_str  = summary["failed"] == 1 ? "1 control failure" : "#{summary["failed"]} control failures"
+      skipped_str = summary["skipped"] == 1 ? "1 control skipped" : "#{summary["skipped"]} controls skipped"
 
       success_color = summary["passed"] > 0 ? "passed" : "no_color"
       failed_color = summary["failed"] > 0 ? "failed" : "no_color"
@@ -252,7 +256,7 @@ module Inspec::Reporters
     def print_tests_summary
       summary = tests_summary
 
-      failed_str = summary["failed"] == 1 ? "1 failure" : "#{summary['failed']} failures"
+      failed_str = summary["failed"] == 1 ? "1 failure" : "#{summary["failed"]} failures"
 
       success_color = summary["passed"] > 0 ? "passed" : "no_color"
       failed_color = summary["failed"] > 0 ? "failed" : "no_color"
@@ -260,9 +264,9 @@ module Inspec::Reporters
 
       s = format(
         "Test Summary: %s, %s, %s",
-        format_with_color(success_color, "#{summary['passed']} successful"),
+        format_with_color(success_color, "#{summary["passed"]} successful"),
         format_with_color(failed_color, failed_str),
-        format_with_color(skipped_color, "#{summary['skipped']} skipped")
+        format_with_color(skipped_color, "#{summary["skipped"]} skipped")
       )
 
       output(s)

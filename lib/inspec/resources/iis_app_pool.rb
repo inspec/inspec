@@ -117,7 +117,7 @@ class IisAppPool < Inspec.resource(1)
       e32b: pool["enable32BitAppOnWin64"],
       mode: pool["managedPipelineMode"],
       processes: process_model["maxProcesses"],
-      timeout: "#{idle_timeout['Hours']}:#{idle_timeout['Minutes']}:#{idle_timeout['Seconds']}",
+      timeout: "#{idle_timeout["Hours"]}:#{idle_timeout["Minutes"]}:#{idle_timeout["Seconds"]}",
       timeout_days: idle_timeout["Days"],
       timeout_hours: idle_timeout["Hours"],
       timeout_minutes: idle_timeout["Minutes"],

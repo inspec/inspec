@@ -31,10 +31,10 @@ class EtcHosts < Inspec.resource(1)
   end
 
   FilterTable.create
-             .register_column(:ip_address,     field: "ip_address")
-             .register_column(:primary_name,   field: "primary_name")
-             .register_column(:all_host_names, field: "all_host_names")
-             .install_filter_methods_on_resource(self, :params)
+    .register_column(:ip_address,     field: "ip_address")
+    .register_column(:primary_name,   field: "primary_name")
+    .register_column(:all_host_names, field: "all_host_names")
+    .install_filter_methods_on_resource(self, :params)
 
   private
 

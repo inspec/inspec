@@ -25,6 +25,6 @@ when "ubuntu", "rhel", "centos", "fedora"
   mount "/mnt/iso-disk" do
     device "/tmp/empty.iso"
     options "loop"
-    action [:mount, :enable]
+    action %i{mount enable}
   end
 end

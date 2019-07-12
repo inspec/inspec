@@ -10,7 +10,7 @@ module Inspec
 
       def require(path)
         rbpath = path + ".rb"
-        return __ruby_require(path) if !@require_loader.exists?(rbpath)
+        return __ruby_require(path) unless @require_loader.exists?(rbpath)
         return false if @require_loader.loaded?(rbpath)
 
         # This is equivalent to calling `require 'lib'` with lib on disk.

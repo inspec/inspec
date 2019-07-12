@@ -15,12 +15,13 @@ module Inspec::Resources
       @parameter = parameter
 
       # this resource is only supported on Linux
-      return skip_resource "The `kernel_parameter` resource is not supported on your OS." if !inspec.os.linux?
+      return skip_resource "The `kernel_parameter` resource is not supported on your OS." unless inspec.os.linux?
     end
 
     def value
       cmd = inspec.command("/sbin/sysctl -q -n #{@parameter}")
       return nil if cmd.exit_status != 0
+
       # remove whitespace
       cmd = cmd.stdout.chomp.strip
       # convert to number if possible

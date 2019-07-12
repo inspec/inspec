@@ -11,7 +11,7 @@ class ArtifactCli < Minitest::Test
 
   def test_generating_archive_keys
     Dir.mktmpdir do |dir|
-      unique_key_name = SecureRandom.uuid()
+      unique_key_name = SecureRandom.uuid
       out = run_inspec_process("artifact generate --keyname #{unique_key_name}", prefix: "cd #{dir} &&")
       assert_equal 0, out.exit_status
 
@@ -23,8 +23,8 @@ class ArtifactCli < Minitest::Test
 
   def test_verify_and_install_signed_profile
     Dir.mktmpdir do |dir|
-      unique_key_name = SecureRandom.uuid()
-      install_dir = File.join(dir, SecureRandom.uuid())
+      unique_key_name = SecureRandom.uuid
+      install_dir = File.join(dir, SecureRandom.uuid)
       FileUtils.mkdir(install_dir)
 
       # create profile

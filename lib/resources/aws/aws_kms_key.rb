@@ -15,8 +15,8 @@ class AwsKmsKey < Inspec.resource(1)
 
   include AwsSingularResourceMixin
   attr_reader :key_id, :arn, :creation_date, :key_usage, :key_state, :description,
-              :deletion_date, :valid_to, :external, :has_key_expiration, :managed_by_aws,
-              :has_rotation_enabled, :enabled
+    :deletion_date, :valid_to, :external, :has_key_expiration, :managed_by_aws,
+    :has_rotation_enabled, :enabled
   # Use aliases for matchers
   alias deletion_time deletion_date
   alias invalidation_time valid_to

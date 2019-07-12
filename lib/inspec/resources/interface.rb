@@ -61,13 +61,13 @@ module Inspec::Resources
 
     def ipv4_addresses_netmask
       ipv4_cidrs.map { |i| i.split("/") }.map do |addr, netlen|
-        binmask = "#{'1' * netlen.to_i}#{'0' * (32 - netlen.to_i)}".to_i(2)
+        binmask = "#{"1" * netlen.to_i}#{"0" * (32 - netlen.to_i)}".to_i(2)
         netmask = []
         (1..4).each do |_byte|
           netmask.unshift(binmask & 255)
           binmask = binmask >> 8
         end
-        "#{addr}/#{netmask.join('.')}"
+        "#{addr}/#{netmask.join(".")}"
       end
     end
 
@@ -87,7 +87,8 @@ module Inspec::Resources
 
     def interface_info
       return @cache if defined?(@cache)
-      @cache = @interface_provider.interface_info(@iface) if !@interface_provider.nil?
+
+      @cache = @interface_provider.interface_info(@iface) unless @interface_provider.nil?
     end
   end
 
@@ -142,6 +143,7 @@ module Inspec::Resources
       [4, 6].each do |v|
         cmd = inspec.command("/sbin/ip -br -#{v} address show dev #{iface}")
         next unless cmd.exit_status.to_i == 0
+
         family = v == 6 ? "inet6" : "inet"
 
         cmd.stdout.each_line do |line|
@@ -171,8 +173,8 @@ module Inspec::Resources
       end
 
       # ensure we have an array of groups
-      net_adapter = [net_adapter] if !net_adapter.is_a?(Array)
-      addresses = [addresses] if !addresses.is_a?(Array)
+      net_adapter = [net_adapter] unless net_adapter.is_a?(Array)
+      addresses = [addresses] unless addresses.is_a?(Array)
 
       # select the requested interface
       adapters = net_adapter.each_with_object([]) do |adapter, adapter_collection|
@@ -188,6 +190,7 @@ module Inspec::Resources
       end
 
       return nil if adapters.empty?
+
       warn "[Possible Error] detected multiple network interfaces with the name #{iface}" if adapters.size > 1
       adapters[0]
     end
@@ -196,8 +199,8 @@ module Inspec::Resources
 
     def addresses_for_proto(all_addresses, iface, proto)
       all_addresses.select { |i| i["InterfaceAlias"] == iface }
-                   .map { |i| "#{i["#{proto}Address"]}/#{i['PrefixLength']}" unless i["#{proto}Address"].nil? }
-                   .compact
+        .map { |i| "#{i["#{proto}Address"]}/#{i["PrefixLength"]}" unless i["#{proto}Address"].nil? }
+        .compact
     end
   end
 end

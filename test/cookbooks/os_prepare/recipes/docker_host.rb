@@ -1,6 +1,6 @@
 if platform_family?("rhel", "debian", "fedora")
   docker_service "default" do
-    action [:create, :start]
+    action %i{create start}
   end
 
   docker_image "busybox" do

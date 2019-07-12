@@ -25,14 +25,14 @@ describe Inspec::ControlEvalContext do
   end
 
   let(:resource_dsl) { FakeDSL }
-  let(:backend) { mock() }
+  let(:backend) { mock }
   let(:profile_context) { Inspec::ProfileContext.new("test-profile", backend, {}) }
   let(:eval_context) do
     c = Inspec::ControlEvalContext.create(profile_context, resource_dsl)
     # Options that are mocked below are:
     # backend, conf, dependencies, require_loader, and skip_only_if_eval
     # See: `lib/inspec/control_eval_context.rb` for more details
-    c.new(backend, {}, mock(), mock(), false)
+    c.new(backend, {}, mock, mock, false)
   end
 
   it "accepts a context and a resource_dsl" do
@@ -57,7 +57,7 @@ describe Inspec::ControlEvalContext do
   describe "#resource_class" do
     let(:resource_dsl) { Inspec::Resource.create_dsl(profile_context) }
     let(:inner_context) { Inspec::ProfileContext.new("inner-context", backend, {}) }
-    let(:newfoo) { mock() }
+    let(:newfoo) { mock }
     let(:control_content) do
       <<~EOF
         resource_class('profile_a', 'foobar')

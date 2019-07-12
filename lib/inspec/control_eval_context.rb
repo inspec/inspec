@@ -216,6 +216,7 @@ module Inspec
           return if @skip_only_if_eval == true
 
           return if block.yield == true
+
           # Apply `set_skip_rule` for other rules in the same file
           profile_context_owner.rules.values.each do |r|
             sources_match = r.source_file == block.source_location[0]

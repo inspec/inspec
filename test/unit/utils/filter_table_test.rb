@@ -2,11 +2,12 @@ require "helper"
 
 describe FilterTable do
   let(:data) do
-     [
-    { foo: 3, bar: true, baz: "yay", num: nil, snum: "0" },
-    { foo: 2, bar: false, baz: "noo", num: 1, snum: nil },
-    { foo: 2, bar: false, baz: "whatever", num: 2, snum: "1.00" },
-  ] end
+    [
+   { foo: 3, bar: true, baz: "yay", num: nil, snum: "0" },
+   { foo: 2, bar: false, baz: "noo", num: 1, snum: nil },
+   { foo: 2, bar: false, baz: "whatever", num: 2, snum: "1.00" },
+    ]
+  end
 
   let(:resource) do
     Class.new do
@@ -36,8 +37,8 @@ describe FilterTable do
 
   it "retrieves the resource from all entries" do
     factory.add_accessor(:where)
-           .add(:baz?) { |x| x.resource }
-           .connect(resource, :data)
+      .add(:baz?) { |x| x.resource } # rubocop: disable Style/SymbolProc
+      .connect(resource, :data)
     instance.baz?.must_equal instance
   end
 
@@ -83,8 +84,8 @@ describe FilterTable do
 
     it "retrieves entries with simple style" do
       factory.add(:foo, style: :simple)
-             .add(:num, style: :simple)
-             .connect(resource, :data)
+        .add(:num, style: :simple)
+        .connect(resource, :data)
       instance.foo.must_equal([3, 2])
       instance.num.must_equal([1, 2])
     end

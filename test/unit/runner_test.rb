@@ -32,7 +32,7 @@ describe Inspec::Runner do
       opts = { command_runner: :generic, backend_cache: true, "reporter" => ["progress"] }
       runner = Inspec::Runner.new(opts)
       config = runner.instance_variable_get(:"@conf")
-      config["reporter"].must_equal Hash.new
+      config["reporter"].must_equal({})
     end
   end
 

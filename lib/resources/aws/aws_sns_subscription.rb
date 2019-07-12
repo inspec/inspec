@@ -20,7 +20,7 @@ class AwsSnsSubscription < Inspec.resource(1)
 
   include AwsSingularResourceMixin
   attr_reader :arn, :owner, :raw_message_delivery, :topic_arn, :endpoint, :protocol,
-              :confirmation_was_authenticated, :aws_response
+    :confirmation_was_authenticated, :aws_response
 
   alias confirmation_authenticated? confirmation_was_authenticated
   alias raw_message_delivery? raw_message_delivery

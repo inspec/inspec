@@ -9,6 +9,7 @@ module Inspec
   def self.record_telemetry_data(data_series_name, data_point = nil)
     coll = Inspec::Telemetry::Collector.instance
     return unless coll.telemetry_enabled?
+
     ds = coll.find_or_create_data_series(data_series_name)
     return unless ds.enabled?
 

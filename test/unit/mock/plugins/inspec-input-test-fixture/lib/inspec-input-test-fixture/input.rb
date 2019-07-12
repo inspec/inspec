@@ -9,11 +9,13 @@ module InspecPlugins::InputTestFixture
     def fetch(profile_name, input_name)
       return nil unless test_fixture_data.key?(profile_name)
       return nil unless test_fixture_data[profile_name].key?(input_name)
+
       test_fixture_data[profile_name][input_name]
     end
 
     def list_inputs(profile_name)
       return [] unless test_fixture_data.key?(profile_name)
+
       test_fixture_data[profile_name].keys
     end
 

@@ -10,6 +10,7 @@ module Secrets
       unless target.is_a?(String) && File.file?(target) && [".yml", ".yaml"].include?(File.extname(target).downcase)
         return nil
       end
+
       new(target)
     end
 

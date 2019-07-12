@@ -37,7 +37,7 @@ describe "Inspec::Resources::WindowsFeature" do
 
   it "uses DISM when Get-WindowsFeature does not exist" do
     resource = MockLoader.new(:windows)
-                         .load_resource("windows_feature", "IIS-WebServer")
+      .load_resource("windows_feature", "IIS-WebServer")
     params = {
       name: "IIS-WebServer",
       description: "Installs the IIS 10.0 World Wide Web Services. Provides support for HTML web sites and optional support for ASP.NET, Classic ASP, and web server extensions.",

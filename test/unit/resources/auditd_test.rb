@@ -21,7 +21,7 @@ describe "Inspec::Resources::AuditDaemon" do
     resource = MockLoader.new(:centos7).load_resource("auditd")
     _(resource.send("syscall", "open").send("params")).must_equal [
       { "syscall" => "open", "list" => "exit", "action" => "always", "fields" => ["arch=b64", "exit=-EACCES", "key=access"], "key" => "access", "arch" => "b64", "path" => nil, "permissions" => nil, "exit" => "-EACCES", "fields_nokey" => ["arch=b64", "exit=-EACCES"] },
-      { "syscall" => "open", "list" => "exit", "action" => "always", "fields" => ["arch=b32", "exit=-EPERM", "key=access"], "key" => "access", "arch" => "b32", "path" => nil, "permissions" => nil, "exit" => "-EPERM", "fields_nokey" => ["arch=b32", "exit=-EPERM"] }
+      { "syscall" => "open", "list" => "exit", "action" => "always", "fields" => ["arch=b32", "exit=-EPERM", "key=access"], "key" => "access", "arch" => "b32", "path" => nil, "permissions" => nil, "exit" => "-EPERM", "fields_nokey" => ["arch=b32", "exit=-EPERM"] },
     ]
   end
 
@@ -29,14 +29,14 @@ describe "Inspec::Resources::AuditDaemon" do
     resource = MockLoader.new(:centos7).load_resource("auditd")
     _(resource.send("syscall", "open").send("key", "access").send("params")).must_equal [
       { "syscall" => "open", "list" => "exit", "action" => "always", "fields" => ["arch=b64", "exit=-EACCES", "key=access"], "key" => "access", "arch" => "b64", "path" => nil, "permissions" => nil, "exit" => "-EACCES", "fields_nokey" => ["arch=b64", "exit=-EACCES"] },
-      { "syscall" => "open", "list" => "exit", "action" => "always", "fields" => ["arch=b32", "exit=-EPERM", "key=access"], "key" => "access", "arch" => "b32", "path" => nil, "permissions" => nil, "exit" => "-EPERM", "fields_nokey" => ["arch=b32", "exit=-EPERM"] }
+      { "syscall" => "open", "list" => "exit", "action" => "always", "fields" => ["arch=b32", "exit=-EPERM", "key=access"], "key" => "access", "arch" => "b32", "path" => nil, "permissions" => nil, "exit" => "-EPERM", "fields_nokey" => ["arch=b32", "exit=-EPERM"] },
     ]
   end
 
   it "auditd syscall query chaining filter on architecture" do
     resource = MockLoader.new(:centos7).load_resource("auditd")
     _(resource.send("syscall", "open").send("key", "access").send("arch", "b32").send("params")).must_equal [
-      { "syscall" => "open", "list" => "exit", "action" => "always", "fields" => ["arch=b32", "exit=-EPERM", "key=access"], "key" => "access", "arch" => "b32", "path" => nil, "permissions" => nil, "exit" => "-EPERM", "fields_nokey" => ["arch=b32", "exit=-EPERM"] }
+      { "syscall" => "open", "list" => "exit", "action" => "always", "fields" => ["arch=b32", "exit=-EPERM", "key=access"], "key" => "access", "arch" => "b32", "path" => nil, "permissions" => nil, "exit" => "-EPERM", "fields_nokey" => ["arch=b32", "exit=-EPERM"] },
     ]
   end
 
@@ -48,7 +48,7 @@ describe "Inspec::Resources::AuditDaemon" do
   it "check auditd file watch with syscall syntax" do
     resource = MockLoader.new(:centos7).load_resource("auditd")
     _(resource.send("file", "/usr/bin/chage").send("params")).must_equal [
-      { "file" => "/usr/bin/chage", "list" => "exit", "action" => "always", "fields" => ["path=/usr/bin/chage", "perm=x", "auid>=1000", "auid!=-1", "key=privileged"], "permissions" => ["x"], "key" => "privileged", "fields_nokey" => ["path=/usr/bin/chage", "perm=x", "auid>=1000", "auid!=-1"] }
+      { "file" => "/usr/bin/chage", "list" => "exit", "action" => "always", "fields" => ["path=/usr/bin/chage", "perm=x", "auid>=1000", "auid!=-1", "key=privileged"], "permissions" => ["x"], "key" => "privileged", "fields_nokey" => ["path=/usr/bin/chage", "perm=x", "auid>=1000", "auid!=-1"] },
     ]
   end
 
@@ -56,14 +56,14 @@ describe "Inspec::Resources::AuditDaemon" do
     resource = MockLoader.new(:centos7).load_resource("auditd")
     _(resource.send("syscall", "all").send("params")).must_equal [
       { "syscall" => "all", "list" => "exit", "action" => "always", "fields" => ["path=/usr/bin/chage", "perm=x", "auid>=1000", "auid!=-1", "key=privileged"], "key" => "privileged", "arch" => nil, "path" => "/usr/bin/chage", "permissions" => ["x"], "exit" => nil, "fields_nokey" => ["path=/usr/bin/chage", "perm=x", "auid>=1000", "auid!=-1"] },
-      { "syscall" => "all", "list" => "exit", "action" => "always", "fields" => ["path=/usr/bin/mount", "perm=x", "auid>=1000", "auid!=-1", "key=privileged"], "key" => "privileged", "arch" => nil, "path" => "/usr/bin/mount", "permissions" => ["x"], "exit" => nil, "fields_nokey" => ["path=/usr/bin/mount", "perm=x", "auid>=1000", "auid!=-1"] }
+      { "syscall" => "all", "list" => "exit", "action" => "always", "fields" => ["path=/usr/bin/mount", "perm=x", "auid>=1000", "auid!=-1", "key=privileged"], "key" => "privileged", "arch" => nil, "path" => "/usr/bin/mount", "permissions" => ["x"], "exit" => nil, "fields_nokey" => ["path=/usr/bin/mount", "perm=x", "auid>=1000", "auid!=-1"] },
     ]
   end
 
   it "check auditd file watch with syscall syntax filter on syscall all and particular path" do
     resource = MockLoader.new(:centos7).load_resource("auditd")
     _(resource.send("syscall", "all").send("path", "/usr/bin/chage").send("params")).must_equal [
-      { "syscall" => "all", "list" => "exit", "action" => "always", "fields" => ["path=/usr/bin/chage", "perm=x", "auid>=1000", "auid!=-1", "key=privileged"], "key" => "privileged", "arch" => nil, "path" => "/usr/bin/chage", "permissions" => ["x"], "exit" => nil, "fields_nokey" => ["path=/usr/bin/chage", "perm=x", "auid>=1000", "auid!=-1"] }
+      { "syscall" => "all", "list" => "exit", "action" => "always", "fields" => ["path=/usr/bin/chage", "perm=x", "auid>=1000", "auid!=-1", "key=privileged"], "key" => "privileged", "arch" => nil, "path" => "/usr/bin/chage", "permissions" => ["x"], "exit" => nil, "fields_nokey" => ["path=/usr/bin/chage", "perm=x", "auid>=1000", "auid!=-1"] },
     ]
   end
 

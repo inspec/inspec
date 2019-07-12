@@ -81,6 +81,7 @@ module Inspec::Resources
 
     def object_info
       return @info if defined?(@info)
+
       opts = @opts
       @info = inspec.docker.services.where do
         name == opts[:name] || image == opts[:image] || (!id.nil? && !opts[:id].nil? && (id == opts[:id] || id.start_with?(opts[:id])))

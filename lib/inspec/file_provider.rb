@@ -21,8 +21,7 @@ module Inspec
       end
     end
 
-    def initialize(_path)
-    end
+    def initialize(_path); end
 
     # List all files that are offered.
     #
@@ -80,12 +79,14 @@ module Inspec
     def read(file)
       return nil unless files.include?(file)
       return nil unless File.file?(file)
+
       File.read(file)
     end
 
     def binread(file)
       return nil unless files.include?(file)
       return nil unless File.file?(file)
+
       File.binread(file)
     end
   end
@@ -133,10 +134,12 @@ module Inspec
 
     def read_from_zip(file)
       return nil unless @files.include?(file)
+
       res = nil
       walk_zip(@path) do |io|
         while (entry = io.get_next_entry)
           next unless file == entry.name
+
           res = io.read
           break
         end
@@ -172,6 +175,7 @@ module Inspec
       walk_tar(@path) do |files|
         files.each do |file|
           next unless @files.include?(file.full_name)
+
           final_path = File.join(destination_path, file.full_name)
 
           # This removes the top level directory (and any other files) to ensure
@@ -199,11 +203,13 @@ module Inspec
 
     def read_from_tar(file)
       return nil unless @files.include?(file)
+
       res = nil
       # NB `TarReader` includes `Enumerable` beginning with Ruby 2.x
       walk_tar(@path) do |tar|
         tar.each do |entry|
           next unless entry.file? && [file, "./#{file}"].include?(entry.full_name)
+
           res = entry.read
           break
         end
@@ -235,16 +241,17 @@ module Inspec
       # PAX-formatted tar files. Do not do any translation of the path if the
       # path is an absolute path.
       @files = parent.files
-                     .find_all { |x| x.start_with?(prefix) && x != prefix }
-                     .map { |x| x[prefix.length..-1] }
-                     .map do |x|
-                       path = Pathname.new(x)
-                       path.absolute? ? path.to_s : path.relative_path_from(Pathname.new(".")).to_s
-                     end
+        .find_all { |x| x.start_with?(prefix) && x != prefix }
+        .map { |x| x[prefix.length..-1] }
+        .map do |x|
+          path = Pathname.new(x)
+          path.absolute? ? path.to_s : path.relative_path_from(Pathname.new(".")).to_s
+        end
     end
 
     def abs_path(file)
       return nil if file.nil?
+
       prefix + file
     end
 
@@ -278,12 +285,14 @@ module Inspec
 
     def get_folder_prefix(fs)
       return get_files_prefix(fs) if fs.length == 1
+
       first, *rest = fs
       pre = prefix_candidate_for(first)
 
       if rest.all? { |i| i.start_with? pre }
         return get_folder_prefix(rest)
       end
+
       get_files_prefix(fs)
     end
 
@@ -303,6 +312,7 @@ module Inspec
 
       new_pre = get_prefix(rest)
       return new_pre if pre.start_with? new_pre
+
       # edge case: completely different prefixes; retry prefix detection
       a = File.dirname(pre + "a")
       b = File.dirname(new_pre + "b")

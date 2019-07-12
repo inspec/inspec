@@ -74,6 +74,7 @@ module Inspec::Resources
 
     def object_info
       return @info if defined?(@info)
+
       opts = @opts
       @info = inspec.docker.images.where do
         (repository == opts[:repo] && tag == opts[:tag]) || (!id.nil? && !opts[:id].nil? && (id == opts[:id] || id.start_with?(opts[:id])))

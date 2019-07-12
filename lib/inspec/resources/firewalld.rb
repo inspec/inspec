@@ -28,10 +28,10 @@ module Inspec::Resources
     attr_reader :params
 
     filter = FilterTable.create
-    filter.register_column(:zone,       field: "zone")
-          .register_column(:interfaces, field: "interfaces")
-          .register_column(:sources,    field: "sources")
-          .register_column(:services,   field: "services")
+    filter.register_column(:zone, field: "zone")
+      .register_column(:interfaces, field: "interfaces")
+      .register_column(:sources,    field: "sources")
+      .register_column(:services,   field: "services")
 
     filter.install_filter_methods_on_resource(self, :params)
 
@@ -45,12 +45,14 @@ module Inspec::Resources
 
     def has_zone?(query_zone)
       return false unless installed?
+
       result = firewalld_command("--get-zones").split(" ")
       result.include?(query_zone)
     end
 
     def running?
       return false unless installed?
+
       result = firewalld_command("--state")
       result =~ /^running/ ? true : false
     end
@@ -135,6 +137,7 @@ module Inspec::Resources
       if result.stderr != ""
         return "Error on command #{command}: #{result.stderr}"
       end
+
       result.stdout.strip
     end
   end

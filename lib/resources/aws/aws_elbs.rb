@@ -17,24 +17,25 @@ class AwsElbs < Inspec.resource(1)
     unless resource_params.empty?
       raise ArgumentError, "aws_elbs does not accept resource parameters."
     end
+
     resource_params
   end
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
   filter.add_accessor(:entries)
-        .add_accessor(:where)
-        .add(:exists?) { |table| !table.params.empty? }
-        .add(:count) { |table| table.params.count }
-        .add(:availability_zones, field: :availability_zones, style: :simple)
-        .add(:dns_names, field: :dns_name)
-        .add(:external_ports, field: :external_ports, style: :simple)
-        .add(:instance_ids, field: :instance_ids, style: :simple)
-        .add(:internal_ports, field: :internal_ports, style: :simple)
-        .add(:elb_names, field: :elb_name)
-        .add(:security_group_ids, field: :security_group_ids, style: :simple)
-        .add(:subnet_ids, field: :subnet_ids, style: :simple)
-        .add(:vpc_ids, field: :vpc_id, style: :simple)
+    .add_accessor(:where)
+    .add(:exists?) { |table| !table.params.empty? }
+    .add(:count) { |table| table.params.count }
+    .add(:availability_zones, field: :availability_zones, style: :simple)
+    .add(:dns_names, field: :dns_name)
+    .add(:external_ports, field: :external_ports, style: :simple)
+    .add(:instance_ids, field: :instance_ids, style: :simple)
+    .add(:internal_ports, field: :internal_ports, style: :simple)
+    .add(:elb_names, field: :elb_name)
+    .add(:security_group_ids, field: :security_group_ids, style: :simple)
+    .add(:subnet_ids, field: :subnet_ids, style: :simple)
+    .add(:vpc_ids, field: :vpc_id, style: :simple)
   filter.connect(self, :table)
 
   def to_s
@@ -49,6 +50,7 @@ class AwsElbs < Inspec.resource(1)
       api_result = backend.describe_load_balancers(pagination_opts)
       @table += unpack_describe_elbs_response(api_result.load_balancer_descriptions)
       break unless api_result.next_marker
+
       pagination_opts = { marker: api_result.next_marker }
     end
   end

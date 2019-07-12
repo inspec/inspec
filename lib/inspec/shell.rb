@@ -24,7 +24,7 @@ module Inspec
       # Delete any before_session, before_eval, and after_eval hooks so we can
       # replace them with our own. Pry 0.10 used to have a single method to clear
       # all hooks, but this was removed in Pry 0.11.
-      [:before_session, :before_eval, :after_eval].each do |event|
+      %i{before_session before_eval after_eval}.each do |event|
         Pry.hooks.get_hooks(event).keys.map { |hook| Pry.hooks.delete_hook(event, hook) }
       end
 
@@ -54,13 +54,14 @@ module Inspec
       # test file, register all the rules it discovered.
       Pry.hooks.add_hook(:after_eval, "inspec_after_eval") do
         @runner.load
-        @runner.run_tests if !@runner.all_rules.empty?
+        @runner.run_tests unless @runner.all_rules.empty?
       end
 
       # Don't print out control class inspection when the user uses DSL methods.
       # Instead produce a result of evaluating their control.
       Pry.config.print = proc do |_output_, value, pry|
-        next if !@runner.all_rules.empty?
+        next unless @runner.all_rules.empty?
+
         pry.pager.open do |pager|
           pager.print pry.config.output_prefix
           Pry::ColorPrinter.pp(value, pager, Pry::Terminal.width! - 1)
@@ -78,7 +79,7 @@ module Inspec
 
     def intro
       puts "Welcome to the interactive InSpec Shell"
-      puts "To find out how to use it, type: #{mark 'help'}"
+      puts "To find out how to use it, type: #{mark "help"}"
       puts
     end
 
@@ -118,18 +119,18 @@ module Inspec
         print_matchers_help
       elsif !Inspec::Resource.registry[topic].nil? # TODO: fix unnecessary logic
         topic_info = Inspec::Resource.registry[topic]
-        info = "#{mark 'Name:'} #{topic}\n\n"
+        info = "#{mark "Name:"} #{topic}\n\n"
         unless topic_info.desc.nil?
-          info += "#{mark 'Description:'}\n\n"
+          info += "#{mark "Description:"}\n\n"
           info += "#{topic_info.desc}\n\n"
         end
 
         unless topic_info.example.nil?
-          info += "#{mark 'Example:'}\n\n"
+          info += "#{mark "Example:"}\n\n"
           info += "#{topic_info.example}\n\n"
         end
 
-        info += "#{mark 'Web Reference:'}\n\n"
+        info += "#{mark "Web Reference:"}\n\n"
         info += "https://www.inspec.io/docs/reference/resources/#{topic}\n\n"
         puts info
       else
@@ -147,15 +148,15 @@ module Inspec
         resources implement their own custom matchers, the following matchers are
         common amongst all resources:
 
-        #{mark 'be'}
+        #{mark "be"}
 
-        The #{mark 'be'} matcher can be used to compare numeric values.
+        The #{mark "be"} matcher can be used to compare numeric values.
 
           its('size') { should be >= 10 }
 
-        #{mark 'cmp'}
+        #{mark "cmp"}
 
-        The #{mark 'cmp'} matcher is like #{mark 'eq'} but less restrictive. It will try
+        The #{mark "cmp"} matcher is like #{mark "eq"} but less restrictive. It will try
         to fit the resource value to the expectation.
 
         "Protocol" likely returns a string, but cmp will ensure it's a number before
@@ -174,23 +175,23 @@ module Inspec
           its('log_format') { should cmp 'raw' }
           its('log_format') { should cmp 'RAW' }
 
-        #{mark 'eq'}
+        #{mark "eq"}
 
-        The #{mark 'eq'} matcher tests for exact equality of two values. Value type
+        The #{mark "eq"} matcher tests for exact equality of two values. Value type
         (string, number, etc.) is important and must be the same. For a less-restrictive
-        comparison matcher, use the #{mark 'cmp'} matcher.
+        comparison matcher, use the #{mark "cmp"} matcher.
 
           its('RSAAuthentication') { should_not eq 'no' }
 
-        #{mark 'include'}
+        #{mark "include"}
 
-        The #{mark 'include'} matcher tests to see if a value is included in a list.
+        The #{mark "include"} matcher tests to see if a value is included in a list.
 
           its('users') { should include 'my_user' }
 
-        #{mark 'match'}
+        #{mark "match"}
 
-        The #{mark 'match'} matcher can be used to test a string for a match using a
+        The #{mark "match"} matcher can be used to test a string for a match using a
         regular expression.
 
           its('content') { should_not match /^MyKey:\\s+some value/ }

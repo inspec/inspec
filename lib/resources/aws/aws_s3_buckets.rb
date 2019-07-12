@@ -28,6 +28,7 @@ class AwsS3Buckets < Inspec.resource(1)
     unless resource_params.empty?
       raise ArgumentError, "aws_s3_buckets does not accept resource parameters."
     end
+
     resource_params
   end
 

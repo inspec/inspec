@@ -120,6 +120,7 @@ module Inspec::Reporters
 
     def convert_descriptions(data)
       return [] if data.nil?
+
       results = []
       data.each do |label, text|
         results.push({ label: label.to_s, data: text })

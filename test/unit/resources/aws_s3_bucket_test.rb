@@ -118,7 +118,7 @@ class AwsS3BucketPropertiesTest < Minitest::Test
     bucket_policy = AwsS3Bucket.new("public").bucket_policy
     assert_kind_of(Array, bucket_policy)
     assert_kind_of(OpenStruct, bucket_policy.first)
-    [:effect, :principal, :action, :resource].each do |field|
+    %i{effect principal action resource}.each do |field|
       assert_respond_to(bucket_policy.first, field)
     end
   end

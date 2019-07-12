@@ -24,29 +24,29 @@ module Inspec::Resources
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
     filter.register_column(:cluster_name,          field: "cluster_name")
-          .register_column(:node_name,             field: "name")
-          .register_column(:transport_address,     field: "transport_address")
-          .register_column(:host,                  field: "host")
-          .register_column(:ip,                    field: "ip")
-          .register_column(:version,               field: "version")
-          .register_column(:build_hash,            field: "build_hash")
-          .register_column(:total_indexing_buffer, field: "total_indexing_buffer")
-          .register_column(:roles,                 field: "roles")
-          .register_column(:settings,              field: "settings")
-          .register_column(:os,                    field: "os")
-          .register_column(:process,               field: "process")
-          .register_column(:jvm,                   field: "jvm")
-          .register_column(:transport,             field: "transport")
-          .register_column(:http,                  field: "http")
-          .register_column(:plugins,               field: "plugins")
-          .register_column(:plugin_list,           field: "plugin_list")
-          .register_column(:modules,               field: "modules")
-          .register_column(:module_list,           field: "module_list")
-          .register_column(:node_id,               field: "node_id")
-          .register_column(:ingest,                field: "ingest")
-          .register_custom_property(:node_count) do |t, _|
-            t.entries.length
-          end
+      .register_column(:node_name,             field: "name")
+      .register_column(:transport_address,     field: "transport_address")
+      .register_column(:host,                  field: "host")
+      .register_column(:ip,                    field: "ip")
+      .register_column(:version,               field: "version")
+      .register_column(:build_hash,            field: "build_hash")
+      .register_column(:total_indexing_buffer, field: "total_indexing_buffer")
+      .register_column(:roles,                 field: "roles")
+      .register_column(:settings,              field: "settings")
+      .register_column(:os,                    field: "os")
+      .register_column(:process,               field: "process")
+      .register_column(:jvm,                   field: "jvm")
+      .register_column(:transport,             field: "transport")
+      .register_column(:http,                  field: "http")
+      .register_column(:plugins,               field: "plugins")
+      .register_column(:plugin_list,           field: "plugin_list")
+      .register_column(:modules,               field: "modules")
+      .register_column(:module_list,           field: "module_list")
+      .register_column(:node_id,               field: "node_id")
+      .register_column(:ingest,                field: "ingest")
+      .register_custom_property(:node_count) do |t, _|
+        t.entries.length
+      end
 
     filter.install_filter_methods_on_resource(self, :nodes)
 
@@ -156,7 +156,7 @@ module Inspec::Resources
 
     def verify_json_payload!(content)
       unless content["error"].nil?
-        raise "#{content['error']['type']}: #{content['error']['reason']}"
+        raise "#{content["error"]["type"]}: #{content["error"]["reason"]}"
       end
 
       raise "No successful nodes available in cluster" if content["_nodes"]["successful"] == 0

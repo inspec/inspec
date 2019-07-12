@@ -43,6 +43,7 @@ module Inspec::Resources
 
     def content
       return @content if defined?(@content)
+
       @content = value_for(@osenv, @target) unless @osenv.nil?
     end
 

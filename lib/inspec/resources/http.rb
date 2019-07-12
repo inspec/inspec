@@ -35,8 +35,8 @@ module Inspec::Resources
       # profiles.
       if opts.key?(:enable_remote_worker) && !inspec.local_transport?
         warn "Ignoring `enable_remote_worker` option, the `http` resource ",
-             "remote worker is enabled by default for remote targets and ",
-             "cannot be disabled"
+          "remote worker is enabled by default for remote targets and ",
+          "cannot be disabled"
       end
 
       # Run locally if InSpec is ran locally and remotely if ran remotely
@@ -138,6 +138,7 @@ module Inspec::Resources
 
         def response
           return @response if @response
+
           conn = Faraday.new(url: url, headers: request_headers, params: params, ssl: { verify: ssl_verify? }) do |builder|
             builder.request :url_encoded
             builder.use FaradayMiddleware::FollowRedirects, limit: max_redirects if max_redirects > 0
@@ -163,7 +164,7 @@ module Inspec::Resources
         def initialize(inspec, http_method, url, opts)
           unless inspec.command("curl").exist?
             raise Inspec::Exceptions::ResourceSkipped,
-                  "curl is not available on the target machine"
+              "curl is not available on the target machine"
           end
 
           @ran_curl = false
@@ -203,6 +204,7 @@ module Inspec::Resources
           prelude, remainder = response.split("\n\n", 2)
           loop do
             break unless remainder =~ %r{^HTTP/}
+
             prelude, remainder = remainder.split("\n\n", 2)
           end
           @body = remainder
@@ -248,7 +250,7 @@ module Inspec::Resources
           if params.nil?
             cmd << "'#{url}'"
           else
-            cmd << "'#{url}?#{params.map { |e| e.join('=') }.join('&')}'"
+            cmd << "'#{url}?#{params.map { |e| e.join("=") }.join("&")}'"
           end
 
           cmd.join(" ")

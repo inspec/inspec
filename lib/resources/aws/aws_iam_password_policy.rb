@@ -77,23 +77,25 @@ class AwsIamPasswordPolicy < Inspec.resource(1)
 
   def max_password_age_in_days
     raise "this policy does not expire passwords" unless expire_passwords?
+
     @policy.max_password_age
   end
 
   def number_of_passwords_to_remember
     raise "this policy does not prevent password reuse" \
       unless prevent_password_reuse?
+
     @policy.password_reuse_prevention
   end
 
   #-------------------------- Matchers ----------------------------#
-  [
-    :require_lowercase_characters,
-    :require_uppercase_characters,
-    :require_symbols,
-    :require_numbers,
-    :expire_passwords,
-  ].each do |matcher_stem|
+  %i{
+    require_lowercase_characters
+    require_uppercase_characters
+    require_symbols
+    require_numbers
+    expire_passwords
+  }.each do |matcher_stem|
     # Create our predicates (for example, 'require_symbols?')
     stem_with_question_mark = (matcher_stem.to_s + "?").to_sym
     define_method stem_with_question_mark do

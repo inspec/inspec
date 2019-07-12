@@ -14,7 +14,7 @@ module Inspec
       ::MethodSource.expression_at(src.lines, location[:line]).force_encoding("utf-8")
     rescue SyntaxError => e
       raise ::MethodSource::SourceNotFoundError,
-            "Could not parse source at #{location[:ref]}:#{location[:line]}: #{e.message}"
+        "Could not parse source at #{location[:ref]}:#{location[:line]}: #{e.message}"
     end
   end
 end

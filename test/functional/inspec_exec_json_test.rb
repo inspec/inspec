@@ -119,7 +119,7 @@ describe "inspec exec with json formatter" do
     it "has all the metadata" do
       actual = profile.dup
       key = actual.delete("controls")
-                  .find { |x| x["id"] =~ /generated from example.rb/ }["id"]
+        .find { |x| x["id"] =~ /generated from example.rb/ }["id"]
       groups = actual.delete("groups")
       actual.must_equal({
         "name" => "profile",

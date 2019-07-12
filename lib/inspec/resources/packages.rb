@@ -42,11 +42,11 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.register_column(:statuses,  field: "status", style: :simple)
-          .register_column(:names,     field: "name")
-          .register_column(:versions,  field: "version")
-          .register_column(:architectures, field: "architecture")
-          .install_filter_methods_on_resource(self, :filtered_packages)
+    filter.register_column(:statuses, field: "status", style: :simple)
+      .register_column(:names,     field: "name")
+      .register_column(:versions,  field: "version")
+      .register_column(:architectures, field: "architecture")
+      .install_filter_methods_on_resource(self, :filtered_packages)
 
     private
 
@@ -82,6 +82,7 @@ module Inspec::Resources
       cmd = inspec.command(command)
       all = cmd.stdout.split("\n")
       return [] if all.nil?
+
       all.map do |m|
         a = m.split(/ {2,}/)
         a[0] = "installed" if a[0] =~ /^.i/
@@ -99,6 +100,7 @@ module Inspec::Resources
       cmd = inspec.command(command)
       all = cmd.stdout.split("\n")
       return [] if all.nil?
+
       all.map do |m|
         a = m.split("  ")
         a.unshift("installed")

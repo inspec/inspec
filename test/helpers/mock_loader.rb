@@ -372,7 +372,7 @@ class MockLoader
       # windows_hotfix windows
       "get-hotfix -id KB4019215" => cmd.call("kb4019215"),
       # windows_hotfix windows doesn't exist
-      "get-hotfix -id KB9999999" => empty.call(),
+      "get-hotfix -id KB9999999" => empty.call,
       # windows_task doesnt exist
       "schtasks /query /v /fo csv /tn 'does-not-exist' | ConvertFrom-Csv | Select @{N='URI';E={$_.TaskName}},@{N='State';E={$_.Status.ToString()}},'Logon Mode','Last Result','Task To Run','Run As User','Scheduled Task State' | ConvertTo-Json -Compress" => cmd.call("schtasks-error"),
       # windows_task exist
@@ -525,17 +525,17 @@ class MockLoader
     if @platform && @platform[:name] == "alpine"
       mock_cmds.merge!(
         "ps --help" => cmd_stderr.call("ps-help-busybox"),
-        %{bash -c 'type "netstat"'} => cmd_exit_1.call(),
-        %{bash -c 'type "ss"'} => cmd_exit_1.call(),
-        %{which "ss"} => cmd_exit_1.call(),
-        %{which "netstat"} => empty.call(),
+        %{bash -c 'type "netstat"'} => cmd_exit_1.call,
+        %{bash -c 'type "ss"'} => cmd_exit_1.call,
+        %{which "ss"} => cmd_exit_1.call,
+        %{which "netstat"} => empty.call,
         "netstat -tulpen" => cmd.call("netstat-tulpen-busybox")
       )
     else
       mock_cmds.merge!(
-        "ps --help" => empty.call(),
-        %{bash -c 'type "ss"'} => empty.call(),
-        %{bash -c 'type "netstat"'} => empty.call(),
+        "ps --help" => empty.call,
+        %{bash -c 'type "ss"'} => empty.call,
+        %{bash -c 'type "netstat"'} => empty.call,
         "ss -tulpen" => cmd.call("ss-tulpen"),
         "netstat -tulpen" => cmd.call("netstat-tulpen")
       )
@@ -550,6 +550,7 @@ class MockLoader
     # initialize resource with backend and parameters
     @resource_class = Inspec::Resource.registry[resource]
     raise ArgumentError, "No resource #{resource}" unless @resource_class
+
     @resource = @resource_class.new(backend, resource, *args)
   end
 
@@ -561,7 +562,7 @@ class MockLoader
 
   def self.mock_command(resource, cmd, res = {})
     resource.inspec.backend
-            .mock_command(cmd, res[:stdout], res[:stderr], res[:exit_status])
+      .mock_command(cmd, res[:stdout], res[:stderr], res[:exit_status])
   end
 
   def self.home

@@ -18,6 +18,7 @@ module Inspec
       parsed_content = YAML.load(content)
       version = parsed_content["lockfile_version"]
       raise "No lockfile_version set in #{path}!" if version.nil?
+
       validate_lockfile_version!(version.to_i)
       new(parsed_content)
     end

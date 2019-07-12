@@ -22,7 +22,7 @@ class AwsIamAccessKey < Inspec.resource(1)
   def validate_params(raw_params)
     recognized_params = check_resource_param_names(
       raw_params: raw_params,
-      allowed_params: [:username, :id, :access_key_id],
+      allowed_params: %i{username id access_key_id},
       allowed_scalar_name: :access_key_id,
       allowed_scalar_type: String
     )
@@ -47,6 +47,7 @@ class AwsIamAccessKey < Inspec.resource(1)
 
   def active?
     return nil unless exists?
+
     status == "Active"
   end
 
@@ -57,6 +58,7 @@ class AwsIamAccessKey < Inspec.resource(1)
   def last_used_date
     return nil unless exists?
     return @last_used_date if defined? @last_used_date
+
     backend = BackendFactory.create(inspec_runner)
     catch_aws_errors do
       @last_used_date = backend.get_access_key_last_used({ access_key_id: access_key_id }).access_key_last_used.last_used_date

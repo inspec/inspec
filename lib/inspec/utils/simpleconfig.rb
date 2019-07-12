@@ -26,7 +26,7 @@ class SimpleConfig
     return if raw_data.nil?
 
     # prepare raw data if required
-    if !options[:line_separator].nil?
+    unless options[:line_separator].nil?
       raw_data = raw_data.tr(options[:line_separator], "\n")
     end
     rest = raw_data
@@ -67,8 +67,10 @@ class SimpleConfig
 
   def parse_group_line(line, opts)
     return nil if opts[:group_re].nil?
+
     m = opts[:group_re].match(line)
     return nil if m.nil?
+
     @groups.push(m[1])
 
     # We use a Hashie::Mash to provide method syntax for retrieving
@@ -81,6 +83,7 @@ class SimpleConfig
 
   def parse_implicit_assignment_line(line, opts)
     return nil if is_empty_line(line)
+
     if opts[:multiple_values]
       @vals[line.strip] ||= []
     else

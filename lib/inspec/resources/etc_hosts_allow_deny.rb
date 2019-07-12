@@ -27,9 +27,9 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.register_column(:daemon,      field: "daemon")
-          .register_column(:client_list, field: "client_list")
-          .register_column(:options,     field: "options")
+    filter.register_column(:daemon, field: "daemon")
+      .register_column(:client_list, field: "client_list")
+      .register_column(:options,     field: "options")
 
     filter.install_filter_methods_on_resource(self, :params)
 
@@ -47,6 +47,7 @@ module Inspec::Resources
       content.each do |line|
         data, = parse_comment_line(line, comment_char: "#", standalone_comments: false)
         next unless data != ""
+
         data.split(":")[0].split(",").each do |daemon|
           split_daemons_list.push("#{daemon} : " + line.split(":", 2)[1])
         end
@@ -98,6 +99,7 @@ module Inspec::Resources
 
     def initialize(path = nil)
       return skip_resource "`etc_hosts_deny` is not supported on your OS" unless inspec.os.linux?
+
       super(path || "/etc/hosts.deny")
     end
 

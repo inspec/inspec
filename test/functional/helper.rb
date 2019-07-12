@@ -174,6 +174,7 @@ module FunctionalHelper
   # @return FuncTestRunResult. Includes attrs exit_status, stderr, stdout, payload (an openstruct which may be used in many ways)
   def run_inspec_process(command_line, opts = {})
     raise "Do not use tmpdir and cwd in the same invocation" if opts[:cwd] && opts[:tmpdir]
+
     prefix = opts[:cwd] ? "cd " + opts[:cwd] + " && " : ""
     prefix += opts[:prefix] || ""
     prefix += assemble_env_prefix(opts[:env])

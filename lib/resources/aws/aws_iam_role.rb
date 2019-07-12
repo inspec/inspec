@@ -31,6 +31,7 @@ class AwsIamRole < Inspec.resource(1)
     if validated_params.empty?
       raise ArgumentError, "You must provide a role_name to aws_iam_role."
     end
+
     validated_params
   end
 

@@ -55,6 +55,7 @@ class AwsEc2Instance < Inspec.resource(1)
 
   def id
     return @instance_id if defined?(@instance_id)
+
     catch_aws_errors do
       if @opts.is_a?(Hash)
         first = @ec2_resource.instances(
@@ -76,6 +77,7 @@ class AwsEc2Instance < Inspec.resource(1)
 
   def exists?
     return false if instance.nil?
+
     instance.exists?
   end
 

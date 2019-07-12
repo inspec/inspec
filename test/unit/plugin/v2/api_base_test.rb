@@ -20,13 +20,13 @@ end
 
 class PluginV2BaseMgmtMethods < Minitest::Test
   def test_plugin_v2_management_class_methods_present
-    [
-      :base_class_for_type,
-      :find_name_by_implementation_class,
-      :registry,
-      :register_plugin_type,
-      :plugin_name,
-    ].each do |method_name|
+    %i{
+      base_class_for_type
+      find_name_by_implementation_class
+      registry
+      register_plugin_type
+      plugin_name
+    }.each do |method_name|
       klass = Inspec::Plugin::V2::PluginBase
       assert_respond_to klass, method_name, "Base class plugin management class method: #{method_name}"
     end

@@ -21,6 +21,7 @@ class AwsSubnets < Inspec.resource(1)
     unless resource_params.empty?
       raise ArgumentError, "aws_vpc_subnets does not accept resource parameters."
     end
+
     resource_params
   end
 
@@ -33,9 +34,9 @@ class AwsSubnets < Inspec.resource(1)
   filter = FilterTable.create
   filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
   filter.register_column(:vpc_ids, field: :vpc_id)
-        .register_column(:subnet_ids, field: :subnet_id)
-        .register_column(:cidr_blocks, field: :cidr_block)
-        .register_column(:states, field: :state)
+    .register_column(:subnet_ids, field: :subnet_id)
+    .register_column(:cidr_blocks, field: :cidr_block)
+    .register_column(:states, field: :state)
   filter.install_filter_methods_on_resource(self, :table)
 
   def to_s

@@ -60,6 +60,7 @@ module Inspec
 
     def diagnose
       return unless self[:diagnose]
+
       puts "InSpec version: #{Inspec::VERSION}"
       puts "Train version: #{Train::VERSION}"
       puts "Command line configuration:"
@@ -159,6 +160,7 @@ module Inspec
       unless transport_name
         raise ArgumentError, "Could not recognize a backend from the target #{final_options[:target]} - use a URI format with the backend name as the URI schema.  Example: 'ssh://somehost.com' or 'transport://credset' or 'transport://' if credentials are provided outside of InSpec."
       end
+
       credentials[:backend] = transport_name.to_s # these are indeed stored in Train as Strings.
     end
 
@@ -185,6 +187,7 @@ module Inspec
 
     def _utc_find_credset_name(_credentials, transport_name)
       return nil unless final_options[:target]
+
       match = final_options[:target].match(%r{^#{transport_name}://(?<credset_name>[\w\d\-]+)$})
       match ? match[:credset_name] : nil
     end
@@ -196,6 +199,7 @@ module Inspec
     # Regardless of our situation, end up with a readable IO object
     def resolve_cfg_io(cli_opts, cfg_io)
       raise(ArgumentError, "Inspec::Config must use an IO to read from") if cfg_io && !cfg_io.respond_to?(:read)
+
       cfg_io ||= check_for_piped_config(cli_opts)
       return cfg_io if cfg_io
 
@@ -211,6 +215,7 @@ module Inspec
 
       return nil unless cli_opt
       return nil unless cli_opt == "-"
+
       # This warning is here so that if a user invokes inspec with --config=-,
       # they will have an explanation for why it appears to hang.
       Inspec::Log.warn "Reading JSON config from standard input" if STDIN.tty?
@@ -287,13 +292,14 @@ module Inspec
       valid_fields = %w{version cli_options credentials compliance reporter}.sort
       @cfg_file_contents.keys.each do |seen_field|
         unless valid_fields.include?(seen_field)
-          raise Inspec::ConfigError::Invalid, "Unrecognized top-level configuration field #{seen_field}.  Recognized fields: #{valid_fields.join(', ')}"
+          raise Inspec::ConfigError::Invalid, "Unrecognized top-level configuration field #{seen_field}.  Recognized fields: #{valid_fields.join(", ")}"
         end
       end
     end
 
     def validate_reporters!(reporters)
       return if reporters.nil?
+
       # TODO: move this into a reporter plugin type system
       valid_types = %w{
         automate
@@ -313,6 +319,7 @@ module Inspec
         raise NotImplementedError, "'#{reporter_name}' is not a valid reporter type." unless valid_types.include?(reporter_name)
 
         next unless reporter_name == "automate"
+
         %w{token url}.each do |option|
           raise Inspec::ReporterError, "You must specify a automate #{option} via the config file." if reporter_config[option].nil?
         end
@@ -410,6 +417,7 @@ module Inspec
       %w{password sudo-password}.each do |option_name|
         snake_case_option_name = option_name.tr("-", "_").to_s
         next unless options[snake_case_option_name] == -1 # Thor sets -1 for missing value - see #1918
+
         raise ArgumentError, "Please provide a value for --#{option_name}. For example: --#{option_name}=hello."
       end
 

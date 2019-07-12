@@ -56,16 +56,19 @@ module Inspec::Resources
 
     def fingerprint
       return if @cert.nil?
+
       OpenSSL::Digest::SHA1.new(@cert.to_der).to_s
     end
 
     def serial
       return if @cert.nil?
+
       @cert.serial.to_i
     end
 
     def subject_dn
       return if @cert.nil?
+
       @cert.subject.to_s
     end
 
@@ -73,12 +76,14 @@ module Inspec::Resources
       return if @cert.nil?
       # Return cached subject if we have already parsed it
       return @parsed_subject if @parsed_subject
+
       # Use a Mash to make it easier to access hash elements in "its('subject') {should ...}"
       @parsed_subject = Hashie::Mash.new(Hash[@cert.subject.to_a.map { |k, v, _| [k, v] }])
     end
 
     def issuer_dn
       return if @cert.nil?
+
       @cert.issuer.to_s
     end
 
@@ -86,12 +91,14 @@ module Inspec::Resources
       return if @cert.nil?
       # Return cached subject if we have already parsed it
       return @parsed_issuer if @parsed_issuer
+
       # Use a Mash to make it easier to access hash elements in "its('issuer') {should ...}"
       @parsed_issuer = Hashie::Mash.new(Hash[@cert.issuer.to_a.map { |k, v, _| [k, v] }])
     end
 
     def key_length
       return if @cert.nil?
+
       @cert.public_key.n.num_bytes * 8
     end
 
@@ -109,6 +116,7 @@ module Inspec::Resources
       return @extensions if @extensions
       # Return the exception class if we failed to instantiate a Cert from file
       return @cert unless @cert.respond_to? :extensions
+
       # Use a Mash to make it easier to access hash elements in "its('entensions') {should ...}"
       @extensions = Hashie::Mash.new({})
       # Make sure standard extensions exist so we don't get nil for nil:NilClass

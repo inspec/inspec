@@ -40,11 +40,13 @@ class AwsS3Bucket < Inspec.resource(1)
 
   def has_default_encryption_enabled?
     return false unless @exists
+
     @has_default_encryption_enabled ||= fetch_bucket_encryption_configuration
   end
 
   def has_access_logging_enabled?
     return false unless @exists
+
     catch_aws_errors do
       @has_access_logging_enabled ||= !BackendFactory.create(inspec_runner).get_bucket_logging(bucket: bucket_name).logging_enabled.nil?
     end
@@ -101,9 +103,9 @@ class AwsS3Bucket < Inspec.resource(1)
     @has_default_encryption_enabled ||= catch_aws_errors do
       begin
         !BackendFactory.create(inspec_runner)
-                       .get_bucket_encryption(bucket: bucket_name)
-                       .server_side_encryption_configuration
-                       .nil?
+          .get_bucket_encryption(bucket: bucket_name)
+          .server_side_encryption_configuration
+          .nil?
       rescue Aws::S3::Errors::ServerSideEncryptionConfigurationNotFoundError
         false
       end

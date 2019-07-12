@@ -25,9 +25,9 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.register_column(:map_name,        field: "map_name")
-          .register_column(:system_username, field: "system_username")
-          .register_column(:pg_username,     field: "pg_username")
+    filter.register_column(:map_name, field: "map_name")
+      .register_column(:system_username, field: "system_username")
+      .register_column(:pg_username,     field: "pg_username")
 
     filter.install_filter_methods_on_resource(self, :params)
 

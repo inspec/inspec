@@ -17,6 +17,7 @@ class AwsIamPolicies < Inspec.resource(1)
     unless resource_params.empty?
       raise ArgumentError, "aws_iam_policies does not accept resource parameters."
     end
+
     resource_params
   end
 
@@ -24,7 +25,7 @@ class AwsIamPolicies < Inspec.resource(1)
   filter = FilterTable.create
   filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
   filter.register_column(:policy_names, field: :policy_name)
-        .register_column(:arns, field: :arn)
+    .register_column(:arns, field: :arn)
   filter.install_filter_methods_on_resource(self, :table)
 
   def to_s

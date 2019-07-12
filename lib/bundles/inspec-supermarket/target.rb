@@ -17,6 +17,7 @@ module Supermarket
                                             end
       return nil unless supermarket_uri
       return nil unless Supermarket::API.exist?(supermarket_uri, supermarket_server)
+
       tool_info = Supermarket::API.find(supermarket_uri, supermarket_server)
       resolve_next(tool_info["tool_source_url"], opts)
     rescue URI::Error

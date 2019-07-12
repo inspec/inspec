@@ -17,23 +17,27 @@ module Inspec
   module ResourceDSL
     def name(name = nil)
       return if name.nil?
+
       @name = name
       __register(name, self)
     end
 
     def desc(description = nil)
       return if description.nil?
+
       __resource_registry[@name].desc(description)
     end
 
     def supports(criteria = nil)
       return if criteria.nil?
+
       Inspec::Resource.supports[@name] ||= []
       Inspec::Resource.supports[@name].push(criteria)
     end
 
     def example(example = nil)
       return if example.nil?
+
       __resource_registry[@name].example(example)
     end
 
@@ -100,17 +104,20 @@ module Inspec
             # The new platform resources have methods generated on the fly
             # for inspec check to work we need to skip these train errors
             raise unless test_backend && e.receiver.class == Train::Transports::Mock::Connection
+
             skip_resource(e.message)
           end
         end
 
         def self.desc(description = nil)
           return @description if description.nil?
+
           @description = description
         end
 
         def self.example(example = nil)
           return @example if example.nil?
+
           @example = example
         end
 

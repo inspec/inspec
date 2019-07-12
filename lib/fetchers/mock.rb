@@ -7,6 +7,7 @@ module Fetchers
 
     def self.resolve(target)
       return nil unless target.is_a? Hash
+
       new(target)
     end
 

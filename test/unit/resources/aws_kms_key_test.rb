@@ -207,6 +207,7 @@ module MAKKSB
         fixture.arn == query[:key_id]
       end
       return OpenStruct.new({ key_metadata: selected }) unless selected.nil?
+
       raise Aws::KMS::Errors::NotFoundException.new(nil, nil)
     end
 
@@ -225,6 +226,7 @@ module MAKKSB
         fixture.arn == query[:key_id]
       end
       return selected unless selected.nil?
+
       raise Aws::KMS::Errors::NotFoundException.new(nil, nil)
     end
   end

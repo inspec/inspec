@@ -44,7 +44,7 @@ module Inspec::Resources
 
     filter = FilterTable.create
     filter.register_column(:selection_lines, field: "selection_line")
-          .register_column(:rules,           field: "rules")
+      .register_column(:rules, field: "rules")
 
     filter.install_filter_methods_on_resource(self, :params)
 
@@ -52,6 +52,7 @@ module Inspec::Resources
 
     def read_content
       return @content unless @content.nil?
+
       @rules = {}
 
       raw_conf = read_file_content(@conf_path)
@@ -74,7 +75,7 @@ module Inspec::Resources
       params = []
       content.each do |line|
         param = parse_line(line)
-        if !param["selection_line"].nil?
+        unless param["selection_line"].nil?
           params.push(param)
         end
       end
@@ -116,7 +117,7 @@ module Inspec::Resources
       rule_list.each_index do |i|
         hash_list = @rules[rule_list[i]]
         # Cases where rule respresents one or more other rules
-        if !hash_list.nil?
+        unless hash_list.nil?
           rule_list[i] = hash_list
         end
         rule_list[i] = handle_multi_rule(rule_list, i)

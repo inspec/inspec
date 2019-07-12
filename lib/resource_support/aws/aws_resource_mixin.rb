@@ -1,7 +1,7 @@
 module AwsResourceMixin
   def initialize(resource_params = {})
     Inspec.deprecate(:aws_resources_in_resource_pack,
-                     "Resource '#{@__resource_name__ ||= self.class.to_s}'")
+      "Resource '#{@__resource_name__ ||= self.class.to_s}'")
     validate_params(resource_params).each do |param, value|
       instance_variable_set(:"@#{param}", value)
     end
@@ -11,6 +11,7 @@ module AwsResourceMixin
   rescue ArgumentError => e
     # continue with ArgumentError if testing
     raise unless respond_to?(:inspec)
+
     raise Inspec::Exceptions::ResourceFailed, e.message
   end
 
@@ -39,7 +40,7 @@ module AwsResourceMixin
 
     # Any leftovers are unwelcome
     unless raw_params.empty?
-      raise ArgumentError, "Unrecognized resource param '#{raw_params.keys.first}'. Expected parameters: #{allowed_params.join(', ')}"
+      raise ArgumentError, "Unrecognized resource param '#{raw_params.keys.first}'. Expected parameters: #{allowed_params.join(", ")}"
     end
 
     recognized_params

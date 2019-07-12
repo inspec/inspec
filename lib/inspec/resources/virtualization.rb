@@ -67,6 +67,7 @@ module Inspec::Resources
     def detect_xen
       # This file should exist on most Xen systems, normally empty for guests
       return false unless inspec.file("/proc/xen/capabilities").exist?
+
       @virtualization_data[:system] = "xen"
       if inspec.file("/proc/xen/capabilities").content =~ /control_d/i
         @virtualization_data[:role] = "host"
@@ -80,6 +81,7 @@ module Inspec::Resources
     # Detect Virtualbox from kernel module
     def detect_virtualbox
       return false unless inspec.file("/proc/modules").exist?
+
       modules = inspec.file("/proc/modules").content
       if modules =~ /^vboxdrv/
         Inspec::Log.debug("Plugin Virtualization: /proc/modules contains vboxdrv. Detecting as vbox host")
@@ -98,6 +100,7 @@ module Inspec::Resources
     # if nova binary is present we're on an openstack host
     def detect_openstack
       return false unless nova_exists?
+
       @virtualization_data[:system] = "openstack"
       @virtualization_data[:role] = "host"
       true
@@ -106,6 +109,7 @@ module Inspec::Resources
     # Detect paravirt KVM/QEMU from cpuinfo, report as KVM
     def detect_kvm_from_cpuinfo
       return false unless inspec.file("/proc/cpuinfo").content =~ /QEMU Virtual CPU|Common KVM processor|Common 32-bit KVM processor/
+
       @virtualization_data[:system] = "kvm"
       @virtualization_data[:role] = "guest"
       true
@@ -115,6 +119,7 @@ module Inspec::Resources
     # guests will have the hypervisor cpu feature that hosts don't have
     def detect_kvm_from_sys
       return false unless inspec.file("/sys/devices/virtual/misc/kvm").exist?
+
       @virtualization_data[:system] = "kvm"
       if inspec.file("/proc/cpuinfo").content =~ /hypervisor/
         @virtualization_data[:role] = "guest"
@@ -142,6 +147,7 @@ module Inspec::Resources
     # Detect Parallels virtual machine from pci devices
     def detect_parallels
       return false unless inspec.file("/proc/bus/pci/devices").content =~ /1ab84000/
+
       @virtualization_data[:system] = "parallels"
       @virtualization_data[:role] = "guest"
       true
@@ -150,9 +156,11 @@ module Inspec::Resources
     # Detect Linux-VServer
     def detect_linux_vserver
       return false unless inspec.file("/proc/self/status").exist?
+
       proc_self_status = inspec.file("/proc/self/status").content
       vxid = proc_self_status.match(/^(s_context|VxID):\s*(\d+)$/)
       return false unless vxid && vxid[2]
+
       @virtualization_data[:system] = "linux-vserver"
       if vxid[2] == "0"
         @virtualization_data[:role] = "host"
@@ -182,6 +190,7 @@ module Inspec::Resources
     # Kernel docs, https://www.kernel.org/doc/Documentation/cgroups
     def detect_lxc_docker
       return false unless inspec.file("/proc/self/cgroup").exist?
+
       cgroup_content = inspec.file("/proc/self/cgroup").content
       if cgroup_content =~ %r{^\d+:[^:]+:/(lxc|docker)/.+$} ||
           cgroup_content =~ %r{^\d+:[^:]+:/[^/]+/(lxc|docker)-.+$} # rubocop:disable Layout/MultilineOperationIndentation
@@ -203,6 +212,7 @@ module Inspec::Resources
 
     def detect_docker
       return false unless inspec.file("/.dockerenv").exist? || inspec.file("/.dockerinit").exist?
+
       @virtualization_data[:system] = "docker"
       @virtualization_data[:role] = "guest"
       true

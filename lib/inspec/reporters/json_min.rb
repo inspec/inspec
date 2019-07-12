@@ -17,9 +17,11 @@ module Inspec::Reporters
       run_data[:profiles].each do |profile|
         profile_id = profile[:name]
         next unless profile[:controls]
+
         profile[:controls].each do |control|
           control_id = control[:id]
           next unless control[:results]
+
           control[:results].each do |result|
             result_for_report = {
               id: control_id,

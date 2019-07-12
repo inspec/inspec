@@ -228,6 +228,7 @@ module Inspec
       else
         v = LIST[name]
       end
+
       JSON.dump(v)
     end
   end

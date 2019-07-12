@@ -169,11 +169,12 @@ module Inspec
         data = Inspec::SecretsBackend.resolve(path)
         if data.nil?
           raise Inspec::Exceptions::SecretsBackendNotFound,
-                "Cannot find parser for inputs file '#{path}'. " \
-                "Check to make sure file has the appropriate extension."
+            "Cannot find parser for inputs file '#{path}'. " \
+            "Check to make sure file has the appropriate extension."
         end
 
         next if data.inputs.nil?
+
         data.inputs.each do |input_name, input_value|
           evt = Inspec::Input::Event.new(
             value: input_value,
@@ -190,14 +191,14 @@ module Inspec
     def validate_inputs_file_readability!(path)
       unless File.exist?(path)
         raise Inspec::Exceptions::InputsFileDoesNotExist,
-              "Cannot find input file '#{path}'. " \
-              "Check to make sure file exists."
+          "Cannot find input file '#{path}'. " \
+          "Check to make sure file exists."
       end
 
       unless File.readable?(path)
         raise Inspec::Exceptions::InputsFileNotReadable,
-              "Cannot read input file '#{path}'. " \
-              "Check to make sure file is readable."
+          "Cannot read input file '#{path}'. " \
+          "Check to make sure file is readable."
       end
 
       true
@@ -260,13 +261,13 @@ module Inspec
 
     # These class methods are convenience methods so you don't always
     # have to call #instance when calling the registry
-    [
-      :find_or_register_input,
-      :register_profile_alias,
-      :list_inputs_for_profile,
-      :list_potential_input_names_for_profile,
-      :bind_profile_inputs,
-    ].each do |meth|
+    %i{
+      find_or_register_input
+      register_profile_alias
+      list_inputs_for_profile
+      list_potential_input_names_for_profile
+      bind_profile_inputs
+    }.each do |meth|
       define_singleton_method(meth) do |*args|
         instance.send(meth, *args)
       end

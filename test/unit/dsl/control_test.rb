@@ -16,7 +16,7 @@ describe "controls" do
     }
 
     Inspec::Profile.for_target(data, opts)
-                   .params[:controls]["1"]
+      .params[:controls]["1"]
   end
 
   let(:rand_string) { rand.to_s }
@@ -96,12 +96,14 @@ describe "controls" do
   it "define multiple tags" do
     a, b, c = rand.to_s, rand.to_s, rand.to_s
     load("tag #{a.inspect}, #{b.inspect}, #{c.inspect}")[:tags].must_equal(
-      { a => nil, b => nil, c => nil })
+      { a => nil, b => nil, c => nil }
+    )
   end
 
   it "tag by key=value" do
     a, b = rand.to_s, rand.to_s
     load("tag #{a.inspect} => #{b.inspect}")[:tags].must_equal(
-      { a => b })
+      { a => b }
+    )
   end
 end

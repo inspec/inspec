@@ -33,6 +33,7 @@ module Inspec
       descriptions.each do |label, text|
         if label == :default
           next if text.nil? || (text == "") # don't render empty/nil desc
+
           res.push "  desc  #{prettyprint_text(text, 2)}"
         else
           res.push "  desc  #{label.to_s.inspect}, #{prettyprint_text(text, 2)}"
@@ -52,6 +53,7 @@ module Inspec
     def print_ref(x)
       return x.inspect if x.is_a?(String)
       raise "Cannot process the ref: #{x}" unless x.is_a?(Hash)
+
       "(" + x.inspect + ")"
     end
 
@@ -62,7 +64,8 @@ module Inspec
     # @return [String] pretty-printed textblock
     def prettyprint_text(s, depth)
       txt = s.to_s.inspect.gsub('\n', "\n")
-      return txt if !txt.include?("\n")
+      return txt unless txt.include?("\n")
+
       middle = indent(txt[1..-2], depth + 2)
       txt[0] + "\n" + middle + "\n" + " " * depth + txt[-1]
     end

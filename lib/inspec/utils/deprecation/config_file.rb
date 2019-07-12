@@ -41,6 +41,7 @@ module Inspec
         unless File.exist?(default_path)
           raise Inspec::Deprecation::MalformedConfigError, "Missing deprecation config file: #{default_path}"
         end
+
         File.open(default_path)
       end
 
@@ -57,6 +58,7 @@ module Inspec
         unless @raw_data["groups"].is_a?(Hash)
           raise Inspec::Deprecation::InvalidConfigFileError, "Groups field must be a Hash"
         end
+
         @raw_data["groups"].each do |group_name, group_info|
           validate_group_entry(group_name, group_info)
         end
@@ -67,22 +69,23 @@ module Inspec
           raise Inspec::Deprecation::InvalidConfigFileError, "Missing file_version field"
         end
         unless @raw_data["file_version"] == "1.0.0"
-          raise Inspec::Deprecation::InvalidConfigFileError, "Unrecognized file_version '#{@raw_data['file_version']}' - supported versions: 1.0.0"
+          raise Inspec::Deprecation::InvalidConfigFileError, "Unrecognized file_version '#{@raw_data["file_version"]}' - supported versions: 1.0.0"
         end
       end
 
       def validate_unknown_group_action
         seen_action = (@raw_data["unknown_group_action"] || @unknown_group_action).to_sym
         unless VALID_ACTIONS.include?(seen_action)
-          raise Inspec::Deprecation::UnrecognizedActionError, "Unrecognized value '#{seen_action}' for field 'unknown_group_action' - supported actions: #{VALID_ACTIONS.map(&:to_s).join(', ')}"
+          raise Inspec::Deprecation::UnrecognizedActionError, "Unrecognized value '#{seen_action}' for field 'unknown_group_action' - supported actions: #{VALID_ACTIONS.map(&:to_s).join(", ")}"
         end
+
         @unknown_group_action = seen_action
       end
 
       def validate_group_entry(name, opts)
         opts.each do |seen_field, _value|
           unless VALID_GROUP_FIELDS.include?(seen_field)
-            raise Inspec::Deprecation::InvalidConfigFileError, "Unrecognized field for group '#{name}' - saw '#{seen_field}', supported fields: #{VALID_GROUP_FIELDS.map(&:to_s).join(', ')}"
+            raise Inspec::Deprecation::InvalidConfigFileError, "Unrecognized field for group '#{name}' - saw '#{seen_field}', supported fields: #{VALID_GROUP_FIELDS.map(&:to_s).join(", ")}"
           end
         end
 
@@ -90,8 +93,9 @@ module Inspec
 
         opts["action"] = (opts["action"] || :warn).to_sym
         unless VALID_ACTIONS.include?(opts["action"])
-          raise Inspec::Deprecation::UnrecognizedActionError, "Unrecognized action for group '#{name}' - saw '#{opts['action']}', supported actions: #{VALID_ACTIONS.map(&:to_s).join(', ')}"
+          raise Inspec::Deprecation::UnrecognizedActionError, "Unrecognized action for group '#{name}' - saw '#{opts["action"]}', supported actions: #{VALID_ACTIONS.map(&:to_s).join(", ")}"
         end
+
         entry.action = opts["action"]
 
         entry.suffix = opts["suffix"]

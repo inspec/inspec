@@ -227,7 +227,7 @@ module MAEPB
                   instance_protocol: "http",
                   instance_port: 80
                 )
-              )
+              ),
             ],
             instances: [
               Aws::ElasticLoadBalancing::Types::Instance.new(instance_id: "i-12345678"),
@@ -259,7 +259,7 @@ module MAEPB
                   instance_protocol: "tcp",
                   instance_port: 1001
                 )
-              )
+              ),
             ],
             instances: [
               Aws::ElasticLoadBalancing::Types::Instance.new(instance_id: "i-87654321"),
@@ -289,7 +289,7 @@ module MAEPB
                   instance_protocol: "http",
                   instance_port: 80
                 )
-              )
+              ),
             ],
             instances: [
             ],
@@ -303,7 +303,7 @@ module MAEPB
               subnet-aaaabbbb
             },
             vpc_id: "vpc-87654321"
-          )
+          ),
         ]
       )
     end

@@ -59,7 +59,7 @@ module Inspec::Resources
     end
 
     def to_s
-      "#{resource_base_name} #{@resource_name_supplement || 'content'}"
+      "#{resource_base_name} #{@resource_name_supplement || "content"}"
     end
 
     private

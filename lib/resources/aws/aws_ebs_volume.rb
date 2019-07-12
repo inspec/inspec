@@ -54,6 +54,7 @@ class AwsEbsVolume < Inspec.resource(1)
 
   def id
     return @volume_id if defined?(@volume_id)
+
     catch_aws_errors do
       if @opts.is_a?(Hash)
         first = @ec2_resource.volumes(

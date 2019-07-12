@@ -10,7 +10,7 @@ describe "inspec shell tests" do
   describe "cmd" do
     def do_shell_c(code, exit_status, json = false, stderr = "")
       json_suffix = " --reporter 'json'" if json
-      command = "shell -c '#{code.tr('\'', '\\\'')}'#{json_suffix}"
+      command = "shell -c '#{code.tr("'", '\\\'')}'#{json_suffix}"
       out = inspec(command)
       out.stderr.must_equal stderr
       out.exit_status.must_equal exit_status
@@ -52,6 +52,7 @@ describe "inspec shell tests" do
     it "can run arbitrary ruby (json output)" do
       # You cannot have a pipe in a windows command line
       return if is_windows?
+
       out = do_shell_c("x = [1,2,3].inject(0) {|a,v| a + v*v}; x+10", 0, true)
       j = JSON.load(out.stdout)
       j.must_equal 24 # 1^2 + 2^2 + 3^2 + 10
@@ -60,6 +61,7 @@ describe "inspec shell tests" do
     it "can run arbitrary ruby" do
       # You cannot have a pipe in a windows command line
       return if is_windows?
+
       out = do_shell_c("x = [1,2,3].inject(0) {|a,v| a + v*v}; x+10", 0)
       out.stdout.must_equal "24\n"
     end
@@ -143,7 +145,7 @@ describe "inspec shell tests" do
 
     describe "shell" do
       def do_shell(code, exit_status = 0, stderr = "")
-        cmd = "echo '#{code.tr('\'', '\\\'')}' | #{exec_inspec} shell"
+        cmd = "echo '#{code.tr("'", '\\\'')}' | #{exec_inspec} shell"
         out = CMD.run_command(cmd)
         out.exit_status.must_equal exit_status
         out

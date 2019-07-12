@@ -6,6 +6,7 @@ module Inspec
   class SourceReaderRegistry < PluginRegistry
     def resolve(target)
       return nil if target.nil?
+
       super(target)
     end
   end
@@ -16,6 +17,7 @@ module Inspec
     if version != 1
       raise "Only source readers version 1 is supported!"
     end
+
     Inspec::Plugins::SourceReader
   end
 end

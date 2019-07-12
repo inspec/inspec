@@ -22,6 +22,7 @@ module Inspec
       # the Ruby stdlib for a better experience.
       def local_transport?
         return false unless defined?(Train::Transports::Local)
+
         backend.is_a?(Train::Transports::Local::Connection)
       end
 

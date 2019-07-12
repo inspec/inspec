@@ -28,7 +28,7 @@ module Inspec::Resources
       end
 
       # implicit conversion of values
-      csv = CSV.new(content, headers: true, converters: [:all, :blank_to_nil])
+      csv = CSV.new(content, headers: true, converters: %i{all blank_to_nil})
 
       # convert to hash
       csv.to_a.map(&:to_hash)

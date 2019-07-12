@@ -35,6 +35,7 @@ describe "example inheritance profile" do
 
   it "can vendor profile dependencies with a backslash in path on Windows" do
     return unless is_windows?
+
     prepare_examples("inheritance") do |dir|
       dir_with_backslash = File.join(dir, '..\\', File.basename(dir))
       out = inspec("vendor " + dir_with_backslash + " --overwrite")
@@ -176,13 +177,11 @@ describe "example inheritance profile" do
     local_depends_path = File.join(profile_path, "local-depends")
     dir_profile_path = File.join(profile_path, "complete-profile")
     tar_profile_path = File.join(profile_path,
-                         "archived-profiles",
-                         "tar_profile-1.0.0.tar.gz"
-                       )
+      "archived-profiles",
+      "tar_profile-1.0.0.tar.gz")
     zip_profile_path = File.join(profile_path,
-                         "archived-profiles",
-                         "zip_profile-1.0.0.zip"
-                       )
+      "archived-profiles",
+      "zip_profile-1.0.0.zip")
 
     Dir.mktmpdir do |tmpdir|
       [dir_profile_path, tar_profile_path, zip_profile_path].each do |profile|

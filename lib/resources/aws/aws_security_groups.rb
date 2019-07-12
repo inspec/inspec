@@ -42,6 +42,7 @@ class AwsSecurityGroups < Inspec.resource(1)
     unless raw_criteria.empty?
       raise ArgumentError, "aws_ec2_security_groups does not currently accept resource parameters."
     end
+
     raw_criteria
   end
 

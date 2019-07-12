@@ -55,6 +55,7 @@ module Inspec::Resources
 
     def enabled?
       return false if find_repo.count == 0
+
       actives = find_repo.map { |repo| repo[:active] }
       actives = actives.uniq
       actives.size == 1 && actives[0] = true
@@ -113,6 +114,7 @@ module Inspec::Resources
     def determine_ppa_url(ppa_url)
       # verify if we have the url already, then just return
       return ppa_url if ppa_url =~ HTTP_URL_RE
+
       # otherwise start generating the ppa url
 
       # special care if the name stats with :

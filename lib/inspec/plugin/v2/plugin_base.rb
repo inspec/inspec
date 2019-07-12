@@ -82,6 +82,7 @@ module Inspec::Plugin::V2
         # If called from a Plugin definition class...
         stat = reg.find_status_by_class(self)
         return stat.name if stat
+
         # Called from an implementation class
         return find_name_by_implementation_class(self)
       end

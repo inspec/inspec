@@ -125,6 +125,7 @@ module AwsMDCSB
       }
       return fixtures["default"] if query.empty?
       return fixtures[query[:delivery_channel_names][0]] unless fixtures[query[:delivery_channel_names][0]].nil?
+
       raise Aws::ConfigService::Errors::NoSuchDeliveryChannelException.new(nil, nil)
     end
   end

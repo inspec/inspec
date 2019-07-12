@@ -52,7 +52,7 @@ module Inspec::Resources
     end
 
     def to_s
-      "#{owner} runlevels #{keys.join(', ')}"
+      "#{owner} runlevels #{keys.join(", ")}"
     end
   end
 
@@ -177,59 +177,69 @@ module Inspec::Resources
 
     def info
       return nil if @service_mgmt.nil?
+
       @cache ||= @service_mgmt.info(@service_name)
     end
 
     # verifies if the service is enabled
     def enabled?(_level = nil)
       return false if info.nil?
+
       info[:enabled]
     end
 
     def params
       return {} if info.nil?
+
       Hashie::Mash.new(info[:params] || {})
     end
 
     # verifies the service is registered
     def installed?(_name = nil, _version = nil)
       return false if info.nil?
+
       info[:installed]
     end
 
     # verifies the service is currently running
     def running?(_under = nil)
       return false if info.nil?
+
       info[:running]
     end
 
     # get all runlevels that are available and their configuration
     def runlevels(*args)
       return Runlevels.new(self) if info.nil? || info[:runlevels].nil?
+
       Runlevels.from_hash(self, info[:runlevels], args)
     end
 
     # returns the service type from info
     def type
       return nil if info.nil?
+
       info[:type]
     end
 
     # returns the service name from info
     def name
       return @service_name if info.nil?
+
       info[:name]
     end
 
     # returns the service description from info
     def description
       return nil if info.nil?
+
       info[:description]
     end
 
     # returns the service start up mode from info
     def startmode
       return nil if info.nil?
+
       info[:startmode]
     end
 
@@ -324,6 +334,7 @@ module Inspec::Resources
     def status?
       status_cmd = inspec.command("lssrc -s #{@name}")
       return nil if status_cmd.exit_status.to_i != 0
+
       status_cmd.stdout.split(/\n/).last.chomp =~ /active$/ ? true : false
     end
 
@@ -463,6 +474,7 @@ module Inspec::Resources
       # search for the service
       srv = /(^.*#{service_name}$)/.match(cmd.stdout)
       return nil if srv.nil? || srv[0].nil?
+
       enabled = true
 
       # check if the service is running

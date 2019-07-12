@@ -13,6 +13,7 @@ module SourceReaders
         x.end_with?(".rb") && !x.include?("/") && x != "metadata.rb"
       end
       return nil if files.empty?
+
       new(target, files)
     end
 

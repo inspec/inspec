@@ -37,7 +37,7 @@ module InspecPlugins
         options["server"] = server
         InspecPlugins::Compliance::API.login(options)
         config = InspecPlugins::Compliance::Configuration.new
-        puts "Stored configuration for Chef #{config['server_type'].capitalize}: #{config['server']}' with user: '#{config['user']}'"
+        puts "Stored configuration for Chef #{config["server_type"].capitalize}: #{config["server"]}' with user: '#{config["user"]}'"
       end
 
       desc "profiles", "list all available profiles in #{COMPLIANCE_PRODUCT_NAME}"
@@ -45,7 +45,7 @@ module InspecPlugins
         desc: "owner whose profiles to list"
       def profiles
         config = InspecPlugins::Compliance::Configuration.new
-        return if !loggedin(config)
+        return unless loggedin(config)
 
         # set owner to config
         config["owner"] = options["owner"] || config["user"]
@@ -57,7 +57,7 @@ module InspecPlugins
           headline("Available profiles:")
           profiles.each do |profile|
             owner = profile["owner_id"] || profile["owner"]
-            li("#{profile['title']} v#{profile['version']} (#{mark_text(owner + '/' + profile['name'])})")
+            li("#{profile["title"]} v#{profile["version"]} (#{mark_text(owner + "/" + profile["name"])})")
           end
         else
           puts msg if msg != "success"
@@ -73,7 +73,8 @@ module InspecPlugins
       exec_options
       def exec(*tests)
         config = InspecPlugins::Compliance::Configuration.new
-        return if !loggedin(config)
+        return unless loggedin(config)
+
         o = opts(:exec).dup
         diagnose(o)
         configure_logger(o)
@@ -98,7 +99,7 @@ module InspecPlugins
         configure_logger(o)
 
         config = InspecPlugins::Compliance::Configuration.new
-        return if !loggedin(config)
+        return unless loggedin(config)
 
         profile_name = InspecPlugins::Compliance::API.sanitize_profile_name(profile_name)
         if InspecPlugins::Compliance::API.exist?(config, profile_name)
@@ -127,7 +128,7 @@ module InspecPlugins
         desc: "Owner that should own the profile"
       def upload(path) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, PerceivedComplexity, Metrics/CyclomaticComplexity
         config = InspecPlugins::Compliance::Configuration.new
-        return if !loggedin(config)
+        return unless loggedin(config)
 
         # set owner to config
         config["owner"] = options["owner"] || config["user"]
@@ -177,7 +178,7 @@ module InspecPlugins
 
         # check that the profile is not uploaded already,
         # confirm upload to the user (overwrite with --force)
-        if InspecPlugins::Compliance::API.exist?(config, "#{config['owner']}/#{profile_name}##{profile_version}") && !options["overwrite"]
+        if InspecPlugins::Compliance::API.exist?(config, "#{config["owner"]}/#{profile_name}##{profile_version}") && !options["overwrite"]
           error.call("Profile exists on the server, use --overwrite")
         end
 
@@ -198,7 +199,7 @@ module InspecPlugins
           archive_path = path
         end
 
-        puts "Start upload to #{config['owner']}/#{profile_name}"
+        puts "Start upload to #{config["owner"]}/#{profile_name}"
         pname = ERB::Util.url_encode(profile_name)
 
         if InspecPlugins::Compliance::API.is_automate_server?(config) || InspecPlugins::Compliance::API.is_automate2_server?(config)
@@ -225,8 +226,8 @@ module InspecPlugins
         config = InspecPlugins::Compliance::Configuration.new
         info = InspecPlugins::Compliance::API.version(config)
         if !info.nil? && info["version"]
-          puts "Name:    #{info['api']}"
-          puts "Version: #{info['version']}"
+          puts "Name:    #{info["api"]}"
+          puts "Version: #{info["version"]}"
         else
           puts "Could not determine server version."
           exit 1
@@ -241,7 +242,7 @@ module InspecPlugins
         config = InspecPlugins::Compliance::Configuration.new
         unless config.supported?(:oidc) || config["token"].nil? || config["server_type"] == "automate"
           config = InspecPlugins::Compliance::Configuration.new
-          url = "#{config['server']}/logout"
+          url = "#{config["server"]}/logout"
           InspecPlugins::Compliance::HTTP.post(url, config["token"], config["insecure"], !config.supported?(:oidc))
         end
         success = config.destroy
@@ -257,7 +258,7 @@ module InspecPlugins
 
       def loggedin(config)
         serverknown = !config["server"].nil?
-        puts "You need to login first with `#{EXEC_NAME} compliance login`" if !serverknown
+        puts "You need to login first with `#{EXEC_NAME} compliance login`" unless serverknown
         serverknown
       end
     end

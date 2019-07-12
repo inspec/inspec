@@ -50,7 +50,8 @@ module Inspec::Resources
 
     def read_crontab
       if is_system_crontab?
-        raise Inspec::Exceptions::ResourceFailed, "Supplied crontab path '#{@path}' must exist!" if !inspec.file(@path).exist?
+        raise Inspec::Exceptions::ResourceFailed, "Supplied crontab path '#{@path}' must exist!" unless inspec.file(@path).exist?
+
         ct = inspec.file(@path).content
       else
         ct = inspec.command(crontab_cmd).stdout
@@ -70,13 +71,13 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.register_column(:minutes,  field: "minute")
-          .register_column(:hours,    field: "hour")
-          .register_column(:days,     field: "day")
-          .register_column(:months,   field: "month")
-          .register_column(:weekdays, field: "weekday")
-          .register_column(:user,     field: "user")
-          .register_column(:commands, field: "command")
+    filter.register_column(:minutes, field: "minute")
+      .register_column(:hours,    field: "hour")
+      .register_column(:days,     field: "day")
+      .register_column(:months,   field: "month")
+      .register_column(:weekdays, field: "weekday")
+      .register_column(:user,     field: "user")
+      .register_column(:commands, field: "command")
 
     # rebuild the crontab line from raw content
     filter.register_custom_property(:content) do |t, _|

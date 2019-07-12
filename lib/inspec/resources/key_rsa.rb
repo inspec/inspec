@@ -31,26 +31,31 @@ module Inspec::Resources
 
     def public?
       return if @key.nil?
+
       @key.public?
     end
 
     def public_key
       return if @key.nil?
+
       @key.public_key.to_s
     end
 
     def private?
       return if @key.nil?
+
       @key.private?
     end
 
     def private_key
       return if @key.nil?
+
       @key.to_s
     end
 
     def key_length
       return if @key.nil?
+
       @key.public_key.n.num_bytes * 8
     end
 
