@@ -20,3 +20,8 @@ resource_packs:
     git_repo: https://github.com/inspec/inspec-habitat.git
     doc_group_title: Habitat
     resource_file_regex: ^habitat_
+  
+  inspec-aws:
+    git_repo: https://github.com/inspec/inspec-aws.git
+    doc_group_title: AWS
+    resource_file_regex: ^aws_
