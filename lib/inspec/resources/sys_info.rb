@@ -37,7 +37,7 @@ module Inspec::Resources
       elsif os.windows?
         inspec.powershell("Get-CimInstance -ClassName Win32_ComputerSystem | Select Manufacturer -ExpandProperty Manufacturer").stdout.chomp
       else
-        skip_resource "The `sys_info.model` resource is not supported on your OS yet."
+        skip_resource "The `sys_info.manufacturer` resource is not supported on your OS yet."
       end
     end
 
