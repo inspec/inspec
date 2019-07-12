@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.7.6 -->
-## [v4.7.6](https://github.com/inspec/inspec/tree/v4.7.6) (2019-07-10)
+<!-- latest_release 4.7.7 -->
+## [v4.7.7](https://github.com/inspec/inspec/tree/v4.7.7) (2019-07-12)
 
 #### Merged Pull Requests
-- Put buildkite verify commands into a bash script [#4284](https://github.com/inspec/inspec/pull/4284) ([miah](https://github.com/miah))
+- chefstyle -a [#4276](https://github.com/inspec/inspec/pull/4276) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.3 -->
 ### Changes since 4.7.3 release
 
 #### Merged Pull Requests
+- chefstyle -a [#4276](https://github.com/inspec/inspec/pull/4276) ([miah](https://github.com/miah)) <!-- 4.7.7 -->
 - Put buildkite verify commands into a bash script [#4284](https://github.com/inspec/inspec/pull/4284) ([miah](https://github.com/miah)) <!-- 4.7.6 -->
 - omnibus test will now run more than inspec version [#4283](https://github.com/inspec/inspec/pull/4283) ([miah](https://github.com/miah)) <!-- 4.7.5 -->
 - use --- and +++ to improve the log view on buildkite [#4281](https://github.com/inspec/inspec/pull/4281) ([miah](https://github.com/miah)) <!-- 4.7.4 -->
