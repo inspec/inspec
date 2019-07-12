@@ -31,7 +31,7 @@ module Inspec::Resources
     def manufacturer
       os = inspec.os
       if os.darwin?
-        'Apple Inc.'
+        "Apple Inc."
       elsif os.linux?
         inspec.command("dmidecode | grep 'Vendor :'").split(": ").last.chomp
       elsif os.windows?
