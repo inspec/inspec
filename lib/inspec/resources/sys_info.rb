@@ -30,7 +30,9 @@ module Inspec::Resources
     # returns the Manufacturer of the local system
     def manufacturer
       os = inspec.os
-      if os.linux? || os.darwin?
+      if os.darwin?
+        'Apple Inc.'
+      elsif os.linux?
         inspec.command("dmidecode | grep 'Vendor :'").split(": ").last.chomp
       elsif os.windows?
         inspec.powershell("Get-CimInstance -ClassName Win32_ComputerSystem | Select Manufacturer -ExpandProperty Manufacturer").stdout.chomp
