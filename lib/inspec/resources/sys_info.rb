@@ -42,7 +42,9 @@ module Inspec::Resources
     # returns the ServerModel of the local system
     def model
       os = inspec.os
-      if os.linux? || os.darwin?
+      if os.darwin?
+        inspec.command("system_profiler SPHardwareDataType | grep 'Model Identifier:'").split(": ").last.chomp
+      elsif os.linux?
         inspec.command("dmidecode | grep 'Product Name: '").split(": ").last.chomp
       elsif os.windows?
         inspec.powershell("Get-CimInstance -ClassName Win32_ComputerSystem | Select Model -ExpandProperty Model").stdout.chomp
