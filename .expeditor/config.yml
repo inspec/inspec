@@ -27,6 +27,7 @@ pipelines:
     description: Pull Request validation tests
     public: true
     env:
+     - LANG: "C.UTF-8"
      - SLOW: 1
      - NO_AWS: 1
  - coverage:
