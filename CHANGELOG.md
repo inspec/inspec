@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.7.8 -->
-## [v4.7.8](https://github.com/inspec/inspec/tree/v4.7.8) (2019-07-12)
+<!-- latest_release 4.7.9 -->
+## [v4.7.9](https://github.com/inspec/inspec/tree/v4.7.9) (2019-07-15)
 
 #### Merged Pull Requests
-- Push back test time limit by one month [#4293](https://github.com/inspec/inspec/pull/4293) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Updating Maintainers [#4287](https://github.com/inspec/inspec/pull/4287) ([kekaichinose](https://github.com/kekaichinose))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.3 -->
 ### Changes since 4.7.3 release
 
 #### Merged Pull Requests
+- Updating Maintainers [#4287](https://github.com/inspec/inspec/pull/4287) ([kekaichinose](https://github.com/kekaichinose)) <!-- 4.7.9 -->
 - Push back test time limit by one month [#4293](https://github.com/inspec/inspec/pull/4293) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.7.8 -->
 - chefstyle -a [#4276](https://github.com/inspec/inspec/pull/4276) ([miah](https://github.com/miah)) <!-- 4.7.7 -->
 - Put buildkite verify commands into a bash script [#4284](https://github.com/inspec/inspec/pull/4284) ([miah](https://github.com/miah)) <!-- 4.7.6 -->
