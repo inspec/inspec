@@ -21,32 +21,31 @@ project lead.
   """
         team = "inspec-maintainers"
 
-        lieutenant = "arlimus"
+        lieutenant = "btm"
 
         maintainers = [
-          "chris-rock",
-          "adamleff",
-          "alexpop",
-          "jquick"
+          "clintoncwolfe",
+          "miah",
+          "zenspider"
         ]
 
 [people]
-  [people.arlimus]
-    Name = "Dominik Richter"
-    GitHub = "arlimus"
+  [people.btm]
+    Name = "Bryan McLellan"
+    GitHub = "btm"
 
-  [people.chris-rock]
-    Name = "Christoph Hartmann"
-    GitHub = "chris-rock"
+  [people.clintoncwolfe]
+    Name = "Clinton Wolfe"
+    GitHub = "clintoncwolfe"
 
-  [people.adamleff]
-    Name = "Adam Leff"
-    GitHub = "adamleff"
+  [people.miah]
+    Name = "Miah Johnson"
+    GitHub = "miah"
 
-  [people.alexpop]
-    Name = "Alex Pop"
-    GitHub = "alexpop"
+  [people.zenspider]
+    Name = "Ryan Davis"
+    GitHub = "zenspider"
 
-  [people.jquick]
-    Name = "Jared Quick"
-    GitHub = "jquick"
+  [people.kekaichinose]
+    Name = "Keka Ichinose"
+    GitHub = "kekaichinose"
