@@ -26,7 +26,7 @@ project lead.
         maintainers = [
           "clintoncwolfe",
           "miah",
-          "zenspyder"
+          "zenspider"
         ]
 
 [people]
@@ -42,9 +42,9 @@ project lead.
     Name = "Miah Johnson"
     GitHub = "miah"
 
-  [people.zenspyder]
+  [people.zenspider]
     Name = "Ryan Davis"
-    GitHub = "zenspyder"
+    GitHub = "zenspider"
 
   [people.kekaichinose]
     Name = "Keka Ichinose"
