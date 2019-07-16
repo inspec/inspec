@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.7.9 -->
-## [v4.7.9](https://github.com/inspec/inspec/tree/v4.7.9) (2019-07-15)
+<!-- latest_release 4.7.10 -->
+## [v4.7.10](https://github.com/inspec/inspec/tree/v4.7.10) (2019-07-16)
 
 #### Merged Pull Requests
-- Updating Maintainers [#4287](https://github.com/inspec/inspec/pull/4287) ([kekaichinose](https://github.com/kekaichinose))
+- This should get buildkite green for now. [#4304](https://github.com/inspec/inspec/pull/4304) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.3 -->
 ### Changes since 4.7.3 release
 
 #### Merged Pull Requests
+- This should get buildkite green for now. [#4304](https://github.com/inspec/inspec/pull/4304) ([zenspider](https://github.com/zenspider)) <!-- 4.7.10 -->
 - Updating Maintainers [#4287](https://github.com/inspec/inspec/pull/4287) ([kekaichinose](https://github.com/kekaichinose)) <!-- 4.7.9 -->
 - Push back test time limit by one month [#4293](https://github.com/inspec/inspec/pull/4293) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.7.8 -->
 - chefstyle -a [#4276](https://github.com/inspec/inspec/pull/4276) ([miah](https://github.com/miah)) <!-- 4.7.7 -->
