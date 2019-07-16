@@ -45,7 +45,7 @@ module Inspec::Resources
     def model
       os = inspec.os
       if os.darwin?
-        inspec.command("system_profiler SPHardwareDataType | grep 'Model Identifier:'").split(": ").last.chomp
+        inspec.command("sysctl -n hw.model").stdout.chomp
       elsif os.linux?
         inspec.command("cat /sys/class/dmi/id/product_name").stdout.chomp
       elsif os.windows?
