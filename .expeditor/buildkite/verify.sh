@@ -2,6 +2,8 @@
 
 set -ueo pipefail
 
+export LANG=C.UTF-8 LANGUAGE=C.UTF-8
+
 echo "--- system details"
 uname -a
 ruby -v
