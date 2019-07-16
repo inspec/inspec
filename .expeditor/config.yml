@@ -35,6 +35,7 @@ pipelines:
     public: true
     env:
      - CI_ENABLE_COVERAGE: true
+     - LANG: "C.UTF-8"
      - SLOW: 1
 
 slack:
