@@ -37,15 +37,5 @@ matrix:
   - rvm: 2.6.3
   - rvm: 2.5.5
   - rvm: 2.4.5
-  - env: SUITE=test:integration[default-ubuntu-1604]
-  - env: SUITE=test:integration[default-ubuntu-1804]
-  - env: SUITE=test:integration[default-centos-6]
-  - env: SUITE=test:integration[default-centos-7]
-  - env: SUITE=test:integration[default-debian-8]
-  - env: SUITE=test:integration[default-debian-9]
-  - env: SUITE=test:integration[default-debian-10]
-  - env: SUITE=test:integration[default-oraclelinux-6]
-  - env: SUITE=test:integration[default-oraclelinux-7]
-  - env: SUITE=test:integration[default-fedora-29]
   allow_failures:
   - env: CI_ENABLE_COVERAGE=true SLOW=1
