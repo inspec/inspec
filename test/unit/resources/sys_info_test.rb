@@ -11,6 +11,13 @@ describe "Inspec::Resources::SysInfo" do
       _(resource.model).must_equal "Flux Capacitor"
     end
 
+    it "check sys_info on OSX" do
+      resource = MockLoader.new(:osx104).load_resource("sys_info")
+      _(resource.hostname).must_equal "example.com"
+      _(resource.manufacturer).must_equal "Apple Inc."
+      _(resource.model).must_equal "MacBookPro13,3"
+    end
+
     it "check sys_info on Windows" do
       resource = MockLoader.new(:windows).load_resource("sys_info")
       _(resource.hostname).must_equal "WIN-CIV7VMLVHLD"
