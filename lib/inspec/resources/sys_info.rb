@@ -33,7 +33,7 @@ module Inspec::Resources
       if os.darwin?
         "Apple Inc."
       elsif os.linux?
-        inspec.command("dmidecode | grep 'Vendor :'").split(": ").last.chomp
+        inspec.command("cat /sys/class/dmi/id/sys_vendor").stdout.chomp
       elsif os.windows?
         inspec.powershell("Get-CimInstance -ClassName Win32_ComputerSystem | Select Manufacturer -ExpandProperty Manufacturer").stdout.chomp
       else
@@ -47,7 +47,7 @@ module Inspec::Resources
       if os.darwin?
         inspec.command("system_profiler SPHardwareDataType | grep 'Model Identifier:'").split(": ").last.chomp
       elsif os.linux?
-        inspec.command("dmidecode | grep 'Product Name: '").split(": ").last.chomp
+        inspec.command("cat /sys/class/dmi/id/product_name").stdout.chomp
       elsif os.windows?
         inspec.powershell("Get-CimInstance -ClassName Win32_ComputerSystem | Select Model -ExpandProperty Model").stdout.chomp
       else

@@ -370,11 +370,11 @@ class MockLoader
       # hostname windows
       "$env:computername" => cmd.call("$env-computername"),
       # Manufacturer linux
-      "dmidecode | grep 'Vendor: '" => cmd.call("manufacturer"),
+      "cat /sys/class/dmi/id/sys_vendor" => cmd.call("manufacturer"),
       # Manufacturer windows
       "Get-CimInstance -ClassName Win32_ComputerSystem | Select Manufacturer -ExpandProperty Manufacturer" => cmd.call("manufacturer"),
       # Model linux
-      "dmidecode | grep 'Product Name: '" => cmd.call("model"),
+      "cat /sys/class/dmi/id/product_name" => cmd.call("model"),
       # Model windows
       "Get-CimInstance -ClassName Win32_ComputerSystem | Select Model -ExpandProperty Model" => cmd.call("model"),
       # windows_hotfix windows
