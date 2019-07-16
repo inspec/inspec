@@ -45,7 +45,7 @@ module Inspec::Resources
       @params = []
 
       if @content =~ /^LIST_RULES:/
-        raise Inspec::Exceptions::RsourceFailed,
+        raise Inspec::Exceptions::ResourceFailed,
           "The version of audit is outdated." \
           "The `auditd` resource supports versions of audit >= 2.3."
       end
