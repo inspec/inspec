@@ -31,6 +31,7 @@ echo "--- Running verification for $channel $product $version"
 # removing them from the environment while launching from our embedded ruby.
 export GEM_HOME=/SHOULD_NOT_EXIST
 export GEM_PATH=/SHOULD_NOT_EXIST
+export CHEF_LICENSE="accept-no-persist"
 
 inspec version
 
