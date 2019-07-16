@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.7.13 -->
-## [v4.7.13](https://github.com/inspec/inspec/tree/v4.7.13) (2019-07-16)
+<!-- latest_release 4.7.14 -->
+## [v4.7.14](https://github.com/inspec/inspec/tree/v4.7.14) (2019-07-16)
 
 #### Merged Pull Requests
-- Adding inspec-aws to contrib [#4298](https://github.com/inspec/inspec/pull/4298) ([kekaichinose](https://github.com/kekaichinose))
+- Removed integration tests [#4307](https://github.com/inspec/inspec/pull/4307) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.3 -->
 ### Changes since 4.7.3 release
 
 #### Merged Pull Requests
+- Removed integration tests [#4307](https://github.com/inspec/inspec/pull/4307) ([zenspider](https://github.com/zenspider)) <!-- 4.7.14 -->
 - Adding inspec-aws to contrib [#4298](https://github.com/inspec/inspec/pull/4298) ([kekaichinose](https://github.com/kekaichinose)) <!-- 4.7.13 -->
 - Enable RHEL 8 packages [#4294](https://github.com/inspec/inspec/pull/4294) ([jaymalasinha](https://github.com/jaymalasinha)) <!-- 4.7.12 -->
 - Typo in class name (obvious fix) [#4302](https://github.com/inspec/inspec/pull/4302) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 4.7.11 -->
