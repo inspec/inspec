@@ -102,4 +102,10 @@ subscriptions:
     - built_in:create_github_release
     - built_in:tag_docker_image
     - built_in:promote_habitat_packages
+    - bash:.expeditor/publish-release-notes.sh:
+         post_commit: true
+    - bash:.expeditor/purge-cdn.sh:
+         post_commit: true
+    - bash:.expeditor/announce-release.sh:
+         post_commit: true
     - built_in:notify_chefio_slack_channels
