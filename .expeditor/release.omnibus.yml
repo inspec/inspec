@@ -28,3 +28,4 @@ builder-to-testers-map:
     - windows-2012-x86_64
     - windows-2012r2-x86_64
     - windows-2016-x86_64
+    - windows-2019-x86_64
