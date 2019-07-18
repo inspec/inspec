@@ -95,7 +95,7 @@ Use `where` with [expect syntax](https://www.inspec.io/docs/reference/profiles/#
     describe 'Password hashes in /etc/shadow' do
       it 'should only contain SHA512 hashes' do
         message = "Users without SHA512 hashes: #{bad_users.join(', ')}"
-        expect(bad_users).to be_empty, failure_message
+        expect(bad_users).to be_empty, message
       end
     end
 
