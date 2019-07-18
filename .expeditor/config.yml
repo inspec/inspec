@@ -37,6 +37,12 @@ pipelines:
      - CI_ENABLE_COVERAGE: true
      - LANG: "C.UTF-8"
      - SLOW: 1
+ - www/build:
+    description: Gather documentation from related resource packs and build website.
+    definition: .expeditor/wwwbuild.yml
+ - www/deploy:
+    description: Deploy website to inspec.io
+    definition: .expeditor/wwwdeploy.yml
 
 slack:
  notify_channel: inspec-notify
