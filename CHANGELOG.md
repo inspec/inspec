@@ -1,34 +1,32 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.7.18 -->
-## [v4.7.18](https://github.com/inspec/inspec/tree/v4.7.18) (2019-07-18)
-
-#### Merged Pull Requests
-- Create private pipelines for website management. [#4313](https://github.com/inspec/inspec/pull/4313) ([miah](https://github.com/miah))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.7.3 -->
-### Changes since 4.7.3 release
-
-#### Merged Pull Requests
-- Create private pipelines for website management. [#4313](https://github.com/inspec/inspec/pull/4313) ([miah](https://github.com/miah)) <!-- 4.7.18 -->
-- Automatically publish release notes and announce releases [#4312](https://github.com/inspec/inspec/pull/4312) ([schisamo](https://github.com/schisamo)) <!-- 4.7.17 -->
-- Enable Windows 2019 packages [#4311](https://github.com/inspec/inspec/pull/4311) ([jaymalasinha](https://github.com/jaymalasinha)) <!-- 4.7.16 -->
-- LANG should have gone into coverage as wel [#4308](https://github.com/inspec/inspec/pull/4308) ([zenspider](https://github.com/zenspider)) <!-- 4.7.15 -->
-- Removed integration tests [#4307](https://github.com/inspec/inspec/pull/4307) ([zenspider](https://github.com/zenspider)) <!-- 4.7.14 -->
-- Adding inspec-aws to contrib [#4298](https://github.com/inspec/inspec/pull/4298) ([kekaichinose](https://github.com/kekaichinose)) <!-- 4.7.13 -->
-- Enable RHEL 8 packages [#4294](https://github.com/inspec/inspec/pull/4294) ([jaymalasinha](https://github.com/jaymalasinha)) <!-- 4.7.12 -->
-- Typo in class name (obvious fix) [#4302](https://github.com/inspec/inspec/pull/4302) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 4.7.11 -->
-- This should get buildkite green for now. [#4304](https://github.com/inspec/inspec/pull/4304) ([zenspider](https://github.com/zenspider)) <!-- 4.7.10 -->
-- Updating Maintainers [#4287](https://github.com/inspec/inspec/pull/4287) ([kekaichinose](https://github.com/kekaichinose)) <!-- 4.7.9 -->
-- Push back test time limit by one month [#4293](https://github.com/inspec/inspec/pull/4293) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.7.8 -->
-- chefstyle -a [#4276](https://github.com/inspec/inspec/pull/4276) ([miah](https://github.com/miah)) <!-- 4.7.7 -->
-- Put buildkite verify commands into a bash script [#4284](https://github.com/inspec/inspec/pull/4284) ([miah](https://github.com/miah)) <!-- 4.7.6 -->
-- omnibus test will now run more than inspec version [#4283](https://github.com/inspec/inspec/pull/4283) ([miah](https://github.com/miah)) <!-- 4.7.5 -->
-- use --- and +++ to improve the log view on buildkite [#4281](https://github.com/inspec/inspec/pull/4281) ([miah](https://github.com/miah)) <!-- 4.7.4 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.7.18](https://github.com/inspec/inspec/tree/v4.7.18) (2019-07-18)
+
+#### Merged Pull Requests
+- use --- and +++ to improve the log view on buildkite [#4281](https://github.com/inspec/inspec/pull/4281) ([miah](https://github.com/miah))
+- omnibus test will now run more than inspec version [#4283](https://github.com/inspec/inspec/pull/4283) ([miah](https://github.com/miah))
+- Put buildkite verify commands into a bash script [#4284](https://github.com/inspec/inspec/pull/4284) ([miah](https://github.com/miah))
+- chefstyle -a [#4276](https://github.com/inspec/inspec/pull/4276) ([miah](https://github.com/miah))
+- Push back test time limit by one month [#4293](https://github.com/inspec/inspec/pull/4293) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Updating Maintainers [#4287](https://github.com/inspec/inspec/pull/4287) ([kekaichinose](https://github.com/kekaichinose))
+- This should get buildkite green for now. [#4304](https://github.com/inspec/inspec/pull/4304) ([zenspider](https://github.com/zenspider))
+- Typo in class name (obvious fix) [#4302](https://github.com/inspec/inspec/pull/4302) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
+- Enable RHEL 8 packages [#4294](https://github.com/inspec/inspec/pull/4294) ([jaymalasinha](https://github.com/jaymalasinha))
+- Adding inspec-aws to contrib [#4298](https://github.com/inspec/inspec/pull/4298) ([kekaichinose](https://github.com/kekaichinose))
+- Removed integration tests [#4307](https://github.com/inspec/inspec/pull/4307) ([zenspider](https://github.com/zenspider))
+- LANG should have gone into coverage as wel [#4308](https://github.com/inspec/inspec/pull/4308) ([zenspider](https://github.com/zenspider))
+- Enable Windows 2019 packages [#4311](https://github.com/inspec/inspec/pull/4311) ([jaymalasinha](https://github.com/jaymalasinha))
+- Automatically publish release notes and announce releases [#4312](https://github.com/inspec/inspec/pull/4312) ([schisamo](https://github.com/schisamo))
+- Create private pipelines for website management. [#4313](https://github.com/inspec/inspec/pull/4313) ([miah](https://github.com/miah))
+<!-- latest_stable_release -->
+
 ## [v4.7.3](https://github.com/inspec/inspec/tree/v4.7.3) (2019-07-09)
 
 #### New Resources
@@ -54,7 +52,6 @@
 - chefstyle recent pr [#4272](https://github.com/inspec/inspec/pull/4272) ([miah](https://github.com/miah))
 - 30 minute timeout [#4275](https://github.com/inspec/inspec/pull/4275) ([miah](https://github.com/miah))
 - Pin Chefstyle. [#4280](https://github.com/inspec/inspec/pull/4280) ([miah](https://github.com/miah))
-<!-- latest_stable_release -->
 
 ## [v4.6.9](https://github.com/inspec/inspec/tree/v4.6.9) (2019-07-01)
 
