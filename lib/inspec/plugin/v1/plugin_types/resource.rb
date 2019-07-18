@@ -86,12 +86,7 @@ module Inspec
           @__backend_runner__ = backend
           @__resource_name__ = name
 
-          # check resource supports
-          supported = true
-          supported = check_supports unless @supports.nil?
-          test_backend = defined?(Train::Transports::Mock::Connection) && backend.backend.class == Train::Transports::Mock::Connection
-          # do not return if we are supported, or for tests
-          return unless supported || test_backend
+          check_supports unless @supports.nil? # this has side effects
 
           # call the resource initializer
           begin
@@ -103,6 +98,7 @@ module Inspec
           rescue NoMethodError => e
             # The new platform resources have methods generated on the fly
             # for inspec check to work we need to skip these train errors
+            test_backend = defined?(Train::Transports::Mock::Connection) && backend.backend.class == Train::Transports::Mock::Connection
             raise unless test_backend && e.receiver.class == Train::Transports::Mock::Connection
 
             skip_resource(e.message)
