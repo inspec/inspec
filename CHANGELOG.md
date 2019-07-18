@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.7.17 -->
-## [v4.7.17](https://github.com/inspec/inspec/tree/v4.7.17) (2019-07-17)
+<!-- latest_release 4.7.18 -->
+## [v4.7.18](https://github.com/inspec/inspec/tree/v4.7.18) (2019-07-18)
 
 #### Merged Pull Requests
-- Automatically publish release notes and announce releases [#4312](https://github.com/inspec/inspec/pull/4312) ([schisamo](https://github.com/schisamo))
+- Create private pipelines for website management. [#4313](https://github.com/inspec/inspec/pull/4313) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.3 -->
 ### Changes since 4.7.3 release
 
 #### Merged Pull Requests
+- Create private pipelines for website management. [#4313](https://github.com/inspec/inspec/pull/4313) ([miah](https://github.com/miah)) <!-- 4.7.18 -->
 - Automatically publish release notes and announce releases [#4312](https://github.com/inspec/inspec/pull/4312) ([schisamo](https://github.com/schisamo)) <!-- 4.7.17 -->
 - Enable Windows 2019 packages [#4311](https://github.com/inspec/inspec/pull/4311) ([jaymalasinha](https://github.com/jaymalasinha)) <!-- 4.7.16 -->
 - LANG should have gone into coverage as wel [#4308](https://github.com/inspec/inspec/pull/4308) ([zenspider](https://github.com/zenspider)) <!-- 4.7.15 -->
