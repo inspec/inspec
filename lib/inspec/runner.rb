@@ -255,7 +255,7 @@ module Inspec
 
       resource = arg[0]
       # check to see if we are using a filtertable object
-      resource = arg[0].resource if arg[0].class.superclass == FilterTable::Table
+      resource = resource.resource if resource.is_a? FilterTable::Table
       if resource.respond_to?(:resource_skipped?) && resource.resource_skipped?
         return rspec_skipped_block(arg, opts, resource.resource_exception_message)
       end

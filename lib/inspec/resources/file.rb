@@ -165,7 +165,7 @@ module Inspec::Resources
     end
 
     def to_s
-      if file then
+      if file
         "File #{source_path}"
       else
         "Bad File on %s" % [inspec.backend.class]
