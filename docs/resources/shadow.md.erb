@@ -89,7 +89,7 @@ Use `where` to match any of the supported [filter criteria](#filter_criteria). `
 
 Use `where` with [expect syntax](https://www.inspec.io/docs/reference/profiles/#should-vs-expect-syntax) to show all users (that aren't disabled or locked) without SHA512 hashed passwords.
 
-    # Find users with password entries `*`, `!`, or don't begin with `$6$`
+    # Users with password fields that are not *, !, or don't begin with $6$
     bad_users = inspec.shadow.where { password !~ /^[*!]$|^\$6\$.*/ }.users
 
     describe 'Password hashes in /etc/shadow' do
