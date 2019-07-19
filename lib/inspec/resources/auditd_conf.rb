@@ -15,7 +15,7 @@ module Inspec::Resources
     EXAMPLE
 
     include FileReader
-    
+
     attr_reader :conf_path, :content
 
     def initialize(path = nil)
