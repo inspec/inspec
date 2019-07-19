@@ -4,13 +4,17 @@ title: Chef InSpec Integration with Chef Habitat
 
 # Chef Habitat Integration
 
-Chef InSpec provides an easy method to create an executable Chef Habitat package for an Chef InSpec profile. When run via the Chef Habitat Supervisor, the package will run Chef InSpec with your profile and write out its findings to a JSON file. This provides the ability to ship your compliance controls alongside your Chef Habitat-packaged application and continuously run InSpec, providing you *Continuous Compliance.*
+Chef InSpec provides an easy method to create an executable Chef Habitat package for an Chef InSpec profile. When run via the Chef Habitat Supervisor, the package will run Chef InSpec with your profile and write out its findings the supervisor log. This provides the ability to ship your compliance controls alongside your Chef Habitat-packaged application and continuously run InSpec, providing you *Continuous Compliance.*
 
 ## What is Chef Habitat
 
 Chef Habitat by Chef is our new Application Automation tool that aims to make it easy, safe, and fast to build, deploy, and manage applications. From build dependencies, runtime dependencies, dynamic configuration, and service discovery (just to name a few), Chef Habitat packages the automation with the application instead of relying on an underlying platform.
 
 To learn more about Chef Habitat and try our demos and tutorials, visit [https://www.habitat.sh](https://www.habitat.sh).
+
+## Chef Habitat Scaffolding
+
+Chef Habitat has a native templating method to it called scaffolding. This plugin now uses scaffolding so that you can get the benefits of testing and best practices for your InSpec profile Habitat packages. This will also remove the need for you to re-run the plugin over time as things in InSpec may change. In order to pull in the latest changes you just have to re-run build and it will pull in the latest best practices and the most recent version of InSpec.
 
 ## Using the Chef Habitat Integration
 
@@ -20,10 +24,10 @@ After creating a Chef Habitat package for an Chef InSpec profile (see CLI comman
 hab start adamleff/inspec-profile-frontend1
 ```
 
-The Chef Habitat Supervisor will install Chef InSpec and execute your profile in a loop. By default, the loop runs every 300 seconds but can be changed via the `sleep_time` configuration value:
+The Chef Habitat Supervisor will install Chef InSpec and execute your profile in a loop. The loop is controled by two variables the `interval` and the `splay`. The `interval` is a set time you want inspec to run the default is `1800` seconds. The `splay` is a random generated sleep time so that if you don't have a thundering herd scenario when sending your report to an exernal server like Chef Automate. The defualt for the `splay` is also 1800. You can also set the `splay_first_run` so that when your habitat package is started or updated it will wait a random period of time between 0 and the number set for the `splay_first_run` before running InSpec. The default of the `splay_first_run` is 0.
 
 ```bash
-HAB_INSPEC_PROFILE_FRONTEND1="sleep_time = 60" hab start adamleff/inspec-profile-frontend1
+HAB_INSPEC_PROFILE_FRONTEND1="interval = 60" hab start adamleff/inspec-profile-frontend1
 ```
 
 The Chef Habitat Supervisor will display output like this:
@@ -55,7 +59,7 @@ inspec-profile-frontend1.default(SR): Initializing
 inspec-profile-frontend1.default(SV): Starting process as user=hab, group=hab
 inspec-profile-frontend1.default(O): Executing InSpec  adamleff/inspec-profile-frontend1
 inspec-profile-frontend1.default(O): InSpec run completed successfully.
-inspec-profile-frontend1.default(O): sleeping for 300 seconds
+inspec-profile-frontend1.default(O): sleeping for 2134 seconds
 ```
 
 The above sample output shows the supervisor starting, downloading the necessary dependencies for the supervisor and the Chef InSpec profile, and then shows the supervisor running Chef InSpec successfully.
@@ -125,7 +129,7 @@ $ habitat profile create ~/profiles/frontend1
 
 ### inspec habitat profile setup
 
-Create a Chef Habitat directory that includes a plan file, config hooks, and more in a profile directory.
+Create a Chef Habitat directory that includes a plan file in a profile directory.
 
 This is the same process that is used by `inspec habitat profile create` - but this adds the generated Chef Habitat
  directory and file to your system so that you can commit them to source control. If you commit these files to GitHub, you can connect that plan to the [Chef Habitat Builder Service](https://www.habitat.sh/docs/using-builder/).
@@ -150,9 +154,6 @@ inspec habitat profile setup ~/profiles/frontend1
 [2018-10-31T23:45:59+00:00] INFO: Profile is valid.
 [2018-10-31T23:45:59+00:00] INFO: Profile's dependencies are already vendored, skipping vendor process.
 [2018-10-31T23:45:59+00:00] INFO: Generating Habitat plan at /home/nell/profiles/frontend1/habitat/plan.sh...
-[2018-10-31T23:45:59+00:00] INFO: Generating a Habitat run hook at /home/nell/profiles/frontend1/habitat/hooks/run...
-[2018-10-31T23:45:59+00:00] INFO: Generating a settings file at /home/nell/profiles/frontend1/habitat/config/settings.sh...
-[2018-10-31T23:45:59+00:00] INFO: Generating Habitat's default.toml configuration...
 ```
 
 ### inspec habitat profile upload
