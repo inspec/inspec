@@ -4,7 +4,7 @@ title: Chef InSpec Integration with Chef Habitat
 
 # Chef Habitat Integration
 
-Chef InSpec provides an easy method to create an executable Chef Habitat package for an Chef InSpec profile. When run via the Chef Habitat Supervisor, the package will run Chef InSpec with your profile and write out its findings the supervisor log. This provides the ability to ship your compliance controls alongside your Chef Habitat-packaged application and continuously run InSpec, providing you *Continuous Compliance.*
+Chef InSpec provides an easy method to create an executable Chef Habitat package for an Chef InSpec profile. When run via the Chef Habitat Supervisor, the package will run Chef InSpec with your profile and write out its findings to the supervisor log. This provides the ability to ship your compliance controls alongside your Chef Habitat-packaged application and continuously run InSpec, providing you *Continuous Compliance.*
 
 ## What is Chef Habitat
 
