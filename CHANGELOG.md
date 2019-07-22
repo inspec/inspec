@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.7.19 -->
+## [v4.7.19](https://github.com/inspec/inspec/tree/v4.7.19) (2019-07-22)
+
+#### Merged Pull Requests
+- Un-deprecate the be_running matcher on service resource [#4295](https://github.com/inspec/inspec/pull/4295) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.7.18 -->
+### Changes since 4.7.18 release
+
+#### Merged Pull Requests
+- Un-deprecate the be_running matcher on service resource [#4295](https://github.com/inspec/inspec/pull/4295) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.7.19 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
