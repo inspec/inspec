@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.7.19 -->
-## [v4.7.19](https://github.com/inspec/inspec/tree/v4.7.19) (2019-07-22)
+<!-- latest_release 4.7.20 -->
+## [v4.7.20](https://github.com/inspec/inspec/tree/v4.7.20) (2019-07-22)
 
-#### Merged Pull Requests
-- Un-deprecate the be_running matcher on service resource [#4295](https://github.com/inspec/inspec/pull/4295) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- Suppress gem docs when installing plugins [#4286](https://github.com/inspec/inspec/pull/4286) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.18 -->
 ### Changes since 4.7.18 release
+
+#### Bug Fixes
+- Suppress gem docs when installing plugins [#4286](https://github.com/inspec/inspec/pull/4286) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.7.20 -->
 
 #### Merged Pull Requests
 - Un-deprecate the be_running matcher on service resource [#4295](https://github.com/inspec/inspec/pull/4295) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.7.19 -->
