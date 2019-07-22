@@ -365,10 +365,20 @@ class MockLoader
       "netstat -an -f inet" => cmd.call("hpux-netstat-inet"),
       # ipv6 ports on hpux
       "netstat -an -f inet6" => cmd.call("hpux-netstat-inet6"),
-      # hostname linux
+      # hostname linux and darwin
       "hostname" => cmd.call("hostname"),
       # hostname windows
       "$env:computername" => cmd.call("$env-computername"),
+      # Manufacturer linux
+      "cat /sys/class/dmi/id/sys_vendor" => cmd.call("manufacturer"),
+      # Manufacturer windows
+      "Get-CimInstance -ClassName Win32_ComputerSystem | Select Manufacturer -ExpandProperty Manufacturer" => cmd.call("manufacturer"),
+      # Model linux
+      "cat /sys/class/dmi/id/product_name" => cmd.call("model"),
+      # Model darwin
+      "sysctl -n hw.model" => cmd.call("model_darwin"),
+      # Model windows
+      "Get-CimInstance -ClassName Win32_ComputerSystem | Select Model -ExpandProperty Model" => cmd.call("model"),
       # windows_hotfix windows
       "get-hotfix -id KB4019215" => cmd.call("kb4019215"),
       # windows_hotfix windows doesn't exist
