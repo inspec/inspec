@@ -12,10 +12,6 @@ Chef Habitat by Chef is our new Application Automation tool that aims to make it
 
 To learn more about Chef Habitat and try our demos and tutorials, visit [https://www.habitat.sh](https://www.habitat.sh).
 
-## Chef Habitat Scaffolding
-
-Chef Habitat has a native templating method to it called scaffolding. This plugin uses scaffolding so that you can get the benefits of testing and best practices for your InSpec profile Habitat packages. This will also remove the need for you to re-run the plugin over time as things in InSpec may change. With scaffolding, in order to pull in the latest changes you just have to re-run build and it will pull in the latest best practices and the most recent version of InSpec.
-
 ## Using the Chef Habitat Integration
 
 After creating a Chef Habitat package for an Chef InSpec profile (see CLI commands below) and uploading the package to a Chef Habitat Depot or manually distributing to a host, start the Chef Habitat Supervisor with your package:
