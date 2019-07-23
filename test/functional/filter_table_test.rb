@@ -5,10 +5,6 @@ describe "filtertable functional tests" do
   let(:run_opts) { { json: true, ignore_rspec_deprecations: true } }
   let(:ft_profile_path) { File.join(profile_path, "filter_table") }
 
-  def setup
-    skip_windows!
-  end
-
   def run_result_for_controls(controls)
     cmd = "exec " + ft_profile_path + " --controls " + controls.join(" ")
     run_inspec_process(cmd, run_opts)
@@ -30,7 +26,7 @@ describe "filtertable functional tests" do
     run_result = run_result_for_controls(controls)
     outcome_hash = failed_control_test_outcomes(run_result)
     outcome_hash.must_be_empty
-    run_result.exit_status.must_equal 0
+    assert_exit_code 0, run_result
   end
 
   def expect_all_fail_run(controls)
@@ -42,7 +38,7 @@ describe "filtertable functional tests" do
     end
 
     run_result.stderr_ignore_deprecations.must_equal "" # TODO: we have a cli_option_json_config triggering somewhere
-    run_result.exit_status.must_equal 100
+    assert_exit_code 100, run_result
   end
 
   describe "2943 inspec exec for filter table profile, method mode for `where" do

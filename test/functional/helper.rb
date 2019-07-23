@@ -137,7 +137,7 @@ module FunctionalHelper
 
   def inspec(commandline, prefix = nil)
     if is_windows?
-      invocation = "cmd /C \"#{prefix} #{exec_inspec} #{commandline}\""
+      invocation = "/windows/system32/cmd /C \"#{prefix} #{exec_inspec} #{commandline}\""
       result = CMD.run_command(invocation)
       result.stdout.encode!(universal_newline: true)
       result.stderr.encode!(universal_newline: true)

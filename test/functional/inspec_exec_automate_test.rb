@@ -4,10 +4,6 @@ require "tempfile"
 describe "inspec exec automate" do
   include FunctionalHelper
 
-  before do
-    skip_windows!
-  end
-
   let(:config_path) do
     file = Tempfile.new("config.json")
     file.write(config_data)
@@ -40,8 +36,8 @@ describe "inspec exec automate" do
 
     it "should fail" do
       run_result.stderr.must_equal "Error generating reporter 'automate'\n"
-      run_result.exit_status.must_equal 1
       run_result.stdout.must_include "ERROR: send_report: POST to /data-collector/v0/"
+      assert_exit_code 1, run_result
     end
   end
 
@@ -68,7 +64,6 @@ describe "inspec exec automate" do
 
     it "should include tramp data" do
       run_result.stderr.must_equal ""
-      run_result.exit_status.wont_equal 1
 
       # Can't use json-mode on run_inspec_process - it sets
       # the reporter to be 'json', we need 'json-automate'
@@ -96,6 +91,7 @@ describe "inspec exec automate" do
       json["passthrough"].keys.sort.must_equal %w{another_tramp_datum projects}
       json["passthrough"]["projects"].must_equal %w{alpha beta}
 
+      assert_exit_code 101, run_result
     end
   end
 end

@@ -4,36 +4,39 @@ require "json-schema"
 describe "inspec exec" do
   include FunctionalHelper
 
-  before do
-    skip_windows!
-  end
-
   it "can execute a profile with the mini json formatter and validate its schema" do
     out = inspec("exec " + example_profile + " --reporter json-min --no-create-lockfile")
-    out.stderr.must_equal ""
-    out.exit_status.must_equal 101
     data = JSON.parse(out.stdout)
     sout = inspec("schema exec-jsonmin")
     schema = JSON.parse(sout.stdout)
     JSON::Validator.validate(schema, data).wont_equal false
+
+    out.stderr.must_equal ""
+
+    assert_exit_code 101, out
   end
 
   it "can execute a simple file with the mini json formatter and validate its schema" do
     out = inspec("exec " + example_control + " --reporter json-min --no-create-lockfile")
-    out.stderr.must_equal ""
-    out.exit_status.must_equal 0
     data = JSON.parse(out.stdout)
     sout = inspec("schema exec-jsonmin")
     schema = JSON.parse(sout.stdout)
     JSON::Validator.validate(schema, data).wont_equal false
+
+    out.stderr.must_equal ""
+
+    assert_exit_code 0, out
   end
 
   it "does not contain any dupilcate results with describe.one" do
     out = inspec("shell -c 'describe.one do describe 1 do it { should cmp 2 } end end' --reporter=json-min")
-    out.stderr.must_equal ""
     data = JSON.parse(out.stdout)
     data["controls"].length.must_equal 1
     data["controls"][0]["message"].must_equal "\nexpected: 2\n     got: 1\n\n(compared using `cmp` matcher)\n"
+
+    out.stderr.must_equal ""
+
+    assert_exit_code 100, out
   end
 
   describe "execute a profile with mini json formatting" do

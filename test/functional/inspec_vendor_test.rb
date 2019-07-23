@@ -4,19 +4,18 @@ require "tmpdir"
 describe "example inheritance profile" do
   include FunctionalHelper
 
-  before do
-    skip_windows!
-  end
-
   it "can vendor profile dependencies" do
     prepare_examples("inheritance") do |dir|
       out = inspec("vendor " + dir + " --overwrite")
-      out.stderr.must_equal ""
+
       out.stdout.must_include "Dependencies for profile #{dir} successfully vendored to #{dir}/vendor"
-      out.exit_status.must_equal 0
 
       File.exist?(File.join(dir, "vendor")).must_equal true
       File.exist?(File.join(dir, "inspec.lock")).must_equal true
+
+      out.stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
   end
 
@@ -24,12 +23,14 @@ describe "example inheritance profile" do
     prepare_examples("inheritance") do |dir|
       relative_path = File.join(dir, "../", File.basename(dir))
       out = inspec("vendor " + relative_path + " --overwrite")
-      out.stderr.must_equal ""
-      out.exit_status.must_equal 0
 
       File.exist?(File.join(dir, "vendor")).must_equal true
       File.exist?(File.join(dir, "inspec.lock")).must_equal true
       Dir.glob(File.join(dir, "vendor", "*")).wont_be_empty
+
+      out.stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
   end
 
@@ -39,26 +40,31 @@ describe "example inheritance profile" do
     prepare_examples("inheritance") do |dir|
       dir_with_backslash = File.join(dir, '..\\', File.basename(dir))
       out = inspec("vendor " + dir_with_backslash + " --overwrite")
-      out.stderr.must_equal ""
-      out.exit_status.must_equal 0
 
       File.exist?(File.join(dir, "vendor")).must_equal true
       File.exist?(File.join(dir, "inspec.lock")).must_equal true
       Dir.glob(File.join(dir, "vendor", "*")).wont_be_empty
+
+      out.stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
   end
 
   it "can vendor profile dependencies from the profile path" do
     prepare_examples("inheritance") do |dir|
       out = inspec("vendor --overwrite", "cd #{dir} &&")
-      out.stderr.must_equal ""
-      out.exit_status.must_equal 0
+
       # this fixes the osx /var symlink to /private/var causing this test to fail
       out.stdout.gsub!("/private/var", "/var")
       out.stdout.must_include "Dependencies for profile #{dir} successfully vendored to #{dir}/vendor"
 
       File.exist?(File.join(dir, "vendor")).must_equal true
       File.exist?(File.join(dir, "inspec.lock")).must_equal true
+
+      out.stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
   end
 
@@ -70,8 +76,6 @@ describe "example inheritance profile" do
       File.exist?(File.join(tmpdir, "vendor")).must_equal false
 
       out = inspec("vendor " + tmpdir + " --overwrite")
-      out.stderr.must_equal ""
-      out.exit_status.must_equal 0
 
       out.stdout.must_include "Dependencies for profile #{tmpdir} successfully vendored to #{tmpdir}/vendor"
 
@@ -81,38 +85,49 @@ describe "example inheritance profile" do
       Dir.glob(File.join(tmpdir, "vendor", "*")).length.must_equal 1
       # Check that our vendor directory has contents
       Dir.glob(File.join(tmpdir, "vendor", "*", "*")).length.must_be :>=, 8
+
+      out.stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
   end
 
   it "ensure nothing is loaded from external source if vendored profile is used" do
     prepare_examples("meta-profile") do |dir|
       out = inspec("vendor " + dir + " --overwrite")
+
       out.stderr.must_equal ""
-      out.exit_status.must_equal 0
+
+      assert_exit_code 0, out
 
       File.exist?(File.join(dir, "vendor")).must_equal true
       File.exist?(File.join(dir, "inspec.lock")).must_equal true
 
+      # TODO: split
       out = inspec("exec " + dir + " -l debug --no-create-lockfile")
-      out.stderr.must_equal ""
+
       out.stdout.must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssh-baseline/archive/master.tar.gz"'
       out.stdout.must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssl-baseline/archive/master.tar.gz"'
       out.stdout.must_include 'Using cached dependency for {:url=>"https://github.com/chris-rock/windows-patch-benchmark/archive/master.tar.gz"'
       out.stdout.wont_include "Fetching URL:"
       out.stdout.wont_include "Fetched archive moved to:"
+
+      out.stderr.must_equal ""
+
+      assert_exit_code 100, out
     end
   end
 
   it "ensure json/check command do not fetch remote profiles if vendored" do
     prepare_examples("profile") do |dir|
       out = inspec("vendor " + dir + " --overwrite")
-      out.stderr.must_equal ""
-      out.exit_status.must_equal 0
 
+      out.stderr.must_equal ""
+
+      assert_exit_code 0, out
+
+      # TODO: split
       out = inspec("json " + dir + " --output " + dst.path)
-
-      out.stderr.must_equal ""
-      out.exit_status.must_equal 0
 
       hm = JSON.load(File.read(dst.path))
       hm["name"].must_equal "profile"
@@ -122,13 +137,17 @@ describe "example inheritance profile" do
       # out.stdout.scan(/Dependency does not exist in the cache/).length.must_equal 1
       out.stdout.scan(/Fetching URL:/).length.must_equal 0
 
+      out.stderr.must_equal ""
+
+      assert_exit_code 0, out
+
+      # TODO: split
       # execute check command
       out = inspec("check " + dir + " -l debug")
-      # stderr may have warnings included; only test if something went wrong
-      out.stderr.must_equal("") if out.exit_status != 0
-      out.exit_status.must_equal 0
 
       out.stdout.scan(/Fetching URL:/).length.must_equal 0
+
+      assert_exit_code 0, out
     end
   end
 
@@ -136,35 +155,45 @@ describe "example inheritance profile" do
     prepare_examples("meta-profile") do |dir|
       # ensure the profile is vendored and packaged as tar
       out = inspec("vendor " + dir + " --overwrite")
-      out.stderr.must_equal ""
-      out.exit_status.must_equal 0
 
+      out.stderr.must_equal ""
+
+      assert_exit_code 0, out
+
+      # TODO: split
       out = inspec("archive " + dir + " --overwrite")
-      out.stderr.must_equal ""
-      out.exit_status.must_equal 0
 
+      out.stderr.must_equal ""
+
+      assert_exit_code 0, out
+
+      # TODO: split
       # execute json command
       out = inspec("json meta-profile-0.2.0.tar.gz -l debug")
-      # stderr may have warnings included; only test if something went wrong
-      out.stderr.must_equal("") if out.exit_status != 0
-      out.exit_status.must_equal 0
 
       out.stdout.scan(/Fetching URL:/).length.must_equal 0
+      out.stdout.wont_match(/Fetching URL:/)
+
+      assert_exit_code 0, out
     end
   end
 
   it "can move vendor files into custom vendor cache" do
     prepare_examples("meta-profile") do |dir|
       out = inspec("vendor " + dir + " --overwrite")
-      out.stderr.must_equal ""
-      out.exit_status.must_equal 0
 
       File.exist?(File.join(dir, "vendor")).must_equal true
       File.exist?(File.join(dir, "inspec.lock")).must_equal true
       File.exist?(File.join(dir, "vendor_cache")).must_equal false
 
+      out.stderr.must_equal ""
+
+      assert_exit_code 0, out
+
+      # TODO: split
       # Run `inspec exec` to create vendor cache
       inspec("exec " + dir + " --vendor-cache " + dir + "/vendor_cache")
+      # TODO: capture out and test exit/stderr?
 
       File.exist?(File.join(dir, "vendor_cache")).must_equal true
       vendor_files = Dir.entries("#{dir}/vendor/").sort
@@ -193,8 +222,6 @@ describe "example inheritance profile" do
       FileUtils.cp_r(local_depends_path + "/.", profile_tmpdir)
 
       out = inspec("vendor " + profile_tmpdir + " --overwrite")
-      out.stderr.must_equal ""
-      out.exit_status.must_equal 0
 
       vendor_list = Dir.glob(File.join(profile_tmpdir, "vendor", "*"))
       vendor_list.length.must_equal 3
@@ -203,6 +230,10 @@ describe "example inheritance profile" do
         File.directory?(entry).must_equal true
         Dir.glob(File.join(entry, "*")).length.must_be(:>=, 1)
       end
+
+      out.stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
   end
 
@@ -213,12 +244,14 @@ describe "example inheritance profile" do
       FileUtils.cp_r(archive_depends_path + "/.", tmpdir)
 
       out = inspec("vendor " + tmpdir + " --overwrite")
-      out.stderr.must_equal ""
-      out.exit_status.must_equal 0
 
       Dir.glob(File.join(tmpdir, "vendor", "*")).each do |file|
         file.wont_match(/(\.tar.*$|\.zip$)/)
       end
+
+      out.stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
   end
 
@@ -229,8 +262,10 @@ describe "example inheritance profile" do
       FileUtils.cp_r(archive_depends_path + "/.", tmpdir)
 
       out = inspec("vendor " + tmpdir)
+
       out.stderr.must_equal ""
-      out.exit_status.must_equal 0
+
+      assert_exit_code 0, out
     end
   end
 end

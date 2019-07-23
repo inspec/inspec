@@ -18,10 +18,6 @@ describe "InSpec UI behavior" do
   include PluginFunctionalHelper
   include VisibleSpaces
 
-  before do
-    skip_windows!
-  end
-
   let(:plugin_path) { File.join(mock_path, "plugins", "inspec-test-ui", "lib", "inspec-test-ui") }
   let(:run_result) { run_inspec_with_plugin("#{pre_opts} testui #{feature} #{post_opts}", plugin_path: plugin_path) }
   let(:pre_opts) { "" }
@@ -36,8 +32,10 @@ describe "InSpec UI behavior" do
 
  ───────────────────────────────── \e[1m\e[37mBig News!\e[0m ───────────────────────────────── \n
         EOT
+
         show_spaces(run_result.stdout).must_equal show_spaces(expected)
-        run_result.exit_status.must_equal 0
+
+        assert_exit_code 0, run_result
       end
     end
 
@@ -53,8 +51,10 @@ describe "InSpec UI behavior" do
           │ Talking Heads        │ Moderate │ High      │
           └──────────────────────┴──────────┴───────────┘
         EOT
+
         show_spaces(run_result.stdout).must_equal show_spaces(expected)
-        run_result.exit_status.must_equal 0
+
+        assert_exit_code 0, run_result
       end
     end
 
@@ -64,8 +64,10 @@ describe "InSpec UI behavior" do
         expected = <<~EOT
           \e[1m\e[33mWARNING:\e[0m Things will be OK in the end
         EOT
+
         show_spaces(run_result.stdout).must_equal show_spaces(expected)
-        run_result.exit_status.must_equal 0
+
+        assert_exit_code 0, run_result
       end
     end
 
@@ -75,8 +77,10 @@ describe "InSpec UI behavior" do
         expected = <<~EOT
           \e[1m\e[38;5;9mERROR:\e[0m Burned down, fell over, and then sank into the swamp.
         EOT
+
         show_spaces(run_result.stdout).must_equal show_spaces(expected)
-        run_result.exit_status.must_equal 0
+
+        assert_exit_code 0, run_result
       end
     end
 
@@ -86,8 +90,10 @@ describe "InSpec UI behavior" do
         expected = <<-EOT
  \e[1m\e[37m•\e[0m TODO: make more lists
         EOT
+
         show_spaces(run_result.stdout).must_equal show_spaces(expected)
-        run_result.exit_status.must_equal 0
+
+        assert_exit_code 0, run_result
       end
     end
   end
@@ -114,8 +120,10 @@ describe "InSpec UI behavior" do
           ERROR: Burned down, fell over, and then sank into the swamp.
            * TODO: make more lists
         EOT
+
         show_spaces(run_result.stdout).must_equal show_spaces(expected)
-        run_result.exit_status.must_equal 0
+
+        assert_exit_code 0, run_result
       end
     end
   end
@@ -126,6 +134,7 @@ describe "InSpec UI behavior" do
       it "has correct output" do
         run_result.stderr.must_equal ""
         run_result.stdout.must_equal "test exit normal\n"
+
         assert_exit_code 0, run_result
       end
     end
@@ -135,6 +144,7 @@ describe "InSpec UI behavior" do
       it "has correct output" do
         run_result.stderr.must_equal "" # ie, we intentionally exit-1'd; not a crash
         run_result.stdout.must_equal "test exit usage_error\n"
+
         assert_exit_code 1, run_result
       end
     end
@@ -144,6 +154,7 @@ describe "InSpec UI behavior" do
       it "has correct output" do
         run_result.stderr.must_equal ""
         run_result.stdout.must_equal "test exit plugin_error\n"
+
         assert_exit_code 2, run_result
       end
     end
@@ -153,6 +164,7 @@ describe "InSpec UI behavior" do
       it "has correct output" do
         run_result.stderr.must_equal ""
         run_result.stdout.must_equal "test exit skipped_tests\n"
+
         assert_exit_code 101, run_result
       end
     end
@@ -162,6 +174,7 @@ describe "InSpec UI behavior" do
       it "has correct output" do
         run_result.stderr.must_equal ""
         run_result.stdout.must_equal "test exit failed_tests\n"
+
         assert_exit_code 100, run_result
       end
     end
@@ -175,6 +188,7 @@ describe "InSpec UI behavior" do
         let(:feature) { "interactive" }
         it "should report the interactive flag is on" do
           run_result.stdout.must_include "true"
+
           assert_exit_code 0, run_result
         end
       end
@@ -191,6 +205,7 @@ describe "InSpec UI behavior" do
           let(:feature) { "prompt" }
           it "should launch apollo" do
             run_result.stdout.must_include "Apollo"
+
             assert_exit_code 0, run_result
           end
         end
@@ -204,6 +219,7 @@ describe "InSpec UI behavior" do
       let(:feature) { "interactive" }
       it "should report the interactive flag is off" do
         run_result.stdout.must_include "false"
+
         assert_exit_code 0, run_result
       end
     end
@@ -212,6 +228,7 @@ describe "InSpec UI behavior" do
       let(:feature) { "prompt" }
       it "should crash with stacktrace" do
         run_result.stderr.must_include "Inspec::UserInteractionRequired"
+
         assert_exit_code 1, run_result
       end
     end

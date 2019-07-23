@@ -34,9 +34,7 @@ describe "inspec exec" do
 
   it "can execute the profile" do
     inspec("exec " + example_profile + " --no-create-lockfile")
-    stderr.must_equal ""
-    out.exit_status.must_equal 101
-    stdout = out.stdout.force_encoding(Encoding::UTF_8)
+
     stdout.must_include "\e[38;5;41m  ✔  tmp-1.0: Create /tmp directory\e[0m\n"
     stdout.must_include "
 \e[38;5;247m  ↺  gordon-1.0: Verify the version number of Gordon (1 skipped)\e[0m
@@ -51,13 +49,16 @@ describe "inspec exec" do
       stdout.must_include "\nProfile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, \e[38;5;247m1 control skipped\e[0m\n"
       stdout.must_include "\nTest Summary: \e[38;5;41m4 successful\e[0m, 0 failures, \e[38;5;247m1 skipped\e[0m\n"
     end
+
+    stderr.must_equal ""
+
+    assert_exit_code 101, out
   end
 
   it "executes a minimum metadata-only profile" do
     inspec("exec " + File.join(profile_path, "simple-metadata") + " --no-create-lockfile")
-    stderr.must_equal ""
-    out.exit_status.must_equal 0
-    out.stdout.must_equal "
+
+    stdout.must_equal "
 Profile: yumyum profile
 Version: (not specified)
 Target:  local://
@@ -66,51 +67,67 @@ Target:  local://
 
 Test Summary: 0 successful, 0 failures, 0 skipped
 "
+    stderr.must_equal ""
+
+    assert_exit_code 0, out
   end
 
   it "can execute the profile and write to directory" do
     outpath = Dir.tmpdir
     inspec("exec #{example_profile} --no-create-lockfile --reporter json:#{outpath}/foo/bar/test.json")
-    stderr.must_equal ""
-    out.exit_status.must_equal 101
+
     File.exist?("#{outpath}/foo/bar/test.json").must_equal true
     File.stat("#{outpath}/foo/bar/test.json").size.must_be :>, 0
+
+    stderr.must_equal ""
+
+    assert_exit_code 101, out
   end
 
   it "can execute --help after exec command" do
     inspec("exec --help")
+
+    stdout.must_include "Usage:\n  inspec exec LOCATIONS"
+
     stderr.must_equal ""
-    out.exit_status.must_equal 0
-    out.stdout.must_include "Usage:\n  inspec exec LOCATIONS"
+
+    assert_exit_code 0, out
   end
 
   it "can execute help after exec command" do
     inspec("exec help")
+
+    stdout.must_include "Usage:\n  inspec exec LOCATIONS"
+
     stderr.must_equal ""
-    out.exit_status.must_equal 0
-    out.stdout.must_include "Usage:\n  inspec exec LOCATIONS"
+
+    assert_exit_code 0, out
   end
 
   it "can execute help before exec command" do
     inspec("help exec")
+
+    stdout.must_include "Usage:\n  inspec exec LOCATIONS"
+
     stderr.must_equal ""
-    out.exit_status.must_equal 0
-    out.stdout.must_include "Usage:\n  inspec exec LOCATIONS"
+
+    assert_exit_code 0, out
   end
 
   it "can execute the profile with a target_id passthrough" do
     inspec("exec #{example_profile} --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444")
-    stderr.must_equal ""
-    out.exit_status.must_equal 101
-    stdout = out.stdout.force_encoding(Encoding::UTF_8)
+
     stdout.must_include "Target ID: 1d3e399f-4d71-4863-ac54-84d437fbc444"
+
+    stderr.must_equal ""
+
+    assert_exit_code 101, out
   end
 
   it "executes a metadata-only profile" do
     inspec("exec " + File.join(profile_path, "complete-metadata") + " --no-create-lockfile")
-    stderr.must_equal ""
-    out.exit_status.must_equal 0
-    out.stdout.must_equal "
+
+    stdout.must_equal "
 Profile: title (name)
 Version: 1.2.3
 Target:  local://
@@ -119,18 +136,25 @@ Target:  local://
 
 Test Summary: 0 successful, 0 failures, 0 skipped
 "
+
+    stderr.must_equal ""
+
+    assert_exit_code 0, out
   end
 
   it "executes a profile and reads inputs" do
     inspec("exec #{File.join(examples_path, "profile-attribute")} --no-create-lockfile --input-file #{File.join(examples_path, "profile-attribute.yml")}")
-    stderr.must_equal ""
-    out.exit_status.must_equal 0
+
     stdout.must_include "Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped"
+
+    stderr.must_equal ""
+
+    assert_exit_code 0, out
   end
 
   it "executes a specs-only profile" do
     inspec("exec " + File.join(profile_path, "spec_only") + " --no-create-lockfile")
-    stderr.must_equal ""
+
     stdout.must_include "Target:  local://"
     stdout.must_include "working"
     stdout.must_include "✔  should eq \"working\""
@@ -139,79 +163,109 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     stdout.must_include "failing"
     stdout.must_include "×  should eq \"as intended\""
     stdout.must_include "Test Summary: \e[38;5;41m1 successful\e[0m, \e[38;5;9m1 failure\e[0m, \e[38;5;247m1 skipped\e[0m\n"
-    out.exit_status.must_equal 100
+
+    stderr.must_equal ""
+
+    assert_exit_code 100, out
   end
 
   it "executes only specified controls when selecting passing controls by literal names" do
     inspec("exec " + File.join(profile_path, "filter_table") + " --no-create-lockfile --controls 2943_pass_undeclared_field_in_hash 2943_pass_irregular_row_key")
+
     stdout.must_include "\nProfile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, 0 controls skipped\n"
-    out.exit_status.must_equal 0
+
+    stderr.must_equal ""
+
+    assert_exit_code 0, out
   end
 
   it "executes only specified controls when selecting failing controls by literal names" do
     inspec("exec " + File.join(profile_path, "filter_table") + " --no-create-lockfile --controls 2943_fail_derail_check")
+
     stdout.must_include "\nProfile Summary: 0 successful controls, \e[38;5;9m1 control failure\e[0m, 0 controls skipped"
-    out.exit_status.must_equal 100
+
+    stderr.must_equal ""
+
+    assert_exit_code 100, out
   end
 
   it "executes only specified controls when selecting passing controls by regex" do
     inspec("exec " + File.join(profile_path, "filter_table") + " --no-create-lockfile --controls '/^2943_pass/'")
+
     stdout.must_include "Profile Summary: \e[38;5;41m6 successful controls\e[0m, 0 control failures, 0 controls skipped"
-    out.exit_status.must_equal 0
+
+    assert_exit_code 0, out
   end
 
   it "executes only specified controls when selecting failing controls by regex" do
     inspec("exec " + File.join(profile_path, "filter_table") + " --no-create-lockfile --controls '/^2943_fail/'")
+
     stdout.must_include "Profile Summary: 0 successful controls, \e[38;5;9m1 control failure\e[0m, 0 controls skipped"
-    out.exit_status.must_equal 100
+
+    stderr.must_equal ""
+
+    assert_exit_code 100, out
   end
 
   it "can execute a simple file with the default formatter" do
     inspec("exec " + example_control + " --no-create-lockfile")
+
+    stdout.must_include "\nProfile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, 0 controls skipped\n"
+    stdout.must_include "\nTest Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
+
     stderr.must_equal ""
-    out.stdout.must_include "\nProfile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, 0 controls skipped\n"
-    out.stdout.must_include "\nTest Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
-    out.exit_status.must_equal 0
+
+    assert_exit_code 0, out
   end
 
   it "does not vendor profiles when using the a local path dependecy" do
     Dir.mktmpdir do |tmpdir|
       command = "exec " + inheritance_profile + " --no-create-lockfile"
       inspec_with_env(command, INSPEC_CONFIG_DIR: tmpdir)
-      stderr.must_equal ""
+
       if is_windows?
-        out.stdout.must_include "Profile Summary: 0 successful controls, 0 control failures, \e[38;5;247m2 controls skipped\e[0m\n"
-        out.stdout.must_include "Test Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m1 failure\e[0m, \e[38;5;247m3 skipped\e[0m\n"
+        stdout.must_include "Profile Summary: 0 successful controls, 0 control failures, \e[38;5;247m2 controls skipped\e[0m\n"
+        stdout.must_include "Test Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m1 failure\e[0m, \e[38;5;247m3 skipped\e[0m\n"
       else
-        out.stdout.must_include "Profile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, \e[38;5;247m1 control skipped\e[0m\n"
-        out.stdout.must_include "Test Summary: \e[38;5;41m3 successful\e[0m, \e[38;5;9m1 failure\e[0m, \e[38;5;247m2 skipped\e[0m\n"
+        stdout.must_include "Profile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, \e[38;5;247m1 control skipped\e[0m\n"
+        stdout.must_include "Test Summary: \e[38;5;41m3 successful\e[0m, \e[38;5;9m1 failure\e[0m, \e[38;5;247m2 skipped\e[0m\n"
       end
       out.exit_status.must_equal 100
       cache_dir = File.join(tmpdir, "cache")
       Dir.exist?(cache_dir).must_equal true
       Dir.glob(File.join(cache_dir, "**", "*")).must_be_empty
+
+      stderr.must_equal ""
+
+      assert_exit_code 100, out
     end
   end
 
   describe "with a profile that is not supported on this OS/platform" do
     let(:out) { inspec("exec " + File.join(profile_path, "skippy-profile-os") + " --no-create-lockfile") }
-    let(:json) { JSON.load(out.stdout) }
+    let(:json) { JSON.load(stdout) }
 
     it "exits with skip message" do
-      out.stdout.must_include("Skipping profile: 'skippy' on unsupported platform:")
-      out.exit_status.must_equal 101
+      stdout.must_include("Skipping profile: 'skippy' on unsupported platform:")
+
+      stderr.must_equal ""
+
+      assert_exit_code 101, out
     end
   end
 
   describe "with a profile that contains skipped controls" do
     let(:out) { inspec("exec " + File.join(profile_path, "skippy-controls") + " --no-create-lockfile") }
-    let(:json) { JSON.load(out.stdout) }
+    let(:json) { JSON.load(stdout) }
 
     it "exits with an error" do
       stdout.must_include "skippy\e[0m\n\e[38;5;247m     ↺  This will be skipped super intentionally.\e[0m\n"
       stdout.must_include "  ↺  CONTROL database: MySQL Session\e[0m\n\e[38;5;247m     ↺  Can't run MySQL SQL checks without authentication\e[0m\n"
       stdout.must_include "Profile Summary: 0 successful controls, 0 control failures, \e[38;5;247m2 controls skipped\e[0m\nTest Summary: 0 successful, 0 failures, \e[38;5;247m2 skipped\e[0m\n"
-      out.exit_status.must_equal 101
+
+      stderr.must_equal ""
+
+      assert_exit_code 101, out
     end
   end
 
@@ -219,9 +273,11 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec("exec " + File.join(profile_path, "skippy-controls") + " --no-distinct-exit --no-create-lockfile") }
 
     it "exits with code 0 and skipped tests in output" do
-      stderr.must_equal ""
       stdout.must_include "Profile Summary: 0 successful controls, 0 control failures, \e[38;5;247m2 controls skipped\e[0m\nTest Summary: 0 successful, 0 failures, \e[38;5;247m2 skipped\e[0m\n"
-      out.exit_status.must_equal 0
+
+      stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
   end
 
@@ -229,9 +285,11 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec("exec " + File.join(profile_path, "failures") + " --no-distinct-exit --no-create-lockfile") }
 
     it "exits with code 1" do
-      stderr.must_equal ""
       stdout.must_include "Profile Summary: 0 successful controls, \e[38;5;9m2 control failures\e[0m, 0 controls skipped"
-      out.exit_status.must_equal 1
+
+      stderr.must_equal ""
+
+      assert_exit_code 1, out
     end
   end
 
@@ -239,11 +297,13 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec("exec " + File.join(profile_path, "aws-profile")) }
     it "exits with an error" do
       skip if ENV["NO_AWS"]
+
       stdout.must_include "Resource `aws_iam_users` is not supported on platform"
       stdout.must_include "Resource `aws_iam_access_keys` is not supported on platform"
       stdout.must_include "Resource `aws_s3_bucket` is not supported on platform"
       stdout.must_include "3 failures"
-      out.exit_status.must_equal 100
+
+      assert_exit_code 100, out
     end
   end
 
@@ -252,7 +312,8 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
     it "exits cleanly" do
       stderr.must_equal ""
-      out.exit_status.must_equal 0
+
+      assert_exit_code 0, out
     end
   end
 
@@ -261,7 +322,8 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
     it "does not support this profile" do
       stderr.must_equal "This profile requires Chef InSpec version >= 99.0.0. You are running Chef InSpec v#{Inspec::VERSION}.\n"
-      out.exit_status.must_equal 1
+
+      assert_exit_code 1, out
     end
   end
 
@@ -269,7 +331,9 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec("exec " + File.join(profile_path, "library") + " --no-create-lockfile") }
 
     it "executes the profile without error" do
-      out.exit_status.must_equal 0
+      stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
   end
 
@@ -297,7 +361,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     let(:out) { inspec("exec " + failure_control + " --no-create-lockfile") }
 
     it "prints the exception message when a test has a syntax error" do
-      out.stdout.must_include "undefined method `should_nota' "
+      stdout.must_include "undefined method `should_nota' "
     end
   end
 
@@ -343,38 +407,52 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
   describe "using namespaced resources" do
     it "works" do
       inspec("exec " + File.join(profile_path, "dependencies", "resource-namespace") + " --no-create-lockfile")
-      stderr.must_equal ""
+
       stdout.must_include "Profile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, 0 controls skipped\n"
-      out.exit_status.must_equal 0
+
+      stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
   end
 
   describe "with require_controls" do
     it "does not run rules you did not include" do
       inspec("exec " + File.join(profile_path, "dependencies", "require_controls_test") + " --no-create-lockfile")
-      stderr.must_equal ""
+
       stdout.must_include "Profile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, 0 controls skipped\n"
-      out.exit_status.must_equal 0
+
+      stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
   end
 
   describe "with a 2-level dependency tree" do
     it "correctly runs tests from the whole tree" do
       inspec("exec " + File.join(profile_path, "dependencies", "inheritance") + " --no-create-lockfile")
-      stderr.must_equal ""
+
       stdout.must_include "Profile Summary: \e[38;5;41m6 successful controls\e[0m, 0 control failures, 0 controls skipped\n"
-      out.exit_status.must_equal 0
+
+      stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
   end
 
   describe "when using profiles on the supermarket" do
     it "can run supermarket profiles directly from the command line" do
       inspec("exec supermarket://nathenharvey/tmp-compliance-profile --no-create-lockfile")
+
       if is_windows?
         stdout.must_include "Profile Summary: \e[38;5;41m1 successful control\e[0m, \e[38;5;9m1 control failure\e[0m, 0 controls skipped\n"
       else
         stdout.must_include "Profile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, 0 controls skipped\n"
       end
+
+      stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
 
     it "can run supermarket profiles from inspec.yml" do
@@ -384,14 +462,23 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       else
         stdout.must_include "Profile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, 0 controls skipped\n"
       end
+
+      stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
   end
 
   describe "when a dependency does not support our backend platform" do
     it "skips the controls from that profile" do
       inspec("exec #{File.join(profile_path, "profile-support-skip")} --no-create-lockfile")
+
       stdout.must_include "WARN: Skipping profile"
       stdout.must_include "0 successful, 0 failures, 0 skipped\n"
+
+      stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
   end
 
@@ -399,8 +486,10 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     it "must print an error and exit" do
       inspec("exec #{File.join(profile_path, "profile-support-skip")} --sudo")
       str = "Sudo is only valid when running against a remote host. To run this locally with elevated privileges, run the command with `sudo ...`.\n"
-      stderr.force_encoding(Encoding::UTF_8).must_include str
-      out.exit_status.must_equal 1
+
+      stderr.must_include str
+
+      assert_exit_code 1, out
       # TODO: check for stacktrace
     end
   end
@@ -408,86 +497,104 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
   describe "when --no-color is used" do
     it "does not output color control characters" do
       inspec("exec " + File.join(profile_path, "simple-metadata") + " --no-color")
-      out.stdout.wont_include "\e[38"
-      out.exit_status.must_equal 0
+
+      stdout.wont_include "\e[38"
+
+      stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
   end
 
   describe "when --password is used" do
     it "raises an exception if no password is provided" do
       inspec("exec " + example_profile + " --password")
+
       stderr.must_include "Please provide a value for --password. For example: --password=hello."
-      out.exit_status.must_equal 1
+
+      assert_exit_code 1, out
     end
   end
 
   describe "when --sudo-password is used" do
     it "raises an exception if no sudo password is provided" do
       inspec("exec " + example_profile + " --sudo-password")
+
       stderr.must_include "Please provide a value for --sudo-password. For example: --sudo-password=hello."
-      out.exit_status.must_equal 1
+
+      assert_exit_code 1, out
     end
   end
 
   describe "when --bastion-host and --proxy_command is used" do
     it "raises an exception when both flags are provided" do
       inspec("exec " + example_profile + " -t ssh://dummy@dummy --password dummy --proxy_command dummy --bastion_host dummy")
+
       stderr.must_include "Client error, can't connect to 'ssh' backend: Only one of proxy_command or bastion_host needs to be specified"
-      out.exit_status.must_equal 1
+
+      assert_exit_code 1, out
     end
   end
 
   describe "when --winrm-transport is used" do
     it "raises an exception when an invalid transport is given" do
       inspec("exec " + example_profile + " -t winrm://administrator@dummy --password dummy --winrm-transport nonesuch")
+
       stderr.must_include "Client error, can't connect to 'winrm' backend: Unsupported transport type: :nonesuch\n"
-      out.exit_status.must_equal 1
+
+      assert_exit_code 1, out
     end
   end
 
   describe "with sensitive resources" do
     it "hides sensitive output" do
       inspec("exec " + sensitive_profile + " --no-create-lockfile")
-      stderr.must_equal ""
+
       stdout.must_include '×  should eq "billy"'
       stdout.must_include 'expected: "billy"'
       stdout.must_include 'got: "bob"'
       stdout.must_include '×  should eq "secret"'
       stdout.must_include "*** sensitive output suppressed ***"
       stdout.must_include "\nTest Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m2 failures\e[0m, 0 skipped\n"
-      out.exit_status.must_equal 100
+
+      stderr.must_equal ""
+
+      assert_exit_code 100, out
     end
   end
 
   describe "with a profile that loads dependencies" do
     let(:out) { inspec("exec " + File.join(profile_path, "profile-support-skip") + " --no-create-lockfile --reporter json") }
-    let(:json) { JSON.load(out.stdout) }
+    let(:json) { JSON.load(stdout) }
     let(:controls) { json["profiles"][0]["controls"] }
 
     it "skips loaded inherited profiles on unsupported platforms" do
       json["profiles"][0]["depends"][0]["name"].must_equal "unsupported_inspec"
       controls.must_be_empty
+
       stderr.must_include "WARN: Skipping profile"
     end
   end
 
   describe "with a profile containing exceptions in the controls" do
     let(:out) { inspec("exec " + File.join(profile_path, "exception-in-control") + " --no-create-lockfile --reporter json") }
-    let(:json) { JSON.load(out.stdout) }
+    let(:json) { JSON.load(stdout) }
     let(:controls) { json["profiles"][0]["controls"] }
 
     it "completes the run with failed controls but no exception" do
       stderr.must_be_empty
+
+      controls.count.must_equal 10
       controls.select { |c| c["results"][0]["status"] == "failed" }.count.must_be :>, 1
       controls.select { |c| c["results"][0]["status"] == "passed" }.count.must_be :>, 1
-      controls.count.must_equal 10
-      out.exit_status.must_equal 100
+
+      assert_exit_code 100, out
     end
   end
 
   describe "with a profile containing control overrides" do
     let(:out) { inspec("exec " + File.join(profile_path, "wrapper-override") + " --no-create-lockfile --vendor-cache " + File.join(profile_path, "wrapper-override", "vendor") + " --reporter json") }
-    let(:json) { JSON.load(out.stdout) }
+    let(:json) { JSON.load(stdout) }
     let(:controls) { json["profiles"][0]["controls"] }
     let(:child_profile) { json["profiles"].select { |p| p["name"] == "myprofile1" }.first }
     let(:child_control) { child_profile["controls"].select { |c| c["title"] == "Profile 1 - Control 2-updated" }.first }
@@ -550,6 +657,14 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
         end
       END
       child_control["code"].must_equal expected_value
+
+      stderr.must_be_empty
+
+      if is_windows?
+        assert_exit_code 100, out
+      else
+        assert_exit_code 0, out
+      end
     end
   end
 
@@ -558,7 +673,8 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
 
     it "completes the run with failed controls but no exception" do
       stderr.must_be_empty
-      out.exit_status.must_equal 0
+
+      assert_exit_code 0, out
     end
   end
 
@@ -567,7 +683,8 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
 
     it "completes the run with failed controls but no exception" do
       stderr.must_be_empty
-      out.exit_status.must_equal 0
+
+      assert_exit_code 0, out
     end
   end
 
@@ -586,8 +703,12 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
           '"'
         inspec_command = "exec " + target + " --reporter json-min"
         inspec(inspec_command, ssh_prefix)
-        JSON.parse(out.stdout)["controls"][0]["status"].must_equal "passed"
-        out.exit_status.must_equal 0
+
+        JSON.parse(stdout)["controls"][0]["status"].must_equal "passed"
+
+        stderr.must_equal ""
+
+        assert_exit_code 0, out
       end
     end
 
@@ -598,8 +719,12 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
         private_profile.userinfo = ENV["INSPEC_TEST_GITHUB_TOKEN"]
         inspec_command = "exec " + private_profile.to_s + " --reporter json-min"
         inspec(inspec_command)
-        JSON.parse(out.stdout)["controls"][0]["status"].must_equal "passed"
-        out.exit_status.must_equal 0
+
+        JSON.parse(stdout)["controls"][0]["status"].must_equal "passed"
+
+        stderr.must_equal ""
+
+        assert_exit_code 0, out
       end
     end
   end
@@ -636,20 +761,25 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
         # If you do, it will execute twice, and cause STDIN to read empty on the second time
         it "exec should see the custom target ID value" do
           result = run_inspec_process( "exec " + File.join(profile_path, "simple-metadata") + " " + cli_args + " ", opts )
+
           result.stderr.must_be_empty
           result.payload.json["platform"]["target_id"].must_equal "from-config-file"
         end
 
         it "detect should exit 0" do
           result = run_inspec_process( "detect " + cli_args + " ", opts )
+
           result.stderr.must_be_empty
-          result.exit_status.must_equal 0
+
+          assert_exit_code 0, result
         end
 
         it "shell should exit 0" do
           result = run_inspec_process( 'shell -c "platform.family" ' + cli_args + " ", opts )
+
           result.stderr.must_be_empty
-          result.exit_status.must_equal 0
+
+          assert_exit_code 0, result
         end
       end
     end
@@ -660,6 +790,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       let(:cli_args) { "" }
       it "should see the homedir target ID value" do
         stderr.must_be_empty
+
         seen_target_id.must_equal "from-fakehome-config-file"
       end
     end
@@ -670,7 +801,8 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
         stderr.wont_match looks_like_a_stacktrace
         stderr.must_include "Could not read configuration file" # Should specify error
         stderr.must_include "no/such/path" # Should include error value seen
-        run_result.exit_status.must_equal 1
+
+        assert_exit_code 1, run_result
       end
     end
 
@@ -680,7 +812,8 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
         stderr.wont_match looks_like_a_stacktrace
         stderr.must_include "Failed to load JSON"
         stderr.must_include "Config was:"
-        run_result.exit_status.must_equal 1
+
+        assert_exit_code 1, run_result
       end
     end
 
@@ -690,7 +823,8 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
         stderr.wont_match looks_like_a_stacktrace
         stderr.must_include "Unrecognized top-level configuration"
         stderr.must_include "this_key_is_invalid"
-        run_result.exit_status.must_equal 1
+
+        assert_exit_code 1, run_result
       end
     end
   end
@@ -726,7 +860,8 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
         # "Can't find train plugin garble. Please install it first"
         stderr.must_include "Can't find train plugin"
         stderr.must_include "garble"
-        run_result.exit_status.must_equal 1
+
+        assert_exit_code 1, run_result
       end
     end
 
@@ -737,7 +872,8 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
         # "Can't find train plugin garble. Please install it first"
         stderr.must_include "Can't find train plugin"
         stderr.must_include "garble"
-        run_result.exit_status.must_equal 1
+
+        assert_exit_code 1, run_result
       end
     end
 
@@ -753,7 +889,8 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
         stderr.must_include "garble"
         stderr.must_include "ssh://somehost.com"
         stderr.must_include "transport://credset"
-        run_result.exit_status.must_equal 1
+
+        assert_exit_code 1, run_result
       end
     end
 

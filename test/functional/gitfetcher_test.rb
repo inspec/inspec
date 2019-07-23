@@ -6,8 +6,6 @@ require "yaml"
 describe "profiles with git-based dependencies" do
   include FunctionalHelper
   before(:all) do
-    skip_windows!
-
     @tmpdir = Dir.mktmpdir
     @profile_dir = File.join(@tmpdir, "test-profile")
     @git_dep_dir = File.join(@tmpdir, "git-dep")
@@ -44,7 +42,9 @@ describe "profiles with git-based dependencies" do
 
   it "executes a profile with a git based dependency" do
     out = inspec("exec #{@profile_dir} --no-create-lockfile")
+
     out.stderr.must_equal ""
-    out.exit_status.must_equal 0
+
+    assert_exit_code 0, out
   end
 end

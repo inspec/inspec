@@ -4,24 +4,27 @@ require "rexml/document"
 describe "inspec exec with junit formatter" do
   include FunctionalHelper
 
-  before do
-    skip_windows!
-  end
-
   it "can execute a simple file with the junit formatter" do
     out = inspec("exec " + example_control + " --reporter junit --no-create-lockfile")
-    out.stderr.must_equal ""
-    out.exit_status.must_equal 0
+
     doc = REXML::Document.new(out.stdout)
     doc.has_elements?.must_equal true
+
+    out.stderr.must_equal ""
+
+    assert_exit_code 0, out
   end
 
   it "can execute the profile with the junit formatter" do
     out = inspec("exec " + example_profile + " --reporter junit --no-create-lockfile")
-    out.stderr.must_equal ""
-    out.exit_status.must_equal 101
+
+    # TODO: _never_ use rexml. Anything else is guaranteed faster
     doc = REXML::Document.new(out.stdout)
     doc.has_elements?.must_equal true
+
+    out.stderr.must_equal ""
+
+    assert_exit_code 101, out
   end
 
   describe "execute a profile with junit formatting" do
