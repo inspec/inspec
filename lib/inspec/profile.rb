@@ -48,6 +48,7 @@ module Inspec
     def self.for_path(path, opts)
       file_provider = FileProvider.for_path(path)
       rp = file_provider.relative_provider
+      rp.files.sort!
 
       # copy embedded dependencies into global cache
       copy_deps_into_cache(rp, opts) unless opts[:vendor_cache].nil?
