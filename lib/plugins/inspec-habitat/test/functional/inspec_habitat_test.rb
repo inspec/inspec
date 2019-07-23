@@ -5,7 +5,6 @@ class ProfileCli < Minitest::Test
   include CorePluginFunctionalHelper
 
   def setup
-    skip_windows!
     @tmpdir = Dir.mktmpdir
     @habitat_profile = File.join(@tmpdir, "habitat-profile")
     run_inspec_process("init profile " + @habitat_profile)

@@ -4,10 +4,6 @@ require_relative "../../../shared/core_plugin_test_helper.rb"
 class InitCli < Minitest::Test
   include CorePluginFunctionalHelper
 
-  def setup
-    skip_windows!
-  end
-
   def test_generating_inspec_profile
     Dir.mktmpdir do |dir|
       profile = File.join(dir, "test-profile")

@@ -3,10 +3,6 @@ require_relative "../../../shared/core_plugin_test_helper.rb"
 class InitPluginCli < Minitest::Test
   include CorePluginFunctionalHelper
 
-  def setup
-    skip_windows!
-  end
-
   def test_generating_inspec_plugin_correct_prefix_required
     Dir.mktmpdir do |dir|
       plugin = "wacky-name"
