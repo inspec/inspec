@@ -1,12 +1,9 @@
-require "minitest/autorun"
-# Other unit tests include the webmock framework, which is process-wide.
-# We need to disable it, or else mock many, many rubygems API calls.
-require "webmock/minitest"
+require "helper"
 
 require "fileutils"
 require "json"
-require_relative "../../../../lib/inspec/plugin/v2"
-require_relative "../../../../lib/inspec/plugin/v2/installer"
+require "inspec/plugin/v2"
+require "inspec/plugin/v2/installer"
 
 Gem.done_installing_hooks.clear # Remove rdoc generation
 

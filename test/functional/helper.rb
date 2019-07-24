@@ -108,10 +108,6 @@ module FunctionalHelper
     ENV["CHEF_LICENSE"] = "accept-no-persist"
   end
 
-  def skip_windows!
-    skip_until 2019, 7, 31, "These have never passed" if windows?
-  end
-
   def assert_exit_code(exp, cmd)
     exp = 1 if windows? && (exp != 0)
     assert_equal exp, cmd.exit_status
