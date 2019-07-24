@@ -15,7 +15,7 @@ describe "inspec exec" do
     data = JSON.parse(out.stdout)
     sout = inspec("schema exec-jsonmin")
     schema = JSON.parse(sout.stdout)
-    JSON::Validator.validate(schema, data).wont_equal false
+    JSON::Validator.validate(schema, data, validate_schema: true).wont_equal false
   end
 
   it "can execute a simple file with the mini json formatter and validate its schema" do
@@ -25,7 +25,7 @@ describe "inspec exec" do
     data = JSON.parse(out.stdout)
     sout = inspec("schema exec-jsonmin")
     schema = JSON.parse(sout.stdout)
-    JSON::Validator.validate(schema, data).wont_equal false
+    JSON::Validator.validate(schema, data, validate_schema: true).wont_equal false
   end
 
   it "does not contain any dupilcate results with describe.one" do
