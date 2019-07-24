@@ -1,6 +1,5 @@
 require "functional/helper"
-require "json-schema"
-require "inspec/schema"
+require "json_schemer"
 
 describe "inspec exec" do
   include FunctionalHelper
@@ -12,16 +11,47 @@ describe "inspec exec" do
 
   it "can execute a profile with the mini json formatter and validate its schema" do
     data = JSON.parse(out.stdout)
-    sout = Inspec::Schema.json("exec-jsonmin")
-    schema = JSON.parse(sout)
-    _(JSON::Validator.validate(schema, data)).wont_equal false
+    sout = inspec("schema exec-jsonmin")
+    schema = JSONSchemer.schema(sout.stdout)
+    schema.validate(data).to_a.must_equal []
 
-    _(out.stderr).must_equal ""
+    out.stderr.must_equal ""
 
     assert_exit_code 101, out
   end
 
-  it "does not contain any duplicate results with describe.one" do
+  it "can execute a simple file with the mini json formatter and validate its schema" do
+    out = inspec("exec " + example_control + " --reporter json-min --no-create-lockfile")
+    out.stderr.must_equal ""
+    out.exit_status.must_equal 0
+    data = JSON.parse(out.stdout)
+    sout = inspec("schema exec-jsonmin")
+    schema = JSONSchemer.schema(sout.stdout)
+    schema.validate(data).to_a.must_equal []
+
+    out.stderr.must_equal ""
+
+    skip_windows!
+    assert_exit_code 0, out
+  end
+
+  it "properly validates all (valid) unit tests against the schema" do
+    schema = JSONSchemer.schema(JSON.parse(inspec("schema exec-jsonmin").stdout))
+    all_profile_folders.each do |folder|
+      begin
+        out = inspec("exec " + folder + " --reporter json-min --no-create-lockfile")
+        # Ensure it parses properly; discard the result
+        out = JSON.parse(out.stdout)
+        failures = schema.validate(out).to_a
+        failures.must_equal []
+      rescue JSON::ParserError
+        # We don't actually care about these; cannot validate if parsing fails!
+        nil
+      end
+    end
+  end
+
+  it "does not contain any dupilcate results with describe.one" do
     out = inspec("shell -c 'describe.one do describe 1 do it { should cmp 2 } end end' --reporter=json-min")
     data = JSON.parse(out.stdout)
     _(data["controls"].length).must_equal 1
@@ -43,8 +73,8 @@ describe "inspec exec" do
       skip if windows?
     end
 
-    it "must have 5 examples" do
-      _(json["controls"].length).must_equal 5
+    it "must have 6 examples" do
+      json["controls"].length.must_equal 6
     end
 
     it "has an id" do

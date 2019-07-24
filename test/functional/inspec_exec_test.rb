@@ -53,9 +53,9 @@ describe "inspec exec" do
       _(stdout).must_include "\nProfile Summary: 1 successful control, 0 control failures, 2 controls skipped\n"
       _(stdout).must_include "\nTest Summary: 3 successful, 0 failures, 2 skipped\n"
     else
-      _(stdout).must_include "  ✔  ssh-1: Allow only SSH Protocol 2\n"
-      _(stdout).must_include "\nProfile Summary: 2 successful controls, 0 control failures, 1 control skipped\n"
-      _(stdout).must_include "\nTest Summary: 4 successful, 0 failures, 1 skipped\n"
+      stdout.must_include "\e[38;5;41m  ✔  ssh-1: Allow only SSH Protocol 2\e[0m\n"
+      stdout.must_include "\nProfile Summary: \e[38;5;41m3 successful controls\e[0m, 0 control failures, \e[38;5;247m1 control skipped\e[0m\n"
+      stdout.must_include "\nTest Summary: \e[38;5;41m5 successful\e[0m, 0 failures, \e[38;5;247m1 skipped\e[0m\n"
     end
 
     _(stderr).must_equal ""
@@ -235,16 +235,15 @@ Test Summary: 0 successful, 0 failures, 0 skipped
         _(stdout).must_include "Profile Summary: 0 successful controls, 0 control failures, 2 controls skipped\n"
         _(stdout).must_include "Test Summary: 2 successful, 1 failure, 3 skipped\n"
       else
-        _(stdout).must_include "Profile Summary: 1 successful control, 0 control failures, 1 control skipped\n"
-        _(stdout).must_include "Test Summary: 3 successful, 1 failure, 2 skipped\n"
+        stdout.must_include "Profile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, \e[38;5;247m1 control skipped\e[0m\n"
+        stdout.must_include "Test Summary: \e[38;5;41m4 successful\e[0m, \e[38;5;9m1 failure\e[0m, \e[38;5;247m2 skipped\e[0m\n"
       end
 
       cache_dir = File.join(tmpdir, "cache")
       _(Dir.exist?(cache_dir)).must_equal true
       _(Dir.glob(File.join(cache_dir, "**", "*"))).must_be_empty
 
-      _(stderr).must_equal ""
-
+      stderr.must_equal ""
       assert_exit_code 100, out
     end
   end

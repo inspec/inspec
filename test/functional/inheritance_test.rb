@@ -54,8 +54,8 @@ describe "example inheritance profile" do
     _(out.stderr).must_equal ""
     s = out.stdout
     hm = JSON.load(s)
-    _(hm["name"]).must_equal "inheritance"
-    _(hm["controls"].length).must_equal 5
+    hm["name"].must_equal "inheritance"
+    hm["controls"].length.must_equal 6
     assert_exit_code 0, out
   end
 
@@ -65,8 +65,8 @@ describe "example inheritance profile" do
     _(out.stderr).must_equal ""
     s = out.stdout
     hm = JSON.load(s)
-    _(hm["name"]).must_equal "inheritance"
-    _(hm["controls"].length).must_equal 5
+    hm["name"].must_equal "inheritance"
+    hm["controls"].length.must_equal 6
     assert_exit_code 0, out
   end
 
