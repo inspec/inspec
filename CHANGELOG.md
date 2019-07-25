@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.7.23 -->
-## [v4.7.23](https://github.com/inspec/inspec/tree/v4.7.23) (2019-07-23)
+<!-- latest_release 4.7.24 -->
+## [v4.7.24](https://github.com/inspec/inspec/tree/v4.7.24) (2019-07-25)
 
 #### Merged Pull Requests
-- Fix exceptions when resources are used with incompatible transports [#4316](https://github.com/inspec/inspec/pull/4316) ([zenspider](https://github.com/zenspider))
+- bye netlify [#4332](https://github.com/inspec/inspec/pull/4332) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.18 -->
@@ -14,6 +14,7 @@
 - Suppress gem docs when installing plugins [#4286](https://github.com/inspec/inspec/pull/4286) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.7.20 -->
 
 #### Merged Pull Requests
+- bye netlify [#4332](https://github.com/inspec/inspec/pull/4332) ([miah](https://github.com/miah)) <!-- 4.7.24 -->
 - Fix exceptions when resources are used with incompatible transports [#4316](https://github.com/inspec/inspec/pull/4316) ([zenspider](https://github.com/zenspider)) <!-- 4.7.23 -->
 - Add windows to verify pipeline [#4325](https://github.com/inspec/inspec/pull/4325) ([miah](https://github.com/miah)) <!-- 4.7.22 -->
 - add resource sys_info.manufacturer and sys_info.model [#4230](https://github.com/inspec/inspec/pull/4230) ([yeoldegrove](https://github.com/yeoldegrove)) <!-- 4.7.21 -->
