@@ -18,6 +18,12 @@ module Schema
       },
     }, [])
 
+    # Lists the potential values for a control result
+    CONTROL_RESULT_STATUS = SchemaType.new("Control Result Status", {
+      "type" => "string",
+      "enum" => %w{passed failed skipped error}
+    }, [])
+
     # Represents the statistics/result of a control"s execution
     # TODO: Provide descriptions for these types
     CONTROL_RESULT = SchemaType.new("Control Result", {
@@ -25,7 +31,7 @@ module Schema
       "additionalProperties"  => false,
       "required"              => %w{status code_desc run_time start_time},
       "properties"            => {
-        "status"        => STRING,
+        "status"        => CONTROL_RESULT_STATUS.ref,
         "code_desc"     => STRING,
         "run_time"      => NUMBER,
         "start_time"    => STRING,
@@ -37,7 +43,7 @@ module Schema
         "exception"     => STRING,
         "backtrace"     => OBJECT,
       },
-    }, [])
+    }, [CONTROL_RESULT_STATUS])
 
     # Represents a control produced
     CONTROL = SchemaType.new("Exec JSON Control", {
