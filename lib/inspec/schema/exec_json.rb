@@ -7,6 +7,36 @@ require_relative "./primitives"
 
 module Schema
   module ExecJson
+    # Represents a label and description, to provide human-readable info about a control
+    CONTROL_DESCRIPTION = SchemaType.new("Control Description", {
+      "additionalProperties"  => false,
+      "required"              => %w{label data},
+      "properties"            => {
+        "label" => STRING,
+        "data"  => STRING,
+      },
+    }, [])
+
+    # Represents the statistics/result of a control"s execution
+    # TODO: Provide descriptions for these types
+    CONTROL_RESULT = SchemaType.new("Control Result", {
+      "additionalProperties"  => false,
+      "required"              => %w{status code_desc run_time start_time},
+      "properties"            => {
+        "status"        => STRING,
+        "code_desc"     => STRING,
+        "run_time"      => NUMBER,
+        "start_time"    => STRING,
+  
+        # All optional
+        "resource"      => STRING,
+        "message"       => STRING,
+        "skip_message"  => STRING,
+        "exception"     => STRING,
+        "backtrace"     => OBJECT,
+      },
+    }, [])
+
     # Represents a control produced
     CONTROL = SchemaType.new("Exec JSON Control", {
       "additionalProperties" => false,
