@@ -9,6 +9,7 @@ module Schema
   module ExecJsonMin
     # Represents a subset of the information about a control, designed for conciseness
     CONTROL = SchemaType.new("Exec JSON-MIN Control", {
+      "type" => "object",
       "additionalProperties"  => false,
       "required"              => %w{id profile_id profile_sha256 status code_desc},
       "properties"            => {
@@ -27,6 +28,7 @@ module Schema
 
     # Result of exec jsonmin. Top level value
     OUTPUT = SchemaType.new("Exec JSON-MIN output", {
+      "type" => "object",
       "additionalProperties"  => false,
       "required"              => %w{statistics controls version},
       "properties"            => {

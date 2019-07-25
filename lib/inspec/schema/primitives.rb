@@ -49,7 +49,6 @@ module Schema
     def body
       @body.merge({
           "title" => @name,
-          "type" => "object",
       })
     end
 
@@ -110,6 +109,7 @@ module Schema
   # and "description" (via the describe function) to describe its particular usage
   # Summary item containing run statistics about a subset of the controls
   STATISTIC_ITEM = SchemaType.new("Statistic Block", {
+    "type" => "object",
     "additionalProperties" => false,
     "required" => ["total"],
     "properties" => {
@@ -119,6 +119,7 @@ module Schema
 
   # Bundles several results statistics, representing distinct groups of controls
   STATISTIC_GROUPING = SchemaType.new("Statistic Hash", {
+    "type" => "object",
     "additionalProperties" => false,
     "required" => [],
     "properties" => {
@@ -130,6 +131,7 @@ module Schema
 
   # Contains statistics of an exec run.
   STATISTICS = SchemaType.new("Statistics", {
+    "type" => "object",
     "additionalProperties" => false,
     "required" => ["duration"],
     "properties" => {
@@ -140,6 +142,7 @@ module Schema
 
   # Represents the platform the test was run on
   PLATFORM = SchemaType.new("Platform", {
+    "type" => "object",
     "additionalProperties" => false,
     "required" => %w{name release},
     "properties" => {
@@ -151,6 +154,7 @@ module Schema
 
   # Explains what software ran the inspec profile/made this file. Typically inspec but could in theory be a different software
   GENERATOR = SchemaType.new("Generator", {
+    "type" => "object",
     "additionalProperties"  => false,
     "required"              => %w{name version},
     "properties"            => {
@@ -163,6 +167,7 @@ module Schema
   # Occurs from "exec --reporter json" and "inspec json"
   # Denotes what file this control comes from, and where within
   SOURCE_LOCATION = SchemaType.new("Source Location", {
+    "type" => "object",
     "additionalProperties"  => false,
     "properties"            => {
       "ref"   => desc(STRING, "Path to the file that this statement originates from"),
@@ -177,14 +182,17 @@ module Schema
     # Needs at least one of title (ref), url, or uri.
     "anyOf" => [
       {
+        "type" => "object",
         "required"   => ["ref"],
         "properties" => { "ref" => STRING },
       },
       {
+        "type" => "object",
         "required"   => ["url"],
         "properties" => { "url" => STRING },
       },
       {
+        "type" => "object",
         "required"   => ["uri"],
         "properties" => { "uri" => STRING },
       },
@@ -193,6 +201,7 @@ module Schema
 
   # Represents a group of controls within a profile/.rb file
   CONTROL_GROUP = SchemaType.new("Control Group", {
+    "type" => "object",
     "additionalProperties"  => false,
     "required"              => %w{id controls},
     "properties"            => {
@@ -205,6 +214,7 @@ module Schema
   # Occurs from "inspec exec --reporter json" and "inspec json"
   # Represents a platfrom or group of platforms that this profile supports
   SUPPORT = SchemaType.new("Supported Platform", {
+    "type" => "object",
     "additionalProperties"  => false,
     "required"              => ["platform-family"],
     "properties"            => {

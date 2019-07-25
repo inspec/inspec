@@ -9,6 +9,7 @@ module Schema
   module ExecJson
     # Represents a label and description, to provide human-readable info about a control
     CONTROL_DESCRIPTION = SchemaType.new("Control Description", {
+      "type" => "object",
       "additionalProperties"  => false,
       "required"              => %w{label data},
       "properties"            => {
@@ -20,6 +21,7 @@ module Schema
     # Represents the statistics/result of a control"s execution
     # TODO: Provide descriptions for these types
     CONTROL_RESULT = SchemaType.new("Control Result", {
+      "type" => "object",
       "additionalProperties"  => false,
       "required"              => %w{status code_desc run_time start_time},
       "properties"            => {
@@ -39,6 +41,7 @@ module Schema
 
     # Represents a control produced
     CONTROL = SchemaType.new("Exec JSON Control", {
+      "type" => "object",
       "additionalProperties" => false,
       "required" => %w{id title desc descriptions impact refs tags code source_location results},
       "properties" => {
@@ -59,6 +62,7 @@ module Schema
     # However, concessions were made to the reality of current reporters, specifically
     # with how description is omitted and version/inspec_version aren't as advertised online
     PROFILE = SchemaType.new("Exec JSON Profile", {
+      "type" => "object",
       "additionalProperties" => false,
       "required" => %w{name sha256 supports attributes groups controls status},
       # Name is mandatory in inspec.yml.
@@ -90,6 +94,7 @@ module Schema
 
     # Result of exec json. Top level value
     OUTPUT = SchemaType.new("Exec JSON Output", {
+      "type" => "object",
       "additionalProperties" => false,
       "required" => %w{platform profiles statistics version},
       "properties" => {

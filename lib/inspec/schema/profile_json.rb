@@ -9,6 +9,7 @@ module Schema
   module ProfileJson
     # Represents descriptions. Can have any string => string pairing
     DESCRIPTIONS = SchemaType.new("Profile JSON Descriptions", {
+      "type" => "object",
       "aditionalProperties" => STRING,
       "required" => [],
     }, [])
@@ -17,6 +18,7 @@ module Schema
     # Differs slightly from a normal control, in that it lacks results, and its descriptions are different
     # TODO: Attempt to unify this with the CONTROL type
     CONTROL = SchemaType.new("Profile JSON Control", {
+      "type" => "object",
       "additionalProperties"  => false,
       "required"              => %w{title desc descriptions impact refs tags code source_location id},
       "properties"            => {
@@ -35,6 +37,7 @@ module Schema
     # A profile that has not been run.
     # TODO: Try to unify with the exec version
     PROFILE = SchemaType.new("Profile JSON Profile", {
+      "type" => "object",
       "additionalProperties"  => true, # Anything in the yaml will be put in here
       "required"              => %w{name supports controls groups inputs sha256 status},
       "properties"            => {
