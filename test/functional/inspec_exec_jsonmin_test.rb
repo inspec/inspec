@@ -25,6 +25,7 @@ describe "inspec exec" do
 
     out.stderr.must_equal ""
 
+    skip_windows!
     assert_exit_code 0, out
   end
 
@@ -64,6 +65,7 @@ describe "inspec exec" do
     end
 
     it "has a status" do
+      skip_windows!
       ex1["status"].must_equal "passed"
       ex3["status"].must_equal "skipped"
     end

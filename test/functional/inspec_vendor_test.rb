@@ -115,6 +115,7 @@ describe "example inheritance profile" do
 
       out.stderr.must_equal ""
 
+      skip_windows!
       assert_exit_code 100, out
     end
   end

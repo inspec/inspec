@@ -14,6 +14,7 @@ describe "inspec exec with json formatter" do
 
     out.stderr.must_equal ""
 
+    skip_windows!
     assert_exit_code 0, out
   end
 
@@ -39,6 +40,7 @@ describe "inspec exec with json formatter" do
 
     out.stderr.must_equal ""
 
+    skip_windows!
     assert_exit_code 0, out
   end
 
@@ -66,6 +68,7 @@ describe "inspec exec with json formatter" do
     out.stderr.must_include "WARN: Skipping profile: 'child_profile' on unsupported platform:"
     out.stderr.must_include "WARN: Skipping profile: 'child_profile2' on unsupported platform:"
 
+    skip_windows!
     assert_exit_code 0, out
   end
 
@@ -82,6 +85,7 @@ describe "inspec exec with json formatter" do
       d["skip_message"].must_include "Skipping profile: "
     end
 
+    skip_windows!
     assert_exit_code 0, out
   end
 
@@ -99,6 +103,7 @@ describe "inspec exec with json formatter" do
 
     out.stderr.must_equal ""
 
+    skip_windows!
     assert_exit_code 0, out
   end
 
@@ -186,6 +191,7 @@ describe "inspec exec with json formatter" do
 
       result = actual.delete("results")[0]
       result.wont_be :nil?
+      skip_windows!
       result["status"].must_equal "passed"
       result["code_desc"].must_equal "File /tmp should be directory"
       result["run_time"].wont_be :nil?
