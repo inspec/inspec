@@ -3,41 +3,46 @@ require "functional/helper"
 describe "inspec shell tests" do
   include FunctionalHelper
 
-  before do
-    skip_windows!
-  end
-
   describe "cmd" do
-    def do_shell_c(code, exit_status, json = false, stderr = "")
+    def assert_shell_c(code, exit_status, json = false, stderr = "")
       json_suffix = " --reporter 'json'" if json
       command = "shell -c '#{code.tr("'", '\\\'')}'#{json_suffix}"
       out = inspec(command)
+
       out.stderr.must_equal stderr
-      out.exit_status.must_equal exit_status
+
+      assert_exit_code exit_status, out
+
       out
     end
 
     it "loads a dependency" do
       res = inspec("shell -c 'gordon_config' --depends #{example_profile}")
-      res.stderr.must_equal ""
-      res.exit_status.must_equal 0
+
       res.stdout.chop.must_equal "gordon_config"
+
+      res.stderr.must_equal ""
+
+      assert_exit_code 0, res
     end
 
     it "confirm file caching is disabled" do
-      out = do_shell_c("inspec.backend.cache_enabled?(:file)", 0)
+      out = assert_shell_c("inspec.backend.cache_enabled?(:file)", 0)
+
       out.stdout.chop.must_equal "false"
     end
 
     it "confirm command caching is disabled" do
-      out = do_shell_c("inspec.backend.cache_enabled?(:command)", 0)
+      out = assert_shell_c("inspec.backend.cache_enabled?(:command)", 0)
+
       out.stdout.chop.must_equal "false"
     end
 
     it "can run ruby expressions (json output)" do
       x = rand
       y = rand
-      out = do_shell_c("#{x} + #{y}", 0, true)
+      out = assert_shell_c("#{x} + #{y}", 0, true)
+
       j = JSON.load(out.stdout)
       j.must_equal x + y
     end
@@ -45,7 +50,8 @@ describe "inspec shell tests" do
     it "can run ruby expressions" do
       x = rand
       y = rand
-      out = do_shell_c("#{x} + #{y}", 0)
+      out = assert_shell_c("#{x} + #{y}", 0)
+
       out.stdout.must_equal "#{x + y}\n"
     end
 
@@ -53,7 +59,8 @@ describe "inspec shell tests" do
       # You cannot have a pipe in a windows command line
       return if is_windows?
 
-      out = do_shell_c("x = [1,2,3].inject(0) {|a,v| a + v*v}; x+10", 0, true)
+      out = assert_shell_c("x = [1,2,3].inject(0) {|a,v| a + v*v}; x+10", 0, true)
+
       j = JSON.load(out.stdout)
       j.must_equal 24 # 1^2 + 2^2 + 3^2 + 10
     end
@@ -62,12 +69,12 @@ describe "inspec shell tests" do
       # You cannot have a pipe in a windows command line
       return if is_windows?
 
-      out = do_shell_c("x = [1,2,3].inject(0) {|a,v| a + v*v}; x+10", 0)
+      out = assert_shell_c("x = [1,2,3].inject(0) {|a,v| a + v*v}; x+10", 0)
       out.stdout.must_equal "24\n"
     end
 
     it "retrieves resources (json output)" do
-      out = do_shell_c("platform.params", 0, true)
+      out = assert_shell_c("platform.params", 0, true)
       j = JSON.load(out.stdout)
       j.keys.must_include "name"
       j.keys.must_include "families"
@@ -76,7 +83,7 @@ describe "inspec shell tests" do
     end
 
     it "retrieves resources" do
-      out = do_shell_c("os.params", 0)
+      out = assert_shell_c("os.params", 0)
       out.stdout.must_include "name"
       out.stdout.must_include "families"
       out.stdout.must_include "arch"
@@ -84,7 +91,8 @@ describe "inspec shell tests" do
     end
 
     it "runs anonymous tests that succeed (json output)" do
-      out = do_shell_c("describe file(\"#{__FILE__}\") do it { should exist } end", 0, true)
+      skip_windows!
+      out = assert_shell_c("describe file(\"#{__FILE__}\") do it { should exist } end", 0, true)
       j = JSON.load(out.stdout)
       j.keys.must_include "version"
       j.keys.must_include "profiles"
@@ -92,13 +100,15 @@ describe "inspec shell tests" do
     end
 
     it "runs anonymous tests that succeed" do
-      out = do_shell_c("describe file(\"#{__FILE__}\") do it { should exist } end", 0)
+      skip_windows!
+      out = assert_shell_c("describe file(\"#{__FILE__}\") do it { should exist } end", 0)
       out.stdout.must_include "1 successful"
       out.stdout.must_include "0 failures"
     end
 
     it "runs anonymous tests that fail (json output)" do
-      out = do_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 100, true)
+      skip_windows!
+      out = assert_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 100, true)
       j = JSON.load(out.stdout)
       j.keys.must_include "version"
       j.keys.must_include "profiles"
@@ -106,13 +116,15 @@ describe "inspec shell tests" do
     end
 
     it "runs anonymous tests that fail" do
-      out = do_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 100)
+      skip_windows!
+      out = assert_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 100)
       out.stdout.must_include "0 successful"
       out.stdout.must_include "1 failure"
     end
 
     it "runs controls with tests (json output)" do
-      out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end end", 0, true)
+      skip_windows!
+      out = assert_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end end", 0, true)
       j = JSON.load(out.stdout)
       j.keys.must_include "version"
       j.keys.must_include "profiles"
@@ -120,13 +132,15 @@ describe "inspec shell tests" do
     end
 
     it "runs controls with tests" do
-      out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end end", 0)
+      skip_windows!
+      out = assert_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end end", 0)
       out.stdout.must_include "1 successful"
       out.stdout.must_include "0 failures"
     end
 
     it "runs controls with multiple tests (json output)" do
-      out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 100, true)
+      skip_windows!
+      out = assert_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 100, true)
       j = JSON.load(out.stdout)
       j.keys.must_include "version"
       j.keys.must_include "profiles"
@@ -134,7 +148,8 @@ describe "inspec shell tests" do
     end
 
     it "runs controls with multiple tests" do
-      out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 100)
+      skip_windows!
+      out = assert_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 100)
       out.stdout.must_include "0 successful"
       out.stdout.must_include "1 failure"
     end
@@ -147,15 +162,19 @@ describe "inspec shell tests" do
       def do_shell(code, exit_status = 0, stderr = "")
         cmd = "echo '#{code.tr("'", '\\\'')}' | #{exec_inspec} shell"
         out = CMD.run_command(cmd)
-        out.exit_status.must_equal exit_status
+
+        assert_exit_code exit_status, out
+
         out
       end
 
       it "loads a dependency" do
         cmd = "echo 'gordon_config' | #{exec_inspec} shell --depends #{example_profile}"
         res = CMD.run_command(cmd)
-        res.exit_status.must_equal 0
+
         res.stdout.must_include "=> gordon_config"
+
+        assert_exit_code 0, res
       end
 
       it "displays the target device information for the user without requiring the help command" do

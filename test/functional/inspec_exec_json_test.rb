@@ -4,65 +4,77 @@ require "json-schema"
 describe "inspec exec with json formatter" do
   include FunctionalHelper
 
-  before do
-    skip_windows!
-  end
-
   it "can execute a simple file and validate the json schema" do
     out = inspec("exec " + example_control + " --reporter json --no-create-lockfile")
-    out.stderr.must_equal ""
-    out.exit_status.must_equal 0
+
     data = JSON.parse(out.stdout)
     sout = inspec("schema exec-json")
     schema = JSON.parse(sout.stdout)
     JSON::Validator.validate(schema, data).wont_equal false
+
+    out.stderr.must_equal ""
+
+    skip_windows!
+    assert_exit_code 0, out
   end
 
   it "can execute a profile and validate the json schema" do
     out = inspec("exec " + example_profile + " --reporter json --no-create-lockfile")
-    out.stderr.must_equal ""
-    out.exit_status.must_equal 101
+
     data = JSON.parse(out.stdout)
     sout = inspec("schema exec-json")
     schema = JSON.parse(sout.stdout)
     JSON::Validator.validate(schema, data).wont_equal false
+
+    out.stderr.must_equal ""
+
+    assert_exit_code 101, out
   end
 
   it "can execute a simple file while using end of options after reporter cli option" do
     out = inspec("exec --no-create-lockfile --reporter json -- " + example_control)
-    out.stderr.must_equal ""
-    out.exit_status.must_equal 0
     data = JSON.parse(out.stdout)
     sout = inspec("schema exec-json")
     schema = JSON.parse(sout.stdout)
     JSON::Validator.validate(schema, data).wont_equal false
+
+    out.stderr.must_equal ""
+
+    skip_windows!
+    assert_exit_code 0, out
   end
 
   it "can execute a profile and validate the json schema with target_id" do
     out = inspec("exec " + example_profile + " --reporter json --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444")
-    out.stderr.must_equal ""
-    out.exit_status.must_equal 101
     data = JSON.parse(out.stdout)
     data["platform"]["target_id"].must_equal "1d3e399f-4d71-4863-ac54-84d437fbc444"
     sout = inspec("schema exec-json")
     schema = JSON.parse(sout.stdout)
     JSON::Validator.validate(schema, data).wont_equal false
+
+    out.stderr.must_equal ""
+
+    assert_exit_code 101, out
   end
 
   it "does not report skipped dependent profiles" do
     out = inspec("exec " + File.join(profile_path, "unsupported_dependencies", "wrapper-profile") + " --reporter json --no-create-lockfile")
-    out.stderr.must_include "WARN: Skipping profile: 'child_profile' on unsupported platform:"
-    out.stderr.must_include "WARN: Skipping profile: 'child_profile2' on unsupported platform:"
-    out.exit_status.must_equal 0
+
     data = JSON.parse(out.stdout)
     data["profiles"].count.must_equal 1
     profile = data["profiles"].first
     profile["controls"].count.must_equal 1
+
+    out.stderr.must_include "WARN: Skipping profile: 'child_profile' on unsupported platform:"
+    out.stderr.must_include "WARN: Skipping profile: 'child_profile2' on unsupported platform:"
+
+    skip_windows!
+    assert_exit_code 0, out
   end
 
   it "flags skipped profiles with correct status" do
     out = inspec("exec " + File.join(profile_path, "unsupported_dependencies", "wrapper-profile") + " --reporter json --no-create-lockfile")
-    out.exit_status.must_equal 0
+
     data = JSON.parse(out.stdout)
     data["profiles"].count.must_equal 1
     profile = data["profiles"].first
@@ -72,11 +84,14 @@ describe "inspec exec with json formatter" do
       d["status"].must_equal "skipped"
       d["skip_message"].must_include "Skipping profile: "
     end
+
+    skip_windows!
+    assert_exit_code 0, out
   end
 
   it "flags loaded profiles with correct status" do
     out = inspec("exec " + File.join(profile_path, "dependencies", "inheritance") + " --reporter json --no-create-lockfile")
-    out.exit_status.must_equal 0
+
     data = JSON.parse(out.stdout)
     profile = data["profiles"].first
     profile["status"].must_equal "loaded"
@@ -85,15 +100,24 @@ describe "inspec exec with json formatter" do
       d["status"].must_equal "loaded"
       d.key?("skip_message").must_equal false
     end
+
+    out.stderr.must_equal ""
+
+    skip_windows!
+    assert_exit_code 0, out
   end
 
   it "flags profile with correct status when not supported" do
     out = inspec("exec " + File.join(profile_path, "skippy-profile-os") + " --reporter json --no-create-lockfile")
-    out.exit_status.must_equal 101
+
     data = JSON.parse(out.stdout)
     profile = data["profiles"].first
     profile["status"].must_equal "skipped"
     profile["skip_message"].must_include "Skipping profile: 'skippy' on unsupported platform:"
+
+    out.stderr.must_equal ""
+
+    assert_exit_code 101, out
   end
 
   describe "execute a profile with json formatting" do
@@ -167,6 +191,7 @@ describe "inspec exec with json formatter" do
 
       result = actual.delete("results")[0]
       result.wont_be :nil?
+      skip_windows!
       result["status"].must_equal "passed"
       result["code_desc"].must_equal "File /tmp should be directory"
       result["run_time"].wont_be :nil?

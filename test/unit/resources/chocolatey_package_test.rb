@@ -2,10 +2,6 @@ require "helper"
 require "inspec/resource"
 require "inspec/resources/chocolatey_package"
 
-def skip(*args)
-  # noop
-end
-
 describe "Inspec::Resources::ChocoPkg" do
   it "can parse output from `choco` when package is installed" do
     pkg = { name: "git", installed: false, version: nil, type: "chocolatey" }

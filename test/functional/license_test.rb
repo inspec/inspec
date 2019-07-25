@@ -7,18 +7,16 @@ describe "The license acceptance mechanism" do
 
   describe "when the license has not been accepted" do
     describe "when the user passes the --chef-license accept flag" do
-      before do
-        skip_windows!
-      end
-
       it "should silently work normally" do
         without_license do
           Dir.mktmpdir do |tmp_home|
             run_result = run_inspec_process("shell -c platform.family --chef-license accept", env: { "HOME" => tmp_home })
+
             run_result.stdout.wont_include "Chef License Acceptance" # --chef-license should not mention accepting the license
+
             run_result.stderr.must_equal ""
 
-            run_result.exit_status.must_equal 0
+            assert_exit_code 0, run_result
           end
         end
       end
@@ -45,22 +43,19 @@ describe "The license acceptance mechanism" do
     # Since the license-acceptance library detects TTYs, and changes behavior
     # if not found, we can't test interactive acceptance anymore
     describe "when no mechanism is used to accept the license and we are non-interactive" do
-
-      before do
-        skip_windows!
-      end
-
       it "should exit ASAP with code 172" do
         skip_until 2019, 07, 31, "Skipping in order to get buildkite green"
 
         without_license do
           Dir.mktmpdir do |tmp_home|
             run_result = run_inspec_process("shell -c platform.family", env: { "HOME" => tmp_home })
+
             # [2019-04-11T11:06:00-04:00] ERROR: InSpec cannot execute without accepting the license
             run_result.stdout.must_include "cannot execute"
             run_result.stdout.must_include "the license"
             run_result.stdout.must_include "ERROR" # From failure message
-            run_result.exit_status.must_equal 172
+
+            assert_exit_code 172, run_result
           end
         end
       end
@@ -74,9 +69,12 @@ describe "The license acceptance mechanism" do
         it "should not challenge for a license when running `inspec #{ungated_invocation}`" do
           Dir.mktmpdir do |tmp_home|
             run_result = run_inspec_process(ungated_invocation, env: { "HOME" => tmp_home })
+
             run_result.stdout.wont_include "Chef License Acceptance"
+
             run_result.stderr.must_equal ""
-            run_result.exit_status.must_equal 0
+
+            assert_exit_code 0, run_result
           end
         end
       end
@@ -96,9 +94,12 @@ describe "The license acceptance mechanism" do
           File.exist?(license_persist_path).must_equal true # Sanity check
 
           run_result = run_inspec_process("shell -c platform.family", env: { "HOME" => tmp_home })
+
           run_result.stdout.wont_include "Chef License Acceptance"
+
           run_result.stderr.must_equal ""
-          run_result.exit_status.must_equal 0
+
+          assert_exit_code 0, run_result
         end
       end
     end
@@ -123,9 +124,12 @@ describe "The license acceptance mechanism" do
           File.exist?(license_persist_path).must_equal true # Sanity check
 
           run_result = run_inspec_process("shell -c platform.family", env: { "HOME" => tmp_home })
+
           run_result.stdout.wont_include "Chef License Acceptance"
+
           run_result.stderr.must_equal ""
-          run_result.exit_status.must_equal 0
+
+          assert_exit_code 0, run_result
         end
       end
     end

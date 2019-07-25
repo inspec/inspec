@@ -4,14 +4,10 @@ require "mixlib/shellout"
 describe "inspec json" do
   include FunctionalHelper
 
-  before do
-    skip_windows!
-  end
-
   it "read the profile json" do
     out = inspec("json " + example_profile)
     out.stderr.must_equal ""
-    out.exit_status.must_equal 0
+    assert_exit_code 0, out
     s = out.stdout
     JSON.load(s).must_be_kind_of Hash
   end
@@ -91,7 +87,8 @@ describe "inspec json" do
 
     it "still succeeds" do
       out.stderr.must_equal ""
-      out.exit_status.must_equal 0
+
+      assert_exit_code 0, out
     end
 
     it "only has one control included" do
@@ -105,11 +102,14 @@ describe "inspec json" do
 
   it "writes json to file" do
     out = inspec("json " + example_profile + " --output " + dst.path)
-    out.stderr.must_equal ""
-    out.exit_status.must_equal 0
+
     hm = JSON.load(File.read(dst.path))
     hm["name"].must_equal "profile"
     hm["controls"].length.must_equal 4
+
+    out.stderr.must_equal ""
+
+    assert_exit_code 0, out
   end
 
   describe "json test for pax header archives" do
@@ -127,7 +127,8 @@ describe "inspec json" do
       cmd.error!
 
       out = inspec("json #{profile_tgz}")
-      out.exit_status.must_equal 0
+
+      assert_exit_code 0, out
     end
   end
 
@@ -136,8 +137,6 @@ describe "inspec json" do
 
     it "can export a profile that uses inheritance" do
       out = inspec("json " + profile)
-      out.stderr.must_be_empty
-      out.exit_status.must_equal 0
 
       # This will throw an exception if it is garbled
       json = JSON.load(out.stdout)
@@ -147,22 +146,34 @@ describe "inspec json" do
       json["controls"].each do |control|
         control["code"].empty?.must_equal false
       end
+
+      out.stderr.must_be_empty
+
+      assert_exit_code 0, out
     end
   end
 
   describe "inspec json does not write logs to STDOUT" do
     it "can execute a profile with warn calls and parse STDOUT as valid JSON" do
       out = inspec("json " + File.join(profile_path, "warn_logs"))
-      out.exit_status.must_equal 0
-      refute_empty out.stdout
-      assert_kind_of Hash, JSON.load(out.stdout)
+
+      assert_equal "warn_logs", JSON.load(out.stdout)["name"]
+
+      out.stderr.must_include "This is a warn call"
+
+      assert_exit_code 0, out
     end
   end
 
   describe "inspec json with a profile containing only_if" do
     it "ignores the `only_if`" do
       out = inspec("json " + File.join(profile_path, "only-if-os-nope"))
-      out.exit_status.must_equal 0
+
+      assert_equal "only-if-os-nope", JSON.load(out.stdout)["name"]
+
+      out.stderr.must_equal ""
+
+      assert_exit_code 0, out
     end
   end
 end

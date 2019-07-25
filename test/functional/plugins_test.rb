@@ -7,13 +7,9 @@ require "functional/helper"
 describe "plugin loader" do
   include FunctionalHelper
 
-  before do
-    skip_windows!
-  end
-
   it "handles an unloadable plugin correctly" do
     outcome = inspec_with_env("version", INSPEC_CONFIG_DIR: File.join(config_dir_path, "plugin_error_on_load"))
-    outcome.exit_status.must_equal 2
+
     outcome.stdout.must_include("ERROR", "Have an error on stdout")
     outcome.stdout.must_include("Could not load plugin inspec-divide-by-zero", "Name the plugin in the stdout error")
     outcome.stdout.wont_include("ZeroDivisionError", "No stacktrace in error by default")
@@ -21,9 +17,14 @@ describe "plugin loader" do
     outcome.stdout.must_include("Plugin name: inspec-divide-by-zero", "Plugin named in error")
     outcome.stdout.must_include("divided by 0", "Exception message in error")
 
+    assert_exit_code 2, outcome
+
+    # TODO: split
     outcome = inspec_with_env("version --debug", INSPEC_CONFIG_DIR: File.join(config_dir_path, "plugin_error_on_load"))
-    outcome.exit_status.must_equal 2
+
     outcome.stdout.must_include("ZeroDivisionError", "Include stacktrace in error with --debug")
+
+    assert_exit_code 2, outcome
   end
 end
 
@@ -33,26 +34,25 @@ end
 describe "when disabling plugins" do
   include FunctionalHelper
 
-  before do
-    skip_windows!
-  end
-
   describe "when disabling the core plugins" do
     it "should not be able to use core-provided commands" do
       run_result = run_inspec_process("--disable-core-plugins habitat")
       run_result.stderr.must_include 'Could not find command "habitat".'
+
       # One might think that this should be code 2 (plugin error)
       # But because the core plugins are not loaded, 'habitat' is not
       # a known command, which makes it a usage error, code 1.
-      run_result.exit_status.must_equal 1
+      assert_exit_code 1, run_result
     end
   end
 
   describe "when disabling the user plugins" do
     it "should not be able to use user commands" do
       run_result = run_inspec_process("--disable-user-plugins meaningoflife answer", env: { INSPEC_CONFIG_DIR: File.join(config_dir_path, "meaning_by_path") })
+
       run_result.stderr.must_include 'Could not find command "meaningoflife"'
-      run_result.exit_status.must_equal 1
+
+      assert_exit_code 1, run_result
     end
   end
 end
@@ -63,34 +63,38 @@ end
 describe "cli command plugins" do
   include FunctionalHelper
 
-  before do
-    skip_windows!
-  end
-
   it "is able to respond to a plugin-based cli subcommand" do
     outcome = inspec_with_env("meaningoflife answer", INSPEC_CONFIG_DIR: File.join(config_dir_path, "meaning_by_path"))
+
     outcome.stderr.wont_include 'Could not find command "meaningoflife"'
     outcome.stderr.must_equal ""
+
     outcome.stdout.must_equal ""
-    outcome.exit_status.must_equal 42
+
+    assert_exit_code 42, outcome
   end
 
   it "is able to respond to [help subcommand] invocations" do
     outcome = inspec_with_env("help meaningoflife", INSPEC_CONFIG_DIR: File.join(config_dir_path, "meaning_by_path"))
-    outcome.exit_status.must_equal 0
+
     outcome.stderr.must_equal ""
+
     outcome.stdout.must_include "inspec meaningoflife answer"
     # Full text:
     # 'Exits immediately with an exit code reflecting the answer to life the universe, and everything.'
     # but Thor will ellipsify based on the terminal width
     outcome.stdout.must_include "Exits immediately"
+
+    assert_exit_code 0, outcome
   end
 
   # This is an important test; usually CLI plugins are only activated when their name is present in ARGV
   it "includes plugin-based cli commands in top-level help" do
-    outcome = inspec_with_env("help",  INSPEC_CONFIG_DIR: File.join(config_dir_path, "meaning_by_path"))
-    outcome.exit_status.must_equal 0
+    outcome = inspec_with_env("help", INSPEC_CONFIG_DIR: File.join(config_dir_path, "meaning_by_path"))
+
     outcome.stdout.must_include "inspec meaningoflife"
+
+    assert_exit_code 0, outcome
   end
 end
 
@@ -150,10 +154,6 @@ end
 describe "disable plugin usage message integration" do
   include FunctionalHelper
 
-  before do
-    skip_windows!
-  end
-
   it "mentions the --disable-{user,core}-plugins options" do
     outcome = inspec("help")
     ["--disable-user-plugins", "--disable-core-plugins"].each do |option|
@@ -168,10 +168,6 @@ end
 
 describe "DSL plugin types support" do
   include PluginFunctionalHelper
-
-  before do
-    skip_windows!
-  end
 
   let(:fixture_path) { File.join(profile_path, "dsl_plugins", "controls", profile_file) }
   let(:dsl_plugin_path) { File.join(mock_path, "plugins", "inspec-dsl-test", "lib", "inspec-dsl-test.rb") }
@@ -294,16 +290,11 @@ end
 #=========================================================================================#
 
 describe "train plugin support" do
-  before do
-    skip_windows!
-  end
-
   describe "when a train plugin is installed" do
     include FunctionalHelper
     it "can run inspec detect against a URL target" do
       outcome = inspec_with_env("detect -t test-fixture://", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
-      outcome.exit_status.must_equal(0)
-      outcome.stderr.must_be_empty
+
       lines = outcome.stdout.split("\n")
       lines.grep(/Name/).first.must_include("test-fixture")
       lines.grep(/Name/).first.wont_include("train-test-fixture")
@@ -312,12 +303,14 @@ describe "train plugin support" do
       lines.grep(/Families/).first.must_include("windows")
       lines.grep(/Families/).first.must_include("unix")
       lines.grep(/Arch/).first.must_include("mock")
+
+      outcome.stderr.must_be_empty
+
+      assert_exit_code 0, outcome
     end
 
     it "can run inspec detect against a test-fixture backend" do
       outcome = inspec_with_env("detect -b test-fixture", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
-      outcome.exit_status.must_equal(0)
-      outcome.stderr.must_be_empty
       lines = outcome.stdout.split("\n")
       lines.grep(/Name/).first.must_include("test-fixture")
       lines.grep(/Name/).first.wont_include("train-test-fixture")
@@ -326,25 +319,40 @@ describe "train plugin support" do
       lines.grep(/Families/).first.must_include("windows")
       lines.grep(/Families/).first.must_include("unix")
       lines.grep(/Arch/).first.must_include("mock")
+
+      outcome.stderr.must_be_empty
+
+      assert_exit_code 0, outcome
     end
 
     it "can run inspec shell and read a file" do
       outcome = inspec_with_env("shell -t test-fixture:// -c 'file(\"any-path\").content'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
-      outcome.exit_status.must_equal(0)
-      outcome.stderr.must_be_empty
+      skip_windows!
       outcome.stdout.chomp.must_equal "Lorem Ipsum"
+
+      outcome.stderr.must_be_empty
+
+      assert_exit_code 0, outcome
     end
 
     it "can run inspec shell and run a command" do
       outcome = inspec_with_env("shell -t test-fixture:// -c 'command(\"echo hello\").exit_status'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
-      outcome.exit_status.must_equal(0)
-      outcome.stderr.must_be_empty
+
+      skip_windows!
       outcome.stdout.chomp.must_equal "17"
 
-      outcome = inspec_with_env("shell -t test-fixture:// -c 'command(\"echo hello\").stdout'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
-      outcome.exit_status.must_equal(0)
       outcome.stderr.must_be_empty
+
+      assert_exit_code 0, outcome
+
+      # TODO: split
+      outcome = inspec_with_env("shell -t test-fixture:// -c 'command(\"echo hello\").stdout'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
+
       outcome.stdout.chomp.must_equal "Mock Command Result stdout"
+
+      outcome.stderr.must_be_empty
+
+      assert_exit_code 0, outcome
     end
   end
 end
