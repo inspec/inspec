@@ -1,8 +1,8 @@
 require "json"
-require_relative "./primitives"
-require_relative "./exec_json"
-require_relative "./exec_json_min"
-require_relative "./profile_json"
+require "lib/inspec/schema/primitives"
+require "lib/inspec/schema/exec_json"
+require "lib/inspec/schema/exec_json_min"
+require "lib/inspec/schema/profile_json"
 
 module Inspec
   module OutputSchema

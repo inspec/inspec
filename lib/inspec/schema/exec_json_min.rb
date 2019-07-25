@@ -1,4 +1,4 @@
-require_relative "./primitives"
+require "lib/inspec/schema/primitives"
 
 # We disable this for the sake of legibility
 # rubocop:disable Layout/AlignHash
