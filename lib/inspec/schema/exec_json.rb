@@ -47,20 +47,20 @@ module Schema
 
     # Represents a control produced
     CONTROL = SchemaType.new("Exec JSON Control", {
-      "type" => "object",
-      "additionalProperties" => false,
-      "required" => %w{id title desc descriptions impact refs tags code source_location results},
-      "properties" => {
-        "id"                => STRING,
-        "title"             => { "type" => %w{string null} }, # Nullable string
-        "desc"              => { "type" => %w{string null} },
-        "descriptions"      => Schema.array(CONTROL_DESCRIPTION.ref),
-        "impact"            => IMPACT,
-        "refs"              => Schema.array(REFERENCE.ref),
-        "tags"              => TAGS,
-        "code"              => STRING,
-        "source_location"   => SOURCE_LOCATION.ref,
-        "results"           => Schema.array(CONTROL_RESULT.ref),
+      "type"                  => "object",
+      "additionalProperties"  => false,
+      "required"              => %w{id title desc descriptions impact refs tags code source_location results},
+      "properties"            => {
+        "id"              => Schema.desc(STRING, "The ID of this control"),
+        "title"           => { "type" => %w{string null} }, # Nullable string
+        "desc"            => { "type" => %w{string null} },
+        "descriptions"    => Schema.array(CONTROL_DESCRIPTION.ref),
+        "impact"          => IMPACT,
+        "refs"            => Schema.array(REFERENCE.ref),
+        "tags"            => TAGS,
+        "code"            => Schema.desc(STRING, "The raw source code of the control. Note that if this is an overlay control, it does not include the underlying source code"),
+        "source_location" => SOURCE_LOCATION.ref,
+        "results"         => Schema.array(CONTROL_RESULT.ref),
       },
     }, [CONTROL_DESCRIPTION, REFERENCE, SOURCE_LOCATION, CONTROL_RESULT])
 

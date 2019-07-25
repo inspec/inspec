@@ -8,7 +8,7 @@ require_relative "./primitives"
 module Schema
   module ProfileJson
     # Represents descriptions. Can have any string => string pairing
-    DESCRIPTIONS = SchemaType.new("Profile JSON Descriptions", {
+    CONTROL_DESCRIPTIONS = SchemaType.new("Profile JSON Control Descriptions", {
       "type" => "object",
       "aditionalProperties" => STRING,
       "required" => [],
@@ -18,26 +18,26 @@ module Schema
     # Differs slightly from a normal control, in that it lacks results, and its descriptions are different
     # TODO: Attempt to unify this with the CONTROL type
     CONTROL = SchemaType.new("Profile JSON Control", {
-      "type" => "object",
+      "type"                  => "object",
       "additionalProperties"  => false,
-      "required"              => %w{title desc descriptions impact refs tags code source_location id},
+      "required"              => %w{id title desc descriptions impact refs tags code source_location},
       "properties"            => {
-        "id"              => STRING,
+        "id"              => Schema.desc(STRING, "The ID of this control"),
         "title"           => { "type" => %w{string null} },
         "desc"            => { "type" => %w{string null} },
-        "descriptions"    => DESCRIPTIONS.ref,
+        "descriptions"    => CONTROL_DESCRIPTIONS.ref,
         "impact"          => IMPACT,
         "refs"            => Schema.array(REFERENCE.ref),
         "tags"            => TAGS,
-        "code"            => STRING,
+        "code"            => Schema.desc(STRING, "The raw source code of the control. Note that if this is an overlay control, it does not include the underlying source code"),
         "source_location" => SOURCE_LOCATION.ref,
       },
-    }, [DESCRIPTIONS, REFERENCE, SOURCE_LOCATION])
+    }, [CONTROL_DESCRIPTIONS, REFERENCE, SOURCE_LOCATION])
 
     # A profile that has not been run.
     # TODO: Try to unify with the exec version
     PROFILE = SchemaType.new("Profile JSON Profile", {
-      "type" => "object",
+      "type"                  => "object",
       "additionalProperties"  => true, # Anything in the yaml will be put in here
       "required"              => %w{name supports controls groups inputs sha256 status},
       "properties"            => {
