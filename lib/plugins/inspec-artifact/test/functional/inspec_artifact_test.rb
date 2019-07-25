@@ -11,6 +11,7 @@ class ArtifactCli < Minitest::Test
       out = run_inspec_process("artifact generate --keyname #{unique_key_name}", prefix: "cd #{dir} &&")
 
       stdout = out.stdout.force_encoding(Encoding::UTF_8)
+      skip_windows!
       assert_includes stdout, "Generating private key"
       assert_includes stdout, "Generating public key"
 
@@ -29,6 +30,7 @@ class ArtifactCli < Minitest::Test
       run_inspec_process("init profile artifact-profile", prefix: "cd #{dir} &&")
 
       out = run_inspec_process("artifact generate --keyname #{unique_key_name}", prefix: "cd #{dir} &&")
+      skip_windows!
       assert_exit_code 0, out
 
       out = run_inspec_process("artifact sign-profile --profile #{profile} --keyname #{unique_key_name}", prefix: "cd #{dir} &&")

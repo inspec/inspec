@@ -327,6 +327,7 @@ describe "train plugin support" do
 
     it "can run inspec shell and read a file" do
       outcome = inspec_with_env("shell -t test-fixture:// -c 'file(\"any-path\").content'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
+      skip_windows!
       outcome.stdout.chomp.must_equal "Lorem Ipsum"
 
       outcome.stderr.must_be_empty
@@ -337,6 +338,7 @@ describe "train plugin support" do
     it "can run inspec shell and run a command" do
       outcome = inspec_with_env("shell -t test-fixture:// -c 'command(\"echo hello\").exit_status'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
 
+      skip_windows!
       outcome.stdout.chomp.must_equal "17"
 
       outcome.stderr.must_be_empty

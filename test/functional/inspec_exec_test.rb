@@ -369,6 +369,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     let(:out) { inspec("exec " + simple_inheritance + " --no-create-lockfile") }
 
     it "should print all the results" do
+      skip_windows!
       stdout.must_include "×  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
       stdout.must_include "×  should not be directory\n"
       stdout.must_include "×  undefined method `should_nota'"
@@ -388,6 +389,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     let(:out) { inspec("exec " + File.join(profile_path, "dependencies", "profile_d") + " " + simple_inheritance + " --no-create-lockfile") }
 
     it "should print all the results" do
+      skip_windows!
       stdout.must_include "×  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
       stdout.must_include "×  cmp-1.0: Using the cmp matcher for numbers (2 failed)"
       stdout.must_include "×  undefined method `should_nota'"
@@ -400,6 +402,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     let(:out) { inspec("exec " + simple_inheritance) }
 
     it "should print the profile information and then the test results" do
+      skip_windows!
       stdout.must_include "\e[38;5;9m  ×  tmp-1.0: Create /tmp directory (1 failed)\e[0m\n\e[38;5;41m     ✔  File /tmp should be directory\e[0m\n\e[38;5;9m     ×  File /tmp should not be directory\n"
     end
   end
@@ -452,6 +455,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
 
       stderr.must_equal ""
 
+      skip_windows!
       assert_exit_code 0, out
     end
 
@@ -465,6 +469,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
 
       stderr.must_equal ""
 
+      skip_windows!
       assert_exit_code 0, out
     end
   end

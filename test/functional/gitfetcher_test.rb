@@ -43,6 +43,7 @@ describe "profiles with git-based dependencies" do
   it "executes a profile with a git based dependency" do
     out = inspec("exec #{@profile_dir} --no-create-lockfile")
 
+    skip_windows!
     out.stderr.must_equal ""
 
     assert_exit_code 0, out

@@ -77,6 +77,7 @@ describe "example inheritance profile" do
 
       out = inspec("vendor " + tmpdir + " --overwrite")
 
+      skip_windows!
       out.stdout.must_include "Dependencies for profile #{tmpdir} successfully vendored to #{tmpdir}/vendor"
 
       File.exist?(File.join(tmpdir, "vendor")).must_equal true

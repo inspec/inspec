@@ -8,6 +8,7 @@ class InitPluginCli < Minitest::Test
       plugin = "wacky-name"
       run_result = run_inspec_process("init plugin --no-prompt #{plugin} ", prefix: "cd #{dir} &&")
 
+      skip_windows!
       assert_includes run_result.stdout, "ERROR"
       assert_includes run_result.stdout, "Plugin names must begin with"
 
@@ -25,6 +26,7 @@ class InitPluginCli < Minitest::Test
 
       run_result = run_inspec_process("init plugin --no-prompt #{plugin}", prefix: "cd #{dir} &&")
 
+      skip_windows!
       assert_includes run_result.stdout, "Creating new inspec plugin at"
       assert_includes run_result.stdout, plugin
 
@@ -130,6 +132,7 @@ class InitPluginCli < Minitest::Test
 
       run_result = run_inspec_process("init plugin #{plugin} --no-prompt #{opts}", prefix: "cd #{dir} &&")
 
+      skip_windows!
       assert_includes run_result.stdout, "Creating new inspec plugin at"
       assert_includes run_result.stdout, plugin
 

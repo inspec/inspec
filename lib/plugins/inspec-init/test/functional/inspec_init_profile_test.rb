@@ -9,6 +9,7 @@ class InitCli < Minitest::Test
       profile = File.join(dir, "test-profile")
       out = run_inspec_process("init profile test-profile", prefix: "cd #{dir} &&")
 
+      skip_windows!
       assert_includes out.stdout, "Creating new profile at"
       assert_includes out.stdout, profile
       assert_includes Dir.entries(profile).join, "inspec.yml"
@@ -23,6 +24,7 @@ class InitCli < Minitest::Test
       profile = File.join(dir, "test-profile")
       out = run_inspec_process("init profile --platform os test-profile", prefix: "cd #{dir} &&")
 
+      skip_windows!
       assert_includes out.stdout, "Creating new profile at"
       assert_includes out.stdout, profile
       assert_includes Dir.entries(profile).join, "inspec.yml"
@@ -36,6 +38,7 @@ class InitCli < Minitest::Test
     Dir.mktmpdir do |dir|
       out = run_inspec_process("init profile --platform nonesuch test-profile", prefix: "cd #{dir} &&")
 
+      skip_windows!
       assert_includes out.stdout, "Unable to generate profile"
       assert_includes out.stdout, "No template available for platform 'nonesuch'"
 
@@ -47,6 +50,7 @@ class InitCli < Minitest::Test
     Dir.mktmpdir do |dir|
       profile = dir + "/test/deeper/profile"
       out = run_inspec_process("init profile test/deeper/profile", prefix: "cd #{dir} &&")
+      skip_windows!
       assert_equal true, File.exist?(profile)
       profile = YAML.load_file("#{profile}/inspec.yml")
       assert_equal "profile", profile["name"]
@@ -60,6 +64,7 @@ class InitCli < Minitest::Test
       profile = File.join(dir, "test-gcp-profile")
       out = run_inspec_process("init profile --platform gcp test-gcp-profile", prefix: "cd #{dir} &&")
 
+      skip_windows!
       assert_includes out.stdout, "Creating new profile at"
       assert_includes out.stdout, profile
       assert_includes Dir.entries(profile).join, "inspec.yml"
@@ -74,6 +79,7 @@ class InitCli < Minitest::Test
       profile = File.join(dir, "test-aws-profile")
       out = run_inspec_process("init profile --platform aws test-aws-profile", prefix: "cd #{dir} &&")
 
+      skip_windows!
       assert_includes out.stdout, "Creating new profile at"
       assert_includes out.stdout, profile
       assert_includes Dir.entries(profile).join, "inspec.yml"
@@ -88,6 +94,7 @@ class InitCli < Minitest::Test
       profile = File.join(dir, "test-azure-profile")
       out = run_inspec_process("init profile --platform azure test-azure-profile", prefix: "cd #{dir} &&")
 
+      skip_windows!
       assert_includes out.stdout, "Creating new profile at"
       assert_includes out.stdout, profile
       assert_includes Dir.entries(profile).join, "inspec.yml"
@@ -102,6 +109,7 @@ class InitCli < Minitest::Test
       profile = File.join(dir, "test-os-profile")
       out = run_inspec_process("init profile --platform os test-os-profile", prefix: "cd #{dir} &&")
 
+      skip_windows!
       assert_includes out.stdout, "Creating new profile at"
       assert_includes out.stdout, profile
       assert_includes Dir.entries(profile).join, "inspec.yml"

@@ -53,12 +53,14 @@ class PluginManagerCliHelp < Minitest::Test
   # Main inspec help subcommand listing
   def test_inspec_help_includes_plugin
     result = run_inspec_process_with_this_plugin("help")
+    skip_windows!
     assert_includes result.stdout, "inspec plugin"
   end
 
   # inspec plugin help subcommand listing
   def test_inspec_plugin_help_includes_plugin
     result = run_inspec_process_with_this_plugin("plugin help")
+    skip_windows!
     assert_includes result.stdout, "inspec plugin list"
     assert_includes result.stdout, "inspec plugin search"
     assert_includes result.stdout, "inspec plugin install"
@@ -77,6 +79,7 @@ class PluginManagerCliList < Minitest::Test
   def test_list_when_no_user_plugins_installed
     result = run_inspec_process_with_this_plugin("plugin list")
 
+    skip_windows!
     assert_includes result.stdout, "0 plugin(s) total", "Empty list should include zero count"
 
     assert_exit_code 0, result
@@ -85,6 +88,7 @@ class PluginManagerCliList < Minitest::Test
   def test_list_all_when_no_user_plugins_installed
     result = run_inspec_process_with_this_plugin("plugin list --all")
 
+    skip_windows!
     assert_includes result.stdout, "6 plugin(s) total", "--all list should find six"
     assert_includes result.stdout, "inspec-plugin-manager-cli", "--all list should find inspec-plugin-manager-cli"
     assert_includes result.stdout, "habitat", "--all list should find habitat"
@@ -107,6 +111,7 @@ class PluginManagerCliList < Minitest::Test
 
     result = run_inspec_process_with_this_plugin("plugin list", pre_run: pre_block)
 
+    skip_windows!
     assert_includes result.stdout, "2 plugin(s) total", "gem+path should show two plugins"
 
     # Plugin Name                   Version   Via     ApiVer
@@ -131,6 +136,7 @@ class PluginManagerCliList < Minitest::Test
 
     result = run_inspec_process_with_this_plugin("plugin list", pre_run: pre_block)
 
+    skip_windows!
     assert_includes result.stdout, "1 plugin(s) total", "list train should show one plugins"
 
     # Plugin Name                   Version   Via     ApiVer
@@ -326,6 +332,7 @@ class PluginManagerCliInstall < Minitest::Test
 
       # Check UX messaging
       success_message = install_result.stdout.split("\n").grep(/installed/).last
+      skip_windows!
       refute_nil success_message, "Should find a success message at the end"
       assert_includes success_message, fixture_info[:plugin_name]
       assert_includes success_message, "plugin installed via source path reference"
@@ -352,6 +359,7 @@ class PluginManagerCliInstall < Minitest::Test
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
 
     error_message = install_result.stdout.split("\n").last
+    skip_windows!
     assert_includes error_message, "No such source code path"
     assert_includes error_message, "inspec-test-fixture-nonesuch.rb"
     assert_includes error_message, "installation failed"
@@ -366,6 +374,7 @@ class PluginManagerCliInstall < Minitest::Test
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
 
     error_message = install_result.stdout.split("\n").last
+    skip_windows!
     assert_includes error_message, "Invalid plugin name"
     assert_includes error_message, "wrong-name"
     assert_includes error_message, "All inspec plugins must begin with either 'inspec-' or 'train-'"
@@ -381,6 +390,7 @@ class PluginManagerCliInstall < Minitest::Test
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
 
     error_message = install_result.stdout.split("\n").last
+    skip_windows!
     assert_includes error_message, "Does not appear to be a plugin"
     assert_includes error_message, "inspec-egg-white-omelette"
     assert_includes error_message, "After probe-loading the supposed plugin, it did not register"
@@ -405,6 +415,7 @@ class PluginManagerCliInstall < Minitest::Test
     install_result = run_inspec_process_with_this_plugin("plugin install #{plugin_path}", pre_run: pre_block)
 
     error_message = install_result.stdout.split("\n").last
+    skip_windows!
     assert_includes error_message, "Plugin already installed"
     assert_includes error_message, "inspec-test-fixture"
     assert_includes error_message, "Use 'inspec plugin list' to see previously installed plugin"
@@ -420,6 +431,7 @@ class PluginManagerCliInstall < Minitest::Test
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
 
     error_message = install_result.stdout.split("\n").last
+    skip_windows!
     assert_includes error_message, "Unrecognizable plugin structure"
     assert_includes error_message, "inspec-wrong-structure"
     assert_includes error_message, " When installing from a path, please provide the path of the entry point file"
@@ -435,6 +447,7 @@ class PluginManagerCliInstall < Minitest::Test
     install_result = run_inspec_process_with_this_plugin("plugin install #{fixture_gemfile_path}", post_run: list_after_run)
 
     success_message = install_result.stdout.split("\n").grep(/installed/).last
+    skip_windows!
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "inspec-test-fixture"
     assert_includes success_message, "0.1.0"
@@ -454,6 +467,7 @@ class PluginManagerCliInstall < Minitest::Test
     bad_path = File.join(project_fixtures_path, "none", "such", "inspec-test-fixture-nonesuch-0.3.0.gem")
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
 
+    skip_windows!
     assert_match(/No such plugin gem file .+ - installation failed./, install_result.stdout)
 
     assert_empty install_result.stderr
@@ -465,6 +479,7 @@ class PluginManagerCliInstall < Minitest::Test
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture", post_run: list_after_run)
 
     success_message = install_result.stdout.split("\n").grep(/installed/).last
+    skip_windows!
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "inspec-test-fixture"
     assert_includes success_message, "0.2.0"
@@ -483,6 +498,7 @@ class PluginManagerCliInstall < Minitest::Test
   def test_fail_install_from_nonexistant_remote_rubygem
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture-nonesuch")
 
+    skip_windows!
     assert_match(/No such plugin gem .+ could be found on rubygems.org - installation failed./, install_result.stdout)
 
     assert_empty install_result.stderr
@@ -494,6 +510,7 @@ class PluginManagerCliInstall < Minitest::Test
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture -v 0.1.0", post_run: list_after_run)
 
     success_message = install_result.stdout.split("\n").grep(/installed/).last
+    skip_windows!
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "inspec-test-fixture"
     assert_includes success_message, "0.1.0"
@@ -513,6 +530,7 @@ class PluginManagerCliInstall < Minitest::Test
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture -v 99.99.99")
 
     fail_message = install_result.stdout.split("\n").grep(/failed/).last
+    skip_windows!
     refute_nil fail_message, "Should find a failure message at the end"
     assert_includes fail_message, "inspec-test-fixture"
     assert_includes fail_message, "99.99.99"
@@ -528,6 +546,7 @@ class PluginManagerCliInstall < Minitest::Test
     install_result = run_inspec_process_with_this_plugin("plugin install test-fixture")
 
     fail_message = install_result.stdout.split("\n").grep(/failed/).last
+    skip_windows!
     refute_nil fail_message, "Should find a failure message at the end"
     assert_includes fail_message, "test-fixture"
     assert_includes fail_message, "All inspec plugins must begin with either 'inspec-' or 'train-'"
@@ -546,6 +565,7 @@ class PluginManagerCliInstall < Minitest::Test
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture", pre_run: pre_block)
 
     refusal_message = install_result.stdout.split("\n").grep(/refusing/).last
+    skip_windows!
     refute_nil refusal_message, "Should find a failure message at the end"
     assert_includes refusal_message, "inspec-test-fixture"
     assert_includes refusal_message, "0.2.0"
@@ -565,6 +585,7 @@ class PluginManagerCliInstall < Minitest::Test
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture", pre_run: pre_block)
 
     refusal_message = install_result.stdout.split("\n").grep(/refusing/).last
+    skip_windows!
     refute_nil refusal_message, "Should find a failure message at the end"
     assert_includes refusal_message, "inspec-test-fixture"
     assert_includes refusal_message, "0.1.0"
@@ -581,6 +602,7 @@ class PluginManagerCliInstall < Minitest::Test
     install_result = run_inspec_process_with_this_plugin("plugin install train-test-fixture", post_run: list_after_run)
 
     success_message = install_result.stdout.split("\n").grep(/installed/).last
+    skip_windows!
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "train-test-fixture"
     assert_includes success_message, "0.1.0"
@@ -609,6 +631,7 @@ class PluginManagerCliInstall < Minitest::Test
       install_result = run_inspec_process_with_this_plugin("plugin install #{plugin_name}")
       refusal_message = install_result.stdout
       refute_nil refusal_message, "Should find a failure message at the end"
+      skip_windows!
       assert_includes refusal_message, plugin_name
       assert_includes refusal_message, "Plugin on Exclusion List"
       assert_includes refusal_message, "refusing to install"
@@ -627,6 +650,7 @@ class PluginManagerCliInstall < Minitest::Test
 
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture -v 0.1.1 --log-level debug")
 
+    skip_windows!
     assert_includes install_result.stdout, "DEBUG"
 
     assert_includes install_result.stderr, "can't activate rake"
@@ -653,6 +677,7 @@ class PluginManagerCliUpdate < Minitest::Test
     update_result = run_inspec_process_with_this_plugin("plugin update inspec-test-fixture", pre_run: pre_block, post_run: list_after_run)
 
     success_message = update_result.stdout.split("\n").grep(/updated/).last
+    skip_windows!
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "inspec-test-fixture"
     assert_includes success_message, "0.1.0"
@@ -678,6 +703,7 @@ class PluginManagerCliUpdate < Minitest::Test
     update_result = run_inspec_process_with_this_plugin("plugin update inspec-test-fixture", pre_run: pre_block)
 
     refusal_message = update_result.stdout.split("\n").grep(/refusing/).last
+    skip_windows!
     refute_nil refusal_message, "Should find a failure message at the end"
     assert_includes refusal_message, "inspec-test-fixture"
     assert_includes refusal_message, "0.2.0"
@@ -691,6 +717,7 @@ class PluginManagerCliUpdate < Minitest::Test
   def test_fail_update_from_nonexistant_gem
     update_result = run_inspec_process_with_this_plugin("plugin update inspec-test-fixture-nonesuch")
 
+    skip_windows!
     assert_match(/No such plugin installed: .+ - update failed/, update_result.stdout)
 
     assert_empty update_result.stderr
@@ -707,6 +734,7 @@ class PluginManagerCliUpdate < Minitest::Test
     update_result = run_inspec_process_with_this_plugin("plugin update inspec-meaning-of-life", pre_run: pre_block)
 
     refusal_message = update_result.stdout.split("\n").grep(/refusing/).last
+    skip_windows!
     refute_nil refusal_message, "Should find a failure message at the end"
     assert_includes refusal_message, "inspec-meaning-of-life"
     assert_includes refusal_message, "inspec plugin uninstall"
@@ -735,6 +763,7 @@ class PluginManagerCliUninstall < Minitest::Test
     uninstall_result = run_inspec_process_with_this_plugin("plugin uninstall inspec-test-fixture", pre_run: pre_block, post_run: list_after_run)
 
     success_message = uninstall_result.stdout.split("\n").grep(/uninstalled/).last
+    skip_windows!
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "inspec-test-fixture"
     assert_includes success_message, "0.1.0"
@@ -759,6 +788,7 @@ class PluginManagerCliUninstall < Minitest::Test
     uninstall_result = run_inspec_process_with_this_plugin("plugin uninstall inspec-meaning-of-life", pre_run: pre_block, post_run: list_after_run)
 
     success_message = uninstall_result.stdout.split("\n").grep(/uninstalled/).last
+    skip_windows!
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "inspec-meaning-of-life"
     assert_includes success_message, "path-based plugin install"
@@ -776,6 +806,7 @@ class PluginManagerCliUninstall < Minitest::Test
   def test_fail_uninstall_from_plugin_that_is_not_installed
     uninstall_result = run_inspec_process_with_this_plugin("plugin uninstall inspec-test-fixture-nonesuch")
 
+    skip_windows!
     refute_includes "Inspec::Plugin::V2::UnInstallError", uninstall_result.stdout # Stacktrace marker
     assert_match(/No such plugin installed: .+ - uninstall failed/, uninstall_result.stdout)
 

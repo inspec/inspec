@@ -123,6 +123,7 @@ class PluginInstallerInstallationTests < Minitest::Test
     refute_operator reg, :known_plugin?,  plugin_name
     refute_operator reg, :loaded_plugin?, plugin_name
 
+    skip_windows!
     @installer.install("inspec-test-fixture", gem_file: gem_file)
 
     base = @installer.gem_path
@@ -149,6 +150,7 @@ class PluginInstallerInstallationTests < Minitest::Test
   def test_install_a_gem_from_local_file_creates_plugin_json
     gem_file = File.join(@plugin_fixture_pkg_path, "inspec-test-fixture-0.1.0.gem")
     stdout, _stderr = capture_io do
+      skip_windows!
       @installer.install("inspec-test-fixture", gem_file: gem_file)
     end
 
@@ -170,6 +172,7 @@ class PluginInstallerInstallationTests < Minitest::Test
   def test_install_a_gem_from_rubygems_org
     skip_slow_tests
 
+    skip_windows!
     @installer.install("inspec-test-fixture")
     # Because no exception was thrown, this is a positive test case for prefix-checking.
 
@@ -198,6 +201,7 @@ class PluginInstallerInstallationTests < Minitest::Test
 
   # Should be able to install a plugin while pinning the version
   def test_install_a_pinned_gem_from_rubygems_org
+    skip_windows!
     skip_slow_tests
 
     @installer.install("inspec-test-fixture", version: "= 0.1.0")
@@ -308,6 +312,7 @@ class PluginInstallerUpdaterTests < Minitest::Test
 
     copy_in_config_dir("test-fixture-1-float")
     @installer.__reset_loader
+    skip_windows!
     @installer.update("inspec-test-fixture")
 
     # Verify presence of gemspecs
@@ -330,6 +335,7 @@ class PluginInstallerUpdaterTests < Minitest::Test
     @installer.__reset_loader
 
     # Update to specific (but later) version
+    skip_windows!
     @installer.update("inspec-test-fixture", version: "0.2.0")
 
     # Verify presence of gemspecs
@@ -394,6 +400,7 @@ class PluginInstallerUninstallTests < Minitest::Test
     copy_in_config_dir("test-fixture-1-float")
     @installer.__reset_loader
 
+    skip_windows!
     @installer.uninstall("inspec-test-fixture")
 
     # UnInstalling a gem physically removes the gemspec and the gem library code
@@ -419,6 +426,7 @@ class PluginInstallerUninstallTests < Minitest::Test
     copy_in_config_dir("test-fixture-2-float")
     @installer.__reset_loader
 
+    skip_windows!
     @installer.uninstall("inspec-test-fixture")
 
     # UnInstalling a gem removes the gemspec and the gem library code

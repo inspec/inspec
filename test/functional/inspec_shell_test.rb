@@ -91,6 +91,7 @@ describe "inspec shell tests" do
     end
 
     it "runs anonymous tests that succeed (json output)" do
+      skip_windows!
       out = assert_shell_c("describe file(\"#{__FILE__}\") do it { should exist } end", 0, true)
       j = JSON.load(out.stdout)
       j.keys.must_include "version"
@@ -99,12 +100,14 @@ describe "inspec shell tests" do
     end
 
     it "runs anonymous tests that succeed" do
+      skip_windows!
       out = assert_shell_c("describe file(\"#{__FILE__}\") do it { should exist } end", 0)
       out.stdout.must_include "1 successful"
       out.stdout.must_include "0 failures"
     end
 
     it "runs anonymous tests that fail (json output)" do
+      skip_windows!
       out = assert_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 100, true)
       j = JSON.load(out.stdout)
       j.keys.must_include "version"
@@ -113,12 +116,14 @@ describe "inspec shell tests" do
     end
 
     it "runs anonymous tests that fail" do
+      skip_windows!
       out = assert_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 100)
       out.stdout.must_include "0 successful"
       out.stdout.must_include "1 failure"
     end
 
     it "runs controls with tests (json output)" do
+      skip_windows!
       out = assert_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end end", 0, true)
       j = JSON.load(out.stdout)
       j.keys.must_include "version"
@@ -127,12 +132,14 @@ describe "inspec shell tests" do
     end
 
     it "runs controls with tests" do
+      skip_windows!
       out = assert_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end end", 0)
       out.stdout.must_include "1 successful"
       out.stdout.must_include "0 failures"
     end
 
     it "runs controls with multiple tests (json output)" do
+      skip_windows!
       out = assert_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 100, true)
       j = JSON.load(out.stdout)
       j.keys.must_include "version"
@@ -141,6 +148,7 @@ describe "inspec shell tests" do
     end
 
     it "runs controls with multiple tests" do
+      skip_windows!
       out = assert_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 100)
       out.stdout.must_include "0 successful"
       out.stdout.must_include "1 failure"
