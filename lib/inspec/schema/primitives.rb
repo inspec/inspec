@@ -163,7 +163,6 @@ module Schema
     },
   }, [])
 
-
   # Occurs from "exec --reporter json" and "inspec json"
   # Denotes what file this control comes from, and where within
   SOURCE_LOCATION = SchemaType.new("Source Location", {
