@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.7.25 -->
-## [v4.7.25](https://github.com/inspec/inspec/tree/v4.7.25) (2019-07-25)
+<!-- latest_release 4.7.26 -->
+## [v4.7.26](https://github.com/inspec/inspec/tree/v4.7.26) (2019-07-26)
 
 #### Merged Pull Requests
-- Initial pass to clean up functional testing wrt exit codes and output. [#4324](https://github.com/inspec/inspec/pull/4324) ([zenspider](https://github.com/zenspider))
+- Add SHA512 password example to `shadow` resource [#4314](https://github.com/inspec/inspec/pull/4314) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.24 -->
 ### Changes since 4.7.24 release
 
 #### Merged Pull Requests
+- Add SHA512 password example to `shadow` resource [#4314](https://github.com/inspec/inspec/pull/4314) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 4.7.26 -->
 - Initial pass to clean up functional testing wrt exit codes and output. [#4324](https://github.com/inspec/inspec/pull/4324) ([zenspider](https://github.com/zenspider)) <!-- 4.7.25 -->
 <!-- release_rollup -->
 
