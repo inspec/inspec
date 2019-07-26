@@ -20,7 +20,7 @@ After creating a Chef Habitat package for an Chef InSpec profile (see CLI comman
 hab start effortless/audit-baseline
 ```
 
-The Chef Habitat Supervisor will install Chef InSpec and execute your profile in a loop. The loop is controled by two variables the `interval` and the `splay`. The `interval` is a set time you want InSpec to run (the default is `1800` seconds). The `splay` is a randomly generated sleep time so that if you don't have a thundering herd scenario when sending your report to an external server like Chef Automate. The default for the `splay` is also `1800` seconds. You can also set the `splay_first_run` so that when your Habitat package is started or updated it will wait a random period of time between 0 and the number set for the `splay_first_run` before running InSpec. The default of the `splay_first_run` is `0` seconds.
+The Chef Habitat Supervisor will install Chef InSpec and execute your profile in a loop. The loop is controlled by two variables: the `interval` and the `splay`. The `interval` is a set time you want InSpec to run and its default is `1800` seconds. The `splay` is a randomly generated sleep time that prevents a thundering herd problem, or resource starvation scenario, when sending your report to an external server like Chef Automate. The default for the `splay` is also `1800` seconds. Alternatively, the `splay_first_run` can be set to wait a random period of time between 0 and the number set for the `splay_first_run` before running InSpec when your Habitat package is started or updated. The default of the `splay_first_run` is `0` seconds.
 
 ```bash
 HAB_INSPEC_PROFILE_FRONTEND1="interval = 60" hab start effortless/audit-baseline
