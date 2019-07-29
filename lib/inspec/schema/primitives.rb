@@ -19,28 +19,35 @@ module Inspec
         }
       end
 
+      # This function performs some simple validation on schemas, to catch obvious missed requirements
+      def self.validate_schema(body)
+        if body["type"] == "object"
+          if not body.key? "required"
+            raise "Objects in schema must have a \"required\" property, even if it is empty"
+          end
+
+          if (body["required"].length > 0) && (not body.key? "properties")
+            raise "An object with required properties must have a properties hash"
+          end
+
+          if not body["required"].all? { |s| body["properties"].key? s }
+            raise "Property #{k} is required in schema #{name} but does not exist!"
+          end
+        end
+      end
+
       # Use this class to quickly add/use object types to/in a definition block
       class SchemaType
         attr_accessor :name, :depends
         def initialize(name, body, dependencies)
+          # Validate the schema
+          Primitives.validate_schema(body)
           # The title of the type
           @name = name
           # The body of the type
           @body = body
           # What SchemaType[]s it depends on. In essence, any thing that you .ref in the body
           @depends = Set.new(dependencies)
-          # As an added check, go through properties if it exists
-          if body.key?("properties")
-            if body.key?("required")
-              body["required"].each do |k|
-                if not body["properties"].key?(k)
-                  raise "Property #{k} is required in schema #{name} but does not exist!"
-                end
-              end
-            else
-              raise "Objects in schema must have a \"required\" property, even if it is empty"
-            end
-          end
         end
 
         # Produce this schema types generated body.
@@ -147,7 +154,7 @@ module Inspec
         "properties" => {
           "name" => desc(STRING, "The name of the platform this was run on."),
           "release" => desc(STRING, "The version of the platform this was run on."),
-          "target_id" => desc(STRING, "TODO: Document this property"),
+          "target_id" => STRING,
         },
       }, [])
 
