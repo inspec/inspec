@@ -88,6 +88,11 @@ module Inspec::Resources
         return nil
       end
 
+      # If multiple triggers are defined, `schtasks` returns a list.
+      # This merges that list with the latest item taking precedence.
+      # This is the same behavior as `Get-ScheduledTask`.
+      params = params.reduce(:merge) if params.is_a?(Array)
+
       @cache = {
         uri: params["URI"],
         state: params["State"],

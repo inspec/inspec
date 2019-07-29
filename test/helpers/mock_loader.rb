@@ -385,8 +385,10 @@ class MockLoader
       "get-hotfix -id KB9999999" => empty.call,
       # windows_task doesnt exist
       "schtasks /query /v /fo csv /tn 'does-not-exist' | ConvertFrom-Csv | Select @{N='URI';E={$_.TaskName}},@{N='State';E={$_.Status.ToString()}},'Logon Mode','Last Result','Task To Run','Run As User','Scheduled Task State' | ConvertTo-Json -Compress" => cmd.call("schtasks-error"),
-      # windows_task exist
-      "schtasks /query /v /fo csv /tn 'WeLovePizza' | ConvertFrom-Csv | Select @{N='URI';E={$_.TaskName}},@{N='State';E={$_.Status.ToString()}},'Logon Mode','Last Result','Task To Run','Run As User','Scheduled Task State' | ConvertTo-Json -Compress" => cmd.call("schtasks-success"),
+      # windows_task exists and has 1 trigger
+      "schtasks /query /v /fo csv /tn 'WeLovePizza' | ConvertFrom-Csv | Select @{N='URI';E={$_.TaskName}},@{N='State';E={$_.Status.ToString()}},'Logon Mode','Last Result','Task To Run','Run As User','Scheduled Task State' | ConvertTo-Json -Compress" => cmd.call("schtasks-success-single-trigger"),
+      # windows_task exists and has multiple triggers
+      "schtasks /query /v /fo csv /tn 'WeLoveMultiplePizzas' | ConvertFrom-Csv | Select @{N='URI';E={$_.TaskName}},@{N='State';E={$_.Status.ToString()}},'Logon Mode','Last Result','Task To Run','Run As User','Scheduled Task State' | ConvertTo-Json -Compress" => cmd.call("schtasks-success-multiple-triggers"),
       "modinfo -F version dhcp" => cmd.call("modinfo-f-version-dhcp"),
       # crontab display for root / current user
       "crontab -l" => cmd.call("crontab-root"),
