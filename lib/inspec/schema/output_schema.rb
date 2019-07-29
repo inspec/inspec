@@ -10,7 +10,7 @@ module Inspec
       # Build our definitions
       def self.build_definitions(schema_type)
         {
-          "definitions" => schema_type.all_depends.map { |t| [t.name, t.body] }.to_h
+          "definitions" => schema_type.all_depends.map { |t| [t.name, t.body] }.to_h,
         }
       end
 
