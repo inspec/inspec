@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.8.1 -->
-## [v4.8.1](https://github.com/inspec/inspec/tree/v4.8.1) (2019-07-29)
+<!-- latest_release 4.8.2 -->
+## [v4.8.2](https://github.com/inspec/inspec/tree/v4.8.2) (2019-07-29)
 
 #### Merged Pull Requests
-- windows_task: Fix handling of multiple triggers [#4242](https://github.com/inspec/inspec/pull/4242) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Change expeditor timeout from 30 to 45. [#4335](https://github.com/inspec/inspec/pull/4335) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.24 -->
@@ -14,6 +14,7 @@
 - Transition the Habitat plugin to use scaffolding [#4320](https://github.com/inspec/inspec/pull/4320) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.8.0 -->
 
 #### Merged Pull Requests
+- Change expeditor timeout from 30 to 45. [#4335](https://github.com/inspec/inspec/pull/4335) ([zenspider](https://github.com/zenspider)) <!-- 4.8.2 -->
 - windows_task: Fix handling of multiple triggers [#4242](https://github.com/inspec/inspec/pull/4242) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 4.8.1 -->
 - Add SHA512 password example to `shadow` resource [#4314](https://github.com/inspec/inspec/pull/4314) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 4.7.26 -->
 - Initial pass to clean up functional testing wrt exit codes and output. [#4324](https://github.com/inspec/inspec/pull/4324) ([zenspider](https://github.com/zenspider)) <!-- 4.7.25 -->
