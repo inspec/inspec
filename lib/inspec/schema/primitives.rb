@@ -20,19 +20,15 @@ module Inspec
       end
 
       # This function performs some simple validation on schemas, to catch obvious missed requirements
-      def self.validate_schema(body)
-        if body["type"] == "object"
-          if not body.key? "required"
-            raise "Objects in schema must have a \"required\" property, even if it is empty"
-          end
+      def self.validate_schema(schema)
+        if schema["type"] == "object"
+          raise "Objects in schema must have a \"required\" property, even if it is empty" unless schema.key?("required")
 
-          if (body["required"].length > 0) && (not body.key? "properties")
-            raise "An object with required properties must have a properties hash"
-          end
+          requirements = Set.new(schema["required"])
+          properties = Set.new(schema["properties"].keys)
+          raise "An object with required properties must have a properties hash" unless requirements.empty? || properties
 
-          if not body["required"].all? { |s| body["properties"].key? s }
-            raise "Property #{k} is required in schema #{name} but does not exist!"
-          end
+          raise "Not all required properties are present" unless requirements <= properties
         end
       end
 
