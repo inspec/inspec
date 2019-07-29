@@ -108,10 +108,6 @@ module FunctionalHelper
     ENV["CHEF_LICENSE"] = "accept-no-persist"
   end
 
-  def skip_windows!
-    skip_until 2019, 7, 31, "These have never passed" if windows?
-  end
-
   def assert_exit_code(exp, cmd)
     exp = 1 if windows? && (exp != 0)
     assert_equal exp, cmd.exit_status
@@ -137,7 +133,7 @@ module FunctionalHelper
 
   def inspec(commandline, prefix = nil)
     if is_windows?
-      invocation = "cmd /C \"#{prefix} #{exec_inspec} #{commandline}\""
+      invocation = "/windows/system32/cmd /C \"#{prefix} #{exec_inspec} #{commandline}\""
       result = CMD.run_command(invocation)
       result.stdout.encode!(universal_newline: true)
       result.stderr.encode!(universal_newline: true)

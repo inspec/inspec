@@ -1,4 +1,0 @@
-[build]
-  base = "www"
-  publish = "www/build"
-  command = "bundle install && bundle exec rake www:clean && bundle exec rake docs && bundle exec rake www:build"

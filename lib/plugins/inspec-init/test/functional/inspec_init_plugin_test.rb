@@ -3,18 +3,18 @@ require_relative "../../../shared/core_plugin_test_helper.rb"
 class InitPluginCli < Minitest::Test
   include CorePluginFunctionalHelper
 
-  def setup
-    skip_windows!
-  end
-
   def test_generating_inspec_plugin_correct_prefix_required
     Dir.mktmpdir do |dir|
       plugin = "wacky-name"
       run_result = run_inspec_process("init plugin --no-prompt #{plugin} ", prefix: "cd #{dir} &&")
-      assert_equal 1, run_result.exit_status
-      assert_empty run_result.stderr
+
+      skip_windows!
       assert_includes run_result.stdout, "ERROR"
       assert_includes run_result.stdout, "Plugin names must begin with"
+
+      assert_empty run_result.stderr
+
+      assert_exit_code 1, run_result
     end
   end
 
@@ -25,11 +25,14 @@ class InitPluginCli < Minitest::Test
       module_name = plugin.sub(/^inspec\-/, "").split("-").map(&:capitalize).join("")
 
       run_result = run_inspec_process("init plugin --no-prompt #{plugin}", prefix: "cd #{dir} &&")
-      assert_empty run_result.stderr
 
-      assert_equal 0, run_result.exit_status
+      skip_windows!
       assert_includes run_result.stdout, "Creating new inspec plugin at"
       assert_includes run_result.stdout, plugin
+
+      assert_empty run_result.stderr
+
+      assert_exit_code 0, run_result
 
       # Check generated files and contents.
       # Each file must exist, and its contents must match each of the regexen given.
@@ -128,10 +131,14 @@ class InitPluginCli < Minitest::Test
       opts += " --module_name FunPlugin"
 
       run_result = run_inspec_process("init plugin #{plugin} --no-prompt #{opts}", prefix: "cd #{dir} &&")
-      assert_empty run_result.stderr
-      assert_equal 0, run_result.exit_status
+
+      skip_windows!
       assert_includes run_result.stdout, "Creating new inspec plugin at"
       assert_includes run_result.stdout, plugin
+
+      assert_empty run_result.stderr
+
+      assert_exit_code 0, run_result
 
       # Check generated files and contents.
       # Each file must exist, and its contents must match each of the regexen given.

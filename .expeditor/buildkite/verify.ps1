@@ -9,3 +9,5 @@ bundle install --jobs=7 --retry=3 --without tools maintenance deploy
 
 echo "+++ bundle exec rake"
 bundle exec rake
+
+exit $LASTEXITCODE

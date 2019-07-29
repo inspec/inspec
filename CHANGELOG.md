@@ -1,26 +1,39 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.7.23 -->
-## [v4.7.23](https://github.com/inspec/inspec/tree/v4.7.23) (2019-07-23)
+<!-- latest_release 4.8.2 -->
+## [v4.8.2](https://github.com/inspec/inspec/tree/v4.8.2) (2019-07-29)
 
 #### Merged Pull Requests
-- Fix exceptions when resources are used with incompatible transports [#4316](https://github.com/inspec/inspec/pull/4316) ([zenspider](https://github.com/zenspider))
+- Change expeditor timeout from 30 to 45. [#4335](https://github.com/inspec/inspec/pull/4335) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
-<!-- release_rollup since=4.7.18 -->
-### Changes since 4.7.18 release
+<!-- release_rollup since=4.7.24 -->
+### Changes since 4.7.24 release
 
-#### Bug Fixes
-- Suppress gem docs when installing plugins [#4286](https://github.com/inspec/inspec/pull/4286) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.7.20 -->
+#### New Features
+- Transition the Habitat plugin to use scaffolding [#4320](https://github.com/inspec/inspec/pull/4320) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.8.0 -->
 
 #### Merged Pull Requests
-- Fix exceptions when resources are used with incompatible transports [#4316](https://github.com/inspec/inspec/pull/4316) ([zenspider](https://github.com/zenspider)) <!-- 4.7.23 -->
-- Add windows to verify pipeline [#4325](https://github.com/inspec/inspec/pull/4325) ([miah](https://github.com/miah)) <!-- 4.7.22 -->
-- add resource sys_info.manufacturer and sys_info.model [#4230](https://github.com/inspec/inspec/pull/4230) ([yeoldegrove](https://github.com/yeoldegrove)) <!-- 4.7.21 -->
-- Un-deprecate the be_running matcher on service resource [#4295](https://github.com/inspec/inspec/pull/4295) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.7.19 -->
+- Change expeditor timeout from 30 to 45. [#4335](https://github.com/inspec/inspec/pull/4335) ([zenspider](https://github.com/zenspider)) <!-- 4.8.2 -->
+- windows_task: Fix handling of multiple triggers [#4242](https://github.com/inspec/inspec/pull/4242) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 4.8.1 -->
+- Add SHA512 password example to `shadow` resource [#4314](https://github.com/inspec/inspec/pull/4314) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 4.7.26 -->
+- Initial pass to clean up functional testing wrt exit codes and output. [#4324](https://github.com/inspec/inspec/pull/4324) ([zenspider](https://github.com/zenspider)) <!-- 4.7.25 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.7.24](https://github.com/inspec/inspec/tree/v4.7.24) (2019-07-26)
+
+#### Bug Fixes
+- Suppress gem docs when installing plugins [#4286](https://github.com/inspec/inspec/pull/4286) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Un-deprecate the be_running matcher on service resource [#4295](https://github.com/inspec/inspec/pull/4295) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- add resource sys_info.manufacturer and sys_info.model [#4230](https://github.com/inspec/inspec/pull/4230) ([yeoldegrove](https://github.com/yeoldegrove))
+- Add windows to verify pipeline [#4325](https://github.com/inspec/inspec/pull/4325) ([miah](https://github.com/miah))
+- Fix exceptions when resources are used with incompatible transports [#4316](https://github.com/inspec/inspec/pull/4316) ([zenspider](https://github.com/zenspider))
+- bye netlify [#4332](https://github.com/inspec/inspec/pull/4332) ([miah](https://github.com/miah))
+<!-- latest_stable_release -->
+
 ## [v4.7.18](https://github.com/inspec/inspec/tree/v4.7.18) (2019-07-18)
 
 #### Merged Pull Requests
@@ -39,7 +52,6 @@
 - Enable Windows 2019 packages [#4311](https://github.com/inspec/inspec/pull/4311) ([jaymalasinha](https://github.com/jaymalasinha))
 - Automatically publish release notes and announce releases [#4312](https://github.com/inspec/inspec/pull/4312) ([schisamo](https://github.com/schisamo))
 - Create private pipelines for website management. [#4313](https://github.com/inspec/inspec/pull/4313) ([miah](https://github.com/miah))
-<!-- latest_stable_release -->
 
 ## [v4.7.3](https://github.com/inspec/inspec/tree/v4.7.3) (2019-07-09)
 

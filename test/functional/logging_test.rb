@@ -5,10 +5,6 @@ require "functional/helper"
 describe "Deprecation Facility Behavior" do
   include FunctionalHelper
 
-  before do
-    skip_windows!
-  end
-
   let(:profile) { File.join(profile_path, "deprecation", profile_name) }
   let(:invocation) { "exec #{profile} #{control_flag}" }
   # Running in JSON mode has the side-effect of sending log messages to $stderr
@@ -24,8 +20,6 @@ describe "Deprecation Facility Behavior" do
         let(:control_flag) { "--controls deprecate_fail_mode" }
 
         it "should result in a failed control" do
-          run_result.stderr.must_be_empty
-          run_result.exit_status.must_equal 100
           json_result.count.must_equal 3
           json_result[0]["status"].must_equal "passed"
           json_result[2]["status"].must_equal "passed"
@@ -36,6 +30,10 @@ describe "Deprecation Facility Behavior" do
           json_result[1]["message"].must_include "test/unit/mock/profiles/deprecation/typical/controls/typical.rb"
           # TODO: Brittle Test
           json_result[1]["message"].must_include "typical.rb:10" # Line number check
+
+          run_result.stderr.must_be_empty
+
+          assert_exit_code 100, run_result
         end
       end
 
@@ -44,7 +42,6 @@ describe "Deprecation Facility Behavior" do
         let(:control_flag) { "" }
 
         it "should result in a warning, not a stacktrace or abort" do
-          run_result.exit_status.must_equal 0
           json_result.count.must_equal 1
           json_result[0]["status"].must_equal "passed"
 
@@ -59,6 +56,8 @@ describe "Deprecation Facility Behavior" do
           deprecation_line.must_include "test/unit/mock/profiles/deprecation/bare/controls/bare.rb"
           # TODO: Brittle Test
           deprecation_line.must_include "bare.rb:2"
+
+          assert_exit_code 0, run_result
         end
       end
     end
@@ -68,9 +67,6 @@ describe "Deprecation Facility Behavior" do
       let(:control_flag) { "--controls deprecate_exit_mode_implicit" }
 
       it "should result in an exit with a special code" do
-        # 3 is the FATAL_DEPRECATION value from Inspec::UI
-        run_result.exit_status.must_equal 3
-
         # Exactly one error should be output
         stderr_lines = run_result.stderr.split("\n")
         stderr_lines.count.must_equal 1
@@ -87,6 +83,9 @@ describe "Deprecation Facility Behavior" do
 
         # The reporter should not fire
         run_result.stdout.must_be_empty
+
+        # 3 is the FATAL_DEPRECATION value from Inspec::UI
+        assert_exit_code 3, run_result
       end
     end
 
@@ -95,9 +94,6 @@ describe "Deprecation Facility Behavior" do
       let(:control_flag) { "--controls deprecate_exit_mode_explicit" }
 
       it "should result in an exit with a special code" do
-        # 8 is a custom value
-        run_result.exit_status.must_equal 8
-
         # Exactly one error should be output
         stderr_lines = run_result.stderr.split("\n")
         stderr_lines.count.must_equal 1
@@ -114,6 +110,9 @@ describe "Deprecation Facility Behavior" do
 
         # The reporter should not fire
         run_result.stdout.must_be_empty
+
+        # 8 is a custom value
+        assert_exit_code 8, run_result
       end
     end
 
@@ -122,7 +121,6 @@ describe "Deprecation Facility Behavior" do
       let(:control_flag) { "--controls deprecate_warn_mode" }
 
       it "should result in a warning, not a stacktrace or abort" do
-        run_result.exit_status.must_equal 0
         json_result.count.must_equal 3
         json_result[0]["status"].must_equal "passed"
         json_result[1]["status"].must_equal "passed"
@@ -140,6 +138,8 @@ describe "Deprecation Facility Behavior" do
         deprecation_line.must_include "test/unit/mock/profiles/deprecation/typical/controls/typical.rb" # Frame should have been identified as coming from the test profile
         # TODO: Brittle Test
         deprecation_line.must_include "typical.rb:61" # Line number check
+
+        assert_exit_code 0, run_result
       end
     end
 
@@ -148,7 +148,6 @@ describe "Deprecation Facility Behavior" do
       let(:control_flag) { "--controls deprecate_ignore_mode --log-level debug" }
 
       it "should appear to be a normal run, no warnings or stacktrace or abort, but include debug message" do
-        run_result.exit_status.must_equal 0
         json_result.count.must_equal 3
         json_result[0]["status"].must_equal "passed"
         json_result[1]["status"].must_equal "passed"
@@ -164,6 +163,8 @@ describe "Deprecation Facility Behavior" do
         deprecation_line.must_include "test/unit/mock/profiles/deprecation/typical/controls/typical.rb" # Frame should have been identified as coming from the test profile
         # TODO: Brittle Test
         deprecation_line.must_include "typical.rb:77" # Line number check
+
+        assert_exit_code 0, run_result
       end
     end
   end

@@ -5,19 +5,16 @@ require "securerandom"
 describe "inspec exec" do
   include FunctionalHelper
 
-  before do
-    skip_windows!
-  end
-
   it "can generate keys" do
     prepare_examples do |dir|
       unique_key_name = SecureRandom.uuid
+
       out = inspec("artifact generate --keyname #{unique_key_name}", "cd #{dir} && ")
-      out.exit_status.must_equal 0
 
       stdout = out.stdout.force_encoding(Encoding::UTF_8)
       stdout.must_include "Generating private key"
       stdout.must_include "Generating public key"
+      assert_exit_code 0, out
     end
   end
 
@@ -34,16 +31,16 @@ describe "inspec exec" do
       FileUtils.mkdir(install_dir)
 
       out = inspec("artifact generate --keyname #{unique_key_name}", "cd #{dir} &&")
-      out.exit_status.must_equal 0
+      assert_exit_code 0, out
 
       out = inspec("artifact sign-profile --profile #{profile} --keyname #{unique_key_name}", "cd #{dir} &&")
-      out.exit_status.must_equal 0
+      assert_exit_code 0, out
 
       out = inspec("artifact install-profile --infile profile-1.0.0.iaf --destdir #{install_dir}", "cd #{dir} &&")
-      out.exit_status.must_equal 0
 
       out.stdout.force_encoding(Encoding::UTF_8).must_include "Installing to #{install_dir}"
       Dir.entries(install_dir).join.must_include "inspec.yml"
+      assert_exit_code 0, out
     end
   end
 

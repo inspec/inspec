@@ -35,7 +35,7 @@ describe 'inspec list-resources core' do
     # Some tests through here use minitest Expectations, which attach to all
     # Objects, and begin with 'must' (positive) or 'wont' (negative)
     # See http://docs.seattlerb.org/minitest/Minitest/Expectations.html
-    it("should exit successfully") { outcome.exit_status.must_equal(0) }
+    it("should exit successfully") { assert_exit_code 0, outcome }
     it("should be silent on stderr") { outcome.stderr.must_be_empty }
 
     # A selection of core resources, just spot checking.
@@ -59,7 +59,7 @@ describe 'inspec list-resources core' do
     let(:outcome) { run_inspec_process_with_this_plugin("listresources core user") }
 
     # Should be well-behaved...
-    it("should exit successfully") { outcome.exit_status.must_equal(0) }
+    it("should exit successfully") { assert_exit_code 0, outcome }
     it("should be silent on stderr") { outcome.stderr.must_be_empty }
 
     # Here, we want to know it DID match some things, and NOT some others.
@@ -79,7 +79,7 @@ describe 'inspec list-resources core' do
     let(:outcome) { run_inspec_process_with_this_plugin("listresources core autogyro") }
 
     # Should be well-behaved...
-    it("should exit successfully") { outcome.exit_status.must_equal(0) }
+    it("should exit successfully") { assert_exit_code 0, outcome }
     it("should be silent on stderr") { outcome.stderr.must_be_empty }
 
     # Output lines should be just two, for the summary.
@@ -99,7 +99,7 @@ describe 'inspec list-resources core' do
     let(:outcome) { run_inspec_process_with_this_plugin('listresources core --no-summary') }
 
     # Should be well-behaved...
-    it("should exit successfully") { outcome.exit_status.must_equal(0) }
+    it("should exit successfully") { assert_exit_code 0, outcome }
     it("should be silent on stderr") { outcome.stderr.must_be_empty }
 
     # Check for the summary
