@@ -64,18 +64,6 @@ module InspecPlugins
           habitat_origin: read_habitat_config["origin"],
         }
         create_file_from_template(plan_file, "plan.sh.erb", vars)
-
-        run_hook_file = File.join(path, "habitat", "hooks", "run")
-        logger.info("Generating a Habitat run hook at #{run_hook_file}...")
-        create_file_from_template(run_hook_file, "hooks/run.erb")
-
-        default_toml = File.join(path, "habitat", "default.toml")
-        logger.info("Generating a Habitat default.toml at #{default_toml}...")
-        create_file_from_template(default_toml, "default.toml.erb")
-
-        config = File.join(path, "habitat", "config", "inspec_exec_config.json")
-        logger.info("Generating #{config} for `#{EXEC_NAME} exec`...")
-        create_file_from_template(config, "config/inspec_exec_config.json.erb")
       end
 
       def upload
