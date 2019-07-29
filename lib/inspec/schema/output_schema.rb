@@ -9,20 +9,8 @@ module Inspec
     module OutputSchema
       # Build our definitions
       def self.build_definitions(schema_type)
-        # Init definition hash
-        definitions = {}
-
-        # Fetch all dependencies
-        defined_types = schema_type.all_depends
-
-        # Add them all to the definition hash
-        defined_types.each do |type|
-          definitions[type.name] = type.body
-        end
-
-        # Nest under "definitions" label
         {
-          "definitions" => definitions,
+          "definitions" => schema_type.all_depends.map { |t| [t.name, t.body] }.to_h
         }
       end
 
