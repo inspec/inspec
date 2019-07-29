@@ -1,8 +1,8 @@
 require "json"
-require "lib/inspec/schema/primitives"
-require "lib/inspec/schema/exec_json"
-require "lib/inspec/schema/exec_json_min"
-require "lib/inspec/schema/profile_json"
+require "inspec/schema/primitives"
+require "inspec/schema/exec_json"
+require "inspec/schema/exec_json_min"
+require "inspec/schema/profile_json"
 
 module Inspec
   module Schema

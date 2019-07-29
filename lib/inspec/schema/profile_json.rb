@@ -1,4 +1,4 @@
-require "lib/inspec/schema/primitives"
+require "inspec/schema/primitives"
 
 # These type occur only when running "inspec json <file>".
 
