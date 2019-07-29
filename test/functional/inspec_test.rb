@@ -7,10 +7,7 @@ describe "command tests" do
     it "provides the version number on stdout" do
       out = inspec("version")
 
-      # Tolerate working on an out of date branch
-      output = out.stdout.split("\n").reject { |l| l.start_with?("Your version of InSpec is out of date!") }.join("\n") + "\n"
-      output.must_equal Inspec::VERSION + "\n"
-
+      out.stdout.must_equal Inspec::VERSION + "\n"
       out.stderr.must_equal ""
 
       assert_exit_code 0, out
