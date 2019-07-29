@@ -370,7 +370,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
   desc "schema NAME", "print the JSON schema", hide: true
   def schema(name)
-    require "inspec/schema/schema"
+    require "inspec/schema/output_schema"
 
     puts Inspec::Schema::OutputSchema.json(name)
   rescue StandardError => e
