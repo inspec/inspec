@@ -385,14 +385,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       v = { version: Inspec::VERSION }
       puts v.to_json
     else
-      require "inspec/utils/latest_version"
       puts Inspec::VERSION
-      # display outdated version
-      # TODO: remove this. Don't notify of update to a gem when they install omnibus
-      latest = LatestInSpecVersion.new.latest || Inspec::VERSION
-      if Gem::Version.new(Inspec::VERSION) < Gem::Version.new(latest)
-        puts "\nYour version of #{Inspec::Dist::PRODUCT_NAME} is out of date! The latest version is #{latest}."
-      end
     end
   end
   map %w{-v --version} => :version
