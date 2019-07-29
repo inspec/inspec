@@ -1,8 +1,5 @@
 require "set"
 
-# We disable this for the sake of legibility
-# rubocop:disable Layout/AlignHash
-
 # These elements are shared between more than one output type
 
 module Inspec
@@ -125,9 +122,9 @@ module Inspec
         "additionalProperties" => false,
         "required" => [],
         "properties" => {
-            "passed"  => STATISTIC_ITEM.ref,
+            "passed" => STATISTIC_ITEM.ref,
             "skipped" => STATISTIC_ITEM.ref,
-            "failed"  => STATISTIC_ITEM.ref,
+            "failed" => STATISTIC_ITEM.ref,
         },
       }, [STATISTIC_ITEM])
 
@@ -148,8 +145,8 @@ module Inspec
         "additionalProperties" => false,
         "required" => %w{name release},
         "properties" => {
-          "name"      => desc(STRING, "The name of the platform this was run on."),
-          "release"   => desc(STRING, "The version of the platform this was run on."),
+          "name" => desc(STRING, "The name of the platform this was run on."),
+          "release" => desc(STRING, "The version of the platform this was run on."),
           "target_id" => desc(STRING, "TODO: Document this property"),
         },
       }, [])
@@ -157,10 +154,10 @@ module Inspec
       # Explains what software ran the inspec profile/made this file. Typically inspec but could in theory be a different software
       GENERATOR = SchemaType.new("Generator", {
         "type" => "object",
-        "additionalProperties"  => false,
-        "required"              => %w{name version},
-        "properties"            => {
-          "name"    => desc(STRING, "The name of the software that generated this report."),
+        "additionalProperties" => false,
+        "required" => %w{name version},
+        "properties" => {
+          "name" => desc(STRING, "The name of the software that generated this report."),
           "version" => desc(STRING, "The version of the software that generated this report."),
         },
       }, [])
@@ -169,10 +166,10 @@ module Inspec
       # Denotes what file this control comes from, and where within
       SOURCE_LOCATION = SchemaType.new("Source Location", {
         "type" => "object",
-        "additionalProperties"  => false,
-        "properties"            => {
-          "ref"   => desc(STRING, "Path to the file that this statement originates from"),
-          "line"  => desc(NUMBER, "The line at which this statement is located in the file"),
+        "additionalProperties" => false,
+        "properties" => {
+          "ref" => desc(STRING, "Path to the file that this statement originates from"),
+          "line" => desc(NUMBER, "The line at which this statement is located in the file"),
         },
         "required" => %w{ref line},
       }, [])
@@ -184,17 +181,17 @@ module Inspec
         "anyOf" => [
           {
             "type" => "object",
-            "required"   => ["ref"],
+            "required" => ["ref"],
             "properties" => { "ref" => STRING },
           },
           {
             "type" => "object",
-            "required"   => ["url"],
+            "required" => ["url"],
             "properties" => { "url" => STRING },
           },
           {
             "type" => "object",
-            "required"   => ["uri"],
+            "required" => ["uri"],
             "properties" => { "uri" => STRING },
           },
         ],
@@ -203,12 +200,12 @@ module Inspec
       # Represents a group of controls within a profile/.rb file
       CONTROL_GROUP = SchemaType.new("Control Group", {
         "type" => "object",
-        "additionalProperties"  => false,
-        "required"              => %w{id controls},
-        "properties"            => {
-          "id"        => desc(STRING, "The unique identifier of the group"),
-          "title"     => desc(STRING, "The name of the group"),
-          "controls"  => desc(array(STRING), "The control IDs in this group"),
+        "additionalProperties" => false,
+        "required" => %w{id controls},
+        "properties" => {
+          "id" => desc(STRING, "The unique identifier of the group"),
+          "title" => desc(STRING, "The name of the group"),
+          "controls" => desc(array(STRING), "The control IDs in this group"),
         },
       }, [])
 
@@ -216,15 +213,15 @@ module Inspec
       # Represents a platfrom or group of platforms that this profile supports
       SUPPORT = SchemaType.new("Supported Platform", {
         "type" => "object",
-        "additionalProperties"  => false,
-        "required"              => ["platform-family"],
-        "properties"            => {
+        "additionalProperties" => false,
+        "required" => ["platform-family"],
+        "properties" => {
           "platform-family" => STRING,
-          "platform-name"   => STRING,
-          "platform"        => STRING,
+          "platform-name" => STRING,
+          "platform" => STRING,
           # os-* supports are being deprecated
-          "os-family"       => STRING,
-          "os-name"         => STRING,
+          "os-family" => STRING,
+          "os-name" => STRING,
         },
       }, [])
 
