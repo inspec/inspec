@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.7.26 -->
-## [v4.7.26](https://github.com/inspec/inspec/tree/v4.7.26) (2019-07-26)
+<!-- latest_release 4.8.0 -->
+## [v4.8.0](https://github.com/inspec/inspec/tree/v4.8.0) (2019-07-29)
 
-#### Merged Pull Requests
-- Add SHA512 password example to `shadow` resource [#4314](https://github.com/inspec/inspec/pull/4314) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### New Features
+- Transition the Habitat plugin to use scaffolding [#4320](https://github.com/inspec/inspec/pull/4320) ([TheLunaticScripter](https://github.com/TheLunaticScripter))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.24 -->
 ### Changes since 4.7.24 release
+
+#### New Features
+- Transition the Habitat plugin to use scaffolding [#4320](https://github.com/inspec/inspec/pull/4320) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.8.0 -->
 
 #### Merged Pull Requests
 - Add SHA512 password example to `shadow` resource [#4314](https://github.com/inspec/inspec/pull/4314) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 4.7.26 -->
