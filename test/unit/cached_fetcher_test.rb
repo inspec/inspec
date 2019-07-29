@@ -1,5 +1,10 @@
 require "helper"
 
+require "inspec/plugin/v2"
+require "inspec/cached_fetcher"
+require "plugins/inspec-compliance/lib/inspec-compliance"
+require "inspec/dependencies/cache"
+
 describe Inspec::CachedFetcher do
   describe "when original fetcher is Compliance::Fetcher" do
     let(:profiles_result) do
@@ -21,12 +26,12 @@ describe Inspec::CachedFetcher do
          "latest_version" => "" }]
     end
     before do
-      Compliance::Configuration.expects(:new).returns({ "token" => "123abc", "server" => "https://a2.instance.com" })
+      InspecPlugins::Compliance::Configuration.expects(:new).returns({ "token" => "123abc", "server" => "https://a2.instance.com" })
     end
 
     it "downloads the profile from the compliance service when sha256 not in the cache" do
       prof = profiles_result[0]
-      Compliance::API.stubs(:profiles).returns(["success", profiles_result])
+      InspecPlugins::Compliance::API.stubs(:profiles).returns(["success", profiles_result])
       cache = Inspec::Cache.new
       entry_path = cache.base_path_for(prof["sha256"])
       mock_fetch = Minitest::Mock.new
@@ -41,7 +46,7 @@ describe Inspec::CachedFetcher do
 
     it "does not download the profile when the sha256 exists in the inspec cache" do
       prof = profiles_result[0]
-      Compliance::API.stubs(:profiles).returns(["success", profiles_result])
+      InspecPlugins::Compliance::API.stubs(:profiles).returns(["success", profiles_result])
       cache = Inspec::Cache.new
       entry_path = cache.base_path_for(prof["sha256"])
       mock_prefered_entry_for = Minitest::Mock.new

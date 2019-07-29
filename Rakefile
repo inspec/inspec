@@ -74,6 +74,18 @@ namespace :test do
     puts Dir[*GLOBS].sort
   end
 
+  task :missing do
+    missing = Dir["test/**/*"] - Dir[*GLOBS]
+
+    missing.reject! { |f| ! File.file? f }
+    missing.reject! { |f| f =~ %r{test/(integration|cookbooks)} }
+    missing.reject! { |f| f =~ %r{test/unit/mock} }
+    missing.reject! { |f| f =~ %r{test.*helper} }
+    missing.reject! { |f| f =~ %r{test/docker} }
+
+    puts missing.sort
+  end
+
   task :isolated do
     failures = Dir[*GLOBS]
     failures.reject! do |file|

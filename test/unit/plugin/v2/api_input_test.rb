@@ -1,5 +1,7 @@
 require "helper"
 
+require "inspec/plugin/v2"
+
 describe "Input plugin type" do
   describe "when registering the plugin type superclass" do
     it "returns the superclass when calling the global defintion method" do
