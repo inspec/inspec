@@ -123,15 +123,15 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       puts JSON.generate(result)
     else
       %w{location profile controls timestamp valid}.each do |item|
-        prepared_string = format('%-12s %s',
+        prepared_string = format("%-12s %s",
                                  "#{item.to_s.capitalize} :",
                                  result[:summary][item.to_sym])
         ui.plain_line(prepared_string)
       end
       puts
 
-      if result[:errors].empty? and result[:warnings].empty?
-        ui.plain_line('No errors or warnings')
+      if result[:errors].empty? && result[:warnings].empty?
+        ui.plain_line("No errors or warnings")
       else
         item_msg = lambda { |item|
           pos = [item[:file], item[:line], item[:column]].compact.join(":")
@@ -198,7 +198,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     result = profile.check
 
     if result && !o[:ignore_errors] == false
-      o[:logger].info 'Profile check failed. Please fix the profile before generating an archive.'
+      o[:logger].info "Profile check failed. Please fix the profile before generating an archive."
       return ui.exit Inspec::UI::EXIT_USAGE_ERROR
     end
 
@@ -308,7 +308,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     if o["format"] == "json"
       puts res.to_json
     else
-      ui.headline('Platform Details')
+      ui.headline("Platform Details")
       ui.plain Inspec::BaseCLI.format_platform_info(params: res, indent: 0, color: 36)
     end
   rescue ArgumentError, RuntimeError, Train::UserError => e
