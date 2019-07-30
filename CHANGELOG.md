@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.9.1 -->
-## [v4.9.1](https://github.com/inspec/inspec/tree/v4.9.1) (2019-07-30)
+<!-- latest_release 4.10.0 -->
+## [v4.10.0](https://github.com/inspec/inspec/tree/v4.10.0) (2019-07-30)
 
-#### Merged Pull Requests
-- Apply new UI code to CLI and plugin-manager-cli [#4000](https://github.com/inspec/inspec/pull/4000) ([miah](https://github.com/miah))
+#### New Features
+- Relative Path Support for the Git Fetcher [#4217](https://github.com/inspec/inspec/pull/4217) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.24 -->
 ### Changes since 4.7.24 release
 
 #### New Features
+- Relative Path Support for the Git Fetcher [#4217](https://github.com/inspec/inspec/pull/4217) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.10.0 -->
 - Permit plugin to be in path with git ref [#4251](https://github.com/inspec/inspec/pull/4251) ([james-stocks](https://github.com/james-stocks)) <!-- 4.9.0 -->
 - Transition the Habitat plugin to use scaffolding [#4320](https://github.com/inspec/inspec/pull/4320) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.8.0 -->
 
