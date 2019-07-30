@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.8.5 -->
-## [v4.8.5](https://github.com/inspec/inspec/tree/v4.8.5) (2019-07-29)
+<!-- latest_release 4.8.6 -->
+## [v4.8.6](https://github.com/inspec/inspec/tree/v4.8.6) (2019-07-30)
 
 #### Merged Pull Requests
-- Remove travis and appveyor [#4339](https://github.com/inspec/inspec/pull/4339) ([miah](https://github.com/miah))
+- Remove appveyor and travis badges; switch to buildkite [#4341](https://github.com/inspec/inspec/pull/4341) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.24 -->
@@ -14,6 +14,7 @@
 - Transition the Habitat plugin to use scaffolding [#4320](https://github.com/inspec/inspec/pull/4320) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.8.0 -->
 
 #### Merged Pull Requests
+- Remove appveyor and travis badges; switch to buildkite [#4341](https://github.com/inspec/inspec/pull/4341) ([miah](https://github.com/miah)) <!-- 4.8.6 -->
 - Remove travis and appveyor [#4339](https://github.com/inspec/inspec/pull/4339) ([miah](https://github.com/miah)) <!-- 4.8.5 -->
 - Removed lib/inspec/utils/latest_version.rb and associated code. [#4337](https://github.com/inspec/inspec/pull/4337) ([zenspider](https://github.com/zenspider)) <!-- 4.8.4 -->
 - Found more tests that we&#39;ve probably never actually run. [#4334](https://github.com/inspec/inspec/pull/4334) ([zenspider](https://github.com/zenspider)) <!-- 4.8.3 -->
