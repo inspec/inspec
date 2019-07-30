@@ -9,7 +9,7 @@ describe "running profiles with git-based dependencies" do
   #======================================================================#
   #                         Git Repo Setup
   #======================================================================#
-  fixture_repos = ["basic-local", "git-repo-01"]
+  fixture_repos = %w{basic-local git-repo-01}
 
   before(:all) do
     skip_windows! # Right now, this is due to symlinking
@@ -77,13 +77,13 @@ describe "running profiles with git-based dependencies" do
   #------------ Happy Cases for Relative Path Support -------------------#
   describe "running a profile with a shallow relative path dependency" do
     it "should find the relative path profile and execute exactly those controls" do
-      assert_relative_fetch_works("relative-shallow", ["relative-shallow", "child-01"], ["top-level-01", "child-01"])
+      assert_relative_fetch_works("relative-shallow", %w{relative-shallow child-01}, %w{top-level-01 child-01})
     end
   end
 
   describe "running a profile with a deep relative path dependency" do
     it "should find the relative path profile and execute exactly those controls" do
-      assert_relative_fetch_works("relative-deep", ["relative-deep", "child-02"], ["relative-deep-01", "child-02"])
+      assert_relative_fetch_works("relative-deep", %w{relative-deep child-02}, %w{relative-deep-01 child-02})
     end
   end
 
@@ -91,8 +91,8 @@ describe "running profiles with git-based dependencies" do
     it "should find the relative path profiles and execute exactly those controls" do
       assert_relative_fetch_works(
         "relative-combo",
-        ["relative-combo", "child-01", "child-02"],
-        ["relative-combo-01", "child-01", "child-02"]
+        %w{relative-combo child-01 child-02},
+        %w{relative-combo-01 child-01 child-02}
       )
     end
   end
@@ -101,13 +101,13 @@ describe "running profiles with git-based dependencies" do
 
   describe "running a profile with an '' relative path dependency" do
     it "should find the top-level profile in the git-referenced child profile and execute that" do
-      assert_relative_fetch_works("relative-empty", ["relative-empty", "basic-local"], ["relative-empty-01", "basic-local-01"])
+      assert_relative_fetch_works("relative-empty", %w{relative-empty basic-local}, %w{relative-empty-01 basic-local-01})
     end
   end
 
   describe "running a profile with an ./ relative path dependency" do
     it "should find the top-level profile in the git-referenced child profile and execute that" do
-      assert_relative_fetch_works("relative-dot-slash", ["relative-dot-slash", "basic-local"], ["relative-dot-slash-01", "basic-local-01"])
+      assert_relative_fetch_works("relative-dot-slash", %w{relative-dot-slash basic-local}, %w{relative-dot-slash-01 basic-local-01})
     end
   end
 
