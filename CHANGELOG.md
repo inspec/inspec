@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.10.2 -->
-## [v4.10.2](https://github.com/inspec/inspec/tree/v4.10.2) (2019-07-30)
+<!-- latest_release 4.10.3 -->
+## [v4.10.3](https://github.com/inspec/inspec/tree/v4.10.3) (2019-07-30)
 
 #### Merged Pull Requests
-- point badge to master [#4347](https://github.com/inspec/inspec/pull/4347) ([miah](https://github.com/miah))
+- changed legal refs to point to chef.io proper [#4345](https://github.com/inspec/inspec/pull/4345) ([kekaichinose](https://github.com/kekaichinose))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.24 -->
@@ -16,6 +16,7 @@
 - Transition the Habitat plugin to use scaffolding [#4320](https://github.com/inspec/inspec/pull/4320) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.8.0 -->
 
 #### Merged Pull Requests
+- changed legal refs to point to chef.io proper [#4345](https://github.com/inspec/inspec/pull/4345) ([kekaichinose](https://github.com/kekaichinose)) <!-- 4.10.3 -->
 - point badge to master [#4347](https://github.com/inspec/inspec/pull/4347) ([miah](https://github.com/miah)) <!-- 4.10.2 -->
 - Add integration pipelines, and a schedule (it does nothing) [#4346](https://github.com/inspec/inspec/pull/4346) ([miah](https://github.com/miah)) <!-- 4.10.1 -->
 - Apply new UI code to CLI and plugin-manager-cli [#4000](https://github.com/inspec/inspec/pull/4000) ([miah](https://github.com/miah)) <!-- 4.9.1 -->
