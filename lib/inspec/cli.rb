@@ -123,36 +123,32 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       puts JSON.generate(result)
     else
       %w{location profile controls timestamp valid}.each do |item|
-        puts format("%-12s %s", item.to_s.capitalize + ":",
-          mark_text(result[:summary][item.to_sym]))
+        prepared_string = format("%-12s %s",
+                                 "#{item.to_s.capitalize} :",
+                                 result[:summary][item.to_sym])
+        ui.plain_line(prepared_string)
       end
       puts
 
       if result[:errors].empty? && result[:warnings].empty?
-        puts "No errors or warnings"
+        ui.plain_line("No errors or warnings")
       else
-        red    = "\033[31m"
-        yellow = "\033[33m"
-        rst    = "\033[0m"
-
         item_msg = lambda { |item|
           pos = [item[:file], item[:line], item[:column]].compact.join(":")
           pos.empty? ? item[:msg] : pos + ": " + item[:msg]
         }
-        result[:errors].each do |item|
-          puts "#{red}  ✖  #{item_msg.call(item)}#{rst}"
-        end
-        result[:warnings].each do |item|
-          puts "#{yellow}  !  #{item_msg.call(item)}#{rst}"
-        end
+
+        result[:errors].each { |item| ui.red " #{Inspec::UI::GLYPHS[:script_x]}  #{item_msg.call(item)}\n" }
+        result[:warnings].each { |item| ui.yellow " !  #{item_msg.call(item)}\n" }
 
         puts
-        puts format("Summary:     %s%d errors%s, %s%d warnings%s",
-          red, result[:errors].length, rst,
-          yellow, result[:warnings].length, rst)
+
+        errors = ui.red("#{result[:errors].length} errors", print: false)
+        warnings = ui.yellow("#{result[:warnings].length} warnings", print: false)
+        ui.plain_line("Summary:     #{errors}, #{warnings}")
       end
     end
-    exit 1 unless result[:summary][:valid]
+    ui.exit Inspec::UI::EXIT_USAGE_ERROR unless result[:summary][:valid]
   rescue StandardError => e
     pretty_handle_exception(e)
   end
@@ -203,11 +199,11 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
     if result && !o[:ignore_errors] == false
       o[:logger].info "Profile check failed. Please fix the profile before generating an archive."
-      return exit 1
+      return ui.exit Inspec::UI::EXIT_USAGE_ERROR
     end
 
     # generate archive
-    exit 1 unless profile.archive(o)
+    ui.exit Inspec::UI::EXIT_USAGE_ERROR unless profile.archive(o)
   rescue StandardError => e
     pretty_handle_exception(e)
   end
@@ -294,10 +290,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     runner = Inspec::Runner.new(o)
     targets.each { |target| runner.add_target(target) }
 
-    exit runner.run
+    ui.exit runner.run
   rescue ArgumentError, RuntimeError, Train::UserError => e
     $stderr.puts e.message
-    exit 1
+    ui.exit Inspec::UI::EXIT_USAGE_ERROR
   rescue StandardError => e
     pretty_handle_exception(e)
   end
@@ -312,12 +308,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     if o["format"] == "json"
       puts res.to_json
     else
-      headline("Platform Details")
-      puts Inspec::BaseCLI.format_platform_info(params: res, indent: 0, color: 36)
+      ui.headline("Platform Details")
+      ui.plain Inspec::BaseCLI.format_platform_info(params: res, indent: 0, color: 36)
     end
   rescue ArgumentError, RuntimeError, Train::UserError => e
     $stderr.puts e.message
-    exit 1
+    ui.exit Inspec::UI::EXIT_USAGE_ERROR
   rescue StandardError => e
     pretty_handle_exception(e)
   end
@@ -348,12 +344,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     end
 
     run_type, res = run_command(o)
-    exit res unless run_type == :ruby_eval
+    ui.exit res unless run_type == :ruby_eval
 
     # No InSpec tests - just print evaluation output.
     res = (res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)) if o["reporter"]&.keys&.include?("json")
     puts res
-    exit 0
+    ui.exit Inspec::UI::EXIT_NORMAL
   rescue RuntimeError, Train::UserError => e
     $stderr.puts e.message
   rescue StandardError => e
@@ -463,5 +459,5 @@ rescue Inspec::Plugin::V2::Exception => v2ex
   else
     Inspec::Log.error "Run again with --debug for a stacktrace."
   end
-  exit 2
+  ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
 end

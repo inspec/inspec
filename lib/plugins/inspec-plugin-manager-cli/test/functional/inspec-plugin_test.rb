@@ -718,7 +718,7 @@ class PluginManagerCliUpdate < Minitest::Test
     update_result = run_inspec_process_with_this_plugin("plugin update inspec-test-fixture-nonesuch")
 
     skip_windows!
-    assert_match(/No such plugin installed: .+ - update failed/, update_result.stdout)
+    assert_match(/No such plugin installed:.+ - update failed/, update_result.stdout)
 
     assert_empty update_result.stderr
 
@@ -808,7 +808,7 @@ class PluginManagerCliUninstall < Minitest::Test
 
     skip_windows!
     refute_includes "Inspec::Plugin::V2::UnInstallError", uninstall_result.stdout # Stacktrace marker
-    assert_match(/No such plugin installed: .+ - uninstall failed/, uninstall_result.stdout)
+    assert_match(/No such plugin installed:.+ - uninstall failed/, uninstall_result.stdout)
 
     assert_empty uninstall_result.stderr
 
