@@ -207,7 +207,7 @@ module InspecPlugins
 
         # Already installed?
         if registry.known_plugin?(plugin_name.to_sym)
-          ui.red("Plugin already installed - #{plugin_name} - Use '#{EXEC_NAME}" \
+          ui.red("Plugin already installed - #{plugin_name} - Use '#{EXEC_NAME} " \
                  "plugin list' to see previously installed plugin - " \
                  "installation failed.")
           ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
