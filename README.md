@@ -7,8 +7,7 @@
 For more information on project states and SLAs, see [this documentation](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md).
 
 [![Slack](https://community-slack.chef.io/badge.svg)](https://community-slack.chef.io/)
-[![Build Status Master](https://travis-ci.org/inspec/inspec.svg?branch=master)](https://travis-ci.org/inspec/inspec)
-[![Build Status Master](https://ci.appveyor.com/api/projects/status/github/inspec/inspec?branch=master&svg=true&passingText=master%20-%20Ok&pendingText=master%20-%20Pending&failingText=master%20-%20Failing)](https://ci.appveyor.com/project/Chef/inspec/branch/master)
+[![Build status](https://badge.buildkite.com/bf4c5fdc3858cc9f8c8bab8376e8e40d625ad046df9d4d8619.svg)](https://buildkite.com/chef-oss/inspec-inspec-master-verify)
 [![Coverage Status](https://coveralls.io/repos/github/inspec/inspec/badge.svg?branch=master)](https://coveralls.io/github/inspec/inspec?branch=master)
 
 Chef InSpec is an open-source testing framework for infrastructure with a human- and machine-readable language for specifying compliance, security and policy requirements.
