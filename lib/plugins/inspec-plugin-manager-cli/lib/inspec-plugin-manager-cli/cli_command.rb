@@ -229,6 +229,7 @@ module InspecPlugins
         given = given.expand_path # Resolve any relative paths
         name_regex = /^(inspec|train)-/
         versioned_regex = /^(inspec|train)-[a-z0-9\-\_]+-\d+\.\d+\.\d+$/
+        sha_ref_regex = /^(inspec|train)-[a-z0-9\-\_]+-[0-9a-f]{5,40}$/
 
         # What are the last four things like?
         parts = [
@@ -257,14 +258,14 @@ module InspecPlugins
         # In that case, we'll have a version on the plugin name in part 0
         # /home/you/.gems/2.4.0/gems/inspec-something-3.45.1/lib/inspec-something.rb
         #   parts index:                     ^0^             ^1^      ^2^         ^3^
-        if parts[0] =~ versioned_regex && parts[1] == "lib" && parts[0].start_with?(parts[2]) && parts[3] == ".rb"
+        if (parts[0] =~ versioned_regex || parts[0] =~ sha_ref_regex) && parts[1] == "lib" && parts[0].start_with?(parts[2]) && parts[3] == ".rb"
           return given.to_s
         end
 
         # Case 4: Like case 3, but missing the .rb
         # /home/you/.gems/2.4.0/gems/inspec-something-3.45.1/lib/inspec-something
         #   parts index:                     ^0^             ^1^      ^2^         ^3^ (empty)
-        if parts[0] =~ versioned_regex && parts[1] == "lib" && parts[0].start_with?(parts[2]) && parts[3].empty?
+        if (parts[0] =~ versioned_regex || parts[0] =~ sha_ref_regex) && parts[1] == "lib" && parts[0].start_with?(parts[2]) && parts[3].empty?
           return given.to_s + ".rb"
         end
 
