@@ -99,7 +99,7 @@ module Inspec
           "skip_message" => Primitives::STRING, # If skipped, why
           "controls" => Primitives.array(CONTROL.ref),
           "groups" => Primitives.array(Primitives::CONTROL_GROUP.ref),
-          "attributes" => Primitives.array(Primitives::INPUT), 
+          "attributes" => Primitives.array(Primitives::INPUT),
         },
       }, [CONTROL, Primitives::CONTROL_GROUP, Primitives::SUPPORT])
 
