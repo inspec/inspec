@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.9.0 -->
-## [v4.9.0](https://github.com/inspec/inspec/tree/v4.9.0) (2019-07-30)
+<!-- latest_release 4.9.1 -->
+## [v4.9.1](https://github.com/inspec/inspec/tree/v4.9.1) (2019-07-30)
 
-#### New Features
-- Permit plugin to be in path with git ref [#4251](https://github.com/inspec/inspec/pull/4251) ([james-stocks](https://github.com/james-stocks))
+#### Merged Pull Requests
+- Apply new UI code to CLI and plugin-manager-cli [#4000](https://github.com/inspec/inspec/pull/4000) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.24 -->
@@ -15,6 +15,7 @@
 - Transition the Habitat plugin to use scaffolding [#4320](https://github.com/inspec/inspec/pull/4320) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.8.0 -->
 
 #### Merged Pull Requests
+- Apply new UI code to CLI and plugin-manager-cli [#4000](https://github.com/inspec/inspec/pull/4000) ([miah](https://github.com/miah)) <!-- 4.9.1 -->
 - Remove appveyor and travis badges; switch to buildkite [#4341](https://github.com/inspec/inspec/pull/4341) ([miah](https://github.com/miah)) <!-- 4.8.6 -->
 - Remove travis and appveyor [#4339](https://github.com/inspec/inspec/pull/4339) ([miah](https://github.com/miah)) <!-- 4.8.5 -->
 - Removed lib/inspec/utils/latest_version.rb and associated code. [#4337](https://github.com/inspec/inspec/pull/4337) ([zenspider](https://github.com/zenspider)) <!-- 4.8.4 -->
