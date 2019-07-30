@@ -1,0 +1,11 @@
+name: relative-dot-slash
+title: relative-dot-slash
+license: Apache-2.0
+summary: A profile that depends on profiles using an ./ path
+version: 0.1.0
+supports:
+  platform: os
+depends:
+- name: basic-local
+  git: test/unit/mock/profiles/git-fetcher/basic-local
+  relative_path: ./

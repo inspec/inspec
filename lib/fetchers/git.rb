@@ -39,28 +39,65 @@ module Fetchers
       @branch = opts[:branch]
       @tag = opts[:tag]
       @ref = opts[:ref]
-      @remote_url = remote_url
+      @remote_url = expand_local_path(remote_url)
       @repo_directory = nil
+      @relative_path = opts[:relative_path] if opts[:relative_path] && !opts[:relative_path].empty?
     end
 
-    def fetch(dir)
-      @repo_directory = dir
-      FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
+    def expand_local_path(url_or_file_path)
+      # This paths to local on-disk repos, not relative paths within repos.
+      # This is especially needed with testing.
+
+      # We could try to do something clever with URI
+      # processing, but then again, if you passed a relative path
+      # to an on-disk repo, you probably expect it to exist.
+      return url_or_file_path unless File.exist?(url_or_file_path)
+      # It's important to expand this path, because it may be specified
+      # locally in the metadata files, and when we clone, we will be
+      # in a temp dir.
+      File.expand_path(url_or_file_path)
+    end
+
+    def fetch(destination_path)
+      @repo_directory = destination_path # Might be the cache, or vendoring, or something else
+      FileUtils.mkdir_p(destination_path) unless Dir.exist?(destination_path)
 
       if cloned?
         checkout
       else
-        Dir.mktmpdir do |tmpdir|
-          checkout(tmpdir)
-          Inspec::Log.debug("Checkout of #{resolved_ref} successful. Moving checkout to #{dir}")
-          FileUtils.cp_r(tmpdir + "/.", @repo_directory)
+        Dir.mktmpdir do |working_dir|
+          checkout(working_dir)
+          if @relative_path
+            perform_relative_path_fetch(destination_path, working_dir)
+          else
+            Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
+                              "Moving checkout to #{destination_path}")
+            FileUtils.cp_r(working_dir + "/.", destination_path)
+          end
         end
       end
       @repo_directory
     end
 
+    def perform_relative_path_fetch(destination_path, working_dir)
+      Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
+                        "Moving #{@relative_path} to #{destination_path}")
+      unless File.exist?("#{working_dir}/#{@relative_path}")
+        # Cleanup the destination path - otherwise we'll have an empty dir
+        # in the cache, which is enough to confuse the cache reader
+        # This is a courtesy, assuming we're writing to the cache; if we're
+        # vendoring to something more complex, don't bother.
+        FileUtils.rmdir(destination_path) if Dir.empty?(destination_path)
+
+        raise ArgumentError, "Cannot find relative path '#{@relative_path}' " \
+                             "within profile in git repo specified by '#{@remote_url}'"
+      end
+      FileUtils.cp_r("#{working_dir}/#{@relative_path}", destination_path)
+    end
+
     def cache_key
-      resolved_ref
+      return resolved_ref unless @relative_path
+      OpenSSL::Digest::SHA256.hexdigest(resolved_ref + @relative_path)
     end
 
     def archive_path
@@ -68,7 +105,9 @@ module Fetchers
     end
 
     def resolved_source
-      { git: @remote_url, ref: resolved_ref }
+      source = { git: @remote_url, ref: resolved_ref }
+      source[:relative_path] = @relative_path if @relative_path
+      source
     end
 
     private
