@@ -164,22 +164,40 @@ module Inspec::Resources
   # OSX uses opendirectory for groups, so `/etc/group` may not be fully accurate
   # This uses `dscacheutil` to get the group info instead of `etc_group`
   class DarwinGroup < GroupInfo
-    def groups
-      group_info = inspec.command("dscacheutil -q group").stdout.split("\n\n")
+    def runmap(cmd, &blk)
+      hashmap(inspec.command(cmd).stdout.lines, &blk)
+    end
 
-      groups = []
+    def hashmap(enum, &blk)
+      enum.map(&blk).to_h
+    end
+
+    def groups
+      group_by_id = runmap("dscl . -list /Groups PrimaryGroupID")  { |l| name, id = l.split; [id.to_i, name] }
+      userss      = runmap("dscl . -list /Users  PrimaryGroupID")  { |l| name, id = l.split; [name, id.to_i] }
+      membership  = runmap("dscl . -list /Groups GroupMembership") { |l| key, *vs = l.split; [key, vs] }
+      membership.default_proc = ->(h, k) { h[k] = [] }
+
+      users_by_group = hashmap(userss.keys.group_by { |k| userss[k] }) { |k, vs| [group_by_id[k], vs] }
+      users_by_group.each do |name, users|
+        membership[name].concat users
+      end
+
+      group_info = inspec.command("dscacheutil -q group").stdout.split("\n\n").uniq
+
       regex = /^([^:]*?)\s*:\s(.*?)\s*$/
-      group_info.each do |data|
-        groups << inspec.parse_config(data, assignment_regex: regex).params
+      groups = group_info.map do |data|
+        inspec.parse_config(data, assignment_regex: regex).params
       end
 
       # Convert the `dscacheutil` groups to match `inspec.etc_group.entries`
       groups.each { |g| g["gid"] = g["gid"].to_i }
       groups.each do |g|
-        next if g["users"].nil?
-
-        g["members"] = g.delete("users")
-        g["members"].tr!(" ", ",")
+        users = g.delete("users") || ""
+        users = users.split
+        users += Array(users_by_group[g["name"]])
+        g["members"] = users
+        g["members"].sort.join ","
       end
     end
   end
