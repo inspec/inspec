@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.10.0 -->
-## [v4.10.0](https://github.com/inspec/inspec/tree/v4.10.0) (2019-07-30)
+<!-- latest_release 4.10.1 -->
+## [v4.10.1](https://github.com/inspec/inspec/tree/v4.10.1) (2019-07-30)
 
-#### New Features
-- Relative Path Support for the Git Fetcher [#4217](https://github.com/inspec/inspec/pull/4217) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Add integration pipelines, and a schedule (it does nothing) [#4346](https://github.com/inspec/inspec/pull/4346) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.24 -->
@@ -16,6 +16,7 @@
 - Transition the Habitat plugin to use scaffolding [#4320](https://github.com/inspec/inspec/pull/4320) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.8.0 -->
 
 #### Merged Pull Requests
+- Add integration pipelines, and a schedule (it does nothing) [#4346](https://github.com/inspec/inspec/pull/4346) ([miah](https://github.com/miah)) <!-- 4.10.1 -->
 - Apply new UI code to CLI and plugin-manager-cli [#4000](https://github.com/inspec/inspec/pull/4000) ([miah](https://github.com/miah)) <!-- 4.9.1 -->
 - Remove appveyor and travis badges; switch to buildkite [#4341](https://github.com/inspec/inspec/pull/4341) ([miah](https://github.com/miah)) <!-- 4.8.6 -->
 - Remove travis and appveyor [#4339](https://github.com/inspec/inspec/pull/4339) ([miah](https://github.com/miah)) <!-- 4.8.5 -->
