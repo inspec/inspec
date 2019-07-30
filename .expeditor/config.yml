@@ -43,6 +43,23 @@ pipelines:
  - www/deploy:
     description: Deploy website to inspec.io
     definition: .expeditor/wwwdeploy.yml
+ - integration/libraries:
+    description: Integration with plugins, gems, resource packs.
+    definition: .expeditor/integration.libraries.yml
+ - integration/profiles:
+    description: Integration with compliance-profiles, and dev-sec
+    definition: .expeditor/integration.profiles.yml
+ - integration/cookbooks:
+    description: Integration with the audit cookbook
+    definition: .expeditor/integration.cookbooks.yml
+ - integration/automate:
+    description: Integration with Chef Automate
+    definition: .expeditor/integration.automate.yml
+
+schedules:
+ - name: integration_schedule
+   description: Periodic Integration Testing
+   cronline: "0 8 * * *"
 
 slack:
  notify_channel: inspec-notify
