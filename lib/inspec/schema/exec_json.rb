@@ -23,7 +23,6 @@ module Inspec
       }, [])
 
       # Represents the statistics/result of a control"s execution
-      # TODO: Provide descriptions for these types
       CONTROL_RESULT = Primitives::SchemaType.new("Control Result", {
         "type" => "object",
         "additionalProperties" => false,
@@ -100,7 +99,7 @@ module Inspec
           "skip_message" => Primitives::STRING, # If skipped, why
           "controls" => Primitives.array(CONTROL.ref),
           "groups" => Primitives.array(Primitives::CONTROL_GROUP.ref),
-          "attributes" => Primitives.array(Primitives::INPUT), # TODO: rename to inputs, refs #3802
+          "attributes" => Primitives.array(Primitives::INPUT), 
         },
       }, [CONTROL, Primitives::CONTROL_GROUP, Primitives::SUPPORT])
 

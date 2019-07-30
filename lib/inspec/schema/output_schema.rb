@@ -20,7 +20,6 @@ module Inspec
       end
 
       # using a proc here so we can lazy load it when we need
-      # TODO: Modernize
       PLATFORMS = lambda do
         require "train"
         Train.create("mock").connection

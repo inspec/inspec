@@ -14,7 +14,6 @@ module Inspec
 
       # Represents a control that hasn't been run
       # Differs slightly from a normal control, in that it lacks results, and its descriptions are different
-      # TODO: Attempt to unify this with the CONTROL type
       CONTROL = Primitives::SchemaType.new("Profile JSON Control", {
         "type" => "object",
         "additionalProperties" => false,
@@ -33,7 +32,6 @@ module Inspec
       }, [CONTROL_DESCRIPTIONS, Primitives::REFERENCE, Primitives::SOURCE_LOCATION])
 
       # A profile that has not been run.
-      # TODO: Try to unify with the exec version
       PROFILE = Primitives::SchemaType.new("Profile JSON Profile", {
         "type" => "object",
         "additionalProperties" => true, # Anything in the yaml will be put in here

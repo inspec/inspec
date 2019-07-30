@@ -20,16 +20,23 @@ module Inspec
       end
 
       # This function performs some simple validation on schemas, to catch obvious missed requirements
-      def self.validate_schema(schema)
-        if schema["type"] == "object"
-          raise "Objects in schema must have a \"required\" property, even if it is empty" unless schema.key?("required")
+      def self.validate_has_required(schema)
+        return unless schema["type"] == "object"
+        return if schema.key?("required")
+        raise "Objects in schema must have a \"required\" property, even if it is empty." unless schema.key?("required")
+      end
 
-          requirements = Set.new(schema["required"])
-          properties = Set.new(schema["properties"].keys)
-          raise "An object with required properties must have a properties hash" unless requirements.empty? || properties
+      def self.validate_has_properties(schema)
+        return unless schema["type"] == "object" and
+        return unless schema.key?("required") and not schema.key?("properties") and schema["required"].length > 0
+        raise "An object with required properties must have a properties hash."
+      end
 
-          raise "Not all required properties are present" unless requirements <= properties
-        end
+      def self.validate_no_missing_properties(schema)
+        return unless schema["type"] == "object"
+        return unless schema.key?("properties")
+        return if Set.new(schema["required"]) <= Set.new(schema["properties"].keys)
+        raise "Not all required properties are present." 
       end
 
       # Use this class to quickly add/use object types to/in a definition block
@@ -37,7 +44,9 @@ module Inspec
         attr_accessor :name, :depends
         def initialize(name, body, dependencies)
           # Validate the schema
-          Primitives.validate_schema(body)
+          Primitives.validate_has_required(body)
+          Primitives.validate_has_properties(body)
+          Primitives.validate_no_missing_properties(body)
           # The title of the type
           @name = name
           # The body of the type
@@ -83,7 +92,6 @@ module Inspec
       TAGS = { "type" => "object", "additionalProperties" => true }.freeze
 
       # Attributes/Inputs specify the inputs to a profile.
-      # TODO: We need better specifications on this
       INPUT = { "type" => "object", "additionalProperties" => true }.freeze
 
       # Within a control file, impacts can be numeric 0-1 or string in [none,low,medium,high,critical]
@@ -178,7 +186,6 @@ module Inspec
       }, [])
 
       # References an external document
-      # TODO: One of these needs to be deprecated. For now both are supported
       REFERENCE = SchemaType.new("Reference", {
         # Needs at least one of title (ref), url, or uri.
         "anyOf" => [
