@@ -1,5 +1,6 @@
 require "functional/helper"
 require "mixlib/shellout"
+require "json-schema"
 
 describe "inspec json" do
   include FunctionalHelper
@@ -48,7 +49,7 @@ describe "inspec json" do
     end
 
     it "has controls" do
-      json["controls"].length.must_equal 4
+      json["controls"].length.must_equal 5
     end
 
     describe "a control" do
@@ -105,7 +106,7 @@ describe "inspec json" do
 
     hm = JSON.load(File.read(dst.path))
     hm["name"].must_equal "profile"
-    hm["controls"].length.must_equal 4
+    hm["controls"].length.must_equal 5
 
     out.stderr.must_equal ""
 
@@ -175,5 +176,18 @@ describe "inspec json" do
 
       assert_exit_code 0, out
     end
+  end
+
+  it "can format a profile and validate the json schema" do
+    out = inspec("json " + example_profile)
+
+    data = JSON.parse(out.stdout)
+    sout = inspec("schema profile-json")
+    schema = JSON.parse(sout.stdout)
+    JSON::Validator.validate(schema, data, validate_schema: true).wont_equal false
+
+    out.stderr.must_equal ""
+
+    assert_exit_code 0, out
   end
 end

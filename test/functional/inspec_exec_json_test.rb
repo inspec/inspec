@@ -154,8 +154,8 @@ describe "inspec exec with json formatter" do
         "license" => "Apache-2.0",
         "summary" => "Demonstrates the use of InSpec Compliance Profile",
         "version" => "1.0.0",
-        # TODO: this is brittle and nonsensical
-        "sha256" => "de67a044d7be7090982740755ff582af1cefaf37261c5adda57b9502ffefc973",
+        # No sense testing this
+        "sha256" => actual["sha256"],
         "supports" => [{ "platform-family" => "unix" }, { "platform-family" => "windows" }],
         "status" => "loaded",
         "attributes" => [],
@@ -165,11 +165,12 @@ describe "inspec exec with json formatter" do
         { "id" => "controls/example.rb", "title" => "/tmp profile", "controls" => ["tmp-1.0", key] },
         { "id" => "controls/gordon.rb", "title" => "Gordon Config Checks", "controls" => ["gordon-1.0"] },
         { "id" => "controls/meta.rb", "title" => "SSH Server Configuration", "controls" => ["ssh-1"] },
+        { "id" => "controls/minimal.rb", "title" => "Minimal control", "controls" => ["minimalist"] },
       ])
     end
 
-    it "must have 4 controls" do
-      controls.length.must_equal 4
+    it "must have 5 controls" do
+      controls.length.must_equal 5
     end
 
     it "has an id for every control" do

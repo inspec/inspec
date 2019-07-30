@@ -47,8 +47,8 @@ describe "inspec exec" do
     let(:ex2) { controls.find { |x| x["id"] =~ /generated/ } }
     let(:ex3) { controls.find { |x| x["id"] == "gordon-1.0" } }
 
-    it "must have 5 examples" do
-      json["controls"].length.must_equal 5
+    it "must have 6 examples" do
+      json["controls"].length.must_equal 6
     end
 
     it "has an id" do
