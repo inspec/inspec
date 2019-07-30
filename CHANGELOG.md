@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.8.6 -->
-## [v4.8.6](https://github.com/inspec/inspec/tree/v4.8.6) (2019-07-30)
+<!-- latest_release 4.9.0 -->
+## [v4.9.0](https://github.com/inspec/inspec/tree/v4.9.0) (2019-07-30)
 
-#### Merged Pull Requests
-- Remove appveyor and travis badges; switch to buildkite [#4341](https://github.com/inspec/inspec/pull/4341) ([miah](https://github.com/miah))
+#### New Features
+- Permit plugin to be in path with git ref [#4251](https://github.com/inspec/inspec/pull/4251) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.24 -->
 ### Changes since 4.7.24 release
 
 #### New Features
+- Permit plugin to be in path with git ref [#4251](https://github.com/inspec/inspec/pull/4251) ([james-stocks](https://github.com/james-stocks)) <!-- 4.9.0 -->
 - Transition the Habitat plugin to use scaffolding [#4320](https://github.com/inspec/inspec/pull/4320) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.8.0 -->
 
 #### Merged Pull Requests
