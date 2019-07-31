@@ -22,8 +22,6 @@ describe "The license acceptance mechanism" do
       end
 
       it "should write a YAML file" do
-        skip_until 2019, 8, 16, "Skipping in order to get buildkite green"
-
         without_license do
           Dir.mktmpdir do |tmp_home|
             license_persist_path = File.join(tmp_home, ".chef", "accepted_licenses", "inspec")
@@ -44,8 +42,6 @@ describe "The license acceptance mechanism" do
     # if not found, we can't test interactive acceptance anymore
     describe "when no mechanism is used to accept the license and we are non-interactive" do
       it "should exit ASAP with code 172" do
-        skip_until 2019, 8, 16, "Skipping in order to get buildkite green"
-
         without_license do
           Dir.mktmpdir do |tmp_home|
             run_result = run_inspec_process("shell -c platform.family", env: { "HOME" => tmp_home })
