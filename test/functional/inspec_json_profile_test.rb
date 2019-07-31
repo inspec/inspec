@@ -190,4 +190,16 @@ describe "inspec json" do
 
     assert_exit_code 0, out
   end
+
+  it "properly validates all unit tests against the schema" do 
+    schema = JSON::parse(inspec("schema profile-json").stdout)
+    Dir.entries(profile_path).each do |profile|
+      file_path = File.join(profile_path, profile)
+      out = inspec("json " + file_path)
+
+      JSON::Validator.validate(schema, JSON.parse(out.stdout), validate_schema: true).wont_equal false
+      out.stderr.must_equal ""
+      assert_exit_code 0, out
+    end
+  end
 end
