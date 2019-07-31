@@ -35,9 +35,9 @@ module Inspec::Plugin::V2
       # and may be safely loaded
       detect_core_plugins unless options[:omit_core_plugins]
 
-      # TODO: system plugins
-      # Load train plugin gem deps from inspec gem dependencies?
-      # Scan gem universe for all inspec- or train- gems?
+      # Identify plugins that inspec is co-installed with
+      detect_system_plugins unless options[:omit_sys_plugins]
+
     end
 
     def load_all
@@ -269,6 +269,41 @@ module Inspec::Plugin::V2
       if status.installation_type == :user_gem
         # Activate the gem. This allows train to 'require' the gem later.
         activate_managed_gems_for_plugin(status.entry_point)
+      end
+    end
+
+    def detect_system_plugins
+      # Find the gemspec for inspec
+      inspec_gemspec = Gem::Specification.find_by_name('inspec', '=' + Inspec::VERSION)
+
+      # Make a RequestSet that represents the dependencies of inspec
+      inspec_deps_request_set = Gem::RequestSet.new(*inspec_gemspec.dependencies)
+      inspec_deps_request_set.remote = false
+
+      # Resolve the request against the installed gem universe
+      gem_resolver = Gem::Resolver::CurrentSet.new
+      runtime_solution = inspec_deps_request_set.resolve(gem_resolver)
+
+      inspec_gemspec.dependencies.each do |inspec_dep|
+        next unless inspec_plugin_name?(inspec_dep.name) || train_plugin_name?(inspec_dep.name)
+        plugin_spec = runtime_solution.detect {|s| s.name == inspec_dep.name }.spec
+
+        status = Inspec::Plugin::V2::Status.new
+        status.name = inspec_dep.name
+        status.entry_point = inspec_dep.name # gem-based, just 'require' the name
+        status.version = plugin_spec.version.to_s
+        status.loaded = false
+        status.installation_type = :system_gem
+
+        if train_plugin_name?(status[:name])
+          # Train plugins are not true InSpec plugins; we need to decorate them a
+          # bit more to integrate them.
+          fixup_train_plugin_status(status)
+        else
+          status.api_generation = 2
+        end
+
+        registry[status.name.to_sym] = status
       end
     end
   end
