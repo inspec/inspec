@@ -20,7 +20,7 @@ module Inspec
           "resource" => Primitives::STRING,
           "message" => Primitives::STRING,
           "exception" => Primitives::STRING,
-          "backtrace" => Primitives::STRING,
+          "backtrace" => Primitives.array(Primitives::STRING),
         },
       }, [])
 

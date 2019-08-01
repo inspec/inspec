@@ -38,7 +38,7 @@ module Inspec
           "message" => Primitives::STRING,
           "skip_message" => Primitives::STRING,
           "exception" => Primitives::STRING,
-          "backtrace" => Primitives::OBJECT,
+          "backtrace" => Primitives.array(Primitives::STRING),
         },
       }, [CONTROL_RESULT_STATUS])
 
