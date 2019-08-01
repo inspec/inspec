@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.10.3 -->
-## [v4.10.3](https://github.com/inspec/inspec/tree/v4.10.3) (2019-07-30)
+<!-- latest_release 4.10.4 -->
+## [v4.10.4](https://github.com/inspec/inspec/tree/v4.10.4) (2019-08-01)
 
 #### Merged Pull Requests
-- changed legal refs to point to chef.io proper [#4345](https://github.com/inspec/inspec/pull/4345) ([kekaichinose](https://github.com/kekaichinose))
+- Bump skipped license tests by 2 weeks. [#4352](https://github.com/inspec/inspec/pull/4352) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.7.24 -->
@@ -16,6 +16,7 @@
 - Transition the Habitat plugin to use scaffolding [#4320](https://github.com/inspec/inspec/pull/4320) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.8.0 -->
 
 #### Merged Pull Requests
+- Bump skipped license tests by 2 weeks. [#4352](https://github.com/inspec/inspec/pull/4352) ([zenspider](https://github.com/zenspider)) <!-- 4.10.4 -->
 - changed legal refs to point to chef.io proper [#4345](https://github.com/inspec/inspec/pull/4345) ([kekaichinose](https://github.com/kekaichinose)) <!-- 4.10.3 -->
 - point badge to master [#4347](https://github.com/inspec/inspec/pull/4347) ([miah](https://github.com/miah)) <!-- 4.10.2 -->
 - Add integration pipelines, and a schedule (it does nothing) [#4346](https://github.com/inspec/inspec/pull/4346) ([miah](https://github.com/miah)) <!-- 4.10.1 -->
