@@ -57,6 +57,31 @@ describe "inspec exec with json formatter" do
     assert_exit_code 101, out
   end
 
+  it "properly validates all (valid) unit tests against the schema" do
+    # These profiles designed to/will always fail
+    # skipped = ["dsl_plugins/", "profile-with-bad-metadata/", "invalid-include-controls/", "local-depends/", "inputs/metadata-invalid/"]
+
+    schema = JSON.parse(inspec("schema exec-json").stdout)
+    all_errors = {}
+    Dir.glob("**/*/", base: profile_path).each do |profile|
+      begin
+        full_path = File.join(profile_path, profile)
+        next unless Dir.entries(full_path).include?("inspec.yml")
+        puts "Profile: #{profile}"
+        out = inspec("exec " + full_path + " --reporter json --no-create-lockfile")
+
+        all_errors[profile_path] = JSON::Validator.fully_validate(schema, JSON.parse(out.stdout), validate_schema: true)
+      rescue JSON::ParserError
+        # We don't actually care about these; cannot validate if parsing fails!
+        nil
+      end
+    end
+
+    # We fail on this condition to provide a useful mapping of each file that fails, instead of just "one failed"
+    no_failures = all_errors.map { |key, value| [key, []] }.to_h
+    all_errors.must_equal no_failures
+  end
+
   it "does not report skipped dependent profiles" do
     out = inspec("exec " + File.join(profile_path, "unsupported_dependencies", "wrapper-profile") + " --reporter json --no-create-lockfile")
 

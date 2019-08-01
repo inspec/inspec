@@ -29,6 +29,26 @@ describe "inspec exec" do
     assert_exit_code 0, out
   end
 
+  it "properly validates all (valid) unit tests against the schema" do
+    schema = JSON.parse(inspec("schema exec-jsonmin").stdout)
+    all_errors = {}
+    Dir.glob("**/*/", base: profile_path).each do |profile|
+      begin
+        full_path = File.join(profile_path, profile)
+        next unless Dir.entries(full_path).include?("inspec.yml")
+        out = inspec("exec " + full_path + " --reporter json-min --no-create-lockfile")
+
+        all_errors[profile_path] = JSON::Validator.fully_validate(schema, JSON.parse(out.stdout), validate_schema: true)
+      rescue JSON::ParserError
+        # We don't actually care about these; cannot validate if parsing fails!
+        nil
+      end
+    end
+
+    no_failures = all_errors.map { |key, value| [key, []] }.to_h
+    all_errors.must_equal no_failures
+  end
+
   it "does not contain any dupilcate results with describe.one" do
     out = inspec("shell -c 'describe.one do describe 1 do it { should cmp 2 } end end' --reporter=json-min")
     data = JSON.parse(out.stdout)

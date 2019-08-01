@@ -191,15 +191,23 @@ describe "inspec json" do
     assert_exit_code 0, out
   end
 
-  it "properly validates all unit tests against the schema" do 
-    schema = JSON::parse(inspec("schema profile-json").stdout)
-    Dir.entries(profile_path).each do |profile|
-      file_path = File.join(profile_path, profile)
-      out = inspec("json " + file_path)
+  it "properly validates all (valid) unit tests against the schema" do
+    schema = JSON.parse(inspec("schema profile-json").stdout)
+    all_errors = {}
+    Dir.glob("**/*/", base: profile_path).each do |profile|
+      begin
+        full_path = File.join(profile_path, profile)
+        next unless Dir.entries(full_path).include?("inspec.yml")
+        out = inspec("json " + full_path)
 
-      JSON::Validator.validate(schema, JSON.parse(out.stdout), validate_schema: true).wont_equal false
-      out.stderr.must_equal ""
-      assert_exit_code 0, out
+        all_errors[profile_path] = JSON::Validator.fully_validate(schema, JSON.parse(out.stdout), validate_schema: true)
+      rescue JSON::ParserError
+        # We don't actually care about these; cannot validate if parsing fails!
+        nil
+      end
     end
+
+    no_failures = all_errors.map { |key, value| [key, []] }.to_h
+    all_errors.must_equal no_failures
   end
 end
