@@ -20,17 +20,18 @@ module InspecPlugins
         plugin_statuses = Inspec::Plugin::V2::Registry.instance.plugin_statuses
         plugin_statuses.reject! { |s| %i{core bundle}.include?(s.installation_type) } unless options[:all]
 
-        puts
-        ui.bold(format(" %-30s%-10s%-8s%-6s", "Plugin Name", "Version", "Via", "ApiVer"))
-        ui.line
-        plugin_statuses.sort_by(&:name).each do |status|
-          ui.plain(format(" %-30s%-10s%-8s%-6s", status.name,
-            make_pretty_version(status),
-            make_pretty_install_type(status),
-            status.api_generation.to_s))
+        ui.table do |t|
+          t.header = ["Plugin Name", "Version", "Via", "ApiVer"]
+          plugin_statuses.map { |s| [s.name.to_s, s] }.sort { |sa, sb| sa[0] <=> sb[0] }.map { |sf| sf[1] }.each do |status|
+            t << [
+              status.name,
+              make_pretty_version(status),
+              make_pretty_install_type(status),
+              status.api_generation,
+            ]
+          end
         end
-        ui.line
-        ui.plain(" #{plugin_statuses.count} plugin(s) total")
+        ui.plain_line(" #{plugin_statuses.count} plugin(s) total")
         puts
       end
 

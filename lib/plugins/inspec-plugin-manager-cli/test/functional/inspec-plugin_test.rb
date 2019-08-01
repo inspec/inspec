@@ -39,6 +39,26 @@ module PluginManagerHelpers
     end
   end
 
+  def parse_plugin_list_lines(stdout)
+    plugins = []
+
+    stdout.force_encoding("UTF-8").lines.each do |line|
+      next if line.include? "─────" # This is some unicode glyphiness
+      next if line.include? "Plugin Name"
+      next if line.include? "plugin(s) total"
+
+      parts = line.split(/│/u).map { |p| p.strip! }.compact
+      plugins << {
+        name: parts[0],
+        version: parts[1],
+        type: parts[2],
+        generation: parts[3],
+        raw: line,
+      }
+    end
+    plugins
+  end
+
   def teardown
     clear_empty_config_dir
   end
@@ -88,7 +108,9 @@ class PluginManagerCliList < Minitest::Test
   def test_list_all_when_no_user_plugins_installed
     skip_windows!
     result = run_inspec_process_with_this_plugin("plugin list --all")
-    plugin_lines = result.stdout.lines.filter { |line| line.match(/^\s*(inspec|train)-/) }
+    assert_empty result.stderr
+
+    plugins_seen = parse_plugin_list_lines(result.stdout)
 
     # Look for a specific plugin of each type - core, bundle, and system
     [
@@ -96,9 +118,9 @@ class PluginManagerCliList < Minitest::Test
       { name: "inspec-supermarket", type: "bundle" },
       { name: "train-aws", type: "gem (system)" },
     ].each do |test_case|
-      plugin_line = plugin_lines.detect { |line| line.include? test_case[:name] }
+      plugin_line = plugins_seen.detect { |plugin| plugin[:name] == test_case[:name] }
       refute_nil plugin_line, "#{test_case[:name]} should be detected in plugin list --all output"
-      assert_includes plugin_line, test_case[:type], "#{test_case[:name]} should be detected as a '#{test_case[:type]}' type in list --all "
+      assert_equal plugin_line[:type], test_case[:type], "#{test_case[:name]} should be detected as a '#{test_case[:type]}' type in list --all "
     end
     assert_exit_code 0, result
   end
