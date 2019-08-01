@@ -81,6 +81,8 @@ module FunctionalHelper
   let(:profile_path) { File.join(mock_path, "profiles") }
   let(:examples_path) { File.join(profile_path, "old-examples") }
   let(:integration_test_path) { File.join(repo_path, "test", "integration", "default") }
+  let(:all_profiles) { Dir.glob("**/inspec.yml", base: profile_path) }
+  let(:all_profile_folders) { all_profiles.map { |path| File.dirname(path) } }
 
   let(:example_profile) { File.join(examples_path, "profile") }
   let(:meta_profile) { File.join(examples_path, "meta-profile") }

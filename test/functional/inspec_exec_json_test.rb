@@ -60,10 +60,8 @@ describe "inspec exec with json formatter" do
   it "properly validates all (valid) unit tests against the schema" do
     schema = JSON.parse(inspec("schema exec-json").stdout)
     all_errors = {}
-    Dir.glob("**/*/", base: profile_path).each do |profile|
+    all_profile_folders.each do |folder|
       begin
-        full_path = File.join(profile_path, profile)
-        next unless Dir.entries(full_path).include?("inspec.yml")
         out = inspec("exec " + full_path + " --reporter json --no-create-lockfile")
 
         all_errors[profile_path] = JSON::Validator.fully_validate(schema, JSON.parse(out.stdout), validate_schema: true)
