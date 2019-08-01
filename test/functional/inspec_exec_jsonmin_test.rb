@@ -45,6 +45,7 @@ describe "inspec exec" do
       end
     end
 
+    # We fail on this condition to provide a useful mapping of each file that fails, instead of just "one failed"
     no_failures = all_errors.map { |key, value| [key, []] }.to_h
     all_errors.must_equal no_failures
   end

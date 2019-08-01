@@ -58,16 +58,12 @@ describe "inspec exec with json formatter" do
   end
 
   it "properly validates all (valid) unit tests against the schema" do
-    # These profiles designed to/will always fail
-    # skipped = ["dsl_plugins/", "profile-with-bad-metadata/", "invalid-include-controls/", "local-depends/", "inputs/metadata-invalid/"]
-
     schema = JSON.parse(inspec("schema exec-json").stdout)
     all_errors = {}
     Dir.glob("**/*/", base: profile_path).each do |profile|
       begin
         full_path = File.join(profile_path, profile)
         next unless Dir.entries(full_path).include?("inspec.yml")
-        puts "Profile: #{profile}"
         out = inspec("exec " + full_path + " --reporter json --no-create-lockfile")
 
         all_errors[profile_path] = JSON::Validator.fully_validate(schema, JSON.parse(out.stdout), validate_schema: true)
