@@ -37,7 +37,6 @@ module Inspec::Plugin::V2
 
       # Identify plugins that inspec is co-installed with
       detect_system_plugins unless options[:omit_sys_plugins]
-
     end
 
     def load_all
@@ -274,7 +273,7 @@ module Inspec::Plugin::V2
 
     def detect_system_plugins
       # Find the gemspec for inspec
-      inspec_gemspec = Gem::Specification.find_by_name('inspec', '=' + Inspec::VERSION)
+      inspec_gemspec = Gem::Specification.find_by_name("inspec", "=" + Inspec::VERSION)
 
       # Make a RequestSet that represents the dependencies of inspec
       inspec_deps_request_set = Gem::RequestSet.new(*inspec_gemspec.dependencies)
@@ -286,7 +285,7 @@ module Inspec::Plugin::V2
 
       inspec_gemspec.dependencies.each do |inspec_dep|
         next unless inspec_plugin_name?(inspec_dep.name) || train_plugin_name?(inspec_dep.name)
-        plugin_spec = runtime_solution.detect {|s| s.name == inspec_dep.name }.spec
+        plugin_spec = runtime_solution.detect { |s| s.name == inspec_dep.name }.spec
 
         status = Inspec::Plugin::V2::Status.new
         status.name = inspec_dep.name

@@ -469,7 +469,7 @@ module InspecPlugins
           Inspec::VERSION
         when :user_gem, :system_gem
           if status.version.nil?
-            '(unknown)'
+            "(unknown)"
           elsif status.version =~ /^\d+\.\d+\.\d+$/
             status.version
           else
