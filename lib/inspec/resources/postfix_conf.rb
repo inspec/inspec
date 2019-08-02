@@ -8,6 +8,17 @@ module Inspec::Resources
     supports platform: "debian"
     desc "Use the postfix_conf Inspec audit resource to test the configuration of the Postfix Mail Transfer Agent"
 
+    # Allow user to specify a custom configuration path, use default Postfix configuration path if no custom path is provided
+    def initialize(*opts)
+      @params = {}
+      if opts.length == 1
+        @raw_content = load_raw_content(opts)
+      else
+        @raw_content = load_raw_content("/etc/postfix/main.cf")
+      end
+      @params = parse(@raw_content)
+    end
+
     def parse(content)
       SimpleConfig.new(content).params
     end
