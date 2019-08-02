@@ -1,6 +1,6 @@
 require "functional/helper"
 require "mixlib/shellout"
-require "json-schema"
+require "json_schemer"
 
 describe "inspec json" do
   include FunctionalHelper
@@ -183,8 +183,8 @@ describe "inspec json" do
 
     data = JSON.parse(out.stdout)
     sout = inspec("schema profile-json")
-    schema = JSON.parse(sout.stdout)
-    JSON::Validator.validate(schema, data, validate_schema: true).wont_equal false
+    schema = JSONSchemer.schema(sout.stdout)
+    schema.validate(data).to_a.must_equal []
 
     out.stderr.must_equal ""
 
@@ -192,21 +192,18 @@ describe "inspec json" do
   end
 
   it "properly validates all (valid) unit tests against the schema" do
-    schema = JSON.parse(inspec("schema profile-json").stdout)
-    all_errors = {}
+    schema = JSONSchemer.schema(JSON.parse(inspec("schema profile-json").stdout))
     all_profile_folders.each do |folder|
       begin
-        out = inspec("json " + full_path)
-
-        all_errors[profile_path] = JSON::Validator.fully_validate(schema, JSON.parse(out.stdout), validate_schema: true)
+        out = inspec("json " + folder)
+        # Ensure it parses properly; discard the result
+        out = JSON.parse(out.stdout)
+        failures = schema.validate(out).to_a
+        failures.must_equal []
       rescue JSON::ParserError
         # We don't actually care about these; cannot validate if parsing fails!
         nil
       end
     end
-
-    # We fail on this condition to provide a useful mapping of each file that fails, instead of just "one failed"
-    no_failures = all_errors.map { |key, value| [key, []] }.to_h
-    all_errors.must_equal no_failures
   end
 end

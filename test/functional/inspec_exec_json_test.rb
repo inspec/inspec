@@ -1,5 +1,5 @@
 require "functional/helper"
-require "json-schema"
+require "json_schemer"
 
 describe "inspec exec with json formatter" do
   include FunctionalHelper
@@ -9,8 +9,8 @@ describe "inspec exec with json formatter" do
 
     data = JSON.parse(out.stdout)
     sout = inspec("schema exec-json")
-    schema = JSON.parse(sout.stdout)
-    JSON::Validator.validate(schema, data, validate_schema: true).wont_equal false
+    schema = JSONSchemer.schema(sout.stdout)
+    schema.validate(data).to_a.must_equal []
 
     out.stderr.must_equal ""
 
@@ -23,8 +23,8 @@ describe "inspec exec with json formatter" do
 
     data = JSON.parse(out.stdout)
     sout = inspec("schema exec-json")
-    schema = JSON.parse(sout.stdout)
-    JSON::Validator.validate(schema, data, validate_schema: true).wont_equal false
+    schema = JSONSchemer.schema(sout.stdout)
+    schema.validate(data).to_a.must_equal []
 
     out.stderr.must_equal ""
 
@@ -35,8 +35,8 @@ describe "inspec exec with json formatter" do
     out = inspec("exec --no-create-lockfile --reporter json -- " + example_control)
     data = JSON.parse(out.stdout)
     sout = inspec("schema exec-json")
-    schema = JSON.parse(sout.stdout)
-    JSON::Validator.validate(schema, data, validate_schema: true).wont_equal false
+    schema = JSONSchemer.schema(sout.stdout)
+    schema.validate(data).to_a.must_equal []
 
     out.stderr.must_equal ""
 
@@ -49,8 +49,8 @@ describe "inspec exec with json formatter" do
     data = JSON.parse(out.stdout)
     data["platform"]["target_id"].must_equal "1d3e399f-4d71-4863-ac54-84d437fbc444"
     sout = inspec("schema exec-json")
-    schema = JSON.parse(sout.stdout)
-    JSON::Validator.validate(schema, data, validate_schema: true).wont_equal false
+    schema = JSONSchemer.schema(sout.stdout)
+    schema.validate(data).to_a.must_equal []
 
     out.stderr.must_equal ""
 
@@ -58,22 +58,19 @@ describe "inspec exec with json formatter" do
   end
 
   it "properly validates all (valid) unit tests against the schema" do
-    schema = JSON.parse(inspec("schema exec-json").stdout)
-    all_errors = {}
+    schema = JSONSchemer.schema(JSON.parse(inspec("schema exec-json").stdout))
     all_profile_folders.each do |folder|
       begin
-        out = inspec("exec " + full_path + " --reporter json --no-create-lockfile")
-
-        all_errors[profile_path] = JSON::Validator.fully_validate(schema, JSON.parse(out.stdout), validate_schema: true)
+        out = inspec("exec " + folder + " --reporter json --no-create-lockfile")
+        # Ensure it parses properly
+        out = JSON.parse(out.stdout)
+        failures = schema.validate(out).to_a
+        failures.must_equal []
       rescue JSON::ParserError
         # We don't actually care about these; cannot validate if parsing fails!
         nil
       end
     end
-
-    # We fail on this condition to provide a useful mapping of each file that fails, instead of just "one failed"
-    no_failures = all_errors.map { |key, value| [key, []] }.to_h
-    all_errors.must_equal no_failures
   end
 
   it "does not report skipped dependent profiles" do
