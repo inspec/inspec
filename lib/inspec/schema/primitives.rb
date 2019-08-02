@@ -160,6 +160,8 @@ module Inspec
           "skip_message" => STRING,
           "status" => STRING,
           "git" => URL,
+          "supermarket" => STRING,
+          "compliance" => STRING,
         },
       }, [])
 

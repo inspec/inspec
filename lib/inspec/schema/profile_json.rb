@@ -34,7 +34,7 @@ module Inspec
       # A profile that has not been run.
       PROFILE = Primitives::SchemaType.new("Profile JSON Profile", {
         "type" => "object",
-        "additionalProperties" => true, # Anything in the yaml will be put in here
+        "additionalProperties" => true, # Anything in the yaml will be put in here. LTTODO: Make this stricter!
         "required" => %w{name supports controls groups inputs sha256 status},
         "properties" => {
           "name" => Primitives::STRING,
@@ -46,11 +46,12 @@ module Inspec
           "status" => Primitives::STRING,
           "generator" => Primitives::GENERATOR.ref,
 
-          # Other properties recommended in inspec docs, but that aren"t guaranteed
+          # Other properties possible in inspec docs, but that aren"t guaranteed
           "title" => Primitives::STRING,
           "maintainer" => Primitives::STRING,
           "copyright" => Primitives::STRING,
           "copyright_email" => Primitives::STRING,
+          "depends" => Primitives.array(Primitives::DEPENDENCY.ref), # Can have depends, but NOT a parentprofile
         },
       }, [Primitives::SUPPORT, CONTROL, Primitives::CONTROL_GROUP, Primitives::GENERATOR])
     end
