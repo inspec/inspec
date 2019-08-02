@@ -86,6 +86,8 @@ module Inspec
           "maintainer" => Primitives::STRING,
           "copyright" => Primitives::STRING,
           "copyright_email" => Primitives::STRING,
+          "depends" => Primitives.array(Primitives::DEPENDENCY.ref),
+          "parent_profile" => Primitives::STRING,
           "license" => Primitives::STRING,
           "summary" => Primitives::STRING,
           "version" => Primitives::STRING,
@@ -101,7 +103,7 @@ module Inspec
           "groups" => Primitives.array(Primitives::CONTROL_GROUP.ref),
           "attributes" => Primitives.array(Primitives::INPUT),
         },
-      }, [CONTROL, Primitives::CONTROL_GROUP, Primitives::SUPPORT])
+      }, [CONTROL, Primitives::CONTROL_GROUP, Primitives::DEPENDENCY, Primitives::SUPPORT])
 
       # Result of exec json. Top level value
       OUTPUT = Primitives::SchemaType.new("Exec JSON Output", {

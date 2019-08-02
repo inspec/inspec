@@ -83,6 +83,9 @@ module Inspec
       NUMBER = { "type" => "number" }.freeze
       STRING = { "type" => "string" }.freeze
 
+      # We might eventually enforce string format stuff on this
+      URL = { "type" => "string" }.freeze
+
       # A controls tags can have any number of properties, and any sorts of values
       TAGS = { "type" => "object", "additionalProperties" => true }.freeze
 
@@ -145,6 +148,21 @@ module Inspec
         },
       }, [STATISTIC_GROUPING])
 
+      # Profile dependencies
+      DEPENDENCY = SchemaType.new("Dependency", {
+        "type" => "object",
+        "additionalProperties" => false,
+        "required" => [], # Mysteriously even in a run profile we can have no status
+        "properties" => {
+          "name" => STRING,
+          "url" => URL,
+          "path" => STRING,
+          "skip_message" => STRING,
+          "status" => STRING,
+          "git" => URL,
+        },
+      }, [])
+
       # Represents the platform the test was run on
       PLATFORM = SchemaType.new("Platform", {
         "type" => "object",
@@ -199,6 +217,13 @@ module Inspec
             "required" => ["uri"],
             "properties" => { "uri" => STRING },
           },
+          # I am of the opinion that this is just an error in the codebase itself. See profiles/wrapper-override to uncover new mysteries!
+          {
+            "type" => "object",
+            "required" => ["ref"],
+            "properties" => { "ref" => array(OBJECT) },
+
+          },
         ],
       }, [])
 
@@ -209,7 +234,7 @@ module Inspec
         "required" => %w{id controls},
         "properties" => {
           "id" => desc(STRING, "The unique identifier of the group"),
-          "title" => desc(STRING, "The name of the group"),
+          "title" => desc({ type: %w{string null} }, "The name of the group"),
           "controls" => desc(array(STRING), "The control IDs in this group"),
         },
       }, [])
@@ -218,12 +243,13 @@ module Inspec
       # Represents a platfrom or group of platforms that this profile supports
       SUPPORT = SchemaType.new("Supported Platform", {
         "type" => "object",
-        "additionalProperties" => false,
-        "required" => ["platform-family"],
+        "additionalProperties" => true, # NOTE: This should really be false, and inspec should validate profiles to ensure people don't make dumb mistakes like platform_family
+        "required" => [],
         "properties" => {
           "platform-family" => STRING,
           "platform-name" => STRING,
           "platform" => STRING,
+          "release" => STRING,
           # os-* supports are being deprecated
           "os-family" => STRING,
           "os-name" => STRING,
