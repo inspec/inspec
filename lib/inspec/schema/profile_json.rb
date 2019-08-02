@@ -53,7 +53,7 @@ module Inspec
           "copyright_email" => Primitives::STRING,
           "depends" => Primitives.array(Primitives::DEPENDENCY.ref), # Can have depends, but NOT a parentprofile
         },
-      }, [Primitives::SUPPORT, CONTROL, Primitives::CONTROL_GROUP, Primitives::GENERATOR])
+      }, [Primitives::SUPPORT, CONTROL, Primitives::CONTROL_GROUP, Primitives::DEPENDENCY, Primitives::GENERATOR])
     end
   end
 end
