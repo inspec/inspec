@@ -53,9 +53,14 @@ module Inspec
           })
         end
 
+        # Formats this to have a JSON pointer compatible title
+        def ref_name
+          @name.gsub(/\s+/, "_")
+        end
+
         # Yields this type as a json schema ref
         def ref
-          { "$ref" => "#/definitions/#{@name}" }
+          { "$ref" => "#/definitions/#{ref_name}" }
         end
 
         # Recursively acquire all depends for this schema. Return them sorted by name
