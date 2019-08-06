@@ -100,10 +100,16 @@ module FunctionalHelper
     TMP_CACHE[res.path] = res
   end
 
+  ROOT_LICENSE_PATH = "/etc/chef/accepted_licenses/inspec".freeze
+
   def without_license
     ENV.delete "CHEF_LICENSE"
 
+    FileUtils.rm_f ROOT_LICENSE_PATH
+
     yield
+
+    FileUtils.rm_f ROOT_LICENSE_PATH
   ensure
     ENV["CHEF_LICENSE"] = "accept-no-persist"
   end
