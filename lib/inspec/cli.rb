@@ -323,6 +323,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :distinct_exit, type: :boolean, default: true,
     desc: "Exit with code 100 if any tests fail, and 101 if any are skipped but none failed (default).  If disabled, exit 0 on skips and 1 for failures."
   def shell_func
+    require "inspec/resources" # TODO: remove me if possible!
     o = config
     diagnose(o)
     o[:debug_shell] = true
