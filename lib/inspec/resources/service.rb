@@ -248,7 +248,7 @@ module Inspec::Resources
       return nil if info.nil?
 
       info[:startname]
-    end    
+    end
 
     def to_s
       "Service #{@service_name}"
@@ -588,7 +588,7 @@ module Inspec::Resources
     #     "StartMode":  "Auto",
     #     "State":  "Running",
     #     "Status":  "OK",
-    #     "StartName":  "LocalSystem" 
+    #     "StartName":  "LocalSystem"
     # }
     #
     # Windows Services have the following status code:
