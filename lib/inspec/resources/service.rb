@@ -244,10 +244,10 @@ module Inspec::Resources
     end
 
     # returns the service's user from info
-    def startuser
+    def startname
       return nil if info.nil?
 
-      info[:startuser]
+      info[:startname]
     end    
 
     def to_s
