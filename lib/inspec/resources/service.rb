@@ -243,6 +243,13 @@ module Inspec::Resources
       info[:startmode]
     end
 
+    # returns the service's user from info
+    def startuser
+      return nil if info.nil?
+
+      info[:startuser]
+    end    
+
     def to_s
       "Service #{@service_name}"
     end
@@ -575,12 +582,13 @@ module Inspec::Resources
     # Also see: https://msdn.microsoft.com/en-us/library/aa384896(v=vs.85).aspx
     # Use the following powershell to determine the start mode
     # PS: Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq $name -or $_.DisplayName -eq $name} | Select-Object -Prop
-    # erty Name, StartMode, State, Status | ConvertTo-Json
+    # erty Name, StartMode, State, Status, StartName | ConvertTo-Json
     # {
     #     "Name":  "Dhcp",
     #     "StartMode":  "Auto",
     #     "State":  "Running",
-    #     "Status":  "OK"
+    #     "Status":  "OK",
+    #     "StartName":  "LocalSystem" 
     # }
     #
     # Windows Services have the following status code:
@@ -593,7 +601,7 @@ module Inspec::Resources
     # - 6: Pause Pending
     # - 7: Paused
     def info(service_name)
-      cmd = inspec.command("New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Service -Value (Get-Service -Name '#{service_name}'| Select-Object -Property Name, DisplayName, Status) -PassThru | Add-Member -MemberType NoteProperty -Name WMI -Value (Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq '#{service_name}' -or $_.DisplayName -eq '#{service_name}'} | Select-Object -Property StartMode) -PassThru | ConvertTo-Json")
+      cmd = inspec.command("New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Service -Value (Get-Service -Name '#{service_name}'| Select-Object -Property Name, DisplayName, Status) -PassThru | Add-Member -MemberType NoteProperty -Name WMI -Value (Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq '#{service_name}' -or $_.DisplayName -eq '#{service_name}'} | Select-Object -Property StartMode, StartName) -PassThru | ConvertTo-Json")
 
       # cannot rely on exit code for now, successful command returns exit code 1
       # return nil if cmd.exit_status != 0
@@ -614,6 +622,7 @@ module Inspec::Resources
         running: service_running?(service),
         enabled: service_enabled?(service),
         startmode: service["WMI"]["StartMode"],
+        startname: service["WMI"]["StartName"],
         type: "windows",
       }
     end
