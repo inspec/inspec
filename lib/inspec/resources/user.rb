@@ -1,0 +1,1 @@
+require "inspec/resources/users"

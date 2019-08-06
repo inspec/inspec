@@ -124,6 +124,7 @@ module Inspec
         end
 
         def check_supports
+          require "inspec/resources/platform"
           status = inspec.platform.supported?(@supports)
           fail_msg = "Resource `#{@__resource_name__}` is not supported on platform #{inspec.platform.name}/#{inspec.platform.release}."
           fail_resource(fail_msg) unless status
@@ -165,7 +166,7 @@ module Inspec
   end
 
   module Plugins
-    class Resource
+    class Resource # TODO: possibly push up to inspec/resource.rb
       extend Inspec::ResourceDSL
       include Inspec::ResourceBehaviors
     end

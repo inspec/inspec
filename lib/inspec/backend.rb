@@ -77,6 +77,14 @@ module Inspec
           connection
         end
 
+        def method_missing(id, *args, &blk)
+          require "inspec/resources/#{id}"
+          klass = Inspec::Resource.registry[id.to_s]
+          klass.new(self, id, *args)
+        rescue LoadError
+          super
+        end
+
         Inspec::Resource.registry.each do |id, r|
           define_method id.to_sym do |*args|
             r.new(self, id.to_s, *args)

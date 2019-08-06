@@ -66,9 +66,15 @@ module Inspec
             # We still haven't called it, so do so now.
             send(method_name, *arguments, &block)
           else
-            # If we couldn't find a plugin to match, maybe something up above has it,
-            # or maybe it is just a unknown method error.
-            super
+            begin
+              id = method_name
+              require "inspec/resources/#{id}"
+              klass = Inspec::Resource.registry[id.to_s]
+              klass.new(inspec, id, *arguments)
+            rescue LoadError
+              # TODO: aws
+              super
+            end
           end
         end
 

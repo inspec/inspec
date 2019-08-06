@@ -1,5 +1,3 @@
-require "inspec/resources"
-
 class MockLoader
   # collects emulation operating systems
   OPERATING_SYSTEMS = {

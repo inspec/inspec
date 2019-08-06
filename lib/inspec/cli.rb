@@ -64,7 +64,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "A list of controls to include. Ignore all other tests."
   profile_options
   def json(target)
-    require "inspec/resources"
     require "json"
 
     o = config
@@ -103,8 +102,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :format, type: :string
   profile_options
   def check(path) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-    require "inspec/resources"
-
     o = config
     diagnose(o)
     o["log_location"] ||= STDERR if o["format"] == "json"
@@ -157,8 +154,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :overwrite, type: :boolean, default: false,
     desc: "Overwrite existing vendored dependencies and lockfile."
   def vendor(path = nil)
-    require "inspec/resources"
-
     o = config
     configure_logger(o)
     o[:logger] = Logger.new($stdout)
@@ -180,8 +175,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :ignore_errors, type: :boolean, default: false,
     desc: "Ignore profile warnings."
   def archive(path)
-    require "inspec/resources"
-
     o = config
     diagnose(o)
 

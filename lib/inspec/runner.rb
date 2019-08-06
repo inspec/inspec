@@ -9,7 +9,6 @@ require "inspec/metadata"
 require "inspec/config"
 require "inspec/dependencies/cache"
 require "inspec/dist"
-require "inspec/resources"
 require "inspec/reporters"
 require "inspec/runner_rspec"
 # spec requirements

@@ -3,6 +3,8 @@ require "inspec/log"
 require "inspec/plugin/v2"
 
 module Inspec::DSL
+  attr_accessor :backend
+
   def require_controls(id, &block)
     opts = { profile_id: id, include_all: false, backend: @backend, conf: @conf, dependencies: @dependencies }
     ::Inspec::DSL.load_spec_files_for_profile(self, opts, &block)
@@ -44,7 +46,15 @@ module Inspec::DSL
       # We still haven't called it, so do so now.
       send(method_name, *arguments, &block)
     else
-      super
+      begin
+        id = method_name
+        require "inspec/resources/#{id}"
+        klass = Inspec::Resource.registry[id.to_s]
+        klass.new(@backend, id, *arguments)
+      rescue LoadError
+        # TODO: aws
+        super
+      end
     end
   end
 

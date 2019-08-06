@@ -1,6 +1,7 @@
 require "helper"
 require "inspec/resource"
 require "inspec/resources/command"
+require "inspec/resources/os"
 
 describe Inspec::Resources::Cmd do
   let(:x) { rand.to_s }
