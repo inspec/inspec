@@ -38,7 +38,7 @@ pipelines:
      - LANG: "C.UTF-8"
      - SLOW: 1
  - www/build:
-    description: Gather documentation from related resource packs and build website.
+    description: Build website.
     definition: .expeditor/wwwbuild.yml
  - www/deploy:
     description: Deploy website to inspec.io
@@ -91,6 +91,20 @@ merge_actions:
     ignore_labels:
      - "Version: Skip Bump"
      - "Expeditor: Skip All"
+    only_if_modified:
+     - docs/*
+     - etc/*
+     - habitat/*
+     - inspec-bin/*
+     - lib/*
+     - omnibus/*
+     - support/*
+     - tasks/*
+     - test/*
+     - Gemfile*
+     - LICENSE
+     - "*.gemspec"
+     - "*.md"
  - bash:.expeditor/update_version.sh:
     only_if: built_in:bump_version
  - built_in:update_changelog:
@@ -126,9 +140,9 @@ subscriptions:
     - built_in:tag_docker_image
     - built_in:promote_habitat_packages
     - bash:.expeditor/publish-release-notes.sh:
-         post_commit: true
+       post_commit: true
     - bash:.expeditor/purge-cdn.sh:
-         post_commit: true
+       post_commit: true
     - bash:.expeditor/announce-release.sh:
-         post_commit: true
+       post_commit: true
     - built_in:notify_chefio_slack_channels
