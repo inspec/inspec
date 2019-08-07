@@ -359,6 +359,7 @@ describe "Inspec::Resources::Service" do
     _(resource.type).must_equal "systemd"
     _(resource.name).must_equal "apache2.service"
     _(resource.description).must_equal "LSB: Apache2 web server"
+    _(resource.startname).must_equal "root"
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
