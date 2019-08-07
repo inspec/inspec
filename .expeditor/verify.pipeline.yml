@@ -3,6 +3,9 @@ expeditor:
   defaults:
     buildkite:
       timeout_in_minutes: 45
+    retry:
+      automatic:
+        limit: 1
       
 steps:
 
