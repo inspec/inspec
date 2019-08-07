@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Only bump versions when we modify InSpec. [#4348](https://github.com/inspec/inspec/pull/4348) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.10.4 -->
+### Changes since 4.10.4 release
+
+#### Merged Pull Requests
+- Only bump versions when we modify InSpec. [#4348](https://github.com/inspec/inspec/pull/4348) ([miah](https://github.com/miah)) <!-- 4.10.4 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
