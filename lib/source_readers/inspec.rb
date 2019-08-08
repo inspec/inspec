@@ -46,29 +46,26 @@ module SourceReaders
       end
     end
 
-    def load_all paths
-      paths.map { |path| file = @target.read(path); [path, file] if file }.compact.to_h
+    def load_all &blk
+      find_all(&blk).map { |path| file = @target.read(path); [path, file] if file }.compact.to_h
     end
 
     def load_tests
-      paths = find_all { |path|
+      load_all { |path|
         path.start_with?("controls") && path.end_with?(".rb")
       }
-      load_all paths
     end
 
     def load_libs
-      paths = find_all { |path|
+      load_all { |path|
         path.start_with?("libraries") && path.end_with?(".rb")
       }
-      load_all paths
     end
 
     def load_data_files
-      paths = find_all { |path|
+      load_all { |path|
         path.start_with?("files" + File::SEPARATOR)
       }
-      load_all paths
     end
   end
 end
