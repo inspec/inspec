@@ -82,7 +82,7 @@ module Inspec
               elsif xpect != ""
                 " " + expectation.inspect
               end
-      format("%s%sdescribe %p do\n  it { subject.%sshould%s %s%s }\nend",
+      format("%s%sdescribe %%q(%s) do\n  it { subject.%sshould%s %s%s }\nend",
         only_if_clause, vars, res, xtra, naughty, matcher, xpect)
     end
 

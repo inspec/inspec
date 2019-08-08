@@ -10,7 +10,7 @@ describe "Objects" do
       obj.expectation = "2.4.2"
       _(obj.to_ruby).must_equal '
 subject { resource }
-describe "resource" do
+describe %q(resource) do
   it { subject.version.should cmp >= "2.4.2" }
 end
 '.strip
@@ -24,7 +24,7 @@ end
       obj.expectation = "2.4.2"
       _(obj.to_ruby).must_equal '
 subject { resource.version }
-describe "resource.version" do
+describe %q(resource.version) do
   it { subject.should cmp >= "2.4.2" }
 end
 '.strip
@@ -36,7 +36,7 @@ end
       obj.expectation = Regexp.new("^Desc.+$")
       _(obj.to_ruby).must_equal '
 subject { resource.to_s }
-describe "resource.to_s" do
+describe %q(resource.to_s) do
   it { subject.should cmp(/^Desc.+$/) }
 end
 '.strip
@@ -48,7 +48,7 @@ end
       obj.expectation = 3
       _(obj.to_ruby).must_equal '
 subject { resource.to_i }
-describe "resource.to_i" do
+describe %q(resource.to_i) do
   it { subject.should cmp > 3 }
 end
 '.strip
@@ -61,7 +61,7 @@ end
       obj.expectation = "mytest"
       _(obj.to_ruby).must_equal '
 subject { resource.name[2] }
-describe "resource.name[2]" do
+describe %q(resource.name[2]) do
   it { subject.should eq "mytest" }
 end
 '.strip
@@ -73,7 +73,7 @@ end
       obj.expectation = "mytest"
       _(obj.to_ruby).must_equal '
 subject { resource.hello("world") }
-describe "resource.hello(\"world\")" do
+describe %q(resource.hello("world")) do
   it { subject.should eq "mytest" }
 end
 '.strip
@@ -85,7 +85,7 @@ end
       obj.expectation = %w{mytest mytest2 mytest3}
       _(obj.to_ruby).must_equal '
 subject { resource.hello("world") }
-describe "resource.hello(\"world\")" do
+describe %q(resource.hello("world")) do
   it { subject.should be_in ["mytest", "mytest2", "mytest3"] }
 end
 '.strip
@@ -98,7 +98,7 @@ end
       obj.expectation = %w{mytest2 mytest3 mytest4}
       _(obj.to_ruby).must_equal '
 subject { resource.hello("world") }
-describe "resource.hello(\"world\")" do
+describe %q(resource.hello("world")) do
   it { subject.should_not be_in ["mytest2", "mytest3", "mytest4"] }
 end
 '.strip
@@ -110,7 +110,7 @@ end
       obj.expectation = %w{item1 item2 item3 item4 item5}
       _(obj.to_ruby).must_equal '
 subject { ["item1","item2","item3"] }
-describe "[\"item1\",\"item2\",\"item3\"]" do
+describe %q(["item1","item2","item3"]) do
   it { subject.should be_in ["item1", "item2", "item3", "item4", "item5"] }
 end
 '.strip
@@ -122,7 +122,7 @@ end
       obj.expectation = "0755"
       _(obj.to_ruby).must_equal '
 subject { resource }
-describe "resource" do
+describe %q(resource) do
   it { subject.mode.should cmp "0755" }
 end
 '.strip
@@ -135,7 +135,7 @@ end
 
       _(obj.to_ruby).must_equal '
 subject { command("ls /etc") }
-describe "command(\"ls /etc\")" do
+describe %q(command("ls /etc")) do
   it { subject.exit_status.should eq 0 }
 end
 '.strip
@@ -150,7 +150,7 @@ end
       # TODO: possibly put some logic into using subject
       _(obj.to_ruby).must_equal '
 subject { "aaa" }
-describe "\"aaa\"" do
+describe %q("aaa") do
   it { subject.should_not match(/^aa.*/) }
 end
 '.strip
@@ -163,7 +163,7 @@ end
       obj.matcher = "eq"
       _(obj.to_ruby).must_equal '
 subject { service("avahi-daemon").info[\'properties\'][\'UnitFileState\'] }
-describe "service(\"avahi-daemon\").info[\'properties\'][\'UnitFileState\']" do
+describe %q(service("avahi-daemon").info[\'properties\'][\'UnitFileState\']) do
   it { subject.should eq "enabled" }
 end
 '.strip
@@ -177,7 +177,7 @@ end
       _(obj.to_ruby).must_equal '
 only_if { package(\'ntp\').installed? }
 subject { resource }
-describe "resource" do
+describe %q(resource) do
   it { subject.version.should cmp >= "2.4.2" }
 end
 '.strip
@@ -197,7 +197,7 @@ end
       _(loop_obj.to_ruby).must_equal '
 port(25).addresses.each do |entry|
   subject { entry }
-  describe "entry" do
+  describe %q(entry) do
     it { subject.should_not match "0.0.0.0" }
   end
 end
@@ -217,7 +217,7 @@ end
       obj.negate!
       _(obj.to_ruby).must_equal '
 subject { passwd.where { user =~ /^(?!root|sync|shutdown|halt).*$/ } }
-describe "passwd.where { user =~ /^(?!root|sync|shutdown|halt).*$/ }" do
+describe %q(passwd.where { user =~ /^(?!root|sync|shutdown|halt).*$/ }) do
   it { subject.entries.should_not be_empty }
 end
 '.strip
@@ -244,11 +244,11 @@ end
       _(or_obj.to_ruby).must_equal '
 describe.one do
   subject { command("ls /etc") }
-  describe "command(\"ls /etc\")" do
+  describe %q(command("ls /etc")) do
     it { subject.exit_status.should eq 0 }
   end
   subject { command("ls /etc") }
-  describe "command(\"ls /etc\")" do
+  describe %q(command("ls /etc")) do
     it { subject.exit_status.should_not eq 100 }
   end
 end
@@ -262,11 +262,11 @@ end
       # TODO: yeah. the duplicated subject needs to be culled where possible, or numbered
       _(or_obj.to_ruby).must_equal '
 subject { command("ls /etc") }
-describe "command(\"ls /etc\")" do
+describe %q(command("ls /etc")) do
   it { subject.exit_status.should_not eq 0 }
 end
 subject { command("ls /etc") }
-describe "command(\"ls /etc\")" do
+describe %q(command("ls /etc")) do
   it { subject.exit_status.should eq 100 }
 end
 '.strip
@@ -288,11 +288,11 @@ end
 (1..5).each do |entry|
   describe.one do
     subject { command("ls /etc") }
-    describe "command(\"ls /etc\")" do
+    describe %q(command("ls /etc")) do
       it { subject.exit_status.should eq entity }
     end
     subject { command("ls /etc") }
-    describe "command(\"ls /etc\")" do
+    describe %q(command("ls /etc")) do
       it { subject.exit_status.should_not eq entity }
     end
   end
@@ -322,7 +322,7 @@ control "sample.control.id" do
   ref   "simple ref"
   ref   ({:ref=>"title", :url=>"my url"})
   subject { command("ls /etc") }
-  describe "command(\\"ls /etc\\")" do
+  describe %q(command("ls /etc")) do
     it { subject.exit_status.should eq 0 }
   end
 end
@@ -353,7 +353,7 @@ control "sample.control.id" do
   ref   ({:ref=>"title", :url=>"my url"})
   only_if { package(\'ntp\').installed? }
   subject { command("ls /etc") }
-  describe "command(\"ls /etc\")" do
+  describe %q(command("ls /etc")) do
     it { subject.exit_status.should eq 0 }
   end
 end
@@ -431,11 +431,11 @@ control "variable.control.id" do
   impact 1.0
   let(:a) { command("which grep") }
   subject { a }
-  describe "a" do
+  describe %q(a) do
     it { subject.exit_status.should eq 0 }
   end
   subject { a }
-  describe "a" do
+  describe %q(a) do
     it { subject.stdout.should contain "grep" }
   end
 end
@@ -468,7 +468,7 @@ control "variable.control.id" do
   impact 0.1
   let(:a) { passwd.where { user == "_chrony" }.uids.first }
   subject { user(entry.user) }
-  describe "user(entry.user)" do
+  describe %q(user(entry.user)) do
     it { subject.uid.should cmp a }
   end
 end
