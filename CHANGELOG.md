@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.11.2 -->
+## [v4.11.2](https://github.com/inspec/inspec/tree/v4.11.2) (2019-08-08)
 
 #### Merged Pull Requests
+- Fixed typo in umask example [#4360](https://github.com/inspec/inspec/pull/4360) ([kclinden](https://github.com/kclinden))
 - Stop building Chef InSpec on SLES 11 [#4374](https://github.com/inspec/inspec/pull/4374) ([schisamo](https://github.com/schisamo))
 <!-- latest_release -->
 
@@ -18,6 +19,7 @@
 - Fixed syntax errors in wmi doco. [#4370](https://github.com/inspec/inspec/pull/4370) ([zenspider](https://github.com/zenspider)) <!-- 4.10.7 -->
 
 #### Merged Pull Requests
+- Fixed typo in umask example [#4360](https://github.com/inspec/inspec/pull/4360) ([kclinden](https://github.com/kclinden)) <!-- 4.11.2 -->
 - Stop building Chef InSpec on SLES 11 [#4374](https://github.com/inspec/inspec/pull/4374) ([schisamo](https://github.com/schisamo)) <!-- 4.11.1 -->
 - Remove timebombs on skip_until and licensing tests. [#4351](https://github.com/inspec/inspec/pull/4351) ([zenspider](https://github.com/zenspider)) <!-- 4.10.6 -->
 - Add a retry to expeditor defaults, per shain&#39;s advice. [#4369](https://github.com/inspec/inspec/pull/4369) ([zenspider](https://github.com/zenspider)) <!-- 4.10.5 -->
