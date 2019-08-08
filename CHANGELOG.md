@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.11.0 -->
-## [v4.11.0](https://github.com/inspec/inspec/tree/v4.11.0) (2019-08-08)
+<!-- latest_release 4.11.1 -->
+## [v4.11.1](https://github.com/inspec/inspec/tree/v4.11.1) (2019-08-08)
 
-#### New Features
-- Add startuser windows service [#4363](https://github.com/inspec/inspec/pull/4363) ([mbaitelman](https://github.com/mbaitelman))
+#### Bug Fixes
+- group resource: Modified DarwinGroup to collect all users properly on macos [#4343](https://github.com/inspec/inspec/pull/4343) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.10.4 -->
@@ -14,6 +14,7 @@
 - Add startuser windows service [#4363](https://github.com/inspec/inspec/pull/4363) ([mbaitelman](https://github.com/mbaitelman)) <!-- 4.11.0 -->
 
 #### Bug Fixes
+- group resource: Modified DarwinGroup to collect all users properly on macos [#4343](https://github.com/inspec/inspec/pull/4343) ([zenspider](https://github.com/zenspider)) <!-- 4.11.1 -->
 - Fixed syntax errors in wmi doco. [#4370](https://github.com/inspec/inspec/pull/4370) ([zenspider](https://github.com/zenspider)) <!-- 4.10.7 -->
 
 #### Merged Pull Requests
