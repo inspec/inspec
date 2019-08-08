@@ -1,11 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.11.2 -->
-## [v4.11.2](https://github.com/inspec/inspec/tree/v4.11.2) (2019-08-08)
+<!-- latest_release 4.11.3 -->
+## [v4.11.3](https://github.com/inspec/inspec/tree/v4.11.3) (2019-08-08)
 
 #### Merged Pull Requests
-- Fixed typo in umask example [#4360](https://github.com/inspec/inspec/pull/4360) ([kclinden](https://github.com/kclinden))
-- Stop building Chef InSpec on SLES 11 [#4374](https://github.com/inspec/inspec/pull/4374) ([schisamo](https://github.com/schisamo))
+- README: Add platform detail to support info in runtime list [#4375](https://github.com/inspec/inspec/pull/4375) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.10.4 -->
@@ -19,6 +18,7 @@
 - Fixed syntax errors in wmi doco. [#4370](https://github.com/inspec/inspec/pull/4370) ([zenspider](https://github.com/zenspider)) <!-- 4.10.7 -->
 
 #### Merged Pull Requests
+- README: Add platform detail to support info in runtime list [#4375](https://github.com/inspec/inspec/pull/4375) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.11.3 -->
 - Fixed typo in umask example [#4360](https://github.com/inspec/inspec/pull/4360) ([kclinden](https://github.com/kclinden)) <!-- 4.11.2 -->
 - Stop building Chef InSpec on SLES 11 [#4374](https://github.com/inspec/inspec/pull/4374) ([schisamo](https://github.com/schisamo)) <!-- 4.11.1 -->
 - Remove timebombs on skip_until and licensing tests. [#4351](https://github.com/inspec/inspec/pull/4351) ([zenspider](https://github.com/zenspider)) <!-- 4.10.6 -->
