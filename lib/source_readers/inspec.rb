@@ -46,8 +46,8 @@ module SourceReaders
       end
     end
 
-    def load_all files
-      Hash[files.map { |path| [path, @target.read(path)] }.delete_if { |_file, file| file.nil? }]
+    def load_all paths
+      paths.map { |path| [path, @target.read(path)] }.delete_if { |_file, file| file.nil? }.to_h
     end
 
     def load_tests
