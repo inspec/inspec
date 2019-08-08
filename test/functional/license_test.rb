@@ -22,14 +22,17 @@ describe "The license acceptance mechanism" do
       end
 
       it "should write a YAML file" do
-        skip_until 2019, 8, 16, "Skipping in order to get buildkite green"
-
         without_license do
           Dir.mktmpdir do |tmp_home|
             license_persist_path = File.join(tmp_home, ".chef", "accepted_licenses", "inspec")
 
             File.exist?(license_persist_path).must_equal false # Sanity check
             run_inspec_process("shell -c platform.family --chef-license accept", env: { "HOME" => tmp_home })
+
+            # depends on if test is run by root or not
+            root_license_path = FunctionalHelper::ROOT_LICENSE_PATH
+            license_persist_path, = Dir[license_persist_path, root_license_path]
+
             File.exist?(license_persist_path).must_equal true
 
             license_persist_contents = YAML.load(File.read(license_persist_path))
@@ -44,8 +47,6 @@ describe "The license acceptance mechanism" do
     # if not found, we can't test interactive acceptance anymore
     describe "when no mechanism is used to accept the license and we are non-interactive" do
       it "should exit ASAP with code 172" do
-        skip_until 2019, 8, 16, "Skipping in order to get buildkite green"
-
         without_license do
           Dir.mktmpdir do |tmp_home|
             run_result = run_inspec_process("shell -c platform.family", env: { "HOME" => tmp_home })
