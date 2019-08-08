@@ -67,7 +67,7 @@ The `name` matcher tests the value of `name` as read from `login.defs` versus th
 
 ### Test umask setting
 
-    describe login_def do
+    describe login_defs do
       its('UMASK') { should eq '077' }
       its('PASS_MAX_DAYS') { should eq '90' }
     end
