@@ -54,14 +54,14 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ### Test basic Postfix configuration settings in the main.cf file
 
-For example the following is your Postfix configuration:
+For example, the following Postfix configuration:
 
 	/etc/postfix/main.cf:
 		myorigin = $myhostname
 		myhostname = host.local.domain
 		mynetworks = 127.0.0.0/8
 
-and can be tested like this:
+can be tested like this:
 
 	describe postfix_conf do
 	  its('myorigin') { should cmp '$myhostname' }
