@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.11.1 -->
-## [v4.11.1](https://github.com/inspec/inspec/tree/v4.11.1) (2019-08-08)
+<!-- latest_release unreleased -->
+## Unreleased
 
-#### Bug Fixes
-- group resource: Modified DarwinGroup to collect all users properly on macos [#4343](https://github.com/inspec/inspec/pull/4343) ([zenspider](https://github.com/zenspider))
+#### Merged Pull Requests
+- Stop building Chef InSpec on SLES 11 [#4374](https://github.com/inspec/inspec/pull/4374) ([schisamo](https://github.com/schisamo))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.10.4 -->
@@ -18,6 +18,7 @@
 - Fixed syntax errors in wmi doco. [#4370](https://github.com/inspec/inspec/pull/4370) ([zenspider](https://github.com/zenspider)) <!-- 4.10.7 -->
 
 #### Merged Pull Requests
+- Stop building Chef InSpec on SLES 11 [#4374](https://github.com/inspec/inspec/pull/4374) ([schisamo](https://github.com/schisamo)) <!-- 4.11.1 -->
 - Remove timebombs on skip_until and licensing tests. [#4351](https://github.com/inspec/inspec/pull/4351) ([zenspider](https://github.com/zenspider)) <!-- 4.10.6 -->
 - Add a retry to expeditor defaults, per shain&#39;s advice. [#4369](https://github.com/inspec/inspec/pull/4369) ([zenspider](https://github.com/zenspider)) <!-- 4.10.5 -->
 - Move some resources into Inspec::Resources module [#4361](https://github.com/inspec/inspec/pull/4361) ([KrisShannon](https://github.com/KrisShannon)) <!-- 4.10.5 -->
