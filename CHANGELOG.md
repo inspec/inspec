@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.10.7 -->
-## [v4.10.7](https://github.com/inspec/inspec/tree/v4.10.7) (2019-08-08)
+<!-- latest_release 4.11.0 -->
+## [v4.11.0](https://github.com/inspec/inspec/tree/v4.11.0) (2019-08-08)
 
-#### Bug Fixes
-- Fixed syntax errors in wmi doco. [#4370](https://github.com/inspec/inspec/pull/4370) ([zenspider](https://github.com/zenspider))
+#### New Features
+- Add startuser windows service [#4363](https://github.com/inspec/inspec/pull/4363) ([mbaitelman](https://github.com/mbaitelman))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.10.4 -->
 ### Changes since 4.10.4 release
+
+#### New Features
+- Add startuser windows service [#4363](https://github.com/inspec/inspec/pull/4363) ([mbaitelman](https://github.com/mbaitelman)) <!-- 4.11.0 -->
 
 #### Bug Fixes
 - Fixed syntax errors in wmi doco. [#4370](https://github.com/inspec/inspec/pull/4370) ([zenspider](https://github.com/zenspider)) <!-- 4.10.7 -->
