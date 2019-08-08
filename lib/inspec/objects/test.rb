@@ -61,10 +61,18 @@ module Inspec
 
     def rb_describe
       only_if_clause = "only_if { #{only_if} }\n" if only_if
+      res, xtra = describe_chain
+      xtra += "." if xtra
+
+      subject = Inspec::Value.new([[res]]) # TODO: double array is dumb
+      subject.variable = :subject
+
+      # TODO I can't tell if this is a hack or not. Is variables shared?
+      variables << subject unless variables.map(&:variable).include? :subject
+
       vars = variables.map(&:to_ruby).join("\n")
       vars += "\n" unless vars.empty?
-      res, xtra = describe_chain
-      itsy = xtra.nil? ? "it" : "its(" + xtra.to_s.inspect + ")"
+
       naughty = @negated ? "_not" : ""
       xpect = if !defined?(@expectation)
                 ""
@@ -74,14 +82,14 @@ module Inspec
               elsif xpect != ""
                 " " + expectation.inspect
               end
-      format("%s%sdescribe %s do\n  %s { should%s %s%s }\nend",
-        only_if_clause, vars, res, itsy, naughty, matcher, xpect)
+      format("%s%sdescribe %p do\n  it { subject.%sshould%s %s%s }\nend",
+        only_if_clause, vars, res, xtra, naughty, matcher, xpect)
     end
 
     def rb_skip
       dc = describe_chain
       obj = dc.nil? ? skip.inspect : dc[0]
-      format("describe %s do\n  skip %s\nend", obj, skip.inspect)
+      format("describe %p do\n  skip %s\nend", obj, skip.inspect)
     end
   end
 end

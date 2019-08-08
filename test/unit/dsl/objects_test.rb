@@ -9,8 +9,9 @@ describe "Objects" do
       obj.matcher = "cmp >="
       obj.expectation = "2.4.2"
       _(obj.to_ruby).must_equal '
-describe resource do
-  its("version") { should cmp >= "2.4.2" }
+let(:subject) { resource }
+describe "resource" do
+  it { subject.version.should cmp >= "2.4.2" }
 end
 '.strip
     end
@@ -22,8 +23,9 @@ end
       obj.matcher = "cmp >="
       obj.expectation = "2.4.2"
       _(obj.to_ruby).must_equal '
-describe resource.version do
-  it { should cmp >= "2.4.2" }
+let(:subject) { resource.version }
+describe "resource.version" do
+  it { subject.should cmp >= "2.4.2" }
 end
 '.strip
     end
@@ -33,8 +35,9 @@ end
       obj.matcher = "cmp"
       obj.expectation = Regexp.new("^Desc.+$")
       _(obj.to_ruby).must_equal '
-describe resource.to_s do
-  it { should cmp(/^Desc.+$/) }
+let(:subject) { resource.to_s }
+describe "resource.to_s" do
+  it { subject.should cmp(/^Desc.+$/) }
 end
 '.strip
     end
@@ -44,8 +47,9 @@ end
       obj.matcher = "cmp >"
       obj.expectation = 3
       _(obj.to_ruby).must_equal '
-describe resource.to_i do
-  it { should cmp > 3 }
+let(:subject) { resource.to_i }
+describe "resource.to_i" do
+  it { subject.should cmp > 3 }
 end
 '.strip
     end
@@ -56,8 +60,9 @@ end
       obj.matcher = "eq"
       obj.expectation = "mytest"
       _(obj.to_ruby).must_equal '
-describe resource.name[2] do
-  it { should eq "mytest" }
+let(:subject) { resource.name[2] }
+describe "resource.name[2]" do
+  it { subject.should eq "mytest" }
 end
 '.strip
     end
@@ -67,8 +72,9 @@ end
       obj.matcher = "eq"
       obj.expectation = "mytest"
       _(obj.to_ruby).must_equal '
-describe resource.hello("world") do
-  it { should eq "mytest" }
+let(:subject) { resource.hello("world") }
+describe "resource.hello(\"world\")" do
+  it { subject.should eq "mytest" }
 end
 '.strip
     end
@@ -78,8 +84,9 @@ end
       obj.matcher = "be_in"
       obj.expectation = %w{mytest mytest2 mytest3}
       _(obj.to_ruby).must_equal '
-describe resource.hello("world") do
-  it { should be_in ["mytest", "mytest2", "mytest3"] }
+let(:subject) { resource.hello("world") }
+describe "resource.hello(\"world\")" do
+  it { subject.should be_in ["mytest", "mytest2", "mytest3"] }
 end
 '.strip
     end
@@ -90,8 +97,9 @@ end
       obj.negate!
       obj.expectation = %w{mytest2 mytest3 mytest4}
       _(obj.to_ruby).must_equal '
-describe resource.hello("world") do
-  it { should_not be_in ["mytest2", "mytest3", "mytest4"] }
+let(:subject) { resource.hello("world") }
+describe "resource.hello(\"world\")" do
+  it { subject.should_not be_in ["mytest2", "mytest3", "mytest4"] }
 end
 '.strip
     end
@@ -101,8 +109,9 @@ end
       obj.matcher = "be_in"
       obj.expectation = %w{item1 item2 item3 item4 item5}
       _(obj.to_ruby).must_equal '
-describe ["item1","item2","item3"] do
-  it { should be_in ["item1", "item2", "item3", "item4", "item5"] }
+let(:subject) { ["item1","item2","item3"] }
+describe "[\"item1\",\"item2\",\"item3\"]" do
+  it { subject.should be_in ["item1", "item2", "item3", "item4", "item5"] }
 end
 '.strip
     end
@@ -112,8 +121,9 @@ end
       obj.matcher = "cmp"
       obj.expectation = "0755"
       _(obj.to_ruby).must_equal '
-describe resource do
-  its("mode") { should cmp "0755" }
+let(:subject) { resource }
+describe "resource" do
+  it { subject.mode.should cmp "0755" }
 end
 '.strip
     end
@@ -124,8 +134,9 @@ end
       obj.expectation = 0
 
       _(obj.to_ruby).must_equal '
-describe command("ls /etc") do
-  its("exit_status") { should eq 0 }
+let(:subject) { command("ls /etc") }
+describe "command(\"ls /etc\")" do
+  it { subject.exit_status.should eq 0 }
 end
 '.strip
     end
@@ -136,9 +147,11 @@ end
       obj.negate!
       obj.expectation = Regexp.new("^aa.*")
 
+      # TODO: possibly put some logic into using subject
       _(obj.to_ruby).must_equal '
-describe "aaa" do
-  it { should_not match(/^aa.*/) }
+let(:subject) { "aaa" }
+describe "\"aaa\"" do
+  it { subject.should_not match(/^aa.*/) }
 end
 '.strip
     end
@@ -149,8 +162,9 @@ end
       obj.expectation = "enabled"
       obj.matcher = "eq"
       _(obj.to_ruby).must_equal '
-describe service("avahi-daemon").info[\'properties\'][\'UnitFileState\'] do
-  it { should eq "enabled" }
+let(:subject) { service("avahi-daemon").info[\'properties\'][\'UnitFileState\'] }
+describe "service(\"avahi-daemon\").info[\'properties\'][\'UnitFileState\']" do
+  it { subject.should eq "enabled" }
 end
 '.strip
     end
@@ -162,8 +176,9 @@ end
       obj.only_if = "package('ntp').installed?"
       _(obj.to_ruby).must_equal '
 only_if { package(\'ntp\').installed? }
-describe resource do
-  its("version") { should cmp >= "2.4.2" }
+let(:subject) { resource }
+describe "resource" do
+  it { subject.version.should cmp >= "2.4.2" }
 end
 '.strip
     end
@@ -181,8 +196,9 @@ end
       loop_obj.add_test(obj)
       _(loop_obj.to_ruby).must_equal '
 port(25).addresses.each do |entry|
-  describe entry do
-    it { should_not match "0.0.0.0" }
+  let(:subject) { entry }
+  describe "entry" do
+    it { subject.should_not match "0.0.0.0" }
   end
 end
 '.strip
@@ -200,8 +216,9 @@ end
       obj.qualifier.push(["entries"])
       obj.negate!
       _(obj.to_ruby).must_equal '
-describe passwd.where { user =~ /^(?!root|sync|shutdown|halt).*$/ } do
-  its("entries") { should_not be_empty }
+let(:subject) { passwd.where { user =~ /^(?!root|sync|shutdown|halt).*$/ } }
+describe "passwd.where { user =~ /^(?!root|sync|shutdown|halt).*$/ }" do
+  it { subject.entries.should_not be_empty }
 end
 '.strip
     end
@@ -226,11 +243,13 @@ end
       or_obj = Inspec::OrTest.new([obj1, obj2])
       _(or_obj.to_ruby).must_equal '
 describe.one do
-  describe command("ls /etc") do
-    its("exit_status") { should eq 0 }
+  let(:subject) { command("ls /etc") }
+  describe "command(\"ls /etc\")" do
+    it { subject.exit_status.should eq 0 }
   end
-  describe command("ls /etc") do
-    its("exit_status") { should_not eq 100 }
+  let(:subject) { command("ls /etc") }
+  describe "command(\"ls /etc\")" do
+    it { subject.exit_status.should_not eq 100 }
   end
 end
 '.strip
@@ -239,12 +258,16 @@ end
     it "negates a describe.one block, wow!" do
       or_obj = Inspec::OrTest.new([obj1, obj2])
       or_obj.negate!
+
+      # TODO: yeah. the duplicated subject needs to be culled where possible, or numbered
       _(or_obj.to_ruby).must_equal '
-describe command("ls /etc") do
-  its("exit_status") { should_not eq 0 }
+let(:subject) { command("ls /etc") }
+describe "command(\"ls /etc\")" do
+  it { subject.exit_status.should_not eq 0 }
 end
-describe command("ls /etc") do
-  its("exit_status") { should eq 100 }
+let(:subject) { command("ls /etc") }
+describe "command(\"ls /etc\")" do
+  it { subject.exit_status.should eq 100 }
 end
 '.strip
     end
@@ -264,11 +287,13 @@ end
       _(res.to_ruby).must_equal '
 (1..5).each do |entry|
   describe.one do
-    describe command("ls /etc") do
-      its("exit_status") { should eq entity }
+    let(:subject) { command("ls /etc") }
+    describe "command(\"ls /etc\")" do
+      it { subject.exit_status.should eq entity }
     end
-    describe command("ls /etc") do
-      its("exit_status") { should_not eq entity }
+    let(:subject) { command("ls /etc") }
+    describe "command(\"ls /etc\")" do
+      it { subject.exit_status.should_not eq entity }
     end
   end
 end
@@ -296,8 +321,9 @@ control "sample.control.id" do
   impact 1.0
   ref   "simple ref"
   ref   ({:ref=>"title", :url=>"my url"})
-  describe command("ls /etc") do
-    its("exit_status") { should eq 0 }
+  let(:subject) { command("ls /etc") }
+  describe "command(\\"ls /etc\\")" do
+    it { subject.exit_status.should eq 0 }
   end
 end
 '.strip
@@ -326,8 +352,9 @@ control "sample.control.id" do
   ref   "simple ref"
   ref   ({:ref=>"title", :url=>"my url"})
   only_if { package(\'ntp\').installed? }
-  describe command("ls /etc") do
-    its("exit_status") { should eq 0 }
+  let(:subject) { command("ls /etc") }
+  describe "command(\"ls /etc\")" do
+    it { subject.exit_status.should eq 0 }
   end
 end
 '.strip
@@ -396,17 +423,20 @@ end
       control.title = "Variable Control Important Title"
       control.descriptions[:default] = "The most variable control the world has ever seen"
       control.impact = 1.0
+      # TODO: doubled up on subject... probably skippable w/ some logic
       _(control.to_ruby).must_equal '
 control "variable.control.id" do
   title "Variable Control Important Title"
   desc  "The most variable control the world has ever seen"
   impact 1.0
-  a = command("which grep")
-  describe a do
-    its("exit_status") { should eq 0 }
+  let(:a) { command("which grep") }
+  let(:subject) { a }
+  describe "a" do
+    it { subject.exit_status.should eq 0 }
   end
-  describe a do
-    its("stdout") { should contain "grep" }
+  let(:subject) { a }
+  describe "a" do
+    it { subject.stdout.should contain "grep" }
   end
 end
 '.strip
@@ -436,9 +466,10 @@ end
       _(control.to_ruby).must_equal '
 control "variable.control.id" do
   impact 0.1
-  a = passwd.where { user == "_chrony" }.uids.first
-  describe user(entry.user) do
-    its("uid") { should cmp a }
+  let(:a) { passwd.where { user == "_chrony" }.uids.first }
+  let(:subject) { user(entry.user) }
+  describe "user(entry.user)" do
+    it { subject.uid.should cmp a }
   end
 end
 '.strip

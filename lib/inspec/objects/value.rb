@@ -12,8 +12,13 @@ module Inspec
     end
 
     def to_ruby
-      res = @variable.nil? ? "" : "#{@variable} = "
-      res + @qualifier.map { |x| ruby_qualifier(x) }.join(".")
+      val = @qualifier.map { |x| ruby_qualifier(x) }.join(".")
+
+      if @variable then
+        "let(:%s) { %s }" % [@variable, val]
+      else
+        val
+      end
     end
 
     def name_variable(cache = [])
