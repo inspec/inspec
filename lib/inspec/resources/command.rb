@@ -1,6 +1,8 @@
 # copyright: 2015, Vulcano Security GmbH
 
 require "inspec/resource"
+require "inspec/resources/platform"
+require "inspec/resources/os"
 
 module Inspec::Resources
   class Cmd < Inspec.resource(1)
