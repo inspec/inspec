@@ -1,15 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.10.6 -->
-## [v4.10.6](https://github.com/inspec/inspec/tree/v4.10.6) (2019-08-08)
+<!-- latest_release 4.10.7 -->
+## [v4.10.7](https://github.com/inspec/inspec/tree/v4.10.7) (2019-08-08)
 
-#### Merged Pull Requests
-- Remove timebombs on skip_until and licensing tests. [#4351](https://github.com/inspec/inspec/pull/4351) ([zenspider](https://github.com/zenspider))
-- Add a retry to expeditor defaults, per shain&#39;s advice. [#4369](https://github.com/inspec/inspec/pull/4369) ([zenspider](https://github.com/zenspider))
+#### Bug Fixes
+- Fixed syntax errors in wmi doco. [#4370](https://github.com/inspec/inspec/pull/4370) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.10.4 -->
 ### Changes since 4.10.4 release
+
+#### Bug Fixes
+- Fixed syntax errors in wmi doco. [#4370](https://github.com/inspec/inspec/pull/4370) ([zenspider](https://github.com/zenspider)) <!-- 4.10.7 -->
 
 #### Merged Pull Requests
 - Remove timebombs on skip_until and licensing tests. [#4351](https://github.com/inspec/inspec/pull/4351) ([zenspider](https://github.com/zenspider)) <!-- 4.10.6 -->
