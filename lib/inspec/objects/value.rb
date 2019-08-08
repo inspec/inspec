@@ -14,8 +14,12 @@ module Inspec
     def to_ruby
       val = @qualifier.map { |x| ruby_qualifier(x) }.join(".")
 
-      if @variable then
-        "let(:%s) { %s }" % [@variable, val]
+      if @variable
+        if @variable == :subject
+          "subject { %s }" % [val]
+        else
+          "let(:%s) { %s }" % [@variable, val]
+        end
       else
         val
       end
