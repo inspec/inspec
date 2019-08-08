@@ -5,6 +5,7 @@
                     "Status":  4
                 },
     "WMI":  {
-                "StartMode":  "Auto"
+                "StartMode":  "Auto",
+                "StartName":  "LocalSystem"
             }
 }
