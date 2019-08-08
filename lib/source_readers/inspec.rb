@@ -46,25 +46,29 @@ module SourceReaders
       end
     end
 
+    def load_all files
+      Hash[files.map { |path| [path, @target.read(path)] }.delete_if { |_file, file| file.nil? }]
+    end
+
     def load_tests
       paths = find_all { |path|
         path.start_with?("controls") && path.end_with?(".rb")
       }
-      Hash[files.map { |path| [path, @target.read(path)] }.delete_if { |_file, file| file.nil? }]
+      load_all paths
     end
 
     def load_libs
       paths = find_all { |path|
         path.start_with?("libraries") && path.end_with?(".rb")
       }
-      Hash[files.map { |path| [path, @target.read(path)] }.delete_if { |_file, file| file.nil? }]
+      load_all paths
     end
 
     def load_data_files
       paths = find_all { |path|
         path.start_with?("files" + File::SEPARATOR)
       }
-      Hash[files.map { |path| [path, @target.read(path)] }.delete_if { |_file, file| file.nil? }]
+      load_all paths
     end
   end
 end
