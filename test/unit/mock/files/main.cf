@@ -1,0 +1,4 @@
+# Test main configuration for Postfix
+
+test_parameter = value
+other_test_param = $value

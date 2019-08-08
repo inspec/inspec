@@ -5,7 +5,6 @@ module Inspec::Resources
   class PostfixConf < IniConfig
     name "postfix_conf"
     supports platform: "linux"
-    supports platform: "debian"
     desc "Use the postfix_conf Inspec audit resource to test the configuration of the Postfix Mail Transfer Agent"
 
     # Allow user to specify a custom configuration path, use default Postfix configuration path if no custom path is provided
