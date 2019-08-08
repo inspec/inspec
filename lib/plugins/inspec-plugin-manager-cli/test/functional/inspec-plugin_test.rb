@@ -15,7 +15,9 @@ module PluginManagerHelpers
   let(:list_after_run) do
     Proc.new do |run_result, tmp_dir|
       # After installing/uninstalling/whatevering, run list with config in the same dir, and capture it.
-      run_result.payload.list_result = run_inspec_process("plugin list", env: { INSPEC_CONFIG_DIR: tmp_dir })
+      run_result.payload.list_result = parse_plugin_list_lines(
+        run_inspec_process("plugin list", env: { INSPEC_CONFIG_DIR: tmp_dir }).stdout
+      )
     end
   end
 
@@ -43,6 +45,7 @@ module PluginManagerHelpers
     plugins = []
 
     stdout.force_encoding("UTF-8").lines.each do |line|
+      next if line.strip.empty?
       next if line.include? "─────" # This is some unicode glyphiness
       next if line.include? "Plugin Name"
       next if line.include? "plugin(s) total"
@@ -96,13 +99,13 @@ class PluginManagerCliList < Minitest::Test
   include CorePluginFunctionalHelper
   include PluginManagerHelpers
 
-  def test_list_when_no_user_plugins_installed
-    skip_windows!
-    result = run_inspec_process_with_this_plugin("plugin list")
-
-    assert_includes result.stdout, "0 plugin(s) total", "Empty list should include zero count"
-
-    assert_exit_code 0, result
+  # Listing all is now default behavior
+  def list_cases
+    [
+      { arg: "-c", name: "inspec-plugin-manager-cli", type: "core" },
+      { arg: "-c", name: "inspec-supermarket", type: "core" },
+      { arg: "-s", name: "train-aws", type: "gem (system)" },
+    ]
   end
 
   def test_list_all_when_no_user_plugins_installed
@@ -113,11 +116,7 @@ class PluginManagerCliList < Minitest::Test
     plugins_seen = parse_plugin_list_lines(result.stdout)
 
     # Look for a specific plugin of each type - core, bundle, and system
-    [
-      { name: "inspec-plugin-manager-cli", type: "core" },
-      { name: "inspec-supermarket", type: "bundle" },
-      { name: "train-aws", type: "gem (system)" },
-    ].each do |test_case|
+    list_cases.each do |test_case|
       plugin_line = plugins_seen.detect { |plugin| plugin[:name] == test_case[:name] }
       refute_nil plugin_line, "#{test_case[:name]} should be detected in plugin list --all output"
       assert_equal plugin_line[:type], test_case[:type], "#{test_case[:name]} should be detected as a '#{test_case[:type]}' type in list --all "
@@ -125,40 +124,60 @@ class PluginManagerCliList < Minitest::Test
     assert_exit_code 0, result
   end
 
+  def test_list_selective_when_no_user_plugins_installed
+    skip_windows!
+    list_cases.each do |test_case|
+      result = run_inspec_process_with_this_plugin("plugin list #{test_case[:arg]}")
+      assert_empty result.stderr
+      plugins_seen = parse_plugin_list_lines(result.stdout)
+      plugin_line = plugins_seen.detect { |plugin| plugin[:name] == test_case[:name] }
+      refute_nil plugin_line, "#{test_case[:name]} should be detected in plugin list #{test_case[:arg]} output"
+      assert_equal plugin_line[:type], test_case[:type], "#{test_case[:name]} should be detected as a '#{test_case[:type]}' type in list #{test_case[:arg]} "
+      assert_exit_code 0, result
+    end
+  end
+
   def test_list_when_gem_and_path_plugins_installed
+    skip_windows!
+
     pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
       plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
       copy_in_core_config_dir("test-fixture-1-float", tmp_dir)
     end
 
-    result = run_inspec_process_with_this_plugin("plugin list", pre_run: pre_block)
-
-    skip_windows!
-    assert_includes result.stdout, "2 plugin(s) total", "gem+path should show two plugins"
-
+    result = run_inspec_process_with_this_plugin("plugin list --user ", pre_run: pre_block)
+    assert_empty result.stderr
+    plugins_seen = parse_plugin_list_lines(result.stdout)
+    assert_equal 2, plugins_seen.count
     # Plugin Name                   Version   Via         ApiVer
     # ---------------------------------------------------------
     #  inspec-meaning-of-life        src       path         2
     #  inspec-test-fixture           0.1.0     gem (user)   2
     # ---------------------------------------------------------
     #  2 plugin(s) total
-    gem_line = result.stdout.split("\n").grep(/gem \(user\)/).first
-    assert_match(/\s*inspec-\S+\s+\d+\.\d+\.\d+\s+gem \(user\)\s+2/, gem_line)
-    path_line = result.stdout.split("\n").grep(/path/).first
-    assert_match(/\s*inspec-\S+\s+src\s+path\s+2/, path_line)
+    meaning = plugins_seen.detect { |p| p[:name] == "inspec-meaning-of-life" }
+    refute_nil meaning
+    assert_equal "path", meaning[:type]
+
+    fixture = plugins_seen.detect { |p| p[:name] == "inspec-test-fixture" }
+    refute_nil fixture
+    assert_equal "gem (user)", fixture[:type]
 
     assert_exit_code 0, result
   end
 
   def test_list_when_a_train_plugin_is_installed
+    skip_windows!
+
     pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
       plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
       copy_in_core_config_dir("train-test-fixture", tmp_dir)
     end
 
-    result = run_inspec_process_with_this_plugin("plugin list", pre_run: pre_block)
-
-    skip_windows!
+    result = run_inspec_process_with_this_plugin("plugin list --user ", pre_run: pre_block)
+    assert_empty result.stderr
+    plugins_seen = parse_plugin_list_lines(result.stdout)
+    assert_equal 1, plugins_seen.count
     assert_includes result.stdout, "1 plugin(s) total", "list train should show one plugins"
 
     # Plugin Name                   Version   Via        ApiVer
@@ -166,11 +185,11 @@ class PluginManagerCliList < Minitest::Test
     #  train-test-fixture            0.1.0    gem (user)  train-1
     # -------------------------------------------------------------
     #  1 plugin(s) total
-    train_line = result.stdout.split("\n").grep(/train/).first
-    assert_includes(train_line, "train-test-fixture")
-    assert_includes(train_line, "0.1.0")
-    assert_includes(train_line, "gem (user)")
-    assert_includes(train_line, "train-1")
+    train_plugin = plugins_seen.detect { |p| p[:name] == "train-test-fixture" }
+    refute_nil train_plugin
+    assert_equal "gem (user)", train_plugin[:type]
+    assert_equal "train-1", train_plugin[:generation]
+    assert_equal "0.1.0", train_plugin[:version]
 
     assert_exit_code 0, result
   end
@@ -353,35 +372,32 @@ class PluginManagerCliInstall < Minitest::Test
       install_result = run_inspec_process_with_this_plugin("plugin install #{fixture_info[:given]}", post_run: list_after_run)
 
       # Check UX messaging
-      success_message = install_result.stdout.split("\n").grep(/installed/).last
       skip_windows!
+      success_message = install_result.stdout.split("\n").grep(/installed/).last
+      assert_empty install_result.stderr
       refute_nil success_message, "Should find a success message at the end"
       assert_includes success_message, fixture_info[:plugin_name]
       assert_includes success_message, "plugin installed via source path reference"
 
       # Check round-trip UX via list
-      list_result = install_result.payload.list_result
-      itf_line = list_result.stdout.split("\n").grep(Regexp.new(fixture_info[:plugin_name])).first
-      refute_nil itf_line, "plugin name should now appear in the output of inspec list"
-      assert_match(/\s*(inspec|train)-test-fixture\s+src\s+path\s+/, itf_line, "list output should show that it is a path installation")
+      itf_plugin = install_result.payload.list_result.detect { |p| p[:name] == fixture_info[:plugin_name] }
+      refute_nil itf_plugin, "plugin name should now appear in the output of inspec list"
+      assert_equal "path", itf_plugin[:type], "list output should show that it is a path installation"
 
       # Check plugin statefile. Extra important in this case, since all should resolve to the same entry point.
       plugin_data = install_result.payload.plugin_data
       entry = plugin_data["plugins"].detect { |e| e["name"] == fixture_info[:plugin_name] }
       assert_equal fixture_info[:resolved_path], entry["installation_path"], "Regardless of input, the entry point should be correct."
 
-      assert_empty install_result.stderr
-
       assert_exit_code 0, install_result
     end
   end
 
   def test_fail_install_from_nonexistant_path
+    skip_windows!
     bad_path = File.join(project_fixtures_path, "none", "such", "inspec-test-fixture-nonesuch.rb")
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
-
     error_message = install_result.stdout.split("\n").last
-    skip_windows!
     assert_includes error_message, "No such source code path"
     assert_includes error_message, "inspec-test-fixture-nonesuch.rb"
     assert_includes error_message, "installation failed"
@@ -392,11 +408,11 @@ class PluginManagerCliInstall < Minitest::Test
   end
 
   def test_fail_install_from_path_with_wrong_name
+    skip_windows!
+
     bad_path = File.join(project_fixtures_path, "plugins", "wrong-name", "lib", "wrong-name.rb")
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
-
     error_message = install_result.stdout.split("\n").last
-    skip_windows!
     assert_includes error_message, "Invalid plugin name"
     assert_includes error_message, "wrong-name"
     assert_includes error_message, "All inspec plugins must begin with either 'inspec-' or 'train-'"
@@ -408,11 +424,11 @@ class PluginManagerCliInstall < Minitest::Test
   end
 
   def test_fail_install_from_path_when_it_is_not_a_plugin
+    skip_windows!
+
     bad_path = File.join(project_fixtures_path, "plugins", "inspec-egg-white-omelette", "lib", "inspec-egg-white-omelette.rb")
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
-
     error_message = install_result.stdout.split("\n").last
-    skip_windows!
     assert_includes error_message, "Does not appear to be a plugin"
     assert_includes error_message, "inspec-egg-white-omelette"
     assert_includes error_message, "After probe-loading the supposed plugin, it did not register"
@@ -425,6 +441,7 @@ class PluginManagerCliInstall < Minitest::Test
   end
 
   def test_fail_install_from_path_when_it_is_already_installed
+    skip_windows!
     plugin_path = File.join(core_fixture_plugins_path, "inspec-test-fixture", "lib", "inspec-test-fixture.rb")
     pre_block = Proc.new do |plugin_data, _tmp_dir|
       plugin_data["plugins"] << {
@@ -437,7 +454,6 @@ class PluginManagerCliInstall < Minitest::Test
     install_result = run_inspec_process_with_this_plugin("plugin install #{plugin_path}", pre_run: pre_block)
 
     error_message = install_result.stdout.split("\n").last
-    skip_windows!
     assert_includes error_message, "Plugin already installed"
     assert_includes error_message, "inspec-test-fixture"
     assert_includes error_message, "Use 'inspec plugin list' to see previously installed plugin"
@@ -449,11 +465,11 @@ class PluginManagerCliInstall < Minitest::Test
   end
 
   def test_fail_install_from_path_when_the_dir_structure_is_wrong
+    skip_windows!
     bad_path = File.join(project_fixtures_path, "plugins", "inspec-wrong-structure")
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
 
     error_message = install_result.stdout.split("\n").last
-    skip_windows!
     assert_includes error_message, "Unrecognizable plugin structure"
     assert_includes error_message, "inspec-wrong-structure"
     assert_includes error_message, " When installing from a path, please provide the path of the entry point file"
@@ -465,23 +481,21 @@ class PluginManagerCliInstall < Minitest::Test
   end
 
   def test_install_from_gemfile
+    skip_windows!
+
     fixture_gemfile_path = File.join(core_fixture_plugins_path, "inspec-test-fixture", "pkg", "inspec-test-fixture-0.1.0.gem")
     install_result = run_inspec_process_with_this_plugin("plugin install #{fixture_gemfile_path}", post_run: list_after_run)
 
     success_message = install_result.stdout.split("\n").grep(/installed/).last
-    skip_windows!
     refute_nil success_message, "Should find a success message at the end"
-    assert_includes success_message, "inspec-test-fixture"
-    assert_includes success_message, "0.1.0"
     assert_includes success_message, "installed from local .gem file"
 
-    list_result = install_result.payload.list_result
-    itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
-    refute_nil itf_line, "inspec-test-fixture should now appear in the output of inspec list"
-    assert_match(/\s*inspec-test-fixture\s+0.1.0\s+gem\s+/, itf_line, "list output should show that it is a gem installation with version")
+    itf_plugin = install_result.payload.list_result.detect { |p| p[:name] == "inspec-test-fixture" }
+    refute_nil itf_plugin, "plugin name should now appear in the output of inspec list"
+    assert_equal "gem (user)", itf_plugin[:type]
+    assert_equal "0.1.0", itf_plugin[:version]
 
     assert_empty install_result.stderr
-
     assert_exit_code 0, install_result
   end
 
@@ -498,22 +512,22 @@ class PluginManagerCliInstall < Minitest::Test
   end
 
   def test_install_from_rubygems_latest
+    skip_windows!
+
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture", post_run: list_after_run)
 
     success_message = install_result.stdout.split("\n").grep(/installed/).last
-    skip_windows!
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "inspec-test-fixture"
     assert_includes success_message, "0.2.0"
     assert_includes success_message, "installed from rubygems.org"
 
-    list_result = install_result.payload.list_result
-    itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
-    refute_nil itf_line, "inspec-test-fixture should now appear in the output of inspec list"
-    assert_match(/\s*inspec-test-fixture\s+0.2.0\s+gem\s+/, itf_line, "list output should show that it is a gem installation with version")
+    itf_plugin = install_result.payload.list_result.detect { |p| p[:name] == "inspec-test-fixture" }
+    refute_nil itf_plugin, "plugin name should now appear in the output of inspec list"
+    assert_equal "gem (user)", itf_plugin[:type]
+    assert_equal "0.2.0", itf_plugin[:version]
 
     assert_empty install_result.stderr
-
     assert_exit_code 0, install_result
   end
 
@@ -538,10 +552,10 @@ class PluginManagerCliInstall < Minitest::Test
     assert_includes success_message, "0.1.0"
     assert_includes success_message, "installed from rubygems.org"
 
-    list_result = install_result.payload.list_result
-    itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
-    refute_nil itf_line, "inspec-test-fixture should now appear in the output of inspec list"
-    assert_match(/\s*inspec-test-fixture\s+0.1.0\s+gem\s+/, itf_line, "list output should show that it is a gem installation with version")
+    itf_plugin = install_result.payload.list_result.detect { |p| p[:name] == "inspec-test-fixture" }
+    refute_nil itf_plugin, "plugin name should now appear in the output of inspec list"
+    assert_equal "gem (user)", itf_plugin[:type]
+    assert_equal "0.1.0", itf_plugin[:version]
 
     assert_empty install_result.stderr
 
@@ -621,22 +635,21 @@ class PluginManagerCliInstall < Minitest::Test
   end
 
   def test_install_from_rubygems_latest_with_train_plugin
+    skip_windows!
     install_result = run_inspec_process_with_this_plugin("plugin install train-test-fixture", post_run: list_after_run)
 
     success_message = install_result.stdout.split("\n").grep(/installed/).last
-    skip_windows!
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "train-test-fixture"
     assert_includes success_message, "0.1.0"
     assert_includes success_message, "installed from rubygems.org"
 
-    list_result = install_result.payload.list_result
-    itf_line = list_result.stdout.split("\n").grep(/train-test-fixture/).first
-    refute_nil itf_line, "train-test-fixture should now appear in the output of inspec list"
-    assert_match(/\s*train-test-fixture\s+0.1.0\s+gem\s+/, itf_line, "list output should show that it is a gem installation with version")
+    ttf_plugin = list_result.detect { |p| p[:name] == "train-test-fixture" }
+    refute_nil ttf_plugin, "plugin name should now appear in the output of inspec list"
+    assert_equal "gem (user)", ttf_plugin[:type]
+    assert_equal "0.1.0", ttf_plugin[:version]
 
     assert_empty install_result.stderr
-
     assert_exit_code 0, install_result
   end
 
@@ -668,11 +681,12 @@ class PluginManagerCliInstall < Minitest::Test
   end
 
   def test_error_install_with_debug_enabled
+    skip_windows!
+
     skip "this test requires bundler to pass" unless defined? ::Bundler
 
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture -v 0.1.1 --log-level debug")
 
-    skip_windows!
     assert_includes install_result.stdout, "DEBUG"
 
     assert_includes install_result.stderr, "can't activate rake"
@@ -706,13 +720,12 @@ class PluginManagerCliUpdate < Minitest::Test
     assert_includes success_message, "0.2.0"
     assert_includes success_message, "updated from rubygems.org"
 
-    list_result = update_result.payload.list_result
-    itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
-    refute_nil itf_line, "inspec-test-fixture should appear in the output of inspec list"
-    assert_match(/\s*inspec-test-fixture\s+0.2.0\s+gem\s+/, itf_line, "list output should show that it is a gem installation with version 0.2.0")
+    itf_plugin = update_result.payload.list_result.detect { |p| p[:name] == "inspec-test-fixture" }
+    refute_nil itf_plugin, "plugin name should now appear in the output of inspec list"
+    assert_equal "gem (user)", itf_plugin[:type]
+    assert_equal "0.2.0", itf_plugin[:version]
 
     assert_empty update_result.stderr
-
     assert_exit_code 0, update_result
   end
 
@@ -791,12 +804,10 @@ class PluginManagerCliUninstall < Minitest::Test
     assert_includes success_message, "0.1.0"
     assert_includes success_message, "has been uninstalled"
 
-    list_result = uninstall_result.payload.list_result
-    itf_line = list_result.stdout.split("\n").grep(/inspec-test-fixture/).first
-    assert_nil itf_line, "inspec-test-fixture should not appear in the output of inspec list"
+    itf_plugins = uninstall_result.payload.list_result.filter { |p| p[:name] == "inspec-test-fixture" }
+    assert_empty itf_plugins, "inspec-test-fixture should not appear in the output of inspec list"
 
     assert_empty uninstall_result.stderr
-
     assert_exit_code 0, uninstall_result
   end
 
@@ -806,22 +817,19 @@ class PluginManagerCliUninstall < Minitest::Test
       # This fixture includes a path install for inspec-meaning-of-life
       copy_in_core_config_dir("test-fixture-1-float", tmp_dir)
     end
-
+    skip_windows!
     uninstall_result = run_inspec_process_with_this_plugin("plugin uninstall inspec-meaning-of-life", pre_run: pre_block, post_run: list_after_run)
 
     success_message = uninstall_result.stdout.split("\n").grep(/uninstalled/).last
-    skip_windows!
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "inspec-meaning-of-life"
     assert_includes success_message, "path-based plugin install"
     assert_includes success_message, "has been uninstalled"
 
-    list_result = uninstall_result.payload.list_result
-    itf_line = list_result.stdout.split("\n").grep(/inspec-meaning-of-life/).first
-    assert_nil itf_line, "inspec-meaning-of-life should not appear in the output of inspec list"
+    itf_plugins = uninstall_result.payload.list_result.filter { |p| p[:name] == "inspec-meaning-of-life" }
+    assert_empty itf_plugins, "inspec-meaning-of-life should not appear in the output of inspec list"
 
     assert_empty uninstall_result.stderr
-
     assert_exit_code 0, uninstall_result
   end
 

@@ -15,20 +15,33 @@ module InspecPlugins
       #==================================================================#
 
       desc "list [options]", "Lists user-installed #{PRODUCT_NAME} plugins."
-      option :all, desc: "Include plugins shipped with #{PRODUCT_NAME} as well.", type: :boolean, aliases: [:a]
+      option :all, desc: "List all types of plugins (default)", type: :boolean, default: true, aliases: [:a]
+      option :user, desc: "List user plugins, from ~/.inspec/gems", banner: '', type: :boolean, default: false, aliases: [:u]
+      option :system, desc: "List system plugins, those InSpec depends on",  banner: '', type: :boolean, default: false, aliases: [:s]
+      option :core, desc: "List core plugins, those InSpec ships with",  banner: '', type: :boolean, default: false, aliases: [:c]
+
       def list
         plugin_statuses = Inspec::Plugin::V2::Registry.instance.plugin_statuses
-        plugin_statuses.reject! { |s| %i{core bundle}.include?(s.installation_type) } unless options[:all]
+        options[:all] = false if options[:core] || options[:user] || options[:system]
+        plugin_statuses.filter! do |status|
+          type = status.installation_type
+          options[:all] ||
+          (options[:core] && [:core, :bundle].include?(type)) ||
+          (options[:user] && [:user_gem, :path].include?(type)) ||
+          (options[:system] && :system_gem == type)
+        end
 
-        ui.table do |t|
-          t.header = ["Plugin Name", "Version", "Via", "ApiVer"]
-          plugin_statuses.map { |s| [s.name.to_s, s] }.sort { |sa, sb| sa[0] <=> sb[0] }.map { |sf| sf[1] }.each do |status|
-            t << [
-              status.name,
-              make_pretty_version(status),
-              make_pretty_install_type(status),
-              status.api_generation,
-            ]
+        unless plugin_statuses.empty?
+          ui.table do |t|
+            t.header = ["Plugin Name", "Version", "Via", "ApiVer"]
+            plugin_statuses.map { |s| [s.name.to_s, s] }.sort { |sa, sb| sa[0] <=> sb[0] }.map { |sf| sf[1] }.each do |status|
+              t << [
+                status.name,
+                make_pretty_version(status),
+                make_pretty_install_type(status),
+                status.api_generation,
+              ]
+            end
           end
         end
         ui.plain_line(" #{plugin_statuses.count} plugin(s) total")
@@ -489,7 +502,7 @@ module InspecPlugins
 
       def make_pretty_install_type(status)
         {
-          bundle: "bundle", # We could call this core, too - not much of a distinction
+          bundle: "core", # Calling this core, too - not much of a distinction
           core: "core",
           path: "path",
           user_gem: "gem (user)",
