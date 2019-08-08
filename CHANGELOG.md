@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.10.6 -->
+## [v4.10.6](https://github.com/inspec/inspec/tree/v4.10.6) (2019-08-08)
 
 #### Merged Pull Requests
+- Remove timebombs on skip_until and licensing tests. [#4351](https://github.com/inspec/inspec/pull/4351) ([zenspider](https://github.com/zenspider))
 - Add a retry to expeditor defaults, per shain&#39;s advice. [#4369](https://github.com/inspec/inspec/pull/4369) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.10.4 release
 
 #### Merged Pull Requests
+- Remove timebombs on skip_until and licensing tests. [#4351](https://github.com/inspec/inspec/pull/4351) ([zenspider](https://github.com/zenspider)) <!-- 4.10.6 -->
 - Add a retry to expeditor defaults, per shain&#39;s advice. [#4369](https://github.com/inspec/inspec/pull/4369) ([zenspider](https://github.com/zenspider)) <!-- 4.10.5 -->
 - Move some resources into Inspec::Resources module [#4361](https://github.com/inspec/inspec/pull/4361) ([KrisShannon](https://github.com/KrisShannon)) <!-- 4.10.5 -->
 - Only bump versions when we modify InSpec. [#4348](https://github.com/inspec/inspec/pull/4348) ([miah](https://github.com/miah)) <!-- 4.10.4 -->
