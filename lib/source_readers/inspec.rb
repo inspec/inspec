@@ -47,7 +47,13 @@ module SourceReaders
     end
 
     def load_all &blk
-      find_all(&blk).map { |path| file = @target.read(path); [path, file] if file }.compact.to_h
+      find_all(&blk)
+        .map { |path|
+          file = @target.read(path)
+          [path, file] if file
+        }
+        .compact
+        .to_h
     end
 
     def load_tests
