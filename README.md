@@ -327,13 +327,13 @@ Remote Targets
 
 In addition, runtime support is provided for:
 
-| Platform | Versions |
-| -------- | -------- |
-| Debian   | 8, 9     |
-| RHEL     | 6, 7     |
-| Ubuntu   | 12.04+   |
-| Windows  | 7+       |
-| Windows  | 2012+    |
+| Platform | Versions | Arch   |
+| -------- | -------- | ------ |
+| Debian   | 8, 9     | x86_64 |
+| RHEL     | 6, 7     | x86_64 |
+| Ubuntu   | 12.04+   | x86_64 |
+| Windows  | 7+       | x86_64 |
+| Windows  | 2012+    | x86_64 |
 
 ## Documentation
 
