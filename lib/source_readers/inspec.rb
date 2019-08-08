@@ -47,7 +47,7 @@ module SourceReaders
     end
 
     def load_all paths
-      paths.map { |path| file = @target.read(path); [path, file] }.delete_if { |_path, file| file.nil? }.to_h
+      paths.map { |path| file = @target.read(path); [path, file] if file }.compact.to_h
     end
 
     def load_tests
