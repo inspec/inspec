@@ -40,29 +40,27 @@ module SourceReaders
       raise "Unable to parse #{metadata_source}: #{e.class} -- #{e.message}"
     end
 
-    def find_all
-      @target.files.find_all do |path|
-        yield path
-      end
+    def find_all(regexp)
+      @target.files.grep(regexp)
     end
 
-    def load_all(&blk)
-      find_all(&blk)
+    def load_all(regexp)
+      find_all(regexp)
         .map { |path| file = @target.read(path); [path, file] if file }
         .compact
         .to_h
     end
 
     def load_tests
-      load_all { |path| path.start_with?("controls") && path.end_with?(".rb") }
+      load_all(/^controls\/.*\.rb$/)
     end
 
     def load_libs
-      load_all { |path| path.start_with?("libraries") && path.end_with?(".rb") }
+      load_all(/^libraries\/.*\.rb$/)
     end
 
     def load_data_files
-      load_all { |path| path.start_with?("files" + File::SEPARATOR) }
+      load_all(/^files\//)
     end
   end
 end
