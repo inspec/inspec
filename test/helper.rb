@@ -156,10 +156,6 @@ class InspecTest < Minitest::Test
   # shared stuff here
 end
 
-class ParallelTest < InspecTest
-  parallelize_me!
-end
-
 module Minitest::Guard
   # TODO: push up to minitest
   def osx?(platform = RUBY_PLATFORM)
