@@ -74,15 +74,15 @@ module InspecPlugins
         end
 
         puts
-        ui.bold(format(" %-30s%-50s", "Plugin Name", "Versions Available"))
+        ui.bold(format(" %-30s%-50s\n", "Plugin Name", "Versions Available"))
         ui.line
         search_results.keys.sort.each do |plugin_name|
           versions = options[:all] ? search_results[plugin_name] : [search_results[plugin_name].first]
           versions = "(" + versions.join(", ") + ")"
-          ui.plain(format(" %-30s%-50s", plugin_name, versions))
+          ui.plain_line(format(" %-30s%-50s", plugin_name, versions))
         end
         ui.line
-        ui.plain(" #{search_results.count} plugin(s) found")
+        ui.plain_line(" #{search_results.count} plugin(s) found")
         puts
 
         ui.exit Inspec::UI::EXIT_PLUGIN_ERROR if search_results.empty?
@@ -132,14 +132,14 @@ module InspecPlugins
         begin
           installer.update(plugin_name)
         rescue Inspec::Plugin::V2::UpdateError => ex
-          ui.plain("#{ui.red("Update error:")} #{ex.message} - update failed")
+          ui.plain_line("#{ui.red("Update error:", print: false)} #{ex.message} - update failed")
           ui.exit Inspec::UI::EXIT_USAGE_ERROR
         end
         post_update_versions = installer.list_installed_plugin_gems.select { |spec| spec.name == plugin_name }.map { |spec| spec.version.to_s }
         new_version = (post_update_versions - pre_update_versions).first
 
         ui.bold(plugin_name + " plugin, version #{old_version} -> " \
-                "#{new_version}, updated from rubygems.org")
+                "#{new_version}, updated from rubygems.org\n")
       end
 
       #--------------------------
@@ -158,7 +158,7 @@ module InspecPlugins
       def uninstall(plugin_name)
         status = Inspec::Plugin::V2::Registry.instance[plugin_name.to_sym]
         unless status
-          ui.plain("#{ui.red("No such plugin installed:")} #{plugin_name} is not " \
+          ui.plain_line("#{ui.red("No such plugin installed:", print: false)} #{plugin_name} is not " \
                  "installed - uninstall failed")
           ui.exit Inspec::UI::EXIT_USAGE_ERROR
         end
@@ -171,11 +171,12 @@ module InspecPlugins
 
         if status.installation_type == :path
           ui.bold(plugin_name + " path-based plugin install has been " \
-                  "uninstalled")
+                  "uninstalled\n")
         else
           ui.bold(plugin_name + " plugin, version #{old_version}, has " \
-                  "been uninstalled")
+                  "been uninstalled\n")
         end
+
         ui.exit Inspec::UI::EXIT_NORMAL
       end
 
@@ -188,7 +189,7 @@ module InspecPlugins
 
       def install_from_gemfile(gem_file)
         unless File.exist? gem_file
-          ui.red("No such plugin gem file #{gem_file} - installation failed.")
+          ui.red("No such plugin gem file #{gem_file} - installation failed.\n")
           ui.exit Inspec::UI::EXIT_USAGE_ERROR
         end
 
@@ -200,13 +201,13 @@ module InspecPlugins
         installer.install(plugin_name, gem_file: gem_file)
 
         ui.bold("#{plugin_name} plugin, version #{version}, installed from " \
-                "local .gem file")
+                "local .gem file\n")
         ui.exit Inspec::UI::EXIT_NORMAL
       end
 
       def install_from_path(path)
         unless File.exist? path
-          ui.red("No such source code path #{path} - installation failed.")
+          ui.red("No such source code path #{path} - installation failed.\n")
           ui.exit Inspec::UI::EXIT_USAGE_ERROR
         end
 
@@ -223,7 +224,7 @@ module InspecPlugins
         if registry.known_plugin?(plugin_name.to_sym)
           ui.red("Plugin already installed - #{plugin_name} - Use '#{EXEC_NAME} " \
                  "plugin list' to see previously installed plugin - " \
-                 "installation failed.")
+                 "installation failed.\n")
           ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
         end
 
@@ -237,7 +238,7 @@ module InspecPlugins
         installer.install(plugin_name, path: entry_point)
 
         ui.bold("#{plugin_name} plugin installed via source path reference, " \
-                "resolved to entry point #{entry_point}")
+                "resolved to entry point #{entry_point}\n")
         ui.exit Inspec::UI::EXIT_NORMAL
       end
 
@@ -302,7 +303,7 @@ module InspecPlugins
         # Give up.
         ui.red("Unrecognizable plugin structure - #{parts[2]} - When " \
                "installing from a path, please provide the path of the " \
-               "entry point file - installation failed.")
+               "entry point file - installation failed.\n")
         ui.exit Inspec::UI::EXIT_USAGE_ERROR
       end
 
@@ -313,8 +314,8 @@ module InspecPlugins
         rescue LoadError => ex
           ui.red("Plugin contains errors - #{plugin_name} - Encountered " \
                  "errors while trying to test load the plugin entry point, " \
-                 "resolved to #{entry_point} - installation failed")
-          ui.plain ex.message
+                 "resolved to #{entry_point} - installation failed\n")
+          ui.plain_line ex.message
           ui.exit Inspec::UI::EXIT_USAGE_ERROR
         end
 
@@ -327,7 +328,7 @@ module InspecPlugins
             ui.red("Does not appear to be a plugin - #{plugin_name} - After " \
                    "probe-loading the supposed plugin, it did not register " \
                    "itself to Train. Ensure something inherits from " \
-                   "'Train.plugin(1)' - installation failed.")
+                   "'Train.plugin(1)' - installation failed.\n")
             ui.exit Inspec::UI::EXIT_USAGE_ERROR
           end
         else
@@ -335,7 +336,7 @@ module InspecPlugins
             ui.red("Does not appear to be a plugin - #{plugin_name} - After " \
                    "probe-loading the supposed plugin, it did not register " \
                    "itself to InSpec. Ensure something inherits from " \
-                   "'Inspec.plugin(2)' - installation failed.")
+                   "'Inspec.plugin(2)' - installation failed.\n")
             ui.exit Inspec::UI::EXIT_USAGE_ERROR
           end
         end
@@ -357,7 +358,7 @@ module InspecPlugins
         new_version = (post_installed_versions - pre_installed_versions).first
 
         ui.bold("#{plugin_name} plugin, version #{new_version}, installed " \
-                "from rubygems.org")
+                "from rubygems.org\n")
         ui.exit Inspec::UI::EXIT_NORMAL
       end
 
@@ -381,16 +382,16 @@ module InspecPlugins
         what_we_would_install_is_already_installed = pre_installed_versions.include?(requested_version)
         if what_we_would_install_is_already_installed && they_explicitly_asked_for_a_version
           ui.red("Plugin already installed at requested version - plugin " \
-                 "#{plugin_name} #{requested_version} - refusing to install.")
+                 "#{plugin_name} #{requested_version} - refusing to install.\n")
         elsif what_we_would_install_is_already_installed && !they_explicitly_asked_for_a_version
           ui.red("Plugin already installed at latest version - plugin " \
-                 "#{plugin_name} #{requested_version} - refusing to install.")
+                 "#{plugin_name} #{requested_version} - refusing to install.\n")
         else
           # There are existing versions installed, but none of them are what was requested
           ui.red("Update required - plugin #{plugin_name}, requested " \
                  "#{requested_version}, have " \
                  "#{pre_installed_versions.join(", ")}; use `inspec " \
-                 "plugin update` - refusing to install.")
+                 "plugin update` - refusing to install.\n")
         end
 
         ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
@@ -401,11 +402,11 @@ module InspecPlugins
         installer.install(plugin_name, version: options[:version])
       rescue Inspec::Plugin::V2::PluginExcludedError => ex
         ui.red("Plugin on Exclusion List - #{plugin_name} is listed as an " \
-               "incompatible gem - refusing to install.")
-        ui.plain("Rationale: #{ex.details.rationale}")
-        ui.plain("Exclusion list location: " +
+               "incompatible gem - refusing to install.\n")
+        ui.plain_line("Rationale: #{ex.details.rationale}")
+        ui.plain_line("Exclusion list location: " +
                  File.join(Inspec.src_root, "etc", "plugin_filters.json"))
-        ui.plain("If you disagree with this determination, please accept " \
+        ui.plain_line("If you disagree with this determination, please accept " \
                  "our apologies for the misunderstanding, and open an issue " \
                  "at https://github.com/inspec/inspec/issues/new")
         ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
@@ -415,13 +416,13 @@ module InspecPlugins
         results = installer.search(plugin_name, exact: true)
         if results.empty?
           ui.red("No such plugin gem #{plugin_name} could be found on " \
-                 "rubygems.org - installation failed.")
+                 "rubygems.org - installation failed.\n")
         elsif options[:version] && !results[plugin_name].include?(options[:version])
           ui.red("No such version - #{plugin_name} exists, but no such " \
                  "version #{options[:version]} found on rubygems.org - " \
-                 "installation failed.")
+                 "installation failed.\n")
         else
-          ui.red("Unknown error occured - installation failed.")
+          ui.red("Unknown error occured - installation failed.\n")
         end
         ui.exit Inspec::UI::EXIT_USAGE_ERROR
       end
@@ -434,10 +435,10 @@ module InspecPlugins
           # Check for path install
           status = Inspec::Plugin::V2::Registry.instance[plugin_name.to_sym]
           if !status
-            ui.plain("#{ui.red("No such plugin installed:")} #{plugin_name} - update failed")
+            ui.plain_line("#{ui.red("No such plugin installed:", print: false)} #{plugin_name} - update failed")
             ui.exit Inspec::UI::EXIT_USAGE_ERROR
           elsif status.installation_type == :path
-            ui.plain("#{ui.red("Cannot update path-based install:")} " \
+            ui.plain_line("#{ui.red("Cannot update path-based install:", print: false)} " \
                    "#{plugin_name} is installed via path reference; " \
                    "use `inspec plugin uninstall` to remove - refusing to" \
                    "update")
@@ -450,7 +451,7 @@ module InspecPlugins
         latest_version = latest_version[plugin_name]&.last
 
         if pre_update_versions.include?(latest_version)
-          ui.plain("#{ui.red("Already installed at latest version:")} " \
+          ui.plain_line("#{ui.red("Already installed at latest version:", print: false)} " \
                    "#{plugin_name} is at #{latest_version}, which the " \
                    "latest - refusing to update")
           ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
@@ -472,7 +473,7 @@ module InspecPlugins
         unless plugin_name =~ /^(inspec|train)-/
           ui.red("Invalid plugin name - #{plugin_name} - All inspec " \
                  "plugins must begin with either 'inspec-' or 'train-' " \
-                 "- #{action} failed.")
+                 "- #{action} failed.\n")
           ui.exit Inspec::UI::EXIT_USAGE_ERROR
         end
       end
