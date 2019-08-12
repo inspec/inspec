@@ -14,11 +14,15 @@ describe "inspec exec" do
   end
 
   def stdout
-    @stdout ||= out.stdout.gsub(/\e\[[\d;]+m/, "").force_encoding(Encoding::UTF_8)
+    @stdout ||= out.stdout
+      .force_encoding(Encoding::UTF_8)
+      .gsub(/\e\[(\d+)(;\d+)*m/, "") # strip ANSI color codes
   end
 
   def stderr
-    @stderr ||= out.stderr.gsub(/\e\[[\d;]+m/, "").force_encoding(Encoding::UTF_8)
+    @stderr ||= out.stderr
+      .force_encoding(Encoding::UTF_8)
+      .gsub(/\e\[(\d+)(;\d+)*m/, "") # strip ANSI color codes
   end
 
   before do
