@@ -285,6 +285,7 @@ module Inspec::Plugin::V2
 
       inspec_gemspec.dependencies.each do |inspec_dep|
         next unless inspec_plugin_name?(inspec_dep.name) || train_plugin_name?(inspec_dep.name)
+
         plugin_spec = runtime_solution.detect { |s| s.name == inspec_dep.name }.spec
 
         status = Inspec::Plugin::V2::Status.new

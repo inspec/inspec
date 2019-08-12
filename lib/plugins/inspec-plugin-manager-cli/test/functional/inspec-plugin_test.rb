@@ -50,7 +50,7 @@ module PluginManagerHelpers
       next if line.include? "Plugin Name"
       next if line.include? "plugin(s) total"
 
-      parts = line.split(/│/u).map { |p| p.strip! }.compact
+      parts = line.split(/│/u).map(&:strip!).compact
       plugins << {
         name: parts[0],
         version: parts[1],
