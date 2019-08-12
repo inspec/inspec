@@ -23,13 +23,6 @@ if ENV["CI_ENABLE_COVERAGE"]
   end
 end
 
-module Minitest::Guard
-  # TODO: push up to minitest
-  def osx?(platform = RUBY_PLATFORM)
-    /darwin/ =~ platform
-  end
-end
-
 ##
 #
 # Do not add any other code from here until the end of this code
@@ -163,6 +156,9 @@ class InspecTest < Minitest::Test
   # shared stuff here
 end
 
-class ParallelTest < InspecTest
-  parallelize_me!
+module Minitest::Guard
+  # TODO: push up to minitest
+  def osx?(platform = RUBY_PLATFORM)
+    /darwin/ =~ platform
+  end
 end
