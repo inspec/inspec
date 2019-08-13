@@ -494,7 +494,7 @@ module InspecPlugins
             Inspec::Plugin::V2::Loader.list_installed_plugin_gems
               .select { |spec| spec.name == status.name.to_s }
               .sort_by(&:version)
-              .last.&version
+              .last.version
           end
         when :path
           "src"

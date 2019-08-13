@@ -162,6 +162,7 @@ class PluginManagerCliList < Minitest::Test
     fixture = plugins_seen.detect { |p| p[:name] == "inspec-test-fixture" }
     refute_nil fixture
     assert_equal "gem (user)", fixture[:type]
+    assert_equal "0.1.0", fixture[:version]
 
     assert_exit_code 0, result
   end
@@ -397,7 +398,7 @@ class PluginManagerCliInstall < Minitest::Test
     skip_windows!
     bad_path = File.join(project_fixtures_path, "none", "such", "inspec-test-fixture-nonesuch.rb")
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
-    error_message = install_result.stdout.split("\n").last
+    error_message = install_result.stdout
     assert_includes error_message, "No such source code path"
     assert_includes error_message, "inspec-test-fixture-nonesuch.rb"
     assert_includes error_message, "installation failed"
@@ -412,7 +413,7 @@ class PluginManagerCliInstall < Minitest::Test
 
     bad_path = File.join(project_fixtures_path, "plugins", "wrong-name", "lib", "wrong-name.rb")
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
-    error_message = install_result.stdout.split("\n").last
+    error_message = install_result.stdout
     assert_includes error_message, "Invalid plugin name"
     assert_includes error_message, "wrong-name"
     assert_includes error_message, "All inspec plugins must begin with either 'inspec-' or 'train-'"
@@ -428,7 +429,7 @@ class PluginManagerCliInstall < Minitest::Test
 
     bad_path = File.join(project_fixtures_path, "plugins", "inspec-egg-white-omelette", "lib", "inspec-egg-white-omelette.rb")
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
-    error_message = install_result.stdout.split("\n").last
+    error_message = install_result.stdout
     assert_includes error_message, "Does not appear to be a plugin"
     assert_includes error_message, "inspec-egg-white-omelette"
     assert_includes error_message, "After probe-loading the supposed plugin, it did not register"
@@ -453,7 +454,7 @@ class PluginManagerCliInstall < Minitest::Test
 
     install_result = run_inspec_process_with_this_plugin("plugin install #{plugin_path}", pre_run: pre_block)
 
-    error_message = install_result.stdout.split("\n").last
+    error_message = install_result.stdout
     assert_includes error_message, "Plugin already installed"
     assert_includes error_message, "inspec-test-fixture"
     assert_includes error_message, "Use 'inspec plugin list' to see previously installed plugin"
@@ -469,7 +470,7 @@ class PluginManagerCliInstall < Minitest::Test
     bad_path = File.join(project_fixtures_path, "plugins", "inspec-wrong-structure")
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
 
-    error_message = install_result.stdout.split("\n").last
+    error_message = install_result.stdout
     assert_includes error_message, "Unrecognizable plugin structure"
     assert_includes error_message, "inspec-wrong-structure"
     assert_includes error_message, " When installing from a path, please provide the path of the entry point file"
@@ -644,7 +645,7 @@ class PluginManagerCliInstall < Minitest::Test
     assert_includes success_message, "0.1.0"
     assert_includes success_message, "installed from rubygems.org"
 
-    ttf_plugin = list_result.detect { |p| p[:name] == "train-test-fixture" }
+    ttf_plugin = install_result.payload.list_result.detect { |p| p[:name] == "train-test-fixture" }
     refute_nil ttf_plugin, "plugin name should now appear in the output of inspec list"
     assert_equal "gem (user)", ttf_plugin[:type]
     assert_equal "0.1.0", ttf_plugin[:version]

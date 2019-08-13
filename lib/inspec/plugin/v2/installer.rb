@@ -60,14 +60,15 @@ module Inspec::Plugin::V2
       # TODO: - check plugins.json for validity before trying anything that needs to modify it.
       validate_installation_opts(plugin_name, opts)
 
-      # TODO: change all of these to return installed spec/gem/thingy
       # TODO: return installed thingy
       if opts[:path]
         install_from_path(plugin_name, opts)
       elsif opts[:gem_file]
-        install_from_gem_file(plugin_name, opts)
+        gem_version = install_from_gem_file(plugin_name, opts)
+        opts[:version] = gem_version.to_s
       else
-        install_from_remote_gems(plugin_name, opts)
+        gem_version = install_from_remote_gems(plugin_name, opts)
+        opts[:version] = gem_version.to_s
       end
 
       update_plugin_config_file(plugin_name, opts.merge({ action: :install }))
@@ -88,9 +89,9 @@ module Inspec::Plugin::V2
 
       # TODO: Handle installing from a local file
       # TODO: Perform dependency checks to make sure the new solution is valid
-      install_from_remote_gems(plugin_name, opts)
+      gem_version = install_from_remote_gems(plugin_name, opts)
 
-      update_plugin_config_file(plugin_name, opts.merge({ action: :update }))
+      update_plugin_config_file(plugin_name, opts.merge({ action: :update, version: gem_version.to_s }))
     end
 
     # Uninstalls (removes) a plugin. Refers to plugin.json to determine if it
@@ -335,13 +336,15 @@ module Inspec::Plugin::V2
       # not obliged to during packaging.)
       # So, after each install, run a scan for all gem(specs) we manage, and copy in their gemspec file
       # into the exploded gem source area if absent.
-
       loader.list_managed_gems.each do |spec|
         path_inside_source = File.join(spec.gem_dir, "#{spec.name}.gemspec")
         unless File.exist?(path_inside_source)
           File.write(path_inside_source, spec.to_ruby)
         end
       end
+
+      # Locate the GemVersion for the new dependency and return it
+      solution.detect { |g| g.name == new_plugin_dependency.name }.version
     end
 
     #===================================================================#
