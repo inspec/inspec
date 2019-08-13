@@ -131,7 +131,10 @@ module FunctionalHelper
         if is_windows?
           prefix.gsub!(/&&/, ";") if prefix
 
-          invocation = "/windows/system32/cmd /C \"#{prefix} #{commandline}\""
+          # pro-tip: `choco install echoargs` to debug this type of stuff.
+          commandline.gsub!(/"/, '\\"') # powershell is a nightmare
+          invocation = [prefix, commandline].compact.join " "
+          invocation = "/windows/system32/cmd /C \"#{invocation}\""
           # puts
           # puts "CMD = #{invocation}"
           result = CMD.run_command(invocation)
