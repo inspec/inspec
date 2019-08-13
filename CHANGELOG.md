@@ -1,12 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.11.4 -->
-## [v4.11.4](https://github.com/inspec/inspec/tree/v4.11.4) (2019-08-12)
+<!-- latest_release 4.11.5 -->
+## [v4.11.5](https://github.com/inspec/inspec/tree/v4.11.5) (2019-08-13)
 
 #### Merged Pull Requests
-- Moved the osx? guard below minitest/autorun. [#4381](https://github.com/inspec/inspec/pull/4381) ([zenspider](https://github.com/zenspider))
-- change announcement to LCR Road Trip [#4379](https://github.com/inspec/inspec/pull/4379) ([shaunyap](https://github.com/shaunyap))
-- I didn&#39;t get the BK setup right, nor did the verification check this. [#4380](https://github.com/inspec/inspec/pull/4380) ([zenspider](https://github.com/zenspider))
+- Begin signing MSI&#39;s with renewed Windows Signing Cert [#4386](https://github.com/inspec/inspec/pull/4386) ([schisamo](https://github.com/schisamo))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.10.4 -->
@@ -20,6 +18,7 @@
 - Fixed syntax errors in wmi doco. [#4370](https://github.com/inspec/inspec/pull/4370) ([zenspider](https://github.com/zenspider)) <!-- 4.10.7 -->
 
 #### Merged Pull Requests
+- Begin signing MSI&#39;s with renewed Windows Signing Cert [#4386](https://github.com/inspec/inspec/pull/4386) ([schisamo](https://github.com/schisamo)) <!-- 4.11.5 -->
 - Moved the osx? guard below minitest/autorun. [#4381](https://github.com/inspec/inspec/pull/4381) ([zenspider](https://github.com/zenspider)) <!-- 4.11.4 -->
 - change announcement to LCR Road Trip [#4379](https://github.com/inspec/inspec/pull/4379) ([shaunyap](https://github.com/shaunyap)) <!-- 4.11.3 -->
 - I didn&#39;t get the BK setup right, nor did the verification check this. [#4380](https://github.com/inspec/inspec/pull/4380) ([zenspider](https://github.com/zenspider)) <!-- 4.11.3 -->
