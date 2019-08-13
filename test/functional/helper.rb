@@ -12,9 +12,9 @@ end
 module FunctionalHelper
   extend Minitest::Spec::DSL
   let(:repo_path) do
-    path = File.expand_path(File.join( __FILE__, "..", "..", ".."))
+    path = File.expand_path("../../..", __FILE__)
     # fix for vagrant repo pathing
-    path.gsub!("//vboxsrv", "C:") if is_windows?
+    path.gsub!("//vboxsvr", "C:") if is_windows?
     path
   end
   let(:inspec_path) { File.join(repo_path, "inspec-bin", "bin", "inspec") }
