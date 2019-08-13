@@ -11,7 +11,8 @@ describe "inspec shell tests" do
       command = "shell -c '#{code.tr("'", '\\\'')}'#{json_suffix}"
       out = inspec(command)
 
-      _(out.stderr).must_equal stderr
+      actual = out.stderr.gsub(/\e\[(\d+)(;\d+)*m/, "") # strip ANSI color codes
+      _(actual).must_equal stderr
 
       assert_exit_code exit_status, out
 
@@ -161,9 +162,19 @@ describe "inspec shell tests" do
   unless FunctionalHelper.is_windows?
 
     describe "shell" do
+      attr_accessor :out
+
+      def stdout
+        out.stdout.gsub(/\e\[(\d+)(;\d+)*m/, "") # strip ANSI color codes
+      end
+
+      def stderr
+        out.stderr.gsub(/\e\[(\d+)(;\d+)*m/, "") # strip ANSI color codes
+      end
+
       def do_shell(code, exit_status = 0, stderr = "")
         cmd = "echo '#{code.tr("'", '\\\'')}' | #{exec_inspec} shell"
-        out = CMD.run_command(cmd)
+        self.out = CMD.run_command(cmd)
 
         assert_exit_code exit_status, out
 
