@@ -26,7 +26,6 @@ class InitPluginCli < Minitest::Test
 
       run_result = run_inspec_process("init plugin --no-prompt #{plugin}", prefix: "cd #{dir} &&")
 
-      skip_windows!
       assert_includes run_result.stdout, "Creating new inspec plugin at"
       assert_includes run_result.stdout, plugin
 
@@ -132,7 +131,6 @@ class InitPluginCli < Minitest::Test
 
       run_result = run_inspec_process("init plugin #{plugin} --no-prompt #{opts}", prefix: "cd #{dir} &&")
 
-      skip_windows!
       assert_includes run_result.stdout, "Creating new inspec plugin at"
       assert_includes run_result.stdout, plugin
 
