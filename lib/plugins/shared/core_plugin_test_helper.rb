@@ -63,6 +63,8 @@ module CorePluginFunctionalHelper
       prefix = assemble_env_prefix opts[:env]
     end
 
+    prefix.sub!(/&&/, ";") if is_windows?
+
     TRAIN_CONNECTION.run_command("#{prefix} #{exec_inspec} #{command_line}")
   end
 

@@ -129,6 +129,8 @@ module FunctionalHelper
     inspec_mutex.synchronize { # rubocop:disable Style/BlockDelimiters
       inspec_cache[[commandline, prefix]] ||=
         if is_windows?
+          prefix.gsub!(/&&/, ";") if prefix
+
           invocation = "/windows/system32/cmd /C \"#{prefix} #{commandline}\""
           # puts
           # puts "CMD = #{invocation}"
