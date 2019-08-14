@@ -116,9 +116,16 @@ module Inspec
       # we can create any inputs that were provided by various mechanisms.
       options[:runner_conf] ||= Inspec::Config.cached
 
+      # Catch legacy CLI input option usage
       if options[:runner_conf].key?(:attrs)
         Inspec.deprecate(:rename_attributes_to_inputs, "Use --input-file on the command line instead of --attrs.")
         options[:runner_conf][:input_file] = options[:runner_conf].delete(:attrs)
+      end
+
+      # Catch legacy kitchen-inspec input usage
+      if options[:runner_conf].key?(:attributes)
+        Inspec.deprecate(:rename_attributes_to_inputs, "Use :inputs in your kitchen.yml verifier config instead of :attributes.")
+        options[:runner_conf][:inputs] = options[:runner_conf].delete(:attributes)
       end
 
       Inspec::InputRegistry.bind_profile_inputs(
@@ -127,8 +134,7 @@ module Inspec
         # Remaining args are possible sources of inputs
         cli_input_files: options[:runner_conf][:input_file], # From CLI --input-file
         profile_metadata: metadata,
-        # TODO: deprecation checks here
-        runner_api: options[:runner_conf][:attributes] # This is the route the audit_cookbook and kitchen-inspec take
+        runner_api: options[:runner_conf][:inputs] # This is the route the audit_cookbook and kitchen-inspec take
       )
 
       @runner_context =
