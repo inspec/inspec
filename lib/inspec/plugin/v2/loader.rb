@@ -274,7 +274,7 @@ module Inspec::Plugin::V2
 
     def detect_system_plugins
       # Find the gemspec for inspec
-      inspec_gemspec = Gem::Specification.find_by_name("inspec", "=" + Inspec::VERSION)
+      inspec_gemspec = Gem::Specification.find_by_name("inspec", "=#{Inspec::VERSION}")
 
       # Make a RequestSet that represents the dependencies of inspec
       inspec_deps_request_set = Gem::RequestSet.new(*inspec_gemspec.dependencies)
