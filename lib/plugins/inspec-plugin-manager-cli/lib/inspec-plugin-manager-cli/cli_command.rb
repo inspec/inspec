@@ -499,8 +499,9 @@ module InspecPlugins
             # Assume it is a version constraint string and try to resolve
             # TODO: this is naive, and assumes the latest version is the one that will be used. Logged on #3317
             # In fact, the logic to determine "what version would be used" belongs in the Loader.
+            plugin_name = status.name.to_s
             Inspec::Plugin::V2::Loader.list_installed_plugin_gems
-              .select { |spec| spec.name == status.name.to_s }
+              .select { |spec| spec.name == plugin_name }
               .sort_by(&:version)
               .last.version
           end
