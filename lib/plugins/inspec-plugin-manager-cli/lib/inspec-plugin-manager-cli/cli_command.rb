@@ -34,7 +34,7 @@ module InspecPlugins
         unless plugin_statuses.empty?
           ui.table do |t|
             t.header = ["Plugin Name", "Version", "Via", "ApiVer"]
-            plugin_statuses.map { |s| [s.name.to_s, s] }.sort { |sa, sb| sa[0] <=> sb[0] }.map { |sf| sf[1] }.each do |status|
+            plugin_statuses.sort_by { |s| s.name.to_s }.each do |status|
               t << [
                 status.name,
                 make_pretty_version(status),
