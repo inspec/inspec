@@ -63,11 +63,19 @@ module Inspec::Plugin::V2
 
   module FilterPredicates
     def train_plugin_name?(name)
-      name.to_s.start_with?("train-") && ! Inspec::Plugin::V2::PluginFilter.exclude?(name)
+      name.to_s.start_with?("train-") && name_allowed?(name)
     end
 
     def inspec_plugin_name?(name)
-      name.to_s.start_with?("inspec-") && ! Inspec::Plugin::V2::PluginFilter.exclude?(name)
+      name.to_s.start_with?("inspec-") && name_allowed?(name)
+    end
+
+    def valid_plugin_name?(name)
+      name.to_s.match(/^(inspec|train)-/) && name_allowed?(name)
+    end
+
+    def name_allowed?(name)
+      ! Inspec::Plugin::V2::PluginFilter.exclude?(name)
     end
   end
 end

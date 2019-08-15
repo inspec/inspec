@@ -137,10 +137,11 @@ module Inspec::Plugin::V2
     end
 
     # Lists all plugin gems found in the plugin_gem_path.
-    # This is simply all gems that begin with train- or inspec-.
+    # This is simply all gems that begin with train- or inspec-
+    # and are not on the exclusion list.
     # @return [Array[Gem::Specification]] Specs of all gems found.
     def self.list_installed_plugin_gems
-      list_managed_gems.select { |spec| inspec_plugin_name?(spec.name) || train_plugin_name?(spec.name) }
+      list_managed_gems.select { |spec| valid_plugin_name?(spec.name) }
     end
 
     def list_installed_plugin_gems
