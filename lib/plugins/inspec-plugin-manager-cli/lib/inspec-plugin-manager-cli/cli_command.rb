@@ -6,6 +6,14 @@ require "inspec/dist"
 module InspecPlugins
   module PluginManager
     class CliCommand < Inspec.plugin(2, :cli_command)
+      INSTALL_TYPE_LABELS = {
+        bundle: "core", # Calling this core, too - not much of a distinction
+        core: "core",
+        path: "path",
+        user_gem: "gem (user)",
+        system_gem: "gem (system)",
+      }.freeze
+
       include Inspec::Dist
 
       subcommand_desc "plugin SUBCOMMAND", "Manage #{PRODUCT_NAME} and Train plugins"
@@ -502,13 +510,7 @@ module InspecPlugins
       end
 
       def make_pretty_install_type(status)
-        {
-          bundle: "core", # Calling this core, too - not much of a distinction
-          core: "core",
-          path: "path",
-          user_gem: "gem (user)",
-          system_gem: "gem (system)",
-        }[status.installation_type]
+        INSTALL_TYPE_LABELS[status.installation_type]
       end
     end
   end
