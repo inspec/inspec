@@ -803,7 +803,7 @@ class PluginManagerCliUninstall < Minitest::Test
     assert_includes success_message, "0.1.0"
     assert_includes success_message, "has been uninstalled"
 
-    itf_plugins = uninstall_result.payload.list_result.filter { |p| p[:name] == "inspec-test-fixture" }
+    itf_plugins = uninstall_result.payload.list_result.select { |p| p[:name] == "inspec-test-fixture" }
     assert_empty itf_plugins, "inspec-test-fixture should not appear in the output of inspec list"
 
     assert_empty uninstall_result.stderr
@@ -825,7 +825,7 @@ class PluginManagerCliUninstall < Minitest::Test
     assert_includes success_message, "path-based plugin install"
     assert_includes success_message, "has been uninstalled"
 
-    itf_plugins = uninstall_result.payload.list_result.filter { |p| p[:name] == "inspec-meaning-of-life" }
+    itf_plugins = uninstall_result.payload.list_result.select { |p| p[:name] == "inspec-meaning-of-life" }
     assert_empty itf_plugins, "inspec-meaning-of-life should not appear in the output of inspec list"
 
     assert_empty uninstall_result.stderr

@@ -31,7 +31,7 @@ module InspecPlugins
       def list
         plugin_statuses = Inspec::Plugin::V2::Registry.instance.plugin_statuses
         options[:all] = false if options[:core] || options[:user] || options[:system]
-        plugin_statuses.filter! do |status|
+        plugin_statuses.select! do |status|
           type = status.installation_type
           options[:all] ||
             (options[:core] && %i{core bundle}.include?(type)) ||
