@@ -99,14 +99,12 @@ class PluginManagerCliList < Minitest::Test
   include CorePluginFunctionalHelper
   include PluginManagerHelpers
 
-  # Listing all is now default behavior
-  def list_cases
-    [
-      { arg: "-c", name: "inspec-plugin-manager-cli", type: "core" },
-      { arg: "-c", name: "inspec-supermarket", type: "core" },
-      { arg: "-s", name: "train-aws", type: "gem (system)" },
-    ]
-  end
+  # Listing all plugins is now default behavior
+  LIST_CASES = [
+    { arg: "-c", name: "inspec-plugin-manager-cli", type: "core" },
+    { arg: "-c", name: "inspec-supermarket", type: "core" },
+    { arg: "-s", name: "train-aws", type: "gem (system)" },
+  ].freeze
 
   def test_list_all_when_no_user_plugins_installed
     skip_windows!
@@ -116,7 +114,7 @@ class PluginManagerCliList < Minitest::Test
     plugins_seen = parse_plugin_list_lines(result.stdout)
 
     # Look for a specific plugin of each type - core, bundle, and system
-    list_cases.each do |test_case|
+    LIST_CASES.each do |test_case|
       plugin_line = plugins_seen.detect { |plugin| plugin[:name] == test_case[:name] }
       refute_nil plugin_line, "#{test_case[:name]} should be detected in plugin list --all output"
       assert_equal plugin_line[:type], test_case[:type], "#{test_case[:name]} should be detected as a '#{test_case[:type]}' type in list --all "
@@ -126,7 +124,7 @@ class PluginManagerCliList < Minitest::Test
 
   def test_list_selective_when_no_user_plugins_installed
     skip_windows!
-    list_cases.each do |test_case|
+    LIST_CASES.each do |test_case|
       result = run_inspec_process_with_this_plugin("plugin list #{test_case[:arg]}")
       assert_empty result.stderr
       plugins_seen = parse_plugin_list_lines(result.stdout)
