@@ -325,7 +325,6 @@ class PluginInstallerUpdaterTests < Minitest::Test
     plugin_json_path = File.join(ENV["INSPEC_CONFIG_DIR"], "plugins.json")
     plugin_json_data = JSON.parse(File.read(plugin_json_path))
     entry = plugin_json_data["plugins"].detect { |e| e["name"] == "inspec-test-fixture" }
-    refute_includes entry.keys, "version", "plugins.json should NOT include version pinning key"
   end
 
   def test_update_to_specified_later_version
