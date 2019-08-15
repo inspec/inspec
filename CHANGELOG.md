@@ -1,38 +1,36 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.12.0 -->
-## [v4.12.0](https://github.com/inspec/inspec/tree/v4.12.0) (2019-08-15)
-
-#### Merged Pull Requests
-- Add deps on train 3 and train-winrm 0.2 [#4355](https://github.com/inspec/inspec/pull/4355) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.10.4 -->
-### Changes since 4.10.4 release
-
-#### New Features
-- Add startuser windows service [#4363](https://github.com/inspec/inspec/pull/4363) ([mbaitelman](https://github.com/mbaitelman)) <!-- 4.11.0 -->
-
-#### Bug Fixes
-- group resource: Modified DarwinGroup to collect all users properly on macos [#4343](https://github.com/inspec/inspec/pull/4343) ([zenspider](https://github.com/zenspider)) <!-- 4.11.1 -->
-- Fixed syntax errors in wmi doco. [#4370](https://github.com/inspec/inspec/pull/4370) ([zenspider](https://github.com/zenspider)) <!-- 4.10.7 -->
-
-#### Merged Pull Requests
-- Add deps on train 3 and train-winrm 0.2 [#4355](https://github.com/inspec/inspec/pull/4355) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.12.0 -->
-- Begin signing MSI&#39;s with renewed Windows Signing Cert [#4386](https://github.com/inspec/inspec/pull/4386) ([schisamo](https://github.com/schisamo)) <!-- 4.11.5 -->
-- Moved the osx? guard below minitest/autorun. [#4381](https://github.com/inspec/inspec/pull/4381) ([zenspider](https://github.com/zenspider)) <!-- 4.11.4 -->
-- change announcement to LCR Road Trip [#4379](https://github.com/inspec/inspec/pull/4379) ([shaunyap](https://github.com/shaunyap)) <!-- 4.11.3 -->
-- I didn&#39;t get the BK setup right, nor did the verification check this. [#4380](https://github.com/inspec/inspec/pull/4380) ([zenspider](https://github.com/zenspider)) <!-- 4.11.3 -->
-- README: Add platform detail to support info in runtime list [#4375](https://github.com/inspec/inspec/pull/4375) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.11.3 -->
-- Fixed typo in umask example [#4360](https://github.com/inspec/inspec/pull/4360) ([kclinden](https://github.com/kclinden)) <!-- 4.11.2 -->
-- Stop building Chef InSpec on SLES 11 [#4374](https://github.com/inspec/inspec/pull/4374) ([schisamo](https://github.com/schisamo)) <!-- 4.11.1 -->
-- Remove timebombs on skip_until and licensing tests. [#4351](https://github.com/inspec/inspec/pull/4351) ([zenspider](https://github.com/zenspider)) <!-- 4.10.6 -->
-- Add a retry to expeditor defaults, per shain&#39;s advice. [#4369](https://github.com/inspec/inspec/pull/4369) ([zenspider](https://github.com/zenspider)) <!-- 4.10.5 -->
-- Move some resources into Inspec::Resources module [#4361](https://github.com/inspec/inspec/pull/4361) ([KrisShannon](https://github.com/KrisShannon)) <!-- 4.10.5 -->
-- Only bump versions when we modify InSpec. [#4348](https://github.com/inspec/inspec/pull/4348) ([miah](https://github.com/miah)) <!-- 4.10.4 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.12.0](https://github.com/inspec/inspec/tree/v4.12.0) (2019-08-15)
+
+#### New Features
+- Add startuser windows service [#4363](https://github.com/inspec/inspec/pull/4363) ([mbaitelman](https://github.com/mbaitelman))
+
+#### Bug Fixes
+- Fixed syntax errors in wmi doco. [#4370](https://github.com/inspec/inspec/pull/4370) ([zenspider](https://github.com/zenspider))
+- group resource: Modified DarwinGroup to collect all users properly on macos [#4343](https://github.com/inspec/inspec/pull/4343) ([zenspider](https://github.com/zenspider))
+
+#### Merged Pull Requests
+- Only bump versions when we modify InSpec. [#4348](https://github.com/inspec/inspec/pull/4348) ([miah](https://github.com/miah))
+- Move some resources into Inspec::Resources module [#4361](https://github.com/inspec/inspec/pull/4361) ([KrisShannon](https://github.com/KrisShannon))
+- Add a retry to expeditor defaults, per shain&#39;s advice. [#4369](https://github.com/inspec/inspec/pull/4369) ([zenspider](https://github.com/zenspider))
+- Remove timebombs on skip_until and licensing tests. [#4351](https://github.com/inspec/inspec/pull/4351) ([zenspider](https://github.com/zenspider))
+- Stop building Chef InSpec on SLES 11 [#4374](https://github.com/inspec/inspec/pull/4374) ([schisamo](https://github.com/schisamo))
+- Fixed typo in umask example [#4360](https://github.com/inspec/inspec/pull/4360) ([kclinden](https://github.com/kclinden))
+- README: Add platform detail to support info in runtime list [#4375](https://github.com/inspec/inspec/pull/4375) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- I didn&#39;t get the BK setup right, nor did the verification check this. [#4380](https://github.com/inspec/inspec/pull/4380) ([zenspider](https://github.com/zenspider))
+- change announcement to LCR Road Trip [#4379](https://github.com/inspec/inspec/pull/4379) ([shaunyap](https://github.com/shaunyap))
+- Moved the osx? guard below minitest/autorun. [#4381](https://github.com/inspec/inspec/pull/4381) ([zenspider](https://github.com/zenspider))
+- Begin signing MSI&#39;s with renewed Windows Signing Cert [#4386](https://github.com/inspec/inspec/pull/4386) ([schisamo](https://github.com/schisamo))
+- Add deps on train 3 and train-winrm 0.2 [#4355](https://github.com/inspec/inspec/pull/4355) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.10.4](https://github.com/inspec/inspec/tree/v4.10.4) (2019-08-01)
 
 #### New Features
@@ -54,7 +52,6 @@
 - point badge to master [#4347](https://github.com/inspec/inspec/pull/4347) ([miah](https://github.com/miah))
 - changed legal refs to point to chef.io proper [#4345](https://github.com/inspec/inspec/pull/4345) ([kekaichinose](https://github.com/kekaichinose))
 - Bump skipped license tests by 2 weeks. [#4352](https://github.com/inspec/inspec/pull/4352) ([zenspider](https://github.com/zenspider))
-<!-- latest_stable_release -->
 
 ## [v4.7.24](https://github.com/inspec/inspec/tree/v4.7.24) (2019-07-26)
 
