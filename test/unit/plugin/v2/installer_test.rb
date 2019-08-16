@@ -321,10 +321,11 @@ class PluginInstallerUpdaterTests < Minitest::Test
     spec_path = File.join(@installer.gem_path, "specifications", "inspec-test-fixture-0.1.0.gemspec")
     assert File.exist?(spec_path), "After update, the 0.1.0 gemspec should remain"
 
-    # Plugins file entry should not be version pinned
+    # Plugins file entry should now be version pinned to latest
     plugin_json_path = File.join(ENV["INSPEC_CONFIG_DIR"], "plugins.json")
     plugin_json_data = JSON.parse(File.read(plugin_json_path))
     entry = plugin_json_data["plugins"].detect { |e| e["name"] == "inspec-test-fixture" }
+    assert_equal "= 0.2.0", entry["version"]
   end
 
   def test_update_to_specified_later_version
