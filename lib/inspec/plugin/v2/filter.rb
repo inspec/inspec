@@ -63,18 +63,26 @@ module Inspec::Plugin::V2
 
   module FilterPredicates
     def train_plugin_name?(name)
-      name.to_s.start_with?("train-") && name_allowed?(name)
+      valid_plugin_name?(name, :train)
     end
 
     def inspec_plugin_name?(name)
-      name.to_s.start_with?("inspec-") && name_allowed?(name)
+      valid_plugin_name?(name, :inspec)
     end
 
-    def valid_plugin_name?(name)
-      name.to_s.match(/^(inspec|train)-/) && name_allowed?(name)
-    end
+    def valid_plugin_name?(name, kind = :either)
+      # Must have a permitted prefix.
+      return false unless case kind
+      when :inspec
+        name.to_s.start_with?("inspec-")
+      when :train
+        name.to_s.start_with?("train-")
+      when :either
+        name.to_s.match(/^(inspec|train)-/)
+      else false
+      end # rubocop: disable Layout/EndAlignment
 
-    def name_allowed?(name)
+      # And must not be on the exclusion list.
       ! Inspec::Plugin::V2::PluginFilter.exclude?(name)
     end
   end
