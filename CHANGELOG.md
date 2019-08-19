@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.13.0 -->
+## [v4.13.0](https://github.com/inspec/inspec/tree/v4.13.0) (2019-08-19)
+
+#### New Resources
+- Add a Postfix-specific configuration testing resource [#4378](https://github.com/inspec/inspec/pull/4378) ([dmgasper](https://github.com/dmgasper))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.12.0 -->
+### Changes since 4.12.0 release
+
+#### New Resources
+- Add a Postfix-specific configuration testing resource [#4378](https://github.com/inspec/inspec/pull/4378) ([dmgasper](https://github.com/dmgasper)) <!-- 4.13.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
