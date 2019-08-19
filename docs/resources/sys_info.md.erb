@@ -51,6 +51,31 @@ The `hostname` matcher tests the host for which standard output is returned:
 
     its('hostname') { should eq 'value' }
 
+
+### fqdn
+
+The `fqdn` property tests the 'fully qualified domain name' of the system:
+
+    its('fqdn') { should eq 'value' }
+
+### domain
+
+The `domain` property tests the name of the DNS domain:
+
+    its('domain') { should eq 'value' }
+
+### ip-address
+
+The `ip-address` property tests all network addresses of the host:
+
+    its('ip-address') { should eq 'value' }
+
+### short
+
+The `short` property tests the host name cut at the first dot:
+
+    its('short') { should eq 'value' }
+
 ### manufacturer
 
 The `manufacturer` matcher tests the host for which standard output is returned:
