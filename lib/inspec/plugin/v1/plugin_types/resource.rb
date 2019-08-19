@@ -81,6 +81,7 @@ module Inspec
           @resource_skipped = false
           @resource_failed = false
           @supports = Inspec::Resource.supports[name]
+          @resource_exception_message = nil
 
           # attach the backend to this instance
           @__backend_runner__ = backend
@@ -95,13 +96,10 @@ module Inspec
             skip_resource(e.message)
           rescue Inspec::Exceptions::ResourceFailed => e
             fail_resource(e.message)
+          rescue NotImplementedError => e
+            fail_resource(e.message) unless @resource_failed
           rescue NoMethodError => e
-            # The new platform resources have methods generated on the fly
-            # for inspec check to work we need to skip these train errors
-            test_backend = defined?(Train::Transports::Mock::Connection) && backend.backend.class == Train::Transports::Mock::Connection
-            raise unless test_backend && e.receiver.class == Train::Transports::Mock::Connection
-
-            skip_resource(e.message)
+            skip_resource(e.message) unless @resource_failed
           end
         end
 
