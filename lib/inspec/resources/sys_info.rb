@@ -15,12 +15,12 @@ module Inspec::Resources
       end
 
       describe sys_info do
-        its('hostname') { should eq 'example.com' }
+        its('fqdn') { should eq 'user.example.com' }
       end
 
     EXAMPLE
 
-    %w{ alias domain fqdn ip-address short }.each do |opt|
+    %w{ domain fqdn ip-address short }.each do |opt|
       define_method(opt.to_sym) do
         hostname(opt)
       end
@@ -33,12 +33,10 @@ module Inspec::Resources
         opt = case opt
               when "f", "long", "fqdn", "full"
                 " -f"
-              when "a", "alias"
-                " -a"
               when "d", "domain"
                 " -d"
               when "i", "ip-address"
-                " -i"
+                " -I"
               when "s", "short"
                 " -s"
               else
