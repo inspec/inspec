@@ -133,6 +133,7 @@ describe "inputs" do
 
       it "finds the values and does not issue any warnings" do
         output = run_result.stdout
+        skip_windows!
         refute_includes output, "DEPRECATION"
         structured_output = JSON.parse(output)
         assert_equal "passed", structured_output["profiles"][0]["controls"][0]["results"][0]["status"]
@@ -143,6 +144,7 @@ describe "inputs" do
       let(:runner_options) { common_options.merge({ attributes: { test_input_01: "value_from_api" } }) }
       it "finds the values but issues a DEPRECATION warning" do
         output = run_result.stdout
+        skip_windows!
         assert_includes output, "DEPRECATION"
         structured_output = JSON.parse(output.lines.reject { |l| l.include? "DEPRECATION" }.join("\n") )
         assert_equal "passed", structured_output["profiles"][0]["controls"][0]["results"][0]["status"]
