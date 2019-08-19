@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.13.0 -->
-## [v4.13.0](https://github.com/inspec/inspec/tree/v4.13.0) (2019-08-19)
+<!-- latest_release 4.13.1 -->
+## [v4.13.1](https://github.com/inspec/inspec/tree/v4.13.1) (2019-08-19)
 
-#### New Resources
-- Add a Postfix-specific configuration testing resource [#4378](https://github.com/inspec/inspec/pull/4378) ([dmgasper](https://github.com/dmgasper))
+#### Merged Pull Requests
+- Refactor lib/source_readers/inspec.rb [#4376](https://github.com/inspec/inspec/pull/4376) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.12.0 -->
 ### Changes since 4.12.0 release
+
+#### Merged Pull Requests
+- Refactor lib/source_readers/inspec.rb [#4376](https://github.com/inspec/inspec/pull/4376) ([zenspider](https://github.com/zenspider)) <!-- 4.13.1 -->
 
 #### New Resources
 - Add a Postfix-specific configuration testing resource [#4378](https://github.com/inspec/inspec/pull/4378) ([dmgasper](https://github.com/dmgasper)) <!-- 4.13.0 -->
