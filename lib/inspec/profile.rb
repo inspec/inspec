@@ -137,7 +137,8 @@ module Inspec
         # Remaining args are possible sources of inputs
         cli_input_files: options[:runner_conf][:input_file], # From CLI --input-file
         profile_metadata: metadata,
-        runner_api: options[:runner_conf][:inputs] # This is the route the audit_cookbook and kitchen-inspec take
+        runner_api: options[:runner_conf][:inputs], # This is the route the audit_cookbook and kitchen-inspec take
+        cli_input_arg: options[:runner_conf][:input] # The --input name=value CLI option
       )
 
       @runner_context =

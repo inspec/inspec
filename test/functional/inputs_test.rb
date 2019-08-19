@@ -149,6 +149,56 @@ describe "inputs" do
     end
   end
 
+  describe "when using the --input inline raw input flag CLI option" do
+    let(:result) { run_inspec_process("exec #{inputs_profiles_path}/cli #{input_opt} #{control_opt}", json: true) }
+    let(:control_opt) { "" }
+
+    describe "when the --input is used once with one value" do
+      let(:input_opt) { "--input test_input_01=value_from_cli_01" }
+      let(:control_opt) { "--controls test_control_01" }
+      it("correctly reads the input") { result.must_have_all_controls_passing }
+    end
+
+    describe "when the --input is used once with two values" do
+      let(:input_opt) { "--input test_input_01=value_from_cli_01 test_input_02=value_from_cli_02" }
+      it("correctly reads the input") { result.must_have_all_controls_passing }
+    end
+
+    describe "when the --input is used once with two values and a comma" do
+      let(:input_opt) { "--input test_input_01=value_from_cli_01, test_input_02=value_from_cli_02" }
+      it("correctly reads the input") { result.must_have_all_controls_passing }
+    end
+
+    describe "when the --input is used twice with one value each" do
+      let(:input_opt) { "--input test_input_01=value_from_cli_01 --input test_input_02=value_from_cli_02" }
+      let(:control_opt) { "--controls test_control_02" }
+      # Expected, though unfortunate, behavior is to only notice the second input
+      it("correctly reads the input") { result.must_have_all_controls_passing }
+    end
+
+    describe "when the --input is used with no equal sign" do
+      let(:input_opt) { "--input value_from_cli_01" }
+      it "does not run and provides an error message" do
+        output = result.stdout
+        assert_includes "ERROR", output
+        assert_includes "An '=' is required", output
+        assert_includes "input_name_1=input_value_1", output
+        assert_equal 1, result.exit_status
+      end
+    end
+
+    describe "when the --input is used with a .yaml extension" do
+      let(:input_opt) { "--input myfile.yaml" }
+      it "does not run and provides an error message" do
+        output = result.stdout
+        assert_includes "ERROR", output
+        assert_includes "individual input values", output
+        assert_includes "Use --input-file", output
+        assert_equal 1, result.exit_status
+      end
+    end
+  end
+
   describe "when accessing inputs in a variety of scopes using the DSL" do
     it "is able to read the inputs using the input keyword" do
       cmd = "exec #{inputs_profiles_path}/scoping"
