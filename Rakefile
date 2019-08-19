@@ -80,7 +80,7 @@ namespace :test do
     missing.reject! { |f| ! File.file? f }
     missing.reject! { |f| f =~ %r{test/(integration|cookbooks)} }
     missing.reject! { |f| f =~ %r{test/unit/mock} }
-    missing.reject! { |f| f =~ %r{test.*helper} }
+    missing.reject! { |f| f =~ /test.*helper/ }
     missing.reject! { |f| f =~ %r{test/docker} }
 
     puts missing.sort
