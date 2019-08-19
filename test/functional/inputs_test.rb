@@ -1,4 +1,5 @@
 require "functional/helper"
+require "tempfile"
 
 # For tests related to reading inputs from plugins, see plugins_test.rb
 
@@ -63,6 +64,88 @@ describe "inputs" do
       let(:flag) { "--attrs" }
       it "works" do
         assert_exit_code 0, result
+      end
+    end
+  end
+
+  describe "when being passed inputs via the Runner API" do
+    let(:run_result) { run_runner_api_process(runner_options) }
+    let(:common_options) do
+      {
+        profile: "#{inputs_profiles_path}/via-runner",
+        reporter: ["json"],
+      }
+    end
+
+    # options:
+    #   profile: path to profile to run
+    #   All other opts passed to InSpec::Runner.new(...)
+    # then add.target is called
+    def run_runner_api_process(options)
+      # Remove profile from options. All other are passed to Runner.
+      profile = options.delete(:profile)
+
+      # Make a tmpfile
+      Tempfile.open(mode: 0700) do |script| # 0700 - rwx
+
+        # include ruby path
+        # script.puts %q[ # Load path ]
+
+        # Clear and concat - can't just assign, it's readonly
+        script.puts "$LOAD_PATH.clear"
+        script.puts "$LOAD_PATH.concat(#{$LOAD_PATH})"
+        script.puts
+
+        # require inspec
+        script.puts %q{ require "inspec" }
+        script.puts %q{ require "inspec/runner" }
+        script.puts
+
+        # inject pretty-printed runner opts
+        script.puts %q{ # Arguments for runner: }
+        script.write %q{ runner_args = }
+        script.puts options.inspect
+        script.puts
+
+        # inject target
+        script.puts %q{ # Profile to run: }
+        script.puts " profile_location = \"#{profile}\""
+        script.puts
+
+        # create runner with opts
+        script.puts %q{ # Run Execution }
+        script.puts %q{ runner = Inspec::Runner.new(runner_args) }
+        script.puts %q{ runner.add_target profile_location }
+        script.puts %q{ runner.run }
+
+        script.flush
+
+        train_cxn = Train.create("local", command_runner: :generic).connection
+        # TODO - portability - this does not have windows compat stuff from the inspec() method in functional/helper.rb
+        # it is not portable to windows at this point yet.
+        train_cxn.run_command("ruby #{script.path}") # TODO get path to file
+
+      end
+    end
+
+    describe "when using the current :inputs key" do
+      let(:runner_options) { common_options.merge({ inputs: { test_input_01: "value_from_api" } }) }
+
+      it "finds the values and does not issue any warnings" do
+        output = run_result.stdout
+        refute_includes output, "DEPRECATION"
+        structured_output = JSON.parse(output)
+        assert_equal "passed", structured_output["profiles"][0]["controls"][0]["results"][0]["status"]
+      end
+    end
+
+    describe "when using the legacy :attributes key" do
+      let(:runner_options) { common_options.merge({ attributes: { test_input_01: "value_from_api" } }) }
+      it "finds the values but issues a DEPRECATION warning" do
+        output = run_result.stdout
+        assert_includes output, "DEPRECATION"
+        structured_output = JSON.parse(output.lines.reject { |l| l.include? "DEPRECATION" }.join("\n") )
+        assert_equal "passed", structured_output["profiles"][0]["controls"][0]["results"][0]["status"]
       end
     end
   end

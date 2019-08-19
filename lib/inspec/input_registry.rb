@@ -152,7 +152,7 @@ module Inspec
           file: loc.path,
           line: loc.lineno
         )
-        find_or_register_input(input_name, profile_name, event: evt)
+        find_or_register_input(input_name.to_s, profile_name, event: evt)
       end
     end
 

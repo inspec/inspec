@@ -1,0 +1,6 @@
+name: via-runner
+license: Apache-2.0
+summary: Profile to test inspec loading inputs via the Runner API (audit cookbook / kitchen inspec)
+version: 0.1.0
+supports:
+  platform: os

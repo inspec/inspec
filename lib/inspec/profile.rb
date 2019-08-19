@@ -120,6 +120,9 @@ module Inspec
       if options[:runner_conf].key?(:attrs)
         Inspec.deprecate(:rename_attributes_to_inputs, "Use --input-file on the command line instead of --attrs.")
         options[:runner_conf][:input_file] = options[:runner_conf].delete(:attrs)
+      elsif options[:runner_conf].key?(:input_files)
+        # The kitchen-inspec docs say to use plural. Our CLI and internal expectations are singular.
+        options[:runner_conf][:input_file] = options[:runner_conf].delete(:input_files)
       end
 
       # Catch legacy kitchen-inspec input usage
