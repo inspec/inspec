@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.13.2 -->
-## [v4.13.2](https://github.com/inspec/inspec/tree/v4.13.2) (2019-08-19)
+<!-- latest_release unreleased -->
+## Unreleased
 
-#### Bug Fixes
-- Ensure that resources are always initialized in all cases [#4366](https://github.com/inspec/inspec/pull/4366) ([zenspider](https://github.com/zenspider))
+#### Enhancements
+- Ignore .swp files [#4389](https://github.com/inspec/inspec/pull/4389) ([Vancelot11](https://github.com/Vancelot11))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.12.0 -->
 ### Changes since 4.12.0 release
+
+#### Enhancements
+- Ignore .swp files [#4389](https://github.com/inspec/inspec/pull/4389) ([Vancelot11](https://github.com/Vancelot11)) <!-- 4.13.2 -->
 
 #### Bug Fixes
 - Ensure that resources are always initialized in all cases [#4366](https://github.com/inspec/inspec/pull/4366) ([zenspider](https://github.com/zenspider)) <!-- 4.13.2 -->
