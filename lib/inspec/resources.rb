@@ -4,8 +4,6 @@ require "inspec/resource"
 # This relies on AWS being stripped from the inspec-core gem
 inspec_core_only = ENV["NO_AWS"] || !File.exist?(File.join(File.dirname(__FILE__), "..", "resource_support", "aws.rb"))
 
-require "rspec/matchers"
-
 # Do not attempt to load cloud resources if we are in inspec-core mode
 unless inspec_core_only
   require "resource_support/aws"
