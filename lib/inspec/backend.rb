@@ -4,6 +4,7 @@ require "train"
 require "inspec/config"
 require "inspec/version"
 require "inspec/resource"
+require "inspec/dsl" # for method_missing_resource
 
 module Inspec
   module Backend
@@ -78,9 +79,7 @@ module Inspec
         end
 
         def method_missing(id, *args, &blk)
-          require "inspec/resources/#{id}"
-          klass = Inspec::Resource.registry[id.to_s]
-          klass.new(self, id, *args)
+          Inspec::DSL.method_missing_resource(self, id, *args)
         rescue LoadError
           super
         end

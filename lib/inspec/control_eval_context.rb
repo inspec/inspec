@@ -67,12 +67,8 @@ module Inspec
             send(method_name, *arguments, &block)
           else
             begin
-              id = method_name
-              require "inspec/resources/#{id}"
-              klass = Inspec::Resource.registry[id.to_s]
-              klass.new(inspec, id, *arguments)
+              Inspec::DSL.method_missing_resource(inspec, method_name, *arguments)
             rescue LoadError
-              # TODO: aws
               super
             end
           end
