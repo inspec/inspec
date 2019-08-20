@@ -34,10 +34,14 @@ module Inspec::DSL
   # resource.
 
   def self.method_missing_resource(backend, id, *arguments)
-    require "inspec/resources/#{id}"
+    begin
+      require "inspec/resources/#{id}"
+    rescue LoadError
+      require "resources/aws/#{id}"
+    end
+
     klass = Inspec::Resource.registry[id.to_s]
     klass.new(backend, id, *arguments)
-    # TODO: aws
   end
 
   # Support for Outer Profile DSL plugins
