@@ -53,6 +53,7 @@ module Inspec
     def initialize(cli_opts = {}, cfg_io = nil, command_name = nil)
       @command_name = command_name || (ARGV.empty? ? nil : ARGV[0].to_sym)
       @defaults = Defaults.for_command(@command_name)
+      @plugin_cfg = {}
 
       @cli_opts = cli_opts.dup
       cfg_io = resolve_cfg_io(@cli_opts, cfg_io)
@@ -60,7 +61,6 @@ module Inspec
 
       @merged_options = merge_options
       @final_options = finalize_options
-      @plugin_cfg = {}
       self.class.cached = self
     end
 
@@ -123,6 +123,13 @@ module Inspec
         creds[option.to_sym] = value
         creds
       end
+    end
+
+    #-----------------------------------------------------------------------#
+    #                      Fetching Plugin Data
+    #-----------------------------------------------------------------------#
+    def fetch_plugin_config(plugin_name)
+      Thor::CoreExt::HashWithIndifferentAccess.new(@plugin_cfg[plugin_name] || {})
     end
 
     private
@@ -367,6 +374,8 @@ module Inspec
           raise Inspec::ConfigError::Invalid, "The plugin settings for '#{plugin_name}' in your config file should be a Hash (key-value list)."
         end
       end
+
+      @plugin_cfg = data
     end
 
     #-----------------------------------------------------------------------#

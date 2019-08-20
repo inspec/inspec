@@ -3,6 +3,7 @@ require "stringio"
 
 require "inspec/config"
 require "plugins/inspec-compliance/lib/inspec-compliance/api"
+require "thor" # For Thor::CoreExt::HashWithIndifferentAccess
 
 describe "Inspec::Config" do
 
@@ -456,6 +457,40 @@ describe "Inspec::Config" do
         creds[:user].must_equal "bob"
       end
     end
+  end
+
+  # ========================================================================== #
+  #                        Fetching Plugin Config
+  # ========================================================================== #
+  describe "when fetching plugin config" do
+    let(:cfg) { Inspec::Config.new({}, cfg_io) }
+    let(:cfg_io) { StringIO.new(ConfigTestHelper.fixture(fixture_name)) }
+    let(:fixture_name) { "basic_1_2" }
+
+    describe "when fetching a plugin config that is absent" do
+      let(:fixture_name) { "basic_1_2" }
+
+      it "returns an empty hash with indifferent access" do
+        settings = cfg.fetch_plugin_config("inspec-test-not-present")
+        refute_nil settings
+        assert settings.empty?
+        assert_kind_of Thor::CoreExt::HashWithIndifferentAccess, settings
+      end
+    end
+
+    describe "when fetching a plugin config that is present" do
+      let(:fixture_name) { "basic_1_2" }
+
+      it "returns the settings as a hash with indifferent access" do
+        settings = cfg.fetch_plugin_config("inspec-test-plugin")
+        refute_nil settings
+        refute settings.empty?
+        assert_kind_of Thor::CoreExt::HashWithIndifferentAccess, settings
+        assert_equal settings[:test_key_01], "test_value_01"
+        assert_equal settings["test_key_01"], "test_value_01"
+      end
+    end
+
   end
 
   # ========================================================================== #
