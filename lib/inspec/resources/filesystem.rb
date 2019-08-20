@@ -100,7 +100,7 @@ module Inspec::Resources
         raise Inspec::Exceptions::ResourceFailed,
           "Unable to get available space for partition #{partition}"
       end
-      value = cmd.stdout.split(/\n/)[1].strip.split(" ")
+      value = cmd.stdout.gsub(/\n\s+/, " ").split(/\n/)[1].strip.split(" ")
       {
         name: partition,
         size_kb: value[2].to_i,
