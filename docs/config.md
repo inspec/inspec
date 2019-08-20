@@ -1,6 +1,6 @@
 # The Chef InSpec Configuration File
 
-This documents the Chef InSpec configuration file format introduced in version 3.5 of InSpec.
+This documents the Chef InSpec configuration file format introduced in version 3.5 of InSpec and extended in later versions.
 
 ## Config File Location
 
@@ -83,3 +83,30 @@ Credential sets are intended to work hand-in-hand with the underlying credential
 ### reporter
 
 You may also set output (reporter) options in the config file.  See the [Reporters Page](https://www.inspec.io/docs/reference/reporters/) for details.
+
+## Version 1.2
+
+Version 1.2 adds a top-level field, "plugins".
+
+### plugins
+
+Use the `plugins` top-level configuration field to provide configuration settings to plugins that you use with Chef InSpec. Refer to the documentation of the plugin you are using for details regarding which settings are available.
+
+To use this new feature, add a new top-level key in your config file named  `plugins`. Then create a sub-key named for each plugin you wish to configure. Each plugin will have a key-value are that it may use as it sees fit - Chef Inspec does not specify the structure. Here is an example, using contrived plugins:
+
+```
+{
+  "version":"1.2",
+  "plugins": {
+    "inspec-training-wheels": {
+      "diameter": "4 inches"
+    },
+    "inspec-input-secrets": {
+      "security-tokens: [
+        "123456789".
+        "abcdef252875"
+      ]
+    }
+  }
+}
+```
