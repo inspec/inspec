@@ -57,7 +57,7 @@ describe Inspec::Plugins::Resource do
 
   describe "supported platform" do
     def supports_meta(supports)
-      Inspec::Resource.supports["os"] = supports
+      Inspec::Resource.supports[:os] = supports
       load_resource("os")
     end
 

@@ -31,8 +31,10 @@ module Inspec
     def supports(criteria = nil)
       return if criteria.nil?
 
-      Inspec::Resource.supports[@name] ||= []
-      Inspec::Resource.supports[@name].push(criteria)
+      key = @name.to_sym
+
+      Inspec::Resource.supports[key] ||= []
+      Inspec::Resource.supports[key].push(criteria)
     end
 
     def example(example = nil)
@@ -80,7 +82,7 @@ module Inspec
         def initialize(backend, name, *args)
           @resource_skipped = false
           @resource_failed = false
-          @supports = Inspec::Resource.supports[name]
+          @supports = Inspec::Resource.supports[name.to_sym]
           @resource_exception_message = nil
 
           # attach the backend to this instance
