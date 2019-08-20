@@ -23,6 +23,11 @@ module Inspec
       shell_command
     }.freeze
 
+    KNOWN_VERSIONS = [
+      "1.1",
+      "1.2",
+    ].freeze
+
     extend Forwardable
 
     # Many parts of InSpec expect to treat the Config as a Hash
@@ -285,11 +290,17 @@ module Inspec
       # Assume legacy format, which is unconstrained
       return unless version
 
-      unless version == "1.1"
-        raise Inspec::ConfigError::Invalid, "Unsupported config file version '#{version}' - currently supported versions: 1.1"
+      unless KNOWN_VERSIONS.include?(version)
+        raise Inspec::ConfigError::Invalid, "Unsupported config file version '#{version}' - currently supported versions: #{KNOWN_VERSIONS.join(",")}"
       end
 
+      # Use Gem::Version for comparision operators
+      cfg_version = Gem::Version.new(version)
+      version_1_2 = Gem::Version.new("1.2")
+
+      # TODO: proper schema version loading and validation
       valid_fields = %w{version cli_options credentials compliance reporter}.sort
+      valid_fields << "plugins" if cfg_version >= version_1_2
       @cfg_file_contents.keys.each do |seen_field|
         unless valid_fields.include?(seen_field)
           raise Inspec::ConfigError::Invalid, "Unrecognized top-level configuration field #{seen_field}.  Recognized fields: #{valid_fields.join(", ")}"

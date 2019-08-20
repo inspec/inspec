@@ -77,6 +77,14 @@ describe "Inspec::Config" do
       end
     end
 
+    describe "when the file is a valid v1.2 file" do
+      let(:fixture_name) { "basic_1_2" }
+      it "should read the file successfully" do
+        expected = %w{create_lockfile reporter type}.sort # No new top-level key - API only
+        seen_fields.must_equal expected
+      end
+    end
+
     describe "when the file is minimal" do
       let(:fixture_name) { "minimal" }
       it "should read the file successfully" do
@@ -603,6 +611,34 @@ module ConfigTestHelper
           }
         }
       EOJ6
+    when :basic_1_2
+      <<~EOJ7
+        {
+          "version": "1.2",
+          "cli_options": {
+            "create_lockfile": "false"
+          },
+          "reporter": {
+            "automate" : {
+              "url": "http://some.where",
+              "token" : "YOUR_A2_ADMIN_TOKEN"
+            }
+          },
+          "credentials": {
+            "ssh": {
+              "set1": {
+                "host": "some.host",
+                "user": "some_user"
+              }
+            }
+          },
+          "plugins": {
+            "inspec-test-plugin": {
+              "test_key_01":"test_value_01"
+            }
+          }
+        }
+      EOJ7
     end
   end
   module_function :fixture
