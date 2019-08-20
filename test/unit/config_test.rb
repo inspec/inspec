@@ -125,6 +125,33 @@ describe "Inspec::Config" do
         ex.message.must_include "compliance"
       end
     end
+
+    describe "when a 1.2 file has an array for the plugins list" do
+      let(:fixture_name) { "bad_1_2_array" }
+      it "should complain about the array" do
+        ex = proc { cfg }.must_raise(Inspec::ConfigError::Invalid)
+        ex.message.must_include "'plugin' field"
+        ex.message.must_include "must be a hash"
+      end
+    end
+
+    describe "when a 1.2 file has an invalid name for a plugin" do
+      let(:fixture_name) { "bad_1_2_bad_name" }
+      it "should complain about the bad plugin name" do
+        ex = proc { cfg }.must_raise(Inspec::ConfigError::Invalid)
+        ex.message.must_include "names must begin with"
+        ex.message.must_include "inspec- or train-"
+      end
+    end
+
+    describe "when a 1.2 file has a bad value for a setting tree" do
+      let(:fixture_name) { "bad_1_2_bad_value" }
+      it "should complain about the bad plugin value" do
+        ex = proc { cfg }.must_raise(Inspec::ConfigError::Invalid)
+        ex.message.must_include "should be a Hash"
+        ex.message.must_include "inspec-test-bad-settings"
+      end
+    end
   end
 
   # ========================================================================== #
@@ -639,6 +666,35 @@ module ConfigTestHelper
           }
         }
       EOJ7
+    when :bad_1_2_array
+      <<~EOJ8
+        {
+          "version": "1.2",
+          "plugins": [
+            "inspec-test-plugin1",
+            "inspec-test-plugin2"
+          ]
+        }
+      EOJ8
+    when :bad_1_2_bad_name
+      <<~EOJ9
+        {
+          "version": "1.2",
+          "plugins": {
+            "spectacles-banana-peeler": {
+            }
+          }
+        }
+      EOJ9
+    when :bad_1_2_bad_value
+      <<~EOJ10
+        {
+          "version": "1.2",
+          "plugins": {
+            "inspec-test-bad-settings": 42
+          }
+        }
+      EOJ10
     end
   end
   module_function :fixture

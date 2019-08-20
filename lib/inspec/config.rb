@@ -60,6 +60,7 @@ module Inspec
 
       @merged_options = merge_options
       @final_options = finalize_options
+      @plugin_cfg = {}
       self.class.cached = self
     end
 
@@ -306,6 +307,8 @@ module Inspec
           raise Inspec::ConfigError::Invalid, "Unrecognized top-level configuration field #{seen_field}.  Recognized fields: #{valid_fields.join(", ")}"
         end
       end
+
+      validate_plugins! if cfg_version >= version_1_2
     end
 
     def validate_reporters!(reporters)
@@ -343,6 +346,27 @@ module Inspec
       end
 
       raise ArgumentError, "The option --reporter can only have a single report outputting to stdout." if stdout_reporters > 1
+    end
+
+    def validate_plugins!
+      return unless @cfg_file_contents.key? "plugins"
+
+      data = @cfg_file_contents["plugins"]
+      unless data.is_a?(Hash)
+        raise Inspec::ConfigError::Invalid, "The 'plugin' field in your config file must be a hash (key-value list), not an array."
+      end
+
+      data.each do |plugin_name, plugin_settings|
+        # Enforce that every key is a valid inspec or train plugin name
+        unless plugin_name.match(/^(inspec|train)-/) # TODO - replace with FilterPredicate calls once #4387 merges
+          raise Inspec::ConfigError::Invalid, "Plugin settings should ne named after the the InSpec or Train plugin. Valid names must begin with inspec- or train-, not '#{plugin_name}' "
+        end
+
+        # Enforce that every entry is hash-valued
+        unless plugin_settings.is_a?(Hash)
+          raise Inspec::ConfigError::Invalid, "The plugin settings for '#{plugin_name}' in your config file should be a Hash (key-value list)."
+        end
+      end
     end
 
     #-----------------------------------------------------------------------#
