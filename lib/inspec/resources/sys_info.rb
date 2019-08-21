@@ -20,7 +20,7 @@ module Inspec::Resources
 
     EXAMPLE
 
-    %w{ domain fqdn ip-address short }.each do |opt|
+    %w{ domain fqdn ip_address short }.each do |opt|
       define_method(opt.to_sym) do
         hostname(opt)
       end
@@ -35,7 +35,7 @@ module Inspec::Resources
                 " -f"
               when "d", "domain"
                 " -d"
-              when "i", "ip-address"
+              when "i", "ip_address"
                 " -I"
               when "s", "short"
                 " -s"
@@ -44,7 +44,11 @@ module Inspec::Resources
               end
         inspec.command("hostname#{opt}").stdout.chomp
       elsif os.windows?
-        inspec.powershell("$env:computername").stdout.chomp
+        if !opt.nil?
+          skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
+        else
+          inspec.powershell("$env:computername").stdout.chomp
+        end
       else
         skip_resource "The `sys_info.hostname` resource is not supported on your OS yet."
       end
