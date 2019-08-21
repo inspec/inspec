@@ -44,7 +44,7 @@ When the above profile is executed by using `inspec exec rock_critic`, you would
 Test Summary: 0 successful, 1 failure, 0 skipped
 ```
 
-That result clearly won't do. Let's override the input's default value. Create a file, `custom_amps.yml`:
+That result clearly won't do. Let's override the input's default value.
 
 We can now run that profile with `inspec exec rock_critic --input amplifier_max_volume=11`:
 
@@ -63,7 +63,7 @@ That said, any profile that uses the DSL keyword `input()` (or the deprecated `a
 
 ### How can I set Inputs?
 
-As installed (without specialized plugins), Chef InSpec supports five ways of setting inputs:
+As installed (without specialized plugins), Chef InSpec supports six ways of setting inputs:
 
  * Inline in control code, using `input('input_name', value: 42)`.
  * In profile `inspec.yml` metadata files
@@ -263,7 +263,7 @@ To set multiple inputs, say:
 inspec exec my_profile --input input_name1=input_value1 name2=value2
 ```
 
-Don't repeat the `--input` flag; that will override the previous setting.
+Do not repeat the `--input` flag; that will override the previous setting.
 
 CLI-set inputs have a priority of 50.
 
