@@ -167,7 +167,6 @@ class PluginManagerCliList < Minitest::Test
   end
 
   def test_list_when_a_train_plugin_is_installed
-
     pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
       plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
       copy_in_core_config_dir("train-test-fixture", tmp_dir)
@@ -410,7 +409,6 @@ class PluginManagerCliInstall < Minitest::Test
   end
 
   def test_fail_install_from_path_with_wrong_name
-
     bad_path = File.join(project_fixtures_path, "plugins", "wrong-name", "lib", "wrong-name.rb")
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
     skip_windows!
@@ -427,7 +425,6 @@ class PluginManagerCliInstall < Minitest::Test
   end
 
   def test_fail_install_from_path_when_it_is_not_a_plugin
-
     bad_path = File.join(project_fixtures_path, "plugins", "inspec-egg-white-omelette", "lib", "inspec-egg-white-omelette.rb")
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
     skip_windows!
@@ -485,7 +482,6 @@ class PluginManagerCliInstall < Minitest::Test
   end
 
   def test_install_from_gemfile
-
     fixture_gemfile_path = File.join(core_fixture_plugins_path, "inspec-test-fixture", "pkg", "inspec-test-fixture-0.1.0.gem")
     install_result = run_inspec_process_with_this_plugin("plugin install #{fixture_gemfile_path}", post_run: list_after_run)
     skip_windows!
@@ -684,7 +680,6 @@ class PluginManagerCliInstall < Minitest::Test
   end
 
   def test_error_install_with_debug_enabled
-
     skip "this test requires bundler to pass" unless defined? ::Bundler
 
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture -v 0.1.1 --log-level debug")
