@@ -63,7 +63,7 @@ That said, any profile that uses the DSL keyword `input()` (or the deprecated `a
 
 ### How can I set Inputs?
 
-As installed (without specialized plugins), Chef InSpec supports six ways of setting inputs:
+As installed (without specialized plugins), Chef InSpec supports several ways of setting inputs:
 
  * Inline in control code, using `input('input_name', value: 42)`.
  * In profile `inspec.yml` metadata files
@@ -80,7 +80,7 @@ In addition, Chef InSpec supports Input Plugins, which can provide optional inte
 
 Briefly:
 
-inline DSL < metadata < ( cli-inupt-file or kitchen-inspec or audit-cookbook ) < cli --input
+inline DSL < metadata < ( cli-input-file or kitchen-inspec or audit-cookbook ) < cli --input
 
 In addition, for inherited profiles:
 
