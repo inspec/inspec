@@ -64,6 +64,9 @@ module Inspec
     #-------------------------------------------------------------#
 
     def find_or_register_input(input_name, profile_name, options = {})
+      input_name = input_name.to_s
+      profile_name = profile_name.to_s
+
       if profile_alias?(profile_name) && !profile_aliases[profile_name].nil?
         alias_name = profile_name
         profile_name = profile_aliases[profile_name]
@@ -152,7 +155,7 @@ module Inspec
           file: loc.path,
           line: loc.lineno
         )
-        find_or_register_input(input_name.to_s, profile_name, event: evt)
+        find_or_register_input(input_name, profile_name, event: evt)
       end
     end
 
