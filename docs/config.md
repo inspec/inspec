@@ -90,7 +90,7 @@ Version 1.2 adds a top-level field, "plugins".
 
 ### plugins
 
-Use the `plugins` top-level configuration field to provide configuration settings to plugins that you use with Chef InSpec. Refer to the documentation of the plugin you are using for details regarding which settings are available.
+Use the `plugins` top-level configuration field to provide configuration settings to plugins that you use with Chef InSpec. Refer to the documentation of the plugin you are using for details regarding what settings are available.
 
 To use this new feature, add a new top-level key in your config file named  `plugins`. Then create a sub-key named for each plugin you wish to configure. Each plugin will have a key-value are that it may use as it sees fit - Chef Inspec does not specify the structure. Here is an example, using contrived plugins:
 
