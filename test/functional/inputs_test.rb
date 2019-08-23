@@ -46,9 +46,7 @@ describe "inputs" do
 
     it "includes the --input option" do
       result = run_inspec_process("exec help", lock: true) # --no-create-lockfile option breaks usage help
-      lines = result.stdout.lines
-      line = lines.detect { |l| l.include? "--input" }
-      line.wont_be_nil
+      assert_match(/--input\s/, result.stdout) # Careful not to match --input-file
     end
   end
 

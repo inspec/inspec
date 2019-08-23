@@ -158,7 +158,7 @@ module Inspec
         end
         input_name, input_value = pair.split("=")
         evt = Inspec::Input::Event.new(
-          value: input_value.sub(/,$/, ""), # Trim trailing comma if any
+          value: input_value.chomp(","), # Trim trailing comma if any
           provider: :cli,
           priority: 50
         )
