@@ -86,44 +86,34 @@ describe "inputs" do
       profile = options.delete(:profile)
 
       # Make a tmpfile
-      Tempfile.open(mode: 0700) do |script| # 0700 - rwx
-
-        # include ruby path
-        # script.puts %q[ # Load path ]
+      Tempfile.open(mode: 0700) do |script| # 0700 - -rwx------
 
         # Clear and concat - can't just assign, it's readonly
-        script.puts "$LOAD_PATH.clear"
-        script.puts "$LOAD_PATH.concat(#{$LOAD_PATH})"
-        script.puts
+        script.puts <<~EOSCRIPT
+          # Ruby load path
+          $LOAD_PATH.clear
+          $LOAD_PATH.concat(#{$LOAD_PATH})
 
-        # require inspec
-        script.puts %q{ require "inspec" }
-        script.puts %q{ require "inspec/runner" }
-        script.puts
+           # require inspec
+          require "inspec"
+          require "inspec/runner"
 
-        # inject pretty-printed runner opts
-        script.puts %q{ # Arguments for runner: }
-        script.write %q{ runner_args = }
-        script.puts options.inspect
-        script.puts
+          # inject pretty-printed runner opts
+          runner_args = #{options.inspect}
+           # Profile to run:
+          profile_location = "#{profile}"
 
-        # inject target
-        script.puts %q{ # Profile to run: }
-        script.puts " profile_location = \"#{profile}\""
-        script.puts
-
-        # create runner with opts
-        script.puts %q{ # Run Execution }
-        script.puts %q{ runner = Inspec::Runner.new(runner_args) }
-        script.puts %q{ runner.add_target profile_location }
-        script.puts %q{ runner.run }
-
+          # Run Execution
+          runner = Inspec::Runner.new(runner_args)
+          runner.add_target profile_location
+          runner.run
+        EOSCRIPT
         script.flush
 
         train_cxn = Train.create("local", command_runner: :generic).connection
         # TODO - portability - this does not have windows compat stuff from the inspec() method in functional/helper.rb
         # it is not portable to windows at this point yet.
-        train_cxn.run_command("ruby #{script.path}") # TODO get path to file
+        train_cxn.run_command("ruby #{script.path}")
 
       end
     end
