@@ -472,9 +472,8 @@ describe "Inspec::Config" do
 
       it "returns an empty hash with indifferent access" do
         settings = cfg.fetch_plugin_config("inspec-test-not-present")
-        refute_nil settings
-        assert settings.empty?
         assert_kind_of Thor::CoreExt::HashWithIndifferentAccess, settings
+        assert_empty settings
       end
     end
 
@@ -486,8 +485,8 @@ describe "Inspec::Config" do
         refute_nil settings
         refute settings.empty?
         assert_kind_of Thor::CoreExt::HashWithIndifferentAccess, settings
-        assert_equal settings[:test_key_01], "test_value_01"
-        assert_equal settings["test_key_01"], "test_value_01"
+        assert_equal "test_value_01", settings[:test_key_01]
+        assert_equal "test_value_01", settings["test_key_01"]
       end
     end
 
