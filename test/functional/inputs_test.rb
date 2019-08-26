@@ -110,10 +110,10 @@ describe "inputs" do
         EOSCRIPT
         script.flush
 
-        train_cxn = Train.create("local", command_runner: :generic).connection
-        # TODO - portability - this does not have windows compat stuff from the inspec() method in functional/helper.rb
-        # it is not portable to windows at this point yet.
-        train_cxn.run_command("ruby #{script.path}")
+        # TODO - portability - this does not have windows compat stuff from the inspec()
+        # method in functional/helper.rb - it is not portable to windows at this point yet.
+        # https://github.com/inspec/inspec/issues/4416
+        CMD.run_command("ruby #{script.path}")
 
       end
     end
