@@ -89,7 +89,7 @@ module Inspec
       end
 
       unless supports_runtime?
-        errors.push("The current inspec version #{Inspec::VERSION} cannot satisfy profile inspec_version constraint #{params[:inspec_version]}")
+        warnings.push("The current inspec version #{Inspec::VERSION} cannot satisfy profile inspec_version constraint #{params[:inspec_version]}")
       end
 
       %w{title summary maintainer copyright license}.each do |field|
