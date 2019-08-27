@@ -340,6 +340,7 @@ module Inspec
       }
 
       reporters.each do |reporter_name, reporter_config|
+        valid_types.push(*Inspec::Formatters::CustomBase.descendants.keys)
         raise NotImplementedError, "'#{reporter_name}' is not a valid reporter type." unless valid_types.include?(reporter_name)
 
         next unless reporter_name == "automate"

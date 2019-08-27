@@ -31,7 +31,7 @@ module Inspec
     # @return [nil]
     def add_profile(profile)
       RSpec.configuration.formatters
-        .find_all { |c| c.is_a?(Inspec::Formatters::Base) }
+        .find_all { |c| c.is_a?(Inspec::Formatters::Base) || c.is_a?(Inspec::Formatters::CustomBase) }
         .each do |fmt|
           fmt.add_profile(profile)
         end
@@ -43,7 +43,7 @@ module Inspec
     # @return [nil]
     def backend=(backend)
       RSpec.configuration.formatters
-        .find_all { |c| c.is_a?(Inspec::Formatters::Base) }
+        .find_all { |c| c.is_a?(Inspec::Formatters::Base) || c.is_a?(Inspec::Formatters::CustomBase) }
         .each do |fmt|
           fmt.backend = backend
         end
@@ -112,6 +112,21 @@ module Inspec
     #
     def set_optional_formatters
       return if @conf["reporter"].nil?
+
+      formatters =  Inspec::Formatters::CustomBase.descendants
+      puts formatters
+      formatters.each do |name, formatter|
+        puts "formatter name: #{name}"
+        if @conf["reporter"].key?(name)
+          puts "loading formatter: #{name}"
+          formatter.config(@conf["reporter"][name])
+          if @conf["reporter"][name]&.[]("file").nil?
+            RSpec.configuration.add_formatter(formatter)
+          else
+            RSpec.configuration.add_formatter(formatter, @conf["reporter"][name]["file"])
+          end
+        end
+      end
 
       if @conf["reporter"].key?("json-rspec")
         # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.

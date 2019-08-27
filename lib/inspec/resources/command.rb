@@ -4,6 +4,8 @@ require "inspec/resource"
 require "inspec/resources/platform"
 require "inspec/resources/os"
 
+require "rspec/core"
+
 module Inspec::Resources
   class Cmd < Inspec.resource(1)
     name "command"
@@ -45,6 +47,9 @@ module Inspec::Resources
 
     def result
       @result ||= inspec.backend.run_command(@command)
+      RSpec.configuration.reporter.message(@command)
+      RSpec.configuration.reporter.message(@result)
+      @result
     end
 
     def stdout

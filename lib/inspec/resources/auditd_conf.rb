@@ -26,7 +26,7 @@ module Inspec::Resources
     end
 
     def to_s
-      "Audit Daemon Config"
+      "Audit Daemon Config: #{@conf_path}"
     end
 
     private

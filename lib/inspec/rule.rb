@@ -51,7 +51,9 @@ module Inspec
       return unless block_given?
 
       begin
+        Inspec::Formatters::CustomBase.before_instance_eval(id)
         instance_eval(&block)
+        Inspec::Formatters::CustomBase.after_instance_eval(id)
       rescue StandardError => e
         # We've encountered an exception while trying to eval the code inside the
         # control block. We need to prevent the exception from bubbling up, and

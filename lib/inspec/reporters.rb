@@ -30,6 +30,9 @@ module Inspec::Reporters
     when "yaml"
       reporter = Inspec::Reporters::Yaml.new(config)
     else
+      if Inspec::Formatters::CustomBase.descendants.key?(name)
+        return nil
+      end
       raise NotImplementedError, "'#{name}' is not a valid reporter type."
     end
 
