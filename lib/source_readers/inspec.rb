@@ -52,15 +52,15 @@ module SourceReaders
     end
 
     def load_tests
-      load_all(/^controls\/.*\.rb$/)
+      load_all(%r{^controls/.*\.rb$})
     end
 
     def load_libs
-      load_all(/^libraries\/.*\.rb$/)
+      load_all(%r{^libraries/.*\.rb$})
     end
 
     def load_data_files
-      load_all(/^files\//)
+      load_all(%r{^files/})
     end
   end
 end

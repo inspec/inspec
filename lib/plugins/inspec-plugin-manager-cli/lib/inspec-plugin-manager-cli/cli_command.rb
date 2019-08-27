@@ -25,9 +25,9 @@ module InspecPlugins
         ui.line
         plugin_statuses.sort_by(&:name).each do |status|
           ui.plain(format(" %-30s%-10s%-8s%-6s", status.name,
-                          make_pretty_version(status),
-                          status.installation_type,
-                          status.api_generation.to_s))
+            make_pretty_version(status),
+            status.installation_type,
+            status.api_generation.to_s))
         end
         ui.line
         ui.plain(" #{plugin_statuses.count} plugin(s) total")
@@ -118,7 +118,7 @@ module InspecPlugins
         begin
           installer.update(plugin_name)
         rescue Inspec::Plugin::V2::UpdateError => ex
-          ui.plain("#{ui.red('Update error:')} #{ex.message} - update failed")
+          ui.plain("#{ui.red("Update error:")} #{ex.message} - update failed")
           ui.exit Inspec::UI::EXIT_USAGE_ERROR
         end
         post_update_versions = installer.list_installed_plugin_gems.select { |spec| spec.name == plugin_name }.map { |spec| spec.version.to_s }
@@ -144,7 +144,7 @@ module InspecPlugins
       def uninstall(plugin_name)
         status = Inspec::Plugin::V2::Registry.instance[plugin_name.to_sym]
         unless status
-          ui.plain("#{ui.red('No such plugin installed:')} #{plugin_name} is not " \
+          ui.plain("#{ui.red("No such plugin installed:")} #{plugin_name} is not " \
                  "installed - uninstall failed")
           ui.exit Inspec::UI::EXIT_USAGE_ERROR
         end
@@ -375,7 +375,7 @@ module InspecPlugins
           # There are existing versions installed, but none of them are what was requested
           ui.red("Update required - plugin #{plugin_name}, requested " \
                  "#{requested_version}, have " \
-                 "#{pre_installed_versions.join(', ')}; use `inspec " \
+                 "#{pre_installed_versions.join(", ")}; use `inspec " \
                  "plugin update` - refusing to install.")
         end
 
@@ -420,10 +420,10 @@ module InspecPlugins
           # Check for path install
           status = Inspec::Plugin::V2::Registry.instance[plugin_name.to_sym]
           if !status
-            ui.plain("#{ui.red('No such plugin installed:')} #{plugin_name} - update failed")
+            ui.plain("#{ui.red("No such plugin installed:")} #{plugin_name} - update failed")
             ui.exit Inspec::UI::EXIT_USAGE_ERROR
           elsif status.installation_type == :path
-            ui.plain("#{ui.red('Cannot update path-based install:')} " \
+            ui.plain("#{ui.red("Cannot update path-based install:")} " \
                    "#{plugin_name} is installed via path reference; " \
                    "use `inspec plugin uninstall` to remove - refusing to" \
                    "update")
@@ -436,7 +436,7 @@ module InspecPlugins
         latest_version = latest_version[plugin_name]&.last
 
         if pre_update_versions.include?(latest_version)
-          ui.plain("#{ui.red('Already installed at latest version:')} " \
+          ui.plain("#{ui.red("Already installed at latest version:")} " \
                    "#{plugin_name} is at #{latest_version}, which the " \
                    "latest - refusing to update")
           ui.exit Inspec::UI::EXIT_PLUGIN_ERROR

@@ -100,7 +100,7 @@ describe Inspec::InputRegistry do
     describe "when a CLI --attrs file is provided and has inputs" do
       let(:sources) { { cli_input_files: ["file1.yaml"] } }
       it "returns a hash containing the inputs" do
-        fixture_inputs = { foo: "bar" }
+        fixture_inputs = { "foo" => "bar" }
         secrets = mock
         secrets.stubs(:inputs).returns(fixture_inputs)
         Inspec::SecretsBackend.expects(:resolve).with("file1.yaml").returns(secrets)
@@ -124,7 +124,7 @@ describe Inspec::InputRegistry do
       let(:sources) { { cli_input_files: ["file1.yaml", "file2.yaml"] } }
 
       it "returns a hash containing the inputs from the valid files" do
-        inputs = { foo: "bar" }
+        inputs = { "foo" => "bar" }
         secrets1 = mock
         secrets1.stubs(:inputs).returns(nil)
         secrets2 = mock
@@ -139,12 +139,12 @@ describe Inspec::InputRegistry do
       let(:sources) { { cli_input_files: ["file1.yaml", "file2.yaml"] } }
       it "returns a hash containing all the inputs" do
         secrets1 = mock
-        secrets1.stubs(:inputs).returns({ key1: "value1" })
+        secrets1.stubs(:inputs).returns({ "key1" => "value1" })
         secrets2 = mock
-        secrets2.stubs(:inputs).returns({ key2: "value2" })
+        secrets2.stubs(:inputs).returns({ "key2" => "value2" })
         Inspec::SecretsBackend.expects(:resolve).with("file1.yaml").returns(secrets1)
         Inspec::SecretsBackend.expects(:resolve).with("file2.yaml").returns(secrets2)
-        seen_inputs.must_equal({ key1: "value1", key2: "value2" })
+        seen_inputs.must_equal({ "key1" => "value1", "key2" => "value2" })
       end
     end
   end
