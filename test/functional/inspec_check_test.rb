@@ -106,4 +106,13 @@ describe "inspec check" do
       assert_exit_code 1, out
     end
   end
+
+  describe "inspec check with unsatisfied runtime version constraint" do
+    it "should enforce runtime version constraint" do
+      out = inspec("check #{profile_path}/unsupported_inspec")
+      out.stdout.must_include "The current inspec version #{Inspec::VERSION}"
+      out.stdout.must_include ">= 99.0.0"
+      assert_exit_code 1, out
+    end
+  end
 end
