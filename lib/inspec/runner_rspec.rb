@@ -116,9 +116,7 @@ module Inspec
       formatters =  Inspec::Formatters::CustomBase.descendants
       puts formatters
       formatters.each do |name, formatter|
-        puts "formatter name: #{name}"
         if @conf["reporter"].key?(name)
-          puts "loading formatter: #{name}"
           formatter.config(@conf["reporter"][name])
           if @conf["reporter"][name]&.[]("file").nil?
             RSpec.configuration.add_formatter(formatter)

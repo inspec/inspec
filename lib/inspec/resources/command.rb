@@ -46,9 +46,12 @@ module Inspec::Resources
     end
 
     def result
-      @result ||= inspec.backend.run_command(@command)
+      return @result if @result
+      @result = inspec.backend.run_command(@command)
       RSpec.configuration.reporter.message(@command)
-      RSpec.configuration.reporter.message(@result)
+      RSpec.configuration.reporter.message("stdout: #{@result.stdout.strip.gsub("\n","\n\t\t")}")
+      RSpec.configuration.reporter.message("stderr: #{@result.stderr.strip.gsub("\n","\n\t\t")}")
+      RSpec.configuration.reporter.message("exit status: #{@result.exit_status}")
       @result
     end
 
