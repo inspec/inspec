@@ -1,13 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.14.0 -->
-## [v4.14.0](https://github.com/inspec/inspec/tree/v4.14.0) (2019-08-27)
+<!-- latest_release 4.14.1 -->
+## [v4.14.1](https://github.com/inspec/inspec/tree/v4.14.1) (2019-08-27)
 
-#### New Features
-- Accept input keys via the Runner API [#4398](https://github.com/inspec/inspec/pull/4398) ([clintoncwolfe](https://github.com/clintoncwolfe))
-
-#### Enhancements
-- Ignore .swp files [#4389](https://github.com/inspec/inspec/pull/4389) ([Vancelot11](https://github.com/Vancelot11))
+#### Merged Pull Requests
+- Remove inspec-vault from the plugin exclusion list [#4411](https://github.com/inspec/inspec/pull/4411) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.12.0 -->
@@ -23,6 +20,7 @@
 - Ensure that resources are always initialized in all cases [#4366](https://github.com/inspec/inspec/pull/4366) ([zenspider](https://github.com/zenspider)) <!-- 4.13.2 -->
 
 #### Merged Pull Requests
+- Remove inspec-vault from the plugin exclusion list [#4411](https://github.com/inspec/inspec/pull/4411) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.14.1 -->
 - Refactor lib/source_readers/inspec.rb [#4376](https://github.com/inspec/inspec/pull/4376) ([zenspider](https://github.com/zenspider)) <!-- 4.13.1 -->
 
 #### New Resources
