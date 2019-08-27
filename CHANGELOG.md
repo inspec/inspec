@@ -1,7 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.14.0 -->
+## [v4.14.0](https://github.com/inspec/inspec/tree/v4.14.0) (2019-08-27)
+
+#### New Features
+- Accept input keys via the Runner API [#4398](https://github.com/inspec/inspec/pull/4398) ([clintoncwolfe](https://github.com/clintoncwolfe))
 
 #### Enhancements
 - Ignore .swp files [#4389](https://github.com/inspec/inspec/pull/4389) ([Vancelot11](https://github.com/Vancelot11))
@@ -9,6 +12,9 @@
 
 <!-- release_rollup since=4.12.0 -->
 ### Changes since 4.12.0 release
+
+#### New Features
+- Accept input keys via the Runner API [#4398](https://github.com/inspec/inspec/pull/4398) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.14.0 -->
 
 #### Enhancements
 - Ignore .swp files [#4389](https://github.com/inspec/inspec/pull/4389) ([Vancelot11](https://github.com/Vancelot11)) <!-- 4.13.2 -->
