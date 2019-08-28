@@ -61,6 +61,11 @@ module Inspec::Plugin::V2
     end
   end
 
+  # To be a valid plugin name, the plugin must beign with either
+  # inspec- or train-, AND ALSO not be on the exclusion list.
+  # We maintain this exclusion list to avoid confusing users.
+  # For example, we want to have a real gem named inspec-test-fixture,
+  # but we don't want the users to see that.
   module FilterPredicates
     def train_plugin_name?(name)
       valid_plugin_name?(name, :train)
