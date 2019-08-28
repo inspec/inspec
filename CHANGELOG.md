@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.14.3 -->
-## [v4.14.3](https://github.com/inspec/inspec/tree/v4.14.3) (2019-08-28)
+<!-- latest_release 4.15.0 -->
+## [v4.15.0](https://github.com/inspec/inspec/tree/v4.15.0) (2019-08-28)
 
-#### Bug Fixes
-- inspec plugins: List system plugins and other UX improvements [#4387](https://github.com/inspec/inspec/pull/4387) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### New Features
+- Add plugin config settings to Config [#4406](https://github.com/inspec/inspec/pull/4406) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.12.0 -->
 ### Changes since 4.12.0 release
 
 #### New Features
+- Add plugin config settings to Config [#4406](https://github.com/inspec/inspec/pull/4406) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.15.0 -->
 - Accept input keys via the Runner API [#4398](https://github.com/inspec/inspec/pull/4398) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.14.0 -->
 
 #### Enhancements
