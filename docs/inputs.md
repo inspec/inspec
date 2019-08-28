@@ -44,13 +44,9 @@ When the above profile is executed by using `inspec exec rock_critic`, you would
 Test Summary: 0 successful, 1 failure, 0 skipped
 ```
 
-That result clearly won't do. Let's override the input's default value. Create a file, `custom_amps.yml`:
+That result clearly won't do. Let's override the input's default value.
 
-```yaml
-amplifier_max_volume: 11
-```
-
-We can now run that profile with `inspec exec rock_critic --input-file custom_amps.yaml`:
+We can now run that profile with `inspec exec rock_critic --input amplifier_max_volume=11`:
 
 ```
   11
@@ -67,11 +63,12 @@ That said, any profile that uses the DSL keyword `input()` (or the deprecated `a
 
 ### How can I set Inputs?
 
-As installed (without specialized plugins), Chef InSpec supports five ways of setting inputs:
+As installed (without specialized plugins), Chef InSpec supports several ways of setting inputs:
 
  * Inline in control code, using `input('input_name', value: 42)`.
  * In profile `inspec.yml` metadata files
- * Using the CLI option `--input-file somefile.yaml`
+ * Using the CLI option `--input name1=value1 name2=value2...` to read directly from the command line
+ * Using the CLI option `--input-file somefile.yaml` to read inputs from files
  * In kitchen-inspec, using the `verifier/inputs` settings
  * In the Audit Cookbook, using the `node[:audit][:inputs]`
 
@@ -83,7 +80,7 @@ In addition, Chef InSpec supports Input Plugins, which can provide optional inte
 
 Briefly:
 
-inline DSL < metadata < ( cli-input-file or kitchen-inspec or audit-cookbook )
+inline DSL < metadata < ( cli-input-file or kitchen-inspec or audit-cookbook ) < cli --input
 
 In addition, for inherited profiles:
 
@@ -122,7 +119,7 @@ As packaged, Chef InSpec uses the following priority values:
 | CLI `--input-file` option              | 40       |   No                |
 | inspec-kitchen `inputs:` section       | 40       |   No                |
 | audit cookbook `node[:audit][:inputs]` | 40       |   No                |
-
+| CLI `--input` option                   | 50       |   No                |
 
 ### What happened to "Attributes"?
 
@@ -246,9 +243,31 @@ an_input: a_value
 another_input: another_value
 ```
 
-CLI-set inputs have a priority of 40.
+CLI-input-file-set inputs have a priority of 40.
 
 As of Chef InSpec 4.3.2, this mechanism has the following limitations:
+
+  1. No [input options](#input-options-reference) may be set - only the name and value.
+  2. Because the CLI is outside the scope of any individual profile and the inputs don't take options, the inputs are clumsily copied into every profile, effectively making the CLI mechanism global.
+
+## Setting Input values using `--input`
+
+You may also provide inputs and values directly on the command line:
+
+```yaml
+inspec exec my_profile --input input_name=input_value
+```
+
+To set multiple inputs, say:
+```yaml
+inspec exec my_profile --input input_name1=input_value1 name2=value2
+```
+
+Do not repeat the `--input` flag; that will override the previous setting.
+
+CLI-set inputs have a priority of 50.
+
+As of Chef InSpec 4.12, this mechanism has the following limitations:
 
   1. No [input options](#input-options-reference) may be set - only the name and value.
   2. Because the CLI is outside the scope of any individual profile and the inputs don't take options, the inputs are clumsily copied into every profile, effectively making the CLI mechanism global.

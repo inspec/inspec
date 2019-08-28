@@ -1,0 +1,6 @@
+name: cli
+license: Apache-2.0
+summary: Profile to exercise setting inputs using the --input CLI option
+version: 0.1.0
+supports:
+  platform: os

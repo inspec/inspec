@@ -43,6 +43,11 @@ describe "inputs" do
       line = lines.detect { |l| l.include? "--attrs" }
       line.wont_be_nil
     end
+
+    it "includes the --input option" do
+      result = run_inspec_process("exec help", lock: true) # --no-create-lockfile option breaks usage help
+      assert_match(/--input\s/, result.stdout) # Careful not to match --input-file
+    end
   end
 
   describe "when using a cli-specified file" do
@@ -138,6 +143,56 @@ describe "inputs" do
         assert_includes output, "DEPRECATION"
         structured_output = JSON.parse(output.lines.reject { |l| l.include? "DEPRECATION" }.join("\n") )
         assert_equal "passed", structured_output["profiles"][0]["controls"][0]["results"][0]["status"]
+      end
+    end
+  end
+
+  describe "when using the --input inline raw input flag CLI option" do
+    let(:result) { run_inspec_process("exec #{inputs_profiles_path}/cli #{input_opt} #{control_opt}", json: true) }
+    let(:control_opt) { "" }
+
+    describe "when the --input is used once with one value" do
+      let(:input_opt) { "--input test_input_01=value_from_cli_01" }
+      let(:control_opt) { "--controls test_control_01" }
+      it("correctly reads the input") { result.must_have_all_controls_passing }
+    end
+
+    describe "when the --input is used once with two values" do
+      let(:input_opt) { "--input test_input_01=value_from_cli_01 test_input_02=value_from_cli_02" }
+      it("correctly reads the input") { result.must_have_all_controls_passing }
+    end
+
+    describe "when the --input is used once with two values and a comma" do
+      let(:input_opt) { "--input test_input_01=value_from_cli_01, test_input_02=value_from_cli_02" }
+      it("correctly reads the input") { result.must_have_all_controls_passing }
+    end
+
+    describe "when the --input is used twice with one value each" do
+      let(:input_opt) { "--input test_input_01=value_from_cli_01 --input test_input_02=value_from_cli_02" }
+      let(:control_opt) { "--controls test_control_02" }
+      # Expected, though unfortunate, behavior is to only notice the second input
+      it("correctly reads the input") { result.must_have_all_controls_passing }
+    end
+
+    describe "when the --input is used with no equal sign" do
+      let(:input_opt) { "--input value_from_cli_01" }
+      it "does not run and provides an error message" do
+        output = result.stdout
+        assert_includes "ERROR", output
+        assert_includes "An '=' is required", output
+        assert_includes "input_name_1=input_value_1", output
+        assert_equal 1, result.exit_status
+      end
+    end
+
+    describe "when the --input is used with a .yaml extension" do
+      let(:input_opt) { "--input myfile.yaml" }
+      it "does not run and provides an error message" do
+        output = result.stdout
+        assert_includes "ERROR", output
+        assert_includes "individual input values", output
+        assert_includes "Use --input-file", output
+        assert_equal 1, result.exit_status
       end
     end
   end
