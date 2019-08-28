@@ -1,5 +1,6 @@
 require "inspec/log"
 require "inspec/plugin/v2/config_file"
+require "inspec/plugin/v2/filter"
 
 # Add the current directory of the process to the load path
 $LOAD_PATH.unshift(".") unless $LOAD_PATH.include?(".")
@@ -11,9 +12,16 @@ module Inspec::Plugin::V2
   class Loader
     attr_reader :conf_file, :registry, :options
 
+    # For {inspec|train}_plugin_name?
+    include Inspec::Plugin::V2::FilterPredicates
+    extend Inspec::Plugin::V2::FilterPredicates
+
     def initialize(options = {})
       @options = options
       @registry = Inspec::Plugin::V2::Registry.instance
+
+      # User plugins are those installed by the user via `inspec plugin install`
+      # and are installed under ~/.inspec/gems
       unless options[:omit_user_plugins]
         @conf_file = Inspec::Plugin::V2::ConfigFile.new
         read_conf_file_into_registry
@@ -27,9 +35,8 @@ module Inspec::Plugin::V2
       # and may be safely loaded
       detect_core_plugins unless options[:omit_core_plugins]
 
-      # Train plugins aren't InSpec plugins (they don't use our API)
-      # but InSpec CLI manages them.  So, we have to wrap them a bit.
-      accommodate_train_plugins
+      # Identify plugins that inspec is co-installed with
+      detect_system_plugins unless options[:omit_sys_plugins]
     end
 
     def load_all
@@ -46,7 +53,7 @@ module Inspec::Plugin::V2
         begin
           # We could use require, but under testing, we need to repeatedly reload the same
           # plugin.  However, gems only work with require (rubygems dooes not overload `load`)
-          if plugin_details.installation_type == :gem
+          if plugin_details.installation_type == :user_gem
             activate_managed_gems_for_plugin(plugin_name)
             require plugin_details.entry_point
           else
@@ -130,10 +137,11 @@ module Inspec::Plugin::V2
     end
 
     # Lists all plugin gems found in the plugin_gem_path.
-    # This is simply all gems that begin with train- or inspec-.
+    # This is simply all gems that begin with train- or inspec-
+    # and are not on the exclusion list.
     # @return [Array[Gem::Specification]] Specs of all gems found.
     def self.list_installed_plugin_gems
-      list_managed_gems.select { |spec| spec.name.match(/^(inspec|train)-/) }
+      list_managed_gems.select { |spec| valid_plugin_name?(spec.name) }
     end
 
     def list_installed_plugin_gems
@@ -234,33 +242,69 @@ module Inspec::Plugin::V2
       end
     end
 
-    def accommodate_train_plugins
-      registry.plugin_names.map(&:to_s).grep(/^train-/).each do |train_plugin_name|
-        status = registry[train_plugin_name.to_sym]
-        status.api_generation = :'train-1'
-
-        if status.installation_type == :gem
-          # Activate the gem. This allows train to 'require' the gem later.
-          activate_managed_gems_for_plugin(train_plugin_name)
-        end
-      end
-    end
-
     def read_conf_file_into_registry
       conf_file.each do |plugin_entry|
         status = Inspec::Plugin::V2::Status.new
         status.name = plugin_entry[:name]
         status.loaded = false
-        status.installation_type = (plugin_entry[:installation_type] || :gem)
+        status.installation_type = (plugin_entry[:installation_type] || :user_gem)
         case status.installation_type
-        when :gem
+        when :user_gem
           status.entry_point = status.name.to_s
           status.version = plugin_entry[:version]
         when :path
           status.entry_point = plugin_entry[:installation_path]
         end
 
+        # Train plugins are not true InSpec plugins; we need to decorate them a
+        # bit more to integrate them.
+        fixup_train_plugin_status(status) if train_plugin_name?(plugin_entry[:name])
+
         registry[status.name] = status
+      end
+    end
+
+    def fixup_train_plugin_status(status)
+      status.api_generation = :'train-1'
+      if status.installation_type == :user_gem
+        # Activate the gem. This allows train to 'require' the gem later.
+        activate_managed_gems_for_plugin(status.entry_point)
+      end
+    end
+
+    def detect_system_plugins
+      # Find the gemspec for inspec
+      inspec_gemspec = Gem::Specification.find_by_name("inspec", "=#{Inspec::VERSION}")
+
+      # Make a RequestSet that represents the dependencies of inspec
+      inspec_deps_request_set = Gem::RequestSet.new(*inspec_gemspec.dependencies)
+      inspec_deps_request_set.remote = false
+
+      # Resolve the request against the installed gem universe
+      gem_resolver = Gem::Resolver::CurrentSet.new
+      runtime_solution = inspec_deps_request_set.resolve(gem_resolver)
+
+      inspec_gemspec.dependencies.each do |inspec_dep|
+        next unless inspec_plugin_name?(inspec_dep.name) || train_plugin_name?(inspec_dep.name)
+
+        plugin_spec = runtime_solution.detect { |s| s.name == inspec_dep.name }.spec
+
+        status = Inspec::Plugin::V2::Status.new
+        status.name = inspec_dep.name
+        status.entry_point = inspec_dep.name # gem-based, just 'require' the name
+        status.version = plugin_spec.version.to_s
+        status.loaded = false
+        status.installation_type = :system_gem
+
+        if train_plugin_name?(status[:name])
+          # Train plugins are not true InSpec plugins; we need to decorate them a
+          # bit more to integrate them.
+          fixup_train_plugin_status(status)
+        else
+          status.api_generation = 2
+        end
+
+        registry[status.name.to_sym] = status
       end
     end
   end

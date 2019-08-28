@@ -28,6 +28,9 @@ class PluginLoaderTests < Minitest::Test
      inspec-habitat
      inspec-init
     }
+    @system_plugins = [
+      "train-habitat",
+    ]
   end
 
   def teardown
@@ -41,12 +44,6 @@ class PluginLoaderTests < Minitest::Test
   #====================================================================#
   #            basic constructor usage and bundle detection            #
   #====================================================================#
-
-  def test_constructor_should_not_load_anything_automatically
-    reg = Inspec::Plugin::V2::Registry.instance
-    Inspec::Plugin::V2::Loader.new
-    assert_equal 0, reg.loaded_count, "\nRegistry load count"
-  end
 
   def test_constructor_should_detect_bundled_plugins
     reg = Inspec::Plugin::V2::Registry.instance
@@ -106,7 +103,7 @@ class PluginLoaderTests < Minitest::Test
 
   def test_load_no_plugins_should_load_no_plugins
     reg = Inspec::Plugin::V2::Registry.instance
-    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true, omit_user_plugins: true)
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true, omit_user_plugins: true, omit_sys_plugins: true)
     loader.load_all
     assert_equal 0, reg.loaded_count, "\nRegistry load count"
   end

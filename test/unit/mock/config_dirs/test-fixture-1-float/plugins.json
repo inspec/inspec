@@ -2,7 +2,8 @@
   "plugins_config_version" : "1.0.0",
   "plugins": [
     {
-      "name": "inspec-test-fixture"
+      "name": "inspec-test-fixture",
+      "version": "0.1.0"
     },
     {
       "name": "inspec-meaning-of-life",

@@ -13,13 +13,15 @@ class PluginManagerCliOptions < Minitest::Test
 
   def test_list_args
     arg_config = cli_class.all_commands["list"].options
-    assert_equal 1, arg_config.count, "The list command should have 1 option"
+    assert_equal 4, arg_config.count, "The list command should have 4 options"
 
-    assert_includes arg_config.keys, :all, "The list command should have an --all option"
-    assert_equal :boolean, arg_config[:all].type, "The --all option should be boolean"
-    assert_equal :a, arg_config[:all].aliases.first, "The --all option should be aliased as -a"
-    refute_nil arg_config[:all].description, "The --all option should have a description"
-    refute arg_config[:all].required, "The --all option should not be required"
+    { u: :user, a: :all, c: :core, s: :system }.each do |abbrev, option|
+      assert_includes arg_config.keys, option, "The list command should have an --#{option} option"
+      assert_equal :boolean, arg_config[option].type, "The --#{option} option should be boolean"
+      assert_equal abbrev, arg_config[option].aliases.first, "The --#{option} option should be aliased as -#{abbrev}"
+      refute_nil arg_config[option].description, "The --#{option} option should have a description"
+      refute arg_config[option].required, "The --#{option} option should not be required"
+    end
 
     assert_equal 0, cli_class.instance_method(:list).arity, "The list command should take no arguments"
   end
