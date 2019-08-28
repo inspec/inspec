@@ -42,7 +42,7 @@ module Inspec
       @__rule_id = id
       @__profile_id = profile_id
       @__checks = []
-      @__skip_rule = {}
+      @__skip_rule = {} # { result: true, message: "Why" }
       @__merge_count = 0
       @__merge_changes = []
       @__skip_only_if_eval = opts[:skip_only_if_eval]
@@ -206,6 +206,8 @@ module Inspec
       rule.instance_variable_get(:@__merge_changes)
     end
 
+    # If a rule is marked to be skipped, this
+    # creates a dummay array of "checks" with a skip outcome
     def self.prepare_checks(rule)
       skip_check = skip_status(rule)
       return checks(rule) unless skip_check[:result].eql?(true)
