@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.14.2 -->
-## [v4.14.2](https://github.com/inspec/inspec/tree/v4.14.2) (2019-08-28)
+<!-- latest_release 4.14.3 -->
+## [v4.14.3](https://github.com/inspec/inspec/tree/v4.14.3) (2019-08-28)
 
-#### Enhancements
-- inspec check: warn if inspec_version is not supported by current inspec [#4419](https://github.com/inspec/inspec/pull/4419) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- inspec plugins: List system plugins and other UX improvements [#4387](https://github.com/inspec/inspec/pull/4387) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.12.0 -->
@@ -18,6 +18,7 @@
 - Ignore .swp files [#4389](https://github.com/inspec/inspec/pull/4389) ([Vancelot11](https://github.com/Vancelot11)) <!-- 4.13.2 -->
 
 #### Bug Fixes
+- inspec plugins: List system plugins and other UX improvements [#4387](https://github.com/inspec/inspec/pull/4387) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.14.3 -->
 - Ensure that resources are always initialized in all cases [#4366](https://github.com/inspec/inspec/pull/4366) ([zenspider](https://github.com/zenspider)) <!-- 4.13.2 -->
 
 #### Merged Pull Requests
