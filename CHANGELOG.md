@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.14.1 -->
-## [v4.14.1](https://github.com/inspec/inspec/tree/v4.14.1) (2019-08-27)
+<!-- latest_release 4.14.2 -->
+## [v4.14.2](https://github.com/inspec/inspec/tree/v4.14.2) (2019-08-28)
 
-#### Merged Pull Requests
-- Remove inspec-vault from the plugin exclusion list [#4411](https://github.com/inspec/inspec/pull/4411) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Enhancements
+- inspec check: warn if inspec_version is not supported by current inspec [#4419](https://github.com/inspec/inspec/pull/4419) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.12.0 -->
@@ -14,6 +14,7 @@
 - Accept input keys via the Runner API [#4398](https://github.com/inspec/inspec/pull/4398) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.14.0 -->
 
 #### Enhancements
+- inspec check: warn if inspec_version is not supported by current inspec [#4419](https://github.com/inspec/inspec/pull/4419) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.14.2 -->
 - Ignore .swp files [#4389](https://github.com/inspec/inspec/pull/4389) ([Vancelot11](https://github.com/Vancelot11)) <!-- 4.13.2 -->
 
 #### Bug Fixes
