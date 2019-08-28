@@ -7,9 +7,12 @@ require "forwardable"
 require "thor"
 require "base64"
 require "inspec/base_cli"
+require "inspec/plugin/v2/filter"
 
 module Inspec
   class Config
+    include Inspec::Plugin::V2::FilterPredicates
+
     # These are options that apply to any transport
     GENERIC_CREDENTIALS = %w{
       backend
@@ -365,7 +368,7 @@ module Inspec
 
       data.each do |plugin_name, plugin_settings|
         # Enforce that every key is a valid inspec or train plugin name
-        unless plugin_name.match(/^(inspec|train)-/) # TODO - replace with FilterPredicate calls once #4387 merges
+        unless valid_plugin_name?(plugin_name)
           raise Inspec::ConfigError::Invalid, "Plugin settings should ne named after the the InSpec or Train plugin. Valid names must begin with inspec- or train-, not '#{plugin_name}' "
         end
 
