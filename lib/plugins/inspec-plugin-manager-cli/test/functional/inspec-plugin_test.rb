@@ -117,7 +117,7 @@ class PluginManagerCliList < Minitest::Test
     LIST_CASES.each do |test_case|
       plugin_line = plugins_seen.detect { |plugin| plugin[:name] == test_case[:name] }
       refute_nil plugin_line, "#{test_case[:name]} should be detected in plugin list --all output"
-      assert_equal plugin_line[:type], test_case[:type], "#{test_case[:name]} should be detected as a '#{test_case[:type]}' type in list --all "
+      assert_equal test_case[:type], plugin_line[:type], "#{test_case[:name]} should be detected as a '#{test_case[:type]}' type in list --all "
     end
     assert_exit_code 0, result
   end
