@@ -146,3 +146,6 @@ subscriptions:
     - bash:.expeditor/announce-release.sh:
        post_commit: true
     - built_in:notify_chefio_slack_channels
+ - workload: pull_request_opened:{{agent_id}}:*
+   actions:
+     - post_github_comment:.expeditor/templates/pull_request.mustache
