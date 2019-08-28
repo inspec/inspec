@@ -3,6 +3,7 @@ require "stringio"
 
 require "inspec/config"
 require "plugins/inspec-compliance/lib/inspec-compliance/api"
+require "thor" # For Thor::CoreExt::HashWithIndifferentAccess
 
 describe "Inspec::Config" do
 
@@ -77,6 +78,14 @@ describe "Inspec::Config" do
       end
     end
 
+    describe "when the file is a valid v1.2 file" do
+      let(:fixture_name) { "basic_1_2" }
+      it "should read the file successfully" do
+        expected = %w{create_lockfile reporter type}.sort # No new top-level key - API only
+        seen_fields.must_equal expected
+      end
+    end
+
     describe "when the file is minimal" do
       let(:fixture_name) { "minimal" }
       it "should read the file successfully" do
@@ -115,6 +124,33 @@ describe "Inspec::Config" do
         ex.message.must_include "Unrecognized top-level"
         ex.message.must_include "unsupported_field"
         ex.message.must_include "compliance"
+      end
+    end
+
+    describe "when a 1.2 file has an array for the plugins list" do
+      let(:fixture_name) { "bad_1_2_array" }
+      it "should complain about the array" do
+        ex = proc { cfg }.must_raise(Inspec::ConfigError::Invalid)
+        ex.message.must_include "'plugin' field"
+        ex.message.must_include "must be a hash"
+      end
+    end
+
+    describe "when a 1.2 file has an invalid name for a plugin" do
+      let(:fixture_name) { "bad_1_2_bad_name" }
+      it "should complain about the bad plugin name" do
+        ex = proc { cfg }.must_raise(Inspec::ConfigError::Invalid)
+        ex.message.must_include "names must begin with"
+        ex.message.must_include "inspec- or train-"
+      end
+    end
+
+    describe "when a 1.2 file has a bad value for a setting tree" do
+      let(:fixture_name) { "bad_1_2_bad_value" }
+      it "should complain about the bad plugin value" do
+        ex = proc { cfg }.must_raise(Inspec::ConfigError::Invalid)
+        ex.message.must_include "should be a Hash"
+        ex.message.must_include "inspec-test-bad-settings"
       end
     end
   end
@@ -424,6 +460,39 @@ describe "Inspec::Config" do
   end
 
   # ========================================================================== #
+  #                        Fetching Plugin Config
+  # ========================================================================== #
+  describe "when fetching plugin config" do
+    let(:cfg) { Inspec::Config.new({}, cfg_io) }
+    let(:cfg_io) { StringIO.new(ConfigTestHelper.fixture(fixture_name)) }
+    let(:fixture_name) { "basic_1_2" }
+
+    describe "when fetching a plugin config that is absent" do
+      let(:fixture_name) { "basic_1_2" }
+
+      it "returns an empty hash with indifferent access" do
+        settings = cfg.fetch_plugin_config("inspec-test-not-present")
+        assert_kind_of Thor::CoreExt::HashWithIndifferentAccess, settings
+        assert_empty settings
+      end
+    end
+
+    describe "when fetching a plugin config that is present" do
+      let(:fixture_name) { "basic_1_2" }
+
+      it "returns the settings as a hash with indifferent access" do
+        settings = cfg.fetch_plugin_config("inspec-test-plugin")
+        refute_nil settings
+        refute settings.empty?
+        assert_kind_of Thor::CoreExt::HashWithIndifferentAccess, settings
+        assert_equal "test_value_01", settings[:test_key_01]
+        assert_equal "test_value_01", settings["test_key_01"]
+      end
+    end
+
+  end
+
+  # ========================================================================== #
   #                             Merging Options
   # ========================================================================== #
   describe "when merging options" do
@@ -603,6 +672,63 @@ module ConfigTestHelper
           }
         }
       EOJ6
+    when :basic_1_2
+      <<~EOJ7
+        {
+          "version": "1.2",
+          "cli_options": {
+            "create_lockfile": "false"
+          },
+          "reporter": {
+            "automate" : {
+              "url": "http://some.where",
+              "token" : "YOUR_A2_ADMIN_TOKEN"
+            }
+          },
+          "credentials": {
+            "ssh": {
+              "set1": {
+                "host": "some.host",
+                "user": "some_user"
+              }
+            }
+          },
+          "plugins": {
+            "inspec-test-plugin": {
+              "test_key_01":"test_value_01"
+            }
+          }
+        }
+      EOJ7
+    when :bad_1_2_array
+      <<~EOJ8
+        {
+          "version": "1.2",
+          "plugins": [
+            "inspec-test-plugin1",
+            "inspec-test-plugin2"
+          ]
+        }
+      EOJ8
+    when :bad_1_2_bad_name
+      <<~EOJ9
+        {
+          "version": "1.2",
+          "plugins": {
+            "spectacles-banana-peeler": {
+            }
+          }
+        }
+      EOJ9
+    when :bad_1_2_bad_value
+      <<~EOJ10
+        {
+          "version": "1.2",
+          "plugins": {
+            "inspec-test-bad-settings": 42
+          }
+        }
+      EOJ10
     end
   end
   module_function :fixture

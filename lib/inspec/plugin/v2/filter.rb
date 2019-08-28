@@ -2,6 +2,8 @@ require "singleton"
 require "json"
 require "inspec/globals"
 
+module Inspec::Plugin; end
+
 module Inspec::Plugin::V2
   Exclusion = Struct.new(:plugin_name, :rationale)
 
