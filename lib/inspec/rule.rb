@@ -1,6 +1,7 @@
 # copyright: 2015, Dominik Richter
 
 require "method_source"
+require "date"
 require "inspec/describe"
 require "inspec/expect"
 require "inspec/resource"
@@ -46,6 +47,11 @@ module Inspec
       @__merge_count = 0
       @__merge_changes = []
       @__skip_only_if_eval = opts[:skip_only_if_eval]
+
+      # TODO: Note - if waivers are applied before the DSL instance
+      # eval, then the contents of the control block (including only_if)
+      # will override the waiver. Is that wanted? Or should waivers always win?
+      __apply_waivers
 
       # evaluate the given definition
       return unless block_given?
@@ -267,6 +273,45 @@ module Inspec
 
     def __add_check(describe_or_expect, values, block)
       @__checks.push([describe_or_expect, values, block])
+    end
+
+    # Look for an input with a matching ID, and if found, apply waiver
+    # skipping logic. Basically, if we have a current waiver, and it says
+    # to skip, we'll replace all the checks with a dummy check (same as
+    # only_if mechanism)
+    # Double underscore: not intended to be called as part of the DSL
+    def __apply_waivers
+      input_name = "waiver_#{@__rule_id}" # TODO: control ID slugging
+      registry = Inspec::InputRegistry.instance
+      input = registry.inputs_by_profile[@__profile_id].dig(input_name)
+      return unless input
+
+      input = input.value
+
+      # Waivers should have a hash value with keys including skip and
+      # expiration_date. We only care here if it has a skip key and it
+      # is yes-like, since all non-skipped waiver operations are handled
+      # during reporting phase.
+      return unless input.key?("skip")
+      return unless input["skip"].to_s.match(/y|yes|true/i)
+
+      # OK, the intent is to skip. Does it have an expiration date, and
+      # if so, is it in the future?
+      expiry = input["expiration_date"]
+      if expiry
+        if expiry.is_a?(Date)
+          # It appears that yaml.rb automagically parses dates for us
+          return if expiry < Date.today # If the waiver expired, return - no skip applied
+        elsif expiry.match(/never/i) # any other values?
+          # Do nothing, fall through
+        else
+          raise Inspec::Exceptions::ResourceFailed, "Unable to parse waiver expiration date '#{expiry}' for control #{@__rule_id}"
+        end
+      end
+
+      # OK, apply a skip.
+      @__skip_rule[:result] = true
+      @__skip_rule[:message] = "Skipped due to waiver: #{input["justification"] || "(no reason given)"}"
     end
 
     #
