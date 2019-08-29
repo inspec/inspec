@@ -151,11 +151,12 @@ module Inspec
       # Profile dependencies
       DEPENDENCY = SchemaType.new("Dependency", {
         "type" => "object",
-        "additionalProperties" => false,
+        "additionalProperties" => true, # Weird stuff shows up here sometimes
         "required" => [], # Mysteriously even in a run profile we can have no status
         "properties" => {
           "name" => STRING,
           "url" => URL,
+          "branch" => STRING,
           "path" => STRING,
           "skip_message" => STRING,
           "status" => STRING,
