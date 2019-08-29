@@ -20,8 +20,8 @@ describe "waivers" do
   describe "a fully pre-slugged control file" do
     it "has all of the expected outcomes" do
       cmd = "exec #{waivers_profiles_path}/basic --input-file #{waivers_profiles_path}/basic/files/waivers.yaml"
-      run_result = run_inspec_process(cmd,json: true)
-      controls_by_id = run_result.payload.json["profiles"][0]["controls"].map {|c| [c["id"], c] }.to_h
+      run_result = run_inspec_process(cmd, json: true)
+      controls_by_id = run_result.payload.json["profiles"][0]["controls"].map { |c| [c["id"], c] }.to_h
 
       [
         "01_not_waivered_passes",
@@ -45,10 +45,10 @@ describe "waivers" do
       end
 
       # Each of these should have been forced to skip by the waiver system
-      [
-        "05_waivered_no_expiry_skipped",
-        "11_waivered_expiry_in_future_skipped"
-      ].each do |control_id|
+      %w{
+        05_waivered_no_expiry_skipped
+        11_waivered_expiry_in_future_skipped
+      }.each do |control_id|
         result = controls_by_id[control_id]["results"][0]
         assert_test_outcome "skipped", result
         assert_waiver_annotation result
@@ -56,10 +56,10 @@ describe "waivers" do
 
       # Each of these should have had a failure, but had a waiver annotation
       # added to the output.
-      [
-        "04_waivered_no_expiry_not_skipped_fails",
-        "10_waivered_expiry_in_future_not_skipped_fails"
-      ].each do |control_id|
+      %w{
+        04_waivered_no_expiry_not_skipped_fails
+        10_waivered_expiry_in_future_not_skipped_fails
+      }.each do |control_id|
         result = controls_by_id[control_id]["results"][0]
         assert_test_outcome "failed", result
         assert_waiver_annotation result

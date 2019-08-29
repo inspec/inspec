@@ -28,17 +28,17 @@ waiver_08_waivered_expiry_in_past_skipped:
   justification: Contrariness
   skip: yes
 
-waiver_06_waivered_expiry_in_future_not_skipped_passes:
+waiver_09_waivered_expiry_in_future_not_skipped_passes:
   expiration_date: 2077-06-01
   justification: Handwaving
   skip: no
 
-waiver_07_waivered_expiry_in_future_not_skipped_fails:
+waiver_10_waivered_expiry_in_future_not_skipped_fails:
   expiration_date: 2077-06-01
   justification: Didn't feel like it
   skip: no
 
-waiver_08_waivered_expiry_in_future_skipped:
+waiver_11_waivered_expiry_in_future_skipped:
   expiration_date: 2077-06-01
   justification: Lack of imagination
   skip: yes
