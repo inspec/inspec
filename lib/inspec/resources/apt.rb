@@ -93,7 +93,8 @@ module Inspec::Resources
         parse_repo = /^\s*(\S+)\s+(?:\[\S+\])?\s*"?([^ "\t\r\n\f]+)"?\s+(\S+)\s+(.*)$/.match(line)
 
         # check if we got any result and the second param is an url
-        next if parse_repo.nil? || !parse_repo[2] =~ HTTP_URL_RE
+        next if parse_repo.nil?
+        next if parse_repo[2] && parse_repo[2] !~ HTTP_URL_RE
 
         # map data
         repo = {
