@@ -221,8 +221,8 @@ module Inspec
 
       path = determine_cfg_path(cli_opts)
 
-      cfg_io = File.open(path) if path
-      cfg_io || StringIO.new('{ "version": "1.1" }')
+      ver = KNOWN_VERSIONS.max
+      path ? File.open(path) : StringIO.new({ "version" => ver }.to_json)
     end
 
     def check_for_piped_config(cli_opts)
