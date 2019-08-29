@@ -57,6 +57,12 @@ module Inspec
         RunnerRspec.new(@conf)
       end
 
+      if @conf[:waiver_file]
+        waivers = @conf.delete(:waiver_file)
+        @conf[:input_file] ||= []
+        @conf[:input_file].concat waivers
+      end
+
       # About reading inputs:
       #   @conf gets passed around a lot, eventually to
       # Inspec::InputRegistry.register_external_inputs.
