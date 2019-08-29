@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.16.0 -->
-## [v4.16.0](https://github.com/inspec/inspec/tree/v4.16.0) (2019-08-28)
+<!-- latest_release unreleased -->
+## Unreleased
 
-#### New Features
-- inputs: Accept bare input from the command line [#4401](https://github.com/inspec/inspec/pull/4401) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Let expeditor respond to pull requests. [#4430](https://github.com/inspec/inspec/pull/4430) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.12.0 -->
@@ -24,6 +24,7 @@
 - Ensure that resources are always initialized in all cases [#4366](https://github.com/inspec/inspec/pull/4366) ([zenspider](https://github.com/zenspider)) <!-- 4.13.2 -->
 
 #### Merged Pull Requests
+- Let expeditor respond to pull requests. [#4430](https://github.com/inspec/inspec/pull/4430) ([miah](https://github.com/miah)) <!-- 4.16.0 -->
 - Remove inspec-vault from the plugin exclusion list [#4411](https://github.com/inspec/inspec/pull/4411) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.14.1 -->
 - Refactor lib/source_readers/inspec.rb [#4376](https://github.com/inspec/inspec/pull/4376) ([zenspider](https://github.com/zenspider)) <!-- 4.13.1 -->
 
