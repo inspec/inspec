@@ -81,12 +81,10 @@ module Inspec::Resources
       cmd = inspec.command("find /etc/apt/ -name \*.list -exec sh -c 'cat {} || echo -n' \\;")
 
       # @see https://help.ubuntu.com/community/Repositories/CommandLine#Explanation_of_the_Repository_Format
-      @repo_cache = cmd.stdout.chomp.split("\n").each_with_object([]) do |raw_line, lines|
-        active = true
-
+      @repo_cache = cmd.stdout.lines.map do |raw_line|
         # detect if the repo is commented out
         line = raw_line.gsub(/^(#\s*)*/, "")
-        active = false if raw_line != line
+        active = raw_line == line
 
         # formats:
         # deb               http://archive.ubuntu.com/ubuntu/ wily main restricted ...
@@ -101,16 +99,14 @@ module Inspec::Resources
         next unless %w{deb deb-src}.include? type
 
         # map data
-        repo = {
-          type:       type,
-          url:        url,
-          distro:     distro,
+        {
+          type: type,
+          url: url,
+          distro: distro,
           components: components,
           active: active,
         }
-
-        lines.push(repo)
-      end
+      end.compact
     end
 
     # resolves ppa urls
