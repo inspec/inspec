@@ -573,6 +573,31 @@ module Inspec::Resources
       res[0] unless res.empty?
     end
 
+    def meta_info(username)
+      res = identity(username)
+      return if res.nil?
+      {
+        home: res[:home],
+        shell: res[:shell],
+        domain: res[:domain],
+        userflags: res[:userflags],
+      }
+    end
+
+    def credentials(username)
+      res = identity(username)
+      return if res.nil?
+      {
+        mindays: res[:mindays],
+        maxdays: res[:maxdays],
+        warndays: res[:warndays],
+        badpasswordattempts: res[:badpasswordattempts],
+        maxbadpasswords: res[:maxbadpasswords],
+        minpasswordlength: res[:minpasswordlength],
+        passwordage: res[:passwordage],
+      }
+    end
+
     def list_users
       collect_user_details.map { |user| user[:username] }
     end
