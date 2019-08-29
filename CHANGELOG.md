@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Deprecate macOS 10.12 and add macOS 10.15 support [#4421](https://github.com/inspec/inspec/pull/4421) ([jaymalasinha](https://github.com/jaymalasinha))
 - Let expeditor respond to pull requests. [#4430](https://github.com/inspec/inspec/pull/4430) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
@@ -24,6 +25,7 @@
 - Ensure that resources are always initialized in all cases [#4366](https://github.com/inspec/inspec/pull/4366) ([zenspider](https://github.com/zenspider)) <!-- 4.13.2 -->
 
 #### Merged Pull Requests
+- Deprecate macOS 10.12 and add macOS 10.15 support [#4421](https://github.com/inspec/inspec/pull/4421) ([jaymalasinha](https://github.com/jaymalasinha)) <!-- 4.16.0 -->
 - Let expeditor respond to pull requests. [#4430](https://github.com/inspec/inspec/pull/4430) ([miah](https://github.com/miah)) <!-- 4.16.0 -->
 - Remove inspec-vault from the plugin exclusion list [#4411](https://github.com/inspec/inspec/pull/4411) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.14.1 -->
 - Refactor lib/source_readers/inspec.rb [#4376](https://github.com/inspec/inspec/pull/4376) ([zenspider](https://github.com/zenspider)) <!-- 4.13.1 -->
