@@ -208,9 +208,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc "exec LOCATIONS", "run all test files at the specified LOCATIONS."
-  # TODO: find a way for Thor not to butcher the formatting of this
-  long_desc <<~EOT
+  desc "exec LOCATIONS", <<~EOT
+    Run all test files at the specified LOCATIONS.
+
     Loads the given profile(s) and fetches their dependencies if needed. Then
     connects to the target and executes any controls contained in the profiles.
     One or more reporters are used to generate output.
