@@ -8,33 +8,36 @@
 - Let expeditor respond to pull requests. [#4430](https://github.com/inspec/inspec/pull/4430) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
-<!-- release_rollup since=4.12.0 -->
-### Changes since 4.12.0 release
-
-#### New Features
-- inputs: Accept bare input from the command line [#4401](https://github.com/inspec/inspec/pull/4401) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.16.0 -->
-- Add plugin config settings to Config [#4406](https://github.com/inspec/inspec/pull/4406) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.15.0 -->
-- Accept input keys via the Runner API [#4398](https://github.com/inspec/inspec/pull/4398) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.14.0 -->
-
-#### Enhancements
-- inspec check: warn if inspec_version is not supported by current inspec [#4419](https://github.com/inspec/inspec/pull/4419) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.14.2 -->
-- Ignore .swp files [#4389](https://github.com/inspec/inspec/pull/4389) ([Vancelot11](https://github.com/Vancelot11)) <!-- 4.13.2 -->
-
-#### Bug Fixes
-- inspec plugins: List system plugins and other UX improvements [#4387](https://github.com/inspec/inspec/pull/4387) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.14.3 -->
-- Ensure that resources are always initialized in all cases [#4366](https://github.com/inspec/inspec/pull/4366) ([zenspider](https://github.com/zenspider)) <!-- 4.13.2 -->
-
-#### Merged Pull Requests
-- Deprecate macOS 10.12 and add macOS 10.15 support [#4421](https://github.com/inspec/inspec/pull/4421) ([jaymalasinha](https://github.com/jaymalasinha)) <!-- 4.16.0 -->
-- Let expeditor respond to pull requests. [#4430](https://github.com/inspec/inspec/pull/4430) ([miah](https://github.com/miah)) <!-- 4.16.0 -->
-- Remove inspec-vault from the plugin exclusion list [#4411](https://github.com/inspec/inspec/pull/4411) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.14.1 -->
-- Refactor lib/source_readers/inspec.rb [#4376](https://github.com/inspec/inspec/pull/4376) ([zenspider](https://github.com/zenspider)) <!-- 4.13.1 -->
-
-#### New Resources
-- Add a Postfix-specific configuration testing resource [#4378](https://github.com/inspec/inspec/pull/4378) ([dmgasper](https://github.com/dmgasper)) <!-- 4.13.0 -->
+<!-- release_rollup since=4.16.0 -->
+### Changes since 4.16.0 release
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.16.0](https://github.com/inspec/inspec/tree/v4.16.0) (2019-08-29)
+
+#### New Resources
+- Add a Postfix-specific configuration testing resource [#4378](https://github.com/inspec/inspec/pull/4378) ([dmgasper](https://github.com/dmgasper))
+
+#### New Features
+- Accept input keys via the Runner API [#4398](https://github.com/inspec/inspec/pull/4398) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add plugin config settings to Config [#4406](https://github.com/inspec/inspec/pull/4406) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- inputs: Accept bare input from the command line [#4401](https://github.com/inspec/inspec/pull/4401) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Enhancements
+- Ignore .swp files [#4389](https://github.com/inspec/inspec/pull/4389) ([Vancelot11](https://github.com/Vancelot11))
+- inspec check: warn if inspec_version is not supported by current inspec [#4419](https://github.com/inspec/inspec/pull/4419) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- Ensure that resources are always initialized in all cases [#4366](https://github.com/inspec/inspec/pull/4366) ([zenspider](https://github.com/zenspider))
+- inspec plugins: List system plugins and other UX improvements [#4387](https://github.com/inspec/inspec/pull/4387) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Refactor lib/source_readers/inspec.rb [#4376](https://github.com/inspec/inspec/pull/4376) ([zenspider](https://github.com/zenspider))
+- Remove inspec-vault from the plugin exclusion list [#4411](https://github.com/inspec/inspec/pull/4411) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Let expeditor respond to pull requests. [#4430](https://github.com/inspec/inspec/pull/4430) ([miah](https://github.com/miah))
+- Deprecate macOS 10.12 and add macOS 10.15 support [#4421](https://github.com/inspec/inspec/pull/4421) ([jaymalasinha](https://github.com/jaymalasinha))
+<!-- latest_stable_release -->
+
 ## [v4.12.0](https://github.com/inspec/inspec/tree/v4.12.0) (2019-08-15)
 
 #### New Features
@@ -57,7 +60,6 @@
 - Moved the osx? guard below minitest/autorun. [#4381](https://github.com/inspec/inspec/pull/4381) ([zenspider](https://github.com/zenspider))
 - Begin signing MSI&#39;s with renewed Windows Signing Cert [#4386](https://github.com/inspec/inspec/pull/4386) ([schisamo](https://github.com/schisamo))
 - Add deps on train 3 and train-winrm 0.2 [#4355](https://github.com/inspec/inspec/pull/4355) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v4.10.4](https://github.com/inspec/inspec/tree/v4.10.4) (2019-08-01)
 
