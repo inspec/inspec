@@ -472,10 +472,10 @@ end
       control.id = "tag.control.id"
       control.to_ruby.must_equal '
 control "tag.control.id" do
-  tag "key": "value"
-  tag "key2\'": "value\'"
-  tag "key3\"": "value\""
-  tag "key4": ["a", "b"]
+  tag key: "value"
+  tag key2\': "value\'"
+  tag key3": "value\""
+  tag key4: ["a", "b"]
 end
 '.strip
 
