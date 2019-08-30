@@ -27,9 +27,8 @@ describe "inspec exec" do
     # TODO: I do not know how to test this more directly. It should be possible.
     inspec "exec -t aws:// #{profile_path}/incompatible_resource_for_transport.rb"
 
-    stdout.must_include "Bad File on TrainPlugins::Aws::Connection"
-    stdout.must_include "Resource `file` is not supported on platform aws/train-aws"
-    stderr.must_equal ""
+    stdout.must_be_empty
+    stderr.must_include "Unsupported resource/backend combination: file / aws. Exiting."
   end
 
   it "can execute the profile" do
@@ -297,10 +296,9 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec("exec " + File.join(profile_path, "aws-profile")) }
     it "exits with an error" do
       skip if ENV["NO_AWS"]
-
-      stdout.must_include "Resource `aws_iam_users` is not supported on platform"
-      stdout.must_include "Resource `aws_iam_access_keys` is not supported on platform"
-      stdout.must_include "Resource `aws_s3_bucket` is not supported on platform"
+      stdout.must_include "Unsupported resource/backend combination: aws_iam_users"
+      stdout.must_include "Unsupported resource/backend combination: aws_iam_access_keys"
+      stdout.must_include "Unsupported resource/backend combination: aws_s3_bucket"
       stdout.must_include "3 failures"
 
       assert_exit_code 100, out

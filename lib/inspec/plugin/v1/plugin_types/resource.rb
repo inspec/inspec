@@ -87,7 +87,15 @@ module Inspec
           @__backend_runner__ = backend
           @__resource_name__ = name
 
-          check_supports unless @supports.nil? # this has side effects
+          # check resource supports
+          supported = @supports ? check_supports : true # check_supports has side effects!
+          test_backend = defined?(Train::Transports::Mock::Connection) && backend.backend.class == Train::Transports::Mock::Connection
+          # raise unless we are supported or in test
+          unless supported || test_backend
+            msg = "Unsupported resource/backend combination: %s / %s. Exiting." %
+              [name, backend.platform.name]
+            raise ArgumentError, msg
+          end
 
           # call the resource initializer
           begin
