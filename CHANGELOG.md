@@ -4,12 +4,16 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Use new logo branding [#4433](https://github.com/inspec/inspec/pull/4433) ([btm](https://github.com/btm))
 - Deprecate macOS 10.12 and add macOS 10.15 support [#4421](https://github.com/inspec/inspec/pull/4421) ([jaymalasinha](https://github.com/jaymalasinha))
 - Let expeditor respond to pull requests. [#4430](https://github.com/inspec/inspec/pull/4430) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.16.0 -->
 ### Changes since 4.16.0 release
+
+#### Merged Pull Requests
+- Use new logo branding [#4433](https://github.com/inspec/inspec/pull/4433) ([btm](https://github.com/btm)) <!-- 4.16.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
