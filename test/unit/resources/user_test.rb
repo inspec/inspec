@@ -16,6 +16,7 @@ describe "Inspec::Resources::User" do
     _(resource.mindays).must_equal 0
     _(resource.maxdays).must_equal 99999
     _(resource.warndays).must_equal 7
+    _(resource.badpasswordattempts).must_equal 0
   end
 
   # ubuntu 14.04 test with ldap user
@@ -126,6 +127,7 @@ describe "Inspec::Resources::User" do
     _(resource.maxdays).must_be_nil
     _(resource.warndays).must_be_nil
     _(resource.disabled?).must_equal false
+    _(resource.badpasswordattempts).must_equal 0
   end
 
   it "read guest user on Windows" do

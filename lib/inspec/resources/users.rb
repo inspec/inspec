@@ -116,6 +116,24 @@ module Inspec::Resources
   #   its('mindays') { should eq 0 }
   #   its('maxdays') { should eq 99 }
   #   its('warndays') { should eq 5 }
+  #   its('passwordage') { should be >= 0 }
+  #   its('maxbadpasswords') { should eq nil } // not yet supported on linux
+  #   its('badpasswordattempts') { should eq 0 } 
+  # end
+  # describe user('Administrator') do
+  #   it { should exist }
+  #   its('uid') { should eq "S-1-5-21-1759981009-4135989804-1844563890-500" }
+  #   its('gid') { should eq nil } // not supported on Windows
+  #   its('group') { should eq nil } // not supported on Windows
+  #   its('groups') { should eq ['Administrators', 'Users']}
+  #   its('home') { should eq '' }
+  #   its('shell') { should eq nil } // not supported on Windows
+  #   its('mindays') { should eq 0 }
+  #   its('maxdays') { should eq 42 }
+  #   its('warndays') { should eq nil }
+  #   its('passwordage') { should eq 355 }
+  #   its('maxbadpasswords') { should eq 0 } 
+  #   its('badpasswordattempts') { should eq 0 } 
   # end
   #
   # The following  Serverspec  matchers are deprecated in favor for direct value access
@@ -196,6 +214,14 @@ module Inspec::Resources
       meta_info[:shell] unless meta_info.nil?
     end
 
+    def domain
+      meta_info[:domain] unless meta_info.nil?
+    end
+
+    def userflags
+      meta_info[:userflags] unless meta_info.nil?
+    end
+
     # returns the minimum days between password changes
     def mindays
       credentials[:mindays] unless credentials.nil?
@@ -209,6 +235,18 @@ module Inspec::Resources
     # returns the days for password change warning
     def warndays
       credentials[:warndays] unless credentials.nil?
+    end
+
+    def badpasswordattempts
+      credentials[:badpasswordattempts] unless credentials.nil?
+    end
+
+    def maxbadpasswords
+      credentials[:maxbadpasswords] unless credentials.nil?
+    end
+
+    def passwordage
+      credentials[:passwordage] unless credentials.nil?
     end
 
     # implement 'mindays' method to be compatible with serverspec
@@ -425,10 +463,26 @@ module Inspec::Resources
         multiple_values: false
       ).params
 
+      cmd = inspec.command("echo $((($(date +%s) - $(date -d '#{params["Last password change"]}' '+%s'))/86400))")
+      if cmd.exit_status != 0
+        dayslastset = nil
+      else
+        dayslastset = convert_to_i(cmd.stdout.chomp)
+      end
+
+      cmd = inspec.command("lastb -w -a | awk '{print $1}' | grep #{username} | wc -l")
+      if cmd.exit_status != 0
+        badpasswordattempts = nil
+      else
+        badpasswordattempts = convert_to_i(cmd.stdout.chomp)
+      end
+
       {
         mindays: convert_to_i(params["Minimum number of days between password change"]),
         maxdays: convert_to_i(params["Maximum number of days between password change"]),
         warndays: convert_to_i(params["Number of days of warning before password expires"]),
+        passwordage: dayslastset,
+        badpasswordattempts: badpasswordattempts,
       }
     end
   end
@@ -481,6 +535,8 @@ module Inspec::Resources
         mindays: user_sec[1].to_i * 7,
         maxdays: user_sec[2].to_i * 7,
         warndays: user_sec[3].to_i,
+        passwordage: nil,
+        badpasswordattempts: nil,
       }
     end
   end
