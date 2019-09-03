@@ -1,15 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.16.1 -->
-## [v4.16.1](https://github.com/inspec/inspec/tree/v4.16.1) (2019-08-30)
-
-#### Bug Fixes
-- Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider))
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Use new logo branding [#4433](https://github.com/inspec/inspec/pull/4433) ([btm](https://github.com/btm))
-- Deprecate macOS 10.12 and add macOS 10.15 support [#4421](https://github.com/inspec/inspec/pull/4421) ([jaymalasinha](https://github.com/jaymalasinha))
-- Let expeditor respond to pull requests. [#4430](https://github.com/inspec/inspec/pull/4430) ([miah](https://github.com/miah))
+- update LCR Roadtrip announcement to 13 cities [#4440](https://github.com/inspec/inspec/pull/4440) ([shaunyap](https://github.com/shaunyap))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.16.0 -->
@@ -19,6 +14,7 @@
 - Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider)) <!-- 4.16.1 -->
 
 #### Merged Pull Requests
+- update LCR Roadtrip announcement to 13 cities [#4440](https://github.com/inspec/inspec/pull/4440) ([shaunyap](https://github.com/shaunyap)) <!-- 4.16.1 -->
 - Use new logo branding [#4433](https://github.com/inspec/inspec/pull/4433) ([btm](https://github.com/btm)) <!-- 4.16.0 -->
 <!-- release_rollup -->
 
