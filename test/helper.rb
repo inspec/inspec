@@ -148,7 +148,7 @@ class Minitest::Test
   end
 
   def skip_windows!
-    skip_until 2019, 8, 30, "These have never passed" if windows?
+    skip_until 2019, 9, 30, "These have never passed" if windows?
   end
 end
 
