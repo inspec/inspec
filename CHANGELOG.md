@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.16.2 -->
+## [v4.16.2](https://github.com/inspec/inspec/tree/v4.16.2) (2019-09-03)
 
 #### Merged Pull Requests
+- Extended skip_windows to the end of September. [#4441](https://github.com/inspec/inspec/pull/4441) ([zenspider](https://github.com/zenspider))
 - update LCR Roadtrip announcement to 13 cities [#4440](https://github.com/inspec/inspec/pull/4440) ([shaunyap](https://github.com/shaunyap))
 <!-- latest_release -->
 
@@ -14,6 +15,7 @@
 - Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider)) <!-- 4.16.1 -->
 
 #### Merged Pull Requests
+- Extended skip_windows to the end of September. [#4441](https://github.com/inspec/inspec/pull/4441) ([zenspider](https://github.com/zenspider)) <!-- 4.16.2 -->
 - update LCR Roadtrip announcement to 13 cities [#4440](https://github.com/inspec/inspec/pull/4440) ([shaunyap](https://github.com/shaunyap)) <!-- 4.16.1 -->
 - Use new logo branding [#4433](https://github.com/inspec/inspec/pull/4433) ([btm](https://github.com/btm)) <!-- 4.16.0 -->
 <!-- release_rollup -->
