@@ -160,6 +160,7 @@ class MockLoader
       "C:/fakepath/fakefile" => emptyfile.call,
       "/etc/cron.d/crondotd" => mockfile.call("crondotd"),
       "/etc/postfix/main.cf" => mockfile.call("main.cf"),
+      "/etc/postfix/other.cf" => mockfile.call("other.cf"),
     }
 
     # create all mock commands
