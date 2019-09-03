@@ -113,7 +113,7 @@ module Inspec
     def set_optional_formatters
       return if @conf["reporter"].nil?
 
-      formatters =  Inspec::Formatters::CustomBase.descendants
+      formatters = Inspec::Formatters::CustomBase.descendants
       puts formatters
       formatters.each do |name, formatter|
         if @conf["reporter"].key?(name)

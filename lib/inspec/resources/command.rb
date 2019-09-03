@@ -48,10 +48,7 @@ module Inspec::Resources
     def result
       return @result if @result
       @result = inspec.backend.run_command(@command)
-      RSpec.configuration.reporter.message(@command)
-      RSpec.configuration.reporter.message("stdout: #{@result.stdout.strip.gsub("\n","\n\t\t")}")
-      RSpec.configuration.reporter.message("stderr: #{@result.stderr.strip.gsub("\n","\n\t\t")}")
-      RSpec.configuration.reporter.message("exit status: #{@result.exit_status}")
+      send_message
       @result
     end
 
@@ -94,6 +91,15 @@ module Inspec::Resources
       # If no capture groups are passed then `\1` and `\2` are ignored
       output.gsub!(@redact_regex, '\1REDACTED\2') unless @redact_regex.nil?
       output
+    end
+
+    private
+
+    def send_message
+      RSpec.configuration.reporter.message(to_s)
+      RSpec.configuration.reporter.message("stdout: #{@result.stdout.strip.gsub("\n", "\n\t\t")}")
+      RSpec.configuration.reporter.message("stderr: #{@result.stderr.strip.gsub("\n", "\n\t\t")}")
+      RSpec.configuration.reporter.message("exit status: #{@result.exit_status}")
     end
   end
 end
