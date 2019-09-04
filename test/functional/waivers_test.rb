@@ -79,4 +79,26 @@ describe "waivers" do
       assert_equal 1, result.exit_status
     end
   end
+
+  describe "waivers and only_if" do
+    let(:profile_name) { "only_if" }
+
+    describe "when an only_if is used with no waiver" do
+      let(:waiver_file) { "empty.yaml" }
+      it "skips the control with an only_if message" do
+        msg = controls_by_id.dig("01_only_if", "results", 0, "skip_message")
+        assert_includes msg, "due to only_if"
+        refute_includes msg, "waiver"
+      end
+    end
+
+    describe "when both a skipping waiver and an only_if are present" do
+      let(:waiver_file) { "waiver.yaml" }
+      it "skips the control with a waiver message" do
+        msg = controls_by_id.dig("01_only_if", "results", 0, "skip_message")
+        refute_includes msg, "due to only_if"
+        assert_includes msg, "waiver"
+      end
+    end
+  end
 end

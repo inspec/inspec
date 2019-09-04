@@ -43,21 +43,21 @@ module Inspec
       @__rule_id = id
       @__profile_id = profile_id
       @__checks = []
-      @__skip_rule = {} # { result: true, message: "Why" }
+      @__skip_rule = {} # { result: true, message: "Why", type: [:only_if, :waiver] }
       @__merge_count = 0
       @__merge_changes = []
       @__skip_only_if_eval = opts[:skip_only_if_eval]
-
-      # TODO: Note - if waivers are applied before the DSL instance
-      # eval, then the contents of the control block (including only_if)
-      # will override the waiver. Is that wanted? Or should waivers always win?
-      __apply_waivers
 
       # evaluate the given definition
       return unless block_given?
 
       begin
         instance_eval(&block)
+
+        # By applying waivers *after* the instance eval, we assure that
+        # waivers have higher precedence than only_if.
+        __apply_waivers
+
       rescue StandardError => e
         # We've encountered an exception while trying to eval the code inside the
         # control block. We need to prevent the exception from bubbling up, and
@@ -147,6 +147,7 @@ module Inspec
       return if @__skip_only_if_eval == true
 
       @__skip_rule[:result] ||= !yield
+      @__skip_rule[:type] = :only_if
       @__skip_rule[:message] = message
     end
 
@@ -199,9 +200,9 @@ module Inspec
       rule.instance_variable_get(:@__skip_rule)
     end
 
-    def self.set_skip_rule(rule, value, message = nil)
+    def self.set_skip_rule(rule, value, message = nil, type = :only_if)
       rule.instance_variable_set(:@__skip_rule,
-        { result: value, message: message })
+        { result: value, message: message, type: type })
     end
 
     def self.merge_count(rule)
@@ -219,9 +220,9 @@ module Inspec
       return checks(rule) unless skip_check[:result].eql?(true)
 
       if skip_check[:message]
-        msg = "Skipped control due to only_if condition: #{skip_check[:message]}"
+        msg = "Skipped control due to #{skip_check[:type]} condition: #{skip_check[:message]}"
       else
-        msg = "Skipped control due to only_if condition."
+        msg = "Skipped control due to #{skip_check[:type]} condition."
       end
 
       # TODO: we use os as the carrier here, but should consider
@@ -259,7 +260,8 @@ module Inspec
       skip_check = skip_status(src)
       sr = skip_check[:result]
       msg = skip_check[:message]
-      set_skip_rule(dst, sr, msg) unless sr.nil?
+      skip_type = skip_check[:type]
+      set_skip_rule(dst, sr, msg, skip_type) unless sr.nil?
 
       # Save merge history
       dst.instance_variable_set(:@__merge_count, merge_count(dst) + 1)
@@ -315,7 +317,8 @@ module Inspec
 
       # OK, apply a skip.
       @__skip_rule[:result] = true
-      @__skip_rule[:message] = "Skipped due to waiver: #{waiver_info["justification"] || "(no reason given)"}"
+      @__skip_rule[:type] = :waiver
+      @__skip_rule[:message] = waiver_info["justification"]
     end
 
     #
