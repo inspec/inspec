@@ -2,10 +2,10 @@ require "functional/helper"
 
 describe "waivers" do
   include FunctionalHelper
-  let(:cmd) { "exec #{waivers_profiles_path}/basic --input-file #{waivers_profiles_path}/basic/files/waivers.yaml" }
-  let(:run_result) { run_inspec_process(cmd, json: true) }
   let(:waivers_profiles_path) { "#{profile_path}/waivers" }
+  let(:run_result) { run_inspec_process(cmd, json: true) }
   let(:controls_by_id) { run_result.payload.json.dig("profiles", 0, "controls").map { |c| [c["id"], c] }.to_h }
+  let(:cmd) { "exec #{waivers_profiles_path}/#{profile_name} --input-file #{waivers_profiles_path}/#{profile_name}/files/#{waiver_file}" }
 
   def assert_test_outcome(expected, control_id)
     assert_equal expected, controls_by_id.dig(control_id, "results", 0, "status")
@@ -21,6 +21,9 @@ describe "waivers" do
   end
 
   describe "a fully pre-slugged control file" do
+    let(:profile_name) { "basic" }
+    let(:waiver_file) { "waivers.yaml" }
+
     it "has all of the expected outcomes" do
       [
         "01_not_waivered_passes",
@@ -64,4 +67,16 @@ describe "waivers" do
 
   # describe "an inherited profile"
   # describe "a profile whose control ids require transformation"
+
+  describe "a waiver file with invalid dates" do
+    let(:profile_name) { "short" }
+    let(:waiver_file) { "bad-date.yaml" }
+    it "gracefully errors" do
+      result = run_result
+      assert_includes "ERROR", result.stdout # the error level
+      assert_includes "01_small", result.stdout # the offending control ID
+      assert_includes "never", result.stdout  # The bad value
+      assert_equal 1, result.exit_status
+    end
+  end
 end

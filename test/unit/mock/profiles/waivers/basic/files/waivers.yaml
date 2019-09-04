@@ -1,15 +1,12 @@
 waiver_03_waivered_no_expiry_not_skipped_passes:
-  expiration_date: never
   justification: Sound reasoning
   skip: no
 
 waiver_04_waivered_no_expiry_not_skipped_fails:
-  expiration_date: never
   justification: Unassailable thinking
   skip: no
 
 waiver_05_waivered_no_expiry_skipped:
-  expiration_date: never
   justification: Sheer cleverness
   skip: yes
 
