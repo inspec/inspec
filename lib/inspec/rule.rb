@@ -283,21 +283,25 @@ module Inspec
     def __apply_waivers
       input_name = @__rule_id # TODO: control ID slugging
       registry = Inspec::InputRegistry.instance
-      input = registry.inputs_by_profile[@__profile_id].dig(input_name)
+      input = registry.inputs_by_profile.dig(@__profile_id, input_name)
       return unless input
 
-      input = input.value
+      # An InSpec Input is a datastructure that tracks a profile parameter
+      # over time. Its value can be set by many sources, and it keeps a
+      # log of each "set" event so that when it is collapsed to a value,
+      # it can determine the correct (highest priority) value.
+      waiver_info = input.value
 
-      # Waivers should have a hash value with keys including skip and
+      # Waivers should have a hash value with keys possibly including skip and
       # expiration_date. We only care here if it has a skip key and it
       # is yes-like, since all non-skipped waiver operations are handled
       # during reporting phase.
-      return unless input.key?("skip")
-      return unless input["skip"].to_s.match(/y|yes|true/i)
+      return unless waiver_info.key?("skip")
+      return unless waiver_info["skip"].to_s.match(/y|yes|true/i)
 
       # OK, the intent is to skip. Does it have an expiration date, and
       # if so, is it in the future?
-      expiry = input["expiration_date"]
+      expiry = waiver_info["expiration_date"]
       if expiry
         if expiry.is_a?(Date)
           # It appears that yaml.rb automagically parses dates for us
@@ -311,7 +315,7 @@ module Inspec
 
       # OK, apply a skip.
       @__skip_rule[:result] = true
-      @__skip_rule[:message] = "Skipped due to waiver: #{input["justification"] || "(no reason given)"}"
+      @__skip_rule[:message] = "Skipped due to waiver: #{waiver_info["justification"] || "(no reason given)"}"
     end
 
     #
