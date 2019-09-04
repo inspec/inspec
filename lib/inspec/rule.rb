@@ -29,6 +29,7 @@ module Inspec
       @resource_dsl
     end
 
+    attr_reader :__waiver_data
     def initialize(id, profile_id, opts, &block)
       @impact = nil
       @title = nil
@@ -292,22 +293,27 @@ module Inspec
       # over time. Its value can be set by many sources, and it keeps a
       # log of each "set" event so that when it is collapsed to a value,
       # it can determine the correct (highest priority) value.
-      waiver_info = input.value
+      # Store in an instance variable for.. later reading???
+      @__waiver_data = input.value
+      __waiver_data["skipped_due_to_waiver"] = false
+      __waiver_data["message"] = ""
 
       # Waivers should have a hash value with keys possibly including skip and
       # expiration_date. We only care here if it has a skip key and it
       # is yes-like, since all non-skipped waiver operations are handled
       # during reporting phase.
-      return unless waiver_info.key?("skip")
-      return unless waiver_info["skip"].to_s.match(/y|yes|true/i)
+      return unless __waiver_data.key?("skip") && __waiver_data["skip"]
 
       # OK, the intent is to skip. Does it have an expiration date, and
       # if so, is it in the future?
-      expiry = waiver_info["expiration_date"]
+      expiry = __waiver_data["expiration_date"]
       if expiry
         if expiry.is_a?(Date)
           # It appears that yaml.rb automagically parses dates for us
-          return if expiry < Date.today # If the waiver expired, return - no skip applied
+          if expiry < Date.today # If the waiver expired, return - no skip applied
+            __waiver_data["message"] = "Waiver expired on #{expiry}, evaluating control normally"
+          end
+          return
         else
           ui = Inspec::UI.new
           ui.error("Unable to parse waiver expiration date '#{expiry}' for control #{@__rule_id}")
@@ -318,7 +324,8 @@ module Inspec
       # OK, apply a skip.
       @__skip_rule[:result] = true
       @__skip_rule[:type] = :waiver
-      @__skip_rule[:message] = waiver_info["justification"]
+      @__skip_rule[:message] = __waiver_data["justification"]
+      __waiver_data["skipped_due_to_waiver"] = true
     end
 
     #
