@@ -110,11 +110,10 @@ module Inspec
     # Set optional formatters and output
     #
     #
-    def set_optional_formatters
+    def set_custom_formatters
       return if @conf["reporter"].nil?
 
       formatters = Inspec::Formatters::CustomBase.descendants
-      puts formatters
       formatters.each do |name, formatter|
         if @conf["reporter"].key?(name)
           formatter.config(@conf["reporter"][name])
@@ -125,6 +124,10 @@ module Inspec
           end
         end
       end
+    end
+
+    def set_json_rspec_formatter
+      return if @conf["reporter"].nil?
 
       if @conf["reporter"].key?("json-rspec")
         # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
@@ -135,7 +138,9 @@ module Inspec
         end
         @conf["reporter"].delete("json-rspec")
       end
+    end
 
+    def set_optional_formatters
       formats = @conf["reporter"].select { |k, _v| %w{documentation progress html}.include?(k) }
       formats.each do |k, v|
         # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
@@ -148,6 +153,12 @@ module Inspec
       end
     end
 
+    def set_formatters
+      set_custom_formatters
+      set_json_rspec_formatter
+      set_optional_formatters
+    end
+
     # Configure the output formatter and stream to be used with RSpec.
     #
     # @return [nil]
@@ -155,7 +166,7 @@ module Inspec
       RSpec.configuration.output_stream = $stdout
       @formatter = RSpec.configuration.add_formatter(Inspec::Formatters::Base)
       RSpec.configuration.add_formatter(Inspec::Formatters::ShowProgress, $stderr) if @conf[:show_progress]
-      set_optional_formatters
+      set_formatters
       RSpec.configuration.color = @conf["color"]
     end
 
