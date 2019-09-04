@@ -75,7 +75,7 @@ describe "waivers" do
       result = run_result
       assert_includes "ERROR", result.stdout # the error level
       assert_includes "01_small", result.stdout # the offending control ID
-      assert_includes "never", result.stdout  # The bad value
+      assert_includes "never", result.stdout # The bad value
       assert_equal 1, result.exit_status
     end
   end

@@ -281,7 +281,7 @@ module Inspec
     # only_if mechanism)
     # Double underscore: not intended to be called as part of the DSL
     def __apply_waivers
-      input_name = "waiver_#{@__rule_id}" # TODO: control ID slugging
+      input_name = @__rule_id # TODO: control ID slugging
       registry = Inspec::InputRegistry.instance
       input = registry.inputs_by_profile[@__profile_id].dig(input_name)
       return unless input

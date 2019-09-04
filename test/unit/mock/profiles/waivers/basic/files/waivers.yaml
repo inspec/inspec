@@ -1,41 +1,41 @@
-waiver_03_waivered_no_expiry_not_skipped_passes:
+03_waivered_no_expiry_not_skipped_passes:
   justification: Sound reasoning
   skip: no
 
-waiver_04_waivered_no_expiry_not_skipped_fails:
+04_waivered_no_expiry_not_skipped_fails:
   justification: Unassailable thinking
   skip: no
 
-waiver_05_waivered_no_expiry_skipped:
+05_waivered_no_expiry_skipped:
   justification: Sheer cleverness
   skip: yes
 
-waiver_06_waivered_expiry_in_past_not_skipped_passes:
+06_waivered_expiry_in_past_not_skipped_passes:
   expiration_date: 1977-06-01
   justification: Necessity
   skip: no
 
-waiver_07_waivered_expiry_in_past_not_skipped_fails:
+07_waivered_expiry_in_past_not_skipped_fails:
   expiration_date: 1977-06-01
   justification: Whimsy
   skip: no
 
-waiver_08_waivered_expiry_in_past_skipped:
+08_waivered_expiry_in_past_skipped:
   expiration_date: 1977-06-01
   justification: Contrariness
   skip: yes
 
-waiver_09_waivered_expiry_in_future_not_skipped_passes:
+09_waivered_expiry_in_future_not_skipped_passes:
   expiration_date: 2077-06-01
   justification: Handwaving
   skip: no
 
-waiver_10_waivered_expiry_in_future_not_skipped_fails:
+10_waivered_expiry_in_future_not_skipped_fails:
   expiration_date: 2077-06-01
   justification: Didn't feel like it
   skip: no
 
-waiver_11_waivered_expiry_in_future_skipped:
+11_waivered_expiry_in_future_skipped:
   expiration_date: 2077-06-01
   justification: Lack of imagination
   skip: yes
