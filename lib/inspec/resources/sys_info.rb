@@ -29,7 +29,8 @@ module Inspec::Resources
     # returns the hostname of the local system
     def hostname(opt = nil)
       os = inspec.os
-      if os.linux? || os.darwin?
+      if os.linux?
+        if !opt.nil?
         opt = case opt
               when "f", "long", "fqdn", "full"
                 " -f"
@@ -40,9 +41,30 @@ module Inspec::Resources
               when "s", "short"
                 " -s"
               else
-                nil
+                "ERROR"
               end
-        inspec.command("hostname#{opt}").stdout.chomp
+        end
+        if opt == "ERROR"
+          skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
+        else
+          inspec.command("hostname#{opt}").stdout.chomp
+        end
+      elsif os.darwin?
+        if !opt.nil?
+        opt = case opt
+              when "f", "long", "fqdn", "full"
+                " -f"
+              when "s", "short"
+                " -s"
+              else
+                "ERROR"
+              end
+        end
+        if opt == "ERROR"
+          skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
+        else
+          inspec.command("hostname#{opt}").stdout.chomp
+        end
       elsif os.windows?
         if !opt.nil?
           skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
