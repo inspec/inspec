@@ -30,41 +30,9 @@ module Inspec::Resources
     def hostname(opt = nil)
       os = inspec.os
       if os.linux?
-        if !opt.nil?
-        opt = case opt
-              when "f", "long", "fqdn", "full"
-                " -f"
-              when "d", "domain"
-                " -d"
-              when "i", "ip_address"
-                " -I"
-              when "s", "short"
-                " -s"
-              else
-                "ERROR"
-              end
-        end
-        if opt == "ERROR"
-          skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
-        else
-          inspec.command("hostname#{opt}").stdout.chomp
-        end
+        linux_hostname(opt)
       elsif os.darwin?
-        if !opt.nil?
-        opt = case opt
-              when "f", "long", "fqdn", "full"
-                " -f"
-              when "s", "short"
-                " -s"
-              else
-                "ERROR"
-              end
-        end
-        if opt == "ERROR"
-          skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
-        else
-          inspec.command("hostname#{opt}").stdout.chomp
-        end
+        mac_hostname(opt)
       elsif os.windows?
         if !opt.nil?
           skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
@@ -73,6 +41,46 @@ module Inspec::Resources
         end
       else
         skip_resource "The `sys_info.hostname` resource is not supported on your OS yet."
+      end
+    end
+
+    def linux_hostname(opt = nil)
+      if !opt.nil?
+        opt = case opt
+            when "f", "long", "fqdn", "full"
+              " -f"
+            when "d", "domain"
+              " -d"
+            when "i", "ip_address"
+              " -I"
+            when "s", "short"
+              " -s"
+            else
+              "ERROR"
+            end
+      end
+      if opt == "ERROR"
+        skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
+      else
+        inspec.command("hostname#{opt}").stdout.chomp
+      end
+    end
+
+    def mac_hostname(opt = nil)
+      if !opt.nil?
+        opt = case opt
+            when "f", "long", "fqdn", "full"
+              " -f"
+            when "s", "short"
+              " -s"
+            else
+              "ERROR"
+            end
+      end
+      if opt == "ERROR"
+        skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
+      else
+        inspec.command("hostname#{opt}").stdout.chomp
       end
     end
 
