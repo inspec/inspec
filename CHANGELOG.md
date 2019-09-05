@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.16.3 -->
-## [v4.16.3](https://github.com/inspec/inspec/tree/v4.16.3) (2019-09-05)
+<!-- latest_release 4.16.4 -->
+## [v4.16.4](https://github.com/inspec/inspec/tree/v4.16.4) (2019-09-05)
 
 #### Merged Pull Requests
-- Fixed the formatting of `inspec exec -h` by not using long_desc. [#4436](https://github.com/inspec/inspec/pull/4436) ([zenspider](https://github.com/zenspider))
+- Guard against nil in apt repo parser. [#4435](https://github.com/inspec/inspec/pull/4435) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.16.0 -->
@@ -14,6 +14,7 @@
 - Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider)) <!-- 4.16.1 -->
 
 #### Merged Pull Requests
+- Guard against nil in apt repo parser. [#4435](https://github.com/inspec/inspec/pull/4435) ([zenspider](https://github.com/zenspider)) <!-- 4.16.4 -->
 - Fixed the formatting of `inspec exec -h` by not using long_desc. [#4436](https://github.com/inspec/inspec/pull/4436) ([zenspider](https://github.com/zenspider)) <!-- 4.16.3 -->
 - Extended skip_windows to the end of September. [#4441](https://github.com/inspec/inspec/pull/4441) ([zenspider](https://github.com/zenspider)) <!-- 4.16.2 -->
 - update LCR Roadtrip announcement to 13 cities [#4440](https://github.com/inspec/inspec/pull/4440) ([shaunyap](https://github.com/shaunyap)) <!-- 4.16.1 -->
