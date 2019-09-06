@@ -214,6 +214,11 @@ module Inspec
           break
         end
       end
+
+      try = res.dup
+      try.force_encoding Encoding::UTF_8
+      res = try if try.valid_encoding?
+
       res
     end
   end
