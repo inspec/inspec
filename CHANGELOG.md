@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.16.5 -->
+## [v4.16.5](https://github.com/inspec/inspec/tree/v4.16.5) (2019-09-06)
 
 #### Merged Pull Requests
+- Rework activator plugin to be more idiomatic. [#4446](https://github.com/inspec/inspec/pull/4446) ([zenspider](https://github.com/zenspider))
 - Clean up our use of SecureRandom in Rakefile. [#4447](https://github.com/inspec/inspec/pull/4447) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
@@ -14,6 +15,7 @@
 - Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider)) <!-- 4.16.1 -->
 
 #### Merged Pull Requests
+- Rework activator plugin to be more idiomatic. [#4446](https://github.com/inspec/inspec/pull/4446) ([zenspider](https://github.com/zenspider)) <!-- 4.16.5 -->
 - Clean up our use of SecureRandom in Rakefile. [#4447](https://github.com/inspec/inspec/pull/4447) ([zenspider](https://github.com/zenspider)) <!-- 4.16.4 -->
 - Guard against nil in apt repo parser. [#4435](https://github.com/inspec/inspec/pull/4435) ([zenspider](https://github.com/zenspider)) <!-- 4.16.4 -->
 - Fixed the formatting of `inspec exec -h` by not using long_desc. [#4436](https://github.com/inspec/inspec/pull/4436) ([zenspider](https://github.com/zenspider)) <!-- 4.16.3 -->
