@@ -154,18 +154,17 @@ module Inspec
     def initialize(path)
       @path = path
       @contents = {}
-      @files = []
+
+      here = Pathname.new(".")
+
       walk_tar(@path) do |tar|
-        @files = tar.find_all(&:file?)
-
-        # delete all entries with no name
-        @files = @files.find_all { |x| !x.full_name.empty? && x.full_name.squeeze("/") !~ %r{\.{2}(?:/|\z)} }
-
-        # delete all entries that have a PaxHeader
-        @files = @files.delete_if { |x| x.full_name.include?("PaxHeader/") }
-
-        # replace all items of the array simply with the relative filename of the file
-        @files.map! { |x| Pathname.new(x.full_name).relative_path_from(Pathname.new(".")).to_s }
+        @files = tar.find_all { |e|
+          name = e.full_name
+          (e.file?                   && # duh
+           !name.empty?              && # for empty filenames?
+           name !~ %r{\.{2}(?:/|\z)} && # .. (to avoid attacks?)
+           !name.include?("PaxHeader/"))
+        }.map { |e| Pathname.new(e.full_name).relative_path_from(here).to_s }
       end
     end
 
