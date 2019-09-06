@@ -201,7 +201,7 @@ module Inspec::Plugin::V2
       status = registry[plugin_name]
       status.api_generation = 0
       act = Activator.new
-      act.activated?(true)
+      act.activated = true
       act.plugin_type = :cli_command
       act.plugin_name = plugin_name
       act.activator_name = :default
