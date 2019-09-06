@@ -51,7 +51,7 @@ module Inspec
     def relative_provider
       RelativeFileProvider.new(self)
     end
-  end
+  end # class FileProvider
 
   class MockProvider < FileProvider
     attr_reader :files
@@ -89,7 +89,7 @@ module Inspec
 
       File.binread(file)
     end
-  end
+  end # class DirProvider
 
   class ZipProvider < FileProvider
     attr_reader :files
@@ -146,7 +146,7 @@ module Inspec
       end
       res
     end
-  end
+  end # class ZipProvider
 
   class TarProvider < FileProvider
     attr_reader :files
@@ -221,7 +221,7 @@ module Inspec
 
       res
     end
-  end
+  end # class TarProvider
 
   class RelativeFileProvider
     BLACKLIST_FILES = [
@@ -323,5 +323,5 @@ module Inspec
       b = File.dirname(new_pre + "b")
       get_prefix([a, b])
     end
-  end
+  end # class RelativeFileProvider
 end
