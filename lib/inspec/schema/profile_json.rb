@@ -16,7 +16,7 @@ module Inspec
       # Differs slightly from a normal control, in that it lacks results, and its descriptions are different
       CONTROL = Primitives::SchemaType.new("Profile JSON Control", {
         "type" => "object",
-        "additionalProperties" => false,
+        "additionalProperties" => true,
         "required" => %w{id title desc descriptions impact refs tags code source_location},
         "properties" => {
           "id" => Primitives.desc(Primitives::STRING, "The ID of this control"),

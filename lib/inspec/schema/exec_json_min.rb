@@ -8,7 +8,7 @@ module Inspec
       # Represents a subset of the information about a control, designed for conciseness
       CONTROL = Primitives::SchemaType.new("Exec JSON-MIN Control", {
         "type" => "object",
-        "additionalProperties" => false,
+        "additionalProperties" => true,
         "required" => %w{id profile_id profile_sha256 status code_desc},
         "properties" => {
           "id" => Primitives::STRING,
@@ -27,7 +27,7 @@ module Inspec
       # Result of exec jsonmin. Top level value
       OUTPUT = Primitives::SchemaType.new("Exec JSON-MIN output", {
         "type" => "object",
-        "additionalProperties" => false,
+        "additionalProperties" => true,
         "required" => %w{statistics controls version},
         "properties" => {
           "statistics" => Primitives::STATISTICS.ref,

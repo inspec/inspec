@@ -8,7 +8,7 @@ module Inspec
       # Represents a label and description, to provide human-readable info about a control
       CONTROL_DESCRIPTION = Primitives::SchemaType.new("Control Description", {
         "type" => "object",
-        "additionalProperties" => false,
+        "additionalProperties" => true,
         "required" => %w{label data},
         "properties" => {
           "label" => Primitives::STRING,
@@ -25,7 +25,7 @@ module Inspec
       # Represents the statistics/result of a control"s execution
       CONTROL_RESULT = Primitives::SchemaType.new("Control Result", {
         "type" => "object",
-        "additionalProperties" => false,
+        "additionalProperties" => true,
         "required" => %w{status code_desc run_time start_time},
         "properties" => {
           "status" => CONTROL_RESULT_STATUS.ref,
@@ -45,7 +45,7 @@ module Inspec
       # Represents a control produced
       CONTROL = Primitives::SchemaType.new("Exec JSON Control", {
         "type" => "object",
-        "additionalProperties" => false,
+        "additionalProperties" => true,
         "required" => %w{id title desc descriptions impact refs tags code source_location results},
         "properties" => {
           "id" => Primitives.desc(Primitives::STRING, "The ID of this control"),
@@ -74,7 +74,7 @@ module Inspec
       # with how description is omitted and version/inspec_version aren't as advertised online
       PROFILE = Primitives::SchemaType.new("Exec JSON Profile", {
         "type" => "object",
-        "additionalProperties" => false,
+        "additionalProperties" => true,
         "required" => %w{name sha256 supports attributes groups controls status},
         # Name is mandatory in inspec.yml.
         # supports, controls, groups, and attributes are always present, even if empty
@@ -108,7 +108,7 @@ module Inspec
       # Result of exec json. Top level value
       OUTPUT = Primitives::SchemaType.new("Exec JSON Output", {
         "type" => "object",
-        "additionalProperties" => false,
+        "additionalProperties" => true,
         "required" => %w{platform profiles statistics version},
         "properties" => {
           "platform" => Primitives::PLATFORM.ref,

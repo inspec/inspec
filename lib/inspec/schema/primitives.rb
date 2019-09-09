@@ -118,7 +118,7 @@ module Inspec
       # Summary item containing run statistics about a subset of the controls
       STATISTIC_ITEM = SchemaType.new("Statistic Block", {
         "type" => "object",
-        "additionalProperties" => false,
+        "additionalProperties" => true,
         "required" => ["total"],
         "properties" => {
           "total" => desc(NUMBER, "Total number of controls (in this category) for this inspec execution."),
@@ -128,7 +128,7 @@ module Inspec
       # Bundles several results statistics, representing distinct groups of controls
       STATISTIC_GROUPING = SchemaType.new("Statistic Hash", {
         "type" => "object",
-        "additionalProperties" => false,
+        "additionalProperties" => true,
         "required" => [],
         "properties" => {
             "passed" => STATISTIC_ITEM.ref,
@@ -140,7 +140,7 @@ module Inspec
       # Contains statistics of an exec run.
       STATISTICS = SchemaType.new("Statistics", {
         "type" => "object",
-        "additionalProperties" => false,
+        "additionalProperties" => true,
         "required" => ["duration"],
         "properties" => {
           "duration" => desc(NUMBER, "How long (in seconds) this inspec exec ran for."),
@@ -169,7 +169,7 @@ module Inspec
       # Represents the platform the test was run on
       PLATFORM = SchemaType.new("Platform", {
         "type" => "object",
-        "additionalProperties" => false,
+        "additionalProperties" => true,
         "required" => %w{name release},
         "properties" => {
           "name" => desc(STRING, "The name of the platform this was run on."),
@@ -181,7 +181,7 @@ module Inspec
       # Explains what software ran the inspec profile/made this file. Typically inspec but could in theory be a different software
       GENERATOR = SchemaType.new("Generator", {
         "type" => "object",
-        "additionalProperties" => false,
+        "additionalProperties" => true,
         "required" => %w{name version},
         "properties" => {
           "name" => desc(STRING, "The name of the software that generated this report."),
@@ -193,7 +193,7 @@ module Inspec
       # Denotes what file this control comes from, and where within
       SOURCE_LOCATION = SchemaType.new("Source Location", {
         "type" => "object",
-        "additionalProperties" => false,
+        "additionalProperties" => true,
         "properties" => {
           "ref" => desc(STRING, "Path to the file that this statement originates from"),
           "line" => desc(NUMBER, "The line at which this statement is located in the file"),
@@ -233,7 +233,7 @@ module Inspec
       # Represents a group of controls within a profile/.rb file
       CONTROL_GROUP = SchemaType.new("Control Group", {
         "type" => "object",
-        "additionalProperties" => false,
+        "additionalProperties" => true,
         "required" => %w{id controls},
         "properties" => {
           "id" => desc(STRING, "The unique identifier of the group"),
