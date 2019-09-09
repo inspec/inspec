@@ -51,7 +51,7 @@ module Inspec
     def relative_provider
       RelativeFileProvider.new(self)
     end
-  end
+  end # class FileProvider
 
   class MockProvider < FileProvider
     attr_reader :files
@@ -89,7 +89,7 @@ module Inspec
 
       File.binread(file)
     end
-  end
+  end # class DirProvider
 
   class ZipProvider < FileProvider
     attr_reader :files
@@ -146,7 +146,7 @@ module Inspec
       end
       res
     end
-  end
+  end # class ZipProvider
 
   class TarProvider < FileProvider
     attr_reader :files
@@ -154,42 +154,48 @@ module Inspec
     def initialize(path)
       @path = path
       @contents = {}
-      @files = []
-      walk_tar(@path) do |tar|
-        @files = tar.find_all(&:file?)
 
-        # delete all entries with no name
-        @files = @files.find_all { |x| !x.full_name.empty? && x.full_name.squeeze("/") !~ %r{\.{2}(?:/|\z)} }
+      here = Pathname.new(".")
 
-        # delete all entries that have a PaxHeader
-        @files = @files.delete_if { |x| x.full_name.include?("PaxHeader/") }
+      walk_tar(@path) do |entries|
+        entries.each do |entry|
+          name = entry.full_name
 
-        # replace all items of the array simply with the relative filename of the file
-        @files.map! { |x| Pathname.new(x.full_name).relative_path_from(Pathname.new(".")).to_s }
+          # rubocop:disable Layout/MultilineOperationIndentation
+          # rubocop:disable Style/ParenthesesAroundCondition
+          next unless (entry.file? &&              # duh
+                       !name.empty? &&             # for empty filenames?
+                       name !~ %r{\.\.(?:/|\z)} && # .. (to avoid attacks?)
+                       !name.include?("PaxHeader/"))
+
+          path = Pathname.new(name).relative_path_from(here).to_s
+
+          @contents[path] = begin # not ||= in a tarball, last one wins
+                              res = entry.read
+                              try = res.dup
+                              try.force_encoding Encoding::UTF_8
+                              res = try if try.valid_encoding?
+                              res
+                            end
+        end
+
+        @files = @contents.keys
       end
     end
 
     def extract(destination_path = ".")
       FileUtils.mkdir_p(destination_path)
 
-      walk_tar(@path) do |files|
-        files.each do |file|
-          next unless @files.include?(file.full_name)
+      @contents.each do |path, body|
+        full_path = File.join(destination_path, path)
 
-          final_path = File.join(destination_path, file.full_name)
-
-          # This removes the top level directory (and any other files) to ensure
-          # extracted files do not conflict.
-          FileUtils.remove_entry(final_path) if File.exist?(final_path)
-
-          FileUtils.mkdir_p(File.dirname(final_path))
-          File.open(final_path, "wb") { |f| f.write(file.read) }
-        end
+        FileUtils.mkdir_p(File.dirname(full_path))
+        File.open(full_path, "wb") { |f| f.write(body) }
       end
     end
 
     def read(file)
-      @contents[file] ||= read_from_tar(file)
+      @contents[file]
     end
 
     private
@@ -200,23 +206,7 @@ module Inspec
     ensure
       tar_file.close
     end
-
-    def read_from_tar(file)
-      return nil unless @files.include?(file)
-
-      res = nil
-      # NB `TarReader` includes `Enumerable` beginning with Ruby 2.x
-      walk_tar(@path) do |tar|
-        tar.each do |entry|
-          next unless entry.file? && [file, "./#{file}"].include?(entry.full_name)
-
-          res = entry.read
-          break
-        end
-      end
-      res
-    end
-  end
+  end # class TarProvider
 
   class RelativeFileProvider
     BLACKLIST_FILES = [
@@ -318,5 +308,5 @@ module Inspec
       b = File.dirname(new_pre + "b")
       get_prefix([a, b])
     end
-  end
+  end # class RelativeFileProvider
 end

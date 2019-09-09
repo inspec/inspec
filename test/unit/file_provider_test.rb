@@ -187,16 +187,19 @@ describe Inspec::TarProvider do
     end
   end
 
+  Entry = Struct.new(:full_name) do
+    def file?; true; end
+
+    def read; ""; end
+  end
+
   describe "applied to a tar with an empty filename" do
     # Just a placeholder, it will be ignored anyway:
     let(:cls) do
       class MockTarProvider < Inspec::TarProvider
-        Entry = Struct.new(:full_name, :file?)
-
-        private
-
         def walk_tar(path, &callback)
-          yield([Entry.new("", true), Entry.new("tartar", true), Entry.new("", true)])
+          paths = ["", "tartar", ""]
+          yield paths.map { |s| Entry.new s }
         end
       end
       MockTarProvider
@@ -210,12 +213,9 @@ describe Inspec::TarProvider do
   describe "applied to a tar with paths above dir" do
     let(:cls) do
       class MockZipSlipTarProvider < Inspec::TarProvider
-        Entry = Struct.new(:full_name, :file?)
-
-        private
-
         def walk_tar(path, &callback)
-          yield([Entry.new("../haha", true), Entry.new("tartar", true), Entry.new("../../blah", true)])
+          paths = ["", "tartar", ""]
+          yield paths.map { |s| Entry.new s }
         end
       end
       MockZipSlipTarProvider

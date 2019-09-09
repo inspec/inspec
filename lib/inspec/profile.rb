@@ -68,7 +68,7 @@ module Inspec
     end
 
     def self.for_target(target, opts = {})
-      opts[:vendor_cache] = opts[:vendor_cache] || Cache.new
+      opts[:vendor_cache] ||= Cache.new
       fetcher = resolve_target(target, opts[:vendor_cache])
       for_fetcher(fetcher, opts)
     end
