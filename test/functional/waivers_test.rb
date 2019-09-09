@@ -8,7 +8,7 @@ describe "waivers" do
   let(:cmd) { "exec #{waivers_profiles_path}/#{profile_name} --input-file #{waivers_profiles_path}/#{profile_name}/files/#{waiver_file}" }
 
   def assert_test_outcome(expected, control_id)
-    assert_equal expected, controls_by_id.dig(control_id, "results", 0, "status")
+    assert_equal "#{control_id}_#{expected}", "#{control_id}_#{controls_by_id.dig(control_id, "results", 0, "status")}"
   end
 
   def assert_waiver_annotation(control_id)

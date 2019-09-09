@@ -312,8 +312,8 @@ module Inspec
           # It appears that yaml.rb automagically parses dates for us
           if expiry < Date.today # If the waiver expired, return - no skip applied
             __waiver_data["message"] = "Waiver expired on #{expiry}, evaluating control normally"
+            return
           end
-          return
         else
           ui = Inspec::UI.new
           ui.error("Unable to parse waiver expiration date '#{expiry}' for control #{@__rule_id}")
