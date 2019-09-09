@@ -140,8 +140,7 @@ def expect_deprecation(group, &block)
 end
 
 class Minitest::Test
-  raise "You must remove skip_now" if Time.now > Time.local(2019, 8, 12)
-
+  # TODO: push up to minitest
   def skip_until(y, m, d, msg)
     raise msg if Time.now > Time.local(y, m, d)
 
@@ -157,6 +156,9 @@ class InspecTest < Minitest::Test
   # shared stuff here
 end
 
-class ParallelTest < InspecTest
-  parallelize_me!
+module Minitest::Guard
+  # TODO: push up to minitest
+  def osx?(platform = RUBY_PLATFORM)
+    /darwin/ =~ platform
+  end
 end

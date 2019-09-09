@@ -88,6 +88,10 @@ module Inspec
         errors.push("Version needs to be in SemVer format")
       end
 
+      unless supports_runtime?
+        warnings.push("The current inspec version #{Inspec::VERSION} cannot satisfy profile inspec_version constraint #{params[:inspec_version]}")
+      end
+
       %w{title summary maintainer copyright license}.each do |field|
         next unless params[field.to_sym].nil?
 

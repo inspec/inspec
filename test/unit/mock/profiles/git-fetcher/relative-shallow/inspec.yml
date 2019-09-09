@@ -1,0 +1,11 @@
+name: relative-shallow
+title: relative-shallow
+license: Apache-2.0
+summary: A profile that depends on profiles that are stored in a repo in subdirs
+version: 0.1.0
+supports:
+  platform: os
+depends:
+- name: child-01
+  git: test/unit/mock/profiles/git-fetcher/git-repo-01
+  relative_path: child-01

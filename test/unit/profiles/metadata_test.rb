@@ -242,5 +242,10 @@ EOF
       m = version_meta("> " + next_version)
       m.supports_runtime?.must_equal false
     end
+
+    it "is included in valid?" do
+      m = version_meta("> #{next_version}")
+      refute m.valid?
+    end
   end
 end

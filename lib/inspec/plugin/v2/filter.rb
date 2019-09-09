@@ -2,6 +2,8 @@ require "singleton"
 require "json"
 require "inspec/globals"
 
+module Inspec::Plugin; end
+
 module Inspec::Plugin::V2
   Exclusion = Struct.new(:plugin_name, :rationale)
 
@@ -58,6 +60,37 @@ module Inspec::Plugin::V2
           raise Inspec::Plugin::V2::ConfigError, "Unknown plugin fillter file format: expected entry #{idx} to have a \"rationale\" field"
         end
       end
+    end
+  end
+
+  # To be a valid plugin name, the plugin must beign with either
+  # inspec- or train-, AND ALSO not be on the exclusion list.
+  # We maintain this exclusion list to avoid confusing users.
+  # For example, we want to have a real gem named inspec-test-fixture,
+  # but we don't want the users to see that.
+  module FilterPredicates
+    def train_plugin_name?(name)
+      valid_plugin_name?(name, :train)
+    end
+
+    def inspec_plugin_name?(name)
+      valid_plugin_name?(name, :inspec)
+    end
+
+    def valid_plugin_name?(name, kind = :either)
+      # Must have a permitted prefix.
+      return false unless case kind
+      when :inspec
+        name.to_s.start_with?("inspec-")
+      when :train
+        name.to_s.start_with?("train-")
+      when :either
+        name.to_s.match(/^(inspec|train)-/)
+      else false
+      end # rubocop: disable Layout/EndAlignment
+
+      # And must not be on the exclusion list.
+      ! Inspec::Plugin::V2::PluginFilter.exclude?(name)
     end
   end
 end

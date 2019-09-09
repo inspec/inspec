@@ -1,0 +1,11 @@
+name: relative-nonesuch
+title: relative-nonesuch
+license: Apache-2.0
+summary: A profile that depends on a profile with a bad relative path
+version: 0.1.0
+supports:
+  platform: os
+depends:
+- name: none-such-01
+  git: test/unit/mock/profiles/git-fetcher/git-repo-01
+  relative_path: no/such/path

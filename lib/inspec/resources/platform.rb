@@ -67,19 +67,22 @@ module Inspec::Resources
       return true if supports.nil? || supports.empty?
 
       status = true
-      supports.each do |s|
-        s.each do |k, v|
-          if %i{os_family os-family platform_family platform-family}.include?(k)
-            status = in_family?(v)
-          elsif %i{os platform}.include?(k)
-            status = platform?(v)
-          elsif %i{os_name os-name platform_name platform-name}.include?(k)
-            status = name == v
-          elsif k == :release
-            status = check_release(v)
-          else
-            status = false
-          end
+      supports.each do |support|
+        support.each do |k, v|
+          status =
+            case k
+            when :os_family, :"os-family", :platform_family, :"platform-family" then
+              in_family?(v)
+            when :os, :platform then
+              platform?(v)
+            when :os_name, :"os-name", :platform_name, :"platform-name" then
+              name == v
+            when :release then
+              check_release(v)
+            else
+              false
+            end
+
           break if status == false
         end
         return true if status == true

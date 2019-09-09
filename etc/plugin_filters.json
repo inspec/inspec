@@ -26,10 +26,6 @@
       "rationale": "This gem is currently only a placeholder, waiting to be built."
     },
     {
-      "plugin_name": "inspec-vault",
-      "rationale": "This gem is currently only a placeholder, waiting to be built."
-    },
-    {
       "plugin_name": "train-vault",
       "rationale": "This gem is currently only a placeholder, waiting to be built."
     },

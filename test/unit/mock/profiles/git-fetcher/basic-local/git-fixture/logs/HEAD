@@ -1,0 +1,4 @@
+0000000000000000000000000000000000000000 0e7d2b9c2c5a1372341e36febceab86558439149 test user <test@test.org> 1560485536 -0400	commit (initial): Initial commit
+0e7d2b9c2c5a1372341e36febceab86558439149 0e7d2b9c2c5a1372341e36febceab86558439149 test user <test@test.org> 1560485563 -0400	checkout: moving from master to test-branch
+0e7d2b9c2c5a1372341e36febceab86558439149 54d0671d3e2c4a28865a0ecc98863859bd4d7475 test user <test@test.org> 1560485674 -0400	commit: Add change only on one branch
+54d0671d3e2c4a28865a0ecc98863859bd4d7475 0e7d2b9c2c5a1372341e36febceab86558439149 test user <test@test.org> 1560485682 -0400	checkout: moving from test-branch to master
