@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.16.9 -->
-## [v4.16.9](https://github.com/inspec/inspec/tree/v4.16.9) (2019-09-10)
+<!-- latest_release 4.16.10 -->
+## [v4.16.10](https://github.com/inspec/inspec/tree/v4.16.10) (2019-09-10)
 
 #### Merged Pull Requests
-- waivers: functional test fixture and eval-time skipping [#4427](https://github.com/inspec/inspec/pull/4427) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Rough draft on waiver input [#4437](https://github.com/inspec/inspec/pull/4437) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.16.0 -->
@@ -14,6 +14,7 @@
 - Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider)) <!-- 4.16.1 -->
 
 #### Merged Pull Requests
+- Rough draft on waiver input [#4437](https://github.com/inspec/inspec/pull/4437) ([zenspider](https://github.com/zenspider)) <!-- 4.16.10 -->
 - waivers: functional test fixture and eval-time skipping [#4427](https://github.com/inspec/inspec/pull/4427) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.16.9 -->
 - Make inspec much faster for most commands. [#4365](https://github.com/inspec/inspec/pull/4365) ([zenspider](https://github.com/zenspider)) <!-- 4.16.8 -->
 - Try to decode archive contents to UTF-8 to avoid encoding corruption. [#4451](https://github.com/inspec/inspec/pull/4451) ([zenspider](https://github.com/zenspider)) <!-- 4.16.7 -->
