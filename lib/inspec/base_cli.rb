@@ -137,6 +137,8 @@ module Inspec
         desc: "Specify one or more inputs directly on the command line, as --input NAME=VALUE"
       option :input_file, type: :array,
         desc: "Load one or more input files, a YAML file with values for the profile to use"
+      option :waiver_file, type: :array,
+        desc: "Load one or more waiver files."
       option :attrs, type: :array,
         desc: "Legacy name for --input-file - deprecated."
       option :create_lockfile, type: :boolean,
