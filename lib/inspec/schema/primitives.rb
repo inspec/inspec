@@ -82,6 +82,7 @@ module Inspec
       OBJECT = { "type" => "object", "additionalProperties" => true }.freeze
       NUMBER = { "type" => "number" }.freeze
       STRING = { "type" => "string" }.freeze
+      NULL = { "type" => "null" }.freeze
 
       # We might eventually enforce string format stuff on this
       URL = { "type" => "string" }.freeze

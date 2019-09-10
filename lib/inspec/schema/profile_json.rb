@@ -17,7 +17,7 @@ module Inspec
       CONTROL = Primitives::SchemaType.new("Profile JSON Control", {
         "type" => "object",
         "additionalProperties" => true,
-        "required" => %w{id title desc descriptions impact refs tags code source_location},
+        "required" => %w{id title desc impact tags code},
         "properties" => {
           "id" => Primitives.desc(Primitives::STRING, "The ID of this control"),
           "title" => { "type" => %w{string null} },
@@ -35,7 +35,7 @@ module Inspec
       PROFILE = Primitives::SchemaType.new("Profile JSON Profile", {
         "type" => "object",
         "additionalProperties" => true, # Anything in the yaml will be put in here. LTTODO: Make this stricter!
-        "required" => %w{name supports controls groups inputs sha256 status},
+        "required" => %w{name supports controls groups sha256},
         "properties" => {
           "name" => Primitives::STRING,
           "supports" => Primitives.array(Primitives::SUPPORT.ref),

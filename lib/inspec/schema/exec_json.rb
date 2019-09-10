@@ -26,7 +26,7 @@ module Inspec
       CONTROL_RESULT = Primitives::SchemaType.new("Control Result", {
         "type" => "object",
         "additionalProperties" => true,
-        "required" => %w{status code_desc run_time start_time},
+        "required" => %w{code_desc run_time start_time},
         "properties" => {
           "status" => CONTROL_RESULT_STATUS.ref,
           "code_desc" => Primitives::STRING,
@@ -38,7 +38,12 @@ module Inspec
           "message" => Primitives::STRING,
           "skip_message" => Primitives::STRING,
           "exception" => Primitives::STRING,
-          "backtrace" => Primitives.array(Primitives::STRING),
+          "backtrace" => {
+            "anyOf" => [
+              Primitives.array(Primitives::STRING),
+              Primitives::NULL,
+            ],
+          },
         },
       }, [CONTROL_RESULT_STATUS])
 
@@ -46,7 +51,7 @@ module Inspec
       CONTROL = Primitives::SchemaType.new("Exec JSON Control", {
         "type" => "object",
         "additionalProperties" => true,
-        "required" => %w{id title desc descriptions impact refs tags code source_location results},
+        "required" => %w{id title desc impact refs tags code source_location results},
         "properties" => {
           "id" => Primitives.desc(Primitives::STRING, "The ID of this control"),
           "title" => { "type" => %w{string null} }, # Nullable string
@@ -75,7 +80,7 @@ module Inspec
       PROFILE = Primitives::SchemaType.new("Exec JSON Profile", {
         "type" => "object",
         "additionalProperties" => true,
-        "required" => %w{name sha256 supports attributes groups controls status},
+        "required" => %w{name sha256 supports attributes groups controls},
         # Name is mandatory in inspec.yml.
         # supports, controls, groups, and attributes are always present, even if empty
         # sha256, status, skip_message
