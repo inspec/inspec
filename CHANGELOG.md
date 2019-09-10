@@ -2108,7 +2108,7 @@
 
 - inspec exec doesn't work for SSH [\#1361](https://github.com/chef/inspec/issues/1361)
 - inspec-archive should create a zip with version string [\#1350](https://github.com/chef/inspec/issues/1350)
-- https and security conserns on inspec.io [\#1217](https://github.com/chef/inspec/issues/1217)
+- https and security concerns on inspec.io [\#1217](https://github.com/chef/inspec/issues/1217)
 - Resource for windows scheduled task [\#1214](https://github.com/chef/inspec/issues/1214)
 - Last steps for inspec.io launch [\#1114](https://github.com/chef/inspec/issues/1114)
 
