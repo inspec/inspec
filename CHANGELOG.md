@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.16.7 -->
-## [v4.16.7](https://github.com/inspec/inspec/tree/v4.16.7) (2019-09-09)
+<!-- latest_release 4.16.8 -->
+## [v4.16.8](https://github.com/inspec/inspec/tree/v4.16.8) (2019-09-10)
 
 #### Merged Pull Requests
-- Try to decode archive contents to UTF-8 to avoid encoding corruption. [#4451](https://github.com/inspec/inspec/pull/4451) ([zenspider](https://github.com/zenspider))
+- Make inspec much faster for most commands. [#4365](https://github.com/inspec/inspec/pull/4365) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.16.0 -->
@@ -14,6 +14,7 @@
 - Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider)) <!-- 4.16.1 -->
 
 #### Merged Pull Requests
+- Make inspec much faster for most commands. [#4365](https://github.com/inspec/inspec/pull/4365) ([zenspider](https://github.com/zenspider)) <!-- 4.16.8 -->
 - Try to decode archive contents to UTF-8 to avoid encoding corruption. [#4451](https://github.com/inspec/inspec/pull/4451) ([zenspider](https://github.com/zenspider)) <!-- 4.16.7 -->
 - Fix for postfix_conf when using a non-standard config location [#4443](https://github.com/inspec/inspec/pull/4443) ([ramereth](https://github.com/ramereth)) <!-- 4.16.6 -->
 - Rework activator plugin to be more idiomatic. [#4446](https://github.com/inspec/inspec/pull/4446) ([zenspider](https://github.com/zenspider)) <!-- 4.16.5 -->
