@@ -40,5 +40,5 @@ inspec shell -c platform.family
 inspec plugin list
 
 # Execute our functional tests using omnibus inspec.
-export CI_OMNIBUS=true
+export CI_OMNIBUS="/opt/inspec/bin/inspec"
 rake test:functional
