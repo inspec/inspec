@@ -1,6 +1,7 @@
 # copyright: 2015, Dominik Richter
 
 require "method_source"
+require "date"
 require "inspec/describe"
 require "inspec/expect"
 require "inspec/resource"
@@ -28,6 +29,7 @@ module Inspec
       @resource_dsl
     end
 
+    attr_reader :__waiver_data
     def initialize(id, profile_id, opts, &block)
       @impact = nil
       @title = nil
@@ -42,7 +44,7 @@ module Inspec
       @__rule_id = id
       @__profile_id = profile_id
       @__checks = []
-      @__skip_rule = {}
+      @__skip_rule = {} # { result: true, message: "Why", type: [:only_if, :waiver] }
       @__merge_count = 0
       @__merge_changes = []
       @__skip_only_if_eval = opts[:skip_only_if_eval]
@@ -52,6 +54,11 @@ module Inspec
 
       begin
         instance_eval(&block)
+
+        # By applying waivers *after* the instance eval, we assure that
+        # waivers have higher precedence than only_if.
+        __apply_waivers
+
       rescue StandardError => e
         # We've encountered an exception while trying to eval the code inside the
         # control block. We need to prevent the exception from bubbling up, and
@@ -141,6 +148,7 @@ module Inspec
       return if @__skip_only_if_eval == true
 
       @__skip_rule[:result] ||= !yield
+      @__skip_rule[:type] = :only_if
       @__skip_rule[:message] = message
     end
 
@@ -193,9 +201,9 @@ module Inspec
       rule.instance_variable_get(:@__skip_rule)
     end
 
-    def self.set_skip_rule(rule, value, message = nil)
+    def self.set_skip_rule(rule, value, message = nil, type = :only_if)
       rule.instance_variable_set(:@__skip_rule,
-        { result: value, message: message })
+        { result: value, message: message, type: type })
     end
 
     def self.merge_count(rule)
@@ -206,14 +214,16 @@ module Inspec
       rule.instance_variable_get(:@__merge_changes)
     end
 
+    # If a rule is marked to be skipped, this
+    # creates a dummay array of "checks" with a skip outcome
     def self.prepare_checks(rule)
       skip_check = skip_status(rule)
       return checks(rule) unless skip_check[:result].eql?(true)
 
       if skip_check[:message]
-        msg = "Skipped control due to only_if condition: #{skip_check[:message]}"
+        msg = "Skipped control due to #{skip_check[:type]} condition: #{skip_check[:message]}"
       else
-        msg = "Skipped control due to only_if condition."
+        msg = "Skipped control due to #{skip_check[:type]} condition."
       end
 
       # TODO: we use os as the carrier here, but should consider
@@ -251,7 +261,8 @@ module Inspec
       skip_check = skip_status(src)
       sr = skip_check[:result]
       msg = skip_check[:message]
-      set_skip_rule(dst, sr, msg) unless sr.nil?
+      skip_type = skip_check[:type]
+      set_skip_rule(dst, sr, msg, skip_type) unless sr.nil?
 
       # Save merge history
       dst.instance_variable_set(:@__merge_count, merge_count(dst) + 1)
@@ -265,6 +276,56 @@ module Inspec
 
     def __add_check(describe_or_expect, values, block)
       @__checks.push([describe_or_expect, values, block])
+    end
+
+    # Look for an input with a matching ID, and if found, apply waiver
+    # skipping logic. Basically, if we have a current waiver, and it says
+    # to skip, we'll replace all the checks with a dummy check (same as
+    # only_if mechanism)
+    # Double underscore: not intended to be called as part of the DSL
+    def __apply_waivers
+      input_name = @__rule_id # TODO: control ID slugging
+      registry = Inspec::InputRegistry.instance
+      input = registry.inputs_by_profile.dig(@__profile_id, input_name)
+      return unless input
+
+      # An InSpec Input is a datastructure that tracks a profile parameter
+      # over time. Its value can be set by many sources, and it keeps a
+      # log of each "set" event so that when it is collapsed to a value,
+      # it can determine the correct (highest priority) value.
+      # Store in an instance variable for.. later reading???
+      @__waiver_data = input.value
+      __waiver_data["skipped_due_to_waiver"] = false
+      __waiver_data["message"] = ""
+
+      # Waivers should have a hash value with keys possibly including skip and
+      # expiration_date. We only care here if it has a skip key and it
+      # is yes-like, since all non-skipped waiver operations are handled
+      # during reporting phase.
+      return unless __waiver_data.key?("skip") && __waiver_data["skip"]
+
+      # OK, the intent is to skip. Does it have an expiration date, and
+      # if so, is it in the future?
+      expiry = __waiver_data["expiration_date"]
+      if expiry
+        if expiry.is_a?(Date)
+          # It appears that yaml.rb automagically parses dates for us
+          if expiry < Date.today # If the waiver expired, return - no skip applied
+            __waiver_data["message"] = "Waiver expired on #{expiry}, evaluating control normally"
+            return
+          end
+        else
+          ui = Inspec::UI.new
+          ui.error("Unable to parse waiver expiration date '#{expiry}' for control #{@__rule_id}")
+          ui.exit(:usage_error)
+        end
+      end
+
+      # OK, apply a skip.
+      @__skip_rule[:result] = true
+      @__skip_rule[:type] = :waiver
+      @__skip_rule[:message] = __waiver_data["justification"]
+      __waiver_data["skipped_due_to_waiver"] = true
     end
 
     #

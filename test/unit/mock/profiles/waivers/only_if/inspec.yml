@@ -1,0 +1,5 @@
+name: only_if
+summary: Verifies waiver/only_if precedence
+version: 0.1.0
+supports:
+  platform: os

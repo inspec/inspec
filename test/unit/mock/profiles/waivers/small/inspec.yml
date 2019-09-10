@@ -1,0 +1,5 @@
+name: small
+summary: Test profile for running bad waiver files through InSpec
+version: 0.1.0
+supports:
+  platform: os
