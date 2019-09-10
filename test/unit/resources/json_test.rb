@@ -132,7 +132,9 @@ describe "Inspec::Resources::JSON" do
     end
 
     it "empty stdout, message in stderr" do
-      resource = run_json_cmd "echo bad args 1>&2 && false"
+      skip "Bug #4465: does not work on windows w/ transport==local" if windows?
+
+      resource = run_json_cmd %{abort 'bad args'"}
 
       assert_resource_failed resource, "No JSON output, STDERR:"
     end
