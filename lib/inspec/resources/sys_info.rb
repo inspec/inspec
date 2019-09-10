@@ -47,17 +47,17 @@ module Inspec::Resources
     def linux_hostname(opt = nil)
       if !opt.nil?
         opt = case opt
-            when "f", "long", "fqdn", "full"
-              " -f"
-            when "d", "domain"
-              " -d"
-            when "i", "ip_address"
-              " -I"
-            when "s", "short"
-              " -s"
-            else
-              "ERROR"
-            end
+              when "f", "long", "fqdn", "full"
+                " -f"
+              when "d", "domain"
+                " -d"
+              when "i", "ip_address"
+                " -I"
+              when "s", "short"
+                " -s"
+              else
+                "ERROR"
+              end
       end
       if opt == "ERROR"
         skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
@@ -69,13 +69,13 @@ module Inspec::Resources
     def mac_hostname(opt = nil)
       if !opt.nil?
         opt = case opt
-            when "f", "long", "fqdn", "full"
-              " -f"
-            when "s", "short"
-              " -s"
-            else
-              "ERROR"
-            end
+              when "f", "long", "fqdn", "full"
+                " -f"
+              when "s", "short"
+                " -s"
+              else
+                "ERROR"
+              end
       end
       if opt == "ERROR"
         skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
