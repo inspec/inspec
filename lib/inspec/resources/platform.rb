@@ -1,3 +1,5 @@
+require "inspec/resource"
+
 module Inspec::Resources
   class PlatformResource < Inspec.resource(1)
     name "platform"

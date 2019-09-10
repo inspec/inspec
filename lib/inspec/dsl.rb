@@ -3,6 +3,8 @@ require "inspec/log"
 require "inspec/plugin/v2"
 
 module Inspec::DSL
+  attr_accessor :backend
+
   def require_controls(id, &block)
     opts = { profile_id: id, include_all: false, backend: @backend, conf: @conf, dependencies: @dependencies }
     ::Inspec::DSL.load_spec_files_for_profile(self, opts, &block)
@@ -25,6 +27,23 @@ module Inspec::DSL
     add_resource(target_name, res)
   end
 
+  ##
+  # Try to load and instantiate a missing resource or raise LoadError
+  # if unable. Requiring the resource registers it and generates a
+  # method for it so you should only hit this once per missing
+  # resource.
+
+  def self.method_missing_resource(backend, id, *arguments)
+    begin
+      require "inspec/resources/#{id}"
+    rescue LoadError
+      require "resources/aws/#{id}"
+    end
+
+    klass = Inspec::Resource.registry[id.to_s]
+    klass.new(backend, id, *arguments)
+  end
+
   # Support for Outer Profile DSL plugins
   # This is called when an unknown method is encountered
   # "bare" in a control file - outside of a control or describe block.
@@ -44,7 +63,11 @@ module Inspec::DSL
       # We still haven't called it, so do so now.
       send(method_name, *arguments, &block)
     else
-      super
+      begin
+        Inspec::DSL.method_missing_resource(backend, method_name, *arguments)
+      rescue LoadError
+        super
+      end
     end
   end
 

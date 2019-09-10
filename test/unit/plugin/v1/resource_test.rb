@@ -57,8 +57,13 @@ describe Inspec::Plugins::Resource do
 
   describe "supported platform" do
     def supports_meta(supports)
-      Inspec::Resource.supports["os"] = supports
+      @old = Inspec::Resource.supports[:os]
+      Inspec::Resource.supports[:os] = supports
       load_resource("os")
+    end
+
+    after do
+      Inspec::Resource.supports[:os] = @old
     end
 
     it "loads a profile which supports multiple families" do
