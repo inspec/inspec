@@ -38,3 +38,7 @@ inspec version
 inspec shell -c platform.family
 
 inspec plugin list
+
+# Execute our functional tests using omnibus inspec.
+export CI_OMNIBUS=true
+rake test:functional
