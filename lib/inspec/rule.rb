@@ -6,6 +6,7 @@ require "inspec/describe"
 require "inspec/expect"
 require "inspec/resource"
 require "inspec/resources/os"
+require "inspec/input_registry"
 
 module Inspec
   class Rule
