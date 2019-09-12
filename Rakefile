@@ -86,19 +86,6 @@ namespace :test do
     puts missing.sort
   end
 
-  task :isolated do
-    failures = Dir[*GLOBS]
-    failures.reject! do |file|
-      system(Gem.ruby, "-Ilib:test", file)
-    end
-
-    unless failures.empty?
-      puts "These test files failed:\n"
-      puts failures
-      raise "broken tests..."
-    end
-  end
-
   # rubocop:disable Style/BlockDelimiters,Layout/ExtraSpacing,Lint/AssignmentInCondition
 
   def n_threads_run(n_workers, jobs)
@@ -118,7 +105,7 @@ namespace :test do
     }.each(&:join)
   end
 
-  task :isolated2 do
+  task :isolated do
     require "fileutils"
     require "thread"
 
