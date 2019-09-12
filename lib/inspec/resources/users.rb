@@ -118,7 +118,7 @@ module Inspec::Resources
   #   its('warndays') { should eq 5 }
   #   its('passwordage') { should be >= 0 }
   #   its('maxbadpasswords') { should eq nil } // not yet supported on linux
-  #   its('badpasswordattempts') { should eq 0 } 
+  #   its('badpasswordattempts') { should eq 0 }
   # end
   # describe user('Administrator') do
   #   it { should exist }
@@ -132,8 +132,8 @@ module Inspec::Resources
   #   its('maxdays') { should eq 42 }
   #   its('warndays') { should eq nil }
   #   its('passwordage') { should eq 355 }
-  #   its('maxbadpasswords') { should eq 0 } 
-  #   its('badpasswordattempts') { should eq 0 } 
+  #   its('maxbadpasswords') { should eq 0 }
+  #   its('badpasswordattempts') { should eq 0 }
   # end
   #
   # The following  Serverspec  matchers are deprecated in favor for direct value access
