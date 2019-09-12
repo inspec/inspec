@@ -57,6 +57,10 @@ module Inspec::Resources
       where { mount_point == "/home" }.entries[0].mount_options
     end
 
+    def to_s
+      "File System Table File (fstab)"
+    end
+
     private
 
     def read_content
