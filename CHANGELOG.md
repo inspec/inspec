@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.16.12 -->
-## [v4.16.12](https://github.com/inspec/inspec/tree/v4.16.12) (2019-09-11)
+<!-- latest_release 4.16.13 -->
+## [v4.16.13](https://github.com/inspec/inspec/tree/v4.16.13) (2019-09-12)
 
 #### Bug Fixes
--    Fix broken unit test by adding require [#4469](https://github.com/inspec/inspec/pull/4469) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add to_s definitions to several resources [#4478](https://github.com/inspec/inspec/pull/4478) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.16.0 -->
 ### Changes since 4.16.0 release
 
 #### Bug Fixes
+- Add to_s definitions to several resources [#4478](https://github.com/inspec/inspec/pull/4478) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.16.13 -->
 -    Fix broken unit test by adding require [#4469](https://github.com/inspec/inspec/pull/4469) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.16.12 -->
 - Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider)) <!-- 4.16.1 -->
 
