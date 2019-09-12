@@ -464,18 +464,10 @@ module Inspec::Resources
       ).params
 
       cmd = inspec.command("echo $((($(date +%s) - $(date -d '#{params["Last password change"]}' '+%s'))/86400))")
-      if cmd.exit_status != 0
-        dayslastset = nil
-      else
-        dayslastset = convert_to_i(cmd.stdout.chomp)
-      end
+      dayslastset = convert_to_i(cmd.stdout.chomp) if cmd.exit_status == 0
 
       cmd = inspec.command("lastb -w -a | awk '{print $1}' | grep #{username} | wc -l")
-      if cmd.exit_status != 0
-        badpasswordattempts = nil
-      else
-        badpasswordattempts = convert_to_i(cmd.stdout.chomp)
-      end
+      badpasswordattempts = convert_to_i(cmd.stdout.chomp) if cmd.exit_status == 0
 
       {
         mindays: convert_to_i(params["Minimum number of days between password change"]),
