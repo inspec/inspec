@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.16.13 -->
-## [v4.16.13](https://github.com/inspec/inspec/tree/v4.16.13) (2019-09-12)
+<!-- latest_release unreleased -->
+## Unreleased
 
-#### Bug Fixes
-- Add to_s definitions to several resources [#4478](https://github.com/inspec/inspec/pull/4478) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Update rubygems and use gem env for system details. [#4475](https://github.com/inspec/inspec/pull/4475) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.16.0 -->
@@ -16,6 +16,7 @@
 - Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider)) <!-- 4.16.1 -->
 
 #### Merged Pull Requests
+- Update rubygems and use gem env for system details. [#4475](https://github.com/inspec/inspec/pull/4475) ([zenspider](https://github.com/zenspider)) <!-- 4.16.13 -->
 - json resource: Add handling for `command:` error [#3844](https://github.com/inspec/inspec/pull/3844) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 4.16.11 -->
 - Rough draft on waiver input [#4437](https://github.com/inspec/inspec/pull/4437) ([zenspider](https://github.com/zenspider)) <!-- 4.16.10 -->
 - waivers: functional test fixture and eval-time skipping [#4427](https://github.com/inspec/inspec/pull/4427) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.16.9 -->
