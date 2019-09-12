@@ -9,7 +9,7 @@ transport:
 
 lifecycle:
   pre_converge:
-    - local: gem build inspec-core.gemspec --output test/cookbooks/os_prepare/files/inspec-core-local.gem
+    - local: gem build inspec-core.gemspec --output test/kitchen/cookbooks/os_prepare/files/inspec-core-local.gem
 
 provisioner:
   name: dokken
@@ -106,7 +106,7 @@ suites:
   - recipe[audit]
   verifier:
     inspec_tests:
-      - test/integration/default
+      - test/kitchen/policies/default
   attributes:
     audit:
       attributes:

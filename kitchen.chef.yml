@@ -11,7 +11,7 @@ verifier:
 
 lifecycle:
   pre_converge:
-    - local: gem build inspec-core.gemspec --output test/cookbooks/os_prepare/files/inspec-core-local.gem
+    - local: gem build inspec-core.gemspec --output test/kitchen/cookbooks/os_prepare/files/inspec-core-local.gem
 
 platforms:
 # The following (private) boxes are shared via VagrantCloud and are only
