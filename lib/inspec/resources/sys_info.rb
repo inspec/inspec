@@ -54,5 +54,9 @@ module Inspec::Resources
         skip_resource "The `sys_info.model` resource is not supported on your OS yet."
       end
     end
+
+    def to_s
+      "System Information"
+    end
   end
 end

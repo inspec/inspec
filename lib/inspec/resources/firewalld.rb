@@ -88,6 +88,10 @@ module Inspec::Resources
       firewalld_command("--zone=#{query_zone} --query-rich-rule='#{rule}'") == "yes"
     end
 
+    def to_s
+      "Firewall Rules"
+    end
+
     private
 
     def active_zones

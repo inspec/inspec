@@ -37,6 +37,10 @@ module Inspec::Resources
       .register_column(:all_host_names, field: "all_host_names")
       .install_filter_methods_on_resource(self, :params)
 
+    def to_s
+      "Hosts File"
+    end
+
     private
 
     def default_hosts_file_path
