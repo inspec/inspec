@@ -44,6 +44,9 @@ pipelines:
  - www/deploy:
     description: Deploy website to inspec.io
     definition: .expeditor/wwwdeploy.yml
+ - verify/resources:
+    description: Test core resources with test-kitchen.
+    definition: .expeditor/verify.resources.yml
  - integration/libraries:
     description: Integration with plugins, gems, resource packs.
     definition: .expeditor/integration.libraries.yml
@@ -164,3 +167,7 @@ subscriptions:
          only_if_team_member:
            - inspec/owners
            - inspec/inspec-core-team
+     - post_github_comment:.expeditor/templates/pull_request.mustache
+ - workload: buildkite_build_passed:{{agent_id}}:verify:*
+   actions:
+    - trigger_pipeline:verify/resources
