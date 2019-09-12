@@ -466,7 +466,7 @@ module Inspec::Resources
       cmd = inspec.command("echo $((($(date +%s) - $(date -d '#{params["Last password change"]}' '+%s'))/86400))")
       dayslastset = convert_to_i(cmd.stdout.chomp) if cmd.exit_status == 0
 
-      cmd = inspec.command("lastb -w -a | awk '{print $1}' | grep #{username} | wc -l")
+      cmd = inspec.command("lastb -w -a | grep #{username} | wc -l")
       badpasswordattempts = convert_to_i(cmd.stdout.chomp) if cmd.exit_status == 0
 
       {
