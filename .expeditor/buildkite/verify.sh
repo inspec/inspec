@@ -4,9 +4,12 @@ set -ueo pipefail
 
 export LANG=C.UTF-8 LANGUAGE=C.UTF-8
 
+echo "--- updating rubygems"
+gem update --system -N
+
 echo "--- system details"
 uname -a
-ruby -v
+gem env
 bundle --version
 
 echo "--- bundle install"
