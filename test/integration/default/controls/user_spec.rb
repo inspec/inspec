@@ -91,6 +91,12 @@ if os.windows?
     # should return the SID of the user
     its('uid') { should_not eq nil}
     its('groups') { should include userinfo[:groups] }
+    its('mindays') { should eq 0 }
+    its('maxdays') { should eq 42 }
+    its('warndays') { should eq nil }
+    its('passwordage') { should_be > 5 }
+    its('maxbadpasswords') { should eq 0 }
+    its('badpasswordattempts') { should eq 0 }
   end
 
   # also support simple username for local users without domain
@@ -99,7 +105,13 @@ if os.windows?
     # should return the SID of the user
     its('uid') { should_not eq nil}
     its('groups') { should include userinfo[:groups] }
-  end
+    its('mindays') { should eq 0 }
+    its('maxdays') { should eq 42 }
+    its('warndays') { should eq nil }
+    its('passwordage') { should_be > 5 }
+    its('maxbadpasswords') { should eq 0 }
+    its('badpasswordattempts') { should eq 0 }
+    end
 else
   # test single `user` resource
   describe user(userinfo[:username]) do
