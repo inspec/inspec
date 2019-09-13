@@ -1,5 +1,5 @@
 require "helper"
-require "inspec/objects/input"
+require "inspec/input"
 
 describe Inspec::Input do
   let(:opts) { {} }
@@ -22,57 +22,6 @@ describe Inspec::Input do
         seen_value = ipt.send(field)
         seen_value.must_equal value
       end
-    end
-  end
-
-  #==============================================================#
-  #                      Code Generation
-  #==============================================================#
-  describe "to_ruby method" do
-    it "generates the code for the input" do
-      input = Inspec::Input.new("application_port", description: "The port my application uses", value: 80)
-
-      ruby_code = input.to_ruby
-      ruby_code.must_include "attr_application_port = " # Should assign to a var
-      # Should have the DSL call. This should be attribute(), not input(), for the
-      # foreseeable future, to maintain backwards compatibility.
-      ruby_code.must_include "attribute('application_port'"
-      ruby_code.must_include "value: 80"
-      ruby_code.must_include "default: 80"
-      ruby_code.must_include "description: 'The port my application uses'"
-
-      # Try to eval the code to verify that the generated code was valid ruby.
-      # Note that the input() method is part of the DSL, so we need to
-      # alter the call into something that can respond - the constructor will do
-      ruby_code_for_eval = ruby_code.sub(/attribute\(/, "Inspec::Input.new(")
-
-      # This will throw exceptions if there is a problem
-      new_attr = eval(ruby_code_for_eval) # rubocop:disable Security/Eval # Could use ripper!
-      new_attr.value.must_equal 80
-    end
-  end
-  # TODO - deprecate this, not sure it is used
-  describe "to_hash method" do
-    it "generates a similar hash" do
-      ipt = Inspec::Input.new(
-        "some_attr",
-        description: "The port my application uses",
-        value: 80,
-        identifier: "app_port",
-        required: false,
-        type: "numeric"
-      )
-      expected = {
-        name: "some_attr",
-        options: {
-          description: "The port my application uses",
-          value: 80,
-          identifier: "app_port",
-          required: false,
-          type: "Numeric", # This gets normalized
-        },
-      }
-      ipt.to_hash.must_equal expected
     end
   end
 
