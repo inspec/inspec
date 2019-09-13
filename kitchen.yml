@@ -100,13 +100,13 @@ platforms:
       - RUN /usr/bin/apt-get update -y
 
 suites:
-- name: default
+- name: resources-core
   run_list:
   - recipe[os_prepare]
   - recipe[audit]
   verifier:
     inspec_tests:
-      - test/kitchen/policies/default
+      - test/kitchen/policies/resources-core
   attributes:
     audit:
       attributes:
@@ -122,3 +122,7 @@ suites:
     osprepare:
       docker: true
       application: false
+
+- name: resources-database
+- name: resources-unix
+- name: resources-windows
