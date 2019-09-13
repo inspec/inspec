@@ -135,6 +135,11 @@ module Inspec
       Thor::CoreExt::HashWithIndifferentAccess.new(@plugin_cfg[plugin_name] || {})
     end
 
+    # clear the cached config
+    def self.__reset
+      @cached_config = nil
+    end
+
     private
 
     def _utc_merge_transport_options(credentials, transport_name)
