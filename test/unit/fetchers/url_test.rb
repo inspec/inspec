@@ -8,7 +8,7 @@ describe Fetchers::Url do
   end
 
   describe "testing different urls" do
-    # We don't use the MockLoader here becuase it produces tarballs
+    # We don't use the MockLoader here because it produces tarballs
     # with different sha's on each run
     let(:expected_shasum) { "98b1ae45059b004178a8eee0c1f6179dcea139c0fd8a69ee47a6f02d97af1f17" }
     let(:mock_open) do
