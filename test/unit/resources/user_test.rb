@@ -124,7 +124,7 @@ describe "Inspec::Resources::User" do
     _(resource.shell).must_be_nil
     _(resource.mindays).wont_be_nil
     _(resource.maxdays).wont_be_nil
-    _(resource.warndays).wont_be_nil
+    _(resource.warndays).must_be_nil
     _(resource.disabled?).must_equal false
   end
 
