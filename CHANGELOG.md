@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.16.14 -->
+## [v4.16.14](https://github.com/inspec/inspec/tree/v4.16.14) (2019-09-13)
 
 #### Merged Pull Requests
+- Fix simple typo: becuase -&gt; because [#4484](https://github.com/inspec/inspec/pull/4484) ([timgates42](https://github.com/timgates42))
 - Update rubygems and use gem env for system details. [#4475](https://github.com/inspec/inspec/pull/4475) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
@@ -16,6 +17,7 @@
 - Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider)) <!-- 4.16.1 -->
 
 #### Merged Pull Requests
+- Fix simple typo: becuase -&gt; because [#4484](https://github.com/inspec/inspec/pull/4484) ([timgates42](https://github.com/timgates42)) <!-- 4.16.14 -->
 - Update rubygems and use gem env for system details. [#4475](https://github.com/inspec/inspec/pull/4475) ([zenspider](https://github.com/zenspider)) <!-- 4.16.13 -->
 - json resource: Add handling for `command:` error [#3844](https://github.com/inspec/inspec/pull/3844) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 4.16.11 -->
 - Rough draft on waiver input [#4437](https://github.com/inspec/inspec/pull/4437) ([zenspider](https://github.com/zenspider)) <!-- 4.16.10 -->
