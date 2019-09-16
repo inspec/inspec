@@ -38,6 +38,7 @@ module Inspec::Reporters
           code_desc: r[:code_desc],
           run_time: r[:run_time],
           start_time: r[:start_time],
+          waiver_data: r[:waiver_data],
         }
         result[:resource] = r[:resource] if r[:resource]
         result[:skip_message] = r[:skip_message] if r[:skip_message]

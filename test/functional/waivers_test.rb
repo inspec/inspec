@@ -13,7 +13,7 @@ describe "waivers" do
   end
 
   def assert_waiver_annotation(control_id)
-    # TODO assert_equal 42, controls_by_id.dig(control_id)
+    assert_equal 42, controls_by_id.dig(control, "results", 0, "waiver_data")
   end
 
   def refute_waiver_annotation(control_id)
