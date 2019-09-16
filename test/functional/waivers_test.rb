@@ -3,6 +3,8 @@ require "functional/helper"
 describe "waivers" do
   include FunctionalHelper
 
+  parallelize_me! # 10s -> 2s w/ N=15
+
   let(:waivers_profiles_path) { "#{profile_path}/waivers" }
   let(:run_result)            { run_inspec_process(cmd, json: true) }
   let(:controls_by_id)        { run_result.payload.json.dig("profiles", 0, "controls").map { |c| [c["id"], c] }.to_h }
@@ -12,12 +14,40 @@ describe "waivers" do
     assert_equal expected, controls_by_id.dig(control_id, "results", 0, "status")
   end
 
+  def assert_stringy(s)
+    assert_kind_of String, s
+    refute_empty s
+  end
+
+  def waiver_data(control_id)
+    controls_by_id.dig(control_id, "results", 0, "waiver_data")
+  end
+
   def assert_waiver_annotation(control_id)
-    assert_equal 42, controls_by_id.dig(control, "results", 0, "waiver_data")
+    act = waiver_data control_id
+
+    # extract data from control_id
+    expiry    = !!(control_id !~ /no_expiry/)
+    in_past   = !!(control_id =~ /in_past/)
+    in_future = !!(control_id =~ /in_future/)
+    skipped   = !!(control_id !~ /not_skipped/)
+
+    # higher logic
+    waived      = (!expiry && skipped) || (expiry && skipped && in_future)
+    # TODO: wasn't message was originally specced as being optional?
+    has_message = expiry && skipped && in_past
+
+    assert_instance_of Hash, act
+
+    assert_stringy        act["justification"] # TODO: optional?
+    assert_equal skipped, act["skip"]
+    assert_equal waived,  act["skipped_due_to_waiver"]
+    assert_stringy        act["message"] if     has_message
+    assert_equal "",      act["message"] unless has_message
   end
 
   def refute_waiver_annotation(control_id)
-    # TODO assert_equal 42, controls_by_id.dig(control_id)
+    assert_nil waiver_data control_id
   end
 
   def assert_skip_message(yea, nay)
@@ -47,10 +77,9 @@ describe "waivers" do
       it "has all of the expected outcomes #{control_id}" do
         assert_test_outcome expected, control_id
 
-        case expected
-        when "passed", "skipped"
+        if control_id !~ /not_waivered/
           assert_waiver_annotation control_id
-        when "failed"
+        else
           refute_waiver_annotation control_id
         end
       end
