@@ -4,6 +4,8 @@ require "tmpdir"
 describe "example inheritance profile" do
   include FunctionalHelper
 
+  parallelize_me!
+
   it "can vendor profile dependencies" do
     prepare_examples("inheritance") do |dir|
       out = inspec("vendor " + dir + " --overwrite")

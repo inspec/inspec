@@ -4,6 +4,8 @@ class PluginManagerCliSearch < Minitest::Test
   include CorePluginFunctionalHelper
   include PluginManagerHelpers
 
+  parallelize_me!
+
   # TODO: Thor can't hide options, but we wish it could.
   # def test_search_include_fixture_hidden_option
   #   result = run_inspec_process_with_this_plugin('plugin help search')

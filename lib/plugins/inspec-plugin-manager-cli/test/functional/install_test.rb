@@ -4,6 +4,8 @@ class PluginManagerCliInstall < Minitest::Test
   include CorePluginFunctionalHelper # gives us instance methods, like `let` aliases inside test methods
   extend CorePluginFunctionalHelper  # gives us class methods, like `let` aliases out here outside test methods
 
+  parallelize_me!
+
   include PluginManagerHelpers
   ruby_abi_version = (Gem.ruby_version.segments[0, 2] << 0).join(".")
   # Test multiple hueristics of the path-mode install.

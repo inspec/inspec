@@ -4,6 +4,8 @@ require "json-schema"
 describe "inspec exec" do
   include FunctionalHelper
 
+  parallelize_me!
+
   it "can execute a profile with the mini json formatter and validate its schema" do
     out = inspec("exec " + example_profile + " --reporter json-min --no-create-lockfile")
     data = JSON.parse(out.stdout)

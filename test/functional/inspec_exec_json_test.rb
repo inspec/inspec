@@ -4,6 +4,8 @@ require "json-schema"
 describe "inspec exec with json formatter" do
   include FunctionalHelper
 
+  parallelize_me!
+
   it "can execute a simple file and validate the json schema" do
     out = inspec("exec " + example_control + " --reporter json --no-create-lockfile")
 

@@ -7,6 +7,8 @@ describe "inspec archive" do
   include FunctionalHelper
   let(:auto_dst) { File.expand_path(File.join(repo_path, "profile-1.0.0.tar.gz")) }
 
+  parallelize_me!
+
   it "archive is successful" do
     prepare_examples("profile") do |dir|
       out = inspec("archive " + dir + " --overwrite")
