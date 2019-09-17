@@ -38,16 +38,6 @@ function Invoke-Build {
         bundle install
         Write-BuildLine " ** Running the inspec project's 'rake install' to install the path-based gems so they look like any other installed gem."
         bundle exec rake install # this needs to be 'bundle exec'd because a Rakefile makes reference to Bundler
-        Write-BuildLine " ** Also 'rake install' any gem sourced as a git reference."
-        foreach($git_gem in (Get-ChildItem "$env:GEM_HOME/bundler/gems")) {
-            try {
-                Push-Location $git_gem
-                Write-BuildLine " -- and $git_gem too"
-                rake install # this needs to NOT be 'bundle exec'd else bundler complains about dev deps not being installed
-            } finally {
-                Pop-Location
-            }
-        }
     } finally {
         Pop-Location
     }
