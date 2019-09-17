@@ -13,17 +13,74 @@ module Inspec::Resources
       describe sys_info do
         its('hostname') { should eq 'example.com' }
       end
+
+      describe sys_info do
+        its('fqdn') { should eq 'user.example.com' }
+      end
+
     EXAMPLE
 
+    %w{ domain fqdn ip_address short }.each do |opt|
+      define_method(opt.to_sym) do
+        hostname(opt)
+      end
+    end
+
     # returns the hostname of the local system
-    def hostname
+    def hostname(opt = nil)
       os = inspec.os
-      if os.linux? || os.darwin?
-        inspec.command("hostname").stdout.chomp
+      if os.linux?
+        linux_hostname(opt)
+      elsif os.darwin?
+        mac_hostname(opt)
       elsif os.windows?
-        inspec.powershell("$env:computername").stdout.chomp
+        if !opt.nil?
+          skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
+        else
+          inspec.powershell("$env:computername").stdout.chomp
+        end
       else
         skip_resource "The `sys_info.hostname` resource is not supported on your OS yet."
+      end
+    end
+
+    def linux_hostname(opt = nil)
+      if !opt.nil?
+        opt = case opt
+              when "f", "long", "fqdn", "full"
+                " -f"
+              when "d", "domain"
+                " -d"
+              when "i", "ip_address"
+                " -I"
+              when "s", "short"
+                " -s"
+              else
+                "ERROR"
+              end
+      end
+      if opt == "ERROR"
+        skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
+      else
+        inspec.command("hostname#{opt}").stdout.chomp
+      end
+    end
+
+    def mac_hostname(opt = nil)
+      if !opt.nil?
+        opt = case opt
+              when "f", "long", "fqdn", "full"
+                " -f"
+              when "s", "short"
+                " -s"
+              else
+                "ERROR"
+              end
+      end
+      if opt == "ERROR"
+        skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
+      else
+        inspec.command("hostname#{opt}").stdout.chomp
       end
     end
 
