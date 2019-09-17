@@ -1,5 +1,5 @@
 require "helper"
-require "inspec/objects/input"
+require "inspec/input"
 
 describe "Inspec::Input and Events" do
   let(:ipt) { Inspec::Input.new("input") }

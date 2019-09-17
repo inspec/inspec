@@ -1,6 +1,6 @@
 require "forwardable"
 require "singleton"
-require "inspec/objects/input"
+require "inspec/input"
 require "inspec/secrets"
 require "inspec/exceptions"
 require "inspec/plugin/v2"
@@ -12,6 +12,15 @@ module Inspec
   class InputRegistry
     include Singleton
     extend Forwardable
+
+    class Error < Inspec::Error; end
+    class ProfileLookupError < Error
+      attr_accessor :profile_name
+    end
+    class InputLookupError < Error
+      attr_accessor :profile_name
+      attr_accessor :input_name
+    end
 
     attr_reader :inputs_by_profile, :profile_aliases, :plugins
     def_delegator :inputs_by_profile, :each

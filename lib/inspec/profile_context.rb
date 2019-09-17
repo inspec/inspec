@@ -5,7 +5,7 @@ require "inspec/library_eval_context"
 require "inspec/control_eval_context"
 require "inspec/require_loader"
 require "securerandom"
-require "inspec/objects/input"
+require "inspec/input_registry"
 
 module Inspec
   class ProfileContext
