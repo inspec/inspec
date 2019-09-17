@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.17.0 -->
-## [v4.17.0](https://github.com/inspec/inspec/tree/v4.17.0) (2019-09-17)
+<!-- latest_release 4.17.1 -->
+## [v4.17.1](https://github.com/inspec/inspec/tree/v4.17.1) (2019-09-17)
 
 #### Merged Pull Requests
-- Expand sys_info resource functionality [#4388](https://github.com/inspec/inspec/pull/4388) ([Vancelot11](https://github.com/Vancelot11))
+- Waivers Phase 3 [#4493](https://github.com/inspec/inspec/pull/4493) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.16.0 -->
@@ -16,6 +16,7 @@
 - Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider)) <!-- 4.16.1 -->
 
 #### Merged Pull Requests
+- Waivers Phase 3 [#4493](https://github.com/inspec/inspec/pull/4493) ([miah](https://github.com/miah)) <!-- 4.17.1 -->
 - Expand sys_info resource functionality [#4388](https://github.com/inspec/inspec/pull/4388) ([Vancelot11](https://github.com/Vancelot11)) <!-- 4.17.0 -->
 - Split out Inspec::Input functional code from the code generation code. [#4485](https://github.com/inspec/inspec/pull/4485) ([zenspider](https://github.com/zenspider)) <!-- 4.16.15 -->
 - Added test:isolate task that runs tests isolated but in parallel. [#4480](https://github.com/inspec/inspec/pull/4480) ([zenspider](https://github.com/zenspider)) <!-- 4.16.14 -->
