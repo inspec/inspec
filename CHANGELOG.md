@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.16.15 -->
+## [v4.16.15](https://github.com/inspec/inspec/tree/v4.16.15) (2019-09-17)
 
 #### Merged Pull Requests
+- Split out Inspec::Input functional code from the code generation code. [#4485](https://github.com/inspec/inspec/pull/4485) ([zenspider](https://github.com/zenspider))
 - Added test:isolate task that runs tests isolated but in parallel. [#4480](https://github.com/inspec/inspec/pull/4480) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
@@ -16,6 +17,7 @@
 - Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider)) <!-- 4.16.1 -->
 
 #### Merged Pull Requests
+- Split out Inspec::Input functional code from the code generation code. [#4485](https://github.com/inspec/inspec/pull/4485) ([zenspider](https://github.com/zenspider)) <!-- 4.16.15 -->
 - Added test:isolate task that runs tests isolated but in parallel. [#4480](https://github.com/inspec/inspec/pull/4480) ([zenspider](https://github.com/zenspider)) <!-- 4.16.14 -->
 - Fix simple typo: becuase -&gt; because [#4484](https://github.com/inspec/inspec/pull/4484) ([timgates42](https://github.com/timgates42)) <!-- 4.16.14 -->
 - Update rubygems and use gem env for system details. [#4475](https://github.com/inspec/inspec/pull/4475) ([zenspider](https://github.com/zenspider)) <!-- 4.16.13 -->
