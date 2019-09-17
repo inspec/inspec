@@ -13,7 +13,8 @@ $pkg_deps=@(
   "core/cacerts"
   "robbkidd/ruby-plus-devkit/2.6.3"
 )
-$pkg_bin_dirs=@("bin")
+$pkg_bin_dirs=@("bin"
+                "vendor/bin")
 $project_root= (Resolve-Path "$PLAN_CONTEXT/../").Path
 
 function Invoke-SetupEnvironment {
