@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.17.2 -->
-## [v4.17.2](https://github.com/inspec/inspec/tree/v4.17.2) (2019-09-18)
+<!-- latest_release 4.17.3 -->
+## [v4.17.3](https://github.com/inspec/inspec/tree/v4.17.3) (2019-09-18)
 
 #### Bug Fixes
-- Resolve issue where the Inspec::Tag to_ruby method outputs invalid Ruby [#4434](https://github.com/inspec/inspec/pull/4434) ([irvingpop](https://github.com/irvingpop))
+- Use File.realpath in Loader#plugin_gem_path to resolve all symlinks. [#4476](https://github.com/inspec/inspec/pull/4476) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.16.0 -->
 ### Changes since 4.16.0 release
 
 #### Bug Fixes
+- Use File.realpath in Loader#plugin_gem_path to resolve all symlinks. [#4476](https://github.com/inspec/inspec/pull/4476) ([zenspider](https://github.com/zenspider)) <!-- 4.17.3 -->
 - Resolve issue where the Inspec::Tag to_ruby method outputs invalid Ruby [#4434](https://github.com/inspec/inspec/pull/4434) ([irvingpop](https://github.com/irvingpop)) <!-- 4.17.2 -->
 - Add to_s definitions to several resources [#4478](https://github.com/inspec/inspec/pull/4478) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.16.13 -->
 -    Fix broken unit test by adding require [#4469](https://github.com/inspec/inspec/pull/4469) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.16.12 -->
