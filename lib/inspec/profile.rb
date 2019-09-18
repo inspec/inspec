@@ -316,7 +316,9 @@ module Inspec
         # convert to array for backwards compatability
         res[:inputs] = []
       else
-        res[:inputs] = res[:inputs].values.map(&:to_hash)
+        res[:inputs] = res[:inputs].values.map do |input|
+          input.respond_to?(:to_hash) ? input.to_hash : input
+        end
       end
       res[:sha256] = sha256
       res[:parent_profile] = parent_profile unless parent_profile.nil?
