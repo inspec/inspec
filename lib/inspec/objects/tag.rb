@@ -15,7 +15,7 @@ module Inspec
     end
 
     def to_ruby
-      "tag #{key.inspect}: #{value.inspect}"
+      "tag #{key}: #{value.inspect}"
     end
 
     def to_s
