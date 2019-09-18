@@ -63,6 +63,10 @@ function Invoke-Install {
     }
 }
 
+function Invoke-Verify {
+   rake test/artifact
+}
+
 function Invoke-After {
     # Trim the fat before packaging
 
