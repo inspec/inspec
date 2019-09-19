@@ -1,0 +1,5 @@
+require "rake/testtask"
+
+Rake::TestTask.new(:default) do |t|
+  t.test_files = Dir["test/artifact/*_test.rb"].sort
+end
