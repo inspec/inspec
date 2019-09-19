@@ -63,7 +63,7 @@ function Invoke-Install {
     }
 }
 
-function Invoke-Verify {
+function Invoke-Check {
     Push-Location $project_root/test/artfifact
     rake
     Pop-Location
