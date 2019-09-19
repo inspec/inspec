@@ -7,6 +7,6 @@ class TestArtifactDetect < Minitest::Test
     }
 
     assert_match %r%Platform Details%, out
-    assert_empty
-  end err
+    assert_empty err
+  end
 end
