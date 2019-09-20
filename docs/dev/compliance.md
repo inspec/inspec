@@ -4,7 +4,7 @@
 
 The `compliance` set of subcommands handle user-initiated communication with Chef Automate. The commands are provided so that a user can interact with an Automate installation.
 
-`inspec compliance upload` is somewhat analogous to `knife upload` in that it can be used to upload and manage profiles for distribution to other clients.
+`inspec compliance` is somewhat analogous to `knife` in that it can be used to upload, download and manage profiles for distribution to other clients.
 
 When Automate initiates scans, this subcommand is not used.
 
@@ -118,8 +118,3 @@ Calls `InspecPlugins::Compliance::API.upload` which, after conditionalizing on t
 
 Simply adds the `compliance://` schema to the beginning of the profile name then performs a normal run.
 Apparently there is a fetcher that can handle that, but I have not found that yet.
-
-
-
-
-
