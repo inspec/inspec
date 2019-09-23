@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.17.3 -->
-## [v4.17.3](https://github.com/inspec/inspec/tree/v4.17.3) (2019-09-18)
+<!-- latest_release 4.17.4 -->
+## [v4.17.4](https://github.com/inspec/inspec/tree/v4.17.4) (2019-09-23)
 
-#### Bug Fixes
-- Use File.realpath in Loader#plugin_gem_path to resolve all symlinks. [#4476](https://github.com/inspec/inspec/pull/4476) ([zenspider](https://github.com/zenspider))
+#### Merged Pull Requests
+- Fixed MssqlSession.query not escaping double quote correctly [#4393](https://github.com/inspec/inspec/pull/4393) ([dalee-bis](https://github.com/dalee-bis))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.16.0 -->
@@ -18,6 +18,7 @@
 - Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider)) <!-- 4.16.1 -->
 
 #### Merged Pull Requests
+- Fixed MssqlSession.query not escaping double quote correctly [#4393](https://github.com/inspec/inspec/pull/4393) ([dalee-bis](https://github.com/dalee-bis)) <!-- 4.17.4 -->
 - Waivers Phase 3 [#4493](https://github.com/inspec/inspec/pull/4493) ([miah](https://github.com/miah)) <!-- 4.17.1 -->
 - Expand sys_info resource functionality [#4388](https://github.com/inspec/inspec/pull/4388) ([Vancelot11](https://github.com/Vancelot11)) <!-- 4.17.0 -->
 - Split out Inspec::Input functional code from the code generation code. [#4485](https://github.com/inspec/inspec/pull/4485) ([zenspider](https://github.com/zenspider)) <!-- 4.16.15 -->
