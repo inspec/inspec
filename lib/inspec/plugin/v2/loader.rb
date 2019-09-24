@@ -1,4 +1,5 @@
 require "inspec/log"
+require "inspec/version"
 require "inspec/plugin/v2/config_file"
 require "inspec/plugin/v2/filter"
 
@@ -274,9 +275,22 @@ module Inspec::Plugin::V2
       end
     end
 
+    def find_inspec_gemspec(name, ver)
+      Gem::Specification.find_by_name(name, ver)
+    rescue Gem::MissingSpecError
+      nil
+    end
+
     def detect_system_plugins
       # Find the gemspec for inspec
-      inspec_gemspec = Gem::Specification.find_by_name("inspec", "=#{Inspec::VERSION}")
+      inspec_gemspec =
+        find_inspec_gemspec("inspec",      "=#{Inspec::VERSION}") ||
+        find_inspec_gemspec("inspec-core", "=#{Inspec::VERSION}")
+
+      unless inspec_gemspec
+        Inspec::Log.warn "inspec gem not found, skipping detecting of system plugins"
+        return
+      end
 
       # Make a RequestSet that represents the dependencies of inspec
       inspec_deps_request_set = Gem::RequestSet.new(*inspec_gemspec.dependencies)
