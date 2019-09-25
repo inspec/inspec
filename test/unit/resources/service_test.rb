@@ -205,7 +205,7 @@ describe "Inspec::Resources::Service" do
 
   it "verify centos 7 service parsing with static loaded service" do
     resource = MockLoader.new(:centos7).load_resource("service", "dbus")
-    params = Hashie::Mash.new({ "Description" => "D-Bus System Message Bus", "Id" => "dbus.service", "LoadState" => "loaded", "Names" => "messagebus.service dbus.service", "SubState" => "running", "UnitFileState" => "static" })
+    params = Hashie::Mash.new({ "Description" => "D-Bus System Message Bus", "Id" => "dbus.service", "LoadState" => "loaded", "Names" => "messagebus.service dbus.service", "SubState" => "running", "UnitFileState" => "static", "User" => "root" })
     _(resource.type).must_equal "systemd"
     _(resource.name).must_equal "dbus.service"
     _(resource.description).must_equal "D-Bus System Message Bus"
@@ -244,7 +244,7 @@ describe "Inspec::Resources::Service" do
 
   it "verify cloudlinux 7 service parsing with static loaded service" do
     resource = MockLoader.new(:cloudlinux).load_resource("service", "dbus")
-    params = Hashie::Mash.new({ "Description" => "D-Bus System Message Bus", "Id" => "dbus.service", "LoadState" => "loaded", "Names" => "messagebus.service dbus.service", "SubState" => "running", "UnitFileState" => "static" })
+    params = Hashie::Mash.new({ "Description" => "D-Bus System Message Bus", "Id" => "dbus.service", "LoadState" => "loaded", "Names" => "messagebus.service dbus.service", "SubState" => "running", "UnitFileState" => "static", "User" => "root"  })
     _(resource.type).must_equal "systemd"
     _(resource.name).must_equal "dbus.service"
     _(resource.description).must_equal "D-Bus System Message Bus"
