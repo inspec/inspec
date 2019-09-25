@@ -3,6 +3,7 @@ require "inspec/utils/convert"
 require "inspec/utils/filter"
 require "inspec/utils/simpleconfig"
 require "inspec/resources/powershell"
+require "date"
 
 module Inspec::Resources
   # This file contains two resources, the `user` and `users` resource.
@@ -462,10 +463,9 @@ module Inspec::Resources
         group_re: nil,
         multiple_values: false
       ).params
-
-      cmd = inspec.command("echo $((($(date +%s) - $(date -d '#{params["Last password change"]}' '+%s'))/86400))")
-      dayslastset = convert_to_i(cmd.stdout.chomp) if cmd.exit_status == 0
-
+      
+      dparse = Date.parse "#{params['Last password change']}"
+      dayslastset = (Date.today - dparse).to_i
       cmd = inspec.command("lastb -w -a | grep #{username} | wc -l")
       badpasswordattempts = convert_to_i(cmd.stdout.chomp) if cmd.exit_status == 0
 
