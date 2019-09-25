@@ -30,6 +30,7 @@ pipelines:
      - LANG: "C.UTF-8"
      - SLOW: 1
      - NO_AWS: 1
+     - N: 5
  - coverage:
     description: Generate test coverage report
     public: true

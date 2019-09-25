@@ -7,6 +7,8 @@ describe "inputs" do
   include FunctionalHelper
   let(:inputs_profiles_path) { File.join(profile_path, "inputs") }
 
+  parallelize_me!
+
   # This tests being able to load complex structures from
   # cli option-specified files.
   %w{

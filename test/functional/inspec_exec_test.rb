@@ -1,6 +1,8 @@
 require "functional/helper"
 
 describe "inspec exec" do
+  parallelize_me!
+
   include FunctionalHelper
   let(:looks_like_a_stacktrace) { %r{lib/inspec/.+\.rb:\d+:in} }
 

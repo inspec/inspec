@@ -4,9 +4,12 @@ require "rexml/document"
 describe "inspec exec with junit formatter" do
   include FunctionalHelper
 
+  parallelize_me!
+
   it "can execute a simple file with the junit formatter" do
     out = inspec("exec " + example_control + " --reporter junit --no-create-lockfile")
 
+    # TODO: rexml is about as slow as you can go. Use nokogiri
     doc = REXML::Document.new(out.stdout)
     doc.has_elements?.must_equal true
 

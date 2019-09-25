@@ -4,6 +4,8 @@ require "tmpdir"
 describe "inspec check" do
   include FunctionalHelper
 
+  parallelize_me!
+
   describe "inspec check with json formatter" do
     it "can check a profile and produce valid JSON" do
       out = inspec("check " + example_profile + " --format json")

@@ -3,6 +3,8 @@ require "functional/helper"
 describe "inspec shell tests" do
   include FunctionalHelper
 
+  parallelize_me!
+
   describe "cmd" do
     def assert_shell_c(code, exit_status, json = false, stderr = "")
       json_suffix = " --reporter 'json'" if json
