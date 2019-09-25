@@ -463,7 +463,7 @@ module Inspec::Resources
         group_re: nil,
         multiple_values: false
       ).params
-      
+
       dparse = Date.parse "#{params['Last password change']}"
       dayslastset = (Date.today - dparse).to_i
       cmd = inspec.command("lastb -w -a | grep #{username} | wc -l")
