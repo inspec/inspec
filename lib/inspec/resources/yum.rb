@@ -50,7 +50,7 @@ module Inspec::Resources
 
       # parse the repository data from yum
       # we cannot use -C, because this is not reliable and may lead to errors
-      @command_result = inspec.command("yum -v repolist all")
+      @command_result = inspec.command("yum -v repolist all; echo")
       @content = @command_result.stdout
       @cache = []
       repo = {}
