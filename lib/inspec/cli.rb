@@ -64,7 +64,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "A list of controls to include. Ignore all other tests."
   profile_options
   def json(target)
-    require "inspec/resources"
     require "json"
 
     o = config
@@ -103,8 +102,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :format, type: :string
   profile_options
   def check(path) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-    require "inspec/resources"
-
     o = config
     diagnose(o)
     o["log_location"] ||= STDERR if o["format"] == "json"
@@ -124,8 +121,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     else
       %w{location profile controls timestamp valid}.each do |item|
         prepared_string = format("%-12s %s",
-                                 "#{item.to_s.capitalize} :",
-                                 result[:summary][item.to_sym])
+          "#{item.to_s.capitalize} :",
+          result[:summary][item.to_sym])
         ui.plain_line(prepared_string)
       end
       puts
@@ -157,8 +154,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :overwrite, type: :boolean, default: false,
     desc: "Overwrite existing vendored dependencies and lockfile."
   def vendor(path = nil)
-    require "inspec/resources"
-
     o = config
     configure_logger(o)
     o[:logger] = Logger.new($stdout)
@@ -180,8 +175,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :ignore_errors, type: :boolean, default: false,
     desc: "Ignore profile warnings."
   def archive(path)
-    require "inspec/resources"
-
     o = config
     diagnose(o)
 
@@ -208,9 +201,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc "exec LOCATIONS", "run all test files at the specified LOCATIONS."
-  # TODO: find a way for Thor not to butcher the formatting of this
-  long_desc <<~EOT
+  desc "exec LOCATIONS", <<~EOT
+    Run all test files at the specified LOCATIONS.
+
     Loads the given profile(s) and fetches their dependencies if needed. Then
     connects to the target and executes any controls contained in the profiles.
     One or more reporters are used to generate output.

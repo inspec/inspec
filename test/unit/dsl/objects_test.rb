@@ -454,28 +454,16 @@ end
       tag1.to_hash.must_equal res1
       control.add_tag(tag1)
 
-      res2 = { name: "key2'", value: "value'" }
+      res2 = { name: "key2", value: %w{a b} }
       tag2 = Inspec::Tag.new(res2[:name], res2[:value])
       tag2.to_hash.must_equal res2
       control.add_tag(tag2)
 
-      res3 = { name: "key3\"", value: "value\"" }
-      tag3 = Inspec::Tag.new(res3[:name], res3[:value])
-      tag3.to_hash.must_equal res3
-      control.add_tag(tag3)
-
-      res4 = { name: "key4", value: %w{a b} }
-      tag4 = Inspec::Tag.new(res4[:name], res4[:value])
-      tag4.to_hash.must_equal res4
-      control.add_tag(tag4)
-
       control.id = "tag.control.id"
       control.to_ruby.must_equal '
 control "tag.control.id" do
-  tag "key": "value"
-  tag "key2\'": "value\'"
-  tag "key3\"": "value\""
-  tag "key4": ["a", "b"]
+  tag key: "value"
+  tag key2: ["a", "b"]
 end
 '.strip
 
@@ -489,17 +477,62 @@ end
           name: "key",
           value: "value",
         }, {
-          name: "key2'",
-          value: "value'",
-        }, {
-          name: "key3\"",
-          value: "value\"",
-        }, {
-          name: "key4",
+          name: "key2",
           value: %w{a b},
         }],
       }
       control.to_hash.must_equal control_hash
+    end
+  end
+
+  describe "Inspec::Input" do
+    describe "to_ruby method" do
+      it "generates the code for the input" do
+        input = Inspec::Input.new("application_port", description: "The port my application uses", value: 80)
+
+        ruby_code = input.to_ruby
+        ruby_code.must_include "attr_application_port = " # Should assign to a var
+        # Should have the DSL call. This should be attribute(), not input(), for the
+        # foreseeable future, to maintain backwards compatibility.
+        ruby_code.must_include "attribute('application_port'"
+        ruby_code.must_include "value: 80"
+        ruby_code.must_include "default: 80"
+        ruby_code.must_include "description: 'The port my application uses'"
+
+        # Try to eval the code to verify that the generated code was valid ruby.
+        # Note that the input() method is part of the DSL, so we need to
+        # alter the call into something that can respond - the constructor will do
+        ruby_code_for_eval = ruby_code.sub(/attribute\(/, "Inspec::Input.new(")
+
+        # This will throw exceptions if there is a problem
+        new_attr = eval(ruby_code_for_eval) # rubocop:disable Security/Eval # Could use ripper!
+        new_attr.value.must_equal 80
+      end
+    end
+
+    # TODO - deprecate this, not sure it is used
+    describe "to_hash method" do
+      it "generates a similar hash" do
+        ipt = Inspec::Input.new(
+          "some_attr",
+          description: "The port my application uses",
+          value: 80,
+          identifier: "app_port",
+          required: false,
+          type: "numeric"
+        )
+        expected = {
+          name: "some_attr",
+          options: {
+            description: "The port my application uses",
+            value: 80,
+            identifier: "app_port",
+            required: false,
+            type: "Numeric", # This gets normalized
+          },
+        }
+        ipt.to_hash.must_equal expected
+      end
     end
   end
 end

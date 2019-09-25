@@ -4,6 +4,8 @@ require "mixlib/shellout"
 describe "inspec json" do
   include FunctionalHelper
 
+  parallelize_me!
+
   it "read the profile json" do
     out = inspec("json " + example_profile)
     out.stderr.must_equal ""

@@ -9,7 +9,6 @@ require "inspec/metadata"
 require "inspec/config"
 require "inspec/dependencies/cache"
 require "inspec/dist"
-require "inspec/resources"
 require "inspec/reporters"
 require "inspec/runner_rspec"
 # spec requirements
@@ -33,6 +32,7 @@ module Inspec
     extend Forwardable
 
     attr_reader :backend, :rules
+    attr_accessor :target_profiles
 
     def attributes
       Inspec.deprecate(:rename_attributes_to_inputs, "Don't call runner.attributes, call runner.inputs")
@@ -54,6 +54,12 @@ module Inspec
 
       @test_collector = @conf.delete(:test_collector) || begin
         RunnerRspec.new(@conf)
+      end
+
+      if @conf[:waiver_file]
+        waivers = @conf.delete(:waiver_file)
+        @conf[:input_file] ||= []
+        @conf[:input_file].concat waivers
       end
 
       # About reading inputs:

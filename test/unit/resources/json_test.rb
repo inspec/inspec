@@ -86,30 +86,63 @@ describe "Inspec::Resources::JSON" do
     end
   end
 
-  describe "#load_raw_from_file" do
-    let(:cmd_str)  { "curl localhost" }
-    let(:resource) { Inspec::Resources::JsonConfig.allocate }
-    let(:inspec)   { mock }
-    let(:command)  { mock }
+  describe ":command" do
+    # CASES:
+    #
+    # stdout:good,  stderr:empty
+    # stdout:bad,   stderr:empty
+    # stdout:empty, stderr:msg
+    # stdout:empty, stderr:empty
 
-    before do
-      resource.stubs(:inspec).returns(inspec)
-      inspec.expects(:command).with(cmd_str).returns(command)
+    # TODO: abstract and push up
+    def run_json_cmd(cmd)
+      backend = Inspec::Backend.create(Inspec::Config.new)
+      klass   = Inspec::Resource.registry["json"]
+
+      klass.new(backend, "json", command: cmd)
     end
 
-    it "raises an exception if command stdout is nil" do
-      command.expects(:stdout).returns(nil)
-      proc { resource.send(:load_raw_from_command, cmd_str) }.must_raise Inspec::Exceptions::ResourceSkipped
+    # TODO: push up
+    def assert_resource_skipped(res, msg)
+      assert_predicate res, :resource_skipped?
+      refute_predicate res, :resource_failed?
+
+      assert_includes res.resource_exception_message, msg
     end
 
-    it "raises an exception if command stdout is empty" do
-      command.expects(:stdout).returns("")
-      proc { resource.send(:load_raw_from_command, cmd_str) }.must_raise Inspec::Exceptions::ResourceSkipped
+    # TODO: push up
+    def assert_resource_failed(res, msg)
+      refute_predicate res, :resource_skipped?
+      assert_predicate res, :resource_failed?
+
+      assert_includes res.resource_exception_message, msg
     end
 
-    it "returns the command output" do
-      command.expects(:stdout).returns("json goes here")
-      resource.send(:load_raw_from_command, cmd_str).must_equal "json goes here"
+    it "good stdout, empty stderr" do
+      resource = run_json_cmd %(ruby -rjson -e "h={'result'=>true}; puts h.to_json")
+
+      assert_equal %({"result":true}), resource.raw_content.chomp
+      assert_equal({ "result" => true }, resource.params)
+    end
+
+    it "bad stdout, empty stderr" do
+      resource = run_json_cmd "echo 'not-valid-json'"
+
+      assert_resource_failed resource, "unexpected token at 'not-valid-json"
+    end
+
+    it "empty stdout, message in stderr" do
+      skip "Bug #4465: does not work on windows w/ transport==local" if windows?
+
+      resource = run_json_cmd %{abort 'bad args'"}
+
+      assert_resource_failed resource, "No JSON output, STDERR:"
+    end
+
+    it "empty stdout, empty stderr" do
+      resource = run_json_cmd %{ruby -e "exit 1"}
+
+      assert_resource_failed resource, "No JSON output, STDERR was empty"
     end
   end
 end

@@ -1,6 +1,6 @@
 require "forwardable"
 require "singleton"
-require "inspec/objects/input"
+require "inspec/input"
 require "inspec/secrets"
 require "inspec/exceptions"
 require "inspec/plugin/v2"
@@ -12,6 +12,15 @@ module Inspec
   class InputRegistry
     include Singleton
     extend Forwardable
+
+    class Error < Inspec::Error; end
+    class ProfileLookupError < Error
+      attr_accessor :profile_name
+    end
+    class InputLookupError < Error
+      attr_accessor :profile_name
+      attr_accessor :input_name
+    end
 
     attr_reader :inputs_by_profile, :profile_aliases, :plugins
     def_delegator :inputs_by_profile, :each
@@ -64,6 +73,9 @@ module Inspec
     #-------------------------------------------------------------#
 
     def find_or_register_input(input_name, profile_name, options = {})
+      input_name = input_name.to_s
+      profile_name = profile_name.to_s
+
       if profile_alias?(profile_name) && !profile_aliases[profile_name].nil?
         alias_name = profile_name
         profile_name = profile_aliases[profile_name]
@@ -132,9 +144,36 @@ module Inspec
       bind_inputs_from_metadata(profile_name, sources[:profile_metadata])
       bind_inputs_from_input_files(profile_name, sources[:cli_input_files])
       bind_inputs_from_runner_api(profile_name, sources[:runner_api])
+      bind_inputs_from_cli_args(profile_name, sources[:cli_input_arg])
     end
 
     private
+
+    def bind_inputs_from_cli_args(profile_name, input_list)
+      # TODO: move this into a core plugin
+
+      return if input_list.nil?
+      return if input_list.empty?
+
+      # These arrive as an array of "name=value" strings
+      # If the user used a comma, we'll see unfortunately see it as "name=value," pairs
+      input_list.each do |pair|
+        unless pair.include?("=")
+          if pair.end_with?(".yaml")
+            raise ArgumentError, "ERROR: --input is used for individual input values, as --input name=value. Use --input-file to load a YAML file."
+          else
+            raise ArgumentError, "ERROR: An '=' is required when using --input. Usage: --input input_name1=input_value1 input2=value2"
+          end
+        end
+        input_name, input_value = pair.split("=")
+        evt = Inspec::Input::Event.new(
+          value: input_value.chomp(","), # Trim trailing comma if any
+          provider: :cli,
+          priority: 50
+        )
+        find_or_register_input(input_name, profile_name, event: evt)
+      end
+    end
 
     def bind_inputs_from_runner_api(profile_name, input_hash)
       # TODO: move this into a core plugin

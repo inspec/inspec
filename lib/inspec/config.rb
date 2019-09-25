@@ -7,9 +7,12 @@ require "forwardable"
 require "thor"
 require "base64"
 require "inspec/base_cli"
+require "inspec/plugin/v2/filter"
 
 module Inspec
   class Config
+    include Inspec::Plugin::V2::FilterPredicates
+
     # These are options that apply to any transport
     GENERIC_CREDENTIALS = %w{
       backend
@@ -22,6 +25,11 @@ module Inspec
       shell_options
       shell_command
     }.freeze
+
+    KNOWN_VERSIONS = [
+      "1.1",
+      "1.2",
+    ].freeze
 
     extend Forwardable
 
@@ -48,6 +56,7 @@ module Inspec
     def initialize(cli_opts = {}, cfg_io = nil, command_name = nil)
       @command_name = command_name || (ARGV.empty? ? nil : ARGV[0].to_sym)
       @defaults = Defaults.for_command(@command_name)
+      @plugin_cfg = {}
 
       @cli_opts = cli_opts.dup
       cfg_io = resolve_cfg_io(@cli_opts, cfg_io)
@@ -119,6 +128,13 @@ module Inspec
       end
     end
 
+    #-----------------------------------------------------------------------#
+    #                      Fetching Plugin Data
+    #-----------------------------------------------------------------------#
+    def fetch_plugin_config(plugin_name)
+      Thor::CoreExt::HashWithIndifferentAccess.new(@plugin_cfg[plugin_name] || {})
+    end
+
     private
 
     def _utc_merge_transport_options(credentials, transport_name)
@@ -187,8 +203,7 @@ module Inspec
 
     def _utc_find_credset_name(_credentials, transport_name)
       return nil unless final_options[:target]
-
-      match = final_options[:target].match(%r{^#{transport_name}://(?<credset_name>[\w\d\-]+)$})
+      match = final_options[:target].match(%r{^#{transport_name}://(?<credset_name>[\w\-]+)$})
       match ? match[:credset_name] : nil
     end
 
@@ -205,8 +220,8 @@ module Inspec
 
       path = determine_cfg_path(cli_opts)
 
-      cfg_io = File.open(path) if path
-      cfg_io || StringIO.new('{ "version": "1.1" }')
+      ver = KNOWN_VERSIONS.max
+      path ? File.open(path) : StringIO.new({ "version" => ver }.to_json)
     end
 
     def check_for_piped_config(cli_opts)
@@ -285,16 +300,24 @@ module Inspec
       # Assume legacy format, which is unconstrained
       return unless version
 
-      unless version == "1.1"
-        raise Inspec::ConfigError::Invalid, "Unsupported config file version '#{version}' - currently supported versions: 1.1"
+      unless KNOWN_VERSIONS.include?(version)
+        raise Inspec::ConfigError::Invalid, "Unsupported config file version '#{version}' - currently supported versions: #{KNOWN_VERSIONS.join(",")}"
       end
 
+      # Use Gem::Version for comparision operators
+      cfg_version = Gem::Version.new(version)
+      version_1_2 = Gem::Version.new("1.2")
+
+      # TODO: proper schema version loading and validation
       valid_fields = %w{version cli_options credentials compliance reporter}.sort
+      valid_fields << "plugins" if cfg_version >= version_1_2
       @cfg_file_contents.keys.each do |seen_field|
         unless valid_fields.include?(seen_field)
           raise Inspec::ConfigError::Invalid, "Unrecognized top-level configuration field #{seen_field}.  Recognized fields: #{valid_fields.join(", ")}"
         end
       end
+
+      validate_plugins! if cfg_version >= version_1_2
     end
 
     def validate_reporters!(reporters)
@@ -332,6 +355,29 @@ module Inspec
       end
 
       raise ArgumentError, "The option --reporter can only have a single report outputting to stdout." if stdout_reporters > 1
+    end
+
+    def validate_plugins!
+      return unless @cfg_file_contents.key? "plugins"
+
+      data = @cfg_file_contents["plugins"]
+      unless data.is_a?(Hash)
+        raise Inspec::ConfigError::Invalid, "The 'plugin' field in your config file must be a hash (key-value list), not an array."
+      end
+
+      data.each do |plugin_name, plugin_settings|
+        # Enforce that every key is a valid inspec or train plugin name
+        unless valid_plugin_name?(plugin_name)
+          raise Inspec::ConfigError::Invalid, "Plugin settings should ne named after the the InSpec or Train plugin. Valid names must begin with inspec- or train-, not '#{plugin_name}' "
+        end
+
+        # Enforce that every entry is hash-valued
+        unless plugin_settings.is_a?(Hash)
+          raise Inspec::ConfigError::Invalid, "The plugin settings for '#{plugin_name}' in your config file should be a Hash (key-value list)."
+        end
+      end
+
+      @plugin_cfg = data
     end
 
     #-----------------------------------------------------------------------#

@@ -1,5 +1,3 @@
-require "inspec/resources"
-
 class MockLoader
   # collects emulation operating systems
   OPERATING_SYSTEMS = {
@@ -159,6 +157,8 @@ class MockLoader
       "/fakepath/fakefile" => emptyfile.call,
       "C:/fakepath/fakefile" => emptyfile.call,
       "/etc/cron.d/crondotd" => mockfile.call("crondotd"),
+      "/etc/postfix/main.cf" => mockfile.call("main.cf"),
+      "/etc/postfix/other.cf" => mockfile.call("other.cf"),
     }
 
     # create all mock commands

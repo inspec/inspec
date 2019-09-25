@@ -112,6 +112,7 @@ module Inspec
           #{print_target_info}
         EOF
       elsif topic == "resources"
+        require "inspec/resources"
         resources.sort.each do |resource|
           puts " - #{resource}"
         end
@@ -134,7 +135,13 @@ module Inspec
         info += "https://www.inspec.io/docs/reference/resources/#{topic}\n\n"
         puts info
       else
-        puts "The resource #{topic} does not exist. For a list of valid resources, type: help resources"
+        begin
+          require "inspec/resources/#{topic}"
+          help topic
+        rescue LoadError
+          # TODO: stderr!
+          puts "The resource #{topic} does not exist. For a list of valid resources, type: help resources"
+        end
       end
     end
 

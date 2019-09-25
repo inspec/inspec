@@ -148,7 +148,7 @@ class Minitest::Test
   end
 
   def skip_windows!
-    skip_until 2019, 8, 30, "These have never passed" if windows?
+    skip_until 2019, 9, 30, "These have never passed" if windows?
   end
 end
 
@@ -156,6 +156,9 @@ class InspecTest < Minitest::Test
   # shared stuff here
 end
 
-class ParallelTest < InspecTest
-  parallelize_me!
+module Minitest::Guard
+  # TODO: push up to minitest
+  def osx?(platform = RUBY_PLATFORM)
+    /darwin/ =~ platform
+  end
 end

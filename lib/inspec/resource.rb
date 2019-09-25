@@ -74,6 +74,7 @@ module Inspec
   # @return [Resource] base class for creating a new resource
   def self.resource(version)
     validate_resource_dsl_version!(version)
+    require "inspec/plugin/v1/plugin_types/resource"
     Inspec::Plugins::Resource
   end
 

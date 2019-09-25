@@ -71,9 +71,9 @@ module Inspec::Resources
       read_debs.select { |repo| repo[:url] == @deb_url && repo[:type] == "deb" }
     end
 
+    # TODO: remove this. just see if it is valid w/ URI.parse
     HTTP_URL_RE = /\A#{URI::DEFAULT_PARSER.make_regexp(%w{http https})}\z/.freeze
 
-    # read
     def read_debs
       return @repo_cache if defined?(@repo_cache)
 
@@ -81,32 +81,32 @@ module Inspec::Resources
       cmd = inspec.command("find /etc/apt/ -name \*.list -exec sh -c 'cat {} || echo -n' \\;")
 
       # @see https://help.ubuntu.com/community/Repositories/CommandLine#Explanation_of_the_Repository_Format
-      @repo_cache = cmd.stdout.chomp.split("\n").each_with_object([]) do |raw_line, lines|
-        active = true
-
+      @repo_cache = cmd.stdout.lines.map do |raw_line|
         # detect if the repo is commented out
         line = raw_line.gsub(/^(#\s*)*/, "")
-        active = false if raw_line != line
+        active = raw_line == line
 
-        # eg.: deb http://archive.ubuntu.com/ubuntu/ wily main restricted
-        # or : deb [trusted=yes] http://archive.ubuntu.com/ubuntu/ wily main restricted
-        parse_repo = /^\s*(\S+)\s+(?:\[\S+\])?\s*"?([^ "\t\r\n\f]+)"?\s+(\S+)\s+(.*)$/.match(line)
+        # formats:
+        # deb               http://archive.ubuntu.com/ubuntu/ wily main restricted ...
+        # deb [trusted=yes] http://archive.ubuntu.com/ubuntu/ wily main restricted ...
 
-        # check if we got any result and the second param is an url
-        next if parse_repo.nil? || !parse_repo[2] =~ HTTP_URL_RE
+        words = line.split
+        words.delete 1 if words[1] && words[1].start_with?("[")
+        type, url, distro, *components = words
+
+        next if components.empty?
+        next unless URI::HTTP === URI.parse(url)
+        next unless %w{deb deb-src}.include? type
 
         # map data
-        repo = {
-          type: parse_repo[1],
-          url: parse_repo[2],
-          distro: parse_repo[3],
-          components: parse_repo[4].chomp.split(" "),
+        {
+          type: type,
+          url: url,
+          distro: distro,
+          components: components,
           active: active,
         }
-        next unless %w{deb deb-src}.include? repo[:type]
-
-        lines.push(repo)
-      end
+      end.compact
     end
 
     # resolves ppa urls

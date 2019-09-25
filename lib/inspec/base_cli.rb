@@ -133,8 +133,12 @@ module Inspec
       option :reporter, type: :array,
         banner: "one two:/output/file/path",
         desc: "Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml"
+      option :input, type: :array, banner: "name1=value1 name2=value2",
+        desc: "Specify one or more inputs directly on the command line, as --input NAME=VALUE"
       option :input_file, type: :array,
         desc: "Load one or more input files, a YAML file with values for the profile to use"
+      option :waiver_file, type: :array,
+        desc: "Load one or more waiver files."
       option :attrs, type: :array,
         desc: "Legacy name for --input-file - deprecated."
       option :create_lockfile, type: :boolean,

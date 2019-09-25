@@ -68,7 +68,7 @@ module Inspec
     end
 
     def self.for_target(target, opts = {})
-      opts[:vendor_cache] = opts[:vendor_cache] || Cache.new
+      opts[:vendor_cache] ||= Cache.new
       fetcher = resolve_target(target, opts[:vendor_cache])
       for_fetcher(fetcher, opts)
     end
@@ -116,9 +116,19 @@ module Inspec
       # we can create any inputs that were provided by various mechanisms.
       options[:runner_conf] ||= Inspec::Config.cached
 
+      # Catch legacy CLI input option usage
       if options[:runner_conf].key?(:attrs)
         Inspec.deprecate(:rename_attributes_to_inputs, "Use --input-file on the command line instead of --attrs.")
         options[:runner_conf][:input_file] = options[:runner_conf].delete(:attrs)
+      elsif options[:runner_conf].key?(:input_files)
+        # The kitchen-inspec docs say to use plural. Our CLI and internal expectations are singular.
+        options[:runner_conf][:input_file] = options[:runner_conf].delete(:input_files)
+      end
+
+      # Catch legacy kitchen-inspec input usage
+      if options[:runner_conf].key?(:attributes)
+        Inspec.deprecate(:rename_attributes_to_inputs, "Use :inputs in your kitchen.yml verifier config instead of :attributes.")
+        options[:runner_conf][:inputs] = options[:runner_conf].delete(:attributes)
       end
 
       Inspec::InputRegistry.bind_profile_inputs(
@@ -127,8 +137,8 @@ module Inspec
         # Remaining args are possible sources of inputs
         cli_input_files: options[:runner_conf][:input_file], # From CLI --input-file
         profile_metadata: metadata,
-        # TODO: deprecation checks here
-        runner_api: options[:runner_conf][:attributes] # This is the route the audit_cookbook and kitchen-inspec take
+        runner_api: options[:runner_conf][:inputs], # This is the route the audit_cookbook and kitchen-inspec take
+        cli_input_arg: options[:runner_conf][:input] # The --input name=value CLI option
       )
 
       @runner_context =

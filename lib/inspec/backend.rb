@@ -4,6 +4,7 @@ require "train"
 require "inspec/config"
 require "inspec/version"
 require "inspec/resource"
+require "inspec/dsl" # for method_missing_resource
 
 module Inspec
   module Backend
@@ -75,6 +76,12 @@ module Inspec
 
         define_method :backend do
           connection
+        end
+
+        def method_missing(id, *args, &blk)
+          Inspec::DSL.method_missing_resource(self, id, *args)
+        rescue LoadError
+          super
         end
 
         Inspec::Resource.registry.each do |id, r|

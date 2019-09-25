@@ -52,6 +52,7 @@ module Fetchers
       # processing, but then again, if you passed a relative path
       # to an on-disk repo, you probably expect it to exist.
       return url_or_file_path unless File.exist?(url_or_file_path)
+
       # It's important to expand this path, because it may be specified
       # locally in the metadata files, and when we clone, we will be
       # in a temp dir.
@@ -97,6 +98,7 @@ module Fetchers
 
     def cache_key
       return resolved_ref unless @relative_path
+
       OpenSSL::Digest::SHA256.hexdigest(resolved_ref + @relative_path)
     end
 

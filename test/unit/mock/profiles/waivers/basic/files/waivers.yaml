@@ -1,0 +1,41 @@
+03_waivered_no_expiry_not_skipped_passes:
+  justification: Sound reasoning
+  skip: no
+
+04_waivered_no_expiry_not_skipped_fails:
+  justification: Unassailable thinking
+  skip: no
+
+05_waivered_no_expiry_skipped:
+  justification: Sheer cleverness
+  skip: yes
+
+06_waivered_expiry_in_past_not_skipped_passes:
+  expiration_date: 1977-06-01
+  justification: Necessity
+  skip: no
+
+07_waivered_expiry_in_past_not_skipped_fails:
+  expiration_date: 1977-06-01
+  justification: Whimsy
+  skip: no
+
+08_waivered_expiry_in_past_skipped:
+  expiration_date: 1977-06-01
+  justification: Contrariness
+  skip: yes
+
+09_waivered_expiry_in_future_not_skipped_passes:
+  expiration_date: 2077-06-01
+  justification: Handwaving
+  skip: no
+
+10_waivered_expiry_in_future_not_skipped_fails:
+  expiration_date: 2077-06-01
+  justification: Didn't feel like it
+  skip: no
+
+11_waivered_expiry_in_future_skipped:
+  expiration_date: 2077-06-01
+  justification: Lack of imagination
+  skip: yes

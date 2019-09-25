@@ -158,6 +158,7 @@ module Inspec::Formatters
         start_time: example.execution_result.started_at.to_datetime.rfc3339.to_s,
         resource_title: example.metadata[:described_class] || example.metadata[:example_group][:description],
         expectation_message: format_expectation_message(example),
+        waiver_data: example.metadata[:waiver_data],
       }
 
       unless (pid = example.metadata[:profile_id]).nil?

@@ -4,6 +4,8 @@ require "tmpdir"
 describe "inspec check" do
   include FunctionalHelper
 
+  parallelize_me!
+
   describe "inspec check with json formatter" do
     it "can check a profile and produce valid JSON" do
       out = inspec("check " + example_profile + " --format json")
@@ -103,6 +105,15 @@ describe "inspec check" do
 
       out.stderr.must_match(/Cannot load 'no_such_profile'/)
       out.stderr.must_match(/not listed as a dependency/)
+      assert_exit_code 1, out
+    end
+  end
+
+  describe "inspec check with unsatisfied runtime version constraint" do
+    it "should enforce runtime version constraint" do
+      out = inspec("check #{profile_path}/unsupported_inspec")
+      out.stdout.must_include "The current inspec version #{Inspec::VERSION}"
+      out.stdout.must_include ">= 99.0.0"
       assert_exit_code 1, out
     end
   end

@@ -1,5 +1,7 @@
 # copyright: 2015, Vulcano Security GmbH
 
+require "rspec/matchers"
+
 RSpec::Matchers.define :be_readable do
   match do |file|
     file.readable?(@by, @by_user)

@@ -80,22 +80,83 @@ namespace :test do
     missing.reject! { |f| ! File.file? f }
     missing.reject! { |f| f =~ %r{test/(integration|cookbooks)} }
     missing.reject! { |f| f =~ %r{test/unit/mock} }
-    missing.reject! { |f| f =~ %r{test.*helper} }
+    missing.reject! { |f| f =~ /test.*helper/ }
     missing.reject! { |f| f =~ %r{test/docker} }
 
     puts missing.sort
   end
 
-  task :isolated do
-    failures = Dir[*GLOBS]
-    failures.reject! do |file|
-      system(Gem.ruby, "-Ilib:test", file)
+  # rubocop:disable Style/BlockDelimiters,Layout/ExtraSpacing,Lint/AssignmentInCondition
+
+  def n_threads_run(n_workers, jobs)
+    queue = Queue.new
+
+    jobs.each do |job|
+      queue << job
     end
 
-    unless failures.empty?
-      puts "These test files failed:\n"
-      puts failures
-      raise "broken tests..."
+    n_workers.times.map {
+      queue << nil            # 1 quit value per thread
+      Thread.new do
+        while job = queue.pop # go until quit value
+          yield job
+        end
+      end
+    }.each(&:join)
+  end
+
+  task :isolated do
+    require "fileutils"
+    require "thread"
+
+    # Only needed for local runs, not CI?
+    FileUtils.rm_rf File.expand_path "~/.inspec"
+    FileUtils.rm_rf File.expand_path "~/.chef"
+
+    # 3 seems to be the magic number... (tho not by that much)
+    bad, good, n = {}, [], (ENV.delete("N") || 3).to_i
+    t0 = Time.now
+
+    srand 42
+    tests = Dir[*GLOBS].sort
+
+    n_threads_run n, tests do |path|
+      output = `bundle exec ruby -Ilib:test #{path} 2>&1`
+
+      if $?.success?
+        $stderr.print "."
+        good << path
+      else
+        $stderr.print "x"
+        bad[path] = output
+      end
+    end
+
+    puts "done"
+    puts "Ran in %d seconds" % [ Time.now - t0 ]
+
+    unless good.empty?
+      puts
+      puts "# Good tests:"
+      good.sort.each do |path|
+        puts path
+      end
+    end
+
+    unless bad.empty?
+      puts
+      puts "# Bad tests:"
+      bad.keys.each do |path|
+        puts path
+      end
+      puts
+      puts "# Bad Test Output:"
+      bad.each do |path, output|
+        puts
+        puts "# #{path}:"
+        puts output
+      end
+      exit 1
     end
   end
 
@@ -265,8 +326,8 @@ namespace :test do
 
       # Determine the storage account name and the admin password
       require "securerandom"
-      sa_name = (0...15).map { (65 + rand(26)).chr }.join.downcase
-      admin_password = SecureRandom.alphanumeric(72)
+      sa_name = ("a".."z").to_a.sample(15).join
+      admin_password = SecureRandom.alphanumeric 72
 
       # Use the first 4 characters of the storage account to create a suffix
       suffix = sa_name[0..3]

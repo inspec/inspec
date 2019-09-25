@@ -1,10 +1,13 @@
 require "functional/helper"
+require "tempfile"
 
 # For tests related to reading inputs from plugins, see plugins_test.rb
 
 describe "inputs" do
   include FunctionalHelper
   let(:inputs_profiles_path) { File.join(profile_path, "inputs") }
+
+  parallelize_me!
 
   # This tests being able to load complex structures from
   # cli option-specified files.
@@ -42,6 +45,11 @@ describe "inputs" do
       line = lines.detect { |l| l.include? "--attrs" }
       line.wont_be_nil
     end
+
+    it "includes the --input option" do
+      result = run_inspec_process("exec help", lock: true) # --no-create-lockfile option breaks usage help
+      assert_match(/--input\s/, result.stdout) # Careful not to match --input-file
+    end
   end
 
   describe "when using a cli-specified file" do
@@ -63,6 +71,130 @@ describe "inputs" do
       let(:flag) { "--attrs" }
       it "works" do
         assert_exit_code 0, result
+      end
+    end
+  end
+
+  describe "when being passed inputs via the Runner API" do
+    let(:run_result) { run_runner_api_process(runner_options) }
+    let(:common_options) do
+      {
+        profile: "#{inputs_profiles_path}/via-runner",
+        reporter: ["json"],
+      }
+    end
+
+    # options:
+    #   profile: path to profile to run
+    #   All other opts passed to InSpec::Runner.new(...)
+    # then add.target is called
+    def run_runner_api_process(options)
+      # Remove profile from options. All other are passed to Runner.
+      profile = options.delete(:profile)
+
+      # Make a tmpfile
+      Tempfile.open(mode: 0700) do |script| # 0700 - -rwx------
+
+        # Clear and concat - can't just assign, it's readonly
+        script.puts <<~EOSCRIPT
+          # Ruby load path
+          $LOAD_PATH.clear
+          $LOAD_PATH.concat(#{$LOAD_PATH})
+
+           # require inspec
+          require "inspec"
+          require "inspec/runner"
+
+          # inject pretty-printed runner opts
+          runner_args = #{options.inspect}
+           # Profile to run:
+          profile_location = "#{profile}"
+
+          # Run Execution
+          runner = Inspec::Runner.new(runner_args)
+          runner.add_target profile_location
+          runner.run
+        EOSCRIPT
+        script.flush
+
+        # TODO - portability - this does not have windows compat stuff from the inspec()
+        # method in functional/helper.rb - it is not portable to windows at this point yet.
+        # https://github.com/inspec/inspec/issues/4416
+        CMD.run_command("ruby #{script.path}")
+
+      end
+    end
+
+    describe "when using the current :inputs key" do
+      let(:runner_options) { common_options.merge({ inputs: { test_input_01: "value_from_api" } }) }
+
+      it "finds the values and does not issue any warnings" do
+        output = run_result.stdout
+        skip_windows!
+        refute_includes output, "DEPRECATION"
+        structured_output = JSON.parse(output)
+        assert_equal "passed", structured_output["profiles"][0]["controls"][0]["results"][0]["status"]
+      end
+    end
+
+    describe "when using the legacy :attributes key" do
+      let(:runner_options) { common_options.merge({ attributes: { test_input_01: "value_from_api" } }) }
+      it "finds the values but issues a DEPRECATION warning" do
+        output = run_result.stdout
+        skip_windows!
+        assert_includes output, "DEPRECATION"
+        structured_output = JSON.parse(output.lines.reject { |l| l.include? "DEPRECATION" }.join("\n") )
+        assert_equal "passed", structured_output["profiles"][0]["controls"][0]["results"][0]["status"]
+      end
+    end
+  end
+
+  describe "when using the --input inline raw input flag CLI option" do
+    let(:result) { run_inspec_process("exec #{inputs_profiles_path}/cli #{input_opt} #{control_opt}", json: true) }
+    let(:control_opt) { "" }
+
+    describe "when the --input is used once with one value" do
+      let(:input_opt) { "--input test_input_01=value_from_cli_01" }
+      let(:control_opt) { "--controls test_control_01" }
+      it("correctly reads the input") { result.must_have_all_controls_passing }
+    end
+
+    describe "when the --input is used once with two values" do
+      let(:input_opt) { "--input test_input_01=value_from_cli_01 test_input_02=value_from_cli_02" }
+      it("correctly reads the input") { result.must_have_all_controls_passing }
+    end
+
+    describe "when the --input is used once with two values and a comma" do
+      let(:input_opt) { "--input test_input_01=value_from_cli_01, test_input_02=value_from_cli_02" }
+      it("correctly reads the input") { result.must_have_all_controls_passing }
+    end
+
+    describe "when the --input is used twice with one value each" do
+      let(:input_opt) { "--input test_input_01=value_from_cli_01 --input test_input_02=value_from_cli_02" }
+      let(:control_opt) { "--controls test_control_02" }
+      # Expected, though unfortunate, behavior is to only notice the second input
+      it("correctly reads the input") { result.must_have_all_controls_passing }
+    end
+
+    describe "when the --input is used with no equal sign" do
+      let(:input_opt) { "--input value_from_cli_01" }
+      it "does not run and provides an error message" do
+        output = result.stdout
+        assert_includes "ERROR", output
+        assert_includes "An '=' is required", output
+        assert_includes "input_name_1=input_value_1", output
+        assert_equal 1, result.exit_status
+      end
+    end
+
+    describe "when the --input is used with a .yaml extension" do
+      let(:input_opt) { "--input myfile.yaml" }
+      it "does not run and provides an error message" do
+        output = result.stdout
+        assert_includes "ERROR", output
+        assert_includes "individual input values", output
+        assert_includes "Use --input-file", output
+        assert_equal 1, result.exit_status
       end
     end
   end

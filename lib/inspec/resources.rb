@@ -1,10 +1,17 @@
+##
+# Now that resources are lazily loaded, this file is ONLY here for one
+# reason at this point, to load all the resources in order to populate
+# the registry for `inspec shell`'s `help commands`. There has to be a
+# cheaper way to do this, but this will do for now.
+#
+# NOTE: I intentionally didn't convert this to a loop over a simple
+# glob so this remains a sort of manifest for our resources.
+
 require "inspec/resource"
 
 # Detect if we are running the stripped-down inspec-core
 # This relies on AWS being stripped from the inspec-core gem
 inspec_core_only = ENV["NO_AWS"] || !File.exist?(File.join(File.dirname(__FILE__), "..", "resource_support", "aws.rb"))
-
-require "rspec/matchers"
 
 # Do not attempt to load cloud resources if we are in inspec-core mode
 unless inspec_core_only
@@ -84,6 +91,7 @@ require "inspec/resources/passwd"
 require "inspec/resources/pip"
 require "inspec/resources/platform"
 require "inspec/resources/port"
+require "inspec/resources/postfix_conf"
 require "inspec/resources/postgres"
 require "inspec/resources/postgres_conf"
 require "inspec/resources/postgres_hba_conf"

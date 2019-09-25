@@ -31,8 +31,10 @@ module Inspec
     def supports(criteria = nil)
       return if criteria.nil?
 
-      Inspec::Resource.supports[@name] ||= []
-      Inspec::Resource.supports[@name].push(criteria)
+      key = @name.to_sym
+
+      Inspec::Resource.supports[key] ||= []
+      Inspec::Resource.supports[key].push(criteria)
     end
 
     def example(example = nil)
@@ -80,18 +82,22 @@ module Inspec
         def initialize(backend, name, *args)
           @resource_skipped = false
           @resource_failed = false
-          @supports = Inspec::Resource.supports[name]
+          @supports = Inspec::Resource.supports[name.to_sym]
+          @resource_exception_message = nil
 
           # attach the backend to this instance
           @__backend_runner__ = backend
           @__resource_name__ = name
 
           # check resource supports
-          supported = true
-          supported = check_supports unless @supports.nil?
+          supported = @supports ? check_supports : true # check_supports has side effects!
           test_backend = defined?(Train::Transports::Mock::Connection) && backend.backend.class == Train::Transports::Mock::Connection
-          # do not return if we are supported, or for tests
-          return unless supported || test_backend
+          # raise unless we are supported or in test
+          unless supported || test_backend
+            msg = "Unsupported resource/backend combination: %s / %s. Exiting." %
+              [name, backend.platform.name]
+            raise ArgumentError, msg
+          end
 
           # call the resource initializer
           begin
@@ -100,12 +106,10 @@ module Inspec
             skip_resource(e.message)
           rescue Inspec::Exceptions::ResourceFailed => e
             fail_resource(e.message)
+          rescue NotImplementedError => e
+            fail_resource(e.message) unless @resource_failed
           rescue NoMethodError => e
-            # The new platform resources have methods generated on the fly
-            # for inspec check to work we need to skip these train errors
-            raise unless test_backend && e.receiver.class == Train::Transports::Mock::Connection
-
-            skip_resource(e.message)
+            skip_resource(e.message) unless @resource_failed
           end
         end
 
@@ -122,6 +126,7 @@ module Inspec
         end
 
         def check_supports
+          require "inspec/resources/platform"
           status = inspec.platform.supported?(@supports)
           fail_msg = "Resource `#{@__resource_name__}` is not supported on platform #{inspec.platform.name}/#{inspec.platform.release}."
           fail_resource(fail_msg) unless status
@@ -163,7 +168,7 @@ module Inspec
   end
 
   module Plugins
-    class Resource
+    class Resource # TODO: possibly push up to inspec/resource.rb
       extend Inspec::ResourceDSL
       include Inspec::ResourceBehaviors
     end

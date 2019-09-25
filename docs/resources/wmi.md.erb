@@ -24,9 +24,9 @@ This resource first became available in v1.0.0 of InSpec.
 A `wmi` resource block tests WMI settings on the Windows platform:
 
     describe wmi({
-      class: 'class_name'
-      namespace: 'path\\to\\setting'
-      filter: 'filter'
+      class: 'class_name',
+      namespace: 'path\\to\\setting',
+      filter: 'filter',
       query: 'query'
     }) do
       its('setting_name') { should eq '' }
@@ -78,7 +78,7 @@ The following examples show how to use this Chef InSpec audit resource.
 ### Test if an anonymous user can query the Local Security Authority (LSA)
 
     describe wmi({
-      namespace: 'root\rsop\computer',
+      namespace: 'root\\rsop\\computer',
       query: "SELECT Setting FROM RSOP_SecuritySettingBoolean WHERE KeyName='LSAAnonymousNameLookup' AND Precedence=1"
     }) do
       its('Setting') { should eq false }
