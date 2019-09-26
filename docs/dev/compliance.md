@@ -4,9 +4,9 @@
 
 The `compliance` set of subcommands handle user-initiated communication with Chef Automate. The commands are provided so that a user can interact with an Automate installation.
 
-`inspec compliance` is somewhat analogous to `knife` in that it can be used to upload, download and manage profiles for distribution to other clients.
+`inspec compliance` is somewhat analogous to `knife` in that it can be used to upload, download, and manage profiles for distribution to other clients.
 
-When Automate initiates scans, this subcommand is not used.
+When Automate initiates scans, the `compliance` subcommand is not used.
 
 ## Operational Notes
 
@@ -16,11 +16,11 @@ You'll need a test Chef Automate server. https://learn.chef.io/modules/try-chef-
 
 ### Getting an API token
 
-After starting Automate, registering and starting a trial license, you will need to setup an API token. You will use this with `login`, which is required for most other commands.
+After starting Automate, registering, and starting a trial license, you will need to setup an API token. You will use API token with `login`, which is required for most other commands. To setup an API token within the Automate UI:
 
  1. Click the "Settings" tab. A new set of menus appears on the left.
  2. Choose "API Tokens" from the left menu.
- 3. Create a new API token. Name and ID don't really matter. After creation, select the new token, click the three dots ("extended menu") and choose "Copy Token".
+ 3. Create a new API token. Your choice of name and ID don't really matter. After creation, select the new token, click the three dots to reveal the extended menu, and choose "Copy Token".
 
 ## Implementation Notes
 
@@ -38,7 +38,7 @@ It appears that something - as in some other software package - is looking to re
 
 #### lib/cli.rb
 
-This file defines the Thor subcommand CLI UX.  Look here for all commands and options. Most command implementation is right here inline, which makes this file large and noisy. Some implementation pertaining to interaction with the actual Automate service is pushed out to a class `InspecPlugins::Compliance::API`; class methods are used to perform actions.
+This file defines the Thor subcommand CLI UX. Look at this file for all commands and options. Most command implementation is right here inline, which makes this file large and noisy. Some implementation, pertaining to interaction with the actual Automate service, is pushed out to a class `InspecPlugins::Compliance::API`; class methods are used to perform actions.
 
 #### lib/configuration.rb
 
@@ -89,7 +89,7 @@ Here are the results of running login, from `.inspec/compliance/config.json`:
 
 #### login code trace
 
-Thor code in `lib/cli.rb` stores the passed-in server URL in the config object, then passes everything to `InspecPlugins::Compliance::API.login`. That class method is actually defined in `lib/api/login.rb` and is quite large because it immediately conditionalizes on supporting three products - Compliance, A1, and A2.
+Thor code in `lib/cli.rb` stores the passed-in server URL in the config object, and then passes everything to `InspecPlugins::Compliance::API.login`. That class method is actually defined in `lib/api/login.rb` and is quite large because it immediately conditionalizes on supporting three products - Compliance, A1, and A2.
 
 Next, the options passed in are lightly validated. A config object is created and the creds are stored, then saved to disk as JSON.
 
@@ -101,11 +101,11 @@ Lists available profiles on the Automate server. Appears to only list those that
 
 #### profile code trace
 
-First, a new Config object is created, which reads the config from disk. `loggedin(config)` is called, which does a very thin check - it only determines if a setting is present in the config for the server URL, it does not actually contact the server. `InspecPlugins::Compliance::API.profiles` is called with the config, and with a lot of conditional logic, eventually returns a hash of profile metadata, which gets parsed and displayed.
+First, a new Config object is created, which reads the config from disk. Then, `loggedin(config)` is called, which does a very thin check - it only determines if a setting is present in the config for the server URL, but it does not actually contact the server. Finally, `InspecPlugins::Compliance::API.profiles` is called with the config, and with a lot of conditional logic, eventually returns a hash of profile metadata, which gets parsed and displayed.
 
 ### upload
 
-Like knife cookbook upload - sends an artifact to be stored for retrieval by other clients. Automate then runs check on the profile on the server side, and if OK, stores the profile. The new profile is included in the list when running `profiles`.
+Like knife cookbook upload, this command sends an artifact to be stored for retrieval by other clients. Chef Automate then runs `inspec check` on the profile on the server side, and if OK, stores the profile. The new profile is included in the list when running `profiles`.
 
 #### upload code trace
 
