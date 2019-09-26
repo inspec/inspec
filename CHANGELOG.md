@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.17.5 -->
-## [v4.17.5](https://github.com/inspec/inspec/tree/v4.17.5) (2019-09-25)
+<!-- latest_release 4.17.6 -->
+## [v4.17.6](https://github.com/inspec/inspec/tree/v4.17.6) (2019-09-26)
 
 #### Merged Pull Requests
-- Split and parallelize some tests to make them faster [#4490](https://github.com/inspec/inspec/pull/4490) ([zenspider](https://github.com/zenspider))
+- Fixed Inspec::Plugin::V2::Registry#detect_system_plugins [#4513](https://github.com/inspec/inspec/pull/4513) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.16.0 -->
@@ -18,6 +18,7 @@
 - Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider)) <!-- 4.16.1 -->
 
 #### Merged Pull Requests
+- Fixed Inspec::Plugin::V2::Registry#detect_system_plugins [#4513](https://github.com/inspec/inspec/pull/4513) ([zenspider](https://github.com/zenspider)) <!-- 4.17.6 -->
 - Split and parallelize some tests to make them faster [#4490](https://github.com/inspec/inspec/pull/4490) ([zenspider](https://github.com/zenspider)) <!-- 4.17.5 -->
 - Fixed MssqlSession.query not escaping double quote correctly [#4393](https://github.com/inspec/inspec/pull/4393) ([dalee-bis](https://github.com/dalee-bis)) <!-- 4.17.4 -->
 - Waivers Phase 3 [#4493](https://github.com/inspec/inspec/pull/4493) ([miah](https://github.com/miah)) <!-- 4.17.1 -->
