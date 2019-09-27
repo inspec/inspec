@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.17.8 -->
+## [v4.17.8](https://github.com/inspec/inspec/tree/v4.17.8) (2019-09-27)
+
+#### Merged Pull Requests
+- Remove maintainers task from require [#4531](https://github.com/inspec/inspec/pull/4531) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.17.7 -->
+### Changes since 4.17.7 release
+
+#### Merged Pull Requests
+- Remove maintainers task from require [#4531](https://github.com/inspec/inspec/pull/4531) ([miah](https://github.com/miah)) <!-- 4.17.8 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
