@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.17.9 -->
-## [v4.17.9](https://github.com/inspec/inspec/tree/v4.17.9) (2019-09-27)
+<!-- latest_release 4.17.10 -->
+## [v4.17.10](https://github.com/inspec/inspec/tree/v4.17.10) (2019-09-27)
 
 #### Merged Pull Requests
-- Add resource stubs so the resource loader will find all resources [#4526](https://github.com/inspec/inspec/pull/4526) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fixed inspec lazy resource loader for rspec test dsl (eg before/after) [#4534](https://github.com/inspec/inspec/pull/4534) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.17.7 -->
 ### Changes since 4.17.7 release
 
 #### Merged Pull Requests
+- Fixed inspec lazy resource loader for rspec test dsl (eg before/after) [#4534](https://github.com/inspec/inspec/pull/4534) ([zenspider](https://github.com/zenspider)) <!-- 4.17.10 -->
 - Add resource stubs so the resource loader will find all resources [#4526](https://github.com/inspec/inspec/pull/4526) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.17.9 -->
 - Remove maintainers task from require [#4531](https://github.com/inspec/inspec/pull/4531) ([miah](https://github.com/miah)) <!-- 4.17.8 -->
 <!-- release_rollup -->
