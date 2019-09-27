@@ -1,6 +1,7 @@
 require "helper"
 require "inspec/resource"
 require "inspec/resources/http"
+Faraday::Error::ClientError = ::Faraday::ClientError # TODO/HACK push upstream to faraday_middleware
 require "faraday_middleware/response/follow_redirects"
 
 describe "Inspec::Resources::Http" do
