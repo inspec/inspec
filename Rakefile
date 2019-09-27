@@ -4,7 +4,7 @@ require "bundler"
 require "bundler/gem_helper"
 require "rake/testtask"
 require "train"
-require_relative "tasks/maintainers"
+# require_relative "tasks/maintainers" # TODO: bring back after we push faraday_middleware fix upstream
 require_relative "tasks/spdx"
 require "fileutils"
 
