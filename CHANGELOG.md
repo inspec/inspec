@@ -1,23 +1,21 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.17.11 -->
-## [v4.17.11](https://github.com/inspec/inspec/tree/v4.17.11) (2019-09-27)
-
-#### Merged Pull Requests
-- fix Gemfile for inspec-core-bin gem [#4535](https://github.com/inspec/inspec/pull/4535) ([lamont-granquist](https://github.com/lamont-granquist))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.17.7 -->
-### Changes since 4.17.7 release
-
-#### Merged Pull Requests
-- fix Gemfile for inspec-core-bin gem [#4535](https://github.com/inspec/inspec/pull/4535) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 4.17.11 -->
-- Fixed inspec lazy resource loader for rspec test dsl (eg before/after) [#4534](https://github.com/inspec/inspec/pull/4534) ([zenspider](https://github.com/zenspider)) <!-- 4.17.10 -->
-- Add resource stubs so the resource loader will find all resources [#4526](https://github.com/inspec/inspec/pull/4526) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.17.9 -->
-- Remove maintainers task from require [#4531](https://github.com/inspec/inspec/pull/4531) ([miah](https://github.com/miah)) <!-- 4.17.8 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.17.11](https://github.com/inspec/inspec/tree/v4.17.11) (2019-09-28)
+
+#### Merged Pull Requests
+- Remove maintainers task from require [#4531](https://github.com/inspec/inspec/pull/4531) ([miah](https://github.com/miah))
+- Add resource stubs so the resource loader will find all resources [#4526](https://github.com/inspec/inspec/pull/4526) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fixed inspec lazy resource loader for rspec test dsl (eg before/after) [#4534](https://github.com/inspec/inspec/pull/4534) ([zenspider](https://github.com/zenspider))
+- fix Gemfile for inspec-core-bin gem [#4535](https://github.com/inspec/inspec/pull/4535) ([lamont-granquist](https://github.com/lamont-granquist))
+<!-- latest_stable_release -->
+
 ## [v4.17.7](https://github.com/inspec/inspec/tree/v4.17.7) (2019-09-27)
 
 #### Bug Fixes
@@ -51,7 +49,6 @@
 - Split and parallelize some tests to make them faster [#4490](https://github.com/inspec/inspec/pull/4490) ([zenspider](https://github.com/zenspider))
 - Fixed Inspec::Plugin::V2::Registry#detect_system_plugins [#4513](https://github.com/inspec/inspec/pull/4513) ([zenspider](https://github.com/zenspider))
 - Added first draft of waiver doco. [#4518](https://github.com/inspec/inspec/pull/4518) ([zenspider](https://github.com/zenspider))
-<!-- latest_stable_release -->
 
 ## [v4.16.0](https://github.com/inspec/inspec/tree/v4.16.0) (2019-08-29)
 
