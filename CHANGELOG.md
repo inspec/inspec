@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.17.13 -->
-## [v4.17.13](https://github.com/inspec/inspec/tree/v4.17.13) (2019-09-30)
+<!-- latest_release 4.17.14 -->
+## [v4.17.14](https://github.com/inspec/inspec/tree/v4.17.14) (2019-09-30)
 
-#### Bug Fixes
-- Add missing resource stubs for &#39;group&#39; resource [#4537](https://github.com/inspec/inspec/pull/4537) ([baurmatt](https://github.com/baurmatt))
+#### Merged Pull Requests
+- Yet another bump of our skip_windows! due date. [#4540](https://github.com/inspec/inspec/pull/4540) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.17.11 -->
 ### Changes since 4.17.11 release
+
+#### Merged Pull Requests
+- Yet another bump of our skip_windows! due date. [#4540](https://github.com/inspec/inspec/pull/4540) ([zenspider](https://github.com/zenspider)) <!-- 4.17.14 -->
 
 #### Bug Fixes
 - Add missing resource stubs for &#39;group&#39; resource [#4537](https://github.com/inspec/inspec/pull/4537) ([baurmatt](https://github.com/baurmatt)) <!-- 4.17.13 -->
