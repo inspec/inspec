@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Pass access token [#4544](https://github.com/inspec/inspec/pull/4544) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.17.14 -->
+### Changes since 4.17.14 release
+
+#### Merged Pull Requests
+- Pass access token [#4544](https://github.com/inspec/inspec/pull/4544) ([miah](https://github.com/miah)) <!-- 4.17.14 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
