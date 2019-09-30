@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.17.15 -->
+## [v4.17.15](https://github.com/inspec/inspec/tree/v4.17.15) (2019-09-30)
 
 #### Merged Pull Requests
+- Fix config clearing [#4483](https://github.com/inspec/inspec/pull/4483) ([frezbo](https://github.com/frezbo))
 - Pass access token [#4544](https://github.com/inspec/inspec/pull/4544) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.17.14 release
 
 #### Merged Pull Requests
+- Fix config clearing [#4483](https://github.com/inspec/inspec/pull/4483) ([frezbo](https://github.com/frezbo)) <!-- 4.17.15 -->
 - Pass access token [#4544](https://github.com/inspec/inspec/pull/4544) ([miah](https://github.com/miah)) <!-- 4.17.14 -->
 <!-- release_rollup -->
 
