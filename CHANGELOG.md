@@ -1,24 +1,22 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.17.14 -->
-## [v4.17.14](https://github.com/inspec/inspec/tree/v4.17.14) (2019-09-30)
-
-#### Merged Pull Requests
-- Yet another bump of our skip_windows! due date. [#4540](https://github.com/inspec/inspec/pull/4540) ([zenspider](https://github.com/zenspider))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.17.11 -->
-### Changes since 4.17.11 release
-
-#### Merged Pull Requests
-- Yet another bump of our skip_windows! due date. [#4540](https://github.com/inspec/inspec/pull/4540) ([zenspider](https://github.com/zenspider)) <!-- 4.17.14 -->
-
-#### Bug Fixes
-- Add missing resource stubs for &#39;group&#39; resource [#4537](https://github.com/inspec/inspec/pull/4537) ([baurmatt](https://github.com/baurmatt)) <!-- 4.17.13 -->
-- Add resource stub for sshd_config [#4538](https://github.com/inspec/inspec/pull/4538) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.17.12 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.17.14](https://github.com/inspec/inspec/tree/v4.17.14) (2019-09-30)
+
+#### Bug Fixes
+- Add resource stub for sshd_config [#4538](https://github.com/inspec/inspec/pull/4538) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add missing resource stubs for &#39;group&#39; resource [#4537](https://github.com/inspec/inspec/pull/4537) ([baurmatt](https://github.com/baurmatt))
+
+#### Merged Pull Requests
+- Yet another bump of our skip_windows! due date. [#4540](https://github.com/inspec/inspec/pull/4540) ([zenspider](https://github.com/zenspider))
+<!-- latest_stable_release -->
+
 ## [v4.17.11](https://github.com/inspec/inspec/tree/v4.17.11) (2019-09-28)
 
 #### Merged Pull Requests
@@ -26,7 +24,6 @@
 - Add resource stubs so the resource loader will find all resources [#4526](https://github.com/inspec/inspec/pull/4526) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Fixed inspec lazy resource loader for rspec test dsl (eg before/after) [#4534](https://github.com/inspec/inspec/pull/4534) ([zenspider](https://github.com/zenspider))
 - fix Gemfile for inspec-core-bin gem [#4535](https://github.com/inspec/inspec/pull/4535) ([lamont-granquist](https://github.com/lamont-granquist))
-<!-- latest_stable_release -->
 
 ## [v4.17.7](https://github.com/inspec/inspec/tree/v4.17.7) (2019-09-27)
 
