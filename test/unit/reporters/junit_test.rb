@@ -12,7 +12,7 @@ describe Inspec::Reporters::Junit do
     it "confirm render output" do
       cli_output = File.read(path + "/../mock/reporters/junit_output")
       report.render
-      report.rendered_output.must_equal cli_output
+      _(report.rendered_output).must_equal cli_output
     end
   end
 end

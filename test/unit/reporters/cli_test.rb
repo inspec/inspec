@@ -35,7 +35,7 @@ describe Inspec::Reporters::CLI do
       end
 
       report.render
-      report.rendered_output.must_equal cli_output
+      _(report.rendered_output).must_equal cli_output
     end
   end
 
@@ -47,7 +47,7 @@ describe Inspec::Reporters::CLI do
         Target:  local://
 
       EOF
-      report.send(:print_profile_header, profile).must_equal expected
+      _(report.send(:print_profile_header, profile)).must_equal expected
     end
   end
 
@@ -63,7 +63,7 @@ describe Inspec::Reporters::CLI do
 
       report.send(:print_standard_control_results, profile)
       output = report.instance_variable_get(:@output)
-      output.must_equal expected
+      _(output).must_equal expected
     end
   end
 
@@ -83,7 +83,7 @@ describe Inspec::Reporters::CLI do
 
       report.send(:print_anonymous_control_results, profile)
       output = report.instance_variable_get(:@output)
-      output.must_equal expected
+      _(output).must_equal expected
     end
   end
 
@@ -91,21 +91,21 @@ describe Inspec::Reporters::CLI do
     it "confirm profile name format" do
       expected = "InSpec Profile (long_commands)"
 
-      report.send(:format_profile_name, profile).must_equal expected
+      _(report.send(:format_profile_name, profile)).must_equal expected
     end
 
     it "confirm unknown name" do
       profile[:name] = nil
       expected = "InSpec Profile (unknown)"
 
-      report.send(:format_profile_name, profile).must_equal expected
+      _(report.send(:format_profile_name, profile)).must_equal expected
     end
 
     it "confirm unknown title" do
       profile[:title] = nil
       expected = "long_commands"
 
-      report.send(:format_profile_name, profile).must_equal expected
+      _(report.send(:format_profile_name, profile)).must_equal expected
     end
   end
 
@@ -114,7 +114,7 @@ describe Inspec::Reporters::CLI do
       expected = "  File /tmp"
       profile_control = control.new(profile[:controls].first)
 
-      report.send(:format_control_header, profile_control).must_equal expected
+      _(report.send(:format_control_header, profile_control)).must_equal expected
     end
   end
 
@@ -129,7 +129,7 @@ describe Inspec::Reporters::CLI do
       expected = "\e[38;5;41m     ✔  File /tmp should be directory\e[0m"
       windowize(expected) if WINDOWS
 
-      output.must_equal expected
+      _(output).must_equal expected
     end
 
     it "confirm anonymous result" do
@@ -137,7 +137,7 @@ describe Inspec::Reporters::CLI do
       expected = "\e[38;5;41m     ✔  should be directory\e[0m"
       windowize(expected) if WINDOWS
 
-      output.must_equal expected
+      _(output).must_equal expected
     end
 
     it "confirm skip result" do
@@ -146,7 +146,7 @@ describe Inspec::Reporters::CLI do
       expected = "\e[38;5;247m     ↺  \e[0m"
       windowize(expected) if WINDOWS
 
-      output.must_equal expected
+      _(output).must_equal expected
     end
   end
 
@@ -158,7 +158,7 @@ describe Inspec::Reporters::CLI do
       windowize(expected) if WINDOWS
 
       output = report.instance_variable_get(:@output)
-      output.must_equal expected
+      _(output).must_equal expected
     end
 
     it "confirm profile summary with skip" do
@@ -168,7 +168,7 @@ describe Inspec::Reporters::CLI do
       windowize(expected) if WINDOWS
 
       output = report.instance_variable_get(:@output)
-      output.must_equal expected
+      _(output).must_equal expected
     end
 
     it "confirm profile summary with fail" do
@@ -178,7 +178,7 @@ describe Inspec::Reporters::CLI do
       windowize(expected) if WINDOWS
 
       output = report.instance_variable_get(:@output)
-      output.must_equal expected
+      _(output).must_equal expected
     end
   end
 
@@ -189,7 +189,7 @@ describe Inspec::Reporters::CLI do
       expected = "Test Summary: \e[38;5;41m3 successful\e[0m, \e[38;5;9m1 failure\e[0m, 0 skipped\n"
       windowize(expected) if WINDOWS
 
-      output.must_equal expected
+      _(output).must_equal expected
     end
 
     it "confirm tests summary skip" do
@@ -199,7 +199,7 @@ describe Inspec::Reporters::CLI do
       expected = "Test Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m1 failure\e[0m, \e[38;5;247m1 skipped\e[0m\n"
       windowize(expected) if WINDOWS
 
-      output.must_equal expected
+      _(output).must_equal expected
     end
   end
 
@@ -207,41 +207,41 @@ describe Inspec::Reporters::CLI do
     it "confirm color format passed" do
       expected = "\e[38;5;41mtest text\e[0m"
       windowize(expected) if WINDOWS
-      report.send(:format_with_color, "passed", "test text").must_equal expected
+      _(report.send(:format_with_color, "passed", "test text")).must_equal expected
     end
 
     it "confirm color format failed" do
       expected = "\e[38;5;9mtest text\e[0m"
       windowize(expected) if WINDOWS
-      report.send(:format_with_color, "failed", "test text").must_equal expected
+      _(report.send(:format_with_color, "failed", "test text")).must_equal expected
     end
   end
 
   describe "#standard_controls_from_profile" do
     it "confirm controls" do
       result = report.send(:standard_controls_from_profile, profile)
-      result.count.must_equal 1
-      result.first[:id].must_equal "tmp-1.0"
+      _(result.count).must_equal 1
+      _(result.first[:id]).must_equal "tmp-1.0"
     end
   end
 
   describe "#anonymous_controls_from_profile" do
     it "confirm controls" do
       result = report.send(:anonymous_controls_from_profile, profile)
-      result.count.must_equal 3
-      result.first[:id].must_match(/generated/)
+      _(result.count).must_equal 3
+      _(result.first[:id]).must_match(/generated/)
     end
   end
 
   describe "#is_anonymous_control?" do
     it "confirm anonymous control" do
       controls = profile[:controls].select { |c| c[:id] != "tmp-1.0" }
-      report.send(:is_anonymous_control?, controls.first).must_equal true
+      _(report.send(:is_anonymous_control?, controls.first)).must_equal true
     end
 
     it "confirm anonymous control false" do
       controls = profile[:controls].select { |c| c[:id] == "tmp-1.0" }
-      report.send(:is_anonymous_control?, controls.first).must_equal false
+      _(report.send(:is_anonymous_control?, controls.first)).must_equal false
     end
   end
 
@@ -258,7 +258,7 @@ describe Inspec::Reporters::CLI do
     it "confirm message format" do
       expected = "\e[38;5;41m  ✔  this is a test message\e[0m"
       windowize(expected) if WINDOWS
-      report.send(:format_message, message_info).must_equal expected
+      _(report.send(:format_message, message_info)).must_equal expected
     end
 
     it "confirm message format failed" do
@@ -266,7 +266,7 @@ describe Inspec::Reporters::CLI do
       message_info[:color] = "failed"
       expected = "\e[38;5;9m  ×  this is a test message\e[0m"
       windowize(expected) if WINDOWS
-      report.send(:format_message, message_info).must_equal expected
+      _(report.send(:format_message, message_info)).must_equal expected
     end
 
     it "confirm message format skipped" do
@@ -274,33 +274,33 @@ describe Inspec::Reporters::CLI do
       message_info[:color] = "skipped"
       expected = "\e[38;5;247m  ↺  this is a test message\e[0m"
       windowize(expected) if WINDOWS
-      report.send(:format_message, message_info).must_equal expected
+      _(report.send(:format_message, message_info)).must_equal expected
     end
   end
 
   describe "#indent_lines" do
     it "confirm line indent" do
-      report.send(:indent_lines, "test", 2).must_equal "  test"
+      _(report.send(:indent_lines, "test", 2)).must_equal "  test"
     end
   end
 
   describe "#all_unique_controls" do
     it "return unique controls" do
-      report.send(:all_unique_controls).count.must_equal 4
+      _(report.send(:all_unique_controls).count).must_equal 4
     end
   end
 
   describe "#profile_summary" do
     it "correct profile summary" do
       expect = { "total" => 1, "failed" => 0, "skipped" => 0, "passed" => 1 }
-      report.send(:profile_summary).must_equal expect
+      _(report.send(:profile_summary)).must_equal expect
     end
   end
 
   describe "#tests_summary" do
     it "correct tests summary" do
       expect = { "total" => 0, "failed" => 1, "skipped" => 0, "passed" => 3 }
-      report.send(:tests_summary).must_equal expect
+      _(report.send(:tests_summary)).must_equal expect
     end
   end
 end

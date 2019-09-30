@@ -18,19 +18,19 @@ describe "plugin loader" do
   it "handles an unloadable plugin correctly" do
     outcome = inspec_with_env("version", INSPEC_CONFIG_DIR: File.join(config_dir_path, "plugin_error_on_load"))
 
-    outcome.stdout.must_include("ERROR", "Have an error on stdout")
-    outcome.stdout.must_include("Could not load plugin inspec-divide-by-zero", "Name the plugin in the stdout error")
-    outcome.stdout.wont_include("ZeroDivisionError", "No stacktrace in error by default")
-    outcome.stdout.must_include("Errors were encountered while loading plugins", "Friendly message in error")
-    outcome.stdout.must_include("Plugin name: inspec-divide-by-zero", "Plugin named in error")
-    outcome.stdout.must_include("divided by 0", "Exception message in error")
+    _(outcome.stdout).must_include("ERROR", "Have an error on stdout")
+    _(outcome.stdout).must_include("Could not load plugin inspec-divide-by-zero", "Name the plugin in the stdout error")
+    _(outcome.stdout).wont_include("ZeroDivisionError", "No stacktrace in error by default")
+    _(outcome.stdout).must_include("Errors were encountered while loading plugins", "Friendly message in error")
+    _(outcome.stdout).must_include("Plugin name: inspec-divide-by-zero", "Plugin named in error")
+    _(outcome.stdout).must_include("divided by 0", "Exception message in error")
 
     assert_exit_code 2, outcome
 
     # TODO: split
     outcome = inspec_with_env("version --debug", INSPEC_CONFIG_DIR: File.join(config_dir_path, "plugin_error_on_load"))
 
-    outcome.stdout.must_include("ZeroDivisionError", "Include stacktrace in error with --debug")
+    _(outcome.stdout).must_include("ZeroDivisionError", "Include stacktrace in error with --debug")
 
     assert_exit_code 2, outcome
   end
@@ -43,7 +43,7 @@ describe "when disabling plugins" do
   describe "when disabling the core plugins" do
     it "should not be able to use core-provided commands" do
       run_result = run_inspec_process("--disable-core-plugins habitat")
-      run_result.stderr.must_include 'Could not find command "habitat".'
+      _(run_result.stderr).must_include 'Could not find command "habitat".'
 
       # One might think that this should be code 2 (plugin error)
       # But because the core plugins are not loaded, 'habitat' is not
@@ -56,7 +56,7 @@ describe "when disabling plugins" do
     it "should not be able to use user commands" do
       run_result = run_inspec_process("--disable-user-plugins meaningoflife answer", env: { INSPEC_CONFIG_DIR: File.join(config_dir_path, "meaning_by_path") })
 
-      run_result.stderr.must_include 'Could not find command "meaningoflife"'
+      _(run_result.stderr).must_include 'Could not find command "meaningoflife"'
 
       assert_exit_code 1, run_result
     end
@@ -70,10 +70,10 @@ describe "cli command plugins" do
   it "is able to respond to a plugin-based cli subcommand" do
     outcome = inspec_with_env("meaningoflife answer", INSPEC_CONFIG_DIR: File.join(config_dir_path, "meaning_by_path"))
 
-    outcome.stderr.wont_include 'Could not find command "meaningoflife"'
-    outcome.stderr.must_equal ""
+    _(outcome.stderr).wont_include 'Could not find command "meaningoflife"'
+    _(outcome.stderr).must_equal ""
 
-    outcome.stdout.must_equal ""
+    _(outcome.stdout).must_equal ""
 
     assert_exit_code 42, outcome
   end
@@ -81,13 +81,13 @@ describe "cli command plugins" do
   it "is able to respond to [help subcommand] invocations" do
     outcome = inspec_with_env("help meaningoflife", INSPEC_CONFIG_DIR: File.join(config_dir_path, "meaning_by_path"))
 
-    outcome.stderr.must_equal ""
+    _(outcome.stderr).must_equal ""
 
-    outcome.stdout.must_include "inspec meaningoflife answer"
+    _(outcome.stdout).must_include "inspec meaningoflife answer"
     # Full text:
     # 'Exits immediately with an exit code reflecting the answer to life the universe, and everything.'
     # but Thor will ellipsify based on the terminal width
-    outcome.stdout.must_include "Exits immediately"
+    _(outcome.stdout).must_include "Exits immediately"
 
     assert_exit_code 0, outcome
   end
@@ -96,7 +96,7 @@ describe "cli command plugins" do
   it "includes plugin-based cli commands in top-level help" do
     outcome = inspec_with_env("help", INSPEC_CONFIG_DIR: File.join(config_dir_path, "meaning_by_path"))
 
-    outcome.stdout.must_include "inspec meaningoflife"
+    _(outcome.stdout).must_include "inspec meaningoflife"
 
     assert_exit_code 0, outcome
   end
@@ -112,7 +112,7 @@ describe "input plugins" do
     cmd = "exec #{profile} --controls #{controls}"
     run_result = run_inspec_process(cmd, json: true, env: env)
     run_result.must_have_all_controls_passing
-    run_result.stderr.must_be_empty
+    _(run_result.stderr).must_be_empty
   end
 
   describe "when an input is provided only by a plugin" do
@@ -158,7 +158,7 @@ describe "disable plugin usage message integration" do
   it "mentions the --disable-{user,core}-plugins options" do
     outcome = inspec("help")
     ["--disable-user-plugins", "--disable-core-plugins"].each do |option|
-      outcome.stdout.must_include(option)
+      _(outcome.stdout).must_include(option)
     end
   end
 end
@@ -178,19 +178,19 @@ describe "DSL plugin types support" do
   describe "outer profile dsl plugin type support" do
     let(:profile_file) { "outer_profile_dsl.rb" }
     it "works correctly with outer_profile dsl extensions" do
-      run_result.stderr.must_equal ""
+      _(run_result.stderr).must_equal ""
 
       # The outer_profile_dsl.rb file has control-01, then a call to favorite_grain
       # (which generates a control), then control-03.
       # If the plugin exploded, we'd see control-01 but not control-03
       controls = json_result["profiles"][0]["controls"]
-      controls.count.must_equal 3
+      _(controls.count).must_equal 3
 
       # We expect the second controls id to be 'sorghum'
       # (this is the functionality of the outer_profile_dsl we installed)
       generated_control = json_result["profiles"][0]["controls"][1]
-      generated_control["id"].must_equal "sorghum"
-      generated_control["results"][0]["status"].must_equal "passed"
+      _(generated_control["id"]).must_equal "sorghum"
+      _(generated_control["results"][0]["status"]).must_equal "passed"
     end
   end
 
@@ -198,59 +198,59 @@ describe "DSL plugin types support" do
 
     let(:profile_file) { "control_dsl.rb" }
     it "works correctly with control dsl extensions" do
-      run_result.stderr.must_equal ""
+      _(run_result.stderr).must_equal ""
 
       # The control_dsl.rb file has one control, with a describe-01, then a call to favorite_fruit, then describe-02
       # If the plugin exploded, we'd see describe-01 but not describe-02
       results = json_result["profiles"][0]["controls"][0]["results"]
-      results.count.must_equal 2
+      _(results.count).must_equal 2
 
       # We expect the descriptions to include that the favorite fruit is banana
       # (this is the functionality of the control_dsl we installed)
       first_description_section = json_result["profiles"][0]["controls"][0]["descriptions"].first
-      first_description_section.wont_be_nil
-      first_description_section["label"].must_equal "favorite_fruit"
-      first_description_section["data"].must_equal "Banana"
+      _(first_description_section).wont_be_nil
+      _(first_description_section["label"]).must_equal "favorite_fruit"
+      _(first_description_section["data"]).must_equal "Banana"
     end
   end
 
   describe "describe dsl plugin type support" do
     let(:profile_file) { "describe_dsl.rb" }
     it "works correctly with describe dsl extensions" do
-      run_result.stderr.must_equal ""
+      _(run_result.stderr).must_equal ""
 
       # The describe_dsl.rb file has one control, with
       # describe-01, describe-02 which contains a call to favorite_vegetable, then describe-03
       # If the plugin exploded, we'd see describe-01 but not describe-02
       results = json_result["profiles"][0]["controls"][0]["results"]
-      results.count.must_equal 3
+      _(results.count).must_equal 3
 
       # We expect the description of describe-02 to include the word aubergine
       # (this is the functionality of the describe_dsl we installed)
       second_result = json_result["profiles"][0]["controls"][0]["results"][1]
-      second_result.wont_be_nil
-      second_result["code_desc"].must_include "aubergine"
+      _(second_result).wont_be_nil
+      _(second_result["code_desc"]).must_include "aubergine"
     end
   end
 
   describe "test dsl plugin type support" do
     let(:profile_file) { "test_dsl.rb" }
     it "works correctly with test dsl extensions" do
-      run_result.stderr.must_equal ""
+      _(run_result.stderr).must_equal ""
 
       # The test_dsl.rb file has one control, with
       # describe-01, describe-02 which contains a call to favorite_legume, then describe-03
       # If the plugin exploded, we'd see describe-01 but not describe-02
       results = json_result["profiles"][0]["controls"][0]["results"]
-      results.count.must_equal 3
+      _(results.count).must_equal 3
 
       # I spent a while trying to find a way to get the test to alter its name;
       # that won't work for various setup reasons.
       # So, it just throws an exception with the word 'edemame' in it.
       second_result = json_result["profiles"][0]["controls"][0]["results"][1]
-      second_result.wont_be_nil
-      second_result["status"].must_equal "failed"
-      second_result["message"].must_include "edemame"
+      _(second_result).wont_be_nil
+      _(second_result["status"]).must_equal "failed"
+      _(second_result["message"]).must_include "edemame"
     end
   end
 
@@ -263,25 +263,25 @@ describe "DSL plugin types support" do
       cmd += File.join(profile_path, "dsl_plugins")
       cmd += " --controls=/^rdsl-control/ "
       run_result = run_inspec_with_plugin(cmd, plugin_path: dsl_plugin_path)
-      run_result.stderr.must_equal ""
+      _(run_result.stderr).must_equal ""
 
       # We should have three controls; 01 and 03 just do a string match.
       # 02 uses the custom resource, which relies on calls to the resource DSL.
       # If the plugin exploded, we'd see rdsl-control-01 but not rdsl-control-02
       json_result = run_result.payload.json
       results = json_result["profiles"][0]["controls"]
-      results.count.must_equal 3
+      _(results.count).must_equal 3
 
       # Control 2 has 2 describes; one uses a simple explicit matcher,
       # while the second uses a matcher defined via a macro provided by the resource DSL.
       control2_results = results[1]["results"]
-      control2_results[0]["status"].must_equal "passed"
-      control2_results[0]["code_desc"].must_include "favorite_berry"
-      control2_results[0]["code_desc"].must_include "blendable"
+      _(control2_results[0]["status"]).must_equal "passed"
+      _(control2_results[0]["code_desc"]).must_include "favorite_berry"
+      _(control2_results[0]["code_desc"]).must_include "blendable"
 
-      control2_results[1]["status"].must_equal "passed"
-      control2_results[1]["code_desc"].must_include "favorite_berry"
-      control2_results[1]["code_desc"].must_include "have drupals"
+      _(control2_results[1]["status"]).must_equal "passed"
+      _(control2_results[1]["code_desc"]).must_include "favorite_berry"
+      _(control2_results[1]["code_desc"]).must_include "have drupals"
     end
   end
 end
@@ -296,15 +296,15 @@ describe "train plugin support" do
       outcome = inspec_with_env("detect -t test-fixture://", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
 
       lines = outcome.stdout.split("\n")
-      lines.grep(/Name/).first.must_include("test-fixture")
-      lines.grep(/Name/).first.wont_include("train-test-fixture")
-      lines.grep(/Release/).first.must_include("0.1.0")
-      lines.grep(/Families/).first.must_include("os")
-      lines.grep(/Families/).first.must_include("windows")
-      lines.grep(/Families/).first.must_include("unix")
-      lines.grep(/Arch/).first.must_include("mock")
+      _(lines.grep(/Name/).first).must_include("test-fixture")
+      _(lines.grep(/Name/).first).wont_include("train-test-fixture")
+      _(lines.grep(/Release/).first).must_include("0.1.0")
+      _(lines.grep(/Families/).first).must_include("os")
+      _(lines.grep(/Families/).first).must_include("windows")
+      _(lines.grep(/Families/).first).must_include("unix")
+      _(lines.grep(/Arch/).first).must_include("mock")
 
-      outcome.stderr.must_be_empty
+      _(outcome.stderr).must_be_empty
 
       assert_exit_code 0, outcome
     end
@@ -312,15 +312,15 @@ describe "train plugin support" do
     it "can run inspec detect against a test-fixture backend" do
       outcome = inspec_with_env("detect -b test-fixture", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
       lines = outcome.stdout.split("\n")
-      lines.grep(/Name/).first.must_include("test-fixture")
-      lines.grep(/Name/).first.wont_include("train-test-fixture")
-      lines.grep(/Release/).first.must_include("0.1.0")
-      lines.grep(/Families/).first.must_include("os")
-      lines.grep(/Families/).first.must_include("windows")
-      lines.grep(/Families/).first.must_include("unix")
-      lines.grep(/Arch/).first.must_include("mock")
+      _(lines.grep(/Name/).first).must_include("test-fixture")
+      _(lines.grep(/Name/).first).wont_include("train-test-fixture")
+      _(lines.grep(/Release/).first).must_include("0.1.0")
+      _(lines.grep(/Families/).first).must_include("os")
+      _(lines.grep(/Families/).first).must_include("windows")
+      _(lines.grep(/Families/).first).must_include("unix")
+      _(lines.grep(/Arch/).first).must_include("mock")
 
-      outcome.stderr.must_be_empty
+      _(outcome.stderr).must_be_empty
 
       assert_exit_code 0, outcome
     end
@@ -328,9 +328,9 @@ describe "train plugin support" do
     it "can run inspec shell and read a file" do
       outcome = inspec_with_env("shell -t test-fixture:// -c 'file(\"any-path\").content'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
       skip_windows!
-      outcome.stdout.chomp.must_equal "Lorem Ipsum"
+      _(outcome.stdout.chomp).must_equal "Lorem Ipsum"
 
-      outcome.stderr.must_be_empty
+      _(outcome.stderr).must_be_empty
 
       assert_exit_code 0, outcome
     end
@@ -339,18 +339,18 @@ describe "train plugin support" do
       outcome = inspec_with_env("shell -t test-fixture:// -c 'command(\"echo hello\").exit_status'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
 
       skip_windows!
-      outcome.stdout.chomp.must_equal "17"
+      _(outcome.stdout.chomp).must_equal "17"
 
-      outcome.stderr.must_be_empty
+      _(outcome.stderr).must_be_empty
 
       assert_exit_code 0, outcome
 
       # TODO: split
       outcome = inspec_with_env("shell -t test-fixture:// -c 'command(\"echo hello\").stdout'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
 
-      outcome.stdout.chomp.must_equal "Mock Command Result stdout"
+      _(outcome.stdout.chomp).must_equal "Mock Command Result stdout"
 
-      outcome.stderr.must_be_empty
+      _(outcome.stderr).must_be_empty
 
       assert_exit_code 0, outcome
     end

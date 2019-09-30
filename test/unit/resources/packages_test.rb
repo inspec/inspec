@@ -81,8 +81,9 @@ describe "Inspec::Resources::Packages" do
     _(resource.resource_exception_message).must_equal "The packages resource is not yet supported on OS hpux"
   end
 
+  # rubocop:disable Style/BlockDelimiters
   it "fails if the packages name is not a string or regexp" do
-    proc {
+    _ {
       resources = MockLoader.new(:ubuntu1604).load_resource("packages", %i{a b})
       resources.send(:entries, nil)
     }.must_raise(RuntimeError)

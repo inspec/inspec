@@ -19,7 +19,7 @@ describe FindFiles do
   describe "#find_files" do
     it "returns an empty array when no files are found" do
       helper.expects(:warn)
-      helper.find_files("/no/such/mock", type: "file", depth: 1).must_equal([])
+      _(helper.find_files("/no/such/mock", type: "file", depth: 1)).must_equal([])
     end
   end
 

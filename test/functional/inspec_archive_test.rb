@@ -13,8 +13,8 @@ describe "inspec archive" do
     prepare_examples("profile") do |dir|
       out = inspec("archive " + dir + " --overwrite")
 
-      out.stdout.must_match(/Generate archive [^ ]*profile-1.0.0.tar.gz/)
-      out.stdout.must_include "Finished archive generation."
+      _(out.stdout).must_match(/Generate archive [^ ]*profile-1.0.0.tar.gz/)
+      _(out.stdout).must_include "Finished archive generation."
       assert_exit_code 0, out
     end
   end
@@ -23,10 +23,10 @@ describe "inspec archive" do
     prepare_examples("profile") do |dir|
       out = inspec("archive " + dir + " --output " + dst.path)
 
-      out.stderr.must_equal ""
-      out.stdout.must_include "Generate archive " + dst.path
-      out.stdout.must_include "Finished archive generation."
-      File.exist?(dst.path).must_equal true
+      _(out.stderr).must_equal ""
+      _(out.stdout).must_include "Generate archive " + dst.path
+      _(out.stdout).must_include "Finished archive generation."
+      _(File.exist?(dst.path)).must_equal true
       assert_exit_code 0, out
     end
   end
@@ -35,11 +35,11 @@ describe "inspec archive" do
     prepare_examples("profile") do |dir|
       out = inspec("archive " + dir + " --overwrite")
 
-      out.stderr.must_equal ""
+      _(out.stderr).must_equal ""
       skip_windows!
-      out.stdout.must_include "Generate archive " + auto_dst
-      out.stdout.must_include "Finished archive generation."
-      File.exist?(auto_dst).must_equal true
+      _(out.stdout).must_include "Generate archive " + auto_dst
+      _(out.stdout).must_include "Finished archive generation."
+      _(File.exist?(auto_dst)).must_equal true
       assert_exit_code 0, out
     end
   end
@@ -48,8 +48,8 @@ describe "inspec archive" do
     Dir.tmpdir do |target_dir|
       out = inspec("archive #{target_dir} --output " + dst.path)
 
-      out.stderr.must_include "Don't understand inspec profile in \"#{target_dir}\""
-      File.exist?(dst.path).must_equal false
+      _(out.stderr).must_include "Don't understand inspec profile in \"#{target_dir}\""
+      _(File.exist?(dst.path)).must_equal false
       assert_exit_code 1, out
     end
   end
@@ -61,9 +61,9 @@ describe "inspec archive" do
 
       out = inspec("archive " + dir + " --output " + dst.path)
 
-      out.stderr.must_equal ""
-      out.stdout.must_include "Generate archive " + dst.path
-      File.read(dst.path).wont_equal x
+      _(out.stderr).must_equal ""
+      _(out.stdout).must_include "Generate archive " + dst.path
+      _(File.read(dst.path)).wont_equal x
       assert_exit_code 0, out
     end
   end
@@ -72,10 +72,10 @@ describe "inspec archive" do
     prepare_examples("profile") do |dir|
       out = inspec("archive " + dir + " --output " + dst.path + " --tar")
 
-      out.stderr.must_equal ""
-      out.stdout.must_include "Generate archive " + dst.path
+      _(out.stderr).must_equal ""
+      _(out.stdout).must_include "Generate archive " + dst.path
       t = Zlib::GzipReader.open(dst.path)
-      Gem::Package::TarReader.new(t).entries.map(&:header).map(&:name).must_include "inspec.yml"
+      _(Gem::Package::TarReader.new(t).entries.map(&:header).map(&:name)).must_include "inspec.yml"
       assert_exit_code 0, out
     end
   end
@@ -84,9 +84,9 @@ describe "inspec archive" do
     prepare_examples("profile") do |dir|
       out = inspec("archive " + dir + " --output " + dst.path + " --zip")
 
-      out.stderr.must_equal ""
-      out.stdout.must_include "Generate archive " + dst.path
-      Zip::File.new(dst.path).entries.map(&:name).must_include "inspec.yml"
+      _(out.stderr).must_equal ""
+      _(out.stdout).must_include "Generate archive " + dst.path
+      _(Zip::File.new(dst.path).entries.map(&:name)).must_include "inspec.yml"
       assert_exit_code 0, out
     end
   end
@@ -95,12 +95,12 @@ describe "inspec archive" do
     prepare_examples("meta-profile") do |dir|
       out = inspec("archive " + dir + " --output " + dst.path)
 
-      out.stderr.must_equal ""
-      out.stdout.must_include "Generate archive " + dst.path
+      _(out.stderr).must_equal ""
+      _(out.stdout).must_include "Generate archive " + dst.path
       t = Zlib::GzipReader.open(dst.path)
       files = Gem::Package::TarReader.new(t).entries.map(&:header).map(&:name)
-      files.must_include "inspec.lock"
-      files.select { |f| f =~ /vendor/ }.count.must_be :>, 1
+      _(files).must_include "inspec.lock"
+      _(files.select { |f| f =~ /vendor/ }.count).must_be :>, 1
       assert_exit_code 0, out
     end
   end
@@ -113,7 +113,7 @@ describe "inspec archive" do
 
       out = inspec("archive " + tmpdir + " --output " + dst.path)
 
-      out.stderr.must_equal ""
+      _(out.stderr).must_equal ""
       assert_exit_code 0, out
     end
   end

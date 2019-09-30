@@ -26,16 +26,16 @@ describe Inspec::LibraryEvalContext do
 
   it "adds the resource to our registry" do
     eval_context.instance_eval(resource_content)
-    registry.keys.include?("my_test_resource").must_equal true
+    _(registry.keys.include?("my_test_resource")).must_equal true
   end
 
   it "adds nothing to the default registry" do
     old_default_registry = Inspec::Resource.default_registry.dup
     eval_context.instance_eval(resource_content)
-    old_default_registry.must_equal Inspec::Resource.default_registry
+    _(old_default_registry).must_equal Inspec::Resource.default_registry
   end
 
   it "provides an inspec context for requiring local files" do
-    eval_context.__inspec_binding.must_be_kind_of Binding
+    _(eval_context.__inspec_binding).must_be_kind_of Binding
   end
 end

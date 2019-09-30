@@ -39,7 +39,7 @@ describe Inspec::ShellDetector do
   # Small hack to ensure we can test on windows
   it "returns nil immediately if running on windows" do
     RbConfig::CONFIG.expects(:[]).with("host_os").returns("mswin")
-    subject.shell!.must_be_nil
+    _(subject.shell!).must_be_nil
   end
 
   describe "not on windows" do
@@ -49,28 +49,28 @@ describe Inspec::ShellDetector do
 
     it "detects the shell via /proc if it exists" do
       with_proc("/usr/bin/fish")
-      subject.shell!.must_equal("fish")
+      _(subject.shell!).must_equal("fish")
     end
 
     it "detects via `ps` if /proc doesn't exist" do
       no_proc; with_ps("/usr/bin/ksh")
-      subject.shell!.must_equal("ksh")
+      _(subject.shell!).must_equal("ksh")
     end
 
     it "detects via ENV if parent process methods failed" do
       no_proc; with_ps(""); with_env("fish")
-      subject.shell!.must_equal("fish")
+      _(subject.shell!).must_equal("fish")
     end
 
     it "detects via getpwuid if all else fails" do
       no_proc; with_ps(""); with_env(""); with_pwuid("/usr/bin/fish")
-      subject.shell!.must_equal("fish")
+      _(subject.shell!).must_equal("fish")
       @mock_user.verify
     end
 
     it "returns nil if the shell isn't in the whitelist" do
       no_proc; with_ps(""); with_env("badshell"); with_pwuid("/usr/bin/badshell")
-      subject.shell!.must_be_nil
+      _(subject.shell!).must_be_nil
     end
   end
 end

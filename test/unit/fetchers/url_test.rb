@@ -54,11 +54,11 @@ describe Fetchers::Url do
     end
 
     it "doesnt handle other schemas" do
-      Fetchers::Url.resolve("gopher://chef.io/some.tar.gz").must_be_nil
+      _(Fetchers::Url.resolve("gopher://chef.io/some.tar.gz")).must_be_nil
     end
 
     it "only handles URLs" do
-      Fetchers::Url.resolve(__FILE__).must_be_nil
+      _(Fetchers::Url.resolve(__FILE__)).must_be_nil
     end
 
     %w{https://github.com/chef/inspec
@@ -168,7 +168,7 @@ describe Fetchers::Url do
         .returns(mock)
 
       path = subject.send(:download_automate2_archive_to_temp)
-      File.read(path).must_equal "this is the body"
+      _(File.read(path)).must_equal "this is the body"
     end
 
     it "sets default http options" do
@@ -218,7 +218,7 @@ describe Fetchers::Url do
 
     it "returns the resolved_source hash" do
       subject.expects(:open).returns(mock_open)
-      subject.resolved_source[:url].must_equal(target)
+      _(subject.resolved_source[:url]).must_equal(target)
     end
   end
 
@@ -228,28 +228,28 @@ describe Fetchers::Url do
     describe "when username and password is specified" do
       let(:config) { { username: "dummy", password: "dummy" } }
       it "returns a hash containing http_basic_authentication setting" do
-        subject.send(:http_opts)[:http_basic_authentication].must_equal %w{dummy dummy}
+        _(subject.send(:http_opts)[:http_basic_authentication]).must_equal %w{dummy dummy}
       end
     end
 
     describe "when only password is specified" do
       let(:config) { { password: "dummy" } }
       it "returns a hash containing http_basic_authentication setting as nil" do
-        subject.send(:http_opts)[:http_basic_authentication].must_be_nil
+        _(subject.send(:http_opts)[:http_basic_authentication]).must_be_nil
       end
     end
 
     describe "when insecure is specified" do
       let(:config) { { "insecure" => true } }
       it "returns a hash containing an ssl_verify_mode setting" do
-        subject.send(:http_opts)[:ssl_verify_mode].must_equal OpenSSL::SSL::VERIFY_NONE
+        _(subject.send(:http_opts)[:ssl_verify_mode]).must_equal OpenSSL::SSL::VERIFY_NONE
       end
     end
 
     describe "when insecure is not specific" do
       let(:config) { {} }
       it "returns a hash that does not contain an ssl_verify_mode setting" do
-        subject.send(:http_opts).key?(:ssl_verify_mode).must_equal false
+        _(subject.send(:http_opts).key?(:ssl_verify_mode)).must_equal false
       end
     end
 
@@ -268,14 +268,15 @@ describe Fetchers::Url do
 
         it "returns a properly formatted headers hash" do
           headers = subject.send(:http_opts)
-          headers["chef-delivery-enterprise"].must_equal "my_ent"
-          headers["x-data-collector-token"].must_equal "my_token"
+          _(headers["chef-delivery-enterprise"]).must_equal "my_ent"
+          _(headers["x-data-collector-token"]).must_equal "my_token"
         end
       end
 
+      # rubocop:disable Style/BlockDelimiters
       describe "when the enterprise is not supplied" do
         it "raises an exception" do
-          proc {
+          _ {
             config = {
               "server_type" => "automate",
               "automate" => { "token_type" => "dctoken" },
@@ -289,7 +290,7 @@ describe Fetchers::Url do
 
       describe "when the token is not supplied" do
         it "raises an exception" do
-          proc {
+          _ {
             config = {
               "server_type" => "automate",
               "automate" => {
@@ -319,15 +320,15 @@ describe Fetchers::Url do
         end
         it "returns a properly formatted headers hash" do
           headers = subject.send(:http_opts)
-          headers["chef-delivery-enterprise"].must_equal "my_ent"
-          headers["chef-delivery-user"].must_equal "my_user"
-          headers["chef-delivery-token"].must_equal "my_token"
+          _(headers["chef-delivery-enterprise"]).must_equal "my_ent"
+          _(headers["chef-delivery-user"]).must_equal "my_user"
+          _(headers["chef-delivery-token"]).must_equal "my_token"
         end
       end
 
       describe "when the user is not supplied" do
         it "raises an exception" do
-          proc {
+          _ {
             config = {
               "server_type" => "automate",
               "automate" => {
@@ -344,7 +345,7 @@ describe Fetchers::Url do
 
       describe "when the token is not supplied" do
         it "raises an exception" do
-          proc {
+          _ {
             config = {
               "server_type" => "automate",
               "automate" => {
@@ -363,7 +364,7 @@ describe Fetchers::Url do
     describe "when only a token is supplied" do
       let(:config) { { "token" => "my_token" } }
       it "returns a hash containing an Authorization header" do
-        subject.send(:http_opts)["Authorization"].must_equal "Bearer my_token"
+        _(subject.send(:http_opts)["Authorization"]).must_equal "Bearer my_token"
       end
     end
   end

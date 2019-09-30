@@ -10,21 +10,21 @@ describe "Inspec::Input and Events" do
   describe "when creating an input" do
     it "should have a creation event" do
       creation_events = ipt.events.select { |e| e.action == :create }
-      creation_events.wont_be_empty
+      _(creation_events).wont_be_empty
     end
 
     it "should only have a creation event if no value was provided" do
       creation_events = ipt.events.select { |e| e.action == :create }
-      creation_events.count.must_equal 1
+      _(creation_events.count).must_equal 1
     end
 
     it "should have a create and a set event if a value was provided" do
       ipt = Inspec::Input.new("input", value: 42)
       creation_events = ipt.events.select { |e| e.action == :create }
-      creation_events.count.must_equal 1
+      _(creation_events.count).must_equal 1
       set_events = ipt.set_events
-      set_events.count.must_equal 1
-      set_events.first.value.must_equal 42
+      _(set_events.count).must_equal 1
+      _(set_events.first.value).must_equal 42
     end
   end
 
@@ -33,17 +33,17 @@ describe "Inspec::Input and Events" do
   #==============================================================#
   describe "when setting an input using value=" do
     it "should add a set event" do
-      ipt.set_events.count.must_equal 0
+      _(ipt.set_events.count).must_equal 0
       ipt.value = 42
-      ipt.set_events.count.must_equal 1
+      _(ipt.set_events.count).must_equal 1
     end
 
     it "should add one event for each value= operation" do
-      ipt.set_events.count.must_equal 0
+      _(ipt.set_events.count).must_equal 0
       ipt.value = 1
       ipt.value = 2
       ipt.value = 3
-      ipt.set_events.count.must_equal 3
+      _(ipt.set_events.count).must_equal 3
     end
   end
 
@@ -57,7 +57,7 @@ describe "Inspec::Input and Events" do
     it "value() should return the correct value when there is just one set operation" do
       evt = Inspec::Input::Event.new(value: 42, priority: 25, action: :set)
       ipt.update(event: evt)
-      ipt.value.must_equal 42
+      _(ipt.value).must_equal 42
     end
 
     it "should return the highest priority regardless of order" do
@@ -68,7 +68,7 @@ describe "Inspec::Input and Events" do
       evt3 = Inspec::Input::Event.new(value: 3, priority: 15, action: :set)
       ipt.update(event: evt3)
 
-      ipt.value.must_equal 2
+      _(ipt.value).must_equal 2
     end
 
     it "breaks ties using the last event of the highest priority" do
@@ -79,7 +79,7 @@ describe "Inspec::Input and Events" do
       evt3 = Inspec::Input::Event.new(value: 3, priority: 25, action: :set)
       ipt.update(event: evt3)
 
-      ipt.value.must_equal 3
+      _(ipt.value).must_equal 3
     end
   end
 
@@ -92,8 +92,8 @@ describe "Inspec::Input and Events" do
       expected_file = __FILE__
       expected_line = __LINE__; ipt = Inspec::Input.new("some_input") # Important to keep theses on one line
       event = ipt.events.first
-      event.file.must_equal expected_file
-      event.line.must_equal expected_line
+      _(event.file).must_equal expected_file
+      _(event.line).must_equal expected_line
     end
   end
 
@@ -112,19 +112,19 @@ describe "Inspec::Input and Events" do
 
       text = ipt.diagnostic_string
       lines = text.split("\n")
-      lines.count.must_equal 5 # 3 events above + 1 create + 1 input name line
+      _(lines.count).must_equal 5 # 3 events above + 1 create + 1 input name line
       lines.shift # Not testing the inputs top line here
 
       lines.each do |line|
-        line.must_match(/^\s\s([a-z]+:\s\'.+\',\s)*?([a-z]+:\s\'.+\')$/) # key: 'value', key: 'value' ...
+        _(line).must_match(/^\s\s([a-z]+:\s\'.+\',\s)*?([a-z]+:\s\'.+\')$/) # key: 'value', key: 'value' ...
       end
 
-      lines[0].must_include "action: 'create',"
+      _(lines[0]).must_include "action: 'create',"
 
-      lines[1].must_include "action: 'set',"
-      lines[1].must_include "value: '{" # It should to_s the value
-      lines[1].must_include "provider: 'unit_test'"
-      lines[1].must_include "priority: '15'"
+      _(lines[1]).must_include "action: 'set',"
+      _(lines[1]).must_include "value: '{" # It should to_s the value
+      _(lines[1]).must_include "provider: 'unit_test'"
+      _(lines[1]).must_include "priority: '15'"
 
     end
   end

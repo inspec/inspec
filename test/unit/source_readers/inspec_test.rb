@@ -46,8 +46,8 @@ describe SourceReaders::InspecReader do
     let(:res) { Inspec::SourceReader.resolve(target) }
 
     it "raises an exception" do
-      err = proc { _(res.metadata) }.must_raise RuntimeError
-      err.message.must_match(/Unable to parse inspec\.yml: line \d+/)
+      err = _ { _(res.metadata) }.must_raise RuntimeError
+      _(err.message).must_match(/Unable to parse inspec\.yml: line \d+/)
     end
   end
 end

@@ -21,40 +21,40 @@ describe "inspec keyword" do
   end
 
   it "provides version information" do
-    load("inspec.version").must_equal Inspec::VERSION
+    _(load("inspec.version")).must_equal Inspec::VERSION
   end
 
   it "is associated with resources" do
     i = load("os.inspec")
-    i.wont_be_nil
-    i.backend.must_be_kind_of Train::Transports::Mock::Connection
+    _(i).wont_be_nil
+    _(i.backend).must_be_kind_of Train::Transports::Mock::Connection
   end
 
   it "prints a nice to_s" do
-    load("inspec").to_s.must_equal "Inspec::Backend::Class"
+    _(load("inspec").to_s).must_equal "Inspec::Backend::Class"
   end
 
   it "prints a nice inspect line" do
-    load("inspec").inspect.must_equal "Inspec::Backend::Class @transport=Train::Transports::Mock::Connection"
+    _(load("inspec").inspect).must_equal "Inspec::Backend::Class @transport=Train::Transports::Mock::Connection"
   end
 
   describe "inspec.profile.files" do
     it "lists an empty array when calling #files without any files loaded" do
-      load("inspec.profile.files").must_equal([])
+      _(load("inspec.profile.files")).must_equal([])
     end
 
     it "lists all profile files when calling #files" do
-      load_in_profile("inspec.profile.files").sort.must_equal %w{a_sub_dir/sub_items.conf items.conf}
+      _(load_in_profile("inspec.profile.files").sort).must_equal %w{a_sub_dir/sub_items.conf items.conf}
     end
   end
 
   describe "inspec.profile.file" do
     it "raises an error if a file was not found" do
-      proc { load('inspec.profile.file("test")') }.must_raise RuntimeError
+      _(proc { load('inspec.profile.file("test")') }).must_raise RuntimeError
     end
 
     it "provides file contents when calling file(...)" do
-      load_in_profile('inspec.profile.file("items.conf")').must_equal "one\ntwo\nthree\n"
+      _(load_in_profile('inspec.profile.file("items.conf")')).must_equal "one\ntwo\nthree\n"
     end
   end
 end

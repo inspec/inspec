@@ -14,7 +14,7 @@ describe "Inspec::Resources::DockerImage" do
 
     it "prints as a docker_image resource" do
       resource = load_resource("docker_image", "alpine")
-      resource.to_s.must_equal "Docker Image alpine:latest"
+      _(resource.to_s).must_equal "Docker Image alpine:latest"
     end
   end
 
@@ -26,7 +26,7 @@ describe "Inspec::Resources::DockerImage" do
       let(:image_string) { nil }
 
       it "returns an empty hash" do
-        parsed.must_equal({})
+        _(parsed).must_equal({})
       end
     end
 
@@ -34,8 +34,8 @@ describe "Inspec::Resources::DockerImage" do
       let(:image_string) { "chef/inspec" }
 
       it "returns correct data" do
-        parsed[:repo].must_equal "chef/inspec"
-        parsed[:tag].must_be_nil
+        _(parsed[:repo]).must_equal "chef/inspec"
+        _(parsed[:tag]).must_be_nil
       end
     end
 
@@ -43,8 +43,8 @@ describe "Inspec::Resources::DockerImage" do
       let(:image_string) { "localhost:5000/chef/inspec" }
 
       it "returns correct data" do
-        parsed[:repo].must_equal "localhost:5000/chef/inspec"
-        parsed[:tag].must_be_nil
+        _(parsed[:repo]).must_equal "localhost:5000/chef/inspec"
+        _(parsed[:tag]).must_be_nil
       end
     end
 
@@ -52,8 +52,8 @@ describe "Inspec::Resources::DockerImage" do
       let(:image_string) { "chef/inspec:1.46.3" }
 
       it "returns correct data" do
-        parsed[:repo].must_equal "chef/inspec"
-        parsed[:tag].must_equal "1.46.3"
+        _(parsed[:repo]).must_equal "chef/inspec"
+        _(parsed[:tag]).must_equal "1.46.3"
       end
     end
 
@@ -61,8 +61,8 @@ describe "Inspec::Resources::DockerImage" do
       let(:image_string) { "localhost:5000/chef/inspec:1.46.3" }
 
       it "returns correct data" do
-        parsed[:repo].must_equal "localhost:5000/chef/inspec"
-        parsed[:tag].must_equal "1.46.3"
+        _(parsed[:repo]).must_equal "localhost:5000/chef/inspec"
+        _(parsed[:tag]).must_equal "1.46.3"
       end
     end
   end

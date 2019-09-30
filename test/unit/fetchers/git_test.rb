@@ -11,20 +11,20 @@ describe Fetchers::Git do
 
   it "handles sources beginning with `git@`" do
     f = fetcher.resolve("git@github.com:foo/bar")
-    f.wont_be_nil
-    f.must_be_kind_of Fetchers::Git
+    _(f).wont_be_nil
+    _(f).must_be_kind_of Fetchers::Git
   end
 
   it "handles sources ending with `.git`" do
     f = fetcher.resolve("https://github.com/foo/bar.git")
-    f.wont_be_nil
-    f.must_be_kind_of Fetchers::Git
+    _(f).wont_be_nil
+    _(f).must_be_kind_of Fetchers::Git
   end
 
   it "handles sources specified by a :git key" do
     f = fetcher.resolve({ git: "https://example.com/foo.gi" })
-    f.wont_be_nil
-    f.must_be_kind_of Fetchers::Git
+    _(f).wont_be_nil
+    _(f).must_be_kind_of Fetchers::Git
   end
 
   describe "when given a valid repository" do
@@ -86,24 +86,24 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
     it "resolves to the revision of master by default" do
       expect_ls_remote("master")
       result = fetcher.resolve({ git: git_dep_dir })
-      result.resolved_source.must_equal({ git: git_dep_dir, ref: git_master_ref })
+      _(result.resolved_source).must_equal({ git: git_dep_dir, ref: git_master_ref })
     end
 
     it "can resolve a tag" do
       expect_ls_remote("antag")
       result = fetcher.resolve({ git: git_dep_dir, tag: "antag" })
-      result.resolved_source.must_equal({ git: git_dep_dir, ref: git_tag_ref })
+      _(result.resolved_source).must_equal({ git: git_dep_dir, ref: git_tag_ref })
     end
 
     it "can resolve a branch" do
       expect_ls_remote("somebranch")
       result = fetcher.resolve({ git: git_dep_dir, branch: "somebranch" })
-      result.resolved_source.must_equal({ git: git_dep_dir, ref: git_branch_ref })
+      _(result.resolved_source).must_equal({ git: git_dep_dir, ref: git_branch_ref })
     end
 
     it "assumes the ref you gave it is the thing you want" do
       result = fetcher.resolve({ git: git_dep_dir, ref: "a_test_ref" })
-      result.resolved_source.must_equal({ git: git_dep_dir, ref: "a_test_ref" })
+      _(result.resolved_source).must_equal({ git: git_dep_dir, ref: "a_test_ref" })
     end
 
     it "fetches to the given location" do
@@ -129,7 +129,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       expect_checkout(git_master_ref, "fetchpath")
       result = fetcher.resolve({ git: git_dep_dir })
       result.fetch("fetchpath")
-      result.archive_path.must_equal "fetchpath"
+      _(result.archive_path).must_equal "fetchpath"
     end
   end
 end

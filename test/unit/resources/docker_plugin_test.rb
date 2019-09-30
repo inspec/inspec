@@ -31,7 +31,7 @@ describe "Inspec::Resources::DockerContainer" do
 
     it "prints as a docker resource" do
       resource = load_resource("docker_plugin", "store/weaveworks/net-plugin")
-      resource.to_s.must_equal "Docker plugin store/weaveworks/net-plugin"
+      _(resource.to_s).must_equal "Docker plugin store/weaveworks/net-plugin"
     end
   end
 end

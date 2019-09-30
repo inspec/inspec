@@ -6,9 +6,9 @@ describe "inspec supermarket" do
   it "help" do
     out = inspec("supermarket help")
 
-    out.stdout.must_include "inspec supermarket exec PROFILE"
+    _(out.stdout).must_include "inspec supermarket exec PROFILE"
 
-    out.stderr.must_equal ""
+    _(out.stderr).must_equal ""
 
     assert_exit_code 0, out
   end
@@ -16,9 +16,9 @@ describe "inspec supermarket" do
   it "info" do
     out = inspec("supermarket info dev-sec/ssh-baseline")
 
-    out.stdout.must_include "name: \e[0m  ssh-baseline"
+    _(out.stdout).must_include "name: \e[0m  ssh-baseline"
 
-    out.stderr.must_equal ""
+    _(out.stderr).must_equal ""
 
     assert_exit_code 0, out
   end
@@ -30,10 +30,10 @@ describe "inspec supermarket" do
       out = inspec("supermarket exec dev-sec/ssh-baseline")
     end
 
-    out.stdout.must_include "Profile Summary"
-    out.stdout.must_include "Test Summary"
+    _(out.stdout).must_include "Profile Summary"
+    _(out.stdout).must_include "Test Summary"
 
-    out.stderr.must_equal ""
+    _(out.stderr).must_equal ""
 
     skip_windows!
     assert_exit_code 100, out

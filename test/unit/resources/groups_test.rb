@@ -79,8 +79,8 @@ describe "groups resource on windows platform" do
 
     it "retrieves groups via included members" do
       res = _(resource.where { members.include? "Guest" }.raw_data)
-      res.target.count.must_equal 1
-      res.target.first["name"].must_equal "Guests"
+      _(res.target.count).must_equal 1
+      _(res.target.first["name"]).must_equal "Guests"
     end
   end
 end

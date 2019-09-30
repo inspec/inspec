@@ -6,11 +6,11 @@ describe SolarisNetstatParser do
 
   describe "#parse_solaris_netset" do
     it "parses nil content" do
-      parser.parse_netstat(nil).must_equal([])
+      _(parser.parse_netstat(nil)).must_equal([])
     end
 
     it "parses an empty line" do
-      parser.parse_netstat("").must_equal([])
+      _(parser.parse_netstat("")).must_equal([])
     end
 
     it "parses udpv4" do
@@ -27,7 +27,7 @@ describe SolarisNetstatParser do
         "remote-address" => "",
         "state" => "Idle",
       }]
-      parser.parse_netstat(content).must_equal(info)
+      _(parser.parse_netstat(content)).must_equal(info)
     end
 
     it "parses udpv6" do
@@ -45,7 +45,7 @@ describe SolarisNetstatParser do
         "state" => "Idle",
         "if" => "",
       }]
-      parser.parse_netstat(content).must_equal(info)
+      _(parser.parse_netstat(content)).must_equal(info)
     end
 
     it "parses tcpv4" do
@@ -66,7 +66,7 @@ describe SolarisNetstatParser do
         "recv-q" => "0",
         "state" => "LISTEN",
       }]
-      parser.parse_netstat(content).must_equal(info)
+      _(parser.parse_netstat(content)).must_equal(info)
     end
 
     it "parses tcpv6" do
@@ -88,7 +88,7 @@ describe SolarisNetstatParser do
         "state" => "LISTEN",
         "if" => "",
       }]
-      parser.parse_netstat(content).must_equal(info)
+      _(parser.parse_netstat(content)).must_equal(info)
     end
 
     it "parses sctp" do
@@ -110,7 +110,7 @@ describe SolarisNetstatParser do
         "strsi_o" => "32/32",
         "state" => "CLOSED",
       }]
-      parser.parse_netstat(content).must_equal(info)
+      _(parser.parse_netstat(content)).must_equal(info)
     end
 
   end

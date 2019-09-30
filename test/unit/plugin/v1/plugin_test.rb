@@ -15,7 +15,7 @@ describe "plugin system" do
     end
 
     it "is empty" do
-      cli_reg.subcommands.must_equal({})
+      _(cli_reg.subcommands).must_equal({})
     end
 
     it "stores one cli plugin" do
@@ -33,7 +33,7 @@ describe "plugin system" do
         plugin[:description],
         plugin[:options]
       )
-      cli_reg.subcommands["my_cmd"].must_equal(plugin)
+      _(cli_reg.subcommands["my_cmd"]).must_equal(plugin)
     end
   end
 end

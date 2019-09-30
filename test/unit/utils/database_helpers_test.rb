@@ -8,11 +8,11 @@ describe DatabaseHelper do
     end
 
     it "has a valid column value" do
-      column.value.must_equal "value"
+      _(column.value).must_equal "value"
     end
 
     it "returns empty when nil" do
-      column(nil).value.must_equal ""
+      _(column(nil).value).must_equal ""
     end
   end
 end

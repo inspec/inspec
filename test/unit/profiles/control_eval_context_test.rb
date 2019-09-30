@@ -66,14 +66,14 @@ describe Inspec::ControlEvalContext do
 
     it "fails if the requested profile can't be found" do
       assert_raises(Inspec::ProfileNotFound) do
-        eval_context.instance_eval(control_content).must_raise
+        _(eval_context.instance_eval(control_content)).must_raise
       end
     end
 
     it "returns the resource from a subcontext" do
       profile_context.expects(:subcontext_by_name).at_most_once.with("profile_a").returns(inner_context)
       inner_context.expects(:resource_registry).returns({ "foobar" => newfoo })
-      eval_context.instance_eval(control_content).must_equal newfoo
+      _(eval_context.instance_eval(control_content)).must_equal newfoo
     end
   end
 end
