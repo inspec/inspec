@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.17.12 -->
+## [v4.17.12](https://github.com/inspec/inspec/tree/v4.17.12) (2019-09-30)
+
+#### Bug Fixes
+- Add resource stub for sshd_config [#4538](https://github.com/inspec/inspec/pull/4538) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.17.11 -->
+### Changes since 4.17.11 release
+
+#### Bug Fixes
+- Add resource stub for sshd_config [#4538](https://github.com/inspec/inspec/pull/4538) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.17.12 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
