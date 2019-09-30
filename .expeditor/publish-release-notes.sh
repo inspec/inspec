@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-git clone https://github.com/inspec/inspec.wiki.git
+git clone https://x-access-token:${GITHUB_TOKEN}@github.com/inspec/inspec.wiki.git
 
 pushd ./inspec.wiki
   # Publish release notes to S3
