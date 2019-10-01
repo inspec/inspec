@@ -17,6 +17,10 @@ module Inspec
       @action.call("describe.one", @checks, nil)
     end
 
+    def method_missing(method_name, *arguments)
+      Inspec::DSL.method_missing_resource(inspec, method_name, *arguments)
+    end
+
     def describe(*args, &block)
       @checks.push(["describe", args, block])
     end
