@@ -1,22 +1,19 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.17.15 -->
-## [v4.17.15](https://github.com/inspec/inspec/tree/v4.17.15) (2019-09-30)
-
-#### Merged Pull Requests
-- Fix config clearing [#4483](https://github.com/inspec/inspec/pull/4483) ([frezbo](https://github.com/frezbo))
-- Pass access token [#4544](https://github.com/inspec/inspec/pull/4544) ([miah](https://github.com/miah))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.17.14 -->
-### Changes since 4.17.14 release
-
-#### Merged Pull Requests
-- Fix config clearing [#4483](https://github.com/inspec/inspec/pull/4483) ([frezbo](https://github.com/frezbo)) <!-- 4.17.15 -->
-- Pass access token [#4544](https://github.com/inspec/inspec/pull/4544) ([miah](https://github.com/miah)) <!-- 4.17.14 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.17.15](https://github.com/inspec/inspec/tree/v4.17.15) (2019-10-01)
+
+#### Merged Pull Requests
+- Pass access token [#4544](https://github.com/inspec/inspec/pull/4544) ([miah](https://github.com/miah))
+- Fix config clearing [#4483](https://github.com/inspec/inspec/pull/4483) ([frezbo](https://github.com/frezbo))
+<!-- latest_stable_release -->
+
 ## [v4.17.14](https://github.com/inspec/inspec/tree/v4.17.14) (2019-09-30)
 
 #### Bug Fixes
@@ -25,7 +22,6 @@
 
 #### Merged Pull Requests
 - Yet another bump of our skip_windows! due date. [#4540](https://github.com/inspec/inspec/pull/4540) ([zenspider](https://github.com/zenspider))
-<!-- latest_stable_release -->
 
 ## [v4.17.11](https://github.com/inspec/inspec/tree/v4.17.11) (2019-09-28)
 
