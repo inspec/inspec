@@ -32,7 +32,7 @@ module Inspec::Resources
         npm = "npm -g"
       end
 
-      cmd = inspec.command("#{npm} ls --json #{@package_name}")
+      cmd = inspec.command("sh -c '#{npm} ls --json #{@package_name}'")
       @info = {
         name: @package_name,
         type: "npm",
