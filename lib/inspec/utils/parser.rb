@@ -20,13 +20,14 @@ module PasswdParser
   def parse_passwd_line(line)
     x = line.split(":")
     {
-      "user" => x.at(0),
-      "password" => x.at(1),
-      "uid" => x.at(2),
-      "gid" => x.at(3),
-      "desc" => x.at(4),
-      "home" => x.at(5),
-      "shell" => x.at(6),
+      # rubocop:disable Layout/AlignHash
+      "user"     => x[0],
+      "password" => x[1],
+      "uid"      => x[2],
+      "gid"      => x[3],
+      "desc"     => x[4],
+      "home"     => x[5],
+      "shell"    => x[6],
     }
   end
 end
