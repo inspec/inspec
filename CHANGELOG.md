@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.17.16 -->
+## [v4.17.16](https://github.com/inspec/inspec/tree/v4.17.16) (2019-10-02)
+
+#### Merged Pull Requests
+- Added method_missing to Inspec::DescribeBase (used by describe.one) to fix resource loading [#4549](https://github.com/inspec/inspec/pull/4549) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.17.15 -->
+### Changes since 4.17.15 release
+
+#### Merged Pull Requests
+- Added method_missing to Inspec::DescribeBase (used by describe.one) to fix resource loading [#4549](https://github.com/inspec/inspec/pull/4549) ([zenspider](https://github.com/zenspider)) <!-- 4.17.16 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
