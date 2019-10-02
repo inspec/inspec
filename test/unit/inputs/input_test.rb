@@ -1,5 +1,5 @@
 require "helper"
-require "inspec/input"
+require "inspec/objects/input"
 
 describe Inspec::Input do
   let(:opts) { {} }
@@ -32,8 +32,7 @@ describe Inspec::Input do
         title: "Best input ever",
         description: "important",
         type: "Numeric",
-        required: true
-      )
+        required: true)
       _(input.to_hash).must_equal({
         name: "test_input",
         options: {
@@ -41,8 +40,8 @@ describe Inspec::Input do
         title: "Best input ever",
         description: "important",
         type: "Numeric",
-        required: true
-        }
+        required: true,
+        },
       })
     end
   end

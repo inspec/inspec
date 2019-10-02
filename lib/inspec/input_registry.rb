@@ -1,6 +1,6 @@
 require "forwardable"
 require "singleton"
-require "inspec/input"
+require "inspec/objects/input"
 require "inspec/secrets"
 require "inspec/exceptions"
 require "inspec/plugin/v2"
