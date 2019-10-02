@@ -344,14 +344,13 @@ module Inspec
     def with_dsl(block)
       return nil if block.nil?
 
-      if self.class.resource_dsl
-        dsl = self.class.resource_dsl
-        proc do |*args|
-          include dsl
-          instance_exec(*args, &block)
-        end
-      else
-        block
+      dsl = self.class.resource_dsl
+
+      return block unless dsl
+
+      proc do |*args|
+        include dsl
+        instance_exec(*args, &block)
       end
     end
 
