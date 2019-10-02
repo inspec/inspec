@@ -227,9 +227,7 @@ module Inspec
         msg = "Skipped control due to #{skip_check[:type]} condition."
       end
 
-      # TODO: we use os as the carrier here, but should consider
-      # a separate resource to do skipping
-      resource = rule.os
+      resource = rule.noop
       resource.skip_resource(msg)
       [["describe", [resource], nil]]
     end
