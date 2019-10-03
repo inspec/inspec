@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.17.18 -->
+## [v4.17.18](https://github.com/inspec/inspec/tree/v4.17.18) (2019-10-03)
+
+#### Merged Pull Requests
+- Fixed tests to work with rspec-expectations 3.8.5+. [#4557](https://github.com/inspec/inspec/pull/4557) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.17.17 -->
+### Changes since 4.17.17 release
+
+#### Merged Pull Requests
+- Fixed tests to work with rspec-expectations 3.8.5+. [#4557](https://github.com/inspec/inspec/pull/4557) ([zenspider](https://github.com/zenspider)) <!-- 4.17.18 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
