@@ -1,27 +1,24 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.17.17 -->
-## [v4.17.17](https://github.com/inspec/inspec/tree/v4.17.17) (2019-10-02)
-
-#### Merged Pull Requests
-- Add no-op resource and switch Rule to use it for skipped resources. [#4550](https://github.com/inspec/inspec/pull/4550) ([zenspider](https://github.com/zenspider))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.17.15 -->
-### Changes since 4.17.15 release
-
-#### Merged Pull Requests
-- Add no-op resource and switch Rule to use it for skipped resources. [#4550](https://github.com/inspec/inspec/pull/4550) ([zenspider](https://github.com/zenspider)) <!-- 4.17.17 -->
-- Added method_missing to Inspec::DescribeBase (used by describe.one) to fix resource loading [#4549](https://github.com/inspec/inspec/pull/4549) ([zenspider](https://github.com/zenspider)) <!-- 4.17.16 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.17.17](https://github.com/inspec/inspec/tree/v4.17.17) (2019-10-03)
+
+#### Merged Pull Requests
+- Added method_missing to Inspec::DescribeBase (used by describe.one) to fix resource loading [#4549](https://github.com/inspec/inspec/pull/4549) ([zenspider](https://github.com/zenspider))
+- Add no-op resource and switch Rule to use it for skipped resources. [#4550](https://github.com/inspec/inspec/pull/4550) ([zenspider](https://github.com/zenspider))
+<!-- latest_stable_release -->
+
 ## [v4.17.15](https://github.com/inspec/inspec/tree/v4.17.15) (2019-10-01)
 
 #### Merged Pull Requests
 - Pass access token [#4544](https://github.com/inspec/inspec/pull/4544) ([miah](https://github.com/miah))
 - Fix config clearing [#4483](https://github.com/inspec/inspec/pull/4483) ([frezbo](https://github.com/frezbo))
-<!-- latest_stable_release -->
 
 ## [v4.17.14](https://github.com/inspec/inspec/tree/v4.17.14) (2019-09-30)
 
