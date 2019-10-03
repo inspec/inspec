@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.17.19 -->
-## [v4.17.19](https://github.com/inspec/inspec/tree/v4.17.19) (2019-10-03)
+<!-- latest_release 4.17.20 -->
+## [v4.17.20](https://github.com/inspec/inspec/tree/v4.17.20) (2019-10-03)
 
 #### Merged Pull Requests
-- First pass at cleaning deprecations for old minitest/spec-style tests. [#4563](https://github.com/inspec/inspec/pull/4563) ([zenspider](https://github.com/zenspider))
+- Fixed apt resource incorrectly parsing deb files w/ quoted URIs. [#4560](https://github.com/inspec/inspec/pull/4560) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.17.17 -->
 ### Changes since 4.17.17 release
 
 #### Merged Pull Requests
+- Fixed apt resource incorrectly parsing deb files w/ quoted URIs. [#4560](https://github.com/inspec/inspec/pull/4560) ([zenspider](https://github.com/zenspider)) <!-- 4.17.20 -->
 - First pass at cleaning deprecations for old minitest/spec-style tests. [#4563](https://github.com/inspec/inspec/pull/4563) ([zenspider](https://github.com/zenspider)) <!-- 4.17.19 -->
 - Fixed tests to work with rspec-expectations 3.8.5+. [#4557](https://github.com/inspec/inspec/pull/4557) ([zenspider](https://github.com/zenspider)) <!-- 4.17.18 -->
 <!-- release_rollup -->
