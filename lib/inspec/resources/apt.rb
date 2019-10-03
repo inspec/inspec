@@ -87,12 +87,14 @@ module Inspec::Resources
         active = raw_line == line
 
         # formats:
+        # deb               "http://archive.ubuntu.com/ubuntu/" wily main restricted ...
         # deb               http://archive.ubuntu.com/ubuntu/ wily main restricted ...
         # deb [trusted=yes] http://archive.ubuntu.com/ubuntu/ wily main restricted ...
 
         words = line.split
         words.delete 1 if words[1] && words[1].start_with?("[")
         type, url, distro, *components = words
+        url = url.delete('"') if url
 
         next if components.empty?
         next unless URI::HTTP === URI.parse(url)
