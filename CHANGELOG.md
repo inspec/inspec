@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.17.21 -->
-## [v4.17.21](https://github.com/inspec/inspec/tree/v4.17.21) (2019-10-03)
+<!-- latest_release 4.17.22 -->
+## [v4.17.22](https://github.com/inspec/inspec/tree/v4.17.22) (2019-10-03)
 
 #### Merged Pull Requests
-- Missing require for EnvPrinter means `inspec env` stacktraced. [#4554](https://github.com/inspec/inspec/pull/4554) ([miah](https://github.com/miah))
+- Add name property to interface resource [#4558](https://github.com/inspec/inspec/pull/4558) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.17.17 -->
 ### Changes since 4.17.17 release
 
 #### Merged Pull Requests
+- Add name property to interface resource [#4558](https://github.com/inspec/inspec/pull/4558) ([miah](https://github.com/miah)) <!-- 4.17.22 -->
 - Missing require for EnvPrinter means `inspec env` stacktraced. [#4554](https://github.com/inspec/inspec/pull/4554) ([miah](https://github.com/miah)) <!-- 4.17.21 -->
 - Fixed apt resource incorrectly parsing deb files w/ quoted URIs. [#4560](https://github.com/inspec/inspec/pull/4560) ([zenspider](https://github.com/zenspider)) <!-- 4.17.20 -->
 - First pass at cleaning deprecations for old minitest/spec-style tests. [#4563](https://github.com/inspec/inspec/pull/4563) ([zenspider](https://github.com/zenspider)) <!-- 4.17.19 -->
