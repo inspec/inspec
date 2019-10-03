@@ -9,6 +9,7 @@ module Inspec # TODO: move this somewhere "better"?
   autoload :BaseCLI,       "inspec/base_cli"
   autoload :Deprecation,   "inspec/utils/deprecation"
   autoload :Exceptions,    "inspec/exceptions"
+  autoload :EnvPrinter,    "inspec/env_printer"
   autoload :Fetcher,       "inspec/fetcher"
   autoload :Formatters,    "inspec/formatters"
   autoload :Globals,       "inspec/globals"
