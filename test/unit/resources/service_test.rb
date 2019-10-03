@@ -429,39 +429,39 @@ describe "Inspec::Resources::Service" do
     let(:service) { MockLoader.new(:centos6).load_resource("service", "sshd") }
 
     it "grabs all runlevels" do
-      service.runlevels.keys.must_equal [0, 1, 2, 3, 4, 5, 6]
+      _(service.runlevels.keys).must_equal [0, 1, 2, 3, 4, 5, 6]
     end
 
     it "grabs runlevels via filter nil" do
-      service.runlevels(nil).keys.must_equal [0, 1, 2, 3, 4, 5, 6]
+      _(service.runlevels(nil).keys).must_equal [0, 1, 2, 3, 4, 5, 6]
     end
 
     it "grabs runlevels by number" do
-      service.runlevels(3).keys.must_equal [3]
+      _(service.runlevels(3).keys).must_equal [3]
     end
 
     it "grabs runlevels by multiple numbers" do
-      service.runlevels(3, 4, 8).keys.must_equal [3, 4]
+      _(service.runlevels(3, 4, 8).keys).must_equal [3, 4]
     end
 
     it "grabs runlevels via regex" do
-      service.runlevels(/[5-9]/).keys.must_equal [5, 6]
+      _(service.runlevels(/[5-9]/).keys).must_equal [5, 6]
     end
 
     it "checks enabled true if all services are enabled" do
-      service.runlevels(2, 4).enabled?.must_equal true
+      _(service.runlevels(2, 4).enabled?).must_equal true
     end
 
     it "checks enabled false if some services are not enabled" do
-      service.runlevels(1, 4).enabled?.must_equal false
+      _(service.runlevels(1, 4).enabled?).must_equal false
     end
 
     it "checks disabled true if all services are disabled" do
-      service.runlevels(0, 1).disabled?.must_equal true
+      _(service.runlevels(0, 1).disabled?).must_equal true
     end
 
     it "checks disabled false if some services are not disabled" do
-      service.runlevels(0, 4).enabled?.must_equal false
+      _(service.runlevels(0, 4).enabled?).must_equal false
     end
   end
 end

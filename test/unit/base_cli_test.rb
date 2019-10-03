@@ -44,14 +44,14 @@ EOF
 
     it "sets to stderr for log_location" do
       cli.send(:configure_logger, options)
-      format.must_equal $stderr
+      _(format).must_equal $stderr
     end
 
     it "sets to stderr for json" do
       options.delete("log_location")
       options.delete("log_level")
       cli.send(:configure_logger, options)
-      format.must_equal $stderr
+      _(format).must_equal $stderr
     end
 
     it "sets defaults to stdout for everything else" do
@@ -60,44 +60,44 @@ EOF
       options.delete("reporter")
 
       cli.send(:configure_logger, options)
-      format.must_equal $stdout
+      _(format).must_equal $stdout
     end
   end
 
   describe "suppress_log_output?" do
     it "suppresses json" do
       opts = { "reporter" => { "json" => { "stdout" => true } } }
-      cli.send(:suppress_log_output?, opts).must_equal true
+      _(cli.send(:suppress_log_output?, opts)).must_equal true
     end
 
     it "do not suppresses json-min when going to file" do
       opts = { "reporter" => { "json-min" => { "file" => "/tmp/json" } } }
-      cli.send(:suppress_log_output?, opts).must_equal false
+      _(cli.send(:suppress_log_output?, opts)).must_equal false
     end
 
     it "suppresses json-rspec" do
       opts = { "reporter" => { "json-rspec" => { "stdout" => true } } }
-      cli.send(:suppress_log_output?, opts).must_equal true
+      _(cli.send(:suppress_log_output?, opts)).must_equal true
     end
 
     it "suppresses json-automate" do
       opts = { "reporter" => { "json-automate" => { "stdout" => true } } }
-      cli.send(:suppress_log_output?, opts).must_equal true
+      _(cli.send(:suppress_log_output?, opts)).must_equal true
     end
 
     it "suppresses junit" do
       opts = { "reporter" => { "junit" => { "stdout" => true } } }
-      cli.send(:suppress_log_output?, opts).must_equal true
+      _(cli.send(:suppress_log_output?, opts)).must_equal true
     end
 
     it "do not suppresses cli" do
       opts = { "reporter" => { "cli" => nil } }
-      cli.send(:suppress_log_output?, opts).must_equal false
+      _(cli.send(:suppress_log_output?, opts)).must_equal false
     end
 
     it "do not suppresses cli" do
       opts = { "reporter" => { "cli" => nil, "json" => { "file" => "/tmp/json" } } }
-      cli.send(:suppress_log_output?, opts).must_equal false
+      _(cli.send(:suppress_log_output?, opts)).must_equal false
     end
   end
 end

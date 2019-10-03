@@ -7,8 +7,8 @@ describe "command tests" do
     it "provides the version number on stdout" do
       out = inspec("version")
 
-      out.stdout.must_equal Inspec::VERSION + "\n"
-      out.stderr.must_equal ""
+      _(out.stdout).must_equal Inspec::VERSION + "\n"
+      _(out.stderr).must_equal ""
 
       assert_exit_code 0, out
     end
@@ -16,9 +16,9 @@ describe "command tests" do
     it "prints the version as JSON when the format is specified as JSON" do
       out = inspec("version --format=json")
 
-      out.stdout.must_equal %({"version":"#{Inspec::VERSION}"}\n)
+      _(out.stdout).must_equal %({"version":"#{Inspec::VERSION}"}\n)
 
-      out.stderr.must_equal ""
+      _(out.stderr).must_equal ""
 
       assert_exit_code 0, out
     end
@@ -28,9 +28,9 @@ describe "command tests" do
     it "verifies that a profile is ok" do
       out = inspec("check " + example_profile)
 
-      out.stdout.must_match(/Valid.*true/)
+      _(out.stdout).must_match(/Valid.*true/)
 
-      out.stderr.must_equal ""
+      _(out.stderr).must_equal ""
 
       assert_exit_code 0, out
     end
@@ -46,7 +46,7 @@ describe "command tests" do
     end
 
     it "outputs the same message regardless of invocation" do
-      outputs.uniq.length.must_equal 1
+      _(outputs.uniq.length).must_equal 1
     end
 
     it "outputs both core commands and v2 CLI plugins" do
@@ -70,7 +70,7 @@ describe "command tests" do
       }
       outputs.each do |output|
         commands.each do |subcommand|
-          output.must_include("inspec " + subcommand)
+          _(output).must_include("inspec " + subcommand)
         end
       end
     end

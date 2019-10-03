@@ -8,78 +8,78 @@ describe "inspec json" do
 
   it "read the profile json" do
     out = inspec("json " + example_profile)
-    out.stderr.must_equal ""
+    _(out.stderr).must_equal ""
     assert_exit_code 0, out
     s = out.stdout
-    JSON.load(s).must_be_kind_of Hash
+    _(JSON.load(s)).must_be_kind_of Hash
   end
 
   describe "json profile data" do
     let(:json) { JSON.load(inspec("json " + example_profile).stdout) }
 
     it "has a generator name" do
-      json["generator"]["name"].must_equal "inspec"
+      _(json["generator"]["name"]).must_equal "inspec"
     end
 
     it "has a generator inspec version" do
-      json["generator"]["version"].must_equal Inspec::VERSION
+      _(json["generator"]["version"]).must_equal Inspec::VERSION
     end
 
     it "has a name" do
-      json["name"].must_equal "profile"
+      _(json["name"]).must_equal "profile"
     end
 
     it "has a title" do
-      json["title"].must_equal "InSpec Example Profile"
+      _(json["title"]).must_equal "InSpec Example Profile"
     end
 
     it "has a summary" do
-      json["summary"].must_equal "Demonstrates the use of InSpec Compliance Profile"
+      _(json["summary"]).must_equal "Demonstrates the use of InSpec Compliance Profile"
     end
 
     it "has a version" do
-      json["version"].must_equal "1.0.0"
+      _(json["version"]).must_equal "1.0.0"
     end
 
     it "has a maintainer" do
-      json["maintainer"].must_equal "Chef Software, Inc."
+      _(json["maintainer"]).must_equal "Chef Software, Inc."
     end
 
     it "has a copyright" do
-      json["copyright"].must_equal "Chef Software, Inc."
+      _(json["copyright"]).must_equal "Chef Software, Inc."
     end
 
     it "has controls" do
-      json["controls"].length.must_equal 4
+      _(json["controls"].length).must_equal 4
     end
 
     describe "a control" do
       let(:control) { json["controls"].find { |x| x["id"] == "tmp-1.0" } }
 
       it "has a title" do
-        control["title"].must_equal "Create /tmp directory"
+        _(control["title"]).must_equal "Create /tmp directory"
       end
 
       it "has a description" do
-        control["desc"].must_equal "An optional description..."
+        _(control["desc"]).must_equal "An optional description..."
       end
 
       it "has an impact" do
-        control["impact"].must_equal 0.7
+        _(control["impact"]).must_equal 0.7
       end
 
       it "has a ref" do
-        control["refs"].must_equal([{ "ref" => "Document A-12", "url" => "http://..." }])
+        _(control["refs"]).must_equal([{ "ref" => "Document A-12", "url" => "http://..." }])
       end
 
       it "has a source location" do
         loc = File.join(example_profile, "/controls/example.rb")
-        control["source_location"]["ref"].must_equal loc
-        control["source_location"]["line"].must_equal 6
+        _(control["source_location"]["ref"]).must_equal loc
+        _(control["source_location"]["line"]).must_equal 6
       end
 
       it "has a the source code" do
-        control["code"].must_match(/\Acontrol 'tmp-1.0' do.*end\n\Z/m)
+        _(control["code"]).must_match(/\Acontrol 'tmp-1.0' do.*end\n\Z/m)
       end
     end
   end
@@ -88,17 +88,17 @@ describe "inspec json" do
     let(:out) { inspec("json " + example_profile + " --controls tmp-1.0") }
 
     it "still succeeds" do
-      out.stderr.must_equal ""
+      _(out.stderr).must_equal ""
 
       assert_exit_code 0, out
     end
 
     it "only has one control included" do
       json = JSON.load(out.stdout)
-      json["controls"].length.must_equal 1
-      json["controls"][0]["id"].must_equal "tmp-1.0"
-      json["groups"].length.must_equal 1
-      json["groups"][0]["id"].must_equal "controls/example.rb"
+      _(json["controls"].length).must_equal 1
+      _(json["controls"][0]["id"]).must_equal "tmp-1.0"
+      _(json["groups"].length).must_equal 1
+      _(json["groups"][0]["id"]).must_equal "controls/example.rb"
     end
   end
 
@@ -106,10 +106,10 @@ describe "inspec json" do
     out = inspec("json " + example_profile + " --output " + dst.path)
 
     hm = JSON.load(File.read(dst.path))
-    hm["name"].must_equal "profile"
-    hm["controls"].length.must_equal 4
+    _(hm["name"]).must_equal "profile"
+    _(hm["controls"].length).must_equal 4
 
-    out.stderr.must_equal ""
+    _(out.stderr).must_equal ""
 
     assert_exit_code 0, out
   end
@@ -143,13 +143,13 @@ describe "inspec json" do
       # This will throw an exception if it is garbled
       json = JSON.load(out.stdout)
       # and here we verify (very passingly!) that is a structure we expect
-      json.must_be_kind_of Hash
+      _(json).must_be_kind_of Hash
 
       json["controls"].each do |control|
-        control["code"].empty?.must_equal false
+        _(control["code"].empty?).must_equal false
       end
 
-      out.stderr.must_be_empty
+      _(out.stderr).must_be_empty
 
       assert_exit_code 0, out
     end
@@ -161,7 +161,7 @@ describe "inspec json" do
 
       assert_equal "warn_logs", JSON.load(out.stdout)["name"]
 
-      out.stderr.must_include "This is a warn call"
+      _(out.stderr).must_include "This is a warn call"
 
       assert_exit_code 0, out
     end
@@ -173,7 +173,7 @@ describe "inspec json" do
 
       assert_equal "only-if-os-nope", JSON.load(out.stdout)["name"]
 
-      out.stderr.must_equal ""
+      _(out.stderr).must_equal ""
 
       assert_exit_code 0, out
     end

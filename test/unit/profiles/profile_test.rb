@@ -13,11 +13,11 @@ describe Inspec::Profile do
     let(:profile) { MockLoader.load_profile("empty-metadata") }
 
     it "has a default name containing the original target" do
-      profile.params[:name].must_match(/tests from .*empty-metadata/)
+      _(profile.params[:name]).must_match(/tests from .*empty-metadata/)
     end
 
     it "has no controls" do
-      profile.params[:controls].must_equal({})
+      _(profile.params[:controls]).must_equal({})
     end
   end
 
@@ -26,27 +26,27 @@ describe Inspec::Profile do
     let(:profile) { MockLoader.load_profile(profile_id) }
 
     it "has metadata" do
-      profile.params[:name].must_equal "yumyum profile"
+      _(profile.params[:name]).must_equal "yumyum profile"
     end
 
     it "has no controls" do
-      profile.params[:controls].must_equal({})
+      _(profile.params[:controls]).must_equal({})
     end
 
     it "can overwrite the profile ID" do
       testid = rand.to_s
       res = MockLoader.load_profile(profile_id, id: testid)
-      res.params[:name].must_equal testid
+      _(res.params[:name]).must_equal testid
     end
   end
 
   describe "SHA256 sums" do
     it "works on an empty profile" do
-      MockLoader.load_profile("empty-metadata").sha256.must_match(/\h{64}/)
+      _(MockLoader.load_profile("empty-metadata").sha256).must_match(/\h{64}/)
     end
 
     it "works on a complete profile" do
-      MockLoader.load_profile("complete-profile").sha256.must_match(/\h{64}/)
+      _(MockLoader.load_profile("complete-profile").sha256).must_match(/\h{64}/)
     end
   end
 
@@ -59,23 +59,23 @@ describe Inspec::Profile do
 
     it "gets code from an uncompressed profile" do
       info = MockLoader.load_profile(profile_id).info
-      info[:controls][0][:code].must_equal code
+      _(info[:controls][0][:code]).must_equal code
       loc[:ref] = File.join(MockLoader.profile_path(profile_id), loc[:ref])
-      info[:controls][0][:source_location].must_equal loc
+      _(info[:controls][0][:source_location]).must_equal loc
     end
 
     it "gets code on zip profiles" do
       path = MockLoader.profile_zip(profile_id)
       info = MockLoader.load_profile(path).info
-      info[:controls][0][:code].must_equal code
-      info[:controls][0][:source_location].must_equal loc
+      _(info[:controls][0][:code]).must_equal code
+      _(info[:controls][0][:source_location]).must_equal loc
     end
 
     it "gets code on tgz profiles" do
       path = MockLoader.profile_tgz(profile_id)
       info = MockLoader.load_profile(path).info
-      info[:controls][0][:code].must_equal code
-      info[:controls][0][:source_location].must_equal loc
+      _(info[:controls][0][:code]).must_equal code
+      _(info[:controls][0][:source_location]).must_equal loc
     end
   end
 
@@ -85,8 +85,8 @@ describe Inspec::Profile do
     it "overrides os-name and os-family" do
       path = MockLoader.profile_zip(profile_id)
       info = MockLoader.load_profile(path).info
-      info[:supports][0][:"platform-family"].must_equal "definitely_not_supported"
-      info[:supports][1][:"platform-name"].must_equal "definitely_also_not_supported"
+      _(info[:supports][0][:"platform-family"]).must_equal "definitely_not_supported"
+      _(info[:supports][1][:"platform-name"]).must_equal "definitely_also_not_supported"
     end
   end
 
@@ -96,7 +96,7 @@ describe Inspec::Profile do
     it "loads our profile but skips loading controls" do
       skip "Mock loader always supports all platforms - bad test, ref #3750 "
       info = MockLoader.load_profile(profile_id).info
-      info[:controls].must_be_empty
+      _(info[:controls]).must_be_empty
     end
   end
 
@@ -118,12 +118,12 @@ describe Inspec::Profile do
         logger.verify
 
         # verify hash result
-        result[:summary][:valid].must_equal false
-        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
-        result[:summary][:profile].must_match(/tests from .*empty-metadata/)
-        result[:summary][:controls].must_equal 0
-        result[:errors].length.must_equal 1
-        result[:warnings].length.must_equal 5
+        _(result[:summary][:valid]).must_equal false
+        _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+        _(result[:summary][:profile]).must_match(/tests from .*empty-metadata/)
+        _(result[:summary][:controls]).must_equal 0
+        _(result[:errors].length).must_equal 1
+        _(result[:warnings].length).must_equal 5
       end
     end
 
@@ -142,12 +142,12 @@ describe Inspec::Profile do
         logger.verify
 
         # verify hash result
-        result[:summary][:valid].must_equal true
-        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
-        result[:summary][:profile].must_equal "name"
-        result[:summary][:controls].must_equal 0
-        result[:errors].length.must_equal 0
-        result[:warnings].length.must_equal 1
+        _(result[:summary][:valid]).must_equal true
+        _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+        _(result[:summary][:profile]).must_equal "name"
+        _(result[:summary][:controls]).must_equal 0
+        _(result[:errors].length).must_equal 0
+        _(result[:warnings].length).must_equal 1
       end
     end
 
@@ -165,12 +165,12 @@ describe Inspec::Profile do
         logger.verify
 
         # verify hash result
-        result[:summary][:valid].must_equal true
-        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
-        result[:summary][:profile].must_equal "complete"
-        result[:summary][:controls].must_equal 1
-        result[:errors].length.must_equal 0
-        result[:warnings].length.must_equal 0
+        _(result[:summary][:valid]).must_equal true
+        _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+        _(result[:summary][:profile]).must_equal "complete"
+        _(result[:summary][:controls]).must_equal 1
+        _(result[:errors].length).must_equal 0
+        _(result[:warnings].length).must_equal 0
       end
     end
 
@@ -190,12 +190,12 @@ describe Inspec::Profile do
         logger.verify
 
         # verify hash result
-        result[:summary][:valid].must_equal true
-        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
-        result[:summary][:profile].must_equal "complete"
-        result[:summary][:controls].must_equal 1
-        result[:errors].length.must_equal 0
-        result[:warnings].length.must_equal 0
+        _(result[:summary][:valid]).must_equal true
+        _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+        _(result[:summary][:profile]).must_equal "complete"
+        _(result[:summary][:controls]).must_equal 1
+        _(result[:errors].length).must_equal 0
+        _(result[:warnings].length).must_equal 0
       end
     end
 
@@ -215,12 +215,12 @@ describe Inspec::Profile do
         logger.verify
 
         # verify hash result
-        result[:summary][:valid].must_equal true
-        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
-        result[:summary][:profile].must_equal "complete"
-        result[:summary][:controls].must_equal 1
-        result[:errors].length.must_equal 0
-        result[:warnings].length.must_equal 0
+        _(result[:summary][:valid]).must_equal true
+        _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+        _(result[:summary][:profile]).must_equal "complete"
+        _(result[:summary][:controls]).must_equal 1
+        _(result[:errors].length).must_equal 0
+        _(result[:warnings].length).must_equal 0
       end
     end
 
@@ -240,12 +240,12 @@ describe Inspec::Profile do
         logger.verify
 
         # verify hash result
-        result[:summary][:valid].must_equal true
-        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
-        result[:summary][:profile].must_equal "complete"
-        result[:summary][:controls].must_equal 1
-        result[:errors].length.must_equal 0
-        result[:warnings].length.must_equal 0
+        _(result[:summary][:valid]).must_equal true
+        _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+        _(result[:summary][:profile]).must_equal "complete"
+        _(result[:summary][:controls]).must_equal 1
+        _(result[:errors].length).must_equal 0
+        _(result[:warnings].length).must_equal 0
       end
     end
 
@@ -265,13 +265,13 @@ describe Inspec::Profile do
         logger.verify
 
         # verify hash result
-        result[:summary][:valid].must_equal false
-        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
-        result[:summary][:profile].must_equal "invalid-version"
+        _(result[:summary][:valid]).must_equal false
+        _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+        _(result[:summary][:profile]).must_equal "invalid-version"
 
-        result[:summary][:controls].must_equal 0
-        result[:errors].length.must_equal 1
-        result[:warnings].length.must_equal 1
+        _(result[:summary][:controls]).must_equal 0
+        _(result[:errors].length).must_equal 1
+        _(result[:warnings].length).must_equal 1
       end
     end
 
@@ -287,8 +287,8 @@ describe Inspec::Profile do
 
         result = MockLoader.load_profile(profile_path, { logger: logger }).check
         logger.verify
-        result[:warnings].length.must_equal 0
-        result[:errors].length.must_equal 1
+        _(result[:warnings].length).must_equal 0
+        _(result[:errors].length).must_equal 1
       end
     end
 
@@ -309,13 +309,13 @@ describe Inspec::Profile do
         logger.verify
 
         # verify hash result
-        result[:summary][:valid].must_equal true
-        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
-        result[:summary][:profile].must_equal "license-invalid"
+        _(result[:summary][:valid]).must_equal true
+        _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+        _(result[:summary][:profile]).must_equal "license-invalid"
 
-        result[:summary][:controls].must_equal 0
-        result[:errors].length.must_equal 0
-        result[:warnings].length.must_equal 2
+        _(result[:summary][:controls]).must_equal 0
+        _(result[:errors].length).must_equal 0
+        _(result[:warnings].length).must_equal 2
       end
 
       describe "shows no warning if license is spdx" do
@@ -334,13 +334,13 @@ describe Inspec::Profile do
           logger.verify
 
           # verify hash result
-          result[:summary][:valid].must_equal true
-          result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
-          result[:summary][:profile].must_equal "license-spdx"
+          _(result[:summary][:valid]).must_equal true
+          _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+          _(result[:summary][:profile]).must_equal "license-spdx"
 
-          result[:summary][:controls].must_equal 0
-          result[:errors].length.must_equal 0
-          result[:warnings].length.must_equal 1
+          _(result[:summary][:controls]).must_equal 0
+          _(result[:errors].length).must_equal 0
+          _(result[:warnings].length).must_equal 1
         end
       end
 
@@ -360,13 +360,13 @@ describe Inspec::Profile do
           logger.verify
 
           # verify hash result
-          result[:summary][:valid].must_equal true
-          result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
-          result[:summary][:profile].must_equal "license-proprietary"
+          _(result[:summary][:valid]).must_equal true
+          _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+          _(result[:summary][:profile]).must_equal "license-proprietary"
 
-          result[:summary][:controls].must_equal 0
-          result[:errors].length.must_equal 0
-          result[:warnings].length.must_equal 1
+          _(result[:summary][:controls]).must_equal 0
+          _(result[:errors].length).must_equal 0
+          _(result[:warnings].length).must_equal 1
         end
       end
     end

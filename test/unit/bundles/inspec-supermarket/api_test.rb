@@ -37,7 +37,7 @@ describe Supermarket::API do
             .to_return(status: 200, body: profile_search_response_body.to_json)
           test_profile = default_url?(supermarket_url) ? subject.profiles.first : subject.profiles(supermarket_url).first
 
-          test_profile.must_equal(profile_search_response_body["items"].first.merge({ "slug" => "test_name" }))
+          _(test_profile).must_equal(profile_search_response_body["items"].first.merge({ "slug" => "test_name" }))
         end
       end
 
@@ -45,8 +45,8 @@ describe Supermarket::API do
         it "returns the profile name and owner from a supermarket://owner/name path" do
           tool_owner, tool_name = subject.profile_name("supermarket://test_tool_owner/test_tool_name")
 
-          tool_owner.must_equal("test_tool_owner")
-          tool_name.must_equal("test_tool_name")
+          _(tool_owner).must_equal("test_tool_owner")
+          _(tool_name).must_equal("test_tool_name")
         end
       end
 
@@ -69,7 +69,7 @@ describe Supermarket::API do
 
           profile_info = default_url?(supermarket_url) ? subject.info("test_owner/test_name") : subject.info("test_owner/test_name", supermarket_url)
 
-          profile_info.must_equal(profile_list_response_body)
+          _(profile_info).must_equal(profile_list_response_body)
         end
       end
 
@@ -79,19 +79,19 @@ describe Supermarket::API do
         it "is the same on a match" do
           supermarket_tool = { "tool_owner" => "test_owner", "tool" => tool_url }
           same = default_url?(supermarket_url) ? subject.same?(profile_name, supermarket_tool) : subject.same?(profile_name, supermarket_tool, supermarket_url)
-          same.must_equal(true)
+          _(same).must_equal(true)
         end
 
         it "is not the same on a mismatched owner" do
           supermarket_tool = { "tool_owner" => "wrong_owner", "tool" => tool_url }
           same = default_url?(supermarket_url) ? subject.same?(profile_name, supermarket_tool) : subject.same?(profile_name, supermarket_tool, supermarket_url)
-          same.must_equal(false)
+          _(same).must_equal(false)
         end
 
         it "is not the same on a mismatched supermarket tool" do
           supermarket_tool = { "tool_owner" => "test_owner", "tool" => "garbage" }
           same = default_url?(supermarket_url) ? subject.same?(profile_name, supermarket_tool) : subject.same?(profile_name, supermarket_tool, supermarket_url)
-          same.must_equal(false)
+          _(same).must_equal(false)
         end
       end
 
@@ -105,7 +105,7 @@ describe Supermarket::API do
             .to_return(status: 200, body: empty_profile_search_response_body.to_json)
 
           search = default_url?(supermarket_url) ? subject.find(profile_name) : subject.find(profile_name, supermarket_url)
-          search.must_be_nil
+          _(search).must_be_nil
         end
 
         it "returns nil if profile not found" do
@@ -114,7 +114,7 @@ describe Supermarket::API do
 
           profile_name_cant_find = "supermarket://cant_find/not_found"
           search = default_url?(supermarket_url) ? subject.find(profile_name_cant_find) : subject.find(profile_name_cant_find, supermarket_url)
-          search.must_be_nil
+          _(search).must_be_nil
         end
 
         it "returns profile if it is found" do
@@ -123,7 +123,7 @@ describe Supermarket::API do
 
           profile = default_url?(supermarket_url) ? subject.find(profile_name) : subject.find(profile_name, supermarket_url)
 
-          profile.must_equal(profile_search_response_body["items"].first.merge({ "slug" => "test_name" }))
+          _(profile).must_equal(profile_search_response_body["items"].first.merge({ "slug" => "test_name" }))
         end
 
         it "downcases profile name for Supermarket API URL" do
@@ -137,7 +137,7 @@ describe Supermarket::API do
                       subject.find(profile_name, supermarket_url)
                     end
 
-          profile.must_equal(profile_search_response_body["items"].first.merge({ "slug" => "test_name" }))
+          _(profile).must_equal(profile_search_response_body["items"].first.merge({ "slug" => "test_name" }))
         end
 
         it "raises an error if tool name is not present" do
@@ -145,8 +145,8 @@ describe Supermarket::API do
           stub_request(:get, "#{supermarket_url}/api/v1/tools-search?items=100&type=compliance_profile")
             .to_return(status: 200, body: profile_search_response_body.to_json)
 
-          e = proc { subject.find(profile_name, supermarket_url) }.must_raise
-          e.message.must_equal("Could not parse tool name from #{profile_name}")
+          e = _ { subject.find(profile_name, supermarket_url) }.must_raise
+          _(e.message).must_equal("Could not parse tool name from #{profile_name}")
         end
       end
     end

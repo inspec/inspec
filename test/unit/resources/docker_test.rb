@@ -48,7 +48,7 @@ describe "Inspec::Resources::Docker" do
     end
 
     it "prints as a docker resource" do
-      resource.to_s.must_equal "Docker Host"
+      _(resource.to_s).must_equal "Docker Host"
     end
   end
 end

@@ -41,14 +41,14 @@ describe "Inspec::Resources::SSL" do
 
   it "error with nil host" do
     resource = load_resource("ssl", host: nil)
-    err = proc { resource.enabled? }.must_raise(RuntimeError)
-    err.message.must_equal "Cannot determine host for SSL test. Please specify it or use a different target."
+    err = _ { resource.enabled? }.must_raise(RuntimeError)
+    _(err.message).must_equal "Cannot determine host for SSL test. Please specify it or use a different target."
   end
 
   it "verify sslshake resources" do
     resource = load_resource("ssl", host: "localhost")
     _(resource.protocols.uniq).must_equal ["ssl2", "ssl3", "tls1.0", "tls1.1", "tls1.2"]
     _(resource.ciphers.include?("TLS_RSA_WITH_AES_128_CBC_SHA256")).must_equal true
-    [681, 993].must_include(resource.ciphers.count)
+    _([681, 993]).must_include(resource.ciphers.count)
   end
 end

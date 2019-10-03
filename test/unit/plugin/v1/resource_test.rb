@@ -9,13 +9,13 @@ describe Inspec::Plugins::Resource do
   describe "#name" do
     it "won't register a nil resource" do
       Class.new(base) { name nil; }
-      Inspec::Resource.registry.keys.wont_include nil
-      Inspec::Resource.registry.keys.wont_include ""
+      _(Inspec::Resource.registry.keys).wont_include nil
+      _(Inspec::Resource.registry.keys).wont_include ""
     end
 
     it "will register a valid name" do
       Class.new(base) { name "hello"; }
-      Inspec::Resource.registry["hello"].wont_be :nil?
+      _(Inspec::Resource.registry["hello"]).wont_be :nil?
     end
   end
 
@@ -32,26 +32,26 @@ describe Inspec::Plugins::Resource do
   describe "#desc" do
     it "will register a description" do
       expected = rand.to_s
-      create { desc expected }.desc.must_equal expected
+      _(create { desc expected }.desc).must_equal expected
     end
 
     it "can change the description" do
       c = create { desc rand.to_s }
       c.desc(x = rand.to_s)
-      c.desc.must_equal x
+      _(c.desc).must_equal x
     end
   end
 
   describe "#example" do
     it "will register a description" do
       expected = rand.to_s
-      create { example expected }.example.must_equal expected
+      _(create { example expected }.example).must_equal expected
     end
 
     it "can change the description" do
       c = create { example rand.to_s }
       c.example(x = rand.to_s)
-      c.example.must_equal x
+      _(c.example).must_equal x
     end
   end
 
@@ -71,7 +71,7 @@ describe Inspec::Plugins::Resource do
         { os_family: "windows" },
         { os_family: "unix" },
       ])
-      m.check_supports.must_equal true
+      _(m.check_supports).must_equal true
       Inspec::Resource.supports["os"] = nil
     end
 
@@ -80,7 +80,7 @@ describe Inspec::Plugins::Resource do
         { os_family: "windows", os_name: "windows_2000" },
         { os_family: "unix", os_name: "ubuntu" },
       ])
-      m.check_supports.must_equal true
+      _(m.check_supports).must_equal true
       Inspec::Resource.supports["os"] = nil
     end
 
@@ -89,7 +89,7 @@ describe Inspec::Plugins::Resource do
         { os_family: "windows" },
         { os_family: "redhat" },
       ])
-      m.check_supports.must_equal false
+      _(m.check_supports).must_equal false
       Inspec::Resource.supports["os"] = nil
     end
   end

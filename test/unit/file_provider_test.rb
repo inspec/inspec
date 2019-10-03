@@ -7,7 +7,7 @@ describe Inspec::MockProvider do
   describe "without data" do
     let(:target) { { mock: {} } }
     it "has no files on empty" do
-      subject.files.must_equal []
+      _(subject.files).must_equal []
     end
   end
 
@@ -17,11 +17,11 @@ describe Inspec::MockProvider do
     let(:target) { { mock: { file_name => file_content } } }
 
     it "has files" do
-      subject.files.must_equal [file_name]
+      _(subject.files).must_equal [file_name]
     end
 
     it "can read a file" do
-      subject.read(file_name).must_equal file_content
+      _(subject.read(file_name)).must_equal file_content
     end
   end
 end
@@ -33,21 +33,21 @@ describe Inspec::DirProvider do
     let(:target) { __FILE__ }
 
     it "must only contain this file" do
-      subject.files.must_equal [__FILE__]
+      _(subject.files).must_equal [__FILE__]
     end
 
     it "must not read if the file doesnt exist" do
-      subject.read("file-does-not-exist").must_be_nil
+      _(subject.read("file-does-not-exist")).must_be_nil
     end
 
     it "must not read files not covered" do
       not_covered = File.expand_path("../../helper.rb", __FILE__)
-      File.file?(not_covered).must_equal true
-      subject.read(not_covered).must_be_nil
+      _(File.file?(not_covered)).must_equal true
+      _(subject.read(not_covered)).must_be_nil
     end
 
     it "must read the contents of the file" do
-      subject.read(__FILE__).must_equal File.read(__FILE__)
+      _(subject.read(__FILE__)).must_equal File.read(__FILE__)
     end
   end
 
@@ -55,21 +55,21 @@ describe Inspec::DirProvider do
     let(:target) { File.dirname(__FILE__) }
 
     it "must contain all files" do
-      subject.files.must_include __FILE__
+      _(subject.files).must_include __FILE__
     end
 
     it "must not read if the file doesnt exist" do
-      subject.read("file-not-in-folder").must_be_nil
+      _(subject.read("file-not-in-folder")).must_be_nil
     end
 
     it "must not read files not covered" do
       not_covered = File.expand_path("../../helper.rb", __FILE__)
-      File.file?(not_covered).must_equal true
-      subject.read(not_covered).must_be_nil
+      _(File.file?(not_covered)).must_equal true
+      _(subject.read(not_covered)).must_be_nil
     end
 
     it "must read the contents of the file" do
-      subject.read(__FILE__).must_equal File.read(__FILE__)
+      _(subject.read(__FILE__)).must_equal File.read(__FILE__)
     end
   end
 end
@@ -81,17 +81,17 @@ describe Inspec::ZipProvider do
     let(:target) { MockLoader.profile_zip("complete-profile") }
 
     it "must contain all files" do
-      subject.files.sort.must_equal %w{inspec.yml libraries libraries/testlib.rb
+      _(subject.files.sort).must_equal %w{inspec.yml libraries libraries/testlib.rb
         controls controls/host_spec.rb files files/a_sub_dir
         files/a_sub_dir/sub_items.conf files/items.conf}.sort
     end
 
     it "must not read if the file isnt included" do
-      subject.read("file-not-in-archive").must_be_nil
+      _(subject.read("file-not-in-archive")).must_be_nil
     end
 
     it "must read the contents of the file" do
-      subject.read("inspec.yml").must_match(/^name: complete$/)
+      _(subject.read("inspec.yml")).must_match(/^name: complete$/)
     end
   end
 
@@ -115,7 +115,7 @@ describe Inspec::ZipProvider do
     end
 
     it "must contain all files" do
-      cls.new(rand.to_s).files.must_equal %w{zipzip}
+      _(cls.new(rand.to_s).files).must_equal %w{zipzip}
     end
   end
 
@@ -139,7 +139,7 @@ describe Inspec::ZipProvider do
     end
 
     it "must contain all files" do
-      cls.new(rand.to_s).files.must_equal %w{zipzip}
+      _(cls.new(rand.to_s).files).must_equal %w{zipzip}
     end
   end
 end
@@ -151,17 +151,17 @@ describe Inspec::ZipProvider do
     let(:target) { MockLoader.profile_zip("complete-profile") }
 
     it "must contain all files" do
-      subject.files.sort.must_equal %w{inspec.yml libraries libraries/testlib.rb
+      _(subject.files.sort).must_equal %w{inspec.yml libraries libraries/testlib.rb
         controls controls/host_spec.rb files files/a_sub_dir
         files/a_sub_dir/sub_items.conf files/items.conf}.sort
     end
 
     it "must not read if the file isnt included" do
-      subject.read("file-not-in-archive").must_be_nil
+      _(subject.read("file-not-in-archive")).must_be_nil
     end
 
     it "must read the contents of the file" do
-      subject.read("inspec.yml").must_match(/^name: complete$/)
+      _(subject.read("inspec.yml")).must_match(/^name: complete$/)
     end
   end
 end
@@ -173,17 +173,17 @@ describe Inspec::TarProvider do
     let(:target) { MockLoader.profile_tgz("complete-profile") }
 
     it "must contain all files" do
-      subject.files.sort.must_equal %w{inspec.yml libraries/testlib.rb
+      _(subject.files.sort).must_equal %w{inspec.yml libraries/testlib.rb
         controls/host_spec.rb files/a_sub_dir/sub_items.conf
         files/items.conf}.sort
     end
 
     it "must not read if the file isnt included" do
-      subject.read("file-not-in-archive").must_be_nil
+      _(subject.read("file-not-in-archive")).must_be_nil
     end
 
     it "must read the contents of the file" do
-      subject.read("inspec.yml").must_match(/^name: complete$/)
+      _(subject.read("inspec.yml")).must_match(/^name: complete$/)
     end
   end
 
@@ -206,7 +206,7 @@ describe Inspec::TarProvider do
     end
 
     it "must contain all files" do
-      cls.new(rand.to_s).files.must_equal %w{tartar}
+      _(cls.new(rand.to_s).files).must_equal %w{tartar}
     end
   end
 
@@ -222,7 +222,7 @@ describe Inspec::TarProvider do
     end
 
     it "must not contain all files" do
-      cls.new(rand.to_s).files.must_equal %w{tartar}
+      _(cls.new(rand.to_s).files).must_equal %w{tartar}
     end
   end
 
@@ -283,7 +283,7 @@ describe Inspec::RelativeFileProvider do
       let(:in_files) { ins }
 
       it "turns #{ins} into #{outs}" do
-        fetcher.files.must_equal outs
+        _(fetcher.files).must_equal outs
       end
     end
   end

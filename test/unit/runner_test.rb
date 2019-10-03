@@ -17,7 +17,7 @@ describe Inspec::Runner do
       runner = Inspec::Runner.new(opts)
       config = runner.instance_variable_get(:"@conf")
       expected = { "cli" => { "stdout" => true } }
-      config["reporter"].must_equal expected
+      _(config["reporter"]).must_equal expected
     end
 
     it "does not default when format is set" do
@@ -25,14 +25,14 @@ describe Inspec::Runner do
       runner = Inspec::Runner.new(opts)
       config = runner.instance_variable_get(:"@conf")
       expected = { "json" => { "stdout" => true } }
-      config["reporter"].must_equal expected
+      _(config["reporter"]).must_equal expected
     end
 
     it "delets format if set to a rspec format" do
       opts = { command_runner: :generic, backend_cache: true, "reporter" => ["progress"] }
       runner = Inspec::Runner.new(opts)
       config = runner.instance_variable_get(:"@conf")
-      config["reporter"].must_equal({})
+      _(config["reporter"]).must_equal({})
     end
   end
 
@@ -42,7 +42,7 @@ describe Inspec::Runner do
 
   describe "testing runner.run exit codes" do
     it "returns proper exit code when no profile is added" do
-      proc { runner.run.must_equal 0 }
+      _(runner.run).must_equal 0
     end
   end
 
@@ -55,7 +55,7 @@ describe Inspec::Runner do
       opts = { command_runner: :generic, backend_cache: true }
       runner = Inspec::Runner.new(opts)
       backend = runner.instance_variable_get(:@backend)
-      backend.backend.cache_enabled?(:command).must_equal true
+      _(backend.backend.cache_enabled?(:command)).must_equal true
     end
   end
 
@@ -64,12 +64,12 @@ describe Inspec::Runner do
       opts = { command_runner: :generic, backend_cache: false }
       runner = Inspec::Runner.new(opts)
       backend = runner.instance_variable_get(:@backend)
-      backend.backend.cache_enabled?(:command).must_equal false
+      _(backend.backend.cache_enabled?(:command)).must_equal false
     end
 
     it "returns a backend without caching as default" do
       backend = runner.instance_variable_get(:@backend)
-      backend.backend.cache_enabled?(:command).must_equal false
+      _(backend.backend.cache_enabled?(:command)).must_equal false
     end
   end
 end

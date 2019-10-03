@@ -22,12 +22,12 @@ describe Inspec::Resolver do
 
   describe "#resolve" do
     it "returns a Hash" do
-      subject.resolve([]).must_equal({})
+      _(subject.resolve([])).must_equal({})
     end
 
     it "errors if a dependency is listed twice at the same level" do
       dep = FakeDep.new("fake_dep_0")
-      lambda { subject.resolve([dep, dep]) }.must_raise Inspec::DuplicateDep
+      _(lambda { subject.resolve([dep, dep]) }).must_raise Inspec::DuplicateDep
     end
 
     it "fails if there is a simple cycle " do
@@ -39,7 +39,7 @@ describe Inspec::Resolver do
 
       dep1.stubs(:dependencies).returns([dep2])
       dep2.stubs(:dependencies).returns([dep1])
-      lambda { subject.resolve([dep0]) }.must_raise Inspec::CyclicDependencyError
+      _(lambda { subject.resolve([dep0]) }).must_raise Inspec::CyclicDependencyError
     end
 
     it "errors if the source version doesn't match the requirement" do
@@ -47,7 +47,7 @@ describe Inspec::Resolver do
       dep.expects(:source_satisfies_spec?).returns(false)
       dep.expects(:source_version).returns("1.0.0")
       dep.expects(:version_constraints).returns([">= 1.0.1"])
-      lambda { subject.resolve([dep]) }.must_raise Inspec::UnsatisfiedVersionSpecification
+      _(lambda { subject.resolve([dep]) }).must_raise Inspec::UnsatisfiedVersionSpecification
     end
   end
 end

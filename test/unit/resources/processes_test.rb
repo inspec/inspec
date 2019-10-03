@@ -12,7 +12,7 @@ describe "Inspec::Resources::Processes" do
     resource = MockLoader.new(:freebsd10).load_resource("processes", "login -fp apop")
 
     expect_deprecation(:property_processes_list) do
-      resource.list.length.must_equal 2
+      _(resource.list.length).must_equal 2
     end
 
     _(resource.entries.length).must_equal 2
@@ -93,11 +93,11 @@ describe "Inspec::Resources::Processes" do
   it "access information of a process" do
     resource = MockLoader.new(:centos6).load_resource("processes", "postgres: bifrost bifrost")
     process = resource.entries[0]
-    process.user.must_equal "opscode-pgsql"
-    process[:user].must_equal "opscode-pgsql"
-    process["user"].must_equal "opscode-pgsql"
-    process[-1].must_equal "postgres: bifrost bifrost 127.0.0.1(43699) idle"
-    process[1].must_equal 5127
+    _(process.user).must_equal "opscode-pgsql"
+    _(process[:user]).must_equal "opscode-pgsql"
+    _(process["user"]).must_equal "opscode-pgsql"
+    _(process[-1]).must_equal "postgres: bifrost bifrost 127.0.0.1(43699) idle"
+    _(process[1]).must_equal 5127
   end
 
   it "retrieves the users and states as arrays" do
@@ -222,12 +222,12 @@ describe "Inspec::Resources::Processes" do
   it "returns the correct command for busybox ps" do
     resource = MockLoader.new(:alpine).load_resource("processes")
     resource.expects(:busybox_ps?).returns(true)
-    resource.send(:ps_configuration_for_linux)[0].must_equal "ps -o pid,vsz,rss,tty,stat,time,ruser,args"
+    _(resource.send(:ps_configuration_for_linux)[0]).must_equal "ps -o pid,vsz,rss,tty,stat,time,ruser,args"
   end
 
   it "returns the correct command for non-busybox linux" do
     resource = MockLoader.new(:centos7).load_resource("processes")
     resource.expects(:busybox_ps?).returns(false)
-    resource.send(:ps_configuration_for_linux)[0].must_equal "ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command"
+    _(resource.send(:ps_configuration_for_linux)[0]).must_equal "ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command"
   end
 end

@@ -24,7 +24,7 @@ describe "inputs" do
 
       result = run_inspec_process(cmd)
 
-      result.stderr.must_equal ""
+      _(result.stderr).must_equal ""
       assert_exit_code 0, result
     end
   end
@@ -35,7 +35,7 @@ describe "inputs" do
 
       lines = result.stdout.split("\n")
       line = lines.detect { |l| l.include? "--input-file" }
-      line.wont_be_nil
+      _(line).wont_be_nil
     end
 
     it "includes the legacy --attrs option" do
@@ -43,7 +43,7 @@ describe "inputs" do
 
       lines = result.stdout.split("\n")
       line = lines.detect { |l| l.include? "--attrs" }
-      line.wont_be_nil
+      _(line).wont_be_nil
     end
 
     it "includes the --input option" do
@@ -224,7 +224,7 @@ describe "inputs" do
       result = run_inspec_process(cmd, json: true)
 
       result.must_have_all_controls_passing
-      result.stderr.must_be_empty
+      _(result.stderr).must_be_empty
     end
 
     it "works when using the legacy 'attributes' key" do
@@ -242,7 +242,7 @@ describe "inputs" do
 
       result = run_inspec_process(cmd, json: true)
 
-      result.stderr.must_include "WARN: Inputs must be defined as an Array in metadata files. Skipping definition from profile-with-empty-attributes."
+      _(result.stderr).must_include "WARN: Inputs must be defined as an Array in metadata files. Skipping definition from profile-with-empty-attributes."
       assert_exit_code 0, result
     end
 
@@ -252,7 +252,7 @@ describe "inputs" do
 
       result = run_inspec_process(cmd, json: true)
 
-      result.stderr.must_equal "Type 'Color' is not a valid input type.\n"
+      _(result.stderr).must_equal "Type 'Color' is not a valid input type.\n"
       assert_exit_code 1, result
     end
 
@@ -262,7 +262,7 @@ describe "inputs" do
 
       result = run_inspec_process(cmd, json: true)
 
-      result.stderr.must_include "Input 'a_required_input' is required and does not have a value.\n"
+      _(result.stderr).must_include "Input 'a_required_input' is required and does not have a value.\n"
       assert_exit_code 1, result
     end
 
@@ -283,8 +283,8 @@ describe "inputs" do
 
       result = run_inspec_process(cmd, json: true)
 
-      result.stderr.must_include "WARN: Input 'undeclared_01'"
-      result.stderr.must_include "does not have a value"
+      _(result.stderr).must_include "WARN: Input 'undeclared_01'"
+      _(result.stderr).must_include "does not have a value"
       result.must_have_all_controls_passing
     end
   end

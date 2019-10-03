@@ -151,7 +151,7 @@ describe Inspec::Resources::UnixHostProvider do
       v6_command.stubs(:stdout).returns(ipv6_command_output)
       inspec.stubs(:command).with("dig +short AAAA testdomain.com").returns(v6_command)
       inspec.stubs(:command).with("dig +short A testdomain.com").returns(v4_command)
-      provider.resolve_with_dig("testdomain.com").must_equal(["12.34.56.78", "2A03:2880:F112:83:FACE:B00C::25DE"])
+      _(provider.resolve_with_dig("testdomain.com")).must_equal(["12.34.56.78", "2A03:2880:F112:83:FACE:B00C::25DE"])
     end
 
     it "returns only v4 addresses if no v6 addresses are available" do
@@ -169,7 +169,7 @@ describe Inspec::Resources::UnixHostProvider do
       v6_command.stubs(:stdout).returns(ipv6_command_output)
       inspec.stubs(:command).with("dig +short AAAA testdomain.com").returns(v6_command)
       inspec.stubs(:command).with("dig +short A testdomain.com").returns(v4_command)
-      provider.resolve_with_dig("testdomain.com").must_equal(["12.34.56.78"])
+      _(provider.resolve_with_dig("testdomain.com")).must_equal(["12.34.56.78"])
     end
 
     it "returns only v6 addresses if no v4 addresses are available" do
@@ -187,7 +187,7 @@ describe Inspec::Resources::UnixHostProvider do
       v6_command.stubs(:stdout).returns(ipv6_command_output)
       inspec.stubs(:command).with("dig +short AAAA testdomain.com").returns(v6_command)
       inspec.stubs(:command).with("dig +short A testdomain.com").returns(v4_command)
-      provider.resolve_with_dig("testdomain.com").must_equal(["2A03:2880:F112:83:FACE:B00C::25DE"])
+      _(provider.resolve_with_dig("testdomain.com")).must_equal(["2A03:2880:F112:83:FACE:B00C::25DE"])
     end
 
     it "returns nil if no addresses are available" do
@@ -204,7 +204,7 @@ describe Inspec::Resources::UnixHostProvider do
       v6_command.stubs(:stdout).returns(ipv6_command_output)
       inspec.stubs(:command).with("dig +short AAAA testdomain.com").returns(v6_command)
       inspec.stubs(:command).with("dig +short A testdomain.com").returns(v4_command)
-      provider.resolve_with_dig("testdomain.com").must_be_nil
+      _(provider.resolve_with_dig("testdomain.com")).must_be_nil
     end
   end
 
@@ -223,7 +223,7 @@ describe Inspec::Resources::UnixHostProvider do
 
       inspec.stubs(:command).with("getent ahosts testdomain.com").returns(command)
 
-      provider.resolve_with_getent("testdomain.com").must_equal(["123.123.123.123", "2607:f8b0:4004:805::200e"])
+      _(provider.resolve_with_getent("testdomain.com")).must_equal(["123.123.123.123", "2607:f8b0:4004:805::200e"])
     end
 
     it "returns nil if command is not successful" do
@@ -232,7 +232,7 @@ describe Inspec::Resources::UnixHostProvider do
 
       inspec.stubs(:command).with("getent ahosts testdomain.com").returns(command)
 
-      provider.resolve_with_getent("testdomain.com").must_be_nil
+      _(provider.resolve_with_getent("testdomain.com")).must_be_nil
     end
   end
 
@@ -281,12 +281,12 @@ describe Inspec::Resources::UnixHostProvider do
 
       it "returns an empty array if timeout is available" do
         timeout_command.stubs(:exist?).returns(true)
-        provider.missing_requirements("tcp").must_equal([])
+        _(provider.missing_requirements("tcp")).must_equal([])
       end
 
       it "returns a missing requirement when timeout is missing" do
         timeout_command.stubs(:exist?).returns(false)
-        provider.missing_requirements("tcp").must_equal(["timeout (part of coreutils) or netcat must be installed"])
+        _(provider.missing_requirements("tcp")).must_equal(["timeout (part of coreutils) or netcat must be installed"])
       end
     end
 
@@ -298,25 +298,25 @@ describe Inspec::Resources::UnixHostProvider do
       it "returns an empty array if nc is installed but ncat is not installed" do
         nc_command.stubs(:exist?).returns(true)
         ncat_command.stubs(:exist?).returns(false)
-        provider.missing_requirements("tcp").must_equal([])
+        _(provider.missing_requirements("tcp")).must_equal([])
       end
 
       it "returns an empty array if nc is not installed but ncat is installed" do
         nc_command.stubs(:exist?).returns(false)
         ncat_command.stubs(:exist?).returns(true)
-        provider.missing_requirements("tcp").must_equal([])
+        _(provider.missing_requirements("tcp")).must_equal([])
       end
 
       it "returns an empty array if both nc and ncat are installed" do
         nc_command.stubs(:exist?).returns(true)
         ncat_command.stubs(:exist?).returns(true)
-        provider.missing_requirements("tcp").must_equal([])
+        _(provider.missing_requirements("tcp")).must_equal([])
       end
 
       it "returns a missing requirement when neither nc nor ncat are installed" do
         nc_command.stubs(:exist?).returns(false)
         ncat_command.stubs(:exist?).returns(false)
-        provider.missing_requirements("tcp").must_equal(["netcat must be installed"])
+        _(provider.missing_requirements("tcp")).must_equal(["netcat must be installed"])
       end
     end
   end
@@ -329,31 +329,31 @@ describe Inspec::Resources::UnixHostProvider do
     it "returns an nc command when nc exists tcp" do
       nc_command.expects(:exist?).returns(true)
       ncat_command.expects(:exist?).returns(false)
-      provider.netcat_check_command("foo", 1234, "tcp").must_equal "echo | nc -v -w 1  foo 1234"
+      _(provider.netcat_check_command("foo", 1234, "tcp")).must_equal "echo | nc -v -w 1  foo 1234"
     end
 
     it "returns an nc command when nc exists udp" do
       nc_command.expects(:exist?).returns(true)
       ncat_command.expects(:exist?).returns(false)
-      provider.netcat_check_command("foo", 1234, "udp").must_equal "echo | nc -v -w 1 -u foo 1234"
+      _(provider.netcat_check_command("foo", 1234, "udp")).must_equal "echo | nc -v -w 1 -u foo 1234"
     end
 
     it "returns an ncat command when nc does not exist but ncat exists tcp" do
       nc_command.expects(:exist?).returns(false)
       ncat_command.expects(:exist?).returns(true)
-      provider.netcat_check_command("foo", 1234, "tcp").must_equal "echo | ncat -v -w 1  foo 1234"
+      _(provider.netcat_check_command("foo", 1234, "tcp")).must_equal "echo | ncat -v -w 1  foo 1234"
     end
 
     it "returns an ncat command when nc does not exist but ncat exists udp" do
       nc_command.expects(:exist?).returns(false)
       ncat_command.expects(:exist?).returns(true)
-      provider.netcat_check_command("foo", 1234, "udp").must_equal "echo | ncat -v -w 1 -u foo 1234"
+      _(provider.netcat_check_command("foo", 1234, "udp")).must_equal "echo | ncat -v -w 1 -u foo 1234"
     end
 
     it "returns nil if neither nc or ncat exist" do
       nc_command.expects(:exist?).returns(false)
       ncat_command.expects(:exist?).returns(false)
-      provider.netcat_check_command("foo", 1234, "tcp").must_be_nil
+      _(provider.netcat_check_command("foo", 1234, "tcp")).must_be_nil
     end
   end
 end

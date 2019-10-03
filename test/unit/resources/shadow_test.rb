@@ -44,7 +44,7 @@ describe "Inspec::Resources::Shadow" do
 
   it "access all lines of the file" do
     expect_deprecation(:properties_shadow) do
-      shadow.lines[0].must_equal "root:x:1:2:3::::"
+      _(shadow.lines[0]).must_equal "root:x:1:2:3::::"
     end
   end
 
@@ -58,25 +58,25 @@ describe "Inspec::Resources::Shadow" do
 
   it "returns deprecation notice on user property" do
     expect_deprecation(:properties_shadow) do
-      shadow.user.must_equal %w{root www-data}
+      _(shadow.user).must_equal %w{root www-data}
     end
   end
 
   it "returns deprecatation notice on password property" do
     expect_deprecation(:properties_shadow) do
-      shadow.password.must_equal %w{x !!}
+      _(shadow.password).must_equal %w{x !!}
     end
   end
 
   it "returns deprecation notice on last_change property" do
     expect_deprecation(:properties_shadow) do
-      shadow.last_change.must_equal %w{1 10}
+      _(shadow.last_change).must_equal %w{1 10}
     end
   end
 
   it "returns deprecation notice on expiry_date property" do
     expect_deprecation(:properties_shadow) do
-      shadow.expiry_date.must_equal [nil, "60"]
+      _(shadow.expiry_date).must_equal [nil, "60"]
     end
   end
 
@@ -95,10 +95,10 @@ describe "Inspec::Resources::Shadow" do
 
       users.each do |expected_user|
         expect_deprecation(:properties_shadow) do
-          shadow.user(expected_user).users.must_equal(["www-data"])
+          _(shadow.user(expected_user).users).must_equal(["www-data"])
         end
         expect_deprecation(:properties_shadow) do
-          shadow.user(expected_user).inactive_days.must_equal(["50"])
+          _(shadow.user(expected_user).inactive_days).must_equal(["50"])
         end
       end
     end
@@ -106,13 +106,13 @@ describe "Inspec::Resources::Shadow" do
     it "cant read /etc/unreadable_shadow and #filter matches nothing" do
       users = unreadable_shadow.filter(password: /[^x]/).entries.map { |x| x["user"] }
       users.each do |user|
-        expect(shadow.users(user).user).must_equal([])
-        expect(shadow.users(user).inactive_days).must_equal([])
+        _(shadow.users(user).user).must_equal([])
+        _(shadow.users(user).inactive_days).must_equal([])
       end
     end
 
     it "returns the unreadable_shadow path" do
-      expect(unreadable_shadow.to_s).must_equal "/fakepath/fakefile"
+      _(unreadable_shadow.to_s).must_equal "/fakepath/fakefile"
     end
   end
 

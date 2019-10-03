@@ -25,7 +25,7 @@ describe "filtertable functional tests" do
   def expect_clean_run(controls)
     run_result = run_result_for_controls(controls)
     outcome_hash = failed_control_test_outcomes(run_result)
-    outcome_hash.must_be_empty
+    _(outcome_hash).must_be_empty
     assert_exit_code 0, run_result
   end
 
@@ -34,10 +34,10 @@ describe "filtertable functional tests" do
     outcome_hash = failed_control_test_outcomes(run_result)
 
     controls.each do |expected_control|
-      outcome_hash.keys.must_include(expected_control)
+      _(outcome_hash.keys).must_include(expected_control)
     end
 
-    run_result.stderr_ignore_deprecations.must_equal "" # TODO: we have a cli_option_json_config triggering somewhere
+    _(run_result.stderr_ignore_deprecations).must_equal "" # TODO: we have a cli_option_json_config triggering somewhere
     assert_exit_code 100, run_result
   end
 

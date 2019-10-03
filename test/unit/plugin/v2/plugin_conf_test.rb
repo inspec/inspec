@@ -28,7 +28,7 @@ describe "Inspec::Plugin::V2::ConfigFile" do
         ENV["HOME"] = File.join(config_fixtures_path, "fakehome")
         expected_path = File.join(ENV["HOME"], ".inspec", "plugins.json")
 
-        config_file_obj.path.must_equal expected_path
+        _(config_file_obj.path).must_equal expected_path
       end
     end
 
@@ -38,14 +38,14 @@ describe "Inspec::Plugin::V2::ConfigFile" do
         ENV["INSPEC_CONFIG_DIR"] = File.join(config_fixtures_path, "meaning-by-path")
         expected_path = File.join(ENV["INSPEC_CONFIG_DIR"], "plugins.json")
 
-        config_file_obj.path.must_equal expected_path
+        _(config_file_obj.path).must_equal expected_path
       end
     end
 
     describe "when a path is provided to the constructor" do
       let(:fixture_name) { "no_plugins" }
       it "uses the provided path" do
-        config_file_obj.path.must_equal constructor_arg
+        _(config_file_obj.path).must_equal constructor_arg
       end
     end
   end
@@ -60,7 +60,7 @@ describe "Inspec::Plugin::V2::ConfigFile" do
       let(:fixture_name) { "nonesuch" }
       it "creates a empty datastructure" do
         Dir.mktmpdir do |tmp_dir|
-          config_file_obj.count.must_equal 0
+          _(config_file_obj.count).must_equal 0
         end
       end
     end
@@ -69,34 +69,34 @@ describe "Inspec::Plugin::V2::ConfigFile" do
       let(:fixture_name) { "corrupt" }
       it "throws an exception" do
         ex = assert_raises(Inspec::Plugin::V2::ConfigError) { config_file_obj }
-        ex.message.must_include("Failed to load")
-        ex.message.must_include("JSON")
-        ex.message.must_include("unexpected token")
+        _(ex.message).must_include("Failed to load")
+        _(ex.message).must_include("JSON")
+        _(ex.message).must_include("unexpected token")
       end
     end
 
     describe "when the file is valid" do
       let(:fixture_name) { "basic" }
       it "can count plugins" do
-        config_file_obj.count.must_equal 3
+        _(config_file_obj.count).must_equal 3
       end
       it "can look up plugins by name with a String" do
-        config_file_obj.plugin_by_name("inspec-test-fixture-01").wont_be_nil
-        config_file_obj.plugin_by_name("inspec-test-fixture-99").must_be_nil
+        _(config_file_obj.plugin_by_name("inspec-test-fixture-01")).wont_be_nil
+        _(config_file_obj.plugin_by_name("inspec-test-fixture-99")).must_be_nil
       end
       it "can look up plugins by name with a Symbol" do
-        config_file_obj.plugin_by_name(:'inspec-test-fixture-01').wont_be_nil
-        config_file_obj.plugin_by_name(:'inspec-test-fixture-99').must_be_nil
+        _(config_file_obj.plugin_by_name(:'inspec-test-fixture-01')).wont_be_nil
+        _(config_file_obj.plugin_by_name(:'inspec-test-fixture-99')).must_be_nil
       end
       it "symbolizes the keys of the entries" do
         config_file_obj.each do |entry|
           entry.keys.each do |key|
-            key.must_be_kind_of(Symbol)
+            _(key).must_be_kind_of(Symbol)
           end
         end
       end
       it "implements Enumerable" do
-        config_file_obj.select { |entry| entry[:name].to_s.start_with?("inspec-test-fixture") }.count.must_equal 3
+        _(config_file_obj.select { |entry| entry[:name].to_s.start_with?("inspec-test-fixture") }.count).must_equal 3
       end
     end
 
@@ -109,10 +109,10 @@ describe "Inspec::Plugin::V2::ConfigFile" do
         let(:fixture_name) { "bad_plugin_conf_version" }
         it "throws an exception" do
           ex = assert_raises(Inspec::Plugin::V2::ConfigError) { config_file_obj }
-          ex.message.must_include("Unsupported")
-          ex.message.must_include("version")
-          ex.message.must_include("99.99.9")
-          ex.message.must_include("1.0.0")
+          _(ex.message).must_include("Unsupported")
+          _(ex.message).must_include("version")
+          _(ex.message).must_include("99.99.9")
+          _(ex.message).must_include("1.0.0")
         end
       end
 
@@ -120,9 +120,9 @@ describe "Inspec::Plugin::V2::ConfigFile" do
         let(:fixture_name) { "missing_plugin_conf_version" }
         it "throws an exception" do
           ex = assert_raises(Inspec::Plugin::V2::ConfigError) { config_file_obj }
-          ex.message.must_include("Missing")
-          ex.message.must_include("version")
-          ex.message.must_include("1.0.0")
+          _(ex.message).must_include("Missing")
+          _(ex.message).must_include("version")
+          _(ex.message).must_include("1.0.0")
         end
       end
 
@@ -130,9 +130,9 @@ describe "Inspec::Plugin::V2::ConfigFile" do
         let(:fixture_name) { "missing_plugins_key" }
         it "throws an exception" do
           ex = assert_raises(Inspec::Plugin::V2::ConfigError) { config_file_obj }
-          ex.message.must_include("missing")
-          ex.message.must_include("'plugins'")
-          ex.message.must_include("array")
+          _(ex.message).must_include("missing")
+          _(ex.message).must_include("'plugins'")
+          _(ex.message).must_include("array")
         end
       end
 
@@ -140,9 +140,9 @@ describe "Inspec::Plugin::V2::ConfigFile" do
         let(:fixture_name) { "hash_plugins_key" }
         it "throws an exception" do
           ex = assert_raises(Inspec::Plugin::V2::ConfigError) { config_file_obj }
-          ex.message.must_include("Malformed")
-          ex.message.must_include("'plugins'")
-          ex.message.must_include("array")
+          _(ex.message).must_include("Malformed")
+          _(ex.message).must_include("'plugins'")
+          _(ex.message).must_include("array")
         end
       end
 
@@ -150,9 +150,9 @@ describe "Inspec::Plugin::V2::ConfigFile" do
         let(:fixture_name) { "entry_not_hash" }
         it "throws an exception" do
           ex = assert_raises(Inspec::Plugin::V2::ConfigError) { config_file_obj }
-          ex.message.must_include("Malformed")
-          ex.message.must_include("Hash")
-          ex.message.must_include("at index 2")
+          _(ex.message).must_include("Malformed")
+          _(ex.message).must_include("Hash")
+          _(ex.message).must_include("at index 2")
         end
       end
 
@@ -160,10 +160,10 @@ describe "Inspec::Plugin::V2::ConfigFile" do
         let(:fixture_name) { "entry_duplicate" }
         it "throws an exception" do
           ex = assert_raises(Inspec::Plugin::V2::ConfigError) { config_file_obj }
-          ex.message.must_include("Malformed")
-          ex.message.must_include("duplicate")
-          ex.message.must_include("inspec-test-fixture-01")
-          ex.message.must_include("at index 1 and 3")
+          _(ex.message).must_include("Malformed")
+          _(ex.message).must_include("duplicate")
+          _(ex.message).must_include("inspec-test-fixture-01")
+          _(ex.message).must_include("at index 1 and 3")
         end
       end
 
@@ -171,9 +171,9 @@ describe "Inspec::Plugin::V2::ConfigFile" do
         let(:fixture_name) { "entry_no_name" }
         it "throws an exception" do
           ex = assert_raises(Inspec::Plugin::V2::ConfigError) { config_file_obj }
-          ex.message.must_include("Malformed")
-          ex.message.must_include("missing 'name'")
-          ex.message.must_include("at index 1")
+          _(ex.message).must_include("Malformed")
+          _(ex.message).must_include("missing 'name'")
+          _(ex.message).must_include("at index 1")
         end
       end
 
@@ -181,10 +181,10 @@ describe "Inspec::Plugin::V2::ConfigFile" do
         let(:fixture_name) { "entry_bad_installation_type" }
         it "throws an exception" do
           ex = assert_raises(Inspec::Plugin::V2::ConfigError) { config_file_obj }
-          ex.message.must_include("Malformed")
-          ex.message.must_include("unrecognized installation_type")
-          ex.message.must_include("one of 'gem' or 'path'")
-          ex.message.must_include("at index 1")
+          _(ex.message).must_include("Malformed")
+          _(ex.message).must_include("unrecognized installation_type")
+          _(ex.message).must_include("one of 'gem' or 'path'")
+          _(ex.message).must_include("at index 1")
         end
       end
 
@@ -192,9 +192,9 @@ describe "Inspec::Plugin::V2::ConfigFile" do
         let(:fixture_name) { "entry_no_path_for_path_type" }
         it "throws an exception" do
           ex = assert_raises(Inspec::Plugin::V2::ConfigError) { config_file_obj }
-          ex.message.must_include("Malformed")
-          ex.message.must_include("missing installation path")
-          ex.message.must_include("at index 2")
+          _(ex.message).must_include("Malformed")
+          _(ex.message).must_include("missing installation path")
+          _(ex.message).must_include("at index 2")
         end
       end
     end
@@ -209,20 +209,20 @@ describe "Inspec::Plugin::V2::ConfigFile" do
 
       describe "when the conf is empty" do
         it "should add one valid entry" do
-          config_file_obj.count.must_equal 0
+          _(config_file_obj.count).must_equal 0
           config_file_obj.add_entry(name: "inspec-test-fixture")
-          config_file_obj.count.must_equal 1
-          config_file_obj.plugin_by_name(:'inspec-test-fixture').wont_be_nil
+          _(config_file_obj.count).must_equal 1
+          _(config_file_obj.plugin_by_name(:'inspec-test-fixture')).wont_be_nil
         end
       end
 
       describe "when the conf has entries" do
         let(:fixture_name) { "basic" }
         it "should append one valid entry" do
-          config_file_obj.count.must_equal 3
+          _(config_file_obj.count).must_equal 3
           config_file_obj.add_entry(name: "inspec-test-fixture-03")
-          config_file_obj.count.must_equal 4
-          config_file_obj.plugin_by_name(:'inspec-test-fixture-03').wont_be_nil
+          _(config_file_obj.count).must_equal 4
+          _(config_file_obj.plugin_by_name(:'inspec-test-fixture-03')).wont_be_nil
         end
       end
 
@@ -233,8 +233,8 @@ describe "Inspec::Plugin::V2::ConfigFile" do
             installation_type: :gem
           )
           entry = config_file_obj.plugin_by_name(:'inspec-test-fixture-03')
-          entry.wont_be_nil
-          entry[:installation_type].must_equal :gem
+          _(entry).wont_be_nil
+          _(entry[:installation_type]).must_equal :gem
         end
       end
 
@@ -246,9 +246,9 @@ describe "Inspec::Plugin::V2::ConfigFile" do
             installation_path: "/my/path.rb"
           )
           entry = config_file_obj.plugin_by_name(:'inspec-test-fixture-03')
-          entry.wont_be_nil
-          entry[:installation_type].must_equal :path
-          entry[:installation_path].must_equal "/my/path.rb"
+          _(entry).wont_be_nil
+          _(entry[:installation_type]).must_equal :path
+          _(entry[:installation_path]).must_equal "/my/path.rb"
         end
       end
 
@@ -281,30 +281,30 @@ describe "Inspec::Plugin::V2::ConfigFile" do
 
       describe "when the entry exists" do
         it "should remove the entry by symbol name" do
-          config_file_obj.count.must_equal 3
-          config_file_obj.plugin_by_name(:'inspec-test-fixture-01').wont_be_nil
+          _(config_file_obj.count).must_equal 3
+          _(config_file_obj.plugin_by_name(:'inspec-test-fixture-01')).wont_be_nil
           config_file_obj.remove_entry(:'inspec-test-fixture-01')
-          config_file_obj.count.must_equal 2
-          config_file_obj.plugin_by_name(:'inspec-test-fixture-01').must_be_nil
+          _(config_file_obj.count).must_equal 2
+          _(config_file_obj.plugin_by_name(:'inspec-test-fixture-01')).must_be_nil
         end
         it "should remove the entry by String name" do
-          config_file_obj.count.must_equal 3
-          config_file_obj.plugin_by_name("inspec-test-fixture-01").wont_be_nil
+          _(config_file_obj.count).must_equal 3
+          _(config_file_obj.plugin_by_name("inspec-test-fixture-01")).wont_be_nil
           config_file_obj.remove_entry("inspec-test-fixture-01")
-          config_file_obj.count.must_equal 2
-          config_file_obj.plugin_by_name("inspec-test-fixture-01").must_be_nil
+          _(config_file_obj.count).must_equal 2
+          _(config_file_obj.plugin_by_name("inspec-test-fixture-01")).must_be_nil
         end
       end
 
       describe "when the entry does not exist" do
         let(:fixture_name) { "basic" }
         it "should throw an exception" do
-          config_file_obj.count.must_equal 3
-          config_file_obj.plugin_by_name(:'inspec-test-fixture-99').must_be_nil
+          _(config_file_obj.count).must_equal 3
+          _(config_file_obj.plugin_by_name(:'inspec-test-fixture-99')).must_be_nil
           ex = assert_raises(Inspec::Plugin::V2::ConfigError) { config_file_obj.remove_entry(:'inspec-test-fixture-99') }
-          ex.message.must_include "No such entry"
-          ex.message.must_include "inspec-test-fixture-99"
-          config_file_obj.count.must_equal 3
+          _(ex.message).must_include "No such entry"
+          _(ex.message).must_include "inspec-test-fixture-99"
+          _(config_file_obj.count).must_equal 3
         end
       end
     end
@@ -316,14 +316,14 @@ describe "Inspec::Plugin::V2::ConfigFile" do
         it "is created" do
           Dir.mktmpdir do |tmp_dir|
             path = File.join(tmp_dir, "plugins.json")
-            File.exist?(path).must_equal false
+            _(File.exist?(path)).must_equal false
             cfo_writer = Inspec::Plugin::V2::ConfigFile.new(path)
             cfo_writer.add_entry(name: :'inspec-resource-lister')
             cfo_writer.save
 
-            File.exist?(path).must_equal true
+            _(File.exist?(path)).must_equal true
             cfo_reader = Inspec::Plugin::V2::ConfigFile.new(path)
-            cfo_reader.existing_entry?(:'inspec-resource-lister').must_equal true
+            _(cfo_reader.existing_entry?(:'inspec-resource-lister')).must_equal true
           end
         end
       end
@@ -332,14 +332,14 @@ describe "Inspec::Plugin::V2::ConfigFile" do
         it "is created" do
           Dir.mktmpdir do |tmp_dir|
             path = File.join(tmp_dir, "subdir", "plugins.json")
-            File.exist?(path).must_equal false
+            _(File.exist?(path)).must_equal false
             cfo_writer = Inspec::Plugin::V2::ConfigFile.new(path)
             cfo_writer.add_entry(name: :'inspec-resource-lister')
             cfo_writer.save
 
-            File.exist?(path).must_equal true
+            _(File.exist?(path)).must_equal true
             cfo_reader = Inspec::Plugin::V2::ConfigFile.new(path)
-            cfo_reader.existing_entry?(:'inspec-resource-lister').must_equal true
+            _(cfo_reader.existing_entry?(:'inspec-resource-lister')).must_equal true
           end
         end
       end
@@ -352,7 +352,7 @@ describe "Inspec::Plugin::V2::ConfigFile" do
             cfo_writer.add_entry(name: :'inspec-resource-lister')
             cfo_writer.save
 
-            File.exist?(path).must_equal true
+            _(File.exist?(path)).must_equal true
 
             cfo_modifier = Inspec::Plugin::V2::ConfigFile.new(path)
             cfo_modifier.remove_entry(:'inspec-resource-lister')
@@ -360,8 +360,8 @@ describe "Inspec::Plugin::V2::ConfigFile" do
             cfo_modifier.save
 
             cfo_reader = Inspec::Plugin::V2::ConfigFile.new(path)
-            cfo_reader.existing_entry?(:'inspec-resource-lister').must_equal false
-            cfo_reader.existing_entry?(:'inspec-test-fixture').must_equal true
+            _(cfo_reader.existing_entry?(:'inspec-resource-lister')).must_equal false
+            _(cfo_reader.existing_entry?(:'inspec-test-fixture')).must_equal true
           end
         end
       end

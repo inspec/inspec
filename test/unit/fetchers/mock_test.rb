@@ -10,16 +10,16 @@ describe Fetchers::Mock do
   end
 
   it "wont load nil" do
-    fetcher.resolve(nil).must_be :nil?
+    _(fetcher.resolve(nil)).must_be :nil?
   end
 
   it "wont load a string" do
-    fetcher.resolve(rand.to_s).must_be :nil?
+    _(fetcher.resolve(rand.to_s)).must_be :nil?
   end
 
   describe "applied to a map" do
     it "must be resolved" do
-      fetcher.resolve({}).must_be_kind_of fetcher
+      _(fetcher.resolve({})).must_be_kind_of fetcher
     end
   end
 end

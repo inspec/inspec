@@ -49,8 +49,8 @@ describe "Inspec::Resources::Elasticsearch" do
     node_1_module = resource.modules[0].find { |mod| mod.name == "percolator" }
     node_2_module = resource.modules[1].find { |mod| mod.name == "lang-mustache" }
 
-    node_1_module.classname.must_equal "org.elasticsearch.percolator.PercolatorPlugin"
-    node_2_module.classname.must_equal "org.elasticsearch.script.mustache.MustachePlugin"
+    _(node_1_module.classname).must_equal "org.elasticsearch.percolator.PercolatorPlugin"
+    _(node_2_module.classname).must_equal "org.elasticsearch.script.mustache.MustachePlugin"
   end
 
   it "returns node names" do
@@ -74,8 +74,8 @@ describe "Inspec::Resources::Elasticsearch" do
     node_1_plugin = resource.plugins[0].find { |plugin| plugin.name == "ingest-user-agent" }
     node_2_plugin = resource.plugins[1].find { |plugin| plugin.name == "ingest-user-agent" }
 
-    node_1_plugin.version.must_equal "5.5.2"
-    node_2_plugin.version.must_equal "5.5.2"
+    _(node_1_plugin.version).must_equal "5.5.2"
+    _(node_2_plugin.version).must_equal "5.5.2"
   end
 
   it "returns process information" do
