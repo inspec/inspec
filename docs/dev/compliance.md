@@ -30,9 +30,9 @@ After starting Automate, registering, and starting a trial license, you will nee
 
 The codebase is located in `inspec/lib/plugins/inspec-compliance/`. It is a minimally converted v2 plugin, meaning that it works fine as a plugin but little was done to clean it up.
 
-#### Legacy external require location
+#### Legacy external require location for audit cookbook
 
-It appears that something - as in some other software package - is looking to require certain libs from paths like `inspec/lib/bundles/inspec-compliance`.  There are several stub files at that location. TODO - determine what software is doing that and either discourage such behavior or at least point them at the right location.
+The audit cookbook requires in the compliance plugin, using a legacy path at `inspec/lib/bundles/inspec-compliance`.  There are several stub files at that location. Because we cannot control which combination of inspec and audit cookbook are being used, even if we removed or updated the location in audit cookbook, we'd still need to leave the old stubs for a while.
 
 ### Important files
 
