@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.17.22 -->
-## [v4.17.22](https://github.com/inspec/inspec/tree/v4.17.22) (2019-10-03)
+<!-- latest_release 4.17.23 -->
+## [v4.17.23](https://github.com/inspec/inspec/tree/v4.17.23) (2019-10-04)
 
-#### Merged Pull Requests
-- Add name property to interface resource [#4558](https://github.com/inspec/inspec/pull/4558) ([miah](https://github.com/miah))
+#### Bug Fixes
+- Fix problem in method_missing in rspec extensions when backend unavailable. [#4565](https://github.com/inspec/inspec/pull/4565) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.17.17 -->
 ### Changes since 4.17.17 release
+
+#### Bug Fixes
+- Fix problem in method_missing in rspec extensions when backend unavailable. [#4565](https://github.com/inspec/inspec/pull/4565) ([zenspider](https://github.com/zenspider)) <!-- 4.17.23 -->
 
 #### Merged Pull Requests
 - Add name property to interface resource [#4558](https://github.com/inspec/inspec/pull/4558) ([miah](https://github.com/miah)) <!-- 4.17.22 -->
