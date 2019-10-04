@@ -34,6 +34,8 @@ module Inspec::DSL
   # resource.
 
   def self.method_missing_resource(backend, id, *arguments)
+    return unless backend
+
     begin
       require "inspec/resources/#{id}"
     rescue LoadError
