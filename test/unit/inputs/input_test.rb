@@ -36,11 +36,11 @@ describe Inspec::Input do
       _(input.to_hash).must_equal({
         name: "test_input",
         options: {
-        value: 12,
-        title: "Best input ever",
-        description: "important",
-        type: "Numeric",
-        required: true,
+          value: 12,
+          title: "Best input ever",
+          description: "important",
+          type: "Numeric",
+          required: true,
         },
       })
     end
