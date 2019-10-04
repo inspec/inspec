@@ -120,10 +120,10 @@ describe "Inspec::Resources::User" do
     _(resource.exists?).must_equal true
     _(resource.group).must_be_nil
     _(resource.groups).must_equal %w{Administrators Users}
-    _(resource.home).must_be_nil
+    _(resource.home).wont_be_nil
     _(resource.shell).must_be_nil
-    _(resource.mindays).must_be_nil
-    _(resource.maxdays).must_be_nil
+    _(resource.mindays).wont_be_nil
+    _(resource.maxdays).wont_be_nil
     _(resource.warndays).must_be_nil
     _(resource.disabled?).must_equal false
   end
@@ -134,10 +134,10 @@ describe "Inspec::Resources::User" do
     _(resource.exists?).must_equal true
     _(resource.group).must_be_nil
     _(resource.groups).must_equal ["Users"]
-    _(resource.home).must_be_nil
+    _(resource.home).wont_be_nil
     _(resource.shell).must_be_nil
-    _(resource.mindays).must_be_nil
-    _(resource.maxdays).must_be_nil
+    _(resource.mindays).wont_be_nil
+    _(resource.maxdays).wont_be_nil
     _(resource.warndays).must_be_nil
     _(resource.disabled?).must_equal true
   end
