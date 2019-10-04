@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.17.24 -->
-## [v4.17.24](https://github.com/inspec/inspec/tree/v4.17.24) (2019-10-04)
+<!-- latest_release 4.17.25 -->
+## [v4.17.25](https://github.com/inspec/inspec/tree/v4.17.25) (2019-10-04)
 
 #### Merged Pull Requests
-- Remove unused polyfill.rb file adding to_h to Struct [#4553](https://github.com/inspec/inspec/pull/4553) ([miah](https://github.com/miah))
+- Don&#39;t use #at when you can use #[] for array (or hash) access. [#4556](https://github.com/inspec/inspec/pull/4556) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.17.17 -->
@@ -14,6 +14,7 @@
 - Fix problem in method_missing in rspec extensions when backend unavailable. [#4565](https://github.com/inspec/inspec/pull/4565) ([zenspider](https://github.com/zenspider)) <!-- 4.17.23 -->
 
 #### Merged Pull Requests
+- Don&#39;t use #at when you can use #[] for array (or hash) access. [#4556](https://github.com/inspec/inspec/pull/4556) ([zenspider](https://github.com/zenspider)) <!-- 4.17.25 -->
 - Remove unused polyfill.rb file adding to_h to Struct [#4553](https://github.com/inspec/inspec/pull/4553) ([miah](https://github.com/miah)) <!-- 4.17.24 -->
 - Add name property to interface resource [#4558](https://github.com/inspec/inspec/pull/4558) ([miah](https://github.com/miah)) <!-- 4.17.22 -->
 - Missing require for EnvPrinter means `inspec env` stacktraced. [#4554](https://github.com/inspec/inspec/pull/4554) ([miah](https://github.com/miah)) <!-- 4.17.21 -->
