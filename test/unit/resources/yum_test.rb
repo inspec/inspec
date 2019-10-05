@@ -3,8 +3,14 @@ require "inspec/resource"
 require "inspec/resources/yum"
 
 describe "Inspec::Resources::YumRepo" do
+  let(:centos7) do
+    quick_resource("yum") do |cmd|
+      stdout_file "./test/unit/mock/cmd/yum-repolist-all"
+    end
+  end
+
   it "get repository details" do
-    resource = MockLoader.new(:centos7).load_resource("yum")
+    resource = centos7
     _(resource.repositories).must_equal [{
       "id" => "base/7/x86_64",
       "name" => "CentOS-7 - Base",
@@ -61,7 +67,7 @@ describe "Inspec::Resources::YumRepo" do
   end
 
   it "provides methods for retrieving per-repo information" do
-    resource = MockLoader.new(:centos7).load_resource("yum")
+    resource = centos7
     repo = resource.repo("base/7/x86_64")
     _(repo.baseurl).must_equal "http://ftp.hosteurope.de/mirror/centos.org/7.1.1503/os/x86_64/ (9 more)"
     _(repo.expire).must_equal "21600 second(s) (last: Sun Sep  6 10:20:46 2015)"
