@@ -4,13 +4,18 @@ require "inspec/resources/yum"
 
 describe "Inspec::Resources::YumRepo" do
   let(:centos7) do
-    quick_resource("yum") do |cmd|
-      stdout_file "./test/unit/mock/cmd/yum-repolist-all"
+    quick_resource("yum", :centos7) do |cmd|
+      stdout_file "./test/unit/mock/cmd/yum-centos7-repolist-all"
     end
   end
 
-  it "get repository details" do
-    resource = centos7
+  let(:centos8) do
+    quick_resource("yum", :centos8) do |cmd|
+      stdout_file "./test/unit/mock/cmd/yum-centos8-repolist-all"
+    end
+  end
+
+  def assert_repositories(resource)
     _(resource.repositories).must_equal [{
       "id" => "base/7/x86_64",
       "name" => "CentOS-7 - Base",
@@ -64,6 +69,14 @@ describe "Inspec::Resources::YumRepo" do
     _(extras.exist?).must_equal true
     _(extras.enabled?).must_equal false
     _(extras.to_s).must_equal "YumRepo base-debuginfo/x86_64"
+  end
+
+  it "get repository details centos7" do
+    assert_repositories centos7
+  end
+
+  it "get repository details centos8" do
+    assert_repositories centos8
   end
 
   it "provides methods for retrieving per-repo information" do
