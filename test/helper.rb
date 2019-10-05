@@ -70,6 +70,7 @@ require "mocha/setup"
 require "inspec/log"
 require "inspec/backend"
 require "helpers/mock_loader"
+require "helpers/resources"
 
 TMP_CACHE = {} # rubocop: disable Style/MutableConstant
 
@@ -149,50 +150,6 @@ class Minitest::Test
 
   def skip_windows!
     skip_until 2019, 10, 30, "These have never passed" if windows?
-  end
-
-  ##
-  # This creates a real resource with default config/backend.
-  #
-  # Use this whenever possible. Let's phase out the MockLoader pain.
-
-  def quick_resource(name, *args, &block)
-    backend = Inspec::Backend.create(Inspec::Config.new)
-    backend.extend Fake::Backend
-
-    klass = Inspec::Resource.registry[name]
-
-    instance = klass.new(backend, name, *args)
-    instance.extend Fake::Resource
-    instance.mock_command(&block) if block
-    instance
-  end
-end
-
-module Fake
-  Command = Struct.new(:stdout, :stderr, :exit_status)
-
-  module Backend
-    def stdout_file(path)
-      result(path, nil, 0)
-    end
-
-    def stderr_file(path)
-      result(nil, path, 0)
-    end
-
-    def result(stdout_path, stderr_path, exit)
-      stdout = stdout_path ? File.read(stdout_path) : ""
-      stderr = stderr_path ? File.read(stderr_path) : ""
-
-      ::Fake::Command.new(stdout, stderr, 0)
-    end
-  end
-
-  module Resource
-    def mock_command(&block)
-      inspec.define_singleton_method :command, &block
-    end
   end
 end
 
