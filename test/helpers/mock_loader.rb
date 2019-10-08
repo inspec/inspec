@@ -6,7 +6,7 @@ class MockLoader
     centos5: { name: "centos", family: "redhat", release: "5.11", arch: "x86_64" },
     centos6: { name: "centos", family: "redhat", release: "6.6", arch: "x86_64" },
     centos7: { name: "centos", family: "redhat", release: "7.1.1503", arch: "x86_64" },
-    centos8: { name: "centos", family: "redhat", release: "8.9.10", arch: "x86_64" },
+    centos8: { name: "centos", family: "redhat", release: "8.0.1905", arch: "x86_64" },
     cloudlinux: { name: "cloudlinux", family: "redhat", release: "7.4", arch: "x86_64" },
     coreos: { name: "coreos", family: "coreos", release: "1437.0.0", arch: "x86_64" },
     debian6: { name: "debian", family: "debian", release: "6", arch: "x86_64" },

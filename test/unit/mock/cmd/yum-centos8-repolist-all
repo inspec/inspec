@@ -1,50 +1,66 @@
-Config time: 0.006
-Yum version: 3.4.3
-base                                                                                                                  | 3.6 kB  00:00:00
-epel/x86_64/metalink                                                                                                  |  26 kB  00:00:00
-epel                                                                                                                  | 4.3 kB  00:00:00
-extras                                                                                                                | 3.4 kB  00:00:00
-updates                                                                                                               | 3.4 kB  00:00:00
-(1/3): epel/x86_64/group_gz                                                                                           | 169 kB  00:00:00
-epel/x86_64/primary_db         FAILED
-https://ftp.fau.de/epel/7/x86_64/repodata/ccbc93c2ab37b82a6376c9562d2aec27b81112bc3c943e1871f7ed0318fe24b9-primary.sqlite.xz: [Errno 14] HTTPS Error 404 - Not Found
-Trying other mirror.
-(2/3): epel/x86_64/updateinfo                                                                                         | 349 kB  00:00:00
-(3/3): epel/x86_64/primary_db                                                                                         | 3.5 MB  00:00:04
-Loading mirror speeds from cached hostfile
- * base: ftp.hosteurope.de
- * epel: ftp-stud.hs-esslingen.de
- * extras: mirror.informatik.hs-fulda.de
- * updates: mirror.softaculous.com
-Setting up Package Sacks
-pkgsack time: 0.005
-Repo-id      : base/7/x86_64
-Repo-name    : CentOS-7 - Base
+Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+DNF version: 4.0.9
+cachedir: /var/cache/dnf
+repo: using cache for: AppStream
+not found other for: CentOS-8 - AppStream
+not found deltainfo for: CentOS-8 - AppStream
+not found updateinfo for: CentOS-8 - AppStream
+AppStream: using metadata from Fri 20 Sep 2019 10:23:13 PM UTC.
+repo: using cache for: BaseOS
+not found other for: CentOS-8 - Base
+not found modules for: CentOS-8 - Base
+not found deltainfo for: CentOS-8 - Base
+not found updateinfo for: CentOS-8 - Base
+BaseOS: using metadata from Fri 20 Sep 2019 10:05:43 PM UTC.
+repo: using cache for: extras
+not found other for: CentOS-8 - Extras
+not found modules for: CentOS-8 - Extras
+not found deltainfo for: CentOS-8 - Extras
+not found updateinfo for: CentOS-8 - Extras
+extras: using metadata from Sat 21 Sep 2019 01:57:03 PM UTC.
+Last metadata expiration check: 0:01:35 ago on Mon 07 Oct 2019 11:55:21 PM UTC.
+Completion plugin: Generating completion cache...
+
+Repo-id      : AppStream
+Repo-name    : CentOS-8 - AppStream
 Repo-status  : enabled
-Repo-revision: 1427842153
-Repo-updated : Tue Mar 31 22:50:46 2015
-Repo-pkgs    : 8652
-Repo-size    : 6.3 G
-Repo-mirrors : http://mirrorlist.centos.org/?release=7&arch=x86_64&repo=os&infra=stock
-Repo-baseurl : http://ftp.hosteurope.de/mirror/centos.org/7.1.1503/os/x86_64/ (9 more)
-Repo-expire  : 21600 second(s) (last: Sun Sep  6 10:20:46 2015)
+Repo-revision: 1569018193
+Repo-updated : Fri 20 Sep 2019 10:23:13 PM UTC
+Repo-pkgs    : 4,928
+Repo-size    : 7.1 G
+Repo-mirrors : http://mirrorlist.centos.org/?release=8&arch=x86_64&repo=AppStream&infra=stock
+Repo-baseurl : http://mirror.web-ster.com/centos/8.0.1905/AppStream/x86_64/os/ (9 more)
+Repo-expire  : 172,800 second(s) (last: Mon 07 Oct 2019 11:55:14 PM UTC)
+Repo-filename: /etc/yum.repos.d/CentOS-AppStream.repo
+
+Repo-id      : BaseOS
+Repo-name    : CentOS-8 - Base
+Repo-status  : enabled
+Repo-revision: 1569017143
+Repo-updated : Fri 20 Sep 2019 10:05:43 PM UTC
+Repo-pkgs    : 2,713
+Repo-size    : 3.2 G
+Repo-mirrors : http://mirrorlist.centos.org/?release=8&arch=x86_64&repo=BaseOS&infra=stock
+Repo-baseurl : http://mirror.web-ster.com/centos/8.0.1905/BaseOS/x86_64/os/ (9 more)
+Repo-expire  : 172,800 second(s) (last: Mon 07 Oct 2019 11:55:16 PM UTC)
 Repo-filename: /etc/yum.repos.d/CentOS-Base.repo
 
-Repo-id      : base-debuginfo/x86_64
-Repo-name    : CentOS-7 - Debuginfo
+Repo-id      : base-debuginfo
+Repo-name    : CentOS-8 - Debuginfo
 Repo-status  : disabled
-Repo-baseurl : http://debuginfo.centos.org/7/x86_64/
-Repo-expire  : 21600 second(s) (last: Unknown)
+Repo-baseurl : http://debuginfo.centos.org/8/x86_64/
+Repo-expire  : 172,800 second(s) (last: unknown)
 Repo-filename: /etc/yum.repos.d/CentOS-Debuginfo.repo
 
-Repo-id      : extras/7/x86_64
-Repo-name    : CentOS-7 - Extras
+Repo-id      : extras
+Repo-name    : CentOS-8 - Extras
 Repo-status  : enabled
-Repo-revision: 1441314199
-Repo-updated : Thu Sep  3 21:03:33 2015
-Repo-pkgs    : 181
-Repo-size    : 742 M
-Repo-mirrors : http://mirrorlist.centos.org/?release=7&arch=x86_64&repo=extras&infra=stock
-Repo-baseurl : http://mirror.informatik.hs-fulda.de/centos7.1.1503/extras/x86_64/ (9 more)
-Repo-expire  : 21600 second(s) (last: Sun Sep  6 10:20:48 2015)
-Repo-filename: /etc/yum.repos.d/CentOS-Base.repo
+Repo-revision: 1569074223
+Repo-updated : Sat 21 Sep 2019 01:57:03 PM UTC
+Repo-pkgs    : 3
+Repo-size    : 46 k
+Repo-mirrors : http://mirrorlist.centos.org/?release=8&arch=x86_64&repo=extras&infra=stock
+Repo-baseurl : http://mirror.web-ster.com/centos/8.0.1905/extras/x86_64/os/ (9 more)
+Repo-expire  : 172,800 second(s) (last: Mon 07 Oct 2019 11:55:21 PM UTC)
+Repo-filename: /etc/yum.repos.d/CentOS-Extras.repo
+Total packages: 7,644
