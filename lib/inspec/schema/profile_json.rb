@@ -45,6 +45,7 @@ module Inspec
           "sha256" => Primitives::STRING,
           "status" => Primitives::STRING,
           "generator" => Primitives::GENERATOR.ref,
+          "version" => Primitives::STRING,
 
           # Other properties possible in inspec docs, but that aren"t guaranteed
           "title" => Primitives::STRING,

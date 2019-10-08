@@ -111,6 +111,7 @@ module Inspec
       }, [CONTROL, Primitives::CONTROL_GROUP, Primitives::DEPENDENCY, Primitives::SUPPORT])
 
       # Result of exec json. Top level value
+      # TODO: Include the format of top level controls. This was omitted for lack of sufficient examples
       OUTPUT = Primitives::SchemaType.new("Exec JSON Output", {
         "type" => "object",
         "additionalProperties" => true,
