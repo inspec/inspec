@@ -47,7 +47,9 @@ describe "waivers" do
   end
 
   def refute_waiver_annotation(control_id)
-    assert_nil waiver_data control_id
+    act = waiver_data control_id
+    assert_instance_of Hash, act
+    assert_empty act
   end
 
   def assert_skip_message(yea, nay)
