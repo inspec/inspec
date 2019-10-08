@@ -30,17 +30,17 @@ describe "waivers" do
     expiry    = !!(control_id !~ /no_expiry/)
     in_past   = !!(control_id =~ /in_past/)
     in_future = !!(control_id =~ /in_future/)
-    skipped   = !!(control_id !~ /not_skipped/)
+    ran       = !!(control_id !~ /not_ran/)
 
     # higher logic
-    waived      = (!expiry && skipped) || (expiry && skipped && in_future)
+    waived      = (!expiry && !ran) || (expiry && !ran && in_future)
     # TODO: wasn't message was originally specced as being optional?
-    has_message = expiry && skipped && in_past
+    has_message = expiry && !ran && in_past
 
     assert_instance_of Hash, act
 
     assert_stringy        act["justification"] # TODO: optional?
-    assert_equal skipped, act["skip"]
+    assert_equal ran,     act["run"]
     assert_equal waived,  act["skipped_due_to_waiver"]
     assert_stringy        act["message"] if     has_message
     assert_equal "",      act["message"] unless has_message
@@ -66,15 +66,15 @@ describe "waivers" do
     {
       "01_not_waivered_passes"                          => "passed",
       "02_not_waivered_fails"                           => "failed",
-      "03_waivered_no_expiry_not_skipped_passes"        => "passed",
-      "04_waivered_no_expiry_not_skipped_fails"         => "failed",
-      "05_waivered_no_expiry_skipped"                   => "skipped",
-      "06_waivered_expiry_in_past_not_skipped_passes"   => "passed",
-      "07_waivered_expiry_in_past_not_skipped_fails"    => "failed",
-      "08_waivered_expiry_in_past_skipped"              => "passed",
-      "09_waivered_expiry_in_future_not_skipped_passes" => "passed",
-      "10_waivered_expiry_in_future_not_skipped_fails"  => "failed",
-      "11_waivered_expiry_in_future_skipped"            => "skipped",
+      "03_waivered_no_expiry_ran_passes"                => "passed",
+      "04_waivered_no_expiry_ran_fails"                 => "failed",
+      "05_waivered_no_expiry_not_ran"                   => "skipped",
+      "06_waivered_expiry_in_past_ran_passes"           => "passed",
+      "07_waivered_expiry_in_past_ran_fails"            => "failed",
+      "08_waivered_expiry_in_past_not_ran"              => "passed",
+      "09_waivered_expiry_in_future_ran_passes"         => "passed",
+      "10_waivered_expiry_in_future_ran_fails"          => "failed",
+      "11_waivered_expiry_in_future_not_ran"            => "skipped",
     }.each do |control_id, expected|
       it "has all of the expected outcomes #{control_id}" do
         assert_test_outcome expected, control_id

@@ -26,13 +26,13 @@ Waiver files are [input files](https://www.inspec.io/docs/reference/inputs/) wit
 ```yaml
 control_id:
   expiration_date: YYYY-MM-DD
-  skip: true
+  run: true
   justification: "reason for waiving this control"
 ```
 
 + `expiration_date` is optional. Absence means the waiver is permanent.
-+ `skip` is optional. Absence means the control will run and be
-  reported, but failures in it won't make the overall run fail.
++ `run` is optional. Presence means the control will run and be
+  reported, but failures in it won't make the overall run fail. You may use any of yes, no, true or false.
 + `justification` can be any text you want and might include a reason
   as well as who signed off on the waiver.
 
@@ -46,5 +46,5 @@ waiver_control_1_2_3:
 xccdf_org.cisecurity.benchmarks_rule_1.1.1.4_Ensure_mounting_of_hfs_filesystems_is_disabled:
   expiry_date: 2020-03-01
   justification: "This might be a bug in the test. @qateam"
-  skip_run: true
+  run: false
 ```
