@@ -20,7 +20,7 @@ describe "waivers" do
   end
 
   def waiver_data(control_id)
-    controls_by_id.dig(control_id, "results", 0, "waiver_data")
+    controls_by_id.dig(control_id, "waiver_data")
   end
 
   def assert_waiver_annotation(control_id)

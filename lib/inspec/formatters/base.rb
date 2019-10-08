@@ -259,6 +259,11 @@ module Inspec::Formatters
       example.delete(:id)
       example.delete(:profile_id)
       control[:results].push(example)
+
+      # Waiver data, if available, is internally stored on a per-result
+      # (that is, per-describe-block) basis, because that is the only granularity
+      # available to us in the RSpec report data structure which we use as a vehicle.
+      control[:waiver_data] = example.delete(:waiver_data)
     end
   end
 end
