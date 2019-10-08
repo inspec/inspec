@@ -26,13 +26,13 @@ Waiver files are [input files](https://www.inspec.io/docs/reference/inputs/) wit
 ```yaml
 control_id:
   expiration_date: YYYY-MM-DD
-  run: true
+  run: false
   justification: "reason for waiving this control"
 ```
 
 + `expiration_date` is optional. Absence means the waiver is permanent.
-+ `run` is optional. Presence means the control will run and be
-  reported, but failures in it won't make the overall run fail. You may use any of yes, no, true or false.
++ `run` is optional. If present and true, the control will run and be
+  reported, but failures in it won't make the overall run fail. If absent or false, the control will not be run. You may use any of yes, no, true or false.
 + `justification` can be any text you want and might include a reason
   as well as who signed off on the waiver.
 
