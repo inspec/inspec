@@ -224,6 +224,7 @@ describe "inspec exec with json formatter" do
         "refs" => [{ "url" => "http://...", "ref" => "Document A-12" }],
         "tags" => { "data" => "temp data", "security" => nil },
         "code" => example_rb_code,
+        "waiver_data" => {},
       })
     end
   end
