@@ -1,10 +1,10 @@
-class GordonConfig < Inspec.resource(1)
-  name 'gordon_config'
+class ExampleConfig < Inspec.resource(1)
+  name 'example_config'
 
-  desc "Gordon's resource description ..."
+  desc "Example's resource description ..."
 
   example "
-    describe gordon_config do
+    describe example_config do
       its('version') { should eq('1.0') }
     end
   "

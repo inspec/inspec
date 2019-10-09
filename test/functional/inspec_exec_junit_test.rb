@@ -59,19 +59,19 @@ describe "inspec exec with junit formatter" do
         _(REXML::XPath.match(suite, "//testcase[@name='File /tmp should be directory']").length).must_equal 2
       end
 
-      describe 'the testcase named "gordon_config Can\'t find file ..."' do
-        let(:gordon_yml_tests) { REXML::XPath.match(suite, "//testcase[@classname='profile.gordon-1.0' and @name='gordon_config']") }
-        let(:first_gordon_test) { gordon_yml_tests.first }
+      describe 'the testcase named "example_config Can\'t find file ..."' do
+        let(:example_yml_tests) { REXML::XPath.match(suite, "//testcase[@classname='profile.example-1.0' and @name='example_config']") }
+        let(:first_example_test) { example_yml_tests.first }
 
         it "should be unique" do
-          _(gordon_yml_tests.length).must_equal 1
+          _(example_yml_tests.length).must_equal 1
         end
 
         it "should be skipped" do
           if is_windows?
-            _(first_gordon_test.elements.to_a("//skipped").length).must_equal 2
+            _(first_example_test.elements.to_a("//skipped").length).must_equal 2
           else
-            _(first_gordon_test.elements.to_a("//skipped").length).must_equal 1
+            _(first_example_test.elements.to_a("//skipped").length).must_equal 1
           end
         end
       end

@@ -1,24 +1,24 @@
 # copyright: 2016, Chef Software, Inc.
 
-title 'Gordon Config Checks'
+title 'Example Config Checks'
 
 # To pass the test, create the following file
 # ```bash
-# mkdir -p /tmp/gordon
-# cat <<EOF > /tmp/gordon/config.yaml
+# mkdir -p /tmp/example
+# cat <<EOF > /tmp/example/config.yaml
 # version: '1.0'
 # EOF
 # ```
-control 'gordon-1.0' do
+control 'example-1.0' do
   impact 'critical'
-  title 'Verify the version number of Gordon'
+  title 'Verify the version number of Example'
   desc 'An optional description...'
-  tag 'gordon'
-  ref 'Gordon Requirements 1.0', uri: 'http://...'
+  tag 'example'
+  ref 'Example Requirements 1.0', uri: 'http://...'
 
-  # Test using the custom gordon_config InSpec resource
+  # Test using the custom example_config InSpec resource
   # Find the resource content here: ../libraries/
-  describe gordon_config do
+  describe example_config do
     it { should exist }
     its('version') { should eq('1.0') }
     its('file_size') { should <= 20 }
@@ -26,7 +26,7 @@ control 'gordon-1.0' do
   end
 
   # Test the version again to showcase variables
-  g = gordon_config
+  g = example_config
   g_path = g.file_path
   g_version = g.version
   describe file(g_path) do

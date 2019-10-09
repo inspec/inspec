@@ -1,18 +1,18 @@
 require 'yaml'
 
 # Custom resource based on the InSpec resource DSL
-class GordonConfig < Inspec.resource(1)
-  name 'gordon_config'
+class ExampleConfig < Inspec.resource(1)
+  name 'example_config'
 
   supports platform: 'unix'
   supports platform: 'windows'
 
   desc "
-    Gordon's resource description ...
+    Example's resource description ...
   "
 
   example "
-    describe gordon_config do
+    describe example_config do
       its('version') { should eq('1.0') }
       its('file_size') { should > 1 }
     end
@@ -21,7 +21,7 @@ class GordonConfig < Inspec.resource(1)
   # Load the configuration file on initialization
   def initialize
     @params = {}
-    @path = '/tmp/gordon/config.yaml'
+    @path = '/tmp/example/config.yaml'
     @file = inspec.file(@path)
 
     unless @file.file?

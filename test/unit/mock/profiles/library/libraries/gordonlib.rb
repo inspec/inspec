@@ -1,2 +1,2 @@
-module GordonLib
+module ExampleLib
 end

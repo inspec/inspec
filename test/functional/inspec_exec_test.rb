@@ -38,8 +38,8 @@ describe "inspec exec" do
 
     _(stdout).must_include "\e[38;5;41m  ✔  tmp-1.0: Create /tmp directory\e[0m\n"
     _(stdout).must_include "
-\e[38;5;247m  ↺  gordon-1.0: Verify the version number of Gordon (1 skipped)\e[0m
-\e[38;5;247m     ↺  Can't find file `/tmp/gordon/config.yaml`\e[0m
+\e[38;5;247m  ↺  example-1.0: Verify the version number of Example (1 skipped)\e[0m
+\e[38;5;247m     ↺  Can't find file `/tmp/example/config.yaml`\e[0m
 "
     if is_windows?
       _(stdout).must_include "\e[38;5;247m  ↺  ssh-1: Allow only SSH Protocol 2\e[0m\n"

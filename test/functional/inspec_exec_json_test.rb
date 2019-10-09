@@ -120,9 +120,9 @@ describe "inspec exec with json formatter" do
     let(:controls) { profile["controls"] }
     let(:ex1) { controls.find { |x| x["id"] == "tmp-1.0" } }
     let(:ex2) { controls.find { |x| x["id"] =~ /generated/ } }
-    let(:ex3) { profile["controls"].find { |x| x["id"] == "gordon-1.0" } }
+    let(:ex3) { profile["controls"].find { |x| x["id"] == "example-1.0" } }
     let(:check_result) do
-      ex3["results"].find { |x| x["resource"] == "gordon_config" }
+      ex3["results"].find { |x| x["resource"] == "example_config" }
     end
 
     it "has only one profile" do
@@ -157,7 +157,7 @@ describe "inspec exec with json formatter" do
 
       _(groups.sort_by { |x| x["id"] }).must_equal([
         { "id" => "controls/example.rb", "title" => "/tmp profile", "controls" => ["tmp-1.0", key] },
-        { "id" => "controls/gordon.rb", "title" => "Gordon Config Checks", "controls" => ["gordon-1.0"] },
+        { "id" => "controls/example.rb", "title" => "Example Config Checks", "controls" => ["example-1.0"] },
         { "id" => "controls/meta.rb", "title" => "SSH Server Configuration", "controls" => ["ssh-1"] },
       ])
     end
