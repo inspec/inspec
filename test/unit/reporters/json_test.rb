@@ -92,6 +92,7 @@ describe Inspec::Reporters::Json do
           line: 89,
           ref: "/Users/jquick/Chef/inspec/lib/inspec/control_eval_context.rb",
         },
+        waiver_data: {},
       }
       control = report.send(:profile_controls, profile).first
       control.delete(:results)
