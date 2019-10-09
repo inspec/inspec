@@ -11,7 +11,6 @@ class Example < Inspec.resource(1)
     1
   end
 
-
   def has_a_fabulous_mustache?
     true
   end
