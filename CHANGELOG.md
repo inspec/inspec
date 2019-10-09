@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.17.26 -->
-## [v4.17.26](https://github.com/inspec/inspec/tree/v4.17.26) (2019-10-04)
+<!-- latest_release 4.17.27 -->
+## [v4.17.27](https://github.com/inspec/inspec/tree/v4.17.27) (2019-10-09)
 
 #### Merged Pull Requests
-- User windows fix [#4452](https://github.com/inspec/inspec/pull/4452) ([mhackethal](https://github.com/mhackethal))
+- Pin RSpec to 3.8.6 to avoid test failures for now [#4576](https://github.com/inspec/inspec/pull/4576) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.17.17 -->
@@ -14,6 +14,7 @@
 - Fix problem in method_missing in rspec extensions when backend unavailable. [#4565](https://github.com/inspec/inspec/pull/4565) ([zenspider](https://github.com/zenspider)) <!-- 4.17.23 -->
 
 #### Merged Pull Requests
+- Pin RSpec to 3.8.6 to avoid test failures for now [#4576](https://github.com/inspec/inspec/pull/4576) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.17.27 -->
 - User windows fix [#4452](https://github.com/inspec/inspec/pull/4452) ([mhackethal](https://github.com/mhackethal)) <!-- 4.17.26 -->
 - Don&#39;t use #at when you can use #[] for array (or hash) access. [#4556](https://github.com/inspec/inspec/pull/4556) ([zenspider](https://github.com/zenspider)) <!-- 4.17.25 -->
 - Remove unused polyfill.rb file adding to_h to Struct [#4553](https://github.com/inspec/inspec/pull/4553) ([miah](https://github.com/miah)) <!-- 4.17.24 -->
