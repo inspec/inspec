@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "json-schema", "~> 2.8"
   spec.add_dependency "method_source", "~> 0.8"
   spec.add_dependency "rubyzip", "~> 1.1"
-  spec.add_dependency "rspec", "~> 3"
+  spec.add_dependency "rspec", ["~> 3.0", "< 3.9"] # TODO: Loosen - See https://github.com/inspec/inspec/issues/4575
   spec.add_dependency "rspec-its", "~> 1.2"
   spec.add_dependency "hashie", "~> 3.4"
   spec.add_dependency "mixlib-log"
