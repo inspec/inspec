@@ -1,5 +1,3 @@
-require "inspec/objects/input"
-
 module InspecPlugins::InputTestFixture
   class InputImplementation < Inspec.plugin(2, :input)
     def default_priority
