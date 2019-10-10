@@ -1,38 +1,35 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.0 -->
-## [v4.18.0](https://github.com/inspec/inspec/tree/v4.18.0) (2019-10-10)
-
-#### Merged Pull Requests
-- Waivers Feedback - Per control reporting and other minor issues [#4567](https://github.com/inspec/inspec/pull/4567) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.17.17 -->
-### Changes since 4.17.17 release
-
-#### Bug Fixes
-- Fix problem in method_missing in rspec extensions when backend unavailable. [#4565](https://github.com/inspec/inspec/pull/4565) ([zenspider](https://github.com/zenspider)) <!-- 4.17.23 -->
-
-#### Merged Pull Requests
-- Waivers Feedback - Per control reporting and other minor issues [#4567](https://github.com/inspec/inspec/pull/4567) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.0 -->
-- Pin RSpec to 3.8.6 to avoid test failures for now [#4576](https://github.com/inspec/inspec/pull/4576) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.17.27 -->
-- User windows fix [#4452](https://github.com/inspec/inspec/pull/4452) ([mhackethal](https://github.com/mhackethal)) <!-- 4.17.26 -->
-- Don&#39;t use #at when you can use #[] for array (or hash) access. [#4556](https://github.com/inspec/inspec/pull/4556) ([zenspider](https://github.com/zenspider)) <!-- 4.17.25 -->
-- Remove unused polyfill.rb file adding to_h to Struct [#4553](https://github.com/inspec/inspec/pull/4553) ([miah](https://github.com/miah)) <!-- 4.17.24 -->
-- Add name property to interface resource [#4558](https://github.com/inspec/inspec/pull/4558) ([miah](https://github.com/miah)) <!-- 4.17.22 -->
-- Missing require for EnvPrinter means `inspec env` stacktraced. [#4554](https://github.com/inspec/inspec/pull/4554) ([miah](https://github.com/miah)) <!-- 4.17.21 -->
-- Fixed apt resource incorrectly parsing deb files w/ quoted URIs. [#4560](https://github.com/inspec/inspec/pull/4560) ([zenspider](https://github.com/zenspider)) <!-- 4.17.20 -->
-- First pass at cleaning deprecations for old minitest/spec-style tests. [#4563](https://github.com/inspec/inspec/pull/4563) ([zenspider](https://github.com/zenspider)) <!-- 4.17.19 -->
-- Fixed tests to work with rspec-expectations 3.8.5+. [#4557](https://github.com/inspec/inspec/pull/4557) ([zenspider](https://github.com/zenspider)) <!-- 4.17.18 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.18.0](https://github.com/inspec/inspec/tree/v4.18.0) (2019-10-10)
+
+#### Bug Fixes
+- Fix problem in method_missing in rspec extensions when backend unavailable. [#4565](https://github.com/inspec/inspec/pull/4565) ([zenspider](https://github.com/zenspider))
+
+#### Merged Pull Requests
+- Fixed tests to work with rspec-expectations 3.8.5+. [#4557](https://github.com/inspec/inspec/pull/4557) ([zenspider](https://github.com/zenspider))
+- First pass at cleaning deprecations for old minitest/spec-style tests. [#4563](https://github.com/inspec/inspec/pull/4563) ([zenspider](https://github.com/zenspider))
+- Fixed apt resource incorrectly parsing deb files w/ quoted URIs. [#4560](https://github.com/inspec/inspec/pull/4560) ([zenspider](https://github.com/zenspider))
+- Missing require for EnvPrinter means `inspec env` stacktraced. [#4554](https://github.com/inspec/inspec/pull/4554) ([miah](https://github.com/miah))
+- Add name property to interface resource [#4558](https://github.com/inspec/inspec/pull/4558) ([miah](https://github.com/miah))
+- Remove unused polyfill.rb file adding to_h to Struct [#4553](https://github.com/inspec/inspec/pull/4553) ([miah](https://github.com/miah))
+- Don&#39;t use #at when you can use #[] for array (or hash) access. [#4556](https://github.com/inspec/inspec/pull/4556) ([zenspider](https://github.com/zenspider))
+- User windows fix [#4452](https://github.com/inspec/inspec/pull/4452) ([mhackethal](https://github.com/mhackethal))
+- Pin RSpec to 3.8.6 to avoid test failures for now [#4576](https://github.com/inspec/inspec/pull/4576) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Waivers Feedback - Per control reporting and other minor issues [#4567](https://github.com/inspec/inspec/pull/4567) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.17.17](https://github.com/inspec/inspec/tree/v4.17.17) (2019-10-03)
 
 #### Merged Pull Requests
 - Added method_missing to Inspec::DescribeBase (used by describe.one) to fix resource loading [#4549](https://github.com/inspec/inspec/pull/4549) ([zenspider](https://github.com/zenspider))
 - Add no-op resource and switch Rule to use it for skipped resources. [#4550](https://github.com/inspec/inspec/pull/4550) ([zenspider](https://github.com/zenspider))
-<!-- latest_stable_release -->
 
 ## [v4.17.15](https://github.com/inspec/inspec/tree/v4.17.15) (2019-10-01)
 
