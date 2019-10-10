@@ -14,7 +14,7 @@ describe Inspec::Reporters::Json do
     it "confirm render output" do
       output = File.read(path + "/../mock/reporters/json_output")
       report.render
-      _(report.rendered_output).must_equal output
+      _(JSON.parse(report.rendered_output)).must_equal JSON.parse(output)
     end
   end
 
@@ -92,6 +92,7 @@ describe Inspec::Reporters::Json do
           line: 89,
           ref: "/Users/jquick/Chef/inspec/lib/inspec/control_eval_context.rb",
         },
+        waiver_data: {},
       }
       control = report.send(:profile_controls, profile).first
       control.delete(:results)

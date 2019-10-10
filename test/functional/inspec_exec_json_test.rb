@@ -1,17 +1,16 @@
 require "functional/helper"
 require "json-schema"
+require "inspec/schema"
 
 describe "inspec exec with json formatter" do
   include FunctionalHelper
+  let(:schema) { Inspec::Schema.json("exec-json") }
 
   parallelize_me!
 
   it "can execute a simple file and validate the json schema" do
     out = inspec("exec " + example_control + " --reporter json --no-create-lockfile")
-
     data = JSON.parse(out.stdout)
-    sout = inspec("schema exec-json")
-    schema = JSON.parse(sout.stdout)
     _(JSON::Validator.validate(schema, data)).wont_equal false
 
     _(out.stderr).must_equal ""
@@ -22,10 +21,7 @@ describe "inspec exec with json formatter" do
 
   it "can execute a profile and validate the json schema" do
     out = inspec("exec " + example_profile + " --reporter json --no-create-lockfile")
-
     data = JSON.parse(out.stdout)
-    sout = inspec("schema exec-json")
-    schema = JSON.parse(sout.stdout)
     _(JSON::Validator.validate(schema, data)).wont_equal false
 
     _(out.stderr).must_equal ""
@@ -36,8 +32,6 @@ describe "inspec exec with json formatter" do
   it "can execute a simple file while using end of options after reporter cli option" do
     out = inspec("exec --no-create-lockfile --reporter json -- " + example_control)
     data = JSON.parse(out.stdout)
-    sout = inspec("schema exec-json")
-    schema = JSON.parse(sout.stdout)
     _(JSON::Validator.validate(schema, data)).wont_equal false
 
     _(out.stderr).must_equal ""
@@ -50,8 +44,6 @@ describe "inspec exec with json formatter" do
     out = inspec("exec " + example_profile + " --reporter json --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444")
     data = JSON.parse(out.stdout)
     _(data["platform"]["target_id"]).must_equal "1d3e399f-4d71-4863-ac54-84d437fbc444"
-    sout = inspec("schema exec-json")
-    schema = JSON.parse(sout.stdout)
     _(JSON::Validator.validate(schema, data)).wont_equal false
 
     _(out.stderr).must_equal ""
@@ -224,6 +216,7 @@ describe "inspec exec with json formatter" do
         "refs" => [{ "url" => "http://...", "ref" => "Document A-12" }],
         "tags" => { "data" => "temp data", "security" => nil },
         "code" => example_rb_code,
+        "waiver_data" => {},
       })
     end
   end

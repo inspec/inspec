@@ -1,4 +1,4 @@
 01_small:
   expiration_date: never
-  skip: true
+  run: false
   justification: Callous disregard

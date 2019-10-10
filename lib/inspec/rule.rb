@@ -297,11 +297,11 @@ module Inspec
       __waiver_data["skipped_due_to_waiver"] = false
       __waiver_data["message"] = ""
 
-      # Waivers should have a hash value with keys possibly including skip and
-      # expiration_date. We only care here if it has a skip key and it
-      # is yes-like, since all non-skipped waiver operations are handled
+      # Waivers should have a hash value with keys possibly including "run" and
+      # expiration_date. We only care here if it has a "run" key and it
+      # is false-like, since all non-skipped waiver operations are handled
       # during reporting phase.
-      return unless __waiver_data.key?("skip") && __waiver_data["skip"]
+      return unless __waiver_data.key?("run") && !__waiver_data["run"]
 
       # OK, the intent is to skip. Does it have an expiration date, and
       # if so, is it in the future?
