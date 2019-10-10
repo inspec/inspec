@@ -202,7 +202,7 @@ module FunctionalHelper
       run_result.stdout.sub!("\n1 deprecation warning total\n", "")
     end
 
-    if opts[:json]
+    if opts[:json] && !run_result.stdout.empty?
       begin
         payload = JSON.parse(run_result.stdout)
 

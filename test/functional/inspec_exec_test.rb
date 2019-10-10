@@ -761,6 +761,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
         let(:json_path) { File.join(config_dir_path, "json-config", "good.json") }
         let(:cli_args) { "--config -" }
         let(:opts) { { prefix: "cat " + json_path + " | ", json: true, env: env } }
+        let(:njopts) { opts.merge(json: false) }
 
         # DO NOT use the `let`-defined run_result through here
         # If you do, it will execute twice, and cause STDIN to read empty on the second time
@@ -772,7 +773,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
         end
 
         it "detect should exit 0" do
-          result = run_inspec_process( "detect " + cli_args + " ", opts )
+          result = run_inspec_process( "detect " + cli_args + " ", njopts )
 
           _(result.stderr).must_be_empty
 
@@ -780,7 +781,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
         end
 
         it "shell should exit 0" do
-          result = run_inspec_process( 'shell -c "platform.family" ' + cli_args + " ", opts )
+          result = run_inspec_process( 'shell -c "platform.family" ' + cli_args + " ", njopts )
 
           _(result.stderr).must_be_empty
 
