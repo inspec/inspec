@@ -103,9 +103,9 @@ module Inspec
             "run" => { "type" => "boolean" },
             "message" => { "type" => "string" },
             "expiration_date" => { "type" => "string" },
-            "justification" => {"type" => "string" },
-          }
-        }
+            "justification" => { "type" => "string" },
+          },
+        },
       },
     }.freeze
 
