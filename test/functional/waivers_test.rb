@@ -88,7 +88,30 @@ describe "waivers" do
     end
   end
 
-  # describe "an inherited profile"
+  describe "an inherited profile" do
+    let(:profile_name) { "waiver-wrapper" }
+    let(:waiver_file) { "waivers.yaml" }
+    it "should set the data in the child but be empty in the wrapper" do
+      json = run_result.payload.json
+      child_profile = json["profiles"].detect { |p| p["name"] == "waiver-child" }
+      child_waiver_data = child_profile.dig("controls", 0, "waiver_data")
+      assert_instance_of Hash, child_waiver_data
+      refute_empty child_waiver_data
+      expected_child_waiver_data = {
+        "run" => false,
+        "justification" => "I said so",
+        "skipped_due_to_waiver" => true,
+        "message" => "",
+      }
+      assert_equal expected_child_waiver_data, child_waiver_data
+
+      wrapper_profile = json["profiles"].detect { |p| p["name"] == "waiver-wrapper" }
+      wrapper_waiver_data = wrapper_profile.dig("controls", 0, "waiver_data")
+      assert_instance_of Hash, wrapper_waiver_data
+      assert_empty wrapper_waiver_data
+    end
+  end
+
   # describe "a profile whose control ids require transformation"
 
   describe "a waiver file with invalid dates" do
