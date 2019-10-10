@@ -2,7 +2,7 @@
 
 require "method_source"
 require "date"
-require "inspec/describe"
+require "inspec/describe_base"
 require "inspec/expect"
 require "inspec/resource"
 require "inspec/resources/os"
