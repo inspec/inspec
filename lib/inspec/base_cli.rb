@@ -4,6 +4,9 @@ require "inspec/ui"
 require "inspec/config"
 require "inspec/dist"
 require "inspec/utils/deprecation/global_method"
+require "chef_core/telemeter"
+require "chef_core/log"
+require "telemetry/decision" # chef-telemetry
 
 # Allow end of options during array type parsing
 # https://github.com/erikhuda/thor/issues/631
@@ -221,6 +224,39 @@ module Inspec
     end
 
     private
+
+    ###
+    # Telemeter setup
+    #
+    def configure_telemeter(inspec_config)
+      telemetry_config = {}
+      telemetry_config[:payload_dir] = "#{Inspec.config_dir}/telemetry}"
+      telemetry_config[:session_file] = ".inspec-telemetry-#{$$}"
+      # telemetry_config[:installation_identifier_file] Documented but not generally available on InSpec clients.
+      telemetry_config[:dev_mode] = ENV["INSPEC_TELEMETRY_DEV_MODE"] \
+                                   || inspec_config["telemetry-dev-mode"] \
+                                   || false
+
+      telemetry_config[:enabled] = inspec_config["enable_telemetry"] \
+                                   || !::Telemetry::Decision.opt_out? \
+                                   || true
+
+      # Instead of relying on the true logic above, while this feature is in development,
+      # rely on a feature flag.
+      telemetry_config[:enabled] = ENV["INSPEC_TELEMETRY_FEATURE_FLAG"]
+
+      if telemetry_config[:enabled]
+        Inspec::Log.info("Enabling telemetry in #{telemetry_config[:dev_mode] ? "dev" : "prod"} mode")
+        Inspec::Log.info("Will write telemetry data files to #{telemetry_config[:payload_dir]}")
+      else
+        Inspec::Log.info("Telemetry is disabled.")
+      end
+
+      # Configure ChefCore::Log with InSpec:Log setup, merging the streams
+      ChefCore::Log.setup(Inspec::Log.logger, Inspec::Log.level)
+
+      ChefCore::Telemeter.setup(telemetry_config)
+    end
 
     ALL_OF_OUR_REPORTERS = %w{json json-min json-rspec json-automate junit html yaml documentation progress}.freeze # BUT WHY?!?!
 

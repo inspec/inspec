@@ -331,6 +331,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     log_device = suppress_log_output?(o) ? nil : $stdout
     o[:logger] = Logger.new(log_device)
     o[:logger].level = get_log_level(o[:log_level])
+    configure_telemeter(o)
 
     if o[:command].nil?
       runner = Inspec::Runner.new(o)
