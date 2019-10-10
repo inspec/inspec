@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.17.27 -->
-## [v4.17.27](https://github.com/inspec/inspec/tree/v4.17.27) (2019-10-09)
+<!-- latest_release 4.18.0 -->
+## [v4.18.0](https://github.com/inspec/inspec/tree/v4.18.0) (2019-10-10)
 
 #### Merged Pull Requests
-- Pin RSpec to 3.8.6 to avoid test failures for now [#4576](https://github.com/inspec/inspec/pull/4576) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Waivers Feedback - Per control reporting and other minor issues [#4567](https://github.com/inspec/inspec/pull/4567) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.17.17 -->
@@ -14,6 +14,7 @@
 - Fix problem in method_missing in rspec extensions when backend unavailable. [#4565](https://github.com/inspec/inspec/pull/4565) ([zenspider](https://github.com/zenspider)) <!-- 4.17.23 -->
 
 #### Merged Pull Requests
+- Waivers Feedback - Per control reporting and other minor issues [#4567](https://github.com/inspec/inspec/pull/4567) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.0 -->
 - Pin RSpec to 3.8.6 to avoid test failures for now [#4576](https://github.com/inspec/inspec/pull/4576) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.17.27 -->
 - User windows fix [#4452](https://github.com/inspec/inspec/pull/4452) ([mhackethal](https://github.com/mhackethal)) <!-- 4.17.26 -->
 - Don&#39;t use #at when you can use #[] for array (or hash) access. [#4556](https://github.com/inspec/inspec/pull/4556) ([zenspider](https://github.com/zenspider)) <!-- 4.17.25 -->
