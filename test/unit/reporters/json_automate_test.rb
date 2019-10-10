@@ -14,8 +14,12 @@ describe Inspec::Reporters::JsonAutomate do
   describe "#render" do
     it "confirms render output" do
       output = File.read(path + "/../mock/reporters/json_merged_output")
+      output = JSON.parse(output, symbolize_names: true)
       report.render
-      _(JSON.parse(report.rendered_output)).must_equal JSON.parse(output)
+
+      actual = JSON.parse(report.rendered_output, symbolize_names: true)
+
+      _(actual).must_equal output
     end
   end
 
