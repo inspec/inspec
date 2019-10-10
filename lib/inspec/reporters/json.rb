@@ -95,7 +95,7 @@ module Inspec::Reporters
             line: c[:source_location][:line],
             ref:  c[:source_location][:ref],
           },
-          waiver_data: c[:waiver_data],
+          waiver_data: c[:waiver_data] || {},
           results: profile_results(c),
         }
       }
