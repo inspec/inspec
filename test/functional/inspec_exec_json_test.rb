@@ -32,6 +32,8 @@ describe "inspec exec with json formatter" do
   it "can execute a simple file while using end of options after reporter cli option" do
     out = inspec("exec --no-create-lockfile --reporter json -- " + example_control)
     data = JSON.parse(out.stdout)
+    sout = Inspec::Schema.json('exec-json')
+    schema = JSON.parse(sout)
     _(JSON::Validator.validate(schema, data)).wont_equal false
 
     _(out.stderr).must_equal ""
@@ -115,7 +117,8 @@ describe "inspec exec with json formatter" do
   end
 
   describe "execute a profile with json formatting" do
-    let(:json) { JSON.load(inspec("exec " + example_profile + " --reporter json --no-create-lockfile").stdout) }
+    let(:raw) { inspec("exec " + example_profile + " --reporter json --no-create-lockfile").stdout }
+    let(:json) { JSON.load(raw) }
     let(:profile) { json["profiles"][0] }
     let(:controls) { profile["controls"] }
     let(:ex1) { controls.find { |x| x["id"] == "tmp-1.0" } }
@@ -134,11 +137,14 @@ describe "inspec exec with json formatter" do
       _(ex3["impact"]).must_equal 0.9
     end
 
+    make_my_diffs_pretty!
+
     it "has all the metadata" do
       actual = profile.dup
       key = actual.delete("controls")
         .find { |x| p x; x["id"] =~ /generated from example/ }["id"]
       groups = actual.delete("groups")
+      actual.delete("sha256")
       _(actual).must_equal({
         "name" => "profile",
         "title" => "InSpec Example Profile",
@@ -148,8 +154,6 @@ describe "inspec exec with json formatter" do
         "license" => "Apache-2.0",
         "summary" => "Demonstrates the use of InSpec Compliance Profile",
         "version" => "1.0.0",
-        # TODO: this is brittle and nonsensical
-        "sha256" => "de67a044d7be7090982740755ff582af1cefaf37261c5adda57b9502ffefc973",
         "supports" => [{ "platform-family" => "unix" }, { "platform-family" => "windows" }],
         "status" => "loaded",
         "attributes" => [],

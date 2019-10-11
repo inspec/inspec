@@ -206,8 +206,14 @@ module FunctionalHelper
 
     if opts[:json]
       begin
-        run_result.payload.json = JSON.parse(run_result.stdout)
+        payload = JSON.parse(run_result.stdout)
+
+        run_result.payload.json = payload
       rescue JSON::ParserError => e
+        warn "JSON PARSE ERROR: %s" % [e.message]
+        warn "OUT: <<%s>>"          % [run_result.stdout]
+        warn "ERR: <<%s>>"          % [run_result.stderr]
+        warn "XIT: %p"              % [run_result.exit_status]
         run_result.payload.json = {}
         run_result.payload.json_error = e
       end
