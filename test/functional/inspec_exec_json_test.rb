@@ -137,7 +137,7 @@ describe "inspec exec with json formatter" do
     it "has all the metadata" do
       actual = profile.dup
       key = actual.delete("controls")
-        .find { |x| x["id"] =~ /generated from example.rb/ }["id"]
+        .find { |x| p x; x["id"] =~ /generated from example/ }["id"]
       groups = actual.delete("groups")
       _(actual).must_equal({
         "name" => "profile",
@@ -156,7 +156,7 @@ describe "inspec exec with json formatter" do
       })
 
       _(groups.sort_by { |x| x["id"] }).must_equal([
-        { "id" => "controls/example.rb", "title" => "/tmp profile", "controls" => ["tmp-1.0", key] },
+        { "id" => "controls/example-tmp.rb", "title" => "/tmp profile", "controls" => ["tmp-1.0", key] },
         { "id" => "controls/example.rb", "title" => "Example Config Checks", "controls" => ["example-1.0"] },
         { "id" => "controls/meta.rb", "title" => "SSH Server Configuration", "controls" => ["ssh-1"] },
       ])
@@ -180,7 +180,7 @@ describe "inspec exec with json formatter" do
       actual = ex1.dup
 
       src = actual.delete("source_location")
-      _(src["ref"]).must_match %r{test/unit/mock/profiles/old-examples/profile/controls/example.rb$}
+      _(src["ref"]).must_match %r{test/unit/mock/profiles/old-examples/profile/controls/example-tmp.rb$}
       _(src["line"]).must_equal 6
 
       result = actual.delete("results")[0]
