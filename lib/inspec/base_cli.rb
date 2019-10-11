@@ -230,7 +230,13 @@ module Inspec
     #
     def configure_telemeter(inspec_config)
       telemetry_config = {}
-      telemetry_config[:payload_dir] = "#{Inspec.config_dir}/telemetry}"
+      telemetry_config[:product] = {
+        name: "inspec",
+        version: Inspec::VERSION,
+        origin: "command-line",
+        install_context: "omnibus", # TODO - detect rubygems install, issue 4585
+      }
+      telemetry_config[:payload_dir] = "#{Inspec.config_dir}/telemetry"
       telemetry_config[:session_file] = ".inspec-telemetry-#{$$}"
       # telemetry_config[:installation_identifier_file] Documented but not generally available on InSpec clients.
       telemetry_config[:dev_mode] = ENV["INSPEC_TELEMETRY_DEV_MODE"] \
@@ -248,6 +254,7 @@ module Inspec
       if telemetry_config[:enabled]
         Inspec::Log.info("Enabling telemetry in #{telemetry_config[:dev_mode] ? "dev" : "prod"} mode")
         Inspec::Log.info("Will write telemetry data files to #{telemetry_config[:payload_dir]}")
+        FileUtils.mkdir_p(telemetry_config[:payload_dir])
       else
         Inspec::Log.info("Telemetry is disabled.")
       end
