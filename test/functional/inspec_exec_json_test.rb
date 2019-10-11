@@ -142,7 +142,7 @@ describe "inspec exec with json formatter" do
     it "has all the metadata" do
       actual = profile.dup
       key = actual.delete("controls")
-        .find { |x| p x; x["id"] =~ /generated from example/ }["id"]
+        .find { |x| x["id"] =~ /generated from example/ }["id"]
       groups = actual.delete("groups")
       actual.delete("sha256")
       _(actual).must_equal({
