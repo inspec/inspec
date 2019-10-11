@@ -32,7 +32,7 @@ describe "inspec exec with json formatter" do
   it "can execute a simple file while using end of options after reporter cli option" do
     out = inspec("exec --no-create-lockfile --reporter json -- " + example_control)
     data = JSON.parse(out.stdout)
-    sout = Inspec::Schema.json('exec-json')
+    sout = Inspec::Schema.json("exec-json")
     schema = JSON.parse(sout)
     _(JSON::Validator.validate(schema, data)).wont_equal false
 
