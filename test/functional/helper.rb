@@ -261,14 +261,14 @@ module PluginFunctionalHelper
       File.write(File.join(tmp_dir, "plugins.json"), content)
     end
 
-    opts.merge!({
+    opts = {
       pre_run: pre,
       tmpdir: true,
       json: true,
       env: {
         "INSPEC_CONFIG_DIR" => ".", # We're in tmpdir
       },
-    })
+    }.merge(opts)
     run_inspec_process(command, opts)
   end
 
