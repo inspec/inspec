@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.18.1 -->
+## [v4.18.1](https://github.com/inspec/inspec/tree/v4.18.1) (2019-10-11)
+
+#### Bug Fixes
+- Replace input to_hash method, and add unit test for it [#4545](https://github.com/inspec/inspec/pull/4545) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.18.0 -->
+### Changes since 4.18.0 release
+
+#### Bug Fixes
+- Replace input to_hash method, and add unit test for it [#4545](https://github.com/inspec/inspec/pull/4545) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
