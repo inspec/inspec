@@ -9,8 +9,7 @@ steps:
 
   - label: coverage
     commands:
-      - bundle install --jobs=7 --retry=3 --without tools maintenance deploy
-      - bundle exec rake test:default
+      - /workdir/.expeditor/buildkite/coverage.sh
     expeditor:
       executor:
         docker:
