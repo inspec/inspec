@@ -22,6 +22,29 @@ module Inspec
       default_registry.dup
     end
 
+    def self.backfill_supports!
+      reg = registry.keys.map(&:to_sym).sort
+      sup = supports.keys.map(&:to_sym).sort
+
+      missings = reg - sup
+
+      supports[:platform] = [{ platform: "os" }] # patch the circular dep
+
+      missings.each do |missing|
+        klass = registry[missing.to_s].superclass
+        sklas = klass.superclass.name&.to_sym # might be resource = no name
+
+        klass = klass.name.to_sym
+
+        case
+        when klass != missing # an alias
+          supports[missing] = supports[klass]
+        when sklas
+          supports[klass]   = supports[sklas]
+        end
+      end
+    end
+
     # Creates the inner DSL which includes all resources for
     # creating tests. It is always connected to one target,
     # which is specified via the backend argument.
