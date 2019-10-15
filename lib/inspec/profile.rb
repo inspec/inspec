@@ -332,6 +332,7 @@ module Inspec
       # convert legacy os-* supports to their platform counterpart
       if res[:supports] && !res[:supports].empty?
         res[:supports].each do |support|
+          # TODO: deprecate
           support[:"platform-family"] = support.delete(:"os-family") if support.key?(:"os-family")
           support[:"platform-name"] = support.delete(:"os-name") if support.key?(:"os-name")
         end

@@ -10,10 +10,12 @@ module Inspec
       @default_registry ||= {}
     end
 
+    # TODO: these are keyed off of strings
     def self.registry
       @registry ||= default_registry
     end
 
+    # TODO: these are keyed off of symbols
     def self.supports
       @supports ||= {}
     end
