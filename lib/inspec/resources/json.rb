@@ -5,6 +5,7 @@ require "inspec/utils/file_reader"
 module Inspec::Resources
   class JsonConfig < Inspec.resource(1)
     name "json"
+    supports platform: "os"
     desc "Use the json InSpec audit resource to test data in a JSON file."
     example <<~EXAMPLE
       describe json('policyfile.lock.json') do
