@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.1 -->
-## [v4.18.1](https://github.com/inspec/inspec/tree/v4.18.1) (2019-10-11)
+<!-- latest_release 4.18.2 -->
+## [v4.18.2](https://github.com/inspec/inspec/tree/v4.18.2) (2019-10-15)
 
-#### Bug Fixes
-- Replace input to_hash method, and add unit test for it [#4545](https://github.com/inspec/inspec/pull/4545) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Telemetry: add chef-core [#4569](https://github.com/inspec/inspec/pull/4569) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.0 -->
 ### Changes since 4.18.0 release
+
+#### Merged Pull Requests
+- Telemetry: add chef-core [#4569](https://github.com/inspec/inspec/pull/4569) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.2 -->
 
 #### Bug Fixes
 - Replace input to_hash method, and add unit test for it [#4545](https://github.com/inspec/inspec/pull/4545) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.1 -->
