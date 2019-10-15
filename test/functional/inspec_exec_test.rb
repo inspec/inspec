@@ -341,7 +341,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec("exec " + example_control + " --no-create-lockfile") }
 
     it "prints the control results, then the anonymous describe block results" do
-      _(stdout).must_match(/Profile: tests from .*test.unit.mock.profiles.old-examples.profile.controls.example.rb/)
+      _(stdout).must_match(/Profile: tests from .*test.unit.mock.profiles.old-examples.profile.controls.example-tmp.rb/)
       _(stdout).must_include "
 Version: (not specified)
 Target:  local://
