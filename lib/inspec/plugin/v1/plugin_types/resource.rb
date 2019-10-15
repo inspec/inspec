@@ -16,7 +16,7 @@ module Inspec
 
   module ResourceDSL
     def name(name = nil)
-      return if name.nil?
+      return @name if name.nil?
 
       @name = name
       __register(name, self)
