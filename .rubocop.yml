@@ -1,5 +1,6 @@
 AllCops:
   Exclude:
+    - 'test/kitchen/**/*'
     - 'test/integration/**/controls/**/*.rb'
     - 'test/unit/mock/profiles/**/*.rb'
     - 'test/unit/mock/config_dirs/**/*.rb'
