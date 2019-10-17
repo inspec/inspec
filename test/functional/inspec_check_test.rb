@@ -60,8 +60,8 @@ describe "inspec check" do
       Dir.mktmpdir do |tmpdir|
         cache_dir = File.join(tmpdir, "inspec_check_test_cache")
         _(File.exist?(cache_dir)).must_equal false
-
-        out = inspec("check " + integration_test_path + " --vendor-cache " + cache_dir)
+        good_profile_path = File.join(repo_path, "test/unit/mock/profiles/complete-profile")
+        out = inspec("check #{good_profile_path} --vendor-cache #{cache_dir}")
 
         _(File.exist?(cache_dir)).must_equal true
         assert_exit_code 0, out

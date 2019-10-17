@@ -80,8 +80,6 @@ module FunctionalHelper
   let(:mock_path) { File.join(repo_path, "test", "unit", "mock") }
   let(:profile_path) { File.join(mock_path, "profiles") }
   let(:examples_path) { File.join(profile_path, "old-examples") }
-  let(:integration_test_path) { File.join(repo_path, "test", "integration", "default") }
-
   let(:example_profile) { File.join(examples_path, "profile") }
   let(:meta_profile) { File.join(examples_path, "meta-profile") }
   let(:example_control) { File.join(example_profile, "controls", "example-tmp.rb") }
