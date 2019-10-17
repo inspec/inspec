@@ -26,3 +26,4 @@ plugins:
     enabled: true
 exclude_patterns:
   - "www/source/javascripts/"
+  - "test/kitchen"
