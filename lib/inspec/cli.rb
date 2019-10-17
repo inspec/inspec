@@ -9,6 +9,7 @@ module Inspec # TODO: move this somewhere "better"?
   autoload :BaseCLI,       "inspec/base_cli"
   autoload :Deprecation,   "inspec/utils/deprecation"
   autoload :Exceptions,    "inspec/exceptions"
+  autoload :EnvPrinter,    "inspec/env_printer"
   autoload :Fetcher,       "inspec/fetcher"
   autoload :Formatters,    "inspec/formatters"
   autoload :Globals,       "inspec/globals"
@@ -64,7 +65,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "A list of controls to include. Ignore all other tests."
   profile_options
   def json(target)
-    require "inspec/resources"
     require "json"
 
     o = config
@@ -103,8 +103,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :format, type: :string
   profile_options
   def check(path) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-    require "inspec/resources"
-
     o = config
     diagnose(o)
     o["log_location"] ||= STDERR if o["format"] == "json"
@@ -157,8 +155,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :overwrite, type: :boolean, default: false,
     desc: "Overwrite existing vendored dependencies and lockfile."
   def vendor(path = nil)
-    require "inspec/resources"
-
     o = config
     configure_logger(o)
     o[:logger] = Logger.new($stdout)
@@ -180,8 +176,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :ignore_errors, type: :boolean, default: false,
     desc: "Ignore profile warnings."
   def archive(path)
-    require "inspec/resources"
-
     o = config
     diagnose(o)
 
@@ -208,9 +202,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc "exec LOCATIONS", "run all test files at the specified LOCATIONS."
-  # TODO: find a way for Thor not to butcher the formatting of this
-  long_desc <<~EOT
+  desc "exec LOCATIONS", <<~EOT
+    Run all test files at the specified LOCATIONS.
+
     Loads the given profile(s) and fetches their dependencies if needed. Then
     connects to the target and executes any controls contained in the profiles.
     One or more reporters are used to generate output.
@@ -347,7 +341,15 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     ui.exit res unless run_type == :ruby_eval
 
     # No InSpec tests - just print evaluation output.
-    res = (res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)) if o["reporter"]&.keys&.include?("json")
+    reporters = o["reporter"] || {}
+    if reporters.keys.include?("json")
+      res = if res.respond_to?(:to_json)
+              res.to_json
+            else
+              JSON.dump(res)
+            end
+    end
+
     puts res
     ui.exit Inspec::UI::EXIT_NORMAL
   rescue RuntimeError, Train::UserError => e

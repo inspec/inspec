@@ -12,7 +12,7 @@ describe Inspec::Reporters::JsonMin do
     it "confirm render output" do
       output = File.read(path + "/../mock/reporters/json_min_output")
       report.render
-      report.rendered_output.must_equal output
+      _(report.rendered_output).must_equal output
     end
   end
 
@@ -20,7 +20,7 @@ describe Inspec::Reporters::JsonMin do
     it "confirm report output" do
       output = File.read(path + "/../mock/reporters/json_min_output")
       output = JSON.parse(output, symbolize_names: true)
-      report.report.must_equal output
+      _(report.report).must_equal output
     end
   end
 end

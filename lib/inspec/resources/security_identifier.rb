@@ -47,6 +47,10 @@ module Inspec::Resources
       @sids.key?(@name)
     end
 
+    def to_s
+      "Security Identifier"
+    end
+
     private
 
     def fetch_sids

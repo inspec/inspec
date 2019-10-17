@@ -55,10 +55,8 @@ describe "Inspec::Resources::WindowsFeature" do
       :powershell
     )
 
-    e = proc {
-      resource.info
-    }.must_raise(Inspec::Exceptions::ResourceFailed)
+    e = _ { resource.info }.must_raise(Inspec::Exceptions::ResourceFailed)
 
-    e.message.must_match(/Could not find `Get-WindowsFeature`/)
+    _(e.message).must_match(/Could not find `Get-WindowsFeature`/)
   end
 end

@@ -11,9 +11,9 @@ describe "inspec report tests" do
       runner = ::Inspec::Runner.new(o)
       runner.add_target(example_profile)
       runner.run
-      runner.report.count.must_equal 4
-      runner.report.inspect.must_include ':title=>"InSpec Example Profile"'
-      runner.report.inspect.must_include ':status=>"passed"'
+      _(runner.report.count).must_equal 4
+      _(runner.report.inspect).must_include ':title=>"InSpec Example Profile"'
+      _(runner.report.inspect).must_include ':status=>"passed"'
     end
 
     it "loads a json report twice" do
@@ -23,9 +23,9 @@ describe "inspec report tests" do
       runner = ::Inspec::Runner.new(o)
       runner.add_target(example_profile)
       runner.run
-      runner.report.count.must_equal 4
-      runner.report.inspect.must_include ':title=>"InSpec Example Profile"'
-      runner.report.inspect.must_include ':status=>"passed"'
+      _(runner.report.count).must_equal 4
+      _(runner.report.inspect).must_include ':title=>"InSpec Example Profile"'
+      _(runner.report.inspect).must_include ':status=>"passed"'
     end
 
     # Due to the way we require/use rspec, you can only run one runner.

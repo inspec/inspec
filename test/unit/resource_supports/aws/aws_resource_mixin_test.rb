@@ -14,8 +14,10 @@ describe "AwsResourceMixin" do
       end
     end
 
+    # rubocop:disable Style/BlockDelimiters
+
     it "confirm ArgumentError is raised when testing" do
-      proc {
+      _ {
         AwsResourceMixinError.new({})
       }.must_raise ArgumentError
     end
@@ -33,7 +35,7 @@ describe "AwsResourceMixin" do
     end
 
     it "confirm ResourceFailed is raised when live" do
-      proc {
+      _ {
         AwsResourceMixinLive.new({})
       }.must_raise Inspec::Exceptions::ResourceFailed
     end

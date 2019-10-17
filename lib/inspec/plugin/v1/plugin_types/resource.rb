@@ -31,8 +31,10 @@ module Inspec
     def supports(criteria = nil)
       return if criteria.nil?
 
-      Inspec::Resource.supports[@name] ||= []
-      Inspec::Resource.supports[@name].push(criteria)
+      key = @name.to_sym
+
+      Inspec::Resource.supports[key] ||= []
+      Inspec::Resource.supports[key].push(criteria)
     end
 
     def example(example = nil)
@@ -80,7 +82,7 @@ module Inspec
         def initialize(backend, name, *args)
           @resource_skipped = false
           @resource_failed = false
-          @supports = Inspec::Resource.supports[name]
+          @supports = Inspec::Resource.supports[name.to_sym]
           @resource_exception_message = nil
 
           # attach the backend to this instance
@@ -124,6 +126,7 @@ module Inspec
         end
 
         def check_supports
+          require "inspec/resources/platform"
           status = inspec.platform.supported?(@supports)
           fail_msg = "Resource `#{@__resource_name__}` is not supported on platform #{inspec.platform.name}/#{inspec.platform.release}."
           fail_resource(fail_msg) unless status
@@ -165,7 +168,7 @@ module Inspec
   end
 
   module Plugins
-    class Resource
+    class Resource # TODO: possibly push up to inspec/resource.rb
       extend Inspec::ResourceDSL
       include Inspec::ResourceBehaviors
     end

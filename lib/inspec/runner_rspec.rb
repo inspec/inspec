@@ -83,7 +83,7 @@ module Inspec
       return @rspec_exit_code if @formatter.results.empty?
 
       stats = @formatter.results[:statistics][:controls]
-      skipped = @formatter.results&.fetch(:profiles, nil)&.first&.fetch(:status, nil) == "skipped"
+      skipped = @formatter.results.dig(:profiles, 0, :status) == "skipped"
       if stats[:failed][:total] == 0 && stats[:skipped][:total] == 0 && !skipped
         0
       elsif stats[:failed][:total] > 0
@@ -171,6 +171,7 @@ module Inspec
       metadata[:descriptions] = rule.descriptions
       metadata[:code] = rule.instance_variable_get(:@__code)
       metadata[:source_location] = rule.instance_variable_get(:@__source_location)
+      metadata[:waiver_data] = rule.__waiver_data
     end
   end
 end

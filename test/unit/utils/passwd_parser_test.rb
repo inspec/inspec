@@ -6,11 +6,11 @@ describe PasswdParser do
 
   describe "#parse_passwd" do
     it "parses nil content" do
-      parser.parse_passwd(nil).must_equal([])
+      _(parser.parse_passwd(nil)).must_equal([])
     end
 
     it "parses an empty passwd line" do
-      parser.parse_passwd("").must_equal([])
+      _(parser.parse_passwd("")).must_equal([])
     end
 
     it "parses a comment line" do
@@ -26,7 +26,7 @@ describe PasswdParser do
                 "desc" => "root",
                 "home" => "/root",
                 "shell" => "/bin/sh" }]
-      parser.parse_passwd(content).must_equal(info)
+      _(parser.parse_passwd(content)).must_equal(info)
     end
 
     it "parses a valid passwd line" do
@@ -39,7 +39,7 @@ describe PasswdParser do
         "home" => "/root",
         "shell" => "/bin/sh",
       }]
-      parser.parse_passwd("root:x:0:0:root:/root:/bin/sh").must_equal(info)
+      _(parser.parse_passwd("root:x:0:0:root:/root:/bin/sh")).must_equal(info)
     end
   end
 end

@@ -4,4 +4,5 @@ deb http://ppa.launchpad.net/ubuntu-wine/ppa/ubuntu wily main
 # newer versions of the distribution.
 
 deb http://archive.ubuntu.com/ubuntu/ wily main restricted
+deb "http://archive.ubuntu.com/ubuntu/" wily main restricted
 deb-src http://archive.ubuntu.com/ubuntu/ wily main restricted

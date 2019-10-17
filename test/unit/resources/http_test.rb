@@ -1,6 +1,7 @@
 require "helper"
 require "inspec/resource"
 require "inspec/resources/http"
+Faraday::Error::ClientError = ::Faraday::ClientError # TODO/HACK push upstream to faraday_middleware
 require "faraday_middleware/response/follow_redirects"
 
 describe "Inspec::Resources::Http" do
@@ -46,7 +47,7 @@ describe "Inspec::Resources::Http" do
         stub_request(:get, "redirect1.com").to_return(status: 302, headers: { location: "http://redirect2.com" } )
         stub_request(:get, "redirect2.com").to_return(status: 200, body: "should not get here")
 
-        proc { worker.status }.must_raise FaradayMiddleware::RedirectLimitReached
+        _(proc { worker.status }).must_raise FaradayMiddleware::RedirectLimitReached
       end
     end
 
@@ -222,25 +223,25 @@ describe "Inspec::Resources::Http" do
     let(:headers) { Inspec::Resources::Http::Headers.create(a: 1, B: 2, "c" => 3, "D" => 4) }
 
     it "returns the correct data via hash syntax ensuring case-insensitive keys" do
-      headers["a"].must_equal(1)
-      headers["A"].must_equal(1)
-      headers["b"].must_equal(2)
-      headers["B"].must_equal(2)
-      headers["c"].must_equal(3)
-      headers["C"].must_equal(3)
-      headers["d"].must_equal(4)
-      headers["D"].must_equal(4)
+      _(headers["a"]).must_equal(1)
+      _(headers["A"]).must_equal(1)
+      _(headers["b"]).must_equal(2)
+      _(headers["B"]).must_equal(2)
+      _(headers["c"]).must_equal(3)
+      _(headers["C"]).must_equal(3)
+      _(headers["d"]).must_equal(4)
+      _(headers["D"]).must_equal(4)
     end
 
     it "returns the correct data via method syntax ensuring case-insensitive keys" do
-      headers.a.must_equal(1)
-      headers.A.must_equal(1)
-      headers.b.must_equal(2)
-      headers.B.must_equal(2)
-      headers.c.must_equal(3)
-      headers.C.must_equal(3)
-      headers.d.must_equal(4)
-      headers.D.must_equal(4)
+      _(headers.a).must_equal(1)
+      _(headers.A).must_equal(1)
+      _(headers.b).must_equal(2)
+      _(headers.B).must_equal(2)
+      _(headers.c).must_equal(3)
+      _(headers.C).must_equal(3)
+      _(headers.d).must_equal(4)
+      _(headers.D).must_equal(4)
     end
   end
 end

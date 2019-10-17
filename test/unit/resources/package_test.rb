@@ -125,7 +125,7 @@ describe "Inspec::Resources::Package" do
   end
 
   # darwin (brew)
-  it "can parse ouptut from `brew` when package is installed" do
+  it "can parse ouptut from 'brew' when package is installed" do
     resource = MockLoader.new(:osx104).load_resource("package", "curl")
     pkg = { name: "curl", installed: true, version: "7.52.1", type: "brew" }
     _(resource.installed?).must_equal true
@@ -133,7 +133,7 @@ describe "Inspec::Resources::Package" do
     _(resource.info).must_equal pkg
   end
 
-  it "can parse ouptut from `brew` when package is not installed but exists" do
+  it "can parse ouptut from 'brew' when package is not installed but exists" do
     resource = MockLoader.new(:osx104).load_resource("package", "nginx")
     pkg = {}
     _(resource.installed?).must_equal false
@@ -141,7 +141,7 @@ describe "Inspec::Resources::Package" do
     _(resource.info).must_equal pkg
   end
 
-  it "returns {} when `brew` exits non-zero" do
+  it "returns {} when 'brew' exits non-zero" do
     resource = MockLoader.new(:osx104).load_resource("package", "nope")
     pkg = {}
     _(resource.installed?).must_equal false

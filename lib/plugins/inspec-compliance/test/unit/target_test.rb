@@ -15,7 +15,7 @@ describe InspecPlugins::Compliance::Fetcher do
 
     it "returns an error when token is not set" do
       ex = assert_raises(Inspec::FetcherFailure) { fetcher.class.check_compliance_token("http://test.com", config) }
-      ex.message.must_include "Cannot fetch http://test.com because your compliance token has not been\nconfigured."
+      _(ex.message).must_include "Cannot fetch http://test.com because your compliance token has not been\nconfigured."
     end
   end
 
@@ -25,7 +25,7 @@ describe InspecPlugins::Compliance::Fetcher do
     it "returns the correct owner and profile name" do
       config["profile"] = ["admin", "ssh-baseline", nil]
       fetcher = InspecPlugins::Compliance::Fetcher.new("myserver/profile", config)
-      fetcher.send(:compliance_profile_name).must_equal "admin/ssh-baseline"
+      _(fetcher.send(:compliance_profile_name)).must_equal "admin/ssh-baseline"
     end
   end
 
@@ -34,12 +34,12 @@ describe InspecPlugins::Compliance::Fetcher do
 
     it "returns the correct profile name when the url is correct" do
       fetcher = InspecPlugins::Compliance::Fetcher.new("myserver/myowner/myprofile/tar", config)
-      fetcher.send(:compliance_profile_name).must_equal "myowner/myprofile"
+      _(fetcher.send(:compliance_profile_name)).must_equal "myowner/myprofile"
     end
 
     it "raises an exception if the url is malformed" do
       fetcher = InspecPlugins::Compliance::Fetcher.new("a/bad/url", config)
-      proc { fetcher.send(:compliance_profile_name) }.must_raise RuntimeError
+      _(proc { fetcher.send(:compliance_profile_name) }).must_raise RuntimeError
     end
   end
 
@@ -51,12 +51,12 @@ describe InspecPlugins::Compliance::Fetcher do
 
     it "returns the correct profile name when the url is correct" do
       fetcher = InspecPlugins::Compliance::Fetcher.new("myserver/profiles/myowner/myprofile/tar", config)
-      fetcher.send(:compliance_profile_name).must_equal "myowner/myprofile"
+      _(fetcher.send(:compliance_profile_name)).must_equal "myowner/myprofile"
     end
 
     it "raises an exception if the url is malformed" do
       fetcher = InspecPlugins::Compliance::Fetcher.new("a/bad/url", config)
-      proc { fetcher.send(:compliance_profile_name) }.must_raise RuntimeError
+      _(proc { fetcher.send(:compliance_profile_name) }).must_raise RuntimeError
     end
   end
 
@@ -68,12 +68,12 @@ describe InspecPlugins::Compliance::Fetcher do
 
     it "returns the correct profile name when the url is correct" do
       fetcher = InspecPlugins::Compliance::Fetcher.new("myserver/owners/myowner/compliance/myprofile/tar", config)
-      fetcher.send(:compliance_profile_name).must_equal "myowner/myprofile"
+      _(fetcher.send(:compliance_profile_name)).must_equal "myowner/myprofile"
     end
 
     it "raises an exception if the url is malformed" do
       fetcher = InspecPlugins::Compliance::Fetcher.new("a/bad/url", config)
-      proc { fetcher.send(:compliance_profile_name) }.must_raise RuntimeError
+      _(proc { fetcher.send(:compliance_profile_name) }).must_raise RuntimeError
     end
   end
 
@@ -104,7 +104,7 @@ describe InspecPlugins::Compliance::Fetcher do
       InspecPlugins::Compliance::API.stubs(:profiles).returns(["success", profiles_result])
       fetcher = InspecPlugins::Compliance::Fetcher.resolve("compliance://admin/ssh-baseline")
       assert = ["admin", "ssh-baseline", nil]
-      fetcher.instance_variable_get(:"@config")["profile"].must_equal assert
+      _(fetcher.instance_variable_get(:"@config")["profile"]).must_equal assert
     end
 
     it "returns the correct profile name when parsing compliance hash" do
@@ -116,7 +116,7 @@ describe InspecPlugins::Compliance::Fetcher do
       }
       fetcher = InspecPlugins::Compliance::Fetcher.resolve(hash)
       assert = ["admin", "ssh-baseline", nil]
-      fetcher.instance_variable_get(:"@config")["profile"].must_equal assert
+      _(fetcher.instance_variable_get(:"@config")["profile"]).must_equal assert
     end
   end
 
@@ -149,7 +149,7 @@ describe InspecPlugins::Compliance::Fetcher do
       prof = profiles_result[0]
       target = "compliance://#{prof["owner"]}/#{prof["name"]}"
       fetcher = InspecPlugins::Compliance::Fetcher.resolve(target)
-      fetcher.upstream_sha256.must_equal prof["sha256"]
+      _(fetcher.upstream_sha256).must_equal prof["sha256"]
     end
   end
 end

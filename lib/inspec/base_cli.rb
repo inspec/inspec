@@ -137,6 +137,8 @@ module Inspec
         desc: "Specify one or more inputs directly on the command line, as --input NAME=VALUE"
       option :input_file, type: :array,
         desc: "Load one or more input files, a YAML file with values for the profile to use"
+      option :waiver_file, type: :array,
+        desc: "Load one or more waiver files."
       option :attrs, type: :array,
         desc: "Legacy name for --input-file - deprecated."
       option :create_lockfile, type: :boolean,
@@ -220,16 +222,20 @@ module Inspec
 
     private
 
+    ALL_OF_OUR_REPORTERS = %w{json json-min json-rspec json-automate junit html yaml documentation progress}.freeze # BUT WHY?!?!
+
     def suppress_log_output?(opts)
       return false if opts["reporter"].nil?
 
-      match = %w{json json-min json-rspec json-automate junit html yaml documentation progress} & opts["reporter"].keys
+      match = ALL_OF_OUR_REPORTERS & opts["reporter"].keys
+
       unless match.empty?
         match.each do |m|
           # check to see if we are outputting to stdout
           return true if opts["reporter"][m]["stdout"] == true
         end
       end
+
       false
     end
 

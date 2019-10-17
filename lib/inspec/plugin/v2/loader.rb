@@ -1,4 +1,5 @@
 require "inspec/log"
+require "inspec/version"
 require "inspec/plugin/v2/config_file"
 require "inspec/plugin/v2/filter"
 
@@ -123,7 +124,9 @@ module Inspec::Plugin::V2
       require "rbconfig"
       ruby_abi_version = RbConfig::CONFIG["ruby_version"]
       # TODO: why are we installing under the api directory for plugins?
-      File.join(Inspec.config_dir, "gems", ruby_abi_version)
+      base_dir = Inspec.config_dir
+      base_dir = File.realpath base_dir if File.exist? base_dir
+      File.join(base_dir, "gems", ruby_abi_version)
     end
 
     # Lists all gems found in the plugin_gem_path.
@@ -201,7 +204,7 @@ module Inspec::Plugin::V2
       status = registry[plugin_name]
       status.api_generation = 0
       act = Activator.new
-      act.activated?(true)
+      act.activated = true
       act.plugin_type = :cli_command
       act.plugin_name = plugin_name
       act.activator_name = :default
@@ -272,9 +275,22 @@ module Inspec::Plugin::V2
       end
     end
 
+    def find_inspec_gemspec(name, ver)
+      Gem::Specification.find_by_name(name, ver)
+    rescue Gem::MissingSpecError
+      nil
+    end
+
     def detect_system_plugins
       # Find the gemspec for inspec
-      inspec_gemspec = Gem::Specification.find_by_name("inspec", "=#{Inspec::VERSION}")
+      inspec_gemspec =
+        find_inspec_gemspec("inspec",      "=#{Inspec::VERSION}") ||
+        find_inspec_gemspec("inspec-core", "=#{Inspec::VERSION}")
+
+      unless inspec_gemspec
+        Inspec::Log.warn "inspec gem not found, skipping detecting of system plugins"
+        return
+      end
 
       # Make a RequestSet that represents the dependencies of inspec
       inspec_deps_request_set = Gem::RequestSet.new(*inspec_gemspec.dependencies)

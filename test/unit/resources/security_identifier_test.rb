@@ -40,7 +40,7 @@ describe "Inspec::Resources::SecurityIdentifier" do
   end
 
   it "raises ArgumentError for an unsupported type" do
-    err = proc { MockLoader.new(:windows).load_resource("security_identifier", { yooser: "Alice" }) }.must_raise ArgumentError
-    err.message.must_equal "Unsupported security_identifier options '[:yooser]'. Supported keys: #[supported_opt_keys]"
+    err = _ { MockLoader.new(:windows).load_resource("security_identifier", { yooser: "Alice" }) }.must_raise ArgumentError
+    _(err.message).must_equal "Unsupported security_identifier options '[:yooser]'. Supported keys: #[supported_opt_keys]"
   end
 end

@@ -30,6 +30,7 @@ pipelines:
      - LANG: "C.UTF-8"
      - SLOW: 1
      - NO_AWS: 1
+     - N: 5
  - coverage:
     description: Generate test coverage report
     public: true
@@ -111,11 +112,18 @@ merge_actions:
     ignore_labels:
      - "Changelog: Skip Update"
      - "Expeditor: Skip All"
+ - trigger_pipeline:omnibus/adhoc:
+    not_if: built_in:bump_version
+    ignore_labels:
+     - "Omnibus: Skip Build"
+     - "Expeditor: Skip All"
  - trigger_pipeline:omnibus/release:
+    only_if: built_in:bump_version
     ignore_labels:
      - "Omnibus: Skip Build"
      - "Expeditor: Skip All"
  - trigger_pipeline:habitat/build:
+    only_if: built_in:bump_version
     ignore_labels:
      - "Habitat: Skip Build"
      - "Expeditor: Skip All"
@@ -148,4 +156,11 @@ subscriptions:
     - built_in:notify_chefio_slack_channels
  - workload: pull_request_opened:{{agent_id}}:*
    actions:
-     - post_github_comment:.expeditor/templates/pull_request.mustache
+     - post_github_comment:.expeditor/templates/pull_request.mustache:
+         ignore_team_members:
+           - inspec/owners
+           - inspec/inspec-core-team
+     - built_in:github_auto_assign_author:
+         only_if_team_member:
+           - inspec/owners
+           - inspec/inspec-core-team

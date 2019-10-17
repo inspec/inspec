@@ -11,7 +11,7 @@ module Inspec::Resources
     def initialize(*opts)
       @params = {}
       if opts.length == 1
-        @raw_content = load_raw_content(opts)
+        @raw_content = load_raw_content(opts[0])
       else
         @raw_content = load_raw_content("/etc/postfix/main.cf")
       end
@@ -22,10 +22,14 @@ module Inspec::Resources
       SimpleConfig.new(content).params
     end
 
+    def to_s
+      "Postfix Mail Transfer Agent"
+    end
+
     private
 
     def resource_base_name
-      "POSTFIX_CONF"
+      "Postfix Config"
     end
   end
 end

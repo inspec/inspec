@@ -12,7 +12,7 @@ describe Inspec::Reporters::Yaml do
     it "confirm render output" do
       output = File.read(path + "/../mock/reporters/yaml_output")
       report.render
-      report.rendered_output.must_equal output
+      _(report.rendered_output).must_equal output
     end
   end
 end

@@ -1,28 +1,94 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.16.1 -->
-## [v4.16.1](https://github.com/inspec/inspec/tree/v4.16.1) (2019-08-30)
-
-#### Bug Fixes
-- Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider))
+<!-- latest_release 4.17.26 -->
+## [v4.17.26](https://github.com/inspec/inspec/tree/v4.17.26) (2019-10-04)
 
 #### Merged Pull Requests
-- Use new logo branding [#4433](https://github.com/inspec/inspec/pull/4433) ([btm](https://github.com/btm))
-- Deprecate macOS 10.12 and add macOS 10.15 support [#4421](https://github.com/inspec/inspec/pull/4421) ([jaymalasinha](https://github.com/jaymalasinha))
-- Let expeditor respond to pull requests. [#4430](https://github.com/inspec/inspec/pull/4430) ([miah](https://github.com/miah))
+- User windows fix [#4452](https://github.com/inspec/inspec/pull/4452) ([mhackethal](https://github.com/mhackethal))
 <!-- latest_release -->
 
-<!-- release_rollup since=4.16.0 -->
-### Changes since 4.16.0 release
+<!-- release_rollup since=4.17.17 -->
+### Changes since 4.17.17 release
 
 #### Bug Fixes
-- Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider)) <!-- 4.16.1 -->
+- Fix problem in method_missing in rspec extensions when backend unavailable. [#4565](https://github.com/inspec/inspec/pull/4565) ([zenspider](https://github.com/zenspider)) <!-- 4.17.23 -->
 
 #### Merged Pull Requests
-- Use new logo branding [#4433](https://github.com/inspec/inspec/pull/4433) ([btm](https://github.com/btm)) <!-- 4.16.0 -->
+- User windows fix [#4452](https://github.com/inspec/inspec/pull/4452) ([mhackethal](https://github.com/mhackethal)) <!-- 4.17.26 -->
+- Don&#39;t use #at when you can use #[] for array (or hash) access. [#4556](https://github.com/inspec/inspec/pull/4556) ([zenspider](https://github.com/zenspider)) <!-- 4.17.25 -->
+- Remove unused polyfill.rb file adding to_h to Struct [#4553](https://github.com/inspec/inspec/pull/4553) ([miah](https://github.com/miah)) <!-- 4.17.24 -->
+- Add name property to interface resource [#4558](https://github.com/inspec/inspec/pull/4558) ([miah](https://github.com/miah)) <!-- 4.17.22 -->
+- Missing require for EnvPrinter means `inspec env` stacktraced. [#4554](https://github.com/inspec/inspec/pull/4554) ([miah](https://github.com/miah)) <!-- 4.17.21 -->
+- Fixed apt resource incorrectly parsing deb files w/ quoted URIs. [#4560](https://github.com/inspec/inspec/pull/4560) ([zenspider](https://github.com/zenspider)) <!-- 4.17.20 -->
+- First pass at cleaning deprecations for old minitest/spec-style tests. [#4563](https://github.com/inspec/inspec/pull/4563) ([zenspider](https://github.com/zenspider)) <!-- 4.17.19 -->
+- Fixed tests to work with rspec-expectations 3.8.5+. [#4557](https://github.com/inspec/inspec/pull/4557) ([zenspider](https://github.com/zenspider)) <!-- 4.17.18 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.17.17](https://github.com/inspec/inspec/tree/v4.17.17) (2019-10-03)
+
+#### Merged Pull Requests
+- Added method_missing to Inspec::DescribeBase (used by describe.one) to fix resource loading [#4549](https://github.com/inspec/inspec/pull/4549) ([zenspider](https://github.com/zenspider))
+- Add no-op resource and switch Rule to use it for skipped resources. [#4550](https://github.com/inspec/inspec/pull/4550) ([zenspider](https://github.com/zenspider))
+<!-- latest_stable_release -->
+
+## [v4.17.15](https://github.com/inspec/inspec/tree/v4.17.15) (2019-10-01)
+
+#### Merged Pull Requests
+- Pass access token [#4544](https://github.com/inspec/inspec/pull/4544) ([miah](https://github.com/miah))
+- Fix config clearing [#4483](https://github.com/inspec/inspec/pull/4483) ([frezbo](https://github.com/frezbo))
+
+## [v4.17.14](https://github.com/inspec/inspec/tree/v4.17.14) (2019-09-30)
+
+#### Bug Fixes
+- Add resource stub for sshd_config [#4538](https://github.com/inspec/inspec/pull/4538) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add missing resource stubs for &#39;group&#39; resource [#4537](https://github.com/inspec/inspec/pull/4537) ([baurmatt](https://github.com/baurmatt))
+
+#### Merged Pull Requests
+- Yet another bump of our skip_windows! due date. [#4540](https://github.com/inspec/inspec/pull/4540) ([zenspider](https://github.com/zenspider))
+
+## [v4.17.11](https://github.com/inspec/inspec/tree/v4.17.11) (2019-09-28)
+
+#### Merged Pull Requests
+- Remove maintainers task from require [#4531](https://github.com/inspec/inspec/pull/4531) ([miah](https://github.com/miah))
+- Add resource stubs so the resource loader will find all resources [#4526](https://github.com/inspec/inspec/pull/4526) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fixed inspec lazy resource loader for rspec test dsl (eg before/after) [#4534](https://github.com/inspec/inspec/pull/4534) ([zenspider](https://github.com/zenspider))
+- fix Gemfile for inspec-core-bin gem [#4535](https://github.com/inspec/inspec/pull/4535) ([lamont-granquist](https://github.com/lamont-granquist))
+
+## [v4.17.7](https://github.com/inspec/inspec/tree/v4.17.7) (2019-09-27)
+
+#### Bug Fixes
+- Fixed file resource raising UndefinedMethod on source_path [#4214](https://github.com/inspec/inspec/pull/4214) ([zenspider](https://github.com/zenspider))
+-    Fix broken unit test by adding require [#4469](https://github.com/inspec/inspec/pull/4469) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add to_s definitions to several resources [#4478](https://github.com/inspec/inspec/pull/4478) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Resolve issue where the Inspec::Tag to_ruby method outputs invalid Ruby [#4434](https://github.com/inspec/inspec/pull/4434) ([irvingpop](https://github.com/irvingpop))
+- Use File.realpath in Loader#plugin_gem_path to resolve all symlinks. [#4476](https://github.com/inspec/inspec/pull/4476) ([zenspider](https://github.com/zenspider))
+
+#### Merged Pull Requests
+- Use new logo branding [#4433](https://github.com/inspec/inspec/pull/4433) ([btm](https://github.com/btm))
+- update LCR Roadtrip announcement to 13 cities [#4440](https://github.com/inspec/inspec/pull/4440) ([shaunyap](https://github.com/shaunyap))
+- Extended skip_windows to the end of September. [#4441](https://github.com/inspec/inspec/pull/4441) ([zenspider](https://github.com/zenspider))
+- Fixed the formatting of `inspec exec -h` by not using long_desc. [#4436](https://github.com/inspec/inspec/pull/4436) ([zenspider](https://github.com/zenspider))
+- Guard against nil in apt repo parser. [#4435](https://github.com/inspec/inspec/pull/4435) ([zenspider](https://github.com/zenspider))
+- Clean up our use of SecureRandom in Rakefile. [#4447](https://github.com/inspec/inspec/pull/4447) ([zenspider](https://github.com/zenspider))
+- Rework activator plugin to be more idiomatic. [#4446](https://github.com/inspec/inspec/pull/4446) ([zenspider](https://github.com/zenspider))
+- Fix for postfix_conf when using a non-standard config location [#4443](https://github.com/inspec/inspec/pull/4443) ([ramereth](https://github.com/ramereth))
+- Try to decode archive contents to UTF-8 to avoid encoding corruption. [#4451](https://github.com/inspec/inspec/pull/4451) ([zenspider](https://github.com/zenspider))
+- Make inspec much faster for most commands. [#4365](https://github.com/inspec/inspec/pull/4365) ([zenspider](https://github.com/zenspider))
+- waivers: functional test fixture and eval-time skipping [#4427](https://github.com/inspec/inspec/pull/4427) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Rough draft on waiver input [#4437](https://github.com/inspec/inspec/pull/4437) ([zenspider](https://github.com/zenspider))
+- json resource: Add handling for `command:` error [#3844](https://github.com/inspec/inspec/pull/3844) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Update rubygems and use gem env for system details. [#4475](https://github.com/inspec/inspec/pull/4475) ([zenspider](https://github.com/zenspider))
+- Fix simple typo: becuase -&gt; because [#4484](https://github.com/inspec/inspec/pull/4484) ([timgates42](https://github.com/timgates42))
+- Added test:isolate task that runs tests isolated but in parallel. [#4480](https://github.com/inspec/inspec/pull/4480) ([zenspider](https://github.com/zenspider))
+- Split out Inspec::Input functional code from the code generation code. [#4485](https://github.com/inspec/inspec/pull/4485) ([zenspider](https://github.com/zenspider))
+- Expand sys_info resource functionality [#4388](https://github.com/inspec/inspec/pull/4388) ([Vancelot11](https://github.com/Vancelot11))
+- Waivers Phase 3 [#4493](https://github.com/inspec/inspec/pull/4493) ([miah](https://github.com/miah))
+- Fixed MssqlSession.query not escaping double quote correctly [#4393](https://github.com/inspec/inspec/pull/4393) ([dalee-bis](https://github.com/dalee-bis))
+- Split and parallelize some tests to make them faster [#4490](https://github.com/inspec/inspec/pull/4490) ([zenspider](https://github.com/zenspider))
+- Fixed Inspec::Plugin::V2::Registry#detect_system_plugins [#4513](https://github.com/inspec/inspec/pull/4513) ([zenspider](https://github.com/zenspider))
+- Added first draft of waiver doco. [#4518](https://github.com/inspec/inspec/pull/4518) ([zenspider](https://github.com/zenspider))
+
 ## [v4.16.0](https://github.com/inspec/inspec/tree/v4.16.0) (2019-08-29)
 
 #### New Resources
@@ -46,7 +112,6 @@
 - Remove inspec-vault from the plugin exclusion list [#4411](https://github.com/inspec/inspec/pull/4411) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Let expeditor respond to pull requests. [#4430](https://github.com/inspec/inspec/pull/4430) ([miah](https://github.com/miah))
 - Deprecate macOS 10.12 and add macOS 10.15 support [#4421](https://github.com/inspec/inspec/pull/4421) ([jaymalasinha](https://github.com/jaymalasinha))
-<!-- latest_stable_release -->
 
 ## [v4.12.0](https://github.com/inspec/inspec/tree/v4.12.0) (2019-08-15)
 

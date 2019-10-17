@@ -14,7 +14,7 @@ describe Inspec::Reporters::Base do
       report.output "test"
       report.output ""
       assert = report.instance_variable_get(:@output)
-      assert.must_equal "\ntest\n\n"
+      _(assert).must_equal "\ntest\n\n"
     end
   end
 end

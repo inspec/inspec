@@ -9,6 +9,6 @@ describe Inspec::SourceReader do
   end
 
   it "only supports Fetchers" do
-    proc { reg.resolve("not supported") }.must_raise StandardError
+    _(proc { reg.resolve("not supported") }).must_raise StandardError
   end
 end

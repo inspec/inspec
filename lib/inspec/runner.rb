@@ -9,7 +9,6 @@ require "inspec/metadata"
 require "inspec/config"
 require "inspec/dependencies/cache"
 require "inspec/dist"
-require "inspec/resources"
 require "inspec/reporters"
 require "inspec/runner_rspec"
 # spec requirements
@@ -55,6 +54,12 @@ module Inspec
 
       @test_collector = @conf.delete(:test_collector) || begin
         RunnerRspec.new(@conf)
+      end
+
+      if @conf[:waiver_file]
+        waivers = @conf.delete(:waiver_file)
+        @conf[:input_file] ||= []
+        @conf[:input_file].concat waivers
       end
 
       # About reading inputs:

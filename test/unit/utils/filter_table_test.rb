@@ -22,39 +22,39 @@ describe FilterTable do
   let(:instance) { resource.new(data) }
 
   it "has a create utility which creates a filter factory" do
-    factory.must_be_kind_of FilterTable::Factory
+    _(factory).must_be_kind_of FilterTable::Factory
   end
 
   it "supports empty arrays" do
     factory.add_accessor(:where).add(:baz).connect(resource, :data)
-    resource.new([]).where { false }.params.must_equal []
+    _(resource.new([]).where { false }.params).must_equal []
   end
 
   it "supports nil arrays" do
     factory.add_accessor(:where).add(:baz).connect(resource, :data)
-    resource.new(nil).where { false }.params.must_equal []
+    _(resource.new(nil).where { false }.params).must_equal []
   end
 
   it "retrieves the resource from all entries" do
     factory.add_accessor(:where)
       .add(:baz?) { |x| x.resource } # rubocop: disable Style/SymbolProc
       .connect(resource, :data)
-    instance.baz?.must_equal instance
+    _(instance.baz?).must_equal instance
   end
 
   describe "when calling add_accessor" do
     it "is chainable" do
-      factory.add_accessor(:sth).must_equal factory
+      _(factory.add_accessor(:sth)).must_equal factory
     end
 
     it "wont add nil" do
-      proc { factory.add_accessor(nil) }.must_throw RuntimeError
+      _(proc { factory.add_accessor(nil) }).must_throw RuntimeError
     end
 
     it "can expose the where method" do
       factory.add_accessor(:where).connect(resource, :data)
       _(instance.respond_to?(:where)).must_equal true
-      instance.where({ baz: "yay" }).params.must_equal [data[0]]
+      _(instance.where({ baz: "yay" }).params).must_equal [data[0]]
     end
 
     it "will delegate even non-existing methods" do
@@ -65,29 +65,29 @@ describe FilterTable do
 
   describe "when calling add" do
     it "is chainable" do
-      factory.add(:sth).must_equal factory
+      _(factory.add(:sth)).must_equal factory
     end
 
     it "wont add nil" do
-      proc { factory.add(nil) }.must_throw RuntimeError
+      _(proc { factory.add(nil) }).must_throw RuntimeError
     end
 
     it "can expose a data column" do
       factory.add(:baz).connect(resource, :data)
-      instance.baz(123).must_be_kind_of(FilterTable::Table)
+      _(instance.baz(123)).must_be_kind_of(FilterTable::Table)
     end
 
     it "retrieves all entries" do
       factory.add(:foo).connect(resource, :data)
-      instance.foo.must_equal([3, 2, 2])
+      _(instance.foo).must_equal([3, 2, 2])
     end
 
     it "retrieves entries with simple style" do
       factory.add(:foo, style: :simple)
         .add(:num, style: :simple)
         .connect(resource, :data)
-      instance.foo.must_equal([3, 2])
-      instance.num.must_equal([1, 2])
+      _(instance.foo).must_equal([3, 2])
+      _(instance.num).must_equal([1, 2])
     end
   end
 
@@ -97,20 +97,20 @@ describe FilterTable do
     let(:entry) { instance.baz("yay").entries }
 
     it "retrieves all entries with this field" do
-      entries.length.must_equal 3
-      entry.length.must_equal 1
+      _(entries.length).must_equal 3
+      _(entry.length).must_equal 1
     end
 
     it "retrieves all entries with this field" do
-      entry[0].must_be_kind_of(Struct)
+      _(entry[0]).must_be_kind_of(Struct)
     end
 
     it "retrieves all entries with this field" do
-      entry[0].baz.must_equal "yay"
+      _(entry[0].baz).must_equal "yay"
     end
 
     it "prints nicely" do
-      entry[0].to_s.must_match(/ with baz == "yay" one entry/)
+      _(entry[0].to_s).must_match(/ with baz == "yay" one entry/)
     end
   end
 
@@ -118,15 +118,15 @@ describe FilterTable do
     before { factory.add(:num).connect(resource, :data) }
 
     it "filter by nil" do
-      instance.num(nil).params.must_equal [data[0]]
+      _(instance.num(nil).params).must_equal [data[0]]
     end
 
     it "filter by existing numbers" do
-      instance.num(1).params.must_equal [data[1]]
+      _(instance.num(1).params).must_equal [data[1]]
     end
 
     it "filter by missing number" do
-      instance.num(-1).params.must_equal []
+      _(instance.num(-1).params).must_equal []
     end
   end
 
@@ -134,11 +134,11 @@ describe FilterTable do
     before { factory.add(:snum).connect(resource, :data) }
 
     it "retrieves the number 0" do
-      instance.snum(0).params.must_equal [data[0]]
+      _(instance.snum(0).params).must_equal [data[0]]
     end
 
     it "retrieves the number 1" do
-      instance.snum(1).params.must_equal []
+      _(instance.snum(1).params).must_equal []
     end
   end
 
@@ -146,11 +146,11 @@ describe FilterTable do
     before { factory.add(:snum).connect(resource, :data) }
 
     it "retrieves the float 0.0" do
-      instance.snum(0.0).params.must_equal [data[0]]
+      _(instance.snum(0.0).params).must_equal [data[0]]
     end
 
     it "retrieves the float 1.0" do
-      instance.snum(1.0).params.must_equal [data[2]]
+      _(instance.snum(1.0).params).must_equal [data[2]]
     end
   end
 
@@ -158,7 +158,7 @@ describe FilterTable do
     before { factory.add(:baz).connect(resource, :data) }
 
     it "retrieves the number 0" do
-      instance.baz(/ever$/).params.must_equal [data[2]]
+      _(instance.baz(/ever$/).params).must_equal [data[2]]
     end
   end
 
@@ -166,19 +166,19 @@ describe FilterTable do
     before { factory.add(:baz).connect(resource, :data) }
 
     it "filter by existing strings" do
-      instance.baz("yay").params.must_equal [data[0]]
+      _(instance.baz("yay").params).must_equal [data[0]]
     end
 
     it "filter by missing string" do
-      instance.baz("num").params.must_equal []
+      _(instance.baz("num").params).must_equal []
     end
 
     it "filter by existing regex" do
-      instance.baz(/A/i).params.must_equal [data[0], data[2]]
+      _(instance.baz(/A/i).params).must_equal [data[0], data[2]]
     end
 
     it "filter by missing regex" do
-      instance.baz(/zzz/).params.must_equal []
+      _(instance.baz(/zzz/).params).must_equal []
     end
   end
 end

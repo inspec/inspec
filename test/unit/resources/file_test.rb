@@ -34,8 +34,8 @@ describe Inspec::Resources::FileResource do
     _(resource.suid).must_equal true
     _(resource.sgid).must_equal true
     _(resource.sticky).must_equal true
-    proc { resource.send(:more_permissive_than?, nil) }.must_raise(ArgumentError)
-    proc { resource.send(:more_permissive_than?, 0700) }.must_raise(ArgumentError)
+    _(proc { resource.send(:more_permissive_than?, nil) }).must_raise(ArgumentError)
+    _(proc { resource.send(:more_permissive_than?, 0700) }).must_raise(ArgumentError)
   end
 
   it "responds on Windows" do
@@ -62,16 +62,16 @@ describe Inspec::Resources::FileResource do
   it "does not support Windows-style ACL on Ubuntu" do
     resource = MockLoader.new(:ubuntu1404).load_resource("file", "/fakepath/fakefile")
     resource.stubs(:exist?).returns(true)
-    proc { resource.send("allowed?", "full-control", { by: "by_usergroup", by_user: "by_specific_user" }) }.must_raise(RuntimeError)
-    proc { resource.send("allowed?", "modify", { by: "by_usergroup", by_user: "by_specific_user" }) }.must_raise(RuntimeError)
+    _(proc { resource.send("allowed?", "full-control", { by: "by_usergroup", by_user: "by_specific_user" }) }).must_raise(RuntimeError)
+    _(proc { resource.send("allowed?", "modify", { by: "by_usergroup", by_user: "by_specific_user" }) }).must_raise(RuntimeError)
   end
 
   it "does not support check by mask on Windows" do
     resource = MockLoader.new(:windows).load_resource("file", "C:/fakepath/fakefile")
     resource.stubs(:exist?).returns(true)
-    proc { resource.send("readable?", "by_usergroup", nil) }.must_raise(RuntimeError)
-    proc { resource.send("writable?", "by_usergroup", nil) }.must_raise(RuntimeError)
-    proc { resource.send("executable?", "by_usergroup", nil) }.must_raise(RuntimeError)
+    _(proc { resource.send("readable?", "by_usergroup", nil) }).must_raise(RuntimeError)
+    _(proc { resource.send("writable?", "by_usergroup", nil) }).must_raise(RuntimeError)
+    _(proc { resource.send("executable?", "by_usergroup", nil) }).must_raise(RuntimeError)
   end
 
   it "responds with errors on unsupported OS" do
@@ -82,7 +82,7 @@ describe Inspec::Resources::FileResource do
     _(resource.writable?("by_usergroup", "by_specific_user")).must_equal "`writable?` is not supported on your OS yet."
     _(resource.executable?("by_usergroup", "by_specific_user")).must_equal "`executable?` is not supported on your OS yet."
     _(resource.allowed?("permission", by: "by_usergroup", by_user: "by_specific_user")).must_equal "`allowed?` is not supported on your OS yet."
-    proc { resource.send(:contain, nil) }.must_raise(RuntimeError)
+    _(proc { resource.send(:contain, nil) }).must_raise(RuntimeError)
   end
 end
 
@@ -102,6 +102,6 @@ describe Inspec::Resources::FileResource do
     _(resource).wont_be :more_permissive_than?, "644", perms
     _(resource).must_be :more_permissive_than?, "640", perms
 
-    proc { resource.send(:more_permissive_than?, "0888") }.must_raise(ArgumentError)
+    _(proc { resource.send(:more_permissive_than?, "0888") }).must_raise(ArgumentError)
   end
 end

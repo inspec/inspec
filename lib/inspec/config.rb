@@ -135,6 +135,11 @@ module Inspec
       Thor::CoreExt::HashWithIndifferentAccess.new(@plugin_cfg[plugin_name] || {})
     end
 
+    # clear the cached config
+    def self.__reset
+      @cached_config = nil
+    end
+
     private
 
     def _utc_merge_transport_options(credentials, transport_name)
@@ -203,8 +208,7 @@ module Inspec
 
     def _utc_find_credset_name(_credentials, transport_name)
       return nil unless final_options[:target]
-
-      match = final_options[:target].match(%r{^#{transport_name}://(?<credset_name>[\w\d\-]+)$})
+      match = final_options[:target].match(%r{^#{transport_name}://(?<credset_name>[\w\-]+)$})
       match ? match[:credset_name] : nil
     end
 
@@ -221,8 +225,8 @@ module Inspec
 
       path = determine_cfg_path(cli_opts)
 
-      cfg_io = File.open(path) if path
-      cfg_io || StringIO.new('{ "version": "1.1" }')
+      ver = KNOWN_VERSIONS.max
+      path ? File.open(path) : StringIO.new({ "version" => ver }.to_json)
     end
 
     def check_for_piped_config(cli_opts)
