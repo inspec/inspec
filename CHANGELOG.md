@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.2 -->
-## [v4.18.2](https://github.com/inspec/inspec/tree/v4.18.2) (2019-10-15)
+<!-- latest_release 4.18.3 -->
+## [v4.18.3](https://github.com/inspec/inspec/tree/v4.18.3) (2019-10-17)
 
 #### Merged Pull Requests
-- Telemetry: add chef-core [#4569](https://github.com/inspec/inspec/pull/4569) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Goodbye Gordon! [#4577](https://github.com/inspec/inspec/pull/4577) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.0 -->
 ### Changes since 4.18.0 release
 
 #### Merged Pull Requests
+- Goodbye Gordon! [#4577](https://github.com/inspec/inspec/pull/4577) ([miah](https://github.com/miah)) <!-- 4.18.3 -->
 - Telemetry: add chef-core [#4569](https://github.com/inspec/inspec/pull/4569) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.2 -->
 
 #### Bug Fixes
