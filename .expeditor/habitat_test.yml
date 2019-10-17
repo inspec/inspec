@@ -1,0 +1,21 @@
+---
+steps:
+
+- label: ":linux: Validate Habitat Builds of Chef Infra"
+  commands:
+    - /workdir/.expeditor/buildkite/habitat_test.sh
+  expeditor:
+    executor:
+      linux:
+        privileged: true
+        single-use: true
+
+- label: ":windows: Validate Habitat Builds of Chef Infra"
+  commands:
+    - /workdir/.expeditor/buildkite/habitat_test.ps1
+  expeditor:
+    executor:
+      windows:
+        os-version: 2016
+        privileged: true
+        single-use: true
