@@ -1,7 +1,7 @@
 ---
 steps:
 
-- label: ":linux: Validate Habitat Builds of Chef Infra"
+- label: ":linux: Validate Habitat Builds of Chef InSpec"
   commands:
     - /workdir/.expeditor/buildkite/habitat_test.sh
   expeditor:
@@ -10,7 +10,7 @@ steps:
         privileged: true
         single-use: true
 
-- label: ":windows: Validate Habitat Builds of Chef Infra"
+- label: ":windows: Validate Habitat Builds of Chef InSpec"
   commands:
     - /workdir/.expeditor/buildkite/habitat_test.ps1
   expeditor:
