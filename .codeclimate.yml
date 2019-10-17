@@ -26,3 +26,5 @@ plugins:
     enabled: true
 exclude_patterns:
   - "www/source/javascripts/"
+  - "examples/"
+  - "test/unit/mock/profiles/"
