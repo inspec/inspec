@@ -89,6 +89,7 @@ namespace :test do
   # rubocop:disable Style/BlockDelimiters,Layout/ExtraSpacing,Lint/AssignmentInCondition
 
   def n_threads_run(n_workers, jobs)
+    require "thread"
     queue = Queue.new
 
     jobs.each do |job|
@@ -157,21 +158,19 @@ namespace :test do
 
   task :isolated do
     require "fileutils"
-    require "thread"
 
     # Only needed for local runs, not CI?
     FileUtils.rm_rf File.expand_path "~/.inspec"
     FileUtils.rm_rf File.expand_path "~/.chef"
 
     # 3 seems to be the magic number... (tho not by that much)
-    bad, good, n = {}, [], (ENV.delete("N") || 3).to_i
+    bad, good, n = {}, [], (ENV.delete("K") || 3).to_i
     t0 = Time.now
 
-    srand 42
     tests = Dir[*GLOBS].sort
 
     n_threads_run n, tests do |path|
-      output = `bundle exec ruby -Ilib:test #{path} 2>&1`
+      output = `bundle exec ruby -Ilib -Itest #{path} 2>&1`
 
       if $?.success?
         $stderr.print "."
