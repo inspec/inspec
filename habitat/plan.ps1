@@ -1,17 +1,17 @@
 $pkg_name="inspec"
-$pkg_origin="miah"
-$pkg_version=$(cat "$PLAN_CONTEXT/../VERSION")
+$pkg_origin="chef"
+$pkg_version=$(Get-Content "$PLAN_CONTEXT/../VERSION")
 $pkg_revision="1"
 $pkg_description="InSpec is an open-source testing framework for infrastructure
   with a human- and machine-readable language for specifying compliance,
   security and policy requirements."
 $pkg_upstream_url="https://www.inspec.io/"
-$pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
+$pkg_maintainer="The Chef Maintainers <humans@chef.io>"
 $pkg_license=('Apache-2.0')
 
 $pkg_deps=@(
   "core/cacerts"
-  "robbkidd/ruby-plus-devkit/2.6.3"
+  "robbkidd/ruby-plus-devkit"
 )
 $pkg_bin_dirs=@("bin"
                 "vendor/bin")
@@ -63,18 +63,9 @@ function Invoke-Install {
     }
 }
 
-function Invoke-Check {
-    Push-Location $project_root/test/artifact
-    rake
-    Pop-Location
-}
-
 function Invoke-After {
-    # Trim the fat before packaging
-
     # We don't need the cache of downloaded .gem files ...
     Remove-Item $pkg_prefix/vendor/cache -Recurse -Force
-
     # We don't need the gem docs.
     Remove-Item $pkg_prefix/vendor/doc -Recurse -Force
     # We don't need to ship the test suites for every gem dependency,
@@ -83,6 +74,7 @@ function Invoke-After {
         | Where-Object -FilterScript { $_.FullName -notlike "*inspec*" }             `
         | Remove-Item -Recurse -Force
 }
+
 function Remove-StudioPathFrom {
     Param(
         [Parameter(Mandatory=$true)]
