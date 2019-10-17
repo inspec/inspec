@@ -137,8 +137,6 @@ describe "inspec exec with json formatter" do
       _(ex3["impact"]).must_equal 0.9
     end
 
-    make_my_diffs_pretty!
-
     it "has all the metadata" do
       actual = profile.dup
       key = actual.delete("controls")
