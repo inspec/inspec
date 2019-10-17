@@ -156,6 +156,51 @@ namespace :test do
   end
   task parallel: [:accept_license] # given isolated being green, why is this needed?
 
+  task :knapsack do
+    require "json"
+
+    n    = (ENV["K"] || 4).to_i
+    t0   = Time.now
+    lock = Mutex.new
+    path = "knapsack_minitest_report.json"
+    data = JSON.load File.read path
+    jobs = data.bin_by_values(n)
+    out  = Queue.new
+
+    n_threads_run n, jobs do |job|
+      lock.synchronize do
+        warn "Running #{job.size} files in a thread"
+      end
+
+      t1 = Time.now
+      output = `bundle exec minitest #{job.join " "} 2>&1`
+      t2 = Time.now - t1
+
+      lock.synchronize do
+        if $?.success?
+          warn "Finished #{job.size} files successfully in %d seconds" % [t2]
+        else
+          passed = false
+          warn "Finished #{job.size} files with failures in %d seconds" % [t2]
+        end
+      end
+
+      out << output
+    end
+
+    puts "done"
+    puts
+
+    out.length.times do
+      puts out.shift
+      puts
+    end
+
+    puts "Ran in %d seconds" % [ Time.now - t0 ]
+
+    exit 1 unless passed
+  end
+
   task :isolated do
     require "fileutils"
 
@@ -522,4 +567,27 @@ task :release_docker do
         "docker push chef/inspec:latest"
   puts "--> #{cmd}"
   sh("sh", "-c", cmd)
+end
+
+class Hash
+  ##
+  # Bin a hash's keys into +n+ sub-collections that are subdivided as
+  # close to the same as possible via the values of the hash.
+  #
+  # { key => num, ... } => [[key, ...], ...]
+
+  def bin_by_values(n)
+    bins = Array.new(n) { [0] } # [ [ sum, key...], ...]
+
+    # rubocop:disable Layout/SpaceAroundOperators
+
+    sort_by { |k, v| [-v, k] }.each do |k, v|
+      smallest = bins.first  # always first
+      smallest[0] += v       # add to sum
+      smallest    << k       # add to collection
+      bins.sort_by!(&:first) # re-sort
+    end
+
+    bins.map { |a| a.drop 1 }
+  end
 end
