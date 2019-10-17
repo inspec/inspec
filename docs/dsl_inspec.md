@@ -340,10 +340,10 @@ $ inspec shell
 Welcome to the interactive InSpec Shell
 To find out how to use it, type: help
 
-inspec> command('ls /home/gordon/git/inspec/docs').stdout
-=> "ctl_inspec.rst\ndsl_inspec.rst\ndsl_resource.rst\n"
-inspec> command('ls').stdout.split("\n")
-=> ["ctl_inspec.rst", "dsl_inspec.rst", "dsl_resource.rst"]
+inspec> command('ls ~/projects/github/inspec/docs').stdout
+=> "README.md\nconfig.md\ndev\ndsl_inspec.md\ndsl_resource.md\nglossary.md\nhabitat.md\ninputs.md\ninspec_and_friends.md\nmatchers.md\nmigration.md\nplatforms.md\nplugin_kitchen_inspec.md\nplugins.md\nprofiles.md\nreporters.md\nresources\nshared\nshell.md\nstyle.md\nwaivers.md\n"
+inspec> command('ls ~/projects/github/inspec/docs').stdout.split("\n").first
+=> "README.md"
 
 inspec> help command
 Name: command

@@ -4,7 +4,7 @@
 include_controls 'profile' do
   skip_control 'tmp-1.0'
 
-  control 'gordon-1.0' do
+  control 'example-1.0' do
     impact 0.0
   end
 end

@@ -48,9 +48,9 @@ $ inspec shell -t docker://container_id # Login to a Docker container.
 Use resource packs to share custom resources with other Chef InSpec users.
 A resource pack is an Chef InSpec profile that contains only custom resources and no other controls or tests.
 
-For example, the profile in [`examples/profile`](https://github.com/chef/inspec/tree/master/examples/profile)in the Chef InSpec git repo defines a [`gordon_config` resource](https://github.com/chef/inspec/blob/master/examples/profile/controls/gordon.rb). To use these resources within the Chef InSpec shell, you will need to download and specify them as a dependency.
+For example, the profile in [`examples/profile`](https://github.com/chef/inspec/tree/master/examples/profile)in the Chef InSpec git repo defines a [`example_config` resource](https://github.com/chef/inspec/blob/master/examples/profile/controls/example.rb). To use these resources within the Chef InSpec shell, you will need to download and specify them as a dependency.
 
-Once you have local access to the profile, you can use the `gordon_config` custom resource provided in the `examples/profile` GitHub repo in your local environment :
+Once you have local access to the profile, you can use the `example_config` custom resource provided in the `examples/profile` GitHub repo in your local environment :
 
 ```bash
 inspec shell --depends examples/profile
@@ -59,7 +59,7 @@ inspec shell --depends examples/profile
 Once inside the shell your resource will be available:
 
 ```ruby
-inspec> gordon_config
+inspec> example_config
 ```
 
 ## Using Ruby in Chef InSpec shell

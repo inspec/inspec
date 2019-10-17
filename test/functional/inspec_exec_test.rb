@@ -38,8 +38,8 @@ describe "inspec exec" do
 
     _(stdout).must_include "\e[38;5;41m  ✔  tmp-1.0: Create /tmp directory\e[0m\n"
     _(stdout).must_include "
-\e[38;5;247m  ↺  gordon-1.0: Verify the version number of Gordon (1 skipped)\e[0m
-\e[38;5;247m     ↺  Can't find file `/tmp/gordon/config.yaml`\e[0m
+\e[38;5;247m  ↺  example-1.0: Verify the version number of Example (1 skipped)\e[0m
+\e[38;5;247m     ↺  Can't find file `/tmp/example/config.yaml`\e[0m
 "
     if is_windows?
       _(stdout).must_include "\e[38;5;247m  ↺  ssh-1: Allow only SSH Protocol 2\e[0m\n"
@@ -341,7 +341,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec("exec " + example_control + " --no-create-lockfile") }
 
     it "prints the control results, then the anonymous describe block results" do
-      _(stdout).must_match(/Profile: tests from .*test.unit.mock.profiles.old-examples.profile.controls.example.rb/)
+      _(stdout).must_match(/Profile: tests from .*test.unit.mock.profiles.old-examples.profile.controls.example-tmp.rb/)
       _(stdout).must_include "
 Version: (not specified)
 Target:  local://

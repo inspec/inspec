@@ -1,23 +1,35 @@
-# copyright: 2015, Chef Software, Inc.
+# copyright: 2016, Chef Software, Inc.
 
-title '/tmp profile'
+title 'Example Config Checks'
 
-# you add controls here
-control 'tmp-1.0' do                                   # A unique ID for this control
-  impact 0.7                                           # The criticality, if this control fails.
-  title 'Create /tmp directory'                        # A human-readable title
-  desc 'An optional description...'                    # Describe why this is needed
-  desc 'label', 'An optional description with a label' # Pair a part of the description with a label
-  tag data: 'temp data'                                # A tag allows you to associate key information
-  tag 'security'                                       # to the test
-  ref 'Document A-12', url: 'http://...'               # Additional references
+# To pass the test, create the following file
+# ```bash
+# mkdir -p /tmp/example
+# cat <<EOF > /tmp/example/config.yaml
+# version: '1.0'
+# EOF
+# ```
+control 'example-1.0' do
+  impact 'critical'
+  title 'Verify the version number of Example'
+  desc 'An optional description...'
+  tag 'example'
+  ref 'Example Requirements 1.0', uri: 'http://...'
 
-  describe file('/tmp') do                             # The actual test
-    it { should be_directory }
+  # Test using the custom example_config InSpec resource
+  # Find the resource content here: ../libraries/
+  describe example_config do
+    it { should exist }
+    its('version') { should eq('1.0') }
+    its('file_size') { should <= 20 }
+    its('comma_count') { should eq 0 }
   end
-end
 
-# you can also use plain tests
-describe file('/tmp') do
-  it { should be_directory }
+  # Test the version again to showcase variables
+  g = example_config
+  g_path = g.file_path
+  g_version = g.version
+  describe file(g_path) do
+    its('content') { should match g_version }
+  end
 end

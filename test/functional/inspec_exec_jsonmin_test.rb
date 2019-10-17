@@ -47,7 +47,7 @@ describe "inspec exec" do
     let(:controls) { json["controls"] }
     let(:ex1) { controls.find { |x| x["id"] == "tmp-1.0" } }
     let(:ex2) { controls.find { |x| x["id"] =~ /generated/ } }
-    let(:ex3) { controls.find { |x| x["id"] == "gordon-1.0" } }
+    let(:ex3) { controls.find { |x| x["id"] == "example-1.0" } }
 
     it "must have 5 examples" do
       _(json["controls"].length).must_equal 5
@@ -74,7 +74,7 @@ describe "inspec exec" do
 
     it "has a skip_message" do
       _(ex1["skip_message"]).must_be :nil?
-      _(ex3["skip_message"]).must_equal "Can't find file `/tmp/gordon/config.yaml`"
+      _(ex3["skip_message"]).must_equal "Can't find file `/tmp/example/config.yaml`"
     end
   end
 

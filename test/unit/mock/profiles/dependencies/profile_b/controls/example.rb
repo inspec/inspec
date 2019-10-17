@@ -14,7 +14,7 @@ control 'profileb-1' do                        # A unique ID for this control
 end
 
 control 'profileb-2' do
-  describe gordon_config do
+  describe example_config do
     its('version') { should eq('2.0') }
   end
 end
