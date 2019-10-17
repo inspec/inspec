@@ -16,6 +16,5 @@ steps:
   expeditor:
     executor:
       windows:
-        os-version: 2016
         privileged: true
         single-use: true
