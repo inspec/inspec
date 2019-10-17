@@ -105,6 +105,56 @@ namespace :test do
     }.each(&:join)
   end
 
+  task :parallel do
+    n      = (ENV["K"] || 4).to_i
+    lock   = Mutex.new
+    passed = true
+
+    tests = Dir[*GLOBS].sort
+    tests.concat([nil] * (n - tests.size % n)) unless # square it up
+      tests.size % 4 == 0
+
+    jobs = tests.each_slice(n).to_a.transpose
+    t0   = Time.now
+    out  = Queue.new
+
+    n_threads_run n, jobs do |job|
+      job.compact!
+      lock.synchronize do
+        warn "Running #{job.size} files in a thread"
+      end
+
+      t1 = Time.now
+      cmd = "bundle exec minitest #{job.join " "}"
+      output = `#{cmd} 2>&1`
+      t2 = Time.now - t1
+
+      lock.synchronize do
+        if $?.success?
+          warn "Finished #{job.size} files successfully in %d seconds" % [t2]
+        else
+          passed = false
+          warn "Finished #{job.size} files with failures in %d seconds" % [t2]
+        end
+      end
+
+      out << "#{cmd}\n\n#{output}"
+    end
+
+    puts "done"
+    puts
+
+    out.length.times do
+      puts out.shift
+      puts
+    end
+
+    puts "Ran in %d seconds" % [ Time.now - t0 ]
+
+    exit 1 unless passed
+  end
+  task parallel: [:accept_license] # given isolated being green, why is this needed?
+
   task :isolated do
     require "fileutils"
     require "thread"
@@ -220,7 +270,7 @@ namespace :test do
     sh("bundle exec kitchen test -c #{concurrency} #{os}")
   end
   # Inject a prerequisite task
-  task 'integration': [:accept_license]
+  task integration: [:accept_license]
 
   task :ssh, [:target] do |_t, args|
     tests_path = File.join(File.dirname(__FILE__), "test", "integration", "test", "integration", "default")
