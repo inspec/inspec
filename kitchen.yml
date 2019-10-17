@@ -9,7 +9,7 @@ transport:
 
 lifecycle:
   pre_converge:
-    - local: gem build inspec-core.gemspec --output test/cookbooks/os_prepare/files/inspec-core-local.gem
+    - local: gem build inspec-core.gemspec --output test/kitchen/cookbooks/os_prepare/files/inspec-core-local.gem
 
 provisioner:
   name: dokken
@@ -100,13 +100,13 @@ platforms:
       - RUN /usr/bin/apt-get update -y
 
 suites:
-- name: default
+- name: resources-core
   run_list:
   - recipe[os_prepare]
   - recipe[audit]
   verifier:
     inspec_tests:
-      - test/integration/default
+      - test/kitchen/policies/resources-core
   attributes:
     audit:
       attributes:
@@ -122,3 +122,7 @@ suites:
     osprepare:
       docker: true
       application: false
+
+- name: resources-database
+- name: resources-unix
+- name: resources-windows
