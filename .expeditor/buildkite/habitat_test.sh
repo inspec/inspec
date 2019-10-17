@@ -8,11 +8,6 @@ export PLAN='inspec'
 echo "--- system details"
 uname -a
 
-echo "--- Installing the version of Habitat required"
-# Install-Habitat --version 0.85.0.20190916
-# TODO: Install Hab?
-hab --version
-
 echo "--- Generating fake origin key"
 hab origin key generate ${HAB_ORIGIN}
 
