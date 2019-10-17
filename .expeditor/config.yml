@@ -170,6 +170,3 @@ subscriptions:
            - inspec/owners
            - inspec/inspec-core-team
      - post_github_comment:.expeditor/templates/pull_request.mustache
- - workload: buildkite_build_passed:{{agent_id}}:verify:*
-   actions:
-    - trigger_pipeline:verify/resources
