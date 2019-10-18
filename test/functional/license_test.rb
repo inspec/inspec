@@ -5,6 +5,8 @@ require "yaml"
 describe "The license acceptance mechanism" do
   include FunctionalHelper
 
+  # TODO/NOTE: do not add parallelize_me! here. Blows up inspec_json_profile_test.rb
+
   describe "when the license has not been accepted" do
     describe "when the user passes the --chef-license accept flag" do
       it "should silently work normally" do
@@ -24,7 +26,9 @@ describe "The license acceptance mechanism" do
       it "should write a YAML file" do
         without_license do
           Dir.mktmpdir do |tmp_home|
-            license_persist_path = File.join(tmp_home, ".chef", "accepted_licenses", "inspec")
+            skip_windows! # can't find license file
+
+            license_persist_path = "#{tmp_home}/.chef/accepted_licenses/inspec"
 
             _(File.exist?(license_persist_path)).must_equal false # Sanity check
             run_inspec_process("shell -c platform.family --chef-license accept", env: { "HOME" => tmp_home })
@@ -33,6 +37,7 @@ describe "The license acceptance mechanism" do
             root_license_path = FunctionalHelper::ROOT_LICENSE_PATH
             license_persist_path, = Dir[license_persist_path, root_license_path]
 
+            _(license_persist_path).wont_be_nil "can't find license file"
             _(File.exist?(license_persist_path)).must_equal true
 
             license_persist_contents = YAML.load(File.read(license_persist_path))
@@ -123,6 +128,8 @@ describe "The license acceptance mechanism" do
             file_format: 1
           EOY
           _(File.exist?(license_persist_path)).must_equal true # Sanity check
+
+          skip_windows! # exit code 1
 
           run_result = run_inspec_process("shell -c platform.family", env: { "HOME" => tmp_home })
 

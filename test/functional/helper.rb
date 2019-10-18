@@ -11,6 +11,8 @@ end
 
 module FunctionalHelper
   extend Minitest::Spec::DSL
+  extend Minitest::Guard
+
   let(:repo_path) do
     path = File.expand_path("../../..", __FILE__)
     # fix for vagrant repo pathing
@@ -41,7 +43,8 @@ module FunctionalHelper
     TMP_CACHE[res.path] = res
   end
 
-  ROOT_LICENSE_PATH = "/etc/chef/accepted_licenses/inspec".freeze
+  root_dir = windows? ? "C:" : "/etc"
+  ROOT_LICENSE_PATH = "#{root_dir}/chef/accepted_licenses/inspec".freeze
 
   def without_license
     ENV.delete "CHEF_LICENSE"
