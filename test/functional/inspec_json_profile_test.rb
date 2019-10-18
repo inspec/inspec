@@ -178,4 +178,17 @@ describe "inspec json" do
       assert_exit_code 0, out
     end
   end
+
+  describe "inspec json with a profile containing an empty file" do
+    it "does not crash" do
+      out = inspec("json " + File.join(profile_path, "contains-empty-file"))
+
+      assert_equal "contains-empty-file", JSON.load(out.stdout)["name"]
+
+      _(out.stderr).must_equal ""
+
+      assert_exit_code 0, out
+    end
+  end
+
 end
