@@ -1,8 +1,8 @@
-class Gordon < Inspec.resource(1)
-  name 'gordon'
+class Example < Inspec.resource(1)
+  name 'example'
 
   example "
-    describe gordon do
+    describe example do
       its('crime_rate') { should be < 2 }
       it { should have_a_fabulous_mustache }
     end
@@ -18,4 +18,3 @@ class Gordon < Inspec.resource(1)
     true
   end
 end
-

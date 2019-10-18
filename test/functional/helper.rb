@@ -80,11 +80,9 @@ module FunctionalHelper
   let(:mock_path) { File.join(repo_path, "test", "unit", "mock") }
   let(:profile_path) { File.join(mock_path, "profiles") }
   let(:examples_path) { File.join(profile_path, "old-examples") }
-  let(:integration_test_path) { File.join(repo_path, "test", "integration", "default") }
-
   let(:example_profile) { File.join(examples_path, "profile") }
   let(:meta_profile) { File.join(examples_path, "meta-profile") }
-  let(:example_control) { File.join(example_profile, "controls", "example.rb") }
+  let(:example_control) { File.join(example_profile, "controls", "example-tmp.rb") }
   let(:inheritance_profile) { File.join(examples_path, "inheritance") }
   let(:failure_control) { File.join(profile_path, "failures", "controls", "failures.rb") }
   let(:simple_inheritance) { File.join(profile_path, "simple-inheritance") }
@@ -206,8 +204,14 @@ module FunctionalHelper
 
     if opts[:json]
       begin
-        run_result.payload.json = JSON.parse(run_result.stdout)
+        payload = JSON.parse(run_result.stdout)
+
+        run_result.payload.json = payload
       rescue JSON::ParserError => e
+        warn "JSON PARSE ERROR: %s" % [e.message]
+        warn "OUT: <<%s>>"          % [run_result.stdout]
+        warn "ERR: <<%s>>"          % [run_result.stderr]
+        warn "XIT: %p"              % [run_result.exit_status]
         run_result.payload.json = {}
         run_result.payload.json_error = e
       end

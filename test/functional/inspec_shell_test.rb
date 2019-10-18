@@ -19,9 +19,9 @@ describe "inspec shell tests" do
     end
 
     it "loads a dependency" do
-      res = inspec("shell -c 'gordon_config' --depends #{example_profile}")
+      res = inspec("shell -c 'example_config' --depends #{example_profile}")
 
-      _(res.stdout.chop).must_equal "gordon_config"
+      _(res.stdout.chop).must_equal "example_config"
 
       _(res.stderr).must_equal ""
 
@@ -171,10 +171,10 @@ describe "inspec shell tests" do
       end
 
       it "loads a dependency" do
-        cmd = "echo 'gordon_config' | #{exec_inspec} shell --depends #{example_profile}"
+        cmd = "echo 'example_config' | #{exec_inspec} shell --depends #{example_profile}"
         res = CMD.run_command(cmd)
 
-        _(res.stdout).must_include "=> gordon_config"
+        _(res.stdout).must_include "=> example_config"
 
         assert_exit_code 0, res
       end

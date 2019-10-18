@@ -17,7 +17,7 @@ $ tree examples/profile
 examples/profile
 ...
 ├── libraries
-│   └── gordon_config.rb
+│   └── example_config.rb
 ```
 
 ## Resource structure
@@ -51,8 +51,8 @@ The following example shows a full resource using attributes and methods
 to provide simple access to a configuration file:
 
 ```ruby
-class GordonConfig < Inspec.resource(1)
-  name 'gordon_config'
+class ExampleConfig < Inspec.resource(1)
+  name 'example_config'
 
   # Restrict to only run on the below platforms (if none were given, all OS's supported)
   supports platform_family: 'fedora'
@@ -65,14 +65,14 @@ class GordonConfig < Inspec.resource(1)
   '
 
   example '
-    describe gordon_config do
+    describe example_config do
       its("signal") { should eq "on" }
     end
   '
 
   # Load the configuration file on initialization
   def initialize(path = nil)
-    @path = path || '/etc/gordon.conf'
+    @path = path || '/etc/example.conf'
     @params = SimpleConfig.new( read_content )
   end
 
@@ -90,11 +90,11 @@ class GordonConfig < Inspec.resource(1)
       # Retrieve the file's contents
       f.content
     else
-      # If the file doesn't exist, skip all tests that use gordon_config
+      # If the file doesn't exist, skip all tests that use example_config
       raise Inspec::Exceptions::ResourceSkipped, "Can't read config at #{@path}"
     end
   end
 end
 ```
 
-For a full example, see our [example resource](https://github.com/chef/inspec/blob/master/examples/profile/libraries/gordon_config.rb).
+For a full example, see our [example resource](https://github.com/chef/inspec/blob/master/examples/profile/libraries/example_config.rb).

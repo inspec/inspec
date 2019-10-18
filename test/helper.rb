@@ -70,6 +70,7 @@ require "mocha/setup"
 require "inspec/log"
 require "inspec/backend"
 require "helpers/mock_loader"
+require "helpers/resources"
 
 TMP_CACHE = {} # rubocop: disable Style/MutableConstant
 

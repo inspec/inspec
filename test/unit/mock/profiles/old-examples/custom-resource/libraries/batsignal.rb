@@ -3,7 +3,7 @@ class Batsignal < Inspec.resource(1)
 
   example "
       describe batsignal do
-        its('number_of_sightings)') { should eq '4' }
+        its('number_of_sightings)') { should eq '1' }
       end
   "
 
@@ -15,6 +15,6 @@ class Batsignal < Inspec.resource(1)
 
   def local_command_call
     # call out to a core resource
-    inspec.command('echo 4').stdout.to_i
+    inspec.command('echo 1').stdout.to_i
   end
 end

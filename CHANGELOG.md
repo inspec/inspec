@@ -1,16 +1,22 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.2 -->
-## [v4.18.2](https://github.com/inspec/inspec/tree/v4.18.2) (2019-10-15)
+<!-- latest_release 4.18.6 -->
+## [v4.18.6](https://github.com/inspec/inspec/tree/v4.18.6) (2019-10-18)
 
 #### Merged Pull Requests
-- Telemetry: add chef-core [#4569](https://github.com/inspec/inspec/pull/4569) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Refactored and added an alternative test mock resource system. [#4566](https://github.com/inspec/inspec/pull/4566) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.0 -->
 ### Changes since 4.18.0 release
 
 #### Merged Pull Requests
+- Refactored and added an alternative test mock resource system. [#4566](https://github.com/inspec/inspec/pull/4566) ([zenspider](https://github.com/zenspider)) <!-- 4.18.6 -->
+- Use a good profile with inspec check test [#4612](https://github.com/inspec/inspec/pull/4612) ([miah](https://github.com/miah)) <!-- 4.18.5 -->
+- Dont trigger yet [#4611](https://github.com/inspec/inspec/pull/4611) ([miah](https://github.com/miah)) <!-- 4.18.4 -->
+- Empty resources yml until I build it. [#4610](https://github.com/inspec/inspec/pull/4610) ([miah](https://github.com/miah)) <!-- 4.18.4 -->
+- Re-organize test-kitchen files. Add BK Pipeline [#4601](https://github.com/inspec/inspec/pull/4601) ([miah](https://github.com/miah)) <!-- 4.18.4 -->
+- Goodbye Gordon! [#4577](https://github.com/inspec/inspec/pull/4577) ([miah](https://github.com/miah)) <!-- 4.18.3 -->
 - Telemetry: add chef-core [#4569](https://github.com/inspec/inspec/pull/4569) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.2 -->
 
 #### Bug Fixes

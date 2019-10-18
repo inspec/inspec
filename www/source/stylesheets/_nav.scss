@@ -2,6 +2,8 @@
   width: 100%;
   max-width: 100%;
   background: $color_white;
+  z-index: 999;
+  position: relative;
 }
 
 .main-nav--logo {

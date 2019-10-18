@@ -1,11 +1,11 @@
 # Library resource
 
-require 'gordonlib'
+require 'examplelib'
 require 'hashie'
 
-class Gordon < Inspec.resource(1)
-  name 'gordon'
-  include GordonLib
+class Example < Inspec.resource(1)
+  name 'example'
+  include ExampleLib
   def enabled?
     true
   end

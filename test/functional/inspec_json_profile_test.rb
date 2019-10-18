@@ -73,7 +73,7 @@ describe "inspec json" do
       end
 
       it "has a source location" do
-        loc = File.join(example_profile, "/controls/example.rb")
+        loc = File.join(example_profile, "/controls/example-tmp.rb")
         _(control["source_location"]["ref"]).must_equal loc
         _(control["source_location"]["line"]).must_equal 6
       end
@@ -98,7 +98,7 @@ describe "inspec json" do
       _(json["controls"].length).must_equal 1
       _(json["controls"][0]["id"]).must_equal "tmp-1.0"
       _(json["groups"].length).must_equal 1
-      _(json["groups"][0]["id"]).must_equal "controls/example.rb"
+      _(json["groups"][0]["id"]).must_equal "controls/example-tmp.rb"
     end
   end
 
