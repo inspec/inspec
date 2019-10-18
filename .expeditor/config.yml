@@ -18,8 +18,6 @@ docker_images:
 
 pipelines:
  - habitat/build
- - habitat/test:
-     definition: .expeditor/habitat_test.yml
  - omnibus/release
  - omnibus/adhoc:
     definition: .expeditor/release.omnibus.yml
@@ -35,7 +33,6 @@ pipelines:
      - N: 5
  - coverage:
     description: Generate test coverage report
-    public: true
     env:
      - CI_ENABLE_COVERAGE: true
      - LANG: "C.UTF-8"
@@ -46,9 +43,9 @@ pipelines:
  - www/deploy:
     description: Deploy website to inspec.io
     definition: .expeditor/wwwdeploy.yml
- - verify/resources:
+ - integration/resources:
     description: Test core resources with test-kitchen.
-    definition: .expeditor/verify.resources.yml
+    definition: .expeditor/integration.resources.yml
  - integration/libraries:
     description: Integration with plugins, gems, resource packs.
     definition: .expeditor/integration.libraries.yml
@@ -61,6 +58,9 @@ pipelines:
  - integration/automate:
     description: Integration with Chef Automate
     definition: .expeditor/integration.automate.yml
+ - artifact/habitat:
+    description: Execute tests against the habitat artifact
+    definition: .expeditor/artifact.habitat.yml
 
 schedules:
  - name: integration_schedule
