@@ -179,9 +179,10 @@ describe "inspec json" do
     end
   end
 
-  describe "inspec json with a profile containing an empty file" do
+  # regression #4615
+  describe "inspec json with an archived profile containing an empty file" do
     it "does not crash" do
-      out = inspec("json " + File.join(profile_path, "contains-empty-file"))
+      out = inspec("json " + File.join(profile_path, "contains-empty-file-0.1.0.tar.gz"))
 
       assert_equal "contains-empty-file", JSON.load(out.stdout)["name"]
 
