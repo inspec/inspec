@@ -94,12 +94,8 @@ describe "Inspec::Resources::JSON" do
     # stdout:empty, stderr:msg
     # stdout:empty, stderr:empty
 
-    # TODO: abstract and push up
     def run_json_cmd(cmd)
-      backend = Inspec::Backend.create(Inspec::Config.new)
-      klass   = Inspec::Resource.registry["json"]
-
-      klass.new(backend, "json", command: cmd)
+      quick_resource("json", :linux, command: cmd)
     end
 
     # TODO: push up
