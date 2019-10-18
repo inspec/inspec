@@ -10,6 +10,8 @@ describe "inspec archive" do
   parallelize_me!
 
   it "archive is successful" do
+    skip_windows! # powershell command timeout
+
     prepare_examples("profile") do |dir|
       out = inspec("archive " + dir + " --overwrite")
 
@@ -20,6 +22,8 @@ describe "inspec archive" do
   end
 
   it "archives to output file" do
+    skip_windows! # powershell command timeout
+
     prepare_examples("profile") do |dir|
       out = inspec("archive " + dir + " --output " + dst.path)
 

@@ -22,6 +22,8 @@ describe "InSpec UI behavior" do
 
   parallelize_me!
 
+  before { skip_windows! } # plugin problem?
+
   let(:plugin_path) { File.join(mock_path, "plugins", "inspec-test-ui", "lib", "inspec-test-ui") }
   let(:run_result) { run_inspec_with_plugin("#{pre_opts} testui #{feature} #{post_opts}", plugin_path: plugin_path, json: false) }
   let(:pre_opts) { "" }

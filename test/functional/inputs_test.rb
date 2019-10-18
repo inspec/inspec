@@ -70,6 +70,7 @@ describe "inputs" do
     describe "when the --attrs flag is used" do
       let(:flag) { "--attrs" }
       it "works" do
+        skip_windows! # powershell command timeout
         assert_exit_code 0, result
       end
     end
@@ -165,7 +166,9 @@ describe "inputs" do
 
     describe "when the --input is used once with two values and a comma" do
       let(:input_opt) { "--input test_input_01=value_from_cli_01, test_input_02=value_from_cli_02" }
-      it("correctly reads the input") { assert_json_controls_passing(result) }
+      it("correctly reads the input") {
+        skip_windows! # powershell command timeout
+        assert_json_controls_passing(result) }
     end
 
     describe "when the --input is used twice with one value each" do

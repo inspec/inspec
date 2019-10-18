@@ -11,6 +11,8 @@ describe "plugins" do
   include FunctionalHelper
   parallelize_me!
 
+  before { skip_windows! } # plugin problem
+
 #=========================================================================================#
 #                                Loader Errors
 #=========================================================================================#

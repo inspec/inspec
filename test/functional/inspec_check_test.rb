@@ -17,6 +17,8 @@ describe "inspec check" do
 
   describe "inspec check with special characters in path" do
     it "can check a profile with special characters in its path" do
+      skip_windows!
+
       out = inspec("check " + File.join(profile_path, "{{special-path}}"))
 
       assert_exit_code 0, out
@@ -77,13 +79,15 @@ describe "inspec check" do
     end
 
     it "can check a profile where a lock file is required" do
+      skip_windows! # powershell command timeout
       out = inspec("check " + File.join(profile_path, "profile-lock-required"))
 
       _(out.stdout).must_include "profile needs to be vendored with `inspec vendor`."
       assert_exit_code 1, out
     end
 
-    it "can check a profile where lock file and inspec.yml are in synnc" do
+    it "can check a profile where lock file and inspec.yml are in sync" do
+      skip_windows! # powershell command timeout
       out = inspec("check " + File.join(profile_path, "profile-lock-insync"))
 
       assert_exit_code 0, out
