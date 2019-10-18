@@ -171,7 +171,7 @@ module Inspec
           path = Pathname.new(name).relative_path_from(here).to_s
 
           @contents[path] = begin # not ||= in a tarball, last one wins
-                              res = entry.read
+                              res = entry.read || ""
                               try = res.dup
                               try.force_encoding Encoding::UTF_8
                               res = try if try.valid_encoding?

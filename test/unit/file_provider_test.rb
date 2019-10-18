@@ -185,6 +185,12 @@ describe Inspec::TarProvider do
     it "must read the contents of the file" do
       _(subject.read("inspec.yml")).must_match(/^name: complete$/)
     end
+
+    it "deals with empty files in tarballs correctly" do
+      path = "test/fixtures/contains-empty-file-0.1.0.tar.gz"
+      f = Inspec::FileProvider.for_path(path)
+      _(f.files.grep(/empty/)).wont_be_empty
+    end
   end
 
   Entry = Struct.new(:full_name) do
