@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Fix the path for our scripts, I don&#39;t know where I got /workdir [#4620](https://github.com/inspec/inspec/pull/4620) ([miah](https://github.com/miah))
 - Make shell script executable [#4618](https://github.com/inspec/inspec/pull/4618) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.18.0 release
 
 #### Merged Pull Requests
+- Fix the path for our scripts, I don&#39;t know where I got /workdir [#4620](https://github.com/inspec/inspec/pull/4620) ([miah](https://github.com/miah)) <!-- 4.18.6 -->
 - Make shell script executable [#4618](https://github.com/inspec/inspec/pull/4618) ([miah](https://github.com/miah)) <!-- 4.18.6 -->
 - Refactored and added an alternative test mock resource system. [#4566](https://github.com/inspec/inspec/pull/4566) ([zenspider](https://github.com/zenspider)) <!-- 4.18.6 -->
 - Use a good profile with inspec check test [#4612](https://github.com/inspec/inspec/pull/4612) ([miah](https://github.com/miah)) <!-- 4.18.5 -->
