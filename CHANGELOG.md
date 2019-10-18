@@ -1,18 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.5 -->
-## [v4.18.5](https://github.com/inspec/inspec/tree/v4.18.5) (2019-10-17)
+<!-- latest_release 4.18.6 -->
+## [v4.18.6](https://github.com/inspec/inspec/tree/v4.18.6) (2019-10-18)
 
 #### Merged Pull Requests
-- Use a good profile with inspec check test [#4612](https://github.com/inspec/inspec/pull/4612) ([miah](https://github.com/miah))
-- Dont trigger yet [#4611](https://github.com/inspec/inspec/pull/4611) ([miah](https://github.com/miah))
-- Empty resources yml until I build it. [#4610](https://github.com/inspec/inspec/pull/4610) ([miah](https://github.com/miah))
+- Refactored and added an alternative test mock resource system. [#4566](https://github.com/inspec/inspec/pull/4566) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.0 -->
 ### Changes since 4.18.0 release
 
 #### Merged Pull Requests
+- Refactored and added an alternative test mock resource system. [#4566](https://github.com/inspec/inspec/pull/4566) ([zenspider](https://github.com/zenspider)) <!-- 4.18.6 -->
 - Use a good profile with inspec check test [#4612](https://github.com/inspec/inspec/pull/4612) ([miah](https://github.com/miah)) <!-- 4.18.5 -->
 - Dont trigger yet [#4611](https://github.com/inspec/inspec/pull/4611) ([miah](https://github.com/miah)) <!-- 4.18.4 -->
 - Empty resources yml until I build it. [#4610](https://github.com/inspec/inspec/pull/4610) ([miah](https://github.com/miah)) <!-- 4.18.4 -->
