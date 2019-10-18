@@ -186,7 +186,7 @@ describe "inspec json" do
 
       assert_equal "contains-empty-file", JSON.load(out.stdout)["name"]
 
-      _(out.stderr).must_equal ""
+      _(out.stderr).must_be_empty ""
 
       assert_exit_code 0, out
     end
