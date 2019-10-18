@@ -3,7 +3,7 @@ steps:
 
 - label: ":linux: Validate Habitat Builds of Chef InSpec"
   commands:
-    - /workdir/.expeditor/buildkite/habitat_test.sh
+    - /workdir/.expeditor/buildkite/artifact.habitat.test.sh
   expeditor:
     executor:
       linux:
@@ -12,7 +12,7 @@ steps:
 
 - label: ":windows: Validate Habitat Builds of Chef InSpec"
   commands:
-    - /workdir/.expeditor/buildkite/habitat_test.ps1
+    - /workdir/.expeditor/buildkite/artifact.habitat.test.ps1
   expeditor:
     executor:
       windows:
