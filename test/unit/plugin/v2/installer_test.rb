@@ -88,13 +88,14 @@ class PluginInstallerBasicTests < Minitest::Test
   def test_it_should_know_its_gem_path_with_a_default_location
     ENV.delete "INSPEC_CONFIG_DIR"
     ENV["HOME"] = File.join(@config_dir_path, "fakehome")
-    expected = File.join(ENV["HOME"], ".inspec", "gems", @ruby_abi_version)
-    assert_equal expected, @installer.gem_path
+
+    suffix = "fakehome/.inspec/gems/#{@ruby_abi_version}"
+    assert_operator @installer.gem_path, :end_with?, suffix
   end
 
   def test_it_should_know_its_gem_path_with_a_custom_config_dir_from_env
-    expected = File.join(ENV["INSPEC_CONFIG_DIR"], "gems", @ruby_abi_version)
-    assert_equal expected, @installer.gem_path
+    suffix = "empty/gems/#{@ruby_abi_version}"
+    assert_operator @installer.gem_path, :end_with?, suffix
   end
 end
 
