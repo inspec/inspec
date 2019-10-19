@@ -17,12 +17,12 @@ cd "$project_root"
 
 DO_CHECK=true hab pkg build .
 
+ls -laR /src/results
+
+cat /src/results/last_build.env
+
 if [ -f /src/results/last_build.sh ]; then
     . /src/results/last_build.sh
-    echo "pkg_ident"
-    echo $pkg_ident
-    echo "pkg_artifact"
-    echo $pkg_artifact
 fi
 
 echo "--- Installing $pkg_ident"
