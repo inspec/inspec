@@ -1,20 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.7 -->
-## [v4.18.7](https://github.com/inspec/inspec/tree/v4.18.7) (2019-10-21)
-
-#### Bug Fixes
-- Fix TarProvider when the tarball has empty files in it. [#4619](https://github.com/inspec/inspec/pull/4619) ([zenspider](https://github.com/zenspider))
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Fix the path for our scripts, I don&#39;t know where I got /workdir [#4620](https://github.com/inspec/inspec/pull/4620) ([miah](https://github.com/miah))
-- Make shell script executable [#4618](https://github.com/inspec/inspec/pull/4618) ([miah](https://github.com/miah))
+- Fix the search button wiring. [#4625](https://github.com/inspec/inspec/pull/4625) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.0 -->
 ### Changes since 4.18.0 release
 
 #### Merged Pull Requests
+- Fix the search button wiring. [#4625](https://github.com/inspec/inspec/pull/4625) ([zenspider](https://github.com/zenspider)) <!-- 4.18.7 -->
 - Fix the path for our scripts, I don&#39;t know where I got /workdir [#4620](https://github.com/inspec/inspec/pull/4620) ([miah](https://github.com/miah)) <!-- 4.18.6 -->
 - Make shell script executable [#4618](https://github.com/inspec/inspec/pull/4618) ([miah](https://github.com/miah)) <!-- 4.18.6 -->
 - Refactored and added an alternative test mock resource system. [#4566](https://github.com/inspec/inspec/pull/4566) ([zenspider](https://github.com/zenspider)) <!-- 4.18.6 -->
