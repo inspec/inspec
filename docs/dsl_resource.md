@@ -108,7 +108,7 @@ exacerbated startup times (especially on Windows).
 As of InSpec v4.16, resources are lazily loaded into the `inspec`
 process upon use. This greatly speeds up the initial startup costs of
 the `inspec` process and only loads what you need to use. For example, `inspec
---version` no longer runs for 10 seconds!).
+--version` no longer runs for 10 seconds!.
 
 ### Overriding Core Resources
 
