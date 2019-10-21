@@ -17,19 +17,15 @@ cd "$project_root"
 
 DO_CHECK=true hab pkg build .
 
-echo "+++ BUGCITY"
-ls -alR .
-
-cat ./results/last_build.env
-
+echo "--- Sourcing 'results/last_build.sh'"
 if [ -f ./results/last_build.sh ]; then
     . ./results/last_build.sh
 fi
 
-#echo "--- Installing $pkg_ident"
-#hab pkg install "./results/$pkg_artifact"
+echo "--- Installing ${pkg_ident:?is undefined}"
+hab pkg install "./results/${pkg_artifact:?is undefined}"
 
-#echo "+++ Testing $PLAN"
-#pushd "$project_root/test/artifact"
-#rake
-#popd
+echo "+++ Testing $PLAN"
+pushd "$project_root/test/artifact"
+rake
+popd
