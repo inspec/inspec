@@ -23,6 +23,9 @@ if [ -f ./results/last_build.env ]; then
 fi
 
 echo "--- Installing ${pkg_ident:?is undefined}"
+
+id -a
+
 hab pkg install "./results/${pkg_artifact:?is undefined}"
 
 echo "+++ Testing $PLAN"
