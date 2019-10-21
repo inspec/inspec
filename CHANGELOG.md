@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.18.8 -->
+## [v4.18.8](https://github.com/inspec/inspec/tree/v4.18.8) (2019-10-21)
 
 #### Merged Pull Requests
+- Rescue SystemStackError to make errors during inspec check/archive more graceful. [#4597](https://github.com/inspec/inspec/pull/4597) ([zenspider](https://github.com/zenspider))
 - Fix the search button wiring. [#4625](https://github.com/inspec/inspec/pull/4625) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.18.0 release
 
 #### Merged Pull Requests
+- Rescue SystemStackError to make errors during inspec check/archive more graceful. [#4597](https://github.com/inspec/inspec/pull/4597) ([zenspider](https://github.com/zenspider)) <!-- 4.18.8 -->
 - Fix the search button wiring. [#4625](https://github.com/inspec/inspec/pull/4625) ([zenspider](https://github.com/zenspider)) <!-- 4.18.7 -->
 - Fix the path for our scripts, I don&#39;t know where I got /workdir [#4620](https://github.com/inspec/inspec/pull/4620) ([miah](https://github.com/miah)) <!-- 4.18.6 -->
 - Make shell script executable [#4618](https://github.com/inspec/inspec/pull/4618) ([miah](https://github.com/miah)) <!-- 4.18.6 -->
