@@ -5,6 +5,7 @@ set -ueo pipefail
 export HAB_ORIGIN='ci'
 export PLAN='inspec'
 export CHEF_LICENSE="accept-no-persist"
+export HAB_LICENSE="accept-no-persist"
 
 echo "--- system details"
 uname -a

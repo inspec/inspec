@@ -4,6 +4,7 @@
 
 $env:HAB_ORIGIN = 'ci'
 $env:CHEF_LICENSE = 'accept-no-persist'
+$env:HAB_LICENSE = 'accept-no-persist'
 $Plan = 'inspec'
 
 Write-Host "--- system details"
