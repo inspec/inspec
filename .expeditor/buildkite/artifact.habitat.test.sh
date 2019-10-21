@@ -18,7 +18,7 @@ cd "$project_root"
 DO_CHECK=true hab pkg build .
 
 echo "+++ BUGCITY"
-tree
+ls -alR .
 
 cat /src/results/last_build.env
 
