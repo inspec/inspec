@@ -18,8 +18,8 @@ cd "$project_root"
 DO_CHECK=true hab pkg build .
 
 echo "--- Sourcing 'results/last_build.sh'"
-if [ -f ./results/last_build.sh ]; then
-    . ./results/last_build.sh
+if [ -f ./results/last_build.env ]; then
+    . ./results/last_build.env
 fi
 
 echo "--- Installing ${pkg_ident:?is undefined}"
