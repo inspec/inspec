@@ -60,7 +60,7 @@ module Inspec
         # waivers have higher precedence than only_if.
         __apply_waivers
 
-      rescue StandardError => e
+      rescue SystemStackError, StandardError => e
         # We've encountered an exception while trying to eval the code inside the
         # control block. We need to prevent the exception from bubbling up, and
         # fail the control. Controls are failed by having a failed resource within
