@@ -26,7 +26,7 @@ fi
 
 echo "--- Installing ${pkg_ident:?is undefined}"
 
-sudo hab pkg install "./results/${pkg_artifact:?is undefined}"
+sudo -E hab pkg install "./results/${pkg_artifact:?is undefined}"
 
 echo "+++ Testing $PLAN"
 pushd "$project_root/test/artifact"
