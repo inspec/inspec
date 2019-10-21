@@ -736,7 +736,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
 
   describe "when specifying a config file" do
     let(:run_result) { run_inspec_process("exec " + File.join(profile_path, "simple-metadata") + " " + cli_args, json: true, env: env) }
-    let(:seen_target_id) { run_result.payload.json["platform"]["target_id"] }
+    let(:seen_target_id) { @json["platform"]["target_id"] }
     let(:stderr) { run_result.stderr }
     let(:env) { {} }
 
@@ -769,7 +769,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
           result = run_inspec_process( "exec " + File.join(profile_path, "simple-metadata") + " " + cli_args + " ", opts )
 
           _(result.stderr).must_be_empty
-          _(result.payload.json["platform"]["target_id"]).must_equal "from-config-file"
+          _(@json["platform"]["target_id"]).must_equal "from-config-file"
         end
 
         it "detect should exit 0" do
@@ -842,7 +842,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       JSON.parse(json).select { |k, v| %w{name release}.include? k }
     end
     let(:run_result) { run_inspec_process("exec " + File.join(profile_path, "simple-metadata") + " " + cli_args, json: true) }
-    let(:seen_platform) { run_result.payload.json["platform"].select { |k, v| %w{name release target_id}.include? k } }
+    let(:seen_platform) { run_result; @json["platform"].select { |k, v| %w{name release target_id}.include? k } }
     let(:stderr) { run_result.stderr }
 
     describe "when neither target nor backend is specified" do

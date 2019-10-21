@@ -65,7 +65,7 @@ module CorePluginFunctionalHelper
     elsif opts.key?(:env)
       prefix = opts[:env].to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(" ")
     end
-    Inspec::FuncTestRunResult.new(TRAIN_CONNECTION.run_command("#{prefix} #{exec_inspec} #{command_line}"))
+    TRAIN_CONNECTION.run_command("#{prefix} #{exec_inspec} #{command_line}")
   end
 
   # This helper does some fancy footwork to make InSpec think a plugin
@@ -76,8 +76,7 @@ module CorePluginFunctionalHelper
   #       Modify plugin_statefile_data as needed; it will be written to a plugins.json
   #       in tmp_dir_path.  You may also copy in other things to the tmp_dir_path. Your PWD
   #       will be in the tmp_dir, and it will exist and be empty.
-  #    :post_run: Proc(FuncTestRunResult, tmp_dir_path) - optional result capture block.
-  #       run_result will be populated, but you can add more to the ostruct .payload
+  #    :post_run: Proc(CommandResult, tmp_dir_path) - optional result capture block.
   #       Your PWD will be the tmp_dir, and it will still exist (for a moment!)
   def run_inspec_process_with_this_plugin(command_line, opts = {})
     plugin_path = __find_plugin_path_from_caller
@@ -101,7 +100,7 @@ module CorePluginFunctionalHelper
 
       # Read the resulting plugins.json into memory, if any
       if File.exist?(plugin_file_path)
-        run_result.payload.plugin_data = JSON.parse(File.read(plugin_file_path))
+        @plugin_data = JSON.parse(File.read(plugin_file_path))
       end
 
       opts[:post_run]&.call(run_result, tmp_dir)

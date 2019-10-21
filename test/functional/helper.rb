@@ -9,63 +9,6 @@ class Module
   include Minitest::Spec::DSL
 end
 
-module Inspec
-  class FuncTestRunResult
-    attr_reader :train_result
-    attr_reader :payload
-
-    extend Forwardable
-    def_delegator :train_result, :stdout
-    def_delegator :train_result, :stderr
-    def_delegator :train_result, :exit_status
-
-    def initialize(train_result)
-      @train_result = train_result
-      @payload = OpenStruct.new
-    end
-
-    # Intentional failure to cause CI to print output
-    def diagnose!
-      msg = ""
-      msg += "\nInvocation:\n" + payload.invocation
-      msg += "\nSTDOUT:\n" + stdout
-      msg += "\nSTDERR:\n" + stderr
-      msg.must_equal ""
-    end
-
-    def stderr_ignore_deprecations
-      suffix = stderr.end_with?("\n") ? "\n" : ""
-      stderr.split("\n").reject { |l| l.include? " DEPRECATION: " }.join("\n") + suffix
-    end
-
-    def stdout_ignore_deprecations
-      suffix = stdout.end_with?("\n") ? "\n" : ""
-      stdout.split("\n").reject { |l| l.include? " DEPRECATION: " }.join("\n") + suffix
-    end
-
-    # This works if you use json: true on an exec call
-    def must_have_all_controls_passing
-      # Strategy: assemble an array of tests that failed or skipped, and insist it is empty
-      # result.payload.json['profiles'][0]['controls'][0]['results'][0]['status']
-      failed_tests = []
-      payload.json["profiles"].each do |profile_struct|
-        profile_name = profile_struct["name"]
-        profile_struct["controls"].each do |control_struct|
-          control_name = control_struct["id"]
-          control_struct["results"].compact.each do |test_struct|
-            test_desc = test_struct["code_desc"]
-            if test_struct["status"] != "passed"
-              failed_tests << "#{profile_name}/#{control_name}/#{test_desc}"
-            end
-          end
-        end
-      end
-
-      failed_tests.must_be_empty
-    end
-  end
-end
-
 module FunctionalHelper
   extend Minitest::Spec::DSL
   let(:repo_path) do
@@ -135,6 +78,32 @@ module FunctionalHelper
     FunctionalHelper.is_windows?
   end
 
+  def stderr_ignore_deprecations(result)
+    stderr = result.stderr
+    suffix = stderr.end_with?("\n") ? "\n" : ""
+    stderr.split("\n").reject { |l| l.include? " DEPRECATION: " }.join("\n") + suffix
+  end
+
+  def assert_json_controls_passing(_result = nil) # dummy arg
+    # Strategy: assemble an array of tests that failed or skipped, and insist it is empty
+    # @json['profiles'][0]['controls'][0]['results'][0]['status']
+    failed_tests = []
+    @json["profiles"].each do |profile_struct|
+      profile_name = profile_struct["name"]
+      profile_struct["controls"].each do |control_struct|
+        control_name = control_struct["id"]
+        control_struct["results"].compact.each do |test_struct|
+          test_desc = test_struct["code_desc"]
+          if test_struct["status"] != "passed"
+            failed_tests << "#{profile_name}/#{control_name}/#{test_desc}"
+          end
+        end
+      end
+    end
+
+    _(failed_tests).must_be_empty
+  end
+
   def inspec(commandline, prefix = nil)
     if is_windows?
       invocation = "/windows/system32/cmd /C \"#{prefix} #{exec_inspec} #{commandline}\""
@@ -144,13 +113,12 @@ module FunctionalHelper
       convert_windows_output(result.stdout)
       # remove the CLIXML header trash in windows
       result.stderr.gsub!("#< CLIXML\n", "")
-      ftrr = Inspec::FuncTestRunResult.new(result)
     else
       invocation = "#{prefix} #{exec_inspec} #{commandline}"
-      ftrr = Inspec::FuncTestRunResult.new(CMD.run_command(invocation))
+      result = CMD.run_command(invocation)
     end
-    ftrr.payload.invocation = invocation
-    ftrr
+
+    result
   end
 
   def inspec_with_env(commandline, env = {})
@@ -164,14 +132,13 @@ module FunctionalHelper
   #    :prefix String A string to prefix to the invocation. Prefix + env + invocation is the order.
   #    :cwd String A directory to change to. Implemented as 'cd CWD && ' + prefix
   #    :lock Boolean Default false. If false, add `--no-create-lockfile`.
-  #    :json Boolean Default false. If true, add `--reporter json` and parse the output, which is stored in payload.json .
+  #    :json Boolean Default false. If true, add `--reporter json` and parse the output, which is stored in @json.
   #    :tmpdir Boolean default true.  If true, wrap execution in a Dir.tmpdir block. Use pre_run and post_run to trigger actions.
   #    :pre_run: Proc(tmp_dir_path) - optional setup block.
   #       tmp_dir will exist and be empty.
   #    :post_run: Proc(FuncTestRunResult, tmp_dir_path) - optional result capture block.
-  #       run_result will be populated, but you can add more to the ostruct .payload
   #       tmp_dir will still exist (for a moment!)
-  # @return FuncTestRunResult. Includes attrs exit_status, stderr, stdout, payload (an openstruct which may be used in many ways)
+  # @return Train::Extrans::CommandResult
   def run_inspec_process(command_line, opts = {})
     raise "Do not use tmpdir and cwd in the same invocation" if opts[:cwd] && opts[:tmpdir]
 
@@ -204,16 +171,14 @@ module FunctionalHelper
 
     if opts[:json] && !run_result.stdout.empty?
       begin
-        payload = JSON.parse(run_result.stdout)
-
-        run_result.payload.json = payload
+        @json = JSON.parse(run_result.stdout)
       rescue JSON::ParserError => e
         warn "JSON PARSE ERROR: %s" % [e.message]
         warn "OUT: <<%s>>"          % [run_result.stdout]
         warn "ERR: <<%s>>"          % [run_result.stderr]
         warn "XIT: %p"              % [run_result.exit_status]
-        run_result.payload.json = {}
-        run_result.payload.json_error = e
+        @json = {}
+        @json_error = e
       end
     end
 

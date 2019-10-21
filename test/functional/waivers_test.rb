@@ -7,7 +7,7 @@ describe "waivers" do
 
   let(:waivers_profiles_path) { "#{profile_path}/waivers" }
   let(:run_result)            { run_inspec_process(cmd, json: true) }
-  let(:controls_by_id)        { run_result.payload.json.dig("profiles", 0, "controls").map { |c| [c["id"], c] }.to_h }
+  let(:controls_by_id)        { run_result; @json.dig("profiles", 0, "controls").map { |c| [c["id"], c] }.to_h }
   let(:cmd)                   { "exec #{waivers_profiles_path}/#{profile_name} --input-file #{waivers_profiles_path}/#{profile_name}/files/#{waiver_file}" }
 
   def assert_test_outcome(expected, control_id)
@@ -92,8 +92,8 @@ describe "waivers" do
     let(:profile_name) { "waiver-wrapper" }
     let(:waiver_file) { "waivers.yaml" }
     it "should set the data in the child but be empty in the wrapper" do
-      json = run_result.payload.json
-      child_profile = json["profiles"].detect { |p| p["name"] == "waiver-child" }
+      run_result
+      child_profile = @json["profiles"].detect { |p| p["name"] == "waiver-child" }
       child_waiver_data = child_profile.dig("controls", 0, "waiver_data")
       assert_instance_of Hash, child_waiver_data
       refute_empty child_waiver_data
@@ -105,7 +105,7 @@ describe "waivers" do
       }
       assert_equal expected_child_waiver_data, child_waiver_data
 
-      wrapper_profile = json["profiles"].detect { |p| p["name"] == "waiver-wrapper" }
+      wrapper_profile = @json["profiles"].detect { |p| p["name"] == "waiver-wrapper" }
       wrapper_waiver_data = wrapper_profile.dig("controls", 0, "waiver_data")
       assert_instance_of Hash, wrapper_waiver_data
       assert_empty wrapper_waiver_data

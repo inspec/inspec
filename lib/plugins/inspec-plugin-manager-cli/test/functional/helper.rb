@@ -9,7 +9,7 @@ module PluginManagerHelpers
   let(:list_after_run) do
     Proc.new do |run_result, tmp_dir|
       # After installing/uninstalling/whatevering, run list with config in the same dir, and capture it.
-      run_result.payload.list_result = parse_plugin_list_lines(
+      @list_result = parse_plugin_list_lines(
         run_inspec_process("plugin list", env: { INSPEC_CONFIG_DIR: tmp_dir }).stdout
       )
     end

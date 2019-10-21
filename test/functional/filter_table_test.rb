@@ -11,7 +11,7 @@ describe "filtertable functional tests" do
   end
 
   def failed_control_test_outcomes(run_result)
-    failed_controls = run_result.payload.json["profiles"][0]["controls"].select { |ctl| ctl["results"][0]["status"] == "failed" }
+    failed_controls = @json["profiles"][0]["controls"].select { |ctl| ctl["results"][0]["status"] == "failed" }
 
     # Re-package any failed controls into a hash mapping control_id => message
     # We will later test against this, as it provides more informative test output
@@ -37,7 +37,7 @@ describe "filtertable functional tests" do
       _(outcome_hash.keys).must_include(expected_control)
     end
 
-    _(run_result.stderr_ignore_deprecations).must_equal "" # TODO: we have a cli_option_json_config triggering somewhere
+    _(stderr_ignore_deprecations(run_result)).must_equal "" # TODO: we have a cli_option_json_config triggering somewhere
     assert_exit_code 100, run_result
   end
 

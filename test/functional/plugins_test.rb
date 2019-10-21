@@ -111,7 +111,7 @@ describe "input plugins" do
   def run_input_plugin_test_with_controls(controls)
     cmd = "exec #{profile} --controls #{controls}"
     run_result = run_inspec_process(cmd, json: true, env: env)
-    run_result.must_have_all_controls_passing
+    assert_json_controls_passing(run_result)
     _(run_result.stderr).must_be_empty
   end
 
@@ -173,7 +173,6 @@ describe "DSL plugin types support" do
   let(:fixture_path) { File.join(profile_path, "dsl_plugins", "controls", profile_file) }
   let(:dsl_plugin_path) { File.join(mock_path, "plugins", "inspec-dsl-test", "lib", "inspec-dsl-test.rb") }
   let(:run_result) { run_inspec_with_plugin("exec #{fixture_path}", plugin_path: dsl_plugin_path) }
-  let(:json_result) { run_result.payload.json }
 
   describe "outer profile dsl plugin type support" do
     let(:profile_file) { "outer_profile_dsl.rb" }
@@ -183,12 +182,12 @@ describe "DSL plugin types support" do
       # The outer_profile_dsl.rb file has control-01, then a call to favorite_grain
       # (which generates a control), then control-03.
       # If the plugin exploded, we'd see control-01 but not control-03
-      controls = json_result["profiles"][0]["controls"]
+      controls = @json["profiles"][0]["controls"]
       _(controls.count).must_equal 3
 
       # We expect the second controls id to be 'sorghum'
       # (this is the functionality of the outer_profile_dsl we installed)
-      generated_control = json_result["profiles"][0]["controls"][1]
+      generated_control = @json["profiles"][0]["controls"][1]
       _(generated_control["id"]).must_equal "sorghum"
       _(generated_control["results"][0]["status"]).must_equal "passed"
     end
@@ -202,12 +201,12 @@ describe "DSL plugin types support" do
 
       # The control_dsl.rb file has one control, with a describe-01, then a call to favorite_fruit, then describe-02
       # If the plugin exploded, we'd see describe-01 but not describe-02
-      results = json_result["profiles"][0]["controls"][0]["results"]
+      results = @json["profiles"][0]["controls"][0]["results"]
       _(results.count).must_equal 2
 
       # We expect the descriptions to include that the favorite fruit is banana
       # (this is the functionality of the control_dsl we installed)
-      first_description_section = json_result["profiles"][0]["controls"][0]["descriptions"].first
+      first_description_section = @json["profiles"][0]["controls"][0]["descriptions"].first
       _(first_description_section).wont_be_nil
       _(first_description_section["label"]).must_equal "favorite_fruit"
       _(first_description_section["data"]).must_equal "Banana"
@@ -222,12 +221,12 @@ describe "DSL plugin types support" do
       # The describe_dsl.rb file has one control, with
       # describe-01, describe-02 which contains a call to favorite_vegetable, then describe-03
       # If the plugin exploded, we'd see describe-01 but not describe-02
-      results = json_result["profiles"][0]["controls"][0]["results"]
+      results = @json["profiles"][0]["controls"][0]["results"]
       _(results.count).must_equal 3
 
       # We expect the description of describe-02 to include the word aubergine
       # (this is the functionality of the describe_dsl we installed)
-      second_result = json_result["profiles"][0]["controls"][0]["results"][1]
+      second_result = @json["profiles"][0]["controls"][0]["results"][1]
       _(second_result).wont_be_nil
       _(second_result["code_desc"]).must_include "aubergine"
     end
@@ -241,13 +240,13 @@ describe "DSL plugin types support" do
       # The test_dsl.rb file has one control, with
       # describe-01, describe-02 which contains a call to favorite_legume, then describe-03
       # If the plugin exploded, we'd see describe-01 but not describe-02
-      results = json_result["profiles"][0]["controls"][0]["results"]
+      results = @json["profiles"][0]["controls"][0]["results"]
       _(results.count).must_equal 3
 
       # I spent a while trying to find a way to get the test to alter its name;
       # that won't work for various setup reasons.
       # So, it just throws an exception with the word 'edemame' in it.
-      second_result = json_result["profiles"][0]["controls"][0]["results"][1]
+      second_result = @json["profiles"][0]["controls"][0]["results"][1]
       _(second_result).wont_be_nil
       _(second_result["status"]).must_equal "failed"
       _(second_result["message"]).must_include "edemame"
@@ -268,8 +267,7 @@ describe "DSL plugin types support" do
       # We should have three controls; 01 and 03 just do a string match.
       # 02 uses the custom resource, which relies on calls to the resource DSL.
       # If the plugin exploded, we'd see rdsl-control-01 but not rdsl-control-02
-      json_result = run_result.payload.json
-      results = json_result["profiles"][0]["controls"]
+      results = @json["profiles"][0]["controls"]
       _(results.count).must_equal 3
 
       # Control 2 has 2 describes; one uses a simple explicit matcher,

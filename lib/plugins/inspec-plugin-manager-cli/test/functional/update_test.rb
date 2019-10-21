@@ -22,7 +22,7 @@ class PluginManagerCliUpdate < Minitest::Test
     assert_includes success_message, "0.2.0"
     assert_includes success_message, "updated from rubygems.org"
 
-    itf_plugin = update_result.payload.list_result.detect { |p| p[:name] == "inspec-test-fixture" }
+    itf_plugin = @list_result.detect { |p| p[:name] == "inspec-test-fixture" }
     refute_nil itf_plugin, "plugin name should now appear in the output of inspec list"
     assert_equal "gem (user)", itf_plugin[:type]
     assert_equal "0.2.0", itf_plugin[:version]
