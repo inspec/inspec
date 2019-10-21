@@ -23,11 +23,11 @@ Set-Location $project_root
 $env:DO_CHECK=$true; hab pkg build .
 if (-not $?) { throw "unable to build" }
 
-. /src/results/last_build.env
+. ./results/last_build.env
 if (-not $?) { throw "unable to determine details about this build" }
 
 Write-Host "--- Installing $pkg_ident"
-hab pkg install /src/results/$pkg_artifact
+hab pkg install ./results/$pkg_artifact
 if (-not $?) { throw "unable to install this build" }
 
 Write-Host "+++ Testing $Plan"
