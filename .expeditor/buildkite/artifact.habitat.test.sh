@@ -20,16 +20,16 @@ DO_CHECK=true hab pkg build .
 echo "+++ BUGCITY"
 ls -alR .
 
-cat /src/results/last_build.env
+cat ./results/last_build.env
 
-if [ -f /src/results/last_build.sh ]; then
-    . /src/results/last_build.sh
+if [ -f ./results/last_build.sh ]; then
+    . ./results/last_build.sh
 fi
 
-echo "--- Installing $pkg_ident"
-hab pkg install "/src/results/$pkg_artifact"
+#echo "--- Installing $pkg_ident"
+#hab pkg install "./results/$pkg_artifact"
 
-echo "+++ Testing $PLAN"
-pushd "$project_root/test/artifact"
-rake
-popd
+#echo "+++ Testing $PLAN"
+#pushd "$project_root/test/artifact"
+#rake
+#popd
