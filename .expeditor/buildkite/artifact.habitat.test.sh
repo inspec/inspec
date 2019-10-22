@@ -25,9 +25,11 @@ if [ -f ./results/last_build.env ]; then
     . ./results/last_build.env
 fi
 
-echo "--- Installing ${pkg_ident:?is undefined}"
+echo "+++ Installing ${pkg_ident:?is undefined}"
 
-sudo -E "cat ~$CI_USER/.hab/cache/keys/$HAB_ORIGIN*.pub | /usr/bin/hab origin key import"
+ls -l "~$CI_USER/.hab/cache/keys/$HAB_ORIGIN*.pub"
+
+sudo -E cat ~"$CI_USER"/.hab/cache/keys/$"HAB_ORIGIN"*.pub | /usr/bin/hab origin key import
 sudo -E hab pkg install "./results/${pkg_artifact:?is undefined}"
 
 echo "+++ Testing $PLAN"
