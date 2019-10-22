@@ -30,13 +30,13 @@ echo "+++ Installing ${pkg_ident:?is undefined}"
 whoami
 echo "$HOME"
 
-env
+env|sort
 
-sudo -E cat /var/lib/"$CI_USER"/.hab/"$HAB_ORIGIN"*.pub /usr/bin/hab origin key import
+#sudo -E cat /var/lib/"$CI_USER"/.hab/"$HAB_ORIGIN"*.pub /usr/bin/hab origin key import
 
-sudo -E hab pkg install "./results/${pkg_artifact:?is undefined}"
+#sudo -E hab pkg install "./results/${pkg_artifact:?is undefined}"
 
-echo "+++ Testing $PLAN"
-pushd "$project_root/test/artifact"
-rake
-popd
+#echo "+++ Testing $PLAN"
+#pushd "$project_root/test/artifact"
+#rake
+#popd
