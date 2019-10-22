@@ -26,6 +26,9 @@ fi
 
 echo "--- Installing ${pkg_ident:?is undefined}"
 
+id -a
+ls -laR ~/.hab/cache/keys
+
 sudo -E "hab origin key import < ~buildkite/.hab/cache/keys/$HAB_ORIGIN*.pub"
 sudo -E hab pkg install "./results/${pkg_artifact:?is undefined}"
 
