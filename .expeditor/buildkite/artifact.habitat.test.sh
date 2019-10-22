@@ -32,10 +32,9 @@ whoami
 echo "$HAB_CI_KEY"
 
 sudo -E cat "$HAB_CI_KEY" |/usr/bin/hab origin key import
+sudo -E hab pkg install "./results/${pkg_artifact:?is undefined}"
 
-#sudo -E hab pkg install "./results/${pkg_artifact:?is undefined}"
-
-#echo "+++ Testing $PLAN"
-#pushd "$project_root/test/artifact"
-#rake
-#popd
+echo "+++ Testing $PLAN"
+pushd "$project_root/test/artifact"
+rake
+popd
