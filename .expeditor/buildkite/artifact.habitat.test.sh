@@ -27,7 +27,6 @@ fi
 
 echo "+++ Installing ${pkg_ident:?is undefined}"
 
-ls -laR "~$CI_USER/"
 whoami
 ls -alR ~/.hab
 
