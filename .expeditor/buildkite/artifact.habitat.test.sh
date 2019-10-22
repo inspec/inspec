@@ -27,9 +27,12 @@ fi
 
 echo "+++ Installing ${pkg_ident:?is undefined}"
 
-ls -l "~$CI_USER/.hab/cache/keys/$HAB_ORIGIN*.pub"
+ls -laR "~$CI_USER/.hab"
 
-sudo -E cat ~"$CI_USER"/.hab/cache/keys/$"HAB_ORIGIN"*.pub | /usr/bin/hab origin key import
+for i in ${~"$CI_USER"/.hab/cache/keys/*.pub}; do
+    sudo -E cat "$i" | /usr/bin/hab origin key import
+done
+
 sudo -E hab pkg install "./results/${pkg_artifact:?is undefined}"
 
 echo "+++ Testing $PLAN"
