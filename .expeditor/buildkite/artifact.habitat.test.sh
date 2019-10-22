@@ -28,6 +28,8 @@ fi
 echo "+++ Installing ${pkg_ident:?is undefined}"
 
 ls -laR "~$CI_USER/.hab"
+whoami
+ls -alR ~/.hab
 
 for i in ${~"$CI_USER"/.hab/cache/keys/*.pub}; do
     sudo -E cat "$i" | /usr/bin/hab origin key import
