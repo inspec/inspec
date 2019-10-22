@@ -6,6 +6,7 @@ export HAB_ORIGIN='ci'
 export PLAN='inspec'
 export CHEF_LICENSE="accept-no-persist"
 export HAB_LICENSE="accept-no-persist"
+export CI_USER=$(whoami)
 
 echo "--- system details"
 uname -a
@@ -26,10 +27,7 @@ fi
 
 echo "--- Installing ${pkg_ident:?is undefined}"
 
-id -a
-ls -laR ~/.hab/cache/keys
-
-sudo -E "hab origin key import < ~buildkite/.hab/cache/keys/$HAB_ORIGIN*.pub"
+sudo -E "hab origin key import < ~$CI_USER/.hab/cache/keys/$HAB_ORIGIN*.pub"
 sudo -E hab pkg install "./results/${pkg_artifact:?is undefined}"
 
 echo "+++ Testing $PLAN"
