@@ -28,10 +28,10 @@ fi
 
 echo "+++ Installing ${pkg_ident:?is undefined}"
 
-whoami
-echo "$HAB_CI_KEY"
+# habitat sudo install
+HSI="$project_root"/.expeditor/buildkite/artifact.habitat.install.sh
 
-sudo -E -- sh -c cat "$HAB_CI_KEY" | /usr/bin/hab origin key import && hab pkg install "./results/${pkg_artifact:?is undefined}"
+sudo -E "$HSI"
 
 echo "+++ Testing $PLAN"
 pushd "$project_root/test/artifact"
