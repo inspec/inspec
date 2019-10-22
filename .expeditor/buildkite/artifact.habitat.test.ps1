@@ -27,7 +27,7 @@ if (-not $?) { throw "unable to build" }
 . $project_root/results/last_build.ps1
 if (-not $?) { throw "unable to determine details about this build" }
 
-Write-Host "--- Installing $pkg_ident"
+Write-Host "--- Installing $pkg_ident/$pkg_artifact"
 hab pkg install $project_root/results/$pkg_artifact
 if (-not $?) { throw "unable to install this build" }
 
