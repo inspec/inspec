@@ -6,7 +6,8 @@ export HAB_ORIGIN='ci'
 export PLAN='inspec'
 export CHEF_LICENSE="accept-no-persist"
 export HAB_LICENSE="accept-no-persist"
-export CI_USER=$(whoami)
+HAB_CI_KEY=$(realpath "$HOME/.hab/cache/keys/$HAB_ORIGIN*.pub")
+export HAB_CI_KEY
 
 echo "--- system details"
 uname -a
@@ -28,11 +29,9 @@ fi
 echo "+++ Installing ${pkg_ident:?is undefined}"
 
 whoami
-echo "$HOME"
+echo "$HAB_CI_KEY"
 
-env|sort
-
-#sudo -E cat /var/lib/"$CI_USER"/.hab/"$HAB_ORIGIN"*.pub /usr/bin/hab origin key import
+sudo -E cat "$HAB_CI_KEY" |/usr/bin/hab origin key import
 
 #sudo -E hab pkg install "./results/${pkg_artifact:?is undefined}"
 
