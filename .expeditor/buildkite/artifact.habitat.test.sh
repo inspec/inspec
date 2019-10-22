@@ -12,7 +12,7 @@ uname -a
 
 echo "--- Generating fake origin key"
 hab origin key generate $HAB_ORIGIN
-HAB_CI_KEY=$(realpath "$HOME/.hab/cache/keys/$HAB_ORIGIN*.pub")
+HAB_CI_KEY=$(realpath "$HOME"/.hab/cache/keys/"$HAB_ORIGIN"*.pub)
 export HAB_CI_KEY
 
 echo "--- Building $PLAN"
