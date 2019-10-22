@@ -6,14 +6,14 @@ export HAB_ORIGIN='ci'
 export PLAN='inspec'
 export CHEF_LICENSE="accept-no-persist"
 export HAB_LICENSE="accept-no-persist"
-HAB_CI_KEY=$(realpath "$HOME/.hab/cache/keys/$HAB_ORIGIN*.pub")
-export HAB_CI_KEY
 
 echo "--- system details"
 uname -a
 
 echo "--- Generating fake origin key"
 hab origin key generate $HAB_ORIGIN
+HAB_CI_KEY=$(realpath "$HOME/.hab/cache/keys/$HAB_ORIGIN*.pub")
+export HAB_CI_KEY
 
 echo "--- Building $PLAN"
 project_root="$(git rev-parse --show-toplevel)"
