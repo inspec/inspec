@@ -40,11 +40,11 @@ control_id:
 
 ```yaml
 waiver_control_1_2_3:
-  expiry_date: 2019-09-15
+  expiration_date: 2019-10-15
   justification: Not needed until Q3. @secteam
 
 xccdf_org.cisecurity.benchmarks_rule_1.1.1.4_Ensure_mounting_of_hfs_filesystems_is_disabled:
-  expiry_date: 2020-03-01
+  expiration_date: 2020-03-01
   justification: "This might be a bug in the test. @qateam"
   run: false
 ```
