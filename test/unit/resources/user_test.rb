@@ -60,6 +60,28 @@ describe "Inspec::Resources::User" do
     end
   end
 
+  it "handles a password that has never changed" do
+    resource = quick_resource(:user, :linux) do |cmd|
+      cmd.strip!
+      case cmd
+      when "chage -l" then
+        string <<~EOM
+          Last password change                                  : never
+          Password expires                                      : never
+          Password inactive                                     : never
+          Account expires                                               : never
+          Minimum number of days between password change                : 0
+          Maximum number of days between password change                : 99999
+          Number of days of warning before password expires     : 7
+        EOM
+      else
+        string "" # doesn't matter... they don't error for some reason
+      end
+    end
+
+    _(resource.passwordage).must_be_nil
+  end
+
   it "read user on centos7" do
     resource = MockLoader.new(:centos7).load_resource("user", "root")
     _(resource.exists?).must_equal true
@@ -70,6 +92,7 @@ describe "Inspec::Resources::User" do
     _(resource.mindays).must_equal 0
     _(resource.maxdays).must_equal 99999
     _(resource.warndays).must_equal 7
+    _(resource.passwordage).must_be_kind_of Integer # changes every day
   end
 
   it "read user on centos7" do
