@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.10 -->
-## [v4.18.10](https://github.com/inspec/inspec/tree/v4.18.10) (2019-10-21)
+<!-- latest_release 4.18.11 -->
+## [v4.18.11](https://github.com/inspec/inspec/tree/v4.18.11) (2019-10-23)
 
 #### Merged Pull Requests
-- JSON processing and resource cleanup [#4627](https://github.com/inspec/inspec/pull/4627) ([zenspider](https://github.com/zenspider))
+- Update waivers.md [#4631](https://github.com/inspec/inspec/pull/4631) ([larryebaum](https://github.com/larryebaum))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.0 -->
 ### Changes since 4.18.0 release
 
 #### Merged Pull Requests
+- Update waivers.md [#4631](https://github.com/inspec/inspec/pull/4631) ([larryebaum](https://github.com/larryebaum)) <!-- 4.18.11 -->
 - JSON processing and resource cleanup [#4627](https://github.com/inspec/inspec/pull/4627) ([zenspider](https://github.com/zenspider)) <!-- 4.18.10 -->
 - Clean up testing in inspec exec by stripping ansi color codes from output. [#4598](https://github.com/inspec/inspec/pull/4598) ([zenspider](https://github.com/zenspider)) <!-- 4.18.9 -->
 - Rescue SystemStackError to make errors during inspec check/archive more graceful. [#4597](https://github.com/inspec/inspec/pull/4597) ([zenspider](https://github.com/zenspider)) <!-- 4.18.8 -->
