@@ -19,6 +19,8 @@ module Inspec
     def initialize(path = nil)
       @path = path || File.join(Inspec.config_dir, "cache")
       FileUtils.mkdir_p(@path) unless File.directory?(@path)
+    rescue Errno::EACCES
+      # ignore
     end
 
     def prefered_entry_for(key)
