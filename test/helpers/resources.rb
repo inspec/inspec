@@ -15,13 +15,13 @@ class Minitest::Test
     platform = Train::Platforms.name(os[:name])
     platform.find_family_hierarchy # TODO: remove? UGH! adds platform=
     platform.platform = os
-    # platform.add_platform_methods # TODO: remove?
+    platform.add_platform_methods
     # TODO: this should have a setter
     # TODO: backend.backend is the WORST name
     backend.backend.instance_variable_set :@platform, platform
     # end mock.mock_os
 
-    klass = Inspec::Resource.registry[name]
+    klass = Inspec::Resource.registry[name.to_s]
 
     instance = klass.new(backend, name, *args)
     instance.extend Fake::Resource
@@ -34,6 +34,10 @@ module Fake
   Command = Struct.new(:stdout, :stderr, :exit_status)
 
   module Backend
+    def string(str)
+      ::Fake::Command.new(str, "", 0)
+    end
+
     def stdout_file(path)
       result(path, nil, 0)
     end

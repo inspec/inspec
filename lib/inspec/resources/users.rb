@@ -464,8 +464,9 @@ module Inspec::Resources
         multiple_values: false
       ).params
 
-      dparse = Date.parse "#{params['Last password change']}"
-      dayslastset = (Date.today - dparse).to_i
+      last_change = params["Last password change"]
+      dparse = Date.parse "#{last_change}" rescue nil
+      dayslastset = (Date.today - dparse).to_i if dparse
       cmd = inspec.command("lastb -w -a | grep #{username} | wc -l")
       badpasswordattempts = convert_to_i(cmd.stdout.chomp) if cmd.exit_status == 0
 
