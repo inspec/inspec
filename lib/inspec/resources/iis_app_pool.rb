@@ -77,7 +77,7 @@ module Inspec::Resources
     end
 
     def exists?
-      !iis_app_pool[:pool_name].empty?
+      !!iis_app_pool[:pool_name]
     end
 
     def to_s
