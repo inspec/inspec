@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.13 -->
-## [v4.18.13](https://github.com/inspec/inspec/tree/v4.18.13) (2019-10-24)
+<!-- latest_release 4.18.14 -->
+## [v4.18.14](https://github.com/inspec/inspec/tree/v4.18.14) (2019-10-24)
 
 #### Bug Fixes
-- iis_app_pool better handling of non-existent pools. [#4636](https://github.com/inspec/inspec/pull/4636) ([miah](https://github.com/miah))
+- Fix filesystem resource when device has long name [#4637](https://github.com/inspec/inspec/pull/4637) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.0 -->
@@ -29,6 +29,7 @@
 - Telemetry: add chef-core [#4569](https://github.com/inspec/inspec/pull/4569) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.2 -->
 
 #### Bug Fixes
+- Fix filesystem resource when device has long name [#4637](https://github.com/inspec/inspec/pull/4637) ([miah](https://github.com/miah)) <!-- 4.18.14 -->
 - iis_app_pool better handling of non-existent pools. [#4636](https://github.com/inspec/inspec/pull/4636) ([miah](https://github.com/miah)) <!-- 4.18.13 -->
 - Fix TarProvider when the tarball has empty files in it. [#4619](https://github.com/inspec/inspec/pull/4619) ([zenspider](https://github.com/zenspider)) <!-- 4.18.7 -->
 - Replace input to_hash method, and add unit test for it [#4545](https://github.com/inspec/inspec/pull/4545) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.1 -->
