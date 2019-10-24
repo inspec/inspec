@@ -3,9 +3,11 @@ require "inspec/resource"
 require "inspec/resources/filesystem"
 
 describe "Inspec::Resources::FileSystemResource" do
-  # arch linux
   it "verify filesystem on linux" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("filesystem", "/")
+    resource = quick_resource(:filesystem, :linux, "/") do |cmd|
+      stdout_file "test/unit/mock/cmd/df-PT"
+    end
+
     _(resource.size_kb).must_equal 30428648
     _(resource.size).must_equal 30428648
     _(resource.name).must_equal "/"
