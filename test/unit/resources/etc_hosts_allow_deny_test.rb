@@ -20,6 +20,9 @@ describe "Inspec::Resources::EtcHostsAllow" do
       _(entries.daemon).must_equal %w{vsftpd sshd}
       _(entries.client_list).must_include ["127.0.1.154", "[:fff:fAb0::]"]
     end
+    it "has a to_s" do
+      _(resource.to_s).must_equal "hosts.allow Configuration"
+    end
   end
 
   describe "#parse_line" do
@@ -66,6 +69,9 @@ describe "Inspec::Resources::EtcHostsDeny" do
       entries = resource.where { options == ["deny", "/etc/bin/"] }
       _(entries.daemon).must_equal %w{vsftpd sshd}
       _(entries.client_list).must_include ["127.0.1.154", "[:fff:fAb0::]"]
+    end
+    it "has a to_s" do
+      _(resource.to_s).must_equal "hosts.deny Configuration"
     end
   end
 end

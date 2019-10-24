@@ -33,6 +33,10 @@ module Inspec::Resources
 
     filter.install_filter_methods_on_resource(self, :params)
 
+    def to_s
+      "hosts.allow Configuration"
+    end
+
     private
 
     def read_content
