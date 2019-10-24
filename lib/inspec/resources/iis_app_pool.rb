@@ -22,9 +22,6 @@ module Inspec::Resources
     def initialize(pool_name)
       @pool_name = pool_name
       @pool_path = "IIS:\\AppPools\\#{@pool_name}"
-
-      # verify that this resource is only supported on Windows
-      return skip_resource "The `iis_app_pool` resource is not supported on your OS." unless inspec.os.windows?
     end
 
     def pool_name
