@@ -68,11 +68,11 @@ module Inspec::Resources
       query = verify_query(escaped_query)
       query += ";" unless query.end_with?(";")
       if @db_role.nil?
-        command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
+        command = %{#{bin} -S "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
       elsif @su_user.nil?
-        command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} as #{@db_role} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
+        command = %{#{bin} -S "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} as #{@db_role} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
       else
-        command = %{su - #{@su_user} -c "env ORACLE_SID=#{@service} #{bin} / as #{@db_role} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC"}
+        command = %{su - #{@su_user} -c "env ORACLE_SID=#{@service} #{bin} -S / as #{@db_role} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC"}
       end
       cmd = inspec.command(command)
 
