@@ -1,6 +1,13 @@
 require "helper"
 require "inspec/resource"
 require "inspec/resources/service"
+require "inspec/resources/bsd_service"
+require "inspec/resources/docker_service"
+require "inspec/resources/launchd_service"
+require "inspec/resources/runit_service"
+require "inspec/resources/systemd_service"
+require "inspec/resources/sysv_service"
+require "inspec/resources/upstart_service"
 require "hashie"
 
 describe "Inspec::Resources::Service" do
