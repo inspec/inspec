@@ -25,6 +25,24 @@ module Inspec::Resources
         hostname(opt)
       end
     end
+    @cache = nil
+    
+    def win_cache
+      return {} if !inspec.os.windows?
+      cmd = inspec.command <<-EOF
+        Get-WmiObject Win32_ComputerSystem -Property * | ConvertTo-Json
+      EOF
+
+      return {} if cmd.stdout == ""
+      begin
+        sysinfo = JSON.parse(cmd.stdout)
+      rescue JSON::ParserError => each
+        raise Inspec::Exceptions::ResourceFailed,
+          "Failed to parse JSON from Powershell. " \
+          "Error: #{e}"
+      end
+      return sysinfo
+    end
 
     # returns the hostname of the local system
     def hostname(opt = nil)
@@ -34,13 +52,44 @@ module Inspec::Resources
       elsif os.darwin?
         mac_hostname(opt)
       elsif os.windows?
-        if !opt.nil?
-          skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
-        else
-          inspec.powershell("$env:computername").stdout.chomp
-        end
+        opt = "s" if opt.nil?
+        windows_hostname(opt)
       else
         skip_resource "The `sys_info.hostname` resource is not supported on your OS yet."
+      end
+    end
+    
+    def windows_hostname(opt = nil)
+      if @cache.nil?
+        @cache = win_cache
+      end
+      if !opt.nil?
+        opt = case opt
+          when "f", "long", "fqdn", "full"
+            #https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-computersystem
+            return @cache["DNSHostName"] if (@cache["DomainRole"] == 2 || @cache["DomainRole"] == 0)
+            return "#{@cache["DNSHostName"]}.#{@cache["Domain"]}"
+          when "d", "domain"
+            return nil if (@cache["DomainRole"] == 2 || @cache["DomainRole"] == 0)
+            return @cache["Domain"]
+          when "i", "ip_address"
+            cmd = inspec.command("(Get-WmiObject Win32_NetWorkAdapterConfiguration | Where IPAddress -ne $null | select -Property ipaddress).IPAddress | ConvertTo-Json")
+            return {} if cmd.stdout == ""
+            begin
+              ip = JSON.parse(cmd.stdout)
+            rescue JSON::ParserError => each
+              raise Inspec::Exceptions::ResourceFailed,
+                "Failed to parse JSON from Powershell. " \
+                "Error: #{e}"
+            end
+            return ip
+          when "s", "short"
+            return @cache["DNSHostName"]
+          else "ERROR"
+        end
+      end
+      if opt == "ERROR"
+        skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
       end
     end
 
@@ -92,7 +141,10 @@ module Inspec::Resources
       elsif os.linux?
         inspec.command("cat /sys/class/dmi/id/sys_vendor").stdout.chomp
       elsif os.windows?
-        inspec.powershell("Get-CimInstance -ClassName Win32_ComputerSystem | Select Manufacturer -ExpandProperty Manufacturer").stdout.chomp
+        if @cache.nil?
+          @cache = win_cache
+        end
+        @cache["Manufacturer"]
       else
         skip_resource "The `sys_info.manufacturer` resource is not supported on your OS yet."
       end
@@ -106,9 +158,27 @@ module Inspec::Resources
       elsif os.linux?
         inspec.command("cat /sys/class/dmi/id/product_name").stdout.chomp
       elsif os.windows?
-        inspec.powershell("Get-CimInstance -ClassName Win32_ComputerSystem | Select Model -ExpandProperty Model").stdout.chomp
+        if @cache.nil?
+          @cache = win_cache
+        end
+        @cache["Model"]
       else
         skip_resource "The `sys_info.model` resource is not supported on your OS yet."
+      end
+    end
+    
+    def totalmemory
+      os = inspec.os
+      if os.linux?
+        inspec.command("awk '/MemTotal/ {print $2}' /proc/meminfo").stdout.chomp
+      elsif os.windows?
+        if @cache.nil?
+          @cache = win_cache
+        end
+        #Calculation requried - Windows return bytes where linux returns kB
+        @cache["TotalPhysicalMemory"] / 1024 rescue nil
+      else
+        skip_resource "The `sys_info.totalmemory` resource is not supported on your OS yet."
       end
     end
 
