@@ -41,8 +41,8 @@ module Inspec::Resources
       @db_role = opts[:as_db_role]
 
       # we prefer sqlcl although it is way slower than sqlplus, but it understands csv properly
-      @sqlcl_bin = opts[:sqlcl_bin] || 'sql' unless opts.key?(:sqlplus_bin) # don't use it if user specified sqlplus_bin option
-      @sqlplus_bin = opts[:sqlplus_bin] || 'sqlplus'
+      @sqlcl_bin = opts[:sqlcl_bin] || "sql" unless opts.key?(:sqlplus_bin) # don't use it if user specified sqlplus_bin option
+      @sqlplus_bin = opts[:sqlplus_bin] || "sqlplus"
 
       return fail_resource "Can't run Oracle checks without authentication" if @su_user.nil? && (@user.nil? || @password.nil?)
       return fail_resource "You must provide a service name for the session" if @service.nil?
@@ -101,7 +101,7 @@ module Inspec::Resources
     def parse_csv_result(stdout)
       output = stdout.delete("\r")
       # Remove blank first line if it exists
-      output = output.gsub(/^$\n/, '')
+      output = output.gsub(/^$\n/, "")
       table = CSV.parse(output, { headers: true })
 
       # convert to hash
