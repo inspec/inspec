@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.15 -->
-## [v4.18.15](https://github.com/inspec/inspec/tree/v4.18.15) (2019-10-24)
+<!-- latest_release unreleased -->
+## Unreleased
 
-#### Bug Fixes
-- Add #to_s to etc_hosts_allow, and add tests [#4638](https://github.com/inspec/inspec/pull/4638) ([miah](https://github.com/miah))
+#### Merged Pull Requests
+- Create a user &#39;normal&#39; and use it to run tests. Also bundle caching. [#4626](https://github.com/inspec/inspec/pull/4626) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.0 -->
 ### Changes since 4.18.0 release
 
 #### Merged Pull Requests
+- Create a user &#39;normal&#39; and use it to run tests. Also bundle caching. [#4626](https://github.com/inspec/inspec/pull/4626) ([zenspider](https://github.com/zenspider)) <!-- 4.18.15 -->
 - Fix a crash from users resource if the password has never been updated [#4635](https://github.com/inspec/inspec/pull/4635) ([zenspider](https://github.com/zenspider)) <!-- 4.18.12 -->
 - Add ruby 2.7 preview [#4600](https://github.com/inspec/inspec/pull/4600) ([miah](https://github.com/miah)) <!-- 4.18.11 -->
 - Update waivers.md [#4631](https://github.com/inspec/inspec/pull/4631) ([larryebaum](https://github.com/larryebaum)) <!-- 4.18.11 -->
