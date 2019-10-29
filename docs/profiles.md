@@ -336,7 +336,7 @@ profile `my_dep` using the name `my_res2`.
 
 # Profile Inputs
 
-Our documentation regarding [Inputs](docs/reference/inputs/) is now on a dedicated page.
+Our documentation regarding [Inputs](https://www.inspec.io/docs/reference/inputs/) is now on a dedicated page.
 
 # Profile files
 
