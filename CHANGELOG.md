@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.18.16 -->
+## [v4.18.16](https://github.com/inspec/inspec/tree/v4.18.16) (2019-10-29)
 
 #### Merged Pull Requests
+- Fixed the rest of the minitest deprecations by removing FuncTestRunResult. [#4628](https://github.com/inspec/inspec/pull/4628) ([zenspider](https://github.com/zenspider))
 - Create a user &#39;normal&#39; and use it to run tests. Also bundle caching. [#4626](https://github.com/inspec/inspec/pull/4626) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.18.0 release
 
 #### Merged Pull Requests
+- Fixed the rest of the minitest deprecations by removing FuncTestRunResult. [#4628](https://github.com/inspec/inspec/pull/4628) ([zenspider](https://github.com/zenspider)) <!-- 4.18.16 -->
 - Create a user &#39;normal&#39; and use it to run tests. Also bundle caching. [#4626](https://github.com/inspec/inspec/pull/4626) ([zenspider](https://github.com/zenspider)) <!-- 4.18.15 -->
 - Fix a crash from users resource if the password has never been updated [#4635](https://github.com/inspec/inspec/pull/4635) ([zenspider](https://github.com/zenspider)) <!-- 4.18.12 -->
 - Add ruby 2.7 preview [#4600](https://github.com/inspec/inspec/pull/4600) ([miah](https://github.com/miah)) <!-- 4.18.11 -->
