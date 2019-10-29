@@ -11,7 +11,7 @@ describe "Deprecation Facility Behavior" do
   let(:run_result) { run_inspec_process(invocation, json: true) }
 
   # Expect one control, 3 results
-  let(:json_result) { run_result.payload.json["profiles"][0]["controls"][0]["results"] }
+  let(:json_result) { run_result; @json["profiles"][0]["controls"][0]["results"] }
 
   describe "when the deprecation is in a custom resource and the deprecate DSL method is used" do
     describe "when the action is to fail the control" do

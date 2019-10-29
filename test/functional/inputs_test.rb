@@ -156,24 +156,24 @@ describe "inputs" do
     describe "when the --input is used once with one value" do
       let(:input_opt) { "--input test_input_01=value_from_cli_01" }
       let(:control_opt) { "--controls test_control_01" }
-      it("correctly reads the input") { result.must_have_all_controls_passing }
+      it("correctly reads the input") { assert_json_controls_passing(result) }
     end
 
     describe "when the --input is used once with two values" do
       let(:input_opt) { "--input test_input_01=value_from_cli_01 test_input_02=value_from_cli_02" }
-      it("correctly reads the input") { result.must_have_all_controls_passing }
+      it("correctly reads the input") { assert_json_controls_passing(result) }
     end
 
     describe "when the --input is used once with two values and a comma" do
       let(:input_opt) { "--input test_input_01=value_from_cli_01, test_input_02=value_from_cli_02" }
-      it("correctly reads the input") { result.must_have_all_controls_passing }
+      it("correctly reads the input") { assert_json_controls_passing(result) }
     end
 
     describe "when the --input is used twice with one value each" do
       let(:input_opt) { "--input test_input_01=value_from_cli_01 --input test_input_02=value_from_cli_02" }
       let(:control_opt) { "--controls test_control_02" }
       # Expected, though unfortunate, behavior is to only notice the second input
-      it("correctly reads the input") { result.must_have_all_controls_passing }
+      it("correctly reads the input") { assert_json_controls_passing(result) }
     end
 
     describe "when the --input is used with no equal sign" do
@@ -205,14 +205,14 @@ describe "inputs" do
 
       result = run_inspec_process(cmd, json: true)
 
-      result.must_have_all_controls_passing
+      assert_json_controls_passing(result)
     end
     it "is able to read the inputs using the legacy attribute keyword" do
       cmd = "exec #{inputs_profiles_path}/legacy-attributes-dsl"
 
       result = run_inspec_process(cmd, json: true)
 
-      result.must_have_all_controls_passing
+      assert_json_controls_passing(result)
     end
   end
 
@@ -223,7 +223,7 @@ describe "inputs" do
 
       result = run_inspec_process(cmd, json: true)
 
-      result.must_have_all_controls_passing
+      assert_json_controls_passing(result)
       _(result.stderr).must_be_empty
     end
 
@@ -232,7 +232,7 @@ describe "inputs" do
 
       result = run_inspec_process(cmd, json: true)
 
-      result.must_have_all_controls_passing
+      assert_json_controls_passing(result)
       # Will eventually issue deprecation warning
     end
 
@@ -272,7 +272,7 @@ describe "inputs" do
 
         result = run_inspec_process(cmd, json: true)
 
-        result.must_have_all_controls_passing
+        assert_json_controls_passing(result)
       end
     end
   end
@@ -285,7 +285,7 @@ describe "inputs" do
 
       _(result.stderr).must_include "WARN: Input 'undeclared_01'"
       _(result.stderr).must_include "does not have a value"
-      result.must_have_all_controls_passing
+      assert_json_controls_passing(result)
     end
   end
 end
