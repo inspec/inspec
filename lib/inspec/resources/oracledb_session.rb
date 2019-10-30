@@ -39,7 +39,7 @@ module Inspec::Resources
       @sqlplus_bin = opts[:sqlplus_bin] || "sqlplus"
     end
 
-    def query(q)
+    def query(sql)
 
       # use sqlplus if sqlcl is not available
       if @sqlcl_bin && inspec.command(@sqlcl_bin).exist?
