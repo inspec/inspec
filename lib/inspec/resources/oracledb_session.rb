@@ -56,14 +56,7 @@ module Inspec::Resources
         p = :parse_html_result
       end
 
-      query = verify_query(escaped_query)
-      if @db_role.nil?
-        command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
-      elsif @su_user.nil?
-        command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} as #{@db_role} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
-      else
-        command = %{su - #{@su_user} -c "env ORACLE_SID=#{@service} #{bin} / as #{@db_role} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC"}
-      end
+      command = command_builder(format_options, sql)
       cmd = inspec.command(command)
 
       out = cmd.stdout + "\n" + cmd.stderr
@@ -87,6 +80,29 @@ module Inspec::Resources
       return fail_resource "Can't run Oracle checks without authentication" unless su_user && (user || password)
       return fail_resource "You must provide a service name for the session" unless service
     end
+
+    # 3 commands
+    # regular user password
+    # using a db_role
+    # su, using a db_role
+    def command_builder(format_options, query)
+      verified_query = verify_query(query)
+      sql_prefix, sql_postfix = ""
+      if inspec.os.windows?
+        sql_prefix = %{@'\n#{format_options}\n#{verified_query}\nEXIT\n'@ | }
+      else
+        sql_postfix = %{ <<'EOC'\n#{format_options}\n#{verified_query}\nEXIT\nEOC}
+      end
+
+      if @db_role.nil?
+        %{#{sql_prefix}#{bin} "#{user}"/"#{password}"@#{host}:#{port}/#{@service}#{sql_postfix}}
+      elsif @su_user.nil?
+        %{#{sql_prefix}#{bin} "#{user}"/"#{password}"@#{host}:#{port}/#{@service} as #{@db_role}#{sql_postfix}}
+      else
+        %{su - #{@su_user} -c "env ORACLE_SID=#{@service} #{bin} / as #{@db_role}#{sql_postfix}}
+      end
+    end
+
     def verify_query(query)
       query += ";" unless query.strip.end_with?(";")
       query
