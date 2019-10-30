@@ -57,7 +57,6 @@ module Inspec::Resources
       end
 
       query = verify_query(escaped_query)
-      query += ";" unless query.end_with?(";")
       if @db_role.nil?
         command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
       elsif @su_user.nil?
@@ -89,8 +88,7 @@ module Inspec::Resources
       return fail_resource "You must provide a service name for the session" unless service
     end
     def verify_query(query)
-      # ensure we have a ; at the end
-      query + ";" unless query.strip.end_with?(";")
+      query += ";" unless query.strip.end_with?(";")
       query
     end
 
