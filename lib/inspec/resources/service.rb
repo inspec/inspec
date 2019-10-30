@@ -304,7 +304,7 @@ module Inspec::Resources
 
       # LoadState values eg. loaded, not-found
       installed = params["LoadState"] == "loaded"
-      startname = params["User"] != "" ? params["User"] : nil
+      startname = params["User"]
 
       {
         name: params["Id"],
