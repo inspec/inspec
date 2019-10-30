@@ -40,22 +40,23 @@ module Inspec::Resources
     end
 
     def query(sql)
+      pre_flight_check
 
       # use sqlplus if sqlcl is not available
       if @sqlcl_bin && inspec.command(@sqlcl_bin).exist?
-        bin = @sqlcl_bin
-        opts = "set sqlformat csv\nSET FEEDBACK OFF"
-        p = :parse_csv_result
+        @bin = @sqlcl_bin
+        format_options = "set sqlformat csv\nSET FEEDBACK OFF"
+        parser = :parse_csv_result
       else
-        bin = @sqlplus_bin
-        opts = "SET MARKUP HTML ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF"
-        p = :parse_html_result
+        @bin = "#{@sqlplus_bin} -S"
+        format_options = "SET MARKUP HTML ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF"
+        parser = :parse_html_result
       end
 
       command = command_builder(format_options, sql)
       cmd = inspec.command(command)
 
-      DatabaseHelper::SQLQueryResult.new(cmd, send(p, cmd.stdout))
+      DatabaseHelper::SQLQueryResult.new(cmd, send(parser, cmd.stdout))
     end
 
     def to_s
