@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.17 -->
-## [v4.18.17](https://github.com/inspec/inspec/tree/v4.18.17) (2019-10-30)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- bumped the windows tests again [#4649](https://github.com/inspec/inspec/pull/4649) ([zenspider](https://github.com/zenspider))
+- Fix building the website [#4652](https://github.com/inspec/inspec/pull/4652) ([btm](https://github.com/btm))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.0 -->
 ### Changes since 4.18.0 release
 
 #### Merged Pull Requests
+- Fix building the website [#4652](https://github.com/inspec/inspec/pull/4652) ([btm](https://github.com/btm)) <!-- 4.18.17 -->
 - bumped the windows tests again [#4649](https://github.com/inspec/inspec/pull/4649) ([zenspider](https://github.com/zenspider)) <!-- 4.18.17 -->
 - Fixed the rest of the minitest deprecations by removing FuncTestRunResult. [#4628](https://github.com/inspec/inspec/pull/4628) ([zenspider](https://github.com/zenspider)) <!-- 4.18.16 -->
 - Create a user &#39;normal&#39; and use it to run tests. Also bundle caching. [#4626](https://github.com/inspec/inspec/pull/4626) ([zenspider](https://github.com/zenspider)) <!-- 4.18.15 -->
