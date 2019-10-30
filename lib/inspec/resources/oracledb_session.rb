@@ -33,17 +33,10 @@ module Inspec::Resources
       @host = opts[:host] || "localhost"
       @port = opts[:port] || "1521"
       @service = opts[:service]
-
-      # connection as sysdba stuff
-      return skip_resource "Option 'as_os_user' not available in Windows" if inspec.os.windows? && opts[:as_os_user]
-
       @su_user = opts[:as_os_user]
       @db_role = opts[:as_db_role]
       @sqlcl_bin = opts[:sqlcl_bin] || nil
       @sqlplus_bin = opts[:sqlplus_bin] || "sqlplus"
-
-      return fail_resource "Can't run Oracle checks without authentication" if @su_user.nil? && (@user.nil? || @password.nil?)
-      return fail_resource "You must provide a service name for the session" if @service.nil?
     end
 
     def query(q)
@@ -90,6 +83,11 @@ module Inspec::Resources
 
     private
 
+    def pre_flight_check
+      return skip_resource "Option 'as_os_user' not available in Windows" if inspec.os.windows? && su_user
+      return fail_resource "Can't run Oracle checks without authentication" unless su_user && (user || password)
+      return fail_resource "You must provide a service name for the session" unless service
+    end
     def verify_query(query)
       # ensure we have a ; at the end
       query + ";" unless query.strip.end_with?(";")
