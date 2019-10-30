@@ -18,19 +18,15 @@ class NginxParser < Parslet::Parser
   end
 
   rule(:standard_identifier) do
-    (match("[a-zA-Z]") >> match('\S').repeat).as(:identifier) >> space >> space.repeat
+    (match("[a-zA-Z~*.]") >> match('\S').repeat).as(:identifier) >> space >> space.repeat
   end
 
   rule(:quoted_identifier) do
     str('"') >> (str('"').absent? >> any).repeat.as(:identifier) >> str('"') >> space.repeat
   end
 
-  rule(:regex_identifier) do
-    (str("~") >> match('\S').repeat).as(:identifier) >> space >> space.repeat
-  end
-
   rule(:identifier) do
-    standard_identifier | quoted_identifier | regex_identifier
+    standard_identifier | quoted_identifier
   end
 
   rule(:standard_value) do
