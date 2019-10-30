@@ -21,7 +21,10 @@ module Inspec::Resources
       end
     EXAMPLE
 
-    attr_reader :user, :password, :host, :service, :as_os_user, :as_db_role
+    attr_reader :user, :password, :host, :port, :service,
+                :db_role, :su_user, :bin
+
+
     # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
     def initialize(opts = {})
       @user = opts[:user]
