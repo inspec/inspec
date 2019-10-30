@@ -40,11 +40,7 @@ module Inspec::Resources
     end
 
     def query(q)
-      escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"')
-      # escape tables with $
-      escaped_query = escaped_query.gsub("$", '\\$')
 
-      p = nil
       # use sqlplus if sqlcl is not available
       if @sqlcl_bin && inspec.command(@sqlcl_bin).exist?
         bin = @sqlcl_bin
@@ -59,13 +55,6 @@ module Inspec::Resources
       command = command_builder(format_options, sql)
       cmd = inspec.command(command)
 
-      out = cmd.stdout + "\n" + cmd.stderr
-      if out.downcase =~ /^error/
-        # TODO: we need to throw an exception here
-        # change once https://github.com/chef/inspec/issues/1205 is in
-        warn "Could not execute the sql query #{out}"
-        DatabaseHelper::SQLQueryResult.new(cmd, Hashie::Mash.new({}))
-      end
       DatabaseHelper::SQLQueryResult.new(cmd, send(p, cmd.stdout))
     end
 
