@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.18.18 -->
+## [v4.18.18](https://github.com/inspec/inspec/tree/v4.18.18) (2019-10-31)
 
 #### Merged Pull Requests
+- Fixed problem with accessing backend in TestDslLazyLoader#method_missing. [#4648](https://github.com/inspec/inspec/pull/4648) ([zenspider](https://github.com/zenspider))
 - Fix building the website [#4652](https://github.com/inspec/inspec/pull/4652) ([btm](https://github.com/btm))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.18.0 release
 
 #### Merged Pull Requests
+- Fixed problem with accessing backend in TestDslLazyLoader#method_missing. [#4648](https://github.com/inspec/inspec/pull/4648) ([zenspider](https://github.com/zenspider)) <!-- 4.18.18 -->
 - Fix building the website [#4652](https://github.com/inspec/inspec/pull/4652) ([btm](https://github.com/btm)) <!-- 4.18.17 -->
 - bumped the windows tests again [#4649](https://github.com/inspec/inspec/pull/4649) ([zenspider](https://github.com/zenspider)) <!-- 4.18.17 -->
 - Fixed the rest of the minitest deprecations by removing FuncTestRunResult. [#4628](https://github.com/inspec/inspec/pull/4628) ([zenspider](https://github.com/zenspider)) <!-- 4.18.16 -->
