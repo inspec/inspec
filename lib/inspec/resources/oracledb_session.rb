@@ -41,11 +41,12 @@ module Inspec::Resources
       @db_role = opts[:as_db_role]
       @sqlcl_bin = opts[:sqlcl_bin] || nil
       @sqlplus_bin = opts[:sqlplus_bin] || "sqlplus"
+      skip_resource "Option 'as_os_user' not available in Windows" if inspec.os.windows? && su_user
+      fail_resource "Can't run Oracle checks without authentication" unless su_user && (user || password)
+      fail_resource "You must provide a service name for the session" unless service
     end
 
     def query(sql)
-      pre_flight_check
-
       # use sqlplus if sqlcl is not available
       if @sqlcl_bin && inspec.command(@sqlcl_bin).exist?
         @bin = @sqlcl_bin
@@ -68,12 +69,6 @@ module Inspec::Resources
     end
 
     private
-
-    def pre_flight_check
-      skip_resource "Option 'as_os_user' not available in Windows" if inspec.os.windows? && su_user
-      fail_resource "Can't run Oracle checks without authentication" unless su_user && (user || password)
-      fail_resource "You must provide a service name for the session" unless service
-    end
 
     # 3 commands
     # regular user password
