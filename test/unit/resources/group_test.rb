@@ -36,22 +36,9 @@ describe "Inspec::Resources::Group" do
     _(resource.gid).must_equal 0
   end
 
-  def unmock(&blk)
-    require "fetchers/mock"
-    require "inspec/runner"
-
-    # TODO: there is WAY too much magic going on in here
-    runner = Inspec::Runner.new
-    runner.add_target("inspec.yml" => "name: inspec-shell")
-    profile = runner.target_profiles.first
-    ctx = profile.runner_context
-
-    ctx.load blk
-  end
-
   if osx?
     it "actually verifies group on mac" do
-      resource = unmock { group "staff" }
+      resource = quick_resource(:group, :osx104, "staff")
       _(resource.exists?).must_equal true
       _(resource.members).must_include "root"
       _(resource.members).must_include ENV["LOGNAME"]
