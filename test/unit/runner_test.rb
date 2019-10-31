@@ -11,7 +11,7 @@ describe Inspec::Runner do
   it "bug #4524" do
     file = <<-RUBY
       describe "a thing" do
-        before(:all) { command("true") }
+        before(:all) { os }
         it("should pass") {}
       end
     RUBY
@@ -26,8 +26,8 @@ describe Inspec::Runner do
   it "bug #4587" do
     file = <<-RUBY
       describe "a thing" do
-        subject! { command("true") }
-        its("exit_status") { should eq 0 }
+        subject! { os }
+        its("family") { should_not eq 42 }
       end
     RUBY
     runner.add_target("bug4587.rb" => file)
