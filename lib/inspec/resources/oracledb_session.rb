@@ -24,8 +24,6 @@ module Inspec::Resources
     attr_reader :user, :password, :host, :port, :service,
                 :db_role, :su_user, :bin
 
-
-    # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
     def initialize(opts = {})
       @user = opts[:user]
       @password = opts[:password] || opts[:pass]
@@ -47,7 +45,6 @@ module Inspec::Resources
     end
 
     def query(sql)
-      # use sqlplus if sqlcl is not available
       if @sqlcl_bin && inspec.command(@sqlcl_bin).exist?
         @bin = @sqlcl_bin
         format_options = "set sqlformat csv\nSET FEEDBACK OFF"
@@ -114,7 +111,7 @@ module Inspec::Resources
       results
     end
 
-    def parse_html_result(stdout) # rubocop:disable Metrics/AbcSize
+    def parse_html_result(stdout)
       result = stdout
       # make oracle html valid html by removing the p tag, it does not include a closing tag
       result = result.gsub("<p>", "").gsub("</p>", "").gsub("<br>", "")
