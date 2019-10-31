@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.23 -->
-## [v4.18.23](https://github.com/inspec/inspec/tree/v4.18.23) (2019-10-31)
+<!-- latest_release 4.18.24 -->
+## [v4.18.24](https://github.com/inspec/inspec/tree/v4.18.24) (2019-10-31)
 
 #### Merged Pull Requests
-- Ooops. I didn&#39;t need to remove this just yet. html parser is using it. [#4658](https://github.com/inspec/inspec/pull/4658) ([miah](https://github.com/miah))
+- Fixed runner tests for windows. [#4659](https://github.com/inspec/inspec/pull/4659) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.0 -->
 ### Changes since 4.18.0 release
 
 #### Merged Pull Requests
+- Fixed runner tests for windows. [#4659](https://github.com/inspec/inspec/pull/4659) ([zenspider](https://github.com/zenspider)) <!-- 4.18.24 -->
 - Ooops. I didn&#39;t need to remove this just yet. html parser is using it. [#4658](https://github.com/inspec/inspec/pull/4658) ([miah](https://github.com/miah)) <!-- 4.18.23 -->
 - Nginx Resource: Add parsing support for wildcard, dot prefix, and regex [#4653](https://github.com/inspec/inspec/pull/4653) ([landychan](https://github.com/landychan)) <!-- 4.18.22 -->
 - oracledb_session fixes [#4654](https://github.com/inspec/inspec/pull/4654) ([miah](https://github.com/miah)) <!-- 4.18.20 -->
