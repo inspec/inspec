@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.19 -->
-## [v4.18.19](https://github.com/inspec/inspec/tree/v4.18.19) (2019-10-31)
+<!-- latest_release 4.18.20 -->
+## [v4.18.20](https://github.com/inspec/inspec/tree/v4.18.20) (2019-10-31)
 
-#### Bug Fixes
-- Improve testing for yum.repo in CentOS 8 [#4568](https://github.com/inspec/inspec/pull/4568) ([ramereth](https://github.com/ramereth))
+#### Merged Pull Requests
+- oracledb_session fixes [#4654](https://github.com/inspec/inspec/pull/4654) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.0 -->
 ### Changes since 4.18.0 release
 
 #### Merged Pull Requests
+- oracledb_session fixes [#4654](https://github.com/inspec/inspec/pull/4654) ([miah](https://github.com/miah)) <!-- 4.18.20 -->
 - Fixed problem with accessing backend in TestDslLazyLoader#method_missing. [#4648](https://github.com/inspec/inspec/pull/4648) ([zenspider](https://github.com/zenspider)) <!-- 4.18.18 -->
 - Fix building the website [#4652](https://github.com/inspec/inspec/pull/4652) ([btm](https://github.com/btm)) <!-- 4.18.17 -->
 - bumped the windows tests again [#4649](https://github.com/inspec/inspec/pull/4649) ([zenspider](https://github.com/zenspider)) <!-- 4.18.17 -->
