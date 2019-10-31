@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.21 -->
-## [v4.18.21](https://github.com/inspec/inspec/tree/v4.18.21) (2019-10-31)
+<!-- latest_release 4.18.22 -->
+## [v4.18.22](https://github.com/inspec/inspec/tree/v4.18.22) (2019-10-31)
 
-#### Bug Fixes
-- Fix config reference in `compliance exec` [#4650](https://github.com/inspec/inspec/pull/4650) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Nginx Resource: Add parsing support for wildcard, dot prefix, and regex [#4653](https://github.com/inspec/inspec/pull/4653) ([landychan](https://github.com/landychan))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.0 -->
 ### Changes since 4.18.0 release
 
 #### Merged Pull Requests
+- Nginx Resource: Add parsing support for wildcard, dot prefix, and regex [#4653](https://github.com/inspec/inspec/pull/4653) ([landychan](https://github.com/landychan)) <!-- 4.18.22 -->
 - oracledb_session fixes [#4654](https://github.com/inspec/inspec/pull/4654) ([miah](https://github.com/miah)) <!-- 4.18.20 -->
 - Fixed problem with accessing backend in TestDslLazyLoader#method_missing. [#4648](https://github.com/inspec/inspec/pull/4648) ([zenspider](https://github.com/zenspider)) <!-- 4.18.18 -->
 - Fix building the website [#4652](https://github.com/inspec/inspec/pull/4652) ([btm](https://github.com/btm)) <!-- 4.18.17 -->
