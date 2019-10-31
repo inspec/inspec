@@ -33,6 +33,7 @@ module Inspec::Resources
         Inspec.deprecate(:oracledb_session_pass_option, "The oracledb_session `pass` option is deprecated. Please use `password`.")
       end
 
+      @bin = "sqlplus"
       @host = opts[:host] || "localhost"
       @port = opts[:port] || "1521"
       @service = opts[:service]
