@@ -69,9 +69,9 @@ module Inspec::Resources
     private
 
     def pre_flight_check
-      return skip_resource "Option 'as_os_user' not available in Windows" if inspec.os.windows? && su_user
-      return fail_resource "Can't run Oracle checks without authentication" unless su_user && (user || password)
-      return fail_resource "You must provide a service name for the session" unless service
+      skip_resource "Option 'as_os_user' not available in Windows" if inspec.os.windows? && su_user
+      fail_resource "Can't run Oracle checks without authentication" unless su_user && (user || password)
+      fail_resource "You must provide a service name for the session" unless service
     end
 
     # 3 commands
