@@ -85,6 +85,19 @@ describe NginxParser do
   it "parses quoted identifiers for assignments" do
     _(parsestr(%{"~^\/opcache-api" 1;})).must_equal "[{:assignment=>{:identifier=>\"~^/opcache-api\"@1, :args=>[{:value=>\"1\"@17}]}}]"
   end
+
+  it "parses regex identifiers for assignments" do
+    _(parsestr(%{~^\/opcache-api 1;})).must_equal "[{:assignment=>{:identifier=>\"~^/opcache-api\"@0, :args=>[{:value=>\"1\"@15}]}}]"
+  end
+
+  it "parses wildcard identifiers for assignments" do
+    _(parsestr(%{*.example.org qa;})).must_equal "[{:assignment=>{:identifier=>\"*.example.org\"@0, :args=>[{:value=>\"qa\"@14}]}}]"
+  end
+
+  it "parses dot-prefixed identifiers for assignments" do
+    _(parsestr(%{.example.com test;})).must_equal "[{:assignment=>{:identifier=>\".example.com\"@0, :args=>[{:value=>\"test\"@13}]}}]"
+  end
+
 end
 
 describe NginxTransform do
