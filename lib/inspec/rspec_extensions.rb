@@ -50,8 +50,8 @@ module Inspec
     def method_missing(method_name, *arguments, &block)
       # see if it is a resource first
       begin
-        inspec = inspec if respond_to?(:inspec) # backend not available??
-        resource = Inspec::DSL.method_missing_resource(inspec, method_name, *arguments)
+        backend = inspec if respond_to?(:inspec) # backend not available??
+        resource = Inspec::DSL.method_missing_resource(backend, method_name, *arguments)
         return resource if resource
       rescue LoadError
         # pass through
