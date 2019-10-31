@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.22 -->
-## [v4.18.22](https://github.com/inspec/inspec/tree/v4.18.22) (2019-10-31)
+<!-- latest_release 4.18.23 -->
+## [v4.18.23](https://github.com/inspec/inspec/tree/v4.18.23) (2019-10-31)
 
 #### Merged Pull Requests
-- Nginx Resource: Add parsing support for wildcard, dot prefix, and regex [#4653](https://github.com/inspec/inspec/pull/4653) ([landychan](https://github.com/landychan))
+- Ooops. I didn&#39;t need to remove this just yet. html parser is using it. [#4658](https://github.com/inspec/inspec/pull/4658) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.0 -->
 ### Changes since 4.18.0 release
 
 #### Merged Pull Requests
+- Ooops. I didn&#39;t need to remove this just yet. html parser is using it. [#4658](https://github.com/inspec/inspec/pull/4658) ([miah](https://github.com/miah)) <!-- 4.18.23 -->
 - Nginx Resource: Add parsing support for wildcard, dot prefix, and regex [#4653](https://github.com/inspec/inspec/pull/4653) ([landychan](https://github.com/landychan)) <!-- 4.18.22 -->
 - oracledb_session fixes [#4654](https://github.com/inspec/inspec/pull/4654) ([miah](https://github.com/miah)) <!-- 4.18.20 -->
 - Fixed problem with accessing backend in TestDslLazyLoader#method_missing. [#4648](https://github.com/inspec/inspec/pull/4648) ([zenspider](https://github.com/zenspider)) <!-- 4.18.18 -->
