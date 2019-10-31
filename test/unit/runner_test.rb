@@ -6,7 +6,7 @@ require "inspec/runner"
 require "fetchers/mock"
 
 describe Inspec::Runner do
-  let(:runner) { Inspec::Runner.new({ command_runner: :generic }) }
+  let(:runner) { Inspec::Runner.new({ command_runner: :generic, reporter: [] }) }
 
   it "bug #4524" do
     file = <<-RUBY
