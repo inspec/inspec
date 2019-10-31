@@ -2,6 +2,7 @@ require "inspec/resources/command"
 require "inspec/utils/database_helpers"
 require "htmlentities"
 require "rexml/document"
+require "hashie/mash"
 require "csv"
 
 module Inspec::Resources
