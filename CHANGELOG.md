@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.20 -->
-## [v4.18.20](https://github.com/inspec/inspec/tree/v4.18.20) (2019-10-31)
+<!-- latest_release 4.18.21 -->
+## [v4.18.21](https://github.com/inspec/inspec/tree/v4.18.21) (2019-10-31)
 
-#### Merged Pull Requests
-- oracledb_session fixes [#4654](https://github.com/inspec/inspec/pull/4654) ([miah](https://github.com/miah))
+#### Bug Fixes
+- Fix config reference in `compliance exec` [#4650](https://github.com/inspec/inspec/pull/4650) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.0 -->
@@ -35,6 +35,7 @@
 - Telemetry: add chef-core [#4569](https://github.com/inspec/inspec/pull/4569) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.2 -->
 
 #### Bug Fixes
+- Fix config reference in `compliance exec` [#4650](https://github.com/inspec/inspec/pull/4650) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.21 -->
 - Improve testing for yum.repo in CentOS 8 [#4568](https://github.com/inspec/inspec/pull/4568) ([ramereth](https://github.com/ramereth)) <!-- 4.18.19 -->
 - Add #to_s to etc_hosts_allow, and add tests [#4638](https://github.com/inspec/inspec/pull/4638) ([miah](https://github.com/miah)) <!-- 4.18.15 -->
 - Fix filesystem resource when device has long name [#4637](https://github.com/inspec/inspec/pull/4637) ([miah](https://github.com/miah)) <!-- 4.18.14 -->
