@@ -34,6 +34,8 @@ module Inspec
     attr_reader :backend, :rules
     attr_accessor :target_profiles
 
+    attr_accessor :test_collector
+
     def attributes
       Inspec.deprecate(:rename_attributes_to_inputs, "Don't call runner.attributes, call runner.inputs")
       inputs

@@ -3,9 +3,40 @@
 require "helper"
 require "inspec/secrets"
 require "inspec/runner"
+require "fetchers/mock"
 
 describe Inspec::Runner do
   let(:runner) { Inspec::Runner.new({ command_runner: :generic }) }
+
+  it "bug #4524" do
+    file = <<-RUBY
+      describe "a thing" do
+        before(:all) { command("true") }
+        it("should pass") {}
+      end
+    RUBY
+    runner.add_target("bug4524.rb" => file)
+    runner.load
+
+    result = RSpec::Core::Runner.new(nil).run_specs(runner.test_collector.tests)
+
+    _(result).must_equal 0
+  end
+
+  it "bug #4587" do
+    file = <<-RUBY
+      describe "a thing" do
+        subject! { command("true") }
+        its("exit_status") { should eq 0 }
+      end
+    RUBY
+    runner.add_target("bug4587.rb" => file)
+    runner.load
+
+    result = RSpec::Core::Runner.new(nil).run_specs(runner.test_collector.tests)
+
+    _(result).must_equal 0
+  end
 
   # =============================================================== #
   #                         Reporter Options
