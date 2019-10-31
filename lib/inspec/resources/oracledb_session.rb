@@ -1,5 +1,4 @@
 require "inspec/resources/command"
-require "hashie/mash"
 require "inspec/utils/database_helpers"
 require "htmlentities"
 require "rexml/document"
@@ -21,8 +20,8 @@ module Inspec::Resources
       end
     EXAMPLE
 
-    attr_reader :user, :password, :host, :port, :service,
-                :db_role, :su_user, :bin
+    attr_reader :bin, :db_role, :host, :password, :port, :service,
+                :su_user, :user
 
     def initialize(opts = {})
       @user = opts[:user]
@@ -74,7 +73,7 @@ module Inspec::Resources
     # su, using a db_role
     def command_builder(format_options, query)
       verified_query = verify_query(query)
-      sql_prefix, sql_postfix = ""
+      sql_prefix, sql_postfix = "", ""
       if inspec.os.windows?
         sql_prefix = %{@'\n#{format_options}\n#{verified_query}\nEXIT\n'@ | }
       else
