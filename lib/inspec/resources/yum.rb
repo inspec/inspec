@@ -59,7 +59,7 @@ module Inspec::Resources
         # detect repo start
         in_repo = true if line =~ /^\s*Repo-id\s*:\s*(.*)\b/
         # detect repo end
-        if line == "\n" && in_repo
+        if (line == "\n" || line =~ /\s*Total packages:/) && in_repo
           in_repo = false
           @cache.push(repo)
           repo = {}
