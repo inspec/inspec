@@ -39,13 +39,19 @@ if [ -f bundle.tar.gz ]; then
   tar -xzf bundle.tar.gz
 fi
 
+if [ -n "${RESET_BUNDLE_CACHE:-}" ]; then
+    rm bundle.sha256
+fi
+
 bundle config --local path vendor/bundle
 bundle install --jobs=7 --retry=3 --without tools maintenance deploy
 
-if [[ -f bundle.tar.gz && -f bundle.sha256 ]] && shasum --check bundle.sha256 --status; then
+echo "--- bundle cache"
+if test -f bundle.sha256 && shasum --check bundle.sha256 --status; then
     echo "Bundled gems have not changed. Skipping upload to s3"
 else
-    shasum -a 256 vendor/bundle > bundle.sha256
+    echo "Bundled gems have changed. Uploading to s3"
+    shasum -a 256 Gemfile.lock > bundle.sha256
     tar -czf bundle.tar.gz vendor/
     push_s3_file bundle.tar.gz
     push_s3_file bundle.sha256
