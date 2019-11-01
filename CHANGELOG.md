@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.18.25 -->
+## [v4.18.25](https://github.com/inspec/inspec/tree/v4.18.25) (2019-11-01)
+
+#### Merged Pull Requests
+- incorporate changes from chef hab plan [#4662](https://github.com/inspec/inspec/pull/4662) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.18.24 -->
+### Changes since 4.18.24 release
+
+#### Merged Pull Requests
+- incorporate changes from chef hab plan [#4662](https://github.com/inspec/inspec/pull/4662) ([miah](https://github.com/miah)) <!-- 4.18.25 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
