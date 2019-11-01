@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.25 -->
-## [v4.18.25](https://github.com/inspec/inspec/tree/v4.18.25) (2019-11-01)
+<!-- latest_release 4.18.26 -->
+## [v4.18.26](https://github.com/inspec/inspec/tree/v4.18.26) (2019-11-01)
 
 #### Merged Pull Requests
-- incorporate changes from chef hab plan [#4662](https://github.com/inspec/inspec/pull/4662) ([miah](https://github.com/miah))
+- Change &quot;an Chef Inspec&quot; to &quot;a Chef Inspec&quot;. [#4663](https://github.com/inspec/inspec/pull/4663) ([kcrouch](https://github.com/kcrouch))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.24 -->
 ### Changes since 4.18.24 release
 
 #### Merged Pull Requests
+- Change &quot;an Chef Inspec&quot; to &quot;a Chef Inspec&quot;. [#4663](https://github.com/inspec/inspec/pull/4663) ([kcrouch](https://github.com/kcrouch)) <!-- 4.18.26 -->
 - incorporate changes from chef hab plan [#4662](https://github.com/inspec/inspec/pull/4662) ([miah](https://github.com/miah)) <!-- 4.18.25 -->
 <!-- release_rollup -->
 
