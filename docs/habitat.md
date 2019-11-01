@@ -4,7 +4,7 @@ title: Chef InSpec Integration with Chef Habitat
 
 # Chef Habitat Integration
 
-Chef InSpec provides an easy method to create an executable Chef Habitat package for an Chef InSpec profile. When run via the Chef Habitat Supervisor, the package will run Chef InSpec with your profile and write out its findings to the supervisor log. This provides the ability to ship your compliance controls alongside your Chef Habitat-packaged application and continuously run InSpec, providing you *Continuous Compliance.*
+Chef InSpec provides an easy method to create an executable Chef Habitat package for a Chef InSpec profile. When run via the Chef Habitat Supervisor, the package will run Chef InSpec with your profile and write out its findings to the supervisor log. This provides the ability to ship your compliance controls alongside your Chef Habitat-packaged application and continuously run InSpec, providing you *Continuous Compliance.*
 
 ## What is Chef Habitat
 
@@ -14,7 +14,7 @@ To learn more about Chef Habitat and try our demos and tutorials, visit [https:/
 
 ## Using the Chef Habitat Integration
 
-After creating a Chef Habitat package for an Chef InSpec profile (see CLI commands below) and uploading the package to a Chef Habitat Depot or manually distributing to a host, start the Chef Habitat Supervisor with your package:
+After creating a Chef Habitat package for a Chef InSpec profile (see CLI commands below) and uploading the package to a Chef Habitat Depot or manually distributing to a host, start the Chef Habitat Supervisor with your package:
 
 ```bash
 hab start effortless/audit-baseline
@@ -70,7 +70,7 @@ Chef InSpec will write a JSON file in the `${svc_var_path}/inspec_results` direc
 
 ### inspec habitat profile create
 
-Create a Chef Habitat package for an Chef InSpec profile. Chef InSpec will validate the profile, fetch and vendor any dependencies (if necessary), and build the Chef Habitat package with a dependency on the latest InSpec. The resulting package will be saved to the current working directory.
+Create a Chef Habitat package for a Chef InSpec profile. Chef InSpec will validate the profile, fetch and vendor any dependencies (if necessary), and build the Chef Habitat package with a dependency on the latest InSpec. The resulting package will be saved to the current working directory.
 
 The package can then be manually uploaded to a Chef Habitat Depot or manually distributed to a host and installed via `hab pkg install`.
 
@@ -154,7 +154,7 @@ inspec habitat profile setup ~/profiles/frontend1
 
 ### inspec habitat profile upload
 
-Create and then upload a Chef Habitat package for an Chef InSpec profile. Like the `inspec habitat profile create` command, Chef InSpec will validate the profile, fetch and vendor any dependencies (if necessary), and build the Chef Habitat package with a dependency on the latest InSpec. However, instead of saving the package locally to the workstation, Chef InSpec will upload it to the depot defined in the `HAB_DEPOT` environment variable. If `HAB_DEPOT` is not defined, the package will be uploaded to the public Chef Habitat depot at [https://app.habitat.sh](https://app.habitat.sh).
+Create and then upload a Chef Habitat package for a Chef InSpec profile. Like the `inspec habitat profile create` command, Chef InSpec will validate the profile, fetch and vendor any dependencies (if necessary), and build the Chef Habitat package with a dependency on the latest InSpec. However, instead of saving the package locally to the workstation, Chef InSpec will upload it to the depot defined in the `HAB_DEPOT` environment variable. If `HAB_DEPOT` is not defined, the package will be uploaded to the public Chef Habitat depot at [https://app.habitat.sh](https://app.habitat.sh).
 
 #### Syntax
 

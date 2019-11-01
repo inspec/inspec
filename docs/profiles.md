@@ -158,7 +158,7 @@ supports:
 
 # Profile Dependencies
 
-An Chef InSpec profile can bring in the controls and custom resources from another Chef InSpec profile. Additionally, when inheriting the controls of another profile, a profile can skip or even modify those included controls.
+A Chef InSpec profile can bring in the controls and custom resources from another Chef InSpec profile. Additionally, when inheriting the controls of another profile, a profile can skip or even modify those included controls.
 
 For hands-on examples, check out [Create a custom Chef InSpec profile](https://learn.chef.io/modules/create-a-custom-profile#/) on Learn Chef Rally.
 
@@ -340,7 +340,7 @@ Our documentation regarding [Inputs](https://www.inspec.io/docs/reference/inputs
 
 # Profile files
 
-An Chef InSpec profile may contain additional files that can be accessed during tests. A profile file enables you to separate the logic of your tests from the data your tests check for, for example, the list of ports you require to be open.
+A Chef InSpec profile may contain additional files that can be accessed during tests. A profile file enables you to separate the logic of your tests from the data your tests check for, for example, the list of ports you require to be open.
 
 To access these files, they must be stored in the `files` directory at the root of a profile. They are accessed by their name relative to this folder with `inspec.profile.file(...)`.
 
