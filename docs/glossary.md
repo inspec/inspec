@@ -128,7 +128,7 @@ A [resource](#resource) that is _not_ included with InSpec. It may be a resource
 
 ### describe block
 
-The _`describe`_ keyword is used with a _`describe block`_ to refer to an Chef InSpec resource. You use the `describe` keyword along with the name of a [resource](#resource) to enclose related [tests](#test) that apply to the resource. Multiple describe blocks are usually grouped together in a [control](#control), but you can also use them outside of a control.
+The _`describe`_ keyword is used with a _`describe block`_ to refer to a Chef InSpec resource. You use the `describe` keyword along with the name of a [resource](#resource) to enclose related [tests](#test) that apply to the resource. Multiple describe blocks are usually grouped together in a [control](#control), but you can also use them outside of a control.
 
 ```Ruby
 control 'Rule 1.1 - Color restrictions' do

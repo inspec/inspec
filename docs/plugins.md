@@ -51,7 +51,7 @@ For more details on what the `plugin` command can do, see the [online help](http
 
 ### Chef InSpec Plugins
 
-For details on how to author an Chef InSpec Plugin, see the [developer documentation](https://github.com/inspec/inspec/blob/master/docs/dev/plugins.md)
+For details on how to author a Chef InSpec Plugin, see the [developer documentation](https://github.com/inspec/inspec/blob/master/docs/dev/plugins.md)
 
 ### Train Plugins
 

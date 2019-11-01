@@ -54,7 +54,7 @@ where
 * `tag` is optional meta-information with with key or key-value pairs
 * `ref` is a reference to an external document
 * `describe` is a block that contains at least one test. A `control` block must contain at least one `describe` block, but may contain as many as required
-* `sshd_config` is an Chef InSpec resource. For the full list of Chef InSpec resources, see Chef InSpec resource documentation
+* `sshd_config` is a Chef InSpec resource. For the full list of Chef InSpec resources, see Chef InSpec resource documentation
 * `its('Port')` is the matcher; `{ should eq '22' }` is the test. A `describe` block must contain at least one matcher, but may contain as many as required
 
 ## Advanced concepts
@@ -280,8 +280,8 @@ Core and custom resources are written as regular Ruby classes which inherit from
 
 ## Interactive Debugging with Pry
 
-Here's a sample Chef InSpec control that users Ruby variables to instantiate
-an Chef InSpec resource once and use the content in multiple tests.
+Here's a sample Chef InSpec control that uses Ruby variables to instantiate
+a Chef InSpec resource once and use the content in multiple tests.
 
 ```ruby
 control 'check-perl' do
