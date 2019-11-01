@@ -1,0 +1,6 @@
+name: describe-one
+license: Apache-2.0
+summary: A profile to verify that input DSL calls are available in describe.one blocks (refs github issue 4523)
+version: 0.1.0
+supports:
+  platform: os
