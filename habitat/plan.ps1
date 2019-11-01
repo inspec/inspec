@@ -11,16 +11,28 @@ $pkg_license=('Apache-2.0')
 
 $pkg_deps=@(
   "core/cacerts"
-  "robbkidd/ruby-plus-devkit"
+  "chef/ruby-plus-devkit"
 )
 $pkg_bin_dirs=@("bin"
                 "vendor/bin")
 $project_root= (Resolve-Path "$PLAN_CONTEXT/../").Path
 
+function Invoke-Begin {
+    $hab_version = (hab --version)
+    $hab_minor_version = $hab_version.split('.')[1]
+    if ( -not $? -Or $hab_minor_version -lt 85 ) {
+        Write-Warning "I'm being built with $hab_version. I need at least Hab 0.85.0, because I use the -IsPath option for setting/pushing paths in SetupEnvironment."
+        throw "unable to build: required minimum version of Habitat not installed"
+    } else {
+        Write-BuildLine ":habicat: I think I have the version I need to build."
+    }
+}
+
 function Invoke-SetupEnvironment {
     Push-RuntimeEnv -IsPath GEM_PATH "$pkg_prefix/vendor"
 
     Set-RuntimeEnv APPBUNDLER_ALLOW_RVM "true" # prevent appbundler from clearing out the carefully constructed runtime GEM_PATH
+    Set-RuntimeEnv FORCE_FFI_YAJL "ext"
     Set-RuntimeEnv -IsPath SSL_CERT_FILE "$(Get-HabPackagePath cacerts)/ssl/cert.pem"
     Set-RuntimeEnv LANG "en_US.UTF-8"
     Set-RuntimeEnv LC_CTYPE "en_US.UTF-8"
@@ -34,6 +46,8 @@ function Invoke-Build {
         Write-BuildLine " ** Configuring bundler for this build environment"
         bundle config --local without integration deploy maintenance
         bundle config --local jobs 4
+        bundle config --local retry 5
+        bundle config --local silence_root_warning 1
 
         Write-BuildLine " ** Using bundler to retrieve the Ruby dependencies"
         bundle install
@@ -73,6 +87,9 @@ function Invoke-After {
     Get-ChildItem $pkg_prefix/vendor/gems -Filter "spec" -Directory -Recurse -Depth 1 `
         | Where-Object -FilterScript { $_.FullName -notlike "*inspec*" }             `
         | Remove-Item -Recurse -Force
+    # Remove the byproducts of compiling gems with extensions
+    Get-ChildItem $pkg_prefix/vendor/gems -Include @("gem_make.out", "mkmf.log", "Makefile") -File -Recurse `
+        | Remove-Item -Force
 }
 
 function Remove-StudioPathFrom {
