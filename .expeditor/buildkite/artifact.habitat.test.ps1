@@ -21,7 +21,7 @@ Write-Host "--- Building $Plan"
 $project_root = "$(git rev-parse --show-toplevel)"
 Set-Location $project_root
 
-$env:DO_CHECK=$true; hab pkg build .
+$env:DO_CHECK=$true; hab pkg build . -D
 if (-not $?) { throw "unable to build" }
 
 . $project_root/results/last_build.ps1
