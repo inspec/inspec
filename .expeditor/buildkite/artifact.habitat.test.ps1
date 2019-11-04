@@ -3,6 +3,8 @@
 #Requires -Version 5
 
 $env:HAB_ORIGIN = 'ci'
+$env:CHEF_LICENSE = 'accept-no-persist'
+$env:HAB_LICENSE = 'accept-no-persist'
 $Plan = 'inspec'
 
 Write-Host "--- system details"
@@ -19,14 +21,14 @@ Write-Host "--- Building $Plan"
 $project_root = "$(git rev-parse --show-toplevel)"
 Set-Location $project_root
 
-$env:DO_CHECK=$true; hab pkg build .
+$env:DO_CHECK=$true; hab pkg build . -D
 if (-not $?) { throw "unable to build" }
 
-. results/last_build.ps1
+. $project_root/results/last_build.ps1
 if (-not $?) { throw "unable to determine details about this build" }
 
-Write-Host "--- Installing $pkg_ident"
-hab pkg install results/$pkg_artifact
+Write-Host "--- Installing $pkg_ident/$pkg_artifact"
+hab pkg install $project_root/results/$pkg_artifact
 if (-not $?) { throw "unable to install this build" }
 
 Write-Host "+++ Testing $Plan"
