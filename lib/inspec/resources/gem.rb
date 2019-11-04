@@ -17,11 +17,12 @@ module Inspec::Resources
 
     def initialize(package_name, gem_binary = nil)
       @package_name = package_name
-      @gem_binary = case gem_binary
+      @gem_binary = case gem_binary # TODO: no. this is not right
                     when nil
                       "gem"
                     when :chef
                       if inspec.os.windows?
+                        # TODO: what about chef-dk or other installs?
                         'c:\opscode\chef\embedded\bin\gem.bat'
                       else
                         "/opt/chef/embedded/bin/gem"
