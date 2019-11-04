@@ -2,7 +2,7 @@ require "inspec/resources/command"
 
 module Inspec::Resources
   class GemPackage < Inspec.resource(1)
-    name "gem"
+    name "gem" # TODO: rename to "rubygem" and provide alias
     supports platform: "unix"
     supports platform: "windows"
     desc "Use the gem InSpec audit resource to test if a global gem package is installed."
