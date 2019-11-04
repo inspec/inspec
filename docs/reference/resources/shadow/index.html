@@ -1,0 +1,531 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the shadow Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_shadow docs_reference_resources_shadow_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="shadow">shadow</h1>
+
+<p>Use the <code>shadow</code> Chef InSpec audit resource to test the contents of <code>/etc/shadow</code>, which contains password details that are readable only by the <code>root</code> user. <code>shadow</code> is a <a href="https://www.inspec.io/docs/reference/glossary/#plural_resource">plural resource</a>. Like all plural resources, it functions by performing searches across multiple entries in the shadow file.</p>
+
+<p>The format for <code>/etc/shadow</code> includes:</p>
+
+<ul>
+<li>A username</li>
+<li>The hashed password for that user</li>
+<li>The last date a password was changed, as the number of days since Jan 1 1970</li>
+<li>The minimum number of days a password must exist, before it may be changed</li>
+<li>The maximum number of days after which a password must be changed</li>
+<li>The number of days a user is warned about an expiring password</li>
+<li>The number of days a user must be inactive before the user account is disabled</li>
+<li>The date on which a user account was disabled, as the number of days since Jan 1 1970</li>
+</ul>
+
+<p>These entries are defined as a colon-delimited row in the file, one row per user:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>dannos:Gb7crrO5CDF.:10063:0:99999:7:::
+</code></pre></div>
+<p>The <code>shadow</code> resource understands this format, allows you to search on the fields, and exposes the selected users&rsquo; properties.</p>
+
+<p><br></p>
+
+<h2 id="availability">Availability</h2>
+
+<h3 id="installation">Installation</h3>
+
+<p>This resource is distributed along with Chef InSpec itself. You can use it automatically.</p>
+
+<h3 id="version">Version</h3>
+
+<p>This resource first became available in v1.0.0 of InSpec.</p>
+
+<h2 id="resource-parameters">Resource Parameters</h2>
+
+<p>The <code>shadow</code> resource takes one optional parameter: the path to the shadow file. If omitted, <code>/etc/shadow</code> is assumed.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Expect a file to exist at the default location and have 32 users
+describe shadow do
+  its('count') { should eq 32 }
+end
+
+# Use a custom location
+describe shadow('/etc/my-custom-place/shadow') do
+  its('count') { should eq 32 }
+end
+</code></pre></div>
+<h2 id="examples">Examples</h2>
+
+<p>A <code>shadow</code> resource block uses <code>where</code> to filter entries from the shadow file. If <code>where</code> is omitted, all entries are selected.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Select all users. Among them, there should not be a user with the name 'forbidden_user'.
+describe shadow do
+  its('users') { should_not include 'forbidden_user' }
+end
+
+# Ensure there is only one user named 'root' (Select all with name 'root', then count them).
+describe shadow.where(user: 'root') do
+  its('count') { should eq 1 }
+end
+</code></pre></div>
+<p>Use <code>where</code> to match any of the supported <a href="#filter_criteria">filter criteria</a>. <code>where</code> has a method form for simple equality and a block form for more complex queries.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Method form, simple
+# Select just the root user (direct equality)
+describe shadow.where(user: 'root') do
+  its ('count') { should eq 1 }
+end
+
+# Method form, with a regex
+# Select all users whose names begin with smb
+describe shadow.where(user: /^smb/) do
+  its ('count') { should eq 2 }
+end
+
+# Block form
+# Select users whose passwords have expired
+describe shadow.where { expiry_date &gt; 0 } do
+  # This test directly asserts that there should be 0 such users
+  its('count') { should eq 0 }
+  # But if the count test fails, this test outputs the users that are causing the failure.
+  its('users') { should be_empty }
+end
+</code></pre></div>
+<p>Use <code>where</code> with <a href="https://www.inspec.io/docs/reference/profiles/#should-vs-expect-syntax">expect syntax</a> to show all users (that aren&rsquo;t disabled or locked) without SHA512 hashed passwords.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Users with password fields that are not *, !, or don't begin with $6$
+bad_users = inspec.shadow.where { password !~ /^[*!]$|^\$6\$.*/ }.users
+
+describe 'Password hashes in /etc/shadow' do
+  it 'should only contain SHA512 hashes' do
+    message = "Users without SHA512 hashes: #{bad_users.join(', ')}"
+    expect(bad_users).to be_empty, message
+  end
+end
+</code></pre></div>
+<p><br></p>
+
+<h2 id="properties">Properties</h2>
+
+<p>As a <a href="https://www.inspec.io/docs/reference/glossary/#plural_resource">plural resource</a>, all of <code>shadow</code>&lsquo;s properties return lists (that is, Ruby Arrays). <code>include</code> and <code>be_empty</code> are two useful matchers when working with lists. You can also perform manipulation of the lists, such as calling <code>uniq</code>, <code>sort</code>, <code>count</code>, <code>first</code>, <code>last</code>, <code>min</code>, and <code>max</code>.</p>
+
+<h3 id="users">users</h3>
+
+<p>A list of strings, representing the usernames matched by the filter.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe shadow
+  its('users') { should include 'root' }
+end
+</code></pre></div>
+<h3 id="passwords">passwords</h3>
+
+<p>A list of strings, representing the encrypted password strings for entries matched by the <code>where</code> filter. Each string may not be an encrypted password, but rather a <code>*</code> or similar which indicates that direct logins are not allowed. Different operating systems use different flags here (such as <code>*LK*</code> to indicate the account is locked).</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Use uniq to remove duplicates, then determine
+# if the only password left on the list is '*'
+describe shadow.where(user: /adm$/) do
+  its('passwords.uniq.first') { should cmp '*' }
+  its('passwords.uniq.count') { should eq 1 }
+end
+</code></pre></div>
+<h3 id="last_changes">last_changes</h3>
+
+<p>A list of integers, indicating the number of days since Jan 1 1970 since the password for each matching entry was changed.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Ensure all entries have changed their password in the last 90 days.  (Probably want a filter on that)
+describe shadow do
+  its('last_changes.min') { should be &lt; Date.today - 90 - Date.new(1970,1,1)   }
+end
+</code></pre></div>
+<h3 id="min_days">min_days</h3>
+
+<p>A list of integers reflecting the minimum number of days a password must exist, before it may be changed, for the users that matched the filter.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># min_days seems crazy today; make sure it is zero for everyone
+describe shadow do
+  its('min_days.uniq') { should eq [0] }
+end
+</code></pre></div>
+<h3 id="max_days">max_days</h3>
+
+<p>A list of integers reflecting the maximum number of days after which the password must be changed for each user matching the filter.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Make sure there is no policy allowing longer than 90 days
+describe shadow do
+  its('max_days.max') { should be &lt; 90 }
+end
+</code></pre></div>
+<h3 id="warn_days">warn_days</h3>
+
+<p>A list of integers reflecting the number of days a user is warned about an expiring password for each user matching the filter.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Ensure everyone gets the same 7-day policy
+describe shadow do
+  its('warn_days.uniq.count') { should eq 1 }
+  its('warn_days.uniq.first') { should eq 7 }
+end
+</code></pre></div>
+<h3 id="inactive_days">inactive_days</h3>
+
+<p>A list of integers reflecting the number of days a user must be inactive before the user account is disabled for each user matching the filter.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Ensure everyone except admins has an stale policy of no more than 14 days
+describe shadow.where { user !~ /adm$/ } do
+  its('inactive_days.max') { should be &lt;= 14 }
+end
+</code></pre></div>
+<h3 id="expiry_dates">expiry_dates</h3>
+
+<p>A list of integers reflecting the number of days since Jan 1 1970 that a user account has been disabled, for each user matching the filter. Value is <code>nil</code> if the account has not expired.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># No one should have an expired account.
+describe shadow do
+  its('expiry_dates.compact') { should be_empty }
+end
+</code></pre></div>
+<h3 id="count">count</h3>
+
+<p>The <code>count</code> property tests the number of records that the filter matched.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Should probably only have one root user
+describe shadow.user('root') do
+  its('count') { should eq 1 }
+end
+</code></pre></div>
+<p><br></p>
+
+<h2 id="filter-criteria">Filter Criteria</h2>
+
+<p>You may use any of these filter criteria with the <code>where</code> function.  They are named after the columns in the shadow file. Each has a related list <a href="#properties">property</a>.</p>
+
+<h3 id="user">user</h3>
+
+<p>The string username of a user.  Always present.  Not required to be unique.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Expect all users whose name ends in adm to have a disabled password via the '*' flag
+describe shadow.where(user: /adm$/) do
+  its('password.uniq') { should eq ['*'] }
+end
+</code></pre></div>
+<h3 id="password">password</h3>
+
+<p>The encrypted password strings, or an account status string. Each string may not be an encrypted password, but rather a <code>*</code> or similar which indicates that direct logins are not allowed. Different operating systems use other flags here (such as <code>*LK*</code> to indicate the account is locked).</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Find 'locked' accounts and ensure 'nobody' is on the list
+describe shadow.where(password: '*LK*') do
+  its('users') { should include 'nobody' }
+end
+</code></pre></div>
+<h3 id="last_change">last_change</h3>
+
+<p>An integer reflecting the number of days since Jan 1 1970 since the user&rsquo;s password was changed.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Find users who have not changed their password within 90 days
+describe shadow.where { last_change &gt; Date.today - 90 - Date.new(1970,1,1) } do
+  its('users') { should be_empty }
+end
+</code></pre></div>
+<h3 id="min_days">min_days</h3>
+
+<p>An integer reflecting the minimum number of days a user is required to wait before
+changing their password again.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Find users who have a nonzero wait time
+describe shadow.where { min_days &gt; 0 } do
+  its('users') { should be_empty }
+end
+</code></pre></div>
+<h3 id="max_days">max_days</h3>
+
+<p>An integer reflecting the maximum number of days a user may go without changing their password.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># All users should have a 30-day policy
+describe shadow.where { max_days != 30 } do
+  its('users') { should be_empty }
+end
+</code></pre></div>
+<h3 id="warn_days">warn_days</h3>
+
+<p>An integer reflecting the number of days before a password expiration that a user recieves an alert.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># All users should have a 7-day warning policy
+describe shadow.where { warn_days != 7 } do
+  its('users') { should be_empty }
+end
+</code></pre></div>
+<h3 id="inactive_days">inactive_days</h3>
+
+<p>An integer reflecting the number of days that must pass before a user who has not logged in will be disabled.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Ensure everyone has a stale policy of no more than 14 days.
+describe shadow.where { inactive_days.nil? || inactive_days &gt; 14 } do
+  its('users') { should be_empty }
+end
+</code></pre></div>
+<h3 id="expiry_date">expiry_date</h3>
+
+<p>An integer reflecting the number of days since Jan 1, 1970 on which the user was disabled. The <code>expiry_date</code> criterion is <code>nil</code> for enabled users.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Ensure no one is disabled due to a old password
+describe shadow.where { !expiry_date.nil? } do
+  its('users') { should be_empty }
+end
+
+# Ensure no one is disabled for more than 14 days
+describe shadow.where { !expiry_date.nil? &amp;&amp; expiry_date - Date.new(1970,1,1) &gt; 14} do
+  its('users') { should be_empty }
+end
+</code></pre></div>
+<h2 id="matchers">Matchers</h2>
+
+<p>This resource has no resource-specific matchers.</p>
+
+<p>For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">Universal Matchers page</a>.</p>
+</column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
+(function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+(w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+})(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+_st('install','xzyJV6P7pgscygGyyTm8','2.0.0');
+// end Swiftype code snippet
+
+document.getElementsByClassName("st-default-search-input")[0].focus();</script></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><div class="pad-under-xs"><img alt="image of octagon spinning" id="hex" onerror="this.src='/images/octagon.png'" src="/images/octagon.svg" /></div><h3 class="t-white pad-under-xs">Get started with Chef InSpec and rock on.</h3><div class="row align columns"><div class="strict-center"><a class="button btn-lg btn-purple shadow-dark margin-right-xs mobile-row-btn" href="/downloads"><i class="fa fa-cloud-download"></i><span>download InSpec 4</span></a><a class="button btn-lg btn-white-o shadow-dark mobile-row-btn" href="/tutorials">browse tutorials</a></div></div></div><div class="flex align"><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="https://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="link footer--link" href="https://docs.chef.io/chef_license.html">Licensing</a></li><li><a class="link footer--link" href="https://www.chef.io/terms-of-service/">Terms &amp; Conditions</a></li><li><a class="link footer--link" href="https://www.chef.io/trademark-policy/">Trademark Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/privacy-policy/">Privacy Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/cookie-policy/">Cookie Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div></div></div><p class="strict-center pad-under-xs"><small class="t-gray">&copy; Chef Software 2015-2019</small></p></footer><script src="https://buttons.github.io/buttons.js"></script><script src="/scripts/inspec_tutorial.js"></script><script src="/dist/inspec_tutorial.js"></script><script src="/javascripts/vendor/jquery.min.js"></script><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>function initSlideGroup(group) {
+  var prev = -1;
+  var links = $(group).find('a')
+
+  links.click(function(e) {
+    e.stopPropagation()
+
+    links.removeClass('selected')
+    $(this).addClass('selected')
+
+    var idx = $(this).index();
+    if(prev == idx) return;
+    prev = idx;
+
+    $('.slider .view.slide-in').removeClass('slide-in').addClass('slide-out')
+    var el = $('.slider .view')[idx]
+    if(el == null) {
+      console.log("No element for slider index "+idx)
+      return
+    }
+
+    $(el).removeClass('slide-out').removeClass('hidden').addClass('slide-in')
+  })
+
+  if(links[0] != null) links[0].click();
+}
+
+function initSliders() {
+  $('.slider .view').addClass('hidden')
+  var groups = $('.slider .selectors')
+  groups.each(function(idx){
+    initSlideGroup(this)
+  })
+}
+
+//run code colors
+
+$(document).ready(function() {
+  initSliders()
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+});
+
+//copy to clipboard
+
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
+$('#copy').hover(function() {
+   $('#install').toggleClass("text-focus");
+});
+
+$('#copy').click(function() {
+   $(this).removeClass("fa-copy");
+   $(this).addClass("fa-check");
+
+ setTimeout(() => {
+   $(this).removeClass('fa-check').addClass('fa-copy');
+  }, 1500);
+});
+
+// homepage content slider
+
+// tutorial content slider
+
+$(function() {
+  $(".collapseContent").hide();
+  $(".collapsebtn").addClass("fa-plus-square");
+
+   $('.collapseToggle').click(function() {
+      var el = $(this).parent().find('.collapseContent')
+      el.slideToggle("fast")
+      // $('.collapseContent').slideToggle("fast");
+      var btn = $(this).find('.collapsebtn')
+      if(btn.hasClass('fa-minus-square')) {
+        btn.addClass('fa-plus-square')
+        btn.removeClass('fa-minus-square')
+      } else {
+        btn.addClass('fa-minus-square')
+        btn.removeClass('fa-plus-square')
+      }
+   });
+});
+
+
+
+// scroll spy animations
+
+var $slide_left = $('.slide-left');
+var $slide_right = $('.slide-right');
+var $slide_up = $('.slide-up');
+var $slide_up_slow = $('.slide-up-slow');
+var $window = $(window);
+
+function check_if_in_view() {
+  var window_height = $window.height();
+  var window_top_position = $window.scrollTop();
+  var window_bottom_position = (window_top_position + window_height);
+
+  $.each($slide_left, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_right, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up_slow, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+}
+
+$window.on('scroll resize', check_if_in_view);
+$window.trigger('scroll');
+
+//scroll to top
+$(document).ready(function(){
+
+  $(window).scroll(function(){
+    if ($(this).scrollTop() > 100) {
+      $('.scrollToTop').fadeIn();
+    } else {
+      $('.scrollToTop').fadeOut();
+    }
+  });
+
+  $('.scrollToTop').click(function(){
+    $('html, body').animate({scrollTop : 0},800);
+    return false;
+  });
+
+  // scrolling to resource sections
+  $(".resources-button").click(function() {
+    var dst = $(this).attr("href")
+    $(".resources-button").removeClass("btn-purple").addClass("btn-purple-o")
+    $(this).addClass("btn-purple").removeClass("btn-purple-o")
+    $("html, body").animate({
+        scrollTop: $(dst).offset().top - 105
+    }, 1000);
+  });
+
+});
+
+//scrolling code box
+
+var div = $('#scrolled');
+   setInterval(function(){
+    var pos = div.scrollTop();
+    div.scrollTop(pos + 2);
+}, 200);
+
+//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });
+}
+else {
+    var progressBar = $('.progress-bar'),
+        max = getMax(),
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});</script><script src="/javascripts/segment.js"></script></body></html>

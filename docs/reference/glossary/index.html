@@ -1,0 +1,620 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>Chef InSpec</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_glossary docs_reference_glossary_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a t-purple"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="chef-inspec-glossary">Chef InSpec Glossary</h1>
+
+<p>This document should help you become familiar with some of the terminology used by the Chef InSpec project.</p>
+
+<p>There are two ways to use it:</p>
+
+<ul>
+<li>A <a href="#text-glossary">text glossary</a>. Learn the meaning of a word you have encountered.</li>
+<li>A <a href="#visual-glossary">visual glossary</a>. Look at examples and see how the parts are labelled. You can then use the text glossary to read details of each concept.</li>
+</ul>
+
+<h2 id="visual-glossary">Visual Glossary</h2>
+
+<h3 id="motivating-example">Motivating Example</h3>
+
+<p>Suppose we are interested in auditing cars. Let&rsquo;s suppose we have two Chef InSpec resources for auditing: <code>cars</code>, which searches for and filters groups of cars, and <code>car</code>, which performs detailed auditing of a single car.</p>
+
+<h3 id="basic-syntax">Basic Syntax</h3>
+
+<p>Let&rsquo;s look at some simple examples.</p>
+
+<h3 id="singular-resource-example">Singular Resource Example</h3>
+<div class="highlight"><pre class="highlight plaintext"><code>describe car(owner: 'Tony Clifton') do
+    it { should exist }
+    its('license_plate') { should cmp 'MOONMAN' }
+    it { should be_classy }
+    it { should_not have_check_engine_light_on }
+end
+</code></pre></div>
+<h4 id="describe-car-owner-tony-clifton-do">describe car(owner: &lsquo;Tony Clifton&rsquo;) do</h4>
+
+<p><em>car</em> is a <a href="#resource">resource</a>. Since we are talking about only one car, it is a <a href="#singular-resource">singular resource</a>.</p>
+
+<h4 id="describe-car-owner-tony-clifton">describe car(<em>owner: &lsquo;Tony Clifton&rsquo;</em>)</h4>
+
+<p><em>owner</em> is a <a href="#resource-parameter">resource parameter</a> and <em>&lsquo;Tony Clifton&rsquo;</em> is a resource parameter value.</p>
+
+<h4 id="it-should-exist"><em>it { should exist }</em></h4>
+
+<p>Each line within the resource block beginning with <code>it</code> or <code>its</code> is a <a href="#test">test</a>. Use <a href="#it">it</a> to access <a href="#resource-specific-matcher">resource-specific matchers</a>, and use <a href="#its">its</a> to access <a href="#property">properties</a> of the <a href="#resource">resource</a>, which are in turn used with <a href="#universal-matcher">universal matchers</a>.</p>
+
+<h4 id="its-license_plate-should-cmp-moonman">its(&lsquo;<em>license_plate</em>&rsquo;) { should cmp &lsquo;MOONMAN&rsquo; }</h4>
+
+<p><em>license_plate</em> is a <a href="#property">property</a> belonging to the <a href="#resource">resource</a>. Properties expose testable information about the resource. Some properties are numbers, some (like this one) are text, some are lists, and some are more complex objects. Properties are always used with <a href="#universal-matcher">universal matchers</a>.</p>
+
+<h4 id="its-license_plate-should-cmp-moonman">its(&lsquo;license_plate&rsquo;) { should <em>cmp</em> &lsquo;MOONMAN&rsquo; }</h4>
+
+<p><em>cmp</em> is a <a href="#universal-matcher">universal matcher</a>. <code>cmp</code> is a very flexible, loosely typed equality operator; here it checks to see if the license plate text is the same as the text &lsquo;MOONMAN&rsquo;. Notice that the test operates on the license plate text (the property value) and not on the resource. You can find the full list of supported universal matchers on the <a href="https://www.inspec.io/docs/reference/matchers/">Universal Matcher page</a>.</p>
+
+<h4 id="its-license_plate-should-cmp-moonman">its(&lsquo;license_plate&rsquo;) { should cmp <em>&lsquo;MOONMAN&rsquo;</em> }</h4>
+
+<p><em>&lsquo;MOONMAN&rsquo;</em> is an <a href="#expected-result">expected result</a>. Some matchers take an expected result; others do not.</p>
+
+<h4 id="it-should-be_classy">it { should <em>be_classy</em> }</h4>
+
+<p><em>be_classy</em> is a <a href="#resource-specific-matcher">resource-specific matcher</a>. It returns a yes-or-no value, based on whether Tony&rsquo;s car is classy or not. (It is. Tony is a classy guy.)</p>
+
+<h4 id="it-should_not-have_check_engine_light_on">it { <em>should_not</em> have_check_engine_light_on }</h4>
+
+<p><em>should_not</em> indicates this is a negated test. So, this test passes if the matcher says &ldquo;no&rdquo;.</p>
+
+<h3 id="plural-resource-example">Plural Resource Example</h3>
+<div class="highlight"><pre class="highlight plaintext"><code>  describe cars.where(color: /^b/) do
+    it { should exist }
+    its('manufacturers') { should include 'Cadillac' }
+    its('count') { should be &gt;= 10 }
+  end
+</code></pre></div>
+<h4 id="describe-cars-where-color-b-do">describe <em>cars</em>.where(color: /^b/) do</h4>
+
+<p><em>cars</em> is a <a href="#resource">resource</a>. Since we are potentially talking about many cars, it is a <a href="#plural-resource">plural resource</a>.</p>
+
+<h4 id="describe-cars-where-color-b-do">describe cars.<em>where(color: /^b/)</em> do</h4>
+
+<p><em>where(color: /^b/)</em> is a <a href="#filter-statement">filter statement</a>. Without a filter statement, <code>cars</code> simply selects all the cars in the world.</p>
+
+<h4 id="describe-cars-where-color-b-do">describe cars.where(<em>color: /^b/</em>) do</h4>
+
+<p><em>color</em> is a <a href="#filter-criteria">filter criterion</a> along with its filter value, <em>/^b/</em>. Here, the criterion expresses that we want to select all cars whose colors begin with the letter &lsquo;b&rsquo; - blue, brown, burgundy, etc.</p>
+
+<h4 id="it-should-exist"><em>it { should exist }</em></h4>
+
+<p>Each line within the resource block beginning with <code>it</code> or <code>its</code> is a <a href="#test">test</a>. Use <a href="#it">it</a> to access <a href="#resource-specific-matcher">resource-specific matchers</a>, and use <a href="#its">its</a> to access <a href="#property">properties</a> of the <a href="#resource">resource</a>, which are in turn used with <a href="#universal-matcher">universal matchers</a>.</p>
+
+<p>With plural resources, <code>exist</code> has a special meaning: did the filter match anything?</p>
+
+<h4 id="its-manufacturers-should-include-cadillac">its(&lsquo;<em>manufacturers</em>&rsquo;) { should include &lsquo;Cadillac&rsquo; }</h4>
+
+<p><em>manufacturers</em> is a <a href="#property">property</a> of the <a href="#resource">resource</a>. Properties expose testable information about the resource. On plural resources, properties are almost always names in the plural, and almost always return a list of values. Here, the test returns a list of the car manufacturer names. Some list properties are de-duplicated; for example, you might have 10 cars, but if they are all Subarus and Cadillacs, it returns only two entries in the <code>manufacturers</code> property. Be sure to check the documentation for your resource.</p>
+
+<h4 id="its-manufacturers-should-include-cadillac">its(&lsquo;manufacturers&rsquo;) { should <em>include</em> &lsquo;Cadillac&rsquo; }</h4>
+
+<p><em>include</em> is a <a href="#universal-matcher">universal matcher</a>. <code>include</code> works with lists, and checks to see if an expected result is present. Here, it checks to see if the list of manufacturers contains an entry with the text &lsquo;Cadillac&rsquo;. Notice it operates on the manufacturers list (the property value) and not on the resource. You can find the full list of supported universal matchers on the <a href="https://www.inspec.io/docs/reference/matchers/">Universal Matcher page</a>.</p>
+
+<h4 id="its-manufacturers-should-include-cadillac">its(&lsquo;manufacturers&rsquo;) { should include &lsquo;<em>Cadillac</em>&rsquo; }</h4>
+
+<p><em>&lsquo;Cadillac&rsquo;</em> is an <a href="#expected-result">expected result</a>. Some matchers take an expected result; others do not.</p>
+
+<h4 id="its-count-should-be-10">its(&lsquo;count&rsquo;) { should <em>be &gt;=</em> 10 }</h4>
+
+<p><em>be &gt;=</em> is an <a href="#operator%20matcher">operator matcher</a>. It allows you to perform numeric comparisons. All plural resources have a <code>count</code> property.</p>
+
+<h2 id="text-glossary">Text Glossary</h2>
+
+<h3 id="attribute">attribute</h3>
+
+<p>Deprecated name for <a href="#input">input</a>.</p>
+
+<h3 id="control">control</h3>
+
+<h3 id="control-block">control block</h3>
+
+<p>The <em><code>control</code></em> keyword is used to declare a <em><code>control block</code></em>. Here, the word &lsquo;control&rsquo; means a &lsquo;regulatory control, recommendation, or requirement&rsquo; - not a software engineering construct. A <code>control block</code> has a name (which usually refers to the assigned ID of the regulatory recommendation it implements), metadata such as descriptions, references, and tags, and finally groups together related <a href="#describe-block">describe blocks</a> to implement the checks.</p>
+
+<h3 id="core-resource">core resource</h3>
+
+<p>A <a href="#resource">resource</a> that is included with InSpec; you are not required to install additional <a href="#plugin">plugins</a> or depend on a <a href="#resource%20pack">resource pack</a> to use the resource.</p>
+
+<h3 id="custom-resource">custom resource</h3>
+
+<p>A <a href="#resource">resource</a> that is <em>not</em> included with InSpec. It may be a resource of your own creation, or one you obtain by depending on a <a href="#resource%20pack">resource pack</a>.</p>
+
+<h3 id="describe">describe</h3>
+
+<h3 id="describe-block">describe block</h3>
+
+<p>The <em><code>describe</code></em> keyword is used with a <em><code>describe block</code></em> to refer to a Chef InSpec resource. You use the <code>describe</code> keyword along with the name of a <a href="#resource">resource</a> to enclose related <a href="#test">tests</a> that apply to the resource. Multiple describe blocks are usually grouped together in a <a href="#control">control</a>, but you can also use them outside of a control.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>control 'Rule 1.1 - Color restrictions' do
+  # Count only blue cars
+  describe cars.where(color: 'blue') do
+    its('count') { should eq 20 }
+  end
+end
+</code></pre></div>
+<h3 id="dsl">DSL</h3>
+
+<p><em>DSL</em> is an acronym for <em>Domain Specific Language</em>. It refers to the language extensions Chef InSpec provides to make authoring resources and controls easier. While Chef InSpec control files are use Ruby, the <em>Control DSL</em> makes it easy to write controls without knowledge of Ruby by providing DSL keywords such as <a href="#describe">describe</a>, <a href="#control">control</a>, <a href="#it">it</a> and <a href="#its">its</a>. See the <a href="https://www.inspec.io/docs/reference/dsl_inspec/">Chef InSpec DSL page</a> for details about keywords available to control authors.</p>
+
+<p>For <a href="#custom-resource">custom resource</a> authors, an additional DSL is available - see the <a href="https://www.inspec.io/docs/reference/dsl_resource/">Resource DSL page</a>.</p>
+
+<h3 id="expected-result">expected result</h3>
+
+<p>When using a <a href="#matcher">matcher</a>, the <em><code>expected result</code></em> is the value the matcher will compare against the <a href="#property">property</a> being accessed.</p>
+
+<p>In this example, the <a href="https://www.inspec.io/docs/reference/matchers/#cmp"><code>cmp</code></a> matcher is being used to compare the <code>color</code> property to the expected result &lsquo;black&rsquo;.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe car(owner: 'Bruce Wayne') do
+  its('color') { should cmp 'black' }
+end
+</code></pre></div>
+<h3 id="filter-statement">filter statement</h3>
+
+<p>When using a <a href="#plural-resource">plural resource</a>, a <em><code>filter statement</code></em> is used to select individual test subjects using <a href="#filter-criteria">filter criteria</a>. A filter statement almost always is indicated by the keyword <code>where</code>, and may be repeated using method chaining.</p>
+
+<p>A filter statement may use method call syntax (which allows basic criteria operations, such as equality, regex matching, and ruby <code>===</code> comparison) or block syntax (which allows arbitrary code).</p>
+
+<p>In this example, <code>where(...)</code> is the filter statement.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Count only blue cars
+describe cars.where(color: 'blue') do
+  its('count') { should eq 20 }
+end
+</code></pre></div>
+<h3 id="filter-criterion">filter criterion</h3>
+
+<h3 id="filter-criteria">filter criteria</h3>
+
+<p>When using a <a href="#plural-resource">plural resource</a>, a <em><code>filter criterion</code></em> is used to select individual test subjects within a <a href="#filter-statement">filter statement</a>. You may use multiple <em><code>filter criteria</code></em> in a single filter statement.</p>
+
+<p>When method-call syntax is used with the filter statement, you provide filter criteria as a Hash, with filter criteria names as keys, and conditions as the Hash values. You may provide test, true/false, or numbers, in which case the comparison is equality; or you may provide a regular expression, in which case a match is performed.</p>
+
+<p>Here, <code>(color: blue)</code> is a single filter criterion being used with a filter statement in method-call syntax.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Count only blue cars
+describe cars.where(color: 'blue') do
+  its('count') { should eq 20 }
+end
+</code></pre></div>
+<p>When block-method syntax is used with the filter statement, you provide a block. The block may contain arbitrary code, and each filter criteria will be available as an accessor. The block will be evaluated once per row, and each block that evaluates to a truthy value will pass the filter.</p>
+
+<p>Here, <code>{ engine_cylinders &gt;= 6 }</code> is a block-syntax filter statement referring to one filter criterion.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Vroom!
+describe cars.where { engine_cylinders &gt;= 6 } do
+  its('city_mpg_ratings') { should_not include '4-star' }
+end
+</code></pre></div>
+<h3 id="input">input</h3>
+
+<p>An <em><code>input</code></em> is a value that Chef InSpec can source from a number of providers, including from the command line, profile metadata, or within the control file DSL itself. You can use this feature either to change a <a href="#profile">profile&rsquo;s</a> behavior by passing different attribute files or to store secrets that should not be directly present in a profile.</p>
+
+<p>Inputs were formerly known as <code>attributes</code>. Chef InSpec inputs are unrelated to Chef Infra attributes.</p>
+
+<p>The CLI syntax for inputs is documented under the <a href="https://www.inspec.io/docs/reference/cli/#exec"><code>inspec exec</code></a> command.</p>
+
+<p>Inputs are documented in detail in the <a href="https://www.inspec.io/docs/reference/inputs/">input documentation</a>.</p>
+
+<h3 id="it">it</h3>
+
+<p>Within a <a href="#describe">describe block</a>, <em><code>it</code></em> declares an individual <a href="#test">test</a> directly against the <a href="#resource">resource</a> (as opposed to testing against one of the resource&rsquo;s <a href="#property">properties</a>, as <a href="#its">its</a> does). Though it is possible to use <a href="#universal-matcher">universal matchers</a> with <code>it</code>, it is much more typical to use <a href="#resource-specific-matchers">resource-specific matchers</a>.</p>
+
+<p><code>it</code> may be used with <code>should</code>, or negated using <code>should_not</code>.</p>
+
+<p>Here, <code>it { should ... }</code> declares a test, calling the <code>classy?</code> matcher on Tony Clifton&rsquo;s car.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe car(owner: 'Tony Clifton') do
+  it { should be_classy }
+end
+</code></pre></div>
+<h3 id="its">its</h3>
+
+<p>Within a <a href="#describe">describe block</a>, <em><code>its</code></em> declares an individual <a href="#test">test</a> against a property of the <a href="#resource">resource</a> (as opposed to testing directly against the resource itself, as <a href="#it">it</a> does). You must use <a href="#universal-matcher">universal matchers</a> with <code>its</code>; you cannot use <a href="#resource-specific-matchers">resource-specific matchers</a>.</p>
+
+<p><code>its</code> may be used with <code>should</code>, or negated using <code>should_not</code>.</p>
+
+<p>The property to access is passed as a single string argument to <code>its</code>. As an advanced usage, if the property has methods you are interested in, you can call them using &lsquo;<code>.</code>&rsquo; within the string; even more advanced calling patterns are possible - see <a href="https://github.com/rspec/rspec-its#usage">the rspec-its documentation</a>.</p>
+
+<p>Here, <code>its(&#39;fuzzy_dice&#39;) { should ... }</code> declares a test, testing against the <code>fuzzy_dice</code> property of Tony Clifton&rsquo;s car. Let&rsquo;s assume - Tony being Tony - that <code>fuzzy_dice</code> will return an Array.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe car(owner: 'Tony Clifton') do
+  its('fuzzy_dice') { should_not be_empty }
+  its('fuzzy_dice.count') { should be &gt;= 2 }
+  its('fuzzy_dice.first.fuzziness') { should cmp 'outlandishly so' }
+end
+</code></pre></div>
+<h3 id="matcher">matcher</h3>
+
+<p>A <em><code>matcher</code></em> performs the actual assertions against <a href="#resource">resources</a> or the <a href="#property">properties</a> of resources. Matchers always return a true/false value. Matchers fall into two camps:</p>
+
+<ul>
+<li><a href="#resource-specific-matchers">resource-specific matchers</a>, which operate directly on the resource, are used with <a href="#it">it</a>, and tend to be highly customized to the auditing needs of the resource</li>
+<li><a href="#universal-matchers">universal matchers</a>, which operate on the properties of the resource, are used with <a href="#its">its</a>, and tend to be very generic, operating on text, numbers, and lists</li>
+</ul>
+
+<p>Some matchers accept parameters, called <a href="#expected-results">expected results</a>.</p>
+
+<p>For information on how RSpec matchers are related o Chef InSpec matchers, see <a href="https://www.inspec.io/docs/reference/inspec_and_friends/#rspec">Chef InSpec and RSpec</a>.</p>
+
+<p>Here, <code>be_classy</code> is a resource-specific matcher operating directly on the <code>car</code>, while <code>cmp</code> is a universal matcher operating on the <code>manufacturer</code> property.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe car(owner: 'Tony Clifton') do
+  it { should be_classy }
+  its('manufacturer') { should cmp 'Cadillac' }
+end
+</code></pre></div>
+<h3 id="plural-resource">plural resource</h3>
+
+<p>A <em><code>plural resource</code></em> is a <a href="#resource">resource</a> that specializes in performing searches and represents multiple occurrences of the resource on the <a href="#target">target</a> platform. Plural resources are used to audit counts, inspect group properties, and have the unique ability to enforce negative tests (&ldquo;nothing like this should exist&rdquo;) often required by compliance standards. Plural resources are not intended to perform in-depth auditing of an individual; use <a href="#singular-resource">singular resources</a> for that.</p>
+
+<p>Plural resources nearly always have a name that ends in &lsquo;s&rsquo;: <code>processes</code>, <code>aws_security_groups</code>, <code>cars</code>. Plural resources generally do not have <a href="#resource-specific-matcher">resource-specific matchers</a>. If they have properties, they are almost always list properties, meaning that they return a list of values, which may or may not be de-duplicated.</p>
+
+<p>Plural resources support <a href="#filter-statement">filter statements</a>. See the <a href="https://www.inspec.io/docs/reference/resources/">resource documentation</a> for details regarding which <a href="#filter-criteria">filter criteria</a> are supported on each resource.</p>
+
+<p>Here, <code>cars</code> is a plural resource.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe cars.where(color: 'blue') do
+  its('count') { should eq 20 }
+  its('license_plates') { should include 'AUTOAZUL' }
+
+  # License plates are unique, should have 20
+  its('license_plates.count') { should cmp 20 }
+
+  # Manufacturers are de-duplicated
+  its('manufacturers') { should include 'Subaru' }
+  its('manufacturers.count') { should be &lt; 10 }
+end
+</code></pre></div>
+<h3 id="profile">profile</h3>
+
+<p>A <em><code>profile</code></em> is a set of related <a href="#control">controls</a> in a distributable form. You might have a locally-developed profile that your organization uses to define baseline security on all machines, or you might use a pre-defined profile that implements the requirements of a specific compliance standard. For full details about the capabilities of a profile, see the <a href="https://www.inspec.io/docs/reference/profiles/">profile documentation</a>.</p>
+
+<p>Profiles may be distributed locally as a directory tree, as a tarball or zipfile at a URL, as a git repo, and several other ways. Profiles contain metadata, including versioning, and can setup dependency relationships with other profiles.</p>
+
+<p>Aside from controls, profiles can also contain <a href="#custom-resource">custom resources</a>. If the profile contains only custom resources and no controls, we call it a <a href="#resource-pack">resource pack</a>.</p>
+
+<h3 id="property">property</h3>
+
+<p>A fact about a <a href="#resource">resource</a>. Typically, you use the <a href="#its">its</a> keyword to access the property and write a <a href="#test">test</a> within a <a href="#describe-block">describe block</a>, and then use a <a href="#universal-matcher">universal matcher</a> to make assertions about the value of the property.</p>
+
+<p>Each resource has different properties. See the <a href="https://www.inspec.io/docs/reference/resources/">resource documentation</a> for details.</p>
+
+<p>Here, <code>manufacturer</code> is a property of the <code>car</code> resource.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe car(owner: 'Tony Clifton') do
+  its('manufacturer') { should cmp 'Cadillac' }
+end
+</code></pre></div>
+<h3 id="reporter">reporter</h3>
+
+<p>An output format for the <code>inspec exec</code> command line. Several reporters are available, including JSON and JUnit; see the <a href="https://www.inspec.io/docs/reference/cli/#exec">inspec exec documentation</a>.</p>
+
+<h3 id="resource">resource</h3>
+
+<p>A <em><code>resource</code></em> represents a category of things on the <a href="#target">target</a> you wish to examine. For example, to check for the existence and permissions of a file, you would use the <a href="https://www.inspec.io/docs/reference/resources/file/"><code>file</code></a> resource. Chef InSpec offers dozens of different resources, from the highly specialized (such as <code>aws_security_group</code>, which examines firewall rules in AWS) to the very general (such as <code>command</code>, which runs a command and lets you examine its output).</p>
+
+<p>Resources are generally categorized as either <a href="#singular-resource">singular</a> or <a href="#plural-resource">plural</a>, though there are some irregular resources that cannot be cleanly considered one or the other.</p>
+
+<p>Resources are used within a <a href="#describe-block">describe block</a> to perform <a href="#test">tests</a>.</p>
+
+<p>Here, <code>car</code> is a resource.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe car(owner: 'Tony Clifton') do
+  it { should be_classy }
+end
+</code></pre></div>
+<h3 id="resource-pack">resource pack</h3>
+
+<p>A <em>resource pack</em> is a type of <a href="#profile">profile</a> that is used to distribute <a href="#custom-resource">custom resources</a>. This specialized type of profile contains no <a href="#control">controls</a>, but it does contain a <code>libraries</code> directory within which Ruby files define custom resources.</p>
+
+<h3 id="resource-parameter">resource parameter</h3>
+
+<p><em><code>resource parameters</code></em> are information passed to the resource when they are declared. Typically, resource parameters provide identifying information or connectivity information. Resource parameters are not the same as a <a href="#filter-statement">filter statement</a>.</p>
+
+<p>Resource parameters vary from resource to resource; refer to the <a href="https://www.inspec.io/docs/reference/resources/">resource documentation</a> for details.</p>
+
+<p>Here, <code>owner: &#39;Tony Clifton&#39;</code> is a resource parameter.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe car(owner: 'Tony Clifton') do
+  it { should be_classy }
+end
+</code></pre></div>
+<h3 id="resource-specific-matcher">resource-specific matcher</h3>
+
+<p>A <a href="#matcher">matcher</a> that operates directly on the <a href="#resource">resource</a>, as opposed to operating on a property as a <a href="#universal%20matcher">universal matcher</a> does.</p>
+
+<p>Resource-specific matchers often provide highly customized behavior. Check the <a href="#https://www.inspec.io/docs/reference/resources/">resource documentation</a> to discover which resource-specific matchers are available for your resource.</p>
+
+<p>For example, the hypothetical <code>car</code> resource defines a <code>classy?</code> method, which is exposed as the <code>be_classy</code> matcher in Chef InSpec tests.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe car(owner: 'Tony Clifton') do
+  it { should be_classy }
+end
+</code></pre></div>
+<h3 id="singular-resource">singular resource</h3>
+
+<p>A <a href="#resource">resource</a> intended to uniquely identify a single object on the <a href="#target">target</a>. Singular resources specialize in providing richer auditing capabilities via resource-specific matchers. Compare to <a href="#plural-resource">plural resources</a>.</p>
+
+<h3 id="target">target</h3>
+
+<p>The <em><code>target</code></em> is the OS or API on which Chef InSpec is performing audits. In Chef InSpec 1.x, this was always an operating system target (a bare metal machine, VM, or container). In Chef InSpec 2.x and later, this can be an OS target, or an API target, including cloud providers such as AWS. Chef InSpec is agentless, meaning that the Chef InSpec code and profiles remain on your workstation, and the target is remotely interrogated without installing anything.</p>
+
+<h3 id="test">test</h3>
+
+<p>A <em><code>test</code></em> is an individual assertion about the state of the <a href="#resource">resource</a> or one of its <a href="#property">properties</a>. All tests begin with the keyword <a href="#it">it</a> or <a href="#its">its</a>. Tests are grouped within a <a href="#describe-block">describe block</a>.</p>
+
+<h3 id="universal-matcher">universal matcher</h3>
+
+<p>A <em>universal matcher</em> is a <a href="#matcher">matcher</a> that can be used on the <a href="#property">properties</a> of any type of <a href="#resource">resource</a>. For example, you can use the <code>cmp</code> matcher to check the value of properties without having to worry about Ruby type-casting. Universal matchers are almost always used with the <a href="#its">its</a> keyword.</p>
+
+<p>Universal matchers are documented on the <a href="https://www.inspec.io/docs/reference/matchers/">Universal Matchers</a> page.</p>
+
+<p>Here, we access the &lsquo;color&rsquo; property, then use the <code>cmp</code> universal matcher to compare the property to the &lsquo;black&rsquo; <a href="#expected-result">expected result</a>.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe car(owner: 'Bruce Wayne') do
+  its('color') { should cmp 'black' }
+end
+</code></pre></div></column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
+(function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+(w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+})(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+_st('install','xzyJV6P7pgscygGyyTm8','2.0.0');
+// end Swiftype code snippet
+
+document.getElementsByClassName("st-default-search-input")[0].focus();</script></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><div class="pad-under-xs"><img alt="image of octagon spinning" id="hex" onerror="this.src='/images/octagon.png'" src="/images/octagon.svg" /></div><h3 class="t-white pad-under-xs">Get started with Chef InSpec and rock on.</h3><div class="row align columns"><div class="strict-center"><a class="button btn-lg btn-purple shadow-dark margin-right-xs mobile-row-btn" href="/downloads"><i class="fa fa-cloud-download"></i><span>download InSpec 4</span></a><a class="button btn-lg btn-white-o shadow-dark mobile-row-btn" href="/tutorials">browse tutorials</a></div></div></div><div class="flex align"><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="https://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="link footer--link" href="https://docs.chef.io/chef_license.html">Licensing</a></li><li><a class="link footer--link" href="https://www.chef.io/terms-of-service/">Terms &amp; Conditions</a></li><li><a class="link footer--link" href="https://www.chef.io/trademark-policy/">Trademark Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/privacy-policy/">Privacy Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/cookie-policy/">Cookie Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div></div></div><p class="strict-center pad-under-xs"><small class="t-gray">&copy; Chef Software 2015-2019</small></p></footer><script src="https://buttons.github.io/buttons.js"></script><script src="/scripts/inspec_tutorial.js"></script><script src="/dist/inspec_tutorial.js"></script><script src="/javascripts/vendor/jquery.min.js"></script><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>function initSlideGroup(group) {
+  var prev = -1;
+  var links = $(group).find('a')
+
+  links.click(function(e) {
+    e.stopPropagation()
+
+    links.removeClass('selected')
+    $(this).addClass('selected')
+
+    var idx = $(this).index();
+    if(prev == idx) return;
+    prev = idx;
+
+    $('.slider .view.slide-in').removeClass('slide-in').addClass('slide-out')
+    var el = $('.slider .view')[idx]
+    if(el == null) {
+      console.log("No element for slider index "+idx)
+      return
+    }
+
+    $(el).removeClass('slide-out').removeClass('hidden').addClass('slide-in')
+  })
+
+  if(links[0] != null) links[0].click();
+}
+
+function initSliders() {
+  $('.slider .view').addClass('hidden')
+  var groups = $('.slider .selectors')
+  groups.each(function(idx){
+    initSlideGroup(this)
+  })
+}
+
+//run code colors
+
+$(document).ready(function() {
+  initSliders()
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+});
+
+//copy to clipboard
+
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
+$('#copy').hover(function() {
+   $('#install').toggleClass("text-focus");
+});
+
+$('#copy').click(function() {
+   $(this).removeClass("fa-copy");
+   $(this).addClass("fa-check");
+
+ setTimeout(() => {
+   $(this).removeClass('fa-check').addClass('fa-copy');
+  }, 1500);
+});
+
+// homepage content slider
+
+// tutorial content slider
+
+$(function() {
+  $(".collapseContent").hide();
+  $(".collapsebtn").addClass("fa-plus-square");
+
+   $('.collapseToggle').click(function() {
+      var el = $(this).parent().find('.collapseContent')
+      el.slideToggle("fast")
+      // $('.collapseContent').slideToggle("fast");
+      var btn = $(this).find('.collapsebtn')
+      if(btn.hasClass('fa-minus-square')) {
+        btn.addClass('fa-plus-square')
+        btn.removeClass('fa-minus-square')
+      } else {
+        btn.addClass('fa-minus-square')
+        btn.removeClass('fa-plus-square')
+      }
+   });
+});
+
+
+
+// scroll spy animations
+
+var $slide_left = $('.slide-left');
+var $slide_right = $('.slide-right');
+var $slide_up = $('.slide-up');
+var $slide_up_slow = $('.slide-up-slow');
+var $window = $(window);
+
+function check_if_in_view() {
+  var window_height = $window.height();
+  var window_top_position = $window.scrollTop();
+  var window_bottom_position = (window_top_position + window_height);
+
+  $.each($slide_left, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_right, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up_slow, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+}
+
+$window.on('scroll resize', check_if_in_view);
+$window.trigger('scroll');
+
+//scroll to top
+$(document).ready(function(){
+
+  $(window).scroll(function(){
+    if ($(this).scrollTop() > 100) {
+      $('.scrollToTop').fadeIn();
+    } else {
+      $('.scrollToTop').fadeOut();
+    }
+  });
+
+  $('.scrollToTop').click(function(){
+    $('html, body').animate({scrollTop : 0},800);
+    return false;
+  });
+
+  // scrolling to resource sections
+  $(".resources-button").click(function() {
+    var dst = $(this).attr("href")
+    $(".resources-button").removeClass("btn-purple").addClass("btn-purple-o")
+    $(this).addClass("btn-purple").removeClass("btn-purple-o")
+    $("html, body").animate({
+        scrollTop: $(dst).offset().top - 105
+    }, 1000);
+  });
+
+});
+
+//scrolling code box
+
+var div = $('#scrolled');
+   setInterval(function(){
+    var pos = div.scrollTop();
+    div.scrollTop(pos + 2);
+}, 200);
+
+//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });
+}
+else {
+    var progressBar = $('.progress-bar'),
+        max = getMax(),
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});</script><script src="/javascripts/segment.js"></script></body></html>

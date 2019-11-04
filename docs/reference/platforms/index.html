@@ -1,0 +1,426 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>Chef InSpec</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_platforms docs_reference_platforms_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a t-purple"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="using-chef-inspec-on-cloud-platforms">Using Chef InSpec on Cloud Platforms</h1>
+
+<p>As of Chef InSpec 2.0, we have expanded our platform support beyond individual machines and now include support for select AWS and Azure resources.</p>
+
+<p>Using InSpec, you can use several Chef InSpec resources to audit properties of your cloud infrastructure - for example, an Amazon Web Services S3 bucket.</p>
+
+<p><br></p>
+
+<h2 id="aws-platform-support-in-inspec">AWS Platform Support in InSpec</h2>
+
+<h3 id="setting-up-aws-credentials-for-inspec">Setting up AWS credentials for InSpec</h3>
+
+<p>Chef InSpec uses the standard AWS authentication mechanisms. Typically, you will create an IAM user specifically for auditing activities.</p>
+
+<ul>
+<li>1 Create an IAM user in the AWS console, with your choice of username. Check the box marked &ldquo;Programmatic Access.&rdquo;</li>
+<li>2 On the Permissions screen, choose Direct Attach. Select the AWS-managed IAM Profile named &ldquo;ReadOnlyAccess.&rdquo; If you wish to restrict the user further, you may do so; see individual Chef InSpec resources to identify which permissions are required.</li>
+<li>3 After generating the key, record the Access Key ID and Secret Key.</li>
+</ul>
+
+<h4 id="using-environment-variables-to-provide-credentials">Using Environment Variables to provide credentials</h4>
+
+<p>You may provide the credentials to Chef InSpec by setting the following environment variables: <code>AWS_REGION</code>, <code>AWS_ACCESS_KEY_ID</code>, and <code>AWS_SECRET_KEY_ID</code>. You may also use <code>AWS_PROFILE</code>, or if you are using MFA, <code>AWS_SESSION_TOKEN</code>. See the <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html">AWS Command Line Interface Docs</a> for details.</p>
+
+<p>Once you have your environment variables set, you can verify your credentials by running:</p>
+<div class="highlight"><pre class="highlight shell"><code>you<span class="nv">$ </span>inspec detect <span class="nt">-t</span> aws://
+
+<span class="o">==</span> Platform Details
+Name:      aws
+Families:  cloud, api
+Release:   aws-sdk-v2.10.125
+</code></pre></div>
+<h4 id="using-the-chef-inspec-target-option-to-provide-credentials-on-aws">Using the Chef InSpec target option to provide credentials on AWS</h4>
+
+<p>Look for a file in your home directory named <code>~/.aws/credentials</code>. If it does not exist, create it. Choose a name for your profile; here, we&rsquo;re using the name &lsquo;auditing&rsquo;. Add your credentials as a new profile, in INI format:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="o">[</span>auditing]
+aws_access_key_id <span class="o">=</span> AKIA....
+aws_secret_access_key <span class="o">=</span> 1234....abcd
+</code></pre></div>
+<p>You may now run Chef InSpec using the <code>--target</code> / <code>-t</code> option, using the format <code>-t aws://region/profile</code>.  For example, to connect to the Ohio region using a profile named &lsquo;auditing&rsquo;, use <code>-t aws://us-east-2/auditing</code>.</p>
+
+<p>To verify your credentials, run</p>
+<div class="highlight"><pre class="highlight shell"><code>you<span class="nv">$ </span>inspec detect <span class="nt">-t</span> aws://
+
+<span class="o">==</span> Platform Details
+Name:      aws
+Families:  cloud, api
+Release:   aws-sdk-v2.10.125
+</code></pre></div>
+<p><br></p>
+
+<h2 id="azure-platform-support-in-inspec">Azure Platform Support in InSpec</h2>
+
+<h3 id="setting-up-azure-credentials-for-inspec">Setting up Azure credentials for InSpec</h3>
+
+<p>To use Chef InSpec Azure resources, you will need to create a Service Principal Name (SPN) for auditing an Azure subscription.</p>
+
+<p>This can be done on the command line or from the Azure Portal:</p>
+
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authenticate-service-principal-cli">Azure CLI</a></li>
+<li><a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authenticate-service-principal">PowerShell</a></li>
+<li><a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal">Azure Portal</a></li>
+</ul>
+
+<p>The information from the SPN can be specified either in the file <code>~/.azure/credentials</code>, as environment variables, or by using Chef InSpec target URIs.</p>
+
+<h4 id="setting-up-the-azure-credentials-file">Setting up the Azure Credentials File</h4>
+
+<p>By default, Chef InSpec is configured to look at <code>~/.azure/credentials</code>, and it should contain:</p>
+<div class="highlight"><pre class="highlight powershell"><code><span class="p">[</span><span class="err">&lt;</span><span class="kt">SUBSCRIPTION_ID</span><span class="err">&gt;</span><span class="p">]</span><span class="w">
+</span><span class="nf">client_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"&lt;CLIENT_ID&gt;"</span><span class="w">
+</span><span class="nf">client_secret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"&lt;CLIENT_SECRET&gt;"</span><span class="w">
+</span><span class="nf">tenant_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"&lt;TENANT_ID&gt;"</span><span class="w">
+</span></code></pre></div>
+<p>NOTE: In the Azure web portal, these values are labeled differently:
+* The client<em>id is referred to as the &lsquo;Application ID&rsquo;
+* The client</em>secret is referred to as the &lsquo;Key (Password Type)&rsquo;
+* The tenant_id is referred to as the &lsquo;Directory ID&rsquo;</p>
+
+<p>With the credentials are in place, you may now execute InSpec:</p>
+<div class="highlight"><pre class="highlight shell"><code>inspec <span class="nb">exec </span>my-inspec-profile <span class="nt">-t</span> azure://
+</code></pre></div>
+<h4 id="using-environment-variables-to-provide-credentials">Using Environment variables to provide credentials</h4>
+
+<p>You may also set the Azure credentials via environment variables:</p>
+
+<ul>
+<li><code>AZURE_SUBSCRIPTION_ID</code></li>
+<li><code>AZURE_CLIENT_ID</code></li>
+<li><code>AZURE_CLIENT_SECRET</code></li>
+<li><code>AZURE_TENANT_ID</code></li>
+</ul>
+
+<p>For example:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">AZURE_SUBSCRIPTION_ID</span><span class="o">=</span><span class="s2">"2fbdbb02-df2e-11e6-bf01-fe55135034f3"</span> <span class="se">\</span>
+<span class="nv">AZURE_CLIENT_ID</span><span class="o">=</span><span class="s2">"58dc4f6c-df2e-11e6-bf01-fe55135034f3"</span> <span class="se">\</span>
+<span class="nv">AZURE_CLIENT_SECRET</span><span class="o">=</span><span class="s2">"Jibr4iwwaaZwBb6W"</span> <span class="se">\</span>
+<span class="nv">AZURE_TENANT_ID</span><span class="o">=</span><span class="s2">"6ad89b58-df2e-11e6-bf01-fe55135034f3"</span> inspec <span class="nb">exec </span>my-profile <span class="nt">-t</span> azure://
+</code></pre></div>
+<h4 id="using-the-chef-inspec-target-option-to-provide-credentials-on-azure">Using the Chef InSpec target option to provide credentials on Azure</h4>
+
+<p>If you have created a <code>~/.azure/credentials</code> file as above, you may also use the Chef InSpec command line <code>--target</code> / <code>-t</code> option to select a subscription ID.  For example:</p>
+<div class="highlight"><pre class="highlight shell"><code>inspec <span class="nb">exec </span>my-profile <span class="nt">-t</span> azure://2fbdbb02-df2e-11e6-bf01-fe55135034f3
+</code></pre></div>
+<p><br></p>
+
+<h2 id="gcp-platform-support-in-inspec">GCP Platform Support in InSpec</h2>
+
+<h3 id="setting-up-gcp-credentials-for-inspec">Setting up GCP credentials for InSpec</h3>
+
+<p>To use Chef InSpec GCP resources, you will need to install and configure the Google Cloud SDK. Instructions for this pre-requisite can be found in the <a href="https://cloud.google.com/sdk/docs/">Google CLoud SDK documentation</a>. Be sure that your InSpec installation is the latest version. The minimal required InSpec version is 3.0.25. </p>
+
+<h3 id="create-an-inspec-profile-that-makes-use-of-inspec-gcp">Create an InSpec profile that makes use of <code>inspec-gcp</code>.</h3>
+
+<p>With a version of InSpec above 4.0.0, it is possible to create a profile with the following command:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ inspec init profile --platform gcp my-profile
+Create new profile at /Users/me/my-profile
+ * Creating directory libraries
+ * Creating file README.md
+ * Creating directory controls
+ * Creating file controls/example.rb
+ * Creating file inspec.yml
+ * Creating file attributes.yml
+ * Creating file libraries/.gitkeep
+</code></pre></div>
+<p>Assuming the attributes yml file contains your GCP project ID, this sample profile can then be executed using the following command:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ inspec exec my-profile --attrs my-profile/attributes.yml -t gcp:// 
+</code></pre></div>
+<h4 id="setting-up-the-gcp-credentials-file">Setting up the GCP Credentials File</h4>
+
+<p>While InSpec can use user accounts for authentication, <a href="https://cloud.google.com/docs/authentication/">Google Cloud documentation</a> recommends using service accounts. Following GCP best practices, first create a service account with the scopes appropriate for your needs. See <a href="https://cloud.google.com/docs/authentication/getting-started">these instructions</a> on creating a service account.</p>
+
+<p>Then, download the credential JSON file, e.g. <code>project-credentials.json</code>, to your workspace and run the following command to activate your service account:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>gcloud auth activate-service-account <span class="nt">--key-file</span> project-credentials.json
+</code></pre></div>
+<h4 id="using-environment-variables-to-provide-credentials">Using Environment variables to provide credentials</h4>
+
+<p>You may also set the GCP credentials json file via the <code>GOOGLE_APPLICATION_CREDENTIALS</code> environment variable.</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">export </span><span class="nv">GOOGLE_APPLICATION_CREDENTIALS</span><span class="o">=</span><span class="s1">'/Users/me/.config/gcloud/myproject-1-feb7993e8660.json'</span>
+</code></pre></div>
+<p>Once you have your environment variables set, you can verify your credentials by running:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>inspec detect <span class="nt">-t</span> gcp://
+
+<span class="o">==</span> Platform Details
+
+Name:      gcp
+Families:  cloud, api
+Release:   google-cloud-v
+</code></pre></div></column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
+(function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+(w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+})(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+_st('install','xzyJV6P7pgscygGyyTm8','2.0.0');
+// end Swiftype code snippet
+
+document.getElementsByClassName("st-default-search-input")[0].focus();</script></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><div class="pad-under-xs"><img alt="image of octagon spinning" id="hex" onerror="this.src='/images/octagon.png'" src="/images/octagon.svg" /></div><h3 class="t-white pad-under-xs">Get started with Chef InSpec and rock on.</h3><div class="row align columns"><div class="strict-center"><a class="button btn-lg btn-purple shadow-dark margin-right-xs mobile-row-btn" href="/downloads"><i class="fa fa-cloud-download"></i><span>download InSpec 4</span></a><a class="button btn-lg btn-white-o shadow-dark mobile-row-btn" href="/tutorials">browse tutorials</a></div></div></div><div class="flex align"><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="https://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="link footer--link" href="https://docs.chef.io/chef_license.html">Licensing</a></li><li><a class="link footer--link" href="https://www.chef.io/terms-of-service/">Terms &amp; Conditions</a></li><li><a class="link footer--link" href="https://www.chef.io/trademark-policy/">Trademark Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/privacy-policy/">Privacy Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/cookie-policy/">Cookie Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div></div></div><p class="strict-center pad-under-xs"><small class="t-gray">&copy; Chef Software 2015-2019</small></p></footer><script src="https://buttons.github.io/buttons.js"></script><script src="/scripts/inspec_tutorial.js"></script><script src="/dist/inspec_tutorial.js"></script><script src="/javascripts/vendor/jquery.min.js"></script><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>function initSlideGroup(group) {
+  var prev = -1;
+  var links = $(group).find('a')
+
+  links.click(function(e) {
+    e.stopPropagation()
+
+    links.removeClass('selected')
+    $(this).addClass('selected')
+
+    var idx = $(this).index();
+    if(prev == idx) return;
+    prev = idx;
+
+    $('.slider .view.slide-in').removeClass('slide-in').addClass('slide-out')
+    var el = $('.slider .view')[idx]
+    if(el == null) {
+      console.log("No element for slider index "+idx)
+      return
+    }
+
+    $(el).removeClass('slide-out').removeClass('hidden').addClass('slide-in')
+  })
+
+  if(links[0] != null) links[0].click();
+}
+
+function initSliders() {
+  $('.slider .view').addClass('hidden')
+  var groups = $('.slider .selectors')
+  groups.each(function(idx){
+    initSlideGroup(this)
+  })
+}
+
+//run code colors
+
+$(document).ready(function() {
+  initSliders()
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+});
+
+//copy to clipboard
+
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
+$('#copy').hover(function() {
+   $('#install').toggleClass("text-focus");
+});
+
+$('#copy').click(function() {
+   $(this).removeClass("fa-copy");
+   $(this).addClass("fa-check");
+
+ setTimeout(() => {
+   $(this).removeClass('fa-check').addClass('fa-copy');
+  }, 1500);
+});
+
+// homepage content slider
+
+// tutorial content slider
+
+$(function() {
+  $(".collapseContent").hide();
+  $(".collapsebtn").addClass("fa-plus-square");
+
+   $('.collapseToggle').click(function() {
+      var el = $(this).parent().find('.collapseContent')
+      el.slideToggle("fast")
+      // $('.collapseContent').slideToggle("fast");
+      var btn = $(this).find('.collapsebtn')
+      if(btn.hasClass('fa-minus-square')) {
+        btn.addClass('fa-plus-square')
+        btn.removeClass('fa-minus-square')
+      } else {
+        btn.addClass('fa-minus-square')
+        btn.removeClass('fa-plus-square')
+      }
+   });
+});
+
+
+
+// scroll spy animations
+
+var $slide_left = $('.slide-left');
+var $slide_right = $('.slide-right');
+var $slide_up = $('.slide-up');
+var $slide_up_slow = $('.slide-up-slow');
+var $window = $(window);
+
+function check_if_in_view() {
+  var window_height = $window.height();
+  var window_top_position = $window.scrollTop();
+  var window_bottom_position = (window_top_position + window_height);
+
+  $.each($slide_left, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_right, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up_slow, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+}
+
+$window.on('scroll resize', check_if_in_view);
+$window.trigger('scroll');
+
+//scroll to top
+$(document).ready(function(){
+
+  $(window).scroll(function(){
+    if ($(this).scrollTop() > 100) {
+      $('.scrollToTop').fadeIn();
+    } else {
+      $('.scrollToTop').fadeOut();
+    }
+  });
+
+  $('.scrollToTop').click(function(){
+    $('html, body').animate({scrollTop : 0},800);
+    return false;
+  });
+
+  // scrolling to resource sections
+  $(".resources-button").click(function() {
+    var dst = $(this).attr("href")
+    $(".resources-button").removeClass("btn-purple").addClass("btn-purple-o")
+    $(this).addClass("btn-purple").removeClass("btn-purple-o")
+    $("html, body").animate({
+        scrollTop: $(dst).offset().top - 105
+    }, 1000);
+  });
+
+});
+
+//scrolling code box
+
+var div = $('#scrolled');
+   setInterval(function(){
+    var pos = div.scrollTop();
+    div.scrollTop(pos + 2);
+}, 200);
+
+//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });
+}
+else {
+    var progressBar = $('.progress-bar'),
+        max = getMax(),
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});</script><script src="/javascripts/segment.js"></script></body></html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>The dh_params Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_dh_params docs_reference_resources_dh_params_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="dh_params">dh_params</h1>
+
+<p>Use the <code>dh_params</code> Chef InSpec audit resource to test Diffie-Hellman (DH) parameters.</p>
+
+<p><br></p>
+
+<h2 id="availability">Availability</h2>
+
+<h3 id="installation">Installation</h3>
+
+<p>This resource is distributed along with Chef InSpec itself. You can use it automatically.</p>
+
+<h3 id="version">Version</h3>
+
+<p>This resource first became available in v1.19.0 of InSpec.</p>
+
+<h2 id="syntax">Syntax</h2>
+
+<p>A <code>dh_params</code> resource block declares a parameter file to be tested.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe dh_params('/path/to/file.dh_pem') do
+  it { should be_dh_params }
+  it { should be_valid }
+  its('generator') { should eq 2 }
+  its('modulus') { should eq '00:91:a0:15:89:e5:bc:38:93:12:02:fc:...' }
+  its('prime_length') { should eq 2048 }
+  its('pem') { should eq '-----BEGIN DH PARAMETERS...' }
+  its('text') { should eq 'PKCS#3 DH Parameters: (2048 bit)...' }
+end
+</code></pre></div>
+<p><br></p>
+
+<h2 id="properties">Properties</h2>
+
+<ul>
+<li><code>generator</code>, <code>modulus</code>, <code>prime_length</code>, <code>pem</code>, <code>text</code></li>
+</ul>
+
+<p><br></p>
+
+<h2 id="property-examples">Property Examples</h2>
+
+<h3 id="generator-integer">generator (Integer)</h3>
+
+<p>Verify generator used for the Diffie-Hellman operation:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe dh_params('/path/to/file.dh_pem') do
+  its('generator') { should eq 2 }
+end
+</code></pre></div>
+<h3 id="modulus-string">modulus (String)</h3>
+
+<p>Verify prime modulus used for the Diffie-Hellman operation:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe dh_params('/path/to/file.dh_pem') do
+  its('modulus') { should eq '00:91:a0:15:89:e5:bc:38:93:12:02:fc:...' }
+end
+</code></pre></div>
+<p>Example using multi-line string:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">describe</span> <span class="n">dh_params</span><span class="p">(</span><span class="s1">'/path/to/file.dh_pem'</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'modulus'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="c1"># regex removes all whitespace</span>
+    <span class="n">should</span> <span class="n">eq</span> <span class="o">&lt;&lt;-</span><span class="no">EOF</span><span class="p">.</span><span class="nf">gsub</span><span class="p">(</span><span class="sr">/[[:space:]]+/</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="sh">
+      00:91:a0:15:89:e5:bc:38:93:12:02:fc:91:a2:85:
+      f7:f7:29:63:2e:d3:4e:7a:86:f7:ee:84:fe:42:d0:
+      48:bc:9c:91:d5:54:f8:78:1d:c0:41:78:a2:c4:ac:
+      1a:24:8b:9d:88:55:98:0b:ac:a7:23:eb:c2:aa:2b:
+      2e:a9:f9:af:d4:8e:4e:11:bc:7f:35:a2:ac:da:3a:
+      ef:f0:25:6c:9a:a4:fd:00:28:76:86:2c:57:87:67:
+      30:5d:b1:d6:5b:22:8f:72:a1:ea:de:8b:ef:9e:33:
+      1a:40:92:68:85:02:54:02:09:fa:c0:60:c1:3c:4e:
+      28:26:db:ed:25:8e:38:21:56:40:dc:c0:c0:66:1f:
+      2b:32:c3:b4:78:a9:26:94:ea:f7:41:28:b2:f5:5b:
+      01:38:0c:46:09:85:26:4d:69:12:8d:95:0f:35:e2:
+      e6:4e:47:3a:86:dd:8a:b2:fe:45:15:27:d8:59:c2:
+      3c:f4:62:ff:5f:74:e9:77:92:50:47:36:2b:05:57:
+      60:ee:7b:a1:60:cc:1c:7a:2b:77:18:8a:37:f7:c7:
+      31:3e:15:cb:15:7f:7b:66:96:fb:c6:be:7d:d6:03:
+      5e:0d:60:75:2b:5b:62:2a:a3:37:b6:34:f9:fe:96:
+      4c:f6:c5:e3:a1:52:af:01:c1:4f:c7:42:a0:be:ed:
+      cd:13
+</span><span class="no">    EOF</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<h3 id="prime_length-integer">prime_length (Integer)</h3>
+
+<p>Verify length of prime modulus used for the Diffie-Hellman operation:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe dh_params('/path/to/file.dh_pem') do
+  its('prime_length') { should eq 2048 }
+end
+</code></pre></div>
+<h3 id="pem-string">pem (String)</h3>
+
+<p>Verify <code>pem</code> output of DH parameters:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe dh_params('/path/to/file.dh_pem') do
+  its('pem') { should eq '-----BEGIN DH PARAMETERS...' }
+end
+</code></pre></div>
+<p>Example using multi-line string:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">its</span><span class="p">(</span><span class="s1">'pem'</span><span class="p">)</span> <span class="k">do</span>
+  <span class="c1"># regex removes all leading spaces</span>
+  <span class="n">should</span> <span class="n">eq</span> <span class="o">&lt;&lt;-</span><span class="no">EOF</span><span class="p">.</span><span class="nf">gsub</span><span class="p">(</span><span class="sr">/^[[:blank:]]+/</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="sh">
+    -----BEGIN DH PARAMETERS-----
+    MIIBCAKCAQEAkaAVieW8OJMSAvyRooX39yljLtNOeob37oT+QtBIvJyR1VT4eB3A
+    QXiixKwaJIudiFWYC6ynI+vCqisuqfmv1I5OEbx/NaKs2jrv8CVsmqT9ACh2hixX
+    h2cwXbHWWyKPcqHq3ovvnjMaQJJohQJUAgn6wGDBPE4oJtvtJY44IVZA3MDAZh8r
+    MsO0eKkmlOr3QSiy9VsBOAxGCYUmTWkSjZUPNeLmTkc6ht2Ksv5FFSfYWcI89GL/
+    X3Tpd5JQRzYrBVdg7nuhYMwceit3GIo398cxPhXLFX97Zpb7xr591gNeDWB1K1ti
+    KqM3tjT5/pZM9sXjoVKvAcFPx0Kgvu3NEwIBAg==
+    -----END DH PARAMETERS-----
+</span><span class="no">  EOF</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Verify via <code>openssl dhparam</code> command:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ openssl dhparam -in /path/to/file.dh_pem
+-----BEGIN DH PARAMETERS-----
+MIIBCAKCAQEAkaAVieW8OJMSAvyRooX39yljLtNOeob37oT+QtBIvJyR1VT4eB3A
+QXiixKwaJIudiFWYC6ynI+vCqisuqfmv1I5OEbx/NaKs2jrv8CVsmqT9ACh2hixX
+h2cwXbHWWyKPcqHq3ovvnjMaQJJohQJUAgn6wGDBPE4oJtvtJY44IVZA3MDAZh8r
+MsO0eKkmlOr3QSiy9VsBOAxGCYUmTWkSjZUPNeLmTkc6ht2Ksv5FFSfYWcI89GL/
+X3Tpd5JQRzYrBVdg7nuhYMwceit3GIo398cxPhXLFX97Zpb7xr591gNeDWB1K1ti
+KqM3tjT5/pZM9sXjoVKvAcFPx0Kgvu3NEwIBAg==
+-----END DH PARAMETERS-----
+</code></pre></div>
+<h3 id="text-string">text (String)</h3>
+
+<p>Verify human-readable text output of DH parameters:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe dh_params('/path/to/file.dh_pem') do
+  its('text') { should eq 'PKCS#3 DH Parameters: (2048 bit)...' }
+end
+</code></pre></div>
+<p>Example using multi-line string:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">its</span><span class="p">(</span><span class="s1">'text'</span><span class="p">)</span> <span class="k">do</span>
+  <span class="c1"># regex removes 2 leading spaces</span>
+  <span class="n">should</span> <span class="n">eq</span> <span class="o">&lt;&lt;-</span><span class="no">EOF</span><span class="p">.</span><span class="nf">gsub</span><span class="p">(</span><span class="sr">/^[[:blank:]]{2}/</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="sh">
+    PKCS#3 DH Parameters: (2048 bit)
+        prime:
+            00:91:a0:15:89:e5:bc:38:93:12:02:fc:91:a2:85:
+            f7:f7:29:63:2e:d3:4e:7a:86:f7:ee:84:fe:42:d0:
+            48:bc:9c:91:d5:54:f8:78:1d:c0:41:78:a2:c4:ac:
+            1a:24:8b:9d:88:55:98:0b:ac:a7:23:eb:c2:aa:2b:
+            2e:a9:f9:af:d4:8e:4e:11:bc:7f:35:a2:ac:da:3a:
+            ef:f0:25:6c:9a:a4:fd:00:28:76:86:2c:57:87:67:
+            30:5d:b1:d6:5b:22:8f:72:a1:ea:de:8b:ef:9e:33:
+            1a:40:92:68:85:02:54:02:09:fa:c0:60:c1:3c:4e:
+            28:26:db:ed:25:8e:38:21:56:40:dc:c0:c0:66:1f:
+            2b:32:c3:b4:78:a9:26:94:ea:f7:41:28:b2:f5:5b:
+            01:38:0c:46:09:85:26:4d:69:12:8d:95:0f:35:e2:
+            e6:4e:47:3a:86:dd:8a:b2:fe:45:15:27:d8:59:c2:
+            3c:f4:62:ff:5f:74:e9:77:92:50:47:36:2b:05:57:
+            60:ee:7b:a1:60:cc:1c:7a:2b:77:18:8a:37:f7:c7:
+            31:3e:15:cb:15:7f:7b:66:96:fb:c6:be:7d:d6:03:
+            5e:0d:60:75:2b:5b:62:2a:a3:37:b6:34:f9:fe:96:
+            4c:f6:c5:e3:a1:52:af:01:c1:4f:c7:42:a0:be:ed:
+            cd:13
+        generator: 2 (0x2)
+</span><span class="no">    EOF</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Verify via <code>openssl dhparam</code> command:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ openssl dhparam -in /path/to/file.dh_pem -noout -text
+PKCS#3 DH Parameters: (2048 bit)
+    prime:
+        00:91:a0:15:89:e5:bc:38:93:12:02:fc:91:a2:85:
+        f7:f7:29:63:2e:d3:4e:7a:86:f7:ee:84:fe:42:d0:
+        48:bc:9c:91:d5:54:f8:78:1d:c0:41:78:a2:c4:ac:
+        1a:24:8b:9d:88:55:98:0b:ac:a7:23:eb:c2:aa:2b:
+        2e:a9:f9:af:d4:8e:4e:11:bc:7f:35:a2:ac:da:3a:
+        ef:f0:25:6c:9a:a4:fd:00:28:76:86:2c:57:87:67:
+        30:5d:b1:d6:5b:22:8f:72:a1:ea:de:8b:ef:9e:33:
+        1a:40:92:68:85:02:54:02:09:fa:c0:60:c1:3c:4e:
+        28:26:db:ed:25:8e:38:21:56:40:dc:c0:c0:66:1f:
+        2b:32:c3:b4:78:a9:26:94:ea:f7:41:28:b2:f5:5b:
+        01:38:0c:46:09:85:26:4d:69:12:8d:95:0f:35:e2:
+        e6:4e:47:3a:86:dd:8a:b2:fe:45:15:27:d8:59:c2:
+        3c:f4:62:ff:5f:74:e9:77:92:50:47:36:2b:05:57:
+        60:ee:7b:a1:60:cc:1c:7a:2b:77:18:8a:37:f7:c7:
+        31:3e:15:cb:15:7f:7b:66:96:fb:c6:be:7d:d6:03:
+        5e:0d:60:75:2b:5b:62:2a:a3:37:b6:34:f9:fe:96:
+        4c:f6:c5:e3:a1:52:af:01:c1:4f:c7:42:a0:be:ed:
+        cd:13
+    generator: 2 (0x2)
+</code></pre></div>
+<p><br></p>
+
+<h2 id="matchers">Matchers</h2>
+
+<p>For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">matchers page</a>.</p>
+
+<h3 id="be_valid">be_valid</h3>
+
+<p>Verify whether DH parameters are valid:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe dh_params('/path/to/file.dh_pem') do
+  it { should be_valid }
+end
+</code></pre></div>
+<h3 id="be_dh_params">be_dh_params</h3>
+<div class="highlight"><pre class="highlight plaintext"><code>describe dh_params('/path/to/file.dh_pem') do
+    it { should be_dh_params}
+end
+</code></pre></div></column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
+(function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+(w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+})(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+_st('install','xzyJV6P7pgscygGyyTm8','2.0.0');
+// end Swiftype code snippet
+
+document.getElementsByClassName("st-default-search-input")[0].focus();</script></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><div class="pad-under-xs"><img alt="image of octagon spinning" id="hex" onerror="this.src='/images/octagon.png'" src="/images/octagon.svg" /></div><h3 class="t-white pad-under-xs">Get started with Chef InSpec and rock on.</h3><div class="row align columns"><div class="strict-center"><a class="button btn-lg btn-purple shadow-dark margin-right-xs mobile-row-btn" href="/downloads"><i class="fa fa-cloud-download"></i><span>download InSpec 4</span></a><a class="button btn-lg btn-white-o shadow-dark mobile-row-btn" href="/tutorials">browse tutorials</a></div></div></div><div class="flex align"><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="https://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="link footer--link" href="https://docs.chef.io/chef_license.html">Licensing</a></li><li><a class="link footer--link" href="https://www.chef.io/terms-of-service/">Terms &amp; Conditions</a></li><li><a class="link footer--link" href="https://www.chef.io/trademark-policy/">Trademark Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/privacy-policy/">Privacy Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/cookie-policy/">Cookie Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div></div></div><p class="strict-center pad-under-xs"><small class="t-gray">&copy; Chef Software 2015-2019</small></p></footer><script src="https://buttons.github.io/buttons.js"></script><script src="/scripts/inspec_tutorial.js"></script><script src="/dist/inspec_tutorial.js"></script><script src="/javascripts/vendor/jquery.min.js"></script><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>function initSlideGroup(group) {
+  var prev = -1;
+  var links = $(group).find('a')
+
+  links.click(function(e) {
+    e.stopPropagation()
+
+    links.removeClass('selected')
+    $(this).addClass('selected')
+
+    var idx = $(this).index();
+    if(prev == idx) return;
+    prev = idx;
+
+    $('.slider .view.slide-in').removeClass('slide-in').addClass('slide-out')
+    var el = $('.slider .view')[idx]
+    if(el == null) {
+      console.log("No element for slider index "+idx)
+      return
+    }
+
+    $(el).removeClass('slide-out').removeClass('hidden').addClass('slide-in')
+  })
+
+  if(links[0] != null) links[0].click();
+}
+
+function initSliders() {
+  $('.slider .view').addClass('hidden')
+  var groups = $('.slider .selectors')
+  groups.each(function(idx){
+    initSlideGroup(this)
+  })
+}
+
+//run code colors
+
+$(document).ready(function() {
+  initSliders()
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+});
+
+//copy to clipboard
+
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
+$('#copy').hover(function() {
+   $('#install').toggleClass("text-focus");
+});
+
+$('#copy').click(function() {
+   $(this).removeClass("fa-copy");
+   $(this).addClass("fa-check");
+
+ setTimeout(() => {
+   $(this).removeClass('fa-check').addClass('fa-copy');
+  }, 1500);
+});
+
+// homepage content slider
+
+// tutorial content slider
+
+$(function() {
+  $(".collapseContent").hide();
+  $(".collapsebtn").addClass("fa-plus-square");
+
+   $('.collapseToggle').click(function() {
+      var el = $(this).parent().find('.collapseContent')
+      el.slideToggle("fast")
+      // $('.collapseContent').slideToggle("fast");
+      var btn = $(this).find('.collapsebtn')
+      if(btn.hasClass('fa-minus-square')) {
+        btn.addClass('fa-plus-square')
+        btn.removeClass('fa-minus-square')
+      } else {
+        btn.addClass('fa-minus-square')
+        btn.removeClass('fa-plus-square')
+      }
+   });
+});
+
+
+
+// scroll spy animations
+
+var $slide_left = $('.slide-left');
+var $slide_right = $('.slide-right');
+var $slide_up = $('.slide-up');
+var $slide_up_slow = $('.slide-up-slow');
+var $window = $(window);
+
+function check_if_in_view() {
+  var window_height = $window.height();
+  var window_top_position = $window.scrollTop();
+  var window_bottom_position = (window_top_position + window_height);
+
+  $.each($slide_left, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_right, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up_slow, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+}
+
+$window.on('scroll resize', check_if_in_view);
+$window.trigger('scroll');
+
+//scroll to top
+$(document).ready(function(){
+
+  $(window).scroll(function(){
+    if ($(this).scrollTop() > 100) {
+      $('.scrollToTop').fadeIn();
+    } else {
+      $('.scrollToTop').fadeOut();
+    }
+  });
+
+  $('.scrollToTop').click(function(){
+    $('html, body').animate({scrollTop : 0},800);
+    return false;
+  });
+
+  // scrolling to resource sections
+  $(".resources-button").click(function() {
+    var dst = $(this).attr("href")
+    $(".resources-button").removeClass("btn-purple").addClass("btn-purple-o")
+    $(this).addClass("btn-purple").removeClass("btn-purple-o")
+    $("html, body").animate({
+        scrollTop: $(dst).offset().top - 105
+    }, 1000);
+  });
+
+});
+
+//scrolling code box
+
+var div = $('#scrolled');
+   setInterval(function(){
+    var pos = div.scrollTop();
+    div.scrollTop(pos + 2);
+}, 200);
+
+//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });
+}
+else {
+    var progressBar = $('.progress-bar'),
+        max = getMax(),
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});</script><script src="/javascripts/segment.js"></script></body></html>

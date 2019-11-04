@@ -1,0 +1,422 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>Chef InSpec Integration with Chef Habitat</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_habitat docs_reference_habitat_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a t-purple"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="chef-habitat-integration">Chef Habitat Integration</h1>
+
+<p>Chef InSpec provides an easy method to create an executable Chef Habitat package for a Chef InSpec profile. When run via the Chef Habitat Supervisor, the package will run Chef InSpec with your profile and write out its findings to the supervisor log. This provides the ability to ship your compliance controls alongside your Chef Habitat-packaged application and continuously run InSpec, providing you <em>Continuous Compliance.</em></p>
+
+<h2 id="what-is-chef-habitat">What is Chef Habitat</h2>
+
+<p>Chef Habitat by Chef is our new Application Automation tool that aims to make it easy, safe, and fast to build, deploy, and manage applications. From build dependencies, runtime dependencies, dynamic configuration, and service discovery (just to name a few), Chef Habitat packages the automation with the application instead of relying on an underlying platform.</p>
+
+<p>To learn more about Chef Habitat and try our demos and tutorials, visit <a href="https://www.habitat.sh">https://www.habitat.sh</a>.</p>
+
+<h2 id="using-the-chef-habitat-integration">Using the Chef Habitat Integration</h2>
+
+<p>After creating a Chef Habitat package for a Chef InSpec profile (see CLI commands below) and uploading the package to a Chef Habitat Depot or manually distributing to a host, start the Chef Habitat Supervisor with your package:</p>
+<div class="highlight"><pre class="highlight shell"><code>hab start effortless/audit-baseline
+</code></pre></div>
+<p>The Chef Habitat Supervisor will install Chef InSpec and execute your profile in a loop. The loop is controlled by two variables: the <code>interval</code> and the <code>splay</code>. The <code>interval</code> is a set time you want InSpec to run and its default is <code>1800</code> seconds. The <code>splay</code> is a randomly generated sleep time that prevents a thundering herd problem, or resource starvation scenario, when sending your report to an external server like Chef Automate. The default for the <code>splay</code> is also <code>1800</code> seconds. Alternatively, the <code>splay_first_run</code> can be set to wait a random period of time between 0 and the number set for the <code>splay_first_run</code> before running InSpec when your Habitat package is started or updated. The default of the <code>splay_first_run</code> is <code>0</code> seconds.</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">HAB_INSPEC_PROFILE_FRONTEND1</span><span class="o">=</span><span class="s2">"interval = 60"</span> hab start effortless/audit-baseline
+</code></pre></div>
+<p>The Chef Habitat Supervisor will display output like this:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>hab start effortless/audit-baseline
+∵ Missing package for core/hab-sup/0.17.0
+» Installing core/hab-sup/0.17.0
+↓ Downloading core/hab-sup/0.17.0/20170214235450
+    1.68 MB / 1.68 MB - [=========================================================================] 100.00 % 7.43 MB/s
+
+... more Chef Habitat output here ...
+
+hab-sup(MN): Starting effortless/audit-baseline/0.1.0/20170328173005
+hab-sup(CS): effortless/audit-baseline/0.1.0/20170328173005 is not installed
+↓ Downloading adamleff-20160617201047 public origin key
+    79 B / 79 B | [===============================================================================] 100.00 % 2.64 MB/s
+☑ Cached adamleff-20160617201047 public origin key
+↓ Downloading chef/inspec/1.17.0/20170321214949
+    16.93 MB / 16.93 MB / [======================================================================] 100.00 % 10.49 MB/s
+
+... more Chef Habitat output here ...
+
+★ Install of effortless/audit-baseline/0.1.0/20170328173005 complete with 9 new packages installed.
+hab-sup(MR): Butterfly Member ID d9bd761e18c144469d755b1b97406eb2
+hab-sup(MR): Starting butterfly on 0.0.0.0:9638
+hab-sup(MR): Starting http-gateway on 0.0.0.0:9631
+inspec-profile-frontend1.default(SR): Initializing
+inspec-profile-frontend1.default(SV): Starting process as user=hab, group=hab
+inspec-profile-frontend1.default(O): Executing InSpec  effortless/audit-baseline
+inspec-profile-frontend1.default(O): InSpec run completed successfully.
+inspec-profile-frontend1.default(O): sleeping for 2134 seconds
+</code></pre></div>
+<p>The above sample output shows the supervisor starting, downloading the necessary dependencies for the supervisor and the Chef InSpec profile, and then shows the supervisor running Chef InSpec successfully.</p>
+
+<p>Chef InSpec will write a JSON file in the <code>${svc_var_path}/inspec_results</code> directory containing the results of the last Chef InSpec run. For example, for the <code>effortless/audit-baseline</code> package, the Chef InSpec results will be at:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>/hab/svc/inspec-profile-frontend1/var/inspec_results/inspec-profile-frontend1.json
+</code></pre></div>
+<h2 id="chef-inspec-chef-habitat-cli-commands">Chef InSpec Chef Habitat CLI Commands</h2>
+
+<h3 id="inspec-habitat-profile-create">inspec habitat profile create</h3>
+
+<p>Create a Chef Habitat package for a Chef InSpec profile. Chef InSpec will validate the profile, fetch and vendor any dependencies (if necessary), and build the Chef Habitat package with a dependency on the latest InSpec. The resulting package will be saved to the current working directory.</p>
+
+<p>The package can then be manually uploaded to a Chef Habitat Depot or manually distributed to a host and installed via <code>hab pkg install</code>.</p>
+
+<p>The package file will be named:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>HABITAT_ORIGIN-inspec-profile-PROFILE_NAME-PROFILE_VERSION-BUILD_ID-x86_64-linux.hart
+</code></pre></div>
+<p>For example:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>adamleff-inspec-profile-frontend1-0.1.0-20170328173005-x86_64-linux.hart
+</code></pre></div>
+<h4 id="syntax">Syntax</h4>
+<div class="highlight"><pre class="highlight shell"><code>inspec habitat profile create PROFILE_DIRECTORY
+</code></pre></div>
+<h4 id="example">Example</h4>
+<div class="highlight"><pre class="highlight shell"><code>inspec habitat profile create ~/profiles/frontend1
+</code></pre></div>
+<h4 id="example-output">Example Output</h4>
+<div class="highlight"><pre class="highlight plaintext"><code>$ habitat profile create ~/profiles/frontend1
+[2017-03-28T13:29:32-04:00] INFO: Creating a Habitat artifact for profile: /Users/aleff/profiles/frontend1
+[2017-03-28T13:29:32-04:00] INFO: Checking to see if Habitat is installed...
+[2017-03-28T13:29:32-04:00] INFO: Copying profile contents to the work directory...
+[2017-03-28T13:29:32-04:00] INFO: Generating Habitat plan at /var/folders/v5/z54gb76j2rs3wrn65hmtyf1r0000gp/T/inspec-habitat-exporter20170328-4932-kg2ltd/habitat/plan.sh...
+[2017-03-28T13:29:32-04:00] INFO: Generating a Habitat run hook at /var/folders/v5/z54gb76j2rs3wrn65hmtyf1r0000gp/T/inspec-habitat-exporter20170328-4932-kg2ltd/habitat/hooks/run...
+[2017-03-28T13:29:32-04:00] INFO: Generating Habitat's default.toml configuration...
+[2017-03-28T13:29:32-04:00] INFO: Building our Habitat artifact...
+   hab-studio: Destroying Studio at /hab/studios/src (default)
+   hab-studio: Creating Studio at /hab/studios/src (default)
+   hab-studio: Importing adamleff secret origin key
+» Importing origin key from standard input
+★ Imported secret origin key adamleff-20160617201047.
+» Installing core/hab-backline
+↓ Downloading core/hab-backline/0.19.0/20170311034116
+    2.17 KB / 2.17 KB / [=========================================================================] 100.00 % 4.33 MB/s
+
+... more Chef Habitat output here...
+
+[2017-03-28T13:30:18-04:00] INFO: Copying artifact to /Users/aleff...
+</code></pre></div>
+<h3 id="inspec-habitat-profile-setup">inspec habitat profile setup</h3>
+
+<p>Create a Chef Habitat directory that includes a plan file in a profile directory.</p>
+
+<p>This is the same process that is used by <code>inspec habitat profile create</code> - but this adds the generated Chef Habitat
+ directory and file to your system so that you can commit them to source control. If you commit these files to GitHub, you can connect that plan to the <a href="https://www.habitat.sh/docs/using-builder/">Chef Habitat Builder Service</a>.</p>
+
+<h4 id="syntax">Syntax</h4>
+<div class="highlight"><pre class="highlight shell"><code>inspec habitat profile setup PROFILE_DIRECTORY
+</code></pre></div>
+<h4 id="example">Example</h4>
+<div class="highlight"><pre class="highlight shell"><code>inspec habitat profile setup ~/profiles/frontend1
+</code></pre></div>
+<h4 id="example-output">Example Output</h4>
+<div class="highlight"><pre class="highlight shell"><code><span class="o">[</span>2018-10-31T23:45:59+00:00] INFO: Setting up profile at /home/nell/profiles/frontend1/ <span class="k">for </span>Habitat...
+<span class="o">[</span>2018-10-31T23:45:59+00:00] INFO: Checking to see <span class="k">if </span>the profile is valid...
+<span class="o">[</span>2018-10-31T23:45:59+00:00] INFO: Profile is valid.
+<span class="o">[</span>2018-10-31T23:45:59+00:00] INFO: Profile<span class="s1">'s dependencies are already vendored, skipping vendor process.
+[2018-10-31T23:45:59+00:00] INFO: Generating Habitat plan at /home/nell/profiles/frontend1/habitat/plan.sh...
+</span></code></pre></div>
+<h3 id="inspec-habitat-profile-upload">inspec habitat profile upload</h3>
+
+<p>Create and then upload a Chef Habitat package for a Chef InSpec profile. Like the <code>inspec habitat profile create</code> command, Chef InSpec will validate the profile, fetch and vendor any dependencies (if necessary), and build the Chef Habitat package with a dependency on the latest InSpec. However, instead of saving the package locally to the workstation, Chef InSpec will upload it to the depot defined in the <code>HAB_DEPOT</code> environment variable. If <code>HAB_DEPOT</code> is not defined, the package will be uploaded to the public Chef Habitat depot at <a href="https://app.habitat.sh">https://app.habitat.sh</a>.</p>
+
+<h4 id="syntax">Syntax</h4>
+<div class="highlight"><pre class="highlight shell"><code>inspec habitat profile upload PROFILE_DIRECTORY
+</code></pre></div>
+<h4 id="example">Example</h4>
+<div class="highlight"><pre class="highlight shell"><code>inspec habitat profile upload ~/profiles/frontend1
+</code></pre></div>
+<h4 id="example-output">Example Output</h4>
+<div class="highlight"><pre class="highlight plaintext"><code>[2017-03-28T13:29:32-04:00] INFO: Creating a Habitat artifact for profile: /Users/aleff/profiles/frontend1
+[2017-03-28T13:29:32-04:00] INFO: Checking to see if Habitat is installed...
+[2017-03-28T13:29:32-04:00] INFO: Copying profile contents to the work directory...
+[2017-03-28T13:29:32-04:00] INFO: Generating Habitat plan at /var/folders/v5/z54gb76j2rs3wrn65hmtyf1r0000gp/T/inspec-habitat-exporter20170328-4932-kg2ltd/habitat/plan.sh...
+[2017-03-28T13:29:32-04:00] INFO: Generating a Habitat run hook at /var/folders/v5/z54gb76j2rs3wrn65hmtyf1r0000gp/T/inspec-habitat-exporter20170328-4932-kg2ltd/habitat/hooks/run...
+[2017-03-28T13:29:32-04:00] INFO: Generating Habitat's default.toml configuration...
+[2017-03-28T13:29:32-04:00] INFO: Building our Habitat artifact...
+   hab-studio: Destroying Studio at /hab/studios/src (default)
+   hab-studio: Creating Studio at /hab/studios/src (default)
+   hab-studio: Importing adamleff secret origin key
+» Importing origin key from standard input
+★ Imported secret origin key adamleff-20160617201047.
+» Installing core/hab-backline
+↓ Downloading core/hab-backline/0.19.0/20170311034116
+    2.17 KB / 2.17 KB / [=========================================================================] 100.00 % 4.33 MB/s
+
+... more Chef Habitat output here...
+
+[2017-03-28T13:30:18-04:00] INFO: Uploading the Habitat artifact to our Depot...
+[2017-03-28T13:30:23-04:00] INFO: Upload complete!
+</code></pre></div></column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
+(function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+(w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+})(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+_st('install','xzyJV6P7pgscygGyyTm8','2.0.0');
+// end Swiftype code snippet
+
+document.getElementsByClassName("st-default-search-input")[0].focus();</script></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><div class="pad-under-xs"><img alt="image of octagon spinning" id="hex" onerror="this.src='/images/octagon.png'" src="/images/octagon.svg" /></div><h3 class="t-white pad-under-xs">Get started with Chef InSpec and rock on.</h3><div class="row align columns"><div class="strict-center"><a class="button btn-lg btn-purple shadow-dark margin-right-xs mobile-row-btn" href="/downloads"><i class="fa fa-cloud-download"></i><span>download InSpec 4</span></a><a class="button btn-lg btn-white-o shadow-dark mobile-row-btn" href="/tutorials">browse tutorials</a></div></div></div><div class="flex align"><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="https://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="link footer--link" href="https://docs.chef.io/chef_license.html">Licensing</a></li><li><a class="link footer--link" href="https://www.chef.io/terms-of-service/">Terms &amp; Conditions</a></li><li><a class="link footer--link" href="https://www.chef.io/trademark-policy/">Trademark Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/privacy-policy/">Privacy Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/cookie-policy/">Cookie Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div></div></div><p class="strict-center pad-under-xs"><small class="t-gray">&copy; Chef Software 2015-2019</small></p></footer><script src="https://buttons.github.io/buttons.js"></script><script src="/scripts/inspec_tutorial.js"></script><script src="/dist/inspec_tutorial.js"></script><script src="/javascripts/vendor/jquery.min.js"></script><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>function initSlideGroup(group) {
+  var prev = -1;
+  var links = $(group).find('a')
+
+  links.click(function(e) {
+    e.stopPropagation()
+
+    links.removeClass('selected')
+    $(this).addClass('selected')
+
+    var idx = $(this).index();
+    if(prev == idx) return;
+    prev = idx;
+
+    $('.slider .view.slide-in').removeClass('slide-in').addClass('slide-out')
+    var el = $('.slider .view')[idx]
+    if(el == null) {
+      console.log("No element for slider index "+idx)
+      return
+    }
+
+    $(el).removeClass('slide-out').removeClass('hidden').addClass('slide-in')
+  })
+
+  if(links[0] != null) links[0].click();
+}
+
+function initSliders() {
+  $('.slider .view').addClass('hidden')
+  var groups = $('.slider .selectors')
+  groups.each(function(idx){
+    initSlideGroup(this)
+  })
+}
+
+//run code colors
+
+$(document).ready(function() {
+  initSliders()
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+});
+
+//copy to clipboard
+
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
+$('#copy').hover(function() {
+   $('#install').toggleClass("text-focus");
+});
+
+$('#copy').click(function() {
+   $(this).removeClass("fa-copy");
+   $(this).addClass("fa-check");
+
+ setTimeout(() => {
+   $(this).removeClass('fa-check').addClass('fa-copy');
+  }, 1500);
+});
+
+// homepage content slider
+
+// tutorial content slider
+
+$(function() {
+  $(".collapseContent").hide();
+  $(".collapsebtn").addClass("fa-plus-square");
+
+   $('.collapseToggle').click(function() {
+      var el = $(this).parent().find('.collapseContent')
+      el.slideToggle("fast")
+      // $('.collapseContent').slideToggle("fast");
+      var btn = $(this).find('.collapsebtn')
+      if(btn.hasClass('fa-minus-square')) {
+        btn.addClass('fa-plus-square')
+        btn.removeClass('fa-minus-square')
+      } else {
+        btn.addClass('fa-minus-square')
+        btn.removeClass('fa-plus-square')
+      }
+   });
+});
+
+
+
+// scroll spy animations
+
+var $slide_left = $('.slide-left');
+var $slide_right = $('.slide-right');
+var $slide_up = $('.slide-up');
+var $slide_up_slow = $('.slide-up-slow');
+var $window = $(window);
+
+function check_if_in_view() {
+  var window_height = $window.height();
+  var window_top_position = $window.scrollTop();
+  var window_bottom_position = (window_top_position + window_height);
+
+  $.each($slide_left, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_right, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up_slow, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+}
+
+$window.on('scroll resize', check_if_in_view);
+$window.trigger('scroll');
+
+//scroll to top
+$(document).ready(function(){
+
+  $(window).scroll(function(){
+    if ($(this).scrollTop() > 100) {
+      $('.scrollToTop').fadeIn();
+    } else {
+      $('.scrollToTop').fadeOut();
+    }
+  });
+
+  $('.scrollToTop').click(function(){
+    $('html, body').animate({scrollTop : 0},800);
+    return false;
+  });
+
+  // scrolling to resource sections
+  $(".resources-button").click(function() {
+    var dst = $(this).attr("href")
+    $(".resources-button").removeClass("btn-purple").addClass("btn-purple-o")
+    $(this).addClass("btn-purple").removeClass("btn-purple-o")
+    $("html, body").animate({
+        scrollTop: $(dst).offset().top - 105
+    }, 1000);
+  });
+
+});
+
+//scrolling code box
+
+var div = $('#scrolled');
+   setInterval(function(){
+    var pos = div.scrollTop();
+    div.scrollTop(pos + 2);
+}, 200);
+
+//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });
+}
+else {
+    var progressBar = $('.progress-bar'),
+        max = getMax(),
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});</script><script src="/javascripts/segment.js"></script></body></html>

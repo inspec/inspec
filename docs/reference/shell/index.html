@@ -1,0 +1,458 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>Chef InSpec Shell</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_shell docs_reference_shell_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a t-purple"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="chef-inspec-shell">Chef InSpec Shell</h1>
+
+<p>The Chef InSpec interactive shell is a pry based REPL that can be used to
+quickly run Chef InSpec controls and tests without having to write it to a
+file. Its functionality is similar to <a href="https://docs.chef.io/chef_shell.html">chef-shell</a> as it provides a way
+to exercise the Chef InSpec DSL, its resources, tests, and plugins without
+having to create a profile or write a test file. See
+<a href="http://pryrepl.org/">http://pryrepl.org/</a> for an introduction to what pry is and what it can
+do.</p>
+
+<p>See <a href="https://learn.chef.io/modules/explore-inspec-resources#/">Explore Chef InSpec resources</a> on Learn Chef Rally for a hands-on example that uses Chef InSpec shell.</p>
+
+<h2 id="launching-the-shell">Launching the shell</h2>
+
+<p>If you are using Chef InSpec from a platform-specific package (rpm, msi,
+etc.) or from a chef prepared shell in ChefDK, you can directly launch
+Chef InSpec shell against your local machine using the following. See
+<a href="https://docs.chef.io/install_dk.html#set-system-ruby">https://docs.chef.io/install_dk.html#set-system-ruby</a> for details.</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>inspec shell
+<span class="nv">$ </span>inspec <span class="nb">help </span>shell <span class="c"># This will describe inspec shell usage</span>
+</code></pre></div>
+<p>If you wish to connect to a remote machine (called a target within
+InSpec), you can use the <code>-t</code> flag. We support connecting using SSH,
+WinRM and docker. If no target is provided, we implicitly support the
+&ldquo;local&rdquo; target - i.e. tests running on the current machine running
+InSpec. For an SSH connection, use <code>-i</code> for specifying SSH key files,
+and the <code>--sudo*</code> commands for requesting a privilege escalation after
+logging in. For a WinRM connection, use <code>--path</code> to change the login
+path, <code>--ssl</code> to use SSL for transport layer encryption.</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>inspec shell <span class="nt">-t</span> ssh://root@192.168.64.2:11022  <span class="c"># Login to remote machine using ssh as root.</span>
+<span class="nv">$ </span>inspec shell <span class="nt">-t</span> ssh://user@hostname:1234 <span class="nt">-i</span> /path/to/user_key  <span class="c"># Login to hostname on port 1234 as user using given ssh key.</span>
+<span class="nv">$ </span>inspec shell <span class="nt">-t</span> winrm://UserName:Password@windowsmachine:1234  <span class="c"># Login to windowsmachine over WinRM as UserName.</span>
+<span class="nv">$ </span>inspec shell <span class="nt">-t</span> winrm://windowsmachine <span class="nt">--user</span> <span class="s1">'UserName@domain'</span> <span class="nt">--password</span> <span class="s1">'Secret123!'</span> <span class="c"># Login to windowsmachine as UserName@domain.org.</span>
+<span class="nv">$ </span>inspec shell <span class="nt">-t</span> docker://container_id <span class="c"># Login to a Docker container.</span>
+</code></pre></div>
+<h2 id="resource-packs">Resource Packs</h2>
+
+<p>Use resource packs to share custom resources with other Chef InSpec users.
+A resource pack is a Chef InSpec profile that contains only custom resources and no other controls or tests.</p>
+
+<p>For example, the profile in <a href="https://github.com/chef/inspec/tree/master/examples/profile"><code>examples/profile</code></a>in the Chef InSpec git repo defines a <a href="https://github.com/chef/inspec/blob/master/examples/profile/controls/example.rb"><code>example_config</code> resource</a>. To use these resources within the Chef InSpec shell, you will need to download and specify them as a dependency.</p>
+
+<p>Once you have local access to the profile, you can use the <code>example_config</code> custom resource provided in the <code>examples/profile</code> GitHub repo in your local environment :</p>
+<div class="highlight"><pre class="highlight shell"><code>inspec shell <span class="nt">--depends</span> examples/profile
+</code></pre></div>
+<p>Once inside the shell your resource will be available:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">inspec</span><span class="o">&gt;</span> <span class="n">example_config</span>
+</code></pre></div>
+<h2 id="using-ruby-in-chef-inspec-shell">Using Ruby in Chef InSpec shell</h2>
+
+<p>Since Chef InSpec shell is pry based, you may treat the shell as an
+interactive Ruby session. You may write Ruby expressions and evaluate
+them. Source high-lighting, automatic indentation and command history
+(using the up and down arrow keys) are available to make your experience
+more delightful. You can exit the shell using <code>exit</code>.</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>inspec shell
+Welcome to the interactive InSpec Shell
+To find out how to use it, <span class="nb">type</span>: <span class="nb">help
+
+</span>inspec&gt; 1 + 2
+<span class="o">=&gt;</span> 3
+inspec&gt; <span class="nb">exit</span>
+</code></pre></div>
+<h2 id="using-chef-inspec-dsl-in-chef-inspec-shell">Using Chef InSpec DSL in Chef InSpec shell</h2>
+
+<p>Chef InSpec shell will automatically evaluate the result of every command as
+if it were a test file. If you type in a Ruby command that is not an
+Chef InSpec control or test, the shell will evaluate it as if it were a
+regular ruby command.</p>
+
+<p>Bare Chef InSpec resources are instantiated and their help text is presented.
+You may also access the resource contents or other matchers that they
+define. Run <code>help &lt;resource&gt;</code> to get more help on using a particular
+resource or see the Chef InSpec resources documentation online.</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>inspec shell
+Welcome to the interactive InSpec Shell
+To find out how to use it, <span class="nb">type</span>: <span class="nb">help
+
+</span>inspec&gt; file<span class="o">(</span><span class="s1">'/Users/myuser'</span><span class="o">)</span>.directory?
+<span class="o">=&gt;</span> <span class="nb">true
+</span>inspec&gt; os_env<span class="o">(</span><span class="s1">'HOME'</span><span class="o">)</span>
+<span class="o">=&gt;</span> Environment variable HOME
+inspec&gt; os_env<span class="o">(</span><span class="s1">'HOME'</span><span class="o">)</span>.content
+<span class="o">=&gt;</span> /Users/myuser
+inspec&gt; <span class="nb">exit</span>
+</code></pre></div>
+<p>Chef InSpec tests are immediately executed.</p>
+<div class="highlight"><pre class="highlight shell"><code>inspec&gt; describe file<span class="o">(</span><span class="s1">'/Users'</span><span class="o">)</span>     <span class="c"># Empty test.</span>
+Summary: 0 successful, 0 failures, 0 skipped
+inspec&gt; describe file<span class="o">(</span><span class="s1">'/Users'</span><span class="o">)</span> <span class="k">do</span>  <span class="c"># Test with one check.</span>
+inspec&gt;   it <span class="o">{</span> should exist <span class="o">}</span>
+inspec&gt; end
+  ✔  File /Users should exist
+
+Summary: 1 successful, 0 failures, 0 skipped
+</code></pre></div>
+<p>All tests in a control are immediately executed as well. If a control is
+redefined in the shell, the old control&rsquo;s tests are destroyed and
+replaced with the redefinition and the control is re-run.</p>
+<div class="highlight"><pre class="highlight shell"><code>inspec&gt; control <span class="s1">'my_control'</span> <span class="k">do
+</span>inspec&gt;   describe os_env<span class="o">(</span><span class="s1">'HOME'</span><span class="o">)</span> <span class="k">do
+</span>inspec&gt;     its<span class="o">(</span><span class="s1">'content'</span><span class="o">)</span> <span class="o">{</span> should eq <span class="s1">'/Users/myuser'</span> <span class="o">}</span>
+inspec&gt;   end
+inspec&gt; end
+  ✔  my_control: Environment variable HOME content should eq <span class="s2">"/Users/myuser"</span>
+
+  Summary: 1 successful, 0 failures, 0 skipped
+</code></pre></div>
+<p>Syntax errors are illegal tests are also detected and reported.</p>
+<div class="highlight"><pre class="highlight shell"><code>inspec&gt; control <span class="s1">'foo'</span> <span class="k">do
+</span>inspec&gt;   thisisnonsense
+inspec&gt; end
+NameError: undefined <span class="nb">local </span>variable or method <span class="sb">`</span>thisisnonsense<span class="s1">' for #&lt;#&lt;Class:0x007fd63b571f98&gt;:0x007fd639825cc8&gt;
+from /usr/local/lib/ruby/gems/2.3.0/gems/rspec-expectations-3.5.0/lib/rspec/matchers.rb:967:in `method_missing'</span>
+inspec&gt; control <span class="s1">'foo'</span> <span class="k">do
+</span>inspec&gt;   describe file<span class="o">(</span><span class="s1">'wut'</span><span class="o">)</span> <span class="k">do
+</span>inspec&gt;     its<span class="o">(</span><span class="s1">'thismakesnosense'</span><span class="o">)</span> <span class="o">{</span> should cmp <span class="s1">'fail'</span> <span class="o">}</span>
+inspec&gt;   end
+inspec&gt; end
+  ✖  foo: File wut thismakesnosense  <span class="o">(</span>undefined method <span class="sb">`</span>thismakesnosense<span class="s1">' for File wut:Inspec::Resource::Registry::File)
+
+  Summary: 0 successful, 1 failures, 0 skipped
+</span></code></pre></div>
+<h2 id="running-a-single-chef-inspec-command">Running a single Chef InSpec command</h2>
+
+<p>If you wish to run a single Chef InSpec command and fetch its results, you
+may use the <code>-c</code> flag. This is similar to using <code>bash -c</code>.</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>inspec shell <span class="nt">-c</span> <span class="s1">'describe file("/Users/myuser") do it { should exist } end'</span>
+Target:  <span class="nb">local</span>://
+
+  ✔  File /Users/myuser should exist
+
+Summary: 1 successful, 0 failures, 0 skipped
+</code></pre></div><div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>inspec shell <span class="nt">--format</span> json <span class="nt">-c</span> <span class="s1">'describe file("/Users/test") do it { should exist } end'</span>
+<span class="o">{</span>
+  <span class="s2">"version"</span>: <span class="s2">"1.49.2"</span>,
+  <span class="s2">"controls"</span>: <span class="o">[{</span>
+    <span class="s2">"status"</span>: <span class="s2">"passed"</span>,
+    <span class="s2">"code_desc"</span>: <span class="s2">"File /Users/test should exist"</span>,
+    <span class="s2">"run_time"</span>: 0.002374,
+    <span class="s2">"start_time"</span>: <span class="s2">"2018-01-06 18:32:38 -0500"</span>
+  <span class="o">}]</span>,
+  <span class="s2">"other_checks"</span>: <span class="o">[]</span>,
+  <span class="s2">"profiles"</span>: <span class="o">[{</span>
+    <span class="s2">"name"</span>: <span class="s2">"inspec-shell"</span>,
+    <span class="s2">"supports"</span>: <span class="o">[]</span>,
+    <span class="s2">"controls"</span>: <span class="o">[{</span>
+      <span class="s2">"title"</span>: null,
+      <span class="s2">"desc"</span>: null,
+      <span class="s2">"impact"</span>: 0.5,
+      <span class="s2">"refs"</span>: <span class="o">[]</span>,
+      <span class="s2">"tags"</span>: <span class="o">{}</span>,
+      <span class="s2">"code"</span>: <span class="s2">""</span>,
+      <span class="s2">"source_location"</span>: <span class="o">{</span>
+        <span class="s2">"ref"</span>: <span class="s2">"/usr/local/lib/ruby/gems/2.4.0/gems/inspec-1.49.2/lib/inspec/control_eval_context.rb"</span>,
+        <span class="s2">"line"</span>: 89
+      <span class="o">}</span>,
+      <span class="s2">"id"</span>: <span class="s2">"(generated from (eval):1 7b6f82c2cc5e4205b3e2c97c8e855f2d)"</span>,
+      <span class="s2">"results"</span>: <span class="o">[{</span>
+        <span class="s2">"status"</span>: <span class="s2">"passed"</span>,
+        <span class="s2">"code_desc"</span>: <span class="s2">"File /Users/test should exist"</span>,
+        <span class="s2">"run_time"</span>: 0.002374,
+        <span class="s2">"start_time"</span>: <span class="s2">"2018-01-06 18:32:38 -0500"</span>
+      <span class="o">}]</span>
+    <span class="o">}]</span>,
+    <span class="s2">"groups"</span>: <span class="o">[{</span>
+      <span class="s2">"title"</span>: null,
+      <span class="s2">"controls"</span>: <span class="o">[</span><span class="s2">"(generated from (eval):1 7b6f82c2cc5e4205b3e2c97c8e855f2d)"</span><span class="o">]</span>,
+      <span class="s2">"id"</span>: <span class="s2">"unknown"</span>
+    <span class="o">}]</span>,
+    <span class="s2">"attributes"</span>: <span class="o">[]</span>,
+    <span class="s2">"sha256"</span>: <span class="s2">"29c070a90b7e3521babf618215573284a790d92907783d5b2c138f411bfd2e74"</span>
+  <span class="o">}]</span>,
+  <span class="s2">"platform"</span>: <span class="o">{</span>
+    <span class="s2">"name"</span>: <span class="s2">"mac_os_x"</span>,
+    <span class="s2">"release"</span>: <span class="s2">"17.3.0"</span>
+  <span class="o">}</span>,
+  <span class="s2">"statistics"</span>: <span class="o">{</span>
+    <span class="s2">"duration"</span>: 0.003171
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
+(function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+(w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+})(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+_st('install','xzyJV6P7pgscygGyyTm8','2.0.0');
+// end Swiftype code snippet
+
+document.getElementsByClassName("st-default-search-input")[0].focus();</script></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><div class="pad-under-xs"><img alt="image of octagon spinning" id="hex" onerror="this.src='/images/octagon.png'" src="/images/octagon.svg" /></div><h3 class="t-white pad-under-xs">Get started with Chef InSpec and rock on.</h3><div class="row align columns"><div class="strict-center"><a class="button btn-lg btn-purple shadow-dark margin-right-xs mobile-row-btn" href="/downloads"><i class="fa fa-cloud-download"></i><span>download InSpec 4</span></a><a class="button btn-lg btn-white-o shadow-dark mobile-row-btn" href="/tutorials">browse tutorials</a></div></div></div><div class="flex align"><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="https://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="link footer--link" href="https://docs.chef.io/chef_license.html">Licensing</a></li><li><a class="link footer--link" href="https://www.chef.io/terms-of-service/">Terms &amp; Conditions</a></li><li><a class="link footer--link" href="https://www.chef.io/trademark-policy/">Trademark Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/privacy-policy/">Privacy Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/cookie-policy/">Cookie Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div></div></div><p class="strict-center pad-under-xs"><small class="t-gray">&copy; Chef Software 2015-2019</small></p></footer><script src="https://buttons.github.io/buttons.js"></script><script src="/scripts/inspec_tutorial.js"></script><script src="/dist/inspec_tutorial.js"></script><script src="/javascripts/vendor/jquery.min.js"></script><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>function initSlideGroup(group) {
+  var prev = -1;
+  var links = $(group).find('a')
+
+  links.click(function(e) {
+    e.stopPropagation()
+
+    links.removeClass('selected')
+    $(this).addClass('selected')
+
+    var idx = $(this).index();
+    if(prev == idx) return;
+    prev = idx;
+
+    $('.slider .view.slide-in').removeClass('slide-in').addClass('slide-out')
+    var el = $('.slider .view')[idx]
+    if(el == null) {
+      console.log("No element for slider index "+idx)
+      return
+    }
+
+    $(el).removeClass('slide-out').removeClass('hidden').addClass('slide-in')
+  })
+
+  if(links[0] != null) links[0].click();
+}
+
+function initSliders() {
+  $('.slider .view').addClass('hidden')
+  var groups = $('.slider .selectors')
+  groups.each(function(idx){
+    initSlideGroup(this)
+  })
+}
+
+//run code colors
+
+$(document).ready(function() {
+  initSliders()
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+});
+
+//copy to clipboard
+
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
+$('#copy').hover(function() {
+   $('#install').toggleClass("text-focus");
+});
+
+$('#copy').click(function() {
+   $(this).removeClass("fa-copy");
+   $(this).addClass("fa-check");
+
+ setTimeout(() => {
+   $(this).removeClass('fa-check').addClass('fa-copy');
+  }, 1500);
+});
+
+// homepage content slider
+
+// tutorial content slider
+
+$(function() {
+  $(".collapseContent").hide();
+  $(".collapsebtn").addClass("fa-plus-square");
+
+   $('.collapseToggle').click(function() {
+      var el = $(this).parent().find('.collapseContent')
+      el.slideToggle("fast")
+      // $('.collapseContent').slideToggle("fast");
+      var btn = $(this).find('.collapsebtn')
+      if(btn.hasClass('fa-minus-square')) {
+        btn.addClass('fa-plus-square')
+        btn.removeClass('fa-minus-square')
+      } else {
+        btn.addClass('fa-minus-square')
+        btn.removeClass('fa-plus-square')
+      }
+   });
+});
+
+
+
+// scroll spy animations
+
+var $slide_left = $('.slide-left');
+var $slide_right = $('.slide-right');
+var $slide_up = $('.slide-up');
+var $slide_up_slow = $('.slide-up-slow');
+var $window = $(window);
+
+function check_if_in_view() {
+  var window_height = $window.height();
+  var window_top_position = $window.scrollTop();
+  var window_bottom_position = (window_top_position + window_height);
+
+  $.each($slide_left, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_right, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up_slow, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+}
+
+$window.on('scroll resize', check_if_in_view);
+$window.trigger('scroll');
+
+//scroll to top
+$(document).ready(function(){
+
+  $(window).scroll(function(){
+    if ($(this).scrollTop() > 100) {
+      $('.scrollToTop').fadeIn();
+    } else {
+      $('.scrollToTop').fadeOut();
+    }
+  });
+
+  $('.scrollToTop').click(function(){
+    $('html, body').animate({scrollTop : 0},800);
+    return false;
+  });
+
+  // scrolling to resource sections
+  $(".resources-button").click(function() {
+    var dst = $(this).attr("href")
+    $(".resources-button").removeClass("btn-purple").addClass("btn-purple-o")
+    $(this).addClass("btn-purple").removeClass("btn-purple-o")
+    $("html, body").animate({
+        scrollTop: $(dst).offset().top - 105
+    }, 1000);
+  });
+
+});
+
+//scrolling code box
+
+var div = $('#scrolled');
+   setInterval(function(){
+    var pos = div.scrollTop();
+    div.scrollTop(pos + 2);
+}, 200);
+
+//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });
+}
+else {
+    var progressBar = $('.progress-bar'),
+        max = getMax(),
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});</script><script src="/javascripts/segment.js"></script></body></html>
