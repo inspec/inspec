@@ -304,10 +304,12 @@ module Inspec::Resources
 
       # LoadState values eg. loaded, not-found
       installed = params["LoadState"] == "loaded"
+      startname = params["User"]
 
       {
         name: params["Id"],
         description: params["Description"],
+        startname: startname,
         installed: installed,
         running: is_active?(service_name),
         enabled: is_enabled?(service_name),
