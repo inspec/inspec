@@ -1,0 +1,78 @@
+---
+driver:
+  name: ec2
+
+transport:
+  ssh_key: #FIXME
+
+lifecycle:
+  pre_converge:
+    - local: gem build inspec-core.gemspec --output test/kitchen/cookbooks/os_prepare/files/inspec-core-local.gem
+
+provisioner:
+  name: chef_zero
+  deprecations_as_errors: false
+  chef_license: accept
+
+verifier:
+  name: inspec
+  sudo: true
+  reporter:
+    - cli
+    - json:.kitchen/logs/%{platform}_%{suite}_inspec.json
+
+#platforms:
+#- name: amazonlinux
+#  driver:
+#    image: dokken/amazonlinux
+#    pid_one_command: /sbin/init
+
+suites:
+- name: resources-core
+  run_list:
+  - recipe[os_prepare]
+  verifier:
+    inspec_tests:
+      - test/kitchen/policies/resources-core
+  attributes:
+    audit:
+      attributes:
+        audit_attribute: 'Attribute Override!'
+      insecure: true
+      reporter: ['json-file','chef-automate']
+      fetcher: 'chef-automate'
+      json_file:
+        location: /tmp/json_export.json
+    osprepare:
+      docker: true
+      application: false
+
+#- name: resources-unix
+#  verifier:
+#    inspec_tests:
+#      - test/kitchen/policies/resources-unix
+
+#- name: resources-windows
+#  verifier:
+#    inspec_tests:
+#      - test/kitchen/policies/resources-windows
+
+#- name: resources-database-mysql
+#  verifier:
+#    inspec_tests:
+#      - test/kitchen/policies/resources-mysql
+
+#- name: resources-database-postgresql
+#  verifier:
+#    inspec_tests:
+#      - test/kitchen/policies/resources-postgresql
+
+#- name: resources-database-mssql
+#  verifier:
+#    inspec_tests:
+#      - test/kitchen/policies/resources-database-mssql
+
+#- name: resources-database-oracle
+#  verifier:
+#    inspec_tests:
+#      - test/kitchen/policies/resources-database-oracle
