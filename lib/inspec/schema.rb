@@ -96,6 +96,16 @@ module Inspec
           },
         },
         "results" => { "type" => "array", "items" => RESULT },
+        "waiver_data" => {
+          "type" => "object",
+          "properties" => {
+            "skipped_due_to_waiver" => { "type" => "string" },
+            "run" => { "type" => "boolean" },
+            "message" => { "type" => "string" },
+            "expiration_date" => { "type" => "string" },
+            "justification" => { "type" => "string" },
+          },
+        },
       },
     }.freeze
 

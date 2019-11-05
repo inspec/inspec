@@ -12,9 +12,9 @@ describe "The license acceptance mechanism" do
           Dir.mktmpdir do |tmp_home|
             run_result = run_inspec_process("shell -c platform.family --chef-license accept", env: { "HOME" => tmp_home })
 
-            run_result.stdout.wont_include "Chef License Acceptance" # --chef-license should not mention accepting the license
+            _(run_result.stdout).wont_include "Chef License Acceptance" # --chef-license should not mention accepting the license
 
-            run_result.stderr.must_equal ""
+            _(run_result.stderr).must_equal ""
 
             assert_exit_code 0, run_result
           end
@@ -26,18 +26,18 @@ describe "The license acceptance mechanism" do
           Dir.mktmpdir do |tmp_home|
             license_persist_path = File.join(tmp_home, ".chef", "accepted_licenses", "inspec")
 
-            File.exist?(license_persist_path).must_equal false # Sanity check
+            _(File.exist?(license_persist_path)).must_equal false # Sanity check
             run_inspec_process("shell -c platform.family --chef-license accept", env: { "HOME" => tmp_home })
 
             # depends on if test is run by root or not
             root_license_path = FunctionalHelper::ROOT_LICENSE_PATH
             license_persist_path, = Dir[license_persist_path, root_license_path]
 
-            File.exist?(license_persist_path).must_equal true
+            _(File.exist?(license_persist_path)).must_equal true
 
             license_persist_contents = YAML.load(File.read(license_persist_path))
-            license_persist_contents.keys.must_include "accepting_product"
-            license_persist_contents["accepting_product"].must_equal "inspec"
+            _(license_persist_contents.keys).must_include "accepting_product"
+            _(license_persist_contents["accepting_product"]).must_equal "inspec"
           end
         end
       end
@@ -52,9 +52,9 @@ describe "The license acceptance mechanism" do
             run_result = run_inspec_process("shell -c platform.family", env: { "HOME" => tmp_home })
 
             # [2019-04-11T11:06:00-04:00] ERROR: InSpec cannot execute without accepting the license
-            run_result.stdout.must_include "cannot execute"
-            run_result.stdout.must_include "the license"
-            run_result.stdout.must_include "ERROR" # From failure message
+            _(run_result.stdout).must_include "cannot execute"
+            _(run_result.stdout).must_include "the license"
+            _(run_result.stdout).must_include "ERROR" # From failure message
 
             assert_exit_code 172, run_result
           end
@@ -71,9 +71,9 @@ describe "The license acceptance mechanism" do
           Dir.mktmpdir do |tmp_home|
             run_result = run_inspec_process(ungated_invocation, env: { "HOME" => tmp_home })
 
-            run_result.stdout.wont_include "Chef License Acceptance"
+            _(run_result.stdout).wont_include "Chef License Acceptance"
 
-            run_result.stderr.must_equal ""
+            _(run_result.stderr).must_equal ""
 
             assert_exit_code 0, run_result
           end
@@ -89,16 +89,16 @@ describe "The license acceptance mechanism" do
           license_persist_dir  = File.join(tmp_home, ".chef", "accepted_licenses")
           license_persist_path = File.join(tmp_home, ".chef", "accepted_licenses", "inspec")
 
-          File.exist?(license_persist_path).must_equal false # Sanity check
+          _(File.exist?(license_persist_path)).must_equal false # Sanity check
           FileUtils.mkdir_p(license_persist_dir)
           FileUtils.touch(license_persist_path)
-          File.exist?(license_persist_path).must_equal true # Sanity check
+          _(File.exist?(license_persist_path)).must_equal true # Sanity check
 
           run_result = run_inspec_process("shell -c platform.family", env: { "HOME" => tmp_home })
 
-          run_result.stdout.wont_include "Chef License Acceptance"
+          _(run_result.stdout).wont_include "Chef License Acceptance"
 
-          run_result.stderr.must_equal ""
+          _(run_result.stderr).must_equal ""
 
           assert_exit_code 0, run_result
         end
@@ -111,7 +111,7 @@ describe "The license acceptance mechanism" do
           license_persist_dir  = File.join(tmp_home, ".chef", "accepted_licenses")
           license_persist_path = File.join(tmp_home, ".chef", "accepted_licenses", "inspec")
 
-          File.exist?(license_persist_path).must_equal false # Sanity check
+          _(File.exist?(license_persist_path)).must_equal false # Sanity check
           FileUtils.mkdir_p(license_persist_dir)
           File.write(license_persist_path, <<~EOY)
             ---
@@ -122,13 +122,13 @@ describe "The license acceptance mechanism" do
             user: someone
             file_format: 1
           EOY
-          File.exist?(license_persist_path).must_equal true # Sanity check
+          _(File.exist?(license_persist_path)).must_equal true # Sanity check
 
           run_result = run_inspec_process("shell -c platform.family", env: { "HOME" => tmp_home })
 
-          run_result.stdout.wont_include "Chef License Acceptance"
+          _(run_result.stdout).wont_include "Chef License Acceptance"
 
-          run_result.stderr.must_equal ""
+          _(run_result.stderr).must_equal ""
 
           assert_exit_code 0, run_result
         end

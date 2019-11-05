@@ -40,7 +40,6 @@ module Inspec::Reporters
           message:      r[:message],
           exception:    r[:exception],
           backtrace:    r[:backtrace],
-          waiver_data:  r[:waiver_data],
         }.reject { |_k, v| v.nil? }
       }
     end
@@ -96,6 +95,7 @@ module Inspec::Reporters
             line: c[:source_location][:line],
             ref:  c[:source_location][:ref],
           },
+          waiver_data: c[:waiver_data] || {},
           results: profile_results(c),
         }
       }

@@ -57,17 +57,17 @@ describe Inspec::Lockfile do
 
   it "can generate a yaml representation of the lockfile" do
     l = Inspec::Lockfile.new(lockfile_hash)
-    l.to_yaml.force_encoding("UTF-8").must_equal lockfile_content
+    _(l.to_yaml.force_encoding("UTF-8")).must_equal lockfile_content
   end
 
   it "can generates a yaml representation of the lockfile even when the depends keys are symbols" do
     l = Inspec::Lockfile.new(lockfile_hash_with_symbols)
-    l.to_yaml.force_encoding("UTF-8").must_equal lockfile_content
+    _(l.to_yaml.force_encoding("UTF-8")).must_equal lockfile_content
   end
 
   it "uses symbol keys for the deps by default" do
     File.stubs(:read).with("testfile").returns(lockfile_content)
     l = Inspec::Lockfile.from_file("testfile")
-    l.deps.must_equal lockfile_hash_with_symbols["depends"]
+    _(l.deps).must_equal lockfile_hash_with_symbols["depends"]
   end
 end

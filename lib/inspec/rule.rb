@@ -2,7 +2,7 @@
 
 require "method_source"
 require "date"
-require "inspec/describe"
+require "inspec/describe_base"
 require "inspec/expect"
 require "inspec/resource"
 require "inspec/resources/os"
@@ -60,7 +60,7 @@ module Inspec
         # waivers have higher precedence than only_if.
         __apply_waivers
 
-      rescue StandardError => e
+      rescue SystemStackError, StandardError => e
         # We've encountered an exception while trying to eval the code inside the
         # control block. We need to prevent the exception from bubbling up, and
         # fail the control. Controls are failed by having a failed resource within
@@ -227,9 +227,7 @@ module Inspec
         msg = "Skipped control due to #{skip_check[:type]} condition."
       end
 
-      # TODO: we use os as the carrier here, but should consider
-      # a separate resource to do skipping
-      resource = rule.os
+      resource = rule.noop
       resource.skip_resource(msg)
       [["describe", [resource], nil]]
     end
@@ -299,11 +297,11 @@ module Inspec
       __waiver_data["skipped_due_to_waiver"] = false
       __waiver_data["message"] = ""
 
-      # Waivers should have a hash value with keys possibly including skip and
-      # expiration_date. We only care here if it has a skip key and it
-      # is yes-like, since all non-skipped waiver operations are handled
+      # Waivers should have a hash value with keys possibly including "run" and
+      # expiration_date. We only care here if it has a "run" key and it
+      # is false-like, since all non-skipped waiver operations are handled
       # during reporting phase.
-      return unless __waiver_data.key?("skip") && __waiver_data["skip"]
+      return unless __waiver_data.key?("run") && !__waiver_data["run"]
 
       # OK, the intent is to skip. Does it have an expiration date, and
       # if so, is it in the future?
@@ -344,14 +342,13 @@ module Inspec
     def with_dsl(block)
       return nil if block.nil?
 
-      if self.class.resource_dsl
-        dsl = self.class.resource_dsl
-        proc do |*args|
-          include dsl
-          instance_exec(*args, &block)
-        end
-      else
-        block
+      dsl = self.class.resource_dsl
+
+      return block unless dsl
+
+      proc do |*args|
+        include dsl
+        instance_exec(*args, &block)
       end
     end
 

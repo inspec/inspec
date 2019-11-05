@@ -1,8 +1,8 @@
 require "inspec/resources/command"
-require "hashie/mash"
 require "inspec/utils/database_helpers"
 require "htmlentities"
 require "rexml/document"
+require "hashie/mash"
 require "csv"
 
 module Inspec::Resources
@@ -21,8 +21,9 @@ module Inspec::Resources
       end
     EXAMPLE
 
-    attr_reader :user, :password, :host, :service, :as_os_user, :as_db_role
-    # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
+    attr_reader :bin, :db_role, :host, :password, :port, :service,
+                :su_user, :user
+
     def initialize(opts = {})
       @user = opts[:user]
       @password = opts[:password] || opts[:pass]
@@ -30,60 +31,35 @@ module Inspec::Resources
         Inspec.deprecate(:oracledb_session_pass_option, "The oracledb_session `pass` option is deprecated. Please use `password`.")
       end
 
+      @bin = "sqlplus"
       @host = opts[:host] || "localhost"
       @port = opts[:port] || "1521"
       @service = opts[:service]
-
-      # connection as sysdba stuff
-      return skip_resource "Option 'as_os_user' not available in Windows" if inspec.os.windows? && opts[:as_os_user]
-
       @su_user = opts[:as_os_user]
       @db_role = opts[:as_db_role]
-
-      # we prefer sqlci although it is way slower than sqlplus, but it understands csv properly
-      @sqlcl_bin = "sql" unless opts.key?(:sqlplus_bin) # don't use it if user specified sqlplus_bin option
+      @sqlcl_bin = opts[:sqlcl_bin] || nil
       @sqlplus_bin = opts[:sqlplus_bin] || "sqlplus"
-
-      return fail_resource "Can't run Oracle checks without authentication" if @su_user.nil? && (@user.nil? || @password.nil?)
-      return fail_resource "You must provide a service name for the session" if @service.nil?
+      skip_resource "Option 'as_os_user' not available in Windows" if inspec.os.windows? && su_user
+      fail_resource "Can't run Oracle checks without authentication" unless su_user && (user || password)
+      fail_resource "You must provide a service name for the session" unless service
     end
 
-    def query(q)
-      escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"')
-      # escape tables with $
-      escaped_query = escaped_query.gsub("$", '\\$')
-
-      p = nil
-      # use sqlplus if sqlcl is not available
+    def query(sql)
       if @sqlcl_bin && inspec.command(@sqlcl_bin).exist?
-        bin = @sqlcl_bin
-        opts = "set sqlformat csv\nSET FEEDBACK OFF"
-        p = :parse_csv_result
+        @bin = @sqlcl_bin
+        format_options = "set sqlformat csv\nSET FEEDBACK OFF"
+        parser = :parse_csv_result
       else
-        bin = @sqlplus_bin
-        opts = "SET MARKUP HTML ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF"
-        p = :parse_html_result
+        @bin = "#{@sqlplus_bin} -S"
+        format_options = "SET MARKUP HTML ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF"
+        parser = :parse_html_result
       end
 
-      query = verify_query(escaped_query)
-      query += ";" unless query.end_with?(";")
-      if @db_role.nil?
-        command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
-      elsif @su_user.nil?
-        command = %{#{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service} as #{@db_role} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC}
-      else
-        command = %{su - #{@su_user} -c "env ORACLE_SID=#{@service} #{bin} / as #{@db_role} <<EOC\n#{opts}\n#{query}\nEXIT\nEOC"}
-      end
-      cmd = inspec.command(command)
+      command = command_builder(format_options, sql)
+      inspec_cmd = inspec.command(command)
 
-      out = cmd.stdout + "\n" + cmd.stderr
-      if out.downcase =~ /^error/
-        # TODO: we need to throw an exception here
-        # change once https://github.com/chef/inspec/issues/1205 is in
-        warn "Could not execute the sql query #{out}"
-        DatabaseHelper::SQLQueryResult.new(cmd, Hashie::Mash.new({}))
-      end
-      DatabaseHelper::SQLQueryResult.new(cmd, send(p, cmd.stdout))
+      DatabaseHelper::SQLQueryResult.new(inspec_cmd, send(parser,
+                                                          inspec_cmd.stdout))
     end
 
     def to_s
@@ -92,9 +68,30 @@ module Inspec::Resources
 
     private
 
+    # 3 commands
+    # regular user password
+    # using a db_role
+    # su, using a db_role
+    def command_builder(format_options, query)
+      verified_query = verify_query(query)
+      sql_prefix, sql_postfix = "", ""
+      if inspec.os.windows?
+        sql_prefix = %{@'\n#{format_options}\n#{verified_query}\nEXIT\n'@ | }
+      else
+        sql_postfix = %{ <<'EOC'\n#{format_options}\n#{verified_query}\nEXIT\nEOC}
+      end
+
+      if @db_role.nil?
+        %{#{sql_prefix}#{bin} "#{user}"/"#{password}"@#{host}:#{port}/#{@service}#{sql_postfix}}
+      elsif @su_user.nil?
+        %{#{sql_prefix}#{bin} "#{user}"/"#{password}"@#{host}:#{port}/#{@service} as #{@db_role}#{sql_postfix}}
+      else
+        %{su - #{@su_user} -c "env ORACLE_SID=#{@service} #{bin} / as #{@db_role}#{sql_postfix}}
+      end
+    end
+
     def verify_query(query)
-      # ensure we have a ; at the end
-      query + ";" unless query.strip.end_with?(";")
+      query += ";" unless query.strip.end_with?(";")
       query
     end
 
@@ -115,7 +112,7 @@ module Inspec::Resources
       results
     end
 
-    def parse_html_result(stdout) # rubocop:disable Metrics/AbcSize
+    def parse_html_result(stdout)
       result = stdout
       # make oracle html valid html by removing the p tag, it does not include a closing tag
       result = result.gsub("<p>", "").gsub("</p>", "").gsub("<br>", "")

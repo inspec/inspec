@@ -59,11 +59,11 @@ describe "inspec check" do
     it "writes to the alternate cache dir" do
       Dir.mktmpdir do |tmpdir|
         cache_dir = File.join(tmpdir, "inspec_check_test_cache")
-        File.exist?(cache_dir).must_equal false
+        _(File.exist?(cache_dir)).must_equal false
+        good_profile_path = File.join(repo_path, "test/unit/mock/profiles/complete-profile")
+        out = inspec("check #{good_profile_path} --vendor-cache #{cache_dir}")
 
-        out = inspec("check " + integration_test_path + " --vendor-cache " + cache_dir)
-
-        File.exist?(cache_dir).must_equal true
+        _(File.exist?(cache_dir)).must_equal true
         assert_exit_code 0, out
       end
     end
@@ -79,7 +79,7 @@ describe "inspec check" do
     it "can check a profile where a lock file is required" do
       out = inspec("check " + File.join(profile_path, "profile-lock-required"))
 
-      out.stdout.must_include "profile needs to be vendored with `inspec vendor`."
+      _(out.stdout).must_include "profile needs to be vendored with `inspec vendor`."
       assert_exit_code 1, out
     end
 
@@ -92,8 +92,8 @@ describe "inspec check" do
     it "can check a profile where lock file and inspec.yml are in not synnc" do
       out = inspec("check " + File.join(profile_path, "profile-lock-outofsync"))
 
-      out.stdout.must_include "inspec.yml and inspec.lock are out-of-sync. Please re-vendor with `inspec vendor`."
-      out.stdout.must_include "Cannot find linux-baseline in lockfile. Please re-vendor with `inspec vendor`."
+      _(out.stdout).must_include "inspec.yml and inspec.lock are out-of-sync. Please re-vendor with `inspec vendor`."
+      _(out.stdout).must_include "Cannot find linux-baseline in lockfile. Please re-vendor with `inspec vendor`."
       assert_exit_code 1, out
     end
   end
@@ -103,8 +103,8 @@ describe "inspec check" do
       invalid_profile = File.join(profile_path, "invalid-include-controls")
       out = inspec("check " + invalid_profile)
 
-      out.stderr.must_match(/Cannot load 'no_such_profile'/)
-      out.stderr.must_match(/not listed as a dependency/)
+      _(out.stderr).must_match(/Cannot load 'no_such_profile'/)
+      _(out.stderr).must_match(/not listed as a dependency/)
       assert_exit_code 1, out
     end
   end
@@ -112,8 +112,8 @@ describe "inspec check" do
   describe "inspec check with unsatisfied runtime version constraint" do
     it "should enforce runtime version constraint" do
       out = inspec("check #{profile_path}/unsupported_inspec")
-      out.stdout.must_include "The current inspec version #{Inspec::VERSION}"
-      out.stdout.must_include ">= 99.0.0"
+      _(out.stdout).must_include "The current inspec version #{Inspec::VERSION}"
+      _(out.stdout).must_include ">= 99.0.0"
       assert_exit_code 1, out
     end
   end

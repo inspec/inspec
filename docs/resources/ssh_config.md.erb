@@ -54,7 +54,7 @@ The following examples show how to use this Chef InSpec audit resource.
     end
 
     describe ssh_config do
-      its('SendEnv') { should include('GORDON_CLIENT') }
+      its('SendEnv') { should include('CI_ENABLE_COVERAGE') }
     end
 
 ### Test SSH configuration

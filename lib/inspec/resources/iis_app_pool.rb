@@ -22,10 +22,6 @@ module Inspec::Resources
     def initialize(pool_name)
       @pool_name = pool_name
       @pool_path = "IIS:\\AppPools\\#{@pool_name}"
-      @cache = nil
-
-      # verify that this resource is only supported on Windows
-      return skip_resource "The `iis_app_pool` resource is not supported on your OS." unless inspec.os.windows?
     end
 
     def pool_name
@@ -77,7 +73,7 @@ module Inspec::Resources
     end
 
     def exists?
-      !iis_app_pool[:pool_name].empty?
+      !!iis_app_pool[:pool_name]
     end
 
     def to_s
@@ -87,45 +83,45 @@ module Inspec::Resources
     private
 
     def iis_app_pool
-      return @cache unless @cache.nil?
+      @iis_app_pool ||= begin
+        # We use `-Compress` here to avoid a bug in PowerShell
+        # It does not affect validity of the output, only the representation
+        # See: https://github.com/inspec/inspec/pull/3842
+        script = <<~EOH
+          Import-Module WebAdministration
+          If (Test-Path '#{@pool_path}') {
+            Get-Item '#{@pool_path}' | Select-Object * | ConvertTo-Json -Compress
+          } Else {
+            Write-Host '{}'
+          }
+        EOH
+        cmd = inspec.powershell(script)
 
-      # We use `-Compress` here to avoid a bug in PowerShell
-      # It does not affect validity of the output, only the representation
-      # See: https://github.com/inspec/inspec/pull/3842
-      script = <<~EOH
-        Import-Module WebAdministration
-        If (Test-Path '#{@pool_path}') {
-          Get-Item '#{@pool_path}' | Select-Object * | ConvertTo-Json -Compress
-        } Else {
-          Write-Host '{}'
+        begin
+          pool = JSON.parse(cmd.stdout)
+        rescue JSON::ParserError => _e
+          raise Inspec::Exceptions::ResourceFailed, "Unable to parse app pool JSON"
+        end
+
+        process_model = pool.fetch("processModel", {})
+        idle_timeout = process_model.fetch("idleTimeout", {})
+
+        # map our values to a hash table
+        @cache = {
+          pool_name: pool["name"],
+          version: pool["managedRuntimeVersion"],
+          e32b: pool["enable32BitAppOnWin64"],
+          mode: pool["managedPipelineMode"],
+          processes: process_model["maxProcesses"],
+          timeout: "#{idle_timeout["Hours"]}:#{idle_timeout["Minutes"]}:#{idle_timeout["Seconds"]}",
+          timeout_days: idle_timeout["Days"],
+          timeout_hours: idle_timeout["Hours"],
+          timeout_minutes: idle_timeout["Minutes"],
+          timeout_seconds: idle_timeout["Seconds"],
+          user_identity_type: process_model["identityType"],
+          username: process_model["userName"],
         }
-      EOH
-      cmd = inspec.powershell(script)
-
-      begin
-        pool = JSON.parse(cmd.stdout)
-      rescue JSON::ParserError => _e
-        raise Inspec::Exceptions::ResourceFailed, "Unable to parse app pool JSON"
       end
-
-      process_model = pool.fetch("processModel", {})
-      idle_timeout = process_model.fetch("idleTimeout", {})
-
-      # map our values to a hash table
-      @cache = {
-        pool_name: pool["name"],
-        version: pool["managedRuntimeVersion"],
-        e32b: pool["enable32BitAppOnWin64"],
-        mode: pool["managedPipelineMode"],
-        processes: process_model["maxProcesses"],
-        timeout: "#{idle_timeout["Hours"]}:#{idle_timeout["Minutes"]}:#{idle_timeout["Seconds"]}",
-        timeout_days: idle_timeout["Days"],
-        timeout_hours: idle_timeout["Hours"],
-        timeout_minutes: idle_timeout["Minutes"],
-        timeout_seconds: idle_timeout["Seconds"],
-        user_identity_type: process_model["identityType"],
-        username: process_model["userName"],
-      }
     end
   end
 end

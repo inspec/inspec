@@ -38,12 +38,12 @@ describe "running profiles with git-based dependencies" do
   def assert_relative_fetch_works(profile_name, expected_profiles, expected_controls)
     run_result = run_inspec_process("exec #{git_profiles}/#{profile_name}", json: true)
     assert_empty run_result.stderr
-    run_result.must_have_all_controls_passing
+    assert_json_controls_passing(run_result)
 
     # Should know about the top-level profile and the child profile
-    assert_equal expected_profiles, (run_result.payload.json["profiles"].map { |p| p["name"] })
+    assert_equal expected_profiles, (@json["profiles"].map { |p| p["name"] })
 
-    controls = run_result.payload.json["profiles"].map { |p| p["controls"] }.flatten.map { |c| c["id"] }.uniq
+    controls = @json["profiles"].map { |p| p["controls"] }.flatten.map { |c| c["id"] }.uniq
     # Should have controls from the top-level and included child profile
     expected_controls.each { |control| assert_includes controls, control }
 
@@ -58,7 +58,7 @@ describe "running profiles with git-based dependencies" do
     it "should work on a local checkout" do
       run_result = run_inspec_process("exec #{git_profiles}/basic-local", json: true)
       assert_empty run_result.stderr
-      run_result.must_have_all_controls_passing
+      assert_json_controls_passing(run_result)
     end
   end
   # describe "running a profile with a basic remote dependency"

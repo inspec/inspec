@@ -8,7 +8,7 @@ describe "Objects" do
       obj.qualifier = [["resource"], ["version"]]
       obj.matcher = "cmp >="
       obj.expectation = "2.4.2"
-      obj.to_ruby.must_equal '
+      _(obj.to_ruby).must_equal '
 describe resource do
   its("version") { should cmp >= "2.4.2" }
 end
@@ -21,7 +21,7 @@ end
       obj.qualifier = [["resource"], ["version"], [""]]
       obj.matcher = "cmp >="
       obj.expectation = "2.4.2"
-      obj.to_ruby.must_equal '
+      _(obj.to_ruby).must_equal '
 describe resource.version do
   it { should cmp >= "2.4.2" }
 end
@@ -32,7 +32,7 @@ end
       obj.qualifier = [["resource"], ["to_s"]]
       obj.matcher = "cmp"
       obj.expectation = Regexp.new("^Desc.+$")
-      obj.to_ruby.must_equal '
+      _(obj.to_ruby).must_equal '
 describe resource.to_s do
   it { should cmp(/^Desc.+$/) }
 end
@@ -43,7 +43,7 @@ end
       obj.qualifier = [["resource"], ["to_i"]]
       obj.matcher = "cmp >"
       obj.expectation = 3
-      obj.to_ruby.must_equal '
+      _(obj.to_ruby).must_equal '
 describe resource.to_i do
   it { should cmp > 3 }
 end
@@ -55,7 +55,7 @@ end
       obj.matcher = "exist"
       obj.matcher = "eq"
       obj.expectation = "mytest"
-      obj.to_ruby.must_equal '
+      _(obj.to_ruby).must_equal '
 describe resource.name[2] do
   it { should eq "mytest" }
 end
@@ -66,7 +66,7 @@ end
       obj.qualifier = [["resource"], %w{hello world}]
       obj.matcher = "eq"
       obj.expectation = "mytest"
-      obj.to_ruby.must_equal '
+      _(obj.to_ruby).must_equal '
 describe resource.hello("world") do
   it { should eq "mytest" }
 end
@@ -77,7 +77,7 @@ end
       obj.qualifier = [["resource"], %w{hello world}]
       obj.matcher = "be_in"
       obj.expectation = %w{mytest mytest2 mytest3}
-      obj.to_ruby.must_equal '
+      _(obj.to_ruby).must_equal '
 describe resource.hello("world") do
   it { should be_in ["mytest", "mytest2", "mytest3"] }
 end
@@ -89,7 +89,7 @@ end
       obj.matcher = "be_in"
       obj.negate!
       obj.expectation = %w{mytest2 mytest3 mytest4}
-      obj.to_ruby.must_equal '
+      _(obj.to_ruby).must_equal '
 describe resource.hello("world") do
   it { should_not be_in ["mytest2", "mytest3", "mytest4"] }
 end
@@ -100,7 +100,7 @@ end
       obj.qualifier = [['["item1","item2","item3"]']]
       obj.matcher = "be_in"
       obj.expectation = %w{item1 item2 item3 item4 item5}
-      obj.to_ruby.must_equal '
+      _(obj.to_ruby).must_equal '
 describe ["item1","item2","item3"] do
   it { should be_in ["item1", "item2", "item3", "item4", "item5"] }
 end
@@ -111,7 +111,7 @@ end
       obj.qualifier = [["resource"], [:mode]]
       obj.matcher = "cmp"
       obj.expectation = "0755"
-      obj.to_ruby.must_equal '
+      _(obj.to_ruby).must_equal '
 describe resource do
   its("mode") { should cmp "0755" }
 end
@@ -123,7 +123,7 @@ end
       obj.matcher = "eq"
       obj.expectation = 0
 
-      obj.to_ruby.must_equal '
+      _(obj.to_ruby).must_equal '
 describe command("ls /etc") do
   its("exit_status") { should eq 0 }
 end
@@ -136,7 +136,7 @@ end
       obj.negate!
       obj.expectation = Regexp.new("^aa.*")
 
-      obj.to_ruby.must_equal '
+      _(obj.to_ruby).must_equal '
 describe "aaa" do
   it { should_not match(/^aa.*/) }
 end
@@ -148,7 +148,7 @@ end
       obj.qualifier.push(["info['properties']['UnitFileState']"])
       obj.expectation = "enabled"
       obj.matcher = "eq"
-      obj.to_ruby.must_equal '
+      _(obj.to_ruby).must_equal '
 describe service("avahi-daemon").info[\'properties\'][\'UnitFileState\'] do
   it { should eq "enabled" }
 end
@@ -160,7 +160,7 @@ end
       obj.matcher = "cmp >="
       obj.expectation = "2.4.2"
       obj.only_if = "package('ntp').installed?"
-      obj.to_ruby.must_equal '
+      _(obj.to_ruby).must_equal '
 only_if { package(\'ntp\').installed? }
 describe resource do
   its("version") { should cmp >= "2.4.2" }
@@ -179,7 +179,7 @@ end
       obj.negate!
       obj.expectation = "0.0.0.0"
       loop_obj.add_test(obj)
-      loop_obj.to_ruby.must_equal '
+      _(loop_obj.to_ruby).must_equal '
 port(25).addresses.each do |entry|
   describe entry do
     it { should_not match "0.0.0.0" }
@@ -199,7 +199,7 @@ end
       obj.matcher = "be_empty"
       obj.qualifier.push(["entries"])
       obj.negate!
-      obj.to_ruby.must_equal '
+      _(obj.to_ruby).must_equal '
 describe passwd.where { user =~ /^(?!root|sync|shutdown|halt).*$/ } do
   its("entries") { should_not be_empty }
 end
@@ -224,7 +224,7 @@ end
 
     it "constructs a simple describe.one block wrapping two tests" do
       or_obj = Inspec::OrTest.new([obj1, obj2])
-      or_obj.to_ruby.must_equal '
+      _(or_obj.to_ruby).must_equal '
 describe.one do
   describe command("ls /etc") do
     its("exit_status") { should eq 0 }
@@ -239,7 +239,7 @@ end
     it "negates a describe.one block, wow!" do
       or_obj = Inspec::OrTest.new([obj1, obj2])
       or_obj.negate!
-      or_obj.to_ruby.must_equal '
+      _(or_obj.to_ruby).must_equal '
 describe command("ls /etc") do
   its("exit_status") { should_not eq 0 }
 end
@@ -261,7 +261,7 @@ end
       or_obj = Inspec::OrTest.new([obj1, obj2])
       res.tests = [or_obj]
 
-      res.to_ruby.must_equal '
+      _(res.to_ruby).must_equal '
 (1..5).each do |entry|
   describe.one do
     describe command("ls /etc") do
@@ -287,7 +287,7 @@ end
       }
       control.refs = ["simple ref", { ref: "title", url: "my url" }]
       control.impact = 1.0
-      control.to_ruby.must_equal '
+      _(control.to_ruby).must_equal '
 control "sample.control.id" do
   title "Sample Control Important Title"
   desc  "The most critical control the world has ever seen"
@@ -316,7 +316,7 @@ end
       }
       control.refs = ["simple ref", { ref: "title", url: "my url" }]
       control.impact = 1.0
-      control.to_ruby.must_equal '
+      _(control.to_ruby).must_equal '
 control "sample.control.id" do
   title "Sample Control Important Title"
   desc  "The most critical control the world has ever seen"
@@ -336,7 +336,7 @@ end
     it "constructs a multiline desc in a control with indentation" do
       control = Inspec::Control.new
       control.descriptions[:default] = "Multiline\n  control"
-      control.to_ruby.must_equal '
+      _(control.to_ruby).must_equal '
 control nil do
   desc  "
     Multiline
@@ -354,16 +354,16 @@ end
 '.strip
 
       control.descriptions[:default] = ""
-      control.to_ruby.must_equal x
+      _(control.to_ruby).must_equal x
 
       control.descriptions[:default] = nil
-      control.to_ruby.must_equal x
+      _(control.to_ruby).must_equal x
     end
 
     it "handles non-string descriptions" do
       control = Inspec::Control.new
       control.descriptions[:default] = 123
-      control.to_ruby.must_equal '
+      _(control.to_ruby).must_equal '
 control nil do
   desc  "123"
 end
@@ -396,7 +396,7 @@ end
       control.title = "Variable Control Important Title"
       control.descriptions[:default] = "The most variable control the world has ever seen"
       control.impact = 1.0
-      control.to_ruby.must_equal '
+      _(control.to_ruby).must_equal '
 control "variable.control.id" do
   title "Variable Control Important Title"
   desc  "The most variable control the world has ever seen"
@@ -433,7 +433,7 @@ end
       control.add_test(obj)
       control.id = "variable.control.id"
       control.impact = 0.1
-      control.to_ruby.must_equal '
+      _(control.to_ruby).must_equal '
 control "variable.control.id" do
   impact 0.1
   a = passwd.where { user == "_chrony" }.uids.first
@@ -451,16 +451,16 @@ end
 
       res1 = { name: "key", value: "value" }
       tag1 = Inspec::Tag.new(res1[:name], res1[:value])
-      tag1.to_hash.must_equal res1
+      _(tag1.to_hash).must_equal res1
       control.add_tag(tag1)
 
       res2 = { name: "key2", value: %w{a b} }
       tag2 = Inspec::Tag.new(res2[:name], res2[:value])
-      tag2.to_hash.must_equal res2
+      _(tag2.to_hash).must_equal res2
       control.add_tag(tag2)
 
       control.id = "tag.control.id"
-      control.to_ruby.must_equal '
+      _(control.to_ruby).must_equal '
 control "tag.control.id" do
   tag key: "value"
   tag key2: ["a", "b"]
@@ -481,7 +481,7 @@ end
           value: %w{a b},
         }],
       }
-      control.to_hash.must_equal control_hash
+      _(control.to_hash).must_equal control_hash
     end
   end
 
@@ -491,13 +491,13 @@ end
         input = Inspec::Input.new("application_port", description: "The port my application uses", value: 80)
 
         ruby_code = input.to_ruby
-        ruby_code.must_include "attr_application_port = " # Should assign to a var
+        _(ruby_code).must_include "attr_application_port = " # Should assign to a var
         # Should have the DSL call. This should be attribute(), not input(), for the
         # foreseeable future, to maintain backwards compatibility.
-        ruby_code.must_include "attribute('application_port'"
-        ruby_code.must_include "value: 80"
-        ruby_code.must_include "default: 80"
-        ruby_code.must_include "description: 'The port my application uses'"
+        _(ruby_code).must_include "attribute('application_port'"
+        _(ruby_code).must_include "value: 80"
+        _(ruby_code).must_include "default: 80"
+        _(ruby_code).must_include "description: 'The port my application uses'"
 
         # Try to eval the code to verify that the generated code was valid ruby.
         # Note that the input() method is part of the DSL, so we need to
@@ -506,7 +506,7 @@ end
 
         # This will throw exceptions if there is a problem
         new_attr = eval(ruby_code_for_eval) # rubocop:disable Security/Eval # Could use ripper!
-        new_attr.value.must_equal 80
+        _(new_attr.value).must_equal 80
       end
     end
 
@@ -531,7 +531,7 @@ end
             type: "Numeric", # This gets normalized
           },
         }
-        ipt.to_hash.must_equal expected
+        _(ipt.to_hash).must_equal expected
       end
     end
   end

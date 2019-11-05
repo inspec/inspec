@@ -30,8 +30,8 @@ Version: 1.0.0
 Target:  local://
 
 
-  ○  gordon-1.0: Verify the version number of Gordon (1 skipped)
-     ○  Can't find file "/tmp/gordon/config.yaml"
+  ○  example-1.0: Verify the version number of Example (1 skipped)
+     ○  Can't find file "/tmp/example/config.yaml"
      ✔  File  content should match nil
   ✔  ssh-1: Allow only SSH Protocol 2
      ✔  File /bin/sh should be owned by "root"

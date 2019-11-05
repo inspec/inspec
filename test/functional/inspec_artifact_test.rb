@@ -12,8 +12,8 @@ describe "inspec exec" do
       out = inspec("artifact generate --keyname #{unique_key_name}", "cd #{dir} && ")
 
       stdout = out.stdout.force_encoding(Encoding::UTF_8)
-      stdout.must_include "Generating private key"
-      stdout.must_include "Generating public key"
+      _(stdout).must_include "Generating private key"
+      _(stdout).must_include "Generating public key"
       assert_exit_code 0, out
     end
   end
@@ -38,8 +38,8 @@ describe "inspec exec" do
 
       out = inspec("artifact install-profile --infile profile-1.0.0.iaf --destdir #{install_dir}", "cd #{dir} &&")
 
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "Installing to #{install_dir}"
-      Dir.entries(install_dir).join.must_include "inspec.yml"
+      _(out.stdout.force_encoding(Encoding::UTF_8)).must_include "Installing to #{install_dir}"
+      _(Dir.entries(install_dir).join).must_include "inspec.yml"
       assert_exit_code 0, out
     end
   end

@@ -6,7 +6,7 @@ expeditor:
       retry:
         automatic:
           limit: 1
-      
+
 steps:
 
 - label: run-tests-ruby-2.4
@@ -32,6 +32,14 @@ steps:
     executor:
       docker:
         image: ruby:2.6-stretch
+
+- label:  run-tests-ruby-2.7-preview
+  command:
+    - /workdir/.expeditor/buildkite/verify.sh || true
+  expeditor:
+    executor:
+      docker:
+        image: ruby:2.7-rc-buster
 
 - label: isolated-tests-ruby-2.6
   command:

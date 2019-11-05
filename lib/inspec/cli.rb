@@ -9,6 +9,7 @@ module Inspec # TODO: move this somewhere "better"?
   autoload :BaseCLI,       "inspec/base_cli"
   autoload :Deprecation,   "inspec/utils/deprecation"
   autoload :Exceptions,    "inspec/exceptions"
+  autoload :EnvPrinter,    "inspec/env_printer"
   autoload :Fetcher,       "inspec/fetcher"
   autoload :Formatters,    "inspec/formatters"
   autoload :Globals,       "inspec/globals"
@@ -340,7 +341,15 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     ui.exit res unless run_type == :ruby_eval
 
     # No InSpec tests - just print evaluation output.
-    res = (res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)) if o["reporter"]&.keys&.include?("json")
+    reporters = o["reporter"] || {}
+    if reporters.keys.include?("json")
+      res = if res.respond_to?(:to_json)
+              res.to_json
+            else
+              JSON.dump(res)
+            end
+    end
+
     puts res
     ui.exit Inspec::UI::EXIT_NORMAL
   rescue RuntimeError, Train::UserError => e

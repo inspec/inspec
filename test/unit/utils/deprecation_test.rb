@@ -9,11 +9,11 @@ require "inspec/utils/deprecation"
 describe "The global deprecation method" do
   describe "when you load the deprecation system" do
     it "Inspec must have a class method" do
-      Inspec.must_respond_to :deprecate
+      _(Inspec).must_respond_to :deprecate
     end
     it "must take one required and two optional arg" do
       # See http://ruby-doc.org/core-2.5.3/Method.html#method-i-arity
-      Inspec.method(:deprecate).arity.must_equal(-2)
+      _(Inspec.method(:deprecate).arity).must_equal(-2)
     end
   end
 end
@@ -37,7 +37,7 @@ describe "The deprecation config file object" do
       let(:cfg_fixture) { :missing_file_version }
       it "should throw an InvalidConfigFileError" do
         ex = assert_raises(Inspec::Deprecation::InvalidConfigFileError) { config_file }
-        ex.message.must_include "Missing file_version field"
+        _(ex.message).must_include "Missing file_version field"
       end
     end
 
@@ -45,9 +45,9 @@ describe "The deprecation config file object" do
       let(:cfg_fixture) { :bad_file_version }
       it "should throw an InvalidConfigFileError" do
         ex = assert_raises(Inspec::Deprecation::InvalidConfigFileError) { config_file }
-        ex.message.must_include "Unrecognized file_version" # message
-        ex.message.must_include "1.0.0" # version that IS supported
-        ex.message.must_include "99.99.99" # version that was seen
+        _(ex.message).must_include "Unrecognized file_version" # message
+        _(ex.message).must_include "1.0.0" # version that IS supported
+        _(ex.message).must_include "99.99.99" # version that was seen
       end
     end
 
@@ -55,7 +55,7 @@ describe "The deprecation config file object" do
       let(:cfg_fixture) { :groups_not_hash }
       it "should throw an InvalidConfigFileError" do
         ex = assert_raises(Inspec::Deprecation::InvalidConfigFileError) { config_file }
-        ex.message.must_include "Groups field must be a Hash" # message
+        _(ex.message).must_include "Groups field must be a Hash" # message
       end
     end
 
@@ -63,13 +63,13 @@ describe "The deprecation config file object" do
       let(:cfg_fixture) { :bad_group_action }
       it "should throw an UnrecognizedActionError" do
         ex = assert_raises(Inspec::Deprecation::UnrecognizedActionError) { config_file }
-        ex.message.must_include "Unrecognized action" # message
-        ex.message.must_include "methane_pockets" # offending group name
-        ex.message.must_include "ignore" # an action that IS supported
-        ex.message.must_include "exit" # an action that IS supported
-        ex.message.must_include "fail_control" # an action that IS supported
-        ex.message.must_include "warn" # an action that IS supported
-        ex.message.must_include "explode" # action that was seen
+        _(ex.message).must_include "Unrecognized action" # message
+        _(ex.message).must_include "methane_pockets" # offending group name
+        _(ex.message).must_include "ignore" # an action that IS supported
+        _(ex.message).must_include "exit" # an action that IS supported
+        _(ex.message).must_include "fail_control" # an action that IS supported
+        _(ex.message).must_include "warn" # an action that IS supported
+        _(ex.message).must_include "explode" # action that was seen
       end
     end
 
@@ -77,20 +77,20 @@ describe "The deprecation config file object" do
       let(:cfg_fixture) { :bad_group_field }
       it "should throw an InvalidConfigError" do
         ex = assert_raises(Inspec::Deprecation::InvalidConfigFileError) { config_file }
-        ex.message.must_include "Unrecognized field" # message
-        ex.message.must_include "pansporia" # offending group name
-        ex.message.must_include "action" # a field that IS supported
-        ex.message.must_include "suffix" # a field that IS supported
-        ex.message.must_include "prefix" # a field that IS supported
-        ex.message.must_include "exit_status" # a field that IS supported
-        ex.message.must_include "martian" # field that was seen
+        _(ex.message).must_include "Unrecognized field" # message
+        _(ex.message).must_include "pansporia" # offending group name
+        _(ex.message).must_include "action" # a field that IS supported
+        _(ex.message).must_include "suffix" # a field that IS supported
+        _(ex.message).must_include "prefix" # a field that IS supported
+        _(ex.message).must_include "exit_status" # a field that IS supported
+        _(ex.message).must_include "martian" # field that was seen
       end
     end
 
     describe "when recognized actions are presented" do
       let(:cfg_fixture) { :basic }
       it "should see three groups" do
-        config_file.groups.count.must_equal 4
+        _(config_file.groups.count).must_equal 4
       end
     end
 
@@ -110,7 +110,7 @@ describe "The Deprecator object" do
     describe "when it has no args" do
       it "should create an object with basic" do
         dpcr = Inspec::Deprecation::Deprecator.new
-        dpcr.must_respond_to(:handle_deprecation)
+        _(dpcr).must_respond_to(:handle_deprecation)
         # TODO: more?
       end
     end
@@ -118,7 +118,7 @@ describe "The Deprecator object" do
     describe "when it has an io arg" do
       it "should support certain methods" do
         dpcr = Inspec::Deprecation::Deprecator.new(config_io: cfg_io)
-        dpcr.groups.count.must_equal 4
+        _(dpcr.groups.count).must_equal 4
       end
     end
   end
@@ -129,14 +129,14 @@ describe "The Deprecator object" do
     describe "when there are no groups" do
       let(:cfg_fixture) { :empty }
       it "should report empty groups" do
-        dpcr.groups.count.must_equal 0
+        _(dpcr.groups.count).must_equal 0
       end
     end
 
     describe "when there are some groups" do
       let(:cfg_fixture) { :basic }
       it "should report four groups" do
-        dpcr.groups.count.must_equal 4
+        _(dpcr.groups.count).must_equal 4
       end
     end
   end

@@ -14,8 +14,16 @@ describe "inspec matchers" do
     #
     # expect(expression).to be expected_value
 
-    def rspec_expect(value, &block)
-      ::RSpec::Expectations::ExpectationTarget.for(value, block)
+    if ::RSpec::Expectations::ExpectationTarget.method(:for).arity == 1
+      # rspec-expectations 3.8.5+
+      def rspec_expect(value, &block)
+        ::RSpec::Expectations::ExpectationTarget.for(value, &block)
+      end
+    else
+      # rspec-expectations 3.8.4-
+      def rspec_expect(value, &block)
+        ::RSpec::Expectations::ExpectationTarget.for(value, block)
+      end
     end
 
     ##

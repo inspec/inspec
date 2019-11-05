@@ -9,8 +9,10 @@ require "functional/helper"
 
 module VisibleSpaces
   def show_spaces(str)
-    str.tr!(" ", "S")
-    str.tr!("\n", "N")
+    str
+      .tr(" ", "S")
+      .tr("\n", "N")
+      .b
   end
 end
 
@@ -21,7 +23,7 @@ describe "InSpec UI behavior" do
   parallelize_me!
 
   let(:plugin_path) { File.join(mock_path, "plugins", "inspec-test-ui", "lib", "inspec-test-ui") }
-  let(:run_result) { run_inspec_with_plugin("#{pre_opts} testui #{feature} #{post_opts}", plugin_path: plugin_path) }
+  let(:run_result) { run_inspec_with_plugin("#{pre_opts} testui #{feature} #{post_opts}", plugin_path: plugin_path, json: false) }
   let(:pre_opts) { "" }
   let(:post_opts) { "" }
 
@@ -35,7 +37,7 @@ describe "InSpec UI behavior" do
  ───────────────────────────────── \e[1m\e[37mBig News!\e[0m ───────────────────────────────── \n
         EOT
 
-        show_spaces(run_result.stdout).must_equal show_spaces(expected)
+        _(show_spaces(run_result.stdout)).must_equal show_spaces(expected)
 
         assert_exit_code 0, run_result
       end
@@ -54,7 +56,7 @@ describe "InSpec UI behavior" do
           └──────────────────────┴──────────┴───────────┘
         EOT
 
-        show_spaces(run_result.stdout).must_equal show_spaces(expected)
+        _(show_spaces(run_result.stdout)).must_equal show_spaces(expected)
 
         assert_exit_code 0, run_result
       end
@@ -67,7 +69,7 @@ describe "InSpec UI behavior" do
           \e[1m\e[33mWARNING:\e[0m Things will be OK in the end
         EOT
 
-        show_spaces(run_result.stdout).must_equal show_spaces(expected)
+        _(show_spaces(run_result.stdout)).must_equal show_spaces(expected)
 
         assert_exit_code 0, run_result
       end
@@ -80,7 +82,7 @@ describe "InSpec UI behavior" do
           \e[1m\e[38;5;9mERROR:\e[0m Burned down, fell over, and then sank into the swamp.
         EOT
 
-        show_spaces(run_result.stdout).must_equal show_spaces(expected)
+        _(show_spaces(run_result.stdout)).must_equal show_spaces(expected)
 
         assert_exit_code 0, run_result
       end
@@ -93,7 +95,7 @@ describe "InSpec UI behavior" do
  \e[1m\e[37m•\e[0m TODO: make more lists
         EOT
 
-        show_spaces(run_result.stdout).must_equal show_spaces(expected)
+        _(show_spaces(run_result.stdout)).must_equal show_spaces(expected)
 
         assert_exit_code 0, run_result
       end
@@ -123,7 +125,7 @@ describe "InSpec UI behavior" do
            * TODO: make more lists
         EOT
 
-        show_spaces(run_result.stdout).must_equal show_spaces(expected)
+        _(show_spaces(run_result.stdout)).must_equal show_spaces(expected)
 
         assert_exit_code 0, run_result
       end
@@ -134,8 +136,8 @@ describe "InSpec UI behavior" do
     describe "normal exit" do
       let(:feature) { "exitnormal" }
       it "has correct output" do
-        run_result.stderr.must_equal ""
-        run_result.stdout.must_equal "test exit normal\n"
+        _(run_result.stderr).must_equal ""
+        _(run_result.stdout).must_equal "test exit normal\n"
 
         assert_exit_code 0, run_result
       end
@@ -144,8 +146,8 @@ describe "InSpec UI behavior" do
     describe "usage exit" do
       let(:feature) { "exitusage" }
       it "has correct output" do
-        run_result.stderr.must_equal "" # ie, we intentionally exit-1'd; not a crash
-        run_result.stdout.must_equal "test exit usage_error\n"
+        _(run_result.stderr).must_equal "" # ie, we intentionally exit-1'd; not a crash
+        _(run_result.stdout).must_equal "test exit usage_error\n"
 
         assert_exit_code 1, run_result
       end
@@ -154,8 +156,8 @@ describe "InSpec UI behavior" do
     describe "plugin exit" do
       let(:feature) { "exitplugin" }
       it "has correct output" do
-        run_result.stderr.must_equal ""
-        run_result.stdout.must_equal "test exit plugin_error\n"
+        _(run_result.stderr).must_equal ""
+        _(run_result.stdout).must_equal "test exit plugin_error\n"
 
         assert_exit_code 2, run_result
       end
@@ -164,8 +166,8 @@ describe "InSpec UI behavior" do
     describe "skipped exit" do
       let(:feature) { "exitskipped" }
       it "has correct output" do
-        run_result.stderr.must_equal ""
-        run_result.stdout.must_equal "test exit skipped_tests\n"
+        _(run_result.stderr).must_equal ""
+        _(run_result.stdout).must_equal "test exit skipped_tests\n"
 
         assert_exit_code 101, run_result
       end
@@ -174,8 +176,8 @@ describe "InSpec UI behavior" do
     describe "failed exit" do
       let(:feature) { "exitfailed" }
       it "has correct output" do
-        run_result.stderr.must_equal ""
-        run_result.stdout.must_equal "test exit failed_tests\n"
+        _(run_result.stderr).must_equal ""
+        _(run_result.stdout).must_equal "test exit failed_tests\n"
 
         assert_exit_code 100, run_result
       end
@@ -189,7 +191,7 @@ describe "InSpec UI behavior" do
       describe "the interactive flag" do
         let(:feature) { "interactive" }
         it "should report the interactive flag is on" do
-          run_result.stdout.must_include "true"
+          _(run_result.stdout).must_include "true"
 
           assert_exit_code 0, run_result
         end
@@ -206,7 +208,7 @@ describe "InSpec UI behavior" do
         describe "prompting" do
           let(:feature) { "prompt" }
           it "should launch apollo" do
-            run_result.stdout.must_include "Apollo"
+            _(run_result.stdout).must_include "Apollo"
 
             assert_exit_code 0, run_result
           end
@@ -220,7 +222,7 @@ describe "InSpec UI behavior" do
     describe "the interactive flag" do
       let(:feature) { "interactive" }
       it "should report the interactive flag is off" do
-        run_result.stdout.must_include "false"
+        _(run_result.stdout).must_include "false"
 
         assert_exit_code 0, run_result
       end
@@ -229,7 +231,7 @@ describe "InSpec UI behavior" do
     describe "prompting" do
       let(:feature) { "prompt" }
       it "should crash with stacktrace" do
-        run_result.stderr.must_include "Inspec::UserInteractionRequired"
+        _(run_result.stderr).must_include "Inspec::UserInteractionRequired"
 
         assert_exit_code 1, run_result
       end

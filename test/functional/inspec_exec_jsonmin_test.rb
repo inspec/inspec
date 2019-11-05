@@ -11,9 +11,9 @@ describe "inspec exec" do
     data = JSON.parse(out.stdout)
     sout = inspec("schema exec-jsonmin")
     schema = JSON.parse(sout.stdout)
-    JSON::Validator.validate(schema, data).wont_equal false
+    _(JSON::Validator.validate(schema, data)).wont_equal false
 
-    out.stderr.must_equal ""
+    _(out.stderr).must_equal ""
 
     assert_exit_code 101, out
   end
@@ -23,9 +23,9 @@ describe "inspec exec" do
     data = JSON.parse(out.stdout)
     sout = inspec("schema exec-jsonmin")
     schema = JSON.parse(sout.stdout)
-    JSON::Validator.validate(schema, data).wont_equal false
+    _(JSON::Validator.validate(schema, data)).wont_equal false
 
-    out.stderr.must_equal ""
+    _(out.stderr).must_equal ""
 
     skip_windows!
     assert_exit_code 0, out
@@ -34,10 +34,10 @@ describe "inspec exec" do
   it "does not contain any dupilcate results with describe.one" do
     out = inspec("shell -c 'describe.one do describe 1 do it { should cmp 2 } end end' --reporter=json-min")
     data = JSON.parse(out.stdout)
-    data["controls"].length.must_equal 1
-    data["controls"][0]["message"].must_equal "\nexpected: 2\n     got: 1\n\n(compared using `cmp` matcher)\n"
+    _(data["controls"].length).must_equal 1
+    _(data["controls"][0]["message"]).must_equal "\nexpected: 2\n     got: 1\n\n(compared using `cmp` matcher)\n"
 
-    out.stderr.must_equal ""
+    _(out.stderr).must_equal ""
 
     assert_exit_code 100, out
   end
@@ -47,34 +47,34 @@ describe "inspec exec" do
     let(:controls) { json["controls"] }
     let(:ex1) { controls.find { |x| x["id"] == "tmp-1.0" } }
     let(:ex2) { controls.find { |x| x["id"] =~ /generated/ } }
-    let(:ex3) { controls.find { |x| x["id"] == "gordon-1.0" } }
+    let(:ex3) { controls.find { |x| x["id"] == "example-1.0" } }
 
     it "must have 5 examples" do
-      json["controls"].length.must_equal 5
+      _(json["controls"].length).must_equal 5
     end
 
     it "has an id" do
-      controls.find { |ex| !ex.key? "id" }.must_be :nil?
+      _(controls.find { |ex| !ex.key? "id" }).must_be :nil?
     end
 
     it "has a profile_id" do
-      controls.find { |ex| !ex.key? "profile_id" }.must_be :nil?
+      _(controls.find { |ex| !ex.key? "profile_id" }).must_be :nil?
     end
 
     it "has a code_desc" do
-      ex1["code_desc"].must_equal "File /tmp should be directory"
-      controls.find { |ex| !ex.key? "code_desc" }.must_be :nil?
+      _(ex1["code_desc"]).must_equal "File /tmp should be directory"
+      _(controls.find { |ex| !ex.key? "code_desc" }).must_be :nil?
     end
 
     it "has a status" do
       skip_windows!
-      ex1["status"].must_equal "passed"
-      ex3["status"].must_equal "skipped"
+      _(ex1["status"]).must_equal "passed"
+      _(ex3["status"]).must_equal "skipped"
     end
 
     it "has a skip_message" do
-      ex1["skip_message"].must_be :nil?
-      ex3["skip_message"].must_equal "Can't find file `/tmp/gordon/config.yaml`"
+      _(ex1["skip_message"]).must_be :nil?
+      _(ex3["skip_message"]).must_equal "Can't find file `/tmp/example/config.yaml`"
     end
   end
 

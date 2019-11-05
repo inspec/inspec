@@ -72,10 +72,10 @@ module InspecPlugins
       desc "exec PROFILE", "executes a #{COMPLIANCE_PRODUCT_NAME} profile"
       exec_options
       def exec(*tests)
-        config = InspecPlugins::Compliance::Configuration.new
-        return unless loggedin(config)
+        compliance_config = InspecPlugins::Compliance::Configuration.new
+        return unless loggedin(compliance_config)
 
-        o = opts(:exec).dup
+        o = config # o is an Inspec::Config object, provided by a helper method from Inspec::BaseCLI
         diagnose(o)
         configure_logger(o)
 

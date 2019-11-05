@@ -70,6 +70,7 @@ require "mocha/setup"
 require "inspec/log"
 require "inspec/backend"
 require "helpers/mock_loader"
+require "helpers/resources"
 
 TMP_CACHE = {} # rubocop: disable Style/MutableConstant
 
@@ -148,7 +149,21 @@ class Minitest::Test
   end
 
   def skip_windows!
-    skip_until 2019, 9, 30, "These have never passed" if windows?
+    skip_until 2019, 12, 4, "These have never passed" if windows?
+  end
+
+  def unmock(&blk)
+    # eg: resource = unmock { group "staff" }
+    require "fetchers/mock"
+    require "inspec/runner"
+
+    # TODO: there is WAY too much magic going on in here
+    runner = Inspec::Runner.new
+    runner.add_target("inspec.yml" => "name: inspec-shell")
+    profile = runner.target_profiles.first
+    ctx = profile.runner_context
+
+    ctx.load blk
   end
 end
 

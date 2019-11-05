@@ -17,38 +17,34 @@ module Inspec::Resources
         its('ipv6_cidrs') { should include '::1/128' }
       end
     EXAMPLE
+
     def initialize(iface)
       @iface = iface
-
-      @interface_provider = nil
-      if inspec.os.linux?
-        @interface_provider = LinuxInterface.new(inspec)
-      elsif inspec.os.windows?
-        @interface_provider = WindowsInterface.new(inspec)
-      else
-        return skip_resource "The `interface` resource is not supported on your OS yet."
-      end
     end
 
     def exists?
-      !interface_info.nil? && !interface_info[:name].nil?
+      !!(interface_info && interface_info[:name])
     end
 
     def up?
-      interface_info.nil? ? false : interface_info[:up]
+      !!(interface_info && interface_info[:up])
+    end
+
+    def name
+      interface_info[:name]
     end
 
     # returns link speed in Mbits/sec
     def speed
-      interface_info.nil? ? nil : interface_info[:speed]
+      interface_info && interface_info[:speed]
     end
 
     def ipv4_address?
-      !ipv4_addresses.nil? && !ipv4_addresses.empty?
+      ipv4_addresses && !ipv4_addresses.empty?
     end
 
     def ipv6_address?
-      !ipv6_addresses.nil? && !ipv6_addresses.empty?
+      ipv6_addresses && !ipv6_addresses.empty?
     end
 
     def ipv4_addresses
@@ -72,11 +68,11 @@ module Inspec::Resources
     end
 
     def ipv4_cidrs
-      interface_info.nil? ? [] : interface_info[:ipv4_addresses]
+      interface_info && Array(interface_info[:ipv4_addresses])
     end
 
     def ipv6_cidrs
-      interface_info.nil? ? [] : interface_info[:ipv6_addresses]
+      interface_info && Array(interface_info[:ipv6_addresses])
     end
 
     def to_s
@@ -86,9 +82,11 @@ module Inspec::Resources
     private
 
     def interface_info
-      return @cache if defined?(@cache)
-
-      @cache = @interface_provider.interface_info(@iface) unless @interface_provider.nil?
+      @cache ||= begin
+                   provider = LinuxInterface.new(inspec) if inspec.os.linux?
+                   provider = WindowsInterface.new(inspec) if inspec.os.windows?
+                   Hash(provider && provider.interface_info(@iface))
+                 end
     end
   end
 

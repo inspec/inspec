@@ -318,6 +318,17 @@ module Inspec
       !current_value.is_a? NO_VALUE_SET
     end
 
+    def to_hash
+      as_hash = { name: name, options: {} }
+      %i{description title identifier type required value}.each do |field|
+        val = send(field)
+        next if val.nil?
+
+        as_hash[:options][field] = val
+      end
+      as_hash
+    end
+
     #--------------------------------------------------------------------------#
     #                           Value Type Coercion
     #--------------------------------------------------------------------------#

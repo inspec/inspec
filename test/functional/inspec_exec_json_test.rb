@@ -1,20 +1,19 @@
 require "functional/helper"
 require "json-schema"
+require "inspec/schema"
 
 describe "inspec exec with json formatter" do
   include FunctionalHelper
+  let(:schema) { Inspec::Schema.json("exec-json") }
 
   parallelize_me!
 
   it "can execute a simple file and validate the json schema" do
     out = inspec("exec " + example_control + " --reporter json --no-create-lockfile")
-
     data = JSON.parse(out.stdout)
-    sout = inspec("schema exec-json")
-    schema = JSON.parse(sout.stdout)
-    JSON::Validator.validate(schema, data).wont_equal false
+    _(JSON::Validator.validate(schema, data)).wont_equal false
 
-    out.stderr.must_equal ""
+    _(out.stderr).must_equal ""
 
     skip_windows!
     assert_exit_code 0, out
@@ -22,13 +21,10 @@ describe "inspec exec with json formatter" do
 
   it "can execute a profile and validate the json schema" do
     out = inspec("exec " + example_profile + " --reporter json --no-create-lockfile")
-
     data = JSON.parse(out.stdout)
-    sout = inspec("schema exec-json")
-    schema = JSON.parse(sout.stdout)
-    JSON::Validator.validate(schema, data).wont_equal false
+    _(JSON::Validator.validate(schema, data)).wont_equal false
 
-    out.stderr.must_equal ""
+    _(out.stderr).must_equal ""
 
     assert_exit_code 101, out
   end
@@ -36,11 +32,11 @@ describe "inspec exec with json formatter" do
   it "can execute a simple file while using end of options after reporter cli option" do
     out = inspec("exec --no-create-lockfile --reporter json -- " + example_control)
     data = JSON.parse(out.stdout)
-    sout = inspec("schema exec-json")
-    schema = JSON.parse(sout.stdout)
-    JSON::Validator.validate(schema, data).wont_equal false
+    sout = Inspec::Schema.json("exec-json")
+    schema = JSON.parse(sout)
+    _(JSON::Validator.validate(schema, data)).wont_equal false
 
-    out.stderr.must_equal ""
+    _(out.stderr).must_equal ""
 
     skip_windows!
     assert_exit_code 0, out
@@ -49,12 +45,10 @@ describe "inspec exec with json formatter" do
   it "can execute a profile and validate the json schema with target_id" do
     out = inspec("exec " + example_profile + " --reporter json --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444")
     data = JSON.parse(out.stdout)
-    data["platform"]["target_id"].must_equal "1d3e399f-4d71-4863-ac54-84d437fbc444"
-    sout = inspec("schema exec-json")
-    schema = JSON.parse(sout.stdout)
-    JSON::Validator.validate(schema, data).wont_equal false
+    _(data["platform"]["target_id"]).must_equal "1d3e399f-4d71-4863-ac54-84d437fbc444"
+    _(JSON::Validator.validate(schema, data)).wont_equal false
 
-    out.stderr.must_equal ""
+    _(out.stderr).must_equal ""
 
     assert_exit_code 101, out
   end
@@ -63,12 +57,12 @@ describe "inspec exec with json formatter" do
     out = inspec("exec " + File.join(profile_path, "unsupported_dependencies", "wrapper-profile") + " --reporter json --no-create-lockfile")
 
     data = JSON.parse(out.stdout)
-    data["profiles"].count.must_equal 1
+    _(data["profiles"].count).must_equal 1
     profile = data["profiles"].first
-    profile["controls"].count.must_equal 1
+    _(profile["controls"].count).must_equal 1
 
-    out.stderr.must_include "WARN: Skipping profile: 'child_profile' on unsupported platform:"
-    out.stderr.must_include "WARN: Skipping profile: 'child_profile2' on unsupported platform:"
+    _(out.stderr).must_include "WARN: Skipping profile: 'child_profile' on unsupported platform:"
+    _(out.stderr).must_include "WARN: Skipping profile: 'child_profile2' on unsupported platform:"
 
     skip_windows!
     assert_exit_code 0, out
@@ -78,13 +72,13 @@ describe "inspec exec with json formatter" do
     out = inspec("exec " + File.join(profile_path, "unsupported_dependencies", "wrapper-profile") + " --reporter json --no-create-lockfile")
 
     data = JSON.parse(out.stdout)
-    data["profiles"].count.must_equal 1
+    _(data["profiles"].count).must_equal 1
     profile = data["profiles"].first
-    profile["status"].must_equal "loaded"
-    profile["depends"].count.must_equal 2
+    _(profile["status"]).must_equal "loaded"
+    _(profile["depends"].count).must_equal 2
     profile["depends"].each do |d|
-      d["status"].must_equal "skipped"
-      d["skip_message"].must_include "Skipping profile: "
+      _(d["status"]).must_equal "skipped"
+      _(d["skip_message"]).must_include "Skipping profile: "
     end
 
     skip_windows!
@@ -96,14 +90,14 @@ describe "inspec exec with json formatter" do
 
     data = JSON.parse(out.stdout)
     profile = data["profiles"].first
-    profile["status"].must_equal "loaded"
-    profile["depends"].count.must_equal 2
+    _(profile["status"]).must_equal "loaded"
+    _(profile["depends"].count).must_equal 2
     profile["depends"].each do |d|
-      d["status"].must_equal "loaded"
-      d.key?("skip_message").must_equal false
+      _(d["status"]).must_equal "loaded"
+      _(d.key?("skip_message")).must_equal false
     end
 
-    out.stderr.must_equal ""
+    _(out.stderr).must_equal ""
 
     skip_windows!
     assert_exit_code 0, out
@@ -114,40 +108,42 @@ describe "inspec exec with json formatter" do
 
     data = JSON.parse(out.stdout)
     profile = data["profiles"].first
-    profile["status"].must_equal "skipped"
-    profile["skip_message"].must_include "Skipping profile: 'skippy' on unsupported platform:"
+    _(profile["status"]).must_equal "skipped"
+    _(profile["skip_message"]).must_include "Skipping profile: 'skippy' on unsupported platform:"
 
-    out.stderr.must_equal ""
+    _(out.stderr).must_equal ""
 
     assert_exit_code 101, out
   end
 
   describe "execute a profile with json formatting" do
-    let(:json) { JSON.load(inspec("exec " + example_profile + " --reporter json --no-create-lockfile").stdout) }
+    let(:raw) { inspec("exec " + example_profile + " --reporter json --no-create-lockfile").stdout }
+    let(:json) { JSON.load(raw) }
     let(:profile) { json["profiles"][0] }
     let(:controls) { profile["controls"] }
     let(:ex1) { controls.find { |x| x["id"] == "tmp-1.0" } }
     let(:ex2) { controls.find { |x| x["id"] =~ /generated/ } }
-    let(:ex3) { profile["controls"].find { |x| x["id"] == "gordon-1.0" } }
+    let(:ex3) { profile["controls"].find { |x| x["id"] == "example-1.0" } }
     let(:check_result) do
-      ex3["results"].find { |x| x["resource"] == "gordon_config" }
+      ex3["results"].find { |x| x["resource"] == "example_config" }
     end
 
     it "has only one profile" do
-      json["profiles"].must_be_kind_of(Array)
-      json["profiles"].length.must_equal 1
+      _(json["profiles"]).must_be_kind_of(Array)
+      _(json["profiles"].length).must_equal 1
     end
 
     it "maps impact symbols to numbers" do
-      ex3["impact"].must_equal 0.9
+      _(ex3["impact"]).must_equal 0.9
     end
 
     it "has all the metadata" do
       actual = profile.dup
       key = actual.delete("controls")
-        .find { |x| x["id"] =~ /generated from example.rb/ }["id"]
+        .find { |x| x["id"] =~ /generated from example/ }["id"]
       groups = actual.delete("groups")
-      actual.must_equal({
+      actual.delete("sha256")
+      _(actual).must_equal({
         "name" => "profile",
         "title" => "InSpec Example Profile",
         "maintainer" => "Chef Software, Inc.",
@@ -156,48 +152,46 @@ describe "inspec exec with json formatter" do
         "license" => "Apache-2.0",
         "summary" => "Demonstrates the use of InSpec Compliance Profile",
         "version" => "1.0.0",
-        # TODO: this is brittle and nonsensical
-        "sha256" => "de67a044d7be7090982740755ff582af1cefaf37261c5adda57b9502ffefc973",
         "supports" => [{ "platform-family" => "unix" }, { "platform-family" => "windows" }],
         "status" => "loaded",
         "attributes" => [],
       })
 
-      groups.sort_by { |x| x["id"] }.must_equal([
-        { "id" => "controls/example.rb", "title" => "/tmp profile", "controls" => ["tmp-1.0", key] },
-        { "id" => "controls/gordon.rb", "title" => "Gordon Config Checks", "controls" => ["gordon-1.0"] },
+      _(groups.sort_by { |x| x["id"] }).must_equal([
+        { "id" => "controls/example-tmp.rb", "title" => "/tmp profile", "controls" => ["tmp-1.0", key] },
+        { "id" => "controls/example.rb", "title" => "Example Config Checks", "controls" => ["example-1.0"] },
         { "id" => "controls/meta.rb", "title" => "SSH Server Configuration", "controls" => ["ssh-1"] },
       ])
     end
 
     it "must have 4 controls" do
-      controls.length.must_equal 4
+      _(controls.length).must_equal 4
     end
 
     it "has an id for every control" do
-      controls.find { |x| x["id"].nil? }.must_be :nil?
+      _(controls.find { |x| x["id"].nil? }).must_be :nil?
     end
 
     it "has results for every control" do
-      ex1["results"].length.must_equal 1
-      ex2["results"].length.must_equal 1
-      ex3["results"].length.must_equal 2
+      _(ex1["results"].length).must_equal 1
+      _(ex2["results"].length).must_equal 1
+      _(ex3["results"].length).must_equal 2
     end
 
     it "has the right result for tmp-1.0" do
       actual = ex1.dup
 
       src = actual.delete("source_location")
-      src["ref"].must_match %r{test/unit/mock/profiles/old-examples/profile/controls/example.rb$}
-      src["line"].must_equal 6
+      _(src["ref"]).must_match %r{test/unit/mock/profiles/old-examples/profile/controls/example-tmp.rb$}
+      _(src["line"]).must_equal 6
 
       result = actual.delete("results")[0]
-      result.wont_be :nil?
+      _(result).wont_be :nil?
       skip_windows!
-      result["status"].must_equal "passed"
-      result["code_desc"].must_equal "File /tmp should be directory"
-      result["run_time"].wont_be :nil?
-      result["start_time"].wont_be :nil?
+      _(result["status"]).must_equal "passed"
+      _(result["code_desc"]).must_equal "File /tmp should be directory"
+      _(result["run_time"]).wont_be :nil?
+      _(result["start_time"]).wont_be :nil?
 
       example_rb_code = <<~END
         control 'tmp-1.0' do                                   # A unique ID for this control
@@ -215,7 +209,7 @@ describe "inspec exec with json formatter" do
         end
       END
 
-      actual.must_equal({
+      _(actual).must_equal({
         "id" => "tmp-1.0",
         "title" => "Create /tmp directory",
         "desc" => "An optional description...",
@@ -224,6 +218,7 @@ describe "inspec exec with json formatter" do
         "refs" => [{ "url" => "http://...", "ref" => "Document A-12" }],
         "tags" => { "data" => "temp data", "security" => nil },
         "code" => example_rb_code,
+        "waiver_data" => {},
       })
     end
   end
@@ -235,7 +230,7 @@ describe "inspec exec with json formatter" do
     # TODO: failure handling in json formatters...
 
     it "never runs the actual resource" do
-      File.exist?("/tmp/inspec_test_DONT_CREATE").must_equal false
+      _(File.exist?("/tmp/inspec_test_DONT_CREATE")).must_equal false
     end
   end
 end

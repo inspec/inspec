@@ -14,7 +14,7 @@ describe Inspec::Reporters::Json do
     it "confirm render output" do
       output = File.read(path + "/../mock/reporters/json_output")
       report.render
-      report.rendered_output.must_equal output
+      _(JSON.parse(report.rendered_output)).must_equal JSON.parse(output)
     end
   end
 
@@ -22,14 +22,14 @@ describe Inspec::Reporters::Json do
     it "confirm report output" do
       output = File.read(path + "/../mock/reporters/json_output")
       output = JSON.parse(output, symbolize_names: true)
-      report.report.must_equal output
+      _(report.report).must_equal output
     end
   end
 
   describe "#platform" do
     it "confirm platform output" do
       hash = { name: "mac_os_x", release: "17.2.0" }
-      report.send(:platform).must_equal hash
+      _(report.send(:platform)).must_equal hash
     end
   end
 
@@ -45,7 +45,7 @@ describe Inspec::Reporters::Json do
       data[:profiles].first[:depends] = depends
       json_report = Inspec::Reporters::Json.new({ run_data: data })
 
-      json_report.report[:profiles].first[:depends].must_equal depends
+      _(json_report.report[:profiles].first[:depends]).must_equal depends
     end
   end
 
@@ -58,7 +58,7 @@ describe Inspec::Reporters::Json do
         start_time: "2018-01-05 11:43:04 -0500",
       }
       result = report.send(:profile_results, control)
-      result.first.must_equal hash
+      _(result.first).must_equal hash
     end
 
     it "confirm profile_result with optional" do
@@ -73,7 +73,7 @@ describe Inspec::Reporters::Json do
         skip_message: "skipping",
       }
       result = report.send(:profile_results, control)
-      result.first.must_equal hash
+      _(result.first).must_equal hash
     end
   end
 
@@ -92,10 +92,11 @@ describe Inspec::Reporters::Json do
           line: 89,
           ref: "/Users/jquick/Chef/inspec/lib/inspec/control_eval_context.rb",
         },
+        waiver_data: {},
       }
       control = report.send(:profile_controls, profile).first
       control.delete(:results)
-      control.must_equal hash
+      _(control).must_equal hash
     end
   end
 
@@ -111,7 +112,7 @@ describe Inspec::Reporters::Json do
         title: "sample section",
       }
       group = report.send(:profile_groups, profile)
-      group.first.must_equal hash
+      _(group.first).must_equal hash
     end
   end
 
@@ -139,7 +140,7 @@ describe Inspec::Reporters::Json do
       profile = report.send(:profiles).first
       profile.delete(:groups)
       profile.delete(:controls)
-      profile.must_equal hash
+      _(profile).must_equal hash
     end
   end
 end

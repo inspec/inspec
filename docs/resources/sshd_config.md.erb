@@ -42,7 +42,7 @@ The following examples show how to use this Chef InSpec audit resource.
 ### Test which variables may be sent to the server
 
     describe sshd_config do
-      its('AcceptEnv') { should include('GORDON_SERVER') }
+      its('AcceptEnv') { should include('CI_ENABLE_COVERAGE') }
     end
 
 ### Test for IPv6-only addresses

@@ -54,7 +54,7 @@ where
 * `tag` is optional meta-information with with key or key-value pairs
 * `ref` is a reference to an external document
 * `describe` is a block that contains at least one test. A `control` block must contain at least one `describe` block, but may contain as many as required
-* `sshd_config` is an Chef InSpec resource. For the full list of Chef InSpec resources, see Chef InSpec resource documentation
+* `sshd_config` is a Chef InSpec resource. For the full list of Chef InSpec resources, see Chef InSpec resource documentation
 * `its('Port')` is the matcher; `{ should eq '22' }` is the test. A `describe` block must contain at least one matcher, but may contain as many as required
 
 ## Advanced concepts
@@ -272,7 +272,7 @@ end
 ```
 
 Ruby allows a lot of freedoms, but should be limited in controls so that they
-remain portable and easy to understand. Please see our [profile style guide](./style).
+remain portable and easy to understand. Please see our [profile style guide](https://www.inspec.io/docs/reference/style/).
 
 Core and custom resources are written as regular Ruby classes which inherit from
 `Inspec.resource`.
@@ -280,8 +280,8 @@ Core and custom resources are written as regular Ruby classes which inherit from
 
 ## Interactive Debugging with Pry
 
-Here's a sample Chef InSpec control that users Ruby variables to instantiate
-an Chef InSpec resource once and use the content in multiple tests.
+Here's a sample Chef InSpec control that uses Ruby variables to instantiate
+a Chef InSpec resource once and use the content in multiple tests.
 
 ```ruby
 control 'check-perl' do
@@ -340,10 +340,10 @@ $ inspec shell
 Welcome to the interactive InSpec Shell
 To find out how to use it, type: help
 
-inspec> command('ls /home/gordon/git/inspec/docs').stdout
-=> "ctl_inspec.rst\ndsl_inspec.rst\ndsl_resource.rst\n"
-inspec> command('ls').stdout.split("\n")
-=> ["ctl_inspec.rst", "dsl_inspec.rst", "dsl_resource.rst"]
+inspec> command('ls ~/projects/github/inspec/docs').stdout
+=> "README.md\nconfig.md\ndev\ndsl_inspec.md\ndsl_resource.md\nglossary.md\nhabitat.md\ninputs.md\ninspec_and_friends.md\nmatchers.md\nmigration.md\nplatforms.md\nplugin_kitchen_inspec.md\nplugins.md\nprofiles.md\nreporters.md\nresources\nshared\nshell.md\nstyle.md\nwaivers.md\n"
+inspec> command('ls ~/projects/github/inspec/docs').stdout.split("\n").first
+=> "README.md"
 
 inspec> help command
 Name: command

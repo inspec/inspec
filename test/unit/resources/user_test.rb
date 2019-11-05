@@ -36,28 +36,50 @@ describe "Inspec::Resources::User" do
     resource = MockLoader.new(:ubuntu1404).load_resource("user", "root")
 
     expect_deprecation(:resource_user_serverspec_compat) do
-      resource.has_uid?(0).must_equal true
+      _(resource.has_uid?(0)).must_equal true
     end
 
     expect_deprecation(:resource_user_serverspec_compat) do
-      resource.has_home_directory?("/root").must_equal true
+      _(resource.has_home_directory?("/root")).must_equal true
     end
 
     expect_deprecation(:resource_user_serverspec_compat) do
-      resource.has_login_shell?("/bin/bash").must_equal true
+      _(resource.has_login_shell?("/bin/bash")).must_equal true
     end
 
     expect_deprecation(:resource_user_serverspec_compat) do
-      resource.minimum_days_between_password_change.must_equal 0
+      _(resource.minimum_days_between_password_change).must_equal 0
     end
 
     expect_deprecation(:resource_user_serverspec_compat) do
-      resource.maximum_days_between_password_change.must_equal 99999
+      _(resource.maximum_days_between_password_change).must_equal 99999
     end
 
     expect_deprecation(:resource_user_serverspec_compat) do
-      proc { resource.has_authorized_key?("abc") }.must_raise NotImplementedError
+      _(proc { resource.has_authorized_key?("abc") }).must_raise NotImplementedError
     end
+  end
+
+  it "handles a password that has never changed" do
+    resource = quick_resource(:user, :linux) do |cmd|
+      cmd.strip!
+      case cmd
+      when "chage -l" then
+        string <<~EOM
+          Last password change                                  : never
+          Password expires                                      : never
+          Password inactive                                     : never
+          Account expires                                               : never
+          Minimum number of days between password change                : 0
+          Maximum number of days between password change                : 99999
+          Number of days of warning before password expires     : 7
+        EOM
+      else
+        string "" # doesn't matter... they don't error for some reason
+      end
+    end
+
+    _(resource.passwordage).must_be_nil
   end
 
   it "read user on centos7" do
@@ -70,6 +92,7 @@ describe "Inspec::Resources::User" do
     _(resource.mindays).must_equal 0
     _(resource.maxdays).must_equal 99999
     _(resource.warndays).must_equal 7
+    _(resource.passwordage).must_be_kind_of Integer # changes every day
   end
 
   it "read user on centos7" do
@@ -120,10 +143,10 @@ describe "Inspec::Resources::User" do
     _(resource.exists?).must_equal true
     _(resource.group).must_be_nil
     _(resource.groups).must_equal %w{Administrators Users}
-    _(resource.home).must_be_nil
+    _(resource.home).wont_be_nil
     _(resource.shell).must_be_nil
-    _(resource.mindays).must_be_nil
-    _(resource.maxdays).must_be_nil
+    _(resource.mindays).wont_be_nil
+    _(resource.maxdays).wont_be_nil
     _(resource.warndays).must_be_nil
     _(resource.disabled?).must_equal false
   end
@@ -134,10 +157,10 @@ describe "Inspec::Resources::User" do
     _(resource.exists?).must_equal true
     _(resource.group).must_be_nil
     _(resource.groups).must_equal ["Users"]
-    _(resource.home).must_be_nil
+    _(resource.home).wont_be_nil
     _(resource.shell).must_be_nil
-    _(resource.mindays).must_be_nil
-    _(resource.maxdays).must_be_nil
+    _(resource.mindays).wont_be_nil
+    _(resource.maxdays).wont_be_nil
     _(resource.warndays).must_be_nil
     _(resource.disabled?).must_equal true
   end

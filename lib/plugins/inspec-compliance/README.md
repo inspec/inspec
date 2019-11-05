@@ -152,7 +152,7 @@ $ inspec exec compliance://admin/profile
 
 Pending: (Failures listed here are expected and do not affect your suite's status)
 
-  1) gordon_config Can't find file "/tmp/gordon/config.yaml"
+  1) example_config Can't find file "/tmp/example/config.yaml"
      # Not yet implemented
      # ./lib/inspec/runner.rb:157
 

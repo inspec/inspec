@@ -54,12 +54,12 @@ class PluginManagerCliInstall < Minitest::Test
       assert_includes success_message, "plugin installed via source path reference"
 
       # Check round-trip UX via list
-      itf_plugin = install_result.payload.list_result.detect { |p| p[:name] == fixture_info[:plugin_name] }
+      itf_plugin = @list_result.detect { |p| p[:name] == fixture_info[:plugin_name] }
       refute_nil itf_plugin, "plugin name should now appear in the output of inspec list"
       assert_equal "path", itf_plugin[:type], "list output should show that it is a path installation"
 
       # Check plugin statefile. Extra important in this case, since all should resolve to the same entry point.
-      plugin_data = install_result.payload.plugin_data
+      plugin_data = @plugin_data
       entry = plugin_data["plugins"].detect { |e| e["name"] == fixture_info[:plugin_name] }
       assert_equal fixture_info[:resolved_path], entry["installation_path"], "Regardless of input, the entry point should be correct."
 
@@ -164,7 +164,7 @@ class PluginManagerCliInstall < Minitest::Test
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "installed from local .gem file"
 
-    itf_plugin = install_result.payload.list_result.detect { |p| p[:name] == "inspec-test-fixture" }
+    itf_plugin = @list_result.detect { |p| p[:name] == "inspec-test-fixture" }
     refute_nil itf_plugin, "plugin name should now appear in the output of inspec list"
     assert_equal "gem (user)", itf_plugin[:type]
     assert_equal "0.1.0", itf_plugin[:version]
@@ -195,7 +195,7 @@ class PluginManagerCliInstall < Minitest::Test
     assert_includes success_message, "0.2.0"
     assert_includes success_message, "installed from rubygems.org"
 
-    itf_plugin = install_result.payload.list_result.detect { |p| p[:name] == "inspec-test-fixture" }
+    itf_plugin = @list_result.detect { |p| p[:name] == "inspec-test-fixture" }
     refute_nil itf_plugin, "plugin name should now appear in the output of inspec list"
     assert_equal "gem (user)", itf_plugin[:type]
     assert_equal "0.2.0", itf_plugin[:version]
@@ -225,7 +225,7 @@ class PluginManagerCliInstall < Minitest::Test
     assert_includes success_message, "0.1.0"
     assert_includes success_message, "installed from rubygems.org"
 
-    itf_plugin = install_result.payload.list_result.detect { |p| p[:name] == "inspec-test-fixture" }
+    itf_plugin = @list_result.detect { |p| p[:name] == "inspec-test-fixture" }
     refute_nil itf_plugin, "plugin name should now appear in the output of inspec list"
     assert_equal "gem (user)", itf_plugin[:type]
     assert_equal "0.1.0", itf_plugin[:version]
@@ -317,7 +317,7 @@ class PluginManagerCliInstall < Minitest::Test
     assert_includes success_message, "0.1.0"
     assert_includes success_message, "installed from rubygems.org"
 
-    ttf_plugin = install_result.payload.list_result.detect { |p| p[:name] == "train-test-fixture" }
+    ttf_plugin = @list_result.detect { |p| p[:name] == "train-test-fixture" }
     refute_nil ttf_plugin, "plugin name should now appear in the output of inspec list"
     assert_equal "gem (user)", ttf_plugin[:type]
     assert_equal "0.1.0", ttf_plugin[:version]

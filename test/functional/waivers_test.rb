@@ -7,7 +7,7 @@ describe "waivers" do
 
   let(:waivers_profiles_path) { "#{profile_path}/waivers" }
   let(:run_result)            { run_inspec_process(cmd, json: true) }
-  let(:controls_by_id)        { run_result.payload.json.dig("profiles", 0, "controls").map { |c| [c["id"], c] }.to_h }
+  let(:controls_by_id)        { run_result; @json.dig("profiles", 0, "controls").map { |c| [c["id"], c] }.to_h }
   let(:cmd)                   { "exec #{waivers_profiles_path}/#{profile_name} --input-file #{waivers_profiles_path}/#{profile_name}/files/#{waiver_file}" }
 
   def assert_test_outcome(expected, control_id)
@@ -20,7 +20,7 @@ describe "waivers" do
   end
 
   def waiver_data(control_id)
-    controls_by_id.dig(control_id, "results", 0, "waiver_data")
+    controls_by_id.dig(control_id, "waiver_data")
   end
 
   def assert_waiver_annotation(control_id)
@@ -30,24 +30,26 @@ describe "waivers" do
     expiry    = !!(control_id !~ /no_expiry/)
     in_past   = !!(control_id =~ /in_past/)
     in_future = !!(control_id =~ /in_future/)
-    skipped   = !!(control_id !~ /not_skipped/)
+    ran       = !!(control_id !~ /not_ran/)
 
     # higher logic
-    waived      = (!expiry && skipped) || (expiry && skipped && in_future)
+    waived      = (!expiry && !ran) || (expiry && !ran && in_future)
     # TODO: wasn't message was originally specced as being optional?
-    has_message = expiry && skipped && in_past
+    has_message = expiry && !ran && in_past
 
     assert_instance_of Hash, act
 
     assert_stringy        act["justification"] # TODO: optional?
-    assert_equal skipped, act["skip"]
+    assert_equal ran,     act["run"]
     assert_equal waived,  act["skipped_due_to_waiver"]
     assert_stringy        act["message"] if     has_message
     assert_equal "",      act["message"] unless has_message
   end
 
   def refute_waiver_annotation(control_id)
-    assert_nil waiver_data control_id
+    act = waiver_data control_id
+    assert_instance_of Hash, act
+    assert_empty act
   end
 
   def assert_skip_message(yea, nay)
@@ -64,15 +66,15 @@ describe "waivers" do
     {
       "01_not_waivered_passes"                          => "passed",
       "02_not_waivered_fails"                           => "failed",
-      "03_waivered_no_expiry_not_skipped_passes"        => "passed",
-      "04_waivered_no_expiry_not_skipped_fails"         => "failed",
-      "05_waivered_no_expiry_skipped"                   => "skipped",
-      "06_waivered_expiry_in_past_not_skipped_passes"   => "passed",
-      "07_waivered_expiry_in_past_not_skipped_fails"    => "failed",
-      "08_waivered_expiry_in_past_skipped"              => "passed",
-      "09_waivered_expiry_in_future_not_skipped_passes" => "passed",
-      "10_waivered_expiry_in_future_not_skipped_fails"  => "failed",
-      "11_waivered_expiry_in_future_skipped"            => "skipped",
+      "03_waivered_no_expiry_ran_passes"                => "passed",
+      "04_waivered_no_expiry_ran_fails"                 => "failed",
+      "05_waivered_no_expiry_not_ran"                   => "skipped",
+      "06_waivered_expiry_in_past_ran_passes"           => "passed",
+      "07_waivered_expiry_in_past_ran_fails"            => "failed",
+      "08_waivered_expiry_in_past_not_ran"              => "passed",
+      "09_waivered_expiry_in_future_ran_passes"         => "passed",
+      "10_waivered_expiry_in_future_ran_fails"          => "failed",
+      "11_waivered_expiry_in_future_not_ran"            => "skipped",
     }.each do |control_id, expected|
       it "has all of the expected outcomes #{control_id}" do
         assert_test_outcome expected, control_id
@@ -86,7 +88,30 @@ describe "waivers" do
     end
   end
 
-  # describe "an inherited profile"
+  describe "an inherited profile" do
+    let(:profile_name) { "waiver-wrapper" }
+    let(:waiver_file) { "waivers.yaml" }
+    it "should set the data in the child but be empty in the wrapper" do
+      run_result
+      child_profile = @json["profiles"].detect { |p| p["name"] == "waiver-child" }
+      child_waiver_data = child_profile.dig("controls", 0, "waiver_data")
+      assert_instance_of Hash, child_waiver_data
+      refute_empty child_waiver_data
+      expected_child_waiver_data = {
+        "run" => false,
+        "justification" => "I said so",
+        "skipped_due_to_waiver" => true,
+        "message" => "",
+      }
+      assert_equal expected_child_waiver_data, child_waiver_data
+
+      wrapper_profile = @json["profiles"].detect { |p| p["name"] == "waiver-wrapper" }
+      wrapper_waiver_data = wrapper_profile.dig("controls", 0, "waiver_data")
+      assert_instance_of Hash, wrapper_waiver_data
+      assert_empty wrapper_waiver_data
+    end
+  end
+
   # describe "a profile whose control ids require transformation"
 
   describe "a waiver file with invalid dates" do

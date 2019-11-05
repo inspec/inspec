@@ -1,0 +1,66 @@
+Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+DNF version: 4.0.9
+cachedir: /var/cache/dnf
+repo: using cache for: AppStream
+not found other for: CentOS-8 - AppStream
+not found deltainfo for: CentOS-8 - AppStream
+not found updateinfo for: CentOS-8 - AppStream
+AppStream: using metadata from Fri 20 Sep 2019 10:23:13 PM UTC.
+repo: using cache for: BaseOS
+not found other for: CentOS-8 - Base
+not found modules for: CentOS-8 - Base
+not found deltainfo for: CentOS-8 - Base
+not found updateinfo for: CentOS-8 - Base
+BaseOS: using metadata from Fri 20 Sep 2019 10:05:43 PM UTC.
+repo: using cache for: extras
+not found other for: CentOS-8 - Extras
+not found modules for: CentOS-8 - Extras
+not found deltainfo for: CentOS-8 - Extras
+not found updateinfo for: CentOS-8 - Extras
+extras: using metadata from Sat 21 Sep 2019 01:57:03 PM UTC.
+Last metadata expiration check: 0:01:35 ago on Mon 07 Oct 2019 11:55:21 PM UTC.
+Completion plugin: Generating completion cache...
+
+Repo-id      : AppStream
+Repo-name    : CentOS-8 - AppStream
+Repo-status  : enabled
+Repo-revision: 1569018193
+Repo-updated : Fri 20 Sep 2019 10:23:13 PM UTC
+Repo-pkgs    : 4,928
+Repo-size    : 7.1 G
+Repo-mirrors : http://mirrorlist.centos.org/?release=8&arch=x86_64&repo=AppStream&infra=stock
+Repo-baseurl : http://mirror.web-ster.com/centos/8.0.1905/AppStream/x86_64/os/ (9 more)
+Repo-expire  : 172,800 second(s) (last: Mon 07 Oct 2019 11:55:14 PM UTC)
+Repo-filename: /etc/yum.repos.d/CentOS-AppStream.repo
+
+Repo-id      : BaseOS
+Repo-name    : CentOS-8 - Base
+Repo-status  : enabled
+Repo-revision: 1569017143
+Repo-updated : Fri 20 Sep 2019 10:05:43 PM UTC
+Repo-pkgs    : 2,713
+Repo-size    : 3.2 G
+Repo-mirrors : http://mirrorlist.centos.org/?release=8&arch=x86_64&repo=BaseOS&infra=stock
+Repo-baseurl : http://mirror.web-ster.com/centos/8.0.1905/BaseOS/x86_64/os/ (9 more)
+Repo-expire  : 172,800 second(s) (last: Mon 07 Oct 2019 11:55:16 PM UTC)
+Repo-filename: /etc/yum.repos.d/CentOS-Base.repo
+
+Repo-id      : base-debuginfo
+Repo-name    : CentOS-8 - Debuginfo
+Repo-status  : disabled
+Repo-baseurl : http://debuginfo.centos.org/8/x86_64/
+Repo-expire  : 172,800 second(s) (last: unknown)
+Repo-filename: /etc/yum.repos.d/CentOS-Debuginfo.repo
+
+Repo-id      : extras
+Repo-name    : CentOS-8 - Extras
+Repo-status  : enabled
+Repo-revision: 1569074223
+Repo-updated : Sat 21 Sep 2019 01:57:03 PM UTC
+Repo-pkgs    : 3
+Repo-size    : 46 k
+Repo-mirrors : http://mirrorlist.centos.org/?release=8&arch=x86_64&repo=extras&infra=stock
+Repo-baseurl : http://mirror.web-ster.com/centos/8.0.1905/extras/x86_64/os/ (9 more)
+Repo-expire  : 172,800 second(s) (last: Mon 07 Oct 2019 11:55:21 PM UTC)
+Repo-filename: /etc/yum.repos.d/CentOS-Extras.repo
+Total packages: 7,644

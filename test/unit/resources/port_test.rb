@@ -124,9 +124,9 @@ describe "Inspec::Resources::Port" do
 
   it "verify all ports on Windows 2012r2" do
     resource = MockLoader.new(:windows).load_resource("port")
-    resource.entries.length.must_equal 49
-    resource.protocols("tcp").entries.length.must_equal 34
-    resource.protocols("udp").entries.length.must_equal 15
+    _(resource.entries.length).must_equal 49
+    _(resource.protocols("tcp").entries.length).must_equal 34
+    _(resource.protocols("udp").entries.length).must_equal 15
   end
 
   it "verify port on Windows 2008 (unpriviledged)" do
@@ -152,9 +152,9 @@ describe "Inspec::Resources::Port" do
       .values.each { |r| r.stdout = "" }
 
     resource = ml.load_resource("port")
-    resource.entries.length.must_equal 49
-    resource.protocols("tcp").entries.length.must_equal 34
-    resource.protocols("udp").entries.length.must_equal 15
+    _(resource.entries.length).must_equal 49
+    _(resource.protocols("tcp").entries.length).must_equal 34
+    _(resource.protocols("udp").entries.length).must_equal 15
   end
 
   it "verify port on FreeBSD" do

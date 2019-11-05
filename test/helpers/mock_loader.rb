@@ -1,11 +1,12 @@
 class MockLoader
   # collects emulation operating systems
-  OPERATING_SYSTEMS = {
+  OPERATING_SYSTEMS = { # rubocop:disable Style/MutableConstant
     alpine: { name: "alpine", family: "alpine", release: "3.6.2", arch: "x86_64" },
     arch: { name: "arch", family: "arch", release: nil, arch: nil },
     centos5: { name: "centos", family: "redhat", release: "5.11", arch: "x86_64" },
     centos6: { name: "centos", family: "redhat", release: "6.6", arch: "x86_64" },
     centos7: { name: "centos", family: "redhat", release: "7.1.1503", arch: "x86_64" },
+    centos8: { name: "centos", family: "redhat", release: "8.0.1905", arch: "x86_64" },
     cloudlinux: { name: "cloudlinux", family: "redhat", release: "7.4", arch: "x86_64" },
     coreos: { name: "coreos", family: "coreos", release: "1437.0.0", arch: "x86_64" },
     debian6: { name: "debian", family: "debian", release: "6", arch: "x86_64" },
@@ -30,7 +31,9 @@ class MockLoader
     amazon: { name: "amazon", family: "redhat", release: "2015.03", arch: "x86_64" },
     amazon2: { name: "amazon", family: "redhat", release: "2", arch: "x86_64" },
     undefined: { name: nil, family: nil, release: nil, arch: nil },
-  }.freeze
+  }
+
+  OPERATING_SYSTEMS[:linux] = OPERATING_SYSTEMS[:ubuntu1604]
 
   # pass the os identifier to emulate a specific operating system
   def initialize(os = :ubuntu1404)
@@ -209,7 +212,6 @@ class MockLoader
       "Auditpol /get /subcategory:'User Account Management' /r" => cmd.call("auditpol"),
       "/sbin/auditctl -l" => cmd.call("auditctl"),
       "/sbin/auditctl -s" => cmd.call("auditctl-s"),
-      "yum -v repolist all" => cmd.call("yum-repolist-all"),
       "dpkg -s curl" => cmd.call("dpkg-s-curl"),
       "dpkg -s held-package" => cmd.call("dpkg-s-held-package"),
       "rpm -qi curl" => cmd.call("rpm-qi-curl"),
@@ -402,7 +404,7 @@ class MockLoader
       "/sbin/zpool get -Hp all tank" => cmd.call("zpool-get-all-tank"),
       # docker
       "4f8e24022ea8b7d3b117041ec32e55d9bf08f11f4065c700e7c1dc606c84fd17" => cmd.call("docker-ps-a"),
-      "b40ed61c006b54f155b28a85dc944dc0352b30222087b47c6279568ec0e59d05" => cmd.call("df-t"),
+      "b40ed61c006b54f155b28a85dc944dc0352b30222087b47c6279568ec0e59d05" => cmd.call("df-PT"),
       "docker version --format '{{ json . }}'" => cmd.call("docker-version"),
       "docker info --format '{{ json . }}'" => cmd.call("docker-info"),
       "docker inspect 71b5df59442b" => cmd.call("docker-inspec"),

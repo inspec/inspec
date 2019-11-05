@@ -17,7 +17,7 @@ $ tree examples/profile
 examples/profile
 ...
 ├── libraries
-│   └── gordon_config.rb
+│   └── example_config.rb
 ```
 
 ## Resource structure
@@ -51,8 +51,8 @@ The following example shows a full resource using attributes and methods
 to provide simple access to a configuration file:
 
 ```ruby
-class GordonConfig < Inspec.resource(1)
-  name 'gordon_config'
+class ExampleConfig < Inspec.resource(1)
+  name 'example_config'
 
   # Restrict to only run on the below platforms (if none were given, all OS's supported)
   supports platform_family: 'fedora'
@@ -65,14 +65,14 @@ class GordonConfig < Inspec.resource(1)
   '
 
   example '
-    describe gordon_config do
+    describe example_config do
       its("signal") { should eq "on" }
     end
   '
 
   # Load the configuration file on initialization
   def initialize(path = nil)
-    @path = path || '/etc/gordon.conf'
+    @path = path || '/etc/example.conf'
     @params = SimpleConfig.new( read_content )
   end
 
@@ -90,11 +90,40 @@ class GordonConfig < Inspec.resource(1)
       # Retrieve the file's contents
       f.content
     else
-      # If the file doesn't exist, skip all tests that use gordon_config
+      # If the file doesn't exist, skip all tests that use example_config
       raise Inspec::Exceptions::ResourceSkipped, "Can't read config at #{@path}"
     end
   end
 end
 ```
 
-For a full example, see our [example resource](https://github.com/chef/inspec/blob/master/examples/profile/libraries/gordon_config.rb).
+For a full example, see our [example resource](https://github.com/chef/inspec/blob/master/examples/profile/libraries/example_config.rb).
+
+## Lazy Loading
+
+Prior to InSpec v4.16, resources were pre-loaded for every invocation
+of `inspec`. This was a heavy and unnecessary burden on the system and
+exacerbated startup times (especially on Windows).
+
+As of InSpec v4.16, resources are lazily loaded into the `inspec`
+process upon use. This greatly speeds up the initial startup costs of
+the `inspec` process and only loads what you need to use. For example, `inspec
+--version` no longer runs for 10 seconds!.
+
+### Overriding Core Resources
+
+Lazy loading does change the way the resource registry is handled in
+ways that might break some assumptions. Specifically,
+`inspec.<resource>` isn't pre-populated with the core resources that
+InSpec ships with. If you make a local/custom resource of the same
+name, referring to the core resource via `inspec.<resource>` will not
+resolve to the core resource.
+
+As such, overriding core resources is not recommended best practice.
+
+If you really do need to do this, it is easiest to make a local
+resource with a new name and refer to the core resource directly.
+Otherwise, you need to ensure that the core resource you want is
+registered (via `require "inspec/resource/<name>"`) _before_ your
+profile is run to ensure it is eagerly loaded and in the global
+resource registry.

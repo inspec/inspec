@@ -10,16 +10,41 @@ module Inspec
       @default_registry ||= {}
     end
 
+    # TODO: these are keyed off of strings
     def self.registry
       @registry ||= default_registry
     end
 
+    # TODO: these are keyed off of symbols
     def self.supports
       @supports ||= {}
     end
 
     def self.new_registry
       default_registry.dup
+    end
+
+    def self.backfill_supports!
+      reg = registry.keys.map(&:to_sym).sort
+      sup = supports.keys.map(&:to_sym).sort
+
+      missings = reg - sup
+
+      supports[:platform] = [{ platform: "os" }] # patch the circular dep
+
+      missings.each do |missing|
+        klass = registry[missing.to_s].superclass
+        sklas = klass.superclass.name&.to_sym # might be resource = no name
+
+        klass = klass.name.to_sym
+
+        case
+        when klass != missing # an alias
+          supports[missing] = supports[klass]
+        when sklas
+          supports[klass]   = supports[sklas]
+        end
+      end
     end
 
     # Creates the inner DSL which includes all resources for

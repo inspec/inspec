@@ -1,0 +1,9 @@
+name: waiver-wrapper
+license: Apache-2.0
+summary: Verify waiver behavior under inheritance
+version: 0.1.0
+supports:
+  platform: os
+depends:
+  - name: waiver-child
+    path: ../waiver-child

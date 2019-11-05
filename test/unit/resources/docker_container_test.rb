@@ -46,7 +46,7 @@ describe "Inspec::Resources::DockerContainer" do
 
     it "prints as a docker resource" do
       resource = load_resource("docker_container", "laughing_austin")
-      resource.to_s.must_equal "Docker Container laughing_austin"
+      _(resource.to_s).must_equal "Docker Container laughing_austin"
     end
   end
 end
