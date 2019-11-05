@@ -1,7 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.18.27 -->
+## [v4.18.27](https://github.com/inspec/inspec/tree/v4.18.27) (2019-11-05)
+
+#### New Features
+- Add startuser systemd service v2 [#4516](https://github.com/inspec/inspec/pull/4516) ([mbaitelman](https://github.com/mbaitelman))
 
 #### Merged Pull Requests
 - Fix false positives on bundle caching check in buildkite. [#4660](https://github.com/inspec/inspec/pull/4660) ([zenspider](https://github.com/zenspider))
@@ -9,6 +12,9 @@
 
 <!-- release_rollup since=4.18.24 -->
 ### Changes since 4.18.24 release
+
+#### New Features
+- Add startuser systemd service v2 [#4516](https://github.com/inspec/inspec/pull/4516) ([mbaitelman](https://github.com/mbaitelman)) <!-- 4.18.27 -->
 
 #### Merged Pull Requests
 - Fix false positives on bundle caching check in buildkite. [#4660](https://github.com/inspec/inspec/pull/4660) ([zenspider](https://github.com/zenspider)) <!-- 4.18.26 -->
