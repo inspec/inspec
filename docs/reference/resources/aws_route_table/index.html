@@ -1,36 +1,90 @@
 <!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the aws_route_table Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_aws_route_table docs_reference_resources_aws_route_table_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="aws_route_table">aws_route_table</h1>
 
-<p>Use the <code>aws_route_table</code> Chef InSpec audit resource to test properties of a single Route Table. A route table contains a set of rules, called routes, that are used to determine where network traffic is directed.</p>
-
-<p><br></p>
-
-<h2 id="availability">Availability</h2>
-
-<h3 id="installation">Installation</h3>
-
-<p>This resource is distributed along with Chef InSpec itself. You can use it automatically.</p>
-
-<h3 id="version">Version</h3>
-
-<p>This resource first became available in v2.0.16 of InSpec.</p>
+<p>Use the <code>aws_route_table</code> InSpec audit resource to test properties of a single Route Table. A route table contains a set of rules, called routes, that are used to determine where network traffic is directed.</p>
 
 <h2 id="syntax">Syntax</h2>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that a certain route table exists by name
-describe aws_route_table('rtb-123abcde') do
-  it { should exist }
-end
-</code></pre></div>
-<h2 id="resource-parameters">Resource Parameters</h2>
-
-<h3 id="route_table_id">route_table_id</h3>
 
 <p>This resource expects a single parameter that uniquely identifies the Route Table. You may pass it as a string, or as the value in a hash:</p>
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_route_table('rtb-123abcde') do
   it { should exist }
 end
-# Same
+
 describe aws_route_table(route_table_id: 'rtb-123abcde') do
   it { should exist }
+end
+</code></pre></div>
+<h4 id="parameters">Parameters</h4>
+
+<h5 id="routetableid-required">route<em>table</em>id <em>(required)</em></h5>
+
+<p>This resource accepts a single parameter, the route<em>table</em>id.
+This can be passed either as a string or as a <code>route_table_id: &#39;value&#39;</code> key-value entry in a hash.</p>
+
+<p>See also the <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">AWS documentation on Route Tables</a>.</p>
+
+<h2 id="properties">Properties</h2>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>route<em>table</em>id</td>
+<td>The ID of the route table.</td>
+</tr>
+<tr>
+<td>owner_id</td>
+<td>The ID of the AWS account that owns the route table.</td>
+</tr>
+<tr>
+<td>vpc_id</td>
+<td>The ID of the VPC.</td>
+</tr>
+<tr>
+<td>routes</td>
+<td>The routes in the route table.</td>
+</tr>
+<tr>
+<td>associations</td>
+<td>The associations between the route table and one or more subnets.</td>
+</tr>
+<tr>
+<td>propagating_vgws</td>
+<td>Any virtual private gateway (VGW) propagating routes.</td>
+</tr>
+<tr>
+<td>tags</td>
+<td>Any tags assigned to the route table.</td>
+</tr>
+</tbody></table>
+
+<h2 id="examples">Examples</h2>
+
+<h5 id="confirm-that-the-route-table-has-expected-vpc-identifier">Confirm that the route table has expected VPC identifier</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_route_table(route_table_id: 'rtb-123abcde') do
+  its('vpc_id') { should eq 'vpc-01625e36123456789' }
+end
+</code></pre></div>
+<h5 id="confirm-that-the-route-table-has-expected-owner-identifier">Confirm that the route table has expected owner identifier</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_route_table(route_table_id: 'rtb-123abcde') do
+  its('owner_id') { should eq '123456789012' }
+end
+</code></pre></div>
+<h5 id="ensure-the-expected-number-of-routes-is-present">Ensure the expected number of routes is present</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_route_table(route_table_id: 'rtb-123abcde') do
+  its('routes.count') { should eq 2 }
+end
+</code></pre></div>
+<h5 id="ensure-the-expected-number-of-associations-is-present">Ensure the expected number of associations is present</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_route_table(route_table_id: 'rtb-123abcde') do
+  its('associations.count') { should eq 1 }
+end
+</code></pre></div>
+<h5 id="ensure-there-are-no-virtual-private-gateway-vgw-propagating-routes">Ensure there are no virtual private gateway (VGW) propagating routes</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_route_table(route_table_id: 'rtb-123abcde') do
+  its('propagating_vgws') { should be_empty }
 end
 </code></pre></div>
 <h2 id="matchers">Matchers</h2>
@@ -39,7 +93,9 @@ end
 
 <h3 id="exist">exist</h3>
 
-<p>Indicates that the Route Table provided was found.  Use <code>should_not</code> to test for Route Tables that should not exist.</p>
+<p>The control will pass if the describe returns at least one result.</p>
+
+<p>Use <code>should_not</code> to test the entity should not exist.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_route_table('should-be-there') do
   it { should exist }
 end

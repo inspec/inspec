@@ -1,30 +1,6 @@
 <!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the aws_s3_bucket Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_aws_s3_bucket docs_reference_resources_aws_s3_bucket_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="aws_s3_bucket">aws_s3_bucket</h1>
 
-<p>Use the <code>aws_s3_bucket</code> Chef InSpec audit resource to test properties of a single AWS bucket.</p>
-
-<p>To test properties of a multiple S3 buckets, use the <code>aws_s3_buckets</code> resource.</p>
-
-<p><br></p>
-
-<h2 id="limitations">Limitations</h2>
-
-<p>S3 bucket security is a complex matter. For details on how AWS evaluates requests for access, please see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/how-s3-evaluates-access-control.html">the AWS documentation</a>. S3 buckets and the objects they contain support three different types of access control: bucket ACLs, bucket policies, and object ACLs.</p>
-
-<p>As of January 2018, this resource supports evaluating bucket ACLs and bucket policies. We do not support evaluating object ACLs because it introduces scalability concerns in the AWS API; we recommend using AWS mechanisms such as CloudTrail and Config to detect insecure object ACLs.</p>
-
-<p>In particular, users of the <code>be_public</code> matcher should carefully examine the conditions under which the matcher will detect an insecure bucket. See the <code>be_public</code> section under the Matchers section below.</p>
-
-<p><br></p>
-
-<h2 id="availability">Availability</h2>
-
-<h3 id="installation">Installation</h3>
-
-<p>This resource is distributed along with Chef InSpec itself. You can use it automatically.</p>
-
-<h3 id="version">Version</h3>
-
-<p>This resource first became available in v2.0.16 of InSpec.</p>
+<p>Use the <code>aws_s3_bucket</code> InSpec audit resource to test properties of a single AWS bucket.</p>
 
 <h2 id="syntax">Syntax</h2>
 
@@ -38,48 +14,65 @@ describe aws_s3_bucket('test_bucket') do
   it { should exist }
 end
 </code></pre></div>
-<p><br></p>
+<h4 id="parameters">Parameters</h4>
+
+<h5 id="bucketname-_-required">bucket<em>name _(required)</em></h5>
+
+<p>This resource accepts a single parameter, the S3 Bucket Name which uniquely identifies the bucket. 
+This can be passed either as a string or as a <code>bucket_name: &#39;value&#39;</code> key-value entry in a hash.</p>
+
+<p>See also the <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html">AWS documentation on S3 Buckets</a>.</p>
+
+<h2 id="properties">Properties</h2>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>region</td>
+<td>The region of the bucket.</td>
+</tr>
+<tr>
+<td>bucket_acl</td>
+<td>An array of AWS Grants detailing permission grants on the bucket.</td>
+</tr>
+<tr>
+<td>bucket_policy</td>
+<td>The IAM policy document controlling access to the bucket.</td>
+</tr>
+<tr>
+<td>tags</td>
+<td>An hash with each key-value pair corresponding to a tag associated with the entity</td>
+</tr>
+</tbody></table>
 
 <h2 id="examples">Examples</h2>
 
-<p>The following examples show how to use this Chef InSpec audit resource.</p>
-
-<h3 id="test-the-bucket-level-acl">Test the bucket-level ACL</h3>
+<h5 id="test-the-bucket-level-acl">Test the bucket-level ACL</h5>
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_s3_bucket('test_bucket') do
   its('bucket_acl.count') { should eq 1 }
 end
 </code></pre></div>
-<h3 id="check-if-a-bucket-has-a-bucket-policy">Check if a bucket has a bucket policy</h3>
+<h5 id="check-if-a-bucket-has-a-bucket-policy">Check if a bucket has a bucket policy</h5>
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_s3_bucket('test_bucket') do
   its('bucket_policy') { should be_empty }
 end
 </code></pre></div>
-<h3 id="check-if-a-bucket-appears-to-be-exposed-to-the-public">Check if a bucket appears to be exposed to the public</h3>
-<div class="highlight"><pre class="highlight plaintext"><code># See Limitations section above
-describe aws_s3_bucket('test_bucket') do
+<h5 id="check-if-a-bucket-appears-to-be-exposed-to-the-public">Check if a bucket appears to be exposed to the public</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_s3_bucket('test_bucket') do
   it { should_not be_public }
 end
 </code></pre></div>
-<p><br></p>
-
-<h2 id="properties">Properties</h2>
-
-<h3 id="region">region</h3>
-
-<p>The <code>region</code> property identifies the AWS Region in which the S3 bucket is located.</p>
+<h5 id="check-if-the-correct-region-is-set">Check if the correct region is set</h5>
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_s3_bucket('test_bucket') do
-  # Check if the correct region is set
   its('region') { should eq 'us-east-1' }
 end
 </code></pre></div>
-<h2 id="unsupported-properties">Unsupported Properties</h2>
-
-<h3 id="bucket_acl">bucket_acl</h3>
-
-<p>The <code>bucket_acl</code> property is a low-level property that lists the individual Bucket ACL grants  in effect on the bucket.  Other higher-level properties, such as be_public, are more concise and easier to use. You can use the <code>bucket_acl</code> property to investigate which grants are in effect, causing be_public to fail.</p>
-
-<p>The value of bucket_acl is  an array of simple objects.  Each object has a <code>permission</code> property and a <code>grantee</code> property.  The <code>permission</code> property will be a string such as &lsquo;READ&rsquo;, &lsquo;WRITE&rsquo; etc (See the <a href="https://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Client.html#get_bucket_acl-instance_method">AWS documentation</a> for a full list).  The <code>grantee</code> property contains sub-properties, such as <code>type</code> and <code>uri</code>.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>bucket_acl = aws_s3_bucket('my-bucket')
+<h5 id="check-buckets-acl-for-correct-grants">Check bucket&rsquo;s ACL for correct grants</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>bucket_acl = aws_s3_bucket('my-bucket').bucket_acl
 
 # Look for grants to "AllUsers" (that is, the public)
 all_users_grants = bucket_acl.select do |g|
@@ -91,29 +84,11 @@ auth_grants = bucket_acl.select do |g|
   g.grantee.type == 'Group' &amp;&amp; g.grantee.uri =~ /AuthenticatedUsers/
 end
 </code></pre></div>
-<h3 id="bucket_policy">bucket_policy</h3>
-
-<p>The <code>bucket_policy</code> is a low-level property that describes the IAM policy document controlling access to the bucket. The <code>bucket_policy</code> property returns a Ruby structure that you can probe to check for particular statements.  We recommend using a higher-level property, such as <code>be_public</code>, which is concise and easier to implement in your policy files.</p>
-
-<p>The <code>bucket_policy</code> property returns an array of simple objects, each object being an IAM Policy Statement. See the <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html#example-bucket-policies-use-case-2">AWS documentation</a> for details about the structure of this data.</p>
-
-<p>If there is no bucket policy, this property returns an empty array.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>bucket_policy = aws_s3_bucket('my-bucket')
-
-# Look for statements that allow the general public to do things
-# This may be a false positive; it is possible these statements
-# could be protected by conditions, such as IP restrictions.
-public_statements = bucket_policy.select do |s|
-  s.effect == 'Allow' &amp;&amp; s.principal == '*'
-end
-</code></pre></div>
-<p><br></p>
-
 <h2 id="matchers">Matchers</h2>
 
-<p>This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">matchers page</a>.</p>
+<p>This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">matchers page</a>.</p>
 
-<h3 id="be_public">be_public</h3>
+<h4 id="be_public">be_public</h4>
 
 <p>The <code>be_public</code> matcher tests if the bucket has potentially insecure access controls. This high-level matcher detects several insecure conditions, which may be enhanced in the future. Currently, the matcher reports an insecure bucket if any of the following conditions are met:</p>
 
@@ -126,16 +101,22 @@ end
 <p>Note: This resource does not detect insecure object ACLs.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>it { should_not be_public }
 </code></pre></div>
-<h3 id="have_access_logging_enabled">have_access_logging_enabled</h3>
+<h4 id="haveaccesslogging_enabled">have<em>access</em>logging_enabled</h4>
 
 <p>The <code>have_access_logging_enabled</code> matcher tests if access logging is enabled for the s3 bucket.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>it { should have_access_logging_enabled }
 </code></pre></div>
-<h3 id="have_default_encryption_enabled">have_default_encryption_enabled</h3>
+<h4 id="havedefaultencryption_enabled">have<em>default</em>encryption_enabled</h4>
 
 <p>The <code>have_default_encryption_enabled</code> matcher tests if default encryption is enabled for the s3 bucket.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>it { should have_default_encryption_enabled }
 </code></pre></div>
+<h3 id="haveversioningenabled">have<em>versioning</em>enabled</h3>
+
+<p>The <code>have_versioning_enabled</code> matcher tests if versioning is enabled for the s3 bucket.</p>
+
+<p>it { should have<em>versioning</em>enabled }</p>
+
 <h2 id="aws-permissions">AWS Permissions</h2>
 
 <p>Your <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal">Principal</a> will need the <code>s3:GetBucketAcl</code>, <code>s3:GetBucketLocation</code>, <code>s3:GetBucketLogging</code>, <code>s3:GetBucketPolicy</code>, and <code>s3:GetEncryptionConfiguration</code> actions set to allow.</p>

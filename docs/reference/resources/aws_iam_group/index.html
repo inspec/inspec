@@ -1,26 +1,11 @@
 <!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the aws_iam_group Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_aws_iam_group docs_reference_resources_aws_iam_group_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="aws_iam_group">aws_iam_group</h1>
 
-<p>Use the <code>aws_iam_group</code> Chef InSpec audit resource to test properties of a single IAM group.</p>
-
-<p>To test properties of multiple or all groups, use the <code>aws_iam_groups</code> resource.</p>
-
-<p><br></p>
-
-<h2 id="availability">Availability</h2>
-
-<h3 id="installation">Installation</h3>
-
-<p>This resource is distributed along with Chef InSpec itself. You can use it automatically.</p>
-
-<h3 id="version">Version</h3>
-
-<p>This resource first became available in v2.0.16 of InSpec.</p>
+<p>Use the <code>aws_iam_group</code> InSpec audit resource to test properties of a single IAM group.</p>
 
 <h2 id="syntax">Syntax</h2>
 
 <p>An <code>aws_iam_group</code> resource block identifies a group by group name.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Find a group by group name
-describe aws_iam_group('mygroup') do
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_group('mygroup') do
   it { should exist }
 end
 
@@ -29,34 +14,61 @@ describe aws_iam_group(group_name: 'mygroup') do
   it { should exist }
 end
 </code></pre></div>
-<p><br></p>
+<h4 id="parameters">Parameters</h4>
 
-<h2 id="examples">Examples</h2>
+<h5 id="groupname-_-required">group<em>name _(required)</em></h5>
 
-<p>The following examples show how to use this Chef InSpec audit resource.</p>
+<p>This resource accepts a single parameter, the Group Name which uniquely identifies the IAM Group. 
+This can be passed either as a string or as a <code>group_name: &#39;value&#39;</code> key-value entry in a hash.</p>
 
-<p>As this is the initial release of <code>aws_iam_group</code>, its limited functionality precludes examples.</p>
-
-<p><br></p>
+<p>See also the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups.html">AWS documentation on IAM Groups</a>.</p>
 
 <h2 id="properties">Properties</h2>
 
-<h3 id="users">users</h3>
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>group_name</td>
+<td>The group name.</td>
+</tr>
+<tr>
+<td>group_id</td>
+<td>The group ID.</td>
+</tr>
+<tr>
+<td>arn</td>
+<td>The Amazon Resource Name of the group.</td>
+</tr>
+<tr>
+<td>users</td>
+<td>Array of users associated with the group.</td>
+</tr>
+</tbody></table>
 
-<p>Provides a list of the users that are attached to the group</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_group('mygroup')
-  its('users') { should include 'iam_user_name' }
+<h2 id="examples">Examples</h2>
+
+<h5 id="ensure-group-contains-a-certain-user">Ensure group contains a certain user</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_group('admin-group') do
+  its('users') { should include 'deployment-service-account')}
 end
 </code></pre></div>
-<p><br></p>
-
 <h2 id="matchers">Matchers</h2>
 
-<h3 id="exists">exists</h3>
+<h4 id="exist">exist</h4>
 
-<p>The control will pass if a group with the given group name exists.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_group('mygroup')
+<p>The control will pass if the describe returns at least one result.</p>
+
+<p>Use <code>should_not</code> to test the entity should not exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_group('AnExistingGroup') do
   it { should exist }
+end
+
+describe aws_iam_group('ANonExistentGroup') do
+  it { should_not exist }
 end
 </code></pre></div>
 <h2 id="aws-permissions">AWS Permissions</h2>

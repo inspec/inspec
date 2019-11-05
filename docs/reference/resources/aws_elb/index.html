@@ -1,133 +1,122 @@
 <!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the aws_elb Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_aws_elb docs_reference_resources_aws_elb_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="aws_elb">aws_elb</h1>
 
-<p>Use the <code>aws_elb</code> Chef InSpec audit resource to test properties of a single AWS Elastic Load Balancer (ELB, also known as a Classic Load Balancer).</p>
+<p>Use the <code>aws_elb</code> InSpec audit resource to test properties of a single AWS Elastic Load Balancer (ELB).</p>
 
-<p>To audit ELBs in bulk or to search, use <code>aws_elbs</code> (plural).</p>
+<h2 id="syntax">Syntax</h2>
 
-<p><br></p>
-
-<h2 id="availability">Availability</h2>
-
-<h3 id="installation">Installation</h3>
-
-<p>This resource is distributed along with Chef InSpec itself. You can use it automatically.</p>
-
-<h3 id="version">Version</h3>
-
-<p>This resource first became available in v2.2.10 of InSpec.</p>
-
-<h2 id="resource-parameters">Resource Parameters</h2>
-
-<p>An <code>aws_elb</code> resource block declares the tests for a single AWS ELB by ELB name.</p>
+<p>An <code>aws_elb</code> resource block declares the tests for a single AWS ELB by ELB name. AWS ELB Names are unique per region.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_elb('my-elb') do
   it { should exist }
 end
 
-describe aws_elb(elb_name: 'my-elb') do
-  its('instance_ids.count') { should cmp 2 }
+describe aws_elb(load_balancer_name: 'my-elb') do
+  it { should exist }
 end
 </code></pre></div>
-<p><br></p>
+<h4 id="parameters">Parameters</h4>
 
-<h2 id="examples">Examples</h2>
+<h5 id="loadbalancername-required">load<em>balancer</em>name <em>(required)</em></h5>
 
-<p>The following examples show how to use this Chef InSpec audit resource.</p>
+<p>This resource accepts a single parameter, the ELB Name which uniquely identifies the ELB. 
+This can be passed either as a string or as a <code>load_balancer_name: &#39;value&#39;</code> key-value entry in a hash.</p>
 
-<h3 id="test-that-an-elb-does-not-exist">Test that an ELB does not exist</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_elb('bad-elb') do
-  it { should_not exist }
-end
-</code></pre></div>
-<h3 id="test-that-an-elb-has-a-presence-in-at-least-two-availability-zones">Test that an ELB has a presence in at least two availability zones</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_elb('web') do
-  its('availability_zones.count') { should be &gt; 1 }
-end
-</code></pre></div>
-<p><br></p>
+<p>See also the <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference">AWS documentation on Elastic Load Balancing</a>.</p>
 
 <h2 id="properties">Properties</h2>
 
-<h3 id="availability_zones">availability_zones</h3>
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>load<em>balancer</em>name</td>
+<td>The name of the load balancer.</td>
+</tr>
+<tr>
+<td>dns_name</td>
+<td>The DNS name of the load balancer.</td>
+</tr>
+<tr>
+<td>availability_zones</td>
+<td>The Availability Zones for the load balancer.</td>
+</tr>
+<tr>
+<td>instance_ids</td>
+<td>An array containing all instance ids associated with the ELB.</td>
+</tr>
+<tr>
+<td>external_ports</td>
+<td>An array of the external ports exposed on the ELB.</td>
+</tr>
+<tr>
+<td>internal_ports</td>
+<td>An array of the internal ports exposed on the ELB.</td>
+</tr>
+<tr>
+<td>security<em>group</em>ids</td>
+<td>The security groups for the load balancer. Valid only for load balancers in a VPC.</td>
+</tr>
+<tr>
+<td>vpc_id</td>
+<td>The ID of the VPC for the load balancer.</td>
+</tr>
+<tr>
+<td>subnet_ids</td>
+<td>The IDs of the subnets for the load balancer.</td>
+</tr>
+</tbody></table>
 
-<p>Returns an array of strings identifying which availability zones in which the load balancer is located.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Verify we are in both us-east-2a and us-east-2b
-describe aws_elb('web-elb') do
-  its('availability_zones') { should include 'us-east-2a' }
-  its('availability_zones') { should include 'us-east-2b' }
+<h2 id="examples">Examples</h2>
+
+<h5 id="test-that-an-elb-has-its-availability-zones-configured-correctly">Test that an ELB has its availability zones configured correctly</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_elb('prod_web_app_elb') do
+  its('availability_zones.count') { should be &gt; 1 }
+  its('availability_zones')       { should include 'us-east-2a' }
+  its('availability_zones')       { should include 'us-east-2b' }
 end
 </code></pre></div>
-<h3 id="dns_name">dns_name</h3>
-
-<p>Returns the FQDN of the load balancer.  This is the hostname which is exposed to the world.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that the ELB has a DNS name
-describe aws_elb('web-elb') do
-  its('dns_name') { should match /\.com/ }
+<h5 id="ensure-an-elb-has-the-correct-number-of-ec2-instances-associated-with-it">Ensure an ELB has the correct number of EC2 Instances associated with it</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_elb('prod_web_app_elb') do
+  its('instance_ids.count') { should cmp 3 }
 end
 </code></pre></div>
-<h3 id="elb_name">elb_name</h3>
-
-<p>The name of the ELB within AWS. The ELB name is unique within the region.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that the ELB's name is what we said it was
-describe aws_elb('web-elb') do
-  its('elb_name') { should match /web-elb/ }
+<h5 id="ensure-the-correct-dns-is-set">Ensure the correct DNS is set</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_elb('prod_web_app_elb') do
+  its('dns_name') { should cmp 'your-fqdn.com' }
 end
 </code></pre></div>
-<h3 id="external_ports">external_ports</h3>
-
-<p>Returns an array of integers reflecting the public-facing ports on which the load balancer will be listening for traffic.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that we are listening on port 80 and nothing else
-describe aws_elb('web-elb') do
-  its('external_ports') { should include 80 }
+<h5 id="ensure-we-only-expose-port-80-both-to-the-public-and-internal">Ensure we only expose port 80, both to the public and internal</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_elb('prod_web_app_elb') do
   its('external_ports.count') { should cmp 1 }
+  its('external_ports')       { should include 80 }
+  its('internal_ports.count') { should cmp 1 }
+  its('internal_ports')       { should include 80 }
 end
 </code></pre></div>
-<h3 id="instance_ids">instance_ids</h3>
-
-<p>Returns an array of strings reflecting the instance IDs of the EC2 instances attached to the ELB.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that a specific instance is attached
-describe aws_elb('web-elb') do
+<h5 id="ensure-the-correct-ec2-instances-are-associated">Ensure the correct EC2 Instances are associated</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_elb('prod_web_app_elb') do
   its('instance_ids') { should include 'i-12345678' }
 end
 </code></pre></div>
-<h3 id="internal_ports">internal_ports</h3>
-
-<p>Returns an array of integers reflecting the EC2-facing ports on which the load balancer will be sending traffic to.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that we are sending traffic to port 80 on the instances and nothing else
-describe aws_elb('web-elb') do
-  its('internal_ports') { should include 80 }
-  its('internal_ports.count') { should cmp 1 }
-end
-</code></pre></div>
-<h3 id="security_group_ids">security_group_ids</h3>
-
-<p>Returns an array of strings reflecting the security group IDs (firewall rule sets) assigned to the ELB.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that a specific SG ID is assigned
-describe aws_elb('web-elb') do
-  its('security_group_ids') { should include 'sg-12345678' }
-end
-</code></pre></div>
-<h3 id="subnet_ids">subnet_ids</h3>
-
-<p>Returns an array of strings reflecting the subnet IDs on which the ELB is located.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that the ELB is on a specific subnet
-describe aws_elb('web-elb') do
-  its('subnet_ids') { should include 'subnet-12345678' }
-end
-</code></pre></div>
-<h3 id="vpc_id">vpc_id</h3>
-
-<p>Returns a String reflecting the ID of the VPC in which the ELB is located.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that the ELB is on a specific VPC
-describe aws_elb('web-elb') do
-  its('vpc_id') { should cmp 'vpc-12345678' }
-end
-</code></pre></div>
-<p><br></p>
-
 <h2 id="matchers">Matchers</h2>
 
-<p>This Chef InSpec audit resource has no special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">Universal Matchers page</a>.</p>
+<p>This InSpec audit resource has no special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">Universal Matchers page</a>.</p>
 
+<h4 id="exist">exist</h4>
+
+<p>The control will pass if the describe returns at least one result.</p>
+
+<p>Use <code>should_not</code> to test the entity should not exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_elb('AnExistingELB') do
+  it { should exist }
+end
+
+describe aws_elb('ANonExistentELB') do
+  it { should_not exist }
+end
+</code></pre></div>
 <h2 id="aws-permissions">AWS Permissions</h2>
 
 <p>Your <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal">Principal</a> will need the <code>elasticloadbalancing:DescribeLoadBalancers</code> action set to Allow.</p>

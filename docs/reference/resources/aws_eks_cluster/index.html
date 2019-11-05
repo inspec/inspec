@@ -1,4 +1,8 @@
-<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>Chef InSpec</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_aws_eks_cluster docs_reference_resources_aws_eks_cluster_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h2 id="resource-parameters">Resource Parameters</h2>
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the aws_eks_cluster Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_aws_eks_cluster docs_reference_resources_aws_eks_cluster_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="aws_eks_cluster">aws_eks_cluster</h1>
+
+<p>Use the <code>aws_eks_cluster</code> InSpec audit resource to test properties of a single AWS Elastic Container Service for Kubernetes. </p>
+
+<h2 id="syntax">Syntax</h2>
 
 <p>An <code>aws_eks_cluster</code> resource block declares the tests for a single EKS Cluster by Cluster name.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_eks_cluster('my-eks') do
@@ -6,164 +10,147 @@
 end
 
 describe aws_eks_cluster(cluster_name: 'my-eks') do
-  its('status') { should eq 'ACTIVE' }
+  it { should exist }
 end
 </code></pre></div>
-<p><br></p>
+<h4 id="parameters">Parameters</h4>
+
+<h5 id="clustername-_-required">cluster<em>name _(required)</em></h5>
+
+<p>This resource requires a single parameter, the EKS Cluster Name.
+This can be passed either as a string or as a <code>cluster_name: &#39;value&#39;</code> key-value entry in a hash.</p>
+
+<p>See also the <a href="https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html">AWS documentation on EKS Clusters</a>.</p>
+
+<h2 id="properties">Properties</h2>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>arn</td>
+<td>The Amazon Resource Name (ARN) of the cluster.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name of the cluster.</td>
+</tr>
+<tr>
+<td>endpoint</td>
+<td>The endpoint for your Kubernetes API server.</td>
+</tr>
+<tr>
+<td>status</td>
+<td>The current status of the cluster.</td>
+</tr>
+<tr>
+<td>version</td>
+<td>The Kubernetes server version for the cluster.</td>
+</tr>
+<tr>
+<td>certificate_authority</td>
+<td>The certificate-authority-data for your cluster.</td>
+</tr>
+<tr>
+<td>subnets_count</td>
+<td>The number of subnets associated with your cluster.</td>
+</tr>
+<tr>
+<td>subnet_ids</td>
+<td>The subnets associated with your cluster.</td>
+</tr>
+<tr>
+<td>security<em>groups</em>count</td>
+<td>The count of security groups associated with your cluster.</td>
+</tr>
+<tr>
+<td>security<em>group</em>ids</td>
+<td>The security groups associated with the cross-account elastic network interfaces that are used to allow communication between your worker nodes and the Kubernetes control plane.</td>
+</tr>
+<tr>
+<td>role_arn</td>
+<td>The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to AWS API operations on your behalf.</td>
+</tr>
+<tr>
+<td>vpc_id</td>
+<td>The VPC associated with your cluster.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>The Unix epoch timestamp in seconds for when the cluster was created.</td>
+</tr>
+<tr>
+<td>creating</td>
+<td>Boolean indicating whether or not the state of the cluster is CREATING.</td>
+</tr>
+<tr>
+<td>active</td>
+<td>Boolean indicating whether or not the state of the cluster is ACTIVE.</td>
+</tr>
+<tr>
+<td>failed</td>
+<td>Boolean indicating whether or not the state of the cluster is FAILED.</td>
+</tr>
+<tr>
+<td>deleting</td>
+<td>Boolean indicating whether or not the state of the cluster is DELETING.</td>
+</tr>
+</tbody></table>
 
 <h2 id="examples">Examples</h2>
 
-<p>The following examples show how to use this Chef InSpec audit resource.</p>
-
-<h3 id="test-that-an-eks-cluster-does-not-exist">Test that an EKS Cluster does not exist</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_eks_cluster('bad-eks') do
-  it { should_not exist }
-end
-</code></pre></div>
-<h3 id="test-that-an-eks-cluster-has-at-least-2-subnets">Test that an EKS Cluster has at least 2 subnets</h3>
+<h5 id="test-that-an-eks-cluster-has-at-least-2-subnets">Test that an EKS Cluster has at least 2 subnets</h5>
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_eks_cluster('my-cluster') do
   its('subnets_count') { should be &gt; 1 }
 end
 </code></pre></div>
-<p><br></p>
-
-<h2 id="properties">Properties</h2>
-
-<h3 id="version">version</h3>
-
-<p>Returns a string identifying the version of the EKS Cluster.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Verify the version is 1.5
-describe aws_eks_cluster('my-cluster') do
-  its('version') { should cmp '1.5' }
+<h5 id="ensure-a-cluster-has-the-correct-status">Ensure a Cluster has the correct status.</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_eks_cluster(cluster_name: 'my-eks') do
+  its('status') { should eq 'ACTIVE' }
 end
 </code></pre></div>
-<h3 id="arn">arn</h3>
-
-<p>Returns the ARN of the cluster.  This is the Amazon resource name.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Verify the arn is what we expect it to be
-describe aws_eks_cluster('my-cluster') do
-  its('arn') { should eq 'arn:aws:eks:ab-region-1:012345678910:cluster/kangaroo' }
+<h5 id="ensure-that-the-eks-cluster-is-on-the-correct-vpc">Ensure that the EKS Cluster is on the correct VPC</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_eks_cluster('my-cluster') do
+  its('vpc_id') { should eq 'vpc-12345678' }
 end
 </code></pre></div>
-<h3 id="name">name</h3>
-
-<p>The name of the EKS cluster within AWS. The EKS name is unique within the region.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that the EKS's name is what we said it was
-describe aws_eks_cluster('my-cluster') do
-  its('name') { should match /my-cluster/ }
-end
-</code></pre></div>
-<h3 id="status">status</h3>
-
-<p>Returns a string containing the current status of the cluster, possible values are: CREATING,ACTIVE,DELETING,FAILED.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># ensure the cluster is available or being created
-describe aws_eks_cluster('my-cluster') do
-  its('status') { should be_in %w(ACTIVE CREATING) }
-end
-</code></pre></div>
-<p>Status can also be called with predicates.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># ensure the cluster is available
-describe aws_eks_cluster('my-cluster') do
-  it { should be_active }
-end
-
-# ensure the cluster is being removed
-describe aws_eks_cluster('my-cluster') do
-  it { should be_deleting }
-end
-</code></pre></div>
-<h3 id="endpoint">endpoint</h3>
-
-<p>Returns a string with the K8s API server endpoint. The endpoint is used by kubectl to control the cluster.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that the endpoint is what we expect it to be
-describe aws_eks_cluster('my-cluster') do
-  its('endpoint') { should eq 'https://A0DCCD80A04F01705DD065655C30CC3D.yl4.aq-south-2.eks.amazonaws.com' }
-end
-</code></pre></div>
-<h3 id="security_group_ids">security_group_ids</h3>
-
-<p>Returns an array of strings reflecting the security group IDs (firewall rule sets) assigned to the EKS Cluster VPC.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that a specific SG ID is assigned
-describe aws_eks_cluster('my-cluster') do
-  its('security_group_ids') { should include 'sg-12345678' }
-end
-</code></pre></div>
-<h3 id="subnet_ids">subnet_ids</h3>
-
-<p>Returns an array of strings reflecting the subnet IDs on which the EKS Cluster VPC is located.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that the EKS VPC is on a specific subnet
-describe aws_eks_cluster('my-cluster') do
-  its('subnet_ids') { should include 'subnet-12345678' }
-end
-</code></pre></div>
-<h3 id="vpc_id">vpc_id</h3>
-
-<p>Returns a String reflecting the ID of the VPC in which the EKS Cluster is located.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that the EKS Cluster is on a specific VPC
-describe aws_eks_cluster('my-cluster') do
-  its('vpc_id') { should cmp 'vpc-12345678' }
-end
-</code></pre></div>
-<h3 id="role_arn">role_arn</h3>
-
-<p>Returns a String reflecting the Amazon resource name of the Amazon EKS Service IAM role the cluster is using.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that the EKS Cluster is using a specific IAM role
-describe aws_eks_cluster('my-cluster') do
+<h5 id="ensure-the-eks-cluster-is-using-the-correct-iam-role">Ensure the EKS Cluster is using the correct IAM Role.</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_eks_cluster('my-cluster') do
   its('role_arn') { should cmp 'rn:aws:iam::012345678910:role/eks-service-role-AWSServiceRoleForAmazonEKS-J7ONKE3BQ4PI' }
 end
 </code></pre></div>
-<h3 id="certificate_authority">certificate_authority</h3>
+<h5 id="integrate-with-other-resources">Integrate with other resources</h5>
 
-<p>Returns a String reflecting the certificate authority data used by kubectl to identify to the cluster.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that the EKS Cluster is using specific certificate authority data
-describe aws_eks_cluster('my-cluster') do
-  its('certificate_authority') { should cmp 'LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUN5RENDQWJDZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRFNE1EVXpNVEl6TVRFek1Wb1hEVEk0TURVeU9ESXpNVEV6TVZvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBTTZWCjVUaG4rdFcySm9Xa2hQMzRlVUZMNitaRXJOZGIvWVdrTmtDdWNGS2RaaXl2TjlMVmdvUmV2MjlFVFZlN1ZGbSsKUTJ3ZURyRXJiQyt0dVlibkFuN1ZLYmE3ay9hb1BHekZMdmVnb0t6b0M1N2NUdGVwZzRIazRlK2tIWHNaME10MApyb3NzcjhFM1ROeExETnNJTThGL1cwdjhsTGNCbWRPcjQyV2VuTjFHZXJnaDNSZ2wzR3JIazBnNTU0SjFWenJZCm9hTi8zODFUczlOTFF2QTBXb0xIcjBFRlZpTFdSZEoyZ3lXaC9ybDVyOFNDOHZaQXg1YW1BU0hVd01aTFpWRC8KTDBpOW4wRVM0MkpVdzQyQmxHOEdpd3NhTkJWV3lUTHZKclNhRXlDSHFtVVZaUTFDZkFXUjl0L3JleVVOVXM3TApWV1FqM3BFbk9RMitMSWJrc0RzQ0F3RUFBYU1qTUNFd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFNZ3RsQ1dIQ2U2YzVHMXl2YlFTS0Q4K2hUalkKSm1NSG56L2EvRGt0WG9YUjFVQzIrZUgzT1BZWmVjRVZZZHVaSlZCckNNQ2VWR0ZkeWdBYlNLc1FxWDg0S2RXbAp1MU5QaERDSmEyRHliN2pVMUV6VThTQjFGZUZ5ZFE3a0hNS1E1blpBRVFQOTY4S01hSGUrSm0yQ2x1UFJWbEJVCjF4WlhTS1gzTVZ0K1Q0SU1EV2d6c3JRSjVuQkRjdEtLcUZtM3pKdVVubHo5ZEpVckdscEltMjVJWXJDckxYUFgKWkUwRUtRNWEzMHhkVWNrTHRGQkQrOEtBdFdqSS9yZUZPNzM1YnBMdVoyOTBaNm42QlF3elRrS0p4cnhVc3QvOAppNGsxcnlsaUdWMm5SSjBUYjNORkczNHgrYWdzYTRoSTFPbU90TFM0TmgvRXJxT3lIUXNDc2hEQUtKUT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=',
-</code></pre></div>
-<p>&lsquo; }
-    end</p>
+<p>Use a combination of InSpec AWS resources to ensure your EKS Cluster does not use the Default VPC.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Find the default Security Group for our VPC
+cluster_vpc = aws_eks_cluster(cluster_name: 'my-cluster').vpc_id
+default_sg  = aws_security_group(group_name: 'default', vpc_id: cluster_vpc)
 
-<h3 id="subnets_count">subnets_count</h3>
-
-<p>Returns the number of subnets associated with the Cluster VPC.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Test that an EKS Cluster has 2 subnets
-describe aws_eks_cluster('my-cluster') do
-  its('subnets_count') { should eq 2 }
-end
-</code></pre></div>
-<h3 id="created_at">created_at</h3>
-
-<p>Returns a Time object for the time the cluster was created at.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Test that an EKS Cluster was created after a certain date
-describe aws_eks_cluster('my-cluster') do
-  its('created_at') { should be &gt; Time.new(2011) }
-end
-</code></pre></div>
-<h3 id="security_groups_count">security_groups_count</h3>
-
-<p>Returns the number of security groups associated with the Cluster VPC.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Test that an EKS Cluster has 2 security groups
-describe aws_eks_cluster('my-cluster') do
-  its('security_groups_count') { should eq 2 }
-end
-</code></pre></div>
-<h3 id="integration-with-other-resources">integration with other resources</h3>
-
-<p>Using the resource together with other AWS resources.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># find the default security group for our VPC
-my_vpc_id = aws_eks_cluster('my-cluster').vpc_id
-default_security_group = aws_security_group(group_name: 'default', vpc_id: my_vpc_id)
-
-# make sure we are not using the default security group
-describe aws_eks_cluster('my-cluster') do
+# Ensure we are not using the default Security Group
+describe aws_eks_cluster(cluster_name: 'my-cluster') do
   its('security_group_ids') { should_not include default_security_group.group_id }
 end
 </code></pre></div>
-<p><br></p>
-
 <h2 id="matchers">Matchers</h2>
 
-<p>This Chef InSpec audit resource has no special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">Universal Matchers page</a>.</p>
+<p>This InSpec audit resource has no special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">Universal Matchers page</a>.</p>
 
+<h4 id="exist">exist</h4>
+
+<p>The control will pass if the describe returns at least one result.</p>
+
+<p>Use <code>should_not</code> to test the entity should not exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_eks_cluster('AnExistingCluster') do
+  it { should exist }
+end
+
+describe aws_eks_cluster('ANonExistentCluster') do
+  it { should_not exist }
+end
+</code></pre></div>
 <h2 id="aws-permissions">AWS Permissions</h2>
 
 <p>Your <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal">Principal</a> will need the <code>eks:DescribeCluster</code> action set to Allow.</p>

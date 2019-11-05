@@ -1,120 +1,119 @@
 <!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the aws_flow_log Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_aws_flow_log docs_reference_resources_aws_flow_log_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="aws_flow_log">aws_flow_log</h1>
 
-<p>Use the <code>aws_flow_log</code> Chef InSpec audit resource to test properties of a single Flow Log.</p>
-
-<h2 id="availability">Availability</h2>
-
-<h3 id="installation">Installation</h3>
-
-<p>This resource is distributed along with Chef InSpec itself. You can use it automatically.</p>
-
-<h3 id="version">Version</h3>
-
-<p>This resource first became available in v2.2.10 of InSpec.</p>
+<p>Use the <code>aws_flow_log</code> InSpec audit resource to test properties of a single Flow Log.</p>
 
 <h2 id="syntax">Syntax</h2>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_flow_log('fl-9c718cf5') do
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_flow_log(flow_log_id: 'fl-9c718cf5') do
   it { should exist }
 end
 </code></pre></div>
-<h2 id="resource-parameters">Resource Parameters</h2>
+<h4 id="parameters">Parameters</h4>
 
-<h3 id="flow_log_id">flow_log_id</h3>
+<p>This resource requires at least one of the following parameters to be provided: <code>flow_log_id</code>, <code>subnet_id</code>, <code>vpc_id</code>.</p>
 
-<p>This resource accepts a single parameter or other search terms. You may pass it as a string, or as the value in a hash:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_flow_log('fl-9c718cf5') do
-  it { should exist }
-end
+<h5 id="flowlogid-required-if-no-other-parameters-provided">flow<em>log</em>id <em>(required if no other parameters provided)</em></h5>
 
-describe aws_flow_log(flow_log_id: 'fl-8905f8e0') do
-  it { should exist }
-end
-</code></pre></div>
-<h3 id="subnet_id">subnet_id</h3>
+<p>The Flow Log ID which uniquely identifies the Flow Log. 
+This can be passed either as a string or as a <code>flow_log_id: &#39;value&#39;</code> key-value entry in a hash.</p>
 
-<p>To search for a flow log by the associated subnet id:</p>
+<h5 id="subnetid-_-required-if-no-other-parameters-provided">subnet<em>id _(required if no other parameters provided)</em></h5>
+
+<p>The subnet associated with the Flow Log, if applicable. 
+This must be passed as a <code>subnet_id: &#39;value&#39;</code> key-value entry in a hash.</p>
+
+<h5 id="vpcid-_-required-if-no-other-parameters-provided">vpc<em>id _(required if no other parameters provided)</em></h5>
+
+<p>The VPC associated with the Flow Log, if applicable. 
+This must be passed as a <code>vpc_id: &#39;value&#39;</code> key-value entry in a hash.</p>
+
+<p>See also the <a href="https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html">AWS documentation on Flow Logs</a>.</p>
+
+<h2 id="properties">Properties</h2>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>flow<em>log</em>id</td>
+<td>The ID of the Flow Log.</td>
+</tr>
+<tr>
+<td>log<em>group</em>name</td>
+<td>The name of the associated log group.</td>
+</tr>
+<tr>
+<td>resource_id</td>
+<td>The ID of the assosiated resource, e.g. VPC, Subnet or Network Interface.</td>
+</tr>
+</tbody></table>
+
+<h2 id="examples">Examples</h2>
+
+<h5 id="search-for-a-flow-log-by-the-associated-subnet-id">Search for a flow log by the associated subnet id</h5>
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_flow_log(subnet_id: 'subnet-c6a4319c') do
   it { should exist }
 end
 </code></pre></div>
-<h3 id="vpc_id">vpc_id</h3>
-
-<p>To search for a flow log by the associated vpc id:</p>
+<h5 id="search-for-a-flow-log-by-the-associated-vpc-id">Search for a flow log by the associated VPC id</h5>
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_flow_log(vpc_id: 'vpc-96cabaef') do
   it { should exist }
 end
 </code></pre></div>
-<h2 id="properties">Properties</h2>
-
-<h3 id="flow_log_id">flow_log_id</h3>
-
-<p>The <code>flow_log_id</code> property tests the name of the flow log.</p>
-
-<p>describe aws<em>flow</em>log(subnet<em>id: &lsquo;subnet-c6a4319c&rsquo;) do
-    its(&lsquo;flow</em>log_id&rsquo;) { should cmp &lsquo;fl-9c718cf5&rsquo; }
-  end</p>
-
-<h3 id="log_group_name">log_group_name</h3>
-
-<p>The <code>log_group_name</code> property tests the name of the associated log group.</p>
-
-<p>describe aws<em>flow</em>log(&lsquo;fl-9c718cf5&rsquo;) do
-    its(&lsquo;log<em>group</em>name&rsquo;) { should cmp &lsquo;test<em>log</em>group&rsquo; }
-  end</p>
-
-<h3 id="resource_id">resource_id</h3>
-
-<p>The <code>resource_id</code> property tests the id of the associated VPC, subnet, or network interface.</p>
-
-<p>describe aws<em>flow</em>log(&lsquo;fl-9c718cf5&rsquo;) do
-    its(&lsquo;resource_id&rsquo;) { should cmp &lsquo;subnet-c6a4319c&rsquo; }
-  end</p>
-
-<h3 id="resource_type">resource_type</h3>
-
-<p>The <code>resource_type</code> property tests the type of resource the Flow Log is attached to.
-The property will return <code>eni</code>, <code>subnet</code>, or <code>vpc</code>.</p>
-
-<p>describe aws<em>flow</em>log(&lsquo;fl-9c718cf5&rsquo;) do
-    its(&lsquo;resource_type&rsquo;) { should cmp &lsquo;subnet&rsquo; }
-  end</p>
-
+<h5 id="ensure-the-correct-flow-log-is-associated-with-a-subnet">Ensure the correct Flow Log is associated with a Subnet</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_flow_log(subnet_id: 'subnet-c6a4319c') do
+  its('flow_log_id') { should cmp 'fl-9c718cf5' }
+end
+</code></pre></div>
+<h3 id="ensure-the-flow-log-is-associated-with-the-correct-resource-type">Ensure the Flow Log is associated with the correct resource type</h3>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_flow_log('fl-9c718cf5') do
+  its('resource_type') { should cmp 'subnet' }
+end
+</code></pre></div>
 <h2 id="matchers">Matchers</h2>
 
 <p>For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">matchers page</a>.</p>
 
-<h3 id="exist">exist</h3>
+<h4 id="exist">exist</h4>
 
-<p>Indicates that the Flow Log provided was found.  Use <code>should_not</code> to test for Flow Logs that should not exist.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_flow_log('should-be-there') do
+<p>The control will pass if the describe returns at least one result.</p>
+
+<p>Use <code>should_not</code> to test the entity should not exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_flow_log('AnExistingFlowLog') do
   it { should exist }
 end
 
-describe aws_flow_log('should-not-be-there') do
+describe aws_flow_log('ANonExistentFlowLog') do
   it { should_not exist }
 end
 </code></pre></div>
-<h3 id="be_attached_to_eni">be_attached_to_eni</h3>
+<h4 id="beattachedto_eni">be<em>attached</em>to_eni</h4>
 
 <p>Indicates that the Flow Log is attached to a ENI resource.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_flow_log('fl-9c718cf5') do
   it { should be_attached_to_eni }
 end
 </code></pre></div>
-<h3 id="be_attached_to_subnet">be_attached_to_subnet</h3>
+<h4 id="beattachedto_subnet">be<em>attached</em>to_subnet</h4>
 
 <p>Indicates that the Flow Log is attached to a subnet resource.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_flow_log('fl-9c718cf5') do
   it { should be_attached_to_subnet }
 end
 </code></pre></div>
-<h3 id="be_attached_to_vpc">be_attached_to_vpc</h3>
+<h4 id="beattachedto_vpc">be<em>attached</em>to_vpc</h4>
 
 <p>Indicates that the Flow Log is attached to a vpc resource.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_flow_log('fl-9c718cf5') do
   it { should be_attached_to_vpc }
 end
-</code></pre></div></column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
+</code></pre></div>
+<h2 id="aws-permissions">AWS Permissions</h2>
+
+<p>Your <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal">Principal</a> will need the <code>ec2:DescribeFlowLogs</code> actions with Effect set to Allow.  </p>
+</column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
 (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
 (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
 e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);

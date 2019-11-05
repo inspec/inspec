@@ -1,73 +1,114 @@
 <!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the aws_iam_role Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_aws_iam_role docs_reference_resources_aws_iam_role_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="aws_iam_role">aws_iam_role</h1>
 
-<p>Use the <code>aws_iam_role</code> Chef InSpec audit resource to test properties of a single IAM Role. A Role is a collection of permissions that may be temporarily assumed by a user, EC2 Instance, Lambda Function, or certain other resources.</p>
-
-<p><br></p>
-
-<h2 id="availability">Availability</h2>
-
-<h3 id="installation">Installation</h3>
-
-<p>This resource is distributed along with Chef InSpec itself. You can use it automatically.</p>
-
-<h3 id="version">Version</h3>
-
-<p>This resource first became available in v2.0.16 of InSpec.</p>
+<p>Use the <code>aws_iam_role</code> InSpec audit resource to test properties of an AWS IAM Role.</p>
 
 <h2 id="syntax">Syntax</h2>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that a certain role exists by name
-describe aws_iam_role('my-role') do
-  it { should exist }
+
+<p>An <code>aws_iam_role</code> resource block declares the tests for a single AWS IAM Role by Role Name.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_role(role_name: 'my-role') do
+    it { should exist }
 end
 </code></pre></div>
-<p><br></p>
+<h4 id="parameters">Parameters</h4>
 
-<h2 id="resource-parameters">Resource Parameters</h2>
+<h5 id="rolename-_-required">role<em>name _(required)</em></h5>
 
-<h3 id="role_name">role_name</h3>
+<p>This resource accepts a single parameter, the Role Name which uniquely identifies the Role.
+This can be passed either as a string or as a <code>role_name: &#39;value&#39;</code> key-value entry in a hash.</p>
 
-<p>This resource expects a single parameter that uniquely identifies the IAM Role, the Role Name. You may pass it as a string, or as the value in a hash:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_role('my-role') do
-  it { should exist }
-end
-# Same
-describe aws_iam_role(role_name: 'my-role') do
-  it { should exist }
-end
-</code></pre></div>
-<p><br></p>
+<p>See also the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">AWS documentation on IAM Roles</a>.</p>
 
 <h2 id="properties">Properties</h2>
 
-<h3 id="description">description</h3>
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>path</td>
+<td>The path to the role.</td>
+</tr>
+<tr>
+<td>role_name</td>
+<td>The name of the role.</td>
+</tr>
+<tr>
+<td>role_id</td>
+<td>The id of the role.</td>
+</tr>
+<tr>
+<td>arn</td>
+<td>The Amazon Resource Name (ARN) specifying the role.</td>
+</tr>
+<tr>
+<td>create_date</td>
+<td>The date and time, in ISO 8601 date-time format , when the role was created.</td>
+</tr>
+<tr>
+<td>assume<em>role</em>policy_document</td>
+<td>The policy that grants an entity permission to assume the role.</td>
+</tr>
+<tr>
+<td>description</td>
+<td>The description of the role.</td>
+</tr>
+<tr>
+<td>max<em>session</em>duration</td>
+<td>The maximum session duration (in seconds) for the specified role. Anyone who uses the AWS CLI, or API to assume the role can specify the duration using the optional DurationSeconds API parameter or duration-seconds CLI parameter.</td>
+</tr>
+<tr>
+<td>permissions<em>boundary</em>type</td>
+<td>The permissions boundary usage type that indicates what type of IAM resource is used as the permissions boundary for an entity. This data type can only have a value of Policy .</td>
+</tr>
+<tr>
+<td>permissions<em>boundary</em>arn</td>
+<td>The ARN of the policy used to set the permissions boundary for the user or role.</td>
+</tr>
+<tr>
+<td>inline_policies</td>
+<td>A list of inline policy names associated with the described role.</td>
+</tr>
+<tr>
+<td>attached<em>policies</em>name</td>
+<td>A list of attached policy names associated with the described role.</td>
+</tr>
+<tr>
+<td>attached<em>policies</em>arn</td>
+<td>A list of attached policy ARNs associated with the described role.</td>
+</tr>
+</tbody></table>
 
-<p>A textual description of the IAM Role.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_role('my-role') do
-  its('description') { should be('Our most important Role')}
+<h2 id="examples">Examples</h2>
+
+<h5 id="test-that-an-iam-role-exists">Test that an IAM Role exists</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_role(role_name: aws_iam_role_name) do
+    it               { should exist }
+    its('role_name') { should eq aws_iam_role_name }
 end
 </code></pre></div>
-<p><br></p>
-
 <h2 id="matchers">Matchers</h2>
 
-<p>This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">matchers page</a>.</p>
+<p>This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">matchers page</a>.</p>
 
-<h3 id="exist">exist</h3>
+<h4 id="exist">exist</h4>
 
-<p>Indicates that the Role Name provided was found. Use <code>should_not</code> to test for IAM Roles that should not exist.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_role('should-be-there') do
+<p>The control will pass if the describe returns at least one result.</p>
+
+<p>Use <code>should_not</code> to test the entity should not exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_role('AnExistingRole') do
   it { should exist }
 end
 
-describe aws_iam_role('should-not-be-there') do
+describe aws_iam_role('ANonExistentRole') do
   it { should_not exist }
 end
 </code></pre></div>
 <h2 id="aws-permissions">AWS Permissions</h2>
 
-<p>Your <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal">Principal</a> will need the <code>iam:GetRole</code> action with Effect set to Allow.</p>
-
-<p>You can find detailed documentation at <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html">Actions, Resources, and Condition Keys for Identity And Access Management</a>.</p>
+<p>Your <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal">Principal</a> will need the following permissions action set to allow: 
+<code>iam:GetRole</code> </p>
 </column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
 (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
 (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);

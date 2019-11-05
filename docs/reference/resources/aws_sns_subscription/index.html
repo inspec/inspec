@@ -1,18 +1,6 @@
 <!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the aws_sns_subscription Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_aws_sns_subscription docs_reference_resources_aws_sns_subscription_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="aws_sns_subscription">aws_sns_subscription</h1>
 
-<p>Use the <code>aws_sns_subscription</code> Chef InSpec audit resource to test detailed properties of a AWS SNS Subscription.</p>
-
-<p><br></p>
-
-<h2 id="availability">Availability</h2>
-
-<h3 id="installation">Installation</h3>
-
-<p>This resource is distributed along with Chef InSpec itself. You can use it automatically.</p>
-
-<h3 id="version">Version</h3>
-
-<p>This resource first became available in v2.1.10 of InSpec.</p>
+<p>Use the <code>aws_sns_subscription</code> InSpec audit resource to test detailed properties of a AWS SNS Subscription.</p>
 
 <h2 id="syntax">Syntax</h2>
 
@@ -21,71 +9,53 @@
   it { should exist }
 end
 </code></pre></div>
-<p><br></p>
+<h4 id="parameters">Parameters</h4>
+
+<h5 id="subscriptionarn-_-required">subscription<em>arn _(required)</em></h5>
+
+<p>This resource accepts a single parameter, the subscription<em>arn. 
+This can be passed either as a string or as a `subscription</em>arn: &lsquo;value&rsquo;` key-value entry in a hash.</p>
+
+<p>See also the <a href="https://docs.aws.amazon.com/sns/latest/dg/sns-getting-started.html">AWS documentation on SNS</a>.</p>
+
+<h2 id="properties">Properties</h2>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>arn</td>
+<td>An integer indicating the minimum number of instances in the auto scaling group</td>
+</tr>
+<tr>
+<td>owner</td>
+<td>An integer indicating the maximum number of instances in the auto scaling group</td>
+</tr>
+<tr>
+<td>raw<em>message</em>delivery</td>
+<td>An integer indicating the desired  number of instances in the auto scaling group</td>
+</tr>
+<tr>
+<td>topic_arn</td>
+<td>The name of the auto scaling launch configuration associated with the auto scaling group</td>
+</tr>
+<tr>
+<td>protocol</td>
+<td>An array of strings corresponding to the subnet IDs associated with the auto scaling group</td>
+</tr>
+<tr>
+<td>confirmation<em>was</em>authenticated</td>
+<td>An hash with each key-value pair corresponding to a tag associated with the entity</td>
+</tr>
+</tbody></table>
 
 <h2 id="examples">Examples</h2>
 
-<p>The following examples show how to use this Chef InSpec audit resource.</p>
-
-<p>As this is the initial release of <code>aws_sns_subscription</code>, its limited functionality precludes examples.</p>
-
-<p><br></p>
-
-<h2 id="resource-parameters">Resource Parameters</h2>
-
-<p>This Chef InSpec resource accepts the following parameters, which are used to search for the Security Group.</p>
-
-<h3 id="subscription_arn">subscription_arn</h3>
-
-<p>The ARN (Amazon Resource Name) of the AWS SNS Subscription.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Using Hash syntax
-describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::test-topic-01:b214aff5-a2c7-438f-a753-8494493f2ff6') do
-  it { should exist }
-end
-
-# Or omit hash syntax, rely on it being the default parameter
-describe aws_sns_subscription('arn:aws:sns:us-east-1::test-topic-01:b214aff5-a2c7-438f-a753-8494493f2ff6') do
-  it { should exist }
-end
-</code></pre></div>
-<p><br></p>
-
-<h2 id="matchers">Matchers</h2>
-
-<h3 id="exists">exists</h3>
-
-<p>The control will pass if the specified Aws Subscription was found.  Use should_not if you want to verify that the specified Subscription does not exist.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Test that a specific subscription exists.
-describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::test-topic-01:b214aff5-a2c7-438f-a753-8494493f2ff6')
-  it { should exist }
-end
-
-# Test that a Subscription does not exist.
-describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::NOGOOD:b214aff5-a2c7-438f-a753-8494493f2ff6')
-  it { should_not exist }
-end
-</code></pre></div>
-<h3 id="be_confirmation_authenticated">be_confirmation_authenticated</h3>
-
-<p>Provides whether or not the subscription confirmation request was authenticated.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::NOGOOD:b214aff5-a2c7-438f-a753-8494493f2ff6')
-  it { should be_confirmation_authenticated }
-end
-</code></pre></div>
-<h3 id="have_raw_message_delivery">have_raw_message_delivery</h3>
-
-<p>Provides whether or not the original message is passed as is, not formatted as a json or yaml.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::NOGOOD:b214aff5-a2c7-438f-a753-8494493f2ff6')
-  it { should have_raw_message_delivery }
-end
-</code></pre></div>
-<h2 id="properties">Properties</h2>
-
-<h3 id="endpoint">endpoint</h3>
-
-<p>Provides the destination that the SNS Topic will send notifications to.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Inspect the endpoint
-describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::test-topic-01:b214aff5-a2c7-438f-a753-8494493f2ff6' ) do
+<h5 id="inspect-the-endpoint">Inspect the endpoint</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::test-topic-01:b214aff5-a2c7-438f-a753-8494493f2ff6' ) do
   # If protocol is 'sms', this should be a phone number:
   its('endpoint') { should cmp '+16105551234' }
   # If protocol is 'email' or 'email-json', endpoint should be an email address
@@ -96,28 +66,39 @@ describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::test-top
   its('endpoint') { should cmp 'rn:aws:lambda:us-east-1:account-id:function:myfunction' }
 end
 </code></pre></div>
-<h3 id="owner">owner</h3>
-
-<p>Provides the AWS Owners ID.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Inspect the owners ID
-describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::test-topic-01:b214aff5-a2c7-438f-a753-8494493f2ff6' ) do
+<h5 id="inspect-the-owners-id">Inspect the owners ID</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::test-topic-01:b214aff5-a2c7-438f-a753-8494493f2ff6' ) do
   its('owner') { should cmp '12345678' }
 end
 </code></pre></div>
-<h3 id="protocol">protocol</h3>
-
-<p>Provides the Subscriptions protocol used. For example http, https, email, email-json, sqs, etc.  For more information about protocols please visit https://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Inspect the endpoint
-describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::test-topic-01:b214aff5-a2c7-438f-a753-8494493f2ff6' ) do
+<h5 id="inspect-the-endpoint">Inspect the endpoint</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::test-topic-01:b214aff5-a2c7-438f-a753-8494493f2ff6' ) do
   its('protocol') { should cmp 'sqs' }
 end
 </code></pre></div>
-<h3 id="topic_arn">topic_arn</h3>
+<h2 id="matchers">Matchers</h2>
 
-<p>Provides the SNS Topic arn that the Subscription is associated with.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Inspect the topic arn
-describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::test-topic-01:b214aff5-a2c7-438f-a753-8494493f2ff6' ) do
-  its('topic_arn') { should cmp 'arn:aws:sns:us-east-1::test-topic-01' }
+<h4 id="exist">exist</h4>
+
+<p>The control will pass if the describe returns at least one result.</p>
+
+<p>Use <code>should_not</code> to test the entity should not exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>  it { should exist }
+
+  it { should_not exist }
+</code></pre></div>
+<h4 id="beconfirmationauthenticated">be<em>confirmation</em>authenticated</h4>
+
+<p>Provides whether or not the subscription confirmation request was authenticated.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::NOGOOD:b214aff5-a2c7-438f-a753-8494493f2ff6')
+  it { should be_confirmation_authenticated }
+end
+</code></pre></div>
+<h4 id="haverawmessage_delivery">have<em>raw</em>message_delivery</h4>
+
+<p>Provides whether or not the original message is passed as is, not formatted as a json or yaml.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::NOGOOD:b214aff5-a2c7-438f-a753-8494493f2ff6')
+  it { should have_raw_message_delivery }
 end
 </code></pre></div>
 <h2 id="aws-permissions">AWS Permissions</h2>

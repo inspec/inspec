@@ -1,22 +1,6 @@
 <!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the aws_cloudtrail_trail Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_aws_cloudtrail_trail docs_reference_resources_aws_cloudtrail_trail_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="aws_cloudtrail_trail">aws_cloudtrail_trail</h1>
 
-<p>Use the <code>aws_cloudtrail_trail</code> Chef InSpec audit resource to test properties of a single AWS Cloudtrail Trail.</p>
-
-<p>AWS CloudTrail is a service that enables governance, compliance, operational auditing, and risk auditing of your AWS account. With CloudTrail, you can log, continuously monitor, and retain account activity related to actions across your AWS infrastructure. CloudTrail provides event history of your AWS account activity, including actions taken through the AWS Management Console, AWS SDKs, command line tools, and other AWS services. This event history simplifies security analysis, resource change tracking, and troubleshooting.</p>
-
-<p>Each AWS Cloudtrail Trail is uniquely identified by its <code>trail_name</code> or <code>trail_arn</code>.</p>
-
-<p><br></p>
-
-<h2 id="availability">Availability</h2>
-
-<h3 id="installation">Installation</h3>
-
-<p>This resource is distributed along with Chef InSpec itself. You can use it automatically.</p>
-
-<h3 id="version">Version</h3>
-
-<p>This resource first became available in v2.0.16 of InSpec.</p>
+<p>Use the <code>aws_cloudtrail_trail</code> InSpec audit resource to test properties of a single AWS CloudTrail.</p>
 
 <h2 id="syntax">Syntax</h2>
 
@@ -31,113 +15,111 @@ describe aws_cloudtrail_trail(trail_name: 'trail-name') do
   it { should exist }
 end
 </code></pre></div>
-<p><br></p>
+<h4 id="parameters">Parameters</h4>
 
-<h2 id="examples">Examples</h2>
+<h5 id="trailname-_-required">trail<em>name _(required)</em></h5>
 
-<p>The following examples show how to use this Chef InSpec audit resource.</p>
+<p>This resource expects a single parameter, the CloudTrail Name which uniquely identifies it. 
+This can be passed either as a string or as a <code>trail_name: &#39;value&#39;</code> key-value entry in a hash.</p>
 
-<h3 id="test-that-the-specified-trail-does-exist">Test that the specified trail does exist</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('trail-name') do
-  it { should exist }
-end
-</code></pre></div>
-<h3 id="test-that-the-specified-trail-is-encrypted-using-sse-kms">Test that the specified trail is encrypted using SSE-KMS</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('trail-name') do
-  it { should be_encrypted }
-end
-</code></pre></div>
-<h3 id="test-that-the-specified-trail-is-a-multi-region-trail">Test that the specified trail is a multi-region trail</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('trail-name') do
-  it { should be_multi_region_trail }
-end
-</code></pre></div>
-<p><br></p>
+<p>See also the <a href="https://docs.aws.amazon.com/cloudtrail/index.html#lang/en_us">AWS documentation on CloudTrail</a>.</p>
 
 <h2 id="properties">Properties</h2>
 
-<ul>
-<li><code>s3_bucket_name</code>, <code>trail_arn</code>, <code>cloud_watch_logs_role_arn</code>, <code>cloud_watch_logs_log_group_arn</code>, <code>kms_key_id</code>, <code>home_region</code>,</li>
-</ul>
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>trail_arn</td>
+<td>Specifies the ARN of the trail.</td>
+</tr>
+<tr>
+<td>trail_name</td>
+<td>Name of the trail.</td>
+</tr>
+<tr>
+<td>home_region</td>
+<td>The region in which the trail was created.</td>
+</tr>
+<tr>
+<td>s3<em>bucket</em>name</td>
+<td>Name of the Amazon S3 bucket into which CloudTrail delivers your trail files.</td>
+</tr>
+<tr>
+<td>cloud<em>watch</em>logs<em>role</em>arn</td>
+<td>Specifies the role for the CloudWatch Logs endpoint to assume to write to a user&rsquo;s log group.</td>
+</tr>
+<tr>
+<td>cloud<em>watch</em>logs<em>log</em>group_arn</td>
+<td>Specifies an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered.</td>
+</tr>
+<tr>
+<td>kms<em>key</em>id</td>
+<td>Specifies the KMS key ID that encrypts the logs delivered by CloudTrail.</td>
+</tr>
+</tbody></table>
 
-<p><br></p>
+<h2 id="examples">Examples</h2>
 
-<h2 id="property-examples">Property Examples</h2>
+<h5 id="test-that-the-specified-trail-does-exist">Test that the specified trail does exist</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('my-cloudtrail') do
+  it { should exist }
+end
 
-<h3 id="s3_bucket_name">s3_bucket_name</h3>
-
-<p>Specifies the name of the Amazon S3 bucket designated for publishing log files.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('trail-name') do
-  its('s3_bucket_name') { should cmp "s3-bucket-name" }
+describe aws_cloudtrail_trail(trail_name: 'my-cloudtrail') do
+  it { should exist }
 end
 </code></pre></div>
-<h3 id="trail_arn">trail_arn</h3>
-
-<p>The ARN identifier of the specified trail. An ARN uniquely identifies the trail within AWS.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('trail-name') do
-  its('trail_arn') { should cmp "arn:aws:cloudtrail:us-east-1:484747447281:trail/trail-name" }
+<h5 id="check-the-kms-key-used-to-encrypt">Check the KMS key used to encrypt</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('my-cloudtrail') do
+  its('kms_key_id') { should eq "my-kms-key" }
 end
 </code></pre></div>
-<h3 id="cloud_watch_logs_role_arn">cloud_watch_logs_role_arn</h3>
-
-<p>Specifies the role for the CloudWatch Logs endpoint to assume to write to a user\&lsquo;s log group.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('trail-name') do
-  its('cloud_watch_logs_role_arn') { should include "arn:aws:iam:::role/CloudTrail_CloudWatchLogs_Role" }
+<h5 id="check-the-home-region-is-correct">Check the Home Region is correct</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('my-cloudtrail') do
+  its('home_region') { should eq 'us-east-1' }
 end
 </code></pre></div>
-<h3 id="cloud_watch_logs_log_group_arn">cloud_watch_logs_log_group_arn</h3>
-
-<p>Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('trail-name') do
-  its('cloud_watch_logs_log_group_arn') { should include "arn:aws:logs:us-east-1::log-group:test:*" }
-end
-</code></pre></div>
-<h3 id="kms_key_id">kms_key_id</h3>
-
-<p>Specifies the KMS key ID to used to encrypt the logs delivered by CloudTrail.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('trail-name') do
-  its('kms_key_id') { should include "key-arn" }
-end
-</code></pre></div>
-<h3 id="home_region">home_region</h3>
-
-<p>Specifies the region in which the trail was created.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('trail-name') do
-  its('home_region') { should include "us-east-1" }
-end
-</code></pre></div>
-<h3 id="delivered_logs_days_ago">delivered_logs_days_ago</h3>
-
-<p>Specifies the number of days ago the CloudTrail delivered logs to CloudWatch Logs.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure the latest delivery time was recent
-describe aws_cloudtrail_trail('trail-name') do
-  its('delivered_logs_days_ago') { should eq 0 }
-end
-</code></pre></div>
-<p><br></p>
-
-<h2 id="matchers">Matchers</h2>
-
-<p>This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">matchers page</a>.</p>
-
-<h3 id="be_multi_region_trail">be_multi_region_trail</h3>
-
-<p>The test will pass if the identified trail is a multi-region trail.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('trail-name') do
+<h5 id="test-that-the-specified-trail-is-a-multi-region-trail">Test that the specified trail is a multi-region trail</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('my-cloudtrail') do
   it { should be_multi_region_trail }
 end
 </code></pre></div>
-<h3 id="be_encrypted">be_encrypted</h3>
+<h2 id="matchers">Matchers</h2>
 
-<p>The test will pass if the logs delivered by the identified trail is encrypted.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('trail-name') do
+<p>This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">matchers page</a>.</p>
+
+<h4 id="exist">exist</h4>
+
+<p>The control will pass if the describe returns at least one result.</p>
+
+<p>Use <code>should_not</code> to test the entity should not exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Verify that at least one CloudTrail Trail exists.
+describe aws_cloudtrail_trail('my-cloudtrail') do
+  it { should exist }
+end
+</code></pre></div>
+<h4 id="be_multi_region_trail">be_multi_region_trail</h4>
+
+<p>The test will pass if the identified trail is a multi-region trail.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('my-cloudtrail') do
+  it { should be_multi_region_trail }
+end
+</code></pre></div>
+<h4 id="be_encrypted">be_encrypted</h4>
+
+<p>The test will pass if the logs delivered by the identified trail are encrypted.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('my-cloudtrail') do
   it { should be_encrypted }
 end
 </code></pre></div>
-<h3 id="be_log_file_validation_enabled">be_log_file_validation_enabled</h3>
+<h4 id="be_log_file_validation_enabled">be_log_file_validation_enabled</h4>
 
 <p>The test will pass if the identified trail has log file integrity validation is enabled.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('trail-name') do
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_cloudtrail_trail('my-cloudtrail') do
   it { should be_log_file_validation_enabled }
 end
 </code></pre></div>

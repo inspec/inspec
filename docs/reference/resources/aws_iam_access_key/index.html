@@ -1,127 +1,94 @@
 <!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the aws_iam_access_key Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_aws_iam_access_key docs_reference_resources_aws_iam_access_key_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="aws_iam_access_key">aws_iam_access_key</h1>
 
-<p>Use the <code>aws_iam_access_key</code> Chef InSpec audit resource to test properties of a single AWS IAM access key.</p>
-
-<p><br></p>
-
-<h2 id="availability">Availability</h2>
-
-<h3 id="installation">Installation</h3>
-
-<p>This resource is distributed along with Chef InSpec itself. You can use it automatically.</p>
-
-<h3 id="version">Version</h3>
-
-<p>This resource first became available in v2.0.16 of InSpec.</p>
+<p>Use the <code>aws_iam_access_key</code> InSpec audit resource to test properties of a single AWS IAM Access Key.</p>
 
 <h2 id="syntax">Syntax</h2>
 
-<p>An <code>aws_iam_access_key</code> resource block declares the tests for a single AWS IAM access key. An access key is uniquely identified by its access key id.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># This is unique - the key will either exist or it won't, but it will never be an error.
-describe aws_iam_access_key(access_key_id: 'AKIA12345678ABCD') do
-  it { should exist }
-  it { should_not be_active }
-  its('create_date') { should be &gt; Time.now - 365 * 86400 }
-  its('last_used_date') { should be &gt; Time.now - 90 * 86400 }
-end
-
-# id is an alias for access_key_id
-describe aws_iam_access_key(id: 'AKIA12345678ABCD') do
-  # Same
-end
-</code></pre></div>
-<p>Access keys are associated with IAM users, who may have zero, one or two access keys. You may also lookup an access key by username. If the user has more than one access key, an error occurs (You may use <code>aws_iam_access_keys</code> with the <code>username</code> resource parameter to access a user&rsquo;s keys when they have multiple keys.)</p>
-<div class="highlight"><pre class="highlight plaintext"><code># This is not unique. If the user has zero or one keys, it is not an error.
-# If they have two, it is an error.
-describe aws_iam_access_key(username: 'roderick') do
-  it { should exist }
-  it { should be_active }
-end
-</code></pre></div>
-<p>You may also use both username and access key id to ensure that a particular key is associated with a particular user.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_access_key(username: 'roderick', access_key_id: 'AKIA12345678ABCD') do
+<p>An <code>aws_iam_access_key</code> resource allows the testing of a single AWS IAM Access Key.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_access_key(access_key_id: 'AKIA1111111111111111') do
   it { should exist }
 end
 </code></pre></div>
-<p><br></p>
+<h4 id="parameters">Parameters</h4>
 
-<h2 id="examples">Examples</h2>
+<p>This resources requires either an <code>access_key_id</code> or the IAM <code>username</code> associated with the Access Key.</p>
 
-<p>The following examples show how to use this Chef InSpec audit resource.</p>
+<h5 id="accesskeyid-required-if-username-not-provided">access<em>key</em>id <em>(required if <code>username</code> not provided.)</em></h5>
 
-<h3 id="test-that-an-iam-access-key-is-not-active">Test that an IAM access key is not active</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_access_key(username: 'username', id: 'access-key-id') do
-  it { should_not be_active }
-end
-</code></pre></div>
-<h3 id="test-that-an-iam-access-key-is-older-than-one-year">Test that an IAM access key is older than one year</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_access_key(username: 'username', id: 'access-key-id') do
-  its('create_date') { should be &gt; Time.now - 365 * 86400 }
-end
-</code></pre></div>
-<h3 id="test-that-an-iam-access-key-has-been-used-in-the-past-90-days">Test that an IAM access key has been used in the past 90 days</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_access_key(username: 'username', id: 'access-key-id') do
-  its('last_used_date') { should be &gt; Time.now - 90 * 86400 }
-end
-</code></pre></div>
-<p><br></p>
+<p>The Access Key ID which uniquely identifies the Key. Begins with the characters &ldquo;AKIA&rdquo;. 
+This can be passed either as a string or as a <code>access_key_id: &#39;value&#39;</code> key-value entry in a hash.</p>
+
+<h5 id="username-required-if-accesskeyid-not-provided">username <em>(required if `access</em>key<em>id` not provided.)</em></h5>
+
+<p>The IAM Username which is associated with the Access Key.
+This can be passed either as a string or as a <code>username: &#39;value&#39;</code> key-value entry in a hash.</p>
+
+<p>See also the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html">AWS documentation on IAM Access Keys</a>.</p>
 
 <h2 id="properties">Properties</h2>
 
-<ul>
-<li><code>access_key_id</code>, <code>create_date</code>, <code>last_used_date</code>, <code>username</code></li>
-</ul>
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>access<em>key</em>id</td>
+<td>The ID of the Access Key.</td>
+</tr>
+<tr>
+<td>username</td>
+<td>The IAM Username which is associated with the Access Key.</td>
+</tr>
+<tr>
+<td>status</td>
+<td>The status of the Access Key, e.g. &ldquo;Active&rdquo;.</td>
+</tr>
+<tr>
+<td>create_date</td>
+<td>The creation date of the Access Key.</td>
+</tr>
+</tbody></table>
 
-<p><br></p>
+<h2 id="examples">Examples</h2>
 
-<h2 id="property-examples">Property Examples</h2>
+<p>The following examples show how to use this InSpec audit resource.</p>
 
-<h3 id="access_key_id">access_key_id</h3>
-
-<p>The unique ID of this access key.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_access_key(username: 'bob')
-  its('access_key_id') { should cmp 'AKIA12345678ABCD' }
+<h5 id="test-that-an-iam-access-key-has-been-used-in-the-last-90-days">Test that an IAM Access Key has been used in the last 90 days</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_access_key(access_key_id: 'AKIA1111111111111111') do
+  it                    { should exist }
+  its('last_used_date') { should be &gt; Time.now - 90 * 86400 }
 end
 </code></pre></div>
-<h3 id="create_date">create_date</h3>
-
-<p>The date and time, as a Ruby DateTime, at which the access key was created.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Is the access key less than a year old?
-describe aws_iam_access_key(username: 'bob')
-  its('create_date') { should be &gt; Time.now - 365 * 86400 }
-end
+<h5 id="test-that-an-iam-access-key-for-a-specific-user-exists">Test that an IAM Access Key for a specific user exists</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>  describe aws_iam_access_key(username: 'psmith', id: 'AKIA1111111111111111') do
+    it { should exist }
+  end
 </code></pre></div>
-<h3 id="last_used_date">last_used_date</h3>
-
-<p>The date and time, as a Ruby DateTime, at which the access key was last_used.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Has the access key been used in the last year?
-describe aws_iam_access_key(username: 'bob')
-  its('last_used_date') { should be &gt; Time.now - 365 * 86400 }
-end
-</code></pre></div>
-<h3 id="username">username</h3>
-
-<p>The IAM user that owns this key.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_access_key(access_key_id: 'AKIA12345678ABCD')
-  its('username') { should cmp 'bob' }
-end
-</code></pre></div>
-<p><br></p>
-
 <h2 id="matchers">Matchers</h2>
 
-<p>This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">matchers page</a>.</p>
+<p>This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">matchers page</a>.</p>
 
-<h3 id="be_active">be_active</h3>
+<h4 id="exist">exist</h4>
 
-<p>The <code>be_active</code> matcher tests if the described IAM access key is active.</p>
+<p>The control will pass if the describe returns at least one result.</p>
+
+<p>Use <code>should_not</code> to test the entity should not exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should exist }
+
+it { should_not exist }
+</code></pre></div>
+<h4 id="active">active</h4>
+
+<p>The <code>active</code> matcher tests if the described IAM Access Key has a status of Active.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>it { should be_active }
 </code></pre></div>
 <h2 id="aws-permissions">AWS Permissions</h2>
 
-<p>Your <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal">Principal</a> will need the <code>iam:ListAccessKeys</code> action with Effect set to Allow.</p>
-
-<p>You can find detailed documentation at <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html">Actions, Resources, and Condition Keys for Identity And Access Management</a>.</p>
+<p>Your <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal">Principal</a> will need the following permissions action set to allow: 
+<code>iam:ListAccessKeys</code> 
+<code>iam:GetAccessKeyLastUsed</code> </p>
 </column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
 (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
 (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);

@@ -1,24 +1,10 @@
 <!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the aws_kms_keys Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_aws_kms_keys docs_reference_resources_aws_kms_keys_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="aws_kms_keys">aws_kms_keys</h1>
 
-<p>Use the <code>aws_kms_keys</code> Chef InSpec audit resource to test properties of some or all AWS KMS Keys.</p>
+<p>Use the <code>aws_kms_keys</code> InSpec audit resource to test properties of some or all AWS KMS Keys.</p>
 
 <p>AWS Key Management Service (KMS) is a managed service that makes creating and controlling your encryption keys for your data easier. KMS uses Hardware Security Modules (HSMs) to protect the security of your keys.</p>
 
 <p>AWS Key Management Service is integrated with several other AWS services to help you protect the data you store with these services.</p>
-
-<p>Each AWS KMS Key is uniquely identified by its key-id or key-arn.</p>
-
-<p><br></p>
-
-<h2 id="availability">Availability</h2>
-
-<h3 id="installation">Installation</h3>
-
-<p>This resource is distributed along with Chef InSpec itself. You can use it automatically.</p>
-
-<h3 id="version">Version</h3>
-
-<p>This resource first became available in v2.0.16 of InSpec.</p>
 
 <h2 id="syntax">Syntax</h2>
 
@@ -28,60 +14,63 @@ describe aws_kms_keys do
   its('entries.count') { should cmp 10 }
 end
 </code></pre></div>
-<p><br></p>
+<h4 id="parameters">Parameters</h4>
 
-<h2 id="examples">Examples</h2>
+<p>This resource does not expect any parameters.</p>
 
-<p>The following examples show how to use this Chef InSpec audit resource.</p>
-
-<p>As this is the initial release of <code>aws_kms_keys</code>, its limited functionality precludes examples.</p>
-
-<p><br></p>
+<p>See also the <a href="https://docs.aws.amazon.com/kms/latest/developerguide/getting-started.html">AWS documentation on KS Keys</a>.</p>
 
 <h2 id="properties">Properties</h2>
 
-<ul>
-<li><code>entries</code>, <code>key_arns</code>, <code>key_ids</code></li>
-</ul>
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>key_ids</td>
+<td>The IDs of the returned keys.</td>
+</tr>
+<tr>
+<td>key_arns</td>
+<td>The Amazon Resource Names of the returned keys.</td>
+</tr>
+<tr>
+<td>entries</td>
+<td>Provides access to the raw results of the query, which can be treated as an array of hashes.</td>
+</tr>
+</tbody></table>
 
-<p><br></p>
+<h2 id="examples">Examples</h2>
 
-<h2 id="property-examples">Property Examples</h2>
+<p>The following examples show how to use this InSpec audit resource.</p>
 
-<h3 id="entries">entries</h3>
-
-<p>Provides access to the raw results of a query. This can be useful for checking counts and other advanced operations.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Allow at most 100 KMS Keys on the account
-describe aws_kms_keys do
+<h5 id="ensure-a-key-exists">Ensure a Key exists</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_kms_keys do
+  its('key_ids') { should include 'fd7e608b-f435-4186-b8b5-111111111111'}
+end
+</code></pre></div>
+<h5 id="allow-at-most-100-kms-keys-on-the-account">Allow at most 100 KMS Keys on the account</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_kms_keys do
   its('entries.count') { should be &lt;= 100}
 end
 </code></pre></div>
-<h3 id="key_arns">key_arns</h3>
-
-<p>Provides a list of key arns for all KMS Keys in the AWS account.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_kms_keys do
-  its('key_arns') { should include('arn:aws:kms:us-east-1::key/key-id') }
-end
-</code></pre></div>
-<h3 id="key_ids">key_ids</h3>
-
-<p>Provides a list of key ids for all KMS Keys in the AWS account.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_kms_keys do
-  its('key_ids') { should include('fd7e608b-f435-4186-b8b5-111111111111') }
-end
-</code></pre></div>
-<p><br></p>
-
 <h2 id="matchers">Matchers</h2>
 
-<p>This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">matchers page</a>.</p>
+<p>This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">matchers page</a>.</p>
 
-<h3 id="exists">exists</h3>
+<h4 id="exist">exist</h4>
 
-<p>The control will pass if the filter returns at least one result. Use <code>should_not</code> if you expect zero matches.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Verify that at least one KMS Key exists.
-describe aws_kms_keys
+<p>The control will pass if the describe returns at least one result.</p>
+
+<p>Use <code>should_not</code> to test the entity should not exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_kms_keys do
   it { should exist }
+end
+
+describe aws_kms_keys.where( &lt;property&gt;: &lt;value&gt;) do
+  it { should_not exist }
 end
 </code></pre></div>
 <h2 id="aws-permissions">AWS Permissions</h2>

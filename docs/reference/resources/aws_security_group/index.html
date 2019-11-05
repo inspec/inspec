@@ -1,6 +1,6 @@
 <!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the aws_security_group Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_aws_security_group docs_reference_resources_aws_security_group_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/downloads"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="text" /><button action="/docs/search/" class="search shadow-dark margin-left-xs" method="get"></button><i class="fa fa-search t-white"></i></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/downloads">Get Chef InSpec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers (beta)</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="aws_security_group">aws_security_group</h1>
 
-<p>Use the <code>aws_security_group</code> Chef InSpec audit resource to test detailed properties of an individual Security Group (SG).</p>
+<p>Use the <code>aws_security_group</code> InSpec audit resource to test detailed properties of an individual Security Group (SG).</p>
 
 <p>SGs are a networking construct which contain ingress and egress rules for network communications.  SGs may be attached to EC2 instances, as well as certain other AWS resources.  Along with Network Access Control Lists, SGs are one of the two main mechanisms of enforcing network-level security.</p>
 
@@ -12,32 +12,13 @@
 <li>References to VPC peers or other AWS services (that is, no support for searches based on &lsquo;prefix lists&rsquo;).</li>
 </ul>
 
-<p><br></p>
-
-<h2 id="availability">Availability</h2>
-
-<h3 id="installation">Installation</h3>
-
-<p>This resource is distributed along with Chef InSpec itself. You can use it automatically.</p>
-
-<h3 id="version">Version</h3>
-
-<p>This resource first became available in v2.0.16 of InSpec.</p>
-
 <h2 id="syntax">Syntax</h2>
-
-<p>Resource parameters: group<em>id, group</em>name, id, vpc_id</p>
-
-<p>An <code>aws_security_group</code> resource block uses resource parameters to search for and then test a Security Group. If no SGs match, no error is raised, but the <code>exists</code> matcher returns <code>false</code>, and all scalar properties are <code>nil</code>. List properties returned under these conditions are empty lists. If more than one SG matches (due to vague search parameters), an error is raised.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure you have a Security Group with a specific ID
-# This is "safe" - SG IDs are unique within an account
-describe aws_security_group('sg-12345678') do
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_security_group('sg-12345678') do
   it { should exist }
 end
 
-# Ensure you have a Security Group with a specific ID
-# This uses hash syntax
-describe aws_security_group(id: 'sg-12345678') do
+# May also use hash syntax
+describe aws_security_group(group_id: 'sg-12345678') do
   it { should exist }
 end
 
@@ -47,31 +28,99 @@ end
 describe aws_security_group(group_name: 'my-group') do
   it { should exist }
 end
+
 # Add vpc_id to ensure uniqueness.
 describe aws_security_group(group_name: 'my-group', vpc_id: 'vpc-12345678') do
   it { should exist }
 end
 </code></pre></div>
-<p><br></p>
+<h4 id="parameters">Parameters</h4>
+
+<p>You must provide at least one parameter; <code>group_id</code>, <code>group_name</code> or <code>vpc_id</code></p>
+
+<h5 id="groupid-_-required-if-no-other-parameter-provided">group<em>id _(required if no other parameter provided)</em></h5>
+
+<p>The Security Group ID which uniquely identifies the SG.
+This can be passed either as a string or as a <code>group_id: &#39;value&#39;</code> key-value entry in a hash.</p>
+
+<h5 id="groupname-_-required-if-no-other-parameter-provided">group<em>name _(required if no other parameter provided)</em></h5>
+
+<p>The Security Group name.
+This can be passed either as a string or as a <code>group_name: &#39;value&#39;</code> key-value entry in a hash.</p>
+
+<h5 id="vpcid-_-required-if-no-other-parameter-provided">vpc<em>id _(required if no other parameter provided)</em></h5>
+
+<p>The ID of the VPC associated with the SG.
+This can be passed either as a string or as a <code>vpc_id: &#39;value&#39;</code> key-value entry in a hash.</p>
+
+<p>See also the <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">AWS documentation on Security Groups</a>.</p>
+
+<h2 id="properties">Properties</h2>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>description</td>
+<td>A String reflecting the human-meaningful description that was given to the SG at creation time.</td>
+</tr>
+<tr>
+<td>group_id</td>
+<td>Provides the Security Group ID.</td>
+</tr>
+<tr>
+<td>group_name</td>
+<td>A String reflecting the name that was given to the SG at creation time.</td>
+</tr>
+<tr>
+<td>inbound_rules</td>
+<td>A list of the rules that the Security Group applies to incoming network traffic.</td>
+</tr>
+<tr>
+<td>inbound<em>rules</em>count</td>
+<td>A Number totalling the number of individual rules defined - It is a sum of the combinations of port, protocol, IPv4 rules, IPv6 rules and security group rules.</td>
+</tr>
+<tr>
+<td>outbound_rules</td>
+<td>A list of the rules that the Security Group applies to outgoing network traffic initiated by the AWS resource in the Security Group.</td>
+</tr>
+<tr>
+<td>outbound<em>rules</em>count</td>
+<td>A Number totalling the number of individual rules defined - It is a sum of the combinations of port, protocol, IPv4 rules, IPv6 rules and security group rules.</td>
+</tr>
+<tr>
+<td>vpc_id</td>
+<td>A String in the format <code>vpc-</code> followed by 8 hexadecimal characters reflecting VPC that contains the Security Group.</td>
+</tr>
+<tr>
+<td>tags</td>
+<td>The tags of the security group.</td>
+</tr>
+</tbody></table>
 
 <h2 id="examples">Examples</h2>
 
-<p>The following examples show how to use this Chef InSpec audit resource.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Ensure that the linux_servers Security Group permits
-# SSH from the 10.5.0.0/16 range, but not the world.
-describe aws_security_group(group_name: linux_servers) do
-  # This passes if any inbound rule exists that specifies
-  # port 22 and the given IP range, regardless of protocol, etc.
-  it { should allow_in(port: 22, ipv4_range: '10.5.0.0/16') }
-
-  # This passes so long as no inbound rule that specifies port 22 exists
-  # with a source IP range of 0.0.0.0/0.  Other properties are ignored.
-  it { should_not allow_in(port: 22, ipv4_range: '0.0.0.0/0') }
-
+<h5 id="test-outbound-rules">Test outbound rules</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_security_group(group_name: isolated_servers) do
+  its('outbound_rules.last') { should_not include(ip_ranges:['0.0.0.0/0']) }
 end
-
-# Ensure that the careful_updates Security Group may only initiate contact with specific IPs.
-describe aws_security_group(group_name: 'careful_updates') do
+</code></pre></div>
+<h5 id="test-a-rule-that-allows-all-traffic">Test a rule that allows All Traffic</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_security_group(group_name: my_group) do
+  it { should allow_in(ipv4_range: ["10.1.2.0/24", "10.3.2.0/24"], protocol: 'all') }
+end
+</code></pre></div>
+<h5 id="ensure-a-sg-only-allows-ssh-from-a-specific-range">Ensure a SG only allows SSH from a specific range</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_security_group(group_name: linux_servers) do
+  it { should allow_in(port: 22, ipv4_range: '10.5.0.0/16') }
+  it { should_not allow_in(port: 22, ipv4_range: '0.0.0.0/0') }
+end
+</code></pre></div>
+<h5 id="ensure-that-the-careful_updates-security-group-may-only-initiate-contact-with-specific-ips">Ensure that the careful_updates Security Group may only initiate contact with specific IPs.</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_security_group(group_name: 'careful_updates') do
 
   # If you have two rules, with one CIDR each:
   [ '10.7.23.12/32', '10.8.23.12/32' ].each do |allowed_destination|
@@ -85,176 +134,23 @@ describe aws_security_group(group_name: 'careful_updates') do
   # Expect exactly three rules.
   its('outbound_rules.count') { should cmp 3 }
 end
-
-# Ensure that the canary_deployments Security Group only allows access from one specific security group id on port 443.
-describe aws_security_group(group_name: 'canary_deployments') do
-
+</code></pre></div>
+<h5 id="ensure-that-the-canary_deployments-security-group-only-allows-access-from-one-specific-security-group-id-on-port-443">Ensure that the canary_deployments Security Group only allows access from one specific security group id on port 443.</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_security_group(group_name: 'canary_deployments') do
   it { should allow_in_only(port: 443, security_group: "sg-33334444") }
 end
-
-# Ensure that one of the security groups in a list allows access from one of the groups in another list.
-# If you have two lists of groups, check if one of the groups in the first list allows access for one of the
-# groups in the second list.
-
-  control 'master to node access security group' do
-    desc 'one of the node security groups should allow all access from:
-  one of the master security groups, so masters can reach all nodes'
-    describe.one do
-      [ 'sg-11112222', 'sg-33334444' ].each do |nodeSG|
-        [ 'sg-55556666', 'sg-77778888' ].each do |masterSG|
-          describe aws_security_group(id: nodeSG) do
-            it { should allow_in(security_group: masterSG) }
-          end
-        end
-      end
-    end
-  end
 </code></pre></div>
-<p><br></p>
-
-<h2 id="resource-parameters">Resource Parameters</h2>
-
-<p>This Chef InSpec resource accepts the following parameters, which are used to search for the Security Group.</p>
-
-<h3 id="id-group_id">id, group_id</h3>
-
-<p>The Security Group ID of the Security Group. This is of the format <code>sg-</code> followed by 8 hexadecimal characters.  The ID is unique within your AWS account; using ID ensures a match of only one SG. The ID is also the default resource parameter, so you may omit the hash syntax.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Using Hash syntax
-describe aws_security_group(id: 'sg-12345678') do
-  it { should exist }
-end
-
-# group_id is an alias for id
-describe aws_security_group(group_id: 'sg-12345678') do
-  it { should exist }
-end
-
-# Or omit hash syntax, rely on it being the default parameter
-describe aws_security_group('sg-12345678') do
-  it { should exist }
-end
-</code></pre></div>
-<h3 id="group_name">group_name</h3>
-
-<p>The string name of the Security Group.  Every VPC has a Security Group named &lsquo;default&rsquo;. Names are unique within a VPC, but not within an AWS account.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Get default Security Group for a specific VPC
-describe aws_security_group(group_name: 'default', vpc_id: vpc_id: 'vpc-12345678') do
-  it { should exist }
-end
-
-# This throws an error if more than one VPC has a 'backend' SG.
-describe aws_security_group(group_name: 'backend') do
-  it { should exist }
-end
-</code></pre></div>
-<h3 id="vpc_id">vpc_id</h3>
-
-<p>A string identifying the VPC that contains the Security Group. Since VPCs commonly contain many SGs, you should add additional parameters to ensure you find exactly one SG.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># This throws an error if more than the default SG exists
-describe aws_security_group(vpc_id: 'vpc-12345678') do
-  it { should exist }
-end
-</code></pre></div>
-<p><br></p>
-
-<h2 id="properties">Properties</h2>
-
-<ul>
-<li><a href="#description"><code>description</code></a>, <a href="#group_id"><code>group_id</code></a>, <a href="#group_name"><code>group_name</code></a>, <a href="#inbound_rules"><code>inbound_rules</code></a>, <a href="#inbound_rules_count"><code>inbound_rules_count</code></a>, <a href="#outbound_rules"><code>outbound_rules</code></a>, <a href="#outbound_rules_count"><code>outbound_rules_count</code></a>, <a href="#vpc_id"><code>vpc_id</code></a></li>
-</ul>
-
-<p><br></p>
-
-<h2 id="property-examples">Property Examples</h2>
-
-<h3 id="description">description</h3>
-
-<p>A String reflecting the human-meaningful description that was given to the SG at creation time.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Require a description of a particular Security Group
-describe aws_security_group('sg-12345678') do
-  its('description') { should_not be_empty }
-end
-</code></pre></div>
-<h3 id="group_id">group_id</h3>
-
-<p>Provides the Security Group ID.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Inspect the Security group ID of the default Group
-describe aws_security_group(group_name: 'default', vpc_id: vpc_id: 'vpc-12345678') do
-  its('group_id') { should cmp 'sg-12345678' }
-end
-
-# Store the Group ID in a Ruby variable for use elsewhere
-sg_id = aws_security_group(group_name: 'default', vpc_id: vpc_id: 'vpc-12345678').group_id
-</code></pre></div>
-<h3 id="group_name">group_name</h3>
-
-<p>A String reflecting the name that was given to the SG at creation time.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Inspect the Group name of a particular Group
-describe aws_security_group('sg-12345678') do
-  its('group_name') { should cmp 'my_group' }
-end
-</code></pre></div>
-<h3 id="inbound_rules">inbound_rules</h3>
-
-<p>A list of the rules that the Security Group applies to incoming network traffic. This is a low-level property that is used by the <a href="#allow_in"><code>allow_in</code></a> and <a href="#allow_in_only"><code>allow_in_only</code></a> matchers; see them for detailed examples. <code>inbound_rules</code> is provided here for those wishing to use Ruby code to inspect the rules directly, instead of using higher-level matchers.</p>
-
-<p>Order is critical in these rules, as the sequentially first rule to match is applied to network traffic. By default, AWS includes a reject-all rule as the last inbound rule.  This implicit rule does not appear in the inbound_rules list.</p>
-
-<p>If the Security Group could not be found (that is, <code>exists</code> is false), <code>inbound_rules</code> returns an empty list.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_security_group(group_name: linux_servers) do
-  its('inbound_rules.first') { should include(from_port: '22', ip_ranges: ['10.2.17.0/24']) }
-end
-</code></pre></div>
-<h3 id="inbound_rules_count">inbound_rules_count</h3>
-
-<p>A Number totalling the number of individual rules defined - It is a sum of the combinations of port, protocol, ipv4 rules, ipv6 rules and security group rules.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_security_group(group_name: linux_servers) do
-  its('inbound_rules_count'){ should eq 10 }
-end
-</code></pre></div>
-<h3 id="outbound_rules">outbound_rules</h3>
-
-<p>A list of the rules that the Security Group applies to outgoing network traffic initiated by the AWS resource in the Security Group. This is a low-level property that is used by the <a href="#allow_out"><code>allow_out</code></a> matcher; see it for detailed examples. <code>outbound_rules</code> is provided here for those wishing to use Ruby code to inspect the rules directly, instead of using higher-level matchers.</p>
-
-<p>Order is critical in these rules, as the sequentially first rule to match is applied to network traffic. Outbound rules are typically used when it is desirable to restrict which portions of the internet, if any, a resource may access. By default, AWS includes an allow-all rule as the last outbound rule; note that Terraform removes this implicit rule.</p>
-
-<p>If the Security Group could not be found (that is, <code>exists</code> is false), <code>outbound_rules</code> returns an empty list.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_security_group(group_name: isolated_servers) do
-  its('outbound_rules.last') { should_not include(ip_ranges:['0.0.0.0/0']) }
-end
-</code></pre></div>
-<h3 id="outbound_rules_count">outbound_rules_count</h3>
-
-<p>A Number totalling the number of individual rules defined - It is a sum of the combinations of port, protocol, ipv4 rules, ipv6 rules and security group rules.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_security_group(group_name: linux_servers) do
-  its('outbound_rules_count'){ should eq 2 }
-end
-</code></pre></div>
-<h3 id="vpc_id">vpc_id</h3>
-
-<p>A String in the format &lsquo;vpc-&rsquo; followed by 8 hexadecimal characters reflecting VPC that contains the Security Group.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Inspect the VPC ID of a particular Group
-describe aws_security_group('sg-12345678') do
-  its('vpc_id') { should cmp 'vpc-12345678' }
-end
-</code></pre></div>
-<p><br></p>
-
 <h2 id="matchers">Matchers</h2>
 
-<p>This Chef InSpec audit resource has the following special matchers. For a full list of additional available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">Universal Matchers page</a>.</p>
+<p>This InSpec audit resource has the following special matchers. For a full list of additional available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">Universal Matchers page</a>.</p>
 
-<ul>
-<li><a href="#allow_in"><code>allow_in</code></a>, <a href="#allow_in_only"><code>allow_in_only</code></a>, <a href="#allow_out"><code>allow_out</code></a>, <a href="#allow_out_only"><code>allow_out_only</code></a></li>
-</ul>
+<h4 id="allow_in">allow_in</h4>
 
-<h3 id="allow_in">allow_in</h3>
+<h4 id="allow_out">allow_out</h4>
 
-<h3 id="allow_out">allow_out</h3>
+<h4 id="allowinonly">allow<em>in</em>only</h4>
 
-<h3 id="allow_in_only">allow_in_only</h3>
-
-<h3 id="allow_out_only">allow_out_only</h3>
+<h4 id="allowoutonly">allow<em>out</em>only</h4>
 
 <p>The <code>allow</code> series of matchers enable you to perform queries about what network traffic would be permitted through the Security Group rule set.</p>
 
@@ -264,78 +160,73 @@ end
 
 <p><code>allow_in_only</code> and <code>allow_out_only</code> examines if exactly one rule exists (but see <code>position</code>, below), and if it matches the criteria (this is useful for ensuring no unexpected rules have been added). Additionally, <code>allow_in_only</code> and <code>allow_out_only</code> do <em>not</em> perform inexact matching; you must specify exactly the port range or IP address(es) you wish to match.</p>
 
+<h5 id="matchers-search-criteria">Matchers search criteria</h5>
+
 <p>The matchers accept a key-value list of search criteria.  For a rule to match, it must match all provided criteria.</p>
 
 <ul>
-<li>from<em>port - Determines if a rule exists whose port range begins at the specified number. The word &lsquo;from</em>&rsquo; does <em>not</em> relate to inbound/outbound directionality; it relates to the port range (&ldquo;counting <em>from</em>&rdquo;). <code>from_port</code> is an exact criterion; so if the rule allows 1000-2000 and you specify a <code>from_port</code> of 1001, it does not match.</li>
-<li>ipv4<em>range - Specifies an IPv4 address or subnet as a CIDR, or a list of them, to be checked as a permissible origin (for `allow</em>in<code>) or destination (for</code>allow_out`) for traffic.  Each AWS Security Group rule may have multiple allowed source IP ranges.</li>
+<li><code>from_port</code> - Determines if a rule exists whose port range begins at the specified number. The word <code>from_</code> does <em>not</em> relate to inbound/outbound directionality; it relates to the port range (&ldquo;counting <em>from</em>&rdquo;). <code>from_port</code> is an exact criterion; so if the rule allows 1000-2000 and you specify a <code>from_port</code> of 1001, it does not match.</li>
+<li><code>ipv4_range</code> - Specifies an IPv4 address or subnet as a CIDR, or a list of them, to be checked as a permissible origin (for <code>allow_in</code>) or destination (for <code>allow_out</code>) for traffic.  Each AWS Security Group rule may have multiple allowed source IP ranges.</li>
 <li>ipv6<em>range - Specifies an IPv6 address or subnet as a CIDR, or a list of them, to be checked as a permissible origin (for `allow</em>in<code>) or destination (for</code>allow_out`) for traffic.  Each AWS Security Group rule may have multiple allowed source IP ranges.</li>
-<li>port - Determines if a particular TCP/IP port is reachable. allow<em>in and allow</em>out examine whether the specified port is included in the port range of a rule, while allow_in. You may specify the port as a string (<code>&#39;22&#39;</code>) or as a number.</li>
-<li>position - A one-based index into the list of rules. If provided, this restricts the evaluation to the rule at that position. You may also use the special values <code>:first</code> and <code>:last</code>. <code>position</code> may also be used to enable <code>allow_in_only</code> and <code>allow_out_only</code> to work with multi-rule Security Groups.</li>
-<li>protocol - Specifies the IP protocol. &lsquo;tcp&rsquo;, &lsquo;udp&rsquo;, and &lsquo;icmp&rsquo; are some typical values. The string &ldquo;-1&rdquo; or &lsquo;any&rsquo; is used to indicate any protocol.</li>
-<li>to<em>port - Determines if a rule exists whose port range ends at the specified number. The word &lsquo;to</em>&rsquo; does <em>not</em> relate to inbound/outbound directionality; it relates to the port range (&ldquo;counting <em>to</em>&rdquo;). <code>to_port</code> is an exact criterion; so if the rule allows 1000-2000 and you specify a <code>to_port</code> of 1999, it does not match.</li>
-<li><p>security<em>group - Specifies a security-group id, to be checked as permissible origin (for `allow</em>in<code>) or destination (for</code>allow_out`) for traffic. Each AWS Security Group rule may have multiple allowed source or destination security groups.</p>
-
-<p>describe aws<em>security</em>group(group<em>name: &lsquo;mixed-functionality-group&rsquo;) do
+<li><code>port</code> - Determines if a particular TCP/IP port is reachable. <code>allow_in</code> and <code>allow_out</code> examine whether the specified port is included in the port range of a rule, while <code>allow_in</code>. You may specify the port as a string (<code>&#39;22&#39;</code>) or as a number.</li>
+<li><code>position</code> - A one-based index into the list of rules. If provided, this restricts the evaluation to the rule at that position. You may also use the special values <code>:first</code> and <code>:last</code>. <code>position</code> may also be used to enable <code>allow_in_only</code> and <code>allow_out_only</code> to work with multi-rule Security Groups.</li>
+<li><code>protocol</code> - Specifies the IP protocol. <code>tcp</code>, <code>udp</code>, and <code>icmp</code> are some typical values. The string <code>&quot;-1&quot;</code> or <code>any</code> is used to indicate any protocol.</li>
+<li><code>to_port</code> - Determines if a rule exists whose port range ends at the specified number. The word <code>to_</code> does <em>not</em> relate to inbound/outbound directionality; it relates to the port range (&ldquo;counting <em>to</em>&rdquo;). <code>to_port</code> is an exact criterion; so if the rule allows 1000-2000 and you specify a <code>to_port</code> of 1999, it does not match.</li>
+<li><p><code>security_group</code> - Specifies a security-group id, to be checked as permissible origin (for <code>allow_in</code>) or destination (for <code>allow_out</code>) for traffic. Each AWS Security Group rule may have multiple allowed source or destination security groups.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_security_group(group_name: 'mixed-functionality-group') do
   # Allow RDP from defined range
-  it { should allow</em>in(port: 3389, ipv4<em>range: &lsquo;10.5.0.0/16&rsquo;) }
-  it { should allow</em>in(port: 3389, ipv6_range: &lsquo;2001:db8::/122&rsquo;) }</p>
+  it { should allow_in(port: 3389, ipv4_range: '10.5.0.0/16') }
+  it { should allow_in(port: 3389, ipv6_range: '2001:db8::/122') }
 
-<p># Allow SSH from two ranges
-  it { should allow<em>in(port: 22, ipv4</em>range: [&lsquo;10.5.0.0/16&rsquo;, &lsquo;10.2.3.0/24&rsquo;]) }</p>
+  # Allow SSH from two ranges
+  it { should allow_in(port: 22, ipv4_range: ['10.5.0.0/16', '10.2.3.0/24']) }
 
-<p># Check Bacula port range
-  it { should allow<em>in(from</em>port: 9101, to<em>port: 9103, ipv4</em>range: &lsquo;10.6.7.0/24&rsquo;) }</p>
+  # Check Bacula port range
+  it { should allow_in(from_port: 9101, to_port: 9103, ipv4_range: '10.6.7.0/24') }
 
-<p># Assuming the AWS SG allows 9001-9003, use inexact matching to check 9002
-  it { should allow_in(port: 9002) }</p>
+  # Assuming the AWS SG allows 9001-9003, use inexact matching to check 9002
+  it { should allow_in(port: 9002) }
 
-<p># Assuming the AWS SG allows 10.2.1.0/24, use inexact matching to check 10.2.1.33/32
-  it { should allow<em>in(ipv4</em>range: &lsquo;10.2.1.33/32&rsquo;) }</p>
+  # Assuming the AWS SG allows 10.2.1.0/24, use inexact matching to check 10.2.1.33/32
+  it { should allow_in(ipv4_range: '10.2.1.33/32') }
 
-<p># Ensure the 3rd outbound rule is TCP-based
-  it { should allow_in(protocol: &lsquo;tcp&rsquo;, position: 3&rsquo;) }</p>
+  # Ensure the 3rd outbound rule is TCP-based
+  it { should allow_in(protocol: 'tcp', position: 3') }
 
-<p># Do not allow unrestricted IPv4 access.
-  it { should<em>not allow</em>in(ipv4_range: &lsquo;0.0.0.0/0&rsquo;) }</p>
+  # Do not allow unrestricted IPv4 access.
+  it { should_not allow_in(ipv4_range: '0.0.0.0/0') }
 
-<p># Allow unrestricted access from security-group.
-  it { should allow<em>in(security</em>group: &lsquo;sg-11112222&rsquo;) }
-end</p>
+  # Allow unrestricted access from security-group.
+  it { should allow_in(security_group: 'sg-11112222') }
+end
 
-<h1 id="suppose-you-have-a-group-that-should-allow-ssh-and-rdp-from">Suppose you have a Group that should allow SSH and RDP from</h1>
-
-<h1 id="the-admin-network-10-5-0-0-16-the-resource-has-2-rules-to">the admin network, 10.5.0.0/16. The resource has 2 rules to</h1>
-
-<h1 id="allow-this-and-you-want-to-ensure-no-others-have-been-added">allow this, and you want to ensure no others have been added.</h1>
-
-<p>describe aws<em>security</em>group(group<em>name: &lsquo;admin-group&rsquo;) do
+# Suppose you have a Group that should allow SSH and RDP from
+# the admin network, 10.5.0.0/16. The resource has 2 rules to
+# allow this, and you want to ensure no others have been added.
+describe aws_security_group(group_name: 'admin-group') do
   # Allow RDP from a defined range and nothing else
   # The SG must have this rule in position 1 and it must match this exactly
-  it { should allow</em>in<em>only(port: 3389, ipv4</em>range: &lsquo;10.5.0.0/16&rsquo;, position: 1) }</p>
+  it { should allow_in_only(port: 3389, ipv4_range: '10.5.0.0/16', position: 1) }
 
-<p># Specify position 2 for the SSH rule.  Without <code>position</code>,
-  # allow<em>in</em>only only allows one rule, total.
-  it { should allow<em>in</em>only(port: 22, ipv4_range: &lsquo;10.5.0.0/16&rsquo;, position: 2) }</p>
+  # Specify position 2 for the SSH rule.  Without `position`,
+  # allow_in_only only allows one rule, total.
+  it { should allow_in_only(port: 22, ipv4_range: '10.5.0.0/16', position: 2) }
 
-<p># Because this is an <em>only matcher, this fails - _only matchers
+  # Because this is an _only matcher, this fails - _only matchers
   # use exact IP matching.
-  it { should allow</em>in<em>only(port: 3389, ipv4</em>range: &lsquo;10.5.1.34/32&rsquo;, position: 1) }
-end</p></li>
+  it { should allow_in_only(port: 3389, ipv4_range: '10.5.1.34/32', position: 1) }
+end
+</code></pre></div></li>
 </ul>
 
-<h3 id="exists">exists</h3>
+<h4 id="exist">exist</h4>
 
-<p>The control passes if the specified Security Group was found.  Use <code>should_not</code> if you want to verify that the specified SG does not exist.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># You always have at least one SG, the VPC default SG
-describe aws_security_group(group_name: 'default')
-  it { should exist }
-end
+<p>The control will pass if the describe returns at least one result.</p>
 
-# Make sure we don't have any Security Groups with the name 'nogood'
-describe aws_security_group(group_name: 'nogood')
+<p>Use <code>should_not</code> to test the entity should not exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>  it { should exist }
+
   it { should_not exist }
-end
 </code></pre></div>
 <h2 id="aws-permissions">AWS Permissions</h2>
 
