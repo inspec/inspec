@@ -1,1 +1,63 @@
-#
+---
+expeditor:
+  defaults:
+    buildkite:
+      timeout_in_minutes: 30
+
+steps:
+
+  - label: resources-core
+    commands:
+      - bundle exec kitchen test resources-core
+    expeditor:
+      executor:
+        docker:
+          image: ruby:latest
+
+#  - label: resources-unix
+#    commands:
+#      - bundle exec kitchen test resources-unix
+#    expeditor:
+#      executor:
+#        docker:
+#          image: ruby:latest
+
+#  - label: resources-windows
+#    commands:
+#      - bundle exec kitchen test resources-windows
+#    expeditor:
+#      executor:
+#        docker:
+#          image: ruby:latest
+
+#  - label: resources-database-mysql
+#    commands:
+#      - bundle exec kitchen test resources-database-mysql
+#    expeditor:
+#      executor:
+#        docker:
+#          image: ruby:latest
+
+#  - label: resources-database-postgresql
+#    commands:
+#      - bundle exec kitchen test resources-database-postgresql
+#    expeditor:
+#      executor:
+#        docker:
+#          image: ruby:latest
+
+#  - label: resources-database-mssql
+#    commands:
+#      - bundle exec kitchen test resources-database-mssql
+#    expeditor:
+#      executor:
+#        docker:
+#          image: ruby:latest
+
+#  - label: resources-database-oracle
+#    commands:
+#      - bundle exec kitchen test resources-database-oracle
+#    expeditor:
+#      executor:
+#        docker:
+#          image: ruby:latest
