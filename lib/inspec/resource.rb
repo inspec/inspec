@@ -110,3 +110,5 @@ end
 
 # Many resources use FilterTable.
 require "inspec/utils/filter"
+# conflicts with global `gem` method so we need to pre-load this.
+require "inspec/resources/gem"
