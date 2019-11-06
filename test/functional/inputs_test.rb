@@ -93,7 +93,7 @@ describe "inputs" do
       profile = options.delete(:profile)
 
       # Make a tmpfile
-      Tempfile.open(mode: 0700) do |script| # 0700 - -rwx------
+      Tempfile.open do |script|
 
         # Clear and concat - can't just assign, it's readonly
         script.puts <<~EOSCRIPT
@@ -117,11 +117,7 @@ describe "inputs" do
         EOSCRIPT
         script.flush
 
-        # TODO - portability - this does not have windows compat stuff from the inspec()
-        # method in functional/helper.rb - it is not portable to windows at this point yet.
-        # https://github.com/inspec/inspec/issues/4416
-        CMD.run_command("ruby #{script.path}")
-
+        run_cmd("ruby #{script.path}")
       end
     end
 
@@ -140,8 +136,11 @@ describe "inputs" do
     describe "when using the legacy :attributes key" do
       let(:runner_options) { common_options.merge({ attributes: { test_input_01: "value_from_api" } }) }
       it "finds the values but issues a DEPRECATION warning" do
-        output = run_result.stdout
+        run = run_result
+        output = run.stdout
         skip_windows!
+
+        assert_empty run.stderr
         assert_includes output, "DEPRECATION"
         structured_output = JSON.parse(output.lines.reject { |l| l.include? "DEPRECATION" }.join("\n") )
         assert_equal "passed", structured_output["profiles"][0]["controls"][0]["results"][0]["status"]

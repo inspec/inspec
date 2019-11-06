@@ -1,16 +1,19 @@
 require "functional/helper"
 require "json-schema"
+require "inspec/schema"
 
 describe "inspec exec" do
   include FunctionalHelper
 
   parallelize_me!
 
+  let(:out) { inspec("exec " + example_profile + " --reporter json-min --no-create-lockfile") }
+  let(:json) { JSON.load(out.stdout) }
+
   it "can execute a profile with the mini json formatter and validate its schema" do
-    out = inspec("exec " + example_profile + " --reporter json-min --no-create-lockfile")
     data = JSON.parse(out.stdout)
-    sout = inspec("schema exec-jsonmin")
-    schema = JSON.parse(sout.stdout)
+    sout = Inspec::Schema.json("exec-jsonmin")
+    schema = JSON.parse(sout)
     _(JSON::Validator.validate(schema, data)).wont_equal false
 
     _(out.stderr).must_equal ""
@@ -18,20 +21,7 @@ describe "inspec exec" do
     assert_exit_code 101, out
   end
 
-  it "can execute a simple file with the mini json formatter and validate its schema" do
-    out = inspec("exec " + example_control + " --reporter json-min --no-create-lockfile")
-    data = JSON.parse(out.stdout)
-    sout = inspec("schema exec-jsonmin")
-    schema = JSON.parse(sout.stdout)
-    _(JSON::Validator.validate(schema, data)).wont_equal false
-
-    _(out.stderr).must_equal ""
-
-    skip_windows!
-    assert_exit_code 0, out
-  end
-
-  it "does not contain any dupilcate results with describe.one" do
+  it "does not contain any duplicate results with describe.one" do
     out = inspec("shell -c 'describe.one do describe 1 do it { should cmp 2 } end end' --reporter=json-min")
     data = JSON.parse(out.stdout)
     _(data["controls"].length).must_equal 1
@@ -47,6 +37,11 @@ describe "inspec exec" do
     let(:ex1) { controls.find { |x| x["id"] == "tmp-1.0" } }
     let(:ex2) { controls.find { |x| x["id"] =~ /generated/ } }
     let(:ex3) { controls.find { |x| x["id"] == "example-1.0" } }
+
+    before do
+      # doesn't make sense on windows TODO: change the profile so it does?
+      skip if windows?
+    end
 
     it "must have 5 examples" do
       _(json["controls"].length).must_equal 5
