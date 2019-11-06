@@ -15,13 +15,11 @@ Write-Host "--- Installing the version of Habitat required"
 $hab_version = (hab --version)
 $hab_minor_version = $hab_version.split('.')[1]
 if ( -not $? -Or $hab_minor_version -lt 85 ) {
-    Write-Host "I'm being built with $hab_version. I need at least Hab 0.85.0, because I use the -IsPath option for setting/pushing paths in SetupEnvironment."
-throw "unable to build: required minimum version of Habitat not installed"
+    Install-Habitat --version 0.85.0.20190916
 } else {
     Write-Host ":habicat: I think I have the version I need to build."
 }
 
-Install-Habitat --version 0.85.0.20190916
 
 Write-Host "--- Generating fake origin key"
 hab origin key generate $env:HAB_ORIGIN
@@ -41,6 +39,8 @@ hab pkg install -b $project_root/results/$pkg_artifact
 if (-not $?) { throw "unable to install this build" }
 
 Write-Host "+++ Testing $Plan"
+
+$env:PATH = "C:\hab\bin;$env:PATH"
 Push-Location $project_root/test/artifact
 rake
 if (-not $?) { throw "rake failed" }
