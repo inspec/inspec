@@ -15,20 +15,13 @@
 #
 
 require "erb"
-require "ruby-progressbar"
 require "fileutils"
 require "yaml"
 require_relative "./shared"
+require "git"
+require_relative "./contrib"
 
-WWW_DIR     = File.expand_path(File.join(__dir__, "..", "www")).freeze
-DOCS_DIR    = File.expand_path(File.join(__dir__, "..", "docs")).freeze
-
-begin
-  require "git"
-  require_relative "./contrib"
-rescue LoadError
-  puts "contrib tasks are unavailable because the git gem is not available."
-end
+DOCS_DIR = "../docs".freeze
 
 class Markdown
   class << self
@@ -149,6 +142,8 @@ class ResourceDocs
     markdown << renderer.p("The following list of InSpec resources are available.")
 
     contrib_config = YAML.load(File.read(File.join(CONTRIB_DIR, "contrib.yaml")))
+
+    # TODO: clean this up using Hash.new and friends
 
     # Build a list of resources keyed on the group they are a part of.
     # We'll determine the group using regexes.
@@ -295,26 +290,25 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
 
   task resources_actual: %i{clean contrib:copy_docs} do
     src = DOCS_DIR
-    dst = File.join(WWW_DIR, "source", "docs", "reference", "resources")
-    FileUtils.mkdir_p(dst)
+    dst = File.join("source", "docs", "reference", "resources")
+    mkdir_p(dst)
 
     docs = ResourceDocs.new(src)
-    resources = Dir.glob([File.join(src, "resources/*.md.erb"), File.join(src, "resources/*.md")])
-      .map { |x| x.sub(/^#{src}/, "") }
+    resources =
+      Dir.chdir(src) { Dir["resources/*.md{.erb,}"] }
       .sort
     puts "Found #{resources.length} resource docs"
     puts "Rendering docs to #{dst}/"
 
     # Render all resources
-    progressbar = ProgressBar.create(total: resources.length, title: "Rendering")
-    resources.each do |file|
-      progressbar.log("          " + file)
+    seen = {}
+    resources.reverse_each do |file| # bias towards .erb files?
       dst_name = File.basename(file).sub(/\.md(\.erb)?$/, ".html.md")
+      next if seen[dst_name]
+      seen[dst_name] = true
       res = docs.render(file)
       File.write(File.join(dst, dst_name), res)
-      progressbar.increment
     end
-    progressbar.finish
 
     # Create a resource summary markdown doc
     dst = File.join(src, "resources.md")
@@ -324,42 +318,28 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
 
   desc "Clean all rendered docs from www/"
   task :clean do
-    dst = File.join(WWW_DIR, "source", "docs", "reference")
-    puts "Clean up #{dst}"
-    FileUtils.rm_rf(dst) if File.exist?(dst)
-    FileUtils.mkdir_p(dst)
+    dst = File.join("source", "docs", "reference")
+    rm_rf(dst)
+    mkdir_p(dst)
   end
 
   desc "Copy fixed doc files"
   task copy: %i{clean resources} do
     src = DOCS_DIR
-    dst = File.join(WWW_DIR, "source", "docs", "reference")
+    dst = File.join("source", "docs", "reference")
     files = Dir[File.join(src, "*.md")]
 
-    progressbar = ProgressBar.create(total: files.length, title: "Copying")
     files.each do |path|
       name = File.basename(path).sub(/\.md$/, ".html.md")
-      progressbar.log("          " + File.join(dst, name))
-      FileUtils.cp(path, File.join(dst, name))
-      progressbar.increment
-    end
-    progressbar.finish
-  end
-end
-
-def run_tasks_in_namespace(ns)
-  Rake.application.in_namespace(ns) do |x|
-    x.tasks.each do |task|
-      puts "----> #{task}"
-      task.invoke
+      cp(path, File.join(dst, name))
     end
   end
 end
 
 desc "Create all docs in docs/ from source code"
-task :docs do
-  run_tasks_in_namespace :docs
-  Verify.file(File.join(WWW_DIR, "source", "docs", "reference", "README.html.md"))
-  Verify.file(File.join(WWW_DIR, "source", "docs", "reference", "cli.html.md"))
-  Verify.file(File.join(WWW_DIR, "source", "docs", "reference", "resources.html.md"))
+task docs: %w{docs:cli docs:copy docs:resources} do
+  # TODO: remove:
+  Verify.file(File.join("source", "docs", "reference", "README.html.md"))
+  Verify.file(File.join("source", "docs", "reference", "cli.html.md"))
+  Verify.file(File.join("source", "docs", "reference", "resources.html.md"))
 end
