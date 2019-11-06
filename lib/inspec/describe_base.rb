@@ -1,5 +1,10 @@
+require "inspec/input_dsl_helpers"
+
 module Inspec
   class DescribeBase
+
+    include Inspec::InputDslHelpers
+
     def initialize(action)
       @action = action
       @checks = []
@@ -23,18 +28,7 @@ module Inspec
     end
 
     def input(input_name, options = {})
-      profile_id = __profile_id
-
-      # TODO: DRY up - remainder of this code is identical to input() in rspec_extensions.rb
-      if options.empty?
-        # Simply an access, no event here
-        Inspec::InputRegistry.find_or_register_input(input_name, profile_id).value
-      else
-        options[:priority] = 20
-        options[:provider] = :inline_control_code
-        evt = Inspec::Input.infer_event(options)
-        Inspec::InputRegistry.find_or_register_input(input_name, profile_id, event: evt).value
-      end
+      input_with_profile_id(__profile_id, input_name, options)
     end
 
     def input_object(name)

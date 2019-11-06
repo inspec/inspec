@@ -1,6 +1,7 @@
 require "inspec/input_registry"
 require "inspec/plugin/v2"
 require "rspec/core/example_group"
+require "inspec/input_dsl_helpers"
 
 # Any additions to RSpec::Core::ExampleGroup (the RSpec class behind describe blocks) should go here.
 
@@ -82,18 +83,12 @@ module Inspec
 end
 
 class RSpec::Core::ExampleGroup
+  include Inspec::InputDslHelpers
+
   # This DSL method allows us to access the values of inputs within InSpec tests
   def input(input_name, options = {})
     profile_id = self.class.metadata[:profile_id]
-    if options.empty?
-      # Simply an access, no event here
-      Inspec::InputRegistry.find_or_register_input(input_name, profile_id).value
-    else
-      options[:priority] = 20
-      options[:provider] = :inline_control_code
-      evt = Inspec::Input.infer_event(options)
-      Inspec::InputRegistry.find_or_register_input(input_name, profile_id, event: evt).value
-    end
+    input_with_profile_id(profile_id, input_name, options)
   end
   define_example_method :input
 
