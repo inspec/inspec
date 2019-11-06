@@ -1,3 +1,3 @@
-describe file('/tmp/foo') do
+describe file('/foo') do
   it { should exist }
 end

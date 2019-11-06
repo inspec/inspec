@@ -158,9 +158,15 @@ describe "inspec exec with json formatter" do
       })
 
       _(groups.sort_by { |x| x["id"] }).must_equal([
-        { "id" => "controls/example-tmp.rb", "title" => "/tmp profile", "controls" => ["tmp-1.0", key] },
-        { "id" => "controls/example.rb", "title" => "Example Config Checks", "controls" => ["example-1.0"] },
-        { "id" => "controls/meta.rb", "title" => "SSH Server Configuration", "controls" => ["ssh-1"] },
+        { "id" => "controls/example-tmp.rb",
+          "title" => "/ profile",
+          "controls" => ["tmp-1.0", key] },
+        { "id" => "controls/example.rb",
+          "title" => "Example Config Checks",
+          "controls" => ["example-1.0"] },
+        { "id" => "controls/meta.rb",
+          "title" => "SSH Server Configuration",
+          "controls" => ["ssh-1"] },
       ])
     end
 
@@ -187,37 +193,23 @@ describe "inspec exec with json formatter" do
 
       result = actual.delete("results")[0]
       _(result).wont_be :nil?
-      skip_windows!
+
       _(result["status"]).must_equal "passed"
-      _(result["code_desc"]).must_equal "File /tmp should be directory"
+      _(result["code_desc"]).must_equal "File / should be directory"
       _(result["run_time"]).wont_be :nil?
       _(result["start_time"]).wont_be :nil?
 
-      example_rb_code = <<~END
-        control 'tmp-1.0' do                                   # A unique ID for this control
-          impact 0.7                                           # The criticality, if this control fails.
-          title 'Create /tmp directory'                        # A human-readable title
-          desc 'An optional description...'                    # Describe why this is needed
-          desc 'label', 'An optional description with a label' # Pair a part of the description with a label
-          tag data: 'temp data'                                # A tag allows you to associate key information
-          tag 'security'                                       # to the test
-          ref 'Document A-12', url: 'http://...'               # Additional references
-
-          describe file('/tmp') do                             # The actual test
-            it { should be_directory }
-          end
-        end
-      END
+      code = actual.delete "code"
+      _(code).must_include "control 'tmp-1.0' do"
 
       _(actual).must_equal({
         "id" => "tmp-1.0",
-        "title" => "Create /tmp directory",
+        "title" => "Create / directory",
         "desc" => "An optional description...",
         "descriptions" => [{ "label" => "default", "data" => "An optional description..." }, { "label" => "label", "data" => "An optional description with a label" }],
         "impact" => 0.7,
         "refs" => [{ "url" => "http://...", "ref" => "Document A-12" }],
         "tags" => { "data" => "temp data", "security" => nil },
-        "code" => example_rb_code,
         "waiver_data" => {},
       })
     end

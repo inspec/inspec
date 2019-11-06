@@ -43,7 +43,6 @@ describe "inspec exec" do
   end
 
   describe "execute a profile with mini json formatting" do
-    let(:json) { JSON.load(inspec("exec " + example_profile + " --reporter json-min --no-create-lockfile").stdout) }
     let(:controls) { json["controls"] }
     let(:ex1) { controls.find { |x| x["id"] == "tmp-1.0" } }
     let(:ex2) { controls.find { |x| x["id"] =~ /generated/ } }
@@ -62,7 +61,7 @@ describe "inspec exec" do
     end
 
     it "has a code_desc" do
-      _(ex1["code_desc"]).must_equal "File /tmp should be directory"
+      _(ex1["code_desc"]).must_equal "File / should be directory"
       _(controls.find { |ex| !ex.key? "code_desc" }).must_be :nil?
     end
 
