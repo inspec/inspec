@@ -1,13 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.27 -->
-## [v4.18.27](https://github.com/inspec/inspec/tree/v4.18.27) (2019-11-05)
-
-#### New Features
-- Add startuser systemd service v2 [#4516](https://github.com/inspec/inspec/pull/4516) ([mbaitelman](https://github.com/mbaitelman))
+<!-- latest_release 4.18.28 -->
+## [v4.18.28](https://github.com/inspec/inspec/tree/v4.18.28) (2019-11-06)
 
 #### Merged Pull Requests
-- Fix false positives on bundle caching check in buildkite. [#4660](https://github.com/inspec/inspec/pull/4660) ([zenspider](https://github.com/zenspider))
+- Pre-load the gem resource to override the global gem method. [#4670](https://github.com/inspec/inspec/pull/4670) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.24 -->
@@ -17,6 +14,7 @@
 - Add startuser systemd service v2 [#4516](https://github.com/inspec/inspec/pull/4516) ([mbaitelman](https://github.com/mbaitelman)) <!-- 4.18.27 -->
 
 #### Merged Pull Requests
+- Pre-load the gem resource to override the global gem method. [#4670](https://github.com/inspec/inspec/pull/4670) ([zenspider](https://github.com/zenspider)) <!-- 4.18.28 -->
 - Fix false positives on bundle caching check in buildkite. [#4660](https://github.com/inspec/inspec/pull/4660) ([zenspider](https://github.com/zenspider)) <!-- 4.18.26 -->
 - Change &quot;an Chef Inspec&quot; to &quot;a Chef Inspec&quot;. [#4663](https://github.com/inspec/inspec/pull/4663) ([kcrouch](https://github.com/kcrouch)) <!-- 4.18.26 -->
 - incorporate changes from chef hab plan [#4662](https://github.com/inspec/inspec/pull/4662) ([miah](https://github.com/miah)) <!-- 4.18.25 -->
