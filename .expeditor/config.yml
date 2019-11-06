@@ -37,12 +37,6 @@ pipelines:
      - CI_ENABLE_COVERAGE: true
      - LANG: "C.UTF-8"
      - SLOW: 1
- - www/build:
-    description: Build website.
-    definition: .expeditor/wwwbuild.yml
- - www/deploy:
-    description: Deploy website to inspec.io
-    definition: .expeditor/wwwdeploy.yml
  - integration/resources:
     description: Test core resources with test-kitchen.
     definition: .expeditor/integration.resources.yml
@@ -140,6 +134,8 @@ subscriptions:
  - workload: artifact_published:unstable:inspec:{{version_constraint}}
    actions:
     - built_in:build_docker_image
+    - bash:.expeditor/buildkite/wwwrelease.sh:
+       post_commit: true
  - workload: artifact_published:current:inspec:{{version_constraint}}
    actions:
     - built_in:tag_docker_image
