@@ -45,7 +45,7 @@ module Inspec::Resources
     end
 
     def linux_hostname(opt = nil)
-      if !opt.nil?
+      if opt
         opt = case opt
               when "f", "long", "fqdn", "full"
                 " -f"
@@ -67,7 +67,7 @@ module Inspec::Resources
     end
 
     def mac_hostname(opt = nil)
-      if !opt.nil?
+      if opt
         opt = case opt
               when "f", "long", "fqdn", "full"
                 " -f"

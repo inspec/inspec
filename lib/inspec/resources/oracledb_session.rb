@@ -21,6 +21,9 @@ module Inspec::Resources
       end
     EXAMPLE
 
+    # rubocop:disable Layout/AlignArguments
+    # going to switch this back off in a separate commit
+
     attr_reader :bin, :db_role, :host, :password, :port, :service,
                 :su_user, :user
 
@@ -58,8 +61,8 @@ module Inspec::Resources
       command = command_builder(format_options, sql)
       inspec_cmd = inspec.command(command)
 
-      DatabaseHelper::SQLQueryResult.new(inspec_cmd, send(parser,
-                                                          inspec_cmd.stdout))
+      DatabaseHelper::SQLQueryResult.new(inspec_cmd,
+                                         send(parser, inspec_cmd.stdout))
     end
 
     def to_s

@@ -624,7 +624,9 @@ module Inspec::Resources
 
     def meta_info(username)
       res = identity(username)
+
       return if res.nil?
+
       {
         home: res[:home],
         shell: res[:shell],
@@ -635,7 +637,9 @@ module Inspec::Resources
 
     def credentials(username)
       res = identity(username)
+
       return if res.nil?
+
       {
         mindays: res[:mindays],
         maxdays: res[:maxdays],
