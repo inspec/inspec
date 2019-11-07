@@ -25,6 +25,7 @@ echo "--- Sourcing 'results/last_build.sh'"
 if [ -f ./results/last_build.env ]; then
     . ./results/last_build.env
     export pkg_artifact
+    export project_root
 fi
 
 echo "+++ Installing ${pkg_ident:?is undefined}"
@@ -35,6 +36,10 @@ HSI="$project_root"/.expeditor/buildkite/artifact.habitat.install.sh
 sudo -E "$HSI"
 
 echo "+++ Testing $PLAN"
+
+PATH="/hab/bin:$PATH"
+export PATH
+
 pushd "$project_root/test/artifact"
-rake
+hab pkg exec core/ruby rake
 popd
