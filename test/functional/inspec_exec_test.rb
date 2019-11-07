@@ -33,7 +33,6 @@ describe "inspec exec" do
   end
 
   it "cleanly fails if mixing incompatible resource and transports" do
-    skip_until 2019, 10, 30, "until need for speed can support aws resources"
     # TODO: I do not know how to test this more directly. It should be possible.
     inspec "exec -t aws:// #{profile_path}/incompatible_resource_for_transport.rb"
 
@@ -44,7 +43,7 @@ describe "inspec exec" do
   it "can execute the profile" do
     inspec("exec " + example_profile + " --no-create-lockfile")
 
-    _(stdout).must_include "  ✔  tmp-1.0: Create /tmp directory\n"
+    _(stdout).must_include "  ✔  tmp-1.0: Create / directory\n"
     _(stdout).must_include "
   ↺  example-1.0: Verify the version number of Example (1 skipped)
      ↺  Can't find file `/tmp/example/config.yaml`
@@ -306,8 +305,6 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec("exec " + File.join(profile_path, "aws-profile")) }
     it "exits with an error" do
       skip if ENV["NO_AWS"]
-      skip_until 2019, 9, 28, "until need for speed can support aws resources"
-
       _(stdout).must_include "Unsupported resource/backend combination: aws_iam_users"
       _(stdout).must_include "Unsupported resource/backend combination: aws_iam_access_keys"
       _(stdout).must_include "Unsupported resource/backend combination: aws_s3_bucket"
@@ -356,10 +353,10 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 Version: (not specified)
 Target:  local://
 
-  \xE2\x9C\x94  tmp-1.0: Create /tmp directory
-     \xE2\x9C\x94  File /tmp should be directory
+  \xE2\x9C\x94  tmp-1.0: Create / directory
+     \xE2\x9C\x94  File / should be directory
 
-  File /tmp
+  File /
      \xE2\x9C\x94  should be directory
 
 Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
@@ -379,10 +376,10 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
     let(:out) { inspec("exec " + simple_inheritance + " --no-create-lockfile") }
 
     it "should print all the results" do
-      _(stdout).must_include "×  tmp-1.0: Create /tmp directory (1 failed)"
+      _(stdout).must_include "×  tmp-1.0: Create / directory (1 failed)"
       _(stdout).must_include "×  should not be directory\n"
       _(stdout).must_include "×  undefined method `should_nota'"
-      _(stdout).must_include "×  should not be directory\n     expected `File /tmp.directory?` to return false, got true"
+      _(stdout).must_include "×  should not be directory\n     expected `File /.directory?` to return false, got true"
       _(stdout).must_include "×  7 should cmp >= 9\n"
       _(stdout).must_include "×  7 should not cmp == /^\\d$/\n"
       _(stdout).must_include "✔  7 should cmp == \"7\""
@@ -395,11 +392,11 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
     let(:out) { inspec("exec " + File.join(profile_path, "dependencies", "profile_d") + " " + simple_inheritance + " --no-create-lockfile") }
 
     it "should print all the results" do
-      _(stdout).must_include "×  tmp-1.0: Create /tmp directory (1 failed)"
+      _(stdout).must_include "×  tmp-1.0: Create / directory (1 failed)"
       _(stdout).must_include "×  cmp-1.0: Using the cmp matcher for numbers (2 failed)"
       _(stdout).must_include "×  undefined method `should_nota'"
-      _(stdout).must_include "×  should not be directory\n     expected `File /tmp.directory?` to return false, got true"
-      _(stdout).must_include "✔  profiled-1: Create /tmp directory (profile d)"
+      _(stdout).must_include "×  should not be directory\n     expected `File /.directory?` to return false, got true"
+      _(stdout).must_include "✔  profiled-1: Create / directory (profile d)"
     end
   end
 
@@ -407,7 +404,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
     let(:out) { inspec("exec " + simple_inheritance) }
 
     it "should print the profile information and then the test results" do
-      _(stdout).must_include "  ×  tmp-1.0: Create /tmp directory (1 failed)\n     ✔  File /tmp should be directory\n     ×  File /tmp should not be directory\n"
+      _(stdout).must_include "  ×  tmp-1.0: Create / directory (1 failed)\n     ✔  File / should be directory\n     ×  File / should not be directory\n"
     end
   end
 
@@ -449,6 +446,8 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
 
   describe "when using profiles on the supermarket" do
     it "can run supermarket profiles directly from the command line" do
+      skip_windows! # can't modify /tmp -> / because it is in supermarket
+
       inspec("exec supermarket://nathenharvey/tmp-compliance-profile --no-create-lockfile")
 
       if is_windows?
@@ -467,6 +466,8 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
     end
 
     it "can run supermarket profiles from inspec.yml" do
+      skip_windows! # can't modify /tmp -> / because it is in supermarket
+
       inspec("exec #{File.join(profile_path, "supermarket-dep")} --no-create-lockfile")
 
       if is_windows?
