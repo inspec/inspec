@@ -1,7 +1,7 @@
 module AwsResourceMixin
   def initialize(resource_params = {})
     Inspec.deprecate(:aws_resources_in_resource_pack,
-      "Resource '#{@__resource_name__ ||= self.class.to_s}'")
+                     "Resource '#{@__resource_name__ ||= self.class.to_s}'")
     validate_params(resource_params).each do |param, value|
       instance_variable_set(:"@#{param}", value)
     end

@@ -190,10 +190,10 @@ module Inspec
     #
     def add_target(target, _opts = [])
       profile = Inspec::Profile.for_target(target,
-        vendor_cache: @cache,
-        backend: @backend,
-        controls: @controls,
-        runner_conf: @conf)
+                                           vendor_cache: @cache,
+                                           backend: @backend,
+                                           controls: @controls,
+                                           runner_conf: @conf)
       raise "Could not resolve #{target} to valid input." if profile.nil?
 
       @target_profiles << profile if supports_profile?(profile)

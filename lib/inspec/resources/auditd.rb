@@ -30,7 +30,7 @@ module Inspec::Resources
     def initialize
       unless inspec.command("/sbin/auditctl").exist?
         raise Inspec::Exceptions::ResourceFailed,
-          "Command `/sbin/auditctl` does not exist"
+              "Command `/sbin/auditctl` does not exist"
       end
 
       auditctl_cmd = "/sbin/auditctl -l"
@@ -38,7 +38,7 @@ module Inspec::Resources
 
       if result.exit_status != 0
         raise Inspec::Exceptions::ResourceFailed,
-          "Command `#{auditctl_cmd}` failed with error: #{result.stderr}"
+              "Command `#{auditctl_cmd}` failed with error: #{result.stderr}"
       end
 
       @content = result.stdout
@@ -46,8 +46,8 @@ module Inspec::Resources
 
       if @content =~ /^LIST_RULES:/
         raise Inspec::Exceptions::ResourceFailed,
-          "The version of audit is outdated." \
-          "The `auditd` resource supports versions of audit >= 2.3."
+              "The version of audit is outdated." \
+              "The `auditd` resource supports versions of audit >= 2.3."
       end
       parse_content
     end

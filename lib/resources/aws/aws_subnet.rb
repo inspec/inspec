@@ -15,8 +15,8 @@ class AwsSubnet < Inspec.resource(1)
 
   include AwsSingularResourceMixin
   attr_reader :assigning_ipv_6_address_on_creation, :availability_zone, :available_ip_address_count,
-    :available, :cidr_block, :default_for_az, :ipv_6_cidr_block_association_set,
-    :mapping_public_ip_on_launch, :subnet_id, :vpc_id
+              :available, :cidr_block, :default_for_az, :ipv_6_cidr_block_association_set,
+              :mapping_public_ip_on_launch, :subnet_id, :vpc_id
   alias available? available
   alias default_for_az? default_for_az
   alias mapping_public_ip_on_launch? mapping_public_ip_on_launch

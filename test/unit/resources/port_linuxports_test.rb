@@ -16,7 +16,7 @@ class TestLinuxPorts < Minitest::Test
                     "protocol" => "tcp",
                     "process" => "sshd",
                     "pid" => 1222 }),
-      @linuxports.parse_ss_line(ss_line)
+                 @linuxports.parse_ss_line(ss_line)
   end
 
   def test_parse_ss_line_ipv4
@@ -27,7 +27,7 @@ class TestLinuxPorts < Minitest::Test
                     "protocol" => "tcp",
                     "process" => "sshd",
                     "pid" => 1222 }),
-      @linuxports.parse_ss_line(ss_line)
+                 @linuxports.parse_ss_line(ss_line)
   end
 
   def test_parse_ss_line_ipv6
@@ -37,7 +37,7 @@ class TestLinuxPorts < Minitest::Test
                     "protocol" => "tcp6",
                     "process" => "java",
                     "pid" => 1722 }),
-      @linuxports.parse_ss_line(ss_line)
+                 @linuxports.parse_ss_line(ss_line)
   end
 
   def test_parse_ss_line_ipv6_wildcard
@@ -47,7 +47,7 @@ class TestLinuxPorts < Minitest::Test
                     "protocol" => "tcp6",
                     "process" => "sshd",
                     "pid" => 1222 }),
-      @linuxports.parse_ss_line(ss_line)
+                 @linuxports.parse_ss_line(ss_line)
   end
 
   def test_parse_ss_line_ipv6_wildcard_brackets
@@ -57,7 +57,7 @@ class TestLinuxPorts < Minitest::Test
                     "protocol" => "tcp6",
                     "process" => "sshd",
                     "pid" => 1222 }),
-      @linuxports.parse_ss_line(ss_line)
+                 @linuxports.parse_ss_line(ss_line)
   end
 
   def test_parse_ss_line_ipv6_address_brackets
@@ -67,6 +67,6 @@ class TestLinuxPorts < Minitest::Test
                     "protocol" => "tcp6",
                     "process" => "java",
                     "pid" => 1722 }),
-      @linuxports.parse_ss_line(ss_line)
+                 @linuxports.parse_ss_line(ss_line)
   end
 end

@@ -210,11 +210,11 @@ describe "example inheritance profile" do
     local_depends_path = File.join(profile_path, "local-depends")
     dir_profile_path = File.join(profile_path, "complete-profile")
     tar_profile_path = File.join(profile_path,
-      "archived-profiles",
-      "tar_profile-1.0.0.tar.gz")
+                                 "archived-profiles",
+                                 "tar_profile-1.0.0.tar.gz")
     zip_profile_path = File.join(profile_path,
-      "archived-profiles",
-      "zip_profile-1.0.0.zip")
+                                 "archived-profiles",
+                                 "zip_profile-1.0.0.zip")
 
     Dir.mktmpdir do |tmpdir|
       [dir_profile_path, tar_profile_path, zip_profile_path].each do |profile|

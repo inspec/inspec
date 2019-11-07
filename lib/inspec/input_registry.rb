@@ -208,8 +208,8 @@ module Inspec
         data = Inspec::SecretsBackend.resolve(path)
         if data.nil?
           raise Inspec::Exceptions::SecretsBackendNotFound,
-            "Cannot find parser for inputs file '#{path}'. " \
-            "Check to make sure file has the appropriate extension."
+                "Cannot find parser for inputs file '#{path}'. " \
+                "Check to make sure file has the appropriate extension."
         end
 
         next if data.inputs.nil?
@@ -230,14 +230,14 @@ module Inspec
     def validate_inputs_file_readability!(path)
       unless File.exist?(path)
         raise Inspec::Exceptions::InputsFileDoesNotExist,
-          "Cannot find input file '#{path}'. " \
-          "Check to make sure file exists."
+              "Cannot find input file '#{path}'. " \
+              "Check to make sure file exists."
       end
 
       unless File.readable?(path)
         raise Inspec::Exceptions::InputsFileNotReadable,
-          "Cannot read input file '#{path}'. " \
-          "Check to make sure file is readable."
+              "Cannot read input file '#{path}'. " \
+              "Check to make sure file is readable."
       end
 
       true

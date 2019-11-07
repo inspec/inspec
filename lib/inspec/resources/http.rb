@@ -35,8 +35,8 @@ module Inspec::Resources
       # profiles.
       if opts.key?(:enable_remote_worker) && !inspec.local_transport?
         warn "Ignoring `enable_remote_worker` option, the `http` resource ",
-          "remote worker is enabled by default for remote targets and ",
-          "cannot be disabled"
+             "remote worker is enabled by default for remote targets and ",
+             "cannot be disabled"
       end
 
       # Run locally if InSpec is ran locally and remotely if ran remotely
@@ -164,7 +164,7 @@ module Inspec::Resources
         def initialize(inspec, http_method, url, opts)
           unless inspec.command("curl").exist?
             raise Inspec::Exceptions::ResourceSkipped,
-              "curl is not available on the target machine"
+                  "curl is not available on the target machine"
           end
 
           @ran_curl = false
