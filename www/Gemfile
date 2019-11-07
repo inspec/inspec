@@ -1,14 +1,6 @@
-# If you do not have OpenSSL installed, update
-# the following line to use 'http://' instead
 source "https://rubygems.org"
 
 gem "slim", ">= 3.0"
-
-# For faster file watcher updates on Windows:
-gem "wdm", "~> 0.1.0", platforms: %i{mswin mingw}
-
-# windows does not come with time zone data
-gem "tzinfo-data", platforms: %i{mswin mingw}
 
 # Middleman Gems
 gem "middleman", ">= 4.0.0"
@@ -19,18 +11,12 @@ gem "middleman-sprockets", ">= 4.0.0"
 gem "middleman-syntax"
 gem "redcarpet"
 
-# Tutorial Gems
-gem "docker-api"
-gem "github-markup"
-
 # Needed to fetch contrib resource packs, etc.
 gem "git", "~> 1.4"
 
 # Build process requirements
-gem "inquirer"
 gem "inspec", path: ".."
 gem "rake"
-gem "ruby-progressbar"
 
 # Ability to flush the cache during a deploy
 gem "fastly"

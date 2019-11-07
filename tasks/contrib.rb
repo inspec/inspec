@@ -38,17 +38,14 @@ namespace :contrib do # rubocop: disable Metrics/BlockLength
 
   desc "Copy docs from resource packs into the core for doc building"
   task copy_docs: [:fetch_resource_packs] do
-    puts "Copying resource pack docs..."
     config["resource_packs"].each do |name, info|
       doc_sub_dir = info["doc_sub_dir"] || "docs/resources"
       doc_src_path = File.join(CONTRIB_DIR, name, doc_sub_dir)
       dest_path = RESOURCE_DOC_DIR
-      puts "  #{name}:"
       Dir.chdir(doc_src_path) do
-        Dir.glob("*.md*").each do |file|
+        Dir["*.md*"].sort.each do |file|
           # TODO: check file for Availability section in markdown?
           FileUtils.cp(file, dest_path)
-          puts "    #{file}"
         end
       end
     end
@@ -56,14 +53,13 @@ namespace :contrib do # rubocop: disable Metrics/BlockLength
 
   desc "Cleanup docs from resource packs in core"
   task cleanup_docs: [:read_config] do
-    puts "Purging resource pack docs..."
+    # TODO: I don't see the point of this cleanup phase
     config["resource_packs"].each do |name, info|
       doc_sub_dir = info["doc_sub_dir"] || "docs/resources"
       doc_src_path = File.join(CONTRIB_DIR, name, doc_sub_dir)
       dest_path = RESOURCE_DOC_DIR
-      puts "  #{name}"
       Dir.chdir(doc_src_path) do
-        Dir.glob("*.md*").each do |file|
+        Dir["*.md*"].sort.each do |file|
           cruft = File.join(dest_path, file)
           FileUtils.rm_f(cruft)
         end

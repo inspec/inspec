@@ -27,17 +27,18 @@ configure :development do
   activate :livereload
 end
 
+class Middleman::Cli::Build < Thor::Group
+  protected
+
+  def on_event(event_type, target, extra = nil)
+    # no logging
+  end
+end
+
 # Methods defined in the helpers block are available in templates
 require "lib/sidebar_helpers"
 helpers SidebarHelpers
 
-# Methods defined in the helpers block are available in templates
-# helpers do
-#   def some_helper
-#     'Helping'
-#   end
-# end
-#
 # Build-specific configuration
 configure :build do
   # Minify CSS on build
