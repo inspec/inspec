@@ -1,24 +1,15 @@
-require "minitest/autorun"
+require_relative "artifact_helper"
+require "open3"
 
-class TestArtifactDetect < Minitest::Test
-  def test_inspec_exists_linux
-    skip if windows?
-    refute_match(/no inspec/, `/usr/bin/which inspec`)
-  end
-
-  def test_inspec_exists_windows
-    skip unless windows?
-    assert_match(/inspec.bat/, `Get-Command inspec`)
-  end
+class TestInspecDetect < Minitest::Test
+  parallelize_me!
 
   def test_detect
-    exit = nil
-    out, err = capture_subprocess_io do
-      exit = system("inspec detect --no-color")
-    end
+    command = "/bin/inspec detect --no-color #{TEST_CLI_OPTS}"
+    stdout, stderr, status = Open3.capture3(command)
 
-    assert_empty err.sub(/#< CLIXML\n/, "")
-    assert_match(/Platform Details/, out)
-    assert exit
+    assert_empty stderr.sub(/#< CLIXML\n/, "")
+    assert_match(/Platform Details/, stdout)
+    assert status
   end
 end
