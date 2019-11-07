@@ -214,6 +214,14 @@ describe "inputs" do
 
       assert_json_controls_passing(result)
     end
+
+    it "is able to read the inputs in describe.one blocks" do
+      cmd = "exec #{inputs_profiles_path}/describe-one"
+
+      result = run_inspec_process(cmd, json: true)
+
+      assert_json_controls_passing(result)
+    end
   end
 
   describe "run profile with metadata inputs" do
