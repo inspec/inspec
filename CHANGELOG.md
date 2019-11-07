@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.29 -->
-## [v4.18.29](https://github.com/inspec/inspec/tree/v4.18.29) (2019-11-07)
+<!-- latest_release 4.18.30 -->
+## [v4.18.30](https://github.com/inspec/inspec/tree/v4.18.30) (2019-11-07)
 
-#### Merged Pull Requests
-- Revamp www/doco setup [#4674](https://github.com/inspec/inspec/pull/4674) ([zenspider](https://github.com/zenspider))
+#### Bug Fixes
+- Make input() work in describe.one [#4666](https://github.com/inspec/inspec/pull/4666) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.24 -->
 ### Changes since 4.18.24 release
+
+#### Bug Fixes
+- Make input() work in describe.one [#4666](https://github.com/inspec/inspec/pull/4666) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.30 -->
 
 #### New Features
 - Add startuser systemd service v2 [#4516](https://github.com/inspec/inspec/pull/4516) ([mbaitelman](https://github.com/mbaitelman)) <!-- 4.18.27 -->
