@@ -1,5 +1,4 @@
 require_relative "artifact_helper"
-require "open3"
 
 class TestInspecJson < Minitest::Test
   parallelize_me!
