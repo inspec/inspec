@@ -1,3 +1,8 @@
+# This class is deprecated and will be removed in the next major release of InSpec.
+# Use the Inspec::Object classes from the inspec-objects rubygem instead.
+
+require "inspec/utils/deprecation"
+
 module Inspec
   class Value
     include ::Inspec::RubyHelper
@@ -9,6 +14,8 @@ module Inspec
     def initialize(qualifiers = [])
       @qualifier = qualifiers
       @variable = nil
+
+      Inspec.deprecate(:object_classes, "The Inspec::Value class is deprecated. Use the Inspec::Object::Value class from the inspec-objects Ruby library.")
     end
 
     def to_ruby

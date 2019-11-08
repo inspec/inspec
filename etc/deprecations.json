@@ -116,6 +116,10 @@
     "wmi_non_hash_usage": {
       "action": "fail_control",
       "suffix": "This property was removed in InSpec 4.0."
+    },
+    "object_classes": {
+      "action": "warn",
+      "suffix": "These classes will be removed in InSpec 5.0."
     }
   }
 }

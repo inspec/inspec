@@ -105,7 +105,7 @@ def handle_deprecations(opts_in, &block)
     expectations[group_name] = expectations[:all_others]
   end
 
-  # Wire up Insepc.deprecator accordingly using mocha stubbing
+  # Wire up Inspec.deprecator accordingly using mocha stubbing
   expectations.each do |group_name, expectation|
     inst = Inspec::Deprecation::Deprecator.any_instance
     case expectation

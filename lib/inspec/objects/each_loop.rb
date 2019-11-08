@@ -1,3 +1,8 @@
+# This class is deprecated and will be removed in the next major release of InSpec.
+# Use the Inspec::Object classes from the inspec-objects rubygem instead.
+
+require "inspec/utils/deprecation"
+
 module Inspec
   class EachLoop < List
     attr_reader :variables
@@ -6,6 +11,8 @@ module Inspec
       super
       @tests = []
       @variables = []
+
+      Inspec.deprecate(:object_classes, "The Inspec::EachLoop class is deprecated. Use the Inspec::Object::EachLoop class from the inspec-objects Ruby library.")
     end
 
     def add_test(t = nil)

@@ -1,3 +1,8 @@
+# This class is deprecated and will be removed in the next major release of InSpec.
+# Use the Inspec::Object classes from the inspec-objects rubygem instead.
+
+require "inspec/utils/deprecation"
+
 module Inspec
   class Control
     attr_accessor :id, :title, :descriptions, :impact, :tests, :tags, :refs, :only_if
@@ -6,6 +11,8 @@ module Inspec
       @tags = []
       @refs = []
       @descriptions = {}
+
+      Inspec.deprecate(:object_classes, "The Inspec::Control class is deprecated. Use the Inspec::Object::Control class from the inspec-objects Ruby library.")
     end
 
     def add_test(t)

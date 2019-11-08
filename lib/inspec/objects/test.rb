@@ -1,3 +1,8 @@
+# This class is deprecated and will be removed in the next major release of InSpec.
+# Use the Inspec::Object classes from the inspec-objects rubygem instead.
+
+require "inspec/utils/deprecation"
+
 module Inspec
   class Test
     attr_accessor :qualifier, :matcher, :expectation, :skip, :negated, :variables, :only_if
@@ -7,6 +12,8 @@ module Inspec
       @qualifier = []
       @negated = false
       @variables = []
+
+      Inspec.deprecate(:object_classes, "The Inspec::Test class is deprecated. Use the Inspec::Object::Test class from the inspec-objects Ruby library.")
     end
 
     def negate!

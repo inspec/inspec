@@ -1,3 +1,8 @@
+# This class is deprecated and will be removed in the next major release of InSpec.
+# Use the Inspec::Object classes from the inspec-objects rubygem instead.
+
+require "inspec/utils/deprecation"
+
 module Inspec
   class Describe
     # Internal helper to structure test objects.
@@ -53,6 +58,8 @@ module Inspec
       @qualifier = []
       @tests = []
       @variables = []
+
+      Inspec.deprecate(:object_classes, "The Inspec::Describe class is deprecated. Use the Inspec::Object::Describe class from the inspec-objects Ruby library.")
     end
 
     def add_test(its, matcher, expectation, opts = {})
