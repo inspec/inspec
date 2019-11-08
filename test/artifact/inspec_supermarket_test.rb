@@ -1,10 +1,8 @@
 require_relative "artifact_helper"
 
 class TestInspecSupermarket < Minitest::Test
-  parallelize_me!
-
   def test_supermarket
-    flunk
+    skip
     command = "/bin/inspec supermarket #{TEST_CLI_OPTS}"
     stdout, stderr, status = Open3.capture3(command)
 

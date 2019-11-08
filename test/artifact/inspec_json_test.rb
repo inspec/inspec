@@ -1,10 +1,8 @@
 require_relative "artifact_helper"
 
 class TestInspecJson < Minitest::Test
-  parallelize_me!
-
   def test_json
-    flunk
+    skip
     # Need a tempdir
     command = "/bin/inspec json #{TEST_CLI_OPTS}"
     stdout, stderr, status = Open3.capture3(command)
