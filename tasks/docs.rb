@@ -295,8 +295,7 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
 
     docs = ResourceDocs.new(src)
     resources =
-      Dir.chdir(src) { Dir["resources/*.md{.erb,}"] }
-      .sort
+      Dir.chdir(src) { Dir["resources/*.md{.erb,}"] }.sort
     puts "Found #{resources.length} resource docs"
     puts "Rendering docs to #{dst}/"
 
@@ -304,7 +303,9 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
     seen = {}
     resources.reverse_each do |file| # bias towards .erb files?
       dst_name = File.basename(file).sub(/\.md(\.erb)?$/, ".html.md")
+
       next if seen[dst_name]
+
       seen[dst_name] = true
       res = docs.render(file)
       File.write(File.join(dst, dst_name), res)
