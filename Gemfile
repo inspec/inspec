@@ -19,7 +19,7 @@ group :omnibus do
 end
 
 group :test do
-  gem "chefstyle", "0.13.0"
+  gem "chefstyle", "~> 0.13.0"
   gem "coveralls", require: false
   gem "minitest", "~> 5.5"
   gem "rake", ">= 10"

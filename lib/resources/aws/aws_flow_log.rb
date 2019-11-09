@@ -55,7 +55,7 @@ class AwsFlowLog < Inspec.resource(1)
 
     if validated_params.empty?
       raise ArgumentError,
-        "aws_flow_log requires a parameter: flow_log_id, subnet_id, or vpc_id"
+            "aws_flow_log requires a parameter: flow_log_id, subnet_id, or vpc_id"
     end
 
     validated_params

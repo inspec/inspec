@@ -15,8 +15,8 @@ class AwsEcsCluster < Inspec.resource(1)
 
   include AwsSingularResourceMixin
   attr_reader :cluster_arn, :cluster_name, :status,
-    :registered_container_instances_count, :running_tasks_count,
-    :pending_tasks_count, :active_services_count, :statistics
+              :registered_container_instances_count, :running_tasks_count,
+              :pending_tasks_count, :active_services_count, :statistics
 
   def to_s
     "AWS ECS cluster #{cluster_name}"

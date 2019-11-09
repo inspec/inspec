@@ -98,7 +98,7 @@ module Inspec::Resources
       cmd = inspec.command("df #{partition} -PT")
       if cmd.stdout.nil? || cmd.stdout.empty? || cmd.exit_status != 0
         raise Inspec::Exceptions::ResourceFailed,
-          "Unable to get available space for partition #{partition}"
+              "Unable to get available space for partition #{partition}"
       end
       value = cmd.stdout.split(/\n/)[1].strip.split(" ")
       {
@@ -125,8 +125,8 @@ module Inspec::Resources
         fs = JSON.parse(cmd.stdout)
       rescue JSON::ParserError => e
         raise Inspec::Exceptions::ResourceFailed,
-          "Failed to parse JSON from Powershell. " \
-          "Error: #{e}"
+              "Failed to parse JSON from Powershell. " \
+              "Error: #{e}"
       end
       {
         name: fs["DeviceID"],

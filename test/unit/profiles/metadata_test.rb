@@ -104,21 +104,25 @@ EOF
       _(res.params[:name]).must_be_nil
     end
 
+    def from_yaml(str)
+      Inspec::Metadata.from_yaml("mock", "---\nsupports:\n  - #{str}", nil)
+    end
+
     it "loads the support field from metadata" do
-      res = Inspec::Metadata.from_yaml("mock",
-        "---\nsupports:\n  - os: ubuntu", nil)
+      res = from_yaml("os: ubuntu")
+
       _(res.params[:supports]).must_equal([{ os: "ubuntu" }])
     end
 
     it "makes sure the supports release field is a string" do
-      res = Inspec::Metadata.from_yaml("mock",
-        "---\nsupports:\n  - release: 12.02", nil)
+      res = from_yaml("release: 12.02")
+
       _(res.params[:supports]).must_equal([{ release: "12.02" }])
     end
 
     it "makes sure the supports release field is nil if not configured" do
-      res = Inspec::Metadata.from_yaml("mock",
-        "---\nsupports:\n  - release: ", nil)
+      res = from_yaml("release: ")
+
       _(res.params[:supports]).must_equal([{ release: nil }])
     end
 

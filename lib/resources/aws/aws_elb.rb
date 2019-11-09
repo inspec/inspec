@@ -14,8 +14,8 @@ class AwsElb < Inspec.resource(1)
 
   include AwsSingularResourceMixin
   attr_reader :availability_zones, :dns_name, :elb_name, :external_ports,
-    :instance_ids, :internal_ports, :security_group_ids,
-    :subnet_ids, :vpc_id
+              :instance_ids, :internal_ports, :security_group_ids,
+              :subnet_ids, :vpc_id
 
   def to_s
     "AWS ELB #{elb_name}"

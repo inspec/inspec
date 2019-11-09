@@ -204,7 +204,11 @@ module Inspec
 
     def self.set_skip_rule(rule, value, message = nil, type = :only_if)
       rule.instance_variable_set(:@__skip_rule,
-        { result: value, message: message, type: type })
+                                 {
+                                   result: value,
+                                   message: message,
+                                   type: type,
+                                 })
     end
 
     def self.merge_count(rule)

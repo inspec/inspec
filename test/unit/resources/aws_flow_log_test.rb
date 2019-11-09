@@ -34,11 +34,11 @@ class BasicAwsFlowLog < Minitest::Test
 
   def test_to_s
     assert_equal "AWS Flow Log fl-abcd1234",
-      AwsFlowLog.new(flow_log_id: "fl-abcd1234").to_s
+                 AwsFlowLog.new(flow_log_id: "fl-abcd1234").to_s
     assert_equal "AWS Flow Log fl-abcd3333",
-      AwsFlowLog.new(subnet_id: "subnet-abcd3333").to_s
+                 AwsFlowLog.new(subnet_id: "subnet-abcd3333").to_s
     assert_equal "AWS Flow Log fl-abcd1111",
-      AwsFlowLog.new(vpc_id: "vpc-abcd1111").to_s
+                 AwsFlowLog.new(vpc_id: "vpc-abcd1111").to_s
   end
 
   def test_flow_log_id

@@ -217,8 +217,7 @@ module Inspec::Resources
       }
     rescue JSON::ParserError => e
       raise Inspec::Exceptions::ResourceFailed,
-        "Failed to parse JSON from `brew` command. " \
-        "Error: #{e}"
+            "Failed to parse JSON from `brew` command. Error: #{e}"
     end
   end
 
@@ -307,8 +306,7 @@ module Inspec::Resources
         package = JSON.parse(cmd.stdout)
       rescue JSON::ParserError => e
         raise Inspec::Exceptions::ResourceFailed,
-          "Failed to parse JSON from PowerShell. " \
-          "Error: #{e}"
+              "Failed to parse JSON from PowerShell. Error: #{e}"
       end
 
       # What if we match multiple packages?  just pick the first one for now.

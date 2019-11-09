@@ -153,7 +153,7 @@ begin
     deletions.each do |member|
       puts "Removing #{member} from #{team}"
       github.remove_team_membership(gh_teams[team]["id"], member,
-        accept: "application/vnd.github.ironman-preview+json")
+                                    accept: "application/vnd.github.ironman-preview+json")
     end
   end
 

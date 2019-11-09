@@ -28,11 +28,12 @@ describe Inspec::Input do
   describe "marshalling" do
     it "should be able to represent an Input as a Hash" do
       input = Inspec::Input.new("test_input",
-        value: 12,
-        title: "Best input ever",
-        description: "important",
-        type: "Numeric",
-        required: true)
+                                value: 12,
+                                title: "Best input ever",
+                                description: "important",
+                                type: "Numeric",
+                                required: true)
+
       _(input.to_hash).must_equal({
         name: "test_input",
         options: {

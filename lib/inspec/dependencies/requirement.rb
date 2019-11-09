@@ -21,16 +21,20 @@ module Inspec
       }
 
       new(dep[:name],
-        dep[:version],
-        config,
-        opts.merge(dep))
+          dep[:version],
+          config,
+          opts.merge(dep))
     end
 
     def self.from_lock_entry(entry, config, opts = {})
+      resolved_source = entry[:resolved_source]
+        .merge(backend: config[:backend])
+        .merge(opts)
+
       req = new(entry[:name],
-        entry[:version_constraints],
-        config,
-        entry[:resolved_source].merge(backend: config[:backend]).merge(opts))
+                entry[:version_constraints],
+                config,
+                resolved_source)
 
       locked_deps = []
       Array(entry[:dependencies]).each do |dep_entry|

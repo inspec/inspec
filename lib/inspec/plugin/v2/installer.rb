@@ -267,12 +267,17 @@ module Inspec::Plugin::V2
       # Make Set that encompasses just the gemfile that was provided
       plugin_local_source = Gem::Source::SpecificFile.new(opts[:gem_file])
 
-      plugin_dependency = Gem::Dependency.new(requested_plugin_name,
-        plugin_local_source.spec.version)
+      plugin_dependency = Gem::Dependency.new(
+        requested_plugin_name,
+        plugin_local_source.spec.version
+      )
 
       requested_local_gem_set = Gem::Resolver::InstallerSet.new(:both)
-      requested_local_gem_set.add_local(plugin_dependency.name,
-        plugin_local_source.spec, plugin_local_source)
+      requested_local_gem_set.add_local(
+        plugin_dependency.name,
+        plugin_local_source.spec,
+        plugin_local_source
+      )
 
       install_gem_to_plugins_dir(plugin_dependency, [requested_local_gem_set])
     end

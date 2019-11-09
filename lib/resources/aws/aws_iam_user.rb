@@ -17,7 +17,7 @@ class AwsIamUser < Inspec.resource(1)
 
   include AwsSingularResourceMixin
   attr_reader :access_keys, :attached_policy_names, :attached_policy_arns, \
-    :has_console_password, :has_mfa_enabled, :inline_policy_names, :username
+              :has_console_password, :has_mfa_enabled, :inline_policy_names, :username
   alias has_mfa_enabled? has_mfa_enabled
   alias has_console_password? has_console_password
 

@@ -16,7 +16,7 @@ class AwsConfigDeliveryChannel < Inspec.resource(1)
 
   include AwsSingularResourceMixin
   attr_reader :channel_name, :s3_bucket_name, :s3_key_prefix, :sns_topic_arn,
-    :delivery_frequency_in_hours
+              :delivery_frequency_in_hours
 
   def to_s
     "Config_Delivery_Channel: #{@channel_name}"

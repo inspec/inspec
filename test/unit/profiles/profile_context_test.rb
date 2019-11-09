@@ -266,8 +266,10 @@ describe Inspec::ProfileContext do
 
     describe "adds a check via describe" do
       let(:check) do
-        profile.load(format(context_format,
-          "describe(os[:family]) { it { must_equal 'debian' } }"))
+        profile.load(
+          format(context_format,
+                 "describe(os[:family]) { it { must_equal 'debian' } }")
+        )
         get_checks[0]
       end
 
@@ -286,8 +288,10 @@ describe Inspec::ProfileContext do
 
     describe "adds a check via expect" do
       let(:check) do
-        profile.load(format(context_format,
-          "expect(os[:family]).to eq('debian')"))
+        profile.load(
+          format(context_format,
+                 "expect(os[:family]).to eq('debian')")
+        )
         get_checks[0]
       end
 
@@ -306,10 +310,12 @@ describe Inspec::ProfileContext do
 
     describe "adds a check via describe + expect" do
       let(:check) do
-        profile.load(format(context_format,
-          "describe 'the actual test' do
+        profile.load(
+          format(context_format,
+                 "describe 'the actual test' do
             expect(os[:family]).to eq('debian')
-          end"))
+          end")
+        )
         get_checks[0]
       end
 

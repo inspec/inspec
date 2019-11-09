@@ -156,9 +156,12 @@ module Inspec
         nil
       when nil then nil
       else
-        Inspec.deprecate(:supports_syntax,
+        Inspec.deprecate(
+          :supports_syntax,
           "Do not use deprecated `supports: #{x}` syntax. Instead use:\n"\
-          "supports:\n  - os-family: #{x}\n\n")
+            "supports:\n  - os-family: #{x}\n\n"
+        )
+
         { :'os-family' => x } # rubocop:disable Style/HashSyntax
       end
     end
