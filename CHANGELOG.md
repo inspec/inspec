@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.30 -->
-## [v4.18.30](https://github.com/inspec/inspec/tree/v4.18.30) (2019-11-07)
+<!-- latest_release 4.18.31 -->
+## [v4.18.31](https://github.com/inspec/inspec/tree/v4.18.31) (2019-11-09)
 
-#### Bug Fixes
-- Make input() work in describe.one [#4666](https://github.com/inspec/inspec/pull/4666) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Bump chefstyle and fix up flagged code. [#4677](https://github.com/inspec/inspec/pull/4677) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.24 -->
@@ -17,6 +17,7 @@
 - Add startuser systemd service v2 [#4516](https://github.com/inspec/inspec/pull/4516) ([mbaitelman](https://github.com/mbaitelman)) <!-- 4.18.27 -->
 
 #### Merged Pull Requests
+- Bump chefstyle and fix up flagged code. [#4677](https://github.com/inspec/inspec/pull/4677) ([zenspider](https://github.com/zenspider)) <!-- 4.18.31 -->
 - Revamp www/doco setup [#4674](https://github.com/inspec/inspec/pull/4674) ([zenspider](https://github.com/zenspider)) <!-- 4.18.29 -->
 - Pre-load the gem resource to override the global gem method. [#4670](https://github.com/inspec/inspec/pull/4670) ([zenspider](https://github.com/zenspider)) <!-- 4.18.28 -->
 - Fix false positives on bundle caching check in buildkite. [#4660](https://github.com/inspec/inspec/pull/4660) ([zenspider](https://github.com/zenspider)) <!-- 4.18.26 -->
