@@ -1,12 +1,7 @@
 require_relative "artifact_helper"
 
-class TestInspecShell < Minitest::Test
+class TestInspecShell < ArtifactTest
   def test_shell
-    command = "inspec shell -c 'os.family' #{TEST_CLI_OPTS}"
-    stdout, stderr, status = Open3.capture3(command)
-
-    assert_empty stderr.sub(/#< CLIXML\n/, "")
-    assert stdout
-    assert status
+    assert_artifact("shell -c 'os.family'")
   end
 end

@@ -1,12 +1,7 @@
 require_relative "artifact_helper"
 
-class TestInspecHelp < Minitest::Test
+class TestInspecHelp < ArtifactTest
   def test_help
-    command = "inspec help #{TEST_CLI_OPTS}"
-    stdout, stderr, status = Open3.capture3(command)
-
-    assert_empty stderr.sub(/#< CLIXML\n/, "")
-    assert stdout
-    assert status
+    assert_artifact(:help)
   end
 end

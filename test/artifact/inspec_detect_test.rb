@@ -1,12 +1,7 @@
 require_relative "artifact_helper"
 
-class TestInspecDetect < Minitest::Test
+class TestInspecDetect < ArtifactTest
   def test_detect
-    command = "inspec detect --no-color #{TEST_CLI_OPTS}"
-    stdout, stderr, status = Open3.capture3(command)
-
-    assert_empty stderr.sub(/#< CLIXML\n/, "")
-    assert_match(/Platform Details/, stdout)
-    assert status
+    assert_artifact("detect --no-color")
   end
 end

@@ -1,13 +1,8 @@
 require_relative "artifact_helper"
 
-class TestInspecExec < Minitest::Test
+class TestInspecExec < ArtifactTest
   def test_exec
     skip
-    command = "inspec exec #{TEST_CLI_OPTS}"
-    stdout, stderr, status = Open3.capture3(command)
-
-    assert_empty stderr.sub(/#< CLIXML\n/, "")
-    assert stdout
-    assert status
+    assert_artifact(:exec)
   end
 end
