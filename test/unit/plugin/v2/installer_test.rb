@@ -413,7 +413,9 @@ class PluginInstallerUninstallTests < Minitest::Test
     @installer.__reset_loader
 
     skip_windows!
-    @installer.uninstall("inspec-test-fixture")
+    capture_subprocess_io do
+      @installer.uninstall("inspec-test-fixture")
+    end
 
     # UnInstalling a gem physically removes the gemspec and the gem library code
     spec_path = File.join(@installer.gem_path, "specifications", "inspec-test-fixture-0.1.0.gemspec")
@@ -439,7 +441,9 @@ class PluginInstallerUninstallTests < Minitest::Test
     @installer.__reset_loader
 
     skip_windows!
-    @installer.uninstall("inspec-test-fixture")
+    capture_subprocess_io do
+      @installer.uninstall("inspec-test-fixture")
+    end
 
     # UnInstalling a gem removes the gemspec and the gem library code
     spec_path = File.join(@installer.gem_path, "specifications", "inspec-test-fixture-0.2.0.gemspec")
