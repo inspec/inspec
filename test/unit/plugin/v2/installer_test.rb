@@ -31,7 +31,7 @@ module InstallerTestHelpers
   def setup
     WebMock.disable_net_connect!(allow: %r{(api\.)?rubygems\.org/.*})
     repo_path = File.expand_path(File.join( __FILE__, "..", "..", "..", "..", ".."))
-    mock_path = File.join(repo_path, "test", "unit", "mock")
+    mock_path = File.join(repo_path, "test", "fixtures")
 
     @config_dir_path = File.join(mock_path, "config_dirs")
     @plugin_fixture_src_path = File.join(mock_path, "plugins", "inspec-test-fixture")

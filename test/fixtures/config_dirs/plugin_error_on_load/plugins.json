@@ -4,7 +4,7 @@
     {
       "name": "inspec-divide-by-zero",
       "installation_type": "path",
-      "installation_path": "test/unit/mock/plugins/inspec-divide-by-zero/inspec-divide-by-zero"
+      "installation_path": "test/fixtures/plugins/inspec-divide-by-zero/inspec-divide-by-zero"
     }
   ]
 }

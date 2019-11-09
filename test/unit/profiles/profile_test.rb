@@ -71,7 +71,7 @@ describe Inspec::Profile do
       _(info[:controls][0][:source_location]).must_equal loc
     end
 
-    it "gets code on tgz profiles" do
+    it "gets code on tgz profiles FUCK" do
       path = MockLoader.profile_tgz(profile_id)
       info = MockLoader.load_profile(path).info
       _(info[:controls][0][:code]).must_equal code
@@ -105,7 +105,7 @@ describe Inspec::Profile do
       let(:profile_id) { "empty-metadata" }
 
       it "prints loads of warnings" do
-        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+        logger.expect :info, nil, ["Checking profile in #{home}/test/fixtures/profiles/#{profile_id}"]
         logger.expect :error, nil, ["Missing profile version in inspec.yml"]
         logger.expect :warn, nil, ["Missing profile summary in inspec.yml"]
         logger.expect :warn, nil, ["Missing profile maintainer in inspec.yml"]
@@ -119,7 +119,7 @@ describe Inspec::Profile do
 
         # verify hash result
         _(result[:summary][:valid]).must_equal false
-        _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+        _(result[:summary][:location]).must_equal "#{home}/test/fixtures/profiles/#{profile_id}"
         _(result[:summary][:profile]).must_match(/tests from .*empty-metadata/)
         _(result[:summary][:controls]).must_equal 0
         _(result[:errors].length).must_equal 1
@@ -132,7 +132,7 @@ describe Inspec::Profile do
       let(:profile) { MockLoader.load_profile(profile_id, { logger: logger }) }
 
       it "prints ok messages" do
-        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+        logger.expect :info, nil, ["Checking profile in #{home}/test/fixtures/profiles/#{profile_id}"]
         logger.expect :info, nil, ["Metadata OK."]
         logger.expect :warn, nil, ["No controls or tests were defined."]
 
@@ -143,7 +143,7 @@ describe Inspec::Profile do
 
         # verify hash result
         _(result[:summary][:valid]).must_equal true
-        _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+        _(result[:summary][:location]).must_equal "#{home}/test/fixtures/profiles/#{profile_id}"
         _(result[:summary][:profile]).must_equal "name"
         _(result[:summary][:controls]).must_equal 0
         _(result[:errors].length).must_equal 0
@@ -155,7 +155,7 @@ describe Inspec::Profile do
       let(:profile_id) { "complete-profile" }
 
       it "prints ok messages and counts the controls" do
-        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+        logger.expect :info, nil, ["Checking profile in #{home}/test/fixtures/profiles/#{profile_id}"]
         logger.expect :info, nil, ["Metadata OK."]
         logger.expect :info, nil, ["Found 1 controls."]
         logger.expect :info, nil, ["Control definitions OK."]
@@ -166,7 +166,7 @@ describe Inspec::Profile do
 
         # verify hash result
         _(result[:summary][:valid]).must_equal true
-        _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+        _(result[:summary][:location]).must_equal "#{home}/test/fixtures/profiles/#{profile_id}"
         _(result[:summary][:profile]).must_equal "complete"
         _(result[:summary][:controls]).must_equal 1
         _(result[:errors].length).must_equal 0
@@ -180,7 +180,7 @@ describe Inspec::Profile do
       let(:profile) { MockLoader.load_profile(profile_path, { logger: logger }) }
 
       it "prints ok messages and counts the controls" do
-        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+        logger.expect :info, nil, ["Checking profile in #{home}/test/fixtures/profiles/#{profile_id}"]
         logger.expect :info, nil, ["Metadata OK."]
         logger.expect :info, nil, ["Found 1 controls."]
         logger.expect :info, nil, ["Control definitions OK."]
@@ -191,7 +191,7 @@ describe Inspec::Profile do
 
         # verify hash result
         _(result[:summary][:valid]).must_equal true
-        _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+        _(result[:summary][:location]).must_equal "#{home}/test/fixtures/profiles/#{profile_id}"
         _(result[:summary][:profile]).must_equal "complete"
         _(result[:summary][:controls]).must_equal 1
         _(result[:errors].length).must_equal 0
@@ -205,7 +205,7 @@ describe Inspec::Profile do
       let(:profile) { MockLoader.load_profile(profile_path, { logger: logger }) }
 
       it "prints ok messages and counts the controls" do
-        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+        logger.expect :info, nil, ["Checking profile in #{home}/test/fixtures/profiles/#{profile_id}"]
         logger.expect :info, nil, ["Metadata OK."]
         logger.expect :info, nil, ["Found 1 controls."]
         logger.expect :info, nil, ["Control definitions OK."]
@@ -216,7 +216,7 @@ describe Inspec::Profile do
 
         # verify hash result
         _(result[:summary][:valid]).must_equal true
-        _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+        _(result[:summary][:location]).must_equal "#{home}/test/fixtures/profiles/#{profile_id}"
         _(result[:summary][:profile]).must_equal "complete"
         _(result[:summary][:controls]).must_equal 1
         _(result[:errors].length).must_equal 0
@@ -230,7 +230,7 @@ describe Inspec::Profile do
       let(:profile) { MockLoader.load_profile(profile_path, { logger: logger }) }
 
       it "prints ok messages and counts the controls" do
-        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+        logger.expect :info, nil, ["Checking profile in #{home}/test/fixtures/profiles/#{profile_id}"]
         logger.expect :info, nil, ["Metadata OK."]
         logger.expect :info, nil, ["Found 1 controls."]
         logger.expect :info, nil, ["Control definitions OK."]
@@ -241,7 +241,7 @@ describe Inspec::Profile do
 
         # verify hash result
         _(result[:summary][:valid]).must_equal true
-        _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+        _(result[:summary][:location]).must_equal "#{home}/test/fixtures/profiles/#{profile_id}"
         _(result[:summary][:profile]).must_equal "complete"
         _(result[:summary][:controls]).must_equal 1
         _(result[:errors].length).must_equal 0
@@ -255,7 +255,7 @@ describe Inspec::Profile do
       let(:profile) { MockLoader.load_profile(profile_path, { logger: logger }) }
 
       it "prints ok messages and counts the controls" do
-        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+        logger.expect :info, nil, ["Checking profile in #{home}/test/fixtures/profiles/#{profile_id}"]
         logger.expect :warn, nil, ["No controls or tests were defined."]
         logger.expect :error, nil, ["Version needs to be in SemVer format"]
 
@@ -266,7 +266,7 @@ describe Inspec::Profile do
 
         # verify hash result
         _(result[:summary][:valid]).must_equal false
-        _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+        _(result[:summary][:location]).must_equal "#{home}/test/fixtures/profiles/#{profile_id}"
         _(result[:summary][:profile]).must_equal "invalid-version"
 
         _(result[:summary][:controls]).must_equal 0
@@ -279,7 +279,7 @@ describe Inspec::Profile do
       let(:profile_path) { "slash-in-name/not-allowed" } # Slashes allowed here
       let(:profile_name) { "slash-in-name/not-allowed" } # But not here
       it "issues an error" do
-        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_path}"]
+        logger.expect :info, nil, ["Checking profile in #{home}/test/fixtures/profiles/#{profile_path}"]
         logger.expect :error, nil, ["The profile name (#{profile_name}) contains a slash which " \
           "is not permitted. Please remove all slashes from `inspec.yml`."]
         logger.expect :info, nil, ["Found 1 controls."]
@@ -298,7 +298,7 @@ describe Inspec::Profile do
       let(:profile) { MockLoader.load_profile(profile_path, { logger: logger }) }
 
       it "prints ok messages and counts the controls" do
-        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+        logger.expect :info, nil, ["Checking profile in #{home}/test/fixtures/profiles/#{profile_id}"]
         logger.expect :warn, nil, ["License 'Invalid License Name' needs to be in SPDX format or marked as 'Proprietary'. See https://spdx.org/licenses/."]
         logger.expect :warn, nil, ["No controls or tests were defined."]
         logger.expect :info, nil, ["Metadata OK."]
@@ -310,7 +310,7 @@ describe Inspec::Profile do
 
         # verify hash result
         _(result[:summary][:valid]).must_equal true
-        _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+        _(result[:summary][:location]).must_equal "#{home}/test/fixtures/profiles/#{profile_id}"
         _(result[:summary][:profile]).must_equal "license-invalid"
 
         _(result[:summary][:controls]).must_equal 0
@@ -324,7 +324,7 @@ describe Inspec::Profile do
         let(:profile) { MockLoader.load_profile(profile_path, { logger: logger }) }
 
         it "prints ok messages and counts the controls" do
-          logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+          logger.expect :info, nil, ["Checking profile in #{home}/test/fixtures/profiles/#{profile_id}"]
           logger.expect :warn, nil, ["No controls or tests were defined."]
           logger.expect :info, nil, ["Metadata OK."]
 
@@ -335,7 +335,7 @@ describe Inspec::Profile do
 
           # verify hash result
           _(result[:summary][:valid]).must_equal true
-          _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+          _(result[:summary][:location]).must_equal "#{home}/test/fixtures/profiles/#{profile_id}"
           _(result[:summary][:profile]).must_equal "license-spdx"
 
           _(result[:summary][:controls]).must_equal 0
@@ -350,7 +350,7 @@ describe Inspec::Profile do
         let(:profile) { MockLoader.load_profile(profile_path, { logger: logger }) }
 
         it "prints ok messages and counts the controls" do
-          logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+          logger.expect :info, nil, ["Checking profile in #{home}/test/fixtures/profiles/#{profile_id}"]
           logger.expect :warn, nil, ["No controls or tests were defined."]
           logger.expect :info, nil, ["Metadata OK."]
 
@@ -361,7 +361,7 @@ describe Inspec::Profile do
 
           # verify hash result
           _(result[:summary][:valid]).must_equal true
-          _(result[:summary][:location]).must_equal "#{home}/mock/profiles/#{profile_id}"
+          _(result[:summary][:location]).must_equal "#{home}/test/fixtures/profiles/#{profile_id}"
           _(result[:summary][:profile]).must_equal "license-proprietary"
 
           _(result[:summary][:controls]).must_equal 0

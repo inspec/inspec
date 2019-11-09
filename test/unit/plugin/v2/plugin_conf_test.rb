@@ -1,5 +1,6 @@
 require "minitest/autorun"
 require "tmpdir"
+require "helpers/mock_loader"
 require_relative "../../../../lib/inspec/plugin/v2"
 
 # This file relies on setting environment variables for some
@@ -8,10 +9,10 @@ require_relative "../../../../lib/inspec/plugin/v2"
 describe "Inspec::Plugin::V2::ConfigFile" do
   orig_home = ENV["HOME"]
 
-  let(:repo_path) { File.expand_path(File.join( __FILE__, "..", "..", "..", "..", "..")) }
-  let(:config_fixtures_path) { File.join(repo_path, "test", "unit", "mock", "config_dirs") }
+  let(:repo_path) { MockLoader.home }
+  let(:config_fixtures_path) { "#{repo_path}/test/fixtures/config_dirs" }
   let(:config_file_obj) { Inspec::Plugin::V2::ConfigFile.new(constructor_arg) }
-  let(:constructor_arg) { File.join(config_fixtures_path, "plugin_config_files", fixture_name + ".json") }
+  let(:constructor_arg) { "#{config_fixtures_path}/plugin_config_files/#{fixture_name}.json" }
 
   after do
     ENV["HOME"] = orig_home

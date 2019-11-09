@@ -8,7 +8,7 @@
     {
       "name": "inspec-meaning-of-life",
       "installation_type": "path",
-      "installation_path": "test/unit/mock/plugins/meaning_of_life_path_mode/inspec-meaning-of-life"
+      "installation_path": "test/fixtures/plugins/meaning_of_life_path_mode/inspec-meaning-of-life"
     }
   ]
 }

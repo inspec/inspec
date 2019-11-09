@@ -12,7 +12,7 @@ Additionally, the ways in which the classes relate is not straightforward.
 
 The main FilterTable code is in [inspec/utils/filter.rb](https://github.com/chef/inspec/blob/master/lib/inspec/utils/filter.rb).
 
-Also educational is the unit test for Filtertable, at test/unit/utils/filter_table_test.rb .  Recent work has focused on using functional tests to exercise FilterTable; see test/unit/mocks/profiles/filter_table and test/functional/filter_table_test.rb .
+Also educational is the unit test for Filtertable, at test/unit/utils/filter_table_test.rb .  Recent work has focused on using functional tests to exercise FilterTable; see test/fixtures/profiles/filter_table and test/functional/filter_table_test.rb .
 
 The file inspec/utils/filter_array.rb appears to be unrelated.
 

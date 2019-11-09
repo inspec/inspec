@@ -19,6 +19,6 @@ When writing your functional tests, you can point InSpec at the various test fix
 
 ## Using test fixtures provided with the `inspec` source code
 
-InSpec itself ships with many test fixtures - not just profiles, but attribute files, configuration directories, and more.  Examine them at [the fixtures directory](https://github.com/inspec/inspec/tree/master/test/unit/mock)
+InSpec itself ships with many test fixtures - not just profiles, but attribute files, configuration directories, and more.  Examine them at [the fixtures directory](https://github.com/inspec/inspec/tree/master/test/fixtures)
 
 To use them, see the helper.rb file included in the example at test/helper.rb .

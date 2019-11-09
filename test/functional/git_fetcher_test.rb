@@ -122,7 +122,7 @@ describe "running profiles with git-based dependencies" do
       assert_includes run_result.stderr, "no/such/path" # the actual missing path
       assert_includes run_result.stderr, "profile in git repo"
       # The containing git repo (the only identifier the user will have)
-      assert_includes run_result.stderr, "test/unit/mock/profiles/git-fetcher/git-repo-01"
+      assert_includes run_result.stderr, "test/fixtures/profiles/git-fetcher/git-repo-01"
       assert_exit_code(1, run_result) # General user error
     end
   end

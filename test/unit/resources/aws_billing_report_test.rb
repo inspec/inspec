@@ -2,7 +2,7 @@ require "helper"
 require "inspec/resource"
 require "resources/aws/aws_billing_report"
 
-require "unit/mock/files/aws_billing_backend"
+require "fixtures/files/aws_billing_backend"
 
 require "resource_support/aws"
 require "resources/aws/aws_billing_report"

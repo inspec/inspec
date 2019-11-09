@@ -22,7 +22,7 @@ class PluginLoaderTests < Minitest::Test
   def setup
     reset_globals
 
-    @config_dir_path = File.expand_path "test/unit/mock/config_dirs"
+    @config_dir_path = File.expand_path "test/fixtures/config_dirs"
     @bundled_plugins = [
       :'inspec-supermarket',
      ]

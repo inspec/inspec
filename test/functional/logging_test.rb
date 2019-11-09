@@ -27,7 +27,7 @@ describe "Deprecation Facility Behavior" do
           _(json_result[1]["message"]).must_include "DEPRECATION"
           _(json_result[1]["message"]).must_include "This should fail"
           _(json_result[1]["message"]).must_include "(used at"
-          _(json_result[1]["message"]).must_include "test/unit/mock/profiles/deprecation/typical/controls/typical.rb"
+          _(json_result[1]["message"]).must_include "test/fixtures/profiles/deprecation/typical/controls/typical.rb"
           # TODO: Brittle Test
           _(json_result[1]["message"]).must_include "typical.rb:10" # Line number check
 
@@ -53,7 +53,7 @@ describe "Deprecation Facility Behavior" do
           _(deprecation_line).must_include "WARN"
           _(deprecation_line).must_include "This should fail"
           _(deprecation_line).must_include "(used at"
-          _(deprecation_line).must_include "test/unit/mock/profiles/deprecation/bare/controls/bare.rb"
+          _(deprecation_line).must_include "test/fixtures/profiles/deprecation/bare/controls/bare.rb"
           # TODO: Brittle Test
           _(deprecation_line).must_include "bare.rb:2"
 
@@ -77,7 +77,7 @@ describe "Deprecation Facility Behavior" do
         _(deprecation_line).must_include "ERROR"
         _(deprecation_line).must_include "This should exit"
         _(deprecation_line).must_include "(used at" # Beginning of a single-frame stack locator
-        _(deprecation_line).must_include "test/unit/mock/profiles/deprecation/typical/controls/typical.rb" # Frame should have been identified as coming from the test profile
+        _(deprecation_line).must_include "test/fixtures/profiles/deprecation/typical/controls/typical.rb" # Frame should have been identified as coming from the test profile
         # TODO: Brittle Test
         _(deprecation_line).must_include "typical.rb:27" # Line number check
 
@@ -104,7 +104,7 @@ describe "Deprecation Facility Behavior" do
         _(deprecation_line).must_include "ERROR" # Flagged as an error
         _(deprecation_line).must_include "This should exit" # Specific deprecation message
         _(deprecation_line).must_include "(used at" # Beginning of a single-frame stack locator
-        _(deprecation_line).must_include "test/unit/mock/profiles/deprecation/typical/controls/typical.rb" # Frame should have been identified as coming from the test profile
+        _(deprecation_line).must_include "test/fixtures/profiles/deprecation/typical/controls/typical.rb" # Frame should have been identified as coming from the test profile
         # TODO: Brittle Test
         _(deprecation_line).must_include "typical.rb:44" # Line number check
 
@@ -135,7 +135,7 @@ describe "Deprecation Facility Behavior" do
         _(deprecation_line).must_include "WARN" # Flagged as a warning
         _(deprecation_line).must_include "This should warn" # Specific deprecation message
         _(deprecation_line).must_include "(used at" # Beginning of a single-frame stack locator
-        _(deprecation_line).must_include "test/unit/mock/profiles/deprecation/typical/controls/typical.rb" # Frame should have been identified as coming from the test profile
+        _(deprecation_line).must_include "test/fixtures/profiles/deprecation/typical/controls/typical.rb" # Frame should have been identified as coming from the test profile
         # TODO: Brittle Test
         _(deprecation_line).must_include "typical.rb:61" # Line number check
 
@@ -154,13 +154,13 @@ describe "Deprecation Facility Behavior" do
         _(json_result[2]["status"]).must_equal "passed"
 
         # JSON mode will send debug messages to $stderr
-        # [2019-01-15T23:41:41-05:00] DEBUG: DEPRECATION: This should be ignored (used at test/unit/mock/profiles/deprecation/typical/controls/typical.rb:79)
+        # [2019-01-15T23:41:41-05:00] DEBUG: DEPRECATION: This should be ignored (used at test/fixtures/profiles/deprecation/typical/controls/typical.rb:79)
         deprecation_line = run_result.stderr.split("\n").detect { |line| line.include?("This should be ignored") }
         _(deprecation_line).wont_be_nil
         _(deprecation_line).must_include "DEBUG"
         _(deprecation_line).must_include "DEPRECATION"
         _(deprecation_line).must_include "(used at" # Beginning of a single-frame stack locator
-        _(deprecation_line).must_include "test/unit/mock/profiles/deprecation/typical/controls/typical.rb" # Frame should have been identified as coming from the test profile
+        _(deprecation_line).must_include "test/fixtures/profiles/deprecation/typical/controls/typical.rb" # Frame should have been identified as coming from the test profile
         # TODO: Brittle Test
         _(deprecation_line).must_include "typical.rb:77" # Line number check
 

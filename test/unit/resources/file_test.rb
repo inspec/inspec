@@ -94,7 +94,7 @@ describe Inspec::Resources::FileResource do
 
     # TODO: this is NOT a valid way to test. Please use _actual_ mock files
     # so we aren't beholden to the CI umask and other trivialities.
-    path = "test/unit/mock/files/emptyfile"
+    path = "test/fixtures/files/emptyfile"
     File.chmod 0644, path
     perms = "perms = %03o" % [File.stat(path).mode]
 

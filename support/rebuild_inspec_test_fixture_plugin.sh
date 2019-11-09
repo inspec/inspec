@@ -5,8 +5,8 @@
 # 2. You are running from project root
 eval "$(rbenv init -)"
 
-PLUGIN_SRC_DIR=test/unit/mock/plugins/inspec-test-fixture
-FIXTURE_BASE=test/unit/mock/config_dirs
+PLUGIN_SRC_DIR=test/fixtures/plugins/inspec-test-fixture
+FIXTURE_BASE=test/fixtures/config_dirs
 FIXTURE_VERSIONS="1 2"
 
 # The format here is "<actual_version>,<abi_version> <another_version><<another_abi_version>""

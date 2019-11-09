@@ -7,5 +7,5 @@ supports:
   platform: os
 depends:
 - name: child-01
-  git: test/unit/mock/profiles/git-fetcher/git-repo-01
+  git: test/fixtures/profiles/git-fetcher/git-repo-01
   relative_path: child-01
