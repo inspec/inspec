@@ -6,8 +6,8 @@ TEST_CLI_OPTS="--chef-license=accept-no-persist"
 class ArtifactTest < Minitest::Test
   make_my_diffs_pretty!
 
-  def assert_artifact(command)
-    command = "inspec #{command} #{TEST_CLI_OPTS}"
+  def assert_artifact(inspec_command)
+    command = "inspec #{inspec_command} #{TEST_CLI_OPTS}"
     stdout, stderr, status = Open3.capture3({ "PATH" => ENV["PATH"] },
                                             command)
 
