@@ -5,4 +5,5 @@ deb http://ppa.launchpad.net/ubuntu-wine/ppa/ubuntu wily main
 
 deb http://archive.ubuntu.com/ubuntu/ wily main restricted
 deb "http://archive.ubuntu.com/ubuntu/" wily main restricted
+deb [arch=amd64] "http://archive.ubuntu.com/ubuntu/" wily main restricted
 deb-src http://archive.ubuntu.com/ubuntu/ wily main restricted
