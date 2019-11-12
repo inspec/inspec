@@ -2,9 +2,8 @@ require "helper"
 require "inspec/reporters"
 
 describe Inspec::Reporters::Json do
-  let(:path) { File.expand_path(File.dirname(__FILE__)) }
   let(:report) do
-    data = JSON.parse(File.read(path + "/../mock/reporters/run_data.json"), symbolize_names: true)
+    data = JSON.parse(File.read("test/fixtures/reporters/run_data.json"), symbolize_names: true)
     Inspec::Reporters::Json.new({ run_data: data })
   end
   let(:profile) { report.run_data[:profiles].first }
@@ -12,7 +11,7 @@ describe Inspec::Reporters::Json do
 
   describe "#render" do
     it "confirm render output" do
-      output = File.read(path + "/../mock/reporters/json_output")
+      output = File.read("test/fixtures/reporters/json_output")
       report.render
       _(JSON.parse(report.rendered_output)).must_equal JSON.parse(output)
     end
@@ -20,7 +19,7 @@ describe Inspec::Reporters::Json do
 
   describe "#report" do
     it "confirm report output" do
-      output = File.read(path + "/../mock/reporters/json_output")
+      output = File.read("test/fixtures/reporters/json_output")
       output = JSON.parse(output, symbolize_names: true)
       _(report.report).must_equal output
     end
@@ -41,7 +40,7 @@ describe Inspec::Reporters::Json do
           "name" => "child",
         },
       }
-      data = JSON.parse(File.read(path + "/../mock/reporters/run_data.json"), symbolize_names: true)
+      data = JSON.parse(File.read("test/fixtures/reporters/run_data.json"), symbolize_names: true)
       data[:profiles].first[:depends] = depends
       json_report = Inspec::Reporters::Json.new({ run_data: data })
 

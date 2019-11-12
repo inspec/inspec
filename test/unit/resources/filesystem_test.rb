@@ -5,7 +5,7 @@ require "inspec/resources/filesystem"
 describe "Inspec::Resources::FileSystemResource" do
   it "verify filesystem on linux" do
     resource = quick_resource(:filesystem, :linux, "/") do |cmd|
-      stdout_file "test/unit/mock/cmd/df-PT"
+      stdout_file "test/fixtures/cmd/df-PT"
     end
 
     _(resource.size_kb).must_equal 30428648

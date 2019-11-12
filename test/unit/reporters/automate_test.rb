@@ -2,7 +2,6 @@ require "helper"
 require "inspec/reporters"
 
 describe Inspec::Reporters::Automate do
-  let(:path) { File.expand_path(File.dirname(__FILE__)) }
   let(:options) do
     {
       "url" => "https://my-automate-server.mycompany.com/data-collector/v0/",
@@ -15,7 +14,7 @@ describe Inspec::Reporters::Automate do
     }
   end
   let(:report) do
-    data = JSON.parse(File.read(path + "/../mock/reporters/run_data.json"), symbolize_names: true)
+    data = JSON.parse(File.read("test/fixtures/reporters/run_data.json"), symbolize_names: true)
     options[:run_data] = data
     Inspec::Reporters::Automate.new(options)
   end

@@ -182,7 +182,7 @@ describe "inspec exec with json formatter" do
       actual = ex1.dup
 
       src = actual.delete("source_location")
-      _(src["ref"]).must_match %r{test/unit/mock/profiles/old-examples/profile/controls/example-tmp.rb$}
+      _(src["ref"]).must_match %r{test/fixtures/profiles/old-examples/profile/controls/example-tmp.rb$}
       _(src["line"]).must_equal 6
 
       result = actual.delete("results")[0]

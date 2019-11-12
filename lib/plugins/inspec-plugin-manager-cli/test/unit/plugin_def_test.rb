@@ -9,7 +9,7 @@ class PluginManagerCliDefinitionTests < Minitest::Test
   @@orig_home = Dir.home
 
   def setup
-    mock_path = File.expand_path "test/unit/mock"
+    mock_path = File.expand_path "test/fixtures"
 
     @config_dir_path = File.join(mock_path, "config_dirs")
     ENV["HOME"] = File.join(@config_dir_path, "fakehome")

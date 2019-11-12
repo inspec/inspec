@@ -20,7 +20,7 @@ module FunctionalHelper
   let(:inspec_path) { File.join(repo_path, "inspec-bin", "bin", "inspec") }
   libdir = File.expand_path "lib"
   let(:exec_inspec) { [Gem.ruby, "-I#{libdir}", inspec_path].join " " }
-  let(:mock_path) { File.join(repo_path, "test", "unit", "mock") }
+  let(:mock_path) { File.join(repo_path, "test", "fixtures") }
   let(:profile_path) { File.join(mock_path, "profiles") }
   let(:examples_path) { File.join(profile_path, "old-examples") }
   let(:example_profile) { File.join(examples_path, "profile") }

@@ -79,7 +79,7 @@ namespace :test do
 
     missing.reject! { |f| ! File.file? f }
     missing.reject! { |f| f =~ %r{test/(integration|cookbooks)} }
-    missing.reject! { |f| f =~ %r{test/unit/mock} }
+    missing.reject! { |f| f =~ %r{test/fixtures} }
     missing.reject! { |f| f =~ /test.*helper/ }
     missing.reject! { |f| f =~ %r{test/docker} }
 
@@ -207,7 +207,7 @@ namespace :test do
   task unit: [:accept_license]
 
   task :resources do
-    tests = Dir["test/unit/resource/*_test.rb"]
+    tests = Dir["test/unit/resources/*_test.rb"]
     return if tests.empty?
 
     sh(Gem.ruby, "test/docker_test.rb", *tests)

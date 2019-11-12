@@ -2,18 +2,15 @@ require "helper"
 require "inspec/reporters"
 
 describe Inspec::Reporters::JsonAutomate do
-  make_my_diffs_pretty!
-
-  let(:path) { File.expand_path(File.dirname(__FILE__)) }
   let(:report) do
-    data = JSON.parse(File.read(path + "/../mock/reporters/run_data_wrapper.json"), symbolize_names: true)
+    data = JSON.parse(File.read("test/fixtures/reporters/run_data_wrapper.json"), symbolize_names: true)
     Inspec::Reporters::JsonAutomate.new({ run_data: data })
   end
   let(:profiles) { report.send(:profiles) }
 
   describe "#render" do
     it "confirms render output" do
-      output = File.read(path + "/../mock/reporters/json_merged_output")
+      output = File.read("test/fixtures/reporters/json_merged_output")
       output = JSON.parse(output, symbolize_names: true)
       report.render
 
@@ -25,7 +22,7 @@ describe Inspec::Reporters::JsonAutomate do
 
   describe "#report_merged" do
     it "outputs the correct report_merged" do
-      output = File.read(path + "/../mock/reporters/json_merged_output")
+      output = File.read("test/fixtures/reporters/json_merged_output")
       output = JSON.parse(output, symbolize_names: true)
       _(report.report).must_equal output
     end

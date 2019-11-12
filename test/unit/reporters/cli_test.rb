@@ -3,9 +3,9 @@ require "inspec/reporters"
 
 describe Inspec::Reporters::CLI do
   WINDOWS = RUBY_PLATFORM =~ /windows|mswin|msys|mingw|cygwin/
-  let(:path) { File.expand_path(File.dirname(__FILE__)) }
+
   let(:report) do
-    data = JSON.parse(File.read(path + "/../mock/reporters/run_data.json"), symbolize_names: true)
+    data = JSON.parse(File.read("test/fixtures/reporters/run_data.json"), symbolize_names: true)
     cli = Inspec::Reporters::CLI
     cli.new({ run_data: data })
   end
@@ -29,9 +29,9 @@ describe Inspec::Reporters::CLI do
   describe "#render" do
     it "confirm render output" do
       if WINDOWS
-        cli_output = File.open(path + "/../mock/reporters/cli_output_windows", "r:UTF-8").read
+        cli_output = File.open("test/fixtures/reporters/cli_output_windows", "r:UTF-8").read
       else
-        cli_output = File.open(path + "/../mock/reporters/cli_output", "r:UTF-8").read
+        cli_output = File.open("test/fixtures/reporters/cli_output", "r:UTF-8").read
       end
 
       report.render

@@ -2,8 +2,8 @@ AllCops:
   Exclude:
     - 'test/kitchen/**/*'
     - 'test/integration/**/controls/**/*.rb'
-    - 'test/unit/mock/profiles/**/*.rb'
-    - 'test/unit/mock/config_dirs/**/*.rb'
+    - 'test/fixtures/profiles/**/*.rb'
+    - 'test/fixtures/config_dirs/**/*.rb'
     - 'lib/plugins/inspec-init/templates/plugins/inspec-plugin-template/**/*'
     - 'examples/**/controls/*.rb'
     - 'vendor/bundle/**/*'

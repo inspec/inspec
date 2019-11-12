@@ -31,7 +31,7 @@ module InstallerTestHelpers
   def setup
     WebMock.disable_net_connect!(allow: %r{(api\.)?rubygems\.org/.*})
     repo_path = File.expand_path(File.join( __FILE__, "..", "..", "..", "..", ".."))
-    mock_path = File.join(repo_path, "test", "unit", "mock")
+    mock_path = File.join(repo_path, "test", "fixtures")
 
     @config_dir_path = File.join(mock_path, "config_dirs")
     @plugin_fixture_src_path = File.join(mock_path, "plugins", "inspec-test-fixture")
@@ -173,7 +173,10 @@ class PluginInstallerInstallationTests < Minitest::Test
     skip_slow_tests
 
     skip_windows!
-    @installer.install("inspec-test-fixture")
+    capture_subprocess_io do
+      @installer.install("inspec-test-fixture")
+    end
+
     # Because no exception was thrown, this is a positive test case for prefix-checking.
 
     # Installing a gem places it under the config dir gem area
@@ -204,7 +207,9 @@ class PluginInstallerInstallationTests < Minitest::Test
     skip_windows!
     skip_slow_tests
 
-    @installer.install("inspec-test-fixture", version: "= 0.1.0")
+    capture_subprocess_io do
+      @installer.install("inspec-test-fixture", version: "= 0.1.0")
+    end
 
     # Installing a gem places it under the config dir gem area
     spec_path = File.join(@installer.gem_path, "specifications", "inspec-test-fixture-0.1.0.gemspec")
@@ -313,7 +318,10 @@ class PluginInstallerUpdaterTests < Minitest::Test
     copy_in_config_dir("test-fixture-1-float")
     @installer.__reset_loader
     skip_windows!
-    @installer.update("inspec-test-fixture")
+
+    capture_subprocess_io do
+      @installer.update("inspec-test-fixture")
+    end
 
     # Verify presence of gemspecs
     spec_path = File.join(@installer.gem_path, "specifications", "inspec-test-fixture-0.2.0.gemspec")
@@ -336,7 +344,10 @@ class PluginInstallerUpdaterTests < Minitest::Test
 
     # Update to specific (but later) version
     skip_windows!
-    @installer.update("inspec-test-fixture", version: "0.2.0")
+
+    capture_subprocess_io do
+      @installer.update("inspec-test-fixture", version: "0.2.0")
+    end
 
     # Verify presence of gemspecs
     spec_path = File.join(@installer.gem_path, "specifications", "inspec-test-fixture-0.2.0.gemspec")

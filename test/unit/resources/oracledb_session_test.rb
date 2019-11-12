@@ -8,7 +8,7 @@ describe "Inspec::Resources::OracledbSession" do
       cmd.strip!
       case cmd
       when "/bin/sqlplus -S \"USER\"/\"password\"@localhost:1527/ORCL <<'EOC'\nSET MARKUP HTML ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nEOC" then
-        stdout_file "test/unit/mock/cmd/oracle-result"
+        stdout_file "test/fixtures/cmd/oracle-result"
       else
         raise cmd.inspect
       end
@@ -25,7 +25,7 @@ describe "Inspec::Resources::OracledbSession" do
       cmd.strip!
       case cmd
       when "@'\nSET MARKUP HTML ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\n'@ | C:/sqlplus.exe -S \"USER\"/\"password\"@localhost:1527/ORCL" then
-        stdout_file "test/unit/mock/cmd/oracle-result"
+        stdout_file "test/fixtures/cmd/oracle-result"
       else
         raise cmd.inspect
       end

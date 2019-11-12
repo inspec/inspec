@@ -57,7 +57,7 @@ class MockLoader
     mock.mock_os(@platform)
 
     mockfile = lambda { |x|
-      path = ::File.join(scriptpath, "/unit/mock/files", x)
+      path = ::File.join(scriptpath, "/fixtures/files", x)
       local.file(path)
     }
 
@@ -166,12 +166,12 @@ class MockLoader
 
     # create all mock commands
     cmd = lambda { |x|
-      stdout = ::File.read(::File.join(scriptpath, "/unit/mock/cmd/" + x))
+      stdout = ::File.read(::File.join(scriptpath, "/fixtures/cmd/" + x))
       mock.mock_command("", stdout, "", 0)
     }
 
     cmd_stderr = lambda { |x = nil|
-      stderr = x.nil? ? "" : File.read(File.join(scriptpath, "unit/mock/cmd", x))
+      stderr = x.nil? ? "" : File.read(File.join(scriptpath, "fixtures/cmd", x))
       mock.mock_command("", "", stderr, 1)
     }
 
@@ -180,7 +180,7 @@ class MockLoader
     }
 
     cmd_exit_1 = lambda { |x = nil|
-      stderr = x.nil? ? "" : File.read(File.join(scriptpath, "unit/mock/cmd", x))
+      stderr = x.nil? ? "" : File.read(File.join(scriptpath, "fixtures/cmd", x))
       mock.mock_command("", "", stderr, 1)
     }
 
@@ -579,13 +579,14 @@ class MockLoader
       .mock_command(cmd, res[:stdout], res[:stderr], res[:exit_status])
   end
 
-  def self.home
-    File.expand_path "../../unit", __FILE__
+  def self.home # "home" of the repo (not test!)... I really dislike this name
+    File.expand_path "../../..", __FILE__
   end
 
   def self.profile_path(name)
     dst = name
-    dst = "#{home}/mock/profiles/#{name}" unless (Pathname.new name).absolute?
+    # TODO: raise if absolute path for name
+    dst = "#{home}/test/fixtures/profiles/#{name}" unless (Pathname.new name).absolute?
     dst
   end
 
@@ -597,7 +598,7 @@ class MockLoader
   end
 
   def self.profile_tgz(name)
-    path = File.join(home, "mock", "profiles", name)
+    path = File.join(home, "test", "fixtures", "profiles", name) # TODO: refactor these paths
     dst = File.join(Dir.mktmpdir, "#{name}.tar.gz")
 
     # generate relative paths
@@ -612,7 +613,7 @@ class MockLoader
   end
 
   def self.profile_zip(name, opts = {})
-    path = File.join(home, "mock", "profiles", name)
+    path = File.join(home, "test", "fixtures", "profiles", name)
     dst = File.join(Dir.mktmpdir, "#{name}.zip")
 
     # rubyzip only works relative paths

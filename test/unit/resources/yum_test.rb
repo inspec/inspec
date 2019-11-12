@@ -5,13 +5,13 @@ require "inspec/resources/yum"
 describe "Inspec::Resources::YumRepo" do
   let(:centos7) do
     quick_resource("yum", :centos7) do |cmd|
-      stdout_file "./test/unit/mock/cmd/yum-centos7-repolist-all"
+      stdout_file "./test/fixtures/cmd/yum-centos7-repolist-all"
     end
   end
 
   let(:centos8) do
     quick_resource("yum", :centos8) do |cmd|
-      stdout_file "./test/unit/mock/cmd/yum-centos8-repolist-all"
+      stdout_file "./test/fixtures/cmd/yum-centos8-repolist-all"
     end
   end
 

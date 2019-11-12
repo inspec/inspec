@@ -27,5 +27,5 @@ plugins:
 exclude_patterns:
   - "www/source/javascripts/"
   - "examples/"
-  - "test/unit/mock/profiles/"
+  - "test/fixtures/profiles/"
   - "test/kitchen"
