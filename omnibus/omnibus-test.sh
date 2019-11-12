@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ueo pipefail
+set -eo pipefail
 
 channel="${CHANNEL:-unstable}"
 product="${PRODUCT:-inspec}"
@@ -27,14 +27,13 @@ fi
 
 echo "--- Running verification for $channel $product $version"
 
-# Set GEM_HOME and GEM_PATH to verify our appbundle inspec shim is correctly
-# removing them from the environment while launching from our embedded ruby.
-export GEM_HOME=/SHOULD_NOT_EXIST
-export GEM_PATH=/SHOULD_NOT_EXIST
 export CHEF_LICENSE="accept-no-persist"
+project_root="$(pwd)"
+export project_root
 
-inspec version
+cd test/artifact
 
-inspec shell -c platform.family
+PATH=/opt/inspec/bin:/opt/inspec/embedded/bin:$PATH
+export PATH
 
-inspec plugin list
+rake

@@ -9,7 +9,8 @@ class ArtifactTest < Minitest::Test
   def assert_artifact(inspec_command)
     command = "inspec #{inspec_command} #{TEST_CLI_OPTS}"
     stdout, stderr, status = Open3.capture3({ "PATH" => ENV["PATH"] },
-                                            command)
+                                            command,
+                                            { :chdir => ENV["project_root"]})
 
     assert_empty stderr.sub(/#< CLIXML\n/, "")
     assert stdout

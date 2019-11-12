@@ -11,6 +11,7 @@ class TestArtifactInstallation < Minitest::Test
       stdout, stderr, status = Open3.capture3({ "PATH" => ENV["PATH"] },
                                               "/usr/bin/which inspec")
       refute_match(/no inspec/, stdout)
+      assert_includes(ENV["PATH"], "/bin")
     end
 
     assert_empty stderr

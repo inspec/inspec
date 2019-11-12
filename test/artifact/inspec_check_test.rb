@@ -2,7 +2,6 @@ require_relative "artifact_helper"
 
 class TestInspecCheck < ArtifactTest
   def test_check
-    skip
-    assert_artifact(:check)
+    assert_artifact("check examples/profile")
   end
 end
