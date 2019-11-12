@@ -27,12 +27,20 @@ module Inspec::Resources
       return @info if defined?(@info)
 
       if @location
-        npm = "cd #{Shellwords.escape @location} && npm"
+        command_separator = inspec.os.platform?("windows") ? ";" : "&&"
+        invocation = "cd #{Shellwords.escape @location} #{command_separator} npm"
       else
-        npm = "npm -g"
+        invocation = "npm -g"
       end
 
-      cmd = inspec.command("#{npm} ls --json #{@package_name}")
+      invocation = "#{invocation} ls --json #{@package_name}"
+
+      # If on unix, wrap in sh -c to protect against sudo
+      unless inspec.os.platform?("windows")
+        invocation = "sh -c '#{invocation}'"
+      end
+
+      cmd = inspec.command(invocation)
       @info = {
         name: @package_name,
         type: "npm",
