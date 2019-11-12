@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.33 -->
-## [v4.18.33](https://github.com/inspec/inspec/tree/v4.18.33) (2019-11-12)
+<!-- latest_release 4.18.34 -->
+## [v4.18.34](https://github.com/inspec/inspec/tree/v4.18.34) (2019-11-12)
 
-#### Merged Pull Requests
-- Deprecate inspec/object/* classes [#4680](https://github.com/inspec/inspec/pull/4680) ([btm](https://github.com/btm))
+#### Bug Fixes
+- Fix for invocation when calling npm under sudo [#4548](https://github.com/inspec/inspec/pull/4548) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.24 -->
 ### Changes since 4.18.24 release
 
 #### Bug Fixes
+- Fix for invocation when calling npm under sudo [#4548](https://github.com/inspec/inspec/pull/4548) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.34 -->
 - Make input() work in describe.one [#4666](https://github.com/inspec/inspec/pull/4666) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.30 -->
 
 #### New Features
