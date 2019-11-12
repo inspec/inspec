@@ -1,3 +1,7 @@
+# This file is deprecated and will be removed in the next major release of InSpec.
+# The Inspec::Input class will remain but these methods will be removed.
+# Use the Inspec::Object::Input class from the inspec-objects rubygem instead.
+
 require "inspec/input"
 
 module Inspec

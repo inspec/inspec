@@ -1,9 +1,16 @@
+# This class is deprecated and will be removed in the next major release of InSpec.
+# Use the Inspec::Object classes from the inspec-objects rubygem instead.
+
+require "inspec/utils/deprecation"
+
 module Inspec
   class OrTest
     attr_reader :tests
     def initialize(tests)
       @tests = tests
       @negated = false
+
+      Inspec.deprecate(:object_classes, "The Inspec::OrTest class is deprecated. Use the Inspec::Object::OrTest class from the inspec-objects Ruby library.")
     end
 
     def skip
