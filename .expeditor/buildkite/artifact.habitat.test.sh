@@ -6,6 +6,7 @@ export HAB_ORIGIN='ci'
 export PLAN='inspec'
 export CHEF_LICENSE="accept-no-persist"
 export HAB_LICENSE="accept-no-persist"
+export HAB_BINLINK_DIR="/hab/bin"
 
 echo "--- system details"
 uname -a
