@@ -42,5 +42,6 @@ export PATH
 echo "PATH is $PATH"
 
 pushd "$project_root/test/artifact"
+rake || true
 hab pkg exec core/ruby rake
 popd
