@@ -39,6 +39,7 @@ echo "+++ Testing $PLAN"
 
 PATH="/hab/bin:$PATH"
 export PATH
+echo "PATH is $PATH"
 
 pushd "$project_root/test/artifact"
 hab pkg exec core/ruby rake
