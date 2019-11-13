@@ -92,7 +92,7 @@ module Inspec::Resources
         # deb [trusted=yes] http://archive.ubuntu.com/ubuntu/ wily main restricted ...
 
         words = line.split
-        words.delete 1 if words[1] && words[1].start_with?("[")
+        words.delete_at 1 if words[1] && words[1].start_with?("[")
         type, url, distro, *components = words
         url = url.delete('"') if url
 
