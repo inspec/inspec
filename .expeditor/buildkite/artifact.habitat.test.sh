@@ -42,6 +42,5 @@ export PATH
 echo "PATH is $PATH"
 
 pushd "$project_root/test/artifact"
-rake || true
-hab pkg exec core/ruby rake
+hab pkg exec "${pkg_ident:?is undefined}" rake
 popd
