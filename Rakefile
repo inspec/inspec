@@ -89,6 +89,7 @@ namespace :test do
   # rubocop:disable Style/BlockDelimiters,Layout/ExtraSpacing,Lint/AssignmentInCondition
 
   def n_threads_run(n_workers, jobs)
+    require "thread"
     queue = Queue.new
 
     jobs.each do |job|
@@ -105,23 +106,71 @@ namespace :test do
     }.each(&:join)
   end
 
+  task :parallel do
+    n      = (ENV["K"] || 4).to_i
+    lock   = Mutex.new
+    passed = true
+
+    tests = Dir[*GLOBS].sort
+    tests.concat([nil] * (n - tests.size % n)) unless # square it up
+      tests.size % 4 == 0
+
+    jobs = tests.each_slice(n).to_a.transpose
+    t0   = Time.now
+    out  = Queue.new
+
+    n_threads_run n, jobs do |job|
+      job.compact!
+      lock.synchronize do
+        warn "Running #{job.size} files in a thread"
+      end
+
+      t1 = Time.now
+      cmd = "bundle exec minitest #{job.join " "}"
+      output = `#{cmd} 2>&1`
+      t2 = Time.now - t1
+
+      lock.synchronize do
+        if $?.success?
+          warn "Finished #{job.size} files successfully in %d seconds" % [t2]
+        else
+          passed = false
+          warn "Finished #{job.size} files with failures in %d seconds" % [t2]
+        end
+      end
+
+      out << "#{cmd}\n\n#{output}"
+    end
+
+    puts "done"
+    puts
+
+    out.length.times do
+      puts out.shift
+      puts
+    end
+
+    puts "Ran in %d seconds" % [ Time.now - t0 ]
+
+    exit 1 unless passed
+  end
+  task parallel: [:accept_license] # given isolated being green, why is this needed?
+
   task :isolated do
     require "fileutils"
-    require "thread"
 
     # Only needed for local runs, not CI?
     FileUtils.rm_rf File.expand_path "~/.inspec"
     FileUtils.rm_rf File.expand_path "~/.chef"
 
     # 3 seems to be the magic number... (tho not by that much)
-    bad, good, n = {}, [], (ENV.delete("N") || 3).to_i
+    bad, good, n = {}, [], (ENV.delete("K") || 3).to_i
     t0 = Time.now
 
-    srand 42
     tests = Dir[*GLOBS].sort
 
     n_threads_run n, tests do |path|
-      output = `bundle exec ruby -Ilib:test #{path} 2>&1`
+      output = `bundle exec ruby -Ilib -Itest #{path} 2>&1`
 
       if $?.success?
         $stderr.print "."
@@ -220,7 +269,7 @@ namespace :test do
     sh("bundle exec kitchen test -c #{concurrency} #{os}")
   end
   # Inject a prerequisite task
-  task 'integration': [:accept_license]
+  task integration: [:accept_license]
 
   task :ssh, [:target] do |_t, args|
     tests_path = File.join(File.dirname(__FILE__), "test", "integration", "test", "integration", "default")

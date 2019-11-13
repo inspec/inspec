@@ -57,7 +57,7 @@ describe "inspec json" do
       let(:control) { json["controls"].find { |x| x["id"] == "tmp-1.0" } }
 
       it "has a title" do
-        _(control["title"]).must_equal "Create /tmp directory"
+        _(control["title"]).must_equal "Create / directory"
       end
 
       it "has a description" do

@@ -123,6 +123,7 @@ module Inspec
     end
 
     def read(file)
+      # TODO: this is inefficient
       @contents[file] ||= read_from_zip(file)
     end
 
@@ -141,6 +142,10 @@ module Inspec
           next unless file == entry.name
 
           res = io.read
+          try = res.dup
+          try.force_encoding Encoding::UTF_8
+          res = try.encode(try.encoding, universal_newline: true) if try.valid_encoding?
+
           break
         end
       end
@@ -174,7 +179,8 @@ module Inspec
                               res = entry.read || ""
                               try = res.dup
                               try.force_encoding Encoding::UTF_8
-                              res = try if try.valid_encoding?
+                              res = try.encode(try.encoding, universal_newline: true) if
+                                try.valid_encoding?
                               res
                             end
         end

@@ -12,6 +12,7 @@ require "tmpdir"
 require "pathname"
 require "forwardable"
 
+require "functional/helper"
 require "inspec/plugin/v2"
 
 # Configure Minitest to expose things like `let`
@@ -36,35 +37,32 @@ end
 #   end
 # end
 
+# TODO: remove me! There's no need!
 module CorePluginBaseHelper
-  libdir = File.expand_path "lib"
-
-  let(:repo_path) { File.expand_path(File.join(__FILE__, "..", "..", "..", "..")) }
-  let(:inspec_path) { File.join(repo_path, "inspec-bin", "bin", "inspec") }
-  let(:exec_inspec) { [Gem.ruby, "-I#{libdir}", inspec_path].join " " }
-  let(:core_mock_path) { File.join(repo_path, "test", "fixtures") }
-  let(:core_fixture_plugins_path) { File.join(core_mock_path, "plugins") }
-  let(:core_config_dir_path) { File.join(core_mock_path, "config_dirs") }
+  let(:mock_path) { File.join(repo_path, "test", "fixtures", "mock") }
+  let(:core_fixture_plugins_path) { File.join(mock_path, "plugins") }
+  let(:core_config_dir_path) { File.join(mock_path, "config_dirs") }
 
   let(:registry) { Inspec::Plugin::V2::Registry.instance }
 end
-
-require "functional/helper"
 
 module CorePluginFunctionalHelper
   include CorePluginBaseHelper
   include FunctionalHelper
 
+  # TODO: so much duplication! Remove everything we can!
   require "train"
   TRAIN_CONNECTION = Train.create("local", command_runner: :generic).connection
 
+  # TODO: remove me! it's in test/functional/helper.rb
   def run_inspec_process(command_line, opts = {})
     prefix = ""
     if opts.key?(:prefix)
       prefix = opts[:prefix]
     elsif opts.key?(:env)
-      prefix = opts[:env].to_a.map { |assignment| "#{assignment[0]}=#{assignment[1]}" }.join(" ")
+      prefix = assemble_env_prefix opts[:env]
     end
+
     TRAIN_CONNECTION.run_command("#{prefix} #{exec_inspec} #{command_line}")
   end
 

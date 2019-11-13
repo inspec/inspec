@@ -11,10 +11,12 @@ end
 
 module FunctionalHelper
   extend Minitest::Spec::DSL
+  extend Minitest::Guard
+
   let(:repo_path) do
-    path = File.expand_path(File.join( __FILE__, "..", "..", ".."))
+    path = File.expand_path("../../..", __FILE__)
     # fix for vagrant repo pathing
-    path.gsub!("//vboxsrv", "C:") if is_windows?
+    path.gsub!("//vboxsvr", "C:") if is_windows?
     path
   end
   let(:inspec_path) { File.join(repo_path, "inspec-bin", "bin", "inspec") }
@@ -41,7 +43,8 @@ module FunctionalHelper
     TMP_CACHE[res.path] = res
   end
 
-  ROOT_LICENSE_PATH = "/etc/chef/accepted_licenses/inspec".freeze
+  root_dir = windows? ? "C:" : "/etc"
+  ROOT_LICENSE_PATH = "#{root_dir}/chef/accepted_licenses/inspec".freeze
 
   def without_license
     ENV.delete "CHEF_LICENSE"
@@ -104,21 +107,47 @@ module FunctionalHelper
     _(failed_tests).must_be_empty
   end
 
-  def inspec(commandline, prefix = nil)
-    if is_windows?
-      invocation = "/windows/system32/cmd /C \"#{prefix} #{exec_inspec} #{commandline}\""
-      result = CMD.run_command(invocation)
-      result.stdout.encode!(universal_newline: true)
-      result.stderr.encode!(universal_newline: true)
-      convert_windows_output(result.stdout)
-      # remove the CLIXML header trash in windows
-      result.stderr.gsub!("#< CLIXML\n", "")
-    else
-      invocation = "#{prefix} #{exec_inspec} #{commandline}"
-      result = CMD.run_command(invocation)
-    end
+  @inspec_mutex ||= Mutex.new
 
-    result
+  def self.inspec_mutex
+    @inspec_mutex
+  end
+
+  def self.inspec_cache
+    @inspec_cache ||= {}
+  end
+
+  def inspec_cache
+    FunctionalHelper.inspec_cache
+  end
+
+  def inspec_mutex
+    FunctionalHelper.inspec_mutex
+  end
+
+  def run_cmd(commandline, prefix = nil)
+    inspec_mutex.synchronize { # rubocop:disable Style/BlockDelimiters
+      inspec_cache[[commandline, prefix]] ||=
+        if is_windows?
+          invocation = "/windows/system32/cmd /C \"#{prefix} #{commandline}\""
+          # puts
+          # puts "CMD = #{invocation}"
+          result = CMD.run_command(invocation)
+          result.stdout.encode!(universal_newline: true)
+          result.stderr.encode!(universal_newline: true)
+          convert_windows_output(result.stdout)
+          # remove the CLIXML header trash in windows
+          result.stderr.gsub!("#< CLIXML\n", "")
+          result
+        else
+          invocation = "#{prefix} #{commandline}"
+          CMD.run_command(invocation)
+        end
+    }
+  end
+
+  def inspec(commandline, prefix = nil)
+    run_cmd "#{exec_inspec} #{commandline}", prefix
   end
 
   def inspec_with_env(commandline, env = {})

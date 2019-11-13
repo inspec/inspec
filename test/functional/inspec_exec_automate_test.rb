@@ -5,10 +5,14 @@ describe "inspec exec automate" do
   include FunctionalHelper
 
   let(:config_path) do
-    file = Tempfile.new("config.json")
-    file.write(config_data)
-    file.close
-    file.path
+    @file = Tempfile.new("config.json")
+    @file.write(config_data)
+    @file.close
+    @file.path
+  end
+
+  after do
+    @file.unlink
   end
 
   let(:invocation) do

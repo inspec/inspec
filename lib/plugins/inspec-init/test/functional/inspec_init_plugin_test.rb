@@ -142,10 +142,11 @@ class InitPluginCli < Minitest::Test
 
       # Check generated files and contents.
       # Each file must exist, and its contents must match each of the regexen given.
+
       {
         File.join(plugin, "README.md") => [],
         File.join(plugin, "LICENSE") => [
-          /Copyright © 2018 Bob/,
+          /Copyright . 2018 Bob/,
           /used to endorse or promote/,
         ],
         File.join(plugin, "Gemfile") => [],

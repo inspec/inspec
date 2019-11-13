@@ -64,6 +64,7 @@ module Inspec
     end
 
     def supports_platform?(backend)
+      require "inspec/resources/platform" # break circularity in load
       backend.platform.supported?(params[:supports])
     end
 

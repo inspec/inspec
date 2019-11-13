@@ -162,7 +162,7 @@ module InspecPlugins
         if verification_key.verify digest, signature, content
           content_block.yield(content)
         else
-          puts "Artifact is invalid"
+          raise "Artifact is invalid"
         end
       end
     end

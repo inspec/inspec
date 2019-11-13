@@ -55,8 +55,8 @@ describe "inspec exec with junit formatter" do
         _(suite.attribute("failed").value).must_equal "0"
       end
 
-      it 'has 2 elements named "File /tmp should be directory"' do
-        _(REXML::XPath.match(suite, "//testcase[@name='File /tmp should be directory']").length).must_equal 2
+      it 'has 2 elements named "File / should be directory"' do
+        _(REXML::XPath.match(suite, "//testcase[@name='File / should be directory']").length).must_equal 2
       end
 
       describe 'the testcase named "example_config Can\'t find file ..."' do
