@@ -37,7 +37,7 @@ sudo -E "$HSI"
 
 echo "+++ Testing $PLAN"
 
-PATH="$(hab pkg path ci/inspec):$PATH"
+PATH="$(hab pkg path ci/inspec)/bin:$PATH"
 export PATH
 echo "PATH is $PATH"
 
