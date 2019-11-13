@@ -67,7 +67,9 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ### Test if the C:\ partition is NTFS
 
-    describe filesystem('c:\') do
+Note that Windows filesystems (drives) are referred to without any slashes:
+
+    describe filesystem('c:') do
       its('type') { should cmp 'NTFS' }
     end
 
