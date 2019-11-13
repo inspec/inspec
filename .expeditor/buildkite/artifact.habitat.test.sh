@@ -6,7 +6,6 @@ export HAB_ORIGIN='ci'
 export PLAN='inspec'
 export CHEF_LICENSE="accept-no-persist"
 export HAB_LICENSE="accept-no-persist"
-export HAB_BINLINK_DIR="/hab/bin"
 
 echo "--- system details"
 uname -a
@@ -38,7 +37,6 @@ sudo -E "$HSI"
 
 echo "+++ Testing $PLAN"
 
-PATH="${HAB_BINLINK_DIR:?is undefined}:$PATH"
 export PATH
 echo "PATH is $PATH"
 
