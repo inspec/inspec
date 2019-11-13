@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.35 -->
-## [v4.18.35](https://github.com/inspec/inspec/tree/v4.18.35) (2019-11-13)
+<!-- latest_release 4.18.36 -->
+## [v4.18.36](https://github.com/inspec/inspec/tree/v4.18.36) (2019-11-13)
 
 #### Merged Pull Requests
-- Fix windows testing [#4390](https://github.com/inspec/inspec/pull/4390) ([zenspider](https://github.com/zenspider))
+- Correct filesystem resource docs for windows example [#4713](https://github.com/inspec/inspec/pull/4713) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.24 -->
@@ -18,6 +18,7 @@
 - Add startuser systemd service v2 [#4516](https://github.com/inspec/inspec/pull/4516) ([mbaitelman](https://github.com/mbaitelman)) <!-- 4.18.27 -->
 
 #### Merged Pull Requests
+- Correct filesystem resource docs for windows example [#4713](https://github.com/inspec/inspec/pull/4713) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.36 -->
 - Fix windows testing [#4390](https://github.com/inspec/inspec/pull/4390) ([zenspider](https://github.com/zenspider)) <!-- 4.18.35 -->
 - Deprecate inspec/object/* classes [#4680](https://github.com/inspec/inspec/pull/4680) ([btm](https://github.com/btm)) <!-- 4.18.33 -->
 - Moved test/unit/mock/* to test/fixtures [#4681](https://github.com/inspec/inspec/pull/4681) ([zenspider](https://github.com/zenspider)) <!-- 4.18.32 -->
