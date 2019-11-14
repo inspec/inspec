@@ -33,8 +33,11 @@ export GEM_HOME=/SHOULD_NOT_EXIST
 export GEM_PATH=/SHOULD_NOT_EXIST
 export CHEF_LICENSE="accept-no-persist"
 
-inspec version
+TEST_DIR=$(mktemp -d inspec-test.XXXXXX)
+pushd "$TEST_DIR"
+git clone https://github.com/inspec/inspec.git
+cd inspec/test/artifact
+rake
+popd
 
-inspec shell -c platform.family
-
-inspec plugin list
+rm -rf "$TEST_DIR"
