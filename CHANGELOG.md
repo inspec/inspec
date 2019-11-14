@@ -1,38 +1,36 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.38 -->
-## [v4.18.38](https://github.com/inspec/inspec/tree/v4.18.38) (2019-11-13)
-
-#### Merged Pull Requests
-- Dropping chef-core from dependencies. [#4722](https://github.com/inspec/inspec/pull/4722) ([zenspider](https://github.com/zenspider))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.18.24 -->
-### Changes since 4.18.24 release
-
-#### Bug Fixes
-- Fix for invocation when calling npm under sudo [#4548](https://github.com/inspec/inspec/pull/4548) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.34 -->
-- Make input() work in describe.one [#4666](https://github.com/inspec/inspec/pull/4666) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.30 -->
-
-#### New Features
-- Add startuser systemd service v2 [#4516](https://github.com/inspec/inspec/pull/4516) ([mbaitelman](https://github.com/mbaitelman)) <!-- 4.18.27 -->
-
-#### Merged Pull Requests
-- Dropping chef-core from dependencies. [#4722](https://github.com/inspec/inspec/pull/4722) ([zenspider](https://github.com/zenspider)) <!-- 4.18.38 -->
-- Fixes parsing of apt config files with arch specifier. [#4707](https://github.com/inspec/inspec/pull/4707) ([zenspider](https://github.com/zenspider)) <!-- 4.18.37 -->
-- Correct filesystem resource docs for windows example [#4713](https://github.com/inspec/inspec/pull/4713) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.36 -->
-- Fix windows testing [#4390](https://github.com/inspec/inspec/pull/4390) ([zenspider](https://github.com/zenspider)) <!-- 4.18.35 -->
-- Deprecate inspec/object/* classes [#4680](https://github.com/inspec/inspec/pull/4680) ([btm](https://github.com/btm)) <!-- 4.18.33 -->
-- Moved test/unit/mock/* to test/fixtures [#4681](https://github.com/inspec/inspec/pull/4681) ([zenspider](https://github.com/zenspider)) <!-- 4.18.32 -->
-- Bump chefstyle and fix up flagged code. [#4677](https://github.com/inspec/inspec/pull/4677) ([zenspider](https://github.com/zenspider)) <!-- 4.18.31 -->
-- Revamp www/doco setup [#4674](https://github.com/inspec/inspec/pull/4674) ([zenspider](https://github.com/zenspider)) <!-- 4.18.29 -->
-- Pre-load the gem resource to override the global gem method. [#4670](https://github.com/inspec/inspec/pull/4670) ([zenspider](https://github.com/zenspider)) <!-- 4.18.28 -->
-- Fix false positives on bundle caching check in buildkite. [#4660](https://github.com/inspec/inspec/pull/4660) ([zenspider](https://github.com/zenspider)) <!-- 4.18.26 -->
-- Change &quot;an Chef Inspec&quot; to &quot;a Chef Inspec&quot;. [#4663](https://github.com/inspec/inspec/pull/4663) ([kcrouch](https://github.com/kcrouch)) <!-- 4.18.26 -->
-- incorporate changes from chef hab plan [#4662](https://github.com/inspec/inspec/pull/4662) ([miah](https://github.com/miah)) <!-- 4.18.25 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.18.38](https://github.com/inspec/inspec/tree/v4.18.38) (2019-11-14)
+
+#### New Features
+- Add startuser systemd service v2 [#4516](https://github.com/inspec/inspec/pull/4516) ([mbaitelman](https://github.com/mbaitelman))
+
+#### Bug Fixes
+- Make input() work in describe.one [#4666](https://github.com/inspec/inspec/pull/4666) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix for invocation when calling npm under sudo [#4548](https://github.com/inspec/inspec/pull/4548) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- incorporate changes from chef hab plan [#4662](https://github.com/inspec/inspec/pull/4662) ([miah](https://github.com/miah))
+- Change &quot;an Chef Inspec&quot; to &quot;a Chef Inspec&quot;. [#4663](https://github.com/inspec/inspec/pull/4663) ([kcrouch](https://github.com/kcrouch))
+- Fix false positives on bundle caching check in buildkite. [#4660](https://github.com/inspec/inspec/pull/4660) ([zenspider](https://github.com/zenspider))
+- Pre-load the gem resource to override the global gem method. [#4670](https://github.com/inspec/inspec/pull/4670) ([zenspider](https://github.com/zenspider))
+- Revamp www/doco setup [#4674](https://github.com/inspec/inspec/pull/4674) ([zenspider](https://github.com/zenspider))
+- Bump chefstyle and fix up flagged code. [#4677](https://github.com/inspec/inspec/pull/4677) ([zenspider](https://github.com/zenspider))
+- Moved test/unit/mock/* to test/fixtures [#4681](https://github.com/inspec/inspec/pull/4681) ([zenspider](https://github.com/zenspider))
+- Deprecate inspec/object/* classes [#4680](https://github.com/inspec/inspec/pull/4680) ([btm](https://github.com/btm))
+- Fix windows testing [#4390](https://github.com/inspec/inspec/pull/4390) ([zenspider](https://github.com/zenspider))
+- Correct filesystem resource docs for windows example [#4713](https://github.com/inspec/inspec/pull/4713) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fixes parsing of apt config files with arch specifier. [#4707](https://github.com/inspec/inspec/pull/4707) ([zenspider](https://github.com/zenspider))
+- Dropping chef-core from dependencies. [#4722](https://github.com/inspec/inspec/pull/4722) ([zenspider](https://github.com/zenspider))
+<!-- latest_stable_release -->
+
 ## [v4.18.24](https://github.com/inspec/inspec/tree/v4.18.24) (2019-11-01)
 
 #### Bug Fixes
@@ -70,7 +68,6 @@
 - Nginx Resource: Add parsing support for wildcard, dot prefix, and regex [#4653](https://github.com/inspec/inspec/pull/4653) ([landychan](https://github.com/landychan))
 - Ooops. I didn&#39;t need to remove this just yet. html parser is using it. [#4658](https://github.com/inspec/inspec/pull/4658) ([miah](https://github.com/miah))
 - Fixed runner tests for windows. [#4659](https://github.com/inspec/inspec/pull/4659) ([zenspider](https://github.com/zenspider))
-<!-- latest_stable_release -->
 
 ## [v4.18.0](https://github.com/inspec/inspec/tree/v4.18.0) (2019-10-10)
 
