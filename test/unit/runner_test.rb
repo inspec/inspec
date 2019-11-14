@@ -3,7 +3,7 @@
 require "helper"
 require "inspec/secrets"
 require "inspec/runner"
-require "fetchers/mock"
+require "inspec/fetchers/mock"
 
 describe Inspec::Runner do
   let(:runner) { Inspec::Runner.new({ command_runner: :generic, reporter: [] }) }

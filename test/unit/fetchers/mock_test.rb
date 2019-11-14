@@ -1,5 +1,5 @@
 require "helper"
-require "fetchers/mock"
+require "inspec/fetchers/mock"
 
 describe Fetchers::Mock do
   let(:fetcher) { Fetchers::Mock }
