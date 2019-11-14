@@ -35,9 +35,15 @@ export CHEF_LICENSE="accept-no-persist"
 
 TEST_DIR=$(mktemp -d inspec-test.XXXXXX)
 pushd "$TEST_DIR"
+
 git clone https://github.com/inspec/inspec.git
 cd inspec/test/artifact
+
+PATH=$PATH:/opt/inspec/embedded/bin
+export PATH
+
 rake
+
 popd
 
 rm -rf "$TEST_DIR"
