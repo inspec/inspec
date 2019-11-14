@@ -223,6 +223,10 @@ module Inspec::Resources
       meta_info[:userflags] unless meta_info.nil?
     end
 
+    def lastlogin
+      meta_info[:lastlogin] unless meta_info.nil?
+    end
+
     # returns the minimum days between password changes
     def mindays
       credentials[:mindays] unless credentials.nil?
@@ -632,6 +636,7 @@ module Inspec::Resources
         shell: res[:shell],
         domain: res[:domain],
         userflags: res[:userflags],
+        lastlogin : res[:lastlogin]
       }
     end
 
@@ -715,6 +720,7 @@ module Inspec::Resources
             home = $_.HomeDirectory[0]
             shell = $null
             domain = $Computername
+            lastlogin = if($_.lastlogin.getType().Tostring() -eq "System.Management.Automation.PSMethod" ){ $null }else{[String]$_.lastlogin}
           }
         } | ConvertTo-Json
       EOH
