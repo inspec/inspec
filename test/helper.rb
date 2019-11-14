@@ -170,10 +170,3 @@ end
 class InspecTest < Minitest::Test
   # shared stuff here
 end
-
-module Minitest::Guard
-  # TODO: push up to minitest
-  def osx?(platform = RUBY_PLATFORM)
-    /darwin/ =~ platform
-  end
-end
