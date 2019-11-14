@@ -39,5 +39,5 @@ Write-Host "+++ Testing $Plan"
 
 $env:PATH = "C:\hab\bin;$env:PATH"
 Push-Location $project_root/test/artifact
-hab pkg exec $pkg_ident rake
+hab pkg exec $pkg_ident rake.cmd
 Pop-Location
