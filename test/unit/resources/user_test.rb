@@ -163,6 +163,7 @@ describe "Inspec::Resources::User" do
     _(resource.maxdays).wont_be_nil
     _(resource.warndays).must_be_nil
     _(resource.disabled?).must_equal true
+    _(resource.lastlogin).must_be_nil
   end
 
   it "read disabled user on Windows" do

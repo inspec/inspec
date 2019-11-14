@@ -636,7 +636,7 @@ module Inspec::Resources
         shell: res[:shell],
         domain: res[:domain],
         userflags: res[:userflags],
-        lastlogin: res[:lastlogin]
+        lastlogin: res[:lastlogin],
       }
     end
 

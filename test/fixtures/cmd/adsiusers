@@ -24,7 +24,8 @@
         ],
         "gid":  null,
         "maxdays":  42,
-        "shell":  null
+        "shell":  null,
+        "lastlogin": null
     },
     {
         "warndays":  null,
@@ -53,6 +54,7 @@
         ],
         "gid":  null,
         "maxdays":  42,
-        "shell":  null
+        "shell":  null,
+        "lastlogin": null
     }
 ]
