@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.18.39 -->
+## [v4.18.39](https://github.com/inspec/inspec/tree/v4.18.39) (2019-11-14)
+
+#### Merged Pull Requests
+- Removing the osx? guard that has been pushed to minitest and released. [#4728](https://github.com/inspec/inspec/pull/4728) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.18.38 -->
+### Changes since 4.18.38 release
+
+#### Merged Pull Requests
+- Removing the osx? guard that has been pushed to minitest and released. [#4728](https://github.com/inspec/inspec/pull/4728) ([zenspider](https://github.com/zenspider)) <!-- 4.18.39 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
