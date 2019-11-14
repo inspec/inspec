@@ -9,8 +9,11 @@ pipelines = {
 
 status = pipelines.all? { |source, token|
   uri = URI.parse "https://badge.buildkite.com/#{token}.svg"
+
   good = uri.read =~ /passing/
+
   warn "bad: https://buildkite.com/#{source}" unless good
+
   good
 }
 
