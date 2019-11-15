@@ -1,20 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.39 -->
-## [v4.18.39](https://github.com/inspec/inspec/tree/v4.18.39) (2019-11-14)
-
-#### Merged Pull Requests
-- Removing the osx? guard that has been pushed to minitest and released. [#4728](https://github.com/inspec/inspec/pull/4728) ([zenspider](https://github.com/zenspider))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.18.38 -->
-### Changes since 4.18.38 release
-
-#### Merged Pull Requests
-- Removing the osx? guard that has been pushed to minitest and released. [#4728](https://github.com/inspec/inspec/pull/4728) ([zenspider](https://github.com/zenspider)) <!-- 4.18.39 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.18.39](https://github.com/inspec/inspec/tree/v4.18.39) (2019-11-15)
+
+#### Merged Pull Requests
+- Removing the osx? guard that has been pushed to minitest and released. [#4728](https://github.com/inspec/inspec/pull/4728) ([zenspider](https://github.com/zenspider))
+<!-- latest_stable_release -->
+
 ## [v4.18.38](https://github.com/inspec/inspec/tree/v4.18.38) (2019-11-14)
 
 #### New Features
@@ -37,7 +35,6 @@
 - Correct filesystem resource docs for windows example [#4713](https://github.com/inspec/inspec/pull/4713) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Fixes parsing of apt config files with arch specifier. [#4707](https://github.com/inspec/inspec/pull/4707) ([zenspider](https://github.com/zenspider))
 - Dropping chef-core from dependencies. [#4722](https://github.com/inspec/inspec/pull/4722) ([zenspider](https://github.com/zenspider))
-<!-- latest_stable_release -->
 
 ## [v4.18.24](https://github.com/inspec/inspec/tree/v4.18.24) (2019-11-01)
 
