@@ -26,7 +26,7 @@ module Inspec
     end
   end
 
-  Fetcher = FetcherRegistry.new
+  FetcherSystem = FetcherRegistry.new
 
   def self.fetcher(version)
     if version != 1

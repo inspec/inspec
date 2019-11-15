@@ -5,7 +5,7 @@ describe Fetchers::Git do
   let(:fetcher) { Fetchers::Git }
 
   it "registers with the fetchers registry" do
-    reg = Inspec::Fetcher.registry
+    reg = Inspec::FetcherSystem.registry
     _(reg["git"]).must_equal fetcher
   end
 
