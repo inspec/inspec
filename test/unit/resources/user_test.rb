@@ -149,6 +149,7 @@ describe "Inspec::Resources::User" do
     _(resource.maxdays).wont_be_nil
     _(resource.warndays).must_be_nil
     _(resource.disabled?).must_equal false
+    _(resource.lastlogin).must_equal "11/14/2019 21:03:09"
   end
 
   it "read guest user on Windows" do
@@ -171,6 +172,7 @@ describe "Inspec::Resources::User" do
     _(resource.uid).wont_be_nil
     _(resource.exists?).must_equal true
     _(resource.disabled?).must_equal true
+    _(resource.lastlogin).must_be_nil
   end
 
   it "read user on undefined os" do
