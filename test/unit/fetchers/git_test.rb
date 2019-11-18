@@ -1,8 +1,8 @@
 require "helper"
 require "inspec/fetcher"
 
-describe Fetchers::Git do
-  let(:fetcher) { Fetchers::Git }
+describe Inspec::Fetcher::Git do
+  let(:fetcher) { Inspec::Fetcher::Git }
 
   it "registers with the fetchers registry" do
     reg = Inspec::FetcherSystem.registry
@@ -12,19 +12,19 @@ describe Fetchers::Git do
   it "handles sources beginning with `git@`" do
     f = fetcher.resolve("git@github.com:foo/bar")
     _(f).wont_be_nil
-    _(f).must_be_kind_of Fetchers::Git
+    _(f).must_be_kind_of Inspec::Fetcher::Git
   end
 
   it "handles sources ending with `.git`" do
     f = fetcher.resolve("https://github.com/foo/bar.git")
     _(f).wont_be_nil
-    _(f).must_be_kind_of Fetchers::Git
+    _(f).must_be_kind_of Inspec::Fetcher::Git
   end
 
   it "handles sources specified by a :git key" do
     f = fetcher.resolve({ git: "https://example.com/foo.gi" })
     _(f).wont_be_nil
-    _(f).must_be_kind_of Fetchers::Git
+    _(f).must_be_kind_of Inspec::Fetcher::Git
   end
 
   describe "when given a valid repository" do

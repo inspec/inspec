@@ -1,6 +1,6 @@
 require "openssl"
 
-module Fetchers
+module Inspec::Fetcher
   class Local < Inspec.fetcher(1)
     name "local"
     priority 0

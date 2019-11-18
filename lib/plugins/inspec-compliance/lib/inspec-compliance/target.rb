@@ -8,7 +8,7 @@ require "inspec/dist"
 # similar to `inspec exec http://localhost:2134/owners/%base%/compliance/%ssh%/tar --user %token%`
 module InspecPlugins
   module Compliance
-    class Fetcher < Fetchers::Url
+    class Fetcher < Inspec::Fetcher::Url
       include Inspec::Dist
 
       name "compliance"

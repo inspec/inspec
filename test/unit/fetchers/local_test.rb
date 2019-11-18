@@ -1,8 +1,8 @@
 require "helper"
 require "inspec/fetcher"
 
-describe Fetchers::Local do
-  let(:fetcher) { Fetchers::Local }
+describe Inspec::Fetcher::Local do
+  let(:fetcher) { Inspec::Fetcher::Local }
 
   it "registers with the fetchers registry" do
     reg = Inspec::FetcherSystem.registry

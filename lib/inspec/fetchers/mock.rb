@@ -1,6 +1,6 @@
 require "inspec/fetcher"
 
-module Fetchers
+module Inspec::Fetcher
   class Mock < Inspec.fetcher(1)
     name "mock"
     priority 0
