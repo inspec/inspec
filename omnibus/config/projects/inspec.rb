@@ -57,8 +57,6 @@ dependency 'shebang-cleanup'
 # Ensure our SSL cert files are accessible to ruby.
 dependency 'openssl-customization'
 # Remove all .dll.a and .a files needed for static linkage.
-dependency 'clean-static-libs'
-
 dependency 'ruby-cleanup'
 
 package :rpm do
@@ -75,8 +73,8 @@ package :deb do
 end
 
 package :pkg do
-  identifier 'com.getchef.pkg.inspec'
-  signing_identity 'Developer ID Installer: Chef Software, Inc. (EU3VF8YLX2)'
+  identifier "com.getchef.pkg.inspec"
+  signing_identity "Chef Software, Inc. (EU3VF8YLX2)"
 end
 compress :dmg
 
