@@ -1,0 +1,9 @@
+name: url-bad
+license: Apache-2.0
+summary: A profile with a bad URL dependency
+version: 0.1.0
+supports:
+  platform: os
+depends:
+  - name: nonesuch
+    url: https://localhost/inspec/inspec-nonesuch/path/to/profile.tgz
