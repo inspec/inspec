@@ -1,0 +1,9 @@
+name: local-bad
+license: Apache-2.0
+summary: A profile with a bad local dependency
+version: 0.1.0
+supports:
+  platform: os
+depends:
+  - name: nonesuch
+    path: ../nonesuch

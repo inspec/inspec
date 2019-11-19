@@ -1,0 +1,6 @@
+name: child
+license: Apache-2.0
+summary: A basic profile used as the base profile for local dependencies.
+version: 0.1.0
+supports:
+  platform: os
