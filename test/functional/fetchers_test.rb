@@ -34,5 +34,16 @@ describe "the fetchers" do
       end
     end
 
+    describe "when using the url fetcher on a bad dep" do
+      let(:path) { "#{fetcher_profiles}/git-bad" }
+      it "should throw an exception not a stacktrace" do
+        _(run_result.stdout).must_be_empty
+        _(run_result.stderr).wont_match looks_like_a_stacktrace
+        _(run_result.stderr).must_match(/Profile git dependency failed for .+ Connection refused/)
+        _(run_result.stderr).must_include "http://localhost/no/such" # URL of the missing profile in message
+        assert_exit_code(1, run_result)
+      end
+    end
+
   end
 end
