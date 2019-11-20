@@ -90,8 +90,8 @@ module Inspec::Fetcher
         # vendoring to something more complex, don't bother.
         FileUtils.rmdir(destination_path) if Dir.empty?(destination_path)
 
-        raise ArgumentError, "Cannot find relative path '#{@relative_path}' " \
-                             "within profile in git repo specified by '#{@remote_url}'"
+        raise Inspec::FetcherFailure.new("Cannot find relative path '#{@relative_path}' " \
+                                         "within profile in git repo specified by '#{@remote_url}'")
       end
       FileUtils.cp_r("#{working_dir}/#{@relative_path}", destination_path)
     end
@@ -129,11 +129,11 @@ module Inspec::Fetcher
     def resolve_ref(ref_name)
       command_string = "git ls-remote \"#{@remote_url}\" \"#{ref_name}*\""
       cmd = shellout(command_string)
-      raise "Error running '#{command_string}': #{cmd.stderr}" unless cmd.exitstatus == 0
+      raise Inspec::FetcherFailure.new("Profile git dependency failed for #{@remote_url} - error running '#{command_string}': #{cmd.stderr}") unless cmd.exitstatus == 0
 
       ref = parse_ls_remote(cmd.stdout, ref_name)
       unless ref
-        raise "Unable to resolve #{ref_name} to a specific git commit for #{@remote_url}"
+        raise Inspec::FetcherFailure.new("Profile git dependency failed - unable to resolve #{ref_name} to a specific git commit for #{@remote_url}")
       end
 
       ref
@@ -191,7 +191,7 @@ module Inspec::Fetcher
       cmd.error!
       cmd.status
     rescue Errno::ENOENT
-      raise "To use git sources, you must have git installed."
+      raise Inspec::FetcherFailure.new("Profile git dependency failed for #{@remote_url} - to use git sources, you must have git installed.")
     end
 
     def shellout(cmd, opts = {})
