@@ -1,12 +1,13 @@
 # Installing, Upgrading, and Removing
 
-Users can choose between operating systems of MacOS, Windows, and Linux. macOS install options include [Homebrew](https://brew.sh/), CLI, and Chef Habitat.
-
+Users can choose between operating systems of MacOS, Windows, and Linux for Chef InSpec.
 
 ## Install Chef InSpec
-Chef InSpec can be installed using the steps below that are appropriate for the operating system and method of Chef InSpec installation.
 
-Start by downloading the latest [Chef InSpec package](https://downloads.chef.io/inspec) relevant to your operating system.
+You can download the latest [Chef InSpec package](https://downloads.chef.io/inspec) relevant to your operating system. 
+
+Alternatively, Chef InSpec can be installed via script according to your operating system and method through the methods below.
+macOS install options include [Homebrew](https://brew.sh/), CLI, and Chef Habitat. Windows install options include Installer, Powershell, and Chef Habitat. Linux install options covers Ubuntu, Red Hat Enterprise Linux, and SUSE Linux Enterprise Server.
 
 ### macOS
 
@@ -20,17 +21,22 @@ $ brew cask install chef/chef/inspec
 
 While this command is running, you may be prompted to enter your macOS user account password for installation to complete.
 
-#### CLI [DOUBLE CHECK]
+#### CLI
 
-Start by downloading the latest [Chef InSpec package](https://downloads.chef.io/inspec) relevant to your operating system.
-
-Open the downloaded `.dmg` file, then open the `.pkg` file to launch the installation.
+You can download Chef InSpec via script:
+```
+curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
+```
 
 #### Habitat
 
-Use Chef Habitat to install Chef InSpec, or include Chef InSpec in your own Chef Habitat packages. 
-You can find [Chef InSpec on the Depot here](https://bldr.habitat.sh/#/pkgs/chef/inspec).
+Use Chef Habitat to install Chef InSpec, or include Chef InSpec in your own Chef Habitat packages. Chef InSpec is available [on the Habitat Builder Depot](https://bldr.habitat.sh/#/pkgs/chef/inspec).
 
+Use the following command to install the Chef InSpec package:
+
+```
+$ hab pkg uninstall chef/inspec
+```
 
 See about available flag options in the [hab pkg install documentation](https://www.habitat.sh/docs/habitat-cli/#hab-pkg-install).
 
@@ -76,7 +82,7 @@ sudo rpm -U /path-to/inspec.rpm
 For SUSE Linux Enterprise Server, use the following command to install Chef InSpec: 
 
 ```
-$ zypper install /path-to/inspec.rpm
+zypper install /path-to/inspec.rpm
 ```
 
 #### Habitat
@@ -99,9 +105,8 @@ brew cask upgrade inspec
 
 #### CLI
 
-Run the following command to update Chef InSpec
-
 #### Habitat
+
 
 
 ### Windows
@@ -113,11 +118,12 @@ Run the following command to update Chef InSpec
 #### Habitat
 
 
+
 ### Linux
 
 #### CLI
 
-To update Chef InSpec in Ubuntu, first uninstall  use the following command to update Chef InSpec:
+To update Chef InSpec in Ubuntu, use the following command to update Chef InSpec:
 
 ```
 sudo dpkg -i /path/to/inspec.deb
@@ -129,7 +135,6 @@ sudo rpm -U /path-to/inspec.rpm
 ```
 
 For SUSE Linux Enterprise Server, use the following command to update Chef InSpec: 
-
 
 ```
 
@@ -175,11 +180,10 @@ See about available flag options in the [hab pkg uninstall documentation](https:
 
 #### Installer
 
-Use Add / Remove Programs to remove Chef InSpec.
+Use *Add / Remove Programs* to remove Chef InSpec.
 
 #### Powershell
-
-Use  
+ 
 
 #### Habitat
 
@@ -209,9 +213,8 @@ sudo rpm -e inspec
 
 For SUSE Linux Enterprise Server, use the following command to uninstall Chef InSpec: 
 
-
 ```
-
+zypper remove inspec
 ```
 
 #### Habitat
