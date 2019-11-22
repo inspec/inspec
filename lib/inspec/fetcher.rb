@@ -38,9 +38,9 @@ module Inspec
 end
 
 # TODO: remove. require up, not down.
-require "inspec/fetchers/local"
-require "inspec/fetchers/url"
-require "inspec/fetchers/git"
+require "inspec/fetcher/local"
+require "inspec/fetcher/url"
+require "inspec/fetcher/git"
 
 # TODO: Remove in 4.0 when Compliance fetcher plugin is created
 require "plugins/inspec-compliance/lib/inspec-compliance/api"

@@ -1,5 +1,5 @@
 require "helper"
-require "inspec/fetcher" # TODO: require fetchers/url directly
+require "inspec/fetcher" # TODO: require fetcher/url directly
 
 describe Inspec::Fetcher::Url do
   it "registers with the fetchers registry" do

@@ -154,7 +154,7 @@ class Minitest::Test
 
   def unmock(&blk)
     # eg: resource = unmock { group "staff" }
-    require "inspec/fetchers/mock"
+    require "inspec/fetcher/mock"
     require "inspec/runner"
 
     # TODO: there is WAY too much magic going on in here

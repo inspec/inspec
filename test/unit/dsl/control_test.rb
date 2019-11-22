@@ -2,7 +2,7 @@ require "helper"
 require "inspec/config"
 require "inspec/profile"
 require "inspec/runner_mock"
-require "inspec/fetchers/mock"
+require "inspec/fetcher/mock"
 
 describe "controls" do
   def load(content)
