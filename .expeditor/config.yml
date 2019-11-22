@@ -122,6 +122,11 @@ merge_actions:
     ignore_labels:
      - "Omnibus: Skip Build"
      - "Expeditor: Skip All"
+ - trigger_pipeline:artifact/habitat:
+    only_if: built_in:bump_version
+    ignore_labels:
+     - "Habitat: Skip Build"
+     - "Expeditor: Skip All"
  - trigger_pipeline:omnibus/release:
     only_if: built_in:bump_version
     ignore_labels:
