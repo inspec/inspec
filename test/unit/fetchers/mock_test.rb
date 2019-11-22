@@ -5,7 +5,7 @@ describe Inspec::Fetcher::Mock do
   let(:fetcher) { Inspec::Fetcher::Mock }
 
   it "registers with the fetchers registry" do
-    reg = Inspec::FetcherSystem.registry
+    reg = Inspec::Fetcher::Registry.registry
     _(reg["mock"]).must_equal fetcher
   end
 

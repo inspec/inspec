@@ -3,7 +3,7 @@ require "inspec/fetcher" # TODO: require fetcher/url directly
 
 describe Inspec::Fetcher::Url do
   it "registers with the fetchers registry" do
-    reg = Inspec::FetcherSystem.registry
+    reg = Inspec::Fetcher::Registry.registry
     _(reg["url"]).must_equal Inspec::Fetcher::Url
   end
 

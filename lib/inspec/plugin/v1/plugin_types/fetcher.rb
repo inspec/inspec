@@ -17,7 +17,7 @@ module Inspec
     #
     class Fetcher < PluginRegistry::Plugin
       def self.plugin_registry
-        Inspec::FetcherSystem
+        Inspec::Fetcher::Registry
       end
 
       attr_accessor :target

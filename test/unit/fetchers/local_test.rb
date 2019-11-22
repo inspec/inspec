@@ -5,7 +5,7 @@ describe Inspec::Fetcher::Local do
   let(:fetcher) { Inspec::Fetcher::Local }
 
   it "registers with the fetchers registry" do
-    reg = Inspec::FetcherSystem.registry
+    reg = Inspec::Fetcher::Registry.registry
     _(reg["local"]).must_equal fetcher
   end
 
