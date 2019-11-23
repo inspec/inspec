@@ -47,7 +47,7 @@ GLOBS = [
 
 # run tests
 task default: ["test:lint", "test:default"]
-task test: ["test:lint", "test:default"]
+task test: ["test:default"]
 
 namespace :test do
 
