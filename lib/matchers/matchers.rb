@@ -254,7 +254,7 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
       return actual.send(op, expected.to_i)
     elsif expected.is_a?(String) && boolean?(expected) && [true, false].include?(actual)
       return actual.send(op, to_boolean(expected))
-    elsif expected.is_a?(Integer) && integer?(actual)
+    elsif expected.is_a?(Integer) && actual.is_a?(String) && integer?(actual)
       return actual.to_i.send(op, expected)
     elsif expected.is_a?(Float) && float?(actual)
       return actual.to_f.send(op, expected)

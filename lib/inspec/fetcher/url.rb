@@ -205,15 +205,21 @@ module Inspec::Fetcher
       @temp_archive_path = archive.path
     end
 
+    def open(target, opts) # overridden so we can control who we're talking to
+      URI.open(target, opts)
+    rescue NoMethodError   # TODO: remove when we drop ruby 2.4
+      super(target, opts)  # Kernel#open
+    end
+
     def open_via_uri(target)
       opts = http_opts
 
-      if opts[:http_basic_authentication]
-        # OpenURI does not support userinfo so we need to remove it
-        open(target.sub("#{@target_uri.userinfo}@", ""), opts)
-      else
-        open(target, opts)
-      end
+      # OpenURI does not support userinfo so we need to remove it
+      # https://ruby-doc.org/stdlib-2.5.0/libdoc/open-uri/rdoc/OpenURI/OpenRead.html#method-i-open
+      target = target.sub("#{@target_uri.userinfo}@", "") if
+        opts[:http_basic_authentication]
+
+      open(target, opts)
     end
 
     def download_archive(path)

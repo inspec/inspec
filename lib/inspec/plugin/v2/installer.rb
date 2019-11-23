@@ -431,7 +431,13 @@ module Inspec::Plugin::V2
         end
 
         # find all gem specification directories
-        directories = [Gem::Specification.default_specifications_dir]
+
+        spec_dir = if Gem.respond_to? :default_specifications_dir
+                     Gem.default_specifications_dir
+                   else
+                     Gem::Specification.default_specifications_dir
+                   end
+        directories = [spec_dir]
         unless defined?(::Bundler)
           # add in any others that do not start with the user directory
           directories += Gem::Specification.dirs.find_all do |path|

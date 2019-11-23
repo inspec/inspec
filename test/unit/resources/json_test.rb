@@ -115,7 +115,7 @@ describe "Inspec::Resources::JSON" do
     end
 
     it "good stdout, empty stderr" do
-      resource = run_json_cmd %(ruby -rjson -e "h={'result'=>true}; puts h.to_json")
+      resource = run_json_cmd %(#{Gem.ruby} -rjson -e "h={'result'=>true}; puts h.to_json")
 
       assert_equal %({"result":true}), resource.raw_content.chomp
       assert_equal({ "result" => true }, resource.params)
@@ -136,7 +136,7 @@ describe "Inspec::Resources::JSON" do
     end
 
     it "empty stdout, empty stderr" do
-      resource = run_json_cmd %{ruby -e "exit 1"}
+      resource = run_json_cmd %{#{Gem.ruby} -e "exit 1"}
 
       assert_resource_failed resource, "No JSON output, STDERR was empty"
     end
