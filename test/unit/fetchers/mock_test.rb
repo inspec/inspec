@@ -1,11 +1,11 @@
 require "helper"
-require "fetchers/mock"
+require "inspec/fetcher/mock"
 
-describe Fetchers::Mock do
-  let(:fetcher) { Fetchers::Mock }
+describe Inspec::Fetcher::Mock do
+  let(:fetcher) { Inspec::Fetcher::Mock }
 
   it "registers with the fetchers registry" do
-    reg = Inspec::Fetcher.registry
+    reg = Inspec::Fetcher::Registry.registry
     _(reg["mock"]).must_equal fetcher
   end
 

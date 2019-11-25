@@ -8,7 +8,7 @@ module Inspec
     attr_reader :cache, :target, :fetcher
     def initialize(target, cache)
       @target = target
-      @fetcher = Inspec::Fetcher.resolve(target)
+      @fetcher = Inspec::Fetcher::Registry.resolve(target)
 
       if @fetcher.nil?
         raise("Could not fetch inspec profile in #{target.inspect}.")

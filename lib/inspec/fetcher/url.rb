@@ -3,7 +3,7 @@ require "openssl"
 require "tempfile"
 require "open-uri"
 
-module Fetchers
+module Inspec::Fetcher
   class Url < Inspec.fetcher(1)
     MIME_TYPES = {
       "application/x-zip-compressed" => ".zip",

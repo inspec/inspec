@@ -3,7 +3,7 @@ require "fileutils"
 require "mixlib/shellout"
 require "inspec/log"
 
-module Fetchers
+module Inspec::Fetcher
   #
   # The git fetcher uses the git binary to fetch remote git sources.
   # Git-based sources should be specified with the `git:` key in the

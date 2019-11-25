@@ -228,7 +228,7 @@ module Inspec
     end
 
     def eval_with_virtual_profile(command)
-      require "fetchers/mock"
+      require "inspec/fetcher/mock"
       add_target({ "inspec.yml" => "name: inspec-shell" })
       our_profile = @target_profiles.first
       ctx = our_profile.runner_context

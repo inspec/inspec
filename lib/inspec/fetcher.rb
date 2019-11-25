@@ -26,7 +26,9 @@ module Inspec
     end
   end
 
-  Fetcher = FetcherRegistry.new
+  module Fetcher
+    Registry = FetcherRegistry.new
+  end
 
   def self.fetcher(version)
     if version != 1
@@ -38,9 +40,9 @@ module Inspec
 end
 
 # TODO: remove. require up, not down.
-require "fetchers/local"
-require "fetchers/url"
-require "fetchers/git"
+require "inspec/fetcher/local"
+require "inspec/fetcher/url"
+require "inspec/fetcher/git"
 
 # TODO: Remove in 4.0 when Compliance fetcher plugin is created
 require "plugins/inspec-compliance/lib/inspec-compliance/api"

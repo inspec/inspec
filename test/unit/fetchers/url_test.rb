@@ -1,10 +1,10 @@
 require "helper"
-require "inspec/fetcher" # TODO: require fetchers/url directly
+require "inspec/fetcher" # TODO: require fetcher/url directly
 
-describe Fetchers::Url do
+describe Inspec::Fetcher::Url do
   it "registers with the fetchers registry" do
-    reg = Inspec::Fetcher.registry
-    _(reg["url"]).must_equal Fetchers::Url
+    reg = Inspec::Fetcher::Registry.registry
+    _(reg["url"]).must_equal Inspec::Fetcher::Url
   end
 
   describe "testing different urls" do
@@ -31,34 +31,34 @@ describe Fetchers::Url do
 
     it "handles a http url" do
       url = "http://chef.io/some.tar.gz"
-      res = Fetchers::Url.resolve(url)
+      res = Inspec::Fetcher::Url.resolve(url)
       res.expects(:open).returns(mock_open)
-      _(res).must_be_kind_of Fetchers::Url
+      _(res).must_be_kind_of Inspec::Fetcher::Url
       _(res.resolved_source).must_equal({ url: "http://chef.io/some.tar.gz", sha256: expected_shasum })
     end
 
     it "handles a https url" do
       url = "https://chef.io/some.tar.gz"
-      res = Fetchers::Url.resolve(url)
+      res = Inspec::Fetcher::Url.resolve(url)
       res.expects(:open).returns(mock_open)
-      _(res).must_be_kind_of Fetchers::Url
+      _(res).must_be_kind_of Inspec::Fetcher::Url
       _(res.resolved_source).must_equal({ url: "https://chef.io/some.tar.gz", sha256: expected_shasum })
     end
 
     it "handles an https URI" do
       uri = URI.parse("https://chef.io/some.tar.gz")
-      res = Fetchers::Url.resolve(uri)
+      res = Inspec::Fetcher::Url.resolve(uri)
       res.expects(:open).returns(mock_open)
-      _(res).must_be_kind_of Fetchers::Url
+      _(res).must_be_kind_of Inspec::Fetcher::Url
       _(res.resolved_source).must_equal({ url: "https://chef.io/some.tar.gz", sha256: expected_shasum })
     end
 
     it "doesnt handle other schemas" do
-      _(Fetchers::Url.resolve("gopher://chef.io/some.tar.gz")).must_be_nil
+      _(Inspec::Fetcher::Url.resolve("gopher://chef.io/some.tar.gz")).must_be_nil
     end
 
     it "only handles URLs" do
-      _(Fetchers::Url.resolve(__FILE__)).must_be_nil
+      _(Inspec::Fetcher::Url.resolve(__FILE__)).must_be_nil
     end
 
     %w{https://github.com/chef/inspec
@@ -69,7 +69,7 @@ describe Fetchers::Url do
        http://www.github.com/chef/inspec.git}.each do |github|
          it "resolves a github url #{github}" do
            expect_url_transform do
-             res = Fetchers::Url.resolve(github)
+             res = Inspec::Fetcher::Url.resolve(github)
              res.expects(:open).returns(mock_open)
              _(res).wont_be_nil
              _(res.resolved_source).must_equal({ url: "https://github.com/chef/inspec/archive/master.tar.gz", sha256: expected_shasum })
@@ -80,7 +80,7 @@ describe Fetchers::Url do
     it "resolves a github url with dot" do
       expect_url_transform do
         github = "https://github.com/mitre/aws-rds-oracle-mysql-ee-5.7-cis-baseline"
-        res = Fetchers::Url.resolve(github)
+        res = Inspec::Fetcher::Url.resolve(github)
         res.expects(:open).returns(mock_open)
         _(res).wont_be_nil
         _(res.resolved_source).must_equal({ url: "https://github.com/mitre/aws-rds-oracle-mysql-ee-5.7-cis-baseline/archive/master.tar.gz", sha256: expected_shasum })
@@ -90,7 +90,7 @@ describe Fetchers::Url do
     it "resolves a github branch url" do
       expect_url_transform do
         github = "https://github.com/hardening-io/tests-os-hardening/tree/2.0"
-        res = Fetchers::Url.resolve(github)
+        res = Inspec::Fetcher::Url.resolve(github)
         res.expects(:open).returns(mock_open)
         _(res).wont_be_nil
         _(res.resolved_source).must_equal({ url: "https://github.com/hardening-io/tests-os-hardening/archive/2.0.tar.gz", sha256: expected_shasum })
@@ -100,7 +100,7 @@ describe Fetchers::Url do
     it "resolves a github commit url" do
       expect_url_transform do
         github = "https://github.com/hardening-io/tests-os-hardening/tree/48bd4388ddffde68badd83aefa654e7af3231876"
-        res = Fetchers::Url.resolve(github)
+        res = Inspec::Fetcher::Url.resolve(github)
         res.expects(:open).returns(mock_open)
         _(res).wont_be_nil
         _(res.resolved_source).must_equal({ url: "https://github.com/hardening-io/tests-os-hardening/archive/48bd4388ddffde68badd83aefa654e7af3231876.tar.gz",
@@ -116,7 +116,7 @@ describe Fetchers::Url do
        http://www.bitbucket.org/chef/inspec.git}.each do |bitbucket|
          it "resolves a bitbucket url #{bitbucket}" do
            expect_url_transform do
-             res = Fetchers::Url.resolve(bitbucket)
+             res = Inspec::Fetcher::Url.resolve(bitbucket)
              res.expects(:open).returns(mock_open)
              _(res).wont_be_nil
              _(res.resolved_source).must_equal({ url: "https://bitbucket.org/chef/inspec/get/master.tar.gz", sha256: expected_shasum })
@@ -127,7 +127,7 @@ describe Fetchers::Url do
     it "resolves a bitbucket branch url" do
       expect_url_transform do
         bitbucket = "https://bitbucket.org/chef/inspec/branch/newbranch"
-        res = Fetchers::Url.resolve(bitbucket)
+        res = Inspec::Fetcher::Url.resolve(bitbucket)
         res.expects(:open).returns(mock_open)
         _(res).wont_be_nil
         _(res.resolved_source).must_equal({ url: "https://bitbucket.org/chef/inspec/get/newbranch.tar.gz", sha256: expected_shasum })
@@ -137,7 +137,7 @@ describe Fetchers::Url do
     it "resolves a bitbucket commit url" do
       expect_url_transform do
         bitbucket = "https://bitbucket.org/chef/inspec/commits/48bd4388ddffde68badd83aefa654e7af3231876"
-        res = Fetchers::Url.resolve(bitbucket)
+        res = Inspec::Fetcher::Url.resolve(bitbucket)
         res.expects(:open).returns(mock_open)
         _(res).wont_be_nil
         _(res.resolved_source).must_equal({ url: "https://bitbucket.org/chef/inspec/get/48bd4388ddffde68badd83aefa654e7af3231876.tar.gz", sha256: expected_shasum })
@@ -159,7 +159,7 @@ describe Fetchers::Url do
         "profile" => ["admin", "ssh-baseline", "2.0"],
       }
     end
-    let(:subject) { Fetchers::Url.resolve(target, options) }
+    let(:subject) { Inspec::Fetcher::Url.resolve(target, options) }
 
     it "downloads tar to tmp file" do
       mock = Object.new
@@ -198,7 +198,7 @@ describe Fetchers::Url do
   describe "applied to a valid url (mocked tar.gz)" do
     let(:mock_file) { MockLoader.profile_tgz("complete-profile") }
     let(:target) { "http://myurl/file.tar.gz" }
-    let(:subject) { Fetchers::Url.resolve(target) }
+    let(:subject) { Inspec::Fetcher::Url.resolve(target) }
     let(:mock_open) do
       m = Minitest::Mock.new
       m.expect :meta, { "content-type" => "application/gzip" }
@@ -223,7 +223,7 @@ describe Fetchers::Url do
   end
 
   describe "#http_opts" do
-    let(:subject) { Fetchers::Url.new("fake_url", config) }
+    let(:subject) { Inspec::Fetcher::Url.new("fake_url", config) }
 
     describe "when username and password is specified" do
       let(:config) { { username: "dummy", password: "dummy" } }
@@ -283,7 +283,7 @@ describe Fetchers::Url do
               "token" => "my_token",
             }
 
-            Fetchers::Url.new("fake_url", config).send(:http_opts)
+            Inspec::Fetcher::Url.new("fake_url", config).send(:http_opts)
           }.must_raise RuntimeError
         end
       end
@@ -299,7 +299,7 @@ describe Fetchers::Url do
               },
             }
 
-            Fetchers::Url.new("fake_url", config).send(:http_opts)
+            Inspec::Fetcher::Url.new("fake_url", config).send(:http_opts)
           }.must_raise RuntimeError
         end
       end
@@ -338,7 +338,7 @@ describe Fetchers::Url do
               "token" => "my_token",
             }
 
-            Fetchers::Url.new("fake_url", config).send(:http_opts)
+            Inspec::Fetcher::Url.new("fake_url", config).send(:http_opts)
           }.must_raise RuntimeError
         end
       end
@@ -355,7 +355,7 @@ describe Fetchers::Url do
               "user" => "my_user",
             }
 
-            Fetchers::Url.new("fake_url", config).send(:http_opts)
+            Inspec::Fetcher::Url.new("fake_url", config).send(:http_opts)
           }.must_raise RuntimeError
         end
       end
