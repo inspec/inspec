@@ -1,7 +1,7 @@
 #!/usr/bin/env powershell
 
 #Requires -Version 5
-
+$ErrorActionPreference = 'Stop'
 $env:HAB_ORIGIN = 'ci'
 $env:CHEF_LICENSE = 'accept-no-persist'
 $env:HAB_LICENSE = 'accept-no-persist'
@@ -29,19 +29,25 @@ $project_root = "$(git rev-parse --show-toplevel)"
 Set-Location $project_root
 
 $env:DO_CHECK=$true; hab pkg build .
-if (-not $?) { throw "unable to build" }
 
 . $project_root/results/last_build.ps1
-if (-not $?) { throw "unable to determine details about this build" }
 
 Write-Host "--- Installing $pkg_ident/$pkg_artifact"
 hab pkg install -b $project_root/results/$pkg_artifact
-if (-not $?) { throw "unable to install this build" }
+
+Write-Host "--- Downloading Ruby + DevKit"
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+(New-Object System.Net.WebClient).DownloadFile('https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.6.5-1/rubyinstaller-devkit-2.6.5-1-x64.exe', 'c:\\rubyinstaller-devkit-2.6.5-1-x64.exe')
+
+Write-Host "--- Installing Ruby + DevKit"
+Start-Process c:\rubyinstaller-devkit-2.6.5-1-x64.exe -ArgumentList '/verysilent /dir=C:\\ruby26' -Wait
+
+Write-Host "--- Cleaning up installation"
+Remove-Item c:\rubyinstaller-devkit-2.6.5-1-x64.exe -Force
+
+$Env:Path += ";C:\ruby26\bin;C:\hab\bin"
 
 Write-Host "+++ Testing $Plan"
 
-$env:PATH = "C:\hab\bin;$env:PATH"
 Push-Location $project_root/test/artifact
 rake
-if (-not $?) { throw "rake failed" }
-Pop-Location

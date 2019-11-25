@@ -1,4 +1,9 @@
 ---
+expeditor:
+  defaults:
+    buildkite:
+      timeout_in_minutes: 30
+
 steps:
 
 - label: ":linux: Validate Habitat Builds of Chef InSpec"
@@ -6,7 +11,8 @@ steps:
     - .expeditor/buildkite/artifact.habitat.test.sh
   expeditor:
     executor:
-      linux:
+      docker:
+        image: ruby:2.6
         privileged: true
 
 - label: ":windows: Validate Habitat Builds of Chef InSpec"

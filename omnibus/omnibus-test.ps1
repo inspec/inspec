@@ -21,16 +21,18 @@ Write-Output "--- Running verification for $channel $product $version"
 # reload Env:PATH to ensure it gets any changes that the install made (e.g. C:\opscode\inspec\bin\ )
 $Env:PATH = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
 
-# Set GEM_HOME and GEM_PATH to verify our appbundle inspec shim is correctly
-# removing them from the environment while launching from our embedded ruby.
-$Env:GEM_HOME = "C:\SHOULD_NOT_EXIST"
-$Env:GEM_PATH = "C:\SHOULD_NOT_EXIST"
+Write-Host "--- Downloading Ruby + DevKit"
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+(New-Object System.Net.WebClient).DownloadFile('https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.6.5-1/rubyinstaller-devkit-2.6.5-1-x64.exe', 'c:\\rubyinstaller-devkit-2.6.5-1-x64.exe')
 
-inspec version
-If ($lastexitcode -ne 0) { Exit $lastexitcode }
+Write-Host "--- Installing Ruby + DevKit"
+Start-Process c:\rubyinstaller-devkit-2.6.5-1-x64.exe -ArgumentList '/verysilent /dir=C:\\ruby26' -Wait
 
-inspec shell -c platform.family
-If ($lastexitcode -ne 0) { Exit $lastexitcode }
+Write-Host "--- Cleaning up installation"
+Remove-Item c:\rubyinstaller-devkit-2.6.5-1-x64.exe -Force
 
-inspec plugin list
-If ($lastexitcode -ne 0) { Exit $lastexitcode }
+$Env:Path += ";C:\ruby26\bin"
+Write-Host "+++ Testing $Plan"
+
+cd test/artifact
+rake
