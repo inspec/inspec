@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.18.40 -->
+## [v4.18.40](https://github.com/inspec/inspec/tree/v4.18.40) (2019-11-25)
+
+#### Merged Pull Requests
+- Move lib/fetchers to lib/inspec/fetchers and re-namspace [#4734](https://github.com/inspec/inspec/pull/4734) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.18.39 -->
+### Changes since 4.18.39 release
+
+#### Merged Pull Requests
+- Move lib/fetchers to lib/inspec/fetchers and re-namspace [#4734](https://github.com/inspec/inspec/pull/4734) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.40 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
