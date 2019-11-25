@@ -6,4 +6,4 @@ supports:
   platform: os
 depends:
   - name: nonesuch
-    url: https://localhost/inspec/inspec-nonesuch/path/to/profile.tgz
+    url: https://localhost.invalid/inspec/inspec-nonesuch/path/to/profile.tgz

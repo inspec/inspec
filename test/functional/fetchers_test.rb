@@ -22,7 +22,7 @@ describe "the fetchers" do
 
     describe "when using the local fetcher on a bad dep" do
       let(:path) { "#{fetcher_profiles}/local-bad" }
-      it "should throw an exception not a stacktrace" do
+      it "should throw an exception not a stacktrace with a local fetcher" do
         assert_fetcher_failed_cleanly(
           run_result,
           /Profile dependency local path .+ does not exist/,
@@ -33,22 +33,22 @@ describe "the fetchers" do
 
     describe "when using the url fetcher on a bad dep" do
       let(:path) { "#{fetcher_profiles}/url-bad" }
-      it "should throw an exception not a stacktrace" do
+      it "should throw an exception not a stacktrace with a url fetcher" do
         assert_fetcher_failed_cleanly(
           run_result,
           /Profile URL dependency .+ could not be fetched:/,
-          "https://localhost/inspec/inspec-nonesuch/path/to/profile.tgz"
+          "https://localhost.invalid/inspec/inspec-nonesuch/path/to/profile.tgz"
         )
       end
     end
 
-    describe "when using the url fetcher on a bad dep" do
+    describe "when using the git fetcher on a bad dep" do
       let(:path) { "#{fetcher_profiles}/git-bad" }
-      it "should throw an exception not a stacktrace" do
+      it "should throw an exception not a stacktrace with a git fetcher" do
         assert_fetcher_failed_cleanly(
           run_result,
-          /Profile git dependency failed for .+ Connection refused/,
-          "http://localhost/no/such"
+          /Profile git dependency failed for .+ Could not resolve host.+/,
+          "http://localhost.invalid/no/such"
         )
       end
     end

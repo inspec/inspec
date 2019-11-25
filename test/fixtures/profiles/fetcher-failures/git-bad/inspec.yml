@@ -6,4 +6,4 @@ supports:
   platform: os
 depends:
   - name: nonesuch
-    git: http://localhost/no/such
+    git: http://localhost.invalid/no/such
