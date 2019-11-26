@@ -39,6 +39,11 @@ While the key audience of the working agreement is the Chef InSpec product and e
 * When working on a contribution, we create a short-lived topic branch that contains the topic contribution.
   * Naming convention: `<initials/name>/<shortname>`
 * Remember when creating an issue to add plenty of context - even things that are "obvious". Depending on when the issue is addressed, you may not be the one working on it so giving context to the assignee is important.
+* When estimating work, we use story points as follows:
+  * Estimates are generally to be made by the engineer doing the work and can always be revised by that individual. No one will ever be expected to work to an estimate created by another.
+  * Story points are consecutive integers, 1,2,3,4,5...
+  * Story points have a concrete meaning on this team: the rough number of work days that the engineer doing the work believes it will take to complete the work, from start to merge.
+  * A work item estimated at more than 5 days should go directly into Breakdown to be decomposed into smaller tasks.
 
 ## Issues
 * __SLA: 3 business days__
