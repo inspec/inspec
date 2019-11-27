@@ -273,7 +273,7 @@ module Inspec::Fetcher
         end
       end
       unless keys_missing_values.empty?
-        raise "Unable to fetch profile - the following HTTP headers have no value: " \
+        raise Inspec::FetcherFailure, "Unable to fetch profile - the following HTTP headers have no value: " \
           "#{keys_missing_values.join(", ")}"
       end
     end

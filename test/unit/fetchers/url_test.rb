@@ -284,7 +284,7 @@ describe Inspec::Fetcher::Url do
             }
 
             Inspec::Fetcher::Url.new("fake_url", config).send(:http_opts)
-          }.must_raise RuntimeError
+          }.must_raise Inspec::FetcherFailure
         end
       end
 
@@ -300,7 +300,7 @@ describe Inspec::Fetcher::Url do
             }
 
             Inspec::Fetcher::Url.new("fake_url", config).send(:http_opts)
-          }.must_raise RuntimeError
+          }.must_raise Inspec::FetcherFailure
         end
       end
     end
@@ -339,7 +339,7 @@ describe Inspec::Fetcher::Url do
             }
 
             Inspec::Fetcher::Url.new("fake_url", config).send(:http_opts)
-          }.must_raise RuntimeError
+          }.must_raise Inspec::FetcherFailure
         end
       end
 
@@ -356,7 +356,7 @@ describe Inspec::Fetcher::Url do
             }
 
             Inspec::Fetcher::Url.new("fake_url", config).send(:http_opts)
-          }.must_raise RuntimeError
+          }.must_raise Inspec::FetcherFailure
         end
       end
     end
