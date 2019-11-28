@@ -11,6 +11,8 @@ steps:
     commands:
       - .expeditor/buildkite/coverage.sh
     expeditor:
+      executor:
+        docker:
       secrets:
         COVERAGE_ID:
           path: secret/coveralls/inspec/inspec
