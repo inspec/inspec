@@ -26,7 +26,7 @@ upload_s3_file() {
 
 echo "--- downloading coverage tool"
 download_s3_file test-reporter || download_test_reporter
-download_s3_file test-reporter.sha || echo "Could not download test-reporter.sha"
+download_s3_file test-reporter.sha || echo -e "\nCould not download test-reporter.sha"
 
 
 echo "--- updating rubygems"
