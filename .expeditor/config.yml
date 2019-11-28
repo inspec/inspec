@@ -171,4 +171,3 @@ subscriptions:
          only_if_team_member:
            - inspec/owners
            - inspec/inspec-core-team
-     - post_github_comment:.expeditor/templates/pull_request.mustache
