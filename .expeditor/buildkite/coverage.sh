@@ -44,7 +44,7 @@ echo "--- bundle install"
 bundle install --jobs=7 --retry=3 --without tools maintenance deploy
 
 echo "+++ bundle exec rake"
-bundle exec rake "${RAKE_TASK:-}"
+bundle exec rake test
 EXIT-CODE=$?
 
 echo "+++ formatting and uploading test coverage"
