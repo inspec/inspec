@@ -9,7 +9,7 @@ steps:
 
   - label: coverage
     commands:
-      - /workdir/.expeditor/buildkite/coverage.sh
+      - .expeditor/buildkite/coverage.sh
     expeditor:
       secrets:
         COVERAGE_ID:
