@@ -11,6 +11,10 @@ steps:
     commands:
       - /workdir/.expeditor/buildkite/coverage.sh
     expeditor:
+      secrets:
+        COVERAGE_ID:
+          path: secret/coveralls/inspec/inspec
+          field: reporter_id
       executor:
         docker:
           image: ruby:2.6-stretch

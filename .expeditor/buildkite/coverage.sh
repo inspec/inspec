@@ -4,7 +4,8 @@ set -ueo pipefail
 
 export LANG=C.UTF-8 LANGUAGE=C.UTF-8
 # test-reporter expects reporter identifier under this environment variable
-CC_TEST_REPORTER_ID="FIXME"
+CC_TEST_REPORTER_ID="$COVERAGE_ID"
+export CC_TEST_REPORTER_ID
 TEST_REPORTER_VERSION="0.6.3"
 S3_URL="s3://public-cd-buildkite-cache/$BUILDKITE_PIPELINE_SLUG/$BUILDKITE_LABEL"
 
