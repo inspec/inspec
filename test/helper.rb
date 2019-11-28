@@ -9,10 +9,6 @@ if ENV["CI_ENABLE_COVERAGE"]
   require "simplecov/no_defaults"
   require "helpers/simplecov_minitest"
 
-  SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
-    SimpleCov::Formatter::HTMLFormatter,
-  ])
-
   SimpleCov.start do
     add_filter "/test/"
     add_group "Resources", ["lib/resources", "lib/inspec/resources"]

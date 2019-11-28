@@ -12,6 +12,7 @@ S3_URL="s3://public-cd-buildkite-cache/$BUILDKITE_PIPELINE_SLUG/$BUILDKITE_LABEL
 download_test_reporter() {
     curl -o test-reporter -L https://codeclimate.com/downloads/test-reporter/test-reporter-"$TEST_REPORTER_VERSION"-linux-amd64
     chmod +x test-reporter
+    touch new_test-reporter
 }
 
 download_s3_file() {
@@ -51,11 +52,18 @@ echo "+++ formatting and uploading test coverage"
 ./test-reporter after-build -t simplecov --exit-code "$EXIT_CODE"
 
 echo "--- uploading test-reporter.sha to s3"
-if [ "test-reporter" -nt "test-reporter.sha" ]; then
-    if shasum --check test-reporter.sha --status; then
-        shasum -a 256 test-reporter > test-reporter.sha
-        for i in "test-reporter" "test-reporter.sha"; do
-            upload_s3_file "$i"
-        done
-    fi
+if [ -f "new_test-reporter" ]; then
+    echo "new test-reporter detected. uploading."
+    shasum -a 256 test-reporter > test-reporter.sha
+    for i in "test-reporter" "test-reporter.sha"; do
+        upload_s3_file "$i"
+    done
+fi
+
+if shasum --check test-reporter.sha --status; then
+    echo "test-reporter shasum mismatch. uploading."
+    shasum -a 256 test-reporter > test-reporter.sha
+    for i in "test-reporter" "test-reporter.sha"; do
+        upload_s3_file "$i"
+    done
 fi
