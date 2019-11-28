@@ -162,7 +162,6 @@ subscriptions:
     - built_in:notify_chefio_slack_channels
  - workload: pull_request_opened:{{agent_id}}:*
    actions:
-     - trigger_pipeline:coverage
      - post_github_comment:.expeditor/templates/pull_request.mustache:
          ignore_team_members:
            - inspec/owners
@@ -171,3 +170,4 @@ subscriptions:
          only_if_team_member:
            - inspec/owners
            - inspec/inspec-core-team
+     - trigger_pipeline:coverage
