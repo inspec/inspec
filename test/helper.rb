@@ -56,9 +56,14 @@ require "minitest/autorun"
 
 require "rspec/core/dsl"
 module RSpec::Core::DSL
+  class << self
+    alias expose_globally! expose_globally! # alias prevents duplicate warning
+  end
+  # rubocop:disable Lint/DuplicateMethods
   def self.expose_globally!
     # do nothing
   end
+  # rubocop:enable Lint/DuplicateMethods
 end
 require "rspec"
 
