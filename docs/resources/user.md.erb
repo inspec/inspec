@@ -37,13 +37,14 @@ A `user` resource block declares a user name, and then one (or more) matchers:
       its('passwordage') { should eq 355 }
       its('maxbadpasswords') { should eq nil } // Only valid on Windows OS
       its('badpasswordattempts') { should eq 0 }
+      its('lastlogin') { should eq nil } // Only valid on Windows OS
     end
 
 where
 
 * `('root')` is the user to be tested
 * `it { should exist }` tests if the user exists
-* `gid`, `group`, `groups`, `home`, `maxdays`, `mindays`, `shell`, `uid`, `warndays`´, `passwordage`, `maxbadpasswords` and `badpasswordattempts` are valid matchers for this resource
+* `gid`, `group`, `groups`, `home`, `maxdays`, `mindays`, `shell`, `uid`, `warndays`´, `passwordage`, `maxbadpasswords`, `badpasswordattempts` and `lastlogin` are valid matchers for this resource
 
 <br>
 
@@ -179,3 +180,11 @@ The `badpasswordattempts` matcher tests the count of bad password attempts for a
 where `0` is the count of bad passwords for a user. 
 On Linux based operating systems it relies on `lastb` and for Windows it uses information stored for the user object.
 These settings will be resetted to `0` depending on your operating system configuration.
+
+### lastlogin
+
+The `lastlogin` matcher tests the last login date for a specific user.
+
+    its('lastlogin') { should eq nil }
+    
+The `nil` value means this user has never logged in.

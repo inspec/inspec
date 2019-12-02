@@ -296,7 +296,7 @@ class MockLoader
       # user info for freebsd
       "pw usershow root -7" => cmd.call("pw-usershow-root-7"),
       # user info for windows (winrm 1.6.0, 1.6.1)
-      "27c6cda89fa5d196506251c0ed0d20468b378c5689711981dc1e1e683c7b02c1" => cmd.call("adsiusers"),
+      "c603a7d32732390b1ed57ebd56fd176fecdb2035f005d33482de9adb1ddb4447" => cmd.call("adsiusers"),
       # group info for windows
       "4020573097e910a573e22e8863c4faa434f52910a45714606cad1fb8b060d9e9" => cmd.call("adsigroups"),
       # group info for Darwin
