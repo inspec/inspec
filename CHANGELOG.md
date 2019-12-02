@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.41 -->
-## [v4.18.41](https://github.com/inspec/inspec/tree/v4.18.41) (2019-11-29)
+<!-- latest_release 4.18.42 -->
+## [v4.18.42](https://github.com/inspec/inspec/tree/v4.18.42) (2019-12-02)
 
 #### Merged Pull Requests
-- Fix ruby 2.7 warnings/errors [#4739](https://github.com/inspec/inspec/pull/4739) ([zenspider](https://github.com/zenspider))
+- Suppress output from rubygems installs. [#4743](https://github.com/inspec/inspec/pull/4743) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.39 -->
 ### Changes since 4.18.39 release
 
 #### Merged Pull Requests
+- Suppress output from rubygems installs. [#4743](https://github.com/inspec/inspec/pull/4743) ([zenspider](https://github.com/zenspider)) <!-- 4.18.42 -->
 - Fix ruby 2.7 warnings/errors [#4739](https://github.com/inspec/inspec/pull/4739) ([zenspider](https://github.com/zenspider)) <!-- 4.18.41 -->
 - Move lib/fetchers to lib/inspec/fetchers and re-namspace [#4734](https://github.com/inspec/inspec/pull/4734) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.40 -->
 <!-- release_rollup -->
