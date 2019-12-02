@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.43 -->
-## [v4.18.43](https://github.com/inspec/inspec/tree/v4.18.43) (2019-12-02)
+<!-- latest_release 4.18.44 -->
+## [v4.18.44](https://github.com/inspec/inspec/tree/v4.18.44) (2019-12-02)
 
 #### Merged Pull Requests
-- Enable Codeclimate Test Coverage [#4745](https://github.com/inspec/inspec/pull/4745) ([miah](https://github.com/miah))
+- Add last login date to WindowsUser [#4724](https://github.com/inspec/inspec/pull/4724) ([mbaitelman](https://github.com/mbaitelman))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.39 -->
 ### Changes since 4.18.39 release
 
 #### Merged Pull Requests
+- Add last login date to WindowsUser [#4724](https://github.com/inspec/inspec/pull/4724) ([mbaitelman](https://github.com/mbaitelman)) <!-- 4.18.44 -->
 - Enable Codeclimate Test Coverage [#4745](https://github.com/inspec/inspec/pull/4745) ([miah](https://github.com/miah)) <!-- 4.18.43 -->
 - Suppress output from rubygems installs. [#4743](https://github.com/inspec/inspec/pull/4743) ([zenspider](https://github.com/zenspider)) <!-- 4.18.42 -->
 - Fix ruby 2.7 warnings/errors [#4739](https://github.com/inspec/inspec/pull/4739) ([zenspider](https://github.com/zenspider)) <!-- 4.18.41 -->
