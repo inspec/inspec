@@ -2,18 +2,12 @@
 # Do not add any code above this line.
 
 ##
-# Do not add any other code to this code block. Simplecov and
-# coveralls only until the next code block:
+# Do not add any other code to this code block. Simplecov
+# only until the next code block:
 
 if ENV["CI_ENABLE_COVERAGE"]
   require "simplecov/no_defaults"
   require "helpers/simplecov_minitest"
-  require "coveralls"
-
-  SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
-    SimpleCov::Formatter::HTMLFormatter,
-    Coveralls::SimpleCov::Formatter,
-  ])
 
   SimpleCov.start do
     add_filter "/test/"

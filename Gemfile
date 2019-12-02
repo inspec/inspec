@@ -20,7 +20,6 @@ end
 
 group :test do
   gem "chefstyle", "~> 0.13.0"
-  gem "coveralls", require: false
   gem "minitest", "~> 5.5"
   gem "minitest-sprint", "~> 1.0"
   gem "rake", ">= 10"

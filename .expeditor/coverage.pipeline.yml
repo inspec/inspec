@@ -9,9 +9,11 @@ steps:
 
   - label: coverage
     commands:
-      - bundle install --jobs=7 --retry=3 --without tools maintenance deploy
-      - bundle exec rake test:default
+      - .expeditor/buildkite/coverage.sh
     expeditor:
       executor:
         docker:
-          image: ruby:2.6-stretch
+      secrets:
+        COVERAGE_ID:
+          path: secret/coveralls/inspec/inspec
+          field: reporter_id
