@@ -1,8 +1,6 @@
 pkg_name=<%= "inspec-profile-#{profile.name}" %>
 pkg_version=<%= profile.version %>
 pkg_origin=<%= habitat_origin %>
-pkg_deps=(chef/inspec)
-pkg_build_deps=(chef/inspec core/jq-static)
 pkg_svc_user=root
 <%= "pkg_license='#{profile.metadata.params[:license]}'" if profile.metadata.params[:license]%>
 pkg_scaffolding="chef/scaffolding-chef-inspec"
