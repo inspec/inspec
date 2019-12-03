@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "train-winrm", "~> 0.2" # Requires train 3+
 
   # Implementation dependencies
+  spec.add_dependency "chef-telemetry", "~> 1.0"
   spec.add_dependency "license-acceptance", ">= 0.2.13", "< 2.0"
   spec.add_dependency "thor", "~> 0.20"
   spec.add_dependency "json-schema", "~> 2.8"

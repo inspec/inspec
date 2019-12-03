@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 2.4"
 
   spec.add_dependency "train-core", "~> 3.0"
+  spec.add_dependency "chef-telemetry", "~> 1.0"
   spec.add_dependency "license-acceptance", ">= 0.2.13", "< 2.0"
   spec.add_dependency "thor", "~> 0.20"
   spec.add_dependency "json-schema", "~> 2.8"
