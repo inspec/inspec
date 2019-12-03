@@ -429,7 +429,7 @@ form.main-sidebar--search {
 
 //search input
 
-form.main-sidebar--search input[type="text"] {
+form.main-sidebar--search input[type="search"] {
 	font-family: $main-font;
 	font-weight: 400;
 	width: 100%;
@@ -442,30 +442,11 @@ form.main-sidebar--search input[type="text"] {
 	border-radius: 8px;
   background: $color_white;
   font-size: 1em;
-	color: $color_dark;
+  color: $color_dark;
+  margin: 0;
 
 	@include nav-small {
 		width:100%;
-	}
-}
-
-//Search button
-
-.search { // search icon
-	width: 45px;
-	height: 45px;
-	border: 1.5px solid $color_white;
-	border-radius: 8px;
-	background: rgba(255, 255, 255, 0);
-	cursor: pointer;
-	position: relative;
-	float: right;
-	outline: none;
-
-	i {
-		width: 20px;
-		margin-left: 8px;
-		height: auto;
 	}
 }
 
