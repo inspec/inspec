@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.45 -->
-## [v4.18.45](https://github.com/inspec/inspec/tree/v4.18.45) (2019-12-04)
+<!-- latest_release 4.18.46 -->
+## [v4.18.46](https://github.com/inspec/inspec/tree/v4.18.46) (2019-12-04)
 
 #### Merged Pull Requests
-- Bump windows deadline AGAIN. [#4759](https://github.com/inspec/inspec/pull/4759) ([zenspider](https://github.com/zenspider))
-- Removes broken search button and icon [#4753](https://github.com/inspec/inspec/pull/4753) ([kagarmoe](https://github.com/kagarmoe))
+- Hook up logger to inspec detect. [#4760](https://github.com/inspec/inspec/pull/4760) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.39 -->
 ### Changes since 4.18.39 release
 
 #### Merged Pull Requests
+- Hook up logger to inspec detect. [#4760](https://github.com/inspec/inspec/pull/4760) ([zenspider](https://github.com/zenspider)) <!-- 4.18.46 -->
 - Bump windows deadline AGAIN. [#4759](https://github.com/inspec/inspec/pull/4759) ([zenspider](https://github.com/zenspider)) <!-- 4.18.45 -->
 - Removes broken search button and icon [#4753](https://github.com/inspec/inspec/pull/4753) ([kagarmoe](https://github.com/kagarmoe)) <!-- 4.18.44 -->
 - Add last login date to WindowsUser [#4724](https://github.com/inspec/inspec/pull/4724) ([mbaitelman](https://github.com/mbaitelman)) <!-- 4.18.44 -->
