@@ -46,8 +46,8 @@ GLOBS = [
 ].freeze
 
 # run tests
-task default: ["test:lint", "test:default"]
-task test: ["test:default"]
+task default: %w{ test }
+task test: %w{ test:default }
 
 namespace :test do
 

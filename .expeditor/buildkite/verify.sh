@@ -67,7 +67,7 @@ if [ -z "${SKIP_BUNDLE_CACHE:-}" ]; then
     fi
 fi
 
-echo "+++ bundle exec rake test"
+echo "+++ bundle exec rake ${RAKE_TASK:-}"
 # TODO: run this as non-root:
 # chown -R normal:normal /home/normal /workdir
 # su normal -c "bundle exec rake ${RAKE_TASK:-}"
