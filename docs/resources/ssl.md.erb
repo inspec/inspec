@@ -44,9 +44,9 @@ where
 
 The following examples show how to use this Chef InSpec audit resource.
 
-### Run the ssl-benchmark example profile
+### Run the ssl-baseline example profile
 
-The following shows how to use the `ssl` Chef InSpec audit resource to find all TCP ports on the system, including IPv4 and IPv6. (This is a partial example based on the `ssl_text.rb` file in the `ssl-benchmark` profile on GitHub.)
+The following shows how to use the `ssl` Chef InSpec audit resource to find all TCP ports on the system, including IPv4 and IPv6. (This is a partial example based on the `ssl_text.rb` file in the `ssl-baseline` profile on GitHub.)
 
     ...
 
@@ -78,19 +78,19 @@ The following shows how to use the `ssl` Chef InSpec audit resource to find all 
       end
     end
 
-There are two ways to run the `ssl-benchmark` example profile to test SSL via the `ssl` resource.
+There are two ways to run the `ssl-baseline` example profile to test SSL via the `ssl` resource.
 
 Clone the profile:
 
-    $ git clone https://github.com/dev-sec/ssl-benchmark
+    $ git clone https://github.com/dev-sec/ssl-baseline
 
 and then run:
 
-    $ inspec exec ssl-benchmark
+    $ inspec exec ssl-baseline
 
 Or execute the profile directly via URL:
 
-    $ inspec exec https://github.com/dev-sec/ssl-benchmark
+    $ inspec exec https://github.com/dev-sec/ssl-baseline
 
 <br>
 
