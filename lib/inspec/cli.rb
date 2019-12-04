@@ -298,7 +298,11 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   def detect
     o = config
     o[:command] = "platform.params"
+
+    configure_logger(o)
+
     (_, res) = run_command(o)
+
     if o["format"] == "json"
       puts res.to_json
     else
