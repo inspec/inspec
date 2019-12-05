@@ -52,12 +52,6 @@ module Inspec::Resources
       .register_column(:inactive_days, field: "inactive_days")
       .register_column(:expiry_dates, field: "expiry_date")
       .register_column(:reserved, field: "reserved")
-    # These are deprecated, but we need to "alias" them
-    filtertable
-      .register_custom_property(:user) { |table, value| table.resource.user(value) }
-      .register_custom_property(:password) { |table, value| table.resource.password(value) }
-      .register_custom_property(:last_change) { |table, value| table.resource.last_change(value) }
-      .register_custom_property(:expiry_date) { |table, value| table.resource.expiry_date(value) }
 
     filtertable.register_custom_property(:content) do |t, _|
       t.entries.map do |e|
