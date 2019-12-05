@@ -101,7 +101,10 @@ module Inspec::Fetcher
     end
 
     def perform_shasum(target)
-      @archive_shasum ||= OpenSSL::Digest::SHA256.digest(File.read(target)).unpack("H*")[0]
+      return @archive_shasum if @archive_shasum
+      raise(Inspec::FetcherFailure, "Profile dependency local path '#{target}' does not exist") unless File.exist?(target)
+
+      @archive_shasum = OpenSSL::Digest::SHA256.digest(File.read(target)).unpack("H*")[0]
     end
 
     def resolved_source
