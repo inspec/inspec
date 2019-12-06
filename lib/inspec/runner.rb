@@ -307,6 +307,8 @@ module Inspec
     def add_resource(method_name, arg, opts, block)
       case method_name
       when "describe"
+        opts = { backend: @test_collector.backend }.merge opts
+
         @test_collector.example_group(*arg, opts, &block)
       when "expect"
         block.example_group
