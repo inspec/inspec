@@ -47,7 +47,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "tty-table", "~> 0.10"
   spec.add_dependency "tty-prompt", "~> 0.17"
   # Used for Azure profile until integrated into train
-  spec.add_dependency "faraday_middleware", "~> 0.12.2"
+  spec.add_dependency "faraday_middleware", "~> 0.12"
   spec.add_dependency "tomlrb", "~> 1.2"
   spec.add_dependency "addressable", "~> 2.4"
   spec.add_dependency "parslet", "~> 1.5"
