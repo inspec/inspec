@@ -26,7 +26,7 @@ describe "inspec exec" do
   end
 
   before do
-    prof = "test/unit/mock/profiles"
+    prof = "test/fixtures/profiles"
     FileUtils.rm_f "#{prof}/aws-profile/inspec.lock"
     FileUtils.rm_f "#{prof}/simple-inheritance/inspec.lock"
     FileUtils.rm_f "#{prof}/simple-metadata/inspec.lock"
@@ -165,11 +165,11 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
     _(stdout).must_include "Target:  local://"
     _(stdout).must_include "working"
-    _(stdout).must_include "✔  should eq \"working\""
+    _(stdout).must_include "✔  is expected to eq \"working\""
     _(stdout).must_include "skippy\n"
     _(stdout).must_include "↺  This will be skipped intentionally"
     _(stdout).must_include "failing"
-    _(stdout).must_include "×  should eq \"as intended\""
+    _(stdout).must_include "×  is expected to eq \"as intended\""
     _(stdout).must_include "Test Summary: 1 successful, 1 failure, 1 skipped\n"
 
     _(stderr).must_equal ""
@@ -354,10 +354,10 @@ Version: (not specified)
 Target:  local://
 
   \xE2\x9C\x94  tmp-1.0: Create / directory
-     \xE2\x9C\x94  File / should be directory
+     \xE2\x9C\x94  File / is expected to be directory
 
   File /
-     \xE2\x9C\x94  should be directory
+     \xE2\x9C\x94  is expected to be directory
 
 Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
 Test Summary: 2 successful, 0 failures, 0 skipped\n"
@@ -377,12 +377,12 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
 
     it "should print all the results" do
       _(stdout).must_include "×  tmp-1.0: Create / directory (1 failed)"
-      _(stdout).must_include "×  should not be directory\n"
+      _(stdout).must_include "×  is expected not to be directory\n"
       _(stdout).must_include "×  undefined method `should_nota'"
-      _(stdout).must_include "×  should not be directory\n     expected `File /.directory?` to return false, got true"
-      _(stdout).must_include "×  7 should cmp >= 9\n"
-      _(stdout).must_include "×  7 should not cmp == /^\\d$/\n"
-      _(stdout).must_include "✔  7 should cmp == \"7\""
+      _(stdout).must_include "×  is expected not to be directory\n     expected `File /.directory?` to return false, got true"
+      _(stdout).must_include "×  7 is expected to cmp >= 9\n"
+      _(stdout).must_include "×  7 is expected not to cmp == /^\\d$/\n"
+      _(stdout).must_include "✔  7 is expected to cmp == \"7\""
       _(stdout).must_include "expected: %p" % ["01147"]
       _(stdout).must_include "got: %p" % [is_windows? ? "040755" : "0755"]
     end
@@ -395,7 +395,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       _(stdout).must_include "×  tmp-1.0: Create / directory (1 failed)"
       _(stdout).must_include "×  cmp-1.0: Using the cmp matcher for numbers (2 failed)"
       _(stdout).must_include "×  undefined method `should_nota'"
-      _(stdout).must_include "×  should not be directory\n     expected `File /.directory?` to return false, got true"
+      _(stdout).must_include "×  is expected not to be directory\n     expected `File /.directory?` to return false, got true"
       _(stdout).must_include "✔  profiled-1: Create / directory (profile d)"
     end
   end
@@ -404,7 +404,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
     let(:out) { inspec("exec " + simple_inheritance) }
 
     it "should print the profile information and then the test results" do
-      _(stdout).must_include "  ×  tmp-1.0: Create / directory (1 failed)\n     ✔  File / should be directory\n     ×  File / should not be directory\n"
+      _(stdout).must_include "  ×  tmp-1.0: Create / directory (1 failed)\n     ✔  File / is expected to be directory\n     ×  File / is expected not to be directory\n"
     end
   end
 
@@ -567,10 +567,10 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
     it "hides sensitive output" do
       inspec("exec " + sensitive_profile + " --no-create-lockfile")
 
-      _(stdout).must_include '×  should eq "billy"'
+      _(stdout).must_include '×  is expected to eq "billy"'
       _(stdout).must_include 'expected: "billy"'
       _(stdout).must_include 'got: "bob"'
-      _(stdout).must_include '×  should eq "secret"'
+      _(stdout).must_include '×  is expected to eq "secret"'
       _(stdout).must_include "*** sensitive output suppressed ***"
       _(stdout).must_include "\nTest Summary: 2 successful, 2 failures, 0 skipped\n"
 

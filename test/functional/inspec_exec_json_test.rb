@@ -182,7 +182,7 @@ describe "inspec exec with json formatter" do
       _(result).wont_be :nil?
 
       _(result["status"]).must_equal "passed"
-      _(result["code_desc"]).must_equal "File / should be directory"
+      _(result["code_desc"]).must_equal "File / is expected to be directory"
       _(result["run_time"]).wont_be :nil?
       _(result["start_time"]).wont_be :nil?
 
