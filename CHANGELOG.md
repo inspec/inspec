@@ -1,15 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.48 -->
-## [v4.18.48](https://github.com/inspec/inspec/tree/v4.18.48) (2019-12-09)
+<!-- latest_release 4.18.49 -->
+## [v4.18.49](https://github.com/inspec/inspec/tree/v4.18.49) (2019-12-09)
 
-#### Merged Pull Requests
-- Bump rspec to 3.9 and fix broken tests. [#4771](https://github.com/inspec/inspec/pull/4771) ([zenspider](https://github.com/zenspider))
-- sum multiple test runs together for codeclimate [#4761](https://github.com/inspec/inspec/pull/4761) ([miah](https://github.com/miah))
+#### New Features
+- Wire up backend to rspec metadata, allowing for example groups to use resources [#4768](https://github.com/inspec/inspec/pull/4768) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.39 -->
 ### Changes since 4.18.39 release
+
+#### New Features
+- Wire up backend to rspec metadata, allowing for example groups to use resources [#4768](https://github.com/inspec/inspec/pull/4768) ([zenspider](https://github.com/zenspider)) <!-- 4.18.49 -->
 
 #### Merged Pull Requests
 - Bump rspec to 3.9 and fix broken tests. [#4771](https://github.com/inspec/inspec/pull/4771) ([zenspider](https://github.com/zenspider)) <!-- 4.18.48 -->
