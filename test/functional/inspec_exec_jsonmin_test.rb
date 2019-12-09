@@ -56,7 +56,7 @@ describe "inspec exec" do
     end
 
     it "has a code_desc" do
-      _(ex1["code_desc"]).must_equal "File / should be directory"
+      _(ex1["code_desc"]).must_equal "File / is expected to be directory"
       _(controls.find { |ex| !ex.key? "code_desc" }).must_be :nil?
     end
 
