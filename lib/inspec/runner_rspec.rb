@@ -10,6 +10,8 @@ require "inspec/rspec_extensions"
 
 module Inspec
   class RunnerRspec
+    attr_accessor :formatter
+
     def initialize(conf)
       @conf = conf
       @formatter = nil
@@ -22,7 +24,12 @@ module Inspec
     # @param [Type] &block the block associated with this example group
     # @return [RSpecExampleGroup]
     def example_group(*args, &block)
+      # NOTE: this RUNS immediately
       RSpec::Core::ExampleGroup.describe(*args, &block)
+    end
+
+    def formatters
+      RSpec.configuration.formatters.grep(Inspec::Formatters::Base)
     end
 
     # Add a full profile to the runner. Only pulls in metadata
@@ -30,11 +37,13 @@ module Inspec
     # @param [Inspec::Profile] profile
     # @return [nil]
     def add_profile(profile)
-      RSpec.configuration.formatters
-        .find_all { |c| c.is_a?(Inspec::Formatters::Base) }
-        .each do |fmt|
-          fmt.add_profile(profile)
-        end
+      formatters.each do |fmt|
+        fmt.add_profile(profile)
+      end
+    end
+
+    def backend
+      formatters.first.backend
     end
 
     # Configure the backend of the runner.
@@ -42,11 +51,9 @@ module Inspec
     # @param [Inspec::Backend] backend
     # @return [nil]
     def backend=(backend)
-      RSpec.configuration.formatters
-        .find_all { |c| c.is_a?(Inspec::Formatters::Base) }
-        .each do |fmt|
-          fmt.backend = backend
-        end
+      formatters.each do |fmt|
+        fmt.backend = backend
+      end
     end
 
     # Add an example group to the list of registered tests.

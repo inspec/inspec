@@ -11,14 +11,13 @@ module Inspec
   module DescribeDslLazyLoader
     # Support for Describe DSL plugins
     def method_missing(method_name, *arguments, &block)
-      # TODO: need a backend available at the describe level... class method somewhere?
-      # # see if it is a resource first
-      # begin
-      #   resource = Inspec::DSL.method_missing_resource(:where_is_backend?, method_name, *arguments)
-      #   return resource if resource
-      # rescue LoadError
-      #   # pass through
-      # end
+      begin
+        backend = metadata[:backend] # populated via Inspec::Runner#add_resource
+        resource = Inspec::DSL.method_missing_resource(backend, method_name, *arguments)
+        return resource if resource
+      rescue LoadError
+        # pass through
+      end
 
       # Check to see if there is a describe_dsl plugin activator hook with the method name
       registry = Inspec::Plugin::V2::Registry.instance
