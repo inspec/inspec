@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.18.48 -->
+## [v4.18.48](https://github.com/inspec/inspec/tree/v4.18.48) (2019-12-09)
 
 #### Merged Pull Requests
+- Bump rspec to 3.9 and fix broken tests. [#4771](https://github.com/inspec/inspec/pull/4771) ([zenspider](https://github.com/zenspider))
 - sum multiple test runs together for codeclimate [#4761](https://github.com/inspec/inspec/pull/4761) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.18.39 release
 
 #### Merged Pull Requests
+- Bump rspec to 3.9 and fix broken tests. [#4771](https://github.com/inspec/inspec/pull/4771) ([zenspider](https://github.com/zenspider)) <!-- 4.18.48 -->
 - sum multiple test runs together for codeclimate [#4761](https://github.com/inspec/inspec/pull/4761) ([miah](https://github.com/miah)) <!-- 4.18.47 -->
 - Make fetchers fail consistently [#4736](https://github.com/inspec/inspec/pull/4736) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.47 -->
 - Hook up logger to inspec detect. [#4760](https://github.com/inspec/inspec/pull/4760) ([zenspider](https://github.com/zenspider)) <!-- 4.18.46 -->
