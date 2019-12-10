@@ -16,6 +16,9 @@ echo "--- system details"
 uname -a
 gem env
 bundle --version
+mount
+df /tmp
+echo $TMPDIR
 
 echo "--- pull bundle cache"
 pull_bundle
