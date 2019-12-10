@@ -227,6 +227,8 @@ module XinetdParser
   def parse_xinetd(raw) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     return {} if raw.nil?
 
+    require "inspec/utils/simpleconfig"
+
     res = {}
     cur_group = nil
     simple_conf = []
@@ -273,5 +275,3 @@ module XinetdParser
     res
   end
 end
-
-require "inspec/utils/simpleconfig"

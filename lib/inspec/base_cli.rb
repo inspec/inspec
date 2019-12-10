@@ -8,6 +8,8 @@ require "inspec/utils/deprecation/global_method"
 # Allow end of options during array type parsing
 # https://github.com/erikhuda/thor/issues/631
 class Thor::Arguments
+  alias old_parse_array parse_array
+
   def parse_array(_name)
     return shift if peek.is_a?(Array)
 

@@ -6,7 +6,6 @@ require "stringio"
 require "forwardable"
 require "thor"
 require "base64"
-require "inspec/base_cli"
 require "inspec/plugin/v2/filter"
 
 module Inspec
@@ -422,6 +421,7 @@ module Inspec
 
     def finalize_set_top_level_command(options)
       options[:type] = @command_name
+      require "inspec/base_cli"
       Inspec::BaseCLI.inspec_cli_command = @command_name # TODO: move to a more relevant location
     end
 
