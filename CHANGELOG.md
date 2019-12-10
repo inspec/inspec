@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.49 -->
-## [v4.18.49](https://github.com/inspec/inspec/tree/v4.18.49) (2019-12-09)
+<!-- latest_release 4.18.50 -->
+## [v4.18.50](https://github.com/inspec/inspec/tree/v4.18.50) (2019-12-10)
 
-#### New Features
-- Wire up backend to rspec metadata, allowing for example groups to use resources [#4768](https://github.com/inspec/inspec/pull/4768) ([zenspider](https://github.com/zenspider))
+#### Merged Pull Requests
+- Fix warnings coming from ruby -w [#4766](https://github.com/inspec/inspec/pull/4766) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.39 -->
@@ -14,6 +14,7 @@
 - Wire up backend to rspec metadata, allowing for example groups to use resources [#4768](https://github.com/inspec/inspec/pull/4768) ([zenspider](https://github.com/zenspider)) <!-- 4.18.49 -->
 
 #### Merged Pull Requests
+- Fix warnings coming from ruby -w [#4766](https://github.com/inspec/inspec/pull/4766) ([zenspider](https://github.com/zenspider)) <!-- 4.18.50 -->
 - Bump rspec to 3.9 and fix broken tests. [#4771](https://github.com/inspec/inspec/pull/4771) ([zenspider](https://github.com/zenspider)) <!-- 4.18.48 -->
 - sum multiple test runs together for codeclimate [#4761](https://github.com/inspec/inspec/pull/4761) ([miah](https://github.com/miah)) <!-- 4.18.47 -->
 - Make fetchers fail consistently [#4736](https://github.com/inspec/inspec/pull/4736) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.47 -->
