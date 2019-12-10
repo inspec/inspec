@@ -30,9 +30,9 @@ echo "--- system details"
 uname -a
 gem env
 bundle --version
-df -h
 mount
-
+df /tmp
+echo $TMPDIR
 
 echo "--- bundle install"
 pull_s3_file "bundle.tar.gz"
