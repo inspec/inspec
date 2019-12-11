@@ -162,12 +162,12 @@ subscriptions:
     - built_in:notify_chefio_slack_channels
  - workload: pull_request_opened:{{agent_id}}:*
    actions:
-     - post_github_comment:.expeditor/templates/pull_request.mustache:
-         ignore_team_members:
-           - inspec/owners
-           - inspec/inspec-core-team
-     - built_in:github_auto_assign_author:
-         only_if_team_member:
-           - inspec/owners
-           - inspec/inspec-core-team
-     - trigger_pipeline:coverage
+    - post_github_comment:.expeditor/templates/pull_request.mustache:
+       ignore_team_members:
+        - inspec/owners
+        - inspec/inspec-core-team
+    - built_in:github_auto_assign_author:
+       only_if_team_member:
+        - inspec/owners
+        - inspec/inspec-core-team
+    - trigger_pipeline:coverage
