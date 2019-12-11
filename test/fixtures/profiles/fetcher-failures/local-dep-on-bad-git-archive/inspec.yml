@@ -1,0 +1,9 @@
+name: local-dep-on-bad-git-archive
+license: Apache-2.0
+summary: A profile that relies on an archive that has an unresolvable git dependency
+version: 0.1.0
+supports:
+  platform: os
+depends:
+ - name: git-deps-on-missing
+   path: ../git-deps-on-missing-0.1.0.tar.gz

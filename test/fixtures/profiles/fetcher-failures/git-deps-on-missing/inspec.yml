@@ -1,0 +1,10 @@
+name: git-deps-on-missing
+license: Apache-2.0
+summary: An inspec profile that has a git dependency on a profile that was deleted
+version: 0.1.0
+supports:
+  platform: os
+depends:
+  - name: inspec-test-profile-missing
+    # git requires a leading slash, so rely on ERB to interpolate in the PWD...
+    git: /<%= Dir.pwd %>/inspec-test-profile-missing

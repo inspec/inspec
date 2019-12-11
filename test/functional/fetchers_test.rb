@@ -1,16 +1,16 @@
 require "functional/helper"
 
 describe "the fetchers" do
-  parallelize_me!
   include FunctionalHelper
 
   let(:looks_like_a_stacktrace) { %r{lib/inspec/.+\.rb:\d+:in} }
   let(:invocation) { "exec #{path} --no-create-lockfile" }
   let(:run_result) { inspec(invocation) }
+  let(:fetcher_profiles) { "#{profile_path}/fetcher-failures" }
 
   # Refs #4726
   describe "when fetchers fetch a bad dependency" do
-    let(:fetcher_profiles) { "#{profile_path}/fetcher-failures" }
+    parallelize_me!
 
     def assert_fetcher_failed_cleanly(run_result, error_regex, profile_location)
       _(run_result.stdout).must_be_empty
@@ -53,5 +53,24 @@ describe "the fetchers" do
       end
     end
 
+  end
+
+  # Refs #4727
+  describe "when a archive is available of an unfetchable profile with --airgap" do
+
+    let(:invocation) { "archive #{path} --airgap" }
+    let(:path) { "#{fetcher_profiles}/local-dep-on-bad-git-archive" }
+
+    def teardown
+      FileUtils.rm_rf "#{path}/vendor"
+      FileUtils.rm_rf "#{fetcher_profiles}/local-dep-on-bad-git-archive-0.1.0.tar.gz"
+    end
+
+    it "should be able to create a new archive wrapping the profile" do
+      # Cannot be parallelized - must purge cache to test properly
+      _(run_result.stderr).must_be_empty
+      _(run_result.stdout).must_include "Finished archive generation"
+      assert_exit_code(0, run_result)
+    end
   end
 end
