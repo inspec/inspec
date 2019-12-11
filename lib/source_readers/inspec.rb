@@ -12,7 +12,7 @@ module SourceReaders
       nil
     end
 
-    attr_reader :metadata, :tests, :libraries, :data_files
+    attr_reader :metadata, :tests, :libraries, :data_files, :target
 
     # This create a new instance of an InSpec profile source reader
     #
