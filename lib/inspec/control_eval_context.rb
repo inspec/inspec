@@ -15,34 +15,13 @@ module Inspec
     include Inspec::DSL
     include Inspec::DSL::RequireOverride
 
-    class << self
-      attr_accessor :profile_context_owner
-      attr_accessor :profile_id
-      attr_accessor :resources_dsl
-    end
-
-    # Creates the heart of the control eval context:
-    #
-    # An instantiated object which has all resources registered to it
-    # and exposes them to the test file.
-    #
-    # @param profile_context [Inspec::ProfileContext]
-    # @param outer_dsl [OuterDSLClass]
-    # @return [ProfileContextClass]
-    def self.create(profile_context, resources_dsl)
-      klass = Class.new self
-      klass.include resources_dsl
-
-      klass.profile_context_owner = profile_context
-      klass.profile_id            = profile_context.profile_id
-      klass.resources_dsl         = resources_dsl
-
-      klass
-    end
-
     attr_accessor :skip_file
+    attr_accessor :profile_context
+    attr_accessor :resources_dsl
 
-    def initialize(backend, conf, dependencies, require_loader, skip_only_if_eval)
+    def initialize(profile_context, resources_dsl, backend, conf, dependencies, require_loader, skip_only_if_eval)
+      @profile_context = profile_context
+      @resources_dsl = resources_dsl
       @backend = backend
       @conf = conf
       @dependencies = dependencies
@@ -50,22 +29,18 @@ module Inspec
       @skip_file_message = nil
       @skip_file = false
       @skip_only_if_eval = skip_only_if_eval
+
+      extend resources_dsl # TODO: remove? push to method_missing?
+    end
+
+    alias profile_context_owner profile_context
+
+    def profile_id
+      profile_context.profile_id
     end
 
     def to_s
       "Control Evaluation Context (#{profile_name})"
-    end
-
-    def profile_context_owner
-      self.class.profile_context_owner
-    end
-
-    def profile_id
-      self.class.profile_id
-    end
-
-    def resources_dsl
-      self.class.resources_dsl
     end
 
     def title(arg)
@@ -134,12 +109,12 @@ module Inspec
 
       unless profile_context_owner.profile_supports_platform?
         platform = inspec.platform
-        msg = "Profile `#{profile_context_owner.profile_id}` is not supported on platform #{platform.name}/#{platform.release}."
+        msg = "Profile `#{profile_id}` is not supported on platform #{platform.name}/#{platform.release}."
         ::Inspec::Rule.set_skip_rule(control, true, msg)
       end
 
       unless profile_context_owner.profile_supports_inspec_version?
-        msg = "Profile `#{profile_context_owner.profile_id}` is not supported on InSpec version (#{Inspec::VERSION})."
+        msg = "Profile `#{profile_id}` is not supported on InSpec version (#{Inspec::VERSION})."
         ::Inspec::Rule.set_skip_rule(control, true, msg)
       end
 

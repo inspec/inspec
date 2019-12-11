@@ -56,10 +56,14 @@ module Inspec
     end
 
     def control_eval_context
-      @control_eval_context ||= begin
-                                  ctx = Inspec::ControlEvalContext.create(self, to_resources_dsl)
-                                  ctx.new(@backend, @conf, dependencies, @require_loader, @skip_only_if_eval)
-                                end
+      @control_eval_context ||=
+        Inspec::ControlEvalContext.new(self,
+                                       to_resources_dsl,
+                                       @backend,
+                                       @conf,
+                                       dependencies,
+                                       @require_loader,
+                                       @skip_only_if_eval)
     end
 
     def reload_dsl
