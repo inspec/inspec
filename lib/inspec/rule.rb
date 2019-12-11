@@ -13,31 +13,20 @@ module Inspec
   class Rule
     include ::RSpec::Matchers
 
-    #
-    # Include any resources from the given resource DSL.  The passed
-    # resource_dsl will also be included in any Inspec::Expect objects
-    # we make.
-    #
-    # @params resource_dsl [Module]
-    # @returns [TrueClass]
-    #
-    def self.with_resource_dsl(resource_dsl)
-      include resource_dsl
-      @resource_dsl = resource_dsl
-      true
-    end
-
-    def self.resource_dsl # rubocop:disable Style/TrivialAccessors
-      @resource_dsl
-    end
-
     attr_reader :__waiver_data
-    def initialize(id, profile_id, opts, &block)
+    attr_accessor :resource_dsl
+    attr_reader :__profile_id
+    alias profile_id __profile_id
+
+    def initialize(id, profile_id, resource_dsl, opts, &block)
       @impact = nil
       @title = nil
       @descriptions = {}
       @refs = []
       @tags = {}
+
+      @resource_dsl = resource_dsl
+      extend resource_dsl # TODO: remove! do it via method_missing
 
       # not changeable by the user:
       @__code = nil
@@ -168,7 +157,7 @@ module Inspec
     # @return [nil|DescribeBase] if called without arguments, returns DescribeBase
     def describe(*values, &block)
       if values.empty? && !block_given?
-        dsl = self.class.ancestors[1]
+        dsl = resource_dsl
         Class.new(DescribeBase) do
           include dsl
         end.new(method(:__add_check))
@@ -183,6 +172,59 @@ module Inspec
       target
     end
 
+    # allow attributes to be accessed within control blocks
+    def input(input_name, options = {})
+      if options.empty?
+        # Simply an access, no event here
+        Inspec::InputRegistry.find_or_register_input(input_name, profile_id).value
+      else
+        options[:priority] ||= 20
+        options[:provider] = :inline_control_code
+        evt = Inspec::Input.infer_event(options)
+        Inspec::InputRegistry.find_or_register_input(input_name, profile_id, event: evt).value
+      end
+    end
+
+    # Find the Input object, but don't collapse to a value.
+    # Will return nil on a miss.
+    def input_object(input_name)
+      Inspec::InputRegistry.find_or_register_input(input_name, profile_id)
+    end
+
+    def attribute(name, options = {})
+      Inspec.deprecate(:attrs_dsl, "Input name: #{name}, Profile: #{profile_id}")
+      input(name, options)
+    end
+
+    # Support for Control DSL plugins.
+    # This is called when an unknown method is encountered
+    # within a control block.
+    def method_missing(method_name, *arguments, &block)
+      # Check to see if there is a control_dsl plugin activator hook with the method name
+      registry = Inspec::Plugin::V2::Registry.instance
+      hook = registry.find_activators(plugin_type: :control_dsl, activator_name: method_name).first
+      if hook
+        # OK, load the hook if it hasn't been already.  We'll then know a module,
+        # which we can then inject into the context
+        hook.activate
+
+        # Inject the module's methods into the context.
+        # implementation_class is the field name, but this is actually a module.
+        self.class.include(hook.implementation_class)
+        # Now that the module is loaded, it defined one or more methods
+        # (presumably the one we were looking for.)
+        # We still haven't called it, so do so now.
+        send(method_name, *arguments, &block)
+      else
+        begin
+          Inspec::DSL.method_missing_resource(inspec, method_name, *arguments)
+        rescue LoadError
+          super
+        end
+      end
+    end
+
+    # TODO: figure out why these violations exist and nuke them.
     def self.rule_id(rule)
       rule.instance_variable_get(:@__rule_id)
     end
@@ -347,7 +389,7 @@ module Inspec
     def with_dsl(block)
       return nil if block.nil?
 
-      dsl = self.class.resource_dsl
+      dsl = resource_dsl
 
       return block unless dsl
 
