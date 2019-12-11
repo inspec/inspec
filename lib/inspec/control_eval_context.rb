@@ -110,6 +110,11 @@ module Inspec
     end
 
     def add_resources(context)
+      # # TODO: write real unit tests for this and then make this change:
+      # dsl = context.to_resources_dsl
+      # self.class.include dsl
+      # Inspec::Rule.include dsl
+
       self.class.class_eval do
         include context.to_resources_dsl
       end
