@@ -18,7 +18,7 @@ gem env
 bundle --version
 mount
 df /tmp
-echo $TMPDIR
+echo ${TMPDIR:-unknown}
 
 echo "--- pull bundle cache"
 pull_bundle
