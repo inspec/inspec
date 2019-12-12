@@ -49,7 +49,7 @@ bundle exec rake test
 EXIT_CODE=$?
 
 echo "+++ formatting and uploading test coverage"
-./test-reporter sum-coverage -t simplecov
+./test-reporter sum-coverage
 ./test-reporter after-build -t simplecov --exit-code "$EXIT_CODE"
 
 echo "--- uploading test-reporter.sha to s3"
