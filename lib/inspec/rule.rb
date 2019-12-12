@@ -16,7 +16,6 @@ module Inspec
     attr_reader :__waiver_data
     attr_accessor :resource_dsl
     attr_reader :__profile_id
-    alias profile_id __profile_id
 
     def initialize(id, profile_id, resource_dsl, opts, &block)
       @impact = nil
@@ -176,23 +175,23 @@ module Inspec
     def input(input_name, options = {})
       if options.empty?
         # Simply an access, no event here
-        Inspec::InputRegistry.find_or_register_input(input_name, profile_id).value
+        Inspec::InputRegistry.find_or_register_input(input_name, __profile_id).value
       else
         options[:priority] ||= 20
         options[:provider] = :inline_control_code
         evt = Inspec::Input.infer_event(options)
-        Inspec::InputRegistry.find_or_register_input(input_name, profile_id, event: evt).value
+        Inspec::InputRegistry.find_or_register_input(input_name, __profile_id, event: evt).value
       end
     end
 
     # Find the Input object, but don't collapse to a value.
     # Will return nil on a miss.
     def input_object(input_name)
-      Inspec::InputRegistry.find_or_register_input(input_name, profile_id)
+      Inspec::InputRegistry.find_or_register_input(input_name, __profile_id)
     end
 
     def attribute(name, options = {})
-      Inspec.deprecate(:attrs_dsl, "Input name: #{name}, Profile: #{profile_id}")
+      Inspec.deprecate(:attrs_dsl, "Input name: #{name}, Profile: #{__profile_id}")
       input(name, options)
     end
 
@@ -332,7 +331,7 @@ module Inspec
     def __apply_waivers
       input_name = @__rule_id # TODO: control ID slugging
       registry = Inspec::InputRegistry.instance
-      input = registry.inputs_by_profile.dig(@__profile_id, input_name)
+      input = registry.inputs_by_profile.dig(__profile_id, input_name)
       return unless input
 
       # An InSpec Input is a datastructure that tracks a profile parameter
