@@ -114,22 +114,22 @@ merge_actions:
  - trigger_pipeline:omnibus/adhoc:
     not_if: built_in:bump_version
     ignore_labels:
-     - "Omnibus: Skip Build"
+     - "Expeditor: Skip Omnibus"
      - "Expeditor: Skip All"
  - trigger_pipeline:artifact/habitat:
     only_if: built_in:bump_version
     ignore_labels:
-     - "Habitat: Skip Build"
+     - "Expeditor: Skip Habitat"
      - "Expeditor: Skip All"
  - trigger_pipeline:omnibus/release:
     only_if: built_in:bump_version
     ignore_labels:
-     - "Omnibus: Skip Build"
+     - "Expeditor: Skip Omnibus"
      - "Expeditor: Skip All"
  - trigger_pipeline:habitat/build:
     only_if: built_in:bump_version
     ignore_labels:
-     - "Habitat: Skip Build"
+     - "Expeditor: Skip Habitat"
      - "Expeditor: Skip All"
  - built_in:build_gem:
     only_if:
