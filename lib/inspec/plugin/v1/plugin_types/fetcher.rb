@@ -66,6 +66,28 @@ module Inspec
       end
 
       #
+      # This optional method may be used after a failed fetch. If the fetcher
+      # can be updated with information that might lead to a successful
+      # retrieval of alternative content, this method may be called.
+      # Return TrueClass if the fetcher was updated and a retry is in order
+      # Return FalseClass if the update contained no useful information
+      # and a retry should not be attempted
+      def update_from_opts(_opts)
+        false
+      end
+
+      # Helper for above.
+      def update_ivar_from_opt(opt_name, opts)
+        ivar_sym = "@#{opt_name}".to_sym
+        old_val = instance_variable_get(ivar_sym)
+        new_val = opts[opt_name]
+        return false if old_val == new_val
+
+        instance_variable_set(ivar_sym, new_val)
+        true
+      end
+
+      #
       # relative_target is provided to keep compatibility with 3rd
       # party plugins.
       #
