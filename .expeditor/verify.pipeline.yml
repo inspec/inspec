@@ -43,7 +43,7 @@ steps:
 
 - label:  run-tests-ruby-2.7-preview
   command:
-    - /workdir/.expeditor/buildkite/verify.sh
+    - /workdir/.expeditor/buildkite/verify.sh || true
   expeditor:
     executor:
       docker:
