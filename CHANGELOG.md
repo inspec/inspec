@@ -1,40 +1,37 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.51 -->
-## [v4.18.51](https://github.com/inspec/inspec/tree/v4.18.51) (2019-12-11)
-
-#### Merged Pull Requests
-- remove inspec from pkg_deps/pkg_build_deps in template [#4754](https://github.com/inspec/inspec/pull/4754) ([joshbrand](https://github.com/joshbrand))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.18.39 -->
-### Changes since 4.18.39 release
-
-#### New Features
-- Wire up backend to rspec metadata, allowing for example groups to use resources [#4768](https://github.com/inspec/inspec/pull/4768) ([zenspider](https://github.com/zenspider)) <!-- 4.18.49 -->
-
-#### Merged Pull Requests
-- remove inspec from pkg_deps/pkg_build_deps in template [#4754](https://github.com/inspec/inspec/pull/4754) ([joshbrand](https://github.com/joshbrand)) <!-- 4.18.51 -->
-- Fix warnings coming from ruby -w [#4766](https://github.com/inspec/inspec/pull/4766) ([zenspider](https://github.com/zenspider)) <!-- 4.18.50 -->
-- Bump rspec to 3.9 and fix broken tests. [#4771](https://github.com/inspec/inspec/pull/4771) ([zenspider](https://github.com/zenspider)) <!-- 4.18.48 -->
-- sum multiple test runs together for codeclimate [#4761](https://github.com/inspec/inspec/pull/4761) ([miah](https://github.com/miah)) <!-- 4.18.47 -->
-- Make fetchers fail consistently [#4736](https://github.com/inspec/inspec/pull/4736) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.47 -->
-- Hook up logger to inspec detect. [#4760](https://github.com/inspec/inspec/pull/4760) ([zenspider](https://github.com/zenspider)) <!-- 4.18.46 -->
-- Bump windows deadline AGAIN. [#4759](https://github.com/inspec/inspec/pull/4759) ([zenspider](https://github.com/zenspider)) <!-- 4.18.45 -->
-- Removes broken search button and icon [#4753](https://github.com/inspec/inspec/pull/4753) ([kagarmoe](https://github.com/kagarmoe)) <!-- 4.18.44 -->
-- Add last login date to WindowsUser [#4724](https://github.com/inspec/inspec/pull/4724) ([mbaitelman](https://github.com/mbaitelman)) <!-- 4.18.44 -->
-- Enable Codeclimate Test Coverage [#4745](https://github.com/inspec/inspec/pull/4745) ([miah](https://github.com/miah)) <!-- 4.18.43 -->
-- Suppress output from rubygems installs. [#4743](https://github.com/inspec/inspec/pull/4743) ([zenspider](https://github.com/zenspider)) <!-- 4.18.42 -->
-- Fix ruby 2.7 warnings/errors [#4739](https://github.com/inspec/inspec/pull/4739) ([zenspider](https://github.com/zenspider)) <!-- 4.18.41 -->
-- Move lib/fetchers to lib/inspec/fetchers and re-namspace [#4734](https://github.com/inspec/inspec/pull/4734) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.40 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.18.51](https://github.com/inspec/inspec/tree/v4.18.51) (2019-12-16)
+
+#### New Features
+- Wire up backend to rspec metadata, allowing for example groups to use resources [#4768](https://github.com/inspec/inspec/pull/4768) ([zenspider](https://github.com/zenspider))
+
+#### Merged Pull Requests
+- Move lib/fetchers to lib/inspec/fetchers and re-namspace [#4734](https://github.com/inspec/inspec/pull/4734) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix ruby 2.7 warnings/errors [#4739](https://github.com/inspec/inspec/pull/4739) ([zenspider](https://github.com/zenspider))
+- Suppress output from rubygems installs. [#4743](https://github.com/inspec/inspec/pull/4743) ([zenspider](https://github.com/zenspider))
+- Enable Codeclimate Test Coverage [#4745](https://github.com/inspec/inspec/pull/4745) ([miah](https://github.com/miah))
+- Add last login date to WindowsUser [#4724](https://github.com/inspec/inspec/pull/4724) ([mbaitelman](https://github.com/mbaitelman))
+- Removes broken search button and icon [#4753](https://github.com/inspec/inspec/pull/4753) ([kagarmoe](https://github.com/kagarmoe))
+- Bump windows deadline AGAIN. [#4759](https://github.com/inspec/inspec/pull/4759) ([zenspider](https://github.com/zenspider))
+- Hook up logger to inspec detect. [#4760](https://github.com/inspec/inspec/pull/4760) ([zenspider](https://github.com/zenspider))
+- Make fetchers fail consistently [#4736](https://github.com/inspec/inspec/pull/4736) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- sum multiple test runs together for codeclimate [#4761](https://github.com/inspec/inspec/pull/4761) ([miah](https://github.com/miah))
+- Bump rspec to 3.9 and fix broken tests. [#4771](https://github.com/inspec/inspec/pull/4771) ([zenspider](https://github.com/zenspider))
+- Fix warnings coming from ruby -w [#4766](https://github.com/inspec/inspec/pull/4766) ([zenspider](https://github.com/zenspider))
+- remove inspec from pkg_deps/pkg_build_deps in template [#4754](https://github.com/inspec/inspec/pull/4754) ([joshbrand](https://github.com/joshbrand))
+<!-- latest_stable_release -->
+
 ## [v4.18.39](https://github.com/inspec/inspec/tree/v4.18.39) (2019-11-15)
 
 #### Merged Pull Requests
 - Removing the osx? guard that has been pushed to minitest and released. [#4728](https://github.com/inspec/inspec/pull/4728) ([zenspider](https://github.com/zenspider))
-<!-- latest_stable_release -->
 
 ## [v4.18.38](https://github.com/inspec/inspec/tree/v4.18.38) (2019-11-14)
 
