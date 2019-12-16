@@ -46,6 +46,8 @@ module Inspec::Resources
         @pkgman = HpuxPkg.new(inspec)
       elsif ["alpine"].include?(os[:name])
         @pkgman = AlpinePkg.new(inspec)
+      elsif ["freebsd"].include?(os[:name])
+        @pkgman = FreebsdPkg.new(inspec)
       else
         raise Inspec::Exceptions::ResourceSkipped, "The `package` resource is not supported on your OS yet."
       end
@@ -269,6 +271,26 @@ module Inspec::Resources
         name: pkg.partition("-")[0],
         installed: true,
         version: pkg.partition("-")[2],
+        type: "pkg",
+      }
+    end
+  end
+
+  class FreebsdPkg < PkgManagement
+    def info(package_name)
+      cmd = inspec.command("pkg info #{package_name}")
+      return {} if cmd.exit_status.to_i != 0
+
+      params = SimpleConfig.new(
+        cmd.stdout.chomp,
+        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        multiple_values: false
+      ).params
+
+      {
+        name: params["Name"],
+        installed: true,
+        version: params["Version"],
         type: "pkg",
       }
     end

@@ -1,0 +1,32 @@
+vim-console-8.1.1954
+Name           : vim-console
+Version        : 8.1.1954
+Installed on   : Mon Dec 16 05:18:03 2019 PST
+Origin         : editors/vim-console
+Architecture   : FreeBSD:11:amd64
+Prefix         : /usr/local
+Categories     : editors
+Licenses       : VIM
+Maintainer     : adamw@FreeBSD.org
+WWW            : http://www.vim.org/
+Comment        : Improved version of the vi editor (console only)
+Options        :
+	DEFAULT_VIMRC  : on
+Annotations    :
+	FreeBSD_version: 1103000
+	cpe            : cpe:2.3:a:vim:vim:8.1:::::freebsd11:x64
+	repo_type      : binary
+	repository     : FreeBSD
+Flat size      : 25.0MiB
+Description    :
+Vim is a highly configurable text editor built to enable efficient text editing.
+It is an improved version of the vi editor distributed with most UNIX systems.
+
+Vim is often called a "programmer's editor," and so useful for programming that
+many consider it an entire IDE. It's not just for programmers, though. Vim is
+perfect for all kinds of text editing, from composing email to editing
+configuration files.
+
+WWW: http://www.vim.org/
+WWW: https://github.com/vim/vim
+
