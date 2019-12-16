@@ -10,7 +10,7 @@ useradd -m -U --uid 2000 normal
 echo "normal ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/normal
 
 echo "--- updating rubygems"
-gem update --system -N
+gem update -N --system 3.0.6 --force
 
 echo "--- system details"
 uname -a

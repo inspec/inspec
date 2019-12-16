@@ -48,7 +48,6 @@ push_bundle() {
             echo "Bundled gems have not changed. Skipping upload to s3"
         else
             echo "Bundled gems have changed. Uploading to s3"
-            diff -u Gemfile.lock.old Gemfile.lock || true
             shasum -a 256 Gemfile.lock > bundle.sha256
             tar -czf bundle.tar.gz Gemfile.lock vendor/
             push_s3_file bundle.tar.gz
