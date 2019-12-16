@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Latest version of rubygems is starting to blow up because of bundler executable overwrite warnings [#4790](https://github.com/inspec/inspec/pull/4790) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.18.51 -->
+### Changes since 4.18.51 release
+
+#### Merged Pull Requests
+- Latest version of rubygems is starting to blow up because of bundler executable overwrite warnings [#4790](https://github.com/inspec/inspec/pull/4790) ([zenspider](https://github.com/zenspider)) <!-- 4.18.51 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
