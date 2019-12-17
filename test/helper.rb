@@ -65,7 +65,7 @@ require "rspec"
 ########################################################################
 
 require "webmock/minitest"
-require "mocha/setup"
+require "mocha/minitest"
 require "inspec/log"
 require "inspec/backend"
 require "helpers/mock_loader"
