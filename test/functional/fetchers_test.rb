@@ -58,19 +58,31 @@ describe "the fetchers" do
   # Refs #4727
   describe "when a archive is available of an unfetchable profile with --airgap" do
 
-    let(:invocation) { "archive #{path} --airgap" }
-    let(:path) { "#{fetcher_profiles}/local-dep-on-bad-git-archive" }
+    let(:invocation) { "archive #{fetcher_profiles}/#{profile_name} --airgap" }
 
     def teardown
-      FileUtils.rm_rf "#{path}/vendor"
-      FileUtils.rm_rf "#{fetcher_profiles}/local-dep-on-bad-git-archive-0.1.0.tar.gz"
+      FileUtils.rm_rf "#{fetcher_profiles}/#{profile_name}/vendor"
+      FileUtils.rm "#{profile_name}-0.1.0.tar.gz"
     end
 
-    it "should be able to create a new archive wrapping the profile" do
-      # Cannot be parallelized - must purge cache to test properly
+    def assert_archive_worked(run_result)
       _(run_result.stderr).must_be_empty
       _(run_result.stdout).must_include "Finished archive generation"
       assert_exit_code(0, run_result)
+    end
+
+    describe "when using a git fetcher" do
+      let(:profile_name) { "local-dep-on-bad-git-archive" }
+      it "should be able to create a new archive wrapping the profile" do
+        assert_archive_worked(run_result)
+      end
+    end
+
+    describe "when using a url fetcher" do
+      let(:profile_name) { "local-dep-on-bad-url-archive" }
+      it "should be able to create a new archive wrapping the profile" do
+        assert_archive_worked(run_result)
+      end
     end
   end
 end
