@@ -9,7 +9,7 @@ module Inspec::Resources
     supports platform: "windows"
 
     desc "Use the sys_info resource to test for operating system properties."
-   example <<~EXAMPLE
+    example <<~EXAMPLE
       describe sys_info do
         its('hostname') { should eq 'hostname' }
       end
@@ -53,7 +53,7 @@ module Inspec::Resources
       @cache.info[:totalmemory_kb]
     end
 
-    def hostname 
+    def hostname
       @cache.info[:hostname]
     end
 
@@ -65,7 +65,7 @@ module Inspec::Resources
       "System Information"
     end
   end
-  
+
   class LinuxInfo < SysInfo
     attr_reader :inspec
     def initialize(inspec)
@@ -78,7 +78,7 @@ module Inspec::Resources
       ip = inspec.command("hostname -I").stdout.chomp
       short = inspec.command("hostname -s").stdout.chomp
       manufacturer = inspec.command("cat /sys/class/dmi/id/sys_vendor").stdout.chomp
-      model =  inspec.command("cat /sys/class/dmi/id/product_name").stdout.chomp
+      model = inspec.command("cat /sys/class/dmi/id/product_name").stdout.chomp
       totalmemory_kb = inspec.command("awk '/MemTotal/ {print $2}' /proc/meminfo").stdout.chomp
 
       {
