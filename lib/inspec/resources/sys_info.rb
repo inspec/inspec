@@ -25,40 +25,42 @@ module Inspec::Resources
       @cache = nil
 
       if os.linux?
-        @cache = LinuxInfo.new(inspec)
+        @cache = LinuxInfo.new(inspec).info
       elsif os.windows?
-        @cache = WindowsInfo.new(inspec)
+        @cache = WindowsInfo.new(inspec).info
+      elsif os.darwin?
+        @cache = DarwinInfo.new(inspec).info
       else
         return skip_resource "The `sys_info` resource is not supported on your OS yet."
       end
     end
 
     def domain
-      @cache.info[:domain]
+      @cache[:domain]
     end
 
     def ip_address
-      @cache.info[:ip]
+      @cache[:ip]
     end
 
     def manufacturer
-      @cache.info[:manufacturer]
+      @cache[:manufacturer]
     end
 
     def model
-      @cache.info[:model]
+      @cache[:model]
     end
 
     def totalmemory_kb
-      @cache.info[:totalmemory_kb]
+      @cache[:totalmemory_kb]
     end
 
     def hostname
-      @cache.info[:hostname]
+      @cache[:hostname]
     end
 
     def fqdn
-      @cache.info[:fqdn]
+      @cache[:fqdn]
     end
 
     def to_s
@@ -139,4 +141,31 @@ module Inspec::Resources
       }
     end
   end
+
+  class DarwinInfo < SysInfo
+    attr_reader :inspec
+    def initialize(inspec)
+      @inspec = inspec
+    end
+
+    def info
+      fqdn = inspec.command("hostname -f").stdout.chomp
+      domain = "The `sys_info.domain` is not supported on your OS yet."
+      ip = "The `sys_info.ip_adress` is not supported on your OS yet."
+      short = inspec.command("hostname -s").stdout.chomp
+      manufacturer = "Apple Inc."
+      model = inspec.command("sysctl -n hw.model").stdout.chomp
+      totalmemory_kb = "The `sys_info.totalmemory_kb` is not supported on your OS yet."
+
+      {
+        fqdn: fqdn,
+        domain: domain,
+        ip: ip,
+        hostname: short,
+        manufacturer: manufacturer,
+        model: model,
+        totalmemory_kb: totalmemory_kb,
+      }
+    end
+  end 
 end
