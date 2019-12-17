@@ -57,6 +57,15 @@ module Inspec
 
       detect_duplicates(deps, top_level, path_string)
       deps.each do |dep|
+        # Calling dep.resolved_source forces a fetch. Handle any airgap chicanery early.
+        if Inspec::Config.cached[:airgap]
+          begin
+            dep.resolved_source
+          rescue Inspec::FetcherFailure => e
+            retry if fallback_to_archive_on_fetch_failure(dep)
+          end
+        end
+
         new_seen_items = seen_items.dup
         new_path_string = if path_string.empty?
                             dep.name
@@ -81,6 +90,32 @@ module Inspec
 
       Inspec::Log.debug("Dependency traversal complete.") if top_level
       graph
+    end
+
+    def fallback_to_archive_on_fetch_failure(dep)
+      # This facility is intended to handle a very narrow use case, in which
+      # the failing dependency *is* available in an archive that we have
+      # available as a local dependency. We just need to find the archive and
+      # alter the fetcher to refer to information in the archive.
+      # Note that the vendor cache already should have the archive inflated
+      # for this to work.
+      # Refs 4727
+
+      # This is where any existing archives should have been inflated -
+      # that is, this is the vendor cache. Each archive would have a lockfile.
+      cache_path = dep.fetcher.cache.path
+      fetcher = dep.fetcher.fetcher # Not the CachedFetcher, but its fetcher
+      worth_retrying = false
+
+      Dir["#{cache_path}/*/inspec.lock"].each do |lockfile_path|
+        lockfile = Inspec::Lockfile.from_file(lockfile_path)
+        dep_set = Inspec::DependencySet.from_lockfile(lockfile, dep.opts)
+        dep2 = dep_set.dep_list[dep.name]
+        next unless dep2
+        made_a_change = fetcher.update_from_opts(dep2.opts)
+        worth_retrying ||= made_a_change
+      end
+      worth_retrying
     end
   end
 end
