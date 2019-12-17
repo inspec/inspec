@@ -16,12 +16,12 @@ lifecycle:
 platforms:
   - name: centos-6
   - name: centos-7
+  - name: centos-8
   - name: debian-8
   - name: debian-9
-  - name: fedora-28
-  - name: fedora-29
-  - name: freebsd-11
-  - name: opensuseleap-42
+  - name: debian-10
+  - name: fedora-latest
+  - name: freebsd-12
   - name: opensuseleap-15
   - name: ubuntu-16.04
   - name: ubuntu-18.04
@@ -37,4 +37,4 @@ suites:
       inspec_tests:
         - test/kitchen/policies/find_files
     excludes:
-      - freebsd-11
+      - freebsd-12
