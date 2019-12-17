@@ -158,6 +158,15 @@ describe "Inspec::Resources::Package" do
     _(resource.info).must_equal pkg
   end
 
+  # freebsd
+  it "can parse FreeBSD packages" do
+    resource = MockLoader.new(:freebsd11).load_resource("package", "vim-console")
+    pkg = { name: "vim-console", installed: true, version: "8.1.1954", type: "pkg" }
+    _(resource.installed?).must_equal true
+    _(resource.version).must_equal "8.1.1954"
+    _(resource.info).must_equal pkg
+  end
+
   # undefined
   it "verify package handling on unsupported os" do
     resource = MockLoader.new(:undefined).load_resource("package", "curl")

@@ -13,8 +13,9 @@ class MockLoader
     debian7: { name: "debian", family: "debian", release: "7", arch: "x86_64" },
     debian8: { name: "debian", family: "debian", release: "8", arch: "x86_64" },
     debian10: { name: "debian", family: "debian", release: "buster/sid", arch: "x86_64" },
-    freebsd9: { name: "freebsd", family: "freebsd", release: "9", arch: "amd64" },
     freebsd10: { name: "freebsd", family: "freebsd", release: "10", arch: "amd64" },
+    freebsd11: { name: "freebsd", family: "freebsd", release: "11", arch: "amd64" },
+    freebsd12: { name: "freebsd", family: "freebsd", release: "12", arch: "amd64" },
     osx104: { name: "mac_os_x", family: "darwin", release: "10.10.4", arch: nil },
     ubuntu1204: { name: "ubuntu", family: "debian", release: "12.04", arch: "x86_64" },
     ubuntu1404: { name: "ubuntu", family: "debian", release: "14.04", arch: "x86_64" },
@@ -275,7 +276,7 @@ class MockLoader
       "/path/to/systemctl show --no-pager --all dbus" => cmd.call("systemctl-show-all-dbus"),
       # services on macos
       "launchctl list" => cmd.call("launchctl-list"),
-      # services on freebsd 10
+      # services on freebsd 11
       "service -e" => cmd.call("service-e"),
       "service sendmail onestatus" => cmd.call("service-sendmail-onestatus"),
       # services for system 5 e.g. centos6, debian 6
@@ -353,6 +354,8 @@ class MockLoader
       "dpkg-query -W -f='${db:Status-Abbrev}  ${Package}  ${Version}  ${Architecture}\\n'" => cmd.call("dpkg-query-W"),
       # rpm query all packages
       "rpm -qa --queryformat '%{NAME}  %{VERSION}-%{RELEASE}  %{ARCH}\\n'" => cmd.call("rpm-qa-queryformat"),
+      # pkg query all packages
+      "pkg info vim-console" => cmd.call("pkg-info-vim-console"),
       # port netstat on solaris 10 & 11
       "netstat -an -f inet -f inet6" => cmd.call("s11-netstat-an-finet-finet6"),
       # xinetd configuration
