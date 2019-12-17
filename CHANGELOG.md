@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.18.52 -->
+## [v4.18.52](https://github.com/inspec/inspec/tree/v4.18.52) (2019-12-17)
 
 #### Merged Pull Requests
+- Allow Thor 1.x versions to be used [#4795](https://github.com/inspec/inspec/pull/4795) ([tas50](https://github.com/tas50))
 - Latest version of rubygems is starting to blow up because of bundler executable overwrite warnings [#4790](https://github.com/inspec/inspec/pull/4790) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.18.51 release
 
 #### Merged Pull Requests
+- Allow Thor 1.x versions to be used [#4795](https://github.com/inspec/inspec/pull/4795) ([tas50](https://github.com/tas50)) <!-- 4.18.52 -->
 - Latest version of rubygems is starting to blow up because of bundler executable overwrite warnings [#4790](https://github.com/inspec/inspec/pull/4790) ([zenspider](https://github.com/zenspider)) <!-- 4.18.51 -->
 <!-- release_rollup -->
 
