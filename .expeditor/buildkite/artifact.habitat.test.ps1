@@ -51,3 +51,4 @@ Write-Host "+++ Testing $Plan"
 
 Push-Location $project_root/test/artifact
 rake
+If ($lastexitcode -ne 0) { Exit $lastexitcode }
