@@ -62,13 +62,20 @@ describe "the fetchers" do
 
     def teardown
       FileUtils.rm_rf "#{fetcher_profiles}/#{profile_name}/vendor"
-      FileUtils.rm "#{profile_name}-0.1.0.tar.gz"
+      FileUtils.rm_f "#{profile_name}-0.1.0.tar.gz"
     end
 
     def assert_archive_worked(run_result)
       _(run_result.stderr).must_be_empty
       _(run_result.stdout).must_include "Finished archive generation"
       assert_exit_code(0, run_result)
+    end
+
+    describe "when using a local fetcher" do
+      let(:profile_name) { "local-dep-on-bad-local-archive" }
+      it "should be able to create a new archive wrapping the profile" do
+        assert_archive_worked(run_result)
+      end
     end
 
     describe "when using a git fetcher" do
