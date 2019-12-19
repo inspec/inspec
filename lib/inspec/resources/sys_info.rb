@@ -55,8 +55,21 @@ module Inspec::Resources
       @cache[:totalmemory_kb]
     end
 
-    def hostname
-      @cache[:hostname]
+    def hostname(opt = nil)
+      case opt
+        when nil
+          @cache[:hostname]
+        when "f","long","fqdn","full"
+          @cache[:fqdn]
+        when "d","domain"
+          @cache[:domain]
+        when "i", "ip_address"
+          @cache[:ip_address]
+        when "s","short"
+          @cache[:hostname]
+        else
+          skip_resource "The sys_info.hostname resource is not supported with that option."
+      end
     end
 
     def fqdn
@@ -121,7 +134,7 @@ module Inspec::Resources
         return nil
       end
 
-      if (info["DomainRole"] == 2 || info["DomainRole"] == 0)
+      if info["DomainRole"] == 2 || info["DomainRole"] == 0
         fqdn = info["DNSHostName"]
         domain = nil
       else
@@ -167,5 +180,5 @@ module Inspec::Resources
         totalmemory_kb: totalmemory_kb,
       }
     end
-  end 
+  end
 end
