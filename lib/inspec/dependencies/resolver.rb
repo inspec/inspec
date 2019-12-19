@@ -62,7 +62,7 @@ module Inspec
           begin
             dep.resolved_source
           rescue Inspec::FetcherFailure
-            Inspec::Log.debug("Failed to fetch #{dep.name}, a falling back to archives if possible")
+            Inspec::Log.debug("Failed to fetch #{dep.name}, falling back to archives if possible")
             retry if fallback_to_archive_on_fetch_failure(dep)
           end
         end
