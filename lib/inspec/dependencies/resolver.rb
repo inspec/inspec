@@ -61,7 +61,8 @@ module Inspec
         if Inspec::Config.cached[:airgap]
           begin
             dep.resolved_source
-          rescue Inspec::FetcherFailure => e
+          rescue Inspec::FetcherFailure
+            Inspec::Log.debug("Failed to fetch #{dep.name}, a falling back to archives if possible")
             retry if fallback_to_archive_on_fetch_failure(dep)
           end
         end
@@ -112,6 +113,7 @@ module Inspec
         dep_set = Inspec::DependencySet.from_lockfile(lockfile, dep.opts)
         dep2 = dep_set.dep_list[dep.name]
         next unless dep2
+
         made_a_change = fetcher.update_from_opts(dep2.opts)
         worth_retrying ||= made_a_change
       end
