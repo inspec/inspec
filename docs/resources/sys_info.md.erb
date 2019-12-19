@@ -1,6 +1,6 @@
 ---
 title: About the sys_info Resource
-platform: os
+platform: Linux,Windows,Darwin(macOS)
 ---
 
 # sys_info
@@ -57,7 +57,8 @@ Options can be passed as arguments to hostname as well.
 
 <br>
 
-Currently supported arguments to `hostname` on Linux platforms are 'full'|'f'|'fqdn'|'long', 'domain'|'d', 'ip_address'|'i', and 'short'|'s'. Mac currently supports 'full'|'f'|'fqdn'|'long' and 'short'|'s'
+Currently supported arguments to `hostname` are 'full'|'f'|'fqdn'|'long', 'domain'|'d', 'ip_address'|'i', and 'short'|'s'. 
+Mac currently supports 'full'|'f'|'fqdn'|'long' and 'short'|'s'.
 
 ## Matchers
 
@@ -82,11 +83,11 @@ The `domain` property tests the name of the DNS domain:
 
     its('domain') { should eq 'value' }
 
-### ip-address
+### ip_address
 
 The `ip-address` property tests all network addresses of the host:
 
-    its('ip-address') { should eq 'value' }
+    its('ip_address') { should eq 'value' }
 
 ### short
 
@@ -105,3 +106,9 @@ The `manufacturer` matcher tests the host for which standard output is returned:
 The `model` matcher tests the host for which standard output is returned:
 
     its('model') { should eq 'Flux Capacitor' }
+
+### totalmemory_kb
+
+The `totalmemory_kb` matcher tests the totalmemory in size 'kb' for which standard output is returned:
+
+    its('totalmemory_kb') { should eq 8192000 }
