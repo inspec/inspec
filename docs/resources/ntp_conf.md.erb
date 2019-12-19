@@ -43,11 +43,13 @@ The following examples show how to use this Chef InSpec audit resource.
 
     describe ntp_conf do
       its('driftfile') { should eq '/var/lib/ntp/ntp.drift' }
-      its('server') { should eq [
+      its('server') do
+        should eq [
         0.ubuntu.pool.ntp.org,
         1.ubuntu.pool.ntp.org,
         2.ubuntu.pool.ntp.org
-      ] }
+      ] 
+      end
     end
 
 <br>
