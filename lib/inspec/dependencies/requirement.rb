@@ -46,7 +46,7 @@ module Inspec
       req
     end
 
-    attr_reader :cwd, :opts, :version_constraints
+    attr_reader :cwd, :opts, :version_constraints, :cache
     def initialize(name, version_constraints, config, opts)
       @name = name
       @version_constraints = Array(version_constraints)

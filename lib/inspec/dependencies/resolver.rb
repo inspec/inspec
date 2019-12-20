@@ -104,8 +104,7 @@ module Inspec
 
       # This is where any existing archives should have been inflated -
       # that is, this is the vendor cache. Each archive would have a lockfile.
-      cache_path = dep.fetcher.cache.path
-      fetcher = dep.fetcher.fetcher # Not the CachedFetcher, but its fetcher
+      cache_path = dep.cache.path
       worth_retrying = false
 
       Dir["#{cache_path}/*/inspec.lock"].each do |lockfile_path|
@@ -114,7 +113,17 @@ module Inspec
         dep2 = dep_set.dep_list[dep.name]
         next unless dep2
 
-        made_a_change = fetcher.update_from_opts(dep2.opts)
+        if dep.opts.key?(:compliance)
+          # This is ugly. The compliance fetcher works differently than the others,
+          # and fails at the resolve stage, not the fetch stage. That means we can't
+          # tweak the fetcher, we have to tweak the deps opts themselves.
+          dep.opts[:sha256] = dep2.opts[:sha256]
+          worth_retrying = true
+        else
+          # All other fetchers can be generalized, because they will survive their constructor.
+          fetcher = dep.fetcher.fetcher # Not the CachedFetcher, but its fetcher
+          made_a_change = fetcher.update_from_opts(dep2.opts)
+        end
         worth_retrying ||= made_a_change
       end
       worth_retrying
