@@ -1,0 +1,9 @@
+name: auto-dep-on-missing
+title: A profile that depends on a profile that has gone missing
+summary: An InSpec Compliance Profile
+version: 0.1.0
+supports:
+  platform: os
+depends:
+  - name: auto-missing
+    compliance: admin/auto-missing

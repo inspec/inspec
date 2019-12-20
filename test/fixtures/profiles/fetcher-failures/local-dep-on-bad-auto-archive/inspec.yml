@@ -1,0 +1,8 @@
+name: local-dep-on-bad-auto-archive
+title: An inspec profile that has a local dep on an archive that has unresolvable deps
+version: 0.1.0
+supports:
+  platform: os
+depends:
+  - name: auto-dep-on-missing
+    path: ../auto-dep-on-missing-0.1.0.tar.gz
