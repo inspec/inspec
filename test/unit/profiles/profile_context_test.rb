@@ -405,6 +405,25 @@ describe Inspec::ProfileContext do
       ])
     end
 
+    it "uses LEC if requiring second-level libraries file" do
+      lec = profile.library_eval_context
+      binding = lec.__inspec_binding
+
+      def binding.eval(*a)
+        raise "YAY"
+      end
+
+      code = [
+        ["libraries/top_level.rb",   "require 'second/file'\n"],
+        ["libraries/second/file.rb", "puts 'YOU SHOULD NOT SEE ME'"],
+      ].map(&:reverse)
+
+      e = assert_raises RuntimeError do
+        profile.load_libraries(code)
+      end
+      assert_equal "YAY", e.message
+    end
+
     it "supports loading a regular ruby gem" do
       profile.load_libraries([
         ["require 'erb'\nERB", "libraries/a.rb"],

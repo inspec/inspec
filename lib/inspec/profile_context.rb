@@ -13,6 +13,7 @@ module Inspec
       new(profile.name, backend, { "profile" => profile, "check_mode" => profile.check_mode })
     end
 
+    attr_reader :library_eval_context
     attr_reader :backend, :profile_name, :profile_id, :resource_registry
     attr_accessor :rules
     def initialize(profile_id, backend, conf)
