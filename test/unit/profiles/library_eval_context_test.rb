@@ -26,7 +26,7 @@ describe Inspec::LibraryEvalContext do
 
   it "adds the resource to our registry" do
     eval_context.instance_eval(resource_content)
-    _(registry.keys.include?("my_test_resource")).must_equal true
+    _(registry.keys).must_include "my_test_resource"
   end
 
   it "adds nothing to the default registry" do
