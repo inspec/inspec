@@ -30,8 +30,13 @@ describe Inspec::LibraryEvalContext do
   end
 
   it "adds nothing to the default registry" do
+    _(registry.keys.sort).wont_include "my_test_resource"
     old_default_registry = Inspec::Resource.default_registry.dup
+    _(old_default_registry.keys.sort).wont_include "my_test_resource"
+
     eval_context.instance_eval(resource_content)
+
+    _(old_default_registry.keys.sort).must_equal Inspec::Resource.default_registry.keys.sort
     _(old_default_registry).must_equal Inspec::Resource.default_registry
   end
 

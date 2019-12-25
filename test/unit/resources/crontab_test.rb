@@ -156,7 +156,7 @@ describe "Inspec::Resources::Crontab" do
   describe "it raises errors" do
     it "fails and raises error on unsupported os" do
       resource = MockLoader.new(:windows).load_resource("crontab", { user: "special" })
-      _(resource.resource_failed?).must_equal true
+      _(resource).must_be :resource_failed?
       _(resource.resource_exception_message)
         .must_equal "Resource `crontab` is not supported on platform windows/6.2.9200."
     end
