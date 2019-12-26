@@ -18,11 +18,16 @@ module Inspec::Resources
       @platform = inspec.backend.platform
     end
 
-    # add helper methods for easy access of properties
-    %w{family release arch}.each do |property|
-      define_method(property.to_sym) do
-        @platform[property]
-      end
+    def family
+      @platform.family
+    end
+
+    def release
+      @platform.release
+    end
+
+    def arch
+      @platform.arch
     end
 
     def families
