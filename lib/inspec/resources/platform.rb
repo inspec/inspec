@@ -71,31 +71,26 @@ module Inspec::Resources
     end
 
     def supported?(supports)
-      return true if supports.nil? || supports.empty?
+      raise ArgumentError, "`supports` is nil." unless supports
 
-      status = true
-      supports.each do |support|
-        support.each do |k, v|
-          status =
-            case k
-            when :os_family, :"os-family", :platform_family, :"platform-family" then
-              in_family?(v)
-            when :os, :platform then
-              platform?(v)
-            when :os_name, :"os-name", :platform_name, :"platform-name" then
-              name == v
-            when :release then
-              check_release(v)
-            else
-              false
-            end
+      supports.any? { |support|
+        support.all? { |k, v|
+          case normalize(k)
+          when :os_family, :platform_family then
+            in_family?(v)
+          when :os, :platform then
+            platform?(v)
+          when :os_name, :platform_name then
+            name == v
+          when :release then
+            check_release(v)
+          end
+        }
+      } || supports.empty?
+    end
 
-          break if status == false
-        end
-        return true if status == true
-      end
-
-      status
+    def normalize(key) # TODO: dumb... push this up or remove need
+      key.to_s.tr("-", "_").to_sym
     end
 
     def to_s
@@ -108,7 +103,7 @@ module Inspec::Resources
       # allow wild card matching
       if value.include?("*")
         cleaned = Regexp.escape(value).gsub('\*', ".*?")
-        !(release =~ /#{cleaned}/).nil?
+        release =~ /#{cleaned}/
       else
         release == value
       end
