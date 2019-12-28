@@ -18,11 +18,13 @@ module Inspec
     end
   end
 
+  # NOTE: This is only ever `extend`ed, so these are all class methods.
   module ResourceDSL
     def name(name = nil)
       return @name if name.nil?
 
       @name = name
+
       __register(name, self)
     end
 
@@ -37,6 +39,7 @@ module Inspec
 
       key = @name.to_sym
 
+      # HACK: this is broken!!! this is global where the rest are localized to registry
       Inspec::Resource.supports[key] ||= []
       Inspec::Resource.supports[key].push(criteria)
     end
@@ -158,7 +161,7 @@ module Inspec
         def inspec
           @__backend_runner__
         end
-      end
+      end # Class.new
 
       # rubocop:enable Lint/NestedMethodDefinition
 

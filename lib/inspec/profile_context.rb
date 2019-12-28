@@ -126,10 +126,14 @@ module Inspec
 
       libs.sort_by! { |l| l[1] } # Sort on source path so load order is deterministic
       libs.each do |content, source, line|
+        next unless source.end_with?(".rb")
+
         path = source
         if source.start_with?(lib_prefix)
           path = source.sub(lib_prefix, "")
-          autoloads.push(path) if File.dirname(path) == "."
+          no_subdir = File.dirname(path) == "."
+
+          autoloads.push(path) if no_subdir
         end
 
         @require_loader.add(path, content, source, line)
@@ -137,10 +141,10 @@ module Inspec
 
       # load all files directly that are flat inside the libraries folder
       autoloads.each do |path|
-        next unless path.end_with?(".rb")
-
-        load_library_file(*@require_loader.load(path)) unless @require_loader.loaded?(path)
+        load_library_file(*@require_loader.load(path)) unless
+          @require_loader.loaded?(path)
       end
+
       reload_dsl
     end
 
