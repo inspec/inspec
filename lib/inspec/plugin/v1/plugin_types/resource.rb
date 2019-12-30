@@ -79,7 +79,12 @@ module Inspec
     end
 
     def __resource_registry
-      Inspec::Resource.registry
+      find_class_instance_variable(:@__resource_registry) or
+        raise("__resource_registry not set!")
+    end
+
+    def __resource_registry= o
+      @__resource_registry = o
     end
 
     def __register(name, obj) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
@@ -179,5 +184,13 @@ module Inspec
       extend Inspec::ResourceDSL
       include Inspec::ResourceBehaviors
     end
+  end
+end
+
+class Module
+  def find_class_instance_variable k
+    (ancestors - Object.ancestors)
+      .find { |cls| cls.instance_variable_defined?(k) }
+      &.instance_variable_get(k)
   end
 end
