@@ -335,7 +335,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     diagnose(o)
     o[:debug_shell] = true
 
-    Inspec::ResourceBehaviors.toggle_inspect unless o[:inspect]
+    Inspec::Resource.toggle_inspect unless o[:inspect]
 
     log_device = suppress_log_output?(o) ? nil : $stdout
     o[:logger] = Logger.new(log_device)

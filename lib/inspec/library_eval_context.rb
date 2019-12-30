@@ -1,4 +1,4 @@
-require "inspec/plugin/v1/plugin_types/resource"
+require "inspec/resource"
 require "inspec/dsl_shared"
 
 module Inspec

@@ -1,10 +1,11 @@
 require "helper"
 require "inspec/resource"
 require "inspec/resources/os"
-# require 'inspec/plugin/v1/plugin_types/resource'
 
-describe Inspec::Plugins::Resource do
-  let(:base) { Inspec::Plugins::Resource }
+# TODO: remove or merge tests with resource_test.rb
+
+describe Inspec::Resource do
+  let(:base) { Inspec::Resource }
 
   describe "#name" do
     it "won't register a nil resource" do
