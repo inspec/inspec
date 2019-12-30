@@ -16,8 +16,8 @@ module Inspec
     end
 
     # TODO: these are keyed off of symbols
-    def self.supports
-      @supports ||= {}
+    def self.support_registry
+      @support_registry ||= {}
     end
 
     def self.new_registry
