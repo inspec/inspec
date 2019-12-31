@@ -312,11 +312,11 @@ module Inspec
       end
 
       # add information about the required inputs
-      if res[:inputs].nil? || res[:inputs].empty?
+      if params[:inputs].nil? || params[:inputs].empty?
         # convert to array for backwards compatability
         res[:inputs] = []
       else
-        res[:inputs] = res[:inputs].values.map(&:to_hash)
+        res[:inputs] = params[:inputs].values.map(&:to_hash)
       end
       res[:sha256] = sha256
       res[:parent_profile] = parent_profile unless parent_profile.nil?
