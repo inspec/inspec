@@ -1,7 +1,4 @@
 # copyright: 2015, Vulcano Security GmbH
-require "inspec/plugin/v1"
-require "inspec/utils/deprecation/global_method" # for resources
-require "inspec/exceptions"
 
 module Inspec
   class ProfileNotFound < StandardError; end
@@ -37,55 +34,61 @@ module Inspec
       Inspec::Resource.support_registry[key].push(criteria)
     end
 
-    def self.__register(name, resource_klass) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-      cl = Class.new(resource_klass) do # rubocop:disable Metrics/BlockLength
+    # TODO: this is pretty terrible and is only here to work around
+    # the idea that we've trained resource authors to make initialize
+    # methods w/o calling super.
 
+    def supersuper_initialize(backend, name)
+      @resource_skipped = false
+      @resource_failed = false
+      # TODO remove this (or the support_registry) (again?)
+      @supports = Inspec::Resource.support_registry[name.to_sym]
+      @resource_exception_message = nil
+
+      # attach the backend to this instance
+      @__backend_runner__ = backend
+      @__resource_name__ = name
+
+      check_supported!
+
+      yield
+    rescue Inspec::Exceptions::ResourceSkipped => e
+      skip_resource(e.message)
+    rescue Inspec::Exceptions::ResourceFailed => e
+      fail_resource(e.message)
+    rescue NotImplementedError => e
+      fail_resource(e.message) unless @resource_failed
+    rescue NoMethodError => e
+      skip_resource(e.message) unless @resource_failed
+    end
+
+    def check_supported!
+      backend = @__backend_runner__
+      name = @__resource_name__
+
+      supported = @supports ? check_supports : true # check_supports has side effects!
+      test_backend = defined?(Train::Transports::Mock::Connection) && backend.backend.class == Train::Transports::Mock::Connection
+      # raise unless we are supported or in test
+      unless supported || test_backend
+        msg = "Unsupported resource/backend combination: %s / %s. Exiting." %
+          [name, backend.platform.name]
+        raise ArgumentError, msg
+      end
+    end
+
+    def self.__register(name, resource_klass)
+      cl = Class.new(resource_klass) do # TODO: remove
         # As best I can figure out, this anonymous class only exists
         # because we're trying to avoid having resources with
         # initialize methods from having to call super, which is,
         # quite frankly, dumb. Avoidable even with some simple
         # documentation.
-        #
-        # Instead, I think I'm gonna try to push nearly everything
-        # here up above it and to force the super to happen somehow.
-
         def initialize(backend, name, *args)
-          @resource_skipped = false
-          @resource_failed = false
-          # TODO remove this (again?)
-          @supports = Inspec::Resource.support_registry[name.to_sym]
-          @resource_exception_message = nil
-
-          # attach the backend to this instance
-          @__backend_runner__ = backend
-          @__resource_name__ = name
-
-          # check resource supports
-          supported = @supports ? check_supports : true # check_supports has side effects!
-          test_backend = defined?(Train::Transports::Mock::Connection) && backend.backend.class == Train::Transports::Mock::Connection
-          # raise unless we are supported or in test
-          unless supported || test_backend
-            msg = "Unsupported resource/backend combination: %s / %s. Exiting." %
-              [name, backend.platform.name]
-            raise ArgumentError, msg
-          end
-
-          # call the resource initializer
-          begin
+          supersuper_initialize(backend, name) do
             super(*args)
-          rescue Inspec::Exceptions::ResourceSkipped => e
-            skip_resource(e.message)
-          rescue Inspec::Exceptions::ResourceFailed => e
-            fail_resource(e.message)
-          rescue NotImplementedError => e
-            fail_resource(e.message) unless @resource_failed
-          rescue NoMethodError => e
-            skip_resource(e.message) unless @resource_failed
           end
         end
       end # Class.new
-
-      # rubocop:enable Lint/NestedMethodDefinition
 
       reg = __resource_registry rescue nil
       reg = self.__resource_registry = Inspec::Resource.registry unless reg

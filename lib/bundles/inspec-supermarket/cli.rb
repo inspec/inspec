@@ -1,3 +1,4 @@
+require "inspec/plugin/v1"
 require "inspec/base_cli"
 
 module Supermarket
