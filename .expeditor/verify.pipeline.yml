@@ -15,7 +15,7 @@ steps:
   expeditor:
     executor:
       docker:
-        image: ruby:2.6-stretch
+        image: ruby:2.6
 
 - label: run-tests-ruby-2.4
   command:
@@ -23,7 +23,7 @@ steps:
   expeditor:
     executor:
       docker:
-        image: ruby:2.4-stretch
+        image: ruby:2.4
 
 - label: run-tests-ruby-2.5
   command:
@@ -31,7 +31,7 @@ steps:
   expeditor:
     executor:
       docker:
-        image: ruby:2.5-stretch
+        image: ruby:2.5
 
 - label: run-tests-ruby-2.6
   command:
@@ -39,7 +39,7 @@ steps:
   expeditor:
     executor:
       docker:
-        image: ruby:2.6-stretch
+        image: ruby:2.6
 
 - label:  run-tests-ruby-2.7
   command:
@@ -55,7 +55,7 @@ steps:
   expeditor:
     executor:
       docker:
-        image: ruby:2.6-stretch
+        image: ruby:2.6
 
 - label: run-tests-ruby-2.6-windows
   command:
