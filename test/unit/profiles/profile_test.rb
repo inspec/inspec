@@ -369,6 +369,14 @@ describe Inspec::Profile do
           _(result[:warnings].length).must_equal 1
         end
       end
+
+      describe "inputs" do
+        let(:profile) { MockLoader.load_profile("inputs/metadata-basic") }
+
+        it "loads inputs" do
+          _(profile.info![:inputs]).must_equal([{ name: "test_01", options: { value: "test_value_01" } }])
+        end
+      end
     end
   end
 end
