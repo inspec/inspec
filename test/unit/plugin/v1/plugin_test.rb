@@ -1,6 +1,6 @@
 # TODO: do not use helper, since all plugins are loaded statically
 require "minitest/autorun"
-require "mocha/setup"
+require "mocha/minitest"
 
 require "inspec/plugin/v1/plugin_types/cli"
 require "thor"
