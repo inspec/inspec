@@ -26,7 +26,7 @@ An `iis_app` resource block declares details about the named site:
     describe iis_app('application_path', 'site_name') do
       it { should exist }
       it { should have_application_pool('application_pool') }
-      it { should have_protocols('protocol') }
+      it { should have_protocol('protocol') }
       it { should have_site_name('site') }
       it { should have_physical_path('physical_path') }
       it { should have_path('application_path') }
@@ -45,7 +45,7 @@ For example:
     describe iis_app('/myapp', 'Default Web Site') do
       it { should exist }
       it { should have_application_pool('MyAppPool') }
-      it { should have_protocols('http') }
+      it { should have_protocol('http') }
       it { should have_site_name('Default Web Site') }
       it { should have_physical_path('C:\\inetpub\\wwwroot\\myapp') }
       it { should have_path('\\My Application') }

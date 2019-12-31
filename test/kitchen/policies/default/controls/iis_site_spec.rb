@@ -33,7 +33,7 @@ end
 describe iis_app('/TestApp', 'Default Web Site') do
   it { should exist }
   it { should have_application_pool('DefaultAppPool') }
-  it { should have_protocols('http') }
+  it { should have_protocol('http') }
   it { should have_site_name('Default Web Site') }
   it { should have_physical_path('C:\\inetpub\\wwwroot\\Test') }
   it { should have_path('\\TestApp') }
