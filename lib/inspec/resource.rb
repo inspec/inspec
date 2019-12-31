@@ -76,33 +76,6 @@ module Inspec
       end
     end
 
-    def self.__register(name, resource_klass)
-      cl = Class.new(resource_klass) do # TODO: remove
-        # As best I can figure out, this anonymous class only exists
-        # because we're trying to avoid having resources with
-        # initialize methods from having to call super, which is,
-        # quite frankly, dumb. Avoidable even with some simple
-        # documentation.
-        def initialize(backend, name, *args)
-          supersuper_initialize(backend, name) do
-            super(*args)
-          end
-        end
-      end # Class.new
-
-      reg = __resource_registry rescue nil
-      reg = self.__resource_registry = Inspec::Resource.registry unless reg
-
-      # Warn if a resource pack is overwriting a core resource.
-      # Suppress warning if the resource is an AWS resource, see #3822
-
-      if reg.key?(name) && !name.start_with?("aws_")
-        Inspec::Log.warn("Overwriting resource #{name}. To reference a specific version of #{name} use the resource() method")
-      end
-
-      reg[name] = cl
-    end # __register
-
     # Support for Resource DSL plugins.
     # This is called when an unknown method is encountered
     # within a resource class definition.
@@ -133,6 +106,33 @@ module Inspec
 
     ############################################################
     # Infrastructure / Bookkeeping
+
+    def self.__register(name, resource_klass)
+      cl = Class.new(resource_klass) do # TODO: remove
+        # As best I can figure out, this anonymous class only exists
+        # because we're trying to avoid having resources with
+        # initialize methods from having to call super, which is,
+        # quite frankly, dumb. Avoidable even with some simple
+        # documentation.
+        def initialize(backend, name, *args)
+          supersuper_initialize(backend, name) do
+            super(*args)
+          end
+        end
+      end
+
+      reg = __resource_registry rescue nil
+      reg = self.__resource_registry = Inspec::Resource.registry unless reg
+
+      # Warn if a resource pack is overwriting a core resource.
+      # Suppress warning if the resource is an AWS resource, see #3822
+
+      if reg.key?(name) && !name.start_with?("aws_")
+        Inspec::Log.warn("Overwriting resource #{name}. To reference a specific version of #{name} use the resource() method")
+      end
+
+      reg[name] = cl
+    end # __register
 
     def self.__resource_registry
       # rubocop:disable Style/AndOr
