@@ -43,6 +43,3 @@ end
 require "inspec/fetcher/local"
 require "inspec/fetcher/url"
 require "inspec/fetcher/git"
-
-# TODO: Remove in 4.0 when Compliance fetcher plugin is created
-require "plugins/inspec-compliance/lib/inspec-compliance/api"

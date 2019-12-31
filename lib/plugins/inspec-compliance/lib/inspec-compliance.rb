@@ -8,5 +8,8 @@ module InspecPlugins
         InspecPlugins::Compliance::CLI
       end
     end
+
+    autoload :Configuration, "plugins/inspec-compliance/lib/inspec-compliance/configuration"
+    autoload :API, "plugins/inspec-compliance/lib/inspec-compliance/api"
   end
 end

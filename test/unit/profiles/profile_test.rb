@@ -71,7 +71,7 @@ describe Inspec::Profile do
       _(info[:controls][0][:source_location]).must_equal loc
     end
 
-    it "gets code on tgz profiles FUCK" do
+    it "gets code on tgz profiles" do
       path = MockLoader.profile_tgz(profile_id)
       info = MockLoader.load_profile(path).info
       _(info[:controls][0][:code]).must_equal code
