@@ -28,9 +28,9 @@ describe "AwsResourceMixin" do
         raise ArgumentError, "this param is not right"
       end
 
-      # if inspec is defined we are a live test
+      # if inspec is defined and returns true we are a live test
       def inspec
-        # live
+        true
       end
     end
 
