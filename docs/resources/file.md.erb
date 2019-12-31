@@ -117,6 +117,14 @@ not
 
     { should cmp '644' }
 
+or:
+
+    { should cmp '01775' }
+
+not
+
+    { should cmp '1775' }
+
 Without the zero prefix for the octal value, Chef InSpec will interpret it as the _decimal_ value 644, which is octal 1024 or `-----w-r-T`, and any test for a file that is `-rw-r--r--` will fail.
 
 Note: see the [`be_more_permissive_than(mode)`](#be_more_permissive_than?(mode)) matcher for upper and lower bounds on file mode.
