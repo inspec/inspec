@@ -41,13 +41,13 @@ steps:
       docker:
         image: ruby:2.6-stretch
 
-- label:  run-tests-ruby-2.7-preview
+- label:  run-tests-ruby-2.7
   command:
     - /workdir/.expeditor/buildkite/verify.sh || true
   expeditor:
     executor:
       docker:
-        image: ruby:2.7-rc-buster
+        image: ruby:2.7
 
 - label: isolated-tests-ruby-2.6
   command:
