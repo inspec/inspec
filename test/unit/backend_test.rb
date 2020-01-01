@@ -5,7 +5,7 @@ describe "Backend" do # rubocop:disable Metrics/BlockLength
 
   describe "create" do # rubocop:disable Metrics/BlockLength
     it "accepts an Inspec::Config" do
-      _(backend.is_a?(Inspec::Backend::Base)).must_equal true
+      _(backend.is_a?(Inspec::Backend)).must_equal true
     end
 
     it "raises an error if no transport backend can be found" do
