@@ -42,6 +42,10 @@ class MockLoader
     @platform = OPERATING_SYSTEMS[os]
   end
 
+  def self.connection
+    @connection ||= Train.create("local", command_runner: :generic).connection
+  end
+
   def backend
     return @backend if defined?(@backend)
 
@@ -52,7 +56,7 @@ class MockLoader
     mock = @backend.backend
 
     # create all mock files
-    local = Train.create("local", command_runner: :generic).connection
+    local = MockLoader.connection
 
     # set os emulation
     mock.mock_os(@platform)

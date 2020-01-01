@@ -49,8 +49,11 @@ module DescribeOneTest
   end
 end
 
+BACKEND = MockLoader.new.backend
+
 describe Inspec::ProfileContext do
-  let(:backend) { MockLoader.new.backend }
+
+  let(:backend) { BACKEND }
   let(:profile) { Inspec::ProfileContext.new(nil, backend, {}) }
 
   def get_checks(rule_index = 0)
