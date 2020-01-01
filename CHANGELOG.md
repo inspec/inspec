@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.55 -->
-## [v4.18.55](https://github.com/inspec/inspec/tree/v4.18.55) (2019-12-31)
+<!-- latest_release 4.18.56 -->
+## [v4.18.56](https://github.com/inspec/inspec/tree/v4.18.56) (2020-01-01)
 
 #### Merged Pull Requests
-- Set test skip bomb date to end of 2020Q1 [#4819](https://github.com/inspec/inspec/pull/4819) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Removed all metaprogramming from ControlEvalContext [#4778](https://github.com/inspec/inspec/pull/4778) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
 ### Changes since 4.18.51 release
 
 #### Merged Pull Requests
+- Removed all metaprogramming from ControlEvalContext [#4778](https://github.com/inspec/inspec/pull/4778) ([zenspider](https://github.com/zenspider)) <!-- 4.18.56 -->
 - Set test skip bomb date to end of 2020Q1 [#4819](https://github.com/inspec/inspec/pull/4819) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.55 -->
 - Add suport for freebsd package resource [#4789](https://github.com/inspec/inspec/pull/4789) ([fzipi](https://github.com/fzipi)) <!-- 4.18.54 -->
 - postfix_conf: Changed supported platform to unix [#4794](https://github.com/inspec/inspec/pull/4794) ([fzipi](https://github.com/fzipi)) <!-- 4.18.53 -->
