@@ -1,6 +1,8 @@
 require "functional/helper"
 
 describe "the fetchers" do
+  parallelize_me!
+
   include FunctionalHelper
 
   let(:looks_like_a_stacktrace) { %r{lib/inspec/.+\.rb:\d+:in} }
@@ -10,8 +12,6 @@ describe "the fetchers" do
 
   # Refs #4726
   describe "when fetchers fetch a bad dependency" do
-    parallelize_me!
-
     def assert_fetcher_failed_cleanly(run_result, error_regex, profile_location)
       _(run_result.stdout).must_be_empty
       _(run_result.stderr).wont_match looks_like_a_stacktrace
@@ -92,13 +92,15 @@ describe "the fetchers" do
       end
     end
 
-    # To develop on this test, setup an Automate server, run
-    # `inspec compliance login`, and upload two profiles to the admin account:
-    # test/fixtures/profiles/fetcher-failures/{basic,auto-dep-on-missing}
-    describe "when using a compliance fetcher" do
-      let(:profile_name) { "local-dep-on-bad-auto-archive" }
-      it "should be able to create a new archive wrapping the profile" do
-        assert_archive_worked(run_result)
+    if ENV["CI_ENABLE_AUTOMATE_FETCHER"] then
+      # To develop on this test, setup an Automate server, run
+      # `inspec compliance login`, and upload two profiles to the admin account:
+      # test/fixtures/profiles/fetcher-failures/{basic,auto-dep-on-missing}
+      describe "when using a compliance fetcher" do
+        let(:profile_name) { "local-dep-on-bad-auto-archive" }
+        it "should be able to create a new archive wrapping the profile" do
+          assert_archive_worked(run_result)
+        end
       end
     end
   end
