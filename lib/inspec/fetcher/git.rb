@@ -113,16 +113,7 @@ module Inspec::Fetcher
     end
 
     def update_from_opts(opts)
-      changed = false
-      %i{
-        branch
-        tag
-        ref
-      }.each do |opt_name|
-        opt_changed = update_ivar_from_opt(opt_name, opts)
-        changed ||= opt_changed
-      end
-      changed
+      %i{branch tag ref}.map { |opt_name| update_ivar_from_opt(opt_name, opts) }.any?
     end
 
     private
