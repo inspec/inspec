@@ -10,7 +10,7 @@ module Inspec
     end
 
     def vendor!(opts)
-      vendor_dependencies(opts)
+      vendor_dependencies!(opts)
     end
 
     # The URL fetcher uses a Tempfile to retrieve the vendored
@@ -51,7 +51,7 @@ module Inspec
       }
     end
 
-    def vendor_dependencies(opts)
+    def vendor_dependencies!(opts)
       # This deletes any existing vendor/ directory
       delete_vendored_data
       warm_vendor_cache_from_archives if opts[:airgap]
