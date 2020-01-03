@@ -96,7 +96,7 @@ describe "the fetchers" do
       end
     end
 
-    if ENV["CI_ENABLE_AUTOMATE_FETCHER"] then
+    if ENV["CI_ENABLE_AUTOMATE_FETCHER"]
       # To develop on this test, setup an Automate server, run
       # `inspec compliance login`, and upload two profiles to the admin account:
       # test/fixtures/profiles/fetcher-failures/{basic,auto-dep-on-missing}
