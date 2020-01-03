@@ -36,44 +36,42 @@ module Inspec::Resources
     end
 
     def domain
-      @cache[:domain]
+      @cache[:domain] || "The `sys_info.domain` resource is not supported on your OS yet."
     end
 
     def ip_address
-      @cache[:ip]
+      @cache[:ip] || "The `sys_info.ip_address` resource is not supported on your OS yet."
     end
 
     def manufacturer
-      @cache[:manufacturer]
+      @cache[:manufacturer] || "The `sys_info.manufacturer` resource is not supported on your OS yet."
     end
 
     def model
-      @cache[:model]
+      @cache[:model] || "The `sys_info.model` resource is not supported on your OS yet."
     end
 
     def totalmemory_kb
-      @cache[:totalmemory_kb]
+      @cache[:totalmemory_kb] || "The `sys_info.totalmemory_kb` resource is not supported on your OS yet."
     end
 
     def hostname(opt = nil)
       case opt
-        when nil
+        when nil, "s", "short"
           @cache[:hostname]
-        when "f","long","fqdn","full"
-          @cache[:fqdn]
-        when "d","domain"
+        when "f", "long", "fqdn", "full"
+          @cache[:fqdn] 
+        when "d", "domain"
           @cache[:domain]
         when "i", "ip_address"
           @cache[:ip_address]
-        when "s","short"
-          @cache[:hostname]
         else
           skip_resource "The sys_info.hostname resource is not supported with that option."
       end
     end
 
     def fqdn
-      @cache[:fqdn]
+      @cache[:fqdn] || "The `sys_info.fqdn` resource is not supported on your OS yet."
     end
 
     def to_s
@@ -94,7 +92,7 @@ module Inspec::Resources
       short = inspec.command("hostname -s").stdout.chomp
       manufacturer = inspec.command("cat /sys/class/dmi/id/sys_vendor").stdout.chomp
       model = inspec.command("cat /sys/class/dmi/id/product_name").stdout.chomp
-      totalmemory_kb = inspec.command("awk '/MemTotal/ {print $2}' /proc/meminfo").stdout.chomp
+      totalmemory_kb = inspec.command("awk '/MemTotal/ {print $2}' /proc/meminfo").stdout.chomp.to_i
 
       {
         fqdn: fqdn,
@@ -142,7 +140,7 @@ module Inspec::Resources
         domain = info["Domain"]
       end
 
-      memory = info["TotalPhysicalMemory"] / 1024 rescue nil
+      memory = info.fetch("TotalPhysicalMemory", 0) / 1024
       {
         fqdn: fqdn,
         domain: domain,
@@ -163,21 +161,15 @@ module Inspec::Resources
 
     def info
       fqdn = inspec.command("hostname -f").stdout.chomp
-      domain = "The `sys_info.domain` is not supported on your OS yet."
-      ip = "The `sys_info.ip_adress` is not supported on your OS yet."
       short = inspec.command("hostname -s").stdout.chomp
       manufacturer = "Apple Inc."
       model = inspec.command("sysctl -n hw.model").stdout.chomp
-      totalmemory_kb = "The `sys_info.totalmemory_kb` is not supported on your OS yet."
 
       {
         fqdn: fqdn,
-        domain: domain,
-        ip: ip,
         hostname: short,
         manufacturer: manufacturer,
         model: model,
-        totalmemory_kb: totalmemory_kb,
       }
     end
   end
