@@ -173,7 +173,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Generates a tar.gz archive."
   option :overwrite, type: :boolean, default: false,
     desc: "Overwrite existing archive."
-  option :airgap, type: :boolean, default: false,
+  option :airgap, type: :string, default: false, banner: "", # Actually a boolean, but this suppresses the creation of a --no-airgap...
     desc: "Prefer using existing local archives to fetching profiles."
   option :ignore_errors, type: :boolean, default: false,
     desc: "Ignore profile warnings."
