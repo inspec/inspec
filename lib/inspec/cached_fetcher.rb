@@ -22,6 +22,10 @@ module Inspec
       @fetcher.resolved_source
     end
 
+    def update_from_opts(_opts)
+      false
+    end
+
     def cache_key
       k = if target.is_a?(Hash)
             target[:sha256] || target[:ref]

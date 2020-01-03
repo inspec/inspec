@@ -100,19 +100,6 @@ module Inspec::Fetcher
       end
     end
 
-    def update_from_opts(opts)
-      changed = false
-
-      old_val = @archive_shasum
-      new_val = opts[:sha256]
-      unless old_val == new_val
-        @archive_shasum = new_val
-        changed = true
-      end
-
-      changed
-    end
-
     def perform_shasum(target)
       return @archive_shasum if @archive_shasum
       raise(Inspec::FetcherFailure, "Profile dependency local path '#{target}' does not exist") unless File.exist?(target)

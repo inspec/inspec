@@ -118,19 +118,6 @@ module Inspec::Fetcher
       @target
     end
 
-    def update_from_opts(opts)
-      changed = false
-
-      old_val = @archive_shasum
-      new_val = opts[:sha256]
-      unless old_val == new_val
-        @archive_shasum = new_val
-        changed = true
-      end
-
-      changed
-    end
-
     private
 
     def parse_uri(target)
