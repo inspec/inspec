@@ -57,12 +57,13 @@ describe "the fetchers" do
 
   # Refs #4727
   describe "when a archive is available of an unfetchable profile with --airgap" do
-
-    let(:invocation) { "archive #{fetcher_profiles}/#{profile_name} --airgap" }
-
-    def teardown
-      FileUtils.rm_rf "#{fetcher_profiles}/#{profile_name}/vendor"
-      FileUtils.rm_f "#{profile_name}-0.1.0.tar.gz"
+    let(:run_result) { run_inspec_process(invocation, pre_run: copy_in_proc, tmpdir: true) }
+    let(:invocation) { "archive #{profile_name} --airgap" }
+    let(:copy_in_proc) do
+      ->(tmp_dir) do
+        FileUtils.cp_r("#{fetcher_profiles}/#{profile_name}", tmp_dir)
+        FileUtils.cp("#{fetcher_profiles}/#{tarball_name}", tmp_dir)
+      end
     end
 
     def assert_archive_worked(run_result)
@@ -73,6 +74,7 @@ describe "the fetchers" do
 
     describe "when using a local fetcher" do
       let(:profile_name) { "local-dep-on-bad-local-archive" }
+      let(:tarball_name) { "local-deps-on-missing-0.1.0.tar.gz" }
       it "should be able to create a new archive wrapping the profile" do
         assert_archive_worked(run_result)
       end
@@ -80,6 +82,7 @@ describe "the fetchers" do
 
     describe "when using a git fetcher" do
       let(:profile_name) { "local-dep-on-bad-git-archive" }
+      let(:tarball_name) { "git-deps-on-missing-0.1.0.tar.gz" }
       it "should be able to create a new archive wrapping the profile" do
         assert_archive_worked(run_result)
       end
@@ -87,6 +90,7 @@ describe "the fetchers" do
 
     describe "when using a url fetcher" do
       let(:profile_name) { "local-dep-on-bad-url-archive" }
+      let(:tarball_name) { "url-deps-on-missing-0.1.0.tar.gz" }
       it "should be able to create a new archive wrapping the profile" do
         assert_archive_worked(run_result)
       end
@@ -98,6 +102,7 @@ describe "the fetchers" do
       # test/fixtures/profiles/fetcher-failures/{basic,auto-dep-on-missing}
       describe "when using a compliance fetcher" do
         let(:profile_name) { "local-dep-on-bad-auto-archive" }
+        let(:tarball_name) { "auto-dep-on-missing-0.1.0.tar.gz" }
         it "should be able to create a new archive wrapping the profile" do
           assert_archive_worked(run_result)
         end
