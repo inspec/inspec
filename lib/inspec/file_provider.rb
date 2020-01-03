@@ -209,8 +209,10 @@ module Inspec
     def walk_tar(path, &callback)
       tar_file = Zlib::GzipReader.open(path)
       Gem::Package::TarReader.new(tar_file, &callback)
+    rescue => e
+      raise Inspec::Error, "Error opening/processing #{path}: #{e.message}"
     ensure
-      tar_file.close
+      tar_file.close if tar_file
     end
   end # class TarProvider
 
