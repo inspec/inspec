@@ -44,7 +44,7 @@ module Inspec
     # Use this to get a cached version of the config.  This prevents you from
     # being required to pass it around everywhere.
     def self.cached
-      @cached_config
+      @cached_config ||= {}
     end
 
     def self.cached=(cfg)
