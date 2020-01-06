@@ -107,14 +107,20 @@ module Inspec
         # Place the local dependency in the vendor cache.
         # Fetchers are in charge of calculating cache keys.
         fetcher = Inspec::Fetcher::Local.resolve(dep_profile_path)
-        dep_profile_cache_dir = "#{cache_path}/#{fetcher.cache_key}"
-        file_provider.extract(dep_profile_cache_dir)
+        # Use a shorter name here in hopes of dodging windows filesystems path length restrictions
+        actual_dep_profile_cache_dir = "#{cache_path}/#{fetcher.cache_key}"
+        short_dep_profile_cache_dir = "#{cache_path}/#{SecureRandom.hex[0..6]}"
+        file_provider.extract(short_dep_profile_cache_dir)
 
         # The archive (probably) contained a vendor cache of its own.
         # We must flatten that, so that all vendor cache entries are top-level.
-        Dir["#{dep_profile_cache_dir}/vendor/*"].each do |sub_dep_cache_dir|
+        Dir["#{short_dep_profile_cache_dir}/vendor/*"].each do |sub_dep_cache_dir|
           FileUtils.mv(sub_dep_cache_dir, cache_path)
         end
+
+        # And finally correctly name the dependency itself.
+        FileUtils.mv(short_dep_profile_cache_dir, actual_dep_profile_cache_dir)
+
       end
     end
   end
