@@ -17,7 +17,7 @@ describe Inspec::Profile do
     end
 
     it "has no controls" do
-      _(profile.params[:controls]).must_equal({})
+      _(profile.params[:controls]).must_be_empty
     end
   end
 
@@ -30,7 +30,7 @@ describe Inspec::Profile do
     end
 
     it "has no controls" do
-      _(profile.params[:controls]).must_equal({})
+      _(profile.params[:controls]).must_be_empty
     end
 
     it "can overwrite the profile ID" do
@@ -146,7 +146,7 @@ describe Inspec::Profile do
         _(result[:summary][:location]).must_equal "#{home}/test/fixtures/profiles/#{profile_id}"
         _(result[:summary][:profile]).must_equal "name"
         _(result[:summary][:controls]).must_equal 0
-        _(result[:errors].length).must_equal 0
+        _(result[:errors]).must_be_empty
         _(result[:warnings].length).must_equal 1
       end
     end
@@ -169,8 +169,8 @@ describe Inspec::Profile do
         _(result[:summary][:location]).must_equal "#{home}/test/fixtures/profiles/#{profile_id}"
         _(result[:summary][:profile]).must_equal "complete"
         _(result[:summary][:controls]).must_equal 1
-        _(result[:errors].length).must_equal 0
-        _(result[:warnings].length).must_equal 0
+        _(result[:errors]).must_be_empty
+        _(result[:warnings]).must_be_empty
       end
     end
 
@@ -194,8 +194,8 @@ describe Inspec::Profile do
         _(result[:summary][:location]).must_equal "#{home}/test/fixtures/profiles/#{profile_id}"
         _(result[:summary][:profile]).must_equal "complete"
         _(result[:summary][:controls]).must_equal 1
-        _(result[:errors].length).must_equal 0
-        _(result[:warnings].length).must_equal 0
+        _(result[:errors]).must_be_empty
+        _(result[:warnings]).must_be_empty
       end
     end
 
@@ -219,8 +219,8 @@ describe Inspec::Profile do
         _(result[:summary][:location]).must_equal "#{home}/test/fixtures/profiles/#{profile_id}"
         _(result[:summary][:profile]).must_equal "complete"
         _(result[:summary][:controls]).must_equal 1
-        _(result[:errors].length).must_equal 0
-        _(result[:warnings].length).must_equal 0
+        _(result[:errors]).must_be_empty
+        _(result[:warnings]).must_be_empty
       end
     end
 
@@ -244,8 +244,8 @@ describe Inspec::Profile do
         _(result[:summary][:location]).must_equal "#{home}/test/fixtures/profiles/#{profile_id}"
         _(result[:summary][:profile]).must_equal "complete"
         _(result[:summary][:controls]).must_equal 1
-        _(result[:errors].length).must_equal 0
-        _(result[:warnings].length).must_equal 0
+        _(result[:errors]).must_be_empty
+        _(result[:warnings]).must_be_empty
       end
     end
 
@@ -287,7 +287,7 @@ describe Inspec::Profile do
 
         result = MockLoader.load_profile(profile_path, { logger: logger }).check
         logger.verify
-        _(result[:warnings].length).must_equal 0
+        _(result[:warnings]).must_be_empty
         _(result[:errors].length).must_equal 1
       end
     end
@@ -314,7 +314,7 @@ describe Inspec::Profile do
         _(result[:summary][:profile]).must_equal "license-invalid"
 
         _(result[:summary][:controls]).must_equal 0
-        _(result[:errors].length).must_equal 0
+        _(result[:errors]).must_be_empty
         _(result[:warnings].length).must_equal 2
       end
 
@@ -339,7 +339,7 @@ describe Inspec::Profile do
           _(result[:summary][:profile]).must_equal "license-spdx"
 
           _(result[:summary][:controls]).must_equal 0
-          _(result[:errors].length).must_equal 0
+          _(result[:errors]).must_be_empty
           _(result[:warnings].length).must_equal 1
         end
       end
@@ -365,7 +365,7 @@ describe Inspec::Profile do
           _(result[:summary][:profile]).must_equal "license-proprietary"
 
           _(result[:summary][:controls]).must_equal 0
-          _(result[:errors].length).must_equal 0
+          _(result[:errors]).must_be_empty
           _(result[:warnings].length).must_equal 1
         end
       end
