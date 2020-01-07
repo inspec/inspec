@@ -17,7 +17,7 @@ module Inspec::Resources
   # TODO: rename file_resource.rb
   class FileResource < Inspec.resource(1)
     include FilePermissionsSelector
-    include LinuxMountParser
+    include Inspec::Utils::LinuxMountParser
 
     name "file"
     supports platform: "unix"

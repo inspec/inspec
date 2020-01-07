@@ -79,10 +79,10 @@ module Inspec::Resources
   end
 
   class LinuxMounts < MountsInfo
-    include LinuxMountParser
+    include Inspec::Utils::LinuxMountParser
   end
 
   class BsdMounts < MountsInfo
-    include BsdMountParser
+    include Inspec::Utils::BsdMountParser
   end
 end

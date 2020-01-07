@@ -1,8 +1,8 @@
 require "helper"
 require "inspec/utils/parser"
 
-describe SolarisNetstatParser do
-  let(:parser) { Class.new { include SolarisNetstatParser }.new }
+describe Inspec::Utils::SolarisNetstatParser do
+  let(:parser) { Class.new { include Inspec::Utils::SolarisNetstatParser }.new }
 
   describe "#parse_solaris_netset" do
     it "parses nil content" do

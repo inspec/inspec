@@ -19,7 +19,7 @@ module Inspec::Resources
 
     attr_reader :params
 
-    include CommentParser
+    include Inspec::Utils::CommentParser
     include FileReader
 
     DEFAULT_UNIX_PATH    = "/etc/hosts".freeze

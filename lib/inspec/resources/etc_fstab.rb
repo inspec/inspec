@@ -25,7 +25,7 @@ module Inspec::Resources
 
     attr_reader :params
 
-    include CommentParser
+    include Inspec::Utils::CommentParser
     include FileReader
 
     def initialize(fstab_path = nil)

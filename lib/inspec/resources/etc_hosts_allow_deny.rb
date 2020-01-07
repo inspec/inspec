@@ -16,7 +16,7 @@ module Inspec::Resources
 
     attr_reader :params
 
-    include CommentParser
+    include Inspec::Utils::CommentParser
     include FileReader
 
     def initialize(hosts_allow_path = nil)

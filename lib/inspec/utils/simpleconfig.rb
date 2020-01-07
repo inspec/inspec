@@ -4,7 +4,7 @@ require "inspec/utils/parser"
 require "hashie"
 
 class SimpleConfig
-  include CommentParser
+  include Inspec::Utils::CommentParser
 
   attr_reader :params, :groups
   def initialize(raw_data, opts = {})

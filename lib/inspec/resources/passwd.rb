@@ -33,7 +33,7 @@ module Inspec::Resources
       end
     EXAMPLE
 
-    include PasswdParser
+    include Inspec::Utils::PasswdParser
     include FileReader
 
     attr_reader :params
