@@ -127,10 +127,7 @@ module Inspec::Fetcher
     end
 
     def sha256
-      return @archive_shasum if @archive_shasum
-
-      file = @archive_path || temp_archive_path
-      @archive_shasum = OpenSSL::Digest::SHA256.digest(File.read(file)).unpack("H*")[0]
+      @archive_shasum ||= OpenSSL::Digest::SHA256.digest(File.read(@archive_path || temp_archive_path)).unpack("H*")[0]
     end
 
     def file_type_from_remote(remote)
