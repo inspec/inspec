@@ -50,7 +50,7 @@ describe Inspec::ControlEvalContext do
   end
 
   describe "#resource_class" do
-    let(:resource_dsl) { Inspec::Resource.create_dsl(profile_context) }
+    let(:resource_dsl) { profile_context.to_resources_dsl }
     let(:inner_context) { Inspec::ProfileContext.new("inner-context", backend, {}) }
     let(:newfoo) { mock }
     let(:control_content) do
