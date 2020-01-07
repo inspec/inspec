@@ -78,27 +78,18 @@ module Inspec
       # Return FalseClass if the update contained no useful information
       # and a retry should not be attempted
       def update_from_opts(opts)
-        changed = false
-
-        old_val = @archive_shasum
-        new_val = opts[:sha256]
-        unless old_val == new_val
-          @archive_shasum = new_val
-          changed = true
-        end
-
+        changed = @archive_shasum != opts[:sha256]
+        @archive_shasum = opts[:sha256]
         changed
       end
 
-      # Helper for above.
+      # Helper for above; usful when the subclass ivars whose
+      # names exactly match the names of the fetcher options.
       def update_ivar_from_opt(opt_name, opts)
         ivar_sym = "@#{opt_name}".to_sym
-        old_val = instance_variable_get(ivar_sym)
-        new_val = opts[opt_name]
-        return false if old_val == new_val
-
-        instance_variable_set(ivar_sym, new_val)
-        true
+        changed = instance_variable_get(ivar_sym) != opts[opt_name]
+        instance_variable_set(ivar_sym, opts[opt_name])
+        changed
       end
 
       #
