@@ -94,12 +94,12 @@ module Inspec
     end
 
     def fallback_to_archive_on_fetch_failure(dep)
-      # This facility is intended to handle a very narrow use case, in which
+      # This facility is intended to handle situations in which
       # the failing dependency *is* available in an archive that we have
       # available as a local dependency. We just need to find the archive and
       # alter the fetcher to refer to information in the archive.
       # Note that the vendor cache already should have the archive inflated
-      # for this to work.
+      # for this to work (see warm_cache_from_archives() from profile_vendor.rb)
       # Refs 4727
 
       # This is where any existing archives should have been inflated -
