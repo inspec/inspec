@@ -449,7 +449,7 @@ Please see [TESTING_AGAINST_AWS.md](./test/integration/aws/TESTING_AGAINST_AWS.m
 
 Use the rake task `bundle exec rake test:azure` to test the Azure resources against an Azure account.
 
-Please see [TESTING_AGAINST_AZURE.md](./test/integration/aws/TESTING_AGAINST_AZURE.md) for details on how to setup the needed Azure accounts to perform testing.
+Please see [TESTING_AGAINST_AZURE.md](./test/integration/azure/TESTING_AGAINST_AZURE.md) for details on how to setup the needed Azure accounts to perform testing.
 
 ## License
 
