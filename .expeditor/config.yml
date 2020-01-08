@@ -136,23 +136,21 @@ merge_actions:
      - built_in:bump_version
 
 subscriptions:
- - workload: artifact_published:unstable:inspec:{{version_constraint}}
-   actions:
-    - built_in:build_docker_image
-    - bash:.expeditor/buildkite/wwwrelease.sh:
-       post_commit: true
  - workload: artifact_published:current:inspec:{{version_constraint}}
    actions:
-    - built_in:tag_docker_image
-    - built_in:promote_habitat_packages
+    - bash:.expeditor/buildkite/wwwrelease.sh:
+       post_commit: true
  - workload: artifact_published:stable:inspec:{{version_constraint}}
    actions:
     - bash:.expeditor/update_dockerfile.sh
     - built_in:rollover_changelog
     - built_in:publish_rubygems
     - built_in:create_github_release
+    - built_in:build_docker_image
     - built_in:tag_docker_image
     - built_in:promote_habitat_packages
+    - bash:.expeditor/buildkite/wwwrelease.sh:
+       post_commit: true
     - bash:.expeditor/publish-release-notes.sh:
        post_commit: true
     - bash:.expeditor/purge-cdn.sh:
