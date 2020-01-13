@@ -173,6 +173,8 @@ module Inspec::Resources
     end
 
     def groups
+      # https://apple.stackexchange.com/a/130815
+
       group_by_id = runmap("dscl . -list /Groups PrimaryGroupID")  { |l| name, id = l.split; [id.to_i, name] }
       userss      = runmap("dscl . -list /Users  PrimaryGroupID")  { |l| name, id = l.split; [name, id.to_i] }
       membership  = runmap("dscl . -list /Groups GroupMembership") { |l| key, *vs = l.split; [key, vs] }
@@ -196,9 +198,21 @@ module Inspec::Resources
         users = g.delete("users") || ""
         users = users.split
         users += Array(users_by_group[g["name"]])
-        g["members"] = users
-        g["members"].sort.join ","
+        g["members"] = users.sort
       end
+
+      groups # de-dupe/merge by gid
+        .group_by { |g| g["gid"] }
+        .values
+        .map { |subgroups|
+          g = subgroups.first
+
+          if subgroups.size != 1
+            g["members"] = subgroups.map { |h| h["members"] }.flatten.uniq
+          end
+
+          g
+        }
     end
   end
 
