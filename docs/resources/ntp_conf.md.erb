@@ -45,9 +45,9 @@ The following examples show how to use this Chef InSpec audit resource.
       its('driftfile') { should eq '/var/lib/ntp/ntp.drift' }
       its('server') do
         should eq [
-          0.ubuntu.pool.ntp.org,
-          1.ubuntu.pool.ntp.org,
-          2.ubuntu.pool.ntp.org
+          '0.ubuntu.pool.ntp.org',
+          '1.ubuntu.pool.ntp.org',
+          '2.ubuntu.pool.ntp.org'
         ] 
       end
     end
