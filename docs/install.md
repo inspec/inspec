@@ -76,7 +76,7 @@ sudo rpm -U /path-to/inspec.rpm
 For SUSE Linux Enterprise Server, use the following command to install Chef InSpec: 
 
 ```
-zypper install /path-to/inspec.rpm
+sudo zypper install /path-to/inspec.rpm
 ```
 
 
@@ -129,5 +129,5 @@ sudo rpm -e inspec
 For SUSE Linux Enterprise Server, use the following *destructive* command to uninstall Chef InSpec: 
 
 ```
-zypper remove inspec
+sudo zypper remove inspec
 ```
