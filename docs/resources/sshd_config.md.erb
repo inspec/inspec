@@ -69,11 +69,13 @@ The following examples show how to use this Chef InSpec audit resource.
       its('Port') { should cmp  22 }
       its('UsePAM') { should eq 'yes' }
       its('ListenAddress') { should eq nil }
-      its('HostKey') { should eq [
+      its('HostKey') do
+        should eq [
           '/etc/ssh/ssh_host_rsa_key',
           '/etc/ssh/ssh_host_dsa_key',
           '/etc/ssh/ssh_host_ecdsa_key',
-        ] }
+        ]
+      end
     end
 
 <br>
