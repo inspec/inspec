@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.59 -->
-## [v4.18.59](https://github.com/inspec/inspec/tree/v4.18.59) (2020-01-14)
+<!-- latest_release 4.18.60 -->
+## [v4.18.60](https://github.com/inspec/inspec/tree/v4.18.60) (2020-01-15)
 
-#### Merged Pull Requests
-- updates file resource doc to add example for sticky bit with leading … [#4823](https://github.com/inspec/inspec/pull/4823) ([collinmcneese](https://github.com/collinmcneese))
+#### Bug Fixes
+- upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
 ### Changes since 4.18.51 release
+
+#### Bug Fixes
+- upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley)) <!-- 4.18.60 -->
 
 #### Merged Pull Requests
 - updates file resource doc to add example for sticky bit with leading … [#4823](https://github.com/inspec/inspec/pull/4823) ([collinmcneese](https://github.com/collinmcneese)) <!-- 4.18.59 -->
