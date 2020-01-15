@@ -101,7 +101,7 @@ module Inspec
         desc: "Specify which transport to use, defaults to negotiate (WinRM)."
       option :winrm_disable_sspi, type: :boolean,
         desc: "Whether to use disable sspi authentication, defaults to false (WinRM)."
-      option :winrm_basic_auth, type: :boolean,
+      option :winrm_basic_auth_only, type: :boolean,
         desc: "Whether to use basic authentication, defaults to false (WinRM)."
       option :config, type: :string,
         desc: "Read configuration from JSON file (`-` reads from stdin)."
