@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.60 -->
-## [v4.18.60](https://github.com/inspec/inspec/tree/v4.18.60) (2020-01-15)
+<!-- latest_release 4.18.61 -->
+## [v4.18.61](https://github.com/inspec/inspec/tree/v4.18.61) (2020-01-15)
 
-#### Bug Fixes
-- upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley))
+#### Merged Pull Requests
+- Fixed duplicate groups on osx by merging members by gid. [#4833](https://github.com/inspec/inspec/pull/4833) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
@@ -14,6 +14,7 @@
 - upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley)) <!-- 4.18.60 -->
 
 #### Merged Pull Requests
+- Fixed duplicate groups on osx by merging members by gid. [#4833](https://github.com/inspec/inspec/pull/4833) ([zenspider](https://github.com/zenspider)) <!-- 4.18.61 -->
 - updates file resource doc to add example for sticky bit with leading … [#4823](https://github.com/inspec/inspec/pull/4823) ([collinmcneese](https://github.com/collinmcneese)) <!-- 4.18.59 -->
 - Fix empty attributes array in json reporter [#4815](https://github.com/inspec/inspec/pull/4815) ([nazliBeit](https://github.com/nazliBeit)) <!-- 4.18.58 -->
 - Found and fixed more mocha/setup deprecations. [#4821](https://github.com/inspec/inspec/pull/4821) ([zenspider](https://github.com/zenspider)) <!-- 4.18.57 -->
