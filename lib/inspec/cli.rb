@@ -280,11 +280,16 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o = config
     diagnose(o)
     configure_logger(o)
+    configure_telemeter(o)
 
-    runner = Inspec::Runner.new(o)
-    targets.each { |target| runner.add_target(target) }
+    exit_code = nil
+    telemetry_time_invocation("exec") do
+      runner = Inspec::Runner.new(o)
+      targets.each { |target| runner.add_target(target) }
 
-    ui.exit runner.run
+      exit_code = runner.run
+    end
+    ui.exit exit_code
   rescue ArgumentError, RuntimeError, Train::UserError => e
     $stderr.puts e.message
     ui.exit Inspec::UI::EXIT_USAGE_ERROR
