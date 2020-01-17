@@ -312,7 +312,7 @@ Remote Targets
 | Oracle Enterprise Linux      | 5, 6, 7                                          | i386, x86_64  |
 | Red Hat Enterprise Linux     | 5, 6, 7                                          | i386, x86_64  |
 | Solaris                      | 10, 11                                           | sparc, x86    |
-| Windows\*                    | 7, 8, 8.1, 10, 2008, 2008R2 , 2012, 2012R2, 2016 | x86, x86_64   |
+| Windows\*                    | 7, 8, 8.1, 10, 2012, 2012R2, 2016                | x86, x86_64   |
 | Ubuntu Linux                 |                                                  | x86, x86_64   |
 | SUSE Linux Enterprise Server | 11, 12                                           | x86_64        |
 | Scientific Linux             | 5.x, 6.x and 7.x                                 | i386, x86_64  |
@@ -332,7 +332,6 @@ In addition, runtime support is provided for:
 | Debian   | 8, 9     | x86_64 |
 | RHEL     | 6, 7     | x86_64 |
 | Ubuntu   | 12.04+   | x86_64 |
-| Windows  | 7+       | x86_64 |
 | Windows  | 2012+    | x86_64 |
 
 ## Documentation
