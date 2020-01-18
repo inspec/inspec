@@ -172,6 +172,8 @@ module Inspec::Resources
         end
       elsif os.solaris?
         Svcs.new(inspec)
+      elsif %w{yocto}.include?(platform)
+        Systemd.new(inspec, service_ctl)
       end
     end
 
