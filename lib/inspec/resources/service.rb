@@ -148,7 +148,7 @@ module Inspec::Resources
         SysV.new(inspec, service_ctl)
       elsif %w{mac_os_x}.include?(platform)
         LaunchCtl.new(inspec, service_ctl)
-      elsif os.windows?
+      elsif %w{windows}.include?(platform)
         WindowsSrv.new(inspec)
       elsif %w{freebsd}.include?(platform)
         BSDInit.new(inspec, service_ctl)
@@ -170,7 +170,7 @@ module Inspec::Resources
         else
           Systemd.new(inspec, service_ctl)
         end
-      elsif os.solaris?
+      elsif %w{solaris smartos omnios openindiana opensolaris nexentacore}.include?(platform)
         Svcs.new(inspec)
       end
     end
