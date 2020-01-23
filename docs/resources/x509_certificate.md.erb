@@ -33,6 +33,22 @@ An `x509_certificate` resource block declares a certificate `key file` to be tes
       its('validity_in_days') { should be > 30 }
     end
 
+The `filepath` property can also be used.
+
+    describe x509_certificate(filepath: 'mycertificate.pem') do
+      its('validity_in_days') { should be > 30 }
+    end
+
+The resource also supports passing in the certificate content.
+
+    cert_content = file('certificate.pem').content
+
+    describe x509_certificate(content: cert_content) do
+      its('validity_in_days') { should be > 30 }
+    end
+
+If both `content` and `filepath` is given, the value passed in `content` is used.
+
 <br>
 
 ## Properties
