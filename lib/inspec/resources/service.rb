@@ -112,21 +112,23 @@ module Inspec::Resources
       # Ubuntu < 15.04 : Upstart
       # Upstart runs with PID 1 as /sbin/init.
       # Systemd runs with PID 1 as /lib/systemd/systemd.
-      if %w{ubuntu}.include?(platform)
+
+      case platform
+      when "ubuntu"
         version = os[:release].to_f
         if version < 15.04
           Upstart.new(inspec, service_ctl)
         else
           Systemd.new(inspec, service_ctl)
         end
-      elsif %w{linuxmint}.include?(platform)
+      when "linuxmint"
         version = os[:release].to_f
         if version < 18
           Upstart.new(inspec, service_ctl)
         else
           Systemd.new(inspec, service_ctl)
         end
-      elsif %w{debian}.include?(platform)
+      when "debian"
         if os[:release] == "buster/sid"
           version = 10
         else
@@ -137,40 +139,40 @@ module Inspec::Resources
         elsif version > 0
           SysV.new(inspec, service_ctl || "/usr/sbin/service")
         end
-      elsif %w{redhat fedora centos oracle cloudlinux}.include?(platform)
+      when "redhat", "fedora", "centos", "oracle", "cloudlinux"
         version = os[:release].to_i
         if (%w{redhat centos oracle cloudlinux}.include?(platform) && version >= 7) || (platform == "fedora" && version >= 15)
           Systemd.new(inspec, service_ctl)
         else
           SysV.new(inspec, service_ctl || "/sbin/service")
         end
-      elsif %w{wrlinux}.include?(platform)
+      when "wrlinux"
         SysV.new(inspec, service_ctl)
-      elsif %w{mac_os_x}.include?(platform)
+      when "mac_os_x"
         LaunchCtl.new(inspec, service_ctl)
-      elsif %w{windows}.include?(platform)
+      when "windows"
         WindowsSrv.new(inspec)
-      elsif %w{freebsd}.include?(platform)
+      when "freebsd"
         BSDInit.new(inspec, service_ctl)
-      elsif %w{arch}.include?(platform)
+      when "arch"
         Systemd.new(inspec, service_ctl)
-      elsif %w{coreos}.include?(platform)
+      when "coreos"
         Systemd.new(inspec, service_ctl)
-      elsif %w{suse opensuse}.include?(platform)
+      when "suse", "opensuse"
         if os[:release].to_i >= 12
           Systemd.new(inspec, service_ctl)
         else
           SysV.new(inspec, service_ctl || "/sbin/service")
         end
-      elsif %w{aix}.include?(platform)
+      when "aix"
         SrcMstr.new(inspec)
-      elsif %w{amazon}.include?(platform)
+      when "amazon"
         if os[:release] =~ /^20\d\d/
           Upstart.new(inspec, service_ctl)
         else
           Systemd.new(inspec, service_ctl)
         end
-      elsif %w{solaris smartos omnios openindiana opensolaris nexentacore}.include?(platform)
+      when "solaris", "smartos", "omnios", "openindiana", "opensolaris", "nexentacore"
         Svcs.new(inspec)
       end
     end
