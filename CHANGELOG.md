@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.62 -->
-## [v4.18.62](https://github.com/inspec/inspec/tree/v4.18.62) (2020-01-21)
+<!-- latest_release 4.18.63 -->
+## [v4.18.63](https://github.com/inspec/inspec/tree/v4.18.63) (2020-01-23)
 
-#### Merged Pull Requests
-- Windows 7 EOL Docs Update [#4841](https://github.com/inspec/inspec/pull/4841) ([mjingle](https://github.com/mjingle))
+#### New Features
+- Add: certificate content x509_certificate [#4845](https://github.com/inspec/inspec/pull/4845) ([frezbo](https://github.com/frezbo))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
 ### Changes since 4.18.51 release
+
+#### New Features
+- Add: certificate content x509_certificate [#4845](https://github.com/inspec/inspec/pull/4845) ([frezbo](https://github.com/frezbo)) <!-- 4.18.63 -->
 
 #### Bug Fixes
 - upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley)) <!-- 4.18.60 -->
