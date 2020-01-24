@@ -141,7 +141,11 @@ module Inspec::Resources
         end
       when "redhat", "fedora", "centos", "oracle", "cloudlinux"
         version = os[:release].to_i
-        if (%w{redhat centos oracle cloudlinux}.include?(platform) && version >= 7) || (platform == "fedora" && version >= 15)
+
+        systemd = ((platform != "fedora" && version >= 7) ||
+                   (platform == "fedora" && version >= 15))
+
+        if systemd
           Systemd.new(inspec, service_ctl)
         else
           SysV.new(inspec, service_ctl || "/sbin/service")
