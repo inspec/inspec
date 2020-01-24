@@ -11,6 +11,9 @@ Gem::Specification.new do |spec|
   spec.description   = "InSpec provides a framework for creating end-to-end infrastructure tests. You can use it for integration or even compliance testing. Create fully portable test profiles and use them in your workflow to ensure stability and security. Integrate InSpec in your change lifecycle for local testing, CI/CD, and deployment verification."
   spec.homepage      = "https://github.com/inspec/inspec"
   spec.license       = "Apache-2.0"
+  spec.require_paths = ["lib"]
+
+  spec.required_ruby_version = "~> 2.4"
 
   # the gemfile and gemspec are necessary for appbundler so don't remove it
   spec.files = %w{Gemfile inspec.gemspec README.md LICENSE} + Dir.glob(
@@ -19,15 +22,6 @@ Gem::Specification.new do |spec|
 
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
     .reject { |f| File.directory?(f) || f =~ %r{lib/plugins/.*/test/} }
-  spec.require_paths = ["lib"]
-
-  spec.required_ruby_version = ">= 2.4"
-
-  spec.add_dependency "train", "~> 3.0"
-  # Train plugins we ship with InSpec
-  spec.add_dependency "train-habitat", "~> 0.1"
-  spec.add_dependency "train-aws", "~> 0.1"
-  spec.add_dependency "train-winrm", "~> 0.2"
 
   # Implementation dependencies
   spec.add_dependency "chef-telemetry", "~> 1.0"
@@ -46,8 +40,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "faraday", ">=0.9.0"
   spec.add_dependency "tty-table", "~> 0.10"
   spec.add_dependency "tty-prompt", "~> 0.17"
-  # Used for Azure profile until integrated into train
-  spec.add_dependency "faraday_middleware", "~> 0.12"
   spec.add_dependency "tomlrb", "~> 1.2"
   spec.add_dependency "addressable", "~> 2.4"
   spec.add_dependency "parslet", "~> 1.5"
@@ -55,4 +47,14 @@ Gem::Specification.new do |spec|
   spec.add_dependency "htmlentities"
   spec.add_dependency "multipart-post"
   spec.add_dependency "term-ansicolor"
+
+  spec.add_dependency "train", "~> 3.0"
+
+  # Used for Azure profile until integrated into train
+  spec.add_dependency "faraday_middleware", "~> 0.12.2"
+
+  # Train plugins we ship with InSpec
+  spec.add_dependency "train-habitat", "~> 0.1"
+  spec.add_dependency "train-aws", "~> 0.1"
+  spec.add_dependency "train-winrm", "~> 0.2"
 end
