@@ -86,7 +86,7 @@ module Inspec::Resources
       elsif @su_user.nil?
         %{#{sql_prefix}#{bin} "#{user}"/"#{password}"@#{host}:#{port}/#{@service} as #{@db_role}#{sql_postfix}}
       else
-        %{su - #{@su_user} -c "env ORACLE_SID=#{@service} #{bin} / as #{@db_role}#{sql_postfix}}
+        %{su - #{@su_user} -c "env ORACLE_SID=#{@service} #{bin} / as #{@db_role}#{sql_postfix}"}
       end
     end
 
