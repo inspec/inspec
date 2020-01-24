@@ -10,6 +10,20 @@ describe "Inspec::Resources::X509Certificate" do
     )
   end
 
+  let(:resource_cert_with_content) do
+    load_resource(
+      "x509_certificate",
+      content: File.read("test/fixtures/files/test_certificate.rsa.crt.pem")
+    )
+  end
+
+  let(:resource_cert_with_filepath) do
+    load_resource(
+      "x509_certificate",
+      filepath: "test_certificate.rsa.crt.pem"
+    )
+  end
+
   # TODO: Regenerate certificate using `InSpec` not `Inspec`
   it "verify subject distingushed name" do
     _(resource_cert.send("subject_dn")).must_match "Inspec Test Certificate"
@@ -19,6 +33,10 @@ describe "Inspec::Resources::X509Certificate" do
   it "parses the certificate subject" do
     _(resource_cert.send("subject").CN).must_equal "Inspec Test Certificate"
     _(resource_cert.send("subject").emailAddress).must_equal "support@chef.io"
+    _(resource_cert_with_content.send("subject").CN).must_equal "Inspec Test Certificate"
+    _(resource_cert_with_content.send("subject").emailAddress).must_equal "support@chef.io"
+    _(resource_cert_with_filepath.send("subject").CN).must_equal "Inspec Test Certificate"
+    _(resource_cert_with_filepath.send("subject").emailAddress).must_equal "support@chef.io"
   end
 
   # TODO: Regenerate certificate using `InSpec` not `Inspec`
