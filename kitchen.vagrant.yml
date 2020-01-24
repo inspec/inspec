@@ -14,6 +14,8 @@ lifecycle:
     - local: gem build inspec-core.gemspec --output test/kitchen/cookbooks/os_prepare/files/inspec-core-local.gem
 
 platforms:
+  - name: amazonlinux
+  - name: amazonlinux-2
   - name: centos-6
   - name: centos-7
   - name: centos-8
@@ -27,14 +29,31 @@ platforms:
   - name: ubuntu-18.04
 
 suites:
-  - name: default
-    run_list:
-      - recipe[os_prepare]
-  - name: find_files
-    run_list:
-      - recipe[os_prepare::find_files]
-    verifier:
-      inspec_tests:
-        - test/kitchen/policies/find_files
-    excludes:
-      - freebsd-12
+- name: resources-core
+  run_list:
+  - recipe[build-essential]
+  - recipe[os_prepare]
+  - recipe[audit]
+  verifier:
+    name: inspec
+    inspec_tests:
+      - test/kitchen/policies/find_files
+  attributes:
+    audit:
+      attributes:
+        audit_attribute: 'Attribute Override!'
+      insecure: true
+      reporter: ['json-file','chef-automate']
+      fetcher: 'chef-automate'
+      json_file:
+        location: /tmp/json_export.json
+      profiles:
+        - name: integration
+          url: https://github.com/inspec/inspec-integration-profile/archive/master.zip
+    osprepare:
+      docker: true
+      application: false
+
+- name: resources-database
+- name: resources-unix
+- name: resources-windows
