@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.63 -->
-## [v4.18.63](https://github.com/inspec/inspec/tree/v4.18.63) (2020-01-23)
+<!-- latest_release 4.18.64 -->
+## [v4.18.64](https://github.com/inspec/inspec/tree/v4.18.64) (2020-01-24)
 
-#### New Features
-- Add: certificate content x509_certificate [#4845](https://github.com/inspec/inspec/pull/4845) ([frezbo](https://github.com/frezbo))
+#### Merged Pull Requests
+- Refactor some of resources/service.rb [#4849](https://github.com/inspec/inspec/pull/4849) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
@@ -17,6 +17,7 @@
 - upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley)) <!-- 4.18.60 -->
 
 #### Merged Pull Requests
+- Refactor some of resources/service.rb [#4849](https://github.com/inspec/inspec/pull/4849) ([zenspider](https://github.com/zenspider)) <!-- 4.18.64 -->
 - Windows 7 EOL Docs Update [#4841](https://github.com/inspec/inspec/pull/4841) ([mjingle](https://github.com/mjingle)) <!-- 4.18.62 -->
 - Fixed duplicate groups on osx by merging members by gid. [#4833](https://github.com/inspec/inspec/pull/4833) ([zenspider](https://github.com/zenspider)) <!-- 4.18.61 -->
 - updates file resource doc to add example for sticky bit with leading … [#4823](https://github.com/inspec/inspec/pull/4823) ([collinmcneese](https://github.com/collinmcneese)) <!-- 4.18.59 -->
