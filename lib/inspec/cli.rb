@@ -111,45 +111,51 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o["log_location"] ||= STDERR if o["format"] == "json"
     o["log_level"] ||= "warn"
     configure_logger(o)
+    configure_telemeter(o)
 
-    o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
-    o[:check_mode] = true
-    o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
+    valid = nil
+    telemetry_time_invocation("check") do
 
-    # run check
-    profile = Inspec::Profile.for_target(path, o)
-    result = profile.check
+      o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
+      o[:check_mode] = true
+      o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
 
-    if o["format"] == "json"
-      puts JSON.generate(result)
-    else
-      %w{location profile controls timestamp valid}.each do |item|
-        prepared_string = format("%-12s %s",
-                                 "#{item.to_s.capitalize} :",
-                                 result[:summary][item.to_sym])
-        ui.plain_line(prepared_string)
-      end
-      puts
+      # run check
+      profile = Inspec::Profile.for_target(path, o)
+      result = profile.check
+      valid = result[:summary][:valid]
 
-      if result[:errors].empty? && result[:warnings].empty?
-        ui.plain_line("No errors or warnings")
+      if o["format"] == "json"
+        puts JSON.generate(result)
       else
-        item_msg = lambda { |item|
-          pos = [item[:file], item[:line], item[:column]].compact.join(":")
-          pos.empty? ? item[:msg] : pos + ": " + item[:msg]
-        }
-
-        result[:errors].each { |item| ui.red " #{Inspec::UI::GLYPHS[:script_x]}  #{item_msg.call(item)}\n" }
-        result[:warnings].each { |item| ui.yellow " !  #{item_msg.call(item)}\n" }
-
+        %w{location profile controls timestamp valid}.each do |item|
+          prepared_string = format("%-12s %s",
+                                  "#{item.to_s.capitalize} :",
+                                  result[:summary][item.to_sym])
+          ui.plain_line(prepared_string)
+        end
         puts
 
-        errors = ui.red("#{result[:errors].length} errors", print: false)
-        warnings = ui.yellow("#{result[:warnings].length} warnings", print: false)
-        ui.plain_line("Summary:     #{errors}, #{warnings}")
+        if result[:errors].empty? && result[:warnings].empty?
+          ui.plain_line("No errors or warnings")
+        else
+          item_msg = lambda { |item|
+            pos = [item[:file], item[:line], item[:column]].compact.join(":")
+            pos.empty? ? item[:msg] : pos + ": " + item[:msg]
+          }
+
+          result[:errors].each { |item| ui.red " #{Inspec::UI::GLYPHS[:script_x]}  #{item_msg.call(item)}\n" }
+          result[:warnings].each { |item| ui.yellow " !  #{item_msg.call(item)}\n" }
+
+          puts
+
+          errors = ui.red("#{result[:errors].length} errors", print: false)
+          warnings = ui.yellow("#{result[:warnings].length} warnings", print: false)
+          ui.plain_line("Summary:     #{errors}, #{warnings}")
+        end
       end
     end
-    ui.exit Inspec::UI::EXIT_USAGE_ERROR unless result[:summary][:valid]
+    ui.exit Inspec::UI::EXIT_USAGE_ERROR unless valid
   rescue StandardError => e
     pretty_handle_exception(e)
   end
