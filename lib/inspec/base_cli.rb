@@ -259,7 +259,7 @@ module Inspec
       if valid.include?(level)
         l = level
       else
-        l = "info"
+        l = "warn"
       end
 
       Logger.const_get(l.upcase)
@@ -304,7 +304,7 @@ module Inspec
 
       unless dec.enabled
         logger.info("Telemetry is disabled.")
-        return ChefCore::Telemeter.setup(telemetry_config)
+        return Chef::Telemeter.setup(telemetry_config)
       end
 
       telemetry_config[:payload_dir] = "#{Inspec.config_dir}/telemetry"
