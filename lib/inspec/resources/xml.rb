@@ -3,8 +3,7 @@ require "inspec/resources/json"
 module Inspec::Resources
   class XmlConfig < JsonConfig
     name "xml"
-    supports platform: "unix"
-    supports platform: "windows"
+    supports platform: "os"
     desc "Use the xml InSpec resource to test configuration data in an XML file"
     example <<~EXAMPLE
       describe xml('default.xml') do

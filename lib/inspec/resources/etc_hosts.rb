@@ -4,8 +4,7 @@ require "inspec/utils/file_reader"
 module Inspec::Resources
   class EtcHosts < Inspec.resource(1)
     name "etc_hosts"
-    supports platform: "linux"
-    supports platform: "bsd"
+    supports platform: "unix"
     supports platform: "windows"
     desc 'Use the etc_hosts InSpec audit resource to find an
       ip_address and its associated hosts'

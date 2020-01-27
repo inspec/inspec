@@ -4,8 +4,7 @@ require "inspec/utils/simpleconfig"
 module Inspec::Resources
   class IniConfig < JsonConfig
     name "ini"
-    supports platform: "unix"
-    supports platform: "windows"
+    supports platform: "os"
     desc "Use the ini InSpec audit resource to test data in a INI file."
     example <<~EXAMPLE
       descibe ini do
