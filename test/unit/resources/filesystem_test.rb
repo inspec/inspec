@@ -26,12 +26,4 @@ describe "Inspec::Resources::FileSystemResource" do
     _(resource.free_kb).must_equal 30000000
     _(resource.percent_free).must_equal 75
   end
-
-  # unsuported os
-  describe "when loading filesystem in unsupported OS family" do
-    it "fails on FreeBSD (unix-like)" do
-      resource_fail = MockLoader.new(:freebsd10).load_resource("filesystem", "/")
-      _(resource_fail.check_supports).must_equal false
-    end
-  end
 end

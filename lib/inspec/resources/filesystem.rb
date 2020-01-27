@@ -3,7 +3,7 @@ require "inspec/resources/command"
 module Inspec::Resources
   class FileSystemResource < Inspec.resource(1)
     name "filesystem"
-    supports platform: "linux"
+    supports platform: "unix"
     supports platform: "windows"
     desc "Use the filesystem InSpec resource to test file system"
     example <<~EXAMPLE
@@ -29,8 +29,8 @@ module Inspec::Resources
       @fsman = nil
 
       os = inspec.os
-      if os.linux?
-        @fsman = LinuxFileSystemResource.new(inspec)
+      if os.unix?
+        @fsman = UnixFileSystemResource.new(inspec)
       elsif os.windows?
         @fsman = WindowsFileSystemResource.new(inspec)
       else
@@ -93,7 +93,7 @@ module Inspec::Resources
     end
   end
 
-  class LinuxFileSystemResource < FsManagement
+  class UnixFileSystemResource < FsManagement
     def info(partition)
       cmd = inspec.command("df #{partition} -PT")
       if cmd.stdout.nil? || cmd.stdout.empty? || cmd.exit_status != 0
