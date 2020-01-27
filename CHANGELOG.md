@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.65 -->
-## [v4.18.65](https://github.com/inspec/inspec/tree/v4.18.65) (2020-01-27)
+<!-- latest_release 4.18.66 -->
+## [v4.18.66](https://github.com/inspec/inspec/tree/v4.18.66) (2020-01-27)
 
-#### Merged Pull Requests
-- Fixes all notarization issues [#4835](https://github.com/inspec/inspec/pull/4835) ([jonsmorrow](https://github.com/jonsmorrow))
+#### Bug Fixes
+- Missing end quote in oracledb_session [#4852](https://github.com/inspec/inspec/pull/4852) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
@@ -14,6 +14,7 @@
 - Add: certificate content x509_certificate [#4845](https://github.com/inspec/inspec/pull/4845) ([frezbo](https://github.com/frezbo)) <!-- 4.18.63 -->
 
 #### Bug Fixes
+- Missing end quote in oracledb_session [#4852](https://github.com/inspec/inspec/pull/4852) ([miah](https://github.com/miah)) <!-- 4.18.66 -->
 - upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley)) <!-- 4.18.60 -->
 
 #### Merged Pull Requests
