@@ -168,8 +168,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     configure_logger(o)
     o[:logger] = Logger.new($stdout)
     o[:logger].level = get_log_level(o[:log_level])
+    configure_telemeter(o)
 
-    vendor_deps(path, o)
+    telemetry_time_invocation("vendor") { vendor_deps(path, o) }
   end
 
   desc "archive PATH", "archive a profile to tar.gz (default) or zip"
