@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.64 -->
-## [v4.18.64](https://github.com/inspec/inspec/tree/v4.18.64) (2020-01-24)
+<!-- latest_release 4.18.65 -->
+## [v4.18.65](https://github.com/inspec/inspec/tree/v4.18.65) (2020-01-27)
 
 #### Merged Pull Requests
-- Refactor some of resources/service.rb [#4849](https://github.com/inspec/inspec/pull/4849) ([zenspider](https://github.com/zenspider))
+- Fixes all notarization issues [#4835](https://github.com/inspec/inspec/pull/4835) ([jonsmorrow](https://github.com/jonsmorrow))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
@@ -17,6 +17,7 @@
 - upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley)) <!-- 4.18.60 -->
 
 #### Merged Pull Requests
+- Fixes all notarization issues [#4835](https://github.com/inspec/inspec/pull/4835) ([jonsmorrow](https://github.com/jonsmorrow)) <!-- 4.18.65 -->
 - Refactor some of resources/service.rb [#4849](https://github.com/inspec/inspec/pull/4849) ([zenspider](https://github.com/zenspider)) <!-- 4.18.64 -->
 - Windows 7 EOL Docs Update [#4841](https://github.com/inspec/inspec/pull/4841) ([mjingle](https://github.com/mjingle)) <!-- 4.18.62 -->
 - Fixed duplicate groups on osx by merging members by gid. [#4833](https://github.com/inspec/inspec/pull/4833) ([zenspider](https://github.com/zenspider)) <!-- 4.18.61 -->
