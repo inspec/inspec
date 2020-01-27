@@ -109,11 +109,13 @@ module Inspec
         fetcher = Inspec::Fetcher::Local.resolve(dep_profile_path)
         # Use a shorter name here in hopes of dodging windows filesystems path length restrictions
         actual_dep_profile_cache_dir = "#{cache_path}/#{fetcher.cache_key}"
-        short_dep_profile_cache_dir = "#{cache_path}/#{SecureRandom.hex[0..6]}"
+        short_dep_profile_cache_dir = "#{cache_path}/short"
         file_provider.extract(short_dep_profile_cache_dir)
 
         # The archive (probably) contained a vendor cache of its own.
-        # We must flatten that, so that all vendor cache entries are top-level.
+        # Since we are warming the fetcher cache, and fetcher caches are one-level
+        # while archive caches are potentially deep, we must flatten the archive cache,
+        # so that all vendor cache entries are top-level.
         Dir["#{short_dep_profile_cache_dir}/vendor/*"].each do |sub_dep_cache_dir|
           FileUtils.mv(sub_dep_cache_dir, cache_path)
         end
