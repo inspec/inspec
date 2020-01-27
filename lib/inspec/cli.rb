@@ -71,29 +71,32 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     diagnose(o)
     o["log_location"] = $stderr
     configure_logger(o)
+    configure_telemeter(o)
 
-    o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
-    o[:check_mode] = true
-    o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
+    telemetry_time_invocation("json") do
+      o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
+      o[:check_mode] = true
+      o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
 
-    profile = Inspec::Profile.for_target(target, o)
-    info = profile.info
-    # add in inspec version
-    info[:generator] = {
-      name: "inspec",
-      version: Inspec::VERSION,
-    }
-    dst = o[:output].to_s
-    if dst.empty?
-      puts JSON.dump(info)
-    else
-      if File.exist? dst
-        puts "----> updating #{dst}"
+      profile = Inspec::Profile.for_target(target, o)
+      info = profile.info
+      # add in inspec version
+      info[:generator] = {
+        name: "inspec",
+        version: Inspec::VERSION,
+      }
+      dst = o[:output].to_s
+      if dst.empty?
+        puts JSON.dump(info)
       else
-        puts "----> creating #{dst}"
+        if File.exist? dst
+          puts "----> updating #{dst}"
+        else
+          puts "----> creating #{dst}"
+        end
+        fdst = File.expand_path(dst)
+        File.write(fdst, JSON.dump(info))
       end
-      fdst = File.expand_path(dst)
-      File.write(fdst, JSON.dump(info))
     end
   rescue StandardError => e
     pretty_handle_exception(e)
