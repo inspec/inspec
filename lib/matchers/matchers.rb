@@ -221,9 +221,7 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
   end
 
   def octal?(value)
-    return false unless value.is_a?(String)
-
-    !(value =~ /\A0+[0-7]+\Z/).nil?
+    value.is_a?(String) && (value =~ /\A0+[0-7]+\Z/)
   end
 
   def boolean?(value)
@@ -288,25 +286,28 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
     end
   end
 
+  def format_actual(actual)
+    actual = "0%o" % actual if octal?(@expected)
+    "\n%s\n     got: %s\n\n(compared using `cmp` matcher)\n" % [format_expectation(false), actual]
+  end
+
   def format_expectation(negate)
-    return "expected: " + @expected.inspect if @operation == :== && !negate
+    return "expected: %s" % [@expected] if @operation == :== && !negate
 
     negate_str = negate ? "not " : ""
-    "expected it #{negate_str}to be #{@operation} #{@expected.inspect}"
+    "expected it %sto be %s %p" % [negate_str, @operation, @expected]
   end
 
   failure_message do |actual|
-    actual = ("0" + actual.to_s(8)) if octal?(@expected)
-    "\n" + format_expectation(false) + "\n     got: #{actual.inspect}\n\n(compared using `cmp` matcher)\n"
+    format_actual actual
   end
 
   failure_message_when_negated do |actual|
-    actual = ("0" + actual.to_s(8)).inspect if octal?(@expected)
-    "\n" + format_expectation(true) + "\n     got: #{actual.inspect}\n\n(compared using `cmp` matcher)\n"
+    format_actual actual
   end
 
   description do
-    "cmp #{@operation} #{@expected.inspect}"
+    "cmp %s %p" % [@operation, @expected]
   end
 end
 

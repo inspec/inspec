@@ -114,3 +114,15 @@ class RSpec::Core::ExampleGroup
   # So, we use prepend.
   prepend Inspec::TestDslLazyLoader
 end
+
+class ResourceInspector < RSpec::Support::ObjectFormatter::BaseInspector
+  def self.can_inspect?(object)
+    Inspec::Plugins::Resource === object
+  end
+
+  def inspect # do NOT use default inspect in rspec w/ resources
+    object.to_s
+  end
+end
+
+RSpec::Support::ObjectFormatter::INSPECTOR_CLASSES.unshift ResourceInspector
