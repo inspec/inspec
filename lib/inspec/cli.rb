@@ -320,16 +320,19 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   def detect
     o = config
     o[:command] = "platform.params"
-
+    o["log_location"] = $stderr if o["format"] == "json"
     configure_logger(o)
+    configure_telemeter(o)
 
-    (_, res) = run_command(o)
+    telemetry_time_invocation("detect") do
+      (_, res) = run_command(o)
 
-    if o["format"] == "json"
-      puts res.to_json
-    else
-      ui.headline("Platform Details")
-      ui.plain Inspec::BaseCLI.format_platform_info(params: res, indent: 0, color: 36)
+      if o["format"] == "json"
+        puts res.to_json
+      else
+        ui.headline("Platform Details")
+        ui.plain Inspec::BaseCLI.format_platform_info(params: res, indent: 0, color: 36)
+      end
     end
   rescue ArgumentError, RuntimeError, Train::UserError => e
     $stderr.puts e.message
