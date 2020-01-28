@@ -28,6 +28,7 @@ module Inspec
         raise "An object with required properties must have a properties hash." unless schema.key?("properties")
 
         return if Set.new(schema["required"]) <= Set.new(schema["properties"].keys)
+
         raise "Not all required properties are present."
       end
 
@@ -73,7 +74,7 @@ module Inspec
             result += Set.new(nested_type.all_depends)
           end
           # Return the results as a sorted array
-          Array(result).sort_by { |type| type.name }
+          Array(result).sort_by(&:name)
         end
       end
 

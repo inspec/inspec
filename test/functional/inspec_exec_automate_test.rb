@@ -16,7 +16,7 @@ describe "inspec exec automate" do
   end
 
   let(:invocation) do
-    "exec #{example_profile} --config #{config_path}"
+    "exec #{complete_profile} --config #{config_path}"
   end
 
   let(:run_result) { run_inspec_process(invocation) }
@@ -95,7 +95,7 @@ describe "inspec exec automate" do
       _(json["passthrough"].keys.sort).must_equal %w{another_tramp_datum projects}
       _(json["passthrough"]["projects"]).must_equal %w{alpha beta}
 
-      assert_exit_code 101, run_result
+      assert_exit_code 0, run_result
     end
   end
 end

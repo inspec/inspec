@@ -4,7 +4,7 @@ title 'Minimal control'
 control 'minimalist' do                                   # A unique ID for this control
   impact 0.7                                           # The criticality, if this control fails.
 
-  describe file('/var') do                             # The actual test
+  describe file('/') do                             # The actual test
     it { should be_directory }
   end
 end

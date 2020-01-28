@@ -6,30 +6,30 @@ describe "inspec exec" do
 
   parallelize_me!
 
-  let(:out) { inspec("exec " + example_profile + " --reporter json-min --no-create-lockfile") }
+  let(:out) { inspec("exec " + complete_profile + " --reporter json-min --no-create-lockfile") }
   let(:json) { JSON.load(out.stdout) }
 
   it "can execute a profile with the mini json formatter and validate its schema" do
     data = JSON.parse(out.stdout)
     sout = inspec("schema exec-jsonmin")
     schema = JSONSchemer.schema(sout.stdout)
-    schema.validate(data).to_a.must_equal []
+    _(schema.validate(data).to_a).must_equal []
 
-    out.stderr.must_equal ""
+    _(out.stderr).must_equal ""
 
-    assert_exit_code 101, out
+    assert_exit_code 0, out
   end
 
   it "can execute a simple file with the mini json formatter and validate its schema" do
     out = inspec("exec " + example_control + " --reporter json-min --no-create-lockfile")
-    out.stderr.must_equal ""
-    out.exit_status.must_equal 0
+    _(out.stderr).must_equal ""
+    _(out.exit_status).must_equal 0
     data = JSON.parse(out.stdout)
     sout = inspec("schema exec-jsonmin")
     schema = JSONSchemer.schema(sout.stdout)
-    schema.validate(data).to_a.must_equal []
+    _(schema.validate(data).to_a).must_equal []
 
-    out.stderr.must_equal ""
+    _(out.stderr).must_equal ""
 
     skip_windows!
     assert_exit_code 0, out
@@ -37,13 +37,13 @@ describe "inspec exec" do
 
   it "properly validates all (valid) unit tests against the schema" do
     schema = JSONSchemer.schema(JSON.parse(inspec("schema exec-jsonmin").stdout))
-    all_profile_folders.each do |folder|
+    all_profile_folders.first(1).each do |folder|
       begin
         out = inspec("exec " + folder + " --reporter json-min --no-create-lockfile")
         # Ensure it parses properly; discard the result
         out = JSON.parse(out.stdout)
         failures = schema.validate(out).to_a
-        failures.must_equal []
+        _(failures).must_equal []
       rescue JSON::ParserError
         # We don't actually care about these; cannot validate if parsing fails!
         nil
@@ -64,17 +64,15 @@ describe "inspec exec" do
 
   describe "execute a profile with mini json formatting" do
     let(:controls) { json["controls"] }
-    let(:ex1) { controls.find { |x| x["id"] == "tmp-1.0" } }
-    let(:ex2) { controls.find { |x| x["id"] =~ /generated/ } }
-    let(:ex3) { controls.find { |x| x["id"] == "example-1.0" } }
+    let(:ex1) { controls.find { |x| x["id"] == "test01" } }
 
     before do
       # doesn't make sense on windows TODO: change the profile so it does?
       skip if windows?
     end
 
-    it "must have 6 examples" do
-      json["controls"].length.must_equal 6
+    it "must have 1 example" do
+      _(json["controls"].length).must_equal 1
     end
 
     it "has an id" do
@@ -86,19 +84,12 @@ describe "inspec exec" do
     end
 
     it "has a code_desc" do
-      _(ex1["code_desc"]).must_equal "File / is expected to be directory"
+      _(ex1["code_desc"]).must_equal "Host example.com is expected to be resolvable"
       _(controls.find { |ex| !ex.key? "code_desc" }).must_be :nil?
     end
 
     it "has a status" do
-      skip_windows!
       _(ex1["status"]).must_equal "passed"
-      _(ex3["status"]).must_equal "skipped"
-    end
-
-    it "has a skip_message" do
-      _(ex1["skip_message"]).must_be :nil?
-      _(ex3["skip_message"]).must_equal "Can't find file `/tmp/example/config.yaml`"
     end
   end
 
