@@ -1,6 +1,6 @@
 module Inspec
 
-  # Hueristics to determine how InSpec was installed.
+  # Heuristics to determine how InSpec was installed.
   module InstallContextHelpers
 
     def guess_install_context

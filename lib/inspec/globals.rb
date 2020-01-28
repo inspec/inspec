@@ -9,7 +9,7 @@ module Inspec
   end
 
   def self.src_root
-    @src_root ||= File.expand_path(File.join(__FILE__, "..", "..", ".."))
+    @src_root ||= File.expand_path(File.join(__FILE__, "../../.."))
   end
 
 end
