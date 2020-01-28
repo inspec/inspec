@@ -1,0 +1,9 @@
+name: local-dep-on-bad-local-archive
+license: Apache-2.0
+summary: An InSpec Compliance Profile that depends on an archive that has broken deps
+version: 0.1.0
+supports:
+  platform: os
+depends:
+  - name: local-deps-on-missing
+    path: ../local-deps-on-missing-0.1.0.tar.gz

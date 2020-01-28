@@ -1,0 +1,6 @@
+name: basic
+license: Apache-2.0
+summary: A simple inspec profile
+version: 0.1.0
+supports:
+  platform: os

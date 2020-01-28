@@ -1,0 +1,10 @@
+name: url-deps-on-missing
+maintainer: InSpec Team
+license: Apache-2.0
+summary: An InSpec profile that has a dependency on an unresolvable URL
+version: 0.1.0
+supports:
+  platform: os
+depends:
+  - name: inspec-test-profile-missing
+    url: https://github.com/inspec/inspec-test-profile-missing/archive/0.1.0.tar.gz

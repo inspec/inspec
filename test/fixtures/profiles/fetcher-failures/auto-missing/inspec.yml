@@ -1,0 +1,9 @@
+name: auto-missing
+title: A profile that will be deleted from Automate
+license: Apache-2.0
+version: 0.1.0
+supports:
+  platform: os
+depends:
+  - name: basic
+    compliance: admin/basic

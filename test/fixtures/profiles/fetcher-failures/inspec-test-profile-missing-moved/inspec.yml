@@ -1,0 +1,9 @@
+name: inspec-test-profile-missing
+title: InSpec Profile
+summary: An InSpec Compliance Profile that will end up unresolvable but archived
+version: 0.1.0
+supports:
+  platform: os
+depends:
+  - name: inspec-test-profile-basic
+    git: https://github.com/inspec/inspec-test-profile-basic.git

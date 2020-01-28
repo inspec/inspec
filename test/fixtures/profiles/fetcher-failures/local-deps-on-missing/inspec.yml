@@ -1,0 +1,9 @@
+name: local-deps-on-missing
+license: Apache-2.0
+summary: An InSpec Compliance Profile that depends on a profile that has been deleted
+version: 0.1.0
+supports:
+  platform: os
+depends:
+  - name: local-missing
+    path: ../local-missing

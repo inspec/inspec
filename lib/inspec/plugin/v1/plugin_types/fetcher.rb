@@ -66,6 +66,33 @@ module Inspec
       end
 
       #
+      # This optional method may be used after a failed fetch. If the fetcher
+      # can be updated with information that might lead to a successful
+      # retrieval of alternative content, this method may be called.
+      #
+      #  Default implementation makes a peculiar assumption that the class has
+      # a ivar named @archive_shasum and you have a fetcher opt that pairs with
+      # it named sha256, and those are the only two that matter for updating.
+      #
+      # Return TrueClass if the fetcher was updated and a retry is in order
+      # Return FalseClass if the update contained no useful information
+      # and a retry should not be attempted
+      def update_from_opts(opts)
+        changed = @archive_shasum != opts[:sha256]
+        @archive_shasum = opts[:sha256]
+        changed
+      end
+
+      # Helper for above; usful when the subclass ivars whose
+      # names exactly match the names of the fetcher options.
+      def update_ivar_from_opt(opt_name, opts)
+        ivar_sym = "@#{opt_name}".to_sym
+        changed = instance_variable_get(ivar_sym) != opts[opt_name]
+        instance_variable_set(ivar_sym, opts[opt_name])
+        changed
+      end
+
+      #
       # relative_target is provided to keep compatibility with 3rd
       # party plugins.
       #

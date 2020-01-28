@@ -112,6 +112,10 @@ module Inspec::Fetcher
       source
     end
 
+    def update_from_opts(opts)
+      %i{branch tag ref}.map { |opt_name| update_ivar_from_opt(opt_name, opts) }.any?
+    end
+
     private
 
     def resolved_ref

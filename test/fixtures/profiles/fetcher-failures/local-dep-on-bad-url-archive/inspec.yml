@@ -1,0 +1,9 @@
+name: local-dep-on-bad-url-archive
+license: Apache-2.0
+summary: An InSpec profile that depends on an archive that has unresolvable URL deps
+version: 0.1.0
+supports:
+  platform: os
+depends:
+  - name: url-deps-on-missing
+    path: ../url-deps-on-missing-0.1.0.tar.gz

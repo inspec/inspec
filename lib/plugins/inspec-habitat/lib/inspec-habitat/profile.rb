@@ -9,7 +9,7 @@ module InspecPlugins
     class Profile
       include Inspec::Dist
 
-      attr_reader :logger
+      attr_reader :logger, :options
       def initialize(path, options = {})
         @path    = path
         @options = options
@@ -149,7 +149,7 @@ module InspecPlugins
                     "vendor process.")
         else
           logger.debug("Vendoring the profile's dependencies...")
-          profile_vendor.vendor!
+          profile_vendor.vendor!(options)
 
           logger.debug("Ensuring all vendored content has read permissions...")
           profile_vendor.make_readable

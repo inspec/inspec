@@ -187,7 +187,7 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
 
     mock = Minitest::Mock.new
     mock.expect(:lockfile, mock_lock_file)
-    mock.expect(:vendor!, nil)
+    mock.expect(:vendor!, nil, [@hab_profile.options])
     mock.expect(:make_readable, nil)
 
     Inspec::ProfileVendor.stub :new, mock do

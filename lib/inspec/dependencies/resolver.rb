@@ -57,6 +57,16 @@ module Inspec
 
       detect_duplicates(deps, top_level, path_string)
       deps.each do |dep|
+        # Calling dep.resolved_source forces a fetch. Handle any airgap chicanery early.
+        if Inspec::Config.cached[:airgap]
+          begin
+            dep.resolved_source
+          rescue Inspec::FetcherFailure
+            Inspec::Log.debug("Failed to fetch #{dep.name}, falling back to archives if possible")
+            retry if fallback_to_archive_on_fetch_failure(dep)
+          end
+        end
+
         new_seen_items = seen_items.dup
         new_path_string = if path_string.empty?
                             dep.name
@@ -81,6 +91,42 @@ module Inspec
 
       Inspec::Log.debug("Dependency traversal complete.") if top_level
       graph
+    end
+
+    def fallback_to_archive_on_fetch_failure(dep)
+      # This facility is intended to handle situations in which
+      # the failing dependency *is* available in an archive that we have
+      # available as a local dependency. We just need to find the archive and
+      # alter the fetcher to refer to information in the archive.
+      # Note that the vendor cache already should have the archive inflated
+      # for this to work (see warm_cache_from_archives() from profile_vendor.rb)
+      # Refs 4727
+
+      # This is where any existing archives should have been inflated -
+      # that is, this is the vendor cache. Each archive would have a lockfile.
+      cache_path = dep.cache.path
+      worth_retrying = false
+
+      Dir["#{cache_path}/*/inspec.lock"].each do |lockfile_path|
+        lockfile = Inspec::Lockfile.from_file(lockfile_path)
+        dep_set = Inspec::DependencySet.from_lockfile(lockfile, dep.opts)
+        dep2 = dep_set.dep_list[dep.name]
+        next unless dep2
+
+        if dep.opts.key?(:compliance)
+          # This is ugly. The compliance fetcher works differently than the others,
+          # and fails at the resolve stage, not the fetch stage. That means we can't
+          # tweak the fetcher, we have to tweak the deps opts themselves.
+          dep.opts[:sha256] = dep2.opts[:sha256]
+          worth_retrying = true
+        else
+          # All other fetchers can be generalized, because they will survive their constructor.
+          fetcher = dep.fetcher.fetcher # Not the CachedFetcher, but its fetcher
+          made_a_change = fetcher.update_from_opts(dep2.opts)
+        end
+        worth_retrying ||= made_a_change
+      end
+      worth_retrying
     end
   end
 end

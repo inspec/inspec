@@ -9,8 +9,8 @@ module Inspec
       @profile_path = Pathname.new(File.expand_path(path))
     end
 
-    def vendor!
-      vendor_dependencies
+    def vendor!(opts)
+      vendor_dependencies!(opts)
     end
 
     # The URL fetcher uses a Tempfile to retrieve the vendored
@@ -51,8 +51,10 @@ module Inspec
       }
     end
 
-    def vendor_dependencies
+    def vendor_dependencies!(opts)
+      # This deletes any existing vendor/ directory
       delete_vendored_data
+      warm_vendor_cache_from_archives if opts[:airgap]
       File.write(lockfile, profile.generate_lockfile.to_yaml)
       extract_archives
     end
@@ -78,6 +80,49 @@ module Inspec
 
         Inspec::Log.debug("Deleting archive '#{filepath}'")
         File.delete(filepath)
+      end
+    end
+
+    # Check top-level profile metadata for any local archives
+    # if present, go ahead and inflate it into the vendor cache.
+    # This will cause subsequent fetchers to hit on the vendor cache,
+    # avoiding a possibly failing fetch under airgapped conditions.
+    def warm_vendor_cache_from_archives
+      # We need to determine the cwd of the profile, to expand the (likely)
+      # relative path of the dependencies. There is no non-invasive way of doing that.
+      profile_cwd = profile.source_reader.target.parent.path
+
+      # list dependencies in profile
+      profile.metadata.dependencies.each do |dep_info|
+        next unless dep_info.key?(:path) # "Local"-type fetchers are identified by the :path key
+
+        # Locate local dep
+        dep_profile_path = File.expand_path(dep_info[:path], profile_cwd)
+        raise(Inspec::FetcherFailure, "Profile dependency local path '#{dep_profile_path}' does not exist") unless File.exist?(dep_profile_path)
+
+        # Determine if it is an archive
+        file_provider = FileProvider.for_path(dep_profile_path)
+        next unless file_provider.is_a?(ZipProvider) || file_provider.is_a?(TarProvider)
+
+        # Place the local dependency in the vendor cache.
+        # Fetchers are in charge of calculating cache keys.
+        fetcher = Inspec::Fetcher::Local.resolve(dep_profile_path)
+        # Use a shorter name here in hopes of dodging windows filesystems path length restrictions
+        actual_dep_profile_cache_dir = "#{cache_path}/#{fetcher.cache_key}"
+        short_dep_profile_cache_dir = "#{cache_path}/short"
+        file_provider.extract(short_dep_profile_cache_dir)
+
+        # The archive (probably) contained a vendor cache of its own.
+        # Since we are warming the fetcher cache, and fetcher caches are one-level
+        # while archive caches are potentially deep, we must flatten the archive cache,
+        # so that all vendor cache entries are top-level.
+        Dir["#{short_dep_profile_cache_dir}/vendor/*"].each do |sub_dep_cache_dir|
+          FileUtils.mv(sub_dep_cache_dir, cache_path)
+        end
+
+        # And finally correctly name the dependency itself.
+        FileUtils.mv(short_dep_profile_cache_dir, actual_dep_profile_cache_dir)
+
       end
     end
   end

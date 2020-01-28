@@ -66,7 +66,7 @@ module Inspec
   end
 
   class DirProvider < FileProvider
-    attr_reader :files
+    attr_reader :files, :path
     def initialize(path)
       @files = if File.file?(path)
                  [path]
