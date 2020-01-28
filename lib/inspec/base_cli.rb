@@ -297,25 +297,24 @@ module Inspec
       logger = inspec_config[:logger] # TODO - which is right - Inspec::Log or inspec_config[:logger] ?
       telemetry_config[:logger] = logger
 
-      # Decide whether to enable telemetry at all.
       dec = Chef::Telemetry::Decision.new(logger: logger)
       dec.check_and_persist
       telemetry_config[:enabled] = dec.enabled
-
-      unless dec.enabled
-        logger.info("Telemetry is disabled.")
-        return Chef::Telemeter.setup(telemetry_config)
-      end
-
-      telemetry_config[:payload_dir] = "#{Inspec.config_dir}/telemetry"
+      telemetry_config[:payload_dir] = "#{Inspec.config_dir}/telemetry" # Must set this, enabled or no
       telemetry_config[:session_file] = ".inspec-telemetry-#{$$}"
-      # telemetry_config[:installation_identifier_file] Documented but not generally available on InSpec clients.
       telemetry_config[:dev_mode] = ENV["CHEF_TELEMETRY_DEV_MODE"] || false
+      # telemetry_config[:installation_identifier_file] Documented but not generally available on InSpec clients.
       telemetry_config[:product] = {
         name: Inspec::Dist::EXEC_NAME, # Exposed in telemetry tables as "product"
         version: Inspec::VERSION,      # Exposed in telemetry tables as "product_version"
         install_context: "omnibus",    # TODO: provide actual context
       }
+
+      # Decide whether to enable telemetry at all.
+      unless dec.enabled
+        logger.info("Telemetry is disabled.")
+        return Chef::Telemeter.setup(telemetry_config)
+      end
 
       logger.debug("Enabling telemetry in #{telemetry_config[:dev_mode] ? "dev" : "prod"} mode")
       logger.debug("Will write telemetry data files to #{telemetry_config[:payload_dir]}")
