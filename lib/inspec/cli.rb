@@ -191,23 +191,30 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
     o[:logger] = Logger.new($stdout)
     o[:logger].level = get_log_level(o[:log_level])
-    o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
+    configure_telemeter(o)
 
-    # Force vendoring with overwrite when archiving
-    vendor_options = o.dup
-    vendor_options[:overwrite] = true
-    vendor_deps(path, vendor_options)
+    exit_code = nil
+    telemetry_time_invocation("archive") do
+      o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
 
-    profile = Inspec::Profile.for_target(path, o)
-    result = profile.check
+      # Force vendoring with overwrite when archiving
+      vendor_options = o.dup
+      vendor_options[:overwrite] = true
+      vendor_deps(path, vendor_options)
 
-    if result && !o[:ignore_errors] == false
-      o[:logger].info "Profile check failed. Please fix the profile before generating an archive."
-      return ui.exit Inspec::UI::EXIT_USAGE_ERROR
+      profile = Inspec::Profile.for_target(path, o)
+      result = profile.check
+
+      if result && !o[:ignore_errors] == false
+        o[:logger].info "Profile check failed. Please fix the profile before generating an archive."
+        exit_code = Inspec::UI::EXIT_USAGE_ERROR
+      else
+        # generate archive
+        exit_code = profile.archive(o) ? Inspec::UI::EXIT_NORMAL : Inspec::UI::EXIT_USAGE_ERROR
+      end
     end
+    ui.exit exit_code
 
-    # generate archive
-    ui.exit Inspec::UI::EXIT_USAGE_ERROR unless profile.archive(o)
   rescue StandardError => e
     pretty_handle_exception(e)
   end
