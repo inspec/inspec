@@ -259,7 +259,7 @@ module Inspec
       if valid.include?(level)
         l = level
       else
-        l = "warn"
+        l = "info"
       end
 
       Logger.const_get(l.upcase)
