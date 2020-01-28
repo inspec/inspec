@@ -26,6 +26,7 @@ module Inspec::Resources
       @files_contents = {}
       @content = nil
       @params = nil
+
       read_content
     end
 
@@ -34,7 +35,6 @@ module Inspec::Resources
     end
 
     def params(*opts)
-      @params || read_content
       res = @params
       opts.each do |opt|
         res = res[opt] unless res.nil?
@@ -43,21 +43,11 @@ module Inspec::Resources
     end
 
     def method_missing(name)
-      # ensure params are loaded
-      @params || read_content
-
-      # extract values
-      @params[name.to_s] unless @params.nil?
+      @params[name.to_s]
     end
 
     def filter_comments(data)
-      content = ""
-      data.each_line do |line|
-        unless line.match(/^\s*#/)
-          content << line
-        end
-      end
-      content
+      data.lines.grep_v(/^\s*#/).join
     end
 
     def read_content
@@ -86,7 +76,7 @@ module Inspec::Resources
         ).params
 
         # Capture any characters between quotes that are not escaped in values
-        params.values.map! do |value|
+        params.values.each do |value|
           value.map! do |sub_value|
             sub_value[/(?<=["|'])(?:\\.|[^"'\\])*(?=["|'])/] || sub_value
           end
@@ -128,15 +118,8 @@ module Inspec::Resources
     end
 
     def conf_dir
-      if inspec.os.debian?
-        File.dirname(conf_path)
-      else
-        # On RHEL-based systems, the configuration is usually in a /conf directory
-        # that contains the primary config file. We assume the "config path" is the
-        # directory that contains the /conf directory, such as /etc/httpd, so that
-        # the conf.d directory can be properly located.
-        Pathname.new(File.dirname(conf_path)).parent.to_s
-      end
+      # apparently apache conf keys are case insensitive
+      @params["ServerRoot"] || @params["serverroot"]
     end
 
     def to_s
