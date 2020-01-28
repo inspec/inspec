@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.66 -->
-## [v4.18.66](https://github.com/inspec/inspec/tree/v4.18.66) (2020-01-27)
+<!-- latest_release 4.18.67 -->
+## [v4.18.67](https://github.com/inspec/inspec/tree/v4.18.67) (2020-01-28)
 
-#### Bug Fixes
-- Missing end quote in oracledb_session [#4852](https://github.com/inspec/inspec/pull/4852) ([miah](https://github.com/miah))
+#### New Features
+- Use an archive if possible when fetching fails and --airgap is provided [#4806](https://github.com/inspec/inspec/pull/4806) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
 ### Changes since 4.18.51 release
 
 #### New Features
+- Use an archive if possible when fetching fails and --airgap is provided [#4806](https://github.com/inspec/inspec/pull/4806) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.67 -->
 - Add: certificate content x509_certificate [#4845](https://github.com/inspec/inspec/pull/4845) ([frezbo](https://github.com/frezbo)) <!-- 4.18.63 -->
 
 #### Bug Fixes
