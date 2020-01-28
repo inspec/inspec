@@ -7,9 +7,9 @@ require "inspec/utils/file_reader"
 module Inspec::Resources
   class ApacheConf < Inspec.resource(1)
     name "apache_conf"
-    supports platform: "linux"
-    supports platform: "debian"
-    desc "Use the apache_conf InSpec audit resource to test the configuration settings for Apache. This file is typically located under /etc/apache2 on the Debian and Ubuntu platforms and under /etc/httpd on the Fedora, CentOS, Red Hat Enterprise Linux, and Arch Linux platforms. The configuration settings may vary significantly from platform to platform."
+    supports platform: "unix"
+
+    desc "Use the apache_conf InSpec audit resource to test the configuration settings for Apache. The configuration settings may vary significantly from platform to platform."
     example <<~EXAMPLE
       describe apache_conf do
         its('setting_name') { should eq 'value' }
@@ -145,12 +145,13 @@ module Inspec::Resources
 
     private
 
+    PATHS = ["/etc/apache2/apache2.conf",
+             "/etc/httpd/conf/httpd.conf"]
+      .map(&:freeze)
+      .freeze
+
     def default_conf_path
-      if inspec.os.debian?
-        "/etc/apache2/apache2.conf"
-      else
-        "/etc/httpd/conf/httpd.conf"
-      end
+      @default ||= PATHS.find { |path| inspec.file(path).exist? }
     end
   end
 end
