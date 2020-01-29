@@ -22,6 +22,7 @@ describe Inspec::InstallContextHelpers do
     before do
       Inspec.expects(:src_root).at_least_once.returns("/somewhere/gems/inspec-4.18.39")
       File.expects(:exist?).at_least_once.with("/etc/alpine-release").returns(true)
+      File.expects(:exist?).at_least_once.with("/.dockerenv").returns(true)
     end
 
     it "should properly detect a Docker install" do

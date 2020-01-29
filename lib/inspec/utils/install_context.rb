@@ -19,6 +19,8 @@ module Inspec
       "unknown"
     end
 
+    private
+
     def chef_workstation_install?
       !!(src_root.start_with?("/opt/chef-workstation") || src_root.start_with?("C:/opscode/chef-workstation"))
     end
@@ -29,7 +31,7 @@ module Inspec
 
     def docker_install?
       # Our docker image is based on alpine. This could be easily fooled.
-      !!(rubygem_install? && File.exist?("/etc/alpine-release"))
+      !!(rubygem_install? && File.exist?("/etc/alpine-release")) && File.exist?("/.dockerenv")
     end
 
     def habitat_install?
