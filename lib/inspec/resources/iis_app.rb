@@ -10,7 +10,7 @@ module Inspec::Resources
       describe iis_app('/myapp', 'Default Web Site') do
         it { should exist }
         it { should have_application_pool('MyAppPool') }
-        it { should have_protocols('http') }
+        it { should have_protocol('http') }
         it { should have_site_name('Default Web Site') }
         it { should have_physical_path('C:\\inetpub\\wwwroot\\myapp') }
         it { should have_path('\\My Application') }
