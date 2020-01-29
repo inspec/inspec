@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.68 -->
-## [v4.18.68](https://github.com/inspec/inspec/tree/v4.18.68) (2020-01-29)
+<!-- latest_release 4.18.69 -->
+## [v4.18.69](https://github.com/inspec/inspec/tree/v4.18.69) (2020-01-29)
 
 #### Merged Pull Requests
-- Fix windows plugin functional tests [#4861](https://github.com/inspec/inspec/pull/4861) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Properly report errors with bad tarball files. [#4825](https://github.com/inspec/inspec/pull/4825) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
@@ -19,6 +19,7 @@
 - upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley)) <!-- 4.18.60 -->
 
 #### Merged Pull Requests
+- Properly report errors with bad tarball files. [#4825](https://github.com/inspec/inspec/pull/4825) ([zenspider](https://github.com/zenspider)) <!-- 4.18.69 -->
 - Fix windows plugin functional tests [#4861](https://github.com/inspec/inspec/pull/4861) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.68 -->
 - Fixes all notarization issues [#4835](https://github.com/inspec/inspec/pull/4835) ([jonsmorrow](https://github.com/jonsmorrow)) <!-- 4.18.65 -->
 - Refactor some of resources/service.rb [#4849](https://github.com/inspec/inspec/pull/4849) ([zenspider](https://github.com/zenspider)) <!-- 4.18.64 -->
