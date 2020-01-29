@@ -324,8 +324,9 @@ describe "train plugin support" do
     end
 
     it "can run inspec shell and read a file" do
-      outcome = inspec_with_env("shell -t test-fixture:// -c 'file(\"any-path\").content'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
-      skip_windows!
+      # The test fixture always returns the same content regardless of path
+      outcome = inspec_with_env("shell -t test-fixture:// -c 'file(%q{/opt/any-path}).content'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
+
       _(outcome.stdout.chomp).must_equal "Lorem Ipsum"
 
       _(outcome.stderr).must_be_empty
@@ -334,9 +335,9 @@ describe "train plugin support" do
     end
 
     it "can run inspec shell and run a command" do
-      outcome = inspec_with_env("shell -t test-fixture:// -c 'command(\"echo hello\").exit_status'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
+      # The test fixture always returns the same stdout and the same exit code.
+      outcome = inspec_with_env("shell -t test-fixture:// -c 'command(%q{echo hello}).exit_status'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
 
-      skip_windows!
       _(outcome.stdout.chomp).must_equal "17"
 
       _(outcome.stderr).must_be_empty
@@ -344,7 +345,7 @@ describe "train plugin support" do
       assert_exit_code 0, outcome
 
       # TODO: split
-      outcome = inspec_with_env("shell -t test-fixture:// -c 'command(\"echo hello\").stdout'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
+      outcome = inspec_with_env("shell -t test-fixture:// -c 'command(%q{echo hello}).stdout'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
 
       _(outcome.stdout.chomp).must_equal "Mock Command Result stdout"
 
