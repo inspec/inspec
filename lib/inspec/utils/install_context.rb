@@ -31,7 +31,7 @@ module Inspec
 
     def docker_install?
       # Our docker image is based on alpine. This could be easily fooled.
-      !!(rubygem_install? && File.exist?("/etc/alpine-release")) && File.exist?("/.dockerenv")
+      !!(rubygem_install? && path_exist?("/etc/alpine-release")) && path_exist?("/.dockerenv")
     end
 
     def habitat_install?
@@ -49,7 +49,16 @@ module Inspec
     def source_install?
       # These are a couple of examples of dirs removed during packaging
       %w{habitat test}.all? do |devdir|
-        Dir.exist?("#{src_root}/#{devdir}")
+        path_exist?("#{src_root}/#{devdir}")
+      end
+    end
+
+    def path_exist?(path)
+      # This exists for testing
+      if respond_to? :dummy_paths
+        dummy_paths.include? path
+      else
+        File.exist? path
       end
     end
 
