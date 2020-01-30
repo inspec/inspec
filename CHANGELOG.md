@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.71 -->
-## [v4.18.71](https://github.com/inspec/inspec/tree/v4.18.71) (2020-01-30)
+<!-- latest_release 4.18.72 -->
+## [v4.18.72](https://github.com/inspec/inspec/tree/v4.18.72) (2020-01-30)
 
 #### Merged Pull Requests
-- Fix up the platform on etc_hosts, virtualization, ini, and xml resources to fix OS disparity. [#4862](https://github.com/inspec/inspec/pull/4862) ([zenspider](https://github.com/zenspider))
+- Add support for yocto linux in service resource [#4843](https://github.com/inspec/inspec/pull/4843) ([michaellihs](https://github.com/michaellihs))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
@@ -19,6 +19,7 @@
 - upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley)) <!-- 4.18.60 -->
 
 #### Merged Pull Requests
+- Add support for yocto linux in service resource [#4843](https://github.com/inspec/inspec/pull/4843) ([michaellihs](https://github.com/michaellihs)) <!-- 4.18.72 -->
 - Fix up the platform on etc_hosts, virtualization, ini, and xml resources to fix OS disparity. [#4862](https://github.com/inspec/inspec/pull/4862) ([zenspider](https://github.com/zenspider)) <!-- 4.18.71 -->
 - Rework and unify gemspecs. [#4854](https://github.com/inspec/inspec/pull/4854) ([zenspider](https://github.com/zenspider)) <!-- 4.18.70 -->
 - Properly report errors with bad tarball files. [#4825](https://github.com/inspec/inspec/pull/4825) ([zenspider](https://github.com/zenspider)) <!-- 4.18.69 -->
