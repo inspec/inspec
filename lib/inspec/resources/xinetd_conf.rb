@@ -17,7 +17,7 @@ module Inspec::Resources
       end
     EXAMPLE
 
-    include XinetdParser
+    include Inspec::Utils::XinetdParser
     include FileReader
 
     def initialize(conf_path = "/etc/xinetd.conf")

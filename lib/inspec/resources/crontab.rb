@@ -32,7 +32,7 @@ module Inspec::Resources
 
     attr_reader :params
 
-    include CommentParser
+    include Inspec::Utils::CommentParser
 
     def initialize(opts = nil)
       if opts.respond_to?(:fetch)

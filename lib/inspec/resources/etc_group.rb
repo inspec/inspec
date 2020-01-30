@@ -24,7 +24,7 @@ require "inspec/utils/file_reader"
 module Inspec::Resources
   class EtcGroup < Inspec.resource(1)
     include Converter
-    include CommentParser
+    include Inspec::Utils::CommentParser
 
     name "etc_group"
     supports platform: "unix"

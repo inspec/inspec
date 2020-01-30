@@ -703,7 +703,7 @@ module Inspec::Resources
   end
 
   class SolarisPorts < FreeBsdPorts
-    include SolarisNetstatParser
+    include Inspec::Utils::SolarisNetstatParser
 
     def info
       # extract all port info

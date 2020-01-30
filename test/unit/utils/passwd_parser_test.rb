@@ -1,8 +1,8 @@
 require "helper"
 require "inspec/utils/parser"
 
-describe PasswdParser do
-  let(:parser) { Class.new { include PasswdParser }.new }
+describe Inspec::Utils::PasswdParser do
+  let(:parser) { Class.new { include Inspec::Utils::PasswdParser }.new }
 
   describe "#parse_passwd" do
     it "parses nil content" do
