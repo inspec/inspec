@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.74 -->
-## [v4.18.74](https://github.com/inspec/inspec/tree/v4.18.74) (2020-01-30)
+<!-- latest_release 4.18.75 -->
+## [v4.18.75](https://github.com/inspec/inspec/tree/v4.18.75) (2020-01-30)
 
-#### Merged Pull Requests
-- the correct, un-panicked fix. [#4872](https://github.com/inspec/inspec/pull/4872) ([zenspider](https://github.com/zenspider))
+#### Enhancements
+- Remove the references to the core/cacerts so customers can specify it [#4848](https://github.com/inspec/inspec/pull/4848) ([TheLunaticScripter](https://github.com/TheLunaticScripter))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
 ### Changes since 4.18.51 release
+
+#### Enhancements
+- Remove the references to the core/cacerts so customers can specify it [#4848](https://github.com/inspec/inspec/pull/4848) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.18.75 -->
 
 #### New Features
 - Use an archive if possible when fetching fails and --airgap is provided [#4806](https://github.com/inspec/inspec/pull/4806) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.67 -->
