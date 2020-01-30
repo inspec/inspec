@@ -389,8 +389,16 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
   desc "env", "Output shell-appropriate completion configuration"
   def env(shell = nil)
-    p = Inspec::EnvPrinter.new(self.class, shell)
-    p.print_and_exit!
+    o = config
+    o["log_location"] = $stderr
+    configure_logger(o)
+    configure_telemeter(o)
+    exit_code = nil
+    telemetry_time_invocation("env") do
+      p = Inspec::EnvPrinter.new(self.class, shell)
+      exit_code = p.print_and_return_exit_code
+    end
+    exit exit_code
   rescue StandardError => e
     pretty_handle_exception(e)
   end
