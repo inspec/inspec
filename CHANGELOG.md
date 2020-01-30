@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.70 -->
-## [v4.18.70](https://github.com/inspec/inspec/tree/v4.18.70) (2020-01-30)
+<!-- latest_release 4.18.71 -->
+## [v4.18.71](https://github.com/inspec/inspec/tree/v4.18.71) (2020-01-30)
 
 #### Merged Pull Requests
-- Rework and unify gemspecs. [#4854](https://github.com/inspec/inspec/pull/4854) ([zenspider](https://github.com/zenspider))
+- Fix up the platform on etc_hosts, virtualization, ini, and xml resources to fix OS disparity. [#4862](https://github.com/inspec/inspec/pull/4862) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
@@ -19,6 +19,7 @@
 - upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley)) <!-- 4.18.60 -->
 
 #### Merged Pull Requests
+- Fix up the platform on etc_hosts, virtualization, ini, and xml resources to fix OS disparity. [#4862](https://github.com/inspec/inspec/pull/4862) ([zenspider](https://github.com/zenspider)) <!-- 4.18.71 -->
 - Rework and unify gemspecs. [#4854](https://github.com/inspec/inspec/pull/4854) ([zenspider](https://github.com/zenspider)) <!-- 4.18.70 -->
 - Properly report errors with bad tarball files. [#4825](https://github.com/inspec/inspec/pull/4825) ([zenspider](https://github.com/zenspider)) <!-- 4.18.69 -->
 - Fix windows plugin functional tests [#4861](https://github.com/inspec/inspec/pull/4861) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.68 -->
