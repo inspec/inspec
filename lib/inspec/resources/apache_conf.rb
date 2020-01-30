@@ -7,9 +7,9 @@ require "inspec/utils/file_reader"
 module Inspec::Resources
   class ApacheConf < Inspec.resource(1)
     name "apache_conf"
-    supports platform: "linux"
-    supports platform: "debian"
-    desc "Use the apache_conf InSpec audit resource to test the configuration settings for Apache. This file is typically located under /etc/apache2 on the Debian and Ubuntu platforms and under /etc/httpd on the Fedora, CentOS, Red Hat Enterprise Linux, and Arch Linux platforms. The configuration settings may vary significantly from platform to platform."
+    supports platform: "unix"
+
+    desc "Use the apache_conf InSpec audit resource to test the configuration settings for Apache. The configuration settings may vary significantly from platform to platform."
     example <<~EXAMPLE
       describe apache_conf do
         its('setting_name') { should eq 'value' }
@@ -26,6 +26,7 @@ module Inspec::Resources
       @files_contents = {}
       @content = nil
       @params = nil
+
       read_content
     end
 
@@ -34,7 +35,6 @@ module Inspec::Resources
     end
 
     def params(*opts)
-      @params || read_content
       res = @params
       opts.each do |opt|
         res = res[opt] unless res.nil?
@@ -43,21 +43,11 @@ module Inspec::Resources
     end
 
     def method_missing(name)
-      # ensure params are loaded
-      @params || read_content
-
-      # extract values
-      @params[name.to_s] unless @params.nil?
+      @params[name.to_s]
     end
 
     def filter_comments(data)
-      content = ""
-      data.each_line do |line|
-        unless line.match(/^\s*#/)
-          content << line
-        end
-      end
-      content
+      data.lines.grep_v(/^\s*#/).join
     end
 
     def read_content
@@ -86,7 +76,7 @@ module Inspec::Resources
         ).params
 
         # Capture any characters between quotes that are not escaped in values
-        params.values.map! do |value|
+        params.values.each do |value|
           value.map! do |sub_value|
             sub_value[/(?<=["|'])(?:\\.|[^"'\\])*(?=["|'])/] || sub_value
           end
@@ -128,15 +118,8 @@ module Inspec::Resources
     end
 
     def conf_dir
-      if inspec.os.debian?
-        File.dirname(conf_path)
-      else
-        # On RHEL-based systems, the configuration is usually in a /conf directory
-        # that contains the primary config file. We assume the "config path" is the
-        # directory that contains the /conf directory, such as /etc/httpd, so that
-        # the conf.d directory can be properly located.
-        Pathname.new(File.dirname(conf_path)).parent.to_s
-      end
+      # apparently apache conf keys are case insensitive
+      @params["ServerRoot"] || @params["serverroot"]
     end
 
     def to_s
@@ -145,12 +128,13 @@ module Inspec::Resources
 
     private
 
+    PATHS = ["/etc/apache2/apache2.conf",
+             "/etc/httpd/conf/httpd.conf"]
+      .map(&:freeze)
+      .freeze
+
     def default_conf_path
-      if inspec.os.debian?
-        "/etc/apache2/apache2.conf"
-      else
-        "/etc/httpd/conf/httpd.conf"
-      end
+      @default ||= PATHS.find { |path| inspec.file(path).exist? }
     end
   end
 end

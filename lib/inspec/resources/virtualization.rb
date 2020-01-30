@@ -3,8 +3,8 @@ require "hashie/mash"
 module Inspec::Resources
   class Virtualization < Inspec.resource(1)
     name "virtualization"
-    supports platform: "linux"
-    desc "Use the virtualization InSpec audit resource to test the virtualization platform on which the system is running"
+    supports platform: "unix"
+    desc "Use the virtualization InSpec audit resource to test various virtualization platforms."
     example <<~EXAMPLE
       describe virtualization do
         its('system') { should eq 'docker' }
@@ -23,19 +23,21 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize
+      # TODO: no need for hashie here... in fact, no reason for a hash at all
       @virtualization_data = Hashie::Mash.new
       collect_data_linux
     end
 
     # add helper methods for easy access of properties
     # allows users to use virtualization.role, virtualization.system
-    %w{role system}.each do |property|
-      define_method(property.to_sym) do
-        @virtualization_data[property.to_sym]
+    %i{role system}.each do |property|
+      define_method(property) do
+        @virtualization_data[property]
       end
     end
 
     def params
+      # TODO: this is broken. cannot return anything but nil
       collect_data_linux
     end
 
@@ -215,6 +217,7 @@ module Inspec::Resources
 
       @virtualization_data[:system] = "docker"
       @virtualization_data[:role] = "guest"
+      # TODO: needs to support host
       true
     end
 
@@ -233,23 +236,24 @@ module Inspec::Resources
       true
     end
 
-    def collect_data_linux # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+    def collect_data_linux
       # This avoids doing multiple detections in a single test
       return unless @virtualization_data.empty?
 
       # each detect method will return true if it matched and was successfully
       # able to populate @virtualization_data with stuff.
       return if detect_xen
+      return if detect_docker
       return if detect_virtualbox
-      return if detect_openstack
+      return if detect_lxd
+      return if detect_lxc_docker
+      return if detect_linux_vserver
       return if detect_kvm_from_cpuinfo
       return if detect_kvm_from_sys
       return if detect_openvz
+      return if detect_openstack
       return if detect_parallels
-      return if detect_linux_vserver
-      return if detect_lxc_docker
-      return if detect_docker
-      return if detect_lxd
+      # TODO: where is vmware?
     end
   end
 end

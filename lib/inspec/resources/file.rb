@@ -22,7 +22,7 @@ module Inspec::Resources
     name "file"
     supports platform: "unix"
     supports platform: "windows"
-    desc "Use the file InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors."
+    desc "Use the file InSpec audit resource to test all system file types, including files, directories, symbolic links, etc."
     example <<~EXAMPLE
       describe file('path') do
         it { should exist }
