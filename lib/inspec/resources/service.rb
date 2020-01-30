@@ -178,7 +178,7 @@ module Inspec::Resources
         end
       when "solaris", "smartos", "omnios", "openindiana", "opensolaris", "nexentacore"
         Svcs.new(inspec)
-      when %w{yocto}.include?(platform)
+      when "yocto"
         Systemd.new(inspec, service_ctl)
       end
     end
