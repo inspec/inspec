@@ -10,7 +10,6 @@ $pkg_maintainer="The Chef Maintainers <humans@chef.io>"
 $pkg_license=('Apache-2.0')
 
 $pkg_deps=@(
-  "core/cacerts"
   "chef/ruby-plus-devkit"
 )
 $pkg_bin_dirs=@("bin"
@@ -33,7 +32,6 @@ function Invoke-SetupEnvironment {
 
     Set-RuntimeEnv APPBUNDLER_ALLOW_RVM "true" # prevent appbundler from clearing out the carefully constructed runtime GEM_PATH
     Set-RuntimeEnv FORCE_FFI_YAJL "ext"
-    Set-RuntimeEnv -IsPath SSL_CERT_FILE "$(Get-HabPackagePath cacerts)/ssl/cert.pem"
     Set-RuntimeEnv LANG "en_US.UTF-8"
     Set-RuntimeEnv LC_CTYPE "en_US.UTF-8"
 }

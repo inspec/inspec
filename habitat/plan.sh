@@ -9,7 +9,6 @@ pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
 pkg_license=('Apache-2.0')
 pkg_deps=(
   core/coreutils
-  core/cacerts
   core/git
   core/ruby
   core/bash
@@ -67,7 +66,6 @@ wrap_inspec_bin() {
   build_line "Adding wrapper $bin to $real_bin"
   cat <<EOF > "$bin"
 #!$(pkg_path_for core/bash)/bin/bash
-export SSL_CERT_FILE=$(pkg_path_for cacerts)/ssl/cert.pem
 set -e
 
 # Set binary path that allows InSpec to use non-Hab pkg binaries
