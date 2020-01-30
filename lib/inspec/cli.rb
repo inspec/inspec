@@ -445,11 +445,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   end
   map %w{-v --version} => :version
 
-  desc "nothing", "does nothing"
-  def nothing
-    puts "you did nothing"
-  end
-
   private
 
   def run_command(opts)
