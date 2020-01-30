@@ -415,11 +415,18 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   desc "version", "prints the version of this tool"
   option :format, type: :string
   def version
-    if config["format"] == "json"
-      v = { version: Inspec::VERSION }
-      puts v.to_json
-    else
-      puts Inspec::VERSION
+    o = config
+    o["log_location"] = $stderr
+    o["log_level"] = "warn" # suppress noisy messages from chef-telemetry
+    configure_logger(o)
+    configure_telemeter(o)
+    telemetry_time_invocation("version") do
+      if config["format"] == "json"
+        v = { version: Inspec::VERSION }
+        puts v.to_json
+      else
+        puts Inspec::VERSION
+      end
     end
   end
   map %w{-v --version} => :version
