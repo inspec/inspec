@@ -397,9 +397,16 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
   desc "schema NAME", "print the JSON schema", hide: true
   def schema(name)
-    require "inspec/schema"
+    o = config
+    o["log_location"] = $stderr
+    configure_logger(o)
+    configure_telemeter(o)
+    telemetry_time_invocation("schema") do
 
-    puts Inspec::Schema.json(name)
+      require "inspec/schema"
+
+      puts Inspec::Schema.json(name)
+    end
   rescue StandardError => e
     puts e
     puts "Valid schemas are #{Inspec::Schema.names.join(", ")}"
