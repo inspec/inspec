@@ -63,7 +63,7 @@ function Invoke-Install {
     try {
         Push-Location $pkg_prefix
         bundle config --local gemfile $project_root/Gemfile
-        foreach($gem in ("inspec-bin", "inspec")) {
+        foreach($gem in ("inspec-bin", "inspec-core", "inspec")) {
             Write-BuildLine "** generating binstubs for $gem with precise version pins"
             Invoke-Expression -Command "appbundler.bat $project_root $pkg_prefix/bin $gem"
         }
