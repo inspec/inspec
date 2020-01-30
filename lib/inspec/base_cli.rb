@@ -312,7 +312,7 @@ module Inspec
 
       # Decide whether to enable telemetry at all.
       unless dec.enabled
-        logger.info("Telemetry is disabled.")
+        logger.debug("Telemetry is disabled.")
         return Chef::Telemeter.setup(telemetry_config)
       end
 

@@ -360,27 +360,33 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     log_device = suppress_log_output?(o) ? nil : $stdout
     o[:logger] = Logger.new(log_device)
     o[:logger].level = get_log_level(o[:log_level])
+    configure_telemeter(o)
 
-    if o[:command].nil?
-      runner = Inspec::Runner.new(o)
-      return Inspec::Shell.new(runner).start
+    exit_code = nil
+    telemetry_time_invocation("shell") do
+      if o[:command].nil?
+        runner = Inspec::Runner.new(o)
+        exit_code = Inspec::Shell.new(runner).start || Inspec::UI::EXIT_NORMAL
+      else
+        run_type, res = run_command(o)
+        if run_type != :ruby_eval
+          exit_code = res
+        else
+          # No InSpec tests - just print evaluation output.
+          reporters = o["reporter"] || {}
+          if reporters.keys.include?("json")
+            res = if res.respond_to?(:to_json)
+                    res.to_json
+                  else
+                    JSON.dump(res)
+                  end
+          end
+          puts res
+          exit_code = Inspec::UI::EXIT_NORMAL
+        end
+      end
     end
-
-    run_type, res = run_command(o)
-    ui.exit res unless run_type == :ruby_eval
-
-    # No InSpec tests - just print evaluation output.
-    reporters = o["reporter"] || {}
-    if reporters.keys.include?("json")
-      res = if res.respond_to?(:to_json)
-              res.to_json
-            else
-              JSON.dump(res)
-            end
-    end
-
-    puts res
-    ui.exit Inspec::UI::EXIT_NORMAL
+    exit exit_code
   rescue RuntimeError, Train::UserError => e
     $stderr.puts e.message
   rescue StandardError => e
