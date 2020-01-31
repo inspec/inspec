@@ -63,11 +63,10 @@ function Invoke-Install {
     try {
         Push-Location $pkg_prefix
         bundle config --local gemfile $project_root/Gemfile
-        foreach($gem in ("inspec-bin", "inspec")) {
+        foreach($gem in ("inspec-bin", "inspec-core", "inspec")) {
             Write-BuildLine "** generating binstubs for $gem with precise version pins"
             Invoke-Expression -Command "appbundler.bat $project_root $pkg_prefix/bin $gem"
         }
-        Remove-StudioPathFrom -File $pkg_prefix/vendor/gems/inspec-$pkg_version*/Gemfile
     } finally {
         Pop-Location
         # forget about the build bundle config
@@ -88,13 +87,4 @@ function Invoke-After {
     # Remove the byproducts of compiling gems with extensions
     Get-ChildItem $pkg_prefix/vendor/gems -Include @("gem_make.out", "mkmf.log", "Makefile") -File -Recurse `
         | Remove-Item -Force
-}
-
-function Remove-StudioPathFrom {
-    Param(
-        [Parameter(Mandatory=$true)]
-        [String]
-        $File
-    )
-    (Get-Content $File) -replace ($env:FS_ROOT -replace "\\","/"),"" | Set-Content $File
 }

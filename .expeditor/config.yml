@@ -171,3 +171,4 @@ subscriptions:
         - inspec/owners
         - inspec/inspec-core-team
     - trigger_pipeline:coverage
+    - trigger_pipeline:artifact/habitat

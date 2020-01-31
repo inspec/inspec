@@ -37,6 +37,7 @@ do_unpack() {
 do_build() {
   pushd "$HAB_CACHE_SRC_PATH/$pkg_dirname/"
     gem build inspec.gemspec
+    gem build inspec-core.gemspec
   popd
   pushd "$HAB_CACHE_SRC_PATH/$pkg_dirname/inspec-bin"
     gem build inspec-bin.gemspec
