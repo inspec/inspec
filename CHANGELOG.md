@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.76 -->
-## [v4.18.76](https://github.com/inspec/inspec/tree/v4.18.76) (2020-01-31)
+<!-- latest_release 4.18.77 -->
+## [v4.18.77](https://github.com/inspec/inspec/tree/v4.18.77) (2020-01-31)
 
 #### Merged Pull Requests
-- I *think* this will fix habitat. [#4877](https://github.com/inspec/inspec/pull/4877) ([zenspider](https://github.com/zenspider))
+- I _think_ this should fix omnibus. [#4880](https://github.com/inspec/inspec/pull/4880) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
@@ -22,6 +22,7 @@
 - upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley)) <!-- 4.18.60 -->
 
 #### Merged Pull Requests
+- I _think_ this should fix omnibus. [#4880](https://github.com/inspec/inspec/pull/4880) ([zenspider](https://github.com/zenspider)) <!-- 4.18.77 -->
 - I *think* this will fix habitat. [#4877](https://github.com/inspec/inspec/pull/4877) ([zenspider](https://github.com/zenspider)) <!-- 4.18.76 -->
 - the correct, un-panicked fix. [#4872](https://github.com/inspec/inspec/pull/4872) ([zenspider](https://github.com/zenspider)) <!-- 4.18.74 -->
 - bad master merge... rushing this through [#4871](https://github.com/inspec/inspec/pull/4871) ([zenspider](https://github.com/zenspider)) <!-- 4.18.73 -->
