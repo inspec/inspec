@@ -39,6 +39,9 @@ build do
   # appbundle-lock to are definitely installed
   bundle "install --without test integration tools maintenance", env: env
 
+  gem "build #{name}-core.gemspec", env: env
+  gem "install #{name}-core*.gem --no-document", env: env
+
   gem "build #{name}.gemspec", env: env
   gem "install #{name}-*.gem --no-document", env: env
 
@@ -46,11 +49,7 @@ build do
   gem "install inspec-bin-*.gem --no-document", env: env, cwd: "#{project_dir}/inspec-bin"
 
   block do
-    if Dir.exist?("#{project_dir}/inspec-bin")
-      appbundle "inspec", lockdir: project_dir, gem: "inspec-bin", env: env
-    else
-      appbundle "inspec", env: env
-    end
+    appbundle "inspec", lockdir: project_dir, gem: "inspec-bin", env: env
   end
 
   block "Delete test folder from problem gems" do
