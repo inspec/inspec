@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.75 -->
-## [v4.18.75](https://github.com/inspec/inspec/tree/v4.18.75) (2020-01-30)
+<!-- latest_release 4.18.76 -->
+## [v4.18.76](https://github.com/inspec/inspec/tree/v4.18.76) (2020-01-31)
 
-#### Enhancements
-- Remove the references to the core/cacerts so customers can specify it [#4848](https://github.com/inspec/inspec/pull/4848) ([TheLunaticScripter](https://github.com/TheLunaticScripter))
+#### Merged Pull Requests
+- I *think* this will fix habitat. [#4877](https://github.com/inspec/inspec/pull/4877) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
@@ -22,6 +22,7 @@
 - upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley)) <!-- 4.18.60 -->
 
 #### Merged Pull Requests
+- I *think* this will fix habitat. [#4877](https://github.com/inspec/inspec/pull/4877) ([zenspider](https://github.com/zenspider)) <!-- 4.18.76 -->
 - the correct, un-panicked fix. [#4872](https://github.com/inspec/inspec/pull/4872) ([zenspider](https://github.com/zenspider)) <!-- 4.18.74 -->
 - bad master merge... rushing this through [#4871](https://github.com/inspec/inspec/pull/4871) ([zenspider](https://github.com/zenspider)) <!-- 4.18.73 -->
 - Add support for yocto linux in service resource [#4843](https://github.com/inspec/inspec/pull/4843) ([michaellihs](https://github.com/michaellihs)) <!-- 4.18.72 -->
