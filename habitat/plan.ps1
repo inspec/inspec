@@ -17,17 +17,6 @@ $pkg_bin_dirs=@("bin"
                 "vendor/bin")
 $project_root= (Resolve-Path "$PLAN_CONTEXT/../").Path
 
-function Invoke-Begin {
-    $hab_version = (hab --version)
-    $hab_minor_version = $hab_version.split('.')[1]
-    if ( -not $? -Or $hab_minor_version -lt 85 ) {
-        Write-Warning "I'm being built with $hab_version. I need at least Hab 0.85.0, because I use the -IsPath option for setting/pushing paths in SetupEnvironment."
-        throw "unable to build: required minimum version of Habitat not installed"
-    } else {
-        Write-BuildLine ":habicat: I think I have the version I need to build."
-    }
-}
-
 function Invoke-SetupEnvironment {
     Push-RuntimeEnv -IsPath GEM_PATH "$pkg_prefix/vendor"
 
