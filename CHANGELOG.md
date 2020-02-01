@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.79 -->
-## [v4.18.79](https://github.com/inspec/inspec/tree/v4.18.79) (2020-02-01)
+<!-- latest_release 4.18.80 -->
+## [v4.18.80](https://github.com/inspec/inspec/tree/v4.18.80) (2020-02-01)
 
-#### New Features
-- Added --inspect option to inspect shell command. [#4864](https://github.com/inspec/inspec/pull/4864) ([zenspider](https://github.com/zenspider))
+#### Merged Pull Requests
+- Refactored crontab resource [#4869](https://github.com/inspec/inspec/pull/4869) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
@@ -23,6 +23,7 @@
 - upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley)) <!-- 4.18.60 -->
 
 #### Merged Pull Requests
+- Refactored crontab resource [#4869](https://github.com/inspec/inspec/pull/4869) ([zenspider](https://github.com/zenspider)) <!-- 4.18.80 -->
 - make command.exist? POSIX conform [#4822](https://github.com/inspec/inspec/pull/4822) ([PiQuer](https://github.com/PiQuer)) <!-- 4.18.78 -->
 - I _think_ this should fix omnibus. [#4880](https://github.com/inspec/inspec/pull/4880) ([zenspider](https://github.com/zenspider)) <!-- 4.18.77 -->
 - I *think* this will fix habitat. [#4877](https://github.com/inspec/inspec/pull/4877) ([zenspider](https://github.com/zenspider)) <!-- 4.18.76 -->
