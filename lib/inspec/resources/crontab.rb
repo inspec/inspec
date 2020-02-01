@@ -109,29 +109,31 @@ module Inspec::Resources
       !@user.nil?
     end
 
+    # rubocop:disable Layout/AlignHash
+
     DEFAULT_TIMES = {
       "minute"  => "*",
       "hour"    => "*",
       "day"     => "*",
       "month"   => "*",
       "weekday" => "*",
-    }
+    }.freeze
 
-    SYSTEM_COLUMNS = %w{minute hour day month weekday user command}
-    USER_COLUMNS = %w{minute hour day month weekday command}
+    SYSTEM_COLUMNS = %w{minute hour day month weekday user command}.freeze
+    USER_COLUMNS = %w{minute hour day month weekday command}.freeze
 
-    HOURLY  = { "minute" => "0" }
-    DAILY   = HOURLY  .merge("hour"    => "0")
-    WEEKLY  = HOURLY  .merge("weekday" => "0")
-    MONTHLY = DAILY   .merge("day"     => "1")
-    YEARLY  = MONTHLY .merge("month"   => "1")
+    HOURLY  = { "minute" => "0" }.freeze
+    DAILY   = HOURLY  .merge("hour"    => "0").freeze
+    WEEKLY  = HOURLY  .merge("weekday" => "0").freeze
+    MONTHLY = DAILY   .merge("day"     => "1").freeze
+    YEARLY  = MONTHLY .merge("month"   => "1").freeze
     REBOOT  = {
       "minute"  => "-1",
       "hour"    => "-1",
       "day"     => "-1",
       "month"   => "-1",
       "weekday" => "-1",
-    }
+    }.freeze
 
     def merge_crontab(data, default)
       case data
@@ -151,7 +153,7 @@ module Inspec::Resources
     end
 
     def parse_system_crontab(data)
-      _, user, cmd = elements = data.split(/\s+/, 3)
+      _, user, cmd = data.split(/\s+/, 3)
       default = DEFAULT_TIMES.merge("user"    => user,
                                     "command" => cmd)
 
