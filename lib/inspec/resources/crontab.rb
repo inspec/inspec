@@ -67,6 +67,7 @@ module Inspec::Resources
     end
 
     def crontab_cmd
+      # TODO: the -u scenario needs to be able to do sudo
       @user.nil? ? "crontab -l" : "crontab -l -u #{@user}"
     end
 
@@ -108,66 +109,63 @@ module Inspec::Resources
       !@user.nil?
     end
 
-    def parse_system_crontab(data)
+    DEFAULT_TIMES = {
+      "minute"  => "*",
+      "hour"    => "*",
+      "day"     => "*",
+      "month"   => "*",
+      "weekday" => "*",
+    }
+
+    SYSTEM_COLUMNS = %w{minute hour day month weekday user command}
+    USER_COLUMNS = %w{minute hour day month weekday command}
+
+    HOURLY  = { "minute" => "0" }
+    DAILY   = HOURLY  .merge("hour"    => "0")
+    WEEKLY  = HOURLY  .merge("weekday" => "0")
+    MONTHLY = DAILY   .merge("day"     => "1")
+    YEARLY  = MONTHLY .merge("month"   => "1")
+    REBOOT  = {
+      "minute"  => "-1",
+      "hour"    => "-1",
+      "day"     => "-1",
+      "month"   => "-1",
+      "weekday" => "-1",
+    }
+
+    def merge_crontab(data, default)
       case data
-      when /@hourly .*/
-        elements = data.split(/\s+/, 3)
-        { "minute" => "0", "hour" => "*", "day" => "*", "month" => "*", "weekday" => "*", "user" => elements.at(1), "command" => elements.at(2) }
-      when /@(midnight|daily) .*/
-        elements = data.split(/\s+/, 3)
-        { "minute" => "0", "hour" => "0", "day" => "*", "month" => "*", "weekday" => "*", "user" => elements.at(1), "command" => elements.at(2) }
-      when /@weekly .*/
-        elements = data.split(/\s+/, 3)
-        { "minute" => "0", "hour" => "0", "day" => "*", "month" => "*", "weekday" => "0", "user" => elements.at(1), "command" => elements.at(2) }
-      when /@monthly ./
-        elements = data.split(/\s+/, 3)
-        { "minute" => "0", "hour" => "0", "day" => "1", "month" => "*", "weekday" => "*", "user" => elements.at(1), "command" => elements.at(2) }
-      when /@(annually|yearly) .*/
-        elements = data.split(/\s+/, 3)
-        { "minute" => "0", "hour" => "0", "day" => "1", "month" => "1", "weekday" => "*", "user" => elements.at(1), "command" => elements.at(2) }
-      when /@reboot .*/
-        elements = data.split(/\s+/, 3)
-        { "minute" => "-1", "hour" => "-1", "day" => "-1", "month" => "-1", "weekday" => "-1", "user" => elements.at(1), "command" => elements.at(2) }
-      else
-        elements = data.split(/\s+/, 7)
-        {
-          "minute" => elements.at(0),
-          "hour" => elements.at(1),
-          "day" => elements.at(2),
-          "month" => elements.at(3),
-          "weekday" => elements.at(4),
-          "user" => elements.at(5),
-          "command" => elements.at(6),
-        }
+      when /@hourly /
+        default.merge(HOURLY)
+      when /@(midnight|daily) /
+        default.merge(DAILY)
+      when /@weekly /
+        default.merge(WEEKLY)
+      when /@monthly /
+        default.merge(MONTHLY)
+      when /@(annually|yearly) /
+        default.merge(YEARLY)
+      when /@reboot /
+        default.merge(REBOOT)
       end
     end
 
+    def parse_system_crontab(data)
+      _, user, cmd = elements = data.split(/\s+/, 3)
+      default = DEFAULT_TIMES.merge("user"    => user,
+                                    "command" => cmd)
+
+      merge_crontab(data, default) ||
+        SYSTEM_COLUMNS.zip(data.split(/\s+/, 7)).to_h
+    end
+
     def parse_user_crontab(data)
-      case data
-      when /@hourly .*/
-        { "minute" => "0", "hour" => "*", "day" => "*", "month" => "*", "weekday" => "*", "user" => @user, "command" => data.split(/\s+/, 2).at(1) }
-      when /@(midnight|daily) .*/
-        { "minute" => "0", "hour" => "0", "day" => "*", "month" => "*", "weekday" => "*", "user" => @user, "command" => data.split(/\s+/, 2).at(1) }
-      when /@weekly .*/
-        { "minute" => "0", "hour" => "0", "day" => "*", "month" => "*", "weekday" => "0", "user" => @user, "command" => data.split(/\s+/, 2).at(1) }
-      when /@monthly ./
-        { "minute" => "0", "hour" => "0", "day" => "1", "month" => "*", "weekday" => "*", "user" => @user, "command" => data.split(/\s+/, 2).at(1) }
-      when /@(annually|yearly) .*/
-        { "minute" => "0", "hour" => "0", "day" => "1", "month" => "1", "weekday" => "*", "user" => @user, "command" => data.split(/\s+/, 2).at(1) }
-      when /@reboot .*/
-        { "minute" => "-1", "hour" => "-1", "day" => "-1", "month" => "-1", "weekday" => "-1", "user" => @user, "command" => data.split(/\s+/, 2).at(1) }
-      else
-        elements = data.split(/\s+/, 6)
-        {
-          "minute" => elements.at(0),
-          "hour" => elements.at(1),
-          "day" => elements.at(2),
-          "month" => elements.at(3),
-          "weekday" => elements.at(4),
-          "user" => @user,
-          "command" => elements.at(5),
-        }
-      end
+      _, cmd = data.split(/\s+/, 2)
+      default = DEFAULT_TIMES.merge("user"    => @user,
+                                    "command" => cmd)
+
+      merge_crontab(data, default) ||
+        USER_COLUMNS.zip(data.split(/\s+/, 6)).to_h.merge("user" => @user)
     end
   end
 end
