@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.78 -->
-## [v4.18.78](https://github.com/inspec/inspec/tree/v4.18.78) (2020-02-01)
+<!-- latest_release 4.18.79 -->
+## [v4.18.79](https://github.com/inspec/inspec/tree/v4.18.79) (2020-02-01)
 
-#### Merged Pull Requests
-- make command.exist? POSIX conform [#4822](https://github.com/inspec/inspec/pull/4822) ([PiQuer](https://github.com/PiQuer))
+#### New Features
+- Added --inspect option to inspect shell command. [#4864](https://github.com/inspec/inspec/pull/4864) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
@@ -14,6 +14,7 @@
 - Remove the references to the core/cacerts so customers can specify it [#4848](https://github.com/inspec/inspec/pull/4848) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.18.75 -->
 
 #### New Features
+- Added --inspect option to inspect shell command. [#4864](https://github.com/inspec/inspec/pull/4864) ([zenspider](https://github.com/zenspider)) <!-- 4.18.79 -->
 - Use an archive if possible when fetching fails and --airgap is provided [#4806](https://github.com/inspec/inspec/pull/4806) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.67 -->
 - Add: certificate content x509_certificate [#4845](https://github.com/inspec/inspec/pull/4845) ([frezbo](https://github.com/frezbo)) <!-- 4.18.63 -->
 
