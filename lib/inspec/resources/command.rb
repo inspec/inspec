@@ -67,7 +67,7 @@ module Inspec::Resources
         res = if inspec.platform.name == "alpine"
                 inspec.backend.run_command("which \"#{@command}\"")
               else
-                inspec.backend.run_command("bash -c 'type \"#{@command}\"'")
+                inspec.backend.run_command("sh -c 'type \"#{@command}\"'")
               end
       elsif inspec.os.windows?
         res = inspec.backend.run_command("Get-Command \"#{@command}\"")
