@@ -36,7 +36,6 @@ describe "inspec archive" do
       out = inspec("archive " + dir + " --overwrite")
 
       _(out.stderr).must_equal ""
-      skip_windows!
       _(out.stdout).must_include "Generate archive " + auto_dst
       _(out.stdout).must_include "Finished archive generation."
       _(File.exist?(auto_dst)).must_equal true
