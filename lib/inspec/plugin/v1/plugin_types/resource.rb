@@ -6,11 +6,15 @@ module Inspec
       @__resource_name__
     end
 
-    # Overwrite inspect to provide better output to RSpec results.
-    #
-    # @return [String] full name of the resource
-    def inspect
-      to_s
+    def self.toggle_inspect
+      has_inspect = instance_method(:inspect) rescue nil
+      unless has_inspect
+        define_method :inspect do
+          to_s
+        end
+      else
+        undef_method :inspect
+      end
     end
   end
 

@@ -329,10 +329,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell"
   option :distinct_exit, type: :boolean, default: true,
     desc: "Exit with code 100 if any tests fail, and 101 if any are skipped but none failed (default).  If disabled, exit 0 on skips and 1 for failures."
+  option :inspect, type: :boolean, default: false, desc: "Use verbose/debugging output for resources."
   def shell_func
     o = config
     diagnose(o)
     o[:debug_shell] = true
+
+    Inspec::ResourceBehaviors.toggle_inspect unless o[:inspect]
 
     log_device = suppress_log_output?(o) ? nil : $stdout
     o[:logger] = Logger.new(log_device)

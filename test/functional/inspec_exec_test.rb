@@ -383,8 +383,8 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       _(stdout).must_include "×  7 is expected to cmp >= 9\n"
       _(stdout).must_include "×  7 is expected not to cmp == /^\\d$/\n"
       _(stdout).must_include "✔  7 is expected to cmp == \"7\""
-      _(stdout).must_include "expected: %p" % ["01147"]
-      _(stdout).must_include "got: %p" % [is_windows? ? "040755" : "0755"]
+      _(stdout).must_include "expected: %s" % ["01147"]
+      _(stdout).must_include "got: %s" % [is_windows? ? "040755" : "0755"]
     end
   end
 
