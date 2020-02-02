@@ -33,6 +33,8 @@ module Inspec::Resources
         linux_hostname(opt)
       elsif os.darwin?
         mac_hostname(opt)
+      elsif os.solaris?
+        solaris_hostname(opt)
       elsif os.windows?
         if !opt.nil?
           skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
@@ -84,6 +86,33 @@ module Inspec::Resources
       end
     end
 
+    def solaris_hostname(opt = nil)
+      if opt
+        opt = case opt
+              when "f", "long", "fqdn", "full"
+                " -f"
+              when "d", "domain"
+                " -d"
+              #when "i", "ip_address"
+              #  " -I"
+              when "s", "short"
+                " -s"
+              else
+                "ERROR"
+              end
+      end
+      if opt == "ERROR"
+        skip_resource "The `sys_info.hostname` resource is not supported with that option on your OS."
+      elsif opt == " -f"
+        inspec.command("hostname").stdout.chomp
+      elsif opt == " -d"
+        inspec.command("hostname").stdout.chomp.split(".", 1).last
+      elsif opt == " -s"
+        inspec.command("hostname").stdout.chomp.split(".", 1).first
+      #elsif opt == " -I"
+      #  inspec.command("getent hosts `hostname`").stdout.chomp.split("\t").first
+      end
+    end
     # returns the Manufacturer of the local system
     def manufacturer
       os = inspec.os
