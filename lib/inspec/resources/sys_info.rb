@@ -111,6 +111,9 @@ module Inspec::Resources
         inspec.command("hostname").stdout.chomp.split(".", 1).first
       elsif opt == " -I"
         inspec.command("getent hosts `hostname`").stdout.chomp.split("\t").first
+      else
+        # To allow mock tests to work
+        inspec.command("hostname").stdout.chomp
       end
     end
     # returns the Manufacturer of the local system
