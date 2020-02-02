@@ -93,8 +93,8 @@ module Inspec::Resources
                 " -f"
               when "d", "domain"
                 " -d"
-              #when "i", "ip_address"
-              #  " -I"
+              when "i", "ip_address"
+                " -I"
               when "s", "short"
                 " -s"
               else
@@ -109,8 +109,8 @@ module Inspec::Resources
         inspec.command("hostname").stdout.chomp.split(".", 1).last
       elsif opt == " -s"
         inspec.command("hostname").stdout.chomp.split(".", 1).first
-      #elsif opt == " -I"
-      #  inspec.command("getent hosts `hostname`").stdout.chomp.split("\t").first
+      elsif opt == " -I"
+        inspec.command("getent hosts `hostname`").stdout.chomp.split("\t").first
       end
     end
     # returns the Manufacturer of the local system
