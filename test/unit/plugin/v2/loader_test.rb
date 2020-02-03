@@ -17,6 +17,11 @@ class PluginLoaderTests < Minitest::Test
     ENV["HOME"] = @@orig_home
     ENV["INSPEC_CONFIG_DIR"] = nil
     Inspec::Plugin::V2::Registry.instance.__reset
+    if defined?(::InspecPlugins::TestFixture)
+      InspecPlugins.send :remove_const, :TestFixture
+    end
+    # forget all test fixture files
+    $".reject! { |path| path =~ %r{test/fixtures} }
   end
 
   def setup

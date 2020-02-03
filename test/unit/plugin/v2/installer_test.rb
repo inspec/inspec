@@ -17,7 +17,12 @@ module InstallerTestHelpers
   def reset_globals
     ENV["HOME"] = @@orig_home
     ENV["INSPEC_CONFIG_DIR"] = nil
-    @installer.__reset
+    @installer && @installer.__reset
+    if defined?(::InspecPlugins::TestFixture)
+      InspecPlugins.send :remove_const, :TestFixture
+    end
+    # forget all test fixture files
+    $".reject! { |path| path =~ %r{test/fixtures} }
   end
 
   def copy_in_config_dir(fixture_name)
@@ -513,6 +518,8 @@ class PluginInstallerSearchTests < Minitest::Test
   end
 
   def test_search_omits_inspec_gem_on_the_reject_list
+    skip_slow_tests
+
     results = @installer.search("inspec-")
     assert results.key?("inspec-test-fixture")
 
