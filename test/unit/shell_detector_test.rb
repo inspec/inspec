@@ -1,7 +1,6 @@
 #
 require "helper"
 require "rbconfig"
-require "mocha/test_unit"
 require "inspec/shell_detector"
 
 module ShellDetectorTestHelpers
