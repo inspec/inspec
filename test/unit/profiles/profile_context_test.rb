@@ -10,7 +10,7 @@ end
 module DescribeOneTest
   it "loads an empty describe.one" do
     profile.load(format(context_format, "describe.one"))
-    _(get_checks).must_equal([])
+    _(get_checks).must_be_empty
   end
 
   it "loads an empty describe.one block" do
@@ -66,8 +66,12 @@ describe Inspec::ProfileContext do
   end
 
   describe "its default DSL" do
-    def load(call)
-      _ { profile.load(call) }
+    def assert_load(src, output)
+      _ { profile.load(src) }.must_output output
+    end
+
+    def assert_load_raises(src, exception)
+      _ { profile.load(src) }.must_raise exception
     end
 
     let(:context_format) { "%s" }
@@ -75,34 +79,33 @@ describe Inspec::ProfileContext do
     include DescribeOneTest
 
     it "must provide os resource" do
-      load("print os[:family]").must_output "debian"
+      assert_load("print os[:family]", "debian")
     end
 
     it "must provide file resource" do
-      load('print file("/etc/passwd").type').must_output "file"
+      assert_load('print file("/etc/passwd").type', "file")
     end
 
     it "must provide command resource" do
-      load('print command("").stdout').must_output ""
+      assert_load('print command("").stdout', "")
     end
 
     it "supports empty describe calls" do
-      load("describe").must_output ""
+      assert_load("describe", "")
       _(profile.rules.keys.length).must_equal 1
       _(profile.rules.keys[0]).must_match(/^\(generated from \(eval\):1 [0-9a-f]+\)$/)
       _(profile.rules.values[0]).must_be_kind_of Inspec::Rule
     end
 
     it "provides the describe keyword in the global DSL" do
-      load("describe true do; it { should_eq true }; end").must_output ""
+      assert_load("describe true do; it { should_eq true }; end", "")
       _(profile.rules.keys.length).must_equal 1
       _(profile.rules.keys[0]).must_match(/^\(generated from \(eval\):1 [0-9a-f]+\)$/)
       _(profile.rules.values[0]).must_be_kind_of Inspec::Rule
     end
 
     it "loads multiple computed calls to describe correctly" do
-      load("%w{1 2 3}.each do\ndescribe true do; it { should_eq true }; end\nend")
-        .must_output ""
+      assert_load("%w{1 2 3}.each do\ndescribe true do; it { should_eq true }; end\nend", "")
       _(profile.rules.keys.length).must_equal 3
       [0, 1, 2].each do |i|
         _(profile.rules.keys[i]).must_match(/^\(generated from \(eval\):2 [0-9a-f]+\)$/)
@@ -111,7 +114,7 @@ describe Inspec::ProfileContext do
     end
 
     it "does not provide the expect keyword in the global DSL" do
-      load("expect(true).to_eq true").must_raise NoMethodError
+      assert_load_raises("expect(true).to_eq true", NoMethodError)
     end
 
     describe "global only_if" do
@@ -123,7 +126,7 @@ describe Inspec::ProfileContext do
 
       it "provides the keyword" do
         profile.load(if_true)
-        _(profile.rules).must_equal({})
+        _(profile.rules).must_be_empty
       end
 
       it "doesnt affect controls when positive" do
@@ -139,17 +142,17 @@ describe Inspec::ProfileContext do
       it "alters controls when positive" do
         profile.load(if_false + control)
         _(get_checks.length).must_equal 1
-        _(get_checks[0][1][0].resource_skipped?).must_equal true
+        _(get_checks[0][1][0]).must_be :resource_skipped?
         _(get_checks[0][1][0].resource_exception_message).must_equal "Skipped control due to only_if condition."
-        _(get_checks[0][1][0].resource_failed?).must_equal false
+        _(get_checks[0][1][0]).wont_be :resource_failed?
       end
 
       it "alters non-controls when positive" do
         profile.load(if_false + describe)
         _(get_checks.length).must_equal 1
-        _(get_checks[0][1][0].resource_skipped?).must_equal true
+        _(get_checks[0][1][0]).must_be :resource_skipped?
         _(get_checks[0][1][0].resource_exception_message).must_equal "Skipped control due to only_if condition."
-        _(get_checks[0][1][0].resource_failed?).must_equal false
+        _(get_checks[0][1][0]).wont_be :resource_failed?
       end
 
       it "doesnt alter controls when negative" do
@@ -167,26 +170,26 @@ describe Inspec::ProfileContext do
       it "doesnt overwrite falsy only_ifs" do
         profile.load(if_false + if_true + control)
         _(get_checks.length).must_equal 1
-        _(get_checks[0][1][0].resource_skipped?).must_equal true
+        _(get_checks[0][1][0]).must_be :resource_skipped?
         _(get_checks[0][1][0].resource_exception_message).must_equal "Skipped control due to only_if condition."
-        _(get_checks[0][1][0].resource_failed?).must_equal false
+        _(get_checks[0][1][0]).wont_be :resource_failed?
       end
 
       it "doesnt overwrite falsy only_ifs" do
         profile.load(if_true + if_false + control)
         _(get_checks.length).must_equal 1
-        _(get_checks[0][1][0].resource_skipped?).must_equal true
+        _(get_checks[0][1][0]).must_be :resource_skipped?
         _(get_checks[0][1][0].resource_exception_message).must_equal "Skipped control due to only_if condition."
-        _(get_checks[0][1][0].resource_failed?).must_equal false
+        _(get_checks[0][1][0]).wont_be :resource_failed?
       end
 
       it "allows specifying a message with true only_if" do
         profile.load("only_if('this is a only_if skipped message') { false }\n" + control)
         _(get_checks.length).must_equal 1
-        _(get_checks[0][1][0].resource_skipped?).must_equal true
+        _(get_checks[0][1][0]).must_be :resource_skipped?
         _(get_checks[0][1][0].resource_exception_message).must_equal "Skipped" \
          " control due to only_if condition: this is a only_if skipped message"
-        _(get_checks[0][1][0].resource_failed?).must_equal false
+        _(get_checks[0][1][0]).wont_be :resource_failed?
       end
 
       it "doesnt extend into other control files" do
@@ -256,14 +259,14 @@ describe Inspec::ProfileContext do
     it "doesnt add any checks if none are provided" do
       profile.load("rule #{rule_id.inspect}")
       rule = profile.rules[rule_id]
-      _(::Inspec::Rule.prepare_checks(rule)).must_equal([])
+      _(::Inspec::Rule.prepare_checks(rule)).must_be_empty
     end
 
     describe "supports empty describe blocks" do
       it "doesnt crash, but doesnt add anything either" do
         profile.load(format(context_format, "describe"))
         _(profile.rules.keys).must_include(rule_id)
-        _(get_checks).must_equal([])
+        _(get_checks).must_be_empty
       end
     end
 
@@ -338,36 +341,36 @@ describe Inspec::ProfileContext do
     describe "with only_if" do
       it "provides the only_if keyword" do
         profile.load(format(context_format, "only_if"))
-        _(get_checks).must_equal([])
+        _(get_checks).must_be_empty
       end
 
       it "skips with only_if == false" do
         profile.load(format(context_format, "only_if { false }"))
         _(get_checks.length).must_equal 1
-        _(get_checks[0][1][0].resource_skipped?).must_equal true
+        _(get_checks[0][1][0]).must_be :resource_skipped?
         _(get_checks[0][1][0].resource_exception_message).must_equal "Skipped control due to only_if condition."
-        _(get_checks[0][1][0].resource_failed?).must_equal false
+        _(get_checks[0][1][0]).wont_be :resource_failed?
       end
 
       it "does nothing with only_if == false" do
         profile.load(format(context_format, "only_if { true }"))
-        _(get_checks.length).must_equal 0
+        _(get_checks).must_be_empty
       end
 
       it "doesnt overwrite falsy only_ifs" do
         profile.load(format(context_format, "only_if { false }\nonly_if { true }"))
         _(get_checks.length).must_equal 1
-        _(get_checks[0][1][0].resource_skipped?).must_equal true
+        _(get_checks[0][1][0]).must_be :resource_skipped?
         _(get_checks[0][1][0].resource_exception_message).must_equal "Skipped control due to only_if condition."
-        _(get_checks[0][1][0].resource_failed?).must_equal false
+        _(get_checks[0][1][0]).wont_be :resource_failed?
       end
 
       it "doesnt overwrite falsy only_ifs" do
         profile.load(format(context_format, "only_if { true }\nonly_if { false }"))
         _(get_checks.length).must_equal 1
-        _(get_checks[0][1][0].resource_skipped?).must_equal true
+        _(get_checks[0][1][0]).must_be :resource_skipped?
         _(get_checks[0][1][0].resource_exception_message).must_equal "Skipped control due to only_if condition."
-        _(get_checks[0][1][0].resource_failed?).must_equal false
+        _(get_checks[0][1][0]).wont_be :resource_failed?
       end
     end
   end
@@ -403,6 +406,25 @@ describe Inspec::ProfileContext do
         ["require 'a'\nA", "libraries/b.rb"],
         ["module A; end", "libraries/a.rb"],
       ])
+    end
+
+    it "uses LEC if requiring second-level libraries file" do
+      lec = profile.library_eval_context
+      binding = lec.__inspec_binding
+
+      def binding.eval(*a)
+        raise "YAY"
+      end
+
+      code = [
+        ["libraries/top_level.rb",   "require 'second/file'\n"],
+        ["libraries/second/file.rb", "puts 'YOU SHOULD NOT SEE ME'"],
+      ].map(&:reverse)
+
+      e = assert_raises RuntimeError do
+        profile.load_libraries(code)
+      end
+      assert_equal "YAY", e.message
     end
 
     it "supports loading a regular ruby gem" do

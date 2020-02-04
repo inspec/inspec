@@ -117,7 +117,7 @@ end
 
 class ResourceInspector < RSpec::Support::ObjectFormatter::BaseInspector
   def self.can_inspect?(object)
-    Inspec::Plugins::Resource === object
+    Inspec::Resource === object
   end
 
   def inspect # do NOT use default inspect in rspec w/ resources

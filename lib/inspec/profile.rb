@@ -250,6 +250,7 @@ module Inspec
         # this metadata if the parent profile is supported.
         if supports_platform? && !d.supports_platform?
           # since ruby 1.9 hashes are ordered so we can just use index values here
+          # TODO: NO! this is a violation of encapsulation to an extreme
           metadata.dependencies[i][:status] = "skipped"
           msg = "Skipping profile: '#{d.name}' on unsupported platform: '#{d.backend.platform.name}/#{d.backend.platform.release}'."
           metadata.dependencies[i][:skip_message] = msg
@@ -259,13 +260,14 @@ module Inspec
           # load them again when we dive down. This needs to be re-done.
           metadata.dependencies[i][:status] = "loaded"
         end
-        c = d.load_libraries
+
+        # rubocop:disable Layout/ExtraSpacing
+        c = d.load_libraries                           # !!!RECURSE!!!
         @runner_context.add_resources(c)
       end
 
-      libs = libraries.map do |path, content|
-        [content, path]
-      end
+      # TODO: why?!? we own both sides of this code
+      libs = libraries.map(&:reverse)
 
       @runner_context.load_libraries(libs)
       @libraries_loaded = true

@@ -5,7 +5,7 @@ require "resources/aws/aws_iam_user"
 require "resource_support/aws"
 require "resources/aws/aws_iam_user"
 
-# MAUIB = MockAwsIamUserBackend
+# MAIUB = MockAwsIamUserBackend
 # Abbreviation not used outside this file
 
 #=============================================================================#

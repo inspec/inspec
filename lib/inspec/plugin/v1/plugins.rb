@@ -5,7 +5,6 @@ module Inspec
   # NOTE: the autoloading here is rendered moot by the fact that
   # all core plugins are `require`'d by the base inspec.rb
   module Plugins
-    autoload :Resource, "inspec/plugin/v1/plugin_types/resource"
     autoload :CLI, "inspec/plugin/v1/plugin_types/cli"
     autoload :Fetcher, "inspec/plugin/v1/plugin_types/fetcher"
     autoload :SourceReader, "inspec/plugin/v1/plugin_types/source_reader"

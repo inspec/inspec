@@ -66,14 +66,14 @@ EOF
       res = Inspec::Metadata.from_yaml("mock", "---\nversion: '1.1.0'", nil)
       Inspec::Metadata.finalize(res, "mock", empty_options)
       _(res.params[:version]).must_equal("1.1.0")
-      _(res.valid_version?(res.params[:version])).must_equal(true)
+      _(res).must_be :valid_version?, res.params[:version]
     end
 
     it "does not accept invalid version from metadata" do
       res = Inspec::Metadata.from_yaml("mock", "---\nversion: '1.1.0.1'", nil)
       Inspec::Metadata.finalize(res, "mock", empty_options)
       _(res.params[:version]).must_equal("1.1.0.1")
-      _(res.valid_version?(res.params[:version])).must_equal(false)
+      _(res).wont_be :valid_version?, res.params[:version]
     end
 
     it "finalizes a loaded metadata by turning strings into symbols" do
@@ -128,62 +128,62 @@ EOF
 
     it "load a profile with empty supports clause" do
       m = supports_meta(nil)
-      _(m.supports_platform?(backend)).must_equal true
+      _(m).must_be :supports_platform?, backend
     end
 
     it "loads a profile which supports os ubuntu" do
       m = supports_meta({ "os" => "ubuntu" })
-      _(m.supports_platform?(backend)).must_equal true
+      _(m).must_be :supports_platform?, backend
     end
 
     it "loads a profile which supports os name ubuntu" do
       m = supports_meta({ "os-name" => "ubuntu" })
-      _(m.supports_platform?(backend)).must_equal true
+      _(m).must_be :supports_platform?, backend
     end
 
     it "loads a profile which supports os family linux" do
       m = supports_meta({ "os-family" => "linux" })
-      _(m.supports_platform?(backend)).must_equal true
+      _(m).must_be :supports_platform?, backend
     end
 
     it "loads a profile which supports release 14.04" do
       m = supports_meta({ "release" => "14.04" })
-      _(m.supports_platform?(backend)).must_equal true
+      _(m).must_be :supports_platform?, backend
     end
 
     it "rejects a profile which supports release 12.04" do
       m = supports_meta({ "release" => "12.04" })
-      _(m.supports_platform?(backend)).must_equal false
+      _(m).wont_be :supports_platform?, backend
     end
 
     it "loads a profile which supports ubuntu 14.04" do
       m = supports_meta({ "os-name" => "ubuntu", "release" => "14.04" })
-      _(m.supports_platform?(backend)).must_equal true
+      _(m).must_be :supports_platform?, backend
     end
 
     it "loads a profile which supports ubuntu 14.*" do
       m = supports_meta({ "os-name" => "ubuntu", "release" => "14.*" })
-      _(m.supports_platform?(backend)).must_equal true
+      _(m).must_be :supports_platform?, backend
     end
 
     it "rejects a profile which supports ubuntu 12.04" do
       m = supports_meta({ "os-name" => "ubuntu", "release" => "12.04" })
-      _(m.supports_platform?(backend)).must_equal false
+      _(m).wont_be :supports_platform?, backend
     end
 
     it "rejects a profile which supports ubuntu 12.*" do
       m = supports_meta({ "os-name" => "ubuntu", "release" => "12.*" })
-      _(m.supports_platform?(backend)).must_equal false
+      _(m).wont_be :supports_platform?, backend
     end
 
     it "loads a profile which supports ubuntu float 14.04 as parsed by yml" do
       m = supports_meta({ "os-name" => "ubuntu", "release" => 14.04 })
-      _(m.supports_platform?(backend)).must_equal true
+      _(m).must_be :supports_platform?, backend
     end
 
     it "reject unsupported os" do
       m = supports_meta({ "os-name" => "windows" })
-      _(m.supports_platform?(backend)).must_equal false
+      _(m).wont_be :supports_platform?, backend
     end
 
     it "loads a profile which supports multiple families" do
@@ -191,7 +191,7 @@ EOF
         { "os-family" => "windows" },
         { "os-family" => "unix" },
       ])
-      _(m.supports_platform?(backend)).must_equal true
+      _(m).must_be :supports_platform?, backend
     end
 
     it "loads a profile which supports multiple names" do
@@ -199,7 +199,7 @@ EOF
         { "os-family" => "windows", "os-name" => "windows_2000" },
         { "os-family" => "unix", "os-name" => "ubuntu" },
       ])
-      _(m.supports_platform?(backend)).must_equal true
+      _(m).must_be :supports_platform?, backend
     end
 
     it "reject a profile which supports multiple families" do
@@ -207,7 +207,7 @@ EOF
         { "os-family" => "windows" },
         { "os-family" => "redhat" },
       ])
-      _(m.supports_platform?(backend)).must_equal false
+      _(m).wont_be :supports_platform?, backend
     end
   end
 
@@ -224,32 +224,32 @@ EOF
 
     it "returns true on testing the current version" do
       m = version_meta(current_version)
-      _(m.supports_runtime?).must_equal true
+      _(m).must_be :supports_runtime?
     end
 
     it "returns true on testing the current version" do
       m = version_meta("= " + current_version)
-      _(m.supports_runtime?).must_equal true
+      _(m).must_be :supports_runtime?
     end
 
     it "returns true on testing >= current version" do
       m = version_meta(">= " + current_version)
-      _(m.supports_runtime?).must_equal true
+      _(m).must_be :supports_runtime?
     end
 
     it "returns false on testing >= the next version" do
       m = version_meta(">= " + next_version)
-      _(m.supports_runtime?).must_equal false
+      _(m).wont_be :supports_runtime?
     end
 
     it "returns false on testing > the next version" do
       m = version_meta("> " + next_version)
-      _(m.supports_runtime?).must_equal false
+      _(m).wont_be :supports_runtime?
     end
 
     it "is included in valid?" do
       m = version_meta("> #{next_version}")
-      refute m.valid?
+      refute_predicate m, :valid?
     end
   end
 end

@@ -13,6 +13,7 @@ module Inspec
       new(profile.name, backend, { "profile" => profile, "check_mode" => profile.check_mode })
     end
 
+    attr_reader :library_eval_context
     attr_reader :backend, :profile_name, :profile_id, :resource_registry
     attr_accessor :rules
     def initialize(profile_id, backend, conf)
@@ -52,7 +53,7 @@ module Inspec
     end
 
     def to_resources_dsl
-      Inspec::Resource.create_dsl(self)
+      DomainSpecificLunacy.create_dsl(self)
     end
 
     def control_eval_context
@@ -125,10 +126,14 @@ module Inspec
 
       libs.sort_by! { |l| l[1] } # Sort on source path so load order is deterministic
       libs.each do |content, source, line|
+        next unless source.end_with?(".rb")
+
         path = source
         if source.start_with?(lib_prefix)
           path = source.sub(lib_prefix, "")
-          autoloads.push(path) if File.dirname(path) == "."
+          no_subdir = File.dirname(path) == "."
+
+          autoloads.push(path) if no_subdir
         end
 
         @require_loader.add(path, content, source, line)
@@ -136,10 +141,10 @@ module Inspec
 
       # load all files directly that are flat inside the libraries folder
       autoloads.each do |path|
-        next unless path.end_with?(".rb")
-
-        load_library_file(*@require_loader.load(path)) unless @require_loader.loaded?(path)
+        load_library_file(*@require_loader.load(path)) unless
+          @require_loader.loaded?(path)
       end
+
       reload_dsl
     end
 
@@ -203,5 +208,61 @@ module Inspec
 
       pid.to_s + "/" + rid.to_s
     end
+
+    module DomainSpecificLunacy
+      def self.create_dsl(profile_context)
+        Module.new do
+          include DomainSpecificLunacy
+          add_methods(profile_context)
+        end
+      end
+
+      def self.included(mod)
+        mod.extend ClassMethods
+      end
+
+      def resource_class(profile_name, resource_name)
+        inner_context = if profile_name == profile_context.profile_id
+                          profile_context
+                        else
+                          profile_context.subcontext_by_name(profile_name)
+                        end
+
+        raise ProfileNotFound, "Cannot find profile named: #{profile_name}" if inner_context.nil?
+
+        inner_context.resource_registry[resource_name]
+      end
+
+      module ClassMethods
+        def add_methods(profile_context)
+          backend = profile_context.backend
+
+          define_method(:profile_context) { profile_context }
+          define_method(:inspec) { backend }
+
+          add_registry_methods(profile_context)
+        end
+
+        def add_registry_methods(profile_context)
+          be = profile_context.backend
+          bec = be.class
+
+          registry = profile_context.resource_registry
+          registry.each do |id, r|
+            define_method(id) { |*args| r.new(be, id.to_s, *args) }
+
+            next if be.respond_to?(id)
+
+            bec.define_method(id) { |*args| r.new(be, id.to_s, *args) }
+          end
+        end # add_resource_methods
+      end # ClassMethods
+    end # DomainSpecificLunacy
+  end # ProfileContext
+end
+
+if RUBY_VERSION < "2.5"
+  class Module
+    public :define_method
   end
 end

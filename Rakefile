@@ -255,13 +255,6 @@ namespace :test do
   # Inject a prerequisite task
   task unit: [:accept_license]
 
-  task :resources do
-    tests = Dir["test/unit/resources/*_test.rb"]
-    return if tests.empty?
-
-    sh(Gem.ruby, "test/docker_test.rb", *tests)
-  end
-
   task :integration, [:os] do |task, args|
     concurrency = ENV["CONCURRENCY"] || 1
     os = args[:os] || ENV["OS"] || ""

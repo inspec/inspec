@@ -10,7 +10,7 @@ module AwsResourceMixin
     end
   rescue ArgumentError => e
     # continue with ArgumentError if testing
-    raise unless respond_to?(:inspec)
+    raise unless respond_to?(:inspec) && inspec
 
     raise Inspec::Exceptions::ResourceFailed, e.message
   end

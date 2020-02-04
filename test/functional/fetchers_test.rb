@@ -37,7 +37,7 @@ describe "the fetchers" do
         assert_fetcher_failed_cleanly(
           run_result,
           /Profile URL dependency .+ could not be fetched:/,
-          "https://localhost.invalid/inspec/inspec-nonesuch/path/to/profile.tgz"
+          "https://localhost/inspec/inspec-nonesuch/path/to/profile.tgz"
         )
       end
     end
@@ -47,8 +47,8 @@ describe "the fetchers" do
       it "should throw an exception not a stacktrace with a git fetcher" do
         assert_fetcher_failed_cleanly(
           run_result,
-          /Profile git dependency failed for .+ Could not resolve host.+/,
-          "http://localhost.invalid/no/such"
+          /unable to access/,
+          "http://localhost/no/such"
         )
       end
     end

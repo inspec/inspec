@@ -1,10 +1,11 @@
 require "helper"
 require "inspec/resource"
 require "inspec/resources/os"
-# require 'inspec/plugin/v1/plugin_types/resource'
 
-describe Inspec::Plugins::Resource do
-  let(:base) { Inspec::Plugins::Resource }
+# TODO: remove or merge tests with resource_test.rb
+
+describe Inspec::Resource do
+  let(:base) { Inspec::Resource }
 
   describe "#name" do
     it "won't register a nil resource" do
@@ -57,13 +58,13 @@ describe Inspec::Plugins::Resource do
 
   describe "supported platform" do
     def supports_meta(supports)
-      @old = Inspec::Resource.supports[:os]
-      Inspec::Resource.supports[:os] = supports
+      @old = Inspec::Resource.support_registry[:os]
+      Inspec::Resource.support_registry[:os] = supports
       load_resource("os")
     end
 
     after do
-      Inspec::Resource.supports[:os] = @old
+      Inspec::Resource.support_registry[:os] = @old
     end
 
     it "loads a profile which supports multiple families" do
@@ -72,7 +73,7 @@ describe Inspec::Plugins::Resource do
         { os_family: "unix" },
       ])
       _(m.check_supports).must_equal true
-      Inspec::Resource.supports["os"] = nil
+      Inspec::Resource.support_registry["os"] = nil
     end
 
     it "loads a profile which supports multiple names" do
@@ -81,7 +82,7 @@ describe Inspec::Plugins::Resource do
         { os_family: "unix", os_name: "ubuntu" },
       ])
       _(m.check_supports).must_equal true
-      Inspec::Resource.supports["os"] = nil
+      Inspec::Resource.support_registry["os"] = nil
     end
 
     it "reject a profile which supports multiple families" do
@@ -90,7 +91,7 @@ describe Inspec::Plugins::Resource do
         { os_family: "redhat" },
       ])
       _(m.check_supports).must_equal false
-      Inspec::Resource.supports["os"] = nil
+      Inspec::Resource.support_registry["os"] = nil
     end
   end
 end

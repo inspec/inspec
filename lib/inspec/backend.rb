@@ -7,34 +7,19 @@ require "inspec/resource"
 require "inspec/dsl" # for method_missing_resource
 
 module Inspec
-  module Backend
-    module Base
-      attr_accessor :profile
+  class Backend
+    attr_accessor :backend
+    attr_accessor :profile
 
-      # Provide a shorthand to retrieve the inspec version from within a profile
-      #
-      # @return [String] inspec version
-      def version
-        Inspec::VERSION
-      end
+    # Creates a bunch of predefined resource methods based on the
+    # current registry at the time. See #method_missing for what else
+    # can happen.
 
-      # Determine whether the connection/transport is a local connection
-      # Useful for resources to modify behavior as necessary, such as using
-      # the Ruby stdlib for a better experience.
-      def local_transport?
-        return false unless defined?(Train::Transports::Local)
-
-        backend.is_a?(Train::Transports::Local::Connection)
-      end
-
-      # Ruby internal for printing a nice name for this class
-      def to_s
-        "Inspec::Backend::Class"
-      end
-
-      # Ruby internal for pretty-printing a summary for this class
-      def inspect
-        "Inspec::Backend::Class @transport=#{backend.class}"
+    def self.add_resource_methods # TODO: remove
+      Inspec::Resource.registry.each do |id, r|
+        define_method id.to_sym do |*args|
+          r.new(self, id.to_s, *args)
+        end
       end
     end
 
@@ -71,31 +56,48 @@ module Inspec
         connection.disable_cache(:command)
       end
 
-      cls = Class.new do
-        include Base
-
-        define_method :backend do
-          connection
-        end
-
-        def method_missing(id, *args, &blk)
-          Inspec::DSL.method_missing_resource(self, id, *args)
-        rescue LoadError
-          super
-        end
-
-        Inspec::Resource.registry.each do |id, r|
-          define_method id.to_sym do |*args|
-            r.new(self, id.to_s, *args)
-          end
-        end
-      end
-
-      cls.new
+      Inspec::Backend.new(connection)
     rescue Train::ClientError => e
       raise "Client error, can't connect to '#{transport_name}' backend: #{e.message}"
     rescue Train::TransportError => e
       raise "Transport error, can't connect to '#{transport_name}' backend: #{e.message}"
+    end
+
+    def initialize(backend)
+      self.backend = backend
+      self.class.add_resource_methods
+    end
+
+    # Provide a shorthand to retrieve the inspec version from within a profile
+    #
+    # @return [String] inspec version
+    def version
+      Inspec::VERSION
+    end
+
+    # Determine whether the connection/transport is a local connection
+    # Useful for resources to modify behavior as necessary, such as using
+    # the Ruby stdlib for a better experience.
+    def local_transport?
+      return false unless defined?(Train::Transports::Local)
+
+      backend.is_a?(Train::Transports::Local::Connection)
+    end
+
+    # Ruby internal for printing a nice name for this class
+    def to_s
+      "Inspec::Backend::Class"
+    end
+
+    # Ruby internal for pretty-printing a summary for this class
+    def inspect
+      "Inspec::Backend::Class @transport=#{backend.class}"
+    end
+
+    def method_missing(id, *args, &blk)
+      Inspec::DSL.method_missing_resource(self, id, *args)
+    rescue LoadError
+      super
     end
   end
 end
