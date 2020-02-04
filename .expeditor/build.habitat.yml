@@ -1,2 +1,9 @@
 ---
 origin: chef
+
+expeditor:
+  defaults:
+    buildkite:
+      retry:
+        automatic:
+          limit: 1
