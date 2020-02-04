@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.82 -->
-## [v4.18.82](https://github.com/inspec/inspec/tree/v4.18.82) (2020-02-01)
+<!-- latest_release 4.18.83 -->
+## [v4.18.83](https://github.com/inspec/inspec/tree/v4.18.83) (2020-02-04)
 
 #### Merged Pull Requests
-- Fix minor style issues. [#4882](https://github.com/inspec/inspec/pull/4882) ([zenspider](https://github.com/zenspider))
+- Removed ~50% of metaprogramming from LibraryEvalContext &amp; Resource [#4814](https://github.com/inspec/inspec/pull/4814) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
@@ -23,6 +23,7 @@
 - upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley)) <!-- 4.18.60 -->
 
 #### Merged Pull Requests
+- Removed ~50% of metaprogramming from LibraryEvalContext &amp; Resource [#4814](https://github.com/inspec/inspec/pull/4814) ([zenspider](https://github.com/zenspider)) <!-- 4.18.83 -->
 - Fix minor style issues. [#4882](https://github.com/inspec/inspec/pull/4882) ([zenspider](https://github.com/zenspider)) <!-- 4.18.82 -->
 - Remove skips from windows testing in &#39;inputs&#39; and &#39;archive&#39; functional tests [#4860](https://github.com/inspec/inspec/pull/4860) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.81 -->
 - Refactored crontab resource [#4869](https://github.com/inspec/inspec/pull/4869) ([zenspider](https://github.com/zenspider)) <!-- 4.18.80 -->
