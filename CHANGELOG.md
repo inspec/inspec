@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.83 -->
-## [v4.18.83](https://github.com/inspec/inspec/tree/v4.18.83) (2020-02-04)
+<!-- latest_release 4.18.84 -->
+## [v4.18.84](https://github.com/inspec/inspec/tree/v4.18.84) (2020-02-04)
 
-#### Merged Pull Requests
-- Removed ~50% of metaprogramming from LibraryEvalContext &amp; Resource [#4814](https://github.com/inspec/inspec/pull/4814) ([zenspider](https://github.com/zenspider))
+#### Enhancements
+- issue 4807: test for inputs in profiles [#4883](https://github.com/inspec/inspec/pull/4883) ([nazliBeit](https://github.com/nazliBeit))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
 ### Changes since 4.18.51 release
 
 #### Enhancements
+- issue 4807: test for inputs in profiles [#4883](https://github.com/inspec/inspec/pull/4883) ([nazliBeit](https://github.com/nazliBeit)) <!-- 4.18.84 -->
 - Remove the references to the core/cacerts so customers can specify it [#4848](https://github.com/inspec/inspec/pull/4848) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.18.75 -->
 
 #### New Features
