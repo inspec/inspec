@@ -106,9 +106,9 @@ module Inspec::Resources
       elsif opt == " -f"
         inspec.command("hostname").stdout.chomp
       elsif opt == " -d"
-        inspec.command("hostname").stdout.chomp.split(".", 1).last
+        inspec.command("hostname").stdout.chomp.split(".", 2).last
       elsif opt == " -s"
-        inspec.command("hostname").stdout.chomp.split(".", 1).first
+        inspec.command("hostname").stdout.chomp.split(".", 2).first
       elsif opt == " -I"
         inspec.command("getent hosts `hostname`").stdout.chomp.split("\t").first
       else
