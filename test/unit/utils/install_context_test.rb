@@ -24,6 +24,14 @@ class InstallContextTester
     @src_root = src_root
     @dummy_paths = dummy_paths
   end
+
+  def path_exist?(path)
+    if dummy_paths.empty?
+      File.exist? path
+    else
+      dummy_paths.include? path
+    end
+  end
 end
 
 describe Inspec::InstallContextHelpers do

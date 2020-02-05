@@ -54,13 +54,7 @@ module Inspec
     end
 
     def path_exist?(path)
-      # This exists for testing
-      if respond_to? :dummy_paths
-        dummy_paths.include? path
-      else
-        File.exist? path
-      end
+      File.exist? path
     end
-
   end
 end
