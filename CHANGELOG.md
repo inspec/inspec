@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.84 -->
-## [v4.18.84](https://github.com/inspec/inspec/tree/v4.18.84) (2020-02-04)
+<!-- latest_release 4.18.85 -->
+## [v4.18.85](https://github.com/inspec/inspec/tree/v4.18.85) (2020-02-06)
 
-#### Enhancements
-- issue 4807: test for inputs in profiles [#4883](https://github.com/inspec/inspec/pull/4883) ([nazliBeit](https://github.com/nazliBeit))
+#### Bug Fixes
+- Don&#39;t try to fool Thor&#39;s option type checker for --airgap on archive [#4892](https://github.com/inspec/inspec/pull/4892) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.51 -->
@@ -20,6 +20,7 @@
 - Add: certificate content x509_certificate [#4845](https://github.com/inspec/inspec/pull/4845) ([frezbo](https://github.com/frezbo)) <!-- 4.18.63 -->
 
 #### Bug Fixes
+- Don&#39;t try to fool Thor&#39;s option type checker for --airgap on archive [#4892](https://github.com/inspec/inspec/pull/4892) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.85 -->
 - Missing end quote in oracledb_session [#4852](https://github.com/inspec/inspec/pull/4852) ([miah](https://github.com/miah)) <!-- 4.18.66 -->
 - upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley)) <!-- 4.18.60 -->
 
