@@ -1,61 +1,59 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.85 -->
-## [v4.18.85](https://github.com/inspec/inspec/tree/v4.18.85) (2020-02-06)
-
-#### Bug Fixes
-- Don&#39;t try to fool Thor&#39;s option type checker for --airgap on archive [#4892](https://github.com/inspec/inspec/pull/4892) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.18.51 -->
-### Changes since 4.18.51 release
-
-#### Enhancements
-- issue 4807: test for inputs in profiles [#4883](https://github.com/inspec/inspec/pull/4883) ([nazliBeit](https://github.com/nazliBeit)) <!-- 4.18.84 -->
-- Remove the references to the core/cacerts so customers can specify it [#4848](https://github.com/inspec/inspec/pull/4848) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.18.75 -->
-
-#### New Features
-- Added --inspect option to inspect shell command. [#4864](https://github.com/inspec/inspec/pull/4864) ([zenspider](https://github.com/zenspider)) <!-- 4.18.79 -->
-- Use an archive if possible when fetching fails and --airgap is provided [#4806](https://github.com/inspec/inspec/pull/4806) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.67 -->
-- Add: certificate content x509_certificate [#4845](https://github.com/inspec/inspec/pull/4845) ([frezbo](https://github.com/frezbo)) <!-- 4.18.63 -->
-
-#### Bug Fixes
-- Don&#39;t try to fool Thor&#39;s option type checker for --airgap on archive [#4892](https://github.com/inspec/inspec/pull/4892) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.85 -->
-- Missing end quote in oracledb_session [#4852](https://github.com/inspec/inspec/pull/4852) ([miah](https://github.com/miah)) <!-- 4.18.66 -->
-- upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley)) <!-- 4.18.60 -->
-
-#### Merged Pull Requests
-- Removed ~50% of metaprogramming from LibraryEvalContext &amp; Resource [#4814](https://github.com/inspec/inspec/pull/4814) ([zenspider](https://github.com/zenspider)) <!-- 4.18.83 -->
-- Fix minor style issues. [#4882](https://github.com/inspec/inspec/pull/4882) ([zenspider](https://github.com/zenspider)) <!-- 4.18.82 -->
-- Remove skips from windows testing in &#39;inputs&#39; and &#39;archive&#39; functional tests [#4860](https://github.com/inspec/inspec/pull/4860) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.81 -->
-- Refactored crontab resource [#4869](https://github.com/inspec/inspec/pull/4869) ([zenspider](https://github.com/zenspider)) <!-- 4.18.80 -->
-- make command.exist? POSIX conform [#4822](https://github.com/inspec/inspec/pull/4822) ([PiQuer](https://github.com/PiQuer)) <!-- 4.18.78 -->
-- I _think_ this should fix omnibus. [#4880](https://github.com/inspec/inspec/pull/4880) ([zenspider](https://github.com/zenspider)) <!-- 4.18.77 -->
-- I *think* this will fix habitat. [#4877](https://github.com/inspec/inspec/pull/4877) ([zenspider](https://github.com/zenspider)) <!-- 4.18.76 -->
-- the correct, un-panicked fix. [#4872](https://github.com/inspec/inspec/pull/4872) ([zenspider](https://github.com/zenspider)) <!-- 4.18.74 -->
-- bad master merge... rushing this through [#4871](https://github.com/inspec/inspec/pull/4871) ([zenspider](https://github.com/zenspider)) <!-- 4.18.73 -->
-- Add support for yocto linux in service resource [#4843](https://github.com/inspec/inspec/pull/4843) ([michaellihs](https://github.com/michaellihs)) <!-- 4.18.72 -->
-- Fix up the platform on etc_hosts, virtualization, ini, and xml resources to fix OS disparity. [#4862](https://github.com/inspec/inspec/pull/4862) ([zenspider](https://github.com/zenspider)) <!-- 4.18.71 -->
-- Rework and unify gemspecs. [#4854](https://github.com/inspec/inspec/pull/4854) ([zenspider](https://github.com/zenspider)) <!-- 4.18.70 -->
-- Properly report errors with bad tarball files. [#4825](https://github.com/inspec/inspec/pull/4825) ([zenspider](https://github.com/zenspider)) <!-- 4.18.69 -->
-- Fix windows plugin functional tests [#4861](https://github.com/inspec/inspec/pull/4861) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.68 -->
-- Fixes all notarization issues [#4835](https://github.com/inspec/inspec/pull/4835) ([jonsmorrow](https://github.com/jonsmorrow)) <!-- 4.18.65 -->
-- Refactor some of resources/service.rb [#4849](https://github.com/inspec/inspec/pull/4849) ([zenspider](https://github.com/zenspider)) <!-- 4.18.64 -->
-- Windows 7 EOL Docs Update [#4841](https://github.com/inspec/inspec/pull/4841) ([mjingle](https://github.com/mjingle)) <!-- 4.18.62 -->
-- Fixed duplicate groups on osx by merging members by gid. [#4833](https://github.com/inspec/inspec/pull/4833) ([zenspider](https://github.com/zenspider)) <!-- 4.18.61 -->
-- updates file resource doc to add example for sticky bit with leading … [#4823](https://github.com/inspec/inspec/pull/4823) ([collinmcneese](https://github.com/collinmcneese)) <!-- 4.18.59 -->
-- Fix empty attributes array in json reporter [#4815](https://github.com/inspec/inspec/pull/4815) ([nazliBeit](https://github.com/nazliBeit)) <!-- 4.18.58 -->
-- Found and fixed more mocha/setup deprecations. [#4821](https://github.com/inspec/inspec/pull/4821) ([zenspider](https://github.com/zenspider)) <!-- 4.18.57 -->
-- Removed all metaprogramming from ControlEvalContext [#4778](https://github.com/inspec/inspec/pull/4778) ([zenspider](https://github.com/zenspider)) <!-- 4.18.56 -->
-- Set test skip bomb date to end of 2020Q1 [#4819](https://github.com/inspec/inspec/pull/4819) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.55 -->
-- Add suport for freebsd package resource [#4789](https://github.com/inspec/inspec/pull/4789) ([fzipi](https://github.com/fzipi)) <!-- 4.18.54 -->
-- postfix_conf: Changed supported platform to unix [#4794](https://github.com/inspec/inspec/pull/4794) ([fzipi](https://github.com/fzipi)) <!-- 4.18.53 -->
-- Update Ruby to 2.6.5 [#4796](https://github.com/inspec/inspec/pull/4796) ([tas50](https://github.com/tas50)) <!-- 4.18.52 -->
-- Allow Thor 1.x versions to be used [#4795](https://github.com/inspec/inspec/pull/4795) ([tas50](https://github.com/tas50)) <!-- 4.18.52 -->
-- Latest version of rubygems is starting to blow up because of bundler executable overwrite warnings [#4790](https://github.com/inspec/inspec/pull/4790) ([zenspider](https://github.com/zenspider)) <!-- 4.18.51 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.18.85](https://github.com/inspec/inspec/tree/v4.18.85) (2020-02-06)
+
+#### New Features
+- Add: certificate content x509_certificate [#4845](https://github.com/inspec/inspec/pull/4845) ([frezbo](https://github.com/frezbo))
+- Use an archive if possible when fetching fails and --airgap is provided [#4806](https://github.com/inspec/inspec/pull/4806) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Added --inspect option to inspect shell command. [#4864](https://github.com/inspec/inspec/pull/4864) ([zenspider](https://github.com/zenspider))
+
+#### Enhancements
+- Remove the references to the core/cacerts so customers can specify it [#4848](https://github.com/inspec/inspec/pull/4848) ([TheLunaticScripter](https://github.com/TheLunaticScripter))
+- issue 4807: test for inputs in profiles [#4883](https://github.com/inspec/inspec/pull/4883) ([nazliBeit](https://github.com/nazliBeit))
+
+#### Bug Fixes
+- upstream is basic_auth_only not basic_auth [#4834](https://github.com/inspec/inspec/pull/4834) ([shawnifoley](https://github.com/shawnifoley))
+- Missing end quote in oracledb_session [#4852](https://github.com/inspec/inspec/pull/4852) ([miah](https://github.com/miah))
+- Don&#39;t try to fool Thor&#39;s option type checker for --airgap on archive [#4892](https://github.com/inspec/inspec/pull/4892) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Latest version of rubygems is starting to blow up because of bundler executable overwrite warnings [#4790](https://github.com/inspec/inspec/pull/4790) ([zenspider](https://github.com/zenspider))
+- Allow Thor 1.x versions to be used [#4795](https://github.com/inspec/inspec/pull/4795) ([tas50](https://github.com/tas50))
+- Update Ruby to 2.6.5 [#4796](https://github.com/inspec/inspec/pull/4796) ([tas50](https://github.com/tas50))
+- postfix_conf: Changed supported platform to unix [#4794](https://github.com/inspec/inspec/pull/4794) ([fzipi](https://github.com/fzipi))
+- Add suport for freebsd package resource [#4789](https://github.com/inspec/inspec/pull/4789) ([fzipi](https://github.com/fzipi))
+- Set test skip bomb date to end of 2020Q1 [#4819](https://github.com/inspec/inspec/pull/4819) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Removed all metaprogramming from ControlEvalContext [#4778](https://github.com/inspec/inspec/pull/4778) ([zenspider](https://github.com/zenspider))
+- Found and fixed more mocha/setup deprecations. [#4821](https://github.com/inspec/inspec/pull/4821) ([zenspider](https://github.com/zenspider))
+- Fix empty attributes array in json reporter [#4815](https://github.com/inspec/inspec/pull/4815) ([nazliBeit](https://github.com/nazliBeit))
+- updates file resource doc to add example for sticky bit with leading … [#4823](https://github.com/inspec/inspec/pull/4823) ([collinmcneese](https://github.com/collinmcneese))
+- Fixed duplicate groups on osx by merging members by gid. [#4833](https://github.com/inspec/inspec/pull/4833) ([zenspider](https://github.com/zenspider))
+- Windows 7 EOL Docs Update [#4841](https://github.com/inspec/inspec/pull/4841) ([mjingle](https://github.com/mjingle))
+- Refactor some of resources/service.rb [#4849](https://github.com/inspec/inspec/pull/4849) ([zenspider](https://github.com/zenspider))
+- Fixes all notarization issues [#4835](https://github.com/inspec/inspec/pull/4835) ([jonsmorrow](https://github.com/jonsmorrow))
+- Fix windows plugin functional tests [#4861](https://github.com/inspec/inspec/pull/4861) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Properly report errors with bad tarball files. [#4825](https://github.com/inspec/inspec/pull/4825) ([zenspider](https://github.com/zenspider))
+- Rework and unify gemspecs. [#4854](https://github.com/inspec/inspec/pull/4854) ([zenspider](https://github.com/zenspider))
+- Fix up the platform on etc_hosts, virtualization, ini, and xml resources to fix OS disparity. [#4862](https://github.com/inspec/inspec/pull/4862) ([zenspider](https://github.com/zenspider))
+- Add support for yocto linux in service resource [#4843](https://github.com/inspec/inspec/pull/4843) ([michaellihs](https://github.com/michaellihs))
+- bad master merge... rushing this through [#4871](https://github.com/inspec/inspec/pull/4871) ([zenspider](https://github.com/zenspider))
+- the correct, un-panicked fix. [#4872](https://github.com/inspec/inspec/pull/4872) ([zenspider](https://github.com/zenspider))
+- I *think* this will fix habitat. [#4877](https://github.com/inspec/inspec/pull/4877) ([zenspider](https://github.com/zenspider))
+- I _think_ this should fix omnibus. [#4880](https://github.com/inspec/inspec/pull/4880) ([zenspider](https://github.com/zenspider))
+- make command.exist? POSIX conform [#4822](https://github.com/inspec/inspec/pull/4822) ([PiQuer](https://github.com/PiQuer))
+- Refactored crontab resource [#4869](https://github.com/inspec/inspec/pull/4869) ([zenspider](https://github.com/zenspider))
+- Remove skips from windows testing in &#39;inputs&#39; and &#39;archive&#39; functional tests [#4860](https://github.com/inspec/inspec/pull/4860) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix minor style issues. [#4882](https://github.com/inspec/inspec/pull/4882) ([zenspider](https://github.com/zenspider))
+- Removed ~50% of metaprogramming from LibraryEvalContext &amp; Resource [#4814](https://github.com/inspec/inspec/pull/4814) ([zenspider](https://github.com/zenspider))
+<!-- latest_stable_release -->
+
 ## [v4.18.51](https://github.com/inspec/inspec/tree/v4.18.51) (2019-12-16)
 
 #### New Features
@@ -75,7 +73,6 @@
 - Bump rspec to 3.9 and fix broken tests. [#4771](https://github.com/inspec/inspec/pull/4771) ([zenspider](https://github.com/zenspider))
 - Fix warnings coming from ruby -w [#4766](https://github.com/inspec/inspec/pull/4766) ([zenspider](https://github.com/zenspider))
 - remove inspec from pkg_deps/pkg_build_deps in template [#4754](https://github.com/inspec/inspec/pull/4754) ([joshbrand](https://github.com/joshbrand))
-<!-- latest_stable_release -->
 
 ## [v4.18.39](https://github.com/inspec/inspec/tree/v4.18.39) (2019-11-15)
 
