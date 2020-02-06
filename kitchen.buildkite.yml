@@ -30,7 +30,7 @@ verifier:
 suites:
 - name: resources-core
   run_list:
-  - recipe[os_prepare]
+  - recipe[resources-core]
   verifier:
     inspec_tests:
       - test/kitchen/policies/resources-core
@@ -43,9 +43,6 @@ suites:
       fetcher: 'chef-automate'
       json_file:
         location: /tmp/json_export.json
-    osprepare:
-      docker: true
-      application: false
 
 #- name: resources-unix
 #  verifier:

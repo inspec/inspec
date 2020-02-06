@@ -29,31 +29,9 @@ platforms:
   - name: ubuntu-18.04
 
 suites:
-- name: resources-core
-  run_list:
-  - recipe[build-essential]
-  - recipe[os_prepare]
-  - recipe[audit]
-  verifier:
-    name: inspec
-    inspec_tests:
-      - test/kitchen/policies/find_files
-  attributes:
-    audit:
-      attributes:
-        audit_attribute: 'Attribute Override!'
-      insecure: true
-      reporter: ['json-file','chef-automate']
-      fetcher: 'chef-automate'
-      json_file:
-        location: /tmp/json_export.json
-      profiles:
-        - name: integration
-          url: https://github.com/inspec/inspec-integration-profile/archive/master.zip
-    osprepare:
-      docker: true
-      application: false
-
-- name: resources-database
-- name: resources-unix
-- name: resources-windows
+  - name: resources-core
+    run_list:
+      - recipe[resources-core]
+    verifier:
+      inspec_tests:
+      	- test/kitchen/policies/resources-core
