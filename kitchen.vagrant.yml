@@ -14,16 +14,34 @@ lifecycle:
     - local: gem build inspec-core.gemspec --output test/kitchen/cookbooks/os_prepare/files/inspec-core-local.gem
 
 platforms:
-  - name: amazonlinux
   - name: amazonlinux-2
+    driver:
+      box: bento/amazonlinux-2
   - name: centos-6
+    driver:
+      box: bento/centos-6
   - name: centos-7
+    driver:
+      box: bento/centos-7
   - name: centos-8
+    driver:
+      box: bento/centos-8
   - name: debian-8
+    driver:
+      box: bento/debian-8
   - name: debian-9
+    driver:
+      box: bento/debian-9
   - name: debian-10
+    driver:
+      box: bento/debian-10
   - name: fedora-latest
+    driver:
+      box: bento/fedora-latest
   - name: freebsd-12
+    driver:
+      box: bento/freebsd-12
+
   - name: opensuseleap-15
   - name: ubuntu-16.04
   - name: ubuntu-18.04
@@ -35,4 +53,4 @@ suites:
       - recipe[resources-core]
     verifier:
       inspec_tests:
-      	- test/kitchen/policies/resources-core
+        - test/kitchen/policies/resources-core
