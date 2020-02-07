@@ -10,8 +10,8 @@ verifier:
   sudo: true
 
 lifecycle:
-  pre_converge:
-    - local: gem build inspec-core.gemspec --output test/kitchen/cookbooks/os_prepare/files/inspec-core-local.gem
+  pre_create:
+    - local: gem build inspec.gemspec --output test/kitchen/cookbooks/run-first/files/inspec.gem
 
 platforms:
   - name: amazonlinux-2
@@ -49,8 +49,7 @@ platforms:
 suites:
   - name: resources-core
     run_list:
-      - recipe[run_first]
-      - recipe[resources-core]
+      - recipe[run-first]
     verifier:
       inspec_tests:
         - test/kitchen/policies/resources-core
