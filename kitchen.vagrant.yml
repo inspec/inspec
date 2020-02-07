@@ -31,6 +31,7 @@ platforms:
 suites:
   - name: resources-core
     run_list:
+      - recipe[run_first]
       - recipe[resources-core]
     verifier:
       inspec_tests:

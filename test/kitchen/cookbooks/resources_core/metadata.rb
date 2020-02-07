@@ -1,0 +1,5 @@
+name "resources_core"
+maintainer "Chef Software, Inc."
+maintainer_email "support@chef.io"
+description "This cookbook prepares the OS resources_core tests."
+version "1.0.0"
