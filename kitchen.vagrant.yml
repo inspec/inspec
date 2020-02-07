@@ -11,7 +11,8 @@ verifier:
 
 lifecycle:
   pre_create:
-    - local: gem build inspec.gemspec --output test/kitchen/cookbooks/run-first/files/inspec.gem
+    - local: cd inspec-bin && gem build inspec-core-bin.gemspec --output ../test/kitchen/cookbooks/run-first/files/inspec-core-bin.gem
+    - local: gem build inspec-core.gemspec --output test/kitchen/cookbooks/run-first/files/inspec-core.gem
 
 platforms:
   - name: amazonlinux-2
