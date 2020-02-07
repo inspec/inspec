@@ -1,4 +1,4 @@
-name "resources_core"
+name "resources-core"
 maintainer "Chef Software, Inc."
 maintainer_email "support@chef.io"
 description "This cookbook prepares the OS resources_core tests."

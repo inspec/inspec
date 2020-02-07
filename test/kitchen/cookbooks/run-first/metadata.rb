@@ -1,4 +1,4 @@
-name "run_first"
+name "run-first"
 maintainer "Chef Software, Inc."
 maintainer_email "support@chef.io"
 description "This cookbook installs the InSpec gem."
