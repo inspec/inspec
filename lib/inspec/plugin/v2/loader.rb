@@ -263,10 +263,6 @@ module Inspec::Plugin::V2
 
     def fixup_train_plugin_status(status)
       status.api_generation = :'train-1'
-      if status.installation_type == :user_gem
-        # Activate the gem. This allows train to 'require' the gem later.
-        activate_managed_gems_for_plugin(status.entry_point)
-      end
     end
 
     def find_inspec_gemspec(name, ver)

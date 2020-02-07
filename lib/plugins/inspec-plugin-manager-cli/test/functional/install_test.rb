@@ -32,8 +32,8 @@ class PluginManagerCliInstall < Minitest::Test
       given: File.join("test", "fixtures", "plugins", "inspec-test-fixture", "lib", "inspec-test-fixture.rb"),
     },
     "refers_to_a_train_plugin" => {
-      given: File.join(core_config_dir_path, "train-test-fixture", "gems", ruby_abi_version, "gems", "train-test-fixture-0.1.0", "lib", "train-test-fixture.rb"),
       plugin_name: "train-test-fixture",
+      given: File.join(core_config_dir_path, "train-test-fixture", "gems", ruby_abi_version, "gems", "train-test-fixture-0.1.0", "lib", "train-test-fixture.rb"),
       resolved_path: File.join(core_config_dir_path, "train-test-fixture", "gems", ruby_abi_version, "gems", "train-test-fixture-0.1.0", "lib", "train-test-fixture.rb"),
     },
   }.each do |test_name, fixture_info|
