@@ -8,6 +8,7 @@ require "train"
 require_relative "tasks/spdx"
 require "fileutils"
 
+Bundler::GemHelper.install_tasks name: "inspec-core"
 Bundler::GemHelper.install_tasks name: "inspec"
 
 def prompt(message)

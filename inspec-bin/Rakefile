@@ -1,4 +1,4 @@
-Bundler::GemHelper.install_tasks(name: "inspec-bin")
+Bundler::GemHelper.install_tasks name: "inspec-bin"
 
 desc "force install the inspec-bin gem"
 task "install:force" do
