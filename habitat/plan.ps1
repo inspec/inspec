@@ -49,8 +49,10 @@ function Invoke-Build {
 
         Write-BuildLine " ** Using bundler to retrieve the Ruby dependencies"
         bundle install
+        If ($lastexitcode -ne 0) { Exit $lastexitcode }
         Write-BuildLine " ** Running the inspec project's 'rake install' to install the path-based gems so they look like any other installed gem."
         bundle exec rake install # this needs to be 'bundle exec'd because a Rakefile makes reference to Bundler
+        If ($lastexitcode -ne 0) { Exit $lastexitcode }
     } finally {
         Pop-Location
     }
@@ -63,9 +65,10 @@ function Invoke-Install {
     try {
         Push-Location $pkg_prefix
         bundle config --local gemfile $project_root/Gemfile
-        foreach($gem in ("inspec-bin", "inspec-core", "inspec")) {
+        foreach($gem in ("inspec-core", "inspec", "inspec-bin")) {
             Write-BuildLine "** generating binstubs for $gem with precise version pins"
             Invoke-Expression -Command "appbundler.bat $project_root $pkg_prefix/bin $gem"
+            If ($lastexitcode -ne 0) { Exit $lastexitcode }
         }
     } finally {
         Pop-Location
