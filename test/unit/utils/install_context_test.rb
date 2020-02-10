@@ -8,11 +8,11 @@ def assert_install_contexts(test_obj, test_expected_to_be_true, also_rubygem)
   should_be_false -= [test_expected_to_be_true]
   should_be_false = should_be_false.map { |m| "#{m}_install?".tr("-", "_").to_sym }
   should_be_false -= [:rubygem_install?] if also_rubygem
-  should_be_false.each { |m| _(test_obj.send(m)).must_equal false }
+  should_be_false.each { |m| _(test_obj).wont_be(m) }
 
   should_be_true   = ["#{test_expected_to_be_true}_install?".tr("-", "_").to_sym]
   should_be_true  += [:rubygem_install?] if also_rubygem
-  should_be_true.each { |m| _(test_obj.send(m)).must_equal true }
+  should_be_true.each { |m| _(test_obj).must_be(m) }
 
   expect(test_obj.guess_install_context).must_equal test_expected_to_be_true
 end
