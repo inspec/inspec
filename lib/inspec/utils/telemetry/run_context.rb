@@ -1,19 +1,25 @@
 module Inspec
   module Telemetry
     # Guesses the run context of InSpec - how were we invoked?
+    # All stack values here are determined experimentally
+
     class RunContextProbe
       def self.guess_run_context
         stack = caller_locations(4)
+        return "test-kitchen" if kitchen?(stack)
         return "cli" if run_by_thor?(stack)
         # audit-cookbook
-        # kitchen-inspec
-        # "unknown"
+        "unknown"
       end
-
 
       def self.run_by_thor?(stack)
         stack_match(stack: stack[-14..-9], path: "thor/command", label: "run") &&
         stack_match(stack: stack[-14..-9], path: "thor/invocation", label: "invoke_command")
+      end
+
+      def self.kitchen?(stack)
+        stack_match(stack: stack[-21..-11], path: "kitchen/instance", label: "verify_action") &&
+        stack_match(stack: stack[-14..-4], path: "kitchen/instance", label: "verify")
       end
 
       def self.stack_match(stack: nil, label: nil, path: nil)
