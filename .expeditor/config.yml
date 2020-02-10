@@ -17,7 +17,11 @@ docker_images:
      - GEM_SOURCE: http://artifactory.chef.co/omnibus-gems-local
 
 pipelines:
- - habitat/build
+ - habitat/build:
+    env:
+     - HAB_NONINTERACTIVE: "true"
+     - HAB_NOCOLORING: "true"
+     - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
  - omnibus/release
  - omnibus/adhoc:
     definition: .expeditor/release.omnibus.yml
@@ -55,6 +59,10 @@ pipelines:
  - artifact/habitat:
     description: Execute tests against the habitat artifact
     definition: .expeditor/artifact.habitat.yml
+    env:
+     - HAB_NONINTERACTIVE: "true"
+     - HAB_NOCOLORING: "true"
+     - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
 
 schedules:
  - name: integration_schedule

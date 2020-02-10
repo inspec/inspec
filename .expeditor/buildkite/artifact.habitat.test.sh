@@ -6,7 +6,10 @@ export HAB_ORIGIN='ci'
 export PLAN='inspec'
 export CHEF_LICENSE="accept-no-persist"
 export HAB_LICENSE="accept-no-persist"
-project_root="$(git rev-parse --show-toplevel)"
+export project_root="$(git rev-parse --show-toplevel)"
+export HAB_NONINTERACTIVE=true
+export HAB_NOCOLORING=true
+export HAB_STUDIO_SECRET_HAB_NONINTERACTIVE=true
 
 echo "--- system details"
 uname -a
