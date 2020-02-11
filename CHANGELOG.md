@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.86 -->
-## [v4.18.86](https://github.com/inspec/inspec/tree/v4.18.86) (2020-02-10)
+<!-- latest_release 4.18.87 -->
+## [v4.18.87](https://github.com/inspec/inspec/tree/v4.18.87) (2020-02-11)
 
-#### New Features
-- Detect install type via install path [#4856](https://github.com/inspec/inspec/pull/4856) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Jh/schema improvements [#4865](https://github.com/inspec/inspec/pull/4865) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.85 -->
 ### Changes since 4.18.85 release
+
+#### Merged Pull Requests
+- Jh/schema improvements [#4865](https://github.com/inspec/inspec/pull/4865) ([miah](https://github.com/miah)) <!-- 4.18.87 -->
 
 #### New Features
 - Detect install type via install path [#4856](https://github.com/inspec/inspec/pull/4856) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.86 -->
