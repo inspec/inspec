@@ -18,8 +18,8 @@ Gem::Specification.new do |spec|
   # ONLY the aws/azure/gcp files. The rest will come in from inspec-core
   # the gemspec is necessary for appbundler so don't remove it
   spec.files =
-    Dir.glob("{{lib,etc}/**/*,inspec.gemspec}")
-      .grep(/aws|azure|gcp|gemspec/)
+    Dir.glob("{{lib,etc}/**/*,Gemfile,inspec.gemspec}")
+      .grep(/aws|azure|gcp|gemspec|Gemfile|inspec.gemspec/)
       .reject { |f| File.directory?(f) }
 
   spec.add_dependency "inspec-core", "= #{Inspec::VERSION}"
