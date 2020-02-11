@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.89 -->
-## [v4.18.89](https://github.com/inspec/inspec/tree/v4.18.89) (2020-02-11)
+<!-- latest_release 4.18.90 -->
+## [v4.18.90](https://github.com/inspec/inspec/tree/v4.18.90) (2020-02-11)
 
-#### Bug Fixes
-- Distinguish between user plugin gems and system gems and load system gems normally. [#4898](https://github.com/inspec/inspec/pull/4898) ([zenspider](https://github.com/zenspider))
+#### Merged Pull Requests
+- With the release version 1.5.0 of habitat, lets not worry about &lt;0.85 [#4878](https://github.com/inspec/inspec/pull/4878) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.85 -->
@@ -15,6 +15,7 @@
 - Fix artifact-habitat testing for inspec. [#4905](https://github.com/inspec/inspec/pull/4905) ([zenspider](https://github.com/zenspider)) <!-- 4.18.88 -->
 
 #### Merged Pull Requests
+- With the release version 1.5.0 of habitat, lets not worry about &lt;0.85 [#4878](https://github.com/inspec/inspec/pull/4878) ([miah](https://github.com/miah)) <!-- 4.18.90 -->
 - Jh/schema improvements [#4865](https://github.com/inspec/inspec/pull/4865) ([miah](https://github.com/miah)) <!-- 4.18.87 -->
 
 #### New Features
