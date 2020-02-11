@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.88 -->
-## [v4.18.88](https://github.com/inspec/inspec/tree/v4.18.88) (2020-02-11)
+<!-- latest_release 4.18.89 -->
+## [v4.18.89](https://github.com/inspec/inspec/tree/v4.18.89) (2020-02-11)
 
 #### Bug Fixes
-- Fix artifact-habitat testing for inspec. [#4905](https://github.com/inspec/inspec/pull/4905) ([zenspider](https://github.com/zenspider))
+- Distinguish between user plugin gems and system gems and load system gems normally. [#4898](https://github.com/inspec/inspec/pull/4898) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.85 -->
 ### Changes since 4.18.85 release
 
 #### Bug Fixes
+- Distinguish between user plugin gems and system gems and load system gems normally. [#4898](https://github.com/inspec/inspec/pull/4898) ([zenspider](https://github.com/zenspider)) <!-- 4.18.89 -->
 - Fix artifact-habitat testing for inspec. [#4905](https://github.com/inspec/inspec/pull/4905) ([zenspider](https://github.com/zenspider)) <!-- 4.18.88 -->
 
 #### Merged Pull Requests
