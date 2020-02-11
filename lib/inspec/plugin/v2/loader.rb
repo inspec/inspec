@@ -48,8 +48,11 @@ module Inspec::Plugin::V2
         begin
           # We could use require, but under testing, we need to repeatedly reload the same
           # plugin.  However, gems only work with require (rubygems dooes not overload `load`)
-          if plugin_details.installation_type == :user_gem
+          case plugin_details.installation_type
+          when :user_gem
             activate_managed_gems_for_plugin(plugin_name)
+            require plugin_details.entry_point
+          when :system_gem
             require plugin_details.entry_point
           else
             load_path = plugin_details.entry_point
