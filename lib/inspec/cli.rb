@@ -377,12 +377,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
   desc "schema NAME", "print the JSON schema", hide: true
   def schema(name)
-    require "inspec/schema"
+    require "inspec/schema/output_schema"
 
-    puts Inspec::Schema.json(name)
+    puts Inspec::Schema::OutputSchema.json(name)
   rescue StandardError => e
     puts e
-    puts "Valid schemas are #{Inspec::Schema.names.join(", ")}"
+    puts "Valid schemas are #{Inspec::Schema::OutputSchema.names.join(", ")}"
   end
 
   desc "version", "prints the version of this tool"

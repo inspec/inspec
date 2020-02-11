@@ -1,5 +1,6 @@
 require "functional/helper"
 require "mixlib/shellout"
+require "json_schemer"
 
 describe "inspec json" do
   include FunctionalHelper
@@ -176,6 +177,35 @@ describe "inspec json" do
       _(out.stderr).must_equal ""
 
       assert_exit_code 0, out
+    end
+  end
+
+  it "can format a profile and validate the json schema" do
+    out = inspec("json " + example_profile)
+
+    data = JSON.parse(out.stdout)
+    sout = inspec("schema profile-json")
+    schema = JSONSchemer.schema(sout.stdout)
+    _(schema.validate(data).to_a).must_equal []
+
+    _(out.stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "properly validates all (valid) unit tests against the schema" do
+    schema = JSONSchemer.schema(JSON.parse(inspec("schema profile-json").stdout))
+    all_profile_folders.first(1).each do |folder|
+      begin
+        out = inspec("json " + folder)
+        # Ensure it parses properly; discard the result
+        out = JSON.parse(out.stdout)
+        failures = schema.validate(out).to_a
+        _(failures).must_equal []
+      rescue JSON::ParserError
+        # We don't actually care about these; cannot validate if parsing fails!
+        nil
+      end
     end
   end
 end

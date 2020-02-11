@@ -41,26 +41,14 @@ describe "inspec exec" do
   end
 
   it "can execute the profile" do
-    inspec("exec " + example_profile + " --no-create-lockfile")
+    inspec("exec " + complete_profile + " --no-create-lockfile")
 
-    _(stdout).must_include "  ✔  tmp-1.0: Create / directory\n"
-    _(stdout).must_include "
-  ↺  example-1.0: Verify the version number of Example (1 skipped)
-     ↺  Can't find file `/tmp/example/config.yaml`
-"
-    if is_windows?
-      _(stdout).must_include "  ↺  ssh-1: Allow only SSH Protocol 2\n"
-      _(stdout).must_include "\nProfile Summary: 1 successful control, 0 control failures, 2 controls skipped\n"
-      _(stdout).must_include "\nTest Summary: 3 successful, 0 failures, 2 skipped\n"
-    else
-      _(stdout).must_include "  ✔  ssh-1: Allow only SSH Protocol 2\n"
-      _(stdout).must_include "\nProfile Summary: 2 successful controls, 0 control failures, 1 control skipped\n"
-      _(stdout).must_include "\nTest Summary: 4 successful, 0 failures, 1 skipped\n"
-    end
+    _(stdout).must_include "Host example.com"
+    _(stdout).must_include "1 successful control, "\
+      "0 control failures, 0 controls skipped"
+    _(stderr).must_be_empty
 
-    _(stderr).must_equal ""
-
-    assert_exit_code 101, out
+    assert_exit_code 0, out
   end
 
   it "executes a minimum metadata-only profile" do
@@ -82,14 +70,14 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
   it "can execute the profile and write to directory" do
     outpath = Dir.tmpdir
-    inspec("exec #{example_profile} --no-create-lockfile --reporter json:#{outpath}/foo/bar/test.json")
+    inspec("exec #{complete_profile} --no-create-lockfile --reporter json:#{outpath}/foo/bar/test.json")
 
     _(File.exist?("#{outpath}/foo/bar/test.json")).must_equal true
     _(File.stat("#{outpath}/foo/bar/test.json").size).must_be :>, 0
 
     _(stderr).must_equal ""
 
-    assert_exit_code 101, out
+    assert_exit_code 0, out
   end
 
   it "can execute --help after exec command" do
@@ -123,13 +111,13 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   end
 
   it "can execute the profile with a target_id passthrough" do
-    inspec("exec #{example_profile} --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444")
+    inspec("exec #{complete_profile} --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444")
 
     _(stdout).must_include "Target ID: 1d3e399f-4d71-4863-ac54-84d437fbc444"
 
     _(stderr).must_equal ""
 
-    assert_exit_code 101, out
+    assert_exit_code 0, out
   end
 
   it "executes a metadata-only profile" do
@@ -228,15 +216,17 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
   it "does not vendor profiles when using the a local path dependecy" do
     Dir.mktmpdir do |tmpdir|
-      command = "exec " + inheritance_profile + " --no-create-lockfile"
+      command = "exec " + inheritance_profile + " --no-create-lockfile " \
+        "--input-file=#{examples_path}/profile-attribute.yml"
       inspec_with_env(command, INSPEC_CONFIG_DIR: tmpdir)
 
       if is_windows?
-        _(stdout).must_include "Profile Summary: 0 successful controls, 0 control failures, 2 controls skipped\n"
-        _(stdout).must_include "Test Summary: 2 successful, 1 failure, 3 skipped\n"
+        _(stdout).must_include "No tests executed."
+        assert_exit_code 1, out
       else
-        _(stdout).must_include "Profile Summary: 1 successful control, 0 control failures, 1 control skipped\n"
-        _(stdout).must_include "Test Summary: 3 successful, 1 failure, 2 skipped\n"
+        _(stdout).must_include "Profile Summary: 2 successful controls, 0 control failures, 0 controls skipped\n"
+        _(stdout).must_include "Test Summary: 5 successful, 0 failures, 0 skipped\n"
+        assert_exit_code 0, out
       end
 
       cache_dir = File.join(tmpdir, "cache")
@@ -244,8 +234,6 @@ Test Summary: 0 successful, 0 failures, 0 skipped
       _(Dir.glob(File.join(cache_dir, "**", "*"))).must_be_empty
 
       _(stderr).must_equal ""
-
-      assert_exit_code 100, out
     end
   end
 
@@ -525,7 +513,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
 
   describe "when --password is used" do
     it "raises an exception if no password is provided" do
-      inspec("exec " + example_profile + " --password")
+      inspec("exec " + complete_profile + " --password")
 
       _(stderr).must_include "Please provide a value for --password. For example: --password=hello."
 
@@ -535,7 +523,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
 
   describe "when --sudo-password is used" do
     it "raises an exception if no sudo password is provided" do
-      inspec("exec " + example_profile + " --sudo-password")
+      inspec("exec " + complete_profile + " --sudo-password")
 
       _(stderr).must_include "Please provide a value for --sudo-password. For example: --sudo-password=hello."
 
@@ -545,7 +533,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
 
   describe "when --bastion-host and --proxy_command is used" do
     it "raises an exception when both flags are provided" do
-      inspec("exec " + example_profile + " -t ssh://dummy@dummy --password dummy --proxy_command dummy --bastion_host dummy")
+      inspec("exec " + complete_profile + " -t ssh://dummy@dummy --password dummy --proxy_command dummy --bastion_host dummy")
 
       _(stderr).must_include "Client error, can't connect to 'ssh' backend: Only one of proxy_command or bastion_host needs to be specified"
 
@@ -555,7 +543,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
 
   describe "when --winrm-transport is used" do
     it "raises an exception when an invalid transport is given" do
-      inspec("exec " + example_profile + " -t winrm://administrator@dummy --password dummy --winrm-transport nonesuch")
+      inspec("exec " + complete_profile + " -t winrm://administrator@dummy --password dummy --winrm-transport nonesuch")
 
       _(stderr).must_include "Client error, can't connect to 'winrm' backend: Unsupported transport type: :nonesuch\n"
 
