@@ -8,7 +8,7 @@ module Inspec
         stack = caller_locations(4)
         return "test-kitchen" if kitchen?(stack)
         return "cli" if run_by_thor?(stack)
-        # audit-cookbook
+        return "audit-cookbook" if audit_cookbook?(stack)
         "unknown"
       end
 
@@ -20,6 +20,11 @@ module Inspec
       def self.kitchen?(stack)
         stack_match(stack: stack[-21..-11], path: "kitchen/instance", label: "verify_action") &&
         stack_match(stack: stack[-14..-4], path: "kitchen/instance", label: "verify")
+      end
+
+      def self.audit_cookbook?(stack)
+        stack_match(stack: stack[-21..-11], path: "chef/handler", label: "run_report_handlers") &&
+        stack_match(stack: stack[-26..-16], path: "handler/audit_report", label: "report")
       end
 
       def self.stack_match(stack: nil, label: nil, path: nil)
