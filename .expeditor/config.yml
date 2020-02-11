@@ -63,6 +63,7 @@ pipelines:
      - HAB_NONINTERACTIVE: "true"
      - HAB_NOCOLORING: "true"
      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+    trigger: pull_request
 
 schedules:
  - name: integration_schedule
