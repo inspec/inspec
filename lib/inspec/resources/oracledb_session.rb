@@ -92,9 +92,9 @@ module Inspec::Resources
     end
 
     def parse_csv_result(stdout)
-      output = stdout.sub(/\r/, '').strip
+      output = stdout.sub(/\r/, "").strip
       converter = ->(header) { header.downcase }
-      CSV.parse(output, headers: true, header_converters: converter).map{ |row| Hashie::Mash.new(row.to_h) }
+      CSV.parse(output, headers: true, header_converters: converter).map { |row| Hashie::Mash.new(row.to_h) }
     end
   end
 end
