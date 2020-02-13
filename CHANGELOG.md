@@ -1,13 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.92 -->
-## [v4.18.92](https://github.com/inspec/inspec/tree/v4.18.92) (2020-02-13)
-
-#### Bug Fixes
-- Fix auditd resource processing of action and list [#4665](https://github.com/inspec/inspec/pull/4665) ([trevor-vaughan](https://github.com/trevor-vaughan))
+<!-- latest_release 4.18.93 -->
+## [v4.18.93](https://github.com/inspec/inspec/tree/v4.18.93) (2020-02-13)
 
 #### Merged Pull Requests
-- Build packages on Debian [#4912](https://github.com/inspec/inspec/pull/4912) ([tas50](https://github.com/tas50))
+- Fix hab builds. [#4908](https://github.com/inspec/inspec/pull/4908) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.85 -->
@@ -19,6 +16,7 @@
 - Fix artifact-habitat testing for inspec. [#4905](https://github.com/inspec/inspec/pull/4905) ([zenspider](https://github.com/zenspider)) <!-- 4.18.88 -->
 
 #### Merged Pull Requests
+- Fix hab builds. [#4908](https://github.com/inspec/inspec/pull/4908) ([zenspider](https://github.com/zenspider)) <!-- 4.18.93 -->
 - Build packages on Debian [#4912](https://github.com/inspec/inspec/pull/4912) ([tas50](https://github.com/tas50)) <!-- 4.18.91 -->
 - Cleanup ruby before fixing gem permissions [#4914](https://github.com/inspec/inspec/pull/4914) ([tas50](https://github.com/tas50)) <!-- 4.18.91 -->
 - With the release version 1.5.0 of habitat, lets not worry about &lt;0.85 [#4878](https://github.com/inspec/inspec/pull/4878) ([miah](https://github.com/miah)) <!-- 4.18.90 -->
