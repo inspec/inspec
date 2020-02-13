@@ -1,5 +1,5 @@
 # https://stackoverflow.com/questions/9948517
-Set-StrictMode -Version Latest
+# TODO: Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 $PSDefaultParameterValues['*:ErrorAction']='Stop'
 
