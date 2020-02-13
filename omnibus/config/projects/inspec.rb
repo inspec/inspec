@@ -44,14 +44,14 @@ dependency "preparation"
 
 dependency "inspec"
 
+# Remove all .dll.a and .a files needed for static linkage.
+dependency "ruby-cleanup"
 # Mark all directories world readable.
 dependency "gem-permissions"
 # Redirect all gem bat files and rb files to point to embedded ruby.
 dependency "shebang-cleanup"
 # Ensure our SSL cert files are accessible to ruby.
 dependency "openssl-customization"
-# Remove all .dll.a and .a files needed for static linkage.
-dependency "ruby-cleanup"
 
 package :rpm do
   signing_passphrase ENV["OMNIBUS_RPM_SIGNING_PASSPHRASE"]
