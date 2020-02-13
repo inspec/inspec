@@ -54,8 +54,7 @@ module Inspec::Resources
       command = command_builder(format_options, sql)
       inspec_cmd = inspec.command(command)
 
-      DatabaseHelper::SQLQueryResult.new(inspec_cmd,
-                                         send(:parse_csv_result, inspec_cmd.stdout))
+      DatabaseHelper::SQLQueryResult.new(inspec_cmd, parse_csv_result(inspec_cmd.stdout))
     end
 
     def to_s
