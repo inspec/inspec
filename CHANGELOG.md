@@ -1,7 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.18.92 -->
+## [v4.18.92](https://github.com/inspec/inspec/tree/v4.18.92) (2020-02-13)
+
+#### Bug Fixes
+- Fix auditd resource processing of action and list [#4665](https://github.com/inspec/inspec/pull/4665) ([trevor-vaughan](https://github.com/trevor-vaughan))
 
 #### Merged Pull Requests
 - Build packages on Debian [#4912](https://github.com/inspec/inspec/pull/4912) ([tas50](https://github.com/tas50))
@@ -11,6 +14,7 @@
 ### Changes since 4.18.85 release
 
 #### Bug Fixes
+- Fix auditd resource processing of action and list [#4665](https://github.com/inspec/inspec/pull/4665) ([trevor-vaughan](https://github.com/trevor-vaughan)) <!-- 4.18.92 -->
 - Distinguish between user plugin gems and system gems and load system gems normally. [#4898](https://github.com/inspec/inspec/pull/4898) ([zenspider](https://github.com/zenspider)) <!-- 4.18.89 -->
 - Fix artifact-habitat testing for inspec. [#4905](https://github.com/inspec/inspec/pull/4905) ([zenspider](https://github.com/zenspider)) <!-- 4.18.88 -->
 
