@@ -1,3 +1,8 @@
+# https://stackoverflow.com/questions/9948517
+# TODO: Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
+$PSDefaultParameterValues['*:ErrorAction']='Stop'
+
 $pkg_name="inspec"
 $pkg_origin="chef"
 $pkg_version=$(Get-Content "$PLAN_CONTEXT/../VERSION")
@@ -49,7 +54,9 @@ function Invoke-Build {
 
 function Invoke-Install {
     Write-BuildLine "** Copy built & cached gems to install directory"
-    Copy-Item -Path "$HAB_CACHE_SRC_PATH/$pkg_dirname/*" -Destination $pkg_prefix -Recurse -Force -Exclude @("gem_make.out", "mkmf.log", "Makefile")
+    Copy-Item -Path "$HAB_CACHE_SRC_PATH/$pkg_dirname/*" -Destination $pkg_prefix -Recurse -Force -Exclude @("gem_make.out", "mkmf.log", "Makefile",
+                     "*/latest", "latest",
+                     "*/JSON-Schema-Test-Suite", "JSON-Schema-Test-Suite")
 
     try {
         Push-Location $pkg_prefix
