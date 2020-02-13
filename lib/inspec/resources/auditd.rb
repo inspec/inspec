@@ -187,8 +187,20 @@ module Inspec::Resources
       line.scan(/-S ([^ ]+)\s?/).flatten.first.split(",")
     end
 
+    # Processes the line and returns a pair of entries reflecting the 'action'
+    # and 'list' items.
+    #
+    # @return [Array[String,String]]
     def action_list_for(line)
-      line.scan(/-a ([^,]+),([^ ]+)\s?/).flatten
+      action_list = line.scan(/-a ([^,]+),([^ ]+)\s?/).flatten
+
+      # Actions and lists can be in either order
+      valid_actions = %w{never always}
+
+      [
+        (action_list & valid_actions).first,
+        (action_list - valid_actions).first,
+      ]
     end
 
     def key_for(line)
