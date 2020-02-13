@@ -32,6 +32,13 @@ module Inspec::Plugin::V2
 
       # Identify plugins that inspec is co-installed with
       detect_system_plugins unless options[:omit_sys_plugins]
+
+      # Train plugins are not true InSpec plugins; we need to decorate them a
+      # bit more to integrate them. Wait to do this until after we know if
+      # they are system or user.
+      registry.each do |plugin_name, status|
+        fixup_train_plugin_status(status) if train_plugin_name?(plugin_name)
+      end
     end
 
     def load_all
@@ -253,16 +260,18 @@ module Inspec::Plugin::V2
           status.entry_point = plugin_entry[:installation_path]
         end
 
-        # Train plugins are not true InSpec plugins; we need to decorate them a
-        # bit more to integrate them.
-        fixup_train_plugin_status(status) if train_plugin_name?(plugin_entry[:name])
-
         registry[status.name] = status
       end
     end
 
     def fixup_train_plugin_status(status)
       status.api_generation = :'train-1'
+      if status.installation_type == :user_gem
+        # Activate the gem. This allows train to 'require' the gem later.
+        # This is not required for system gems because rubygems already has
+        # activated the gemspecs.
+        activate_managed_gems_for_plugin(status.entry_point)
+      end
     end
 
     def find_inspec_gemspec(name, ver)
