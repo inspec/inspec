@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.90 -->
-## [v4.18.90](https://github.com/inspec/inspec/tree/v4.18.90) (2020-02-11)
+<!-- latest_release 4.18.91 -->
+## [v4.18.91](https://github.com/inspec/inspec/tree/v4.18.91) (2020-02-13)
 
 #### Merged Pull Requests
-- With the release version 1.5.0 of habitat, lets not worry about &lt;0.85 [#4878](https://github.com/inspec/inspec/pull/4878) ([miah](https://github.com/miah))
+- Cleanup ruby before fixing gem permissions [#4914](https://github.com/inspec/inspec/pull/4914) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.85 -->
@@ -15,6 +15,7 @@
 - Fix artifact-habitat testing for inspec. [#4905](https://github.com/inspec/inspec/pull/4905) ([zenspider](https://github.com/zenspider)) <!-- 4.18.88 -->
 
 #### Merged Pull Requests
+- Cleanup ruby before fixing gem permissions [#4914](https://github.com/inspec/inspec/pull/4914) ([tas50](https://github.com/tas50)) <!-- 4.18.91 -->
 - With the release version 1.5.0 of habitat, lets not worry about &lt;0.85 [#4878](https://github.com/inspec/inspec/pull/4878) ([miah](https://github.com/miah)) <!-- 4.18.90 -->
 - Jh/schema improvements [#4865](https://github.com/inspec/inspec/pull/4865) ([miah](https://github.com/miah)) <!-- 4.18.87 -->
 
