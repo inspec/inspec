@@ -6,6 +6,7 @@ module Inspec::Resources
     name "etc_hosts"
     supports platform: "linux"
     supports platform: "bsd"
+    supports platform: "solaris"
     supports platform: "windows"
     desc 'Use the etc_hosts InSpec audit resource to find an
       ip_address and its associated hosts'

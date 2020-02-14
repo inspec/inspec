@@ -31,5 +31,13 @@ describe "Inspec::Resources::SysInfo" do
       _(resource.manufacturer).must_equal "The `sys_info.manufacturer` resource is not supported on your OS yet."
       _(resource.model).must_equal "The `sys_info.model` resource is not supported on your OS yet."
     end
+
+    it "check sysinfo on Solaris" do
+      resource = MockLoader.new(:solaris11).load_resource("sys_info")
+      _(resource.hostname).must_equal "example.com"
+      _(resource.hostname("i")).must_equal "12.34.56.78"
+      _(resource.manufacturer).must_equal "The `sys_info.manufacturer` resource is not supported on your OS yet."
+      _(resource.model).must_equal "The `sys_info.model` resource is not supported on your OS yet."
+    end
   end
 end

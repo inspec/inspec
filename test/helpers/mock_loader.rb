@@ -322,6 +322,8 @@ class MockLoader
       "Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json" => cmd.call("Test-NetConnection"),
       # host for Linux
       "getent ahosts example.com" => cmd.call("getent-ahosts-example.com"),
+      # host for solaris
+      "getent hosts `hostname`" => cmd.call("getent-hosts-hostname"),
       "ping -w 1 -c 1 example.com" => cmd.call("ping-example.com"),
       # host for Darwin
       "host -t AAAA example.com" => cmd.call("host-AAAA-example.com"),
