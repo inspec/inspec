@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.18.94 -->
+## [v4.18.94](https://github.com/inspec/inspec/tree/v4.18.94) (2020-02-14)
 
 #### Merged Pull Requests
+- Refactor oracledb_session resource [#4910](https://github.com/inspec/inspec/pull/4910) ([rmoles](https://github.com/rmoles))
 - Set trigger back on hab builds [#4918](https://github.com/inspec/inspec/pull/4918) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
@@ -16,6 +17,7 @@
 - Fix artifact-habitat testing for inspec. [#4905](https://github.com/inspec/inspec/pull/4905) ([zenspider](https://github.com/zenspider)) <!-- 4.18.88 -->
 
 #### Merged Pull Requests
+- Refactor oracledb_session resource [#4910](https://github.com/inspec/inspec/pull/4910) ([rmoles](https://github.com/rmoles)) <!-- 4.18.94 -->
 - Set trigger back on hab builds [#4918](https://github.com/inspec/inspec/pull/4918) ([zenspider](https://github.com/zenspider)) <!-- 4.18.93 -->
 - Fix hab builds. [#4908](https://github.com/inspec/inspec/pull/4908) ([zenspider](https://github.com/zenspider)) <!-- 4.18.93 -->
 - Build packages on Debian [#4912](https://github.com/inspec/inspec/pull/4912) ([tas50](https://github.com/tas50)) <!-- 4.18.91 -->
