@@ -1,20 +1,25 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.90 -->
-## [v4.18.90](https://github.com/inspec/inspec/tree/v4.18.90) (2020-02-11)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- With the release version 1.5.0 of habitat, lets not worry about &lt;0.85 [#4878](https://github.com/inspec/inspec/pull/4878) ([miah](https://github.com/miah))
+- Set trigger back on hab builds [#4918](https://github.com/inspec/inspec/pull/4918) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.85 -->
 ### Changes since 4.18.85 release
 
 #### Bug Fixes
+- Fix auditd resource processing of action and list [#4665](https://github.com/inspec/inspec/pull/4665) ([trevor-vaughan](https://github.com/trevor-vaughan)) <!-- 4.18.92 -->
 - Distinguish between user plugin gems and system gems and load system gems normally. [#4898](https://github.com/inspec/inspec/pull/4898) ([zenspider](https://github.com/zenspider)) <!-- 4.18.89 -->
 - Fix artifact-habitat testing for inspec. [#4905](https://github.com/inspec/inspec/pull/4905) ([zenspider](https://github.com/zenspider)) <!-- 4.18.88 -->
 
 #### Merged Pull Requests
+- Set trigger back on hab builds [#4918](https://github.com/inspec/inspec/pull/4918) ([zenspider](https://github.com/zenspider)) <!-- 4.18.93 -->
+- Fix hab builds. [#4908](https://github.com/inspec/inspec/pull/4908) ([zenspider](https://github.com/zenspider)) <!-- 4.18.93 -->
+- Build packages on Debian [#4912](https://github.com/inspec/inspec/pull/4912) ([tas50](https://github.com/tas50)) <!-- 4.18.91 -->
+- Cleanup ruby before fixing gem permissions [#4914](https://github.com/inspec/inspec/pull/4914) ([tas50](https://github.com/tas50)) <!-- 4.18.91 -->
 - With the release version 1.5.0 of habitat, lets not worry about &lt;0.85 [#4878](https://github.com/inspec/inspec/pull/4878) ([miah](https://github.com/miah)) <!-- 4.18.90 -->
 - Jh/schema improvements [#4865](https://github.com/inspec/inspec/pull/4865) ([miah](https://github.com/miah)) <!-- 4.18.87 -->
 

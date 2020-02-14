@@ -10,11 +10,27 @@ describe "Inspec::Resources::AuditDaemon" do
       "-a always,exit -F arch=b32 -S open,openat -F exit=-EPERM -F key=access",
       "-a always,exit -F arch=b32 -S chmod,fchmod,fchmodat -F auid>=500 f24!=0 -F key=perm_mod",
       "-a always,exit -S all -F path=/usr/bin/chage -F perm=x -F auid>=1000 -F auid!=-1 -F key=privileged",
-      "-a always,exit -S all -F path=/usr/bin/mount -F perm=x -F auid>=1000 -F auid!=-1 -F key=privileged",
+      # Reversed for action_list validation
+      "-a exit,always -S all -F path=/usr/bin/mount -F perm=x -F auid>=1000 -F auid!=-1 -F key=privileged",
       "-w /etc/ssh/sshd_config -p rwxa -k CFG_sshd_config",
       "-w /etc/sudoers -p wa",
       "-w /etc/private-keys -p x",
     ]
+  end
+
+  it "auditd action_list processing" do
+    resource = MockLoader.new(:centos7).load_resource("auditd")
+
+    list_items = []
+    action_items = []
+
+    resource.params.each do |param|
+      list_items << param["list"] if param["list"]
+      action_items << param["action"] if param["action"]
+    end
+
+    list_items.uniq.must_equal ["exit"]
+    action_items.uniq.must_equal ["always"]
   end
 
   it "auditd syscall interface" do

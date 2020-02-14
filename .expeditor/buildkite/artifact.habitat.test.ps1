@@ -1,6 +1,9 @@
 #!/usr/bin/env powershell
 
 #Requires -Version 5
+# https://stackoverflow.com/questions/9948517
+# TODO: Set-StrictMode -Version Latest
+$PSDefaultParameterValues['*:ErrorAction']='Stop'
 $ErrorActionPreference = 'Stop'
 $env:HAB_ORIGIN = 'ci'
 $env:CHEF_LICENSE = 'accept-no-persist'
