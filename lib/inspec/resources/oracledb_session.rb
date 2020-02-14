@@ -1,7 +1,5 @@
 require "inspec/resources/command"
 require "inspec/utils/database_helpers"
-require "htmlentities"
-require "rexml/document"
 require "hashie/mash"
 require "csv"
 
@@ -48,18 +46,15 @@ module Inspec::Resources
       if @sqlcl_bin && inspec.command(@sqlcl_bin).exist?
         @bin = @sqlcl_bin
         format_options = "set sqlformat csv\nSET FEEDBACK OFF"
-        parser = :parse_csv_result
       else
         @bin = "#{@sqlplus_bin} -S"
-        format_options = "SET MARKUP HTML ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF"
-        parser = :parse_html_result
+        format_options = "SET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF"
       end
 
       command = command_builder(format_options, sql)
       inspec_cmd = inspec.command(command)
 
-      DatabaseHelper::SQLQueryResult.new(inspec_cmd,
-                                         send(parser, inspec_cmd.stdout))
+      DatabaseHelper::SQLQueryResult.new(inspec_cmd, parse_csv_result(inspec_cmd.stdout))
     end
 
     def to_s
@@ -86,7 +81,7 @@ module Inspec::Resources
       elsif @su_user.nil?
         %{#{sql_prefix}#{bin} "#{user}"/"#{password}"@#{host}:#{port}/#{@service} as #{@db_role}#{sql_postfix}}
       else
-        %{su - #{@su_user} -c "env ORACLE_SID=#{@service} #{bin} / as #{@db_role}#{sql_postfix}"}
+        %{su - #{@su_user} -c "env ORACLE_SID=#{@service} #{@bin} / as #{@db_role}#{sql_postfix}"}
       end
     end
 
@@ -96,54 +91,9 @@ module Inspec::Resources
     end
 
     def parse_csv_result(stdout)
-      output = stdout.delete(/\r/)
-      table = CSV.parse(output, { headers: true })
-
-      # convert to hash
-      headers = table.headers
-
-      results = table.map do |row|
-        res = {}
-        headers.each do |header|
-          res[header.downcase] = row[header]
-        end
-        Hashie::Mash.new(res)
-      end
-      results
-    end
-
-    def parse_html_result(stdout)
-      result = stdout
-      # make oracle html valid html by removing the p tag, it does not include a closing tag
-      result = result.gsub("<p>", "").gsub("</p>", "").gsub("<br>", "")
-      doc = REXML::Document.new result
-      table = doc.elements["table"]
-      hash = []
-      unless table.nil?
-        rows = table.elements.to_a
-        headers = rows[0].elements.to_a("th").map { |entry| entry.text.strip }
-        rows.delete_at(0)
-
-        # iterate over each row, first row is header
-        hash = []
-        if !rows.nil? && !rows.empty?
-          hash = rows.map do |row|
-            res = {}
-            entries = row.elements.to_a("td")
-            # ignore if we have empty entries, oracle is adding th rows in between
-            return nil if entries.empty?
-
-            headers.each_with_index do |header, index|
-              # we need htmlentities since we do not have nokogiri
-              coder = HTMLEntities.new
-              val = coder.decode(entries[index].text).strip
-              res[header.downcase] = val
-            end
-            Hashie::Mash.new(res)
-          end.compact
-        end
-      end
-      hash
+      output = stdout.sub(/\r/, "").strip
+      converter = ->(header) { header.downcase }
+      CSV.parse(output, headers: true, header_converters: converter).map { |row| Hashie::Mash.new(row.to_h) }
     end
   end
 end
