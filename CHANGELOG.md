@@ -1,11 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.94 -->
-## [v4.18.94](https://github.com/inspec/inspec/tree/v4.18.94) (2020-02-14)
+<!-- latest_release 4.18.95 -->
+## [v4.18.95](https://github.com/inspec/inspec/tree/v4.18.95) (2020-02-18)
 
 #### Merged Pull Requests
-- Refactor oracledb_session resource [#4910](https://github.com/inspec/inspec/pull/4910) ([rmoles](https://github.com/rmoles))
-- Set trigger back on hab builds [#4918](https://github.com/inspec/inspec/pull/4918) ([zenspider](https://github.com/zenspider))
+- In habitat, train-* are system gems [#4897](https://github.com/inspec/inspec/pull/4897) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.85 -->
@@ -17,6 +16,7 @@
 - Fix artifact-habitat testing for inspec. [#4905](https://github.com/inspec/inspec/pull/4905) ([zenspider](https://github.com/zenspider)) <!-- 4.18.88 -->
 
 #### Merged Pull Requests
+- In habitat, train-* are system gems [#4897](https://github.com/inspec/inspec/pull/4897) ([miah](https://github.com/miah)) <!-- 4.18.95 -->
 - Refactor oracledb_session resource [#4910](https://github.com/inspec/inspec/pull/4910) ([rmoles](https://github.com/rmoles)) <!-- 4.18.94 -->
 - Set trigger back on hab builds [#4918](https://github.com/inspec/inspec/pull/4918) ([zenspider](https://github.com/zenspider)) <!-- 4.18.93 -->
 - Fix hab builds. [#4908](https://github.com/inspec/inspec/pull/4908) ([zenspider](https://github.com/zenspider)) <!-- 4.18.93 -->
