@@ -1,8 +1,8 @@
 # Chef InSpec: Inspect Your Infrastructure
 
 * **Project State: Active**
-* **Issues Response SLA: 3 business days**
-* **Pull Request Response SLA: 3 business days**
+* **Issues Response SLA: 14 business days**
+* **Pull Request Response SLA: 14 business days**
 
 For more information on project states and SLAs, see [this documentation](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md).
 
