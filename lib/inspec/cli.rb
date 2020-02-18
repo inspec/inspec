@@ -470,5 +470,5 @@ rescue Inspec::Plugin::V2::Exception => v2ex
   else
     Inspec::Log.error "Run again with --debug for a stacktrace."
   end
-  ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
+  exit Inspec::UI::EXIT_PLUGIN_ERROR
 end
