@@ -12,44 +12,42 @@ module Inspec
   # registry used by all dsl methods bound to the resource registry
   # passed into the #create constructor.
   #
+  #
   class LibraryEvalContext
-    # rubocop:disable Naming/ConstantName
-    Inspec = :nope! # see #initialize below
-    # rubocop:enable Naming/ConstantName
-
-    ##
-    # Include a custom `require` method that gets used when this
-    # context is used to eval source. See lib/inspec/dsl_shared.rb for
-    # more details.
-    include ::Inspec::DSL::RequireOverride
-
     def self.create(registry, require_loader)
-      Class.new(LibraryEvalContext).new(registry, require_loader)
-    end
+      c = Class.new(Inspec::Resource) do
+        define_singleton_method :__resource_registry do
+          registry
+        end
+      end
 
-    # Provide the local binding for this context which is
-    # necessary for calls to `require` to create all dependent
-    # objects in the correct context.
-    attr_accessor :__inspec_binding
+      c2 = Class.new do
+        define_singleton_method :resource do |version|
+          Inspec.validate_resource_dsl_version!(version)
+          c
+        end
+      end
 
-    def initialize(registry, require_loader)
-      @require_loader = require_loader
-      # rubocop:disable Style/RedundantSelf
-      self.__inspec_binding = self.instance_eval { binding }
-      # rubocop:enable Style/RedundantSelf
+      c3 = Class.new do
+        include Inspec::DSL::RequireOverride
+        def initialize(require_loader)
+          @require_loader = require_loader
+          @inspec_binding = nil
+        end
 
-      @res_klass = Class.new ::Inspec::Resource
-      @res_klass.__resource_registry = registry
+        def __inspec_binding
+          @inspec_binding
+        end
+      end
 
-      # NOTE: this *must* be a subclass of LibraryEvalContext to work
-      self.class.const_set :Inspec, self # BYPASS! See resource below
-    end
+      c3.const_set(:Inspec, c2)
+      res = c3.new(require_loader)
 
-    # Fake for Inspec.resource in lib/inspec/resource.rb that provides
-    # our own Resource subclass that has its own private __resource_registry
-    def resource(version)
-      ::Inspec.validate_resource_dsl_version!(version)
-      @res_klass
+      # Provide the local binding for this context which is necessary for
+      # calls to `require` to create all dependent objects in the correct
+      # context.
+      res.instance_variable_set("@inspec_binding", res.instance_eval("binding"))
+      res
     end
   end
 end

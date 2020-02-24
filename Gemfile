@@ -23,7 +23,7 @@ group :test do
   gem "minitest", "~> 5.5"
   gem "minitest-sprint", "~> 1.0"
   gem "rake", ">= 10"
-  gem "simplecov", "~> 0.10"
+  gem "simplecov", ["~> 0.10", "<=0.18.2"]
   gem "concurrent-ruby", "~> 1.0"
   gem "mocha", "~> 1.1"
   gem "ruby-progressbar", "~> 1.8"
@@ -35,9 +35,10 @@ end
 
 group :integration do
   gem "berkshelf"
-  gem "chef", "< 15"
   gem "test-kitchen"
   gem "kitchen-vagrant"
+  gem "chef", "< 15"
+  gem "chef-zero", "< 15"
   gem "kitchen-inspec"
   gem "kitchen-ec2"
   gem "kitchen-dokken"
