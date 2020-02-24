@@ -23,7 +23,7 @@ group :test do
   gem "minitest", "~> 5.5"
   gem "minitest-sprint", "~> 1.0"
   gem "rake", ">= 10"
-  gem "simplecov", "~> 0.10"
+  gem "simplecov", ["~> 0.10", "<=0.18.2"]
   gem "concurrent-ruby", "~> 1.0"
   gem "mocha", "~> 1.1"
   gem "ruby-progressbar", "~> 1.8"
