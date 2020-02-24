@@ -35,9 +35,10 @@ end
 
 group :integration do
   gem "berkshelf"
-  gem "chef", "< 15"
   gem "test-kitchen"
   gem "kitchen-vagrant"
+  gem "chef", "< 15"
+  gem "chef-zero", "< 15"
   gem "kitchen-inspec"
   gem "kitchen-ec2"
   gem "kitchen-dokken"
