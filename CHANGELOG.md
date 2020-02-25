@@ -1,37 +1,35 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.97 -->
-## [v4.18.97](https://github.com/inspec/inspec/tree/v4.18.97) (2020-02-24)
-
-#### Merged Pull Requests
-- Rollback library eval context de-meta-programming [#4927](https://github.com/inspec/inspec/pull/4927) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.18.85 -->
-### Changes since 4.18.85 release
-
-#### Bug Fixes
-- Fix auditd resource processing of action and list [#4665](https://github.com/inspec/inspec/pull/4665) ([trevor-vaughan](https://github.com/trevor-vaughan)) <!-- 4.18.92 -->
-- Distinguish between user plugin gems and system gems and load system gems normally. [#4898](https://github.com/inspec/inspec/pull/4898) ([zenspider](https://github.com/zenspider)) <!-- 4.18.89 -->
-- Fix artifact-habitat testing for inspec. [#4905](https://github.com/inspec/inspec/pull/4905) ([zenspider](https://github.com/zenspider)) <!-- 4.18.88 -->
-
-#### Merged Pull Requests
-- Rollback library eval context de-meta-programming [#4927](https://github.com/inspec/inspec/pull/4927) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.97 -->
-- Update SLAs [#4923](https://github.com/inspec/inspec/pull/4923) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.96 -->
-- In habitat, train-* are system gems [#4897](https://github.com/inspec/inspec/pull/4897) ([miah](https://github.com/miah)) <!-- 4.18.95 -->
-- Refactor oracledb_session resource [#4910](https://github.com/inspec/inspec/pull/4910) ([rmoles](https://github.com/rmoles)) <!-- 4.18.94 -->
-- Set trigger back on hab builds [#4918](https://github.com/inspec/inspec/pull/4918) ([zenspider](https://github.com/zenspider)) <!-- 4.18.93 -->
-- Fix hab builds. [#4908](https://github.com/inspec/inspec/pull/4908) ([zenspider](https://github.com/zenspider)) <!-- 4.18.93 -->
-- Build packages on Debian [#4912](https://github.com/inspec/inspec/pull/4912) ([tas50](https://github.com/tas50)) <!-- 4.18.91 -->
-- Cleanup ruby before fixing gem permissions [#4914](https://github.com/inspec/inspec/pull/4914) ([tas50](https://github.com/tas50)) <!-- 4.18.91 -->
-- With the release version 1.5.0 of habitat, lets not worry about &lt;0.85 [#4878](https://github.com/inspec/inspec/pull/4878) ([miah](https://github.com/miah)) <!-- 4.18.90 -->
-- Jh/schema improvements [#4865](https://github.com/inspec/inspec/pull/4865) ([miah](https://github.com/miah)) <!-- 4.18.87 -->
-
-#### New Features
-- Detect install type via install path [#4856](https://github.com/inspec/inspec/pull/4856) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.86 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.18.97](https://github.com/inspec/inspec/tree/v4.18.97) (2020-02-25)
+
+#### New Features
+- Detect install type via install path [#4856](https://github.com/inspec/inspec/pull/4856) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- Fix artifact-habitat testing for inspec. [#4905](https://github.com/inspec/inspec/pull/4905) ([zenspider](https://github.com/zenspider))
+- Distinguish between user plugin gems and system gems and load system gems normally. [#4898](https://github.com/inspec/inspec/pull/4898) ([zenspider](https://github.com/zenspider))
+- Fix auditd resource processing of action and list [#4665](https://github.com/inspec/inspec/pull/4665) ([trevor-vaughan](https://github.com/trevor-vaughan))
+
+#### Merged Pull Requests
+- Jh/schema improvements [#4865](https://github.com/inspec/inspec/pull/4865) ([miah](https://github.com/miah))
+- With the release version 1.5.0 of habitat, lets not worry about &lt;0.85 [#4878](https://github.com/inspec/inspec/pull/4878) ([miah](https://github.com/miah))
+- Cleanup ruby before fixing gem permissions [#4914](https://github.com/inspec/inspec/pull/4914) ([tas50](https://github.com/tas50))
+- Build packages on Debian [#4912](https://github.com/inspec/inspec/pull/4912) ([tas50](https://github.com/tas50))
+- Fix hab builds. [#4908](https://github.com/inspec/inspec/pull/4908) ([zenspider](https://github.com/zenspider))
+- Set trigger back on hab builds [#4918](https://github.com/inspec/inspec/pull/4918) ([zenspider](https://github.com/zenspider))
+- Refactor oracledb_session resource [#4910](https://github.com/inspec/inspec/pull/4910) ([rmoles](https://github.com/rmoles))
+- In habitat, train-* are system gems [#4897](https://github.com/inspec/inspec/pull/4897) ([miah](https://github.com/miah))
+- Update SLAs [#4923](https://github.com/inspec/inspec/pull/4923) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Rollback library eval context de-meta-programming [#4927](https://github.com/inspec/inspec/pull/4927) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.18.85](https://github.com/inspec/inspec/tree/v4.18.85) (2020-02-06)
 
 #### New Features
@@ -77,7 +75,6 @@
 - Remove skips from windows testing in &#39;inputs&#39; and &#39;archive&#39; functional tests [#4860](https://github.com/inspec/inspec/pull/4860) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Fix minor style issues. [#4882](https://github.com/inspec/inspec/pull/4882) ([zenspider](https://github.com/zenspider))
 - Removed ~50% of metaprogramming from LibraryEvalContext &amp; Resource [#4814](https://github.com/inspec/inspec/pull/4814) ([zenspider](https://github.com/zenspider))
-<!-- latest_stable_release -->
 
 ## [v4.18.51](https://github.com/inspec/inspec/tree/v4.18.51) (2019-12-16)
 

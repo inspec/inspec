@@ -2,7 +2,7 @@ FROM ruby:alpine
 LABEL maintainer="Chef Software, Inc. <docker@chef.io>"
 
 ARG EXPEDITOR_VERSION
-ARG VERSION=4.18.85
+ARG VERSION=4.18.97
 ARG GEM_SOURCE=https://rubygems.org
 
 # Allow VERSION below to be controlled by either VERSION or EXPEDITOR_VERSION build arguments
