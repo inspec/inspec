@@ -1,0 +1,2 @@
+# Below is to be uncommented and set with your AWS Custom VPC ID:
+# aws_vpc_id: 'vpc-xxxxxxx'

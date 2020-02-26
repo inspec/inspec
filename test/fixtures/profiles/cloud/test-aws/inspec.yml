@@ -1,0 +1,22 @@
+name: test-aws
+title: AWS InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: Apache-2.0
+summary: An InSpec Compliance Profile For AWS
+version: 0.1.0
+inspec_version: '~> 4'
+attributes:
+- name: aws_vpc_id
+  required: false
+  # Below is deliberately left as a default empty string to allow the profile to run when this is not provided.
+  # Please see the README for more details.
+  default: ''
+  description: 'Optional Custom AWS VPC Id'
+  type: string
+depends:
+  - name: inspec-aws
+    url: https://github.com/inspec/inspec-aws/archive/master.tar.gz
+supports:
+  - platform: aws
