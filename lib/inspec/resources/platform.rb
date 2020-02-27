@@ -23,7 +23,7 @@ module Inspec::Resources
     end
 
     def release
-      @platform.release
+      @platform.release if @platform.respond_to?(:release)
     end
 
     def arch
