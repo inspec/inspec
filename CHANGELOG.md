@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.18.98 -->
+## [v4.18.98](https://github.com/inspec/inspec/tree/v4.18.98) (2020-03-02)
+
+#### Enhancements
+- Add functional tests that try each of the cloud resource packs [#4932](https://github.com/inspec/inspec/pull/4932) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.18.97 -->
+### Changes since 4.18.97 release
+
+#### Enhancements
+- Add functional tests that try each of the cloud resource packs [#4932](https://github.com/inspec/inspec/pull/4932) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.98 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
