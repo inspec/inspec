@@ -909,4 +909,38 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       end
     end
   end
+
+  describe "when targeting cloud resource packs" do
+    let(:cloud_path) { profile_path + "/cloud/" }
+    let(:run_result) { run_inspec_process("exec " + cloud_profile + " " + args, env: env) }
+    let(:env) { {} }
+
+    describe "when targeting aws" do
+      let(:cloud_profile) { cloud_path + "test-aws" }
+      # Use log level FATAL to absorb WARNs from deprecataions and ERRORs from not having credentials set.
+      # An actual stacktrace then will appear as sole stderr output
+      let(:args) { "-t aws://fakecreds --log-level fatal " }
+      it "should fail to connect to aws due to lack of creds but not stacktrace" do
+        _(run_result.stderr).must_be_empty
+      end
+    end
+
+    describe "when targeting azure" do
+      let(:cloud_profile) { cloud_path + "test-azure" }
+      let(:args) { "-t azure://" }
+      it "should fail to connect to azure due to lack of creds but not stacktrace" do
+        _(run_result.stderr).must_equal "Tenant id cannot be nil\n"
+      end
+    end
+
+    describe "when targeting gcp" do
+      let(:cloud_profile) { cloud_path + "test-gcp" }
+      let(:args) { "-t gcp:// --input gcp_project_id=fakeproject" }
+      let(:env) { { GOOGLE_AUTH_SUPPRESS_CREDENTIALS_WARNINGS: 1 } }
+      it "should fail to connect to gcp due to lack of creds but not stacktrace" do
+        _(run_result.stderr).must_include "Could not load the default credentials."
+      end
+    end
+
+  end
 end
