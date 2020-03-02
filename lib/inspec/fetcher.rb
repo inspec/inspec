@@ -43,3 +43,4 @@ end
 require "inspec/fetcher/local"
 require "inspec/fetcher/url"
 require "inspec/fetcher/git"
+require "plugins/inspec-compliance/lib/inspec-compliance/api"
