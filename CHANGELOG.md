@@ -7,20 +7,23 @@
 - remove beta language and fix usage string order [#4942](https://github.com/inspec/inspec/pull/4942) ([kekaichinose](https://github.com/kekaichinose))
 <!-- latest_release -->
 
-<!-- release_rollup since=4.18.97 -->
-### Changes since 4.18.97 release
-
-#### Merged Pull Requests
-- remove beta language and fix usage string order [#4942](https://github.com/inspec/inspec/pull/4942) ([kekaichinose](https://github.com/kekaichinose)) <!-- 4.18.100 -->
-- Fix platform detection on hab [#4934](https://github.com/inspec/inspec/pull/4934) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.100 -->
-- Update rake deps for security issue [#4939](https://github.com/inspec/inspec/pull/4939) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.99 -->
-- Explicitly require the compliance fetcher [#4938](https://github.com/inspec/inspec/pull/4938) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.99 -->
-
-#### Enhancements
-- Add functional tests that try each of the cloud resource packs [#4932](https://github.com/inspec/inspec/pull/4932) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.98 -->
+<!-- release_rollup since=4.18.100 -->
+### Changes since 4.18.100 release
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.18.100](https://github.com/inspec/inspec/tree/v4.18.100) (2020-03-03)
+
+#### Enhancements
+- Add functional tests that try each of the cloud resource packs [#4932](https://github.com/inspec/inspec/pull/4932) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Explicitly require the compliance fetcher [#4938](https://github.com/inspec/inspec/pull/4938) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update rake deps for security issue [#4939](https://github.com/inspec/inspec/pull/4939) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix platform detection on hab [#4934](https://github.com/inspec/inspec/pull/4934) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- remove beta language and fix usage string order [#4942](https://github.com/inspec/inspec/pull/4942) ([kekaichinose](https://github.com/kekaichinose))
+<!-- latest_stable_release -->
+
 ## [v4.18.97](https://github.com/inspec/inspec/tree/v4.18.97) (2020-02-25)
 
 #### New Features
@@ -42,7 +45,6 @@
 - In habitat, train-* are system gems [#4897](https://github.com/inspec/inspec/pull/4897) ([miah](https://github.com/miah))
 - Update SLAs [#4923](https://github.com/inspec/inspec/pull/4923) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Rollback library eval context de-meta-programming [#4927](https://github.com/inspec/inspec/pull/4927) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v4.18.85](https://github.com/inspec/inspec/tree/v4.18.85) (2020-02-06)
 
