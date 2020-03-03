@@ -39,3 +39,6 @@ terraform.tfvars
 test/**/*.lock
 www/Gemfile.lock
 www/source/index.html.slim
+
+# Visual Studio Code files
+.vscode
