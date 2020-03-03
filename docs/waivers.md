@@ -1,4 +1,4 @@
-# Waivers (beta)
+# Waivers
 
 Waivers is a mechanism to mark controls as "waived" for various reasons, and to control the running and/or reporting of those controls.
 It uses a YAML input file that identifies:
@@ -8,15 +8,13 @@ It uses a YAML input file that identifies:
    3. (optionally) whether they should be skipped from running
    4. (optionally) an expiration date for the waiver
 
-NOTE: This mechanism is currently in beta and is intended to be ingested and maintained by Chef Automate UI.
-
 ## Usage
 
 To use waivers, you must have a correctly formatted input file and
 invoke `inspec exec` with `--waiver-file [path]`.
 
 ```
-% inspec exec --waiver-file waivers.yaml path/to/profile
+% inspec exec path/to/profile --waiver-file waivers.yaml
 ```
 
 ## File Format
