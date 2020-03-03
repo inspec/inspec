@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.18.100 -->
+## [v4.18.100](https://github.com/inspec/inspec/tree/v4.18.100) (2020-03-03)
 
 #### Merged Pull Requests
+- Fix platform detection on hab [#4934](https://github.com/inspec/inspec/pull/4934) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Update rake deps for security issue [#4939](https://github.com/inspec/inspec/pull/4939) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.18.97 release
 
 #### Merged Pull Requests
+- Fix platform detection on hab [#4934](https://github.com/inspec/inspec/pull/4934) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.100 -->
 - Update rake deps for security issue [#4939](https://github.com/inspec/inspec/pull/4939) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.99 -->
 - Explicitly require the compliance fetcher [#4938](https://github.com/inspec/inspec/pull/4938) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.99 -->
 
