@@ -4320,7 +4320,7 @@ progress[value]::progress-value {
 form.main-sidebar--search {
   width: 100%; }
 
-form.main-sidebar--search input[type="text"] {
+form.main-sidebar--search input[type="search"] {
   font-family: "Muli", "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 400;
   width: 100%;
@@ -4333,25 +4333,11 @@ form.main-sidebar--search input[type="text"] {
   border-radius: 8px;
   background: white;
   font-size: 1em;
-  color: #283C4C; }
+  color: #283C4C;
+  margin: 0; }
   @media screen and (max-width: 1024px) {
-    form.main-sidebar--search input[type="text"] {
+    form.main-sidebar--search input[type="search"] {
       width: 100%; } }
-
-.search {
-  width: 45px;
-  height: 45px;
-  border: 1.5px solid white;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0);
-  cursor: pointer;
-  position: relative;
-  float: right;
-  outline: none; }
-  .search i {
-    width: 20px;
-    margin-left: 8px;
-    height: auto; }
 
 .st-query-present, .st-install-xzyJV6P7pgscygGyyTm8 .st-ui-result .st-ui-type-heading, .st-ui-type-detail {
   font-family: "Muli", "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
