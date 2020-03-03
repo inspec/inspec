@@ -19,23 +19,23 @@ module Inspec::Resources
     end
 
     def family
-      @platform.family
+      @platform[:family]
     end
 
     def release
-      @platform.release
+      @platform[:release]
     end
 
     def arch
-      @platform.arch if @platform.respond_to?(:arch)
+      @platform[:arch]
     end
 
     def families
-      @platform.family_hierarchy
+      @platform[:family_hierarchy]
     end
 
     def name
-      @platform.name
+      @platform[:name]
     end
 
     def [](key)
