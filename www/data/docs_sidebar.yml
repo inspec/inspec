@@ -5,7 +5,7 @@ sidebar_links:
   - title: Overview
     link: "/docs"
   - title: Install and Uninstall
-    link: "/docs/reference/install.html"
+    link: "/docs/reference/install"
   - title: Chef InSpec for the cloud
     link: "/docs/reference/platforms.html"
   - title: Tutorials
