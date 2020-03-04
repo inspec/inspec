@@ -46,5 +46,5 @@ sidebar_links:
     link: "/docs/reference/habitat.html"
   - title: Migration from Serverspec
     link: "/docs/reference/migration.html"
-  - title: Waivers (beta)
+  - title: Waivers
     link: "/docs/reference/waivers.html"
