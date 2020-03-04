@@ -4,11 +4,15 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- removed beta from waivers link in sidebar nav [#4944](https://github.com/inspec/inspec/pull/4944) ([kekaichinose](https://github.com/kekaichinose))
 - remove beta language and fix usage string order [#4942](https://github.com/inspec/inspec/pull/4942) ([kekaichinose](https://github.com/kekaichinose))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.100 -->
 ### Changes since 4.18.100 release
+
+#### Merged Pull Requests
+- removed beta from waivers link in sidebar nav [#4944](https://github.com/inspec/inspec/pull/4944) ([kekaichinose](https://github.com/kekaichinose)) <!-- 4.18.100 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
