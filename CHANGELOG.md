@@ -3,6 +3,9 @@
 <!-- latest_release unreleased -->
 ## Unreleased
 
+#### Enhancements
+- Fix deprecation warning on auditd test [#4955](https://github.com/inspec/inspec/pull/4955) ([tecracer-theinen](https://github.com/tecracer-theinen))
+
 #### Merged Pull Requests
 - Remove .html to fix install link [#4945](https://github.com/inspec/inspec/pull/4945) ([mjingle](https://github.com/mjingle))
 - removed beta from waivers link in sidebar nav [#4944](https://github.com/inspec/inspec/pull/4944) ([kekaichinose](https://github.com/kekaichinose))
@@ -11,6 +14,9 @@
 
 <!-- release_rollup since=4.18.100 -->
 ### Changes since 4.18.100 release
+
+#### Enhancements
+- Fix deprecation warning on auditd test [#4955](https://github.com/inspec/inspec/pull/4955) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.18.100 -->
 
 #### Merged Pull Requests
 - Remove .html to fix install link [#4945](https://github.com/inspec/inspec/pull/4945) ([mjingle](https://github.com/mjingle)) <!-- 4.18.100 -->
