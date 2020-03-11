@@ -1,9 +1,11 @@
 require "hashie/mash"
+require "inspec/resources/powershell"
 
 module Inspec::Resources
   class Virtualization < Inspec.resource(1)
     name "virtualization"
     supports platform: "unix"
+    supports platform: "windows"
     desc "Use the virtualization InSpec audit resource to test various virtualization platforms."
     example <<~EXAMPLE
       describe virtualization do
@@ -25,7 +27,15 @@ module Inspec::Resources
     def initialize
       # TODO: no need for hashie here... in fact, no reason for a hash at all
       @virtualization_data = Hashie::Mash.new
-      collect_data_linux
+
+      if inspec.os.linux?
+        collect_data_linux
+      elsif inspec.os.windows?
+        collect_data_windows
+      end
+
+      # Allows checking for non-virtualized systems as well
+      @virtualization_data[:physical] = @virtualization_data.empty?
     end
 
     # add helper methods for easy access of properties
@@ -34,6 +44,14 @@ module Inspec::Resources
       define_method(property) do
         @virtualization_data[property]
       end
+    end
+
+    def virtual_system?
+      @virtualization_data[:role] == "guest"
+    end
+
+    def physical_system?
+      @virtualization_data[:physical]
     end
 
     def params
@@ -236,6 +254,39 @@ module Inspec::Resources
       true
     end
 
+    # Detect VMware
+    def detect_vmware
+      return false unless inspec.file("/sys/devices/virtual/dmi/id/product_name").exist?
+
+      product_name = inspec.file("/sys/devices/virtual/dmi/id/product_name").content
+
+      if product_name =~ /^VMware/
+        @virtualization_data[:system] = "vmware"
+        @virtualization_data[:role] = "guest"
+      else
+        return false
+      end
+
+      true
+    end
+
+    # Detect Hyper-V
+    # @see https://gallery.technet.microsoft.com/scriptcenter/Get-MachineType-VM-or-ff43f3a9
+    def detect_hyperv
+      return false unless inspec.file("/sys/devices/virtual/dmi/id/product_name").exist?
+
+      product_name = inspec.file("/sys/devices/virtual/dmi/id/product_name").content
+
+      if product_name.rstrip == "Virtual Machine"
+        @virtualization_data[:system] = "hyper-v"
+        @virtualization_data[:role] = "guest"
+      else
+        return false
+      end
+
+      true
+    end
+
     def collect_data_linux
       # This avoids doing multiple detections in a single test
       return unless @virtualization_data.empty?
@@ -253,7 +304,40 @@ module Inspec::Resources
       return if detect_openvz
       return if detect_openstack
       return if detect_parallels
-      # TODO: where is vmware?
+      return if detect_vmware
+      return if detect_hyperv
+    end
+
+    def windows_computer_system
+      script = "Get-WmiObject -Class Win32_ComputerSystem -ErrorAction Stop | ConvertTo-Json"
+      cmd = inspec.powershell(script)
+
+      JSON.parse(cmd.stdout)
+    rescue JSON::ParserError => _e
+      nil
+    end
+
+    def collect_data_windows
+      # This avoids doing multiple detections in a single test
+      return unless @virtualization_data.empty?
+
+      case windows_computer_system["Model"]
+      when "Virtual Machine"
+        @virtualization_data[:system] = "hyper-v"
+      when /^VMware/
+        @virtualization_data[:system] = "vmware"
+      when "VirtualBox"
+        @virtualization_data[:system] = "virtualbox"
+      end
+
+      case windows_computer_system[:manufacturer]
+      when "Xen"
+        @virtualization_data[:system] = "xen"
+      when "QEMU"
+        @virtualization_data[:system] = "kvm"
+      end
+
+      @virtualization_data[:role] = "guest" if @virtualization_data[:system]
     end
   end
 end
