@@ -29,8 +29,8 @@ describe "Inspec::Resources::AuditDaemon" do
       action_items << param["action"] if param["action"]
     end
 
-    list_items.uniq.must_equal ["exit"]
-    action_items.uniq.must_equal ["always"]
+    _(list_items.uniq).must_equal ["exit"]
+    _(action_items.uniq).must_equal ["always"]
   end
 
   it "auditd syscall interface" do
