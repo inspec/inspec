@@ -65,3 +65,43 @@ The following examples show how to use this Chef InSpec audit resource.
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### virtualization.virtual_system? Helper
+
+This helper returns, if any of the supported virtualization platforms was detected and the machine under test is a guest. You can use this in a `only_if { virtual_system? }` clause to execute test only on virtualized systems.
+
+### virtualization.physical_system? Helper
+
+If no virtualization platform is detected, this will return `true`. For unsupported virtualization platforms this can result in false posititves.
+
+### virtualization.system names
+
+The resource supports the following virtualization platforms:
+
+On Linux machines:
+* `docker` (`guest` role only)
+* `hyper-v` (`guest` role only)
+* `kvm`
+* `linux vserver`
+* `lxc` / `lxd`
+* `openstack` (`host` role only)
+* `openvz`
+* `parallels` (`guest` role only)
+* `virtualbox`
+* `vmware` (`guest` role only)
+* `xen`
+
+On Windows machines (`guest` role only)
+* `hyper-v`
+* `kvm`
+* `vmware`
+* `virtualbox`
+* `xen`
+
+### virtualization.role
+
+Can be either
+* `guest`
+* `host`
+
+Please see the documentation on `virtualization.system` to check supported roles per platform.
