@@ -59,9 +59,12 @@ where
 
 ## Advanced concepts
 
-### Checking at least one condition passes with `describe.one`
+### Checking if at least one condition passes with `describe.one`
 
-With Chef InSpec it is possible to check if at least one of a collection of checks is true. For example: If a setting is configured in two different locations, you may want to test if either configuration A or configuration B have been set. This is accomplished via `describe.one`. It defines a set of `describe` blocks, of which only one needs to pass.
+With Chef InSpec, you can check if at least one of a collection of checks is true.
+For example, if you configure a setting in two different locations, then you may want to test if either configuration A or configuration B is set.
+Do this task with the `describe.one` block.
+`describe.one` defines a set of `describe` blocks where only one block needs to pass.
 
 ```ruby
 describe.one do
@@ -77,13 +80,15 @@ end
 
 #### `describe.one` usage notes
 
-* A `describe.one` block passes if one of its nested `describe` blocks has all assertions passing. That is, it needs an entire `describe` block to pass and not just a single assertion.
-* InSpec will always evaluate all the tests contained within `describe.one`. It does not short-circuit upon evaluating a passing `describe` block.
+* A `describe.one` block passes if one of its nested `describe` blocks has all assertions passing. A `describe.one` block needs an entire `describe` block to pass and not just a single assertion.
+* Chef InSpec will always evaluate all the tests contained within `describe.one`. It does not short-circuit upon evaluating a passing `describe` block.
 * Nesting a `describe.one` block inside another `describe.one` block is not supported.
 
 ### Sensitive resources
 
-In some scenarios, you may be writing checks involving resources with sensitive content (e.g. a file resource). In the case of failures, it may be desired to suppress output. This can be done by adding the `:sensitive` flag to the resource definition
+In some scenarios, you may be writing checks that involve resources with sensitive content, such as a file resource.
+In case of failures, you may desire to suppress output.
+Do this task by adding the `:sensitive` flag to the resource definition:
 
 ```ruby
 describe file('/tmp/mysecretfile'), :sensitive do
