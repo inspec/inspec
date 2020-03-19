@@ -59,7 +59,12 @@ where
 
 ## Advanced concepts
 
-With Chef InSpec it is possible to check if at least one of a collection of checks is true. For example: If a setting is configured in two different locations, you may want to test if either configuration A or configuration B have been set. This is accomplished via `describe.one`. It defines a block of tests with at least one valid check.
+### Checking if at least one condition passes with `describe.one`
+
+With Chef InSpec, you can check if at least one of a collection of checks is true.
+For example, if you configure a setting in two different locations, then you may want to test if either configuration A or configuration B is set.
+Do this task with the `describe.one` block.
+`describe.one` defines a set of `describe` blocks where only one block needs to pass.
 
 ```ruby
 describe.one do
@@ -73,9 +78,17 @@ describe.one do
 end
 ```
 
+#### `describe.one` usage notes
+
+* A `describe.one` block passes if one of its nested `describe` blocks has all assertions passing. A `describe.one` block needs an entire `describe` block to pass and not just a single assertion.
+* Chef InSpec will always evaluate all the tests contained within `describe.one`. It does not short-circuit upon evaluating a passing `describe` block.
+* Nesting a `describe.one` block inside another `describe.one` block is not supported.
+
 ### Sensitive resources
 
-In some scenarios, you may be writing checks involving resources with sensitive content (e.g. a file resource). In the case of failures, it may be desired to suppress output. This can be done by adding the `:sensitive` flag to the resource definition
+In some scenarios, you may be writing checks that involve resources with sensitive content, such as a file resource.
+In case of failures, you may desire to suppress output.
+Do this task by adding the `:sensitive` flag to the resource definition:
 
 ```ruby
 describe file('/tmp/mysecretfile'), :sensitive do
@@ -87,7 +100,7 @@ end
 
 The following examples show simple compliance tests using a single `control` block.
 
-## Test System Event Log
+### Test System Event Log
 
 The following test shows how to audit machines running Windows 2012 R2 that password complexity is enabled:
 
@@ -102,7 +115,7 @@ control 'windows-account-102' do
 end
 ```
 
-## Test if PostgreSQL passwords are empty
+### Test if PostgreSQL passwords are empty
 
 The following test shows how to audit machines running PostgreSQL to ensure that passwords are not empty.
 
@@ -116,7 +129,7 @@ control 'postgres-7' do
 end
 ```
 
-## Test if MySQL passwords are in ENV
+### Test if MySQL passwords are in ENV
 
 The following test shows how to audit machines running MySQL to ensure that passwords are not stored in `ENV`:
 
@@ -134,7 +147,7 @@ control 'mysql-3' do
 end
 ```
 
-## Test if `/etc/ssh` is a Directory
+### Test if `/etc/ssh` is a Directory
 
 The following test shows how to audit machines to ensure that `/etc/ssh` is a directory:
 
@@ -152,7 +165,7 @@ control 'basic-1' do
 end
 ```
 
-## Test if Apache running
+### Test if Apache running
 
 The following test shows how to audit machines to ensure that Apache is enabled and running:
 
@@ -167,7 +180,7 @@ control 'apache-1' do
 end
 ```
 
-## Test if insecure packages are installed
+### Test if insecure packages are installed
 
 The following test shows how to audit machines for insecure packages:
 
@@ -184,7 +197,7 @@ control 'cis-os-services-5.1.3' do
 end
 ```
 
-## Test Windows Registry Keys
+### Test Windows Registry Keys
 
 The following test shows how to audit machines to ensure Safe DLL Search Mode is enabled:
 
@@ -202,7 +215,7 @@ control 'windows-base-101' do
 end
 ```
 
-## Exclude specific test
+### Exclude specific test
 
 This shows how to allow skipping certain tests if conditions are not met, by using `only_if`.
 In this example the test will not be performed if `redis-cli` command does not exist. A optional
@@ -226,7 +239,7 @@ end
 
 Mixing this with other conditionals (like checking existence of the files etc.) can help to test different test paths using InSpec. This way you can skip certain tests which would 100% fail due to the way servers are prepared, but you know that the same test suites are reused later in different circumstances by different teams.
 
-## Additional metadata for controls
+### Additional metadata for controls
 
 The following example illustrates various ways to add tags and references to `control`
 
