@@ -60,18 +60,19 @@ module InspecPlugins
       #                        inspec plugin search
       #==================================================================#
 
-      desc "search [options] PATTERN", "Searches rubygems.org for plugins."
+      desc "search [options] PATTERN", "Searches for plugins."
       long_desc <<~EOLD
-        Searches rubygems.org for #{PRODUCT_NAME} plugins. Exits 0 on a search hit, 1 on user error,
+        Searches rubygems.org or alternate source for #{PRODUCT_NAME} plugins. Exits 0 on a search hit, 1 on user error,
         2 on a search miss. PATTERN is a simple string; a wildcard will be added as
         a suffix, unless -e is used.
       EOLD
       option :all, desc: "List all available versions, not just the latest one.", type: :boolean, aliases: [:a]
       option :exact, desc: "Assume PATTERN is exact; do not add a wildcard to the end", type: :boolean, aliases: [:e]
       option :'include-test-fixture', type: :boolean, desc: "Internal use", hide: true
+      option :source, type: :string, desc: "URL of repository, defaults to https://rubygems.org", aliases: [:s]
       # Justification for disabling ABC: currently at 33.51/33
       def search(search_term) # rubocop: disable Metrics/AbcSize
-        search_results = installer.search(search_term, exact: options[:exact])
+        search_results = installer.search(search_term, exact: options[:exact], source: options[:source])
         # The search results have already been filtered by the reject list.  But the
         # RejectList doesn't filter {inspec, train}-test-fixture because we need those
         # for testing.  We want to hide those from users, so unless we know we're in
@@ -102,9 +103,9 @@ module InspecPlugins
       #==================================================================#
       #                       inspec plugin install
       #==================================================================#
-      desc "install [-v VERSION] PLUGIN", "Installs a plugin from rubygems.org, a gemfile, or a path to local source."
+      desc "install [options] PLUGIN", "Installs a plugin from rubygems.org, a gemfile, or a path to local source."
       long_desc <<~EOLD
-        PLUGIN may be the name of a gem on rubygems.org that begins with inspec- or train-.
+        PLUGIN may be the name of a gem on rubygems.org (or an alternate source) that begins with `inspec-` or `train-`.
         PLUGIN may also be the path to a local gemfile, which will then be installed like
         any other gem.  Finally, if PLUGIN is a path ending in .rb, it is taken to be a
         local file that will act as athe entry point for a plugin (this mode is provided
@@ -112,6 +113,7 @@ module InspecPlugins
         already installed, and 1 if any other error occurs.
       EOLD
       option :version, desc: "When installing from rubygems.org, specifies a specific version to install.", aliases: [:v]
+      option :source, type: :string, desc: "URL of repository, defaults to https://rubygems.org", aliases: [:s]
       def install(plugin_id_arg)
         if plugin_id_arg =~ /\.gem$/ # Does it end in .gem?
           install_from_gemfile(plugin_id_arg)
@@ -407,7 +409,7 @@ module InspecPlugins
 
       # Rationale for RuboCop variance: This is a one-line method with heavy UX-focused error handling.
       def install_attempt_install(plugin_name) # rubocop: disable Metrics/AbcSize
-        installer.install(plugin_name, version: options[:version])
+        installer.install(plugin_name, version: options[:version], source: options[:source])
       rescue Inspec::Plugin::V2::PluginExcludedError => ex
         ui.red("Plugin on Exclusion List - #{plugin_name} is listed as an " \
                "incompatible gem - refusing to install.\n")
@@ -422,12 +424,13 @@ module InspecPlugins
         raise if Inspec::Log.level == :debug
 
         results = installer.search(plugin_name, exact: true)
+        source_host = URI(options[:source] || "https://rubygems.org/").host
         if results.empty?
           ui.red("No such plugin gem #{plugin_name} could be found on " \
-                 "rubygems.org - installation failed.\n")
+                 "#{source_host} - installation failed.\n")
         elsif options[:version] && !results[plugin_name].include?(options[:version])
           ui.red("No such version - #{plugin_name} exists, but no such " \
-                 "version #{options[:version]} found on rubygems.org - " \
+                 "version #{options[:version]} found on #{source_host} - " \
                  "installation failed.\n")
         else
           ui.red("Unknown error occured - installation failed.\n")

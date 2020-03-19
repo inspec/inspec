@@ -28,7 +28,7 @@ class PluginManagerCliOptions < Minitest::Test
 
   def test_search_args
     arg_config = cli_class.all_commands["search"].options
-    assert_equal 3, arg_config.count, "The search command should have 3 options"
+    assert_equal 4, arg_config.count, "The search command should have 4 options"
 
     assert_includes arg_config.keys, :all, "The search command should have an --all option"
     assert_equal :boolean, arg_config[:all].type, "The --all option should be boolean"
@@ -42,6 +42,12 @@ class PluginManagerCliOptions < Minitest::Test
     refute_nil arg_config[:exact].description, "The --exact option should have a description"
     refute arg_config[:exact].required, "The --exact option should not be required"
 
+    assert_includes arg_config.keys, :source, "The search command should have a --source option"
+    assert_equal :string, arg_config[:source].type, "The --source option should be a string"
+    assert_equal :s, arg_config[:source].aliases.first, "The --source option should be aliased as -s"
+    refute_nil arg_config[:source].description, "The --source option should have a description"
+    refute arg_config[:source].required, "The --source option should not be required"
+
     assert_includes arg_config.keys, :'include-test-fixture', "The search command should have an --include-test-fixture option"
     assert_equal :boolean, arg_config[:'include-test-fixture'].type, "The --include-test-fixture option should be boolean"
     refute arg_config[:'include-test-fixture'].required, "The --include-test-fixture option should not be required"
@@ -51,13 +57,19 @@ class PluginManagerCliOptions < Minitest::Test
 
   def test_install_args
     arg_config = cli_class.all_commands["install"].options
-    assert_equal 1, arg_config.count, "The install command should have 1 option"
+    assert_equal 2, arg_config.count, "The install command should have 2 options"
 
     assert_includes arg_config.keys, :version, "The install command should have a --version option"
     assert_equal :string, arg_config[:version].type, "The --version option should be a string"
     assert_equal :v, arg_config[:version].aliases.first, "The --version option should be aliased as -v"
     refute_nil arg_config[:version].description, "The --version option should have a description"
     refute arg_config[:version].required, "The --version option should not be required"
+
+    assert_includes arg_config.keys, :source, "The install command should have a --source option"
+    assert_equal :string, arg_config[:source].type, "The --source option should be a string"
+    assert_equal :s, arg_config[:source].aliases.first, "The --source option should be aliased as -s"
+    refute_nil arg_config[:source].description, "The --source option should have a description"
+    refute arg_config[:source].required, "The --source option should not be required"
 
     assert_equal 1, cli_class.instance_method(:install).arity, "The install command should take one argument"
   end
