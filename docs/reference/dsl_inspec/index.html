@@ -54,7 +54,12 @@ A numeric value must be between <code>0.0</code> and <code>1.0</code>. The value
 
 <h2 id="advanced-concepts">Advanced concepts</h2>
 
-<p>With Chef InSpec it is possible to check if at least one of a collection of checks is true. For example: If a setting is configured in two different locations, you may want to test if either configuration A or configuration B have been set. This is accomplished via <code>describe.one</code>. It defines a block of tests with at least one valid check.</p>
+<h3 id="checking-if-at-least-one-condition-passes-with-describe-one">Checking if at least one condition passes with <code>describe.one</code></h3>
+
+<p>With Chef InSpec, you can check if at least one of a collection of checks is true.
+For example, if you configure a setting in two different locations, then you may want to test if either configuration A or configuration B is set.
+Do this task with the <code>describe.one</code> block.
+<code>describe.one</code> defines a set of <code>describe</code> blocks where only one block needs to pass.</p>
 <div class="highlight"><pre class="highlight ruby"><code><span class="n">describe</span><span class="p">.</span><span class="nf">one</span> <span class="k">do</span>
   <span class="n">describe</span> <span class="no">ConfigurationA</span> <span class="k">do</span>
     <span class="n">its</span><span class="p">(</span><span class="s1">'setting_1'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span> <span class="kp">true</span> <span class="p">}</span>
@@ -65,9 +70,19 @@ A numeric value must be between <code>0.0</code> and <code>1.0</code>. The value
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre></div>
+<h4 id="describe-one-usage-notes"><code>describe.one</code> usage notes</h4>
+
+<ul>
+<li>A <code>describe.one</code> block passes if one of its nested <code>describe</code> blocks has all assertions passing. A <code>describe.one</code> block needs an entire <code>describe</code> block to pass and not just a single assertion.</li>
+<li>Chef InSpec will always evaluate all the tests contained within <code>describe.one</code>. It does not short-circuit upon evaluating a passing <code>describe</code> block.</li>
+<li>Nesting a <code>describe.one</code> block inside another <code>describe.one</code> block is not supported.</li>
+</ul>
+
 <h3 id="sensitive-resources">Sensitive resources</h3>
 
-<p>In some scenarios, you may be writing checks involving resources with sensitive content (e.g. a file resource). In the case of failures, it may be desired to suppress output. This can be done by adding the <code>:sensitive</code> flag to the resource definition</p>
+<p>In some scenarios, you may be writing checks that involve resources with sensitive content, such as a file resource.
+In case of failures, you may desire to suppress output.
+Do this task by adding the <code>:sensitive</code> flag to the resource definition:</p>
 <div class="highlight"><pre class="highlight ruby"><code><span class="n">describe</span> <span class="n">file</span><span class="p">(</span><span class="s1">'/tmp/mysecretfile'</span><span class="p">),</span> <span class="ss">:sensitive</span> <span class="k">do</span>
   <span class="n">its</span><span class="p">(</span><span class="s1">'content'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">match</span> <span class="sr">/secret_info/</span> <span class="p">}</span>
 <span class="k">end</span>
@@ -76,7 +91,7 @@ A numeric value must be between <code>0.0</code> and <code>1.0</code>. The value
 
 <p>The following examples show simple compliance tests using a single <code>control</code> block.</p>
 
-<h2 id="test-system-event-log">Test System Event Log</h2>
+<h3 id="test-system-event-log">Test System Event Log</h3>
 
 <p>The following test shows how to audit machines running Windows 2012 R2 that password complexity is enabled:</p>
 <div class="highlight"><pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'windows-account-102'</span> <span class="k">do</span>
@@ -88,7 +103,7 @@ A numeric value must be between <code>0.0</code> and <code>1.0</code>. The value
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre></div>
-<h2 id="test-if-postgresql-passwords-are-empty">Test if PostgreSQL passwords are empty</h2>
+<h3 id="test-if-postgresql-passwords-are-empty">Test if PostgreSQL passwords are empty</h3>
 
 <p>The following test shows how to audit machines running PostgreSQL to ensure that passwords are not empty.</p>
 <div class="highlight"><pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'postgres-7'</span> <span class="k">do</span>
@@ -99,7 +114,7 @@ A numeric value must be between <code>0.0</code> and <code>1.0</code>. The value
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre></div>
-<h2 id="test-if-mysql-passwords-are-in-env">Test if MySQL passwords are in ENV</h2>
+<h3 id="test-if-mysql-passwords-are-in-env">Test if MySQL passwords are in ENV</h3>
 
 <p>The following test shows how to audit machines running MySQL to ensure that passwords are not stored in <code>ENV</code>:</p>
 <div class="highlight"><pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'mysql-3'</span> <span class="k">do</span>
@@ -114,7 +129,7 @@ A numeric value must be between <code>0.0</code> and <code>1.0</code>. The value
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre></div>
-<h2 id="test-if-etc-ssh-is-a-directory">Test if <code>/etc/ssh</code> is a Directory</h2>
+<h3 id="test-if-etc-ssh-is-a-directory">Test if <code>/etc/ssh</code> is a Directory</h3>
 
 <p>The following test shows how to audit machines to ensure that <code>/etc/ssh</code> is a directory:</p>
 <div class="highlight"><pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'basic-1'</span> <span class="k">do</span>
@@ -129,7 +144,7 @@ A numeric value must be between <code>0.0</code> and <code>1.0</code>. The value
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre></div>
-<h2 id="test-if-apache-running">Test if Apache running</h2>
+<h3 id="test-if-apache-running">Test if Apache running</h3>
 
 <p>The following test shows how to audit machines to ensure that Apache is enabled and running:</p>
 <div class="highlight"><pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'apache-1'</span> <span class="k">do</span>
@@ -141,7 +156,7 @@ A numeric value must be between <code>0.0</code> and <code>1.0</code>. The value
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre></div>
-<h2 id="test-if-insecure-packages-are-installed">Test if insecure packages are installed</h2>
+<h3 id="test-if-insecure-packages-are-installed">Test if insecure packages are installed</h3>
 
 <p>The following test shows how to audit machines for insecure packages:</p>
 <div class="highlight"><pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'cis-os-services-5.1.3'</span> <span class="k">do</span>
@@ -155,7 +170,7 @@ A numeric value must be between <code>0.0</code> and <code>1.0</code>. The value
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre></div>
-<h2 id="test-windows-registry-keys">Test Windows Registry Keys</h2>
+<h3 id="test-windows-registry-keys">Test Windows Registry Keys</h3>
 
 <p>The following test shows how to audit machines to ensure Safe DLL Search Mode is enabled:</p>
 <div class="highlight"><pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'windows-base-101'</span> <span class="k">do</span>
@@ -170,7 +185,7 @@ A numeric value must be between <code>0.0</code> and <code>1.0</code>. The value
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre></div>
-<h2 id="exclude-specific-test">Exclude specific test</h2>
+<h3 id="exclude-specific-test">Exclude specific test</h3>
 
 <p>This shows how to allow skipping certain tests if conditions are not met, by using <code>only_if</code>.
 In this example the test will not be performed if <code>redis-cli</code> command does not exist. A optional
@@ -191,7 +206,7 @@ message can say why it was skipped.</p>
 </code></pre></div>
 <p>Mixing this with other conditionals (like checking existence of the files etc.) can help to test different test paths using InSpec. This way you can skip certain tests which would 100% fail due to the way servers are prepared, but you know that the same test suites are reused later in different circumstances by different teams.</p>
 
-<h2 id="additional-metadata-for-controls">Additional metadata for controls</h2>
+<h3 id="additional-metadata-for-controls">Additional metadata for controls</h3>
 
 <p>The following example illustrates various ways to add tags and references to <code>control</code></p>
 <div class="highlight"><pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'ssh-1'</span> <span class="k">do</span>
