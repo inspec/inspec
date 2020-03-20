@@ -1,12 +1,13 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.18.101 -->
+## [v4.18.101](https://github.com/inspec/inspec/tree/v4.18.101) (2020-03-20)
 
 #### Enhancements
 - Fix deprecation warning on auditd test [#4955](https://github.com/inspec/inspec/pull/4955) ([tecracer-theinen](https://github.com/tecracer-theinen))
 
 #### Merged Pull Requests
+- Fix service not working correctly on windows machines [#4951](https://github.com/inspec/inspec/pull/4951) ([Axuba](https://github.com/Axuba))
 - Document describe.one usage [#4957](https://github.com/inspec/inspec/pull/4957) ([james-stocks](https://github.com/james-stocks))
 - Remove .html to fix install link [#4945](https://github.com/inspec/inspec/pull/4945) ([mjingle](https://github.com/mjingle))
 - removed beta from waivers link in sidebar nav [#4944](https://github.com/inspec/inspec/pull/4944) ([kekaichinose](https://github.com/kekaichinose))
@@ -20,6 +21,7 @@
 - Fix deprecation warning on auditd test [#4955](https://github.com/inspec/inspec/pull/4955) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.18.100 -->
 
 #### Merged Pull Requests
+- Fix service not working correctly on windows machines [#4951](https://github.com/inspec/inspec/pull/4951) ([Axuba](https://github.com/Axuba)) <!-- 4.18.101 -->
 - Document describe.one usage [#4957](https://github.com/inspec/inspec/pull/4957) ([james-stocks](https://github.com/james-stocks)) <!-- 4.18.100 -->
 - Remove .html to fix install link [#4945](https://github.com/inspec/inspec/pull/4945) ([mjingle](https://github.com/mjingle)) <!-- 4.18.100 -->
 - removed beta from waivers link in sidebar nav [#4944](https://github.com/inspec/inspec/pull/4944) ([kekaichinose](https://github.com/kekaichinose)) <!-- 4.18.100 -->
