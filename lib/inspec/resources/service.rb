@@ -104,6 +104,8 @@ module Inspec::Resources
       os = inspec.os
       platform = os[:name]
 
+      return WindowsSrv.new(inspec) if os.windows?
+
       # Ubuntu
       # @see: https://wiki.ubuntu.com/SystemdForUpstartUsers
       # Ubuntu 15.04 : Systemd
@@ -154,8 +156,6 @@ module Inspec::Resources
         SysV.new(inspec, service_ctl)
       when "mac_os_x"
         LaunchCtl.new(inspec, service_ctl)
-      when "windows"
-        WindowsSrv.new(inspec)
       when "freebsd"
         BSDInit.new(inspec, service_ctl)
       when "arch"
