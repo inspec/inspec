@@ -3,6 +3,7 @@
 require "singleton"
 require "forwardable"
 require "fileutils"
+require "uri"
 
 # Gem extensions for doing unusual things - not loaded by Gem default
 require "rubygems/package"
@@ -56,6 +57,7 @@ module Inspec::Plugin::V2
     # @option opts [String] :gem_file Path to a local gem file to install from
     # @option opts [String] :path Path to a file to be used as the entry point for a path-based plugin
     # @option opts [String] :version Version constraint for remote gem installs
+    # @option opts [String] :source Alternate URL to use instead of rubygems.org
     def install(plugin_name, opts = {})
       # TODO: - check plugins.json for validity before trying anything that needs to modify it.
       validate_installation_opts(plugin_name, opts)
@@ -127,6 +129,11 @@ module Inspec::Plugin::V2
       validate_search_opts(plugin_query, opts)
 
       fetcher = Gem::SpecFetcher.fetcher
+      if opts[:source]
+        source_list = Gem::SourceList.from([opts[:source]])
+        fetcher = Gem::SpecFetcher.new(source_list)
+      end
+
       matched_tuples = []
       if opts[:exact]
         matched_tuples = fetcher.detect(opts[:scope]) { |tuple| tuple.name == plugin_query }
@@ -284,8 +291,22 @@ module Inspec::Plugin::V2
 
     def install_from_remote_gems(requested_plugin_name, opts)
       plugin_dependency = Gem::Dependency.new(requested_plugin_name, opts[:version] || "> 0")
-      # BestSet is rubygems.org API + indexing
-      install_gem_to_plugins_dir(plugin_dependency, [Gem::Resolver::BestSet.new], opts[:update_mode])
+
+      # BestSet is rubygems.org API + indexing, APISet is for custom sources
+      sources = if opts[:source]
+                  Gem::Resolver::APISet.new(URI.join(opts[:source] + "/api/v1/dependencies"))
+                else
+                  Gem::Resolver::BestSet.new
+                end
+
+      begin
+        install_gem_to_plugins_dir(plugin_dependency, [sources], opts[:update_mode])
+      rescue Gem::RemoteFetcher::FetchError => gem_ex
+        # TODO: Give a hint if the host was not resolvable or a 404 occured
+        ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
+        ex.plugin_name = requested_plugin_name
+        raise ex
+      end
     end
 
     def install_gem_to_plugins_dir(new_plugin_dependency, # rubocop: disable Metrics/AbcSize

@@ -47,6 +47,15 @@ $ inspec plugin install train-some-plugin
 
 For more details on what the `plugin` command can do, see the [online help](https://www.inspec.io/docs/reference/cli/#plugin), or run `inspec plugin help`.
 
+## How do I use a different Gem server?
+
+You can specify an alternate source by passing the base of your Gem repository to the `--source` parameter:
+
+```bash
+$ inspec plugin search --source https://my.private.server inspec-private
+$ inspec plugin install --source https://my.private.server inspec-private-plugin
+```
+
 ## How do I write a plugin?
 
 ### Chef InSpec Plugins
