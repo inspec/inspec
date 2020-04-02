@@ -22,8 +22,7 @@ Write-Output "--- Running verification for $channel $product $version"
 $Env:PATH = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
 
 Write-Host "--- Downloading Ruby + DevKit"
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-(New-Object System.Net.WebClient).DownloadFile('https://public-cd-buildkite-cache.s3-us-west-2.amazonaws.com/rubyinstaller-devkit-2.6.5-1-x64.exe', 'c:\\rubyinstaller-devkit-2.6.5-1-x64.exe')
+aws s3 cp s3://core-buildkite-cache-chef-prod/rubyinstaller-devkit-2.6.5-1-x64.exe c:/rubyinstaller-devkit-2.6.5-1-x64.exe
 
 Write-Host "--- Installing Ruby + DevKit"
 Start-Process c:\rubyinstaller-devkit-2.6.5-1-x64.exe -ArgumentList '/verysilent /dir=C:\\ruby26' -Wait
