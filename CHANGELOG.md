@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.102 -->
-## [v4.18.102](https://github.com/inspec/inspec/tree/v4.18.102) (2020-04-02)
+<!-- latest_release 4.18.103 -->
+## [v4.18.103](https://github.com/inspec/inspec/tree/v4.18.103) (2020-04-06)
 
 #### Merged Pull Requests
-- Add support for alternate Gem source for plugin installation/search [#4949](https://github.com/inspec/inspec/pull/4949) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- Improve virtualization resource [#4954](https://github.com/inspec/inspec/pull/4954) ([tecracer-theinen](https://github.com/tecracer-theinen))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.100 -->
@@ -14,6 +14,7 @@
 - Fix deprecation warning on auditd test [#4955](https://github.com/inspec/inspec/pull/4955) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.18.100 -->
 
 #### Merged Pull Requests
+- Improve virtualization resource [#4954](https://github.com/inspec/inspec/pull/4954) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.18.103 -->
 - Add support for alternate Gem source for plugin installation/search [#4949](https://github.com/inspec/inspec/pull/4949) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.18.102 -->
 - Fix service not working correctly on windows machines [#4951](https://github.com/inspec/inspec/pull/4951) ([Axuba](https://github.com/Axuba)) <!-- 4.18.101 -->
 - Document describe.one usage [#4957](https://github.com/inspec/inspec/pull/4957) ([james-stocks](https://github.com/james-stocks)) <!-- 4.18.100 -->
