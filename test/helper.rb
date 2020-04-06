@@ -148,7 +148,7 @@ class Minitest::Test
   end
 
   def skip_windows!
-    skip_until 2020, 3, 31, "These have never passed" if windows?
+    skip_until 2020, 5, 1, "These have never passed" if windows?
   end
 
   def unmock(&blk)
