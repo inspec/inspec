@@ -316,7 +316,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec("exec " + File.join(profile_path, "unsupported_inspec") + " --no-create-lockfile") }
 
     it "does not support this profile" do
-      _(stderr).must_equal "This profile requires Chef InSpec version >= 99.0.0. You are running Chef InSpec v#{Inspec::VERSION}.\n"
+      _(stderr).must_equal "This profile requires product version >= 99.0.0. You are running product v#{Inspec::VERSION}.\n"
 
       assert_exit_code 1, out
     end
