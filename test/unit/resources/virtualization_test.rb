@@ -12,17 +12,7 @@ describe "Inspec::Resources::Virtualization" do
     end
   end
 
-  it "fails the resource if OS is not Linux" do
-    mocked_files = []
-    mock_loader = MockLoader.new(:windows)
-
-    mock_loader.backend.stub :file, mock_proc(mocked_files) do
-      mock_resource = mock_loader.load_resource("virtualization")
-      _(mock_resource.resource_failed?).must_equal true
-    end
-  end
-
-  it "returns nil for all properties if no virutalization platform is found" do
+  it "returns nil for all properties if no virtualization platform is found" do
     mocked_files = [
       "/proc/xen/capabilities",
       "/proc/modules",
