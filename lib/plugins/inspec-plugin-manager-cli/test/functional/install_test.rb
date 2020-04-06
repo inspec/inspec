@@ -169,7 +169,7 @@ class PluginManagerCliInstall < Minitest::Test
     assert_equal "gem (user)", itf_plugin[:type]
     assert_equal "0.1.0", itf_plugin[:version]
 
-    assert_empty install_result.stderr
+    assert_empty_ignoring_27_warnings install_result.stderr
     assert_exit_code 0, install_result
   end
 
@@ -200,7 +200,7 @@ class PluginManagerCliInstall < Minitest::Test
     assert_equal "gem (user)", itf_plugin[:type]
     assert_equal "0.2.0", itf_plugin[:version]
 
-    assert_empty install_result.stderr
+    assert_empty_ignoring_27_warnings install_result.stderr
     assert_exit_code 0, install_result
   end
 
@@ -230,7 +230,7 @@ class PluginManagerCliInstall < Minitest::Test
     assert_equal "gem (user)", itf_plugin[:type]
     assert_equal "0.1.0", itf_plugin[:version]
 
-    assert_empty install_result.stderr
+    assert_empty_ignoring_27_warnings install_result.stderr
 
     assert_exit_code 0, install_result
   end
@@ -322,7 +322,7 @@ class PluginManagerCliInstall < Minitest::Test
     assert_equal "gem (user)", ttf_plugin[:type]
     assert_equal "0.1.0", ttf_plugin[:version]
 
-    assert_empty install_result.stderr
+    assert_empty_ignoring_27_warnings install_result.stderr
     assert_exit_code 0, install_result
   end
 
