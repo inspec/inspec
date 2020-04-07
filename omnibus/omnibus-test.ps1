@@ -21,17 +21,9 @@ Write-Output "--- Running verification for $channel $product $version"
 # reload Env:PATH to ensure it gets any changes that the install made (e.g. C:\opscode\inspec\bin\ )
 $Env:PATH = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
 
-Write-Host "--- Downloading Ruby + DevKit"
-aws s3 cp s3://core-buildkite-cache-chef-prod/rubyinstaller-devkit-2.6.5-1-x64.exe c:/rubyinstaller-devkit-2.6.5-1-x64.exe
-
-Write-Host "--- Installing Ruby + DevKit"
-Start-Process c:\rubyinstaller-devkit-2.6.5-1-x64.exe -ArgumentList '/verysilent /dir=C:\\ruby26' -Wait
-
-Write-Host "--- Cleaning up installation"
-Remove-Item c:\rubyinstaller-devkit-2.6.5-1-x64.exe -Force
-
-$Env:Path += ";C:\ruby26\bin"
+$Env:Path = "C:\opscode\$product\bin;C:\opscode\$product\embedded\bin;$Env:PATH"
 Write-Host "+++ Testing $Plan"
 
-cd test/artifact
+Set-Location test/artifact
 rake
+If ($lastexitcode -ne 0) { Exit $lastexitcode }
