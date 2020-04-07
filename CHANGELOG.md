@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.103 -->
-## [v4.18.103](https://github.com/inspec/inspec/tree/v4.18.103) (2020-04-06)
+<!-- latest_release 4.18.104 -->
+## [v4.18.104](https://github.com/inspec/inspec/tree/v4.18.104) (2020-04-07)
 
 #### Merged Pull Requests
-- Improve virtualization resource [#4954](https://github.com/inspec/inspec/pull/4954) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- Add Windows 10 support and fix Omnibus tests to use embedded Ruby [#4968](https://github.com/inspec/inspec/pull/4968) ([christopher-snapp](https://github.com/christopher-snapp))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.100 -->
@@ -14,6 +14,7 @@
 - Fix deprecation warning on auditd test [#4955](https://github.com/inspec/inspec/pull/4955) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.18.100 -->
 
 #### Merged Pull Requests
+- Add Windows 10 support and fix Omnibus tests to use embedded Ruby [#4968](https://github.com/inspec/inspec/pull/4968) ([christopher-snapp](https://github.com/christopher-snapp)) <!-- 4.18.104 -->
 - Improve virtualization resource [#4954](https://github.com/inspec/inspec/pull/4954) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.18.103 -->
 - Add support for alternate Gem source for plugin installation/search [#4949](https://github.com/inspec/inspec/pull/4949) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.18.102 -->
 - Fix service not working correctly on windows machines [#4951](https://github.com/inspec/inspec/pull/4951) ([Axuba](https://github.com/Axuba)) <!-- 4.18.101 -->
