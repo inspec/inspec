@@ -16,5 +16,21 @@ module Inspec
 
     # name of the compliance product
     COMPLIANCE_PRODUCT_NAME = "Chef Compliance"
+
+    # The suffix for workstation's eponymous folders, like /opt/workstation
+    # or C:/<LEGACY_CONF_DIR>/workstation
+    WORKSTATION_DIR_SUFFIX = "chef-workstation"
+
+    # The suffix for ChefDK's eponymous folders, like /opt/chef-dk
+    # or C:/<LEGACY_CONF_DIR>/chef-dk
+    CHEFDK_DIR_SUFFIX = "chef-dk"
+
+    # The suffix for Inspec's eponymous folders, like /opt/inspec
+    # or C:/<LEGACY_CONF_DIR>/inspec
+    INSPEC_DIR_SUFFIX = "inspec"
+
+    # The legacy conf folder: C:/opscode/chef*. Specifically the "opscode" part
+    # relevant *_DIR_SUFFIX is appended to it in code when needed
+    LEGACY_CONF_DIR = "opscode"
   end
 end

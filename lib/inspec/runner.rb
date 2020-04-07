@@ -200,7 +200,7 @@ module Inspec
 
     def supports_profile?(profile)
       unless profile.supports_runtime?
-        raise "This profile requires product version "\
+        raise "This profile requires the inspec-core gem version "\
              "#{profile.metadata.inspec_requirement}. You are running "\
              "product v#{Inspec::VERSION}.\n"
       end

@@ -22,11 +22,11 @@ module Inspec
     private
 
     def chef_workstation_install?
-      !!(src_root.start_with?("/opt/chef-workstation") || src_root.start_with?("C:/opscode/chef-workstation"))
+      !!(src_root.start_with?("/opt/#{Inspec::Dist::WORKSTATION_DIR_SUFFIX}") || src_root.start_with?("C:/#{Inspec::Dist::LEGACY_CONF_DIR}/#{Inspec::Dist::WORKSTATION_DIR_SUFFIX}"))
     end
 
     def chefdk_install?
-      !!(src_root.start_with?("/opt/chef-dk") || src_root.start_with?("C:/opscode/chef-dk"))
+      !!(src_root.start_with?("/opt/#{Inspec::Dist::CHEFDK_DIR_SUFFIX}") || src_root.start_with?("C:/#{Inspec::Dist::LEGACY_CONF_DIR}/#{Inspec::Dist::CHEFDK_DIR_SUFFIX}"))
     end
 
     def docker_install?
@@ -39,7 +39,7 @@ module Inspec
     end
 
     def omnibus_install?
-      !!(src_root.start_with?("/opt/inspec") || src_root.start_with?("C:/opscode/inspec"))
+      !!(src_root.start_with?("/opt/#{Inspec::Dist::INSPEC_DIR_SUFFIX}") || src_root.start_with?("C:/#{Inspec::Dist::LEGACY_CONF_DIR}/#{Inspec::Dist::INSPEC_DIR_SUFFIX}"))
     end
 
     def rubygem_install?
