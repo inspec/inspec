@@ -1,29 +1,27 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.104 -->
-## [v4.18.104](https://github.com/inspec/inspec/tree/v4.18.104) (2020-04-07)
-
-#### Merged Pull Requests
-- Add Windows 10 support and fix Omnibus tests to use embedded Ruby [#4968](https://github.com/inspec/inspec/pull/4968) ([christopher-snapp](https://github.com/christopher-snapp))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.18.100 -->
-### Changes since 4.18.100 release
-
-#### Enhancements
-- Fix deprecation warning on auditd test [#4955](https://github.com/inspec/inspec/pull/4955) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.18.100 -->
-
-#### Merged Pull Requests
-- Add Windows 10 support and fix Omnibus tests to use embedded Ruby [#4968](https://github.com/inspec/inspec/pull/4968) ([christopher-snapp](https://github.com/christopher-snapp)) <!-- 4.18.104 -->
-- Improve virtualization resource [#4954](https://github.com/inspec/inspec/pull/4954) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.18.103 -->
-- Add support for alternate Gem source for plugin installation/search [#4949](https://github.com/inspec/inspec/pull/4949) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.18.102 -->
-- Fix service not working correctly on windows machines [#4951](https://github.com/inspec/inspec/pull/4951) ([Axuba](https://github.com/Axuba)) <!-- 4.18.101 -->
-- Document describe.one usage [#4957](https://github.com/inspec/inspec/pull/4957) ([james-stocks](https://github.com/james-stocks)) <!-- 4.18.100 -->
-- Remove .html to fix install link [#4945](https://github.com/inspec/inspec/pull/4945) ([mjingle](https://github.com/mjingle)) <!-- 4.18.100 -->
-- removed beta from waivers link in sidebar nav [#4944](https://github.com/inspec/inspec/pull/4944) ([kekaichinose](https://github.com/kekaichinose)) <!-- 4.18.100 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.18.104](https://github.com/inspec/inspec/tree/v4.18.104) (2020-04-08)
+
+#### Enhancements
+- Fix deprecation warning on auditd test [#4955](https://github.com/inspec/inspec/pull/4955) ([tecracer-theinen](https://github.com/tecracer-theinen))
+
+#### Merged Pull Requests
+- removed beta from waivers link in sidebar nav [#4944](https://github.com/inspec/inspec/pull/4944) ([kekaichinose](https://github.com/kekaichinose))
+- Remove .html to fix install link [#4945](https://github.com/inspec/inspec/pull/4945) ([mjingle](https://github.com/mjingle))
+- Document describe.one usage [#4957](https://github.com/inspec/inspec/pull/4957) ([james-stocks](https://github.com/james-stocks))
+- Fix service not working correctly on windows machines [#4951](https://github.com/inspec/inspec/pull/4951) ([Axuba](https://github.com/Axuba))
+- Add support for alternate Gem source for plugin installation/search [#4949](https://github.com/inspec/inspec/pull/4949) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- Improve virtualization resource [#4954](https://github.com/inspec/inspec/pull/4954) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- Add Windows 10 support and fix Omnibus tests to use embedded Ruby [#4968](https://github.com/inspec/inspec/pull/4968) ([christopher-snapp](https://github.com/christopher-snapp))
+<!-- latest_stable_release -->
+
 ## [v4.18.100](https://github.com/inspec/inspec/tree/v4.18.100) (2020-03-03)
 
 #### Enhancements
@@ -34,7 +32,6 @@
 - Update rake deps for security issue [#4939](https://github.com/inspec/inspec/pull/4939) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Fix platform detection on hab [#4934](https://github.com/inspec/inspec/pull/4934) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - remove beta language and fix usage string order [#4942](https://github.com/inspec/inspec/pull/4942) ([kekaichinose](https://github.com/kekaichinose))
-<!-- latest_stable_release -->
 
 ## [v4.18.97](https://github.com/inspec/inspec/tree/v4.18.97) (2020-02-25)
 
