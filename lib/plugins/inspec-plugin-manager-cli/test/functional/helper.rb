@@ -59,4 +59,18 @@ module PluginManagerHelpers
   def teardown
     clear_empty_config_dir
   end
+
+  # This function exists because under Ruby 2.7 the rubygems gem issues deprecation warnings
+  def assert_empty_ignoring_27_warnings(stderr)
+    if Gem.ruby_version.segments[0, 2].join(".") == "2.7" # Assuming the deprecations are fixed in 2.8 and later
+      # /usr/local/lib/ruby/site_ruby/2.7.0/rubygems.rb:475: warning: Using the last argument as keyword parameters is deprecated; maybe ** should be added to the call
+      # /usr/local/lib/ruby/2.7.0/fileutils.rb:206: warning: The called method `mkdir_p' is defined here
+      # /usr/local/lib/ruby/site_ruby/2.7.0/rubygems/package.rb:509: warning: Using the last argument as keyword parameters is deprecated
+      # /usr/local/lib/ruby/site_ruby/2.7.0/rubygems/package.rb:489: warning: Using the last argument as keyword parameters is deprecated; maybe ** should be added to the call
+      # /usr/local/lib/ruby/2.7.0/fileutils.rb:180: warning: The called method `mkdir' is defined here"
+      stderr = stderr.split("\n").reject { |line| line =~ /(rubygems|fileutils).+warning.+(deprecated|defined)/ }
+    end
+
+    assert_empty stderr
+  end
 end
