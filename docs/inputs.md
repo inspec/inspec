@@ -26,7 +26,7 @@ input('amplifier_max_volume', value: 10)
 
 control 'Big Rock Show' do
   describe input('amplifier_max_volume') do    # This line reads the value of the input
-    it { should eq 11 } # The UK'S LOUDEST BAND
+    it { should cmp 11 } # The UK'S LOUDEST BAND
   end
 end
 ```
@@ -34,14 +34,14 @@ end
 When the above profile is executed by using `inspec exec rock_critic`, you would see something like:
 
 ```
-  11
-     ×  should eq 10
+  ×  Big Rock Show: 10
+     ×  10 is expected to cmp == 11
 
-     expected: 10
-          got: 11
+     expected: 11
+          got: 10
 
-     (compared using ==)
-Test Summary: 0 successful, 1 failure, 0 skipped
+     (compared using `cmp` matcher)
+Profile Summary: 0 successful controls, 1 control failure, 0 controls skipped
 ```
 
 That result clearly won't do. Let's override the input's default value.
@@ -49,10 +49,10 @@ That result clearly won't do. Let's override the input's default value.
 We can now run that profile with `inspec exec rock_critic --input amplifier_max_volume=11`:
 
 ```
-  11
-     ✔  should eq 11
+  ✔  Big Rock Show: 11
+     ✔  11 is expected to cmp == 11
 
-Test Summary: 1 successful, 0 failures, 0 skipped
+Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
 ```
 
 ### Which profiles support inputs?
