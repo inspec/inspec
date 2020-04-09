@@ -16,9 +16,11 @@ builder-to-testers-map:
   el-7-aarch64:
     - el-7-aarch64
     - el-8-aarch64
+    - amazon-2-aarch64
   el-7-x86_64:
     - el-7-x86_64
     - el-8-x86_64
+    - amazon-2-x86_64
   mac_os_x-10.13-x86_64:
     - mac_os_x-10.13-x86_64
     - mac_os_x-10.14-x86_64
