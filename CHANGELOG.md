@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.105 -->
-## [v4.18.105](https://github.com/inspec/inspec/tree/v4.18.105) (2020-04-09)
+<!-- latest_release unreleased -->
+## Unreleased
 
-#### Bug Fixes
-- Fixes for tests under ruby 2.7 [#4970](https://github.com/inspec/inspec/pull/4970) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Release process documentation [#4974](https://github.com/inspec/inspec/pull/4974) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.104 -->
 ### Changes since 4.18.104 release
+
+#### Merged Pull Requests
+- Release process documentation [#4974](https://github.com/inspec/inspec/pull/4974) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.105 -->
 
 #### Bug Fixes
 - Fixes for tests under ruby 2.7 [#4970](https://github.com/inspec/inspec/pull/4970) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.105 -->
