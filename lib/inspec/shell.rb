@@ -64,7 +64,7 @@ module Inspec
 
         pry.pager.open do |pager|
           pager.print pry.config.output_prefix
-          Pry::ColorPrinter.pp(value, pager, Pry::Terminal.width! - 1)
+          Pry::ColorPrinter.pp(value, pager, Pry::Output.new(pry).width - 1)
         end
       end
     end
