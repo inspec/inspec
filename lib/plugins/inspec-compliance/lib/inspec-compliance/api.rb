@@ -302,6 +302,10 @@ module InspecPlugins
           )
           true
         else
+          Inspec::Log.debug(
+            "Received #{response.code} from #{url}#{automate_endpoint} - " \
+            "assuming target is not an #{AUTOMATE_PRODUCT_NAME}2 instance"
+          )
           false
         end
       end
