@@ -32,12 +32,13 @@ Config files must contain a top-level key, `version`, which indicates the file f
   },
   "reporter": {
     "automate" : {
-    "stdout" : false,
-    "url" : "https://YOUR_A2_URL/data-collector/v0/",
-    "token" : "YOUR_A2_API_TOKEN",
-    "insecure" : true,
-    "node_name" : "inspec_test_node",
-    "environment" : "prod"
+      "stdout" : false,
+      "url" : "https://YOUR_A2_URL/data-collector/v0/",
+      "token" : "YOUR_A2_API_TOKEN",
+      "insecure" : true,
+      "node_name" : "inspec_test_node",
+      "environment" : "prod"
+    }
   }
 }
 ```
