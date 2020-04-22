@@ -28,6 +28,8 @@ builder-to-testers-map:
   sles-12-x86_64:
     - sles-12-x86_64
     - sles-15-x86_64
+  sles-15-aarch64:
+    - sles-15-aarch64
   ubuntu-18.04-aarch64:
     - ubuntu-18.04-aarch64
     - ubuntu-20.04-aarch64
