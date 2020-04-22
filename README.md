@@ -140,6 +140,7 @@ Note that installing from OS packages from [the download page](https://downloads
 That requires [bundler](http://bundler.io/):
 
 ```bash
+# From ./inspec-bin directory
 bundle install
 bundle exec bin/inspec help
 ```
