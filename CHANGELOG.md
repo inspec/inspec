@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.18.106 -->
+## [v4.18.106](https://github.com/inspec/inspec/tree/v4.18.106) (2020-04-22)
 
 #### Merged Pull Requests
+- Add additional debug logging for automate login [#4990](https://github.com/inspec/inspec/pull/4990) ([TheLunaticScripter](https://github.com/TheLunaticScripter))
 - Release process documentation [#4974](https://github.com/inspec/inspec/pull/4974) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.18.104 release
 
 #### Merged Pull Requests
+- Add additional debug logging for automate login [#4990](https://github.com/inspec/inspec/pull/4990) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.18.106 -->
 - Release process documentation [#4974](https://github.com/inspec/inspec/pull/4974) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.105 -->
 
 #### Bug Fixes
