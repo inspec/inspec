@@ -98,11 +98,11 @@ module Inspec
     # not been assigned a value. This allows a user to explicitly assign nil
     # to an input.
     class NO_VALUE_SET # rubocop: disable Naming/ClassAndModuleCamelCase
-      def initialize(name)
+      def initialize(name, obnoxiously_warn = true)
         @name = name
 
         # output warn message if we are in a exec call
-        if Inspec::BaseCLI.inspec_cli_command == :exec
+        if obnoxiously_warn && Inspec::BaseCLI.inspec_cli_command == :exec
           Inspec::Log.warn(
             "Input '#{@name}' does not have a value. "\
             "Use --input-file or --input to provide a value for '#{@name}' or specify a  "\
@@ -277,7 +277,7 @@ module Inspec
     end
 
     # Determine the current winning value, but don't validate it
-    def current_value
+    def current_value(warn_on_missing = true)
       # Examine the events to determine highest-priority value. Tie-break
       # by using the last one set.
       events_that_set_a_value = events.select(&:value_has_been_set?)
@@ -287,7 +287,7 @@ module Inspec
 
       if winning_event.nil?
         # No value has been set - return special no value object
-        NO_VALUE_SET.new(name)
+        NO_VALUE_SET.new(name, warn_on_missing)
       else
         winning_event.value # May still be nil
       end
@@ -315,7 +315,7 @@ module Inspec
     end
 
     def has_value?
-      !current_value.is_a? NO_VALUE_SET
+      !current_value(false).is_a? NO_VALUE_SET
     end
 
     def to_hash
@@ -348,7 +348,7 @@ module Inspec
       # skip if we are not doing an exec call (archive/vendor/check)
       return unless Inspec::BaseCLI.inspec_cli_command == :exec
 
-      proposed_value = current_value
+      proposed_value = current_value(false)
       if proposed_value.nil? || proposed_value.is_a?(NO_VALUE_SET)
         error = Inspec::Input::RequiredError.new
         error.input_name = name
@@ -363,7 +363,7 @@ module Inspec
       type_req = type
       return if type_req == "Any"
 
-      proposed_value = current_value
+      proposed_value = current_value(false)
 
       invalid_type = false
       if type_req == "Regexp"
