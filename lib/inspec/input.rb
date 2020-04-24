@@ -105,8 +105,8 @@ module Inspec
         if Inspec::BaseCLI.inspec_cli_command == :exec
           Inspec::Log.warn(
             "Input '#{@name}' does not have a value. "\
-            "Use --input-file to provide a value for '#{@name}' or specify a  "\
-            "value with `attribute('#{@name}', value: 'somevalue', ...)`."
+            "Use --input-file or --input to provide a value for '#{@name}' or specify a  "\
+            "value with `input('#{@name}', value: 'somevalue', ...)`."
           )
         end
       end
