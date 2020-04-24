@@ -293,4 +293,16 @@ describe "inputs" do
       assert_json_controls_passing(result)
     end
   end
+  # Addresses https://github.com/inspec/inspec/issues/4769
+  describe "when using a profile with undeclared (valueless) inputs and an input file" do
+    it "should not warn and run normally" do
+      cmd = "exec #{inputs_profiles_path}/undeclared --input-file #{inputs_profiles_path}/undeclared/files/inputs.yaml"
+
+      result = run_inspec_process(cmd, json: true)
+
+      _(result.stderr).must_be_empty
+      assert_json_controls_passing(result)
+    end
+  end
+  
 end

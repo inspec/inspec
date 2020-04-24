@@ -6,3 +6,20 @@ copyright_email: you@example.com
 license: Apache-2.0
 summary: A profile mentioning an attribute in a control file that has not otherwise been mentioned
 version: 0.1.0
+
+inputs:
+  - name: undeclared_00
+    required: true
+    type: string
+  - name: undeclared_01
+    required: true
+    type: string
+  - name: undeclared_02
+    required: true
+    type: string
+  - name: undeclared_03
+    required: true
+    type: string
+  - name: undeclared_04
+    required: true
+    type: string
