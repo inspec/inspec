@@ -134,6 +134,8 @@ module Inspec
       return if @conf["reporter"].nil?
 
       @conf["reporter"].each do |reporter|
+        reporter[1][:include_backtrace] = @conf["reporter_backtrace_inclusion"] if @conf.key?(:reporter_backtrace_inclusion)
+        reporter[1][:message_truncation] = @conf["reporter_message_truncation"] if @conf.key?(:reporter_message_truncation)
         result = Inspec::Reporters.render(reporter, run_data)
         raise Inspec::ReporterError, "Error generating reporter '#{reporter[0]}'" if result == false
       end

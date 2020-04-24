@@ -29,8 +29,16 @@ module Inspec::Reporters
     end
 
     def profile_results(control)
-      (control[:results] || []).map { |r|
-        {
+      trunc = -1
+      if @message_truncation != 'ALL'
+        if @message_truncation.to_i.to_s != @message_truncation
+          Inspec::Log.warn("Messages will not be truncated because #{@message_truncation} is not an integer value")
+        else
+          trunc = @message_truncation.to_i
+        end
+      end
+      (control[:results] || []).map do |r|
+        res = {
           status:       r[:status],
           code_desc:    r[:code_desc],
           run_time:     r[:run_time],
@@ -40,8 +48,12 @@ module Inspec::Reporters
           message:      r[:message],
           exception:    r[:exception],
           backtrace:    r[:backtrace],
-        }.reject { |_k, v| v.nil? }
-      }
+        }
+        res.reject! { |_k, v| v.nil? }
+        res[:message] = res[:message][0...trunc] + "[Truncated to #{trunc} characters]" if res.key?(:message) && res[:message] != "" && trunc > -1
+        res.delete(:backtrace) unless @include_backtrace
+        res
+      end
     end
 
     def profiles

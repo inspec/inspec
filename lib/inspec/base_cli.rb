@@ -135,6 +135,10 @@ module Inspec
       option :reporter, type: :array,
         banner: "one two:/output/file/path",
         desc: "Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml"
+      option :reporter_message_truncation, type: :string,
+        desc: "Number of characters to truncate failure messages in report data to (default: no truncation)"
+      option :reporter_backtrace_inclusion, type: :boolean,
+        desc: "Include a code backtrace in report data (default: true)"
       option :input, type: :array, banner: "name1=value1 name2=value2",
         desc: "Specify one or more inputs directly on the command line, as --input NAME=VALUE"
       option :input_file, type: :array,

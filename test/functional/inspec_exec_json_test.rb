@@ -247,4 +247,74 @@ describe "inspec exec with json formatter" do
       _(File.exist?("/tmp/inspec_test_DONT_CREATE")).must_equal false
     end
   end
+
+  describe "JSON reporter without setting reporter-message-truncation" do
+    let(:raw) { inspec("exec " + failure_control + " --reporter json --no-create-lockfile").stdout }
+    let(:json) { JSON.load(raw) }
+    let(:profile) { json["profiles"][0] }
+    let(:control_with_message) { profile["controls"].find { |c| c["id"] == "Generates a message" } }
+    it "reports full message by default" do
+      _(control_with_message["results"].first["message"]).wont_be :nil?
+      _(control_with_message["results"].first["message"]).must_equal "expected nil to match /some regex that is expected in the content/"
+    end
+  end
+
+  describe "JSON reporter with reporter-message-truncation set to a number" do
+    let(:raw) { inspec("exec " + failure_control + " --reporter json --reporter-message-truncation=20 --no-create-lockfile").stdout }
+    let(:json) { JSON.load(raw) }
+    let(:profile) { json["profiles"][0] }
+    let(:control_with_message) { profile["controls"].find { |c| c["id"] == "Generates a message" } }
+    it "reports a truncated message" do
+      _(control_with_message["results"].first["message"]).wont_be :nil?
+      _(control_with_message["results"].first["message"]).must_equal "expected nil to matc[Truncated to 20 characters]"
+    end
+  end
+
+  describe "JSON reporter with reporter-message-truncation set to ALL" do
+    let(:raw) { inspec("exec " + failure_control + " --reporter json --reporter-message-truncation=ALL --no-create-lockfile").stdout }
+    let(:json) { JSON.load(raw) }
+    let(:profile) { json["profiles"][0] }
+    let(:control_with_message) { profile["controls"].find { |c| c["id"] == "Generates a message" } }
+    it "reports full message" do
+      _(control_with_message["results"].first["message"]).wont_be :nil?
+      _(control_with_message["results"].first["message"]).must_equal "expected nil to match /some regex that is expected in the content/"
+    end
+  end
+
+  describe "JSON reporter without setting reporter-backtrace-inclusion" do
+    let(:raw) { inspec("exec " + failure_control + " --reporter json --no-create-lockfile").stdout }
+    let(:json) { JSON.load(raw) }
+    let(:profile) { json["profiles"][0] }
+    let(:control_with_exception) { profile["controls"].find { |c| c["id"] == "Raises an exception" } }
+    let(:failed_result) { control_with_exception["results"].find { |r| r['exception'] == 'NoMethodError' } }
+    it "reports backtrace by default" do
+      _(failed_result["backtrace"]).wont_be :nil?
+      _(failed_result["backtrace"]).must_be_instance_of Array
+      _(failed_result["backtrace"].first).must_be_instance_of String
+    end
+  end
+
+  describe "JSON reporter with reporter-backtrace-inclusion set to true" do
+    let(:raw) { inspec("exec " + failure_control + " --reporter json --reporter-backtrace-inclusion=true --no-create-lockfile").stdout }
+    let(:json) { JSON.load(raw) }
+    let(:profile) { json["profiles"][0] }
+    let(:control_with_exception) { profile["controls"].find { |c| c["id"] == "Raises an exception" } }
+    let(:failed_result) { control_with_exception["results"].find { |r| r['exception'] == 'NoMethodError' } }
+    it "reports backtrace" do
+      _(failed_result["backtrace"]).wont_be :nil?
+      _(failed_result["backtrace"]).must_be_instance_of Array
+      _(failed_result["backtrace"].first).must_be_instance_of String
+    end
+  end
+
+  describe "JSON reporter with reporter-backtrace-inclusion set to false" do
+    let(:raw) { inspec("exec " + failure_control + " --reporter json --reporter-backtrace-inclusion=false --no-create-lockfile").stdout }
+    let(:json) { JSON.load(raw) }
+    let(:profile) { json["profiles"][0] }
+    let(:control_with_exception) { profile["controls"].find { |c| c["id"] == "Raises an exception" } }
+    let(:failed_result) { control_with_exception["results"].find { |r| r['exception'] == 'NoMethodError' } }
+    it "does not report backtrace" do
+      _(failed_result["backtrace"]).must_be :nil?
+    end
+  end
 end

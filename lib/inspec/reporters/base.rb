@@ -5,6 +5,8 @@ module Inspec::Reporters
     def initialize(config)
       @config = config
       @run_data = config[:run_data]
+      @message_truncation = config[:message_truncation] || 'ALL'
+      @include_backtrace = config[:include_backtrace].nil? ? true : config[:include_backtrace]
       @output = ""
     end
 
