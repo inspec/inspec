@@ -1,0 +1,13 @@
+name: required_inputs
+title: InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: Apache-2.0
+summary: A profile mentioning an input in a control file that is required
+version: 0.1.0
+
+inputs:
+  - name: required_01
+    required: true
+    type: string
