@@ -1,25 +1,22 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.106 -->
-## [v4.18.106](https://github.com/inspec/inspec/tree/v4.18.106) (2020-04-22)
-
-#### Merged Pull Requests
-- Add additional debug logging for automate login [#4990](https://github.com/inspec/inspec/pull/4990) ([TheLunaticScripter](https://github.com/TheLunaticScripter))
-- Release process documentation [#4974](https://github.com/inspec/inspec/pull/4974) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.18.104 -->
-### Changes since 4.18.104 release
-
-#### Merged Pull Requests
-- Add additional debug logging for automate login [#4990](https://github.com/inspec/inspec/pull/4990) ([TheLunaticScripter](https://github.com/TheLunaticScripter)) <!-- 4.18.106 -->
-- Release process documentation [#4974](https://github.com/inspec/inspec/pull/4974) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.105 -->
-
-#### Bug Fixes
-- Fixes for tests under ruby 2.7 [#4970](https://github.com/inspec/inspec/pull/4970) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.105 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.18.108](https://github.com/inspec/inspec/tree/v4.18.108) (2020-04-27)
+
+#### Bug Fixes
+- Fixes for tests under ruby 2.7 [#4970](https://github.com/inspec/inspec/pull/4970) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Release process documentation [#4974](https://github.com/inspec/inspec/pull/4974) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add additional debug logging for automate login [#4990](https://github.com/inspec/inspec/pull/4990) ([TheLunaticScripter](https://github.com/TheLunaticScripter))
+<!-- latest_stable_release -->
+
 ## [v4.18.104](https://github.com/inspec/inspec/tree/v4.18.104) (2020-04-08)
 
 #### Enhancements
@@ -33,7 +30,6 @@
 - Add support for alternate Gem source for plugin installation/search [#4949](https://github.com/inspec/inspec/pull/4949) ([tecracer-theinen](https://github.com/tecracer-theinen))
 - Improve virtualization resource [#4954](https://github.com/inspec/inspec/pull/4954) ([tecracer-theinen](https://github.com/tecracer-theinen))
 - Add Windows 10 support and fix Omnibus tests to use embedded Ruby [#4968](https://github.com/inspec/inspec/pull/4968) ([christopher-snapp](https://github.com/christopher-snapp))
-<!-- latest_stable_release -->
 
 ## [v4.18.100](https://github.com/inspec/inspec/tree/v4.18.100) (2020-03-03)
 
