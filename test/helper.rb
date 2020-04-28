@@ -147,10 +147,6 @@ class Minitest::Test
     skip msg
   end
 
-  def skip_windows!
-    skip_until 2020, 5, 1, "These have never passed" if windows?
-  end
-
   def unmock(&blk)
     # eg: resource = unmock { group "staff" }
     require "inspec/fetcher/mock"
