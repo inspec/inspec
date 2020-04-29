@@ -42,11 +42,11 @@ describe "inspec exec with junit formatter" do
     describe "the test suite" do
       let(:suite) { doc.elements.to_a("//testsuites/testsuite").first }
 
-      it "must have 6 testcase children" do
+      it "must have 4 testcase children" do
         _(suite.elements.to_a("//testcase").length).must_equal 4
       end
 
-      it "has the tests attribute with 5 total tests" do
+      it "has the tests attribute with 4 total tests" do
         _(suite.attribute("tests").value).must_equal "4"
       end
 
