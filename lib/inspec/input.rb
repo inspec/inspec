@@ -98,11 +98,11 @@ module Inspec
     # not been assigned a value. This allows a user to explicitly assign nil
     # to an input.
     class NO_VALUE_SET # rubocop: disable Naming/ClassAndModuleCamelCase
-      def initialize(name, obnoxiously_warn = true)
+      def initialize(name, warn_on_create = true)
         @name = name
 
         # output warn message if we are in a exec call
-        if obnoxiously_warn && Inspec::BaseCLI.inspec_cli_command == :exec
+        if warn_on_create && Inspec::BaseCLI.inspec_cli_command == :exec
           Inspec::Log.warn(
             "Input '#{@name}' does not have a value. "\
             "Use --input-file or --input to provide a value for '#{@name}' or specify a  "\
