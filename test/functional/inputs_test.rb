@@ -293,4 +293,39 @@ describe "inputs" do
       assert_json_controls_passing(result)
     end
   end
+
+  # Addresses https://github.com/inspec/inspec/issues/4769
+  describe "when using a profile with required inputs" do
+    describe "when the values are not provided" do
+      it "should emit an error and exit code 1" do
+        cmd = "exec #{inputs_profiles_path}/required"
+
+        result = run_inspec_process(cmd, json: true)
+
+        _(result.stderr).must_include "Input 'required_01'"
+        _(result.stderr).must_include "does not have a value"
+        assert_exit_code 1, result
+      end
+    end
+    describe "when the values are provided by an input file" do
+      it "should not warn and run normally" do
+        cmd = "exec #{inputs_profiles_path}/required --input-file #{inputs_profiles_path}/required/files/inputs.yaml"
+
+        result = run_inspec_process(cmd, json: true)
+
+        _(result.stderr).must_be_empty
+        assert_json_controls_passing(result)
+      end
+    end
+    describe "when the values are provided by a CLI flag" do
+      it "should not warn and run normally" do
+        cmd = "exec #{inputs_profiles_path}/required --input required_01=anything"
+
+        result = run_inspec_process(cmd, json: true)
+
+        _(result.stderr).must_be_empty
+        assert_json_controls_passing(result)
+      end
+    end
+  end
 end

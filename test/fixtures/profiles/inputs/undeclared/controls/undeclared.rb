@@ -1,3 +1,6 @@
+# Note this one is outside a control block
+discard_me = input('undeclared_00') 
+
 control 'start_marker' do
   describe('dummy_test_01') do
     it { should cmp 'dummy_test_01'}
