@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.18.109 -->
+## [v4.18.109](https://github.com/inspec/inspec/tree/v4.18.109) (2020-05-01)
+
+#### Bug Fixes
+- Fix for warning when input is provided [#4995](https://github.com/inspec/inspec/pull/4995) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.18.108 -->
+### Changes since 4.18.108 release
+
+#### Bug Fixes
+- Fix for warning when input is provided [#4995](https://github.com/inspec/inspec/pull/4995) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.109 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
