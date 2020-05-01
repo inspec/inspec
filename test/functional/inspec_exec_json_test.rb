@@ -286,7 +286,7 @@ describe "inspec exec with json formatter" do
     let(:json) { JSON.load(raw) }
     let(:profile) { json["profiles"][0] }
     let(:control_with_exception) { profile["controls"].find { |c| c["id"] == "Raises an exception" } }
-    let(:failed_result) { control_with_exception["results"].find { |r| r['exception'] == 'NoMethodError' } }
+    let(:failed_result) { control_with_exception["results"].find { |r| r["exception"] == "NoMethodError" } }
     it "reports backtrace by default" do
       _(failed_result["backtrace"]).wont_be :nil?
       _(failed_result["backtrace"]).must_be_instance_of Array
@@ -299,7 +299,7 @@ describe "inspec exec with json formatter" do
     let(:json) { JSON.load(raw) }
     let(:profile) { json["profiles"][0] }
     let(:control_with_exception) { profile["controls"].find { |c| c["id"] == "Raises an exception" } }
-    let(:failed_result) { control_with_exception["results"].find { |r| r['exception'] == 'NoMethodError' } }
+    let(:failed_result) { control_with_exception["results"].find { |r| r["exception"] == "NoMethodError" } }
     it "reports backtrace" do
       _(failed_result["backtrace"]).wont_be :nil?
       _(failed_result["backtrace"]).must_be_instance_of Array
@@ -312,7 +312,7 @@ describe "inspec exec with json formatter" do
     let(:json) { JSON.load(raw) }
     let(:profile) { json["profiles"][0] }
     let(:control_with_exception) { profile["controls"].find { |c| c["id"] == "Raises an exception" } }
-    let(:failed_result) { control_with_exception["results"].find { |r| r['exception'] == 'NoMethodError' } }
+    let(:failed_result) { control_with_exception["results"].find { |r| r["exception"] == "NoMethodError" } }
     it "does not report backtrace" do
       _(failed_result["backtrace"]).must_be :nil?
     end

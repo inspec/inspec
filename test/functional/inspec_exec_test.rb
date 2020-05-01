@@ -281,7 +281,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec("exec " + File.join(profile_path, "failures") + " --no-distinct-exit --no-create-lockfile") }
 
     it "exits with code 1" do
-      _(stdout).must_include "Profile Summary: 0 successful controls, 2 control failures, 0 controls skipped"
+      _(stdout).must_include "Profile Summary: 0 successful controls, 4 control failures, 0 controls skipped"
 
       _(stderr).must_equal ""
 
@@ -366,7 +366,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
     it "should print all the results" do
       _(stdout).must_include "×  tmp-1.0: Create / directory (1 failed)"
       _(stdout).must_include "×  is expected not to be directory\n"
-      _(stdout).must_include "×  undefined method `should_nota'"
+      _(stdout).must_include "×  File / \n     undefined method `should_nota'"
       _(stdout).must_include "×  is expected not to be directory\n     expected `File /.directory?` to return false, got true"
       _(stdout).must_include "×  7 is expected to cmp >= 9\n"
       _(stdout).must_include "×  7 is expected not to cmp == /^\\d$/\n"
@@ -382,7 +382,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
     it "should print all the results" do
       _(stdout).must_include "×  tmp-1.0: Create / directory (1 failed)"
       _(stdout).must_include "×  cmp-1.0: Using the cmp matcher for numbers (2 failed)"
-      _(stdout).must_include "×  undefined method `should_nota'"
+      _(stdout).must_include "×  File / \n     undefined method `should_nota'"
       _(stdout).must_include "×  is expected not to be directory\n     expected `File /.directory?` to return false, got true"
       _(stdout).must_include "✔  profiled-1: Create / directory (profile d)"
     end
