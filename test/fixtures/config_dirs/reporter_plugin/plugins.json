@@ -1,0 +1,10 @@
+{
+  "plugins_config_version" : "1.0.0",
+  "plugins": [
+    {
+      "name": "inspec-reporter-test-fixture",
+      "installation_type": "path",
+      "installation_path": "test/fixtures/plugins/inspec-reporter-test-fixture/lib/inspec-reporter-test-fixture.rb"
+    }
+  ]
+}

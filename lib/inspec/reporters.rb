@@ -30,7 +30,10 @@ module Inspec::Reporters
     when "yaml"
       reporter = Inspec::Reporters::Yaml.new(config)
     else
-      raise NotImplementedError, "'#{name}' is not a valid reporter type."
+      # If we made it here, it must be a plugin, and we know it exists (because we validated it in config.rb)
+      activator = Inspec::Plugin::V2::Registry.instance.find_activator(plugin_type: :reporter, activator_name: name.to_sym)
+      activator.activate!
+      reporter = activator.implementation_class.new(config)
     end
 
     # optional send_report method on reporter
