@@ -357,7 +357,7 @@ Like any activator, the block above will only be called if needed. For Reporter 
 
 ```bash
 you@machine $ inspec exec --reporter sweet # Your Reporter implementation is activated and executed
-you@machine $ inspec exec --reporter json  # Your CliCommand implementation is not activated
+you@machine $ inspec exec --reporter json  # Your Reporter implementation is not activated
 ```
 
 ### Implementation class for Reporters
