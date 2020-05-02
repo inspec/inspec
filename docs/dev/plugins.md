@@ -328,6 +328,62 @@ no_command do
 end
 ```
 
+## Implementing Reporter Plugins
+
+Reporter plugins offer the opportunity to customize or create entirely new output formats for Chef InSpec. Reporter plugins operate at the very end of the Chef InSpec run, when all test data has been finalized.
+
+### Declare your plugin activators
+
+In your `plugin.rb`, include one or more `reporter` activation blocks. The activation block name will be matched against the value passed in to the `--reporter` option, and if one matches, your activator will fire (in which case it should load any needed libraries) and should return your implementation class.
+
+#### Reporter Activator Example
+
+```ruby
+
+# In plugin.rb
+module InspecPlugins::Sweeten
+  class Plugin < Inspec.plugin(2)
+    # ... other plugin stuff
+
+    reporter :sweet do
+      require_relative 'reporter.rb'
+      InspecPlugins::Sweeten::Reporter
+    end
+  end
+end
+```
+
+Like any activator, the block above will only be called if needed. For Reporter plugins, the plugin system examines the `--reporter` argument (or the `reporter:` JSON config option)  looking for the activation name as a prefix. Multiple Reporter activations may occur if several different names match, though each activation will only occur once.
+
+```bash
+you@machine $ inspec exec --reporter sweet # Your Reporter implementation is activated and executed
+you@machine $ inspec exec --reporter json  # Your CliCommand implementation is not activated
+```
+
+### Implementation class for Reporters
+
+In your `reporter.rb`, you should begin by requesting the superclass from `Inspec.plugin`:
+
+```ruby
+module InspecPlugins::Sweeten
+  class Reporter < Inspec.plugin(2, :reporter)
+    def render
+      # examine run_data and call output()
+    end
+  end
+end
+```
+
+### Implementing your Reporter
+
+#### Implement render()
+
+The primary responsibility you must fulfill is to implement render. Typically, you will examine the `run_data` Hash (which is provided as an accessor).  Call `output(String, newline_wanted = true)` to send output.
+
+#### The run_data structure
+
+The `run_data` object contains all data from the Chef Inspec run. It is simply a Hash, but it has numerous fields and is often quite large; there is no specific documentation for the object at this time. See [the legacy JSON reporter](https://github.com/inspec/inspec/blob/2e887a94afcca819da781d4774aa2a5a0b56785e/lib/inspec/reporters/json.rb#L10) for one example of how to iterate over the object.
+
 ## Implementing Input Plugins
 
 Input plugins provide values for Chef InSpec Inputs - the parameters you can place within profile control code.
