@@ -19,7 +19,7 @@ module InspecPlugins::ReporterTestFixture
         end
       end
 
-      output("p#{profile_count}c#{control_count}t#{test_count}",true)
+      output("p#{profile_count}c#{control_count}t#{test_count}", true)
     end
   end
 end
