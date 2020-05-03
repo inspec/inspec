@@ -158,19 +158,40 @@ describe "inputs" do
 
     describe "when the --input is used once with two values" do
       let(:input_opt) { "--input test_input_01=value_from_cli_01 test_input_02=value_from_cli_02" }
-      it("correctly reads the input") { assert_json_controls_passing(result) }
+      let(:control_opt) { "--controls test_control_01 test_control_02" }
+      it("correctly reads both inputs") { assert_json_controls_passing(result) }
     end
 
     describe "when the --input is used once with two values and a comma" do
       let(:input_opt) { "--input test_input_01=value_from_cli_01, test_input_02=value_from_cli_02" }
-      it("correctly reads the input") { assert_json_controls_passing(result) }
+      let(:control_opt) { "--controls test_control_01 test_control_02" }
+      it("correctly reads both inputs ignoring the comma") { assert_json_controls_passing(result) }
+    end
+
+    # See https://github.com/inspec/inspec/issues/4977
+    describe "when the --input is used with a numeric value" do
+      describe "when the --input is used with an integer value" do
+        let(:input_opt) { "--input test_input_03=11" }
+        let(:control_opt) { "--controls test_control_numeric_implicit" }
+        it("correctly reads the input as numeric") { assert_json_controls_passing(result) }
+      end
+      describe "when the --input is used with a integer value and is declared as a numeric type in metadata" do
+        let(:input_opt) { "--input test_input_04=11" }
+        let(:control_opt) { "--controls test_control_numeric_type" }
+        it("correctly reads the input as numeric") { assert_json_controls_passing(result) }
+      end
+      describe "when the --input is used with a float value" do
+        let(:input_opt) { "--input test_input_05=-11.0" }
+        let(:control_opt) { "--controls test_control_numeric_float" }
+        it("correctly reads the input as numeric") { assert_json_controls_passing(result) }
+      end
     end
 
     describe "when the --input is used twice with one value each" do
       let(:input_opt) { "--input test_input_01=value_from_cli_01 --input test_input_02=value_from_cli_02" }
       let(:control_opt) { "--controls test_control_02" }
       # Expected, though unfortunate, behavior is to only notice the second input
-      it("correctly reads the input") { assert_json_controls_passing(result) }
+      it("correctly reads the second input") { assert_json_controls_passing(result) }
     end
 
     describe "when the --input is used with no equal sign" do
