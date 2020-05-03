@@ -166,14 +166,27 @@ module Inspec
           end
         end
         input_name, input_value = pair.split("=")
+        input_value = clean_up_cli_input_value(input_value)
         evt = Inspec::Input::Event.new(
-          value: input_value.chomp(","), # Trim trailing comma if any
+          value: input_value,
           provider: :cli,
           priority: 50
         )
         find_or_register_input(input_name, profile_name, event: evt)
       end
     end
+
+    # Remove trailing commas, resolve type.
+    def clean_up_cli_input_value(given_value)
+      value = given_value.chomp(",") # Trim trailing comma if any
+      if value =~ /^-?\d+$/
+        value = value.to_i
+      elsif value =~ /^-?\d+\.\d+$/
+        value = value.to_f
+      end
+      value
+    end
+
 
     def bind_inputs_from_runner_api(profile_name, input_hash)
       # TODO: move this into a core plugin
