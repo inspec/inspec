@@ -204,7 +204,6 @@ module Inspec
       value
     end
 
-
     def bind_inputs_from_runner_api(profile_name, input_hash)
       # TODO: move this into a core plugin
 

@@ -136,7 +136,7 @@ module Inspec
         banner: "one two:/output/file/path",
         desc: "Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml"
       option :input, type: :array, banner: "name1=value1 name2=value2",
-        desc: "Specify one or more inputs directly on the command line, as --input NAME=VALUE"
+        desc: "Specify one or more inputs directly on the command line, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures."
       option :input_file, type: :array,
         desc: "Load one or more input files, a YAML file with values for the profile to use"
       option :waiver_file, type: :array,
