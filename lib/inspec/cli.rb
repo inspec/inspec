@@ -4,6 +4,7 @@ require "inspec/utils/deprecation/deprecator"
 require "inspec/dist"
 require "inspec/backend"
 require "inspec/dependencies/cache"
+require "inspec/utils/json_profile_summary"
 
 module Inspec # TODO: move this somewhere "better"?
   autoload :BaseCLI,       "inspec/base_cli"
@@ -77,24 +78,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
 
     profile = Inspec::Profile.for_target(target, o)
-    info = profile.info
-    # add in inspec version
-    info[:generator] = {
-      name: "inspec",
-      version: Inspec::VERSION,
-    }
     dst = o[:output].to_s
-    if dst.empty?
-      puts JSON.dump(info)
-    else
-      if File.exist? dst
-        puts "----> updating #{dst}"
-      else
-        puts "----> creating #{dst}"
-      end
-      fdst = File.expand_path(dst)
-      File.write(fdst, JSON.dump(info))
-    end
+
+    # Write JSON
+    Inspec::Utils::JsonProfileSummary.produce_json(
+      info: profile.info,
+      write_path: dst
+    )
   rescue StandardError => e
     pretty_handle_exception(e)
   end

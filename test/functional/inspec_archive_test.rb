@@ -31,6 +31,17 @@ describe "inspec archive" do
     end
   end
 
+  it "archives an inspec.json file" do
+    prepare_examples("profile") do |dir|
+      out = inspec("archive " + dir + " --overwrite")
+
+      _(out.stderr).must_equal ""
+      t = Zlib::GzipReader.open(auto_dst)
+      _(Gem::Package::TarReader.new(t).entries.map(&:header).map(&:name)).must_include "inspec.json"
+      assert_exit_code 0, out
+    end
+  end
+
   it "auto-archives when no --output is given" do
     prepare_examples("profile") do |dir|
       out = inspec("archive " + dir + " --overwrite")
