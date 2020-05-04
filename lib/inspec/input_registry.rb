@@ -166,7 +166,7 @@ module Inspec
           end
         end
         input_name, input_value = pair.split("=")
-        input_value = clean_up_cli_input_value(input_value)
+        input_value = clean_up_cli_input_value(input_name, input_value)
         evt = Inspec::Input::Event.new(
           value: input_value,
           provider: :cli,
@@ -177,12 +177,29 @@ module Inspec
     end
 
     # Remove trailing commas, resolve type.
-    def clean_up_cli_input_value(given_value)
+    def clean_up_cli_input_value(input_name, given_value)
       value = given_value.chomp(",") # Trim trailing comma if any
       if value =~ /^-?\d+$/
         value = value.to_i
       elsif value =~ /^-?\d+\.\d+$/
         value = value.to_f
+      elsif value =~ /^(\[|\{).*(\]|\})$/
+        # Look for complex values and try to parse them.
+        require "yaml"
+        begin
+          value = YAML.load(value)
+        rescue Psych::SyntaxError => yaml_error
+          # It could be that we just tried to run JSON through the YAML parser.
+          require "json"
+          begin
+            value = JSON.parse(value)
+          rescue JSON::ParserError => json_error
+            msg = "ERROR: Unparseable value '#{value}' for --input #{input_name}.\n"
+            msg += "When treated as YAML, error: #{yaml_error.message}\n"
+            msg += "When treated as JSON, error: #{json_error.message}"
+            raise ArgumentError, msg
+          end
+        end
       end
       value
     end
