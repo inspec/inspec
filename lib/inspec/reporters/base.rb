@@ -5,22 +5,17 @@ module Inspec::Reporters
     def initialize(config)
       @config = config
       @run_data = config[:run_data]
-      apply_options_to_run_data
+      apply_report_resize_options unless @run_data.nil?
       @output = ""
     end
 
     # Apply options such as message truncation and removal of backtraces
-    def apply_options_to_run_data
-      message_truncation = @config[:message_truncation] || "ALL"
-      trunc = -1
-      if message_truncation != "ALL"
-        if message_truncation.to_i.to_s != message_truncation
-          Inspec::Log.warn("Messages will not be truncated because #{message_truncation} is not an integer value")
-        else
-          trunc = message_truncation.to_i
-        end
-      end
-      include_backtrace = @config[:include_backtrace].nil? ? true : @config[:include_backtrace]
+    def apply_report_resize_options
+      runtime_config = Inspec::Config.cached.respond_to?(:final_options) ? Inspec::Config.cached.final_options : {}
+
+      message_truncation = runtime_config[:reporter_message_truncation] || "ALL"
+      trunc = message_truncation == "ALL" ? -1 : message_truncation.to_i
+      include_backtrace = runtime_config[:reporter_backtrace_inclusion].nil? ? true : runtime_config[:reporter_backtrace_inclusion]
 
       @run_data[:profiles]&.each do |p|
         p[:controls].each do |c|
