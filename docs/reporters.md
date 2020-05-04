@@ -131,14 +131,16 @@ The `automate` reporter type is a special reporter used with [Chef Automate](htt
 Example config:
 
 ```json
-"reporter": {
-    "automate" : {
-        "stdout" : false,
-        "url" : "https://YOUR_A2_URL/data-collector/v0/",
-        "token" : "YOUR_A2_ADMIN_TOKEN",
-        "insecure" : true,
-        "node_name" : "inspec_test_node",
-        "environment" : "prod"
+{
+    "reporter": {
+        "automate" : {
+            "stdout" : false,
+            "url" : "https://YOUR_A2_URL/data-collector/v0/",
+            "token" : "YOUR_A2_ADMIN_TOKEN",
+            "insecure" : true,
+            "node_name" : "inspec_test_node",
+            "environment" : "prod"
+        }
     }
 }
 ```
