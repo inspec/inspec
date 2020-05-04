@@ -26,3 +26,47 @@ control "test_control_numeric_float" do
     it { should eq -11.0 } # Note eq not cmp
   end
 end
+
+control "test_control_yaml_array" do
+  describe input("test_input_06", value: "value_from_dsl") do
+    it { should eq [ "a", "b", "c" ] }
+  end
+end
+
+control "test_control_yaml_hash" do
+  describe input("test_input_07", value: "value_from_dsl") do
+    # Parser keeps tripping up on this when inlined
+    expected = { "a" => "apples", "b" => "bananas", "c" => "cantelopes" }
+    it { should eq expected }
+  end
+end
+
+control "test_control_yaml_deep" do
+  describe input("test_input_09", value: "value_from_dsl") do
+    # Parser keeps tripping up on this when inlined
+    expected = { "a" => "apples", "g" => ["grape01", "grape02"] }
+    it { should eq expected }
+  end
+end
+
+control "test_control_json_array" do
+  describe input("test_input_10", value: "value_from_dsl") do
+    it { should eq [ "a", "b", "c" ] }
+  end
+end
+
+control "test_control_json_hash" do
+  describe input("test_input_11", value: "value_from_dsl") do
+    # Parser keeps tripping up on this when inlined
+    expected = { "a" => "apples", "b" => "bananas", "c" => "cantelopes" }
+    it { should eq expected }
+  end
+end
+
+control "test_control_json_deep" do
+  describe input("test_input_12", value: "value_from_dsl") do
+    # Parser keeps tripping up on this when inlined
+    expected = { "a" => "apples", "g" => ["grape01", "grape02"] }
+    it { should eq expected }
+  end
+end

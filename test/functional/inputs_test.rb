@@ -187,6 +187,60 @@ describe "inputs" do
       end
     end
 
+    describe "when the --input is a complex structure" do
+
+      # Garbage
+      describe "when the --input is malformed YAML " do
+        let(:input_opt) { "--input test_input_08='[a, b, }]'" }
+        it "does not run and provides a YAML error message" do
+          output = result.stdout
+          assert_includes "ERROR", output
+          # assert_includes "", output # TODO - find YAML parser error message
+          assert_includes "test_input_08", output
+          assert_equal 1, result.exit_status
+        end
+      end
+
+      # YAML
+      describe "when the --input is a YAML array" do
+        let(:input_opt) { "--input test_input_06='[a,b,c]'" }
+        let(:control_opt) { "--controls test_control_yaml_array" }
+        it("correctly reads the input as a yaml array") { assert_json_controls_passing(result) }
+      end
+      describe "when the --input is a YAML hash" do
+        # Note: this produces a String-keyed Hash
+        let(:input_opt) { "--input test_input_07='{a: apples, b: bananas, c: cantelopes}'" }
+        let(:control_opt) { "--controls test_control_yaml_hash" }
+        it("correctly reads the input as a yaml hash") { assert_json_controls_passing(result) }
+      end
+      describe "when the --input is a YAML deep structure" do
+        # Note: this produces a String-keyed Hash
+        let(:input_opt) { "--input test_input_09='{a: apples, g: [grape01, grape02] }'" }
+        let(:control_opt) { "--controls test_control_yaml_deep" }
+        it("correctly reads the input as a yaml struct") { assert_json_controls_passing(result) }
+      end
+
+      # JSON mode
+      describe "when the --input is a JSON array" do
+        let(:input_opt) { %q{--input test_input_10='["a","b","c"]'} }
+        let(:control_opt) { "--controls test_control_json_array" }
+        it("correctly reads the input as a json array") { assert_json_controls_passing(result) }
+      end
+      describe "when the --input is a JSON hash" do
+        # Note: this produces a String-keyed Hash
+        let(:input_opt) { %q{--input test_input_11='{"a": "apples", "b": "bananas", "c": "cantelopes"}'} }
+        let(:control_opt) { "--controls test_control_json_hash" }
+        it("correctly reads the input as a json hash") { assert_json_controls_passing(result) }
+      end
+      describe "when the --input is a JSON deep structure" do
+        # Note: this produces a String-keyed Hash
+        let(:input_opt) { %q{--input test_input_12='{"a": "apples", "g": ["grape01", "grape02"] }'} }
+        let(:control_opt) { "--controls test_control_json_deep" }
+        it("correctly reads the input as a json struct") { assert_json_controls_passing(result) }
+      end
+
+    end
+
     describe "when the --input is used twice with one value each" do
       let(:input_opt) { "--input test_input_01=value_from_cli_01 --input test_input_02=value_from_cli_02" }
       let(:control_opt) { "--controls test_control_02" }
