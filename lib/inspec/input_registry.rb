@@ -179,11 +179,14 @@ module Inspec
     # Remove trailing commas, resolve type.
     def parse_cli_input_value(input_name, given_value)
       value = given_value.chomp(",") # Trim trailing comma if any
-      if value =~ /^-?\d+$/
+      case value
+      when /^true|false$/
+        value = value == "true"
+      when /^-?\d+$/
         value = value.to_i
-      elsif value =~ /^-?\d+\.\d+$/
+      when /^-?\d+\.\d+$/
         value = value.to_f
-      elsif value =~ /^(\[|\{).*(\]|\})$/
+      when /^(\[|\{).*(\]|\})$/
         # Look for complex values and try to parse them.
         require "yaml"
         begin
