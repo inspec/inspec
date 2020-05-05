@@ -10,6 +10,23 @@ describe "waivers" do
   let(:controls_by_id)        { run_result; @json.dig("profiles", 0, "controls").map { |c| [c["id"], c] }.to_h }
   let(:cmd)                   { "exec #{waivers_profiles_path}/#{profile_name} --input-file #{waivers_profiles_path}/#{profile_name}/files/#{waiver_file}" }
 
+  attr_accessor :out
+
+  def inspec(commandline, prefix = nil)
+    @stdout = @stderr = nil
+    self.out = super
+  end
+
+  def stdout
+    @stdout ||= out.stdout
+      .force_encoding(Encoding::UTF_8)
+  end
+
+  def stderr
+    @stderr ||= out.stderr
+      .force_encoding(Encoding::UTF_8)
+  end
+
   def assert_test_outcome(expected, control_id)
     assert_equal expected, controls_by_id.dig(control_id, "results", 0, "status")
   end
@@ -85,6 +102,19 @@ describe "waivers" do
           refute_waiver_annotation control_id
         end
       end
+    end
+  end
+
+  describe "an input and control with the same name" do
+    # This is a test for a regression articulated here:
+    # https://github.com/inspec/inspec/issues/4936
+    it "can execute when control namespace clashes with input" do
+      inspec("exec " + "#{waivers_profiles_path}/namespace-clash" + " --no-create-lockfile" + " --no-color")
+
+      _(stdout).wont_include("Control Source Code Error")
+      _(stdout).must_include "\nProfile Summary: 1 successful control, 0 control failures, 0 controls skipped\n"
+      _(stderr).must_equal ""
+      assert_exit_code 0, out
     end
   end
 
