@@ -330,11 +330,11 @@ end
 
 ## Implementing Reporter Plugins
 
-Reporter plugins offer the opportunity to customize or create entirely new output formats for Chef InSpec. Reporter plugins operate at the very end of the Chef InSpec run, when all test data has been finalized.
+Reporter plugins offer the opportunity to customize or create entirely new output formats for Chef InSpec. Reporter plugins operate at the very end of the Chef InSpec run when all test data has finalized.
 
 ### Declare your plugin activators
 
-In your `plugin.rb`, include one or more `reporter` activation blocks. The activation block name will be matched against the value passed in to the `--reporter` option, and if one matches, your activator will fire (in which case it should load any needed libraries) and should return your implementation class.
+In your `plugin.rb`, include one or more `reporter` activation blocks. The activation block name will be matched against the value passed into the `--reporter` option. If a match occurs, your activator will fire, which loads any needed libraries, and return your implementation class.
 
 #### Reporter Activator Example
 
@@ -353,7 +353,7 @@ module InspecPlugins::Sweeten
 end
 ```
 
-Like any activator, the block above will only be called if needed. For Reporter plugins, the plugin system examines the `--reporter` argument (or the `reporter:` JSON config option)  looking for the activation name as a prefix. Multiple Reporter activations may occur if several different names match, though each activation will only occur once.
+Like any activator, the block above will only be called if needed. For Reporter plugins, the plugin system examines the `--reporter` argument, or the `reporter:` JSON config option, and looks for the activation name as a prefix. Multiple Reporter activations may occur if several different names match, though each activation will only occur once.
 
 ```bash
 you@machine $ inspec exec --reporter sweet # Your Reporter implementation is activated and executed
@@ -378,11 +378,11 @@ end
 
 #### Implement render()
 
-The primary responsibility you must fulfill is to implement render. Typically, you will examine the `run_data` Hash (which is provided as an accessor).  Call `output(String, newline_wanted = true)` to send output.
+The primary responsibility you must fulfill is to implement render. Typically, you will examine the `run_data` Hash, which is provided as an accessor. Call `output(String, newline_wanted = true)` to send output.
 
 #### The run_data structure
 
-The `run_data` object contains all data from the Chef Inspec run. It is simply a Hash, but it has numerous fields and is often quite large; there is no specific documentation for the object at this time. See [the legacy JSON reporter](https://github.com/inspec/inspec/blob/2e887a94afcca819da781d4774aa2a5a0b56785e/lib/inspec/reporters/json.rb#L10) for one example of how to iterate over the object.
+The `run_data` object contains all data from the Chef InSpec run. This object is a Hash, but includes many fields and is often large. No specific documentation exists for the `run_data` object. See [the legacy JSON reporter](https://github.com/inspec/inspec/blob/2e887a94afcca819da781d4774aa2a5a0b56785e/lib/inspec/reporters/json.rb#L10) for one example of how to iterate over the object.
 
 ## Implementing Input Plugins
 
