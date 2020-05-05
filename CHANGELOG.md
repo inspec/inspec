@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.110 -->
-## [v4.18.110](https://github.com/inspec/inspec/tree/v4.18.110) (2020-05-04)
+<!-- latest_release 4.18.111 -->
+## [v4.18.111](https://github.com/inspec/inspec/tree/v4.18.111) (2020-05-05)
 
 #### Merged Pull Requests
-- Updating automate reporter example config to valid json [#5010](https://github.com/inspec/inspec/pull/5010) ([devopsdina](https://github.com/devopsdina))
+- Allows input and control to have the same name [#5001](https://github.com/inspec/inspec/pull/5001) ([Schwad](https://github.com/Schwad))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.108 -->
 ### Changes since 4.18.108 release
 
 #### Merged Pull Requests
+- Allows input and control to have the same name [#5001](https://github.com/inspec/inspec/pull/5001) ([Schwad](https://github.com/Schwad)) <!-- 4.18.111 -->
 - Updating automate reporter example config to valid json [#5010](https://github.com/inspec/inspec/pull/5010) ([devopsdina](https://github.com/devopsdina)) <!-- 4.18.110 -->
 
 #### Bug Fixes
