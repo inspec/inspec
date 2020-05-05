@@ -166,7 +166,7 @@ module Inspec
           end
         end
         input_name, input_value = pair.split("=")
-        input_value = clean_up_cli_input_value(input_name, input_value)
+        input_value = parse_cli_input_value(input_name, input_value)
         evt = Inspec::Input::Event.new(
           value: input_value,
           provider: :cli,
@@ -177,7 +177,7 @@ module Inspec
     end
 
     # Remove trailing commas, resolve type.
-    def clean_up_cli_input_value(input_name, given_value)
+    def parse_cli_input_value(input_name, given_value)
       value = given_value.chomp(",") # Trim trailing comma if any
       if value =~ /^-?\d+$/
         value = value.to_i

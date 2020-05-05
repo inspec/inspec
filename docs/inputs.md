@@ -265,15 +265,15 @@ inspec exec my_profile --input input_name1=input_value1 name2=value2
 
 If a CLI input value resembles a number, it will be converted to an Integer or Float. Scientific notation is not currently recognized.
 ```yaml
-inspec exec my_profile --input integer_input=-11
-inspec exec my_profile --input float_input=11.0
+inspec exec my_profile --input amplifier_volume=-11
+inspec exec my_profile --input water_depth=11.5
 ```
 
 You may set inputs with complex values, such as arrays and hashes using either YAML or JSON syntax. Just be sure to protect the string from the shell using single quotes.
 ```yaml
-inspec exec my_profile --input array_input='[a,b,c]'
-inspec exec my_profile --input hash_input='{a: apples, b: bananas, c: cantelopes}'
-inspec exec my_profile --input json_input='{"a": "apples", "g": ["grape01", "grape02"] }'
+inspec exec my_profile --input alphabet='[a,b,c]'
+inspec exec my_profile --input fruits='{a: apples, b: bananas, c: cantelopes}'
+inspec exec my_profile --input json_fruit='{"a": "apples", "g": ["grape01", "grape02"] }'
 ```
 
 Do not repeat the `--input` flag; that will override the previous setting.
