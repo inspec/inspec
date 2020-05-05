@@ -195,7 +195,7 @@ describe "inputs" do
         it "does not run and provides a YAML error message" do
           output = result.stdout
           assert_includes "ERROR", output
-          # assert_includes "", output # TODO - find YAML parser error message
+          assert_includes "treated as YAML", output
           assert_includes "test_input_08", output
           assert_equal 1, result.exit_status
         end

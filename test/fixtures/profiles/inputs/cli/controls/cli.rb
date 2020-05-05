@@ -11,19 +11,19 @@ end
 
 control "test_control_numeric_implicit" do
   describe input("test_input_03", value: "value_from_dsl") do
-    it { should eq 11 } # Note eq not cmp
+    it { should be_a Integer }
   end
 end
 
 control "test_control_numeric_type" do
   describe input("test_input_04", value: "value_from_dsl") do
-    it { should eq 11 } # Note eq not cmp
+    it { should be_a Integer }
   end
 end
 
 control "test_control_numeric_float" do
   describe input("test_input_05", value: "value_from_dsl") do
-    it { should eq -11.0 } # Note eq not cmp
+    it { should be_a Float }
   end
 end
 
