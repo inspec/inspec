@@ -176,8 +176,8 @@ describe "inspec exec with json formatter" do
         "summary" => "Demonstrates the use of InSpec Compliance Profile",
         "version" => "1.0.0",
         "supports" => [{ "platform-family" => "unix" }, { "platform-family" => "windows" }],
-        "status" => "loaded",
         "attributes" => [],
+        "status" => "loaded",
       })
 
       _(groups.sort_by { |x| x["id"] }).must_equal([

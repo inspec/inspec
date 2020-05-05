@@ -332,7 +332,7 @@ module Inspec
       input_name = @__rule_id # TODO: control ID slugging
       registry = Inspec::InputRegistry.instance
       input = registry.inputs_by_profile.dig(__profile_id, input_name)
-      return unless input
+      return unless input && input.has_value? && input.value.is_a?(Hash)
 
       # An InSpec Input is a datastructure that tracks a profile parameter
       # over time. Its value can be set by many sources, and it keeps a
