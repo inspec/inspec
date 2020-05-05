@@ -187,6 +187,25 @@ describe "inputs" do
       end
     end
 
+    # See https://github.com/inspec/inspec/issues/4799
+    describe "when the --input is used with a boolean value" do
+      describe "when the --input is passed true" do
+        let(:input_opt) { "--input test_input_13=true" }
+        let(:control_opt) { "--controls test_control_bool_true" }
+        it("correctly reads the input as TrueClass") { assert_json_controls_passing(result) }
+      end
+      describe "when the --input is passed false" do
+        let(:input_opt) { "--input test_input_14=false" }
+        let(:control_opt) { "--controls test_control_bool_false" }
+        it("correctly reads the input as FalseClass") { assert_json_controls_passing(result) }
+      end
+      describe "when the --input is passed TRUE" do
+        let(:input_opt) { "--input test_input_15=TRUE" }
+        let(:control_opt) { "--controls test_control_bool_string" }
+        it("correctly reads the input as a string") { assert_json_controls_passing(result) }
+      end
+    end
+
     describe "when the --input is a complex structure" do
 
       # Garbage

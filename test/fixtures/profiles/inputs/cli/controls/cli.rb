@@ -70,3 +70,21 @@ control "test_control_json_deep" do
     it { should eq expected }
   end
 end
+
+control "test_control_bool_true" do
+  describe input("test_input_13", value: "value_from_dsl") do
+    it { should be_a TrueClass }
+  end
+end
+
+control "test_control_bool_false" do
+  describe input("test_input_14", value: "value_from_dsl") do
+    it { should be_a FalseClass }
+  end
+end
+
+control "test_control_bool_string" do
+  describe input("test_input_15", value: "value_from_dsl") do
+    it { should eq "TRUE" }
+  end
+end
