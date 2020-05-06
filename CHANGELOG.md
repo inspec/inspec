@@ -1,24 +1,22 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.111 -->
-## [v4.18.111](https://github.com/inspec/inspec/tree/v4.18.111) (2020-05-05)
-
-#### Merged Pull Requests
-- Allows input and control to have the same name [#5001](https://github.com/inspec/inspec/pull/5001) ([Schwad](https://github.com/Schwad))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.18.108 -->
-### Changes since 4.18.108 release
-
-#### Merged Pull Requests
-- Allows input and control to have the same name [#5001](https://github.com/inspec/inspec/pull/5001) ([Schwad](https://github.com/Schwad)) <!-- 4.18.111 -->
-- Updating automate reporter example config to valid json [#5010](https://github.com/inspec/inspec/pull/5010) ([devopsdina](https://github.com/devopsdina)) <!-- 4.18.110 -->
-
-#### Bug Fixes
-- Fix for warning when input is provided [#4995](https://github.com/inspec/inspec/pull/4995) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.109 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.18.111](https://github.com/inspec/inspec/tree/v4.18.111) (2020-05-06)
+
+#### Bug Fixes
+- Fix for warning when input is provided [#4995](https://github.com/inspec/inspec/pull/4995) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Updating automate reporter example config to valid json [#5010](https://github.com/inspec/inspec/pull/5010) ([devopsdina](https://github.com/devopsdina))
+- Allows input and control to have the same name [#5001](https://github.com/inspec/inspec/pull/5001) ([Schwad](https://github.com/Schwad))
+<!-- latest_stable_release -->
+
 ## [v4.18.108](https://github.com/inspec/inspec/tree/v4.18.108) (2020-04-27)
 
 #### Bug Fixes
@@ -27,7 +25,6 @@
 #### Merged Pull Requests
 - Release process documentation [#4974](https://github.com/inspec/inspec/pull/4974) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Add additional debug logging for automate login [#4990](https://github.com/inspec/inspec/pull/4990) ([TheLunaticScripter](https://github.com/TheLunaticScripter))
-<!-- latest_stable_release -->
 
 ## [v4.18.104](https://github.com/inspec/inspec/tree/v4.18.104) (2020-04-08)
 
