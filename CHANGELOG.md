@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.18.112 -->
+## [v4.18.112](https://github.com/inspec/inspec/tree/v4.18.112) (2020-05-06)
+
+#### Merged Pull Requests
+- Updates README.md to clarify running InSpec local [#4993](https://github.com/inspec/inspec/pull/4993) ([Schwad](https://github.com/Schwad))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.18.111 -->
+### Changes since 4.18.111 release
+
+#### Merged Pull Requests
+- Updates README.md to clarify running InSpec local [#4993](https://github.com/inspec/inspec/pull/4993) ([Schwad](https://github.com/Schwad)) <!-- 4.18.112 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
