@@ -141,7 +141,7 @@ That requires [bundler](http://bundler.io/):
 
 ```bash
 bundle install
-bundle exec bin/inspec help
+bundle exec inspec help
 ```
 
 To install it as a gem locally, run:
