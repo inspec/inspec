@@ -211,12 +211,12 @@ describe "inputs" do
       # Garbage
       describe "when the --input is malformed YAML " do
         let(:input_opt) { "--input test_input_08='[a, b, }]'" }
-        it "does not run and provides a YAML error message" do
-          output = result.stdout
-          assert_includes "ERROR", output
-          assert_includes "treated as YAML", output
-          assert_includes "test_input_08", output
-          assert_equal 1, result.exit_status
+        it "runs with failed tests and provides a YAML warning message" do
+          output = result.stderr
+          assert_includes output, "WARN"
+          assert_includes output, "treated as YAML"
+          assert_includes output, "test_input_08"
+          assert_equal 100, result.exit_status
         end
       end
 

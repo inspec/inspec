@@ -200,7 +200,7 @@ module Inspec
             msg = "ERROR: Unparseable value '#{value}' for --input #{input_name}.\n"
             msg += "When treated as YAML, error: #{yaml_error.message}\n"
             msg += "When treated as JSON, error: #{json_error.message}"
-            raise ArgumentError, msg
+            Inspec::Log.warn msg
           end
         end
       end
