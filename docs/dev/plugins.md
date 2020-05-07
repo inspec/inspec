@@ -42,14 +42,14 @@ You can tell Chef InSpec to use a different config directory using the INSPEC_CO
 
 Top-level entries in the JSON file:
 
- * `plugins_config_version` - must have the value "1.0.0". Reserved for future format changes.
- * `plugins` - an Array of Hashes, each containing information about plugins that are expected to be installed
+ * `plugins_config_version`| must have the value "1.0.0". Reserved for future format changes.
+ * `plugins`| an Array of Hashes, each containing information about plugins that are expected to be installed
 
 Each plugin entry may have the following keys:
 
- * `name` - Required. String name of the plugin. Internal machine name of the plugin. Must match `plugin_name` DSL call (see Plugin class below).
- * `installation_type` - Optional, default "gem". Selects a loading mechanism, may be either "path" or "gem"
- * `installation_path` - Required if installation_type is "path". A `require` will be attempted against this path. It may be absolute or relative; Chef InSpec adds both the process current working directory as well as the Chef InSpec installation root to the load path.
+ * `name`| Required. String name of the plugin. Internal machine name of the plugin. Must match `plugin_name` DSL call (see Plugin class below).
+ * `installation_type`| Optional, default "gem". Selects a loading mechanism, may be either "path" or "gem"
+ * `installation_path`| Required if installation_type is "path". A `require` will be attempted against this path. It may be absolute or relative; Chef InSpec adds both the process current working directory as well as the Chef InSpec installation root to the load path.
 
 TODO: keys for gem installations
 
@@ -301,7 +301,7 @@ The minimum needed for a command is a call to `desc` to set the help message, an
 ```ruby
 desc 'Reports on teaspoons in your beverage, always bad news'
 def count
-  # Someone has executed `inspec sweeten count` - do whatever that entails
+  # Someone has executed `inspec sweeten count`| do whatever that entails
   case beverage_type
   when :soda
     puts 12
@@ -370,6 +370,9 @@ module InspecPlugins::Sweeten
     def render
       # examine run_data and call output()
     end
+    def self.run_data_schema_constraints
+      "~> 0.0" # Accept any non-breaking change
+    end
   end
 end
 ```
@@ -378,11 +381,105 @@ end
 
 #### Implement render()
 
-The primary responsibility you must fulfill is to implement render. Typically, you will examine the `run_data` Hash, which is provided as an accessor. Call `output(String, newline_wanted = true)` to send output.
+The primary responsibility you must fulfill is to implement render. Typically, you will examine the `run_data` structure (documented below), which is provided as an accessor. Call `output(String, newline_wanted = true)` to send output.
+
+#### Implement self.run_data_schema_constraints
+
+The run_data API is versioned. Your plugin should declare which version(s) it is compatible with by implementing a simple class method, which should return a GemSpec-like constraint. Currently, a simple warning is issued if a version mismatch occurs.
+
+The run_data version scheme follows a data-oriented SemVer approach:
+ * bump patch: fixing a bug in the provenance or description of a data element, no key changes
+ * bump minor: adding new data elements
+ * bump major: deleting or renaming data elements
+
+Prior to version 1.0.0, the API is considered unstable, as per SemVer. The current plan is to bump the major version to 1.0.0 when all of the existing core reporters have been migrated to plugins. It is probable that new data elements and new Hash compatibility behavior will be added during the core reporter plugin conversion process.
 
 #### The run_data structure
 
-The `run_data` object contains all data from the Chef InSpec run. This object is a Hash, but includes many fields and is often large. No specific documentation exists for the `run_data` object. See [the legacy JSON reporter](https://github.com/inspec/inspec/blob/2e887a94afcca819da781d4774aa2a5a0b56785e/lib/inspec/reporters/json.rb#L10) for one example of how to iterate over the object.
+The `run_data` object contains all data from the Chef InSpec run. Here is an overview of this object:
+
+| Field | Description |
+|-------|-------------|
+|`run_data.controls`| Array of Control records. Flattened copy of those found in |`run_data.profiles[*].controls[*]`. See there for details.|
+|`run_data.platform.name`| String, name of the OS/API that the run targeted.|
+|`run_data.platform.release`| String, version number of the OS/API that the run targeted.|
+|`run_data.platform.target`| String, target URI|
+|`run_data.profiles`| Array of Profile records|
+|`run_data.profiles[0].controls`| Array of Control records|
+|`run_data.profiles[0].controls[0].code`| String, source code of the control|
+|`run_data.profiles[0].controls[0].desc`| String, concatenated copy of all desc tags|
+|`run_data.profiles[0].controls[0].descriptions`| Hash, Symbol => String, collection of all the `desc` tags.|
+|`run_data.profiles[0].controls[0].id`| String, ID (name) of the control|
+|`run_data.profiles[0].controls[0].impact`| Float, severity of the control range 0.0 .. 1.0|
+|`run_data.profiles[0].controls[0].refs`| Array of Ref records for `ref` tags|
+|`run_data.profiles[0].controls[0].refs[0].ref`| String, human meaningful reference|
+|`run_data.profiles[0].controls[0].refs[0].url`| String, URL for reference|
+|`run_data.profiles[0].controls[0].results`| Array of Result records, which represent Describe blocks|
+|`run_data.profiles[0].controls[0].results[0].backtrace`| Array of Strings, stacktrace if an error occurred.|
+|`run_data.profiles[0].controls[0].results[0].code_desc`| String, generated complete description of the test|
+|`run_data.profiles[0].controls[0].results[0].exception`| String, name of an exception thrown (if any)|
+|`run_data.profiles[0].controls[0].results[0].expectation_message`| String, generated phrase like "is expected to equal 2"|
+|`run_data.profiles[0].controls[0].results[0].message`| String, human-friendly text present when test has failed"|
+|`run_data.profiles[0].controls[0].results[0].resource`| Undocumented and usually unpopulated; try exploring resource_title |
+|`run_data.profiles[0].controls[0].results[0].resource_name`| String, name of the resource used in the test|
+|`run_data.profiles[0].controls[0].results[0].resource_title`| Anonymous Class, the actual instance of the Resource. Responds to to_s with the name of the resource.|
+|`run_data.profiles[0].controls[0].results[0].run_time`| Float, execution time in seconds for the test|
+|`run_data.profiles[0].controls[0].results[0].skip_message`| String, if the test was skipped, explains why (user provided)|
+|`run_data.profiles[0].controls[0].results[0].start_time`| DateTime, time the test started executing|
+|`run_data.profiles[0].controls[0].results[0].status`| String, one of "passed", "failed", or "skipped".|
+|`run_data.profiles[0].controls[0].source_location.line`| Integer, line number of source code where control begins|
+|`run_data.profiles[0].controls[0].source_location.ref`| String, relative path to file in which source code resides|
+|`run_data.profiles[0].controls[0].tags`| Hash, String => String, collection of `tag`s.|
+|`run_data.profiles[0].controls[0].title`| String, optional title of control.|
+|`run_data.profiles[0].controls[0].waiver_data.expiration_date`| DateTime, time at which the waiver expires if any|
+|`run_data.profiles[0].controls[0].waiver_data.justification`| String, user-provided reason for applying the waiver|
+|`run_data.profiles[0].controls[0].waiver_data.run`| Boolean, whether the control should run even if waivered|
+|`run_data.profiles[0].controls[0].waiver_data.skipped_due_to_waiver`| Boolean, whether the control was marked `skipped` due to the |waiver system
+|`run_data.profiles[0].controls[0].waiver_data.message`| Reserved|
+|`run_data.profiles[0].copyright`| String, Copyright text from inspec.yml|
+|`run_data.profiles[0].copyright_email`| String, Copyright email from inspec.yml|
+|`run_data.profiles[0].depends`| Array of Dependency records|
+|`run_data.profiles[0].depends[0].branch`| branch name if it was a git reference|
+|`run_data.profiles[0].depends[0].commit`| commit ref if it was a git reference|
+|`run_data.profiles[0].depends[0].compliance`| String, "user/profilename" on Automate server if it was an Automate reference|
+|`run_data.profiles[0].depends[0].git`| location of dependent profile if it was a git reference|
+|`run_data.profiles[0].depends[0].name`| name (assigned alias) of dependent profile|
+|`run_data.profiles[0].depends[0].path`| location of dependent profile if it was a local reference|
+|`run_data.profiles[0].depends[0].relative_path`| relative path within clone if it was a git reference|
+|`run_data.profiles[0].depends[0].skip_message`| Reason if status is "skipped"|
+|`run_data.profiles[0].depends[0].supermarket`| String, "user/profilename" on Supermarket server if it was a Supermarket reference|
+|`run_data.profiles[0].depends[0].status`| String, one of "loaded" or "skipped"|
+|`run_data.profiles[0].depends[0].tag`| tag ref if it was a git reference|
+|`run_data.profiles[0].depends[0].version`| semver tag if it was a git reference|
+|`run_data.profiles[0].depends[0].url`| location of dependent profile if it was a URL reference|
+|`run_data.profiles[0].groups`| Array, of Group records, describing the files that contained controls|
+|`run_data.profiles[0].groups[0].controls`| Array of Strings, the IDs of the controls in the file|
+|`run_data.profiles[0].groups[0].id`| String, typically a relative path like `controls/myfile.rb`|
+|`run_data.profiles[0].groups[0].title`| String, value of a `title` DSL command in the file|
+|`run_data.profiles[0].inputs`| Array of Input records describing inputs present in profile|
+|`run_data.profiles[0].inputs[0].name`| String name of Input|
+|`run_data.profiles[0].inputs[0].options.required`| Boolean, whether input was required.|
+|`run_data.profiles[0].inputs[0].options.type`| String, type constraint on input, if any|
+|`run_data.profiles[0].inputs[0].options.value`| Value of Input|
+|`run_data.profiles[0].license`| String, name of license for the profile|
+|`run_data.profiles[0].maintainer`| String, name of the maintainer|
+|`run_data.profiles[0].name`| String, machine name of the profile|
+|`run_data.profiles[0].parent_profile`| String, name of the parent profile if this is a dependency|
+|`run_data.profiles[0].sha256`| String, checksum of the profile|
+|`run_data.profiles[0].skip_message`| String, message indicating why the profile was not loaded if status is "skipped"|
+|`run_data.profiles[0].summary`| String,  A one-line summary from the inspec.yml|
+|`run_data.profiles[0].supports`| Array of Support records indicating platform support|
+|`run_data.profiles[0].supports[0].platform_family`| Platform restriction by family|
+|`run_data.profiles[0].supports[0].platform_name`| Platform restriction by name|
+|`run_data.profiles[0].supports[0].platform`| Platform restriction by name|
+|`run_data.profiles[0].supports[0].release`| Platform restriction by release|
+|`run_data.profiles[0].status`| String, one of "loaded" or "skipped"|
+|`run_data.statistics.controls.failed.total`| Integer, total count of failing controls|
+|`run_data.statistics.controls.passed.total`| Integer, total count of passing controls|
+|`run_data.statistics.controls.skipped.total`| Integer, total count of passing controls|
+|`run_data.statistics.controls.total`| Integer, total count of controls|
+|`run_data.statistics.duration`| Float, time in seconds for the execution of Resources.|
+|`run_data.version`| A String, such as "4.18.108" representing the Chef InSpec version.|
 
 ## Implementing Input Plugins
 

@@ -21,5 +21,9 @@ module InspecPlugins::ReporterTestFixture
 
       output("p#{profile_count}c#{control_count}t#{test_count}", true)
     end
+
+    def self.run_data_schema_constraints
+      ">= 0.0"
+    end
   end
 end
