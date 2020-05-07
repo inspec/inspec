@@ -360,6 +360,13 @@ module Inspec
       end
 
       raise ArgumentError, "The option --reporter can only have a single report outputting to stdout." if stdout_reporters > 1
+
+      # reporter_message_truncation needs to either be the string "ALL", an Integer, or a string representing an integer
+      if (truncation = @merged_options["reporter_message_truncation"])
+        unless truncation == "ALL" || truncation.is_a?(Integer) || truncation.to_i.to_s == truncation
+          raise ArgumentError, "reporter_message_truncation is set to #{truncation}. It must be set to an integer value or ALL to indicate no truncation."
+        end
+      end
     end
 
     def validate_plugins!

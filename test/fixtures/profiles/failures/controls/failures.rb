@@ -18,9 +18,11 @@ control "tmp-1.0" do                        # A unique ID for this control
 end
 
 # anonymous describe block, first passes, second is syntax error
-describe file('/') do
-  it { should be_directory }
-  it { should_nota be_directory }
+control 'Raises an exception' do
+  describe file('/') do
+    it { should be_directory }
+    it { should_nota be_directory }
+  end
 end
 
 # anonymous describe block, first fails, second passes
@@ -28,6 +30,13 @@ describe file('/') do
   it { should_not be_directory }
   it { should be_directory }
   its('mode') { should cmp '01147' }
+end
+
+# fails a pattern match
+control 'Generates a message' do
+  describe file('/') do
+    its('content') { should match /some regex that is expected in the content/ }
+  end
 end
 
 # control, first and second fail, third passes
