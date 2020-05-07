@@ -65,11 +65,6 @@ describe "inspec exec" do
     let(:controls) { json["controls"] }
     let(:ex1) { controls.find { |x| x["id"] == "test01" } }
 
-    before do
-      # doesn't make sense on windows TODO: change the profile so it does?
-      skip if windows?
-    end
-
     it "must have 1 example" do
       _(json["controls"].length).must_equal 1
     end
