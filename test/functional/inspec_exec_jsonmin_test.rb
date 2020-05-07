@@ -31,7 +31,6 @@ describe "inspec exec" do
 
     _(out.stderr).must_equal ""
 
-    skip_windows!
     assert_exit_code 0, out
   end
 
