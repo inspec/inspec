@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.112 -->
-## [v4.18.112](https://github.com/inspec/inspec/tree/v4.18.112) (2020-05-06)
+<!-- latest_release 4.18.113 -->
+## [v4.18.113](https://github.com/inspec/inspec/tree/v4.18.113) (2020-05-07)
 
-#### Merged Pull Requests
-- Updates README.md to clarify running InSpec local [#4993](https://github.com/inspec/inspec/pull/4993) ([Schwad](https://github.com/Schwad))
+#### Enhancements
+- Reporter options to truncate message and suppress stacktrace [#4994](https://github.com/inspec/inspec/pull/4994) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.111 -->
 ### Changes since 4.18.111 release
+
+#### Enhancements
+- Reporter options to truncate message and suppress stacktrace [#4994](https://github.com/inspec/inspec/pull/4994) ([james-stocks](https://github.com/james-stocks)) <!-- 4.18.113 -->
 
 #### Merged Pull Requests
 - Updates README.md to clarify running InSpec local [#4993](https://github.com/inspec/inspec/pull/4993) ([Schwad](https://github.com/Schwad)) <!-- 4.18.112 -->
