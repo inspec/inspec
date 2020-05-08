@@ -159,3 +159,9 @@ inspec/inspec:master performed the following actions for inspec 4.18.100 (stable
 ```
 
 Among other things, this promotion automatically generates [release notes](https://github.com/inspec/inspec/blob/master/.expeditor/publish-release-notes.sh) and [publishes them](https://github.com/inspec/inspec/blob/master/.expeditor/announce-release.sh) to Discourse.
+
+### Update chef/homebrew-chef
+
+The release of InSpec will automatically create a PR to bump InSpec in https://github.com/chef/homebrew-chef
+This should be merged - at some point this could be changed to directly committing to the repo.
+
