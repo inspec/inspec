@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.113 -->
-## [v4.18.113](https://github.com/inspec/inspec/tree/v4.18.113) (2020-05-07)
+<!-- latest_release 4.18.114 -->
+## [v4.18.114](https://github.com/inspec/inspec/tree/v4.18.114) (2020-05-11)
 
-#### Enhancements
-- Reporter options to truncate message and suppress stacktrace [#4994](https://github.com/inspec/inspec/pull/4994) ([james-stocks](https://github.com/james-stocks))
+#### Merged Pull Requests
+- No longer need to include rubygems or bundler software dep [#5020](https://github.com/inspec/inspec/pull/5020) ([tyler-ball](https://github.com/tyler-ball))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.111 -->
@@ -14,6 +14,7 @@
 - Reporter options to truncate message and suppress stacktrace [#4994](https://github.com/inspec/inspec/pull/4994) ([james-stocks](https://github.com/james-stocks)) <!-- 4.18.113 -->
 
 #### Merged Pull Requests
+- No longer need to include rubygems or bundler software dep [#5020](https://github.com/inspec/inspec/pull/5020) ([tyler-ball](https://github.com/tyler-ball)) <!-- 4.18.114 -->
 - Updates README.md to clarify running InSpec local [#4993](https://github.com/inspec/inspec/pull/4993) ([Schwad](https://github.com/Schwad)) <!-- 4.18.112 -->
 <!-- release_rollup -->
 
