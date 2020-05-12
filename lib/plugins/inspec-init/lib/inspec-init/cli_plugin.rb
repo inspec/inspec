@@ -41,8 +41,9 @@ module InspecPlugins
           templates_path: TEMPLATES_PATH,
           overwrite: options[:overwrite],
           file_rename_map: make_rename_map(plugin_type, plugin_name, snake_case),
-          skip_files: make_skip_list,
+          skip_files: make_skip_list(template_vars["hooks"].keys),
         }
+
         renderer = InspecPlugins::Init::Renderer.new(ui, render_opts)
 
         renderer.render_with_values(template_path, plugin_type + " plugin", template_vars)
@@ -72,6 +73,7 @@ module InspecPlugins
           File.join("lib", "inspec-plugin-template") => File.join("lib", plugin_name),
           File.join("lib", "inspec-plugin-template.rb") => File.join("lib", plugin_name + ".rb"),
           File.join("lib", "inspec-plugin-template", "cli_command.rb") => File.join("lib", plugin_name, "cli_command.rb"),
+          File.join("lib", "inspec-plugin-template", "reporter.rb") => File.join("lib", plugin_name, "reporter.rb"),
           File.join("lib", "inspec-plugin-template", "plugin.rb") => File.join("lib", plugin_name, "plugin.rb"),
           File.join("lib", "inspec-plugin-template", "version.rb") => File.join("lib", plugin_name, "version.rb"),
           File.join("test", "functional", "inspec_plugin_template_test.rb") => File.join("test", "functional", snake_case + "_test.rb"),
@@ -168,6 +170,9 @@ module InspecPlugins
         if hooks_by_type.key?(:cli_command)
           vars[:command_name_dashes] = hooks_by_type[:cli_command].tr("_", "-")
           vars[:command_name_snake] = hooks_by_type[:cli_command].tr("-", "_")
+        elsif hooks_by_type.key?(:reporter)
+          vars[:reporter_name_dashes] = hooks_by_type[:reporter].tr("_", "-")
+          vars[:reporter_name_snake] = hooks_by_type[:reporter].tr("-", "_")
         end
         vars
       end
@@ -205,19 +210,20 @@ module InspecPlugins
         end
       end
 
-      def make_skip_list
+      def make_skip_list(requested_hooks)
+        skips = []
         case options[:detail]
-        when "full"
-          []
+        when "full" # rubocop: disable Lint/EmptyWhen
+          # Do nothing but allow this case for validation
         when "core"
-          [
+          skips += [
             "Gemfile",
             "inspec-plugin-template.gemspec",
             "LICENSE",
             "Rakefile",
           ]
         when "test-fixture"
-          [
+          skips += [
             "Gemfile",
             "inspec-plugin-template.gemspec",
             "LICENSE",
@@ -237,6 +243,22 @@ module InspecPlugins
           ui.error "Unrecognized value for 'detail': #{options[:detail]} - expected one of full, core, test-fixture"
           ui.exit(:usage_error)
         end
+
+        # Remove hook-specific files
+        unless requested_hooks.include?(:cli_command)
+          skips += [
+            File.join("lib", "inspec-plugin-template", "cli_command.rb"),
+            File.join("test", "unit", "cli_args_test.rb"),
+            File.join("test", "functional", "inspec_plugin_template_test.rb"),
+          ]
+        end
+        unless requested_hooks.include?(:reporter)
+          skips += [
+            File.join("lib", "inspec-plugin-template", "reporter.rb"),
+          ]
+        end
+
+        skips.uniq
       end
     end
   end
