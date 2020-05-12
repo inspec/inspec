@@ -201,8 +201,8 @@ describe "inputs" do
       end
       describe "when the --input is passed TRUE" do
         let(:input_opt) { "--input test_input_15=TRUE" }
-        let(:control_opt) { "--controls test_control_bool_string" }
-        it("correctly reads the input as a string") { assert_json_controls_passing(result) }
+        let(:control_opt) { "--controls test_control_bool_true_caps" }
+        it("correctly reads the input as a TrueClass even when capitalized") { assert_json_controls_passing(result) }
       end
     end
 

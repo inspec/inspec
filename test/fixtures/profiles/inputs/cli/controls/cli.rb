@@ -83,8 +83,8 @@ control "test_control_bool_false" do
   end
 end
 
-control "test_control_bool_string" do
+control "test_control_bool_true_caps" do
   describe input("test_input_15", value: "value_from_dsl") do
-    it { should eq "TRUE" }
+    it { should be_a TrueClass }
   end
 end

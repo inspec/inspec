@@ -180,8 +180,8 @@ module Inspec
     def parse_cli_input_value(input_name, given_value)
       value = given_value.chomp(",") # Trim trailing comma if any
       case value
-      when /^true|false$/
-        value = value == "true"
+      when /^true|false$/i
+        value = !!(value =~ /true/i)
       when /^-?\d+$/
         value = value.to_i
       when /^-?\d+\.\d+$/
@@ -197,7 +197,7 @@ module Inspec
           begin
             value = JSON.parse(value)
           rescue JSON::ParserError => json_error
-            msg = "ERROR: Unparseable value '#{value}' for --input #{input_name}.\n"
+            msg = "Unparseable value '#{value}' for --input #{input_name}.\n"
             msg += "When treated as YAML, error: #{yaml_error.message}\n"
             msg += "When treated as JSON, error: #{json_error.message}"
             Inspec::Log.warn msg
