@@ -180,4 +180,30 @@ describe "Deprecation Facility Behavior" do
       end
     end
   end
+
+  describe "when desprecations are silenced via the CLI" do
+    let(:profile_name) { "typical" }
+    describe "when a specific deprecation is silenced" do
+      # Run two controls with two different deprecation groups, and silence one
+      let(:control_flag) { "--controls deprecate_warn_mode deprecate_fail_mode --silence-deprecations a_group_that_will_fail" }
+      it "silences the specified deprecation but not others" do
+        # stderr will still contain the warning deprecation
+        _(run_result.stderr).must_include "DEPRECATION: This should warn"
+        # control 0, result 1 will fail but not contain a deprecation warning
+        _(json_result[1]["status"]).must_equal "failed"
+        _(json_result[1]["message"]).wont_include "DEPRECATION"
+      end
+    end
+    describe "when all deprecations are silenced with 'all'" do
+      # Run two controls with two different deprecation groups, and silence all deprecations with the "all" param
+      let(:control_flag) { "--controls deprecate_warn_mode deprecate_fail_mode --silence-deprecations all" }
+      it "silences all deprecations explicitly" do
+        # stderr will not contain the warning deprecation
+        _(run_result.stderr).wont_include "DEPRECATION: This should warn"
+        # control 0, result 1 will fail but not contain a deprecation warning
+        _(json_result[1]["status"]).must_equal "failed"
+        _(json_result[1]["message"]).wont_include "DEPRECATION"
+      end
+    end
+  end
 end
