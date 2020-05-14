@@ -40,7 +40,7 @@ group :integration do
 end
 
 group :tools do
-  gem 'pry', '~> 0.10'
+  gem 'pry', '~> 0.13'
   gem 'license_finder'
   gem 'git', '~> 1.4'
 end
