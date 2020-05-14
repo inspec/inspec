@@ -1,6 +1,7 @@
 require "stringio"
 require "json"
 require "inspec/globals"
+require "inspec/config"
 
 module Inspec
   module Deprecation
@@ -32,6 +33,7 @@ module Inspec
         @groups = {}
         @unknown_group_action = :warn
         validate!
+        silence_deprecations_from_cli
       end
 
       private
@@ -43,6 +45,25 @@ module Inspec
         end
 
         File.open(default_path)
+      end
+
+      def silence_deprecations_from_cli
+        # Read --silence-deprecations CLI option
+        cfg = Inspec::Config.cached
+        return unless cfg[:silence_deprecations]
+
+        groups_to_silence = cfg[:silence_deprecations]
+        silence_all = groups_to_silence.include?("all")
+
+        groups.each do |group_name, group|
+          # Only silence things that warn. Don't silence things that exit;
+          # those harsher measures are usually protecting removed code and ignoring
+          # and continuing regardless would be perilous and lead to errors.
+          if %i{warn fail_control}.include?(group.action) &&
+              (silence_all || groups_to_silence.include?(group_name.to_s))
+            group.action = :ignore
+          end
+        end
       end
 
       #====================================================================================================#
