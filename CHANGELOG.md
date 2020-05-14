@@ -1,24 +1,22 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.114 -->
-## [v4.18.114](https://github.com/inspec/inspec/tree/v4.18.114) (2020-05-11)
-
-#### Merged Pull Requests
-- No longer need to include rubygems or bundler software dep [#5020](https://github.com/inspec/inspec/pull/5020) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.18.111 -->
-### Changes since 4.18.111 release
-
-#### Enhancements
-- Reporter options to truncate message and suppress stacktrace [#4994](https://github.com/inspec/inspec/pull/4994) ([james-stocks](https://github.com/james-stocks)) <!-- 4.18.113 -->
-
-#### Merged Pull Requests
-- No longer need to include rubygems or bundler software dep [#5020](https://github.com/inspec/inspec/pull/5020) ([tyler-ball](https://github.com/tyler-ball)) <!-- 4.18.114 -->
-- Updates README.md to clarify running InSpec local [#4993](https://github.com/inspec/inspec/pull/4993) ([Schwad](https://github.com/Schwad)) <!-- 4.18.112 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.18.114](https://github.com/inspec/inspec/tree/v4.18.114) (2020-05-14)
+
+#### Enhancements
+- Reporter options to truncate message and suppress stacktrace [#4994](https://github.com/inspec/inspec/pull/4994) ([james-stocks](https://github.com/james-stocks))
+
+#### Merged Pull Requests
+- Updates README.md to clarify running InSpec local [#4993](https://github.com/inspec/inspec/pull/4993) ([Schwad](https://github.com/Schwad))
+- No longer need to include rubygems or bundler software dep [#5020](https://github.com/inspec/inspec/pull/5020) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_stable_release -->
+
 ## [v4.18.111](https://github.com/inspec/inspec/tree/v4.18.111) (2020-05-06)
 
 #### Bug Fixes
@@ -27,7 +25,6 @@
 #### Merged Pull Requests
 - Updating automate reporter example config to valid json [#5010](https://github.com/inspec/inspec/pull/5010) ([devopsdina](https://github.com/devopsdina))
 - Allows input and control to have the same name [#5001](https://github.com/inspec/inspec/pull/5001) ([Schwad](https://github.com/Schwad))
-<!-- latest_stable_release -->
 
 ## [v4.18.108](https://github.com/inspec/inspec/tree/v4.18.108) (2020-04-27)
 
