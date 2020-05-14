@@ -1,4 +1,3 @@
-# Documentation available at https://expeditor.chef.io/docs/getting-started/
 ---
 
 product_key: inspec
@@ -28,7 +27,6 @@ pipelines:
         - NO_AWS: 1
         - MT_CPU: 5
 
-# Slack channel in Chef Software slack to send notifications about build failures, etc
 slack:
   notify_channel: inspec-notify
 

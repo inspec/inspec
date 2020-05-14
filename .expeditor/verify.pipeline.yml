@@ -8,11 +8,61 @@ expeditor:
           limit: 1
 
 steps:
+  - label: lint-ruby-2.6
+    command:
+      - RAKE_TASK=test:lint /workdir/.expeditor/buildkite/verify.sh
+    expeditor:
+      executor:
+        docker:
+          image: ruby:2.6
 
- - label: Placeholder
-   command:
-     - exit 0
-   expeditor:
+  - label: run-tests-ruby-2.4
+    command:
+      - /workdir/.expeditor/buildkite/verify.sh
+    expeditor:
+      executor:
+        docker:
+          image: ruby:2.4
+
+  - label: run-tests-ruby-2.5
+    command:
+      - /workdir/.expeditor/buildkite/verify.sh
+    expeditor:
+      executor:
+        docker:
+          image: ruby:2.5
+
+  - label: run-tests-ruby-2.6
+    command:
+      - /workdir/.expeditor/buildkite/verify.sh
+    expeditor:
+      executor:
+        docker:
+          image: ruby:2.6
+
+  - label: run-tests-ruby-2.7
+    command:
+      - /workdir/.expeditor/buildkite/verify.sh
+    expeditor:
       executor:
         docker:
           image: ruby:2.7
+
+  - label: isolated-tests-ruby-2.6
+    command:
+      - RAKE_TASK=test:isolated /workdir/.expeditor/buildkite/verify.sh
+    expeditor:
+      executor:
+        docker:
+          image: ruby:2.6
+
+  - label: run-tests-ruby-2.6-windows
+    command:
+      - /workdir/.expeditor/buildkite/verify.ps1
+    expeditor:
+      executor:
+        docker:
+          environment:
+            - BUILDKITE
+          host_os: windows
+          shell: ["powershell", "-Command"]
