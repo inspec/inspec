@@ -85,6 +85,7 @@ module Inspec::Resources
       @cache ||= begin
                    provider = LinuxInterface.new(inspec) if inspec.os.linux?
                    provider = WindowsInterface.new(inspec) if inspec.os.windows?
+                   provider = BsdInterface.new(inspec) if inspec.os.bsd? # includes macOS
                    Hash(provider && provider.interface_info(@iface))
                  end
     end
@@ -95,6 +96,52 @@ module Inspec::Resources
     attr_reader :inspec
     def initialize(inspec)
       @inspec = inspec
+    end
+  end
+
+  class BsdInterface < InterfaceInfo
+    def interface_info(iface)
+      cmd = inspec.command("ifconfig #{iface}")
+      return nil if cmd.exit_status.to_i != 0
+
+      lines = cmd.stdout.split("\n")
+      iface_info = {
+        name: iface,
+        ipv4_addresses: [], # Actually CIDRs
+        ipv6_addresses: [], # are expected to go here
+      }
+
+      iface_info[:up] = lines[0].include?("UP")
+      lines.each do |line|
+        # IPv4 case
+        m = line.match(/^\s+inet\s+((?:\d{1,3}\.){3}\d{1,3})\s+netmask\s+(0x[a-f0-9]{8})/)
+        if m
+          ip = m[1]
+          hex_mask = m[2]
+          cidr = hex_mask.to_i(16).to_s(2).count("1")
+          iface_info[:ipv4_addresses] << "#{ip}/#{cidr}"
+          next
+        end
+
+        # IPv6 case
+        m = line.match(/^\s+inet6\s+([a-f0-9:]+)%#{iface}\s+prefixlen\s+(\d+)/)
+        if m
+          ip = m[1]
+          cidr = m[2]
+          iface_info[:ipv6_addresses] << "#{ip}/#{cidr}"
+          next
+        end
+
+        # Speed detect, crummy - can't detect wifi, finds any number in the string
+        # Ethernet autoselect (1000baseT <full-duplex>)
+        m = line.match(/^\s+media:\D+(\d+)/)
+        if m
+          iface_info[:speed] = m[1].to_i
+          next
+        end
+      end
+
+      iface_info
     end
   end
 

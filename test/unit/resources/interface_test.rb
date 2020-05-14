@@ -81,6 +81,21 @@ describe "Inspec::Resources::Interface" do
     _(resource.ipv6_cidrs).must_be_empty
   end
 
+  it "verify interface on macos" do
+    resource = MockLoader.new(:osx104).load_resource("interface", "en0")
+    _(resource.exists?).must_equal true
+    _(resource.up?).must_equal true
+    _(resource.speed).must_equal 1000
+    _(resource.name).must_equal "en0"
+    _(resource.ipv4_cidrs).must_include "192.168.1.2/24"
+    _(resource.ipv4_addresses).must_include "192.168.1.2"
+    _(resource.ipv4_addresses_netmask).must_include "192.168.1.2/255.255.255.0"
+    _(resource.ipv6_cidrs).must_include "fe80::8b6:c2cc:2928:3b61/64"
+    _(resource.ipv6_addresses).must_include "fe80::8b6:c2cc:2928:3b61"
+    _(resource.ipv4_address?).must_equal true
+    _(resource.ipv6_address?).must_equal true
+  end
+
   # undefined
   it "verify interface on unsupported os" do
     resource = MockLoader.new(:undefined).load_resource("interface", "eth0")

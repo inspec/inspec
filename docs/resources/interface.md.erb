@@ -9,7 +9,7 @@ Use the `interface` Chef InSpec audit resource to test basic network adapter pro
 
 * On Linux platforms, `/sys/class/net/#{iface}` is used as source
 * On the Windows platform, the `Get-NetAdapter` cmdlet is used as source
-* The MacOS platform is not currently supported.
+* On BSD and MacOS platforms, the `ifconfig` command is used as source. Link speed may not be available.
 
 <br>
 
@@ -81,7 +81,7 @@ The `name` property returns the name of the interface:
 
 ### speed
 
-The `speed` property tests the speed of the network interface, in MB/sec:
+The `speed` property tests the speed of the network interface, in MB/sec. Note: On BSD and MacOS platforms, this value may be nil, because it difficult to obtain reliably.
 
     its('speed') { should eq 1000 }
 

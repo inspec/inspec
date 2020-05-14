@@ -314,6 +314,7 @@ class MockLoader
       "/sbin/ip -br -6 address show dev eth0" => cmd.call("interface-addresses-6"),
       "Get-NetAdapter | Select-Object -Property Name, InterfaceDescription, Status, State, MacAddress, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed, Virtual | ConvertTo-Json" => cmd.call("Get-NetAdapter"),
       "Get-NetIPAddress | Select-Object -Property IPv6Address, IPv4Address, InterfaceAlias, PrefixLength | ConvertTo-Json" => cmd.call("Get-NetIPAddress"),
+      "ifconfig en0" => cmd.call("ifconfig-en0"),
       # bridge on linux
       "ls -1 /sys/class/net/br0/brif/" => cmd.call("ls-sys-class-net-br"),
       # bridge on Windows
