@@ -315,6 +315,10 @@ class MockLoader
       "Get-NetAdapter | Select-Object -Property Name, InterfaceDescription, Status, State, MacAddress, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed, Virtual | ConvertTo-Json" => cmd.call("Get-NetAdapter"),
       "Get-NetIPAddress | Select-Object -Property IPv6Address, IPv4Address, InterfaceAlias, PrefixLength | ConvertTo-Json" => cmd.call("Get-NetIPAddress"),
       "ifconfig en0" => cmd.call("ifconfig-en0"),
+      # network interfaces
+      "ls /sys/class/net" => cmd.call("ls-sys-class-net"),
+      "ifconfig -a" => cmd.call("ifconfig-a"),
+      "Get-NetAdapter | Select-Object -Property Name | ConvertTo-Json" => cmd.call("Get-NetAdapter-Name"),
       # bridge on linux
       "ls -1 /sys/class/net/br0/brif/" => cmd.call("ls-sys-class-net-br"),
       # bridge on Windows

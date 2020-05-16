@@ -1,0 +1,66 @@
+---
+title: About the interfaces Resource
+platform: os
+---
+
+# interfaces
+
+Use the `interfaces` Chef InSpec audit resource to test the properties of multiple network interfaces on the system.
+
+## Version
+
+This resource first became available in v??? of InSpec.
+
+## Syntax
+
+An `interfaces` resource block may take no arguments, in which case it will list all interfaces:
+
+    describe interfaces do
+      its('names') { should include 'eth0' }
+    end
+
+An `interfaces` resource block may take a where clause, filtering on a Filter Criterion:
+
+    # All eth- interfaces
+    describe interfaces.where(name: /^eth\d+/)
+      its('names') { should include 'eth0' }
+    end
+
+Like any InSpec resource, you may also use it for data lookup instead of testing:
+
+    interfaces.where(name: /^eth/).names do |name|
+      describe interface(name) do
+        it { should have_ipv6_address }
+      end
+    end
+
+## Filter Criteria
+
+### name
+
+String. The name of an interface.
+
+## Properties
+
+### count
+
+The `count` property returns an Integer describing how many interfaces matched.
+
+  its("count") { should eq 6 }
+
+### names
+
+The `names` property returns an Array of Strings representing the names of the interfaces.
+
+  its("names") { should include "eth0" }
+
+## Matchers
+
+For a full list of available universal matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### exist
+
+The `exist` matcher tests true if at least one interface exists on the system. This is almost always the case.
+
+    it { should exist }
+
