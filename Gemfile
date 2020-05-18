@@ -12,7 +12,7 @@ group :omnibus do
 end
 
 group :test do
-  gem 'minitest', '~> 5.5'
+  gem 'minitest', '~> 5.11.3'
   gem 'rake', '>= 10'
   gem 'rubocop', '= 0.49.1'
   gem 'simplecov', '~> 0.10'
