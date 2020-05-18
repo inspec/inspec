@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.9.7 -->
-## [v3.9.7](https://github.com/inspec/inspec/tree/v3.9.7) (2019-05-31)
+<!-- latest_release 3.9.8 -->
+## [v3.9.8](https://github.com/inspec/inspec/tree/v3.9.8) (2020-05-18)
 
 #### Merged Pull Requests
-- Replace Jenkins omnibus build/test pipeline with Buildkite for 3-stable branch [#4170](https://github.com/inspec/inspec/pull/4170) ([jeremiahsnapp](https://github.com/jeremiahsnapp))
+- Add placeholder verify pipeline [#5034](https://github.com/inspec/inspec/pull/5034) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.3 -->
 ### Changes since 3.9.3 release
 
 #### Merged Pull Requests
+- Add placeholder verify pipeline [#5034](https://github.com/inspec/inspec/pull/5034) ([james-stocks](https://github.com/james-stocks)) <!-- 3.9.8 -->
 - Replace Jenkins omnibus build/test pipeline with Buildkite for 3-stable branch [#4170](https://github.com/inspec/inspec/pull/4170) ([jeremiahsnapp](https://github.com/jeremiahsnapp)) <!-- 3.9.7 -->
 - Add backwards compat `--chef-license` option to v3. [#3968](https://github.com/inspec/inspec/pull/3968) ([miah](https://github.com/miah)) <!-- 3.9.6 -->
 - Use the upstream unf_ext again [#3965](https://github.com/inspec/inspec/pull/3965) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.9.5 -->
