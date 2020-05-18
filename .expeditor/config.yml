@@ -19,6 +19,14 @@ pipelines:
       definition: .expeditor/release.omnibus.yml
       env:
         - ADHOC: true
+  - verify:
+      description: Pull Request validation tests
+      public: true
+      env:
+        - LANG: "C.UTF-8"
+        - SLOW: 1
+        - NO_AWS: 1
+        - MT_CPU: 5
 
 # Slack channel in Chef Software slack to send notifications about build failures, etc
 slack:

@@ -1,0 +1,18 @@
+---
+expeditor:
+  defaults:
+    buildkite:
+      timeout_in_minutes: 45
+      retry:
+        automatic:
+          limit: 1
+
+steps:
+
+ - label: Placeholder
+   command:
+     - exit 0
+   expeditor:
+      executor:
+        docker:
+          image: ruby:2.7
