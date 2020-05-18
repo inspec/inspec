@@ -19,7 +19,7 @@ group :test do
   gem 'concurrent-ruby', '~> 1.0'
   gem 'mocha', '~> 1.1'
   gem 'ruby-progressbar', '~> 1.8'
-  gem 'webmock', '~> 2.3.2'
+  gem 'webmock', '>= 3.5'
   gem 'jsonschema', '~> 2.0.2'
   gem 'passgen'
   gem 'm'
