@@ -99,7 +99,7 @@ module Inspec::Fetcher
     def cache_key
       return resolved_ref unless @relative_path
 
-      OpenSSL::Digest::SHA256.hexdigest(resolved_ref + @relative_path)
+      OpenSSL::Digest.hexdigest("SHA256", resolved_ref + @relative_path)
     end
 
     def archive_path

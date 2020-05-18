@@ -59,7 +59,7 @@ module Inspec::Resources
     def fingerprint
       return if @cert.nil?
 
-      OpenSSL::Digest::SHA1.new(@cert.to_der).to_s
+      OpenSSL::Digest.new("SHA1", @cert.to_der).to_s
     end
 
     def serial
