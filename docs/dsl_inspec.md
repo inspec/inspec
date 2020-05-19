@@ -215,7 +215,7 @@ control 'windows-base-101' do
 end
 ```
 
-### Exclude specific test
+### Use `only_if` to exclude a specific test
 
 This shows how to allow skipping certain tests if conditions are not met, by using `only_if`.
 In this example the test will not be performed if `redis-cli` command does not exist. A optional
@@ -238,6 +238,43 @@ end
 ```
 
 Mixing this with other conditionals (like checking existence of the files etc.) can help to test different test paths using InSpec. This way you can skip certain tests which would 100% fail due to the way servers are prepared, but you know that the same test suites are reused later in different circumstances by different teams.
+
+Some notes about `only_if`:
+
+ * `only_if` applies to the entire `control`. If the results of the `only_if` block evaluate to false, the contents of the describe blocks will not be run. However, the describe block resources (`command('redis-cli SET test_inspec "HELLO"')` in the above example) that preceded the only_if WILL run. For this reason, `only_if` should usually come first in the control, prior to any `describe` blocks.
+
+```ruby
+control "don't do this" do
+  describe command("something-dangerous") do
+    # ...
+  end
+  # command("something-dangerous") already ran!!!
+  only_if { its_safe }
+end
+```
+
+Instead, do this:
+```ruby
+control "do this instead" do
+  only_if { its_safe }
+  # command("something-dangerous") won't run unless it is safe
+  describe command("something-dangerous") do
+    # ...
+  end
+end
+```
+
+ * `only_if` results in a skipped result for the control and all tests in the control, and is the only supported way of skipping an InSpec control. Other methods relying on RSpec-specific features such as `before` and `skip` may not work in the future.
+ * Only one `only_if` is permitted per `control` block; if multiple `only_if` blocks are present, only the last one will be honored.
+ * `only_if` may also be used outside a control block. In that case, it will be used to skip all controls in the current file.
+ * To implement complex logic, use Ruby 'or' (`||`) and 'and' (`&&`) inside your `only_if` block:
+
+```ruby
+  only_if('ready for launch') do
+    rocket_is_ready && weather_is_clear
+  end
+```
+
 
 ### Additional metadata for controls
 
