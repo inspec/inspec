@@ -318,6 +318,8 @@ class MockLoader
       # network interfaces
       "ls /sys/class/net" => cmd.call("ls-sys-class-net"),
       "ifconfig -a" => cmd.call("ifconfig-a"),
+      "ifconfig em0" => cmd.call("ifconfig-em0"),
+      "ifconfig lo0" => cmd.call("ifconfig-lo0"),
       "Get-NetAdapter | Select-Object -Property Name | ConvertTo-Json" => cmd.call("Get-NetAdapter-Name"),
       # bridge on linux
       "ls -1 /sys/class/net/br0/brif/" => cmd.call("ls-sys-class-net-br"),
