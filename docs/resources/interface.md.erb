@@ -38,10 +38,16 @@ An `interface` resource block declares network interface properties to be tested
 
 ## Properties
 
-`ipv4_addresses`, `ipv4_addresses_netmask`, `ipv4_cidrs`, `ipv6_addresses`, `ipv6_cidrs`, `name`, `speed`
+`ipv4_address`, `ipv4_addresses`, `ipv4_addresses_netmask`, `ipv4_cidrs`, `ipv6_addresses`, `ipv6_cidrs`, `name`, `speed`
 
 
 ## Resource Property Examples
+
+### ipv4_address
+
+Provided for compatibility with ServerSpec. Returns the first `ipv4_cidrs` entry.
+
+    its('ipv4_address') { should eq '10.0.0.5/8' }
 
 ### ipv4_addresses
 
@@ -54,6 +60,12 @@ The `ipv4_addresses` property returns an Array of IPv4 addresses as Strings. You
 The `ipv4_addresses_netmask` property returns an Array of Strings, each containing the IPv4 address, a slash, and the netmask. You may then test if the specified address and netmask exists on the named network interface:
 
     its('ipv4_addresses_netmask') { should include '127.0.0.1/255.0.0.0' }
+
+### ipv6_address
+
+Provided for compatibility with ServerSpec. Returns the first `ipv6_cidrs` entry.
+
+    its('ipv6_address') { should eq '2089:98b::faeb/1' }
 
 ### ipv6_addresses
 

@@ -47,8 +47,16 @@ module Inspec::Resources
       ipv6_addresses && !ipv6_addresses.empty?
     end
 
+    def ipv4_address
+      ipv4_cidrs.first
+    end
+
     def ipv4_addresses
       ipv4_cidrs.map { |i| i.split("/")[0] }
+    end
+
+    def ipv6_address
+      ipv6_cidrs.first
     end
 
     def ipv6_addresses
