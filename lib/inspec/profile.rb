@@ -559,7 +559,7 @@ module Inspec
       # get all dependency checksums
       deps = Hash[locked_dependencies.list.map { |k, v| [k, v.profile.sha256] }]
 
-      res = OpenSSL::Digest::SHA256.new
+      res = OpenSSL::Digest.new("SHA256")
       files = source_reader.tests.to_a + source_reader.libraries.to_a +
         source_reader.data_files.to_a +
         [["inspec.yml", source_reader.metadata.content]] +
