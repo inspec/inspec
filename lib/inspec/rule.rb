@@ -353,9 +353,12 @@ module Inspec
       # if so, is it in the future?
       expiry = __waiver_data["expiration_date"]
       if expiry
-        # YAML will automagically give us a Date or a Time
-        if [Date, Time].include?(expiry.class)
+        # YAML will automagically give us a Date or a Time.
+        # If transcoding YAML between languages (e.g. Go) the date might have also ended up as a String.
+        # A string that does not represent a valid time results in the date 0000-01-01.
+        if [Date, Time].include?(expiry.class) || (expiry.is_a?(String) && Time.new(expiry).year != 0)
           expiry = expiry.to_time if expiry.is_a? Date
+          expiry = Time.new(expiry) if expiry.is_a? String
           if expiry < Time.now # If the waiver expired, return - no skip applied
             __waiver_data["message"] = "Waiver expired on #{expiry}, evaluating control normally"
             return
