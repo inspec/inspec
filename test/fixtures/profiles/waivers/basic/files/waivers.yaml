@@ -39,3 +39,18 @@
   expiration_date: 2077-06-01
   justification: Lack of imagination
   run: false
+
+12_waivered_expiry_in_future_z_ran_passes:
+  expiration_date: 2077-11-10T00:00:00Z
+  justification: Handwaving
+  run: true
+
+13_waivered_expiry_in_future_z_ran_fails:
+  expiration_date: 2077-11-10T00:00:00Z
+  justification: Didn't feel like it
+  run: true
+
+14_waivered_expiry_in_future_z_not_ran:
+  expiration_date: 2077-11-10T00:00:00Z
+  justification: Lack of imagination
+  run: false  

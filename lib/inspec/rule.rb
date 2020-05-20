@@ -353,9 +353,10 @@ module Inspec
       # if so, is it in the future?
       expiry = __waiver_data["expiration_date"]
       if expiry
-        if expiry.is_a?(Date)
-          # It appears that yaml.rb automagically parses dates for us
-          if expiry < Date.today # If the waiver expired, return - no skip applied
+        # YAML will automagically give us a Date or a Time
+        if [Date, Time].include?(expiry.class)
+          expiry = expiry.to_time if expiry.is_a? Date
+          if expiry < Time.now # If the waiver expired, return - no skip applied
             __waiver_data["message"] = "Waiver expired on #{expiry}, evaluating control normally"
             return
           end

@@ -92,6 +92,9 @@ describe "waivers" do
       "09_waivered_expiry_in_future_ran_passes"         => "passed",
       "10_waivered_expiry_in_future_ran_fails"          => "failed",
       "11_waivered_expiry_in_future_not_ran"            => "skipped",
+      "12_waivered_expiry_in_future_z_ran_passes"       => "passed",
+      "13_waivered_expiry_in_future_z_ran_fails"        => "failed",
+      "14_waivered_expiry_in_future_z_not_ran"          => "skipped",
     }.each do |control_id, expected|
       it "has all of the expected outcomes #{control_id}" do
         assert_test_outcome expected, control_id
