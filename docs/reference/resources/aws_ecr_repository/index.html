@@ -1,19 +1,35 @@
-<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the aws_dynamodb_table Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_aws_dynamodb docs_reference_resources_aws_dynamodb_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="aws_dynamodb_table">aws_dynamodb_table</h1>
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the aws_ecr_repository Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_aws_ecr_repository docs_reference_resources_aws_ecr_repository_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="aws_ecr_repository">aws_ecr_repository</h1>
 
-<p>Use the <code>aws_dynamodb_table</code> InSpec audit resource to test properties of a single DynamoDb Table.</p>
+<p>Use the <code>aws_ecr_repository</code> InSpec audit resource to test the properties of a single AWS Elastic Container Registry (ECR) repository.
+This resource is available in InSpec AWS resource pack version <strong><a href="https://github.com/inspec/inspec-aws/releases/tag/v1.11.0">1.11.0</a></strong> onwards.</p>
 
 <h2 id="syntax">Syntax</h2>
 
-<h5 id="ensure-an-dynamodb-table-exists">Ensure an DynamoDb Table exists.</h5>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_dynamodb_table(table_name: 'table-name') do
+<p>An <code>aws_ecr_repository</code> resource block declares the tests for a single AWS ECR repository by repository name.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_ecr_repository(repository_name: 'my-repo') do
+  it { should exist }
+end
+</code></pre></div>
+<p>The value of the <code>repository_name</code> can be provided as a string.  </p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_ecr_repository('my-repo') do
   it { should exist }
 end
 </code></pre></div>
 <h4 id="parameters">Parameters</h4>
 
-<h5 id="table_name-required">table_name <em>(required)</em></h5>
+<p>The repository name must be provided. The registry id is optional.</p>
 
-<p>The table name used by this DynamoDb Table. This must be passed as a <code>table_name: &#39;value&#39;</code> key-value entry in a hash.</p>
+<h5 id="repository_name-required">repository_name <em>(required)</em></h5>
+
+<p>The name of the ECR repository must satisfy the following constraints:
+- Regex pattern <code>(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*</code>.
+- Minimum 2 and maximum of 256 characters long.</p>
+
+<p>This can be passed either as a string or as a <code>repository_name: &#39;value&#39;</code> key-value entry in a hash.</p>
+
+<h5 id="registry_id-optional">registry_id <em>(optional)</em></h5>
+
+<p>The 12-digit ID of the AWS Elastic Container Registry. If not provided, the <a href="https://docs.aws.amazon.com/AmazonECR/latest/APIReference/API_DescribeRepositories.html">default</a> registry is assumed.  </p>
 
 <h2 id="properties">Properties</h2>
 
@@ -24,68 +40,40 @@ end
 </tr>
 </thead><tbody>
 <tr>
-<td>table_name</td>
-<td>The name of the DynamoDb Table.</td>
+<td>repository_name</td>
+<td>The name of the repository.</td>
 </tr>
 <tr>
-<td>table_status</td>
-<td>The status of the DynamoDb Table.</td>
+<td>image_tag_mutability</td>
+<td>The tag mutability settings for the repository. Valid values are <code>MUTABLE</code> or <code>IMMUTABLE</code>.</td>
 </tr>
 <tr>
-<td>table_arn</td>
-<td>The Amazon Resource Names of the DynamoDb Table.</td>
+<td>registry_id</td>
+<td>The AWS account ID associated with the registry that contains the repository.</td>
 </tr>
 <tr>
-<td>creation_date</td>
-<td>The date the DynamoDb Table was created. eg. <code>01/01/2019</code></td>
-</tr>
-<tr>
-<td>number_of_decreases_today</td>
-<td>The number of provisioned throughput decreases for this table during this UTC calendar day.</td>
-</tr>
-<tr>
-<td>write_capacity_units</td>
-<td>The maximum number of writes consumed per second before DynamoDb returns a ThrottlingException.</td>
-</tr>
-<tr>
-<td>read_capacity_units</td>
-<td>The maximum number of strongly consistent reads consumed per second before DynamoDb returns a ThrottlingException.</td>
-</tr>
-<tr>
-<td>item_count</td>
-<td>The number of entries in the  DynamoDb Table.</td>
-</tr>
-<tr>
-<td>attributes</td>
-<td>An array of attributes that describe the key schema for the table and indexes. This is returned as a hash. Each entry is composed of: <code>attribute_name</code> - The name of this key attribute. <code>attribute_type</code> - The datatype of the attribute : <code>B</code> - Boolean, <code>N</code> - Number, <code>S</code> - string</td>
-</tr>
-<tr>
-<td>key_schema</td>
-<td>Specifies the attributes that make up the primary key for a table or an index. This is returned as a hash. The attributes in KeySchema must also be defined in the Attributes array. Each element in the KeySchemaElement array is composed of: <code>attribute_name</code> - The name of this key attribute. <code>key_type</code> - The role that the key attribute will assume: <code>HASH</code> - partition key, <code>RANGE</code> - sort key</td>
-</tr>
-<tr>
-<td>secondary_global_table</td>
-<td>This will only be populated if a global secondary table has been referenced on the selected table. This will return a hash of values with a prefix of <code>global_sec_indexes</code> for each key. eg. <code>global_sec_indexes_table_name</code></td>
+<td>tags</td>
+<td>An hash with each key-value pair corresponding to a tag associated with the entity.</td>
 </tr>
 </tbody></table>
 
+<p>There are also additional properties available. For a comprehensive list, see <a href="https://docs.aws.amazon.com/AmazonECR/latest/APIReference/API_Repository.html">the API reference documentation</a></p>
+
 <h2 id="examples">Examples</h2>
 
-<h5 id="ensure-dynamodb-table-status-is-active">Ensure DynamoDb Table status is active</h5>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_dynamodb_table(table_name: 'table-name') do
-  its('table_status') { should eq 'ACTIVE' }
+<h5 id="test-that-image-tags-are-immutable-in-an-ecr-repository">Test that image tags are <code>IMMUTABLE</code> in an ECR repository</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_ecr_repository('my-repo') do
+  its('image_tag_mutability') { should eq 'IMMUTABLE' }
 end
 </code></pre></div>
-<h5 id="ensure-dynamodb-table-has-an-attribute">Ensure DynamoDb Table has an attribute</h5>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_dynamodb_table(table_name: 'table-name') do
-  its('attributes') { should_not be_empty }
-  its('attributes') { should include({:attribute_name =&gt;'table_field', :attribute_type =&gt;'N'}) }
+<h5 id="test-that-images-are-scanned-for-vulnerabilities-at-a-push-to-repository">Test that images are scanned for vulnerabilities at a push to repository</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_ecr_repository(repository_name: 'my-repo') do
+  its('image_scanning_configuration.scan_on_push') { should eq true}
 end
 </code></pre></div>
-<h5 id="ensure-dynamodb-table-has-a-key_schema">Ensure DynamoDb Table has a key_schema</h5>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_dynamodb_table(table_name: 'table-name') do
-  its('key_schema') { should_not be_empty }
-  its('key_schema') { should include({:attribute_name =&gt;'table_field', :key_type =&gt;'HASH'}) }
+<h5 id="test-that-an-ecr-repository-has-a-certain-tag">Test that an ECR repository has a certain tag</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_ecr_repository('my-repo') do
+  its('tags') { should include('environment' =&gt; 'dev') }
 end
 </code></pre></div>
 <h2 id="matchers">Matchers</h2>
@@ -93,23 +81,15 @@ end
 <p>This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">matchers page</a>.</p>
 
 <h4 id="exist">exist</h4>
-
-<p>The control will pass if the describe returns at least one result.</p>
-
-<p>Use <code>should_not</code> to test the entity should not exist.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_dynamodb_table(table_name: 'table-name') do
-  it { should exist }
-end
-
-describe aws_dynamodb_table(table_name: 'table-name') do
-  it { should_not exist }
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_ecr_repository(repository_name: 'my-repo') do
+    it { should exist }
 end
 </code></pre></div>
 <h2 id="aws-permissions">AWS Permissions</h2>
 
-<p>Your <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal">Principal</a> will need the <code>DynamoDB::DescribeTable</code> action with Effect set to Allow.</p>
+<p>Your <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal">Principal</a> will need the <code>ecr:DescribeRepositories</code> action set to allow.</p>
 
-<p>You can find detailed documentation at <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazondynamodb.html">Actions, Resources, and Condition Keys for Amazon Dynamodb</a>.</p>
+<p>You can find detailed documentation at <a href="https://docs.aws.amazon.com/AmazonECR/latest/APIReference/API_Operations.html">Actions, Resources, and Condition Keys for Amazon ECR</a>, and <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html">Actions, Resources, and Condition Keys for Identity And Access Management</a>.</p>
 </column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
 (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
 (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);

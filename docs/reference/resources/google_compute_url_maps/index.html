@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_url_maps</code> is used to test a Google UrlMap resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_url_maps(project: 'chef-gcp-inspec') do
   its('names') { should include 'inspec-gcp-url-map' }
@@ -21,7 +25,8 @@ end
   * `host</em>rules<code>: an array of</code>google<em>compute</em>url<em>map` host</em>rules
   * <code>names</code>: an array of <code>google_compute_url_map</code> name
   * <code>path_matchers</code>: an array of <code>google_compute_url_map</code> path<em>matchers
-  * <code>tests</code>: an array of `google</em>compute<em>url</em>map` tests</p>
+  * <code>tests</code>: an array of `google</em>compute<em>url</em>map<code>tests
+  *</code>default<em>url</em>redirects<code>: an array of</code>google<em>compute</em>url<em>map` default</em>url_redirect</p>
 
 <h2 id="filter-criteria">Filter Criteria</h2>
 

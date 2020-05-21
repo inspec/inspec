@@ -39,6 +39,12 @@ end
 <ul>
 <li><code>ttl</code>: Specifies the &ldquo;time-to-live&rdquo; duration for an associated resource. The resource expires if it is not active for a period of ttl. If ttl is not set, the associated resource never expires. A duration in seconds with up to nine fractional digits, terminated by &lsquo;s&rsquo;. Example - &ldquo;3.5s&rdquo;.</li>
 </ul></li>
+<li><p><code>dead_letter_policy</code>: A policy that specifies the conditions for dead lettering messages in this subscription. If dead<em>letter</em>policy is not set, dead lettering is disabled.  The Cloud Pub/Sub service account associated with this subscriptions&rsquo;s parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to Acknowledge() messages on this subscription.</p>
+
+<ul>
+<li><code>dead_letter_topic</code>: The name of the topic to which dead letter messages should be published. Format is <code>projects/{project}/topics/{topic}</code>.  The Cloud Pub/Sub service\naccount associated with the enclosing subscription&rsquo;s parent project (i.e.,  service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to Publish() to this topic.  The operation will fail if the topic does not exist. Users should ensure that there is a subscription attached to this topic since messages published to a topic with no subscriptions are lost.</li>
+<li><code>max_delivery_attempts</code>: The maximum number of delivery attempts for any message. The value must be between 5 and 100.  The number of delivery attempts is defined as 1 + (the sum of number of  NACKs and number of times the acknowledgement deadline has been exceeded for the message).  A NACK is any call to ModifyAckDeadline with a 0 deadline. Note that client libraries may automatically extend ack_deadlines.  This field will be honored on a best effort basis.  If this parameter is 0, a default value of 5 is used.</li>
+</ul></li>
 </ul>
 
 <h2 id="gcp-permissions">GCP Permissions</h2>

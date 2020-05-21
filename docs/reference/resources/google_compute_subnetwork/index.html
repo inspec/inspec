@@ -1,24 +1,25 @@
-<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the google_compute_subnetwork Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_google_compute_subnetwork docs_reference_resources_google_compute_subnetwork_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="google_compute_subnetwork">google_compute_subnetwork</h1>
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the google_compute_subnetwork resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_google_compute_subnetwork docs_reference_resources_google_compute_subnetwork_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h2 id="syntax">Syntax</h2>
 
-<p>Use the <code>google_compute_subnetwork</code> InSpec audit resource to test properties of a single GCP compute subnetwork.</p>
+<p>A <code>google_compute_subnetwork</code> is used to test a Google Subnetwork resource</p>
 
-<p><br></p>
+<h2 id="beta-resource">Beta Resource</h2>
 
-<h2 id="syntax">Syntax</h2>
-
-<p>A <code>google_compute_subnetwork</code> resource block declares the tests for a single GCP subnetwork by project, region and name.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_subnetwork(project: 'chef-inspec-gcp', region: 'europe-west2', name: 'gcp-inspec-subnetwork') do
-  it { should exist }
-  its('name') { should eq 'gcp-inspec-subnetwork' }
-  its('region') { should match 'europe-west2' }
-end
-</code></pre></div>
-<p><br></p>
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
 
 <h2 id="examples">Examples</h2>
+<div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_subnetwork(project: 'chef-gcp-inspec', region: 'europe-west2', name: 'inspec-subnet') do
+  it { should exist }
+  its('ip_cidr_range') { should eq '10.2.0.0/16' }
+  its('log_config.enable') { should be true }
+  its('log_config.flow_sampling') { should cmp '0.5' }
+  its('log_config.aggregation_interval') { should cmp 'INTERVAL_10_MIN' }
+  its('log_config.metadata') { should include 'INCLUDE_ALL_METADATA' }
+end
 
-<p>The following examples show how to use this InSpec audit resource.</p>
-
+describe google_compute_subnetwork(project: 'chef-gcp-inspec', region: 'europe-west2', name: 'nonexistent') do
+  it { should_not exist }
+end
+</code></pre></div>
 <h3 id="test-that-a-gcp-compute-subnetwork-exists">Test that a GCP compute subnetwork exists</h3>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_subnetwork(project: 'chef-inspec-gcp', region: 'europe-west2', name: 'gcp-inspec-subnetwork') do
   it { should exist }
@@ -26,7 +27,7 @@ end
 </code></pre></div>
 <h3 id="test-when-a-gcp-compute-subnetwork-was-created">Test when a GCP compute subnetwork was created</h3>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_subnetwork(project: 'chef-inspec-gcp', region: 'europe-west2', name: 'gcp-inspec-subnetwork') do
-  its('creation_timestamp_date') { should be &gt; Time.now - 365*60*60*24*10 }
+  its('creation_timestamp') { should be &gt; Time.now - 365*60*60*24*10 }
 end
 </code></pre></div>
 <h3 id="test-for-an-expected-subnetwork-identifier">Test for an expected subnetwork identifier</h3>
@@ -54,19 +55,69 @@ end
   its('private_ip_google_access') { should be false }
 end
 </code></pre></div>
-<p><br></p>
-
 <h2 id="properties">Properties</h2>
 
-<ul>
-<li> <code>creation_timestamp</code>, <code>creation_timestamp_date</code>, <code>gateway_address</code>, <code>id</code>, <code>ip_cidr_range</code>, <code>kind</code>, <code>name</code>, <code>network</code>, <code>private_ip_google_access</code>, <code>region</code></li>
-</ul>
+<p>Properties that can be accessed from the <code>google_compute_subnetwork</code> resource:</p>
 
-<p><br></p>
+<ul>
+<li><p><code>creation_timestamp</code>: Creation timestamp in RFC3339 text format.</p></li>
+<li><p><code>description</code>: An optional description of this resource. Provide this property when you create the resource. This field can be set only at resource creation time.</p></li>
+<li><p><code>gateway_address</code>: The gateway address for default routes to reach destination addresses outside this subnetwork.</p></li>
+<li><p><code>id</code>: The unique identifier for the resource.</p></li>
+<li><p><code>ip_cidr_range</code>: The range of internal addresses that are owned by this subnetwork. Provide this property when you create the subnetwork. For example, 10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and non-overlapping within a network. Only IPv4 is supported.</p></li>
+<li><p><code>name</code>: The name of the resource, provided by the client when initially creating the resource. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression <code>[a-z]([-a-z0-9]*[a-z0-9])?</code> which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash.</p></li>
+<li><p><code>network</code>: The network this subnet belongs to. Only networks that are in the distributed mode can have subnetworks.</p></li>
+<li><p><code>purpose</code>: (Beta only) The purpose of the resource. This field can be either PRIVATE or INTERNAL<em>HTTPS</em>LOAD<em>BALANCER. A subnetwork with purpose set to INTERNAL</em>HTTPS<em>LOAD</em>BALANCER is a user-created subnetwork that is reserved for Internal HTTP(S) Load Balancing. If unspecified, the purpose defaults to PRIVATE.  If set to INTERNAL<em>HTTPS</em>LOAD_BALANCER you must also set the role.
+Possible values:</p>
+
+<ul>
+<li>INTERNAL<em>HTTPS</em>LOAD_BALANCER</li>
+<li>PRIVATE</li>
+</ul></li>
+<li><p><code>role</code>: (Beta only) The role of subnetwork. Currently, this field is only used when purpose = INTERNAL<em>HTTPS</em>LOAD_BALANCER. The value can be set to ACTIVE or BACKUP. An ACTIVE subnetwork is one that is currently being used for Internal HTTP(S) Load Balancing. A BACKUP subnetwork is one that is ready to be promoted to ACTIVE or is currently draining.
+Possible values:</p>
+
+<ul>
+<li>ACTIVE</li>
+<li>BACKUP</li>
+</ul></li>
+<li><p><code>secondary_ip_ranges</code>: An array of configurations for secondary IP ranges for VM instances contained in this subnetwork. The primary IP of such VM must belong to the primary ipCidrRange of the subnetwork. The alias IPs may belong to either primary or secondary ranges.</p>
+
+<ul>
+<li><code>range_name</code>: The name associated with this subnetwork secondary range, used when adding an alias IP range to a VM instance. The name must be 1-63 characters long, and comply with RFC1035. The name must be unique within the subnetwork.</li>
+<li><code>ip_cidr_range</code>: The range of IP addresses belonging to this subnetwork secondary range. Provide this property when you create the subnetwork. Ranges must be unique and non-overlapping with all primary and secondary IP ranges within a network. Only IPv4 is supported.</li>
+</ul></li>
+<li><p><code>private_ip_google_access</code>: When enabled, VMs in this subnetwork without external IP addresses can access Google APIs and services by using Private Google Access.</p></li>
+<li><p><code>region</code>: URL of the GCP region for this subnetwork.</p></li>
+<li><p><code>log_config</code>: Denotes the logging options for the subnetwork flow logs. If logging is enabled logs will be exported to Stackdriver. This field cannot be set if the <code>purpose</code> of this subnetwork is <code>INTERNAL_HTTPS_LOAD_BALANCER</code></p>
+
+<ul>
+<li><code>enable</code>: If logging is enabled for this subnetwork</li>
+<li><code>aggregation_interval</code>: Can only be specified if VPC flow logging for this subnetwork is enabled. Toggles the aggregation interval for collecting flow logs. Increasing the interval time will reduce the amount of generated flow logs for long lasting connections. Default is an interval of 5 seconds per connection. Possible values are INTERVAL<em>5</em>SEC, INTERVAL<em>30</em>SEC, INTERVAL<em>1</em>MIN, INTERVAL<em>5</em>MIN, INTERVAL<em>10</em>MIN, INTERVAL<em>15</em>MIN
+Possible values:
+
+<ul>
+<li>INTERVAL<em>5</em>SEC</li>
+<li>INTERVAL<em>30</em>SEC</li>
+<li>INTERVAL<em>1</em>MIN</li>
+<li>INTERVAL<em>5</em>MIN</li>
+<li>INTERVAL<em>10</em>MIN</li>
+<li>INTERVAL<em>15</em>MIN</li>
+</ul></li>
+<li><code>flow_sampling</code>: Can only be specified if VPC flow logging for this subnetwork is enabled. The value of the field must be in [0, 1]. Set the sampling rate of VPC flow logs within the subnetwork where 1.0 means all collected logs are reported and 0.0 means no logs are reported. Default is 0.5 which means half of all collected logs are reported.</li>
+<li><code>metadata</code>: Can only be specified if VPC flow logging for this subnetwork is enabled. Configures whether metadata fields should be added to the reported VPC flow logs.
+Possible values:
+
+<ul>
+<li>EXCLUDE<em>ALL</em>METADATA</li>
+<li>INCLUDE<em>ALL</em>METADATA</li>
+</ul></li>
+</ul></li>
+</ul>
 
 <h2 id="gcp-permissions">GCP Permissions</h2>
 
-<p>Ensure the <a href="https://console.cloud.google.com/apis/library/compute.googleapis.com/">Compute Engine API</a> is enabled for the project where the resource is located.</p>
+<p>Ensure the <a href="https://console.cloud.google.com/apis/library/compute.googleapis.com/">Compute Engine API</a> is enabled for the current project.</p>
 </column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
 (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
 (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);

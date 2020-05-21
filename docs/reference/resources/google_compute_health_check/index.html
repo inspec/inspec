@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_health_check</code> is used to test a Google HealthCheck resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_health_check(project: 'chef-gcp-inspec', name: 'inspec-gcp-health-check') do
   it { should exist }
@@ -26,7 +30,16 @@ end
 <li><p><code>name</code>: Name of the resource. Provided by the client when the resource is created. The name must be 1-63 characters long, and comply with RFC1035.  Specifically, the name must be 1-63 characters long and match the regular expression <code>[a-z]([-a-z0-9]*[a-z0-9])?</code> which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash.</p></li>
 <li><p><code>timeout_sec</code>: How long (in seconds) to wait before claiming failure. The default value is 5 seconds.  It is invalid for timeoutSec to have greater value than checkIntervalSec.</p></li>
 <li><p><code>unhealthy_threshold</code>: A so-far healthy instance will be marked unhealthy after this many consecutive failures. The default value is 2.</p></li>
-<li><p><code>type</code>: Specifies the type of the healthCheck, either TCP, SSL, HTTP or HTTPS. If not specified, the default is TCP. Exactly one of the protocol-specific health check field must be specified, which must match type field.</p></li>
+<li><p><code>type</code>: Specifies the type of the healthCheck, either TCP, SSL, HTTP or HTTPS. If not specified, the default is TCP. Exactly one of the protocol-specific health check field must be specified, which must match type field.
+Possible values:</p>
+
+<ul>
+<li>TCP</li>
+<li>SSL</li>
+<li>HTTP</li>
+<li>HTTPS</li>
+<li>HTTP2</li>
+</ul></li>
 <li><p><code>http_health_check</code>: A nested object resource</p>
 
 <ul>
@@ -35,8 +48,21 @@ end
 <li><code>response</code>: The bytes to match against the beginning of the response data. If left empty (the default value), any response will indicate health. The response data can only be ASCII.</li>
 <li><code>port</code>: The TCP port number for the HTTP health check request. The default value is 80.</li>
 <li><code>port_name</code>: Port name as defined in InstanceGroup#NamedPort#name. If both port and port_name are defined, port takes precedence.</li>
-<li><code>proxy_header</code>: Specifies the type of proxy header to append before sending data to the backend, either NONE or PROXY_V1. The default is NONE.</li>
-<li><code>port_specification</code>: Specifies how port is selected for health checking, can be one of the following values:    * <code>USE_FIXED_PORT</code>: The port number in <code>port</code> is used for health checking.    * <code>USE_NAMED_PORT</code>: The <code>portName</code> is used for health checking.    * <code>USE_SERVING_PORT</code>: For NetworkEndpointGroup, the port specified for each   network endpoint is used for health checking. For other backends, the   port or named port specified in the Backend Service is used for health   checking.  If not specified, HTTP health check follows behavior specified in <code>port</code> and <code>portName</code> fields.</li>
+<li><code>proxy_header</code>: Specifies the type of proxy header to append before sending data to the backend.
+Possible values:
+
+<ul>
+<li>NONE</li>
+<li>PROXY_V1</li>
+</ul></li>
+<li><code>port_specification</code>: Specifies how port is selected for health checking, can be one of the following values:    * <code>USE_FIXED_PORT</code>: The port number in <code>port</code> is used for health checking.    * <code>USE_NAMED_PORT</code>: The <code>portName</code> is used for health checking.    * <code>USE_SERVING_PORT</code>: For NetworkEndpointGroup, the port specified for each   network endpoint is used for health checking. For other backends, the   port or named port specified in the Backend Service is used for health   checking.  If not specified, HTTP health check follows behavior specified in <code>port</code> and <code>portName</code> fields.
+Possible values:
+
+<ul>
+<li>USE<em>FIXED</em>PORT</li>
+<li>USE<em>NAMED</em>PORT</li>
+<li>USE<em>SERVING</em>PORT</li>
+</ul></li>
 </ul></li>
 <li><p><code>https_health_check</code>: A nested object resource</p>
 
@@ -46,8 +72,21 @@ end
 <li><code>response</code>: The bytes to match against the beginning of the response data. If left empty (the default value), any response will indicate health. The response data can only be ASCII.</li>
 <li><code>port</code>: The TCP port number for the HTTPS health check request. The default value is 443.</li>
 <li><code>port_name</code>: Port name as defined in InstanceGroup#NamedPort#name. If both port and port_name are defined, port takes precedence.</li>
-<li><code>proxy_header</code>: Specifies the type of proxy header to append before sending data to the backend, either NONE or PROXY_V1. The default is NONE.</li>
-<li><code>port_specification</code>: Specifies how port is selected for health checking, can be one of the following values:    * <code>USE_FIXED_PORT</code>: The port number in <code>port</code> is used for health checking.    * <code>USE_NAMED_PORT</code>: The <code>portName</code> is used for health checking.    * <code>USE_SERVING_PORT</code>: For NetworkEndpointGroup, the port specified for each   network endpoint is used for health checking. For other backends, the   port or named port specified in the Backend Service is used for health   checking.  If not specified, HTTPS health check follows behavior specified in <code>port</code> and <code>portName</code> fields.</li>
+<li><code>proxy_header</code>: Specifies the type of proxy header to append before sending data to the backend.
+Possible values:
+
+<ul>
+<li>NONE</li>
+<li>PROXY_V1</li>
+</ul></li>
+<li><code>port_specification</code>: Specifies how port is selected for health checking, can be one of the following values:    * <code>USE_FIXED_PORT</code>: The port number in <code>port</code> is used for health checking.    * <code>USE_NAMED_PORT</code>: The <code>portName</code> is used for health checking.    * <code>USE_SERVING_PORT</code>: For NetworkEndpointGroup, the port specified for each   network endpoint is used for health checking. For other backends, the   port or named port specified in the Backend Service is used for health   checking.  If not specified, HTTPS health check follows behavior specified in <code>port</code> and <code>portName</code> fields.
+Possible values:
+
+<ul>
+<li>USE<em>FIXED</em>PORT</li>
+<li>USE<em>NAMED</em>PORT</li>
+<li>USE<em>SERVING</em>PORT</li>
+</ul></li>
 </ul></li>
 <li><p><code>tcp_health_check</code>: A nested object resource</p>
 
@@ -56,8 +95,21 @@ end
 <li><code>response</code>: The bytes to match against the beginning of the response data. If left empty (the default value), any response will indicate health. The response data can only be ASCII.</li>
 <li><code>port</code>: The TCP port number for the TCP health check request. The default value is 443.</li>
 <li><code>port_name</code>: Port name as defined in InstanceGroup#NamedPort#name. If both port and port_name are defined, port takes precedence.</li>
-<li><code>proxy_header</code>: Specifies the type of proxy header to append before sending data to the backend, either NONE or PROXY_V1. The default is NONE.</li>
-<li><code>port_specification</code>: Specifies how port is selected for health checking, can be one of the following values:    * <code>USE_FIXED_PORT</code>: The port number in <code>port</code> is used for health checking.    * <code>USE_NAMED_PORT</code>: The <code>portName</code> is used for health checking.    * <code>USE_SERVING_PORT</code>: For NetworkEndpointGroup, the port specified for each   network endpoint is used for health checking. For other backends, the   port or named port specified in the Backend Service is used for health   checking.  If not specified, TCP health check follows behavior specified in <code>port</code> and <code>portName</code> fields.</li>
+<li><code>proxy_header</code>: Specifies the type of proxy header to append before sending data to the backend.
+Possible values:
+
+<ul>
+<li>NONE</li>
+<li>PROXY_V1</li>
+</ul></li>
+<li><code>port_specification</code>: Specifies how port is selected for health checking, can be one of the following values:    * <code>USE_FIXED_PORT</code>: The port number in <code>port</code> is used for health checking.    * <code>USE_NAMED_PORT</code>: The <code>portName</code> is used for health checking.    * <code>USE_SERVING_PORT</code>: For NetworkEndpointGroup, the port specified for each   network endpoint is used for health checking. For other backends, the   port or named port specified in the Backend Service is used for health   checking.  If not specified, TCP health check follows behavior specified in <code>port</code> and <code>portName</code> fields.
+Possible values:
+
+<ul>
+<li>USE<em>FIXED</em>PORT</li>
+<li>USE<em>NAMED</em>PORT</li>
+<li>USE<em>SERVING</em>PORT</li>
+</ul></li>
 </ul></li>
 <li><p><code>ssl_health_check</code>: A nested object resource</p>
 
@@ -66,8 +118,21 @@ end
 <li><code>response</code>: The bytes to match against the beginning of the response data. If left empty (the default value), any response will indicate health. The response data can only be ASCII.</li>
 <li><code>port</code>: The TCP port number for the SSL health check request. The default value is 443.</li>
 <li><code>port_name</code>: Port name as defined in InstanceGroup#NamedPort#name. If both port and port_name are defined, port takes precedence.</li>
-<li><code>proxy_header</code>: Specifies the type of proxy header to append before sending data to the backend, either NONE or PROXY_V1. The default is NONE.</li>
-<li><code>port_specification</code>: Specifies how port is selected for health checking, can be one of the following values:    * <code>USE_FIXED_PORT</code>: The port number in <code>port</code> is used for health checking.    * <code>USE_NAMED_PORT</code>: The <code>portName</code> is used for health checking.    * <code>USE_SERVING_PORT</code>: For NetworkEndpointGroup, the port specified for each   network endpoint is used for health checking. For other backends, the   port or named port specified in the Backend Service is used for health   checking.  If not specified, SSL health check follows behavior specified in <code>port</code> and <code>portName</code> fields.</li>
+<li><code>proxy_header</code>: Specifies the type of proxy header to append before sending data to the backend.
+Possible values:
+
+<ul>
+<li>NONE</li>
+<li>PROXY_V1</li>
+</ul></li>
+<li><code>port_specification</code>: Specifies how port is selected for health checking, can be one of the following values:    * <code>USE_FIXED_PORT</code>: The port number in <code>port</code> is used for health checking.    * <code>USE_NAMED_PORT</code>: The <code>portName</code> is used for health checking.    * <code>USE_SERVING_PORT</code>: For NetworkEndpointGroup, the port specified for each   network endpoint is used for health checking. For other backends, the   port or named port specified in the Backend Service is used for health   checking.  If not specified, SSL health check follows behavior specified in <code>port</code> and <code>portName</code> fields.
+Possible values:
+
+<ul>
+<li>USE<em>FIXED</em>PORT</li>
+<li>USE<em>NAMED</em>PORT</li>
+<li>USE<em>SERVING</em>PORT</li>
+</ul></li>
 </ul></li>
 <li><p><code>http2_health_check</code>: A nested object resource</p>
 
@@ -77,8 +142,26 @@ end
 <li><code>response</code>: The bytes to match against the beginning of the response data. If left empty (the default value), any response will indicate health. The response data can only be ASCII.</li>
 <li><code>port</code>: The TCP port number for the HTTP2 health check request. The default value is 443.</li>
 <li><code>port_name</code>: Port name as defined in InstanceGroup#NamedPort#name. If both port and port_name are defined, port takes precedence.</li>
-<li><code>proxy_header</code>: Specifies the type of proxy header to append before sending data to the backend, either NONE or PROXY_V1. The default is NONE.</li>
-<li><code>port_specification</code>: Specifies how port is selected for health checking, can be one of the following values:    * <code>USE_FIXED_PORT</code>: The port number in <code>port</code> is used for health checking.    * <code>USE_NAMED_PORT</code>: The <code>portName</code> is used for health checking.    * <code>USE_SERVING_PORT</code>: For NetworkEndpointGroup, the port specified for each   network endpoint is used for health checking. For other backends, the   port or named port specified in the Backend Service is used for health   checking.  If not specified, HTTP2 health check follows behavior specified in <code>port</code> and <code>portName</code> fields.</li>
+<li><code>proxy_header</code>: Specifies the type of proxy header to append before sending data to the backend.
+Possible values:
+
+<ul>
+<li>NONE</li>
+<li>PROXY_V1</li>
+</ul></li>
+<li><code>port_specification</code>: Specifies how port is selected for health checking, can be one of the following values:    * <code>USE_FIXED_PORT</code>: The port number in <code>port</code> is used for health checking.    * <code>USE_NAMED_PORT</code>: The <code>portName</code> is used for health checking.    * <code>USE_SERVING_PORT</code>: For NetworkEndpointGroup, the port specified for each   network endpoint is used for health checking. For other backends, the   port or named port specified in the Backend Service is used for health   checking.  If not specified, HTTP2 health check follows behavior specified in <code>port</code> and <code>portName</code> fields.
+Possible values:
+
+<ul>
+<li>USE<em>FIXED</em>PORT</li>
+<li>USE<em>NAMED</em>PORT</li>
+<li>USE<em>SERVING</em>PORT</li>
+</ul></li>
+</ul></li>
+<li><p><code>log_config</code>: (Beta only) Configure logging on this health check.</p>
+
+<ul>
+<li><code>enable</code>: Indicates whether or not to export logs. This is false by default, which means no health check logging will be done.</li>
 </ul></li>
 </ul>
 

@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_node_templates</code> is used to test a Google NodeTemplate resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>
 describe google_compute_node_templates(project: 'chef-gcp-inspec', region: 'europe-west2') do
@@ -19,7 +23,8 @@ end
   *</code>node</em>affinity<em>labels<code>: an array of</code>google</em>compute<em>node</em>template<code>node_affinity_labels
   *</code>node<em>types<code>: an array of</code>google</em>compute<em>node</em>template<code>node_type
   *</code>node<em>type</em>flexibilities<code>: an array of</code>google<em>compute</em>node<em>template` node</em>type<em>flexibility
-  * <code>regions</code>: an array of `google</em>compute<em>node</em>template` region</p>
+  * `server</em>bindings<code>: (Beta only) an array of</code>google<em>compute</em>node<em>template` server</em>binding
+  * <code>regions</code>: an array of <code>google_compute_node_template</code> region</p>
 
 <h2 id="filter-criteria">Filter Criteria</h2>
 

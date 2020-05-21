@@ -77,6 +77,8 @@ end
 <li><code>public_endpoint</code>: The external IP address of this cluster&rsquo;s master endpoint.</li>
 </ul></li>
 <li><p><code>cluster_ipv4_cidr</code>: The IP address range of the container pods in this cluster, in CIDR notation (e.g. 10.96.0.0/14). Leave blank to have one automatically chosen or specify a /14 block in 10.0.0.0/8.</p></li>
+<li><p><code>enable_tpu</code>: (Optional) Whether to enable Cloud TPU resources in this cluster. See the official documentation - https://cloud.google.com/tpu/docs/kubernetes-engine-setup</p></li>
+<li><p><code>tpu_ipv4_cidr_block</code>: The IP address range of the Cloud TPUs in this cluster, in <a href="http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">CIDR</a> notation (e.g. <code>1.2.3.4/29</code>).</p></li>
 <li><p><code>addons_config</code>: Configurations for the various addons available to run in the cluster.</p>
 
 <ul>
@@ -145,8 +147,6 @@ end
 <li><p><code>services_ipv4_cidr</code>: The IP address range of the Kubernetes services in this cluster, in CIDR notation (e.g. 1.2.3.4/29). Service addresses are typically put in the last /16 from the container CIDR.</p></li>
 <li><p><code>current_node_count</code>: The number of nodes currently in the cluster.</p></li>
 <li><p><code>expire_time</code>: The time the cluster will be automatically deleted in RFC3339 text format.</p></li>
-<li><p><code>enable_tpu</code>: Enable the ability to use Cloud TPUs in this cluster.</p></li>
-<li><p><code>tpu_ipv4_cidr_block</code>: The IP address range of the Cloud TPUs in this cluster, in CIDR notation</p></li>
 <li><p><code>conditions</code>: Which conditions caused the current cluster state.</p>
 
 <ul>

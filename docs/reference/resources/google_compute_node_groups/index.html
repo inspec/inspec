@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_node_groups</code> is used to test a Google NodeGroup resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>
 describe google_compute_node_groups(project: 'chef-gcp-inspec', zone: 'zone') do
@@ -21,7 +25,8 @@ end
   *</code>names<code>: an array of</code>google<em>compute</em>node<em>group<code>name
   *</code>node</em>templates<code>: an array of</code>google<em>compute</em>node<em>group` node</em>template
   * <code>sizes</code>: an array of <code>google_compute_node_group</code> size
-  * <code>zones</code>: an array of <code>google_compute_node_group</code> zone</p>
+  * <code>autoscaling_policies</code>: (Beta only) an array of <code>google_compute_node_group</code> autoscaling<em>policy
+  * <code>zones</code>: an array of `google</em>compute<em>node</em>group` zone</p>
 
 <h2 id="filter-criteria">Filter Criteria</h2>
 

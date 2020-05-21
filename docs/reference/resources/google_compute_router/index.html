@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_router</code> is used to test a Google Router resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_router(project: 'chef-gcp-inspec', region: 'europe-west2', name: 'inspec-gcp-router') do
   it { should exist }
@@ -32,7 +36,13 @@ end
 
 <ul>
 <li><code>asn</code>: Local BGP Autonomous System Number (ASN). Must be an RFC6996 private ASN, either 16-bit or 32-bit. The value will be fixed for this router resource. All VPN tunnels that link to this router will have the same local ASN.</li>
-<li><code>advertise_mode</code>: User-specified flag to indicate which mode to use for advertisement.  Valid values of this enum field are: DEFAULT, CUSTOM</li>
+<li><code>advertise_mode</code>: User-specified flag to indicate which mode to use for advertisement.
+Possible values:
+
+<ul>
+<li>DEFAULT</li>
+<li>CUSTOM</li>
+</ul></li>
 <li><code>advertised_groups</code>: User-specified list of prefix groups to advertise in custom mode. This field can only be populated if advertiseMode is CUSTOM and is advertised to all peers of the router. These groups will be advertised in addition to any specified prefixes. Leave this field blank to advertise no custom groups.  This enum field has the one valid value: ALL_SUBNETS</li>
 <li><code>advertised_ip_ranges</code>: User-specified list of individual IP ranges to advertise in custom mode. This field can only be populated if advertiseMode is CUSTOM and is advertised to all peers of the router. These IP ranges will be advertised in addition to any specified groups. Leave this field blank to advertise no custom IP ranges.
 

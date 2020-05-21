@@ -43,16 +43,36 @@ This must be passed as a <code>key: &#39;value&#39;</code> key-value entry in a 
 <td>The key within the bucket.</td>
 </tr>
 <tr>
+<td>content_length</td>
+<td>Size of the body in bytes.</td>
+</tr>
+<tr>
+<td>content_type</td>
+<td>A standard MIME type describing the format of the object data.</td>
+</tr>
+<tr>
 <td>object_acl</td>
 <td>An array of AWS Grants detailing permission grants on the bucket object.</td>
 </tr>
 </tbody></table>
 
+<p>There are also additional properties available. For a comprehensive list, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">the API reference documentation</a>.</p>
+
 <h2 id="examples">Examples</h2>
 
-<h5 id="test-a-objects-object-level-acl">Test a object&rsquo;s object-level ACL</h5>
+<h5 id="test-an-objects-object-level-acl">Test an object&rsquo;s object-level ACL</h5>
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_s3_bucket_object(bucket_name: 'test_bucket', key: 'test_key') do
   its('object_acl.count') { should eq 1 }
+end
+</code></pre></div>
+<h5 id="test-an-objects-size-in-bytes-is-less-than-100000">Test an object&rsquo;s size in bytes is less than <code>100000</code></h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_s3_bucket_object(bucket_name: 'test_bucket', key: 'test_key') do
+  its('content_length') { should be &lt; 1_000_000 }
+end
+</code></pre></div>
+<h5 id="test-an-objects-type-is-image-jpeg">Test an object&rsquo;s type is &ldquo;image/jpeg&rdquo;</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_s3_bucket_object(bucket_name: 'test_bucket', key: 'test_key') do
+  its('content_type') { should eq "image/jpeg" }
 end
 </code></pre></div>
 <h5 id="check-to-see-if-a-object-appears-to-be-exposed-to-the-public">Check to see if a object appears to be exposed to the public</h5>

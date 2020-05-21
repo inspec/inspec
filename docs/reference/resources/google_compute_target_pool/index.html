@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_target_pool</code> is used to test a Google TargetPool resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_target_pool(project: 'chef-gcp-inspec', region: 'europe-west2', name: 'inspec-gcp-target-pool') do
   it { should exist }
@@ -26,7 +30,14 @@ end
 <li><p><code>id</code>: The unique identifier for the resource.</p></li>
 <li><p><code>instances</code>: A list of virtual machine instances serving this pool.  They must live in zones contained in the same region as this pool.</p></li>
 <li><p><code>name</code>: Name of the resource. Provided by the client when the resource is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression <code>[a-z]([-a-z0-9]*[a-z0-9])?</code> which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash.</p></li>
-<li><p><code>session_affinity</code>: Session affinity option. Must be one of these values:  - NONE: Connections from the same client IP may go to any instance in   the pool. - CLIENT<em>IP: Connections from the same client IP will go to the same   instance in the pool while that instance remains healthy. - CLIENT</em>IP_PROTO: Connections from the same client IP with the same   IP protocol will go to the same instance in the pool while that   instance remains healthy.</p></li>
+<li><p><code>session_affinity</code>: Session affinity option. Must be one of these values:  - NONE: Connections from the same client IP may go to any instance in   the pool. - CLIENT<em>IP: Connections from the same client IP will go to the same   instance in the pool while that instance remains healthy. - CLIENT</em>IP_PROTO: Connections from the same client IP with the same   IP protocol will go to the same instance in the pool while that   instance remains healthy.
+Possible values:</p>
+
+<ul>
+<li>NONE</li>
+<li>CLIENT_IP</li>
+<li>CLIENT<em>IP</em>PROTO</li>
+</ul></li>
 <li><p><code>region</code>: The region where the target pool resides.</p></li>
 </ul>
 

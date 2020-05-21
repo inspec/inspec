@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_https_health_check</code> is used to test a Google HttpsHealthCheck resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_https_health_check(project: 'chef-gcp-inspec', name: 'inspec-gcp-https-health-check') do
   it { should exist }

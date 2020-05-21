@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_routes</code> is used to test a Google Route resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_routes(project: 'chef-gcp-inspec') do
   its('count') { should be &gt;= 1 }
@@ -25,7 +29,8 @@ end
   * `next</em>hop<em>instances<code>: an array of</code>google</em>compute<em>route` next</em>hop<em>instance
   * `next</em>hop<em>ips<code>: an array of</code>google</em>compute<em>route` next</em>hop<em>ip
   * `next</em>hop<em>vpn</em>tunnels<code>: an array of</code>google<em>compute</em>route<code>next_hop_vpn_tunnel
-  *</code>next<em>hop</em>networks<code>: an array of</code>google<em>compute</em>route` next<em>hop</em>network</p>
+  *</code>next<em>hop</em>networks<code>: an array of</code>google<em>compute</em>route<code>next_hop_network
+  *</code>next<em>hop</em>ilbs<code>: an array of</code>google<em>compute</em>route` next<em>hop</em>ilb</p>
 
 <h2 id="filter-criteria">Filter Criteria</h2>
 

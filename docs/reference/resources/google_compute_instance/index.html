@@ -1,24 +1,28 @@
-<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the google_compute_instance Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_google_compute_instance docs_reference_resources_google_compute_instance_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="google_compute_instance">google_compute_instance</h1>
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the google_compute_instance resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_google_compute_instance docs_reference_resources_google_compute_instance_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h2 id="syntax">Syntax</h2>
 
-<p>Use the <code>google_compute_instance</code> InSpec audit resource to test properties of a single GCP compute instance.</p>
+<p>A <code>google_compute_instance</code> is used to test a Google Instance resource</p>
 
-<p><br></p>
+<h2 id="beta-resource">Beta Resource</h2>
 
-<h2 id="syntax">Syntax</h2>
-
-<p>A <code>google_compute_instance</code> resource block declares the tests for a single GCP instance by project, zone and name.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_instance(project: 'chef-inspec-gcp',  zone: 'us-east1-b', name: 'inspec-test-vm') do
-  it { should exist }
-  its('name') { should eq 'inspec-test-vm' }
-  its('zone') { should match 'us-east1-b' }
-end
-</code></pre></div>
-<p><br></p>
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
 
 <h2 id="examples">Examples</h2>
+<div class="highlight"><pre class="highlight plaintext"><code>
+describe google_compute_instance(project: 'chef-gcp-inspec', zone: 'zone', name: 'inspec-instance') do
+  it { should exist }
+  its('machine_type') { should match 'n1-standard-1' }
+  its('tags.items') { should include 'foo' }
+  its('tags.items') { should include 'bar' }
+  its('tag_count') { should cmp 2 }
+  its('service_account_scopes') { should include 'https://www.googleapis.com/auth/compute.readonly' }
+  its('metadata_keys') { should include '123' }
+  its('metadata_values') { should include 'asdf' }
+end
 
-<p>The following examples show how to use this InSpec audit resource.</p>
-
+describe google_compute_instance(project: 'chef-gcp-inspec', zone: 'zone', name: 'nonexistent') do
+  it { should_not exist }
+end
+</code></pre></div>
 <h3 id="test-that-a-gcp-compute-instance-does-not-exist">Test that a GCP compute instance does not exist</h3>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_instance(project: 'chef-inspec-gcp',  zone: 'us-east1-b', name: 'inspec-test-vm-not-there') do
   it { should_not exist }
@@ -81,19 +85,152 @@ end
   it { should match '^\d{1}-\d{2}$' }
 end
 </code></pre></div>
-<p><br></p>
-
 <h2 id="properties">Properties</h2>
 
-<ul>
-<li> <code>cpu_platform</code>, <code>creation_timestamp</code>, <code>deletion_protection</code>, <code>disks</code>, <code>id</code>, <code>kind</code>, <code>label_fingerprint</code>, <code>machine_type</code>, <code>metadata</code>, <code>name</code>, <code>network_interfaces</code>, <code>scheduling</code>, <code>start_restricted</code>, <code>status</code>, <code>tags</code>, <code>zone</code>, <code>labels_keys</code>, <code>labels_values</code>, <code>label_value_by_key</code>, <code>metadata_keys</code>, <code>metadata_values</code>, <code>metadata_value_by_key</code> </li>
-</ul>
+<p>Properties that can be accessed from the <code>google_compute_instance</code> resource:</p>
 
-<p><br></p>
+<ul>
+<li><p><code>can_ip_forward</code>: Allows this instance to send and receive packets with non-matching destination or source IPs. This is required if you plan to use this instance to forward routes.</p></li>
+<li><p><code>cpu_platform</code>: The CPU platform used by this instance.</p></li>
+<li><p><code>creation_timestamp</code>: Creation timestamp in RFC3339 text format.</p></li>
+<li><p><code>deletion_protection</code>: Whether the resource should be protected against deletion.</p></li>
+<li><p><code>disks</code>: An array of disks that are associated with the instances that are created from this template.</p>
+
+<ul>
+<li><code>auto_delete</code>: Specifies whether the disk will be auto-deleted when the instance is deleted (but not when the disk is detached from the instance).  Tip: Disks should be set to autoDelete=true so that leftover disks are not left behind on machine deletion.</li>
+<li><code>boot</code>: Indicates that this is a boot disk. The virtual machine will use the first partition of the disk for its root filesystem.</li>
+<li><code>device_name</code>: Specifies a unique device name of your choice that is reflected into the /dev/disk/by-id/google-* tree of a Linux operating system running within the instance. This name can be used to reference the device for mounting, resizing, and so on, from within the instance.</li>
+<li><code>disk_encryption_key</code>: Encrypts or decrypts a disk using a customer-supplied encryption key.
+
+<ul>
+<li><code>raw_key</code>: Specifies a 256-bit customer-supplied encryption key, encoded in RFC 4648 base64 to either encrypt or decrypt this resource.</li>
+<li><code>rsa_encrypted_key</code>: Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit customer-supplied encryption key to either encrypt or decrypt this resource.</li>
+<li><code>sha256</code>: The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied encryption key that protects this resource.</li>
+</ul></li>
+<li><code>index</code>: Assigns a zero-based index to this disk, where 0 is reserved for the boot disk. For example, if you have many disks attached to an instance, each disk would have a unique index number. If not specified, the server will choose an appropriate value.</li>
+<li><p><code>initialize_params</code>: Specifies the parameters for a new disk that will be created alongside the new instance. Use initialization parameters to create boot disks or local SSDs attached to the new instance.</p>
+
+<ul>
+<li><code>disk_name</code>: Specifies the disk name. If not specified, the default is to use the name of the instance.</li>
+<li><code>disk_size_gb</code>: Specifies the size of the disk in base-2 GB.</li>
+<li><code>disk_type</code>: Reference to a disk type. Specifies the disk type to use to create the instance. If not specified, the default is pd-standard.</li>
+<li><code>source_image</code>: The source image to create this disk. When creating a new instance, one of initializeParams.sourceImage or disks.source is required.  To create a disk with one of the public operating system images, specify the image by its family name.</li>
+<li><code>source_image_encryption_key</code>: The customer-supplied encryption key of the source image. Required if the source image is protected by a customer-supplied encryption key.  Instance templates do not store customer-supplied encryption keys, so you cannot create disks for instances in a managed instance group if the source images are encrypted with your own keys.</li>
+<li><code>raw_key</code>: Specifies a 256-bit customer-supplied encryption key, encoded in RFC 4648 base64 to either encrypt or decrypt this resource.</li>
+<li><code>sha256</code>: The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied encryption key that protects this resource.</li>
+</ul></li>
+<li><p><code>interface</code>: Specifies the disk interface to use for attaching this disk, which is either SCSI or NVME. The default is SCSI. Persistent disks must always use SCSI and the request will fail if you attempt to attach a persistent disk in any other format than SCSI.
+Possible values:</p>
+
+<ul>
+<li>SCSI</li>
+<li>NVME</li>
+</ul></li>
+<li><p><code>mode</code>: The mode in which to attach this disk, either READ<em>WRITE or READ</em>ONLY. If not specified, the default is to attach the disk in READ_WRITE mode.
+Possible values:</p>
+
+<ul>
+<li>READ_WRITE</li>
+<li>READ_ONLY</li>
+</ul></li>
+<li><p><code>source</code>: Reference to a disk. When creating a new instance, one of initializeParams.sourceImage or disks.source is required.  If desired, you can also attach existing non-root persistent disks using this property. This field is only applicable for persistent disks.</p></li>
+<li><p><code>type</code>: Specifies the type of the disk, either SCRATCH or PERSISTENT. If not specified, the default is PERSISTENT.
+Possible values:</p>
+
+<ul>
+<li>SCRATCH</li>
+<li>PERSISTENT</li>
+</ul></li>
+<li><p><code>licenses</code>: Any applicable publicly visible licenses.</p></li>
+</ul></li>
+<li><p><code>guest_accelerators</code>: List of the type and count of accelerator cards attached to the instance</p>
+
+<ul>
+<li><code>accelerator_count</code>: The number of the guest accelerator cards exposed to this instance.</li>
+<li><code>accelerator_type</code>: Full or partial URL of the accelerator type resource to expose to this instance.</li>
+</ul></li>
+<li><p><code>hostname</code>: The hostname of the instance to be created. The specified hostname must be RFC1035 compliant. If hostname is not specified, the default hostname is [INSTANCE<em>NAME].c.[PROJECT</em>ID].internal when using the global DNS, and [INSTANCE<em>NAME].[ZONE].c.[PROJECT</em>ID].internal when using zonal DNS.</p></li>
+<li><p><code>id</code>: The unique identifier for the resource. This identifier is defined by the server.</p></li>
+<li><p><code>label_fingerprint</code>: The fingerprint used for optimistic locking of this resource.  Used internally during updates.</p></li>
+<li><p><code>labels</code>: Labels to apply to this instance.  A list of key-&gt;value pairs.</p></li>
+<li><p><code>metadata</code>: The metadata key/value pairs to assign to instances that are created from this template. These pairs can consist of custom metadata or predefined keys.</p></li>
+<li><p><code>machine_type</code>: A reference to a machine type which defines VM kind.</p></li>
+<li><p><code>min_cpu_platform</code>: Specifies a minimum CPU platform for the VM instance. Applicable values are the friendly names of CPU platforms</p></li>
+<li><p><code>name</code>: The name of the resource, provided by the client when initially creating the resource. The resource name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression <code>[a-z]([-a-z0-9]*[a-z0-9])?</code> which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash.</p></li>
+<li><p><code>network_interfaces</code>: An array of configurations for this interface. This specifies how this interface is configured to interact with other network services, such as connecting to the internet. Only one network interface is supported per instance.</p>
+
+<ul>
+<li><code>access_configs</code>: An array of configurations for this interface. Currently, only one access config, ONE<em>TO</em>ONE_NAT, is supported. If there are no accessConfigs specified, then this instance will have no external internet access.
+
+<ul>
+<li><code>name</code>: The name of this access configuration. The default and recommended name is External NAT but you can use any arbitrary string you would like. For example, My external IP or Network Access.</li>
+<li><code>nat_ip</code>: Reference to an address. An external IP address associated with this instance. Specify an unused static external IP address available to the project or leave this field undefined to use an IP from a shared ephemeral IP address pool. If you specify a static external IP address, it must live in the same region as the zone of the instance.</li>
+<li><code>type</code>: The type of configuration. The default and only option is ONE<em>TO</em>ONE_NAT.
+Possible values:</li>
+<li>ONE<em>TO</em>ONE_NAT</li>
+<li><code>set_public_ptr</code>: Specifies whether a public DNS PTR record should be created to map the external IP address of the instance to a DNS domain name.</li>
+<li><code>public_ptr_domain_name</code>: The DNS domain name for the public PTR record. You can set this field only if the setPublicPtr field is enabled.</li>
+<li><code>network_tier</code>: This signifies the networking tier used for configuring this access configuration. If an AccessConfig is specified without a valid external IP address, an ephemeral IP will be created with this networkTier. If an AccessConfig with a valid external IP address is specified, it must match that of the networkTier associated with the Address resource owning that IP.
+Possible values:</li>
+<li>PREMIUM</li>
+<li>STANDARD</li>
+</ul></li>
+<li><code>alias_ip_ranges</code>: An array of alias IP ranges for this network interface. Can only be specified for network interfaces on subnet-mode networks.
+
+<ul>
+<li><code>ip_cidr_range</code>: The IP CIDR range represented by this alias IP range. This IP CIDR range must belong to the specified subnetwork and cannot contain IP addresses reserved by system or used by other network interfaces. This range may be a single IP address (e.g. 10.2.3.4), a netmask (e.g. /24) or a CIDR format string (e.g. 10.1.2.0/24).</li>
+<li><code>subnetwork_range_name</code>: Optional subnetwork secondary range name specifying the secondary range from which to allocate the IP CIDR range for this alias IP range. If left unspecified, the primary range of the subnetwork will be used.</li>
+</ul></li>
+<li><code>name</code>: The name of the network interface, generated by the server. For network devices, these are eth0, eth1, etc</li>
+<li><code>network</code>: Specifies the title of an existing network.  When creating an instance, if neither the network nor the subnetwork is specified, the default network global/networks/default is used; if the network is not specified but the subnetwork is specified, the network is inferred.</li>
+<li><code>network_ip</code>: An IPv4 internal network address to assign to the instance for this network interface. If not specified by the user, an unused internal IP is assigned by the system.</li>
+<li><code>subnetwork</code>: Reference to a VPC network. If the network resource is in legacy mode, do not provide this property.  If the network is in auto subnet mode, providing the subnetwork is optional. If the network is in custom subnet mode, then this field should be specified.</li>
+</ul></li>
+<li><p><code>scheduling</code>: Sets the scheduling options for this instance.</p>
+
+<ul>
+<li><code>automatic_restart</code>: Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). You can only set the automatic restart option for standard instances. Preemptible instances cannot be automatically restarted.</li>
+<li><code>on_host_maintenance</code>: Defines the maintenance behavior for this instance. For standard instances, the default behavior is MIGRATE. For preemptible instances, the default and only possible behavior is TERMINATE. For more information, see Setting Instance Scheduling Options.</li>
+<li><code>preemptible</code>: Defines whether the instance is preemptible. This can only be set during instance creation, it cannot be set or changed after the instance has been created.</li>
+</ul></li>
+<li><p><code>service_accounts</code>: A list of service accounts, with their specified scopes, authorized for this instance. Only one service account per VM instance is supported.</p>
+
+<ul>
+<li><code>email</code>: Email address of the service account.</li>
+<li><code>scopes</code>: The list of scopes to be made available for this service account.</li>
+</ul></li>
+<li><p><code>shielded_instance_config</code>: Configuration for various parameters related to shielded instances.</p>
+
+<ul>
+<li><code>enable_secure_boot</code>: Defines whether the instance has Secure Boot enabled.</li>
+<li><code>enable_vtpm</code>: Defines whether the instance has the vTPM enabled</li>
+<li><code>enable_integrity_monitoring</code>: Defines whether the instance has integrity monitoring enabled.</li>
+</ul></li>
+<li><p><code>status</code>: The status of the instance. One of the following values: PROVISIONING, STAGING, RUNNING, STOPPING, SUSPENDING, SUSPENDED, and TERMINATED.  As a user, use RUNNING to keep a machine &ldquo;on&rdquo; and TERMINATED to turn a machine off
+Possible values:</p>
+
+<ul>
+<li>PROVISIONING</li>
+<li>STAGING</li>
+<li>RUNNING</li>
+<li>STOPPING</li>
+<li>SUSPENDING</li>
+<li>SUSPENDED</li>
+<li>TERMINATED</li>
+</ul></li>
+<li><p><code>status_message</code>: An optional, human-readable explanation of the status.</p></li>
+<li><p><code>tags</code>: A list of tags to apply to this instance. Tags are used to identify valid sources or targets for network firewalls and are specified by the client during instance creation. The tags can be later modified by the setTags method. Each tag within the list must comply with RFC1035.</p>
+
+<ul>
+<li><code>fingerprint</code>: Specifies a fingerprint for this request, which is essentially a hash of the metadata&rsquo;s contents and used for optimistic locking. The fingerprint is initially generated by Compute Engine and changes after every request to modify or update metadata. You must always provide an up-to-date fingerprint hash in order to update or change metadata.</li>
+<li><code>items</code>: An array of tags. Each tag must be 1-63 characters long, and comply with RFC1035.</li>
+</ul></li>
+<li><p><code>zone</code>: A reference to the zone where the machine resides.</p></li>
+</ul>
 
 <h2 id="gcp-permissions">GCP Permissions</h2>
 
-<p>Ensure the <a href="https://console.cloud.google.com/apis/library/compute.googleapis.com/">Compute Engine API</a> is enabled for the project where the resource is located.</p>
+<p>Ensure the <a href="https://console.cloud.google.com/apis/library/compute.googleapis.com/">Compute Engine API</a> is enabled for the current project.</p>
 </column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
 (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
 (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);

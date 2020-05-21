@@ -1,22 +1,16 @@
-<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the google_sql_database_instance Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_google_sql_database_instance docs_reference_resources_google_sql_database_instance_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="google_sql_database_instance">google_sql_database_instance</h1>
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the google_sql_database_instance resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_google_sql_database_instance docs_reference_resources_google_sql_database_instance_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h2 id="syntax">Syntax</h2>
 
-<p>Use the <code>google_sql_database_instance</code> InSpec audit resource to test properties of a single GCP Cloud SQL Database instance.</p>
-
-<p><br></p>
-
-<h2 id="syntax">Syntax</h2>
-
-<p>A <code>google_sql_database_instance</code> resource block declares the tests for a single CP Cloud SQL Database instance by project and name.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe google_sql_database_instance(project: 'chef-inspec-gcp',  database: 'my-database') do
-  it { should exist }
-end
-</code></pre></div>
-<p><br></p>
+<p>A <code>google_sql_database_instance</code> is used to test a Google DatabaseInstance resource</p>
 
 <h2 id="examples">Examples</h2>
-
-<p>The following examples show how to use this InSpec audit resource.</p>
-
+<div class="highlight"><pre class="highlight plaintext"><code>
+describe google_sql_database_instance(project: 'chef-gcp-inspec', database: 'my-database') do
+  it { should exist }
+  its('state') { should eq 'RUNNABLE' }
+  its('backend_type') { should eq 'SECOND_GEN' }
+  its('database_version') { should eq 'MYSQL_5_7' }
+end
+</code></pre></div>
 <h3 id="test-that-a-gcp-cloud-sql-database-instance-is-in-the-expected-state">Test that a GCP Cloud SQL Database instance is in the expected state</h3>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_sql_database_instance(project: 'chef-inspec-gcp',  database: 'my-database') do
   its('state') { should eq 'RUNNABLE' }
@@ -43,19 +37,137 @@ end
   its('region') { should eq "europe-west2" }
 end
 </code></pre></div>
-<p><br></p>
-
 <h2 id="properties">Properties</h2>
 
-<ul>
-<li> <code>backend_type</code>, <code>connection_name</code>, <code>database_version</code>, <code>etag</code>, <code>gce_zone</code>, <code>instance_type</code>, <code>ip_addresses</code>, <code>kind</code>, <code>name</code>, <code>project</code>, <code>region</code>, <code>server_ca_cert</code>, <code>service_account_email_address</code>, <code>settings</code>, <code>state</code></li>
-</ul>
+<p>Properties that can be accessed from the <code>google_sql_database_instance</code> resource:</p>
 
-<p><br></p>
+<ul>
+<li><p><code>backend_type</code>: * FIRST<em>GEN: First Generation instance. MySQL only. * SECOND</em>GEN: Second Generation instance or PostgreSQL instance. * EXTERNAL: A database server that is not managed by Google.
+Possible values:</p>
+
+<ul>
+<li>FIRST_GEN</li>
+<li>SECOND_GEN</li>
+<li>EXTERNAL</li>
+</ul></li>
+<li><p><code>connection_name</code>: Connection name of the Cloud SQL instance used in connection strings.</p></li>
+<li><p><code>database_version</code>: The database engine type and version. For First Generation instances, can be MYSQL<em>5</em>5, or MYSQL<em>5</em>6. For Second Generation instances, can be MYSQL<em>5</em>6 or MYSQL<em>5</em>7. Defaults to MYSQL<em>5</em>6. PostgreSQL instances: POSTGRES<em>9</em>6  The databaseVersion property can not be changed after instance creation.
+Possible values:</p>
+
+<ul>
+<li>MYSQL<em>5</em>5</li>
+<li>MYSQL<em>5</em>6</li>
+<li>MYSQL<em>5</em>7</li>
+<li>POSTGRES<em>9</em>6</li>
+</ul></li>
+<li><p><code>failover_replica</code>: The name and status of the failover replica. This property is applicable only to Second Generation instances.</p>
+
+<ul>
+<li><code>available</code>: The availability status of the failover replica. A false status indicates that the failover replica is out of sync. The master can only failover to the failover replica when the status is true.</li>
+<li><code>name</code>: The name of the failover replica. If specified at instance creation, a failover replica is created for the instance. The name doesn&rsquo;t include the project ID. This property is applicable only to Second Generation instances.</li>
+</ul></li>
+<li><p><code>instance_type</code>: The instance type. This can be one of the following. * CLOUD<em>SQL</em>INSTANCE: A Cloud SQL instance that is not replicating   from a master. * ON<em>PREMISES</em>INSTANCE: An instance running on the customer&rsquo;s   premises. * READ<em>REPLICA</em>INSTANCE: A Cloud SQL instance configured as a   read-replica.
+Possible values:</p>
+
+<ul>
+<li>CLOUD<em>SQL</em>INSTANCE</li>
+<li>ON<em>PREMISES</em>INSTANCE</li>
+<li>READ<em>REPLICA</em>INSTANCE</li>
+</ul></li>
+<li><p><code>ip_addresses</code>: The assigned IP addresses for the instance.</p>
+
+<ul>
+<li><code>ip_address</code>: The IP address assigned.</li>
+<li><code>time_to_retire</code>: The due time for this IP to be retired in RFC 3339 format, for example 2012-11-15T16:19:00.094Z. This field is only available when the IP is scheduled to be retired.</li>
+<li><code>type</code>: The type of this IP address. A PRIMARY address is an address that can accept incoming connections. An OUTGOING address is the source address of connections originating from the instance, if supported.
+Possible values:
+
+<ul>
+<li>PRIMARY</li>
+<li>OUTGOING</li>
+</ul></li>
+</ul></li>
+<li><p><code>ipv6_address</code>: The IPv6 address assigned to the instance. This property is applicable only to First Generation instances.</p></li>
+<li><p><code>master_instance_name</code>: The name of the instance which will act as master in the replication setup.</p></li>
+<li><p><code>max_disk_size</code>: The maximum disk size of the instance in bytes.</p></li>
+<li><p><code>name</code>: Name of the Cloud SQL instance. This does not include the project ID.</p></li>
+<li><p><code>region</code>: The geographical region. Defaults to us-central or us-central1 depending on the instance type (First Generation or Second Generation/PostgreSQL).</p></li>
+<li><p><code>replica_configuration</code>: Configuration specific to failover replicas and read replicas.</p>
+
+<ul>
+<li><code>failover_target</code>: Specifies if the replica is the failover target. If the field is set to true the replica will be designated as a failover replica. In case the master instance fails, the replica instance will be promoted as the new master instance.  Only one replica can be specified as failover target, and the replica has to be in different zone with the master instance.</li>
+<li><code>mysql_replica_configuration</code>: MySQL specific configuration when replicating from a MySQL on-premises master. Replication configuration information such as the username, password, certificates, and keys are not stored in the instance metadata.  The configuration information is used only to set up the replication connection and is stored by MySQL in a file named master.info in the data directory.
+
+<ul>
+<li><code>ca_certificate</code>: PEM representation of the trusted CA&rsquo;s x509 certificate.</li>
+<li><code>client_certificate</code>: PEM representation of the slave&rsquo;s x509 certificate</li>
+<li><code>client_key</code>: PEM representation of the slave&rsquo;s private key. The corresponding public key is encoded in the client&rsquo;s certificate.</li>
+<li><code>connect_retry_interval</code>: Seconds to wait between connect retries. MySQL&rsquo;s default is 60 seconds.</li>
+<li><code>dump_file_path</code>: Path to a SQL dump file in Google Cloud Storage from which the slave instance is to be created. The URI is in the form gs://bucketName/fileName. Compressed gzip files (.gz) are also supported. Dumps should have the binlog coordinates from which replication should begin. This can be accomplished by setting &ndash;master-data to 1 when using mysqldump.</li>
+<li><code>master_heartbeat_period</code>: Interval in milliseconds between replication heartbeats.</li>
+<li><code>password</code>: The password for the replication connection.</li>
+<li><code>ssl_cipher</code>: A list of permissible ciphers to use for SSL encryption.</li>
+<li><code>username</code>: The username for the replication connection.</li>
+<li><code>verify_server_certificate</code>: Whether or not to check the master&rsquo;s Common Name value in the certificate that it sends during the SSL handshake.</li>
+</ul></li>
+<li><code>replica_names</code>: The replicas of the instance.</li>
+<li><code>service_account_email_address</code>: The service account email address assigned to the instance. This property is applicable only to Second Generation instances.</li>
+</ul></li>
+<li><p><code>settings</code>: The user settings.</p>
+
+<ul>
+<li><code>database_flags</code>: The database flags passed to the instance at startup
+
+<ul>
+<li><code>name</code>: The name of the flag. These flags are passed at instance startup, so include both server options and system variables for MySQL. Flags should be specified with underscores, not hyphens.</li>
+<li><code>value</code>: The value of the flag. Booleans should be set to on for true and off for false. This field must be omitted if the flag doesn&rsquo;t take a value.</li>
+</ul></li>
+<li><p><code>ip_configuration</code>: The settings for IP Management. This allows to enable or disable the instance IP and manage which external networks can connect to the instance. The IPv4 address cannot be disabled for Second Generation instances.</p>
+
+<ul>
+<li><code>ipv4_enabled</code>: Whether the instance should be assigned an IP address or not.</li>
+<li><code>authorized_networks</code>: The list of external networks that are allowed to connect to the instance using the IP. In CIDR notation, also known as &lsquo;slash&rsquo; notation (e.g. 192.168.100.0/24).</li>
+<li><code>expiration_time</code>: The time when this access control entry expires in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.</li>
+<li><code>name</code>: An optional label to identify this entry.</li>
+<li><code>value</code>: The whitelisted value for the access control list. For example, to grant access to a client from an external IP (IPv4 or IPv6) address or subnet, use that address or subnet here.</li>
+<li><code>require_ssl</code>: Whether the mysqld should default to &lsquo;REQUIRE X509&rsquo; for users connecting over IP.</li>
+</ul></li>
+<li><p><code>tier</code>: The tier or machine type for this instance, for example db-n1-standard-1. For MySQL instances, this field determines whether the instance is Second Generation (recommended) or First Generation.</p></li>
+<li><p><code>availability_type</code>: The availabilityType define if your postgres instance is run zonal  or regional.
+Possible values:</p>
+
+<ul>
+<li>ZONAL</li>
+<li>REGIONAL</li>
+</ul></li>
+<li><p><code>backup_configuration</code>: The daily backup configuration for the instance.</p>
+
+<ul>
+<li><code>enabled</code>: Enable Autobackup for your instance.</li>
+<li><code>binary_log_enabled</code>: Whether binary log is enabled. If backup configuration  is disabled, binary log must be disabled as well. MySQL only.</li>
+<li><code>start_time</code>: Define the backup start time in UTC (HH:MM)</li>
+</ul></li>
+<li><p><code>settings_version</code>: The version of instance settings. This is a required field for  update method to make sure concurrent updates are handled properly.  During update, use the most recent settingsVersion value for this  instance and do not try to update this value.</p></li>
+<li><p><code>user_labels</code>: User-provided labels, represented as a dictionary where each label is a single key value pair.</p></li>
+</ul></li>
+<li><p><code>gce_zone</code>: The Compute Engine zone that the instance is currently serving from. This value could be different from the zone that was specified when the instance was created if the instance has failed over to its secondary zone.</p></li>
+<li><p><code>state</code>: The current serving state of the database instance.
+Possible values:</p>
+
+<ul>
+<li>SQL<em>INSTANCE</em>STATE_UNSPECIFIED</li>
+<li>RUNNABLE</li>
+<li>SUSPENDED</li>
+<li>PENDING_DELETE</li>
+<li>PENDING_CREATE</li>
+<li>MAINTENANCE</li>
+<li>FAILED</li>
+</ul></li>
+</ul>
 
 <h2 id="gcp-permissions">GCP Permissions</h2>
 
-<p>Ensure the <a href="https://console.cloud.google.com/projectselector/apis/api/sqladmin.googleapis.com/overview">Cloud SQL API</a> is enabled for the project.</p>
+<p>Ensure the <a href="https://console.cloud.google.com/apis/library/sqladmin.googleapis.com/">Cloud SQL Admin API</a> is enabled for the current project.</p>
 </column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
 (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
 (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);

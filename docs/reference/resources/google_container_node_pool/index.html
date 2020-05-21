@@ -1,62 +1,131 @@
-<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the google_container_node_pool Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_google_container_node_pool docs_reference_resources_google_container_node_pool_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="google_container_node_pool">google_container_node_pool</h1>
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the google_container_node_pool resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_google_container_node_pool docs_reference_resources_google_container_node_pool_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h2 id="syntax">Syntax</h2>
 
-<p>Use the <code>google_container_node_pool</code> InSpec audit resource to test properties of a single GCP container node pool.</p>
+<p>A <code>google_container_node_pool</code> is used to test a Google NodePool resource</p>
 
-<p><br></p>
+<h2 id="beta-resource">Beta Resource</h2>
 
-<h2 id="syntax">Syntax</h2>
-
-<p>A <code>google_container_node_pool</code> resource block declares the tests for a single GCP container node pool by project, zone, cluster name and nodepool name.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe google_container_node_pool(project: 'chef-inspec-gcp', zone: 'europe-west2-a', cluster_name: 'inspec-gcp-kube-cluster', nodepool_name: 'inspec-gcp-kube-node-pool') do
-  it { should exist }
-  its('name') { should eq 'inspec-gcp-kube-node-pool' }
-  its('zone') { should match 'europe-west2-a' }
-end
-</code></pre></div>
-<p><br></p>
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
 
 <h2 id="examples">Examples</h2>
+<div class="highlight"><pre class="highlight plaintext"><code>describe google_container_node_pool(project: 'chef-gcp-inspec', location: 'europe-west2-a', cluster_name: 'gcp-inspec-kube-cluster', nodepool_name: 'inspec-gcp-regional-node-pool') do
+  it { should exist }
+  its('initial_node_count') { should eq '1'}
+end
 
-<p>The following examples show how to use this InSpec audit resource.</p>
-
+describe google_container_node_pool(project: 'chef-gcp-inspec', location: 'europe-west2-a', cluster_name: 'gcp-inspec-kube-cluster', nodepool_name: 'nonexistent') do
+  it { should_not exist }
+end
+</code></pre></div>
 <h3 id="test-that-a-gcp-container-node-pool-is-in-a-particular-state-e-g-running">Test that a GCP container node pool is in a particular state e.g. &ldquo;RUNNING&rdquo;</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe google_container_node_pool(project: 'chef-inspec-gcp', zone: 'europe-west2-a', cluster_name: 'inspec-gcp-kube-cluster', nodepool_name: 'inspec-gcp-kube-node-pool') do
+<div class="highlight"><pre class="highlight plaintext"><code>describe google_container_node_pool(project: 'chef-inspec-gcp', locations: 'europe-west2-a', cluster_name: 'inspec-gcp-kube-cluster', nodepool_name: 'inspec-gcp-kube-node-pool') do
   its('status') { should eq 'RUNNING' }
 end
 </code></pre></div>
 <h3 id="test-gcp-container-node-pool-disk-size-in-gb-is-as-expected">Test GCP container node pool disk size in GB is as expected</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe google_container_node_pool(project: 'chef-inspec-gcp', zone: 'europe-west2-a', cluster_name: 'inspec-gcp-kube-cluster', nodepool_name: 'inspec-gcp-kube-node-pool') do
+<div class="highlight"><pre class="highlight plaintext"><code>describe google_container_node_pool(project: 'chef-inspec-gcp', locations: 'europe-west2-a', cluster_name: 'inspec-gcp-kube-cluster', nodepool_name: 'inspec-gcp-kube-node-pool') do
   its('node_config.disk_size_gb'){should eq 100}
 end
 </code></pre></div>
 <h3 id="test-gcp-container-node-pool-machine-type-is-as-expected">Test GCP container node pool machine type is as expected</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe google_container_node_pool(project: 'chef-inspec-gcp', zone: 'europe-west2-a', cluster_name: 'inspec-gcp-kube-cluster', nodepool_name: 'inspec-gcp-kube-node-pool') do
+<div class="highlight"><pre class="highlight plaintext"><code>describe google_container_node_pool(project: 'chef-inspec-gcp', locations: 'europe-west2-a', cluster_name: 'inspec-gcp-kube-cluster', nodepool_name: 'inspec-gcp-kube-node-pool') do
   its('node_config.machine_type'){should eq "n1-standard-1"}
 end
 </code></pre></div>
 <h3 id="test-gcp-container-node-pool-node-image-type-is-as-expected">Test GCP container node pool node image type is as expected</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe google_container_node_pool(project: 'chef-inspec-gcp', zone: 'europe-west2-a', cluster_name: 'inspec-gcp-kube-cluster', nodepool_name: 'inspec-gcp-kube-node-pool') do
+<div class="highlight"><pre class="highlight plaintext"><code>describe google_container_node_pool(project: 'chef-inspec-gcp', locations: 'europe-west2-a', cluster_name: 'inspec-gcp-kube-cluster', nodepool_name: 'inspec-gcp-kube-node-pool') do
   its('node_config.image_type'){should eq "COS"}
 end
 </code></pre></div>
 <h3 id="test-gcp-container-node-pool-initial-node-count-is-as-expected">Test GCP container node pool initial node count is as expected</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe google_container_node_pool(project: 'chef-inspec-gcp', zone: 'europe-west2-a', cluster_name: 'inspec-gcp-kube-cluster', nodepool_name: 'inspec-gcp-kube-node-pool') do
+<div class="highlight"><pre class="highlight plaintext"><code>describe google_container_node_pool(project: 'chef-inspec-gcp', locations: 'europe-west2-a', cluster_name: 'inspec-gcp-kube-cluster', nodepool_name: 'inspec-gcp-kube-node-pool') do
   its('initial_node_count'){should eq 3}
 end
 </code></pre></div>
-<p><br></p>
-
 <h2 id="properties">Properties</h2>
 
-<ul>
-<li> <code>config</code>, <code>initial_node_count</code>, <code>instance_group_urls</code>, <code>management</code>, <code>name</code>, <code>status</code>, <code>version</code></li>
-</ul>
+<p>Properties that can be accessed from the <code>google_container_node_pool</code> resource:</p>
 
-<p><br></p>
+<ul>
+<li><p><code>name</code>: The name of the node pool.</p></li>
+<li><p><code>config</code>: The node configuration of the pool.</p>
+
+<ul>
+<li><code>machine_type</code>: The name of a Google Compute Engine machine type (e.g. n1-standard-1).  If unspecified, the default machine type is n1-standard-1.</li>
+<li><code>disk_size_gb</code>: Size of the disk attached to each node, specified in GB. The smallest allowed disk size is 10GB. If unspecified, the default disk size is 100GB.</li>
+<li><code>oauth_scopes</code>: The set of Google API scopes to be made available on all of the node VMs under the &ldquo;default&rdquo; service account.  The following scopes are recommended, but not required, and by default are not included:  https://www.googleapis.com/auth/compute is required for mounting persistent storage on your nodes. https://www.googleapis.com/auth/devstorage.read_only is required for communicating with gcr.io (the Google Container Registry).  If unspecified, no scopes are added, unless Cloud Logging or Cloud Monitoring are enabled, in which case their required scopes will be added.</li>
+<li><code>service_account</code>: The Google Cloud Platform Service Account to be used by the node VMs.  If no Service Account is specified, the &ldquo;default&rdquo; service account is used.</li>
+<li><code>metadata</code>: The metadata key/value pairs assigned to instances in the cluster.  Keys must conform to the regexp [a-zA-Z0-9-_]+ and be less than 128 bytes in length. These are reflected as part of a URL in the metadata server. Additionally, to avoid ambiguity, keys must not conflict with any other metadata keys for the project or be one of the four reserved keys: &ldquo;instance-template&rdquo;, &ldquo;kube-env&rdquo;, &ldquo;startup-script&rdquo;, and &ldquo;user-data&rdquo;  Values are free-form strings, and only have meaning as interpreted by the image running in the instance. The only restriction placed on them is that each value&rsquo;s size must be less than or equal to 32 KB.  The total size of all keys and values must be less than 512 KB.  An object containing a list of &ldquo;key&rdquo;: value pairs. Example: { &ldquo;name&rdquo;: &ldquo;wrench&rdquo;, &ldquo;mass&rdquo;: &ldquo;1.3kg&rdquo;, &ldquo;count&rdquo;: &ldquo;3&rdquo; }.</li>
+<li><code>image_type</code>: The image type to use for this node.  Note that for a given image type, the latest version of it will be used.</li>
+<li><code>labels</code>: The map of Kubernetes labels (key/value pairs) to be applied to each node. These will added in addition to any default label(s) that Kubernetes may apply to the node. In case of conflict in label keys, the applied set may differ depending on the Kubernetes version &ndash; it&rsquo;s best to assume the behavior is undefined and conflicts should be avoided. For more information, including usage and the valid values, see:   http://kubernetes.io/v1.1/docs/user-guide/labels.html  An object containing a list of &ldquo;key&rdquo;: value pairs. Example: { &ldquo;name&rdquo;: &ldquo;wrench&rdquo;, &ldquo;mass&rdquo;: &ldquo;1.3kg&rdquo;, &ldquo;count&rdquo;: &ldquo;3&rdquo; }.</li>
+<li><code>local_ssd_count</code>: The number of local SSD disks to be attached to the node.  The limit for this value is dependant upon the maximum number of disks available on a machine per zone. See:  https://cloud.google.com/compute/docs/disks/local-ssd#local<em>ssd</em>limits  for more information.</li>
+<li><code>tags</code>: The list of instance tags applied to all nodes. Tags are used to identify valid sources or targets for network firewalls and are specified by the client during cluster or node pool creation. Each tag within the list must comply with RFC1035.</li>
+<li><code>preemptible</code>: Whether the nodes are created as preemptible VM instances. See: https://cloud.google.com/compute/docs/instances/preemptible for more information about preemptible VM instances.</li>
+<li><code>accelerators</code>: A list of hardware accelerators to be attached to each node
+
+<ul>
+<li><code>accelerator_count</code>: The number of the accelerator cards exposed to an instance.</li>
+<li><code>accelerator_type</code>: The accelerator type resource name</li>
+</ul></li>
+<li><code>disk_type</code>: Type of the disk attached to each node (e.g. &lsquo;pd-standard&rsquo; or &lsquo;pd-ssd&rsquo;)  If unspecified, the default disk type is &lsquo;pd-standard&rsquo;</li>
+<li><code>min_cpu_platform</code>: Minimum CPU platform to be used by this instance. The instance may be scheduled on the specified or newer CPU platform</li>
+<li><code>taints</code>: List of kubernetes taints to be applied to each node.
+
+<ul>
+<li><code>key</code>: Key for taint</li>
+<li><code>value</code>: Value for taint</li>
+<li><code>effect</code>: Effect for taint</li>
+</ul></li>
+</ul></li>
+<li><p><code>initial_node_count</code>: The initial node count for the pool. You must ensure that your Compute Engine resource quota is sufficient for this number of instances. You must also have available firewall and routes quota.</p></li>
+<li><p><code>status</code>: Status of nodes in this pool instance</p></li>
+<li><p><code>status_message</code>: Additional information about the current status of this node pool instance</p></li>
+<li><p><code>version</code>: The version of the Kubernetes of this node.</p></li>
+<li><p><code>autoscaling</code>: Autoscaler configuration for this NodePool. Autoscaler is enabled only if a valid configuration is present.</p>
+
+<ul>
+<li><code>enabled</code>: Is autoscaling enabled for this node pool.</li>
+<li><code>min_node_count</code>: Minimum number of nodes in the NodePool. Must be &gt;= 1 and &lt;= maxNodeCount.</li>
+<li><code>max_node_count</code>: Maximum number of nodes in the NodePool. Must be &gt;= minNodeCount. There has to enough quota to scale up the cluster.</li>
+</ul></li>
+<li><p><code>management</code>: Management configuration for this NodePool.</p>
+
+<ul>
+<li><code>auto_upgrade</code>: A flag that specifies whether node auto-upgrade is enabled for the node pool. If enabled, node auto-upgrade helps keep the nodes in your node pool up to date with the latest release version of Kubernetes.</li>
+<li><code>auto_repair</code>: A flag that specifies whether the node auto-repair is enabled for the node pool. If enabled, the nodes in this node pool will be monitored and, if they fail health checks too many times, an automatic repair action will be triggered.</li>
+<li><code>upgrade_options</code>: Specifies the Auto Upgrade knobs for the node pool.
+
+<ul>
+<li><code>auto_upgrade_start_time</code>: This field is set when upgrades are about to commence with the approximate start time for the upgrades, in RFC3339 text format.</li>
+<li><code>description</code>: This field is set when upgrades are about to commence with the description of the upgrade.</li>
+</ul></li>
+</ul></li>
+<li><p><code>max_pods_constraint</code>: The constraint on the maximum number of pods that can be run simultaneously on a node in the node pool.</p>
+
+<ul>
+<li><code>max_pods_per_node</code>: Constraint enforced on the max num of pods per node.</li>
+</ul></li>
+<li><p><code>conditions</code>: Which conditions caused the current node pool state.</p>
+
+<ul>
+<li><code>code</code>: Machine-friendly representation of the condition
+Possible values:
+
+<ul>
+<li>UNKNOWN</li>
+<li>GCE_STOCKOUT</li>
+<li>GKE<em>SERVICE</em>ACCOUNT_DELETED</li>
+<li>GCE<em>QUOTA</em>EXCEEDED</li>
+<li>SET<em>BY</em>OPERATOR</li>
+</ul></li>
+</ul></li>
+<li><p><code>pod_ipv4_cidr_size</code>: The pod CIDR block size per node in this node pool.</p></li>
+<li><p><code>cluster</code>: The cluster this node pool belongs to.</p></li>
+<li><p><code>location</code>: The location where the node pool is deployed</p></li>
+</ul>
 
 <h2 id="gcp-permissions">GCP Permissions</h2>
 
-<p>Ensure the <a href="https://console.cloud.google.com/apis/library/container.googleapis.com">Kubernetes Engine API</a> is enabled for the project where the resource is located.</p>
+<p>Ensure the <a href="https://console.cloud.google.com/apis/library/container.googleapis.com/">Kubernetes Engine API</a> is enabled for the current project.</p>
 </column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
 (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
 (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);

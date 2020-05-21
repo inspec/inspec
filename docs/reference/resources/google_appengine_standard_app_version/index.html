@@ -19,7 +19,35 @@ end
 <li><p><code>version_id</code>: Relative name of the version within the service. For example, <code>v1</code>. Version names can contain only lowercase letters, numbers, or hyphens. Reserved names,&ldquo;default&rdquo;, &ldquo;latest&rdquo;, and any name with the prefix &ldquo;ah-&rdquo;. </p></li>
 <li><p><code>runtime</code>: Desired runtime. Example python27.</p></li>
 <li><p><code>threadsafe</code>: Whether multiple requests can be dispatched to this version at once.</p></li>
-<li><p><code>instance_class</code>: Instance class that is used to run this version. Valid values are AutomaticScaling F1, F2, F4, F4_1G (Only AutomaticScaling is supported at the moment)</p></li>
+<li><p><code>instance_class</code>: Instance class that is used to run this version. Valid values are AutomaticScaling: F1, F2, F4, F4<em>1G BasicScaling or ManualScaling: B1, B2, B4, B4</em>1G, B8 Defaults to F1 for AutomaticScaling and B2 for ManualScaling and BasicScaling. If no scaling is specified, AutomaticScaling is chosen.</p></li>
+<li><p><code>automatic_scaling</code>: Automatic scaling is based on request rate, response latencies, and other application metrics.</p>
+
+<ul>
+<li><code>max_concurrent_requests</code>: Number of concurrent requests an automatic scaling instance can accept before the scheduler spawns a new instance.  Defaults to a runtime-specific value.</li>
+<li><code>max_idle_instances</code>: Maximum number of idle instances that should be maintained for this version.</li>
+<li><code>max_pending_latency</code>: Maximum amount of time that a request should wait in the pending queue before starting a new instance to handle it. A duration in seconds with up to nine fractional digits, terminated by &lsquo;s&rsquo;. Example: &ldquo;3.5s&rdquo;.</li>
+<li><code>min_idle_instances</code>: Minimum number of idle instances that should be maintained for this version. Only applicable for the default version of a service.</li>
+<li><code>min_pending_latency</code>: Minimum amount of time a request should wait in the pending queue before starting a new instance to handle it. A duration in seconds with up to nine fractional digits, terminated by &lsquo;s&rsquo;. Example: &ldquo;3.5s&rdquo;.</li>
+<li><code>standard_scheduler_settings</code>: Scheduler settings for standard environment.
+
+<ul>
+<li><code>target_cpu_utilization</code>: Target CPU utilization ratio to maintain when scaling. Should be a value in the range [0.50, 0.95], zero, or a negative value.</li>
+<li><code>target_throughput_utilization</code>: Target throughput utilization ratio to maintain when scaling. Should be a value in the range [0.50, 0.95], zero, or a negative value.</li>
+<li><code>min_instances</code>: Minimum number of instances to run for this version. Set to zero to disable minInstances configuration.</li>
+<li><code>max_instances</code>: Maximum number of instances to run for this version. Set to zero to disable maxInstances configuration.</li>
+</ul></li>
+</ul></li>
+<li><p><code>basic_scaling</code>: Basic scaling creates instances when your application receives requests. Each instance will be shut down when the application becomes idle. Basic scaling is ideal for work that is intermittent or driven by user activity.</p>
+
+<ul>
+<li><code>idle_timeout</code>: Duration of time after the last request that an instance must wait before the instance is shut down. A duration in seconds with up to nine fractional digits, terminated by &lsquo;s&rsquo;. Example: &ldquo;3.5s&rdquo;. Defaults to 900s.</li>
+<li><code>max_instances</code>: Maximum number of instances to create for this version. Must be in the range [1.0, 200.0].</li>
+</ul></li>
+<li><p><code>manual_scaling</code>: A service with manual scaling runs continuously, allowing you to perform complex initialization and rely on the state of its memory over time.</p>
+
+<ul>
+<li><code>instances</code>: Number of instances to assign to the service at the start.  <strong>Note:</strong> When managing the number of instances at runtime through the App Engine Admin API or the (now deprecated) Python 2  Modules API set<em>num</em>instances() you must use <code>lifecycle.ignore_changes = [&quot;manual_scaling&quot;[0].instances]</code> to prevent drift detection.</li>
+</ul></li>
 </ul>
 
 <h2 id="gcp-permissions">GCP Permissions</h2>

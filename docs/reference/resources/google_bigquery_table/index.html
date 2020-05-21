@@ -40,7 +40,14 @@ end
 <li><p><code>num_long_term_bytes</code>: The number of bytes in the table that are considered &ldquo;long-term storage&rdquo;.</p></li>
 <li><p><code>num_rows</code>: The number of rows of data in this table, excluding any data in the streaming buffer.</p></li>
 <li><p><code>require_partition_filter</code>: If set to true, queries over this table require a partition filter that can be used for partition elimination to be specified.</p></li>
-<li><p><code>type</code>: Describes the table type</p></li>
+<li><p><code>type</code>: Describes the table type
+Possible values:</p>
+
+<ul>
+<li>TABLE</li>
+<li>VIEW</li>
+<li>EXTERNAL</li>
+</ul></li>
 <li><p><code>view</code>: The view definition.</p>
 
 <ul>
@@ -57,7 +64,12 @@ end
 <ul>
 <li><code>expiration_ms</code>: Number of milliseconds for which to keep the storage for a partition.</li>
 <li><code>field</code>: If not set, the table is partitioned by pseudo column, referenced via either &lsquo;<em>PARTITIONTIME&rsquo; as TIMESTAMP type, or &lsquo;</em>PARTITIONDATE&rsquo; as DATE type. If field is specified, the table is instead partitioned by this field. The field must be a top-level TIMESTAMP or DATE field. Its mode must be NULLABLE or REQUIRED.</li>
-<li><code>type</code>: The only type supported is DAY, which will generate one partition per day.</li>
+<li><code>type</code>: The only type supported is DAY, which will generate one partition per day.
+Possible values:
+
+<ul>
+<li>DAY</li>
+</ul></li>
 </ul></li>
 <li><p><code>streaming_buffer</code>: Contains information regarding this table&rsquo;s streaming buffer, if one is present. This field will be absent if the table is not being streamed to or if there is no data in the streaming buffer.</p>
 
@@ -74,9 +86,23 @@ end
 <ul>
 <li><code>description</code>: The field description. The maximum length is 1,024 characters.</li>
 <li><code>fields</code>: Describes the nested schema fields if the type property is set to RECORD.</li>
-<li><code>mode</code>: The field mode</li>
+<li><code>mode</code>: The field mode
+Possible values:</li>
+<li>NULLABLE</li>
+<li>REQUIRED</li>
+<li>REPEATED</li>
 <li><code>name</code>: The field name</li>
-<li><code>type</code>: The field data type</li>
+<li><code>type</code>: The field data type
+Possible values:</li>
+<li>STRING</li>
+<li>BYTES</li>
+<li>INTEGER</li>
+<li>FLOAT</li>
+<li>TIMESTAMP</li>
+<li>DATE</li>
+<li>TIME</li>
+<li>DATETIME</li>
+<li>RECORD</li>
 </ul></li>
 </ul></li>
 <li><p><code>encryption_configuration</code>: Custom encryption configuration</p>
@@ -89,10 +115,26 @@ end
 
 <ul>
 <li><code>autodetect</code>: Try to detect schema and format options automatically. Any option specified explicitly will be honored.</li>
-<li><code>compression</code>: The compression type of the data source</li>
+<li><code>compression</code>: The compression type of the data source
+Possible values:
+
+<ul>
+<li>GZIP</li>
+<li>NONE</li>
+</ul></li>
 <li><code>ignore_unknown_values</code>: Indicates if BigQuery should allow extra values that are not represented in the table schema</li>
 <li><code>max_bad_records</code>: The maximum number of bad records that BigQuery can ignore when reading data</li>
-<li><code>source_format</code>: The data format</li>
+<li><code>source_format</code>: The data format
+Possible values:
+
+<ul>
+<li>CSV</li>
+<li>GOOGLE_SHEETS</li>
+<li>NEWLINE<em>DELIMITED</em>JSON</li>
+<li>AVRO</li>
+<li>DATASTORE_BACKUP</li>
+<li>BIGTABLE</li>
+</ul></li>
 <li><code>source_uris</code>: The fully-qualified URIs that point to your data in Google Cloud. For Google Cloud Storage URIs: Each URI can contain one &lsquo;<em>&rsquo; wildcard character and it must come after the &lsquo;bucket&rsquo; name. Size limits related to load jobs apply to external data sources. For Google Cloud Bigtable URIs: Exactly one URI can be specified and it has be a fully specified and valid HTTPS URL for a Google Cloud Bigtable table. For Google Cloud Datastore backups, exactly one URI can be specified. Also, the &lsquo;</em>&rsquo; wildcard character is not allowed.</li>
 <li><p><code>schema</code>: The schema for the data. Schema is required for CSV and JSON formats</p>
 
@@ -100,9 +142,29 @@ end
 <li><code>fields</code>: Describes the fields in a table.</li>
 <li><code>description</code>: The field description</li>
 <li><code>fields</code>: Describes the nested schema fields if the type property is set to RECORD</li>
-<li><code>mode</code>: Field mode.</li>
+<li><code>mode</code>: Field mode.
+Possible values:
+
+<ul>
+<li>NULLABLE</li>
+<li>REQUIRED</li>
+<li>REPEATED</li>
+</ul></li>
 <li><code>name</code>: Field name</li>
-<li><code>type</code>: Field data type</li>
+<li><code>type</code>: Field data type
+Possible values:
+
+<ul>
+<li>STRING</li>
+<li>BYTES</li>
+<li>INTEGER</li>
+<li>FLOAT</li>
+<li>TIMESTAMP</li>
+<li>DATE</li>
+<li>TIME</li>
+<li>DATETIME</li>
+<li>RECORD</li>
+</ul></li>
 </ul></li>
 <li><p><code>google_sheets_options</code>: Additional options if sourceFormat is set to GOOGLE_SHEETS.</p>
 
@@ -114,7 +176,10 @@ end
 <ul>
 <li><code>allow_jagged_rows</code>: Indicates if BigQuery should accept rows that are missing trailing optional columns</li>
 <li><code>allow_quoted_newlines</code>: Indicates if BigQuery should allow quoted data sections that contain newline characters in a CSV file</li>
-<li><code>encoding</code>: The character encoding of the data</li>
+<li><code>encoding</code>: The character encoding of the data
+Possible values:</li>
+<li>UTF-8</li>
+<li>ISO-8859-1</li>
 <li><code>field_delimiter</code>: The separator for fields in a CSV file</li>
 <li><code>quote</code>: The value that is used to quote data sections in a CSV file</li>
 <li><code>skip_leading_rows</code>: The number of rows at the top of a CSV file that BigQuery will skip when reading the data.</li>
@@ -128,16 +193,40 @@ end
 <li><code>columns</code>: Lists of columns that should be exposed as individual fields as opposed to a list of (column name, value) pairs.
 
 <ul>
-<li><code>encoding</code>: The encoding of the values when the type is not STRING</li>
+<li><code>encoding</code>: The encoding of the values when the type is not STRING
+Possible values:</li>
+<li>TEXT</li>
+<li>BINARY</li>
 <li><code>field_name</code>: If the qualifier is not a valid BigQuery field identifier, a valid identifier must be provided as the column field name and is used as field name in queries.</li>
 <li><code>only_read_latest</code>: If this is set, only the latest version of value in this column are exposed</li>
 <li><code>qualifier_string</code>: Qualifier of the column</li>
-<li><code>type</code>: The type to convert the value in cells of this column</li>
+<li><code>type</code>: The type to convert the value in cells of this column
+Possible values:</li>
+<li>BYTES</li>
+<li>STRING</li>
+<li>INTEGER</li>
+<li>FLOAT</li>
+<li>BOOLEAN</li>
 </ul></li>
-<li><code>encoding</code>: The encoding of the values when the type is not STRING</li>
+<li><code>encoding</code>: The encoding of the values when the type is not STRING
+Possible values:
+
+<ul>
+<li>TEXT</li>
+<li>BINARY</li>
+</ul></li>
 <li><code>family_id</code>: Identifier of the column family.</li>
 <li><code>only_read_latest</code>: If this is set only the latest version of value are exposed for all columns in this column family</li>
-<li><code>type</code>: The type to convert the value in cells of this column family</li>
+<li><code>type</code>: The type to convert the value in cells of this column family
+Possible values:
+
+<ul>
+<li>BYTES</li>
+<li>STRING</li>
+<li>INTEGER</li>
+<li>FLOAT</li>
+<li>BOOLEAN</li>
+</ul></li>
 </ul></li>
 </ul></li>
 <li><p><code>dataset</code>: Name of the dataset</p></li>

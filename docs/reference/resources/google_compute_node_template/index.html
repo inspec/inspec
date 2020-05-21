@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_node_template</code> is used to test a Google NodeTemplate resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>
 describe google_compute_node_template(project: 'chef-gcp-inspec', region: 'europe-west2', name: 'inspec-node-template') do
@@ -29,6 +33,17 @@ end
 <li><code>cpus</code>: Number of virtual CPUs to use.</li>
 <li><code>memory</code>: Physical memory available to the node, defined in MB.</li>
 <li><code>local_ssd</code>: Use local SSD</li>
+</ul></li>
+<li><p><code>server_binding</code>: (Beta only) The server binding policy for nodes using this template. Determines where the nodes should restart following a maintenance event.</p>
+
+<ul>
+<li><code>type</code>: Type of server binding policy. If <code>RESTART_NODE_ON_ANY_SERVER</code>, nodes using this template will restart on any physical server following a maintenance event.  If <code>RESTART_NODE_ON_MINIMAL_SERVER</code>, nodes using this template will restart on the same physical server following a maintenance event, instead of being live migrated to or restarted on a new physical server. This option may be useful if you are using software licenses tied to the underlying server characteristics such as physical sockets or cores, to avoid the need for additional licenses when maintenance occurs. However, VMs on such nodes will experience outages while maintenance is applied.
+Possible values:
+
+<ul>
+<li>RESTART<em>NODE</em>ON<em>ANY</em>SERVER</li>
+<li>RESTART<em>NODE</em>ON<em>MINIMAL</em>SERVERS</li>
+</ul></li>
 </ul></li>
 <li><p><code>region</code>: Region where nodes using the node template will be created</p></li>
 </ul>

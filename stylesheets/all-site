@@ -367,7 +367,7 @@ kbd {
 p + .stat {
   margin-top: -1rem; }
 
-.no-bullet, .main-nav--links, ul.footer--links {
+.no-bullet, ul.footer--links, .main-nav--links {
   margin-left: 0;
   list-style: none; }
 
@@ -3591,7 +3591,7 @@ table.hover tr:nth-of-type(even):hover {
   src: local("Muli SemiBold"), local("Muli-SemiBold"), url("../fonts/muli-v11-latin-600.eot?#iefix") format("embedded-opentype"), url("../fonts/muli-v11-latin-600.woff2") format("woff2"), url("../fonts/muli-v11-latin-600.woff") format("woff"), url("../fonts/muli-v11-latin-600.ttf") format("truetype"), url("../fonts/muli-v11-latin-600.svg#Muli") format("svg");
   /* Legacy iOS */ }
 
-a, .a-purple, .btn-lg, .btn-sm, .copy, .text-focus {
+.text-focus, .copy, .btn-sm, .btn-lg, .a-purple, a {
   -moz-transition: ease-in-out all .5s;
   -webkit-transition: ease-in-out all .5s;
   transition: ease-in-out all .5s;
@@ -3605,19 +3605,16 @@ body, html {
   @media screen and (max-width: 768px) {
     .mobile-hide {
       display: none !important; } }
-
 .mobile-show {
   display: none; }
   @media screen and (max-width: 768px) {
     .mobile-show {
       display: block !important; } }
-
 .mobile-12 {
   display: initial; }
   @media screen and (max-width: 768px) {
     .mobile-12 {
       width: 100% !important; } }
-
 @media screen and (max-width: 768px) {
   .mobile-row {
     display: block !important;
@@ -3771,7 +3768,6 @@ a.button {
       text-align: right; }
       #main-nav-ctas > .button {
         margin-bottom: 0; } }
-
 .main-nav--link a {
   color: #283C4C;
   text-decoration: none; }
@@ -3801,7 +3797,6 @@ nav li {
       margin-right: 45px;
       border-bottom: 1.5px solid #E9EDF2;
       text-align: left; } }
-
 @media screen and (max-width: 1024px) {
   nav li:first-child {
     padding-top: 45px; } }
@@ -3827,7 +3822,6 @@ nav li.nav-cta {
   @media screen and (max-width: 768px) {
     nav li.nav-cta {
       padding-bottom: 45px; } }
-
 nav li.nav-cta a.button {
   margin-top: 12px; }
 
@@ -3841,7 +3835,6 @@ nav li.nav-cta a.button {
       font-size: 1.5em;
       float: right;
       line-height: 80px; } }
-
 span.toggle {
   font-size: 1.25em;
   float: right; }
@@ -3854,7 +3847,6 @@ a.main-nav--logo {
   @media screen and (max-width: 1024px) {
     a.main-nav--logo {
       line-height: 80px; } }
-
 .is_stuck {
   margin-top: 125px; }
 
@@ -3866,13 +3858,11 @@ a.main-nav--logo {
   @media screen and (max-width: 768px) {
     #mainbar {
       margin-left: 0 !important; } }
-
 ul.main-sidebar--links li:last-child {
   margin-bottom: 45px !important; }
   @media screen and (max-width: 1024px) {
     ul.main-sidebar--links li:last-child {
       margin-bottom: 0; } }
-
 li.main-sidebar--link small {
   padding-bottom: 16px;
   color: #606568; }
@@ -3897,7 +3887,6 @@ li.t-purple > i.focus {
   @media screen and (max-width: 640px) {
     li.t-purple > i.focus {
       color: white; } }
-
 #main-footer {
   padding-right: 45px;
   padding-left: 45px;
@@ -3935,7 +3924,6 @@ ul.footer--logos {
       -webkit-align-items: center;
       -webkit-box-align: center;
       align-items: center; } }
-
 ul.footer--logos li {
   display: inline-block;
   margin-left: 0 !important; }
@@ -3970,7 +3958,6 @@ ul.footer--links {
       ul.footer--links li {
         margin-left: initial;
         margin-bottom: 22.5px; } }
-
 li a.footer--link {
   color: white;
   text-decoration: none; }
@@ -4050,7 +4037,6 @@ img#hex {
       transform: translateY(0);
       -webkit-transform: translateY(0);
       -moz-transform: translateY(0); } }
-
 .z-10 {
   z-index: 10; }
 
@@ -4068,25 +4054,21 @@ img#hex {
     .margin-both-xl {
       margin-top: 125px;
       margin-bottom: 125px; } }
-
 .margin-top-xl {
   margin-top: 12%; }
   @media screen and (max-width: 1024px) {
     .margin-top-xl {
       margin-top: 125px; } }
-
 .margin-under-xl {
   margin-bottom: 12%; }
   @media screen and (max-width: 1024px) {
     .margin-under-xl {
       margin-bottom: 125px; } }
-
 .padding-top-xl {
   padding-top: 12%; }
   @media screen and (max-width: 1024px) {
     .padding-top-xl {
       padding-top: 125px; } }
-
 .margin-both {
   margin-top: 125px;
   margin-bottom: 125px; }
@@ -4101,7 +4083,6 @@ img#hex {
   @media screen and (max-width: 1024px) {
     .margin-both-offset {
       margin-top: 185px; } }
-
 .margin-top-offset {
   margin-top: 80px; }
 
@@ -4262,7 +4243,8 @@ input[type="email"]:focus,
 input[type="email"]:hover {
   border: 1.5px solid #926BE7; }
 
-input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
   color: #606568;
   font-family: "Muli", "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
 
@@ -4271,11 +4253,13 @@ textarea:-moz-placeholder {
   color: #606568;
   font-family: "Muli", "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
 
-input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
   color: #606568;
   font-family: "Muli", "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
 
-input::placeholder, textarea::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: #606568;
   font-family: "Muli", "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
 
@@ -4338,7 +4322,6 @@ form.main-sidebar--search input[type="search"] {
   @media screen and (max-width: 1024px) {
     form.main-sidebar--search input[type="search"] {
       width: 100%; } }
-
 .st-query-present, .st-install-xzyJV6P7pgscygGyyTm8 .st-ui-result .st-ui-type-heading, .st-ui-type-detail {
   font-family: "Muli", "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-style: normal;
@@ -4396,7 +4379,6 @@ h1 {
   @media screen and (max-width: 1024px) {
     h1 {
       font-size: 2em; } }
-
 h2 {
   color: #283C4C;
   font-family: "Muli", "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -4413,7 +4395,6 @@ h3 {
   @media screen and (max-width: 1024px) {
     h3 {
       font-size: 1.2em; } }
-
 h4 {
   color: #283C4C;
   font-family: "Muli", "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -4718,7 +4699,6 @@ img.ball:nth-child(3) {
       -o-transform: translate(0px, 0px);
       -ms-transform: translate(0px, 0px);
       transform: translate3d(0px, 0px, 0px); } }
-
 .slide-right.in-view {
   opacity: 1;
   -moz-transform: translate3d(0px, 0px, 0px);

@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_node_group</code> is used to test a Google NodeGroup resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>
 describe google_compute_node_group(project: 'chef-gcp-inspec', zone: 'zone', name: 'inspec-node-group') do
@@ -24,6 +28,20 @@ end
 <li><p><code>name</code>: Name of the resource.</p></li>
 <li><p><code>node_template</code>: The URL of the node template to which this node group belongs.</p></li>
 <li><p><code>size</code>: The total number of nodes in the node group.</p></li>
+<li><p><code>autoscaling_policy</code>: (Beta only) If you use sole-tenant nodes for your workloads, you can use the node group autoscaler to automatically manage the sizes of your node groups.</p>
+
+<ul>
+<li><code>mode</code>: The autoscaling mode. Set to one of the following:   - OFF: Disables the autoscaler.   - ON: Enables scaling in and scaling out.   - ONLY<em>SCALE</em>OUT: Enables only scaling out.    You must use this mode if your node groups are configured to    restart their hosted VMs on minimal servers.
+Possible values:
+
+<ul>
+<li>OFF</li>
+<li>ON</li>
+<li>ONLY<em>SCALE</em>OUT</li>
+</ul></li>
+<li><code>min_nodes</code>: Minimum size of the node group. Must be less  than or equal to max-nodes. The default value is 0.</li>
+<li><code>max_nodes</code>: Maximum size of the node group. Set to a value less than or equal to 100 and greater than or equal to min-nodes.</li>
+</ul></li>
 <li><p><code>zone</code>: Zone where this node group is located</p></li>
 </ul>
 

@@ -1,45 +1,236 @@
-<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the google_project_alert_policy Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_google_project_alert_policy docs_reference_resources_google_project_alert_policy_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="google_project_alert_policy">google_project_alert_policy</h1>
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the google_project_alert_policy resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_google_project_alert_policy docs_reference_resources_google_project_alert_policy_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h2 id="syntax">Syntax</h2>
 
-<p>Use the <code>google_project_alert_policy</code> InSpec audit resource to test properties of a single GCP project alert policy.</p>
-
-<p><br></p>
-
-<h2 id="syntax">Syntax</h2>
-
-<p>A <code>google_project_alert_policy</code> resource block declares the tests for a single GCP project alert policy by name.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe google_project_alert_policy(policy: 'projects/spaterson-project/alertPolicies/9271751234503117449') do
-  it { should exist }
-end
-</code></pre></div>
-<p><br></p>
+<p>A <code>google_project_alert_policy</code> is used to test a Google AlertPolicy resource</p>
 
 <h2 id="examples">Examples</h2>
-
-<p>The following examples show how to use this InSpec audit resource.</p>
-
+<div class="highlight"><pre class="highlight plaintext"><code>describe.one do
+  google_project_alert_policies(project: 'chef-gcp-inspec').policy_names do |policy_name|
+    describe google_project_alert_policy(project: 'chef-gcp-inspec', name: policy_name) do
+      it { should exist }
+      its('display_name') { should cmp 'Display'}
+      its('combiner') { should cmp 'OR'}
+      it { should be_enabled }
+    end
+  end
+end
+</code></pre></div>
 <h3 id="test-that-a-gcp-alert-policy-is-enabled">Test that a GCP alert policy is enabled</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe google_project_alert_policy(policy: 'projects/spaterson-project/alertPolicies/9271751234503117449') do
+<div class="highlight"><pre class="highlight plaintext"><code>describe google_project_alert_policy(policy: 'spaterson', name: '9271751234503117449') do
   it { should be_enabled }
 end
 </code></pre></div>
 <h3 id="test-that-a-gcp-compute-alert-policy-display-name-is-correct">Test that a GCP compute alert policy display name is correct</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe google_project_alert_policy(policy: 'projects/spaterson-project/alertPolicies/9271751234503117449') do
+<div class="highlight"><pre class="highlight plaintext"><code>describe google_project_alert_policy(policy: 'spaterson-project', name: '9271751234503117449') do
   its('display_name') { should eq 'policy name' }
 end
 </code></pre></div>
-<p><br></p>
-
 <h2 id="properties">Properties</h2>
 
-<ul>
-<li> <code>combiner</code>, <code>conditions</code>, <code>creation_record</code>, <code>display_name</code>, <code>enabled</code>, <code>mutation_record</code>, <code>name</code></li>
-</ul>
+<p>Properties that can be accessed from the <code>google_project_alert_policy</code> resource:</p>
 
-<p><br></p>
+<ul>
+<li><p><code>name</code>: The unique resource name for this policy. Its syntax is: projects/[PROJECT<em>ID]/alertPolicies/[ALERT</em>POLICY_ID]</p></li>
+<li><p><code>display_name</code>: A short name or phrase used to identify the policy in dashboards, notifications, and incidents. To avoid confusion, don&rsquo;t use the same display name for multiple policies in the same project. The name is limited to 512 Unicode characters.</p></li>
+<li><p><code>combiner</code>: How to combine the results of multiple conditions to determine if an incident should be opened.
+Possible values:</p>
+
+<ul>
+<li>AND</li>
+<li>OR</li>
+<li>AND<em>WITH</em>MATCHING_RESOURCE</li>
+</ul></li>
+<li><p><code>creation_record</code>: A read-only record of the creation of the alerting policy. If provided in a call to create or update, this field will be ignored.</p>
+
+<ul>
+<li><code>mutate_time</code>: When the change occurred.</li>
+<li><code>mutated_by</code>: The email address of the user making the change.</li>
+</ul></li>
+<li><p><code>enabled</code>: Whether or not the policy is enabled. The default is true.</p></li>
+<li><p><code>conditions</code>: A list of conditions for the policy. The conditions are combined by AND or OR according to the combiner field. If the combined conditions evaluate to true, then an incident is created. A policy can have from one to six conditions.</p>
+
+<ul>
+<li><p><code>condition_absent</code>: A condition that checks that a time series continues to receive new data points.</p>
+
+<ul>
+<li><code>aggregations</code>: Specifies the alignment of data points in individual time series as well as how to combine the retrieved time series together (such as when aggregating multiple streams on each resource to a single stream for each resource or when aggregating streams across all members of a group of resources). Multiple aggregations are applied in the order specified.</li>
+<li><code>per_series_aligner</code>: The approach to be used to align individual time series. Not all alignment functions may be applied to all time series, depending on the metric type and value type of the original time series. Alignment may change the metric type or the value type of the time series.Time series data must be aligned in order to perform cross- time series reduction. If crossSeriesReducer is specified, then perSeriesAligner must be specified and not equal ALIGN_NONE and alignmentPeriod must be specified; otherwise, an error is returned.
+Possible values:
+
+<ul>
+<li>ALIGN_NONE</li>
+<li>ALIGN_DELTA</li>
+<li>ALIGN_RATE</li>
+<li>ALIGN_INTERPOLATE</li>
+<li>ALIGN<em>NEXT</em>OLDER</li>
+<li>ALIGN_MIN</li>
+<li>ALIGN_MAX</li>
+<li>ALIGN_MEAN</li>
+<li>ALIGN_COUNT</li>
+<li>ALIGN_SUM</li>
+<li>ALIGN_STDDEV</li>
+<li>ALIGN<em>COUNT</em>TRUE</li>
+<li>ALIGN<em>COUNT</em>FALSE</li>
+<li>ALIGN<em>FRACTION</em>TRUE</li>
+<li>ALIGN<em>PERCENTILE</em>99</li>
+<li>ALIGN<em>PERCENTILE</em>95</li>
+<li>ALIGN<em>PERCENTILE</em>50</li>
+<li>ALIGN<em>PERCENTILE</em>05</li>
+<li>ALIGN<em>PERCENT</em>CHANGE</li>
+</ul></li>
+<li><code>group_by_fields</code>: The set of fields to preserve when crossSeriesReducer is specified. The groupByFields determine how the time series are partitioned into subsets prior to applying the aggregation function. Each subset contains time series that have the same value for each of the grouping fields. Each individual time series is a member of exactly one subset. The crossSeriesReducer is applied to each subset of time series. It is not possible to reduce across different resource types, so this field implicitly contains resource.type. Fields not specified in groupByFields are aggregated away. If groupByFields is not specified and all the time series have the same resource type, then the time series are aggregated into a single output time series. If crossSeriesReducer is not defined, this field is ignored.</li>
+<li><code>alignment_period</code>: The alignment period for per-time series alignment. If present, alignmentPeriod must be at least 60 seconds. After per-time series alignment, each time series will contain data points only on the period boundaries. If perSeriesAligner is not specified or equals ALIGN<em>NONE, then this field is ignored. If perSeriesAligner is specified and does not equal ALIGN</em>NONE, then this field must be defined; otherwise an error is returned.</li>
+<li><code>cross_series_reducer</code>: The approach to be used to combine time series. Not all reducer functions may be applied to all time series, depending on the metric type and the value type of the original time series. Reduction may change the metric type of value type of the time series.Time series data must be aligned in order to perform cross- time series reduction. If crossSeriesReducer is specified, then perSeriesAligner must be specified and not equal ALIGN_NONE and alignmentPeriod must be specified; otherwise, an error is returned.
+Possible values:
+
+<ul>
+<li>REDUCE_NONE</li>
+<li>REDUCE_MEAN</li>
+<li>REDUCE_MIN</li>
+<li>REDUCE_MAX</li>
+<li>REDUCE_SUM</li>
+<li>REDUCE_STDDEV</li>
+<li>REDUCE_COUNT</li>
+<li>REDUCE<em>COUNT</em>TRUE</li>
+<li>REDUCE<em>COUNT</em>FALSE</li>
+<li>REDUCE<em>FRACTION</em>TRUE</li>
+<li>REDUCE<em>PERCENTILE</em>99</li>
+<li>REDUCE<em>PERCENTILE</em>95</li>
+<li>REDUCE<em>PERCENTILE</em>50</li>
+<li>REDUCE<em>PERCENTILE</em>05</li>
+</ul></li>
+<li><code>trigger</code>: The number/percent of time series for which the comparison must hold in order for the condition to trigger. If unspecified, then the condition will trigger if the comparison is true for any of the time series that have been identified by filter and aggregations.</li>
+<li><code>percent</code>: The percentage of time series that must fail the predicate for the condition to be triggered.</li>
+<li><code>count</code>: The absolute number of time series that must fail the predicate for the condition to be triggered.</li>
+<li><code>duration</code>: The amount of time that a time series must fail to report new data to be considered failing. Currently, only values that are a multiple of a minute&ndash;e.g. 60s, 120s, or 300s &ndash;are supported.</li>
+<li><code>filter</code>: A filter that identifies which time series should be compared with the threshold.The filter is similar to the one that is specified in the MetricService.ListTimeSeries request (that call is useful to verify the time series that will be retrieved / processed) and must specify the metric type and optionally may contain restrictions on resource type, resource labels, and metric labels. This field may not exceed 2048 Unicode characters in length.</li>
+</ul></li>
+<li><p><code>name</code>: The unique resource name for this condition. Its syntax is: projects/[PROJECT<em>ID]/alertPolicies/[POLICY</em>ID]/conditions/[CONDITION<em>ID] [CONDITION</em>ID] is assigned by Stackdriver Monitoring when the condition is created as part of a new or updated alerting policy.</p></li>
+<li><p><code>condition_threshold</code>: A condition that compares a time series against a threshold.</p>
+
+<ul>
+<li><code>threshold_value</code>: A value against which to compare the time series.</li>
+<li><code>denominator_filter</code>: A filter that identifies a time series that should be used as the denominator of a ratio that will be compared with the threshold. If a denominator_filter is specified, the time series specified by the filter field will be used as the numerator.The filter is similar to the one that is specified in the MetricService.ListTimeSeries request (that call is useful to verify the time series that will be retrieved / processed) and must specify the metric type and optionally may contain restrictions on resource type, resource labels, and metric labels. This field may not exceed 2048 Unicode characters in length.</li>
+<li><code>denominator_aggregations</code>: Specifies the alignment of data points in individual time series selected by denominatorFilter as well as how to combine the retrieved time series together (such as when aggregating multiple streams on each resource to a single stream for each resource or when aggregating streams across all members of a group of resources).When computing ratios, the aggregations and denominator_aggregations fields must use the same alignment period and produce time series that have the same periodicity and labels.This field is similar to the one in the MetricService.ListTimeSeries request. It is advisable to use the ListTimeSeries method when debugging this field.</li>
+<li><code>per_series_aligner</code>: The approach to be used to align individual time series. Not all alignment functions may be applied to all time series, depending on the metric type and value type of the original time series. Alignment may change the metric type or the value type of the time series.Time series data must be aligned in order to perform cross- time series reduction. If crossSeriesReducer is specified, then perSeriesAligner must be specified and not equal ALIGN_NONE and alignmentPeriod must be specified; otherwise, an error is returned.
+Possible values:
+
+<ul>
+<li>ALIGN_NONE</li>
+<li>ALIGN_DELTA</li>
+<li>ALIGN_RATE</li>
+<li>ALIGN_INTERPOLATE</li>
+<li>ALIGN<em>NEXT</em>OLDER</li>
+<li>ALIGN_MIN</li>
+<li>ALIGN_MAX</li>
+<li>ALIGN_MEAN</li>
+<li>ALIGN_COUNT</li>
+<li>ALIGN_SUM</li>
+<li>ALIGN_STDDEV</li>
+<li>ALIGN<em>COUNT</em>TRUE</li>
+<li>ALIGN<em>COUNT</em>FALSE</li>
+<li>ALIGN<em>FRACTION</em>TRUE</li>
+<li>ALIGN<em>PERCENTILE</em>99</li>
+<li>ALIGN<em>PERCENTILE</em>95</li>
+<li>ALIGN<em>PERCENTILE</em>50</li>
+<li>ALIGN<em>PERCENTILE</em>05</li>
+<li>ALIGN<em>PERCENT</em>CHANGE</li>
+</ul></li>
+<li><code>group_by_fields</code>: The set of fields to preserve when crossSeriesReducer is specified. The groupByFields determine how the time series are partitioned into subsets prior to applying the aggregation function. Each subset contains time series that have the same value for each of the grouping fields. Each individual time series is a member of exactly one subset. The crossSeriesReducer is applied to each subset of time series. It is not possible to reduce across different resource types, so this field implicitly contains resource.type. Fields not specified in groupByFields are aggregated away. If groupByFields is not specified and all the time series have the same resource type, then the time series are aggregated into a single output time series. If crossSeriesReducer is not defined, this field is ignored.</li>
+<li><code>alignment_period</code>: The alignment period for per-time series alignment. If present, alignmentPeriod must be at least 60 seconds. After per-time series alignment, each time series will contain data points only on the period boundaries. If perSeriesAligner is not specified or equals ALIGN<em>NONE, then this field is ignored. If perSeriesAligner is specified and does not equal ALIGN</em>NONE, then this field must be defined; otherwise an error is returned.</li>
+<li><code>cross_series_reducer</code>: The approach to be used to combine time series. Not all reducer functions may be applied to all time series, depending on the metric type and the value type of the original time series. Reduction may change the metric type of value type of the time series.Time series data must be aligned in order to perform cross- time series reduction. If crossSeriesReducer is specified, then perSeriesAligner must be specified and not equal ALIGN_NONE and alignmentPeriod must be specified; otherwise, an error is returned.
+Possible values:
+
+<ul>
+<li>REDUCE_NONE</li>
+<li>REDUCE_MEAN</li>
+<li>REDUCE_MIN</li>
+<li>REDUCE_MAX</li>
+<li>REDUCE_SUM</li>
+<li>REDUCE_STDDEV</li>
+<li>REDUCE_COUNT</li>
+<li>REDUCE<em>COUNT</em>TRUE</li>
+<li>REDUCE<em>COUNT</em>FALSE</li>
+<li>REDUCE<em>FRACTION</em>TRUE</li>
+<li>REDUCE<em>PERCENTILE</em>99</li>
+<li>REDUCE<em>PERCENTILE</em>95</li>
+<li>REDUCE<em>PERCENTILE</em>50</li>
+<li>REDUCE<em>PERCENTILE</em>05</li>
+</ul></li>
+<li><code>duration</code>: The amount of time that a time series must violate the threshold to be considered failing. Currently, only values that are a multiple of a minute&ndash;e.g., 0, 60, 120, or 300 seconds&ndash;are supported. If an invalid value is given, an error will be returned. When choosing a duration, it is useful to keep in mind the frequency of the underlying time series data (which may also be affected by any alignments specified in the aggregations field); a good duration is long enough so that a single outlier does not generate spurious alerts, but short enough that unhealthy states are detected and alerted on quickly.</li>
+<li><code>comparison</code>: The comparison to apply between the time series (indicated by filter and aggregation) and the threshold (indicated by threshold<em>value). The comparison is applied on each time series, with the time series on the left-hand side and the threshold on the right-hand side. Only COMPARISON</em>LT and COMPARISON_GT are supported currently.
+Possible values:</li>
+<li>COMPARISON_GT</li>
+<li>COMPARISON_GE</li>
+<li>COMPARISON_LT</li>
+<li>COMPARISON_LE</li>
+<li>COMPARISON_EQ</li>
+<li>COMPARISON_NE</li>
+<li><code>trigger</code>: The number/percent of time series for which the comparison must hold in order for the condition to trigger. If unspecified, then the condition will trigger if the comparison is true for any of the time series that have been identified by filter and aggregations, or by the ratio, if denominator<em>filter and denominator</em>aggregations are specified.</li>
+<li><code>percent</code>: The percentage of time series that must fail the predicate for the condition to be triggered.</li>
+<li><code>count</code>: The absolute number of time series that must fail the predicate for the condition to be triggered.</li>
+<li><code>aggregations</code>: Specifies the alignment of data points in individual time series as well as how to combine the retrieved time series together (such as when aggregating multiple streams on each resource to a single stream for each resource or when aggregating streams across all members of a group of resources). Multiple aggregations are applied in the order specified.This field is similar to the one in the MetricService.ListTimeSeries request. It is advisable to use the ListTimeSeries method when debugging this field.</li>
+<li><code>per_series_aligner</code>: The approach to be used to align individual time series. Not all alignment functions may be applied to all time series, depending on the metric type and value type of the original time series. Alignment may change the metric type or the value type of the time series.Time series data must be aligned in order to perform cross- time series reduction. If crossSeriesReducer is specified, then perSeriesAligner must be specified and not equal ALIGN_NONE and alignmentPeriod must be specified; otherwise, an error is returned.
+Possible values:
+
+<ul>
+<li>ALIGN_NONE</li>
+<li>ALIGN_DELTA</li>
+<li>ALIGN_RATE</li>
+<li>ALIGN_INTERPOLATE</li>
+<li>ALIGN<em>NEXT</em>OLDER</li>
+<li>ALIGN_MIN</li>
+<li>ALIGN_MAX</li>
+<li>ALIGN_MEAN</li>
+<li>ALIGN_COUNT</li>
+<li>ALIGN_SUM</li>
+<li>ALIGN_STDDEV</li>
+<li>ALIGN<em>COUNT</em>TRUE</li>
+<li>ALIGN<em>COUNT</em>FALSE</li>
+<li>ALIGN<em>FRACTION</em>TRUE</li>
+<li>ALIGN<em>PERCENTILE</em>99</li>
+<li>ALIGN<em>PERCENTILE</em>95</li>
+<li>ALIGN<em>PERCENTILE</em>50</li>
+<li>ALIGN<em>PERCENTILE</em>05</li>
+<li>ALIGN<em>PERCENT</em>CHANGE</li>
+</ul></li>
+<li><code>group_by_fields</code>: The set of fields to preserve when crossSeriesReducer is specified. The groupByFields determine how the time series are partitioned into subsets prior to applying the aggregation function. Each subset contains time series that have the same value for each of the grouping fields. Each individual time series is a member of exactly one subset. The crossSeriesReducer is applied to each subset of time series. It is not possible to reduce across different resource types, so this field implicitly contains resource.type. Fields not specified in groupByFields are aggregated away. If groupByFields is not specified and all the time series have the same resource type, then the time series are aggregated into a single output time series. If crossSeriesReducer is not defined, this field is ignored.</li>
+<li><code>alignment_period</code>: The alignment period for per-time series alignment. If present, alignmentPeriod must be at least 60 seconds. After per-time series alignment, each time series will contain data points only on the period boundaries. If perSeriesAligner is not specified or equals ALIGN<em>NONE, then this field is ignored. If perSeriesAligner is specified and does not equal ALIGN</em>NONE, then this field must be defined; otherwise an error is returned.</li>
+<li><code>cross_series_reducer</code>: The approach to be used to combine time series. Not all reducer functions may be applied to all time series, depending on the metric type and the value type of the original time series. Reduction may change the metric type of value type of the time series.Time series data must be aligned in order to perform cross- time series reduction. If crossSeriesReducer is specified, then perSeriesAligner must be specified and not equal ALIGN_NONE and alignmentPeriod must be specified; otherwise, an error is returned.
+Possible values:
+
+<ul>
+<li>REDUCE_NONE</li>
+<li>REDUCE_MEAN</li>
+<li>REDUCE_MIN</li>
+<li>REDUCE_MAX</li>
+<li>REDUCE_SUM</li>
+<li>REDUCE_STDDEV</li>
+<li>REDUCE_COUNT</li>
+<li>REDUCE<em>COUNT</em>TRUE</li>
+<li>REDUCE<em>COUNT</em>FALSE</li>
+<li>REDUCE<em>FRACTION</em>TRUE</li>
+<li>REDUCE<em>PERCENTILE</em>99</li>
+<li>REDUCE<em>PERCENTILE</em>95</li>
+<li>REDUCE<em>PERCENTILE</em>50</li>
+<li>REDUCE<em>PERCENTILE</em>05</li>
+</ul></li>
+<li><code>filter</code>: A filter that identifies which time series should be compared with the threshold.The filter is similar to the one that is specified in the MetricService.ListTimeSeries request (that call is useful to verify the time series that will be retrieved / processed) and must specify the metric type and optionally may contain restrictions on resource type, resource labels, and metric labels. This field may not exceed 2048 Unicode characters in length.</li>
+</ul></li>
+<li><p><code>display_name</code>: A short name or phrase used to identify the condition in dashboards, notifications, and incidents. To avoid confusion, don&rsquo;t use the same display name for multiple conditions in the same policy.</p></li>
+</ul></li>
+<li><p><code>notification_channels</code>: Identifies the notification channels to which notifications should be sent when incidents are opened or closed or when new violations occur on an already opened incident. Each element of this array corresponds to the name field in each of the NotificationChannel objects that are returned from the notificationChannels.list method. The syntax of the entries in this field is <code>projects/[PROJECT_ID]/notificationChannels/[CHANNEL_ID]</code></p></li>
+<li><p><code>user_labels</code>: This field is intended to be used for organizing and identifying the AlertPolicy objects.The field can contain up to 64 entries. Each key and value is limited to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values can contain only lowercase letters, numerals, underscores, and dashes. Keys must begin with a letter.</p></li>
+<li><p><code>documentation</code>: A short name or phrase used to identify the policy in dashboards, notifications, and incidents. To avoid confusion, don&rsquo;t use the same display name for multiple policies in the same project. The name is limited to 512 Unicode characters.</p>
+
+<ul>
+<li><code>content</code>: The text of the documentation, interpreted according to mimeType. The content may not exceed 8,192 Unicode characters and may not exceed more than 10,240 bytes when encoded in UTF-8 format, whichever is smaller.</li>
+<li><code>mime_type</code>: The format of the content field. Presently, only the value &ldquo;text/markdown&rdquo; is supported.</li>
+</ul></li>
+</ul>
 
 <h2 id="gcp-permissions">GCP Permissions</h2>
 
-<p>Ensure the <a href="https://console.cloud.google.com/apis/api/logging.googleapis.com/">Stackdriver Logging API</a> is enabled for the project.</p>
+<p>Ensure the <a href="https://console.cloud.google.com/apis/library/monitoring.googleapis.com/">Stackdriver Monitoring API</a> is enabled for the current project.</p>
 </column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
 (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
 (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);

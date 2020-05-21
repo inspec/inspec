@@ -17,7 +17,7 @@ end
 
 <ul>
 <li><p><code>name</code>: Name of the topic.</p></li>
-<li><p><code>kms_key_name</code>: The resource name of the Cloud KMS CryptoKey to be used to protect access to messages published on this topic. Your project&rsquo;s PubSub service account (<code>service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com</code>) must have <code>roles/cloudkms.cryptoKeyEncrypterDecrypter</code> to use this feature.  The expected format is <code>projects/*/locations/*/keyRings/*/cryptoKeys/*</code></p></li>
+<li><p><code>kms_key_name</code>: The resource name of the Cloud KMS CryptoKey to be used to protect access to messages published on this topic. Your project&rsquo;s PubSub service account (<code>service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com</code>) must have <code>roles/cloudkms.cryptoKeyEncrypterDecrypter</code> to use this feature. The expected format is <code>projects/*/locations/*/keyRings/*/cryptoKeys/*</code></p></li>
 <li><p><code>labels</code>: A set of key/value label pairs to assign to this Topic.</p></li>
 <li><p><code>message_storage_policy</code>: Policy constraining the set of Google Cloud Platform regions where messages published to the topic may be stored. If not present, then no constraints are in effect.</p>
 

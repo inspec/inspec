@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_route</code> is used to test a Google Route resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_route(project: 'chef-gcp-inspec', name: 'inspec-gcp-route') do
   it { should exist }
@@ -31,6 +35,7 @@ end
 <li><p><code>next_hop_ip</code>: Network IP address of an instance that should handle matching packets.</p></li>
 <li><p><code>next_hop_vpn_tunnel</code>: URL to a VpnTunnel that should handle matching packets.</p></li>
 <li><p><code>next_hop_network</code>: URL to a Network that should handle matching packets.</p></li>
+<li><p><code>next_hop_ilb</code>: The URL to a forwarding rule of type loadBalancingScheme=INTERNAL that should handle matching packets. You can only specify the forwarding rule as a partial or full URL. For example, the following are all valid URLs: https://www.googleapis.com/compute/v1/projects/project/regions/region/forwardingRules/forwardingRule regions/region/forwardingRules/forwardingRule Note that this can only be used when the destinationRange is a public (non-RFC 1918) IP CIDR range.</p></li>
 </ul>
 
 <h2 id="gcp-permissions">GCP Permissions</h2>

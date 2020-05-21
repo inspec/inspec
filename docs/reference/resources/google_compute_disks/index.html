@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_disks</code> is used to test a Google Disk resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>most_recent_image = google_compute_image(project: 'debian-cloud', name: 'debian-10-buster-v20191014')
 describe google_compute_disks(project: 'chef-gcp-inspec', zone: 'zone') do
@@ -29,13 +33,14 @@ end
   * <code>physical_block_size_bytes</code>: an array of <code>google_compute_disk</code> physical<em>block</em>size<em>bytes
   * <code>types</code>: an array of `google</em>compute<em>disk<code>type
   *</code>source</em>images<code>: an array of</code>google<em>compute</em>disk<code>source_image
-  *</code>zones<code>: an array of</code>google<em>compute</em>disk<code>zone
-  *</code>source<em>image</em>encryption<em>keys<code>: an array of</code>google</em>compute<em>disk` source</em>image<em>encryption</em>key
-  * <code>source_image_ids</code>: an array of <code>google_compute_disk</code> source<em>image</em>id
-  * <code>disk_encryption_keys</code>: an array of <code>google_compute_disk</code> disk<em>encryption</em>key
-  * <code>source_snapshots</code>: an array of <code>google_compute_disk</code> source<em>snapshot
-  * `source</em>snapshot<em>encryption</em>keys<code>: an array of</code>google<em>compute</em>disk<code>source_snapshot_encryption_key
-  *</code>source<em>snapshot</em>ids<code>: an array of</code>google<em>compute</em>disk` source<em>snapshot</em>id</p>
+  *</code>resource<em>policies<code>: (Beta only) an array of</code>google</em>compute<em>disk` resource</em>policies
+  * <code>zones</code>: an array of <code>google_compute_disk</code> zone
+  * <code>source_image_encryption_keys</code>: an array of <code>google_compute_disk</code> source<em>image</em>encryption<em>key
+  * `source</em>image<em>ids<code>: an array of</code>google</em>compute<em>disk` source</em>image<em>id
+  * `disk</em>encryption<em>keys<code>: an array of</code>google</em>compute<em>disk` disk</em>encryption<em>key
+  * `source</em>snapshots<code>: an array of</code>google<em>compute</em>disk<code>source_snapshot
+  *</code>source<em>snapshot</em>encryption<em>keys<code>: an array of</code>google</em>compute<em>disk` source</em>snapshot<em>encryption</em>key
+  * <code>source_snapshot_ids</code>: an array of <code>google_compute_disk</code> source<em>snapshot</em>id</p>
 
 <h2 id="filter-criteria">Filter Criteria</h2>
 

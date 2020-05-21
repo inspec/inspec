@@ -22,6 +22,7 @@ end
 <li><p><code>description</code>: A human-readable description for the job.  This string must not contain more than 500 characters.</p></li>
 <li><p><code>schedule</code>: Describes the schedule on which the job will be executed.</p></li>
 <li><p><code>time_zone</code>: Specifies the time zone to be used in interpreting schedule. The value of this field must be a time zone name from the tz database.</p></li>
+<li><p><code>attempt_deadline</code>: The deadline for job attempts. If the request handler does not respond by this deadline then the request is cancelled and the attempt is marked as a DEADLINE_EXCEEDED failure. The failed attempt can be viewed in execution logs. Cloud Scheduler will retry the job according to the RetryConfig. The allowed duration for this deadline is: * For HTTP targets, between 15 seconds and 30 minutes. * For App Engine HTTP targets, between 15 seconds and 24 hours. A duration in seconds with up to nine fractional digits, terminated by &lsquo;s&rsquo;. Example: &ldquo;3.5s&rdquo;</p></li>
 <li><p><code>retry_config</code>: By default, if a job does not complete successfully,  meaning that an acknowledgement is not received from the handler,  then it will be retried with exponential backoff according to the settings</p>
 
 <ul>
@@ -34,7 +35,7 @@ end
 <li><p><code>pubsub_target</code>: Pub/Sub target If the job providers a Pub/Sub target the cron will publish a message to the provided topic</p>
 
 <ul>
-<li><code>topic_name</code>: The name of the Cloud Pub/Sub topic to which messages will be published when a job is delivered.  The topic name must be in the same format as required by PubSub&rsquo;s PublishRequest.name,  for example projects/PROJECT<em>ID/topics/TOPIC</em>ID.</li>
+<li><code>topic_name</code>: The full resource name for the Cloud Pub/Sub topic to which messages will be published when a job is delivered. ~&gt;<strong>NOTE</strong>: The topic name must be in the same format as required by PubSub&rsquo;s PublishRequest.name, e.g. <code>projects/my-project/topics/my-topic</code>.</li>
 <li><code>data</code>: The message payload for PubsubMessage. Pubsub message must contain either non-empty data, or at least one attribute.</li>
 <li><code>attributes</code>: Attributes for PubsubMessage. Pubsub message must contain either non-empty data, or at least one attribute.</li>
 </ul></li>

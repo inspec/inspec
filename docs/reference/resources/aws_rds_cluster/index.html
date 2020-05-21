@@ -23,11 +23,11 @@ end
 <p>This resource accepts a single parameter, the user-supplied cluster identifier. This parameter isn&rsquo;t case-sensitive.
 This can be passed either as a string or as a <code>db_cluster_identifier: &#39;value&#39;</code> key-value entry in a hash.</p>
 
-<p>See also the <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.html">AWS documentation on RDS</a>.</p>
+<p>See also the <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.html">AWS documentation on RDS cluster</a>.</p>
 
 <h2 id="properties">Properties</h2>
 
-<p>For a comprehensive list of properties available to test on an RDS cluster see the <a href="https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/RDS/DBCluster.html">AWS Response Object</a></p>
+<p>For a comprehensive list of properties available to test on an RDS cluster see the <a href="https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/RDS/DBCluster.html">AWS Response Object</a>.</p>
 
 <h2 id="examples">Examples</h2>
 
@@ -47,6 +47,12 @@ end
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_rds_cluster(db_cluster_identifier: 'awsrds123') do
   its('master_username') { should eq 'db-maintain' }
   its('status') { should eq 'available' }
+end
+</code></pre></div>
+<h5 id="test-the-maximum-and-minumum-capacity-of-a-serverless-rds-cluster">Test the maximum and minumum capacity of a serverless RDS cluster</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_rds_cluster(db_cluster_identifier: 'awsrds123') do
+  its('scaling_configuration_info.min_capacity') { should eq 2 }
+  its('scaling_configuration_info.max_capacity') { should eq 64 }
 end
 </code></pre></div>
 <h2 id="matchers">Matchers</h2>

@@ -58,6 +58,46 @@ end
 <h2 id="matchers">Matchers</h2>
 
 <p>For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">matchers page</a>.</p>
+
+<h3 id="virtualization-virtual_system-helper">virtualization.virtual_system? Helper</h3>
+
+<p>This helper returns, if any of the supported virtualization platforms was detected and the machine under test is a guest. You can use this in a <code>only_if { virtual_system? }</code> clause to execute test only on virtualized systems.</p>
+
+<h3 id="virtualization-physical_system-helper">virtualization.physical_system? Helper</h3>
+
+<p>If no virtualization platform is detected, this will return <code>true</code>. For unsupported virtualization platforms this can result in false posititves.</p>
+
+<h3 id="virtualization-system-names">virtualization.system names</h3>
+
+<p>The resource supports the following virtualization platforms:</p>
+
+<p>On Linux machines:
+* <code>docker</code> (<code>guest</code> role only)
+* <code>hyper-v</code> (<code>guest</code> role only)
+* <code>kvm</code>
+* <code>linux vserver</code>
+* <code>lxc</code> / <code>lxd</code>
+* <code>openstack</code> (<code>host</code> role only)
+* <code>openvz</code>
+* <code>parallels</code> (<code>guest</code> role only)
+* <code>virtualbox</code>
+* <code>vmware</code> (<code>guest</code> role only)
+* <code>xen</code></p>
+
+<p>On Windows machines (<code>guest</code> role only)
+* <code>hyper-v</code>
+* <code>kvm</code>
+* <code>vmware</code>
+* <code>virtualbox</code>
+* <code>xen</code></p>
+
+<h3 id="virtualization-role">virtualization.role</h3>
+
+<p>Can be either
+* <code>guest</code>
+* <code>host</code></p>
+
+<p>Please see the documentation on <code>virtualization.system</code> to check supported roles per platform.</p>
 </column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
 (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
 (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);

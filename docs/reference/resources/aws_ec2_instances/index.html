@@ -23,23 +23,35 @@ end
 </thead><tbody>
 <tr>
 <td>instance_ids</td>
-<td>The ID of the EC2 instance.</td>
+<td>The ID of the EC2 instance. The field name is <code>instance_id</code>.</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The value of the <code>Name</code> tag if applied to the instance. The filed name is <code>name</code>.</td>
 </tr>
 <tr>
 <td>vpc_ids</td>
-<td>The VPC with which the EC2 instance is associated.</td>
+<td>The VPC with which the EC2 instance is associated. The field name is <code>vpc_id</code>.</td>
 </tr>
 <tr>
 <td>subnet_ids</td>
-<td>The subnet with which the EC2 instance is associated.</td>
+<td>The subnet with which the EC2 instance is associated. The field name is <code>subnet_id</code>.</td>
 </tr>
 <tr>
 <td>instance_types</td>
-<td>The type of instance, for example m5.large.</td>
+<td>The type of instance, for example m5.large. The field name is <code>instance_type</code>.</td>
 </tr>
 <tr>
 <td>entries</td>
 <td>Provides access to the raw results of the query, which can be treated as an array of hashes.</td>
+</tr>
+<tr>
+<td>tags</td>
+<td>A hash, with each key-value pair corresponding to an EC2 instance tag, e.g, <code>{&quot;Name&quot;=&gt;&quot;Testing Box&quot;, &quot;Environment&quot;=&gt;&quot;Dev&quot;}</code>. This property is available in InSpec AWS resource pack version <strong><a href="https://github.com/inspec/inspec-aws/releases/tag/v1.12.0">1.12.0</a></strong> onwards. The field name is <code>tags</code>.</td>
+</tr>
+<tr>
+<td>iam_profiles</td>
+<td>The IAM instance profile associated with the instance. The <code>role</code> property of the <code>aws_ec2_instance</code> singular resource can be used to check the attached IAM role on the profile. The field name is <code>iam_profile</code>.</td>
 </tr>
 </tbody></table>
 
@@ -59,20 +71,44 @@ end
   end 
 end
 </code></pre></div>
+<h5 id="filter-ec2-instances-with-their-environment-tags-equal-to-dev-then-test-in-depth-using-aws_ec2_instance">Filter EC2 instances with their <code>Environment</code> tags<superscript>*</superscript> equal to <code>Dev</code>, then test in-depth using <code>aws_ec2_instance</code>.</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>aws_ec2_instances.where(tags: {"Environment" =&gt; "Dev"}).instance_ids.each do |id|
+  describe aws_ec2_instance(id) do
+    it { should be_stopped }
+  end
+end
+</code></pre></div>
+<p><superscript>*</superscript>Note that the filter won&rsquo;t return the EC2 instances with multiple tags. In this case use regex: <code>/{&quot;Environment&quot;=&gt;&quot;Dev&quot;}/</code>    </p>
+
+<h5 id="filter-ec2-instances-with-a-stop-at-10-pm-tag-regardless-of-its-value-then-test-in-depth-using-aws_ec2_instance">Filter EC2 instances with a <code>stop-at-10-pm</code> tag regardless of its value, then test in-depth using <code>aws_ec2_instance</code>.</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>aws_ec2_instances.where(tags: /"stop-at-10-pm"=&gt;/).instance_ids.each do |id|
+  describe aws_ec2_instance(id) do
+    it { should be_stopped }
+  end
+end   
+</code></pre></div>
+<h5 id="filter-ec2-instances-with-their-name-equal-to-test-box-then-check-their-role-using-aws_ec2_instance">Filter EC2 instances with their <code>name</code> equal to <code>Test Box</code>, then check their role using <code>aws_ec2_instance</code>.</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>aws_ec2_instances.where(name: "Test Box").instance_ids.each do |id|
+  describe aws_ec2_instance(id) do
+    its('role) { should eq "test-role" }
+  end
+end   
+</code></pre></div>
 <h2 id="matchers">Matchers</h2>
 
 <p>For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">Universal Matchers page</a>. </p>
 
 <h4 id="exist">exist</h4>
 
-<p>The control will pass if the describe returns at least one result.</p>
+<p>The control will pass if the describe returns at least one result.
+The field names described in the <a href="##-properties">properties table</a> should be used for the <code>&lt;property&gt;</code> in the <code>where</code> clause.</p>
 
 <p>Use <code>should_not</code> to test the entity should not exist.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe aws_ec2_instance.where( &lt;property&gt;: &lt;value&gt;) do
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_ec2_instances.where( &lt;property&gt;: &lt;value&gt;) do
   it { should exist }
 end
 
-describe aws_ec2_instance.where( &lt;property&gt;: &lt;value&gt;) do
+describe aws_ec2_instances.where( &lt;property&gt;: &lt;value&gt;) do
   it { should_not exist }
 end
 </code></pre></div>

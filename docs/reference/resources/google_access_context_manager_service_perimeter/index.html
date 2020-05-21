@@ -23,14 +23,40 @@ end
 <li><p><code>description</code>: Description of the ServicePerimeter and its use. Does not affect behavior.</p></li>
 <li><p><code>create_time</code>: Time the AccessPolicy was created in UTC.</p></li>
 <li><p><code>update_time</code>: Time the AccessPolicy was updated in UTC.</p></li>
-<li><p><code>perimeter_type</code>: Specifies the type of the Perimeter. There are two types: regular and bridge. Regular Service Perimeter contains resources, access levels, and restricted services. Every resource can be in at most ONE regular Service Perimeter.  In addition to being in a regular service perimeter, a resource can also be in zero or more perimeter bridges. A perimeter bridge only contains resources. Cross project operations are permitted if all effected resources share some perimeter (whether bridge or regular). Perimeter Bridge does not contain access levels or services: those are governed entirely by the regular perimeter that resource is in.  Perimeter Bridges are typically useful when building more complex topologies with many independent perimeters that need to share some data with a common perimeter, but should not be able to share data among themselves.</p></li>
+<li><p><code>perimeter_type</code>: Specifies the type of the Perimeter. There are two types: regular and bridge. Regular Service Perimeter contains resources, access levels, and restricted services. Every resource can be in at most ONE regular Service Perimeter.  In addition to being in a regular service perimeter, a resource can also be in zero or more perimeter bridges. A perimeter bridge only contains resources. Cross project operations are permitted if all effected resources share some perimeter (whether bridge or regular). Perimeter Bridge does not contain access levels or services: those are governed entirely by the regular perimeter that resource is in.  Perimeter Bridges are typically useful when building more complex topologies with many independent perimeters that need to share some data with a common perimeter, but should not be able to share data among themselves.
+Possible values:</p>
+
+<ul>
+<li>PERIMETER<em>TYPE</em>REGULAR</li>
+<li>PERIMETER<em>TYPE</em>BRIDGE</li>
+</ul></li>
 <li><p><code>status</code>: ServicePerimeter configuration. Specifies sets of resources, restricted services and access levels that determine perimeter content and boundaries.</p>
 
 <ul>
 <li><code>resources</code>: A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed. Format: projects/{project_number}</li>
 <li><code>access_levels</code>: A list of AccessLevel resource names that allow resources within the ServicePerimeter to be accessed from the internet. AccessLevels listed must be in the same policy as this ServicePerimeter. Referencing a nonexistent AccessLevel is a syntax error. If no AccessLevel names are listed, resources within the perimeter can only be accessed via GCP calls with request origins within the perimeter. For Service Perimeter Bridge, must be empty.  Format: accessPolicies/{policy<em>id}/accessLevels/{access</em>level_name}</li>
 <li><code>restricted_services</code>: GCP services that are subject to the Service Perimeter restrictions. Must contain a list of services. For example, if <code>storage.googleapis.com</code> is specified, access to the storage buckets inside the perimeter must meet the perimeter&rsquo;s access restrictions.</li>
+<li><code>vpc_accessible_services</code>: Specifies how APIs are allowed to communicate within the Service Perimeter.
+
+<ul>
+<li><code>enable_restriction</code>: Whether to restrict API calls within the Service Perimeter to the list of APIs specified in &lsquo;allowedServices&rsquo;.</li>
+<li><code>allowed_services</code>: The list of APIs usable within the Service Perimeter. Must be empty unless <code>enableRestriction</code> is True.</li>
 </ul></li>
+</ul></li>
+<li><p><code>spec</code>: Proposed (or dry run) ServicePerimeter configuration. This configuration allows to specify and test ServicePerimeter configuration without enforcing actual access restrictions. Only allowed to be set when the <code>useExplicitDryRunSpec</code> flag is set.</p>
+
+<ul>
+<li><code>resources</code>: A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed. Format: projects/{project_number}</li>
+<li><code>access_levels</code>: A list of AccessLevel resource names that allow resources within the ServicePerimeter to be accessed from the internet. AccessLevels listed must be in the same policy as this ServicePerimeter. Referencing a nonexistent AccessLevel is a syntax error. If no AccessLevel names are listed, resources within the perimeter can only be accessed via GCP calls with request origins within the perimeter. For Service Perimeter Bridge, must be empty.  Format: accessPolicies/{policy<em>id}/accessLevels/{access</em>level_name}</li>
+<li><code>restricted_services</code>: GCP services that are subject to the Service Perimeter restrictions. Must contain a list of services. For example, if <code>storage.googleapis.com</code> is specified, access to the storage buckets inside the perimeter must meet the perimeter&rsquo;s access restrictions.</li>
+<li><code>vpc_accessible_services</code>: Specifies how APIs are allowed to communicate within the Service Perimeter.
+
+<ul>
+<li><code>enable_restriction</code>: Whether to restrict API calls within the Service Perimeter to the list of APIs specified in &lsquo;allowedServices&rsquo;.</li>
+<li><code>allowed_services</code>: The list of APIs usable within the Service Perimeter. Must be empty unless <code>enableRestriction</code> is True.</li>
+</ul></li>
+</ul></li>
+<li><p><code>use_explicit_dry_run_spec</code>: Use explicit dry run spec flag. Ordinarily, a dry-run spec implicitly exists for all Service Perimeters, and that spec is identical to the status for those Service Perimeters. When this flag is set, it inhibits the generation of the implicit spec, thereby allowing the user to explicitly provide a configuration (&ldquo;spec&rdquo;) to use in a dry-run version of the Service Perimeter. This allows the user to test changes to the enforced config (&ldquo;status&rdquo;) without actually enforcing them. This testing is done through analyzing the differences between currently enforced and suggested restrictions. useExplicitDryRunSpec must bet set to True if any of the fields in the spec are set to non-default values.</p></li>
 <li><p><code>parent</code>: The AccessPolicy this ServicePerimeter lives in. Format: accessPolicies/{policy_id}</p></li>
 <li><p><code>name</code>: Resource name for the ServicePerimeter. The short<em>name component must begin with a letter and only include alphanumeric and &lsquo;</em>&rsquo;. Format: accessPolicies/{policy<em>id}/servicePerimeters/{short</em>name}</p></li>
 </ul>

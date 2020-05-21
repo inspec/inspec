@@ -101,14 +101,16 @@ inspec <span class="nb">exec </span>example_profile <span class="nt">--reporter<
 <p>The <code>automate</code> reporter type is a special reporter used with <a href="https://automate.chef.io/">Chef Automate</a>. To use this reporter you must pass in the correct configuration via a json config <code>--config</code>.</p>
 
 <p>Example config:</p>
-<div class="highlight"><pre class="highlight json"><code><span class="nl">"reporter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"automate"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"stdout"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"url"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"https://YOUR_A2_URL/data-collector/v0/"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"token"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"YOUR_A2_ADMIN_TOKEN"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"insecure"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"node_name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"inspec_test_node"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"environment"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"prod"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"reporter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"automate"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"stdout"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"url"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"https://YOUR_A2_URL/data-collector/v0/"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"token"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"YOUR_A2_ADMIN_TOKEN"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"insecure"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"node_name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"inspec_test_node"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"environment"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"prod"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>

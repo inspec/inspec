@@ -44,6 +44,12 @@
 </code></pre></div>
 <p>For more details on what the <code>plugin</code> command can do, see the <a href="https://www.inspec.io/docs/reference/cli/#plugin">online help</a>, or run <code>inspec plugin help</code>.</p>
 
+<h2 id="how-do-i-use-a-different-gem-server">How do I use a different Gem server?</h2>
+
+<p>You can specify an alternate source by passing the base of your Gem repository to the <code>--source</code> parameter:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>inspec plugin search <span class="nt">--source</span> https://my.private.server inspec-private
+<span class="nv">$ </span>inspec plugin <span class="nb">install</span> <span class="nt">--source</span> https://my.private.server inspec-private-plugin
+</code></pre></div>
 <h2 id="how-do-i-write-a-plugin">How do I write a plugin?</h2>
 
 <h3 id="chef-inspec-plugins">Chef InSpec Plugins</h3>

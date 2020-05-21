@@ -18,7 +18,14 @@ end
 
 <ul>
 <li><p><code>name</code>: The resource name of the Folder. Its format is folders/{folder_id}, for example: &ldquo;folders/1234&rdquo;.</p></li>
-<li><p><code>lifecycle_state</code>: The lifecycle state of the folder. Updates to the lifecycleState must be performed via folders.delete and folders.undelete.</p></li>
+<li><p><code>lifecycle_state</code>: The lifecycle state of the folder. Updates to the lifecycleState must be performed via folders.delete and folders.undelete.
+Possible values:</p>
+
+<ul>
+<li>LIFECYCLE<em>STATE</em>UNSPECIFIED</li>
+<li>ACTIVE</li>
+<li>DELETE_REQUESTED</li>
+</ul></li>
 <li><p><code>create_time</code>: Time of creation</p></li>
 <li><p><code>parent</code>: The Folder’s parent&rsquo;s resource name. Updates to the folder&rsquo;s parent must be performed via folders.move.</p></li>
 <li><p><code>display_name</code>: The folder’s display name. A folder’s display name must be unique amongst its siblings, e.g. no two folders with the same parent can share the same display name. The display name must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be no longer than 30 characters. This is captured by the regular expression: <code>[\p{L}\p{N}]([\p{L}\p{N}_- ]{0,28}[\p{L}\p{N}])?</code>.</p></li>

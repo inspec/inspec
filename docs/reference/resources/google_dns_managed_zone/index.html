@@ -1,22 +1,25 @@
-<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the google_dns_managed_zones Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_google_dns_managed_zone docs_reference_resources_google_dns_managed_zone_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="google_dns_managed_zone">google_dns_managed_zone</h1>
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the google_dns_managed_zone resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_google_dns_managed_zone docs_reference_resources_google_dns_managed_zone_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h2 id="syntax">Syntax</h2>
 
-<p>Use the <code>google_dns_managed_zones</code> InSpec audit resource to test properties of a single GCP DNS managed zone.</p>
+<p>A <code>google_dns_managed_zone</code> is used to test a Google ManagedZone resource</p>
 
-<p><br></p>
+<h2 id="beta-resource">Beta Resource</h2>
 
-<h2 id="syntax">Syntax</h2>
-
-<p>A <code>google_dns_managed_zone</code> resource block declares the tests for a single GCP zone by project and name.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe google_dns_managed_zone(project: 'chef-inspec-gcp',  zone: 'zone-name') do
-  it { should exist }
-end
-</code></pre></div>
-<p><br></p>
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
 
 <h2 id="examples">Examples</h2>
+<div class="highlight"><pre class="highlight plaintext"><code>describe google_dns_managed_zone(project: 'chef-gcp-inspec', zone: 'example-zone') do
+  it { should exist }
+  its('dns_name') { should cmp 'dns-zone-name.com.' }
 
-<p>The following examples show how to use this InSpec audit resource.</p>
+  its('description') { should cmp 'example description' }
+  its('zone_signing_key_algorithm') { should cmp 'rsasha256' }
+  its('key_signing_key_algorithm') { should cmp 'rsasha512' }
+end
 
+describe google_dns_managed_zone(project: 'chef-gcp-inspec', zone: 'nonexistent') do
+  it { should_not exist }
+end
+</code></pre></div>
 <h3 id="test-that-a-gcp-compute-zone-exists">Test that a GCP compute zone exists</h3>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_dns_managed_zone(project: 'chef-inspec-gcp',  zone: 'zone-name') do
   it { should exist }
@@ -32,19 +35,109 @@ end
   its('name_servers') { should include 'ns-cloud-d1.googledomains.com.' }
 end
 </code></pre></div>
-<p><br></p>
-
 <h2 id="properties">Properties</h2>
 
-<ul>
-<li> <code>creation_time</code>, <code>creation_time_date</code>, <code>description</code>, <code>dns_name</code>, <code>dnssec_config</code>, <code>id</code>, <code>kind</code>, <code>name</code>, <code>name_servers</code>, <code>key_signing_key_algorithm</code>, <code>zone_signing_key_algorithm</code></li>
-</ul>
+<p>Properties that can be accessed from the <code>google_dns_managed_zone</code> resource:</p>
 
-<p><br></p>
+<ul>
+<li><p><code>description</code>: A mutable string of at most 1024 characters associated with this resource for the user&rsquo;s convenience. Has no effect on the managed zone&rsquo;s function.</p></li>
+<li><p><code>dns_name</code>: The DNS name of this managed zone, for instance &ldquo;example.com.&rdquo;.</p></li>
+<li><p><code>dnssec_config</code>: DNSSEC configuration</p>
+
+<ul>
+<li><code>kind</code>: Identifies what kind of resource this is</li>
+<li><code>non_existence</code>: Specifies the mechanism used to provide authenticated denial-of-existence responses. non_existence can only be updated when the state is <code>off</code>.
+Possible values:
+
+<ul>
+<li>nsec</li>
+<li>nsec3</li>
+</ul></li>
+<li><code>state</code>: Specifies whether DNSSEC is enabled, and what mode it is in
+Possible values:
+
+<ul>
+<li>off</li>
+<li>on</li>
+<li>transfer</li>
+</ul></li>
+<li><code>default_key_specs</code>: Specifies parameters that will be used for generating initial DnsKeys for this ManagedZone. If you provide a spec for keySigning or zoneSigning, you must also provide one for the other. default<em>key</em>specs can only be updated when the state is <code>off</code>.
+
+<ul>
+<li><code>algorithm</code>: String mnemonic specifying the DNSSEC algorithm of this key
+Possible values:</li>
+<li>ecdsap256sha256</li>
+<li>ecdsap384sha384</li>
+<li>rsasha1</li>
+<li>rsasha256</li>
+<li>rsasha512</li>
+<li><code>key_length</code>: Length of the keys in bits</li>
+<li><code>key_type</code>: Specifies whether this is a key signing key (KSK) or a zone signing key (ZSK). Key signing keys have the Secure Entry Point flag set and, when active, will only be used to sign resource record sets of type DNSKEY. Zone signing keys do not have the Secure Entry Point flag set and will be used to sign all other types of resource record sets.
+Possible values:</li>
+<li>keySigning</li>
+<li>zoneSigning</li>
+<li><code>kind</code>: Identifies what kind of resource this is</li>
+</ul></li>
+</ul></li>
+<li><p><code>id</code>: Unique identifier for the resource; defined by the server.</p></li>
+<li><p><code>name</code>: User assigned name for this resource. Must be unique within the project.</p></li>
+<li><p><code>name_servers</code>: Delegate your managed_zone to these virtual name servers; defined by the server</p></li>
+<li><p><code>name_server_set</code>: Optionally specifies the NameServerSet for this ManagedZone. A NameServerSet is a set of DNS name servers that all host the same ManagedZones. Most users will leave this field unset.</p></li>
+<li><p><code>creation_time</code>: The time that this resource was created on the server. This is in RFC3339 text format.</p></li>
+<li><p><code>labels</code>: A set of key/value label pairs to assign to this ManagedZone.</p></li>
+<li><p><code>visibility</code>: The zone&rsquo;s visibility: public zones are exposed to the Internet, while private zones are visible only to Virtual Private Cloud resources.
+Possible values:</p>
+
+<ul>
+<li>private</li>
+<li>public</li>
+</ul></li>
+<li><p><code>private_visibility_config</code>: For privately visible zones, the set of Virtual Private Cloud resources that the zone is visible from.</p>
+
+<ul>
+<li><code>networks</code>: The list of VPC networks that can see this zone.
+
+<ul>
+<li><code>network_url</code>: The fully qualified URL of the VPC network to bind to. This should be formatted like <code>https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}</code></li>
+</ul></li>
+</ul></li>
+<li><p><code>forwarding_config</code>: (Beta only) The presence for this field indicates that outbound forwarding is enabled for this zone. The value of this field contains the set of destinations to forward to.</p>
+
+<ul>
+<li><code>target_name_servers</code>: List of target name servers to forward to. Cloud DNS will select the best available name server if more than one target is given.
+
+<ul>
+<li><code>ipv4_address</code>: IPv4 address of a target name server.</li>
+<li><code>forwarding_path</code>: Forwarding path for this TargetNameServer. If unset or <code>default</code> Cloud DNS will make forwarding decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go to the Internet. When set to <code>private</code>, Cloud DNS will always send queries through VPC for this target
+Possible values:</li>
+<li>default</li>
+<li>private</li>
+</ul></li>
+</ul></li>
+<li><p><code>peering_config</code>: (Beta only) The presence of this field indicates that DNS Peering is enabled for this zone. The value of this field contains the network to peer with.</p>
+
+<ul>
+<li><code>target_network</code>: The network with which to peer.
+
+<ul>
+<li><code>network_url</code>: The fully qualified URL of the VPC network to forward queries to. This should be formatted like <code>https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}</code></li>
+</ul></li>
+</ul></li>
+<li><p><code>reverse_lookup</code>: (Beta only) Specifies if this is a managed reverse lookup zone. If true, Cloud DNS will resolve reverse lookup queries using automatically configured records for VPC resources. This only applies to networks listed under <code>private_visibility_config</code>.</p></li>
+<li><p><code>service_directory_config</code>: (Beta only) The presence of this field indicates that this zone is backed by Service Directory. The value of this field contains information related to the namespace associated with the zone.</p>
+
+<ul>
+<li><code>namespace</code>: The namespace associated with the zone.
+
+<ul>
+<li><code>namespace_url</code>: The fully qualified URL of the service directory namespace that should be associated with the zone. Ignored for <code>public</code> visibility zones.</li>
+</ul></li>
+</ul></li>
+</ul>
 
 <h2 id="gcp-permissions">GCP Permissions</h2>
 
-<p>Ensure the <a href="https://console.cloud.google.com/apis/api/dns.googleapis.com/">Cloud DNS API</a> is enabled for the project.</p>
+<p>Ensure the <a href="https://console.cloud.google.com/apis/library/dns.googleapis.com/">Google Cloud DNS API</a> is enabled for the current project.</p>
 </column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
 (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
 (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);

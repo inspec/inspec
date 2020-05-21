@@ -2,6 +2,10 @@
 
 <p>A <code>google_redis_instances</code> is used to test a Google Instance resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_redis_instances(project: 'chef-gcp-inspec', region: 'us-central1') do
   its('tiers') { should include 'STANDARD_HA' }
@@ -19,20 +23,21 @@ end
 <p>See <a href="google_redis_instance.md">google<em>redis</em>instance.md</a> for more detailed information
   * <code>alternative_location_ids</code>: an array of <code>google_redis_instance</code> alternative<em>location</em>id
   * <code>authorized_networks</code>: an array of <code>google_redis_instance</code> authorized<em>network
-  * `create</em>times<code>: an array of</code>google<em>redis</em>instance<code>create_time
-  *</code>current<em>location</em>ids<code>: an array of</code>google<em>redis</em>instance<code>current_location_id
-  *</code>display<em>names<code>: an array of</code>google</em>redis<em>instance` display</em>name
-  * <code>hosts</code>: an array of <code>google_redis_instance</code> host
-  * <code>labels</code>: an array of <code>google_redis_instance</code> labels
-  * <code>redis_configs</code>: an array of <code>google_redis_instance</code> redis<em>configs
-  * `location</em>ids<code>: an array of</code>google<em>redis</em>instance<code>location_id
-  *</code>names<code>: an array of</code>google<em>redis</em>instance<code>name
-  *</code>memory<em>size</em>gbs<code>: an array of</code>google<em>redis</em>instance<code>memory_size_gb
-  *</code>ports<code>: an array of</code>google<em>redis</em>instance<code>port
-  *</code>redis<em>versions<code>: an array of</code>google</em>redis<em>instance` redis</em>version
-  * <code>reserved_ip_ranges</code>: an array of <code>google_redis_instance</code> reserved<em>ip</em>range
-  * <code>tiers</code>: an array of <code>google_redis_instance</code> tier
-  * <code>regions</code>: an array of <code>google_redis_instance</code> region</p>
+  * `connect</em>modes<code>: an array of</code>google<em>redis</em>instance<code>connect_mode
+  *</code>create<em>times<code>: an array of</code>google</em>redis<em>instance` create</em>time
+  * <code>current_location_ids</code>: an array of <code>google_redis_instance</code> current<em>location</em>id
+  * <code>display_names</code>: an array of <code>google_redis_instance</code> display<em>name
+  * <code>hosts</code>: an array of `google</em>redis<em>instance<code>host
+  *</code>labels<code>: an array of</code>google</em>redis<em>instance<code>labels
+  *</code>redis</em>configs<code>: an array of</code>google<em>redis</em>instance<code>redis_configs
+  *</code>location<em>ids<code>: an array of</code>google</em>redis<em>instance` location</em>id
+  * <code>names</code>: an array of <code>google_redis_instance</code> name
+  * <code>memory_size_gbs</code>: an array of <code>google_redis_instance</code> memory<em>size</em>gb
+  * <code>ports</code>: an array of <code>google_redis_instance</code> port
+  * <code>redis_versions</code>: an array of <code>google_redis_instance</code> redis<em>version
+  * `reserved</em>ip<em>ranges<code>: an array of</code>google</em>redis<em>instance` reserved</em>ip<em>range
+  * <code>tiers</code>: an array of `google</em>redis<em>instance<code>tier
+  *</code>regions<code>: an array of</code>google</em>redis_instance` region</p>
 
 <h2 id="filter-criteria">Filter Criteria</h2>
 

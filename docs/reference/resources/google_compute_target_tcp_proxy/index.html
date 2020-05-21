@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_target_tcp_proxy</code> is used to test a Google TargetTcpProxy resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_target_tcp_proxy(project: 'chef-gcp-inspec', name: 'inspec-gcp-target-tcp-proxy') do
   it { should exist }
@@ -22,7 +26,13 @@ end
 <li><p><code>description</code>: An optional description of this resource.</p></li>
 <li><p><code>id</code>: The unique identifier for the resource.</p></li>
 <li><p><code>name</code>: Name of the resource. Provided by the client when the resource is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression <code>[a-z]([-a-z0-9]*[a-z0-9])?</code> which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash.</p></li>
-<li><p><code>proxy_header</code>: Specifies the type of proxy header to append before sending data to the backend, either NONE or PROXY_V1. The default is NONE.</p></li>
+<li><p><code>proxy_header</code>: Specifies the type of proxy header to append before sending data to the backend.
+Possible values:</p>
+
+<ul>
+<li>NONE</li>
+<li>PROXY_V1</li>
+</ul></li>
 <li><p><code>service</code>: A reference to the BackendService resource.</p></li>
 </ul>
 

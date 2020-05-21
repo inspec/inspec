@@ -2,6 +2,10 @@
 
 <p>A <code>google_dataproc_cluster</code> is used to test a Google Cluster resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_dataproc_cluster(project: 'chef-gcp-inspec', region: 'europe-west2', cluster_name: 'inspec-dataproc-cluster') do
   it { should exist }
@@ -92,7 +96,16 @@ end
 <ul>
 <li><code>image_version</code>: The version of software inside the cluster. It must be one of the supported Cloud Dataproc Versions, such as &ldquo;1.2&rdquo; (including a subminor version, such as &ldquo;1.2.29&rdquo;), or the &ldquo;preview&rdquo; version.</li>
 <li><code>properties</code>: The properties to set on daemon config files. Property keys are specified in the prefix:property format, for example <code>core:hadoop.tmp.dir</code></li>
-<li><code>optional_components</code>: The set of optional components to activate on the cluster.  Possible values include: COMPONENT<em>UNSPECIFIED, ANACONDA, HIVE</em>WEBHCAT, JUPYTER, ZEPPELIN</li>
+<li><code>optional_components</code>: The set of optional components to activate on the cluster.  Possible values include: COMPONENT<em>UNSPECIFIED, ANACONDA, HIVE</em>WEBHCAT, JUPYTER, ZEPPELIN, HBASE, SOLR, and RANGER
+Possible values:</li>
+<li>COMPONENT_UNSPECIFIED</li>
+<li>ANACONDA</li>
+<li>HBASE</li>
+<li>RANGER</li>
+<li>SOLR</li>
+<li>HIVE_WEBHCAT</li>
+<li>JUPYTER</li>
+<li>ZEPPELIN</li>
 </ul></li>
 <li><p><code>initialization_actions</code>: Specifies an executable to run on a fully configured node and a timeout period for executable completion.</p>
 

@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_backend_services</code> is used to test a Google BackendService resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_backend_services(project: 'chef-gcp-inspec') do
   its('count') { should be &gt;= 1 }
@@ -18,22 +22,28 @@ end
 <p>See <a href="google_compute_backend_service.md">google<em>compute</em>backend_service.md</a> for more detailed information
   * <code>affinity_cookie_ttl_secs</code>: an array of <code>google_compute_backend_service</code> affinity<em>cookie</em>ttl<em>sec
   * <code>backends</code>: an array of `google</em>compute<em>backend</em>service<code>backends
+  *</code>circuit<em>breakers<code>: an array of</code>google</em>compute<em>backend</em>service<code>circuit_breakers
+  *</code>consistent<em>hashes<code>: an array of</code>google</em>compute<em>backend</em>service<code>consistent_hash
   *</code>cdn<em>policies<code>: an array of</code>google</em>compute<em>backend</em>service<code>cdn_policy
   *</code>connection<em>drainings<code>: an array of</code>google</em>compute<em>backend</em>service<code>connection_draining
   *</code>creation<em>timestamps<code>: an array of</code>google</em>compute<em>backend</em>service<code>creation_timestamp
-  *</code>fingerprints<code>: an array of</code>google<em>compute</em>backend<em>service<code>fingerprint
-  *</code>descriptions<code>: an array of</code>google</em>compute<em>backend</em>service<code>description
-  *</code>enable<em>cdns<code>: an array of</code>google</em>compute<em>backend</em>service<code>enable_cdn
-  *</code>health<em>checks<code>: an array of</code>google</em>compute<em>backend</em>service<code>health_checks
-  *</code>ids<code>: an array of</code>google<em>compute</em>backend<em>service<code>id
-  *</code>iaps<code>: an array of</code>google</em>compute<em>backend</em>service<code>iap
-  *</code>load<em>balancing</em>schemes<code>: an array of</code>google<em>compute</em>backend<em>service` load</em>balancing<em>scheme
+  *</code>custom<em>request</em>headers<code>: an array of</code>google<em>compute</em>backend<em>service` custom</em>request<em>headers
+  * <code>fingerprints</code>: an array of `google</em>compute<em>backend</em>service<code>fingerprint
+  *</code>descriptions<code>: an array of</code>google<em>compute</em>backend<em>service<code>description
+  *</code>enable</em>cdns<code>: an array of</code>google<em>compute</em>backend<em>service` enable</em>cdn
+  * <code>health_checks</code>: an array of <code>google_compute_backend_service</code> health<em>checks
+  * <code>ids</code>: an array of `google</em>compute<em>backend</em>service<code>id
+  *</code>iaps<code>: an array of</code>google<em>compute</em>backend<em>service<code>iap
+  *</code>load</em>balancing<em>schemes<code>: an array of</code>google</em>compute<em>backend</em>service<code>load_balancing_scheme
+  *</code>locality<em>lb</em>policies<code>: an array of</code>google<em>compute</em>backend<em>service` locality</em>lb<em>policy
   * <code>names</code>: an array of `google</em>compute<em>backend</em>service<code>name
+  *</code>outlier<em>detections<code>: an array of</code>google</em>compute<em>backend</em>service<code>outlier_detection
   *</code>port<em>names<code>: an array of</code>google</em>compute<em>backend</em>service<code>port_name
   *</code>protocols<code>: an array of</code>google<em>compute</em>backend<em>service<code>protocol
   *</code>security</em>policies<code>: an array of</code>google<em>compute</em>backend<em>service` security</em>policy
   * <code>session_affinities</code>: an array of <code>google_compute_backend_service</code> session<em>affinity
-  * `timeout</em>secs<code>: an array of</code>google<em>compute</em>backend<em>service` timeout</em>sec</p>
+  * `timeout</em>secs<code>: an array of</code>google<em>compute</em>backend<em>service` timeout</em>sec
+  * <code>log_configs</code>: an array of <code>google_compute_backend_service</code> log_config</p>
 
 <h2 id="filter-criteria">Filter Criteria</h2>
 

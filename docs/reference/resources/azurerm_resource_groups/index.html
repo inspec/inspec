@@ -87,13 +87,21 @@ end
 <h2 id="attributes">Attributes</h2>
 
 <ul>
+<li><code>ids</code></li>
 <li><code>names</code></li>
+<li><code>tags</code></li>
 </ul>
 
 <h3 id="names">names</h3>
 
+<p>The ids property provides a list of all the Resource Group ids.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('ids') { should include 'MyResourceGroupID' }
+</code></pre></div>
 <p>The names property provides a list of all the Resource Group names.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>its('names') { should include 'MyResourceGroup' }
+</code></pre></div>
+<p>The tags property provides a list of all the Resource Group tags.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('tags') { should include '{MyResourceGroupTag=""}' }
 </code></pre></div>
 <h2 id="matchers">Matchers</h2>
 

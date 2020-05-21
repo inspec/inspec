@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_global_addresses</code> is used to test a Google GlobalAddress resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_global_addresses(project: 'chef-gcp-inspec', name: 'inspec-gcp-global-address') do
   its('count') { should be &gt;= 1 }
@@ -19,12 +23,14 @@ end
   * <code>descriptions</code>: an array of `google</em>compute<em>global</em>address<code>description
   *</code>ids<code>: an array of</code>google<em>compute</em>global<em>address<code>id
   *</code>names<code>: an array of</code>google</em>compute<em>global</em>address<code>name
-  *</code>ip<em>versions<code>: an array of</code>google</em>compute<em>global</em>address<code>ip_version
-  *</code>regions<code>: an array of</code>google<em>compute</em>global<em>address<code>region
-  *</code>prefix</em>lengths<code>: an array of</code>google<em>compute</em>global<em>address` prefix</em>length
-  * <code>address_types</code>: an array of <code>google_compute_global_address</code> address<em>type
-  * <code>purposes</code>: an array of `google</em>compute<em>global</em>address<code>purpose
-  *</code>networks<code>: an array of</code>google<em>compute</em>global_address` network</p>
+  *</code>labels<code>: (Beta only) an array of</code>google<em>compute</em>global<em>address<code>labels
+  *</code>label</em>fingerprints<code>: (Beta only) an array of</code>google<em>compute</em>global<em>address` label</em>fingerprint
+  * <code>ip_versions</code>: an array of <code>google_compute_global_address</code> ip<em>version
+  * <code>regions</code>: an array of `google</em>compute<em>global</em>address<code>region
+  *</code>prefix<em>lengths<code>: an array of</code>google</em>compute<em>global</em>address<code>prefix_length
+  *</code>address<em>types<code>: an array of</code>google</em>compute<em>global</em>address<code>address_type
+  *</code>purposes<code>: an array of</code>google<em>compute</em>global<em>address<code>purpose
+  *</code>networks<code>: an array of</code>google</em>compute<em>global</em>address` network</p>
 
 <h2 id="filter-criteria">Filter Criteria</h2>
 

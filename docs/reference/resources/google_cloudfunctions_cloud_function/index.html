@@ -23,7 +23,17 @@ end
 <ul>
 <li><p><code>name</code>: A user-defined name of the function. Function names must be unique globally and match pattern <code>projects/*/locations/*/functions/*</code>.</p></li>
 <li><p><code>description</code>: User-provided description of a function.</p></li>
-<li><p><code>status</code>: Status of the function deployment.</p></li>
+<li><p><code>status</code>: Status of the function deployment.
+Possible values:</p>
+
+<ul>
+<li>CLOUD<em>FUNCTION</em>STATUS_UNSPECIFIED</li>
+<li>ACTOVE</li>
+<li>OFFLINE</li>
+<li>DEPLOY<em>IN</em>PROGRESS</li>
+<li>DELETE<em>IN</em>PROGRESS</li>
+<li>UNKNOWN</li>
+</ul></li>
 <li><p><code>entry_point</code>: The name of the function (as defined in source code) that will be executed. Defaults to the resource name suffix, if not specified. For backward compatibility, if function with given name is not found, then the system will try to use function named &ldquo;function&rdquo;. For Node.js this is name of a function exported by the module specified in source_location.</p></li>
 <li><p><code>runtime</code>: The runtime in which the function is going to run. If empty, defaults to Node.js 6.</p></li>
 <li><p><code>timeout</code>: The function execution timeout. Execution is considered failed and can be terminated if the function is not completed at the end of the timeout period. Defaults to 60 seconds.</p></li>

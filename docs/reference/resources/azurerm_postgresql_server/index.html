@@ -43,13 +43,13 @@ end
 
 <h2 id="examples">Examples</h2>
 
-<p>If a SQL Server is referenced with a valid <code>Resource Group</code> and <code>Server Name</code></p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe azurerm_sql_server(resource_group: 'my-rg', server_name: 'sql-server-1') do
+<p>If a PostgreSQL Server is referenced with a valid <code>Resource Group</code> and <code>Server Name</code></p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azurerm_postgresql_server(resource_group: 'my-rg', server_name: 'sql-server-1') do
   it { should exist }
 end
 </code></pre></div>
-<p>If a SQL Server is referenced with an invalid <code>Resource Group</code> or <code>Server Name</code></p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe azurerm_sql_server(resource_group: 'invalid-rg', server_name: 'i-dont-exist') do
+<p>If a PostgreSQL Server is referenced with an invalid <code>Resource Group</code> or <code>Server Name</code></p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azurerm_postgresql_server(resource_group: 'invalid-rg', server_name: 'i-dont-exist') do
   it { should_not exist }
 end
 </code></pre></div>

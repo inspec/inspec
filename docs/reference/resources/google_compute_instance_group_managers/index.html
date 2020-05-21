@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_instance_group_managers</code> is used to test a Google InstanceGroupManager resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_instance_group_managers(project: 'chef-gcp-inspec', zone: 'zone') do
   its('base_instance_names') { should include 'igm' }

@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_router_nats</code> is used to test a Google RouterNat resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_router_nats(project: 'chef-gcp-inspec', region: 'europe-west2', router: 'inspec-gcp-router') do
   its('names') { should include 'inspec-router-nat' }
@@ -15,6 +19,7 @@ end
   * <code>names</code>: an array of <code>google_compute_router_nat</code> name
   * <code>nat_ip_allocate_options</code>: an array of <code>google_compute_router_nat</code> nat<em>ip</em>allocate<em>option
   * `nat</em>ips<code>: an array of</code>google<em>compute</em>router<em>nat` nat</em>ips
+  * <code>drain_nat_ips</code>: an array of <code>google_compute_router_nat</code> drain<em>nat</em>ips
   * <code>source_subnetwork_ip_ranges_to_nats</code>: an array of <code>google_compute_router_nat</code> source<em>subnetwork</em>ip<em>ranges</em>to<em>nat
   * <code>subnetworks</code>: an array of `google</em>compute<em>router</em>nat<code>subnetwork
   *</code>min<em>ports</em>per<em>vms<code>: an array of</code>google</em>compute<em>router</em>nat<code>min_ports_per_vm

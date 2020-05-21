@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_health_checks</code> is used to test a Google HealthCheck resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_health_checks(project: 'chef-gcp-inspec') do
   its('names') { should include 'inspec-gcp-health-check' }
@@ -26,7 +30,8 @@ end
   *</code>https<em>health</em>checks<code>: an array of</code>google<em>compute</em>health<em>check` https</em>health<em>check
   * `tcp</em>health<em>checks<code>: an array of</code>google</em>compute<em>health</em>check<code>tcp_health_check
   *</code>ssl<em>health</em>checks<code>: an array of</code>google<em>compute</em>health<em>check` ssl</em>health<em>check
-  * `http2</em>health<em>checks<code>: an array of</code>google</em>compute<em>health</em>check` http2<em>health</em>check</p>
+  * `http2</em>health<em>checks<code>: an array of</code>google</em>compute<em>health</em>check<code>http2_health_check
+  *</code>log<em>configs<code>: (Beta only) an array of</code>google</em>compute<em>health</em>check` log_config</p>
 
 <h2 id="filter-criteria">Filter Criteria</h2>
 

@@ -1,23 +1,21 @@
-<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the google_storage_bucket Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_google_storage_bucket docs_reference_resources_google_storage_bucket_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="google_storage_bucket">google_storage_bucket</h1>
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the google_storage_bucket resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_google_storage_bucket docs_reference_resources_google_storage_bucket_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h2 id="syntax">Syntax</h2>
 
-<p>Use the <code>google_storage_bucket</code> InSpec audit resource to test properties of a GCP storage bucket.</p>
-
-<p><br>s</p>
-
-<h2 id="syntax">Syntax</h2>
-
-<p>A <code>google_storage_bucket</code> resource block declares the tests for a single GCP storage bucket by name.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe google_storage_bucket(name: 'chef-inspec-gcp-storage-bucket-abcd') do
-  it { should exist }
-  its('name') { should eq 'chef-inspec-gcp-storage-bucket-abcd'  }
-end
-</code></pre></div>
-<p><br></p>
+<p>A <code>google_storage_bucket</code> is used to test a Google Bucket resource</p>
 
 <h2 id="examples">Examples</h2>
+<div class="highlight"><pre class="highlight plaintext"><code>describe google_storage_bucket(name: bucket-name) do
+  it { should exist }
+  its('location') { should cmp 'europe-west2'.upcase }
 
-<p>The following examples show how to use this InSpec audit resource.</p>
+  its('storage_class') { should eq "STANDARD" }
+  its('labels') { should include("key" =&gt; "value") }
+  its('retention_policy.retention_period') { should cmp 1000 }
+end
 
+describe google_storage_bucket(name: "nonexistent") do
+  it { should_not exist }
+end
+</code></pre></div>
 <h3 id="test-that-a-gcp-storage-bucket-is-in-the-expected-location">Test that a GCP storage bucket is in the expected location</h3>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_storage_bucket(name: 'chef-inspec-gcp-storage-bucket-abcd') do
   its('location') { should eq "EUROPE-WEST2" }
@@ -33,19 +31,171 @@ end
   its('storage_class') { should eq 'STANDARD' }
 end
 </code></pre></div>
-<p><br></p>
-
 <h2 id="properties">Properties</h2>
 
-<ul>
-<li> <code>etag</code>, <code>id</code>, <code>kind</code>, <code>location</code>, <code>metageneration</code>, <code>name</code>, <code>project_number</code>, <code>storage_class</code>, <code>time_created</code>, <code>updated</code></li>
-</ul>
+<p>Properties that can be accessed from the <code>google_storage_bucket</code> resource:</p>
 
-<p><br></p>
+<ul>
+<li><p><code>acl</code>: Access controls on the bucket.</p>
+
+<ul>
+<li><code>bucket</code>: The name of the bucket.</li>
+<li><code>domain</code>: The domain associated with the entity.</li>
+<li><code>email</code>: The email address associated with the entity.</li>
+<li><code>entity</code>: The entity holding the permission, in one of the following forms:   user-userId   user-email   group-groupId   group-email   domain-domain   project-team-projectId   allUsers   allAuthenticatedUsers Examples:   The user liz@example.com would be user-liz@example.com.   The group example@googlegroups.com would be   group-example@googlegroups.com.   To refer to all members of the Google Apps for Business domain   example.com, the entity would be domain-example.com.</li>
+<li><code>entity_id</code>: The ID for the entity</li>
+<li><code>id</code>: The ID of the access-control entry.</li>
+<li><code>project_team</code>: The project team associated with the entity
+
+<ul>
+<li><code>project_number</code>: The project team associated with the entity</li>
+<li><code>team</code>: The team.
+Possible values:</li>
+<li>editors</li>
+<li>owners</li>
+<li>viewers</li>
+</ul></li>
+<li><code>role</code>: The access permission for the entity.
+Possible values:
+
+<ul>
+<li>OWNER</li>
+<li>READER</li>
+<li>WRITER</li>
+</ul></li>
+</ul></li>
+<li><p><code>cors</code>: The bucket&rsquo;s Cross-Origin Resource Sharing (CORS) configuration.</p>
+
+<ul>
+<li><code>max_age_seconds</code>: The value, in seconds, to return in the Access-Control-Max-Age header used in preflight responses.</li>
+<li><code>method</code>: The list of HTTP methods on which to include CORS response headers, (GET, OPTIONS, POST, etc) Note: &ldquo;*&rdquo; is permitted in the list of methods, and means &ldquo;any method&rdquo;.</li>
+<li><code>origin</code>: The list of Origins eligible to receive CORS response headers. Note: &ldquo;*&rdquo; is permitted in the list of origins, and means &ldquo;any Origin&rdquo;.</li>
+<li><code>response_header</code>: The list of HTTP headers other than the simple response headers to give permission for the user-agent to share across domains.</li>
+</ul></li>
+<li><p><code>default_event_based_hold</code>: Whether or not to automatically apply an eventBasedHold to new objects added to the bucket.</p></li>
+<li><p><code>default_object_acl</code>: Default access controls to apply to new objects when no ACL is provided.</p>
+
+<ul>
+<li><code>bucket</code>: The name of the bucket.</li>
+<li><code>domain</code>: The domain associated with the entity.</li>
+<li><code>email</code>: The email address associated with the entity.</li>
+<li><code>entity</code>: The entity holding the permission, in one of the following forms:   * user-{{userId}}   * user-{{email}} (such as &ldquo;user-liz@example.com&rdquo;)   * group-{{groupId}}   * group-{{email}} (such as &ldquo;group-example@googlegroups.com&rdquo;)   * domain-{{domain}} (such as &ldquo;domain-example.com&rdquo;)   * project-team-{{projectId}}   * allUsers   * allAuthenticatedUsers</li>
+<li><code>entity_id</code>: The ID for the entity</li>
+<li><code>generation</code>: The content generation of the object, if applied to an object.</li>
+<li><code>id</code>: The ID of the access-control entry.</li>
+<li><code>object</code>: The name of the object, if applied to an object.</li>
+<li><code>project_team</code>: The project team associated with the entity
+
+<ul>
+<li><code>project_number</code>: The project team associated with the entity</li>
+<li><code>team</code>: The team.
+Possible values:</li>
+<li>editors</li>
+<li>owners</li>
+<li>viewers</li>
+</ul></li>
+<li><code>role</code>: The access permission for the entity.
+Possible values:
+
+<ul>
+<li>OWNER</li>
+<li>READER</li>
+</ul></li>
+</ul></li>
+<li><p><code>id</code>: The ID of the bucket. For buckets, the id and name properities are the same.</p></li>
+<li><p><code>lifecycle</code>: The bucket&rsquo;s lifecycle configuration.  See https://developers.google.com/storage/docs/lifecycle for more information.</p>
+
+<ul>
+<li><p><code>rule</code>: A lifecycle management rule, which is made of an action to take and the condition(s) under which the action will be taken.</p>
+
+<ul>
+<li><code>action</code>: The action to take.</li>
+<li><code>storage_class</code>: Target storage class. Required iff the type of the action is SetStorageClass.</li>
+<li><code>type</code>: Type of the action. Currently, only Delete and SetStorageClass are supported.
+Possible values:
+
+<ul>
+<li>Delete</li>
+<li>SetStorageClass</li>
+</ul></li>
+<li><code>condition</code>: The condition(s) under which the action will be taken.</li>
+<li><code>age_days</code>: Age of an object (in days). This condition is satisfied when an object reaches the specified age.</li>
+<li><code>created_before</code>: A date in RFC 3339 format with only the date part (for instance, &ldquo;2013-01-15&rdquo;). This condition is satisfied when an object is created before midnight of the specified date in UTC.</li>
+<li><code>is_live</code>: Relevant only for versioned objects.  If the value is true, this condition matches live objects; if the value is false, it matches archived objects.</li>
+<li><code>matches_storage_class</code>: Objects having any of the storage classes specified by this condition will be matched. Values include MULTI<em>REGIONAL, REGIONAL, NEARLINE, COLDLINE, STANDARD, and DURABLE</em>REDUCED_AVAILABILITY.</li>
+<li><code>num_newer_versions</code>: Relevant only for versioned objects. If the value is N, this condition is satisfied when there are at least N versions (including the live version) newer than this version of the object.</li>
+</ul></li>
+</ul></li>
+<li><p><code>location</code>: The location of the bucket. Object data for objects in the bucket resides in physical storage within this region. Defaults to US. See the developer&rsquo;s guide for the authoritative list.</p></li>
+<li><p><code>logging</code>: The bucket&rsquo;s logging configuration, which defines the destination bucket and optional name prefix for the current bucket&rsquo;s logs.</p>
+
+<ul>
+<li><code>log_bucket</code>: The destination bucket where the current bucket&rsquo;s logs should be placed.</li>
+<li><code>log_object_prefix</code>: A prefix for log object names.</li>
+</ul></li>
+<li><p><code>metageneration</code>: The metadata generation of this bucket.</p></li>
+<li><p><code>name</code>: The name of the bucket</p></li>
+<li><p><code>owner</code>: The owner of the bucket. This is always the project team&rsquo;s owner group.</p>
+
+<ul>
+<li><code>entity</code>: The entity, in the form project-owner-projectId.</li>
+<li><code>entity_id</code>: The ID for the entity.</li>
+</ul></li>
+<li><p><code>project_number</code>: The project number of the project the bucket belongs to.</p></li>
+<li><p><code>storage_class</code>: The bucket&rsquo;s default storage class, used whenever no storageClass is specified for a newly-created object. This defines how objects in the bucket are stored and determines the SLA and the cost of storage. Values include MULTI<em>REGIONAL, REGIONAL, STANDARD, NEARLINE, COLDLINE, and DURABLE</em>REDUCED_AVAILABILITY. If this value is not specified when the bucket is created, it will default to STANDARD. For more information, see storage classes.
+Possible values:</p>
+
+<ul>
+<li>MULTI_REGIONAL</li>
+<li>REGIONAL</li>
+<li>STANDARD</li>
+<li>NEARLINE</li>
+<li>COLDLINE</li>
+<li>DURABLE<em>REDUCED</em>AVAILABILITY</li>
+</ul></li>
+<li><p><code>time_created</code>: The creation time of the bucket in RFC 3339 format.</p></li>
+<li><p><code>updated</code>: The modification time of the bucket in RFC 3339 format.</p></li>
+<li><p><code>versioning</code>: The bucket&rsquo;s versioning configuration.</p>
+
+<ul>
+<li><code>enabled</code>: While set to true, versioning is fully enabled for this bucket.</li>
+</ul></li>
+<li><p><code>website</code>: The bucket&rsquo;s website configuration, controlling how the service behaves when accessing bucket contents as a web site. See the Static Website Examples for more information.</p>
+
+<ul>
+<li><code>main_page_suffix</code>: If the requested object path is missing, the service will ensure the path has a trailing &lsquo;/&rsquo;, append this suffix, and attempt to retrieve the resulting object. This allows the creation of index.html objects to represent directory pages.</li>
+<li><code>not_found_page</code>: If the requested object path is missing, and any mainPageSuffix object is missing, if applicable, the service will return the named object from this bucket as the content for a 404 Not Found result.</li>
+</ul></li>
+<li><p><code>labels</code>: Labels applied to this bucket.  A list of key-&gt;value pairs.</p></li>
+<li><p><code>encryption</code>: Encryption configuration for the bucket</p>
+
+<ul>
+<li><code>default_kms_key_name</code>: A Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.</li>
+</ul></li>
+<li><p><code>retention_policy</code>: Retention policy for the bucket</p>
+
+<ul>
+<li><code>effective_time</code>: The time from which the retention policy was effective</li>
+<li><code>is_locked</code>: If the retention policy is locked. If true, the retention policy cannot be removed and the period cannot be reduced.</li>
+<li><code>retention_period</code>: The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or made noncurrent.</li>
+</ul></li>
+<li><p><code>project</code>: A valid API project identifier.</p></li>
+<li><p><code>predefined_default_object_acl</code>: Apply a predefined set of default object access controls to this bucket.  Acceptable values are:   - &ldquo;authenticatedRead&rdquo;: Object owner gets OWNER access, and     allAuthenticatedUsers get READER access.   - &ldquo;bucketOwnerFullControl&rdquo;: Object owner gets OWNER access, and     project team owners get OWNER access.   - &ldquo;bucketOwnerRead&rdquo;: Object owner gets OWNER access, and project     team owners get READER access.   - &ldquo;private&rdquo;: Object owner gets OWNER access.   - &ldquo;projectPrivate&rdquo;: Object owner gets OWNER access, and project team     members get access according to their roles.   - &ldquo;publicRead&rdquo;: Object owner gets OWNER access, and allUsers get     READER access.
+Possible values:</p>
+
+<ul>
+<li>authenticatedRead</li>
+<li>bucketOwnerFullControl</li>
+<li>bucketOwnerRead</li>
+<li>private</li>
+<li>projectPrivate</li>
+<li>publicRead</li>
+</ul></li>
+</ul>
 
 <h2 id="gcp-permissions">GCP Permissions</h2>
 
-<p>Ensure the <a href="https://console.cloud.google.com/apis/api/storage-component.googleapis.com/">Google Cloud Storage API</a> is enabled.</p>
+<p>Ensure the <a href="https://console.cloud.google.com/apis/library/storage-component.googleapis.com/">Google Cloud Storage</a> is enabled for the current project.</p>
 </column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
 (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
 (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);

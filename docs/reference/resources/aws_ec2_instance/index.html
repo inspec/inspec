@@ -44,6 +44,10 @@ This must be passed as a <code>name: &#39;value&#39;</code> key-value entry in a
 <td>The id of the AMI used to launch the instance.</td>
 </tr>
 <tr>
+<td>role</td>
+<td>The IAM role attached to the instance.</td>
+</tr>
+<tr>
 <td>launch_time</td>
 <td>The time the instance was launched.</td>
 </tr>
@@ -61,11 +65,15 @@ This must be passed as a <code>name: &#39;value&#39;</code> key-value entry in a
 </tr>
 <tr>
 <td>ebs_volumes</td>
-<td>An hash containing the names and ids of any EBS volumes associated with the instance.</td>
+<td>A hash containing the names and ids of any EBS volumes associated with the instance.</td>
 </tr>
 <tr>
 <td>tags</td>
-<td>An hash with each key-value pair corresponding to a tag associated with the entity.</td>
+<td>A list of hashes with each key-value pair corresponding to an EC2 instance tag, e.g, <code>[{:key=&gt;&quot;Name&quot;, :value=&gt;&quot;Testing Box&quot;}, {:key=&gt;&quot;Environment&quot;, :value=&gt;&quot;Dev&quot;}]</code></td>
+</tr>
+<tr>
+<td>tags_hash</td>
+<td>A hash, with each key-value pair corresponding to an EC2 instance tag, e.g, <code>{&quot;Name&quot;=&gt;&quot;Testing Box&quot;, &quot;Environment&quot;=&gt;&quot;Dev&quot;}</code>. This property is available in InSpec AWS resource pack version <strong><a href="https://github.com/inspec/inspec-aws/releases/tag/v1.12.0">1.12.0</a></strong> onwards.</td>
 </tr>
 </tbody></table>
 
@@ -87,6 +95,12 @@ end
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_ec2_instance('i-090c29e4f4c165b74') do
   its('tags') { should include(key: 'Contact', value: 'Gilfoyle') }
 end
+</code></pre></div>
+<h5 id="test-that-an-ec2-instance-has-the-correct-tag-using-the-tags_hash-property">Test that an EC2 instance has the correct tag (using the <code>tags_hash</code> property)</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_ec2_instance('i-090c29e4f4c165b74') do
+  its('tags_hash') { should include('Contact' =&gt; 'Gilfoyle') }
+  its('tags_hash') { should include('Contact') }                  # Regardless of the value
+end    
 </code></pre></div>
 <h5 id="test-that-an-ec2-instance-has-no-roles">Test that an EC2 instance has no roles</h5>
 <div class="highlight"><pre class="highlight plaintext"><code>describe aws_ec2_instance('i-090c29e4f4c165b74') do

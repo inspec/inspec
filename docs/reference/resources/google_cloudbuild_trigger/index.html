@@ -28,8 +28,8 @@ end
 <li><p><code>create_time</code>: Time when the trigger was created.</p></li>
 <li><p><code>substitutions</code>: Substitutions data for Build resource.</p></li>
 <li><p><code>filename</code>: Path, from the source root, to a file whose contents is used for the template. Either a filename or build template must be provided.</p></li>
-<li><p><code>ignored_files</code>: ignoredFiles and includedFiles are file glob matches using http://godoc/pkg/path/filepath#Match extended with support for <code>**</code>.  If ignoredFiles and changed files are both empty, then they are not used to determine whether or not to trigger a build.  If ignoredFiles is not empty, then we ignore any files that match any of the ignored_file globs. If the change has no files that are outside of the ignoredFiles globs, then we do not trigger a build.</p></li>
-<li><p><code>included_files</code>: ignoredFiles and includedFiles are file glob matches using http://godoc/pkg/path/filepath#Match extended with support for <code>**</code>.  If any of the files altered in the commit pass the ignoredFiles filter and includedFiles is empty, then as far as this filter is concerned, we should trigger the build.  If any of the files altered in the commit pass the ignoredFiles filter and includedFiles is not empty, then we make sure that at least one of those files matches a includedFiles glob. If not, then we do not trigger a build.</p></li>
+<li><p><code>ignored_files</code>: ignoredFiles and includedFiles are file glob matches using https://golang.org/pkg/path/filepath/#Match extended with support for <code>**</code>.  If ignoredFiles and changed files are both empty, then they are not used to determine whether or not to trigger a build.  If ignoredFiles is not empty, then we ignore any files that match any of the ignored_file globs. If the change has no files that are outside of the ignoredFiles globs, then we do not trigger a build.</p></li>
+<li><p><code>included_files</code>: ignoredFiles and includedFiles are file glob matches using https://golang.org/pkg/path/filepath/#Match extended with support for <code>**</code>.  If any of the files altered in the commit pass the ignoredFiles filter and includedFiles is empty, then as far as this filter is concerned, we should trigger the build.  If any of the files altered in the commit pass the ignoredFiles filter and includedFiles is not empty, then we make sure that at least one of those files matches a includedFiles glob. If not, then we do not trigger a build.</p></li>
 <li><p><code>trigger_template</code>: Template describing the types of source changes to trigger a build.  Branch and tag names in trigger templates are interpreted as regular expressions. Any branch or tag change that matches that regular expression will trigger a build.</p>
 
 <ul>
@@ -40,12 +40,33 @@ end
 <li><code>tag_name</code>: Name of the tag to build. Exactly one of a branch name, tag, or commit SHA must be provided. This field is a regular expression.</li>
 <li><code>commit_sha</code>: Explicit commit SHA to build. Exactly one of a branch name, tag, or commit SHA must be provided.</li>
 </ul></li>
+<li><p><code>github</code>: (Beta only) Describes the configuration of a trigger that creates a build whenever a GitHub event is received.</p>
+
+<ul>
+<li><code>owner</code>: Owner of the repository. For example: The owner for https://github.com/googlecloudplatform/cloud-builders is &ldquo;googlecloudplatform&rdquo;.</li>
+<li><code>name</code>: Name of the repository. For example: The name for https://github.com/googlecloudplatform/cloud-builders is &ldquo;cloud-builders&rdquo;.</li>
+<li><code>pull_request</code>: filter to match changes in pull requests.  Specify only one of pullRequest or push.
+
+<ul>
+<li><code>branch</code>: Regex of branches to match.</li>
+<li><code>comment_control</code>: Whether to block builds on a &ldquo;/gcbrun&rdquo; comment from a repository owner or collaborator.
+Possible values:</li>
+<li>COMMENTS_DISABLED</li>
+<li>COMMENTS_ENABLED</li>
+</ul></li>
+<li><code>push</code>: filter to match changes in refs, like branches or tags.  Specify only one of pullRequest or push.
+
+<ul>
+<li><code>branch</code>: Regex of branches to match.  Specify only one of branch or tag.</li>
+<li><code>tag</code>: Regex of tags to match.  Specify only one of branch or tag.</li>
+</ul></li>
+</ul></li>
 <li><p><code>build</code>: Contents of the build template. Either a filename or build template must be provided.</p>
 
 <ul>
 <li><code>tags</code>: Tags for annotation of a Build. These are not docker tags.</li>
 <li><code>images</code>: A list of images to be pushed upon the successful completion of all build steps. The images are pushed using the builder service account&rsquo;s credentials. The digests of the pushed images will be stored in the Build resource&rsquo;s results field. If any of the images fail to be pushed, the build status is marked FAILURE.</li>
-<li><code>timeout</code>: Amount of time that this build should be allowed to run, to second granularity.  If this amount of time elapses, work on the build will cease and the build status will be TIMEOUT. This timeout must be equal to or greater than the sum of the timeouts for build steps within the build. The expected format is the number of seconds followed by s. Default time is ten minutes (600s).</li>
+<li><code>timeout</code>: Amount of time that this build should be allowed to run, to second granularity. If this amount of time elapses, work on the build will cease and the build status will be TIMEOUT. This timeout must be equal to or greater than the sum of the timeouts for build steps within the build. The expected format is the number of seconds followed by s. Default time is ten minutes (600s).</li>
 <li><p><code>steps</code>: The operations to be performed on the workspace.</p>
 
 <ul>

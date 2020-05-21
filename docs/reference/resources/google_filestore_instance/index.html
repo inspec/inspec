@@ -26,7 +26,14 @@ end
 <li><p><code>name</code>: The resource name of the instance.</p></li>
 <li><p><code>description</code>: A description of the instance.</p></li>
 <li><p><code>create_time</code>: Creation timestamp in RFC3339 text format.</p></li>
-<li><p><code>tier</code>: The service tier of the instance.</p></li>
+<li><p><code>tier</code>: The service tier of the instance.
+Possible values:</p>
+
+<ul>
+<li>TIER_UNSPECIFIED</li>
+<li>STANDARD</li>
+<li>PREMIUM</li>
+</ul></li>
 <li><p><code>labels</code>: Resource labels to represent user-provided metadata.</p></li>
 <li><p><code>file_shares</code>: File system shares on the instance. For this version, only a single file share is supported.</p>
 

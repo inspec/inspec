@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_global_forwarding_rules</code> is used to test a Google GlobalForwardingRule resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_global_forwarding_rules(project: 'chef-gcp-inspec') do
   its('count') { should be &gt;= 1 }
@@ -19,12 +23,14 @@ end
   *</code>ip</em>addresses<code>: an array of</code>google<em>compute</em>global<em>forwarding</em>rule<code>ip_address
   *</code>ip<em>protocols<code>: an array of</code>google</em>compute<em>global</em>forwarding<em>rule` ip</em>protocol
   * <code>ip_versions</code>: an array of <code>google_compute_global_forwarding_rule</code> ip<em>version
-  * `load</em>balancing<em>schemes<code>: an array of</code>google</em>compute<em>global</em>forwarding<em>rule` load</em>balancing<em>scheme
-  * `metadata</em>filters<code>: an array of</code>google<em>compute</em>global<em>forwarding</em>rule<code>metadata_filters
-  *</code>names<code>: an array of</code>google<em>compute</em>global<em>forwarding</em>rule<code>name
-  *</code>networks<code>: an array of</code>google<em>compute</em>global<em>forwarding</em>rule<code>network
-  *</code>port<em>ranges<code>: an array of</code>google</em>compute<em>global</em>forwarding<em>rule` port</em>range
-  * <code>targets</code>: an array of <code>google_compute_global_forwarding_rule</code> target</p>
+  * <code>labels</code>: (Beta only) an array of `google</em>compute<em>global</em>forwarding<em>rule<code>labels
+  *</code>label</em>fingerprints<code>: (Beta only) an array of</code>google<em>compute</em>global<em>forwarding</em>rule<code>label_fingerprint
+  *</code>load<em>balancing</em>schemes<code>: an array of</code>google<em>compute</em>global<em>forwarding</em>rule<code>load_balancing_scheme
+  *</code>metadata<em>filters<code>: an array of</code>google</em>compute<em>global</em>forwarding<em>rule` metadata</em>filters
+  * <code>names</code>: an array of <code>google_compute_global_forwarding_rule</code> name
+  * <code>networks</code>: an array of <code>google_compute_global_forwarding_rule</code> network
+  * <code>port_ranges</code>: an array of <code>google_compute_global_forwarding_rule</code> port<em>range
+  * <code>targets</code>: an array of `google</em>compute<em>global</em>forwarding_rule` target</p>
 
 <h2 id="filter-criteria">Filter Criteria</h2>
 

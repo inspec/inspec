@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_router_nat</code> is used to test a Google RouterNat resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_router_nat(project: 'chef-gcp-inspec', region: 'europe-west2', router: 'inspec-gcp-router', name: 'inspec-router-nat') do
   it { should exist }
@@ -22,9 +26,23 @@ end
 
 <ul>
 <li><p><code>name</code>: Name of the NAT service. The name must be 1-63 characters long and comply with RFC1035.</p></li>
-<li><p><code>nat_ip_allocate_option</code>: How external IPs should be allocated for this NAT. Valid values are <code>AUTO_ONLY</code> for only allowing NAT IPs allocated by Google Cloud Platform, or <code>MANUAL_ONLY</code> for only user-allocated NAT IP addresses.</p></li>
+<li><p><code>nat_ip_allocate_option</code>: How external IPs should be allocated for this NAT. Valid values are <code>AUTO_ONLY</code> for only allowing NAT IPs allocated by Google Cloud Platform, or <code>MANUAL_ONLY</code> for only user-allocated NAT IP addresses.
+Possible values:</p>
+
+<ul>
+<li>MANUAL_ONLY</li>
+<li>AUTO_ONLY</li>
+</ul></li>
 <li><p><code>nat_ips</code>: Self-links of NAT IPs. Only valid if natIpAllocateOption is set to MANUAL_ONLY.</p></li>
-<li><p><code>source_subnetwork_ip_ranges_to_nat</code>: How NAT should be configured per Subnetwork. If <code>ALL_SUBNETWORKS_ALL_IP_RANGES</code>, all of the IP ranges in every Subnetwork are allowed to Nat. If <code>ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES</code>, all of the primary IP ranges in every Subnetwork are allowed to Nat. <code>LIST_OF_SUBNETWORKS</code>: A list of Subnetworks are allowed to Nat (specified in the field subnetwork below). Note that if this field contains ALL<em>SUBNETWORKS</em>ALL<em>IP</em>RANGES or ALL<em>SUBNETWORKS</em>ALL<em>PRIMARY</em>IP_RANGES, then there should not be any other RouterNat section in any Router for this network in this region.</p></li>
+<li><p><code>drain_nat_ips</code>: A list of URLs of the IP resources to be drained. These IPs must be valid static external IPs that have been assigned to the NAT.</p></li>
+<li><p><code>source_subnetwork_ip_ranges_to_nat</code>: How NAT should be configured per Subnetwork. If <code>ALL_SUBNETWORKS_ALL_IP_RANGES</code>, all of the IP ranges in every Subnetwork are allowed to Nat. If <code>ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES</code>, all of the primary IP ranges in every Subnetwork are allowed to Nat. <code>LIST_OF_SUBNETWORKS</code>: A list of Subnetworks are allowed to Nat (specified in the field subnetwork below). Note that if this field contains ALL<em>SUBNETWORKS</em>ALL<em>IP</em>RANGES or ALL<em>SUBNETWORKS</em>ALL<em>PRIMARY</em>IP_RANGES, then there should not be any other RouterNat section in any Router for this network in this region.
+Possible values:</p>
+
+<ul>
+<li>ALL<em>SUBNETWORKS</em>ALL<em>IP</em>RANGES</li>
+<li>ALL<em>SUBNETWORKS</em>ALL<em>PRIMARY</em>IP_RANGES</li>
+<li>LIST<em>OF</em>SUBNETWORKS</li>
+</ul></li>
 <li><p><code>subnetwork</code>: One or more subnetwork NAT configurations. Only used if <code>source_subnetwork_ip_ranges_to_nat</code> is set to <code>LIST_OF_SUBNETWORKS</code></p>
 
 <ul>
@@ -41,7 +59,14 @@ end
 
 <ul>
 <li><code>enable</code>: Indicates whether or not to export logs.</li>
-<li><code>filter</code>: Specifies the desired filtering of logs on this NAT. Valid values are: <code>&quot;ERRORS_ONLY&quot;</code>, <code>&quot;TRANSLATIONS_ONLY&quot;</code>, <code>&quot;ALL&quot;</code></li>
+<li><code>filter</code>: Specifies the desired filtering of logs on this NAT.
+Possible values:
+
+<ul>
+<li>ERRORS_ONLY</li>
+<li>TRANSLATIONS_ONLY</li>
+<li>ALL</li>
+</ul></li>
 </ul></li>
 <li><p><code>router</code>: The name of the Cloud Router in which this NAT will be configured.</p></li>
 <li><p><code>region</code>: Region where the router and NAT reside.</p></li>

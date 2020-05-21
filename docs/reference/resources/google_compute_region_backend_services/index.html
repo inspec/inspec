@@ -2,6 +2,10 @@
 
 <p>A <code>google_compute_region_backend_services</code> is used to test a Google RegionBackendService resource</p>
 
+<h2 id="beta-resource">Beta Resource</h2>
+
+<p>This resource has beta fields available. To retrieve these fields, include <code>beta: true</code> in the constructor for the resource</p>
+
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre class="highlight plaintext"><code>describe google_compute_region_backend_services(project: 'chef-gcp-inspec', region: 'europe-west2') do
   its('count') { should be &gt;= 1 }
@@ -15,19 +19,28 @@ end
 <p>Properties that can be accessed from the <code>google_compute_region_backend_services</code> resource:</p>
 
 <p>See <a href="google_compute_region_backend_service.md">google<em>compute</em>region<em>backend</em>service.md</a> for more detailed information
-  * <code>backends</code>: an array of <code>google_compute_region_backend_service</code> backends
+  * <code>affinity_cookie_ttl_secs</code>: an array of <code>google_compute_region_backend_service</code> affinity<em>cookie</em>ttl<em>sec
+  * <code>backends</code>: an array of `google</em>compute<em>region</em>backend<em>service<code>backends
+  *</code>circuit</em>breakers<code>: an array of</code>google<em>compute</em>region<em>backend</em>service<code>circuit_breakers
+  *</code>consistent<em>hashes<code>: an array of</code>google</em>compute<em>region</em>backend<em>service` consistent</em>hash
   * <code>connection_drainings</code>: an array of <code>google_compute_region_backend_service</code> connection<em>draining
   * `creation</em>timestamps<code>: an array of</code>google<em>compute</em>region<em>backend</em>service<code>creation_timestamp
   *</code>descriptions<code>: an array of</code>google<em>compute</em>region<em>backend</em>service<code>description
-  *</code>fingerprints<code>: an array of</code>google<em>compute</em>region<em>backend</em>service<code>fingerprint
-  *</code>health<em>checks<code>: an array of</code>google</em>compute<em>region</em>backend<em>service` health</em>checks
-  * <code>ids</code>: an array of <code>google_compute_region_backend_service</code> id
-  * <code>load_balancing_schemes</code>: an array of <code>google_compute_region_backend_service</code> load<em>balancing</em>scheme
-  * <code>names</code>: an array of <code>google_compute_region_backend_service</code> name
+  *</code>failover<em>policies<code>: an array of</code>google</em>compute<em>region</em>backend<em>service` failover</em>policy
+  * <code>fingerprints</code>: an array of <code>google_compute_region_backend_service</code> fingerprint
+  * <code>health_checks</code>: an array of <code>google_compute_region_backend_service</code> health<em>checks
+  * <code>ids</code>: an array of `google</em>compute<em>region</em>backend<em>service<code>id
+  *</code>load</em>balancing<em>schemes<code>: an array of</code>google</em>compute<em>region</em>backend<em>service` load</em>balancing<em>scheme
+  * `locality</em>lb<em>policies<code>: an array of</code>google</em>compute<em>region</em>backend<em>service` locality</em>lb<em>policy
+  * <code>names</code>: an array of `google</em>compute<em>region</em>backend<em>service<code>name
+  *</code>outlier</em>detections<code>: an array of</code>google<em>compute</em>region<em>backend</em>service<code>outlier_detection
+  *</code>port<em>names<code>: an array of</code>google</em>compute<em>region</em>backend<em>service` port</em>name
   * <code>protocols</code>: an array of <code>google_compute_region_backend_service</code> protocol
   * <code>session_affinities</code>: an array of <code>google_compute_region_backend_service</code> session<em>affinity
   * `timeout</em>secs<code>: an array of</code>google<em>compute</em>region<em>backend</em>service<code>timeout_sec
-  *</code>regions<code>: an array of</code>google<em>compute</em>region<em>backend</em>service` region</p>
+  *</code>log<em>configs<code>: an array of</code>google</em>compute<em>region</em>backend<em>service` log</em>config
+  * <code>networks</code>: an array of <code>google_compute_region_backend_service</code> network
+  * <code>regions</code>: an array of <code>google_compute_region_backend_service</code> region</p>
 
 <h2 id="filter-criteria">Filter Criteria</h2>
 
