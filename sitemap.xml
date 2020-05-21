@@ -32,2989 +32,2989 @@
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/dsl_inspec</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/README</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/dsl_resource</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/plugins</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/install</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_kms_crypto_key_iam_binding</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_mysql_server</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_cloudtrail_trails</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_load_balancers</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_access_context_manager_access_policies</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_iam_policies</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/parse_config</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_zones</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/audit_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_iam_service_account_keys</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_network_security_groups</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_event_hub_namespace</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_spanner_database</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_target_pools</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_access_context_manager_service_perimeters</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_mysql_servers</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/auditd_conf</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/group</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_network_watcher</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_snapshots</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/postgres_session</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_instances</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_iam_custom_roles</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/bridge</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_regions</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_launch_configuration</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_cloudbuild_trigger</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_bigquery_dataset</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_subnetwork_iam_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_cloudwatch_alarm</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_organization_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/file</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_router_nats</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/habitat_package</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_storage_bucket_object</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_dns_resource_record_set</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_project_iam_binding</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_security_center_policies</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_rds_instance</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/oneget</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_image</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_spanner_instance</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_elb</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_url_map</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_http_health_checks</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_runtime_config_config_iam_binding</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_autoscalers</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_addresses</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/systemd_service</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_subnet</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_storage_bucket_objects</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_target_https_proxies</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_dynamodb_table</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_kms_key_ring_iam_bindings</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/docker_plugin</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_sql_databases</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_node_template</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_event_hub_authorization_rule</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_ecr</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_sql_database</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_https_health_checks</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_storage_buckets</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azure_generic_resource</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_project_metrics</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_virtual_machine_disks</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_instance_templates</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_url_maps</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_subnetwork_iam_binding</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/xinetd_conf</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_organizations</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_iam_access_key</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_load_balancer</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_monitor_activity_log_alerts</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/bond</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_ecr_repository</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_project_service</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_runtime_config_config_iam_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/docker_service</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/firewalld</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_firewalls</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_forwarding_rule</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_security_policies</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/directory</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/oracledb_session</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_iam_role</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/mount</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_kms_key</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_rds_clusters</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/runit_service</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_network</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_bigquery_table</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_iam_user</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_project_alert_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/host</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/sys_info</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_dns_resource_record_sets</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_role_definitions</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_region_backend_services</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_efs_file_system</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_mysql_databases</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/iis_app</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_monitor_log_profile</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_management_group</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_sql_database_instance</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_ad_user</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_ml_engine_model</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_projects</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/nginx_conf</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_global_forwarding_rule</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/nginx</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_sourcerepo_repositories</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/chocolatey_package</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/command</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_efs_file_systems</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_project</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_eks_cluster</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/service</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_pubsub_topic_iam_binding</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_dns_managed_zone</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_storage_bucket_iam_bindings</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_elasticache_cluster_node</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_regions</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_sql_database_instances</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_container_regional_node_pools</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_service_accounts</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_runtime_config_configs</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_node_groups</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_logging_project_sinks</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_iam_roles</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_security_groups</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/security_identifier</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_address</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/groups</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_storage_default_object_acl</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_key_vault_key</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/habitat_services</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_route_tables</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_transit_gateway</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/http</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_dataproc_cluster</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_project_alert_policy_condition</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_access_context_manager_service_perimeter</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_postgresql_server</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_monitor_activity_log_alert</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_disks</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_target_tcp_proxy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_cloudtrail_trail</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_ssl_certificate</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_firewall</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_sql_servers</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_instance_group</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/auditd</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_key_vault_secrets</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_ebs_volume</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_virtual_machine</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_bigquery_tables</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_s3_buckets</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_organization_iam_binding</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/ini</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/gem</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_service_account_key</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_virtual_machine_disk</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/user</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/parse_config_file</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_container_clusters</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/iptables</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_storage_account_blob_container</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_runtime_config_config</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_lambdas</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/interface</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_iam_service_account</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_instance_template</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/yaml</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_ecr_images</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aide_conf</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_cloudbuild_triggers</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_subscription</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_elbs</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_ecs_clusters</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_storage_bucket_acl</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_config_delivery_channel</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_rds_instances</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_storage_bucket</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_backend_services</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_logging_folder_log_sink</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_project_services</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_logging_project_exclusions</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_network_watchers</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_project_info</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_iam_service_account_key</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_ad_users</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/processes</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/security_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_resourcemanager_folder</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_organization</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_spanner_instance_iam_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_kms_crypto_key_iam_bindings</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/upstart_service</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_node_group</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_network_endpoint_group</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_aks_clusters</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_webapp</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azure_virtual_machine</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_runtime_config_variables</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_user</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/users</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_iam_account_alias</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/mysql_session</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/ip6tables</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_pubsub_subscription_iam_binding</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_project_alert_policies</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_health_checks</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_logging_folder_exclusions</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_cloud_scheduler_job</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_access_context_manager_access_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_logging_project_exclusion</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/cpan</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_pubsub_subscription_iam_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/rabbitmq_config</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/dh_params</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_network_security_group</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_iam_saml_provider</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_hosted_zone</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_iam_inline_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_storage_object_acl</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_resourcemanager_folders</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_internet_gateway</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/elasticsearch</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_region_instance_group_manager</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_elasticache_clusters</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/crontab</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_pubsub_subscription</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_pubsub_topics</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_container_cluster</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_iam_organization_custom_roles</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_resourcemanager_folder_iam_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_organizations_member</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/passwd</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_cloudfunctions_cloud_function</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_vpc</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/kernel_parameter</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_instance_group_manager</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_container_node_pools</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_event_hub_event_hub</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_ssl_policies</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_filestore_instances</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/key_rsa</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_key_vault</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_virtual_network</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_iam_root_user</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_region_backend_service</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/apache_conf</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/pip</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azure_virtual_machine_data_disk</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_logging_folder_log_sinks</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_sqs_queue</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_route_table</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_pubsub_topic_iam_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_logging_organization_log_sink</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_redis_instances</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_global_address</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_target_pool</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/filesystem</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_subnet</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/shadow</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_global_addresses</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_ec2_instances</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_hosted_zones</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/etc_fstab</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/apache</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/bash</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/yum</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azure_resource_group</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_pubsub_subscriptions</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_cloudfunctions_cloud_functions</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_mysql_database</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_ebs_volumes</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/postfix_conf</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_elasticache_cluster</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_network_interfaces</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_ec2_instance</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_sql_user</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_spanner_databases</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_sourcerepo_repository</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_project_iam_bindings</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_logging_project_sink</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/postgres_ident_conf</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/mysql_conf</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/login_defs</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_cosmosdb_database_account</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_iam_access_keys</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/docker_image</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_kms_crypto_key_iam_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_networks</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_internet_gateways</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_backend_bucket</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/inetd_conf</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_kms_key_ring_iam_binding</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_appengine_standard_app_versions</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_postgresql_servers</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_resourcemanager_folder_iam_binding</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/docker_container</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_postgresql_database</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_kms_keys</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_container_regional_node_pool</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_iam_group</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_service_account</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_s3_bucket_object</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/zfs_pool</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/vbscript</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_region</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_key_vaults</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_project_logging_audit_config</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_dns_managed_zones</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_role_definition</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_container_regional_clusters</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_service_account_keys</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_network_interface</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_organization_iam_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_autoscaler</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_logging_organization_log_sinks</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_eks_clusters</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_resourcemanager_project_iam_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_storage_bucket_iam_binding</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_pubsub_topic</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_project_iam_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/virtualization</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/launchd_service</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_resourcemanager_project_iam_binding</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_aks_cluster</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_kms_crypto_keys</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/apt</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_billing_project_billing_info</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_spanner_instance_iam_binding</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_target_http_proxies</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/xml</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_s3_bucket</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_virtual_machines</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_iam_custom_role</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_sns_topic</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_sql_server</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_resourcemanager_organization_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/ssl</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_postgresql_databases</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_project_iam_custom_role</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/etc_hosts</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_http_health_check</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_users</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/windows_hotfix</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_alb</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/kernel_module</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_storage_bucket_iam_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_region_instance_group_managers</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_container_regional_cluster</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/limits_conf</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/grub_conf</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/habitat_service</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/npm</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_vpcs</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_bigquery_datasets</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_auto_scaling_group</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_iam_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_redis_instance</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_ml_engine_models</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_snapshot</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_key_vault_keys</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_config_recorder</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_resource_groups</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_sts_caller_identity</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_dhcp_options</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_spanner_instances</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_sql_users</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_filestore_instance</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_instance</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/ssh_config</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_route</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_flow_log</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_sqs_queues</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_instance_group_managers</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_router</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_iam_groups</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/docker</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_runtime_config_variable</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_ssl_certificates</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_auto_scaling_groups</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_logging_folder_exclusion</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/postgres_hba_conf</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_appengine_standard_app_version</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_iam_service_accounts</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_zone</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_virtual_networks</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/wmi</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_ecr_image</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_health_check</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_cloud_scheduler_jobs</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_iothub_event_hub_consumer_group</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_regional_disk</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_subnetworks</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_global_forwarding_rules</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_target_https_proxy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_iam_users</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/postgres_conf</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/powershell</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_forwarding_rules</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_webapps</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/habitat_packages</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/iis_site</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/ntp_conf</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_project_iam_custom_roles</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_backend_buckets</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/windows_task</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_lambda</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_subnets</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/x509_certificate</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_network_endpoint_groups</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_kms_key_rings</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_dataproc_clusters</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_vpn_tunnel</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_routes</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/port</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_https_health_check</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_key_vault_secret</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/packages</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_iam_password_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/csv</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_iam_saml_providers</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/os_env</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_cloudformation_stack</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_kms_key_ring_iam_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_project_metric</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_backend_service</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_routers</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/os</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_security_group</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_management_groups</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_rds_cluster</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_target_http_proxy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_monitor_log_profiles</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/etc_hosts_allow</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_router_nat</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/mssql_session</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_security_center_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/etc_group</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/package</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/windows_feature</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/bsd_service</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_storage_account_blob_containers</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_subnetwork</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/sshd_config</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/registry_key</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_instance_groups</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_node_templates</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_ecr_repositories</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/cran</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_cloudwatch_log_group</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_locks</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/json</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_iothub_event_hub_consumer_groups</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_sns_topics</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/zfs_dataset</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/azurerm_iothub</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_subnets</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_ssl_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_kms_crypto_key</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_security_policy</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_iam_organization_custom_role</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/sysv_service</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_vpn_tunnels</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/etc_hosts_deny</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_cloudwatch_log_metric_filter</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_ecs_cluster</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_kms_key_ring</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/aws_sns_subscription</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_container_node_pool</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_region</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_target_tcp_proxies</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/resources/google_compute_disk</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/shell</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/waivers</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/style</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/matchers</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/plugin_kitchen_inspec</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/cli</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/inspec_and_friends</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/config</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/reporters</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/platforms</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/habitat</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/inputs</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/migration</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/glossary</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://inspec.io/docs/reference/profiles</loc>
-    <lastmod>2020-05-21T09:19:32+01:00</lastmod>
+    <lastmod>2020-05-21T09:21:13+01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
