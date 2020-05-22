@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.116 -->
-## [v4.18.116](https://github.com/inspec/inspec/tree/v4.18.116) (2020-05-22)
+<!-- latest_release 4.18.117 -->
+## [v4.18.117](https://github.com/inspec/inspec/tree/v4.18.117) (2020-05-22)
 
 #### New Features
-- Stores output of `inspec json` to archive and artifact [#5017](https://github.com/inspec/inspec/pull/5017) ([Schwad](https://github.com/Schwad))
+- Reporters as Plugins [#5007](https://github.com/inspec/inspec/pull/5007) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.114 -->
 ### Changes since 4.18.114 release
 
 #### New Features
+- Reporters as Plugins [#5007](https://github.com/inspec/inspec/pull/5007) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.117 -->
 - Stores output of `inspec json` to archive and artifact [#5017](https://github.com/inspec/inspec/pull/5017) ([Schwad](https://github.com/Schwad)) <!-- 4.18.116 -->
 
 #### Merged Pull Requests
