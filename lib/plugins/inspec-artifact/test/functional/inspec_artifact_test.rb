@@ -44,6 +44,7 @@ class ArtifactCli < Minitest::Test
 
       assert_includes out.stdout.force_encoding(Encoding::UTF_8), "Installing to #{install_dir}"
       assert_includes Dir.entries(install_dir).join, "inspec.yml"
+      assert_includes Dir.entries(install_dir).join, "inspec.json"
       assert_exit_code 0, out
     end
   end

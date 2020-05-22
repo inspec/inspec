@@ -5,6 +5,7 @@ require "set"
 require "tempfile"
 require "yaml"
 require "inspec/dist"
+require "inspec/utils/json_profile_summary"
 
 module InspecPlugins
   module Artifact
@@ -40,9 +41,13 @@ module InspecPlugins
 
       def self.profile_sign(options)
         artifact = new
+        path_to_profile = options["profile"]
+
+        # Write inspec.json file within artifact
+        write_inspec_json(path_to_profile, options)
+
         Dir.mktmpdir do |workdir|
           puts "Signing #{options["profile"]} with key #{options["keyname"]}"
-          path_to_profile = options["profile"]
           profile_md = artifact.read_profile_metadata(path_to_profile)
           artifact_filename = "#{profile_md["name"]}-#{profile_md["version"]}.#{SIGNED_PROFILE_SUFFIX}"
           tarfile = artifact.profile_compress(path_to_profile, profile_md, workdir)
@@ -63,6 +68,9 @@ module InspecPlugins
           end
           puts "Successfully generated #{artifact_filename}"
         end
+
+        # Cleanup
+        File.delete("#{path_to_profile}/inspec.json")
       end
 
       def self.profile_verify(options)
@@ -164,6 +172,15 @@ module InspecPlugins
         else
           raise "Artifact is invalid"
         end
+      end
+
+      def self.write_inspec_json(root_path, opts)
+        profile = Inspec::Profile.for_path(root_path, opts)
+        Inspec::Utils::JsonProfileSummary.produce_json(
+          info: profile.info,
+          write_path: "#{root_path}/inspec.json",
+          suppress_output: true
+        )
       end
     end
   end

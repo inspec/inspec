@@ -141,7 +141,7 @@ describe "example inheritance profile" do
       # out.stdout.scan(/Dependency does not exist in the cache/).length.must_equal 1
       _(out.stdout.scan(/Fetching URL:/).length).must_equal 0
 
-      _(out.stderr).must_equal ""
+      _(out.stderr).must_include "----> creating #{dst.path}"
 
       assert_exit_code 0, out
 

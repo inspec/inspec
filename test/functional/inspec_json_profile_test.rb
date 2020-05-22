@@ -110,7 +110,7 @@ describe "inspec json" do
     _(hm["name"]).must_equal "profile"
     _(hm["controls"].length).must_equal 4
 
-    _(out.stderr).must_equal ""
+    _(out.stderr).must_include "----> creating #{dst.path}"
 
     assert_exit_code 0, out
   end
