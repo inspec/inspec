@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.18.115 -->
-## [v4.18.115](https://github.com/inspec/inspec/tree/v4.18.115) (2020-05-20)
+<!-- latest_release 4.18.116 -->
+## [v4.18.116](https://github.com/inspec/inspec/tree/v4.18.116) (2020-05-22)
 
-#### Merged Pull Requests
-- Update for incoming ruby openSSL deprecations [#5035](https://github.com/inspec/inspec/pull/5035) ([Schwad](https://github.com/Schwad))
+#### New Features
+- Stores output of `inspec json` to archive and artifact [#5017](https://github.com/inspec/inspec/pull/5017) ([Schwad](https://github.com/Schwad))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.18.114 -->
 ### Changes since 4.18.114 release
+
+#### New Features
+- Stores output of `inspec json` to archive and artifact [#5017](https://github.com/inspec/inspec/pull/5017) ([Schwad](https://github.com/Schwad)) <!-- 4.18.116 -->
 
 #### Merged Pull Requests
 - Update for incoming ruby openSSL deprecations [#5035](https://github.com/inspec/inspec/pull/5035) ([Schwad](https://github.com/Schwad)) <!-- 4.18.115 -->
