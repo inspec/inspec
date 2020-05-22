@@ -41,3 +41,28 @@ end
 control "11_waivered_expiry_in_future_not_ran" do
   describe(true) { it { should eq true } }
 end
+
+control "12_waivered_expiry_in_future_z_ran_passes" do
+  describe(true) { it { should eq true } }
+end
+
+control "13_waivered_expiry_in_future_z_ran_fails" do
+  describe(true) { it { should eq false } }
+end
+
+control "14_waivered_expiry_in_future_z_not_ran" do
+  describe(true) { it { should eq true } }
+end
+
+# If transcoding YAML between languages, a date might end up as an explicit string in YAML
+control "15_waivered_expiry_in_future_string_ran_passes" do
+  describe(true) { it { should eq true } }
+end
+
+control "16_waivered_expiry_in_future_string_ran_fails" do
+  describe(true) { it { should eq false } }
+end
+
+control "17_waivered_expiry_in_future_string_not_ran" do
+  describe(true) { it { should eq true } }
+end
