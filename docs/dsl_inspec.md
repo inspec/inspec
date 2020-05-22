@@ -255,7 +255,6 @@ control "whatruns" do
 end
 ```
 
- * `only_if` results in a skipped result for the control and all tests in the control, and is the only supported way of skipping an InSpec control. Other methods relying on RSpec-specific features such as `before` and `skip` may not work in the future.
  * Only one `only_if` is permitted per `control` block; if multiple `only_if` blocks are present, only the last one will be honored.
  * `only_if` may also be used outside a control block. In that case, it will be used to skip all controls in the current file.
  * To implement complex logic, use Ruby 'or' (`||`) and 'and' (`&&`) inside your `only_if` block:
