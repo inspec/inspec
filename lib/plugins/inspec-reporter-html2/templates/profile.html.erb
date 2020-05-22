@@ -1,0 +1,20 @@
+<div class="profile <%= profile.parent_profile ? "child-profile" : "" %>" id="profile-<%= profile.name %>">
+  <% display_name = profile.title || profile.name %>
+  <h2 class="profile_title">Profile <%= display_name %> (<%= profile.name %>)</h2>
+
+  <table class="profile-metadata info" id="profile-metadata-<%= profile.name %>">
+    <tr class="profile-version"><th>Version:</th><td><%= profile.version %></td></tr>
+    <% if profile.summary %>
+    <tr class="profile-summary"><th>Summary:</th><td><%= profile.summary %></td></tr>
+    <% end %>
+    <% if profile.skip_message %>
+    <tr class="profile-skip-message"><th>Skip Message:</th><td><%= profile.skip_message %></td></tr>
+    <% end %>
+  </table>
+
+  <% if profile.status == "loaded" %>
+    <% profile.controls.each do |control| %>
+      <%= ERB.new(File.read(template_path + "/control.html.erb"), nil, nil, "_ctl").result(binding)  %>
+    <% end %>
+  <% end %>
+</div>

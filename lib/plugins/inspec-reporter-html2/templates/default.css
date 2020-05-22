@@ -1,0 +1,107 @@
+body {
+  margin: 20px 10% 20px 10%;
+  padding: 0;
+  background: #fff;
+}
+h1, h2, h3, h4, h5 {
+  font-family: "Lucida Grande", Helvetica, sans-serif;
+}
+h1, h2 {
+  padding: 10px;
+  text-align: center
+}
+table.info th, table.info th {
+  padding: 2px;
+}
+table.info th {
+  text-align: right;
+}
+.hidden {
+  display: none;
+}
+pre code {
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 20px;
+}
+
+.profile, .control, .profile-metadata {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 5px auto;
+}
+
+.resource-title {
+  margin-left: 2.5%;
+}
+
+.control-title code,
+.resource-title code {
+  font-size: larger;
+}
+.control-metadata .status div,
+.result-metadata .status div {
+  color: white;
+  font-weight: bold;
+  width: fit-content;
+  padding: 0px 2px;
+}
+
+.control-metadata .status-passed div,
+.result-metadata .status-passed div  {
+  background-color: darkgreen;
+}
+.control-metadata .status-failed div,
+.result-metadata .status-failed div {
+  background-color: red;
+}
+.control-metadata .status-skipped div,
+.result-metadata .status-skipped div  {
+  background-color: grey;
+}
+.result-metadata,
+.control-metadata {
+  margin: 0 0 0 5%;
+}
+
+.selector-panel {
+  position: fixed;
+  z-index: 100;
+  background-color: #ccc;
+  padding: 10px;
+  top: 0;
+  margin-left: -10%;
+  border-bottom-right-radius: 10px;
+}
+
+@media print {
+  .selector-panel {
+     visibility: hidden;
+  }
+}
+
+.inspec-summary {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 5px auto;
+  width: fit-content
+}
+
+.inspec-summary h4 {
+  margin-bottom: 0px;
+}
+
+.inspec-summary #platform, .inspec-summary #statistics {
+  display: inline;
+}
+
+#statistics .date td {
+  width: 100px
+}
+
+#inspec-version {
+  display: block;
+  text-align: center;
+  font-style: italic;
+}

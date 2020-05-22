@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>InSpec Results</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style type="text/css">
+    /* Must inline all CSS files, this is a single-file output that may be airgapped */
+    <%= ERB.new(File.read(template_path + "/default.css"), nil, nil, "_css").result(binding)  %>
+    </style>
+    <script type="text/javascript">
+    // <![CDATA[
+    /* Must inline all JavaScript files, this is a single-file output that may be airgapped */
+    <%= ERB.new(File.read(template_path + "/default.js"), nil, nil, "_js").result(binding)  %>
+    // ]]>
+    </script>
+  </head>
+  <body onload="pageLoaded()">
+    <%= ERB.new(File.read(template_path + "/selector.html.erb"), nil, nil, "_select").result(binding)  %>
+    <div class="inspec-report">
+    <h1>Chef InSpec Report</h1>
+    <% run_data.profiles.each do |profile| %>
+      <%= ERB.new(File.read(template_path + "/profile.html.erb"), nil, nil, "_prof").result(binding)  %>
+    <% end %>
+
+    <div class="inspec-summary">
+      <table id="platform" class="info">
+        <tr><th colspan=2><h4 id="platform-label">Platform Information</h4></th></tr>
+        <tr class= "name"><th>Name:</th><td><%= run_data.platform.name %></td></tr>
+        <tr class= "release"><th>Release:</th><td><%= run_data.platform.release %></td></tr>
+        <tr class= "target"><th>Target:</th><td><%= run_data.platform.target %></td></tr>
+      </table>
+      <table id="statistics" class="info">
+        <tr><th colspan="2"><h4 id="statistics-label">Control Statistics</h4></th></tr>
+        <tr class= "passed"><th>Passed:</th><td><%= run_data.statistics.controls.passed.total %></td></tr>
+        <tr class= "skipped"><th>Skipped:</th><td><%= run_data.statistics.controls.skipped.total %></td></tr>
+        <tr class= "failed"><th>Failed:</th><td><%= run_data.statistics.controls.failed.total %></td></tr>
+        <tr class= "duration"><th>Duration:</th><td><%= run_data.statistics.duration %> seconds</td></tr>
+        <tr class= "date"><th>Time Finished:</th><td><%= Time.now %></td></tr>
+      </table>
+      <span id="inspec-version">Chef InSpec version <%= run_data.version %></span>
+    </div>
+    </div>
+  </body>
+</html>
