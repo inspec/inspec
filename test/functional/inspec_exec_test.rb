@@ -964,9 +964,12 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
         # 1/0 in resource declaration but it precedes the only_if
         _(@json.dig("profiles", 0, "controls", 5, "results", 0, "status")).must_equal "failed"
         _(@json.dig("profiles", 0, "controls", 5, "results", 0, "exception")).must_equal "RuntimeError"
-        # multiple only_ifs
+        # resource declaration but it precedes the only_if
         _(@json.dig("profiles", 0, "controls", 6, "results", 0, "status")).must_equal "skipped"
-        _(@json.dig("profiles", 0, "controls", 6, "results", 0, "skip_message")).must_equal "Skipped control due to only_if condition: here is a different message"
+        _(@json.dig("profiles", 0, "controls", 6, "results", 0, "skip_message")).must_equal "Skipped control due to only_if condition."
+        # multiple only_ifs
+        _(@json.dig("profiles", 0, "controls", 7, "results", 0, "status")).must_equal "skipped"
+        _(@json.dig("profiles", 0, "controls", 7, "results", 0, "skip_message")).must_equal "Skipped control due to only_if condition: here is a different message"
       end
     end
     describe "when running a profile with an only_if at the top-level" do

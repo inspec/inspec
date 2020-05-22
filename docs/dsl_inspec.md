@@ -241,26 +241,17 @@ Mixing this with other conditionals (like checking existence of the files etc.) 
 
 Some notes about `only_if`:
 
- * `only_if` applies to the entire `control`. If the results of the `only_if` block evaluate to false, the contents of the describe blocks will not be run. However, the describe block resources (`command('redis-cli SET test_inspec "HELLO"')` in the above example) that preceded the only_if WILL run. For this reason, `only_if` should usually come first in the control, prior to any `describe` blocks.
+ * `only_if` applies to the entire `control`. If the results of the `only_if` block evaluate to false, any CHef InSpec resources mentioned as part of a `describe` block will not be run. Additionally, the contents of the describe blocks will not be run. However, bare Ruby expressions and bare Chef InSpec resources (not assocated with a describe block) preceding the only_if statement will run.
 
+To illustrate:
 ```ruby
-control "don't do this" do
-  describe command("something-dangerous") do
-    # ...
+control "whatruns" do
+  command("do_something") # This will ALWAYS run
+  describe command("do_another_thing") do # This will not run
+    command("do_yet_another_thing") # This will not run
   end
-  # command("something-dangerous") already ran!!!
-  only_if { its_safe }
-end
-```
-
-Instead, do this:
-```ruby
-control "do this instead" do
-  only_if { its_safe }
-  # command("something-dangerous") won't run unless it is safe
-  describe command("something-dangerous") do
-    # ...
-  end
+  only_if { false }
+  command("do_something_else") # This will not run
 end
 ```
 
