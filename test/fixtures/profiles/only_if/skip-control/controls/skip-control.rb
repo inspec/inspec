@@ -37,14 +37,6 @@ control "control-skip-test-outer-error" do
   end
 end
 
-control "control-skip-test-outer-error-test-first" do
-  desc "This control should demo that preceding ruby expressions DO get evaluated"
-  describe 1/0 do # does error!
-    it { should cmp 1/0 }
-  end
-  only_if { false }
-end
-
 control "control-skip-test-outer-resource-test-first" do
   desc "This control should demo that preceding test resources DO NOT get evaluated"
   describe command("echo toldyaso") do # does exec
