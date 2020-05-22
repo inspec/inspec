@@ -16,15 +16,12 @@ Train Plugins allow Chef InSpec to speak to new kinds of targets (typically new 
 
 Currently, each plugin can offer one or more of these capabilities:
 
+ * define new output formats ("reporters")
+ * input sources
  * define a new command-line-interface (CLI) command suite (`inspec` plugins)
  * connectivity to new types of hosts or cloud providers (`train` plugins)
  * DSL extensions at the file, control, describe block, or test level
-* DSL extensions for custom resources
-
-Future work might include new capability types, such as:
-
- * reporters (output generators)
- * attribute fetchers to allow reading Chef InSpec attributes from new sources (for example, a remote encrypted key-value store)
+ * DSL extensions for custom resources
 
 ## How do I find out which plugins are available?
 

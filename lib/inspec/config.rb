@@ -328,20 +328,35 @@ module Inspec
     def validate_reporters!(reporters)
       return if reporters.nil?
 
-      # TODO: move this into a reporter plugin type system
-      valid_types = %w{
-        automate
-        cli
+      # These "reporters" are actually RSpec Formatters.
+      # json-rspec is our alias for RSpec's json formatter.
+      rspec_built_in_formatters = %w{
         documentation
         html
+        json-rspec
+        progress
+      }
+
+      # These are true reporters, but have not been migrated to be plugins yet.
+      # Tracked on https://github.com/inspec/inspec/issues/3667
+      inspec_reporters_that_are_not_yet_plugins = %w{
+        automate
+        cli
         json
         json-automate
         json-min
-        json-rspec
         junit
-        progress
         yaml
       }
+
+      # Additional reporters may be loaded via plugins. They will have already been detected at
+      # this point (see v2_loader.load_all in cli.rb) but they may not (and need not) be
+      # activated at this point. We only care about their existance and their name, for validation's sake.
+      plugin_reporters = Inspec::Plugin::V2::Registry.instance\
+        .find_activators(plugin_type: :reporter)\
+        .map(&:activator_name).map(&:to_s)
+
+      valid_types = rspec_built_in_formatters + inspec_reporters_that_are_not_yet_plugins + plugin_reporters
 
       reporters.each do |reporter_name, reporter_config|
         raise NotImplementedError, "'#{reporter_name}' is not a valid reporter type." unless valid_types.include?(reporter_name)

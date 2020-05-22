@@ -28,6 +28,7 @@ module InspecPlugins
       # Internal machine name of the plugin. InSpec will use this in errors, etc.
       plugin_name :'<%= plugin_name %>'
 
+      <% if hooks[:cli_command] %>
       # Define a new CLI subcommand.
       # The argument here will be used to match against the command line args,
       # and if the user said `inspec list-resources`, this hook will get called.
@@ -48,6 +49,23 @@ module InspecPlugins
         # CLI engine tap into it.
         InspecPlugins::<%= module_name %>::CliCommand
       end
+      <% end %>
+
+      <% if hooks[:reporter] %>
+      # Define a new Reporter.
+      # The argument here will be used to match against the CLI --reporter option.
+      # `--reporter <%= reporter_name_snake %>` will load your reporter and call its renderer.
+      reporter :<%= reporter_name_snake %> do
+        # Calling this hook doesn't mean the reporter is being executed - just
+        # that we should be ready to do so. So, load the file that defines the
+        # functionality.
+        require '<%= plugin_name %>/reporter'
+
+        # Having loaded our functionality, return a class that will let the
+        # reporting engine tap into it.
+        InspecPlugins::<%= module_name %>::Reporter
+      end
+      <% end %>
     end
   end
 end
