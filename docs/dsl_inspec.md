@@ -215,10 +215,10 @@ control 'windows-base-101' do
 end
 ```
 
-### Use `only_if` to exclude a specific test
+### Use `only_if` to exclude a specific control
 
-This shows how to allow skipping certain tests if conditions are not met, by using `only_if`.
-In this example the test will not be performed if `redis-cli` command does not exist. A optional
+This shows how to allow skipping certain controls if conditions are not met, by using `only_if`.
+In this example the control will not be performed if `redis-cli` command does not exist. A optional
 message can say why it was skipped.
 
 ```ruby
@@ -237,7 +237,7 @@ control 'nutcracker-connect-redis-001' do
 end
 ```
 
-Mixing this with other conditionals (like checking existence of the files etc.) can help to test different test paths using InSpec. This way you can skip certain tests which would 100% fail due to the way servers are prepared, but you know that the same test suites are reused later in different circumstances by different teams.
+Mixing this with other conditionals (like checking existence of the files etc.) can help to test different test paths using InSpec. This way you can skip certain controls which would 100% fail due to the way servers are prepared, but you know that the same control suites are reused later in different circumstances by different teams.
 
 Some notes about `only_if`:
 
