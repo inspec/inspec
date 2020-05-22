@@ -11,6 +11,10 @@ gem "inspec-bin", path: "./inspec-bin"
 
 gem "ffi", ">= 1.9.14"
 
+# pry-stack_explorer 0.4.9.3 emits warnings under 2.7 under inspec shell
+# https://github.com/pry/pry-stack_explorer/issues/43
+gem "pry-stack_explorer", git: "https://github.com/chef/pry-stack_explorer.git"
+
 group :omnibus do
   gem "rb-readline"
   gem "appbundler"
