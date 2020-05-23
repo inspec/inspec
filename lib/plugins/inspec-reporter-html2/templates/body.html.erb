@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>InSpec Results</title>
+    <title><%= Inspec::Dist::PRODUCT_NAME %> Results</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <style type="text/css">
     /* Must inline all CSS files, this is a single-file output that may be airgapped */
@@ -17,7 +17,7 @@
   <body onload="pageLoaded()">
     <%= ERB.new(File.read(template_path + "/selector.html.erb"), nil, nil, "_select").result(binding)  %>
     <div class="inspec-report">
-    <h1>Chef InSpec Report</h1>
+    <h1><%= Inspec::Dist::PRODUCT_NAME %> Report</h1>
     <% run_data.profiles.each do |profile| %>
       <%= ERB.new(File.read(template_path + "/profile.html.erb"), nil, nil, "_prof").result(binding)  %>
     <% end %>
@@ -37,7 +37,7 @@
         <tr class= "duration"><th>Duration:</th><td><%= run_data.statistics.duration %> seconds</td></tr>
         <tr class= "date"><th>Time Finished:</th><td><%= Time.now %></td></tr>
       </table>
-      <span id="inspec-version">Chef InSpec version <%= run_data.version %></span>
+      <span id="inspec-version"><%= Inspec::Dist::PRODUCT_NAME %> version <%= run_data.version %></span>
     </div>
     </div>
   </body>
