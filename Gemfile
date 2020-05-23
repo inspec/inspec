@@ -31,6 +31,7 @@ group :test do
   gem "m"
   gem "pry", "~> 0.10"
   gem "pry-byebug"
+  gem "html-proofer"
 end
 
 group :integration do
