@@ -39,7 +39,7 @@ inspec exec example_profile --reporter cli json:/tmp/output.json
 Output nothing to screen and write junit and html to a file.
 
 ```bash
-inspec exec example_profile --reporter junit:/tmp/junit.xml html:www/index.html
+inspec exec example_profile --reporter junit:/tmp/junit.xml html2:www/index.html
 ```
 
 Output json to screen and write to a file. Write junit to a file.
@@ -122,7 +122,11 @@ This reporter includes all information from the rspec runner. Unlike the json re
 
 ### html
 
-This renders html code to view your tests in a browser. It includes all the test and summary information.
+This reporter is the legacy RSpec HTML reporter which is retained for backwards compatibility. The report generated is not aware of profiles or controls, only containing unsorted test information. Most users should migrate to the `html2` reporter for more complete data.
+
+### html2
+
+An improved HTML reporter that contains full data about the structure of the profile, controls, and tests. The generated report renders html code to view your tests in a browser.
 
 ## Automate Reporter
 
