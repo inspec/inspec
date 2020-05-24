@@ -28,7 +28,7 @@ describe "inspec-reporter-html2" do
       }
       run_result
 
-      _(HTMLProofer.check_file(output_file, proofer_opts).run).must_output("")
+      _(proc {HTMLProofer.check_file(output_file, proofer_opts).run} ).must_be_silent
     end
   end
 
