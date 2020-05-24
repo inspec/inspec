@@ -1,4 +1,4 @@
-<div class="profile <%= profile.parent_profile ? "child-profile" : "" %>" id="profile-<%= profile.name %>">
+<div class="profile <%= profile.parent_profile ? "child-profile hidden" : "" %>" id="profile-<%= profile.name %>">
   <% display_name = profile.title || profile.name %>
   <h2 class="profile_title">Profile <%= display_name %> (<%= profile.name %>)</h2>
 
