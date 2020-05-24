@@ -15,7 +15,7 @@ describe InspecPlugins::Html2Reporter::Reporter do
 
   [
     # API class methods
-    :run_data_schema_constraints
+    :run_data_schema_constraints,
   ].each do |api_method|
     it "should implement a '#{api_method}' class method" do
       klass = InspecPlugins::Html2Reporter::Reporter

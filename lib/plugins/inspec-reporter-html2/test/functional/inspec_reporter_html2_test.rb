@@ -4,12 +4,14 @@ require "html-proofer"
 
 describe "inspec-reporter-html2" do
   include CorePluginFunctionalHelper
+
+  let(:output_file) { f = Tempfile.new(["temp", ".html"]); f.close; f.path }
+  def teardown
+    FileUtils.rm(output_file)
+  end
+
   describe "when run on a basic profile" do
     let(:run_result) { run_inspec_process("exec #{profile_path}/old-examples/profile --reporter html2:#{output_file}") }
-    let(:output_file) { f = Tempfile.new(["temp", ".html"]); f.close; f.path }
-    def teardown
-      FileUtils.rm(output_file)
-    end
 
     it "it should not crash inspec" do
       _(run_result.stderr).must_be_empty
@@ -27,6 +29,17 @@ describe "inspec-reporter-html2" do
       run_result
 
       _(HTMLProofer.check_file(output_file, proofer_opts).run).must_output("")
+    end
+  end
+
+  describe "when run with alternate JS and CSS" do
+    let(:run_result) { run_inspec_process("exec #{profile_path}/old-examples/profile --config lib/plugins/inspec-reporter-html2/test/fixtures/config.json --reporter html2:#{output_file}") }
+
+    it "should include the alternate files" do
+      run_result
+      output = File.read(output_file)
+      _(output).must_include "this is the alternate.js"
+      _(output).must_include "this is the alternate.css"
     end
   end
 end

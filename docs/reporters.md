@@ -128,6 +128,31 @@ This reporter is the legacy RSpec HTML reporter which is retained for backwards 
 
 An improved HTML reporter that contains full data about the structure of the profile, controls, and tests. The generated report renders html code to view your tests in a browser.
 
+No configuration is required for the `html2` reporter to function. However, two options are available for customization. The options are set in the JSON-formatted configuration file that Chef InSpec consumes. For details on this file, see [the documentation](https://www.inspec.io/docs/reference/config/).
+
+For example:
+
+```json
+{
+  "version": "1.2",
+  "plugins": {
+    "inspec-reporter-html2": {
+      "alternate_js_file":"/var/www/js/my-javascript.js",
+      "alternate_css_file":"/var/www/css/my-style.css"
+    }
+  }
+}
+```
+
+#### alternate\_css\_file
+
+Specifies the full path to the location of a CSS file that will be read and inlined into the HTML report. The default CSS will not be included.
+
+#### alternate\_js\_file
+
+Specifies the full path to the location of a JavaScript file that will be read and inlined into the HTML report. The default JavaScript will not be included. The JavaScript file should implement at least a function `pageLoaded()` which will be called by the `onload` event of the HTML `body` element.
+
+
 ## Automate Reporter
 
 The `automate` reporter type is a special reporter used with [Chef Automate](https://automate.chef.io/). To use this reporter you must pass in the correct configuration via a json config `--config`.
