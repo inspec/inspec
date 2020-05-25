@@ -36,6 +36,7 @@ class PluginLoaderTests < Minitest::Test
      inspec-compliance
      inspec-habitat
      inspec-init
+     inspec-reporter-html2
     }
     @system_plugins = [
       "train-habitat",
