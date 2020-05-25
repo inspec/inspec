@@ -7,6 +7,7 @@ version "1.0.0"
 # this cookbook has changed rapidly in the past so we pin it here to prevent build failures
 depends "postgresql", "= 7.1.3"
 
+depends "install_inspec"
 depends "runit"
 depends "ssh-hardening"
 depends "docker"
