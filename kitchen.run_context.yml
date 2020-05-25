@@ -1,0 +1,29 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  product_name: chef
+  product_version: 15
+
+verifier:
+  name: inspec
+  sudo: true
+
+lifecycle:
+  # This pre_create hook, along with the install_inspec cookbook, ensures that
+  # the VM has a version of InSpec that matches that built from source.
+  pre_create:
+    - local: cd inspec-bin && gem build inspec-core-bin.gemspec --output ../test/kitchen/cookbooks/install_inspec/files/inspec-core-bin.gem
+    - local: gem build inspec-core.gemspec --output test/kitchen/cookbooks/install_inspec/files/inspec-core.gem
+
+platforms:
+  - name: ubuntu-18.04
+
+suites:
+  # This test suite uses test/integration/run-context-tk to check the
+  # Telemetry Run Context detection system. This test should detect
+  # running under Test Kitchen.
+  - name: run-context-tk
+    run_list:
+      - recipe[install_inspec]
