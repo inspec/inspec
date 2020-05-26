@@ -1,6 +1,5 @@
 require_relative "../../../shared/core_plugin_test_helper.rb"
 require "tempfile"
-require "html-proofer"
 
 describe "inspec-reporter-html2" do
   include CorePluginFunctionalHelper
@@ -11,14 +10,21 @@ describe "inspec-reporter-html2" do
   end
 
   describe "when run on a basic profile" do
-    let(:run_result) { run_inspec_process("exec #{profile_path}/old-examples/profile --reporter html2:#{output_file}") }
+    # --no-distinct-exit is needed because this profile skips a control on windows
+    let(:run_result) { run_inspec_process("exec #{profile_path}/old-examples/profile --no-distinct-exit --reporter html2:#{output_file}") }
 
     it "it should not crash inspec" do
-      _(run_result.stderr).must_be_empty
+      _(run_result.stderr.gsub("#< CLIXML\r\n", "")).must_be_empty
       _(run_result.exit_status).must_equal 0
     end
 
     it "should produce valid HTML" do
+      # Our windows CI images are not setup for the HTML proofer libcurl DLLs
+      # and we really only need to verify this on one platform
+      return if is_windows?
+
+      require "html-proofer"
+
       proofer_opts = {
         disable_external: true, # The old-example has 3 Ref links that are all 404s
         check_html: true,
