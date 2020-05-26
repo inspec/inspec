@@ -216,7 +216,7 @@ describe "inputs" do
           assert_includes output, "WARN"
           assert_includes output, "treated as YAML"
           assert_includes output, "test_input_08"
-          assert_equal 100, result.exit_status
+          assert_exit_code(100, result)
         end
       end
 
