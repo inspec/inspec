@@ -4,8 +4,8 @@ module Inspec
     # All stack values here are determined experimentally
 
     class RunContextProbe
-      def self.guess_run_context
-        stack = caller_locations
+      def self.guess_run_context(stack = nil)
+        stack ||= caller_locations
         return "test-kitchen" if kitchen?(stack)
         return "cli" if run_by_thor?(stack)
         return "audit-cookbook" if audit_cookbook?(stack)
