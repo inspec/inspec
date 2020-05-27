@@ -96,11 +96,12 @@ module Inspec
           # There are probably others
           :value,
           :type,
-          :required
+          :required,
+          :sensitive
         ) do
           include HashLikeStruct
           def initialize(raw_opts_data)
-            %i{value type required}.each { |f| self[f] = raw_opts_data[f] }
+            %i{value type required sensitive}.each { |f| self[f] = raw_opts_data[f] }
           end
         end
       end

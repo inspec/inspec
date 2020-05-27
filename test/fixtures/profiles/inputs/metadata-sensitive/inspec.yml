@@ -1,0 +1,19 @@
+name: metadata-sensitive
+title: InSpec Profile
+license: Apache-2.0
+summary: A profile that tests the :sensitive flag on inputs
+version: 0.1.0
+supports:
+  platform: os
+
+inputs:
+  - name: cleartext_input
+    value: visible-in-clear
+
+  - name: sensitive_input
+    sensitive: true
+    value: visible-in-secret
+
+  - name: explicitly_nonsensitive_input
+    sensitive: false
+    value: visible-in-clear
