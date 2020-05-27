@@ -16,8 +16,8 @@ project lead.
 
 ## InSpec
 
-  Handles the [InSpec](https://github.com/chef/inspec) toolset.
-  
+  Handles the [InSpec](https://github.com/inspec/inspec) toolset.
+
 To mention the team, use @chef/inspec-maintainers
 
 ### Lieutenant
@@ -30,4 +30,3 @@ To mention the team, use @chef/inspec-maintainers
 * [Adam Leff](https://github.com/adamleff)
 * [Alex Pop](https://github.com/alexpop)
 * [Jared Quick](https://github.com/jquick)
-
