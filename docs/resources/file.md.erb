@@ -90,7 +90,7 @@ Chef InSpec will resolve the symlink recursively and return the ultimate linked 
 
 ### shallow\_link\_path
 
-The `shallow_link_path`` property returns the path that the file refers to, only resolving
+The `shallow_link_path` property returns the path that the file refers to, only resolving
 it once (that is, it performs a readlink operation). If the file is not a symlink, nil is returned.
 
     its('shallow_link_path') { should eq '/some/path/to/file' }
