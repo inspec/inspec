@@ -160,6 +160,8 @@ module Inspec
         desc: "Suppress deprecation warnings. See install_dir/etc/deprecations.json for list of GROUPs or use 'all'."
       option :diff, type: :boolean, default: true,
         desc: "Use --no-diff to suppress 'diff' output of failed textual test results."
+      option :sort_results_by, type: :string, default: "none", banner: "--sort-results-by=none|control|file|random",
+        desc: "After normal execution order, results are sorted by control ID, or by file, or randomly. None uses legacy unsorted mode."
     end
 
     def self.format_platform_info(params: {}, indent: 0, color: 39)

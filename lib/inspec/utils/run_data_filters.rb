@@ -15,6 +15,7 @@ module Inspec
         apply_report_resize_options
         redact_sensitive_inputs
         suppress_diff_output
+        sort_controls
       end
 
       # Apply options such as message truncation and removal of backtraces
@@ -60,6 +61,31 @@ module Inspec
 
               r[:message] = r[:message].slice(0, pos)
             end
+          end
+        end
+      end
+
+      # Optionally sort controls within each profile in report
+      def sort_controls
+        sort_type = @config[:runtime_config][:sort_results_by]
+        return if sort_type == "none"
+
+        @run_data[:profiles]&.each do |p|
+          p[:controls] ||= []
+          p[:groups] ||= []
+
+          case sort_type
+          when "control"
+            p[:controls].sort_by! { |c| c[:id] }
+          when "random"
+            p[:controls].shuffle!
+          when "file"
+            # Sort the controls by file, but preserve order within the file.
+            # Files are called "groups" in the run_data, and the filename is in the id.
+            sorted_control_ids = p[:groups].sort_by { |g| g[:id] }.map { |g| g[:controls] }.flatten
+            controls_by_id = {}
+            p[:controls].each { |c| controls_by_id[c[:id]] = c }
+            p[:controls] = sorted_control_ids.map { |cid| controls_by_id[cid] }
           end
         end
       end

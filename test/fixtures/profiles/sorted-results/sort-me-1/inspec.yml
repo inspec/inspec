@@ -1,0 +1,6 @@
+name: sort-me-1
+license: Apache-2.0
+summary: A profile to test sorting of results
+version: 0.1.0
+supports:
+  platform: os

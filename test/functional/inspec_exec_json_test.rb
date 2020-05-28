@@ -384,4 +384,40 @@ describe "inspec exec with json formatter" do
     end
   end
 
+  describe "JSON reporter using the --sort-results-by option" do
+    let(:run_result) { run_inspec_process("exec #{profile_path}/sorted-results/sort-me-1 --sort-results-by #{sort_option}", json: true) }
+    let(:control_order) { @json["profiles"][0]["controls"].map { |c| c["id"] }.join("") }
+
+    describe "when sending it a bad value for the option" do
+      let(:sort_option) { "garbage" }
+      it "should exit with a usage message" do
+        _(run_result.stderr).must_include "--sort-results-by must be one of none, control, file, random"
+        assert_exit_code(1, run_result)
+      end
+    end
+
+    describe "when using --sort-results-by file" do
+      let(:sort_option) { "file" }
+      it "should sort by file" do
+        _(run_result.stderr).must_be_empty
+        _(control_order).must_equal "wvuzyxtsr"
+      end
+    end
+
+    describe "when using --sort-results-by control" do
+      let(:sort_option) { "control" }
+      it "should sort by contol" do
+        _(run_result.stderr).must_be_empty
+        _(control_order).must_equal "rstuvwxyz"
+      end
+    end
+
+    describe "when using --sort-results-by random" do
+      let(:sort_option) { "random" }
+      it "should sort randomly" do
+        _(run_result.stderr).must_be_empty
+        _(control_order).wont_equal "wvuzyxtsr"
+      end
+    end
+  end
 end
