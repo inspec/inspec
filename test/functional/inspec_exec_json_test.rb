@@ -356,4 +356,32 @@ describe "inspec exec with json formatter" do
       _(failed_result["backtrace"]).must_be :nil?
     end
   end
+
+  describe "JSON reporter using the --diff/--no-diff options" do
+    describe "JSON reporter with --diff option" do
+      let(:run_result) { run_inspec_process("exec #{profile_path}/diff-output --diff", json: true) }
+      let(:controls) { @json["profiles"][0]["controls"] }
+      it "runs normally with --diff" do
+        _(run_result.stderr).must_be_empty
+        _(controls[1]["results"][0]["message"]).must_include "got:"
+        _(controls[1]["results"][0]["message"]).must_include "Diff:"
+        _(controls[2]["results"][0]["message"]).must_include "got:"
+        assert_exit_code(100, run_result)
+      end
+    end
+
+    describe "JSON reporter with --no-diff option" do
+      let(:run_result) { run_inspec_process("exec #{profile_path}/diff-output --no-diff", json: true) }
+      let(:controls) { @json["profiles"][0]["controls"] }
+      it "suppresses the diff" do
+        _(run_result.stderr).must_be_empty
+        _(controls[1]["results"][0]["message"]).must_include "got:"
+        _(controls[1]["results"][0]["message"]).wont_include "Diff:"
+        _(controls[1]["results"][0]["message"]).wont_include "vegetable"
+        _(controls[2]["results"][0]["message"]).must_include "got:" # non-textual tests don't do diffs
+        assert_exit_code(100, run_result)
+      end
+    end
+  end
+
 end

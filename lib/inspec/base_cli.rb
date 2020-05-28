@@ -158,6 +158,8 @@ module Inspec
       option :silence_deprecations, type: :array,
         banner: "[all]|[GROUP GROUP...]",
         desc: "Suppress deprecation warnings. See install_dir/etc/deprecations.json for list of GROUPs or use 'all'."
+      option :diff, type: :boolean, default: true,
+        desc: "Use --no-diff to suppress 'diff' output of failed textual test results."
     end
 
     def self.format_platform_info(params: {}, indent: 0, color: 39)

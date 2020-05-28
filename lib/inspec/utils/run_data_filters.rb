@@ -14,6 +14,7 @@ module Inspec
         @config[:runtime_config] = Inspec::Config.cached || {}
         apply_report_resize_options
         redact_sensitive_inputs
+        suppress_diff_output
       end
 
       # Apply options such as message truncation and removal of backtraces
@@ -41,6 +42,24 @@ module Inspec
             next unless i[:options][:sensitive]
 
             i[:options][:value] = "***"
+          end
+        end
+      end
+
+      # Optionally suppress diff output in the message field
+      def suppress_diff_output
+        return if @config[:runtime_config][:diff]
+
+        @run_data[:profiles]&.each do |p|
+          p[:controls]&.each do |c|
+            c[:results]&.each do |r|
+              next unless r[:message] # :message only set on failure
+
+              pos = r[:message].index("\n\nDiff:")
+              next unless pos # Only textual tests get Diffs
+
+              r[:message] = r[:message].slice(0, pos)
+            end
           end
         end
       end
