@@ -3,6 +3,8 @@ LABEL maintainer="Chef Software, Inc. <docker@chef.io>"
 
 ARG EXPEDITOR_VERSION
 ARG VERSION=4.19.2
+
+# GEM_SOURCE is kept away from expeditor controlled ARGs to accomodate 3rd party distros
 ARG GEM_SOURCE=https://rubygems.org
 
 # Allow VERSION below to be controlled by either VERSION or EXPEDITOR_VERSION build arguments
