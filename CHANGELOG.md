@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Add several Builders and Testers to Omnibus [#4981](https://github.com/inspec/inspec/pull/4981) ([christopher-snapp](https://github.com/christopher-snapp))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.19.0 -->
+### Changes since 4.19.0 release
+
+#### Merged Pull Requests
+- Add several Builders and Testers to Omnibus [#4981](https://github.com/inspec/inspec/pull/4981) ([christopher-snapp](https://github.com/christopher-snapp)) <!-- 4.19.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
