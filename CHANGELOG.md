@@ -1,28 +1,25 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.19.0 -->
-## [v4.19.0](https://github.com/inspec/inspec/tree/v4.19.0) (2020-05-27)
-
-#### Merged Pull Requests
-- Innocuous change to allow expeditor bump [#5049](https://github.com/inspec/inspec/pull/5049) ([Schwad](https://github.com/Schwad))
-- Fix expeditor minor bump config, bump to 4.19 [#5044](https://github.com/inspec/inspec/pull/5044) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.18.114 -->
-### Changes since 4.18.114 release
-
-#### New Features
-- Reporters as Plugins [#5007](https://github.com/inspec/inspec/pull/5007) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.18.117 -->
-- Stores output of `inspec json` to archive and artifact [#5017](https://github.com/inspec/inspec/pull/5017) ([Schwad](https://github.com/Schwad)) <!-- 4.18.116 -->
-
-#### Merged Pull Requests
-- Innocuous change to allow expeditor bump [#5049](https://github.com/inspec/inspec/pull/5049) ([Schwad](https://github.com/Schwad)) <!-- 4.19.0 -->
-- Fix expeditor minor bump config, bump to 4.19 [#5044](https://github.com/inspec/inspec/pull/5044) ([james-stocks](https://github.com/james-stocks)) <!-- 4.18.118 -->
-- Allow for waiver time as well as date [#5039](https://github.com/inspec/inspec/pull/5039) ([james-stocks](https://github.com/james-stocks)) <!-- 4.18.118 -->
-- Update for incoming ruby openSSL deprecations [#5035](https://github.com/inspec/inspec/pull/5035) ([Schwad](https://github.com/Schwad)) <!-- 4.18.115 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.19.0](https://github.com/inspec/inspec/tree/v4.19.0) (2020-05-29)
+
+#### New Features
+- Stores output of `inspec json` to archive and artifact [#5017](https://github.com/inspec/inspec/pull/5017) ([Schwad](https://github.com/Schwad))
+- Reporters as Plugins [#5007](https://github.com/inspec/inspec/pull/5007) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Update for incoming ruby openSSL deprecations [#5035](https://github.com/inspec/inspec/pull/5035) ([Schwad](https://github.com/Schwad))
+- Allow for waiver time as well as date [#5039](https://github.com/inspec/inspec/pull/5039) ([james-stocks](https://github.com/james-stocks))
+- Fix expeditor minor bump config, bump to 4.19 [#5044](https://github.com/inspec/inspec/pull/5044) ([james-stocks](https://github.com/james-stocks))
+- Innocuous change to allow expeditor bump [#5049](https://github.com/inspec/inspec/pull/5049) ([Schwad](https://github.com/Schwad))
+<!-- latest_stable_release -->
+
 ## [v4.18.114](https://github.com/inspec/inspec/tree/v4.18.114) (2020-05-14)
 
 #### Enhancements
@@ -31,7 +28,6 @@
 #### Merged Pull Requests
 - Updates README.md to clarify running InSpec local [#4993](https://github.com/inspec/inspec/pull/4993) ([Schwad](https://github.com/Schwad))
 - No longer need to include rubygems or bundler software dep [#5020](https://github.com/inspec/inspec/pull/5020) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_stable_release -->
 
 ## [v4.18.111](https://github.com/inspec/inspec/tree/v4.18.111) (2020-05-06)
 
