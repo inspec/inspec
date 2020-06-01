@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Revert aarch64 build targets [#5057](https://github.com/inspec/inspec/pull/5057) ([james-stocks](https://github.com/james-stocks))
 - Add several Builders and Testers to Omnibus [#4981](https://github.com/inspec/inspec/pull/4981) ([christopher-snapp](https://github.com/christopher-snapp))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.19.0 release
 
 #### Merged Pull Requests
+- Revert aarch64 build targets [#5057](https://github.com/inspec/inspec/pull/5057) ([james-stocks](https://github.com/james-stocks)) <!-- 4.19.0 -->
 - Add several Builders and Testers to Omnibus [#4981](https://github.com/inspec/inspec/pull/4981) ([christopher-snapp](https://github.com/christopher-snapp)) <!-- 4.19.0 -->
 <!-- release_rollup -->
 
