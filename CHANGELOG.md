@@ -1,7 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.19.1 -->
+## [v4.19.1](https://github.com/inspec/inspec/tree/v4.19.1) (2020-06-02)
+
+#### Bug Fixes
+- Pin ffi to 1.12.2 due to Windows crash [#5060](https://github.com/inspec/inspec/pull/5060) ([james-stocks](https://github.com/james-stocks))
 
 #### Merged Pull Requests
 - Revert aarch64 build targets [#5057](https://github.com/inspec/inspec/pull/5057) ([james-stocks](https://github.com/james-stocks))
@@ -10,6 +13,9 @@
 
 <!-- release_rollup since=4.19.0 -->
 ### Changes since 4.19.0 release
+
+#### Bug Fixes
+- Pin ffi to 1.12.2 due to Windows crash [#5060](https://github.com/inspec/inspec/pull/5060) ([james-stocks](https://github.com/james-stocks)) <!-- 4.19.1 -->
 
 #### Merged Pull Requests
 - Revert aarch64 build targets [#5057](https://github.com/inspec/inspec/pull/5057) ([james-stocks](https://github.com/james-stocks)) <!-- 4.19.0 -->
