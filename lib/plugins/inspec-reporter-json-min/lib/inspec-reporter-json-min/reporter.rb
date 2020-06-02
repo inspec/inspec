@@ -1,7 +1,11 @@
 require "json"
 
-module Inspec::Reporters
-  class JsonMin < Base
+module InspecPlugins::JsonMinReporter
+  class Reporter < Inspec.plugin(2, :reporter)
+    def self.run_data_schema_constraints
+      "~> 0.0"
+    end
+
     def render
       output(report.to_json, false)
     end

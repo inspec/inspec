@@ -2,7 +2,6 @@ require "inspec/reporters/base"
 require "inspec/reporters/cli"
 require "inspec/reporters/json"
 require "inspec/reporters/json_automate"
-require "inspec/reporters/json_min"
 require "inspec/reporters/junit"
 require "inspec/reporters/automate"
 require "inspec/reporters/yaml"
@@ -21,8 +20,6 @@ module Inspec::Reporters
     # right to introduce breaking changes to this reporter at any time.
     when "json-automate"
       reporter = Inspec::Reporters::JsonAutomate.new(config)
-    when "json-min"
-      reporter = Inspec::Reporters::JsonMin.new(config)
     when "junit"
       reporter = Inspec::Reporters::Junit.new(config)
     when "automate"
@@ -60,15 +57,23 @@ module Inspec::Reporters
     case name
     when "json"
       reporter = Inspec::Reporters::Json.new(config)
-    when "json-min"
-      reporter = Inspec::Reporters::JsonMin.new(config)
     when "json-automate"
       reporter = Inspec::Reporters::JsonAutomate.new(config)
     when "yaml"
       reporter = Inspec::Reporters::Yaml.new(config)
     else
-      # use base run_data hash for any other report
-      return run_data
+      # If we made it here, it might be a plugin
+      begin
+        activator = Inspec::Plugin::V2::Registry.instance.find_activator(plugin_type: :reporter, activator_name: name.to_sym)
+        activator.activate!
+        reporter = activator.implementation_class.new(config)
+        unless reporter.respond_to(:report?)
+          return run_data
+        end
+      rescue Inspec::Plugin::V2::LoadError
+        # Must not have been a plugin - just return the run_data
+        return run_data
+      end
     end
 
     reporter.report
