@@ -79,7 +79,6 @@ describe "example inheritance profile" do
 
       out = inspec("vendor " + tmpdir + " --overwrite")
 
-      skip_windows!
       _(out.stdout).must_include "Dependencies for profile #{tmpdir} successfully vendored to #{tmpdir}/vendor"
 
       _(File.exist?(File.join(tmpdir, "vendor"))).must_equal true
@@ -117,7 +116,7 @@ describe "example inheritance profile" do
 
       _(out.stderr).must_equal ""
 
-      skip_windows!
+      skip_windows! # Breakage confirmed - Only hits in parallel CI
       assert_exit_code 100, out
     end
   end
