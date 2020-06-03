@@ -1,5 +1,4 @@
 require "inspec/reporters/base"
-require "inspec/reporters/cli"
 require "inspec/reporters/json"
 require "inspec/reporters/json_automate"
 require "inspec/reporters/json_min"
@@ -13,8 +12,6 @@ module Inspec::Reporters
     name, config = reporter.dup
     config[:run_data] = run_data
     case name
-    when "cli"
-      reporter = Inspec::Reporters::CLI.new(config)
     when "json"
       reporter = Inspec::Reporters::Json.new(config)
     # This reporter is only used for Chef internal. We reserve the

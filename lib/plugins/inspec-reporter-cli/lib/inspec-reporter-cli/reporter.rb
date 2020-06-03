@@ -1,5 +1,6 @@
-module Inspec::Reporters
-  class CLI < Base
+module InspecPlugins::CliReporter
+  class Reporter < Inspec.plugin(2, :reporter)
+
     case RUBY_PLATFORM
     when /windows|mswin|msys|mingw|cygwin/
       # Most currently available Windows terminals have poor support
@@ -39,6 +40,10 @@ module Inspec::Reporters
     end
 
     MULTI_TEST_CONTROL_SUMMARY_MAX_LEN = 60
+
+    def self.run_data_schema_constraints
+      "~> 0.0"
+    end
 
     def render
       run_data[:profiles].each do |profile|
@@ -85,7 +90,7 @@ module Inspec::Reporters
     def print_standard_control_results(profile)
       standard_controls_from_profile(profile).each do |control_from_profile|
         control = Control.new(control_from_profile)
-        next if control.results.nil?
+        next if control.results.empty?
 
         output(format_control_header(control))
         control.results.each do |result|
@@ -99,7 +104,7 @@ module Inspec::Reporters
     def print_anonymous_control_results(profile)
       anonymous_controls_from_profile(profile).each do |control_from_profile|
         control = Control.new(control_from_profile)
-        next if control.results.nil?
+        next if control.results.empty?
 
         output(format_control_header(control))
         control.results.each do |result|
@@ -183,7 +188,7 @@ module Inspec::Reporters
 
       all_unique_controls.each do |control|
         next if control[:id].start_with? "(generated from "
-        next unless control[:results]
+        next if control[:results].empty?
 
         if control[:results].any? { |r| r[:status] == "failed" }
           failed += 1

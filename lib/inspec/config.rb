@@ -341,7 +341,6 @@ module Inspec
       # Tracked on https://github.com/inspec/inspec/issues/3667
       inspec_reporters_that_are_not_yet_plugins = %w{
         automate
-        cli
         json
         json-automate
         json-min
