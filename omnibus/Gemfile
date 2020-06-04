@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+gem "ffi", [">= 1.9.14", "< 1.13"] # 1.13 does not work on Windows: https://github.com/ffi/ffi/issues/784
+
 gem "omnibus", git: "https://github.com/chef/omnibus", branch: "master"
 gem "omnibus-software", git: "https://github.com/chef/omnibus-software", branch: "master"
 gem "artifactory"
