@@ -1,25 +1,23 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.19.2 -->
-## [v4.19.2](https://github.com/inspec/inspec/tree/v4.19.2) (2020-06-04)
-
-#### Merged Pull Requests
-- Pin ffi in omnibus/Gemfile [#5065](https://github.com/inspec/inspec/pull/5065) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.19.0 -->
-### Changes since 4.19.0 release
-
-#### Bug Fixes
-- Pin ffi to 1.12.2 due to Windows crash [#5060](https://github.com/inspec/inspec/pull/5060) ([james-stocks](https://github.com/james-stocks)) <!-- 4.19.1 -->
-
-#### Merged Pull Requests
-- Pin ffi in omnibus/Gemfile [#5065](https://github.com/inspec/inspec/pull/5065) ([james-stocks](https://github.com/james-stocks)) <!-- 4.19.2 -->
-- Revert aarch64 build targets [#5057](https://github.com/inspec/inspec/pull/5057) ([james-stocks](https://github.com/james-stocks)) <!-- 4.19.0 -->
-- Add several Builders and Testers to Omnibus [#4981](https://github.com/inspec/inspec/pull/4981) ([christopher-snapp](https://github.com/christopher-snapp)) <!-- 4.19.0 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.19.2](https://github.com/inspec/inspec/tree/v4.19.2) (2020-06-04)
+
+#### Bug Fixes
+- Pin ffi to 1.12.2 due to Windows crash [#5060](https://github.com/inspec/inspec/pull/5060) ([james-stocks](https://github.com/james-stocks))
+
+#### Merged Pull Requests
+- Add several Builders and Testers to Omnibus [#4981](https://github.com/inspec/inspec/pull/4981) ([christopher-snapp](https://github.com/christopher-snapp))
+- Revert aarch64 build targets [#5057](https://github.com/inspec/inspec/pull/5057) ([james-stocks](https://github.com/james-stocks))
+- Pin ffi in omnibus/Gemfile [#5065](https://github.com/inspec/inspec/pull/5065) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_stable_release -->
+
 ## [v4.19.0](https://github.com/inspec/inspec/tree/v4.19.0) (2020-05-29)
 
 #### New Features
@@ -31,7 +29,6 @@
 - Allow for waiver time as well as date [#5039](https://github.com/inspec/inspec/pull/5039) ([james-stocks](https://github.com/james-stocks))
 - Fix expeditor minor bump config, bump to 4.19 [#5044](https://github.com/inspec/inspec/pull/5044) ([james-stocks](https://github.com/james-stocks))
 - Innocuous change to allow expeditor bump [#5049](https://github.com/inspec/inspec/pull/5049) ([Schwad](https://github.com/Schwad))
-<!-- latest_stable_release -->
 
 ## [v4.18.114](https://github.com/inspec/inspec/tree/v4.18.114) (2020-05-14)
 
