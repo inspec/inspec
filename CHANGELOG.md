@@ -1,14 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.19.1 -->
-## [v4.19.1](https://github.com/inspec/inspec/tree/v4.19.1) (2020-06-02)
-
-#### Bug Fixes
-- Pin ffi to 1.12.2 due to Windows crash [#5060](https://github.com/inspec/inspec/pull/5060) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_release 4.19.2 -->
+## [v4.19.2](https://github.com/inspec/inspec/tree/v4.19.2) (2020-06-04)
 
 #### Merged Pull Requests
-- Revert aarch64 build targets [#5057](https://github.com/inspec/inspec/pull/5057) ([james-stocks](https://github.com/james-stocks))
-- Add several Builders and Testers to Omnibus [#4981](https://github.com/inspec/inspec/pull/4981) ([christopher-snapp](https://github.com/christopher-snapp))
+- Pin ffi in omnibus/Gemfile [#5065](https://github.com/inspec/inspec/pull/5065) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.19.0 -->
@@ -18,6 +14,7 @@
 - Pin ffi to 1.12.2 due to Windows crash [#5060](https://github.com/inspec/inspec/pull/5060) ([james-stocks](https://github.com/james-stocks)) <!-- 4.19.1 -->
 
 #### Merged Pull Requests
+- Pin ffi in omnibus/Gemfile [#5065](https://github.com/inspec/inspec/pull/5065) ([james-stocks](https://github.com/james-stocks)) <!-- 4.19.2 -->
 - Revert aarch64 build targets [#5057](https://github.com/inspec/inspec/pull/5057) ([james-stocks](https://github.com/james-stocks)) <!-- 4.19.0 -->
 - Add several Builders and Testers to Omnibus [#4981](https://github.com/inspec/inspec/pull/4981) ([christopher-snapp](https://github.com/christopher-snapp)) <!-- 4.19.0 -->
 <!-- release_rollup -->
