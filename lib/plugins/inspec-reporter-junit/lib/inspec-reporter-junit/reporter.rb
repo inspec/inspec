@@ -1,5 +1,9 @@
-module Inspec::Reporters
-  class Junit < Base
+module InspecPlugins::JUnitReporter
+  class Reporter < Inspec.plugin(2, :reporter)
+    def self.run_data_schema_constraints
+      "~> 0.0"
+    end
+
     def render
       require "rexml/document"
       xml_output = REXML::Document.new
@@ -18,8 +22,6 @@ module Inspec::Reporters
       output(formatter.write(xml_output.root, ""))
     end
 
-    private
-
     def build_profile_xml(profile)
       profile_xml = REXML::Element.new("testsuite")
       profile_xml.add_attribute("name", profile[:name])
@@ -28,8 +30,6 @@ module Inspec::Reporters
       profile_xml.add_attribute("failures", count_profile_failed_tests(profile))
 
       profile[:controls].each do |control|
-        next if control[:results].nil?
-
         control[:results].each do |result|
           profile_xml.add(build_result_xml(profile[:name], control, result))
         end
@@ -58,18 +58,14 @@ module Inspec::Reporters
 
     def count_profile_tests(profile)
       profile[:controls].reduce(0) do |acc, elem|
-        acc + (elem[:results].nil? ? 0 : elem[:results].count)
+        acc + elem[:results].count
       end
     end
 
     def count_profile_failed_tests(profile)
       profile[:controls].reduce(0) do |acc, elem|
-        if elem[:results].nil?
-          acc
-        else
-          acc + elem[:results].reduce(0) do |fail_test_total, test_case|
-            test_case[:status] == "failed" ? fail_test_total + 1 : fail_test_total
-          end
+        acc + elem[:results].reduce(0) do |fail_test_total, test_case|
+          test_case[:status] == "failed" ? fail_test_total + 1 : fail_test_total
         end
       end
     end

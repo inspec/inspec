@@ -344,7 +344,6 @@ module Inspec
         cli
         json
         json-automate
-        junit
         yaml
       }
 
