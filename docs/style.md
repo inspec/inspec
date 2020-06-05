@@ -134,7 +134,7 @@ ability to take an OS profile and execute it remotely or locally.
 ## Avoid shelling out
 
 Avoid:
-  - `` `ls``\`
+  - `` `ls` ``
   - `system("ls")`
   - `IO.popen("ls")`
 
