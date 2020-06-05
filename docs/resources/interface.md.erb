@@ -45,9 +45,9 @@ An `interface` resource block declares network interface properties to be tested
 
 ### ipv4_address
 
-Provided for compatibility with ServerSpec. Returns the first `ipv4_cidrs` entry.
+Returns the first `ipv4_addresses` entry as a String. Note: this property is incompatible with ServerSpec, which returns the value including the CIDR range (i.e. '10.0.0.5/32')
 
-    its('ipv4_address') { should eq '10.0.0.5/8' }
+    its('ipv4_address') { should eq '10.0.0.5' }
 
 ### ipv4_addresses
 
@@ -63,9 +63,9 @@ The `ipv4_addresses_netmask` property returns an Array of Strings, each containi
 
 ### ipv6_address
 
-Provided for compatibility with ServerSpec. Returns the first `ipv6_cidrs` entry.
+Returns the first `ipv6_address` entry. Note: this property is incompatible with ServerSpec, which returns the value including the CIDR range.
 
-    its('ipv6_address') { should eq '2089:98b::faeb/1' }
+    its('ipv6_address') { should eq '2089:98b::faeb' }
 
 ### ipv6_addresses
 

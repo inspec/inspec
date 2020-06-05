@@ -12,11 +12,11 @@ describe "Inspec::Resources::Interface" do
     _(resource.speed).must_equal 10000
     _(resource.name).must_equal "eth0"
     _(resource.ipv4_cidrs).must_include "127.0.0.1/8"
-    _(resource.ipv4_address).must_equal "127.0.0.1/8"
+    _(resource.ipv4_address).must_equal "127.0.0.1"
     _(resource.ipv4_addresses).must_include "127.0.0.1"
     _(resource.ipv4_addresses_netmask).must_include "127.0.0.1/255.0.0.0"
     _(resource.ipv6_cidrs).must_include "::1/128"
-    _(resource.ipv6_address).must_equal "::1/128"
+    _(resource.ipv6_address).must_equal "::1"
     _(resource.ipv6_addresses).must_include "::1"
     _(resource.ipv4_address?).must_equal true
     _(resource.ipv6_address?).must_equal true
@@ -64,11 +64,11 @@ describe "Inspec::Resources::Interface" do
     _(resource.name).must_equal "vEthernet (Intel(R) PRO 1000 MT Network Connection - Virtual Switch)"
     _(resource.speed).must_equal 10000000
     _(resource.ipv4_cidrs).must_include "127.0.0.1/8"
-    _(resource.ipv4_address).must_equal "127.0.0.1/8"
+    _(resource.ipv4_address).must_equal "127.0.0.1"
     _(resource.ipv4_addresses).must_include "127.0.0.1"
     _(resource.ipv4_addresses_netmask).must_include "127.0.0.1/255.0.0.0"
     _(resource.ipv6_cidrs).must_include "::1/128"
-    _(resource.ipv6_address).must_equal "::1/128"
+    _(resource.ipv6_address).must_equal "::1"
     _(resource.ipv6_addresses).must_include "::1"
     _(resource.ipv4_address?).must_equal true
     _(resource.ipv6_address?).must_equal true
@@ -96,11 +96,11 @@ describe "Inspec::Resources::Interface" do
     _(resource.speed).must_equal 1000
     _(resource.name).must_equal "en0"
     _(resource.ipv4_cidrs).must_include "192.168.1.2/24"
-    _(resource.ipv4_address).must_equal "192.168.1.2/24"
+    _(resource.ipv4_address).must_equal "192.168.1.2"
     _(resource.ipv4_addresses).must_include "192.168.1.2"
     _(resource.ipv4_addresses_netmask).must_include "192.168.1.2/255.255.255.0"
     _(resource.ipv6_cidrs).must_include "fe80::8b6:c2cc:2928:3b61/64"
-    _(resource.ipv6_address).must_equal "fe80::8b6:c2cc:2928:3b61/64"
+    _(resource.ipv6_address).must_equal "fe80::8b6:c2cc:2928:3b61"
     _(resource.ipv6_addresses).must_include "fe80::8b6:c2cc:2928:3b61"
     _(resource.ipv4_address?).must_equal true
     _(resource.ipv6_address?).must_equal true

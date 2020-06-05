@@ -48,7 +48,7 @@ module Inspec::Resources
     end
 
     def ipv4_address
-      ipv4_cidrs.first
+      ipv4_addresses.first
     end
 
     def ipv4_addresses
@@ -56,7 +56,7 @@ module Inspec::Resources
     end
 
     def ipv6_address
-      ipv6_cidrs.first
+      ipv6_addresses.first
     end
 
     def ipv6_addresses
