@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.19.3 -->
+## [v4.19.3](https://github.com/inspec/inspec/tree/v4.19.3) (2020-06-05)
+
+#### New Features
+- Boolean, Numeric, and Structured CLI inputs [#5011](https://github.com/inspec/inspec/pull/5011) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.19.2 -->
+### Changes since 4.19.2 release
+
+#### New Features
+- Boolean, Numeric, and Structured CLI inputs [#5011](https://github.com/inspec/inspec/pull/5011) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.19.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
