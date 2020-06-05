@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.19.4 -->
-## [v4.19.4](https://github.com/inspec/inspec/tree/v4.19.4) (2020-06-05)
+<!-- latest_release 4.20.0 -->
+## [v4.20.0](https://github.com/inspec/inspec/tree/v4.20.0) (2020-06-05)
 
 #### Merged Pull Requests
-- Fix unmatched backticks in docs [#5053](https://github.com/inspec/inspec/pull/5053) ([james-stocks](https://github.com/james-stocks))
+- CLI Option to silence deprecations [#5026](https://github.com/inspec/inspec/pull/5026) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.19.2 -->
 ### Changes since 4.19.2 release
 
 #### Merged Pull Requests
+- CLI Option to silence deprecations [#5026](https://github.com/inspec/inspec/pull/5026) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.20.0 -->
 - Fix unmatched backticks in docs [#5053](https://github.com/inspec/inspec/pull/5053) ([james-stocks](https://github.com/james-stocks)) <!-- 4.19.4 -->
 
 #### New Features
