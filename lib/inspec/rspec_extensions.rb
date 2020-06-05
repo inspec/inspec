@@ -1,7 +1,7 @@
-require "inspec/input_registry"
-require "inspec/plugin/v2"
+require_relative "input_registry"
+require_relative "plugin/v2"
 require "rspec/core/example_group"
-require "inspec/input_dsl_helpers"
+require_relative "input_dsl_helpers"
 
 # Any additions to RSpec::Core::ExampleGroup (the RSpec class behind describe blocks) should go here.
 

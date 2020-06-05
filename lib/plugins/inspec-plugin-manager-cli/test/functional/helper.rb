@@ -1,4 +1,4 @@
-require "plugins/shared/core_plugin_test_helper"
+require_relative "../../../shared/core_plugin_test_helper"
 
 module PluginManagerHelpers
   let(:project_repo_path) { File.expand_path(File.join(__FILE__, "..", "..", "..")) }

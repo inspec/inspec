@@ -117,7 +117,7 @@ module Inspec
           #{print_target_info}
         EOF
       elsif topic == "resources"
-        require "inspec/resources"
+        require_relative "resources"
         resources.sort.each do |resource|
           puts " - #{resource}"
         end

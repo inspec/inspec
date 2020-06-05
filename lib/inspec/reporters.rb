@@ -1,11 +1,11 @@
-require "inspec/reporters/base"
-require "inspec/reporters/cli"
-require "inspec/reporters/json"
-require "inspec/reporters/json_automate"
-require "inspec/reporters/json_min"
-require "inspec/reporters/junit"
-require "inspec/reporters/automate"
-require "inspec/reporters/yaml"
+require_relative "reporters/base"
+require_relative "reporters/cli"
+require_relative "reporters/json"
+require_relative "reporters/json_automate"
+require_relative "reporters/json_min"
+require_relative "reporters/junit"
+require_relative "reporters/automate"
+require_relative "reporters/yaml"
 
 module Inspec::Reporters
   # rubocop:disable Metrics/CyclomaticComplexity

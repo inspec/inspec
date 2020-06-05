@@ -1,4 +1,4 @@
-require "inspec/schema/primitives"
+require_relative "primitives"
 
 # These type occur only when running "inspec exec --reporter json <file>".
 

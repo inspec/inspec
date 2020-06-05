@@ -1,7 +1,7 @@
 require "net/http"
 require "uri"
 require "json"
-require "inspec/dist"
+require_relative "../../../../inspec/dist"
 
 require_relative "api/login"
 require_relative "configuration"

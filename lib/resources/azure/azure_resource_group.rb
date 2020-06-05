@@ -1,4 +1,4 @@
-require "resources/azure/azure_backend"
+require_relative "azure_backend"
 
 module Inspec::Resources
   class AzureResourceGroup < AzureResourceBase

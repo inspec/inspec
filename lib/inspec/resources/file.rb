@@ -1,7 +1,7 @@
 # copyright: 2015, Vulcano Security GmbH
 
 require "shellwords"
-require "inspec/utils/parser"
+require_relative "../utils/parser"
 
 module Inspec::Resources
   module FilePermissionsSelector

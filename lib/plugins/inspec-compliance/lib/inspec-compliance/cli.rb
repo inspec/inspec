@@ -1,4 +1,4 @@
-require "inspec/dist"
+require_relative "../../../../inspec/dist"
 
 require_relative "api"
 

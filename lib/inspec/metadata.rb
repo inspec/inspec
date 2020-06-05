@@ -5,8 +5,8 @@ require "rubygems/version"
 require "rubygems/requirement"
 require "semverse"
 
-require "inspec/version"
-require "inspec/utils/spdx"
+require_relative "version"
+require_relative "utils/spdx"
 
 module Inspec
   # Extract metadata.rb information
@@ -64,7 +64,7 @@ module Inspec
     end
 
     def supports_platform?(backend)
-      require "inspec/resources/platform" # break circularity in load
+      require_relative "resources/platform" # break circularity in load
       backend.platform.supported?(params[:supports])
     end
 

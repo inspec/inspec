@@ -1,5 +1,5 @@
 require_relative "profile"
-require "inspec/dist"
+require_relative "../../../../inspec/dist"
 
 module InspecPlugins
   module Habitat

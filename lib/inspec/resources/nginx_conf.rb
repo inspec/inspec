@@ -1,6 +1,6 @@
-require "inspec/utils/nginx_parser"
-require "inspec/utils/find_files"
-require "inspec/utils/file_reader"
+require_relative "../utils/nginx_parser"
+require_relative "../utils/find_files"
+require_relative "../utils/file_reader"
 require "forwardable"
 
 # STABILITY: Experimental

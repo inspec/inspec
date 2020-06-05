@@ -1,2 +1,2 @@
-require "inspec/plugin/v1/plugins"
-require "inspec/plugin/v1/registry"
+require_relative "v1/plugins"
+require_relative "v1/registry"

@@ -2,8 +2,8 @@
 # Copyright 2017, Christoph Hartmann
 #
 
-require "inspec/resources/command"
-require "inspec/utils/filter"
+require_relative "command"
+require_relative "../utils/filter"
 require "hashie/mash"
 
 module Inspec::Resources

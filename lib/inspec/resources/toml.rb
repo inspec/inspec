@@ -1,5 +1,5 @@
 require "tomlrb"
-require "inspec/resources/json"
+require_relative "json"
 
 module Inspec::Resources
   class TomlConfig < JsonConfig

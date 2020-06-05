@@ -1,7 +1,7 @@
 # copyright:
 
-require "inspec/utils/parser"
-require "inspec/utils/file_reader"
+require_relative "../utils/parser"
+require_relative "../utils/file_reader"
 
 module Inspec::Resources
   class EtcFstab < Inspec.resource(1)

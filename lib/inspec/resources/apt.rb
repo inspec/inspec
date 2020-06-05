@@ -1,4 +1,4 @@
-require "inspec/resources/command"
+require_relative "command"
 
 # Verifies apt and ppa repositories
 #

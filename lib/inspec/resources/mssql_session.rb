@@ -1,6 +1,6 @@
-require "inspec/resources/command"
+require_relative "command"
 require "hashie/mash"
-require "inspec/utils/database_helpers"
+require_relative "../utils/database_helpers"
 
 module Inspec::Resources
   # STABILITY: Experimental

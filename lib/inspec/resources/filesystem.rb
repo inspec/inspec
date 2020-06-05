@@ -1,4 +1,4 @@
-require "inspec/resources/command"
+require_relative "command"
 
 module Inspec::Resources
   class FileSystemResource < Inspec.resource(1)

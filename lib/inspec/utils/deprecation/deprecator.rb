@@ -1,5 +1,5 @@
-require "inspec/utils/deprecation/config_file"
-require "inspec/log"
+require_relative "config_file"
+require_relative "../../log"
 
 module Inspec
   module Deprecation

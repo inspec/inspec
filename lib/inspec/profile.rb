@@ -3,16 +3,16 @@
 require "forwardable"
 require "openssl"
 require "pathname"
-require "inspec/input_registry"
-require "inspec/cached_fetcher" # TODO: split or rename
-require "inspec/source_reader"
-require "inspec/profile_context"
-require "inspec/runtime_profile"
-require "inspec/method_source"
-require "inspec/dependencies/cache"
-require "inspec/dependencies/lockfile"
-require "inspec/dependencies/dependency_set"
-require "inspec/utils/json_profile_summary"
+require_relative "input_registry"
+require_relative "cached_fetcher" # TODO: split or rename
+require_relative "source_reader"
+require_relative "profile_context"
+require_relative "runtime_profile"
+require_relative "method_source"
+require_relative "dependencies/cache"
+require_relative "dependencies/lockfile"
+require_relative "dependencies/dependency_set"
+require_relative "utils/json_profile_summary"
 
 module Inspec
   class Profile
@@ -486,12 +486,12 @@ module Inspec
 
       if opts[:zip]
         # generate zip archive
-        require "inspec/archive/zip"
+        require_relative "archive/zip"
         zag = Inspec::Archive::ZipArchiveGenerator.new
         zag.archive(root_path, files.push("inspec.json"), dst)
       else
         # generate tar archive
-        require "inspec/archive/tar"
+        require_relative "archive/tar"
         tag = Inspec::Archive::TarArchiveGenerator.new
         tag.archive(root_path, files.push("inspec.json"), dst)
       end

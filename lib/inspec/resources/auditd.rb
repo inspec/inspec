@@ -1,7 +1,7 @@
 require "forwardable"
-require "inspec/utils/filter_array"
-require "inspec/utils/filter"
-require "inspec/utils/parser"
+require_relative "../utils/filter_array"
+require_relative "../utils/filter"
+require_relative "../utils/parser"
 
 module Inspec::Resources
   class AuditDaemon < Inspec.resource(1)

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "inspec/resources/powershell"
+require_relative "powershell"
 
 # check for web applications in IIS
 # Note: this is only supported in windows 2012 and later

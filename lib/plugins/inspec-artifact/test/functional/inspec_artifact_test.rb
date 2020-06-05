@@ -1,5 +1,5 @@
 require "fileutils"
-require "plugins/shared/core_plugin_test_helper"
+require_relative "../../../shared/core_plugin_test_helper"
 require "securerandom"
 
 class ArtifactCli < Minitest::Test

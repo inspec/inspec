@@ -2,7 +2,7 @@
 # The Inspec::Input class will remain but these methods will be removed.
 # Use the Inspec::Object::Input class from the inspec-objects rubygem instead.
 
-require "inspec/input"
+require_relative "../input"
 
 module Inspec
 

@@ -1,4 +1,4 @@
-require "inspec/errors"
+require_relative "errors"
 
 # Impact scores based off CVSS 3.0
 module Inspec::Impact

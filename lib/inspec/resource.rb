@@ -82,7 +82,7 @@ module Inspec
     # Even tho this is defined as an instance method, it gets added to
     # the class via `extend`, so this is actually a class defintion.
     def self.method_missing(method_name, *arguments, &block)
-      require "inspec/plugin/v2"
+      require_relative "plugin/v2"
       # Check to see if there is a resource_dsl plugin activator hook with the method name
       registry = Inspec::Plugin::V2::Registry.instance
       hook = registry.find_activators(plugin_type: :resource_dsl, activator_name: method_name).first
@@ -221,7 +221,7 @@ module Inspec
     end
 
     def check_supports
-      require "inspec/resources/platform"
+      require_relative "resources/platform"
       status = inspec.platform.supported?(@supports)
       fail_msg = "Resource `#{@__resource_name__}` is not supported on platform #{inspec.platform.name}/#{inspec.platform.release}."
       fail_resource(fail_msg) unless status
@@ -260,6 +260,6 @@ class Module
 end
 
 # Many resources use FilterTable.
-require "inspec/utils/filter"
+require_relative "utils/filter"
 # conflicts with global `gem` method so we need to pre-load this.
-require "inspec/resources/gem"
+require_relative "resources/gem"

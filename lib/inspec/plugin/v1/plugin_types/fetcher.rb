@@ -1,5 +1,5 @@
-require "inspec/file_provider"
-require "inspec/plugin/v1/registry"
+require_relative "../../../file_provider"
+require_relative "../registry"
 
 module Inspec
   module Plugins

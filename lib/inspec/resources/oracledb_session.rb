@@ -1,5 +1,5 @@
-require "inspec/resources/command"
-require "inspec/utils/database_helpers"
+require_relative "command"
+require_relative "../utils/database_helpers"
 require "hashie/mash"
 require "csv"
 

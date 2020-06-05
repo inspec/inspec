@@ -1,4 +1,4 @@
-require "inspec/input"
+require_relative "../input"
 
 module PkeyReader
   def read_pkey(filecontent, passphrase)

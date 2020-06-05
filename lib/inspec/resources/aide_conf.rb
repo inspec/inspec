@@ -1,6 +1,6 @@
-require "inspec/utils/filter"
-require "inspec/utils/parser"
-require "inspec/utils/file_reader"
+require_relative "../utils/filter"
+require_relative "../utils/parser"
+require_relative "../utils/file_reader"
 
 module Inspec::Resources
   class AideConf < Inspec.resource(1)

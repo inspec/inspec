@@ -1,5 +1,5 @@
-require "inspec/plugin/v1"
-require "inspec/base_cli"
+require_relative "../../inspec/plugin/v1"
+require_relative "../../inspec/base_cli"
 
 module Supermarket
   class SupermarketCLI < Inspec::BaseCLI

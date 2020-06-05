@@ -1,8 +1,8 @@
 # copyright: 2015, Vulcano Security GmbH
 
-require "inspec/utils/simpleconfig"
-require "inspec/utils/find_files"
-require "inspec/utils/file_reader"
+require_relative "../utils/simpleconfig"
+require_relative "../utils/find_files"
+require_relative "../utils/file_reader"
 
 module Inspec::Resources
   class ApacheConf < Inspec.resource(1)

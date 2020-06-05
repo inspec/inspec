@@ -4,8 +4,8 @@ require "pathname"
 require "set"
 require "tempfile"
 require "yaml"
-require "inspec/dist"
-require "inspec/utils/json_profile_summary"
+require_relative "../../../../inspec/dist"
+require_relative "../../../../inspec/utils/json_profile_summary"
 
 module InspecPlugins
   module Artifact

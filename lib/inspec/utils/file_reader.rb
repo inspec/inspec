@@ -1,4 +1,4 @@
-require "inspec/resources/file"
+require_relative "../resources/file"
 
 module FileReader
   def read_file_content(path, allow_empty = false)

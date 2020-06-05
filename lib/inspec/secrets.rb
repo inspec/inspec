@@ -1,4 +1,4 @@
-require "inspec/plugin/v1"
+require_relative "plugin/v1"
 
 module Inspec
   SecretsBackend = PluginRegistry.new
@@ -12,4 +12,4 @@ module Inspec
   end
 end
 
-require "inspec/secrets/yaml"
+require_relative "secrets/yaml"

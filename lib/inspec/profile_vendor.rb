@@ -1,5 +1,5 @@
-require "inspec/profile"
-require "inspec/config"
+require_relative "profile"
+require_relative "config"
 
 module Inspec
   class ProfileVendor

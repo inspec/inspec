@@ -1,4 +1,4 @@
-require "inspec/resource"
+require_relative "../resource"
 
 module Inspec::Resources
   class PlatformResource < Inspec.resource(1)

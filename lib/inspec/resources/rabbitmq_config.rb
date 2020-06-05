@@ -1,5 +1,5 @@
-require "inspec/utils/erlang_parser"
-require "inspec/utils/file_reader"
+require_relative "../utils/erlang_parser"
+require_relative "../utils/file_reader"
 
 module Inspec::Resources
   class RabbitmqConfig < Inspec.resource(1)

@@ -1,5 +1,5 @@
-require "inspec/resources/directory"
-require "inspec/utils/simpleconfig"
+require_relative "directory"
+require_relative "../utils/simpleconfig"
 
 # Resource to determine package information
 #

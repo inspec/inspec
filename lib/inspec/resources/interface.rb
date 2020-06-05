@@ -1,6 +1,6 @@
-require "inspec/resources/command"
-require "inspec/utils/convert"
-require "inspec/utils/simpleconfig"
+require_relative "command"
+require_relative "../utils/convert"
+require_relative "../utils/simpleconfig"
 
 module Inspec::Resources
   class NetworkInterface < Inspec.resource(1)

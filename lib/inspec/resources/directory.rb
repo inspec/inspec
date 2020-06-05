@@ -1,4 +1,4 @@
-require "inspec/resources/file"
+require_relative "file"
 
 module Inspec::Resources
   class Directory < FileResource

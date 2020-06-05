@@ -1,5 +1,5 @@
-require "inspec/resources/command"
-require "inspec/resources/powershell"
+require_relative "command"
+require_relative "powershell"
 
 module Inspec::Resources
   # this resource returns additional system informatio

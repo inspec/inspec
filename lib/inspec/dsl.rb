@@ -1,6 +1,6 @@
 # copyright: 2015, Dominik Richter
-require "inspec/log"
-require "inspec/plugin/v2"
+require_relative "log"
+require_relative "plugin/v2"
 
 module Inspec::DSL
   attr_accessor :backend

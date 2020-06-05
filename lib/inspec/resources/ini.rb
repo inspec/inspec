@@ -1,5 +1,5 @@
-require "inspec/resources/json"
-require "inspec/utils/simpleconfig"
+require_relative "json"
+require_relative "../utils/simpleconfig"
 
 module Inspec::Resources
   class IniConfig < JsonConfig

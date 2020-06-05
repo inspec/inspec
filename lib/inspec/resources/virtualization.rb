@@ -1,5 +1,5 @@
 require "hashie/mash"
-require "inspec/resources/powershell"
+require_relative "powershell"
 
 module Inspec::Resources
   class Virtualization < Inspec.resource(1)

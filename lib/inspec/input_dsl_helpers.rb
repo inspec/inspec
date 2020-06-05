@@ -1,5 +1,5 @@
 
-require "inspec/input_registry"
+require_relative "input_registry"
 
 module Inspec
   # A mixin to provide implementations for the input() DSL methods

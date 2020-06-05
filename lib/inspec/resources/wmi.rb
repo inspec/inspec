@@ -1,5 +1,5 @@
-require "inspec/resources/powershell"
-require "inspec/utils/object_traversal"
+require_relative "powershell"
+require_relative "../utils/object_traversal"
 
 module Inspec::Resources
   # This resource simplifies the access to wmi

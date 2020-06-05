@@ -1,4 +1,4 @@
-require "inspec/fetcher"
+require_relative "../fetcher"
 
 module Inspec::Fetcher
   class Mock < Inspec.fetcher(1)

@@ -1,5 +1,5 @@
-require "inspec/dsl"
-require "inspec/dsl_shared"
+require_relative "dsl"
+require_relative "dsl_shared"
 require "rspec/core/dsl"
 
 module Inspec

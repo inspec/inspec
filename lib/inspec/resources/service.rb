@@ -1,6 +1,6 @@
 require "hashie"
-require "inspec/utils/file_reader"
-require "inspec/utils/simpleconfig"
+require_relative "../utils/file_reader"
+require_relative "../utils/simpleconfig"
 
 module Inspec::Resources
   class Runlevels < Hash

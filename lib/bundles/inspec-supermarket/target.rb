@@ -1,6 +1,6 @@
 require "uri"
-require "inspec/fetcher"
-require "inspec/fetcher/url"
+require_relative "../../inspec/fetcher"
+require_relative "../../inspec/fetcher/url"
 
 # InSpec Target Helper for Supermarket
 module Supermarket

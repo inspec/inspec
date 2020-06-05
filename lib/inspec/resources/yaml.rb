@@ -1,5 +1,5 @@
 require "yaml"
-require "inspec/resources/json"
+require_relative "json"
 
 # Parses a yaml document
 # Usage:

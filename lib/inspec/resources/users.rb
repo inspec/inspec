@@ -1,8 +1,8 @@
-require "inspec/utils/parser"
-require "inspec/utils/convert"
-require "inspec/utils/filter"
-require "inspec/utils/simpleconfig"
-require "inspec/resources/powershell"
+require_relative "../utils/parser"
+require_relative "../utils/convert"
+require_relative "../utils/filter"
+require_relative "../utils/simpleconfig"
+require_relative "powershell"
 require "date"
 
 module Inspec::Resources

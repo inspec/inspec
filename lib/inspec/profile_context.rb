@@ -1,11 +1,11 @@
-require "inspec/log"
-require "inspec/rule"
-require "inspec/resource"
-require "inspec/library_eval_context"
-require "inspec/control_eval_context"
-require "inspec/require_loader"
+require_relative "log"
+require_relative "rule"
+require_relative "resource"
+require_relative "library_eval_context"
+require_relative "control_eval_context"
+require_relative "require_loader"
 require "securerandom"
-require "inspec/input_registry"
+require_relative "input_registry"
 
 module Inspec
   class ProfileContext

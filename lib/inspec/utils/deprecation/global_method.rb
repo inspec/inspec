@@ -1,4 +1,4 @@
-require "inspec/utils/deprecation/deprecator"
+require_relative "deprecator"
 
 module Inspec
   def self.deprecate(group, msg = "", opts = {})

@@ -9,8 +9,8 @@
 #  }
 #  describe parse_config(audit, options ) do
 
-require "inspec/utils/file_reader"
-require "inspec/utils/simpleconfig"
+require_relative "../utils/file_reader"
+require_relative "../utils/simpleconfig"
 
 module Inspec::Resources
   class PConfig < Inspec.resource(1)

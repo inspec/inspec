@@ -1,7 +1,7 @@
 require "tmpdir"
 require "fileutils"
 require "mixlib/shellout"
-require "inspec/log"
+require_relative "../log"
 
 module Inspec::Fetcher
   #

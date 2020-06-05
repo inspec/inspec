@@ -1,5 +1,5 @@
-require "inspec/resources/ini"
-require "inspec/utils/simpleconfig"
+require_relative "ini"
+require_relative "../utils/simpleconfig"
 
 module Inspec::Resources
   class PostfixConf < IniConfig

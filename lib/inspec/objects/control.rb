@@ -1,7 +1,7 @@
 # This class is deprecated and will be removed in the next major release of InSpec.
 # Use the Inspec::Object classes from the inspec-objects rubygem instead.
 
-require "inspec/utils/deprecation"
+require_relative "../utils/deprecation"
 
 module Inspec
   class Control

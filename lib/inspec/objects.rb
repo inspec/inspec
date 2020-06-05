@@ -11,4 +11,4 @@ module Inspec
   autoload :Value, "inspec/objects/value"
 end
 
-require "inspec/objects/input" # already defined so you can't autoload
+require_relative "objects/input" # already defined so you can't autoload

@@ -1,9 +1,9 @@
 require "forwardable"
 require "singleton"
-require "inspec/input"
-require "inspec/secrets"
-require "inspec/exceptions"
-require "inspec/plugin/v2"
+require_relative "input"
+require_relative "secrets"
+require_relative "exceptions"
+require_relative "plugin/v2"
 
 module Inspec
   # The InputRegistry's responsibilities include:

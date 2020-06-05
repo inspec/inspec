@@ -1,10 +1,10 @@
 # copyright: 2015, Dominik Richter
 
 require "train"
-require "inspec/config"
-require "inspec/version"
-require "inspec/resource"
-require "inspec/dsl" # for method_missing_resource
+require_relative "config"
+require_relative "version"
+require_relative "resource"
+require_relative "dsl" # for method_missing_resource
 
 module Inspec
   class Backend

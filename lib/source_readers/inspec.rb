@@ -1,5 +1,5 @@
-require "inspec/fetcher"
-require "inspec/metadata"
+require_relative "../inspec/fetcher"
+require_relative "../inspec/metadata"
 
 module SourceReaders
   class InspecReader < Inspec.source_reader(1)

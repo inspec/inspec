@@ -1,5 +1,5 @@
-require "inspec/utils/file_reader"
-require "inspec/resources/postgres"
+require_relative "../utils/file_reader"
+require_relative "postgres"
 
 module Inspec::Resources
   class PostgresIdentConf < Inspec.resource(1)

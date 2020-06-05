@@ -1,7 +1,7 @@
 require "pathname"
-require "inspec/plugin/v2"
-require "inspec/plugin/v2/installer"
-require "inspec/dist"
+require_relative "../../../../inspec/plugin/v2"
+require_relative "../../../../inspec/plugin/v2/installer"
+require_relative "../../../../inspec/dist"
 
 module InspecPlugins
   module PluginManager

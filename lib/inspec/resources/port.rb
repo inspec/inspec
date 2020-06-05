@@ -1,5 +1,5 @@
-require "inspec/utils/parser"
-require "inspec/utils/filter"
+require_relative "../utils/parser"
+require_relative "../utils/filter"
 require "ipaddr"
 
 # TODO: currently we return local ip only

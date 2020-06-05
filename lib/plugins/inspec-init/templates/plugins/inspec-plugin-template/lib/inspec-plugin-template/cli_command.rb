@@ -1,4 +1,4 @@
-require 'inspec/resource'
+require_relative '../../../../../../../inspec/resource'
 
 module InspecPlugins::<%= module_name %>
   # This class will provide the actual CLI implementation.

@@ -1,5 +1,5 @@
-require "inspec/log"
-require "inspec/errors"
+require_relative "../log"
+require_relative "../errors"
 
 module Inspec
   #

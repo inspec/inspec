@@ -1,8 +1,8 @@
 require "set"
 require "ipaddr"
 
-require "resource_support/aws/aws_singular_resource_mixin"
-require "resource_support/aws/aws_backend_base"
+require_relative "../../resource_support/aws/aws_singular_resource_mixin"
+require_relative "../../resource_support/aws/aws_backend_base"
 require "aws-sdk-ec2"
 
 class AwsSecurityGroup < Inspec.resource(1)

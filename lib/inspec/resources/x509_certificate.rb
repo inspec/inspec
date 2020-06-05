@@ -1,6 +1,6 @@
 require "openssl"
 require "hashie/mash"
-require "inspec/utils/file_reader"
+require_relative "../utils/file_reader"
 
 module Inspec::Resources
   class X509CertificateResource < Inspec.resource(1)

@@ -1,4 +1,4 @@
-require "inspec/base_cli"
+require_relative "../../../base_cli"
 
 # The InSpec load order has this file being loaded before `inspec/base_cli` can
 # finish being loaded. So, we must define Inspec::BaseCLI here first to avoid

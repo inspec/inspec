@@ -11,7 +11,7 @@ require "rubygems/name_tuple"
 require "rubygems/uninstaller"
 require "rubygems/remote_fetcher"
 
-require "inspec/plugin/v2/filter"
+require_relative "filter"
 
 module Inspec::Plugin::V2
   # Handles all actions modifying the user's plugin set:

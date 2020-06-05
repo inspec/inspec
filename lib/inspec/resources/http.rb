@@ -2,7 +2,7 @@
 # copyright: 2017, Chef Software Inc
 # license: Apache v2
 
-require "inspec/resources/command"
+require_relative "command"
 require "faraday"
 require "faraday_middleware"
 require "hashie"

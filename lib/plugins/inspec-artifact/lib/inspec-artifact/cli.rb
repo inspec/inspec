@@ -1,5 +1,5 @@
 require_relative "base"
-require "inspec/dist"
+require_relative "../../../../inspec/dist"
 
 #
 # Notes:

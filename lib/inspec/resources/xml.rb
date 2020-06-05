@@ -1,4 +1,4 @@
-require "inspec/resources/json"
+require_relative "json"
 
 module Inspec::Resources
   class XmlConfig < JsonConfig

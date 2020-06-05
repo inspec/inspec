@@ -1,4 +1,4 @@
-require "inspec/resources/file"
+require_relative "file"
 
 # Usage:
 # describe bridge('br0') do

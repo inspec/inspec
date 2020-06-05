@@ -6,7 +6,7 @@ require "stringio"
 require "forwardable"
 require "thor"
 require "base64"
-require "inspec/plugin/v2/filter"
+require_relative "plugin/v2/filter"
 
 module Inspec
   class Config
@@ -443,7 +443,7 @@ module Inspec
 
     def finalize_set_top_level_command(options)
       options[:type] = @command_name
-      require "inspec/base_cli"
+      require_relative "base_cli"
       Inspec::BaseCLI.inspec_cli_command = @command_name # TODO: move to a more relevant location
     end
 
@@ -506,7 +506,7 @@ module Inspec
       # check for compliance settings
       # This is always a hash, comes from config file, not CLI opts
       if options.key?("compliance")
-        require "plugins/inspec-compliance/lib/inspec-compliance/api"
+        require_relative "../plugins/inspec-compliance/lib/inspec-compliance/api"
         InspecPlugins::Compliance::API.login(options["compliance"])
       end
     end

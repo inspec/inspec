@@ -1,4 +1,4 @@
-require "inspec/utils/simpleconfig"
+require_relative "../utils/simpleconfig"
 
 module Inspec::Resources
   class Mount < Inspec.resource(1)

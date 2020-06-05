@@ -1,7 +1,7 @@
-require "inspec/log"
-require "inspec/version"
-require "inspec/plugin/v2/config_file"
-require "inspec/plugin/v2/filter"
+require_relative "../../log"
+require_relative "../../version"
+require_relative "config_file"
+require_relative "filter"
 
 module Inspec::Plugin::V2
   class Loader

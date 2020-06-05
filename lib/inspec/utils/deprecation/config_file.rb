@@ -1,7 +1,7 @@
 require "stringio"
 require "json"
-require "inspec/globals"
-require "inspec/config"
+require_relative "../../globals"
+require_relative "../../config"
 
 module Inspec
   module Deprecation

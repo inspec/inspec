@@ -2,15 +2,15 @@
 
 require "forwardable"
 require "uri"
-require "inspec/backend"
-require "inspec/profile_context"
-require "inspec/profile"
-require "inspec/metadata"
-require "inspec/config"
-require "inspec/dependencies/cache"
-require "inspec/dist"
-require "inspec/reporters"
-require "inspec/runner_rspec"
+require_relative "backend"
+require_relative "profile_context"
+require_relative "profile"
+require_relative "metadata"
+require_relative "config"
+require_relative "dependencies/cache"
+require_relative "dist"
+require_relative "reporters"
+require_relative "runner_rspec"
 # spec requirements
 
 module Inspec
@@ -228,7 +228,7 @@ module Inspec
     end
 
     def eval_with_virtual_profile(command)
-      require "inspec/fetcher/mock"
+      require_relative "fetcher/mock"
       add_target({ "inspec.yml" => "name: inspec-shell" })
       our_profile = @target_profiles.first
       ctx = our_profile.runner_context

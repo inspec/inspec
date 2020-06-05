@@ -1,5 +1,5 @@
-require "resources/azure/azure_backend"
-require "inspec/utils/filter"
+require_relative "azure_backend"
+require_relative "../../inspec/utils/filter"
 
 module Inspec::Resources
   class AzureGenericResource < AzureResourceBase

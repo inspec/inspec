@@ -1,5 +1,5 @@
 require "openssl"
-require "inspec/utils/file_reader"
+require_relative "../utils/file_reader"
 
 module Inspec::Resources
   class DhParams < Inspec.resource(1)

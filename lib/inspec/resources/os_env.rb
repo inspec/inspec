@@ -7,7 +7,7 @@
 #   its('split') { should_not include('.') }
 # end
 
-require "inspec/utils/simpleconfig"
+require_relative "../utils/simpleconfig"
 
 module Inspec::Resources
   class OsEnv < Inspec.resource(1)

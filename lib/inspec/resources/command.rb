@@ -1,8 +1,8 @@
 # copyright: 2015, Vulcano Security GmbH
 
-require "inspec/resource"
-require "inspec/resources/platform"
-require "inspec/resources/os"
+require_relative "../resource"
+require_relative "platform"
+require_relative "os"
 
 module Inspec::Resources
   class Cmd < Inspec.resource(1)

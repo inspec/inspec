@@ -1,4 +1,4 @@
-require "inspec/resources/powershell"
+require_relative "powershell"
 require "securerandom"
 
 module Inspec::Resources

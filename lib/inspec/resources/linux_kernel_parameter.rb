@@ -1,2 +1,2 @@
 # This is just here to make the dynamic loader happy.
-require "inspec/resources/kernel_parameter"
+require_relative "kernel_parameter"

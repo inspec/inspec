@@ -1,4 +1,4 @@
-require "inspec/errors"
+require_relative "../../errors"
 
 module Inspec
   module Deprecation

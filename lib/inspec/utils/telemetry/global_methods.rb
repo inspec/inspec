@@ -1,4 +1,4 @@
-require "inspec/utils/telemetry/collector"
+require_relative "collector"
 
 module Inspec
   # A Global method to add a data series object to the Telemetry Collection.

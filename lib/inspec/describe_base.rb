@@ -1,4 +1,4 @@
-require "inspec/input_dsl_helpers"
+require_relative "input_dsl_helpers"
 
 module Inspec
   class DescribeBase

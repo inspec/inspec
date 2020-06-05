@@ -1,4 +1,4 @@
-require "inspec/plugin/v1"
+require_relative "plugin/v1"
 
 module Inspec
   # Pre-checking of target resolution. Make sure that SourceReader plugins
@@ -22,5 +22,5 @@ module Inspec
   end
 end
 
-require "source_readers/inspec"
-require "source_readers/flat"
+require_relative "../source_readers/inspec"
+require_relative "../source_readers/flat"

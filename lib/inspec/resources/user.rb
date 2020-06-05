@@ -1,1 +1,1 @@
-require "inspec/resources/users"
+require_relative "users"

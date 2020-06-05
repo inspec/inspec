@@ -1,5 +1,5 @@
-require "inspec/resource"
-require "inspec/dsl_shared"
+require_relative "resource"
+require_relative "dsl_shared"
 
 module Inspec
   #

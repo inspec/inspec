@@ -1,4 +1,4 @@
-require "inspec/resources/command"
+require_relative "../resources/command"
 
 module Inspec
   module Utils
@@ -229,7 +229,7 @@ module Inspec
       def parse_xinetd(raw) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
         return {} if raw.nil?
 
-        require "inspec/utils/simpleconfig"
+        require_relative "simpleconfig"
 
         res = {}
         cur_group = nil

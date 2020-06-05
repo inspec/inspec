@@ -1,5 +1,5 @@
-require "inspec/config"
-require "inspec/utils/telemetry/data_series"
+require_relative "../../config"
+require_relative "data_series"
 require "singleton"
 
 module Inspec::Telemetry

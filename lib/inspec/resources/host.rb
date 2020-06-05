@@ -1,4 +1,4 @@
-require "inspec/resources/command"
+require_relative "command"
 
 # Usage:
 # describe host('example.com') do

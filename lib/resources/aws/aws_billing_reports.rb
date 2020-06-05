@@ -1,6 +1,6 @@
-require "inspec/utils/filter"
-require "resource_support/aws/aws_plural_resource_mixin"
-require "resource_support/aws/aws_backend_base"
+require_relative "../../inspec/utils/filter"
+require_relative "../../resource_support/aws/aws_plural_resource_mixin"
+require_relative "../../resource_support/aws/aws_backend_base"
 require "aws-sdk-costandusagereportservice"
 
 class AwsBillingReports < Inspec.resource(1)

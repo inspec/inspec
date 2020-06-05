@@ -1,4 +1,4 @@
-require "inspec/shell_detector"
+require_relative "shell_detector"
 require "erb"
 require "shellwords"
 

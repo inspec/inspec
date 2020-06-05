@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "inspec/resources/command"
-require "inspec/resources/powershell"
+require_relative "command"
+require_relative "powershell"
 
 # Check for Chocolatey packages to be installed
 module Inspec::Resources

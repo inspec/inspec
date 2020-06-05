@@ -1,8 +1,8 @@
-require "inspec/profile_vendor"
+require_relative "../../../../inspec/profile_vendor"
 require "mixlib/shellout"
 require "tomlrb"
 require "ostruct"
-require "inspec/dist"
+require_relative "../../../../inspec/dist"
 
 module InspecPlugins
   module Habitat

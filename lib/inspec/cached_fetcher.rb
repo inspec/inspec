@@ -1,4 +1,4 @@
-require "inspec/fetcher"
+require_relative "fetcher"
 require "forwardable"
 
 module Inspec

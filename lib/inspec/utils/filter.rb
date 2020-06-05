@@ -1,4 +1,4 @@
-require "inspec/exceptions"
+require_relative "../exceptions"
 
 module FilterTable
   # This is used as a sentinel value in custom property filtering

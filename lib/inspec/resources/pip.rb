@@ -1,5 +1,5 @@
-require "inspec/resources/command"
-require "inspec/utils/simpleconfig"
+require_relative "command"
+require_relative "../utils/simpleconfig"
 
 # Usage:
 # describe pip('Jinja2') do

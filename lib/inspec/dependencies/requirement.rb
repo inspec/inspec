@@ -1,4 +1,4 @@
-require "inspec/cached_fetcher"
+require_relative "../cached_fetcher"
 require "semverse"
 
 module Inspec

@@ -1,4 +1,4 @@
-require "inspec/resources/docker"
+require_relative "docker"
 
 module Inspec::Resources
   class DockerPlugin < Inspec.resource(1)

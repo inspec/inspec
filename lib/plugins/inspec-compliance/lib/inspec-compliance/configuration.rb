@@ -1,4 +1,4 @@
-require "inspec/globals"
+require_relative "../../../../inspec/globals"
 
 module InspecPlugins
   module Compliance

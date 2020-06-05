@@ -1,6 +1,6 @@
-require "inspec/resources/file"
-require "inspec/utils/file_reader"
-require "inspec/utils/simpleconfig"
+require_relative "file"
+require_relative "../utils/file_reader"
+require_relative "../utils/simpleconfig"
 
 module Inspec::Resources
   class Bond < FileResource

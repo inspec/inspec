@@ -1,7 +1,7 @@
-require "inspec/resources/etc_group"
-require "inspec/resources/powershell"
-require "inspec/resources/parse_config"
-require "inspec/utils/filter"
+require_relative "etc_group"
+require_relative "powershell"
+require_relative "parse_config"
+require_relative "../utils/filter"
 
 module Inspec::Resources
   # This file contains two resources, the `group` and `groups` resource.

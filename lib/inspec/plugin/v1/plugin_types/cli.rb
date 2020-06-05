@@ -1,4 +1,4 @@
-require "inspec/plugin/v1/registry"
+require_relative "../registry"
 
 module Inspec
   module Plugins

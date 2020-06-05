@@ -1,6 +1,6 @@
-require "inspec/resources/file"
-require "inspec/utils/parser"
-require "inspec/utils/filter"
+require_relative "file"
+require_relative "../utils/parser"
+require_relative "../utils/filter"
 
 module Inspec::Resources
   class Crontab < Inspec.resource(1)

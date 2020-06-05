@@ -155,7 +155,7 @@ module Inspec
     #   t << ['', '', 1]
     #  end
     def table(opts = { print: true })
-      require "inspec/ui_table_helper"
+      require_relative "ui_table_helper"
 
       the_table = TableHelper.new
       yield(the_table)

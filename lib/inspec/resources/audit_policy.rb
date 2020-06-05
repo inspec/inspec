@@ -1,4 +1,4 @@
-require "inspec/resources/command"
+require_relative "command"
 
 # copyright: 2015, Vulcano Security GmbH
 

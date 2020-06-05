@@ -1,6 +1,6 @@
 # copyright: 2015, Dominik Richter
 
-require "inspec/utils/parser"
+require_relative "parser"
 require "hashie"
 
 class SimpleConfig

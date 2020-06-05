@@ -1,4 +1,4 @@
-require "inspec/resources/powershell"
+require_relative "powershell"
 
 module Inspec::Resources
   class WindowsTasks < Inspec.resource(1) # TODO: rename singular

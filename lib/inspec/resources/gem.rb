@@ -39,7 +39,7 @@ module Inspec::Resources
     def info
       return @info if defined?(@info)
 
-      require "inspec/resources/command"
+      require_relative "command"
 
       cmd = inspec.command("#{@gem_binary} list --local -a -q \^#{@package_name}\$")
       return {} unless cmd.exit_status == 0

@@ -1,6 +1,6 @@
 require "singleton"
 require "json"
-require "inspec/globals"
+require_relative "../../globals"
 
 module Inspec::Plugin; end
 

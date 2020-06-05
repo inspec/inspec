@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "inspec/resources/command"
+require_relative "command"
 
 # check for site in IIS
 # Usage:

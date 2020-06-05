@@ -1,7 +1,7 @@
 # copyright: 2015, Chef Software Inc.
 
 require "sslshake"
-require "inspec/utils/filter"
+require_relative "../utils/filter"
 require "uri"
 require "parallel"
 

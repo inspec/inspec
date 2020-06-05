@@ -13,7 +13,7 @@ require "pathname"
 require "forwardable"
 
 require "functional/helper"
-require "inspec/plugin/v2"
+require_relative "../../inspec/plugin/v2"
 
 # Configure Minitest to expose things like `let`
 class Module

@@ -1,3 +1,3 @@
-require "inspec/utils/telemetry/collector"
-require "inspec/utils/telemetry/data_series"
-require "inspec/utils/telemetry/global_methods"
+require_relative "telemetry/collector"
+require_relative "telemetry/data_series"
+require_relative "telemetry/global_methods"

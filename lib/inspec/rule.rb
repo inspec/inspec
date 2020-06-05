@@ -2,12 +2,12 @@
 
 require "method_source"
 require "date"
-require "inspec/describe_base"
-require "inspec/expect"
-require "inspec/impact"
-require "inspec/resource"
-require "inspec/resources/os"
-require "inspec/input_registry"
+require_relative "describe_base"
+require_relative "expect"
+require_relative "impact"
+require_relative "resource"
+require_relative "resources/os"
+require_relative "input_registry"
 
 module Inspec
   class Rule

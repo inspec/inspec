@@ -1,5 +1,5 @@
-require "inspec/utils/command_wrapper"
-require "inspec/resources/command"
+require_relative "../utils/command_wrapper"
+require_relative "command"
 
 module Inspec::Resources
   class Ksh < Cmd

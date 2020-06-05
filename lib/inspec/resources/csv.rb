@@ -1,4 +1,4 @@
-require "inspec/resources/json"
+require_relative "json"
 
 # Parses a csv document
 # This implementation was inspired by a blog post

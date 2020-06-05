@@ -1,6 +1,6 @@
-require "inspec/utils/filter"
+require_relative "../utils/filter"
 require "hashie/mash"
-require "inspec/resources/package"
+require_relative "package"
 
 module Inspec::Resources
   class Elasticsearch < Inspec.resource(1)

@@ -1,7 +1,7 @@
 require "uri"
-require "inspec/fetcher"
-require "inspec/errors"
-require "inspec/dist"
+require_relative "../../../../inspec/fetcher"
+require_relative "../../../../inspec/errors"
+require_relative "../../../../inspec/dist"
 
 # InSpec Target Helper for Chef Compliance
 # reuses UrlHelper, but it knows the target server and the access token already

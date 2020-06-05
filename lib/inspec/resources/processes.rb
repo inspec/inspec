@@ -1,8 +1,8 @@
 # copyright: 2015, Vulcano Security GmbH
 
-require "inspec/utils/filter"
+require_relative "../utils/filter"
 require "ostruct"
-require "inspec/resources/command"
+require_relative "command"
 
 module Inspec::Resources
   class Processes < Inspec.resource(1)

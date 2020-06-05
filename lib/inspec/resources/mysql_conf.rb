@@ -1,10 +1,10 @@
 # copyright: 2015, Vulcano Security GmbH
 
-require "inspec/utils/simpleconfig"
-require "inspec/utils/find_files"
-require "inspec/utils/file_reader"
-require "inspec/utils/hash"
-require "inspec/resources/mysql"
+require_relative "../utils/simpleconfig"
+require_relative "../utils/find_files"
+require_relative "../utils/file_reader"
+require_relative "../utils/hash"
+require_relative "mysql"
 
 module Inspec::Resources
   class MysqlConfEntry
