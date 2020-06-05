@@ -943,4 +943,43 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
     end
 
   end
+
+  describe "when evaluating profiles with only_if" do
+    let(:run_result) { run_inspec_process("exec #{profile}", json: true) }
+    describe "when running a profile with a variety of skips" do
+      let(:profile) { "#{profile_path}/only_if/skip-control" }
+      it "should correctly skip in individual controls" do
+        run_result
+        _(@json.dig("profiles", 0, "controls", 0, "results", 0, "status")).must_equal "passed"
+        _(@json.dig("profiles", 0, "controls", 1, "results", 0, "status")).must_equal "skipped"
+        _(@json.dig("profiles", 0, "controls", 1, "results", 0, "skip_message")).must_equal "Skipped control due to only_if condition."
+        _(@json.dig("profiles", 0, "controls", 2, "results", 0, "status")).must_equal "skipped"
+        _(@json.dig("profiles", 0, "controls", 2, "results", 0, "skip_message")).must_equal "Skipped control due to only_if condition: here is a message"
+        # 1/0 in test body
+        _(@json.dig("profiles", 0, "controls", 3, "results", 0, "status")).must_equal "skipped"
+        _(@json.dig("profiles", 0, "controls", 3, "results", 0, "skip_message")).must_equal "Skipped control due to only_if condition."
+        # 1/0 in resource declaration but it follows the only_if
+        _(@json.dig("profiles", 0, "controls", 4, "results", 0, "status")).must_equal "skipped"
+        _(@json.dig("profiles", 0, "controls", 4, "results", 0, "skip_message")).must_equal "Skipped control due to only_if condition."
+        # resource declaration but it precedes the only_if
+        _(@json.dig("profiles", 0, "controls", 5, "results", 0, "status")).must_equal "skipped"
+        _(@json.dig("profiles", 0, "controls", 5, "results", 0, "skip_message")).must_equal "Skipped control due to only_if condition."
+        # multiple only_ifs
+        _(@json.dig("profiles", 0, "controls", 6, "results", 0, "status")).must_equal "skipped"
+        _(@json.dig("profiles", 0, "controls", 6, "results", 0, "skip_message")).must_equal "Skipped control due to only_if condition: here is a different message"
+      end
+    end
+    describe "when running a profile with an only_if at the top-level" do
+      let(:profile) { "#{profile_path}/only_if/skip-file" }
+      it "should correctly skip entire files" do
+        run_result
+        # first control is in a separate file
+        _(@json.dig("profiles", 0, "controls", 0, "results", 0, "status")).must_equal "passed"
+        # Latter three are in the same file
+        _(@json.dig("profiles", 0, "controls", 1, "results", 0, "status")).must_equal "skipped"
+        _(@json.dig("profiles", 0, "controls", 2, "results", 0, "status")).must_equal "skipped"
+        _(@json.dig("profiles", 0, "controls", 3, "results", 0, "status")).must_equal "skipped"
+      end
+    end
+  end
 end

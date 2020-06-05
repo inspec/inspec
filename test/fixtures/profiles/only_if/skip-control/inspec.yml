@@ -1,0 +1,6 @@
+name: skip-control
+license: Apache-2.0
+summary: A profile that skips controls using only_if
+version: 0.1.0
+supports:
+  platform: os

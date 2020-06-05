@@ -1,0 +1,6 @@
+name: skip-file
+license: Apache-2.0
+summary: A profile that tries to skip an entire file of controls using only_if
+version: 0.1.0
+supports:
+  platform: os
