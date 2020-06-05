@@ -166,13 +166,45 @@ module Inspec
           end
         end
         input_name, input_value = pair.split("=")
+        input_value = parse_cli_input_value(input_name, input_value)
         evt = Inspec::Input::Event.new(
-          value: input_value.chomp(","), # Trim trailing comma if any
+          value: input_value,
           provider: :cli,
           priority: 50
         )
         find_or_register_input(input_name, profile_name, event: evt)
       end
+    end
+
+    # Remove trailing commas, resolve type.
+    def parse_cli_input_value(input_name, given_value)
+      value = given_value.chomp(",") # Trim trailing comma if any
+      case value
+      when /^true|false$/i
+        value = !!(value =~ /true/i)
+      when /^-?\d+$/
+        value = value.to_i
+      when /^-?\d+\.\d+$/
+        value = value.to_f
+      when /^(\[|\{).*(\]|\})$/
+        # Look for complex values and try to parse them.
+        require "yaml"
+        begin
+          value = YAML.load(value)
+        rescue Psych::SyntaxError => yaml_error
+          # It could be that we just tried to run JSON through the YAML parser.
+          require "json"
+          begin
+            value = JSON.parse(value)
+          rescue JSON::ParserError => json_error
+            msg = "Unparseable value '#{value}' for --input #{input_name}.\n"
+            msg += "When treated as YAML, error: #{yaml_error.message}\n"
+            msg += "When treated as JSON, error: #{json_error.message}"
+            Inspec::Log.warn msg
+          end
+        end
+      end
+      value
     end
 
     def bind_inputs_from_runner_api(profile_name, input_hash)

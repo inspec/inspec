@@ -158,19 +158,120 @@ describe "inputs" do
 
     describe "when the --input is used once with two values" do
       let(:input_opt) { "--input test_input_01=value_from_cli_01 test_input_02=value_from_cli_02" }
-      it("correctly reads the input") { assert_json_controls_passing(result) }
+      let(:control_opt) { "--controls test_control_01 test_control_02" }
+      it("correctly reads both inputs") { assert_json_controls_passing(result) }
     end
 
     describe "when the --input is used once with two values and a comma" do
       let(:input_opt) { "--input test_input_01=value_from_cli_01, test_input_02=value_from_cli_02" }
-      it("correctly reads the input") { assert_json_controls_passing(result) }
+      let(:control_opt) { "--controls test_control_01 test_control_02" }
+      it("correctly reads both inputs ignoring the comma") { assert_json_controls_passing(result) }
+    end
+
+    # See https://github.com/inspec/inspec/issues/4977
+    describe "when the --input is used with a numeric value" do
+      describe "when the --input is used with an integer value" do
+        let(:input_opt) { "--input test_input_03=11" }
+        let(:control_opt) { "--controls test_control_numeric_implicit" }
+        it("correctly reads the input as numeric") { assert_json_controls_passing(result) }
+      end
+      describe "when the --input is used with a integer value and is declared as a numeric type in metadata" do
+        let(:input_opt) { "--input test_input_04=11" }
+        let(:control_opt) { "--controls test_control_numeric_type" }
+        it("correctly reads the input as numeric") { assert_json_controls_passing(result) }
+      end
+      describe "when the --input is used with a float value" do
+        let(:input_opt) { "--input test_input_05=-11.0" }
+        let(:control_opt) { "--controls test_control_numeric_float" }
+        it("correctly reads the input as numeric") { assert_json_controls_passing(result) }
+      end
+    end
+
+    # See https://github.com/inspec/inspec/issues/4799
+    describe "when the --input is used with a boolean value" do
+      describe "when the --input is passed true" do
+        let(:input_opt) { "--input test_input_13=true" }
+        let(:control_opt) { "--controls test_control_bool_true" }
+        it("correctly reads the input as TrueClass") { assert_json_controls_passing(result) }
+      end
+      describe "when the --input is passed false" do
+        let(:input_opt) { "--input test_input_14=false" }
+        let(:control_opt) { "--controls test_control_bool_false" }
+        it("correctly reads the input as FalseClass") { assert_json_controls_passing(result) }
+      end
+      describe "when the --input is passed TRUE" do
+        let(:input_opt) { "--input test_input_15=TRUE" }
+        let(:control_opt) { "--controls test_control_bool_true_caps" }
+        it("correctly reads the input as a TrueClass even when capitalized") { assert_json_controls_passing(result) }
+      end
+    end
+
+    describe "when the --input is a complex structure" do
+
+      # Garbage
+      describe "when the --input is malformed YAML " do
+        let(:input_opt) { "--input test_input_08='[a, b, }]'" }
+        it "runs with failed tests and provides a YAML warning message" do
+          output = result.stderr
+          assert_includes output, "WARN"
+          assert_includes output, "treated as YAML"
+          assert_includes output, "test_input_08"
+          assert_exit_code(100, result)
+        end
+      end
+
+      # YAML
+      describe "when the --input is a YAML array" do
+        let(:input_opt) { "--input test_input_06='[a,b,c]'" }
+        let(:control_opt) { "--controls test_control_yaml_array" }
+        it("correctly reads the input as a yaml array") { assert_json_controls_passing(result) }
+      end
+      describe "when the --input is a YAML hash" do
+        # Note: this produces a String-keyed Hash
+        let(:input_opt) { "--input test_input_07='{a: apples, b: bananas, c: cantelopes}'" }
+        let(:control_opt) { "--controls test_control_yaml_hash" }
+        it("correctly reads the input as a yaml hash") { assert_json_controls_passing(result) }
+      end
+      describe "when the --input is a YAML deep structure" do
+        # Note: this produces a String-keyed Hash
+        let(:input_opt) { "--input test_input_09='{a: apples, g: [grape01, grape02] }'" }
+        let(:control_opt) { "--controls test_control_yaml_deep" }
+        it("correctly reads the input as a yaml struct") { assert_json_controls_passing(result) }
+      end
+
+      # JSON mode
+      # These three were tested manually on 2020-05-05 on win2016 and passed
+      # Under CI however, we have multiple layers of quoting and dequoting
+      # and it breaks badly. https://github.com/inspec/inspec/issues/5015
+      unless windows?
+        describe "when the --input is a JSON array" do
+          let(:input_opt) { %q{--input test_input_10='["a","b","c"]'} }
+          let(:control_opt) { "--controls test_control_json_array" }
+          it("correctly reads the input as a json array") {
+            assert_empty result.stderr
+            assert_json_controls_passing(result)
+          }
+        end
+        describe "when the --input is a JSON hash" do
+          # Note: this produces a String-keyed Hash
+          let(:input_opt) { %q{--input test_input_11='{"a": "apples", "b": "bananas", "c": "cantelopes"}'} }
+          let(:control_opt) { "--controls test_control_json_hash" }
+          it("correctly reads the input as a json hash") { assert_json_controls_passing(result) }
+        end
+        describe "when the --input is a JSON deep structure" do
+          # Note: this produces a String-keyed Hash
+          let(:input_opt) { %q{--input test_input_12='{"a": "apples", "g": ["grape01", "grape02"] }'} }
+          let(:control_opt) { "--controls test_control_json_deep" }
+          it("correctly reads the input as a json struct") { assert_json_controls_passing(result) }
+        end
+      end
     end
 
     describe "when the --input is used twice with one value each" do
       let(:input_opt) { "--input test_input_01=value_from_cli_01 --input test_input_02=value_from_cli_02" }
       let(:control_opt) { "--controls test_control_02" }
       # Expected, though unfortunate, behavior is to only notice the second input
-      it("correctly reads the input") { assert_json_controls_passing(result) }
+      it("correctly reads the second input") { assert_json_controls_passing(result) }
     end
 
     describe "when the --input is used with no equal sign" do
