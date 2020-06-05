@@ -217,9 +217,8 @@ end
 
 ### Use `only_if` to exclude a specific control
 
-This shows how to allow skipping certain controls if conditions are not met, by using `only_if`.
-In this example the control will not be performed if `redis-cli` command does not exist. A optional
-message can say why it was skipped.
+This example shows how to allow skipping certain controls if conditions are not met by using `only_if`.
+In this example, the control will not be performed if the `redis-cli` command does not exist. A optional message can say why it was skipped.
 
 ```ruby
 control 'nutcracker-connect-redis-001' do
@@ -237,13 +236,14 @@ control 'nutcracker-connect-redis-001' do
 end
 ```
 
-Mixing this with other conditionals (like checking existence of the files etc.) can help to test different test paths using InSpec. This way you can skip certain controls which would 100% fail due to the way servers are prepared, but you know that the same control suites are reused later in different circumstances by different teams.
+Mixing this with other conditionals, such as checking existence of the files, can help to test different test paths using Chef InSpec. With this way, you can skip certain controls, which would 100% fail due to the way servers are prepared, but you know that the same control suites are reused later in different circumstances by different teams.
 
 Some notes about `only_if`:
 
- * `only_if` applies to the entire `control`. If the results of the `only_if` block evaluate to false, any CHef InSpec resources mentioned as part of a `describe` block will not be run. Additionally, the contents of the describe blocks will not be run. However, bare Ruby expressions and bare Chef InSpec resources (not assocated with a describe block) preceding the only_if statement will run.
+* `only_if` applies to the entire `control`. If the results of the `only_if` block evaluate to false, any Chef InSpec resources mentioned as part of a `describe` block will not be run. Additionally, the contents of the describe blocks will not be run. However, bare Ruby expressions and bare Chef InSpec resources (not assocated with a describe block) preceding the only_if statement will run
 
 To illustrate:
+
 ```ruby
 control "whatruns" do
   command("do_something") # This will ALWAYS run
@@ -255,16 +255,15 @@ control "whatruns" do
 end
 ```
 
- * Only one `only_if` is permitted per `control` block; if multiple `only_if` blocks are present, only the last one will be honored.
- * `only_if` may also be used outside a control block. In that case, it will be used to skip all controls in the current file.
- * To implement complex logic, use Ruby 'or' (`||`) and 'and' (`&&`) inside your `only_if` block:
+* Only one `only_if` is permitted per `control` block. If multiple `only_if` blocks are present, only the last `only_if` block will be honored
+* If used outside a control block, `only_if` skips all controls in the current file
+* To implement complex logic, use Ruby 'or' (`||`) and 'and' (`&&`) inside your `only_if` block:
 
 ```ruby
   only_if('ready for launch') do
     rocket_is_ready && weather_is_clear
   end
 ```
-
 
 ### Additional metadata for controls
 
