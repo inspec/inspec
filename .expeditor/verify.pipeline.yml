@@ -32,13 +32,3 @@ steps:
         docker:
           image: ruby:2.7
 
-  - label: run-unit-tests-ruby-2.6-windows
-    command:
-      - /workdir/.expeditor/buildkite/verify.ps1
-    expeditor:
-      executor:
-        docker:
-          environment:
-            - BUILDKITE
-          host_os: windows
-          shell: ["powershell", "-Command"]
