@@ -335,7 +335,7 @@ module Inspec
     #--------------------------------------------------------------------------#
 
     def to_s
-      "Input #{name} with " + (sensitive ? "***" : "#{current_value}")
+      "Input #{name} with value " + (sensitive ? "*** (senstive)" : "#{current_value}")
     end
 
     #--------------------------------------------------------------------------#
