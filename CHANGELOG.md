@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.20.2 -->
+## [v4.20.2](https://github.com/inspec/inspec/tree/v4.20.2) (2020-06-09)
 
 #### Merged Pull Requests
+- Update installer license text [#5073](https://github.com/inspec/inspec/pull/5073) ([james-stocks](https://github.com/james-stocks))
 - Add newline in Dockerfile to facilitate patching by 3rd party distros [#5051](https://github.com/inspec/inspec/pull/5051) ([bobchaos](https://github.com/bobchaos))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.19.2 release
 
 #### Merged Pull Requests
+- Update installer license text [#5073](https://github.com/inspec/inspec/pull/5073) ([james-stocks](https://github.com/james-stocks)) <!-- 4.20.2 -->
 - Add newline in Dockerfile to facilitate patching by 3rd party distros [#5051](https://github.com/inspec/inspec/pull/5051) ([bobchaos](https://github.com/bobchaos)) <!-- 4.20.1 -->
 - Expand docs and tests for only_if [#5038](https://github.com/inspec/inspec/pull/5038) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.20.1 -->
 - CLI Option to silence deprecations [#5026](https://github.com/inspec/inspec/pull/5026) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.20.0 -->
