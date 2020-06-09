@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.20.1 -->
-## [v4.20.1](https://github.com/inspec/inspec/tree/v4.20.1) (2020-06-05)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Expand docs and tests for only_if [#5038](https://github.com/inspec/inspec/pull/5038) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add newline in Dockerfile to facilitate patching by 3rd party distros [#5051](https://github.com/inspec/inspec/pull/5051) ([bobchaos](https://github.com/bobchaos))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.19.2 -->
 ### Changes since 4.19.2 release
 
 #### Merged Pull Requests
+- Add newline in Dockerfile to facilitate patching by 3rd party distros [#5051](https://github.com/inspec/inspec/pull/5051) ([bobchaos](https://github.com/bobchaos)) <!-- 4.20.1 -->
 - Expand docs and tests for only_if [#5038](https://github.com/inspec/inspec/pull/5038) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.20.1 -->
 - CLI Option to silence deprecations [#5026](https://github.com/inspec/inspec/pull/5026) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.20.0 -->
 - Fix unmatched backticks in docs [#5053](https://github.com/inspec/inspec/pull/5053) ([james-stocks](https://github.com/james-stocks)) <!-- 4.19.4 -->
