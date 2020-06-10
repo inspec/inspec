@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.9.8 -->
-## [v3.9.8](https://github.com/inspec/inspec/tree/v3.9.8) (2020-05-18)
+<!-- latest_release 3.9.9 -->
+## [v3.9.9](https://github.com/inspec/inspec/tree/v3.9.9) (2020-06-10)
 
 #### Merged Pull Requests
-- Add placeholder verify pipeline [#5034](https://github.com/inspec/inspec/pull/5034) ([james-stocks](https://github.com/james-stocks))
+- Port #4992 to InSpec 3 [#5029](https://github.com/inspec/inspec/pull/5029) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.3 -->
 ### Changes since 3.9.3 release
 
 #### Merged Pull Requests
+- Port #4992 to InSpec 3 [#5029](https://github.com/inspec/inspec/pull/5029) ([james-stocks](https://github.com/james-stocks)) <!-- 3.9.9 -->
 - Add placeholder verify pipeline [#5034](https://github.com/inspec/inspec/pull/5034) ([james-stocks](https://github.com/james-stocks)) <!-- 3.9.8 -->
 - Replace Jenkins omnibus build/test pipeline with Buildkite for 3-stable branch [#4170](https://github.com/inspec/inspec/pull/4170) ([jeremiahsnapp](https://github.com/jeremiahsnapp)) <!-- 3.9.7 -->
 - Add backwards compat `--chef-license` option to v3. [#3968](https://github.com/inspec/inspec/pull/3968) ([miah](https://github.com/miah)) <!-- 3.9.6 -->
