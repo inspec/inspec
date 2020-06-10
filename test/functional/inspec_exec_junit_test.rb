@@ -58,21 +58,10 @@ describe "inspec exec with junit formatter" do
       end
 
       describe 'the testcase named "example_config Can\'t find file ..."' do
-        let(:example_yml_tests) { suite.xpath("//testcase[@classname='profile.example-1.0' and @name='example_config']") }
-        let(:first_example_test) { example_yml_tests.first }
+        let(:example_yml_tests) { suite.xpath("//testcase[@classname='profile.tmp-1.0' and @name='File / is expected to be directory']") }
 
         it "should be unique" do
-          skip
           _(example_yml_tests.length).must_equal 1
-        end
-
-        it "should be skipped" do
-          skip
-          if is_windows?
-            _(first_example_test.elements.to_a("//skipped").length).must_equal 2
-          else
-            _(first_example_test.elements.to_a("//skipped").length).must_equal 1
-          end
         end
       end
     end
