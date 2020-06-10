@@ -1,28 +1,25 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.20.2 -->
-## [v4.20.2](https://github.com/inspec/inspec/tree/v4.20.2) (2020-06-09)
-
-#### Merged Pull Requests
-- Update installer license text [#5073](https://github.com/inspec/inspec/pull/5073) ([james-stocks](https://github.com/james-stocks))
-- Add newline in Dockerfile to facilitate patching by 3rd party distros [#5051](https://github.com/inspec/inspec/pull/5051) ([bobchaos](https://github.com/bobchaos))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.19.2 -->
-### Changes since 4.19.2 release
-
-#### Merged Pull Requests
-- Update installer license text [#5073](https://github.com/inspec/inspec/pull/5073) ([james-stocks](https://github.com/james-stocks)) <!-- 4.20.2 -->
-- Add newline in Dockerfile to facilitate patching by 3rd party distros [#5051](https://github.com/inspec/inspec/pull/5051) ([bobchaos](https://github.com/bobchaos)) <!-- 4.20.1 -->
-- Expand docs and tests for only_if [#5038](https://github.com/inspec/inspec/pull/5038) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.20.1 -->
-- CLI Option to silence deprecations [#5026](https://github.com/inspec/inspec/pull/5026) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.20.0 -->
-- Fix unmatched backticks in docs [#5053](https://github.com/inspec/inspec/pull/5053) ([james-stocks](https://github.com/james-stocks)) <!-- 4.19.4 -->
-
-#### New Features
-- Boolean, Numeric, and Structured CLI inputs [#5011](https://github.com/inspec/inspec/pull/5011) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.19.3 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.20.2](https://github.com/inspec/inspec/tree/v4.20.2) (2020-06-10)
+
+#### New Features
+- Boolean, Numeric, and Structured CLI inputs [#5011](https://github.com/inspec/inspec/pull/5011) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Fix unmatched backticks in docs [#5053](https://github.com/inspec/inspec/pull/5053) ([james-stocks](https://github.com/james-stocks))
+- CLI Option to silence deprecations [#5026](https://github.com/inspec/inspec/pull/5026) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Expand docs and tests for only_if [#5038](https://github.com/inspec/inspec/pull/5038) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add newline in Dockerfile to facilitate patching by 3rd party distros [#5051](https://github.com/inspec/inspec/pull/5051) ([bobchaos](https://github.com/bobchaos))
+- Update installer license text [#5073](https://github.com/inspec/inspec/pull/5073) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_stable_release -->
+
 ## [v4.19.2](https://github.com/inspec/inspec/tree/v4.19.2) (2020-06-04)
 
 #### Bug Fixes
@@ -32,7 +29,6 @@
 - Add several Builders and Testers to Omnibus [#4981](https://github.com/inspec/inspec/pull/4981) ([christopher-snapp](https://github.com/christopher-snapp))
 - Revert aarch64 build targets [#5057](https://github.com/inspec/inspec/pull/5057) ([james-stocks](https://github.com/james-stocks))
 - Pin ffi in omnibus/Gemfile [#5065](https://github.com/inspec/inspec/pull/5065) ([james-stocks](https://github.com/james-stocks))
-<!-- latest_stable_release -->
 
 ## [v4.19.0](https://github.com/inspec/inspec/tree/v4.19.0) (2020-05-29)
 
