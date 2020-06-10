@@ -1,10 +1,10 @@
 source "https://rubygems.org"
 
-gem "ffi", [">= 1.9.14", "< 1.13"] # 1.13 does not work on Windows: https://github.com/ffi/ffi/issues/784
-
 gem "omnibus", git: "https://github.com/chef/omnibus", branch: "master"
 gem "omnibus-software", git: "https://github.com/chef/omnibus-software", branch: "master"
 gem "artifactory"
+
+gem "ffi", ">= 1.9.14", "!= 1.13.0"
 
 # This development group is installed by default when you run `bundle install`,
 # but if you are using Omnibus in a CI-based infrastructure, you do not need
