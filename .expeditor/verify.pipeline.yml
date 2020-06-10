@@ -8,11 +8,27 @@ expeditor:
           limit: 1
 
 steps:
+  - label: lint-ruby-2.6
+    command:
+      - RAKE_TASK=test:lint /workdir/.expeditor/buildkite/verify.sh
+    expeditor:
+      executor:
+        docker:
+          image: ruby:2.6
 
- - label: Placeholder
-   command:
-     - exit 0
-   expeditor:
+  - label: run-unit-tests-ruby-2.6
+    command:
+      - RAKE_TASK=test:unit /workdir/.expeditor/buildkite/verify.sh
+    expeditor:
+      executor:
+        docker:
+          image: ruby:2.6
+
+  - label: run-unit-tests-ruby-2.7
+    command:
+      - RAKE_TASK=test:unit /workdir/.expeditor/buildkite/verify.sh
+    expeditor:
       executor:
         docker:
           image: ruby:2.7
+

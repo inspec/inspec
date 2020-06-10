@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem 'inspec', path: '.'
 
 gem 'ffi', '>= 1.9.14'
-gem 'aws-sdk', '~> 2'
+gem 'aws-sdk', '~> 2.11.0', '<= 2.11.444'
 
 group :omnibus do
   gem 'rb-readline'
@@ -12,14 +12,14 @@ group :omnibus do
 end
 
 group :test do
-  gem 'minitest', '~> 5.5'
+  gem 'minitest', '~> 5.11.3'
   gem 'rake', '>= 10'
   gem 'rubocop', '= 0.49.1'
   gem 'simplecov', '~> 0.10'
   gem 'concurrent-ruby', '~> 1.0'
   gem 'mocha', '~> 1.1'
   gem 'ruby-progressbar', '~> 1.8'
-  gem 'webmock', '~> 2.3.2'
+  gem 'webmock', '>= 3.5'
   gem 'jsonschema', '~> 2.0.2'
   gem 'passgen'
   gem 'm'
@@ -40,7 +40,7 @@ group :integration do
 end
 
 group :tools do
-  gem 'pry', '~> 0.10'
+  gem 'pry', '~> 0.13'
   gem 'license_finder'
   gem 'git', '~> 1.4'
 end

@@ -11,9 +11,9 @@ source 'https://rubygems.org'
 # gem 'omnibus-software', github: 'chef/omnibus-software', branch: 'ksubrama/ruby23'
 
 # Use entries from chef's Gemfile
+gem 'artifactory'
 gem 'omnibus', git: 'https://github.com/chef/omnibus', branch: 'master'
 gem 'omnibus-software', git: 'https://github.com/chef/omnibus-software', branch: 'master'
-gem 'artifactory'
 
 # This development group is installed by default when you run `bundle install`,
 # but if you are using Omnibus in a CI-based infrastructure, you do not need

@@ -40,8 +40,13 @@ module Inspec
       end
 
       # configure pry shell prompt
-      Pry.config.prompt_name = 'inspec'
-      Pry.prompt = [proc { "#{readline_ignore("\e[1m\e[32m")}#{Pry.config.prompt_name}> #{readline_ignore("\e[0m")}" }]
+      Pry::Prompt.add(
+        :inspec,
+        'inspec custom prompt',
+      ) do |_context, _nesting, _pry_instance, _sep|
+        "#{readline_ignore("\e[1m\e[32m")}inspec> #{readline_ignore("\e[0m")}"
+      end
+      Pry.config.prompt = Pry::Prompt[:inspec]
 
       # Add a help menu as the default intro
       Pry.hooks.add_hook(:before_session, 'inspec_intro') do
@@ -67,7 +72,7 @@ module Inspec
         next if !@runner.all_rules.empty?
         pry.pager.open do |pager|
           pager.print pry.config.output_prefix
-          Pry::ColorPrinter.pp(value, pager, Pry::Terminal.width! - 1)
+          Pry::ColorPrinter.pp(value, pager, Pry::Output.new(pry).width - 1)
         end
       end
     end
