@@ -39,19 +39,19 @@ inspec exec example_profile --reporter cli json:/tmp/output.json
 Output nothing to screen and write junit and html to a file.
 
 ```bash
-inspec exec example_profile --reporter junit:/tmp/junit.xml html:www/index.html
+inspec exec example_profile --reporter junit2:/tmp/junit.xml html:www/index.html
 ```
 
 Output json to screen and write to a file. Write junit to a file.
 
 ```bash
-inspec exec example_profile --reporter json junit:/tmp/junit.xml | tee out.json
+inspec exec example_profile --reporter json junit2:/tmp/junit.xml | tee out.json
 ```
 
 If you wish to pass the profiles directly after specifying the reporters you will need to use the end of options flag `--`.
 
 ```bash
-inspec exec --reporter json junit:/tmp/junit.xml -- profile1 profile2
+inspec exec --reporter json junit2:/tmp/junit.xml -- profile1 profile2
 ```
 
 If you are using the cli option `--config`, you can also set reporters.
@@ -108,9 +108,13 @@ This reporter includes all information about the profiles and test results in st
 
 This reporter is a very minimal text base report. It shows you which tests passed by name and has a small summary at the end.
 
-### junit
+### junit2
 
-This reporter outputs the standard junit spec in xml format.
+This reporter outputs the standard JUnit spec in XML format and is recommended for all new users of JUnit.
+
+#### junit
+
+This legacy reporter outputs nonstandard JUnit XML and is provided only for backwards compatibility.
 
 ### progress
 
