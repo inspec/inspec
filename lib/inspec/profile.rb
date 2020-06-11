@@ -379,6 +379,22 @@ module Inspec
         warnings: [],
       }
 
+      # Capture InSpecStyle run
+      runtime_config = Inspec::Config.cached.respond_to?(:final_options) ? Inspec::Config.cached.final_options : {}
+
+      if runtime_config[:inspecstyle]
+        inspecstyle_target = if File.directory?(@target)
+                           File.join(@target, "**/*.rb")
+                         else
+                           @target
+                         end
+
+        cmd = Mixlib::ShellOut.new(
+          "bundle exec rubocop #{inspecstyle_target} -r inspecstyle --only InSpecStyle"
+        ).run_command
+        result[:inspecstyle] = cmd.stdout
+      end
+
       entry = lambda { |file, line, column, control, msg|
         {
           file: file,

@@ -10,6 +10,7 @@ gem "inspec", path: "."
 gem "inspec-bin", path: "./inspec-bin"
 
 gem "ffi", ">= 1.9.14", "!= 1.13.0"
+gem "inspecstyle"
 
 group :omnibus do
   gem "rb-readline"

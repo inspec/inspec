@@ -160,6 +160,12 @@ module Inspec
         desc: "Suppress deprecation warnings. See install_dir/etc/deprecations.json for list of GROUPs or use 'all'."
     end
 
+    def self.check_options
+      profile_options
+      option :inspecstyle, type: :boolean,
+        desc: "Scan profile code for InSpecStyle compliance."
+    end
+
     def self.format_platform_info(params: {}, indent: 0, color: 39)
       str = ""
       params.each do |item, info|
