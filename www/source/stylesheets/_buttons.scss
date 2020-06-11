@@ -1,24 +1,24 @@
 // Normal Links
 
 a {
-	@extend %transition;
-	color: $color_purple;
+	// @extend %transition;
+	color: $chef-secondary;
 	font-family: $main-font;
 	font-weight: 600;
-	text-decoration: underline;
+	// text-decoration: underline;
 
 	&:hover {
-		color: $color_purple;
+		color: $chef-primary;
 		opacity: 0.8;
 	}
 }
 
 a.button, a.link {
 	font-family: $main-font;
-	font-size: 15px;
+	font-size: 16px;
 	font-weight: 600;
 	// letter-spacing: 0.2em;
-	// text-transform: uppercase;
+	text-transform: capitalize;
 }
 
 .a-purple {
@@ -27,7 +27,7 @@ a.button, a.link {
 	text-decoration: none;
 
 	&:hover {
-		color: $color_purple;
+		color: $chef-primary;
 	}
 }
 
@@ -39,7 +39,7 @@ a.block {
 
 a.button {
 	border-radius: 8px;
-	line-height: 24px;
+	// line-height: 24px;
 	text-decoration: none;
 }
 
@@ -48,7 +48,7 @@ a.button {
 	max-width: 250px;
 	width: 250px;
 	height: $percent_sm;
-	line-height: $percent_sm;
+	// line-height: $percent_sm;
 	text-align: center;
 }
 
@@ -57,34 +57,34 @@ a.button {
 	max-width: 150px;
 	width: 150px;
 	height: $percent_sm;
-	line-height: $percent_sm;
+	// line-height: $percent_sm;
 	text-align: center;
 }
 
 .btn-purple {
-	background-color: $color-purple;
+	background-color: $chef-secondary;
 	color: white;
 
 	&:hover {
-		background-color: $color-purple;
+		background-color: $chef-secondary;
 		opacity: 0.8;
 	}
 }
 
 .btn-purple-o {
-	border: 1.5px solid $color-purple;
-	color: $color-purple;
+	border: 2px solid $chef-secondary;
+	color: $chef-secondary;
 	background-color: rgba(255, 255, 255, 0);
 
 	&:hover {
 		background-color: rgba(255, 255, 255, 0);
-		color: $color-purple;
+		color: $chef-secondary;
 		opacity: 0.8;
 	}
 }
 
 .btn-purple-o:focus, .btn-purple-o:active {
-	border: 1.5px solid $color-purple !important;
+	border: 2px solid $color-purple !important;
 	background-color: $color-purple !important;
 	color: $color-white !important;
 }
@@ -95,7 +95,7 @@ a.button {
 }
 
 .btn-white-o {
-	border: 1.5px solid $color-white;
+	border: 2px solid $color-white;
 	color: $color-white;
 	background-color: rgba(255, 255, 255, 0);
 
@@ -107,7 +107,7 @@ a.button {
 }
 
 .btn-slider {
-	border-bottom: 1.5px solid white;
+	border-bottom: 2px solid white;
 	margin-bottom: 0;
 	border-radius: 8px 8px 0px 0px !important;
 	background: -moz-linear-gradient(top, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%); /* FF3.6-15 */

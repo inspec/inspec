@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.expand_path(File.join(File.dirname( File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__ ), "../lib"))
+
+require "optparse"
+require "ffi_yajl/benchmark"
+
+opts = {}
+optparse = OptionParser.new do |o|
+  o.banner = "Usage: ffi-yajl-bench"
+
+  opts[:profile] = false
+  o.on( "-p", "--profile", "Run perftools.rb profiling" ) do
+    opts[:profile] = true
+  end
+
+  o.on( "-F", "--ffi", "Force using FFI" ) do
+    opts[:ffi] = true
+  end
+
+  o.on( "-E", "--ext", "Force using C ext" ) do
+    opts[:ext] = true
+  end
+end
+
+optparse.parse!
+
+ENV["FORCE_FFI_YAJL"] = "ffi" if opts[:ffi]
+ENV["FORCE_FFI_YAJL"] = "ext" if opts[:ext]
+
+if opts[:profile]
+  FFI_Yajl::Benchmark::ParseProfileRubyProf.new.run
+else
+  FFI_Yajl::Benchmark::Parse.new.run
+  FFI_Yajl::Benchmark::Encode.new.run
+end

@@ -1,0 +1,17 @@
+language: ruby
+script: "./script/cibuild"
+rvm:
+  - 2.4
+  - 2.5
+  - 2.6
+
+sudo: false
+cache: bundler
+
+notifications:
+  email:
+    on_success: never
+    on_failure: never
+
+git:
+  depth: 10

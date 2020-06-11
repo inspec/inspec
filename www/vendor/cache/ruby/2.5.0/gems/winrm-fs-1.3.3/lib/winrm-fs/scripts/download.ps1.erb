@@ -1,0 +1,17 @@
+$p = $ExecutionContext.SessionState.Path
+$path = $p.GetUnresolvedProviderPathFromPSPath("<%= path %>")
+$index = <%= index %>
+$chunkSize = <%= chunk_size %>
+if (Test-Path $path -PathType Leaf) {
+  $file = [System.IO.File]::OpenRead($path)
+  $seekedTo = $file.Seek($index, [System.IO.SeekOrigin]::Begin)
+  $chunk = New-Object byte[] $chunkSize
+  $bytesRead = $file.Read($chunk, 0, $chunkSize)
+  $bytes = [System.convert]::ToBase64String($chunk[0..$bytesRead])
+  Write-Host $bytes
+  exit 0
+}
+ElseIf (Test-Path $path -PathType Container) {
+  exit 2
+}
+exit 1

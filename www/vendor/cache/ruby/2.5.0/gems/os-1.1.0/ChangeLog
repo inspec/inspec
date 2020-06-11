@@ -1,0 +1,11 @@
+1.0.1
+  add within docker method
+
+0.10.0
+  freebsd? also some cleanup
+
+0.9.7 use same version number in VERSION and os.gemspec
+
+0.9.6 add changelog, license
+
+0.9.5 don't count hyper thread by default windows [TODO check linux ]

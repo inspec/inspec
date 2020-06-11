@@ -1,0 +1,6 @@
+$p = $ExecutionContext.SessionState.Path
+$path = $p.GetUnresolvedProviderPathFromPSPath("<%= path %>")
+if (!(Test-Path $path)) {
+  New-Item -ItemType Directory -Force -Path $path | Out-Null
+}
+exit 0

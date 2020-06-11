@@ -1,0 +1,90 @@
+#!/usr/bin/env ruby
+
+# Copyright 2014 Shawn Neal <sneal@sneal.net>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# rubocop:disable all
+
+$LOAD_PATH.push File.expand_path('../../lib', __FILE__)
+
+require 'readline'
+require 'io/console'
+require 'winrm'
+
+def help_msg
+  puts 'Usage: rwinrm user@host'
+  puts ''
+end
+
+def parse_options
+  options = {}
+  fail 'Missing required options' unless ARGV.length == 1
+
+  m = /^(?<user>[a-z0-9\.\!\$ _-]+)@{1}(?<host>[a-z0-9\.\-]+)(?<port>:[0-9]+)?/i.match(ARGV[0])
+  fail "#{ARGV[0]} is an invalid host" unless m
+  options[:user] = m[:user]
+  options[:endpoint] = "http://#{m[:host]}#{m[:port] || ':5985'}/wsman"
+
+  # Get the password
+  print 'Password: '
+  options[:password] = STDIN.noecho(&:gets).chomp
+  puts
+
+  # Set some defaults required by WinRM WS
+  options[:transport] = :plaintext
+  options[:basic_auth_only] = true
+  options[:operation_timeout] = 3600
+
+  options
+rescue StandardError => e
+  puts e.message
+  help_msg
+  exit 1
+end
+
+def repl(options)
+  shell = nil
+
+  client = WinRM::Connection.new(options)
+  shell = client.shell(:powershell)
+  prompt = "PS #{ARGV[0]}> "
+
+  while (buf = Readline.readline(prompt, true))
+    if buf =~ /^exit/
+      shell.close
+      shell = nil
+      exit 0
+    else
+      shell.run(buf) do |stdout, stderr|
+        $stdout.write stdout
+        $stderr.write stderr
+      end
+    end
+  end
+rescue Interrupt
+  puts 'exiting'
+  # ctrl-c
+rescue WinRM::WinRMAuthorizationError
+  puts 'Authentication failed, bad user name or password'
+  exit 1
+rescue StandardError => e
+  puts e.message
+  exit 1
+ensure
+  shell.close unless shell.nil?
+end
+
+repl(parse_options)
+
+# rubocop:enable all

@@ -1,0 +1,19 @@
+current directory: /Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/ffi-yajl-2.3.3/ext/ffi_yajl/ext/dlopen
+/Users/jiajia/.rvm/rubies/ruby-2.5.5/bin/ruby -I /Users/jiajia/.rvm/rubies/ruby-2.5.5/lib/ruby/site_ruby/2.5.0 -r ./siteconf20200611-44719-1eguquc.rb extconf.rb
+$(cflags)  -fno-common -pipe
+-L. -fstack-protector -L/usr/local/lib -L/usr/local/opt/libyaml/lib -L/usr/local/opt/libksba/lib -L/usr/local/opt/readline/lib -L/usr/local/opt/zlib/lib -L/usr/local/opt/openssl@1.1/lib
+checking for dlfcn.h... yes
+checking for dlopen() in -ldl... yes
+creating Makefile
+
+current directory: /Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/ffi-yajl-2.3.3/ext/ffi_yajl/ext/dlopen
+make "DESTDIR=" clean
+
+current directory: /Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/ffi-yajl-2.3.3/ext/ffi_yajl/ext/dlopen
+make "DESTDIR="
+compiling dlopen.c
+linking shared-object ffi_yajl/ext/dlopen.bundle
+
+current directory: /Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/ffi-yajl-2.3.3/ext/ffi_yajl/ext/dlopen
+make "DESTDIR=" install
+/usr/local/opt/coreutils/bin/ginstall -c -m 0755 dlopen.bundle ./.gem.20200611-44719-icedsz/ffi_yajl/ext

@@ -1,0 +1,31 @@
+language: ruby
+script: "script/test_all"
+email: false
+before_install:
+  - script/update_rubygems_and_install_bundler
+bundler_args: "--standalone --binstubs --without documentation"
+rvm:
+  - 1.8.7
+  - 1.9.2
+  - 1.9.3
+  - 2.0.0
+  - 2.1
+  - 2.2.10
+  - 2.3.8
+  - 2.4.5
+  - 2.5.3
+  - 2.6.0
+  - ruby-head
+  - ree
+  - jruby-9.2.5.0
+  - jruby-head
+  - jruby-1.7.27
+  - rbx-3
+env:
+  - JRUBY_OPTS='--dev'
+matrix:
+  allow_failures:
+    - rvm: jruby-head
+    - rvm: ruby-head
+    - rvm: rbx-3
+  fast_finish: true

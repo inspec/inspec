@@ -1,0 +1,11 @@
+inherit_from: .rubocop_todo.yml
+
+Style/DoubleNegation:
+  Exclude:
+    - 'lib/net/ssh/key_factory.rb'
+
+Metrics/LineLength:
+  Max: 150
+  Exclude:
+    - 'test/**/*.rb'
+    - 'net-ssh.gemspec'

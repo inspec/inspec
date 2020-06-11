@@ -1,0 +1,18 @@
+compiling yajl.c
+compiling yajl_alloc.c
+compiling yajl_buf.c
+compiling yajl_encode.c
+compiling yajl_gen.c
+compiling yajl_lex.c
+compiling yajl_parser.c
+yajl_parser.c:287:57: warning: implicit conversion loses integer precision: 'size_t' (aka 'unsigned long') to 'unsigned int' [-Wshorten-64-to-32]
+                            i = yajl_parse_integer(buf, bufLen);
+                                ~~~~~~~~~~~~~~~~~~      ^~~~~~
+1 warning generated.
+compiling yajl_tree.c
+yajl_tree.c:314:40: warning: implicit conversion loses integer precision: 'unsigned long' to 'unsigned int' [-Wshorten-64-to-32]
+                                       strlen(v->u.number.r));
+                                       ^~~~~~~~~~~~~~~~~~~~~
+1 warning generated.
+compiling yajl_version.c
+linking shared-object libyajl.bundle

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e -x
+
+# idea taken from: http://blog.headius.com/2010/03/jruby-startup-time-tips.html
+export JRUBY_OPTS='-X-C' # disable JIT since these processes are so short lived
+
+# force jRuby to use client mode JVM or a compilation mode thats as close as possible,
+# idea taken from https://github.com/jruby/jruby/wiki/Improving-startup-time
+export JAVA_OPTS='-client -XX:+TieredCompilation -XX:TieredStopAtLevel=1'
+
+echo "Running rspec specs"
+bin/rspec spec --format progress --profile
+
+echo "Running cucumber specs"
+
+if ruby -e "exit(defined?(RUBY_PLATFORM) && RUBY_PLATFORM == 'java')"; then
+  # This is JRUBY which requires this one weird path trick...
+  PATH="${PWD}/bin:$PATH" \
+  bundle exec cucumber --strict
+else
+  bundle exec cucumber --strict
+fi;

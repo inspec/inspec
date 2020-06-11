@@ -1,0 +1,87 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+#
+# Copyright 2014 Shawn Neal <sneal@sneal.net>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# TODO: refactor this
+# rubocop:disable all
+
+$LOAD_PATH.push File.expand_path('../../lib', __FILE__)
+
+require 'io/console'
+require 'winrm-fs'
+
+def help_msg
+  puts 'Usage: rwinrmcp sourcefile user@host:directory/targetfile'
+  puts ''
+end
+
+def parse_options
+  options = {}
+  fail 'Missing required options' unless ARGV.length == 2
+
+  options[:source_path] = ARGV[0]
+  fail "Cannot find source file: #{options[:source_path]}" unless \
+    File.exist?(options[:source_path])
+
+  m = /^(?<user>[a-z0-9\.\!\$ _-]+)@{1}(?<host>[a-z0-9\.\-]+)(?<port>:[0-9]+)?:{1}(?<file>.+)/i.match(ARGV[1])
+  fail "#{ARGV[1]} is an invalid destination" unless m
+  options[:user] = m[:user]
+  options[:endpoint] = "http://#{m[:host]}#{m[:port] || ':5985'}/wsman"
+  options[:dest_path] = m[:file]
+
+  # Get the password
+  print 'Password: '
+  options[:pass] = STDIN.noecho(&:gets).chomp
+  puts
+
+  # Set some defaults required by WinRM WS
+  options[:auth_type] = :plaintext
+  options[:basic_auth_only] = true
+
+  options
+rescue StandardError => e
+  puts e.message
+  help_msg
+  exit 1
+end
+
+def file_manager(options)
+  service = WinRM::WinRMWebService.new(
+    options[:endpoint],
+    options[:auth_type].to_sym,
+    options)
+  WinRM::FS::FileManager.new(service)
+end
+
+def run(options)
+  bytes = file_manager(options).upload(options[:source_path], options[:dest_path])
+  puts "#{bytes} total bytes transfered"
+  exit 0
+rescue Interrupt
+  puts 'exiting'
+  # ctrl-c
+rescue WinRM::WinRMAuthorizationError
+  puts 'Authentication failed, bad user name or password'
+  exit 1
+rescue StandardError => e
+  puts e.message
+  exit 1
+end
+
+run(parse_options)
+
+# rubocop:enable all

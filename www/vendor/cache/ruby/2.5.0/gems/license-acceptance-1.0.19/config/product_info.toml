@@ -1,0 +1,59 @@
+# DO NOT CHANGE - overwritten by expeditor at build time
+title = "All known products that require license acceptance, and the mapping of parent to child relationships"
+
+[[products]]
+id = "infra-client"
+pretty_name = "Chef Infra Client"
+hab_pkg_id = "chef/chef-client"
+filename = "chef_infra_client"
+mixlib_name = "chef"
+license_required_version = "15"
+
+[[products]]
+id = "inspec"
+pretty_name = "Chef InSpec"
+hab_pkg_id = "chef/inspec"
+filename = "inspec"
+
+[[products]]
+id = "supermarket"
+pretty_name = "Supermarket"
+filename = "supermarket"
+
+[[products]]
+id = "infra-server"
+pretty_name = "Chef Infra Server"
+hab_pkg_id = "chef/oc_erchef"
+filename = "chef_infra_server"
+
+[[products]]
+id = "push-jobs-server"
+pretty_name = "Chef Push Jobs Server"
+filename = "push_jobs_server"
+
+[[products]]
+id = "push-jobs-client"
+pretty_name = "Chef Push Jobs Client"
+filename = "push_jobs_client"
+
+[[products]]
+id = "chef-dk"
+pretty_name = "Chef Development Kit"
+filename = "chef_dk"
+mixlib_name = "chefdk"
+license_required_version = "4"
+
+[[products]]
+id = "chef-workstation"
+pretty_name = "Chef Workstation"
+filename = "chef_workstation"
+mixlib_name = "chef-workstation"
+license_required_version = "0.4"
+
+[relationships]
+"infra-client" = ["inspec"]
+"infra-server" = ["infra-client", "inspec"]
+"push-jobs-server" = ["infra-client", "infra-server"]
+"push-jobs-client" = ["infra-client"]
+"chef-dk" = ["infra-client", "inspec"]
+"chef-workstation" = ["infra-client", "inspec"]

@@ -1,0 +1,12 @@
+--hide-void-return
+--no-private
+--verbose
+--markup-provider=redcarpet
+--markup=markdown
+lib/**/*.rb
+generated/**/*.rb
+-
+README.md
+MIGRATING.md
+CONTRIBUTING.md
+LICENSE

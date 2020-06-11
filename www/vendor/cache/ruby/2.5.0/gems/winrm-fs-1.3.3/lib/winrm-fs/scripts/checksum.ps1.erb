@@ -1,0 +1,13 @@
+$p = $ExecutionContext.SessionState.Path
+$path = $p.GetUnresolvedProviderPathFromPSPath("<%= path %>")
+
+if (Test-Path $path -PathType Leaf) {
+  $cryptoProv = [System.Security.Cryptography.<%= digest %>]::Create()
+  $file = [System.IO.File]::Open($path,
+      [System.IO.Filemode]::Open, [System.IO.FileAccess]::Read)
+  $digest = ([System.BitConverter]::ToString($cryptoProv.ComputeHash($file)))
+  $digest = $digest.Replace("-","").ToLower()
+  $file.Close()
+
+  Write-Output $digest
+}

@@ -2,7 +2,6 @@
   width: 100%;
   max-width: 100%;
   background: $white;
-  border-bottom: 1px solid $docs-gray;
   position: relative;
   transition: top 0.4s ease;
 }
@@ -25,6 +24,8 @@
   background: $color_white;
   padding-left: $percent_sm;
   padding-right: $percent_sm;
+  border-bottom: 1px solid $docs-gray;
+  max-height: 55px;
 
   @include nav-small {
     padding-left: $percent_xs;
@@ -43,7 +44,7 @@
     z-index: 90;
     top: 0;
     width: 100%;
-    line-height: 80px;
+    line-height: 55px;
     text-align: right;
 
     & > .button {
@@ -52,23 +53,21 @@
   }
 }
 
-//Hannah's Styles'
-
 .main-nav--link {
   a {
-    color: $color_dark;
+    color: $dark-gray;
     text-decoration: none;
   }
 
   a:hover, a.btn, a:active {
-    color: $color_purple;
+    color: $chef-primary;
   }
 }
 
 nav {
   z-index: 200;
-  height: 80px;
-  margin-bottom: 80px;
+  height: 55px;
+  margin-bottom: 55px;
 }
 
 nav ul {
@@ -78,23 +77,17 @@ nav ul {
 nav li {
   display: inline-block;
   font-weight: 400;
-  line-height: 80px;
+  line-height: 55px;
   margin-left: 28px;
 
   @include nav-small {
     display:block;
-    line-height: 60px;
+    line-height: 45px;
     clear: both;
-    margin-left: $percent_sm;
-    margin-right: $percent_sm;
+    margin-left: 0;
+    // margin-right: $percent_sm;
     // border-bottom: 1.5px solid #E9EDF2;
     text-align: left;
-  }
-}
-
-nav li:first-child{
-  @include nav-small {
-    padding-top: $percent_sm;
   }
 }
 
@@ -140,7 +133,7 @@ nav li.nav-cta a.button {
     display: block;
     font-size: 1.5em;
     float: right;
-    line-height: 80px;
+    line-height: 55px;
   }
 }
 
@@ -156,6 +149,6 @@ a.main-nav--logo {
   margin-left: initial !important;
 
   @include nav-small {
-    line-height: 80px;
+    line-height: 55px;
   }
 }

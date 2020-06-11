@@ -1,0 +1,11 @@
+.*.sw[pon]
+.AppleDouble
+.DS_Store
+.bundle
+.byebug_history
+.rbx
+.rvmrc
+Gemfile.lock
+coverage
+pkg
+tags

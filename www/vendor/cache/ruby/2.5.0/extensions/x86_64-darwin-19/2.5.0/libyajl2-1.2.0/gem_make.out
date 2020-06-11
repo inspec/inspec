@@ -1,0 +1,19 @@
+current directory: /Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/libyajl2-1.2.0/ext/libyajl2
+/Users/jiajia/.rvm/rubies/ruby-2.5.5/bin/ruby -I /Users/jiajia/.rvm/rubies/ruby-2.5.5/lib/ruby/site_ruby/2.5.0 -r ./siteconf20200611-44719-1oyy9ip.rb extconf.rb
+creating Makefile
+/Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/libyajl2-1.2.0/ext/libyajl2
+
+current directory: /Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/libyajl2-1.2.0/ext/libyajl2
+make "DESTDIR=" clean
+make: *** No rule to make target `clean'.  Stop.
+
+current directory: /Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/libyajl2-1.2.0/ext/libyajl2
+make "DESTDIR="
+make: Nothing to be done for `all'.
+
+current directory: /Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/libyajl2-1.2.0/ext/libyajl2
+make "DESTDIR=" install
+mkdir -p /Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/libyajl2-1.2.0/lib/libyajl2/vendored-libyajl2/lib
+cp libyajl.bundle /Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/libyajl2-1.2.0/lib/libyajl2/vendored-libyajl2/lib/libyajl.bundle
+mkdir -p /Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/libyajl2-1.2.0/lib/libyajl2/vendored-libyajl2/include/yajl
+cp yajl/*.h /Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/libyajl2-1.2.0/lib/libyajl2/vendored-libyajl2/include/yajl

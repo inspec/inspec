@@ -1,0 +1,126 @@
+#!/usr/bin/env ruby
+
+begin
+  require 'thor'
+rescue LoadError => e
+  puts "Thor is required. Please install the gem with development dependencies."
+  exit 1
+end
+
+require 'open-uri'
+require 'google/apis/discovery_v1'
+require 'logger'
+
+module Google
+  class ApiGenerator < Thor
+
+    def self.exit_on_failure?
+      true
+    end
+
+    include Thor::Actions
+
+    Google::Apis::ClientOptions.default.application_name = "generate-api"
+    Google::Apis::ClientOptions.default.application_version = Google::Apis::VERSION
+
+    Discovery = Google::Apis::DiscoveryV1
+
+    desc 'gen OUTDIR', 'Generate ruby API from an API description'
+    method_options url: :array, file: :array, from_discovery: :boolean, preferred_only: :boolean,
+                   verbose: :boolean, names: :string, names_out: :string
+    def gen(dir)
+      ensure_active_support
+      require 'google/apis/generator'
+
+      self.destination_root = dir
+      Google::Apis.logger.level = Logger::DEBUG if options[:verbose]
+      generate_from_url(options[:url]) if options[:url]
+      generate_from_file(options[:file]) if options[:file]
+      generate_from_discovery(preferred_only: options[:preferred_only]) if options[:from_discovery]
+      if options[:names_out]
+        create_file(options[:names_out]) { |*| generator.dump_api_names } unless File.exist? options[:names_out]
+      end
+    end
+
+    desc 'list', 'List public APIs'
+    method_options verbose: :boolean, preferred_only: :boolean
+    def list
+      Google::Apis.logger.level = Logger::DEBUG if options[:verbose]
+      discovery = Discovery::DiscoveryService.new
+      apis = discovery.list_apis
+      apis.items.each do |api|
+        say sprintf('%s - %s', api.id, api.description).strip unless options[:preferred_only] && !api.preferred?
+      end
+    end
+
+    no_commands do
+      def generate_from_url(urls)
+        Array(urls).each do |url|
+          begin
+            json = discovery.http(:get, url)
+          rescue Google::Apis::ClientError
+            warn sprintf('Failed request, skipping %s', url)
+            next
+          end
+          generate_api(json)
+        end
+      end
+
+      def generate_from_file(files)
+        Array(files).each do |file|
+          File.open(file) do |f|
+            generate_api(f.read)
+          end
+        end
+      end
+
+      def generate_from_discovery(preferred_only: false)
+        say 'Fetching API list'
+        apis = discovery.list_apis
+        apis.items.each do |api|
+          if (preferred_only && !api.preferred?)
+            say sprintf('Ignoring disoverable API %s', api.id)
+          else
+	    # The Discovery service may returned cached versions of a Discovery document that are
+	    # not the most recent revision. That means that subsequent requests to the same
+	    # Discovery document URL can return different documents. The
+	    # `discovery-artifact-manager` repo always holds the most recent revision, so it's
+	    # easier to use that document than to force revision checking against the URL returned
+	    # by the Discovery index.
+            discovery_rest_url = "https://raw.githubusercontent.com/googleapis/discovery-artifact-manager/master/discoveries/#{api.name}.#{api.version}.json"
+            say sprintf('Loading %s, version %s from %s', api.name, api.version, discovery_rest_url)
+            generate_from_url(discovery_rest_url)
+          end
+        end
+      end
+
+      def generate_api(json)
+        files = generator.render(json)
+        files.each do |file, content|
+          create_file(file) { |*| content }
+        end
+      end
+
+      def discovery
+        @discovery ||= Discovery::DiscoveryService.new
+      end
+
+      def generator
+        @generator ||= Google::Apis::Generator.new(api_names: options[:names], api_names_out: options[:names_out])
+      end
+
+      def ensure_active_support
+        begin
+          require 'active_support/inflector'
+        rescue LoadError => e
+          error 'ActiveSupport is required, please run:'
+          error 'gem install activesupport'
+          exit 1
+        end
+      end
+    end
+  end
+
+end
+
+Google::ApiGenerator.start(ARGV)

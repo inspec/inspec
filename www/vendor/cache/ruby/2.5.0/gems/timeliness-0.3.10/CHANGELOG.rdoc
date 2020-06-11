@@ -1,0 +1,43 @@
+= 0.3.7 - 2012-10-03
+* Change to a hot switch between US and Euro formats without a compile.
+* Fix date parsing with bad month name defaulting to 1 if year and day present.
+* Fix date parsing with nil month.
+
+= 0.3.6 - 2012-03-29
+* Fix bug with month_index using Integer method and leading zeroes treated as octal.
+
+= 0.3.5 - 2012-03-29
+* Correctly handle month value of 0. Fixes issue#4.
+
+= 0.3.4 - 2011-05-26
+* Compact time array when creating time in zone so that invalid time handling works properly. Fixes issue#3.
+
+= 0.3.3 - 2011-01-02
+* Add String core extension for to_time, to_date and to_datetime methods, like ActiveSupport
+* Allow arbitrary format string as :format option and it will be compiled, if not found.
+
+= 0.3.2 - 2010-11-26
+* Catch all errors for ActiveSupport not being loaded for more helpful error
+
+= 0.3.1 - 2010-11-27
+* Fix issue with 2nd argument options being overidden
+
+= 0.3.0 - 2010-11-27
+* Support for parsed timezone offset or abbreviation being used in creating time value
+* Added timezone abbreviation mapping config option
+* Allow 2nd argument for parse method to be the type, :now value, or options hash.
+* Refactoring
+
+= 0.2.0 - 2010-10-27
+* Allow a lambda for date_for_time_type which is evaluated on parse
+* Return the offset or zone in array from _parse
+* Give a nicer error message if use a zone and ActiveSupport is not loaded.
+* Removed some aliases used in validates_timeliness and are no longer needed.
+* Some minor spec fixes
+
+= 0.1.1 - 2010-10-14
+* Alias for validates_timeliness compatibility
+* Tiny cleanup
+
+= 0.1.0 - 2010-10-14
+* Initial release

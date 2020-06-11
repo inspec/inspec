@@ -1,0 +1,7 @@
+language: ruby
+rvm:
+  - 1.9.3
+  - ruby-head
+  - jruby-19mode
+  - rbx-19mode
+script: 'bundle exec rspec'

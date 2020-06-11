@@ -1,0 +1,38 @@
+current directory: /Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/unf_ext-0.0.7.7/ext/unf_ext
+/Users/jiajia/.rvm/rubies/ruby-2.5.5/bin/ruby -I /Users/jiajia/.rvm/rubies/ruby-2.5.5/lib/ruby/site_ruby/2.5.0 -r ./siteconf20200611-44719-dflt8x.rb extconf.rb
+checking for -lstdc++... yes
+creating Makefile
+
+current directory: /Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/unf_ext-0.0.7.7/ext/unf_ext
+make "DESTDIR=" clean
+
+current directory: /Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/unf_ext-0.0.7.7/ext/unf_ext
+make "DESTDIR="
+compiling unf.cc
+In file included from unf.cc:1:
+In file included from ./unf/normalizer.hh:8:
+In file included from ./unf/trie/searcher.hh:4:
+./unf/trie/char_stream.hh:52:56: warning: implicit conversion loses integer precision: 'long' to 'unsigned int' [-Wshorten-64-to-32]
+      unsigned offset() const { return cur1-beg1 + cur2-beg2; }
+                                ~~~~~~ ~~~~~~~~~~~~~~~~^~~~~
+./unf/trie/char_stream.hh:89:25: warning: implicit conversion loses integer precision: 'std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::size_type' (aka 'unsigned long') to 'unsigned int' [-Wshorten-64-to-32]
+        skipped_tail = skipped.size();
+                     ~ ~~~~~~~~^~~~~~
+In file included from unf.cc:1:
+In file included from ./unf/normalizer.hh:8:
+./unf/trie/searcher.hh:49:25: warning: implicit conversion loses integer precision: 'long' to 'unsigned int' [-Wshorten-64-to-32]
+        unsigned beg = in.cur()-str;
+                 ~~~   ~~~~~~~~^~~~
+./unf/trie/searcher.hh:59:27: warning: implicit conversion loses integer precision: 'long' to 'unsigned int' [-Wshorten-64-to-32]
+              sort_end = in.cur()-str;
+                       ~ ~~~~~~~~^~~~
+In file included from unf.cc:1:
+./unf/normalizer.hh:60:27: warning: implicit conversion loses integer precision: 'std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::size_type' (aka 'unsigned long') to 'unsigned int' [-Wshorten-64-to-32]
+      unsigned last = buf.size();
+               ~~~~   ~~~~^~~~~~
+5 warnings generated.
+linking shared-object unf_ext.bundle
+
+current directory: /Users/jiajia/Sites/inspec/www/vendor/cache/ruby/2.5.0/gems/unf_ext-0.0.7.7/ext/unf_ext
+make "DESTDIR=" install
+/usr/local/opt/coreutils/bin/ginstall -c -m 0755 unf_ext.bundle ./.gem.20200611-44719-1u9s3v6

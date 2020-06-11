@@ -1,0 +1,52 @@
+trap {
+  $e = $_.Exception
+  $e.InvocationInfo.ScriptName
+  do {
+    $e.Message
+    $e = $e.InnerException
+  } while ($e)
+  break
+}
+
+function folder($path){
+  $path | ? {-not (test-path $_)} | % {$null = mkdir $_}
+}
+
+Function Decode-Files($hash) {
+  foreach ($key in $hash.keys) {
+    $value = $hash[$key]
+    $tzip, $dst = $Value["tmpzip"], $Value["dst"]
+    if ($tzip) {Unzip-File $tzip $dst}
+    New-Object psobject -Property @{dst=$dst;src_sha1=$key;tmpzip=$tzip}
+  }
+}
+
+Function Unzip-File($src, $dst) {
+  $unpack = $src -replace '\.zip'
+  $dst_parent = Split-Path -Path $dst -Parent
+  if(!(Test-Path $dst_parent)) { $dst = $dst_parent }
+  folder $unpack, $dst
+  try {
+    try{
+      [IO.Compression.ZipFile]::ExtractToDirectory($src, $unpack)
+    }
+    catch {
+      Add-Type -AssemblyName System.IO.Compression.FileSystem -ErrorAction Stop
+      [IO.Compression.ZipFile]::ExtractToDirectory($src, $unpack)
+    }
+  }
+  catch {
+    Try {
+      $s = New-Object -ComObject Shell.Application
+      ($s.NameSpace($unpack)).CopyHere(($s.NameSpace($src)).Items(), 0x610) | Out-Null
+    }
+    Finally {
+      [void][Runtime.Interopservices.Marshal]::ReleaseComObject($s)
+    }
+  }
+  dir $unpack | cp -dest "$dst/" -force -recurse
+  rm $unpack -recurse -force
+}
+
+$hash_file = <%= hash_file %>
+Decode-Files $hash_file | ConvertTo-Csv -NoTypeInformation

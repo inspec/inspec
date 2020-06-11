@@ -1,0 +1,12 @@
+inherit_from: .rubocop_todo.yml
+
+Metrics/LineLength:
+  Max: 120
+
+Style/FormatString:
+  EnforcedStyle: sprintf
+
+AllCops:
+  Exclude:
+    - "Rakefile"
+    - "rakelib/**/*"
