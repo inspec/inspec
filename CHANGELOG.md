@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.20.3 -->
+## [v4.20.3](https://github.com/inspec/inspec/tree/v4.20.3) (2020-06-11)
+
+#### Merged Pull Requests
+- Make the JSON-min Reporter into Plugin [#5062](https://github.com/inspec/inspec/pull/5062) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.20.2 -->
+### Changes since 4.20.2 release
+
+#### Merged Pull Requests
+- Make the JSON-min Reporter into Plugin [#5062](https://github.com/inspec/inspec/pull/5062) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.20.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
