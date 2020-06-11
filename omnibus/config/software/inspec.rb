@@ -20,8 +20,6 @@ require_relative '../../../lib/inspec/version.rb'
 name 'inspec'
 
 dependency 'ruby'
-dependency 'rubygems'
-dependency 'bundler'
 
 license :project_license
 
