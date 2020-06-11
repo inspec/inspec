@@ -1,14 +1,15 @@
 #main-nav {
   width: 100%;
   max-width: 100%;
-  background: $color_white;
-  z-index: 999;
+  background: $white;
+  border-bottom: 1px solid $docs-gray;
   position: relative;
+  transition: top 0.4s ease;
 }
 
 .main-nav--logo {
   display: inline-block;
-  width: 225px;
+  max-width: 120px;
   float: left;
 }
 
@@ -86,7 +87,7 @@ nav li {
     clear: both;
     margin-left: $percent_sm;
     margin-right: $percent_sm;
-    border-bottom: 1.5px solid #E9EDF2;
+    // border-bottom: 1.5px solid #E9EDF2;
     text-align: left;
   }
 }
