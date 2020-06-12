@@ -185,11 +185,10 @@ Do this task by adding the <code>:sensitive</code> flag to the resource definiti
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre></div>
-<h3 id="exclude-specific-test">Exclude specific test</h3>
+<h3 id="use-only_if-to-exclude-a-specific-control">Use <code>only_if</code> to exclude a specific control</h3>
 
-<p>This shows how to allow skipping certain tests if conditions are not met, by using <code>only_if</code>.
-In this example the test will not be performed if <code>redis-cli</code> command does not exist. A optional
-message can say why it was skipped.</p>
+<p>This example shows how to allow skipping certain controls if conditions are not met by using <code>only_if</code>.
+In this example, the control will not be performed if the <code>redis-cli</code> command does not exist. A optional message can say why it was skipped.</p>
 <div class="highlight"><pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'nutcracker-connect-redis-001'</span> <span class="k">do</span>
   <span class="n">impact</span> <span class="s1">'critical'</span>
   <span class="n">title</span> <span class="s1">'Check if nutcracker can pass commands to redis'</span>
@@ -204,8 +203,33 @@ message can say why it was skipped.</p>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre></div>
-<p>Mixing this with other conditionals (like checking existence of the files etc.) can help to test different test paths using InSpec. This way you can skip certain tests which would 100% fail due to the way servers are prepared, but you know that the same test suites are reused later in different circumstances by different teams.</p>
+<p>Mixing this with other conditionals, such as checking existence of the files, can help to test different test paths using Chef InSpec. With this way, you can skip certain controls, which would 100% fail due to the way servers are prepared, but you know that the same control suites are reused later in different circumstances by different teams.</p>
 
+<p>Some notes about <code>only_if</code>:</p>
+
+<ul>
+<li><code>only_if</code> applies to the entire <code>control</code>. If the results of the <code>only_if</code> block evaluate to false, any Chef InSpec resources mentioned as part of a <code>describe</code> block will not be run. Additionally, the contents of the describe blocks will not be run. However, bare Ruby expressions and bare Chef InSpec resources (not assocated with a describe block) preceding the only_if statement will run</li>
+</ul>
+
+<p>To illustrate:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">control</span> <span class="s2">"whatruns"</span> <span class="k">do</span>
+  <span class="n">command</span><span class="p">(</span><span class="s2">"do_something"</span><span class="p">)</span> <span class="c1"># This will ALWAYS run</span>
+  <span class="n">describe</span> <span class="n">command</span><span class="p">(</span><span class="s2">"do_another_thing"</span><span class="p">)</span> <span class="k">do</span> <span class="c1"># This will not run</span>
+    <span class="n">command</span><span class="p">(</span><span class="s2">"do_yet_another_thing"</span><span class="p">)</span> <span class="c1"># This will not run</span>
+  <span class="k">end</span>
+  <span class="n">only_if</span> <span class="p">{</span> <span class="kp">false</span> <span class="p">}</span>
+  <span class="n">command</span><span class="p">(</span><span class="s2">"do_something_else"</span><span class="p">)</span> <span class="c1"># This will not run</span>
+<span class="k">end</span>
+</code></pre></div>
+<ul>
+<li>Only one <code>only_if</code> is permitted per <code>control</code> block. If multiple <code>only_if</code> blocks are present, only the last <code>only_if</code> block will be honored</li>
+<li>If used outside a control block, <code>only_if</code> skips all controls in the current file</li>
+<li>To implement complex logic, use Ruby &lsquo;or&rsquo; (<code>||</code>) and &lsquo;and&rsquo; (<code>&amp;&amp;</code>) inside your <code>only_if</code> block:</li>
+</ul>
+<div class="highlight"><pre class="highlight ruby"><code>  <span class="n">only_if</span><span class="p">(</span><span class="s1">'ready for launch'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">rocket_is_ready</span> <span class="o">&amp;&amp;</span> <span class="n">weather_is_clear</span>
+  <span class="k">end</span>
+</code></pre></div>
 <h3 id="additional-metadata-for-controls">Additional metadata for controls</h3>
 
 <p>The following example illustrates various ways to add tags and references to <code>control</code></p>

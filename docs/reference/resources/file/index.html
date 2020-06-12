@@ -81,7 +81,7 @@ Chef InSpec will resolve the symlink recursively and return the ultimate linked 
 </code></pre></div>
 <h3 id="shallow_link_path">shallow_link_path</h3>
 
-<p>The <code>shallow_link_path</code>` property returns the path that the file refers to, only resolving
+<p>The <code>shallow_link_path</code> property returns the path that the file refers to, only resolving
 it once (that is, it performs a readlink operation). If the file is not a symlink, nil is returned.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>its('shallow_link_path') { should eq '/some/path/to/file' }
 </code></pre></div>

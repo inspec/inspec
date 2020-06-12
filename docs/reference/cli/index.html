@@ -243,7 +243,7 @@ Password for enable mode on Cisco IOS devices.</li>
 <li><code>--host=HOST</code><br>
 Specify a remote host which is tested.</li>
 <li><code>--input=name1=value1 name2=value2</code><br>
-Specify one or more inputs directly on the command line, as &ndash;input NAME=VALUE</li>
+Specify one or more inputs directly on the command line, as &ndash;input NAME=VALUE. Accepts single-quoted YAML and JSON structures.</li>
 <li><code>--input-file=one two three</code><br>
 Load one or more input files, a YAML file with values for the profile to use</li>
 <li><code>--insecure</code>, <code>--no-insecure</code><br>
@@ -276,6 +276,8 @@ Specify a particular shell to use.</li>
 Additional shell options.</li>
 <li><code>--show-progress</code>, <code>--no-show-progress</code><br>
 Show progress while executing tests.</li>
+<li><code>--silence-deprecations=all|GROUP GROUP...</code><br>
+Suppress deprecation warnings. See install_dir/etc/deprecations.json for list of GROUPs or use &lsquo;all&rsquo;.</li>
 <li><code>--ssl</code>, <code>--no-ssl</code><br>
 Use SSL for transport layer encryption (WinRM).</li>
 <li><code>--sudo</code>, <code>--no-sudo</code><br>
