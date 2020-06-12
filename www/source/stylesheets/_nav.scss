@@ -6,10 +6,20 @@
   transition: top 0.4s ease;
 }
 
-.main-nav--logo {
+a.main-nav--logo {
   display: inline-block;
-  max-width: 120px;
+  width: 105px;
+  max-width: 105px;
   float: left;
+  line-height: 50px;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  @include nav-small {
+    float: none;
+  }
 }
 
 .main-nav--links {
@@ -21,12 +31,10 @@
 }
 
 #main-nav-ctas {
-  background: $color_white;
+  background-color: $white;
   padding-left: $percent_sm;
   padding-right: $percent_sm;
   border-bottom: 1px solid $docs-gray;
-  max-height: 55px;
-
   @include nav-small {
     padding-left: $percent_xs;
     padding-right: $percent_xs;
@@ -126,7 +134,7 @@ nav li.nav-cta a.button {
 
 #main-nav-ctas > i {
   display: none;
-  color: $color_purple;
+  color: $dark-gray;
   cursor: pointer;
 
   @include nav-small {
@@ -142,13 +150,4 @@ span.toggle {
   float: right;
 }
 
-a.main-nav--logo {
-  display: inline-block;
-  width: 225px;
-  float: left;
-  margin-left: initial !important;
 
-  @include nav-small {
-    line-height: 55px;
-  }
-}

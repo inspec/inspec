@@ -51,7 +51,7 @@ li > i.focus {
 
 li.t-purple > i.focus{
   display: inline-flex;
-  color: $color_purple;
+  color: $chef-secondary;
 
   @include nav-small {
     float: right;

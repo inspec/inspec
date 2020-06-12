@@ -104,11 +104,11 @@ i {
 // Font Colors//
 
 .t-dk {
-	color: $color_dark;
+	color: $dark-gray;
 }
 
 .t-white {
-	color: $color_white;
+	color: $white;
 }
 
 .t-gray {
@@ -120,9 +120,9 @@ i {
 }
 
 .t-purple {
-	color: $color_purple !important;
+	color: $chef-secondary;
 }
 
 .t-purple > a { //trigger for side bar LI
-	color: $color_purple !important;
+	color: $chef-secondary;
 }
