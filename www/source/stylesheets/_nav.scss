@@ -30,7 +30,14 @@ a.main-nav--logo {
   }
 }
 
+.main-nav--toggle {
+  font-size: 1.3em;
+  margin-top: 1rem;
+}
+
 #main-nav-ctas {
+  display: flex;
+  justify-content: center;
   background-color: $white;
   padding-left: $percent_sm;
   padding-right: $percent_sm;
@@ -59,6 +66,12 @@ a.main-nav--logo {
       margin-bottom: 0;
     }
   }
+}
+
+
+#nav-container {
+  max-width: 1290px;
+  width: 100%;
 }
 
 .main-nav--link {
@@ -93,8 +106,6 @@ nav li {
     line-height: 45px;
     clear: both;
     margin-left: 0;
-    // margin-right: $percent_sm;
-    // border-bottom: 1.5px solid #E9EDF2;
     text-align: left;
   }
 }
