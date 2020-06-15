@@ -20,8 +20,6 @@ require_relative '../../../lib/inspec/version.rb'
 name 'inspec'
 
 dependency 'ruby'
-dependency 'rubygems'
-dependency 'bundler'
 
 license :project_license
 
@@ -44,4 +42,10 @@ build do
   gem "install #{name}-*.gem --no-document", env: env
 
   appbundle 'inspec', env: env
+
+  block 'Delete test folder from problem gems' do
+    env['VISUAL'] = 'echo'
+    gem_install_dir = shellout!("#{install_dir}/embedded/bin/gem open rubyzip", env: env).stdout.chomp
+    remove_directory "#{gem_install_dir}/test"
+  end
 end

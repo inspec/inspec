@@ -37,11 +37,6 @@ end
 build_version Inspec::VERSION
 build_iteration 1
 
-override 'ruby', version: '2.5.3'
-# RubyGems 2.7.0 caused issues in the Jenkins pipelines, trouble installing bundler.
-# This issue is not evident in 2.6.x, hence the pin.
-override 'rubygems', version: '2.6.14'
-
 # grab the current train release from rubygems.org
 train_stable = /^train \((.*)\)/.match(`gem list ^train$ --remote`)[1]
 override 'train', version: "v#{train_stable}"
@@ -56,8 +51,6 @@ dependency 'gem-permissions'
 dependency 'shebang-cleanup'
 # Ensure our SSL cert files are accessible to ruby.
 dependency 'openssl-customization'
-# Remove all .dll.a and .a files needed for static linkage.
-dependency 'clean-static-libs'
 
 dependency 'ruby-cleanup'
 
@@ -76,7 +69,7 @@ end
 
 package :pkg do
   identifier 'com.getchef.pkg.inspec'
-  signing_identity 'Developer ID Installer: Chef Software, Inc. (EU3VF8YLX2)'
+  signing_identity 'Chef Software, Inc. (EU3VF8YLX2)'
 end
 compress :dmg
 
@@ -84,7 +77,7 @@ package :msi do
   fast_msi true
   upgrade_code 'DFCD452F-31E5-4236-ACD1-253F4720250B'
   wix_light_extension 'WixUtilExtension'
-  signing_identity 'E05FF095D07F233B78EB322132BFF0F035E11B5B', machine_store: true
+  signing_identity 'AF21BA8C9E50AE20DA9907B6E2D4B0CC3306CA03', machine_store: true
 end
 
 exclude '**/.git'
