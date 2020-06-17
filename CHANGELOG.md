@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.20.6 -->
-## [v4.20.6](https://github.com/inspec/inspec/tree/v4.20.6) (2020-06-17)
+<!-- latest_release 4.20.7 -->
+## [v4.20.7](https://github.com/inspec/inspec/tree/v4.20.7) (2020-06-17)
 
-#### Merged Pull Requests
-- Make CLI reporter into a plugin [#5069](https://github.com/inspec/inspec/pull/5069) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### New Features
+- Telemetry - determine run context from stack introspection [#4907](https://github.com/inspec/inspec/pull/4907) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.20.2 -->
 ### Changes since 4.20.2 release
+
+#### New Features
+- Telemetry - determine run context from stack introspection [#4907](https://github.com/inspec/inspec/pull/4907) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.20.7 -->
 
 #### Merged Pull Requests
 - Make CLI reporter into a plugin [#5069](https://github.com/inspec/inspec/pull/5069) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.20.6 -->
