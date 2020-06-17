@@ -1,0 +1,49 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  product_name: chef
+  product_version: 15
+
+verifier:
+  name: inspec
+  sudo: true
+
+lifecycle:
+  # This pre_create hook, along with the install_inspec cookbook, ensures that
+  # the VM has a version of InSpec that matches that built from source.
+  # Note that audit cookbook will ignore this.
+  pre_create:
+    - local: cd inspec-bin && gem build inspec-core-bin.gemspec --output ../test/kitchen/cookbooks/install_inspec/files/inspec-core-bin.gem
+    - local: gem build inspec-core.gemspec --output test/kitchen/cookbooks/install_inspec/files/inspec-core.gem
+
+platforms:
+  - name: ubuntu-18.04
+
+suites:
+  # This test suite uses test/integration/run-context-tk to check the
+  # Telemetry Run Context detection system. This test should detect
+  # running under Test Kitchen.
+  - name: run-context-tk
+    run_list:
+      - recipe[install_inspec]
+
+  # This test suite uses a pair of profiles to check the Telemetry Run Context
+  # detection system under audit cookbook.
+  - name: run-context-after-audit
+    run_list:
+      - recipe[install_inspec]
+      - recipe[audit]
+    attributes:
+      audit:
+        profiles:
+          # This actually runs during converge time, and performs the stack
+          # probe that we care about. It writes a JSON copy of the stack that
+          # it saw to /tmp/audit_stack.json . run-context-after-audit examines
+          # that JSON file and runs it through the context probe to see what it gets.
+          run-context-during-audit:
+            # This should work but doesn't :-(
+            # path: <%= Dir.pwd %>/test/integration/run-context-during-audit/
+            url: https://github.com/inspec/inspec-test-profile-run-context-audit/archive/v0.3.2.zip
+

@@ -1,0 +1,10 @@
+name: run-context-after-audit
+title: InSpec Profile
+maintainer: InSpec Engineering
+copyright: Chef Software, Inc.
+copyright_email: inspec@chef.io
+license: Apache-2.0
+summary: An InSpec Compliance Profile to test inspec run context detection under audit-cookbook
+version: 0.1.0
+supports:
+  platform: os

@@ -5,14 +5,7 @@ apt_update if platform_family?("debian")
 
 # inject the current inspec gem for use with audit cookbook
 # this is generated via Rake test:integration
-cookbook_file "/root/inspec-core-local.gem" do
-  source "inspec-core-local.gem"
-  action :create
-end
-
-chef_gem "inspec" do
-  source "/root/inspec-core-local.gem"
-end
+include_recipe("install_inspec")
 
 def uuid_from_string(string)
   require "digest/sha1"
