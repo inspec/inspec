@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.20.5 -->
+## [v4.20.5](https://github.com/inspec/inspec/tree/v4.20.5) (2020-06-17)
 
 #### Merged Pull Requests
+- Change ffi pinning [#5078](https://github.com/inspec/inspec/pull/5078) ([james-stocks](https://github.com/james-stocks))
 - Add Windows 8 Tester [#5077](https://github.com/inspec/inspec/pull/5077) ([christopher-snapp](https://github.com/christopher-snapp))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.20.2 release
 
 #### Merged Pull Requests
+- Change ffi pinning [#5078](https://github.com/inspec/inspec/pull/5078) ([james-stocks](https://github.com/james-stocks)) <!-- 4.20.5 -->
 - Add Windows 8 Tester [#5077](https://github.com/inspec/inspec/pull/5077) ([christopher-snapp](https://github.com/christopher-snapp)) <!-- 4.20.4 -->
 - Fix tomlrb dependency [#5091](https://github.com/inspec/inspec/pull/5091) ([james-stocks](https://github.com/james-stocks)) <!-- 4.20.4 -->
 - Make the JSON-min Reporter into Plugin [#5062](https://github.com/inspec/inspec/pull/5062) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.20.3 -->
