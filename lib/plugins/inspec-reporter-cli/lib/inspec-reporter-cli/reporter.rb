@@ -1,5 +1,8 @@
-module Inspec::Reporters
-  class CLI < Base
+require "forwardable"
+
+module InspecPlugins::CliReporter
+  class Reporter < Inspec.plugin(2, :reporter)
+
     case RUBY_PLATFORM
     when /windows|mswin|msys|mingw|cygwin/
       # Most currently available Windows terminals have poor support
@@ -40,11 +43,15 @@ module Inspec::Reporters
 
     MULTI_TEST_CONTROL_SUMMARY_MAX_LEN = 60
 
+    def self.run_data_schema_constraints
+      "~> 0.0"
+    end
+
     def render
-      run_data[:profiles].each do |profile|
-        if profile[:status] == "skipped"
-          platform = run_data[:platform]
-          output("Skipping profile: '#{profile[:name]}' on unsupported platform: '#{platform[:name]}/#{platform[:release]}'.")
+      run_data.profiles.each do |profile|
+        if profile.status == "skipped"
+          platform = run_data.platform
+          output("Skipping profile: '#{profile.name}' on unsupported platform: '#{platform.name}/#{platform.release}'.")
           next
         end
         @control_count = 0
@@ -70,9 +77,9 @@ module Inspec::Reporters
     def print_profile_header(profile)
       header = {
         "Profile" => format_profile_name(profile),
-        "Version" => profile[:version] || "(not specified)",
+        "Version" => profile.version || "(not specified)",
       }
-      header["Target"] = run_data[:platform][:target] unless run_data[:platform][:target].nil?
+      header["Target"] = run_data.platform.target unless run_data.platform.target.nil?
       header["Target ID"] = @config["target_id"] unless @config["target_id"].nil?
 
       pad = header.keys.max_by(&:length).length + 1
@@ -84,8 +91,8 @@ module Inspec::Reporters
 
     def print_standard_control_results(profile)
       standard_controls_from_profile(profile).each do |control_from_profile|
-        control = Control.new(control_from_profile)
-        next if control.results.nil?
+        control = ControlForCliDisplay.new(control_from_profile)
+        next if control.results.empty?
 
         output(format_control_header(control))
         control.results.each do |result|
@@ -98,8 +105,8 @@ module Inspec::Reporters
 
     def print_anonymous_control_results(profile)
       anonymous_controls_from_profile(profile).each do |control_from_profile|
-        control = Control.new(control_from_profile)
-        next if control.results.nil?
+        control = ControlForCliDisplay.new(control_from_profile)
+        next if control.results.empty?
 
         output(format_control_header(control))
         control.results.each do |result|
@@ -110,10 +117,10 @@ module Inspec::Reporters
     end
 
     def format_profile_name(profile)
-      if profile[:title].nil?
-        (profile[:name] || "unknown").to_s
+      if profile.title.nil?
+        (profile.name || "unknown").to_s
       else
-        "#{profile[:title]} (#{profile[:name] || "unknown"})"
+        "#{profile.title} (#{profile.name || "unknown"})"
       end
     end
 
@@ -129,16 +136,16 @@ module Inspec::Reporters
     def format_result(control, result, type)
       impact = control.impact_string_for_result(result)
 
-      message = if result[:status] == "skipped"
-                  result[:skip_message]
+      message = if result.status == "skipped"
+                  result.skip_message
                 elsif type == :anonymous
-                  result[:expectation_message]
+                  result.expectation_message
                 else
-                  result[:code_desc]
+                  result.code_desc
                 end
 
       # append any failure details to the message if they exist
-      message += "\n#{result[:message]}" if result[:message]
+      message += "\n#{result.message}" if result.message
 
       format_message(
         color: impact,
@@ -170,9 +177,7 @@ module Inspec::Reporters
 
     def all_unique_controls
       @unique_controls ||= begin
-                             run_data[:profiles].flat_map do |profile|
-                               profile[:controls]
-                             end.uniq
+                             run_data.profiles.flat_map(&:controls).uniq
                            end
     end
 
@@ -182,12 +187,12 @@ module Inspec::Reporters
       passed = 0
 
       all_unique_controls.each do |control|
-        next if control[:id].start_with? "(generated from "
-        next unless control[:results]
+        next if control.id.start_with? "(generated from "
+        next if control.results.empty?
 
-        if control[:results].any? { |r| r[:status] == "failed" }
+        if control.results.any? { |r| r.status == "failed" }
           failed += 1
-        elsif control[:results].any? { |r| r[:status] == "skipped" }
+        elsif control.results.any? { |r| r.status == "skipped" }
           skipped += 1
         else
           passed += 1
@@ -211,12 +216,12 @@ module Inspec::Reporters
       passed = 0
 
       all_unique_controls.each do |control|
-        next unless control[:results]
+        next if control.results.empty?
 
-        control[:results].each do |result|
-          if result[:status] == "failed"
+        control.results.each do |result|
+          if result.status == "failed"
             failed += 1
-          elsif result[:status] == "skipped"
+          elsif result.status == "skipped"
             skipped += 1
           else
             passed += 1
@@ -273,42 +278,30 @@ module Inspec::Reporters
     end
 
     def standard_controls_from_profile(profile)
-      profile[:controls].reject { |c| is_anonymous_control?(c) }
+      profile.controls.reject { |c| is_anonymous_control?(c) }
     end
 
     def anonymous_controls_from_profile(profile)
-      profile[:controls].select { |c| is_anonymous_control?(c) && !c[:results].nil? }
+      profile.controls.select { |c| is_anonymous_control?(c) && !c[:results].nil? }
     end
 
     def is_anonymous_control?(control)
-      control[:id].start_with?("(generated from ")
+      control.id.start_with?("(generated from ")
     end
 
     def indent_lines(message, indentation)
       message.lines.map { |line| " " * indentation + line }.join
     end
 
-    class Control
-      attr_reader :data
+    class ControlForCliDisplay
 
-      def initialize(control_hash)
-        @data = control_hash
-      end
+      extend Forwardable
 
-      def id
-        data[:id]
-      end
+      attr_reader :control_obj
+      def_delegators :@control_obj, :id, :impact, :results, :title
 
-      def title
-        data[:title]
-      end
-
-      def results
-        data[:results]
-      end
-
-      def impact
-        data[:impact]
+      def initialize(control_obj)
+        @control_obj = control_obj
       end
 
       def anonymous?
@@ -317,9 +310,9 @@ module Inspec::Reporters
 
       def title_for_report
         # if this is an anonymous control, just grab the resource title from any result entry
-        return results.first[:resource_title] if anonymous?
+        return results.first.resource_title if anonymous?
 
-        title_for_report = "#{id}: #{title || results.first[:resource_title]}"
+        title_for_report = "#{id}: #{title || results.first.resource_title}"
 
         # we will not add any additional data to the title if there's only
         # zero or one test for this control.
@@ -337,9 +330,9 @@ module Inspec::Reporters
           nil
         elsif impact.nil?
           "unknown"
-        elsif results&.find { |r| r[:status] == "skipped" }
+        elsif results&.find { |r| r.status == "skipped" }
           "skipped"
-        elsif results.nil? || results.empty? || results.all? { |r| r[:status] == "passed" }
+        elsif results.empty? || results.all? { |r| r.status == "passed" }
           "passed"
         else
           "failed"
@@ -347,9 +340,9 @@ module Inspec::Reporters
       end
 
       def impact_string_for_result(result)
-        if result[:status] == "skipped"
+        if result.status == "skipped"
           "skipped"
-        elsif result[:status] == "passed"
+        elsif result.status == "passed"
           "passed"
         elsif impact.nil?
           "unknown"
@@ -359,11 +352,11 @@ module Inspec::Reporters
       end
 
       def failure_count
-        results.select { |r| r[:status] == "failed" }.size
+        results.select { |r| r.status == "failed" }.size
       end
 
       def skipped_count
-        results.select { |r| r[:status] == "skipped" }.size
+        results.select { |r| r.status == "skipped" }.size
       end
     end
   end

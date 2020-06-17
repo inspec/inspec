@@ -341,7 +341,6 @@ module Inspec
       # Tracked on https://github.com/inspec/inspec/issues/3667
       inspec_reporters_that_are_not_yet_plugins = %w{
         automate
-        cli
         json
         json-automate
         junit
@@ -355,7 +354,12 @@ module Inspec
         .find_activators(plugin_type: :reporter)\
         .map(&:activator_name).map(&:to_s)
 
-      valid_types = rspec_built_in_formatters + inspec_reporters_that_are_not_yet_plugins + plugin_reporters
+      # Include CLI explicitly, because it is the default reporter and will usually not be
+      # present on the command line, and thus its plugin will not appear on the list.
+      valid_types = rspec_built_in_formatters + \
+        inspec_reporters_that_are_not_yet_plugins + \
+        plugin_reporters + \
+        [ "cli" ]
 
       reporters.each do |reporter_name, reporter_config|
         raise NotImplementedError, "'#{reporter_name}' is not a valid reporter type." unless valid_types.include?(reporter_name)

@@ -1,16 +1,17 @@
 require "helper"
-require "inspec/reporters"
+require_relative "../../../lib/plugins/inspec-reporter-cli/lib/inspec-reporter-cli"
+require_relative "../../../lib/plugins/inspec-reporter-cli/lib/inspec-reporter-cli/reporter"
 
-describe Inspec::Reporters::CLI do
+describe InspecPlugins::CliReporter::Reporter do
   WINDOWS = RUBY_PLATFORM =~ /windows|mswin|msys|mingw|cygwin/
 
   let(:report) do
     data = JSON.parse(File.read("test/fixtures/reporters/run_data.json"), symbolize_names: true)
-    cli = Inspec::Reporters::CLI
+    cli = InspecPlugins::CliReporter::Reporter
     cli.new({ run_data: data })
   end
   let(:profile) { report.run_data[:profiles].first }
-  let(:control) { Inspec::Reporters::CLI::Control }
+  let(:control) { InspecPlugins::CliReporter::Reporter::ControlForCliDisplay }
 
   before do
     RSpec.configuration.color = true if defined?(RSpec.configuration)
@@ -122,7 +123,7 @@ describe Inspec::Reporters::CLI do
     let(:profile_control) do
       control.new(profile[:controls].first)
     end
-    let(:result) { profile_control.data[:results].first }
+    let(:result) { profile_control.control_obj.results.first }
 
     it "confirm standard result" do
       output = report.send(:format_result, profile_control, result, :standard)
