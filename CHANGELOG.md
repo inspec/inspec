@@ -7,21 +7,24 @@
 - Telemetry - determine run context from stack introspection [#4907](https://github.com/inspec/inspec/pull/4907) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup since=4.20.2 -->
-### Changes since 4.20.2 release
+<!-- release_rollup since=4.20.6 -->
+### Changes since 4.20.6 release
 
 #### New Features
 - Telemetry - determine run context from stack introspection [#4907](https://github.com/inspec/inspec/pull/4907) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.20.7 -->
-
-#### Merged Pull Requests
-- Make CLI reporter into a plugin [#5069](https://github.com/inspec/inspec/pull/5069) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.20.6 -->
-- Change ffi pinning [#5078](https://github.com/inspec/inspec/pull/5078) ([james-stocks](https://github.com/james-stocks)) <!-- 4.20.5 -->
-- Add Windows 8 Tester [#5077](https://github.com/inspec/inspec/pull/5077) ([christopher-snapp](https://github.com/christopher-snapp)) <!-- 4.20.4 -->
-- Fix tomlrb dependency [#5091](https://github.com/inspec/inspec/pull/5091) ([james-stocks](https://github.com/james-stocks)) <!-- 4.20.4 -->
-- Make the JSON-min Reporter into Plugin [#5062](https://github.com/inspec/inspec/pull/5062) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.20.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.20.6](https://github.com/inspec/inspec/tree/v4.20.6) (2020-06-17)
+
+#### Merged Pull Requests
+- Make the JSON-min Reporter into Plugin [#5062](https://github.com/inspec/inspec/pull/5062) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix tomlrb dependency [#5091](https://github.com/inspec/inspec/pull/5091) ([james-stocks](https://github.com/james-stocks))
+- Add Windows 8 Tester [#5077](https://github.com/inspec/inspec/pull/5077) ([christopher-snapp](https://github.com/christopher-snapp))
+- Change ffi pinning [#5078](https://github.com/inspec/inspec/pull/5078) ([james-stocks](https://github.com/james-stocks))
+- Make CLI reporter into a plugin [#5069](https://github.com/inspec/inspec/pull/5069) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.20.2](https://github.com/inspec/inspec/tree/v4.20.2) (2020-06-10)
 
 #### New Features
@@ -33,7 +36,6 @@
 - Expand docs and tests for only_if [#5038](https://github.com/inspec/inspec/pull/5038) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Add newline in Dockerfile to facilitate patching by 3rd party distros [#5051](https://github.com/inspec/inspec/pull/5051) ([bobchaos](https://github.com/bobchaos))
 - Update installer license text [#5073](https://github.com/inspec/inspec/pull/5073) ([james-stocks](https://github.com/james-stocks))
-<!-- latest_stable_release -->
 
 ## [v4.19.2](https://github.com/inspec/inspec/tree/v4.19.2) (2020-06-04)
 
