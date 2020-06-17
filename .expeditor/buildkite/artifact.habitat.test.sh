@@ -3,7 +3,7 @@
 set -eo pipefail
 
 export HAB_ORIGIN='ci'
-export PLAN='inspec'
+export PLAN='inspec3'
 export CHEF_LICENSE="accept-no-persist"
 export HAB_LICENSE="accept-no-persist"
 export project_root="$(git rev-parse --show-toplevel)"

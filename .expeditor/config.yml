@@ -12,7 +12,6 @@ docker_images:
         - GEM_SOURCE: http://artifactory.chef.co/omnibus-gems-local
 
 pipelines:
-  - habitat/build
   - omnibus/release
   - omnibus/adhoc:
       definition: .expeditor/release.omnibus.yml
@@ -68,10 +67,6 @@ merge_actions:
         - "Omnibus: Skip Build"
         - "Expeditor: Skip All"
       only_if: built_in:bump_version
-  - trigger_pipeline:habitat/build:
-      ignore_labels:
-        - "Habitat: Skip Build"
-        - "Expeditor: Skip All"
   - built_in:build_gem:
       only_if:
         - built_in:bump_version
@@ -83,7 +78,6 @@ subscriptions:
   - workload: artifact_published:current:inspec:{{version_constraint}}
     actions:
       - built_in:tag_docker_image
-      - built_in:promote_habitat_packages
   - workload: artifact_published:stable:inspec:{{version_constraint}}
     actions:
       - bash:.expeditor/update_dockerfile.sh
@@ -91,5 +85,4 @@ subscriptions:
       - built_in:publish_rubygems
       - built_in:create_github_release
       - built_in:tag_docker_image
-      - built_in:promote_habitat_packages
       - built_in:notify_chefio_slack_channels
