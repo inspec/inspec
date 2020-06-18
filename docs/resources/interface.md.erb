@@ -21,7 +21,7 @@ This resource is distributed along with Chef InSpec itself. You can use it autom
 
 ### Version
 
-This resource first became available in v1.0.0 of InSpec.
+This resource first became available in v1.0.0 of Chef InSpec.
 
 ## Syntax
 
@@ -45,7 +45,7 @@ An `interface` resource block declares network interface properties to be tested
 
 ### ipv4_address
 
-Returns the first `ipv4_addresses` entry as a String. Note: this property is incompatible with ServerSpec, which returns the value including the CIDR range (i.e. '10.0.0.5/32')
+Returns the first `ipv4_addresses` entry as a String. Note: this property is incompatible with ServerSpec, which returns the value including the CIDR range, such as '10.0.0.5/32'.
 
     its('ipv4_address') { should eq '10.0.0.5' }
 
@@ -57,7 +57,7 @@ The `ipv4_addresses` property returns an Array of IPv4 addresses as Strings. You
 
 ### ipv4\_addresses\_netmask
 
-The `ipv4_addresses_netmask` property returns an Array of Strings, each containing the IPv4 address, a slash, and the netmask. You may then test if the specified address and netmask exists on the named network interface:
+The `ipv4_addresses_netmask` property returns an Array of Strings with each containing the IPv4 address, a slash, and the netmask. You may then test if the specified address and netmask exists on the named network interface:
 
     its('ipv4_addresses_netmask') { should include '127.0.0.1/255.0.0.0' }
 

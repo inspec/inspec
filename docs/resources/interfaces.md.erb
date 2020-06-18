@@ -7,10 +7,6 @@ platform: os
 
 Use the `interfaces` Chef InSpec audit resource to test the properties of multiple network interfaces on the system.
 
-## Version
-
-This resource first became available in v??? of InSpec.
-
 ## Syntax
 
 An `interfaces` resource block may take no arguments, in which case it will list all interfaces:
@@ -26,7 +22,7 @@ An `interfaces` resource block may take a where clause, filtering on a Filter Cr
       its('names') { should include 'eth0' }
     end
 
-Like any InSpec resource, you may also use it for data lookup instead of testing:
+Like any Chef InSpec resource, you may also use it for data lookup instead of testing:
 
     # We are an IPv6 shop
     interfaces.where(name: /^eth/).names do |name|
