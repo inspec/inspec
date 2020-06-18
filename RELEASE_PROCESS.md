@@ -4,7 +4,7 @@ This document describes the release process for Chef InSpec as used internally a
 
 ## Promote Dependency Gems
 
-It's important that you promote dependency gems, and thus release them to rubygems.org, BEFORE the last PR that you intend to release merges into inspec/inspec. This is because during the `inspec` merge process, software artifacts, such as omnibus packages, Habitat packages, and Docker images, are created that embed the dependencies. During promotion, these artifacts are simply promoted, rather than rebuilt. If you need a later version of one of these dependencies and have no legitimate PR to merge, you may need a dummy PR.
+It's important that you promote dependency gems - and thus release them to rubygems.org - BEFORE the last PR that you intend to release merges into inspec/inspec. This is because during the `inspec` merge process, software artifacts, such as omnibus packages, Habitat packages, and Docker images, are created that embed the dependencies. During promotion, these artifacts are simply promoted, rather than rebuilt. If you need a later version of one of these dependencies and have no legitimate PR to merge, you may need a dummy PR.
 
 ### Key Dependencies
 
