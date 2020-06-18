@@ -1,27 +1,25 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.20.10 -->
-## [v4.20.10](https://github.com/inspec/inspec/tree/v4.20.10) (2020-06-18)
-
-#### Merged Pull Requests
-- Arbitrary .md change to bump version [#5103](https://github.com/inspec/inspec/pull/5103) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.20.6 -->
-### Changes since 4.20.6 release
-
-#### Bug Fixes
-- Revert &quot;Make CLI reporter into a plugin&quot; [#5100](https://github.com/inspec/inspec/pull/5100) ([Schwad](https://github.com/Schwad)) <!-- 4.20.9 -->
-
-#### Merged Pull Requests
-- Arbitrary .md change to bump version [#5103](https://github.com/inspec/inspec/pull/5103) ([james-stocks](https://github.com/james-stocks)) <!-- 4.20.10 -->
-- Update sslshake test for sslshake 1.13.1 [#5101](https://github.com/inspec/inspec/pull/5101) ([james-stocks](https://github.com/james-stocks)) <!-- 4.20.8 -->
-
-#### New Features
-- Telemetry - determine run context from stack introspection [#4907](https://github.com/inspec/inspec/pull/4907) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.20.7 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.20.10](https://github.com/inspec/inspec/tree/v4.20.10) (2020-06-18)
+
+#### New Features
+- Telemetry - determine run context from stack introspection [#4907](https://github.com/inspec/inspec/pull/4907) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- Revert &quot;Make CLI reporter into a plugin&quot; [#5100](https://github.com/inspec/inspec/pull/5100) ([Schwad](https://github.com/Schwad))
+
+#### Merged Pull Requests
+- Update sslshake test for sslshake 1.13.1 [#5101](https://github.com/inspec/inspec/pull/5101) ([james-stocks](https://github.com/james-stocks))
+- Arbitrary .md change to bump version [#5103](https://github.com/inspec/inspec/pull/5103) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_stable_release -->
+
 ## [v4.20.6](https://github.com/inspec/inspec/tree/v4.20.6) (2020-06-17)
 
 #### Merged Pull Requests
@@ -30,7 +28,6 @@
 - Add Windows 8 Tester [#5077](https://github.com/inspec/inspec/pull/5077) ([christopher-snapp](https://github.com/christopher-snapp))
 - Change ffi pinning [#5078](https://github.com/inspec/inspec/pull/5078) ([james-stocks](https://github.com/james-stocks))
 - Make CLI reporter into a plugin [#5069](https://github.com/inspec/inspec/pull/5069) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v4.20.2](https://github.com/inspec/inspec/tree/v4.20.2) (2020-06-10)
 
