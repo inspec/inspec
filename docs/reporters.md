@@ -122,13 +122,13 @@ This reporter includes all information from the rspec runner. Unlike the json re
 
 ### html
 
-This reporter is the legacy RSpec HTML reporter which is retained for backwards compatibility. The report generated is not aware of profiles or controls, only containing unsorted test information. Most users should migrate to the `html2` reporter for more complete data.
+This reporter is the legacy RSpec HTML reporter, which is retained for backwards compatibility. The report generated is not aware of profiles or controls, and only contains unsorted test information. Most users should migrate to the `html2` reporter for more complete data.
 
 ### html2
 
-An improved HTML reporter that contains full data about the structure of the profile, controls, and tests. The generated report renders html code to view your tests in a browser.
+This reporter is an improved HTML reporter that contains full data about the structure of the profile, controls, and tests. The generated report renders HTML code for viewing your tests in a browser.
 
-No configuration is required for the `html2` reporter to function. However, two options are available for customization. The options are set in the JSON-formatted configuration file that Chef InSpec consumes. For details on this file, see [the documentation](https://www.inspec.io/docs/reference/config/).
+The `html2` reporter requires no configuration to function. However, two options--`alternate_css_file` and `alternate_js_file`--are available for customization. The options are set in the JSON-formatted configuration file that Chef InSpec consumes. For details, see [our configuration file documentation](https://www.inspec.io/docs/reference/config/).
 
 For example:
 
@@ -150,8 +150,7 @@ Specifies the full path to the location of a CSS file that will be read and inli
 
 #### alternate\_js\_file
 
-Specifies the full path to the location of a JavaScript file that will be read and inlined into the HTML report. The default JavaScript will not be included. The JavaScript file should implement at least a function `pageLoaded()` which will be called by the `onload` event of the HTML `body` element.
-
+Specifies the full path to the location of a JavaScript file that will be read and inlined into the HTML report. The default JavaScript will not be included. The JavaScript file should implement at least a `pageLoaded()` function, which will be called by the `onload` event of the HTML `body` element.
 
 ## Automate Reporter
 
