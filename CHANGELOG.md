@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.20.7 -->
-## [v4.20.7](https://github.com/inspec/inspec/tree/v4.20.7) (2020-06-17)
+<!-- latest_release 4.20.8 -->
+## [v4.20.8](https://github.com/inspec/inspec/tree/v4.20.8) (2020-06-18)
 
-#### New Features
-- Telemetry - determine run context from stack introspection [#4907](https://github.com/inspec/inspec/pull/4907) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Update sslshake test for sslshake 1.13.1 [#5101](https://github.com/inspec/inspec/pull/5101) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.20.6 -->
 ### Changes since 4.20.6 release
+
+#### Merged Pull Requests
+- Update sslshake test for sslshake 1.13.1 [#5101](https://github.com/inspec/inspec/pull/5101) ([james-stocks](https://github.com/james-stocks)) <!-- 4.20.8 -->
 
 #### New Features
 - Telemetry - determine run context from stack introspection [#4907](https://github.com/inspec/inspec/pull/4907) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.20.7 -->
