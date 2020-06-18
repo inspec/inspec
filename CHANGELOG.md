@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.20.9 -->
-## [v4.20.9](https://github.com/inspec/inspec/tree/v4.20.9) (2020-06-18)
+<!-- latest_release 4.20.10 -->
+## [v4.20.10](https://github.com/inspec/inspec/tree/v4.20.10) (2020-06-18)
 
-#### Bug Fixes
-- Revert &quot;Make CLI reporter into a plugin&quot; [#5100](https://github.com/inspec/inspec/pull/5100) ([Schwad](https://github.com/Schwad))
+#### Merged Pull Requests
+- Arbitrary .md change to bump version [#5103](https://github.com/inspec/inspec/pull/5103) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.20.6 -->
@@ -14,6 +14,7 @@
 - Revert &quot;Make CLI reporter into a plugin&quot; [#5100](https://github.com/inspec/inspec/pull/5100) ([Schwad](https://github.com/Schwad)) <!-- 4.20.9 -->
 
 #### Merged Pull Requests
+- Arbitrary .md change to bump version [#5103](https://github.com/inspec/inspec/pull/5103) ([james-stocks](https://github.com/james-stocks)) <!-- 4.20.10 -->
 - Update sslshake test for sslshake 1.13.1 [#5101](https://github.com/inspec/inspec/pull/5101) ([james-stocks](https://github.com/james-stocks)) <!-- 4.20.8 -->
 
 #### New Features
