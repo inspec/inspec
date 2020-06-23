@@ -14,6 +14,7 @@
 /.sass-cache
 /.cache
 /cache
+vendor/cache
 
 # Ignore .DS_store file
 .DS_Store
