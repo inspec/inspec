@@ -7,6 +7,28 @@
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.20.10](https://github.com/inspec/inspec/tree/v4.20.10) (2020-06-18)
+
+#### New Features
+- Telemetry - determine run context from stack introspection [#4907](https://github.com/inspec/inspec/pull/4907) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- Revert &quot;Make CLI reporter into a plugin&quot; [#5100](https://github.com/inspec/inspec/pull/5100) ([Schwad](https://github.com/Schwad))
+
+#### Merged Pull Requests
+- Update sslshake test for sslshake 1.13.1 [#5101](https://github.com/inspec/inspec/pull/5101) ([james-stocks](https://github.com/james-stocks))
+- Arbitrary .md change to bump version [#5103](https://github.com/inspec/inspec/pull/5103) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_stable_release -->
+
+## [v4.20.6](https://github.com/inspec/inspec/tree/v4.20.6) (2020-06-17)
+
+#### Merged Pull Requests
+- Make the JSON-min Reporter into Plugin [#5062](https://github.com/inspec/inspec/pull/5062) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix tomlrb dependency [#5091](https://github.com/inspec/inspec/pull/5091) ([james-stocks](https://github.com/james-stocks))
+- Add Windows 8 Tester [#5077](https://github.com/inspec/inspec/pull/5077) ([christopher-snapp](https://github.com/christopher-snapp))
+- Change ffi pinning [#5078](https://github.com/inspec/inspec/pull/5078) ([james-stocks](https://github.com/james-stocks))
+- Make CLI reporter into a plugin [#5069](https://github.com/inspec/inspec/pull/5069) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
 ## [v4.20.2](https://github.com/inspec/inspec/tree/v4.20.2) (2020-06-10)
 
 #### New Features
@@ -18,7 +40,6 @@
 - Expand docs and tests for only_if [#5038](https://github.com/inspec/inspec/pull/5038) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Add newline in Dockerfile to facilitate patching by 3rd party distros [#5051](https://github.com/inspec/inspec/pull/5051) ([bobchaos](https://github.com/bobchaos))
 - Update installer license text [#5073](https://github.com/inspec/inspec/pull/5073) ([james-stocks](https://github.com/james-stocks))
-<!-- latest_stable_release -->
 
 ## [v4.19.2](https://github.com/inspec/inspec/tree/v4.19.2) (2020-06-04)
 

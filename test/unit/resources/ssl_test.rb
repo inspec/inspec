@@ -49,6 +49,6 @@ describe "Inspec::Resources::SSL" do
     resource = load_resource("ssl", host: "localhost")
     _(resource.protocols.uniq).must_equal ["ssl2", "ssl3", "tls1.0", "tls1.1", "tls1.2"]
     _(resource.ciphers.include?("TLS_RSA_WITH_AES_128_CBC_SHA256")).must_equal true
-    _([681, 993]).must_include(resource.ciphers.count)
+    _([681, 993, 1003]).must_include(resource.ciphers.count)
   end
 end

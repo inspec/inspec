@@ -9,7 +9,7 @@ gem "inspec", path: "."
 # in it in order to package the executable. Hence the odd backwards dependency.
 gem "inspec-bin", path: "./inspec-bin"
 
-gem "ffi", [">= 1.9.14", "< 1.13"] # 1.13 does not work on Windows: https://github.com/ffi/ffi/issues/784
+gem "ffi", ">= 1.9.14", "!= 1.13.0"
 
 group :omnibus do
   gem "rb-readline"

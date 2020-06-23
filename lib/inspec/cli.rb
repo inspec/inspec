@@ -375,6 +375,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     puts "Valid schemas are #{Inspec::Schema::OutputSchema.names.join(", ")}"
   end
 
+  desc "run_context", "used to test run-context detection", hide: true
+  def run_context
+    require "inspec/utils/telemetry/run_context_probe"
+    puts Inspec::Telemetry::RunContextProbe.guess_run_context
+  end
+
   desc "version", "prints the version of this tool"
   option :format, type: :string
   def version
@@ -386,11 +392,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     end
   end
   map %w{-v --version} => :version
-
-  desc "nothing", "does nothing"
-  def nothing
-    puts "you did nothing"
-  end
 
   private
 

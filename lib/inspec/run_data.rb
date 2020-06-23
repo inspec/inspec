@@ -1,12 +1,19 @@
 
 module Inspec
   module HashLikeStruct
+    # Only list keys whose value are non-nil
     def keys
-      members
+      members.reject { |k| self[k].nil? }
     end
 
+    # Only list non-nil members for backwards compatibility
     def key?(item)
-      members.include?(item)
+      members.include?(item) && non_nil?(item)
+    end
+
+    # This is provided for clarity - many locations make this test
+    def non_nil?(item)
+      !self[item].nil?
     end
   end
 
