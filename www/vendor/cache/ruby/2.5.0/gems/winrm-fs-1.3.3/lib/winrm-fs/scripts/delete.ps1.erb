@@ -1,6 +1,0 @@
-$p = $ExecutionContext.SessionState.Path
-$path = $p.GetUnresolvedProviderPathFromPSPath("<%= path %>")
-if (Test-Path $path) {
-  Remove-Item $path -Force -Recurse
-}
-exit 0

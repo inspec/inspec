@@ -1,8 +1,0 @@
-#!/usr/bin/env ruby
-
-require "bundler/setup"
-require "wisper"
-
-require "pry"
-Pry.start
-
