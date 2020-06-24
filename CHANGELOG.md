@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 3.9.10 -->
-## [v3.9.10](https://github.com/inspec/inspec/tree/v3.9.10) (2020-06-15)
+<!-- latest_release 3.9.11 -->
+## [v3.9.11](https://github.com/inspec/inspec/tree/v3.9.11) (2020-06-24)
 
 #### Merged Pull Requests
-- Update omnibus config on 3-stable [#5087](https://github.com/inspec/inspec/pull/5087) ([james-stocks](https://github.com/james-stocks))
+- Stop building habitat for InSpec 3 [#5098](https://github.com/inspec/inspec/pull/5098) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.9.3 -->
 ### Changes since 3.9.3 release
 
 #### Merged Pull Requests
+- Stop building habitat for InSpec 3 [#5098](https://github.com/inspec/inspec/pull/5098) ([james-stocks](https://github.com/james-stocks)) <!-- 3.9.11 -->
 - Update omnibus config on 3-stable [#5087](https://github.com/inspec/inspec/pull/5087) ([james-stocks](https://github.com/james-stocks)) <!-- 3.9.10 -->
 - Port #4992 to InSpec 3 [#5029](https://github.com/inspec/inspec/pull/5029) ([james-stocks](https://github.com/james-stocks)) <!-- 3.9.9 -->
 - Add placeholder verify pipeline [#5034](https://github.com/inspec/inspec/pull/5034) ([james-stocks](https://github.com/james-stocks)) <!-- 3.9.8 -->
