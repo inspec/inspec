@@ -8,7 +8,7 @@ $ErrorActionPreference = 'Stop'
 $env:HAB_ORIGIN = 'ci'
 $env:CHEF_LICENSE = 'accept-no-persist'
 $env:HAB_LICENSE = 'accept-no-persist'
-$Plan = 'inspec'
+$Plan = 'inspec3'
 
 Write-Host "--- system details"
 $Properties = 'Caption', 'CSName', 'Version', 'BuildType', 'OSArchitecture'

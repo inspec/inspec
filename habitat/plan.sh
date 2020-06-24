@@ -1,4 +1,4 @@
-pkg_name=inspec
+pkg_name=inspec3
 pkg_origin=chef
 pkg_version=$(cat "$PLAN_CONTEXT/../VERSION")
 pkg_description="InSpec is an open-source testing framework for infrastructure
