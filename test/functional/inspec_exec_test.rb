@@ -33,11 +33,12 @@ describe "inspec exec" do
   end
 
   it "cleanly fails if mixing incompatible resource and transports" do
-    # TODO: I do not know how to test this more directly. It should be possible.
+    # TODO: It should be possible to test this more directly.
     inspec "exec -t aws:// #{profile_path}/incompatible_resource_for_transport.rb"
 
-    _(stdout).must_be_empty
-    _(stderr).must_include "Unsupported resource/backend combination: file / aws. Exiting."
+    _(stderr).must_be_empty
+    _(stdout).must_include "Unsupported resource/backend combination: file / aws. Exiting."
+    assert_exit_code 100, out
   end
 
   it "can execute the profile" do
@@ -201,6 +202,15 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     _(stderr).must_equal ""
 
     assert_exit_code 100, out
+  end
+
+  it "reports whan a profile cannot be loaded" do
+    inspec("exec " + File.join(profile_path, "raise_outside_control") + " --no-create-lockfile")
+    _(stdout).must_include "Profile: InSpec Profile (raise_outside_control)"
+
+    _(stdout).must_include "ERROR: Failed to load profile raise_outside_control: Failed to load source for controls/raises.rb: Something unforeseen..."
+
+    assert_exit_code 102, out
   end
 
   it "can execute a simple file with the default formatter" do

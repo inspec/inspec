@@ -94,6 +94,7 @@ module Inspec
       @input_values = options[:inputs]
       @tests_collected = false
       @libraries_loaded = false
+      @failed = false
       @check_mode = options[:check_mode] || false
       @parent_profile = options[:parent_profile]
       @legacy_profile_path = options[:profiles_path] || false
@@ -162,6 +163,10 @@ module Inspec
       @writable
     end
 
+    def failed?
+      @failed
+    end
+
     #
     # Is this profile is supported on the current platform of the
     # backend machine and the current inspec version.
@@ -197,7 +202,7 @@ module Inspec
     end
 
     def collect_tests(include_list = @controls)
-      unless @tests_collected
+      unless @tests_collected || failed?
         return unless supports_platform?
 
         locked_dependencies.each(&:collect_tests)
@@ -206,7 +211,12 @@ module Inspec
           next if content.nil? || content.empty?
 
           abs_path = source_reader.target.abs_path(path)
-          @runner_context.load_control_file(content, abs_path, nil)
+          begin
+            @runner_context.load_control_file(content, abs_path, nil)
+          rescue => e
+            @failed = true
+            raise Inspec::Exceptions::ProfileLoadFailed, "Failed to load source for #{path}: #{e}"
+          end
         end
         @tests_collected = true
       end
@@ -329,7 +339,7 @@ module Inspec
         msg = "Skipping profile: '#{name}' on unsupported platform: '#{backend.platform.name}/#{backend.platform.release}'."
         res[:skip_message] = msg
       else
-        res[:status] = "loaded"
+        res[:status] = failed? ? "failed" : "loaded"
       end
 
       # convert legacy os-* supports to their platform counterpart

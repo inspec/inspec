@@ -90,9 +90,12 @@ module Inspec
       return @rspec_exit_code if @formatter.results.empty?
 
       stats = @formatter.results[:statistics][:controls]
+      load_failures = @formatter.results[:profiles]&.select { |p| p[:status] == "failed" }&.any?
       skipped = @formatter.results.dig(:profiles, 0, :status) == "skipped"
-      if stats[:failed][:total] == 0 && stats[:skipped][:total] == 0 && !skipped
+      if stats[:failed][:total] == 0 && stats[:skipped][:total] == 0 && !skipped && !load_failures
         0
+      elsif load_failures
+        @conf["distinct_exit"] ? 102 : 1
       elsif stats[:failed][:total] > 0
         @conf["distinct_exit"] ? 100 : 1
       elsif stats[:skipped][:total] > 0 || skipped

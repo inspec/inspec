@@ -138,6 +138,32 @@ describe "inspec exec with json formatter" do
     assert_exit_code 101, out
   end
 
+  it "flags profile with failed status when profile fails to load" do
+    profile = File.join(profile_path, "raise_outside_control")
+    out = inspec("exec " + profile + " --reporter json --no-create-lockfile")
+
+    data = JSON.parse(out.stdout)
+    profile = data["profiles"].first
+    _(profile["status"]).must_equal "failed"
+    assert_exit_code 102, out
+  end
+
+  it "reports a working profile run at the same time as a broken profile" do
+    bad_profile = File.join(profile_path, "raise_outside_control")
+    good_profile = File.join(profile_path, "basic_profile")
+    out = inspec("exec #{bad_profile} #{good_profile} --reporter json --no-create-lockfile")
+
+    data = JSON.parse(out.stdout)
+    _(data["profiles"].length).must_equal 2
+    good_profile_result = data["profiles"].select{ |p| p["name"] == "basic_profile" }.first
+    bad_profile_result = data["profiles"].select{ |p| p["name"] == "raise_outside_control" }.first
+    _(good_profile_result["status"]).must_equal "loaded"
+    _(good_profile_result["controls"].first["results"].first["status"]).must_equal "passed"
+    _(bad_profile_result["status"]).must_equal "failed"
+
+    assert_exit_code 102, out
+  end
+
   describe "execute a profile with json formatting" do
     let(:raw) { inspec("exec " + example_profile + " --reporter json --no-create-lockfile").stdout }
     let(:json) { JSON.load(raw) }

@@ -115,8 +115,13 @@ module Inspec
           @test_collector.add_profile(requirement.profile)
         end
 
-        tests = profile.collect_tests
-        all_controls += tests unless tests.nil?
+        begin
+          tests = profile.collect_tests
+          all_controls += tests unless tests.nil?
+        rescue Inspec::Exceptions::ProfileLoadFailed => e
+          Inspec::Log.error "Failed to load profile #{profile.name}: #{e}"
+          next
+        end
       end
 
       all_controls.each do |rule|
