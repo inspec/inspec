@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.21.0 -->
-## [v4.21.0](https://github.com/inspec/inspec/tree/v4.21.0) (2020-06-25)
+<!-- latest_release 4.21.1 -->
+## [v4.21.1](https://github.com/inspec/inspec/tree/v4.21.1) (2020-06-25)
 
-#### New Features
-- Improved HTML Reporter [#5045](https://github.com/inspec/inspec/pull/5045) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Enhancements
+- Additions to the interface resource [#5036](https://github.com/inspec/inspec/pull/5036) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.20.10 -->
 ### Changes since 4.20.10 release
+
+#### Enhancements
+- Additions to the interface resource [#5036](https://github.com/inspec/inspec/pull/5036) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.21.1 -->
 
 #### New Features
 - Improved HTML Reporter [#5045](https://github.com/inspec/inspec/pull/5045) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.21.0 -->
