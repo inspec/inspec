@@ -1,0 +1,77 @@
+<% slugged_id = control.id.tr(" ", "_") %>
+<%
+    # Determine status of control
+    status = "passed"
+    if control.results.any? { |r| r.status == "failed" }
+      status = "failed"
+    elsif control.results.any? { |r| r.status == "skipped" }
+      status = "skipped"
+    end
+%>
+
+<div class="control control-status-<%= status %>" id="control-<%= slugged_id %>">
+
+  <%
+    # Determine range of impact
+    i = control.impact || 0.0
+    impact_level = "none"
+    if i < 0.3
+      impact_level = "low"
+    elsif i < 0.7
+      impact_level = "medium"
+    else
+      impact_level = "high"
+    end
+  %>
+
+  <h3 class="control-title">Control <code><%= control.id %></code></h3>
+  <table class="control-metadata info" id="control-metadata-<%= slugged_id %>">
+    <tr class="status status-<%= status %>"><th>Status:</th><td><div><%= status.capitalize %></div></td></tr>
+    <% if control.title %><tr class="title"><th>Title:</th><td><%= control.title %></td></tr> <% end %>
+    <% if control.desc %><tr class="desc"><th>Description:</th><td><%= control.desc %></td></tr> <% end %>
+    <% if control.impact %><tr class="impact impact-<%= impact_level %>"><th>Impact:</th><td><%= control.impact %></td></tr> <% end %>
+    <% unless control.tags.empty? %>
+      <tr class="tags">
+        <th>Tags:</th>
+        <td>
+          <table class="tags">
+            <% control.tags.each do |tag_name, tag_text| %>
+              <tr><td><%= tag_name %></td><td><%= tag_text %></td></tr>
+            <% end %>
+          </table>
+        </td>
+      </tr>
+    <% end %>
+    <% unless control.refs.empty? %>
+      <tr class="refs">
+        <th>References:</th>
+        <td>
+          <ul>
+          <% control.refs.each do |r| %>
+            <li><a href="<%= r.url %>"><%= r.ref %></a></li>
+          <% end %>
+          </ul>
+        </td>
+      </tr>
+    <% end %>
+    <tr class="code">
+      <th>Source Code:</th>
+      <td>
+        <input type="button" class="show-source-code" id="show-code-<%= slugged_id %>" value="Show Source"/>
+        <input type="button" class="hide-source-code hidden" id="hide-code-<%= slugged_id %>" value="Hide Source"/>
+        <pre class="source-code hidden" id="source-code-<%= slugged_id %>">
+          <code>
+<%= control.code %>
+          </code>
+        </pre>
+      </td>
+    </tr>
+  <!-- TODO waiver data -->
+
+  </table>
+
+  <% control.results.each do |result| %>
+    <%= ERB.new(File.read(template_path + "/result.html.erb"), nil, nil, "_rslt").result(binding)  %>
+  <% end %>
+
+</div>

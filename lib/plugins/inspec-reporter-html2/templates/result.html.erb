@@ -1,0 +1,15 @@
+<% slugged_id = result.resource_title.to_s.gsub(/\W/, "_") %>
+<div class="result" id="result-<%= slugged_id %>">
+  <h4 class="resource-title">Resource <code><%= result.resource_title.to_s %></code></h4>
+  <table class="result-metadata info">
+    <tr class="expectation_message"><th>Test:</th><td><code><%= result.expectation_message %></code></td></tr>
+    <tr class="status status-<%= result.status %>"><th>Status:</th><td><div><%= result.status.capitalize %></div></td></tr>
+    <% if result.status == "failed" %>
+    <tr class="fail_message"><th>Failure Message:</th><td><code><%= result.message %></code></td></tr>
+    <% end %>
+    <% if result.status == "skipped" %>
+    <tr class="skip_message"><th>Skip Message:</th><td><%= result.skip_message %></td></tr>
+    <% end %>
+    <tr class="duration"><th>Duration:</th><td><%= result.run_time %> seconds</td></tr>
+  </table>
+</div>

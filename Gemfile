@@ -31,6 +31,7 @@ group :test do
   gem "m"
   gem "pry", "~> 0.10"
   gem "pry-byebug"
+  gem "html-proofer", platforms: :ruby # do not attempt to run proofer on windows
 end
 
 group :integration do
