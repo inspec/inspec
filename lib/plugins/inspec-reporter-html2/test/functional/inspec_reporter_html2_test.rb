@@ -6,7 +6,8 @@ describe "inspec-reporter-html2" do
 
   let(:output_file) { f = Tempfile.new(["temp", ".html"]); f.close; f.path }
   def teardown
-    FileUtils.rm(output_file)
+    # Use force because the deletion may occasionally fail in parallel CI
+    FileUtils.rm_f(output_file)
   end
 
   describe "when run on a basic profile" do
