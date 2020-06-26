@@ -157,6 +157,7 @@ namespace :test do
   end
   task parallel: [:accept_license] # given isolated being green, why is this needed?
 
+  desc "Run test files in multiple threads"
   task :isolated do
     require "fileutils"
 
