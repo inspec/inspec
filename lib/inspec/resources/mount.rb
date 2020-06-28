@@ -61,7 +61,7 @@ module Inspec::Resources
       os = inspec.os
       if os.linux?
         LinuxMounts.new(inspec)
-      elsif ["freebsd"].include?(os[:family])
+      elsif os.bsd?
         BsdMounts.new(inspec)
       end
     end
