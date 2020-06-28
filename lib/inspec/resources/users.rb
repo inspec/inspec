@@ -20,7 +20,7 @@ module Inspec::Resources
         WindowsUser.new(inspec)
       elsif ["darwin"].include?(os[:family])
         DarwinUser.new(inspec)
-      elsif ["freebsd"].include?(os[:family])
+      elsif ["bsd"].include?(os[:family])
         FreeBSDUser.new(inspec)
       elsif ["aix"].include?(os[:family])
         AixUser.new(inspec)

@@ -13,9 +13,9 @@ class MockLoader
     debian7: { name: "debian", family: "debian", release: "7", arch: "x86_64" },
     debian8: { name: "debian", family: "debian", release: "8", arch: "x86_64" },
     debian10: { name: "debian", family: "debian", release: "buster/sid", arch: "x86_64" },
-    freebsd10: { name: "freebsd", family: "freebsd", release: "10", arch: "amd64" },
-    freebsd11: { name: "freebsd", family: "freebsd", release: "11", arch: "amd64" },
-    freebsd12: { name: "freebsd", family: "freebsd", release: "12", arch: "amd64" },
+    freebsd10: { name: "freebsd", family: "bsd", release: "10", arch: "amd64" },
+    freebsd11: { name: "freebsd", family: "bsd", release: "11", arch: "amd64" },
+    freebsd12: { name: "freebsd", family: "bsd", release: "12", arch: "amd64" },
     macos10_10: { name: "mac_os_x", family: "darwin", release: "10.10.4", arch: nil },
     macos10_16: { name: "darwin", family: "darwin", release: "10.16", arch: nil },
     ubuntu1204: { name: "ubuntu", family: "debian", release: "12.04", arch: "x86_64" },
@@ -301,7 +301,8 @@ class MockLoader
       "id chartmann" => cmd.call("id-chartmann"),
       "dscl -q . -read /Users/chartmann NFSHomeDirectory PrimaryGroupID RecordName UniqueID UserShell" => cmd.call("dscl"),
       # user info for freebsd
-      "pw usershow root -7" => cmd.call("pw-usershow-root-7"),
+      "id fzipi" => cmd.call("id-fzipi"),
+      "pw usershow fzipi -7" => cmd.call("pw-usershow-fzipi-7"),
       # user info for windows (winrm 1.6.0, 1.6.1)
       "c603a7d32732390b1ed57ebd56fd176fecdb2035f005d33482de9adb1ddb4447" => cmd.call("adsiusers"),
       # group info for windows

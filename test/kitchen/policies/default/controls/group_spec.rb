@@ -9,7 +9,7 @@ if os.linux?
     it { should_not exist }
     its('gid') { should eq nil }
   end
-elsif os[:family] == 'freebsd'
+elsif os.bsd?
   describe group('wheel') do
     it { should exist }
     its('gid') { should eq 0 }
