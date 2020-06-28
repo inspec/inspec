@@ -12,7 +12,7 @@ if ['centos', 'redhat', 'fedora', 'suse', 'debian', 'ubuntu'].include?(os[:famil
   # different groupset for centos 5
   userinfo[:groups] = ["root", "bin", "daemon", "sys", "adm", "disk", "wheel"] \
     if os[:release].to_i == 5
-elsif ['freebsd'].include?(os[:family])
+elsif ['freebsd'].include?(os[:name])
   userinfo = {
     username: 'root',
     groupname: 'wheel',
