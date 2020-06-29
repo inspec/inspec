@@ -7,20 +7,23 @@
 - Address test:isolated failure [#5117](https://github.com/inspec/inspec/pull/5117) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
-<!-- release_rollup since=4.20.10 -->
-### Changes since 4.20.10 release
+<!-- release_rollup since=4.21.1 -->
+### Changes since 4.21.1 release
 
 #### Merged Pull Requests
 - Address test:isolated failure [#5117](https://github.com/inspec/inspec/pull/5117) ([james-stocks](https://github.com/james-stocks)) <!-- 4.21.2 -->
-
-#### Enhancements
-- Additions to the interface resource [#5036](https://github.com/inspec/inspec/pull/5036) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.21.1 -->
-
-#### New Features
-- Improved HTML Reporter [#5045](https://github.com/inspec/inspec/pull/5045) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.21.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.21.1](https://github.com/inspec/inspec/tree/v4.21.1) (2020-06-29)
+
+#### New Features
+- Improved HTML Reporter [#5045](https://github.com/inspec/inspec/pull/5045) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Enhancements
+- Additions to the interface resource [#5036](https://github.com/inspec/inspec/pull/5036) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.20.10](https://github.com/inspec/inspec/tree/v4.20.10) (2020-06-18)
 
 #### New Features
@@ -32,7 +35,6 @@
 #### Merged Pull Requests
 - Update sslshake test for sslshake 1.13.1 [#5101](https://github.com/inspec/inspec/pull/5101) ([james-stocks](https://github.com/james-stocks))
 - Arbitrary .md change to bump version [#5103](https://github.com/inspec/inspec/pull/5103) ([james-stocks](https://github.com/james-stocks))
-<!-- latest_stable_release -->
 
 ## [v4.20.6](https://github.com/inspec/inspec/tree/v4.20.6) (2020-06-17)
 
