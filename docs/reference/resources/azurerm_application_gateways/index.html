@@ -1,14 +1,12 @@
-<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the azurerm_virtual_machines Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_azurerm_virtual_machines docs_reference_resources_azurerm_virtual_machines_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="azurerm_virtual_machines">azurerm_virtual_machines</h1>
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the azurerm_application_gateways Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_azurerm_application_gateways docs_reference_resources_azurerm_application_gateways_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="azurerm_load_balancers">azurerm_Load_balancers</h1>
 
-<p>Use the <code>azurerm_virtual_machines</code> InSpec audit resource to test properties related to
-virtual machines for a resource group.</p>
-
-<p><br /></p>
+<p>Use the <code>azurerm_application_gateways</code> InSpec audit resource to test properties and configuration of Azure Application Gateways.
+<br /></p>
 
 <h2 id="azure-rest-api-version">Azure REST API version</h2>
 
-<p>This resource interacts with version <code>2017-12-01</code> of the Azure
-Management API. For more information see the <a href="https://docs.microsoft.com/en-us/rest/api/compute/virtualmachines/list">official Azure documentation</a>.</p>
+<p>This resource interacts with version <code>2019-12-01</code> of the Azure Management API. For more
+information see the <a href="https://docs.microsoft.com/en-us/rest/api/application-gateway/applicationgateways/get">Official Azure Documentation</a>.</p>
 
 <p>At the moment, there doesn&rsquo;t appear to be a way to select the version of the
 Azure API docs. If you notice a newer version being referenced in the official
@@ -23,7 +21,7 @@ version.</p>
 pack</a>. To use it, add the
 following to your <code>inspec.yml</code> in your top-level profile:</p>
 <div class="highlight"><pre class="highlight plaintext"><code>depends:
-  - name: inspec-azure
+  inspec-azure:
     git: https://github.com/inspec/inspec-azure.git
 </code></pre></div>
 <p>You&rsquo;ll also need to setup your Azure credentials; see the resource pack
@@ -31,39 +29,30 @@ following to your <code>inspec.yml</code> in your top-level profile:</p>
 
 <h3 id="version">Version</h3>
 
-<p>This resource first became available in 1.0.0 of the inspec-azure resource pack.</p>
+<p>This resource first became available in 1.16.0 of the inspec-azure resource pack.</p>
 
 <h2 id="syntax">Syntax</h2>
 
-<p>The <code>resource_group</code> must be given as a parameter.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>describe azurerm_virtual_machines(resource_group: 'MyResourceGroup') do
+<p>An <code>azurerm_application_gateways</code> resource block returns all Azure Application Gateways, either within a Resource Group (if provided), or within an entire Subscription.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azurerm_application_gateways do
   ...
 end
 </code></pre></div>
-<h2 id="examples">Examples</h2>
-<div class="highlight"><pre class="highlight plaintext"><code># Exists if any virtual machines exist in the resource group
-describe azurerm_virtual_machines(resource_group: 'MyResourceGroup') do
-  it { should exist }
-end
-
-# Filters based on platform
-describe azurerm_virtual_machines(resource_group: 'MyResourceGroup').where(platform: 'windows') do
-  it { should exist }
+<p>or</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azurerm_application_gateways(resource_group: 'my-rg') do
+  ...
 end
 </code></pre></div>
 <p><br /></p>
 
-<h2 id="parameters">Parameters</h2>
+<h2 id="examples">Examples</h2>
 
-<ul>
-<li><code>resource_group</code></li>
-</ul>
+<p>The following examples show how to use this InSpec audit resource.</p>
 
-<h3 id="parameter-examples">Parameter Examples</h3>
-
-<h3 id="resource_group-required">resource_group (required)</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>describe azurerm_virtual_machines(resource_group: 'MyResourceGroup') do
-  ...
+<h3 id="check-application-gateways-are-present">Check Application Gateways  are present</h3>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azurerm_application_gateways do
+  it            { should exist }
+  its('names')  { should include 'my-appgw' }
 end
 </code></pre></div>
 <p><br /></p>
@@ -71,66 +60,77 @@ end
 <h2 id="filter-criteria">Filter Criteria</h2>
 
 <ul>
-<li><code>platform</code>, <code>name</code>, <code>os_disk</code></li>
+<li><code>names</code></li>
 </ul>
 
-<h3 id="platform">platform</h3>
+<h3 id="names">names</h3>
 
-<p>Filters the results to only include those that match the given platform. Valid choices are
-<code>linux</code> and <code>windows</code>.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Insist that you have at least one windows virtual machine
-describe azurerm_virtual_machines(resource_group: 'MyResourceGroup').where(platform: 'windows') do
+<p>Filters the results to include only those Application Gateways which match the given name. This is a string value.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azurerm_application_gateways.where{ name.eql?('production-appgw-5') } do
   it { should exist }
 end
 </code></pre></div>
-<h3 id="name">name</h3>
+<ul>
+<li><code>location</code></li>
+</ul>
 
-<p>Filters the result to only those that match the given name.</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Insist that you have at least one virtual machine that starts with 'MyVm'
-describe azurerm_virtual_machines(resource_group: 'MyResourceGroup').where { name.start_with?('WindowsVm') } do
+<h3 id="location">location</h3>
+
+<p>Filters the results to include only those Application Gateways which reside in a given location. This is a string value.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azurerm_application_gateways.where{ location.eql?('eastus') } do
   it { should exist }
 end
 </code></pre></div>
 <h2 id="attributes">Attributes</h2>
 
 <ul>
-<li><code>os_disks</code></li>
-<li><code>data_disks</code></li>
-<li><code>vm_names</code></li>
+<li><code>id</code></li>
+<li><code>name</code></li>
+<li><code>location</code></li>
+<li><code>properties</code></li>
+<li><code>type</code></li>
 </ul>
 
-<h3 id="os_disks">os_disks</h3>
+<h3 id="ids">ids</h3>
 
-<p>Gives a list of OS disk names for all the virtual machines in the resource group.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>its('os_disks.sort') { should eq ['MyDisk1', 'MyDisk2'] }
-</code></pre></div>
-<h3 id="data_disks">data_disks</h3>
+<p>Azure resource ID.</p>
 
-<p>Gives a list of data disks for all the virtual machines in the resource group.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>its('data_disks.sort') { should eq [['MyDisk1'], ['MyDisk2']] }
-</code></pre></div>
-<p>Note that it returns an array of arrays. You may flatten them for testing:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>its('data_disks.flatten.sort') { should eq ['MyDisk1', 'MyDisk2'] }
-</code></pre></div>
-<h3 id="vm_names">vm_names</h3>
+<h3 id="names">names</h3>
 
-<p>Gives a list of all the virtual machine names in the resource group.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>its('vm_names') { should include('MyVm1', 'MyVm2') }
+<p>Application Gateway name, e.g. <code>my-appgw</code>.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('names') { should include 'my-appgw' }
 </code></pre></div>
+<h3 id="sku">SKU</h3>
+
+<p>SKU of Application Gateway. This is metadata used for the Azure portal experience.</p>
+
+<h3 id="locations">locations</h3>
+
+<p>Resource location, e.g. <code>eastus</code>.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('locations') { should_not include 'eastus' }
+</code></pre></div>
+<h3 id="properties">properties</h3>
+
+<p>A collection of additional configuration properties related to the Application Gateway, e.g. <code>frontendIPConfigurations</code>.</p>
+
+<h3 id="tag">tag</h3>
+
+<p>Resource tags applied to the Application Gateway.</p>
+
+<h3 id="type">type</h3>
+
+<p>The type of Resource, typically <code>Microsoft.Network/applicationGateways</code>.</p>
+
 <h2 id="matchers">Matchers</h2>
 
-<p>This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">Universal Matchers
-page</a>.</p>
+<p>This InSpec audit resource has the following special matchers. For a full list of available matchers,
+please visit our <a href="https://www.inspec.io/docs/reference/matchers/">Universal Matchers page</a>.</p>
 
 <h3 id="exists">exists</h3>
-<div class="highlight"><pre class="highlight plaintext"><code># Should not exist if no virtual machines are in the resource group
-describe azurerm_virtual_machines(resource_group: 'MyResourceGroup') do
-  it { should_not exist }
-end
 
-# Should exist if the filter returns a single virtual machine
-describe azurerm_virtual_machines(resource_group: 'MyResourceGroup').where(platform: 'windows') do
+<p>The control will pass if the filter returns at least one result. Use
+<code>should_not</code> if you expect zero matches.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azurerm_application_gateways do
   it { should exist }
 end
 </code></pre></div>

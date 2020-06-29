@@ -44,6 +44,10 @@ This can be passed either as a string or as a <code>bucket_name: &#39;value&#39;
 <td>The IAM policy document controlling access to the bucket.</td>
 </tr>
 <tr>
+<td>bucket_lifecycle_rules</td>
+<td>The lifecycle policy rules that define actions S3 will take for all objects (or a subset of objects) in their lifetime.</td>
+</tr>
+<tr>
 <td>tags</td>
 <td>An hash with each key-value pair corresponding to a tag associated with the entity</td>
 </tr>
@@ -100,6 +104,11 @@ end
         end
     end
 </code></pre></div>
+<h5 id="check-if-a-bucket-has-a-bucket-policy-that-requires-requests-to-use-https">Check if a bucket has a bucket policy that requires requests to use HTTPS</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>  describe aws_s3_bucket('test_bucket') do
+    it { should have_secure_transport_enabled }
+  end
+</code></pre></div>
 <h2 id="matchers">Matchers</h2>
 
 <p>This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">matchers page</a>.</p>
@@ -132,6 +141,12 @@ end
 <p>The <code>have_versioning_enabled</code> matcher tests if versioning is enabled for the s3 bucket.</p>
 
 <p>it { should have<em>versioning</em>enabled }</p>
+
+<h4 id="have_secure_transport_enabled">have_secure_transport_enabled</h4>
+
+<p>The <code>have_secure_transport_enabled</code> matcher tests if a bucket policy that explicitly denies requests via HTTP is enabled for the s3 bucket.</p>
+
+<p>it { should have<em>secure</em>transport_enabled }</p>
 
 <h2 id="aws-permissions">AWS Permissions</h2>
 

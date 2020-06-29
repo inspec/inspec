@@ -154,10 +154,10 @@ end
 
 <p>Please note the following about the behavior of <code>have_statement</code>:
 * <code>Action</code>, <code>Sid</code>, and <code>Resource</code> allow using a regular expression as the search critera instead of a string literal.
-* it does not support wildcard expansion; to check for a wildcard value, check for it explicitly. For example, if the policy includes a statement with <code>&quot;Action&quot;: &quot;s3:*&quot;</code> and the test checks for <code>Action: &quot;s3:PutObject&quot;</code>, the test <em>will not match</em>. You must write an additional test checking for the wildcard case.
-* it supports searching list values. For example, if a statement contains a list of 3 resources, and a <code>have_statement</code> test specifes <em>one</em> of those resources, it will match.
+* It does not support wildcard expansion; to check for a wildcard value, check for it explicitly. For example, if the policy includes a statement with <code>&quot;Action&quot;: &quot;s3:*&quot;</code> and the test checks for <code>Action: &quot;s3:PutObject&quot;</code>, the test <em>will not match</em>. You must write an additional test checking for the wildcard case.
+* It supports searching list values. For example, if a statement contains a list of 3 resources, and a <code>have_statement</code> test specifes <em>one</em> of those resources, it will match.
 * <code>Action</code> and <code>Resource</code> allow using a list of string literals or regular expressions in a test, in which case <em>all</em> must match on the <em>same</em> statement for the test to match. Order is ignored.
-* it does not support the <code>[Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal)</code> or <code>Conditional</code> key, or any of <code>NotAction</code>, <code>Not[Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal)</code>, or <code>NotResource</code>.</p>
+* It does not support the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html">Principal</a>, <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_notprincipal.html">NotPrincipal</a> or <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html">Condition</a>.</p>
 
 <p>Examples:</p>
 <div class="highlight"><pre class="highlight plaintext"><code># Verify there is no full-admin statement

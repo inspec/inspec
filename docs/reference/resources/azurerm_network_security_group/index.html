@@ -101,6 +101,12 @@ the Security Rules and Default Security Rules for unrestricted SSH access.</p>
 the Security Rules and Default Security Rules for unrestricted RDP access.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>it { should_not allow_rdp_from_internet }
 </code></pre></div>
+<h3 id="allow-port_from_internet">allow\port_from_internet</h3>
+
+<p>The allow_port_from_internet property contains a boolean value determined by analysing
+the Security Rules and Default Security Rules for unrestricted access to a specified port.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should_not allow_port_from_internet('443') }
+</code></pre></div>
 <h3 id="other-attributes">Other Attributes</h3>
 
 <p>There are additional attributes that may be accessed that we have not

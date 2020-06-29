@@ -188,10 +188,10 @@
 set :backend, :exec
 </code></pre></div>
 <p>Chef InSpec is now configured with Test-Kitchen:</p>
-<div class="highlight"><pre class="highlight diff"><code><span class="p">kitchen verify package-install-centos-72
-</span><span class="gd">-----&gt; Starting Kitchen (v1.14.2)
+<div class="highlight"><pre class="highlight plaintext"><code>kitchen verify package-install-centos-72
+-----&gt; Starting Kitchen (v1.14.2)
 -----&gt; Verifying &lt;package-install-centos-72&gt;...
-</span>       Detected alternative framework tests for `inspec`
+       Detected alternative framework tests for `inspec`
        Loaded
 
 Target:  ssh://vagrant@127.0.0.1:2200
@@ -204,8 +204,8 @@ Target:  ssh://vagrant@127.0.0.1:2200
 
 Test Summary: 3 successful, 0 failures, 0 skipped
        Finished verifying &lt;package-install-centos-72&gt; (0m0.40s).
-<span class="gd">-----&gt; Kitchen is finished. (0m3.31s)
-</span></code></pre></div>
+-----&gt; Kitchen is finished. (0m3.31s)
+</code></pre></div>
 <p>Some real-world migrations are available:</p>
 
 <ul>

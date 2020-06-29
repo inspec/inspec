@@ -163,6 +163,26 @@ Possible values:</p>
 <li>MAINTENANCE</li>
 <li>FAILED</li>
 </ul></li>
+<li><p><code>disk_encryption_configuration</code>: Disk encyption settings</p>
+
+<ul>
+<li><code>kms_key_name</code>: The KMS key used to encrypt the Cloud SQL instance</li>
+</ul></li>
+<li><p><code>disk_encryption_status</code>: Disk encyption status</p>
+
+<ul>
+<li><code>kms_key_version_name</code>: The KMS key version used to encrypt the Cloud SQL instance</li>
+</ul></li>
+<li><p><code>server_ca_cert</code>: SSL configuration</p>
+
+<ul>
+<li><code>cert</code>: PEM representation of the X.509 certificate.</li>
+<li><code>cert_serial_number</code>: Serial number, as extracted from the certificate.</li>
+<li><code>common_name</code>: User supplied name. Constrained to [a-zA-Z.-_ ]+.</li>
+<li><code>create_time</code>: The time when the certificate was created in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.</li>
+<li><code>expiration_time</code>: The time when the certificate expires in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.</li>
+<li><code>sha1_fingerprint</code>: SHA-1 fingerprint of the certificate.</li>
+</ul></li>
 </ul>
 
 <h2 id="gcp-permissions">GCP Permissions</h2>

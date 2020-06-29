@@ -101,7 +101,7 @@ Possible values:</p>
 <li><code>network_url</code>: The fully qualified URL of the VPC network to bind to. This should be formatted like <code>https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}</code></li>
 </ul></li>
 </ul></li>
-<li><p><code>forwarding_config</code>: (Beta only) The presence for this field indicates that outbound forwarding is enabled for this zone. The value of this field contains the set of destinations to forward to.</p>
+<li><p><code>forwarding_config</code>: The presence for this field indicates that outbound forwarding is enabled for this zone. The value of this field contains the set of destinations to forward to.</p>
 
 <ul>
 <li><code>target_name_servers</code>: List of target name servers to forward to. Cloud DNS will select the best available name server if more than one target is given.
@@ -114,7 +114,7 @@ Possible values:</li>
 <li>private</li>
 </ul></li>
 </ul></li>
-<li><p><code>peering_config</code>: (Beta only) The presence of this field indicates that DNS Peering is enabled for this zone. The value of this field contains the network to peer with.</p>
+<li><p><code>peering_config</code>: The presence of this field indicates that DNS Peering is enabled for this zone. The value of this field contains the network to peer with.</p>
 
 <ul>
 <li><code>target_network</code>: The network with which to peer.

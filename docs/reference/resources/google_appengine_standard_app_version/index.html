@@ -19,6 +19,7 @@ end
 <li><p><code>version_id</code>: Relative name of the version within the service. For example, <code>v1</code>. Version names can contain only lowercase letters, numbers, or hyphens. Reserved names,&ldquo;default&rdquo;, &ldquo;latest&rdquo;, and any name with the prefix &ldquo;ah-&rdquo;. </p></li>
 <li><p><code>runtime</code>: Desired runtime. Example python27.</p></li>
 <li><p><code>threadsafe</code>: Whether multiple requests can be dispatched to this version at once.</p></li>
+<li><p><code>inbound_services</code>: Before an application can receive email or XMPP messages, the application must be configured to enable the service.</p></li>
 <li><p><code>instance_class</code>: Instance class that is used to run this version. Valid values are AutomaticScaling: F1, F2, F4, F4<em>1G BasicScaling or ManualScaling: B1, B2, B4, B4</em>1G, B8 Defaults to F1 for AutomaticScaling and B2 for ManualScaling and BasicScaling. If no scaling is specified, AutomaticScaling is chosen.</p></li>
 <li><p><code>automatic_scaling</code>: Automatic scaling is based on request rate, response latencies, and other application metrics.</p>
 

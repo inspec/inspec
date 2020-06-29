@@ -36,6 +36,7 @@ end
 <li><code>project_id</code>: ID of the project that owns the Cloud Source Repository. If omitted, the project ID requesting the build is assumed.</li>
 <li><code>repo_name</code>: Name of the Cloud Source Repository. If omitted, the name &ldquo;default&rdquo; is assumed.</li>
 <li><code>dir</code>: Directory, relative to the source root, in which to run the build.  This must be a relative path. If a step&rsquo;s dir is specified and is an absolute path, this value is ignored for that step&rsquo;s execution.</li>
+<li><code>invert_regex</code>: Only trigger a build if the revision regex does NOT match the revision regex.</li>
 <li><code>branch_name</code>: Name of the branch to build. Exactly one a of branch name, tag, or commit SHA must be provided. This field is a regular expression.</li>
 <li><code>tag_name</code>: Name of the tag to build. Exactly one of a branch name, tag, or commit SHA must be provided. This field is a regular expression.</li>
 <li><code>commit_sha</code>: Explicit commit SHA to build. Exactly one of a branch name, tag, or commit SHA must be provided.</li>
@@ -53,10 +54,12 @@ end
 Possible values:</li>
 <li>COMMENTS_DISABLED</li>
 <li>COMMENTS_ENABLED</li>
+<li><code>invert_regex</code>: If true, branches that do NOT match the git_ref will trigger a build.</li>
 </ul></li>
 <li><code>push</code>: filter to match changes in refs, like branches or tags.  Specify only one of pullRequest or push.
 
 <ul>
+<li><code>invert_regex</code>: When true, only trigger a build if the revision regex does NOT match the git_ref regex.</li>
 <li><code>branch</code>: Regex of branches to match.  Specify only one of branch or tag.</li>
 <li><code>tag</code>: Regex of tags to match.  Specify only one of branch or tag.</li>
 </ul></li>

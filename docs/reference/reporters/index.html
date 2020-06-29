@@ -24,7 +24,7 @@ inspec <span class="nb">exec </span>example_profile <span class="nt">--reporter<
 <div class="highlight"><pre class="highlight shell"><code>inspec <span class="nb">exec </span>example_profile <span class="nt">--reporter</span> cli json:/tmp/output.json
 </code></pre></div>
 <p>Output nothing to screen and write junit and html to a file.</p>
-<div class="highlight"><pre class="highlight shell"><code>inspec <span class="nb">exec </span>example_profile <span class="nt">--reporter</span> junit:/tmp/junit.xml html:www/index.html
+<div class="highlight"><pre class="highlight shell"><code>inspec <span class="nb">exec </span>example_profile <span class="nt">--reporter</span> junit:/tmp/junit.xml html2:www/index.html
 </code></pre></div>
 <p>Output json to screen and write to a file. Write junit to a file.</p>
 <div class="highlight"><pre class="highlight shell"><code>inspec <span class="nb">exec </span>example_profile <span class="nt">--reporter</span> json junit:/tmp/junit.xml | <span class="nb">tee </span>out.json
@@ -94,7 +94,32 @@ inspec <span class="nb">exec </span>example_profile <span class="nt">--reporter<
 
 <h3 id="html">html</h3>
 
-<p>This renders html code to view your tests in a browser. It includes all the test and summary information.</p>
+<p>This reporter is the legacy RSpec HTML reporter, which is retained for backwards compatibility. The report generated is not aware of profiles or controls, and only contains unsorted test information. Most users should migrate to the <code>html2</code> reporter for more complete data.</p>
+
+<h3 id="html2">html2</h3>
+
+<p>This reporter is an improved HTML reporter that contains full data about the structure of the profile, controls, and tests. The generated report renders HTML code for viewing your tests in a browser.</p>
+
+<p>The <code>html2</code> reporter requires no configuration to function. However, two options&ndash;<code>alternate_css_file</code> and <code>alternate_js_file</code>&ndash;are available for customization. The options are set in the JSON-formatted configuration file that Chef InSpec consumes. For details, see <a href="https://www.inspec.io/docs/reference/config/">our configuration file documentation</a>.</p>
+
+<p>For example:</p>
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.2"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"plugins"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"inspec-reporter-html2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"alternate_js_file"</span><span class="p">:</span><span class="s2">"/var/www/js/my-javascript.js"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"alternate_css_file"</span><span class="p">:</span><span class="s2">"/var/www/css/my-style.css"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<h4 id="alternate_css_file">alternate_css_file</h4>
+
+<p>Specifies the full path to the location of a CSS file that will be read and inlined into the HTML report. The default CSS will not be included.</p>
+
+<h4 id="alternate_js_file">alternate_js_file</h4>
+
+<p>Specifies the full path to the location of a JavaScript file that will be read and inlined into the HTML report. The default JavaScript will not be included. The JavaScript file should implement at least a <code>pageLoaded()</code> function, which will be called by the <code>onload</code> event of the HTML <code>body</code> element.</p>
 
 <h2 id="automate-reporter">Automate Reporter</h2>
 
