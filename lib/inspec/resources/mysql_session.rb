@@ -4,6 +4,23 @@ require "inspec/resources/command"
 require "shellwords"
 
 module Inspec::Resources
+  class Lines
+    attr_reader :output
+
+    def initialize(raw, desc)
+      @output = raw
+      @desc = desc
+    end
+
+    def lines
+      output.split("\n")
+    end
+
+    def to_s
+      @desc
+    end
+  end
+
   class MysqlSession < Inspec.resource(1)
     name "mysql_session"
     supports platform: "unix"
@@ -28,15 +45,17 @@ module Inspec::Resources
 
     def query(q, db = "")
       mysql_cmd = create_mysql_cmd(q, db)
-      cmd = inspec.command(mysql_cmd)
+      cmd = if !@pass.nil?
+              inspec.command(mysql_cmd, redact_regex: /(mysql -u\w+ -p).+(\s-(h|S).*)/)
+            else
+              inspec.command(mysql_cmd)
+            end
       out = cmd.stdout + "\n" + cmd.stderr
-      if out =~ /Can't connect to .* MySQL server/ || out.downcase =~ /^error /
-        # skip this test if the server can't run the query
-        warn("Can't connect to MySQL instance for SQL checks.")
+      if cmd.exit_status != 0 || out =~ /Can't connect to .* MySQL server/ || out.downcase =~ /^error:.*/
+        Lines.new(out, "MySQL query with errors: #{q}")
+      else
+        Lines.new(cmd.stdout.strip, "MySQL query: #{q}")
       end
-
-      # return the raw command output
-      cmd
     end
 
     def to_s

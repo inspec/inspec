@@ -47,7 +47,7 @@ module Inspec::Resources
 
     def query(query, db = [])
       psql_cmd = create_psql_cmd(query, db)
-      cmd = inspec.command(psql_cmd)
+      cmd = inspec.command(psql_cmd, redact_regex: /(PGPASSWORD=').+(' psql .*)/)
       out = cmd.stdout + "\n" + cmd.stderr
       if cmd.exit_status != 0 || out =~ /could not connect to .*/ || out.downcase =~ /^error:.*/
         Lines.new(out, "PostgreSQL query with errors: #{query}")
