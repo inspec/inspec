@@ -231,7 +231,7 @@ module Inspec
 
     private
 
-    ALL_OF_OUR_REPORTERS = %w{json json-min json-rspec json-automate junit html yaml documentation progress}.freeze # BUT WHY?!?!
+    ALL_OF_OUR_REPORTERS = %w{json json-min json-rspec json-automate junit html html2 yaml documentation progress}.freeze # BUT WHY?!?!
 
     def suppress_log_output?(opts)
       return false if opts["reporter"].nil?
