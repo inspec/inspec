@@ -264,7 +264,8 @@ module Inspec
           # TODO: NO! this is a violation of encapsulation to an extreme
           metadata.dependencies[i][:status] = "skipped"
           msg = "Skipping profile: '#{d.name}' on unsupported platform: '#{d.backend.platform.name}/#{d.backend.platform.release}'."
-          metadata.dependencies[i][:skip_message] = msg
+          metadata.dependencies[i][:status_message] = msg
+          metadata.dependencies[i][:skip_message] = msg  # Repeat as skip_message for backward compatibility
           next
         elsif metadata.dependencies[i]
           # Currently wrapper profiles will load all dependencies, and then we
@@ -337,8 +338,9 @@ module Inspec
       if !supports_platform?
         res[:status] = "skipped"
         msg = "Skipping profile: '#{name}' on unsupported platform: '#{backend.platform.name}/#{backend.platform.release}'."
-        res[:skip_message] = msg
+        res[:status_message] = msg
       else
+        res[:status_message] = @status_message || ""
         res[:status] = failed? ? "failed" : "loaded"
       end
 
@@ -463,6 +465,10 @@ module Inspec
 
     def controls_count
       params[:controls].values.length
+    end
+
+    def set_status_message(msg)
+      @status_message = msg.to_s
     end
 
     # generates a archive of a folder profile

@@ -120,6 +120,7 @@ module Inspec
           all_controls += tests unless tests.nil?
         rescue Inspec::Exceptions::ProfileLoadFailed => e
           Inspec::Log.error "Failed to load profile #{profile.name}: #{e}"
+          profile.set_status_message e.to_s
           next
         end
       end

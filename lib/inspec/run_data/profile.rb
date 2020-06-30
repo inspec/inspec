@@ -15,7 +15,7 @@ module Inspec
       :summary,
       :supports,         # complex local
       :parent_profile,
-      :skip_message,
+      :status_message,
       :waiver_data,      # Undocumented but used in JSON reporter - should not be?
       :title,
       :version
@@ -40,7 +40,7 @@ module Inspec
           title
           version
           parent_profile
-          skip_message
+          status_message
           waiver_data
         }.each do |field|
           self[field] = raw_prof_data[field]
@@ -51,11 +51,11 @@ module Inspec
     class Profile
       # Good candidate for keyword_init, but that is not in 2.4
       Dependency = Struct.new(
-        :name, :path, :status, :skip_message, :git, :url, :compliance, :supermarket, :branch, :tag, :commit, :version, :relative_path
+        :name, :path, :status, :status_message, :git, :url, :compliance, :supermarket, :branch, :tag, :commit, :version, :relative_path
       ) do
         include HashLikeStruct
         def initialize(raw_dep_data)
-          %i{name path status skip_message git url supermarket compliance branch tag commit version relative_path}.each { |f| self[f] = raw_dep_data[f] }
+          %i{name path status status_message git url supermarket compliance branch tag commit version relative_path}.each { |f| self[f] = raw_dep_data[f] }
         end
       end
 

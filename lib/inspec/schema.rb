@@ -147,6 +147,8 @@ module Inspec
         "license" => { "type" => "string", "optional" => true },
         "summary" => { "type" => "string", "optional" => true },
         "status" => { "type" => "string", "optional" => false },
+        "status_message" => { "type" => "string", "optional" => true },
+        # skip_message is deprecated, status_message should be used to store the reason for skipping
         "skip_message" => { "type" => "string", "optional" => true },
 
         "supports" => {

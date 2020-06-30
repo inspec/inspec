@@ -100,6 +100,8 @@ describe "inspec exec with json formatter" do
     _(profile["depends"].count).must_equal 2
     profile["depends"].each do |d|
       _(d["status"]).must_equal "skipped"
+      _(d["status_message"]).must_include "Skipping profile: "
+      # For backwards compatibility, the skip reason is also given as skip_message
       _(d["skip_message"]).must_include "Skipping profile: "
     end
 
@@ -116,6 +118,7 @@ describe "inspec exec with json formatter" do
     _(profile["depends"].count).must_equal 2
     profile["depends"].each do |d|
       _(d["status"]).must_equal "loaded"
+      _(d.key?("status_message")).must_equal false
       _(d.key?("skip_message")).must_equal false
     end
 
@@ -131,6 +134,7 @@ describe "inspec exec with json formatter" do
     data = JSON.parse(out.stdout)
     profile = data["profiles"].first
     _(profile["status"]).must_equal "skipped"
+    _(profile["status_message"]).must_include "Skipping profile: 'skippy' on unsupported platform:"
     _(profile["skip_message"]).must_include "Skipping profile: 'skippy' on unsupported platform:"
 
     _(out.stderr).must_equal ""
@@ -202,6 +206,7 @@ describe "inspec exec with json formatter" do
         "supports" => [{ "platform-family" => "unix" }, { "platform-family" => "windows" }],
         "attributes" => [],
         "status" => "loaded",
+        "status_message"=>"",
       })
 
       _(groups.sort_by { |x| x["id"] }).must_equal([
