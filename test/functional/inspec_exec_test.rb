@@ -206,7 +206,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
   it "reports whan a profile cannot be loaded" do
     inspec("exec " + File.join(profile_path, "raise_outside_control") + " --no-create-lockfile")
-    _(stdout).must_include "Profile: InSpec Profile (raise_outside_control)"
+    _(stdout).must_match(/Profile:[\W]+InSpec Profile \(raise_outside_control\)/)
 
     _(stdout).must_include "ERROR: Failed to load profile raise_outside_control: Failed to load source for controls/raises.rb: Something unforeseen..."
 
@@ -604,6 +604,32 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       _(controls.select { |c| c["results"][0]["status"] == "passed" }.count).must_be :>, 1
 
       assert_exit_code 100, out
+    end
+  end
+
+  describe "with a profile containing exceptions outside controls" do
+    let(:out) { inspec("exec " + File.join(profile_path, "raise_outside_control") + " --no-create-lockfile") }
+    it "gives the failure reason" do
+      _(stdout).must_include "Failure Message: Failed to load source for controls/raises.rb: Something unforeseen..."
+    end
+
+    it "exits non-zero" do
+      assert_exit_code 102, out
+    end
+  end
+
+  describe "when running both a valid profile and one that fails to load" do
+    let(:out) { inspec("exec " + File.join(profile_path, "raise_outside_control") + " " + File.join(profile_path, "basic_profile") + " --no-create-lockfile --no-color") }
+    it "gives the failure reason for the failing profile" do
+      _(stdout).must_include "Failure Message: Failed to load source for controls/raises.rb: Something unforeseen..."
+    end
+
+    it "reports results for the working profile" do
+      _(stdout).must_include "Profile Summary: 1 successful control"
+    end
+
+    it "exits non-zero" do
+      assert_exit_code 102, out
     end
   end
 
