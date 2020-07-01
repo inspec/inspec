@@ -12,7 +12,7 @@ describe "Inspec::Resources::SysInfo" do
     end
 
     it "check sys_info on OSX" do
-      resource = MockLoader.new(:osx104).load_resource("sys_info")
+      resource = MockLoader.new(:macos10_10).load_resource("sys_info")
       _(resource.hostname).must_equal "example.com"
       _(resource.manufacturer).must_equal "Apple Inc."
       _(resource.model).must_equal "MacBookPro13,3"

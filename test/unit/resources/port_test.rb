@@ -78,7 +78,7 @@ describe "Inspec::Resources::Port" do
   end
 
   it "verify port on MacOs x" do
-    resource = MockLoader.new(:osx104).load_resource("port", 2022)
+    resource = MockLoader.new(:macos10_10).load_resource("port", 2022)
     _(resource.listening?).must_equal true
     _(resource.pids).must_equal [6835]
     _(resource.protocols).must_equal ["tcp"]

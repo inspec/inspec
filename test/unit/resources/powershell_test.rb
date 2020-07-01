@@ -13,7 +13,7 @@ describe "Inspec::Resources::Powershell" do
     resource = MockLoader.new(:windows).load_resource("powershell", "Get-Help")
     _(resource.command).must_equal "Get-Help"
 
-    resource = MockLoader.new(:osx104).load_resource("powershell", "Get-Help")
+    resource = MockLoader.new(:macos10_10).load_resource("powershell", "Get-Help")
     _(resource.command).must_equal("pwsh -encodedCommand '#{base64_command}'")
   end
 
@@ -23,7 +23,7 @@ describe "Inspec::Resources::Powershell" do
       _(resource.command).must_equal "Get-Help"
     end
     expect_deprecation(:resource_script) do
-      resource = MockLoader.new(:osx104).load_resource("script", "Get-Help")
+      resource = MockLoader.new(:macos10_10).load_resource("script", "Get-Help")
       _(resource.command).must_equal("pwsh -encodedCommand '#{base64_command}'")
     end
   end

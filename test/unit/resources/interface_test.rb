@@ -90,7 +90,7 @@ describe "Inspec::Resources::Interface" do
   end
 
   it "verify interface on macos" do
-    resource = MockLoader.new(:osx104).load_resource("interface", "en0")
+    resource = MockLoader.new(:macos10_10).load_resource("interface", "en0")
     _(resource.exists?).must_equal true
     _(resource.up?).must_equal true
     _(resource.speed).must_equal 1000

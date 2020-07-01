@@ -21,7 +21,7 @@ describe "Inspec::Resources::Host" do
   end
 
   it "check host ping on darwin" do
-    resource = MockLoader.new(:osx104).load_resource("host", "example.com")
+    resource = MockLoader.new(:macos10_10).load_resource("host", "example.com")
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
@@ -77,7 +77,7 @@ describe "Inspec::Resources::Host" do
   end
 
   it "check host tcp on darwin" do
-    resource = MockLoader.new(:osx104).load_resource("host", "example.com", port: 1234, protocol: "tcp")
+    resource = MockLoader.new(:macos10_10).load_resource("host", "example.com", port: 1234, protocol: "tcp")
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
@@ -85,7 +85,7 @@ describe "Inspec::Resources::Host" do
   end
 
   it "check host udp on darwin" do
-    resource = MockLoader.new(:osx104).load_resource("host", "example.com", port: 1234, protocol: "udp")
+    resource = MockLoader.new(:macos10_10).load_resource("host", "example.com", port: 1234, protocol: "udp")
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]

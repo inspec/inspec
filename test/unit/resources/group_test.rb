@@ -31,14 +31,14 @@ describe "Inspec::Resources::Group" do
 
   # mac
   it "verify group on mac" do
-    resource = MockLoader.new(:osx104).load_resource("group", "root")
+    resource = MockLoader.new(:macos10_10).load_resource("group", "root")
     _(resource.exists?).must_equal true
     _(resource.gid).must_equal 0
   end
 
   if osx?
     it "actually verifies group on mac" do
-      resource = quick_resource(:group, :osx104, "staff")
+      resource = quick_resource(:group, :macos10_10, "staff")
       _(resource.exists?).must_equal true
       _(resource.members).must_include "root"
       _(resource.members).must_include ENV["LOGNAME"]
