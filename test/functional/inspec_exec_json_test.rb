@@ -159,8 +159,8 @@ describe "inspec exec with json formatter" do
 
     data = JSON.parse(out.stdout)
     _(data["profiles"].length).must_equal 2
-    good_profile_result = data["profiles"].select{ |p| p["name"] == "basic_profile" }.first
-    bad_profile_result = data["profiles"].select{ |p| p["name"] == "raise_outside_control" }.first
+    good_profile_result = data["profiles"].select { |p| p["name"] == "basic_profile" }.first
+    bad_profile_result = data["profiles"].select { |p| p["name"] == "raise_outside_control" }.first
     _(good_profile_result["status"]).must_equal "loaded"
     _(good_profile_result["controls"].first["results"].first["status"]).must_equal "passed"
     _(bad_profile_result["status"]).must_equal "failed"
@@ -206,7 +206,7 @@ describe "inspec exec with json formatter" do
         "supports" => [{ "platform-family" => "unix" }, { "platform-family" => "windows" }],
         "attributes" => [],
         "status" => "loaded",
-        "status_message"=>"",
+        "status_message" => "",
       })
 
       _(groups.sort_by { |x| x["id"] }).must_equal([

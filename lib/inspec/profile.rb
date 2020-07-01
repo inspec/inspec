@@ -265,7 +265,7 @@ module Inspec
           metadata.dependencies[i][:status] = "skipped"
           msg = "Skipping profile: '#{d.name}' on unsupported platform: '#{d.backend.platform.name}/#{d.backend.platform.release}'."
           metadata.dependencies[i][:status_message] = msg
-          metadata.dependencies[i][:skip_message] = msg  # Repeat as skip_message for backward compatibility
+          metadata.dependencies[i][:skip_message] = msg # Repeat as skip_message for backward compatibility
           next
         elsif metadata.dependencies[i]
           # Currently wrapper profiles will load all dependencies, and then we

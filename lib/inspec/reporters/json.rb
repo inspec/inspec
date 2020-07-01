@@ -69,7 +69,7 @@ module Inspec::Reporters
         }.reject { |_k, v| v.nil? }
 
         # For backwards compatibility
-        res[:skip_message] = res[:status_message] if res[:status] == 'skipped'
+        res[:skip_message] = res[:status_message] if res[:status] == "skipped"
 
         res
       end
