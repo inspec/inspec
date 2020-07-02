@@ -2,7 +2,7 @@ FROM ruby:alpine
 LABEL maintainer="Chef Software, Inc. <docker@chef.io>"
 
 ARG EXPEDITOR_VERSION
-ARG VERSION=4.21.1
+ARG VERSION=4.21.3
 
 # GEM_SOURCE is kept away from expeditor controlled ARGs to accomodate 3rd party distros
 ARG GEM_SOURCE=https://rubygems.org
