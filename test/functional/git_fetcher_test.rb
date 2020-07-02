@@ -12,7 +12,7 @@ describe "running profiles with git-based dependencies" do
   fixture_repos = %w{basic-local git-repo-01}
 
   before(:all) do
-    skip_windows! # Right now, this is due to symlinking
+    skip_windows! # Right now, this is due to symlinking, break executes on L24 <nickchecked>
 
     # We need a git repo for some of the profile test fixtures,
     # but we can't store those directly in git.

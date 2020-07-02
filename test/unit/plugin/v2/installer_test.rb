@@ -129,7 +129,6 @@ class PluginInstallerInstallationTests < Minitest::Test
     refute_operator reg, :known_plugin?,  plugin_name
     refute_operator reg, :loaded_plugin?, plugin_name
 
-    skip_windows!
     @installer.install("inspec-test-fixture", gem_file: gem_file)
 
     base = @installer.gem_path

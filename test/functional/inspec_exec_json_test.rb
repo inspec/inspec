@@ -15,8 +15,6 @@ describe "inspec exec with json formatter" do
     _(schema.validate(data).to_a).must_equal []
 
     _(out.stderr).must_be_empty
-
-    skip_windows!
     assert_exit_code 0, out
   end
 
