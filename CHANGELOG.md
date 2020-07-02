@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.21.3 -->
-## [v4.21.3](https://github.com/inspec/inspec/tree/v4.21.3) (2020-06-30)
+<!-- latest_release 4.21.4 -->
+## [v4.21.4](https://github.com/inspec/inspec/tree/v4.21.4) (2020-07-02)
 
 #### Merged Pull Requests
-- Log to stderr when using html2 reporter [#5126](https://github.com/inspec/inspec/pull/5126) ([james-stocks](https://github.com/james-stocks))
+- WIP: Make progress on `skip_windows!` [#5063](https://github.com/inspec/inspec/pull/5063) ([Schwad](https://github.com/Schwad))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.21.1 -->
 ### Changes since 4.21.1 release
 
 #### Merged Pull Requests
+- WIP: Make progress on `skip_windows!` [#5063](https://github.com/inspec/inspec/pull/5063) ([Schwad](https://github.com/Schwad)) <!-- 4.21.4 -->
 - Log to stderr when using html2 reporter [#5126](https://github.com/inspec/inspec/pull/5126) ([james-stocks](https://github.com/james-stocks)) <!-- 4.21.3 -->
 - Address test:isolated failure [#5117](https://github.com/inspec/inspec/pull/5117) ([james-stocks](https://github.com/james-stocks)) <!-- 4.21.2 -->
 <!-- release_rollup -->
