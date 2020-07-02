@@ -126,7 +126,7 @@ describe "Inspec::Resources::User" do
   end
 
   it "read user on OSX" do
-    resource = MockLoader.new(:osx104).load_resource("user", "chartmann")
+    resource = MockLoader.new(:macos10_10).load_resource("user", "chartmann")
     _(resource.exists?).must_equal true
     _(resource.group).must_equal "staff"
     _(resource.groups).must_equal ["staff", "com.apple.sharepoint.group.1", "everyone"]

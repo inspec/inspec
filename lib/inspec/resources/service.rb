@@ -154,7 +154,7 @@ module Inspec::Resources
         end
       when "wrlinux"
         SysV.new(inspec, service_ctl)
-      when "mac_os_x"
+      when "mac_os_x", "darwin"
         LaunchCtl.new(inspec, service_ctl)
       when "freebsd"
         BSDInit.new(inspec, service_ctl)
