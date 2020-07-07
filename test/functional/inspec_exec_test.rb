@@ -32,6 +32,18 @@ describe "inspec exec" do
     FileUtils.rm_f "#{prof}/simple-metadata/inspec.lock"
   end
 
+  it "handles '=' character on input" do
+    # This test handles a bug discovered at: https://github.com/inspec/inspec/issues/5131
+    inspec(
+      "exec " +
+      File.join(profile_path, "inputs", "with_various_values") +
+      " --no-create-lockfile" +
+      " --input my_input='ab=cde'"
+    )
+
+    _(stdout).must_include "0 failures"
+  end
+
   it "cleanly fails if mixing incompatible resource and transports" do
     # TODO: I do not know how to test this more directly. It should be possible.
     inspec "exec -t aws:// #{profile_path}/incompatible_resource_for_transport.rb"
