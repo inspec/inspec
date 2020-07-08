@@ -1,0 +1,168 @@
+baseURL = "/"
+languageCode = "en-us"
+title = "Chef InSpec Documentation"
+theme = "docs-new"
+themesDir = "chef-web-docs/themes"
+enableGitInfo = true
+pluralizeListTitles = false
+
+disableKinds = ["taxonomy", "taxonomyTerm"]
+
+
+[markup]
+  defaultMarkdownHandler = "goldmark"
+  [markup.blackFriday]
+    angledQuotes = false
+    footnoteAnchorPrefix = ""
+    footnoteReturnLinkContents = ""
+    fractions = true
+    hrefTargetBlank = false
+    latexDashes = true
+    nofollowLinks = false
+    noreferrerLinks = false
+    plainIDAnchors = true
+    skipHTML = false
+    smartDashes = true
+    smartypants = true
+    smartypantsQuotesNBSP = false
+    taskLists = true
+		extensions = ["hardLineBreak"]
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      definitionList = true
+      footnote = true
+      linkify = true
+      strikethrough = true
+      table = true
+      taskList = true
+      typographer = true
+    [markup.goldmark.parser]
+      attribute = true
+      autoHeadingID = true
+      autoHeadingIDType = "github"
+    [markup.goldmark.renderer]
+      hardWraps = false
+      unsafe = true
+      xHTML = false
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ""
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    style = "friendly"
+    tabWidth = 4
+  [markup.tableOfContents]
+    endLevel = 4
+    ordered = false
+    startLevel = 2
+
+
+[params]
+  enable_search = true
+  robots = ''
+  menuOrder = ["overview", "compliance", "effortless", "infra",  "workstation", "desktop", "habitat", "inspec", "automate", "legacy", "api", "extra"]
+  product = "inspec"
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  resource = "resources"
+
+
+## Main Menu ##
+
+[[menu.main]]
+title = "Chef.io"
+identifier = "chef"
+url = "https://www.chef.io/"
+weight = 10
+
+[[menu.main]]
+title = "Learn Chef"
+identifier = "learn chef"
+url = "https://learn.chef.io/"
+weight = 20
+
+[[menu.main]]
+title = "Blog"
+identifier = "blog"
+url = "https://blog.chef.io/"
+weight = 30
+
+[[menu.main]]
+title = "Community"
+identifier = "community"
+url = "https://community.chef.io/"
+weight = 40
+
+[[menu.main]]
+title = "Training"
+identifier = "training"
+url = "https://training.chef.io/"
+weight = 50
+
+[[menu.main]]
+title = "Download"
+identifier = "download"
+url = "https://downloads.chef.io/"
+weight = 60
+
+
+####
+# Chef InSpec Menu
+####
+
+
+[[menu.inspec]]
+title = "Chef InSpec"
+identifier = "inspec"
+weight = 10
+
+  [[menu.inspec]]
+  title = "Chef InSpec Reference"
+  identifier = "inspec/reference"
+  parent = "inspec"
+  weight = 500
+
+  [[menu.inspec]]
+  title = "Chef InSpec Resources"
+  identifier = "inspec/resources"
+  parent = "inspec"
+  weight = 999
+
+    [[menu.inspec]]
+    title = "OS Resources"
+    identifier = "inspec/resources/os"
+    parent = "inspec/resources"
+    weight = 20
+
+    [[menu.inspec]]
+    title = "AWS Resources"
+    identifier = "inspec/resources/aws"
+    parent = "inspec/resources"
+    weight = 30
+
+    [[menu.inspec]]
+    title = "Azure Resources"
+    identifier = "inspec/resources/azure"
+    parent = "inspec/resources"
+    weight = 40
+
+    [[menu.inspec]]
+    title = "GCP Resources"
+    identifier = "inspec/resources/gcp"
+    parent = "inspec/resources"
+    weight = 50
+
+    [[menu.inspec]]
+    title = "Habitat Resources"
+    identifier = "inspec/resources/habitat"
+    parent = "inspec/resources"
+    weight = 60
+
+####
+# End Chef InSpec Menu
+####
