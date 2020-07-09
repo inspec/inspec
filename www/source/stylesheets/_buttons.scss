@@ -2,7 +2,7 @@
 
 a {
 	// @extend %transition;
-	color: $chef-secondary;
+	color: $color-purple;
 	font-family: $main-font;
 	font-weight: 600;
 	// text-decoration: underline;
@@ -62,23 +62,23 @@ a.button {
 }
 
 .btn-purple {
-	background-color: $chef-secondary;
+	background-color: $color-purple;
 	color: white;
 
 	&:hover {
-		background-color: $chef-secondary;
+		background-color: $color-purple;
 		opacity: 0.8;
 	}
 }
 
 .btn-purple-o {
-	border: 2px solid $chef-secondary;
-	color: $chef-secondary;
+	border: 2px solid $color-purple;
+	color: $color-purple;
 	background-color: rgba(255, 255, 255, 0);
 
 	&:hover {
 		background-color: rgba(255, 255, 255, 0);
-		color: $chef-secondary;
+		color: $color-purple;
 		opacity: 0.8;
 	}
 }
