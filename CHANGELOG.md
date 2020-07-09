@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.21.5 -->
-## [v4.21.5](https://github.com/inspec/inspec/tree/v4.21.5) (2020-07-02)
+<!-- latest_release 4.21.6 -->
+## [v4.21.6](https://github.com/inspec/inspec/tree/v4.21.6) (2020-07-09)
 
 #### Merged Pull Requests
-- Add the generic &#39;darwin&#39; to the service resource [#5130](https://github.com/inspec/inspec/pull/5130) ([btm](https://github.com/btm))
+- Allow ‘=‘ character in CLI inputs [#5135](https://github.com/inspec/inspec/pull/5135) ([Schwad](https://github.com/Schwad))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.21.3 -->
 ### Changes since 4.21.3 release
 
 #### Merged Pull Requests
+- Allow ‘=‘ character in CLI inputs [#5135](https://github.com/inspec/inspec/pull/5135) ([Schwad](https://github.com/Schwad)) <!-- 4.21.6 -->
 - WIP: Make progress on `skip_windows!` [#5063](https://github.com/inspec/inspec/pull/5063) ([Schwad](https://github.com/Schwad)) <!-- 4.21.4 -->
 - Add the generic &#39;darwin&#39; to the service resource [#5130](https://github.com/inspec/inspec/pull/5130) ([btm](https://github.com/btm)) <!-- 4.21.5 -->
 <!-- release_rollup -->
