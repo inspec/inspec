@@ -94,7 +94,7 @@ module Inspec
       @input_values = options[:inputs]
       @tests_collected = false
       @libraries_loaded = false
-      @failed = false
+      @state = :loaded
       @check_mode = options[:check_mode] || false
       @parent_profile = options[:parent_profile]
       @legacy_profile_path = options[:profiles_path] || false
@@ -147,7 +147,12 @@ module Inspec
         options[:profile_context] ||
         Inspec::ProfileContext.for_profile(self, @backend)
 
-      @supports_platform = metadata.supports_platform?(@backend)
+      if metadata.supports_platform?(@backend)
+        @supports_platform = true
+      else
+        @supports_platform = false
+        @state = :skipped
+      end
       @supports_runtime = metadata.supports_runtime?
     end
 
@@ -164,7 +169,7 @@ module Inspec
     end
 
     def failed?
-      @failed
+      @state == :failed
     end
 
     #
@@ -214,7 +219,7 @@ module Inspec
           begin
             @runner_context.load_control_file(content, abs_path, nil)
           rescue => e
-            @failed = true
+            @state = :failed
             raise Inspec::Exceptions::ProfileLoadFailed, "Failed to load source for #{path}: #{e}"
           end
         end
@@ -259,7 +264,7 @@ module Inspec
         d = dep.profile
         # this will force a dependent profile load so we are only going to add
         # this metadata if the parent profile is supported.
-        if supports_platform? && !d.supports_platform?
+        if @supports_platform && !d.supports_platform?
           # since ruby 1.9 hashes are ordered so we can just use index values here
           # TODO: NO! this is a violation of encapsulation to an extreme
           metadata.dependencies[i][:status] = "skipped"
@@ -335,13 +340,13 @@ module Inspec
       res[:sha256] = sha256
       res[:parent_profile] = parent_profile unless parent_profile.nil?
 
-      if !supports_platform?
+      if @supports_platform
+        res[:status_message] = @status_message || ""
+        res[:status] = failed? ? "failed" : "loaded"
+      else
         res[:status] = "skipped"
         msg = "Skipping profile: '#{name}' on unsupported platform: '#{backend.platform.name}/#{backend.platform.release}'."
         res[:status_message] = msg
-      else
-        res[:status_message] = @status_message || ""
-        res[:status] = failed? ? "failed" : "loaded"
       end
 
       # convert legacy os-* supports to their platform counterpart

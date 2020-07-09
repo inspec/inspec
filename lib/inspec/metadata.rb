@@ -9,7 +9,12 @@ require "inspec/version"
 require "inspec/utils/spdx"
 
 module Inspec
-  # Extract metadata.rb information
+  # The Metadata class represents a profile's metadata.
+  # This includes the metadata stored in the profile's metadata.rb file, as well as inferred
+  # metadata like if this profile supports the current runtime and the intended target.
+  # This class does NOT represent the runtime state of a profile during execution.
+  # See lib/inspec/profile.rb for the runtime representation of a profile.
+  #
   # A Metadata object may be created and finalized with invalid data.
   # This allows the check CLI command to analyse the issues.
   # Use valid? to determine if the metadata is coherent.
