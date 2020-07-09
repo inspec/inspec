@@ -1,0 +1,8 @@
+name: profile
+title: InSpec Example Profile
+maintainer: Chef Software, Inc.
+copyright: Chef Software, Inc.
+copyright_email: support@chef.io
+license: Apache-2.0
+summary: Demonstrates regressions for 5131
+version: 1.0.0
