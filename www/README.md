@@ -64,7 +64,7 @@ Or, for the adventurous:
 
 1. Make sure your documentation changes are merged into master in `inspec/inspec`.
 1. On a local clone of `chef/chef-web-docs` run:
-   1. `hugo mod get github/com/inspec/inspec/www`
+   1. `hugo mod get github.com/inspec/inspec/www`
    1. `hugo mod tidy`
    1. `hugo mod vendor`
 1. Submit a pull request to `chef/chef-web-docs`.

@@ -165,15 +165,7 @@ Among other things, this promotion automatically generates [release notes](https
 The release of InSpec will automatically create a PR to bump InSpec in https://github.com/chef/homebrew-chef
 This should be merged - at some point this could be changed to directly committing to the repo.
 
-## Updating inspec.io
+## Updating InSpec Docs on docs.chef.io
 
-If the release included changes to docs pages, then publish the current docs to inspec.io.
-
-1. In your bash profile, have values exported for FASTLY_SERVICE_ID and FASTLY_API_KEY (ask Chef Helpdesk if you don't have these).
-2. Make sure nodejs is installed (e.g. `brew install nodejs`)
-2. Checkout `master` and `git pull` to ensure you have the latest code. Also ensure you have the `gh-pages` branch fetched.
-3. `cd www`
-4. `bundle install` to install the www directory's gem bundle. Depending on your Ruby setup you may need to use the `--gemfile=Gemfile` option to stop bundler from installing the root gem set.
-5. Run `bundle exec rake www PUSH=1` to do a complete build, push, publish and cache clear of the website.
-6. Check http://www.inspec.io for expected changes. Fastly will clear cache after about 30 seconds.
-
+See the [README](https://github.com/inspec/inspec/blob/master/www/README.md#update-the-inspec-repository-module-in-chefchef-web-docs) for instructions on
+updating the current InSpec documentation on docs.chef.io.
