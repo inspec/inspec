@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.21.6 -->
-## [v4.21.6](https://github.com/inspec/inspec/tree/v4.21.6) (2020-07-09)
+<!-- latest_release 4.21.7 -->
+## [v4.21.7](https://github.com/inspec/inspec/tree/v4.21.7) (2020-07-14)
 
 #### Merged Pull Requests
-- Allow ‘=‘ character in CLI inputs [#5135](https://github.com/inspec/inspec/pull/5135) ([Schwad](https://github.com/Schwad))
+- skip apt-cdrom repos in apt resource when parsing lists [#5138](https://github.com/inspec/inspec/pull/5138) ([jrbeilke](https://github.com/jrbeilke))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.21.3 -->
 ### Changes since 4.21.3 release
 
 #### Merged Pull Requests
+- skip apt-cdrom repos in apt resource when parsing lists [#5138](https://github.com/inspec/inspec/pull/5138) ([jrbeilke](https://github.com/jrbeilke)) <!-- 4.21.7 -->
 - Allow ‘=‘ character in CLI inputs [#5135](https://github.com/inspec/inspec/pull/5135) ([Schwad](https://github.com/Schwad)) <!-- 4.21.6 -->
 - WIP: Make progress on `skip_windows!` [#5063](https://github.com/inspec/inspec/pull/5063) ([Schwad](https://github.com/Schwad)) <!-- 4.21.4 -->
 - Add the generic &#39;darwin&#39; to the service resource [#5130](https://github.com/inspec/inspec/pull/5130) ([btm](https://github.com/btm)) <!-- 4.21.5 -->
