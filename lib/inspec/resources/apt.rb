@@ -90,12 +90,14 @@ module Inspec::Resources
         # deb               "http://archive.ubuntu.com/ubuntu/" wily main restricted ...
         # deb               http://archive.ubuntu.com/ubuntu/ wily main restricted ...
         # deb [trusted=yes] http://archive.ubuntu.com/ubuntu/ wily main restricted ...
+        # deb cdrom:[Ubuntu 15.10 _Wily Werewolf_ - Release amd64 (20151021)]/ wily main restricted ...
 
         words = line.split
         words.delete_at 1 if words[1] && words[1].start_with?("[")
         type, url, distro, *components = words
         url = url.delete('"') if url
 
+        next if words[1] && words[1].start_with?("cdrom:") # skip unsupported apt-cdrom repos
         next if components.empty?
         next unless URI::HTTP === URI.parse(url)
         next unless %w{deb deb-src}.include? type
