@@ -7,8 +7,11 @@
     <% if profile.summary %>
     <tr class="profile-summary"><th>Summary:</th><td><%= profile.summary %></td></tr>
     <% end %>
-    <% if profile.skip_message %>
-    <tr class="profile-skip-message"><th>Skip Message:</th><td><%= profile.skip_message %></td></tr>
+    <% if profile.status != "loaded" %>
+    <tr class="profile-status"><th>Status:</th><td><%= profile.status %></td></tr>
+    <% end %>
+    <% if profile.status_message && !profile.status_message.empty? %>
+    <tr class="profile-status-message"><th>Status Message:</th><td><%= profile.status_message %></td></tr>
     <% end %>
   </table>
 

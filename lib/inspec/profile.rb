@@ -94,6 +94,7 @@ module Inspec
       @input_values = options[:inputs]
       @tests_collected = false
       @libraries_loaded = false
+      @state = :loaded
       @check_mode = options[:check_mode] || false
       @parent_profile = options[:parent_profile]
       @legacy_profile_path = options[:profiles_path] || false
@@ -146,7 +147,12 @@ module Inspec
         options[:profile_context] ||
         Inspec::ProfileContext.for_profile(self, @backend)
 
-      @supports_platform = metadata.supports_platform?(@backend)
+      if metadata.supports_platform?(@backend)
+        @supports_platform = true
+      else
+        @supports_platform = false
+        @state = :skipped
+      end
       @supports_runtime = metadata.supports_runtime?
     end
 
@@ -160,6 +166,10 @@ module Inspec
 
     def writable?
       @writable
+    end
+
+    def failed?
+      @state == :failed
     end
 
     #
@@ -197,7 +207,7 @@ module Inspec
     end
 
     def collect_tests(include_list = @controls)
-      unless @tests_collected
+      unless @tests_collected || failed?
         return unless supports_platform?
 
         locked_dependencies.each(&:collect_tests)
@@ -206,7 +216,12 @@ module Inspec
           next if content.nil? || content.empty?
 
           abs_path = source_reader.target.abs_path(path)
-          @runner_context.load_control_file(content, abs_path, nil)
+          begin
+            @runner_context.load_control_file(content, abs_path, nil)
+          rescue => e
+            @state = :failed
+            raise Inspec::Exceptions::ProfileLoadFailed, "Failed to load source for #{path}: #{e}"
+          end
         end
         @tests_collected = true
       end
@@ -249,12 +264,13 @@ module Inspec
         d = dep.profile
         # this will force a dependent profile load so we are only going to add
         # this metadata if the parent profile is supported.
-        if supports_platform? && !d.supports_platform?
+        if @supports_platform && !d.supports_platform?
           # since ruby 1.9 hashes are ordered so we can just use index values here
           # TODO: NO! this is a violation of encapsulation to an extreme
           metadata.dependencies[i][:status] = "skipped"
           msg = "Skipping profile: '#{d.name}' on unsupported platform: '#{d.backend.platform.name}/#{d.backend.platform.release}'."
-          metadata.dependencies[i][:skip_message] = msg
+          metadata.dependencies[i][:status_message] = msg
+          metadata.dependencies[i][:skip_message] = msg # Repeat as skip_message for backward compatibility
           next
         elsif metadata.dependencies[i]
           # Currently wrapper profiles will load all dependencies, and then we
@@ -324,12 +340,13 @@ module Inspec
       res[:sha256] = sha256
       res[:parent_profile] = parent_profile unless parent_profile.nil?
 
-      if !supports_platform?
+      if @supports_platform
+        res[:status_message] = @status_message || ""
+        res[:status] = failed? ? "failed" : "loaded"
+      else
         res[:status] = "skipped"
         msg = "Skipping profile: '#{name}' on unsupported platform: '#{backend.platform.name}/#{backend.platform.release}'."
-        res[:skip_message] = msg
-      else
-        res[:status] = "loaded"
+        res[:status_message] = msg
       end
 
       # convert legacy os-* supports to their platform counterpart
@@ -453,6 +470,10 @@ module Inspec
 
     def controls_count
       params[:controls].values.length
+    end
+
+    def set_status_message(msg)
+      @status_message = msg.to_s
     end
 
     # generates a archive of a folder profile

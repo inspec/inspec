@@ -100,6 +100,8 @@ describe "inspec exec with json formatter" do
     _(profile["depends"].count).must_equal 2
     profile["depends"].each do |d|
       _(d["status"]).must_equal "skipped"
+      _(d["status_message"]).must_include "Skipping profile: "
+      # For backwards compatibility, the skip reason is also given as skip_message
       _(d["skip_message"]).must_include "Skipping profile: "
     end
 
@@ -116,6 +118,7 @@ describe "inspec exec with json formatter" do
     _(profile["depends"].count).must_equal 2
     profile["depends"].each do |d|
       _(d["status"]).must_equal "loaded"
+      _(d.key?("status_message")).must_equal false
       _(d.key?("skip_message")).must_equal false
     end
 
@@ -131,11 +134,38 @@ describe "inspec exec with json formatter" do
     data = JSON.parse(out.stdout)
     profile = data["profiles"].first
     _(profile["status"]).must_equal "skipped"
+    _(profile["status_message"]).must_include "Skipping profile: 'skippy' on unsupported platform:"
     _(profile["skip_message"]).must_include "Skipping profile: 'skippy' on unsupported platform:"
 
     _(out.stderr).must_equal ""
 
     assert_exit_code 101, out
+  end
+
+  it "flags profile with failed status when profile fails to load" do
+    profile = File.join(profile_path, "raise_outside_control")
+    out = inspec("exec " + profile + " --reporter json --no-create-lockfile")
+
+    data = JSON.parse(out.stdout)
+    profile = data["profiles"].first
+    _(profile["status"]).must_equal "failed"
+    assert_exit_code 102, out
+  end
+
+  it "reports a working profile run at the same time as a broken profile" do
+    bad_profile = File.join(profile_path, "raise_outside_control")
+    good_profile = File.join(profile_path, "basic_profile")
+    out = inspec("exec #{bad_profile} #{good_profile} --reporter json --no-create-lockfile")
+
+    data = JSON.parse(out.stdout)
+    _(data["profiles"].length).must_equal 2
+    good_profile_result = data["profiles"].select { |p| p["name"] == "basic_profile" }.first
+    bad_profile_result = data["profiles"].select { |p| p["name"] == "raise_outside_control" }.first
+    _(good_profile_result["status"]).must_equal "loaded"
+    _(good_profile_result["controls"].first["results"].first["status"]).must_equal "passed"
+    _(bad_profile_result["status"]).must_equal "failed"
+
+    assert_exit_code 102, out
   end
 
   describe "execute a profile with json formatting" do
@@ -176,6 +206,7 @@ describe "inspec exec with json formatter" do
         "supports" => [{ "platform-family" => "unix" }, { "platform-family" => "windows" }],
         "attributes" => [],
         "status" => "loaded",
+        "status_message" => "",
       })
 
       _(groups.sort_by { |x| x["id"] }).must_equal([

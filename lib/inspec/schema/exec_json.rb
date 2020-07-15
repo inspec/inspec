@@ -83,7 +83,7 @@ module Inspec
         "required" => %w{name sha256 supports attributes groups controls},
         # Name is mandatory in inspec.yml.
         # supports, controls, groups, and attributes are always present, even if empty
-        # sha256, status, skip_message
+        # sha256, status, status_message
         "properties" => {
           # These are provided in inspec.yml
           "name" => Primitives::STRING,
@@ -100,10 +100,11 @@ module Inspec
           "description" => Primitives::STRING,
           "inspec_version" => Primitives::STRING,
 
-          # These are generated at runtime, and all except skip_message are guaranteed
+          # These are generated at runtime, and all except status_message and skip_message are guaranteed
           "sha256" => Primitives::STRING,
           "status" => Primitives::STRING,
-          "skip_message" => Primitives::STRING, # If skipped, why
+          "status_message" => Primitives::STRING, # If skipped or failed to load, why
+          "skip_message" => Primitives::STRING,   # Deprecated field storing reason for skipping. status_message should be used instead.
           "controls" => Primitives.array(CONTROL.ref),
           "groups" => Primitives.array(Primitives::CONTROL_GROUP.ref),
           "attributes" => Primitives.array(Primitives::INPUT),

@@ -446,9 +446,9 @@ The `run_data` object contains all data from the Chef InSpec run. Here is an ove
 |`run_data.profiles[0].depends[0].name`| name (assigned alias) of dependent profile|
 |`run_data.profiles[0].depends[0].path`| location of dependent profile if it was a local reference|
 |`run_data.profiles[0].depends[0].relative_path`| relative path within clone if it was a git reference|
-|`run_data.profiles[0].depends[0].skip_message`| Reason if status is "skipped"|
+|`run_data.profiles[0].depends[0].status_message`| Reason if status is "failed" or "skipped"|
 |`run_data.profiles[0].depends[0].supermarket`| String, "user/profilename" on Supermarket server if it was a Supermarket reference|
-|`run_data.profiles[0].depends[0].status`| String, one of "loaded" or "skipped"|
+|`run_data.profiles[0].depends[0].status`| String, one of "loaded", "failed" or "skipped"|
 |`run_data.profiles[0].depends[0].tag`| tag ref if it was a git reference|
 |`run_data.profiles[0].depends[0].version`| semver tag if it was a git reference|
 |`run_data.profiles[0].depends[0].url`| location of dependent profile if it was a URL reference|
@@ -466,14 +466,14 @@ The `run_data` object contains all data from the Chef InSpec run. Here is an ove
 |`run_data.profiles[0].name`| String, machine name of the profile|
 |`run_data.profiles[0].parent_profile`| String, name of the parent profile if this is a dependency|
 |`run_data.profiles[0].sha256`| String, checksum of the profile|
-|`run_data.profiles[0].skip_message`| String, message indicating why the profile was not loaded if status is "skipped"|
+|`run_data.profiles[0].status_message`| String, message indicating why the profile was not loaded if status is "failed" or "skipped"|
 |`run_data.profiles[0].summary`| String,  A one-line summary from the inspec.yml|
 |`run_data.profiles[0].supports`| Array of Support records indicating platform support|
 |`run_data.profiles[0].supports[0].platform_family`| Platform restriction by family|
 |`run_data.profiles[0].supports[0].platform_name`| Platform restriction by name|
 |`run_data.profiles[0].supports[0].platform`| Platform restriction by name|
 |`run_data.profiles[0].supports[0].release`| Platform restriction by release|
-|`run_data.profiles[0].status`| String, one of "loaded" or "skipped"|
+|`run_data.profiles[0].status`| String, one of "loaded", "failed" or "skipped"|
 |`run_data.statistics.controls.failed.total`| Integer, total count of failing controls|
 |`run_data.statistics.controls.passed.total`| Integer, total count of passing controls|
 |`run_data.statistics.controls.skipped.total`| Integer, total count of passing controls|

@@ -160,7 +160,7 @@ module Inspec
           "url" => URL,
           "branch" => STRING,
           "path" => STRING,
-          "skip_message" => STRING,
+          "status_message" => STRING,
           "status" => STRING,
           "git" => URL,
           "supermarket" => STRING,

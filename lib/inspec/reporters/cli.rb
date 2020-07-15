@@ -72,6 +72,7 @@ module Inspec::Reporters
         "Profile" => format_profile_name(profile),
         "Version" => profile[:version] || "(not specified)",
       }
+      header["Failure Message"] = profile[:status_message] if profile[:status] == "failed"
       header["Target"] = run_data[:platform][:target] unless run_data[:platform][:target].nil?
       header["Target ID"] = @config["target_id"] unless @config["target_id"].nil?
 

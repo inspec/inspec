@@ -45,8 +45,8 @@ module Inspec::Reporters
     end
 
     def profiles
-      run_data[:profiles].map { |p|
-        {
+      run_data[:profiles].map do |p|
+        res = {
           name:            p[:name],
           version:         p[:version],
           sha256:          p[:sha256],
@@ -64,10 +64,15 @@ module Inspec::Reporters
           groups:          profile_groups(p),
           controls:        profile_controls(p),
           status:          p[:status],
-          skip_message:    p[:skip_message],
+          status_message:  p[:status_message],
           waiver_data:     p[:waiver_data],
         }.reject { |_k, v| v.nil? }
-      }
+
+        # For backwards compatibility
+        res[:skip_message] = res[:status_message] if res[:status] == "skipped"
+
+        res
+      end
     end
 
     def profile_groups(profile)
