@@ -26,7 +26,6 @@ module Inspec
 
       @resource_dsl = resource_dsl
       extend resource_dsl # TODO: remove! do it via method_missing
-
       # not changeable by the user:
       @__code = nil
       @__block = block
@@ -43,11 +42,11 @@ module Inspec
       return unless block_given?
 
       begin
-        instance_eval(&block)
 
-        # By applying waivers *after* the instance eval, we assure that
-        # waivers have higher precedence than only_if.
+        # This ensures we do not load and run control code that is waived.
         __apply_waivers
+
+        instance_eval(&block)
 
       rescue SystemStackError, StandardError => e
         # We've encountered an exception while trying to eval the code inside the
