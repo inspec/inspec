@@ -44,18 +44,19 @@ pipelines:
  - integration/resources:
     description: Test core resources with test-kitchen.
     definition: .expeditor/integration.resources.yml
- - integration/libraries:
-    description: Integration with plugins, gems, resource packs.
-    definition: .expeditor/integration.libraries.yml
- - integration/profiles:
-    description: Integration with compliance-profiles, and dev-sec
-    definition: .expeditor/integration.profiles.yml
- - integration/cookbooks:
-    description: Integration with the audit cookbook
-    definition: .expeditor/integration.cookbooks.yml
- - integration/automate:
-    description: Integration with Chef Automate
-    definition: .expeditor/integration.automate.yml
+ # This breaks expeditor as it does not yet exist
+ # - integration/libraries:
+ #    description: Integration with plugins, gems, resource packs.
+ #    definition: .expeditor/integration.libraries.yml
+ # - integration/profiles:
+ #    description: Integration with compliance-profiles, and dev-sec
+ #    definition: .expeditor/integration.profiles.yml
+ # - integration/cookbooks:
+ #    description: Integration with the audit cookbook
+ #    definition: .expeditor/integration.cookbooks.yml
+ # - integration/automate:
+ #    description: Integration with Chef Automate
+ #    definition: .expeditor/integration.automate.yml
  - artifact/habitat:
     description: Execute tests against the habitat artifact
     definition: .expeditor/artifact.habitat.yml
