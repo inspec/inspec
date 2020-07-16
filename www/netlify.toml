@@ -1,0 +1,19 @@
+[build]
+  ignore = "sh ./netlify_ignore.sh"
+
+[build.environment]
+  HUGO_VERSION = "0.69.0"
+  HUGO_ENABLEGITINFO = "true"
+  GO_VERSION = "1.12"
+  NODE_ENV = "development"
+
+[build.processing]
+  skip_processing = true
+
+[context.deploy-preview]
+  publish = "chef-web-docs/public"
+  command = "make preview_netlify"
+
+[context.production]
+  publish = "netlify_production"
+  command = ""
