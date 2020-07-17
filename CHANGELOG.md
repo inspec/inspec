@@ -1,30 +1,27 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.22.0 -->
-## [v4.22.0](https://github.com/inspec/inspec/tree/v4.22.0) (2020-07-15)
-
-#### Merged Pull Requests
-- Report faulty profiles instead of crashing [#5128](https://github.com/inspec/inspec/pull/5128) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.21.3 -->
-### Changes since 4.21.3 release
-
-#### Merged Pull Requests
-- Report faulty profiles instead of crashing [#5128](https://github.com/inspec/inspec/pull/5128) ([james-stocks](https://github.com/james-stocks)) <!-- 4.22.0 -->
-- skip apt-cdrom repos in apt resource when parsing lists [#5138](https://github.com/inspec/inspec/pull/5138) ([jrbeilke](https://github.com/jrbeilke)) <!-- 4.21.7 -->
-- Allow ‘=‘ character in CLI inputs [#5135](https://github.com/inspec/inspec/pull/5135) ([Schwad](https://github.com/Schwad)) <!-- 4.21.6 -->
-- WIP: Make progress on `skip_windows!` [#5063](https://github.com/inspec/inspec/pull/5063) ([Schwad](https://github.com/Schwad)) <!-- 4.21.4 -->
-- Add the generic &#39;darwin&#39; to the service resource [#5130](https://github.com/inspec/inspec/pull/5130) ([btm](https://github.com/btm)) <!-- 4.21.5 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.22.0](https://github.com/inspec/inspec/tree/v4.22.0) (2020-07-17)
+
+#### Merged Pull Requests
+- Add the generic &#39;darwin&#39; to the service resource [#5130](https://github.com/inspec/inspec/pull/5130) ([btm](https://github.com/btm))
+- WIP: Make progress on `skip_windows!` [#5063](https://github.com/inspec/inspec/pull/5063) ([Schwad](https://github.com/Schwad))
+- Allow ‘=‘ character in CLI inputs [#5135](https://github.com/inspec/inspec/pull/5135) ([Schwad](https://github.com/Schwad))
+- skip apt-cdrom repos in apt resource when parsing lists [#5138](https://github.com/inspec/inspec/pull/5138) ([jrbeilke](https://github.com/jrbeilke))
+- Report faulty profiles instead of crashing [#5128](https://github.com/inspec/inspec/pull/5128) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_stable_release -->
+
 ## [v4.21.3](https://github.com/inspec/inspec/tree/v4.21.3) (2020-07-02)
 
 #### Merged Pull Requests
 - Address test:isolated failure [#5117](https://github.com/inspec/inspec/pull/5117) ([james-stocks](https://github.com/james-stocks))
 - Log to stderr when using html2 reporter [#5126](https://github.com/inspec/inspec/pull/5126) ([james-stocks](https://github.com/james-stocks))
-<!-- latest_stable_release -->
 
 ## [v4.21.1](https://github.com/inspec/inspec/tree/v4.21.1) (2020-06-29)
 
