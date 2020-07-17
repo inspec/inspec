@@ -77,7 +77,7 @@ license: Proprietary, All rights reserved
 summary: Verify that SSH Server and SSH Client are configured securely
 version: 1.0.0
 supports:
-  - os-family: linux
+  - platform-family: linux
 depends:
   - name: profile
     path: ../path/to/profile
