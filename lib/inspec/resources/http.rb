@@ -164,11 +164,17 @@ module Inspec::Resources
         attr_reader :inspec
 
         def initialize(inspec, http_method, url, opts)
-          if inspec.command("curl").exist? && inspec.command("Invoke-WebRequest").exist?
-            raise Inspec::Exceptions::ResourceSkipped,
-                  "No command is available on the target machine to run the request"
+          if inspec.os.windows?
+            unless inspec.command("Invoke-WebRequest").exist?
+              raise Inspec::Exceptions::ResourceSkipped,
+                    "Invoke-WebRequest is not available on the target machine"
+            end
+          else
+            unless inspec.command("curl").exist?
+              raise Inspec::Exceptions::ResourceSkipped,
+                    "curl is not available on the target machine"
+            end
           end
-
           @ran_http = false
           @inspec = inspec
           super(http_method, url, opts)
@@ -199,7 +205,16 @@ module Inspec::Resources
           @ran_http = true
           return if response.nil? || cmd_result.exit_status != 0
 
-          if node["platform_family"] != "windows"
+          if inspec.os.windows?
+            response = JSON.parse(response)
+            @status = response.StatusCode
+            @body = response.RawContent
+
+            @response_headers = {}
+            response["Headers"].each do |name, value|
+              @response_headers["#{name}"] = value
+            end
+          else
             # strip any carriage returns to normalize output
             response.delete!("\r")
 
@@ -224,20 +239,33 @@ module Inspec::Resources
               key, value = line.split(":", 2)
               @response_headers[key] = value.strip
             end
-          else
-            response = JSON.parse(response)
-            @status = response.StatusCode
-            @body = response.RawContent
 
-            @response_headers = {}
-            response["Headers"].each do |name, value|
-              @response_headers["#{name}"] = value
-            end
           end
         end
 
         def http_command # rubocop:disable Metrics/AbcSize
-          if node["platform_family"] != "windows"
+          if inspec.os.windows?
+            cmd = ["Invoke-WebRequest"]
+
+            cmd << "-Method #{http_method}"
+            # Missing connect-timeout
+            cmd << "-TimeoutSec #{open_timeout + read_timeout}"
+            # Insecure not supported simply https://stackoverflow.com/questions/11696944/powershell-v3-invoke-webrequest-https-error
+            cmd << "-Body #{request_body.gsub('"', '`"')}" unless request_body.nil?
+            cmd << "-MaximumRedirection #{max_redirects}" unless max_redirects.nil?
+            request_headers["Authorization"] = """ '\"Basic ' + [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(\"#{username}:#{password}\")) +'\"' """ unless username.nil? || password.nil?
+
+            request_headers.each do |k, v|
+              request_header_string << " #{k} = #{v}"
+            end
+            cmd << "-Headers @{#{request_header_string.join(";")}}" unless request_header_string.nil?
+            if params.nil?
+              cmd << "'#{url}'"
+            else
+              cmd << "'#{url}?#{params.map { |e| e.join("=") }.join("&")}'"
+            end
+            cmd.join(" ")
+          else
             cmd = ["curl -i"]
 
             # Use curl's --head option when the method requested is HEAD. Otherwise,
@@ -267,27 +295,6 @@ module Inspec::Resources
               cmd << "'#{url}?#{params.map { |e| e.join("=") }.join("&")}'"
             end
 
-            cmd.join(" ")
-          else
-            cmd = ["Invoke-WebRequest"]
-
-            cmd << "-Method #{http_method}"
-            # Missing connect-timeout
-            cmd << "-TimeoutSec #{open_timeout + read_timeout}"
-            # Insecure not supported simply https://stackoverflow.com/questions/11696944/powershell-v3-invoke-webrequest-https-error
-            cmd << "-Body #{request_body.gsub('"', '`"')}" unless request_body.nil?
-            cmd << "-MaximumRedirection #{max_redirects}" unless max_redirects.nil?
-            request_headers["Authorization"] = """ '\"Basic ' + [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(\"#{username}:#{password}\")) +'\"' """ unless username.nil? || password.nil?
-
-            request_headers.each do |k, v|
-              request_header_string << " #{k} = #{v}"
-            end
-            cmd << "-Headers @{#{request_header_string.join(";")}}" unless request_header_string.nil?
-            if params.nil?
-              cmd << "'#{url}'"
-            else
-              cmd << "'#{url}?#{params.map { |e| e.join("=") }.join("&")}'"
-            end
             cmd.join(" ")
           end
         end
