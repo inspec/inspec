@@ -164,7 +164,7 @@ module Inspec::Resources
         attr_reader :inspec
 
         def initialize(inspec, http_method, url, opts)
-          if (inspec.command("curl").exist? && inspec.command("Invoke-WebRequest").exist?)
+          if inspec.command("curl").exist? && inspec.command("Invoke-WebRequest").exist?
             raise Inspec::Exceptions::ResourceSkipped,
                   "No command is available on the target machine to run the request"
           end
