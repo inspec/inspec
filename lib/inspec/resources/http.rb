@@ -143,7 +143,7 @@ module Inspec::Resources
 
           conn = Faraday.new(url: url, headers: request_headers, params: params, ssl: { verify: ssl_verify? }) do |builder|
             builder.request :url_encoded
-            builder.use FaradayMiddleware::FollowRedirects, limit: max_redirects if max_redirects > 0
+            builder.use FaradayMiddleware::FollowRedirects, limit: max_redirects unless max_redirects.nil?
             builder.adapter Faraday.default_adapter
           end
 
@@ -237,7 +237,7 @@ module Inspec::Resources
             @body = response.RawContent
 
             @response_headers = {}
-            response['Headers'].each do | name, value |
+            response["Headers"].each do |name, value|
               @response_headers["#{name}"] = value
             end
           end
@@ -275,21 +275,21 @@ module Inspec::Resources
             end
 
             cmd.join(" ")
-          else 
+          else
             cmd = ["Invoke-WebRequest"]
 
             cmd << "-Method #{http_method}"
             # Missing connect-timeout
             cmd << "-TimeoutSec #{open_timeout + read_timeout}"
             # Insecure not supported simply https://stackoverflow.com/questions/11696944/powershell-v3-invoke-webrequest-https-error
-            cmd << "-Body #{request_body.gsub('"', '`"')}" unless request_body.nil? 
+            cmd << "-Body #{request_body.gsub('"', '`"')}" unless request_body.nil?
             cmd << "-MaximumRedirection #{max_redirects}" unless max_redirects.nil?
             request_headers["Authorization"] = """ '\"Basic ' + [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(\"#{username}:#{password}\")) +'\"' """ unless username.nil? || password.nil?
 
             request_headers.each do |k, v|
               request_header_string << " #{k} = #{v}"
             end
-            cmd << "-Headers @{#{request_header_string.join(';')}}" unless request_header_string.nil?
+            cmd << "-Headers @{#{request_header_string.join(";")}}" unless request_header_string.nil?
             if params.nil?
               cmd << "'#{url}'"
             else
