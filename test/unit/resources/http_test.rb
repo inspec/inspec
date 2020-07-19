@@ -193,19 +193,19 @@ describe "Inspec::Resources::Http" do
       end
     end
 
-    describe "run_curl request" do
+    describe "run_http request" do
       it "returns nil when nil is returned" do
         Inspec::Resources::Cmd.any_instance
           .stubs(:stdout)
           .returns(nil)
-        _(worker.send(:run_curl)).must_be_nil
+        _(worker.send(:run_http)).must_be_nil
       end
 
       it "returns nil when failure is returned" do
         Inspec::Resources::Cmd.any_instance
           .stubs(:exit_status)
           .returns(1)
-        _(worker.send(:run_curl)).must_be_nil
+        _(worker.send(:run_http)).must_be_nil
       end
 
       it "returns html when html is returned" do
@@ -213,7 +213,7 @@ describe "Inspec::Resources::Http" do
           .stubs(:stdout)
           .returns("HTTP/1.1 200 OK\nDate: Tue, 03 Oct 2017 20:30:08 GMT\nExpires: -1\nCache-Control: private")
         assert = ["Date: Tue, 03 Oct 2017 20:30:08 GMT", "Expires: -1", "Cache-Control: private"]
-        _(worker.send(:run_curl)).must_equal assert
+        _(worker.send(:run_http)).must_equal assert
       end
     end
   end
