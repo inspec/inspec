@@ -27,7 +27,7 @@ describe "inspec check" do
     it "outputs as normal" do
       out = inspec("check " + example_profile + " --inspecstyle")
       assert_exit_code 0, out
-      out.stdout.must_include("no offenses detected")
+      _(out.stdout).must_include("no offenses detected")
     end
   end
 
@@ -35,7 +35,7 @@ describe "inspec check" do
     it "shows standard violations" do
       out = inspec("check " + File.join(profile_path, "inspecstyle_violations") + " --inspecstyle")
       assert_exit_code 0, out
-      out.stdout.must_include("1 offense detected")
+      _(out.stdout).must_include("1 offense detected")
     end
   end
 
