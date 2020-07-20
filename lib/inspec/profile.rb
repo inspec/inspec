@@ -382,17 +382,21 @@ module Inspec
       # Capture InSpecStyle run
       runtime_config = Inspec::Config.cached.respond_to?(:final_options) ? Inspec::Config.cached.final_options : {}
 
+
       if runtime_config[:inspecstyle]
         inspecstyle_target = if File.directory?(@target)
-                           File.join(@target, "**/*.rb")
+                           File.join(@target, "**/controls/*.rb")
                          else
                            @target
                          end
 
-        cmd = Mixlib::ShellOut.new(
-          "bundle exec rubocop #{inspecstyle_target} -r inspecstyle --only InSpecStyle"
-        ).run_command
-        result[:inspecstyle] = cmd.stdout
+        output = capture_stdout do
+          require 'rubocop'
+          ::RuboCop::CLI.new.run(
+            [inspecstyle_target, "-r", "inspecstyle", "--only", "InSpecStyle"]
+          )
+        end
+        result[:inspecstyle] = output
       end
 
       entry = lambda { |file, line, column, control, msg|
@@ -621,6 +625,18 @@ module Inspec
     end
 
     private
+
+    # Capture STDOUT of block but reset it. Currently for RuboCop `puts` output.
+    # May be worth refactoring into a util if used again, or removed if we have
+    # better existing patterns or utils.
+    def capture_stdout
+      original_stdout = $stdout
+      $stdout = StringIO.new
+      yield
+      $stdout.string
+    ensure
+      $stdout = original_stdout
+    end
 
     # Create an archive name for this profile and an additional options
     # configuration. Either use :output or generate the name from metadata.
