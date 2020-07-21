@@ -165,7 +165,7 @@ subscriptions:
     - built_in:promote_habitat_packages
     - bash:.expeditor/publish-release-notes.sh:
        post_commit: true
-    - bash:.expeditor/purge-cdn.sh:
+    - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest
        post_commit: true
     - bash:.expeditor/announce-release.sh:
        post_commit: true
