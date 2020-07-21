@@ -382,8 +382,9 @@ module Inspec
       # Capture InSpecStyle run
       runtime_config = Inspec::Config.cached.respond_to?(:final_options) ? Inspec::Config.cached.final_options : {}
 
+      autocorrect = runtime_config[:inspecstyle_autocorrect] ? "-a" : nil
 
-      if runtime_config[:inspecstyle]
+      if runtime_config[:inspecstyle] || runtime_config[:inspecstyle_autocorrect]
         inspecstyle_target = if File.directory?(@target)
                            File.join(@target, "**/controls/*.rb")
                          else
@@ -393,7 +394,14 @@ module Inspec
         output = capture_stdout do
           require 'rubocop'
           ::RuboCop::CLI.new.run(
-            [inspecstyle_target, "-r", "inspecstyle", "--only", "InSpecStyle"]
+            [
+              inspecstyle_target,
+              "-r",
+              "inspecstyle",
+              "--only",
+              "InSpecStyle",
+              autocorrect
+            ]
           )
         end
         result[:inspecstyle] = output

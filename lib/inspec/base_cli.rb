@@ -164,6 +164,8 @@ module Inspec
       profile_options
       option :inspecstyle, type: :boolean,
         desc: "Scan profile code for InSpecStyle compliance."
+      option :inspecstyle_autocorrect, type: :boolean,
+        desc: "Scan profile code for InSpecStyle compliance and autocorrect where possible."
     end
 
     def self.format_platform_info(params: {}, indent: 0, color: 39)

@@ -135,7 +135,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
         warnings = ui.yellow("#{result[:warnings].length} warnings", print: false)
         ui.plain_line("Summary:     #{errors}, #{warnings}")
       end
-      
+
       full_inspec_message = <<~EOF
 
       InSpecStyle is currently in its opt-in phase for InSpec 4 and will be the
