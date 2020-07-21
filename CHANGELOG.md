@@ -1,22 +1,19 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.22.1 -->
-## [v4.22.1](https://github.com/inspec/inspec/tree/v4.22.1) (2020-07-20)
-
-#### Merged Pull Requests
-- Habitat should not expand $PATH at buildtime [#5148](https://github.com/inspec/inspec/pull/5148) ([james-stocks](https://github.com/james-stocks))
-- Temporary comment out to get expeditor build to complete [#5150](https://github.com/inspec/inspec/pull/5150) ([Schwad](https://github.com/Schwad))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.22.0 -->
-### Changes since 4.22.0 release
-
-#### Merged Pull Requests
-- Habitat should not expand $PATH at buildtime [#5148](https://github.com/inspec/inspec/pull/5148) ([james-stocks](https://github.com/james-stocks)) <!-- 4.22.1 -->
-- Temporary comment out to get expeditor build to complete [#5150](https://github.com/inspec/inspec/pull/5150) ([Schwad](https://github.com/Schwad)) <!-- 4.22.0 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.22.1](https://github.com/inspec/inspec/tree/v4.22.1) (2020-07-21)
+
+#### Merged Pull Requests
+- Temporary comment out to get expeditor build to complete [#5150](https://github.com/inspec/inspec/pull/5150) ([Schwad](https://github.com/Schwad))
+- Habitat should not expand $PATH at buildtime [#5148](https://github.com/inspec/inspec/pull/5148) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_stable_release -->
+
 ## [v4.22.0](https://github.com/inspec/inspec/tree/v4.22.0) (2020-07-17)
 
 #### Merged Pull Requests
@@ -25,7 +22,6 @@
 - Allow ‘=‘ character in CLI inputs [#5135](https://github.com/inspec/inspec/pull/5135) ([Schwad](https://github.com/Schwad))
 - skip apt-cdrom repos in apt resource when parsing lists [#5138](https://github.com/inspec/inspec/pull/5138) ([jrbeilke](https://github.com/jrbeilke))
 - Report faulty profiles instead of crashing [#5128](https://github.com/inspec/inspec/pull/5128) ([james-stocks](https://github.com/james-stocks))
-<!-- latest_stable_release -->
 
 ## [v4.21.3](https://github.com/inspec/inspec/tree/v4.21.3) (2020-07-02)
 
