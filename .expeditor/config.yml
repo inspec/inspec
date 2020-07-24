@@ -57,14 +57,14 @@ pipelines:
  # - integration/automate:
  #    description: Integration with Chef Automate
  #    definition: .expeditor/integration.automate.yml
- - artifact/habitat:
-    description: Execute tests against the habitat artifact
-    definition: .expeditor/artifact.habitat.yml
-    env:
-     - HAB_NONINTERACTIVE: "true"
-     - HAB_NOCOLORING: "true"
-     - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
-    trigger: pull_request
+ # - artifact/habitat:
+ #    description: Execute tests against the habitat artifact
+ #    definition: .expeditor/artifact.habitat.yml
+ #    env:
+ #     - HAB_NONINTERACTIVE: "true"
+ #     - HAB_NOCOLORING: "true"
+ #     - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+ #    trigger: pull_request
 
 schedules:
  - name: integration_schedule
