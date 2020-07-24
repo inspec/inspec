@@ -118,7 +118,7 @@ merge_actions:
  - bash:.expeditor/update_version.sh:
     post_commit: true
     only_if: built_in:bump_version
- # - built_in:update_changelog:
+ # - built_in:update_changelog: OFFENDER
  #    ignore_labels:
  #     - "Expeditor: Skip All"
  #     - "Expeditor: Skip Changelog"
