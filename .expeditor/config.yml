@@ -132,11 +132,11 @@ merge_actions:
  #    ignore_labels:
  #     - "Expeditor: Skip Habitat"
  #     - "Expeditor: Skip All"
- # - trigger_pipeline:omnibus/release: OFFENDER
- #    only_if: built_in:bump_version
- #    ignore_labels:
- #     - "Expeditor: Skip Omnibus"
- #     - "Expeditor: Skip All"
+ - trigger_pipeline:omnibus/release: OFFENDER
+    only_if: built_in:bump_version
+    ignore_labels:
+     - "Expeditor: Skip Omnibus"
+     - "Expeditor: Skip All"
  - trigger_pipeline:habitat/build:
     only_if: built_in:bump_version
     ignore_labels:
@@ -156,7 +156,6 @@ subscriptions:
    actions:
     # - built_in:tag_docker_image No longer exists
     - built_in:promote_habitat_packages
- # OFFENDER
  - workload: artifact_published:stable:inspec:{{version_constraint}}
    actions:
     - bash:.expeditor/update_dockerfile.sh
