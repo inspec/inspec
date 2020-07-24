@@ -142,9 +142,9 @@ merge_actions:
     ignore_labels:
      - "Expeditor: Skip Habitat"
      - "Expeditor: Skip All"
- # - built_in:build_gem:
- #    only_if:
- #     - built_in:bump_version
+ - built_in:build_gem:
+    only_if:
+     - built_in:bump_version
 
 subscriptions:
  - workload: artifact_published:unstable:inspec:{{version_constraint}}
