@@ -156,7 +156,6 @@ subscriptions:
    actions:
     - built_in:tag_docker_image
     - built_in:promote_habitat_packages
- # ALSO OFFENDER
  - workload: artifact_published:stable:inspec:{{version_constraint}}
    actions:
     - bash:.expeditor/update_dockerfile.sh
