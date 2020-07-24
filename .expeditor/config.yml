@@ -116,7 +116,6 @@ merge_actions:
      - "*.gemspec"
      - "*.md"
  - bash:.expeditor/update_version.sh:
-    post_commit: true
     only_if: built_in:bump_version
  # - built_in:update_changelog: # OFFENDER
  #    ignore_labels:
