@@ -97,24 +97,24 @@ changelog:
   - "Type: Bug": "Bug Fixes"
 
 merge_actions:
- # - built_in:bump_version:
- #    ignore_labels:
- #     - "Expeditor: Skip All"
- #     - "Expeditor: Skip Version Bump"
- #    only_if_modified:
- #     - docs/*
- #     - etc/*
- #     - habitat/*
- #     - inspec-bin/*
- #     - lib/*
- #     - omnibus/*
- #     - support/*
- #     - tasks/*
- #     - test/*
- #     - Gemfile*
- #     - LICENSE
- #     - "*.gemspec"
- #     - "*.md"
+ - built_in:bump_version:
+    ignore_labels:
+     - "Expeditor: Skip All"
+     - "Expeditor: Skip Version Bump"
+    only_if_modified:
+     - docs/*
+     - etc/*
+     - habitat/*
+     - inspec-bin/*
+     - lib/*
+     - omnibus/*
+     - support/*
+     - tasks/*
+     - test/*
+     - Gemfile*
+     - LICENSE
+     - "*.gemspec"
+     - "*.md"
  # - bash:.expeditor/update_version.sh:
  #    post_commit: true
  #    only_if: built_in:bump_version
