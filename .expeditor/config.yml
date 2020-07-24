@@ -156,21 +156,22 @@ subscriptions:
    actions:
     - built_in:tag_docker_image
     - built_in:promote_habitat_packages
- - workload: artifact_published:stable:inspec:{{version_constraint}}
-   actions:
-    - bash:.expeditor/update_dockerfile.sh
-    - built_in:rollover_changelog
-    - built_in:publish_rubygems
-    - built_in:create_github_release
-    - built_in:tag_docker_image
-    - built_in:promote_habitat_packages
-    - bash:.expeditor/publish-release-notes.sh:
-       post_commit: true
-    - bash:.expeditor/purge-cdn.sh:
-       post_commit: true
-    - bash:.expeditor/announce-release.sh:
-       post_commit: true
-    - built_in:notify_chefio_slack_channels
+ # OFFENDER
+ # - workload: artifact_published:stable:inspec:{{version_constraint}}
+ #   actions:
+ #    - bash:.expeditor/update_dockerfile.sh
+ #    - built_in:rollover_changelog
+ #    - built_in:publish_rubygems
+ #    - built_in:create_github_release
+ #    - built_in:tag_docker_image
+ #    - built_in:promote_habitat_packages
+ #    - bash:.expeditor/publish-release-notes.sh:
+ #       post_commit: true
+ #    - bash:.expeditor/purge-cdn.sh:
+ #       post_commit: true
+ #    - bash:.expeditor/announce-release.sh:
+ #       post_commit: true
+ #    - built_in:notify_chefio_slack_channels
 # This seems to be the offender. let's fix it!
  # - workload: pull_request_opened:{{agent_id}}:*
  #   actions:
