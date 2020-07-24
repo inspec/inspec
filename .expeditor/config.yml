@@ -122,19 +122,17 @@ merge_actions:
     ignore_labels:
      - "Expeditor: Skip All"
      - "Expeditor: Skip Changelog"
- - trigger_pipeline:omnibus/adhoc:
-    not_if: built_in:bump_version
-    ignore_labels:
-     - "Expeditor: Skip Omnibus"
-     - "Expeditor: Skip All"
- # OFFENDER
- # - trigger_pipeline:artifact/habitat:
+ # - trigger_pipeline:omnibus/adhoc:
+ #    not_if: built_in:bump_version
+ #    ignore_labels:
+ #     - "Expeditor: Skip Omnibus"
+ #     - "Expeditor: Skip All"
+ # - trigger_pipeline:artifact/habitat: OFFENDER
  #    only_if: built_in:bump_version
  #    ignore_labels:
  #     - "Expeditor: Skip Habitat"
  #     - "Expeditor: Skip All"
- # OFFENDER
- # - trigger_pipeline:omnibus/release:
+ # - trigger_pipeline:omnibus/release: OFFENDER
  #    only_if: built_in:bump_version
  #    ignore_labels:
  #     - "Expeditor: Skip Omnibus"
