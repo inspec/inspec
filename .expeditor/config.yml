@@ -115,13 +115,13 @@ merge_actions:
      - LICENSE
      - "*.gemspec"
      - "*.md"
- - bash:.expeditor/update_version.sh:
-    post_commit: true
-    only_if: built_in:bump_version
- - built_in:update_changelog:
-    ignore_labels:
-     - "Expeditor: Skip All"
-     - "Expeditor: Skip Changelog"
+ # - bash:.expeditor/update_version.sh:
+ #    post_commit: true
+ #    only_if: built_in:bump_version
+ # - built_in:update_changelog:
+ #    ignore_labels:
+ #     - "Expeditor: Skip All"
+ #     - "Expeditor: Skip Changelog"
  # - trigger_pipeline:omnibus/adhoc:
  #    not_if: built_in:bump_version
  #    ignore_labels:
