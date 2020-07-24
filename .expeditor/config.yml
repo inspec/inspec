@@ -153,7 +153,7 @@ subscriptions:
        post_commit: true
  - workload: artifact_published:current:inspec:{{version_constraint}}
    actions:
-    - built_in:tag_docker_image
+    # - built_in:tag_docker_image No longer exists
     - built_in:promote_habitat_packages
  - workload: artifact_published:stable:inspec:{{version_constraint}}
    actions:
@@ -161,7 +161,7 @@ subscriptions:
     - built_in:rollover_changelog
     - built_in:publish_rubygems
     - built_in:create_github_release
-    - built_in:tag_docker_image
+    # - built_in:tag_docker_image No longer exists
     - built_in:promote_habitat_packages
     - bash:.expeditor/publish-release-notes.sh:
        post_commit: true
