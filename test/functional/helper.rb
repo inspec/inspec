@@ -9,6 +9,8 @@ class Module
   include Minitest::Spec::DSL
 end
 
+# Innocuous
+
 module FunctionalHelper
   extend Minitest::Spec::DSL
   extend Minitest::Guard
