@@ -1,3 +1,5 @@
+# Force check again
+
 module Inspec::Reporters
   class Base
     attr_reader :run_data
