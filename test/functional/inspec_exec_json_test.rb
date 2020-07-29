@@ -299,6 +299,16 @@ describe "inspec exec with json formatter" do
     end
   end
 
+  describe "JSON reporter with reporter-message-truncation set to a number and working message" do
+    let(:raw) { inspec("exec " + failure_control + " --reporter json --reporter-message-truncation=10000 --no-create-lockfile").stdout }
+    let(:json) { JSON.load(raw) }
+    let(:profile) { json["profiles"][0] }
+    let(:control_with_message) { profile["controls"].find { |c| c["id"] == "Generates a message" } }
+    it "does not report a truncated message" do
+      assert !control_with_message["results"].first["message"].include?("Truncated")
+    end
+  end
+
   describe "JSON reporter with reporter-message-truncation set to ALL" do
     let(:raw) { inspec("exec " + failure_control + " --reporter json --reporter-message-truncation=ALL --no-create-lockfile").stdout }
     let(:json) { JSON.load(raw) }
