@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.22.3 -->
-## [v4.22.3](https://github.com/inspec/inspec/tree/v4.22.3) (2020-07-29)
+<!-- latest_release 4.22.4 -->
+## [v4.22.4](https://github.com/inspec/inspec/tree/v4.22.4) (2020-07-29)
 
 #### Merged Pull Requests
-- Fix freebsd osfamily user group tests [#5123](https://github.com/inspec/inspec/pull/5123) ([fzipi](https://github.com/fzipi))
+- Ensure truncate message only returns on truncated values [#5165](https://github.com/inspec/inspec/pull/5165) ([Schwad](https://github.com/Schwad))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.22.1 -->
 ### Changes since 4.22.1 release
 
 #### Merged Pull Requests
+- Ensure truncate message only returns on truncated values [#5165](https://github.com/inspec/inspec/pull/5165) ([Schwad](https://github.com/Schwad)) <!-- 4.22.4 -->
 - Fix freebsd osfamily user group tests [#5123](https://github.com/inspec/inspec/pull/5123) ([fzipi](https://github.com/fzipi)) <!-- 4.22.3 -->
 - feat(sensitive): add sensitive output to mysql and postgres sessions [#5124](https://github.com/inspec/inspec/pull/5124) ([fzipi](https://github.com/fzipi)) <!-- 4.22.2 -->
 <!-- release_rollup -->
