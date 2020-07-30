@@ -17,7 +17,7 @@ error_exit()
 
 is_darwin()
 {
-  uname -v | grep "^Darwin" 2>&1 >/dev/null
+  uname -a | grep "^Darwin" 2>&1 >/dev/null
 }
 
 if is_darwin; then
@@ -41,6 +41,6 @@ done
 # be manually fixed.
 chown -Rh 0:0 $INSTALLER_DIR
 
-echo "Thank you for installing InSpec!"
+echo "Thank you for installing Chef InSpec!"
 
 exit 0
