@@ -39,7 +39,7 @@ A `passwd` resource block declares one (or more) users and associated user infor
       its('users') { should_not include 'forbidden_user' }
     end
 
-    describe passwd.uid(filter) do
+    describe passwd.uids(filter) do
       its('users') { should cmp 'root' }
       its('count') { should eq 1 }
     end
