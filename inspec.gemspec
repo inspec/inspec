@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "train", "~> 3.0"
 
   # Used for Azure profile until integrated into train
-  spec.add_dependency "faraday_middleware", "~> 0.12.2"
+  spec.add_dependency "faraday_middleware", ">= 0.12.2", "< 1.1"
 
   # Train plugins we ship with InSpec
   spec.add_dependency "train-habitat", "~> 0.1"
