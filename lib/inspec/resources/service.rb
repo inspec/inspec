@@ -141,7 +141,7 @@ module Inspec::Resources
         elsif version > 0
           SysV.new(inspec, service_ctl || "/usr/sbin/service")
         end
-      when "redhat", "fedora", "centos", "oracle", "cloudlinux"
+      when "redhat", "fedora", "centos", "oracle", "cloudlinux", "scientific"
         version = os[:release].to_i
 
         systemd = ((platform != "fedora" && version >= 7) ||
