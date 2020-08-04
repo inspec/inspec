@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.22.5 -->
-## [v4.22.5](https://github.com/inspec/inspec/tree/v4.22.5) (2020-08-04)
+<!-- latest_release 4.22.6 -->
+## [v4.22.6](https://github.com/inspec/inspec/tree/v4.22.6) (2020-08-04)
 
 #### Merged Pull Requests
-- Move windows bomb forward pre-emptively [#5176](https://github.com/inspec/inspec/pull/5176) ([Schwad](https://github.com/Schwad))
+- Fix missing docs content [#5159](https://github.com/inspec/inspec/pull/5159) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.22.1 -->
 ### Changes since 4.22.1 release
 
 #### Merged Pull Requests
+- Fix missing docs content [#5159](https://github.com/inspec/inspec/pull/5159) ([IanMadd](https://github.com/IanMadd)) <!-- 4.22.6 -->
 - Move windows bomb forward pre-emptively [#5176](https://github.com/inspec/inspec/pull/5176) ([Schwad](https://github.com/Schwad)) <!-- 4.22.5 -->
 - Ensure truncate message only returns on truncated values [#5165](https://github.com/inspec/inspec/pull/5165) ([Schwad](https://github.com/Schwad)) <!-- 4.22.4 -->
 - Fix freebsd osfamily user group tests [#5123](https://github.com/inspec/inspec/pull/5123) ([fzipi](https://github.com/fzipi)) <!-- 4.22.3 -->
