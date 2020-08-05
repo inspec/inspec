@@ -1,32 +1,29 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.22.8 -->
-## [v4.22.8](https://github.com/inspec/inspec/tree/v4.22.8) (2020-08-04)
-
-#### Merged Pull Requests
-- Supports Scientific Linux in service resource [#5164](https://github.com/inspec/inspec/pull/5164) ([Schwad](https://github.com/Schwad))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.22.1 -->
-### Changes since 4.22.1 release
-
-#### Merged Pull Requests
-- Supports Scientific Linux in service resource [#5164](https://github.com/inspec/inspec/pull/5164) ([Schwad](https://github.com/Schwad)) <!-- 4.22.8 -->
-- fix error in passwd example [#5171](https://github.com/inspec/inspec/pull/5171) ([chrisbirster](https://github.com/chrisbirster)) <!-- 4.22.7 -->
-- Fix missing docs content [#5159](https://github.com/inspec/inspec/pull/5159) ([IanMadd](https://github.com/IanMadd)) <!-- 4.22.6 -->
-- Move windows bomb forward pre-emptively [#5176](https://github.com/inspec/inspec/pull/5176) ([Schwad](https://github.com/Schwad)) <!-- 4.22.5 -->
-- Ensure truncate message only returns on truncated values [#5165](https://github.com/inspec/inspec/pull/5165) ([Schwad](https://github.com/Schwad)) <!-- 4.22.4 -->
-- Fix freebsd osfamily user group tests [#5123](https://github.com/inspec/inspec/pull/5123) ([fzipi](https://github.com/fzipi)) <!-- 4.22.3 -->
-- feat(sensitive): add sensitive output to mysql and postgres sessions [#5124](https://github.com/inspec/inspec/pull/5124) ([fzipi](https://github.com/fzipi)) <!-- 4.22.2 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.22.8](https://github.com/inspec/inspec/tree/v4.22.8) (2020-08-05)
+
+#### Merged Pull Requests
+- feat(sensitive): add sensitive output to mysql and postgres sessions [#5124](https://github.com/inspec/inspec/pull/5124) ([fzipi](https://github.com/fzipi))
+- Fix freebsd osfamily user group tests [#5123](https://github.com/inspec/inspec/pull/5123) ([fzipi](https://github.com/fzipi))
+- Ensure truncate message only returns on truncated values [#5165](https://github.com/inspec/inspec/pull/5165) ([Schwad](https://github.com/Schwad))
+- Move windows bomb forward pre-emptively [#5176](https://github.com/inspec/inspec/pull/5176) ([Schwad](https://github.com/Schwad))
+- Fix missing docs content [#5159](https://github.com/inspec/inspec/pull/5159) ([IanMadd](https://github.com/IanMadd))
+- fix error in passwd example [#5171](https://github.com/inspec/inspec/pull/5171) ([chrisbirster](https://github.com/chrisbirster))
+- Supports Scientific Linux in service resource [#5164](https://github.com/inspec/inspec/pull/5164) ([Schwad](https://github.com/Schwad))
+<!-- latest_stable_release -->
+
 ## [v4.22.1](https://github.com/inspec/inspec/tree/v4.22.1) (2020-07-21)
 
 #### Merged Pull Requests
 - Temporary comment out to get expeditor build to complete [#5150](https://github.com/inspec/inspec/pull/5150) ([Schwad](https://github.com/Schwad))
 - Habitat should not expand $PATH at buildtime [#5148](https://github.com/inspec/inspec/pull/5148) ([james-stocks](https://github.com/james-stocks))
-<!-- latest_stable_release -->
 
 ## [v4.22.0](https://github.com/inspec/inspec/tree/v4.22.0) (2020-07-17)
 
