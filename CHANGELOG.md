@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- We require version bumps for expeditor to be read against master [#5187](https://github.com/inspec/inspec/pull/5187) ([Schwad](https://github.com/Schwad))
 - Try to force expeditor cooperation [#5186](https://github.com/inspec/inspec/pull/5186) ([Schwad](https://github.com/Schwad))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.22.8 release
 
 #### Merged Pull Requests
+- We require version bumps for expeditor to be read against master [#5187](https://github.com/inspec/inspec/pull/5187) ([Schwad](https://github.com/Schwad)) <!-- 4.22.8 -->
 - Try to force expeditor cooperation [#5186](https://github.com/inspec/inspec/pull/5186) ([Schwad](https://github.com/Schwad)) <!-- 4.22.8 -->
 <!-- release_rollup -->
 
