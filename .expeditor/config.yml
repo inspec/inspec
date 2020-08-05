@@ -102,6 +102,7 @@ merge_actions:
      - "Expeditor: Skip All"
      - "Expeditor: Skip Version Bump"
     only_if_modified:
+     - .expeditor/*
      - docs/*
      - etc/*
      - habitat/*
