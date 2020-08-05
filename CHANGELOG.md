@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Try to force expeditor cooperation [#5186](https://github.com/inspec/inspec/pull/5186) ([Schwad](https://github.com/Schwad))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.22.8 -->
+### Changes since 4.22.8 release
+
+#### Merged Pull Requests
+- Try to force expeditor cooperation [#5186](https://github.com/inspec/inspec/pull/5186) ([Schwad](https://github.com/Schwad)) <!-- 4.22.8 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
