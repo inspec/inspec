@@ -158,15 +158,15 @@ subscriptions:
     - built_in:promote_habitat_packages
  - workload: artifact_published:stable:inspec:{{version_constraint}}
    actions:
-    # - bash:.expeditor/update_dockerfile.sh
-    # - built_in:rollover_changelog
-    # - built_in:publish_rubygems
-    # - built_in:create_github_release
-    # # - built_in:tag_docker_image No longer exists #
-    # - built_in:promote_habitat_packages
-    # - bash:.expeditor/publish-release-notes.sh:
-    #    post_commit: true
-    - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest
+    - bash:.expeditor/update_dockerfile.sh
+    - built_in:rollover_changelog
+    - built_in:publish_rubygems
+    - built_in:create_github_release
+    # - built_in:tag_docker_image No longer exists
+    - built_in:promote_habitat_packages
+    - bash:.expeditor/publish-release-notes.sh:
+       post_commit: true
+    - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
        post_commit: true
     - bash:.expeditor/announce-release.sh:
        post_commit: true
