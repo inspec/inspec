@@ -1,18 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.22.9 -->
-## [v4.22.9](https://github.com/inspec/inspec/tree/v4.22.9) (2020-08-05)
+<!-- latest_release 4.22.10 -->
+## [v4.22.10](https://github.com/inspec/inspec/tree/v4.22.10) (2020-08-07)
 
 #### Merged Pull Requests
-- Enforced bump. Fully allow this to build before merge. [#5188](https://github.com/inspec/inspec/pull/5188) ([Schwad](https://github.com/Schwad))
-- We require version bumps for expeditor to be read against master [#5187](https://github.com/inspec/inspec/pull/5187) ([Schwad](https://github.com/Schwad))
-- Try to force expeditor cooperation [#5186](https://github.com/inspec/inspec/pull/5186) ([Schwad](https://github.com/Schwad))
+- Convert JUnit Reporter to a Plugin [#5084](https://github.com/inspec/inspec/pull/5084) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.22.8 -->
 ### Changes since 4.22.8 release
 
 #### Merged Pull Requests
+- Convert JUnit Reporter to a Plugin [#5084](https://github.com/inspec/inspec/pull/5084) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.22.10 -->
 - Enforced bump. Fully allow this to build before merge. [#5188](https://github.com/inspec/inspec/pull/5188) ([Schwad](https://github.com/Schwad)) <!-- 4.22.9 -->
 - We require version bumps for expeditor to be read against master [#5187](https://github.com/inspec/inspec/pull/5187) ([Schwad](https://github.com/Schwad)) <!-- 4.22.8 -->
 - Try to force expeditor cooperation [#5186](https://github.com/inspec/inspec/pull/5186) ([Schwad](https://github.com/Schwad)) <!-- 4.22.8 -->
