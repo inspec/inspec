@@ -2,7 +2,6 @@ require "inspec/reporters/base"
 require "inspec/reporters/cli"
 require "inspec/reporters/json"
 require "inspec/reporters/json_automate"
-require "inspec/reporters/junit"
 require "inspec/reporters/automate"
 require "inspec/reporters/yaml"
 
@@ -20,8 +19,6 @@ module Inspec::Reporters
     # right to introduce breaking changes to this reporter at any time.
     when "json-automate"
       reporter = Inspec::Reporters::JsonAutomate.new(config)
-    when "junit"
-      reporter = Inspec::Reporters::Junit.new(config)
     when "automate"
       reporter = Inspec::Reporters::Automate.new(config)
     when "yaml"
