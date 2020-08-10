@@ -68,6 +68,7 @@ module Inspec
       # Optionally sort controls within each profile in report
       def sort_controls
         sort_type = @config[:runtime_config][:sort_results_by]
+        return unless sort_type
         return if sort_type == "none"
 
         @run_data[:profiles]&.each do |p|
