@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.22.10 -->
-## [v4.22.10](https://github.com/inspec/inspec/tree/v4.22.10) (2020-08-07)
+<!-- latest_release 4.22.11 -->
+## [v4.22.11](https://github.com/inspec/inspec/tree/v4.22.11) (2020-08-10)
 
 #### Merged Pull Requests
-- Convert JUnit Reporter to a Plugin [#5084](https://github.com/inspec/inspec/pull/5084) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add new windows_firewall and windows_firewall_rule resources [#4979](https://github.com/inspec/inspec/pull/4979) ([tecracer-theinen](https://github.com/tecracer-theinen))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.22.8 -->
 ### Changes since 4.22.8 release
 
 #### Merged Pull Requests
+- Add new windows_firewall and windows_firewall_rule resources [#4979](https://github.com/inspec/inspec/pull/4979) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.22.11 -->
 - Convert JUnit Reporter to a Plugin [#5084](https://github.com/inspec/inspec/pull/5084) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.22.10 -->
 - Enforced bump. Fully allow this to build before merge. [#5188](https://github.com/inspec/inspec/pull/5188) ([Schwad](https://github.com/Schwad)) <!-- 4.22.9 -->
 - We require version bumps for expeditor to be read against master [#5187](https://github.com/inspec/inspec/pull/5187) ([Schwad](https://github.com/Schwad)) <!-- 4.22.8 -->
