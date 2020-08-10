@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.22.11 -->
-## [v4.22.11](https://github.com/inspec/inspec/tree/v4.22.11) (2020-08-10)
+<!-- latest_release 4.22.12 -->
+## [v4.22.12](https://github.com/inspec/inspec/tree/v4.22.12) (2020-08-10)
 
 #### Merged Pull Requests
-- Add new windows_firewall and windows_firewall_rule resources [#4979](https://github.com/inspec/inspec/pull/4979) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- Ensure Darwin is always detected in the install scripts [#5175](https://github.com/inspec/inspec/pull/5175) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.22.8 -->
 ### Changes since 4.22.8 release
 
 #### Merged Pull Requests
+- Ensure Darwin is always detected in the install scripts [#5175](https://github.com/inspec/inspec/pull/5175) ([tas50](https://github.com/tas50)) <!-- 4.22.12 -->
 - Add new windows_firewall and windows_firewall_rule resources [#4979](https://github.com/inspec/inspec/pull/4979) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.22.11 -->
 - Convert JUnit Reporter to a Plugin [#5084](https://github.com/inspec/inspec/pull/5084) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.22.10 -->
 - Enforced bump. Fully allow this to build before merge. [#5188](https://github.com/inspec/inspec/pull/5188) ([Schwad](https://github.com/Schwad)) <!-- 4.22.9 -->
