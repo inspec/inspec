@@ -27,10 +27,13 @@ Gem::Specification.new do |spec|
   spec.add_dependency "train", "~> 3.0"
 
   # Used for Azure profile until integrated into train
+  spec.add_dependency "dotenv", "~> 2.7.6"
+  spec.add_dependency "facets", "~> 3.1.0"
   spec.add_dependency "faraday_middleware", "~> 0.12.2"
+  spec.add_dependency "ipaddr", "~> 1.2"
 
   # Train plugins we ship with InSpec
-  spec.add_dependency "train-habitat", "~> 0.1"
   spec.add_dependency "train-aws",     "~> 0.1"
+  spec.add_dependency "train-habitat", "~> 0.1"
   spec.add_dependency "train-winrm",   "~> 0.2"
 end
