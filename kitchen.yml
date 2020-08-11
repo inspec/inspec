@@ -1,7 +1,7 @@
 ---
 driver:
   name: dokken
-  chef_version: 14.12.9
+  chef_version: :latest
   privileged: true # because Docker and SystemD/Upstart
 
 transport:
@@ -97,22 +97,11 @@ suites:
 - name: resources-core
   run_list:
   - recipe[os_prepare]
-  - recipe[audit]
   verifier:
     inspec_tests:
-      - test/kitchen/policies/resources-core
+      # TODO - split these out into core, database, unix, and windows resources
+      - test/kitchen/policies/default
   attributes:
-    audit:
-      attributes:
-        audit_attribute: 'Attribute Override!'
-      insecure: true
-      reporter: ['json-file','chef-automate']
-      fetcher: 'chef-automate'
-      json_file:
-        location: /tmp/json_export.json
-      profiles:
-        - name: integration
-          url: https://github.com/inspec/inspec-integration-profile/archive/master.zip
     osprepare:
       docker: true
       application: false
