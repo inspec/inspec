@@ -117,6 +117,10 @@ suites:
       docker: true
       application: false
 
-- name: resources-database
-- name: resources-unix
-- name: resources-windows
+# These are planned for the future
+# Suites which exercise resources that exercise databases
+# - name: resources-database
+# Unix-only resources
+# - name: resources-unix
+# Windows-only resources
+# - name: resources-windows
