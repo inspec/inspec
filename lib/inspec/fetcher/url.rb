@@ -1,6 +1,6 @@
-require "uri"
-require "openssl"
-require "tempfile"
+require "uri" unless defined?(URI)
+require "openssl" unless defined?(OpenSSL)
+require "tempfile" unless defined?(Tempfile)
 require "open-uri"
 
 module Inspec::Fetcher

@@ -1,4 +1,4 @@
-require "yaml"
+require "yaml" unless defined?(YAML)
 
 module Secrets
   class YAML < Inspec.secrets(1)

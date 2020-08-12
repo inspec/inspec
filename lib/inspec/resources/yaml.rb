@@ -1,4 +1,4 @@
-require "yaml"
+require "yaml" unless defined?(YAML)
 require "inspec/resources/json"
 
 # Parses a yaml document

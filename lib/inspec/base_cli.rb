@@ -1,4 +1,4 @@
-require "thor"
+require "thor" unless defined?(Thor)
 require "inspec/log"
 require "inspec/ui"
 require "inspec/config"

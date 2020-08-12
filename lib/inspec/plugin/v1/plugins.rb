@@ -1,4 +1,4 @@
-require "forwardable"
+require "forwardable" unless defined?(Forwardable)
 
 module Inspec
   # Resource Plugins

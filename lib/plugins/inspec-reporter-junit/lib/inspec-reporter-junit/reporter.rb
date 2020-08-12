@@ -5,7 +5,7 @@ module InspecPlugins::JUnitReporter
     end
 
     def render
-      require "rexml/document"
+      require "rexml/document" unless defined?(REXML::Document)
       xml_output = REXML::Document.new
       xml_output.add(REXML::XMLDecl.new)
 

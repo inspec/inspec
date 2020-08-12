@@ -1,4 +1,4 @@
-require "pathname"
+require "pathname" unless defined?(Pathname)
 require "inspec/plugin/v2"
 require "inspec/plugin/v2/installer"
 require "inspec/dist"

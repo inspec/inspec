@@ -1,7 +1,7 @@
 # copyright: 2015, Vulcano Security GmbH
 
 require "inspec/resources/command"
-require "shellwords"
+require "shellwords" unless defined?(Shellwords)
 
 module Inspec::Resources
   class Lines

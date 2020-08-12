@@ -1,4 +1,4 @@
-require "openssl"
+require "openssl" unless defined?(OpenSSL)
 require "hashie/mash"
 require "inspec/utils/file_reader"
 require "inspec/utils/pkey_reader"

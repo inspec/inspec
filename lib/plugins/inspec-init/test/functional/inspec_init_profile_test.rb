@@ -1,4 +1,4 @@
-require "yaml"
+require "yaml" unless defined?(YAML)
 require_relative "../../../shared/core_plugin_test_helper.rb"
 
 class InitCli < Minitest::Test

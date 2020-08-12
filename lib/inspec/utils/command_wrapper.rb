@@ -1,4 +1,4 @@
-require "shellwords"
+require "shellwords" unless defined?(Shellwords)
 
 class CommandWrapper
   UNIX_SHELLS = %w{sh bash zsh ksh}.freeze

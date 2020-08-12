@@ -1,6 +1,6 @@
-require "net/http"
+require "net/http" unless defined?(Net::HTTP)
 require "net/http/post/multipart"
-require "uri"
+require "uri" unless defined?(URI)
 
 module InspecPlugins
   module Compliance

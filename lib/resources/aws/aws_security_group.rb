@@ -1,5 +1,5 @@
-require "set"
-require "ipaddr"
+require "set" unless defined?(Set)
+require "ipaddr" unless defined?(IPAddr)
 
 require "resource_support/aws/aws_singular_resource_mixin"
 require "resource_support/aws/aws_backend_base"

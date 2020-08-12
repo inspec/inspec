@@ -1,4 +1,4 @@
-require "pathname"
+require "pathname" unless defined?(Pathname)
 require "hashie/mash"
 require "inspec/resources/command"
 

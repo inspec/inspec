@@ -1,4 +1,4 @@
-require "yaml"
+require "yaml" unless defined?(YAML)
 
 module Inspec
   class Lockfile

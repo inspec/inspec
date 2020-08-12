@@ -1,5 +1,5 @@
-require "etc"
-require "rbconfig"
+require "etc" unless defined?(Etc)
+require "rbconfig" unless defined?(RbConfig)
 
 module Inspec
   #
