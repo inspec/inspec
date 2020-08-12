@@ -1,6 +1,6 @@
-require "net/http"
+autoload :Net::HTTP
 require "net/http/post/multipart"
-require "uri"
+autoload :URI
 
 module InspecPlugins
   module Compliance

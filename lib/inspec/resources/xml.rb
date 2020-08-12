@@ -13,7 +13,7 @@ module Inspec::Resources
     EXAMPLE
 
     def parse(content)
-      require "rexml/document"
+      autoload :REXML::Document
       REXML::Document.new(content)
     rescue => e
       raise Inspec::Exceptions::ResourceFailed, "Unable to parse XML: #{e.message}"

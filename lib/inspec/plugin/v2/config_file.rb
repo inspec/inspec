@@ -1,4 +1,4 @@
-require "json"
+autoload :JSON
 
 module Inspec::Plugin::V2
   # Represents the plugin config file on disk.

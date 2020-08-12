@@ -1,4 +1,4 @@
-require "openssl"
+autoload :OpenSSL
 require "inspec/utils/file_reader"
 
 module Inspec::Resources

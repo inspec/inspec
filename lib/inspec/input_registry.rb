@@ -1,5 +1,5 @@
-require "forwardable"
-require "singleton"
+autoload :Forwardable
+autoload :Singleton
 require "inspec/input"
 require "inspec/secrets"
 require "inspec/exceptions"
@@ -189,12 +189,12 @@ module Inspec
         value = value.to_f
       when /^(\[|\{).*(\]|\})$/
         # Look for complex values and try to parse them.
-        require "yaml"
+        autoload :YAML
         begin
           value = YAML.load(value)
         rescue Psych::SyntaxError => yaml_error
           # It could be that we just tried to run JSON through the YAML parser.
-          require "json"
+          autoload :JSON
           begin
             value = JSON.parse(value)
           rescue JSON::ParserError => json_error

@@ -66,7 +66,7 @@ module Inspec::Resources
     private
 
     def parse(content)
-      require "json"
+      autoload :JSON
       JSON.parse(content)
     rescue => e
       raise Inspec::Exceptions::ResourceFailed, "Unable to parse JSON: #{e.message}"

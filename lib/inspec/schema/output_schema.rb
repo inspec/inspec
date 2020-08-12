@@ -1,4 +1,4 @@
-require "json"
+autoload :JSON
 require "inspec/schema/primitives"
 require "inspec/schema/exec_json"
 require "inspec/schema/exec_json_min"

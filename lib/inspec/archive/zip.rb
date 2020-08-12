@@ -1,6 +1,6 @@
-require "rubygems"
+autoload :Gem
 require "zip"
-require "pathname"
+autoload :Pathname
 
 module Inspec::Archive
   class ZipArchiveGenerator

@@ -1,4 +1,4 @@
-require "tomlrb"
+autoload :Tomlrb
 require "inspec/resources/json"
 
 module Inspec::Resources

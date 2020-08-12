@@ -1,4 +1,4 @@
-require "yaml"
+autoload :YAML
 require "inspec/resources/json"
 
 # Parses a yaml document

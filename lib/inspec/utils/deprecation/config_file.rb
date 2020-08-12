@@ -1,5 +1,5 @@
-require "stringio"
-require "json"
+autoload :StringIO
+autoload :JSON
 require "inspec/globals"
 require "inspec/config"
 

@@ -1,4 +1,4 @@
-require "json"
+autoload :JSON
 
 # a simple streaming json logger
 class Logger::JSONFormatter < Logger::Formatter

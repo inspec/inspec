@@ -1,4 +1,4 @@
-require "set"
+autoload :Set
 
 # These elements are shared between more than one output type
 

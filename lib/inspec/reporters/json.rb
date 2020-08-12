@@ -1,4 +1,4 @@
-require "json"
+autoload :JSON
 
 module Inspec::Reporters
   # rubocop:disable Layout/AlignHash, Style/BlockDelimiters

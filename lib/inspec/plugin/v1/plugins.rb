@@ -1,4 +1,4 @@
-require "forwardable"
+autoload :Forwardable
 
 module Inspec
   # Resource Plugins

@@ -1,9 +1,9 @@
 require "base64"
-require "openssl"
-require "pathname"
-require "set"
-require "tempfile"
-require "yaml"
+autoload :OpenSSL
+autoload :Pathname
+autoload :Set
+autoload :Tempfile
+autoload :YAML
 require "inspec/dist"
 require "inspec/utils/json_profile_summary"
 

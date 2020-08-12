@@ -1,4 +1,4 @@
-require "erb"
+autoload :Erb
 require "inspec/config"
 
 module InspecPlugins::Html2Reporter

@@ -1,5 +1,5 @@
 require "rubygems/package"
-require "pathname"
+autoload :Pathname
 require "zlib"
 require "zip"
 

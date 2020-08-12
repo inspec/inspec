@@ -1,4 +1,4 @@
-require "json"
+autoload :JSON
 
 module InspecPlugins::JsonMinReporter
   class Reporter < Inspec.plugin(2, :reporter)

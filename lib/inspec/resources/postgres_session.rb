@@ -1,6 +1,6 @@
 # copyright: 2015, Vulcano Security GmbH
 
-require "shellwords"
+autoload :Shellwords
 
 module Inspec::Resources
   class Lines

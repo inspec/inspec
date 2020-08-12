@@ -1,6 +1,6 @@
-require "uri"
-require "openssl"
-require "tempfile"
+autoload :URI
+autoload :OpenSSL
+autoload :Tempfile
 require "open-uri"
 
 module Inspec::Fetcher

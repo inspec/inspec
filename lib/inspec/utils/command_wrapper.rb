@@ -1,4 +1,4 @@
-require "shellwords"
+autoload :Shellwords
 
 class CommandWrapper
   UNIX_SHELLS = %w{sh bash zsh ksh}.freeze

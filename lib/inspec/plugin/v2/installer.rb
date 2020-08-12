@@ -1,9 +1,9 @@
 # This file is not required by default.
 
-require "singleton"
-require "forwardable"
-require "fileutils"
-require "uri"
+autoload :Singleton
+autoload :Forwardable
+autoload :FileUtils
+autoload :URI
 
 # Gem extensions for doing unusual things - not loaded by Gem default
 require "rubygems/package"

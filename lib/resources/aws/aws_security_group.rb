@@ -1,5 +1,5 @@
-require "set"
-require "ipaddr"
+autoload :Set
+autoload :IPAddr
 
 require "resource_support/aws/aws_singular_resource_mixin"
 require "resource_support/aws/aws_backend_base"

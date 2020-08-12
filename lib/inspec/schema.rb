@@ -1,4 +1,4 @@
-require "json"
+autoload :JSON
 
 module Inspec
   class Schema

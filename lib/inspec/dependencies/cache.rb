@@ -1,4 +1,4 @@
-require "fileutils"
+autoload :FileUtils
 
 module Inspec
   #

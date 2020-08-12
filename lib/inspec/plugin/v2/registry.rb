@@ -1,5 +1,5 @@
-require "forwardable"
-require "singleton"
+autoload :Forwardable
+autoload :Singleton
 require "train"
 
 require_relative "status"

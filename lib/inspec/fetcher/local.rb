@@ -1,4 +1,4 @@
-require "openssl"
+autoload :OpenSSL
 
 module Inspec::Fetcher
   class Local < Inspec.fetcher(1)

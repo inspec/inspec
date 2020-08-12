@@ -1,4 +1,4 @@
-require "pathname"
+autoload :Pathname
 require "hashie/mash"
 require "inspec/resources/command"
 

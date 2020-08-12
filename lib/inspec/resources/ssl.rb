@@ -1,8 +1,8 @@
 # copyright: 2015, Chef Software Inc.
 
-require "sslshake"
+autoload :SSLShake
 require "inspec/utils/filter"
-require "uri"
+autoload :URI
 require "parallel"
 
 # Custom resource based on the InSpec resource DSL

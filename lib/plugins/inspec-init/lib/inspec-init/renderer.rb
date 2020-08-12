@@ -1,5 +1,5 @@
-require "fileutils"
-require "erb"
+autoload :FileUtils
+autoload :Erb
 
 module InspecPlugins
   module Init

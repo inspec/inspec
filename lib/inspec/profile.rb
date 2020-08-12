@@ -1,8 +1,8 @@
 # Copyright 2015 Dominik Richter
 
-require "forwardable"
-require "openssl"
-require "pathname"
+autoload :Forwardable
+autoload :OpenSSL
+autoload :Pathname
 require "inspec/input_registry"
 require "inspec/cached_fetcher" # TODO: split or rename
 require "inspec/source_reader"

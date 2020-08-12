@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "net/http"
-require "addressable/uri"
+autoload :Net::HTTP
+autoload :Addressable::URI
 
 module Supermarket
   class API

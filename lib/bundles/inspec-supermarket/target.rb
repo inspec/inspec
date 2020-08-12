@@ -1,4 +1,4 @@
-require "uri"
+autoload :URI
 require "inspec/fetcher"
 require "inspec/fetcher/url"
 

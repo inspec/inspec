@@ -1,7 +1,7 @@
 require "inspec/profile_vendor"
-require "mixlib/shellout"
-require "tomlrb"
-require "ostruct"
+autoload :Mixlib::ShellOut
+autoload :Tomlrb
+autoload :OpenStruct
 require "inspec/dist"
 
 module InspecPlugins

@@ -1,5 +1,5 @@
-require "json"
-require "net/http"
+autoload :JSON
+autoload :Net::HTTP
 
 module Inspec::Reporters
   class Automate < JsonAutomate

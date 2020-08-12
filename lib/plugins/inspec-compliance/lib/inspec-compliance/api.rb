@@ -1,6 +1,6 @@
-require "net/http"
-require "uri"
-require "json"
+autoload :Net::HTTP
+autoload :URI
+autoload :JSON
 require "inspec/dist"
 
 require_relative "api/login"

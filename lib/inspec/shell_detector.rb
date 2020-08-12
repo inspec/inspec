@@ -1,5 +1,5 @@
-require "etc"
-require "rbconfig"
+autoload :Etc
+autoload :RbConfig
 
 module Inspec
   #

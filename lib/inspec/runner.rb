@@ -1,7 +1,7 @@
 # copyright: 2015, Dominik Richter
 
-require "forwardable"
-require "uri"
+autoload :Forwardable
+autoload :URI
 require "inspec/backend"
 require "inspec/profile_context"
 require "inspec/profile"

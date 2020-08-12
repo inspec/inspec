@@ -1,4 +1,4 @@
-require "pathname"
+autoload :Pathname
 require "inspec/plugin/v2"
 require "inspec/plugin/v2/installer"
 require "inspec/dist"

@@ -1,4 +1,4 @@
-require "pathname"
+autoload :Pathname
 require_relative "renderer"
 
 module InspecPlugins

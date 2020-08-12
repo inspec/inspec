@@ -1,10 +1,10 @@
 # Represents InSpec configuration.  Merges defaults, config file options,
 # and CLI arguments.
 
-require "pp"
-require "stringio"
-require "forwardable"
-require "thor"
+autoload :PP
+autoload :StringIO
+autoload :Forwardable
+autoload :Thor
 require "base64"
 require "inspec/plugin/v2/filter"
 

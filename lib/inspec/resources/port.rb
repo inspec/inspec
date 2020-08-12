@@ -1,6 +1,6 @@
 require "inspec/utils/parser"
 require "inspec/utils/filter"
-require "ipaddr"
+autoload :IPAddr
 
 # TODO: currently we return local ip only
 # TODO: improve handling of same port on multiple interfaces

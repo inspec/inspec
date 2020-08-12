@@ -1,4 +1,4 @@
-require "openssl"
+autoload :OpenSSL
 require "hashie/mash"
 require "inspec/utils/file_reader"
 

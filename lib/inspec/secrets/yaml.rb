@@ -1,4 +1,4 @@
-require "yaml"
+autoload :YAML
 
 module Secrets
   class YAML < Inspec.secrets(1)

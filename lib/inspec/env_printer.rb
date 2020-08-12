@@ -1,6 +1,6 @@
 require "inspec/shell_detector"
-require "erb"
-require "shellwords"
+autoload :Erb
+autoload :Shellwords
 
 module Inspec
   class EnvPrinter

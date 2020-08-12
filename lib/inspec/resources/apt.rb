@@ -24,7 +24,7 @@ require "inspec/resources/command"
 # apt-get install software-properties-common
 # add-apt-repository ppa:ubuntu-wine/ppa
 
-require "uri"
+autoload :URI
 
 module Inspec::Resources
   class AptRepository < Inspec.resource(1)

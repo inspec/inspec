@@ -1,4 +1,4 @@
-require "yaml"
+autoload :YAML
 
 module Inspec::Reporters
   class Yaml < Base
