@@ -14,11 +14,6 @@ lifecycle:
 
 provisioner:
   name: dokken
-  client_rb:
-    data_collector.server_url: <%= ENV['COLLECTOR_URL'] %>
-    data_collector.token: <%= ENV['COLLECTOR_TOKEN'] %>
-    ssl_verify_mode: :verify_none
-    verify_api_cert: false
 
 verifier:
   name: inspec
