@@ -60,7 +60,7 @@ module Inspec
       true
     end
 
-    def self.target_options # rubocop:disable MethodLength
+    def self.target_options # rubocop:disable Metrics/MethodLength
       option :target, aliases: :t, type: :string,
         desc: "Simple targeting option using URIs, e.g. ssh://user:pass@host:port"
       option :backend, aliases: :b, type: :string,

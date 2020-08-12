@@ -19,7 +19,7 @@ module Inspec::Resources
         @conf_path = File.join @conf_dir, "postgresql.conf"
       else
         @conf_path = nil
-        return skip_resource "Seems like PostgreSQL is not installed on your system"
+        skip_resource "Seems like PostgreSQL is not installed on your system"
       end
     end
 

@@ -49,14 +49,14 @@ module Inspec::Reporters
 
         res = http.request(req)
         if res.is_a?(Net::HTTPSuccess)
-          return true
+          true
         else
           Inspec::Log.error "send_report: POST to #{uri.path} returned: #{res.body}"
-          return false
+          false
         end
       rescue => e
         Inspec::Log.error "send_report: POST to #{uri.path} returned: #{e.message}"
-        return false
+        false
       end
     end
 

@@ -98,7 +98,7 @@ class AwsIamPolicy < Inspec.resource(1)
     else
       # But if there is one statement, it is permissable to degenerate the array,
       # and place the statement as a hash directly under the 'Statement' key
-      return 1
+      1
     end
   end
 

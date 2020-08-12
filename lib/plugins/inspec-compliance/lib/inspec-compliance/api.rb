@@ -22,7 +22,7 @@ module InspecPlugins
       # return all compliance profiles available for the user
       # the user is either specified in the options hash or by default
       # the username of the account is used that is logged in
-      def self.profiles(config, profile_filter = nil) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
+      def self.profiles(config, profile_filter = nil) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
         owner = config["owner"] || config["user"]
 
         # Chef Compliance
@@ -81,13 +81,13 @@ module InspecPlugins
           mapped_profiles.select! do |p|
             (!ver || p["version"] == ver) && (!id || p["name"] == id)
           end
-          return msg, mapped_profiles
+          [msg, mapped_profiles]
         when "401"
           msg = "401 Unauthorized. Please check your token."
-          return msg, []
+          [msg, []]
         else
           msg = "An unexpected error occurred (HTTP #{response_code}): #{response.message}"
-          return msg, []
+          [msg, []]
         end
       end
 
