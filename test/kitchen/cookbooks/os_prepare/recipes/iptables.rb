@@ -1,8 +1,10 @@
 if platform_family?("rhel", "debian", "fedora", "amazon", "suse")
-  package value_for_platform_family(
-    %w{centos oracle} => %w{iptables iptables-ipv6},
-    "default" => [ "iptables" ]
-  )
+  package "iptables"
+
+  if platform?("centos", "oracle")
+    package value_for_platform([ "centos", "oracle" ] => {"< 8" => "iptables-ipv6", ">= 8" => "iptables"})
+  end
+
   # IPv4
   execute "iptables -A INPUT -i eth0 -p tcp -m tcp "\
           "--dport 80 -m state --state NEW -m comment "\
