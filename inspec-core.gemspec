@@ -45,7 +45,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "semverse",           "~> 3.0"
   spec.add_dependency "htmlentities",       "~> 4.3" # TODO: remove when #4853 fixed
   spec.add_dependency "multipart-post",     "~> 2.0"
-  spec.add_dependency "term-ansicolor",     "~> 1.7"
 
   spec.add_dependency "train-core", "~> 3.0"
 end
