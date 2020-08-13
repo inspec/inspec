@@ -25,12 +25,13 @@ verifier:
 # Test against every supported target platform for which we have a dokken image.
 # If we don't have a dokken image, see kitchen.chef.yml for Vagrant-based testing.
 # Try to keep this list up to date!
+# Visit https://hub.docker.com/search and https://github.com/test-kitchen/dokken-images to search for new images
 platforms:
+
 - name: amazonlinux
   driver:
     image: dokken/amazonlinux
     pid_one_command: /sbin/init
-
 - name: amazonlinux-2
   driver:
     image: dokken/amazonlinux-2
@@ -40,10 +41,13 @@ platforms:
   driver:
     image: dokken/centos-6
     pid_one_command: /sbin/init
-
 - name: centos-7
   driver:
     image: dokken/centos-7
+    pid_one_command: /usr/lib/systemd/systemd
+- name: centos-8
+  driver:
+    image: dokken/centos-8
     pid_one_command: /usr/lib/systemd/systemd
 
 - name: debian-9
@@ -52,7 +56,6 @@ platforms:
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update -y
-
 - name: debian-10
   driver:
     image: dokken/debian-10
@@ -60,20 +63,30 @@ platforms:
     intermediate_instructions:
       - RUN /usr/bin/apt-get update -y
 
-- name: fedora-29
+- name: fedora-30
   driver:
-    image: dokken/fedora-29
+    image: dokken/fedora-30
+    pid_one_command: /usr/lib/systemd/systemd
+- name: fedora-31
+  driver:
+    image: dokken/fedora-31
     pid_one_command: /usr/lib/systemd/systemd
 
 - name: oraclelinux-6
   driver:
     image: dokken/oraclelinux-6
     pid_one_command: /sbin/init
-
 - name: oraclelinux-7
   driver:
     image: dokken/oraclelinux-7
     pid_one_command: /usr/lib/systemd/systemd
+# [2020-08-12T17:38:38+00:00] FATAL: RuntimeError: dnf_package[openssh-server] (ssh-hardening::server line 47) had an error: RuntimeError: dnf-helper.py had stderr output:
+# Errors during downloading metadata for repository 'ol8_baseos_latest':
+#   - Curl error (6): Couldn't resolve host name for https://yum$ociregion.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/repodata/repomd.xml [Could not resolve host: yum$ociregion.oracle.com]
+# - name: oraclelinux-8
+#   driver:
+#     image: dokken/oraclelinux-8
+#     pid_one_command: /usr/lib/systemd/systemd
 
 - name: opensuse-leap
   driver:
@@ -86,16 +99,21 @@ platforms:
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update -y
-
 - name: ubuntu-18.04
   driver:
     image: dokken/ubuntu-18.04
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update -y
+- name: ubuntu-20.04
+  driver:
+    image: dokken/ubuntu-20.04
+    pid_one_command: /bin/systemd
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update -y
 
 suites:
-- name: resources-core
+- name: resources
   run_list:
   - recipe[os_prepare]
   verifier:
