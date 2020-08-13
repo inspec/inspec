@@ -1,1 +1,20 @@
-#
+---
+expeditor:
+  defaults:
+    buildkite:
+      timeout_in_minutes: 45
+      retry:
+        automatic:
+          limit: 1
+
+steps:
+  - label: integration-test-kitchen
+    command:
+      - RAKE_TASK=test:integration /workdir/.expeditor/buildkite/verify.sh
+    expeditor:
+      executor:
+        docker:
+          environment:
+            - CONCURRENCY: 5
+            - DOCKER: 1
+          image: ruby:2.7
