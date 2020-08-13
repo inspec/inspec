@@ -292,7 +292,7 @@ class AwsSecurityGroup < Inspec.resource(1)
 
     @exists = true
     @description = dsg_response.security_groups[0].description
-    @group_id   = dsg_response.security_groups[0].group_id
+    @group_id = dsg_response.security_groups[0].group_id
     @group_name = dsg_response.security_groups[0].group_name
     @vpc_id     = dsg_response.security_groups[0].vpc_id
     @inbound_rules = dsg_response.security_groups[0].ip_permissions.map(&:to_h)

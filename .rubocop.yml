@@ -7,5 +7,5 @@ AllCops:
     - 'lib/plugins/inspec-init/templates/plugins/inspec-plugin-template/**/*'
     - 'examples/**/controls/*.rb'
     - 'vendor/bundle/**/*'
-Layout/AlignArguments:
+Layout/ArgumentAlignment:
   EnforcedStyle: with_first_argument

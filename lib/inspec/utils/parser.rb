@@ -84,7 +84,7 @@ module Inspec
         end
 
         # parse device and type
-        mount_options    = { device: mount[0], type: mount[4] }
+        mount_options = { device: mount[0], type: mount[4] }
 
         if compatibility == false
           # parse options as array

@@ -27,7 +27,7 @@ module Inspec::Resources
       elsif inspec.os.windows?
         @bridge_provider = WindowsBridge.new(inspec)
       else
-        return skip_resource "The `bridge` resource is not supported on your OS yet."
+        skip_resource "The `bridge` resource is not supported on your OS yet."
       end
     end
 

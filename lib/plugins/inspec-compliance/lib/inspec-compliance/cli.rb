@@ -126,7 +126,7 @@ module InspecPlugins
         desc: "Overwrite existing profile on Server."
       option :owner, type: :string, required: false,
         desc: "Owner that should own the profile"
-      def upload(path) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, PerceivedComplexity, Metrics/CyclomaticComplexity
+      def upload(path) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
         config = InspecPlugins::Compliance::Configuration.new
         return unless loggedin(config)
 
