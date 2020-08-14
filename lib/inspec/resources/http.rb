@@ -115,15 +115,15 @@ module Inspec::Resources
         def ssl_verify?
           opts.fetch(:ssl_verify, true)
         end
-        
+
         def ssl_client_cert?
           opts.fetch(:ssl_client_cert, nil)
         end
-        
+
         def ssl_client_key?
           opts.fetch(:ssl_client_key, nil)
         end
-        
+
         def ssl_client_cacert?
           opts.fetch(:ssl_client_cacert, nil)
         end
