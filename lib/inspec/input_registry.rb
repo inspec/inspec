@@ -29,6 +29,8 @@ module Inspec
     def_delegator :inputs_by_profile, :select
     def_delegator :profile_aliases, :key?, :profile_alias?
 
+    attr_accessor :cache_inputs
+
     def initialize
       # Keyed on String profile_name => Hash of String input_name => Input object
       @inputs_by_profile = {}
@@ -43,6 +45,9 @@ module Inspec
         activator.activate!
         activator.implementation_class.new
       end
+
+      # Activate caching for inputs by default
+      @cache_inputs = true
     end
 
     #-------------------------------------------------------------#
@@ -84,7 +89,7 @@ module Inspec
 
       # Find or create the input
       inputs_by_profile[profile_name] ||= {}
-      if inputs_by_profile[profile_name].key?(input_name)
+      if inputs_by_profile[profile_name].key?(input_name) && cache_inputs
         inputs_by_profile[profile_name][input_name].update(options)
       else
         inputs_by_profile[profile_name][input_name] = Inspec::Input.new(input_name, options)
