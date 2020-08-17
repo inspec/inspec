@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.22.15 -->
-## [v4.22.15](https://github.com/inspec/inspec/tree/v4.22.15) (2020-08-13)
+<!-- latest_release 4.22.16 -->
+## [v4.22.16](https://github.com/inspec/inspec/tree/v4.22.16) (2020-08-17)
 
 #### Merged Pull Requests
-- Remove htmlentities dependency [#5203](https://github.com/inspec/inspec/pull/5203) ([tas50](https://github.com/tas50))
+- Don&#39;t ship the readme in the gem [#5202](https://github.com/inspec/inspec/pull/5202) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.22.8 -->
 ### Changes since 4.22.8 release
 
 #### Merged Pull Requests
+- Don&#39;t ship the readme in the gem [#5202](https://github.com/inspec/inspec/pull/5202) ([tas50](https://github.com/tas50)) <!-- 4.22.16 -->
 - Remove htmlentities dependency [#5203](https://github.com/inspec/inspec/pull/5203) ([tas50](https://github.com/tas50)) <!-- 4.22.15 -->
 - Remove unused term-ansicolor [#5201](https://github.com/inspec/inspec/pull/5201) ([tas50](https://github.com/tas50)) <!-- 4.22.14 -->
 - Update to Chefstyle 1.2.1 [#5196](https://github.com/inspec/inspec/pull/5196) ([tas50](https://github.com/tas50)) <!-- 4.22.13 -->
