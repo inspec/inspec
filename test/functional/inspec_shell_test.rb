@@ -9,6 +9,9 @@ describe "inspec shell tests" do
     def assert_shell_c(code, exit_status, json = false, stderr = "")
       json_suffix = " --reporter 'json'" if json
       command = "shell -c '#{code.tr("'", '\\\'')}'#{json_suffix}"
+      # On darwin this value is:
+      # shell -c 'describe file(\"/Users/nickschwaderer/Documents/inspec/inspec/test/functional/inspec_shell_test.rb\") do it { should exist } end' --reporter 'json'"
+      # appears to break in windows.
       out = inspec(command)
 
       actual = out.stderr.gsub(/\e\[(\d+)(;\d+)*m/, "") # strip ANSI color codes
@@ -95,6 +98,25 @@ describe "inspec shell tests" do
 
     it "runs anonymous tests that succeed (json output)" do
       skip_windows! # Breakage confirmed
+      # All skip_windows breakages have this output:
+      # Expected: ""
+      # C:/Users/some/path/inspec/inspec/lib/inspec/profile_context.rb:168:in `instance_eval': (eval):1: syntax error, unexpected tIDENTIFIER, expecting ')' (SyntaxError)
+      #   describe file(" "foo/bar/baz) do it { should exis...
+      #                    ^~~
+      #   (eval):1: syntax error, unexpected ')', expecting end-of-input
+      #   describe file(" "foo/bar/baz) do it { should exist } end
+      #                               ^
+      # from C:/Users/some/path/inspec/inspec/lib/inspec/profile_context.rb:168:in `load_with_context'
+      # from C:/Users/some/path/inspec/inspec/lib/inspec/profile_context.rb:154:in `load_control_file'
+      # from C:/Users/some/path/inspec/inspec/lib/inspec/runner.rb:250:in `eval_with_virtual_profile'
+      # from C:/Users/some/path/inspec/inspec/lib/inspec/cli.rb:400:in `run_command'
+      # from C:/Users/some/path/inspec/inspec/lib/inspec/cli.rb:339:in `shell_func'
+      # from C:/Ruby/lib/ruby/gems/2.6.0/gems/thor-1.0.1/lib/thor/command.rb:27:in `run'
+      # from C:/Ruby/lib/ruby/gems/2.6.0/gems/thor-1.0.1/lib/thor/invocation.rb:127:in `invoke_command'
+      # from C:/Ruby/lib/ruby/gems/2.6.0/gems/thor-1.0.1/lib/thor.rb:392:in `dispatch'
+      # from C:/Ruby/lib/ruby/gems/2.6.0/gems/thor-1.0.1/lib/thor/base.rb:485:in `start'
+      # from C:/Users/some/path/inspec/inspec/lib/inspec/base_cli.rb:35:in `start'
+      # from C:/Users/some/path/inspec/inspec/inspec-bin/bin/inspec:11:in `<main>'
       out = assert_shell_c("describe file(\"#{__FILE__}\") do it { should exist } end", 0, true)
       j = JSON.load(out.stdout)
       _(j.keys).must_include "version"

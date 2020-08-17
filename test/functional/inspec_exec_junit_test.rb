@@ -15,7 +15,6 @@ describe "inspec exec with junit formatter" do
 
     _(out.stderr).must_equal ""
 
-    skip_windows!
     assert_exit_code 0, out
   end
 
@@ -51,7 +50,6 @@ describe "inspec exec with junit formatter" do
       end
 
       it "has the failures attribute with 0 total tests" do
-        skip_windows!
         _(suite.attribute("failed").value).must_equal "0"
       end
 

@@ -155,7 +155,6 @@ class PluginInstallerInstallationTests < Minitest::Test
   def test_install_a_gem_from_local_file_creates_plugin_json
     gem_file = File.join(@plugin_fixture_pkg_path, "inspec-test-fixture-0.1.0.gem")
     stdout, _stderr = capture_io do
-      skip_windows!
       @installer.install("inspec-test-fixture", gem_file: gem_file)
     end
 
@@ -177,7 +176,6 @@ class PluginInstallerInstallationTests < Minitest::Test
   def test_install_a_gem_from_rubygems_org
     skip_slow_tests
 
-    skip_windows!
     capture_subprocess_io do
       @installer.install("inspec-test-fixture")
     end
@@ -209,7 +207,6 @@ class PluginInstallerInstallationTests < Minitest::Test
 
   # Should be able to install a plugin while pinning the version
   def test_install_a_pinned_gem_from_rubygems_org
-    skip_windows!
     skip_slow_tests
 
     capture_subprocess_io do
@@ -322,7 +319,6 @@ class PluginInstallerUpdaterTests < Minitest::Test
 
     copy_in_config_dir("test-fixture-1-float")
     @installer.__reset_loader
-    skip_windows!
 
     capture_subprocess_io do
       @installer.update("inspec-test-fixture")
@@ -348,7 +344,6 @@ class PluginInstallerUpdaterTests < Minitest::Test
     @installer.__reset_loader
 
     # Update to specific (but later) version
-    skip_windows!
 
     capture_subprocess_io do
       @installer.update("inspec-test-fixture", version: "0.2.0")
@@ -416,7 +411,6 @@ class PluginInstallerUninstallTests < Minitest::Test
     copy_in_config_dir("test-fixture-1-float")
     @installer.__reset_loader
 
-    skip_windows!
     capture_subprocess_io do
       @installer.uninstall("inspec-test-fixture")
     end
@@ -444,7 +438,6 @@ class PluginInstallerUninstallTests < Minitest::Test
     copy_in_config_dir("test-fixture-2-float")
     @installer.__reset_loader
 
-    skip_windows!
     capture_subprocess_io do
       @installer.uninstall("inspec-test-fixture")
     end

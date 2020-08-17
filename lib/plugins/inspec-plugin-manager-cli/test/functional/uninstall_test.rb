@@ -14,7 +14,6 @@ class PluginManagerCliUninstall < Minitest::Test
     uninstall_result = run_inspec_process_with_this_plugin("plugin uninstall inspec-test-fixture", pre_run: pre_block, post_run: list_after_run)
 
     success_message = uninstall_result.stdout.split("\n").grep(/uninstalled/).last
-    skip_windows!
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "inspec-test-fixture"
     assert_includes success_message, "0.1.0"
@@ -34,7 +33,6 @@ class PluginManagerCliUninstall < Minitest::Test
       copy_in_core_config_dir("test-fixture-1-float", tmp_dir)
     end
     uninstall_result = run_inspec_process_with_this_plugin("plugin uninstall inspec-meaning-of-life", pre_run: pre_block, post_run: list_after_run)
-    skip_windows!
 
     success_message = uninstall_result.stdout.split("\n").grep(/uninstalled/).last
     refute_nil success_message, "Should find a success message at the end"
@@ -52,7 +50,6 @@ class PluginManagerCliUninstall < Minitest::Test
   def test_fail_uninstall_from_plugin_that_is_not_installed
     uninstall_result = run_inspec_process_with_this_plugin("plugin uninstall inspec-test-fixture-nonesuch")
 
-    skip_windows!
     refute_includes "Inspec::Plugin::V2::UnInstallError", uninstall_result.stdout # Stacktrace marker
     assert_match(/No such plugin installed:.+ - uninstall failed/, uninstall_result.stdout)
 

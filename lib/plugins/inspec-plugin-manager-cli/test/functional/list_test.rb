@@ -13,7 +13,6 @@ class PluginManagerCliList < Minitest::Test
 
   def test_list_all_when_no_user_plugins_installed
     result = run_inspec_process_with_this_plugin("plugin list --all")
-    skip_windows!
     assert_empty result.stderr
 
     plugins_seen = parse_plugin_list_lines(result.stdout)
@@ -30,7 +29,6 @@ class PluginManagerCliList < Minitest::Test
   def test_list_selective_when_no_user_plugins_installed
     LIST_CASES.each do |test_case|
       result = run_inspec_process_with_this_plugin("plugin list #{test_case[:arg]}")
-      skip_windows!
 
       assert_empty result.stderr
       plugins_seen = parse_plugin_list_lines(result.stdout)
@@ -48,7 +46,6 @@ class PluginManagerCliList < Minitest::Test
     end
 
     result = run_inspec_process_with_this_plugin("plugin list --user ", pre_run: pre_block)
-    skip_windows!
 
     assert_empty result.stderr
     plugins_seen = parse_plugin_list_lines(result.stdout)
@@ -78,7 +75,6 @@ class PluginManagerCliList < Minitest::Test
     end
 
     result = run_inspec_process_with_this_plugin("plugin list --user ", pre_run: pre_block)
-    skip_windows!
 
     assert_empty result.stderr
     plugins_seen = parse_plugin_list_lines(result.stdout)

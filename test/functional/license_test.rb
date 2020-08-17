@@ -127,8 +127,6 @@ describe "The license acceptance mechanism" do
           EOY
           _(File.exist?(license_persist_path)).must_equal true # Sanity check
 
-          skip_windows! # exit code 1
-
           run_result = run_inspec_process("shell -c platform.family", env: { "HOME" => tmp_home })
 
           _(run_result.stdout).wont_include "Chef License Acceptance"
