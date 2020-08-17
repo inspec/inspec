@@ -72,7 +72,7 @@ describe "example inheritance profile" do
 
   it "can execute a profile inheritance" do
     # TODO: the inheritence profile uses here fails on windows.
-    skip_windows!
+    skip_windows! # Breakage confirmed
     out = inspec("exec " + path + " --reporter json --no-create-lockfile --input-file " + input_file)
 
     _(out.stderr).must_equal ""

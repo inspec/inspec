@@ -456,8 +456,8 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
 
   describe "when using profiles on the supermarket" do
     it "can run supermarket profiles directly from the command line" do
-      skip_windows! # can't modify /tmp -> / because it is in supermarket
 
+      skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
       inspec("exec supermarket://nathenharvey/tmp-compliance-profile --no-create-lockfile")
 
       if is_windows?
@@ -476,7 +476,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
     end
 
     it "can run supermarket profiles from inspec.yml" do
-      skip_windows! # can't modify /tmp -> / because it is in supermarket
+      skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
 
       inspec("exec #{File.join(profile_path, "supermarket-dep")} --no-create-lockfile")
 

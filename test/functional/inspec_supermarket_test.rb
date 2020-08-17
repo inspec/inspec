@@ -35,7 +35,8 @@ describe "inspec supermarket" do
 
     _(out.stderr).must_equal ""
 
-    skip_windows!
+    skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
+
     assert_exit_code 100, out
   end
 end

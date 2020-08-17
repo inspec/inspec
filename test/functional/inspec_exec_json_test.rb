@@ -41,7 +41,6 @@ describe "inspec exec with json formatter" do
 
     _(out.stderr).must_equal ""
 
-    skip_windows!
     assert_exit_code 0, out
   end
 
