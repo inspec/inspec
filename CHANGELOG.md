@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.22.17 -->
-## [v4.22.17](https://github.com/inspec/inspec/tree/v4.22.17) (2020-08-17)
+<!-- latest_release 4.22.18 -->
+## [v4.22.18](https://github.com/inspec/inspec/tree/v4.22.18) (2020-08-20)
 
 #### Merged Pull Requests
-- Update omnibus builds to Ruby 2.6.6 [#5198](https://github.com/inspec/inspec/pull/5198) ([tas50](https://github.com/tas50))
+- Don&#39;t build packages for EOL Debian 8 [#5197](https://github.com/inspec/inspec/pull/5197) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.22.8 -->
 ### Changes since 4.22.8 release
 
 #### Merged Pull Requests
+- Don&#39;t build packages for EOL Debian 8 [#5197](https://github.com/inspec/inspec/pull/5197) ([tas50](https://github.com/tas50)) <!-- 4.22.18 -->
 - Update omnibus builds to Ruby 2.6.6 [#5198](https://github.com/inspec/inspec/pull/5198) ([tas50](https://github.com/tas50)) <!-- 4.22.17 -->
 - Don&#39;t ship the readme in the gem [#5202](https://github.com/inspec/inspec/pull/5202) ([tas50](https://github.com/tas50)) <!-- 4.22.16 -->
 - Remove htmlentities dependency [#5203](https://github.com/inspec/inspec/pull/5203) ([tas50](https://github.com/tas50)) <!-- 4.22.15 -->
