@@ -103,6 +103,7 @@ merge_actions:
     ignore_labels:
      - "Expeditor: Skip All"
      - "Expeditor: Skip Version Bump"
+     - "Meaningless label"
     only_if_modified:
      - .expeditor/*
      - docs/*
