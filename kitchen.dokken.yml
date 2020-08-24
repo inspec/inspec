@@ -1,35 +1,37 @@
 ---
 driver:
   name: dokken
-  chef_version: 14.12.9
+  chef_version: :latest
   privileged: true # because Docker and SystemD/Upstart
 
 transport:
   name: dokken
 
 lifecycle:
+  # The purpose of this code is to build the InSpec gems from source and then make them available
+  # to the install_inspec cookbook, which will install the gems. This means that the inspec used
+  # during the Kitchen Verify phase will be the version from source.
   pre_converge:
     - local: cd inspec-bin && gem build inspec-core-bin.gemspec --output ../test/kitchen/cookbooks/install_inspec/files/inspec-core-bin.gem
     - local: gem build inspec-core.gemspec --output test/kitchen/cookbooks/install_inspec/files/inspec-core.gem
 
 provisioner:
   name: dokken
-  client_rb:
-    data_collector.server_url: <%= ENV['COLLECTOR_URL'] %>
-    data_collector.token: <%= ENV['COLLECTOR_TOKEN'] %>
-    ssl_verify_mode: :verify_none
-    verify_api_cert: false
 
 verifier:
   name: inspec
   sudo: true
 
+# Test against every supported target platform for which we have a dokken image.
+# If we don't have a dokken image, see kitchen.chef.yml for Vagrant-based testing.
+# Try to keep this list up to date!
+# Visit https://hub.docker.com/search and https://github.com/test-kitchen/dokken-images to search for new images
 platforms:
+
 - name: amazonlinux
   driver:
     image: dokken/amazonlinux
     pid_one_command: /sbin/init
-
 - name: amazonlinux-2
   driver:
     image: dokken/amazonlinux-2
@@ -39,10 +41,13 @@ platforms:
   driver:
     image: dokken/centos-6
     pid_one_command: /sbin/init
-
 - name: centos-7
   driver:
     image: dokken/centos-7
+    pid_one_command: /usr/lib/systemd/systemd
+- name: centos-8
+  driver:
+    image: dokken/centos-8
     pid_one_command: /usr/lib/systemd/systemd
 
 - name: debian-9
@@ -51,7 +56,6 @@ platforms:
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update -y
-
 - name: debian-10
   driver:
     image: dokken/debian-10
@@ -59,20 +63,30 @@ platforms:
     intermediate_instructions:
       - RUN /usr/bin/apt-get update -y
 
-- name: fedora-29
+- name: fedora-30
   driver:
-    image: dokken/fedora-29
+    image: dokken/fedora-30
+    pid_one_command: /usr/lib/systemd/systemd
+- name: fedora-31
+  driver:
+    image: dokken/fedora-31
     pid_one_command: /usr/lib/systemd/systemd
 
 - name: oraclelinux-6
   driver:
     image: dokken/oraclelinux-6
     pid_one_command: /sbin/init
-
 - name: oraclelinux-7
   driver:
     image: dokken/oraclelinux-7
     pid_one_command: /usr/lib/systemd/systemd
+# [2020-08-12T17:38:38+00:00] FATAL: RuntimeError: dnf_package[openssh-server] (ssh-hardening::server line 47) had an error: RuntimeError: dnf-helper.py had stderr output:
+# Errors during downloading metadata for repository 'ol8_baseos_latest':
+#   - Curl error (6): Couldn't resolve host name for https://yum$ociregion.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/repodata/repomd.xml [Could not resolve host: yum$ociregion.oracle.com]
+# - name: oraclelinux-8
+#   driver:
+#     image: dokken/oraclelinux-8
+#     pid_one_command: /usr/lib/systemd/systemd
 
 - name: opensuse-leap
   driver:
@@ -85,38 +99,36 @@ platforms:
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update -y
-
 - name: ubuntu-18.04
   driver:
     image: dokken/ubuntu-18.04
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update -y
+- name: ubuntu-20.04
+  driver:
+    image: dokken/ubuntu-20.04
+    pid_one_command: /bin/systemd
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update -y
 
 suites:
-- name: resources-core
+- name: resources
   run_list:
   - recipe[os_prepare]
-  - recipe[audit]
   verifier:
     inspec_tests:
-      - test/kitchen/policies/resources-core
+      # TODO - split these out into core, database, unix, and windows resources
+      - test/kitchen/policies/default
   attributes:
-    audit:
-      attributes:
-        audit_attribute: 'Attribute Override!'
-      insecure: true
-      reporter: ['json-file','chef-automate']
-      fetcher: 'chef-automate'
-      json_file:
-        location: /tmp/json_export.json
-      profiles:
-        - name: integration
-          url: https://github.com/inspec/inspec-integration-profile/archive/master.zip
     osprepare:
       docker: true
       application: false
 
-- name: resources-database
-- name: resources-unix
-- name: resources-windows
+# These are planned for the future
+# Suites which exercise resources that exercise databases
+# - name: resources-database
+# Unix-only resources
+# - name: resources-unix
+# Windows-only resources
+# - name: resources-windows

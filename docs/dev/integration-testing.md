@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Chef InSpec uses Test Kitchen for its integration testing. Our current testing uses Docker as our backend. You should install and have Docker running befor you run any tests.
+Chef InSpec uses Test Kitchen for its integration testing. Our current testing uses Docker (kitchen-dokken) as our backend. You should install and have Docker running before you run any tests.
 
 ### How to run specific integrations
 
@@ -23,8 +23,6 @@ bundle exec rake test:integration[default-ubuntu-1604]
 
 We run the test/integration/default profile at the end of each integration test in the verify stage. This confirms that our current code is compatible with test kitchen.
 
-### Audit Testing
+### Why no audit cookbook testing?
 
-For Audit cookbook testing Chef InSpec sets up some special hooks. The integration rake command will bundle up the current checkout into a gem which is passed along to test kitchen in the os_prepare cookbook. When this cookbook is run it will install the local inspec gem. Audit will then use this gem accordingly when running in the post chef-client validators. The .kitchen.yml is setup to export the audit report to a json file which we look for and confirm the structure in the test/integration/default/controls/audit_spec.rb file.
-
-In the validation file we confirm that the file was created from audit and that the structure looks correct. We also validate that the inspec ran with audit is the same that the current branch is using. This validates that audit did not use a older version for some reason.
+Audit cookbook testing is handled in the audit cookbook repo. In addition, the audit cookbook restricts which InSpec gem can be installed, forcing the installation from Rubygems for Chef clients 15+. Since we need to test with the from-source inspec gem, we can't use that approach. Instead, we don't test using audit cookbook here.
