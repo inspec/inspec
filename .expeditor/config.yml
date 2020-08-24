@@ -88,6 +88,8 @@ github:
      version_constraint: 2.*
   - 3-stable:
      version_constraint: 3.*
+  - expeditor-development:
+     version_constraint: 4.*
 
 changelog:
  categories:
