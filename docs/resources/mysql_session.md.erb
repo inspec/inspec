@@ -24,14 +24,14 @@ This resource first became available in v1.0.0 of InSpec.
 A `mysql_session` resource block declares the username and password to use for the session, and then the command to be run:
 
     describe mysql_session('username', 'password').query('QUERY') do
-      its('stdout') { should match(/expected-result/) }
+      its('output') { should match(/expected-result/) }
     end
 
 where
 
 * `mysql_session` declares a username and password, connecting locally, with permission to run the query
 * `query('QUERY')` contains the query to be run
-* `its('stdout') { should eq(/expected-result/) }` compares the results of the query against the expected result in the test
+* `its('output') { should eq(/expected-result/) }` compares the results of the query against the expected result in the test
 
 <br>
 
@@ -44,7 +44,7 @@ The following examples show how to use this Chef InSpec audit resource.
     sql = mysql_session('my_user','password')
 
     describe sql.query('show databases like \'test\';') do
-      its('stdout') { should_not match(/test/) }
+      its('output') { should_not match(/test/) }
     end
 
 ### Alternate Connection: Different Host

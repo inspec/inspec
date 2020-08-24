@@ -5,11 +5,15 @@ require "shellwords"
 
 module Inspec::Resources
   class Lines
-    attr_reader :output
+    attr_reader :output, :stdout, :stderr, :exit_status
 
-    def initialize(raw, desc)
+    def initialize(raw, desc, exit_status)
       @output = raw
       @desc = desc
+      @exit_status = exit_status
+      # backwards compatibility
+      @stdout = raw
+      @stderr = raw
     end
 
     def lines
@@ -29,7 +33,7 @@ module Inspec::Resources
     example <<~EXAMPLE
       sql = mysql_session('my_user','password','host')
       describe sql.query('show databases like \'test\';') do
-        its('stdout') { should_not match(/test/) }
+        its('output') { should_not match(/test/) }
       end
     EXAMPLE
 
@@ -52,9 +56,9 @@ module Inspec::Resources
             end
       out = cmd.stdout + "\n" + cmd.stderr
       if cmd.exit_status != 0 || out =~ /Can't connect to .* MySQL server/ || out.downcase =~ /^error:.*/
-        Lines.new(out, "MySQL query with errors: #{q}")
+        Lines.new(out, "MySQL query with errors: #{q}", cmd.exit_status)
       else
-        Lines.new(cmd.stdout.strip, "MySQL query: #{q}")
+        Lines.new(cmd.stdout.strip, "MySQL query: #{q}", cmd.exit_status)
       end
     end
 
