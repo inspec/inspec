@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.22.19 -->
-## [v4.22.19](https://github.com/inspec/inspec/tree/v4.22.19) (2020-08-24)
+<!-- latest_release 4.22.20 -->
+## [v4.22.20](https://github.com/inspec/inspec/tree/v4.22.20) (2020-08-25)
 
 #### Merged Pull Requests
-- Create expeditor-development release branch [#5220](https://github.com/inspec/inspec/pull/5220) ([Schwad](https://github.com/Schwad))
+- Fix mysql_session stdout, stderr and exit_status parameters [#5219](https://github.com/inspec/inspec/pull/5219) ([ramereth](https://github.com/ramereth))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.22.8 -->
 ### Changes since 4.22.8 release
 
 #### Merged Pull Requests
+- Fix mysql_session stdout, stderr and exit_status parameters [#5219](https://github.com/inspec/inspec/pull/5219) ([ramereth](https://github.com/ramereth)) <!-- 4.22.20 -->
 - Create expeditor-development release branch [#5220](https://github.com/inspec/inspec/pull/5220) ([Schwad](https://github.com/Schwad)) <!-- 4.22.19 -->
 - Don&#39;t build packages for EOL Debian 8 [#5197](https://github.com/inspec/inspec/pull/5197) ([tas50](https://github.com/tas50)) <!-- 4.22.18 -->
 - Update omnibus builds to Ruby 2.6.6 [#5198](https://github.com/inspec/inspec/pull/5198) ([tas50](https://github.com/tas50)) <!-- 4.22.17 -->
