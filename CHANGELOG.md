@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.22.20 -->
-## [v4.22.20](https://github.com/inspec/inspec/tree/v4.22.20) (2020-08-25)
+<!-- latest_release 4.22.21 -->
+## [v4.22.21](https://github.com/inspec/inspec/tree/v4.22.21) (2020-08-26)
 
 #### Merged Pull Requests
-- Fix mysql_session stdout, stderr and exit_status parameters [#5219](https://github.com/inspec/inspec/pull/5219) ([ramereth](https://github.com/ramereth))
+- Add MacOS 11 Tester [#5217](https://github.com/inspec/inspec/pull/5217) ([christopher-snapp](https://github.com/christopher-snapp))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.22.8 -->
 ### Changes since 4.22.8 release
 
 #### Merged Pull Requests
+- Add MacOS 11 Tester [#5217](https://github.com/inspec/inspec/pull/5217) ([christopher-snapp](https://github.com/christopher-snapp)) <!-- 4.22.21 -->
 - Fix mysql_session stdout, stderr and exit_status parameters [#5219](https://github.com/inspec/inspec/pull/5219) ([ramereth](https://github.com/ramereth)) <!-- 4.22.20 -->
 - Create expeditor-development release branch [#5220](https://github.com/inspec/inspec/pull/5220) ([Schwad](https://github.com/Schwad)) <!-- 4.22.19 -->
 - Don&#39;t build packages for EOL Debian 8 [#5197](https://github.com/inspec/inspec/pull/5197) ([tas50](https://github.com/tas50)) <!-- 4.22.18 -->
