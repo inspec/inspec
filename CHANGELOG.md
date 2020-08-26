@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.22.21 -->
-## [v4.22.21](https://github.com/inspec/inspec/tree/v4.22.21) (2020-08-26)
+<!-- latest_release 4.22.22 -->
+## [v4.22.22](https://github.com/inspec/inspec/tree/v4.22.22) (2020-08-26)
 
 #### Merged Pull Requests
-- Add MacOS 11 Tester [#5217](https://github.com/inspec/inspec/pull/5217) ([christopher-snapp](https://github.com/christopher-snapp))
+- Currently disables feature branch which may be upsetting builder [#5228](https://github.com/inspec/inspec/pull/5228) ([Schwad](https://github.com/Schwad))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.22.8 -->
 ### Changes since 4.22.8 release
 
 #### Merged Pull Requests
+- Currently disables feature branch which may be upsetting builder [#5228](https://github.com/inspec/inspec/pull/5228) ([Schwad](https://github.com/Schwad)) <!-- 4.22.22 -->
 - Add MacOS 11 Tester [#5217](https://github.com/inspec/inspec/pull/5217) ([christopher-snapp](https://github.com/christopher-snapp)) <!-- 4.22.21 -->
 - Fix mysql_session stdout, stderr and exit_status parameters [#5219](https://github.com/inspec/inspec/pull/5219) ([ramereth](https://github.com/ramereth)) <!-- 4.22.20 -->
 - Create expeditor-development release branch [#5220](https://github.com/inspec/inspec/pull/5220) ([Schwad](https://github.com/Schwad)) <!-- 4.22.19 -->
