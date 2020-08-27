@@ -459,6 +459,7 @@ The `run_data` object contains all data from the Chef InSpec run. Here is an ove
 |`run_data.profiles[0].inputs`| Array of Input records describing inputs present in profile|
 |`run_data.profiles[0].inputs[0].name`| String name of Input|
 |`run_data.profiles[0].inputs[0].options.required`| Boolean, whether input was required.|
+|`run_data.profiles[0].inputs[0].options.sensitive`| Boolean, true if the value of the input has been replaced with "***" |
 |`run_data.profiles[0].inputs[0].options.type`| String, type constraint on input, if any|
 |`run_data.profiles[0].inputs[0].options.value`| Value of Input|
 |`run_data.profiles[0].license`| String, name of license for the profile|
@@ -480,6 +481,11 @@ The `run_data` object contains all data from the Chef InSpec run. Here is an ove
 |`run_data.statistics.controls.total`| Integer, total count of controls|
 |`run_data.statistics.duration`| Float, time in seconds for the execution of Resources.|
 |`run_data.version`| A String, such as "4.18.108" representing the Chef InSpec version.|
+
+#### RunData Structure ChangeLog
+
+v0.1.0 - Initial version
+v0.2.0 - added `run_data.profiles[0].inputs[0].options.sensitive`
 
 ## Implementing Input Plugins
 

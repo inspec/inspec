@@ -405,6 +405,18 @@ module Inspec
       @plugin_cfg = data
     end
 
+    def validate_sort_results_by!(option_value)
+      expected = %w{
+        none
+        control
+        file
+        random
+      }
+      return if expected.include? option_value
+
+      raise Inspec::ConfigError::Invalid, "--sort-results-by must be one of #{expected.join(", ")}"
+    end
+
     #-----------------------------------------------------------------------#
     #                         Merging Options
     #-----------------------------------------------------------------------#
@@ -435,6 +447,7 @@ module Inspec
       finalize_parse_reporters(options)
       finalize_handle_sudo(options)
       finalize_compliance_login(options)
+      finalize_sort_results(options)
 
       Thor::CoreExt::HashWithIndifferentAccess.new(options)
     end
@@ -506,6 +519,12 @@ module Inspec
       if options.key?("compliance")
         require "plugins/inspec-compliance/lib/inspec-compliance/api"
         InspecPlugins::Compliance::API.login(options["compliance"])
+      end
+    end
+
+    def finalize_sort_results(options)
+      if options.key?("sort_results_by")
+        validate_sort_results_by!(options["sort_results_by"])
       end
     end
 

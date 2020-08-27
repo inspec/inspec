@@ -316,6 +316,7 @@ module Inspec
         profile_name,
         type: input_options[:type],
         required: input_options[:required],
+        sensitive: input_options[:sensitive],
         event: evt
       )
     end

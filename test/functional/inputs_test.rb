@@ -429,4 +429,17 @@ describe "inputs" do
       end
     end
   end
+
+  describe "when a profile is used with sensitive inputs" do
+    it "should access the values but hide them in the reporter data" do
+      result = run_inspec_process("exec #{inputs_profiles_path}/metadata-sensitive", json: true)
+      _(result.stderr).must_be_empty
+      assert_json_controls_passing(result)
+      # Inspect the JSON result to find the inputs hash and verify they are redacted as needed
+      inputs = @json["profiles"][0]["attributes"] # TODO rename to inputs, break automate
+      _(inputs[1]["options"]["value"]).wont_include "secret"
+      _(inputs[1]["options"]["value"]).must_include "***"
+      _(inputs[2]["options"]["value"]).wont_include "***" # Explicit sensitive = false
+    end
+  end
 end
