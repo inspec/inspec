@@ -106,6 +106,16 @@ As you merge each pull request, update the [Pending Release Notes](https://githu
  * Add the PR number as a reference for the Docs team. They will typically remove them, but they may need to get more context by looking up the originating PR.
  * It's preferable to add notes as things merge, lest they be forgotten; sifting through a pile of merged PRs in a rush is a chore!
 
+### Known Expeditor issues and resolutions
+
+Generally, expeditor issues and failures that appear unrelated to the InSpec PR should be flagged internally to `#releng-support` or `#expeditor-support`.
+
+During promotion (see below), the build process is not currently idempotent. That means if promotion fails, __do not simply press the `retry` button__. It is likely that you will need to get support from Releng or do some elements of the promotion manually. One example of this is currently `publish_rubygems`. If that step passes and a later step fails, all steps will fail on `publish_rubygems` as it is already published. This part of documentation will be updated once there is a supported `retry`.
+
+At the moment the best-known solution is to comment out the lines of the build that have passed (keeping an eye on their dependencies), merging that PR into master, waiting for the new build and version bump, and re-running the promotion command against the failed InSpec promotion version.
+
+Occasionally there may be an unexplainable expeditor error. One thing to quickly check is the version of expeditor being run against the current "master" expeditor. In certain cases our expeditor will __not__ automatically update and the bugfix we require is on a future expeditor version. To fix this you need to manually restart the inspec:inspec-master agent here: https://expeditor.chef.io/dashboard/#/agents
+
 ## Promoting Chef InSpec
 
 Promotion should only be attempted if you have a set of green artifacts in #inspec-notify.
