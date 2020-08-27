@@ -1,35 +1,33 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.22.22 -->
-## [v4.22.22](https://github.com/inspec/inspec/tree/v4.22.22) (2020-08-26)
-
-#### Merged Pull Requests
-- Currently disables feature branch which may be upsetting builder [#5228](https://github.com/inspec/inspec/pull/5228) ([Schwad](https://github.com/Schwad))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.22.8 -->
-### Changes since 4.22.8 release
-
-#### Merged Pull Requests
-- Currently disables feature branch which may be upsetting builder [#5228](https://github.com/inspec/inspec/pull/5228) ([Schwad](https://github.com/Schwad)) <!-- 4.22.22 -->
-- Add MacOS 11 Tester [#5217](https://github.com/inspec/inspec/pull/5217) ([christopher-snapp](https://github.com/christopher-snapp)) <!-- 4.22.21 -->
-- Fix mysql_session stdout, stderr and exit_status parameters [#5219](https://github.com/inspec/inspec/pull/5219) ([ramereth](https://github.com/ramereth)) <!-- 4.22.20 -->
-- Create expeditor-development release branch [#5220](https://github.com/inspec/inspec/pull/5220) ([Schwad](https://github.com/Schwad)) <!-- 4.22.19 -->
-- Don&#39;t build packages for EOL Debian 8 [#5197](https://github.com/inspec/inspec/pull/5197) ([tas50](https://github.com/tas50)) <!-- 4.22.18 -->
-- Update omnibus builds to Ruby 2.6.6 [#5198](https://github.com/inspec/inspec/pull/5198) ([tas50](https://github.com/tas50)) <!-- 4.22.17 -->
-- Don&#39;t ship the readme in the gem [#5202](https://github.com/inspec/inspec/pull/5202) ([tas50](https://github.com/tas50)) <!-- 4.22.16 -->
-- Remove htmlentities dependency [#5203](https://github.com/inspec/inspec/pull/5203) ([tas50](https://github.com/tas50)) <!-- 4.22.15 -->
-- Remove unused term-ansicolor [#5201](https://github.com/inspec/inspec/pull/5201) ([tas50](https://github.com/tas50)) <!-- 4.22.14 -->
-- Update to Chefstyle 1.2.1 [#5196](https://github.com/inspec/inspec/pull/5196) ([tas50](https://github.com/tas50)) <!-- 4.22.13 -->
-- Ensure Darwin is always detected in the install scripts [#5175](https://github.com/inspec/inspec/pull/5175) ([tas50](https://github.com/tas50)) <!-- 4.22.12 -->
-- Add new windows_firewall and windows_firewall_rule resources [#4979](https://github.com/inspec/inspec/pull/4979) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.22.11 -->
-- Convert JUnit Reporter to a Plugin [#5084](https://github.com/inspec/inspec/pull/5084) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.22.10 -->
-- Enforced bump. Fully allow this to build before merge. [#5188](https://github.com/inspec/inspec/pull/5188) ([Schwad](https://github.com/Schwad)) <!-- 4.22.9 -->
-- We require version bumps for expeditor to be read against master [#5187](https://github.com/inspec/inspec/pull/5187) ([Schwad](https://github.com/Schwad)) <!-- 4.22.8 -->
-- Try to force expeditor cooperation [#5186](https://github.com/inspec/inspec/pull/5186) ([Schwad](https://github.com/Schwad)) <!-- 4.22.8 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.22.22](https://github.com/inspec/inspec/tree/v4.22.22) (2020-08-27)
+
+#### Merged Pull Requests
+- Try to force expeditor cooperation [#5186](https://github.com/inspec/inspec/pull/5186) ([Schwad](https://github.com/Schwad))
+- We require version bumps for expeditor to be read against master [#5187](https://github.com/inspec/inspec/pull/5187) ([Schwad](https://github.com/Schwad))
+- Enforced bump. Fully allow this to build before merge. [#5188](https://github.com/inspec/inspec/pull/5188) ([Schwad](https://github.com/Schwad))
+- Convert JUnit Reporter to a Plugin [#5084](https://github.com/inspec/inspec/pull/5084) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add new windows_firewall and windows_firewall_rule resources [#4979](https://github.com/inspec/inspec/pull/4979) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- Ensure Darwin is always detected in the install scripts [#5175](https://github.com/inspec/inspec/pull/5175) ([tas50](https://github.com/tas50))
+- Update to Chefstyle 1.2.1 [#5196](https://github.com/inspec/inspec/pull/5196) ([tas50](https://github.com/tas50))
+- Remove unused term-ansicolor [#5201](https://github.com/inspec/inspec/pull/5201) ([tas50](https://github.com/tas50))
+- Remove htmlentities dependency [#5203](https://github.com/inspec/inspec/pull/5203) ([tas50](https://github.com/tas50))
+- Don&#39;t ship the readme in the gem [#5202](https://github.com/inspec/inspec/pull/5202) ([tas50](https://github.com/tas50))
+- Update omnibus builds to Ruby 2.6.6 [#5198](https://github.com/inspec/inspec/pull/5198) ([tas50](https://github.com/tas50))
+- Don&#39;t build packages for EOL Debian 8 [#5197](https://github.com/inspec/inspec/pull/5197) ([tas50](https://github.com/tas50))
+- Create expeditor-development release branch [#5220](https://github.com/inspec/inspec/pull/5220) ([Schwad](https://github.com/Schwad))
+- Fix mysql_session stdout, stderr and exit_status parameters [#5219](https://github.com/inspec/inspec/pull/5219) ([ramereth](https://github.com/ramereth))
+- Add MacOS 11 Tester [#5217](https://github.com/inspec/inspec/pull/5217) ([christopher-snapp](https://github.com/christopher-snapp))
+- Currently disables feature branch which may be upsetting builder [#5228](https://github.com/inspec/inspec/pull/5228) ([Schwad](https://github.com/Schwad))
+<!-- latest_stable_release -->
+
 ## [v4.22.8](https://github.com/inspec/inspec/tree/v4.22.8) (2020-08-05)
 
 #### Merged Pull Requests
@@ -40,7 +38,6 @@
 - Fix missing docs content [#5159](https://github.com/inspec/inspec/pull/5159) ([IanMadd](https://github.com/IanMadd))
 - fix error in passwd example [#5171](https://github.com/inspec/inspec/pull/5171) ([chrisbirster](https://github.com/chrisbirster))
 - Supports Scientific Linux in service resource [#5164](https://github.com/inspec/inspec/pull/5164) ([Schwad](https://github.com/Schwad))
-<!-- latest_stable_release -->
 
 ## [v4.22.1](https://github.com/inspec/inspec/tree/v4.22.1) (2020-07-21)
 
