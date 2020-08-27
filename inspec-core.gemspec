@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
 
   # Implementation dependencies
   spec.add_dependency "chef-telemetry",     "~> 1.0"
-  spec.add_dependency "license-acceptance", ">= 0.2.13", "< 2.0"
+  spec.add_dependency "license-acceptance", ">= 0.2.13", "< 3.0"
   spec.add_dependency "thor",               ">= 0.20", "< 2.0"
   spec.add_dependency "json_schemer",       ">= 0.2.1", "< 0.2.12"
   spec.add_dependency "method_source",      ">= 0.8", "< 2.0"
