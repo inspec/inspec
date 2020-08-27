@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.22.23 -->
-## [v4.22.23](https://github.com/inspec/inspec/tree/v4.22.23) (2020-08-27)
+<!-- latest_release 4.23.0 -->
+## [v4.23.0](https://github.com/inspec/inspec/tree/v4.23.0) (2020-08-27)
 
-#### Merged Pull Requests
-- changed inspec.yml example to use platform-family instead of os-family, since that&#39;s the recommended property name [#5151](https://github.com/inspec/inspec/pull/5151) ([bcwood](https://github.com/bcwood))
+#### New Features
+- RunData Filters; sensitive inputs; suppress diff; sorted output [#5054](https://github.com/inspec/inspec/pull/5054) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.22.22 -->
 ### Changes since 4.22.22 release
+
+#### New Features
+- RunData Filters; sensitive inputs; suppress diff; sorted output [#5054](https://github.com/inspec/inspec/pull/5054) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.23.0 -->
 
 #### Merged Pull Requests
 - changed inspec.yml example to use platform-family instead of os-family, since that&#39;s the recommended property name [#5151](https://github.com/inspec/inspec/pull/5151) ([bcwood](https://github.com/bcwood)) <!-- 4.22.23 -->
