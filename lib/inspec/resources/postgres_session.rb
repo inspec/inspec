@@ -26,12 +26,13 @@ module Inspec::Resources
     supports platform: "windows"
     desc "Use the postgres_session InSpec audit resource to test SQL commands run against a PostgreSQL database."
     example <<~EXAMPLE
-      sql = postgres_session('username', 'password', 'host')
+      sql = postgres_session('username', 'password', 'host', 'port')
       query('sql_query', ['database_name'])` contains the query and (optional) database to execute
 
       # default values:
       # username: 'postgres'
       # host: 'localhost'
+      # port: 5432
       # db: databse == db_user running the sql query
 
       describe sql.query('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
@@ -39,10 +40,11 @@ module Inspec::Resources
       end
     EXAMPLE
 
-    def initialize(user, pass, host = nil)
+    def initialize(user, pass, host = nil, port = nil)
       @user = user || "postgres"
       @pass = pass
       @host = host || "localhost"
+      @port = port || 5432
     end
 
     def query(query, db = [])
@@ -64,7 +66,7 @@ module Inspec::Resources
 
     def create_psql_cmd(query, db = [])
       dbs = db.map { |x| "-d #{x}" }.join(" ")
-      "PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h #{@host} -A -t -c #{escaped_query(query)}"
+      "PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h #{@host} -p #{@port} -A -t -c #{escaped_query(query)}"
     end
   end
 end

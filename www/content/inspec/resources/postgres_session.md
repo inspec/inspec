@@ -29,18 +29,19 @@ This resource first became available in v1.0.0 of InSpec.
 A `postgres_session` resource block declares the username and password to use for the session, and then the command to be run:
 
     # Create a PostgreSQL session:
-    sql = postgres_session('username', 'password', 'host')
+    sql = postgres_session('username', 'password', 'host', 'port')
 
     # default values:
     #   username: 'postgres'
     #   host: 'localhost'
+    #   port: 5432
 
     # Run an SQL query with an optional database to execute
     sql.query('sql_query', ['database_name'])`
 
 A full example is:
 
-    sql = postgres_session('username', 'password', 'host')
+    sql = postgres_session('username', 'password', 'host', 'port')
     describe sql.query('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
       its('output') { should eq '' }
     end
@@ -53,7 +54,7 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ### Test the PostgreSQL shadow password
 
-    sql = postgres_session('my_user', 'password', '192.168.1.2')
+    sql = postgres_session('my_user', 'password', '192.168.1.2', 5432)
 
     describe sql.query('SELECT * FROM pg_shadow WHERE passwd IS NULL;', ['testdb']) do
       its('output') { should eq('') }
