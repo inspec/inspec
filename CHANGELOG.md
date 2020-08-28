@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.23.2 -->
-## [v4.23.2](https://github.com/inspec/inspec/tree/v4.23.2) (2020-08-27)
+<!-- latest_release 4.23.3 -->
+## [v4.23.3](https://github.com/inspec/inspec/tree/v4.23.3) (2020-08-28)
 
 #### Merged Pull Requests
-- First pass at fixing issue #5183. [#5185](https://github.com/inspec/inspec/pull/5185) ([StylusEaterChef](https://github.com/StylusEaterChef))
+- Allow license-acceptance 2.x gem dep [#5229](https://github.com/inspec/inspec/pull/5229) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.22.22 -->
@@ -14,6 +14,7 @@
 - RunData Filters; sensitive inputs; suppress diff; sorted output [#5054](https://github.com/inspec/inspec/pull/5054) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.23.0 -->
 
 #### Merged Pull Requests
+- Allow license-acceptance 2.x gem dep [#5229](https://github.com/inspec/inspec/pull/5229) ([tas50](https://github.com/tas50)) <!-- 4.23.3 -->
 - First pass at fixing issue #5183. [#5185](https://github.com/inspec/inspec/pull/5185) ([StylusEaterChef](https://github.com/StylusEaterChef)) <!-- 4.23.2 -->
 - Add ability to disable input caching for kitchen-inspec use [#5211](https://github.com/inspec/inspec/pull/5211) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.23.1 -->
 - changed inspec.yml example to use platform-family instead of os-family, since that&#39;s the recommended property name [#5151](https://github.com/inspec/inspec/pull/5151) ([bcwood](https://github.com/bcwood)) <!-- 4.22.23 -->
