@@ -210,7 +210,7 @@ class MockLoader
       'find /sys/class/net/eth1/ -maxdepth 1 -type f -exec sh -c \'echo "[$(basename {})]"; cat {} || echo -n\' \;' => empty.call,
       "Get-Package -Name 'Not available' | ConvertTo-Json" => empty.call,
       "ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user,command" => cmd.call("ps-axo"),
-      "ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command" => cmd.call("ps-axoZ"),
+      "ps wwaxo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command" => cmd.call("ps-axoZ"),
       "ps -o pid,vsz,rss,tty,stat,time,ruser,args" => cmd.call("ps-busybox"),
       "env" => cmd.call("env"),
       "${Env:PATH}" => cmd.call("$env-PATH"),
