@@ -108,6 +108,7 @@ module Inspec
     # Infrastructure / Bookkeeping
 
     def self.__register(name, resource_klass)
+      # This has bitten us and should be a great candidate to remove in InSpec5
       cl = Class.new(resource_klass) do # TODO: remove
         # As best I can figure out, this anonymous class only exists
         # because we're trying to avoid having resources with
@@ -116,6 +117,7 @@ module Inspec
         # documentation.
         def initialize(backend, name, *args)
           supersuper_initialize(backend, name) do
+            @resource_params = args
             super(*args)
           end
         end

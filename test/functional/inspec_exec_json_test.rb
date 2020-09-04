@@ -187,6 +187,29 @@ describe "inspec exec with json formatter" do
       _(ex1["impact"]).must_equal 0.7
     end
 
+    describe "results" do
+      let(:result) { ex1["results"][0] }
+      let(:result2) { ex2["results"][0] }
+
+      it "has a code_desc" do
+        _(result["code_desc"]).must_equal "File / is expected to be directory"
+      end
+
+      it "has a resource_class" do
+        _(result["resource_class"]).must_equal "file"
+      end
+
+      # This is a raw grep of the argument(s) passed to the resource, currently
+      # used by automate to identify and sort differing resources
+      it "has a resource_params that's empty" do
+        _(result["resource_params"]).must_equal "[\"/\"]"
+      end
+
+      it "has a resource_params with values" do
+        _(result2["resource_params"]).must_equal "[\"/\"]"
+      end
+    end
+
     it "has all the metadata" do
       actual = profile.dup
       key = actual.delete("controls")
