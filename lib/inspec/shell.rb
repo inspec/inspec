@@ -1,4 +1,4 @@
-require "pry"
+autoload :Pry, "pry"
 
 module Inspec
   # A pry based shell for inspec. Given a runner (with a configured backend and
