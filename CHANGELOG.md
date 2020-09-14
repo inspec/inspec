@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.23.5 -->
+## [v4.23.5](https://github.com/inspec/inspec/tree/v4.23.5) (2020-09-14)
+
+#### Merged Pull Requests
+- autoload pry [#5246](https://github.com/inspec/inspec/pull/5246) ([mwrock](https://github.com/mwrock))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.23.4 -->
+### Changes since 4.23.4 release
+
+#### Merged Pull Requests
+- autoload pry [#5246](https://github.com/inspec/inspec/pull/5246) ([mwrock](https://github.com/mwrock)) <!-- 4.23.5 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
