@@ -24,13 +24,16 @@ chef_web_docs_submodule:
 	git submodule update --init --recursive
 	git submodule foreach git pull origin master
 	git submodule foreach git reset --hard
-	cp -R content/* chef-web-docs/_vendor/github.com/inspec/inspec/www/content
-	cp -R static/images/* chef-web-docs/_vendor/github.com/inspec/inspec/www/static/images
-	cp -R layouts/* chef-web-docs/_vendor/github.com/inspec/inspec/www/layouts
+	cp -R content/* chef-web-docs/_vendor/github.com/inspec/inspec/docs-chef-io/content
+	cp -R static/images/* chef-web-docs/_vendor/github.com/inspec/inspec/docs-chef-io/static/images
+	cp -R layouts/* chef-web-docs/_vendor/github.com/inspec/inspec/docs-chef-io/layouts
 
 reset_chef_web_docs:
 	git submodule foreach git reset --hard
 	git submodule foreach git clean -f -d
+
+update_chef_web_docs:
+	git submodule update --remote --merge chef-web-docs
 
 serve: assets
 	hugo server --buildDrafts --buildFuture --noHTTPCache
