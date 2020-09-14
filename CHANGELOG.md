@@ -1,27 +1,25 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.23.4 -->
-## [v4.23.4](https://github.com/inspec/inspec/tree/v4.23.4) (2020-09-02)
-
-#### Merged Pull Requests
-- Run ps with an ulimited width on linux [#5232](https://github.com/inspec/inspec/pull/5232) ([rgeissert](https://github.com/rgeissert))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.22.22 -->
-### Changes since 4.22.22 release
-
-#### New Features
-- RunData Filters; sensitive inputs; suppress diff; sorted output [#5054](https://github.com/inspec/inspec/pull/5054) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.23.0 -->
-
-#### Merged Pull Requests
-- Run ps with an ulimited width on linux [#5232](https://github.com/inspec/inspec/pull/5232) ([rgeissert](https://github.com/rgeissert)) <!-- 4.23.4 -->
-- Allow license-acceptance 2.x gem dep [#5229](https://github.com/inspec/inspec/pull/5229) ([tas50](https://github.com/tas50)) <!-- 4.23.3 -->
-- First pass at fixing issue #5183. [#5185](https://github.com/inspec/inspec/pull/5185) ([StylusEaterChef](https://github.com/StylusEaterChef)) <!-- 4.23.2 -->
-- Add ability to disable input caching for kitchen-inspec use [#5211](https://github.com/inspec/inspec/pull/5211) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.23.1 -->
-- changed inspec.yml example to use platform-family instead of os-family, since that&#39;s the recommended property name [#5151](https://github.com/inspec/inspec/pull/5151) ([bcwood](https://github.com/bcwood)) <!-- 4.22.23 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.23.4](https://github.com/inspec/inspec/tree/v4.23.4) (2020-09-14)
+
+#### New Features
+- RunData Filters; sensitive inputs; suppress diff; sorted output [#5054](https://github.com/inspec/inspec/pull/5054) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- changed inspec.yml example to use platform-family instead of os-family, since that&#39;s the recommended property name [#5151](https://github.com/inspec/inspec/pull/5151) ([bcwood](https://github.com/bcwood))
+- Add ability to disable input caching for kitchen-inspec use [#5211](https://github.com/inspec/inspec/pull/5211) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- First pass at fixing issue #5183. [#5185](https://github.com/inspec/inspec/pull/5185) ([StylusEaterChef](https://github.com/StylusEaterChef))
+- Allow license-acceptance 2.x gem dep [#5229](https://github.com/inspec/inspec/pull/5229) ([tas50](https://github.com/tas50))
+- Run ps with an ulimited width on linux [#5232](https://github.com/inspec/inspec/pull/5232) ([rgeissert](https://github.com/rgeissert))
+<!-- latest_stable_release -->
+
 ## [v4.22.22](https://github.com/inspec/inspec/tree/v4.22.22) (2020-08-27)
 
 #### Merged Pull Requests
@@ -41,7 +39,6 @@
 - Fix mysql_session stdout, stderr and exit_status parameters [#5219](https://github.com/inspec/inspec/pull/5219) ([ramereth](https://github.com/ramereth))
 - Add MacOS 11 Tester [#5217](https://github.com/inspec/inspec/pull/5217) ([christopher-snapp](https://github.com/christopher-snapp))
 - Currently disables feature branch which may be upsetting builder [#5228](https://github.com/inspec/inspec/pull/5228) ([Schwad](https://github.com/Schwad))
-<!-- latest_stable_release -->
 
 ## [v4.22.8](https://github.com/inspec/inspec/tree/v4.22.8) (2020-08-05)
 
