@@ -207,7 +207,10 @@ This will be the node name which shows up in Automate.
 
 #### node_uuid
 
-This will be the node UUID which shows up in Automate. You will want to use a single static UUID per node for all your reports.
+This will be the node UUID which shows up in Chef Automate. Use a single static UUID
+per node for all your reports. You must specify a `node_uuid` in the Chef InSpec
+configuration file if running Chef InSpec outside of an audit cookbook or another
+environment where a `chef_guid` or `node_uuid` is already known to Chef InSpec.
 
 #### environment
 
