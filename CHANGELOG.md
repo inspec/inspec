@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.23.7 -->
-## [v4.23.7](https://github.com/inspec/inspec/tree/v4.23.7) (2020-09-14)
+<!-- latest_release 4.23.8 -->
+## [v4.23.8](https://github.com/inspec/inspec/tree/v4.23.8) (2020-09-14)
 
 #### Merged Pull Requests
-- skip_windows! documentation and clearing [#5213](https://github.com/inspec/inspec/pull/5213) ([Schwad](https://github.com/Schwad))
+- Bump faraday dependencies [#5181](https://github.com/inspec/inspec/pull/5181) ([Schwad](https://github.com/Schwad))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.23.4 -->
 ### Changes since 4.23.4 release
 
 #### Merged Pull Requests
+- Bump faraday dependencies [#5181](https://github.com/inspec/inspec/pull/5181) ([Schwad](https://github.com/Schwad)) <!-- 4.23.8 -->
 - skip_windows! documentation and clearing [#5213](https://github.com/inspec/inspec/pull/5213) ([Schwad](https://github.com/Schwad)) <!-- 4.23.7 -->
 - Improve handling of bracketed options in deb source [#5210](https://github.com/inspec/inspec/pull/5210) ([Udyrfrykte](https://github.com/Udyrfrykte)) <!-- 4.23.6 -->
 - autoload pry [#5246](https://github.com/inspec/inspec/pull/5246) ([mwrock](https://github.com/mwrock)) <!-- 4.23.5 -->
