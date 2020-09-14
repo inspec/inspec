@@ -106,7 +106,7 @@ merge_actions:
      - "Expeditor: Skip Version Bump"
     only_if_modified:
      - .expeditor/*
-     - docs/*
+     - docs-chef-io/*
      - etc/*
      - habitat/*
      - inspec-bin/*
