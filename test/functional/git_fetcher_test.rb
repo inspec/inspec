@@ -13,6 +13,21 @@ describe "running profiles with git-based dependencies" do
 
   before(:all) do
     skip_windows! # Right now, this is due to symlinking, break executes on L24 <nickchecked>
+    # Stacktrace on windows machine:
+    # Error:
+    #   running profiles with git-based dependencies::running a profile with an ./ relative path dependency#test_0001_should find the top-level profile in the git-referenced child profile and execute that:
+    #   Errno::ENOENT: No such file or directory @ apply2files - C:/Users/some/path/inspec/inspec/test/fixtures/profiles/git-fetcher/basic-local/.git
+    #       C:/Ruby/lib/ruby/2.6.0/fileutils.rb:1437:in `unlink'
+    #       C:/Ruby/lib/ruby/2.6.0/fileutils.rb:1437:in `block in remove_file'
+    #       C:/Ruby/lib/ruby/2.6.0/fileutils.rb:1445:in `platform_support'
+    #       C:/Ruby/lib/ruby/2.6.0/fileutils.rb:1436:in `remove_file'
+    #       C:/Ruby/lib/ruby/2.6.0/fileutils.rb:775:in `remove_file'
+    #       C:/Ruby/lib/ruby/2.6.0/fileutils.rb:562:in `block in rm'
+    #       C:/Ruby/lib/ruby/2.6.0/fileutils.rb:561:in `each'
+    #       C:/Ruby/lib/ruby/2.6.0/fileutils.rb:561:in `rm'
+    #       C:/Users/some/path/inspec/inspec/test/functional/git_fetcher_test.rb:31:in `block (3 levels) in <top (required)>'
+    #       C:/Users/some/path/inspec/inspec/test/functional/git_fetcher_test.rb:29:in `each'
+    #       C:/Users/some/path/inspec/inspec/test/functional/git_fetcher_test.rb:29:in `block (2 levels) in <top (required)>'"
 
     # We need a git repo for some of the profile test fixtures,
     # but we can't store those directly in git.

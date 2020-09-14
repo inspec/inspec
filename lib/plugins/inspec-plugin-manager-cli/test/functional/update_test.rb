@@ -15,7 +15,6 @@ class PluginManagerCliUpdate < Minitest::Test
     update_result = run_inspec_process_with_this_plugin("plugin update inspec-test-fixture", pre_run: pre_block, post_run: list_after_run)
 
     success_message = update_result.stdout.split("\n").grep(/updated/).last
-    skip_windows!
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "inspec-test-fixture"
     assert_includes success_message, "0.1.0"
@@ -40,7 +39,6 @@ class PluginManagerCliUpdate < Minitest::Test
     update_result = run_inspec_process_with_this_plugin("plugin update inspec-test-fixture", pre_run: pre_block)
 
     refusal_message = update_result.stdout.split("\n").grep(/refusing/).last
-    skip_windows!
     refute_nil refusal_message, "Should find a failure message at the end"
     assert_includes refusal_message, "inspec-test-fixture"
     assert_includes refusal_message, "0.2.0"
@@ -54,7 +52,6 @@ class PluginManagerCliUpdate < Minitest::Test
   def test_fail_update_from_nonexistant_gem
     update_result = run_inspec_process_with_this_plugin("plugin update inspec-test-fixture-nonesuch")
 
-    skip_windows!
     assert_match(/No such plugin installed:.+ - update failed/, update_result.stdout)
 
     assert_empty update_result.stderr
@@ -71,7 +68,6 @@ class PluginManagerCliUpdate < Minitest::Test
     update_result = run_inspec_process_with_this_plugin("plugin update inspec-meaning-of-life", pre_run: pre_block)
 
     refusal_message = update_result.stdout.split("\n").grep(/refusing/).last
-    skip_windows!
     refute_nil refusal_message, "Should find a failure message at the end"
     assert_includes refusal_message, "inspec-meaning-of-life"
     assert_includes refusal_message, "inspec plugin uninstall"
