@@ -50,26 +50,29 @@ to build Chef's documentation from multiple repositories. The Hugo modules are
 pinned to commits in each repository, and the documentation files from those
 repositories and commits are vendored in `chef/chef-web-docs`. When the documentation
 is updated in a repository, those changes won't appear in docs.chef.io until the
-Hugo modules are updated to the new commit and then vendored files are updated.
+Hugo modules are updated to the new commit and the vendored files are updated.
 
-This can be useful if you want to update documentation in `inspec/inspec`, but
-don't want it to appear on docs.chef.io until a later date.
+We use Expeditor to submit a pull request to `chef/chef-web-docs` when Chef InSpec
+is promoted to stable.
 
 To update the Hugo module for documentation in `inspec/inspec`:
 
-1. Make sure your documentation changes are merged into master in `inspec/inspec`.
-1. Contact your friendly local Docs Team who will update the InSpec Hugo module for you.
+1. Make sure your documentation changes are merged into master in `inspec/inspec/docs-chef-io`.
+1. Wait for Expeditor to submit a PR to `chef/chef-web-docs` after Chef InSpec is promoted to stable.
+
+If you need to manually update the Chef InSpec documentation, you can contact your
+friendly local Docs Team who will update the Automate Hugo module for you.
 
 Or, for the adventurous:
 
 1. Make sure your documentation changes are merged into master in `inspec/inspec`.
 1. On a local clone of `chef/chef-web-docs` run:
-   1. `hugo mod get github.com/inspec/inspec/www`
+   1. `hugo mod get github.com/inspec/inspec/docs-chef-io`
    1. `hugo mod tidy`
    1. `hugo mod vendor`
 1. Submit a pull request to `chef/chef-web-docs`.
 
-This will updated the InSpec vendored files in `chef-web-docs/_vendor/github.com/inspec/inspec/www`,
+This will updated the InSpec vendored files in `chef-web-docs/_vendor/github.com/inspec/inspec/docs-chef-io`,
 and update the commits in the go.mod and go.sum files in chef-web-docs.
 
 ## Local Development Environment
@@ -109,7 +112,7 @@ documentation changes as they would appear on docs.chef.io.
 
 ### make serve
 
-`make serve` will preview the documentation that only exists in `inspec/inspec/www`.
+`make serve` will preview the documentation that only exists in `inspec/inspec/docs-chef-io`.
 This also shows a preview page that includes page metadata which can be useful
 for changing where a page exists in the left navigation menu.
 

@@ -177,5 +177,5 @@ This should be merged - at some point this could be changed to directly committi
 
 ## Updating InSpec Docs on docs.chef.io
 
-See the [README](https://github.com/inspec/inspec/blob/master/www/README.md#update-the-inspec-repository-module-in-chefchef-web-docs) for instructions on
+See the [README](https://github.com/inspec/inspec/blob/master/docs-chef-io/README.md#update-the-inspec-repository-module-in-chefchef-web-docs) for instructions on
 updating the current InSpec documentation on docs.chef.io.

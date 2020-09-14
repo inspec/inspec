@@ -24,7 +24,7 @@ describe inetd_conf do
 end
 ```
 
-Chef InSpec makes it easy to run your tests wherever you need. More options are found in our [CLI docs](https://www.inspec.io/docs/reference/cli/).
+Chef InSpec makes it easy to run your tests wherever you need. More options are found in our [CLI docs](https://docs.chef.io/inspec/cli/).
 
 ```bash
 # run test locally
@@ -339,17 +339,17 @@ In addition, runtime support is provided for:
 
 Documentation
 
- * https://www.inspec.io/docs/
- * https://www.inspec.io/docs/reference/resources/
- * https://github.com/chef/inspec/tree/master/docs
+ * https://docs.chef.io/inspec/
+ * https://docs.chef.io/inspec/resources/
+ * https://github.com/inspec/inspec/tree/master/docs-chef-io
 
-Tutorials/Blogs/Podcasts:
+Learn Chef:
 
- * https://www.inspec.io/tutorials/
+ * https://community.chef.io/products/chef-inspec/#learn
 
 Relationship to other tools (RSpec, Serverspec):
 
- * https://www.inspec.io/docs/reference/inspec_and_friends/
+ * https://docs.chef.io/inspec/inspec_and_friends/
 
 ## Share your Profiles
 

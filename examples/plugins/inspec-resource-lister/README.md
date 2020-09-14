@@ -1,6 +1,6 @@
 # InSpec Plugin Example - Resource Lister
 
-This plugin provides an example of building a plugin for use with [InSpec](https://inspec.io). Its functionality is simple, but useful: list resources included with InSpec.
+This plugin provides an example of building a plugin for use with [InSpec](https://community.chef.io/products/chef-inspec/). Its functionality is simple, but useful: list resources included with InSpec.
 
 ## To Install this as a User
 

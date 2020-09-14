@@ -70,7 +70,7 @@ Putting this all together, here is a plugins.json file from the Chef InSpec test
 
 ### Plugin Runtime Configuration
 
-You can read runtime configuration data from your user using `Inspec::Config.cached.fetch_plugin_config("your-plugin-name")`, which will return a hash with indifferent access representing the user's config file `plugins` section pertaining to your plugin. See [the config file](https://www.inspec.io/docs/reference/config/) for more information.
+You can read runtime configuration data from your user using `Inspec::Config.cached.fetch_plugin_config("your-plugin-name")`, which will return a hash with indifferent access representing the user's config file `plugins` section pertaining to your plugin. See [the config file](https://docs.chef.io/inspec/config/) for more information.
 
 Do not store or read configuration information from plugins.json.
 
