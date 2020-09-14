@@ -7,4 +7,5 @@ deb http://archive.ubuntu.com/ubuntu/ wily main restricted
 deb "http://archive.ubuntu.com/ubuntu/" wily main restricted
 deb [arch=amd64] "http://archive.ubuntu.com/ubuntu/" wily main restricted
 deb-src http://archive.ubuntu.com/ubuntu/ wily main restricted
+deb-src [arch=amd64 trusted=yes] http://archive.ubuntu.com/ubuntu/ wily main restricted
 deb cdrom:[Ubuntu 15.10 _Wily Werewolf_ - Release amd64 (20151021)]/ wily main restricted
