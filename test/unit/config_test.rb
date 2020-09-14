@@ -562,7 +562,7 @@ module ConfigTestHelper
   def fixture(fixture_name)
     case fixture_name.to_sym
     when :legacy
-      # TODO - this is dubious, but based on https://www.inspec.io/docs/reference/reporters/#automate-reporter
+      # TODO - this is dubious, but based on https://docs.chef.io/inspec/reporters/#automate-reporter
       # Things that have 'compliance' as a toplevel have also been seen
       <<~EOJ1
         {

@@ -74,7 +74,7 @@ module Inspec
         },
       }, [CONTROL_DESCRIPTION, Primitives::REFERENCE, Primitives::SOURCE_LOCATION, CONTROL_RESULT])
 
-      # Based loosely on https://www.inspec.io/docs/reference/profiles/ as of July 3, 2019
+      # Based loosely on https://docs.chef.io/inspec/profiles/ as of July 3, 2019
       # However, concessions were made to the reality of current reporters, specifically
       # with how description is omitted and version/inspec_version aren't as advertised online
       PROFILE = Primitives::SchemaType.new("Exec JSON Profile", {

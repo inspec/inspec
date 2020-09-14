@@ -242,7 +242,7 @@ describe "inspec shell tests" do
 
       it "provides matchers help" do
         out = do_shell("help matchers")
-        _(out.stdout).must_include "For more examples, see: https://www.inspec.io/docs/reference/matchers/"
+        _(out.stdout).must_include "For more examples, see: https://docs.chef.io/inspec/matchers/"
       end
 
       it "provides empty example help" do
