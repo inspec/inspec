@@ -341,6 +341,20 @@ As of Chef InSpec 4.12, this mechanism has the following limitations:
    don't take options, the inputs are clumsily copied into every profile,
    effectively making the CLI mechanism global.
 
+## Setting Input values using Plugins
+
+Inputs can also be set by custom input plugins, which retrieve values from external sources like secret stores or databases. Please check [RubyGems.org](https://rubygems.org/) for available InSpec input plugins.
+
+### Disabling Caching for Inputs
+
+Especially with plugins, it can be desirable to re-evaluate inputs every time and not cache them. By default, an existing input value is reused which can lead to problems if the retrieved values are expected to change. An example for this is using `kitchen-inspec` with input plugins to connect to a Vault server for password retrieval.
+
+To disable input caching, you can disable the cache from your Ruby code:
+
+```ruby
+Inspec::InputRegistry.instance.cache_inputs = false
+```
+
 ## Input Options Reference
 
 ### Name
