@@ -50,6 +50,13 @@ where each test
 - May run a command to `stdout`, and then run the test against that output
 - May use options to define how configuration data is to be parsed
 
+### Option names containing dots
+
+A possibly unexpected behaviour may occur when attempting to access option names containing dots with `its()`. A known behaviour, there are two ways to work around it:
+
+* Access the option by using the `params` attribute of the returned resource object
+* Since 4.23.9, `its` can be used by passing the option name in a single-element array (cf. examples)
+
 ## Options
 
 This resource supports the following options for parsing configuration data. Use them in an `options` block stated outside of (and immediately before) the actual test:
@@ -82,6 +89,12 @@ The following examples show how to use this Chef InSpec audit resource.
 
     describe parse_config_file('/path/to/yum.conf') do
      its('main') { should include('gpgcheck' => '1') }
+    end
+
+### Test a configuration setting containing dots
+
+    describe parse_config_file('/etc/sysctl.conf') do
+     its(['kernel.domainname']) { should eq 'example.com' }
     end
 
 ## Matchers

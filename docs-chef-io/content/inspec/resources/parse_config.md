@@ -53,6 +53,10 @@ where each test
 - May run a command to `stdout`, and then run the test against that output
 - May use options to define how configuration data is to be parsed
 
+## Examples
+
+This resource is based on the `parse_config_file` resource. As such please refer to the examples of the [`parse_config_file`](/inspec/resources/parse_config_file) resource.
+
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
