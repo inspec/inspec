@@ -8,7 +8,7 @@ require "ostruct"
 
 # Utilities often needed
 require "fileutils"
-require "tmpdir" unless defined?(Dir.mktmpdir)
+require "tmpdir"
 require "pathname"
 require "forwardable"
 
