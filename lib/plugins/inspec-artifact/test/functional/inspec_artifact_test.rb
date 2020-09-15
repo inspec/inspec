@@ -1,6 +1,6 @@
-autoload :FileUtils
+require "fileutils"
 require "plugins/shared/core_plugin_test_helper"
-autoload :SecureRandom
+require "securerandom"
 
 class ArtifactCli < Minitest::Test
   include CorePluginFunctionalHelper
