@@ -90,7 +90,6 @@ namespace :test do
   # rubocop:disable Style/BlockDelimiters,Layout/ExtraSpacing,Lint/AssignmentInCondition
 
   def n_threads_run(n_workers, jobs)
-    require "thread"
     queue = Queue.new
 
     jobs.each do |job|
