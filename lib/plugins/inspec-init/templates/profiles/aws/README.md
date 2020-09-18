@@ -26,7 +26,7 @@ Creating new profile at /Users/spaterson/my-profile
 aws_vpc_id: 'custom-vpc-id'
 ```
 
-The related control will simply be skipped if this is not provided.  See the [InSpec DSL documentation](https://www.inspec.io/docs/reference/dsl_inspec/) for more details on conditional execution using `only_if`.
+The related control will simply be skipped if this is not provided.  See the [InSpec DSL documentation](https://docs.chef.io/inspec/dsl_inspec/) for more details on conditional execution using `only_if`.
 
 ## Run the tests
 

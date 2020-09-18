@@ -24,7 +24,7 @@ Note the `2` in the reporter name. If you omit it and run `--reporter html` inst
 
 ## Configuring the Plugin
 
-The `html2` reporter requires no configuration to function. However, two options--`alternate_css_file` and `alternate_js_file`--are available for customization. The options are set in the JSON-formatted configuration file that Chef InSpec consumes. For details, see [our configuration file documentation](https://www.inspec.io/docs/reference/config/).
+The `html2` reporter requires no configuration to function. However, two options--`alternate_css_file` and `alternate_js_file`--are available for customization. The options are set in the JSON-formatted configuration file that Chef InSpec consumes. For details, see [our configuration file documentation](https://docs.chef.io/inspec/config/).
 
 For example:
 
