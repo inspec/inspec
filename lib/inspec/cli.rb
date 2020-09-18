@@ -48,7 +48,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Allow or disable user interaction"
 
   class_option :disable_core_plugins, type: :string, banner: "", # Actually a boolean, but this suppresses the creation of a --no-disable...
-    desc: "Disable loading all plugins that are shipped in the lib/plugins directory of InSpec. Useful in development."
+    desc: "Disable loading all plugins that are shipped in the lib/plugins directory of InSpec. Useful in development.",
+    hide: true
 
   class_option :disable_user_plugins, type: :string, banner: "",
     desc: "Disable loading all plugins that the user installed."
@@ -194,7 +195,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc "exec LOCATIONS", <<~EOT
+  desc "exec LOCATIONS", "Run all tests at LOCATIONS."
+  long_desc <<~EOT
     Run all test files at the specified LOCATIONS.
 
     Loads the given profile(s) and fetches their dependencies if needed. Then
