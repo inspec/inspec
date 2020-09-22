@@ -25,6 +25,7 @@ group :test do
   gem "rake", ">= 10"
   gem "simplecov", ["~> 0.10", "<=0.18.2"]
   gem "concurrent-ruby", "~> 1.0"
+  gem "nokogiri", "~> 1.9"
   gem "mocha", "~> 1.1"
   gem "ruby-progressbar", "~> 1.8"
   gem "webmock", "~> 3.0"
