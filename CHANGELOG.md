@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.23.9 -->
-## [v4.23.9](https://github.com/inspec/inspec/tree/v4.23.9) (2020-09-22)
+<!-- latest_release 4.23.10 -->
+## [v4.23.10](https://github.com/inspec/inspec/tree/v4.23.10) (2020-09-22)
 
 #### Merged Pull Requests
-- Cw/reporter plugin junit [#5244](https://github.com/inspec/inspec/pull/5244) ([Schwad](https://github.com/Schwad))
+- Update documentation for junit plugins [#5259](https://github.com/inspec/inspec/pull/5259) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.23.4 -->
 ### Changes since 4.23.4 release
 
 #### Merged Pull Requests
+- Update documentation for junit plugins [#5259](https://github.com/inspec/inspec/pull/5259) ([james-stocks](https://github.com/james-stocks)) <!-- 4.23.10 -->
 - Cw/reporter plugin junit [#5244](https://github.com/inspec/inspec/pull/5244) ([Schwad](https://github.com/Schwad)) <!-- 4.23.9 -->
 - Bump faraday dependencies [#5181](https://github.com/inspec/inspec/pull/5181) ([Schwad](https://github.com/Schwad)) <!-- 4.23.8 -->
 - skip_windows! documentation and clearing [#5213](https://github.com/inspec/inspec/pull/5213) ([Schwad](https://github.com/Schwad)) <!-- 4.23.7 -->
