@@ -1,25 +1,23 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.23.10 -->
-## [v4.23.10](https://github.com/inspec/inspec/tree/v4.23.10) (2020-09-22)
-
-#### Merged Pull Requests
-- Update documentation for junit plugins [#5259](https://github.com/inspec/inspec/pull/5259) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.23.4 -->
-### Changes since 4.23.4 release
-
-#### Merged Pull Requests
-- Update documentation for junit plugins [#5259](https://github.com/inspec/inspec/pull/5259) ([james-stocks](https://github.com/james-stocks)) <!-- 4.23.10 -->
-- Cw/reporter plugin junit [#5244](https://github.com/inspec/inspec/pull/5244) ([Schwad](https://github.com/Schwad)) <!-- 4.23.9 -->
-- Bump faraday dependencies [#5181](https://github.com/inspec/inspec/pull/5181) ([Schwad](https://github.com/Schwad)) <!-- 4.23.8 -->
-- skip_windows! documentation and clearing [#5213](https://github.com/inspec/inspec/pull/5213) ([Schwad](https://github.com/Schwad)) <!-- 4.23.7 -->
-- Improve handling of bracketed options in deb source [#5210](https://github.com/inspec/inspec/pull/5210) ([Udyrfrykte](https://github.com/Udyrfrykte)) <!-- 4.23.6 -->
-- autoload pry [#5246](https://github.com/inspec/inspec/pull/5246) ([mwrock](https://github.com/mwrock)) <!-- 4.23.5 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.23.10](https://github.com/inspec/inspec/tree/v4.23.10) (2020-09-23)
+
+#### Merged Pull Requests
+- autoload pry [#5246](https://github.com/inspec/inspec/pull/5246) ([mwrock](https://github.com/mwrock))
+- Improve handling of bracketed options in deb source [#5210](https://github.com/inspec/inspec/pull/5210) ([Udyrfrykte](https://github.com/Udyrfrykte))
+- skip_windows! documentation and clearing [#5213](https://github.com/inspec/inspec/pull/5213) ([Schwad](https://github.com/Schwad))
+- Bump faraday dependencies [#5181](https://github.com/inspec/inspec/pull/5181) ([Schwad](https://github.com/Schwad))
+- Cw/reporter plugin junit [#5244](https://github.com/inspec/inspec/pull/5244) ([Schwad](https://github.com/Schwad))
+- Update documentation for junit plugins [#5259](https://github.com/inspec/inspec/pull/5259) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_stable_release -->
+
 ## [v4.23.4](https://github.com/inspec/inspec/tree/v4.23.4) (2020-09-14)
 
 #### New Features
@@ -31,7 +29,6 @@
 - First pass at fixing issue #5183. [#5185](https://github.com/inspec/inspec/pull/5185) ([StylusEaterChef](https://github.com/StylusEaterChef))
 - Allow license-acceptance 2.x gem dep [#5229](https://github.com/inspec/inspec/pull/5229) ([tas50](https://github.com/tas50))
 - Run ps with an ulimited width on linux [#5232](https://github.com/inspec/inspec/pull/5232) ([rgeissert](https://github.com/rgeissert))
-<!-- latest_stable_release -->
 
 ## [v4.22.22](https://github.com/inspec/inspec/tree/v4.22.22) (2020-08-27)
 
