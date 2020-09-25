@@ -177,11 +177,9 @@ end
 #                                Plugin Disable Messaging
 #=========================================================================================#
 describe "disable plugin usage message integration" do
-  it "mentions the --disable-{user,core}-plugins options" do
+  it "mentions the --disable-user-plugins option" do
     outcome = inspec("help")
-    ["--disable-user-plugins", "--disable-core-plugins"].each do |option|
-      _(outcome.stdout).must_include(option)
-    end
+    _(outcome.stdout).must_include("--disable-user-plugins")
   end
 end
 

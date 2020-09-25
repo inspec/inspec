@@ -74,5 +74,17 @@ describe "command tests" do
         end
       end
     end
+
+    it "has an About section" do
+      outputs.each do |output|
+        _(output).must_include("About Chef InSpec")
+      end
+    end
+
+    it "mentions Chef's patents" do
+      outputs.each do |output|
+        _(output).must_include("Patents: chef.io/patents")
+      end
+    end
   end
 end

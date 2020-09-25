@@ -164,6 +164,12 @@ module Inspec
         desc: "After normal execution order, results are sorted by control ID, or by file (default), or randomly. None uses legacy unsorted mode."
     end
 
+    def self.help(*args)
+      super(*args)
+      puts "\nAbout #{Inspec::Dist::PRODUCT_NAME}:"
+      puts "  Patents: chef.io/patents\n\n"
+    end
+
     def self.format_platform_info(params: {}, indent: 0, color: 39)
       str = ""
       params.each do |item, info|
