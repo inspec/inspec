@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.23.11 -->
+## [v4.23.11](https://github.com/inspec/inspec/tree/v4.23.11) (2020-09-25)
+
+#### Merged Pull Requests
+- Add Chef patent URL to --help, tidy help output [#5255](https://github.com/inspec/inspec/pull/5255) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.23.10 -->
+### Changes since 4.23.10 release
+
+#### Merged Pull Requests
+- Add Chef patent URL to --help, tidy help output [#5255](https://github.com/inspec/inspec/pull/5255) ([james-stocks](https://github.com/james-stocks)) <!-- 4.23.11 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
