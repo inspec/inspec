@@ -395,6 +395,20 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   end
   map %w{-v --version} => :version
 
+  desc "clear_cache", "clears the InSpec cache. Useful for debugging."
+  option :vendor_cache, type: :string,
+    desc: "Use the given path for caching dependencies. (default: ~/.inspec/cache)"
+  def clear_cache
+    o = config
+    configure_logger(o)
+    cache_path = o[:vendor_cache] || "~/.inspec/cache"
+    FileUtils.rm_r Dir.glob(File.expand_path(cache_path))
+
+    o[:logger] = Logger.new($stdout)
+    o[:logger].level = get_log_level(o[:log_level])
+    o[:logger].info "== InSpec cache cleared successfully =="
+  end
+
   private
 
   def run_command(opts)
