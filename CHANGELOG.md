@@ -1,20 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.23.11 -->
-## [v4.23.11](https://github.com/inspec/inspec/tree/v4.23.11) (2020-09-25)
-
-#### Merged Pull Requests
-- Add Chef patent URL to --help, tidy help output [#5255](https://github.com/inspec/inspec/pull/5255) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.23.10 -->
-### Changes since 4.23.10 release
-
-#### Merged Pull Requests
-- Add Chef patent URL to --help, tidy help output [#5255](https://github.com/inspec/inspec/pull/5255) ([james-stocks](https://github.com/james-stocks)) <!-- 4.23.11 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.23.11](https://github.com/inspec/inspec/tree/v4.23.11) (2020-09-28)
+
+#### Merged Pull Requests
+- Add Chef patent URL to --help, tidy help output [#5255](https://github.com/inspec/inspec/pull/5255) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_stable_release -->
+
 ## [v4.23.10](https://github.com/inspec/inspec/tree/v4.23.10) (2020-09-23)
 
 #### Merged Pull Requests
@@ -24,7 +22,6 @@
 - Bump faraday dependencies [#5181](https://github.com/inspec/inspec/pull/5181) ([Schwad](https://github.com/Schwad))
 - Cw/reporter plugin junit [#5244](https://github.com/inspec/inspec/pull/5244) ([Schwad](https://github.com/Schwad))
 - Update documentation for junit plugins [#5259](https://github.com/inspec/inspec/pull/5259) ([james-stocks](https://github.com/james-stocks))
-<!-- latest_stable_release -->
 
 ## [v4.23.4](https://github.com/inspec/inspec/tree/v4.23.4) (2020-09-14)
 
