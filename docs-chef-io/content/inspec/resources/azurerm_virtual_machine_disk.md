@@ -10,7 +10,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/azurerm_virtual_machine_disk.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_virtual_machine_disk.md)
 
 Use the `azurerm_virtual_machine_disk` InSpec audit resource to test properties related to
 a virtual machine's disk. This resource will only support managed disks. If your disk is

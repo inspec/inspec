@@ -10,7 +10,7 @@ platform = "aws"
     parent = "inspec/resources/aws"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/aws_nat_gateways.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_nat_gateways.md)
 
 Use the `aws_nat_gateways` InSpec audit resource to test the properties of all
 AWS NAT gateways owned by the AWS account.

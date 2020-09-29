@@ -10,7 +10,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/azurerm_event_hub_authorization_rule.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_event_hub_authorization_rule.md)
 
 Use the `azurerm_event_hub_authorization_rule` InSpec audit resource to test properties and configuration of
 an Azure Event Hub Authorization Rule within a Resource Group.

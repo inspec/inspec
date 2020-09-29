@@ -10,7 +10,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/azurerm_monitor_log_profiles.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_monitor_log_profiles.md)
 
 Use the `azurerm_monitor_log_profiles` InSpec audit resource to verify that a Log Profile
 exists.

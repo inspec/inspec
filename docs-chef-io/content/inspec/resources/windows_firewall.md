@@ -10,7 +10,7 @@ platform = "windows"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/windows_firewall.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/windows_firewall.md)
 
 Use the `windows_firewall` Chef InSpec audit resource to test if a firewall profile is correctly configured on a Windows system.
 
@@ -82,7 +82,7 @@ Shortcuts are defined for:
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
 
 ### be_enabled
 

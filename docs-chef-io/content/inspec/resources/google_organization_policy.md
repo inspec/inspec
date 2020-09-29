@@ -10,7 +10,7 @@ platform = "gcp"
     parent = "inspec/resources/gcp"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/google_organization_policy.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/google_organization_policy.md)
 
 Use the `google_organization_policy` InSpec audit resource to test constraints set on a GCP organization.
 

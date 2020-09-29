@@ -10,7 +10,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/azurerm_monitor_activity_log_alerts.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_monitor_activity_log_alerts.md)
 
 Use the `azurerm_monitor_activity_log_alerts` InSpec audit resource to verify that an
 Activity Log Alert exists.

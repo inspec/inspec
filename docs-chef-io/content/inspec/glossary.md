@@ -10,7 +10,7 @@ draft = false
     weight = 50
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/glossary.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/glossary.md)
 
 This document should help you become familiar with some of the terminology used by the Chef InSpec project.
 

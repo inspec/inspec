@@ -10,7 +10,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/azurerm_virtual_machine_disks.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_virtual_machine_disks.md)
 
 Use the `azurerm_virtual_machine_disks` InSpec audit resource to test properties of
 some or all Azure Disks within a subscription.

@@ -10,7 +10,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/azure_resource_group.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azure_resource_group.md)
 
 Use the `azure_resource_group_resource_count` Chef InSpec audit resource to check the number of Azure resources in a resource group.
 

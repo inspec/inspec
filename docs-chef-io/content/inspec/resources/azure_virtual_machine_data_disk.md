@@ -10,7 +10,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/azure_virtual_machine_data_disk.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azure_virtual_machine_data_disk.md)
 
 Use this resource to ensure that a specific data disk attached to a machine has been created properly.
 

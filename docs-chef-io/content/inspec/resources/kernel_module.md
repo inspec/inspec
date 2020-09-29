@@ -10,7 +10,7 @@ platform = "linux"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/kernel_module.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/kernel_module.md)
 
 Use the `kernel_module` Chef InSpec audit resource to test kernel modules on Linux
 platforms. These parameters are located under `/lib/modules`. Any submodule may

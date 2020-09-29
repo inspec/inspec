@@ -10,7 +10,7 @@ platform = "linux"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/aide_conf.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aide_conf.md)
 
 Use the `aide_conf` Chef InSpec audit resource to test the rules established for the file integrity tool AIDE. Controlled by the aide.conf file typically at /etc/aide.conf.
 

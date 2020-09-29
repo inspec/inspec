@@ -10,7 +10,7 @@ platform = "linux"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/elasticsearch.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/elasticsearch.md)
 
 Use the `elasticsearch` resource to test the status of a node against a running
 Elasticsearch cluster. Chef InSpec retrieves the node list from the cluster node URL

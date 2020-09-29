@@ -10,7 +10,7 @@ platform = "aws"
     parent = "inspec/resources/aws"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/aws_auto_scaling_group.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_auto_scaling_group.md)
 
 Use the `aws_auto_scaling_group` InSpec audit resource to test properties of a single AWS Auto Scaling group.
 

@@ -10,7 +10,7 @@ draft = false
     weight = 10
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/cli.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/cli.md)
 
 Use the InSpec CLI to run tests and audits against targets using local, SSH, WinRM, or Docker connections.
 

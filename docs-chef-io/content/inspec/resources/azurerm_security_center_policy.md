@@ -10,7 +10,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/azurerm_security_center_policy.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_security_center_policy.md)
 
 Use the `azurerm_security_center_policy` InSpec audit resource to test properties
 of the `default` Security Center Policy. Azure currently only supports looking

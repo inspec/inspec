@@ -10,7 +10,7 @@ platform = "linux"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/login_defs.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/login_defs.md)
 
 Use the `login_defs` Chef InSpec audit resource to test configuration settings in the `/etc/login.defs` file. The `logins.defs` file defines site-specific configuration for the shadow password suite on Linux and Unix platforms, such as password expiration ranges, minimum/maximum values for automatic selection of user and group identifiers, or the method with which passwords are encrypted.
 

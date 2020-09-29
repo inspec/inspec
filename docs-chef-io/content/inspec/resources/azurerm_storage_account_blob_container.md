@@ -10,7 +10,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/azurerm_storage_account_blob_container.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_storage_account_blob_container.md)
 
 Use the `azurerm_storage_account_blob_container` InSpec audit resource to test properties related to a
 Blob Container in an Azure Storage Account.

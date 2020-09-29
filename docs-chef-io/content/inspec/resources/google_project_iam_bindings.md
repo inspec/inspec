@@ -10,7 +10,7 @@ platform = "gcp"
     parent = "inspec/resources/gcp"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/google_project_iam_bindings.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/google_project_iam_bindings.md)
 
 **This resource is deprecated. Please use `google_project_iam_policy` instead**
 

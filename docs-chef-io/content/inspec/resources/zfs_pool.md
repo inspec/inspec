@@ -10,7 +10,7 @@ platform = "linux"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/zfs_pool.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/zfs_pool.md)
 
 Use the `zfs_pool` Chef InSpec audit resource to test the ZFS pools on FreeBSD systems.
 
