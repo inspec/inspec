@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Fix &quot;Edit on GitHub&quot; links [#5268](https://github.com/inspec/inspec/pull/5268) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.23.11 -->
+### Changes since 4.23.11 release
+
+#### Merged Pull Requests
+- Fix &quot;Edit on GitHub&quot; links [#5268](https://github.com/inspec/inspec/pull/5268) ([IanMadd](https://github.com/IanMadd)) <!-- 4.23.11 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
