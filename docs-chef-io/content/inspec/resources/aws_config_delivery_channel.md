@@ -10,7 +10,7 @@ platform = "aws"
     parent = "inspec/resources/aws"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/aws_config_delivery_channel.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_config_delivery_channel.md)
 
 The AWS Config service can monitor and record changes to your AWS resource configurations. A Delivery Channel can record the changes
 to an S3 Bucket, an SNS or both.

@@ -10,7 +10,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/port.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/port.md)
 
 Use the `port` Chef InSpec audit resource to test basic port properties, such as port, process, if it's listening.
 

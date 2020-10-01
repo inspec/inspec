@@ -10,7 +10,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/pip.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/pip.md)
 
 Use the `pip` Chef InSpec audit resource to test packages that are installed using the Python PIP installer.
 

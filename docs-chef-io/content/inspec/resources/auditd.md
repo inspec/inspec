@@ -10,7 +10,7 @@ platform = "linux"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/auditd.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/auditd.md)
 
 Use the `auditd` Chef InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files. These rules are output using the auditctl -l command. This resource supports versions of `audit` >= 2.3.
 

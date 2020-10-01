@@ -10,7 +10,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/azurerm_resource_groups.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_resource_groups.md)
 
 Use the `azurerm_resource_groups` InSpec audit resource to test properties of
 some or all Azure Resource Groups

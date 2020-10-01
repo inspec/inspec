@@ -10,7 +10,7 @@ platform = "aws"
     parent = "inspec/resources/aws"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/aws_iam_saml_provider.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_iam_saml_provider.md)
 
 Use the `aws_iam_saml_provider` InSpec audit resource to test properties of an AWS IAM SAML Provider.
 

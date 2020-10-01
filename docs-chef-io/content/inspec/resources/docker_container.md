@@ -10,7 +10,7 @@ platform = "linux"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/docker_container.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/docker_container.md)
 
 Use the `docker_container` Chef InSpec audit resource to test a Docker container.
 

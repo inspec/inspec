@@ -10,7 +10,7 @@ draft = false
     weight = 140
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/waivers.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/waivers.md)
 
 Waivers is a mechanism to mark controls as "waived" for various reasons, and to
 control the running and/or reporting of those controls. It uses a YAML input file

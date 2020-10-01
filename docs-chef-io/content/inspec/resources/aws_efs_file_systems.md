@@ -10,7 +10,7 @@ platform = "aws"
     parent = "inspec/resources/aws"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/aws_efs_file_systems.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_efs_file_systems.md)
 
 Use the `aws_efs_file_systems` InSpec audit resource to test the properties of
 some or all AWS EFS file systems. To audit a single EFS file system, use

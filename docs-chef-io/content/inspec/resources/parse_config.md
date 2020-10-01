@@ -10,7 +10,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/parse_config.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/parse_config.md)
 
 Use the `parse_config` Chef InSpec audit resource to test arbitrary configuration files.
 

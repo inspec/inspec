@@ -10,7 +10,7 @@ platform = "aws"
     parent = "inspec/resources/aws"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/aws_elasticache_cluster_node.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_elasticache_cluster_node.md)
 
 Use the `aws_elasticache_cluster_node` InSpec audit resource to test the properties of a single AWS ElastiCache cluster node.
 

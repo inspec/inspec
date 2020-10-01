@@ -10,7 +10,7 @@ draft = false
     weight = 30
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/inputs.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/inputs.md)
 
 ## What are Inputs?
 

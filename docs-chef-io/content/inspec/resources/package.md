@@ -10,7 +10,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/package.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/package.md)
 
 Use the `package` Chef InSpec audit resource to test if the named package and/or package version is installed on the system.
 

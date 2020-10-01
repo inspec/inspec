@@ -10,7 +10,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/azurerm_key_vault_key.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_key_vault_key.md)
 
 Use the `azurerm_key_vault_key` InSpec audit resource to test properties and configuration of
 an Azure Key within a Vault.

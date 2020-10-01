@@ -10,7 +10,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/os_env.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/os_env.md)
 
 Use the `os_env` Chef InSpec audit resource to test the environment variables for the platform on which the system is running.
 

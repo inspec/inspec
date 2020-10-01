@@ -10,7 +10,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/postfix_conf.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/postfix_conf.md)
 
 Use the `postfix_conf` Chef InSpec audit resource to test the main configuration of the Postfix Mail Transfer Agent.
 

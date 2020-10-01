@@ -10,7 +10,7 @@ platform = "habitat"
     parent = "inspec/resources/habitat"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/habitat_service.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/habitat_service.md)
 
 Use the `habitat_service` InSpec audit resource to test properties of a single Habitat service.
 

@@ -10,7 +10,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/sys_info.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/sys_info.md)
 
 Use the `sys_info` Chef InSpec audit resource to test for operating system properties for the named host, and then returns that info as standard output.
 

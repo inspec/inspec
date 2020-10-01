@@ -10,7 +10,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/azurerm_iothub_event_hub_consumer_group.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_iothub_event_hub_consumer_group.md)
 
 Use the `azurerm_iothub_event_hub_consumer_group` InSpec audit resource to test
 properties and configuration of an Azure IoT Hub Event Hub Consumer Group within

@@ -10,7 +10,7 @@ platform = "gcp"
     parent = "inspec/resources/gcp"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/google_project_logging_audit_config.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/google_project_logging_audit_config.md)
 
 Use the `google_compute_zone` InSpec audit resource to test properties of a single GCP compute zone.
 

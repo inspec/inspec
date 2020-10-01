@@ -10,7 +10,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/interfaces.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/interfaces.md)
 
 Use the `interfaces` Chef InSpec audit resource to test the properties of multiple network interfaces on the system.
 
@@ -69,7 +69,7 @@ The `names` property returns an Array of Strings representing the names of the i
 
 ## Matchers
 
-For a full list of available universal matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available universal matchers, please visit our [matchers page](/inspec/matchers/).
 
 ### exist
 

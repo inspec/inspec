@@ -10,7 +10,7 @@ draft = false
     weight = 110
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/plugin_kitchen_inspec.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/plugin_kitchen_inspec.md)
 
 Use Chef InSpec as a Kitchen verifier with `kitchen-inspec`.
 

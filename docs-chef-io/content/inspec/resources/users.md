@@ -10,7 +10,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/users.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/users.md)
 
 Use the `users` Chef InSpec audit resource to look up all local users available on the system, and then test specific properties of those users. This resource does not return information about users that may be located on other systems, such as LDAP or Active Directory.
 

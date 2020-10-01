@@ -10,7 +10,7 @@ draft = false
     weight = 20
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/profiles.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/profiles.md)
 
 Chef InSpec supports the creation of complex test and compliance profiles, which
 organize controls to support dependency management and code reuse. Each profile

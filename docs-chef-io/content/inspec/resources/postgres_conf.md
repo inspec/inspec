@@ -10,7 +10,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/postgres_conf.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/postgres_conf.md)
 
 Use the `postgres_conf` Chef InSpec audit resource to test the contents of the configuration file for PostgreSQL, typically located at `/etc/postgresql/<version>/main/postgresql.conf` or `/var/lib/postgres/data/postgresql.conf`, depending on the platform.
 

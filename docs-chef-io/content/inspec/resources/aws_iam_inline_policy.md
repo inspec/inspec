@@ -10,7 +10,7 @@ platform = "aws"
     parent = "inspec/resources/aws"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/aws_iam_inline_policy.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_iam_inline_policy.md)
 
 Use the `aws_iam_inline_policy` InSpec audit resource to test properties of a single inline AWS IAM Policy embedded with IAM User, IAM Group or IAM Role. For managed policies, use the `aws_iam_policy` resource.
 

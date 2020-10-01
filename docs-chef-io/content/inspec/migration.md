@@ -10,7 +10,7 @@ draft = false
     weight = 130
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/migration.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/migration.md)
 
 ## How is Chef InSpec different from Serverspec
 

@@ -10,7 +10,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/azurerm_network_watchers.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_network_watchers.md)
 
 Use the `azurerm_network_watchers` InSpec audit resource to verify that a Network Watcher
 exists.

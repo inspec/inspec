@@ -10,7 +10,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/azurerm_event_hub_namespace.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_event_hub_namespace.md)
 
 Use the `azurerm_event_hub_namespace` InSpec audit resource to test properties and configuration of
 an Azure Event Hub Namespace within a Resource Group.

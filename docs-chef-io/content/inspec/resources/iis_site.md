@@ -10,7 +10,7 @@ platform = "windows"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/iis_site.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/iis_site.md)
 
 Use the `iis_site` Chef InSpec audit resource to test the state of IIS on Windows Server 2012 (and later).
 

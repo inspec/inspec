@@ -10,7 +10,7 @@ platform = "windows"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/mssql_session.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/mssql_session.md)
 
 Use the `mssql_session` Chef InSpec audit resource to test SQL commands run against a Microsoft SQL database.
 

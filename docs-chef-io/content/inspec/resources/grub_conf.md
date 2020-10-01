@@ -10,7 +10,7 @@ platform = "linux"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/grub_conf.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/grub_conf.md)
 
 Grub is a boot loader on the Linux platform used to load and then transfer control to an operating system kernel, after which that kernel initializes the rest of the operating system. Use the `grub_conf` Chef InSpec audit resource to test boot loader configuration settings that are defined in the `grub.conf` configuration file.
 

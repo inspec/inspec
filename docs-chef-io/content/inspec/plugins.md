@@ -10,7 +10,7 @@ draft = false
     weight = 100
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/plugins.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/plugins.md)
 
 ## What are Chef InSpec Plugins?
 

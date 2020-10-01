@@ -10,7 +10,7 @@ draft = false
     weight = 50
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/reporters.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/reporters.md)
 
 Introduced in Chef InSpec 1.51.6
 
@@ -140,7 +140,7 @@ This reporter is the legacy RSpec HTML reporter, which is retained for backwards
 
 This reporter is an improved HTML reporter that contains full data about the structure of the profile, controls, and tests. The generated report renders HTML code for viewing your tests in a browser.
 
-The `html2` reporter requires no configuration to function. However, two options--`alternate_css_file` and `alternate_js_file`--are available for customization. The options are set in the JSON-formatted configuration file that Chef InSpec consumes. For details, see [our configuration file documentation](https://www.inspec.io/docs/reference/config/).
+The `html2` reporter requires no configuration to function. However, two options--`alternate_css_file` and `alternate_js_file`--are available for customization. The options are set in the JSON-formatted configuration file that Chef InSpec consumes. For details, see [our configuration file documentation](/inspec/config/).
 
 For example:
 

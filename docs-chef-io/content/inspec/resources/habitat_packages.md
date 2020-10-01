@@ -10,7 +10,7 @@ platform = "habitat"
     parent = "inspec/resources/habitat"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/habitat_packages.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/habitat_packages.md)
 
 Use the `habitat_package` (singular) InSpec audit resource to perform in-depth auditing of a single package.
 

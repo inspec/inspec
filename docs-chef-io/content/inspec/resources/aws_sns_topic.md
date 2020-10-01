@@ -10,7 +10,7 @@ platform = "aws"
     parent = "inspec/resources/aws"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/aws_sns_topic.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_sns_topic.md)
 
 Use the `aws_sns_topic` InSpec audit resource to test properties of a single AWS Simple Notification Service Topic. SNS topics are channels for related events. AWS resources place events in the SNS topic, while other AWS resources subscribe to receive notifications when new events occur.
 

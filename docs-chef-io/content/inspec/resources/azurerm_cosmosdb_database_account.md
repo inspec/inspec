@@ -10,7 +10,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/www/content/inspec/resources/azurerm_cosmosdb_database_account.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_cosmosdb_database_account.md)
 
 Use the `azurerm_cosmosdb_database_account` InSpec audit resource to test properties and configuration of
 an Azure CosmosDb Database Account within a Resource Group.
