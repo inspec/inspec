@@ -162,6 +162,9 @@ module Inspec
         desc: "Use --no-diff to suppress 'diff' output of failed textual test results."
       option :sort_results_by, type: :string, default: "file", banner: "--sort-results-by=none|control|file|random",
         desc: "After normal execution order, results are sorted by control ID, or by file (default), or randomly. None uses legacy unsorted mode."
+      option :command_timeout, type: :numeric, default: 60,
+        desc: "Maximum minutes to allow commands to run during execution. Default 60.",
+        long_desc: "Maximum minutes to allow commands to run during execution. Default 60. A timed out command is considered an error."
     end
 
     def self.help(*args)
