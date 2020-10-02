@@ -69,38 +69,6 @@ This resource supports the following options for parsing configuration data. Use
       its('setting') { should eq 1 }
     end
 
-## Examples
-
-The following examples show how to use this Chef InSpec audit resource.
-
-### Test a configuration setting
-
-    describe parse_config_file('/path/to/file.conf') do
-     its('PARAM_X') { should eq 'Y' }
-    end
-
-### Use options, and then test a configuration setting
-
-    describe parse_config_file('/path/to/file.conf', { multiple_values: true }) do
-     its('PARAM_X') { should include 'Y' }
-    end
-
-### Test a file with an ini-like structure (such as a yum.conf)
-
-    describe parse_config_file('/path/to/yum.conf') do
-     its('main') { should include('gpgcheck' => '1') }
-    end
-
-### Test a configuration setting containing dots
-
-    describe parse_config_file('/etc/sysctl.conf') do
-     its(['kernel.domainname']) { should eq 'example.com' }
-    end
-
-## Matchers
-
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
-
 ### assignment_regex
 
 Use `assignment_regex` to test a key value using a regular expression:
@@ -158,3 +126,35 @@ Use `standalone_comments: false`, to parse the following:
 
     'key = value # comment'
     params['key'] = 'value'
+
+## Matchers
+
+For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+
+## Examples
+
+The following examples show how to use this Chef InSpec audit resource.
+
+### Test a configuration setting
+
+    describe parse_config_file('/path/to/file.conf') do
+     its('PARAM_X') { should eq 'Y' }
+    end
+
+### Use options, and then test a configuration setting
+
+    describe parse_config_file('/path/to/file.conf', { multiple_values: true }) do
+     its('PARAM_X') { should include 'Y' }
+    end
+
+### Test a file with an ini-like structure (such as a yum.conf)
+
+    describe parse_config_file('/path/to/yum.conf') do
+     its('main') { should include('gpgcheck' => '1') }
+    end
+
+### Test a configuration setting containing dots
+
+    describe parse_config_file('/etc/sysctl.conf') do
+     its(['kernel.domainname']) { should eq 'example.com' }
+    end
