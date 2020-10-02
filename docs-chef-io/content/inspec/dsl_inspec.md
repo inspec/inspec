@@ -249,7 +249,7 @@ control 'nutcracker-connect-redis-001' do
 end
 ```
 
-Here is another simple example, which checks for, if certain pip packages are installed, only if /root/.aws exists
+This example checks for if certain pip packages are installed, but only if '/root/.aws' exists:
 ```ruby
 control 'pip-packages-installed' do
   title 'Check if essential pips are installed'
