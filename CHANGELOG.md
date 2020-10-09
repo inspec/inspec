@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Remove thread requires as this is built in now [#5251](https://github.com/inspec/inspec/pull/5251) ([tas50](https://github.com/tas50))
 - Fix &quot;Edit on GitHub&quot; links [#5268](https://github.com/inspec/inspec/pull/5268) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.23.11 release
 
 #### Merged Pull Requests
+- Remove thread requires as this is built in now [#5251](https://github.com/inspec/inspec/pull/5251) ([tas50](https://github.com/tas50)) <!-- 4.23.11 -->
 - Fix &quot;Edit on GitHub&quot; links [#5268](https://github.com/inspec/inspec/pull/5268) ([IanMadd](https://github.com/IanMadd)) <!-- 4.23.11 -->
 <!-- release_rollup -->
 
