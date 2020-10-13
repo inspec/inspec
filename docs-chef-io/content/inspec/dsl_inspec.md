@@ -249,6 +249,21 @@ control 'nutcracker-connect-redis-001' do
 end
 ```
 
+This example checks for if certain pip packages are installed, but only if '/root/.aws' exists:
+```ruby
+control 'pip-packages-installed' do
+  title 'Check if essential pips are installed'
+  only_if('aws-cli config not created.') do
+    directory('/root/.aws').exist?
+  end
+  %w(aws-mfa PyYAML awscli).each do |aws_pip_deps|
+    describe pip(aws_pip_deps) do
+      it { should be_installed }
+    end
+  end
+end
+```
+
 Mixing this with other conditionals, such as checking existence of the files, can
 help to test different test paths using Chef InSpec. With this way, you can skip
 certain controls, which would 100% fail due to the way servers are prepared, but
