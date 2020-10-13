@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.23.12 -->
+## [v4.23.12](https://github.com/inspec/inspec/tree/v4.23.12) (2020-10-13)
 
 #### Merged Pull Requests
+- Added another example to illustrate use for only_if [#5269](https://github.com/inspec/inspec/pull/5269) ([unixengineer](https://github.com/unixengineer))
 - Remove thread requires as this is built in now [#5251](https://github.com/inspec/inspec/pull/5251) ([tas50](https://github.com/tas50))
 - Fix &quot;Edit on GitHub&quot; links [#5268](https://github.com/inspec/inspec/pull/5268) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
@@ -12,6 +13,7 @@
 ### Changes since 4.23.11 release
 
 #### Merged Pull Requests
+- Added another example to illustrate use for only_if [#5269](https://github.com/inspec/inspec/pull/5269) ([unixengineer](https://github.com/unixengineer)) <!-- 4.23.12 -->
 - Remove thread requires as this is built in now [#5251](https://github.com/inspec/inspec/pull/5251) ([tas50](https://github.com/tas50)) <!-- 4.23.11 -->
 - Fix &quot;Edit on GitHub&quot; links [#5268](https://github.com/inspec/inspec/pull/5268) ([IanMadd](https://github.com/IanMadd)) <!-- 4.23.11 -->
 <!-- release_rollup -->
