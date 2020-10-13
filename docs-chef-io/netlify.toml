@@ -2,7 +2,7 @@
   ignore = "sh ./netlify_ignore.sh"
 
 [build.environment]
-  HUGO_VERSION = "0.69.0"
+  HUGO_VERSION = "0.76.4"
   HUGO_ENABLEGITINFO = "true"
   GO_VERSION = "1.12"
   NODE_ENV = "development"
