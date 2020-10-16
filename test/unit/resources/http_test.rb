@@ -243,4 +243,23 @@ describe "Inspec::Resources::Http" do
       _(headers.D).must_equal(4)
     end
   end
+
+  describe "Windows" do
+
+    # windows
+    it "simple HTTP request with no options" do
+      resource = MockLoader.new(:windows).load_resource("http", "https://www.example.com")
+      params = Hashie::Mash.new({})
+      _(resource.send("status")).must_equal 200
+      # _(resource.status).must_equal 200
+      # _(resource.name).must_equal "dhcp"
+      # _(resource.description).must_equal "DHCP Client"
+      # _(resource.installed?).must_equal true
+      # _(resource.enabled?).must_equal true
+      # _(resource.running?).must_equal true
+      # _(resource.startmode). must_equal "Auto"
+      # _(resource.startname). must_equal "LocalSystem"
+      # _(resource.params).must_equal params
+    end
+  end
 end

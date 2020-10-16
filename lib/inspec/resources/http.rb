@@ -258,6 +258,7 @@ module Inspec::Resources
             else
               cmd << "'#{url}?#{params.map { |e| e.join("=") }.join("&")}'"
             end
+            cmd << " | Select-Object -Property * | ConvertTo-json" # We use `Select-Object -Property * ` to get around an odd PowerShell error
             cmd.join(" ")
           else
             cmd = ["curl -i"]
