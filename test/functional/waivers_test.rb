@@ -48,6 +48,7 @@ describe "waivers" do
     in_past   = !!(control_id =~ /in_past/)
     in_future = !!(control_id =~ /in_future/)
     ran       = !!(control_id !~ /not_ran/)
+    waiver_expired_in_past = /Waiver expired/ =~ act["message"]
 
     # higher logic
     waived      = (!expiry && !ran) || (expiry && !ran && in_future)
@@ -60,7 +61,8 @@ describe "waivers" do
     assert_equal ran,     act["run"]
     assert_equal waived,  act["skipped_due_to_waiver"]
     assert_stringy        act["message"] if     has_message
-    assert_equal "",      act["message"] unless has_message
+    # We supply a message indicating that the waiver has expired in all cases
+    assert_equal "",      act["message"] unless has_message || waiver_expired_in_past
   end
 
   def refute_waiver_annotation(control_id)
