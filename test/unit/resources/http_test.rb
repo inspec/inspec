@@ -244,22 +244,18 @@ describe "Inspec::Resources::Http" do
     end
   end
 
-  describe "Windows" do
+  describe "Windows" do 
+    let(:backend)     { MockLoader.new.backend }
+    let(:http_method) { "GET" }
+    let(:url)         { "http://www.example.com" }
+    let(:opts)        { {} }
+    let(:worker)      { Inspec::Resources::Http::Worker::Remote.new(backend, http_method, url, opts) }
 
-    # windows
-    it "simple HTTP request with no options" do
-      resource = MockLoader.new(:windows).load_resource("http", "https://www.example.com")
-      params = Hashie::Mash.new({})
-      _(resource.send("status")).must_equal 200
-      # _(resource.status).must_equal 200
-      # _(resource.name).must_equal "dhcp"
-      # _(resource.description).must_equal "DHCP Client"
-      # _(resource.installed?).must_equal true
-      # _(resource.enabled?).must_equal true
-      # _(resource.running?).must_equal true
-      # _(resource.startmode). must_equal "Auto"
-      # _(resource.startname). must_equal "LocalSystem"
-      # _(resource.params).must_equal params
+    describe "simple HTTP request with no options" do
+      it "returns correct data" do
+        _(worker.status).must_equal 200
+        _(worker.body).must_equal "no options"
+      end
     end
   end
 end
