@@ -30,7 +30,7 @@ This resource first became available in v1.37.6 of InSpec.
 
 An `nginx_conf` resource block declares the client NGINX configuration data to be tested:
 
-    describe nginx_conf.params['pid'] do
+    describe nginx_conf.params['pid'].flatten do
       it { should cmp 'logs/nginx.pid' }
     end
 
