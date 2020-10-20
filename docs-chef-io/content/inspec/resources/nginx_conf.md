@@ -41,6 +41,14 @@ where
 - `params['pid']` selects the `pid` entry from the global NGINX configuration
 - `{ should cmp 'logs/nginx.pid' }` tests if the PID is set to `logs/nginx.pid` (via `cmp` matcher)
 
+Parameters can be accessed either via `params` or via the `its` syntax:
+
+    describe nginx_conf do
+      its('pid') { should cmp 'logs/nginx.pid' }
+    end
+
+The `its` syntax allows for a more descriptive block and is available in the `nginx_conf`, `nginx_conf.http.entries` and `nginx_conf.http.servers` resources.
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
@@ -58,6 +66,11 @@ The following examples show how to use this Chef InSpec audit resource.
 
     describe nginx_conf.params['worker_processes'].flatten do
       it { should cmp 5 }
+    end
+
+    # Or, using its
+    describe nginx_conf do
+      its('worker_processes') { should cmp 5 }
     end
 
 ## Matchers
