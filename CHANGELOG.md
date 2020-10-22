@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.23.14 -->
-## [v4.23.14](https://github.com/inspec/inspec/tree/v4.23.14) (2020-10-19)
+<!-- latest_release 4.23.15 -->
+## [v4.23.15](https://github.com/inspec/inspec/tree/v4.23.15) (2020-10-22)
 
 #### Merged Pull Requests
-- Ensure that we populate information about waiver expiration regardless of `run: true/false` [#5278](https://github.com/inspec/inspec/pull/5278) ([Schwad](https://github.com/Schwad))
+- Upgrade the habitat Ruby dependency to 2.6 [#5287](https://github.com/inspec/inspec/pull/5287) ([btm](https://github.com/btm))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.23.11 -->
 ### Changes since 4.23.11 release
 
 #### Merged Pull Requests
+- Upgrade the habitat Ruby dependency to 2.6 [#5287](https://github.com/inspec/inspec/pull/5287) ([btm](https://github.com/btm)) <!-- 4.23.15 -->
 - Ensure that we populate information about waiver expiration regardless of `run: true/false` [#5278](https://github.com/inspec/inspec/pull/5278) ([Schwad](https://github.com/Schwad)) <!-- 4.23.14 -->
 - Update Hugo version to 0.76.4 [#5279](https://github.com/inspec/inspec/pull/5279) ([IanMadd](https://github.com/IanMadd)) <!-- 4.23.13 -->
 - Added another example to illustrate use for only_if [#5269](https://github.com/inspec/inspec/pull/5269) ([unixengineer](https://github.com/unixengineer)) <!-- 4.23.12 -->
