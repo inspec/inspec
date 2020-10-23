@@ -8,9 +8,9 @@ expeditor:
           limit: 1
 
 steps:
-  - label: integration-test-kitchen
+  - label: Resource-Platform Tests
     command:
-      - RAKE_TASK=test:integration /workdir/.expeditor/buildkite/verify.sh
+      - RAKE_TASK=test:kitchen /workdir/.expeditor/buildkite/verify.sh
     expeditor:
       executor:
         docker:
