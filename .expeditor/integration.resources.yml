@@ -17,4 +17,5 @@ steps:
           environment:
             - CONCURRENCY: 5
             - DOCKER: 1
+            - KITCHEN_YAML: kitchen.dokken.yml
           image: ruby:2.7
