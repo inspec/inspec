@@ -1,30 +1,27 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.23.15 -->
-## [v4.23.15](https://github.com/inspec/inspec/tree/v4.23.15) (2020-10-22)
-
-#### Merged Pull Requests
-- Upgrade the habitat Ruby dependency to 2.6 [#5287](https://github.com/inspec/inspec/pull/5287) ([btm](https://github.com/btm))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.23.11 -->
-### Changes since 4.23.11 release
-
-#### Merged Pull Requests
-- Upgrade the habitat Ruby dependency to 2.6 [#5287](https://github.com/inspec/inspec/pull/5287) ([btm](https://github.com/btm)) <!-- 4.23.15 -->
-- Ensure that we populate information about waiver expiration regardless of `run: true/false` [#5278](https://github.com/inspec/inspec/pull/5278) ([Schwad](https://github.com/Schwad)) <!-- 4.23.14 -->
-- Update Hugo version to 0.76.4 [#5279](https://github.com/inspec/inspec/pull/5279) ([IanMadd](https://github.com/IanMadd)) <!-- 4.23.13 -->
-- Added another example to illustrate use for only_if [#5269](https://github.com/inspec/inspec/pull/5269) ([unixengineer](https://github.com/unixengineer)) <!-- 4.23.12 -->
-- Remove thread requires as this is built in now [#5251](https://github.com/inspec/inspec/pull/5251) ([tas50](https://github.com/tas50)) <!-- 4.23.11 -->
-- Fix &quot;Edit on GitHub&quot; links [#5268](https://github.com/inspec/inspec/pull/5268) ([IanMadd](https://github.com/IanMadd)) <!-- 4.23.11 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.23.15](https://github.com/inspec/inspec/tree/v4.23.15) (2020-10-23)
+
+#### Merged Pull Requests
+- Fix &quot;Edit on GitHub&quot; links [#5268](https://github.com/inspec/inspec/pull/5268) ([IanMadd](https://github.com/IanMadd))
+- Remove thread requires as this is built in now [#5251](https://github.com/inspec/inspec/pull/5251) ([tas50](https://github.com/tas50))
+- Added another example to illustrate use for only_if [#5269](https://github.com/inspec/inspec/pull/5269) ([unixengineer](https://github.com/unixengineer))
+- Update Hugo version to 0.76.4 [#5279](https://github.com/inspec/inspec/pull/5279) ([IanMadd](https://github.com/IanMadd))
+- Ensure that we populate information about waiver expiration regardless of `run: true/false` [#5278](https://github.com/inspec/inspec/pull/5278) ([Schwad](https://github.com/Schwad))
+- Upgrade the habitat Ruby dependency to 2.6 [#5287](https://github.com/inspec/inspec/pull/5287) ([btm](https://github.com/btm))
+<!-- latest_stable_release -->
+
 ## [v4.23.11](https://github.com/inspec/inspec/tree/v4.23.11) (2020-09-28)
 
 #### Merged Pull Requests
 - Add Chef patent URL to --help, tidy help output [#5255](https://github.com/inspec/inspec/pull/5255) ([james-stocks](https://github.com/james-stocks))
-<!-- latest_stable_release -->
 
 ## [v4.23.10](https://github.com/inspec/inspec/tree/v4.23.10) (2020-09-23)
 
