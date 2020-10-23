@@ -2,7 +2,7 @@
 expeditor:
   defaults:
     buildkite:
-      timeout_in_minutes: 45
+      timeout_in_minutes: 60
       retry:
         automatic:
           limit: 1
@@ -15,7 +15,7 @@ steps:
       executor:
         docker:
           environment:
-            - CONCURRENCY: 5
+            - CONCURRENCY: 3
             - DOCKER: 1
             - KITCHEN_YAML: kitchen.dokken.yml
           image: ruby:2.7
