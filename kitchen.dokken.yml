@@ -7,14 +7,6 @@ driver:
 transport:
   name: dokken
 
-lifecycle:
-  # The purpose of this code is to build the InSpec gems from source and then make them available
-  # to the install_inspec cookbook, which will install the gems. This means that the inspec used
-  # during the Kitchen Verify phase will be the version from source.
-  pre_converge:
-    - local: cd inspec-bin && gem build inspec-core-bin.gemspec --output ../test/kitchen/cookbooks/install_inspec/files/inspec-core-bin.gem
-    - local: gem build inspec-core.gemspec --output test/kitchen/cookbooks/install_inspec/files/inspec-core.gem
-
 provisioner:
   name: dokken
 
