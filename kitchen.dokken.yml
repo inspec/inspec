@@ -72,6 +72,7 @@ platforms:
   driver:
     image: dokken/oraclelinux-7
     pid_one_command: /usr/lib/systemd/systemd
+# TODO: oraclelinux-8 is disabled because it currently fails with the following error:
 # [2020-08-12T17:38:38+00:00] FATAL: RuntimeError: dnf_package[openssh-server] (ssh-hardening::server line 47) had an error: RuntimeError: dnf-helper.py had stderr output:
 # Errors during downloading metadata for repository 'ol8_baseos_latest':
 #   - Curl error (6): Couldn't resolve host name for https://yum$ociregion.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/repodata/repomd.xml [Could not resolve host: yum$ociregion.oracle.com]
