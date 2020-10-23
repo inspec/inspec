@@ -81,10 +81,12 @@ platforms:
 #     image: dokken/oraclelinux-8
 #     pid_one_command: /usr/lib/systemd/systemd
 
-- name: opensuse-leap
-  driver:
-    image: dokken/opensuse-leap-42
-    pid_one_command: /bin/systemd
+# TODO: opensuse-leap is disabled because of the following error:
+# [2020-10-23T16:08:49+00:00] FATAL: Chef::Exceptions::ProviderNotFound: package[openssh-server] (ssh-hardening::server line 47) had an error: Chef::Exceptions::ProviderNotFound: Cannot find a provider for package[openssh-server] on linux version 4.19.76-linuxkit
+# - name: opensuse-leap
+#   driver:
+#     image: dokken/opensuse-leap-15
+#     pid_one_command: /bin/systemd
 
 - name: ubuntu-16.04
   driver:
