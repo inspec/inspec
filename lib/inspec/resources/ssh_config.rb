@@ -20,7 +20,7 @@ module Inspec::Resources
     include FileReader
 
     def initialize(conf_path = nil, type = nil)
-      @conf_path = conf_path || "/etc/ssh/ssh_config"
+      @conf_path = conf_path || ssh_config_file("ssh_config")
       typename = (@conf_path.include?("sshd") ? "Server" : "Client")
       @type = type || "SSH #{typename} configuration #{conf_path}"
       read_content
@@ -76,6 +76,15 @@ module Inspec::Resources
       )
       @params = convert_hash(conf.params)
     end
+
+    def ssh_config_file(type)
+      if inspec.os.windows?
+        programdata = inspec.os_env("programdata").content
+        return "#{programdata}\\ssh\\#{type}"
+      end
+
+      "/etc/ssh/#{type}"
+    end
   end
 
   class SshdConfig < SshConfig
@@ -90,11 +99,22 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize(path = nil)
-      super(path || "/etc/ssh/sshd_config")
+      super(path || ssh_config_file("sshd_config"))
     end
 
     def to_s
       "SSHD Configuration"
+    end
+
+    private
+
+    def ssh_config_file(type)
+      if inspec.os.windows?
+        programdata = inspec.os_env("programdata").content
+        return "#{programdata}\\ssh\\#{type}"
+      end
+
+      "/etc/ssh/#{type}"
     end
   end
 end
