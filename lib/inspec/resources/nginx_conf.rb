@@ -63,6 +63,12 @@ module Inspec::Resources
       nil
     end
 
+    def respond_to_missing?(name, include_all = false)
+      return super if name.to_s.match?(/^to_/)
+
+      true
+    end
+
     private
 
     def read_content(path)
@@ -190,6 +196,12 @@ module Inspec::Resources
       (@params[name.to_s] || []).flatten
     end
 
+    def respond_to_missing?(name, include_all = false)
+      return super if name.to_s.match?(/^to_/)
+
+      true
+    end
+
     private
 
     def server_table
@@ -226,6 +238,12 @@ module Inspec::Resources
       return super if name.to_s.match?(/^to_/)
 
       (@params[name.to_s] || []).flatten
+    end
+
+    def respond_to_missing?(name, include_all = false)
+      return super if name.to_s.match?(/^to_/)
+
+      true
     end
 
     private
