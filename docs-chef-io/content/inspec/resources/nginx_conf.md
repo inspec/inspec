@@ -47,7 +47,7 @@ Parameters can be accessed either via `params` or via the `its` syntax:
       its('pid') { should cmp 'logs/nginx.pid' }
     end
 
-The `its` syntax allows for a more descriptive block and is available in the `nginx_conf`, `nginx_conf.http.entries` and `nginx_conf.http.servers` resources.
+The `its` syntax allows for a more descriptive block and is available in the `nginx_conf`, `nginx_conf.http.entries`, and `nginx_conf.http.servers` resources.
 
 ## Examples
 
@@ -68,7 +68,7 @@ The following examples show how to use this Chef InSpec audit resource.
       it { should cmp 5 }
     end
 
-    # Or, using its
+    # Or when using `its` syntax
     describe nginx_conf do
       its('worker_processes') { should cmp 5 }
     end
