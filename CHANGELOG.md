@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.23.16 -->
+## [v4.23.16](https://github.com/inspec/inspec/tree/v4.23.16) (2020-11-02)
+
+#### Merged Pull Requests
+- Pin rspec to 3.9 [#5297](https://github.com/inspec/inspec/pull/5297) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.23.15 -->
+### Changes since 4.23.15 release
+
+#### Merged Pull Requests
+- Pin rspec to 3.9 [#5297](https://github.com/inspec/inspec/pull/5297) ([james-stocks](https://github.com/james-stocks)) <!-- 4.23.16 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
