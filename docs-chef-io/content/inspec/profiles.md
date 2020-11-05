@@ -63,7 +63,7 @@ Each profile must have an `inspec.yml` file that defines the following informati
 - Use `inspec_version` to place SemVer constraints on the version of Chef InSpec that the profile can run under.
 - Use `supports` to specify a list of supported platform targets.
 - Use `depends` to define a list of profiles on which this profile depends.
-- Use `attributes` to define a list of attributes you can use in your controls.
+- Use `inputs` to define a list of inputs you can use in your controls.
 
 `name` is required; all other profile settings are optional. For example:
 
