@@ -53,13 +53,20 @@ where each test
 - May run a command to `stdout`, and then run the test against that output
 - May use options to define how configuration data is to be parsed
 
-## Examples
+## Options
 
-This resource is based on the `parse_config_file` resource. As such please refer to the examples of the [`parse_config_file`](/inspec/resources/parse_config_file) resource.
+This resource supports the following options for parsing configuration data. Use them in an `options` block stated outside of (and immediately before) the actual test:
 
-## Matchers
+    options = {
+        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        multiple_values: true
+      }
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+    output = command('some-command').stdout
+
+    describe parse_config(output,  options) do
+      its('setting') { should eq 1 }
+    end
 
 ### assignment_regex
 
@@ -118,3 +125,12 @@ Use `standalone_comments: false`, to parse the following:
 
     'key = value # comment'
     params['key'] = 'value'
+
+
+## Examples
+
+This resource is based on the `parse_config_file` resource. As such please refer to the examples of the [`parse_config_file`](/inspec/resources/parse_config_file) resource.
+
+## Matchers
+
+For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
