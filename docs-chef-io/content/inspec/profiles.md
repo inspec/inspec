@@ -115,8 +115,8 @@ inspec check examples/profile
 Use the `supports` setting in the `inspec.yml` file to specify one (or more) platforms for which a profile is targeting. The list of supported platforms may contain the following:
 
 - Use `platform-family` to restrict to a specific platform family.
-- Use `platform-name` to restrict on a specific platform name.
-- Use `release` to restrict to a specific platform version (used with platform-name).
+- Use `platform-name` to restrict on a specific platform name (supports bash wildcards).
+- Use `release` to restrict to a specific platform version (used with platform-name, supports bash wildcards).
 - Use `platform` to restrict on either platform-name or platform-family.
 
 For compatibility we support `os-name` and `os-family`. We recommend all users
@@ -142,12 +142,29 @@ supports:
     release: 14.04
 ```
 
+and to target entire release of Ubuntu version 14.x
+
+```YAML
+name: ssh
+supports:
+  - platform-name: ubuntu
+    release: 14.*
+```
+
 and to target the entire RedHat platform (including CentOS and Oracle Linux):
 
 ```YAML
 name: ssh
 supports:
   - platform-family: redhat
+```
+
+and to target the entire Windows 2019 platform family (including Datcenter and Core Servers):
+
+```YAML
+name: ssh
+supports:
+  - platform-name: windows_server_2019*
 ```
 
 and to target anything running on Amazon AWS:
@@ -169,6 +186,7 @@ supports:
   - platform-family: redhat
   - platform: aws
 ```
+
 
 ## Profile Dependencies
 

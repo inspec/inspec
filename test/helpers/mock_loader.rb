@@ -25,6 +25,8 @@ class MockLoader
     mint17: { name: "linuxmint", family: "debian", release: "17.3", arch: "x86_64" },
     mint18: { name: "linuxmint", family: "debian", release: "18", arch: "x86_64" },
     windows: { name: "windows", family: "windows", release: "6.2.9200", arch: "x86_64" },
+    windows2016: { name: "windows_server_2016_datacenter", family: "windows", release: "10.0.14393", arch: "x86_64" },
+    windows2019: { name: "windows_server_2019_datacenter", family: "windows", release: "10.0.17763", arch: "x86_64" },
     wrlinux: { name: "wrlinux", family: "redhat", release: "7.0(3)I2(2)", arch: "x86_64" },
     solaris11: { name: "solaris", family: "solaris", release: "11", arch: "i386" },
     solaris10: { name: "solaris", family: "solaris", release: "10", arch: "i386" },
