@@ -35,7 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "hashie",             "~> 3.4"
   spec.add_dependency "mixlib-log",         "~> 3.0"
   spec.add_dependency "sslshake",           "~> 1.2"
-  spec.add_dependency "parallel",           "~> 1.9"
+  spec.add_dependency "parallel",           "~> 1.9", "< 1.20" # TODO: remove top pin when we drop 2.4 support
   spec.add_dependency "faraday",            ">= 0.9.0", "< 1.1"
   spec.add_dependency "tty-table",          "~> 0.10"
   spec.add_dependency "tty-prompt",         "~> 0.17"
