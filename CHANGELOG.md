@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.23.19 -->
-## [v4.23.19](https://github.com/inspec/inspec/tree/v4.23.19) (2020-11-11)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Bumps parallel for ruby 2.4 issue [#5304](https://github.com/inspec/inspec/pull/5304) ([Schwad](https://github.com/Schwad))
+- Update Codeowners file for Docs [#5298](https://github.com/inspec/inspec/pull/5298) ([mjingle](https://github.com/mjingle))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.23.15 -->
 ### Changes since 4.23.15 release
 
 #### Merged Pull Requests
+- Update Codeowners file for Docs [#5298](https://github.com/inspec/inspec/pull/5298) ([mjingle](https://github.com/mjingle)) <!-- 4.23.19 -->
 - Bumps parallel for ruby 2.4 issue [#5304](https://github.com/inspec/inspec/pull/5304) ([Schwad](https://github.com/Schwad)) <!-- 4.23.19 -->
 - replace deprecated attributes section with inputs [#5295](https://github.com/inspec/inspec/pull/5295) ([KonradSchieban](https://github.com/KonradSchieban)) <!-- 4.23.18 -->
 - Add ed25519 support to the habitat package [#5299](https://github.com/inspec/inspec/pull/5299) ([btm](https://github.com/btm)) <!-- 4.23.17 -->
