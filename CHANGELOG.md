@@ -1,16 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.23.18 -->
-## [v4.23.18](https://github.com/inspec/inspec/tree/v4.23.18) (2020-11-05)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- replace deprecated attributes section with inputs [#5295](https://github.com/inspec/inspec/pull/5295) ([KonradSchieban](https://github.com/KonradSchieban))
+- Update Codeowners file for Docs [#5298](https://github.com/inspec/inspec/pull/5298) ([mjingle](https://github.com/mjingle))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.23.15 -->
 ### Changes since 4.23.15 release
 
 #### Merged Pull Requests
+- Update Codeowners file for Docs [#5298](https://github.com/inspec/inspec/pull/5298) ([mjingle](https://github.com/mjingle)) <!-- 4.23.19 -->
+- Bumps parallel for ruby 2.4 issue [#5304](https://github.com/inspec/inspec/pull/5304) ([Schwad](https://github.com/Schwad)) <!-- 4.23.19 -->
 - replace deprecated attributes section with inputs [#5295](https://github.com/inspec/inspec/pull/5295) ([KonradSchieban](https://github.com/KonradSchieban)) <!-- 4.23.18 -->
 - Add ed25519 support to the habitat package [#5299](https://github.com/inspec/inspec/pull/5299) ([btm](https://github.com/btm)) <!-- 4.23.17 -->
 - Pin rspec to 3.9 [#5297](https://github.com/inspec/inspec/pull/5297) ([james-stocks](https://github.com/james-stocks)) <!-- 4.23.16 -->
