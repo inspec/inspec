@@ -39,7 +39,7 @@ module Inspec::Resources
     # returns nil, if not existant or value
     def method_missing(*keys)
       # catch behavior of rspec its implementation
-      # @see https://github.com/rspec/rspec-its/blob/master/lib/rspec/its.rb#L110
+      # @see https://github.com/rspec/rspec-its/blob/v1.2.0/lib/rspec/its.rb#L110
       keys.shift if keys.is_a?(Array) && keys[0] == :[]
 
       # map all symbols to strings

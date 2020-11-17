@@ -57,7 +57,7 @@ module Inspec::Resources
 
     def method_missing(*name)
       # catch bahavior of rspec its implementation
-      # @see https://github.com/rspec/rspec-its/blob/master/lib/rspec/its.rb#L110
+      # @see https://github.com/rspec/rspec-its/blob/v1.2.0/lib/rspec/its.rb#L110
       name.shift if name.is_a?(Array) && name[0] == :[]
       read_params[name[0].to_s]
     end
