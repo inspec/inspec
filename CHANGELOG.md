@@ -1,7 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.23.20 -->
+## [v4.23.20](https://github.com/inspec/inspec/tree/v4.23.20) (2020-11-18)
+
+#### Bug Fixes
+- Don&#39;t reload plugins if load_all is called repeatedly [#5308](https://github.com/inspec/inspec/pull/5308) ([clintoncwolfe](https://github.com/clintoncwolfe))
 
 #### Merged Pull Requests
 - Update Codeowners file for Docs [#5298](https://github.com/inspec/inspec/pull/5298) ([mjingle](https://github.com/mjingle))
@@ -9,6 +12,9 @@
 
 <!-- release_rollup since=4.23.15 -->
 ### Changes since 4.23.15 release
+
+#### Bug Fixes
+- Don&#39;t reload plugins if load_all is called repeatedly [#5308](https://github.com/inspec/inspec/pull/5308) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.23.20 -->
 
 #### Merged Pull Requests
 - Update Codeowners file for Docs [#5298](https://github.com/inspec/inspec/pull/5298) ([mjingle](https://github.com/mjingle)) <!-- 4.23.19 -->
