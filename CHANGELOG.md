@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.23.21 -->
-## [v4.23.21](https://github.com/inspec/inspec/tree/v4.23.21) (2020-11-18)
+<!-- latest_release 4.23.22 -->
+## [v4.23.22](https://github.com/inspec/inspec/tree/v4.23.22) (2020-11-23)
 
-#### Merged Pull Requests
-- grub_conf - handle no menuentry config [#5306](https://github.com/inspec/inspec/pull/5306) ([james-stocks](https://github.com/james-stocks))
+#### New Features
+- InSpec Cloud: Reporting by Resource [#5241](https://github.com/inspec/inspec/pull/5241) ([Schwad](https://github.com/Schwad))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.23.15 -->
 ### Changes since 4.23.15 release
+
+#### New Features
+- InSpec Cloud: Reporting by Resource [#5241](https://github.com/inspec/inspec/pull/5241) ([Schwad](https://github.com/Schwad)) <!-- 4.23.22 -->
 
 #### Bug Fixes
 - Don&#39;t reload plugins if load_all is called repeatedly [#5308](https://github.com/inspec/inspec/pull/5308) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.23.20 -->
