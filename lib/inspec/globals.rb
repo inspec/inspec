@@ -1,11 +1,20 @@
 require_relative "utils/install_context"
 
+require 'etc' unless defined?(Etc)
+
 module Inspec
 
   extend Inspec::InstallContextHelpers
-
+  
   def self.config_dir
-    ENV["INSPEC_CONFIG_DIR"] ? ENV["INSPEC_CONFIG_DIR"] : File.join(Dir.home, ".inspec")
+    begin
+  	  home = Dir.home
+  	rescue ArgumentError, NoMethodError
+  	  # $HOME is not set in systemd service File.expand_path('~') will not work here
+  	  home = Etc.getpwuid(Process.uid).dir
+  	end
+
+    ENV["INSPEC_CONFIG_DIR"] ? ENV["INSPEC_CONFIG_DIR"] : File.join(home, ".inspec")
   end
 
   def self.src_root
