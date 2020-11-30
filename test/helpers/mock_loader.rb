@@ -191,6 +191,11 @@ class MockLoader
       mock.mock_command("", "", stderr, 1)
     }
 
+    # DEV NOTES: Most of the key=>value pairs below represent inspec commands=>responses to mock in testing.
+    #   "cf04ce5615167da0133540398aa9989bf48b3d15a615f08f97eafaeec6e5b2ba" => cmd.call("get-wmiobject"),
+    # In this ^^^ case, the key is the sha256sum of the script that is sent to the 'inspec.powershell' method in resources/wmi.rb
+    # And the content of 'get-wmiobject' can be found in this file: 'test/fixtures/cmd/get-wmiobject'. If you change the script
+    # that the inspec resource sends, you have to calculate the new sha256sum of it and update it here
     mock_cmds = {
       "" => empty.call,
       "sh -c 'find /no/such/mock -type f -maxdepth 1'" => empty.call,
@@ -375,7 +380,7 @@ class MockLoader
       # xinetd configuration
       "find /etc/xinetd.d -type f" => cmd.call("find-xinetd.d"),
       # wmi test
-      "2979ebeb80a475107d85411f109209a580ccf569071b3dc7acff030b8635c6b9" => cmd.call("get-wmiobject"),
+      "cf04ce5615167da0133540398aa9989bf48b3d15a615f08f97eafaeec6e5b2ba" => cmd.call("get-wmiobject"),
       # user info on hpux
       "logins -x -l root" => cmd.call("logins-x"),
       # packages on hpux
