@@ -15,7 +15,6 @@ describe Inspec::Reporters::JsonAutomate do
       report.render
 
       actual = JSON.parse(report.rendered_output, symbolize_names: true)
-
       _(actual).must_equal output
     end
   end

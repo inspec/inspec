@@ -61,7 +61,8 @@
               "status": "passed",
               "code_desc": "File /etc/hosts mode should eq 420",
               "run_time": 0.031503,
-              "start_time": "2018-07-30T08:56:41-04:00"
+              "start_time": "2018-07-30T08:56:41-04:00",
+              "resource_params": ""
             }
           ]
         },
@@ -101,7 +102,8 @@
               "status": "passed",
               "code_desc": "File /etc/passwd should exist",
               "run_time": 0.003954,
-              "start_time": "2018-07-30T08:56:41-04:00"
+              "start_time": "2018-07-30T08:56:41-04:00",
+              "resource_params": ""
             }
           ]
         },
@@ -131,7 +133,8 @@
               "run_time": 2.9e-05,
               "start_time": "2018-07-30T08:56:41-04:00",
               "resource": "Operating System Detection",
-              "skip_message": "Skipped control due to only_if condition."
+              "skip_message": "Skipped control due to only_if condition.",
+              "resource_params": ""
             }
           ]
         }

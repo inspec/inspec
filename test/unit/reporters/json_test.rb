@@ -55,6 +55,7 @@ describe Inspec::Reporters::Json do
         code_desc: "File /tmp should be directory",
         run_time: 0.002058,
         start_time: "2018-01-05 11:43:04 -0500",
+        resource_params: "",
       }
       result = report.send(:profile_results, control)
       _(result.first).must_equal hash
@@ -68,6 +69,7 @@ describe Inspec::Reporters::Json do
         code_desc: "File /tmp should be directory",
         run_time: 0.002058,
         start_time: "2018-01-05 11:43:04 -0500",
+        resource_params: "",
         resource: "File",
         skip_message: "skipping",
       }
