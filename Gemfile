@@ -25,19 +25,20 @@ end
 
 group :test do
   gem "chefstyle", "~> 1.2.1"
-  gem "minitest", "~> 5.5"
-  gem "minitest-sprint", "~> 1.0"
-  gem "rake", ">= 10"
-  gem "simplecov", ["~> 0.10", "<=0.18.2"]
   gem "concurrent-ruby", "~> 1.0"
-  gem "nokogiri", "~> 1.9"
-  gem "mocha", "~> 1.1"
-  gem "ruby-progressbar", "~> 1.8"
-  gem "webmock", "~> 3.0"
-  gem "m"
-  gem "pry", "~> 0.10"
-  gem "pry-byebug"
   gem "html-proofer", platforms: :ruby # do not attempt to run proofer on windows
+  gem "json_schemer", ">= 0.2.1", "< 0.2.12"
+  gem "m"
+  gem "minitest-sprint", "~> 1.0"
+  gem "minitest", "~> 5.5"
+  gem "mocha", "~> 1.1"
+  gem "nokogiri", "~> 1.9"
+  gem "pry-byebug"
+  gem "pry", "~> 0.10"
+  gem "rake", ">= 10"
+  gem "ruby-progressbar", "~> 1.8"
+  gem "simplecov", ["~> 0.10", "<=0.18.2"]
+  gem "webmock", "~> 3.0"
 end
 
 group :integration do
