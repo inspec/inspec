@@ -8,7 +8,7 @@ describe "inspec check" do
 
   describe "inspec clear_cache" do
     it "clears any existing cache" do
-      dirname = File.expand_path("~/.inspec/cache")
+      dirname = File.expand_path("~/.inspec/#{SecureRandom.hex(10)}/alt-cache")
       unless File.directory?(dirname)
         FileUtils.mkdir_p(dirname)
       end
@@ -17,7 +17,7 @@ describe "inspec check" do
 
       assert !Dir.glob(newfile).empty?
 
-      out = inspec("clear_cache")
+      out = inspec("clear_cache --vendor-cache=#{dirname}")
 
       assert_empty Dir.glob(newfile)
       assert_exit_code 0, out
