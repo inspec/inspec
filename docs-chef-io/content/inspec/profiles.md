@@ -18,7 +18,7 @@ is a standalone structure with its own distribution and execution flow.
 
 ## Profile Structure
 
-A profile should have the following structure::
+A profile should have the following structure:
 
 ```YAML
 examples/profile
@@ -115,8 +115,8 @@ inspec check examples/profile
 Use the `supports` setting in the `inspec.yml` file to specify one (or more) platforms for which a profile is targeting. The list of supported platforms may contain the following:
 
 - Use `platform-family` to restrict to a specific platform family.
-- Use `platform-name` to restrict on a specific platform name (supports bash wildcards).
-- Use `release` to restrict to a specific platform version (used with platform-name, supports bash wildcards).
+- Use `platform-name` to restrict on a specific platform name. `platform-name` supports asterisk (`*`) wildcard use.
+- Use `release` to restrict to a specific platform version, and use together with `platform-name`. `release` supports asterisk (`*`) wildcard use.
 - Use `platform` to restrict on either platform-name or platform-family.
 
 For compatibility we support `os-name` and `os-family`. We recommend all users
@@ -125,7 +125,7 @@ to change `os-name` to `platform-name` and `os-family` to `platform-family`.
 With Chef InSpec 2.0, we introduced new families to help distinguish the cloud
 platforms. The new families can restrict the platform family to `os`, `aws`, `azure` or `gcp`.
 
-For example, to target anything running Debian Linux:
+For example, to target anything running Debian Linux, use:
 
 ```YAML
 name: ssh
@@ -133,7 +133,7 @@ supports:
   - platform-name: debian
 ```
 
-and to target only Ubuntu version 14.04
+To target only Ubuntu version 14.04, use:
 
 ```YAML
 name: ssh
@@ -142,7 +142,7 @@ supports:
     release: 14.04
 ```
 
-and to target entire release of Ubuntu version 14.x
+To target the entire release of Ubuntu version 14.x, use:
 
 ```YAML
 name: ssh
@@ -151,7 +151,7 @@ supports:
     release: 14.*
 ```
 
-and to target the entire RedHat platform (including CentOS and Oracle Linux):
+To target the entire RedHat platform (including CentOS and Oracle Linux), use:
 
 ```YAML
 name: ssh
@@ -159,7 +159,7 @@ supports:
   - platform-family: redhat
 ```
 
-and to target the entire Windows 2019 platform family (including Datcenter and Core Servers):
+To target the entire Windows 2019 platform family including Datcenter and Core Servers, use:
 
 ```YAML
 name: ssh
@@ -167,7 +167,7 @@ supports:
   - platform-name: windows_server_2019*
 ```
 
-and to target anything running on Amazon AWS:
+To target anything running on Amazon AWS, use:
 
 ```YAML
 name: ssh
@@ -175,7 +175,7 @@ supports:
   - platform: aws
 ```
 
-and to target all of these examples in a single `inspec.yml` file:
+To target all of these examples in a single `inspec.yml` file, use:
 
 ```YAML
 name: ssh
@@ -186,7 +186,6 @@ supports:
   - platform-family: redhat
   - platform: aws
 ```
-
 
 ## Profile Dependencies
 
