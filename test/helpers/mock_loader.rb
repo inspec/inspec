@@ -271,7 +271,7 @@ class MockLoader
       "rmsock f0000000000000001 tcpcb" => cmd.call("rmsock-f0001"),
       "rmsock f0000000000000002 tcpcb" => cmd.call("rmsock-f0002"),
       # packages on windows
-      "f7718ece69188bb19cd458e2aeab0a8d968f3d40ac2f4199e21cc976f8db5ef6" => cmd.call("get-item-property-package"),
+      "6785190b3df7291a7622b0b75b0217a9a78bd04690bc978df51ae17ec852a282" => cmd.call("get-item-property-package"),
       # service status upstart on ubuntu
       "initctl status ssh" => cmd.call("initctl-status-ssh"),
       # upstart version on ubuntu

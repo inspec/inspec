@@ -30,6 +30,7 @@
       :code_desc: File /tmp should exist
       :run_time: 0.001313935
       :start_time: '2018-05-31T16:22:19+05:30'
+      :resource_params: ''
 :statistics:
   :duration: 0.002678506
 :version: 2.1.83

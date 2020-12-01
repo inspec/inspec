@@ -29,7 +29,7 @@ module Inspec::Resources
       @content = read_file(@conf_path)
       @kernel = kernel || "default"
     rescue UnknownGrubConfig
-      skip_resource "The `grub_config` resource is not supported on your OS yet."
+      skip_resource "The `grub_conf` resource is not yet supported on the target OS #{inspec.os[:name]}."
     end
 
     def config_for_platform(path)
@@ -77,6 +77,7 @@ module Inspec::Resources
 
     def grub2_parse_kernel_lines(content, conf)
       menu_entries = extract_menu_entries(content)
+      return {} if menu_entries.empty?
 
       if @kernel == "default"
         default_menu_entry(menu_entries, conf["GRUB_DEFAULT"])

@@ -486,6 +486,7 @@ The `run_data` object contains all data from the Chef InSpec run. Here is an ove
 
 v0.1.0 - Initial version
 v0.2.0 - added `run_data.profiles[0].inputs[0].options.sensitive`
+v0.3.0 - added resource_name && params
 
 ## Implementing Input Plugins
 

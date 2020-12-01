@@ -8,6 +8,7 @@ module Inspec
       :run_time,            # Float seconds execution time
       :skip_message,        # String
       :start_time,          # DateTime
+      :resource_params,     # What is passed to the resource as a raw grep
       :status, # String
       :resource_title, # Ugly internals
       # :waiver_data,       # Undocumented tramp data / not exposed in this API
@@ -34,6 +35,7 @@ module Inspec
         end
 
         self.resource_name = raw_res_data[:resource_title].instance_variable_get(:@__resource_name__)&.to_s
+        self.resource_params = raw_res_data[:resource_title].instance_variable_get(:@grep)&.to_s
       end
     end
   end

@@ -11,6 +11,11 @@ gem "inspec-bin", path: "./inspec-bin"
 
 gem "ffi", ">= 1.9.14", "!= 1.13.0"
 
+if Gem.ruby_version.to_s.start_with?("2.5")
+  # 16.7.23 required ruby 2.6+
+  gem "chef-utils", "< 16.7.23" # TODO: remove when we drop ruby 2.5
+end
+
 group :omnibus do
   gem "rb-readline"
   gem "appbundler"
