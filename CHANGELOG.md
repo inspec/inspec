@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.23.24 -->
-## [v4.23.24](https://github.com/inspec/inspec/tree/v4.23.24) (2020-12-01)
+<!-- latest_release 4.23.25 -->
+## [v4.23.25](https://github.com/inspec/inspec/tree/v4.23.25) (2020-12-02)
 
 #### Merged Pull Requests
-- Fix escaping of Windows package names [#5323](https://github.com/inspec/inspec/pull/5323) ([ramereth](https://github.com/ramereth))
+- Return arrays for wmi properties [#5314](https://github.com/inspec/inspec/pull/5314) ([alexpop](https://github.com/alexpop))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.23.15 -->
@@ -17,6 +17,7 @@
 - Don&#39;t reload plugins if load_all is called repeatedly [#5308](https://github.com/inspec/inspec/pull/5308) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.23.20 -->
 
 #### Merged Pull Requests
+- Return arrays for wmi properties [#5314](https://github.com/inspec/inspec/pull/5314) ([alexpop](https://github.com/alexpop)) <!-- 4.23.25 -->
 - Fix escaping of Windows package names [#5323](https://github.com/inspec/inspec/pull/5323) ([ramereth](https://github.com/ramereth)) <!-- 4.23.24 -->
 - Drop EOL Ruby 2.4 from testing, Fix Ruby 2.5 Gem build [#5321](https://github.com/inspec/inspec/pull/5321) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.23.23 -->
 - Update Ruby to 2.7.2 [#5281](https://github.com/inspec/inspec/pull/5281) ([tas50](https://github.com/tas50)) <!-- 4.23.22 -->
