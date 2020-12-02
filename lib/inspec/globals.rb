@@ -16,6 +16,6 @@ module Inspec
   rescue ArgumentError, NoMethodError
     # $HOME is not set in systemd service File.expand_path('~') will not work here
     require "etc" unless defined?(Etc)
-    Etc.getpwuid(Process.uid).dir
+    Etc.getpwuid.dir
   end
 end
