@@ -14,7 +14,7 @@ module Inspec
   def self.home_path
     Dir.home
   rescue ArgumentError, NoMethodError
-    # $HOME is not set in systemd service File.expand_path('~') will not work here
+    # If ENV['HOME'] is not set, Dir.home will fail due to expanding the ~. Fallback to Etc.
     require "etc" unless defined?(Etc)
     Etc.getpwuid.dir
   end
