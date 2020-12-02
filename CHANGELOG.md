@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.24.0 -->
-## [v4.24.0](https://github.com/inspec/inspec/tree/v4.24.0) (2020-12-02)
+<!-- latest_release 4.24.1 -->
+## [v4.24.1](https://github.com/inspec/inspec/tree/v4.24.1) (2020-12-02)
 
 #### Merged Pull Requests
-- Reenabling Docker image builds using Dobi [#5318](https://github.com/inspec/inspec/pull/5318) ([Schwad](https://github.com/Schwad))
+- Remove Gemfile.local support to use Dependabot [#5324](https://github.com/inspec/inspec/pull/5324) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.23.15 -->
@@ -17,6 +17,7 @@
 - Don&#39;t reload plugins if load_all is called repeatedly [#5308](https://github.com/inspec/inspec/pull/5308) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.23.20 -->
 
 #### Merged Pull Requests
+- Remove Gemfile.local support to use Dependabot [#5324](https://github.com/inspec/inspec/pull/5324) ([tas50](https://github.com/tas50)) <!-- 4.24.1 -->
 - Reenabling Docker image builds using Dobi [#5318](https://github.com/inspec/inspec/pull/5318) ([Schwad](https://github.com/Schwad)) <!-- 4.24.0 -->
 - Return arrays for wmi properties [#5314](https://github.com/inspec/inspec/pull/5314) ([alexpop](https://github.com/alexpop)) <!-- 4.23.25 -->
 - Fix escaping of Windows package names [#5323](https://github.com/inspec/inspec/pull/5323) ([ramereth](https://github.com/ramereth)) <!-- 4.23.24 -->
