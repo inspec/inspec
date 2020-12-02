@@ -64,6 +64,3 @@ end
 group :deploy do
   gem "inquirer"
 end
-
-# add these additional dependencies into Gemfile.local
-eval_gemfile(__FILE__ + ".local") if File.exist?(__FILE__ + ".local")
