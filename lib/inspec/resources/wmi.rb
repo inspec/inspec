@@ -16,7 +16,10 @@ module Inspec::Resources
         namespace: 'root\\rsop\\computer',
         filter: 'KeyName = \'MinimumPasswordAge\' And precedence=1'
       }) do
-         its('Setting') { should eq true }
+         its('Setting') { should cmp true }
+      end
+      describe wmi({namespace: "root\\cimv2", query: "SELECT installstate FROM win32_optionalfeature"}) do
+        its("installstate") { should include 2 }
       end
     EXAMPLE
 
@@ -66,13 +69,18 @@ module Inspec::Resources
 
       # run wmi command and filter empty wmi
       script = <<-EOH
-      Filter Aggregate
-      {
-          $arr = @{}
-          $_.properties | % {
-              $arr.Add($_.name, $_.value)
+      Function Aggregate {
+        $propsHash = @{}
+        ForEach ($wmiObj in $Input) {
+          ForEach ($wmiProp in $wmiObj.properties) {
+            If($propsHash.ContainsKey($wmiProp.name)) {
+              $propsHash[$wmiProp.name].add($wmiProp.value) | Out-Null
+            } Else {
+              $propsHash[$wmiProp.name] = [System.Collections.ArrayList]@($wmiProp.value)
+            }
           }
-          $arr
+        }
+        $propsHash
       }
       Get-WmiObject #{params} | Aggregate | ConvertTo-Json
       EOH
