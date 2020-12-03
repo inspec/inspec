@@ -98,4 +98,27 @@ describe "Inspec::Resources::Platform" do
     ]
     _(resource).wont_be :supported?, supports
   end
+
+  let(:resource2) { MockLoader.new(:windows2016).load_resource("platform") }
+  it "loads a profile which supports platform-name windows_server_2016*" do
+    supports = [
+      { 'platform-name': "windows_server_2016*" },
+    ]
+    _(resource2).must_be :supported?, supports
+  end
+
+  it "loads a profile which supports platform-name windows_server_2016*" do
+    supports = [
+      { 'platform-name': "*2016*" },
+    ]
+    _(resource2).must_be :supported?, supports
+  end
+
+  it "reject a profile which supports platform-name not matching regex windows_server_2016*" do
+    supports = [
+      { 'platform-name': "*2019*" },
+    ]
+    _(resource2).wont_be :supported?, supports
+  end
+
 end

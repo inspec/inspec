@@ -81,7 +81,7 @@ module Inspec::Resources
           when :os, :platform then
             platform?(v)
           when :os_name, :platform_name then
-            name == v
+            check_name(v)
           when :release then
             check_release(v)
           end
@@ -98,6 +98,16 @@ module Inspec::Resources
     end
 
     private
+
+    def check_name(value)
+      # allow wild card matching
+      if value.include?("*")
+        cleaned = Regexp.escape(value).gsub('\*', ".*?")
+        name =~ /#{cleaned}/
+      else
+        name == value
+      end
+    end
 
     def check_release(value)
       # allow wild card matching
