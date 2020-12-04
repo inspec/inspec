@@ -115,6 +115,18 @@ describe "waivers" do
     end
   end
 
+  describe "with --full-waivers flag" do
+    # TODO: flag this functionality
+    it "can execute when control namespace clashes with input" do
+      inspec("exec " + "#{waivers_profiles_path}/purely-broken-controls" + " --waiver-file #{waivers_profiles_path}/purely-broken-controls/files/waivers.yml" + " --no-create-lockfile" + " --no-color")
+
+      _(stdout).wont_include("Control Source Code Error")
+      _(stdout).must_include "\nProfile Summary: 1 successful control, 0 control failures, 0 controls skipped\n"
+      _(stderr).must_equal ""
+      assert_exit_code 0, out
+    end
+  end
+
   describe "an input and control with the same name" do
     # This is a test for a regression articulated here:
     # https://github.com/inspec/inspec/issues/4936
