@@ -169,6 +169,9 @@ module Inspec
       option :command_timeout, type: :numeric, default: 3600,
         desc: "Maximum seconds to allow commands to run during execution. Default 3600.",
         long_desc: "Maximum seconds to allow commands to run during execution. Default 3600. A timed out command is considered an error."
+      # TODO: Resolve how to access this in Profile.rb
+      option :nuke_waivers, type: :boolean,
+        desc: "EXPERIMENTAL: Waived controls are never read into InSpec"
     end
 
     def self.help(*args)

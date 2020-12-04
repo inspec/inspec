@@ -117,7 +117,7 @@ describe "waivers" do
 
   describe "with --full-waivers flag" do
     # TODO: flag this functionality
-    it "can execute when control namespace clashes with input" do
+    it "can execute and not hit failures" do
       inspec("exec " + "#{waivers_profiles_path}/purely-broken-controls" + " --waiver-file #{waivers_profiles_path}/purely-broken-controls/files/waivers.yml" + " --no-create-lockfile" + " --no-color")
 
       _(stdout).wont_include("Control Source Code Error")
