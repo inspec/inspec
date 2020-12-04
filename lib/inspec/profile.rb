@@ -212,11 +212,11 @@ module Inspec
 
         locked_dependencies.each(&:collect_tests)
 
-        # TODO: if --nuke-waivers
+        # TODO: if --ludicrous-speed
         ui = Inspec::UI.new
         ui.red "*" * 80
         ui.red "\n\n"
-        ui.red "--nuke-waivers is an experimental feature that stops\
+        ui.red "--ludicrous-speed is an experimental feature that stops\
  waived controls altogether from being read into InSpec. Use with caution."
         ui.red "\n\n"
         ui.red "*" * 80
