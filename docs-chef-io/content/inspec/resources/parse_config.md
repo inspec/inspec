@@ -55,7 +55,7 @@ where each test
 
 ## Options
 
-This resource supports the following options for parsing configuration data. Use them in an `options` block stated outside of (and immediately before) the actual test:
+This resource supports multiple options to parse configuration data. Use the options in an `options` block stated outside of (and immediately before) the actual test. For example:
 
     options = {
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
@@ -129,7 +129,7 @@ Use `standalone_comments: false`, to parse the following:
 
 ## Examples
 
-This resource is based on the `parse_config_file` resource. As such please refer to the examples of the [`parse_config_file`](/inspec/resources/parse_config_file) resource.
+This resource is based on the `parse_config_file` resource. See the [`parse_config_file`](/inspec/resources/parse_config_file) resource for examples.
 
 ## Matchers
 
