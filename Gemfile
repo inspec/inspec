@@ -21,6 +21,7 @@ group :omnibus do
   gem "appbundler"
   gem "ed25519" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
   gem "bcrypt_pbkdf" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
+  gem "win32-process", ">= 0.9.0" # A dep of chef, pinned here to avoid a deprecation warning under windows testing under ruby 2.7
 end
 
 group :test do
