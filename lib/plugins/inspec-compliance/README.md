@@ -71,7 +71,7 @@ $ inspec compliance login https://automate.compliance.test --insecure --user 'ad
 
 You will need an access token for authentication. You can retrieve one via:
 
-![Chef Compliance Token](images/cc-token.png)
+![Chef Compliance Token](lib/inspec-compliance/images/cc-token.png)
 
 You can choose the access token (`--token`) or the refresh token (`--refresh_token`)
 
