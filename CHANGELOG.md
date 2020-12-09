@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.24.4 -->
-## [v4.24.4](https://github.com/inspec/inspec/tree/v4.24.4) (2020-12-03)
+<!-- latest_release 4.24.5 -->
+## [v4.24.5](https://github.com/inspec/inspec/tree/v4.24.5) (2020-12-09)
 
 #### Merged Pull Requests
-- Fix issue Dir.home would break when HOME env absent [#5317](https://github.com/inspec/inspec/pull/5317) ([vsingh-msys](https://github.com/vsingh-msys))
+- Remove kitchen-ec2 dep + add lower floor to other kitchen deps [#5331](https://github.com/inspec/inspec/pull/5331) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.23.15 -->
@@ -17,6 +17,7 @@
 - Don&#39;t reload plugins if load_all is called repeatedly [#5308](https://github.com/inspec/inspec/pull/5308) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.23.20 -->
 
 #### Merged Pull Requests
+- Remove kitchen-ec2 dep + add lower floor to other kitchen deps [#5331](https://github.com/inspec/inspec/pull/5331) ([tas50](https://github.com/tas50)) <!-- 4.24.5 -->
 - Fix issue Dir.home would break when HOME env absent [#5317](https://github.com/inspec/inspec/pull/5317) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 4.24.4 -->
 - Added platform-name wildcard support [#5302](https://github.com/inspec/inspec/pull/5302) ([yarick](https://github.com/yarick)) <!-- 4.24.3 -->
 - Remove the dependency on json_schemer [#5325](https://github.com/inspec/inspec/pull/5325) ([tas50](https://github.com/tas50)) <!-- 4.24.2 -->
