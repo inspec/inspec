@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Remove unused build-essential dep in berksfile [#5337](https://github.com/inspec/inspec/pull/5337) ([tas50](https://github.com/tas50))
 - Remove the docker releasing rake task [#5336](https://github.com/inspec/inspec/pull/5336) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
@@ -17,6 +18,7 @@
 - Don&#39;t reload plugins if load_all is called repeatedly [#5308](https://github.com/inspec/inspec/pull/5308) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.23.20 -->
 
 #### Merged Pull Requests
+- Remove unused build-essential dep in berksfile [#5337](https://github.com/inspec/inspec/pull/5337) ([tas50](https://github.com/tas50)) <!-- 4.24.8 -->
 - Remove the docker releasing rake task [#5336](https://github.com/inspec/inspec/pull/5336) ([tas50](https://github.com/tas50)) <!-- 4.24.8 -->
 - Remove the pin on EOL Chef releases [#5339](https://github.com/inspec/inspec/pull/5339) ([tas50](https://github.com/tas50)) <!-- 4.24.8 -->
 - Parallel restored Ruby 2.4 support so unpin it [#5335](https://github.com/inspec/inspec/pull/5335) ([tas50](https://github.com/tas50)) <!-- 4.24.7 -->
