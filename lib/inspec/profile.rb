@@ -240,7 +240,7 @@ module Inspec
           if Inspec::Config.cached["retain_waiver_data"]
             # VERY EXPERIMENTAL, but an empty describe block at the top level
             # of the control blocks evaluation of ruby code until later-term
-            # waivers. This allows current waiver-data (e.g. skipis) to still
+            # waivers (behind the scenes this tells RSpec to hold on and use its internals to lazy load the code). This allows current waiver-data (e.g. skips) to still
             # be processed and rendered
             tests.each do |key, value|
               cleared_tests = value.split("control ").collect do |element|
