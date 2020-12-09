@@ -231,7 +231,7 @@ module Inspec
 
           ## Pull together waiver
           if waiver_path
-            waived_controls = YAML.load(collection_source_data_files[waiver_path]).keys
+            waived_controls = YAML.load(waiver_path).keys
           end
           regex_matcher = "(#{waived_controls.join('|')})"
 
