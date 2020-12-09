@@ -503,16 +503,3 @@ desc "Show the version of this gem"
 task :version do
   inspec_version
 end
-
-desc "Release a new docker image"
-task :release_docker do
-  version = Inspec::VERSION
-  cmd = "rm *.gem; gem build *gemspec && "\
-        "mv *.gem inspec.gem && "\
-        "docker build -t chef/inspec:#{version} . && "\
-        "docker push chef/inspec:#{version} && "\
-        "docker tag chef/inspec:#{version} chef/inspec:latest &&"\
-        "docker push chef/inspec:latest"
-  puts "--> #{cmd}"
-  sh("sh", "-c", cmd)
-end
