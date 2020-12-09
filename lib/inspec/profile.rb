@@ -213,6 +213,7 @@ module Inspec
         locked_dependencies.each(&:collect_tests)
 
         # Wipe out waived controls
+        require 'pry'; binding.pry
         if Inspec::Config.cached["ludicrous_speed"]
           ui = Inspec::UI.new
           ui.red "*" * 80
@@ -263,6 +264,11 @@ module Inspec
             end
           end
           tests = purged_tests
+        else
+          # Cannot really explain this at the moment. Although the above code isn't invoked
+          # it should really not create any side effects without flags. At the moment it
+          # does and self.tests needs to be manually reassigned
+          tests = self.tests
         end
 
         # Collect tests
