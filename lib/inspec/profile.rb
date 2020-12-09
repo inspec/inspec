@@ -245,8 +245,12 @@ module Inspec
             tests.each do |key, value|
               cleared_tests = value.split("control ").collect do |element|
                 next if element.blank?
-                splitlines = element.split("\n")
-                new_element = splitlines[0] + "\ndescribe '---' do\n" + splitlines[1..-1].join("\n") + "\nend\n"
+                if element&.match?(regex_matcher)
+                  splitlines = element.split("\n")
+                  splitlines[0] + "\ndescribe '---' do\n" + splitlines[1..-1].join("\n") + "\nend\n"
+                else
+                  element
+                end
               end.join("control ")
               purged_tests[key] = cleared_tests
             end
