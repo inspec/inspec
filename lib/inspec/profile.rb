@@ -212,34 +212,39 @@ module Inspec
 
         locked_dependencies.each(&:collect_tests)
 
-        # TODO: if --ludicrous-speed
-        ui = Inspec::UI.new
-        ui.red "*" * 80
-        ui.red "\n\n"
-        ui.red "--ludicrous-speed is an experimental feature that stops\
- waived controls altogether from being read into InSpec. Use with caution."
-        ui.red "\n\n"
-        ui.red "*" * 80
+        # Wipe out waived controls
+        if Inspec::Config.cached["ludicrous_speed"]
+          ui = Inspec::UI.new
+          ui.red "*" * 80
+          ui.red "\n\n"
+          ui.red "--ludicrous-speed is an experimental feature that stops\
+          waived controls altogether from being read into InSpec. Use with caution."
+          ui.red "\n\n"
+          ui.red "*" * 80
 
-        ## Find the waivers file
-        collection_source_data_files = @runtime_profile.instance_variable_get(:@src).data_files
-        waiver_path = collection_source_data_files.keys.grep(/waivers.yml$/).first
+          ## Find the waivers file
+          # Issues:
+          # - Does not support multiple waiver files
+          # - Doesn't handle waiver file misparsing
+          # - cli_opts and instance_variable_get could be exposed
+          waiver_path = Inspec::Config.cached.instance_variable_get(:@cli_opts)["waiver_file"]&.first
 
-        ## Pull together waiver
-        if waiver_path
-          waived_controls = YAML.load(collection_source_data_files[waiver_path]).keys
+          ## Pull together waiver
+          if waiver_path
+            waived_controls = YAML.load(collection_source_data_files[waiver_path]).keys
+          end
+          regex_matcher = "(#{waived_controls.join('|')})"
+
+          ## Purge tests (this could be doone in next block for performance)
+          purged_tests = {}
+          tests.each do |key, value|
+            cleared_tests = value.split("control ").select do |element|
+              !element&.match?(regex_matcher)
+            end.join("control ")
+            purged_tests[key] = cleared_tests
+          end
+          tests = purged_tests
         end
-        regex_matcher = "(#{waived_controls.join('|')})"
-
-        ## Purge tests (this could be doone in next block for performance)
-        purged_tests = {}
-        tests.each do |key, value|
-          cleared_tests = value.split("control ").select do |element|
-            !element&.match?(regex_matcher)
-          end.join("control ")
-          purged_tests[key] = cleared_tests
-        end
-        tests = purged_tests
 
         # Collect tests
         tests.each do |path, content|
