@@ -53,15 +53,6 @@ group :integration do
   gem "git"
 end
 
-# gems for Maintainers.md generation
-group :maintenance do
-  gem "tomlrb"
-
-  # To sync maintainers with github
-  gem "octokit"
-  gem "netrc"
-end
-
 group :deploy do
   gem "inquirer"
 end
