@@ -217,8 +217,7 @@ module Inspec
           ui = Inspec::UI.new
           ui.red "*" * 80
           ui.red "\n\n"
-          ui.red "--ludicrous-speed is an experimental feature that stops\
-          waived controls altogether from being read into InSpec. Use with caution."
+          ui.red "--ludicrous-speed is an experimental feature that stops waived controls altogether from being read into InSpec. Use with caution."
           ui.red "\n\n"
           ui.red "*" * 80
 
@@ -231,17 +230,33 @@ module Inspec
 
           ## Pull together waiver
           if waiver_path
-            waived_controls = YAML.load(waiver_path).keys
+            waived_controls = YAML.load_file(waiver_path).keys
           end
           regex_matcher = "(#{waived_controls.join('|')})"
 
           ## Purge tests (this could be doone in next block for performance)
+          ## TODO: implement earlier with pure AST and pure autocorrect AST
           purged_tests = {}
-          tests.each do |key, value|
-            cleared_tests = value.split("control ").select do |element|
-              !element&.match?(regex_matcher)
-            end.join("control ")
-            purged_tests[key] = cleared_tests
+          if Inspec::Config.cached["retain_waiver_data"]
+            # VERY EXPERIMENTAL, but an empty describe block at the top level
+            # of the control blocks evaluation of ruby code until later-term
+            # waivers. This allows current waiver-data (e.g. skipis) to still
+            # be processed and rendered
+            tests.each do |key, value|
+              cleared_tests = value.split("control ").collect do |element|
+                next if element.blank?
+                splitlines = element.split("\n")
+                new_element = splitlines[0] + "\ndescribe '---' do\n" + splitlines[1..-1].join("\n") + "\nend\n"
+              end.join("control ")
+              purged_tests[key] = cleared_tests
+            end
+          else
+            tests.each do |key, value|
+              cleared_tests = value.split("control ").select do |element|
+                !element&.match?(regex_matcher)
+              end.join("control ")
+              purged_tests[key] = cleared_tests
+            end
           end
           tests = purged_tests
         end

@@ -172,6 +172,8 @@ module Inspec
       # TODO: Resolve how to access this in Profile.rb
       option :ludicrous_speed, type: :boolean,
         desc: "EXPERIMENTAL: Waived controls are never read into InSpec"
+      option :retain_waiver_data, type: :boolean,
+        desc: "EXPERIMENTAL: Only works in conjunction with ludicrous_speed, retains waiver data about controls that were skipped"
     end
 
     def self.help(*args)
