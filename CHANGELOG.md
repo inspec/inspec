@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.24.9 -->
+## [v4.24.9](https://github.com/inspec/inspec/tree/v4.24.9) (2020-12-10)
 
 #### Merged Pull Requests
+- Remove macOS 10.13 from the build matrix [#5311](https://github.com/inspec/inspec/pull/5311) ([tas50](https://github.com/tas50))
 - Remove the kitchen.chef.yml file [#5338](https://github.com/inspec/inspec/pull/5338) ([tas50](https://github.com/tas50))
 - Remove unused build-essential dep in berksfile [#5337](https://github.com/inspec/inspec/pull/5337) ([tas50](https://github.com/tas50))
 - Remove the docker releasing rake task [#5336](https://github.com/inspec/inspec/pull/5336) ([tas50](https://github.com/tas50))
@@ -11,6 +12,9 @@
 
 <!-- release_rollup since=4.24.8 -->
 ### Changes since 4.24.8 release
+
+#### Merged Pull Requests
+- Remove macOS 10.13 from the build matrix [#5311](https://github.com/inspec/inspec/pull/5311) ([tas50](https://github.com/tas50)) <!-- 4.24.9 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
