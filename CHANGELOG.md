@@ -9,41 +9,44 @@
 - Remove the docker releasing rake task [#5336](https://github.com/inspec/inspec/pull/5336) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup since=4.23.15 -->
-### Changes since 4.23.15 release
-
-#### New Features
-- InSpec Cloud: Reporting by Resource [#5241](https://github.com/inspec/inspec/pull/5241) ([Schwad](https://github.com/Schwad)) <!-- 4.23.22 -->
-
-#### Bug Fixes
-- Don&#39;t reload plugins if load_all is called repeatedly [#5308](https://github.com/inspec/inspec/pull/5308) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.23.20 -->
-
-#### Merged Pull Requests
-- Remove the kitchen.chef.yml file [#5338](https://github.com/inspec/inspec/pull/5338) ([tas50](https://github.com/tas50)) <!-- 4.24.8 -->
-- Remove unused build-essential dep in berksfile [#5337](https://github.com/inspec/inspec/pull/5337) ([tas50](https://github.com/tas50)) <!-- 4.24.8 -->
-- Remove the docker releasing rake task [#5336](https://github.com/inspec/inspec/pull/5336) ([tas50](https://github.com/tas50)) <!-- 4.24.8 -->
-- Remove the pin on EOL Chef releases [#5339](https://github.com/inspec/inspec/pull/5339) ([tas50](https://github.com/tas50)) <!-- 4.24.8 -->
-- Parallel restored Ruby 2.4 support so unpin it [#5335](https://github.com/inspec/inspec/pull/5335) ([tas50](https://github.com/tas50)) <!-- 4.24.7 -->
-- Remove outdated / unmaintained maintainers task / docs [#5332](https://github.com/inspec/inspec/pull/5332) ([tas50](https://github.com/tas50)) <!-- 4.24.6 -->
-- Remove kitchen-ec2 dep + add lower floor to other kitchen deps [#5331](https://github.com/inspec/inspec/pull/5331) ([tas50](https://github.com/tas50)) <!-- 4.24.5 -->
-- Fix issue Dir.home would break when HOME env absent [#5317](https://github.com/inspec/inspec/pull/5317) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 4.24.4 -->
-- Added platform-name wildcard support [#5302](https://github.com/inspec/inspec/pull/5302) ([yarick](https://github.com/yarick)) <!-- 4.24.3 -->
-- Remove the dependency on json_schemer [#5325](https://github.com/inspec/inspec/pull/5325) ([tas50](https://github.com/tas50)) <!-- 4.24.2 -->
-- Remove Gemfile.local support to use Dependabot [#5324](https://github.com/inspec/inspec/pull/5324) ([tas50](https://github.com/tas50)) <!-- 4.24.1 -->
-- Reenabling Docker image builds using Dobi [#5318](https://github.com/inspec/inspec/pull/5318) ([Schwad](https://github.com/Schwad)) <!-- 4.24.0 -->
-- Return arrays for wmi properties [#5314](https://github.com/inspec/inspec/pull/5314) ([alexpop](https://github.com/alexpop)) <!-- 4.23.25 -->
-- Fix escaping of Windows package names [#5323](https://github.com/inspec/inspec/pull/5323) ([ramereth](https://github.com/ramereth)) <!-- 4.23.24 -->
-- Drop EOL Ruby 2.4 from testing, Fix Ruby 2.5 Gem build [#5321](https://github.com/inspec/inspec/pull/5321) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.23.23 -->
-- Update Ruby to 2.7.2 [#5281](https://github.com/inspec/inspec/pull/5281) ([tas50](https://github.com/tas50)) <!-- 4.23.22 -->
-- grub_conf - handle no menuentry config [#5306](https://github.com/inspec/inspec/pull/5306) ([james-stocks](https://github.com/james-stocks)) <!-- 4.23.21 -->
-- Update Codeowners file for Docs [#5298](https://github.com/inspec/inspec/pull/5298) ([mjingle](https://github.com/mjingle)) <!-- 4.23.19 -->
-- Bumps parallel for ruby 2.4 issue [#5304](https://github.com/inspec/inspec/pull/5304) ([Schwad](https://github.com/Schwad)) <!-- 4.23.19 -->
-- replace deprecated attributes section with inputs [#5295](https://github.com/inspec/inspec/pull/5295) ([KonradSchieban](https://github.com/KonradSchieban)) <!-- 4.23.18 -->
-- Add ed25519 support to the habitat package [#5299](https://github.com/inspec/inspec/pull/5299) ([btm](https://github.com/btm)) <!-- 4.23.17 -->
-- Pin rspec to 3.9 [#5297](https://github.com/inspec/inspec/pull/5297) ([james-stocks](https://github.com/james-stocks)) <!-- 4.23.16 -->
+<!-- release_rollup since=4.24.8 -->
+### Changes since 4.24.8 release
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.24.8](https://github.com/inspec/inspec/tree/v4.24.8) (2020-12-10)
+
+#### New Features
+- InSpec Cloud: Reporting by Resource [#5241](https://github.com/inspec/inspec/pull/5241) ([Schwad](https://github.com/Schwad))
+
+#### Bug Fixes
+- Don&#39;t reload plugins if load_all is called repeatedly [#5308](https://github.com/inspec/inspec/pull/5308) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Pin rspec to 3.9 [#5297](https://github.com/inspec/inspec/pull/5297) ([james-stocks](https://github.com/james-stocks))
+- Add ed25519 support to the habitat package [#5299](https://github.com/inspec/inspec/pull/5299) ([btm](https://github.com/btm))
+- replace deprecated attributes section with inputs [#5295](https://github.com/inspec/inspec/pull/5295) ([KonradSchieban](https://github.com/KonradSchieban))
+- Bumps parallel for ruby 2.4 issue [#5304](https://github.com/inspec/inspec/pull/5304) ([Schwad](https://github.com/Schwad))
+- Update Codeowners file for Docs [#5298](https://github.com/inspec/inspec/pull/5298) ([mjingle](https://github.com/mjingle))
+- grub_conf - handle no menuentry config [#5306](https://github.com/inspec/inspec/pull/5306) ([james-stocks](https://github.com/james-stocks))
+- Update Ruby to 2.7.2 [#5281](https://github.com/inspec/inspec/pull/5281) ([tas50](https://github.com/tas50))
+- Drop EOL Ruby 2.4 from testing, Fix Ruby 2.5 Gem build [#5321](https://github.com/inspec/inspec/pull/5321) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix escaping of Windows package names [#5323](https://github.com/inspec/inspec/pull/5323) ([ramereth](https://github.com/ramereth))
+- Return arrays for wmi properties [#5314](https://github.com/inspec/inspec/pull/5314) ([alexpop](https://github.com/alexpop))
+- Reenabling Docker image builds using Dobi [#5318](https://github.com/inspec/inspec/pull/5318) ([Schwad](https://github.com/Schwad))
+- Remove Gemfile.local support to use Dependabot [#5324](https://github.com/inspec/inspec/pull/5324) ([tas50](https://github.com/tas50))
+- Remove the dependency on json_schemer [#5325](https://github.com/inspec/inspec/pull/5325) ([tas50](https://github.com/tas50))
+- Added platform-name wildcard support [#5302](https://github.com/inspec/inspec/pull/5302) ([yarick](https://github.com/yarick))
+- Fix issue Dir.home would break when HOME env absent [#5317](https://github.com/inspec/inspec/pull/5317) ([vsingh-msys](https://github.com/vsingh-msys))
+- Remove kitchen-ec2 dep + add lower floor to other kitchen deps [#5331](https://github.com/inspec/inspec/pull/5331) ([tas50](https://github.com/tas50))
+- Remove outdated / unmaintained maintainers task / docs [#5332](https://github.com/inspec/inspec/pull/5332) ([tas50](https://github.com/tas50))
+- Parallel restored Ruby 2.4 support so unpin it [#5335](https://github.com/inspec/inspec/pull/5335) ([tas50](https://github.com/tas50))
+- Remove the pin on EOL Chef releases [#5339](https://github.com/inspec/inspec/pull/5339) ([tas50](https://github.com/tas50))
+- Remove the docker releasing rake task [#5336](https://github.com/inspec/inspec/pull/5336) ([tas50](https://github.com/tas50))
+- Remove unused build-essential dep in berksfile [#5337](https://github.com/inspec/inspec/pull/5337) ([tas50](https://github.com/tas50))
+- Remove the kitchen.chef.yml file [#5338](https://github.com/inspec/inspec/pull/5338) ([tas50](https://github.com/tas50))
+<!-- latest_stable_release -->
+
 ## [v4.23.15](https://github.com/inspec/inspec/tree/v4.23.15) (2020-10-23)
 
 #### Merged Pull Requests
@@ -53,7 +56,6 @@
 - Update Hugo version to 0.76.4 [#5279](https://github.com/inspec/inspec/pull/5279) ([IanMadd](https://github.com/IanMadd))
 - Ensure that we populate information about waiver expiration regardless of `run: true/false` [#5278](https://github.com/inspec/inspec/pull/5278) ([Schwad](https://github.com/Schwad))
 - Upgrade the habitat Ruby dependency to 2.6 [#5287](https://github.com/inspec/inspec/pull/5287) ([btm](https://github.com/btm))
-<!-- latest_stable_release -->
 
 ## [v4.23.11](https://github.com/inspec/inspec/tree/v4.23.11) (2020-09-28)
 
