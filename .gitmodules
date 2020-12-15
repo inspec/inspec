@@ -1,3 +1,0 @@
-[submodule "docs-chef-io/chef-web-docs"]
-	path = docs-chef-io/chef-web-docs
-	url = https://github.com/chef/chef-web-docs
