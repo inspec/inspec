@@ -41,15 +41,6 @@ group :test do
   gem "webmock", "~> 3.0"
 end
 
-group :integration do
-  gem "berkshelf"
-  gem "test-kitchen", ">= 2.8"
-  gem "kitchen-vagrant", ">= 1.7"
-  gem "kitchen-inspec", ">= 2.0"
-  gem "kitchen-dokken", ">= 2.11"
-  gem "git"
-end
-
 group :deploy do
   gem "inquirer"
 end
