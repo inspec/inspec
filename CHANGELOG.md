@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.24.12 -->
-## [v4.24.12](https://github.com/inspec/inspec/tree/v4.24.12) (2020-12-15)
+<!-- latest_release 4.24.13 -->
+## [v4.24.13](https://github.com/inspec/inspec/tree/v4.24.13) (2020-12-15)
 
 #### Merged Pull Requests
-- Accept arrays in parse_config&#39;s method_missing [#5252](https://github.com/inspec/inspec/pull/5252) ([rgeissert](https://github.com/rgeissert))
+- Remove &#39;integration&#39; group from Gemfile [#5341](https://github.com/inspec/inspec/pull/5341) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.24.8 -->
 ### Changes since 4.24.8 release
 
 #### Merged Pull Requests
+- Remove &#39;integration&#39; group from Gemfile [#5341](https://github.com/inspec/inspec/pull/5341) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.13 -->
 - Accept arrays in parse_config&#39;s method_missing [#5252](https://github.com/inspec/inspec/pull/5252) ([rgeissert](https://github.com/rgeissert)) <!-- 4.24.12 -->
 - Fix link to image in compliance plugin README [#5329](https://github.com/inspec/inspec/pull/5329) ([phiggins](https://github.com/phiggins)) <!-- 4.24.11 -->
 - Clean up docs previews [#5344](https://github.com/inspec/inspec/pull/5344) ([IanMadd](https://github.com/IanMadd)) <!-- 4.24.10 -->
