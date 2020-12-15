@@ -50,9 +50,16 @@ where each test
 - May run a command to `stdout`, and then run the test against that output
 - May use options to define how configuration data is to be parsed
 
+### Option Names Containing Periods
+
+A possible behavior may occur when attempting to access option names containing periods with `its()`. There are two ways to work around it:
+
+* Access the option by using the `params` attribute of the returned resource object
+* Since 4.24.5, `its` can be used by passing the option name in a single-element array. See the `parse config file` examples.
+
 ## Options
 
-This resource supports the following options for parsing configuration data. Use them in an `options` block stated outside of (and immediately before) the actual test:
+This resource supports multiple options to parse configuration data. Use the options in an `options` block stated outside of (and immediately before) the actual test. For example:
 
     options = {
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
@@ -61,32 +68,6 @@ This resource supports the following options for parsing configuration data. Use
     describe parse_config_file('path/to/file',  options) do
       its('setting') { should eq 1 }
     end
-
-## Examples
-
-The following examples show how to use this Chef InSpec audit resource.
-
-### Test a configuration setting
-
-    describe parse_config_file('/path/to/file.conf') do
-     its('PARAM_X') { should eq 'Y' }
-    end
-
-### Use options, and then test a configuration setting
-
-    describe parse_config_file('/path/to/file.conf', { multiple_values: true }) do
-     its('PARAM_X') { should include 'Y' }
-    end
-
-### Test a file with an ini-like structure (such as a yum.conf)
-
-    describe parse_config_file('/path/to/yum.conf') do
-     its('main') { should include('gpgcheck' => '1') }
-    end
-
-## Matchers
-
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
 
 ### assignment_regex
 
@@ -145,3 +126,37 @@ Use `standalone_comments: false`, to parse the following:
 
     'key = value # comment'
     params['key'] = 'value'
+
+## Matchers
+
+For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+
+## Examples
+
+The following examples show how to use this Chef InSpec audit resource.
+
+### Test A Configuration Setting
+
+    describe parse_config_file('/path/to/file.conf') do
+     its('PARAM_X') { should eq 'Y' }
+    end
+
+### Use Options And Then Test A Configuration Setting
+
+    describe parse_config_file('/path/to/file.conf', { multiple_values: true }) do
+     its('PARAM_X') { should include 'Y' }
+    end
+
+### Test A File With An INI File Structure
+
+`yum.conf` is one example of an INI file structure type.
+
+    describe parse_config_file('/path/to/yum.conf') do
+     its('main') { should include('gpgcheck' => '1') }
+    end
+
+### Test A Configuration Setting Containing Periods
+
+    describe parse_config_file('/etc/sysctl.conf') do
+     its(['kernel.domainname']) { should eq 'example.com' }
+    end
