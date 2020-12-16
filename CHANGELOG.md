@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.24.15 -->
-## [v4.24.15](https://github.com/inspec/inspec/tree/v4.24.15) (2020-12-16)
+<!-- latest_release 4.24.16 -->
+## [v4.24.16](https://github.com/inspec/inspec/tree/v4.24.16) (2020-12-16)
 
 #### Merged Pull Requests
-- Update tomlrb requirement from ~&gt; 1.2.0 to &gt;= 1.2, &lt; 2.1 [#5350](https://github.com/inspec/inspec/pull/5350) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update simplecov requirement from ~&gt; 0.10, &lt;= 0.18.2 to ~&gt; 0.18 [#5351](https://github.com/inspec/inspec/pull/5351) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.24.8 -->
 ### Changes since 4.24.8 release
 
 #### Merged Pull Requests
+- Update simplecov requirement from ~&gt; 0.10, &lt;= 0.18.2 to ~&gt; 0.18 [#5351](https://github.com/inspec/inspec/pull/5351) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.24.16 -->
 - Update tomlrb requirement from ~&gt; 1.2.0 to &gt;= 1.2, &lt; 2.1 [#5350](https://github.com/inspec/inspec/pull/5350) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.24.15 -->
 - Update hashie requirement from ~&gt; 3.4 to &gt;= 3.4, &lt; 5.0 [#5348](https://github.com/inspec/inspec/pull/5348) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.24.14 -->
 - Remove &#39;integration&#39; group from Gemfile [#5341](https://github.com/inspec/inspec/pull/5341) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.13 -->
