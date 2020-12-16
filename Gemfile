@@ -37,7 +37,7 @@ group :test do
   gem "pry", "~> 0.10"
   gem "rake", ">= 10"
   gem "ruby-progressbar", "~> 1.8"
-  gem "simplecov", ["~> 0.10", "<=0.18.2"]
+  gem "simplecov", "~> 0.18"
   gem "webmock", "~> 3.0"
 end
 
