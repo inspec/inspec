@@ -24,7 +24,7 @@ group :omnibus do
 end
 
 group :test do
-  gem "chefstyle", "~> 1.2.1"
+  gem "chefstyle", "~> 1.5.7"
   gem "concurrent-ruby", "~> 1.0"
   gem "html-proofer", platforms: :ruby # do not attempt to run proofer on windows
   gem "json_schemer", ">= 0.2.1", "< 0.2.12"
