@@ -26,7 +26,7 @@ on Learn Chef Rally for a hands-on example that uses Chef InSpec shell.
 ## Launching the shell
 
 If you are using Chef InSpec from a platform-specific package (rpm, msi,
-etc.) or from a Chef prepared shell in ChefDK, you can directly launch
+etc.) or from a Chef prepared shell in Chef Workstation, you can directly launch
 Chef InSpec shell against your local machine using the following. See
 <https://docs.chef.io/install_dk.html#set-system-ruby> for details.
 
