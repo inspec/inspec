@@ -132,7 +132,7 @@ Date:   Wed Sep 18 11:44:40 2015 -0700
 
 ### Release Formats
 
-Our primary shipping vehicle is operating system specific packages that includes all the requirements of InSpec. We call these Omnibus packages, and they are available from [downloads.chef.io](https://downloads.chef.io/inspec). InSpec is also bundled with recent Chef Client and ChefDK toolkits.
+Our primary shipping vehicle is operating system specific packages that includes all the requirements of InSpec. We call these Omnibus packages, and they are available from [downloads.chef.io](https://downloads.chef.io/inspec). InSpec is also bundled with recent Chef Infra Client and Chef Workstation toolkits.
 
 InSpec is also available as a [Docker image](https://hub.docker.com/r/chef/inspec) and a [Habitat package](https://bldr.habitat.sh/#/pkgs/chef/inspec/latest).
 
