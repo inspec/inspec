@@ -4,17 +4,16 @@ LABEL maintainer="Chef Software, Inc. <docker@chef.io>"
 ARG EXPEDITOR_VERSION
 ARG VERSION=4.24.28
 
-# GEM_SOURCE is kept away from expeditor controlled ARGs to accomodate 3rd party distros
-ARG GEM_SOURCE=https://rubygems.org
+ARG EXPEDITOR_CHANNEL
+ARG CHANNEL=stable
 
 # Allow VERSION below to be controlled by either VERSION or EXPEDITOR_VERSION build arguments
 ENV VERSION ${EXPEDITOR_VERSION:-${VERSION}}
+ENV CHANNEL ${EXPEDITOR_CHANNEL:-${CHANNEL}}
 
-RUN mkdir -p /share
-RUN apk add --update build-base libxml2-dev libffi-dev git openssh-client
-RUN gem install --no-document --source ${GEM_SOURCE} --version ${VERSION} inspec
-RUN gem install --no-document --source ${GEM_SOURCE} --version ${VERSION} inspec-bin
-RUN apk del build-base
+RUN wget "http://packages.chef.io/files/${CHANNEL}/inspec/${VERSION}/el/7/inspec-${VERSION}-1.el7.x86_64.rpm" -O /tmp/inspec.rpm && \
+    rpm2cpio /tmp/inspec.rpm | cpio -idmv && \
+    rm -rf /tmp/inspec.rpm
 
 ENTRYPOINT ["inspec"]
 CMD ["help"]

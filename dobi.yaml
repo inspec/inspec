@@ -16,3 +16,6 @@ image=chef:
   args:
     VERSION: '{env.EXPEDITOR_VERSION}'
     CHANNEL: unstable
+  annotations:
+    tags:
+      - expeditor:final-channel-tags={{major}},{{major}}.{{minor}}
