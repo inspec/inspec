@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.license       = "Apache-2.0"
   spec.require_paths = ["lib"]
 
-  spec.required_ruby_version = "~> 2.4"
+  spec.required_ruby_version = ">= 2.5"
 
   # the gemfile and gemspec are necessary for appbundler so don't remove it
   spec.files =
