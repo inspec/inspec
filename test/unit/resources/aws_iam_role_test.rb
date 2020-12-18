@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_iam_role"
 
 require "resource_support/aws"
-require "resources/aws/aws_iam_role"
 
 # MIRB = MockIamRoleBackend
 # Abbreviation not used outside this file

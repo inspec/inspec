@@ -24,7 +24,7 @@ module Inspec::Resources
       .install_filter_methods_on_resource(self, :scan_interfaces)
 
     def ipv4_address
-      require "ipaddr"
+      require "ipaddr" unless defined?(IPAddr)
 
       # Loop over interface names
       # Select those that are up and have an ipv4 address

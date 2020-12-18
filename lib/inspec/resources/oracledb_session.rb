@@ -1,7 +1,7 @@
 require "inspec/resources/command"
 require "inspec/utils/database_helpers"
 require "hashie/mash"
-require "csv"
+require "csv" unless defined?(CSV)
 
 module Inspec::Resources
   # STABILITY: Experimental

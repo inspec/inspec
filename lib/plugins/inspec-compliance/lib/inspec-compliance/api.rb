@@ -1,6 +1,6 @@
-require "net/http"
-require "uri"
-require "json"
+require "net/http" unless defined?(Net::HTTP)
+require "uri" unless defined?(URI)
+require "json" unless defined?(JSON)
 require "inspec/dist"
 
 require_relative "api/login"

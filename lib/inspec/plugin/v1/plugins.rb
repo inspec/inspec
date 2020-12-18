@@ -1,4 +1,4 @@
-require "forwardable"
+require "forwardable" unless defined?(Forwardable)
 
 module Inspec
   # Resource Plugins
@@ -36,7 +36,7 @@ module Inspec
         .flatten
 
       # load bundled plugins
-      bundled_dir = File.expand_path(File.dirname(__FILE__))
+      bundled_dir = __dir__
       @paths += Dir[File.join(bundled_dir, "..", "bundles", "inspec-*.rb")].flatten
 
       # map paths to names

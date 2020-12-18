@@ -20,7 +20,7 @@ module Inspec::Resources
     #      { 'name' => 'row2', 'col1' => 'value3', 'col2' => 'value4' }
     #    ]
     def parse(content)
-      require "csv"
+      require "csv" unless defined?(CSV)
 
       # convert empty field to nil
       CSV::Converters[:blank_to_nil] = lambda do |field|

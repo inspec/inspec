@@ -1,5 +1,5 @@
-require_relative "../../../shared/core_plugin_test_helper.rb"
-require "tempfile"
+require_relative "../../../shared/core_plugin_test_helper"
+require "tempfile" unless defined?(Tempfile)
 
 describe "inspec-reporter-html2" do
   include CorePluginFunctionalHelper

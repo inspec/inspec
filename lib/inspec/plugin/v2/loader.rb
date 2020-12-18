@@ -130,7 +130,7 @@ module Inspec::Plugin::V2
     end
 
     def self.plugin_gem_path
-      require "rbconfig"
+      require "rbconfig" unless defined?(RbConfig)
       ruby_abi_version = RbConfig::CONFIG["ruby_version"]
       # TODO: why are we installing under the api directory for plugins?
       base_dir = Inspec.config_dir

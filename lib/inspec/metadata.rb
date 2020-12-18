@@ -216,7 +216,7 @@ module Inspec
     end
 
     def self.from_yaml(ref, content, profile_id, logger = nil)
-      require "erb"
+      require "erb" unless defined?(Erb)
       res = Metadata.new(ref, logger)
       res.params = YAML.load(ERB.new(content).result)
       res.content = content

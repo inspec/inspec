@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_elb"
 
 require "resource_support/aws"
-require "resources/aws/aws_elb"
 
 # MAESB = MockAwsElbSingularBackend
 # Abbreviation not used outside this file
@@ -139,6 +138,7 @@ class AwsElbProperties < Minitest::Test
   end
 
 end
+
 #=============================================================================#
 #                               Test Fixtures
 #=============================================================================#

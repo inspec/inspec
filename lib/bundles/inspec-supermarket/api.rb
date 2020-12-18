@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "net/http"
-require "addressable/uri"
+require "net/http" unless defined?(Net::HTTP)
+require "addressable/uri" unless defined?(Addressable::URI)
 
 module Supermarket
   class API

@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-require_relative "../../../lib/inspec/version.rb"
+require_relative "../../../lib/inspec/version"
 
 name "inspec"
 friendly_name "InSpec"
@@ -37,7 +37,7 @@ build_version Inspec::VERSION
 build_iteration 1
 
 # Load dynamically updated overrides
-overrides_path = File.expand_path("../../../../omnibus_overrides.rb", __FILE__)
+overrides_path = File.expand_path("../../../omnibus_overrides.rb", __dir__)
 instance_eval(File.read(overrides_path), overrides_path)
 
 dependency "preparation"

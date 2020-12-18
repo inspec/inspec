@@ -1,4 +1,4 @@
-require "forwardable"
+require "forwardable" unless defined?(Forwardable)
 require "inspec/utils/filter_array"
 require "inspec/utils/filter"
 require "inspec/utils/parser"

@@ -3,7 +3,7 @@
 # license: Apache v2
 
 require "inspec/resources/command"
-require "faraday"
+require "faraday" unless defined?(Faraday)
 require "faraday_middleware"
 require "hashie"
 

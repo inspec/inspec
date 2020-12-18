@@ -1,4 +1,4 @@
-require "fileutils"
+require "fileutils" unless defined?(FileUtils)
 
 module Inspec
   #

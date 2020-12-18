@@ -41,7 +41,7 @@ describe Inspec::DirProvider do
     end
 
     it "must not read files not covered" do
-      not_covered = File.expand_path("../../helper.rb", __FILE__)
+      not_covered = File.expand_path("../helper.rb", __dir__)
       _(File.file?(not_covered)).must_equal true
       _(subject.read(not_covered)).must_be_nil
     end
@@ -63,7 +63,7 @@ describe Inspec::DirProvider do
     end
 
     it "must not read files not covered" do
-      not_covered = File.expand_path("../../helper.rb", __FILE__)
+      not_covered = File.expand_path("../helper.rb", __dir__)
       _(File.file?(not_covered)).must_equal true
       _(subject.read(not_covered)).must_be_nil
     end

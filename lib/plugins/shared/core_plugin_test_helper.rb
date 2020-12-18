@@ -3,14 +3,14 @@ require "minitest/autorun"
 require "minitest/pride"
 
 # Data formats commonly used in testing
-require "json"
-require "ostruct"
+require "json" unless defined?(JSON)
+require "ostruct" unless defined?(OpenStruct)
 
 # Utilities often needed
-require "fileutils"
-require "tmpdir"
-require "pathname"
-require "forwardable"
+require "fileutils" unless defined?(FileUtils)
+require "tmpdir" unless defined?(Dir.mktmpdir)
+require "pathname" unless defined?(Pathname)
+require "forwardable" unless defined?(Forwardable)
 
 require "functional/helper"
 require "inspec/plugin/v2"

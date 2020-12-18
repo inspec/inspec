@@ -1,6 +1,6 @@
-require "rubygems"
-require "zip"
-require "pathname"
+require "rubygems" unless defined?(Gem)
+require "zip" unless defined?(Zip)
+require "pathname" unless defined?(Pathname)
 
 module Inspec::Archive
   class ZipArchiveGenerator

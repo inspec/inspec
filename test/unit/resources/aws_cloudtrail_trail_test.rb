@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_cloudtrail_trail"
 
 require "resource_support/aws"
-require "resources/aws/aws_cloudtrail_trail"
 
 # MACTTSB = MockAwsCloudTrailTrailSingularBackend
 # Abbreviation not used outside this file

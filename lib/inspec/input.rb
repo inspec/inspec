@@ -14,14 +14,17 @@ module Inspec
   class Input
 
     class Error < Inspec::Error; end
+
     class ValidationError < Error
       attr_accessor :input_name
       attr_accessor :input_value
       attr_accessor :input_type
     end
+
     class TypeError < Error
       attr_accessor :input_type
     end
+
     class RequiredError < Error
       attr_accessor :input_name
     end

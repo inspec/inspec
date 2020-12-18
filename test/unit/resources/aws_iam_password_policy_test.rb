@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_iam_password_policy"
 
 require "resource_support/aws"
-require "resources/aws/aws_iam_password_policy"
 
 class AwsIamPasswordPolicyTest < Minitest::Test
   def setup

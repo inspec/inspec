@@ -1,5 +1,5 @@
-require "fileutils"
-require "erb"
+require "fileutils" unless defined?(FileUtils)
+require "erb" unless defined?(Erb)
 
 module InspecPlugins
   module Init

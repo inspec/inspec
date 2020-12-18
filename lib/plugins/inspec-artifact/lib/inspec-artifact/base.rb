@@ -1,8 +1,8 @@
-require "base64"
-require "openssl"
-require "pathname"
-require "set"
-require "tempfile"
+require "base64" unless defined?(Base64)
+require "openssl" unless defined?(OpenSSL)
+require "pathname" unless defined?(Pathname)
+require "set" unless defined?(Set)
+require "tempfile" unless defined?(Tempfile)
 require "yaml"
 require "inspec/dist"
 require "inspec/utils/json_profile_summary"

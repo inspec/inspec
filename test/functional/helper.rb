@@ -14,7 +14,7 @@ module FunctionalHelper
   extend Minitest::Guard
 
   let(:repo_path) do
-    path = File.expand_path("../../..", __FILE__)
+    path = File.expand_path("../..", __dir__)
     # fix for vagrant repo pathing
     path.gsub!("//vboxsvr", "C:") if is_windows?
     path

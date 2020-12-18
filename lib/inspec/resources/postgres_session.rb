@@ -1,6 +1,6 @@
 # copyright: 2015, Vulcano Security GmbH
 
-require "shellwords"
+require "shellwords" unless defined?(Shellwords)
 
 module Inspec::Resources
   class Lines
