@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.24.19 -->
-## [v4.24.19](https://github.com/inspec/inspec/tree/v4.24.19) (2020-12-17)
+<!-- latest_release 4.24.20 -->
+## [v4.24.20](https://github.com/inspec/inspec/tree/v4.24.20) (2020-12-18)
 
 #### Merged Pull Requests
-- Update faraday requirement from &gt;= 0.9.0, &lt; 1.1 to &gt;= 0.9.0, &lt; 1.2 [#5355](https://github.com/inspec/inspec/pull/5355) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Require ruby 2.5+ / allow ruby 3 [#5357](https://github.com/inspec/inspec/pull/5357) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.24.8 -->
 ### Changes since 4.24.8 release
 
 #### Merged Pull Requests
+- Require ruby 2.5+ / allow ruby 3 [#5357](https://github.com/inspec/inspec/pull/5357) ([tas50](https://github.com/tas50)) <!-- 4.24.20 -->
 - Update faraday requirement from &gt;= 0.9.0, &lt; 1.1 to &gt;= 0.9.0, &lt; 1.2 [#5355](https://github.com/inspec/inspec/pull/5355) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.24.19 -->
 - Replace DK with Workstation in docs [#5352](https://github.com/inspec/inspec/pull/5352) ([tas50](https://github.com/tas50)) <!-- 4.24.18 -->
 - Update rubyzip requirement from ~&gt; 1.2, &gt;= 1.2.2 to &gt;= 1.2.2, &lt; 3.0 [#5347](https://github.com/inspec/inspec/pull/5347) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.24.17 -->
