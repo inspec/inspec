@@ -12,9 +12,13 @@ ENV VERSION ${EXPEDITOR_VERSION:-${VERSION}}
 
 RUN mkdir -p /share
 RUN apk add --update build-base libxml2-dev libffi-dev git openssh-client
-RUN gem install --no-document --source ${GEM_SOURCE} --version ${VERSION} inspec
-RUN gem install --no-document --source ${GEM_SOURCE} --version ${VERSION} inspec-bin
+RUN gem install --no-document --source ${GEM_SOURCE} inspec:${VERSION} inspec-bin:${VERSION}
+
+# cleanup leftovers in the image
 RUN apk del build-base
+RUN rm -rf /usr/local/bundle/cache/*
+RUN find /usr/local/lib/ruby/gems/*/cache/ -name *.gem -delete
+RUN find /usr/local/bundle/extensions -name gem_make.out -delete -name mkmf.log -delete
 
 ENTRYPOINT ["inspec"]
 CMD ["help"]
