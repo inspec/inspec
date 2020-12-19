@@ -17,6 +17,9 @@ ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en \
     LC_ALL=en_US.UTF-8
 
+
+RUN mkdir -p /share
+
 RUN apt-get update && \
     apt-get install -y wget rpm2cpio cpio && \
     wget "http://packages.chef.io/files/${CHANNEL}/inspec/${VERSION}/el/7/inspec-${VERSION}-1.el7.x86_64.rpm" -O /tmp/inspec.rpm && \
@@ -25,3 +28,5 @@ RUN apt-get update && \
 
 ENTRYPOINT ["inspec"]
 CMD ["help"]
+VOLUME ["/share"]
+WORKDIR /share
