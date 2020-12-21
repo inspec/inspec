@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.24.21 -->
-## [v4.24.21](https://github.com/inspec/inspec/tree/v4.24.21) (2020-12-18)
+<!-- latest_release 4.24.22 -->
+## [v4.24.22](https://github.com/inspec/inspec/tree/v4.24.22) (2020-12-21)
 
 #### Merged Pull Requests
-- Re-Enable Omnibus Builds on MacOS 10.13 [#5363](https://github.com/inspec/inspec/pull/5363) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Loosen RSpec pin to ~&gt; 3.10 [#5342](https://github.com/inspec/inspec/pull/5342) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.24.8 -->
 ### Changes since 4.24.8 release
 
 #### Merged Pull Requests
+- Loosen RSpec pin to ~&gt; 3.10 [#5342](https://github.com/inspec/inspec/pull/5342) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.22 -->
 - Re-Enable Omnibus Builds on MacOS 10.13 [#5363](https://github.com/inspec/inspec/pull/5363) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.21 -->
 - Require ruby 2.5+ / allow ruby 3 [#5357](https://github.com/inspec/inspec/pull/5357) ([tas50](https://github.com/tas50)) <!-- 4.24.20 -->
 - Update faraday requirement from &gt;= 0.9.0, &lt; 1.1 to &gt;= 0.9.0, &lt; 1.2 [#5355](https://github.com/inspec/inspec/pull/5355) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.24.19 -->
