@@ -41,7 +41,7 @@ describe "Inspec::Resources::Package" do
   end
 
   # centos
-  describe "Rpm" do # rubocop:disable BlockLength
+  describe "Rpm" do # rubocop:disable Metrics/BlockLength
     let(:pkg) do
       {
         name: "curl",
