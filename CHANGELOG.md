@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.24.23 -->
-## [v4.24.23](https://github.com/inspec/inspec/tree/v4.24.23) (2020-12-21)
+<!-- latest_release 4.24.24 -->
+## [v4.24.24](https://github.com/inspec/inspec/tree/v4.24.24) (2020-12-21)
 
 #### Merged Pull Requests
-- Bump chefstyle to 1.5.7 [#5358](https://github.com/inspec/inspec/pull/5358) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update parslet requirement from ~&gt; 1.5 to &gt;= 1.5, &lt; 3.0 [#5354](https://github.com/inspec/inspec/pull/5354) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.24.8 -->
 ### Changes since 4.24.8 release
 
 #### Merged Pull Requests
+- Update parslet requirement from ~&gt; 1.5 to &gt;= 1.5, &lt; 3.0 [#5354](https://github.com/inspec/inspec/pull/5354) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.24.24 -->
 - Bump chefstyle to 1.5.7 [#5358](https://github.com/inspec/inspec/pull/5358) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.23 -->
 - Loosen RSpec pin to ~&gt; 3.10 [#5342](https://github.com/inspec/inspec/pull/5342) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.22 -->
 - Re-Enable Omnibus Builds on MacOS 10.13 [#5363](https://github.com/inspec/inspec/pull/5363) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.21 -->
