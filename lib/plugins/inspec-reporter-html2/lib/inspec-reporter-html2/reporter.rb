@@ -1,4 +1,4 @@
-require "erb"
+require "erb" unless defined?(Erb)
 require "inspec/config"
 
 module InspecPlugins::Html2Reporter

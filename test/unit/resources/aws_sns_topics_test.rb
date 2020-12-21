@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_sns_topics"
 
 require "resource_support/aws"
-require "resources/aws/aws_sns_topics"
 
 # MSTB = MockSnsTopicsBackend
 # Abbreviation not used outside this file

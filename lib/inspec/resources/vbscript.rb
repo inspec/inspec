@@ -1,5 +1,5 @@
 require "inspec/resources/powershell"
-require "securerandom"
+require "securerandom" unless defined?(SecureRandom)
 
 module Inspec::Resources
   # This resource allows users to run vbscript on windows machines. We decided

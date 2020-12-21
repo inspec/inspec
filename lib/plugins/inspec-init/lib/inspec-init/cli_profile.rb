@@ -1,4 +1,4 @@
-require "pathname"
+require "pathname" unless defined?(Pathname)
 require_relative "renderer"
 
 module InspecPlugins

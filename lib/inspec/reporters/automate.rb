@@ -1,5 +1,5 @@
-require "json"
-require "net/http"
+require "json" unless defined?(JSON)
+require "net/http" unless defined?(Net::HTTP)
 
 module Inspec::Reporters
   class Automate < JsonAutomate

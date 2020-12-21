@@ -1,5 +1,5 @@
 require "resources/azure/azure_backend"
-require "uri"
+require "uri" unless defined?(URI)
 
 module Inspec::Resources
   class AzureVirtualMachineDataDisk < AzureResourceBase

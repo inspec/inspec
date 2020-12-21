@@ -1,4 +1,4 @@
-require "uri"
+require "uri" unless defined?(URI)
 require "inspec/fetcher"
 require "inspec/errors"
 require "inspec/dist"
@@ -85,7 +85,7 @@ module InspecPlugins
             # If version was specified, it will be the first and only result.
             # Note we are calling the sha256 as a string, not a symbol since
             # it was returned as json from the Compliance API.
-            profile_info = profile_result.sort_by { |x| Gem::Version.new(x["version"]) }[0]
+            profile_info = profile_result.min_by { |x| Gem::Version.new(x["version"]) }
             profile_checksum = profile_info.key?("sha256") ? profile_info["sha256"] : ""
           end
         end

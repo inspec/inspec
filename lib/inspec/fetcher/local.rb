@@ -1,4 +1,4 @@
-require "openssl"
+require "openssl" unless defined?(OpenSSL)
 
 module Inspec::Fetcher
   class Local < Inspec.fetcher(1)

@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_security_group"
 
 require "resource_support/aws"
-require "resources/aws/aws_security_group"
 
 # MESGSB = MockEc2SecurityGroupSingleBackend
 # Abbreviation not used outside this file

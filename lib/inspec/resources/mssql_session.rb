@@ -95,7 +95,7 @@ module Inspec::Resources
     end
 
     def parse_csv_result(cmd)
-      require "csv"
+      require "csv" unless defined?(CSV)
       table = CSV.parse(cmd.stdout, headers: true)
 
       # remove first row, since it will be a seperator line

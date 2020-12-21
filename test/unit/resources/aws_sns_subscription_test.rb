@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_sns_subscription"
 
 require "resource_support/aws"
-require "resources/aws/aws_sns_subscription"
 
 # MASSSB = MockAwsSNSSubscriptionSingularBackend
 # Abbreviation not used outside this file

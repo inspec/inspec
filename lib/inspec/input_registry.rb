@@ -1,5 +1,5 @@
-require "forwardable"
-require "singleton"
+require "forwardable" unless defined?(Forwardable)
+require "singleton" unless defined?(Singleton)
 require "inspec/input"
 require "inspec/secrets"
 require "inspec/exceptions"
@@ -14,9 +14,11 @@ module Inspec
     extend Forwardable
 
     class Error < Inspec::Error; end
+
     class ProfileLookupError < Error
       attr_accessor :profile_name
     end
+
     class InputLookupError < Error
       attr_accessor :profile_name
       attr_accessor :input_name
@@ -199,7 +201,7 @@ module Inspec
           value = YAML.load(value)
         rescue Psych::SyntaxError => yaml_error
           # It could be that we just tried to run JSON through the YAML parser.
-          require "json"
+          require "json" unless defined?(JSON)
           begin
             value = JSON.parse(value)
           rescue JSON::ParserError => json_error

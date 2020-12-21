@@ -66,7 +66,7 @@ module Inspec::Resources
     private
 
     def parse(content)
-      require "json"
+      require "json" unless defined?(JSON)
       JSON.parse(content)
     rescue => e
       raise Inspec::Exceptions::ResourceFailed, "Unable to parse JSON: #{e.message}"

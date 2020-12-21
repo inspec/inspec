@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_eks_cluster"
 
 require "resource_support/aws"
-require "resources/aws/aws_eks_cluster"
 
 # MAEKSB = MockAwsEksClusterSingularBackend
 # Abbreviation not used outside this file
@@ -170,6 +169,7 @@ class AwsEksClusterProperties < Minitest::Test
   end
 
 end
+
 #=============================================================================#
 #                               Test Fixtures
 #=============================================================================#

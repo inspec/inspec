@@ -4,7 +4,6 @@ require "resources/aws/aws_vpcs"
 require "ipaddr"
 
 require "resource_support/aws"
-require "resources/aws/aws_vpcs"
 
 # MAVPB = MockAwsVpcsPluralBackend
 # Abbreviation not used outside this file
@@ -99,6 +98,7 @@ class AwsVpcsProperties < Minitest::Test
     assert_equal(1, @vpcs.dhcp_options_ids.count)
   end
 end
+
 #=============================================================================#
 #                               Test Fixtures
 #=============================================================================#

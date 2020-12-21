@@ -1,7 +1,7 @@
 require "minitest/autorun"
 require "mocha/minitest"
 require "webmock/minitest"
-require_relative "../../../lib/inspec-compliance/api.rb"
+require_relative "../../../lib/inspec-compliance/api"
 
 describe InspecPlugins::Compliance::API do
   let(:automate_options) do

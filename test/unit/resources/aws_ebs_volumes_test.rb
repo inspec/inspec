@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_ebs_volumes"
 
 require "resource_support/aws"
-require "resources/aws/aws_ebs_volumes"
 
 # MAEIPB = MockAwsEbsVolumesPluralBackend
 # Abbreviation not used outside this file

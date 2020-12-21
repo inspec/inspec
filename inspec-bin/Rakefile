@@ -3,7 +3,7 @@ Bundler::GemHelper.install_tasks name: "inspec-bin"
 desc "force install the inspec-bin gem"
 task "install:force" do
   sh "gem build -V inspec-bin.gemspec"
-  built_gem_path = Dir["inspec-bin-*.gem"].sort_by { |f| File.mtime(f) }.last
+  built_gem_path = Dir["inspec-bin-*.gem"].max_by { |f| File.mtime(f) }
   FileUtils.mkdir_p("pkg") unless Dir.exist?("pkg")
   FileUtils.mv(built_gem_path, "pkg")
   sh "gem install -f pkg/#{built_gem_path}"

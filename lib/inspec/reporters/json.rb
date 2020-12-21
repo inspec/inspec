@@ -1,4 +1,4 @@
-require "json"
+require "json" unless defined?(JSON)
 
 module Inspec::Reporters
   # rubocop:disable Layout/AlignHash, Style/BlockDelimiters

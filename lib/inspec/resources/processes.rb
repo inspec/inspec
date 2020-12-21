@@ -1,7 +1,7 @@
 # copyright: 2015, Vulcano Security GmbH
 
 require "inspec/utils/filter"
-require "ostruct"
+require "ostruct" unless defined?(OpenStruct)
 require "inspec/resources/command"
 
 module Inspec::Resources

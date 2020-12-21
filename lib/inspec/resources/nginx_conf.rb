@@ -1,7 +1,7 @@
 require "inspec/utils/nginx_parser"
 require "inspec/utils/find_files"
 require "inspec/utils/file_reader"
-require "forwardable"
+require "forwardable" unless defined?(Forwardable)
 
 # STABILITY: Experimental
 # This resouce needs a proper interace to the underlying data, which is currently missing.

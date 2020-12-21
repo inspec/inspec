@@ -1,5 +1,5 @@
-require "stringio"
-require "json"
+require "stringio" unless defined?(StringIO)
+require "json" unless defined?(JSON)
 require "inspec/globals"
 require "inspec/config"
 

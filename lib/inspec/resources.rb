@@ -16,11 +16,11 @@ inspec_core_only = ENV["NO_AWS"] || !File.exist?(File.join(File.dirname(__FILE__
 # Do not attempt to load cloud resources if we are in inspec-core mode
 unless inspec_core_only
   require "resource_support/aws"
-  require "resources/azure/azure_backend.rb"
-  require "resources/azure/azure_generic_resource.rb"
-  require "resources/azure/azure_resource_group.rb"
-  require "resources/azure/azure_virtual_machine.rb"
-  require "resources/azure/azure_virtual_machine_data_disk.rb"
+  require "resources/azure/azure_backend"
+  require "resources/azure/azure_generic_resource"
+  require "resources/azure/azure_resource_group"
+  require "resources/azure/azure_virtual_machine"
+  require "resources/azure/azure_virtual_machine_data_disk"
 end
 
 require "inspec/resources/aide_conf"

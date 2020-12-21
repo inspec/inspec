@@ -1,4 +1,4 @@
-require "json"
+require "json" unless defined?(JSON)
 
 module Inspec::Plugin::V2
   # Represents the plugin config file on disk.

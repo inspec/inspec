@@ -1,4 +1,4 @@
-require "tomlrb"
+require "tomlrb" unless defined?(Tomlrb)
 require "inspec/resources/json"
 
 module Inspec::Resources

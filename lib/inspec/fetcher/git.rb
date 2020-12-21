@@ -1,6 +1,6 @@
-require "tmpdir"
-require "fileutils"
-require "mixlib/shellout"
+require "tmpdir" unless defined?(Dir.mktmpdir)
+require "fileutils" unless defined?(FileUtils)
+require "mixlib/shellout" unless defined?(Mixlib::ShellOut)
 require "inspec/log"
 
 module Inspec::Fetcher

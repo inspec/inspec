@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_iam_policy"
 
 require "resource_support/aws"
-require "resources/aws/aws_iam_policy"
 
 # MAIPSB = MockAwsIamPolicySingularBackend
 # Abbreviation not used outside this file

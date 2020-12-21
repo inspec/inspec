@@ -6,17 +6,22 @@ module Inspec
       class Exception < Inspec::Error; end
       class ConfigError < Inspec::Plugin::V2::Exception; end
       class LoadError < Inspec::Plugin::V2::Exception; end
+
       class GemActionError < Inspec::Plugin::V2::Exception
         attr_accessor :plugin_name
         attr_accessor :version
       end
+
       class InstallError < Inspec::Plugin::V2::GemActionError; end
+
       class PluginExcludedError < Inspec::Plugin::V2::InstallError
         attr_accessor :details
       end
+
       class UpdateError < Inspec::Plugin::V2::GemActionError
         attr_accessor :from_version, :to_version
       end
+
       class UnInstallError < Inspec::Plugin::V2::GemActionError; end
       class SearchError < Inspec::Plugin::V2::GemActionError; end
     end

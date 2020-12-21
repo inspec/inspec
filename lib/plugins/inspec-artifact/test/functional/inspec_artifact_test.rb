@@ -1,6 +1,6 @@
-require "fileutils"
+require "fileutils" unless defined?(FileUtils)
 require "plugins/shared/core_plugin_test_helper"
-require "securerandom"
+require "securerandom" unless defined?(SecureRandom)
 
 class ArtifactCli < Minitest::Test
   include CorePluginFunctionalHelper

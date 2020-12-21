@@ -4,7 +4,7 @@ require "inspec/resource"
 require "inspec/library_eval_context"
 require "inspec/control_eval_context"
 require "inspec/require_loader"
-require "securerandom"
+require "securerandom" unless defined?(SecureRandom)
 require "inspec/input_registry"
 
 module Inspec

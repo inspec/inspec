@@ -53,7 +53,7 @@ class MockLoader
   def backend
     return @backend if defined?(@backend)
 
-    scriptpath = ::File.expand_path "../..", __FILE__
+    scriptpath = ::File.expand_path "..", __dir__
 
     # create mock backend
     @backend = Inspec::Backend.create(Inspec::Config.mock)
@@ -604,7 +604,7 @@ class MockLoader
   end
 
   def self.home # "home" of the repo (not test!)... I really dislike this name
-    File.expand_path "../../..", __FILE__
+    File.expand_path "../..", __dir__
   end
 
   def self.profile_path(name)

@@ -1,5 +1,5 @@
 require "yaml"
-require_relative "../../../shared/core_plugin_test_helper.rb"
+require_relative "../../../shared/core_plugin_test_helper"
 
 class InitCli < Minitest::Test
   include CorePluginFunctionalHelper

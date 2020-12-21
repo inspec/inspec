@@ -1,5 +1,5 @@
 require "inspec/fetcher"
-require "forwardable"
+require "forwardable" unless defined?(Forwardable)
 
 module Inspec
   class CachedFetcher

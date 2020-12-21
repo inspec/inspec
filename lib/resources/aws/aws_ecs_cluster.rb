@@ -37,19 +37,18 @@ class AwsEcsCluster < Inspec.resource(1)
 
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
-    begin
-      # Use default cluster if no cluster name is specified
-      params = cluster_name.nil? ? {} : { clusters: [cluster_name] }
-      clusters = backend.describe_clusters(params).clusters
 
-      # Cluster name is unique, we either get back one cluster, or none
-      if clusters.length == 1
-        @exists = true
-        unpack_describe_clusters_response(clusters.first)
-      else
-        @exists = false
-        populate_as_missing
-      end
+    # Use default cluster if no cluster name is specified
+    params = cluster_name.nil? ? {} : { clusters: [cluster_name] }
+    clusters = backend.describe_clusters(params).clusters
+
+    # Cluster name is unique, we either get back one cluster, or none
+    if clusters.length == 1
+      @exists = true
+      unpack_describe_clusters_response(clusters.first)
+    else
+      @exists = false
+      populate_as_missing
     end
   end
 

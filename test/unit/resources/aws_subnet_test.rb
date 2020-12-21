@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_subnet"
 
 require "resource_support/aws"
-require "resources/aws/aws_subnet"
 
 # MVSSB = MockVpcSubnetSingleBackend
 # Abbreviation not used outside this file
