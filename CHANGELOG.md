@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.24.25 -->
-## [v4.24.25](https://github.com/inspec/inspec/tree/v4.24.25) (2020-12-21)
+<!-- latest_release 4.24.26 -->
+## [v4.24.26](https://github.com/inspec/inspec/tree/v4.24.26) (2020-12-23)
 
-#### Merged Pull Requests
-- Remove windows test skip timebomb [#5364](https://github.com/inspec/inspec/pull/5364) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Enhancements
+- Updated Supported Platforms for MSSQL_SESSION [#5366](https://github.com/inspec/inspec/pull/5366) ([kclinden](https://github.com/kclinden))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.24.8 -->
 ### Changes since 4.24.8 release
+
+#### Enhancements
+- Updated Supported Platforms for MSSQL_SESSION [#5366](https://github.com/inspec/inspec/pull/5366) ([kclinden](https://github.com/kclinden)) <!-- 4.24.26 -->
 
 #### Merged Pull Requests
 - Remove windows test skip timebomb [#5364](https://github.com/inspec/inspec/pull/5364) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.25 -->
