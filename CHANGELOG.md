@@ -1,39 +1,37 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.24.26 -->
-## [v4.24.26](https://github.com/inspec/inspec/tree/v4.24.26) (2020-12-23)
-
-#### Enhancements
-- Updated Supported Platforms for MSSQL_SESSION [#5366](https://github.com/inspec/inspec/pull/5366) ([kclinden](https://github.com/kclinden))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.24.8 -->
-### Changes since 4.24.8 release
-
-#### Enhancements
-- Updated Supported Platforms for MSSQL_SESSION [#5366](https://github.com/inspec/inspec/pull/5366) ([kclinden](https://github.com/kclinden)) <!-- 4.24.26 -->
-
-#### Merged Pull Requests
-- Remove windows test skip timebomb [#5364](https://github.com/inspec/inspec/pull/5364) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.25 -->
-- Update parslet requirement from ~&gt; 1.5 to &gt;= 1.5, &lt; 3.0 [#5354](https://github.com/inspec/inspec/pull/5354) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.24.24 -->
-- Bump chefstyle to 1.5.7 [#5358](https://github.com/inspec/inspec/pull/5358) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.23 -->
-- Loosen RSpec pin to ~&gt; 3.10 [#5342](https://github.com/inspec/inspec/pull/5342) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.22 -->
-- Re-Enable Omnibus Builds on MacOS 10.13 [#5363](https://github.com/inspec/inspec/pull/5363) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.21 -->
-- Require ruby 2.5+ / allow ruby 3 [#5357](https://github.com/inspec/inspec/pull/5357) ([tas50](https://github.com/tas50)) <!-- 4.24.20 -->
-- Update faraday requirement from &gt;= 0.9.0, &lt; 1.1 to &gt;= 0.9.0, &lt; 1.2 [#5355](https://github.com/inspec/inspec/pull/5355) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.24.19 -->
-- Replace DK with Workstation in docs [#5352](https://github.com/inspec/inspec/pull/5352) ([tas50](https://github.com/tas50)) <!-- 4.24.18 -->
-- Update rubyzip requirement from ~&gt; 1.2, &gt;= 1.2.2 to &gt;= 1.2.2, &lt; 3.0 [#5347](https://github.com/inspec/inspec/pull/5347) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.24.17 -->
-- Update simplecov requirement from ~&gt; 0.10, &lt;= 0.18.2 to ~&gt; 0.18 [#5351](https://github.com/inspec/inspec/pull/5351) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.24.16 -->
-- Update tomlrb requirement from ~&gt; 1.2.0 to &gt;= 1.2, &lt; 2.1 [#5350](https://github.com/inspec/inspec/pull/5350) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.24.15 -->
-- Update hashie requirement from ~&gt; 3.4 to &gt;= 3.4, &lt; 5.0 [#5348](https://github.com/inspec/inspec/pull/5348) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.24.14 -->
-- Remove &#39;integration&#39; group from Gemfile [#5341](https://github.com/inspec/inspec/pull/5341) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.13 -->
-- Accept arrays in parse_config&#39;s method_missing [#5252](https://github.com/inspec/inspec/pull/5252) ([rgeissert](https://github.com/rgeissert)) <!-- 4.24.12 -->
-- Fix link to image in compliance plugin README [#5329](https://github.com/inspec/inspec/pull/5329) ([phiggins](https://github.com/phiggins)) <!-- 4.24.11 -->
-- Clean up docs previews [#5344](https://github.com/inspec/inspec/pull/5344) ([IanMadd](https://github.com/IanMadd)) <!-- 4.24.10 -->
-- Remove macOS 10.13 from the build matrix [#5311](https://github.com/inspec/inspec/pull/5311) ([tas50](https://github.com/tas50)) <!-- 4.24.9 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.24.26](https://github.com/inspec/inspec/tree/v4.24.26) (2021-01-04)
+
+#### Enhancements
+- Updated Supported Platforms for MSSQL_SESSION [#5366](https://github.com/inspec/inspec/pull/5366) ([kclinden](https://github.com/kclinden))
+
+#### Merged Pull Requests
+- Remove macOS 10.13 from the build matrix [#5311](https://github.com/inspec/inspec/pull/5311) ([tas50](https://github.com/tas50))
+- Clean up docs previews [#5344](https://github.com/inspec/inspec/pull/5344) ([IanMadd](https://github.com/IanMadd))
+- Fix link to image in compliance plugin README [#5329](https://github.com/inspec/inspec/pull/5329) ([phiggins](https://github.com/phiggins))
+- Accept arrays in parse_config&#39;s method_missing [#5252](https://github.com/inspec/inspec/pull/5252) ([rgeissert](https://github.com/rgeissert))
+- Remove &#39;integration&#39; group from Gemfile [#5341](https://github.com/inspec/inspec/pull/5341) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update hashie requirement from ~&gt; 3.4 to &gt;= 3.4, &lt; 5.0 [#5348](https://github.com/inspec/inspec/pull/5348) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update tomlrb requirement from ~&gt; 1.2.0 to &gt;= 1.2, &lt; 2.1 [#5350](https://github.com/inspec/inspec/pull/5350) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update simplecov requirement from ~&gt; 0.10, &lt;= 0.18.2 to ~&gt; 0.18 [#5351](https://github.com/inspec/inspec/pull/5351) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update rubyzip requirement from ~&gt; 1.2, &gt;= 1.2.2 to &gt;= 1.2.2, &lt; 3.0 [#5347](https://github.com/inspec/inspec/pull/5347) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Replace DK with Workstation in docs [#5352](https://github.com/inspec/inspec/pull/5352) ([tas50](https://github.com/tas50))
+- Update faraday requirement from &gt;= 0.9.0, &lt; 1.1 to &gt;= 0.9.0, &lt; 1.2 [#5355](https://github.com/inspec/inspec/pull/5355) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Require ruby 2.5+ / allow ruby 3 [#5357](https://github.com/inspec/inspec/pull/5357) ([tas50](https://github.com/tas50))
+- Re-Enable Omnibus Builds on MacOS 10.13 [#5363](https://github.com/inspec/inspec/pull/5363) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Loosen RSpec pin to ~&gt; 3.10 [#5342](https://github.com/inspec/inspec/pull/5342) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump chefstyle to 1.5.7 [#5358](https://github.com/inspec/inspec/pull/5358) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update parslet requirement from ~&gt; 1.5 to &gt;= 1.5, &lt; 3.0 [#5354](https://github.com/inspec/inspec/pull/5354) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Remove windows test skip timebomb [#5364](https://github.com/inspec/inspec/pull/5364) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.24.8](https://github.com/inspec/inspec/tree/v4.24.8) (2020-12-10)
 
 #### New Features
@@ -65,7 +63,6 @@
 - Remove the docker releasing rake task [#5336](https://github.com/inspec/inspec/pull/5336) ([tas50](https://github.com/tas50))
 - Remove unused build-essential dep in berksfile [#5337](https://github.com/inspec/inspec/pull/5337) ([tas50](https://github.com/tas50))
 - Remove the kitchen.chef.yml file [#5338](https://github.com/inspec/inspec/pull/5338) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v4.23.15](https://github.com/inspec/inspec/tree/v4.23.15) (2020-10-23)
 
