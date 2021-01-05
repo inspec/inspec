@@ -136,7 +136,7 @@ module Inspec
         banner: "one two:/output/file/path",
         desc: "Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml"
       option :reporter_message_truncation, type: :string,
-        desc: "Number of characters to truncate failure messages in report data to (default: no truncation)"
+        desc: "Number of characters to truncate failure messages and code_desc in report data to (default: no truncation)"
       option :reporter_backtrace_inclusion, type: :boolean,
         desc: "Include a code backtrace in report data (default: true)"
       option :input, type: :array, banner: "name1=value1 name2=value2",
