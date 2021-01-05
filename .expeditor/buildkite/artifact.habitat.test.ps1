@@ -41,7 +41,7 @@ hab pkg install -b $project_root/results/$pkg_artifact
 Write-Host "--- Downloading Ruby + DevKit"
 $ruby_installer = "rubyinstaller-2.7.2-1-x86.exe"
 # aws s3 cp s3://core-buildkite-cache-chef-prod/rubyinstaller-devkit-2.6.6-1-x64.exe c:/rubyinstaller-devkit-2.6.6-1-x64.exe
-Invoke-WebRequest -OutFile $ruby_installer -Uri "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.7.2-1/${ruby_installer}"
+Invoke-WebRequest -OutFile c:\$ruby_installer -Uri "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.7.2-1/${ruby_installer}"
 
 Write-Host "--- Installing Ruby + DevKit"
 Start-Process c:\$ruby_installer -ArgumentList '/verysilent /dir=C:\\ruby27' -Wait
