@@ -42,8 +42,8 @@ control_id:
 ```
 
 - `expiration_date` is optional. Absence means the waiver is permanent.
-- `run` is optional. If present and true, the control will run and be
-  reported, but failures in it won't make the overall run fail. If absent or false, the control will not be run. You may use any of yes, no, true or false.
+- `run` is optional. If absent or true, the control will run and be
+  reported, but failures in it won't make the overall run fail. If present and false, the control will not be run. You may use any of yes, no, true or false. To avoid confusion, it is good practice to explicitly specify whether the control should run.
 - `justification` can be any text you want and might include a reason
   as well as who signed off on the waiver.
 
