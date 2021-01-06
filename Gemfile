@@ -9,7 +9,7 @@ gem "inspec", path: "."
 # in it in order to package the executable. Hence the odd backwards dependency.
 gem "inspec-bin", path: "./inspec-bin"
 
-gem "ffi", ">= 1.9.14", "!= 1.13.0"
+gem "ffi", ">= 1.9.14", "!= 1.13.0", "!= 1.14.2"
 
 if Gem.ruby_version.to_s.start_with?("2.5")
   # 16.7.23 required ruby 2.6+
