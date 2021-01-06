@@ -308,6 +308,10 @@ describe "inspec exec with json formatter" do
       _(control_with_message["results"].first["message"]).wont_be :nil?
       _(control_with_message["results"].first["message"]).must_equal "expected nil to match /some regex that is expected in the content/"
     end
+    it "reports full code_desc by default" do
+      _(control_with_message["results"].first["code_desc"]).wont_be :nil?
+      _(control_with_message["results"].first["code_desc"]).must_equal "File / content is expected to match /some regex that is expected in the content/"
+    end
   end
 
   describe "JSON reporter with reporter-message-truncation set to a number" do
@@ -319,6 +323,10 @@ describe "inspec exec with json formatter" do
       _(control_with_message["results"].first["message"]).wont_be :nil?
       _(control_with_message["results"].first["message"]).must_equal "expected nil to matc[Truncated to 20 characters]"
     end
+    it "reports a truncated code_desc" do
+      _(control_with_message["results"].first["code_desc"]).wont_be :nil?
+      _(control_with_message["results"].first["code_desc"]).must_equal "File / content is ex[Truncated to 20 characters]"
+    end
   end
 
   describe "JSON reporter with reporter-message-truncation set to a number and working message" do
@@ -328,6 +336,9 @@ describe "inspec exec with json formatter" do
     let(:control_with_message) { profile["controls"].find { |c| c["id"] == "Generates a message" } }
     it "does not report a truncated message" do
       assert !control_with_message["results"].first["message"].include?("Truncated")
+    end
+    it "does not report a truncated code_desc" do
+      assert !control_with_message["results"].first["code_desc"].include?("Truncated")
     end
   end
 
@@ -339,6 +350,10 @@ describe "inspec exec with json formatter" do
     it "reports full message" do
       _(control_with_message["results"].first["message"]).wont_be :nil?
       _(control_with_message["results"].first["message"]).must_equal "expected nil to match /some regex that is expected in the content/"
+    end
+    it "reports full code_desc" do
+      _(control_with_message["results"].first["code_desc"]).wont_be :nil?
+      _(control_with_message["results"].first["code_desc"]).must_equal "File / content is expected to match /some regex that is expected in the content/"
     end
   end
 

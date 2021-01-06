@@ -18,7 +18,7 @@ module Inspec
         sort_controls
       end
 
-      # Apply options such as message truncation and removal of backtraces
+      # Apply options such as message and code_desc truncation, and removal of backtraces
       def apply_report_resize_options
         runtime_config = @config[:runtime_config]
 
@@ -30,7 +30,7 @@ module Inspec
           p[:controls].each do |c|
             c[:results]&.map! do |r|
               r.delete(:backtrace) unless include_backtrace
-              process_message_truncation(r)
+              process_truncation(r)
             end
           end
         end
@@ -93,9 +93,11 @@ module Inspec
 
       private
 
-      def process_message_truncation(result)
-        if result.key?(:message) && result[:message] != "" && @trunc > -1 && result[:message].length > @trunc
-          result[:message] = result[:message][0...@trunc] + "[Truncated to #{@trunc} characters]"
+      def process_truncation(result)
+        %i{code_desc message}.each do |field|
+          if result.key?(field) && result[field] != "" && @trunc > -1 && result[field].length > @trunc
+            result[field] = result[field][0...@trunc] + "[Truncated to #{@trunc} characters]"
+          end
         end
         result
       end
