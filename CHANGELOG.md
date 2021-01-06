@@ -1,23 +1,21 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.24.28 -->
-## [v4.24.28](https://github.com/inspec/inspec/tree/v4.24.28) (2021-01-06)
-
-#### Bug Fixes
-- Avoid ffi 1.14.2 [#5375](https://github.com/inspec/inspec/pull/5375) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.24.26 -->
-### Changes since 4.24.26 release
-
-#### Bug Fixes
-- Avoid ffi 1.14.2 [#5375](https://github.com/inspec/inspec/pull/5375) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.28 -->
-
-#### Enhancements
-- Truncate code_desc when truncating reports [#5372](https://github.com/inspec/inspec/pull/5372) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.27 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.24.28](https://github.com/inspec/inspec/tree/v4.24.28) (2021-01-06)
+
+#### Enhancements
+- Truncate code_desc when truncating reports [#5372](https://github.com/inspec/inspec/pull/5372) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- Avoid ffi 1.14.2 [#5375](https://github.com/inspec/inspec/pull/5375) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.24.26](https://github.com/inspec/inspec/tree/v4.24.26) (2021-01-04)
 
 #### Enhancements
@@ -41,7 +39,6 @@
 - Bump chefstyle to 1.5.7 [#5358](https://github.com/inspec/inspec/pull/5358) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Update parslet requirement from ~&gt; 1.5 to &gt;= 1.5, &lt; 3.0 [#5354](https://github.com/inspec/inspec/pull/5354) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 - Remove windows test skip timebomb [#5364](https://github.com/inspec/inspec/pull/5364) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v4.24.8](https://github.com/inspec/inspec/tree/v4.24.8) (2020-12-10)
 
