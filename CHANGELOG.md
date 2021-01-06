@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.24.27 -->
-## [v4.24.27](https://github.com/inspec/inspec/tree/v4.24.27) (2021-01-06)
+<!-- latest_release 4.24.28 -->
+## [v4.24.28](https://github.com/inspec/inspec/tree/v4.24.28) (2021-01-06)
 
-#### Enhancements
-- Truncate code_desc when truncating reports [#5372](https://github.com/inspec/inspec/pull/5372) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- Avoid ffi 1.14.2 [#5375](https://github.com/inspec/inspec/pull/5375) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.24.26 -->
 ### Changes since 4.24.26 release
+
+#### Bug Fixes
+- Avoid ffi 1.14.2 [#5375](https://github.com/inspec/inspec/pull/5375) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.28 -->
 
 #### Enhancements
 - Truncate code_desc when truncating reports [#5372](https://github.com/inspec/inspec/pull/5372) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.27 -->
