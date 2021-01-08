@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.24.29 -->
+## [v4.24.29](https://github.com/inspec/inspec/tree/v4.24.29) (2021-01-08)
+
+#### Merged Pull Requests
+- Add ENV var to skip live net tests in plugin installer unit tests [#5378](https://github.com/inspec/inspec/pull/5378) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.24.28 -->
+### Changes since 4.24.28 release
+
+#### Merged Pull Requests
+- Add ENV var to skip live net tests in plugin installer unit tests [#5378](https://github.com/inspec/inspec/pull/5378) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.29 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
