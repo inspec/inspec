@@ -49,7 +49,8 @@ This subcommand has additional options:
 
 ## check
 
-Verify all tests at the specified path
+Verify metadata in inspec.yml. Verify control data has fields (title, description,
+impact) defined and that all controls have visible tests.
 
 ### Syntax
 
