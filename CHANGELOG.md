@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.24.29 -->
-## [v4.24.29](https://github.com/inspec/inspec/tree/v4.24.29) (2021-01-08)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Add ENV var to skip live net tests in plugin installer unit tests [#5378](https://github.com/inspec/inspec/pull/5378) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Switch Docker build to be omnibus-based [#5362](https://github.com/inspec/inspec/pull/5362) ([nkierpiec](https://github.com/nkierpiec))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.24.28 -->
 ### Changes since 4.24.28 release
 
 #### Merged Pull Requests
+- Switch Docker build to be omnibus-based [#5362](https://github.com/inspec/inspec/pull/5362) ([nkierpiec](https://github.com/nkierpiec)) <!-- 4.24.29 -->
 - Add ENV var to skip live net tests in plugin installer unit tests [#5378](https://github.com/inspec/inspec/pull/5378) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.29 -->
 <!-- release_rollup -->
 
