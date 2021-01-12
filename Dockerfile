@@ -1,20 +1,30 @@
-FROM ruby:alpine
+FROM ubuntu:18.04
 LABEL maintainer="Chef Software, Inc. <docker@chef.io>"
 
-ARG EXPEDITOR_VERSION
-ARG VERSION=4.24.28
+ARG VERSION=4.24.8
+ARG CHANNEL=stable
 
-# GEM_SOURCE is kept away from expeditor controlled ARGs to accomodate 3rd party distros
-ARG GEM_SOURCE=https://rubygems.org
+ENV PATH=/opt/inspec/bin:/opt/inspec/embedded/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-# Allow VERSION below to be controlled by either VERSION or EXPEDITOR_VERSION build arguments
-ENV VERSION ${EXPEDITOR_VERSION:-${VERSION}}
+# Run the entire container with the default locale to be en_US.UTF-8
+RUN apt-get update && \
+    apt-get install -y locales && \
+    locale-gen en_US.UTF-8 && \
+    update-locale LANG=en_US.UTF-8 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ENV LANG=en_US.UTF-8 \
+    LANGUAGE=en_US:en \
+    LC_ALL=en_US.UTF-8
+
 
 RUN mkdir -p /share
-RUN apk add --update build-base libxml2-dev libffi-dev git openssh-client
-RUN gem install --no-document --source ${GEM_SOURCE} --version ${VERSION} inspec
-RUN gem install --no-document --source ${GEM_SOURCE} --version ${VERSION} inspec-bin
-RUN apk del build-base
+
+RUN apt-get update && \
+    apt-get install -y wget rpm2cpio cpio && \
+    wget "http://packages.chef.io/files/${CHANNEL}/inspec/${VERSION}/el/7/inspec-${VERSION}-1.el7.x86_64.rpm" -O /tmp/inspec.rpm && \
+    rpm2cpio /tmp/inspec.rpm | cpio -idmv && \
+    rm -rf /tmp/inspec.rpm
 
 ENTRYPOINT ["inspec"]
 CMD ["help"]
