@@ -1,24 +1,22 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.24.32 -->
-## [v4.24.32](https://github.com/inspec/inspec/tree/v4.24.32) (2021-01-12)
-
-#### Merged Pull Requests
-- Update minimum ruby version in README [#5380](https://github.com/inspec/inspec/pull/5380) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.24.28 -->
-### Changes since 4.24.28 release
-
-#### Merged Pull Requests
-- Update minimum ruby version in README [#5380](https://github.com/inspec/inspec/pull/5380) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.32 -->
-- Update faraday requirement from &gt;= 0.9.0, &lt; 1.2 to &gt;= 0.9.0, &lt; 1.4 [#5371](https://github.com/inspec/inspec/pull/5371) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.24.31 -->
-- clarify the inspec check command [#5379](https://github.com/inspec/inspec/pull/5379) ([chrisbirster](https://github.com/chrisbirster)) <!-- 4.24.30 -->
-- Switch Docker build to be omnibus-based [#5362](https://github.com/inspec/inspec/pull/5362) ([nkierpiec](https://github.com/nkierpiec)) <!-- 4.24.29 -->
-- Add ENV var to skip live net tests in plugin installer unit tests [#5378](https://github.com/inspec/inspec/pull/5378) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.24.29 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.24.32](https://github.com/inspec/inspec/tree/v4.24.32) (2021-01-13)
+
+#### Merged Pull Requests
+- Add ENV var to skip live net tests in plugin installer unit tests [#5378](https://github.com/inspec/inspec/pull/5378) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Switch Docker build to be omnibus-based [#5362](https://github.com/inspec/inspec/pull/5362) ([nkierpiec](https://github.com/nkierpiec))
+- clarify the inspec check command [#5379](https://github.com/inspec/inspec/pull/5379) ([chrisbirster](https://github.com/chrisbirster))
+- Update faraday requirement from &gt;= 0.9.0, &lt; 1.2 to &gt;= 0.9.0, &lt; 1.4 [#5371](https://github.com/inspec/inspec/pull/5371) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update minimum ruby version in README [#5380](https://github.com/inspec/inspec/pull/5380) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.24.28](https://github.com/inspec/inspec/tree/v4.24.28) (2021-01-06)
 
 #### Enhancements
@@ -26,7 +24,6 @@
 
 #### Bug Fixes
 - Avoid ffi 1.14.2 [#5375](https://github.com/inspec/inspec/pull/5375) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v4.24.26](https://github.com/inspec/inspec/tree/v4.24.26) (2021-01-04)
 
