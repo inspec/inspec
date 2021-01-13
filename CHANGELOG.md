@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.24.33 -->
+## [v4.24.33](https://github.com/inspec/inspec/tree/v4.24.33) (2021-01-13)
+
+#### Merged Pull Requests
+- Allow for rspec 3.9 in the gemspec [#5381](https://github.com/inspec/inspec/pull/5381) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.24.32 -->
+### Changes since 4.24.32 release
+
+#### Merged Pull Requests
+- Allow for rspec 3.9 in the gemspec [#5381](https://github.com/inspec/inspec/pull/5381) ([tas50](https://github.com/tas50)) <!-- 4.24.33 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
