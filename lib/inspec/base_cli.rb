@@ -1,4 +1,4 @@
-require "thor" unless defined?(Thor)
+require "thor" # rubocop:disable Chef/Ruby/UnlessDefinedRequire
 require "inspec/log"
 require "inspec/ui"
 require "inspec/config"
