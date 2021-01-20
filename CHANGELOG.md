@@ -4,6 +4,8 @@
 ## [v4.25.0](https://github.com/inspec/inspec/tree/v4.25.0) (2021-01-15)
 
 #### Merged Pull Requests
+- Revert conditional require of Thor [#5388](https://github.com/inspec/inspec/pull/5388) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add windows as a supported platform for ssh_config [#5288](https://github.com/inspec/inspec/pull/5288) ([rgeissert](https://github.com/rgeissert))
 - Build arm packages for Debian/SLES/Ubuntu [#5386](https://github.com/inspec/inspec/pull/5386) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
@@ -11,6 +13,8 @@
 ### Changes since 4.24.32 release
 
 #### Merged Pull Requests
+- Revert conditional require of Thor [#5388](https://github.com/inspec/inspec/pull/5388) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add windows as a supported platform for ssh_config [#5288](https://github.com/inspec/inspec/pull/5288) ([rgeissert](https://github.com/rgeissert))
 - Build arm packages for Debian/SLES/Ubuntu [#5386](https://github.com/inspec/inspec/pull/5386) ([tas50](https://github.com/tas50)) <!-- 4.25.0 -->
 - Allow for rspec 3.9 in the gemspec [#5381](https://github.com/inspec/inspec/pull/5381) ([tas50](https://github.com/tas50)) <!-- 4.24.33 -->
 <!-- release_rollup -->
