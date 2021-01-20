@@ -1,24 +1,20 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.25.1 -->
-## [v4.25.1](https://github.com/inspec/inspec/tree/v4.25.1) (2021-01-20)
-
-#### Merged Pull Requests
-- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.12 to &gt;= 0.2.1, &lt; 0.2.18 [#5356](https://github.com/inspec/inspec/pull/5356) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.24.32 -->
-### Changes since 4.24.32 release
-
-#### Merged Pull Requests
-- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.12 to &gt;= 0.2.1, &lt; 0.2.18 [#5356](https://github.com/inspec/inspec/pull/5356) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.25.1 -->
-- Revert conditional require of Thor [#5388](https://github.com/inspec/inspec/pull/5388) ([clintoncwolfe](https://github.com/clintoncwolfe))
-- Add windows as a supported platform for ssh_config [#5288](https://github.com/inspec/inspec/pull/5288) ([rgeissert](https://github.com/rgeissert))
-- Build arm packages for Debian/SLES/Ubuntu [#5386](https://github.com/inspec/inspec/pull/5386) ([tas50](https://github.com/tas50)) <!-- 4.25.0 -->
-- Allow for rspec 3.9 in the gemspec [#5381](https://github.com/inspec/inspec/pull/5381) ([tas50](https://github.com/tas50)) <!-- 4.24.33 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.25.1](https://github.com/inspec/inspec/tree/v4.25.1) (2021-01-20)
+
+#### Merged Pull Requests
+- Allow for rspec 3.9 in the gemspec [#5381](https://github.com/inspec/inspec/pull/5381) ([tas50](https://github.com/tas50))
+- Build arm packages for Debian/SLES/Ubuntu [#5386](https://github.com/inspec/inspec/pull/5386) ([tas50](https://github.com/tas50))
+- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.12 to &gt;= 0.2.1, &lt; 0.2.18 [#5356](https://github.com/inspec/inspec/pull/5356) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+<!-- latest_stable_release -->
+
 ## [v4.24.32](https://github.com/inspec/inspec/tree/v4.24.32) (2021-01-13)
 
 #### Merged Pull Requests
@@ -27,7 +23,6 @@
 - clarify the inspec check command [#5379](https://github.com/inspec/inspec/pull/5379) ([chrisbirster](https://github.com/chrisbirster))
 - Update faraday requirement from &gt;= 0.9.0, &lt; 1.2 to &gt;= 0.9.0, &lt; 1.4 [#5371](https://github.com/inspec/inspec/pull/5371) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 - Update minimum ruby version in README [#5380](https://github.com/inspec/inspec/pull/5380) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v4.24.28](https://github.com/inspec/inspec/tree/v4.24.28) (2021-01-06)
 
