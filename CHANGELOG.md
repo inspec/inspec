@@ -1,18 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.25.0 -->
-## [v4.25.0](https://github.com/inspec/inspec/tree/v4.25.0) (2021-01-15)
+<!-- latest_release 4.25.1 -->
+## [v4.25.1](https://github.com/inspec/inspec/tree/v4.25.1) (2021-01-20)
 
 #### Merged Pull Requests
-- Revert conditional require of Thor [#5388](https://github.com/inspec/inspec/pull/5388) ([clintoncwolfe](https://github.com/clintoncwolfe))
-- Add windows as a supported platform for ssh_config [#5288](https://github.com/inspec/inspec/pull/5288) ([rgeissert](https://github.com/rgeissert))
-- Build arm packages for Debian/SLES/Ubuntu [#5386](https://github.com/inspec/inspec/pull/5386) ([tas50](https://github.com/tas50))
+- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.12 to &gt;= 0.2.1, &lt; 0.2.18 [#5356](https://github.com/inspec/inspec/pull/5356) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.24.32 -->
 ### Changes since 4.24.32 release
 
 #### Merged Pull Requests
+- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.12 to &gt;= 0.2.1, &lt; 0.2.18 [#5356](https://github.com/inspec/inspec/pull/5356) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.25.1 -->
 - Revert conditional require of Thor [#5388](https://github.com/inspec/inspec/pull/5388) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Add windows as a supported platform for ssh_config [#5288](https://github.com/inspec/inspec/pull/5288) ([rgeissert](https://github.com/rgeissert))
 - Build arm packages for Debian/SLES/Ubuntu [#5386](https://github.com/inspec/inspec/pull/5386) ([tas50](https://github.com/tas50)) <!-- 4.25.0 -->
