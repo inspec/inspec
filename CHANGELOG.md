@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.25.2 -->
+## [v4.25.2](https://github.com/inspec/inspec/tree/v4.25.2) (2021-01-25)
+
+#### Merged Pull Requests
+- Update oracledb_session.rb [#5193](https://github.com/inspec/inspec/pull/5193) ([pacopal](https://github.com/pacopal))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.25.1 -->
+### Changes since 4.25.1 release
+
+#### Merged Pull Requests
+- Update oracledb_session.rb [#5193](https://github.com/inspec/inspec/pull/5193) ([pacopal](https://github.com/pacopal)) <!-- 4.25.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
