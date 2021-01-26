@@ -128,10 +128,18 @@ module Inspec
     end
 
     #-----------------------------------------------------------------------#
-    #                      Fetching Plugin Data
+    #                      Handling Plugin Data
     #-----------------------------------------------------------------------#
     def fetch_plugin_config(plugin_name)
       Thor::CoreExt::HashWithIndifferentAccess.new(@plugin_cfg[plugin_name] || {})
+    end
+
+    def set_plugin_config(plugin_name, plugin_config)
+      @plugin_cfg[plugin_name] = plugin_config
+    end
+
+    def merge_plugin_config(plugin_name, additional_plugin_config)
+      @plugin_cfg[plugin_name].merge!(additional_plugin_config)
     end
 
     # clear the cached config
