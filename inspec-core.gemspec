@@ -36,6 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "sslshake",           "~> 1.2"
   spec.add_dependency "parallel",           "~> 1.9"
   spec.add_dependency "faraday",            ">= 0.9.0", "< 1.4"
+  spec.add_dependency "faraday_middleware", "~> 1.0"
   spec.add_dependency "tty-table",          "~> 0.10"
   spec.add_dependency "tty-prompt",         "~> 0.17"
   spec.add_dependency "tomlrb",             ">= 1.2", "< 2.1"
