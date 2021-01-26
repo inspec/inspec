@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.26.0 -->
-## [v4.26.0](https://github.com/inspec/inspec/tree/v4.26.0) (2021-01-26)
+<!-- latest_release 4.26.1 -->
+## [v4.26.1](https://github.com/inspec/inspec/tree/v4.26.1) (2021-01-26)
 
-#### Enhancements
-- Add method_missing to nginx_conf [#5285](https://github.com/inspec/inspec/pull/5285) ([rgeissert](https://github.com/rgeissert))
+#### Merged Pull Requests
+- Add option for winrm-shell-type [#5263](https://github.com/inspec/inspec/pull/5263) ([catriona1](https://github.com/catriona1))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.25.1 -->
@@ -17,6 +17,7 @@
 - Add faraday_middleware to gemspec [#5391](https://github.com/inspec/inspec/pull/5391) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.25.3 -->
 
 #### Merged Pull Requests
+- Add option for winrm-shell-type [#5263](https://github.com/inspec/inspec/pull/5263) ([catriona1](https://github.com/catriona1)) <!-- 4.26.1 -->
 - Update oracledb_session.rb [#5193](https://github.com/inspec/inspec/pull/5193) ([pacopal](https://github.com/pacopal)) <!-- 4.25.2 -->
 <!-- release_rollup -->
 
