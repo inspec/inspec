@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.25.3 -->
-## [v4.25.3](https://github.com/inspec/inspec/tree/v4.25.3) (2021-01-26)
+<!-- latest_release 4.26.0 -->
+## [v4.26.0](https://github.com/inspec/inspec/tree/v4.26.0) (2021-01-26)
 
-#### Bug Fixes
-- Add faraday_middleware to gemspec [#5391](https://github.com/inspec/inspec/pull/5391) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Enhancements
+- Add method_missing to nginx_conf [#5285](https://github.com/inspec/inspec/pull/5285) ([rgeissert](https://github.com/rgeissert))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.25.1 -->
 ### Changes since 4.25.1 release
+
+#### Enhancements
+- Add method_missing to nginx_conf [#5285](https://github.com/inspec/inspec/pull/5285) ([rgeissert](https://github.com/rgeissert)) <!-- 4.26.0 -->
 
 #### Bug Fixes
 - Add faraday_middleware to gemspec [#5391](https://github.com/inspec/inspec/pull/5391) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.25.3 -->
