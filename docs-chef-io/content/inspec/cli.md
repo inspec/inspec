@@ -145,7 +145,9 @@ This subcommand has additional options:
     Whether to use disable sspi authentication, defaults to false (WinRM).
 * ``--winrm-transport=WINRM_TRANSPORT``
     Specify which transport to use, defaults to negotiate (WinRM).
-
+* ``--winrm-shell-type=WINRM_SHELL_TYPE``
+    Specify which shell type to use (powershell,elevated or cmd), defaults to powershell (WinRM).
+    
 ## env
 
 Output shell-appropriate completion configuration
