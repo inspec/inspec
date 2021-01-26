@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.25.2 -->
-## [v4.25.2](https://github.com/inspec/inspec/tree/v4.25.2) (2021-01-25)
+<!-- latest_release 4.25.3 -->
+## [v4.25.3](https://github.com/inspec/inspec/tree/v4.25.3) (2021-01-26)
 
-#### Merged Pull Requests
-- Update oracledb_session.rb [#5193](https://github.com/inspec/inspec/pull/5193) ([pacopal](https://github.com/pacopal))
+#### Bug Fixes
+- Add faraday_middleware to gemspec [#5391](https://github.com/inspec/inspec/pull/5391) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.25.1 -->
 ### Changes since 4.25.1 release
+
+#### Bug Fixes
+- Add faraday_middleware to gemspec [#5391](https://github.com/inspec/inspec/pull/5391) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.25.3 -->
 
 #### Merged Pull Requests
 - Update oracledb_session.rb [#5193](https://github.com/inspec/inspec/pull/5193) ([pacopal](https://github.com/pacopal)) <!-- 4.25.2 -->
