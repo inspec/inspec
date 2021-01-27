@@ -535,6 +535,13 @@ describe "Inspec::Config" do
 
       assert_equal "test_value_02", settings[:test_key_01]
     end
+
+    it "handles handles empty configuration correctly" do
+      cfg.merge_plugin_config("inspec-missing-plugin", additional_settings)
+      settings = cfg.fetch_plugin_config("inspec-missing-plugin")
+
+      assert_equal "test_value_02", settings[:test_key_02]
+    end
   end
 
   # ========================================================================== #
