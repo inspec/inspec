@@ -1,37 +1,34 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.26.4 -->
-## [v4.26.4](https://github.com/inspec/inspec/tree/v4.26.4) (2021-01-27)
-
-#### Merged Pull Requests
-- Improve programmatic plugin configuration [#5395](https://github.com/inspec/inspec/pull/5395) ([tecracer-theinen](https://github.com/tecracer-theinen))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.25.1 -->
-### Changes since 4.25.1 release
-
-#### Enhancements
-- Add method_missing to nginx_conf [#5285](https://github.com/inspec/inspec/pull/5285) ([rgeissert](https://github.com/rgeissert)) <!-- 4.26.0 -->
-
-#### Bug Fixes
-- Add faraday_middleware to gemspec [#5391](https://github.com/inspec/inspec/pull/5391) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.25.3 -->
-
-#### Merged Pull Requests
-- Improve programmatic plugin configuration [#5395](https://github.com/inspec/inspec/pull/5395) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.26.4 -->
-- Pin back parslet to avoid conflict with toml in chef infra [#5394](https://github.com/inspec/inspec/pull/5394) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.3 -->
-- Enable programmatic setting of plugin configuration [#5393](https://github.com/inspec/inspec/pull/5393) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.26.2 -->
-- Add option for winrm-shell-type [#5263](https://github.com/inspec/inspec/pull/5263) ([catriona1](https://github.com/catriona1)) <!-- 4.26.1 -->
-- Update oracledb_session.rb [#5193](https://github.com/inspec/inspec/pull/5193) ([pacopal](https://github.com/pacopal)) <!-- 4.25.2 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.26.4](https://github.com/inspec/inspec/tree/v4.26.4) (2021-01-27)
+
+#### Enhancements
+- Add method_missing to nginx_conf [#5285](https://github.com/inspec/inspec/pull/5285) ([rgeissert](https://github.com/rgeissert))
+
+#### Bug Fixes
+- Add faraday_middleware to gemspec [#5391](https://github.com/inspec/inspec/pull/5391) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Update oracledb_session.rb [#5193](https://github.com/inspec/inspec/pull/5193) ([pacopal](https://github.com/pacopal))
+- Add option for winrm-shell-type [#5263](https://github.com/inspec/inspec/pull/5263) ([catriona1](https://github.com/catriona1))
+- Enable programmatic setting of plugin configuration [#5393](https://github.com/inspec/inspec/pull/5393) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- Pin back parslet to avoid conflict with toml in chef infra [#5394](https://github.com/inspec/inspec/pull/5394) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Improve programmatic plugin configuration [#5395](https://github.com/inspec/inspec/pull/5395) ([tecracer-theinen](https://github.com/tecracer-theinen))
+<!-- latest_stable_release -->
+
 ## [v4.25.1](https://github.com/inspec/inspec/tree/v4.25.1) (2021-01-20)
 
 #### Merged Pull Requests
 - Allow for rspec 3.9 in the gemspec [#5381](https://github.com/inspec/inspec/pull/5381) ([tas50](https://github.com/tas50))
 - Build arm packages for Debian/SLES/Ubuntu [#5386](https://github.com/inspec/inspec/pull/5386) ([tas50](https://github.com/tas50))
 - Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.12 to &gt;= 0.2.1, &lt; 0.2.18 [#5356](https://github.com/inspec/inspec/pull/5356) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
-<!-- latest_stable_release -->
 
 ## [v4.24.32](https://github.com/inspec/inspec/tree/v4.24.32) (2021-01-13)
 
