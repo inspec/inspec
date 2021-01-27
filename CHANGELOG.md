@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.26.3 -->
-## [v4.26.3](https://github.com/inspec/inspec/tree/v4.26.3) (2021-01-27)
+<!-- latest_release 4.26.4 -->
+## [v4.26.4](https://github.com/inspec/inspec/tree/v4.26.4) (2021-01-27)
 
 #### Merged Pull Requests
-- Pin back parslet to avoid conflict with toml in chef infra [#5394](https://github.com/inspec/inspec/pull/5394) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Improve programmatic plugin configuration [#5395](https://github.com/inspec/inspec/pull/5395) ([tecracer-theinen](https://github.com/tecracer-theinen))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.25.1 -->
@@ -17,6 +17,7 @@
 - Add faraday_middleware to gemspec [#5391](https://github.com/inspec/inspec/pull/5391) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.25.3 -->
 
 #### Merged Pull Requests
+- Improve programmatic plugin configuration [#5395](https://github.com/inspec/inspec/pull/5395) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.26.4 -->
 - Pin back parslet to avoid conflict with toml in chef infra [#5394](https://github.com/inspec/inspec/pull/5394) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.3 -->
 - Enable programmatic setting of plugin configuration [#5393](https://github.com/inspec/inspec/pull/5393) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.26.2 -->
 - Add option for winrm-shell-type [#5263](https://github.com/inspec/inspec/pull/5263) ([catriona1](https://github.com/catriona1)) <!-- 4.26.1 -->
