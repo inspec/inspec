@@ -135,10 +135,15 @@ module Inspec
     end
 
     def set_plugin_config(plugin_name, plugin_config)
+      plugin_name = plugin_name.to_s unless plugin_name.is_a? String
+
       @plugin_cfg[plugin_name] = plugin_config
     end
 
     def merge_plugin_config(plugin_name, additional_plugin_config)
+      plugin_name = plugin_name.to_s unless plugin_name.is_a? String
+
+      @plugin_cfg[plugin_name] = {} if @plugin_cfg[plugin_name].nil?
       @plugin_cfg[plugin_name].merge!(additional_plugin_config)
     end
 
