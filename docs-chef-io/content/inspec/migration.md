@@ -78,7 +78,7 @@ In addition Chef InSpec provides additional [resources](/inspec/resources/) that
 * [`auditd_conf`](/inspec/resources/auditd_conf/)
 * [`bash`](/inspec/resources/bash/)
 * [`csv`](/inspec/resources/csv/)
-* [`etc_shadow`](/inspec/resources/etc_shadow/)
+* [`shadow`](/inspec/resources/shadow/)
 * [`gem`](/inspec/resources/gem/)
 * [`grub_conf`](/inspec/resources/grub_conf/)
 * [`inetd_conf`](/inspec/resources/inetd_conf/)
