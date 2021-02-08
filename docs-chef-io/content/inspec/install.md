@@ -30,7 +30,7 @@ Chef InSpec is available as a standalone [Homebrew](https://brew.sh/) package.
 Run the following command in your terminal to install Chef InSpec:
 
 ```
-brew cask install chef/chef/inspec
+brew install chef/chef/inspec
 ```
 
 While this command is running, you may be prompted to enter your macOS user account
