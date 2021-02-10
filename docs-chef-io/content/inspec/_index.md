@@ -1,6 +1,8 @@
 +++
 title = "An Overview of Chef InSpec"
 draft = false
+[cascade]
+  product = ["inspec"]
 
 [menu]
   [menu.inspec]
