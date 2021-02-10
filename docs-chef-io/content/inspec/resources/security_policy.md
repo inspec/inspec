@@ -1,6 +1,7 @@
 +++
 title = "security_policy resource"
 draft = false
+gh_repo = "inspec"
 platform = "windows"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "windows"
     identifier = "inspec/resources/os/security_policy.md security_policy resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/security_policy.md)
 
 Use the `security_policy` Chef InSpec audit resource to test security policies on the Windows platform.
 

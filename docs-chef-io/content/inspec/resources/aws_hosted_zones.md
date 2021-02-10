@@ -1,6 +1,7 @@
 +++
 title = "aws_hosted_zones resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_hosted_zones.md aws_hosted_zones resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_hosted_zones.md)
 
 Use the `aws_hosted_zones` resource to test the hosted zones configuration.
 

@@ -1,6 +1,7 @@
 +++
 title = "ini resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/ini.md ini resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/ini.md)
 
 Use the `ini` Chef InSpec audit resource to test settings in an INI file.
 

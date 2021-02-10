@@ -1,6 +1,7 @@
 +++
 title = "azurerm_load_balancers resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_load_balancers.md azurerm_load_balancers resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_load_balancers.md)
 
 Use the `azurerm_load_balancers` InSpec audit resource to test properties and configuration of Azure Load Balancers.
 

@@ -1,6 +1,7 @@
 +++
 title = "azurerm_webapps resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_webapps.md azurerm_webapps resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_webapps.md)
 
 Use the `azurerm_webapps` InSpec audit resource to enumerate Webapps.
 

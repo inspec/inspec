@@ -1,6 +1,7 @@
 +++
 title = "crontab resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/crontab.md crontab resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/crontab.md)
 
 Use the `crontab` Chef InSpec audit resource to test the crontab entries for a particular user on the system. It recognizes special time strings (@yearly, @weekly, etc).
 

@@ -1,6 +1,7 @@
 +++
 title = "firewalld resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/firewalld.md firewalld resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/firewalld.md)
 
 Use the `firewalld` Chef InSpec audit resource to test that firewalld is configured to allow and deny access to specific hosts, services and ports on a system.
 

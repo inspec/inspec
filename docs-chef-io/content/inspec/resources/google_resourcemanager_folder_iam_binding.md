@@ -1,6 +1,7 @@
 +++
 title = "google_resourcemanager_folder_iam_binding resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

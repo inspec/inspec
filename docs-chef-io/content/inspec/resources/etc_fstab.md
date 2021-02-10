@@ -1,6 +1,7 @@
 +++
 title = "etc_fstab resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/etc_fstab.md etc_fstab resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/etc_fstab.md)
 
 Use the `etc_fstab` Chef InSpec audit resource to test information about all partitions and storage devices on a Linux system.
 

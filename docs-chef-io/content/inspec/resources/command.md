@@ -1,6 +1,7 @@
 +++
 title = "command resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/command.md command resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/command.md)
 
 Use the `command` Chef InSpec audit resource to test an arbitrary command that is run on the system.
 

@@ -1,6 +1,7 @@
 +++
 title = "bsd_service resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/bsd_service.md bsd_service resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/bsd_service.md)
 
 Use the `bsd_service` Chef InSpec audit resource to test a service using a Berkeley OS-style `init` on the FreeBSD platform.
 

@@ -1,6 +1,7 @@
 +++
 title = "About Chef InSpec and Train Plugins"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 100
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/plugins.md)
 
 ## What are Chef InSpec Plugins?
 

@@ -1,6 +1,7 @@
 +++
 title = "azure_virtual_machine resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azure_virtual_machine.md azure_virtual_machine resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azure_virtual_machine.md)
 
 Use the `azure_virtual_machine` Chef InSpec audit resource to ensure that a Virtual Machine has been provisioned correctly.
 

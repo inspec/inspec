@@ -1,6 +1,7 @@
 +++
 title = "aws_lambda resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_lambda.md aws_lambda resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_lambda.md)
 
 Use the `aws_lambda` resource to test a specific lambda.
 

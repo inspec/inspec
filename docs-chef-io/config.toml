@@ -1,0 +1,2 @@
+[params.inspec]
+gh_path = "https://github.com/inspec/inspec/tree/master/docs-chef-io/content/"

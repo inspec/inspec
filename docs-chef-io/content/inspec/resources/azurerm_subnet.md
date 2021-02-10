@@ -1,6 +1,7 @@
 +++
 title = "azurerm_subnet resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_subnet.md azurerm_subnet resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_subnet.md)
 
 Use the `azurerm_subnet` InSpec audit resource to test properties related to a
 subnet for a given virtual network.

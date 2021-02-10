@@ -1,6 +1,7 @@
 +++
 title = "Chef InSpec Shell"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 110
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/shell.md)
 
 The Chef InSpec interactive shell is a pry based REPL that can be used to
 quickly run Chef InSpec controls and tests without having to write it to a

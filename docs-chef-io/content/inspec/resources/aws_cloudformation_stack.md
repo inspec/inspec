@@ -1,6 +1,7 @@
 +++
 title = "aws_cloudformation_stack resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_cloudformation_stack.md aws_cloudformation_stack resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_cloudformation_stack.md)
 
 Use the `aws_cloudformation_stack` InSpec audit resource to test properties of a single AWS Cloud Formation Stack.
 

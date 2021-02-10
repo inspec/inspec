@@ -1,6 +1,7 @@
 +++
 title = "azurerm_virtual_machines resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_virtual_machines.md azurerm_virtual_machines resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_virtual_machines.md)
 
 Use the `azurerm_virtual_machines` InSpec audit resource to test properties related to
 virtual machines for a resource group.

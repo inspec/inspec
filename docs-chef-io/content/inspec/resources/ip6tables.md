@@ -1,6 +1,7 @@
 +++
 title = "ip6tables resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/ip6tables.md ip6tables resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/ip6tables.md)
 
 Use the `ip6tables` Chef InSpec audit resource to test rules that are defined in `ip6tables`, which maintains tables of IP packet filtering rules for IPv6. There may be more than one table. Each table contains one (or more) chains (both built-in and custom). A chain is a list of rules that match packets. When the rule matches, the rule defines what target to assign to the packet.
 

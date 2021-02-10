@@ -1,6 +1,7 @@
 +++
 title = "dh_params resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/dh_params.md dh_params resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/dh_params.md)
 
 Use the `dh_params` Chef InSpec audit resource to test Diffie-Hellman (DH) parameters.
 

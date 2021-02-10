@@ -1,6 +1,7 @@
 +++
 title = "etc_hosts resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/etc_hosts.md etc_hosts resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/etc_hosts.md)
 
 Use the `etc_hosts` Chef InSpec audit resource to test rules set to match IP addresses with hostnames.
 

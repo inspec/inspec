@@ -1,6 +1,7 @@
 +++
 title = "google_logging_organization_log_sinks resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

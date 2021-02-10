@@ -1,6 +1,7 @@
 +++
 title = "google_filestore_instance resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

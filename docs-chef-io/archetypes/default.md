@@ -1,6 +1,7 @@
 +++
 title = "{{ or (replace .Name "_" " ") (replace .Name "-" " ")  | title }}"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.desktop]
@@ -9,5 +10,3 @@ draft = false
     parent = "inspec"
     weight = 10
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs/content/inspec/{{ .Name }}.md)

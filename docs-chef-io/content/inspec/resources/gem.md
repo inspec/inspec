@@ -1,6 +1,7 @@
 +++
 title = "gem resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/gem.md gem resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/gem.md)
 
 Use the `gem` Chef InSpec audit resource to test if a global Gem package is installed.
 

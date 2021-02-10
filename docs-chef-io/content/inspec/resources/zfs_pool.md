@@ -1,6 +1,7 @@
 +++
 title = "zfs_pool resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/zfs_pool.md zfs_pool resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/zfs_pool.md)
 
 Use the `zfs_pool` Chef InSpec audit resource to test the ZFS pools on FreeBSD systems.
 

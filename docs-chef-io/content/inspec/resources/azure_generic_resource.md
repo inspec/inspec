@@ -1,6 +1,7 @@
 +++
 title = "azure_generic_resource resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azure_generic_resource.md azure_generic_resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azure_generic_resource.md)
 
 {{< warning >}}
 

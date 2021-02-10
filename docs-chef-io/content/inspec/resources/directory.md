@@ -1,6 +1,7 @@
 +++
 title = "directory resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/directory.md directory resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/directory.md)
 
 Use the `directory` Chef InSpec audit resource to test if the file type is a directory. This is equivalent to using the [`file` resource](/inspec/resources/file/) and the `be_directory` matcher, but provides a simpler and more direct way to test directories.
 

@@ -1,6 +1,7 @@
 +++
 title = "aws_cloudwatch_log_metric_filter resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_cloudwatch_log_metric_filter.md aws_cloudwatch_log_metric_filter resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_cloudwatch_log_metric_filter.md)
 
 Use the `aws_cloudwatch_log_metric_filter` InSpec audit resource to search for and test properties of individual AWS Cloudwatch Log Metric Filters.
 

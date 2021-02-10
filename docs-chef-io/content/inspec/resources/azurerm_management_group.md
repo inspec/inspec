@@ -1,6 +1,7 @@
 +++
 title = "azurerm_management_group resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_management_group.md azurerm_management_group resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_management_group.md)
 
 Use the `azurerm_management_group` InSpec audit resource to test properties related to a
 management group.

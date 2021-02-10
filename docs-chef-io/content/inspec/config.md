@@ -1,6 +1,7 @@
 +++
 title = "InSpec Configuration File"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 60
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/config.md)
 
 This documents the Chef InSpec configuration file format introduced in version 3.5 of InSpec and extended in later versions.
 

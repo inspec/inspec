@@ -1,6 +1,7 @@
 +++
 title = "powershell resource"
 draft = false
+gh_repo = "inspec"
 platform = "windows"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "windows"
     identifier = "inspec/resources/os/powershell.md powershell resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/powershell.md)
 
 Use the `powershell` Chef InSpec audit resource to test a Powershell script on the Windows platform.
 

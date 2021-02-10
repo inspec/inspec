@@ -1,6 +1,7 @@
 +++
 title = "google_billing_project_billing_info resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

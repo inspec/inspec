@@ -1,6 +1,7 @@
 +++
 title = "aws_launch_configuration resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_launch_configuration.md aws_launch_configuration resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_launch_configuration.md)
 
 Use the `aws_launch_configuration` InSpec audit resource to test properties of a
 single AWS Launch Configuration.

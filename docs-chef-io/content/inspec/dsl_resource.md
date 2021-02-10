@@ -1,6 +1,7 @@
 +++
 title = "Resource DSL"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 90
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/dsl_resource.md)
 
 Chef InSpec provides a mechanism for defining custom resources. These become
 available with their respective names and provide easy functionality to

@@ -1,6 +1,7 @@
 +++
 title = "aws_albs resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_albs.md aws_albs resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_albs.md)
 
 Use the `aws_albs` InSpec audit resource to test the configuration of a collection of Application Load Balancers.
 

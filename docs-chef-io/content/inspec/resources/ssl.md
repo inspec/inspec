@@ -1,6 +1,7 @@
 +++
 title = "ssl resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/ssl.md ssl resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/ssl.md)
 
 Use the `ssl` Chef InSpec audit resource to test SSL settings for the named port.
 

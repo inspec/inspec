@@ -1,6 +1,7 @@
 +++
 title = "google_project_logging_audit_config resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "gcp"
     identifier = "inspec/resources/gcp/google_project_logging_audit_config.md google_project_logging_audit_config resource"
     parent = "inspec/resources/gcp"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/google_project_logging_audit_config.md)
 
 Use the `google_compute_zone` InSpec audit resource to test properties of a single GCP compute zone.
 

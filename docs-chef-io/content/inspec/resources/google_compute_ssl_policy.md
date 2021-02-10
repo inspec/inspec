@@ -1,6 +1,7 @@
 +++
 title = "google_compute_ssl_policy resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

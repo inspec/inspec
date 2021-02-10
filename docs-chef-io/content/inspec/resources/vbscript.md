@@ -1,6 +1,7 @@
 +++
 title = "vbscript resource"
 draft = false
+gh_repo = "inspec"
 platform = "windows"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "windows"
     identifier = "inspec/resources/os/vbscript.md vbscript resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/vbscript.md)
 
 Use the `vbscript` Chef InSpec audit resource to test a VBScript on the Windows platform.
 

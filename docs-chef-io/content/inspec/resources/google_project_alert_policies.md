@@ -1,6 +1,7 @@
 +++
 title = "google_project_alert_policies resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

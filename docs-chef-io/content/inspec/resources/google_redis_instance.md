@@ -1,6 +1,7 @@
 +++
 title = "google_redis_instance resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

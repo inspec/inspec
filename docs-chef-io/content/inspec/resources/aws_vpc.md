@@ -1,6 +1,7 @@
 +++
 title = "aws_vpc resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_vpc.md aws_vpc resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_vpc.md)
 
 Use the `aws_vpc` InSpec audit resource to test properties of a single AWS Virtual Private Cloud (VPC).
 

@@ -1,6 +1,7 @@
 +++
 title = "Using Chef InSpec on Cloud Platforms"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec"
     weight = 30
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/platforms.md)
 
 As of Chef InSpec 2.0, we have expanded our platform support beyond individual
 machines and now include support for select AWS and Azure resources.

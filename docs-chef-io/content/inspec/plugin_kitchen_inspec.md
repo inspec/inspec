@@ -1,6 +1,7 @@
 +++
 title = "About kitchen-inspec"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 110
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/plugin_kitchen_inspec.md)
 
 Use Chef InSpec as a Kitchen verifier with `kitchen-inspec`.
 

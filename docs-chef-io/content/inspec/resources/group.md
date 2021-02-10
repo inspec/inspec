@@ -1,6 +1,7 @@
 +++
 title = "group resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/group.md group resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/group.md)
 
 Use the `group` Chef InSpec audit resource to test a single group on the system.
 

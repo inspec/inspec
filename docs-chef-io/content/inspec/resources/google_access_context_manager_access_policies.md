@@ -1,6 +1,7 @@
 +++
 title = "google_access_context_manager_access_policies resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

@@ -1,6 +1,7 @@
 +++
 title = "aws_db_subnet_group resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_db_subnet_group.md aws_db_subnet_group resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_db_subnet_group.md)
 
 Use the `aws_db_subnet_group` InSpec audit resource to test properties of a db subnet group.
 

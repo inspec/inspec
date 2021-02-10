@@ -1,6 +1,7 @@
 +++
 title = "zfs_dataset resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/zfs_dataset.md zfs_dataset resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/zfs_dataset.md)
 
 Use the `zfs_dataset` Chef InSpec audit resource to test the ZFS datasets on FreeBSD systems.
 

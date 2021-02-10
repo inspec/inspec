@@ -1,6 +1,7 @@
 +++
 title = "google_dns_managed_zones resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

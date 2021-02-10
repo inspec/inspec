@@ -1,6 +1,7 @@
 +++
 title = "google_sql_database_instances resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

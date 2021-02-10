@@ -1,6 +1,7 @@
 +++
 title = "aws_organizations_member resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_organizations_member.md aws_organizations_member resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_organizations_member.md)
 
 Use the `aws_organizations_member` InSpec audit resource to test the current AWS Account being used within an organization.
 

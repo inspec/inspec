@@ -1,6 +1,7 @@
 +++
 title = "aws_iam_saml_provider resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_iam_saml_provider.md aws_iam_saml_provider resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_iam_saml_provider.md)
 
 Use the `aws_iam_saml_provider` InSpec audit resource to test properties of an AWS IAM SAML Provider.
 
