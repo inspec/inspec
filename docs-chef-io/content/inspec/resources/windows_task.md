@@ -1,6 +1,7 @@
 +++
 title = "windows_task resource"
 draft = false
+gh_repo = "inspec"
 platform = "windows"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "windows"
     identifier = "inspec/resources/os/windows_task.md windows_task resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/windows_task.md)
 
 Use the `windows_task` Chef InSpec audit resource to test a scheduled tasks configuration on a Windows platform.
 Microsoft and application vendors use scheduled tasks to perform a variety of system maintenance tasks but system administrators can schedule their own.

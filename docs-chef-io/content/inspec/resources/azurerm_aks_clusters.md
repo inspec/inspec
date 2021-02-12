@@ -1,6 +1,7 @@
 +++
 title = "azurerm_aks_clusters resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_aks_clusters.md azurerm_aks_clusters resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_aks_clusters.md)
 
 Use the `azurerm_aks_clusters` InSpec audit resource to enumerate AKS Clusters.
 

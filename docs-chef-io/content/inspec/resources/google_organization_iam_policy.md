@@ -1,6 +1,7 @@
 +++
 title = "google_organization_iam_policy resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

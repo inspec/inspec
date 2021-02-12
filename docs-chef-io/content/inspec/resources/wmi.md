@@ -1,6 +1,7 @@
 +++
 title = "wmi resource"
 draft = false
+gh_repo = "inspec"
 platform = "windows"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "windows"
     identifier = "inspec/resources/os/wmi.md wmi resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/wmi.md)
 
 Use the `wmi` Chef InSpec audit resource to test WMI settings on the Windows platform.
 

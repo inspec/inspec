@@ -1,6 +1,7 @@
 +++
 title = "aws_elasticache_cluster resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]

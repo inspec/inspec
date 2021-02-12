@@ -1,6 +1,7 @@
 +++
 title = "azurerm_sql_database resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_sql_database.md azurerm_sql_database resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_sql_database.md)
 
 Use the `azurerm_sql_database` InSpec audit resource to test properties and configuration of
 an Azure SQL Database on a SQL Server.

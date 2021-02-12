@@ -1,6 +1,7 @@
 +++
 title = "google_compute_security_policies resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

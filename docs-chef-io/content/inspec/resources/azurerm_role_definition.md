@@ -1,6 +1,7 @@
 +++
 title = "azurerm_role_definition resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_role_definition.md azurerm_role_definition resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_role_definition.md)
 
 Use the `azurerm_role_definition` InSpec audit resource to test properties of
 an Azure Role Definition.

@@ -1,6 +1,7 @@
 +++
 title = "azurerm_mysql_server resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]

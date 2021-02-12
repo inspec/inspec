@@ -1,6 +1,7 @@
 +++
 title = "filesystem resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/filesystem.md filesystem resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/filesystem.md)
 
 Use the `filesystem` Chef InSpec resource to audit filesystem disk space usage.
 

@@ -1,6 +1,7 @@
 +++
 title = "virtualization resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/virtualization.md virtualization resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/virtualization.md)
 
 Use the `virtualization` Chef InSpec audit resource to test the virtualization platform on which the system is running.
 

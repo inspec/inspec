@@ -1,6 +1,7 @@
 +++
 title = "aws_sqs_queue resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_sqs_queue.md aws_sqs_queue"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_sqs_queue.md)
 
 Use the `aws_sqs_queue` InSpec audit resource to test properties of a single AWS Simple Queue Service queue.
 

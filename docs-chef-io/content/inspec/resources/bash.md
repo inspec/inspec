@@ -1,6 +1,7 @@
 +++
 title = "bash resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/bash.md bash resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/bash.md)
 
 Use the `bash` Chef InSpec audit resource to test an arbitrary command that is run on the system using a Bash script.
 

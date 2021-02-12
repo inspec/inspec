@@ -1,6 +1,7 @@
 +++
 title = "npm resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/npm.md npm resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/npm.md)
 
 Use the `npm` Chef InSpec audit resource to test if a global NPM package is installed. NPM is the the package manager for [Node.js packages](https://docs.npmjs.com), such as Bower and StatsD.
 

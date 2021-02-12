@@ -1,6 +1,7 @@
 +++
 title = "google_compute_global_addresses resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

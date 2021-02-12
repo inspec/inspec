@@ -1,6 +1,7 @@
 +++
 title = "aws_flow_log resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_flow_log.md aws_flow_log resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_flow_log.md)
 
 Use the `aws_flow_log` InSpec audit resource to test properties of a single Flow Log.
 

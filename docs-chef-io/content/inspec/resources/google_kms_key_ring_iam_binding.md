@@ -1,6 +1,7 @@
 +++
 title = "google_kms_key_ring_iam_binding resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

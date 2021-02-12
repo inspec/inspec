@@ -1,6 +1,7 @@
 +++
 title = "Chef InSpec Integration with Chef Habitat"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 120
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/habitat.md)
 
 Chef InSpec provides an easy method to create an executable Chef Habitat package for a Chef InSpec profile. When run via the Chef Habitat Supervisor, the package will run Chef InSpec with your profile and write out its findings to the supervisor log. This provides the ability to ship your compliance controls alongside your Chef Habitat-packaged application and continuously run InSpec, providing you *Continuous Compliance.*
 

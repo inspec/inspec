@@ -1,6 +1,7 @@
 +++
 title = "Install and Uninstall"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec"
     weight = 20
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/install.md)
 
 Users can choose between operating systems of MacOS, Windows, and Linux for Chef InSpec.
 

@@ -1,6 +1,7 @@
 +++
 title = "InSpec CLI"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 10
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/cli.md)
 
 Use the InSpec CLI to run tests and audits against targets using local, SSH, WinRM, or Docker connections.
 

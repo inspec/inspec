@@ -1,6 +1,7 @@
 +++
 title = "http resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/http.md http resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/http.md)
 
 Use the `http` Chef InSpec audit resource to test an http endpoint.
 

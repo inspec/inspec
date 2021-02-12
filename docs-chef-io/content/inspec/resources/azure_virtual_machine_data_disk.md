@@ -1,6 +1,7 @@
 +++
 title = "azure_virtual_machine_data_disk resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azure_virtual_machine_data_disk.md azure_virtual_machine_data_disk resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azure_virtual_machine_data_disk.md)
 
 Use this resource to ensure that a specific data disk attached to a machine has been created properly.
 

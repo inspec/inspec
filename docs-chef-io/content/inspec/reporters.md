@@ -1,6 +1,7 @@
 +++
 title = "Chef InSpec Reporters"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 50
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/reporters.md)
 
 Introduced in Chef InSpec 1.51.6
 

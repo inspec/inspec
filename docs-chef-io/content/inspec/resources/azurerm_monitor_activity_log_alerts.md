@@ -1,6 +1,7 @@
 +++
 title = "azurerm_monitor_activity_log_alerts resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_monitor_activity_log_alerts.md azurerm_monitor_activity_log_alerts resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_monitor_activity_log_alerts.md)
 
 Use the `azurerm_monitor_activity_log_alerts` InSpec audit resource to verify that an
 Activity Log Alert exists.

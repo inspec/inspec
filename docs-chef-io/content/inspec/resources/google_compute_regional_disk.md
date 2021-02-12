@@ -1,6 +1,7 @@
 +++
 title = "google_compute_regional_disk resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

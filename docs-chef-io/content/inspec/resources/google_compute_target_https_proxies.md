@@ -1,6 +1,7 @@
 +++
 title = "google_compute_target_https_proxies resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

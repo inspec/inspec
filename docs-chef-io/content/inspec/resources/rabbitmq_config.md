@@ -1,6 +1,7 @@
 +++
 title = "rabbitmq_config resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/rabbitmq_config.md rabbitmq_config resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/rabbitmq_config.md)
 
 Use the `rabbitmq_config` Chef InSpec audit resource to test configuration data for the RabbitMQ daemon located at `/etc/rabbitmq/rabbitmq.config` on Linux and Unix platforms.
 

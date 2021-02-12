@@ -1,6 +1,7 @@
 +++
 title = "aws_ssm_parameter resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_ssm_parameter.md aws_ssm_parameter resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_ssm_parameter.md)
 
 Use the `aws_ssm_parameter` InSpec audit resource to test properties of a ssm parameter.
 

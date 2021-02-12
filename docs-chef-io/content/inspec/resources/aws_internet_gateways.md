@@ -1,6 +1,7 @@
 +++
 title = "aws_internet_gateways resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_internet_gateways.md aws_internet_gateways"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_internet_gateways.md)
 
 Use the `aws_internet_gateways` InSpec audit resource to test the properties of all AWS internet gateways owned by the AWS account.
 

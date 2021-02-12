@@ -1,6 +1,7 @@
 +++
 title = "google_dns_resource_record_set resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

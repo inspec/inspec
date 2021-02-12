@@ -1,6 +1,7 @@
 +++
 title = "Chef InSpec Profile Style Guide"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 80
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/style.md)
 
 This is a set of recommended Chef InSpec rules you should use when writing controls.
 

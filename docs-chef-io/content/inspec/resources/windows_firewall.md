@@ -1,6 +1,7 @@
 +++
 title = "windows_firewall resource"
 draft = false
+gh_repo = "inspec"
 platform = "windows"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "windows"
     identifier = "inspec/resources/os/windows_firewall.md windows_firewall resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/windows_firewall.md)
 
 Use the `windows_firewall` Chef InSpec audit resource to test if a firewall profile is correctly configured on a Windows system.
 

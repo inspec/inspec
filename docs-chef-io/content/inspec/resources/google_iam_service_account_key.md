@@ -1,6 +1,7 @@
 +++
 title = "google_iam_service_account_key resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

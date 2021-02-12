@@ -1,6 +1,7 @@
 +++
 title = "About Chef InSpec Profiles"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 20
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/profiles.md)
 
 Chef InSpec supports the creation of complex test and compliance profiles, which
 organize controls to support dependency management and code reuse. Each profile

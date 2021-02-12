@@ -1,6 +1,7 @@
 +++
 title = "google_users resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "gcp"
     identifier = "inspec/resources/gcp/google_users.md google_users resource"
     parent = "inspec/resources/gcp"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/google_users.md)
 
 Use the `google_users` InSpec audit resource to test properties of all, or a filtered group of, GCP users.
 

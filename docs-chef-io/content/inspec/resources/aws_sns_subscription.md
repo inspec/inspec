@@ -1,6 +1,7 @@
 +++
 title = "aws_sns_subscription resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]

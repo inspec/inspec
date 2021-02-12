@@ -1,6 +1,7 @@
 +++
 title = "aws_eks_clusters resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_eks_clusters.md aws_eks_clusters resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_eks_clusters.md)
 
 Use the `aws_eks_clusters` resource to test the configuration of a collection of AWS Elastic Container Service for Kubernetes.
 

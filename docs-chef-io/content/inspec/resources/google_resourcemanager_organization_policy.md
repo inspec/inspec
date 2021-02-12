@@ -1,6 +1,7 @@
 +++
 title = "google_resourcemanager_organization_policy resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

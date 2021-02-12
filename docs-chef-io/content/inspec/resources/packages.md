@@ -1,6 +1,7 @@
 +++
 title = "packages resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/packages.md packages resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/packages.md)
 
 Use the `packages` Chef InSpec audit resource to test the properties of multiple packages on the system.
 

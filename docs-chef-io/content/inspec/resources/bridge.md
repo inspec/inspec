@@ -1,6 +1,7 @@
 +++
 title = "bridge resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/bridge.md bridge resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/bridge.md)
 
 Use the `bridge` Chef InSpec audit resource to test basic network bridge properties, such as name, if an interface is defined, and the associations for any defined interface.
 

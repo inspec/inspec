@@ -1,6 +1,7 @@
 +++
 title = "docker resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/docker.md docker resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/docker.md)
 
 Use the `docker` Chef InSpec audit resource to test configuration data for the Docker daemon. It is a very comprehensive resource. See also: [docker_container](/inspec/resources/docker_container/) and [docker_image](/inspec/resources/docker_image/), too.
 

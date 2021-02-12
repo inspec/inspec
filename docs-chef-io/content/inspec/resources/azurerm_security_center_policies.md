@@ -1,6 +1,7 @@
 +++
 title = "azurerm_security_center_policies resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_security_center_policies.md azurerm_security_center_policies resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_security_center_policies.md)
 
 Use the `azurerm_security_center_policies` InSpec audit resource to test
 properties of some or all Azure Security Center Policies.

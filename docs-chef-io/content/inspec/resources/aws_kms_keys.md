@@ -1,6 +1,7 @@
 +++
 title = "aws_kms_keys resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_kms_keys.md aws_kms_keys resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_kms_keys.md)
 
 Use the `aws_kms_keys` InSpec audit resource to test properties of some or all AWS KMS Keys.
 

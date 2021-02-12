@@ -1,6 +1,7 @@
 +++
 title = "google_bigquery_table resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

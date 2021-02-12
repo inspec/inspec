@@ -1,6 +1,7 @@
 +++
 title = "etc_hosts_deny resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/etc_hosts_deny.md etc_hosts_deny resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/etc_hosts_deny.md)
 
 Use the `etc_hosts_deny` Chef InSpec audit resource to test rules for rejecting daemon and client traffic defined in /etc/hosts.deny.
 

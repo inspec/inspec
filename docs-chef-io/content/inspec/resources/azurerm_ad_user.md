@@ -1,6 +1,7 @@
 +++
 title = "azurerm_ad_user resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_ad_user.md azurerm_ad_user resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_ad_user.md)
 
 Use the `azurerm_ad_user` InSpec audit resource to test properties of
 an Azure Active Directory user within a Tenant.

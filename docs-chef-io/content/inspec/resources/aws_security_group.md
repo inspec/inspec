@@ -1,6 +1,7 @@
 +++
 title = "aws_security_group resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_security_group.md aws_security_group"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_security_group.md)
 
 Use the `aws_security_group` InSpec audit resource to test detailed properties of an individual Security Group (SG).
 

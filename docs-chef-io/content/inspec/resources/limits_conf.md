@@ -1,6 +1,7 @@
 +++
 title = "limits_conf resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/limits_conf.md limits_conf resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/limits_conf.md)
 
 Use the `limits_conf` Chef InSpec audit resource to test configuration settings in the `/etc/security/limits.conf` file. The `limits.conf` defines limits for processes (by user and/or group names) and helps ensure that the system running those processes remains stable. Each process may be assigned a hard or soft limit.
 

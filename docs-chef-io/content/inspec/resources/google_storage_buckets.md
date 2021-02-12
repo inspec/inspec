@@ -1,6 +1,7 @@
 +++
 title = "google_storage_buckets resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

@@ -1,6 +1,7 @@
 +++
 title = "registry_key resource"
 draft = false
+gh_repo = "inspec"
 platform = "windows"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "windows"
     identifier = "inspec/resources/os/registry_key.md registry_key resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/registry_key.md)
 
 Use the `registry_key` Chef InSpec audit resource to test key values in the Windows registry.
 

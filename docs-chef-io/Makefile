@@ -5,6 +5,7 @@ SHELL=bash
 preview_netlify: chef_web_docs
 	cp -R content/* chef-web-docs/_vendor/github.com/inspec/inspec/docs-chef-io/content
 	cp -R static/* chef-web-docs/_vendor/github.com/inspec/inspec/docs-chef-io/static
+	cp -R config.toml chef-web-docs/_vendor/github.com/inspec/inspec/docs-chef-io/
 	pushd chef-web-docs && make assets; hugo --gc --minify --buildFuture && popd
 
 serve: chef_web_docs
@@ -19,6 +20,9 @@ chef_web_docs:
 	fi
 
 clean_all:
+	rm -rf chef-web-docs
+
+clean:
 	pushd chef-web-docs && make clean_all && popd
 
 lint:

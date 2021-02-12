@@ -1,6 +1,7 @@
 +++
 title = "interfaces resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/interfaces.md interfaces resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/interfaces.md)
 
 Use the `interfaces` Chef InSpec audit resource to test the properties of multiple network interfaces on the system.
 

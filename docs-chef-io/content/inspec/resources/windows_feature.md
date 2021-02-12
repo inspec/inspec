@@ -1,6 +1,7 @@
 +++
 title = "windows_feature resource"
 draft = false
+gh_repo = "inspec"
 platform = "windows"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "windows"
     identifier = "inspec/resources/os/windows_feature.md windows_feature resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/windows_feature.md)
 
 Use the `windows_feature` Chef InSpec audit resource to test features on Windows via the `Get-WindowsFeature` cmdlet.
 

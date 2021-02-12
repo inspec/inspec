@@ -1,6 +1,7 @@
 +++
 title = "xml resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/xml.md xml resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/xml.md)
 
 Use the `xml` Chef InSpec audit resource to test data in an XML file.
 

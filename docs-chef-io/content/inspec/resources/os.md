@@ -1,6 +1,7 @@
 +++
 title = "os resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/os.md os resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/os.md)
 
 Use the `os` Chef InSpec audit resource to test the platform on which the system is running.
 

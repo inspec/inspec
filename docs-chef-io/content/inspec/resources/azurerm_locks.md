@@ -1,6 +1,7 @@
 +++
 title = "azurerm_locks resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_locks.md azurerm_locks resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_locks.md)
 
 Use the `azurerm_locks` InSpec audit resource to test properties of
 some or all Azure Resource Locks.

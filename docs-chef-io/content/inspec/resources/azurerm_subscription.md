@@ -1,6 +1,7 @@
 +++
 title = "azurerm_subscription resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_subscription.md azurerm_subscription resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_subscription.md)
 
 Use the `azurerm_subscription` InSpec audit resource to test properties related to the current subscription
 subscription.
