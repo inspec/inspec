@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.26.6 -->
-## [v4.26.6](https://github.com/inspec/inspec/tree/v4.26.6) (2021-02-12)
+<!-- latest_release 4.26.7 -->
+## [v4.26.7](https://github.com/inspec/inspec/tree/v4.26.7) (2021-02-12)
 
 #### Merged Pull Requests
-- Fix another link [#5407](https://github.com/inspec/inspec/pull/5407) ([IanMadd](https://github.com/IanMadd))
+- Add metadata to each page in docs.chef.io/inspec, update Edit on GitHub links [#5406](https://github.com/inspec/inspec/pull/5406) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.26.4 -->
 ### Changes since 4.26.4 release
 
 #### Merged Pull Requests
+- Add metadata to each page in docs.chef.io/inspec, update Edit on GitHub links [#5406](https://github.com/inspec/inspec/pull/5406) ([IanMadd](https://github.com/IanMadd)) <!-- 4.26.7 -->
 - Fix another link [#5407](https://github.com/inspec/inspec/pull/5407) ([IanMadd](https://github.com/IanMadd)) <!-- 4.26.6 -->
 - Fix dead links [#5399](https://github.com/inspec/inspec/pull/5399) ([IanMadd](https://github.com/IanMadd)) <!-- 4.26.5 -->
 <!-- release_rollup -->
