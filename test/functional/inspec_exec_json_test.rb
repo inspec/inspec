@@ -457,4 +457,15 @@ describe "inspec exec with json formatter" do
       end
     end
   end
+
+  # Issue 5300
+  describe "deep skip control" do
+    let(:run_result) { run_inspec_process("exec #{profile_path}/dependencies/deep-skip-outer", json: true) }
+    let(:inner_profile_controls) { @json["profiles"][2]["controls"] }
+    it "skips a control two levels down" do
+      _(run_result.stderr).must_be_empty
+      # Should skip the second control labelled "skipme" because there is a skip_control in the outer profile
+      _(inner_profile_controls.count).must_equal 1
+    end
+  end
 end
