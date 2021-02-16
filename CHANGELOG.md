@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.26.8 -->
-## [v4.26.8](https://github.com/inspec/inspec/tree/v4.26.8) (2021-02-12)
+<!-- latest_release 4.26.9 -->
+## [v4.26.9](https://github.com/inspec/inspec/tree/v4.26.9) (2021-02-16)
 
 #### Merged Pull Requests
-- Update install.md [#5403](https://github.com/inspec/inspec/pull/5403) ([tduffield](https://github.com/tduffield))
+- Update chefstyle requirement from ~&gt; 1.5.7 to ~&gt; 1.7.1 [#5409](https://github.com/inspec/inspec/pull/5409) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.26.4 -->
 ### Changes since 4.26.4 release
 
 #### Merged Pull Requests
+- Update chefstyle requirement from ~&gt; 1.5.7 to ~&gt; 1.7.1 [#5409](https://github.com/inspec/inspec/pull/5409) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.26.9 -->
 - Update install.md [#5403](https://github.com/inspec/inspec/pull/5403) ([tduffield](https://github.com/tduffield)) <!-- 4.26.8 -->
 - Add metadata to each page in docs.chef.io/inspec, update Edit on GitHub links [#5406](https://github.com/inspec/inspec/pull/5406) ([IanMadd](https://github.com/IanMadd)) <!-- 4.26.7 -->
 - Fix another link [#5407](https://github.com/inspec/inspec/pull/5407) ([IanMadd](https://github.com/IanMadd)) <!-- 4.26.6 -->
