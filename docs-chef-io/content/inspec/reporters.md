@@ -165,7 +165,7 @@ Specifies the full path to the location of a JavaScript file that will be read a
 
 ## Automate Reporter
 
-The `automate` reporter type is a special reporter used with [Chef Automate](https://automate.chef.io/). It communicates over the network to send its results to Automate. To use this reporter you must pass in the correct configuration via a json config `--config`.
+The `automate` reporter type is a special reporter which will send its results over the network to [Chef Automate]({{< relref "/automate/">}}). To use this reporter you must pass in the correct configuration via a json config `--config`.
 
 Example config:
 
@@ -219,11 +219,11 @@ environment where a `chef_guid` or `node_uuid` is already known to Chef InSpec.
 
 This will set the environment metadata for Automate.
 
-## Json-Automate Reporter
+## JSON-Automate Reporter
 
 The `json-automate` reporter is a special reporter that prepares the data format used by the Automate reporter. `json-automate` does not communicate on the network; rather it simply produces the JSON report format that Automate would be consuming. Notably, the report is based on the `json` reporter, with the following modifications:
 
  * Controls that appear in child profiles are de-duplicated by ID, merging up into the parent profile.
  * Child profiles are deleted, flattening the report.
 
-The `json-automate` reporter is primarily used for internal needs, but some users may find it useful if they wish for a JSON based reporter that merges controls.
+The `json-automate` reporter is primarily used for internal needs, but some users may find it useful if they want a JSON based reporter that merges controls.
