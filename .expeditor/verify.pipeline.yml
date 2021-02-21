@@ -81,9 +81,44 @@ steps:
           shell: ["powershell", "-Command"]
           image: rubydistros/windows-2019:3.0
 
-  - label: run-tests-ruby-3.0-windows-functional
+  - label: run-tests-ruby-3.0-windows-functional 0
     command:
-      - /workdir/.expeditor/buildkite/verify_functional.ps1
+      - /workdir/.expeditor/buildkite/verify_functional_0.ps1
+    expeditor:
+      executor:
+        docker:
+          environment:
+            - BUILDKITE
+          host_os: windows
+          shell: ["powershell", "-Command"]
+          image: rubydistros/windows-2019:3.0
+
+  - label: run-tests-ruby-3.0-windows-functional 1
+    command:
+      - /workdir/.expeditor/buildkite/verify_functional_1.ps1
+    expeditor:
+      executor:
+        docker:
+          environment:
+            - BUILDKITE
+          host_os: windows
+          shell: ["powershell", "-Command"]
+          image: rubydistros/windows-2019:3.0
+
+  - label: run-tests-ruby-3.0-windows-functional 2
+    command:
+      - /workdir/.expeditor/buildkite/verify_functional_2.ps1
+    expeditor:
+      executor:
+        docker:
+          environment:
+            - BUILDKITE
+          host_os: windows
+          shell: ["powershell", "-Command"]
+          image: rubydistros/windows-2019:3.0
+  - label: run-tests-ruby-3.0-windows-functional 3
+    command:
+      - /workdir/.expeditor/buildkite/verify_functional_3.ps1
     expeditor:
       executor:
         docker:
