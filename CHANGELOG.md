@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.26.9 -->
-## [v4.26.9](https://github.com/inspec/inspec/tree/v4.26.9) (2021-02-16)
+<!-- latest_release 4.26.10 -->
+## [v4.26.10](https://github.com/inspec/inspec/tree/v4.26.10) (2021-02-21)
 
-#### Merged Pull Requests
-- Update chefstyle requirement from ~&gt; 1.5.7 to ~&gt; 1.7.1 [#5409](https://github.com/inspec/inspec/pull/5409) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+#### Bug Fixes
+- Skip controls deeply [#5411](https://github.com/inspec/inspec/pull/5411) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.26.4 -->
 ### Changes since 4.26.4 release
+
+#### Bug Fixes
+- Skip controls deeply [#5411](https://github.com/inspec/inspec/pull/5411) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.10 -->
 
 #### Merged Pull Requests
 - Update chefstyle requirement from ~&gt; 1.5.7 to ~&gt; 1.7.1 [#5409](https://github.com/inspec/inspec/pull/5409) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.26.9 -->
