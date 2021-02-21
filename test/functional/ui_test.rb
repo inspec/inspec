@@ -200,6 +200,7 @@ describe "InSpec UI behavior" do
       describe "the interactive flag" do
         let(:feature) { "interactive" }
         it "should report the interactive flag is on" do
+          _(run_result.stderr).must_equal ""
           _(run_result.stdout).must_include "true"
 
           assert_exit_code 0, run_result
@@ -231,6 +232,7 @@ describe "InSpec UI behavior" do
     describe "the interactive flag" do
       let(:feature) { "interactive" }
       it "should report the interactive flag is off" do
+        _(run_result.stderr).must_equal ""
         _(run_result.stdout).must_include "false"
 
         assert_exit_code 0, run_result
