@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.26.10 -->
-## [v4.26.10](https://github.com/inspec/inspec/tree/v4.26.10) (2021-02-21)
+<!-- latest_release 4.26.11 -->
+## [v4.26.11](https://github.com/inspec/inspec/tree/v4.26.11) (2021-02-22)
 
-#### Bug Fixes
-- Skip controls deeply [#5411](https://github.com/inspec/inspec/pull/5411) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Document the json-automate reporter [#5408](https://github.com/inspec/inspec/pull/5408) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.26.4 -->
@@ -14,6 +14,7 @@
 - Skip controls deeply [#5411](https://github.com/inspec/inspec/pull/5411) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.10 -->
 
 #### Merged Pull Requests
+- Document the json-automate reporter [#5408](https://github.com/inspec/inspec/pull/5408) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.11 -->
 - Update chefstyle requirement from ~&gt; 1.5.7 to ~&gt; 1.7.1 [#5409](https://github.com/inspec/inspec/pull/5409) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.26.9 -->
 - Update install.md [#5403](https://github.com/inspec/inspec/pull/5403) ([tduffield](https://github.com/tduffield)) <!-- 4.26.8 -->
 - Add metadata to each page in docs.chef.io/inspec, update Edit on GitHub links [#5406](https://github.com/inspec/inspec/pull/5406) ([IanMadd](https://github.com/IanMadd)) <!-- 4.26.7 -->
