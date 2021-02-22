@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.26.11 -->
-## [v4.26.11](https://github.com/inspec/inspec/tree/v4.26.11) (2021-02-22)
+<!-- latest_release 4.26.12 -->
+## [v4.26.12](https://github.com/inspec/inspec/tree/v4.26.12) (2021-02-22)
 
 #### Merged Pull Requests
-- Document the json-automate reporter [#5408](https://github.com/inspec/inspec/pull/5408) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Switch to MacOS 10.14 builder [#5415](https://github.com/inspec/inspec/pull/5415) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.26.4 -->
@@ -14,6 +14,7 @@
 - Skip controls deeply [#5411](https://github.com/inspec/inspec/pull/5411) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.10 -->
 
 #### Merged Pull Requests
+- Switch to MacOS 10.14 builder [#5415](https://github.com/inspec/inspec/pull/5415) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.12 -->
 - Document the json-automate reporter [#5408](https://github.com/inspec/inspec/pull/5408) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.11 -->
 - Update chefstyle requirement from ~&gt; 1.5.7 to ~&gt; 1.7.1 [#5409](https://github.com/inspec/inspec/pull/5409) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.26.9 -->
 - Update install.md [#5403](https://github.com/inspec/inspec/pull/5403) ([tduffield](https://github.com/tduffield)) <!-- 4.26.8 -->
