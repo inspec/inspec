@@ -4,3 +4,6 @@ Host *
     SendEnv LANG LC_*
     HashKnownHosts yes
     GSSAPIAuthentication no
+    HostBasedAuthentication yes
+    HostbasedAuthentication no
+    HostbasedAuthentication no
