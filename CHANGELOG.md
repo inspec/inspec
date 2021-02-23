@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.26.12 -->
-## [v4.26.12](https://github.com/inspec/inspec/tree/v4.26.12) (2021-02-22)
+<!-- latest_release 4.26.13 -->
+## [v4.26.13](https://github.com/inspec/inspec/tree/v4.26.13) (2021-02-23)
 
-#### Merged Pull Requests
-- Switch to MacOS 10.14 builder [#5415](https://github.com/inspec/inspec/pull/5415) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- Use first value of repeated settings in ssh_config and sshd_config [#5414](https://github.com/inspec/inspec/pull/5414) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.26.4 -->
 ### Changes since 4.26.4 release
 
 #### Bug Fixes
+- Use first value of repeated settings in ssh_config and sshd_config [#5414](https://github.com/inspec/inspec/pull/5414) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.13 -->
 - Skip controls deeply [#5411](https://github.com/inspec/inspec/pull/5411) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.10 -->
 
 #### Merged Pull Requests
