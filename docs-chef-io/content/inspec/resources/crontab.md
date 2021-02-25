@@ -25,11 +25,13 @@ This resource first became available in v1.15.0 of InSpec.
 
 ## Syntax
 
-A `crontab` resource block declares a user (which defaults to the current user, if not specified), and then the details to be tested, such as the schedule elements for each crontab entry or the commands itself:
+A `crontab` resource block declares a user (which defaults to the current user, if not specified), and then the details to be tested, such as the schedule elements for each crontab entry or the exact commands themselves:
 
     describe crontab do
       its('commands') { should include '/some/scheduled/task.sh' }
     end
+
+Note that the word `include` here means "the list of commands in the crontab should include this complete entry," not "a particular command should include this substring." The `include matcher always matches a complete command invocation, including options and arguments.
 
 The path to the system crontab can also be supplied via:
 
@@ -46,7 +48,7 @@ The following examples show how to use this Chef InSpec audit resource.
 ### Test that root's crontab has a particular command
 
     describe crontab('root') do
-      its('commands') { should include '/path/to/some/script' }
+      its('commands') { should include '/path/to/some/script -option arg' }
     end
 
 ### Test that myuser's crontab entry for command '/home/myuser/build.sh' runs every minute
