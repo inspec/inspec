@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.26.14 -->
+## [v4.26.14](https://github.com/inspec/inspec/tree/v4.26.14) (2021-02-26)
+
+#### Bug Fixes
+- Don&#39;t pass -u on AIX in crontab command [#5418](https://github.com/inspec/inspec/pull/5418) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.26.13 -->
+### Changes since 4.26.13 release
+
+#### Bug Fixes
+- Don&#39;t pass -u on AIX in crontab command [#5418](https://github.com/inspec/inspec/pull/5418) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.14 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
