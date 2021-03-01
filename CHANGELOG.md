@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.26.15 -->
-## [v4.26.15](https://github.com/inspec/inspec/tree/v4.26.15) (2021-03-01)
+<!-- latest_release unreleased -->
+## Unreleased
 
-#### Merged Pull Requests
-- Remove .0 from macos builder name [#5413](https://github.com/inspec/inspec/pull/5413) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- Add git to Docker build [#5420](https://github.com/inspec/inspec/pull/5420) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.26.13 -->
@@ -14,6 +14,7 @@
 - Remove .0 from macos builder name [#5413](https://github.com/inspec/inspec/pull/5413) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.15 -->
 
 #### Bug Fixes
+- Add git to Docker build [#5420](https://github.com/inspec/inspec/pull/5420) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.15 -->
 - Don&#39;t pass -u on AIX in crontab command [#5418](https://github.com/inspec/inspec/pull/5418) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.14 -->
 <!-- release_rollup -->
 
