@@ -26,6 +26,9 @@ RUN apt-get update && \
     rpm2cpio /tmp/inspec.rpm | cpio -idmv && \
     rm -rf /tmp/inspec.rpm
 
+# Install any packages that make life easier for an InSpec installation
+RUN apt-get install -y git
+
 ENTRYPOINT ["inspec"]
 CMD ["help"]
 VOLUME ["/share"]
