@@ -421,6 +421,30 @@ describe "inspec exec with json formatter" do
     end
   end
 
+  describe "JSON reporter" do
+    describe "with --no-filter-empty-profiles option" do
+      let(:run_result) { run_inspec_process("exec #{profile_path}/dependencies/uses-resource-pack --no-filter-empty-profiles", json: true) }
+      let(:profiles) { @json["profiles"] }
+
+      it "does not filter the empty profiles(profiles without controls)" do
+        _(run_result.stderr).must_be_empty
+        _(profiles.count).must_equal 2
+        assert_exit_code(0, run_result)
+      end
+    end
+
+    describe "with --filter-empty-profiles option" do
+      let(:run_result) { run_inspec_process("exec #{profile_path}/dependencies/uses-resource-pack --filter-empty-profiles", json: true) }
+      let(:profiles) { @json["profiles"] }
+
+      it "does not filter the empty profiles(profiles without controls)" do
+        _(run_result.stderr).must_be_empty
+        _(profiles.count).must_equal 1
+        assert_exit_code(0, run_result)
+      end
+    end
+  end
+
   describe "JSON reporter using the --sort-results-by option" do
     let(:run_result) { run_inspec_process("exec #{profile_path}/sorted-results/sort-me-1 --sort-results-by #{sort_option}", json: true) }
     let(:control_order) { @json["profiles"][0]["controls"].map { |c| c["id"] }.join("") }
