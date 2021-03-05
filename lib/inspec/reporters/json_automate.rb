@@ -23,12 +23,6 @@ module Inspec::Reporters
         },
         version: run_data[:version],
       }
-
-      # optional json-config passthrough options
-      %w{node_name environment roles job_uuid passthrough}.each do |option|
-        output[option.to_sym] = @config[option] unless @config[option].nil?
-      end
-      output
     end
 
     private
