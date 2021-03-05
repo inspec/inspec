@@ -45,7 +45,7 @@ module Inspec
         end
       end
 
-      # Find any inputs with :redact_sensitive_inputsitive = true and replace their values with "***"
+      # Find any inputs with :sensitive = true and replace their values with "***"
       def redact_sensitive_inputs
         @run_data[:profiles]&.each do |p|
           p[:inputs]&.each do |i|

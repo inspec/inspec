@@ -429,7 +429,6 @@ describe "inspec exec with json formatter" do
       it "does not filter the empty profiles(profiles without controls)" do
         _(run_result.stderr).must_be_empty
         _(profiles.count).must_equal 2
-        assert_exit_code(0, run_result)
       end
     end
 
@@ -437,10 +436,9 @@ describe "inspec exec with json formatter" do
       let(:run_result) { run_inspec_process("exec #{profile_path}/dependencies/uses-resource-pack --filter-empty-profiles", json: true) }
       let(:profiles) { @json["profiles"] }
 
-      it "does not filter the empty profiles(profiles without controls)" do
+      it "does filter the empty profiles (profiles without controls)" do
         _(run_result.stderr).must_be_empty
         _(profiles.count).must_equal 1
-        assert_exit_code(0, run_result)
       end
     end
   end
