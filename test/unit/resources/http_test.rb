@@ -244,7 +244,7 @@ describe "Inspec::Resources::Http" do
     end
   end
 
-  describe "Windows" do 
+  describe "Windows" do
     let(:backend)     { MockLoader.new(:windows).backend }
     let(:http_method) { "GET" }
     let(:url)         { "https://www.example.com" }
@@ -257,7 +257,7 @@ describe "Inspec::Resources::Http" do
           .stubs(:exist?)
           .returns(true)
         _(worker.status).must_equal 200
-        _(worker.response_headers['Content-Type']).must_equal "text/html; charset=UTF-8"
+        _(worker.response_headers["Content-Type"]).must_equal "text/html; charset=UTF-8"
       end
     end
   end

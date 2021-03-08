@@ -201,8 +201,8 @@ module Inspec::Resources
 
           if inspec.os.windows?
             response = JSON.parse(response)
-            @status = response['StatusCode']
-            @body = response['RawContent']
+            @status = response["StatusCode"]
+            @body = response["RawContent"]
 
             @response_headers = {}
             response["Headers"].each do |name, value|
