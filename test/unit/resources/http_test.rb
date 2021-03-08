@@ -245,16 +245,19 @@ describe "Inspec::Resources::Http" do
   end
 
   describe "Windows" do 
-    let(:backend)     { MockLoader.new.backend }
+    let(:backend)     { MockLoader.new(:windows).backend }
     let(:http_method) { "GET" }
-    let(:url)         { "http://www.example.com" }
+    let(:url)         { "https://www.example.com" }
     let(:opts)        { {} }
     let(:worker)      { Inspec::Resources::Http::Worker::Remote.new(backend, http_method, url, opts) }
 
     describe "simple HTTP request with no options" do
       it "returns correct data" do
+        Inspec::Resources::Cmd.any_instance
+          .stubs(:exist?)
+          .returns(true)
         _(worker.status).must_equal 200
-        _(worker.body).must_equal "no options"
+        _(worker.response_headers['Content-Type']).must_equal "text/html; charset=UTF-8"
       end
     end
   end

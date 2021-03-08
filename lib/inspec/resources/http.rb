@@ -201,8 +201,8 @@ module Inspec::Resources
 
           if inspec.os.windows?
             response = JSON.parse(response)
-            @status = response.StatusCode
-            @body = response.RawContent
+            @status = response['StatusCode']
+            @body = response['RawContent']
 
             @response_headers = {}
             response["Headers"].each do |name, value|
@@ -249,6 +249,7 @@ module Inspec::Resources
             cmd << "-MaximumRedirection #{max_redirects}" unless max_redirects.nil?
             request_headers["Authorization"] = """ '\"Basic ' + [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(\"#{username}:#{password}\")) +'\"' """ unless username.nil? || password.nil?
 
+            request_header_string = nil
             request_headers.each do |k, v|
               request_header_string << " #{k} = #{v}"
             end
@@ -258,7 +259,7 @@ module Inspec::Resources
             else
               cmd << "'#{url}?#{params.map { |e| e.join("=") }.join("&")}'"
             end
-            cmd << " | Select-Object -Property * | ConvertTo-json" # We use `Select-Object -Property * ` to get around an odd PowerShell error
+            cmd << "| Select-Object -Property * | ConvertTo-json" # We use `Select-Object -Property * ` to get around an odd PowerShell error
             cmd.join(" ")
           else
             cmd = ["curl -i"]
