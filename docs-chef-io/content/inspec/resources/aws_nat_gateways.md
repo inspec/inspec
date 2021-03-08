@@ -1,6 +1,7 @@
 +++
 title = "aws_nat_gateways resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_nat_gateways.md aws_nat_gateways"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_nat_gateways.md)
 
 Use the `aws_nat_gateways` InSpec audit resource to test the properties of all
 AWS NAT gateways owned by the AWS account.
@@ -57,7 +56,7 @@ using `aws_nat_gateway` InSpec singular AWS resource.
       end
     end
 
-For more examples, please check the [integration tests](../../test/integration/verify/controls/aws_nat_gateways.rb).
+For more examples, please check the [integration tests](https://github.com/inspec/inspec-aws/blob/master/test/integration/verify/controls/aws_nat_gateways.rb).
 
 ## Matchers
 

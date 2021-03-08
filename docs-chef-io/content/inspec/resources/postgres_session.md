@@ -1,6 +1,7 @@
 +++
 title = "postgres_session resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/postgres_session.md postgres_session resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/postgres_session.md)
 
 Use the `postgres_session` Chef InSpec audit resource to test SQL commands run against a PostgreSQL database.
 

@@ -187,6 +187,29 @@ describe "inspec exec with json formatter" do
       _(ex1["impact"]).must_equal 0.7
     end
 
+    describe "results" do
+      let(:result) { ex1["results"][0] }
+      let(:result2) { ex2["results"][0] }
+
+      it "has a code_desc" do
+        _(result["code_desc"]).must_equal "File / is expected to be directory"
+      end
+
+      it "has a resource_class" do
+        _(result["resource_class"]).must_equal "file"
+      end
+
+      # This is a raw grep of the argument(s) passed to the resource, currently
+      # used by automate to identify and sort differing resources
+      it "has a resource_params that's empty" do
+        _(result["resource_params"]).must_equal "[\"/\"]"
+      end
+
+      it "has a resource_params with values" do
+        _(result2["resource_params"]).must_equal "[\"/\"]"
+      end
+    end
+
     it "has all the metadata" do
       actual = profile.dup
       key = actual.delete("controls")
@@ -285,6 +308,10 @@ describe "inspec exec with json formatter" do
       _(control_with_message["results"].first["message"]).wont_be :nil?
       _(control_with_message["results"].first["message"]).must_equal "expected nil to match /some regex that is expected in the content/"
     end
+    it "reports full code_desc by default" do
+      _(control_with_message["results"].first["code_desc"]).wont_be :nil?
+      _(control_with_message["results"].first["code_desc"]).must_equal "File / content is expected to match /some regex that is expected in the content/"
+    end
   end
 
   describe "JSON reporter with reporter-message-truncation set to a number" do
@@ -296,6 +323,10 @@ describe "inspec exec with json formatter" do
       _(control_with_message["results"].first["message"]).wont_be :nil?
       _(control_with_message["results"].first["message"]).must_equal "expected nil to matc[Truncated to 20 characters]"
     end
+    it "reports a truncated code_desc" do
+      _(control_with_message["results"].first["code_desc"]).wont_be :nil?
+      _(control_with_message["results"].first["code_desc"]).must_equal "File / content is ex[Truncated to 20 characters]"
+    end
   end
 
   describe "JSON reporter with reporter-message-truncation set to a number and working message" do
@@ -305,6 +336,9 @@ describe "inspec exec with json formatter" do
     let(:control_with_message) { profile["controls"].find { |c| c["id"] == "Generates a message" } }
     it "does not report a truncated message" do
       assert !control_with_message["results"].first["message"].include?("Truncated")
+    end
+    it "does not report a truncated code_desc" do
+      assert !control_with_message["results"].first["code_desc"].include?("Truncated")
     end
   end
 
@@ -316,6 +350,10 @@ describe "inspec exec with json formatter" do
     it "reports full message" do
       _(control_with_message["results"].first["message"]).wont_be :nil?
       _(control_with_message["results"].first["message"]).must_equal "expected nil to match /some regex that is expected in the content/"
+    end
+    it "reports full code_desc" do
+      _(control_with_message["results"].first["code_desc"]).wont_be :nil?
+      _(control_with_message["results"].first["code_desc"]).must_equal "File / content is expected to match /some regex that is expected in the content/"
     end
   end
 
@@ -417,6 +455,17 @@ describe "inspec exec with json formatter" do
         _(run_result.stderr).must_be_empty
         _(control_order).wont_equal "wvuzyxtsr"
       end
+    end
+  end
+
+  # Issue 5300
+  describe "deep skip control" do
+    let(:run_result) { run_inspec_process("exec #{profile_path}/dependencies/deep-skip-outer", json: true) }
+    let(:inner_profile_controls) { @json["profiles"][2]["controls"] }
+    it "skips a control two levels down" do
+      _(run_result.stderr).must_be_empty
+      # Should skip the second control labelled "skipme" because there is a skip_control in the outer profile
+      _(inner_profile_controls.count).must_equal 1
     end
   end
 end

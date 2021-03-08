@@ -1,6 +1,7 @@
 +++
 title = "InSpec CLI"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 10
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/cli.md)
 
 Use the InSpec CLI to run tests and audits against targets using local, SSH, WinRM, or Docker connections.
 
@@ -49,7 +48,8 @@ This subcommand has additional options:
 
 ## check
 
-Verify all tests at the specified path
+Verify metadata in inspec.yml. Verify control data has fields (title, description,
+impact) defined and that all controls have visible tests.
 
 ### Syntax
 
@@ -144,7 +144,9 @@ This subcommand has additional options:
     Whether to use disable sspi authentication, defaults to false (WinRM).
 * ``--winrm-transport=WINRM_TRANSPORT``
     Specify which transport to use, defaults to negotiate (WinRM).
-
+* ``--winrm-shell-type=WINRM_SHELL_TYPE``
+    Specify which shell type to use (powershell,elevated or cmd), defaults to powershell (WinRM).
+    
 ## env
 
 Output shell-appropriate completion configuration

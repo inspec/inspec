@@ -12,6 +12,10 @@ module Inspec::Resources
   class MssqlSession < Inspec.resource(1)
     name "mssql_session"
     supports platform: "windows"
+    supports platform: "darwin"
+    supports platform: "debian"
+    supports platform: "redhat"
+    supports platform: "suse"
     desc "Use the mssql_session InSpec audit resource to test SQL commands run against a MS Sql Server database."
     example <<~EXAMPLE
       # Using SQL authentication
@@ -95,7 +99,7 @@ module Inspec::Resources
     end
 
     def parse_csv_result(cmd)
-      require "csv"
+      require "csv" unless defined?(CSV)
       table = CSV.parse(cmd.stdout, headers: true)
 
       # remove first row, since it will be a seperator line

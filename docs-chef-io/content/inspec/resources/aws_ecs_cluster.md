@@ -1,6 +1,7 @@
 +++
 title = "aws_ecs_cluster resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_ecs_cluster.md aws_ecs_cluster resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_ecs_cluster.md)
 
 Use the `aws_ecs_cluster` InSpec audit resource to test properties of a single AWS ECS Cluster.
 

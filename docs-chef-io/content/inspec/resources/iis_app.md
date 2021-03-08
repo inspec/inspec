@@ -1,6 +1,7 @@
 +++
 title = "iis_app resource"
 draft = false
+gh_repo = "inspec"
 platform = "windows"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "windows"
     identifier = "inspec/resources/os/iis_app.md iis_app resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/iis_app.md)
 
 Use the `iis_app` Chef InSpec audit resource to test the state of IIS on Windows Server 2012 (and later).
 

@@ -1,6 +1,7 @@
 +++
 title = "systemd_service resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/systemd_service.md systemd_service resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/systemd_service.md)
 
 Use the `systemd_service` Chef InSpec audit resource to test a service using SystemD.
 

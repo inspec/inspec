@@ -1,9 +1,7 @@
 require "resource_support/aws/aws_singular_resource_mixin"
 require "resource_support/aws/aws_backend_base"
 
-require "resource_support/aws/aws_singular_resource_mixin"
-require "resource_support/aws/aws_backend_base"
-require "aws-sdk-costandusagereportservice.rb"
+require "aws-sdk-costandusagereportservice"
 
 class AwsBillingReport < Inspec.resource(1)
   name "aws_billing_report"

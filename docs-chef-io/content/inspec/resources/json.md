@@ -1,6 +1,7 @@
 +++
 title = "json resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/json.md json resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/json.md)
 
 Use the `json` Chef InSpec audit resource to test data in a JSON file.
 

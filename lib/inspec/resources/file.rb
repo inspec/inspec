@@ -1,6 +1,6 @@
 # copyright: 2015, Vulcano Security GmbH
 
-require "shellwords"
+require "shellwords" unless defined?(Shellwords)
 require "inspec/utils/parser"
 
 module Inspec::Resources

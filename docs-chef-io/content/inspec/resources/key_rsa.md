@@ -1,6 +1,7 @@
 +++
 title = "key_rsa resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/key_rsa.md key_rsa resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/key_rsa.md)
 
 Use the `key_rsa` Chef InSpec audit resource to test RSA public/private keypairs.
 

@@ -1,6 +1,7 @@
 +++
 title = "aws_s3_bucket resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_s3_bucket.md aws_s3_bucket resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_s3_bucket.md)
 
 Use the `aws_s3_bucket` InSpec audit resource to test properties of a single AWS bucket.
 

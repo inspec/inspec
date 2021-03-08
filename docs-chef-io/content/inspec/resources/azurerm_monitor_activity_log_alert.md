@@ -1,6 +1,7 @@
 +++
 title = "azurerm_monitor_activity_log_alert resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_monitor_activity_log_alert.md azurerm_monitor_activity_log_alert resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_monitor_activity_log_alert.md)
 
 Use the `azurerm_monitor_activity_log_alert` InSpec audit resource to test properties
 of an Azure Monitor Activity Log Alert.

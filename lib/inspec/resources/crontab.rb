@@ -67,8 +67,14 @@ module Inspec::Resources
     end
 
     def crontab_cmd
-      # TODO: the -u scenario needs to be able to do sudo
-      @user.nil? ? "crontab -l" : "crontab -l -u #{@user}"
+      if @user.nil?
+        "crontab -l"
+      elsif inspec.os.aix?
+        "crontab -l #{@user}"
+      else
+        # TODO: the -u scenario needs to be able to do sudo
+        "crontab -l -u #{@user}"
+      end
     end
 
     filter = FilterTable.create

@@ -24,4 +24,13 @@ describe "Inspec::Resources::ParseConfig" do
     _(resource.params).must_equal result
     _(resource.send("kernel.domainname")).must_equal "example.com"
   end
+
+  it "parse_config resource accepts arrays due to rspec's its behavior" do
+    options = {
+      assignment_regex: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
+    }
+    params = [:[], "kernel.domainname"]
+    resource = MockLoader.new(:centos6).load_resource("parse_config", "kernel.domainname = example.com", options)
+    _(resource.send(*params)).must_equal "example.com"
+  end
 end

@@ -1,6 +1,7 @@
 +++
 title = "docker_plugin resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/docker_plugin.md docker_plugin resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/docker_plugin.md)
 
 Use the `docker_plugin` Chef InSpec audit resource to verify a Docker plugin.
 

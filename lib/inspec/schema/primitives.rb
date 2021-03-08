@@ -1,4 +1,4 @@
-require "set"
+require "set" unless defined?(Set)
 
 # These elements are shared between more than one output type
 

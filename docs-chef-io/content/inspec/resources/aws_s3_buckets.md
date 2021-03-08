@@ -1,6 +1,7 @@
 +++
 title = "aws_s3_buckets resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_s3_buckets.md aws_s3_buckets"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_s3_buckets.md)
 
 Use the `aws_s3_buckets` InSpec audit resource to list all buckets in a single account.
 

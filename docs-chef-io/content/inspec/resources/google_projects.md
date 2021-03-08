@@ -1,6 +1,7 @@
 +++
 title = "google_projects resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

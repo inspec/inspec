@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_iam_users"
 
 require "resource_support/aws"
-require "resources/aws/aws_iam_users"
 
 # Maiusb = Mock AwsIamUsers::BackendFactory
 # Abbreviation not used outside of this file

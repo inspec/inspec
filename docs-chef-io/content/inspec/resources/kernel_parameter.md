@@ -1,6 +1,7 @@
 +++
 title = "kernel_parameter resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/kernel_parameter.md kernel_parameter resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/kernel_parameter.md)
 
 Use the `kernel_parameter` Chef InSpec audit resource to test kernel parameters on Linux platforms.
 These parameters are located under `/proc/cmdline`.

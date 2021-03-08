@@ -47,7 +47,7 @@ module Inspec
     # core reporters have been migrated to plugins. It is probable that new data elements
     # and new Hash compatibility behavior will be added during the core reporter plugin
     # conversion process.
-    SCHEMA_VERSION = "0.2.0".freeze
+    SCHEMA_VERSION = "0.3.0".freeze
 
     def self.compatible_schema?(constraints)
       reqs = Gem::Requirement.create(constraints)

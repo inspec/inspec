@@ -1,6 +1,7 @@
 +++
 title = "About Chef InSpec and Train Plugins"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 100
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/plugins.md)
 
 ## What are Chef InSpec Plugins?
 
@@ -60,8 +59,7 @@ inspec plugin install inspec-some-plugin
 inspec plugin install train-some-plugin
 ```
 
-For more details on what the `plugin` command can do, see the [online help](/inspec/cli/#plugin),
-or run `inspec plugin help`.
+For more details on what the `plugin` command can do, run `inspec plugin help`.
 
 ## How do I use a different Gem server?
 
@@ -78,7 +76,7 @@ inspec plugin install --source https://my.private.server inspec-private-plugin
 ### Chef InSpec Plugins
 
 For details on how to author a Chef InSpec Plugin, see the
-[developer documentation](https://github.com/inspec/inspec/blob/master/docs/dev/plugins.md)
+[developer documentation](https://github.com/inspec/inspec/blob/master/dev-docs/plugins.md)
 
 ### Train Plugins
 

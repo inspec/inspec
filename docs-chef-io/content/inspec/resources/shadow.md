@@ -1,6 +1,7 @@
 +++
 title = "shadow resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/shadow.md shadow resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/shadow.md)
 
 Use the `shadow` Chef InSpec audit resource to test the contents of `/etc/shadow`, which contains password details that are readable only by the `root` user. `shadow` is a [plural resource](/inspec/glossary/#plural_resource). Like all plural resources, it functions by performing searches across multiple entries in the shadow file.
 

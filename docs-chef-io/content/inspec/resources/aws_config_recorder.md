@@ -1,6 +1,7 @@
 +++
 title = "aws_config_recorder resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_config_recorder.md aws_config_recorder resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_config_recorder.md)
 
 Use the `aws_config_recorder` InSpec audit resource to test properties of your AWS Config Service.
 

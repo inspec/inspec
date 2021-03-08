@@ -1,6 +1,7 @@
 +++
 title = "Install and Uninstall"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec"
     weight = 20
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/install.md)
 
 Users can choose between operating systems of MacOS, Windows, and Linux for Chef InSpec.
 
@@ -30,7 +29,7 @@ Chef InSpec is available as a standalone [Homebrew](https://brew.sh/) package.
 Run the following command in your terminal to install Chef InSpec:
 
 ```
-brew cask install chef/chef/inspec
+brew install chef/chef/inspec
 ```
 
 While this command is running, you may be prompted to enter your macOS user account

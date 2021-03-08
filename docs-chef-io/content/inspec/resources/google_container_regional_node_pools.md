@@ -1,6 +1,7 @@
 +++
 title = "google_container_regional_node_pools resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

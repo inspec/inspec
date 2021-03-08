@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_route_tables"
 
 require "resource_support/aws"
-require "resources/aws/aws_route_tables"
 
 class EmptyAwsRouteTablesTest < Minitest::Test
   def setup

@@ -1,6 +1,7 @@
 +++
 title = "google_runtime_config_config_iam_binding resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

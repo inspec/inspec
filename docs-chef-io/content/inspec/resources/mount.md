@@ -1,6 +1,7 @@
 +++
 title = "mount resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/mount.md mount resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/mount.md)
 
 Use the `mount` Chef InSpec audit resource to test the mount points on FreeBSD and Linux systems.
 

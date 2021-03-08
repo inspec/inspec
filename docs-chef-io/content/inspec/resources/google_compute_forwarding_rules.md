@@ -1,6 +1,7 @@
 +++
 title = "google_compute_forwarding_rules resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

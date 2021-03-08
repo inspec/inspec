@@ -1,4 +1,4 @@
-require "json"
+require "json" unless defined?(JSON)
 
 module Inspec
   class Schema
@@ -56,6 +56,7 @@ module Inspec
         "code_desc" => { "type" => "string" },
         "run_time" => { "type" => "number" },
         "start_time" => { "type" => "string" },
+        "resource_class" => { "type" => "string", "optional" => true },
         "skip_message" => { "type" => "string", "optional" => true },
         "resource" => { "type" => "string", "optional" => true },
         "message" => { "type" => "string", "optional" => true },
@@ -194,6 +195,7 @@ module Inspec
         "profile_sha256" => { "type" => "string" },
         "status" => { "type" => "string" },
         "code_desc" => { "type" => "string" },
+        "resource_class" => { "type" => "string", "optional" => true },
         "skip_message" => { "type" => "string", "optional" => true },
         "resource" => { "type" => "string", "optional" => true },
         "message" => { "type" => "string", "optional" => true },

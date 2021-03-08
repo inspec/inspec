@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_cloudtrail_trails"
 
 require "resource_support/aws"
-require "resources/aws/aws_cloudtrail_trails"
 
 # MACTTPB = MockAwsCloudTrailTrailsPluralBackend
 # Abbreviation not used outside this file
@@ -73,6 +72,7 @@ class AwsCloudTrailTrailsProperties < Minitest::Test
     refute(basic.trail_arns.include?(nil))
   end
 end
+
 #=============================================================================#
 #                               Test Fixtures
 #=============================================================================#

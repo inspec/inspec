@@ -1,6 +1,7 @@
 +++
 title = "Chef InSpec Migration Guide"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 130
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/migration.md)
 
 ## How is Chef InSpec different from Serverspec
 
@@ -78,7 +77,7 @@ In addition Chef InSpec provides additional [resources](/inspec/resources/) that
 * [`auditd_conf`](/inspec/resources/auditd_conf/)
 * [`bash`](/inspec/resources/bash/)
 * [`csv`](/inspec/resources/csv/)
-* [`etc_shadow`](/inspec/resources/etc_shadow/)
+* [`shadow`](/inspec/resources/shadow/)
 * [`gem`](/inspec/resources/gem/)
 * [`grub_conf`](/inspec/resources/grub_conf/)
 * [`inetd_conf`](/inspec/resources/inetd_conf/)

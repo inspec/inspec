@@ -1,6 +1,7 @@
 +++
 title = "google_kms_key_ring_iam_bindings resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "gcp"
     identifier = "inspec/resources/gcp/google_kms_key_ring_iam_bindings.md google_kms_key_ring_iam_bindings resource"
     parent = "inspec/resources/gcp"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/google_kms_key_ring_iam_bindings.md)
 
 **This resource is deprecated. Please use `google_kms_key_ring_iam_policy` instead**
 

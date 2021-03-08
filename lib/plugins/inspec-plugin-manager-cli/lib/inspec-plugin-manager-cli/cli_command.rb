@@ -1,4 +1,4 @@
-require "pathname"
+require "pathname" unless defined?(Pathname)
 require "inspec/plugin/v2"
 require "inspec/plugin/v2/installer"
 require "inspec/dist"
@@ -505,8 +505,8 @@ module InspecPlugins
             plugin_name = status.name.to_s
             Inspec::Plugin::V2::Loader.list_installed_plugin_gems
               .select { |spec| spec.name == plugin_name }
-              .sort_by(&:version)
-              .last.version
+              .max_by(&:version)
+              .version
           end
         when :path
           "src"

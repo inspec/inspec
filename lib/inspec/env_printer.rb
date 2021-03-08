@@ -1,6 +1,6 @@
 require "inspec/shell_detector"
-require "erb"
-require "shellwords"
+require "erb" unless defined?(Erb)
+require "shellwords" unless defined?(Shellwords)
 
 module Inspec
   class EnvPrinter

@@ -68,4 +68,7 @@
 17_waivered_expiry_in_future_string_not_ran:
   expiration_date: "2077-06-01"
   justification: Lack of imagination
-  run: false  
+  run: false
+
+18_waivered_no_expiry_default_run:
+  justification: Too lazy to specify run, which defaults to true

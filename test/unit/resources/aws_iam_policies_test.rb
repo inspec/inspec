@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_iam_policies"
 
 require "resource_support/aws"
-require "resources/aws/aws_iam_policies"
 
 # MAIPPB = MockAwsIamPoliciesPluralBackend
 # Abbreviation not used outside this file
@@ -73,6 +72,7 @@ class AwsIamPoliciesProperties < Minitest::Test
     refute(basic.arns.include?(nil))
   end
 end
+
 #=============================================================================#
 #                               Test Fixtures
 #=============================================================================#

@@ -1,5 +1,5 @@
 require "inspec/resources/command"
-require "shellwords"
+require "shellwords" unless defined?(Shellwords)
 
 module Inspec::Resources
   class NpmPackage < Inspec.resource(1)

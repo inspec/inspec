@@ -1,6 +1,6 @@
 require "minitest/autorun"
 require "mocha/minitest"
-require_relative "../../lib/inspec-compliance/api.rb"
+require_relative "../../lib/inspec-compliance/api"
 
 describe InspecPlugins::Compliance::Fetcher do
   let(:config) { { "server" => "myserver" } }

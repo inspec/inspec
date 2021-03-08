@@ -1,6 +1,7 @@
 +++
 title = "google_kms_crypto_keys resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

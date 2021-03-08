@@ -1,6 +1,7 @@
 +++
 title = "cpan resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/cpan.md cpan resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/cpan.md)
 
 Use the `cpan` Chef InSpec audit resource to test Perl modules that are installed by system packages or the CPAN installer.
 

@@ -1,6 +1,7 @@
 +++
 title = "google_storage_object_acl resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

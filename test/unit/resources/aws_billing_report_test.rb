@@ -5,7 +5,6 @@ require "resources/aws/aws_billing_report"
 require "fixtures/files/aws_billing_backend"
 
 require "resource_support/aws"
-require "resources/aws/aws_billing_report"
 
 class EmptyAwsBillingReportTest < Minitest::Test
   def setup

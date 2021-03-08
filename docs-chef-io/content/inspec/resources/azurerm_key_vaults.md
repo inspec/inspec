@@ -1,6 +1,7 @@
 +++
 title = "azurerm_key_vaults resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_key_vaults.md azurerm_key_vaults resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_key_vaults.md)
 
 Use the `azurerm_key_vaults` InSpec audit resource to test properties and configuration of Azure Key Vaults.
 

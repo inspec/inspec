@@ -1,4 +1,4 @@
-require_relative "../../../shared/core_plugin_test_helper.rb"
+require_relative "../../../shared/core_plugin_test_helper"
 require_relative "../../lib/inspec-reporter-html2"
 require "inspec/plugin/v2"
 

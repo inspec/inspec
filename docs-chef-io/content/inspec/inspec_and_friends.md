@@ -1,6 +1,7 @@
 +++
 title = "Chef InSpec and Friends"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec"
     weight = 40
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/inspec_and_friends.md)
 
 This page looks at projects that are similar to Chef InSpec to explain how they
 relate to each other.

@@ -1,6 +1,7 @@
 +++
 title = "google_compute_route resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

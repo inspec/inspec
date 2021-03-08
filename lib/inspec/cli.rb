@@ -67,7 +67,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "A list of controls to include. Ignore all other tests."
   profile_options
   def json(target)
-    require "json"
+    require "json" unless defined?(JSON)
 
     o = config
     diagnose(o)

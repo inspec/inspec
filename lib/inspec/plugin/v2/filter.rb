@@ -1,5 +1,5 @@
-require "singleton"
-require "json"
+require "singleton" unless defined?(Singleton)
+require "json" unless defined?(JSON)
 require "inspec/globals"
 
 module Inspec::Plugin; end

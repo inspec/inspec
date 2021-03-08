@@ -11,17 +11,13 @@ rubygems:
  - inspec-core-bin:
     gemspec_path: ./inspec-bin/
 
-docker_images:
- - inspec:
-    build_args:
-     - GEM_SOURCE: http://artifactory.chef.co/omnibus-gems-local
-
 pipelines:
  - habitat/build:
     env:
      - HAB_NONINTERACTIVE: "true"
      - HAB_NOCOLORING: "true"
      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+ - docker/build
  - omnibus/release
  - omnibus/adhoc:
     definition: .expeditor/release.omnibus.yml
@@ -152,12 +148,12 @@ merge_actions:
 subscriptions:
  - workload: artifact_published:unstable:inspec:{{version_constraint}}
    actions:
-    - built_in:build_docker_image
+    - trigger_pipeline:docker/build
     - bash:.expeditor/buildkite/wwwrelease.sh:
        post_commit: true
  - workload: artifact_published:current:inspec:{{version_constraint}}
    actions:
-    # - built_in:tag_docker_image No longer exists
+    - built_in:promote_docker_images
     - built_in:promote_habitat_packages
  - workload: artifact_published:stable:inspec:{{version_constraint}}
    actions:
@@ -165,7 +161,7 @@ subscriptions:
     - built_in:rollover_changelog
     - built_in:publish_rubygems
     - built_in:create_github_release
-    # - built_in:tag_docker_image No longer exists
+    - built_in:promote_docker_images
     - built_in:promote_habitat_packages
     - bash:.expeditor/publish-release-notes.sh:
        post_commit: true

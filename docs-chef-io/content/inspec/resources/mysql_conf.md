@@ -1,6 +1,7 @@
 +++
 title = "mysql_conf resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/mysql_conf.md mysql_conf resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/mysql_conf.md)
 
 Use the `mysql_conf` Chef InSpec audit resource to test the contents of the configuration file for MySQL, typically located at `/etc/mysql/my.cnf` or `/etc/my.cnf`.
 

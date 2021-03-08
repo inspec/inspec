@@ -4,7 +4,7 @@
 
 # It is traditional in a gemspec to dynamically load the current version
 # from a file in the source tree.  The next three lines make that happen.
-lib = File.expand_path("../lib", __FILE__)
+lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "inspec-resource-lister/version"
 

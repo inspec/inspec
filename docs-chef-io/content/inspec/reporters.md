@@ -1,6 +1,7 @@
 +++
 title = "Chef InSpec Reporters"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 50
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/reporters.md)
 
 Introduced in Chef InSpec 1.51.6
 
@@ -166,7 +165,7 @@ Specifies the full path to the location of a JavaScript file that will be read a
 
 ## Automate Reporter
 
-The `automate` reporter type is a special reporter used with [Chef Automate](https://automate.chef.io/). To use this reporter you must pass in the correct configuration via a json config `--config`.
+The `automate` reporter type is a special reporter which will send its results over the network to [Chef Automate]({{< relref "/automate/">}}). To use this reporter you must pass in the correct configuration via a json config `--config`.
 
 Example config:
 
@@ -219,3 +218,12 @@ environment where a `chef_guid` or `node_uuid` is already known to Chef InSpec.
 #### environment
 
 This will set the environment metadata for Automate.
+
+## JSON-Automate Reporter
+
+The `json-automate` reporter is a special reporter that prepares the data format used by the Automate reporter. `json-automate` does not communicate on the network; rather it simply produces the JSON report format that Automate would be consuming. Notably, the report is based on the `json` reporter, with the following modifications:
+
+ * Controls that appear in child profiles are de-duplicated by ID, merging up into the parent profile.
+ * Child profiles are deleted, flattening the report.
+
+The `json-automate` reporter is primarily used for internal needs, but some users may find it useful if they want a JSON based reporter that merges controls.

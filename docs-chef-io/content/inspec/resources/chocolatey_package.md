@@ -1,6 +1,7 @@
 +++
 title = "chocolatey_package resource"
 draft = false
+gh_repo = "inspec"
 platform = "windows"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "windows"
     identifier = "inspec/resources/os/chocolatey_package.md chocolatey_package resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/chocolatey_package.md)
 
 Use the `chocolatey_package` Chef InSpec audit resource to test if the named [Chocolatey](https://chocolatey.org/) package and/or package version is installed on the system.
 

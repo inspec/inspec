@@ -1,12 +1,12 @@
 # This file is not required by default.
 
-require "singleton"
-require "forwardable"
-require "fileutils"
-require "uri"
+require "singleton" unless defined?(Singleton)
+require "forwardable" unless defined?(Forwardable)
+require "fileutils" unless defined?(FileUtils)
+require "uri" unless defined?(URI)
 
 # Gem extensions for doing unusual things - not loaded by Gem default
-require "rubygems/package"
+require "rubygems/package" unless defined?(Gem::Package)
 require "rubygems/name_tuple"
 require "rubygems/uninstaller"
 require "rubygems/remote_fetcher"

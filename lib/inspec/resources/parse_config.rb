@@ -55,8 +55,11 @@ module Inspec::Resources
       read_params unless @content.nil?
     end
 
-    def method_missing(name)
-      read_params[name.to_s]
+    def method_missing(*name)
+      # catch bahavior of rspec its implementation
+      # @see https://github.com/rspec/rspec-its/blob/v1.2.0/lib/rspec/its.rb#L110
+      name.shift if name.is_a?(Array) && name[0] == :[]
+      read_params[name[0].to_s]
     end
 
     def params(*opts)

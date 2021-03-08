@@ -1,6 +1,7 @@
 +++
 title = "aws_ebs_volume resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_ebs_volume.md aws_ebs_volume resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_ebs_volume.md)
 
 Use the `aws_ebs_volume` InSpec audit resource to test properties of a single AWS EBS volume.
 

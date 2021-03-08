@@ -1,11 +1,11 @@
 # Represents InSpec configuration.  Merges defaults, config file options,
 # and CLI arguments.
 
-require "pp"
-require "stringio"
-require "forwardable"
-require "thor"
-require "base64"
+require "pp" unless defined?(PP)
+require "stringio" unless defined?(StringIO)
+require "forwardable" unless defined?(Forwardable)
+require "thor" unless defined?(Thor)
+require "base64" unless defined?(Base64)
 require "inspec/plugin/v2/filter"
 
 module Inspec
@@ -128,10 +128,23 @@ module Inspec
     end
 
     #-----------------------------------------------------------------------#
-    #                      Fetching Plugin Data
+    #                      Handling Plugin Data
     #-----------------------------------------------------------------------#
     def fetch_plugin_config(plugin_name)
       Thor::CoreExt::HashWithIndifferentAccess.new(@plugin_cfg[plugin_name] || {})
+    end
+
+    def set_plugin_config(plugin_name, plugin_config)
+      plugin_name = plugin_name.to_s unless plugin_name.is_a? String
+
+      @plugin_cfg[plugin_name] = plugin_config
+    end
+
+    def merge_plugin_config(plugin_name, additional_plugin_config)
+      plugin_name = plugin_name.to_s unless plugin_name.is_a? String
+
+      @plugin_cfg[plugin_name] = {} if @plugin_cfg[plugin_name].nil?
+      @plugin_cfg[plugin_name].merge!(additional_plugin_config)
     end
 
     # clear the cached config

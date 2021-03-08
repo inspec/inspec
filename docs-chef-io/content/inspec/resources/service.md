@@ -1,6 +1,7 @@
 +++
 title = "service resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/service.md service resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/service.md)
 
 Use the `service` Chef InSpec audit resource to test if the named service is installed, running and/or enabled.
 

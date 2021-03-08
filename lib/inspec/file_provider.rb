@@ -1,7 +1,7 @@
-require "rubygems/package"
-require "pathname"
-require "zlib"
-require "zip"
+require "rubygems/package" unless defined?(Gem::Package)
+require "pathname" unless defined?(Pathname)
+require "zlib" unless defined?(Zlib)
+require "zip" unless defined?(Zip)
 
 module Inspec
   class FileProvider

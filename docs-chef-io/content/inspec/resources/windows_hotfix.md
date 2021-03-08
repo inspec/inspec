@@ -1,6 +1,7 @@
 +++
 title = "windows_hotfix resource"
 draft = false
+gh_repo = "inspec"
 platform = "windows"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "windows"
     identifier = "inspec/resources/os/windows_hotfix.md windows_hotfix resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/windows_hotfix.md)
 
 Use the `windows_hotfix` Chef InSpec audit resource to test if the hotfix has been installed on a Windows system.
 

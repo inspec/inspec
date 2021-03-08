@@ -1,6 +1,7 @@
 +++
 title = "passwd resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/passwd.md passwd resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/passwd.md)
 
 Use the `passwd` Chef InSpec audit resource to test the contents of `/etc/passwd`, which contains the following information for users that may log into the system and/or as users that own running processes. The format for `/etc/passwd` includes:
 

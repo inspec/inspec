@@ -1,6 +1,7 @@
 +++
 title = "mysql_session resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/mysql_session.md mysql_session resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/mysql_session.md)
 
 Use the `mysql_session` Chef InSpec audit resource to test SQL commands run against a MySQL database.
 

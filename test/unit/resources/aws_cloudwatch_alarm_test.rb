@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_cloudwatch_alarm"
 
 require "resource_support/aws"
-require "resources/aws/aws_cloudwatch_alarm"
 
 # MCWAB = MockCloudwatchAlarmBackend
 # Abbreviation not used outside this file

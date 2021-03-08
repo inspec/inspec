@@ -1,6 +1,6 @@
 require "inspec/config"
 require "inspec/utils/telemetry/data_series"
-require "singleton"
+require "singleton" unless defined?(Singleton)
 
 module Inspec::Telemetry
   # A Singleton collection of data series objects.

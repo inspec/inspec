@@ -1,6 +1,7 @@
 +++
 title = "parse_config resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/parse_config.md parse_config resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/parse_config.md)
 
 Use the `parse_config` Chef InSpec audit resource to test arbitrary configuration files.
 
@@ -53,9 +52,20 @@ where each test
 - May run a command to `stdout`, and then run the test against that output
 - May use options to define how configuration data is to be parsed
 
-## Matchers
+## Options
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+This resource supports multiple options to parse configuration data. Use the options in an `options` block stated outside of (and immediately before) the actual test. For example:
+
+    options = {
+        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        multiple_values: true
+      }
+
+    output = command('some-command').stdout
+
+    describe parse_config(output,  options) do
+      its('setting') { should eq 1 }
+    end
 
 ### assignment_regex
 
@@ -114,3 +124,12 @@ Use `standalone_comments: false`, to parse the following:
 
     'key = value # comment'
     params['key'] = 'value'
+
+
+## Examples
+
+This resource is based on the `parse_config_file` resource. See the [`parse_config_file`](/inspec/resources/parse_config_file) resource for examples.
+
+## Matchers
+
+For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).

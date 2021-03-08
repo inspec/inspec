@@ -1,4 +1,4 @@
-require "json"
+require "json" unless defined?(JSON)
 require "inspec/schema/primitives"
 require "inspec/schema/exec_json"
 require "inspec/schema/exec_json_min"

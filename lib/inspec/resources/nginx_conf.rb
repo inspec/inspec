@@ -1,7 +1,7 @@
 require "inspec/utils/nginx_parser"
 require "inspec/utils/find_files"
 require "inspec/utils/file_reader"
-require "forwardable"
+require "forwardable" unless defined?(Forwardable)
 
 # STABILITY: Experimental
 # This resouce needs a proper interace to the underlying data, which is currently missing.
@@ -52,6 +52,21 @@ module Inspec::Resources
 
     def to_s
       "nginx_conf #{@conf_path}"
+    end
+
+    def method_missing(name)
+      return super if name.to_s.match?(/^to_/)
+
+      v = params[name.to_s]
+      return v.flatten unless v.nil?
+
+      nil
+    end
+
+    def respond_to_missing?(name, include_all = false)
+      return super if name.to_s.match?(/^to_/)
+
+      true
     end
 
     private
@@ -175,6 +190,18 @@ module Inspec::Resources
     end
     alias inspect to_s
 
+    def method_missing(name)
+      return super if name.to_s.match?(/^to_/)
+
+      (@params[name.to_s] || []).flatten
+    end
+
+    def respond_to_missing?(name, include_all = false)
+      return super if name.to_s.match?(/^to_/)
+
+      true
+    end
+
     private
 
     def server_table
@@ -206,6 +233,18 @@ module Inspec::Resources
       @parent.parent.to_s + ", server #{server}"
     end
     alias inspect to_s
+
+    def method_missing(name)
+      return super if name.to_s.match?(/^to_/)
+
+      (@params[name.to_s] || []).flatten
+    end
+
+    def respond_to_missing?(name, include_all = false)
+      return super if name.to_s.match?(/^to_/)
+
+      true
+    end
 
     private
 

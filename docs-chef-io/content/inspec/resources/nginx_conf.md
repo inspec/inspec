@@ -1,6 +1,7 @@
 +++
 title = "nginx_conf resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/nginx_conf.md nginx_conf resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/nginx_conf.md)
 
 Use the `nginx_conf` Chef InSpec resource to test configuration data for the NGINX server located at `/etc/nginx/nginx.conf` on Linux and Unix platforms.
 
@@ -30,7 +29,7 @@ This resource first became available in v1.37.6 of InSpec.
 
 An `nginx_conf` resource block declares the client NGINX configuration data to be tested:
 
-    describe nginx_conf.params['pid'] do
+    describe nginx_conf.params['pid'].flatten do
       it { should cmp 'logs/nginx.pid' }
     end
 
@@ -40,6 +39,14 @@ where
 - `params` accesses all its parameters
 - `params['pid']` selects the `pid` entry from the global NGINX configuration
 - `{ should cmp 'logs/nginx.pid' }` tests if the PID is set to `logs/nginx.pid` (via `cmp` matcher)
+
+Parameters can be accessed either via `params` or via the `its` syntax:
+
+    describe nginx_conf do
+      its('pid') { should cmp 'logs/nginx.pid' }
+    end
+
+The `its` syntax allows for a more descriptive block and is available in the `nginx_conf`, `nginx_conf.http.entries`, and `nginx_conf.http.servers` resources.
 
 ## Examples
 
@@ -58,6 +65,11 @@ The following examples show how to use this Chef InSpec audit resource.
 
     describe nginx_conf.params['worker_processes'].flatten do
       it { should cmp 5 }
+    end
+
+    # Or when using `its` syntax
+    describe nginx_conf do
+      its('worker_processes') { should cmp 5 }
     end
 
 ## Matchers

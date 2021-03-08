@@ -343,14 +343,8 @@ module Inspec
       __waiver_data["skipped_due_to_waiver"] = false
       __waiver_data["message"] = ""
 
-      # Waivers should have a hash value with keys possibly including "run" and
-      # expiration_date. We only care here if it has a "run" key and it
-      # is false-like, since all non-skipped waiver operations are handled
-      # during reporting phase.
-      return unless __waiver_data.key?("run") && !__waiver_data["run"]
-
-      # OK, the intent is to skip. Does it have an expiration date, and
-      # if so, is it in the future?
+      # Does it have an expiration date, and if so, is it in the future?
+      # This sets a waiver message before checking `run: true`
       expiry = __waiver_data["expiration_date"]
       if expiry
         # YAML will automagically give us a Date or a Time.
@@ -369,6 +363,12 @@ module Inspec
           ui.exit(:usage_error)
         end
       end
+
+      # Waivers should have a hash value with keys possibly including "run" and
+      # expiration_date. We only care here if it has a "run" key and it
+      # is false-like, since all non-skipped waiver operations are handled
+      # during reporting phase.
+      return unless __waiver_data.key?("run") && !__waiver_data["run"]
 
       # OK, apply a skip.
       @__skip_rule[:result] = true

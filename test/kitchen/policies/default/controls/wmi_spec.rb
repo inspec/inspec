@@ -26,7 +26,7 @@ describe wmi({
   namespace: 'root\\rsop\\computer',
   filter: 'KeyName = \'MinimumPasswordAge\' And precedence=1'
 }) do
-   its('Setting') { should eq 1 }
+   its('Setting') { should eq [1] }
 end
 
 # new syntax
@@ -34,14 +34,14 @@ describe wmi({
   namespace: 'root\rsop\computer',
   query: "SELECT Setting FROM RSOP_SecuritySettingBoolean WHERE KeyName='LSAAnonymousNameLookup' AND Precedence=1"
 }) do
-  its('Setting') { should eq false }
+  its('Setting') { should cmp false }
 end
 
 describe wmi({
   namespace: 'root\cimv2',
   query: 'SELECT filesystem FROM win32_logicaldisk WHERE drivetype=3'
 }).params.values.join do
-  it { should eq 'NTFS' }
+  it { should cmp 'NTFS' }
 end
 
 # deprecated syntax
@@ -53,8 +53,8 @@ describe wmi('RSOP_SecuritySettingNumeric', {
   namespace: 'root\\rsop\\computer',
   filter: 'KeyName = \'MinimumPasswordAge\' And precedence=1'
 }) do
-   its('Setting') { should eq 1 }
-   its('setting') { should eq 1 }
+   its('Setting') { should cmp 1 }
+   its('setting') { should include 1 }
 end
 
 describe wmi('win32_service', {

@@ -1,6 +1,7 @@
 +++
 title = "aws_efs_file_system resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]

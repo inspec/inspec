@@ -1,6 +1,7 @@
 +++
 title = "aws_iam_roles resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_iam_roles.md aws_iam_roles resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_iam_roles.md)
 
 Use the `aws_iam_roles` InSpec audit resource to test properties of a collection of AWS IAM Roles.
 

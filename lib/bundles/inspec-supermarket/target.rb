@@ -1,4 +1,4 @@
-require "uri"
+require "uri" unless defined?(URI)
 require "inspec/fetcher"
 require "inspec/fetcher/url"
 

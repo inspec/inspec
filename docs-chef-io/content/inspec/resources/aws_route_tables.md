@@ -1,6 +1,7 @@
 +++
 title = "aws_route_tables resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_route_tables.md aws_route_tables"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_route_tables.md)
 
 Use the `aws_route_tables` InSpec audit resource to test properties of all or a group of Route Tables. A Route Table contains a set of rules, called routes, that are used to determine where network traffic is directed.
 

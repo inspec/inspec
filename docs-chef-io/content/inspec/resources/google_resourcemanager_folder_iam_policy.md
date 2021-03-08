@@ -1,6 +1,7 @@
 +++
 title = "google_resourcemanager_folder_iam_policy resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

@@ -1,6 +1,7 @@
 +++
 title = "Chef InSpec Shell"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 110
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/shell.md)
 
 The Chef InSpec interactive shell is a pry based REPL that can be used to
 quickly run Chef InSpec controls and tests without having to write it to a
@@ -26,7 +25,7 @@ on Learn Chef Rally for a hands-on example that uses Chef InSpec shell.
 ## Launching the shell
 
 If you are using Chef InSpec from a platform-specific package (rpm, msi,
-etc.) or from a Chef prepared shell in ChefDK, you can directly launch
+etc.) or from a Chef prepared shell in Chef Workstation, you can directly launch
 Chef InSpec shell against your local machine using the following. See
 <https://docs.chef.io/install_dk.html#set-system-ruby> for details.
 

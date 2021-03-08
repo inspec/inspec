@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-main_gemspec = File.expand_path("../inspec-bin.gemspec", __FILE__)
+main_gemspec = File.expand_path("inspec-bin.gemspec", __dir__)
 if File.exist?(main_gemspec)
   gemspec name: "inspec-bin"
 else

@@ -1,6 +1,7 @@
 +++
 title = "Chef InSpec Universal Matchers Reference"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 40
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/matchers.md)
 
 Chef InSpec uses matchers to help compare resource values to expectations.
 The following matchers are available:

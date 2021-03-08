@@ -1,6 +1,7 @@
 +++
 title = "google_iam_custom_roles resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

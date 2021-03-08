@@ -9,7 +9,16 @@ gem "inspec", path: "."
 # in it in order to package the executable. Hence the odd backwards dependency.
 gem "inspec-bin", path: "./inspec-bin"
 
-gem "ffi", ">= 1.9.14", "!= 1.13.0"
+gem "ffi", ">= 1.9.14", "!= 1.13.0", "!= 1.14.2"
+
+if Gem.ruby_version.to_s.start_with?("2.5")
+  # 16.7.23 required ruby 2.6+
+  gem "chef-utils", "< 16.7.23" # TODO: remove when we drop ruby 2.5
+end
+
+# inspec tests depend text output that changed in the 3.10 release
+# but our runtime dep is still 3.9+
+gem "rspec", ">= 3.10"
 
 group :omnibus do
   gem "rb-readline"
@@ -19,46 +28,23 @@ group :omnibus do
 end
 
 group :test do
-  gem "chefstyle", "~> 1.2.1"
-  gem "minitest", "~> 5.5"
-  gem "minitest-sprint", "~> 1.0"
-  gem "rake", ">= 10"
-  gem "simplecov", ["~> 0.10", "<=0.18.2"]
+  gem "chefstyle", "~> 1.7.1"
   gem "concurrent-ruby", "~> 1.0"
-  gem "nokogiri", "~> 1.9"
-  gem "mocha", "~> 1.1"
-  gem "ruby-progressbar", "~> 1.8"
-  gem "webmock", "~> 3.0"
-  gem "m"
-  gem "pry", "~> 0.10"
-  gem "pry-byebug"
   gem "html-proofer", platforms: :ruby # do not attempt to run proofer on windows
-end
-
-group :integration do
-  gem "berkshelf"
-  gem "test-kitchen"
-  gem "kitchen-vagrant"
-  gem "chef", "< 15"
-  gem "chef-zero", "< 15"
-  gem "kitchen-inspec"
-  gem "kitchen-ec2"
-  gem "kitchen-dokken"
-  gem "git"
-end
-
-# gems for Maintainers.md generation
-group :maintenance do
-  gem "tomlrb"
-
-  # To sync maintainers with github
-  gem "octokit"
-  gem "netrc"
+  gem "json_schemer", ">= 0.2.1", "< 0.2.18"
+  gem "m"
+  gem "minitest-sprint", "~> 1.0"
+  gem "minitest", "~> 5.5"
+  gem "mocha", "~> 1.1"
+  gem "nokogiri", "~> 1.9"
+  gem "pry-byebug"
+  gem "pry", "~> 0.10"
+  gem "rake", ">= 10"
+  gem "ruby-progressbar", "~> 1.8"
+  gem "simplecov", "~> 0.18"
+  gem "webmock", "~> 3.0"
 end
 
 group :deploy do
   gem "inquirer"
 end
-
-# add these additional dependencies into Gemfile.local
-eval_gemfile(__FILE__ + ".local") if File.exist?(__FILE__ + ".local")

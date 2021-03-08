@@ -1,7 +1,7 @@
 # copyright: 2015, Dominik Richter
 
-require "forwardable"
-require "uri"
+require "forwardable" unless defined?(Forwardable)
+require "uri" unless defined?(URI)
 require "inspec/backend"
 require "inspec/profile_context"
 require "inspec/profile"

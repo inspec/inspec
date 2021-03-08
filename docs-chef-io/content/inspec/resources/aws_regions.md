@@ -1,6 +1,7 @@
 +++
 title = "aws_regions resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_regions.md aws_regions resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_regions.md)
 
 Use the `aws_regions` InSpec audit resource to test properties of some or all AWS regions in bulk.
 

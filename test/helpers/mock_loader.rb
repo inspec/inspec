@@ -25,6 +25,8 @@ class MockLoader
     mint17: { name: "linuxmint", family: "debian", release: "17.3", arch: "x86_64" },
     mint18: { name: "linuxmint", family: "debian", release: "18", arch: "x86_64" },
     windows: { name: "windows", family: "windows", release: "6.2.9200", arch: "x86_64" },
+    windows2016: { name: "windows_server_2016_datacenter", family: "windows", release: "10.0.14393", arch: "x86_64" },
+    windows2019: { name: "windows_server_2019_datacenter", family: "windows", release: "10.0.17763", arch: "x86_64" },
     wrlinux: { name: "wrlinux", family: "redhat", release: "7.0(3)I2(2)", arch: "x86_64" },
     solaris11: { name: "solaris", family: "solaris", release: "11", arch: "i386" },
     solaris10: { name: "solaris", family: "solaris", release: "10", arch: "i386" },
@@ -51,7 +53,7 @@ class MockLoader
   def backend
     return @backend if defined?(@backend)
 
-    scriptpath = ::File.expand_path "../..", __FILE__
+    scriptpath = ::File.expand_path "..", __dir__
 
     # create mock backend
     @backend = Inspec::Backend.create(Inspec::Config.mock)
@@ -191,6 +193,11 @@ class MockLoader
       mock.mock_command("", "", stderr, 1)
     }
 
+    # DEV NOTES: Most of the key=>value pairs below represent inspec commands=>responses to mock in testing.
+    #   "cf04ce5615167da0133540398aa9989bf48b3d15a615f08f97eafaeec6e5b2ba" => cmd.call("get-wmiobject"),
+    # In this ^^^ case, the key is the sha256sum of the script that is sent to the 'inspec.powershell' method in resources/wmi.rb
+    # And the content of 'get-wmiobject' can be found in this file: 'test/fixtures/cmd/get-wmiobject'. If you change the script
+    # that the inspec resource sends, you have to calculate the new sha256sum of it and update it here
     mock_cmds = {
       "" => empty.call,
       "sh -c 'find /no/such/mock -type f -maxdepth 1'" => empty.call,
@@ -269,7 +276,7 @@ class MockLoader
       "rmsock f0000000000000001 tcpcb" => cmd.call("rmsock-f0001"),
       "rmsock f0000000000000002 tcpcb" => cmd.call("rmsock-f0002"),
       # packages on windows
-      "f7718ece69188bb19cd458e2aeab0a8d968f3d40ac2f4199e21cc976f8db5ef6" => cmd.call("get-item-property-package"),
+      "6785190b3df7291a7622b0b75b0217a9a78bd04690bc978df51ae17ec852a282" => cmd.call("get-item-property-package"),
       # service status upstart on ubuntu
       "initctl status ssh" => cmd.call("initctl-status-ssh"),
       # upstart version on ubuntu
@@ -375,7 +382,7 @@ class MockLoader
       # xinetd configuration
       "find /etc/xinetd.d -type f" => cmd.call("find-xinetd.d"),
       # wmi test
-      "2979ebeb80a475107d85411f109209a580ccf569071b3dc7acff030b8635c6b9" => cmd.call("get-wmiobject"),
+      "cf04ce5615167da0133540398aa9989bf48b3d15a615f08f97eafaeec6e5b2ba" => cmd.call("get-wmiobject"),
       # user info on hpux
       "logins -x -l root" => cmd.call("logins-x"),
       # packages on hpux
@@ -599,7 +606,7 @@ class MockLoader
   end
 
   def self.home # "home" of the repo (not test!)... I really dislike this name
-    File.expand_path "../../..", __FILE__
+    File.expand_path "../..", __dir__
   end
 
   def self.profile_path(name)

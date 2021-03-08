@@ -1,6 +1,7 @@
 +++
 title = "aws_cloudtrail_trails resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_cloudtrail_trails.md aws_cloudtrail_trails resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_cloudtrail_trails.md)
 
 Use the `aws_cloudtrail_trails` InSpec audit resource to test properties of a collection of AWS CloudTrail Trails.
 

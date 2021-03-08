@@ -1,6 +1,7 @@
 +++
 title = "google_compute_subnetwork_iam_policy resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

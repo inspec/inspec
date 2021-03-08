@@ -1,6 +1,7 @@
 +++
 title = "aws_nat_gateway resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_nat_gateway.md aws_nat_gateway"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_nat_gateway.md)
 
 Use the `aws_nat_gateway` InSpec audit resource to test the properties of a single AWS NAT gateway.
 
@@ -103,7 +102,7 @@ There are also additional properties available. For a comprehensive list, see [t
       its('nat_gateway_address_set') { should include(:private_ip => '10.0.1.68') }
     end
 
-For more examples, please check the [integration tests](../../test/integration/verify/controls/aws_nat_gateway.rb).
+For more examples, please check the [integration tests](https://github.com/inspec/inspec-aws/blob/master/test/integration/verify/controls/aws_nat_gateway.rb).
 
 ## Matchers
 

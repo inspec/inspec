@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_config_delivery_channel"
 
 require "resource_support/aws"
-require "resources/aws/aws_config_delivery_channel"
 
 # MDCSB = MockDeliveryChannelSingleBackend
 # Abbreviation not used outside this file

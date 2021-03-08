@@ -1,6 +1,7 @@
 +++
 title = "google_compute_node_group resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

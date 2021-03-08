@@ -1,6 +1,7 @@
 +++
 title = "google_pubsub_subscription resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

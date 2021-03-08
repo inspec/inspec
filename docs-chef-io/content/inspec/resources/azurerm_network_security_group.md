@@ -1,6 +1,7 @@
 +++
 title = "azurerm_network_security_group resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_network_security_group.md azurerm_network_security_group resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_network_security_group.md)
 
 Use the `azurerm_network_security_group` InSpec audit resource to test properties of an
 Azure Network Security Group.

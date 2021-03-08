@@ -1,6 +1,7 @@
 +++
 title = "aws_subnets resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_subnets.md aws_subnets resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_subnets.md)
 
 Use the `aws_subnets` InSpec audit resource to test properties of some or all subnets.
 

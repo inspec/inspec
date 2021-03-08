@@ -1,4 +1,4 @@
-require "rubygems/package"
+require "rubygems/package" unless defined?(Gem::Package)
 
 module Inspec::Archive
   class TarArchiveGenerator

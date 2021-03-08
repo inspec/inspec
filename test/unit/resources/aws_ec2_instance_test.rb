@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_ec2_instance"
 
 require "resource_support/aws"
-require "resources/aws/aws_ec2_instance"
 
 class TestEc2 < Minitest::Test
   ID = "instance-id".freeze

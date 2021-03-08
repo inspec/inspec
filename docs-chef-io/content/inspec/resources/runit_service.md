@@ -1,6 +1,7 @@
 +++
 title = "runit_service resource"
 draft = false
+gh_repo = "inspec"
 platform = "linux"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "linux"
     identifier = "inspec/resources/os/runit_service.md runit_service resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/runit_service.md)
 
 Use the `runit_service` Chef InSpec audit resource to test a service using runit.
 

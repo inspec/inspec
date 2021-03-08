@@ -1,6 +1,7 @@
 +++
 title = "InSpec Resources Reference"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/resources"
     weight = 10
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/_index.md)
 
 The following list of InSpec resources are available.
 

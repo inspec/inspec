@@ -1,6 +1,7 @@
 +++
 title = "aws_dynamodb_table resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_dynamodb_table.md aws_dynamodb_table resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_dynamodb_table.md)
 
 Use the `aws_dynamodb_table` InSpec audit resource to test properties of a single DynamoDb Table.
 

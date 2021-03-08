@@ -1,6 +1,7 @@
 +++
 title = "aws_iam_user resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_iam_user.md aws_iam_user resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_iam_user.md)
 
 Use the `aws_iam_user` InSpec audit resource to test properties of a single AWS IAM User.
 

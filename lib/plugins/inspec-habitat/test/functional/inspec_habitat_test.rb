@@ -1,5 +1,5 @@
-require_relative "../../../shared/core_plugin_test_helper.rb"
-require "fileutils"
+require_relative "../../../shared/core_plugin_test_helper"
+require "fileutils" unless defined?(FileUtils)
 
 class ProfileCli < Minitest::Test
   include CorePluginFunctionalHelper

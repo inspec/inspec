@@ -48,7 +48,7 @@ module Inspec::Resources
     # @return [Object] the value stored at this position
     def method_missing(*keys)
       # catch bahavior of rspec its implementation
-      # @see https://github.com/rspec/rspec-its/blob/master/lib/rspec/its.rb#L110
+      # @see https://github.com/rspec/rspec-its/blob/v1.2.0/lib/rspec/its.rb#L110
       keys.shift if keys.is_a?(Array) && keys[0] == :[]
       value(keys)
     end
@@ -66,7 +66,7 @@ module Inspec::Resources
     private
 
     def parse(content)
-      require "json"
+      require "json" unless defined?(JSON)
       JSON.parse(content)
     rescue => e
       raise Inspec::Exceptions::ResourceFailed, "Unable to parse JSON: #{e.message}"

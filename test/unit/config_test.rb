@@ -460,7 +460,7 @@ describe "Inspec::Config" do
   end
 
   # ========================================================================== #
-  #                        Fetching Plugin Config
+  #                        Handling Plugin Config
   # ========================================================================== #
   describe "when fetching plugin config" do
     let(:cfg) { Inspec::Config.new({}, cfg_io) }
@@ -490,6 +490,58 @@ describe "Inspec::Config" do
       end
     end
 
+  end
+
+  describe "when setting plugin config" do
+    let(:cfg) { Inspec::Config.new({}, cfg_io) }
+    let(:cfg_io) { StringIO.new(ConfigTestHelper.fixture(fixture_name)) }
+    let(:fixture_name) { "basic_1_2" }
+
+    let(:desired_settings) { { "test_key_01" => "test_value_02" } }
+
+    it "overwrites current configuration" do
+      cfg.set_plugin_config("inspec-test-plugin", desired_settings)
+      actual_settings = cfg.fetch_plugin_config("inspec-test-plugin")
+
+      assert_equal desired_settings, actual_settings
+    end
+  end
+
+  describe "when merging plugin config" do
+    let(:cfg) { Inspec::Config.new({}, cfg_io) }
+    let(:cfg_io) { StringIO.new(ConfigTestHelper.fixture(fixture_name)) }
+    let(:fixture_name) { "basic_1_2" }
+
+    let(:additional_settings) { { test_key_02: "test_value_02" } }
+    let(:override_settings) { { test_key_01: "test_value_02" } }
+
+    it "preserves current configuration" do
+      cfg.merge_plugin_config("inspec-test-plugin", additional_settings)
+      settings = cfg.fetch_plugin_config("inspec-test-plugin")
+
+      assert_equal "test_value_01", settings[:test_key_01]
+    end
+
+    it "includes additional configuration" do
+      cfg.merge_plugin_config("inspec-test-plugin", additional_settings)
+      settings = cfg.fetch_plugin_config("inspec-test-plugin")
+
+      assert_equal "test_value_02", settings[:test_key_02]
+    end
+
+    it "overwrites existing configuration" do
+      cfg.merge_plugin_config("inspec-test-plugin", override_settings)
+      settings = cfg.fetch_plugin_config("inspec-test-plugin")
+
+      assert_equal "test_value_02", settings[:test_key_01]
+    end
+
+    it "handles handles empty configuration correctly" do
+      cfg.merge_plugin_config("inspec-missing-plugin", additional_settings)
+      settings = cfg.fetch_plugin_config("inspec-missing-plugin")
+
+      assert_equal "test_value_02", settings[:test_key_02]
+    end
   end
 
   # ========================================================================== #

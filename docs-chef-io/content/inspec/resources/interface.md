@@ -1,6 +1,7 @@
 +++
 title = "interface resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/interface.md interface resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/interface.md)
 
 Use the `interface` Chef InSpec audit resource to test basic network adapter properties, such as name, status, IP addresses, and link speed (in MB/sec).
 

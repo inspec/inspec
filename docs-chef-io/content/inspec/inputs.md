@@ -1,6 +1,7 @@
 +++
 title = "Chef InSpec Inputs"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 30
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/inputs.md)
 
 ## What are Inputs?
 

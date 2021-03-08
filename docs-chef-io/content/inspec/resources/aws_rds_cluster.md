@@ -1,6 +1,7 @@
 +++
 title = "aws_rds_cluster resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_rds_cluster.md aws_rds_cluster"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_rds_cluster.md)
 
 Use the `aws_rds_cluster` InSpec audit resource to test detailed properties of an individual RDS cluster.
 

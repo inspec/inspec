@@ -1,6 +1,7 @@
 +++
 title = "aws_transit_gateway resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_transit_gateway.md aws_transit_gateway resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_transit_gateway.md)
 
 Use the `aws_transit_gateway` InSpec audit resource to test properties of a transit gateway.
 

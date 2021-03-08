@@ -1,6 +1,7 @@
 +++
 title = "x509_certificate resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "os"
     identifier = "inspec/resources/os/x509_certificate.md x509_certificate resource"
     parent = "inspec/resources/os"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/x509_certificate.md)
 
 Use the `x509_certificate` Chef InSpec audit resource to test the fields and validity of an x.509 certificate.
 

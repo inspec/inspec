@@ -1,6 +1,7 @@
 +++
 title = "Chef InSpec DSL"
 draft = false
+gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
@@ -9,8 +10,6 @@ draft = false
     parent = "inspec/reference"
     weight = 70
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/dsl_inspec.md)
 
 Chef InSpec is a run-time framework and rule language used to specify compliance,
 security, and policy requirements. It includes a collection of resources that help

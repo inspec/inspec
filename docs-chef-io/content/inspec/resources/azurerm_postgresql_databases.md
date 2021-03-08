@@ -1,6 +1,7 @@
 +++
 title = "azurerm_postgresql_databases resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_postgresql_databases.md azurerm_postgresql_databases resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_postgresql_databases.md)
 
 Use the `azurerm_postgresql_databases` InSpec audit resource to test properties and configuration of Azure PostgreSQL Databases.
 

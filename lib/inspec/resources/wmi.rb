@@ -16,7 +16,10 @@ module Inspec::Resources
         namespace: 'root\\rsop\\computer',
         filter: 'KeyName = \'MinimumPasswordAge\' And precedence=1'
       }) do
-         its('Setting') { should eq true }
+         its('Setting') { should cmp true }
+      end
+      describe wmi({namespace: "root\\cimv2", query: "SELECT installstate FROM win32_optionalfeature"}) do
+        its("installstate") { should include 2 }
       end
     EXAMPLE
 
@@ -36,7 +39,7 @@ module Inspec::Resources
     # returns nil, if not existant or value
     def method_missing(*keys)
       # catch behavior of rspec its implementation
-      # @see https://github.com/rspec/rspec-its/blob/master/lib/rspec/its.rb#L110
+      # @see https://github.com/rspec/rspec-its/blob/v1.2.0/lib/rspec/its.rb#L110
       keys.shift if keys.is_a?(Array) && keys[0] == :[]
 
       # map all symbols to strings
@@ -66,13 +69,18 @@ module Inspec::Resources
 
       # run wmi command and filter empty wmi
       script = <<-EOH
-      Filter Aggregate
-      {
-          $arr = @{}
-          $_.properties | % {
-              $arr.Add($_.name, $_.value)
+      Function Aggregate {
+        $propsHash = @{}
+        ForEach ($wmiObj in $Input) {
+          ForEach ($wmiProp in $wmiObj.properties) {
+            If($propsHash.ContainsKey($wmiProp.name)) {
+              $propsHash[$wmiProp.name].add($wmiProp.value) | Out-Null
+            } Else {
+              $propsHash[$wmiProp.name] = [System.Collections.ArrayList]@($wmiProp.value)
+            }
           }
-          $arr
+        }
+        $propsHash
       }
       Get-WmiObject #{params} | Aggregate | ConvertTo-Json
       EOH

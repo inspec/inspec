@@ -1,6 +1,7 @@
 +++
 title = "azurerm_mysql_databases resource"
 draft = false
+gh_repo = "inspec"
 platform = "azure"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "azure"
     identifier = "inspec/resources/azure/azurerm_mysql_databases.md azurerm_mysql_databases resource"
     parent = "inspec/resources/azure"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/azurerm_mysql_databases.md)
 
 Use the `azurerm_mysql_databases` InSpec audit resource to test properties and configuration of Azure MySQL Databases.
 

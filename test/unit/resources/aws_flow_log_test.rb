@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_flow_log"
 
 require "resource_support/aws"
-require "resources/aws/aws_flow_log"
 
 class EmptyAwsFlowLog < Minitest::Test
   def setup

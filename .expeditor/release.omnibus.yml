@@ -10,6 +10,8 @@ builder-to-testers-map:
   debian-9-x86_64:
     - debian-9-x86_64
     - debian-10-x86_64
+  debian-10-aarch64:
+    - debian-10-aarch64
   el-6-x86_64:
     - el-6-x86_64
   el-7-aarch64:
@@ -20,14 +22,18 @@ builder-to-testers-map:
     - el-7-x86_64
     - el-8-x86_64
     - amazon-2-x86_64
-  mac_os_x-10.13-x86_64:
-    - mac_os_x-10.13-x86_64
+  mac_os_x-10.14-x86_64:
     - mac_os_x-10.14-x86_64
     - mac_os_x-10.15-x86_64
-    - mac_os_x-11.0-x86_64
+    - mac_os_x-11-x86_64
   sles-12-x86_64:
     - sles-12-x86_64
     - sles-15-x86_64
+  sles-15-aarch64:
+    - sles-15-aarch64
+  ubuntu-18.04-aarch64:
+    - ubuntu-18.04-aarch64
+    - ubuntu-20.04-aarch64
   ubuntu-16.04-x86_64:
     - ubuntu-16.04-x86_64
     - ubuntu-18.04-x86_64

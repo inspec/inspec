@@ -1,6 +1,7 @@
 +++
 title = "google_container_cluster resource"
 draft = false
+gh_repo = "inspec"
 platform = "gcp"
 
 [menu]

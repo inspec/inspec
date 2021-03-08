@@ -4,7 +4,7 @@ require "inspec/resource"
 require "inspec/library_eval_context"
 require "inspec/control_eval_context"
 require "inspec/require_loader"
-require "securerandom"
+require "securerandom" unless defined?(SecureRandom)
 require "inspec/input_registry"
 
 module Inspec
@@ -173,6 +173,9 @@ module Inspec
 
     def unregister_rule(id)
       @rules.delete(full_id(@profile_id, id))
+      @control_subcontexts.each do |c|
+        c.unregister_rule(id)
+      end
     end
 
     attr_reader :current_load

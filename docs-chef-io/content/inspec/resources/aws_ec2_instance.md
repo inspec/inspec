@@ -1,6 +1,7 @@
 +++
 title = "aws_ec2_instance resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_ec2_instance.md aws_ec2_instance resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_ec2_instance.md)
 
 Use the `aws_ec2_instance` InSpec audit resource to test properties of a single AWS EC2 instance.
 

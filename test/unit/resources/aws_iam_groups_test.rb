@@ -3,7 +3,6 @@ require "inspec/resource"
 require "resources/aws/aws_iam_groups"
 
 require "resource_support/aws"
-require "resources/aws/aws_iam_groups"
 
 # MAIGPB = MockAwsIamGroupsPluralBackend
 # Abbreviation not used outside this file

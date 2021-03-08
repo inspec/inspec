@@ -1,6 +1,7 @@
 +++
 title = "aws_iam_access_keys resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_iam_access_keys.md aws_iam_access_keys resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_iam_access_keys.md)
 
 Use the `aws_iam_access_keys` InSpec audit resource to test properties of some or all AWS IAM Access Keys.
 

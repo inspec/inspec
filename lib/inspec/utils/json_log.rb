@@ -1,4 +1,4 @@
-require "json"
+require "json" unless defined?(JSON)
 
 # a simple streaming json logger
 class Logger::JSONFormatter < Logger::Formatter

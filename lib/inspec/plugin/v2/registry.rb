@@ -1,5 +1,5 @@
-require "forwardable"
-require "singleton"
+require "forwardable" unless defined?(Forwardable)
+require "singleton" unless defined?(Singleton)
 require "train"
 
 require_relative "status"

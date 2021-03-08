@@ -1,6 +1,7 @@
 +++
 title = "aws_elb resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]
@@ -9,8 +10,6 @@ platform = "aws"
     identifier = "inspec/resources/aws/aws_elb.md aws_elb resource"
     parent = "inspec/resources/aws"
 +++
-
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/aws_elb.md)
 
 Use the `aws_elb` InSpec audit resource to test properties of a single AWS Elastic Load Balancer (ELB).
 

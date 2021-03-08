@@ -1,28 +1,149 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.23.13 -->
-## [v4.23.13](https://github.com/inspec/inspec/tree/v4.23.13) (2020-10-14)
+<!-- latest_release unreleased -->
+## Unreleased
 
-#### Merged Pull Requests
-- Update Hugo version to 0.76.4 [#5279](https://github.com/inspec/inspec/pull/5279) ([IanMadd](https://github.com/IanMadd))
+#### Bug Fixes
+- Add git to Docker build [#5420](https://github.com/inspec/inspec/pull/5420) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup since=4.23.11 -->
-### Changes since 4.23.11 release
+<!-- release_rollup since=4.26.13 -->
+### Changes since 4.26.13 release
 
 #### Merged Pull Requests
-- Update Hugo version to 0.76.4 [#5279](https://github.com/inspec/inspec/pull/5279) ([IanMadd](https://github.com/IanMadd)) <!-- 4.23.13 -->
-- Added another example to illustrate use for only_if [#5269](https://github.com/inspec/inspec/pull/5269) ([unixengineer](https://github.com/unixengineer)) <!-- 4.23.12 -->
-- Remove thread requires as this is built in now [#5251](https://github.com/inspec/inspec/pull/5251) ([tas50](https://github.com/tas50)) <!-- 4.23.11 -->
-- Fix &quot;Edit on GitHub&quot; links [#5268](https://github.com/inspec/inspec/pull/5268) ([IanMadd](https://github.com/IanMadd)) <!-- 4.23.11 -->
+- Remove .0 from macos builder name [#5413](https://github.com/inspec/inspec/pull/5413) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.15 -->
+
+#### Bug Fixes
+- Add git to Docker build [#5420](https://github.com/inspec/inspec/pull/5420) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.15 -->
+- Don&#39;t pass -u on AIX in crontab command [#5418](https://github.com/inspec/inspec/pull/5418) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.14 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.26.13](https://github.com/inspec/inspec/tree/v4.26.13) (2021-02-24)
+
+#### Bug Fixes
+- Skip controls deeply [#5411](https://github.com/inspec/inspec/pull/5411) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Use first value of repeated settings in ssh_config and sshd_config [#5414](https://github.com/inspec/inspec/pull/5414) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Fix dead links [#5399](https://github.com/inspec/inspec/pull/5399) ([IanMadd](https://github.com/IanMadd))
+- Fix another link [#5407](https://github.com/inspec/inspec/pull/5407) ([IanMadd](https://github.com/IanMadd))
+- Add metadata to each page in docs.chef.io/inspec, update Edit on GitHub links [#5406](https://github.com/inspec/inspec/pull/5406) ([IanMadd](https://github.com/IanMadd))
+- Update install.md [#5403](https://github.com/inspec/inspec/pull/5403) ([tduffield](https://github.com/tduffield))
+- Update chefstyle requirement from ~&gt; 1.5.7 to ~&gt; 1.7.1 [#5409](https://github.com/inspec/inspec/pull/5409) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Document the json-automate reporter [#5408](https://github.com/inspec/inspec/pull/5408) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Switch to MacOS 10.14 builder [#5415](https://github.com/inspec/inspec/pull/5415) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
+## [v4.26.4](https://github.com/inspec/inspec/tree/v4.26.4) (2021-01-27)
+
+#### Enhancements
+- Add method_missing to nginx_conf [#5285](https://github.com/inspec/inspec/pull/5285) ([rgeissert](https://github.com/rgeissert))
+
+#### Bug Fixes
+- Add faraday_middleware to gemspec [#5391](https://github.com/inspec/inspec/pull/5391) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Update oracledb_session.rb [#5193](https://github.com/inspec/inspec/pull/5193) ([pacopal](https://github.com/pacopal))
+- Add option for winrm-shell-type [#5263](https://github.com/inspec/inspec/pull/5263) ([catriona1](https://github.com/catriona1))
+- Enable programmatic setting of plugin configuration [#5393](https://github.com/inspec/inspec/pull/5393) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- Pin back parslet to avoid conflict with toml in chef infra [#5394](https://github.com/inspec/inspec/pull/5394) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Improve programmatic plugin configuration [#5395](https://github.com/inspec/inspec/pull/5395) ([tecracer-theinen](https://github.com/tecracer-theinen))
+
+## [v4.25.1](https://github.com/inspec/inspec/tree/v4.25.1) (2021-01-20)
+
+#### Merged Pull Requests
+- Allow for rspec 3.9 in the gemspec [#5381](https://github.com/inspec/inspec/pull/5381) ([tas50](https://github.com/tas50))
+- Build arm packages for Debian/SLES/Ubuntu [#5386](https://github.com/inspec/inspec/pull/5386) ([tas50](https://github.com/tas50))
+- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.12 to &gt;= 0.2.1, &lt; 0.2.18 [#5356](https://github.com/inspec/inspec/pull/5356) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+
+## [v4.24.32](https://github.com/inspec/inspec/tree/v4.24.32) (2021-01-13)
+
+#### Merged Pull Requests
+- Add ENV var to skip live net tests in plugin installer unit tests [#5378](https://github.com/inspec/inspec/pull/5378) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Switch Docker build to be omnibus-based [#5362](https://github.com/inspec/inspec/pull/5362) ([nkierpiec](https://github.com/nkierpiec))
+- clarify the inspec check command [#5379](https://github.com/inspec/inspec/pull/5379) ([chrisbirster](https://github.com/chrisbirster))
+- Update faraday requirement from &gt;= 0.9.0, &lt; 1.2 to &gt;= 0.9.0, &lt; 1.4 [#5371](https://github.com/inspec/inspec/pull/5371) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update minimum ruby version in README [#5380](https://github.com/inspec/inspec/pull/5380) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v4.24.28](https://github.com/inspec/inspec/tree/v4.24.28) (2021-01-06)
+
+#### Enhancements
+- Truncate code_desc when truncating reports [#5372](https://github.com/inspec/inspec/pull/5372) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- Avoid ffi 1.14.2 [#5375](https://github.com/inspec/inspec/pull/5375) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v4.24.26](https://github.com/inspec/inspec/tree/v4.24.26) (2021-01-04)
+
+#### Enhancements
+- Updated Supported Platforms for MSSQL_SESSION [#5366](https://github.com/inspec/inspec/pull/5366) ([kclinden](https://github.com/kclinden))
+
+#### Merged Pull Requests
+- Remove macOS 10.13 from the build matrix [#5311](https://github.com/inspec/inspec/pull/5311) ([tas50](https://github.com/tas50))
+- Clean up docs previews [#5344](https://github.com/inspec/inspec/pull/5344) ([IanMadd](https://github.com/IanMadd))
+- Fix link to image in compliance plugin README [#5329](https://github.com/inspec/inspec/pull/5329) ([phiggins](https://github.com/phiggins))
+- Accept arrays in parse_config&#39;s method_missing [#5252](https://github.com/inspec/inspec/pull/5252) ([rgeissert](https://github.com/rgeissert))
+- Remove &#39;integration&#39; group from Gemfile [#5341](https://github.com/inspec/inspec/pull/5341) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update hashie requirement from ~&gt; 3.4 to &gt;= 3.4, &lt; 5.0 [#5348](https://github.com/inspec/inspec/pull/5348) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update tomlrb requirement from ~&gt; 1.2.0 to &gt;= 1.2, &lt; 2.1 [#5350](https://github.com/inspec/inspec/pull/5350) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update simplecov requirement from ~&gt; 0.10, &lt;= 0.18.2 to ~&gt; 0.18 [#5351](https://github.com/inspec/inspec/pull/5351) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update rubyzip requirement from ~&gt; 1.2, &gt;= 1.2.2 to &gt;= 1.2.2, &lt; 3.0 [#5347](https://github.com/inspec/inspec/pull/5347) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Replace DK with Workstation in docs [#5352](https://github.com/inspec/inspec/pull/5352) ([tas50](https://github.com/tas50))
+- Update faraday requirement from &gt;= 0.9.0, &lt; 1.1 to &gt;= 0.9.0, &lt; 1.2 [#5355](https://github.com/inspec/inspec/pull/5355) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Require ruby 2.5+ / allow ruby 3 [#5357](https://github.com/inspec/inspec/pull/5357) ([tas50](https://github.com/tas50))
+- Re-Enable Omnibus Builds on MacOS 10.13 [#5363](https://github.com/inspec/inspec/pull/5363) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Loosen RSpec pin to ~&gt; 3.10 [#5342](https://github.com/inspec/inspec/pull/5342) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump chefstyle to 1.5.7 [#5358](https://github.com/inspec/inspec/pull/5358) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update parslet requirement from ~&gt; 1.5 to &gt;= 1.5, &lt; 3.0 [#5354](https://github.com/inspec/inspec/pull/5354) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Remove windows test skip timebomb [#5364](https://github.com/inspec/inspec/pull/5364) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v4.24.8](https://github.com/inspec/inspec/tree/v4.24.8) (2020-12-10)
+
+#### New Features
+- InSpec Cloud: Reporting by Resource [#5241](https://github.com/inspec/inspec/pull/5241) ([Schwad](https://github.com/Schwad))
+
+#### Bug Fixes
+- Don&#39;t reload plugins if load_all is called repeatedly [#5308](https://github.com/inspec/inspec/pull/5308) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Pin rspec to 3.9 [#5297](https://github.com/inspec/inspec/pull/5297) ([james-stocks](https://github.com/james-stocks))
+- Add ed25519 support to the habitat package [#5299](https://github.com/inspec/inspec/pull/5299) ([btm](https://github.com/btm))
+- replace deprecated attributes section with inputs [#5295](https://github.com/inspec/inspec/pull/5295) ([KonradSchieban](https://github.com/KonradSchieban))
+- Bumps parallel for ruby 2.4 issue [#5304](https://github.com/inspec/inspec/pull/5304) ([Schwad](https://github.com/Schwad))
+- Update Codeowners file for Docs [#5298](https://github.com/inspec/inspec/pull/5298) ([mjingle](https://github.com/mjingle))
+- grub_conf - handle no menuentry config [#5306](https://github.com/inspec/inspec/pull/5306) ([james-stocks](https://github.com/james-stocks))
+- Update Ruby to 2.7.2 [#5281](https://github.com/inspec/inspec/pull/5281) ([tas50](https://github.com/tas50))
+- Drop EOL Ruby 2.4 from testing, Fix Ruby 2.5 Gem build [#5321](https://github.com/inspec/inspec/pull/5321) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix escaping of Windows package names [#5323](https://github.com/inspec/inspec/pull/5323) ([ramereth](https://github.com/ramereth))
+- Return arrays for wmi properties [#5314](https://github.com/inspec/inspec/pull/5314) ([alexpop](https://github.com/alexpop))
+- Reenabling Docker image builds using Dobi [#5318](https://github.com/inspec/inspec/pull/5318) ([Schwad](https://github.com/Schwad))
+- Remove Gemfile.local support to use Dependabot [#5324](https://github.com/inspec/inspec/pull/5324) ([tas50](https://github.com/tas50))
+- Remove the dependency on json_schemer [#5325](https://github.com/inspec/inspec/pull/5325) ([tas50](https://github.com/tas50))
+- Added platform-name wildcard support [#5302](https://github.com/inspec/inspec/pull/5302) ([yarick](https://github.com/yarick))
+- Fix issue Dir.home would break when HOME env absent [#5317](https://github.com/inspec/inspec/pull/5317) ([vsingh-msys](https://github.com/vsingh-msys))
+- Remove kitchen-ec2 dep + add lower floor to other kitchen deps [#5331](https://github.com/inspec/inspec/pull/5331) ([tas50](https://github.com/tas50))
+- Remove outdated / unmaintained maintainers task / docs [#5332](https://github.com/inspec/inspec/pull/5332) ([tas50](https://github.com/tas50))
+- Parallel restored Ruby 2.4 support so unpin it [#5335](https://github.com/inspec/inspec/pull/5335) ([tas50](https://github.com/tas50))
+- Remove the pin on EOL Chef releases [#5339](https://github.com/inspec/inspec/pull/5339) ([tas50](https://github.com/tas50))
+- Remove the docker releasing rake task [#5336](https://github.com/inspec/inspec/pull/5336) ([tas50](https://github.com/tas50))
+- Remove unused build-essential dep in berksfile [#5337](https://github.com/inspec/inspec/pull/5337) ([tas50](https://github.com/tas50))
+- Remove the kitchen.chef.yml file [#5338](https://github.com/inspec/inspec/pull/5338) ([tas50](https://github.com/tas50))
+
+## [v4.23.15](https://github.com/inspec/inspec/tree/v4.23.15) (2020-10-23)
+
+#### Merged Pull Requests
+- Fix &quot;Edit on GitHub&quot; links [#5268](https://github.com/inspec/inspec/pull/5268) ([IanMadd](https://github.com/IanMadd))
+- Remove thread requires as this is built in now [#5251](https://github.com/inspec/inspec/pull/5251) ([tas50](https://github.com/tas50))
+- Added another example to illustrate use for only_if [#5269](https://github.com/inspec/inspec/pull/5269) ([unixengineer](https://github.com/unixengineer))
+- Update Hugo version to 0.76.4 [#5279](https://github.com/inspec/inspec/pull/5279) ([IanMadd](https://github.com/IanMadd))
+- Ensure that we populate information about waiver expiration regardless of `run: true/false` [#5278](https://github.com/inspec/inspec/pull/5278) ([Schwad](https://github.com/Schwad))
+- Upgrade the habitat Ruby dependency to 2.6 [#5287](https://github.com/inspec/inspec/pull/5287) ([btm](https://github.com/btm))
+
 ## [v4.23.11](https://github.com/inspec/inspec/tree/v4.23.11) (2020-09-28)
 
 #### Merged Pull Requests
 - Add Chef patent URL to --help, tidy help output [#5255](https://github.com/inspec/inspec/pull/5255) ([james-stocks](https://github.com/james-stocks))
-<!-- latest_stable_release -->
 
 ## [v4.23.10](https://github.com/inspec/inspec/tree/v4.23.10) (2020-09-23)
 

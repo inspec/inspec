@@ -18,6 +18,11 @@ describe "Inspec::Resources::SshConfig" do
       _(resource.gssapiauthentication).must_equal "no"
       _(resource.GSSAPIAuthentication).must_equal "no"
     end
+
+    it "uses the first value encountered" do
+      resource = load_resource("ssh_config")
+      _(resource.HostBasedAuthentication).must_equal "yes"
+    end
   end
 
   describe "sshd_config" do

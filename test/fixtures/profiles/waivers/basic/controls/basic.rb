@@ -66,3 +66,7 @@ end
 control "17_waivered_expiry_in_future_string_not_ran" do
   describe(true) { it { should eq true } }
 end
+
+control "18_waivered_no_expiry_default_run" do
+  describe(true) { it { should eq false } }
+end

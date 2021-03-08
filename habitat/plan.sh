@@ -10,7 +10,7 @@ pkg_license=('Apache-2.0')
 pkg_deps=(
   core/coreutils
   core/git
-  core/ruby
+  core/ruby26
   core/bash
 )
 pkg_build_deps=(
@@ -55,6 +55,10 @@ do_install() {
 
   wrap_inspec_bin
 
+  # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
+  # for omnibus we also install this as part of the package
+  gem install ed25519 bcrypt_pbkdf --no-document
+
   # Certain gems (timeliness) are getting installed with world writable files
   # This is removing write bits for group and other.
   find "$GEM_HOME" -xdev -perm -0002 -type f -print 2>/dev/null | xargs -I '{}' chmod go-w '{}'
@@ -76,7 +80,7 @@ export PATH="/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH
 export GEM_HOME="$GEM_HOME"
 export GEM_PATH="$GEM_PATH"
 
-exec $(pkg_path_for core/ruby)/bin/ruby $real_bin \$@
+exec $(pkg_path_for core/ruby26)/bin/ruby $real_bin \$@
 EOF
   chmod -v 755 "$bin"
 }

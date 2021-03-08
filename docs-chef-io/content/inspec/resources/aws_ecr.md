@@ -1,6 +1,7 @@
 +++
 title = "aws_ecr resource"
 draft = false
+gh_repo = "inspec"
 platform = "aws"
 
 [menu]

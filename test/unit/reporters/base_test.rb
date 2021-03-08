@@ -2,7 +2,7 @@ require "helper"
 require "inspec/reporters"
 
 describe Inspec::Reporters::Base do
-  let(:path) { File.expand_path(File.dirname(__FILE__)) }
+  let(:path) { __dir__ }
   let(:report) do
     data = JSON.parse(File.read("test/fixtures//reporters/run_data.json"), symbolize_names: true)
     Inspec::Reporters::Base.new({ run_data: data })
