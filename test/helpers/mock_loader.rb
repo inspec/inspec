@@ -528,6 +528,7 @@ class MockLoader
 
       # http resource - windows
       "Invoke-WebRequest -Method GET -TimeoutSec 120 'https://www.example.com' | Select-Object -Property * | ConvertTo-json" => cmd.call("http-windows-remote-no-options"),
+      "Invoke-WebRequest -Method HEAD -TimeoutSec 120 'https://www.example.com' | Select-Object -Property * | ConvertTo-json" => cmd.call("http-windows-remote-head"),
       # elasticsearch resource
       "curl -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call("elasticsearch-cluster-nodes-default"),
       "curl -k -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call("elasticsearch-cluster-no-ssl"),

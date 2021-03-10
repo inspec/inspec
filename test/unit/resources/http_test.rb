@@ -244,7 +244,7 @@ describe "Inspec::Resources::Http" do
     end
   end
 
-  describe "Windows" do
+  describe "Windows-Simple" do
     let(:backend)     { MockLoader.new(:windows).backend }
     let(:http_method) { "GET" }
     let(:url)         { "https://www.example.com" }
@@ -252,6 +252,24 @@ describe "Inspec::Resources::Http" do
     let(:worker)      { Inspec::Resources::Http::Worker::Remote.new(backend, http_method, url, opts) }
 
     describe "simple HTTP request with no options" do
+      it "returns correct data" do
+        Inspec::Resources::Cmd.any_instance
+          .stubs(:exist?)
+          .returns(true)
+        _(worker.status).must_equal 200
+        _(worker.response_headers["Content-Type"]).must_equal "text/html; charset=UTF-8"
+      end
+    end
+  end
+
+  describe "Windows-Head" do
+    let(:backend)     { MockLoader.new(:windows).backend }
+    let(:http_method) { "HEAD" }
+    let(:url)         { "https://www.example.com" }
+    let(:opts)        { {} }
+    let(:worker)      { Inspec::Resources::Http::Worker::Remote.new(backend, http_method, url, opts) }
+
+    describe "simple Head request" do
       it "returns correct data" do
         Inspec::Resources::Cmd.any_instance
           .stubs(:exist?)
