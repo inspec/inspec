@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.26.17 -->
-## [v4.26.17](https://github.com/inspec/inspec/tree/v4.26.17) (2021-03-10)
+<!-- latest_release 4.27.0 -->
+## [v4.27.0](https://github.com/inspec/inspec/tree/v4.27.0) (2021-03-10)
 
-#### Merged Pull Requests
-- Clarify include matcher docs on crontab resource [#5419](https://github.com/inspec/inspec/pull/5419) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Enhancements
+- Fixes #5373 : Add option to filter empty profiles from report [#5425](https://github.com/inspec/inspec/pull/5425) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.26.13 -->
 ### Changes since 4.26.13 release
+
+#### Enhancements
+- Fixes #5373 : Add option to filter empty profiles from report [#5425](https://github.com/inspec/inspec/pull/5425) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.27.0 -->
 
 #### Merged Pull Requests
 - Clarify include matcher docs on crontab resource [#5419](https://github.com/inspec/inspec/pull/5419) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.17 -->
