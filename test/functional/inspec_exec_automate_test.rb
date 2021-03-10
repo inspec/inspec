@@ -86,11 +86,6 @@ describe "inspec exec automate" do
         _(json.keys).wont_include field
       end
 
-      # Added in InSpec v3.7.11+
-      _(json.keys).must_include "passthrough"
-      _(json["passthrough"].keys.sort).must_equal %w{another_tramp_datum projects}
-      _(json["passthrough"]["projects"]).must_equal %w{alpha beta}
-
       assert_exit_code 0, run_result
     end
   end
