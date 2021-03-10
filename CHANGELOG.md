@@ -1,19 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.26.16 -->
-## [v4.26.16](https://github.com/inspec/inspec/tree/v4.26.16) (2021-03-09)
+<!-- latest_release 4.26.17 -->
+## [v4.26.17](https://github.com/inspec/inspec/tree/v4.26.17) (2021-03-10)
 
 #### Merged Pull Requests
-- Fix backtrace occurs when using `cmp` to compare nil to an expectation [#5427](https://github.com/inspec/inspec/pull/5427) ([Vasu1105](https://github.com/Vasu1105))
-
-#### Bug Fixes
-- Add git to Docker build [#5420](https://github.com/inspec/inspec/pull/5420) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Clarify include matcher docs on crontab resource [#5419](https://github.com/inspec/inspec/pull/5419) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.26.13 -->
 ### Changes since 4.26.13 release
 
 #### Merged Pull Requests
+- Clarify include matcher docs on crontab resource [#5419](https://github.com/inspec/inspec/pull/5419) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.17 -->
 - Fix backtrace occurs when using `cmp` to compare nil to an expectation [#5427](https://github.com/inspec/inspec/pull/5427) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.26.16 -->
 - Remove .0 from macos builder name [#5413](https://github.com/inspec/inspec/pull/5413) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.15 -->
 
