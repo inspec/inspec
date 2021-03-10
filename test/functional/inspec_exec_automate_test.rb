@@ -55,11 +55,7 @@ describe "inspec exec automate" do
               "job_uuid": "test123",
               "roles": ["stuff"],
               "environment": "prod",
-              "node_name": "some_node",
-              "passthrough": {
-                "projects": ["alpha", "beta"],
-                "another_tramp_datum": "another_value"
-              }
+              "node_name": "some_node"
             }
           }
         }
