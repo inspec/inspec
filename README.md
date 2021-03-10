@@ -55,7 +55,7 @@ inspec exec test.rb -t docker://container_id
 
 ## Installation
 
-Chef InSpec requires Ruby ( >= 2.6 ). Ruby 2.5 support is limited and requires use of Bundler with an entry in the Gemfile:
+Chef InSpec requires Ruby ( >= 2.6 ). Ruby 2.5 support is limited and requires Bundler with an entry in the Gemfile:
 
 ```
   # 16.7.23 required ruby 2.6+
