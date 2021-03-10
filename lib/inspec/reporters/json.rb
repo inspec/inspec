@@ -17,7 +17,7 @@ module Inspec::Reporters
         version: run_data[:version],
       }
 
-      %w{node_name environment roles job_uuid passthrough}.each do |option|
+      %w{passthrough}.each do |option|
         output[option.to_sym] = @config[option] unless @config[option].nil?
       end
       output
