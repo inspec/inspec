@@ -55,7 +55,12 @@ inspec exec test.rb -t docker://container_id
 
 ## Installation
 
-Chef InSpec requires Ruby ( >= 2.5 ).
+Chef InSpec requires Ruby ( >= 2.6 ). Ruby 2.5 support is limited and requires Bundler with an entry in the Gemfile:
+
+```
+  # 16.7.23 required ruby 2.6+
+  gem "chef-utils", "< 16.7.23"
+```
 
 Note: Versions of Chef InSpec 4.0 and later require accepting the EULA to use. Please visit the [license acceptance page](https://docs.chef.io/chef_license_accept.html) on the Chef docs site for more information.
 

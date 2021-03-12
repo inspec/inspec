@@ -287,7 +287,7 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
   end
 
   def format_actual(actual)
-    actual = "0%o" % actual if octal?(@expected)
+    actual = "0%o" % actual if octal?(@expected) && !actual.nil?
     "\n%s\n     got: %s\n\n(compared using `cmp` matcher)\n" % [format_expectation(false), actual]
   end
 

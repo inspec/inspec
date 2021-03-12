@@ -13,6 +13,7 @@ module Inspec
       def apply_run_data_filters_to_hash
         @config[:runtime_config] = Inspec::Config.cached || {}
         apply_report_resize_options
+        filter_empty_profiles
         redact_sensitive_inputs
         suppress_diff_output
         sort_controls
@@ -33,6 +34,14 @@ module Inspec
               process_truncation(r)
             end
           end
+        end
+      end
+
+      # Filters profiles from report which don't have controls in it.
+      def filter_empty_profiles
+        runtime_config = @config[:runtime_config]
+        if runtime_config[:filter_empty_profiles] && @run_data[:profiles].count > 1
+          @run_data[:profiles].delete_if { |p| p[:controls].empty? }
         end
       end
 
