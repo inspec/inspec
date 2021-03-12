@@ -1,5 +1,6 @@
 require "functional/helper"
 require "json_schemer"
+require "tempfile"
 
 describe "inspec exec with json formatter" do
   include FunctionalHelper
@@ -467,5 +468,57 @@ describe "inspec exec with json formatter" do
       # Should skip the second control labelled "skipme" because there is a skip_control in the outer profile
       _(inner_profile_controls.count).must_equal 1
     end
+  end
+
+  describe "JSON reporter with a config" do
+    let(:config_path) do
+      @file = Tempfile.new("config.json")
+      @file.write(config_data)
+      @file.close
+      @file.path
+    end
+  
+    after do
+      @file.unlink
+    end
+  
+    let(:invocation) do
+      "exec #{complete_profile} --config #{config_path}"
+    end
+  
+    let(:run_result) { run_inspec_process(invocation) }
+
+    describe "and the config specifies passthrough data" do
+      let(:config_data) do
+        <<~END
+          {
+            "reporter": {
+              "json": {
+                "stdout": true,
+                "passthrough": {
+                  "a": 1,
+                  "b": false
+                }
+              }
+            }
+          }
+        END
+      end
+  
+      it "should include passthrough data" do
+        _(run_result.stderr).must_equal ""
+  
+        json = JSON.parse(run_result.stdout)
+  
+        %w{
+          passthrough
+        }.each do |field|
+          _(json.keys).must_include field
+        end
+  
+        assert_exit_code 0, run_result
+      end
+    end
+    
   end
 end
