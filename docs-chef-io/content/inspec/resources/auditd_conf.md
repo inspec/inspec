@@ -41,7 +41,7 @@ where
 
 This matcher will match any property listed in the `auditd.conf` configuration file. Property names and expected values are case-insensitive:
 
-- `admin_space_left`, `admin_space_left_action`, `action_mail_acct`, `disk_error_action`, `disk_full_action`, `flush`, `freq`, `log_file`, `log_format`, `max_log_file`, `max_log_file_action`, `num_logs`, `space_left`, `space_left_action`
+- `admin_space_left`, `admin_space_left_action`, `action_mail_acct`, `conf_path`, `content`, `disk_error_action`, `disk_full_action`, `flush`, `freq`, `log_file`, `log_format`, `max_log_file`, `max_log_file_action`, `num_logs`, `params`, `space_left`, `space_left_action`
 
 ## Property Examples
 
@@ -66,6 +66,10 @@ The following examples show how to use this Chef InSpec audit resource.
       its('disk_error_action') { should cmp 'halt' }
     end
 
+    describe file(auditd_conf.conf_path) do
+      its('group') { should cmp 'root' }
+    end
+  
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
