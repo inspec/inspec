@@ -164,6 +164,8 @@ module Inspec
         desc: "Use --no-diff to suppress 'diff' output of failed textual test results."
       option :sort_results_by, type: :string, default: "file", banner: "--sort-results-by=none|control|file|random",
         desc: "After normal execution order, results are sorted by control ID, or by file (default), or randomly. None uses legacy unsorted mode."
+      option :filter_empty_profiles, type: :boolean, default: false,
+        desc: "Filter empty profiles (profiles without controls) from the report."
     end
 
     def self.help(*args)

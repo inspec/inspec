@@ -55,6 +55,7 @@ describe "inspec matchers" do
       assert_cmp "happy", "happy"
       assert_cmp "HAPPY", "happy" # case insensitive
       refute_cmp "happy", "unhappy"
+      refute_cmp "happy", nil
     end
 
     it "String cmp String w/o ==" do
@@ -65,21 +66,25 @@ describe "inspec matchers" do
     it "String cmp String w/ versions " do
       assert_cmp "1.0", "1.0"
       refute_cmp "1.0.0", "1.0"
+      refute_cmp "1.0", nil
     end
 
     it "Regexp cmp String" do
       assert_cmp(/abc/, "xxx abc zzz")
       refute_cmp(/yyy/, "xxx abc zzz")
+      refute_cmp(/yyy/, nil)
     end
 
     it "Regexp cmp Int" do
       assert_cmp(/42/, 42)
       refute_cmp(/yyy/, 42)
+      refute_cmp(/yyy/, nil)
     end
 
     it "String (int) cmp Integer" do
       assert_cmp "42", 42
       refute_cmp "42", 420
+      refute_cmp "42", nil
     end
 
     it "String (bool) cmp Bool" do
@@ -89,45 +94,54 @@ describe "inspec matchers" do
       assert_cmp "false", false
       assert_cmp "FALSE", false
       refute_cmp "false", true
+      refute_cmp "false", nil
     end
 
     it "Int cmp String(int)" do
       assert_cmp 42, "42"
       refute_cmp 420, "42"
+      refute_cmp 420, nil
     end
 
     it "Int cmp String(!int)" do
       refute_cmp 42, :not_int
+      refute_cmp 42, nil
     end
 
     it "Float cmp Float" do
       assert_cmp 3.14159, 3.14159
       refute_cmp 3.14159, 42.0
+      refute_cmp 3.14159, nil
     end
 
     it "Float cmp String(float)" do
       assert_cmp 3.14159, "3.14159"
       refute_cmp 3.14159, "3.1415926"
+      refute_cmp 3.14159, nil
     end
 
     it "Float cmp String(!float)" do
       refute_cmp 3.14159, :not_float
+      refute_cmp 3.14159, nil
     end
 
     it "String cmp Symbol" do
       assert_cmp "abc", :abc
       assert_cmp "abc", :ABC
+      refute_cmp "abc", nil
     end
 
     it "String(oct) cmp Int" do
       assert_cmp "0777", 0777
       refute_cmp "0777", 0777 + 1
       refute_cmp "0999", 0 # bad octal regexp
+      refute_cmp "0777", nil
     end
 
     it "String(!oct) cmp Int" do
       obj = Object.new
       refute_cmp obj, 0x42
+      refute_cmp obj, nil
     end
 
     it "should test XXX" do
