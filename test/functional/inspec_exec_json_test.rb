@@ -499,15 +499,15 @@ describe "inspec exec with json formatter" do
       @file.close
       @file.path
     end
-  
+
     after do
       @file.unlink
     end
-  
+
     let(:invocation) do
       "exec #{complete_profile} --config #{config_path}"
     end
-  
+
     let(:run_result) { run_inspec_process(invocation) }
 
     describe "and the config specifies passthrough data" do
@@ -526,21 +526,21 @@ describe "inspec exec with json formatter" do
           }
         END
       end
-  
+
       it "should include passthrough data" do
         _(run_result.stderr).must_equal ""
-  
+
         json = JSON.parse(run_result.stdout)
-  
+
         %w{
           passthrough
         }.each do |field|
           _(json.keys).must_include field
         end
-  
+
         assert_exit_code 0, run_result
       end
     end
-    
+
   end
 end
