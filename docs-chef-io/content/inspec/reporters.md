@@ -101,7 +101,23 @@ This is the basic text base report. It includes details about which tests passed
 
 ### json
 
-This reporter includes all information about the profiles and test results in standard json format.
+This reporter includes all information about the profiles and test results in standard json format. You may optionally allow pass through arbitrary structured JSON data via a json config with the `--config` parameter like the example below.
+
+Example config:
+
+```json
+{
+    "reporter": {
+      "json": {
+        "stdout": true,
+        "passthrough": {
+          "a": 1,
+          "b": false
+        }
+      }
+    }
+}
+```
 
 ### json-min
 
