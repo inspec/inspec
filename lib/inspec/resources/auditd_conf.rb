@@ -16,6 +16,8 @@ module Inspec::Resources
 
     include FileReader
 
+    attr_reader :conf_path, :content, :params
+
     def initialize(path = nil)
       @conf_path = path || "/etc/audit/auditd.conf"
       @content = read_file_content(@conf_path)
