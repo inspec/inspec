@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.27.1 -->
-## [v4.27.1](https://github.com/inspec/inspec/tree/v4.27.1) (2021-03-10)
+<!-- latest_release 4.27.2 -->
+## [v4.27.2](https://github.com/inspec/inspec/tree/v4.27.2) (2021-03-15)
 
 #### Merged Pull Requests
-- Update README to add note about Ruby 2.5 support [#5424](https://github.com/inspec/inspec/pull/5424) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Expose conf_path, content, and params on auditd_conf [#5422](https://github.com/inspec/inspec/pull/5422) ([yarick](https://github.com/yarick))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.26.13 -->
@@ -14,6 +14,7 @@
 - Fixes #5373 : Add option to filter empty profiles from report [#5425](https://github.com/inspec/inspec/pull/5425) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.27.0 -->
 
 #### Merged Pull Requests
+- Expose conf_path, content, and params on auditd_conf [#5422](https://github.com/inspec/inspec/pull/5422) ([yarick](https://github.com/yarick)) <!-- 4.27.2 -->
 - Update README to add note about Ruby 2.5 support [#5424](https://github.com/inspec/inspec/pull/5424) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.27.1 -->
 - Clarify include matcher docs on crontab resource [#5419](https://github.com/inspec/inspec/pull/5419) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.17 -->
 - Fix backtrace occurs when using `cmp` to compare nil to an expectation [#5427](https://github.com/inspec/inspec/pull/5427) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.26.16 -->
