@@ -55,6 +55,10 @@ describe "inspec exec automate" do
               "job_uuid": "test123",
               "roles": ["stuff"],
               "environment": "prod",
+              "passthrough": {
+                "projects": ["alpha", "beta"],
+                "another_tramp_datum": "another_value"
+              },
               "node_name": "some_node"
             }
           }
@@ -74,6 +78,7 @@ describe "inspec exec automate" do
         node_name
         job_uuid
         environment
+        passthrough
         roles
       }.each do |field|
         _(json.keys).must_include field
@@ -85,6 +90,11 @@ describe "inspec exec automate" do
       ].each do |field|
         _(json.keys).wont_include field
       end
+
+      # Added in InSpec v3.7.11+
+      _(json.keys).must_include "passthrough"
+      _(json["passthrough"].keys.sort).must_equal %w{another_tramp_datum projects}
+      _(json["passthrough"]["projects"]).must_equal %w{alpha beta}
 
       assert_exit_code 0, run_result
     end
