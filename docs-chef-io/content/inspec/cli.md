@@ -163,9 +163,9 @@ inspec env
 
 Run all test files at the specified locations.
 
-loads the given profile(s) and fetches their dependencies if needed. then
+The subcommand loads the given profiles, fetches their dependencies if needed, then
 connects to the target and executes any controls contained in the profiles.
-one or more reporters are used to generate output.
+One or more reporters are used to generate the output.
 
 ```
 exit codes:
@@ -178,57 +178,57 @@ exit codes:
   172  chef license not accepted
 ```
 
-below are some examples of using `exec` with different test locations:
+Below are some examples of using `exec` with different test locations:
 
-automate:
+Chef Automate:
 ```
 inspec compliance login
 inspec exec compliance://username/linux-baseline
 ```
 
-supermarket:
+Chef Supermarket:
 ```
 inspec exec supermarket://username/linux-baseline
 ```
 
-local profile (executes all tests in `controls/`):
+Local profile (executes all tests in `controls/`):
 ```
 inspec exec /path/to/profile
 ```
 
-local single test (doesn't allow inputs or custom resources)
+Local single test (doesn't allow inputs or custom resources):
 ```
 inspec exec /path/to/a_test.rb
 ```
 
-git via ssh
+Git via SSH:
 ```
 inspec exec git@github.com:dev-sec/linux-baseline.git
 ```
 
-git via https (.git suffix is required):
+Git via HTTPS (.git suffix is required):
 ```
 inspec exec https://github.com/dev-sec/linux-baseline.git
 ```
 
-private git via https (.git suffix is required):
+Private Git via HTTPS (.git suffix is required):
 ```
 inspec exec https://api_token@github.com/dev-sec/linux-baseline.git
 ```
 
-private git via https and cached credentials (.git suffix is required):
+Private Git via HTTPS and cached credentials (.git suffix is required):
 ```
 git config credential.helper cache
 git ls-remote https://github.com/dev-sec/linux-baseline.git
 inspec exec https://github.com/dev-sec/linux-baseline.git
 ```
 
-web hosted fileshare (also supports .zip):
+Web-hosted file (also supports .zip):
 ```
 inspec exec https://webserver/linux-baseline.tar.gz
 ```
 
-web hosted fileshare with basic authentication (supports .zip):
+Web-hosted file with basic authentication (supports .zip):
 ```
 inspec exec https://username:password@webserver/linux-baseline.tar.gz
 ```
@@ -268,6 +268,8 @@ This subcommand has additional options:
     Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures.
 * ``--enable-password=ENABLE_PASSWORD``
     Password for enable mode on Cisco IOS devices.
+* ``--filter-empty-profiles``, ``--no-filter-empty-profiles``
+    Filter empty profiles (profiles without controls) from the report.
 * ``--host=HOST``
     Specify a remote host which is tested.
 * ``--input=name1=value1 name2=value2``
@@ -332,8 +334,6 @@ This subcommand has additional options:
     Whether to use disable sspi authentication, defaults to false (WinRM).
 * ``--winrm-transport=WINRM_TRANSPORT``
     Specify which transport to use, defaults to negotiate (WinRM).
-* ``--filter-empty-profiles``, ``--no-filter-empty-profiles``
-    Filter empty profiles (profiles without controls) from the report.
 
 ## help
 
