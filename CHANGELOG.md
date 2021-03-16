@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.27.2 -->
-## [v4.27.2](https://github.com/inspec/inspec/tree/v4.27.2) (2021-03-15)
+<!-- latest_release 4.27.3 -->
+## [v4.27.3](https://github.com/inspec/inspec/tree/v4.27.3) (2021-03-16)
 
 #### Merged Pull Requests
-- Expose conf_path, content, and params on auditd_conf [#5422](https://github.com/inspec/inspec/pull/5422) ([yarick](https://github.com/yarick))
+- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.18 to &gt;= 0.2.1, &lt; 0.2.19 [#5423](https://github.com/inspec/inspec/pull/5423) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.26.13 -->
@@ -14,6 +14,7 @@
 - Fixes #5373 : Add option to filter empty profiles from report [#5425](https://github.com/inspec/inspec/pull/5425) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.27.0 -->
 
 #### Merged Pull Requests
+- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.18 to &gt;= 0.2.1, &lt; 0.2.19 [#5423](https://github.com/inspec/inspec/pull/5423) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.27.3 -->
 - Expose conf_path, content, and params on auditd_conf [#5422](https://github.com/inspec/inspec/pull/5422) ([yarick](https://github.com/yarick)) <!-- 4.27.2 -->
 - Update README to add note about Ruby 2.5 support [#5424](https://github.com/inspec/inspec/pull/5424) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.27.1 -->
 - Clarify include matcher docs on crontab resource [#5419](https://github.com/inspec/inspec/pull/5419) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.17 -->
