@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.27.3 -->
-## [v4.27.3](https://github.com/inspec/inspec/tree/v4.27.3) (2021-03-16)
+<!-- latest_release 4.28.0 -->
+## [v4.28.0](https://github.com/inspec/inspec/tree/v4.28.0) (2021-03-16)
 
-#### Merged Pull Requests
-- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.18 to &gt;= 0.2.1, &lt; 0.2.19 [#5423](https://github.com/inspec/inspec/pull/5423) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+#### New Features
+- Support &#39;clear_cache&#39; [#5266](https://github.com/inspec/inspec/pull/5266) ([Schwad](https://github.com/Schwad))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.26.13 -->
 ### Changes since 4.26.13 release
+
+#### New Features
+- Support &#39;clear_cache&#39; [#5266](https://github.com/inspec/inspec/pull/5266) ([Schwad](https://github.com/Schwad)) <!-- 4.28.0 -->
 
 #### Enhancements
 - Fixes #5373 : Add option to filter empty profiles from report [#5425](https://github.com/inspec/inspec/pull/5425) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.27.0 -->
