@@ -32,14 +32,7 @@ module Inspec::Resources
 
       @command = cmd
 
-      @timeout = options[:timeout]&.to_i || Inspec::Config.cached.final_options['command_timeout']&.to_i
-      if @timeout
-        # train uses seconds but inspec advertises minutes
-        @timeout = @timeout * 60
-      else
-        warn "InSpec config is missing value for command_timeout. Defaulting to 60m"
-        @timeout = 3600
-      end
+      @timeout = options[:timeout]&.to_i || Inspec::Config.cached.final_options['command_timeout']&.to_i || 3600
 
       if options[:redact_regex]
         unless options[:redact_regex].is_a?(Regexp)
@@ -53,11 +46,11 @@ module Inspec::Resources
     end
 
     def result
-      @result ||= begin 
+      @result ||= begin
         inspec.backend.run_command(@command, timeout: @timeout)
       rescue Train::CommandTimeoutReached
         raise Inspec::Exceptions::ResourceFailed,
-              "Command `#{@command}` timed out after #{@timeout / 60} minute(s)"
+              "Command `#{@command}` timed out after #{@timeout} seconds"
       end
     end
 
