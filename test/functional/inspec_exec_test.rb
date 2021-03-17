@@ -178,6 +178,15 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     assert_exit_code 100, out
   end
 
+  it "executes only specified controls when selecting the controls by literal names" do
+    inspec("exec " + File.join(profile_path, "filter_table") + " --no-create-lockfile --controls foo")
+
+    _(stdout).must_include "\nProfile Summary: 1 successful controls, 0 control failures, 0 controls skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
   it "executes only specified controls when selecting passing controls by literal names" do
     inspec("exec " + File.join(profile_path, "filter_table") + " --no-create-lockfile --controls 2943_pass_undeclared_field_in_hash 2943_pass_irregular_row_key")
 
