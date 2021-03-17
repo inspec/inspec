@@ -190,7 +190,8 @@ Target:  local://
 
 
 Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
-Test Summary: 1 successful, 0 failures, 0 skipped"
+Test Summary: 1 successful, 0 failures, 0 skipped
+"
     _(stderr).must_equal ""
 
     assert_exit_code 0, out

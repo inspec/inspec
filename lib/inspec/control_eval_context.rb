@@ -54,7 +54,14 @@ module Inspec
     def control(id, opts = {}, &block)
       opts[:skip_only_if_eval] = @skip_only_if_eval
 
-      register_control(Inspec::Rule.new(id, profile_id, resources_dsl, opts, &block))
+      id_exist_in_list = @conf["profile"].include_controls_list.any? do |inclusion|
+        # Try to see if the inclusion is a regex, and if it matches
+        inclusion == id || (inclusion.is_a?(Regexp) && inclusion =~ id)
+      end
+
+      if id_exist_in_list || @conf["profile"].include_controls_list.empty?
+        register_control(Inspec::Rule.new(id, profile_id, resources_dsl, opts, &block))
+      end
     end
     alias rule control
 
