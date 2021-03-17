@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.28.1 -->
+## [v4.28.1](https://github.com/inspec/inspec/tree/v4.28.1) (2021-03-17)
+
+#### Merged Pull Requests
+- Minor Docs edits [#5433](https://github.com/inspec/inspec/pull/5433) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.28.0 -->
+### Changes since 4.28.0 release
+
+#### Merged Pull Requests
+- Minor Docs edits [#5433](https://github.com/inspec/inspec/pull/5433) ([IanMadd](https://github.com/IanMadd)) <!-- 4.28.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
