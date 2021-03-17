@@ -1,35 +1,33 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.28.0 -->
-## [v4.28.0](https://github.com/inspec/inspec/tree/v4.28.0) (2021-03-16)
-
-#### New Features
-- Support &#39;clear_cache&#39; [#5266](https://github.com/inspec/inspec/pull/5266) ([Schwad](https://github.com/Schwad))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.26.13 -->
-### Changes since 4.26.13 release
-
-#### New Features
-- Support &#39;clear_cache&#39; [#5266](https://github.com/inspec/inspec/pull/5266) ([Schwad](https://github.com/Schwad)) <!-- 4.28.0 -->
-
-#### Enhancements
-- Fixes #5373 : Add option to filter empty profiles from report [#5425](https://github.com/inspec/inspec/pull/5425) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.27.0 -->
-
-#### Merged Pull Requests
-- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.18 to &gt;= 0.2.1, &lt; 0.2.19 [#5423](https://github.com/inspec/inspec/pull/5423) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.27.3 -->
-- Expose conf_path, content, and params on auditd_conf [#5422](https://github.com/inspec/inspec/pull/5422) ([yarick](https://github.com/yarick)) <!-- 4.27.2 -->
-- Update README to add note about Ruby 2.5 support [#5424](https://github.com/inspec/inspec/pull/5424) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.27.1 -->
-- Clarify include matcher docs on crontab resource [#5419](https://github.com/inspec/inspec/pull/5419) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.17 -->
-- Fix backtrace occurs when using `cmp` to compare nil to an expectation [#5427](https://github.com/inspec/inspec/pull/5427) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.26.16 -->
-- Remove .0 from macos builder name [#5413](https://github.com/inspec/inspec/pull/5413) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.15 -->
-
-#### Bug Fixes
-- Add git to Docker build [#5420](https://github.com/inspec/inspec/pull/5420) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.15 -->
-- Don&#39;t pass -u on AIX in crontab command [#5418](https://github.com/inspec/inspec/pull/5418) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.26.14 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.28.0](https://github.com/inspec/inspec/tree/v4.28.0) (2021-03-17)
+
+#### New Features
+- Support &#39;clear_cache&#39; [#5266](https://github.com/inspec/inspec/pull/5266) ([Schwad](https://github.com/Schwad))
+
+#### Enhancements
+- Fixes #5373 : Add option to filter empty profiles from report [#5425](https://github.com/inspec/inspec/pull/5425) ([Vasu1105](https://github.com/Vasu1105))
+
+#### Bug Fixes
+- Don&#39;t pass -u on AIX in crontab command [#5418](https://github.com/inspec/inspec/pull/5418) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add git to Docker build [#5420](https://github.com/inspec/inspec/pull/5420) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Remove .0 from macos builder name [#5413](https://github.com/inspec/inspec/pull/5413) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix backtrace occurs when using `cmp` to compare nil to an expectation [#5427](https://github.com/inspec/inspec/pull/5427) ([Vasu1105](https://github.com/Vasu1105))
+- Clarify include matcher docs on crontab resource [#5419](https://github.com/inspec/inspec/pull/5419) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update README to add note about Ruby 2.5 support [#5424](https://github.com/inspec/inspec/pull/5424) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Expose conf_path, content, and params on auditd_conf [#5422](https://github.com/inspec/inspec/pull/5422) ([yarick](https://github.com/yarick))
+- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.18 to &gt;= 0.2.1, &lt; 0.2.19 [#5423](https://github.com/inspec/inspec/pull/5423) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+<!-- latest_stable_release -->
+
 ## [v4.26.13](https://github.com/inspec/inspec/tree/v4.26.13) (2021-02-24)
 
 #### Bug Fixes
@@ -44,7 +42,6 @@
 - Update chefstyle requirement from ~&gt; 1.5.7 to ~&gt; 1.7.1 [#5409](https://github.com/inspec/inspec/pull/5409) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 - Document the json-automate reporter [#5408](https://github.com/inspec/inspec/pull/5408) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Switch to MacOS 10.14 builder [#5415](https://github.com/inspec/inspec/pull/5415) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v4.26.4](https://github.com/inspec/inspec/tree/v4.26.4) (2021-01-27)
 
