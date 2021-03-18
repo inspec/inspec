@@ -179,19 +179,22 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   end
 
   it "executes only specified controls when selecting the controls by literal names" do
-    inspec("exec " + File.join(profile_path, "filter_table") + " --no-create-lockfile --controls foo")
-    _(stdout).must_equal "
-Profile: InSpec Profile (filter_table)
-Version: 0.1.0
-Target:  local://
+    inspec("exec " + File.join(profile_path, "controls-option-test") + " --no-create-lockfile --controls foo")
+    _(out.stdout).must_include "foo"
+    _(out.stdout).wont_include "bar"
+    _(out.stdout).wont_include "baz"
+    _(stderr).must_equal ""
 
-  ✔  foo: a thing
-     ✔  a thing is expected to cmp == \"a thing\"
+    assert_exit_code 0, out
+  end
 
-
-Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
-Test Summary: 1 successful, 0 failures, 0 skipped
-"
+  it "executes only specified controls when selecting the controls by literal names" do
+    inspec("exec " + File.join(profile_path, "controls-option-test") + " --no-create-lockfile --controls '/^11/'")
+    _(out.stdout).must_include "11_pass"
+    _(out.stdout).must_include "11_pass2"
+    _(out.stdout).wont_include "foo"
+    _(out.stdout).wont_include "bar"
+    _(out.stdout).wont_include "baz"
     _(stderr).must_equal ""
 
     assert_exit_code 0, out
