@@ -8,3 +8,4 @@ supports:
 inputs:
   - name: test_input_04
     type: numeric
+    value: 0.0
