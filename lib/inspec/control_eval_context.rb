@@ -53,9 +53,7 @@ module Inspec
 
     def control(id, opts = {}, &block)
       opts[:skip_only_if_eval] = @skip_only_if_eval
-      if control_exist_in_controls_list?(id)
-        register_control(Inspec::Rule.new(id, profile_id, resources_dsl, opts, &block))
-      elsif control_list_empty?
+      if control_exist_in_controls_list?(id) || control_list_empty?
         register_control(Inspec::Rule.new(id, profile_id, resources_dsl, opts, &block))
       end
     end
@@ -76,11 +74,10 @@ module Inspec
         res = describe(*args, &block)
       end
 
-      if control_exist_in_controls_list?(id)
-        register_control(rule, &block)
-      elsif control_list_empty?
+      if control_exist_in_controls_list?(id) || control_list_empty?
         register_control(rule, &block)
       end
+
       res
     end
 
