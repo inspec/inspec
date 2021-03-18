@@ -101,9 +101,9 @@ This is the basic text base report. It includes details about which tests passed
 
 ### json
 
-This reporter includes all information about the profiles and test results in standard json format. You may optionally pass through arbitrary structured JSON data via a json config with the `--config` parameter like the example below.
+This reporter includes all information about the profiles and test results in standard JSON format. You may optionally pass through arbitrary structured JSON data by setting a JSON configuration with the `--config` parameter. 
 
-Example config:
+For example:
 
 ```json
 {
