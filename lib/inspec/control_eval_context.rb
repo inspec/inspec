@@ -53,13 +53,9 @@ module Inspec
 
     def control(id, opts = {}, &block)
       opts[:skip_only_if_eval] = @skip_only_if_eval
-
-      id_exist_in_list = @conf["profile"].include_controls_list.any? do |inclusion|
-        # Try to see if the inclusion is a regex, and if it matches
-        inclusion == id || (inclusion.is_a?(Regexp) && inclusion =~ id)
-      end
-
-      if id_exist_in_list || @conf["profile"].include_controls_list.empty?
+      if control_exist_in_controls_list?(id)
+        register_control(Inspec::Rule.new(id, profile_id, resources_dsl, opts, &block))
+      elsif control_list_empty?
         register_control(Inspec::Rule.new(id, profile_id, resources_dsl, opts, &block))
       end
     end
@@ -75,11 +71,16 @@ module Inspec
       id = "(generated from #{loc} #{SecureRandom.hex})"
 
       res = nil
+
       rule = Inspec::Rule.new(id, profile_id, resources_dsl, {}) do
         res = describe(*args, &block)
       end
-      register_control(rule, &block)
 
+      if control_exist_in_controls_list?(id)
+        register_control(rule, &block)
+      elsif control_list_empty?
+        register_control(rule, &block)
+      end
       res
     end
 
@@ -182,6 +183,24 @@ module Inspec
         path, line = block.source_location
         "#{File.basename(path)}:#{line}"
       end
+    end
+
+    def profile_config_exist?
+      !@conf.empty? && @conf.key?("profile") && !@conf["profile"].include_controls_list.empty?
+    end
+
+    def control_list_empty?
+      !@conf.empty? && @conf.key?("profile") && @conf["profile"].include_controls_list.empty? || @conf.empty?
+    end
+
+    def control_exist_in_controls_list?(id)
+      if profile_config_exist?
+        id_exist_in_list = @conf["profile"].include_controls_list.any? do |inclusion|
+          # Try to see if the inclusion is a regex, and if it matches
+          inclusion == id || (inclusion.is_a?(Regexp) && inclusion =~ id)
+        end
+      end
+      id_exist_in_list
     end
   end
 end
