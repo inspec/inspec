@@ -225,14 +225,17 @@ module Inspec
         end
         @tests_collected = true
       end
-      filter_controls(@runner_context.all_rules, include_list)
+      @runner_context.all_rules
     end
 
-    def filter_controls(controls_array, include_list)
-      return controls_array if include_list.nil? || include_list.empty?
+    # This creates the list of controls provided in the --controls options which need to be include
+    # for evaluation.
+    def include_controls_list
+      return [] if @controls.nil? || @controls.empty?
 
+      included_controls = @controls
       # Check for anything that might be a regex in the list, and make it official
-      include_list.each_with_index do |inclusion, index|
+      included_controls.each_with_index do |inclusion, index|
         next if inclusion.is_a?(Regexp)
         # Insist the user wrap the regex in slashes to demarcate it as a regex
         next unless inclusion.start_with?("/") && inclusion.end_with?("/")
@@ -240,21 +243,14 @@ module Inspec
         inclusion = inclusion[1..-2] # Trim slashes
         begin
           re = Regexp.new(inclusion)
-          include_list[index] = re
+          included_controls[index] = re
         rescue RegexpError => e
           warn "Ignoring unparseable regex '/#{inclusion}/' in --control CLI option: #{e.message}"
-          include_list[index] = nil
+          included_controls[index] = nil
         end
       end
-      include_list.compact!
-
-      controls_array.select do |c|
-        id = ::Inspec::Rule.rule_id(c)
-        include_list.any? do |inclusion|
-          # Try to see if the inclusion is a regex, and if it matches
-          inclusion == id || (inclusion.is_a?(Regexp) && inclusion =~ id)
-        end
-      end
+      included_controls.compact!
+      included_controls
     end
 
     def load_libraries

@@ -178,6 +178,27 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     assert_exit_code 100, out
   end
 
+  it "executes only specified controls when selecting the controls by literal names" do
+    inspec("exec " + File.join(profile_path, "controls-option-test") + " --no-create-lockfile --controls foo")
+    _(out.stdout).must_include "foo"
+    _(out.stdout).wont_include "bar"
+    _(out.stdout).wont_include "only-describe"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "executes only specified controls when selecting the controls by regex" do
+    inspec("exec " + File.join(profile_path, "controls-option-test") + " --no-create-lockfile --controls '/^11_pass/'")
+    _(out.stdout).must_include "11_pass"
+    _(out.stdout).must_include "11_pass2"
+    _(out.stdout).wont_include "bar"
+    _(out.stdout).wont_include "only-describe"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
   it "executes only specified controls when selecting passing controls by literal names" do
     inspec("exec " + File.join(profile_path, "filter_table") + " --no-create-lockfile --controls 2943_pass_undeclared_field_in_hash 2943_pass_irregular_row_key")
 
