@@ -189,7 +189,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   end
 
   it "executes only specified controls when selecting the controls by regex" do
-    inspec("exec " + File.join(profile_path, "controls-option-test") + " --no-create-lockfile --controls '/^11/'")
+    inspec("exec " + File.join(profile_path, "controls-option-test") + " --no-create-lockfile --controls '/^11_pass/'")
     _(out.stdout).must_include "11_pass"
     _(out.stdout).must_include "11_pass2"
     _(out.stdout).wont_include "bar"
