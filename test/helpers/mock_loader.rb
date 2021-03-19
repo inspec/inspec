@@ -344,7 +344,7 @@ class MockLoader
       "host -t AAAA example.com" => cmd.call("host-AAAA-example.com"),
       "ping -W 1 -c 1 example.com" => cmd.call("ping-example.com"),
       # apt
-      "find /etc/apt/ -name *.list -exec sh -c 'cat {} || echo -n' \\;" => cmd.call("etc-apt"),
+      "find /etc/apt/ -name \"*.list\" -exec sh -c 'cat {} || echo -n' \\;" => cmd.call("etc-apt"),
       # iptables
       "/usr/sbin/iptables  -S" => cmd.call("iptables-s"),
       %{sh -c 'type "/usr/sbin/iptables"'} => empty.call,
