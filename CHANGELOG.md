@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.28.2 -->
-## [v4.28.2](https://github.com/inspec/inspec/tree/v4.28.2) (2021-03-19)
+<!-- latest_release 4.28.3 -->
+## [v4.28.3](https://github.com/inspec/inspec/tree/v4.28.3) (2021-03-19)
 
-#### Merged Pull Requests
-- Add quotation around -name option for apt resource to work properly with zsh [#5437](https://github.com/inspec/inspec/pull/5437) ([ymotongpoo](https://github.com/ymotongpoo))
+#### Bug Fixes
+- Fix for -controls option is not working as expected. [#5434](https://github.com/inspec/inspec/pull/5434) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.28.0 -->
 ### Changes since 4.28.0 release
+
+#### Bug Fixes
+- Fix for -controls option is not working as expected. [#5434](https://github.com/inspec/inspec/pull/5434) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.28.3 -->
 
 #### Merged Pull Requests
 - Add quotation around -name option for apt resource to work properly with zsh [#5437](https://github.com/inspec/inspec/pull/5437) ([ymotongpoo](https://github.com/ymotongpoo)) <!-- 4.28.2 -->
