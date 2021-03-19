@@ -78,7 +78,7 @@ module Inspec::Resources
       return @repo_cache if defined?(@repo_cache)
 
       # load all lists
-      cmd = inspec.command("find /etc/apt/ -name \*.list -exec sh -c 'cat {} || echo -n' \\;")
+      cmd = inspec.command("find /etc/apt/ -name \"*.list\" -exec sh -c 'cat {} || echo -n' \\;")
 
       # @see https://help.ubuntu.com/community/Repositories/CommandLine#Explanation_of_the_Repository_Format
       @repo_cache = cmd.stdout.lines.map do |raw_line|
