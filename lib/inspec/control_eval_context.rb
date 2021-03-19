@@ -53,7 +53,7 @@ module Inspec
 
     def control(id, opts = {}, &block)
       opts[:skip_only_if_eval] = @skip_only_if_eval
-      if control_exist_in_controls_list?(id) || control_list_empty?
+      if control_exist_in_controls_list?(id) || controls_list_empty?
         register_control(Inspec::Rule.new(id, profile_id, resources_dsl, opts, &block))
       end
     end
@@ -74,7 +74,7 @@ module Inspec
         res = describe(*args, &block)
       end
 
-      if control_exist_in_controls_list?(id) || control_list_empty?
+      if control_exist_in_controls_list?(id) || controls_list_empty?
         register_control(rule, &block)
       end
 
@@ -182,14 +182,17 @@ module Inspec
       end
     end
 
+    # Returns true if configuration hash is not empty and it contains the list of controls is not empty
     def profile_config_exist?
       !@conf.empty? && @conf.key?("profile") && !@conf["profile"].include_controls_list.empty?
     end
 
-    def control_list_empty?
+    # Returns true if configuration hash is empty or configuration hash does not have the list of controls that needs to be included
+    def controls_list_empty?
       !@conf.empty? && @conf.key?("profile") && @conf["profile"].include_controls_list.empty? || @conf.empty?
     end
 
+    # Check if the given control exist in the --controls option
     def control_exist_in_controls_list?(id)
       if profile_config_exist?
         id_exist_in_list = @conf["profile"].include_controls_list.any? do |inclusion|

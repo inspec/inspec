@@ -228,6 +228,8 @@ module Inspec
       @runner_context.all_rules
     end
 
+    # This creates the list of controls provided in the --controls options which need to be include
+    # for evaluation.
     def include_controls_list
       return [] if @controls.nil? || @controls.empty?
 
