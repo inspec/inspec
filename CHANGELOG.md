@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.28.1 -->
-## [v4.28.1](https://github.com/inspec/inspec/tree/v4.28.1) (2021-03-17)
+<!-- latest_release 4.28.2 -->
+## [v4.28.2](https://github.com/inspec/inspec/tree/v4.28.2) (2021-03-19)
 
 #### Merged Pull Requests
-- Minor Docs edits [#5433](https://github.com/inspec/inspec/pull/5433) ([IanMadd](https://github.com/IanMadd))
+- Add quotation around -name option for apt resource to work properly with zsh [#5437](https://github.com/inspec/inspec/pull/5437) ([ymotongpoo](https://github.com/ymotongpoo))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.28.0 -->
 ### Changes since 4.28.0 release
 
 #### Merged Pull Requests
+- Add quotation around -name option for apt resource to work properly with zsh [#5437](https://github.com/inspec/inspec/pull/5437) ([ymotongpoo](https://github.com/ymotongpoo)) <!-- 4.28.2 -->
 - Minor Docs edits [#5433](https://github.com/inspec/inspec/pull/5433) ([IanMadd](https://github.com/IanMadd)) <!-- 4.28.1 -->
 <!-- release_rollup -->
 
