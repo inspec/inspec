@@ -1,0 +1,10 @@
+name: sleepy
+title: InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: Apache-2.0
+summary: A profile that contains tests that take a long time to execute, to test the command timeout feature
+version: 0.1.0
+supports:
+  platform: os
