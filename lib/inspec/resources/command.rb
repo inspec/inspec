@@ -49,6 +49,9 @@ module Inspec::Resources
       @result ||= begin
         inspec.backend.run_command(@command, timeout: @timeout)
       rescue Train::CommandTimeoutReached
+        # Without a small sleep, the train connection gets broken
+        # We've already timed out, so a small sleep is not likely to be painful here.
+        sleep 0.1
         raise Inspec::Exceptions::ResourceFailed,
               "Command `#{@command}` timed out after #{@timeout} seconds"
       end
