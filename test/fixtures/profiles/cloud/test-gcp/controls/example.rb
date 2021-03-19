@@ -2,7 +2,7 @@
 
 title "Sample Section"
 
-gcp_project_id = attribute("gcp_project_id")
+gcp_project_id = input("gcp_project_id")
 
 # you add controls here
 control "gcp-single-region-1.0" do                                                    # A unique ID for this control

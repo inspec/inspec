@@ -2,7 +2,7 @@
 
 This example shows the implementation of an InSpec profile for AWS.
 
-##  Create a profile 
+##  Create a profile
 
 ```
 $ inspec init profile --platform aws my-profile
@@ -15,12 +15,12 @@ Creating new profile at /Users/spaterson/my-profile
  • Creating directory controls
  • Creating file controls/example.rb
  • Creating file inspec.yml
- • Creating file attributes.yml
+ • Creating file inputs.yml
  • Creating file libraries/.gitkeep
- 
+
 ```
 
-## Optionally update `attributes.yml` to point to your custom VPC
+## Optionally update `inputs.yml` to point to your custom VPC
 
 ```
 aws_vpc_id: 'custom-vpc-id'
@@ -32,11 +32,11 @@ The related control will simply be skipped if this is not provided.  See the [In
 
 ### With a VPC Identifier
 
-With a supplied VPC identifier in `attributes.yml` both of the example controls will run.  The 'aws-single-vpc-exists-check' control will only check for a VPC identifier in the currently configured AWS SDK region e.g. `eu-west-2` in the below:
+With a supplied VPC identifier in `inputs.yml` both of the example controls will run.  The 'aws-single-vpc-exists-check' control will only check for a VPC identifier in the currently configured AWS SDK region e.g. `eu-west-2` in the below:
 
 ```
 $ cd my-profile/
-$ inspec exec . -t aws://  --attrs attributes.yml
+$ inspec exec . -t aws://  --input-file=inputs.yml
 
 Profile: AWS InSpec Profile (my-profile)
 Version: 0.1.0
@@ -111,13 +111,13 @@ Test Summary: 53 successful, 0 failures, 0 skipped
 ```
 
 
-### Without Supplying a VPC Identifier 
+### Without Supplying a VPC Identifier
 
-If no VPC identifier is supplied, the 'aws-single-vpc-exists-check' control is skipped and the other control runs.  The `attributes.yml` file does not have to be specified to InSpec in this case.
+If no VPC identifier is supplied, the 'aws-single-vpc-exists-check' control is skipped and the other control runs.  The `inputs.yml` file does not have to be specified to InSpec in this case.
 
 ```
 $ cd my-profile/
-$ inspec exec . -t aws://  
+$ inspec exec . -t aws://
 
 Profile: AWS InSpec Profile (my-profile)
 Version: 0.1.0

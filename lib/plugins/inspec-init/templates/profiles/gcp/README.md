@@ -2,7 +2,7 @@
 
 This example shows the implementation of an InSpec profile for GCP that depends on the [InSpec GCP Resource Pack](https://github.com/inspec/inspec-gcp).  See the [README](https://github.com/inspec/inspec-gcp) for instructions on setting up appropriate GCP credentials.
 
-##  Create a profile 
+##  Create a profile
 
 ```
 $ inspec init profile --platform gcp my-profile
@@ -12,12 +12,12 @@ Create new profile at /Users/spaterson/my-profile
  * Create directory controls
  * Create file controls/example.rb
  * Create file inspec.yml
- * Create file attributes.yml
- * Create file libraries/.gitkeep 
- 
+ * Create file inputs.yml
+ * Create file libraries/.gitkeep
+
 ```
 
-## Update `attributes.yml` to point to your project
+## Update `inputs.yml` to point to your project
 
 ```
 gcp_project_id: 'my-gcp-project'
@@ -27,7 +27,7 @@ gcp_project_id: 'my-gcp-project'
 
 ```
 $ cd gcp-profile/
-$ inspec exec . -t gcp:// --attrs attributes.yml
+$ inspec exec . -t gcp:// --input-file=inputs.yml
 
 Profile: GCP InSpec Profile (my-profile)
 Version: 0.1.0

@@ -6,12 +6,11 @@ copyright_email: you@example.com
 license: Apache-2.0
 summary: An InSpec Compliance Profile For GCP
 version: 0.1.0
-inspec_version: '>= 2.3.5'
-attributes:
+inspec_version: '>= 4'
+inputs:
 - name: gcp_project_id
   required: true
   description: 'The GCP project identifier.'
-  type: string
 depends:
 - name: inspec-gcp
   url: https://github.com/inspec/inspec-gcp/archive/master.tar.gz
