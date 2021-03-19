@@ -182,18 +182,18 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     inspec("exec " + File.join(profile_path, "controls-option-test") + " --no-create-lockfile --controls foo")
     _(out.stdout).must_include "foo"
     _(out.stdout).wont_include "bar"
-    _(out.stdout).wont_include "baz"
+    _(out.stdout).wont_include "only-describe"
     _(stderr).must_equal ""
 
     assert_exit_code 0, out
   end
 
-  it "executes only specified controls when selecting the controls by literal names" do
+  it "executes only specified controls when selecting the controls by regex" do
     inspec("exec " + File.join(profile_path, "controls-option-test") + " --no-create-lockfile --controls '/^11/'")
     _(out.stdout).must_include "11_pass"
     _(out.stdout).must_include "11_pass2"
     _(out.stdout).wont_include "bar"
-    _(out.stdout).wont_include "baz"
+    _(out.stdout).wont_include "only-describe"
     _(stderr).must_equal ""
 
     assert_exit_code 0, out
