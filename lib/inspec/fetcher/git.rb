@@ -1,7 +1,7 @@
-require "tmpdir" unless defined?(Dir.mktmpdir)
-require "fileutils" unless defined?(FileUtils)
-require "mixlib/shellout" unless defined?(Mixlib::ShellOut)
-require "inspec/log"
+require 'tmpdir' unless defined?(Dir.mktmpdir)
+require 'fileutils' unless defined?(FileUtils)
+require 'mixlib/shellout' unless defined?(Mixlib::ShellOut)
+require 'inspec/log'
 
 module Inspec::Fetcher
   #
@@ -24,12 +24,12 @@ module Inspec::Fetcher
   # omnibus source for hints.
   #
   class Git < Inspec.fetcher(1)
-    name "git"
+    name 'git'
     priority 200
 
     def self.resolve(target, opts = {})
       if target.is_a?(String)
-        new(target, opts) if target.start_with?("git@") || target.end_with?(".git")
+        new(target, opts) if target.start_with?('git@') || target.end_with?('.git')
       elsif target.respond_to?(:has_key?) && target.key?(:git)
         new(target[:git], opts.merge(target))
       end
@@ -62,7 +62,6 @@ module Inspec::Fetcher
     def fetch(destination_path)
       @repo_directory = destination_path # Might be the cache, or vendoring, or something else
       FileUtils.mkdir_p(destination_path) unless Dir.exist?(destination_path)
-
       if cloned?
         checkout
       else
@@ -73,7 +72,7 @@ module Inspec::Fetcher
           else
             Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
                               "Moving checkout to #{destination_path}")
-            FileUtils.cp_r(working_dir + "/.", destination_path)
+            FileUtils.cp_r(working_dir + '/.', destination_path)
           end
         end
       end
@@ -99,7 +98,7 @@ module Inspec::Fetcher
     def cache_key
       return resolved_ref unless @relative_path
 
-      OpenSSL::Digest.hexdigest("SHA256", resolved_ref + @relative_path)
+      OpenSSL::Digest.hexdigest('SHA256', resolved_ref + @relative_path)
     end
 
     def archive_path
@@ -113,7 +112,7 @@ module Inspec::Fetcher
     end
 
     def update_from_opts(opts)
-      %i{branch tag ref}.map { |opt_name| update_ivar_from_opt(opt_name, opts) }.any?
+      %i[branch tag ref].map { |opt_name| update_ivar_from_opt(opt_name, opts) }.any?
     end
 
     private
@@ -126,18 +125,26 @@ module Inspec::Fetcher
                         elsif @tag
                           resolve_ref(@tag)
                         else
-                          resolve_ref("master")
+                          resolve_ref(default_ref)
                         end
+    end
+
+    def default_ref
+      shellout("git remote show #{@remote_url} | grep 'HEAD branch' | cut -d ':' -f 2").stdout&.strip
     end
 
     def resolve_ref(ref_name)
       command_string = "git ls-remote \"#{@remote_url}\" \"#{ref_name}*\""
       cmd = shellout(command_string)
-      raise(Inspec::FetcherFailure, "Profile git dependency failed for #{@remote_url} - error running '#{command_string}': #{cmd.stderr}") unless cmd.exitstatus == 0
+      unless cmd.exitstatus == 0
+        raise(Inspec::FetcherFailure,
+              "Profile git dependency failed for #{@remote_url} - error running '#{command_string}': #{cmd.stderr}")
+      end
 
       ref = parse_ls_remote(cmd.stdout, ref_name)
       unless ref
-        raise Inspec::FetcherFailure, "Profile git dependency failed - unable to resolve #{ref_name} to a specific git commit for #{@remote_url}"
+        raise Inspec::FetcherFailure,
+              "Profile git dependency failed - unable to resolve #{ref_name} to a specific git commit for #{@remote_url}"
       end
 
       ref
@@ -176,7 +183,7 @@ module Inspec::Fetcher
     end
 
     def cloned?
-      File.directory?(File.join(@repo_directory, ".git"))
+      File.directory?(File.join(@repo_directory, '.git'))
     end
 
     def clone(dir = @repo_directory)
@@ -195,7 +202,8 @@ module Inspec::Fetcher
       cmd.error!
       cmd.status
     rescue Errno::ENOENT
-      raise Inspec::FetcherFailure, "Profile git dependency failed for #{@remote_url} - to use git sources, you must have git installed."
+      raise Inspec::FetcherFailure,
+            "Profile git dependency failed for #{@remote_url} - to use git sources, you must have git installed."
     end
 
     def shellout(cmd, opts = {})
@@ -203,12 +211,12 @@ module Inspec::Fetcher
       cmd = Mixlib::ShellOut.new(cmd, opts)
       cmd.run_command
       Inspec::Log.debug("External command: completed with exit status: #{cmd.exitstatus}")
-      Inspec::Log.debug("External command: STDOUT BEGIN")
+      Inspec::Log.debug('External command: STDOUT BEGIN')
       Inspec::Log.debug(cmd.stdout)
-      Inspec::Log.debug("External command: STDOUT END")
-      Inspec::Log.debug("External command: STDERR BEGIN")
+      Inspec::Log.debug('External command: STDOUT END')
+      Inspec::Log.debug('External command: STDERR BEGIN')
       Inspec::Log.debug(cmd.stderr)
-      Inspec::Log.debug("External command: STDERR END")
+      Inspec::Log.debug('External command: STDERR END')
       cmd
     end
   end
