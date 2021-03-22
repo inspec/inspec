@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.29.0 -->
-## [v4.29.0](https://github.com/inspec/inspec/tree/v4.29.0) (2021-03-19)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Move Passthrough Config from Automate to JSON Reporter [#5430](https://github.com/inspec/inspec/pull/5430) ([tohch4](https://github.com/tohch4))
+- Update codeowners for docs [#5440](https://github.com/inspec/inspec/pull/5440) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.28.0 -->
@@ -14,6 +14,7 @@
 - Fix for -controls option is not working as expected. [#5434](https://github.com/inspec/inspec/pull/5434) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.28.3 -->
 
 #### Merged Pull Requests
+- Update codeowners for docs [#5440](https://github.com/inspec/inspec/pull/5440) ([IanMadd](https://github.com/IanMadd)) <!-- 4.29.0 -->
 - Move Passthrough Config from Automate to JSON Reporter [#5430](https://github.com/inspec/inspec/pull/5430) ([tohch4](https://github.com/tohch4)) <!-- 4.29.0 -->
 - Updates profile init for cloud platforms to use inputs [#5435](https://github.com/inspec/inspec/pull/5435) ([collinmcneese](https://github.com/collinmcneese)) <!-- 4.28.4 -->
 - Add quotation around -name option for apt resource to work properly with zsh [#5437](https://github.com/inspec/inspec/pull/5437) ([ymotongpoo](https://github.com/ymotongpoo)) <!-- 4.28.2 -->
