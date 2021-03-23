@@ -120,6 +120,8 @@ module Inspec
         desc: "Provide a ID which will be included on reports"
       option :winrm_shell_type, type: :string, default: "powershell",
         desc: "Specify a shell type for winrm (eg. 'elevated' or 'powershell')"
+      option :docker_url, type: :string,
+        desc: "Provides path to Docker API endpoint (Docker)"
     end
 
     def self.profile_options
