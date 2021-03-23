@@ -1,10 +1,11 @@
-require 'functional/helper'
-require 'fileutils'
-require 'tmpdir'
+require "functional/helper"
+require "fileutils"
+require "tmpdir"
 
-describe 'running profiles with git-based dependencies' do
+describe "running profiles with git-based dependencies" do
   include FunctionalHelper
   let(:git_profiles) { "#{profile_path}/git-fetcher" }
+  let(:git_default_main_profile_url) { "https://github.com/inspec/inspec-test-profile-default-main.git" }
 
   attr_accessor :out
 
@@ -28,7 +29,7 @@ describe 'running profiles with git-based dependencies' do
   #======================================================================#
   #                         Git Repo Setup
   #======================================================================#
-  fixture_repos = %w[basic-local git-repo-01]
+  fixture_repos = %w{basic-local git-repo-01}
 
   before(:all) do
     skip_windows! # Right now, this is due to symlinking, break executes on L24 <nickchecked>
@@ -75,21 +76,21 @@ describe 'running profiles with git-based dependencies' do
     assert_json_controls_passing(run_result)
 
     # Should know about the top-level profile and the child profile
-    assert_equal expected_profiles, (@json['profiles'].map { |p| p['name'] })
+    assert_equal expected_profiles, (@json["profiles"].map { |p| p["name"] })
 
-    controls = @json['profiles'].map { |p| p['controls'] }.flatten.map { |c| c['id'] }.uniq
+    controls = @json["profiles"].map { |p| p["controls"] }.flatten.map { |c| c["id"] }.uniq
     # Should have controls from the top-level and included child profile
     expected_controls.each { |control| assert_includes controls, control }
 
     # should not have controls from the profile defined at the top of the repo of the child profile
-    refute_includes controls, 'red-dye'
+    refute_includes controls, "red-dye"
   end
 
   #======================================================================#
   #                        Basic Git Fetching
   #======================================================================#
-  describe 'running a profile with a basic local dependency' do
-    it 'should work on a local checkout' do
+  describe "running a profile with a basic local dependency" do
+    it "should work on a local checkout" do
       run_result = run_inspec_process("exec #{git_profiles}/basic-local", json: true)
       assert_empty run_result.stderr
       assert_json_controls_passing(run_result)
@@ -109,24 +110,24 @@ describe 'running profiles with git-based dependencies' do
   #======================================================================#
 
   #------------ Happy Cases for Relative Path Support -------------------#
-  describe 'running a profile with a shallow relative path dependency' do
-    it 'should find the relative path profile and execute exactly those controls' do
-      assert_relative_fetch_works('relative-shallow', %w[relative-shallow child-01], %w[top-level-01 child-01])
+  describe "running a profile with a shallow relative path dependency" do
+    it "should find the relative path profile and execute exactly those controls" do
+      assert_relative_fetch_works("relative-shallow", %w{relative-shallow child-01}, %w{top-level-01 child-01})
     end
   end
 
-  describe 'running a profile with a deep relative path dependency' do
-    it 'should find the relative path profile and execute exactly those controls' do
-      assert_relative_fetch_works('relative-deep', %w[relative-deep child-02], %w[relative-deep-01 child-02])
+  describe "running a profile with a deep relative path dependency" do
+    it "should find the relative path profile and execute exactly those controls" do
+      assert_relative_fetch_works("relative-deep", %w{relative-deep child-02}, %w{relative-deep-01 child-02})
     end
   end
 
-  describe 'running a profile with a combination of relative path dependencies' do
-    it 'should find the relative path profiles and execute exactly those controls' do
+  describe "running a profile with a combination of relative path dependencies" do
+    it "should find the relative path profiles and execute exactly those controls" do
       assert_relative_fetch_works(
-        'relative-combo',
-        %w[relative-combo child-01 child-02],
-        %w[relative-combo-01 child-01 child-02]
+        "relative-combo",
+        %w{relative-combo child-01 child-02},
+        %w{relative-combo-01 child-01 child-02}
       )
     end
   end
@@ -134,42 +135,42 @@ describe 'running profiles with git-based dependencies' do
   #------------ Edge Cases for Relative Path Support -------------------#
 
   describe "running a profile with an '' relative path dependency" do
-    it 'should find the top-level profile in the git-referenced child profile and execute that' do
-      assert_relative_fetch_works('relative-empty', %w[relative-empty basic-local],
-                                  %w[relative-empty-01 basic-local-01])
+    it "should find the top-level profile in the git-referenced child profile and execute that" do
+      assert_relative_fetch_works("relative-empty", %w{relative-empty basic-local},
+                                  %w{relative-empty-01 basic-local-01})
     end
   end
 
-  describe 'running a profile with an ./ relative path dependency' do
-    it 'should find the top-level profile in the git-referenced child profile and execute that' do
-      assert_relative_fetch_works('relative-dot-slash', %w[relative-dot-slash basic-local],
-                                  %w[relative-dot-slash-01 basic-local-01])
+  describe "running a profile with an ./ relative path dependency" do
+    it "should find the top-level profile in the git-referenced child profile and execute that" do
+      assert_relative_fetch_works("relative-dot-slash", %w{relative-dot-slash basic-local},
+                                  %w{relative-dot-slash-01 basic-local-01})
     end
   end
 
-  describe 'running a profile with a relative path dependency that does not exist' do
-    it 'should fail gracefully' do
+  describe "running a profile with a relative path dependency that does not exist" do
+    it "should fail gracefully" do
       run_result = run_inspec_process("exec #{git_profiles}/relative-nonesuch")
       assert_empty run_result.stdout
-      refute_includes run_result.stderr, 'Errno::ENOENT' # No ugly file missing error
+      refute_includes run_result.stderr, "Errno::ENOENT" # No ugly file missing error
       assert_equal 1, run_result.stderr.lines.count # Not a giant stacktrace
       # Spot check important parts of the message
-      assert_includes run_result.stderr, 'Cannot find relative path'
-      assert_includes run_result.stderr, 'no/such/path' # the actual missing path
-      assert_includes run_result.stderr, 'profile in git repo'
+      assert_includes run_result.stderr, "Cannot find relative path"
+      assert_includes run_result.stderr, "no/such/path" # the actual missing path
+      assert_includes run_result.stderr, "profile in git repo"
       # The containing git repo (the only identifier the user will have)
-      assert_includes run_result.stderr, 'test/fixtures/profiles/git-fetcher/git-repo-01'
+      assert_includes run_result.stderr, "test/fixtures/profiles/git-fetcher/git-repo-01"
       assert_exit_code(1, run_result) # General user error
     end
   end
 
   #------------ Happy Case for default branch GIT fetching -------------------#
 
-  describe 'running a remote GIT profile' do
-    it 'should use default HEAD branch' do
-      inspec("exec #{git_profiles}/git-repo-default-main")
+  describe "running a remote GIT profile" do
+    it "should use default HEAD branch" do
+      inspec("exec #{git_default_main_profile_url}")
       assert_empty stderr
-      assert_includes stdout, 'Profile: InSpec Profile (default-main)'
+      assert_includes stdout, "Profile: InSpec Profile (default-main)"
       assert_includes stdout, "Profile Summary: 1 successful control, 0 control failures, 0 controls skipped\n"
       assert_includes stdout, "Test Summary: 2 successful, 0 failures, 0 skipped\n"
       assert_exit_code 0, out
