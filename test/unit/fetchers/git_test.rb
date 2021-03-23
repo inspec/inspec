@@ -82,8 +82,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
     end
 
     def expect_ls_remote(ref)
-      Mixlib::ShellOut.expects(:new).with("git ls-remote \"#{git_dep_dir}\" \"#{ref}*\"",
-                                          {}).returns(git_ls_remote_output)
+      Mixlib::ShellOut.expects(:new).with("git ls-remote \"#{git_dep_dir}\" \"#{ref}*\"", {}).returns(git_ls_remote_output)
     end
 
     def expect_checkout(ref, at = "test-tmp-dir")
@@ -181,8 +180,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
     end
 
     def expect_ls_remote(ref)
-      Mixlib::ShellOut.expects(:new).with("git ls-remote \"#{git_default_main}\" \"#{ref}*\"",
-                                          {}).returns(git_ls_remote_output_for_main)
+      Mixlib::ShellOut.expects(:new).with("git ls-remote \"#{git_default_main}\" \"#{ref}*\"", {}).returns(git_ls_remote_output_for_main)
     end
 
     it "resolves to the revision of main when head branch main" do
