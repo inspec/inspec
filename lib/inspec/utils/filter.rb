@@ -41,9 +41,13 @@ module FilterTable
     end
 
     def to_s
-      @original_resource.to_s
+      "#{@original_resource.to_s} (#{@original_exception.message})"
     end
     alias inspect to_s
+
+    def to_ary
+      [ to_s ]
+    end
   end
 
   class Trace
