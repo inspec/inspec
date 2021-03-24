@@ -41,10 +41,12 @@ module FilterTable
     end
 
     def to_s
-      "#{@original_resource.to_s} (#{@original_exception.message})"
+      "#{@original_resource} (#{@original_exception.message})"
     end
     alias inspect to_s
 
+    # Rspec is not able to convert FilterTable::ExceptionCatcher issue https://github.com/inspec/inspec/issues/5369
+    # which result into not showing actual exception message this allows to convert it properly.
     def to_ary
       [ to_s ]
     end
