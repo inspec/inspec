@@ -123,4 +123,15 @@ describe "filtertable functional tests" do
       expect_clean_run(controls)
     end
   end
+
+  describe "if control fails" do
+    it "should show the exact error message" do
+      controls = ["exception_catcher_test"]
+      cmd = "exec " + ft_profile_path + " --controls " + controls.join(" ") + " --no-sudo"
+      run_result = run_result_for_controls(controls)
+      outcome_hash = failed_control_test_outcomes(run_result)
+      _(outcome_hash["exception_catcher_test"]).must_include "`tags` for resource is missing"
+      assert_exit_code 100, run_result
+    end
+  end
 end
