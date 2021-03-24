@@ -36,7 +36,7 @@ module FilterTable
     # RSpec will check the object returned to see if it responds to a method
     # before calling it. We need to fake it out and tell it that it does. This
     # allows it to skip past that check and fall through to #method_missing
-    def respond_to?(_method)
+    def respond_to?(_method, include_all = false)
       true
     end
 
