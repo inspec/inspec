@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.29.2 -->
-## [v4.29.2](https://github.com/inspec/inspec/tree/v4.29.2) (2021-03-24)
+<!-- latest_release 4.29.3 -->
+## [v4.29.3](https://github.com/inspec/inspec/tree/v4.29.3) (2021-03-24)
 
-#### Bug Fixes
-- Fix for executing git profiles independent of the name of the default branch [#5438](https://github.com/inspec/inspec/pull/5438) ([Nik08](https://github.com/Nik08))
+#### Merged Pull Requests
+- Add m1 support to MacOS build list [#5432](https://github.com/inspec/inspec/pull/5432) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.28.0 -->
@@ -15,6 +15,7 @@
 - Fix for -controls option is not working as expected. [#5434](https://github.com/inspec/inspec/pull/5434) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.28.3 -->
 
 #### Merged Pull Requests
+- Add m1 support to MacOS build list [#5432](https://github.com/inspec/inspec/pull/5432) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.29.3 -->
 - Improve resource page menu titles [#5439](https://github.com/inspec/inspec/pull/5439) ([IanMadd](https://github.com/IanMadd)) <!-- 4.29.1 -->
 - Update codeowners for docs [#5440](https://github.com/inspec/inspec/pull/5440) ([IanMadd](https://github.com/IanMadd)) <!-- 4.29.0 -->
 - Move Passthrough Config from Automate to JSON Reporter [#5430](https://github.com/inspec/inspec/pull/5430) ([tohch4](https://github.com/tohch4)) <!-- 4.29.0 -->
