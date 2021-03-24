@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.29.1 -->
-## [v4.29.1](https://github.com/inspec/inspec/tree/v4.29.1) (2021-03-22)
+<!-- latest_release 4.29.2 -->
+## [v4.29.2](https://github.com/inspec/inspec/tree/v4.29.2) (2021-03-24)
 
-#### Merged Pull Requests
-- Improve resource page menu titles [#5439](https://github.com/inspec/inspec/pull/5439) ([IanMadd](https://github.com/IanMadd))
-- Update codeowners for docs [#5440](https://github.com/inspec/inspec/pull/5440) ([IanMadd](https://github.com/IanMadd))
+#### Bug Fixes
+- Fix for executing git profiles independent of the name of the default branch [#5438](https://github.com/inspec/inspec/pull/5438) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.28.0 -->
 ### Changes since 4.28.0 release
 
 #### Bug Fixes
+- Fix for executing git profiles independent of the name of the default branch [#5438](https://github.com/inspec/inspec/pull/5438) ([Nik08](https://github.com/Nik08)) <!-- 4.29.2 -->
 - Fix for -controls option is not working as expected. [#5434](https://github.com/inspec/inspec/pull/5434) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.28.3 -->
 
 #### Merged Pull Requests
