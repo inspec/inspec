@@ -60,11 +60,25 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       out
     end
 
+    let(:git_remote_head_master) do
+      out = mock
+      out.stubs(:stdout).returns("HEAD branch: master\n")
+      out.stubs(:exitstatus).returns(0)
+      out.stubs(:stderr).returns("")
+      out.stubs(:error!).returns(false)
+      out.stubs(:run_command).returns(true)
+      out
+    end
+
     before do
       # git fetcher likes to make directories, let's stub that for every test
       Dir.stubs(:mktmpdir).yields("test-tmp-dir")
       File.stubs(:directory?).with("fetchpath/.git").returns(false)
       FileUtils.stubs(:mkdir_p)
+    end
+
+    def expect_git_remote_head_master(remote_url)
+      Mixlib::ShellOut.expects(:new).with("git remote show #{remote_url}", {}).returns(git_remote_head_master)
     end
 
     def expect_ls_remote(ref)
@@ -83,7 +97,8 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       FileUtils.expects(:cp_r).with("test-tmp-dir/.", "fetchpath")
     end
 
-    it "resolves to the revision of master by default" do
+    it "resolves to the revision of master when head branch master" do
+      expect_git_remote_head_master(git_dep_dir)
       expect_ls_remote("master")
       result = fetcher.resolve({ git: git_dep_dir })
       _(result.resolved_source).must_equal({ git: git_dep_dir, ref: git_master_ref })
@@ -107,6 +122,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
     end
 
     it "fetches to the given location" do
+      expect_git_remote_head_master(git_dep_dir)
       expect_ls_remote("master")
       expect_clone
       expect_checkout(git_master_ref)
@@ -117,6 +133,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
 
     it "doesn't refetch an already cloned repo" do
       File.expects(:directory?).with("fetchpath/.git").at_least_once.returns(true)
+      expect_git_remote_head_master(git_dep_dir)
       expect_ls_remote("master")
       expect_checkout(git_master_ref, "fetchpath")
       result = fetcher.resolve({ git: git_dep_dir })
@@ -125,11 +142,52 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
 
     it "returns the repo_path that we fetched to as the archive_path" do
       File.expects(:directory?).with("fetchpath/.git").at_least_once.returns(true)
+      expect_git_remote_head_master(git_dep_dir)
       expect_ls_remote("master")
       expect_checkout(git_master_ref, "fetchpath")
       result = fetcher.resolve({ git: git_dep_dir })
       result.fetch("fetchpath")
       _(result.archive_path).must_equal "fetchpath"
+    end
+  end
+
+  describe "when given a repository with default branch main" do
+    let(:git_default_main) { "inspec-test-profile-default-main" }
+    let(:git_main_ref) { "69220a2ba6a3b276184f328e69a953e83e283323" }
+
+    let(:git_remote_head_main) do
+      out = mock
+      out.stubs(:stdout).returns("HEAD branch: main\n")
+      out.stubs(:exitstatus).returns(0)
+      out.stubs(:stderr).returns("")
+      out.stubs(:error!).returns(false)
+      out.stubs(:run_command).returns(true)
+      out
+    end
+
+    let(:git_ls_remote_output_for_main) do
+      out = mock
+      out.stubs(:stdout).returns("69220a2ba6a3b276184f328e69a953e83e283323\trefs/heads/main")
+      out.stubs(:exitstatus).returns(0)
+      out.stubs(:stderr).returns("")
+      out.stubs(:error!).returns(false)
+      out.stubs(:run_command).returns(true)
+      out
+    end
+
+    def expect_git_remote_head_main(remote_url)
+      Mixlib::ShellOut.expects(:new).with("git remote show #{remote_url}", {}).returns(git_remote_head_main)
+    end
+
+    def expect_ls_remote(ref)
+      Mixlib::ShellOut.expects(:new).with("git ls-remote \"#{git_default_main}\" \"#{ref}*\"", {}).returns(git_ls_remote_output_for_main)
+    end
+
+    it "resolves to the revision of main when head branch main" do
+      expect_git_remote_head_main(git_default_main)
+      expect_ls_remote("main")
+      result = fetcher.resolve({ git: git_default_main })
+      _(result.resolved_source).must_equal({ git: git_default_main, ref: git_main_ref })
     end
   end
 end

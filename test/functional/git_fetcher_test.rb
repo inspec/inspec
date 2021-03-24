@@ -5,6 +5,26 @@ require "tmpdir"
 describe "running profiles with git-based dependencies" do
   include FunctionalHelper
   let(:git_profiles) { "#{profile_path}/git-fetcher" }
+  let(:git_default_main_profile_url) { "https://github.com/inspec/inspec-test-profile-default-main.git" }
+
+  attr_accessor :out
+
+  def inspec(commandline, prefix = nil)
+    @stdout = @stderr = nil
+    self.out = super
+  end
+
+  def stdout
+    @stdout ||= out.stdout
+      .force_encoding(Encoding::UTF_8)
+      .gsub(/\e\[(\d+)(;\d+)*m/, "") # strip ANSI color codes
+  end
+
+  def stderr
+    @stderr ||= out.stderr
+      .force_encoding(Encoding::UTF_8)
+      .gsub(/\e\[(\d+)(;\d+)*m/, "") # strip ANSI color codes
+  end
 
   #======================================================================#
   #                         Git Repo Setup
@@ -139,6 +159,19 @@ describe "running profiles with git-based dependencies" do
       # The containing git repo (the only identifier the user will have)
       assert_includes run_result.stderr, "test/fixtures/profiles/git-fetcher/git-repo-01"
       assert_exit_code(1, run_result) # General user error
+    end
+  end
+
+  #------------ Happy Case for default branch GIT fetching -------------------#
+
+  describe "running a remote GIT profile" do
+    it "should use default HEAD branch" do
+      inspec("exec #{git_default_main_profile_url}")
+      assert_empty stderr
+      assert_includes stdout, "Profile: InSpec Profile (default-main)"
+      assert_includes stdout, "Profile Summary: 1 successful control, 0 control failures, 0 controls skipped\n"
+      assert_includes stdout, "Test Summary: 2 successful, 0 failures, 0 skipped\n"
+      assert_exit_code 0, out
     end
   end
 end
