@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.29.4 -->
+## [v4.29.4](https://github.com/inspec/inspec/tree/v4.29.4) (2021-03-25)
+
+#### Merged Pull Requests
+- Fix for Deprecation warning and FilterTable::ExceptionCatcher to show exact failure message. [#5441](https://github.com/inspec/inspec/pull/5441) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.29.3 -->
+### Changes since 4.29.3 release
+
+#### Merged Pull Requests
+- Fix for Deprecation warning and FilterTable::ExceptionCatcher to show exact failure message. [#5441](https://github.com/inspec/inspec/pull/5441) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.29.4 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
