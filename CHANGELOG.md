@@ -1,30 +1,28 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.29.3 -->
-## [v4.29.3](https://github.com/inspec/inspec/tree/v4.29.3) (2021-03-24)
-
-#### Merged Pull Requests
-- Add m1 support to MacOS build list [#5432](https://github.com/inspec/inspec/pull/5432) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.28.0 -->
-### Changes since 4.28.0 release
-
-#### Bug Fixes
-- Fix for executing git profiles independent of the name of the default branch [#5438](https://github.com/inspec/inspec/pull/5438) ([Nik08](https://github.com/Nik08)) <!-- 4.29.2 -->
-- Fix for -controls option is not working as expected. [#5434](https://github.com/inspec/inspec/pull/5434) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.28.3 -->
-
-#### Merged Pull Requests
-- Add m1 support to MacOS build list [#5432](https://github.com/inspec/inspec/pull/5432) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.29.3 -->
-- Improve resource page menu titles [#5439](https://github.com/inspec/inspec/pull/5439) ([IanMadd](https://github.com/IanMadd)) <!-- 4.29.1 -->
-- Update codeowners for docs [#5440](https://github.com/inspec/inspec/pull/5440) ([IanMadd](https://github.com/IanMadd)) <!-- 4.29.0 -->
-- Move Passthrough Config from Automate to JSON Reporter [#5430](https://github.com/inspec/inspec/pull/5430) ([tohch4](https://github.com/tohch4)) <!-- 4.29.0 -->
-- Updates profile init for cloud platforms to use inputs [#5435](https://github.com/inspec/inspec/pull/5435) ([collinmcneese](https://github.com/collinmcneese)) <!-- 4.28.4 -->
-- Add quotation around -name option for apt resource to work properly with zsh [#5437](https://github.com/inspec/inspec/pull/5437) ([ymotongpoo](https://github.com/ymotongpoo)) <!-- 4.28.2 -->
-- Minor Docs edits [#5433](https://github.com/inspec/inspec/pull/5433) ([IanMadd](https://github.com/IanMadd)) <!-- 4.28.1 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.29.3](https://github.com/inspec/inspec/tree/v4.29.3) (2021-03-25)
+
+#### Bug Fixes
+- Fix for -controls option is not working as expected. [#5434](https://github.com/inspec/inspec/pull/5434) ([Vasu1105](https://github.com/Vasu1105))
+- Fix for executing git profiles independent of the name of the default branch [#5438](https://github.com/inspec/inspec/pull/5438) ([Nik08](https://github.com/Nik08))
+
+#### Merged Pull Requests
+- Minor Docs edits [#5433](https://github.com/inspec/inspec/pull/5433) ([IanMadd](https://github.com/IanMadd))
+- Add quotation around -name option for apt resource to work properly with zsh [#5437](https://github.com/inspec/inspec/pull/5437) ([ymotongpoo](https://github.com/ymotongpoo))
+- Updates profile init for cloud platforms to use inputs [#5435](https://github.com/inspec/inspec/pull/5435) ([collinmcneese](https://github.com/collinmcneese))
+- Move Passthrough Config from Automate to JSON Reporter [#5430](https://github.com/inspec/inspec/pull/5430) ([tohch4](https://github.com/tohch4))
+- Update codeowners for docs [#5440](https://github.com/inspec/inspec/pull/5440) ([IanMadd](https://github.com/IanMadd))
+- Improve resource page menu titles [#5439](https://github.com/inspec/inspec/pull/5439) ([IanMadd](https://github.com/IanMadd))
+- Add m1 support to MacOS build list [#5432](https://github.com/inspec/inspec/pull/5432) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.28.0](https://github.com/inspec/inspec/tree/v4.28.0) (2021-03-17)
 
 #### New Features
@@ -44,7 +42,6 @@
 - Update README to add note about Ruby 2.5 support [#5424](https://github.com/inspec/inspec/pull/5424) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Expose conf_path, content, and params on auditd_conf [#5422](https://github.com/inspec/inspec/pull/5422) ([yarick](https://github.com/yarick))
 - Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.18 to &gt;= 0.2.1, &lt; 0.2.19 [#5423](https://github.com/inspec/inspec/pull/5423) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
-<!-- latest_stable_release -->
 
 ## [v4.26.13](https://github.com/inspec/inspec/tree/v4.26.13) (2021-02-24)
 
