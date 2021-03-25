@@ -1,5 +1,5 @@
 control 'exception_catcher_test' do
-  describe dummy([{'name' => 'foo'}]) do
-    its('valid?') { should eq '' }
+  describe shadow.users('root') do
+    its(:passwords) { should_not include('*') }
   end
 end

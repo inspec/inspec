@@ -10,6 +10,11 @@ describe "filtertable functional tests" do
     run_inspec_process(cmd, run_opts)
   end
 
+  def run_result_for_controls_without_sudo(controls)
+    cmd = "exec " + ft_profile_path + " --controls " + controls.join(" ") + " --no-sudo"
+    run_inspec_process(cmd, run_opts)
+  end
+
   def failed_control_test_outcomes(run_result)
     failed_controls = @json["profiles"][0]["controls"].select { |ctl| ctl["results"][0]["status"] == "failed" }
 
@@ -18,6 +23,18 @@ describe "filtertable functional tests" do
     control_hash = {}
     failed_controls.each do |ctl|
       control_hash[ctl["id"]] = ctl["results"][0]["message"]
+    end
+    control_hash
+  end
+
+  def skipped_control_test_outcomes(run_result)
+    skipped_controls = @json["profiles"][0]["controls"].select { |ctl| ctl["results"][0]["status"] == "skipped" }
+
+    # Re-package any skipped controls into a hash mapping control_id => message
+    # We will later test against this, as it provides more informative test output
+    control_hash = {}
+    skipped_controls.each do |ctl|
+      control_hash[ctl["id"]] = ctl["results"][0]["skip_message"]
     end
     control_hash
   end
@@ -127,10 +144,10 @@ describe "filtertable functional tests" do
   describe "if control fails" do
     it "should show the exact error message" do
       controls = ["exception_catcher_test"]
-      run_result = run_result_for_controls(controls)
-      outcome_hash = failed_control_test_outcomes(run_result)
-      _(outcome_hash["exception_catcher_test"]).must_include "`tags` for resource is missing"
-      assert_exit_code 100, run_result
+      run_result = run_result_for_controls_without_sudo(controls)
+      outcome_hash = skipped_control_test_outcomes(run_result)
+      _(outcome_hash["exception_catcher_test"]).must_include "Can't read file: \/etc\/shadow"
+      assert_exit_code 101, run_result
     end
   end
 end
