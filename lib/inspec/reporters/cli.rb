@@ -170,7 +170,7 @@ module Inspec::Reporters
     end
 
     def all_unique_controls
-      @unique_controls ||= begin
+      @unique_controls ||= begin # rubocop:disable Style/RedundantBegin
                              run_data[:profiles].flat_map do |profile|
                                profile[:controls]
                              end.uniq

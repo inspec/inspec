@@ -36,14 +36,20 @@ module FilterTable
     # RSpec will check the object returned to see if it responds to a method
     # before calling it. We need to fake it out and tell it that it does. This
     # allows it to skip past that check and fall through to #method_missing
-    def respond_to?(_method)
+    def respond_to?(_method, include_all = false)
       true
     end
 
     def to_s
-      @original_resource.to_s
+      "#{@original_resource} (#{@original_exception.message})"
     end
     alias inspect to_s
+
+    # Rspec is not able to convert FilterTable::ExceptionCatcher issue https://github.com/inspec/inspec/issues/5369
+    # which result into not showing actual exception message this allows to convert it properly.
+    def to_ary
+      [ to_s ]
+    end
   end
 
   class Trace
