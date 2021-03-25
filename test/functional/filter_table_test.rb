@@ -138,6 +138,7 @@ describe "filtertable functional tests" do
 
   describe "if control fails" do
     it "should show the exact error message" do
+      skip_windows!
       controls = ["exception_catcher_test"]
       run_result = run_result_for_controls(controls)
       outcome_hash = skipped_control_test_outcomes(run_result)
