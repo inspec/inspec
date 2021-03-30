@@ -95,6 +95,7 @@ describe "Inspec::Resources::JSON" do
     # stdout:empty, stderr:empty
 
     def run_json_cmd(cmd)
+      Inspec::Config.cached["command_timeout"] = 3600 # Reset to default
       quick_resource("json", :linux, command: cmd)
     end
 
