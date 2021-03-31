@@ -1,8 +1,6 @@
 # copyright: 218, The Authors
 title "Verifying loading of hashmap inputs using metadata and external file"
 
-# controls to test metadata file hash traversing
-
 control "hashmap-metadata" do
   title "Verifying loading of hashmap inputs using metadata file"
 
@@ -15,8 +13,6 @@ control "hashmap-metadata" do
     its([:metadata_nested_key_sym]) { should eq 'metadata_nested_value_sym' }
   end
 end
-
-# controls to test external attribute file hash traversing
 
 control "hashmap-external-file" do
   title "Verifying loading of hashmap inputs using external file"

@@ -4,7 +4,7 @@ maintainer: The Authors
 copyright: The Authors
 copyright_email: you@example.com
 license: Apache-2.0
-summary: A profile that checks the hash inputs using metadata file and external file.
+summary: A profile that checks loading of hashmap inputs using metadata file and external file.
 version: 0.1.0
 supports:
   platform: os

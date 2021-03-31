@@ -256,7 +256,7 @@ module Inspec
 
         data.inputs.each do |input_name, input_value|
           evt = Inspec::Input::Event.new(
-            value: input_value&.class.eql?(Hash) ? Thor::CoreExt::HashWithIndifferentAccess.new(input_value) : input_value,
+            value: input_value.is_a?(Hash) ? Thor::CoreExt::HashWithIndifferentAccess.new(input_value) : input_value,
             provider: :cli_files,
             priority: 40,
             file: path
@@ -307,7 +307,7 @@ module Inspec
     def handle_raw_input_from_metadata(input_orig, profile_name)
       input_options = input_orig.dup
       input_name = input_options.delete(:name)
-      input_options[:value] = Thor::CoreExt::HashWithIndifferentAccess.new(input_options[:value]) if input_options[:value]&.class.eql?(Hash)
+      input_options[:value] = Thor::CoreExt::HashWithIndifferentAccess.new(input_options[:value]) if input_options[:value].is_a?(Hash)
       input_options[:provider] = :profile_metadata
       input_options[:file] = File.join(profile_name, "inspec.yml")
       input_options[:priority] ||= 30
