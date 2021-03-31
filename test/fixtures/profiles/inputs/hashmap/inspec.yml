@@ -1,0 +1,17 @@
+name: hashmap
+title: InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: Apache-2.0
+summary: A profile that checks the hash inputs using metadata file and external file.
+version: 0.1.0
+supports:
+  platform: os
+inputs:
+- name: metadata_basic_key
+  value: metadata_basic_value
+- name: metadata_nested_key
+  value:
+    metadata_nested_key_str: metadata_nested_value_str
+    metadata_nested_key_sym: metadata_nested_value_sym

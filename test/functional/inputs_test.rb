@@ -6,6 +6,7 @@ require "tempfile"
 describe "inputs" do
   include FunctionalHelper
   let(:inputs_profiles_path) { File.join(profile_path, "inputs") }
+  let(:external_attributes_file_path) { "#{inputs_profiles_path}/hashmap/external_attributes.yml" }
 
   parallelize_me!
 
@@ -440,6 +441,14 @@ describe "inputs" do
       _(inputs[1]["options"]["value"]).wont_include "secret"
       _(inputs[1]["options"]["value"]).must_include "***"
       _(inputs[2]["options"]["value"]).wont_include "***" # Explicit sensitive = false
+    end
+  end
+
+  describe "when a profile is executed with external inputs and inputs defined in metadata file" do
+    it "should access the values successfully from in both input ways" do
+      result = run_inspec_process("exec #{inputs_profiles_path}/hashmap --input-file #{external_attributes_file_path}", json: true)
+      _(result.stderr).must_be_empty
+      assert_json_controls_passing(result)
     end
   end
 end
