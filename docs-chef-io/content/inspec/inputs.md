@@ -98,7 +98,7 @@ In addition, Chef InSpec supports Input Plugins, which can provide optional inte
 
 Briefly:
 
-inline DSL < metadata < ( cli-input-file or kitchen-inspec or audit-cookbook ) < cli --input
+inline DSL < metadata < ( cli-input-file or kitchen-inspec ) < cli --input
 
 In addition, for inherited profiles:
 
@@ -145,7 +145,6 @@ As packaged, Chef InSpec uses the following priority values:
 | Metadata in a wrapper cookbook         | 35       |   Yes               |
 | CLI `--input-file` option              | 40       |   No                |
 | inspec-kitchen `inputs:` section       | 40       |   No                |
-| audit cookbook `node[:audit][:inputs]` | 40       |   No                |
 | CLI `--input` option                   | 50       |   No                |
 
 ### What happened to "Attributes"?
@@ -360,7 +359,7 @@ Inspec::InputRegistry.instance.cache_inputs = false
 Required `String`. This option identifies the input.
 
 Allowed in: All. When used in DSL and Metadata, the name is unique within the
-current profile. When used in CLI input files, audit cookbook, and kitchen-inspec,
+current profile. When used in CLI input files, and kitchen-inspec,
 the input is copied across all profiles using the same name.
 
 ### Description
