@@ -89,7 +89,6 @@ As installed (without specialized plugins), Chef InSpec supports several ways of
 - Using the CLI option `--input name1=value1 name2=value2...` to read directly from the command line
 - Using the CLI option `--input-file somefile.yaml` to read inputs from files
 - In kitchen-inspec, using the `verifier/inputs` settings
-- In the Audit Cookbook, using the `node[:audit][:inputs]`
 
 In addition, Chef InSpec supports Input Plugins, which can provide optional integrations to specific key-value stores.
 
