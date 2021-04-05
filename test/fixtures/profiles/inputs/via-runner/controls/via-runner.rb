@@ -4,7 +4,7 @@ control "test_control_01" do
   end
 
   describe input("test_input_hash_string", value: { "string_key": "string_value_dsl" }) do
-    its(['string_key']) { should eq 'string_value' }
+    its(["string_key"]) { should eq "string_value" }
   end
 
   describe input("test_input_hash_symbol", value: { symbol_key: :symbol_value_dsl }) do

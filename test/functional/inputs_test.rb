@@ -455,8 +455,8 @@ describe "inputs" do
     end
   end
 
-  describe "when a profile is executed with external inputs and inputs defined in metadata file" do
-    it "should access the values successfully from both input ways" do
+  describe "when a profile is executed with inputs through external file, metadata file and profile DSL" do
+    it "should access the values successfully from all input ways" do
       result = run_inspec_process("exec #{inputs_profiles_path}/hashmap --input-file #{external_attributes_file_path}", json: true)
       _(result.stderr).must_be_empty
       assert_json_controls_passing(result)

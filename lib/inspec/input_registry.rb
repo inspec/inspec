@@ -82,6 +82,7 @@ module Inspec
     def find_or_register_input(input_name, profile_name, options = {})
       input_name = input_name.to_s
       profile_name = profile_name.to_s
+      options[:event].value = Thor::CoreExt::HashWithIndifferentAccess.new(options[:event].value) if options[:event]&.value.is_a?(Hash)
 
       if profile_alias?(profile_name) && !profile_aliases[profile_name].nil?
         alias_name = profile_name
@@ -225,7 +226,7 @@ module Inspec
       input_hash.each do |input_name, input_value|
         loc = Inspec::Input::Event.probe_stack # TODO: likely modify this to look for a kitchen.yml, if that is realistic
         evt = Inspec::Input::Event.new(
-          value: input_value.is_a?(Hash) ? Thor::CoreExt::HashWithIndifferentAccess.new(input_value) : input_value,
+          value: input_value,
           provider: :runner_api, # TODO: suss out if audit cookbook or kitchen-inspec or something unknown
           priority: 40,
           file: loc.path,
@@ -256,7 +257,7 @@ module Inspec
 
         data.inputs.each do |input_name, input_value|
           evt = Inspec::Input::Event.new(
-            value: input_value.is_a?(Hash) ? Thor::CoreExt::HashWithIndifferentAccess.new(input_value) : input_value,
+            value: input_value,
             provider: :cli_files,
             priority: 40,
             file: path
@@ -307,7 +308,6 @@ module Inspec
     def handle_raw_input_from_metadata(input_orig, profile_name)
       input_options = input_orig.dup
       input_name = input_options.delete(:name)
-      input_options[:value] = Thor::CoreExt::HashWithIndifferentAccess.new(input_options[:value]) if input_options[:value].is_a?(Hash)
       input_options[:provider] = :profile_metadata
       input_options[:file] = File.join(profile_name, "inspec.yml")
       input_options[:priority] ||= 30
