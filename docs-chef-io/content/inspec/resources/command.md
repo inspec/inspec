@@ -138,25 +138,27 @@ Wix includes several tools -- such as `candle` (preprocesses and compiles source
 
 ### Timing Out Long-Running Commands
 
-On target platforms that support the feature, the command resource takes an option `timeout:` which specifies how long the command may run in seconds before erroring out and failing the control.
+On target platforms that support the feature, the command resource takes an optional `timeout:` parameter which specifies how long the command may run in seconds before erroring out and failing the control.
 
-    describe command("find / -owner badguy", timeout: 300) do
-      its("stdout") { should be_empty }
-    end
+```ruby
+describe command("find / -owner badguy", timeout: 300) do
+  its("stdout") { should be_empty }
+end
+```
 
 This example would run the `find` command for up to 300 seconds, then give up and fail the control if it exceeded that time.
 On supported target platforms, the default timeout is 3600 seconds (one hour).
 
-Aside from setting the value on a per-resource basis, you may also use the `--command-timeout` CLI option to globally set a command timeout. If the CLI option is used, it takes precedence over any per-resource `timeout:` options.
+Aside from setting the value on a per-resource basis, you may also use the `--command-timeout` CLI option to globally set a command timeout. The CLI option takes precedence over any per-resource `timeout:` options.
 
 Currently supported target platforms include:
- * Local Unix-like OSes, including MacOS
+ * Local Unix-like OSes, including macOS
  * SSH targets
  * Windows targets via WinRM
 
 Any target platforms not listed are not supported at this time.
 
-On unsupported platforms, the timeout value is ignored, and the command will run indefinitely.
+On unsupported platforms, the timeout value is ignored and the command will run indefinitely.
 
 ### Redacting Sensitive Commands
 
