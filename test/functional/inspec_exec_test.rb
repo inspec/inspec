@@ -1051,4 +1051,37 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       end
     end
   end
+
+  describe "when running a profile using timeouts on a command resource" do
+    let(:profile) { "#{profile_path}/timeouts" }
+
+    describe "when using the DSL command resource option" do
+      let(:run_result) { run_inspec_process("exec #{profile}") }
+
+      it "properly timesout an inlined command resource" do
+        # Command timeout not available on local windows pipe train transports
+        skip if windows?
+        _(run_result.stderr).must_be_empty
+
+        # Control with inline timeout should be interrupted correctly
+        _(run_result.stdout).must_include "Command `sleep 10; echo oops` timed out after 2 seconds"
+        # Subsequent control must still run correctly
+        _(run_result.stdout).must_include "Command: `echo hello` exit_status is expected to cmp == 0"
+      end
+    end
+
+    describe "when using the CLI option to override the command timeout" do
+      let(:run_result) { run_inspec_process("exec #{profile} --command-timeout 1") }
+      it "properly overrides the DSL setting with the CLI timeout option" do
+        # Command timeout not available on local windows pipe train transports
+        skip if windows?
+        _(run_result.stderr).must_be_empty
+
+        # Command timeout should be interrupted correctly, with CLI timeout applied
+        _(run_result.stdout).must_include "Command `sleep 10; echo oops` timed out after 1 seconds"
+        # Subsequent control must still run correctly
+        _(run_result.stdout).must_include "Command: `echo hello` exit_status is expected to cmp == 0"
+      end
+    end
+  end
 end

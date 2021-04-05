@@ -166,6 +166,9 @@ module Inspec
         desc: "After normal execution order, results are sorted by control ID, or by file (default), or randomly. None uses legacy unsorted mode."
       option :filter_empty_profiles, type: :boolean, default: false,
         desc: "Filter empty profiles (profiles without controls) from the report."
+      option :command_timeout, type: :numeric, default: 3600,
+        desc: "Maximum seconds to allow commands to run during execution. Default 3600.",
+        long_desc: "Maximum seconds to allow commands to run during execution. Default 3600. A timed out command is considered an error."
     end
 
     def self.help(*args)
