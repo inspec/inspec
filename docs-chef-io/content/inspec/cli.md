@@ -97,7 +97,7 @@ This subcommand has additional options:
 * ``--config=CONFIG``
     Read configuration from JSON file (`-` reads from stdin).
 * ``--docker-url``
-    Provides path to Docker API endpoint (Docker)
+    Provides path to Docker API endpoint (Docker).
 * ``--enable-password=ENABLE_PASSWORD``
     Password for enable mode on Cisco IOS devices.
 * ``--format=FORMAT``
