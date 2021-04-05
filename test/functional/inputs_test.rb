@@ -124,12 +124,23 @@ describe "inputs" do
 
     describe "when using the current :inputs key" do
       let(:runner_options) { common_options.merge({ inputs: { test_input_01: "value_from_api" } }) }
-
       it "finds the values and does not issue any warnings" do
         output = run_result.stdout
         refute_includes output, "DEPRECATION"
         structured_output = JSON.parse(output)
         assert_equal "passed", structured_output["profiles"][0]["controls"][0]["results"][0]["status"]
+      end
+    end
+
+    describe "when using the current :inputs key with both string and symbol key in hashes" do
+      let(:runner_options) { common_options.merge({ inputs: { test_input_01: "value_from_api", test_input_hash_string: { "string_key": "string_value" }, test_input_hash_symbol: { symbol_key: :symbol_value } } }) }
+
+      it "finds the values and runs successfully" do
+        output = run_result.stdout
+        structured_output = JSON.parse(output)
+        assert_equal "passed", structured_output["profiles"][0]["controls"][0]["results"][0]["status"]
+        assert_equal "passed", structured_output["profiles"][0]["controls"][0]["results"][1]["status"]
+        assert_equal "passed", structured_output["profiles"][0]["controls"][0]["results"][2]["status"]
       end
     end
 

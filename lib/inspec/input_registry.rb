@@ -225,7 +225,7 @@ module Inspec
       input_hash.each do |input_name, input_value|
         loc = Inspec::Input::Event.probe_stack # TODO: likely modify this to look for a kitchen.yml, if that is realistic
         evt = Inspec::Input::Event.new(
-          value: input_value,
+          value: input_value.is_a?(Hash) ? Thor::CoreExt::HashWithIndifferentAccess.new(input_value) : input_value,
           provider: :runner_api, # TODO: suss out if audit cookbook or kitchen-inspec or something unknown
           priority: 40,
           file: loc.path,
