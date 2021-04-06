@@ -212,63 +212,7 @@ module Inspec
 
         locked_dependencies.each(&:collect_tests)
 
-        # Wipe out waived controls
-        if Inspec::Config.cached["ludicrous_speed"]
-          ui = Inspec::UI.new
-          ui.red "*" * 80
-          ui.red "\n\n"
-          ui.red "--ludicrous-speed is an experimental feature that stops waived controls altogether from being read into InSpec. Use with caution."
-          ui.red "\n\n"
-          ui.red "*" * 80
-
-          ## Find the waivers file
-          # Issues:
-          # - Does not support multiple waiver files
-          # - Doesn't handle waiver file misparsing
-          # - cli_opts and instance_variable_get could be exposed
-          waiver_path = Inspec::Config.cached.instance_variable_get(:@cli_opts)["waiver_file"]&.first
-
-          ## Pull together waiver
-          if waiver_path
-            waived_controls = YAML.load_file(waiver_path).keys
-          end
-          regex_matcher = "(#{waived_controls.join('|')})"
-
-          ## Purge tests (this could be doone in next block for performance)
-          ## TODO: implement earlier with pure AST and pure autocorrect AST
-          purged_tests = {}
-          if Inspec::Config.cached["retain_waiver_data"]
-            # VERY EXPERIMENTAL, but an empty describe block at the top level
-            # of the control blocks evaluation of ruby code until later-term
-            # waivers (behind the scenes this tells RSpec to hold on and use its internals to lazy load the code). This allows current waiver-data (e.g. skips) to still
-            # be processed and rendered
-            tests.each do |key, value|
-              cleared_tests = value.split("control ").collect do |element|
-                next if element.blank?
-                if element&.match?(regex_matcher)
-                  splitlines = element.split("\n")
-                  splitlines[0] + "\ndescribe '---' do\n" + splitlines[1..-1].join("\n") + "\nend\n"
-                else
-                  element
-                end
-              end.join("control ")
-              purged_tests[key] = cleared_tests
-            end
-          else
-            tests.each do |key, value|
-              cleared_tests = value.split("control ").select do |element|
-                !element&.match?(regex_matcher)
-              end.join("control ")
-              purged_tests[key] = cleared_tests
-            end
-          end
-          tests = purged_tests
-        else
-          # Cannot really explain this at the moment. Although the above code isn't invoked
-          # it should really not create any side effects without flags. At the moment it
-          # does and self.tests needs to be manually reassigned
-          tests = self.tests
-        end
+        tests = filter_waived_controls
 
         # Collect tests
         tests.each do |path, content|
@@ -285,6 +229,58 @@ module Inspec
         @tests_collected = true
       end
       @runner_context.all_rules
+    end
+
+    # Wipe out waived controls
+    def filter_waived_controls
+      cfg = Inspec::Config.cached
+      return self.tests unless cfg["ludicrous_speed"]
+
+      ## Find the waivers file
+      # Issues:
+      # - Does not support multiple waiver files
+      # - Doesn't handle waiver file misparsing
+      # - cli_opts and instance_variable_get could be exposed
+      waiver_path = cfg.instance_variable_get(:@cli_opts)["waiver_file"]&.first
+
+      unless waiver_path
+        Inspec::Log.error "Must use --waiver-file with --ludicrous-speed"
+        Inspec::UI.new.exit(:usage_error)
+      end
+
+      ## Pull together waiver
+      waived_controls = YAML.load_file(waiver_path).keys
+      regex_matcher = "(#{waived_controls.join('|')})"
+
+      ## Purge tests (this could be doone in next block for performance)
+      ## TODO: implement earlier with pure AST and pure autocorrect AST
+      purged_tests = {}
+      if cfg["retain_waiver_data"]
+        # VERY EXPERIMENTAL, but an empty describe block at the top level
+        # of the control blocks evaluation of ruby code until later-term
+        # waivers (behind the scenes this tells RSpec to hold on and use its internals to lazy load the code). This allows current waiver-data (e.g. skips) to still
+        # be processed and rendered
+        tests.each do |key, value|
+          cleared_tests = value.split("control ").collect do |element|
+            next if element.blank?
+            if element&.match?(regex_matcher)
+              splitlines = element.split("\n")
+              splitlines[0] + "\ndescribe '---' do\n" + splitlines[1..-1].join("\n") + "\nend\n"
+            else
+              element
+            end
+          end.join("control ")
+          purged_tests[key] = cleared_tests
+        end
+      else
+        tests.each do |key, value|
+          cleared_tests = value.split("control ").select do |element|
+            !element&.match?(regex_matcher)
+          end.join("control ")
+          purged_tests[key] = cleared_tests
+        end
+      end
+      purged_tests
     end
 
     # This creates the list of controls provided in the --controls options which need to be include
