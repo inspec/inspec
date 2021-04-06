@@ -234,7 +234,7 @@ module Inspec
     # Wipe out waived controls
     def filter_waived_controls
       cfg = Inspec::Config.cached
-      return self.tests unless cfg["ludicrous_speed"]
+      return self.tests unless cfg["filter_waived_controls"]
 
       ## Find the waivers file
       # Issues:
@@ -244,7 +244,7 @@ module Inspec
       waiver_path = cfg.instance_variable_get(:@cli_opts)["waiver_file"]&.first
 
       unless waiver_path
-        Inspec::Log.error "Must use --waiver-file with --ludicrous-speed"
+        Inspec::Log.error "Must use --waiver-file with --filter-waived-controls"
         Inspec::UI.new.exit(:usage_error)
       end
 

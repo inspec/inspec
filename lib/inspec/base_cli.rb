@@ -169,11 +169,10 @@ module Inspec
       option :command_timeout, type: :numeric, default: 3600,
         desc: "Maximum seconds to allow commands to run during execution. Default 3600.",
         long_desc: "Maximum seconds to allow commands to run during execution. Default 3600. A timed out command is considered an error."
-      # TODO: Resolve how to access this in Profile.rb
-      option :ludicrous_speed, type: :boolean,
-        desc: "EXPERIMENTAL: Waived controls are never read into InSpec"
+      option :filter_waived_controls, type: :boolean,
+        desc: "Do not execute waived controls in InSpec at all. Must use with --waiver-file. Ignores `run` setting of waiver file."
       option :retain_waiver_data, type: :boolean,
-        desc: "EXPERIMENTAL: Only works in conjunction with ludicrous_speed, retains waiver data about controls that were skipped"
+        desc: "EXPERIMENTAL: Only works in conjunction with --filter-waived-controls, retains waiver data about controls that were skipped"
     end
 
     def self.help(*args)

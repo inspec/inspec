@@ -115,24 +115,22 @@ describe "waivers" do
     end
   end
 
-  describe "with --ludicrous-speed flag" do
+  describe "with --filter-waived-controls flag" do
     it "can execute and not hit failures" do
-      inspec("exec " + "#{waivers_profiles_path}/purely-broken-controls" + "--ludicrous-speed --waiver-file #{waivers_profiles_path}/purely-broken-controls/files/waivers.yml" + " --no-create-lockfile" + " --no-color")
-
+      inspec("exec " + "#{waivers_profiles_path}/purely-broken-controls" + "--filter-waived-controls --waiver-file #{waivers_profiles_path}/purely-broken-controls/files/waivers.yml" + " --no-create-lockfile" + " --no-color")
+      _(stderr).must_equal ""
       _(stdout).wont_include("Control Source Code Error")
       _(stdout).must_include "\nProfile Summary: 1 successful control, 0 control failures, 0 controls skipped\n"
-      _(stderr).must_equal ""
       assert_exit_code 0, out
     end
   end
 
   describe "with --retain-waiver-data flag" do
     it "can execute and not hit failures with exact same output as normal" do
-      inspec("exec " + "#{waivers_profiles_path}/purely-broken-controls" + " --ludicrous-speed --retain-waiver-data --waiver-file #{waivers_profiles_path}/purely-broken-controls/files/waivers.yml" + " --no-create-lockfile" + " --no-color")
-
+      inspec("exec " + "#{waivers_profiles_path}/purely-broken-controls" + " --filter-waived-controls --retain-waiver-data --waiver-file #{waivers_profiles_path}/purely-broken-controls/files/waivers.yml" + " --no-create-lockfile" + " --no-color")
+      _(stderr).must_equal ""
       _(stdout).wont_include("Control Source Code Error")
       _(stdout).must_include "\nProfile Summary: 1 successful control, 0 control failures, 2 controls skipped\n"
-      _(stderr).must_equal ""
       assert_exit_code 101, out
     end
   end
