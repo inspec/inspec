@@ -213,7 +213,6 @@ module Inspec
         locked_dependencies.each(&:collect_tests)
 
         # Wipe out waived controls
-        require 'pry'; binding.pry
         if Inspec::Config.cached["ludicrous_speed"]
           ui = Inspec::UI.new
           ui.red "*" * 80
