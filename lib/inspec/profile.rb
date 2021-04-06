@@ -237,20 +237,25 @@ module Inspec
       return self.tests unless cfg["filter_waived_controls"]
 
       ## Find the waivers file
-      # Issues:
-      # - Does not support multiple waiver files
-      # - Doesn't handle waiver file misparsing
-      # - cli_opts and instance_variable_get could be exposed
-      waiver_path = cfg.instance_variable_get(:@cli_opts)["waiver_file"]&.first
-
-      unless waiver_path
+      # - TODO: cli_opts and instance_variable_get could be exposed
+      waiver_paths = cfg.instance_variable_get(:@cli_opts)["waiver_file"]
+      if waiver_paths.blank?
         Inspec::Log.error "Must use --waiver-file with --filter-waived-controls"
         Inspec::UI.new.exit(:usage_error)
       end
 
       ## Pull together waiver
-      waived_controls = YAML.load_file(waiver_path).keys
-      regex_matcher = "(#{waived_controls.join('|')})"
+      waived_control_ids = []
+      waiver_paths.each do |waiver_path|
+        waiver_content = YAML.load_file(waiver_path)
+        unless waiver_content
+          # Note that we will have already issued a detailed warning
+          Inspec::Log.error "YAML parsing error in #{waiver_path}"
+          Inspec::UI.new.exit(:usage_error)
+        end
+        waived_control_ids << waiver_content.keys
+      end
+      control_id_regex = "(#{waived_control_ids.join('|')})"
 
       ## Purge tests (this could be doone in next block for performance)
       ## TODO: implement earlier with pure AST and pure autocorrect AST
@@ -263,7 +268,7 @@ module Inspec
         tests.each do |key, value|
           cleared_tests = value.split("control ").collect do |element|
             next if element.blank?
-            if element&.match?(regex_matcher)
+            if element&.match?(control_id_regex)
               splitlines = element.split("\n")
               splitlines[0] + "\ndescribe '---' do\n" + splitlines[1..-1].join("\n") + "\nend\n"
             else
@@ -275,7 +280,7 @@ module Inspec
       else
         tests.each do |key, value|
           cleared_tests = value.split("control ").select do |element|
-            !element&.match?(regex_matcher)
+            !element&.match?(control_id_regex)
           end.join("control ")
           purged_tests[key] = cleared_tests
         end
