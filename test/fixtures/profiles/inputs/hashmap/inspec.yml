@@ -1,17 +1,14 @@
 name: hashmap
-title: InSpec Profile
-maintainer: The Authors
-copyright: The Authors
-copyright_email: you@example.com
+title: InSpec Profile to verify hashmap inputs
+maintainer: Chef Software, Inc.
+copyright: Chef Software, Inc.
 license: Apache-2.0
-summary: A profile that checks loading of hashmap inputs using metadata file and external file.
+summary: A profile that checks loading of hashmap inputs
 version: 0.1.0
 supports:
   platform: os
 inputs:
-- name: metadata_basic_key
-  value: metadata_basic_value
-- name: metadata_nested_key
+- name: metadata_hash
   value:
-    metadata_nested_key_str: metadata_nested_value_str
-    metadata_nested_key_sym: metadata_nested_value_sym
+    metadata_hash_key_str: metadata_hash_value_str
+    metadata_hash_key_sym: metadata_hash_value_sym

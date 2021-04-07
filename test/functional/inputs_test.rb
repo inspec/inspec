@@ -6,7 +6,7 @@ require "tempfile"
 describe "inputs" do
   include FunctionalHelper
   let(:inputs_profiles_path) { File.join(profile_path, "inputs") }
-  let(:external_attributes_file_path) { "#{inputs_profiles_path}/hashmap/external_attributes.yml" }
+  let(:external_attributes_file_path) { "#{inputs_profiles_path}/hashmap/files/inputs.yml" }
 
   parallelize_me!
 

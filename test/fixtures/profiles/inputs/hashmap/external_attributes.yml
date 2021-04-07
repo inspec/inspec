@@ -1,4 +1,0 @@
-external_attribute_basic_key: external_attribute_basic_value
-external_attribute_nested_key: 
-  external_attribute_nested_key_str: external_attribute_nested_value_str
-  external_attribute_nested_key_sym: external_attribute_nested_value_sym
