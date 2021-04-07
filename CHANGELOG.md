@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.30.2 -->
-## [v4.30.2](https://github.com/inspec/inspec/tree/v4.30.2) (2021-04-07)
+<!-- latest_release 4.31.0 -->
+## [v4.31.0](https://github.com/inspec/inspec/tree/v4.31.0) (2021-04-07)
 
-#### Merged Pull Requests
-- Bug fix for loading hashmap inputs consistently [#5446](https://github.com/inspec/inspec/pull/5446) ([Nik08](https://github.com/Nik08))
+#### New Features
+- Add --docker-url CLI option [#5445](https://github.com/inspec/inspec/pull/5445) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.29.3 -->
 ### Changes since 4.29.3 release
+
+#### New Features
+- Add --docker-url CLI option [#5445](https://github.com/inspec/inspec/pull/5445) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.31.0 -->
 
 #### Merged Pull Requests
 - Bug fix for loading hashmap inputs consistently [#5446](https://github.com/inspec/inspec/pull/5446) ([Nik08](https://github.com/Nik08)) <!-- 4.30.2 -->
