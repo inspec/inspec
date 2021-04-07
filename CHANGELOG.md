@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.30.1 -->
-## [v4.30.1](https://github.com/inspec/inspec/tree/v4.30.1) (2021-04-07)
+<!-- latest_release 4.30.2 -->
+## [v4.30.2](https://github.com/inspec/inspec/tree/v4.30.2) (2021-04-07)
 
 #### Merged Pull Requests
-- Update platforms doc [#5442](https://github.com/inspec/inspec/pull/5442) ([IanMadd](https://github.com/IanMadd))
+- Bug fix for loading hashmap inputs consistently [#5446](https://github.com/inspec/inspec/pull/5446) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.29.3 -->
 ### Changes since 4.29.3 release
 
 #### Merged Pull Requests
+- Bug fix for loading hashmap inputs consistently [#5446](https://github.com/inspec/inspec/pull/5446) ([Nik08](https://github.com/Nik08)) <!-- 4.30.2 -->
 - Update platforms doc [#5442](https://github.com/inspec/inspec/pull/5442) ([IanMadd](https://github.com/IanMadd)) <!-- 4.30.1 -->
 - Add timeout option to command resource [#5443](https://github.com/inspec/inspec/pull/5443) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.30.0 -->
 - Update inputs.md [#5449](https://github.com/inspec/inspec/pull/5449) ([IanMadd](https://github.com/IanMadd)) <!-- 4.29.5 -->
