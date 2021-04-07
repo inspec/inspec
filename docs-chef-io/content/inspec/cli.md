@@ -96,6 +96,8 @@ This subcommand has additional options:
     Specifies the bastion user if applicable
 * ``--config=CONFIG``
     Read configuration from JSON file (`-` reads from stdin).
+* ``--docker-url``
+    Provides path to Docker API endpoint (Docker).
 * ``--enable-password=ENABLE_PASSWORD``
     Password for enable mode on Cisco IOS devices.
 * ``--format=FORMAT``
@@ -268,6 +270,8 @@ This subcommand has additional options:
     Write out a lockfile based on this execution (unless one already exists)
 * ``--distinct-exit``, ``--no-distinct-exit``
     Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures.
+* ``--docker-url``
+    Provides path to Docker API endpoint (Docker). Defaults to unix:///var/run/docker.sock on Unix systems and tcp://localhost:2375 on Windows.
 * ``--enable-password=ENABLE_PASSWORD``
     Password for enable mode on Cisco IOS devices.
 * ``--filter-empty-profiles``, ``--no-filter-empty-profiles``
@@ -432,6 +436,8 @@ This subcommand has additional options:
     A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell
 * ``--distinct-exit``, ``--no-distinct-exit``
     Exit with code 100 if any tests fail, and 101 if any are skipped but none failed (default).  If disabled, exit 0 on skips and 1 for failures.
+* ``--docker-url``
+    Provides path to Docker API endpoint (Docker). Defaults to unix:///var/run/docker.sock on Unix systems and tcp://localhost:2375 on Windows.
 * ``--enable-password=ENABLE_PASSWORD``
     Password for enable mode on Cisco IOS devices.
 * ``--host=HOST``
