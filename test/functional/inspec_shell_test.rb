@@ -23,7 +23,7 @@ describe "inspec shell tests" do
       out
     end
 
-    def assert_shell_c_with_inputs(code, input_cmd, input, exit_status, json = false, stderr= "")
+    def assert_shell_c_with_inputs(code, input_cmd, input, exit_status, json = false, stderr = "")
       json_suffix = " --reporter 'json'" if json
       command = "shell -c '#{code.tr("'", '\\\'')}'#{input_cmd} #{input}#{json_suffix}"
       # On darwin this value is:
