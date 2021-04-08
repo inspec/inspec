@@ -1,20 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.31.1 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v4.31.1](https://github.com/inspec/inspec/tree/v4.31.1) (2021-04-08)
 
 #### Bug Fixes
 - Use default command timeout value if timeout is 0 [#5455](https://github.com/inspec/inspec/pull/5455) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_release -->
-
-<!-- release_rollup since=4.31.0 -->
-### Changes since 4.31.0 release
-
-#### Bug Fixes
-- Use default command timeout value if timeout is 0 [#5455](https://github.com/inspec/inspec/pull/5455) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.31.1 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v4.31.0](https://github.com/inspec/inspec/tree/v4.31.0) (2021-04-07)
 
 #### New Features
@@ -26,7 +24,6 @@
 - Add timeout option to command resource [#5443](https://github.com/inspec/inspec/pull/5443) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Update platforms doc [#5442](https://github.com/inspec/inspec/pull/5442) ([IanMadd](https://github.com/IanMadd))
 - Bug fix for loading hashmap inputs consistently [#5446](https://github.com/inspec/inspec/pull/5446) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v4.29.3](https://github.com/inspec/inspec/tree/v4.29.3) (2021-03-25)
 
