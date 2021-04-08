@@ -36,6 +36,7 @@ module Inspec::Resources
       # Can access this via Inspec::InspecCLI.commands["exec"].options[:command_timeout].default,
       # but that may not be loaded for kitchen-inspec and other pure gem consumers
       default_cli_timeout = 3600
+      cli_timeout = default_cli_timeout if cli_timeout == 0 # Under test-kitchen we get a 0 timeout, which can't be a resonable value
       if cli_timeout != default_cli_timeout
         @timeout = cli_timeout
       else
