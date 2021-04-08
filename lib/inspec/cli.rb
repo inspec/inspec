@@ -328,7 +328,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :input_file, type: :array,
     desc: "Load one or more input files, a YAML file with values for the shell to use"
   option :input, type: :array, banner: "name1=value1 name2=value2",
-    desc: "Specify one or more inputs directly on the command line, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures."
+    desc: "Specify one or more inputs directly on the command line to the shell, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures."
   def shell_func
     o = config
     diagnose(o)

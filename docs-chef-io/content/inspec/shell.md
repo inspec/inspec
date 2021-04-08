@@ -230,3 +230,43 @@ $ inspec shell --format json -c 'describe file("/Users/test") do it { should exi
   }
 }
 ```
+
+## Running Chef InSpec Shell with inputs 
+
+Input option in shell subcommand would allow to more consistently and easily test and work with controls inside shell.
+
+This subcommand has following two options:
+* ``--input=name1=value1 name2=value2``
+    Specify one or more inputs directly on the command line to shell, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures.
+* ``--input-file=one two three``
+    Load one or more input files, a YAML file with values for the shell to use
+
+```bash
+$ inspec shell --input=input_name=input_value
+Welcome to the interactive InSpec Shell
+To find out how to use it, type: help
+
+inspec> control 'my_control' do
+inspec>   describe input('input_name') do
+inspec>     it { should cmp 'input_value' }
+inspec>   end
+inspec> end
+Profile: inspec-shell
+
+  ✔  my_control: input_value
+     ✔  input_value is expected to cmp == "input_value"
+
+Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
+Test Summary: 1 successful, 0 failures, 0 skipped
+inspec> exit
+```
+You may also provide inputs and values via YAML files on the command line to shell. The format can be seen below:
+
+```yaml
+input_name: input_value
+another_input: another_value
+```
+
+```bash
+$ inspec shell --input-file=<path>
+```
