@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.31.1 -->
+## [v4.31.1](https://github.com/inspec/inspec/tree/v4.31.1) (2021-04-08)
+
+#### Bug Fixes
+- Use default command timeout value if timeout is 0 [#5455](https://github.com/inspec/inspec/pull/5455) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.31.0 -->
+### Changes since 4.31.0 release
+
+#### Bug Fixes
+- Use default command timeout value if timeout is 0 [#5455](https://github.com/inspec/inspec/pull/5455) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.31.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
