@@ -117,7 +117,7 @@ describe "waivers" do
 
   describe "with --filter-waived-controls flag" do
     it "can execute and not hit failures" do
-      inspec("exec " + "#{waivers_profiles_path}/purely-broken-controls" + "--filter-waived-controls --waiver-file #{waivers_profiles_path}/purely-broken-controls/files/waivers.yml" + " --no-create-lockfile" + " --no-color")
+      inspec("exec " + "#{waivers_profiles_path}/purely-broken-controls" + " --filter-waived-controls --waiver-file #{waivers_profiles_path}/purely-broken-controls/files/waivers.yml" + " --no-create-lockfile" + " --no-color")
       _(stderr).must_equal ""
       _(stdout).wont_include("Control Source Code Error")
       _(stdout).must_include "\nProfile Summary: 1 successful control, 0 control failures, 0 controls skipped\n"
