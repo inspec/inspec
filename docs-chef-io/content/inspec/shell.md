@@ -233,9 +233,9 @@ $ inspec shell --format json -c 'describe file("/Users/test") do it { should exi
 
 ## Running Chef InSpec Shell with inputs 
 
-Input option in shell subcommand would allow to more consistently and easily test and work with controls inside shell.
+The input options for the shell command allow you to provide values to profiles that are parameterized. This allows you to work more consistently with these profiles when switching between `shell` and `exec` when using profiles that have inputs. For more details on inputs, see the [inputs reference](/inspec/inputs/).
 
-This subcommand has following two options:
+The shell command has following two input options:
 * ``--input=name1=value1 name2=value2``
     Specify one or more inputs directly on the command line to shell, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures.
 * ``--input-file=one two three``
