@@ -20,11 +20,13 @@ module Inspec::Resources
     def initialize(selinux_path = "/etc/selinux/config")
       @path = selinux_path
       cmd = inspec.command("sestatus")
+
       if cmd.exit_status != 0
         return skip_resource "#{cmd.stdout}"
       end
-      result = cmd.stdout.delete(" ").gsub(/\n/, ",").gsub(/\r/,"").downcase
-      @data = Hash[result.scan /([^:]+):([^,]+)[,$]/]
+
+      result = cmd.stdout.delete(" ").gsub(/\n/, ",").gsub(/\r/, "").downcase
+      @data = Hash[result.scan(/([^:]+):([^,]+)[,$]/)]
 
       return if inspec.os.linux?
 
@@ -37,15 +39,15 @@ module Inspec::Resources
     end
 
     def disabled?
-      @data["selinuxstatus"] == 'disabled' unless @data.empty?
+      @data["selinuxstatus"] == "disabled" unless @data.empty?
     end
 
     def enforcing?
-      @data["currentmode"] == 'enforcing' unless @data.empty?
+      @data["currentmode"] == "enforcing" unless @data.empty?
     end
 
     def permissive?
-      @data["currentmode"] == 'permissive' unless @data.empty?
+      @data["currentmode"] == "permissive" unless @data.empty?
     end
 
     def to_s
