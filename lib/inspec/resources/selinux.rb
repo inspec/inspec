@@ -6,7 +6,7 @@ module Inspec::Resources
 
     supports platform: "unix"
 
-    desc "Use selinux Inspec resource to test state of the selinux policy."
+    desc "Use selinux Inspec resource to test state/mode of the selinux policy."
 
     example <<~EXAMPLE
       describe selinux do
