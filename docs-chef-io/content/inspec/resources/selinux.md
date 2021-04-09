@@ -13,7 +13,7 @@ platform = "linux"
 
 Use the `selinux` Chef InSpec audit resource to test the state/mode of SELinux policy.
 
-SELinux resource extracts and exposes data reported by the command 'sestatus'
+selinux resource extracts and exposes data reported by the command 'sestatus'
 
 ## Availability
 
@@ -25,16 +25,57 @@ This resource is distributed along with Chef InSpec itself. You can use it autom
 
 ## Syntax
 
-An `selinux` Chef InSpec audit resource block extracts configuration settings that should be tested:
+The `selinux` Chef InSpec resource block tests the state/mode of the SELinux policy.
 
     describe selinux do
       it { should be_installed }
-      it { should be_enabled }
+      it { should_not be_disabled }
       it { should be_enforcing }
-      it { should be_permissive }
+      it { should_not be_permissive }
     end
 
-## Properties
+## Examples
 
-## Property Examples
+The following examples show how to use this Chef InSpec selinux resource.
 
+### Test if selinux is installed and enabled
+
+describe selinux do
+  it { should be_installed }
+  it { should_not be_disabled }
+end
+
+### Test if selinux is enabled and running in enforcing mode
+
+describe selinux do
+  it { should_not be_disabled }
+  it { should be_enforcing }
+end
+
+## Matchers
+
+For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+
+### be_installed
+
+The `be_installed` matcher tests if the selinux is installed on the system:
+
+    it { should be_installed }
+
+### be_disabled
+
+The `be_disabled` matcher tests if the selinux is disabled on the system:
+
+    it { should be_installed }
+
+### be_enforcing
+
+The `be_enforcing` matcher tests if the selinux mode is set to enforcing:
+
+    it { should be_installed }
+
+### be_permissive
+
+The `be_disabled` matcher tests if the selinux mode is set to permissive:
+
+    it { should be_permissive }
