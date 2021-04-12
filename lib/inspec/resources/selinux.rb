@@ -21,16 +21,13 @@ module Inspec::Resources
       cmd = inspec.command("sestatus")
 
       if cmd.exit_status != 0
-        return skip_resource "#{cmd.stderr}"
+        # `sestatus` command not found error message comes in stdout so handling both here
+        out = cmd.stdout + "\n" + cmd.stderr
+        return skip_resource "Skipping resource: #{out}"
       end
 
       result = cmd.stdout.delete(" ").gsub(/\n/, ",").gsub(/\r/, "").downcase
       @data = Hash[result.scan(/([^:]+):([^,]+)[,$]/)]
-
-      return if inspec.os.linux?
-
-      @data = []
-      skip_resource "The 'selinux' resource is not supported non linux OS."
     end
 
     def installed?
@@ -38,15 +35,15 @@ module Inspec::Resources
     end
 
     def disabled?
-      @data["selinuxstatus"] == "disabled" unless @data.empty?
+      @data["selinuxstatus"] == "disabled"
     end
 
     def enforcing?
-      @data["currentmode"] == "enforcing" unless @data.empty?
+      @data["currentmode"] == "enforcing"
     end
 
     def permissive?
-      @data["currentmode"] == "permissive" unless @data.empty?
+      @data["currentmode"] == "permissive"
     end
 
     def to_s

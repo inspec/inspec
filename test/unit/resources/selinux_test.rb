@@ -3,6 +3,11 @@ require "inspec/resource"
 require "inspec/resources/selinux"
 
 describe "Inspec::Resources::Selinux" do
+  it "verify selinux is installed" do
+    resource = load_resource("selinux", "/etc/selinux/selinux_conf")
+    _(resource.installed?).must_equal true
+  end
+
   it "verify selinux state - enforcing" do
     resource = load_resource("selinux")
     _(resource.enforcing?).must_equal true
@@ -27,11 +32,13 @@ describe "Inspec::Resources::Selinux" do
 
   it "verify selinux on windows" do
     resource = MockLoader.new(:windows).load_resource("selinux")
-    _(resource.enforcing?).must_be_nil
+    _(resource.installed?).must_equal false
+    _(resource.enforcing?).must_equal false
   end
 
   it "verify selinux on freebsd" do
     resource = MockLoader.new(:freebsd12).load_resource("selinux")
-    _(resource.enforcing?).must_be_nil
+    _(resource.installed?).must_equal false
+    _(resource.enforcing?).must_equal false
   end
 end

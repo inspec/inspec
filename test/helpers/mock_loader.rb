@@ -171,6 +171,7 @@ class MockLoader
       "/etc/cron.d/crondotd" => mockfile.call("crondotd"),
       "/etc/postfix/main.cf" => mockfile.call("main.cf"),
       "/etc/postfix/other.cf" => mockfile.call("other.cf"),
+      "/etc/selinux/selinux_conf" => mockfile.call("selinux_conf"),
     }
 
     # create all mock commands
@@ -558,6 +559,12 @@ class MockLoader
       "2e7e0d4546342cee799748ec7e2b1c87ca00afbe590fa422a7c27371eefa88f0" => cmd.call("get-wmiobject-filesystem"),
       "sestatus" => cmd.call("sestatus"),
     }
+
+    if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")
+      mock_cmds.merge!(
+          "sestatus" => empty.call
+        )
+    end
 
     # ports on linux
     # allow the ss and/or netstat commands to exist so the later mock is called
