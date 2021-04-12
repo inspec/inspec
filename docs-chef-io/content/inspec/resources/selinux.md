@@ -66,16 +66,16 @@ The `be_installed` matcher tests if the selinux is installed on the system:
 
 The `be_disabled` matcher tests if the selinux is disabled on the system:
 
-    it { should be_installed }
+    it { should be_disabled }
 
 ### be_enforcing
 
 The `be_enforcing` matcher tests if the selinux mode is set to enforcing:
 
-    it { should be_installed }
+    it { should be_enforcing }
 
 ### be_permissive
 
-The `be_disabled` matcher tests if the selinux mode is set to permissive:
+The `be_permissive` matcher tests if the selinux mode is set to permissive:
 
     it { should be_permissive }
