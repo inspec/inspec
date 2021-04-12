@@ -231,15 +231,17 @@ $ inspec shell --format json -c 'describe file("/Users/test") do it { should exi
 }
 ```
 
-## Running Chef InSpec Shell with inputs 
+## Running Chef InSpec Shell With Inputs
 
-The input options for the shell command allow you to provide values to profiles that are parameterized. This allows you to work more consistently with these profiles when switching between `shell` and `exec` when using profiles that have inputs. For more details on inputs, see the [inputs reference](/inspec/inputs/).
+With InSpec [profiles that support inputs](inspec/inputs/#which-profiles-support-inputs),
+you can set inputs using the InSpec `shell` command. This allows you to work more consistently with
+InSpec profiles when switching between the `shell` and `exec` commands.
 
-The shell command has following two input options:
-* ``--input=name1=value1 name2=value2``
-    Specify one or more inputs directly on the command line to shell, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures.
-* ``--input-file=one two three``
-    Load one or more input files, a YAML file with values for the shell to use
+For more details on inputs, see the [inputs reference](/inspec/inputs/).
+
+### Set Inputs with Command-line Options
+
+The `shell` command accepts one or more inputs in the command line as single-quoted YAML or JSON structures.
 
 ```bash
 $ inspec shell --input=input_name=input_value
@@ -260,7 +262,11 @@ Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
 Test Summary: 1 successful, 0 failures, 0 skipped
 inspec> exit
 ```
-You may also provide inputs and values via YAML files on the command line to shell. The format can be seen below:
+
+### Set Inputs with YAML File
+
+You can also save inputs and values to one or more YAML files and pass them to `shell` in the command line.
+For example:
 
 ```yaml
 input_name: input_value
@@ -268,5 +274,5 @@ another_input: another_value
 ```
 
 ```bash
-$ inspec shell --input-file=<path>
+inspec shell --input-file=<path>
 ```
