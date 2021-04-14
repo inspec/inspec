@@ -300,6 +300,8 @@ This subcommand has additional options:
     Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml
 * ``--reporter-backtrace-inclusion``, ``--no-reporter-backtrace-inclusion``
     Include a code backtrace in report data (default: true)
+* ``--reporter-include-source``
+    Include full source code of controls in the CLI report
 * ``--reporter-message-truncation=REPORTER_MESSAGE_TRUNCATION``
     Number of characters to truncate failure messages in report data to (default: no truncation)
 * ``--self-signed``, ``--no-self-signed``
