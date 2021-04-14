@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.32.0 -->
+## [v4.32.0](https://github.com/inspec/inspec/tree/v4.32.0) (2021-04-14)
+
+#### New Features
+- Added ability to pass inputs to InSpec shell using input file and cli [#5452](https://github.com/inspec/inspec/pull/5452) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.31.1 -->
+### Changes since 4.31.1 release
+
+#### New Features
+- Added ability to pass inputs to InSpec shell using input file and cli [#5452](https://github.com/inspec/inspec/pull/5452) ([Nik08](https://github.com/Nik08)) <!-- 4.32.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
