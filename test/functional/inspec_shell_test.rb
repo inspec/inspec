@@ -2,6 +2,7 @@ require "functional/helper"
 
 describe "inspec shell tests" do
   include FunctionalHelper
+  let(:input_file_from_basic_input_profile) { File.join(profile_path, "inputs", "basic", "files", "flat.yaml") }
 
   parallelize_me!
 
@@ -9,6 +10,22 @@ describe "inspec shell tests" do
     def assert_shell_c(code, exit_status, json = false, stderr = "")
       json_suffix = " --reporter 'json'" if json
       command = "shell -c '#{code.tr("'", '\\\'')}'#{json_suffix}"
+      # On darwin this value is:
+      # shell -c 'describe file(\"/Users/nickschwaderer/Documents/inspec/inspec/test/functional/inspec_shell_test.rb\") do it { should exist } end' --reporter 'json'"
+      # appears to break in windows.
+      out = inspec(command)
+
+      actual = out.stderr.gsub(/\e\[(\d+)(;\d+)*m/, "") # strip ANSI color codes
+      _(actual).must_equal stderr
+
+      assert_exit_code exit_status, out
+
+      out
+    end
+
+    def assert_shell_c_with_inputs(code, input_cmd, input, exit_status, json = false, stderr = "")
+      json_suffix = " --reporter 'json'" if json
+      command = "shell -c '#{code.tr("'", '\\\'')}'#{input_cmd} #{input}#{json_suffix}"
       # On darwin this value is:
       # shell -c 'describe file(\"/Users/nickschwaderer/Documents/inspec/inspec/test/functional/inspec_shell_test.rb\") do it { should exist } end' --reporter 'json'"
       # appears to break in windows.
@@ -177,6 +194,20 @@ describe "inspec shell tests" do
       out = assert_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 100)
       _(out.stdout).must_include "0 successful"
       _(out.stdout).must_include "1 failure"
+    end
+
+    it "loads input from external input file" do
+      skip_windows! # Breakage confirmed
+      out = assert_shell_c_with_inputs("describe input(\"a_quoted_string\") do it { should cmp \"Should not have quotes\" } end", " --input-file", input_file_from_basic_input_profile, 0)
+      _(out.stdout).must_include "1 successful"
+      _(out.stdout).must_include "0 failures"
+    end
+
+    it "loads input from input cli" do
+      skip_windows! # Breakage confirmed
+      out = assert_shell_c_with_inputs("describe input(\"test_input_01\") do it { should cmp \"value_from_cli_01\" } end", " --input", "test_input_01='value_from_cli_01'", 0)
+      _(out.stdout).must_include "1 successful"
+      _(out.stdout).must_include "0 failures"
     end
   end
 
