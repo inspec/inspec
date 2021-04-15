@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.32.1 -->
+## [v4.32.1](https://github.com/inspec/inspec/tree/v4.32.1) (2021-04-15)
+
+#### Merged Pull Requests
+- Update postgres_ident_conf.md [#5461](https://github.com/inspec/inspec/pull/5461) ([tobiasbp](https://github.com/tobiasbp))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.32.0 -->
+### Changes since 4.32.0 release
+
+#### Merged Pull Requests
+- Update postgres_ident_conf.md [#5461](https://github.com/inspec/inspec/pull/5461) ([tobiasbp](https://github.com/tobiasbp)) <!-- 4.32.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
