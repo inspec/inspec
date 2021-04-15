@@ -1084,4 +1084,35 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       end
     end
   end
+
+  describe "when using the --reporter-include-source option with the CLI reporter" do
+    let(:profile) { "#{profile_path}/sorted-results/sort-me-1" } # A profile with controls separated in multiple files
+    let(:run_result) { run_inspec_process("exec #{profile} --reporter-include-source") }
+    it "includes the control source code" do
+      _(run_result.stderr).must_be_empty
+
+      expected = %r{Control Source from .+test/fixtures/profiles/sorted-results/sort-me-1/controls/a-uvw.rb:1..6}
+      _(run_result.stdout).must_match expected
+      expected = <<EOT
+     control "w" do
+       describe "anything" do
+         it { should eq "anything" }
+       end
+     end
+EOT
+      _(run_result.stdout).must_include expected
+
+      expected = %r{Control Source from .+test/fixtures/profiles/sorted-results/sort-me-1/controls/c-rst.rb:1..6}
+      _(run_result.stdout).must_match expected
+      expected = <<EOT
+     control "r" do
+       describe "anything" do
+         it { should eq "anything" }
+       end
+     end
+EOT
+      _(run_result.stdout).must_include expected
+
+    end
+  end
 end
