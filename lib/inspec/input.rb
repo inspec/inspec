@@ -50,7 +50,6 @@ module Inspec
         :file,     # File containing the input-changing action, if known
         :line,     # Line in file containing the input-changing action, if known
         :hit,      # if action is :fetch, true if the remote source had the input
-        :pattern,  # Regex Pattern to validate input value
       ].freeze
 
       # Value has a special handler
@@ -230,6 +229,8 @@ module Inspec
         end
       end
       events << options[:event] if options.key? :event
+
+      enforce_required_validation!
       enforce_type_restriction!
       enforce_pattern_restriction!
     end
@@ -260,7 +261,6 @@ module Inspec
         end
       end
       event.value = options[:value] if options.key?(:value)
-      event.pattern = options[:pattern] if options.key?(:pattern)
       options[:event] = event
     end
 
@@ -283,8 +283,7 @@ module Inspec
         action: :create,
         provider: options[:provider],
         file: loc.path,
-        line: loc.lineno,
-        pattern: options[:pattern]
+        line: loc.lineno
       )
     end
 
@@ -310,7 +309,7 @@ module Inspec
     def value=(new_value, priority = DEFAULT_PRIORITY_FOR_VALUE_SET)
       # Inject a new Event with the new value.
       location = Event.probe_stack
-      event = Event.new(
+      events << Event.new(
         action: :set,
         provider: :value_setter,
         priority: priority,
@@ -318,14 +317,13 @@ module Inspec
         file: location.path,
         line: location.lineno
       )
-      event.pattern = pattern if pattern
-      events << event
+
+      enforce_required_validation!
       enforce_type_restriction!
       enforce_pattern_restriction!
     end
 
     def value
-      enforce_required_validation!
       current_value
     end
 
@@ -444,7 +442,6 @@ module Inspec
       end
       @pattern = pattern
     end
-
 
     def valid_numeric?(value)
       Float(value)

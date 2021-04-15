@@ -1,0 +1,14 @@
+name: metadata-pattern
+title: InSpec Profile to test :pattern flag on inputs using metadata
+maintainer: Chef Software, Inc.
+copyright: Chef Software, Inc.
+license: Apache-2.0
+summary: A profile that tests the :pattern flag on inputs
+version: 0.1.0
+supports:
+  platform: os
+inputs:
+  - name: input_value_01
+    value: 5
+    pattern: ^\d*[13579]$
+    required: true

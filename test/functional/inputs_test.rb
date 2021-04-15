@@ -462,4 +462,42 @@ describe "inputs" do
       assert_json_controls_passing(result)
     end
   end
+
+  describe "when a profile is used with input options" do
+    it "should be a success for valid values when pattern flag is passed through metadata file" do
+      result = run_inspec_process("exec #{inputs_profiles_path}/metadata-pattern", json: true)
+      _(result.stderr).must_be_empty
+      assert_json_controls_passing(result)
+    end
+
+    it "should be a success for valid values when required, type and pattern flag is passed through dsl" do
+      result = run_inspec_process("exec #{inputs_profiles_path}/dsl --controls pattern_flag_success_check required_flag_success_check type_flag_success_check", json: true)
+      _(result.stderr).must_be_empty
+      assert_json_controls_passing(result)
+    end
+
+    it "should be a failure for invalid value when required flag is passed through dsl" do
+      result = run_inspec_process("exec #{inputs_profiles_path}/dsl --controls required_flag_failure_check", json: true)
+      _(result.stderr).must_be_empty
+      output = JSON.parse(result[0])
+      assert_equal "failed", output["profiles"][0]["controls"][0]["results"][0]["status"]
+      assert_exit_code(100, result)
+    end
+
+    it "should be a failure for invalid value when type flag is passed through dsl" do
+      result = run_inspec_process("exec #{inputs_profiles_path}/dsl --controls type_flag_failure_check", json: true)
+      _(result.stderr).must_be_empty
+      output = JSON.parse(result[0])
+      assert_equal "failed", output["profiles"][0]["controls"][0]["results"][0]["status"]
+      assert_exit_code(100, result)
+    end
+
+    it "should be a failure for invalid value when pattern flag is passed through dsl" do
+      result = run_inspec_process("exec #{inputs_profiles_path}/dsl --controls pattern_flag_failure_check", json: true)
+      _(result.stderr).must_be_empty
+      output = JSON.parse(result[0])
+      assert_equal "failed", output["profiles"][0]["controls"][0]["results"][0]["status"]
+      assert_exit_code(100, result)
+    end
+  end
 end
