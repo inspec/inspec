@@ -230,7 +230,6 @@ module Inspec
       end
       events << options[:event] if options.key? :event
 
-      enforce_required_validation!
       enforce_type_restriction!
       enforce_pattern_restriction!
     end
@@ -318,12 +317,12 @@ module Inspec
         line: location.lineno
       )
 
-      enforce_required_validation!
       enforce_type_restriction!
       enforce_pattern_restriction!
     end
 
     def value
+      enforce_required_validation!
       current_value
     end
 
