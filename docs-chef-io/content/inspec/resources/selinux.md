@@ -11,9 +11,9 @@ platform = "linux"
     parent = "inspec/resources/os"
 +++
 
-Use the `selinux` Chef InSpec audit resource to test the state and mode of SELinux policy.
+Use the `selinux` Chef Inspec audit resource to test the configuration data of the SELinux policy, SELinux modules and SELinux booleans.
 
-The `selinux` resource extracts and exposes data reported by the `sestatus` command.
+The `selinux` resource extracts and exposes data reported by the `sestatus`, `semodule -lfull`and `semanage boolean -l -n` command.
 
 ## Availability
 
@@ -34,6 +34,41 @@ The `selinux` Chef InSpec resource block tests the state and mode of SELinux pol
       it { should_not be_permissive }
     end
 
+The `selinux` resource block also declares allows you to write test for many modules:
+
+    describe selinux.modules.where("zebra") do
+      it { should exist }
+      it { should be_installed }
+      it { should be_enabled }
+    end
+
+or:
+    describe selinux.modules.where(status: "installed") do
+      it { should exist }
+      its('count') { should cmp 404 }
+    end
+
+where
+
+- `.where()` may specify a specific item and value, to which the resource parameters are compared
+- `name`, `status`, `state`, `priority` are valid parameters for `modules`
+
+The `selinux` resource block also declares allows you to write test for many booleans:
+
+    describe selinux.booleans.where(name: "httpd_enable_homedirs") do
+        it { should_not be_on }
+    end
+
+or:
+
+  describe selinux.booleans.where(name: "xend_run_blktap", state: "on") do
+    it { should exist }
+    its('defaults') { should cmp "on" }
+  end
+
+- `.where()` may specify a specific item and value, to which the resource parameters are compared
+- `name`, `state`, `default` are valid parameters for `booleans`
+
 ## Examples
 
 The following examples show how to use this Chef InSpec selinux resource.
@@ -52,13 +87,18 @@ describe selinux do
   it { should be_enforcing }
 end
 
+### Test if selinux policy type
+describe selinux do
+  its('policy') { should eq "targeted"}
+end
+
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
 
 ### be_installed
 
-The `be_installed` matcher tests if the SELinux is installed on the system:
+The `be_installed` matcher tests if the SElinux policy or SElinux modules is installed on the system:
 
     it { should be_installed }
 
@@ -79,3 +119,42 @@ The `be_enforcing` matcher tests if the SELinux mode is set to enforcing:
 The `be_permissive` matcher tests if the SELinux mode is set to permissive:
 
     it { should be_permissive }
+
+### be_on
+The `be_on` matcher tests if the selinux boolean is on.
+
+### be_enabled
+The `be_enabled` matcher tests if the selinux module is enabled
+
+## Resource Parameters
+
+- `names`, `status`, `states`, `priorities`,  are valid parameters for `modules`
+
+- `names`, `status`, `states`, `defaults`,  are valid parameters for `booleans`
+
+## Resource Parameter Examples
+
+### modules
+
+`modules` returns the information about modules as returned by [semodule -lfull](https://man7.org/linux/man-pages/man8/semodule.8.html).
+
+Note: semodule -l command does not provide version information in newer versions of linux based systems like RHEL8 and Centos8 so we are not supporting that option [REF](https://access.redhat.com/solutions/2760071).
+
+describe selinux.modules do
+  its("names") { should include "zebra" }
+  its("status") { should include "installed" }
+  its("states") { should include "enabled" }
+  its("priorities") { should include "100" }
+end
+
+### booleans
+
+`booleans` returns the information about boolean as returned by [semanage boolean -l -n](https://man7.org/linux/man-pages/man8/semanage-boolean.8.html)
+
+describe selinux.booleans do
+  its("names") { should include "httpd_enable_homedirs" }
+  its("states") { should include "on" }
+  its("states") { should include "off" }
+  its("defaults") { should include "on" }
+  its("defaults") { should include "off" }
+end

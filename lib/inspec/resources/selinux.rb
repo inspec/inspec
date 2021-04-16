@@ -48,7 +48,7 @@ module Inspec::Resources
     name "selinux"
     supports platform: "linux"
 
-    desc "Use selinux Inspec resource to test state/mode of the selinux policy."
+    desc "Use selinux Chef Inspec resource to test the configuration data of the selinux policy, selinux modules and selinux booleans."
 
     example <<~EXAMPLE
       describe selinux do
@@ -56,6 +56,29 @@ module Inspec::Resources
         it { should be_disabled }
         it { should be_permissive }
         it { should be_enforcing }
+      end
+
+      describe selinux do
+        its('policy') { should eq "targeted"}
+      end
+
+      describe selinux.modules.where("zebra") do
+        it { should exist }
+        it { should be_installed }
+        it { should be_enabled }
+      end
+
+      describe selinux.modules.where(status: "installed") do
+        it { should exist }
+        its('count') { should cmp 404 }
+      end
+
+      describe selinux.booleans.where(name: "xend_run_blktap") do
+        it { should be_on }
+      end
+
+      describe selinux.booleans.where { name == "xend_run_blktap" && state == "on" } do
+       it { should exist }
       end
     EXAMPLE
 
@@ -87,6 +110,10 @@ module Inspec::Resources
 
     def permissive?
       @data["currentmode"] == "permissive"
+    end
+
+    def policy
+      @data["loadedpolicyname"]
     end
 
     def modules

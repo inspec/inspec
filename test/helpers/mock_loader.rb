@@ -558,11 +558,15 @@ class MockLoader
       # filesystem command
       "2e7e0d4546342cee799748ec7e2b1c87ca00afbe590fa422a7c27371eefa88f0" => cmd.call("get-wmiobject-filesystem"),
       "sestatus" => cmd.call("sestatus"),
+      "semodule -lfull" => cmd.call("semodule-lfull"),
+      "semanage boolean -l -n" => cmd.call("semanage-boolean"),
     }
 
     if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")
       mock_cmds.merge!(
-          "sestatus" => empty.call
+          "sestatus" => empty.call,
+          "semodule -lfull" => empty.call,
+          "semanage boolean -l -n" => empty.call,
         )
     end
 
