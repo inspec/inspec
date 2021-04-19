@@ -7,18 +7,18 @@ describe "groups resource on unix platform" do
 
   describe "no arguments" do
     it "finds all group names" do
-      _(resource.names.count).must_equal 3
-      _(resource.names).must_equal %w{root www-data GroupWithCaps}
+      _(resource.names.count).must_equal 4
+      _(resource.names).must_equal %w{root www-data GroupWithCaps sftpusers}
     end
 
     it "finds all group gids" do
-      _(resource.gids.count).must_equal 3
-      _(resource.gids).must_equal [0, 33, 999]
+      _(resource.gids.count).must_equal 4
+      _(resource.gids).must_equal [0, 33, 999, 1000]
     end
 
     it "finds no group domains" do
-      _(resource.domains.count).must_equal 3
-      _(resource.domains).must_equal [nil, nil, nil]
+      _(resource.domains.count).must_equal 4
+      _(resource.domains).must_equal [nil, nil, nil, nil]
     end
   end
 
