@@ -321,9 +321,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell"
   option :distinct_exit, type: :boolean, default: true,
     desc: "Exit with code 100 if any tests fail, and 101 if any are skipped but none failed (default).  If disabled, exit 0 on skips and 1 for failures."
-  option :command_timeout, type: :numeric, default: 3600,
-      desc: "Maximum seconds to allow a command to run. Default 3600.",
-      long_desc: "Maximum seconds to allow commands to run. Default 3600. A timed out command is considered an error."
+  option :command_timeout, type: :numeric,
+      desc: "Maximum seconds to allow a command to run.",
+      long_desc: "Maximum seconds to allow commands to run. A timed out command is considered an error."
   option :inspect, type: :boolean, default: false, desc: "Use verbose/debugging output for resources."
   option :input_file, type: :array,
     desc: "Load one or more input files, a YAML file with values for the shell to use"
