@@ -171,6 +171,8 @@ module Inspec
       option :command_timeout, type: :numeric, default: 3600,
         desc: "Maximum seconds to allow commands to run during execution. Default 3600.",
         long_desc: "Maximum seconds to allow commands to run during execution. Default 3600. A timed out command is considered an error."
+      option :reporter_include_source, type: :boolean, default: false,
+        desc: "Include full source code of controls in the CLI report"
     end
 
     def self.help(*args)
