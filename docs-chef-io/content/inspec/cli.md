@@ -261,7 +261,7 @@ This subcommand has additional options:
 * ``--bastion-user=BASTION_USER``
     Specifies the bastion user if applicable
 * ``--command-timeout=SECONDS``
-    Maximum seconds to allow a command to run. Default 3600.
+    Maximum seconds to allow a command to run.
 * ``--config=CONFIG``
     Read configuration from JSON file (`-` reads from stdin).
 * ``--controls=one two three``
@@ -431,7 +431,7 @@ This subcommand has additional options:
 * ``-c``, ``--command=COMMAND``
     A single command string to run instead of launching the shell
 * ``--command-timeout=SECONDS``
-    Maximum seconds to allow a command to run. Default 3600.
+    Maximum seconds to allow a command to run.
 * ``--config=CONFIG``
     Read configuration from JSON file (`-` reads from stdin).
 * ``--depends=one two three``
