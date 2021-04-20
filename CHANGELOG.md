@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.32.1 -->
-## [v4.32.1](https://github.com/inspec/inspec/tree/v4.32.1) (2021-04-15)
+<!-- latest_release 4.33.0 -->
+## [v4.33.0](https://github.com/inspec/inspec/tree/v4.33.0) (2021-04-20)
 
-#### Merged Pull Requests
-- Update postgres_ident_conf.md [#5461](https://github.com/inspec/inspec/pull/5461) ([tobiasbp](https://github.com/tobiasbp))
+#### New Features
+- Optionally include controls source code in CLI reporter [#5465](https://github.com/inspec/inspec/pull/5465) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.32.0 -->
 ### Changes since 4.32.0 release
+
+#### New Features
+- Optionally include controls source code in CLI reporter [#5465](https://github.com/inspec/inspec/pull/5465) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.33.0 -->
 
 #### Merged Pull Requests
 - Update postgres_ident_conf.md [#5461](https://github.com/inspec/inspec/pull/5461) ([tobiasbp](https://github.com/tobiasbp)) <!-- 4.32.1 -->
