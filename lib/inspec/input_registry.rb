@@ -325,6 +325,7 @@ module Inspec
         type: input_options[:type],
         required: input_options[:required],
         sensitive: input_options[:sensitive],
+        pattern: input_options[:pattern],
         event: evt
       )
     end

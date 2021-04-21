@@ -19,10 +19,15 @@ module Inspec
       attr_accessor :input_name
       attr_accessor :input_value
       attr_accessor :input_type
+      attr_accessor :input_pattern
     end
 
     class TypeError < Error
       attr_accessor :input_type
+    end
+
+    class PatternError < Error
+      attr_accessor :input_pattern
     end
 
     class RequiredError < Error
@@ -56,7 +61,6 @@ module Inspec
 
       def initialize(properties = {})
         @value_has_been_set = false
-
         properties.each do |prop_name, prop_value|
           if EVENT_PROPERTIES.include? prop_name
             # OK, save the property
@@ -174,7 +178,7 @@ module Inspec
     # are free to go higher.
     DEFAULT_PRIORITY_FOR_VALUE_SET = 60
 
-    attr_reader :description, :events, :identifier, :name, :required, :sensitive, :title, :type
+    attr_reader :description, :events, :identifier, :name, :required, :sensitive, :title, :type, :pattern
 
     def initialize(name, options = {})
       @name = name
@@ -192,7 +196,6 @@ module Inspec
       # debugging record of when and how the value changed.
       @events = []
       events.push make_creation_event(options)
-
       update(options)
     end
 
@@ -213,6 +216,7 @@ module Inspec
     def update(options)
       _update_set_metadata(options)
       normalize_type_restriction!
+      normalize_pattern_restriction!
 
       # Values are set by passing events in; but we can also infer an event.
       if options.key?(:value) || options.key?(:default)
@@ -227,6 +231,7 @@ module Inspec
       events << options[:event] if options.key? :event
 
       enforce_type_restriction!
+      enforce_pattern_restriction!
     end
 
     # We can determine a value:
@@ -268,6 +273,7 @@ module Inspec
       @identifier = options[:identifier] if options.key?(:identifier) # TODO: determine if this is ever used
       @type = options[:type] if options.key?(:type)
       @sensitive = options[:sensitive] if options.key?(:sensitive)
+      @pattern = options[:pattern] if options.key?(:pattern)
     end
 
     def make_creation_event(options)
@@ -310,7 +316,9 @@ module Inspec
         file: location.path,
         line: location.lineno
       )
+
       enforce_type_restriction!
+      enforce_pattern_restriction!
     end
 
     def value
@@ -324,7 +332,7 @@ module Inspec
 
     def to_hash
       as_hash = { name: name, options: {} }
-      %i{description title identifier type required value sensitive}.each do |field|
+      %i{description title identifier type required value sensitive pattern}.each do |field|
         val = send(field)
         next if val.nil?
 
@@ -405,6 +413,33 @@ module Inspec
         raise error, "Type '#{error.input_type}' is not a valid input type."
       end
       @type = type_req
+    end
+
+    def enforce_pattern_restriction!
+      return unless pattern
+      return unless has_value?
+
+      string_value = current_value(false).to_s
+
+      valid_pattern = string_value.match?(pattern)
+      unless valid_pattern
+        error = Inspec::Input::ValidationError.new
+        error.input_name = @name
+        error.input_value = string_value
+        error.input_pattern = pattern
+        raise error, "Input '#{error.input_name}' with value '#{error.input_value}' does not validate to pattern '#{error.input_pattern}'."
+      end
+    end
+
+    def normalize_pattern_restriction!
+      return unless pattern
+
+      unless valid_regexp?(pattern)
+        error = Inspec::Input::PatternError.new
+        error.input_pattern = pattern
+        raise error, "Pattern '#{error.input_pattern}' is not a valid regex pattern."
+      end
+      @pattern = pattern
     end
 
     def valid_numeric?(value)

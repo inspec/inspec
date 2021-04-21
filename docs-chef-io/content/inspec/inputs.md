@@ -416,6 +416,12 @@ input values that are used as test results.
 
 Allowed in: Metadata
 
+### Pattern
+
+Optional, `Regexp`. This feature validates the input by matching it with the provided regular expression.
+
+Allowed in: DSL, Metadata
+
 ## Advanced Topics
 
 ### Debugging Inputs with the Event Log
