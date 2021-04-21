@@ -418,8 +418,7 @@ Allowed in: Metadata
 
 ### Pattern
 
-Optional, `Regexp`. It should have a value of a regular expression. This feature helps
-in validating input value by matching it with the provided regular expression.
+Optional, `Regexp`. This feature validates the input by matching it with the provided regular expression.
 
 Allowed in: DSL, Metadata
 
