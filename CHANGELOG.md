@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.34.0 -->
+## [v4.34.0](https://github.com/inspec/inspec/tree/v4.34.0) (2021-04-21)
+
+#### New Features
+- Add selinux resource with basic feature support [#5458](https://github.com/inspec/inspec/pull/5458) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.33.1 -->
+### Changes since 4.33.1 release
+
+#### New Features
+- Add selinux resource with basic feature support [#5458](https://github.com/inspec/inspec/pull/5458) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.34.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
