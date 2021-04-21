@@ -1,29 +1,26 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.33.1 -->
-## [v4.33.1](https://github.com/inspec/inspec/tree/v4.33.1) (2021-04-20)
-
-#### Merged Pull Requests
-- Remove default of 3600 seconds for command timeout [#5472](https://github.com/inspec/inspec/pull/5472) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.32.0 -->
-### Changes since 4.32.0 release
-
-#### New Features
-- Optionally include controls source code in CLI reporter [#5465](https://github.com/inspec/inspec/pull/5465) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.33.0 -->
-
-#### Merged Pull Requests
-- Remove default of 3600 seconds for command timeout [#5472](https://github.com/inspec/inspec/pull/5472) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.33.1 -->
-- Update postgres_ident_conf.md [#5461](https://github.com/inspec/inspec/pull/5461) ([tobiasbp](https://github.com/tobiasbp)) <!-- 4.32.1 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.33.1](https://github.com/inspec/inspec/tree/v4.33.1) (2021-04-21)
+
+#### New Features
+- Optionally include controls source code in CLI reporter [#5465](https://github.com/inspec/inspec/pull/5465) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Update postgres_ident_conf.md [#5461](https://github.com/inspec/inspec/pull/5461) ([tobiasbp](https://github.com/tobiasbp))
+- Remove default of 3600 seconds for command timeout [#5472](https://github.com/inspec/inspec/pull/5472) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.32.0](https://github.com/inspec/inspec/tree/v4.32.0) (2021-04-14)
 
 #### New Features
 - Added ability to pass inputs to InSpec shell using input file and cli [#5452](https://github.com/inspec/inspec/pull/5452) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v4.31.1](https://github.com/inspec/inspec/tree/v4.31.1) (2021-04-08)
 
