@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.35.0 -->
-## [v4.35.0](https://github.com/inspec/inspec/tree/v4.35.0) (2021-04-21)
+<!-- latest_release 4.35.1 -->
+## [v4.35.1](https://github.com/inspec/inspec/tree/v4.35.1) (2021-04-21)
 
-#### New Features
-- New input option `pattern` added for DSL and metadata inputs [#5466](https://github.com/inspec/inspec/pull/5466) ([Nik08](https://github.com/Nik08))
+#### Merged Pull Requests
+- Update faraday requirement from &gt;= 0.9.0, &lt; 1.4 to &gt;= 0.9.0, &lt; 1.5 [#5469](https://github.com/inspec/inspec/pull/5469) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.33.1 -->
 ### Changes since 4.33.1 release
+
+#### Merged Pull Requests
+- Update faraday requirement from &gt;= 0.9.0, &lt; 1.4 to &gt;= 0.9.0, &lt; 1.5 [#5469](https://github.com/inspec/inspec/pull/5469) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.35.1 -->
 
 #### New Features
 - New input option `pattern` added for DSL and metadata inputs [#5466](https://github.com/inspec/inspec/pull/5466) ([Nik08](https://github.com/Nik08)) <!-- 4.35.0 -->
