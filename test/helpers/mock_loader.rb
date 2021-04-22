@@ -566,7 +566,7 @@ class MockLoader
       mock_cmds.merge!(
           "sestatus" => empty.call,
           "semodule -lfull" => empty.call,
-          "semanage boolean -l -n" => empty.call,
+          "semanage boolean -l -n" => empty.call
         )
     end
 
