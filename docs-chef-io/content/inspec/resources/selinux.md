@@ -23,6 +23,8 @@ This resource is distributed along with Chef InSpec itself. You can use it autom
 
 ### Version
 
+This resource first became available in v4.35.1 of InSpec.
+
 ## Syntax
 
 The `selinux` Chef InSpec resource block tests the state and mode of SELinux policy.
@@ -121,24 +123,30 @@ The `be_permissive` matcher tests if the SELinux mode is set to permissive:
     it { should be_permissive }
 
 ### be_on
-The `be_on` matcher tests if the selinux boolean is on.
+
+The `be_on` matcher tests if the SELinux boolean is on:
+
+    it { should be_on }
 
 ### be_enabled
-The `be_enabled` matcher tests if the selinux module is enabled
+
+The `be_enabled` matcher tests if the SElinux module is enabled:
+
+    it { should be_enabled }
 
 ## Resource Parameters
 
-- `names`, `status`, `states`, `priorities`,  are valid parameters for `modules`
+- `names`, `status`, `states`, `priorities`,  are valid parameters for SELinux `modules`
 
-- `names`, `status`, `states`, `defaults`,  are valid parameters for `booleans`
+- `names`, `status`, `states`, `defaults`,  are valid parameters for SELinux `booleans`
 
 ## Resource Parameter Examples
 
 ### modules
 
-`modules` returns the information about modules as returned by [semodule -lfull](https://man7.org/linux/man-pages/man8/semodule.8.html).
+`modules` returns the information about SELinux modules as returned by [semodule -lfull](https://man7.org/linux/man-pages/man8/semodule.8.html).
 
-Note: semodule -l command does not provide version information in newer versions of linux based systems like RHEL8 and Centos8 so we are not supporting that option [REF](https://access.redhat.com/solutions/2760071).
+Note: The `semodule -l` command does not provide `version` information in newer versions of Linux based systems like RHEL8 and Centos8 so we are not supporting that option [REF](https://access.redhat.com/solutions/2760071).
 
 describe selinux.modules do
   its("names") { should include "zebra" }
@@ -149,7 +157,7 @@ end
 
 ### booleans
 
-`booleans` returns the information about boolean as returned by [semanage boolean -l -n](https://man7.org/linux/man-pages/man8/semanage-boolean.8.html)
+`booleans` returns the information about SELinux booleans as returned by [semanage boolean -l -n](https://man7.org/linux/man-pages/man8/semanage-boolean.8.html)
 
 describe selinux.booleans do
   its("names") { should include "httpd_enable_homedirs" }
