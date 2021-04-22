@@ -108,6 +108,6 @@ describe "Inspec::Resources::Group" do
   it "verify non-existent group member on centos" do
     resource = MockLoader.new(:centos7).load_resource("group", "root")
     _(resource.exists?).must_equal true
-    _(resource.members).must_equal []
+    _(resource.members).must_equal ""
   end
 end
