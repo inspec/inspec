@@ -35,6 +35,10 @@ describe "groups resource on unix platform" do
       _(resource.where { name == "www-data" }.members).must_equal ["www-data,root"]
     end
 
+    it "retrieves members_array via name" do
+      _(resource.where { name == "www-data" }.members_array).must_equal %w{www-data root}
+    end
+
     it "retrieves entries via members regexp" do
       _(resource.where { members =~ /root/ }.members).must_equal ["www-data,root"]
       _(resource.where { members =~ /root/ }.exist?).must_equal true
@@ -74,6 +78,7 @@ describe "groups resource on windows platform" do
 
     it "retrieves members via name" do
       _(resource.where { name == "Administrators" }.members).must_equal ["Administrators", "Domain Admins"]
+      _(resource.where { name == "Administrators" }.members_array).must_equal ["Administrators", "Domain Admins"]
       _(resource.where { name == "Administrators" }.exist?).must_equal true
     end
 

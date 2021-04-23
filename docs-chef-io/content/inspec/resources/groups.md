@@ -74,6 +74,20 @@ The `members` property tests the members that belong to a group:
     its('members') { should include 'root' }
     its('members') { should include 'Administrator' }
 
+where `members` returns
+- Array of group members for **Windows Platform**.
+Example: `["member1", "member2"]`
+- Single element array with CSV formatted string of group members for **Non-Windows Platforms**.
+Example: `["member1,member2"]`
+
+### members_array
+
+The `members_array` property tests the group members just like `members` property.
+But the value returned by this property is always an array of group members.
+
+    its('members_array') { should include 'root' }
+    its('members_array') { should include 'Administrator' }
+
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
