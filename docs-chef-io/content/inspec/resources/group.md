@@ -62,17 +62,22 @@ The `members` property tests the members that belong to the group:
 
     its('members') { should include 'root' }
 
-where `members` returns
-- Array of group members for **Windows Platform**.
-Example: `["member1", "member2"]`
-- CSV formatted string of group members for **Non-Windows Platforms**.
-Example: `"member1,member2"`
+where `members` returns:
+
+- an array of group members for **Windows Platform**.
+
+    Example: `["member1", "member2"]`
+
+- a CSV formatted string of group members for **Non-Windows Platforms**.
+
+    Example: `"member1,member2"`
 
 
 ### members_array
 
-The `members_array` property tests the members that belong to a group just like `members` property.
-But the value returned by this property is always an array of group members.
+The `members_array` property tests the members that belong to a group just like the
+`members` property,
+but the value returned by this property is always an array of group members.
 
     its('members_array') { should include 'root' }
 
