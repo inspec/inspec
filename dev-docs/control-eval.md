@@ -28,7 +28,7 @@ Additionally, a control_eval_context is created.  It is an instance of an anonym
 
 ### DSL methods are executed at this time
 
-So, if you have a control file with `title` in it, that will call the title method that was defined at `lib/inspec/control_eval_context.rb:60`.  Importantly, this also includes the `control` DSL keyword, and also the `describe` keyword (used for bare describes).
+So, if you have a control file with `title` in it, that will call the title method that was defined [here](https://github.com/inspec/inspec/blob/master/lib/inspec/control_eval_context.rb#L46).  Importantly, this also includes the `control` DSL keyword, and also the `describe` keyword (used for bare describes).
 
 ### Each control and their block are wrapped in an anonymous class
 
