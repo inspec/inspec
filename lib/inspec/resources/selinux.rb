@@ -20,7 +20,7 @@ module Inspec::Resources
     end
 
     def to_s
-      "SElinux modules"
+      "SELinux modules"
     end
   end
 
@@ -40,7 +40,7 @@ module Inspec::Resources
     end
 
     def to_s
-      "SElinux booleans"
+      "SELinux booleans"
     end
   end
 
@@ -48,7 +48,7 @@ module Inspec::Resources
     name "selinux"
     supports platform: "linux"
 
-    desc "Use selinux Chef Inspec resource to test the configuration data of the selinux policy, selinux modules and selinux booleans."
+    desc "Use the selinux Chef InSpec resource to test the configuration data of the SELinux policy, SELinux modules, and SELinux booleans."
 
     example <<~EXAMPLE
       describe selinux do
