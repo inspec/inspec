@@ -15,8 +15,9 @@ Use the `group` Chef InSpec audit resource to test a single group on the system.
 
 Following system group is used in the `group` resource:
 
-- in **Non-Windows** system, resource only works with a group listed in file `/etc/group` and not a local group.
-- in **Windows** system, resource only works with a local group.
+- in **Non-Windows** system, resource only works with a group listed in file `/etc/group` and not a local group of the system.
+
+- in **Windows** system, resource only works with a local group of the system.
 
 
 ## Availability
