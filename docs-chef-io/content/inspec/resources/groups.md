@@ -80,7 +80,7 @@ where `members` returns:
 
     Example: `["member1", "member2"]`
 
-- a single element array with CSV formatted string of group members for **Non-Windows Platforms**.
+- a single element array that contains a CSV string of group members for **Non-Windows Platforms**.
 
     Example: `["member1,member2"]`
 
