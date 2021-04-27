@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.35.2 -->
-## [v4.35.2](https://github.com/inspec/inspec/tree/v4.35.2) (2021-04-27)
+<!-- latest_release 4.36.0 -->
+## [v4.36.0](https://github.com/inspec/inspec/tree/v4.36.0) (2021-04-27)
 
-#### Merged Pull Requests
-- Minor fix - Method expected to return boolean but it was returning nil if condition check fails [#5480](https://github.com/inspec/inspec/pull/5480) ([Vasu1105](https://github.com/Vasu1105))
+#### Enhancements
+- Add selinux resource support for modules and booleans [#5463](https://github.com/inspec/inspec/pull/5463) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.33.1 -->
 ### Changes since 4.33.1 release
+
+#### Enhancements
+- Add selinux resource support for modules and booleans [#5463](https://github.com/inspec/inspec/pull/5463) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.36.0 -->
 
 #### Merged Pull Requests
 - Minor fix - Method expected to return boolean but it was returning nil if condition check fails [#5480](https://github.com/inspec/inspec/pull/5480) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.35.2 -->
