@@ -12,8 +12,8 @@ source 'https://rubygems.org'
 
 # Use entries from chef's Gemfile
 gem 'artifactory'
-gem 'omnibus', git: 'https://github.com/chef/omnibus', branch: 'master'
-gem 'omnibus-software', git: 'https://github.com/chef/omnibus-software', branch: 'master'
+gem 'omnibus', github: ENV.fetch('OMNIBUS_GITHUB_REPO', 'chef/omnibus'), branch: ENV.fetch('OMNIBUS_GITHUB_BRANCH', 'master')
+gem 'omnibus-software', github: ENV.fetch('OMNIBUS_SOFTWARE_GITHUB_REPO', 'chef/omnibus-software'), branch: ENV.fetch('OMNIBUS_SOFTWARE_GITHUB_BRANCH', 'master')
 
 # This development group is installed by default when you run `bundle install`,
 # but if you are using Omnibus in a CI-based infrastructure, you do not need
