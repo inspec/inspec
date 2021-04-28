@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.36.2 -->
-## [v4.36.2](https://github.com/inspec/inspec/tree/v4.36.2) (2021-04-28)
+<!-- latest_release 4.36.3 -->
+## [v4.36.3](https://github.com/inspec/inspec/tree/v4.36.3) (2021-04-28)
 
 #### Merged Pull Requests
-- Group &amp; Groups doc updated - about using local and etc groups [#5483](https://github.com/inspec/inspec/pull/5483) ([Nik08](https://github.com/Nik08))
+- Added new property `members_array` for group &amp; groups resources. [#5479](https://github.com/inspec/inspec/pull/5479) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.33.1 -->
@@ -14,6 +14,7 @@
 - Add selinux resource support for modules and booleans [#5463](https://github.com/inspec/inspec/pull/5463) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.36.0 -->
 
 #### Merged Pull Requests
+- Added new property `members_array` for group &amp; groups resources. [#5479](https://github.com/inspec/inspec/pull/5479) ([Nik08](https://github.com/Nik08)) <!-- 4.36.3 -->
 - Group &amp; Groups doc updated - about using local and etc groups [#5483](https://github.com/inspec/inspec/pull/5483) ([Nik08](https://github.com/Nik08)) <!-- 4.36.2 -->
 - updating Gemfile to support environment variables [#5485](https://github.com/inspec/inspec/pull/5485) ([jayashrig158](https://github.com/jayashrig158)) <!-- 4.36.1 -->
 - Minor fix - Method expected to return boolean but it was returning nil if condition check fails [#5480](https://github.com/inspec/inspec/pull/5480) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.35.2 -->
