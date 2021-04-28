@@ -22,6 +22,12 @@ describe "Inspec::Resources::Group" do
     _(resource.members).must_equal "www-data,root"
   end
 
+  it "verify group on ubuntu with members_array" do
+    resource = MockLoader.new(:ubuntu1404).load_resource("group", "www-data")
+    _(resource.exists?).must_equal true
+    _(resource.members_array).must_equal %w{www-data root}
+  end
+
   # ubuntu with non-existent group
   it "verify group on ubuntu" do
     resource = MockLoader.new(:ubuntu1404).load_resource("group", "nogroup")
@@ -65,6 +71,14 @@ describe "Inspec::Resources::Group" do
     _(resource.exists?).must_equal true
     _(resource.gid).must_equal "S-1-5-32-547"
     _(resource.members).must_equal []
+    _(resource.members_array).must_equal []
+  end
+
+  it "verify administrator group members_array property on windows" do
+    resource = MockLoader.new(:windows).load_resource("group", "Administrators")
+    _(resource.exists?).must_equal true
+    _(resource.gid).must_equal "S-1-5-32-544"
+    _(resource.members_array).must_equal ["Administrators", "Domain Admins"]
   end
 
   # windows non-existent group
@@ -73,6 +87,7 @@ describe "Inspec::Resources::Group" do
     _(resource.exists?).must_equal false
     _(resource.gid).must_be_nil
     _(resource.members).must_be_nil
+    _(resource.members_array).must_equal []
   end
 
   # undefined
