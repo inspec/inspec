@@ -13,6 +13,13 @@ platform = "os"
 
 Use the `group` Chef InSpec audit resource to test a single group on the system.
 
+The `group` resource uses the following system groups:
+
+- On **non-Windows** systems the group resource tests a local group defined in the`/etc/group` file.
+
+- On **Windows** systems the group resource tests a local group defined by Local Users and Groups.
+
+
 ## Availability
 
 ### Installation
