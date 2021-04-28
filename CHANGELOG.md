@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.36.3 -->
-## [v4.36.3](https://github.com/inspec/inspec/tree/v4.36.3) (2021-04-28)
+<!-- latest_release 4.36.4 -->
+## [v4.36.4](https://github.com/inspec/inspec/tree/v4.36.4) (2021-04-28)
 
-#### Merged Pull Requests
-- Added new property `members_array` for group &amp; groups resources. [#5479](https://github.com/inspec/inspec/pull/5479) ([Nik08](https://github.com/Nik08))
+#### Bug Fixes
+- Fix for group resource when member does not exist [#5470](https://github.com/inspec/inspec/pull/5470) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.33.1 -->
 ### Changes since 4.33.1 release
+
+#### Bug Fixes
+- Fix for group resource when member does not exist [#5470](https://github.com/inspec/inspec/pull/5470) ([Nik08](https://github.com/Nik08)) <!-- 4.36.4 -->
 
 #### Enhancements
 - Add selinux resource support for modules and booleans [#5463](https://github.com/inspec/inspec/pull/5463) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.36.0 -->
