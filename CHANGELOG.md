@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.36.0 -->
-## [v4.36.0](https://github.com/inspec/inspec/tree/v4.36.0) (2021-04-27)
+<!-- latest_release 4.36.1 -->
+## [v4.36.1](https://github.com/inspec/inspec/tree/v4.36.1) (2021-04-28)
 
-#### Enhancements
-- Add selinux resource support for modules and booleans [#5463](https://github.com/inspec/inspec/pull/5463) ([Vasu1105](https://github.com/Vasu1105))
+#### Merged Pull Requests
+- updating Gemfile to support environment variables [#5485](https://github.com/inspec/inspec/pull/5485) ([jayashrig158](https://github.com/jayashrig158))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.33.1 -->
@@ -14,6 +14,7 @@
 - Add selinux resource support for modules and booleans [#5463](https://github.com/inspec/inspec/pull/5463) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.36.0 -->
 
 #### Merged Pull Requests
+- updating Gemfile to support environment variables [#5485](https://github.com/inspec/inspec/pull/5485) ([jayashrig158](https://github.com/jayashrig158)) <!-- 4.36.1 -->
 - Minor fix - Method expected to return boolean but it was returning nil if condition check fails [#5480](https://github.com/inspec/inspec/pull/5480) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.35.2 -->
 - Update faraday requirement from &gt;= 0.9.0, &lt; 1.4 to &gt;= 0.9.0, &lt; 1.5 [#5469](https://github.com/inspec/inspec/pull/5469) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.35.1 -->
 
