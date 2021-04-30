@@ -40,6 +40,11 @@ inspec compliance login https://compliance.test --user admin --insecure --token 
 
 where `--insecure` is required when using self-signed certificates.
 
+An alternate command for login:
+```bash
+inspec automate login https://compliance.test --user admin --insecure --token ''
+```
+
 Use a compliance profile from the Chef Supermarket:
 
 ```YML

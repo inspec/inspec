@@ -6,8 +6,7 @@ module InspecPlugins
   module Compliance
     class CLI < Inspec.plugin(2, :cli_command)
       include Inspec::Dist
-
-      subcommand_desc "compliance SUBCOMMAND", "#{COMPLIANCE_PRODUCT_NAME} commands"
+      subcommand_desc "compliance SUBCOMMAND or automate SUBCOMMAND", "#{COMPLIANCE_PRODUCT_NAME} commands"
 
       # desc "login https://SERVER --insecure --user='USER' --ent='ENTERPRISE' --token='TOKEN'", 'Log in to a Chef Compliance/Chef Automate SERVER'
       desc "login", "Log in to a #{COMPLIANCE_PRODUCT_NAME}/#{AUTOMATE_PRODUCT_NAME} SERVER"
@@ -65,7 +64,7 @@ module InspecPlugins
           exit 1
         end
       rescue InspecPlugins::Compliance::ServerConfigurationMissing
-        $stderr.puts "\nServer configuration information is missing. Please login using `#{EXEC_NAME} compliance login`"
+        $stderr.puts "\nServer configuration information is missing. Please login using `#{EXEC_NAME} #{subcommand_name} login`"
         exit 1
       end
 
@@ -167,7 +166,7 @@ module InspecPlugins
 
         # determine user information
         if (config["token"].nil? && config["refresh_token"].nil?) || config["user"].nil?
-          error.call("Please login via `#{EXEC_NAME} compliance login`")
+          error.call("Please login via `#{EXEC_NAME} #{subcommand_name} login`")
         end
 
         # read profile name from inspec.yml
@@ -233,7 +232,7 @@ module InspecPlugins
           exit 1
         end
       rescue InspecPlugins::Compliance::ServerConfigurationMissing
-        puts "\nServer configuration information is missing. Please login using `#{EXEC_NAME} compliance login`"
+        puts "\nServer configuration information is missing. Please login using `#{EXEC_NAME} #{subcommand_name} login`"
         exit 1
       end
 
@@ -258,8 +257,12 @@ module InspecPlugins
 
       def loggedin(config)
         serverknown = !config["server"].nil?
-        puts "You need to login first with `#{EXEC_NAME} compliance login`" unless serverknown
+        puts "You need to login first with `#{EXEC_NAME} #{subcommand_name} login`" unless serverknown
         serverknown
+      end
+
+      def subcommand_name
+        @_invocations[Inspec::InspecCLI]&.first || "automate"
       end
     end
 

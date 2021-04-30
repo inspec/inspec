@@ -221,6 +221,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       #{Inspec::Dist::EXEC_NAME} compliance login
       #{Inspec::Dist::EXEC_NAME} exec compliance://username/linux-baseline
       ```
+      An alternate command for login:
+      ```
+      #{Inspec::Dist::EXEC_NAME} automate login
+      ```
 
     Supermarket:
       ```

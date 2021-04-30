@@ -34,13 +34,13 @@ module InspecPlugins
         if config["token"].nil? && config["refresh_token"].nil?
           if config["server_type"] == "automate"
             server = "automate"
-            msg = "#{EXEC_NAME} compliance login https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --token USERTOKEN"
+            msg = "#{EXEC_NAME} compliance or automate login https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --token USERTOKEN"
           elsif config["server_type"] == "automate2"
             server = "automate2"
-            msg = "#{EXEC_NAME} compliance login https://your_automate2_server --user USER --token APITOKEN"
+            msg = "#{EXEC_NAME} compliance or automate login https://your_automate2_server --user USER --token APITOKEN"
           else
             server = "compliance"
-            msg = "#{EXEC_NAME} compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
+            msg = "#{EXEC_NAME} compliance or automate login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
           end
           raise Inspec::FetcherFailure, <<~EOF
 
@@ -136,7 +136,8 @@ module InspecPlugins
         if m.nil?
           raise "Unable to determine compliance profile name. This can be caused by " \
             "an incorrect server in your configuration. Try to login to compliance " \
-            "via the `#{EXEC_NAME} compliance login` command."
+            "via the `#{EXEC_NAME} compliance login` command or " \
+            "via the `#{EXEC_NAME} automate login` command."
         end
 
         "#{m[:owner]}/#{m[:id]}"

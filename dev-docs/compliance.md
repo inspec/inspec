@@ -8,6 +8,8 @@ The `compliance` set of subcommands handle user-initiated communication with Che
 
 When Automate initiates scans, the `compliance` subcommand is not used.
 
+An alternate subcommand to `compliance` is `automate`. And it works similarly using `inspec automate`.
+
 ## Operational Notes
 
 ### Obtaining an a test Automate server
@@ -65,9 +67,10 @@ There are several other minor commands not listed here - see `lib/cli.rb` for a 
 
 ### login
 
-Saves a credentials file locally. Future invocations of `inspec compliance` use the credentials file to authenticate.
+Saves a credentials file locally. Future invocations of `inspec compliance` or `inspec automate` use the credentials file to authenticate.
 
-`be inspec compliance login --user=admin --token='1234567890asdfghjkl' --insecure https://chef-automate.test`
+`be inspec compliance login --user=admin --token='1234567890asdfghjkl' --insecure https://chef-automate.test` or
+`be inspec automate login --user=admin --token='1234567890asdfghjkl' --insecure https://chef-automate.test`
 
 Here are the results of running login, from `.inspec/compliance/config.json`:
 

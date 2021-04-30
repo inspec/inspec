@@ -187,6 +187,10 @@ Chef Automate:
 inspec compliance login
 inspec exec compliance://username/linux-baseline
 ```
+An alternate command for login:
+```
+inspec automate login
+```
 
 Chef Supermarket:
 ```
