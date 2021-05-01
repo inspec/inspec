@@ -1,0 +1,686 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>InSpec Resources Reference</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a t-purple"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="inspec-resources-reference">InSpec Resources Reference</h1>
+
+<p>The following list of InSpec resources are available.</p>
+
+<div class="row columns align"><a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="#os-resources">OS</a>
+<a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="#aws-resources">AWS</a>
+<a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="#azure-resources">Azure</a>
+<a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="#gcp-resources">GCP</a>
+<a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="#habitat-resources">Habitat</a>
+</div>
+
+<div class="brdr-left margin-top-sm margin-under-xs">
+  <h3 class="margin-left-xs"><a id="os-resources" class="a-purple"><h3 class="a-purple">OS</h3></a></h3>
+</div>
+
+<ul>
+<li><a href="/docs/reference/resources/aide_conf">aide_conf</a></li>
+<li><a href="/docs/reference/resources/apache">apache</a></li>
+<li><a href="/docs/reference/resources/apache_conf">apache_conf</a></li>
+<li><a href="/docs/reference/resources/apt">apt</a></li>
+<li><a href="/docs/reference/resources/audit_policy">audit_policy</a></li>
+<li><a href="/docs/reference/resources/auditd">auditd</a></li>
+<li><a href="/docs/reference/resources/auditd_conf">auditd_conf</a></li>
+<li><a href="/docs/reference/resources/bash">bash</a></li>
+<li><a href="/docs/reference/resources/bond">bond</a></li>
+<li><a href="/docs/reference/resources/bridge">bridge</a></li>
+<li><a href="/docs/reference/resources/bsd_service">bsd_service</a></li>
+<li><a href="/docs/reference/resources/chocolatey_package">chocolatey_package</a></li>
+<li><a href="/docs/reference/resources/command">command</a></li>
+<li><a href="/docs/reference/resources/cpan">cpan</a></li>
+<li><a href="/docs/reference/resources/cran">cran</a></li>
+<li><a href="/docs/reference/resources/crontab">crontab</a></li>
+<li><a href="/docs/reference/resources/csv">csv</a></li>
+<li><a href="/docs/reference/resources/dh_params">dh_params</a></li>
+<li><a href="/docs/reference/resources/directory">directory</a></li>
+<li><a href="/docs/reference/resources/docker">docker</a></li>
+<li><a href="/docs/reference/resources/docker_container">docker_container</a></li>
+<li><a href="/docs/reference/resources/docker_image">docker_image</a></li>
+<li><a href="/docs/reference/resources/docker_plugin">docker_plugin</a></li>
+<li><a href="/docs/reference/resources/docker_service">docker_service</a></li>
+<li><a href="/docs/reference/resources/elasticsearch">elasticsearch</a></li>
+<li><a href="/docs/reference/resources/etc_fstab">etc_fstab</a></li>
+<li><a href="/docs/reference/resources/etc_group">etc_group</a></li>
+<li><a href="/docs/reference/resources/etc_hosts">etc_hosts</a></li>
+<li><a href="/docs/reference/resources/etc_hosts_allow">etc_hosts_allow</a></li>
+<li><a href="/docs/reference/resources/etc_hosts_deny">etc_hosts_deny</a></li>
+<li><a href="/docs/reference/resources/file">file</a></li>
+<li><a href="/docs/reference/resources/filesystem">filesystem</a></li>
+<li><a href="/docs/reference/resources/firewalld">firewalld</a></li>
+<li><a href="/docs/reference/resources/gem">gem</a></li>
+<li><a href="/docs/reference/resources/group">group</a></li>
+<li><a href="/docs/reference/resources/groups">groups</a></li>
+<li><a href="/docs/reference/resources/grub_conf">grub_conf</a></li>
+<li><a href="/docs/reference/resources/host">host</a></li>
+<li><a href="/docs/reference/resources/http">http</a></li>
+<li><a href="/docs/reference/resources/iis_app">iis_app</a></li>
+<li><a href="/docs/reference/resources/iis_site">iis_site</a></li>
+<li><a href="/docs/reference/resources/inetd_conf">inetd_conf</a></li>
+<li><a href="/docs/reference/resources/ini">ini</a></li>
+<li><a href="/docs/reference/resources/interface">interface</a></li>
+<li><a href="/docs/reference/resources/ip6tables">ip6tables</a></li>
+<li><a href="/docs/reference/resources/iptables">iptables</a></li>
+<li><a href="/docs/reference/resources/json">json</a></li>
+<li><a href="/docs/reference/resources/kernel_module">kernel_module</a></li>
+<li><a href="/docs/reference/resources/kernel_parameter">kernel_parameter</a></li>
+<li><a href="/docs/reference/resources/key_rsa">key_rsa</a></li>
+<li><a href="/docs/reference/resources/launchd_service">launchd_service</a></li>
+<li><a href="/docs/reference/resources/limits_conf">limits_conf</a></li>
+<li><a href="/docs/reference/resources/login_defs">login_defs</a></li>
+<li><a href="/docs/reference/resources/mount">mount</a></li>
+<li><a href="/docs/reference/resources/mssql_session">mssql_session</a></li>
+<li><a href="/docs/reference/resources/mysql_conf">mysql_conf</a></li>
+<li><a href="/docs/reference/resources/mysql_session">mysql_session</a></li>
+<li><a href="/docs/reference/resources/nginx">nginx</a></li>
+<li><a href="/docs/reference/resources/nginx_conf">nginx_conf</a></li>
+<li><a href="/docs/reference/resources/npm">npm</a></li>
+<li><a href="/docs/reference/resources/ntp_conf">ntp_conf</a></li>
+<li><a href="/docs/reference/resources/oneget">oneget</a></li>
+<li><a href="/docs/reference/resources/oracledb_session">oracledb_session</a></li>
+<li><a href="/docs/reference/resources/os">os</a></li>
+<li><a href="/docs/reference/resources/os_env">os_env</a></li>
+<li><a href="/docs/reference/resources/package">package</a></li>
+<li><a href="/docs/reference/resources/packages">packages</a></li>
+<li><a href="/docs/reference/resources/parse_config">parse_config</a></li>
+<li><a href="/docs/reference/resources/parse_config_file">parse_config_file</a></li>
+<li><a href="/docs/reference/resources/passwd">passwd</a></li>
+<li><a href="/docs/reference/resources/pip">pip</a></li>
+<li><a href="/docs/reference/resources/port">port</a></li>
+<li><a href="/docs/reference/resources/postfix_conf">postfix_conf</a></li>
+<li><a href="/docs/reference/resources/postgres_conf">postgres_conf</a></li>
+<li><a href="/docs/reference/resources/postgres_hba_conf">postgres_hba_conf</a></li>
+<li><a href="/docs/reference/resources/postgres_ident_conf">postgres_ident_conf</a></li>
+<li><a href="/docs/reference/resources/postgres_session">postgres_session</a></li>
+<li><a href="/docs/reference/resources/powershell">powershell</a></li>
+<li><a href="/docs/reference/resources/processes">processes</a></li>
+<li><a href="/docs/reference/resources/rabbitmq_config">rabbitmq_config</a></li>
+<li><a href="/docs/reference/resources/registry_key">registry_key</a></li>
+<li><a href="/docs/reference/resources/runit_service">runit_service</a></li>
+<li><a href="/docs/reference/resources/security_identifier">security_identifier</a></li>
+<li><a href="/docs/reference/resources/security_policy">security_policy</a></li>
+<li><a href="/docs/reference/resources/service">service</a></li>
+<li><a href="/docs/reference/resources/shadow">shadow</a></li>
+<li><a href="/docs/reference/resources/ssh_config">ssh_config</a></li>
+<li><a href="/docs/reference/resources/sshd_config">sshd_config</a></li>
+<li><a href="/docs/reference/resources/ssl">ssl</a></li>
+<li><a href="/docs/reference/resources/sys_info">sys_info</a></li>
+<li><a href="/docs/reference/resources/systemd_service">systemd_service</a></li>
+<li><a href="/docs/reference/resources/sysv_service">sysv_service</a></li>
+<li><a href="/docs/reference/resources/upstart_service">upstart_service</a></li>
+<li><a href="/docs/reference/resources/user">user</a></li>
+<li><a href="/docs/reference/resources/users">users</a></li>
+<li><a href="/docs/reference/resources/vbscript">vbscript</a></li>
+<li><a href="/docs/reference/resources/virtualization">virtualization</a></li>
+<li><a href="/docs/reference/resources/windows_feature">windows_feature</a></li>
+<li><a href="/docs/reference/resources/windows_hotfix">windows_hotfix</a></li>
+<li><a href="/docs/reference/resources/windows_task">windows_task</a></li>
+<li><a href="/docs/reference/resources/wmi">wmi</a></li>
+<li><a href="/docs/reference/resources/x509_certificate">x509_certificate</a></li>
+<li><a href="/docs/reference/resources/xinetd_conf">xinetd_conf</a></li>
+<li><a href="/docs/reference/resources/xml">xml</a></li>
+<li><a href="/docs/reference/resources/yaml">yaml</a></li>
+<li><a href="/docs/reference/resources/yum">yum</a></li>
+<li><a href="/docs/reference/resources/zfs_dataset">zfs_dataset</a></li>
+<li><a href="/docs/reference/resources/zfs_pool">zfs_pool</a></li>
+</ul>
+
+<div class="brdr-left margin-top-sm margin-under-xs">
+  <h3 class="margin-left-xs"><a id="aws-resources" class="a-purple"><h3 class="a-purple">AWS</h3></a></h3>
+</div>
+
+<ul>
+<li><a href="/docs/reference/resources/aws_alb">aws_alb</a></li>
+<li><a href="/docs/reference/resources/aws_albs">aws_albs</a></li>
+<li><a href="/docs/reference/resources/aws_auto_scaling_group">aws_auto_scaling_group</a></li>
+<li><a href="/docs/reference/resources/aws_auto_scaling_groups">aws_auto_scaling_groups</a></li>
+<li><a href="/docs/reference/resources/aws_cloudformation_stack">aws_cloudformation_stack</a></li>
+<li><a href="/docs/reference/resources/aws_cloudtrail_trail">aws_cloudtrail_trail</a></li>
+<li><a href="/docs/reference/resources/aws_cloudtrail_trails">aws_cloudtrail_trails</a></li>
+<li><a href="/docs/reference/resources/aws_cloudwatch_alarm">aws_cloudwatch_alarm</a></li>
+<li><a href="/docs/reference/resources/aws_cloudwatch_log_group">aws_cloudwatch_log_group</a></li>
+<li><a href="/docs/reference/resources/aws_cloudwatch_log_metric_filter">aws_cloudwatch_log_metric_filter</a></li>
+<li><a href="/docs/reference/resources/aws_config_delivery_channel">aws_config_delivery_channel</a></li>
+<li><a href="/docs/reference/resources/aws_config_recorder">aws_config_recorder</a></li>
+<li><a href="/docs/reference/resources/aws_db_subnet_group">aws_db_subnet_group</a></li>
+<li><a href="/docs/reference/resources/aws_db_subnet_groups">aws_db_subnet_groups</a></li>
+<li><a href="/docs/reference/resources/aws_dhcp_options">aws_dhcp_options</a></li>
+<li><a href="/docs/reference/resources/aws_dynamodb_table">aws_dynamodb_table</a></li>
+<li><a href="/docs/reference/resources/aws_ebs_volume">aws_ebs_volume</a></li>
+<li><a href="/docs/reference/resources/aws_ebs_volumes">aws_ebs_volumes</a></li>
+<li><a href="/docs/reference/resources/aws_ec2_instance">aws_ec2_instance</a></li>
+<li><a href="/docs/reference/resources/aws_ec2_instances">aws_ec2_instances</a></li>
+<li><a href="/docs/reference/resources/aws_ecr">aws_ecr</a></li>
+<li><a href="/docs/reference/resources/aws_ecr_image">aws_ecr_image</a></li>
+<li><a href="/docs/reference/resources/aws_ecr_images">aws_ecr_images</a></li>
+<li><a href="/docs/reference/resources/aws_ecr_repositories">aws_ecr_repositories</a></li>
+<li><a href="/docs/reference/resources/aws_ecr_repository">aws_ecr_repository</a></li>
+<li><a href="/docs/reference/resources/aws_ecs_cluster">aws_ecs_cluster</a></li>
+<li><a href="/docs/reference/resources/aws_ecs_clusters">aws_ecs_clusters</a></li>
+<li><a href="/docs/reference/resources/aws_efs_file_system">aws_efs_file_system</a></li>
+<li><a href="/docs/reference/resources/aws_efs_file_systems">aws_efs_file_systems</a></li>
+<li><a href="/docs/reference/resources/aws_eks_cluster">aws_eks_cluster</a></li>
+<li><a href="/docs/reference/resources/aws_eks_clusters">aws_eks_clusters</a></li>
+<li><a href="/docs/reference/resources/aws_elasticache_cluster">aws_elasticache_cluster</a></li>
+<li><a href="/docs/reference/resources/aws_elasticache_cluster_node">aws_elasticache_cluster_node</a></li>
+<li><a href="/docs/reference/resources/aws_elasticache_clusters">aws_elasticache_clusters</a></li>
+<li><a href="/docs/reference/resources/aws_elb">aws_elb</a></li>
+<li><a href="/docs/reference/resources/aws_elbs">aws_elbs</a></li>
+<li><a href="/docs/reference/resources/aws_flow_log">aws_flow_log</a></li>
+<li><a href="/docs/reference/resources/aws_hosted_zone">aws_hosted_zone</a></li>
+<li><a href="/docs/reference/resources/aws_hosted_zones">aws_hosted_zones</a></li>
+<li><a href="/docs/reference/resources/aws_iam_access_key">aws_iam_access_key</a></li>
+<li><a href="/docs/reference/resources/aws_iam_access_keys">aws_iam_access_keys</a></li>
+<li><a href="/docs/reference/resources/aws_iam_account_alias">aws_iam_account_alias</a></li>
+<li><a href="/docs/reference/resources/aws_iam_group">aws_iam_group</a></li>
+<li><a href="/docs/reference/resources/aws_iam_groups">aws_iam_groups</a></li>
+<li><a href="/docs/reference/resources/aws_iam_inline_policy">aws_iam_inline_policy</a></li>
+<li><a href="/docs/reference/resources/aws_iam_password_policy">aws_iam_password_policy</a></li>
+<li><a href="/docs/reference/resources/aws_iam_policies">aws_iam_policies</a></li>
+<li><a href="/docs/reference/resources/aws_iam_policy">aws_iam_policy</a></li>
+<li><a href="/docs/reference/resources/aws_iam_role">aws_iam_role</a></li>
+<li><a href="/docs/reference/resources/aws_iam_roles">aws_iam_roles</a></li>
+<li><a href="/docs/reference/resources/aws_iam_root_user">aws_iam_root_user</a></li>
+<li><a href="/docs/reference/resources/aws_iam_saml_provider">aws_iam_saml_provider</a></li>
+<li><a href="/docs/reference/resources/aws_iam_saml_providers">aws_iam_saml_providers</a></li>
+<li><a href="/docs/reference/resources/aws_iam_user">aws_iam_user</a></li>
+<li><a href="/docs/reference/resources/aws_iam_users">aws_iam_users</a></li>
+<li><a href="/docs/reference/resources/aws_internet_gateway">aws_internet_gateway</a></li>
+<li><a href="/docs/reference/resources/aws_internet_gateways">aws_internet_gateways</a></li>
+<li><a href="/docs/reference/resources/aws_kms_key">aws_kms_key</a></li>
+<li><a href="/docs/reference/resources/aws_kms_keys">aws_kms_keys</a></li>
+<li><a href="/docs/reference/resources/aws_lambda">aws_lambda</a></li>
+<li><a href="/docs/reference/resources/aws_lambdas">aws_lambdas</a></li>
+<li><a href="/docs/reference/resources/aws_launch_configuration">aws_launch_configuration</a></li>
+<li><a href="/docs/reference/resources/aws_nat_gateway">aws_nat_gateway</a></li>
+<li><a href="/docs/reference/resources/aws_nat_gateways">aws_nat_gateways</a></li>
+<li><a href="/docs/reference/resources/aws_organizations_member">aws_organizations_member</a></li>
+<li><a href="/docs/reference/resources/aws_rds_cluster">aws_rds_cluster</a></li>
+<li><a href="/docs/reference/resources/aws_rds_clusters">aws_rds_clusters</a></li>
+<li><a href="/docs/reference/resources/aws_rds_instance">aws_rds_instance</a></li>
+<li><a href="/docs/reference/resources/aws_rds_instances">aws_rds_instances</a></li>
+<li><a href="/docs/reference/resources/aws_region">aws_region</a></li>
+<li><a href="/docs/reference/resources/aws_regions">aws_regions</a></li>
+<li><a href="/docs/reference/resources/aws_route_table">aws_route_table</a></li>
+<li><a href="/docs/reference/resources/aws_route_tables">aws_route_tables</a></li>
+<li><a href="/docs/reference/resources/aws_s3_bucket">aws_s3_bucket</a></li>
+<li><a href="/docs/reference/resources/aws_s3_bucket_object">aws_s3_bucket_object</a></li>
+<li><a href="/docs/reference/resources/aws_s3_buckets">aws_s3_buckets</a></li>
+<li><a href="/docs/reference/resources/aws_security_group">aws_security_group</a></li>
+<li><a href="/docs/reference/resources/aws_security_groups">aws_security_groups</a></li>
+<li><a href="/docs/reference/resources/aws_sns_subscription">aws_sns_subscription</a></li>
+<li><a href="/docs/reference/resources/aws_sns_topic">aws_sns_topic</a></li>
+<li><a href="/docs/reference/resources/aws_sns_topics">aws_sns_topics</a></li>
+<li><a href="/docs/reference/resources/aws_sqs_queue">aws_sqs_queue</a></li>
+<li><a href="/docs/reference/resources/aws_sqs_queues">aws_sqs_queues</a></li>
+<li><a href="/docs/reference/resources/aws_ssm_parameter">aws_ssm_parameter</a></li>
+<li><a href="/docs/reference/resources/aws_ssm_parameters">aws_ssm_parameters</a></li>
+<li><a href="/docs/reference/resources/aws_sts_caller_identity">aws_sts_caller_identity</a></li>
+<li><a href="/docs/reference/resources/aws_subnet">aws_subnet</a></li>
+<li><a href="/docs/reference/resources/aws_subnets">aws_subnets</a></li>
+<li><a href="/docs/reference/resources/aws_transit_gateway">aws_transit_gateway</a></li>
+<li><a href="/docs/reference/resources/aws_vpc">aws_vpc</a></li>
+<li><a href="/docs/reference/resources/aws_vpcs">aws_vpcs</a></li>
+</ul>
+
+<div class="brdr-left margin-top-sm margin-under-xs">
+  <h3 class="margin-left-xs"><a id="azure-resources" class="a-purple"><h3 class="a-purple">Azure</h3></a></h3>
+</div>
+
+<ul>
+<li><a href="/docs/reference/resources/azure_generic_resource">azure_generic_resource</a></li>
+<li><a href="/docs/reference/resources/azure_resource_group">azure_resource_group</a></li>
+<li><a href="/docs/reference/resources/azure_virtual_machine">azure_virtual_machine</a></li>
+<li><a href="/docs/reference/resources/azure_virtual_machine_data_disk">azure_virtual_machine_data_disk</a></li>
+<li><a href="/docs/reference/resources/azurerm_ad_user">azurerm_ad_user</a></li>
+<li><a href="/docs/reference/resources/azurerm_ad_users">azurerm_ad_users</a></li>
+<li><a href="/docs/reference/resources/azurerm_aks_cluster">azurerm_aks_cluster</a></li>
+<li><a href="/docs/reference/resources/azurerm_aks_clusters">azurerm_aks_clusters</a></li>
+<li><a href="/docs/reference/resources/azurerm_key_vault">azurerm_key_vault</a></li>
+<li><a href="/docs/reference/resources/azurerm_key_vault_key">azurerm_key_vault_key</a></li>
+<li><a href="/docs/reference/resources/azurerm_key_vault_keys">azurerm_key_vault_keys</a></li>
+<li><a href="/docs/reference/resources/azurerm_key_vault_secret">azurerm_key_vault_secret</a></li>
+<li><a href="/docs/reference/resources/azurerm_key_vault_secrets">azurerm_key_vault_secrets</a></li>
+<li><a href="/docs/reference/resources/azurerm_key_vaults">azurerm_key_vaults</a></li>
+<li><a href="/docs/reference/resources/azurerm_monitor_activity_log_alert">azurerm_monitor_activity_log_alert</a></li>
+<li><a href="/docs/reference/resources/azurerm_monitor_activity_log_alerts">azurerm_monitor_activity_log_alerts</a></li>
+<li><a href="/docs/reference/resources/azurerm_monitor_log_profile">azurerm_monitor_log_profile</a></li>
+<li><a href="/docs/reference/resources/azurerm_monitor_log_profiles">azurerm_monitor_log_profiles</a></li>
+<li><a href="/docs/reference/resources/azurerm_network_security_group">azurerm_network_security_group</a></li>
+<li><a href="/docs/reference/resources/azurerm_network_security_groups">azurerm_network_security_groups</a></li>
+<li><a href="/docs/reference/resources/azurerm_network_watcher">azurerm_network_watcher</a></li>
+<li><a href="/docs/reference/resources/azurerm_network_watchers">azurerm_network_watchers</a></li>
+<li><a href="/docs/reference/resources/azurerm_resource_groups">azurerm_resource_groups</a></li>
+<li><a href="/docs/reference/resources/azurerm_security_center_policies">azurerm_security_center_policies</a></li>
+<li><a href="/docs/reference/resources/azurerm_security_center_policy">azurerm_security_center_policy</a></li>
+<li><a href="/docs/reference/resources/azurerm_sql_database">azurerm_sql_database</a></li>
+<li><a href="/docs/reference/resources/azurerm_sql_databases">azurerm_sql_databases</a></li>
+<li><a href="/docs/reference/resources/azurerm_sql_server">azurerm_sql_server</a></li>
+<li><a href="/docs/reference/resources/azurerm_sql_servers">azurerm_sql_servers</a></li>
+<li><a href="/docs/reference/resources/azurerm_storage_account_blob_container">azurerm_storage_account_blob_container</a></li>
+<li><a href="/docs/reference/resources/azurerm_storage_account_blob_containers">azurerm_storage_account_blob_containers</a></li>
+<li><a href="/docs/reference/resources/azurerm_subnet">azurerm_subnet</a></li>
+<li><a href="/docs/reference/resources/azurerm_subnets">azurerm_subnets</a></li>
+<li><a href="/docs/reference/resources/azurerm_virtual_machine">azurerm_virtual_machine</a></li>
+<li><a href="/docs/reference/resources/azurerm_virtual_machine_disk">azurerm_virtual_machine_disk</a></li>
+<li><a href="/docs/reference/resources/azurerm_virtual_machines">azurerm_virtual_machines</a></li>
+<li><a href="/docs/reference/resources/azurerm_virtual_network">azurerm_virtual_network</a></li>
+<li><a href="/docs/reference/resources/azurerm_virtual_networks">azurerm_virtual_networks</a></li>
+</ul>
+
+<div class="brdr-left margin-top-sm margin-under-xs">
+  <h3 class="margin-left-xs"><a id="gcp-resources" class="a-purple"><h3 class="a-purple">GCP</h3></a></h3>
+</div>
+
+<ul>
+<li><a href="/docs/reference/resources/google_bigquery_dataset">google_bigquery_dataset</a></li>
+<li><a href="/docs/reference/resources/google_bigquery_datasets">google_bigquery_datasets</a></li>
+<li><a href="/docs/reference/resources/google_cloudbuild_trigger">google_cloudbuild_trigger</a></li>
+<li><a href="/docs/reference/resources/google_cloudbuild_triggers">google_cloudbuild_triggers</a></li>
+<li><a href="/docs/reference/resources/google_compute_address">google_compute_address</a></li>
+<li><a href="/docs/reference/resources/google_compute_autoscaler">google_compute_autoscaler</a></li>
+<li><a href="/docs/reference/resources/google_compute_autoscalers">google_compute_autoscalers</a></li>
+<li><a href="/docs/reference/resources/google_compute_backend_service">google_compute_backend_service</a></li>
+<li><a href="/docs/reference/resources/google_compute_backend_services">google_compute_backend_services</a></li>
+<li><a href="/docs/reference/resources/google_compute_disk">google_compute_disk</a></li>
+<li><a href="/docs/reference/resources/google_compute_disks">google_compute_disks</a></li>
+<li><a href="/docs/reference/resources/google_compute_firewall">google_compute_firewall</a></li>
+<li><a href="/docs/reference/resources/google_compute_firewalls">google_compute_firewalls</a></li>
+<li><a href="/docs/reference/resources/google_compute_forwarding_rule">google_compute_forwarding_rule</a></li>
+<li><a href="/docs/reference/resources/google_compute_forwarding_rules">google_compute_forwarding_rules</a></li>
+<li><a href="/docs/reference/resources/google_compute_global_address">google_compute_global_address</a></li>
+<li><a href="/docs/reference/resources/google_compute_global_addresses">google_compute_global_addresses</a></li>
+<li><a href="/docs/reference/resources/google_compute_global_forwarding_rule">google_compute_global_forwarding_rule</a></li>
+<li><a href="/docs/reference/resources/google_compute_global_forwarding_rules">google_compute_global_forwarding_rules</a></li>
+<li><a href="/docs/reference/resources/google_compute_health_check">google_compute_health_check</a></li>
+<li><a href="/docs/reference/resources/google_compute_health_checks">google_compute_health_checks</a></li>
+<li><a href="/docs/reference/resources/google_compute_http_health_check">google_compute_http_health_check</a></li>
+<li><a href="/docs/reference/resources/google_compute_http_health_checks">google_compute_http_health_checks</a></li>
+<li><a href="/docs/reference/resources/google_compute_https_health_check">google_compute_https_health_check</a></li>
+<li><a href="/docs/reference/resources/google_compute_https_health_checks">google_compute_https_health_checks</a></li>
+<li><a href="/docs/reference/resources/google_compute_image">google_compute_image</a></li>
+<li><a href="/docs/reference/resources/google_compute_instance">google_compute_instance</a></li>
+<li><a href="/docs/reference/resources/google_compute_instance_group">google_compute_instance_group</a></li>
+<li><a href="/docs/reference/resources/google_compute_instance_group_manager">google_compute_instance_group_manager</a></li>
+<li><a href="/docs/reference/resources/google_compute_instance_group_managers">google_compute_instance_group_managers</a></li>
+<li><a href="/docs/reference/resources/google_compute_instance_groups">google_compute_instance_groups</a></li>
+<li><a href="/docs/reference/resources/google_compute_instance_template">google_compute_instance_template</a></li>
+<li><a href="/docs/reference/resources/google_compute_instance_templates">google_compute_instance_templates</a></li>
+<li><a href="/docs/reference/resources/google_compute_instances">google_compute_instances</a></li>
+<li><a href="/docs/reference/resources/google_compute_network">google_compute_network</a></li>
+<li><a href="/docs/reference/resources/google_compute_networks">google_compute_networks</a></li>
+<li><a href="/docs/reference/resources/google_compute_project_info">google_compute_project_info</a></li>
+<li><a href="/docs/reference/resources/google_compute_region">google_compute_region</a></li>
+<li><a href="/docs/reference/resources/google_compute_region_instance_group_manager">google_compute_region_instance_group_manager</a></li>
+<li><a href="/docs/reference/resources/google_compute_region_instance_group_managers">google_compute_region_instance_group_managers</a></li>
+<li><a href="/docs/reference/resources/google_compute_regions">google_compute_regions</a></li>
+<li><a href="/docs/reference/resources/google_compute_route">google_compute_route</a></li>
+<li><a href="/docs/reference/resources/google_compute_router">google_compute_router</a></li>
+<li><a href="/docs/reference/resources/google_compute_routers">google_compute_routers</a></li>
+<li><a href="/docs/reference/resources/google_compute_routes">google_compute_routes</a></li>
+<li><a href="/docs/reference/resources/google_compute_snapshot">google_compute_snapshot</a></li>
+<li><a href="/docs/reference/resources/google_compute_snapshots">google_compute_snapshots</a></li>
+<li><a href="/docs/reference/resources/google_compute_ssl_certificate">google_compute_ssl_certificate</a></li>
+<li><a href="/docs/reference/resources/google_compute_ssl_certificates">google_compute_ssl_certificates</a></li>
+<li><a href="/docs/reference/resources/google_compute_ssl_policies">google_compute_ssl_policies</a></li>
+<li><a href="/docs/reference/resources/google_compute_ssl_policy">google_compute_ssl_policy</a></li>
+<li><a href="/docs/reference/resources/google_compute_subnetwork">google_compute_subnetwork</a></li>
+<li><a href="/docs/reference/resources/google_compute_subnetworks">google_compute_subnetworks</a></li>
+<li><a href="/docs/reference/resources/google_compute_target_http_proxies">google_compute_target_http_proxies</a></li>
+<li><a href="/docs/reference/resources/google_compute_target_http_proxy">google_compute_target_http_proxy</a></li>
+<li><a href="/docs/reference/resources/google_compute_target_https_proxies">google_compute_target_https_proxies</a></li>
+<li><a href="/docs/reference/resources/google_compute_target_https_proxy">google_compute_target_https_proxy</a></li>
+<li><a href="/docs/reference/resources/google_compute_target_pool">google_compute_target_pool</a></li>
+<li><a href="/docs/reference/resources/google_compute_target_pools">google_compute_target_pools</a></li>
+<li><a href="/docs/reference/resources/google_compute_target_tcp_proxies">google_compute_target_tcp_proxies</a></li>
+<li><a href="/docs/reference/resources/google_compute_target_tcp_proxy">google_compute_target_tcp_proxy</a></li>
+<li><a href="/docs/reference/resources/google_compute_url_map">google_compute_url_map</a></li>
+<li><a href="/docs/reference/resources/google_compute_url_maps">google_compute_url_maps</a></li>
+<li><a href="/docs/reference/resources/google_compute_vpn_tunnel">google_compute_vpn_tunnel</a></li>
+<li><a href="/docs/reference/resources/google_compute_vpn_tunnels">google_compute_vpn_tunnels</a></li>
+<li><a href="/docs/reference/resources/google_compute_zone">google_compute_zone</a></li>
+<li><a href="/docs/reference/resources/google_compute_zones">google_compute_zones</a></li>
+<li><a href="/docs/reference/resources/google_container_cluster">google_container_cluster</a></li>
+<li><a href="/docs/reference/resources/google_container_clusters">google_container_clusters</a></li>
+<li><a href="/docs/reference/resources/google_container_node_pool">google_container_node_pool</a></li>
+<li><a href="/docs/reference/resources/google_container_node_pools">google_container_node_pools</a></li>
+<li><a href="/docs/reference/resources/google_container_regional_cluster">google_container_regional_cluster</a></li>
+<li><a href="/docs/reference/resources/google_container_regional_clusters">google_container_regional_clusters</a></li>
+<li><a href="/docs/reference/resources/google_dns_managed_zone">google_dns_managed_zone</a></li>
+<li><a href="/docs/reference/resources/google_dns_managed_zones">google_dns_managed_zones</a></li>
+<li><a href="/docs/reference/resources/google_dns_resource_record_set">google_dns_resource_record_set</a></li>
+<li><a href="/docs/reference/resources/google_dns_resource_record_sets">google_dns_resource_record_sets</a></li>
+<li><a href="/docs/reference/resources/google_kms_crypto_key">google_kms_crypto_key</a></li>
+<li><a href="/docs/reference/resources/google_kms_crypto_key_iam_binding">google_kms_crypto_key_iam_binding</a></li>
+<li><a href="/docs/reference/resources/google_kms_crypto_key_iam_bindings">google_kms_crypto_key_iam_bindings</a></li>
+<li><a href="/docs/reference/resources/google_kms_crypto_keys">google_kms_crypto_keys</a></li>
+<li><a href="/docs/reference/resources/google_kms_key_ring">google_kms_key_ring</a></li>
+<li><a href="/docs/reference/resources/google_kms_key_ring_iam_binding">google_kms_key_ring_iam_binding</a></li>
+<li><a href="/docs/reference/resources/google_kms_key_ring_iam_bindings">google_kms_key_ring_iam_bindings</a></li>
+<li><a href="/docs/reference/resources/google_kms_key_rings">google_kms_key_rings</a></li>
+<li><a href="/docs/reference/resources/google_logging_project_exclusion">google_logging_project_exclusion</a></li>
+<li><a href="/docs/reference/resources/google_logging_project_sink">google_logging_project_sink</a></li>
+<li><a href="/docs/reference/resources/google_logging_project_sinks">google_logging_project_sinks</a></li>
+<li><a href="/docs/reference/resources/google_organization">google_organization</a></li>
+<li><a href="/docs/reference/resources/google_organizations">google_organizations</a></li>
+<li><a href="/docs/reference/resources/google_project">google_project</a></li>
+<li><a href="/docs/reference/resources/google_project_alert_policies">google_project_alert_policies</a></li>
+<li><a href="/docs/reference/resources/google_project_alert_policy">google_project_alert_policy</a></li>
+<li><a href="/docs/reference/resources/google_project_alert_policy_condition">google_project_alert_policy_condition</a></li>
+<li><a href="/docs/reference/resources/google_project_iam_binding">google_project_iam_binding</a></li>
+<li><a href="/docs/reference/resources/google_project_iam_bindings">google_project_iam_bindings</a></li>
+<li><a href="/docs/reference/resources/google_project_iam_custom_role">google_project_iam_custom_role</a></li>
+<li><a href="/docs/reference/resources/google_project_logging_audit_config">google_project_logging_audit_config</a></li>
+<li><a href="/docs/reference/resources/google_project_metric">google_project_metric</a></li>
+<li><a href="/docs/reference/resources/google_project_metrics">google_project_metrics</a></li>
+<li><a href="/docs/reference/resources/google_projects">google_projects</a></li>
+<li><a href="/docs/reference/resources/google_pubsub_subscription">google_pubsub_subscription</a></li>
+<li><a href="/docs/reference/resources/google_pubsub_subscriptions">google_pubsub_subscriptions</a></li>
+<li><a href="/docs/reference/resources/google_pubsub_topic">google_pubsub_topic</a></li>
+<li><a href="/docs/reference/resources/google_pubsub_topics">google_pubsub_topics</a></li>
+<li><a href="/docs/reference/resources/google_service_account">google_service_account</a></li>
+<li><a href="/docs/reference/resources/google_service_account_key">google_service_account_key</a></li>
+<li><a href="/docs/reference/resources/google_service_account_keys">google_service_account_keys</a></li>
+<li><a href="/docs/reference/resources/google_service_accounts">google_service_accounts</a></li>
+<li><a href="/docs/reference/resources/google_sql_database_instance">google_sql_database_instance</a></li>
+<li><a href="/docs/reference/resources/google_sql_database_instances">google_sql_database_instances</a></li>
+<li><a href="/docs/reference/resources/google_sql_users">google_sql_users</a></li>
+<li><a href="/docs/reference/resources/google_storage_bucket">google_storage_bucket</a></li>
+<li><a href="/docs/reference/resources/google_storage_bucket_acl">google_storage_bucket_acl</a></li>
+<li><a href="/docs/reference/resources/google_storage_bucket_iam_binding">google_storage_bucket_iam_binding</a></li>
+<li><a href="/docs/reference/resources/google_storage_bucket_iam_bindings">google_storage_bucket_iam_bindings</a></li>
+<li><a href="/docs/reference/resources/google_storage_bucket_object">google_storage_bucket_object</a></li>
+<li><a href="/docs/reference/resources/google_storage_bucket_objects">google_storage_bucket_objects</a></li>
+<li><a href="/docs/reference/resources/google_storage_buckets">google_storage_buckets</a></li>
+<li><a href="/docs/reference/resources/google_storage_default_object_acl">google_storage_default_object_acl</a></li>
+<li><a href="/docs/reference/resources/google_storage_object_acl">google_storage_object_acl</a></li>
+<li><a href="/docs/reference/resources/google_user">google_user</a></li>
+<li><a href="/docs/reference/resources/google_users">google_users</a></li>
+</ul>
+
+<div class="brdr-left margin-top-sm margin-under-xs">
+  <h3 class="margin-left-xs"><a id="habitat-resources" class="a-purple"><h3 class="a-purple">Habitat</h3></a></h3>
+</div>
+
+<ul>
+<li><a href="/docs/reference/resources/habitat_package">habitat_package</a></li>
+<li><a href="/docs/reference/resources/habitat_packages">habitat_packages</a></li>
+<li><a href="/docs/reference/resources/habitat_service">habitat_service</a></li>
+<li><a href="/docs/reference/resources/habitat_services">habitat_services</a></li>
+</ul>
+</column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
+(function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+(w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+})(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+_st('install','xzyJV6P7pgscygGyyTm8','2.0.0');
+// end Swiftype code snippet
+
+document.getElementsByClassName("st-default-search-input")[0].focus();</script></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><div class="pad-under-xs"><img alt="image of octagon spinning" id="hex" onerror="this.src='/images/octagon.png'" src="/images/octagon.svg" /></div><h3 class="t-white pad-under-xs">Get started with Chef InSpec and rock on.</h3><div class="row align columns"><div class="strict-center"><a class="button btn-lg btn-purple shadow-dark margin-right-xs mobile-row-btn" href="/downloads"><i class="fa fa-cloud-download"></i><span>download InSpec 4</span></a><a class="button btn-lg btn-white-o shadow-dark mobile-row-btn" href="/tutorials">browse tutorials</a></div></div></div><div class="flex align"><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="https://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="link footer--link" href="https://docs.chef.io/chef_license.html">Licensing</a></li><li><a class="link footer--link" href="https://www.chef.io/terms-of-service/">Terms &amp; Conditions</a></li><li><a class="link footer--link" href="https://www.chef.io/trademark-policy/">Trademark Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/privacy-policy/">Privacy Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/cookie-policy/">Cookie Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div></div></div><p class="strict-center pad-under-xs"><small class="t-gray">&copy; Chef Software 2015-2020</small></p></footer><script src="https://buttons.github.io/buttons.js"></script><script src="/scripts/inspec_tutorial.js"></script><script src="/dist/inspec_tutorial.js"></script><script src="/javascripts/vendor/jquery.min.js"></script><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>function initSlideGroup(group) {
+  var prev = -1;
+  var links = $(group).find('a')
+
+  links.click(function(e) {
+    e.stopPropagation()
+
+    links.removeClass('selected')
+    $(this).addClass('selected')
+
+    var idx = $(this).index();
+    if(prev == idx) return;
+    prev = idx;
+
+    $('.slider .view.slide-in').removeClass('slide-in').addClass('slide-out')
+    var el = $('.slider .view')[idx]
+    if(el == null) {
+      console.log("No element for slider index "+idx)
+      return
+    }
+
+    $(el).removeClass('slide-out').removeClass('hidden').addClass('slide-in')
+  })
+
+  if(links[0] != null) links[0].click();
+}
+
+function initSliders() {
+  $('.slider .view').addClass('hidden')
+  var groups = $('.slider .selectors')
+  groups.each(function(idx){
+    initSlideGroup(this)
+  })
+}
+
+//run code colors
+
+$(document).ready(function() {
+  initSliders()
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+});
+
+//copy to clipboard
+
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
+$('#copy').hover(function() {
+   $('#install').toggleClass("text-focus");
+});
+
+$('#copy').click(function() {
+   $(this).removeClass("fa-copy");
+   $(this).addClass("fa-check");
+
+ setTimeout(() => {
+   $(this).removeClass('fa-check').addClass('fa-copy');
+  }, 1500);
+});
+
+// homepage content slider
+
+// tutorial content slider
+
+$(function() {
+  $(".collapseContent").hide();
+  $(".collapsebtn").addClass("fa-plus-square");
+
+   $('.collapseToggle').click(function() {
+      var el = $(this).parent().find('.collapseContent')
+      el.slideToggle("fast")
+      // $('.collapseContent').slideToggle("fast");
+      var btn = $(this).find('.collapsebtn')
+      if(btn.hasClass('fa-minus-square')) {
+        btn.addClass('fa-plus-square')
+        btn.removeClass('fa-minus-square')
+      } else {
+        btn.addClass('fa-minus-square')
+        btn.removeClass('fa-plus-square')
+      }
+   });
+});
+
+
+
+// scroll spy animations
+
+var $slide_left = $('.slide-left');
+var $slide_right = $('.slide-right');
+var $slide_up = $('.slide-up');
+var $slide_up_slow = $('.slide-up-slow');
+var $window = $(window);
+
+function check_if_in_view() {
+  var window_height = $window.height();
+  var window_top_position = $window.scrollTop();
+  var window_bottom_position = (window_top_position + window_height);
+
+  $.each($slide_left, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_right, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up_slow, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+}
+
+$window.on('scroll resize', check_if_in_view);
+$window.trigger('scroll');
+
+//scroll to top
+$(document).ready(function(){
+
+  $(window).scroll(function(){
+    if ($(this).scrollTop() > 100) {
+      $('.scrollToTop').fadeIn();
+    } else {
+      $('.scrollToTop').fadeOut();
+    }
+  });
+
+  $('.scrollToTop').click(function(){
+    $('html, body').animate({scrollTop : 0},800);
+    return false;
+  });
+
+  // scrolling to resource sections
+  $(".resources-button").click(function() {
+    var dst = $(this).attr("href")
+    $(".resources-button").removeClass("btn-purple").addClass("btn-purple-o")
+    $(this).addClass("btn-purple").removeClass("btn-purple-o")
+    $("html, body").animate({
+        scrollTop: $(dst).offset().top - 105
+    }, 1000);
+  });
+
+});
+
+//scrolling code box
+
+var div = $('#scrolled');
+   setInterval(function(){
+    var pos = div.scrollTop();
+    div.scrollTop(pos + 2);
+}, 200);
+
+//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });
+}
+else {
+    var progressBar = $('.progress-bar'),
+        max = getMax(),
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});</script><script src="/javascripts/segment.js"></script></body></html>

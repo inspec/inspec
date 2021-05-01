@@ -1,0 +1,602 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the azure_virtual_machine Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_azure_virtual_machine docs_reference_resources_azure_virtual_machine_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="azure_virtual_machine">azure_virtual_machine</h1>
+
+<p>Use the <code>azure_virtual_machine</code> Chef InSpec audit resource to ensure that a Virtual Machine has been provisioned correctly.</p>
+
+<h2 id="availability">Availability</h2>
+
+<h3 id="installation">Installation</h3>
+
+<p>This resource is distributed along with Chef InSpec itself. You can use it automatically.</p>
+
+<h3 id="version">Version</h3>
+
+<p>This resource first became available in v2.0.16 of InSpec.</p>
+
+<h2 id="syntax">Syntax</h2>
+
+<p>The name of the machine and the resource group are required as properties to the resource.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azure_virtual_machine(group_name: 'MyResourceGroup', name: 'MyVM') do
+  its('property') { should eq 'value' }
+end
+</code></pre></div>
+<p>where</p>
+
+<ul>
+<li><code>MyVm</code> is the name of the virtual machine as seen in Azure; it is <strong>not</strong> the hostname of the machine</li>
+<li><code>MyResourceGroup</code> is the name of the machine&rsquo;s resource group</li>
+<li><code>property</code> is one of the resource properties</li>
+<li><code>value</code> is the expected output from the matcher</li>
+</ul>
+
+<h2 id="examples">Examples</h2>
+
+<p>The following examples show to use this Chef InSpec audit resource.</p>
+
+<h3 id="check-that-the-first-data-disk-is-of-the-correct-size">Check that the first data disk is of the correct size</h3>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Linux-Internal-VM').where(number: 1) do
+  its('size') { should cmp &gt;= 15 }
+end
+</code></pre></div>
+<p><br></p>
+
+<h2 id="parameters">Parameters</h2>
+
+<ul>
+<li><code>group_name</code>, <code>name</code>, <code>apiversion</code></li>
+</ul>
+
+<h2 id="parameter-examples">Parameter Examples</h2>
+
+<p>The options that can be passed to the resource are as follows.</p>
+
+<h3 id="group_name-required">group_name (required)</h3>
+
+<p>Use this parameter to define the Azure Resource Group to be tested.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure') do
+    ...
+end
+</code></pre></div>
+<h3 id="name">name</h3>
+
+<p>Use this parameter to define the name of the Azure resource to test.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Windows-Internal-VM') do
+    ...
+end
+</code></pre></div>
+<h3 id="apiversion">apiversion</h3>
+
+<p>The API Version to use when querying the resource. Defaults to the latest version for the resource.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Windows-Internal-VM', apiversion: '2.0') do
+    ...
+end
+</code></pre></div>
+<p>These options can also be set using the environment variables:</p>
+
+<ul>
+<li><code>AZURE_RESOURCE_GROUP_NAME</code></li>
+<li><code>AZURE_RESOURCE_NAME</code></li>
+<li><code>AZURE_RESOURCE_API_VERSION</code></li>
+</ul>
+
+<p>When the options have been set as well as the environment variables, the environment variables take priority.</p>
+
+<p><br></p>
+
+<h2 id="properties">Properties</h2>
+
+<ul>
+<li><code>type</code>, <code>location</code>, <code>name</code>, <code>publisher</code>, <code>offer</code>, <code>sku</code>, <code>os_type</code>, <code>os_disk_name</code>, <code>have_managed_osdisk</code>, <code>caching</code>, <code>create_option</code>, <code>disk_size_gb</code>, <code>have_data_disks</code>, <code>data_disk_count</code>  , <code>storage_account_type</code>, <code>vm_size</code>, <code>computer_name</code>, <code>admin_username</code>, <code>have_nics</code>, <code>nic_count</code>, <code>connected_nics</code>, <code>have_password_authentication</code>, <code>password_authentication?</code>, <code>have_custom_data</code>, <code>custom_data?</code>, <code>have_ssh_keys</code>, <code>ssh_keys?</code>, <code>ssh_key_count</code>, <code>ssh_keys</code>, <code>have_boot_diagnostics</code>, <code>boot_diagnostics_storage_uri</code></li>
+</ul>
+
+<p><br></p>
+
+<h2 id="property-examples">Property Examples</h2>
+
+<p>This Chef InSpec audit resource has the following properties that can be tested:</p>
+
+<h3 id="type">type</h3>
+
+<p>The Azure Resource type. For a virtual machine this will always return <code>Microsoft.Compute/virtualMachines</code></p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('type') { should cmp 'Microsoft.Compute/virtualMachines' }
+</code></pre></div>
+<h3 id="location">location</h3>
+
+<p>Where the machine is located</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('location') { should eq 'westeurope' }
+</code></pre></div>
+<h3 id="name">name</h3>
+
+<p>Name of the Virtual Machine in Azure. Be aware that this is not the computer name or hostname, rather the name of the machine when seen in the Azure Portal.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('name') { should cmp 'InSpec-Azure' }
+</code></pre></div>
+<h3 id="publisher">publisher</h3>
+
+<p>The publisher of this machine&rsquo;s build image.</p>
+
+<p><code>nil</code> if the machine was created from a custom image.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('publisher') { should cmp 'MicrosoftWindowsServer' }
+</code></pre></div>
+<h3 id="offer">offer</h3>
+
+<p>The offer from the publisher of the build image.</p>
+
+<p><code>nil</code> if the machine was created from a custom image.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('offer') { should cmp 'WindowsServer' }
+</code></pre></div>
+<h3 id="sku">sku</h3>
+
+<p>The item from the publisher that was used to create the image.</p>
+
+<p><code>nil</code> if the machine was created from a custom image.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('sku') { should cmp '2016-Datacenter' }
+</code></pre></div>
+<h3 id="os_type">os_type</h3>
+
+<p>Test that returns the classification in Azure of the operating system type. Usually either <code>Linux</code> or <code>Windows</code>.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>    its('os_type') { should cmp 'Windows' }
+</code></pre></div>
+<h3 id="os_disk_name">os_disk_name</h3>
+
+<p>Return the name of the operating system disk attached to the machine.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('os_disk_name') { should cmp 'Windows-Internal-OSDisk-MD' }
+</code></pre></div>
+<h3 id="caching">caching</h3>
+
+<p>Returns the type of caching that has been set on the operating system disk.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('caching') { should cmp 'ReadWrite' }
+</code></pre></div>
+<h3 id="create_option">create_option</h3>
+
+<p>When the operating system disk is created, how it was created is set as a property. This property returns how the disk was created.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('create_option') { should cmp 'FromImage' }
+</code></pre></div>
+<h3 id="disk_size_gb">disk_size_gb</h3>
+
+<p>Returns the size of the operating system disk.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('disk_size_gb') { should be &gt;= 30 }
+</code></pre></div>
+<h3 id="data_disk_count">data_disk_count</h3>
+
+<p>Return the number of data disks that are attached to the machine</p>
+
+<h3 id="storage_account_type">storage_account_type</h3>
+
+<p>This provides the storage account type for a machine that is using managed disks for the operating system disk.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('storage_account_type') { should cmp 'Standard_LRS' }
+</code></pre></div>
+<h3 id="vm_size">vm_size</h3>
+
+<p>The size of the machine in Azure</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('vm_size') { should eq 'Standard_DS2_v2' }
+</code></pre></div>
+<h3 id="computer_name">computer_name</h3>
+
+<p>The name of the machine. This is what was assigned to the machine during deployment and is what <em>should</em> be returned by the <code>hostname</code> command.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('computer_name') { should cmp 'win-internal-1' }
+</code></pre></div>
+<h3 id="admin_username">admin_username</h3>
+
+<p>The admin username that was assigned to the machine</p>
+
+<p>NOTE: Azure does not allow the use of <code>Administrator</code> as the admin username on a Windows machine</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('admin_username') { should cmp 'azure' }
+</code></pre></div>
+<h3 id="nic_count">nic_count</h3>
+
+<p>The number of network interface cards that have been attached to the machine</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('nic_count') { should eq 1 }
+</code></pre></div>
+<h3 id="connected_nics">connected_nics</h3>
+
+<p>This returns an array of the NIC ids that are connected to the machine. This means that it possible to check that the machine has the correct NIC(s) attached and thus on the correct subnet.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('connected_nics') { should include /Inspec-NIC-1/ }
+</code></pre></div>
+<p>Note the use of the regular expression here. This is because the NIC id is a long string that contains the subscription id, resource group, machine id as well as other things. By using the regular expression the NIC can be checked without breaking this string up. It also means that other tests can be performed.</p>
+
+<p>An example of the id string is <code>/subscriptions/1e0b427a-d58b-494e-ae4f-ee558463ebbf/resourceGroups/Inspec-Azure/providers/Microsoft.Network/networkInterfaces/Inspec-NIC-1</code></p>
+
+<h3 id="password_authentication">password_authentication?</h3>
+
+<p>Boolean to state of password authentication is enabled or not for the admin user.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('password_authentication?') { should be false }
+</code></pre></div>
+<p>This only applies to Linux machines and will always return <code>true</code> on Windows.</p>
+
+<h3 id="custom_data">custom_data</h3>
+
+<p>Boolean to state if the machine has custom data or not</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('custom_data') { should be true }
+</code></pre></div>
+<h3 id="ssh_keys">ssh_keys?</h3>
+
+<p>Boolean to state of the machine is accessible using SSH keys</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('ssh_keys?') { should be true }
+</code></pre></div>
+<h3 id="ssh_key_count"> ssh_key_count</h3>
+
+<p>Returns how many SSH keys have been applied to the machine.</p>
+
+<p>This only applies to Linux machines and will always return <code>0</code> on Windows.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('ssh_key_count') { should eq '0' }
+</code></pre></div>
+<h3 id="ssh_keys">ssh_keys</h3>
+
+<p>Returns an array of the keys that are assigned to the machine. This is check if the correct keys are assigned.</p>
+
+<p>Most SSH public keys have a signature at the end of them that can be tested. For example:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('ssh_keys') { should include /azure@inspec.local/ }
+</code></pre></div>
+<h3 id="boot_diagnostics_storage_uri">boot_diagnostics_storage_uri</h3>
+
+<p>If boot diagnostics are enabled for the machine they will be saved in a storage account. This method returns the URI for the storage account.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('boot_diagnostics_storage_uri') { should match 'ghjgjhgjg' }
+</code></pre></div>
+<p><br></p>
+
+<h2 id="matchers">Matchers</h2>
+
+<p>There are a number of built in comparison operators that are available to test the result with an expected value.</p>
+
+<p>For information on all that are available please refer to the <a href="https://www.inspec.io/docs/reference/matchers/">Chef InSpec Matchers Reference</a> page.</p>
+
+<h3 id="boot_diagnostics">boot_diagnostics?</h3>
+
+<p>Boolean test to see if boot diagnostics have been enabled on the machine</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_boot_diagnostics }
+</code></pre></div>
+<h3 id="have_custom_data">have_custom_data</h3>
+
+<p>Returns a boolean stating if the machine has custom data assigned to it.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_custom_data }
+</code></pre></div>
+<h3 id="have_data_disks">have_data_disks</h3>
+
+<p>Denotes if the machine has data disks attached to it or not.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_data_disks }
+</code></pre></div>
+<h3 id="have_managed_osdisk">have_managed_osdisk</h3>
+
+<p>Determine if the operating system disk is a Managed Disks or not.</p>
+
+<p>This test can be used in the following way:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_managed_osdisk }
+</code></pre></div>
+<h3 id="have_nics">have_nics</h3>
+
+<p>Returns a boolean to state if the machine has NICs connected or not.</p>
+
+<p>This has can be used in the following way:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_nics }
+</code></pre></div>
+<h3 id="have_password_authentication">have_password_authentication</h3>
+
+<p>Returns a boolean to denote if the machine is accessible using a password.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_password_authentication }
+</code></pre></div>
+<h3 id="have_ssh_keys">have_ssh_keys</h3>
+
+<p>Boolean to state if the machine has SSH keys assigned to it</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_ssh_keys }
+</code></pre></div>
+<p>For a Windows machine this will always be false.</p>
+
+<p><br></p>
+
+<h2 id="tags">Tags</h2>
+
+<p>It is possible to test the tags that have been assigned to the resource. There are a number of properties that can be called to check that it has tags, that it has the correct number and that the correct ones are assigned.</p>
+
+<h3 id="have_tags">have_tags</h3>
+
+<p>This is a simple test to see if the machine has tags assigned to it or not.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_tags }
+</code></pre></div>
+<h3 id="tag_count">tag_count</h3>
+
+<p>Returns the number of tags that are assigned to the resource</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its ('tag_count') { should eq 2 }
+</code></pre></div>
+<h3 id="tags">tags</h3>
+
+<p>It is possible to check if a specific tag has been set on the resource.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('tags') { should include 'Owner' }
+</code></pre></div>
+<h3 id="xxx_tag">xxx_tag</h3>
+
+<p>To get the value of the tag, a number of tests have been created from the tags that are set.</p>
+
+<p>For example, if the following tag is set on a resource:</p>
+
+<ul>
+<li>owner: J.G. Jingleheimerschmidt</li>
+</ul>
+
+<p>Then a test is available called <code>Owner_tag</code>.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('owner_tag') { should cmp 'J.G. Jingleheimerschmidt' }
+</code></pre></div>
+<p>Note: The tag name is case sensitive which makes the test case sensitive. E.g. <code>owner_tag</code> does not equal <code>Owner_tag</code>.</p>
+
+<h2 id="references">References</h2>
+
+<ul>
+<li><a href="https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_resources">Azure Ruby SDK - Resources</a></li>
+<li><a href="https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/virtual_machine_external_vm.rb">Virtual Machine External VM</a></li>
+<li><a href="https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/virtual_machine_internal_vm.rb">Virtual Machine Internal VM</a></li>
+</ul>
+</column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
+(function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+(w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+})(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+_st('install','xzyJV6P7pgscygGyyTm8','2.0.0');
+// end Swiftype code snippet
+
+document.getElementsByClassName("st-default-search-input")[0].focus();</script></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><div class="pad-under-xs"><img alt="image of octagon spinning" id="hex" onerror="this.src='/images/octagon.png'" src="/images/octagon.svg" /></div><h3 class="t-white pad-under-xs">Get started with Chef InSpec and rock on.</h3><div class="row align columns"><div class="strict-center"><a class="button btn-lg btn-purple shadow-dark margin-right-xs mobile-row-btn" href="/downloads"><i class="fa fa-cloud-download"></i><span>download InSpec 4</span></a><a class="button btn-lg btn-white-o shadow-dark mobile-row-btn" href="/tutorials">browse tutorials</a></div></div></div><div class="flex align"><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="https://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="link footer--link" href="https://docs.chef.io/chef_license.html">Licensing</a></li><li><a class="link footer--link" href="https://www.chef.io/terms-of-service/">Terms &amp; Conditions</a></li><li><a class="link footer--link" href="https://www.chef.io/trademark-policy/">Trademark Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/privacy-policy/">Privacy Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/cookie-policy/">Cookie Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div></div></div><p class="strict-center pad-under-xs"><small class="t-gray">&copy; Chef Software 2015-2020</small></p></footer><script src="https://buttons.github.io/buttons.js"></script><script src="/scripts/inspec_tutorial.js"></script><script src="/dist/inspec_tutorial.js"></script><script src="/javascripts/vendor/jquery.min.js"></script><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>function initSlideGroup(group) {
+  var prev = -1;
+  var links = $(group).find('a')
+
+  links.click(function(e) {
+    e.stopPropagation()
+
+    links.removeClass('selected')
+    $(this).addClass('selected')
+
+    var idx = $(this).index();
+    if(prev == idx) return;
+    prev = idx;
+
+    $('.slider .view.slide-in').removeClass('slide-in').addClass('slide-out')
+    var el = $('.slider .view')[idx]
+    if(el == null) {
+      console.log("No element for slider index "+idx)
+      return
+    }
+
+    $(el).removeClass('slide-out').removeClass('hidden').addClass('slide-in')
+  })
+
+  if(links[0] != null) links[0].click();
+}
+
+function initSliders() {
+  $('.slider .view').addClass('hidden')
+  var groups = $('.slider .selectors')
+  groups.each(function(idx){
+    initSlideGroup(this)
+  })
+}
+
+//run code colors
+
+$(document).ready(function() {
+  initSliders()
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+});
+
+//copy to clipboard
+
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
+$('#copy').hover(function() {
+   $('#install').toggleClass("text-focus");
+});
+
+$('#copy').click(function() {
+   $(this).removeClass("fa-copy");
+   $(this).addClass("fa-check");
+
+ setTimeout(() => {
+   $(this).removeClass('fa-check').addClass('fa-copy');
+  }, 1500);
+});
+
+// homepage content slider
+
+// tutorial content slider
+
+$(function() {
+  $(".collapseContent").hide();
+  $(".collapsebtn").addClass("fa-plus-square");
+
+   $('.collapseToggle').click(function() {
+      var el = $(this).parent().find('.collapseContent')
+      el.slideToggle("fast")
+      // $('.collapseContent').slideToggle("fast");
+      var btn = $(this).find('.collapsebtn')
+      if(btn.hasClass('fa-minus-square')) {
+        btn.addClass('fa-plus-square')
+        btn.removeClass('fa-minus-square')
+      } else {
+        btn.addClass('fa-minus-square')
+        btn.removeClass('fa-plus-square')
+      }
+   });
+});
+
+
+
+// scroll spy animations
+
+var $slide_left = $('.slide-left');
+var $slide_right = $('.slide-right');
+var $slide_up = $('.slide-up');
+var $slide_up_slow = $('.slide-up-slow');
+var $window = $(window);
+
+function check_if_in_view() {
+  var window_height = $window.height();
+  var window_top_position = $window.scrollTop();
+  var window_bottom_position = (window_top_position + window_height);
+
+  $.each($slide_left, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_right, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up_slow, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+}
+
+$window.on('scroll resize', check_if_in_view);
+$window.trigger('scroll');
+
+//scroll to top
+$(document).ready(function(){
+
+  $(window).scroll(function(){
+    if ($(this).scrollTop() > 100) {
+      $('.scrollToTop').fadeIn();
+    } else {
+      $('.scrollToTop').fadeOut();
+    }
+  });
+
+  $('.scrollToTop').click(function(){
+    $('html, body').animate({scrollTop : 0},800);
+    return false;
+  });
+
+  // scrolling to resource sections
+  $(".resources-button").click(function() {
+    var dst = $(this).attr("href")
+    $(".resources-button").removeClass("btn-purple").addClass("btn-purple-o")
+    $(this).addClass("btn-purple").removeClass("btn-purple-o")
+    $("html, body").animate({
+        scrollTop: $(dst).offset().top - 105
+    }, 1000);
+  });
+
+});
+
+//scrolling code box
+
+var div = $('#scrolled');
+   setInterval(function(){
+    var pos = div.scrollTop();
+    div.scrollTop(pos + 2);
+}, 200);
+
+//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });
+}
+else {
+    var progressBar = $('.progress-bar'),
+        max = getMax(),
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});</script><script src="/javascripts/segment.js"></script></body></html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>Chef InSpec Universal Matchers Reference</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_matchers docs_reference_matchers_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a t-purple"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="chef-inspec-universal-matchers-reference">Chef InSpec Universal Matchers Reference</h1>
+
+<p>Chef InSpec uses matchers to help compare resource values to expectations.
+The following matchers are available:</p>
+
+<p>You may also use any matcher provided by <a href="https://relishapp.com/rspec/rspec-expectations/docs">RSpec::Expectations</a>, but those matchers are outside of InSpec&rsquo;s <a href="https://www.inspec.io/docs/reference/inspec_and_friends/#rspec">scope of support</a>.</p>
+
+<p>The following InSpec-supported universal matchers are available:</p>
+
+<ul>
+<li><a href="#be"><code>be</code></a> - make numeric comparisons</li>
+<li><a href="#be_in"><code>be_in</code></a> - look for the property value in a list</li>
+<li><a href="#cmp"><code>cmp</code></a> - general-use equality (try this first)</li>
+<li><a href="#eq"><code>eq</code></a> - type-specific equality</li>
+<li><a href="#include"><code>include</code></a> - look for an expected value in a list-valued property</li>
+<li><a href="#match"><code>match</code></a> - look for patterns in text using regular expressions</li>
+</ul>
+
+<p>See <a href="https://learn.chef.io/modules/explore-inspec-resources#/">Explore Chef InSpec resources</a> on Learn Chef Rally to learn more about InSpec&rsquo;s built-in matchers.</p>
+
+<h2 id="be">be</h2>
+
+<p>This matcher can be followed by many different comparison operators.
+Always make sure to use numbers, not strings, for these comparisons.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">describe</span> <span class="n">file</span><span class="p">(</span><span class="s1">'/proc/cpuinfo'</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'size'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">be</span> <span class="o">&gt;=</span> <span class="mi">10</span> <span class="p">}</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'size'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">be</span> <span class="o">&lt;</span> <span class="mi">1000</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div>
+<h2 id="cmp">cmp</h2>
+
+<p>Unlike <code>eq</code>, <code>cmp</code> is a matcher for less-restrictive comparisons. It will
+try to fit the actual value to the type you are comparing it to. This is
+meant to relieve the user from having to write type-casts and
+resolutions.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">describe</span> <span class="n">sshd_config</span> <span class="k">do</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'Protocol'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">cmp</span> <span class="mi">2</span> <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="n">describe</span> <span class="n">passwd</span><span class="p">.</span><span class="nf">uid</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'users'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">cmp</span> <span class="s1">'root'</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div>
+<p><code>cmp</code> behaves in the following way:</p>
+
+<ul>
+<li>Compare strings to numbers</li>
+</ul>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">describe</span> <span class="n">sshd_config</span> <span class="k">do</span>
+  <span class="c1"># Only `'2'` works</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'Protocol'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span> <span class="s1">'2'</span> <span class="p">}</span>
+
+  <span class="c1"># Both of these work</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'Protocol'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">cmp</span> <span class="s1">'2'</span> <span class="p">}</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'Protocol'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">cmp</span> <span class="mi">2</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div>
+<ul>
+<li>String comparisons are not case-sensitive</li>
+</ul>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">describe</span> <span class="n">auditd_conf</span> <span class="k">do</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'log_format'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">cmp</span> <span class="s1">'raw'</span> <span class="p">}</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'log_format'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">cmp</span> <span class="s1">'RAW'</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div>
+<ul>
+<li>Recognize versions embedded in strings</li>
+</ul>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">describe</span> <span class="n">package</span><span class="p">(</span><span class="s1">'curl'</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'version'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">cmp</span> <span class="o">&gt;</span> <span class="s1">'7.35.0-1ubuntu2.10'</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div>
+<ul>
+<li>Compare arrays with only one entry to a value</li>
+</ul>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">describe</span> <span class="n">passwd</span><span class="p">.</span><span class="nf">uids</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'users'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">cmp</span> <span class="s1">'root'</span> <span class="p">}</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'users'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">cmp</span> <span class="p">[</span><span class="s1">'root'</span><span class="p">]</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div>
+<ul>
+<li>Single-value arrays of strings may also be compared to a regex</li>
+</ul>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">describe</span> <span class="n">auditd_conf</span> <span class="k">do</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'log_format'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">cmp</span> <span class="sr">/raw/i</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div>
+<ul>
+<li>Improved printing of octal comparisons</li>
+</ul>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">describe</span> <span class="n">file</span><span class="p">(</span><span class="s1">'/proc/cpuinfo'</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'mode'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">cmp</span> <span class="s1">'0345'</span> <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="ss">expected: </span><span class="mo">0345</span>
+<span class="ss">got: </span><span class="mo">0444</span>
+</code></pre></div>
+<h2 id="eq">eq</h2>
+
+<p>Test for exact equality of two values.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">describe</span> <span class="n">sshd_config</span> <span class="k">do</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'RSAAuthentication'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should_not</span> <span class="n">eq</span> <span class="s1">'no'</span> <span class="p">}</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'Protocol'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span> <span class="s1">'2'</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div>
+<p><code>eq</code> fails if types don&rsquo;t match. Please keep this in mind, when comparing
+configuration entries that are numbers:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">its</span><span class="p">(</span><span class="s1">'Port'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span> <span class="s1">'22'</span> <span class="p">}</span> <span class="c1"># ok</span>
+
+<span class="n">its</span><span class="p">(</span><span class="s1">'Port'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span> <span class="mi">22</span> <span class="p">}</span>
+<span class="c1"># fails: '2' != 2 (string vs int)</span>
+</code></pre></div>
+<p>For less restrictive comparisons, please use <code>cmp</code>.</p>
+
+<h2 id="include">include</h2>
+
+<p>Verifies if a value is included in a list.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">describe</span> <span class="n">passwd</span> <span class="k">do</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'users'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="kp">include</span> <span class="s1">'my_user'</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div>
+<h2 id="be_in">be_in</h2>
+
+<p>Verifies that an item is included in a list.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">describe</span> <span class="n">resource</span> <span class="k">do</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'item'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">be_in</span> <span class="no">LIST</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div>
+<h2 id="match">match</h2>
+
+<p>Check if a string matches a regular expression.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">describe</span> <span class="n">sshd_config</span> <span class="k">do</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'Ciphers'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should_not</span> <span class="n">match</span> <span class="sr">/cbc/</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div></column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
+(function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+(w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+})(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+_st('install','xzyJV6P7pgscygGyyTm8','2.0.0');
+// end Swiftype code snippet
+
+document.getElementsByClassName("st-default-search-input")[0].focus();</script></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><div class="pad-under-xs"><img alt="image of octagon spinning" id="hex" onerror="this.src='/images/octagon.png'" src="/images/octagon.svg" /></div><h3 class="t-white pad-under-xs">Get started with Chef InSpec and rock on.</h3><div class="row align columns"><div class="strict-center"><a class="button btn-lg btn-purple shadow-dark margin-right-xs mobile-row-btn" href="/downloads"><i class="fa fa-cloud-download"></i><span>download InSpec 4</span></a><a class="button btn-lg btn-white-o shadow-dark mobile-row-btn" href="/tutorials">browse tutorials</a></div></div></div><div class="flex align"><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="https://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="link footer--link" href="https://docs.chef.io/chef_license.html">Licensing</a></li><li><a class="link footer--link" href="https://www.chef.io/terms-of-service/">Terms &amp; Conditions</a></li><li><a class="link footer--link" href="https://www.chef.io/trademark-policy/">Trademark Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/privacy-policy/">Privacy Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/cookie-policy/">Cookie Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div></div></div><p class="strict-center pad-under-xs"><small class="t-gray">&copy; Chef Software 2015-2020</small></p></footer><script src="https://buttons.github.io/buttons.js"></script><script src="/scripts/inspec_tutorial.js"></script><script src="/dist/inspec_tutorial.js"></script><script src="/javascripts/vendor/jquery.min.js"></script><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>function initSlideGroup(group) {
+  var prev = -1;
+  var links = $(group).find('a')
+
+  links.click(function(e) {
+    e.stopPropagation()
+
+    links.removeClass('selected')
+    $(this).addClass('selected')
+
+    var idx = $(this).index();
+    if(prev == idx) return;
+    prev = idx;
+
+    $('.slider .view.slide-in').removeClass('slide-in').addClass('slide-out')
+    var el = $('.slider .view')[idx]
+    if(el == null) {
+      console.log("No element for slider index "+idx)
+      return
+    }
+
+    $(el).removeClass('slide-out').removeClass('hidden').addClass('slide-in')
+  })
+
+  if(links[0] != null) links[0].click();
+}
+
+function initSliders() {
+  $('.slider .view').addClass('hidden')
+  var groups = $('.slider .selectors')
+  groups.each(function(idx){
+    initSlideGroup(this)
+  })
+}
+
+//run code colors
+
+$(document).ready(function() {
+  initSliders()
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+});
+
+//copy to clipboard
+
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
+$('#copy').hover(function() {
+   $('#install').toggleClass("text-focus");
+});
+
+$('#copy').click(function() {
+   $(this).removeClass("fa-copy");
+   $(this).addClass("fa-check");
+
+ setTimeout(() => {
+   $(this).removeClass('fa-check').addClass('fa-copy');
+  }, 1500);
+});
+
+// homepage content slider
+
+// tutorial content slider
+
+$(function() {
+  $(".collapseContent").hide();
+  $(".collapsebtn").addClass("fa-plus-square");
+
+   $('.collapseToggle').click(function() {
+      var el = $(this).parent().find('.collapseContent')
+      el.slideToggle("fast")
+      // $('.collapseContent').slideToggle("fast");
+      var btn = $(this).find('.collapsebtn')
+      if(btn.hasClass('fa-minus-square')) {
+        btn.addClass('fa-plus-square')
+        btn.removeClass('fa-minus-square')
+      } else {
+        btn.addClass('fa-minus-square')
+        btn.removeClass('fa-plus-square')
+      }
+   });
+});
+
+
+
+// scroll spy animations
+
+var $slide_left = $('.slide-left');
+var $slide_right = $('.slide-right');
+var $slide_up = $('.slide-up');
+var $slide_up_slow = $('.slide-up-slow');
+var $window = $(window);
+
+function check_if_in_view() {
+  var window_height = $window.height();
+  var window_top_position = $window.scrollTop();
+  var window_bottom_position = (window_top_position + window_height);
+
+  $.each($slide_left, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_right, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up_slow, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+}
+
+$window.on('scroll resize', check_if_in_view);
+$window.trigger('scroll');
+
+//scroll to top
+$(document).ready(function(){
+
+  $(window).scroll(function(){
+    if ($(this).scrollTop() > 100) {
+      $('.scrollToTop').fadeIn();
+    } else {
+      $('.scrollToTop').fadeOut();
+    }
+  });
+
+  $('.scrollToTop').click(function(){
+    $('html, body').animate({scrollTop : 0},800);
+    return false;
+  });
+
+  // scrolling to resource sections
+  $(".resources-button").click(function() {
+    var dst = $(this).attr("href")
+    $(".resources-button").removeClass("btn-purple").addClass("btn-purple-o")
+    $(this).addClass("btn-purple").removeClass("btn-purple-o")
+    $("html, body").animate({
+        scrollTop: $(dst).offset().top - 105
+    }, 1000);
+  });
+
+});
+
+//scrolling code box
+
+var div = $('#scrolled');
+   setInterval(function(){
+    var pos = div.scrollTop();
+    div.scrollTop(pos + 2);
+}, 200);
+
+//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });
+}
+else {
+    var progressBar = $('.progress-bar'),
+        max = getMax(),
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});</script><script src="/javascripts/segment.js"></script></body></html>

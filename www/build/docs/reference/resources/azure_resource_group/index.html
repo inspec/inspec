@@ -1,0 +1,547 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the azure_resource_group_resource_count Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_azure_resource_group docs_reference_resources_azure_resource_group_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="azure_resource_group_resource_count">azure_resource_group_resource_count</h1>
+
+<p>Use the <code>azure_resource_group_resource_count</code> Chef InSpec audit resource to check the number of Azure resources in a resource group.</p>
+
+<h2 id="availability">Availability</h2>
+
+<h3 id="installation">Installation</h3>
+
+<p>This resource is distributed along with Chef InSpec itself. You can use it automatically.</p>
+
+<h3 id="version">Version</h3>
+
+<p>This resource first became available in v2.0.16 of InSpec.</p>
+
+<h2 id="syntax">Syntax</h2>
+
+<p>The name of the resource group is specified as a parameter on the resource:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azure_resource_group(name: 'MyResourceGroup') do
+  its('property') { should eq 'value' }
+end
+</code></pre></div>
+<p>where</p>
+
+<ul>
+<li><code>MyResourceGroup</code> is the name of the resource group being interrogated</li>
+<li><code>property</code> is one a resource property</li>
+<li><code>value</code> is the expected output from the matcher</li>
+</ul>
+
+<h2 id="examples">Examples</h2>
+
+<p>The following examples show how to use this Chef InSpec audit resource:</p>
+
+<h3 id="ensure-the-resource-group-has-the-correct-number-of-resources">Ensure the Resource Group has the correct number of resources</h3>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azure_resource_group_resource_count(name: 'InSpec-Azure') do
+  its('total') { should eq 7}
+end
+</code></pre></div>
+<h3 id="ensure-that-the-resource-group-contains-the-correct-resources">Ensure that the Resource Group contains the correct resources</h3>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azure_resource_group_resource_count(name: 'InSpec-Azure') do
+  its('total') { should eq 7 }
+  its('vm_count') { should eq 2 }
+  its('nic_count') { should eq 2 }
+  its('public_ip_count') { should eq 1 }
+  its('sa_count') { should eq 1 }
+  its('vnet_count') { should eq 1 }
+end
+</code></pre></div>
+<p><br></p>
+
+<h2 id="parameters">Parameters</h2>
+
+<ul>
+<li><code>group_name</code>, <code>name</code></li>
+</ul>
+
+<h2 id="parameter-examples">Parameter Examples</h2>
+
+<p>The options that can be passed to the resource are as follows.</p>
+
+<h3 id="group_name-required">group_name (required)</h3>
+
+<p>Use this parameter to define the Azure Resource Group to be tested.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure') do
+    ...
+end
+</code></pre></div>
+<h3 id="name">name</h3>
+
+<p>Use this parameter to define the name of the Azure resource to test.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Windows-Internal-VM') do
+    ...
+end
+</code></pre></div>
+<p>If both <code>group_name</code> and <code>name</code> is set then <code>name</code> takes priority</p>
+
+<p>These options can also be set using the environment variables:</p>
+
+<ul>
+<li><code>AZURE_RESOURCE_GROUP_NAME</code></li>
+<li><code>AZURE_RESOURCE_NAME</code></li>
+</ul>
+
+<p>When the options have been set as well as the environment variables, the environment variables take priority.</p>
+
+<p><br></p>
+
+<h2 id="parameter-example">Parameter Example</h2>
+<div class="highlight"><pre class="highlight plaintext"><code>describe azure_generic_resource(group_name: 'InSpec-Azure', name: 'Linux-Internal-VM') do
+  its('location') { should eq 'westeurope' }
+end
+</code></pre></div>
+<p><br></p>
+
+<h2 id="properties">Properties</h2>
+
+<ul>
+<li><code>name</code>, <code>location</code> ,<code>id</code>, <code>provisioning_state</code>, <code>subscription_id</code>, <code>total</code>, <code>nic_count</code>, <code>vm_count</code>, <code>extension_count</code>, <code>vnet_count</code>, <code>sa_count</code>, <code>public_ip_count</code>,<code>managed_disk_image_count</code>, <code>managed_disk_count</code>, <code>tag_count</code></li>
+</ul>
+
+<p><br></p>
+
+<h2 id="property-examples">Property Examples</h2>
+
+<p>This Chef InSpec audit resource has the following properties:</p>
+
+<h3 id="name">name</h3>
+
+<p>Tests the name of the resource group.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('name') { should cmp 'InSpec-Azure' }
+</code></pre></div>
+<h3 id="location">location</h3>
+
+<p>Tests where in Azure the resource group is located.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('location') { should cmp 'westeurope' }
+</code></pre></div>
+<h3 id="id">id</h3>
+
+<p>Tests the full qualified ID of the resource group.</p>
+
+<p>This takes the format: <code>/subscriptions/&lt;SUBSCRIPTION_ID&gt;/resourceGroups/&lt;RESOURCE_GROUP_NAME&gt;</code>.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('id') { should cmp 'FQDN' }
+</code></pre></div>
+<h3 id="provisioning_state">provisioning_state</h3>
+
+<p>Tests the provisioning state of the resource group.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('provisioning_state') { should cmp 'Succeeded' }
+</code></pre></div>
+<h3 id="total">total</h3>
+
+<p>Tests the total number of resources in the resource group.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('total') { should eq 13 }
+</code></pre></div>
+<h3 id="nic_count">nic_count</h3>
+
+<p>Tests the number of network interface cards in the resource group.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_nics }
+its('nic_count') { should eq 3 }
+</code></pre></div>
+<h3 id="vm_count">vm_count</h3>
+
+<p>Tests the number of virtual machines in the resource group.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('vm_count') { should eq 5 }
+</code></pre></div>
+<h3 id="vnet_count">vnet_count</h3>
+
+<p>Tests the number of virtual networks in the resource group.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('vnet_count') { should eq 5 }
+</code></pre></div>
+<h3 id="sa_count">sa_count</h3>
+
+<p>Tests the number of storage accounts in the resource group.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('sa_count') { should eq 5 }
+</code></pre></div>
+<h3 id="public_ip_count">public_ip_count</h3>
+
+<p>Tests the number of Public IP Addresses in the resource group.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('public_ip_count') { should eq 5 }
+</code></pre></div>
+<h3 id="managed_disk_image_count">managed_disk_image_count</h3>
+
+<p>Tests the number of managed disk images that are in the resource group.</p>
+
+<p>Managed disks are created from disk images and then attached to the machines. Generally, the images are created from a base image or a custom image (e.g., Packer)</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('managed_disk_image_count') { should eq 5 }
+</code></pre></div>
+<h3 id="managed_disk_count">managed_disk_count</h3>
+
+<p>Tests the number of managed disks in the resource group.</p>
+
+<p>If a resource group contains one virtual machine with an OS disk and 2 data disks that are all Managed Disks, then the count would be 3.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('managed_disk_count') { should eq 3 }
+</code></pre></div>
+<p><br></p>
+
+<h2 id="matchers">Matchers</h2>
+
+<p>This resource has a number of special matchers that provide a simple way to test if a specific Azure Resource type exists in the resource group.</p>
+
+<p>For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">matchers page</a>.</p>
+
+<h3 id="have_nics">have_nics</h3>
+
+<p>Use this matcher to test if network interfaces exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_nics }
+</code></pre></div>
+<h3 id="have_vms">have_vms</h3>
+
+<p>Use this matcher to test that virtual machines exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_vms }
+</code></pre></div>
+<h3 id="have_extensions">have_extensions</h3>
+
+<p>Use this matcher to test for virtual machine extensions.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_extensions }
+</code></pre></div>
+<h3 id="have_nsgs">have_nsgs</h3>
+
+<p>Use this matcher to test that network security groups exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_nsgs }
+</code></pre></div>
+<h3 id="have_vnets">have_vnets</h3>
+
+<p>Use this matcher to test that virtual networks exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_vnets }
+</code></pre></div>
+<h3 id="have_managed_disks">have_managed_disks</h3>
+
+<p>Use this matcher to test that managed disks exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_managed_disks }
+</code></pre></div>
+<h3 id="have_managed_disk_images">have_managed_disk_images</h3>
+
+<p>Use this matcher to test that managed disk images exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_managed_disk_images }
+</code></pre></div>
+<h3 id="have_sas">have_sas</h3>
+
+<p>Use this matcher to test that storage accounts exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_sas }
+</code></pre></div>
+<h3 id="have_public_ips">have_public_ips</h3>
+
+<p>Use this matcher to test that public ips exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_public_ips }
+</code></pre></div>
+<h2 id="tags">Tags</h2>
+
+<p>It is possible to test the tags that have been assigned to the resource. There are some properties for checking that a resource has tags, that it has the correct number of tags, and that the correct tags are assigned.</p>
+
+<h3 id="have_tags">have_tags</h3>
+
+<p>This is a simple test to see if the machine has tags assigned to it or not.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>it { should have_tags }
+</code></pre></div>
+<h3 id="tag_count">tag_count</h3>
+
+<p>Returns the number of tags that are assigned to the resource</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its ('tag_count') { should eq 2 }
+</code></pre></div>
+<h3 id="tags">tags</h3>
+
+<p>It is possible to check if a specific tag has been set on the resource.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('tags') { should include 'owner' }
+</code></pre></div>
+<h3 id="xxx_tag">xxx_tag</h3>
+
+<p>To get the value of the tag, some properties are created from the tags themselves.</p>
+
+<p>For example, if the following tag is set on a resource:</p>
+
+<ul>
+<li>owner: JG Jinglehimerschmidt</li>
+</ul>
+
+<p>Then a property is available called <code>Owner_tag</code>.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>its('owner_tag') { should cmp 'JG Jinglehimerschmidt' }
+</code></pre></div>
+<p>Note: The tag name is case sensitive which makes the test case sensitive. E.g. <code>owner_tag</code> does not equal <code>Owner_tag</code>.</p>
+
+<p><br></p>
+
+<h2 id="references">References</h2>
+
+<p>For more information on Azure Ruby SDK resources, see:</p>
+
+<ul>
+<li><a href="https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_resources">Azure Ruby SDK - Resources</a></li>
+<li><a href="https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/resource_group.rb">Resource Group</a></li>
+</ul>
+</column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
+(function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+(w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+})(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+_st('install','xzyJV6P7pgscygGyyTm8','2.0.0');
+// end Swiftype code snippet
+
+document.getElementsByClassName("st-default-search-input")[0].focus();</script></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><div class="pad-under-xs"><img alt="image of octagon spinning" id="hex" onerror="this.src='/images/octagon.png'" src="/images/octagon.svg" /></div><h3 class="t-white pad-under-xs">Get started with Chef InSpec and rock on.</h3><div class="row align columns"><div class="strict-center"><a class="button btn-lg btn-purple shadow-dark margin-right-xs mobile-row-btn" href="/downloads"><i class="fa fa-cloud-download"></i><span>download InSpec 4</span></a><a class="button btn-lg btn-white-o shadow-dark mobile-row-btn" href="/tutorials">browse tutorials</a></div></div></div><div class="flex align"><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="https://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="link footer--link" href="https://docs.chef.io/chef_license.html">Licensing</a></li><li><a class="link footer--link" href="https://www.chef.io/terms-of-service/">Terms &amp; Conditions</a></li><li><a class="link footer--link" href="https://www.chef.io/trademark-policy/">Trademark Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/privacy-policy/">Privacy Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/cookie-policy/">Cookie Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div></div></div><p class="strict-center pad-under-xs"><small class="t-gray">&copy; Chef Software 2015-2020</small></p></footer><script src="https://buttons.github.io/buttons.js"></script><script src="/scripts/inspec_tutorial.js"></script><script src="/dist/inspec_tutorial.js"></script><script src="/javascripts/vendor/jquery.min.js"></script><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>function initSlideGroup(group) {
+  var prev = -1;
+  var links = $(group).find('a')
+
+  links.click(function(e) {
+    e.stopPropagation()
+
+    links.removeClass('selected')
+    $(this).addClass('selected')
+
+    var idx = $(this).index();
+    if(prev == idx) return;
+    prev = idx;
+
+    $('.slider .view.slide-in').removeClass('slide-in').addClass('slide-out')
+    var el = $('.slider .view')[idx]
+    if(el == null) {
+      console.log("No element for slider index "+idx)
+      return
+    }
+
+    $(el).removeClass('slide-out').removeClass('hidden').addClass('slide-in')
+  })
+
+  if(links[0] != null) links[0].click();
+}
+
+function initSliders() {
+  $('.slider .view').addClass('hidden')
+  var groups = $('.slider .selectors')
+  groups.each(function(idx){
+    initSlideGroup(this)
+  })
+}
+
+//run code colors
+
+$(document).ready(function() {
+  initSliders()
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+});
+
+//copy to clipboard
+
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
+$('#copy').hover(function() {
+   $('#install').toggleClass("text-focus");
+});
+
+$('#copy').click(function() {
+   $(this).removeClass("fa-copy");
+   $(this).addClass("fa-check");
+
+ setTimeout(() => {
+   $(this).removeClass('fa-check').addClass('fa-copy');
+  }, 1500);
+});
+
+// homepage content slider
+
+// tutorial content slider
+
+$(function() {
+  $(".collapseContent").hide();
+  $(".collapsebtn").addClass("fa-plus-square");
+
+   $('.collapseToggle').click(function() {
+      var el = $(this).parent().find('.collapseContent')
+      el.slideToggle("fast")
+      // $('.collapseContent').slideToggle("fast");
+      var btn = $(this).find('.collapsebtn')
+      if(btn.hasClass('fa-minus-square')) {
+        btn.addClass('fa-plus-square')
+        btn.removeClass('fa-minus-square')
+      } else {
+        btn.addClass('fa-minus-square')
+        btn.removeClass('fa-plus-square')
+      }
+   });
+});
+
+
+
+// scroll spy animations
+
+var $slide_left = $('.slide-left');
+var $slide_right = $('.slide-right');
+var $slide_up = $('.slide-up');
+var $slide_up_slow = $('.slide-up-slow');
+var $window = $(window);
+
+function check_if_in_view() {
+  var window_height = $window.height();
+  var window_top_position = $window.scrollTop();
+  var window_bottom_position = (window_top_position + window_height);
+
+  $.each($slide_left, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_right, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up_slow, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+}
+
+$window.on('scroll resize', check_if_in_view);
+$window.trigger('scroll');
+
+//scroll to top
+$(document).ready(function(){
+
+  $(window).scroll(function(){
+    if ($(this).scrollTop() > 100) {
+      $('.scrollToTop').fadeIn();
+    } else {
+      $('.scrollToTop').fadeOut();
+    }
+  });
+
+  $('.scrollToTop').click(function(){
+    $('html, body').animate({scrollTop : 0},800);
+    return false;
+  });
+
+  // scrolling to resource sections
+  $(".resources-button").click(function() {
+    var dst = $(this).attr("href")
+    $(".resources-button").removeClass("btn-purple").addClass("btn-purple-o")
+    $(this).addClass("btn-purple").removeClass("btn-purple-o")
+    $("html, body").animate({
+        scrollTop: $(dst).offset().top - 105
+    }, 1000);
+  });
+
+});
+
+//scrolling code box
+
+var div = $('#scrolled');
+   setInterval(function(){
+    var pos = div.scrollTop();
+    div.scrollTop(pos + 2);
+}, 200);
+
+//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });
+}
+else {
+    var progressBar = $('.progress-bar'),
+        max = getMax(),
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});</script><script src="/javascripts/segment.js"></script></body></html>

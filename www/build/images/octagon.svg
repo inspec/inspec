@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>Polygon</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="15.0756928%" y1="-39.6409179%" x2="79.5440774%" y2="135.160102%" id="linearGradient-1">
+            <stop stop-color="#63CE99" offset="0%"></stop>
+            <stop stop-color="#47B7D1" offset="37.4422034%"></stop>
+            <stop stop-color="#625AF2" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-2" points="30 0 51.2132034 8.78679656 60 30 51.2132034 51.2132034 30 60 8.78679656 51.2132034 0 30 8.78679656 8.78679656"></polygon>
+    </defs>
+    <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="1---home" transform="translate(-150.000000, -2194.000000)">
+            <g id="how-it-works" transform="translate(-66.000000, -402.000000)">
+                <g id="Group-32-Copy" transform="translate(216.000000, 2516.000000)">
+                    <g id="Group-31" transform="translate(0.000000, 80.000000)">
+                        <g id="Polygon">
+                            <use fill-rule="evenodd" xlink:href="#path-2"></use>
+                            <path stroke="url(#linearGradient-1)" stroke-width="3" d="M30,1.6235883 L9.93484686,9.93484686 L1.6235883,30 L9.93484686,50.0651531 L30,58.3764117 L50.0651531,50.0651531 L58.3764117,30 L50.0651531,9.93484686 L30,1.6235883 Z"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

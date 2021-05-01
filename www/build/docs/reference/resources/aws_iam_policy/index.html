@@ -1,0 +1,490 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the aws_iam_policy Resource</title><meta name="description" /><link href="/css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/vendor/fontawesome.min.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_aws_iam_policy docs_reference_resources_aws_iam_policy_index"><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav class="shadow" id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img alt="logo for Chef InSpec" onerror="this.src='/images/chef-inspec.png'" src="/images/chef-inspec.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="link " <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="link " <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="link " <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a class="link" href="https://github.com/chef/inspec"><i class="fa fa-github"></i><span class="main-nav--link-text">Github</span></a></li><li class="nav-cta"><a class="button btn-sm btn-purple" href="/docs/reference/install"><i class="fa fa-cloud-download"></i>Download</a></li></ul></div></nav><main id="main-content"><!--header search--><header class="bg-gradient margin-top-offset relative"><div class="row"><div class="columns large-12 medium-12 z-20"><div class="flex align margin-both"><form action="/docs/search/" class="main-sidebar--search shadow-dark" method="get"><input class="st-default-search-input" name="q" placeholder="Search documentation..." type="search" /></form></div></div></div><div id="particles-second"><canvas class="particles-js-canvas-el" /></div></header><div class="row margin-both relative"><column class="columns large-3 medium-3 mobile-hide" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/install">Install and Uninstall</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/platforms">Chef InSpec for the cloud</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">Chef InSpec and friends</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/glossary">Chef InSpec Glossary</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inputs">Inputs</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/reporters">Reporters</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/config">Configuration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">Chef InSpec DSL</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/style">Profile Style guide</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Custom Resources</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugins">Plugins</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec">kitchen-inspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Chef Habitat Integration</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="fa fa-angle-double-right focus strict-right"></i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/waivers">Waivers</a><i class="fa fa-angle-double-right focus strict-right"></i></li></ul></li></ul></column><column class="columns large-9 medium-9 mobile-12" id="mainbar"><h1 id="aws_iam_policy">aws_iam_policy</h1>
+
+<p>Use the <code>aws_iam_policy</code> InSpec audit resource to test properties of a single managed AWS IAM Policy.</p>
+
+<h2 id="syntax">Syntax</h2>
+
+<p>An <code>aws_iam_policy</code> resource block identifies a policy by policy name or arn</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Find a policy by name
+describe aws_iam_policy('AWSSupportAccess') do
+  it { should exist }
+end
+
+# Hash syntax for policy name
+describe aws_iam_policy(policy_name: 'AWSSupportAccess') do
+  it { should exist }
+end
+</code></pre></div>
+<h4 id="parameters">Parameters</h4>
+
+<p>This resource requires either the <code>policy_name</code> or the <code>policy_arn</code> to be provided.</p>
+
+<h5 id="policy_name-required-if-policyarn-not-provided-_">policy_name <em>(required if `policy</em>arn` not provided)_</h5>
+
+<p>The Policy Name which uniquely identifies the Policy. 
+This must be passed as a <code>policy_name: &#39;value&#39;</code> key-value entry in a hash.</p>
+
+<h5 id="policy_arn-required-if-policyname-not-provided-_">policy_arn <em>(required if `policy</em>name` not provided)_</h5>
+
+<p>The Policy ARN which uniquely identifies the Policy. 
+This must be passed as a <code>policy_arn: &#39;value&#39;</code> key-value entry in a hash.</p>
+
+<p>See also the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html">AWS documentation on IAM Policy</a>.</p>
+
+<h2 id="properties">Properties</h2>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>arn</td>
+<td>The ARN identifier of the specified policy.</td>
+</tr>
+<tr>
+<td>attachment_count</td>
+<td>The count of attached entities for the specified policy.</td>
+</tr>
+<tr>
+<td>attached_groups</td>
+<td>The list of group names of the groups attached to the policy.</td>
+</tr>
+<tr>
+<td>attached_roles</td>
+<td>The list of role names of the roles attached to the policy.</td>
+</tr>
+<tr>
+<td>attached_users</td>
+<td>The list of usernames of the users attached to the policy.</td>
+</tr>
+<tr>
+<td>default_version_id</td>
+<td>The &lsquo;default_version_id&rsquo; value of the specified policy.</td>
+</tr>
+<tr>
+<td>policy</td>
+<td>Returns the default version of the policy document after decoding as a Ruby hash. This hash contains the policy statements and is useful for performing checks that cannot be expressed using higher-level matchers like <code>have_statement</code>.</td>
+</tr>
+<tr>
+<td>statement_count</td>
+<td>Returns the number of statements present in the <code>policy</code>.</td>
+</tr>
+</tbody></table>
+
+<h2 id="examples">Examples</h2>
+
+<h5 id="test-that-a-policy-does-exist">Test that a policy does exist</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_policy('AWSSupportAccess') do
+  it { should exist }
+end
+</code></pre></div>
+<h5 id="test-that-a-policy-is-attached-to-at-least-one-entity">Test that a policy is attached to at least one entity</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_policy('AWSSupportAccess') do
+  it { should be_attached }
+end
+</code></pre></div>
+<h5 id="examine-the-policy-statements">Examine the policy statements</h5>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_policy('my-policy') do
+  # Verify that there is at least one statement allowing access to S3
+  it { should have_statement(Action: 's3:PutObject', Effect: 'allow') }
+
+  # have_statement does not expand wildcards. If you want to verify
+  # they are absent, an explicit check is required.
+  it { should_not have_statement(Action: 's3:*') }
+
+  # You can also check NotAction
+  it { should_not have_statement(NotAction: 'iam:*') }
+end
+</code></pre></div>
+<h2 id="matchers">Matchers</h2>
+
+<p>This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our <a href="https://www.inspec.io/docs/reference/matchers/">Universal Matchers page</a>.</p>
+
+<h4 id="exist">exist</h4>
+
+<p>The control will pass if the describe returns at least one result.</p>
+
+<p>Use <code>should_not</code> to test the entity should not exist.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>  it { should exist }
+
+  it { should_not exist }
+</code></pre></div>
+<h4 id="be_attached">be_attached</h4>
+
+<p>The test will pass if the identified policy is attached to at least one IAM user, group, or role.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_policy('AWSSupportAccess') do
+  it { should be_attached }
+end
+</code></pre></div>
+<h4 id="be_attached_to_group-groupname">be_attached_to_group(GROUPNAME)</h4>
+
+<p>The test will pass if the identified policy attached the specified group.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_policy('AWSSupportAccess') do
+  it { should be_attached_to_group(GROUPNAME) }
+end
+</code></pre></div>
+<h4 id="be_attached_to_user-username">be_attached_to_user(USERNAME)</h4>
+
+<p>The test will pass if the identified policy attached the specified user.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_policy('AWSSupportAccess') do
+  it { should be_attached_to_user(USERNAME) }
+end
+</code></pre></div>
+<h4 id="be_attached_to_role-rolename">be_attached_to_role(ROLENAME)</h4>
+
+<p>The test will pass if the identified policy attached the specified role.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>describe aws_iam_policy('AWSSupportAccess') do
+  it { should be_attached_to_role(ROLENAME) }
+end
+</code></pre></div>
+<h4 id="have_statement">have_statement</h4>
+
+<p>Examines the list of statements contained in the policy and passes if at least one of the statements matches. This matcher does <em>not</em> interpret the policy in a request authorization context, as AWS does when a request processed. Rather, <code>have_statement</code> examines the literal contents of the IAM policy, and reports on what is present (or absent, when used with <code>should_not</code>).</p>
+
+<p><code>have_statement</code> accepts the following criteria to search for matching statements. If any statement matches all the criteria, the test is successful.  All criteria may be used as Titlecase (as in the AWS examples) or lowercase, string or symbol.</p>
+
+<ul>
+<li><code>Action</code> - Expresses the requested operation. Acceptable literal values are any AWS operation name, including the &lsquo;*&rsquo; wildcard character. <code>Action</code> may also use a list of AWS operation names.</li>
+<li><code>Effect</code> - Expresses if the operation is permitted. Acceptable values are &lsquo;Deny&rsquo; and &lsquo;Allow&rsquo;.</li>
+<li><code>Sid</code> - A user-provided string identifier for the statement.</li>
+<li><code>Resource</code> - Expresses the operation&rsquo;s target. Acceptable values are ARNs, including the &lsquo;*&rsquo; wildcard. <code>Resource</code> may also use a list of ARN values.</li>
+</ul>
+
+<p>Please note the following about the behavior of <code>have_statement</code>:
+* <code>Action</code>, <code>Sid</code>, and <code>Resource</code> allow using a regular expression as the search critera instead of a string literal.
+* It does not support wildcard expansion; to check for a wildcard value, check for it explicitly. For example, if the policy includes a statement with <code>&quot;Action&quot;: &quot;s3:*&quot;</code> and the test checks for <code>Action: &quot;s3:PutObject&quot;</code>, the test <em>will not match</em>. You must write an additional test checking for the wildcard case.
+* It supports searching list values. For example, if a statement contains a list of 3 resources, and a <code>have_statement</code> test specifes <em>one</em> of those resources, it will match.
+* <code>Action</code> and <code>Resource</code> allow using a list of string literals or regular expressions in a test, in which case <em>all</em> must match on the <em>same</em> statement for the test to match. Order is ignored.
+* It does not support the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html">Principal</a>, <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_notprincipal.html">NotPrincipal</a> or <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html">Condition</a>.</p>
+
+<p>Examples:</p>
+<div class="highlight"><pre class="highlight plaintext"><code># Verify there is no full-admin statement
+describe aws_iam_policy('kryptonite') do
+  it { should_not have_statement('Effect' =&gt; 'Allow', 'Resource' =&gt; '*', 'Action' =&gt; '*')}
+end
+
+# Symbols and lowercase also allowed as criteria
+describe aws_iam_policy('kryptonite') do
+  # All 4 the same
+  it { should_not have_statement('Effect' =&gt; 'Allow', 'Resource' =&gt; '*', 'Action' =&gt; '*')}
+  it { should_not have_statement('effect' =&gt; 'Allow', 'resource' =&gt; '*', 'action' =&gt; '*')}
+  it { should_not have_statement(Effect: 'Allow', Resource: '*', Action: '*')}
+  it { should_not have_statement(effect: 'Allow', resource: '*', action: '*')}
+end
+
+# Verify bob is allowed to manage things on S3 buckets that start with bobs-stuff
+describe aws_iam_policy('bob-is-a-packrat') do
+  it { should have_statement(Effect: 'Allow',
+                             # Using the AWS wildcard - this must match exactly
+                             Resource: 'arn:aws:s3:::bobs-stuff*',
+                             # Specify a list of actions - all must match, no others, order isn't important
+                             Action: ['s3:PutObject', 's3:GetObject', 's3:DeleteObject'])}
+
+  # Bob would make new buckets constantly if we let him.
+  it { should_not have_statement(Effect: 'Allow', Action: 's3:CreateBucket')}
+  it { should_not have_statement(Effect: 'Allow', Action: 's3:*')}
+  it { should_not have_statement(Effect: 'Allow', Action: '*')}
+
+  # An alternative to checking for wildcards is to specify the
+  # statements you expect, then restrict statement count
+  its('statement_count') { should cmp 1 }
+end
+
+# Use regular expressions to examine the policy
+describe aws_iam_policy('regex-demo') do
+  # Check to see if anything mentions RDS at all.
+  # This catches `rds:CreateDBinstance` and `rds:*`, but would not catch '*'.
+  it { should_not have_statement(Action: /^rds:.+$/)}
+
+  # This policy should refer to both sally and kim's s3 buckets.
+  # This will only match if there is a statement that refers to both resources.
+  it { should have_statement(Resource: [/arn:aws:s3.+:sally/, /arn:aws:s3.+:kim/]) }
+  # The following also matches on a statement mentioning only one of them
+  it { should have_statement(Resource: /arn:aws:s3.+:(sally|kim)/) }
+end
+</code></pre></div>
+<h2 id="aws-permissions">AWS Permissions</h2>
+
+<p>Your <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal">Principal</a> will need the <code>iam:GetPolicy</code>, <code>iam:ListPolicy</code>, and <code>iam:ListEntitiesForPolicy</code> actions set to allow.</p>
+
+<p>You can find detailed documentation at <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html">Actions, Resources, and Condition Keys for Identity And Access Management</a>.
+aws_iam_policy.md</p>
+</column><div class="scrollToTop shadow-dark"><img id="scrollup" onerror="this.src='/images/home/arrow.png'" src="/images/home/arrow.svg" /></div></div><script>// Swiftype JS code snippet
+(function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+(w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+})(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+_st('install','xzyJV6P7pgscygGyyTm8','2.0.0');
+// end Swiftype code snippet
+
+document.getElementsByClassName("st-default-search-input")[0].focus();</script></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><div class="pad-under-xs"><img alt="image of octagon spinning" id="hex" onerror="this.src='/images/octagon.png'" src="/images/octagon.svg" /></div><h3 class="t-white pad-under-xs">Get started with Chef InSpec and rock on.</h3><div class="row align columns"><div class="strict-center"><a class="button btn-lg btn-purple shadow-dark margin-right-xs mobile-row-btn" href="/downloads"><i class="fa fa-cloud-download"></i><span>download InSpec 4</span></a><a class="button btn-lg btn-white-o shadow-dark mobile-row-btn" href="/tutorials">browse tutorials</a></div></div></div><div class="flex align"><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="https://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="link footer--link" href="https://docs.chef.io/chef_license.html">Licensing</a></li><li><a class="link footer--link" href="https://www.chef.io/terms-of-service/">Terms &amp; Conditions</a></li><li><a class="link footer--link" href="https://www.chef.io/trademark-policy/">Trademark Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/privacy-policy/">Privacy Policy</a></li><li><a class="link footer--link" href="https://www.chef.io/cookie-policy/">Cookie Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img alt="logo for Chef InSpec" src="/images/chef-inspec.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img alt="logo for Chef Software" src="/images/chef-logo.png" /></a></li></ul></div></div></div><p class="strict-center pad-under-xs"><small class="t-gray">&copy; Chef Software 2015-2020</small></p></footer><script src="https://buttons.github.io/buttons.js"></script><script src="/scripts/inspec_tutorial.js"></script><script src="/dist/inspec_tutorial.js"></script><script src="/javascripts/vendor/jquery.min.js"></script><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>function initSlideGroup(group) {
+  var prev = -1;
+  var links = $(group).find('a')
+
+  links.click(function(e) {
+    e.stopPropagation()
+
+    links.removeClass('selected')
+    $(this).addClass('selected')
+
+    var idx = $(this).index();
+    if(prev == idx) return;
+    prev = idx;
+
+    $('.slider .view.slide-in').removeClass('slide-in').addClass('slide-out')
+    var el = $('.slider .view')[idx]
+    if(el == null) {
+      console.log("No element for slider index "+idx)
+      return
+    }
+
+    $(el).removeClass('slide-out').removeClass('hidden').addClass('slide-in')
+  })
+
+  if(links[0] != null) links[0].click();
+}
+
+function initSliders() {
+  $('.slider .view').addClass('hidden')
+  var groups = $('.slider .selectors')
+  groups.each(function(idx){
+    initSlideGroup(this)
+  })
+}
+
+//run code colors
+
+$(document).ready(function() {
+  initSliders()
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+});
+
+//copy to clipboard
+
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
+$('#copy').hover(function() {
+   $('#install').toggleClass("text-focus");
+});
+
+$('#copy').click(function() {
+   $(this).removeClass("fa-copy");
+   $(this).addClass("fa-check");
+
+ setTimeout(() => {
+   $(this).removeClass('fa-check').addClass('fa-copy');
+  }, 1500);
+});
+
+// homepage content slider
+
+// tutorial content slider
+
+$(function() {
+  $(".collapseContent").hide();
+  $(".collapsebtn").addClass("fa-plus-square");
+
+   $('.collapseToggle').click(function() {
+      var el = $(this).parent().find('.collapseContent')
+      el.slideToggle("fast")
+      // $('.collapseContent').slideToggle("fast");
+      var btn = $(this).find('.collapsebtn')
+      if(btn.hasClass('fa-minus-square')) {
+        btn.addClass('fa-plus-square')
+        btn.removeClass('fa-minus-square')
+      } else {
+        btn.addClass('fa-minus-square')
+        btn.removeClass('fa-plus-square')
+      }
+   });
+});
+
+
+
+// scroll spy animations
+
+var $slide_left = $('.slide-left');
+var $slide_right = $('.slide-right');
+var $slide_up = $('.slide-up');
+var $slide_up_slow = $('.slide-up-slow');
+var $window = $(window);
+
+function check_if_in_view() {
+  var window_height = $window.height();
+  var window_top_position = $window.scrollTop();
+  var window_bottom_position = (window_top_position + window_height);
+
+  $.each($slide_left, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_right, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+
+  $.each($slide_up_slow, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+}
+
+$window.on('scroll resize', check_if_in_view);
+$window.trigger('scroll');
+
+//scroll to top
+$(document).ready(function(){
+
+  $(window).scroll(function(){
+    if ($(this).scrollTop() > 100) {
+      $('.scrollToTop').fadeIn();
+    } else {
+      $('.scrollToTop').fadeOut();
+    }
+  });
+
+  $('.scrollToTop').click(function(){
+    $('html, body').animate({scrollTop : 0},800);
+    return false;
+  });
+
+  // scrolling to resource sections
+  $(".resources-button").click(function() {
+    var dst = $(this).attr("href")
+    $(".resources-button").removeClass("btn-purple").addClass("btn-purple-o")
+    $(this).addClass("btn-purple").removeClass("btn-purple-o")
+    $("html, body").animate({
+        scrollTop: $(dst).offset().top - 105
+    }, 1000);
+  });
+
+});
+
+//scrolling code box
+
+var div = $('#scrolled');
+   setInterval(function(){
+    var pos = div.scrollTop();
+    div.scrollTop(pos + 2);
+}, 200);
+
+//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });
+}
+else {
+    var progressBar = $('.progress-bar'),
+        max = getMax(),
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});</script><script src="/javascripts/segment.js"></script></body></html>
