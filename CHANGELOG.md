@@ -1,7 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.36.6 -->
+## [v4.36.6](https://github.com/inspec/inspec/tree/v4.36.6) (2021-05-03)
+
+#### Enhancements
+- Reinstate resource testing on supported platforms using Test-Kitchen [#5204](https://github.com/inspec/inspec/pull/5204) ([clintoncwolfe](https://github.com/clintoncwolfe))
 
 #### Merged Pull Requests
 - Upgrade to GitHub-native Dependabot [#5488](https://github.com/inspec/inspec/pull/5488) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
@@ -9,6 +12,9 @@
 
 <!-- release_rollup since=4.36.4 -->
 ### Changes since 4.36.4 release
+
+#### Enhancements
+- Reinstate resource testing on supported platforms using Test-Kitchen [#5204](https://github.com/inspec/inspec/pull/5204) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.36.6 -->
 
 #### Merged Pull Requests
 - Upgrade to GitHub-native Dependabot [#5488](https://github.com/inspec/inspec/pull/5488) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.36.5 -->
