@@ -8,10 +8,25 @@ expeditor:
           limit: 1
 
 steps:
-  - label: Resource-Platform Tests
-    command:
-      - CONCURRENCY=3 DOCKER=1 KITCHEN_YAML=kitchen.dokken.yml RAKE_TASK=test:kitchen /workdir/.expeditor/buildkite/verify.sh
+  # - label: Resource-Platform Tests
+  #   command:
+  #     - CONCURRENCY=3 DOCKER=1 KITCHEN_YAML=kitchen.dokken.yml RAKE_TASK=test:kitchen /workdir/.expeditor/buildkite/verify.sh
+  #   expeditor:
+  #     executor:
+  #       docker:
+  #         image: ruby:2.7
+
+  - label: "Kitchen: resources-amazonlinux-2"
+    commands:
+      - .expeditor/buildkite/bk_linux_exec.sh
+      - . /var/lib/buildkite-agent/.asdf/asdf.sh
+      - bundle exec kitchen test resources-amazonlinux-2
+    artifact_paths:
+      - $PWD/.kitchen/logs/kitchen.log
+    env:
+        KITCHEN_YAML: kitchen.dokken.yml
     expeditor:
       executor:
-        docker:
-          image: ruby:2.7
+        linux:
+          privileged: true
+          single-use: true
