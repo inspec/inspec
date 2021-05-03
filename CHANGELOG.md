@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Update Ruby in omnibus packages to 2.7.3 [#5492](https://github.com/inspec/inspec/pull/5492) ([tas50](https://github.com/tas50))
 - Update openssl to 1.1.1k on macos [#5493](https://github.com/inspec/inspec/pull/5493) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.36.4 release
 
 #### Merged Pull Requests
+- Update Ruby in omnibus packages to 2.7.3 [#5492](https://github.com/inspec/inspec/pull/5492) ([tas50](https://github.com/tas50)) <!-- 4.36.4 -->
 - Update openssl to 1.1.1k on macos [#5493](https://github.com/inspec/inspec/pull/5493) ([tas50](https://github.com/tas50)) <!-- 4.36.4 -->
 <!-- release_rollup -->
 
