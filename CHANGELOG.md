@@ -1,18 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.36.5 -->
-## [v4.36.5](https://github.com/inspec/inspec/tree/v4.36.5) (2021-05-03)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Make sure we use chef-telemetry 1.0.8+ [#5491](https://github.com/inspec/inspec/pull/5491) ([tas50](https://github.com/tas50))
-- Update Ruby in omnibus packages to 2.7.3 [#5492](https://github.com/inspec/inspec/pull/5492) ([tas50](https://github.com/tas50))
-- Update openssl to 1.1.1k on macos [#5493](https://github.com/inspec/inspec/pull/5493) ([tas50](https://github.com/tas50))
+- Upgrade to GitHub-native Dependabot [#5488](https://github.com/inspec/inspec/pull/5488) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.36.4 -->
 ### Changes since 4.36.4 release
 
 #### Merged Pull Requests
+- Upgrade to GitHub-native Dependabot [#5488](https://github.com/inspec/inspec/pull/5488) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.36.5 -->
 - Make sure we use chef-telemetry 1.0.8+ [#5491](https://github.com/inspec/inspec/pull/5491) ([tas50](https://github.com/tas50)) <!-- 4.36.5 -->
 - Update Ruby in omnibus packages to 2.7.3 [#5492](https://github.com/inspec/inspec/pull/5492) ([tas50](https://github.com/tas50)) <!-- 4.36.4 -->
 - Update openssl to 1.1.1k on macos [#5493](https://github.com/inspec/inspec/pull/5493) ([tas50](https://github.com/tas50)) <!-- 4.36.4 -->
