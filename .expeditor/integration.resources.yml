@@ -10,12 +10,8 @@ expeditor:
 steps:
   - label: Resource-Platform Tests
     command:
-      - RAKE_TASK=test:kitchen /workdir/.expeditor/buildkite/verify.sh
+      - CONCURRENCY=3 DOCKER=1 KITCHEN_YAML=kitchen.dokken.yml RAKE_TASK=test:kitchen /workdir/.expeditor/buildkite/verify.sh
     expeditor:
       executor:
         docker:
-          environment:
-            - CONCURRENCY: 3
-            - DOCKER: 1
-            - KITCHEN_YAML: kitchen.dokken.yml
           image: ruby:2.7
