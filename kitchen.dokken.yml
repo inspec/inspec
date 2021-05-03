@@ -20,10 +20,6 @@ verifier:
 # Visit https://hub.docker.com/search and https://github.com/test-kitchen/dokken-images to search for new images
 platforms:
 
-- name: amazonlinux
-  driver:
-    image: dokken/amazonlinux
-    pid_one_command: /sbin/init
 - name: amazonlinux-2
   driver:
     image: dokken/amazonlinux-2
@@ -60,21 +56,15 @@ platforms:
   driver:
     image: dokken/oraclelinux-7
     pid_one_command: /usr/lib/systemd/systemd
-# TODO: oraclelinux-8 is disabled because it currently fails with the following error:
-# [2020-08-12T17:38:38+00:00] FATAL: RuntimeError: dnf_package[openssh-server] (ssh-hardening::server line 47) had an error: RuntimeError: dnf-helper.py had stderr output:
-# Errors during downloading metadata for repository 'ol8_baseos_latest':
-#   - Curl error (6): Couldn't resolve host name for https://yum$ociregion.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/repodata/repomd.xml [Could not resolve host: yum$ociregion.oracle.com]
-# - name: oraclelinux-8
-#   driver:
-#     image: dokken/oraclelinux-8
-#     pid_one_command: /usr/lib/systemd/systemd
+- name: oraclelinux-8
+  driver:
+    image: dokken/oraclelinux-8
+    pid_one_command: /usr/lib/systemd/systemd
 
-# TODO: opensuse-leap is disabled because of the following error:
-# [2020-10-23T16:08:49+00:00] FATAL: Chef::Exceptions::ProviderNotFound: package[openssh-server] (ssh-hardening::server line 47) had an error: Chef::Exceptions::ProviderNotFound: Cannot find a provider for package[openssh-server] on linux version 4.19.76-linuxkit
-# - name: opensuse-leap
-#   driver:
-#     image: dokken/opensuse-leap-15
-#     pid_one_command: /bin/systemd
+- name: opensuse-leap
+  driver:
+    image: dokken/opensuse-leap-15
+    pid_one_command: /bin/systemd
 
 - name: ubuntu-18.04
   driver:
