@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Update openssl to 1.1.1k on macos [#5493](https://github.com/inspec/inspec/pull/5493) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.36.4 -->
+### Changes since 4.36.4 release
+
+#### Merged Pull Requests
+- Update openssl to 1.1.1k on macos [#5493](https://github.com/inspec/inspec/pull/5493) ([tas50](https://github.com/tas50)) <!-- 4.36.4 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
