@@ -31,12 +31,6 @@ pipelines:
      - SLOW: 1
      - NO_AWS: 1
      - MT_CPU: 5
- - coverage:
-    description: Generate test coverage report
-    env:
-     - CI_ENABLE_COVERAGE: true
-     - LANG: "C.UTF-8"
-     - SLOW: 1
  - integration/resources:
     description: Test core resources with test-kitchen.
     definition: .expeditor/integration.resources.yml
@@ -181,5 +175,3 @@ subscriptions:
        only_if_team_member:
         - inspec/owners
         - inspec/inspec-core-team
-    - trigger_pipeline:coverage
-    - trigger_pipeline:artifact/habitat
