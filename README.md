@@ -430,19 +430,19 @@ In addition, these test require Docker to be available on your machine or a remo
 List the various test instances available:
 
 ```bash
-bundle exec kitchen list
+KITCHEN_YAML=kitchen.dokken.yml bundle exec kitchen list
 ```
 
-The platforms and test suites are configured in the `.kitchen.yml` file. Once you know which instance you wish to test, test that instance:
+The platforms and test suites are configured in the `kitchen.dokken.yml` file. Once you know which instance you wish to test, test that instance:
 
 ```bash
-bundle exec kitchen test <INSTANCE_NAME>
+KITCHEN_YAML=kitchen.dokken.yml bundle exec kitchen test <INSTANCE_NAME>
 ```
 
 You may test all instances in parallel with:
 
 ```bash
-bundle exec kitchen test -c
+KITCHEN_YAML=kitchen.dokken.yml bundle exec kitchen test -c 3
 ```
 
 ## License
