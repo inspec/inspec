@@ -8,10 +8,15 @@ cookbook_file "/root/inspec-core-bin.gem" do
   action :create
 end
 
+# Must explicitly remove then re-install as it has an executable file
+# conflict with the incoming package
+chef_gem "inspec-core" do
+  action :remove
+end
 
 chef_gem "inspec-core" do
   source "/root/inspec-core.gem"
-  action :upgrade
+  action :install
 end
 
 chef_gem "inspec-core-bin" do

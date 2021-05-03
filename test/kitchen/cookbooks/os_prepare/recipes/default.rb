@@ -3,10 +3,6 @@
 
 apt_update if platform_family?("debian")
 
-# inject the current inspec gem for use with audit cookbook
-# this is generated via Rake test:integration
-include_recipe("install_inspec")
-
 def uuid_from_string(string)
   require "digest/sha1"
   hash = Digest::SHA1.new

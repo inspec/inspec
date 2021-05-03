@@ -40,6 +40,7 @@ pipelines:
  - integration/resources:
     description: Test core resources with test-kitchen.
     definition: .expeditor/integration.resources.yml
+    trigger: pull_request
  # This breaks expeditor as it does not yet exist
  # - integration/libraries:
  #    description: Integration with plugins, gems, resource packs.
