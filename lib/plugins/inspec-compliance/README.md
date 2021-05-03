@@ -6,7 +6,7 @@ This extensions offers the following features:
  - execute profiles directly from Chef Automate/Chef Compliance locally
  - upload a local profile to Chef Automate/Chef Compliance
 
-The subcommand `compliance` has an alternate `automate`. And it works similarly using `inspec automate`.
+`inspec automate` is an alias for `inspec compliance` and works the same way.
 To use the CLI, this InSpec add-on adds the following commands:
 
  * `$ inspec compliance login` - authentication of the API token against Chef Automate/Chef Compliance

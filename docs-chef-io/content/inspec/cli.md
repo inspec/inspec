@@ -187,7 +187,9 @@ Chef Automate:
 inspec compliance login
 inspec exec compliance://username/linux-baseline
 ```
-An alternate command for login:
+
+`inspec automate` is an alias for `inspec compliance` and works the same way:
+
 ```
 inspec automate login
 ```

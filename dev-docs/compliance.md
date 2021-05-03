@@ -8,7 +8,7 @@ The `compliance` set of subcommands handle user-initiated communication with Che
 
 When Automate initiates scans, the `compliance` subcommand is not used.
 
-An alternate subcommand to `compliance` is `automate`. And it works similarly using `inspec automate`.
+`inspec automate` is an alias for `inspec compliance` and works the same way
 
 ## Operational Notes
 

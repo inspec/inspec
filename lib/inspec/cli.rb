@@ -221,7 +221,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       #{Inspec::Dist::EXEC_NAME} compliance login
       #{Inspec::Dist::EXEC_NAME} exec compliance://username/linux-baseline
       ```
-      An alternate command for login:
+      `inspec automate` is an alias for `inspec compliance` and works the same way:
       ```
       #{Inspec::Dist::EXEC_NAME} automate login
       ```
