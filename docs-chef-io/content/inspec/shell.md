@@ -233,7 +233,7 @@ $ inspec shell --format json -c 'describe file("/Users/test") do it { should exi
 
 ## Running Chef InSpec Shell With Inputs
 
-With InSpec [profiles that support inputs](inspec/inputs/#which-profiles-support-inputs),
+With InSpec [profiles that support inputs]({{< relref "inputs/#which-profiles-support-inputs" >}}),
 you can set inputs using the InSpec `shell` command. This allows you to work more consistently with
 InSpec profiles when switching between the `shell` and `exec` commands.
 
