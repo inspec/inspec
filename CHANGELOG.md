@@ -1,13 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.36.6 -->
-## [v4.36.6](https://github.com/inspec/inspec/tree/v4.36.6) (2021-05-03)
-
-#### Enhancements
-- Reinstate resource testing on supported platforms using Test-Kitchen [#5204](https://github.com/inspec/inspec/pull/5204) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release 4.36.7 -->
+## [v4.36.7](https://github.com/inspec/inspec/tree/v4.36.7) (2021-05-04)
 
 #### Merged Pull Requests
-- Upgrade to GitHub-native Dependabot [#5488](https://github.com/inspec/inspec/pull/5488) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Fixes for the integration-resources pipeline [#5501](https://github.com/inspec/inspec/pull/5501) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.36.4 -->
@@ -17,6 +14,7 @@
 - Reinstate resource testing on supported platforms using Test-Kitchen [#5204](https://github.com/inspec/inspec/pull/5204) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.36.6 -->
 
 #### Merged Pull Requests
+- Fixes for the integration-resources pipeline [#5501](https://github.com/inspec/inspec/pull/5501) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.36.7 -->
 - Upgrade to GitHub-native Dependabot [#5488](https://github.com/inspec/inspec/pull/5488) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.36.5 -->
 - Make sure we use chef-telemetry 1.0.8+ [#5491](https://github.com/inspec/inspec/pull/5491) ([tas50](https://github.com/tas50)) <!-- 4.36.5 -->
 - Update Ruby in omnibus packages to 2.7.3 [#5492](https://github.com/inspec/inspec/pull/5492) ([tas50](https://github.com/tas50)) <!-- 4.36.4 -->
