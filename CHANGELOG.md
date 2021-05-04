@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.36.8 -->
-## [v4.36.8](https://github.com/inspec/inspec/tree/v4.36.8) (2021-05-04)
+<!-- latest_release 4.36.9 -->
+## [v4.36.9](https://github.com/inspec/inspec/tree/v4.36.9) (2021-05-04)
 
 #### Merged Pull Requests
-- Fix bad link [#5498](https://github.com/inspec/inspec/pull/5498) ([IanMadd](https://github.com/IanMadd))
+- Fix  undefined method `+&#39; for nil:NilClass\n\nProfile: - when using profile dependencies and require_controls [#5487](https://github.com/inspec/inspec/pull/5487) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.36.4 -->
@@ -14,6 +14,7 @@
 - Reinstate resource testing on supported platforms using Test-Kitchen [#5204](https://github.com/inspec/inspec/pull/5204) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.36.6 -->
 
 #### Merged Pull Requests
+- Fix  undefined method `+&#39; for nil:NilClass\n\nProfile: - when using profile dependencies and require_controls [#5487](https://github.com/inspec/inspec/pull/5487) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.36.9 -->
 - Fix bad link [#5498](https://github.com/inspec/inspec/pull/5498) ([IanMadd](https://github.com/IanMadd)) <!-- 4.36.8 -->
 - Fixes for the integration-resources pipeline [#5501](https://github.com/inspec/inspec/pull/5501) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.36.7 -->
 - Upgrade to GitHub-native Dependabot [#5488](https://github.com/inspec/inspec/pull/5488) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.36.5 -->
