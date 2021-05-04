@@ -6,25 +6,26 @@ This extensions offers the following features:
  - execute profiles directly from Chef Automate/Chef Compliance locally
  - upload a local profile to Chef Automate/Chef Compliance
 
-`inspec automate` is an alias for `inspec compliance` and works the same way.
+`inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way.
+
 To use the CLI, this InSpec add-on adds the following commands:
-
- * `$ inspec compliance login` - authentication of the API token against Chef Automate/Chef Compliance
- * `$ inspec compliance profiles` - list all available Compliance profiles
- * `$ inspec exec compliance://profile` - runs a Compliance profile
- * `$ inspec compliance upload path/to/local/profile` - uploads a local profile to Chef Automate/Chef Compliance
- * `$ inspec compliance logout` - logout of Chef Automate/Chef Compliance
-
- Similar to these CLI commands are:
 
  * `$ inspec automate login` - authentication of the API token against Chef Automate/Chef Compliance
  * `$ inspec automate profiles` - list all available Compliance profiles
+ * `$ inspec exec compliance://profile` - runs a Compliance profile
  * `$ inspec automate upload path/to/local/profile` - uploads a local profile to Chef Automate/Chef Compliance
  * `$ inspec automate logout` - logout of Chef Automate/Chef Compliance
+ 
+ Similar to these CLI commands are:
+
+ * `$ inspec compliance login` - authentication of the API token against Chef Automate/Chef Compliance
+ * `$ inspec compliance profiles` - list all available Compliance profiles
+ * `$ inspec compliance upload path/to/local/profile` - uploads a local profile to Chef Automate/Chef Compliance
+ * `$ inspec compliance logout` - logout of Chef Automate/Chef Compliance
 
 Compliance profiles can be executed in two ways:
 
-- via compliance exec: `inspec compliance exec profile` or `inspec automate exec profile`
+- via compliance exec: `inspec automate exec profile` or `inspec compliance exec profile`
 - via compliance scheme: `inspec exec compliance://profile`
 
 
@@ -33,21 +34,6 @@ Compliance profiles can be executed in two ways:
 ## Usage
 
 ### Command options
-
-```
-$ inspec compliance
-Commands:
-  inspec compliance download PROFILE  # downloads a profile from Chef Compliance
-  inspec compliance exec PROFILE      # executes a Chef Compliance profile
-  inspec compliance help [COMMAND]    # Describe subcommands or one specific subcommand
-  inspec compliance login SERVER      # Log in to a Chef Automate/Chef Compliance SERVER
-  inspec compliance logout            # user logout from Chef Compliance
-  inspec compliance profiles          # list all available profiles in Chef Compliance
-  inspec compliance upload PATH       # uploads a local profile to Chef Compliance
-  inspec compliance version           # displays the version of the Chef Compliance server
-```
-
-or
 
 ```
 $ inspec automate
@@ -62,9 +48,30 @@ Commands:
   inspec automate version           # displays the version of the Chef Compliance server
 ```
 
+or
+
+```
+$ inspec compliance
+Commands:
+  inspec compliance download PROFILE  # downloads a profile from Chef Compliance
+  inspec compliance exec PROFILE      # executes a Chef Compliance profile
+  inspec compliance help [COMMAND]    # Describe subcommands or one specific subcommand
+  inspec compliance login SERVER      # Log in to a Chef Automate/Chef Compliance SERVER
+  inspec compliance logout            # user logout from Chef Compliance
+  inspec compliance profiles          # list all available profiles in Chef Compliance
+  inspec compliance upload PATH       # uploads a local profile to Chef Compliance
+  inspec compliance version           # displays the version of the Chef Compliance server
+```
+
 ### Login with Chef Automate 2
 
 You will need an API token for authentication. You can retrieve one via the admin section of your A2 web gui.
+
+```
+$ inspec automate login https://automate2.compliance.test --insecure --user 'admin' --token 'zuop..._KzE'
+```
+
+or
 
 ```
 $ inspec compliance login https://automate2.compliance.test --insecure --user 'admin' --token 'zuop..._KzE'
@@ -89,13 +96,13 @@ Example:
 You will need an access token for authentication. You can retrieve one via [UI](https://docs.chef.io/api_delivery.html) or [CLI](https://docs.chef.io/ctl_delivery.html#delivery-token).
 
 ```
-$ inspec compliance login https://automate.compliance.test --insecure --user 'admin' --ent 'brewinc' --token 'zuop..._KzE'
+$ inspec automate login https://automate.compliance.test --insecure --user 'admin' --ent 'brewinc' --token 'zuop..._KzE'
 ```
 
 or
 
 ```
-$ inspec automate login https://automate.compliance.test --insecure --user 'admin' --ent 'brewinc' --token 'zuop..._KzE'
+$ inspec compliance login https://automate.compliance.test --insecure --user 'admin' --ent 'brewinc' --token 'zuop..._KzE'
 ```
 
 ### Login with Chef Compliance
@@ -107,19 +114,19 @@ You will need an access token for authentication. You can retrieve one via:
 You can choose the access token (`--token`) or the refresh token (`--refresh_token`)
 
 ```
-$ inspec compliance login https://compliance.test --user admin --insecure --token '...'
+$ inspec automate login https://compliance.test --user admin --insecure --token '...'
 ```
 
 or
 
 ```
-$ inspec automate login https://compliance.test --user admin --insecure --token '...'
+$ inspec compliance login https://compliance.test --user admin --insecure --token '...'
 ```
 
 ### List available profiles via Chef Compliance / Automate
 
 ```
-$ inspec compliance profiles
+ $ inspec automate profiles
 Available profiles:
 -------------------
  * base/apache
@@ -143,7 +150,7 @@ Available profiles:
 or
 
 ```
-$ inspec automate profiles
+$ inspec compliance profiles
 Available profiles:
 -------------------
  * base/apache
@@ -167,9 +174,9 @@ Available profiles:
 ### Upload a profile to Chef Compliance / Automate
 
 ```
-$ inspec compliance version
+$ inspec automate version
 Chef Compliance version: 1.0.11
-➜  inspec git:(chris-rock/cc-error-not-loggedin) ✗ b inspec compliance upload examples/profile
+➜  inspec git:(chris-rock/cc-error-not-loggedin) ✗ b inspec automate upload examples/profile
 I, [2016-05-06T14:27:20.907547 #37592]  INFO -- : Checking profile in examples/profile
 I, [2016-05-06T14:27:20.907668 #37592]  INFO -- : Metadata OK.
 I, [2016-05-06T14:27:20.968584 #37592]  INFO -- : Found 4 controls.
@@ -183,7 +190,7 @@ Uploading to Chef Compliance
 Successfully uploaded profile
 
 # display all profiles
-$ inspec compliance profiles
+$ inspec automate profiles
 Available profiles:
 -------------------
  * admin/profile
@@ -208,9 +215,9 @@ Available profiles:
 or
 
 ```
-$ inspec automate version
+$ inspec compliance version
 Chef Compliance version: 1.0.11
-➜  inspec git:(chris-rock/cc-error-not-loggedin) ✗ b inspec automate upload examples/profile
+➜  inspec git:(chris-rock/cc-error-not-loggedin) ✗ b inspec compliance upload examples/profile
 I, [2016-05-06T14:27:20.907547 #37592]  INFO -- : Checking profile in examples/profile
 I, [2016-05-06T14:27:20.907668 #37592]  INFO -- : Metadata OK.
 I, [2016-05-06T14:27:20.968584 #37592]  INFO -- : Found 4 controls.
@@ -224,7 +231,7 @@ Uploading to Chef Compliance
 Successfully uploaded profile
 
 # display all profiles
-$ inspec automate profiles
+$ inspec compliance profiles
 Available profiles:
 -------------------
  * admin/profile
@@ -271,20 +278,26 @@ $ inspec exec compliance://admin/apache-baseline#2.0.1
 
 Download a specific version(2.0.2) of a profile when logged in with Automate:
 ```
+$ inspec automate download compliance://admin/apache-baseline#2.0.2
+```
+
+or
+
+```
 $ inspec compliance download compliance://admin/apache-baseline#2.0.2
 ```
 
 ### To Logout from Chef Compliance
 
 ```
-$ inspec compliance logout
+$ inspec automate logout
 Successfully logged out
 ```
 
 or
 
 ```
-$ inspec automate logout
+$ inspec compliance logout
 Successfully logged out
 ```
 

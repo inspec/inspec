@@ -2,13 +2,13 @@
 
 ## Purpose
 
-The `compliance` set of subcommands handle user-initiated communication with Chef Automate. The commands are provided so that a user can interact with an Automate installation.
+The `automate` set of subcommands handle user-initiated communication with Chef Automate. The commands are provided so that a user can interact with an Automate installation.
 
-`inspec compliance` is somewhat analogous to `knife` in that it can be used to upload, download, and manage profiles for distribution to other clients.
+`inspec automate` is somewhat analogous to `knife` in that it can be used to upload, download, and manage profiles for distribution to other clients.
 
-When Automate initiates scans, the `compliance` subcommand is not used.
+When Automate initiates scans, the `automate` subcommand is not used.
 
-`inspec automate` is an alias for `inspec compliance` and works the same way
+`inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way
 
 ## Operational Notes
 
@@ -67,10 +67,10 @@ There are several other minor commands not listed here - see `lib/cli.rb` for a 
 
 ### login
 
-Saves a credentials file locally. Future invocations of `inspec compliance` or `inspec automate` use the credentials file to authenticate.
+Saves a credentials file locally. Future invocations of `inspec automate` or `inspec compliance` use the credentials file to authenticate.
 
-`be inspec compliance login --user=admin --token='1234567890asdfghjkl' --insecure https://chef-automate.test` or
-`be inspec automate login --user=admin --token='1234567890asdfghjkl' --insecure https://chef-automate.test`
+`be inspec automate login --user=admin --token='1234567890asdfghjkl' --insecure https://chef-automate.test` or
+`be inspec compliance login --user=admin --token='1234567890asdfghjkl' --insecure https://chef-automate.test`
 
 Here are the results of running login, from `.inspec/compliance/config.json`:
 

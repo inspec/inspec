@@ -179,7 +179,8 @@ $ inspec --help
 Commands:
   inspec archive PATH                                       # archive a profile to tar.gz (default) ...
   inspec check PATH                                         # verify all tests at the specified PATH
-  inspec compliance SUBCOMMAND or automate SUBCOMMAND ...   # Chef Compliance commands
+  inspec automate SUBCOMMAND ...                            # Chef Automate commands
+  inspec compliance SUBCOMMAND ...                          # Chef Automate commands (backwards compatible alias)
   inspec detect                                             # detect the target OS
   inspec exec PATH(S)                                       # run all test files at the specified PATH.
   inspec help [COMMAND]                                     # Describe available commands or one spe...

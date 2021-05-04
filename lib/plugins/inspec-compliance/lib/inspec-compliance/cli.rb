@@ -6,7 +6,7 @@ module InspecPlugins
   module Compliance
     class CLI < Inspec.plugin(2, :cli_command)
       include Inspec::Dist
-      subcommand_desc "compliance SUBCOMMAND or automate SUBCOMMAND", "#{COMPLIANCE_PRODUCT_NAME} commands"
+      subcommand_desc "automate SUBCOMMAND or compliance SUBCOMMAND", "#{COMPLIANCE_PRODUCT_NAME} commands"
 
       # desc "login https://SERVER --insecure --user='USER' --ent='ENTERPRISE' --token='TOKEN'", 'Log in to a Chef Compliance/Chef Automate SERVER'
       desc "login", "Log in to a #{COMPLIANCE_PRODUCT_NAME}/#{AUTOMATE_PRODUCT_NAME} SERVER"

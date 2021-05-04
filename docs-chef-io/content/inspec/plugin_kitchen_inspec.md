@@ -35,15 +35,15 @@ suites:
 and then run the following command:
 
 ```bash
-inspec compliance login https://compliance.test --user admin --insecure --token ''
+inspec automate login https://compliance.test --user admin --insecure --token ''
 ```
 
 where `--insecure` is required when using self-signed certificates.
 
-`inspec automate` is an alias for `inspec compliance` and works the same way:
+`inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way:
 
 ```bash
-inspec automate login https://compliance.test --user admin --insecure --token ''
+inspec compliance login https://compliance.test --user admin --insecure --token ''
 ```
 
 Use a compliance profile from the Chef Supermarket:
