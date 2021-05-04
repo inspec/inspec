@@ -23,3 +23,160 @@ steps:
         linux:
           privileged: true
           single-use: true
+
+  - label: "Kitchen: resources-centos-7"
+    commands:
+      - .expeditor/buildkite/bk_linux_exec.sh
+      - . /var/lib/buildkite-agent/.asdf/asdf.sh
+      - bundle exec kitchen test resources-centos-7
+    artifact_paths:
+      - $PWD/.kitchen/logs/kitchen.log
+    env:
+        KITCHEN_YAML: kitchen.dokken.yml
+        DOCKER: 1
+    expeditor:
+      executor:
+        linux:
+          privileged: true
+          single-use: true
+
+  - label: "Kitchen: resources-centos-8"
+    commands:
+      - .expeditor/buildkite/bk_linux_exec.sh
+      - . /var/lib/buildkite-agent/.asdf/asdf.sh
+      - bundle exec kitchen test resources-centos-8
+    artifact_paths:
+      - $PWD/.kitchen/logs/kitchen.log
+    env:
+        KITCHEN_YAML: kitchen.dokken.yml
+        DOCKER: 1
+    expeditor:
+      executor:
+        linux:
+          privileged: true
+          single-use: true
+
+  - label: "Kitchen: resources-debian-9"
+    commands:
+      - .expeditor/buildkite/bk_linux_exec.sh
+      - . /var/lib/buildkite-agent/.asdf/asdf.sh
+      - bundle exec kitchen test resources-debian-9
+    artifact_paths:
+      - $PWD/.kitchen/logs/kitchen.log
+    env:
+        KITCHEN_YAML: kitchen.dokken.yml
+        DOCKER: 1
+    expeditor:
+      executor:
+        linux:
+          privileged: true
+          single-use: true
+  - label: "Kitchen: resources-debian-10"
+    commands:
+      - .expeditor/buildkite/bk_linux_exec.sh
+      - . /var/lib/buildkite-agent/.asdf/asdf.sh
+      - bundle exec kitchen test resources-debian-10
+    artifact_paths:
+      - $PWD/.kitchen/logs/kitchen.log
+    env:
+        KITCHEN_YAML: kitchen.dokken.yml
+        DOCKER: 1
+    expeditor:
+      executor:
+        linux:
+          privileged: true
+          single-use: true
+
+  - label: "Kitchen: resources-fedora-latest"
+    commands:
+      - .expeditor/buildkite/bk_linux_exec.sh
+      - . /var/lib/buildkite-agent/.asdf/asdf.sh
+      - bundle exec kitchen test resources-fedora-latest
+    artifact_paths:
+      - $PWD/.kitchen/logs/kitchen.log
+    env:
+        KITCHEN_YAML: kitchen.dokken.yml
+        DOCKER: 1
+    expeditor:
+      executor:
+        linux:
+          privileged: true
+          single-use: true
+
+  - label: "Kitchen: resources-oraclelinux-7"
+    commands:
+      - .expeditor/buildkite/bk_linux_exec.sh
+      - . /var/lib/buildkite-agent/.asdf/asdf.sh
+      - bundle exec kitchen test resources-oraclelinux-7
+    artifact_paths:
+      - $PWD/.kitchen/logs/kitchen.log
+    env:
+        KITCHEN_YAML: kitchen.dokken.yml
+        DOCKER: 1
+    expeditor:
+      executor:
+        linux:
+          privileged: true
+          single-use: true
+  - label: "Kitchen: resources-oraclelinux-8"
+    commands:
+      - .expeditor/buildkite/bk_linux_exec.sh
+      - . /var/lib/buildkite-agent/.asdf/asdf.sh
+      - bundle exec kitchen test resources-oraclelinux-8
+    artifact_paths:
+      - $PWD/.kitchen/logs/kitchen.log
+    env:
+        KITCHEN_YAML: kitchen.dokken.yml
+        DOCKER: 1
+    expeditor:
+      executor:
+        linux:
+          privileged: true
+          single-use: true
+
+  - label: "Kitchen: resources-opensuse-leap"
+    commands:
+      - .expeditor/buildkite/bk_linux_exec.sh
+      - . /var/lib/buildkite-agent/.asdf/asdf.sh
+      - bundle exec kitchen test resources-opensuse-leap
+    artifact_paths:
+      - $PWD/.kitchen/logs/kitchen.log
+    env:
+        KITCHEN_YAML: kitchen.dokken.yml
+        DOCKER: 1
+    expeditor:
+      executor:
+        linux:
+          privileged: true
+          single-use: true
+
+  - label: "Kitchen: resources-ubuntu-1804"
+    commands:
+      - .expeditor/buildkite/bk_linux_exec.sh
+      - . /var/lib/buildkite-agent/.asdf/asdf.sh
+      - bundle exec kitchen test resources-ubuntu-1804
+    artifact_paths:
+      - $PWD/.kitchen/logs/kitchen.log
+    env:
+        KITCHEN_YAML: kitchen.dokken.yml
+        DOCKER: 1
+    expeditor:
+      executor:
+        linux:
+          privileged: true
+          single-use: true
+  - label: "Kitchen: resources-ubuntu-2004"
+    commands:
+      - .expeditor/buildkite/bk_linux_exec.sh
+      - . /var/lib/buildkite-agent/.asdf/asdf.sh
+      - bundle exec kitchen test resources-ubuntu-2004
+    artifact_paths:
+      - $PWD/.kitchen/logs/kitchen.log
+    env:
+        KITCHEN_YAML: kitchen.dokken.yml
+        DOCKER: 1
+    expeditor:
+      executor:
+        linux:
+          privileged: true
+          single-use: true
