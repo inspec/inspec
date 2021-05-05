@@ -218,8 +218,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
     Automate:
       ```
-      #{Inspec::Dist::EXEC_NAME} compliance login
+      #{Inspec::Dist::EXEC_NAME} automate login
       #{Inspec::Dist::EXEC_NAME} exec compliance://username/linux-baseline
+      ```
+      `inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way:
+      ```
+      #{Inspec::Dist::EXEC_NAME} compliance login
       ```
 
     Supermarket:

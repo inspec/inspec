@@ -184,8 +184,14 @@ Below are some examples of using `exec` with different test locations:
 
 Chef Automate:
 ```
-inspec compliance login
+inspec automate login
 inspec exec compliance://username/linux-baseline
+```
+
+`inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way:
+
+```
+inspec compliance login
 ```
 
 Chef Supermarket:

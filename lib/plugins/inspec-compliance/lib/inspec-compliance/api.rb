@@ -357,7 +357,7 @@ module InspecPlugins
 
         Inspec::Log.debug(
           "Received 200 from #{url}#{compliance_endpoint} - " \
-          "assuming target is a #{COMPLIANCE_PRODUCT_NAME} server"
+          "assuming target is a #{AUTOMATE_PRODUCT_NAME} server"
         )
         true
       end

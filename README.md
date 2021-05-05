@@ -177,17 +177,18 @@ You should now be able to run:
 ```bash
 $ inspec --help
 Commands:
-  inspec archive PATH                # archive a profile to tar.gz (default) ...
-  inspec check PATH                  # verify all tests at the specified PATH
-  inspec compliance SUBCOMMAND ...   # Chef Compliance commands
-  inspec detect                      # detect the target OS
-  inspec exec PATH(S)                # run all test files at the specified PATH.
-  inspec help [COMMAND]              # Describe available commands or one spe...
-  inspec init TEMPLATE ...           # Scaffolds a new project
-  inspec json PATH                   # read all tests in PATH and generate a ...
-  inspec shell                       # open an interactive debugging shell
-  inspec supermarket SUBCOMMAND ...  # Supermarket commands
-  inspec version                     # prints the version of this tool
+  inspec archive PATH                                       # archive a profile to tar.gz (default) ...
+  inspec check PATH                                         # verify all tests at the specified PATH
+  inspec automate SUBCOMMAND ...                            # Chef Automate commands
+  inspec compliance SUBCOMMAND ...                          # Chef Automate commands (backwards compatible alias)
+  inspec detect                                             # detect the target OS
+  inspec exec PATH(S)                                       # run all test files at the specified PATH.
+  inspec help [COMMAND]                                     # Describe available commands or one spe...
+  inspec init TEMPLATE ...                                  # Scaffolds a new project
+  inspec json PATH                                          # read all tests in PATH and generate a ...
+  inspec shell                                              # open an interactive debugging shell
+  inspec supermarket SUBCOMMAND ...                         # Supermarket commands
+  inspec version                                            # prints the version of this tool
 
 Options:
   [--diagnose], [--no-diagnose]  # Show diagnostics (versions, configurations)

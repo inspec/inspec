@@ -6,23 +6,49 @@ This extensions offers the following features:
  - execute profiles directly from Chef Automate/Chef Compliance locally
  - upload a local profile to Chef Automate/Chef Compliance
 
+`inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way.
+
 To use the CLI, this InSpec add-on adds the following commands:
+
+ * `$ inspec automate login` - authentication of the API token against Chef Automate/Chef Compliance
+ * `$ inspec automate profiles` - list all available Compliance profiles
+ * `$ inspec exec compliance://profile` - runs a Compliance profile
+ * `$ inspec automate upload path/to/local/profile` - uploads a local profile to Chef Automate/Chef Compliance
+ * `$ inspec automate logout` - logout of Chef Automate/Chef Compliance
+ 
+ Similar to these CLI commands are:
 
  * `$ inspec compliance login` - authentication of the API token against Chef Automate/Chef Compliance
  * `$ inspec compliance profiles` - list all available Compliance profiles
- * `$ inspec exec compliance://profile` - runs a Compliance profile
  * `$ inspec compliance upload path/to/local/profile` - uploads a local profile to Chef Automate/Chef Compliance
  * `$ inspec compliance logout` - logout of Chef Automate/Chef Compliance
 
 Compliance profiles can be executed in two ways:
 
-- via compliance exec: `inspec compliance exec profile`
+- via compliance exec: `inspec automate exec profile` or `inspec compliance exec profile`
 - via compliance scheme: `inspec exec compliance://profile`
+
+
 
 
 ## Usage
 
 ### Command options
+
+```
+$ inspec automate
+Commands:
+  inspec automate download PROFILE  # downloads a profile from Chef Compliance
+  inspec automate exec PROFILE      # executes a Chef Compliance profile
+  inspec automate help [COMMAND]    # Describe subcommands or one specific subcommand
+  inspec automate login SERVER      # Log in to a Chef Automate/Chef Compliance SERVER
+  inspec automate logout            # user logout from Chef Compliance
+  inspec automate profiles          # list all available profiles in Chef Compliance
+  inspec automate upload PATH       # uploads a local profile to Chef Compliance
+  inspec automate version           # displays the version of the Chef Compliance server
+```
+
+or
 
 ```
 $ inspec compliance
@@ -40,6 +66,12 @@ Commands:
 ### Login with Chef Automate 2
 
 You will need an API token for authentication. You can retrieve one via the admin section of your A2 web gui.
+
+```
+$ inspec automate login https://automate2.compliance.test --insecure --user 'admin' --token 'zuop..._KzE'
+```
+
+or
 
 ```
 $ inspec compliance login https://automate2.compliance.test --insecure --user 'admin' --token 'zuop..._KzE'
@@ -64,6 +96,12 @@ Example:
 You will need an access token for authentication. You can retrieve one via [UI](https://docs.chef.io/api_delivery.html) or [CLI](https://docs.chef.io/ctl_delivery.html#delivery-token).
 
 ```
+$ inspec automate login https://automate.compliance.test --insecure --user 'admin' --ent 'brewinc' --token 'zuop..._KzE'
+```
+
+or
+
+```
 $ inspec compliance login https://automate.compliance.test --insecure --user 'admin' --ent 'brewinc' --token 'zuop..._KzE'
 ```
 
@@ -76,10 +114,40 @@ You will need an access token for authentication. You can retrieve one via:
 You can choose the access token (`--token`) or the refresh token (`--refresh_token`)
 
 ```
+$ inspec automate login https://compliance.test --user admin --insecure --token '...'
+```
+
+or
+
+```
 $ inspec compliance login https://compliance.test --user admin --insecure --token '...'
 ```
 
 ### List available profiles via Chef Compliance / Automate
+
+```
+ $ inspec automate profiles
+Available profiles:
+-------------------
+ * base/apache
+ * base/linux
+ * base/mysql
+ * base/postgres
+ * base/ssh
+ * base/windows
+ * cis/cis-centos6-level1
+ * cis/cis-centos6-level2
+ * cis/cis-centos7-level1
+ * cis/cis-centos7-level2
+ * cis/cis-rhel7-level1
+ * cis/cis-rhel7-level2
+ * cis/cis-ubuntu12.04lts-level1
+ * cis/cis-ubuntu12.04lts-level2
+ * cis/cis-ubuntu14.04lts-level1
+ * cis/cis-ubuntu14.04lts-level2
+```
+
+or
 
 ```
 $ inspec compliance profiles
@@ -104,6 +172,47 @@ Available profiles:
 ```
 
 ### Upload a profile to Chef Compliance / Automate
+
+```
+$ inspec automate version
+Chef Compliance version: 1.0.11
+➜  inspec git:(chris-rock/cc-error-not-loggedin) ✗ b inspec automate upload examples/profile
+I, [2016-05-06T14:27:20.907547 #37592]  INFO -- : Checking profile in examples/profile
+I, [2016-05-06T14:27:20.907668 #37592]  INFO -- : Metadata OK.
+I, [2016-05-06T14:27:20.968584 #37592]  INFO -- : Found 4 controls.
+I, [2016-05-06T14:27:20.968638 #37592]  INFO -- : Control definitions OK.
+Profile is valid
+Generate temporary profile archive at /var/folders/jy/2bnrfb4s36jbjtzllvhhyqhw0000gn/T/profile20160506-37592-1tf326f.tar.gz
+I, [2016-05-06T14:27:21.020017 #37592]  INFO -- : Generate archive /var/folders/jy/2bnrfb4s36jbjtzllvhhyqhw0000gn/T/profile20160506-37592-1tf326f.tar.gz.
+I, [2016-05-06T14:27:21.024837 #37592]  INFO -- : Finished archive generation.
+Start upload to admin/profile
+Uploading to Chef Compliance
+Successfully uploaded profile
+
+# display all profiles
+$ inspec automate profiles
+Available profiles:
+-------------------
+ * admin/profile
+ * base/apache
+ * base/linux
+ * base/mysql
+ * base/postgres
+ * base/ssh
+ * base/windows
+ * cis/cis-centos6-level1
+ * cis/cis-centos6-level2
+ * cis/cis-centos7-level1
+ * cis/cis-centos7-level2
+ * cis/cis-rhel7-level1
+ * cis/cis-rhel7-level2
+ * cis/cis-ubuntu12.04lts-level1
+ * cis/cis-ubuntu12.04lts-level2
+ * cis/cis-ubuntu14.04lts-level1
+ * cis/cis-ubuntu14.04lts-level2
+```
+
+or
 
 ```
 $ inspec compliance version
@@ -169,15 +278,29 @@ $ inspec exec compliance://admin/apache-baseline#2.0.1
 
 Download a specific version(2.0.2) of a profile when logged in with Automate:
 ```
+$ inspec automate download compliance://admin/apache-baseline#2.0.2
+```
+
+or
+
+```
 $ inspec compliance download compliance://admin/apache-baseline#2.0.2
 ```
 
 ### To Logout from Chef Compliance
 
 ```
+$ inspec automate logout
+Successfully logged out
+```
+
+or
+
+```
 $ inspec compliance logout
 Successfully logged out
 ```
+
 
 ## Integration Tests
 
