@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.36.11 -->
-## [v4.36.11](https://github.com/inspec/inspec/tree/v4.36.11) (2021-05-05)
+<!-- latest_release 4.37.0 -->
+## [v4.37.0](https://github.com/inspec/inspec/tree/v4.37.0) (2021-05-05)
 
 #### Merged Pull Requests
-- Remove coverage testing [#5500](https://github.com/inspec/inspec/pull/5500) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Added alias command `automate` for `inspec compliance` [#5490](https://github.com/inspec/inspec/pull/5490) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.36.4 -->
@@ -17,6 +17,7 @@
 - Reinstate resource testing on supported platforms using Test-Kitchen [#5204](https://github.com/inspec/inspec/pull/5204) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.36.6 -->
 
 #### Merged Pull Requests
+- Added alias command `automate` for `inspec compliance` [#5490](https://github.com/inspec/inspec/pull/5490) ([Nik08](https://github.com/Nik08)) <!-- 4.37.0 -->
 - Remove coverage testing [#5500](https://github.com/inspec/inspec/pull/5500) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.36.11 -->
 - Fix  undefined method `+&#39; for nil:NilClass\n\nProfile: - when using profile dependencies and require_controls [#5487](https://github.com/inspec/inspec/pull/5487) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.36.9 -->
 - Fix bad link [#5498](https://github.com/inspec/inspec/pull/5498) ([IanMadd](https://github.com/IanMadd)) <!-- 4.36.8 -->
