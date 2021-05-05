@@ -112,7 +112,7 @@ module InspecPlugins
       end
 
       def to_s
-        "#{COMPLIANCE_PRODUCT_NAME} Profile Loader"
+        "#{AUTOMATE_PRODUCT_NAME} Profile Loader"
       end
 
       private
