@@ -1,34 +1,32 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.37.0 -->
-## [v4.37.0](https://github.com/inspec/inspec/tree/v4.37.0) (2021-05-05)
-
-#### Merged Pull Requests
-- Added alias command `automate` for `inspec compliance` [#5490](https://github.com/inspec/inspec/pull/5490) ([Nik08](https://github.com/Nik08))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.36.4 -->
-### Changes since 4.36.4 release
-
-#### Bug Fixes
-- Fix : windows_firewall_rule fails to validate more than 1 rule depending on how it&#39;s executed  [#5502](https://github.com/inspec/inspec/pull/5502) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.36.10 -->
-
-#### Enhancements
-- Reinstate resource testing on supported platforms using Test-Kitchen [#5204](https://github.com/inspec/inspec/pull/5204) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.36.6 -->
-
-#### Merged Pull Requests
-- Added alias command `automate` for `inspec compliance` [#5490](https://github.com/inspec/inspec/pull/5490) ([Nik08](https://github.com/Nik08)) <!-- 4.37.0 -->
-- Remove coverage testing [#5500](https://github.com/inspec/inspec/pull/5500) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.36.11 -->
-- Fix  undefined method `+&#39; for nil:NilClass\n\nProfile: - when using profile dependencies and require_controls [#5487](https://github.com/inspec/inspec/pull/5487) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.36.9 -->
-- Fix bad link [#5498](https://github.com/inspec/inspec/pull/5498) ([IanMadd](https://github.com/IanMadd)) <!-- 4.36.8 -->
-- Fixes for the integration-resources pipeline [#5501](https://github.com/inspec/inspec/pull/5501) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.36.7 -->
-- Upgrade to GitHub-native Dependabot [#5488](https://github.com/inspec/inspec/pull/5488) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.36.5 -->
-- Make sure we use chef-telemetry 1.0.8+ [#5491](https://github.com/inspec/inspec/pull/5491) ([tas50](https://github.com/tas50)) <!-- 4.36.5 -->
-- Update Ruby in omnibus packages to 2.7.3 [#5492](https://github.com/inspec/inspec/pull/5492) ([tas50](https://github.com/tas50)) <!-- 4.36.4 -->
-- Update openssl to 1.1.1k on macos [#5493](https://github.com/inspec/inspec/pull/5493) ([tas50](https://github.com/tas50)) <!-- 4.36.4 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.37.0](https://github.com/inspec/inspec/tree/v4.37.0) (2021-05-05)
+
+#### Enhancements
+- Reinstate resource testing on supported platforms using Test-Kitchen [#5204](https://github.com/inspec/inspec/pull/5204) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- Fix : windows_firewall_rule fails to validate more than 1 rule depending on how it&#39;s executed  [#5502](https://github.com/inspec/inspec/pull/5502) ([Vasu1105](https://github.com/Vasu1105))
+
+#### Merged Pull Requests
+- Update openssl to 1.1.1k on macos [#5493](https://github.com/inspec/inspec/pull/5493) ([tas50](https://github.com/tas50))
+- Update Ruby in omnibus packages to 2.7.3 [#5492](https://github.com/inspec/inspec/pull/5492) ([tas50](https://github.com/tas50))
+- Make sure we use chef-telemetry 1.0.8+ [#5491](https://github.com/inspec/inspec/pull/5491) ([tas50](https://github.com/tas50))
+- Upgrade to GitHub-native Dependabot [#5488](https://github.com/inspec/inspec/pull/5488) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Fixes for the integration-resources pipeline [#5501](https://github.com/inspec/inspec/pull/5501) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix bad link [#5498](https://github.com/inspec/inspec/pull/5498) ([IanMadd](https://github.com/IanMadd))
+- Fix  undefined method `+&#39; for nil:NilClass\n\nProfile: - when using profile dependencies and require_controls [#5487](https://github.com/inspec/inspec/pull/5487) ([Vasu1105](https://github.com/Vasu1105))
+- Remove coverage testing [#5500](https://github.com/inspec/inspec/pull/5500) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Added alias command `automate` for `inspec compliance` [#5490](https://github.com/inspec/inspec/pull/5490) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v4.36.4](https://github.com/inspec/inspec/tree/v4.36.4) (2021-04-29)
 
 #### New Features
@@ -47,7 +45,6 @@
 - updating Gemfile to support environment variables [#5485](https://github.com/inspec/inspec/pull/5485) ([jayashrig158](https://github.com/jayashrig158))
 - Group &amp; Groups doc updated - about using local and etc groups [#5483](https://github.com/inspec/inspec/pull/5483) ([Nik08](https://github.com/Nik08))
 - Added new property `members_array` for group &amp; groups resources. [#5479](https://github.com/inspec/inspec/pull/5479) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v4.33.1](https://github.com/inspec/inspec/tree/v4.33.1) (2021-04-21)
 
