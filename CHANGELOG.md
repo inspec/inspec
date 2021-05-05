@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.36.9 -->
-## [v4.36.9](https://github.com/inspec/inspec/tree/v4.36.9) (2021-05-04)
+<!-- latest_release 4.36.10 -->
+## [v4.36.10](https://github.com/inspec/inspec/tree/v4.36.10) (2021-05-05)
 
-#### Merged Pull Requests
-- Fix  undefined method `+&#39; for nil:NilClass\n\nProfile: - when using profile dependencies and require_controls [#5487](https://github.com/inspec/inspec/pull/5487) ([Vasu1105](https://github.com/Vasu1105))
+#### Bug Fixes
+- Fix : windows_firewall_rule fails to validate more than 1 rule depending on how it&#39;s executed  [#5502](https://github.com/inspec/inspec/pull/5502) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.36.4 -->
 ### Changes since 4.36.4 release
+
+#### Bug Fixes
+- Fix : windows_firewall_rule fails to validate more than 1 rule depending on how it&#39;s executed  [#5502](https://github.com/inspec/inspec/pull/5502) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.36.10 -->
 
 #### Enhancements
 - Reinstate resource testing on supported platforms using Test-Kitchen [#5204](https://github.com/inspec/inspec/pull/5204) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.36.6 -->
