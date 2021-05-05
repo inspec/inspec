@@ -105,7 +105,7 @@ module Inspec::Resources
     # @see https://github.com/chef/chef/blob/master/lib/chef/resource/windows_firewall_rule.rb
     def load_firewall_state(rule_name)
       <<-EOH
-        Remove-TypeData System.Array # workaround for PS bug here: https://bit.ly/2SRMQ8M
+        Get-TypeData -TypeName System.Array | Remove-TypeData # workaround for PS bug here: https://bit.ly/2SRMQ8M
         $rule = Get-NetFirewallRule -Name "#{rule_name}"
         $addressFilter = $rule | Get-NetFirewallAddressFilter
         $portFilter = $rule | Get-NetFirewallPortFilter
