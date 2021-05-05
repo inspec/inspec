@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.36.10 -->
-## [v4.36.10](https://github.com/inspec/inspec/tree/v4.36.10) (2021-05-05)
+<!-- latest_release 4.36.11 -->
+## [v4.36.11](https://github.com/inspec/inspec/tree/v4.36.11) (2021-05-05)
 
-#### Bug Fixes
-- Fix : windows_firewall_rule fails to validate more than 1 rule depending on how it&#39;s executed  [#5502](https://github.com/inspec/inspec/pull/5502) ([Vasu1105](https://github.com/Vasu1105))
+#### Merged Pull Requests
+- Remove coverage testing [#5500](https://github.com/inspec/inspec/pull/5500) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.36.4 -->
@@ -17,6 +17,7 @@
 - Reinstate resource testing on supported platforms using Test-Kitchen [#5204](https://github.com/inspec/inspec/pull/5204) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.36.6 -->
 
 #### Merged Pull Requests
+- Remove coverage testing [#5500](https://github.com/inspec/inspec/pull/5500) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.36.11 -->
 - Fix  undefined method `+&#39; for nil:NilClass\n\nProfile: - when using profile dependencies and require_controls [#5487](https://github.com/inspec/inspec/pull/5487) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.36.9 -->
 - Fix bad link [#5498](https://github.com/inspec/inspec/pull/5498) ([IanMadd](https://github.com/IanMadd)) <!-- 4.36.8 -->
 - Fixes for the integration-resources pipeline [#5501](https://github.com/inspec/inspec/pull/5501) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.36.7 -->
