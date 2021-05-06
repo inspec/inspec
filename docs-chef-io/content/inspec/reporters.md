@@ -94,33 +94,31 @@ Output cli to screen and write json to a file.
 
 The following are CLI options that may be used to modify reporter behavior. Many of these options allow you to limit the size of the report, because some reporters (such as the json-automate reporter) have a limit on the total size of the report that can be processed.
 
-### --diff, --no-diff
+`--diff`, `--no-diff`
 
-Include a `diff` comparision of textual differences in failed test output (default: true).
+: Include a `diff` comparison of textual differences in failed test output (default: `true`).
 
-Use `--no-diff` to limit the size of the report output when tests contain large amounts of text output.
+: Use `--no-diff` to limit the size of the report output when tests contain large amounts of text output.
 
-### --filter-empty-profiles
+`--filter-empty-profiles`
 
-Remove empty profiles (those containing zero controls, such as resource packs) from the output of the reporter.
+: Remove empty profiles (those containing zero controls, such as resource packs) from the output of the reporter.
 
-### --reporter-backtrace-inclusion, --no-reporter-backtrace-inclusion
+`--reporter-backtrace-inclusion`, `--no-reporter-backtrace-inclusion`
 
-Include a code backtrace in report data (default: true).
+: Include a code backtrace in report data (default: `true`).
 
-The `--no-reporter-backtrace-inclusion` option may be used to limit report size when large code stacktraces are present in the output.
+: The `--no-reporter-backtrace-inclusion` option may be used to limit report size when large code stack traces are present in the output.
 
-### --reporter-include-source
+`--reporter-include-source`
 
-(CLI reporter only) Include full source code of controls in the report.
+: (CLI reporter only) Include full source code of controls in the report.
 
-### --reporter-message-truncation=N
+`--reporter-message-truncation=N`
 
-Number of characters to truncate failure messages in report data (default: no truncation).
+: Number of characters to truncate failure messages in report data (default: no truncation).
 
-This may be used to limit the size of reports when failure messages are exceptionally large.
-
-###
+: This may be used to limit the size of reports when failure messages are exceptionally large.
 
 ## Supported Reporters
 
