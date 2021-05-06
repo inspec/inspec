@@ -34,9 +34,8 @@ module InspecPlugins
         desc: "Enterprise for #{AUTOMATE_PRODUCT_NAME} reporting (#{AUTOMATE_PRODUCT_NAME} Only)"
       def login(server)
         options["server"] = server
-        InspecPlugins::Compliance::API.login(options)
-        config = InspecPlugins::Compliance::Configuration.new
-        puts "Stored configuration for Chef #{config["server_type"].capitalize}: #{config["server"]}' with user: '#{config["user"]}'"
+        login_response = InspecPlugins::Compliance::API.login(options)
+        puts login_response
       end
 
       desc "profiles", "list all available profiles in #{AUTOMATE_PRODUCT_NAME}"

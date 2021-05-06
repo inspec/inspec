@@ -73,11 +73,10 @@ describe InspecPlugins::Compliance::API do
       end
 
       it "stores an access token" do
-        stub_request(:get, automate_options["server"] + "/compliance/version")
+        stub_request(:get, automate_options["server"] + "/api/v0/version")
           .to_return(status: 200, body: "", headers: {})
         options = automate_options
         InspecPlugins::Compliance::Configuration.expects(:new).returns(fake_config)
-
         InspecPlugins::Compliance::API.login(options)
         _(fake_config["automate"]["ent"]).must_equal("automate")
         _(fake_config["automate"]["token_type"]).must_equal("dctoken")
@@ -85,6 +84,18 @@ describe InspecPlugins::Compliance::API do
         _(fake_config["server"]).must_equal("https://automate.example.com/api/v0")
         _(fake_config["server_type"]).must_equal("automate2")
         _(fake_config["token"]).must_equal("token")
+      end
+
+      it "puts error message when api-token while login is invalid" do
+        stub_body = { "error": "request not authenticated", "code": 16, "message": "request not authenticated", "details": [] }.to_json
+        stub_request(:get, automate_options["server"] + "/api/v0/version")
+          .to_return(status: 401, body: stub_body, headers: {})
+        options = automate_options
+        res = InspecPlugins::Compliance::API.login(options)
+        _(res).must_equal(
+          "Failed to authenticate to https://automate.example.com/api/v0 \n"\
+        "Response code: 401\nBody: {\"error\":\"request not authenticated\",\"code\":16,\"message\":\"request not authenticated\",\"details\":[]}"
+        )
       end
     end
 
@@ -132,6 +143,18 @@ describe InspecPlugins::Compliance::API do
         _(fake_config["server_type"]).must_equal("automate")
         _(fake_config["token"]).must_equal("token")
       end
+
+      it "puts error message when api-token while login is invalid" do
+        stub_body = { "error": "request not authenticated", "code": 16, "message": "request not authenticated", "details": [] }.to_json
+        stub_request(:get, automate_options["server"] + "/compliance/version")
+          .to_return(status: 401, body: stub_body, headers: {})
+        options = automate_options
+        res = InspecPlugins::Compliance::API.login(options)
+        _(res).must_equal(
+          "Failed to authenticate to https://automate.example.com/compliance \n"\
+        "Response code: 401\nBody: {\"error\":\"request not authenticated\",\"code\":16,\"message\":\"request not authenticated\",\"details\":[]}"
+        )
+      end
     end
 
     describe "when target is a Chef Compliance server" do
@@ -169,6 +192,18 @@ describe InspecPlugins::Compliance::API do
         _(fake_config["server"]).must_equal("https://compliance.example.com/api")
         _(fake_config["server_type"]).must_equal("compliance")
         _(fake_config["token"]).must_equal("token")
+      end
+
+      it "puts error message when api-token while login is invalid" do
+        stub_body = { "error": "request not authenticated", "code": 16, "message": "request not authenticated", "details": [] }.to_json
+        stub_request(:get, automate_options["server"] + "/api/version")
+          .to_return(status: 401, body: stub_body, headers: {})
+        options = automate_options
+        res = InspecPlugins::Compliance::API.login(options)
+        _(res).must_equal(
+          "Failed to authenticate to https://automate.example.com/api \n"\
+        "Response code: 401\nBody: {\"error\":\"request not authenticated\",\"code\":16,\"message\":\"request not authenticated\",\"details\":[]}"
+        )
       end
     end
 

@@ -170,6 +170,23 @@ module InspecPlugins
         [success, msg, access_token]
       end
 
+      # Use API access token to validate login using version API
+      def self.authenticate_login_using_version_api(url, api_token, insecure)
+        uri = URI.parse("#{url}/version")
+        req = Net::HTTP::Get.new(uri.path)
+        req["api-token"] = api_token
+        response = InspecPlugins::Compliance::HTTP.send_request(uri, req, insecure)
+
+        if response.code == "200"
+          msg = "Successfully Logged In"
+          success = true
+        else
+          success = false
+          msg = "Failed to authenticate to #{url} \n\Response code: #{response.code}\nBody: #{response.body}"
+        end
+        [success, msg]
+      end
+
       # Use username and password to get an API access token
       def self.get_token_via_password(url, username, password, insecure)
         uri = URI.parse("#{url}/login")
