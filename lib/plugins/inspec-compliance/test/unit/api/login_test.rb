@@ -86,7 +86,7 @@ describe InspecPlugins::Compliance::API do
         _(fake_config["token"]).must_equal("token")
       end
 
-      it "puts error message when api-token while login is invalid" do
+      it "puts error message when api-token is invalid" do
         stub_body = { "error": "request not authenticated", "code": 16, "message": "request not authenticated", "details": [] }.to_json
         stub_request(:get, automate_options["server"] + "/api/v0/version")
           .to_return(status: 401, body: stub_body, headers: {})
@@ -144,7 +144,7 @@ describe InspecPlugins::Compliance::API do
         _(fake_config["token"]).must_equal("token")
       end
 
-      it "puts error message when api-token while login is invalid" do
+      it "puts error message when api-token is invalid" do
         stub_body = { "error": "request not authenticated", "code": 16, "message": "request not authenticated", "details": [] }.to_json
         stub_request(:get, automate_options["server"] + "/compliance/version")
           .to_return(status: 401, body: stub_body, headers: {})
@@ -194,7 +194,7 @@ describe InspecPlugins::Compliance::API do
         _(fake_config["token"]).must_equal("token")
       end
 
-      it "puts error message when api-token while login is invalid" do
+      it "puts error message when api-token is invalid" do
         stub_body = { "error": "request not authenticated", "code": 16, "message": "request not authenticated", "details": [] }.to_json
         stub_request(:get, automate_options["server"] + "/api/version")
           .to_return(status: 401, body: stub_body, headers: {})
