@@ -55,6 +55,7 @@ describe "command tests" do
         artifact
         check
         compliance
+        automate
         detect
         env
         exec
@@ -70,7 +71,7 @@ describe "command tests" do
       }
       outputs.each do |output|
         commands.each do |subcommand|
-          _(output).must_include("inspec " + subcommand)
+          _(output).must_include(subcommand)
         end
       end
     end
