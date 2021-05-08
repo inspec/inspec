@@ -2,6 +2,7 @@
 
 require "shellwords" unless defined?(Shellwords)
 
+module Inspec::Resources
   class Lines
     attr_reader :output
 
@@ -71,4 +72,4 @@ require "shellwords" unless defined?(Shellwords)
       end
     end
   end
-  
+end
