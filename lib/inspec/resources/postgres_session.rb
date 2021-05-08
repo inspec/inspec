@@ -1,6 +1,6 @@
 # copyright: 2015, Vulcano Security GmbH
 
-require "shellwords"
+require "shellwords" unless defined?(Shellwords)
 
   class Lines
     attr_reader :output
@@ -25,7 +25,7 @@ require "shellwords"
     supports platform: "windows"
     desc "Use the postgres_session InSpec audit resource to test SQL commands run against a PostgreSQL database."
     example <<~EXAMPLE
-      sql = postgres_session('username', 'password', 'host','port')
+      sql = postgres_session('username', 'password', 'host', 'port')
       query('sql_query', ['database_name'])` contains the query and (optional) database to execute
 
       # default values:
@@ -39,11 +39,11 @@ require "shellwords"
       end
     EXAMPLE
 
-    def initialize(user, pass, host = nil, port)
+    def initialize(user, pass, host = nil, port = nil)
       @user = user || "postgres"
       @pass = pass
       @host = host || "localhost"
-      @port = port || "5432"
+      @port = port || 5432
     end
 
     def query(query, db = [])
@@ -59,7 +59,7 @@ require "shellwords"
 
     private
 
-    def escape_string(query)
+    def escaped_query(query)
       Shellwords.escape(query)
     end
 
@@ -67,7 +67,7 @@ require "shellwords"
       if inspec.platform.in_family?("windows")
         "psql -d postgresql://#{@user}:#{@pass}@#{@host}:#{@port}/#{db.first} -A -t -w -c \"#{query}\""
       else
-        "psql -d postgresql://#{@user}:#{escape_string(@pass)}@#{@host}:#{@port}/#{db.first} -A -t -w -c #{escape_string(query)}"
+        "psql -d postgresql://#{@user}:#{escaped_query(@pass)}@#{@host}:#{@port}/#{db.first} -A -t -w -c #{escaped_query(query)}"
       end
     end
   end
