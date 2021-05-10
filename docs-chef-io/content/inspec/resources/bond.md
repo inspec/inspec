@@ -75,11 +75,10 @@ The `params` matcher tests arbitrary parameters for the bonded network interface
 
     describe bond('bond0') do
       its('mode') { should eq 'IEEE 802.3ad Dynamic link aggregation' }
-      its('Transmit Hash Policy') { should eq 'layer3+4 (1)' }
-      its('MII Status') { should eq 'up' }
-      its('MII Polling Interval (ms)') { should eq '100' }
-      its('Up Delay (ms)') { should eq '0' }
-      its('Down Delay (ms)') { should eq '0' }
+      its('params') { should have_key 'Transmit Hash Policy' }
+      its('params') { should include 'Transmit Hash Policy' => 'layer3+4 (1)' }
+      its('params') { should have_key 'MII Status' }
+      its('params') { should include 'MII Status' => 'up' }
     end
 
 ## Matchers
