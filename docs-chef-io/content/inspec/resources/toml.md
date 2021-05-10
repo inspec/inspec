@@ -8,10 +8,10 @@ platform = "os"
   [menu.inspec]
     title = "toml"
     identifier = "inspec/resources/os/toml.md toml resource"
-    parent = "inspec/resources/toml"
+    parent = "inspec/resources/os"
 +++
 
-Use the `toml` Chef InSpec audit resource to test settings in a .toml file.
+Use the `toml` Chef InSpec audit resource to test settings in a TOML file.
 
 ## Availability
 
@@ -27,47 +27,58 @@ This resource first became available in v1.0.0 of InSpec.
 
 An `toml` resource block declares the configuration settings to be tested:
 
-    describe toml('path') do
-      its('setting_name') { should eq 'value' }
-    end
+```ruby
+describe toml('path') do
+  its('setting_name') { should eq 'value' }
+end
+```
 
-where
+where:
 
-- `'setting_name'` is a setting key defined in the toml file
-- `('path')` is the path to the toml file
-- `{ should eq 'value' }` is the value that is expected
+- `'setting_name'` is a setting key defined in the TOML file.
+- `('path')` is the path to the TOML file.
+- `{ should eq 'value' }` is the value that is expected.
 
-Assume the following TOML file:
+## Examples
 
-    port = 8080
-    fruits = ["apple", "banana", "cantaloupe"]
+In the examples below, the `example.toml` file contains the following data:
 
-    [section]
-    key1 = "value1"
+```toml
+port = 8080
+fruits = ["apple", "banana", "cantaloupe"]
 
+[section]
+key1 = "value1"
+```
 
-For example:
+**Verify the port number:**
 
-    describe toml('path/to/toml_file.toml') do
-      its('port') { should eq 8080 }
-    end
+```ruby
+describe toml('path/to/example.toml') do
+  its('port') { should eq 8080 }
+end
+```
 
-Array values may be accessed by using brackets:
+**Verify the value of an array using brackets:**
 
-    describe toml('path/to/toml_file.toml') do
-      its(['fruits', 0]) { should eq 'apple' }
-    end
+```ruby
+describe toml('path/to/example.toml') do
+  its(['fruits', 0]) { should eq 'apple' }
+end
+```
 
-Settings inside of sections, such as the following can be retrieved by using brackets as well:
+**Verify the value of a key in a table using brackets:**
 
-    describe toml('path/to/toml_file.toml') do
-      its(['section', 'key1']) { should cmp 'value1' }
-    end
+```ruby
+describe toml('path/to/example.toml') do
+  its(['section', 'key1']) { should cmp 'value1' }
+end
+```
 
 
 ## Properties
 
-This resource supports any of the settings listed in an toml file as properties.
+This resource supports any of the settings listed in a TOML file as properties.
 
 ## Matchers
 
