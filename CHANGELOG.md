@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.37.1 -->
+## [v4.37.1](https://github.com/inspec/inspec/tree/v4.37.1) (2021-05-10)
+
+#### Merged Pull Requests
+- Update `bond0` example to use params properly [#5518](https://github.com/inspec/inspec/pull/5518) ([gscho](https://github.com/gscho))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.37.0 -->
+### Changes since 4.37.0 release
+
+#### Merged Pull Requests
+- Update `bond0` example to use params properly [#5518](https://github.com/inspec/inspec/pull/5518) ([gscho](https://github.com/gscho)) <!-- 4.37.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
