@@ -37,7 +37,7 @@ describe "Inspec::Fetcher" do
   it "is able to handle Windows paths" do
     # simulate a local windows path
     file = __FILE__
-    file.tr!("/", '\\')
+    file.tr!("/", "\\")
     res = Inspec::Fetcher::Registry.resolve(file)
     _(res).must_be_kind_of Inspec::Fetcher::Local
     _(res.target).must_equal __FILE__

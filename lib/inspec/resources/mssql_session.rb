@@ -58,7 +58,7 @@ module Inspec::Resources
     end
 
     def query(q) # rubocop:disable Metrics/PerceivedComplexity
-      escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '""').gsub(/\$/, '\\$')
+      escaped_query = q.gsub(/\\/, "\\\\").gsub(/"/, '""').gsub(/\$/, '\\$')
       # surpress 'x rows affected' in SQLCMD with 'set nocount on;'
       cmd_string = "sqlcmd -Q \"set nocount on; #{escaped_query}\" -W -w 1024 -s ','"
       cmd_string += " -U '#{@user}' -P '#{@password}'" unless @user.nil? || @password.nil?

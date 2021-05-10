@@ -375,13 +375,13 @@ module FilterTable
       methods_to_install_on_resource_class = @filter_methods + @custom_properties.keys
       methods_to_install_on_resource_class.each do |method_name|
         resource_class.send(:define_method, method_name) do |*args, &block|
-          begin
-            # self here is the resource instance
-            filter_table_instance = table_class.new(self, send(raw_data_fetcher_method_name), " with")
-            filter_table_instance.send(method_name, *args, &block)
-          rescue Inspec::Exceptions::ResourceFailed, Inspec::Exceptions::ResourceSkipped => e
-            FilterTable::ExceptionCatcher.new(resource_class, e)
-          end
+
+          # self here is the resource instance
+          filter_table_instance = table_class.new(self, send(raw_data_fetcher_method_name), " with")
+          filter_table_instance.send(method_name, *args, &block)
+        rescue Inspec::Exceptions::ResourceFailed, Inspec::Exceptions::ResourceSkipped => e
+          FilterTable::ExceptionCatcher.new(resource_class, e)
+
         end
       end
     end

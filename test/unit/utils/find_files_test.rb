@@ -47,7 +47,7 @@ describe FindFiles do
 
     it "builds the correct command when an escaped single quote is used" do
       inspec.expects(:command).with('sh -c "find /a/\\\'b/"').returns(result)
-      helper.find_files('/a/\\\'b/')
+      helper.find_files("/a/\\'b/")
     end
 
     it "builds the correct command when an escaped double quote is used" do

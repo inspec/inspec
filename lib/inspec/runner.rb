@@ -243,7 +243,7 @@ module Inspec
       # to provide access to local profiles that add resources.
       @depends.each do |dep|
         # support for windows paths
-        dep = dep.tr('\\', "/")
+        dep = dep.tr("\\", "/")
         Inspec::Profile.for_path(dep, { profile_context: ctx }).load_libraries
       end
 

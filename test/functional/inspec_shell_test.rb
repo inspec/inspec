@@ -9,7 +9,7 @@ describe "inspec shell tests" do
   describe "cmd" do
     def assert_shell_c(code, exit_status, json = false, stderr = "")
       json_suffix = " --reporter 'json'" if json
-      command = "shell -c '#{code.tr("'", '\\\'')}'#{json_suffix}"
+      command = "shell -c '#{code.tr("'", "\\'")}'#{json_suffix}"
       # On darwin this value is:
       # shell -c 'describe file(\"/Users/nickschwaderer/Documents/inspec/inspec/test/functional/inspec_shell_test.rb\") do it { should exist } end' --reporter 'json'"
       # appears to break in windows.
@@ -25,7 +25,7 @@ describe "inspec shell tests" do
 
     def assert_shell_c_with_inputs(code, input_cmd, input, exit_status, json = false, stderr = "")
       json_suffix = " --reporter 'json'" if json
-      command = "shell -c '#{code.tr("'", '\\\'')}'#{input_cmd} #{input}#{json_suffix}"
+      command = "shell -c '#{code.tr("'", "\\'")}'#{input_cmd} #{input}#{json_suffix}"
       # On darwin this value is:
       # shell -c 'describe file(\"/Users/nickschwaderer/Documents/inspec/inspec/test/functional/inspec_shell_test.rb\") do it { should exist } end' --reporter 'json'"
       # appears to break in windows.
@@ -226,7 +226,7 @@ describe "inspec shell tests" do
       end
 
       def do_shell(code, exit_status = 0, stderr = "")
-        cmd = "echo '#{code.tr("'", '\\\'')}' | #{exec_inspec} shell"
+        cmd = "echo '#{code.tr("'", "\\'")}' | #{exec_inspec} shell"
         self.out = CMD.run_command(cmd)
 
         assert_exit_code exit_status, out
