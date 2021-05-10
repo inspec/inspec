@@ -33,7 +33,8 @@ module InspecPlugins
 
             options["url"] = options["server"] + "/api/v0"
             token = options["dctoken"] || options["token"]
-            store_access_token(options, token)
+            success, msg = API::Login.authenticate_login(options)
+            success ? store_access_token(options, token) : msg
           end
 
           def self.store_access_token(options, token)
@@ -52,7 +53,7 @@ module InspecPlugins
             config["version"] = "0"
 
             config.store
-            config
+            API::Login.configuration_stored_message(config)
           end
 
           def self.verify_thor_options(o)
@@ -74,7 +75,8 @@ module InspecPlugins
 
             options["url"] = options["server"] + "/compliance"
             token = options["dctoken"] || options["token"]
-            store_access_token(options, token)
+            success, msg = API::Login.authenticate_login(options)
+            success ? store_access_token(options, token) : msg
           end
 
           def self.store_access_token(options, token)
@@ -99,7 +101,7 @@ module InspecPlugins
             config["version"] = InspecPlugins::Compliance::API.version(config)
 
             config.store
-            config
+            API::Login.configuration_stored_message(config)
           end
 
           # Automate login requires `--ent`, `--user`, and either `--token` or `--dctoken`
@@ -126,7 +128,8 @@ module InspecPlugins
             options["url"] = options["server"] + "/api"
 
             if options["user"] && options["token"]
-              compliance_store_access_token(options, options["token"])
+              success, msg = API::Login.authenticate_login(options)
+              success ? compliance_store_access_token(options, options["token"]) : msg
             elsif options["user"] && options["password"]
               compliance_login_user_pass(options)
             elsif options["refresh_token"]
@@ -171,7 +174,7 @@ module InspecPlugins
             config["version"] = InspecPlugins::Compliance::API.version(config)
 
             config.store
-            config
+            API::Login.configuration_stored_message(config)
           end
 
           # Compliance login requires `--user` or `--refresh_token`
@@ -191,6 +194,18 @@ module InspecPlugins
 
             raise ArgumentError, error_msg.join("\n") unless error_msg.empty?
           end
+        end
+
+        def self.authenticate_login(options)
+          InspecPlugins::Compliance::API.authenticate_login_using_version_api(
+            options["url"],
+            options["token"],
+            options["insecure"]
+          )
+        end
+
+        def self.configuration_stored_message(config)
+          "Stored configuration for Chef #{config["server_type"].capitalize}: #{config["server"]}' with user: '#{config["user"]}'"
         end
       end
     end
