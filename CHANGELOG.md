@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.37.2 -->
-## [v4.37.2](https://github.com/inspec/inspec/tree/v4.37.2) (2021-05-10)
+<!-- latest_release 4.37.3 -->
+## [v4.37.3](https://github.com/inspec/inspec/tree/v4.37.3) (2021-05-10)
 
 #### Merged Pull Requests
-- HTTP resource response body coerced into UTF-8 [#5510](https://github.com/inspec/inspec/pull/5510) ([Nik08](https://github.com/Nik08))
+- Fixed `automate login` fake feedback on failure [#5509](https://github.com/inspec/inspec/pull/5509) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.37.0 -->
 ### Changes since 4.37.0 release
 
 #### Merged Pull Requests
+- Fixed `automate login` fake feedback on failure [#5509](https://github.com/inspec/inspec/pull/5509) ([Nik08](https://github.com/Nik08)) <!-- 4.37.3 -->
 - HTTP resource response body coerced into UTF-8 [#5510](https://github.com/inspec/inspec/pull/5510) ([Nik08](https://github.com/Nik08)) <!-- 4.37.2 -->
 - Update `bond0` example to use params properly [#5518](https://github.com/inspec/inspec/pull/5518) ([gscho](https://github.com/gscho)) <!-- 4.37.1 -->
 <!-- release_rollup -->
