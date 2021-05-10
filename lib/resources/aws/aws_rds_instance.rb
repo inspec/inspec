@@ -43,13 +43,13 @@ class AwsRdsInstance < Inspec.resource(1)
     backend = BackendFactory.create(inspec_runner)
     dsg_response = nil
     catch_aws_errors do
-      begin
-        dsg_response = backend.describe_db_instances(db_instance_identifier: db_instance_identifier)
-        @exists = true
-      rescue Aws::RDS::Errors::DBInstanceNotFound
-        @exists = false
-        return
-      end
+
+      dsg_response = backend.describe_db_instances(db_instance_identifier: db_instance_identifier)
+      @exists = true
+    rescue Aws::RDS::Errors::DBInstanceNotFound
+      @exists = false
+      return
+
     end
 
     if dsg_response.db_instances.empty?

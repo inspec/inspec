@@ -281,7 +281,7 @@ module Inspec::Resources
       key = @options[:key]
       return "" unless key
 
-      key.start_with?('\\') ? key : "\\#{key}"
+      key.start_with?("\\") ? key : "\\#{key}"
     end
   end
 

@@ -56,30 +56,30 @@ class AwsKmsKey < Inspec.resource(1)
 
     query = { key_id: @key_id }
     catch_aws_errors do
-      begin
-        resp = backend.describe_key(query)
 
-        @exists = true
-        @key = resp.key_metadata.to_h
-        @key_id = @key[:key_id]
-        @arn = @key[:arn]
-        @creation_date = @key[:creation_date]
-        @enabled = @key[:enabled]
-        @description = @key[:description]
-        @key_usage = @key[:key_usage]
-        @key_state = @key[:key_state]
-        @deletion_date = @key[:deletion_date]
-        @valid_to = @key[:valid_to]
-        @external = @key[:origin] == "EXTERNAL"
-        @has_key_expiration = @key[:expiration_model] == "KEY_MATERIAL_EXPIRES"
-        @managed_by_aws = @key[:key_manager] == "AWS"
+      resp = backend.describe_key(query)
 
-        resp = backend.get_key_rotation_status(query)
-        @has_rotation_enabled = resp.key_rotation_enabled unless resp.empty?
-      rescue Aws::KMS::Errors::NotFoundException
-        @exists = false
-        return
-      end
+      @exists = true
+      @key = resp.key_metadata.to_h
+      @key_id = @key[:key_id]
+      @arn = @key[:arn]
+      @creation_date = @key[:creation_date]
+      @enabled = @key[:enabled]
+      @description = @key[:description]
+      @key_usage = @key[:key_usage]
+      @key_state = @key[:key_state]
+      @deletion_date = @key[:deletion_date]
+      @valid_to = @key[:valid_to]
+      @external = @key[:origin] == "EXTERNAL"
+      @has_key_expiration = @key[:expiration_model] == "KEY_MATERIAL_EXPIRES"
+      @managed_by_aws = @key[:key_manager] == "AWS"
+
+      resp = backend.get_key_rotation_status(query)
+      @has_rotation_enabled = resp.key_rotation_enabled unless resp.empty?
+    rescue Aws::KMS::Errors::NotFoundException
+      @exists = false
+      return
+
     end
   end
 

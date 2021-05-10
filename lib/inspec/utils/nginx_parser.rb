@@ -31,19 +31,19 @@ class NginxParser < Parslet::Parser
 
   rule(:standard_value) do
     ((match(/[#;{'"]/).absent? >> any) >> (
-      str('\\') >> any | match('[#;{]|\s').absent? >> any
+      str("\\") >> any | match('[#;{]|\s').absent? >> any
     ).repeat).as(:value) >> space.repeat
   end
 
   rule(:single_quoted_value) do
     str("'") >> (
-      str('\\') >> any | str("'").absent? >> any
+      str("\\") >> any | str("'").absent? >> any
     ).repeat.as(:value) >> str("'") >> space.repeat
   end
 
   rule(:double_quoted_value) do
     str('"') >> (
-      str('\\') >> any | str('"').absent? >> any
+      str("\\") >> any | str('"').absent? >> any
     ).repeat.as(:value) >> str('"') >> space.repeat
   end
 

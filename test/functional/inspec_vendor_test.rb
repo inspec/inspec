@@ -40,7 +40,7 @@ describe "example inheritance profile" do
     return unless is_windows?
 
     prepare_examples("inheritance") do |dir|
-      dir_with_backslash = File.join(dir, '..\\', File.basename(dir))
+      dir_with_backslash = File.join(dir, "..\\", File.basename(dir))
       out = inspec("vendor " + dir_with_backslash + " --overwrite")
 
       _(File.exist?(File.join(dir, "vendor"))).must_equal true

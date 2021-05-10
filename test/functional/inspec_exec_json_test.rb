@@ -61,16 +61,16 @@ describe "inspec exec with json formatter" do
   it "properly validates all (valid) unit tests against the schema" do
     schema = JSONSchemer.schema(JSON.parse(inspec("schema exec-json").stdout))
     all_profile_folders.first(1).each do |folder|
-      begin
-        out = inspec("exec " + folder + " --reporter json --no-create-lockfile")
-        # Ensure it parses properly
-        out = JSON.parse(out.stdout)
-        failures = schema.validate(out).to_a
-        _(failures).must_equal []
-      rescue JSON::ParserError
-        # We don't actually care about these; cannot validate if parsing fails!
-        nil
-      end
+
+      out = inspec("exec " + folder + " --reporter json --no-create-lockfile")
+      # Ensure it parses properly
+      out = JSON.parse(out.stdout)
+      failures = schema.validate(out).to_a
+      _(failures).must_equal []
+    rescue JSON::ParserError
+      # We don't actually care about these; cannot validate if parsing fails!
+      nil
+
     end
   end
 

@@ -75,7 +75,7 @@ module Inspec::Resources
     def create_mysql_cmd(q, db = "")
       # TODO: simple escape, must be handled by a library
       # that does this securely
-      escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
+      escaped_query = q.gsub(/\\/, "\\\\").gsub(/"/, '\\"').gsub(/\$/, '\\$')
 
       # construct the query
       command = "mysql"

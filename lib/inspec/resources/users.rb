@@ -611,7 +611,7 @@ module Inspec::Resources
   # @see https://msdn.microsoft.com/en-us/library/aa394153(v=vs.85).aspx
   class WindowsUser < UserInfo
     def parse_windows_account(username)
-      account = username.split('\\')
+      account = username.split("\\")
       name = account.pop
       domain = account.pop unless account.empty?
       [name, domain]

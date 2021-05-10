@@ -31,7 +31,7 @@ module Inspec::Fetcher
         target = target.gsub(%r{^file://}, "")
       else
         # support for windows paths
-        target = target.tr('\\', "/")
+        target = target.tr("\\", "/")
       end
 
       target if File.exist?(File.expand_path(target))
