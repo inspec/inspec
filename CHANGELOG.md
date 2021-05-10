@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.37.6 -->
-## [v4.37.6](https://github.com/inspec/inspec/tree/v4.37.6) (2021-05-10)
+<!-- latest_release 4.37.7 -->
+## [v4.37.7](https://github.com/inspec/inspec/tree/v4.37.7) (2021-05-10)
 
 #### Merged Pull Requests
-- Update Hugo and correct how build previews are generated [#5507](https://github.com/inspec/inspec/pull/5507) ([IanMadd](https://github.com/IanMadd))
+- Modified windows_feature to indicate enabled rather than just available [#5506](https://github.com/inspec/inspec/pull/5506) ([jwdean](https://github.com/jwdean))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.37.0 -->
 ### Changes since 4.37.0 release
 
 #### Merged Pull Requests
+- Modified windows_feature to indicate enabled rather than just available [#5506](https://github.com/inspec/inspec/pull/5506) ([jwdean](https://github.com/jwdean)) <!-- 4.37.7 -->
 - Update Hugo and correct how build previews are generated [#5507](https://github.com/inspec/inspec/pull/5507) ([IanMadd](https://github.com/IanMadd)) <!-- 4.37.6 -->
 - Update chefstyle requirement from ~&gt; 1.7.1 to ~&gt; 2.0.3 [#5508](https://github.com/inspec/inspec/pull/5508) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.37.5 -->
 - Document auxiliary reporter options on the reporter docs page [#5504](https://github.com/inspec/inspec/pull/5504) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.4 -->
