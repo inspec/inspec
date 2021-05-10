@@ -8,7 +8,7 @@ gh_repo = "inspec"
     title = "Common Errors"
     identifier = "inspec/reference/common_errors.md Chef InSpec Common Errors"
     parent = "inspec/reference"
-    weight = 110
+    weight = 150
 +++
 
 This section documents some of the Common Errors encountered while using Chef Inspec.
