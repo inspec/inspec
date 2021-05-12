@@ -1,27 +1,25 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.37.8 -->
-## [v4.37.8](https://github.com/inspec/inspec/tree/v4.37.8) (2021-05-10)
-
-#### Merged Pull Requests
-- Remove outdated instructions about testing AWS and Azure resources [#5499](https://github.com/inspec/inspec/pull/5499) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.37.0 -->
-### Changes since 4.37.0 release
-
-#### Merged Pull Requests
-- Remove outdated instructions about testing AWS and Azure resources [#5499](https://github.com/inspec/inspec/pull/5499) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.8 -->
-- Modified windows_feature to indicate enabled rather than just available [#5506](https://github.com/inspec/inspec/pull/5506) ([jwdean](https://github.com/jwdean)) <!-- 4.37.7 -->
-- Update Hugo and correct how build previews are generated [#5507](https://github.com/inspec/inspec/pull/5507) ([IanMadd](https://github.com/IanMadd)) <!-- 4.37.6 -->
-- Update chefstyle requirement from ~&gt; 1.7.1 to ~&gt; 2.0.3 [#5508](https://github.com/inspec/inspec/pull/5508) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.37.5 -->
-- Document auxiliary reporter options on the reporter docs page [#5504](https://github.com/inspec/inspec/pull/5504) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.4 -->
-- Fixed `automate login` fake feedback on failure [#5509](https://github.com/inspec/inspec/pull/5509) ([Nik08](https://github.com/Nik08)) <!-- 4.37.3 -->
-- HTTP resource response body coerced into UTF-8 [#5510](https://github.com/inspec/inspec/pull/5510) ([Nik08](https://github.com/Nik08)) <!-- 4.37.2 -->
-- Update `bond0` example to use params properly [#5518](https://github.com/inspec/inspec/pull/5518) ([gscho](https://github.com/gscho)) <!-- 4.37.1 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.37.8](https://github.com/inspec/inspec/tree/v4.37.8) (2021-05-12)
+
+#### Merged Pull Requests
+- Update `bond0` example to use params properly [#5518](https://github.com/inspec/inspec/pull/5518) ([gscho](https://github.com/gscho))
+- HTTP resource response body coerced into UTF-8 [#5510](https://github.com/inspec/inspec/pull/5510) ([Nik08](https://github.com/Nik08))
+- Fixed `automate login` fake feedback on failure [#5509](https://github.com/inspec/inspec/pull/5509) ([Nik08](https://github.com/Nik08))
+- Document auxiliary reporter options on the reporter docs page [#5504](https://github.com/inspec/inspec/pull/5504) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update chefstyle requirement from ~&gt; 1.7.1 to ~&gt; 2.0.3 [#5508](https://github.com/inspec/inspec/pull/5508) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update Hugo and correct how build previews are generated [#5507](https://github.com/inspec/inspec/pull/5507) ([IanMadd](https://github.com/IanMadd))
+- Modified windows_feature to indicate enabled rather than just available [#5506](https://github.com/inspec/inspec/pull/5506) ([jwdean](https://github.com/jwdean))
+- Remove outdated instructions about testing AWS and Azure resources [#5499](https://github.com/inspec/inspec/pull/5499) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.37.0](https://github.com/inspec/inspec/tree/v4.37.0) (2021-05-05)
 
 #### Enhancements
@@ -40,7 +38,6 @@
 - Fix  undefined method `+&#39; for nil:NilClass\n\nProfile: - when using profile dependencies and require_controls [#5487](https://github.com/inspec/inspec/pull/5487) ([Vasu1105](https://github.com/Vasu1105))
 - Remove coverage testing [#5500](https://github.com/inspec/inspec/pull/5500) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Added alias command `automate` for `inspec compliance` [#5490](https://github.com/inspec/inspec/pull/5490) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v4.36.4](https://github.com/inspec/inspec/tree/v4.36.4) (2021-04-29)
 
