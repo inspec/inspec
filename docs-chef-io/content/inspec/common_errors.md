@@ -13,16 +13,35 @@ gh_repo = "inspec"
 
 This section documents some of the Common Errors encountered while using Chef Inspec.
 
-* `Undefined local variable or method error for 'aws_eks_clusters' resource`
+* `Undefined local variable or method error` while using cloud resources in InSpec profile.
 
-    Syntax of using an AWS resource in InSpec profile is as follows:
+    For the successful execution of an InSpec profile using **any of the cloud resources**, it is necessary to define the profile with a dependency on them.
+
+    Some of the examples of using cloud resources in an InSpec profile are:
 
     ```bash
-        describe aws_eks_clusters.where( failed: true ) do
-            it { should_not exist }
+        describe aws_generic_resource(group_name: 'MyResourceGroup', name: 'MyResource') do
+            its('property') { should eq 'value' }
         end
     ```
-    This example is testing aws eks clusters.
 
-    For successful execution of a profile using **any of the AWS resources**, it is necessary to define an InSpec Profile with a dependency on **inspec-aws** resource pack. It can be done using instructions in [inspec-aws README](https://github.com/inspec/inspec-aws#use-the-resources)
+    To define dependency on **inspec-aws** resource pack use the instructions listed in [inspec-aws README](https://github.com/inspec/inspec-aws#use-the-resources)
+
+
+    ```bash
+        describe azure_generic_resource(group_name: 'MyResourceGroup', name: 'MyResource') do
+            its('property') { should eq 'value' }
+        end
+    ```
+
+    To define dependency on **inspec-azure** resource pack use the instructions listed in [inspec-azure README](https://github.com/inspec/inspec-azure#use-the-resources)
+
+
+    ```bash
+        describe gcp_generic_resource(group_name: 'MyResourceGroup', name: 'MyResource') do
+            its('property') { should eq 'value' }
+        end
+    ```
+
+    To define dependency on **inspec-gcp** resource pack use the instructions listed in [inspec-gcp README](https://github.com/inspec/inspec-gcp#use-the-resources)
     
