@@ -566,6 +566,7 @@ module Inspec::Resources
       #   fe80::a00:27ff:fe32:ed09%enp0s3:9200
       parsed_net_address = parsed[:local_addr].match(/(\S+):(\*|\d+)$/)
       return nil if parsed_net_address.nil?
+
       host = parsed_net_address[1]
       port = parsed_net_address[2]
       return nil if host.nil? && port.nil?
