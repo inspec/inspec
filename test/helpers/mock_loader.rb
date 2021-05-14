@@ -591,6 +591,10 @@ class MockLoader
         %{sh -c 'type "ss"'} => empty.call,
         %{sh -c 'type "netstat"'} => empty.call,
         "ss -tulpen" => cmd.call("ss-tulpen"),
+        "ss -tulpen '( dport = 22 or sport = 22 )'" => cmd.call("ss-tulpen"),
+        "ss -tulpen '( dport = 68 or sport = 68 )'" => cmd.call("ss-tulpen"),
+        "ss -tulpen '( dport = 9200 or sport = 9200 )'" => cmd.call("ss-tulpen"),
+        "ss -tulpen '( dport = 80 or sport = 80 )'" => cmd.call("ss-tulpen"),
         "netstat -tulpen" => cmd.call("netstat-tulpen")
       )
     end
