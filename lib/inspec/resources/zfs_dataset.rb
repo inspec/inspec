@@ -29,7 +29,7 @@ module Inspec::Resources
 
     # method called by 'it { should exist }'
     def exists?
-      inspec.command("#{@zfs_cli} get -Hp all #{@zfs_dataset}").exit_status == 0
+      inspec.command("#{@zfs_cmd} get -Hp all #{@zfs_dataset}").exit_status == 0
     end
 
     def mounted?
