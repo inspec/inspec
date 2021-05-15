@@ -9,7 +9,7 @@ Feature Name : IIS-WebServer
 Display Name : World Wide Web Services
 Description : Installs the IIS 10.0 World Wide Web Services. Provides support for HTML web sites and optional support for ASP.NET, Classic ASP, and web server extensions.
 Restart Required : Possible
-State : Disabled
+State : Enabled
 
 Custom Properties:
 
