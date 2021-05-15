@@ -15,16 +15,17 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize(zfs_pool)
-      return skip_resource "The `zfs_pool` resource is not supported on your OS yet." unless inspec.os.bsd?
-
+      return skip_resource "The `zfs_pool` resource is not supported on your OS yet." unless (inspec.os.bsd? or inspec.os.linux?)      
       @zfs_pool = zfs_pool
-
+      find_zpool = inspec.command("which zpool")
+      @zpool_cmd = find_zpool.stdout.strip
+      return skip_resource "zfs is not installed" if find_zpool.exit_status != 0
       @params = gather
     end
 
     # method called by 'it { should exist }'
     def exists?
-      inspec.command("/sbin/zpool get -Hp all #{@zfs_pool}").exit_status == 0
+      inspec.command("#{@zpool_cmd} get -Hp all #{@zfs_pool}").exit_status == 0
     end
 
     def to_s
@@ -32,7 +33,7 @@ module Inspec::Resources
     end
 
     def gather
-      cmd = inspec.command("/sbin/zpool get -Hp all #{@zfs_pool}")
+      cmd = inspec.command("#{@zpool_cmd} get -Hp all #{@zfs_pool}")
       return nil if cmd.exit_status.to_i != 0
 
       # parse data

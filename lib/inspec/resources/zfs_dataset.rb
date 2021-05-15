@@ -16,16 +16,17 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize(zfs_dataset)
-      return skip_resource "The `zfs_dataset` resource is not supported on your OS yet." unless inspec.os.bsd?
-
+      return skip_resource "The `zfs_dataset` resource is not supported on your OS yet." unless (inspec.os.bsd? or inspec.os.linux?)
       @zfs_dataset = zfs_dataset
-
+      find_zfs = inspec.command("which zfs")
+      @zfs_cmd = find_zfs.stdout.strip
+      return skip_resource "zfs is not installed" if find_zfs.exit_status != 0
       @params = gather
     end
 
     # method called by 'it { should exist }'
     def exists?
-      inspec.command("/sbin/zfs get -Hp all #{@zfs_dataset}").exit_status == 0
+      inspec.command("#{@zfs_cli} get -Hp all #{@zfs_dataset}").exit_status == 0
     end
 
     def mounted?
@@ -39,7 +40,7 @@ module Inspec::Resources
     end
 
     def gather
-      cmd = inspec.command("/sbin/zfs get -Hp all #{@zfs_dataset}")
+      cmd = inspec.command("#{@zfs_cmd} get -Hp all #{@zfs_dataset}")
       return nil if cmd.exit_status.to_i != 0
 
       # parse data
