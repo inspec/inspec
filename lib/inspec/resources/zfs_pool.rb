@@ -15,11 +15,14 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize(zfs_pool)
-      return skip_resource "The `zfs_pool` resource is not supported on your OS yet." unless (inspec.os.bsd? or inspec.os.linux?)      
+      return skip_resource "The `zfs_pool` resource is not supported on your OS yet." unless inspec.os.bsd? || inspec.os.linux?
+
       @zfs_pool = zfs_pool
       find_zpool = inspec.command("which zpool")
       @zpool_cmd = find_zpool.stdout.strip
+
       return skip_resource "zfs is not installed" if find_zpool.exit_status != 0
+
       @params = gather
     end
 

@@ -41,7 +41,6 @@ describe Inspec::Resources::ZfsPool do
   end
 end
 
-
 describe Inspec::Resources::ZfsPool do
   it "parses the ZFS pool data properly" do
     resource = MockLoader.new(:macos10_16).load_resource("zfs_pool", "tank")

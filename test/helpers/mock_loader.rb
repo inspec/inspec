@@ -596,16 +596,16 @@ class MockLoader
     end
 
     # zfs dynamic commands
-    if @platform && ["centos", "debian", "ubuntu", "amazon"].include?(@platform[:name])
+    if @platform && %w{centos debian ubuntu amazon}.include?(@platform[:name])
       mock_cmds.merge!(
         # zfs output for dataset tank/tmp
         %{`which zfs` get -Hp all tank/tmp} => cmd.call("zfs-get-all-tank-tmp"),
         # zfs output for pool tank
-        %{`which zpool` get -Hp all tank} => cmd.call("zpool-get-all-tank"),
+        %{`which zpool` get -Hp all tank} => cmd.call("zpool-get-all-tank")
       )
     end
 
-    if @platform && !["centos", "cloudlinux", "coreos", "debian", "freebsd", "ubuntu", "amazon"].include?(@platform[:name])
+    if @platform && ! %w{centos cloudlinux coreos debian freebsd ubuntu amazon}.include?(@platform[:name])
       mock_cmds.delete("/sbin/zfs get -Hp all tank/tmp")
       mock_cmds.delete("/sbin/zpool get -Hp all tank")
       mock_cmds.delete("which zfs")

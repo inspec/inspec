@@ -16,7 +16,6 @@ describe Inspec::Resources::ZfsDataset do
   end
 end
 
-
 describe Inspec::Resources::ZfsDataset do
   let(:loader) { MockLoader.new(:centos7) }
   let(:tank_tmp_resource) { loader.send("load_resource", "zfs_dataset", "tank/tmp") }
@@ -41,7 +40,6 @@ describe Inspec::Resources::ZfsDataset do
     end
   end
 end
-
 
 describe Inspec::Resources::ZfsDataset do
   it "parses the ZFS dataset properly" do
