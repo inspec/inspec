@@ -211,14 +211,6 @@ describe port(443) do
 end
 ```
 
-* Use approved strong ciphers - This test ensures that only enterprise-compliant ciphers are used for SSH servers.
-
-```ruby
-describe sshd_config do
-   its('Ciphers') { should eq('chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr') }
-end
-```
-
 * Test your `kitchen.yml` file to verify that only Vagrant is configured as the driver.  The %w() formatting will
 pass rubocop linting and allow you to access nested mappings.
 
