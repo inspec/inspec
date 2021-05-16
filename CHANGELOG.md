@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.37.9 -->
+## [v4.37.9](https://github.com/inspec/inspec/tree/v4.37.9) (2021-05-16)
+
+#### Merged Pull Requests
+- Fix the lint and failing test for windows_feature resource [#5524](https://github.com/inspec/inspec/pull/5524) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.37.8 -->
+### Changes since 4.37.8 release
+
+#### Merged Pull Requests
+- Fix the lint and failing test for windows_feature resource [#5524](https://github.com/inspec/inspec/pull/5524) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.37.9 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
