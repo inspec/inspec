@@ -452,6 +452,10 @@ KITCHEN_YAML=kitchen.dokken.yml bundle exec kitchen test -c 3
 | **Copyright:** | Copyright (c) 2017-2020 Chef Software Inc.     |
 | **Copyright:** | Copyright (c) 2020-2021 Progress Software Corp.|
 | **License:**   | Apache License, Version 2.0                    |
+| **License:**   | Chef End User License Agreement                |
+
+Chef InSpec is distributed under the Apache License, Version 2.0.
+Permission to use the software is governed by the [Chef EULA](https://docs.chef.io/chef_license_accept.html).
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
