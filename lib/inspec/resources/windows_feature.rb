@@ -83,7 +83,7 @@ module Inspec::Resources
         feature_info = {
           name: result.match(feature_name_regex).captures[0].chomp,
           description: result.match(description_regex).captures[0].chomp,
-          installed: result.match(state_regex).captures[0].chomp == 'Enabled',
+          installed: result.match(state_regex).captures[0].chomp == "Enabled",
         }
       end
 
