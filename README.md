@@ -444,13 +444,14 @@ KITCHEN_YAML=kitchen.dokken.yml bundle exec kitchen test -c 3
 
 ## License
 
-|                |                                           |
-| -------------- | ----------------------------------------- |
-| **Author:**    | Dominik Richter (<drichter@chef.io>)      |
-| **Author:**    | Christoph Hartmann (<chartmann@chef.io>)  |
-| **Copyright:** | Copyright (c) 2015 Vulcano Security GmbH. |
-| **Copyright:** | Copyright (c) 2017-2018 Chef Software Inc.|
-| **License:**   | Apache License, Version 2.0               |
+|                |                                                |
+| -------------- | ---------------------------------------------- |
+| **Author:**    | Dominik Richter (<drichter@chef.io>)           |
+| **Author:**    | Christoph Hartmann (<chartmann@chef.io>)       |
+| **Copyright:** | Copyright (c) 2015 Vulcano Security GmbH.      |
+| **Copyright:** | Copyright (c) 2017-2020 Chef Software Inc.     |
+| **Copyright:** | Copyright (c) 2020-2021 Progress Software Corp.|
+| **License:**   | Apache License, Version 2.0                    |
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
