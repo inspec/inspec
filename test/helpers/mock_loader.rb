@@ -427,6 +427,10 @@ class MockLoader
       "/sbin/zfs get -Hp all tank/tmp" => cmd.call("zfs-get-all-tank-tmp"),
       # zfs output for pool tank
       "/sbin/zpool get -Hp all tank" => cmd.call("zpool-get-all-tank"),
+      # which zfs
+      "which zfs" => cmd.call("zfs-which"),
+      # which zpool
+      "which zpool" => cmd.call("zpool-which"),
       # docker
       "4f8e24022ea8b7d3b117041ec32e55d9bf08f11f4065c700e7c1dc606c84fd17" => cmd.call("docker-ps-a"),
       "b40ed61c006b54f155b28a85dc944dc0352b30222087b47c6279568ec0e59d05" => cmd.call("df-PT"),
@@ -590,6 +594,24 @@ class MockLoader
         "netstat -tulpen" => cmd.call("netstat-tulpen")
       )
     end
+
+    # zfs dynamic commands
+    if @platform && %w{centos debian ubuntu amazon}.include?(@platform[:name])
+      mock_cmds.merge!(
+        # zfs output for dataset tank/tmp
+        %{`which zfs` get -Hp all tank/tmp} => cmd.call("zfs-get-all-tank-tmp"),
+        # zfs output for pool tank
+        %{`which zpool` get -Hp all tank} => cmd.call("zpool-get-all-tank")
+      )
+    end
+
+    if @platform && ! %w{centos cloudlinux coreos debian freebsd ubuntu amazon}.include?(@platform[:name])
+      mock_cmds.delete("/sbin/zfs get -Hp all tank/tmp")
+      mock_cmds.delete("/sbin/zpool get -Hp all tank")
+      mock_cmds.delete("which zfs")
+      mock_cmds.delete("which zpool")
+    end
+
     mock.commands = mock_cmds
 
     @backend
