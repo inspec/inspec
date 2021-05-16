@@ -360,6 +360,8 @@ You may also [browse the Supermarket for shared Compliance Profiles](https://sup
 
 ## Kudos
 
+Chef InSpec was originally created by Christoph Hartmann (@chris-rock) and Dominik Richter (@arlimus).
+
 Chef InSpec is inspired by the wonderful [Serverspec](http://serverspec.org) project. Kudos to [mizzy](https://github.com/mizzy) and [all contributors](https://github.com/mizzy/serverspec/graphs/contributors)!
 
 The AWS resources were inspired by [inspec-aws](https://github.com/arothian/inspec-aws) from [arothian](https://github.com/arothian).
