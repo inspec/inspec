@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.37.12 -->
-## [v4.37.12](https://github.com/inspec/inspec/tree/v4.37.12) (2021-05-16)
+<!-- latest_release 4.37.13 -->
+## [v4.37.13](https://github.com/inspec/inspec/tree/v4.37.13) (2021-05-18)
 
 #### Merged Pull Requests
-- Add CI-CD docs [#5489](https://github.com/inspec/inspec/pull/5489) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add explicit RHEL8 builders to omnibus build [#5527](https://github.com/inspec/inspec/pull/5527) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.37.8 -->
 ### Changes since 4.37.8 release
 
 #### Merged Pull Requests
+- Add explicit RHEL8 builders to omnibus build [#5527](https://github.com/inspec/inspec/pull/5527) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.13 -->
 - Add CI-CD docs [#5489](https://github.com/inspec/inspec/pull/5489) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.12 -->
 - Add basic docs for toml resource [#5514](https://github.com/inspec/inspec/pull/5514) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.11 -->
 - Support zfs_pool and zfs_dataset resources on Linux. Handled #5075 [#5523](https://github.com/inspec/inspec/pull/5523) ([kannanr](https://github.com/kannanr)) <!-- 4.37.10 -->
