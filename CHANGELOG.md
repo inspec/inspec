@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.37.14 -->
-## [v4.37.14](https://github.com/inspec/inspec/tree/v4.37.14) (2021-05-18)
+<!-- latest_release 4.37.15 -->
+## [v4.37.15](https://github.com/inspec/inspec/tree/v4.37.15) (2021-05-18)
 
-#### Merged Pull Requests
-- Changes returns nil on file non-existence through matcher `more_permissive_than` [#5519](https://github.com/inspec/inspec/pull/5519) ([Nik08](https://github.com/Nik08))
+#### Enhancements
+- Fix for port resource performance: adding more specific search while using ss command [#5522](https://github.com/inspec/inspec/pull/5522) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.37.8 -->
 ### Changes since 4.37.8 release
+
+#### Enhancements
+- Fix for port resource performance: adding more specific search while using ss command [#5522](https://github.com/inspec/inspec/pull/5522) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.37.15 -->
 
 #### Merged Pull Requests
 - Changes returns nil on file non-existence through matcher `more_permissive_than` [#5519](https://github.com/inspec/inspec/pull/5519) ([Nik08](https://github.com/Nik08)) <!-- 4.37.14 -->
