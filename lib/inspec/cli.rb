@@ -305,9 +305,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       puts res.to_json
     else
       ui.headline("Platform Details")
-
-      detect_cmd_ui_color = ui.color? ? 36 : 0
-      ui.plain Inspec::BaseCLI.format_platform_info(params: res, indent: 0, color: detect_cmd_ui_color)
+      ui.plain Inspec::BaseCLI.format_platform_info(params: res, indent: 0, color: 36, enable_color: ui.color?)
     end
   rescue ArgumentError, RuntimeError, Train::UserError => e
     $stderr.puts e.message

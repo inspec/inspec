@@ -105,7 +105,7 @@ describe "InSpec UI behavior" do
       let(:result) { inspec("detect") }
 
       it "has a colorful output" do
-        _(result.stdout).must_include("\e[1m\e[36m")
+        _(result.stdout).must_include("\e[")
         assert_exit_code 0, result
       end
     end
@@ -144,7 +144,7 @@ describe "InSpec UI behavior" do
       let(:result) { inspec("detect --no-color") }
 
       it "has no color in the output" do
-        _(result.stdout).must_include("\e[1m\e[0m")
+        _(result.stdout).wont_include("\e[")
         assert_exit_code 0, result
       end
     end

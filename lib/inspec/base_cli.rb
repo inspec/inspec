@@ -181,7 +181,7 @@ module Inspec
       puts "  Patents: chef.io/patents\n\n"
     end
 
-    def self.format_platform_info(params: {}, indent: 0, color: 39)
+    def self.format_platform_info(params: {}, indent: 0, color: 39, enable_color: true)
       str = ""
       params.each do |item, info|
         data = info
@@ -192,7 +192,7 @@ module Inspec
         # Do not output fields of data is missing ('unknown' is fine)
         next if data.nil?
 
-        data = "\e[1m\e[#{color}m#{data}\e[0m"
+        data = "\e[1m\e[#{color}m#{data}\e[0m" if enable_color
         str << format("#{" " * indent}%-10s %s\n", item.to_s.capitalize + ":", data)
       end
       str
