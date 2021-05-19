@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.37.16 -->
-## [v4.37.16](https://github.com/inspec/inspec/tree/v4.37.16) (2021-05-18)
+<!-- latest_release 4.37.17 -->
+## [v4.37.17](https://github.com/inspec/inspec/tree/v4.37.17) (2021-05-19)
 
 #### Merged Pull Requests
-- Update control-eval Readme docs. [#5516](https://github.com/inspec/inspec/pull/5516) ([Vasu1105](https://github.com/Vasu1105))
+- Added Common Errors page doc [#5517](https://github.com/inspec/inspec/pull/5517) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.37.8 -->
@@ -14,6 +14,7 @@
 - Fix for port resource performance: adding more specific search while using ss command [#5522](https://github.com/inspec/inspec/pull/5522) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.37.15 -->
 
 #### Merged Pull Requests
+- Added Common Errors page doc [#5517](https://github.com/inspec/inspec/pull/5517) ([Nik08](https://github.com/Nik08)) <!-- 4.37.17 -->
 - Update control-eval Readme docs. [#5516](https://github.com/inspec/inspec/pull/5516) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.37.16 -->
 - Changes returns nil on file non-existence through matcher `more_permissive_than` [#5519](https://github.com/inspec/inspec/pull/5519) ([Nik08](https://github.com/Nik08)) <!-- 4.37.14 -->
 - Add explicit RHEL8 builders to omnibus build [#5527](https://github.com/inspec/inspec/pull/5527) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.13 -->
