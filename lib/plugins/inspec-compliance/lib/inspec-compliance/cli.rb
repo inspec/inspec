@@ -15,7 +15,7 @@ module InspecPlugins
 
         You need to have a token for communication. More information about token retrieval
         is available at:
-          https://docs.chef.io/automate/api/#tag/tokens
+          https://docs.chef.io/automate/api_tokens
       LONGDESC
       option :insecure, aliases: :k, type: :boolean,
         desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
