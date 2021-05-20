@@ -13,10 +13,9 @@ module InspecPlugins
       long_desc <<-LONGDESC
         `login` allows you to use InSpec with #{AUTOMATE_PRODUCT_NAME} Server
 
-        You need to a token for communication. More information about token retrieval
+        You need to have a token for communication. More information about token retrieval
         is available at:
-          https://docs.chef.io/api_automate.html#authentication-methods
-          https://docs.chef.io/api_compliance.html#obtaining-an-api-token
+          https://docs.chef.io/automate/api_tokens
       LONGDESC
       option :insecure, aliases: :k, type: :boolean,
         desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
