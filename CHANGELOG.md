@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.37.19 -->
-## [v4.37.19](https://github.com/inspec/inspec/tree/v4.37.19) (2021-05-20)
+<!-- latest_release 4.37.20 -->
+## [v4.37.20](https://github.com/inspec/inspec/tree/v4.37.20) (2021-05-20)
 
 #### Merged Pull Requests
-- Bugfix for `inspec detect --no-color` to not return colourful output [#5530](https://github.com/inspec/inspec/pull/5530) ([Nik08](https://github.com/Nik08))
+- Drop EOL Ubuntu 16.04, build on 18.04 [#5532](https://github.com/inspec/inspec/pull/5532) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.37.17 -->
 ### Changes since 4.37.17 release
 
 #### Merged Pull Requests
+- Drop EOL Ubuntu 16.04, build on 18.04 [#5532](https://github.com/inspec/inspec/pull/5532) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.20 -->
 - Bugfix for `inspec detect --no-color` to not return colourful output [#5530](https://github.com/inspec/inspec/pull/5530) ([Nik08](https://github.com/Nik08)) <!-- 4.37.19 -->
 - Added new automate doc link for login tokens in `inspec automate login --help` command [#5529](https://github.com/inspec/inspec/pull/5529) ([Nik08](https://github.com/Nik08)) <!-- 4.37.18 -->
 <!-- release_rollup -->
