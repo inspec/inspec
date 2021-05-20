@@ -32,16 +32,8 @@ module InspecPlugins
 
       def self.check_compliance_token(uri, config)
         if config["token"].nil? && config["refresh_token"].nil?
-          if config["server_type"] == "automate"
-            server = "automate"
-            msg = "#{EXEC_NAME} [automate|compliance] login https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --token USERTOKEN"
-          elsif config["server_type"] == "automate2"
-            server = "automate2"
-            msg = "#{EXEC_NAME} [automate|compliance] login https://your_automate2_server --user USER --token APITOKEN"
-          else
-            server = "compliance"
-            msg = "#{EXEC_NAME} [automate|compliance] login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
-          end
+          server = "automate2"
+          msg = "#{EXEC_NAME} [automate|compliance] login https://your_automate2_server --user USER --token APITOKEN"
           raise Inspec::FetcherFailure, <<~EOF
 
             Cannot fetch #{uri} because your #{server} token has not been
@@ -119,19 +111,9 @@ module InspecPlugins
 
       # determine the owner_id and the profile name from the url
       def compliance_profile_name
-        m = if InspecPlugins::Compliance::API.is_automate_server_pre_080?(@config)
-              %r{^#{@config['server']}/(?<owner>[^/]+)/(?<id>[^/]+)/tar$}
-            elsif InspecPlugins::Compliance::API.is_automate_server_080_and_later?(@config)
-              %r{^#{@config['server']}/profiles/(?<owner>[^/]+)/(?<id>[^/]+)/tar$}
-            else
-              %r{^#{@config['server']}/owners/(?<owner>[^/]+)/compliance/(?<id>[^/]+)/tar$}
-            end.match(@target)
-
-        if InspecPlugins::Compliance::API.is_automate2_server?(@config)
-          m = {}
-          m[:owner] = @config["profile"][0]
-          m[:id] = @config["profile"][1]
-        end
+        m = {}
+        m[:owner] = @config["profile"][0]
+        m[:id] = @config["profile"][1]
 
         if m.nil?
           raise "Unable to determine compliance profile name. This can be caused by " \
