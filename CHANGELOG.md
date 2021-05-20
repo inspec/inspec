@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.37.18 -->
+## [v4.37.18](https://github.com/inspec/inspec/tree/v4.37.18) (2021-05-20)
+
+#### Merged Pull Requests
+- Added new automate doc link for login tokens in `inspec automate login --help` command [#5529](https://github.com/inspec/inspec/pull/5529) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.37.17 -->
+### Changes since 4.37.17 release
+
+#### Merged Pull Requests
+- Added new automate doc link for login tokens in `inspec automate login --help` command [#5529](https://github.com/inspec/inspec/pull/5529) ([Nik08](https://github.com/Nik08)) <!-- 4.37.18 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
