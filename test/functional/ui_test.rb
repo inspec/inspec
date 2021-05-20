@@ -100,6 +100,15 @@ describe "InSpec UI behavior" do
         assert_exit_code 0, run_result
       end
     end
+
+    describe "detect command" do
+      let(:result) { inspec("detect") }
+
+      it "has a colorful output" do
+        _(result.stdout).must_include("\e[")
+        assert_exit_code 0, result
+      end
+    end
   end
 
   describe "with --no-color option" do
@@ -128,6 +137,15 @@ describe "InSpec UI behavior" do
         _(show_spaces(run_result.stdout)).must_equal show_spaces(expected)
 
         assert_exit_code 0, run_result
+      end
+    end
+
+    describe "detect command" do
+      let(:result) { inspec("detect --no-color") }
+
+      it "has no color in the output" do
+        _(result.stdout).wont_include("\e[")
+        assert_exit_code 0, result
       end
     end
   end
