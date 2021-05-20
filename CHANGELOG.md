@@ -1,30 +1,28 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.37.17 -->
-## [v4.37.17](https://github.com/inspec/inspec/tree/v4.37.17) (2021-05-19)
-
-#### Merged Pull Requests
-- Added Common Errors page doc [#5517](https://github.com/inspec/inspec/pull/5517) ([Nik08](https://github.com/Nik08))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.37.8 -->
-### Changes since 4.37.8 release
-
-#### Enhancements
-- Fix for port resource performance: adding more specific search while using ss command [#5522](https://github.com/inspec/inspec/pull/5522) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.37.15 -->
-
-#### Merged Pull Requests
-- Added Common Errors page doc [#5517](https://github.com/inspec/inspec/pull/5517) ([Nik08](https://github.com/Nik08)) <!-- 4.37.17 -->
-- Update control-eval Readme docs. [#5516](https://github.com/inspec/inspec/pull/5516) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.37.16 -->
-- Changes returns nil on file non-existence through matcher `more_permissive_than` [#5519](https://github.com/inspec/inspec/pull/5519) ([Nik08](https://github.com/Nik08)) <!-- 4.37.14 -->
-- Add explicit RHEL8 builders to omnibus build [#5527](https://github.com/inspec/inspec/pull/5527) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.13 -->
-- Add CI-CD docs [#5489](https://github.com/inspec/inspec/pull/5489) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.12 -->
-- Add basic docs for toml resource [#5514](https://github.com/inspec/inspec/pull/5514) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.11 -->
-- Support zfs_pool and zfs_dataset resources on Linux. Handled #5075 [#5523](https://github.com/inspec/inspec/pull/5523) ([kannanr](https://github.com/kannanr)) <!-- 4.37.10 -->
-- Fix the lint and failing test for windows_feature resource [#5524](https://github.com/inspec/inspec/pull/5524) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.37.9 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.37.17](https://github.com/inspec/inspec/tree/v4.37.17) (2021-05-20)
+
+#### Enhancements
+- Fix for port resource performance: adding more specific search while using ss command [#5522](https://github.com/inspec/inspec/pull/5522) ([Vasu1105](https://github.com/Vasu1105))
+
+#### Merged Pull Requests
+- Fix the lint and failing test for windows_feature resource [#5524](https://github.com/inspec/inspec/pull/5524) ([Vasu1105](https://github.com/Vasu1105))
+- Support zfs_pool and zfs_dataset resources on Linux. Handled #5075 [#5523](https://github.com/inspec/inspec/pull/5523) ([kannanr](https://github.com/kannanr))
+- Add basic docs for toml resource [#5514](https://github.com/inspec/inspec/pull/5514) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add CI-CD docs [#5489](https://github.com/inspec/inspec/pull/5489) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add explicit RHEL8 builders to omnibus build [#5527](https://github.com/inspec/inspec/pull/5527) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Changes returns nil on file non-existence through matcher `more_permissive_than` [#5519](https://github.com/inspec/inspec/pull/5519) ([Nik08](https://github.com/Nik08))
+- Update control-eval Readme docs. [#5516](https://github.com/inspec/inspec/pull/5516) ([Vasu1105](https://github.com/Vasu1105))
+- Added Common Errors page doc [#5517](https://github.com/inspec/inspec/pull/5517) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v4.37.8](https://github.com/inspec/inspec/tree/v4.37.8) (2021-05-12)
 
 #### Merged Pull Requests
@@ -36,7 +34,6 @@
 - Update Hugo and correct how build previews are generated [#5507](https://github.com/inspec/inspec/pull/5507) ([IanMadd](https://github.com/IanMadd))
 - Modified windows_feature to indicate enabled rather than just available [#5506](https://github.com/inspec/inspec/pull/5506) ([jwdean](https://github.com/jwdean))
 - Remove outdated instructions about testing AWS and Azure resources [#5499](https://github.com/inspec/inspec/pull/5499) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v4.37.0](https://github.com/inspec/inspec/tree/v4.37.0) (2021-05-05)
 
