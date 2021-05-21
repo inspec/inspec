@@ -12,6 +12,7 @@ module InspecPlugins
           raise ArgumentError, "Please specify a server using `#{EXEC_NAME} automate login https://SERVER` or `#{EXEC_NAME} compliance login https://SERVER`" unless options["server"]
 
           options["server"] = URI("https://#{options["server"]}").to_s if URI(options["server"]).scheme.nil?
+          options["server"].delete_suffix!("/")
 
           options["server_type"] = InspecPlugins::Compliance::API.determine_server_type(options["server"], options["insecure"])
 
