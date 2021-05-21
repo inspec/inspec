@@ -2,10 +2,10 @@
 # <%= plugin_name %> are correct.
 
 # Include our test harness
-require_relative '../helper'
+require_relative "../helper"
 
 # Load the class under test, the CliCommand definition.
-require '<%= plugin_name %>/cli_command'
+require "<%= plugin_name %>/cli_command"
 
 # Because InSpec is a Spec-style test suite, we're going to use Minitest::Spec
 # here, for familiar look and feel. However, this isn't InSpec (or RSpec) code.
@@ -24,10 +24,10 @@ describe InspecPlugins::<%= module_name %>::CliCommand do
   # modify and add to the lines below to test your actual options.
 
   # This is a Hash of Structs that tells us details of options for the 'do_something' subcommand.
-  let(:do_something_options) { cli_class.all_commands['do_something'].options }
+  let(:do_something_options) { cli_class.all_commands["do_something"].options }
 
   # To group tests together, you can nest 'describe' in minitest/spec
-  describe 'the do-something subcommand' do
+  describe "the do-something subcommand" do
 
     # Some tests through here use minitest Expectations, which attach to all
     # Objects, and begin with 'must' (positive) or 'wont' (negative)

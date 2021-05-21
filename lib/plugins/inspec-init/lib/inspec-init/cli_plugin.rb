@@ -71,12 +71,15 @@ module InspecPlugins
         {
           "inspec-plugin-template.gemspec" => plugin_name + ".gemspec",
           File.join("lib", "inspec-plugin-template") => File.join("lib", plugin_name),
-          File.join("lib", "inspec-plugin-template.rb") => File.join("lib", plugin_name + ".rb"),
-          File.join("lib", "inspec-plugin-template", "cli_command.rb") => File.join("lib", plugin_name, "cli_command.rb"),
-          File.join("lib", "inspec-plugin-template", "reporter.rb") => File.join("lib", plugin_name, "reporter.rb"),
-          File.join("lib", "inspec-plugin-template", "plugin.rb") => File.join("lib", plugin_name, "plugin.rb"),
-          File.join("lib", "inspec-plugin-template", "version.rb") => File.join("lib", plugin_name, "version.rb"),
-          File.join("test", "functional", "inspec_plugin_template_test.rb") => File.join("test", "functional", snake_case + "_test.rb"),
+          File.join("lib", "inspec-plugin-template.erb") => File.join("lib", plugin_name + ".rb"),
+          File.join("lib", "inspec-plugin-template", "cli_command.erb") => File.join("lib", plugin_name, "cli_command.rb"),
+          File.join("lib", "inspec-plugin-template", "reporter.erb") => File.join("lib", plugin_name, "reporter.rb"),
+          File.join("lib", "inspec-plugin-template", "plugin.erb") => File.join("lib", plugin_name, "plugin.rb"),
+          File.join("lib", "inspec-plugin-template", "version.erb") => File.join("lib", plugin_name, "version.rb"),
+          File.join("test", "functional", "inspec_plugin_template_test.erb") => File.join("test", "functional", snake_case + "_test.rb"),
+          File.join("test", "unit", "cli_args_test.erb") => File.join("test", "unit", "cli_args_test.rb"),
+          File.join("test", "unit", "plugin_def_test.erb") => File.join("test", "unit", "plugin_def_test.rb"),
+          File.join("test", "helper.erb") => File.join("test", "helper.rb"),
         }
       end
 
@@ -230,13 +233,13 @@ module InspecPlugins
             "Rakefile",
             File.join("test", "fixtures", "README.md"),
             File.join("test", "fixtures"),
-            File.join("test", "functional", "inspec_plugin_template_test.rb"),
+            File.join("test", "functional", "inspec_plugin_template_test.erb"),
             File.join("test", "functional", "README.md"),
-            File.join("test", "unit", "cli_args_test.rb"),
-            File.join("test", "unit", "plugin_def_test.rb"),
+            File.join("test", "unit", "cli_args_test.erb"),
+            File.join("test", "unit", "plugin_def_test.erb"),
             File.join("test", "unit", "README.md"),
             File.join("test", "unit"),
-            File.join("test", "helper.rb"),
+            File.join("test", "helper.erb"),
             File.join("test"),
           ]
         else
@@ -247,14 +250,14 @@ module InspecPlugins
         # Remove hook-specific files
         unless requested_hooks.include?(:cli_command)
           skips += [
-            File.join("lib", "inspec-plugin-template", "cli_command.rb"),
-            File.join("test", "unit", "cli_args_test.rb"),
-            File.join("test", "functional", "inspec_plugin_template_test.rb"),
+            File.join("lib", "inspec-plugin-template", "cli_command.erb"),
+            File.join("test", "unit", "cli_args_test.erb"),
+            File.join("test", "functional", "inspec_plugin_template_test.erb"),
           ]
         end
         unless requested_hooks.include?(:reporter)
           skips += [
-            File.join("lib", "inspec-plugin-template", "reporter.rb"),
+            File.join("lib", "inspec-plugin-template", "reporter.erb"),
           ]
         end
 
