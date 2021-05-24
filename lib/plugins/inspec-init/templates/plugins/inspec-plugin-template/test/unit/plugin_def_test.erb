@@ -43,9 +43,9 @@ describe InspecPlugins::<%= module_name %>::Plugin do
     status.api_generation.must_equal(2)
   end
 
-  # Plugins can support several different activator hooks, each of which has a type.
+  # Plugins can support several different activator, each of which has a type.
   # Since this is (primarily) a CliCommand plugin, we'd expect to see that among our types.
-  it "should include a cli_command activator hook" do
+  it "should include a cli_command activator" do
     status.plugin_types.must_include(:cli_command)
   end
 end
