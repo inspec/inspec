@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["<%= author_name %>"]
   spec.email         = ["<%= author_email %>"]
   spec.summary       = "<%= summary %>"
-  spec.description   = "<%= description %>"
+  spec.description   = "<%= description.join(" ")%>"
   spec.homepage      = "<%= homepage %>"
   spec.license       = "<%= license_name %>"
 
