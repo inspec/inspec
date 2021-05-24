@@ -64,7 +64,7 @@ class InitPluginCli < Minitest::Test
           /\#\s#{plugin}\s=>\s#{module_name}/,
           /module\s#{module_name}/,
           /plugin_name\s+:"#{plugin}"/,
-          # Default assumes one cli hook
+          # Default assumes one cli activator
           /cli_command :my_command/,
           %r{require\s"#{plugin}/cli_command"},
           /InspecPlugins::#{module_name}::CliCommand/,
