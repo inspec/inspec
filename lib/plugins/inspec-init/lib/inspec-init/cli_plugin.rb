@@ -32,7 +32,7 @@ module InspecPlugins
 
         # Handle deprecation of option --hook
         unless options[:hook].nil?
-          Inspec::Log.warn("Use --activator on the command line instead of --hook. --hook option will be deprecated in future.")
+          Inspec.deprecate "cli_option_hook"
           options[:activator] = options.delete(:hook)
         end
 

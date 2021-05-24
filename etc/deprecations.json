@@ -120,6 +120,11 @@
     "object_classes": {
       "action": "warn",
       "suffix": "These classes will be removed in InSpec 5.0."
+    },
+    "cli_option_hook":{
+      "action": "warn",
+      "prefix": "The --hook option is being replaced by the --activator option.",
+      "suffix": "This options will be removed in InSpec 4.0."
     }
   }
 }
