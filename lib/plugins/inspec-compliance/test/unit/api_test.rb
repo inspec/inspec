@@ -208,4 +208,13 @@ describe InspecPlugins::Compliance::API do
       _(InspecPlugins::Compliance::API.exist?(config, "admin/missing-in-action")).must_equal false
     end
   end
+
+  describe "when the config has a automate2 server_type" do
+    it "automate server 2 is? methods return correctly" do
+      config = InspecPlugins::Compliance::Configuration.new
+      config.clean
+      config["server_type"] = "automate2"
+      _(InspecPlugins::Compliance::API.is_automate2_server?(config)).must_equal true
+    end
+  end
 end

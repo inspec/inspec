@@ -24,7 +24,11 @@ module InspecPlugins
       # the username of the account is used that is logged in
       def self.profiles(config, profile_filter = nil) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
         owner = config["owner"] || config["user"]
-        url = "#{config["server"]}/compliance/profiles/search"
+        if is_automate2_server?(config)
+          url = "#{config["server"]}/compliance/profiles/search"
+        else
+          raise ServerConfigurationMissing
+        end
 
         headers = get_headers(config)
         if profile_filter
@@ -209,6 +213,10 @@ module InspecPlugins
         return nil unless config["version"].is_a?(Hash)
 
         config["version"]["version"]
+      end
+
+      def self.is_automate2_server?(config)
+        config["server_type"] == "automate2"
       end
     end
   end
