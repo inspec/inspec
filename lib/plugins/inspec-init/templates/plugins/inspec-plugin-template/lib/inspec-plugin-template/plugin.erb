@@ -28,11 +28,11 @@ module InspecPlugins
       # Internal machine name of the plugin. InSpec will use this in errors, etc.
       plugin_name :"<%= plugin_name %>"
 
-      <% if activator[:cli_command] %>
+      <% if activators[:cli_command] %>
       # Define a new CLI subcommand.
       # The argument here will be used to match against the command line args,
       # and if the user said `inspec list-resources`, this activator will get called.
-      # Notice that you can define multiple activator with different names, and they
+      # Notice that you can define multiple activators with different names, and they
       # don't have to match the plugin name.
 
       # We'd like this to be list-resources, but Thor does not support hyphens
@@ -51,7 +51,7 @@ module InspecPlugins
       end
       <% end %>
 
-      <% if activator[:reporter] %>
+      <% if activators[:reporter] %>
       # Define a new Reporter.
       # The argument here will be used to match against the CLI --reporter option.
       # `--reporter <%= reporter_name_snake %>` will load your reporter and call its renderer.

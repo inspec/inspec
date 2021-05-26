@@ -17,7 +17,7 @@ module InspecPlugins
       option :description, type: :string, default: "", desc: "Multi-line description of the plugin"
       option :summary, type: :string, default: "A plugin with a default summary", desc: "One-line summary of your plugin"
       option :license_name, type: :string, default: "Apache-2.0", desc: "The name of a license"
-      option :activator, type: :array, default: ["cli_command:my_command"], desc: "A list of plugin activator, in the form type1:name1, type2:name2, etc"
+      option :activator, type: :array, default: ["cli_command:my_command"], desc: "A list of plugin activators, in the form type1:name1, type2:name2, etc"
       option :hook, type: :array, desc: "Legacy name for --activator - Deprecated."
       # These vars have calculated defaults
       option :homepage, type: :string, default: nil, desc: "A URL for your project, often a GitHub link"
@@ -48,7 +48,7 @@ module InspecPlugins
           templates_path: TEMPLATES_PATH,
           overwrite: options[:overwrite],
           file_rename_map: make_rename_map(plugin_type, plugin_name, snake_case),
-          skip_files: make_skip_list(template_vars["activator"].keys),
+          skip_files: make_skip_list(template_vars["activators"].keys),
         }
 
         renderer = InspecPlugins::Init::Renderer.new(ui, render_opts)
@@ -131,7 +131,7 @@ module InspecPlugins
             ],
           },
           homepage: { default_setter: proc { options[:homepage] ||= "https://github.com/" + options[:author_email].split("@").first + "/" + options[:plugin_name] } },
-          # TODO: Handle activator, when we ever have more than one type of plugin
+          # TODO: Handle activators, when we ever have more than one type of plugin
         }
 
         prompt_for_options(order)
@@ -164,25 +164,25 @@ module InspecPlugins
       end
 
       def parse_activator_option(raw_option)
-        activator_by_type = {}
+        activators_by_type = {}
         raw_option.each do |entry|
           parts = entry.split(":")
           type = parts.first.to_sym
           name = parts.last
-          if activator_by_type.key?(type)
+          if activators_by_type.key?(type)
             ui.error "The InSpec plugin generator can currently only generate one activator of each type"
             ui.exit(:usage_error)
           end
-          activator_by_type[type] = name
+          activators_by_type[type] = name
         end
 
-        vars = { activator: activator_by_type }
-        if activator_by_type.key?(:cli_command)
-          vars[:command_name_dashes] = activator_by_type[:cli_command].tr("_", "-")
-          vars[:command_name_snake] = activator_by_type[:cli_command].tr("-", "_")
-        elsif activator_by_type.key?(:reporter)
-          vars[:reporter_name_dashes] = activator_by_type[:reporter].tr("_", "-")
-          vars[:reporter_name_snake] = activator_by_type[:reporter].tr("-", "_")
+        vars = { activators: activators_by_type }
+        if activators_by_type.key?(:cli_command)
+          vars[:command_name_dashes] = activators_by_type[:cli_command].tr("_", "-")
+          vars[:command_name_snake] = activators_by_type[:cli_command].tr("-", "_")
+        elsif activators_by_type.key?(:reporter)
+          vars[:reporter_name_dashes] = activators_by_type[:reporter].tr("_", "-")
+          vars[:reporter_name_snake] = activators_by_type[:reporter].tr("-", "_")
         end
         vars
       end
@@ -220,7 +220,7 @@ module InspecPlugins
         end
       end
 
-      def make_skip_list(requested_activator)
+      def make_skip_list(requested_activators)
         skips = []
         case options[:detail]
         when "full" # rubocop: disable Lint/EmptyWhen
@@ -255,14 +255,14 @@ module InspecPlugins
         end
 
         # Remove activator-specific files
-        unless requested_activator.include?(:cli_command)
+        unless requested_activators.include?(:cli_command)
           skips += [
             File.join("lib", "inspec-plugin-template", "cli_command.erb"),
             File.join("test", "unit", "cli_args_test.erb"),
             File.join("test", "functional", "inspec_plugin_template_test.erb"),
           ]
         end
-        unless requested_activator.include?(:reporter)
+        unless requested_activators.include?(:reporter)
           skips += [
             File.join("lib", "inspec-plugin-template", "reporter.erb"),
           ]
