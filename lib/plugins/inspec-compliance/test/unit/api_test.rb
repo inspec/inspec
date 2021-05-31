@@ -5,41 +5,43 @@ require_relative "../../lib/inspec-compliance/api"
 
 describe InspecPlugins::Compliance::API do
   let(:profiles_response) do
-    [{ "name" => "apache-baseline",
-       "title" => "DevSec Apache Baseline",
-       "maintainer" => "DevSec Hardening Framework Team",
-       "copyright" => "DevSec Hardening Framework Team",
-       "copyright_email" => "hello@dev-sec.io",
-       "license" => "Apache 2 license",
-       "summary" => "Test-suite for best-practice apache hardening",
-       "version" => "2.0.2",
-       "supports" => [{ "os-family" => "unix" }],
-       "depends" => nil,
-       "owner_id" => "admin" },
-     { "name" => "apache-baseline",
-       "title" => "DevSec Apache Baseline",
-       "maintainer" => "Hardening Framework Team",
-       "copyright" => "Hardening Framework Team",
-       "copyright_email" => "hello@dev-sec.io",
-       "license" => "Apache 2 license",
-       "summary" => "Test-suite for best-practice apache hardening",
-       "version" => "2.0.1",
-       "supports" => [{ "os-family" => "unix" }],
-       "depends" => nil,
-       "latest_version" => "2.0.2",
-       "owner_id" => "admin" },
-     { "name" => "cis-aix-5.3-6.1-level1",
-       "title" => "CIS AIX 5.3 and AIX 6.1 Benchmark Level 1",
-       "maintainer" => "Chef Software, Inc.",
-       "copyright" => "Chef Software, Inc.",
-       "copyright_email" => "support@chef.io",
-       "license" => "Proprietary, All rights reserved",
-       "summary" => "CIS AIX 5.3 and AIX 6.1 Benchmark Level 1 translated from SCAP",
-       "version" => "1.1.0",
-       "supports" => nil,
-       "depends" => nil,
-       "latest_version" => "1.1.0-3",
-       "owner_id" => "admin" }]
+    { "profiles":
+      [{ "name" => "apache-baseline",
+        "title" => "DevSec Apache Baseline",
+        "maintainer" => "DevSec Hardening Framework Team",
+        "copyright" => "DevSec Hardening Framework Team",
+        "copyright_email" => "hello@dev-sec.io",
+        "license" => "Apache 2 license",
+        "summary" => "Test-suite for best-practice apache hardening",
+        "version" => "2.0.2",
+        "supports" => [{ "os-family" => "unix" }],
+        "depends" => nil,
+        "owner_id" => "admin" },
+      { "name" => "apache-baseline",
+        "title" => "DevSec Apache Baseline",
+        "maintainer" => "Hardening Framework Team",
+        "copyright" => "Hardening Framework Team",
+        "copyright_email" => "hello@dev-sec.io",
+        "license" => "Apache 2 license",
+        "summary" => "Test-suite for best-practice apache hardening",
+        "version" => "2.0.1",
+        "supports" => [{ "os-family" => "unix" }],
+        "depends" => nil,
+        "latest_version" => "2.0.2",
+        "owner_id" => "admin" },
+      { "name" => "cis-aix-5.3-6.1-level1",
+        "title" => "CIS AIX 5.3 and AIX 6.1 Benchmark Level 1",
+        "maintainer" => "Chef Software, Inc.",
+        "copyright" => "Chef Software, Inc.",
+        "copyright_email" => "support@chef.io",
+        "license" => "Proprietary, All rights reserved",
+        "summary" => "CIS AIX 5.3 and AIX 6.1 Benchmark Level 1 translated from SCAP",
+        "version" => "1.1.0",
+        "supports" => nil,
+        "depends" => nil,
+        "latest_version" => "1.1.0-3",
+        "owner_id" => "admin" }],
+    }
   end
 
   describe ".version" do
@@ -115,87 +117,6 @@ describe InspecPlugins::Compliance::API do
     end
   end
 
-  describe "automate/compliance is? checks" do
-    describe "when the config has a compliance server_type" do
-      it "automate/compliance server is? methods return correctly" do
-        config = InspecPlugins::Compliance::Configuration.new
-        config.clean
-        config["server_type"] = "compliance"
-        _(InspecPlugins::Compliance::API.is_compliance_server?(config)).must_equal true
-        _(InspecPlugins::Compliance::API.is_automate_server?(config)).must_equal false
-        _(InspecPlugins::Compliance::API.is_automate_server_pre_080?(config)).must_equal false
-        _(InspecPlugins::Compliance::API.is_automate_server_080_and_later?(config)).must_equal false
-        _(InspecPlugins::Compliance::API.is_automate2_server?(config)).must_equal false
-      end
-    end
-
-    describe "when the config has a automate2 server_type" do
-      it "automate/compliance server is? methods return correctly" do
-        config = InspecPlugins::Compliance::Configuration.new
-        config.clean
-        config["server_type"] = "automate2"
-        _(InspecPlugins::Compliance::API.is_compliance_server?(config)).must_equal false
-        _(InspecPlugins::Compliance::API.is_automate_server?(config)).must_equal false
-        _(InspecPlugins::Compliance::API.is_automate_server_pre_080?(config)).must_equal false
-        _(InspecPlugins::Compliance::API.is_automate_server_080_and_later?(config)).must_equal false
-        _(InspecPlugins::Compliance::API.is_automate2_server?(config)).must_equal true
-      end
-    end
-
-    describe "when the config has an automate server_type and no version key" do
-      it "automate/compliance server is? methods return correctly" do
-        config = InspecPlugins::Compliance::Configuration.new
-        config.clean
-        config["server_type"] = "automate"
-        _(InspecPlugins::Compliance::API.is_compliance_server?(config)).must_equal false
-        _(InspecPlugins::Compliance::API.is_automate_server?(config)).must_equal true
-        _(InspecPlugins::Compliance::API.is_automate_server_pre_080?(config)).must_equal true
-        _(InspecPlugins::Compliance::API.is_automate_server_080_and_later?(config)).must_equal false
-        _(InspecPlugins::Compliance::API.is_automate2_server?(config)).must_equal false
-      end
-    end
-
-    describe "when the config has an automate server_type and a version key that is not a hash" do
-      it "automate/compliance server is? methods return correctly" do
-        config = InspecPlugins::Compliance::Configuration.new
-        config.clean
-        config["server_type"] = "automate"
-        config["version"] = "1.2.3"
-        _(InspecPlugins::Compliance::API.is_compliance_server?(config)).must_equal false
-        _(InspecPlugins::Compliance::API.is_automate_server?(config)).must_equal true
-        _(InspecPlugins::Compliance::API.is_automate_server_pre_080?(config)).must_equal true
-        _(InspecPlugins::Compliance::API.is_automate_server_080_and_later?(config)).must_equal false
-        _(InspecPlugins::Compliance::API.is_automate2_server?(config)).must_equal false
-      end
-    end
-
-    describe "when the config has an automate server_type and a version hash with no version" do
-      it "automate/compliance server is? methods return correctly" do
-        config = InspecPlugins::Compliance::Configuration.new
-        config.clean
-        config["server_type"] = "automate"
-        config["version"] = {}
-        _(InspecPlugins::Compliance::API.is_compliance_server?(config)).must_equal false
-        _(InspecPlugins::Compliance::API.is_automate_server?(config)).must_equal true
-        _(InspecPlugins::Compliance::API.is_automate_server_pre_080?(config)).must_equal true
-        _(InspecPlugins::Compliance::API.is_automate_server_080_and_later?(config)).must_equal false
-      end
-    end
-
-    describe "when the config has an automate server_type and a version hash with a version" do
-      it "automate/compliance server is? methods return correctly" do
-        config = InspecPlugins::Compliance::Configuration.new
-        config.clean
-        config["server_type"] = "automate"
-        config["version"] = { "version" => "0.8.1" }
-        _(InspecPlugins::Compliance::API.is_compliance_server?(config)).must_equal false
-        _(InspecPlugins::Compliance::API.is_automate_server?(config)).must_equal true
-        _(InspecPlugins::Compliance::API.is_automate_server_pre_080?(config)).must_equal false
-        _(InspecPlugins::Compliance::API.is_automate_server_080_and_later?(config)).must_equal true
-      end
-    end
-  end
-
   describe ".server_version_from_config" do
     it "returns nil when the config has no version key" do
       config = {}
@@ -229,29 +150,19 @@ describe InspecPlugins::Compliance::API do
   end
 
   describe "target_url" do
-    it "handles a automate profile with and without version" do
+    it "handles a automate2 profile with and without version" do
       config = InspecPlugins::Compliance::Configuration.new
       config.clean
-      config["server_type"] = "automate"
-      config["server"] = "https://myautomate"
+      config["server_type"] = "automate2"
+      config["server"] = "https://myautomate2"
       config["version"] = "1.6.99"
-      _(InspecPlugins::Compliance::API.target_url(config, "admin/apache-baseline")).must_equal       "https://myautomate/profiles/admin/apache-baseline/tar"
-      _(InspecPlugins::Compliance::API.target_url(config, "admin/apache-baseline#2.0.2")).must_equal "https://myautomate/profiles/admin/apache-baseline/version/2.0.2/tar"
-    end
-
-    it "handles a chef-compliance profile with and without version" do
-      config = InspecPlugins::Compliance::Configuration.new
-      config.clean
-      config["server_type"] = "compliance"
-      config["server"] = "https://mychefcompliance"
-      config["version"] = "1.1.2"
-      _(InspecPlugins::Compliance::API.target_url(config, "admin/apache-baseline")).must_equal       "https://mychefcompliance/owners/admin/compliance/apache-baseline/tar"
-      _(InspecPlugins::Compliance::API.target_url(config, "admin/apache-baseline#2.0.2")).must_equal "https://mychefcompliance/owners/admin/compliance/apache-baseline/tar"
+      _(InspecPlugins::Compliance::API.target_url(config, "admin/apache-baseline")).must_equal       "https://myautomate2/compliance/profiles/tar"
+      _(InspecPlugins::Compliance::API.target_url(config, "admin/apache-baseline#2.0.2")).must_equal "https://myautomate2/compliance/profiles/tar"
     end
   end
 
   describe "exist?" do
-    it "works with profiles returned by Automate" do
+    it "works with profiles returned by Automate 2" do
       # ruby 2.3.3 has issues running stub_requests properly
       # skipping for that specific version
       return if RUBY_VERSION == "2.3.3"
@@ -259,14 +170,36 @@ describe InspecPlugins::Compliance::API do
       config = InspecPlugins::Compliance::Configuration.new
       config.clean
       config["owner"] = "admin"
-      config["server_type"] = "automate"
-      config["server"] = "https://myautomate"
+      config["server_type"] = "automate2"
+      config["server"] = "https://myautomate2"
       config["version"] = "1.6.99"
       config["automate"] = { "ent" => "automate", "token_type" => "dctoken" }
       config["version"] = { "api" => "compliance", "version" => "0.8.24" }
 
-      stub_request(:get, "https://myautomate/profiles/admin")
-        .with(headers: { "Accept" => "*/*", "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3", "Chef-Delivery-Enterprise" => "automate", "User-Agent" => "Ruby", "X-Data-Collector-Token" => "" })
+      stub_request(:post, "https://myautomate2/compliance/profiles/search")
+        .with(
+          body: "{\"owner\":\"admin\",\"name\":\"apache-baseline\"}",
+          headers: {
+          "Accept" => "*/*",
+          "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+          "Chef-Delivery-Enterprise" => "automate",
+          "User-Agent" => "Ruby",
+          "X-Data-Collector-Token" => "",
+          }
+        )
+        .to_return(status: 200, body: profiles_response.to_json, headers: {})
+
+      stub_request(:post, "https://myautomate2/compliance/profiles/search")
+        .with(
+          body: "{\"owner\":\"admin\",\"name\":\"missing-in-action\"}",
+          headers: {
+          "Accept" => "*/*",
+          "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+          "Chef-Delivery-Enterprise" => "automate",
+          "User-Agent" => "Ruby",
+          "X-Data-Collector-Token" => "",
+          }
+        )
         .to_return(status: 200, body: profiles_response.to_json, headers: {})
 
       _(InspecPlugins::Compliance::API.exist?(config, "admin/apache-baseline")).must_equal true
@@ -276,111 +209,12 @@ describe InspecPlugins::Compliance::API do
     end
   end
 
-  describe ".determine_server_type" do
-    let(:url) { "https://someserver.onthe.net/" }
-
-    let(:compliance_endpoint) { "/api/version" }
-    let(:automate_endpoint) { "/compliance/version" }
-    let(:automate2_endpoint) { "/dex/auth" }
-    let(:headers) { nil }
-    let(:insecure) { true }
-
-    let(:good_response) { mock }
-    let(:bad_response) { mock }
-
-    it "returns `:automate2` when a 400 is received from `https://URL/dex/auth`" do
-      good_response.stubs(:code).returns("400")
-
-      InspecPlugins::Compliance::HTTP.expects(:get)
-        .with(url + automate2_endpoint, headers, insecure)
-        .returns(good_response)
-
-      _(InspecPlugins::Compliance::API.determine_server_type(url, insecure)).must_equal(:automate2)
-    end
-
-    it "returns `:automate` when a 401 is received from `https://URL/compliance/version`" do
-      good_response.stubs(:code).returns("401")
-      bad_response.stubs(:code).returns("404")
-
-      InspecPlugins::Compliance::HTTP.expects(:get)
-        .with(url + automate2_endpoint, headers, insecure)
-        .returns(bad_response)
-      InspecPlugins::Compliance::HTTP.expects(:get)
-        .with(url + automate_endpoint, headers, insecure)
-        .returns(good_response)
-
-      _(InspecPlugins::Compliance::API.determine_server_type(url, insecure)).must_equal(:automate)
-    end
-
-    # Chef Automate currently returns 401 for `/compliance/version` but some
-    # versions of OpsWorks Chef Automate return 200 and a Chef Manage page when
-    # unauthenticated requests are received.
-    it "returns `:automate` when a 200 is received from `https://URL/compliance/version`" do
-      bad_response.stubs(:code).returns("404")
-      good_response.stubs(:code).returns("200")
-      good_response.stubs(:body).returns("Are You Looking For the Chef Server?")
-
-      InspecPlugins::Compliance::HTTP.expects(:get)
-        .with(url + automate2_endpoint, headers, insecure)
-        .returns(bad_response)
-      InspecPlugins::Compliance::HTTP.expects(:get)
-        .with(url + automate_endpoint, headers, insecure)
-        .returns(good_response)
-
-      _(InspecPlugins::Compliance::API.determine_server_type(url, insecure)).must_equal(:automate)
-    end
-
-    it "returns `nil` if a 200 is received from `https://URL/compliance/version` but not redirected to Chef Manage" do
-      bad_response.stubs(:code).returns("200")
-      bad_response.stubs(:body).returns("No Chef Manage here")
-
-      InspecPlugins::Compliance::HTTP.expects(:get)
-        .with(url + automate_endpoint, headers, insecure)
-        .returns(bad_response)
-      InspecPlugins::Compliance::HTTP.expects(:get)
-        .with(url + automate2_endpoint, headers, insecure)
-        .returns(bad_response)
-
-      mock_compliance_response = mock
-      mock_compliance_response.stubs(:code).returns("404")
-      InspecPlugins::Compliance::HTTP.expects(:get)
-        .with(url + compliance_endpoint, headers, insecure)
-        .returns(mock_compliance_response)
-
-      _(InspecPlugins::Compliance::API.determine_server_type(url, insecure)).must_be_nil
-    end
-
-    it "returns `:compliance` when a 200 is received from `https://URL/api/version`" do
-      good_response.stubs(:code).returns("200")
-      bad_response.stubs(:code).returns("404")
-
-      InspecPlugins::Compliance::HTTP.expects(:get)
-        .with(url + automate_endpoint, headers, insecure)
-        .returns(bad_response)
-      InspecPlugins::Compliance::HTTP.expects(:get)
-        .with(url + automate2_endpoint, headers, insecure)
-        .returns(bad_response)
-      InspecPlugins::Compliance::HTTP.expects(:get)
-        .with(url + compliance_endpoint, headers, insecure)
-        .returns(good_response)
-
-      _(InspecPlugins::Compliance::API.determine_server_type(url, insecure)).must_equal(:compliance)
-    end
-
-    it "returns `nil` if it cannot determine the server type" do
-      bad_response.stubs(:code).returns("404")
-
-      InspecPlugins::Compliance::HTTP.expects(:get)
-        .with(url + automate2_endpoint, headers, insecure)
-        .returns(bad_response)
-      InspecPlugins::Compliance::HTTP.expects(:get)
-        .with(url + automate_endpoint, headers, insecure)
-        .returns(bad_response)
-      InspecPlugins::Compliance::HTTP.expects(:get)
-        .with(url + compliance_endpoint, headers, insecure)
-        .returns(bad_response)
-
-      _(InspecPlugins::Compliance::API.determine_server_type(url, insecure)).must_be_nil
+  describe "when the config has a automate2 server_type" do
+    it "automate server 2 is? methods return correctly" do
+      config = InspecPlugins::Compliance::Configuration.new
+      config.clean
+      config["server_type"] = "automate2"
+      _(InspecPlugins::Compliance::API.is_automate2_server?(config)).must_equal true
     end
   end
 end

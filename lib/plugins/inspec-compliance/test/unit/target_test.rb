@@ -15,65 +15,16 @@ describe InspecPlugins::Compliance::Fetcher do
 
     it "returns an error when token is not set" do
       ex = assert_raises(Inspec::FetcherFailure) { fetcher.class.check_compliance_token("http://test.com", config) }
-      _(ex.message).must_include "Cannot fetch http://test.com because your compliance token has not been\nconfigured."
+      _(ex.message).must_include "Cannot fetch http://test.com because your automate2 token has not been\nconfigured."
     end
   end
 
   describe "when the server is an automate2 server" do
-    before { InspecPlugins::Compliance::API.expects(:is_automate2_server?).with(config).returns(true) }
 
     it "returns the correct owner and profile name" do
       config["profile"] = ["admin", "ssh-baseline", nil]
       fetcher = InspecPlugins::Compliance::Fetcher.new("myserver/profile", config)
       _(fetcher.send(:compliance_profile_name)).must_equal "admin/ssh-baseline"
-    end
-  end
-
-  describe "when the server is an automate server pre-0.8.0" do
-    before { InspecPlugins::Compliance::API.expects(:is_automate_server_pre_080?).with(config).returns(true) }
-
-    it "returns the correct profile name when the url is correct" do
-      fetcher = InspecPlugins::Compliance::Fetcher.new("myserver/myowner/myprofile/tar", config)
-      _(fetcher.send(:compliance_profile_name)).must_equal "myowner/myprofile"
-    end
-
-    it "raises an exception if the url is malformed" do
-      fetcher = InspecPlugins::Compliance::Fetcher.new("a/bad/url", config)
-      _(proc { fetcher.send(:compliance_profile_name) }).must_raise RuntimeError
-    end
-  end
-
-  describe "when the server is an automate server 0.8.0-or-later" do
-    before do
-      InspecPlugins::Compliance::API.expects(:is_automate_server_pre_080?).with(config).returns(false)
-      InspecPlugins::Compliance::API.expects(:is_automate_server_080_and_later?).with(config).returns(true)
-    end
-
-    it "returns the correct profile name when the url is correct" do
-      fetcher = InspecPlugins::Compliance::Fetcher.new("myserver/profiles/myowner/myprofile/tar", config)
-      _(fetcher.send(:compliance_profile_name)).must_equal "myowner/myprofile"
-    end
-
-    it "raises an exception if the url is malformed" do
-      fetcher = InspecPlugins::Compliance::Fetcher.new("a/bad/url", config)
-      _(proc { fetcher.send(:compliance_profile_name) }).must_raise RuntimeError
-    end
-  end
-
-  describe "when the server is not an automate server (likely a compliance server)" do
-    before do
-      InspecPlugins::Compliance::API.expects(:is_automate_server_pre_080?).with(config).returns(false)
-      InspecPlugins::Compliance::API.expects(:is_automate_server_080_and_later?).with(config).returns(false)
-    end
-
-    it "returns the correct profile name when the url is correct" do
-      fetcher = InspecPlugins::Compliance::Fetcher.new("myserver/owners/myowner/compliance/myprofile/tar", config)
-      _(fetcher.send(:compliance_profile_name)).must_equal "myowner/myprofile"
-    end
-
-    it "raises an exception if the url is malformed" do
-      fetcher = InspecPlugins::Compliance::Fetcher.new("a/bad/url", config)
-      _(proc { fetcher.send(:compliance_profile_name) }).must_raise RuntimeError
     end
   end
 

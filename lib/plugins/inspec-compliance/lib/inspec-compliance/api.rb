@@ -24,16 +24,8 @@ module InspecPlugins
       # the username of the account is used that is logged in
       def self.profiles(config, profile_filter = nil) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
         owner = config["owner"] || config["user"]
-
-        # Chef Compliance
-        if is_compliance_server?(config)
-          url = "#{config["server"]}/user/compliance"
-        # Chef Automate2
-        elsif is_automate2_server?(config)
+        if is_automate2_server?(config)
           url = "#{config["server"]}/compliance/profiles/search"
-        # Chef Automate
-        elsif is_automate_server?(config)
-          url = "#{config["server"]}/profiles/#{owner}"
         else
           raise ServerConfigurationMissing
         end
@@ -45,12 +37,9 @@ module InspecPlugins
           id, ver = nil
         end
 
-        if is_automate2_server?(config)
-          body = { owner: owner, name: id }.to_json
-          response = InspecPlugins::Compliance::HTTP.post_with_headers(url, headers, body, config["insecure"])
-        else
-          response = InspecPlugins::Compliance::HTTP.get(url, headers, config["insecure"])
-        end
+        body = { owner: owner, name: id }.to_json
+        response = InspecPlugins::Compliance::HTTP.post_with_headers(url, headers, body, config["insecure"])
+
         data = response.body
         response_code = response.code
         case response_code
@@ -58,25 +47,12 @@ module InspecPlugins
           msg = "success"
           profiles = JSON.parse(data)
           # iterate over profiles
-          if is_compliance_server?(config)
-            mapped_profiles = []
-            profiles.values.each do |org|
-              mapped_profiles += org.values
-            end
-          # Chef Automate pre 0.8.0
-          elsif is_automate_server_pre_080?(config)
-            mapped_profiles = profiles.values.flatten
-          elsif is_automate2_server?(config)
-            mapped_profiles = []
-            profiles["profiles"].each do |p|
-              mapped_profiles << p
-            end
-          else
-            mapped_profiles = profiles.map do |e|
-              e["owner_id"] = owner
-              e
-            end
+
+          mapped_profiles = []
+          profiles["profiles"].each do |p|
+            mapped_profiles << p
           end
+
           # filter by name and version if they were specified in profile_filter
           mapped_profiles.select! do |p|
             (!ver || p["version"] == ver) && (!id || p["name"] == id)
@@ -120,26 +96,9 @@ module InspecPlugins
       end
 
       def self.upload(config, owner, profile_name, archive_path)
-        # Chef Compliance
-        if is_compliance_server?(config)
-          url = "#{config["server"]}/owners/#{owner}/compliance/#{profile_name}/tar"
-        # Chef Automate pre 0.8.0
-        elsif is_automate_server_pre_080?(config)
-          url = "#{config["server"]}/#{owner}"
-        elsif is_automate2_server?(config)
-          url = "#{config["server"]}/compliance/profiles?owner=#{owner}"
-        # Chef Automate
-        else
-          url = "#{config["server"]}/profiles/#{owner}"
-        end
-
+        url = "#{config["server"]}/compliance/profiles?owner=#{owner}"
         headers = get_headers(config)
-        if is_automate2_server?(config)
-          res = InspecPlugins::Compliance::HTTP.post_multipart_file(url, headers, archive_path, config["insecure"])
-        else
-          res = InspecPlugins::Compliance::HTTP.post_file(url, headers, archive_path, config["insecure"])
-        end
-
+        res = InspecPlugins::Compliance::HTTP.post_multipart_file(url, headers, archive_path, config["insecure"])
         [res.is_a?(Net::HTTPSuccess), res.body]
       end
 
@@ -210,16 +169,12 @@ module InspecPlugins
 
       def self.get_headers(config)
         token = get_token(config)
-        if is_automate_server?(config) || is_automate2_server?(config)
-          headers = { "chef-delivery-enterprise" => config["automate"]["ent"] }
-          if config["automate"]["token_type"] == "dctoken"
-            headers["x-data-collector-token"] = token
-          else
-            headers["chef-delivery-user"] = config["user"]
-            headers["chef-delivery-token"] = token
-          end
+        headers = { "chef-delivery-enterprise" => config["automate"]["ent"] }
+        if config["automate"]["token_type"] == "dctoken"
+          headers["x-data-collector-token"] = token
         else
-          headers = { "Authorization" => "Bearer #{token}" }
+          headers["chef-delivery-user"] = config["user"]
+          headers["chef-delivery-token"] = token
         end
         headers
       end
@@ -232,16 +187,7 @@ module InspecPlugins
       end
 
       def self.target_url(config, profile)
-        owner, id, ver = profile_split(profile)
-
-        return "#{config["server"]}/compliance/profiles/tar" if is_automate2_server?(config)
-        return "#{config["server"]}/owners/#{owner}/compliance/#{id}/tar" unless is_automate_server?(config)
-
-        if ver.nil?
-          "#{config["server"]}/profiles/#{owner}/#{id}/tar"
-        else
-          "#{config["server"]}/profiles/#{owner}/#{id}/version/#{ver}/tar"
-        end
+        "#{config["server"]}/compliance/profiles/tar"
       end
 
       def self.profile_split(profile)
@@ -260,33 +206,6 @@ module InspecPlugins
         uri.to_s.sub(%r{^compliance:\/\/}, "")
       end
 
-      def self.is_compliance_server?(config)
-        config["server_type"] == "compliance"
-      end
-
-      def self.is_automate_server_pre_080?(config)
-        # Automate versions before 0.8.x do not have a valid version in the config
-        return false unless config["server_type"] == "automate"
-
-        server_version_from_config(config).nil?
-      end
-
-      def self.is_automate_server_080_and_later?(config)
-        # Automate versions 0.8.x and later will have a "version" key in the config
-        # that is properly parsed out via server_version_from_config below
-        return false unless config["server_type"] == "automate"
-
-        !server_version_from_config(config).nil?
-      end
-
-      def self.is_automate2_server?(config)
-        config["server_type"] == "automate2"
-      end
-
-      def self.is_automate_server?(config)
-        config["server_type"] == "automate"
-      end
-
       def self.server_version_from_config(config)
         # Automate versions 0.8.x and later will have a "version" key in the config
         # that looks like: "version":{"api":"compliance","version":"0.8.24"}
@@ -296,87 +215,8 @@ module InspecPlugins
         config["version"]["version"]
       end
 
-      def self.determine_server_type(url, insecure)
-        if target_is_automate2_server?(url, insecure)
-          :automate2
-        elsif target_is_automate_server?(url, insecure)
-          :automate
-        elsif target_is_compliance_server?(url, insecure)
-          :compliance
-        else
-          Inspec::Log.debug("Could not determine server type using known endpoints")
-          nil
-        end
-      end
-
-      def self.target_is_automate2_server?(url, insecure)
-        automate_endpoint = "/dex/auth"
-        response = InspecPlugins::Compliance::HTTP.get(url + automate_endpoint, nil, insecure)
-        if response.code == "400"
-          Inspec::Log.debug(
-            "Received 400 from #{url}#{automate_endpoint} - " \
-            "assuming target is a #{AUTOMATE_PRODUCT_NAME}2 instance"
-          )
-          true
-        else
-          Inspec::Log.debug(
-            "Received #{response.code} from #{url}#{automate_endpoint} - " \
-            "assuming target is not an #{AUTOMATE_PRODUCT_NAME}2 instance"
-          )
-          false
-        end
-      end
-
-      def self.target_is_automate_server?(url, insecure)
-        automate_endpoint = "/compliance/version"
-        response = InspecPlugins::Compliance::HTTP.get(url + automate_endpoint, nil, insecure)
-        case response.code
-        when "401"
-          Inspec::Log.debug(
-            "Received 401 from #{url}#{automate_endpoint} - " \
-            "assuming target is a #{AUTOMATE_PRODUCT_NAME} instance"
-          )
-          true
-        when "200"
-          # Chef Automate currently returns 401 for `/compliance/version` but some
-          # versions of OpsWorks Chef Automate return 200 and a Chef Manage page
-          # when unauthenticated requests are received.
-          if response.body.include?("Are You Looking For the #{SERVER_PRODUCT_NAME}?")
-            Inspec::Log.debug(
-              "Received 200 from #{url}#{automate_endpoint} - " \
-              "assuming target is an #{AUTOMATE_PRODUCT_NAME} instance"
-            )
-            true
-          else
-            Inspec::Log.debug(
-              "Received 200 from #{url}#{automate_endpoint} " \
-              "but did not receive the Chef Manage page - " \
-              "assuming target is not a #{AUTOMATE_PRODUCT_NAME} instance"
-            )
-            false
-          end
-        else
-          Inspec::Log.debug(
-            "Received unexpected status code #{response.code} " \
-            "from #{url}#{automate_endpoint} - " \
-            "assuming target is not a #{AUTOMATE_PRODUCT_NAME} instance"
-          )
-          false
-        end
-      end
-
-      def self.target_is_compliance_server?(url, insecure)
-        # All versions of Chef Compliance return 200 for `/api/version`
-        compliance_endpoint = "/api/version"
-
-        response = InspecPlugins::Compliance::HTTP.get(url + compliance_endpoint, nil, insecure)
-        return false unless response.code == "200"
-
-        Inspec::Log.debug(
-          "Received 200 from #{url}#{compliance_endpoint} - " \
-          "assuming target is a #{AUTOMATE_PRODUCT_NAME} server"
-        )
-        true
+      def self.is_automate2_server?(config)
+        config["server_type"] == "automate2"
       end
     end
   end
