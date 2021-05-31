@@ -49,6 +49,16 @@ describe "inspec shell tests" do
       assert_exit_code 0, res
     end
 
+    it "loads a profile and its dependencies" do
+      res = inspec("shell -c 'example_config' --depends #{shell_inheritance_profile}")
+
+      _(res.stdout.chop).must_equal "example_config"
+
+      _(res.stderr).must_equal ""
+
+      assert_exit_code 0, res
+    end
+
     it "confirm file caching is disabled" do
       out = assert_shell_c("inspec.backend.cache_enabled?(:file)", 0)
 
@@ -236,6 +246,15 @@ describe "inspec shell tests" do
 
       it "loads a dependency" do
         cmd = "echo 'example_config' | #{exec_inspec} shell --depends #{example_profile}"
+        res = CMD.run_command(cmd)
+
+        _(res.stdout).must_include "=> example_config"
+
+        assert_exit_code 0, res
+      end
+
+      it "loads a profile and its dependencies" do
+        cmd = "echo 'example_config' | #{exec_inspec} shell --depends #{shell_inheritance_profile}"
         res = CMD.run_command(cmd)
 
         _(res.stdout).must_include "=> example_config"

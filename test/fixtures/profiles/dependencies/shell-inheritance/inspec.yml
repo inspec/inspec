@@ -1,0 +1,12 @@
+name: Shell Inheritance
+title: InSpec example of using inheritance profile in shell
+maintainer: Chef Software, Inc.
+copyright: Chef Software, Inc.
+copyright_email: support@chef.io
+license: Apache 2 license
+version: 1.0.0
+depends:
+  - name: profile_a
+    path: test/fixtures/profiles/dependencies/profile_a
+  - name: profile_b
+    path: test/fixtures/profiles/dependencies/profile_b

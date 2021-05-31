@@ -34,6 +34,7 @@ module FunctionalHelper
   let(:meta_profile) { File.join(examples_path, "meta-profile") }
   let(:example_control) { File.join(example_profile, "controls", "example-tmp.rb") }
   let(:inheritance_profile) { File.join(examples_path, "inheritance") }
+  let(:shell_inheritance_profile) { File.join(repo_path, "test", "fixtures", "profiles", "dependencies", "shell-inheritance") }
   let(:failure_control) { File.join(profile_path, "failures", "controls", "failures.rb") }
   let(:simple_inheritance) { File.join(profile_path, "simple-inheritance") }
   let(:sensitive_profile) { File.join(examples_path, "profile-sensitive") }

@@ -3,7 +3,7 @@ require "openssl" unless defined?(OpenSSL)
 module Inspec::Fetcher
   class Local < Inspec.fetcher(1)
     name "local"
-    priority 0
+    priority 1
 
     def self.resolve(target)
       if target.is_a?(String)
