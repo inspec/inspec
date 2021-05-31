@@ -2,10 +2,10 @@
 # the inspec-resource-lister plugin is configured correctly.
 
 # Include our test harness
-require_relative '../helper'
+require_relative "../helper"
 
 # Load the class under test, the Plugin definition.
-require '<%= plugin_name %>/plugin'
+require "<%= plugin_name %>/plugin"
 
 # Because InSpec is a Spec-style test suite, we're going to use Minitest::Spec
 # here, for familiar look and feel. However, this isn't InSpec (or RSpec) code.
@@ -16,7 +16,7 @@ describe InspecPlugins::<%= module_name %>::Plugin do
   # can reference easily.
 
   # Internally, plugins are always known by a Symbol name. Convert here.
-  let(:plugin_name) { :'<%= plugin_name %>' }
+  let(:plugin_name) { :"<%= plugin_name %>" }
 
   # The Registry knows about all plugins that ship with InSpec by
   # default, as well as any that are installed by the user. When a
@@ -43,9 +43,9 @@ describe InspecPlugins::<%= module_name %>::Plugin do
     status.api_generation.must_equal(2)
   end
 
-  # Plugins can support several different activator hooks, each of which has a type.
+  # Plugins can support several different activator, each of which has a type.
   # Since this is (primarily) a CliCommand plugin, we'd expect to see that among our types.
-  it "should include a cli_command activator hook" do
+  it "should include a cli_command activator" do
     status.plugin_types.must_include(:cli_command)
   end
 end

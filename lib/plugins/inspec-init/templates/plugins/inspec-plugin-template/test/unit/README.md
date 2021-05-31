@@ -3,7 +3,7 @@
 ## What Tests are Provided?
 
  * plugin_def_test.rb - Would be useful in any plugin.  Verifies that the plugin is properly detected and registered.
- <% if hooks.key?(:cli_command) %>
+ <% if activators.key?(:cli_command) %>
  * cli_args_test.rb - Tests the CLI options for a CLI Command plugin
  <% end %>
 

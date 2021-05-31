@@ -45,28 +45,28 @@ class InitPluginCli < Minitest::Test
         File.join(plugin, "Gemfile") => [], # No interpolation
         File.join(plugin, "Rakefile") => [], # No interpolation
         File.join(plugin, plugin + ".gemspec") => [
-          %r{require '#{plugin}/version'},
-          /spec\.name\s+=\s+'#{plugin}'/,
+          %r{require "#{plugin}/version"},
+          /spec\.name\s+=\s+"#{plugin}"/,
           /spec\.version\s+=\s+InspecPlugins::#{module_name}::VERSION/,
           /README\.md\s+#{snake_case}\.gemspec\s+Gemfile/,
-          /spec\.authors\s+=\s+\['Your Name'\]/,
-          /spec\.email\s+=\s+\['you@example\.com'\]/,
-          /spec\.summary\s+=\s+'A plugin with a default summary'/,
-          /spec\.description\s+=\s+''/,
-          %r{spec\.homepage\s+=\s+'https://github.com/you/#{plugin}'},
-          /spec\.license\s+=\s+'Apache-2\.0'/,
+          /spec\.authors\s+=\s+\["Your Name"\]/,
+          /spec\.email\s+=\s+\["you@example\.com"\]/,
+          /spec\.summary\s+=\s+"A plugin with a default summary"/,
+          /spec\.description\s+=\s+""/,
+          %r{spec\.homepage\s+=\s+"https://github.com/you/#{plugin}},
+          /spec\.license\s+=\s+"Apache-2\.0"/,
         ],
         File.join(plugin, "lib", plugin + ".rb") => [
-          %r{require\s'#{plugin}/plugin'},
+          %r{require\s"#{plugin}/plugin"},
         ],
         File.join(plugin, "lib", plugin, "plugin.rb") => [
-          %r{require\s'#{plugin}/version'},
+          %r{require\s"#{plugin}/version"},
           /\#\s#{plugin}\s=>\s#{module_name}/,
           /module\s#{module_name}/,
-          /plugin_name\s+:'#{plugin}'/,
-          # Default assumes one cli hook
+          /plugin_name\s+:"#{plugin}"/,
+          # Default assumes one cli activator
           /cli_command :my_command/,
-          %r{require\s'#{plugin}/cli_command'},
+          %r{require\s"#{plugin}/cli_command"},
           /InspecPlugins::#{module_name}::CliCommand/,
         ],
         File.join(plugin, "lib", plugin, "version.rb") => [
@@ -75,8 +75,8 @@ class InitPluginCli < Minitest::Test
         File.join(plugin, "lib", plugin, "cli_command.rb") => [
           /module\sInspecPlugins::#{module_name}/,
           /\#\smakes\s`inspec\smy-command\s\.\.\.`\swork\./,
-          /subcommand_desc\s'my_command\s\[COMMAND\]'/,
-          /\#\sas\s`inspec\smy-command\sdo-something/,
+          /subcommand_desc\s"my_command\s\[COMMAND\]"/,
+          /\#\sas\s`inspec\smy-command\sdo-something`/,
           /\#\sin\s`inspec\shelp\smy-command`/,
           /\#\sruns\s`inspec\smy-command\sdo-something`./,
           %r{Edit\slib/#{plugin}/cli_command\.rb\sto\smake\sit\sdo},
@@ -87,12 +87,12 @@ class InitPluginCli < Minitest::Test
           # Whatever goes here
         ],
         File.join(plugin, "test", "unit", "plugin_def_test.rb") => [
-          %r{require\s'#{plugin}/plugin'},
+          %r{require\s"#{plugin}/plugin"},
           /describe InspecPlugins::#{module_name}::Plugin\sdo/,
-          /let\(:plugin_name\) \{ \:'#{plugin}\' \}/,
+          /let\(:plugin_name\) \{ \:"#{plugin}\" \}/,
         ],
         File.join(plugin, "test", "unit", "cli_args_test.rb") => [
-          %r{require '#{plugin}/cli_command'},
+          %r{require "#{plugin}/cli_command"},
           /describe InspecPlugins::#{module_name}::CliCommand do/,
           /let\(\:cli_class\) \{ InspecPlugins::#{module_name}::CliCommand \}/,
         ],
@@ -150,12 +150,12 @@ class InitPluginCli < Minitest::Test
         File.join(plugin, "Rakefile") => [],
         File.join(plugin, plugin + ".gemspec") => [
           /spec\.version\s+=\s+InspecPlugins::FunPlugin::VERSION/,
-          /spec\.authors\s+=\s+\['Bob'\]/,
-          /spec\.email\s+=\s+\['bob@example\.com'\]/,
-          /spec\.summary\s+=\s+'A fantastic plugin'/,
-          /spec\.description\s+=\s+'That you will really like'/,
-          %r{spec\.homepage\s+=\s+'http://example.com'},
-          /spec\.license\s+=\s+'BSD-3-Clause'/,
+          /spec\.authors\s+=\s+\["Bob"\]/,
+          /spec\.email\s+=\s+\["bob@example\.com"\]/,
+          /spec\.summary\s+=\s+"A fantastic plugin"/,
+          /spec\.description\s+=\s+"That you will really like"/,
+          %r{spec\.homepage\s+=\s+"http://example.com"},
+          /spec\.license\s+=\s+"BSD-3-Clause"/,
         ],
         File.join(plugin, "lib", plugin + ".rb") => [],
         File.join(plugin, "lib", plugin, "plugin.rb") => [],
