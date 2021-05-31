@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.37.22 -->
-## [v4.37.22](https://github.com/inspec/inspec/tree/v4.37.22) (2021-05-31)
+<!-- latest_release 4.37.23 -->
+## [v4.37.23](https://github.com/inspec/inspec/tree/v4.37.23) (2021-05-31)
 
 #### Merged Pull Requests
-- Removed support for compliance and a1 server from InSpec compliance [#5534](https://github.com/inspec/inspec/pull/5534) ([Nik08](https://github.com/Nik08))
+- Add Ubuntu to list of FIPS platforms [#5533](https://github.com/inspec/inspec/pull/5533) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.37.20 -->
 ### Changes since 4.37.20 release
 
 #### Merged Pull Requests
+- Add Ubuntu to list of FIPS platforms [#5533](https://github.com/inspec/inspec/pull/5533) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.23 -->
 - Removed support for compliance and a1 server from InSpec compliance [#5534](https://github.com/inspec/inspec/pull/5534) ([Nik08](https://github.com/Nik08)) <!-- 4.37.22 -->
 - Update inspec init plugin  [#5536](https://github.com/inspec/inspec/pull/5536) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.37.21 -->
 <!-- release_rollup -->
