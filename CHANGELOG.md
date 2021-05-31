@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.37.21 -->
+## [v4.37.21](https://github.com/inspec/inspec/tree/v4.37.21) (2021-05-31)
+
+#### Merged Pull Requests
+- Update inspec init plugin  [#5536](https://github.com/inspec/inspec/pull/5536) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.37.20 -->
+### Changes since 4.37.20 release
+
+#### Merged Pull Requests
+- Update inspec init plugin  [#5536](https://github.com/inspec/inspec/pull/5536) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.37.21 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
