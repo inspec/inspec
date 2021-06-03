@@ -45,20 +45,29 @@ module Inspec::Resources
       @pass = pass
       @host = host || "localhost"
       @port = port || 5432
+      raise Inspec::Exceptions::ResourceFailed, "Can't run PostgreSQL SQL checks without authentication." if @user.nil? || @pass.nil?
+
+      set_connection
     end
 
     def query(query, db = [])
+      raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if self.resource_failed?
+
       psql_cmd = create_psql_cmd(query, db)
       cmd = inspec.command(psql_cmd, redact_regex: /(PGPASSWORD=').+(' psql .*)/)
       out = cmd.stdout + "\n" + cmd.stderr
       if cmd.exit_status != 0 || out =~ /could not connect to .*/ || out.downcase =~ /^error:.*/
-        Lines.new(out, "PostgreSQL query with errors: #{query}")
+        raise Inspec::Exceptions::ResourceFailed, "PostgreSQL query with errors: #{out}"
       else
         Lines.new(cmd.stdout.strip, "PostgreSQL query: #{query}")
       end
     end
 
     private
+
+    def set_connection
+      query('\du')
+    end
 
     def escaped_query(query)
       Shellwords.escape(query)
