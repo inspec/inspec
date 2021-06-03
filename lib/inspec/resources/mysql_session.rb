@@ -50,7 +50,7 @@ module Inspec::Resources
     end
 
     def query(q, db = "")
-      raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if self.resource_failed?
+      raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if resource_failed?
 
       mysql_cmd = create_mysql_cmd(q, db)
       cmd = if !@pass.nil?
