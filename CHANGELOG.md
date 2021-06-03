@@ -1,29 +1,26 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.37.23 -->
-## [v4.37.23](https://github.com/inspec/inspec/tree/v4.37.23) (2021-05-31)
-
-#### Merged Pull Requests
-- Add Ubuntu to list of FIPS platforms [#5533](https://github.com/inspec/inspec/pull/5533) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.37.20 -->
-### Changes since 4.37.20 release
-
-#### Merged Pull Requests
-- Add Ubuntu to list of FIPS platforms [#5533](https://github.com/inspec/inspec/pull/5533) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.23 -->
-- Removed support for compliance and a1 server from InSpec compliance [#5534](https://github.com/inspec/inspec/pull/5534) ([Nik08](https://github.com/Nik08)) <!-- 4.37.22 -->
-- Update inspec init plugin  [#5536](https://github.com/inspec/inspec/pull/5536) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.37.21 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.37.23](https://github.com/inspec/inspec/tree/v4.37.23) (2021-06-03)
+
+#### Merged Pull Requests
+- Update inspec init plugin  [#5536](https://github.com/inspec/inspec/pull/5536) ([Vasu1105](https://github.com/Vasu1105))
+- Removed support for compliance and a1 server from InSpec compliance [#5534](https://github.com/inspec/inspec/pull/5534) ([Nik08](https://github.com/Nik08))
+- Add Ubuntu to list of FIPS platforms [#5533](https://github.com/inspec/inspec/pull/5533) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.37.20](https://github.com/inspec/inspec/tree/v4.37.20) (2021-05-26)
 
 #### Merged Pull Requests
 - Added new automate doc link for login tokens in `inspec automate login --help` command [#5529](https://github.com/inspec/inspec/pull/5529) ([Nik08](https://github.com/Nik08))
 - Bugfix for `inspec detect --no-color` to not return colourful output [#5530](https://github.com/inspec/inspec/pull/5530) ([Nik08](https://github.com/Nik08))
 - Drop EOL Ubuntu 16.04, build on 18.04 [#5532](https://github.com/inspec/inspec/pull/5532) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v4.37.17](https://github.com/inspec/inspec/tree/v4.37.17) (2021-05-20)
 
