@@ -51,7 +51,7 @@ module Inspec::Resources
     end
 
     def query(query, db = [])
-      raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if self.resource_failed?
+      raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if resource_failed?
 
       psql_cmd = create_psql_cmd(query, db)
       cmd = inspec.command(psql_cmd, redact_regex: /(PGPASSWORD=').+(' psql .*)/)
