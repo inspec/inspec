@@ -31,7 +31,7 @@ describe "Inspec::Resources::MysqlSession" do
     _(resource.resource_failed?).must_equal true
     _(resource.resource_exception_message).must_equal "Can't run MySQL SQL checks without authentication."
   end
-  it "failes when no connection established" do
+  it "fails when no connection established" do
     resource = load_resource("mysql_session", "root", "root", "localhost", 3306)
     _(resource.resource_failed?).must_equal true
     _(resource.resource_exception_message).must_include "MySQL query with errors"
