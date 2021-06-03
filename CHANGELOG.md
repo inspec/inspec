@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.37.24 -->
+## [v4.37.24](https://github.com/inspec/inspec/tree/v4.37.24) (2021-06-03)
+
+#### Merged Pull Requests
+- sshd_config is for daemon, not client - typo [#5549](https://github.com/inspec/inspec/pull/5549) ([jblaine](https://github.com/jblaine))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.37.23 -->
+### Changes since 4.37.23 release
+
+#### Merged Pull Requests
+- sshd_config is for daemon, not client - typo [#5549](https://github.com/inspec/inspec/pull/5549) ([jblaine](https://github.com/jblaine)) <!-- 4.37.24 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
