@@ -47,7 +47,7 @@ module Inspec::Resources
       @port = port || 5432
       raise Inspec::Exceptions::ResourceFailed, "Can't run PostgreSQL SQL checks without authentication." if @user.nil? || @pass.nil?
 
-      set_connection
+      test_connection
     end
 
     def query(query, db = [])
@@ -65,8 +65,8 @@ module Inspec::Resources
 
     private
 
-    def set_connection
-      query('\du')
+    def test_connection
+      query("select now()")
     end
 
     def escaped_query(query)
