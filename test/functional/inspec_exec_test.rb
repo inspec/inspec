@@ -299,8 +299,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
     it "exits with an error" do
       _(stdout).must_include "skippy\n     ↺  This will be skipped super intentionally.\n"
-      _(stdout).must_include "  ↺  CONTROL database: MySQL Session\n     ↺  Can't run MySQL SQL checks without authentication\n"
-      _(stdout).must_include "Profile Summary: 0 successful controls, 0 control failures, 2 controls skipped\nTest Summary: 0 successful, 0 failures, 2 skipped\n"
+      _(stdout).must_include "Profile Summary: 0 successful controls, 0 control failures, 1 control skipped\nTest Summary: 0 successful, 0 failures, 1 skipped\n"
 
       _(stderr).must_equal ""
 
@@ -312,7 +311,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec("exec " + File.join(profile_path, "skippy-controls") + " --no-distinct-exit --no-create-lockfile") }
 
     it "exits with code 0 and skipped tests in output" do
-      _(stdout).must_include "Profile Summary: 0 successful controls, 0 control failures, 2 controls skipped\nTest Summary: 0 successful, 0 failures, 2 skipped\n"
+      _(stdout).must_include "Profile Summary: 0 successful controls, 0 control failures, 1 control skipped\nTest Summary: 0 successful, 0 failures, 1 skipped\n"
 
       _(stderr).must_equal ""
 
