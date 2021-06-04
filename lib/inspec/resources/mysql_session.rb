@@ -46,7 +46,7 @@ module Inspec::Resources
       init_fallback if user.nil? || pass.nil?
       raise Inspec::Exceptions::ResourceFailed, "Can't run MySQL SQL checks without authentication." if @user.nil? || @pass.nil?
 
-      set_connection
+      test_connection
     end
 
     def query(q, db = "")
@@ -74,8 +74,8 @@ module Inspec::Resources
 
     # Querying on the database to make sure conneciton can be established. If not this will set the resource exception
     # message which we raise before querying on the database using mysql_session object.
-    def set_connection
-      query("show databases")
+    def test_connection
+      query("select now()")
     end
 
     def escape_string(query)
