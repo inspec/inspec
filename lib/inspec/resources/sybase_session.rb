@@ -2,6 +2,7 @@ require "inspec/resources/command"
 require "inspec/utils/database_helpers"
 require "hashie/mash"
 require "csv" unless defined?(CSV)
+require "tempfile" unless defined?(Tempfile)
 
 module Inspec::Resources
   # STABILITY: Experimental
@@ -41,12 +42,7 @@ module Inspec::Resources
     def query(sql)
       # We must write the SQl to a temp file on the remote target
       # try to get a temp path
-      sql_file_path = "/tmp/sybase_tmp_sql" # TODO: use tempfile utility if available
-
-      # TODO: replace echos with a a train upload command if possible.
-      # echos are senstive to shell interpolation, such as the asterisk in SELECT *
-      inspec.command("echo #{sql} > #{sql_file_path}").exit_status # TODO: handle
-      inspec.command("echo go >> #{sql_file_path}").exit_status # TODO: handle
+      sql_file_path = upload_sql_file(sql)
 
       # isql reuires that we have a matching locale set, but does not support C.UTF-8. en_US.UTF-8 is the least evil.
       command = "LANG=en_US.UTF-8 SYBASE=#{sybase_home} #{bin} -s\"#{col_sep}\" -w80000 -S #{server} -U #{username} -D #{database} -P \"#{password}\" < #{sql_file_path}"
@@ -82,6 +78,24 @@ module Inspec::Resources
       header_converter = ->(header) { header.downcase.strip }
       field_converter = ->(field) { field&.strip }
       CSV.parse(trimmed_output, headers: true, header_converters: header_converter, converters: field_converter, col_sep: col_sep).map { |row| Hashie::Mash.new(row.to_h) }
+    end
+
+    def upload_sql_file(sql)
+      remote_temp_dir = "/tmp"
+      remote_file_path = nil
+      local_temp_file = Tempfile.new(["sybase", ".sql"])
+      begin
+        local_temp_file.write("#{sql}\n")
+        local_temp_file.write("go\n")
+        local_temp_file.flush
+        filename = File.basename(local_temp_file.path)
+        remote_file_path = "#{remote_temp_dir}/#{filename}"
+        inspec.backend.upload([local_temp_file.path], remote_temp_dir)
+      ensure
+        local_temp_file.close
+        local_temp_file.unlink
+      end
+      remote_file_path
     end
   end
 end
