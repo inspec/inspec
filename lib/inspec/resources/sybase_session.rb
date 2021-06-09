@@ -71,10 +71,10 @@ module Inspec::Resources
     private
 
     def parse_csv_result(stdout)
-      output = stdout.sub(/\r/, "").strip
+      output = stdout.gsub(/\r/, "").strip
       lines = output.lines
-      # Remove second row (all dashes) and last two rows (blank and summary line)
-      trimmed_output = ([lines[0]] << lines.slice(2..-3)).join("\n")
+      # Remove second row (all dashes) and last 2 rows (blank and summary lines)
+      trimmed_output = ([lines[0]] << lines.slice(2..-3)).join("")
       header_converter = ->(header) { header.downcase.strip }
       field_converter = ->(field) { field&.strip }
       CSV.parse(trimmed_output, headers: true, header_converters: header_converter, converters: field_converter, col_sep: col_sep).map { |row| Hashie::Mash.new(row.to_h) }
