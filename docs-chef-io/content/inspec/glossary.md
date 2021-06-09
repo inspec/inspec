@@ -113,7 +113,7 @@ _'Cadillac'_ is an [expected result](#expected-result). Some matchers take an ex
 
 #### its('count') { should _be >=_ 10 }
 
-_be >=_ is an [operator matcher](#operator matcher). It allows you to perform numeric comparisons. All plural resources have a `count` property.
+_be >=_ is an [operator matcher](#operator-matcher). It allows you to perform numeric comparisons. All plural resources have a `count` property.
 
 ## Text Glossary
 
@@ -129,11 +129,11 @@ The _`control`_ keyword is used to declare a _`control block`_. Here, the word '
 
 ### core resource
 
-A [resource](#resource) that is included with InSpec; you are not required to install additional [plugins](#plugin) or depend on a [resource pack](#resource pack) to use the resource.
+A [resource](#resource) that is included with InSpec; you are not required to install additional [plugins](#plugin) or depend on a [resource pack](#resource-pack) to use the resource.
 
 ### custom resource
 
-A [resource](#resource) that is _not_ included with InSpec. It may be a resource of your own creation, or one you obtain by depending on a [resource pack](#resource pack).
+A [resource](#resource) that is _not_ included with InSpec. It may be a resource of your own creation, or one you obtain by depending on a [resource pack](#resource-pack).
 
 ### describe
 
@@ -359,7 +359,7 @@ end
 
 ### resource-specific matcher
 
-A [matcher](#matcher) that operates directly on the [resource](#resource), as opposed to operating on a property as a [universal matcher](#universal matcher) does.
+A [matcher](#matcher) that operates directly on the [resource](#resource), as opposed to operating on a property as a [universal matcher](#universal-matcher) does.
 
 Resource-specific matchers often provide highly customized behavior. Check the [resource documentation](#/inspec/resources/) to discover which resource-specific matchers are available for your resource.
 
