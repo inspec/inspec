@@ -97,7 +97,7 @@ describe "inspec exec with junit formatter" do
         _(run_result.stderr).must_equal ""
         _(schema.validate(doc)).must_be_empty
         suite = doc.xpath("//testsuite").first
-        _(suite.attr("skipped")).must_equal "2"
+        _(suite.attr("skipped")).must_equal "1"
         testcase = doc.xpath("//testcase").first
         _(testcase.xpath("//skipped")).wont_be_empty
       end
