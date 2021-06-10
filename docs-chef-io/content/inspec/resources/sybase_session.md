@@ -37,6 +37,35 @@ where
 - `query('QUERY')` contains the query to be run
 - `its('value') { should eq('expected') }` compares the results of the query against the expected result in the test
 
+### Optional Parameters
+
+#### bin
+
+You may use the `bin` parameter to specify the path to the `isql` cli tool.
+
+    describe sybase_session(database: 'pubs2',
+                            server: 'SYBASE',
+                            username: 'username',
+                            password: 'password',
+                            bin: '/opt/sap/OCS-16_0/bin/isql',
+                          ).query('QUERY').row(0).column('result') do
+      its('value') { should eq('expected') }
+    end
+
+
+#### sybase_home
+
+You may use the `sybase_home` parameter to specify the path to the sybase installation.
+
+    describe sybase_session(database: 'pubs2',
+                            server: 'SYBASE',
+                            username: 'username',
+                            password: 'password',
+                            sybase_home: '/opt/sap',
+                          ).query('QUERY').row(0).column('result') do
+      its('value') { should eq('expected') }
+    end
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
