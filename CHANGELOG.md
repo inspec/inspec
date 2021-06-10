@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.37.26 -->
-## [v4.37.26](https://github.com/inspec/inspec/tree/v4.37.26) (2021-06-04)
+<!-- latest_release 4.37.27 -->
+## [v4.37.27](https://github.com/inspec/inspec/tree/v4.37.27) (2021-06-10)
 
 #### Merged Pull Requests
-- Minor MD reformatting for dev-docs page [#5550](https://github.com/inspec/inspec/pull/5550) ([IanMadd](https://github.com/IanMadd))
+- Fix mysql_session resource to raise exception if there is a error in connection or in query [#5551](https://github.com/inspec/inspec/pull/5551) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.37.25 -->
 ### Changes since 4.37.25 release
 
 #### Merged Pull Requests
+- Fix mysql_session resource to raise exception if there is a error in connection or in query [#5551](https://github.com/inspec/inspec/pull/5551) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.37.27 -->
 - Minor MD reformatting for dev-docs page [#5550](https://github.com/inspec/inspec/pull/5550) ([IanMadd](https://github.com/IanMadd)) <!-- 4.37.26 -->
 <!-- release_rollup -->
 
