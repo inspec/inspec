@@ -12,9 +12,9 @@ module Inspec::Resources
     name "sybase_session"
     supports platform: "unix"
     # supports platform: "windows" # TODO
-    desc "Use the sybasedb_session InSpec resource to test commands against an Sybase database"
+    desc "Use the sybase_session InSpec resource to test commands against an Sybase database"
     example <<~EXAMPLE
-      sql = sybasedb_session(username: 'my_user', password: 'password', server: 'SYBASE', database: 'pubs2')
+      sql = sybase_session(username: 'my_user', password: 'password', server: 'SYBASE', database: 'pubs2')
       describe sql.query(\"SELECT * FROM authors\").row(0).column('au_lname') do
         its('value') { should eq 'Smith' }
       end
@@ -75,7 +75,17 @@ module Inspec::Resources
       lines = output.lines
       # Remove second row (all dashes) and last 2 rows (blank and summary lines)
       trimmed_output = ([lines[0]] << lines.slice(2..-3)).join("")
-      header_converter = ->(header) { header.downcase.strip }
+      header_converter = Proc.new do |header|
+        # This is here to suppress a warning from Hashie::Mash when it encounters a
+        # header column that ends up with the name "default", which happens when using the
+        # sybase_conf resource. It does mean that aly query whose output field includes the name
+        # Default (exactly) will get renamed to default_value, but that seems unlikely.
+        if header.match?(/^Default\s+$/)
+          "default_value"
+        else
+          header.downcase.strip
+        end
+      end
       field_converter = ->(field) { field&.strip }
       CSV.parse(trimmed_output, headers: true, header_converters: header_converter, converters: field_converter, col_sep: col_sep).map { |row| Hashie::Mash.new(row.to_h) }
     end
