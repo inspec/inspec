@@ -110,6 +110,7 @@ class MockLoader
       "/etc/audit/auditd.conf" => mockfile.call("auditd.conf"),
       "/etc/mysql/my.cnf" => mockfile.call("mysql.conf"),
       "/etc/mysql/mysql2.conf" => mockfile.call("mysql2.conf"),
+      "/etc/mongod.conf" => mockfile.call("mongod.conf"),
       "/etc/rabbitmq/rabbitmq.config" => mockfile.call("rabbitmq.config"),
       "kitchen.yml" => mockfile.call("kitchen.yml"),
       "example.csv" => mockfile.call("example.csv"),
@@ -564,6 +565,7 @@ class MockLoader
       "sestatus" => cmd.call("sestatus"),
       "semodule -lfull" => cmd.call("semodule-lfull"),
       "semanage boolean -l -n" => cmd.call("semanage-boolean"),
+      "Get-ChildItem -Path \"C:\\Program Files\\MongoDB\\Server\" -Name" => cmd.call("mongodb-version"),
     }
 
     if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")
