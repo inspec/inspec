@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.37.28 -->
-## [v4.37.28](https://github.com/inspec/inspec/tree/v4.37.28) (2021-06-10)
+<!-- latest_release 4.37.29 -->
+## [v4.37.29](https://github.com/inspec/inspec/tree/v4.37.29) (2021-06-14)
 
-#### Merged Pull Requests
-- Fix postgres_session resource to raise exception if there is a error in connection or in query [#5553](https://github.com/inspec/inspec/pull/5553) ([Vasu1105](https://github.com/Vasu1105))
+#### Bug Fixes
+- Include x25519 KEX module in omnibus build [#5563](https://github.com/inspec/inspec/pull/5563) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.37.25 -->
 ### Changes since 4.37.25 release
+
+#### Bug Fixes
+- Include x25519 KEX module in omnibus build [#5563](https://github.com/inspec/inspec/pull/5563) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.29 -->
 
 #### Merged Pull Requests
 - Fix postgres_session resource to raise exception if there is a error in connection or in query [#5553](https://github.com/inspec/inspec/pull/5553) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.37.28 -->
