@@ -49,7 +49,6 @@ module Inspec::Resources
         warn "Could not determine version of installed MongoDB by inspecting #{dir}"
         nil
       when 1
-        warn "Using #{dirs}: #{dir_to_version(dirs)}"
         dir_to_version(dirs)
       else
         warn "Multiple versions of MongoDB installed or incorrect base dir #{dir}"
