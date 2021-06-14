@@ -25,6 +25,7 @@ group :omnibus do
   gem "appbundler"
   gem "ed25519" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
   gem "bcrypt_pbkdf" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
+  gem "x25519" # ed25519 KEX module
 end
 
 group :test do
@@ -55,6 +56,7 @@ end
 if Gem.ruby_version >= Gem::Version.new("2.7.0")
   group :kitchen do
     gem "berkshelf"
+    gem "chef", ">= 16.0" # Required to allow net-ssh > 6
     gem "test-kitchen", ">= 2.8"
     gem "kitchen-inspec", ">= 2.0"
     gem "kitchen-dokken", ">= 2.11"
