@@ -40,19 +40,19 @@ The following examples show how to use this Chef InSpec audit resource.
 ### Test the key management configuration options
 
     describe mongodb_conf do
-      its(['security', 'enableEncryption']) { should eq true }
+      its(["security", "enableEncryption"]) { should eq true }
     end
 
 ### Test the port on which MongoDB listens
 
     describe mongodb_conf do
-      its('port') { should eq 27017 }
+      its(["net", "port"]) { should eq 27017 }
     end
 
 ### Test the security configuration options
 
     describe mongodb_conf do
-      its(['security', 'authorization']) { should eq 'enabled' }
+      its(["security", "authorization"]) { should eq "enabled" }
     end
 
 

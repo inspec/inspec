@@ -10,7 +10,7 @@ module Inspec::Resources
     example <<~EXAMPLE
       describe mongodb_conf do
         its(["storage", "dbPath"]) { should eq "/var/lib/mongodb" }
-        its("port") { should eq 27017 }
+        its(["net", "port"]) { should eq 27017 }
       end
     EXAMPLE
 
@@ -22,10 +22,6 @@ module Inspec::Resources
       end
 
       super(@conf_path)
-    end
-
-    def port
-      params["net"]["port"]
     end
 
     private
