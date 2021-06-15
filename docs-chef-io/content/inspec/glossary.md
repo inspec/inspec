@@ -273,6 +273,26 @@ describe car(owner: 'Tony Clifton') do
 end
 ```
 
+### Operator Matcher
+
+An operator matcher allows you to use operators to compare numerical [expected results](#expected-result) against a [property](#property). All plural resources have a `count` property.
+
+For example:
+
+```ruby
+  describe cars do
+    its('count') { should be >= 10 }
+  end
+```
+
+Operators include:
+
+- `==`
+- `>=`
+- `<=`
+- `>`
+- `<`
+
 ### plural resource
 
 A _`plural resource`_ is a [resource](#resource) that specializes in performing searches and represents multiple occurrences of the resource on the [target](#target) platform. Plural resources are used to audit counts, inspect group properties, and have the unique ability to enforce negative tests ("nothing like this should exist") often required by compliance standards. Plural resources are not intended to perform in-depth auditing of an individual; use [singular resources](#singular-resource) for that.
