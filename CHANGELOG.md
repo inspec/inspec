@@ -1,32 +1,29 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.37.30 -->
-## [v4.37.30](https://github.com/inspec/inspec/tree/v4.37.30) (2021-06-16)
-
-#### Merged Pull Requests
-- Restrict x25519 gem to x86 architectures [#5564](https://github.com/inspec/inspec/pull/5564) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.37.25 -->
-### Changes since 4.37.25 release
-
-#### Bug Fixes
-- Include x25519 KEX module in omnibus build [#5563](https://github.com/inspec/inspec/pull/5563) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.29 -->
-
-#### Merged Pull Requests
-- Restrict x25519 gem to x86 architectures [#5564](https://github.com/inspec/inspec/pull/5564) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.30 -->
-- Fix postgres_session resource to raise exception if there is a error in connection or in query [#5553](https://github.com/inspec/inspec/pull/5553) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.37.28 -->
-- Fix mysql_session resource to raise exception if there is a error in connection or in query [#5551](https://github.com/inspec/inspec/pull/5551) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.37.27 -->
-- Minor MD reformatting for dev-docs page [#5550](https://github.com/inspec/inspec/pull/5550) ([IanMadd](https://github.com/IanMadd)) <!-- 4.37.26 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.37.30](https://github.com/inspec/inspec/tree/v4.37.30) (2021-06-16)
+
+#### Bug Fixes
+- Include x25519 KEX module in omnibus build [#5563](https://github.com/inspec/inspec/pull/5563) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Minor MD reformatting for dev-docs page [#5550](https://github.com/inspec/inspec/pull/5550) ([IanMadd](https://github.com/IanMadd))
+- Fix mysql_session resource to raise exception if there is a error in connection or in query [#5551](https://github.com/inspec/inspec/pull/5551) ([Vasu1105](https://github.com/Vasu1105))
+- Fix postgres_session resource to raise exception if there is a error in connection or in query [#5553](https://github.com/inspec/inspec/pull/5553) ([Vasu1105](https://github.com/Vasu1105))
+- Restrict x25519 gem to x86 architectures [#5564](https://github.com/inspec/inspec/pull/5564) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.37.25](https://github.com/inspec/inspec/tree/v4.37.25) (2021-06-10)
 
 #### Merged Pull Requests
 - sshd_config is for daemon, not client - typo [#5549](https://github.com/inspec/inspec/pull/5549) ([jblaine](https://github.com/jblaine))
 - Fix related to loading dependent profiles from a profile in shell [#5547](https://github.com/inspec/inspec/pull/5547) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v4.37.23](https://github.com/inspec/inspec/tree/v4.37.23) (2021-06-03)
 
