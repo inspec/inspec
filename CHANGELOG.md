@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.37.29 -->
-## [v4.37.29](https://github.com/inspec/inspec/tree/v4.37.29) (2021-06-14)
+<!-- latest_release 4.37.30 -->
+## [v4.37.30](https://github.com/inspec/inspec/tree/v4.37.30) (2021-06-16)
 
-#### Bug Fixes
-- Include x25519 KEX module in omnibus build [#5563](https://github.com/inspec/inspec/pull/5563) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Restrict x25519 gem to x86 architectures [#5564](https://github.com/inspec/inspec/pull/5564) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.37.25 -->
@@ -14,6 +14,7 @@
 - Include x25519 KEX module in omnibus build [#5563](https://github.com/inspec/inspec/pull/5563) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.29 -->
 
 #### Merged Pull Requests
+- Restrict x25519 gem to x86 architectures [#5564](https://github.com/inspec/inspec/pull/5564) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.37.30 -->
 - Fix postgres_session resource to raise exception if there is a error in connection or in query [#5553](https://github.com/inspec/inspec/pull/5553) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.37.28 -->
 - Fix mysql_session resource to raise exception if there is a error in connection or in query [#5551](https://github.com/inspec/inspec/pull/5551) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.37.27 -->
 - Minor MD reformatting for dev-docs page [#5550](https://github.com/inspec/inspec/pull/5550) ([IanMadd](https://github.com/IanMadd)) <!-- 4.37.26 -->
