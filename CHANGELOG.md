@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.38.0 -->
+## [v4.38.0](https://github.com/inspec/inspec/tree/v4.38.0) (2021-06-17)
+
+#### Merged Pull Requests
+- Add support for mongodb_conf resource in InSpec [#5562](https://github.com/inspec/inspec/pull/5562) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.37.30 -->
+### Changes since 4.37.30 release
+
+#### Merged Pull Requests
+- Add support for mongodb_conf resource in InSpec [#5562](https://github.com/inspec/inspec/pull/5562) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.38.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
