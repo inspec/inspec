@@ -35,7 +35,7 @@ create an IAM user specifically for auditing activities.
 #### Using Environment Variables to provide credentials
 
 You may provide the credentials to Chef InSpec by setting the following environment
-variables: `AWS_REGION`, `AWS_ACCESS_KEY_ID`, and `AWS_SECRET_KEY_ID`. You may
+variables: `AWS_REGION`, `AWS_ACCESS_KEY_ID`, and `AWS_SECRET_ACCESS_KEY`. You may
 also use `AWS_PROFILE`, or if you are using MFA, `AWS_SESSION_TOKEN`. See the
 [AWS Command Line Interface Docs](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html)
 for details.
