@@ -78,7 +78,7 @@ curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 
 ### Install it via rubygems.org
 
-When installing from source, gem dependencies may require ruby build tools to be installed. (A compiler-free variant is available with reduced functionality; use `inspec-core-bin` and `inspec-core`.)
+Installing Chef InSpec from source may require installing ruby build tools to manage gem dependencies. (A compiler-free variant is available with reduced functionality; use `inspec-core-bin` and `inspec-core`.)
 
 To install build tools, use your package manager.
 
