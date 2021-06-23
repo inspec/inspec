@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.38.2 -->
-## [v4.38.2](https://github.com/inspec/inspec/tree/v4.38.2) (2021-06-22)
+<!-- latest_release 4.38.3 -->
+## [v4.38.3](https://github.com/inspec/inspec/tree/v4.38.3) (2021-06-23)
 
 #### Merged Pull Requests
-- Fix relative links [#5556](https://github.com/inspec/inspec/pull/5556) ([IanMadd](https://github.com/IanMadd))
+- Misc updates to the README [#5526](https://github.com/inspec/inspec/pull/5526) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.37.30 -->
 ### Changes since 4.37.30 release
 
 #### Merged Pull Requests
+- Misc updates to the README [#5526](https://github.com/inspec/inspec/pull/5526) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.38.3 -->
 - Fix relative links [#5556](https://github.com/inspec/inspec/pull/5556) ([IanMadd](https://github.com/IanMadd)) <!-- 4.38.2 -->
 - Fix AWS secret key environment variable name in docs [#5566](https://github.com/inspec/inspec/pull/5566) ([sandratiffin](https://github.com/sandratiffin)) <!-- 4.38.1 -->
 - Add support for mongodb_conf resource in InSpec [#5562](https://github.com/inspec/inspec/pull/5562) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.38.0 -->
