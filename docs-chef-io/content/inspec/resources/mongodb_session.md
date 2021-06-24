@@ -23,13 +23,13 @@ This resource is distributed along with Chef InSpec itself. You can use it autom
 
 A `mongodb_session` resource block declares the `user`, `password`, 'database' to use for the session, and then the command to be run:
 
-  describe mongodb_session(user: "username", password: "password").query(key: value) do
+  describe mongodb_session(user: "username", password: "password", database: "test").query(key: value) do
     its("params") { should match(/expected-result/) }
   end
 
 where
 
-- `mongodb_session` declares a user and password, connecting locally, with permission to run the query
+- `mongodb_session` declares a user, password and database, connecting locally, with permission to run the query.
 - `query` contains the query to be run.
 - `its("params") { should eq(/expected-result/) }` compares the results of the query against the expected result in the test
 
@@ -53,7 +53,7 @@ Defaults to `:scram`
 
 #### `auth_source`
 
-Defaults to given database name.
+Defaults to given database name. `database` name is mandatory.
 
 ### MongodDB query reference docs
 
