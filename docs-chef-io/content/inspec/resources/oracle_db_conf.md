@@ -11,25 +11,38 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-Use the `oracle_db_conf` Chef InSpec audit resource to test the database system parameters defined in oracle database view `V$SYSTEM_PARAMETER`. These parameters are accessed through oracle session via SQL query. The permission of this `V$SYSTEM_PARAMETER` view is only limited to the DBA by default.
+Use the `oracle_db_conf` Chef InSpec audit resource to test the system parameters of Oracle.
 
 ### Installation
 
 This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
+### Requirements
+
+You must have access to a database user that has access to the `DBA` role.
+
 ## Syntax
 
-A `oracle_db_conf` resource block declares system parameters which are defined in `V$SYSTEM_PARAMETER` database view, and then compares those parameters to the values stated in the test:
+A `oracle_db_conf` resource block declares user and password to use. It fetches system parameters which are defined in `V$SYSTEM_PARAMETER` database view, and then compares those parameters to the values stated in the test:
 
-  # Test parameters set within the database view
-  describe oracle_db_conf(user: 'USER', password: 'PASSWORD') do
-    its("audit_sys_operations") { should cmp "true" }
-    its("sql92_security") { should cmp "true" }
-  end
+    describe oracle_db_conf(user: 'USER', password: 'PASSWORD') do
+      its("config item") { should cmp "value" }
+    end
+
+### Optional Parameters
+
+`oracle_db_conf` is based on `oracle_session`, and accepts all parameters that `oracle_session` accepts.
 
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
+
+### Test parameters set within the database view
+
+    describe oracle_db_conf(user: 'USER', password: 'PASSWORD') do
+      its("audit_sys_operations") { should cmp "true" }
+      its("sql92_security") { should cmp "true" }
+    end
 
 ## Matchers
 

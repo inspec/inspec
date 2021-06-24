@@ -17,19 +17,28 @@ Use the `oracle_listener_conf` Chef InSpec audit resource to test the listeners 
 
 This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
+### Requirements
+
+You must have sufficient permission to access listener settings defined in `listener.ora` file.
+
 ## Syntax
 
-A `oracle_listener_conf` resource block declares oracle listeners settings in the `listener.ora` file, and then compares the listeners settings in file to the value stated in the test:
+A `oracle_listener_conf` resource block fetches listeners settings in the `listener.ora` file, and then compares them with the value stated in the test:
 
-  # Test parameters set within the listener file
-  describe oracle_listener_conf do
-    its('DEFAULT_SERVICE_LISTENER') { should eq 'XE' }
-    its('EM_EXPRESS_PORT') { should eq '5500' }
-  end 
+    describe oracle_listener_conf do
+      its('config item') { should eq 'value' }
+    end 
 
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
+
+### Test parameters set within the listener file
+
+    describe oracle_listener_conf do
+      its('DEFAULT_SERVICE_LISTENER') { should eq 'XE' }
+      its('EM_EXPRESS_PORT') { should eq '5500' }
+    end 
 
 ## Matchers
 
