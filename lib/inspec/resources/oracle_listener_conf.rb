@@ -23,9 +23,10 @@ module Inspec::Resources
     include ObjectTraverser
 
     def initialize(conf_path = nil)
-      @conf_path = conf_path || inspec.oracle.conf_path
-      if inspec.oracle.resource_failed?
-        raise inspec.oracle.resource_exception_message
+      oracle = inspec.oracle
+      @conf_path = conf_path || oracle.conf_path
+      if oracle.resource_failed?
+        raise oracle.resource_exception_message
       elsif @conf_path.nil?
         return skip_resource "Oracle Listener conf path is not set"
       end

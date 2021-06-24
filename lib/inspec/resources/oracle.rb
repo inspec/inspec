@@ -34,7 +34,10 @@ module Inspec::Resources
         nil
       else
         first = conf_files.first.chomp
-        warn "Multiple oracle listener settings found" if conf_files.count > 1
+        if conf_files.count > 1
+          warn "Multiple oracle listener settings found"
+          warn "Using first: #{first}"
+        end
         @conf_path = first
       end
     rescue => e
@@ -47,8 +50,12 @@ module Inspec::Resources
         warn "No oracle listener settings found in $ORACLE_HOME\\network\\admin"
         nil
       else
-        first = conf_files.select { |line| line.include? "network\\admin\\listener.ora" }.first&.chomp
-        warn "Multiple oracle listener settings found" if conf_files.count > 1
+        filtered_conf_files = conf_files.select { |line| line.include? "network\\admin\\listener.ora" }
+        first = filtered_conf_files.first&.chomp
+        if filtered_conf_files.count > 1
+          warn "Multiple oracle listener settings found"
+          warn "Using first: #{first}"
+        end
         @conf_path = first
       end
     rescue => e
