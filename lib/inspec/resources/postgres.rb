@@ -4,6 +4,8 @@ module Inspec::Resources
   class Postgres < Inspec.resource(1)
     name "postgres"
     supports platform: "unix"
+    supports platform: "windows"
+
     desc "The 'postgres' resource is a helper for the 'postgres_conf', 'postgres_hba_conf', 'postgres_ident_conf' & 'postgres_session' resources.  Please use those instead."
 
     attr_reader :service, :data_dir, :conf_dir, :conf_path, :version, :cluster
@@ -42,6 +44,12 @@ module Inspec::Resources
           @cluster = cluster_from_dir("/etc/postgresql/#{@version}")
           @conf_dir = "/etc/postgresql/#{@version}/#{@cluster}"
           @data_dir = "/var/lib/postgresql/#{@version}/#{@cluster}"
+        end
+      elsif inspec.os.windows?
+        dir = "C:\\Program Files\\PostgreSQL"
+        @version = version_from_dir_windows(dir)
+        unless @version.to_s.empty?
+          @data_dir = "#{dir}\\#{@version}\\data\\"
         end
       else
         @version = version_from_psql
@@ -84,7 +92,12 @@ module Inspec::Resources
     def version_from_psql
       return unless inspec.command("psql").exist?
 
-      inspec.command("psql --version | awk '{ print $NF }' | awk -F. '{ print $1\".\"$2 }'").stdout.strip
+      version = inspec.command("psql --version | awk '{ print $NF }' | awk -F. '{ print $1\".\"$2 }'").stdout.strip.split(".")
+      if version.first.to_i >= 10
+        version.first
+      else
+        version = "#{version[0]}.#{version[1]}"
+      end
     end
 
     def locate_data_dir_location_by_version(ver = @version)
@@ -119,6 +132,23 @@ module Inspec::Resources
         dir_to_version(dirs)
       else
         warn "Multiple versions of postgresql installed or incorrect base dir #{dir}"
+        first = dir_to_version(dirs.lines.first)
+        warn "Using the first version found: #{first}"
+        first
+      end
+    end
+
+    def version_from_dir_windows(dir)
+      dirs = inspec.command("Get-ChildItem -Path \"#{dir}\" -Name").stdout
+      entries = dirs.lines.count
+      case entries
+      when 0
+        warn "Could not determine version of installed PostgreSQL by inspecting #{dir}"
+        nil
+      when 1
+        dir_to_version(dirs)
+      else
+        warn "Multiple versions of PostgreSQL installed or incorrect base dir #{dir}"
         first = dir_to_version(dirs.lines.first)
         warn "Using the first version found: #{first}"
         first

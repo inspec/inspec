@@ -54,6 +54,7 @@ module Inspec::Resources
       raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if resource_failed?
 
       psql_cmd = create_psql_cmd(query, db)
+
       cmd = inspec.command(psql_cmd, redact_regex: /(PGPASSWORD=').+(' psql .*)/)
       out = cmd.stdout + "\n" + cmd.stderr
       if cmd.exit_status != 0 || out =~ /could not connect to .*/ || out.downcase =~ /^error:.*/
@@ -66,7 +67,7 @@ module Inspec::Resources
     private
 
     def test_connection
-      query("select now()")
+      query("select now()\;")
     end
 
     def escaped_query(query)
@@ -75,7 +76,11 @@ module Inspec::Resources
 
     def create_psql_cmd(query, db = [])
       dbs = db.map { |x| "-d #{x}" }.join(" ")
-      "PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h #{@host} -p #{@port} -A -t -c #{escaped_query(query)}"
+      if inspec.os.windows?
+        "psql -U #{@user} #{dbs} -h #{@host} -p #{@port} -A -t -c '#{query}'"
+      else
+        "PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h #{@host} -p #{@port} -A -t -c #{escaped_query(query)}"
+      end
     end
   end
 end

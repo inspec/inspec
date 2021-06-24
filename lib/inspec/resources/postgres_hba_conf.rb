@@ -5,6 +5,7 @@ module Inspec::Resources
   class PostgresHbaConf < Inspec.resource(1)
     name "postgres_hba_conf"
     supports platform: "unix"
+    supports platform: "windows"
     desc 'Use the `postgres_hba_conf` InSpec audit resource to test the client
           authentication data defined in the pg_hba.conf file.'
     example <<~EXAMPLE
@@ -19,7 +20,7 @@ module Inspec::Resources
 
     # @todo add checks to ensure that we have data in our file
     def initialize(hba_conf_path = nil)
-      @conf_file = hba_conf_path || File.expand_path("pg_hba.conf", inspec.postgres.conf_dir)
+      @conf_file = hba_conf_path || File.join(inspec.postgres.conf_dir, "pg_hba.conf")
       @content = ""
       @params = {}
       read_content
