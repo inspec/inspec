@@ -19,8 +19,18 @@ module Inspec::Resources
     supports platform: "unix"
     supports platform: "windows"
 
-    desc "Use the mongodb_session InSpec audit resource to run database commands using MongoDB ruby client against a given database."
+    desc "Use the mongodb_session InSpec audit resource to run MongoDB command against a MongoDB Database."
+    example <<~EXAMPLE
+      # default values:
+      # host: "127.0.0.1"
+      # port: "27017"
+      # auth_source - default to database name
+      # auth_mech - :scram
 
+      describe mongodb_session(user: "foo", password: "bar", database: "test").query(usersInfo: "ian").params["users"].first["roles"].first do
+        its(["role"]) { should eq "readWrite" }
+      end
+    EXAMPLE
     attr_reader :user, :host, :port, :database, :params
 
     def initialize(opts = {})
