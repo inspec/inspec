@@ -38,14 +38,15 @@ module Inspec::Resources
       @auth_mech_properties = opts[:auth_mech_properties] || {}
       @client = nil
 
-      fail_resource "Can't run MongoDB checks without authentication" unless user && @password
-      fail_resource "You must provide a database name for the session" unless database
+      fail_resource "Can't run MongoDB checks without authentication." unless user && @password
+      fail_resource "You must provide a database name for the session." unless database
 
       create_session
     end
 
     def query(command)
       raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if resource_failed?
+
       Lines.new(@client.command(command).documents.first, "MongoDB query: #{command}")
     rescue => e
       raise Inspec::Exceptions::ResourceFailed, "Can't run MongoDB command Error: #{e.message}"
@@ -54,6 +55,8 @@ module Inspec::Resources
     private
 
     def create_session
+      raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if resource_failed?
+
       options = { user: "#{user}",
         password: "#{@password}",
         database: "#{database}",
@@ -69,7 +72,7 @@ module Inspec::Resources
       @client = Mongo::Client.new([ "#{host}:#{port}" ], options)
 
     rescue => e
-      raise Inspec::Exceptions::ResourceFailed, "Can't run MongoDB command Error: #{e.message}"
+      raise Inspec::Exceptions::ResourceFailed, "Can't run MongoDB command. Error: #{e.message}"
     end
   end
 end
