@@ -40,12 +40,13 @@ module Inspec::Resources
       end
     EXAMPLE
 
-    def initialize(user, pass, host = nil, port = nil)
+    def initialize(user, pass = nil, host = nil, port = nil)
       @user = user || "postgres"
+      # passing PGPASSWORD does not work for windows so we are not making password as mandatory. User needs to hand it thorought the .pgpass file or trust authentication
+      # mechanisum of the PostgreSQL database.
       @pass = pass
       @host = host || "localhost"
       @port = port || 5432
-      raise Inspec::Exceptions::ResourceFailed, "Can't run PostgreSQL SQL checks without authentication." if @user.nil? || @pass.nil?
 
       test_connection
     end
@@ -79,7 +80,11 @@ module Inspec::Resources
       if inspec.os.windows?
         "psql -U #{@user} #{dbs} -h #{@host} -p #{@port} -A -t -c '#{query}'"
       else
-        "PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h #{@host} -p #{@port} -A -t -c #{escaped_query(query)}"
+        if @pass.nil?
+          "psql -U #{@user} #{dbs} -h #{@host} -p #{@port} -A -t -c #{escaped_query(query)}"
+        else
+          "PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h #{@host} -p #{@port} -A -t -c #{escaped_query(query)}"
+        end
       end
     end
   end
