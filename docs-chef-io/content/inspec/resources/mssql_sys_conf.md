@@ -19,7 +19,7 @@ This resource is distributed along with Chef InSpec itself. You can use it autom
 
 ### Requirements
 
-You must have access to a database user that has access to the `SA` role.
+You must have database access.
 
 ## Syntax
 
