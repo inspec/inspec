@@ -47,7 +47,7 @@ module Inspec::Resources
         end
       elsif inspec.os.windows?
         dir = "C:\\Program Files\\PostgreSQL"
-        @version = version_from_dir_windows(dir)
+        @version = version_from_psql || version_from_dir_windows(dir)
         unless @version.to_s.empty?
           @data_dir = "#{dir}\\#{@version}\\data\\"
         end
@@ -92,11 +92,16 @@ module Inspec::Resources
     def version_from_psql
       return unless inspec.command("psql").exist?
 
-      version = inspec.command("psql --version | awk '{ print $NF }' | awk -F. '{ print $1\".\"$2 }'").stdout.strip.split(".")
+      if inspec.os.windows?
+        version = inspec.command("psql --version | awk '{ print $NF }'").stdout.strip.split(".")
+      else
+        version = inspec.command("psql --version | awk '{ print $NF }' | awk -F. '{ print $1\".\"$2 }'").stdout.strip.split(".")
+      end
+
       if version.first.to_i >= 10
         version.first
       else
-        version = "#{version[0]}.#{version[1]}"
+        "#{version[0]}.#{version[1]}"
       end
     end
 

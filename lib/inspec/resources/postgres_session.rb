@@ -42,11 +42,10 @@ module Inspec::Resources
 
     def initialize(user, pass = nil, host = nil, port = nil)
       @user = user || "postgres"
-      # passing PGPASSWORD does not work for windows so we are not making password as mandatory. User needs to hand it thorought the .pgpass file or trust authentication
-      # mechanisum of the PostgreSQL database.
       @pass = pass
       @host = host || "localhost"
       @port = port || 5432
+      raise Inspec::Exceptions::ResourceFailed, "Can't run PostgreSQL SQL checks without authentication." if @user.nil? || @pass.nil?
 
       test_connection
     end
@@ -55,8 +54,7 @@ module Inspec::Resources
       raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if resource_failed?
 
       psql_cmd = create_psql_cmd(query, db)
-
-      cmd = inspec.command(psql_cmd, redact_regex: /(PGPASSWORD=').+(' psql .*)/)
+      cmd = inspec.command(psql_cmd, redact_regex: %r{(:\/\/[a-z]*:).*(@)})
       out = cmd.stdout + "\n" + cmd.stderr
       if cmd.exit_status != 0 || out =~ /could not connect to .*/ || out.downcase =~ /^error:.*/
         raise Inspec::Exceptions::ResourceFailed, "PostgreSQL query with errors: #{out}"
@@ -76,15 +74,11 @@ module Inspec::Resources
     end
 
     def create_psql_cmd(query, db = [])
-      dbs = db.map { |x| "-d #{x}" }.join(" ")
+      dbs = db.map { |x| "#{x}" }.join(" ")
       if inspec.os.windows?
-        "psql -U #{@user} #{dbs} -h #{@host} -p #{@port} -A -t -c '#{query}'"
+        "psql -d postgresql://#{@user}:#{@pass}@#{@host}:#{@port}/#{dbs} -A -t -w -c \"#{query}\""
       else
-        if @pass.nil?
-          "psql -U #{@user} #{dbs} -h #{@host} -p #{@port} -A -t -c #{escaped_query(query)}"
-        else
-          "PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h #{@host} -p #{@port} -A -t -c #{escaped_query(query)}"
-        end
+        "psql -d postgresql://#{@user}:#{@pass}@#{@host}:#{@port}/#{dbs} -A -t -w -c #{escaped_query(query)}"
       end
     end
   end
