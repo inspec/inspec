@@ -26,35 +26,24 @@ module Inspec::Resources
     private
 
     def determine_conf_dir_and_path_in_linux
-      conf_files = inspec.command("sudo find / -type f -wholename '*network/admin/listener.ora'").stdout.lines
-      if conf_files.empty?
-        warn "No oracle listener settings found in $ORACLE_HOME/network/admin"
+      oracle_home = inspec.command("echo $ORACLE_HOME").stdout&.chomp
+      if oracle_home.empty?
+        warn "No oracle listener settings found in $ORACLE_HOME/network/admin directory"
         nil
       else
-        first = conf_files.first.chomp
-        if conf_files.count > 1
-          warn "Multiple oracle listener settings found"
-          warn "Using first: #{first}"
-        end
-        @conf_path = first
+        @conf_path = oracle_home + "/network/admin/listener.ora"
       end
     rescue => e
       fail_resource "Errors reading listener settings: #{e}"
     end
 
     def determine_conf_dir_and_path_in_windows
-      conf_files = inspec.command("Get-ChildItem C:\\ -Filter *listener.ora -Recurse | % { $_.FullName }").stdout.lines
-      if conf_files.empty?
-        warn "No oracle listener settings found in $ORACLE_HOME\\network\\admin"
+      oracle_home = inspec.powershell("echo $Env:ORACLE_HOME").stdout&.chomp
+      if oracle_home.empty?
+        warn "No oracle listener settings found in $ORACLE_HOME\\network\\admin directory"
         nil
       else
-        filtered_conf_files = conf_files.select { |line| line.include? "network\\admin\\listener.ora" }
-        first = filtered_conf_files.first&.chomp
-        if filtered_conf_files.count > 1
-          warn "Multiple oracle listener settings found"
-          warn "Using first: #{first}"
-        end
-        @conf_path = first
+        @conf_path = oracle_home + "\\network\\admin\\listener.ora"
       end
     rescue => e
       fail_resource "Errors reading listener settings: #{e}"
