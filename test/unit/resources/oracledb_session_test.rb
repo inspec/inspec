@@ -7,7 +7,7 @@ describe "Inspec::Resources::OracledbSession" do
     resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "/bin/sqlplus") do |cmd|
       cmd.strip!
       case cmd
-      when "/bin/sqlplus -S \"USER\"/\"password\"@localhost:1527/ORCL <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nEOC" then
+      when "/bin/sqlplus -S USER/password@localhost:1527/ORCL <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nEOC" then
         stdout_file "test/fixtures/cmd/oracle-result"
       else
         raise cmd.inspect
@@ -24,7 +24,7 @@ describe "Inspec::Resources::OracledbSession" do
     resource = quick_resource(:oracledb_session, :windows, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "C:/sqlplus.exe") do |cmd|
       cmd.strip!
       case cmd
-      when "@'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\n'@ | C:/sqlplus.exe -S \"USER\"/\"password\"@localhost:1527/ORCL" then
+      when "@'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\n'@ | C:/sqlplus.exe -S USER/password@localhost:1527/ORCL" then
         stdout_file "test/fixtures/cmd/oracle-result"
       else
         raise cmd.inspect
@@ -51,11 +51,10 @@ describe "Inspec::Resources::OracledbSession" do
     _(resource.resource_exception_message).must_equal "Can't run Oracle checks without authentication"
   end
 
-  it "fails when no service name is provided" do
+  it "does not fails when no service name is provided" do
     resource = quick_resource(:oracledb_session, :windows, user: "USER", password: "password", host: "localhost", port: 1527, sqlplus_bin: "C:/sqlplus.exe")
 
-    _(resource.resource_failed?).must_equal true
-    _(resource.resource_exception_message).must_equal "You must provide a service name for the session"
+    _(resource.resource_failed?).must_equal false
   end
 
   it "verify oracledb_session configuration" do
@@ -68,5 +67,33 @@ describe "Inspec::Resources::OracledbSession" do
     _(resource.db_role).must_equal "dbrole"
     _(resource.su_user).must_equal "osuser"
     _(resource.bin).must_equal "sqlplus"
+  end
+
+  it "fails when no connection established in linux" do
+    resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "wrongpassword", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "/bin/sqlplus") do |cmd|
+      cmd.strip!
+      case cmd
+      when "/bin/sqlplus -S USER/wrongpassword@localhost:1527/ORCL <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nEOC" then
+        stdout_file "test/fixtures/cmd/oracle-error"
+      else
+        raise cmd.inspect
+      end
+    end
+    ex = assert_raises(Inspec::Exceptions::ResourceFailed) { resource.query("SELECT NAME AS VALUE FROM v$database") }
+    _(ex.message).must_include("Oracle query with errors")
+  end
+
+  it "fails when no connection established in windows" do
+    resource = quick_resource(:oracledb_session, :windows, user: "USER", password: "wrongpassword", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "C:/sqlplus.exe") do |cmd|
+      cmd.strip!
+      case cmd
+      when "@'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\n'@ | C:/sqlplus.exe -S USER/wrongpassword@localhost:1527/ORCL" then
+        stdout_file "test/fixtures/cmd/oracle-error"
+      else
+        raise cmd.inspect
+      end
+      ex = assert_raises(Inspec::Exceptions::ResourceFailed) { resource.query("SELECT NAME AS VALUE FROM v$database") }
+      _(ex.message).must_include("Oracle query with errors")
+    end
   end
 end
