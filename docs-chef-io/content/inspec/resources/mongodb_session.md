@@ -49,11 +49,31 @@ Defaults to `27017`
 
 #### `auth_mech`
 
-Defaults to `:scram`
+Defaults to `:scram`. The available opitions are `:scram256`, `:mongodb_x509`, `:aws`. Refer this [docs](https://docs.mongodb.com/ruby-driver/master/tutorials/ruby-driver-authentication/) for more understanding about these options.
 
 #### `auth_source`
 
 Defaults to given database name. `database` name is mandatory.
+
+#### `ssl`
+
+Defaults to false. Set `true ` to use ssl transport. For ssl realted options also refer to this [docs](https://docs.mongodb.com/ruby-driver/master/tutorials/ruby-driver-authentication/#client-certificate-x-509) for more understanding.
+
+#### 'ssl_cert'
+
+Path to ssl certificate file.
+
+#### `ssl_ca_cert`
+
+Path to ssl ca cert file.
+
+#### `ssl_key`
+
+Path to ssl key file.
+
+#### `auth_mech_properties`
+
+This accepts hash of authetication mechanism properties. This option is generally used with `aws` auth mechanism. Example of this is given in this docs [here](https://docs.mongodb.com/ruby-driver/master/tutorials/ruby-driver-authentication/#aws)
 
 ### MongodDB query reference docs
 
