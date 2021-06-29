@@ -1,17 +1,17 @@
 +++
-title = "oracle_listener_conf resource"
+title = "oracledb_listener_conf resource"
 draft = false
 gh_repo = "inspec"
 platform = "os"
 
 [menu]
   [menu.inspec]
-    title = "oracle_listener_conf"
-    identifier = "inspec/resources/os/oracle_listener_conf.md oracle_listener_conf resource"
+    title = "oracledb_listener_conf"
+    identifier = "inspec/resources/os/oracledb_listener_conf.md oracledb_listener_conf resource"
     parent = "inspec/resources/os"
 +++
 
-Use the `oracle_listener_conf` Chef InSpec audit resource to test the listeners settings of Oracle DB, typically located at `$ORACLE_HOME/network/admin/listener.ora` or `$ORACLE_HOME\network\admin\listener.ora` depending upon the platform.
+Use the `oracledb_listener_conf` Chef InSpec audit resource to test the listeners settings of Oracle DB, typically located at `$ORACLE_HOME/network/admin/listener.ora` or `$ORACLE_HOME\network\admin\listener.ora` depending upon the platform.
 
 ### Installation
 
@@ -23,9 +23,9 @@ You must have sufficient permission to access listener settings defined in `list
 
 ## Syntax
 
-A `oracle_listener_conf` resource block fetches listeners settings in the `listener.ora` file, and then compares them with the value stated in the test:
+A `oracledb_listener_conf` resource block fetches listeners settings in the `listener.ora` file, and then compares them with the value stated in the test:
 
-    describe oracle_listener_conf do
+    describe oracledb_listener_conf do
       its('config item') { should eq 'value' }
     end 
 
@@ -35,7 +35,7 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ### Test parameters set within the listener file
 
-    describe oracle_listener_conf do
+    describe oracledb_listener_conf do
       its('DEFAULT_SERVICE_LISTENER') { should eq 'XE' }
       its('EM_EXPRESS_PORT') { should eq '5500' }
     end 

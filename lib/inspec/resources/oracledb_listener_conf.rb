@@ -1,5 +1,3 @@
-# copyright: 2015, Vulcano Security GmbH
-
 require "inspec/utils/object_traversal"
 require "inspec/utils/simpleconfig"
 require "inspec/utils/find_files"
@@ -7,13 +5,13 @@ require "inspec/utils/file_reader"
 require "inspec/resources/oracle"
 
 module Inspec::Resources
-  class OracleListenerConf < Inspec.resource(1)
-    name "oracle_listener_conf"
+  class OracledbListenerConf < Inspec.resource(1)
+    name "oracledb_listener_conf"
     supports platform: "unix"
     supports platform: "windows"
-    desc "Use the oracle_listener_conf InSpec audit resource to test the listener settings for Oracle DB"
+    desc "Use the oracledb_listener_conf InSpec audit resource to test the listener settings for Oracle DB"
     example <<~EXAMPLE
-      describe oracle_listener_conf do
+      describe oracledb_listener_conf do
         its('DEFAULT_SERVICE_LISTENER') { should eq 'XE' }
       end
     EXAMPLE

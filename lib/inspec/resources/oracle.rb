@@ -1,5 +1,3 @@
-# copyright: 2015, Vulcano Security GmbH
-
 require "inspec/resources/powershell"
 
 module Inspec::Resources
@@ -8,7 +6,7 @@ module Inspec::Resources
     supports platform: "unix"
     supports platform: "windows"
 
-    desc "The 'oracle' resource is a helper for the 'oracle_listener_conf'"
+    desc "The 'oracle' resource is a helper for the 'oracledb_listener_conf'"
 
     attr_reader :conf_path
 

@@ -1,15 +1,13 @@
-# copyright: 2015, Vulcano Security GmbH
-
 require "inspec/resources/oracledb_session"
 
 module Inspec::Resources
-  class OracleDbConf < Inspec.resource(1)
-    name "oracle_db_conf"
+  class OracledbConf < Inspec.resource(1)
+    name "oracledb_conf"
     supports platform: "unix"
     supports platform: "windows"
-    desc "Use the oracle_db_conf InSpec audit resource to test the database settings for Oracle DB"
+    desc "Use the oracledb_conf InSpec audit resource to test the database settings for Oracle DB"
     example <<~EXAMPLE
-      describe oracle_db_conf(user: 'USER', password: 'PASSWORD') do
+      describe oracledb_conf(user: 'USER', password: 'PASSWORD') do
         its("audit_sys_operations") { should cmp "true" }
         its("sql92_security") { should cmp "true" }
       end
