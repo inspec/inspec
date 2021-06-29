@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.38.3 -->
-## [v4.38.3](https://github.com/inspec/inspec/tree/v4.38.3) (2021-06-23)
+<!-- latest_release 4.38.4 -->
+## [v4.38.4](https://github.com/inspec/inspec/tree/v4.38.4) (2021-06-29)
 
 #### Merged Pull Requests
-- Misc updates to the README [#5526](https://github.com/inspec/inspec/pull/5526) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Oracle Session Exception Handling [#5567](https://github.com/inspec/inspec/pull/5567) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.37.30 -->
 ### Changes since 4.37.30 release
 
 #### Merged Pull Requests
+- Oracle Session Exception Handling [#5567](https://github.com/inspec/inspec/pull/5567) ([Nik08](https://github.com/Nik08)) <!-- 4.38.4 -->
 - Misc updates to the README [#5526](https://github.com/inspec/inspec/pull/5526) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.38.3 -->
 - Fix relative links [#5556](https://github.com/inspec/inspec/pull/5556) ([IanMadd](https://github.com/IanMadd)) <!-- 4.38.2 -->
 - Fix AWS secret key environment variable name in docs [#5566](https://github.com/inspec/inspec/pull/5566) ([sandratiffin](https://github.com/sandratiffin)) <!-- 4.38.1 -->
