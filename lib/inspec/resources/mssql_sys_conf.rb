@@ -1,5 +1,3 @@
-# copyright: 2015, Vulcano Security GmbH
-
 require "inspec/resources/mssql_session"
 
 module Inspec::Resources
