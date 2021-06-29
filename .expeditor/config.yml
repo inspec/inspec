@@ -70,7 +70,8 @@ github:
  minor_bump_labels:
   - "Expeditor: Bump Minor Version"
  version_tag_format: v{{version}}
- release_branch:
+
+release_branches:
   - master:
      version_constraint: 4.*
   - 1-stable:
@@ -90,88 +91,88 @@ changelog:
   - "Type: Enhancement": "Enhancements"
   - "Type: Bug": "Bug Fixes"
 
-merge_actions:
- - built_in:bump_version:
-    ignore_labels:
-     - "Expeditor: Skip All"
-     - "Expeditor: Skip Version Bump"
-    only_if_modified:
-     - .expeditor/*
-     - docs-chef-io/*
-     - etc/*
-     - habitat/*
-     - inspec-bin/*
-     - lib/*
-     - omnibus/*
-     - support/*
-     - tasks/*
-     - test/*
-     - Gemfile*
-     - LICENSE
-     - "*.gemspec"
-     - "*.md"
- - bash:.expeditor/update_version.sh:
-    only_if: built_in:bump_version
- - built_in:update_changelog:
-    ignore_labels:
-     - "Expeditor: Skip All"
-     - "Expeditor: Skip Changelog"
- - trigger_pipeline:omnibus/adhoc:
-    not_if: built_in:bump_version
-    ignore_labels:
-     - "Expeditor: Skip Omnibus"
-     - "Expeditor: Skip All"
- - trigger_pipeline:artifact/habitat:
-    only_if: built_in:bump_version
-    ignore_labels:
-     - "Expeditor: Skip Habitat"
-     - "Expeditor: Skip All"
- - trigger_pipeline:omnibus/release:
-    only_if: built_in:bump_version
-    ignore_labels:
-     - "Expeditor: Skip Omnibus"
-     - "Expeditor: Skip All"
- - trigger_pipeline:habitat/build:
-    only_if: built_in:bump_version
-    ignore_labels:
-     - "Expeditor: Skip Habitat"
-     - "Expeditor: Skip All"
- - built_in:build_gem:
-    only_if:
-     - built_in:bump_version
-
 subscriptions:
- - workload: artifact_published:unstable:inspec:{{version_constraint}}
-   actions:
-    - trigger_pipeline:docker/build
-    - bash:.expeditor/buildkite/wwwrelease.sh:
-       post_commit: true
- - workload: artifact_published:current:inspec:{{version_constraint}}
-   actions:
-    - built_in:promote_docker_images
-    - built_in:promote_habitat_packages
- - workload: artifact_published:stable:inspec:{{version_constraint}}
-   actions:
-    - bash:.expeditor/update_dockerfile.sh
-    - built_in:rollover_changelog
-    - built_in:publish_rubygems
-    - built_in:create_github_release
-    - built_in:promote_docker_images
-    - built_in:promote_habitat_packages
-    - bash:.expeditor/publish-release-notes.sh:
-       post_commit: true
-    - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
-       post_commit: true
-    - bash:.expeditor/announce-release.sh:
-       post_commit: true
-    - built_in:notify_chefio_slack_channels
- - workload: pull_request_opened:{{agent_id}}:*
-   actions:
-    - post_github_comment:.expeditor/templates/pull_request.mustache:
-       ignore_team_members:
-        - inspec/owners
-        - inspec/inspec-core-team
-    - built_in:github_auto_assign_author:
-       only_if_team_member:
-        - inspec/owners
-        - inspec/inspec-core-team
+  - workload: pull_request_merged:{{github_repo}}:{{release_branch}}:*
+    actions:
+     - built_in:bump_version:
+        ignore_labels:
+         - "Expeditor: Skip All"
+         - "Expeditor: Skip Version Bump"
+        only_if_modified:
+         - .expeditor/*
+         - docs-chef-io/*
+         - etc/*
+         - habitat/*
+         - inspec-bin/*
+         - lib/*
+         - omnibus/*
+         - support/*
+         - tasks/*
+         - test/*
+         - Gemfile*
+         - LICENSE
+         - "*.gemspec"
+         - "*.md"
+     - bash:.expeditor/update_version.sh:
+        only_if: built_in:bump_version
+     - built_in:update_changelog:
+        ignore_labels:
+         - "Expeditor: Skip All"
+         - "Expeditor: Skip Changelog"
+     - trigger_pipeline:omnibus/adhoc:
+        not_if: built_in:bump_version
+        ignore_labels:
+         - "Expeditor: Skip Omnibus"
+         - "Expeditor: Skip All"
+     - trigger_pipeline:artifact/habitat:
+        only_if: built_in:bump_version
+        ignore_labels:
+         - "Expeditor: Skip Habitat"
+         - "Expeditor: Skip All"
+     - trigger_pipeline:omnibus/release:
+        only_if: built_in:bump_version
+        ignore_labels:
+         - "Expeditor: Skip Omnibus"
+         - "Expeditor: Skip All"
+     - trigger_pipeline:habitat/build:
+        only_if: built_in:bump_version
+        ignore_labels:
+         - "Expeditor: Skip Habitat"
+         - "Expeditor: Skip All"
+     - built_in:build_gem:
+        only_if:
+         - built_in:bump_version
+  - workload: artifact_published:unstable:inspec:{{version_constraint}}
+    actions:
+     - trigger_pipeline:docker/build
+     - bash:.expeditor/buildkite/wwwrelease.sh:
+        post_commit: true
+  - workload: artifact_published:current:inspec:{{version_constraint}}
+    actions:
+     - built_in:promote_docker_images
+     - built_in:promote_habitat_packages
+  - workload: artifact_published:stable:inspec:{{version_constraint}}
+    actions:
+     - bash:.expeditor/update_dockerfile.sh
+     - built_in:rollover_changelog
+     - built_in:publish_rubygems
+     - built_in:create_github_release
+     - built_in:promote_docker_images
+     - built_in:promote_habitat_packages
+     - bash:.expeditor/publish-release-notes.sh:
+        post_commit: true
+     - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
+        post_commit: true
+     - bash:.expeditor/announce-release.sh:
+        post_commit: true
+     - built_in:notify_chefio_slack_channels
+  - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
+    actions:
+     - post_github_comment:.expeditor/templates/pull_request.mustache:
+        ignore_team_members:
+         - inspec/owners
+         - inspec/inspec-core-team
+     - built_in:github_auto_assign_author:
+        only_if_team_member:
+         - inspec/owners
+         - inspec/inspec-core-team
