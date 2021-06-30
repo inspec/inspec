@@ -64,16 +64,16 @@ subscriptions:
          - "Expeditor: Skip All"
   - workload: artifact_published:unstable:inspec:1*
     actions:
-      - built_in:build_docker_image
+     - built_in:build_docker_image
   - workload: artifact_published:current:inspec:1*  
     actions:
-      - built_in:tag_docker_image
+     - built_in:tag_docker_image
   - workload: artifact_published:stable:inspec:1*  
     actions:
-      - built_in:publish_rubygems
-      - built_in:rollover_changelog
-      - built_in:create_github_release
-      - built_in:tag_docker_image
-      - bash:.expeditor/update_dockerfile.sh
-      - built_in:notify_chefio_slack_channels          
+     - built_in:publish_rubygems
+     - built_in:rollover_changelog
+     - built_in:create_github_release
+     - built_in:tag_docker_image
+     - bash:.expeditor/update_dockerfile.sh
+     - built_in:notify_chefio_slack_channels          
 
