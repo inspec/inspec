@@ -12,7 +12,7 @@ module Inspec::Resources
     end
 
     def lines
-      output.split("\n")
+      output.split("\n").map(&:strip)
     end
 
     def to_s
@@ -40,7 +40,7 @@ module Inspec::Resources
       end
     EXAMPLE
 
-    def initialize(user, pass = nil, host = nil, port = nil)
+    def initialize(user, pass, host = nil, port = nil)
       @user = user || "postgres"
       @pass = pass
       @host = host || "localhost"
