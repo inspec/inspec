@@ -23,15 +23,15 @@ github:
     - "Version: Bump Minor"
   version_tag_format: v{{version}}
 
-release_branches::
-    - master:
-        version_constraint: 4.*
-    - 1-stable:
-        version_constraint: 1.*
-    - 2-stable:
-        version_constraint: 2.*
-    - 3-stable:
-        version_constraint: 3.*
+release_branches:
+  - master:
+      version_constraint: 4.*
+  - 1-stable:
+      version_constraint: 1.*
+  - 2-stable:
+      version_constraint: 2.*
+  - 3-stable:
+      version_constraint: 3.*
 
 changelog:
   categories:
