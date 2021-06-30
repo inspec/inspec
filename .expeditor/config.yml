@@ -22,15 +22,16 @@ github:
   minor_bump_labels:
     - "Version: Bump Minor"
   version_tag_format: v{{version}}
-  release_branch:
-    - master:
-        version_constraint: 4.*
-    - 1-stable:
-        version_constraint: 1.*
-    - 2-stable:
-        version_constraint: 2.*
-    - 3-stable:
-        version_constraint: 3.*
+
+release_branches:
+  - master:
+      version_constraint: 4.*
+  - 1-stable:
+      version_constraint: 1.*
+  - 2-stable:
+      version_constraint: 2.*
+  - 3-stable:
+      version_constraint: 3.*
 
 changelog:
   categories:
@@ -39,36 +40,40 @@ changelog:
     - "Type: Enhancement": "Enhancements"
     - "Type: Bug": "Bug Fixes"
 
-merge_actions:
-  - built_in:bump_version:
-      ignore_labels:
-        - "Version: Skip Bump"
-        - "Expeditor: Skip All"
-  - bash:.expeditor/update_version.sh:
-      only_if: built_in:bump_version
-  - built_in:update_changelog:
-      ignore_labels:
-        - "Changelog: Skip Update"
-        - "Expeditor: Skip All"
-  - built_in:trigger_omnibus_release_build:
-      ignore_labels:
-        - "Omnibus: Skip Build"
-        - "Expeditor: Skip All"
-      only_if: built_in:bump_version
-  - built_in:trigger_habitat_package_build:
-      ignore_labels:
-        - "Habitat: Skip Build"
-        - "Expeditor: Skip All"
+subscriptions:
+  - workload: pull_request_merged:{{github_repo}}:{{release_branch}}:*
+    actions:
+     - built_in:bump_version:
+        ignore_labels:
+         - "Version: Skip Bump"
+         - "Expeditor: Skip All"
+     - bash:.expeditor/update_version.sh:
+        only_if: built_in:bump_version
+     - built_in:update_changelog:
+        ignore_labels:
+         - "Changelog: Skip Update"
+         - "Expeditor: Skip All"
+     - built_in:trigger_omnibus_release_build:
+        ignore_labels:
+         - "Omnibus: Skip Build"
+         - "Expeditor: Skip All"
+        only_if: built_in:bump_version
+     - built_in:trigger_habitat_package_build:
+        ignore_labels:
+         - "Habitat: Skip Build"
+         - "Expeditor: Skip All"
+  - workload: artifact_published:unstable:inspec:1*
+    actions:
+     - built_in:build_docker_image
+  - workload: artifact_published:current:inspec:1*  
+    actions:
+     - built_in:tag_docker_image
+  - workload: artifact_published:stable:inspec:1*  
+    actions:
+     - built_in:publish_rubygems
+     - built_in:rollover_changelog
+     - built_in:create_github_release
+     - built_in:tag_docker_image
+     - bash:.expeditor/update_dockerfile.sh
+     - built_in:notify_chefio_slack_channels          
 
-artifact_actions:
-  promoted_to_unstable:
-    - built_in:build_docker_image
-  promoted_to_current:
-    - built_in:tag_docker_image
-  promoted_to_stable:
-    - built_in:publish_rubygems
-    - built_in:rollover_changelog
-    - built_in:create_github_release
-    - built_in:tag_docker_image
-    - bash:.expeditor/update_dockerfile.sh
-    - built_in:notify_chefio_slack_channels
