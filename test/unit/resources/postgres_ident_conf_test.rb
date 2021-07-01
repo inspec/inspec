@@ -5,7 +5,7 @@ require "inspec/resources/directory"
 
 describe "Inspec::Resources::PGIdentConf" do
   describe "PGIdentConf Paramaters" do
-    resource = load_resource("postgres_ident_conf")
+    resource = load_resource("postgres_ident_conf", "C:/Program Files/PostgreSQL/9.5/main/pg_ident.conf")
     it "Verify postgres_ident_conf filtering by `system_username`" do
       entries = resource.where { system_username == "bryanh" }
       _(entries.map_name).must_equal ["omicron"]

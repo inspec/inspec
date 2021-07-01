@@ -153,7 +153,7 @@ class MockLoader
       "database.xml" => mockfile.call("database.xml"),
       "/test/path/to/postgres/pg_hba.conf" => mockfile.call("pg_hba.conf"),
       "/etc/postgresql/9.5/main/pg_ident.conf" => mockfile.call("pg_ident.conf"),
-      "C:/etc/postgresql/9.5/main/pg_ident.conf" => mockfile.call("pg_ident.conf"),
+      "C:/Program Files/PostgreSQL/9.5/main/pg_ident.conf" => mockfile.call("pg_ident.conf"),
       "/etc/postgresql/9.5/main" => mockfile.call("9.5.main"),
       "/var/lib/postgresql/9.5/main" => mockfile.call("var.9.5.main"),
       "/etc/hosts" => mockfile.call("hosts"),
