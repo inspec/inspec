@@ -26,24 +26,37 @@ module Inspec::Resources
     private
 
     def determine_conf_dir_and_path_in_linux
-      oracle_home = inspec.command("echo $ORACLE_HOME").stdout&.chomp
-      if oracle_home.empty?
-        warn "No oracle listener settings found in $ORACLE_HOME/network/admin directory"
+      oracle_home = inspec.command("echo $ORACLE_HOME").stdout.lines.first&.chomp
+      if oracle_home.nil? || oracle_home.empty?
+        warn "$ORACLE_HOME env value not set in the system"
         nil
       else
-        @conf_path = oracle_home + "/network/admin/listener.ora"
+        conf_path = "#{oracle_home}/network/admin/listener.ora"
+        if !inspec.file(conf_path).exist?
+          warn "No oracle listener settings found in $ORACLE_HOME/network/admin directory"
+          nil
+        else
+          @conf_path = conf_path
+        end
       end
     rescue => e
       fail_resource "Errors reading listener settings: #{e}"
     end
 
     def determine_conf_dir_and_path_in_windows
-      oracle_home = inspec.powershell("echo $Env:ORACLE_HOME").stdout&.chomp
-      if oracle_home.empty?
-        warn "No oracle listener settings found in $ORACLE_HOME\\network\\admin directory"
+      oracle_home = inspec.powershell("$Env:ORACLE_HOME").stdout.lines.first&.chomp
+
+      if oracle_home.nil? || oracle_home.empty?
+        warn "ORACLE_HOME env value not set in the system"
         nil
       else
-        @conf_path = oracle_home + "\\network\\admin\\listener.ora"
+        conf_path = "#{oracle_home}\\network\\admin\\listener.ora"
+        if !inspec.file(conf_path).exist?
+          warn "No oracle listener settings found in ORACLE_HOME\\network\\admin directory"
+          nil
+        else
+          @conf_path = conf_path
+        end
       end
     rescue => e
       fail_resource "Errors reading listener settings: #{e}"

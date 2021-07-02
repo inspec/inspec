@@ -486,7 +486,7 @@ class MockLoader
       "sh -c 'type \"sqlplus\"'" => cmd.call("oracle-cmd"),
       "1998da5bc0f09bd5258fad51f45447556572b747f631661831d6fcb49269a448" => cmd.call("oracle-result"),
       "echo $ORACLE_HOME" => cmd.call("fetch-oracle-listener-in-linux"),
-      "echo $Env:ORACLE_HOME" => cmd.call("fetch-oracle-listener-in-windows"),
+      "$Env:ORACLE_HOME" => cmd.call("fetch-oracle-listener-in-windows"),
       # nginx mock cmd
       %{nginx -V 2>&1} => cmd.call("nginx-v"),
       %{/usr/sbin/nginx -V 2>&1} => cmd.call("nginx-v"),

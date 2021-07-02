@@ -20,7 +20,7 @@ This resource is distributed along with Chef InSpec itself. You can use it autom
 ### Requirements
 
 - You must have sufficient permission to access listener settings defined in `listener.ora` file.
-- Value for environment variable `$ORACLE_HOME` should be set in the system.
+- Value for environment variable `ORACLE_HOME` should be set in the system.
 
 ## Syntax
 
