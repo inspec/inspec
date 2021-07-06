@@ -19,9 +19,10 @@ Use the `chrony_conf` Chef InSpec audit resource to test the synchronization set
 
 This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
-### Version
+<!-- TODO: needs version number -->
+<!-- ### Version
 
-This resource first became available in v1.0.0 of InSpec.
+This resource first became available in v of InSpec. -->
 
 ## Syntax
 
