@@ -7,7 +7,7 @@ module Inspec::Resources
   class ChronyConf < Inspec.resource(1)
     name "chrony_conf"
     supports platform: "unix"
-    desc "Use the chrony_conf InSpec audit resource to test the synchronization settings defined in the chrony.conf file. This file is typically located at /etc/ntp.conf."
+    desc "Use the chrony_conf InSpec audit resource to test the synchronization settings defined in the chrony.conf file. This file is typically located at /etc/chrony.conf."
     example <<~EXAMPLE
       describe chrony_conf do
         its('server') { should_not cmp nil }
