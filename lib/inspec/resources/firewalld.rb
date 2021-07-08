@@ -130,10 +130,10 @@ module Inspec::Resources
         "services" => services_bound(zone),
         "sources" => sources_bound(zone),
         "target" => target_bound(zone),
-        "icmp_block_inversion" => icmp_block_inversion_bound(zone),
+        "icmp_block_inversion" => icmp_block_inversion_bound?(zone),
         "ports" => ports_bound(zone),
         "protocols" => protocols_bound(zone),
-        "masquerade" => masquerade_bound(zone),
+        "masquerade" => masquerade_bound?(zone),
         "forward_ports" => forward_ports_bound(zone),
         "source_ports" => source_ports_bound(zone),
         "icmp_blocks" => icmp_blocks_bound(zone),
@@ -147,7 +147,7 @@ module Inspec::Resources
       firewalld_command("--permanent --zone=#{query_zone} --get-target").strip()
     end
 
-    def icmp_block_inversion_bound(query_zone)
+    def icmp_block_inversion_bound?(query_zone)
       # result: true/false whether inversion of icmp blocks has been enabled for a zone
       # example: true
       firewalld_command("--zone=#{query_zone} --query-icmp-block-inversion") == "yes"
@@ -165,7 +165,7 @@ module Inspec::Resources
       firewalld_command("--zone=#{query_zone} --list-protocols").split(" ")
     end
 
-    def masquerade_bound(query_zone)
+    def masquerade_bound?(query_zone)
       # result: true/false whether IPv4 masquerading has been enabled for a zone
       # example: true
       firewalld_command("--zone=#{query_zone} --query-masquerade") == "yes"
