@@ -33,9 +33,6 @@ group :omnibus do
   gem "appbundler"
   gem "ed25519" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
   gem "bcrypt_pbkdf" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
-  if probably_x86?
-    gem "x25519" # ed25519 KEX module, not supported on ARM
-  end
 end
 
 group :test do
