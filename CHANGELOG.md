@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.38.4 -->
-## [v4.38.4](https://github.com/inspec/inspec/tree/v4.38.4) (2021-06-29)
+<!-- latest_release 4.38.5 -->
+## [v4.38.5](https://github.com/inspec/inspec/tree/v4.38.5) (2021-07-08)
 
 #### Merged Pull Requests
-- Oracle Session Exception Handling [#5567](https://github.com/inspec/inspec/pull/5567) ([Nik08](https://github.com/Nik08))
+- Waiver file expiration dates misinterpretation fix [#5586](https://github.com/inspec/inspec/pull/5586) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.38.3 -->
 ### Changes since 4.38.3 release
 
 #### Merged Pull Requests
+- Waiver file expiration dates misinterpretation fix [#5586](https://github.com/inspec/inspec/pull/5586) ([Nik08](https://github.com/Nik08)) <!-- 4.38.5 -->
 - Oracle Session Exception Handling [#5567](https://github.com/inspec/inspec/pull/5567) ([Nik08](https://github.com/Nik08)) <!-- 4.38.4 -->
 <!-- release_rollup -->
 
