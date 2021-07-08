@@ -12,7 +12,7 @@ module Inspec::Resources
     end
 
     def lines
-      output.split("\n")
+      output.split("\n").map(&:strip)
     end
 
     def to_s
@@ -54,7 +54,7 @@ module Inspec::Resources
       raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if resource_failed?
 
       psql_cmd = create_psql_cmd(query, db)
-      cmd = inspec.command(psql_cmd, redact_regex: /(PGPASSWORD=').+(' psql .*)/)
+      cmd = inspec.command(psql_cmd, redact_regex: %r{(:\/\/[a-z]*:).*(@)})
       out = cmd.stdout + "\n" + cmd.stderr
       if cmd.exit_status != 0 || out =~ /could not connect to .*/ || out.downcase =~ /^error:.*/
         raise Inspec::Exceptions::ResourceFailed, "PostgreSQL query with errors: #{out}"
@@ -66,7 +66,7 @@ module Inspec::Resources
     private
 
     def test_connection
-      query("select now()")
+      query("select now()\;")
     end
 
     def escaped_query(query)
@@ -74,8 +74,12 @@ module Inspec::Resources
     end
 
     def create_psql_cmd(query, db = [])
-      dbs = db.map { |x| "-d #{x}" }.join(" ")
-      "PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h #{@host} -p #{@port} -A -t -c #{escaped_query(query)}"
+      dbs = db.map { |x| "#{x}" }.join(" ")
+      if inspec.os.windows?
+        "psql -d postgresql://#{@user}:#{@pass}@#{@host}:#{@port}/#{dbs} -A -t -w -c \"#{query}\""
+      else
+        "psql -d postgresql://#{@user}:#{@pass}@#{@host}:#{@port}/#{dbs} -A -t -w -c #{escaped_query(query)}"
+      end
     end
   end
 end
