@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.38.6 -->
-## [v4.38.6](https://github.com/inspec/inspec/tree/v4.38.6) (2021-07-08)
+<!-- latest_release 4.38.7 -->
+## [v4.38.7](https://github.com/inspec/inspec/tree/v4.38.7) (2021-07-08)
 
 #### Enhancements
-- Remove default port for mssql_session, allowing named connections [#5584](https://github.com/inspec/inspec/pull/5584) ([Nik08](https://github.com/Nik08))
+- Update postgresql resources to normalize it for platform supports  [#5576](https://github.com/inspec/inspec/pull/5576) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.38.3 -->
 ### Changes since 4.38.3 release
 
 #### Enhancements
+- Update postgresql resources to normalize it for platform supports  [#5576](https://github.com/inspec/inspec/pull/5576) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.38.7 -->
 - Remove default port for mssql_session, allowing named connections [#5584](https://github.com/inspec/inspec/pull/5584) ([Nik08](https://github.com/Nik08)) <!-- 4.38.6 -->
 
 #### Merged Pull Requests
