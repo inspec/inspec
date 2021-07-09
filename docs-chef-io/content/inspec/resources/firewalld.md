@@ -40,6 +40,7 @@ Use the where clause to test open interfaces, sources, and services in active zo
       its('interfaces') { should cmp ['enp0s3', 'eno2'] }
       its('sources') { should cmp ['192.168.1.0/24', '192.168.1.2'] }
       its('services') { should cmp ['ssh', 'icmp'] }
+      its('target') { should cmp ['default'] }
     end
 
 ## Properties
@@ -66,6 +67,22 @@ The `services` property is used in conjunction with the where class to display o
 
     describe firewalld.where { zone == 'public' } do
       its('services') { should cmp ['ssh', 'icmp'] }
+    end
+
+### target
+
+The `target` property is used in conjunction with the where class to display the target action in an active zone.
+
+    describe firewalld.where { zone == 'public' } do
+      its('target') { should cmp ['default'] } # or ['DROP'], ['ACCEPT'], etc.
+    end
+
+### icmp_block_inversion
+
+The `icmp_block_inversion` property is used in conjunction with the where class to display whether inversion of icmp blocks has been enabled for a zone.
+
+    describe firewalld.where { zone == 'public' } do
+      its('target') { should cmp ['default'] } # or ['DROP'], ['ACCEPT'], etc.
     end
 
 ### default_zone

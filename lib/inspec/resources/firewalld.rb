@@ -33,14 +33,16 @@ module Inspec::Resources
       .register_column(:sources,    field: "sources")
       .register_column(:services,   field: "services")
       .register_column(:target,   field: "target")
-      .register_column(:icmp_block_inversion?,   field: "icmp_block_inversion")
       .register_column(:ports,   field: "ports")
       .register_column(:protocols,   field: "protocols")
-      .register_column(:masquerade?,   field: "masquerade")
       .register_column(:forward_ports,   field: "forward_ports")
       .register_column(:source_ports,   field: "source_ports")
       .register_column(:icmp_blocks,   field: "icmp_blocks")
       .register_column(:rich_rules,   field: "rich_rules")
+      .register_custom_matcher(:icmp_block_inversion?) { |x| x.params[0]['icmp_block_inversion'] }
+      .register_custom_matcher(:icmp_block_inversion_enabled?) { |x| x.params[0]['icmp_block_inversion'] }
+      .register_custom_matcher(:masquerade?) { |x| x.params[0]['masquerade'] }
+      .register_custom_matcher(:has_masquerade_enabled?) { |x| x.params[0]['masquerade'] }
 
     filter.install_filter_methods_on_resource(self, :params)
 
@@ -96,6 +98,10 @@ module Inspec::Resources
       rule = "rule #{rule}" unless rule.start_with?("rule")
       firewalld_command("--zone=#{query_zone} --query-rich-rule='#{rule}'") == "yes"
     end
+
+    # def has_masquerade_enabled?(query_zone = default_zone)
+    #   masquerade_bound?(query_zone)
+    # end
 
     def to_s
       "Firewall Rules"
@@ -213,7 +219,6 @@ module Inspec::Resources
       if result.stderr != ""
         return "Error on command #{command}: #{result.stderr}"
       end
-
       result.stdout.strip
     end
   end
