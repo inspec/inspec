@@ -9,9 +9,9 @@ module Inspec::Resources
     attr_reader :allow
 
     def initialize(opts={})
-      @url = opts[:url]
-      @data = opts[:data]
-      fail_resource "policy and data are the mandatory for executing OPA." if @url.nil? && @data.nil?
+      @url = opts[:url] || nil
+      @data = opts[:data] || nil
+      fail_resource "OPA url and data are mandatory." if @url.nil? || @data.nil?
       @content = load_result
       super(@content)
     end

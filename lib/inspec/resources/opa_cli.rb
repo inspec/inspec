@@ -9,10 +9,11 @@ module Inspec::Resources
     attr_reader :allow
 
     def initialize(opts = {})
+      @opa_executable_path = opts[:opa_executable_path] || "opa" #if this path is not provided then we will assume that it's been set in the ENV PATH
       @policy = opts[:policy] || nil
       @data = opts[:data] || nil
       @query = opts[:query] || nil
-      fail_resource "policy and data are the mandatory for executing OPA." if @policy.nil? && @data.nil?
+      fail_resource "OPA policy, data and query are mandatory." if @policy.nil? || @data.nil? || @query.nil?
       @content = load_result
       super(@content)
     end
@@ -30,7 +31,7 @@ module Inspec::Resources
     def load_result
       raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if resource_failed?
 
-      result = inspec.command("opa eval -i '#{@data}' -d '#{@policy}' '#{@query}'")
+      result = inspec.command("#{@opa_executable_path} eval -i '#{@data}' -d '#{@policy}' '#{@query}'")
       if result.exit_status == 0
         result.stdout.gsub("\n", "")
       else
