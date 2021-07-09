@@ -60,8 +60,10 @@ Above example shows how `allow` value can be fetched in 2 ways.
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
 
+## Properties
+
 ### allow
 
-The `allow` matcher checks if specific input is as per the policy defined in OPA. If `allow` is not defined in the policy file then this matcher will not work.
+The `allow` property checks if specific input is as per the policy defined in OPA. If `allow` is not defined in the policy file then this matcher will not work.
 
     its('allow') { should eq 'value' }
