@@ -111,8 +111,8 @@ class MockLoader
       "/etc/mysql/my.cnf" => mockfile.call("mysql.conf"),
       "/etc/mysql/mysql2.conf" => mockfile.call("mysql2.conf"),
       "/etc/mongod.conf" => mockfile.call("mongod.conf"),
-      "$ORACLE_HOME/network/admin/listener.ora" => mockfile.call("listener.ora"),
-      "$ORACLE_HOME\\network\\admin\\listener.ora" => mockfile.call("listener.ora"),
+      "/opt/oracle/product/18c/dbhomeXE/network/admin/listener.ora" => mockfile.call("listener.ora"),
+      "C:\\app\\Administrator\\product\\18.0.0\\dbhomeXE\\network\\admin\\listener.ora" => mockfile.call("listener.ora"),
       "/etc/rabbitmq/rabbitmq.config" => mockfile.call("rabbitmq.config"),
       "kitchen.yml" => mockfile.call("kitchen.yml"),
       "example.csv" => mockfile.call("example.csv"),
@@ -485,8 +485,7 @@ class MockLoader
       # oracle
       "sh -c 'type \"sqlplus\"'" => cmd.call("oracle-cmd"),
       "1998da5bc0f09bd5258fad51f45447556572b747f631661831d6fcb49269a448" => cmd.call("oracle-result"),
-      "echo $ORACLE_HOME" => cmd.call("fetch-oracle-listener-in-linux"),
-      "$Env:ORACLE_HOME" => cmd.call("fetch-oracle-listener-in-windows"),
+      "${Env:ORACLE_HOME}" => cmd.call("fetch-oracle-listener-in-windows"),
       # nginx mock cmd
       %{nginx -V 2>&1} => cmd.call("nginx-v"),
       %{/usr/sbin/nginx -V 2>&1} => cmd.call("nginx-v"),

@@ -26,7 +26,8 @@ module Inspec::Resources
     private
 
     def determine_conf_dir_and_path_in_linux
-      oracle_home = inspec.command("echo $ORACLE_HOME").stdout.lines.first&.chomp
+      oracle_home = inspec.os_env("ORACLE_HOME").content
+
       if oracle_home.nil? || oracle_home.empty?
         warn "$ORACLE_HOME env value not set in the system"
         nil
@@ -44,7 +45,7 @@ module Inspec::Resources
     end
 
     def determine_conf_dir_and_path_in_windows
-      oracle_home = inspec.powershell("$Env:ORACLE_HOME").stdout.lines.first&.chomp
+      oracle_home = inspec.os_env("ORACLE_HOME").content
 
       if oracle_home.nil? || oracle_home.empty?
         warn "ORACLE_HOME env value not set in the system"
