@@ -47,7 +47,7 @@ describe "Inspec::Resources::FirewallD" do
 
   it "detects whether ICMP block inversion is enabled in an active zone" do
     entries = cent_resource.where { zone == "public" }
-    _(entries.icmp_block_inversion).must_equal [false]
+    _(entries.icmp_block_inversion?).must_equal [false]
   end
 
   it "detects ports in an active zone" do
@@ -62,7 +62,7 @@ describe "Inspec::Resources::FirewallD" do
 
   it "detects whether IPv4 masquerading is enabled in an active zone" do
     entries = cent_resource.where { zone == "public" }
-    _(entries.masquerade).must_equal [false]
+    _(entries.masquerade?).must_equal [false]
   end
 
   it "detects IPv4 forward ports in an active zone" do
