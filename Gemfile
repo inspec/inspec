@@ -20,14 +20,6 @@ end
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
 
-def probably_x86?
-  # We don't currently build on ARM windows, so assume x86 there
-  return true if RUBY_PLATFORM =~ /windows|mswin|msys|mingw|cygwin/
-
-  # Otherwise rely on uname -m
-  `uname -m`.match?(/^(x86_64|i\d86)/)
-end
-
 group :omnibus do
   gem "rb-readline"
   gem "appbundler"
