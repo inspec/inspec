@@ -49,8 +49,6 @@ This accepts input.json file or input data in json format.
 
 The following examples show how to use this Chef InSpec audit resource.
 
-### Test the key management configuration options
-
     describe opa_api(url: "localhost:8181/v1/data/example/allow", data: "input.json") do
       its(["result"]) { should eq true }
       its("allow") { should eq "true" }

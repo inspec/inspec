@@ -58,8 +58,6 @@ This is the full path to the OPA bindary or exe file used for running opa cli or
 
 The following examples show how to use this Chef InSpec audit resource.
 
-### Test the key management configuration options
-
     describe opa_cli(query: "data.example.allow", policy: "example.rego", data: "input.json", opa_executable_path: "./opa") do
       its(["result", 0, "expressions", 0, "value"]) { should eq true }
       its("allow") { should eq "true" }
