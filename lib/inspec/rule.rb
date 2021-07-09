@@ -360,7 +360,7 @@ module Inspec
         # A string that does not represent a valid time results in the date 0000-01-01.
         if [Date, Time].include?(expiry.class) || (expiry.is_a?(String) && Time.new(expiry).year != 0)
           expiry = expiry.to_time if expiry.is_a? Date
-          expiry = Time.new(expiry) if expiry.is_a? String
+          expiry = Time.parse(expiry) if expiry.is_a? String
           if expiry < Time.now # If the waiver expired, return - no skip applied
             __waiver_data["message"] = "Waiver expired on #{expiry}, evaluating control normally"
             return

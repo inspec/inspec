@@ -1,24 +1,34 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.38.4 -->
-## [v4.38.4](https://github.com/inspec/inspec/tree/v4.38.4) (2021-06-29)
+<!-- latest_release 4.38.7 -->
+## [v4.38.7](https://github.com/inspec/inspec/tree/v4.38.7) (2021-07-08)
 
-#### Merged Pull Requests
-- Oracle Session Exception Handling [#5567](https://github.com/inspec/inspec/pull/5567) ([Nik08](https://github.com/Nik08))
+#### Enhancements
+- Update postgresql resources to normalize it for platform supports  [#5576](https://github.com/inspec/inspec/pull/5576) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup since=4.37.30 -->
-### Changes since 4.37.30 release
+<!-- release_rollup since=4.38.3 -->
+### Changes since 4.38.3 release
+
+#### Enhancements
+- Update postgresql resources to normalize it for platform supports  [#5576](https://github.com/inspec/inspec/pull/5576) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.38.7 -->
+- Remove default port for mssql_session, allowing named connections [#5584](https://github.com/inspec/inspec/pull/5584) ([Nik08](https://github.com/Nik08)) <!-- 4.38.6 -->
 
 #### Merged Pull Requests
+- Waiver file expiration dates misinterpretation fix [#5586](https://github.com/inspec/inspec/pull/5586) ([Nik08](https://github.com/Nik08)) <!-- 4.38.5 -->
 - Oracle Session Exception Handling [#5567](https://github.com/inspec/inspec/pull/5567) ([Nik08](https://github.com/Nik08)) <!-- 4.38.4 -->
-- Misc updates to the README [#5526](https://github.com/inspec/inspec/pull/5526) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.38.3 -->
-- Fix relative links [#5556](https://github.com/inspec/inspec/pull/5556) ([IanMadd](https://github.com/IanMadd)) <!-- 4.38.2 -->
-- Fix AWS secret key environment variable name in docs [#5566](https://github.com/inspec/inspec/pull/5566) ([sandratiffin](https://github.com/sandratiffin)) <!-- 4.38.1 -->
-- Add support for mongodb_conf resource in InSpec [#5562](https://github.com/inspec/inspec/pull/5562) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.38.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.38.3](https://github.com/inspec/inspec/tree/v4.38.3) (2021-07-02)
+
+#### Merged Pull Requests
+- Add support for mongodb_conf resource in InSpec [#5562](https://github.com/inspec/inspec/pull/5562) ([Vasu1105](https://github.com/Vasu1105))
+- Fix AWS secret key environment variable name in docs [#5566](https://github.com/inspec/inspec/pull/5566) ([sandratiffin](https://github.com/sandratiffin))
+- Fix relative links [#5556](https://github.com/inspec/inspec/pull/5556) ([IanMadd](https://github.com/IanMadd))
+- Misc updates to the README [#5526](https://github.com/inspec/inspec/pull/5526) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.37.30](https://github.com/inspec/inspec/tree/v4.37.30) (2021-06-16)
 
 #### Bug Fixes
@@ -29,7 +39,6 @@
 - Fix mysql_session resource to raise exception if there is a error in connection or in query [#5551](https://github.com/inspec/inspec/pull/5551) ([Vasu1105](https://github.com/Vasu1105))
 - Fix postgres_session resource to raise exception if there is a error in connection or in query [#5553](https://github.com/inspec/inspec/pull/5553) ([Vasu1105](https://github.com/Vasu1105))
 - Restrict x25519 gem to x86 architectures [#5564](https://github.com/inspec/inspec/pull/5564) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v4.37.25](https://github.com/inspec/inspec/tree/v4.37.25) (2021-06-10)
 
