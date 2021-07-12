@@ -57,7 +57,7 @@ describe "Inspec::Resources::FirewallD" do
 
   it "detects protocols in an active zone" do
     entries = cent_resource.where { zone == "public" }
-    _(entries.protocols).must_equal [["icmp", "ipv4"]]
+    _(entries.protocols).must_equal [%w{icmp ipv4}]
   end
 
   it "detects whether IPv4 masquerading is enabled in an active zone" do
