@@ -45,6 +45,19 @@ Use the where clause to test open interfaces, sources, and services in active zo
 
 ## Properties
 
+- `interfaces`
+- `sources`
+- `services`
+- `target`
+- `ports`
+- `protocols`
+- `forward_ports`
+- `source_ports`
+- `icmp_blocks`
+- `rich_rules`
+
+## Property Examples
+
 ### interfaces
 
 The `interfaces` property is used in conjunction with the where class to display open interfaces in an active zone.
@@ -77,12 +90,20 @@ The `target` property is used in conjunction with the where class to display the
       its('target') { should cmp ['default'] } # or ['DROP'], ['ACCEPT'], etc.
     end
 
-### icmp_block_inversion
+### ports
 
-The `icmp_block_inversion` property is used in conjunction with the where class to display whether inversion of icmp blocks has been enabled for a zone.
+The `ports` property is used in conjunction with the where class to display the ports used by an active zone.
 
     describe firewalld.where { zone == 'public' } do
-      its('target') { should cmp ['default'] } # or ['DROP'], ['ACCEPT'], etc.
+      its('ports') { should cmp ["80/tcp", "443/tcp"] }
+    end
+
+### protocols
+
+The `protocols` property is used in conjunction with the where class to display the protocols used by an active zone.
+
+    describe firewalld.where { zone == 'public' } do
+      its('protocols') { should cmp ["icmp", "ipv4"] }
     end
 
 ### default_zone
@@ -131,4 +152,16 @@ The `be_running` matcher tests if the firewalld service is running:
 
     it { should have_rule_enabled('family=ipv4 source address=192.168.0.14 accept', 'public') }
 
-It is not necessary to add the "rule" string, and you can start with the optional flags that are used in firewalld and end with the action
+It is not necessary to add the "rule" string, and you can start with the optional flags that are used in firewalld and end with the action.
+
+### `have_icmp_block_inversion_enabled`
+
+`have_icmp_block_inversion_enabled` returns true or false if ICMP block inversion flag is set for the indicated zone.
+
+    it { should have_icmp_block_inversion_enabled }
+
+### `have_masquerade_enabled`
+
+`have_masquerade_enabled` returns true or false if the masquerade flag is set for the indicated zone.
+
+    it { should have_masquerade_enabled }
