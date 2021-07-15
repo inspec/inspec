@@ -9,9 +9,13 @@ class PluginRegistry
   #
   # @param [String] target to resolve
   # @return [Plugin] plugin instance if it can be resolved, nil otherwise
-  def resolve(target)
+  def resolve(target, opts = {})
     modules.each do |m|
-      res = m.resolve(target)
+      res = if [Inspec::Fetcher::Url, Inspec::Fetcher::Git, Supermarket::Fetcher].include? m
+              m.resolve(target, opts)
+            else
+              m.resolve(target)
+            end
       return res unless res.nil?
     end
     nil
