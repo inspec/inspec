@@ -272,8 +272,6 @@ This subcommand has additional options:
     Read configuration from JSON file (`-` reads from stdin).
 * ``--controls=one two three``
     A list of control names to run, or a list of /regexes/ to match against control names. Ignore all other tests.
-* ``--tags=one two three``
-    A list of tags names that are part of controls to filter and run controls, or a list of /regexes/ to match against tags names of controls. Ignore all other tests. And when tag on the control is a hashmap, it only uses values of hashmap for filtering controls.
 * ``--create-lockfile``, ``--no-create-lockfile``
     Write out a lockfile based on this execution (unless one already exists)
 * ``--distinct-exit``, ``--no-distinct-exit``
@@ -338,6 +336,8 @@ This subcommand has additional options:
     Simple targeting option using URIs, e.g. ssh://user:pass@host:port
 * ``--target-id=TARGET_ID``
     Provide a ID which will be included on reports
+* ``--tags=one two three``
+    A list of tags, a list of regular expressions that match tags, or a hash map where each value is a tag. `exec` will run controls referenced by the listed or matching tags.
 * ``--user=USER``
     The login user for a remote scan.
 * ``--vendor-cache=VENDOR_CACHE``
@@ -381,12 +381,12 @@ This subcommand has additional options:
 
 * ``--controls=one two three``
     A list of controls to include. Ignore all other tests.
-* ``--tags=one two three``
-    A list of tags to filter controls and include only those. Ignore all other tests.
 * ``-o``, ``--output=OUTPUT``
     Save the created profile to a path
 * ``--profiles-path=PROFILES_PATH``
     Folder which contains referenced profiles.
+* ``--tags=one two three``
+    A list of tags that reference certain controls. Other controls are ignored.
 * ``--vendor-cache=VENDOR_CACHE``
     Use the given path for caching dependencies. (default: ~/.inspec/cache)
 
