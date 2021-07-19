@@ -19,6 +19,10 @@ Use the `apache_conf` Chef InSpec audit resource to test the configuration setti
 
 This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
+### Requirements
+
+`ServerRoot` should be included in a apache conf file. If not present the included configs will not be accessible to the resource.
+
 ### Version
 
 This resource first became available in v1.0.0 of InSpec.

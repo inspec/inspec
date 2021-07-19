@@ -174,7 +174,7 @@ class MockLoader
       "/etc/selinux/selinux_conf" => mockfile.call("selinux_conf"),
     }
 
-    if @platform[:name] == "ubuntu" && @platform[:release] == "14.04"
+    if @platform[:name] == "ubuntu" && @platform[:release] == "18.04"
       mock_files.merge!(
         "/etc/apache2/apache2.conf" => mockfile.call("apache2.conf")
       )

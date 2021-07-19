@@ -6,7 +6,7 @@ require "hashie"
 describe "Inspec::Resources::ApacheConf" do
   # debian style apache2
   it "reads values in apache2.conf and from Include, IncludeOptional params" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("apache_conf",
+    resource = MockLoader.new(:ubuntu1804).load_resource("apache_conf",
                                                          "/etc/apache2/apache2.conf")
     _(resource.params).must_be_kind_of Hash
     _(resource.content).must_be_kind_of String
