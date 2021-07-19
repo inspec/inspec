@@ -6,9 +6,7 @@ module Inspec::Resources
     supports platform: "unix"
     supports platform: "windows"
 
-    attr_reader :allow
-
-    def initialize(opts={})
+    def initialize(opts = {})
       @url = opts[:url] || nil
       @data = opts[:data] || nil
       fail_resource "OPA url and data are mandatory." if @url.nil? || @url.empty? || @data.nil? || @data.empty?

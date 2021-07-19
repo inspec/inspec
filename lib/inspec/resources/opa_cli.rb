@@ -6,10 +6,8 @@ module Inspec::Resources
     supports platform: "unix"
     supports platform: "windows"
 
-    attr_reader :allow
-
     def initialize(opts = {})
-      @opa_executable_path = opts[:opa_executable_path] || "opa" #if this path is not provided then we will assume that it's been set in the ENV PATH
+      @opa_executable_path = opts[:opa_executable_path] || "opa" # if this path is not provided then we will assume that it's been set in the ENV PATH
       @policy = opts[:policy] || nil
       @data = opts[:data] || nil
       @query = opts[:query] || nil

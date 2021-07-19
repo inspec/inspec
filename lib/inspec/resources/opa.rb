@@ -9,7 +9,7 @@ module Inspec::Resources
     attr_reader :result
     def initialize(content)
       @content = content
-      super({content: @content})
+      super({ content: @content })
     end
 
     private

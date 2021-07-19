@@ -5,7 +5,7 @@ require "inspec/resources/opa_api"
 describe "Inspec::Resources::OpaApi" do
   it "verify opa api query result parsing" do
     resource = load_resource("opa_api", url: "localhost:8181/v1/data/example/violation", data: "v1-data-input.json")
-    _(resource.params["result"]).must_equal ["ci", "busybox"]
+    _(resource.params["result"]).must_equal %w{ ci busybox }
     _(resource.params["result"]).must_include "ci"
   end
 
