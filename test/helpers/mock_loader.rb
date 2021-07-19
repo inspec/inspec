@@ -566,6 +566,8 @@ class MockLoader
       "semodule -lfull" => cmd.call("semodule-lfull"),
       "semanage boolean -l -n" => cmd.call("semanage-boolean"),
       "Get-ChildItem -Path \"C:\\Program Files\\MongoDB\\Server\" -Name" => cmd.call("mongodb-version"),
+      "opa eval -i 'input.json' -d 'example.rego' 'data.example.allow'" => cmd.call("opa-result"),
+      "curl -X POST localhost:8181/v1/data/example/violation -d @v1-data-input.json -H 'Content-Type: application/json'" => cmd.call("opa-api-result")
     }
 
     if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")

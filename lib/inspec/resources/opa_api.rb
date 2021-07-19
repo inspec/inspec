@@ -11,7 +11,7 @@ module Inspec::Resources
     def initialize(opts={})
       @url = opts[:url] || nil
       @data = opts[:data] || nil
-      fail_resource "OPA url and data are mandatory." if @url.nil? || @data.nil?
+      fail_resource "OPA url and data are mandatory." if @url.nil? || @url.empty? || @data.nil? || @data.empty?
       @content = load_result
       super(@content)
     end

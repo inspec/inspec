@@ -13,7 +13,9 @@ module Inspec::Resources
       @policy = opts[:policy] || nil
       @data = opts[:data] || nil
       @query = opts[:query] || nil
-      fail_resource "OPA policy, data and query are mandatory." if @policy.nil? || @data.nil? || @query.nil?
+      if (@policy.nil? || @policy.empty?) || (@data.nil? || @data.empty?) || (@query.nil? || @query.empty?)
+        fail_resource "OPA policy, data and query are mandatory."
+      end
       @content = load_result
       super(@content)
     end
