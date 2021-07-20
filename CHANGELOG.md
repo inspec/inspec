@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.38.7 -->
-## [v4.38.7](https://github.com/inspec/inspec/tree/v4.38.7) (2021-07-08)
+<!-- latest_release 4.38.8 -->
+## [v4.38.8](https://github.com/inspec/inspec/tree/v4.38.8) (2021-07-20)
 
-#### Enhancements
-- Update postgresql resources to normalize it for platform supports  [#5576](https://github.com/inspec/inspec/pull/5576) ([Vasu1105](https://github.com/Vasu1105))
+#### Merged Pull Requests
+- Need to back out x25519 gem as its causing issues for ssh [#5590](https://github.com/inspec/inspec/pull/5590) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.38.3 -->
@@ -15,6 +15,7 @@
 - Remove default port for mssql_session, allowing named connections [#5584](https://github.com/inspec/inspec/pull/5584) ([Nik08](https://github.com/Nik08)) <!-- 4.38.6 -->
 
 #### Merged Pull Requests
+- Need to back out x25519 gem as its causing issues for ssh [#5590](https://github.com/inspec/inspec/pull/5590) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.38.8 -->
 - Waiver file expiration dates misinterpretation fix [#5586](https://github.com/inspec/inspec/pull/5586) ([Nik08](https://github.com/Nik08)) <!-- 4.38.5 -->
 - Oracle Session Exception Handling [#5567](https://github.com/inspec/inspec/pull/5567) ([Nik08](https://github.com/Nik08)) <!-- 4.38.4 -->
 <!-- release_rollup -->
