@@ -174,15 +174,17 @@ class MockLoader
       "/etc/selinux/selinux_conf" => mockfile.call("selinux_conf"),
     }
 
-    if @platform[:name] == "ubuntu" && @platform[:release] == "18.04"
-      mock_files.merge!(
-        "/etc/apache2/apache2.conf" => mockfile.call("apache2.conf")
-      )
-    elsif @platform[:name] == "ubuntu" && @platform[:release] == "15.04"
-      # using this ubuntu version to test apache_conf with non configured server root in conf file
-      mock_files.merge!(
-        "/etc/apache2/apache2.conf" => mockfile.call("apache2_server_root_void.conf")
-      )
+    if @platform
+      if @platform[:name] == "ubuntu" && @platform[:release] == "18.04"
+        mock_files.merge!(
+          "/etc/apache2/apache2.conf" => mockfile.call("apache2.conf")
+        )
+      elsif @platform[:name] == "ubuntu" && @platform[:release] == "15.04"
+        # using this ubuntu version to test apache_conf with non configured server root in conf file
+        mock_files.merge!(
+          "/etc/apache2/apache2.conf" => mockfile.call("apache2_server_root_void.conf")
+        )
+      end
     end
 
     mock.files = mock_files
