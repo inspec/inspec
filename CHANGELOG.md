@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.38.9 -->
+## [v4.38.9](https://github.com/inspec/inspec/tree/v4.38.9) (2021-07-22)
 
 #### Merged Pull Requests
+- Remove mention of AWS tests from README [#5603](https://github.com/inspec/inspec/pull/5603) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Use ruby 2.7.4 [#5602](https://github.com/inspec/inspec/pull/5602) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
@@ -15,6 +16,7 @@
 - Remove default port for mssql_session, allowing named connections [#5584](https://github.com/inspec/inspec/pull/5584) ([Nik08](https://github.com/Nik08)) <!-- 4.38.6 -->
 
 #### Merged Pull Requests
+- Remove mention of AWS tests from README [#5603](https://github.com/inspec/inspec/pull/5603) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.38.9 -->
 - Use ruby 2.7.4 [#5602](https://github.com/inspec/inspec/pull/5602) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.38.8 -->
 - Need to back out x25519 gem as its causing issues for ssh [#5590](https://github.com/inspec/inspec/pull/5590) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.38.8 -->
 - Waiver file expiration dates misinterpretation fix [#5586](https://github.com/inspec/inspec/pull/5586) ([Nik08](https://github.com/Nik08)) <!-- 4.38.5 -->
