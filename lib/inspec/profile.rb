@@ -71,7 +71,7 @@ module Inspec
     def self.for_target(target, opts = {})
       opts[:vendor_cache] ||= Cache.new
       config = {}
-      unless opts[:runner_conf].nil? || opts[:runner_conf].empty?
+      unless opts[:runner_conf].nil?
         config = opts[:runner_conf].respond_to?(:final_options) ? opts[:runner_conf].final_options : opts[:runner_conf]
       end
       fetcher = resolve_target(target, opts[:vendor_cache], config)
