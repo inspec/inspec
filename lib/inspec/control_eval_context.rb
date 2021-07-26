@@ -63,11 +63,11 @@ module Inspec
 
     def control_tags(&block)
       tag_source = block.source.split("\n").select { |src| src.split.first.eql?("tag") }
-      tag_source = tag_source.map { |src| src.sub("tag", "").strip }.map { |src| src.split(",").map { |final_src| final_src.gsub(/([^:]*):/, "") } }.flatten
-      output = tag_source.map { |src| src.gsub(/\[|\]/, "") }.map { |src| instance_eval(src) }
+      tag_source = tag_source.map { |src| src.sub("tag", "").strip }.map { |src| src.split(",").map { |final_src| final_src.sub(/([^:]*):/, "") } }.flatten
+      output = tag_source.map { |src| src.sub(/\[|\]/, "") }.map { |src| instance_eval(src) }
       output.compact.uniq
-    rescue => e
-      raise "Unable to fetch control tags: #{e.class} -- #{e.message}"
+    rescue
+      []
     end
 
     # Describe allows users to write rspec-like bare describe
@@ -85,9 +85,7 @@ module Inspec
         res = describe(*args, &block)
       end
 
-      tag_ids = control_tags(&block)
-
-      if (controls_list_empty? && tags_list_empty?) || control_exist_in_controls_list?(id) || tag_exist_in_control_tags?(tag_ids)
+      if controls_list_empty? || control_exist_in_controls_list?(id)
         register_control(rule, &block)
       end
 
