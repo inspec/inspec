@@ -268,7 +268,37 @@ describe "Inspec::Resources::Service" do
     _(resource.params.UnitFileState).must_equal "static"
   end
 
-  # freebsd
+  # freebsd 9
+  it "verify freebsd9 service parsing" do
+    resource = MockLoader.new(:freebsd9).load_resource("service", "sendmail")
+    params = Hashie::Mash.new({})
+    _(resource.type).must_equal "bsd-init"
+    _(resource.name).must_equal "sendmail"
+    _(resource.description).must_be_nil
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+  end
+
+  it "verify freebsd9 service parsing with default bsd_service" do
+    resource = MockLoader.new(:freebsd9).load_resource("bsd_service", "sendmail")
+    params = Hashie::Mash.new({})
+    _(resource.type).must_equal "bsd-init"
+    _(resource.name).must_equal "sendmail"
+    _(resource.description).must_be_nil
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+  end
+
+  it "verify freebsd9 service parsing when one service is a suffix of another" do
+    resource = MockLoader.new(:freebsd9).load_resource("service", "mail") # "mail" is suffix of "sendmail", which is enabled
+    _(resource.enabled?).must_equal false
+  end
+
+  # freebsd 10+
   it "verify freebsd10 service parsing" do
     resource = MockLoader.new(:freebsd10).load_resource("service", "sendmail")
     params = Hashie::Mash.new({})
