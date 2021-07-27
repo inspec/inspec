@@ -21,7 +21,7 @@ This resource is distributed along with Chef InSpec itself. You can use it autom
 
 ## Syntax
 
-A `mongodb_session` resource block declares the `user`, `password`, 'database' to use for the session, and then the command to be run:
+A `mongodb_session` resource block declares the `user`, `password`, and `database` to use for the session and then the command to be run:
 
   describe mongodb_session(user: "username", password: "password", database: "test").query(key: value) do
     its("params") { should match(/expected-result/) }
@@ -29,62 +29,63 @@ A `mongodb_session` resource block declares the `user`, `password`, 'database' t
 
 where
 
-- `mongodb_session` declares a user, password and database, connecting locally, with permission to run the query.
+- `mongodb_session` declares a user, password, and database, connecting locally, with permission to run the query.
 - `query` contains the query to be run.
 - `its("params") { should eq(/expected-result/) }` compares the results of the query against the expected result in the test
 
 ### Optional Parameters
 
-`mongodb_session` InSpec resource accepts `user`, `password`, `host`, `port`, `auth_source`, `auth_mech`, `ssl`, `ssl_cert`, `ssl_ca_cert`, `auth_mech_properties`.
+The `mongodb_session` InSpec resource accepts `user`, `password`, `host`, `port`, `auth_source`, `auth_mech`, `ssl`, `ssl_cert`, `ssl_ca_cert`, and `auth_mech_properties` parameters.
 
 In Particular:
 
 #### `host`
 
-Defaults to `127.0.0.1`
+The server host IP address. Default value: `127.0.0.1`.
 
 #### `port`
 
-Defaults to `27017`
+The server port. Default value: `27017`.
 
 #### `auth_mech`
 
-Defaults to `:scram`. The available opitions are `:scram256`, `:mongodb_x509`, `:aws`. Refer this [docs](https://docs.mongodb.com/ruby-driver/master/tutorials/ruby-driver-authentication/) for more understanding about these options.
+The authentication mechanism. The available options are: `:scram`, `:scram256`, `:mongodb_x509`, and `:aws`. Default value: `:scram`.
+
+See the MongoDB documentation on [Ruby driver authentication](https://docs.mongodb.com/ruby-driver/current/reference/authentication/) for more information.
 
 #### `auth_source`
 
-Defaults to given database name. `database` name is mandatory.
+The database where the user’s authentication credentials are stored. The default value is the database name that is passed as a parameter to the resource.
 
 #### `ssl`
 
-Defaults to false. Set `true ` to use ssl transport. For ssl realted options also refer to this [docs](https://docs.mongodb.com/ruby-driver/master/tutorials/ruby-driver-authentication/#client-certificate-x-509) for more understanding.
+Whether to use the SSL security protocol or not. Set to `true` to use SSL transport, default value: `false`.  See the MongoDB documentation on [Ruby Driver authentication](https://docs.mongodb.com/ruby-driver/current/reference/authentication/#client-certificate-x-509) for more information.
 
 #### 'ssl_cert'
 
-Path to ssl certificate file.
+Path to the SSL certificate file.
 
 #### `ssl_ca_cert`
 
-Path to ssl ca cert file.
+Path to the SSL Certificate Authority (CA) certificate file.
 
 #### `ssl_key`
 
-Path to ssl key file.
+Path to SSL key file.
 
 #### `auth_mech_properties`
 
-This accepts hash of authetication mechanism properties. This option is generally used with `aws` auth mechanism. Example of this is given in this docs [here](https://docs.mongodb.com/ruby-driver/master/tutorials/ruby-driver-authentication/#aws)
+A hash of the authentication mechanism properties. This option is generally used with the AWS authentication mechanism. See the MongoDB documentation on [Ruby Driver authentication using AWS](https://docs.mongodb.com/ruby-driver/current/reference/authentication/#aws) for more information.
 
-### MongodDB query reference docs
+### MongodDB Query Reference Documentation
 
-This resource is using mongo ruby driver to fetch the data.
-[MongoDB Ruby Driver authentication](https://docs.mongodb.com/ruby-driver/master/tutorials/ruby-driver-authentication/)
+This resource uses the [MongoDB Ruby Driver](https://docs.mongodb.com/ruby-driver/current/reference/authentication/) to fetch the data.
 
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
 
-### Test the roles information using rolesInfo command of MongoDB
+### Test the roles information using the `rolesInfo` command in MongoDB.
 
     describe mongodb_session(user: "foo", password: "bar", database: "test").query(rolesInfo: "dbAdmin").params["roles"].first do
       its(["role"]) { should eq "dbAdmin" }
@@ -96,7 +97,7 @@ The following examples show how to use this Chef InSpec audit resource.
       its(["role"]) { should eq "readWrite" }
     end
 
-### Test the params
+### Test the database parameters.
 
     describe mongodb_session(user: "foo", password: "bar", database: "test").query(rolesInfo: "dbAdmin") do
       its("params") { should_not be_empty }
