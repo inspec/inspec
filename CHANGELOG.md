@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.39.0 -->
-## [v4.39.0](https://github.com/inspec/inspec/tree/v4.39.0) (2021-07-28)
+<!-- latest_release 4.40.0 -->
+## [v4.40.0](https://github.com/inspec/inspec/tree/v4.40.0) (2021-07-28)
 
-#### New Features
-- Add support for OPA: add resource opa_cli and opa_api [#5592](https://github.com/inspec/inspec/pull/5592) ([Vasu1105](https://github.com/Vasu1105))
+#### Merged Pull Requests
+- Add mongodb_session resource and docs. [#5572](https://github.com/inspec/inspec/pull/5572) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.38.9 -->
 ### Changes since 4.38.9 release
+
+#### Merged Pull Requests
+- Add mongodb_session resource and docs. [#5572](https://github.com/inspec/inspec/pull/5572) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.40.0 -->
 
 #### New Features
 - Add support for OPA: add resource opa_cli and opa_api [#5592](https://github.com/inspec/inspec/pull/5592) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.39.0 -->
