@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.39.0 -->
+## [v4.39.0](https://github.com/inspec/inspec/tree/v4.39.0) (2021-07-28)
+
+#### New Features
+- Add support for OPA: add resource opa_cli and opa_api [#5592](https://github.com/inspec/inspec/pull/5592) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.38.9 -->
+### Changes since 4.38.9 release
+
+#### New Features
+- Add support for OPA: add resource opa_cli and opa_api [#5592](https://github.com/inspec/inspec/pull/5592) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.39.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
