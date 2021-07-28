@@ -7,7 +7,7 @@ platform = "os"
 [menu]
   [menu.inspec]
     title = "opa_api"
-    identifier = "inspec/resources/os/opa_api.md mongodb_conf resource"
+    identifier = "inspec/resources/os/opa_api.md opa_api resource"
     parent = "inspec/resources/os"
 +++
 
