@@ -1,0 +1,16 @@
+{
+  "result": [
+    {
+      "expressions": [
+        {
+          "value": false,
+          "text": "data.example.allow",
+          "location": {
+            "row": 1,
+            "col": 1
+          }
+        }
+      ]
+    }
+  ]
+}
