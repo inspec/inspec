@@ -336,6 +336,8 @@ This subcommand has additional options:
     Simple targeting option using URIs, e.g. ssh://user:pass@host:port
 * ``--target-id=TARGET_ID``
     Provide a ID which will be included on reports
+* ``--tags=one two three``
+    A list of tags, a list of regular expressions that match tags, or a hash map where each value is a tag. `exec` will run controls referenced by the listed or matching tags.
 * ``--user=USER``
     The login user for a remote scan.
 * ``--vendor-cache=VENDOR_CACHE``
@@ -383,6 +385,8 @@ This subcommand has additional options:
     Save the created profile to a path
 * ``--profiles-path=PROFILES_PATH``
     Folder which contains referenced profiles.
+* ``--tags=one two three``
+    A list of tags that reference certain controls. Other controls are ignored.
 * ``--vendor-cache=VENDOR_CACHE``
     Use the given path for caching dependencies. (default: ~/.inspec/cache)
 
