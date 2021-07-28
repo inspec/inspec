@@ -43,11 +43,15 @@ module Inspec
       begin
         if (allowed_commands & ARGV.map(&:downcase)).empty? && # Did they use a non-exempt command?
             !ARGV.empty? # Did they supply at least one command?
-          LicenseAcceptance::Acceptor.check_and_persist(
+          license_acceptor_output = LicenseAcceptance::Acceptor.check_and_persist(
             Inspec::Dist::EXEC_NAME,
             Inspec::VERSION,
             logger: Inspec::Log
           )
+          if license_acceptor_output && ARGV.count == 1 && (ARGV.first.include? "--chef-license")
+            Inspec::UI.new.exit
+          end
+          license_acceptor_output
         end
       rescue LicenseAcceptance::LicenseNotAcceptedError
         Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without accepting the license"
