@@ -12,7 +12,7 @@ platform = "os"
 +++
 
 Use the `ibmdb2_session` Chef InSpec audit resource to test SQL commands run against an IBM Db2 database.
-Make sure you are using the database instance user credentials to run the InSpec test.
+Make sure you are using the IBM Db2 database instance user credentials to run the InSpec test.
 
 ## Availability
 
