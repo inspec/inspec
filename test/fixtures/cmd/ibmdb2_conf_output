@@ -1,0 +1,8 @@
+Database Manager Configuration
+
+Node type = Enterprise Server Edition with local and remote clients
+
+Database manager configuration release level            = 0x1500
+
+CPU speed (millisec/instruction)             (CPUSPEED) = 2.952151e-07
+Audit buffer size (4KB)                  (AUDIT_BUF_SZ) = 0
