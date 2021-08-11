@@ -1,5 +1,3 @@
-require "inspec/resources/ibmdb2_conf"
-
 module Inspec::Resources
   class Ibmdb2Conf < Inspec.resource(1)
     name "ibmdb2_conf"

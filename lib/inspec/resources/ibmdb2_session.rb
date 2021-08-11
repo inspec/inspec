@@ -1,5 +1,3 @@
-require "inspec/resources/ibmdb2_session"
-
 module Inspec::Resources
   class Lines
     attr_reader :output, :exit_status
