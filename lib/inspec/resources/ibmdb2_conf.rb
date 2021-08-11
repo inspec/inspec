@@ -29,19 +29,16 @@ module Inspec::Resources
     private
 
     def run_command
-
-      cmd = inspec.command("#{@db2_executable_file_path} attach to #{@db_instance}\;")
+      # attach to the db2 instance and get the configuration
+      cmd = inspec.command("#{@db2_executable_file_path} attach to #{@db_instance}\; #{@db2_executable_file_path} get database manager configuration")
       out = cmd.stdout + "\n" + cmd.stderr
+
       # check if following specific error is there. Sourcing the db2profile to resolve the error.
       if cmd.exit_status != 0 && out =~ /SQL10007N Message "-1390" could not be retrieved.  Reason code: "3"/
-         cmd =  inspec.command(". ~/sqllib/db2profile\; #{@db2_executable_file_path} attach to #{@db_instance}\; #{@db2_executable_file_path} get database manager configuration")
-      elsif cmd.exit_status != 0 || out =~ /Can't connect to IBM Db2 instance/ || out.downcase =~ /^error:.*/
-        raise Inspec::Exceptions::ResourceFailed, "IBM Db2 connection error: #{out}"
-      else
-        cmd = inspec.command("#{@db2_executable_file_path} get database manager configuration")
+        cmd = inspec.command(". ~/sqllib/db2profile\; #{@db2_executable_file_path} attach to #{@db_instance}\; #{@db2_executable_file_path} get database manager configuration")
+        out = cmd.stdout + "\n" + cmd.stderr
       end
 
-      out = cmd.stdout + "\n" + cmd.stderr
       if cmd.exit_status != 0 || out =~ /Can't connect to IBM Db2 server/ || out.downcase =~ /^error:.*/
         raise Inspec::Exceptions::ResourceFailed, "IBM Db2 query with error: #{out}"
       else

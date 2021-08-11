@@ -35,22 +35,18 @@ module Inspec::Resources
     def query(q)
       raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if resource_failed?
 
-      # connect to the db
-      cmd = inspec.command("#{@db2_executable_file_path} attach to #{@db_instance}\; #{@db2_executable_file_path} connect to #{@db_name}\;")
+      # connect to the db and query on the database
+      cmd = inspec.command("#{@db2_executable_file_path} attach to #{@db_instance}\; #{@db2_executable_file_path} connect to #{@db_name}\; #{@db2_executable_file_path} #{q}\;")
       out = cmd.stdout + "\n" + cmd.stderr
+
       # check if following specific error is there. Sourcing the db2profile to resolve the error.
       if cmd.exit_status != 0 && out =~ /SQL10007N Message "-1390" could not be retrieved.  Reason code: "3"/
-         cmd =  inspec.command(". ~/sqllib/db2profile\; #{@db2_executable_file_path} attach to #{@db_instance}\; #{@db2_executable_file_path} connect to #{@db_name}\; #{@db2_executable_file_path} #{q}\;")
-      elsif cmd.exit_status != 0 || out =~ /Can't connect to IBM Db2 / || out.downcase =~ /^error:.*/
-        raise Inspec::Exceptions::ResourceFailed, "IBM Db2 connection error: #{out}"
-      else
-        # query on the database
-        cmd = inspec.command("#{@db2_executable_file_path} #{q}\;")
+        cmd = inspec.command(". ~/sqllib/db2profile\; #{@db2_executable_file_path} attach to #{@db_instance}\; #{@db2_executable_file_path} connect to #{@db_name}\; #{@db2_executable_file_path} #{q}\;")
+        out = cmd.stdout + "\n" + cmd.stderr
       end
 
-      out = cmd.stdout + "\n" + cmd.stderr
-      if cmd.exit_status != 0 || out =~ /Can't connect to IBM Db2 server/ || out.downcase =~ /^error:.*/
-        raise Inspec::Exceptions::ResourceFailed, "IBM Db2 query with error: #{out}"
+      if cmd.exit_status != 0 || out =~ /Can't connect to IBM Db2 / || out.downcase =~ /^error:.*/
+        raise Inspec::Exceptions::ResourceFailed, "IBM Db2 connection error: #{out}"
       else
         Lines.new(cmd.stdout.strip, "IBM Db2 Query: #{q}", cmd.exit_status)
       end

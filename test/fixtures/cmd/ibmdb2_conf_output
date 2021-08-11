@@ -1,3 +1,9 @@
+Instance Attachment Information
+
+Instance server        = DB2/LINUXX8664 11.5.6.0\
+Authorization ID       = DB2INST1\n Local instance alias   = DB2INST1
+
+
 Database Manager Configuration
 
 Node type = Enterprise Server Edition with local and remote clients

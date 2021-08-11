@@ -1,3 +1,16 @@
+Instance Attachment Information
+
+Instance server        = DB2/LINUXX8664 11.5.6.0
+Authorization ID       = DB2INST1\n Local instance alias   = DB2INST1
+
+
+Database Connection Information
+
+Database server        = DB2/LINUXX8664 11.5.6.0
+SQL authorization ID   = DB2INST1
+Local database alias   = SAMPLE
+
+
 ROLENAME                                                                                                      --------------------------------------------------------------------------------------------------------------
 
 SYSTS_ADM
