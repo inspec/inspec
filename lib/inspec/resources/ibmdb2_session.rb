@@ -29,7 +29,7 @@ module Inspec::Resources
 
     def initialize(opts = {})
       @db2_executable_file_path = opts[:db2_executable_file_path]
-      @db_instance =  opts[:db_instance]
+      @db_instance = opts[:db_instance]
       @db_name = opts[:db_name]
       raise Inspec::Exceptions::ResourceFailed, "Can't run IBM DB2 queries without db2_executable_file_path, db_instance, db_name options provided." if @db2_executable_file_path.nil? || @db_instance.nil? || @db_name.nil?
     end

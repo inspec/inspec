@@ -18,8 +18,9 @@ module Inspec::Resources
 
     def initialize(opts = {})
       @db2_executable_file_path = opts[:db2_executable_file_path]
-      @db_instance =  opts[:db_instance]
+      @db_instance = opts[:db_instance]
       raise Inspec::Exceptions::ResourceFailed, "Can't connect to IBM DB2 without db2_executable_file_path, db_instance options provided." if @db2_executable_file_path.nil? || @db_instance.nil?
+
       @output = run_command
     end
 
@@ -41,7 +42,7 @@ module Inspec::Resources
       if cmd.exit_status != 0 || out =~ /Can't connect to IBM Db2 server/ || out.downcase =~ /^error:.*/
         raise Inspec::Exceptions::ResourceFailed, "IBM Db2 query with error: #{out}"
       else
-        cmd.stdout.gsub(/\n/, ",").split(",").reject { |n| n.nil? || n.empty? }.map { |n| n.strip.gsub!(/\s+/, ' ') }
+        cmd.stdout.gsub(/\n/, ",").split(",").reject { |n| n.nil? || n.empty? }.map { |n| n.strip.gsub!(/\s+/, " ") }
       end
     end
   end

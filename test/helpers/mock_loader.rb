@@ -584,7 +584,7 @@ class MockLoader
       "opa eval -i 'input.json' -d 'example.rego' 'data.example.allow'" => cmd.call("opa-result"),
       "curl -X POST localhost:8181/v1/data/example/violation -d @v1-data-input.json -H 'Content-Type: application/json'" => cmd.call("opa-api-result"),
 
-      #ibmdb2
+      # ibmdb2
       "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1;" => cmd.call("ibmdb2_connect_to_instance"),
       "/opt/ibm/db2/V11.5/bin/db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
       "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 connect to sample;" => cmd.call("ibmdb2_db_connect_output"),
