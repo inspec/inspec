@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.41.0 -->
-## [v4.41.0](https://github.com/inspec/inspec/tree/v4.41.0) (2021-07-28)
+<!-- latest_release 4.41.1 -->
+## [v4.41.1](https://github.com/inspec/inspec/tree/v4.41.1) (2021-08-11)
 
-#### Merged Pull Requests
-- Filter active controls in profile by tags [#5596](https://github.com/inspec/inspec/pull/5596) ([Nik08](https://github.com/Nik08))
+#### Bug Fixes
+- Pin mongo gem to 2.13.2 to avoid broken symlink [#5615](https://github.com/inspec/inspec/pull/5615) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.38.9 -->
 ### Changes since 4.38.9 release
+
+#### Bug Fixes
+- Pin mongo gem to 2.13.2 to avoid broken symlink [#5615](https://github.com/inspec/inspec/pull/5615) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.41.1 -->
 
 #### Merged Pull Requests
 - Filter active controls in profile by tags [#5596](https://github.com/inspec/inspec/pull/5596) ([Nik08](https://github.com/Nik08)) <!-- 4.41.0 -->
