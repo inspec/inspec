@@ -587,6 +587,8 @@ class MockLoader
       # ibmdb2
       "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
       "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 connect to sample; /opt/ibm/db2/V11.5/bin/db2 select rolename from syscat.roleauth;" => cmd.call("ibmdb2_query_output"),
+      "set-item -path env:DB2CLP -value \"**$$**\"; db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
+      "set-item -path env:DB2CLP -value \"**$$**\"; db2 connect to sample; db2 select rolename from syscat.roleauth;" => cmd.call("ibmdb2_query_output"),
     }
 
     if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")

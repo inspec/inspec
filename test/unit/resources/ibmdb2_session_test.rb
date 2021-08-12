@@ -21,6 +21,18 @@ describe "Inspec::Resources::ibmdb2_session" do
     _(resource.resource_exception_message).must_equal "Can't run IBM DB2 queries without db2_executable_file_path, db_instance, db_name options provided."
   end
 
+  it "fails when no IBM db2 database name is provided on Windows" do
+    resource = MockLoader.new(:windows).load_resource("ibmdb2_session")
+    _(resource.resource_failed?).must_equal true
+    _(resource.resource_exception_message).must_equal "Can't run IBM DB2 queries without db_name option provided."
+  end
+
+  it "verify ibmdb2_conf on windows" do
+    resource = MockLoader.new(:windows).load_resource("ibmdb2_session", db_name: "sample")
+    _(resource.resource_failed?).must_equal false
+    _(resource.query("select rolename from syscat.roleauth").output).must_match(/SYSTS_ADM/)
+  end
+
   it "returns expected result" do
     resource = load_resource("ibmdb2_session", db2_executable_file_path: "/opt/ibm/db2/V11.5/bin/db2", db_instance: "db2inst1", db_name: "sample")
     _(resource.resource_failed?).must_equal false
