@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.41.1 -->
-## [v4.41.1](https://github.com/inspec/inspec/tree/v4.41.1) (2021-08-11)
+<!-- latest_release unreleased -->
+## Unreleased
 
-#### Bug Fixes
-- Pin mongo gem to 2.13.2 to avoid broken symlink [#5615](https://github.com/inspec/inspec/pull/5615) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Remove empty .gitmodules file [#5616](https://github.com/inspec/inspec/pull/5616) ([tduffield](https://github.com/tduffield))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.38.9 -->
@@ -14,6 +14,7 @@
 - Pin mongo gem to 2.13.2 to avoid broken symlink [#5615](https://github.com/inspec/inspec/pull/5615) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.41.1 -->
 
 #### Merged Pull Requests
+- Remove empty .gitmodules file [#5616](https://github.com/inspec/inspec/pull/5616) ([tduffield](https://github.com/tduffield)) <!-- 4.41.1 -->
 - Filter active controls in profile by tags [#5596](https://github.com/inspec/inspec/pull/5596) ([Nik08](https://github.com/Nik08)) <!-- 4.41.0 -->
 - Add mongodb_session resource and docs. [#5572](https://github.com/inspec/inspec/pull/5572) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.40.0 -->
 
