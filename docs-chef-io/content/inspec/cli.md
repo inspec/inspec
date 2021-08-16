@@ -64,7 +64,7 @@ inspec check PATH
 This subcommand has additional options:
 
 * ``--format=FORMAT``
-
+    The output format to use doc (default), json. If valid format is not provided then it will use the default.
 * ``--profiles-path=PROFILES_PATH``
     Folder which contains referenced profiles.
 * ``--vendor-cache=VENDOR_CACHE``
