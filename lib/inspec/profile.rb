@@ -386,6 +386,34 @@ module Inspec
       res
     end
 
+    def cookstyle_linting_check
+      msgs = []
+      output = cookstyle_rake_output.split("Offenses:").last
+      msgs = output.split("\n").select { |x| (x.include? "R:") || (x.include? "C:") } unless output.nil?
+      msgs
+    end
+
+    # Cookstyle linting rake run output
+    def cookstyle_rake_output
+      require "cookstyle"
+      require "rubocop/rake_task"
+      begin
+        RuboCop::RakeTask.new(:cookstyle_lint) do |spec|
+          spec.options  += ["--display-cop-names", "--parallel"]
+          spec.patterns += Dir.glob("#{@target}/**/*").reject { |f| File.directory?(f) || (f.include? "inspec.lock") }
+          spec.fail_on_error = false
+        end
+      rescue LoadError
+        puts "Rubocop is not available. Install the rubocop gem to run the lint tests."
+      end
+      stdout = StringIO.new
+      $stdout = stdout
+      Rake::Task["cookstyle_lint"].invoke
+      $stdout = STDOUT
+      Rake.application["cookstyle_lint"].reenable
+      stdout.string
+    end
+
     # Check if the profile is internally well-structured. The logger will be
     # used to print information on errors and warnings which are found.
     #
@@ -402,6 +430,7 @@ module Inspec
         },
         errors: [],
         warnings: [],
+        offenses: [],
       }
 
       entry = lambda { |file, line, column, control, msg|
@@ -422,6 +451,10 @@ module Inspec
       error = lambda { |file, line, column, control, msg|
         @logger.error(msg)
         result[:errors].push(entry.call(file, line, column, control, msg))
+      }
+
+      offense = lambda { |file, line, column, control, msg|
+        result[:offenses].push(entry.call(file, line, column, control, msg))
       }
 
       @logger.info "Checking profile in #{@target}"
@@ -486,8 +519,15 @@ module Inspec
         warn.call(sfile, sline, nil, id, "Control #{id} has no tests defined") if control[:checks].nil? || control[:checks].empty?
       end
 
-      # profile is valid if we could not find any error
-      result[:summary][:valid] = result[:errors].empty?
+      # Running cookstyle to check for code offenses
+      cookstyle_linting_check.each do |lint_output|
+        data = lint_output.split(":")
+        msg = "#{data[-2]}:#{data[-1]}"
+        offense.call(data[0], data[1], data[2], nil, msg)
+      end
+
+      # profile is valid if we could not find any error & offenses
+      result[:summary][:valid] = result[:errors].empty? && result[:offenses].empty?
 
       @logger.info "Control definitions OK." if result[:warnings].empty?
       result

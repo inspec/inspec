@@ -124,6 +124,7 @@ describe Inspec::Profile do
         _(result[:summary][:controls]).must_equal 0
         _(result[:errors].length).must_equal 1
         _(result[:warnings].length).must_equal 5
+        _(result[:offenses]).must_be_empty
       end
     end
 
@@ -148,6 +149,7 @@ describe Inspec::Profile do
         _(result[:summary][:controls]).must_equal 0
         _(result[:errors]).must_be_empty
         _(result[:warnings].length).must_equal 1
+        _(result[:offenses]).must_be_empty
       end
     end
 
@@ -171,6 +173,7 @@ describe Inspec::Profile do
         _(result[:summary][:controls]).must_equal 1
         _(result[:errors]).must_be_empty
         _(result[:warnings]).must_be_empty
+        _(result[:offenses]).must_be_empty
       end
     end
 
@@ -196,6 +199,7 @@ describe Inspec::Profile do
         _(result[:summary][:controls]).must_equal 1
         _(result[:errors]).must_be_empty
         _(result[:warnings]).must_be_empty
+        _(result[:offenses]).must_be_empty
       end
     end
 
@@ -221,6 +225,7 @@ describe Inspec::Profile do
         _(result[:summary][:controls]).must_equal 1
         _(result[:errors]).must_be_empty
         _(result[:warnings]).must_be_empty
+        _(result[:offenses]).must_be_empty
       end
     end
 
@@ -246,6 +251,7 @@ describe Inspec::Profile do
         _(result[:summary][:controls]).must_equal 1
         _(result[:errors]).must_be_empty
         _(result[:warnings]).must_be_empty
+        _(result[:offenses]).must_be_empty
       end
     end
 
@@ -272,6 +278,7 @@ describe Inspec::Profile do
         _(result[:summary][:controls]).must_equal 0
         _(result[:errors].length).must_equal 1
         _(result[:warnings].length).must_equal 1
+        _(result[:offenses]).must_be_empty
       end
     end
 
@@ -289,6 +296,7 @@ describe Inspec::Profile do
         logger.verify
         _(result[:warnings]).must_be_empty
         _(result[:errors].length).must_equal 1
+        _(result[:offenses]).must_be_empty
       end
     end
 
@@ -316,6 +324,7 @@ describe Inspec::Profile do
         _(result[:summary][:controls]).must_equal 0
         _(result[:errors]).must_be_empty
         _(result[:warnings].length).must_equal 2
+        _(result[:offenses]).must_be_empty
       end
 
       describe "shows no warning if license is spdx" do
@@ -341,6 +350,7 @@ describe Inspec::Profile do
           _(result[:summary][:controls]).must_equal 0
           _(result[:errors]).must_be_empty
           _(result[:warnings].length).must_equal 1
+          _(result[:offenses]).must_be_empty
         end
       end
 
@@ -367,6 +377,7 @@ describe Inspec::Profile do
           _(result[:summary][:controls]).must_equal 0
           _(result[:errors]).must_be_empty
           _(result[:warnings].length).must_equal 1
+          _(result[:offenses]).must_be_empty
         end
       end
 

@@ -117,4 +117,18 @@ describe "inspec check" do
       assert_exit_code 1, out
     end
   end
+
+  describe "inspec check also check for cookstyle offenses" do
+    it "finds no offenses in a complete profile" do
+      out = inspec("check #{profile_path}/complete-profile")
+      _(out.stdout).must_match(/No errors or warnings or offenses/)
+      assert_exit_code 0, out
+    end
+
+    it "fails and returns offenses in a profile" do
+      out = inspec("check #{profile_path}/control-tags")
+      _(out.stdout).must_match(/29 offenses/)
+      assert_exit_code 1, out
+    end
+  end
 end
