@@ -28,11 +28,17 @@ A `ibmdb2_session` resource block declares the db2_executable_file_path, db_inst
       its("output") { should match(/SYSTS_MGR/) }
     end
 
+Windows
+
+    describe ibmdb2_session(db_name: "sample").query("select rolename from syscat.roleauth") do
+      its("output") { should match(/SYSTS_MGR/) }
+    end
+
 where
 
 - `ibmdb2_session` declares a db2_executable_file_path, db_instance and db_name to connect.
-- `db2_executable_file_path` is the path of the db2 binary file.
-- `db_instance` is the name of the database instance.
+- `db2_executable_file_path` is the path of the db2 binary file. For Windows this is not required.
+- `db_instance` is the name of the database instance. For Windows this is not required.
 - `db_name` is the name of the database to query on.
 - `query('QUERY')` contains the query to be run.
 - `its('output') { should eq(/expected-result/) }` compares the results of the query against the expected result in the test.

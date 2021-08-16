@@ -29,11 +29,18 @@ A `ibmdb2_conf` resource block declares db2_executable_file_path, db_instance to
       its("output") { should include("Audit buffer size (4KB) (AUDIT_BUF_SZ) = 0")}
     end
 
+Windows
+
+    describe ibmdb2_conf do
+      its("output") { should_not be_empty }
+      its("output") { should include("Audit buffer size (4KB) (AUDIT_BUF_SZ) = 0")}
+    end
+
 where
 
 - `ibmdb2_session` declares a db2_executable_file_path, db_instance and db_name to connect.
-- `db2_executable_file_path` is the path of the db2 binary file.
-- `db_instance` is the name of the database instance.
+- `db2_executable_file_path` is the path of the db2 binary file. For Windows this is not required.
+- `db_instance` is the name of the database instance. For Windows this is not required.
 - `its("output") { should include("expected_settings")}` compares the results of the output against the expected result in the test.
 
 ## Examples
