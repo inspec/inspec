@@ -35,7 +35,6 @@ describe "Inspec::Resources::PostgresSession" do
   end
   it "fails when no connection established" do
     resource = load_resource("postgres_session", "postgres", "postgres", "localhost", 5432)
-    _(resource.resource_failed?).must_equal true
-    _(resource.resource_exception_message).must_include "PostgreSQL query with errors"
+    _(proc { resource.send(:query, "Select 5;", ["mydatabase"]) }).must_raise Inspec::Exceptions::ResourceFailed
   end
 end
