@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.41.6 -->
-## [v4.41.6](https://github.com/inspec/inspec/tree/v4.41.6) (2021-08-18)
+<!-- latest_release 4.41.7 -->
+## [v4.41.7](https://github.com/inspec/inspec/tree/v4.41.7) (2021-08-18)
 
 #### Merged Pull Requests
-- Fix `--insecure` not working with profile  [#5600](https://github.com/inspec/inspec/pull/5600) ([Nik08](https://github.com/Nik08))
+- Fix `--chef-license=accept` option to only show license accepted message [#5609](https://github.com/inspec/inspec/pull/5609) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.2 -->
 ### Changes since 4.41.2 release
 
 #### Merged Pull Requests
+- Fix `--chef-license=accept` option to only show license accepted message [#5609](https://github.com/inspec/inspec/pull/5609) ([Nik08](https://github.com/Nik08)) <!-- 4.41.7 -->
 - Fix `--insecure` not working with profile  [#5600](https://github.com/inspec/inspec/pull/5600) ([Nik08](https://github.com/Nik08)) <!-- 4.41.6 -->
 - Fix apache_conf issue when Server Root is not present in configuration [#5601](https://github.com/inspec/inspec/pull/5601) ([Nik08](https://github.com/Nik08)) <!-- 4.41.5 -->
 - Fix range based filtering in filter tables [#5598](https://github.com/inspec/inspec/pull/5598) ([Nik08](https://github.com/Nik08)) <!-- 4.41.4 -->
