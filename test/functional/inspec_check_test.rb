@@ -126,8 +126,8 @@ describe "inspec check" do
     end
 
     it "fails and returns offenses in a profile" do
-      out = inspec("check #{profile_path}/control-tags")
-      _(out.stdout).must_match(/29 offenses/)
+      out = inspec("check #{profile_path}/inputs/metadata-basic")
+      _(out.stdout).must_match(/1 offenses/)
       assert_exit_code 1, out
     end
   end

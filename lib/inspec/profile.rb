@@ -389,7 +389,7 @@ module Inspec
     def cookstyle_linting_check
       msgs = []
       output = cookstyle_rake_output.split("Offenses:").last
-      msgs = output.split("\n").select { |x| (x.include? "R:") || (x.include? "C:") } unless output.nil?
+      msgs = output.split("\n").select { |x| x =~ /[A-Z]:/ } unless output.nil?
       msgs
     end
 
@@ -399,7 +399,11 @@ module Inspec
       require "rubocop/rake_task"
       begin
         RuboCop::RakeTask.new(:cookstyle_lint) do |spec|
-          spec.options  += ["--display-cop-names", "--parallel"]
+          spec.options += [
+            "--display-cop-names",
+            "--parallel",
+            "--only=InSpec/Deprecations,InSpec/Deprecations/AttributeHelper,InSpec/Deprecations/AttributeDefault",
+          ]
           spec.patterns += Dir.glob("#{@target}/**/*").reject { |f| File.directory?(f) || (f.include? "inspec.lock") }
           spec.fail_on_error = false
         end
