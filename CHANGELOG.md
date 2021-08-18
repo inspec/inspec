@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.41.3 -->
-## [v4.41.3](https://github.com/inspec/inspec/tree/v4.41.3) (2021-08-18)
+<!-- latest_release 4.41.4 -->
+## [v4.41.4](https://github.com/inspec/inspec/tree/v4.41.4) (2021-08-18)
 
 #### Merged Pull Requests
-- Build fix for ruby version 2.5 - HTML Proofer gem installation error  [#5610](https://github.com/inspec/inspec/pull/5610) ([Nik08](https://github.com/Nik08))
+- Fix range based filtering in filter tables [#5598](https://github.com/inspec/inspec/pull/5598) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.2 -->
 ### Changes since 4.41.2 release
 
 #### Merged Pull Requests
+- Fix range based filtering in filter tables [#5598](https://github.com/inspec/inspec/pull/5598) ([Nik08](https://github.com/Nik08)) <!-- 4.41.4 -->
 - Build fix for ruby version 2.5 - HTML Proofer gem installation error  [#5610](https://github.com/inspec/inspec/pull/5610) ([Nik08](https://github.com/Nik08)) <!-- 4.41.3 -->
 <!-- release_rollup -->
 
