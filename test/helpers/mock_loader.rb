@@ -88,7 +88,7 @@ class MockLoader
       mockfile.call("emptyfile")
     }
 
-    mock.files = {
+    mock_files = {
       "/proc/net/bonding/bond0" => mockfile.call("bond0"),
       "/etc/ssh/ssh_config" => mockfile.call("ssh_config"),
       "/etc/ssh/sshd_config" => mockfile.call("sshd_config"),
@@ -118,7 +118,6 @@ class MockLoader
       "nonexistent.json" => mockfile.call("nonexistent.json"),
       "/sys/class/net/br0/bridge" => mockdir.call(true),
       "rootwrap.conf" => mockfile.call("rootwrap.conf"),
-      "/etc/apache2/apache2.conf" => mockfile.call("apache2.conf"),
       "/etc/apache2/ports.conf" => mockfile.call("ports.conf"),
       "/etc/httpd/conf/httpd.conf" => mockfile.call("httpd.conf"),
       "/etc/httpd/conf.d/ssl.conf" => mockfile.call("ssl.conf"),
@@ -174,6 +173,21 @@ class MockLoader
       "/etc/postfix/other.cf" => mockfile.call("other.cf"),
       "/etc/selinux/selinux_conf" => mockfile.call("selinux_conf"),
     }
+
+    if @platform
+      if @platform[:name] == "ubuntu" && @platform[:release] == "18.04"
+        mock_files.merge!(
+          "/etc/apache2/apache2.conf" => mockfile.call("apache2.conf")
+        )
+      elsif @platform[:name] == "ubuntu" && @platform[:release] == "15.04"
+        # using this ubuntu version to test apache_conf with non configured server root in conf file
+        mock_files.merge!(
+          "/etc/apache2/apache2.conf" => mockfile.call("apache2_server_root_void.conf")
+        )
+      end
+    end
+
+    mock.files = mock_files
 
     # create all mock commands
     cmd = lambda { |x|
