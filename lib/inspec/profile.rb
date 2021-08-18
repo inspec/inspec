@@ -18,9 +18,9 @@ module Inspec
   class Profile
     extend Forwardable
 
-    def self.resolve_target(target, cache)
+    def self.resolve_target(target, cache, opts = {})
       Inspec::Log.debug "Resolve #{target} into cache #{cache.path}"
-      Inspec::CachedFetcher.new(target, cache)
+      Inspec::CachedFetcher.new(target, cache, opts)
     end
 
     # Check if the profile contains a vendored cache, move content into global cache
@@ -70,7 +70,11 @@ module Inspec
 
     def self.for_target(target, opts = {})
       opts[:vendor_cache] ||= Cache.new
-      fetcher = resolve_target(target, opts[:vendor_cache])
+      config = {}
+      unless opts[:runner_conf].nil?
+        config = opts[:runner_conf].respond_to?(:final_options) ? opts[:runner_conf].final_options : opts[:runner_conf]
+      end
+      fetcher = resolve_target(target, opts[:vendor_cache], config)
       for_fetcher(fetcher, opts)
     end
 
