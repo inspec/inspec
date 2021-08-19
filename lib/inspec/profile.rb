@@ -404,18 +404,23 @@ module Inspec
             "--parallel",
             "--only=InSpec/Deprecations,InSpec/Deprecations/AttributeHelper,InSpec/Deprecations/AttributeDefault",
           ]
-          spec.patterns += Dir.glob("#{@target}/**/*").reject { |f| File.directory?(f) || (f.include? "inspec.lock") }
+          spec.patterns += Dir.glob("#{@target}/**/*.rb").reject { |f| File.directory?(f) }
           spec.fail_on_error = false
         end
       rescue LoadError
         puts "Rubocop is not available. Install the rubocop gem to run the lint tests."
       end
-      stdout = StringIO.new
-      $stdout = stdout
-      Rake::Task["cookstyle_lint"].invoke
-      $stdout = STDOUT
-      Rake.application["cookstyle_lint"].reenable
-      stdout.string
+      begin
+        stdout = StringIO.new
+        $stdout = stdout
+        Rake::Task["cookstyle_lint"].invoke
+        $stdout = STDOUT
+        Rake.application["cookstyle_lint"].reenable
+        stdout.string
+      rescue => e
+        puts "Cookstyle lint checks could not be performed. Error while running cookstyle - #{e}"
+        ""
+      end
     end
 
     # Check if the profile is internally well-structured. The logger will be

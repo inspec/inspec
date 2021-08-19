@@ -155,7 +155,7 @@ describe "example inheritance profile" do
   end
 
   it "use lockfile in tarball" do
-    prepare_examples("meta-profile") do |dir|
+    prepare_profiles("dependencies/inheritance") do |dir|
       # ensure the profile is vendored and packaged as tar
       out = inspec("vendor " + dir + " --overwrite")
 

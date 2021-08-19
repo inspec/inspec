@@ -102,7 +102,7 @@ describe "inspec archive" do
   end
 
   it "vendors dependencies by default" do
-    prepare_examples("meta-profile") do |dir|
+    prepare_profiles("dependencies/inheritance") do |dir|
       out = inspec("archive " + dir + " --output " + dst.path)
 
       _(out.stderr).must_equal ""
