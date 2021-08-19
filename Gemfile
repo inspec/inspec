@@ -30,11 +30,11 @@ end
 group :test do
   gem "chefstyle", "~> 2.0.3"
   gem "concurrent-ruby", "~> 1.0"
-  if Gem.ruby_version.to_s.start_with?("2.5")
-    gem "html-proofer", "= 3.19.1" , platforms: :ruby # do not attempt to run proofer on windows
-  else
-    gem "html-proofer", platforms: :ruby # do not attempt to run proofer on windows
-  end
+  # if Gem.ruby_version.to_s.start_with?("2.5")
+  gem "html-proofer", "= 3.19.1" , platforms: :ruby # do not attempt to run proofer on windows
+  # else
+  #   gem "html-proofer", platforms: :ruby # do not attempt to run proofer on windows
+  # end
   gem "json_schemer", ">= 0.2.1", "< 0.2.19"
   gem "m"
   gem "minitest-sprint", "~> 1.0"
