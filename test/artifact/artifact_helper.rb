@@ -14,8 +14,8 @@ class ArtifactTest < Minitest::Test
     Open3.capture3(env, cmd, opts)
   end
 
-  def assert_artifact(inspec_command)
-    stdout, stderr, status = run_cmd "inspec #{inspec_command} #{TEST_CLI_OPTS}"
+  def assert_artifact(inspec_command, origin = "ci")
+    stdout, stderr, status = run_cmd "hab pkg exec #{origin}/inspec inspec #{inspec_command} #{TEST_CLI_OPTS}"
 
     assert_empty stderr.sub(/#< CLIXML\n/, "")
     assert stdout

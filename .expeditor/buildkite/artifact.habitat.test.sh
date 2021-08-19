@@ -45,17 +45,13 @@ if [ -f ./results/last_build.env ]; then
     export pkg_artifact
 fi
 
+
 echo "+++ Installing ${pkg_ident:?is undefined}"
-hab pkg install -b "${project_root:?is undefined}/results/${pkg_artifact:?is undefined}"
+hab pkg install "${project_root:?is undefined}/results/${pkg_artifact:?is undefined}"
 
 echo "--- Removing world readability from /usr/local/bundle"
 chmod go-w /usr/local/bundle
 
 echo "+++ Testing $PLAN"
-
-PATH="$(hab pkg path ci/inspec)/bin:$PATH"
-export PATH
-echo "PATH is $PATH"
-
 pushd "$project_root/test/artifact"
 rake
