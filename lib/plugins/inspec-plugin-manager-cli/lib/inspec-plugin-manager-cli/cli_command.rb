@@ -397,14 +397,14 @@ module InspecPlugins
         elsif what_we_would_install_is_already_installed && !they_explicitly_asked_for_a_version
           ui.red("Plugin already installed at latest version - plugin " \
                  "#{plugin_name} #{requested_version} - refusing to install.\n")
-        else
-          # There are existing versions installed, but none of them are what was requested
-          ui.red("Update required - plugin #{plugin_name}, requested " \
-                 "#{requested_version}, have " \
-                 "#{pre_installed_versions.join(", ")}; use `inspec " \
-                 "plugin update` - refusing to install.\n")
+          ui.exit Inspec::UI::EXIT_NORMAL
         end
 
+        # There are existing versions installed, but none of them are what was requested
+        ui.red("Update required - plugin #{plugin_name}, requested " \
+               "#{requested_version}, have " \
+               "#{pre_installed_versions.join(", ")}; use `inspec " \
+               "plugin update` - refusing to install.\n")
         ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
       end
 

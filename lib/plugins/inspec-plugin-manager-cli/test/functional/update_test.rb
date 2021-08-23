@@ -46,7 +46,7 @@ class PluginManagerCliUpdate < Minitest::Test
 
     assert_empty update_result.stderr
 
-    assert_exit_code 2, update_result
+    assert_exit_code 0, update_result
   end
 
   def test_fail_update_from_nonexistant_gem
