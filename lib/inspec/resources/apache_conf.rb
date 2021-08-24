@@ -82,7 +82,7 @@ module Inspec::Resources
           end
         end
 
-        @params.merge!(params)
+        @params.merge!(params) { |key, current_val, new_val| [*current_val].to_a + [*new_val].to_a }
 
         to_read = to_read.drop(1)
         to_read += include_files(params).find_all do |fp|
