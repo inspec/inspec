@@ -72,7 +72,7 @@ github:
  version_tag_format: v{{version}}
 
 release_branches:
-  - master:
+  - main:
      version_constraint: 4.*
   - 1-stable:
      version_constraint: 1.*
