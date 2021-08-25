@@ -123,7 +123,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       puts
 
       if result[:errors].empty? && result[:warnings].empty? && result[:offenses].empty?
-        ui.plain_line("No errors or warnings or offenses")
+        ui.plain_line("No errors, warnings, or offenses")
       else
         item_msg = lambda { |item|
           pos = [item[:file], item[:line], item[:column]].compact.join(":")

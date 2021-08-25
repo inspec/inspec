@@ -402,7 +402,7 @@ module Inspec
           spec.options += [
             "--display-cop-names",
             "--parallel",
-            "--only=InSpec/Deprecations,InSpec/Deprecations/AttributeHelper,InSpec/Deprecations/AttributeDefault",
+            "--only=InSpec/Deprecations",
           ]
           spec.patterns += Dir.glob("#{@target}/**/*.rb").reject { |f| File.directory?(f) }
           spec.fail_on_error = false

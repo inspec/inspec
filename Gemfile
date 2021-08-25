@@ -20,9 +20,6 @@ end
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
 
-# checks code offenses with inspec check
-gem "cookstyle"
-
 group :omnibus do
   gem "rb-readline"
   gem "appbundler"
