@@ -46,6 +46,18 @@ This subcommand has additional options:
 * ``--zip``, ``--no-zip``
     Generates a zip archive.
 
+## automate
+
+Communicate with Chef Automate.
+
+### Syntax
+
+This subcommand has the following syntax:
+
+```bash
+inspec automate SUBCOMMAND
+```
+
 ## check
 
 Verify metadata in inspec.yml. Verify control data has fields (title, description,
@@ -363,6 +375,30 @@ This subcommand has the following syntax:
 inspec help [COMMAND]
 ```
 
+## habitat
+
+Create Chef Habitat package
+
+### Syntax
+
+This subcommand has the following syntax:
+
+```bash
+inspec habitat SUBCOMMAND
+```
+
+## init
+
+Scaffold a new project
+
+### Syntax
+
+This subcommand has the following syntax:
+
+```bash
+inspec init TEMPLATE
+```
+
 ## json
 
 Read all tests in path and generate a json summary
@@ -400,6 +436,18 @@ This subcommand has the following syntax:
 
 ```bash
 inspec nothing
+```
+
+## plugin
+
+Install and manage plugin
+
+### Syntax
+
+This subcommand has the following syntax:
+
+```bash
+inspec plugin SUBCOMMAND
 ```
 
 ## schema
