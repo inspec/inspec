@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.41.10 -->
-## [v4.41.10](https://github.com/inspec/inspec/tree/v4.41.10) (2021-08-24)
+<!-- latest_release 4.41.11 -->
+## [v4.41.11](https://github.com/inspec/inspec/tree/v4.41.11) (2021-08-27)
 
 #### Merged Pull Requests
-- Add aliyun3 support to service resource [#5578](https://github.com/inspec/inspec/pull/5578) ([elsnepal](https://github.com/elsnepal))
+- Fedora runtime support documented [#5628](https://github.com/inspec/inspec/pull/5628) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.2 -->
 ### Changes since 4.41.2 release
 
 #### Merged Pull Requests
+- Fedora runtime support documented [#5628](https://github.com/inspec/inspec/pull/5628) ([Nik08](https://github.com/Nik08)) <!-- 4.41.11 -->
 - Add aliyun3 support to service resource [#5578](https://github.com/inspec/inspec/pull/5578) ([elsnepal](https://github.com/elsnepal)) <!-- 4.41.10 -->
 - Fix merging of included conf and main conf params in apache conf  [#5623](https://github.com/inspec/inspec/pull/5623) ([Nik08](https://github.com/Nik08)) <!-- 4.41.9 -->
 - Fix postgres_session error Unable to connect to database [#5619](https://github.com/inspec/inspec/pull/5619) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.41.8 -->
