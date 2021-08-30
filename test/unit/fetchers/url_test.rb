@@ -72,7 +72,7 @@ describe Inspec::Fetcher::Url do
              res = Inspec::Fetcher::Url.resolve(github)
              res.expects(:open).returns(mock_open)
              _(res).wont_be_nil
-             _(res.resolved_source).must_equal({ url: "https://github.com/chef/inspec/archive/master.tar.gz", sha256: expected_shasum })
+             _(res.resolved_source).must_equal({ url: "https://github.com/chef/inspec/archive/main.tar.gz", sha256: expected_shasum })
            end
          end
        end
@@ -119,7 +119,7 @@ describe Inspec::Fetcher::Url do
              res = Inspec::Fetcher::Url.resolve(bitbucket)
              res.expects(:open).returns(mock_open)
              _(res).wont_be_nil
-             _(res.resolved_source).must_equal({ url: "https://bitbucket.org/chef/inspec/get/master.tar.gz", sha256: expected_shasum })
+             _(res.resolved_source).must_equal({ url: "https://bitbucket.org/chef/inspec/get/main.tar.gz", sha256: expected_shasum })
            end
          end
        end

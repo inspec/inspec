@@ -44,11 +44,17 @@ module Inspec::Fetcher
     #  - Branch URL
     #  - Commit URL
     #
-    # master url:
+    # master url(default branch master):
     # https://github.com/nathenharvey/tmp_compliance_profile/ is transformed to
     # https://github.com/nathenharvey/tmp_compliance_profile/archive/master.tar.gz
     # https://bitbucket.org/username/repo is transformed to
     # https://bitbucket.org/username/repo/get/master.tar.gz
+
+    # main url(default branch main):
+    # https://github.com/nathenharvey/tmp_compliance_profile/ is transformed to
+    # https://github.com/nathenharvey/tmp_compliance_profile/archive/main.tar.gz
+    # https://bitbucket.org/username/repo is transformed to
+    # https://bitbucket.org/username/repo/get/main.tar.gz
     #
     # branch:
     # https://github.com/hardening-io/tests-os-hardening/tree/2.0 is transformed to
@@ -71,11 +77,13 @@ module Inspec::Fetcher
 
     def self.transform(target)
       transformed_target = if m = GITHUB_URL_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
-                             "https://github.com/#{m[:user]}/#{m[:repo]}/archive/master.tar.gz"
+                             default_branch = default_ref(m)
+                             "https://github.com/#{m[:user]}/#{m[:repo]}/archive/#{default_branch}.tar.gz"
                            elsif m = GITHUB_URL_WITH_TREE_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
                              "https://github.com/#{m[:user]}/#{m[:repo]}/archive/#{m[:commit]}.tar.gz"
                            elsif m = BITBUCKET_URL_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
-                             "https://bitbucket.org/#{m[:user]}/#{m[:repo]}/get/master.tar.gz"
+                             default_branch = default_ref(m)
+                             "https://bitbucket.org/#{m[:user]}/#{m[:repo]}/get/#{default_branch}.tar.gz"
                            elsif m = BITBUCKET_URL_BRANCH_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
                              "https://bitbucket.org/#{m[:user]}/#{m[:repo]}/get/#{m[:branch]}.tar.gz"
                            elsif m = BITBUCKET_URL_COMMIT_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
@@ -119,6 +127,38 @@ module Inspec::Fetcher
     end
 
     private
+
+    class << self
+      def default_ref(match_data)
+        remote_url = "https://github.com/#{match_data[:user]}/#{match_data[:repo]}.git"
+        command_string = "git remote show #{remote_url}"
+        cmd = shellout(command_string)
+        unless cmd.exitstatus == 0
+          raise(Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{remote_url} - error running '#{command_string}': #{cmd.stderr}")
+        else
+          ref = cmd.stdout.lines.detect { |l| l.include? "HEAD branch:" }&.split(":")&.last&.strip
+          unless ref
+            raise(Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{remote_url} - error running '#{command_string}': NULL reference")
+          end
+
+          ref
+        end
+      end
+
+      def shellout(cmd, opts = {})
+        Inspec::Log.debug("Running external command: #{cmd} (#{opts})")
+        cmd = Mixlib::ShellOut.new(cmd, opts)
+        cmd.run_command
+        Inspec::Log.debug("External command: completed with exit status: #{cmd.exitstatus}")
+        Inspec::Log.debug("External command: STDOUT BEGIN")
+        Inspec::Log.debug(cmd.stdout)
+        Inspec::Log.debug("External command: STDOUT END")
+        Inspec::Log.debug("External command: STDERR BEGIN")
+        Inspec::Log.debug(cmd.stderr)
+        Inspec::Log.debug("External command: STDERR END")
+        cmd
+      end
+    end
 
     def parse_uri(target)
       return URI.parse(target) if target.is_a?(String)
