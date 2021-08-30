@@ -104,9 +104,9 @@ may be used as Titlecase (as in the AWS examples) or lowercase, string or symbol
 
 Please note the following about the behavior of `have_statement`:
 
-- `Action`, `Sid`, and `Resource` allow using a regular expression as the search critera instead of a string literal.
+- `Action`, `Sid`, and `Resource` allow using a regular expression as the search criteria instead of a string literal.
 - it does not support wildcard expansion; to check for a wildcard value, check for it explicitly. For example, if the policy includes a statement with `"Action": "s3:*"` and the test checks for `Action: "s3:PutObject"`, the test _will not match_. You must write an additional test checking for the wildcard case.
-- it supports searching list values. For example, if a statement contains a list of 3 resources, and a `have_statement` test specifes _one_ of those resources, it will match.
+- it supports searching list values. For example, if a statement contains a list of 3 resources, and a `have_statement` test specifies _one_ of those resources, it will match.
 - `Action` and `Resource` allow using a list of string literals or regular expressions in a test, in which case _all_ must match on the _same_ statement for the test to match. Order is ignored.
 - it does not support the `[Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal)` or `Conditional` key, or any of `NotAction`, `Not[Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal)`, or `NotResource`.
 

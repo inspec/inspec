@@ -275,7 +275,7 @@ Some notes about `only_if`:
   block evaluate to false, any Chef InSpec resources mentioned as part of a
   `describe` block will not be run. Additionally, the contents of the describe
   blocks will not be run. However, bare Ruby expressions and bare Chef InSpec
-  resources (not assocated with a describe block) preceding the only_if statement
+  resources (not associated with a describe block) preceding the only_if statement
   will run
 
 To illustrate:

@@ -68,7 +68,7 @@ For a comprehensive list of properties available to test on an RDS cluster see t
       its('status') { should eq 'available' }
     end
 
-### Test the maximum and minumum capacity of a serverless RDS cluster
+### Test the maximum and minimum capacity of a serverless RDS cluster
 
     describe aws_rds_cluster(db_cluster_identifier: 'awsrds123') do
       its('scaling_configuration_info.min_capacity') { should eq 2 }

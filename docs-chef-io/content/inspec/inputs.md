@@ -322,7 +322,7 @@ quotes.
 
 ```yaml
 inspec exec my_profile --input alphabet='[a,b,c]'
-inspec exec my_profile --input fruits='{a: apples, b: bananas, c: cantelopes}'
+inspec exec my_profile --input fruits='{a: apples, b: bananas, c: cantaloupes}'
 inspec exec my_profile --input json_fruit='{"a": "apples", "g": ["grape01", "grape02"] }'
 ```
 
