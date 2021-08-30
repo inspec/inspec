@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.41.14 -->
-## [v4.41.14](https://github.com/inspec/inspec/tree/v4.41.14) (2021-08-30)
+<!-- latest_release 4.41.15 -->
+## [v4.41.15](https://github.com/inspec/inspec/tree/v4.41.15) (2021-08-30)
 
 #### Merged Pull Requests
-- Updated security_policy resource docs [#5633](https://github.com/inspec/inspec/pull/5633) ([Vasu1105](https://github.com/Vasu1105))
+- Added info about the Minitest framework in contributing doc [#5630](https://github.com/inspec/inspec/pull/5630) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.2 -->
 ### Changes since 4.41.2 release
 
 #### Merged Pull Requests
+- Added info about the Minitest framework in contributing doc [#5630](https://github.com/inspec/inspec/pull/5630) ([Nik08](https://github.com/Nik08)) <!-- 4.41.15 -->
 - Updated security_policy resource docs [#5633](https://github.com/inspec/inspec/pull/5633) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.41.14 -->
 - Replace use of wmic from security_identifier resource as it will be deprecated soon [#5636](https://github.com/inspec/inspec/pull/5636) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.41.13 -->
 - Updated inspec-aws git url to replace branch to master to main [#5637](https://github.com/inspec/inspec/pull/5637) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.41.12 -->
