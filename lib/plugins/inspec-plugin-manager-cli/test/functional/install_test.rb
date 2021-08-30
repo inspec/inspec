@@ -8,7 +8,7 @@ class PluginManagerCliInstall < Minitest::Test
 
   include PluginManagerHelpers
   ruby_abi_version = (Gem.ruby_version.segments[0, 2] << 0).join(".")
-  # Test multiple hueristics of the path-mode install.
+  # Test multiple heuristics of the path-mode install.
   # These are all positive tests; they should resolve the entry point to the same path in each case.
   {
     "is_perfect" => {
@@ -66,7 +66,7 @@ class PluginManagerCliInstall < Minitest::Test
     end
   end
 
-  def test_fail_install_from_nonexistant_path
+  def test_fail_install_from_nonexistent_path
     bad_path = File.join(project_fixtures_path, "none", "such", "inspec-test-fixture-nonesuch.rb")
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
 
@@ -166,7 +166,7 @@ class PluginManagerCliInstall < Minitest::Test
     assert_exit_code 0, install_result
   end
 
-  def test_fail_install_from_nonexistant_gemfile
+  def test_fail_install_from_nonexistent_gemfile
     bad_path = File.join(project_fixtures_path, "none", "such", "inspec-test-fixture-nonesuch-0.3.0.gem")
     install_result = run_inspec_process_with_this_plugin("plugin install #{bad_path}")
 
@@ -195,7 +195,7 @@ class PluginManagerCliInstall < Minitest::Test
     assert_exit_code 0, install_result
   end
 
-  def test_fail_install_from_nonexistant_remote_rubygem
+  def test_fail_install_from_nonexistent_remote_rubygem
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture-nonesuch")
 
     assert_match(/No such plugin gem .+ could be found on rubygems.org - installation failed./, install_result.stdout)
@@ -224,7 +224,7 @@ class PluginManagerCliInstall < Minitest::Test
     assert_exit_code 0, install_result
   end
 
-  def test_fail_install_from_nonexistant_rubygem_version
+  def test_fail_install_from_nonexistent_rubygem_version
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture -v 99.99.99")
 
     fail_message = install_result.stdout.split("\n").grep(/failed/).last

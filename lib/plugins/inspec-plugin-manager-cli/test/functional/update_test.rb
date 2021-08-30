@@ -49,7 +49,7 @@ class PluginManagerCliUpdate < Minitest::Test
     assert_exit_code 0, update_result
   end
 
-  def test_fail_update_from_nonexistant_gem
+  def test_fail_update_from_nonexistent_gem
     update_result = run_inspec_process_with_this_plugin("plugin update inspec-test-fixture-nonesuch")
 
     assert_match(/No such plugin installed:.+ - update failed/, update_result.stdout)

@@ -86,7 +86,7 @@ class AwsIamAccessKey < Inspec.resource(1)
     end
 
     if access_keys.count > 1
-      raise "More than one access key matched for aws_iam_access_key.  Use more specific paramaters, such as access_key_id."
+      raise "More than one access key matched for aws_iam_access_key.  Use more specific parameters, such as access_key_id."
     end
 
     @exists = true

@@ -22,11 +22,11 @@ describe "Inspec::Resources::JSON" do
       _(resource.send("run_list")).must_equal %w{a b}
     end
 
-    it "doesnt resolve dot-notation names" do
+    it "doesn't resolve dot-notation names" do
       _(resource.send("x.y.z")).must_be_nil
     end
 
-    it "doesnt resolve symbol-notation names" do
+    it "doesn't resolve symbol-notation names" do
       _(resource.send(:'x.y.z')).must_be_nil
     end
 

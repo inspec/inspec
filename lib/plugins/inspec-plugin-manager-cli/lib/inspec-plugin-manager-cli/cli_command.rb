@@ -434,7 +434,7 @@ module InspecPlugins
                  "version #{options[:version]} found on #{source_host} - " \
                  "installation failed.\n")
         else
-          ui.red("Unknown error occured - installation failed.\n")
+          ui.red("Unknown error occurred - installation failed.\n")
         end
         ui.exit Inspec::UI::EXIT_USAGE_ERROR
       end
@@ -458,7 +458,7 @@ module InspecPlugins
           end
         end
 
-        # Check for latest version (and implicitly, existance)
+        # Check for latest version (and implicitly, existence)
         latest_version = installer.search(plugin_name, exact: true, scope: :latest)
         latest_version = latest_version[plugin_name]&.last
 

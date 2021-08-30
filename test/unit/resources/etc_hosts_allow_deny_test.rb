@@ -53,7 +53,7 @@ describe "Inspec::Resources::EtcHostsAllow" do
 end
 
 describe "Inspec::Resources::EtcHostsDeny" do
-  describe "EtcHostsDeny Paramaters" do
+  describe "EtcHostsDeny Parameters" do
     resource = load_resource("etc_hosts_deny")
     it "Verify etc_hosts_deny filtering by `daemon`" do
       entries = resource.where { daemon == "ALL" }
