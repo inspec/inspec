@@ -131,7 +131,7 @@ class PluginManagerCliInstall < Minitest::Test
 
     assert_empty install_result.stderr
 
-    assert_exit_code 2, install_result
+    assert_exit_code 0, install_result
   end
 
   def test_fail_install_from_path_when_the_dir_structure_is_wrong
@@ -268,7 +268,7 @@ class PluginManagerCliInstall < Minitest::Test
 
     assert_empty install_result.stderr
 
-    assert_exit_code 2, install_result
+    assert_exit_code 0, install_result
   end
 
   def test_refuse_install_when_already_installed_can_update
