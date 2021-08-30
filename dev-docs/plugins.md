@@ -4,7 +4,7 @@
 
 ### Inspiration
 
-The software design of the Chef InSpec Plugin v2 API is deeply inspired by the Vagrant plugin v2 system. While the Chef InSpec Plugin v2 system is an independent implementation, acknowledgements are due to the Hashicorp team for such a well-thought-out design.
+The software design of the Chef InSpec Plugin v2 API is deeply inspired by the Vagrant plugin v2 system. While the Chef InSpec Plugin v2 system is an independent implementation, acknowledgements are due to the HashiCorp team for such a well-thought-out design.
 
 ### Note About versions
 

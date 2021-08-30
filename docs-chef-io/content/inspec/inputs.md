@@ -62,7 +62,7 @@ That result clearly won't do. Let's override the input's default value.
 
 We can now run that profile with `inspec exec rock_critic --input amplifier_max_volume=11`:
 
-```
+```text
   ✔  Big Rock Show: 11
      ✔  11 is expected to cmp == 11
 

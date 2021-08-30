@@ -54,7 +54,7 @@ So, if you have a control file with `title` in it, that will call the title meth
 
 ### Each control get registered as rule.
 
-Each control gets registerd and the terminology switches from `control` to `rule` [here](https://github.com/inspec/inspec/blob/master/lib/inspec/control_eval_context.rb#L57)
+Each control gets registered and the terminology switches from `control` to `rule` [here](https://github.com/inspec/inspec/blob/master/lib/inspec/control_eval_context.rb#L57)
 
 The control context class also gets extended with the resource DSL, so anything in the source code for the control can use the resource DSL.  This includes all resource names, but importantly, the `describe` DSL keyword.
 
