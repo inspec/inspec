@@ -9,6 +9,6 @@ version: 0.1.0
 inspec_version: '>= 2.2.7'
 depends:
 - name: inspec-azure
-  url: https://github.com/inspec/inspec-azure/archive/master.tar.gz
+  url: https://github.com/inspec/inspec-azure/archive/main.tar.gz
 supports:
 - platform: azure
