@@ -3,10 +3,8 @@ require "inspec/resource"
 require "inspec/resources/windows_hotfix"
 
 describe "Inspec::Resources::WindowsHotfix" do
-
-  # ubuntu 14.04
   it "fail windows_hotfix fails on ubuntu" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("windows_hotfix", "KB4019215")
+    resource = MockLoader.new(:ubuntu1804).load_resource("windows_hotfix", "KB4019215")
     _(resource.installed?).must_equal false
   end
 
