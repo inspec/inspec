@@ -1,6 +1,6 @@
 control "basic" do
   tag "tag1"
-  tag :special, :special1
+  tag :symbol_key1, :symbol_key2
   tag severity: nil
   tag data: "tag2"
   tag data_arr: ["tag3", "tag4"]

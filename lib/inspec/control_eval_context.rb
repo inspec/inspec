@@ -57,6 +57,7 @@ module Inspec
         register_control(Inspec::Rule.new(id, profile_id, resources_dsl, opts, &block))
       elsif !tags_list_empty?
         # Inside elsif rule is initialised before registering it because it enables fetching of control tags
+        # This condition is only true when --tags option is used
         inspec_rule = Inspec::Rule.new(id, profile_id, resources_dsl, opts, &block)
         tag_ids = control_tags(inspec_rule)
         register_control(inspec_rule) if tag_exist_in_control_tags?(tag_ids)
@@ -68,7 +69,8 @@ module Inspec
     def control_tags(inspec_rule)
       all_tags = []
       inspec_rule.tag.each do |key, value|
-        value.nil? ? all_tags.push(key) : all_tags.push(value)
+        all_tags.push(key)
+        all_tags.push(value) unless value.nil?
       end
       all_tags.flatten.compact.uniq.map(&:to_s)
     rescue
