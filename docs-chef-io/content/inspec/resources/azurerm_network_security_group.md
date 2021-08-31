@@ -99,21 +99,21 @@ The default_security_rules property contains the set of Default Security Rules.
 
 ### allow_ssh_from_internet
 
-The allow_ssh_from_internet property contains a boolean value determined by analysing
+The allow_ssh_from_internet property contains a boolean value determined by analyzing
 the Security Rules and Default Security Rules for unrestricted SSH access.
 
     it { should_not allow_ssh_from_internet }
 
 ### allow_rdp_from_internet
 
-The allow_rdp_from_internet property contains a boolean value determined by analysing
+The allow_rdp_from_internet property contains a boolean value determined by analyzing
 the Security Rules and Default Security Rules for unrestricted RDP access.
 
     it { should_not allow_rdp_from_internet }
 
 ### allow\port_from_internet
 
-The allow_port_from_internet property contains a boolean value determined by analysing
+The allow_port_from_internet property contains a boolean value determined by analyzing
 the Security Rules and Default Security Rules for unrestricted access to a specified port.
 
     it { should_not allow_port_from_internet('443') }

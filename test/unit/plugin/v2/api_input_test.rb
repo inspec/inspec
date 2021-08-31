@@ -4,7 +4,7 @@ require "inspec/plugin/v2"
 
 describe "Input plugin type" do
   describe "when registering the plugin type superclass" do
-    it "returns the superclass when calling the global defintion method" do
+    it "returns the superclass when calling the global definition method" do
       klass = Inspec.plugin(2, :input)
       _(klass).must_be_kind_of Class
       _(klass).must_equal Inspec::Plugin::V2::PluginType::Input

@@ -51,7 +51,7 @@ class AwsCloudTrailTrailRecallTest < Minitest::Test
   end
 
   def test_search_miss_is_not_an_exception
-    refute AwsCloudTrailTrail.new(trail_name: "non-existant").exists?
+    refute AwsCloudTrailTrail.new(trail_name: "non-existent").exists?
   end
 end
 
@@ -66,37 +66,37 @@ class AwsCloudTrailTrailPropertiesTest < Minitest::Test
 
   def test_property_s3_bucket_name
     assert_equal("aws-s3-bucket-test-trail-1", AwsCloudTrailTrail.new("test-trail-1").s3_bucket_name)
-    assert_nil(AwsCloudTrailTrail.new(trail_name: "non-existant").s3_bucket_name)
+    assert_nil(AwsCloudTrailTrail.new(trail_name: "non-existent").s3_bucket_name)
   end
 
   def test_property_trail_arn
     assert_equal("arn:aws:cloudtrail:us-east-1::trail/test-trail-1", AwsCloudTrailTrail.new("test-trail-1").trail_arn)
-    assert_nil(AwsCloudTrailTrail.new(trail_name: "non-existant").trail_arn)
+    assert_nil(AwsCloudTrailTrail.new(trail_name: "non-existent").trail_arn)
   end
 
   def test_property_cloud_watch_logs_role_arn
     assert_equal("arn:aws:iam:::role/CloudTrail_CloudWatchLogs_Role", AwsCloudTrailTrail.new("test-trail-1").cloud_watch_logs_role_arn)
-    assert_nil(AwsCloudTrailTrail.new(trail_name: "non-existant").cloud_watch_logs_role_arn)
+    assert_nil(AwsCloudTrailTrail.new(trail_name: "non-existent").cloud_watch_logs_role_arn)
   end
 
   def test_property_cloud_watch_logs_log_group_arn
     assert_equal("arn:aws:logs:us-east-1::log-group:test:*", AwsCloudTrailTrail.new("test-trail-1").cloud_watch_logs_log_group_arn)
-    assert_nil(AwsCloudTrailTrail.new(trail_name: "non-existant").cloud_watch_logs_log_group_arn)
+    assert_nil(AwsCloudTrailTrail.new(trail_name: "non-existent").cloud_watch_logs_log_group_arn)
   end
 
   def test_property_kms_key_id
     assert_equal("arn:aws:kms:us-east-1::key/88197884-041f-4f8e-a801-cf120e4845a8", AwsCloudTrailTrail.new("test-trail-1").kms_key_id)
-    assert_nil(AwsCloudTrailTrail.new(trail_name: "non-existant").kms_key_id)
+    assert_nil(AwsCloudTrailTrail.new(trail_name: "non-existent").kms_key_id)
   end
 
   def test_property_home_region
     assert_equal("us-east-1", AwsCloudTrailTrail.new("test-trail-1").home_region)
-    assert_nil(AwsCloudTrailTrail.new(trail_name: "non-existant").home_region)
+    assert_nil(AwsCloudTrailTrail.new(trail_name: "non-existent").home_region)
   end
 
   def test_property_delivered_logs_days_ago
     assert_equal(0, AwsCloudTrailTrail.new("test-trail-1").delivered_logs_days_ago)
-    assert_nil(AwsCloudTrailTrail.new(trail_name: "non-existant").delivered_logs_days_ago)
+    assert_nil(AwsCloudTrailTrail.new(trail_name: "non-existent").delivered_logs_days_ago)
   end
 end
 

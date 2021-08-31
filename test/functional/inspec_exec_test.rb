@@ -916,7 +916,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       end
     end
 
-    describe "when --config points to a nonexistant location" do
+    describe "when --config points to a nonexistent location" do
       let(:cli_args) { "--config " + "no/such/path" }
       it "should issue an error with the file path" do
         _(stderr).wont_match looks_like_a_stacktrace

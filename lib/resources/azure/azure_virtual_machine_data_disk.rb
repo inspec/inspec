@@ -85,7 +85,7 @@ module Inspec::Resources
     # return hashtable
     def parse_datadisk(disk, index)
       # Configure parsed hashtable to hold the information
-      # Initialise this with common attributes from the different types of disk
+      # Initialize this with common attributes from the different types of disk
       parsed = {
         disk: index,
         number: index + 1,
@@ -115,7 +115,7 @@ module Inspec::Resources
         parsed[:storage_account_type] = disk.managedDisk.storageAccountType
         parsed[:id] = disk.managedDisk.id
 
-        # Break up the ID string so that the following information can get retreived
+        # Break up the ID string so that the following information can get retrieved
         # - subscription_id
         # - resource_group
         id_parts = parsed[:id].split(%r{/}).reject(&:empty?)
