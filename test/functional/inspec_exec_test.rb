@@ -962,8 +962,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
   describe "when specifying the execution target" do
     let(:local_plat) do
       json = run_inspec_process("detect --format json", {}).stdout
-      # .slice is available in ruby 2.5+
-      JSON.parse(json).select { |k, v| %w{name release}.include? k }
+      JSON.parse(json).slice("name", "release")
     end
     let(:run_result) { run_inspec_process("exec " + File.join(profile_path, "simple-metadata") + " " + cli_args, json: true) }
     let(:seen_platform) { run_result; @json["platform"].select { |k, v| %w{name release target_id}.include? k } }
