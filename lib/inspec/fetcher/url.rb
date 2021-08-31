@@ -74,15 +74,17 @@ module Inspec::Fetcher
     BITBUCKET_URL_REGEX = %r{^https?://(www\.)?bitbucket\.org/(?<user>[\w-]+)/(?<repo>[\w-]+)(\.git)?(/)?$}.freeze
     BITBUCKET_URL_BRANCH_REGEX = %r{^https?://(www\.)?bitbucket\.org/(?<user>[\w-]+)/(?<repo>[\w-]+)/branch/(?<branch>[\w\.]+)(/)?$}.freeze
     BITBUCKET_URL_COMMIT_REGEX = %r{^https?://(www\.)?bitbucket\.org/(?<user>[\w-]+)/(?<repo>[\w-]+)/commits/(?<commit>[\w\.]+)(/)?$}.freeze
+    GITHUB_URL = "https://github.com".freeze
+    BITBUCKET_URL = "https://bitbucket.org".freeze
 
     def self.transform(target)
       transformed_target = if m = GITHUB_URL_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
-                             default_branch = default_ref(m)
+                             default_branch = default_ref(m, GITHUB_URL)
                              "https://github.com/#{m[:user]}/#{m[:repo]}/archive/#{default_branch}.tar.gz"
                            elsif m = GITHUB_URL_WITH_TREE_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
                              "https://github.com/#{m[:user]}/#{m[:repo]}/archive/#{m[:commit]}.tar.gz"
                            elsif m = BITBUCKET_URL_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
-                             default_branch = default_ref(m)
+                             default_branch = default_ref(m, BITBUCKET_URL)
                              "https://bitbucket.org/#{m[:user]}/#{m[:repo]}/get/#{default_branch}.tar.gz"
                            elsif m = BITBUCKET_URL_BRANCH_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
                              "https://bitbucket.org/#{m[:user]}/#{m[:repo]}/get/#{m[:branch]}.tar.gz"
@@ -129,8 +131,8 @@ module Inspec::Fetcher
     private
 
     class << self
-      def default_ref(match_data)
-        remote_url = "https://github.com/#{match_data[:user]}/#{match_data[:repo]}.git"
+      def default_ref(match_data, repo_url)
+        remote_url = "#{repo_url}/#{match_data[:user]}/#{match_data[:repo]}.git"
         command_string = "git remote show #{remote_url}"
         cmd = shellout(command_string)
         unless cmd.exitstatus == 0
