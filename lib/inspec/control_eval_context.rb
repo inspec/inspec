@@ -53,19 +53,24 @@ module Inspec
 
     def control(id, opts = {}, &block)
       opts[:skip_only_if_eval] = @skip_only_if_eval
-      tag_ids = control_tags(&block)
-      if (controls_list_empty? && tags_list_empty?) || control_exist_in_controls_list?(id) || tag_exist_in_control_tags?(tag_ids)
+      if (controls_list_empty? && tags_list_empty?) || control_exist_in_controls_list?(id)
         register_control(Inspec::Rule.new(id, profile_id, resources_dsl, opts, &block))
+      elsif !tags_list_empty?
+        # Inside elsif rule is initialised before registering it because it enables fetching of control tags
+        inspec_rule = Inspec::Rule.new(id, profile_id, resources_dsl, opts, &block)
+        tag_ids = control_tags(inspec_rule)
+        register_control(inspec_rule) if tag_exist_in_control_tags?(tag_ids)
       end
     end
 
     alias rule control
 
-    def control_tags(&block)
-      tag_source = block.source.split("\n").select { |src| src.split.first.eql?("tag") }
-      tag_source = tag_source.map { |src| src.sub("tag", "").strip }.map { |src| src.split(",").map { |final_src| final_src.sub(/([^:]*):/, "") } }.flatten
-      output = tag_source.map { |src| src.sub(/\[|\]/, "") }.map { |src| instance_eval(src) }
-      output.compact.uniq
+    def control_tags(inspec_rule)
+      all_tags = []
+      inspec_rule.tag.each do |key, value|
+        value.nil? ? all_tags.push(key) : all_tags.push(value)
+      end
+      all_tags.flatten.compact.uniq.map(&:to_s)
     rescue
       []
     end

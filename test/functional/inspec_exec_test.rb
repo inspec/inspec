@@ -258,7 +258,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   it "executes only specified controls when selecting the controls by using regex on tags" do
     inspec("exec " + File.join(profile_path, "control-tags") + " --no-create-lockfile --tags '/\s+/'")
     _(stdout).must_include "true is expected to eq true\n"
-    _(stdout).must_include "Test Summary: 1 successful, 0 failures, 0 skipped\n"
+    _(stdout).must_include "Test Summary: 2 successful, 0 failures, 0 skipped\n"
     _(stderr).must_equal ""
 
     assert_exit_code 0, out
@@ -280,6 +280,15 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     _(stderr).must_equal ""
 
     assert_exit_code 100, out
+  end
+
+  it "executes profile successfully when tags are used with single element array, punctuations and linefeeds" do
+    inspec("exec " + File.join(profile_path, "control-tags") + " --no-create-lockfile --tags tag1 'Line with a comma,error' CCI-000366")
+    _(stdout).must_include "true is expected to eq true\n"
+    _(stdout).must_include "Test Summary: 1 successful, 0 failures, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
   end
 
   it "reports whan a profile cannot be loaded" do
