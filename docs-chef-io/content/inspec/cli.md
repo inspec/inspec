@@ -337,7 +337,7 @@ This subcommand has additional options:
 * ``--target-id=TARGET_ID``
     Provide a ID which will be included on reports
 * ``--tags=one two three``
-    A list of tags, a list of regular expressions that match tags, or a hash map where each value is a tag. `exec` will run controls referenced by the listed or matching tags.
+    A list of tags, a list of regular expressions that match tags. `exec` will run controls referenced by the listed or matching tags.
 * ``--user=USER``
     The login user for a remote scan.
 * ``--vendor-cache=VENDOR_CACHE``
