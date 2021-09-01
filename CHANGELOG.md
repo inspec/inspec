@@ -1,37 +1,35 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.41.20 -->
-## [v4.41.20](https://github.com/inspec/inspec/tree/v4.41.20) (2021-09-01)
-
-#### Merged Pull Requests
-- Fix tags processing issue in profiles [#5643](https://github.com/inspec/inspec/pull/5643) ([Nik08](https://github.com/Nik08))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.41.2 -->
-### Changes since 4.41.2 release
-
-#### Merged Pull Requests
-- Fix tags processing issue in profiles [#5643](https://github.com/inspec/inspec/pull/5643) ([Nik08](https://github.com/Nik08)) <!-- 4.41.20 -->
-- Fix url fetcher when default git profile branch is not master [#5638](https://github.com/inspec/inspec/pull/5638) ([Nik08](https://github.com/Nik08)) <!-- 4.41.19 -->
-- Update location of default branch for omnibus and omnibus-software [#5648](https://github.com/inspec/inspec/pull/5648) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.41.18 -->
-- Proposed implementation for installation warnings [#5625](https://github.com/inspec/inspec/pull/5625) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.41.17 -->
-- Fix for security_policy resource does not return array for local groups [#5629](https://github.com/inspec/inspec/pull/5629) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.41.16 -->
-- Added info about the Minitest framework in contributing doc [#5630](https://github.com/inspec/inspec/pull/5630) ([Nik08](https://github.com/Nik08)) <!-- 4.41.15 -->
-- Updated security_policy resource docs [#5633](https://github.com/inspec/inspec/pull/5633) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.41.14 -->
-- Replace use of wmic from security_identifier resource as it will be deprecated soon [#5636](https://github.com/inspec/inspec/pull/5636) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.41.13 -->
-- Updated inspec-aws git url to replace branch to master to main [#5637](https://github.com/inspec/inspec/pull/5637) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.41.12 -->
-- Fedora runtime support documented [#5628](https://github.com/inspec/inspec/pull/5628) ([Nik08](https://github.com/Nik08)) <!-- 4.41.11 -->
-- Add aliyun3 support to service resource [#5578](https://github.com/inspec/inspec/pull/5578) ([elsnepal](https://github.com/elsnepal)) <!-- 4.41.10 -->
-- Fix merging of included conf and main conf params in apache conf  [#5623](https://github.com/inspec/inspec/pull/5623) ([Nik08](https://github.com/Nik08)) <!-- 4.41.9 -->
-- Fix postgres_session error Unable to connect to database [#5619](https://github.com/inspec/inspec/pull/5619) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.41.8 -->
-- Fix `--chef-license=accept` option to only show license accepted message [#5609](https://github.com/inspec/inspec/pull/5609) ([Nik08](https://github.com/Nik08)) <!-- 4.41.7 -->
-- Fix `--insecure` not working with profile  [#5600](https://github.com/inspec/inspec/pull/5600) ([Nik08](https://github.com/Nik08)) <!-- 4.41.6 -->
-- Fix apache_conf issue when Server Root is not present in configuration [#5601](https://github.com/inspec/inspec/pull/5601) ([Nik08](https://github.com/Nik08)) <!-- 4.41.5 -->
-- Fix range based filtering in filter tables [#5598](https://github.com/inspec/inspec/pull/5598) ([Nik08](https://github.com/Nik08)) <!-- 4.41.4 -->
-- Build fix for ruby version 2.5 - HTML Proofer gem installation error  [#5610](https://github.com/inspec/inspec/pull/5610) ([Nik08](https://github.com/Nik08)) <!-- 4.41.3 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.41.20](https://github.com/inspec/inspec/tree/v4.41.20) (2021-09-01)
+
+#### Merged Pull Requests
+- Build fix for ruby version 2.5 - HTML Proofer gem installation error  [#5610](https://github.com/inspec/inspec/pull/5610) ([Nik08](https://github.com/Nik08))
+- Fix range based filtering in filter tables [#5598](https://github.com/inspec/inspec/pull/5598) ([Nik08](https://github.com/Nik08))
+- Fix apache_conf issue when Server Root is not present in configuration [#5601](https://github.com/inspec/inspec/pull/5601) ([Nik08](https://github.com/Nik08))
+- Fix `--insecure` not working with profile  [#5600](https://github.com/inspec/inspec/pull/5600) ([Nik08](https://github.com/Nik08))
+- Fix `--chef-license=accept` option to only show license accepted message [#5609](https://github.com/inspec/inspec/pull/5609) ([Nik08](https://github.com/Nik08))
+- Fix postgres_session error Unable to connect to database [#5619](https://github.com/inspec/inspec/pull/5619) ([Vasu1105](https://github.com/Vasu1105))
+- Fix merging of included conf and main conf params in apache conf  [#5623](https://github.com/inspec/inspec/pull/5623) ([Nik08](https://github.com/Nik08))
+- Add aliyun3 support to service resource [#5578](https://github.com/inspec/inspec/pull/5578) ([elsnepal](https://github.com/elsnepal))
+- Fedora runtime support documented [#5628](https://github.com/inspec/inspec/pull/5628) ([Nik08](https://github.com/Nik08))
+- Updated inspec-aws git url to replace branch to master to main [#5637](https://github.com/inspec/inspec/pull/5637) ([Vasu1105](https://github.com/Vasu1105))
+- Replace use of wmic from security_identifier resource as it will be deprecated soon [#5636](https://github.com/inspec/inspec/pull/5636) ([Vasu1105](https://github.com/Vasu1105))
+- Updated security_policy resource docs [#5633](https://github.com/inspec/inspec/pull/5633) ([Vasu1105](https://github.com/Vasu1105))
+- Added info about the Minitest framework in contributing doc [#5630](https://github.com/inspec/inspec/pull/5630) ([Nik08](https://github.com/Nik08))
+- Fix for security_policy resource does not return array for local groups [#5629](https://github.com/inspec/inspec/pull/5629) ([Vasu1105](https://github.com/Vasu1105))
+- Proposed implementation for installation warnings [#5625](https://github.com/inspec/inspec/pull/5625) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- Update location of default branch for omnibus and omnibus-software [#5648](https://github.com/inspec/inspec/pull/5648) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix url fetcher when default git profile branch is not master [#5638](https://github.com/inspec/inspec/pull/5638) ([Nik08](https://github.com/Nik08))
+- Fix tags processing issue in profiles [#5643](https://github.com/inspec/inspec/pull/5643) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v4.41.2](https://github.com/inspec/inspec/tree/v4.41.2) (2021-08-16)
 
 #### New Features
@@ -45,7 +43,6 @@
 - Filter active controls in profile by tags [#5596](https://github.com/inspec/inspec/pull/5596) ([Nik08](https://github.com/Nik08))
 - Remove empty .gitmodules file [#5616](https://github.com/inspec/inspec/pull/5616) ([tduffield](https://github.com/tduffield))
 - Fix the typo in documentation file for opa_api resource [#5608](https://github.com/inspec/inspec/pull/5608) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_stable_release -->
 
 ## [v4.38.9](https://github.com/inspec/inspec/tree/v4.38.9) (2021-07-22)
 
