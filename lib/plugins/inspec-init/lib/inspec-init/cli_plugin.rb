@@ -17,7 +17,8 @@ module InspecPlugins
       option :description, type: :string, default: "", desc: "Multi-line description of the plugin"
       option :summary, type: :string, default: "A plugin with a default summary", desc: "One-line summary of your plugin"
       option :license_name, type: :string, default: "Apache-2.0", desc: "The name of a license"
-      option :hook, type: :array, default: ["cli_command:my_command"], desc: "A list of plugin hooks, in the form type1:name1, type2:name2, etc"
+      option :activator, type: :array, default: ["cli_command:my_command"], desc: "A list of plugin activators, in the form type1:name1, type2:name2, etc"
+      option :hook, type: :array, desc: "Legacy name for --activator - Deprecated."
       # These vars have calculated defaults
       option :homepage, type: :string, default: nil, desc: "A URL for your project, often a GitHub link"
       option :module_name, type: :string, default: nil, desc: "Module Name for your plugin package.  Will change plugin name to CamelCase by default."
@@ -28,6 +29,12 @@ module InspecPlugins
       def plugin(plugin_name)
         plugin_type = determine_plugin_type(plugin_name)
         snake_case = plugin_name.tr("-", "_")
+
+        # Handle deprecation of option --hook
+        unless options[:hook].nil?
+          Inspec.deprecate "cli_option_hook"
+          options[:activator] = options.delete(:hook)
+        end
 
         template_vars = {
           name: plugin_name,
@@ -41,7 +48,7 @@ module InspecPlugins
           templates_path: TEMPLATES_PATH,
           overwrite: options[:overwrite],
           file_rename_map: make_rename_map(plugin_type, plugin_name, snake_case),
-          skip_files: make_skip_list(template_vars["hooks"].keys),
+          skip_files: make_skip_list(template_vars["activators"].keys),
         }
 
         renderer = InspecPlugins::Init::Renderer.new(ui, render_opts)
@@ -71,12 +78,15 @@ module InspecPlugins
         {
           "inspec-plugin-template.gemspec" => plugin_name + ".gemspec",
           File.join("lib", "inspec-plugin-template") => File.join("lib", plugin_name),
-          File.join("lib", "inspec-plugin-template.rb") => File.join("lib", plugin_name + ".rb"),
-          File.join("lib", "inspec-plugin-template", "cli_command.rb") => File.join("lib", plugin_name, "cli_command.rb"),
-          File.join("lib", "inspec-plugin-template", "reporter.rb") => File.join("lib", plugin_name, "reporter.rb"),
-          File.join("lib", "inspec-plugin-template", "plugin.rb") => File.join("lib", plugin_name, "plugin.rb"),
-          File.join("lib", "inspec-plugin-template", "version.rb") => File.join("lib", plugin_name, "version.rb"),
-          File.join("test", "functional", "inspec_plugin_template_test.rb") => File.join("test", "functional", snake_case + "_test.rb"),
+          File.join("lib", "inspec-plugin-template.erb") => File.join("lib", plugin_name + ".rb"),
+          File.join("lib", "inspec-plugin-template", "cli_command.erb") => File.join("lib", plugin_name, "cli_command.rb"),
+          File.join("lib", "inspec-plugin-template", "reporter.erb") => File.join("lib", plugin_name, "reporter.rb"),
+          File.join("lib", "inspec-plugin-template", "plugin.erb") => File.join("lib", plugin_name, "plugin.rb"),
+          File.join("lib", "inspec-plugin-template", "version.erb") => File.join("lib", plugin_name, "version.rb"),
+          File.join("test", "functional", "inspec_plugin_template_test.erb") => File.join("test", "functional", snake_case + "_test.rb"),
+          File.join("test", "unit", "cli_args_test.erb") => File.join("test", "unit", "cli_args_test.rb"),
+          File.join("test", "unit", "plugin_def_test.erb") => File.join("test", "unit", "plugin_def_test.rb"),
+          File.join("test", "helper.erb") => File.join("test", "helper.rb"),
         }
       end
 
@@ -93,7 +103,7 @@ module InspecPlugins
           ui.error("You requested interactive prompting for the template variables, but this does not seem to be an interactive terminal.")
           ui.exit(:usage_error)
         end
-        vars.merge(parse_hook_option(options[:hook]))
+        vars.merge(parse_activator_option(options[:activator]))
       end
 
       def vars_from_defaults
@@ -121,7 +131,7 @@ module InspecPlugins
             ],
           },
           homepage: { default_setter: proc { options[:homepage] ||= "https://github.com/" + options[:author_email].split("@").first + "/" + options[:plugin_name] } },
-          # TODO: Handle hooks, when we ever have more than one type of plugin
+          # TODO: Handle activators, when we ever have more than one type of plugin
         }
 
         prompt_for_options(order)
@@ -153,26 +163,26 @@ module InspecPlugins
         end
       end
 
-      def parse_hook_option(raw_option)
-        hooks_by_type = {}
+      def parse_activator_option(raw_option)
+        activators_by_type = {}
         raw_option.each do |entry|
           parts = entry.split(":")
           type = parts.first.to_sym
           name = parts.last
-          if hooks_by_type.key?(type)
-            ui.error "The InSpec plugin generator can currently only generate one hook of each type"
+          if activators_by_type.key?(type)
+            ui.error "The InSpec plugin generator can currently only generate one activator of each type"
             ui.exit(:usage_error)
           end
-          hooks_by_type[type] = name
+          activators_by_type[type] = name
         end
 
-        vars = { hooks: hooks_by_type }
-        if hooks_by_type.key?(:cli_command)
-          vars[:command_name_dashes] = hooks_by_type[:cli_command].tr("_", "-")
-          vars[:command_name_snake] = hooks_by_type[:cli_command].tr("-", "_")
-        elsif hooks_by_type.key?(:reporter)
-          vars[:reporter_name_dashes] = hooks_by_type[:reporter].tr("_", "-")
-          vars[:reporter_name_snake] = hooks_by_type[:reporter].tr("-", "_")
+        vars = { activators: activators_by_type }
+        if activators_by_type.key?(:cli_command)
+          vars[:command_name_dashes] = activators_by_type[:cli_command].tr("_", "-")
+          vars[:command_name_snake] = activators_by_type[:cli_command].tr("-", "_")
+        elsif activators_by_type.key?(:reporter)
+          vars[:reporter_name_dashes] = activators_by_type[:reporter].tr("_", "-")
+          vars[:reporter_name_snake] = activators_by_type[:reporter].tr("-", "_")
         end
         vars
       end
@@ -210,7 +220,7 @@ module InspecPlugins
         end
       end
 
-      def make_skip_list(requested_hooks)
+      def make_skip_list(requested_activators)
         skips = []
         case options[:detail]
         when "full" # rubocop: disable Lint/EmptyWhen
@@ -230,13 +240,13 @@ module InspecPlugins
             "Rakefile",
             File.join("test", "fixtures", "README.md"),
             File.join("test", "fixtures"),
-            File.join("test", "functional", "inspec_plugin_template_test.rb"),
+            File.join("test", "functional", "inspec_plugin_template_test.erb"),
             File.join("test", "functional", "README.md"),
-            File.join("test", "unit", "cli_args_test.rb"),
-            File.join("test", "unit", "plugin_def_test.rb"),
+            File.join("test", "unit", "cli_args_test.erb"),
+            File.join("test", "unit", "plugin_def_test.erb"),
             File.join("test", "unit", "README.md"),
             File.join("test", "unit"),
-            File.join("test", "helper.rb"),
+            File.join("test", "helper.erb"),
             File.join("test"),
           ]
         else
@@ -244,17 +254,17 @@ module InspecPlugins
           ui.exit(:usage_error)
         end
 
-        # Remove hook-specific files
-        unless requested_hooks.include?(:cli_command)
+        # Remove activator-specific files
+        unless requested_activators.include?(:cli_command)
           skips += [
-            File.join("lib", "inspec-plugin-template", "cli_command.rb"),
-            File.join("test", "unit", "cli_args_test.rb"),
-            File.join("test", "functional", "inspec_plugin_template_test.rb"),
+            File.join("lib", "inspec-plugin-template", "cli_command.erb"),
+            File.join("test", "unit", "cli_args_test.erb"),
+            File.join("test", "functional", "inspec_plugin_template_test.erb"),
           ]
         end
-        unless requested_hooks.include?(:reporter)
+        unless requested_activators.include?(:reporter)
           skips += [
-            File.join("lib", "inspec-plugin-template", "reporter.rb"),
+            File.join("lib", "inspec-plugin-template", "reporter.erb"),
           ]
         end
 

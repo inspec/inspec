@@ -25,7 +25,7 @@ This resource first became available in v1.0.0 of InSpec.
 
 ## Syntax
 
-An `sshd_config` resource block declares the client OpenSSH configuration data to be tested:
+An `sshd_config` resource block declares the OpenSSH daemon configuration data to be tested:
 
     describe sshd_config('path') do
       its('name') { should include('foo') }

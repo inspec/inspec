@@ -43,11 +43,15 @@ module Inspec
       begin
         if (allowed_commands & ARGV.map(&:downcase)).empty? && # Did they use a non-exempt command?
             !ARGV.empty? # Did they supply at least one command?
-          LicenseAcceptance::Acceptor.check_and_persist(
+          license_acceptor_output = LicenseAcceptance::Acceptor.check_and_persist(
             Inspec::Dist::EXEC_NAME,
             Inspec::VERSION,
             logger: Inspec::Log
           )
+          if license_acceptor_output && ARGV.count == 1 && (ARGV.first.include? "--chef-license")
+            Inspec::UI.new.exit
+          end
+          license_acceptor_output
         end
       rescue LicenseAcceptance::LicenseNotAcceptedError
         Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without accepting the license"
@@ -120,6 +124,8 @@ module Inspec
         desc: "Provide a ID which will be included on reports"
       option :winrm_shell_type, type: :string, default: "powershell",
         desc: "Specify a shell type for winrm (eg. 'elevated' or 'powershell')"
+      option :docker_url, type: :string,
+        desc: "Provides path to Docker API endpoint (Docker)"
     end
 
     def self.profile_options
@@ -134,6 +140,8 @@ module Inspec
       profile_options
       option :controls, type: :array,
         desc: "A list of control names to run, or a list of /regexes/ to match against control names. Ignore all other tests."
+      option :tags, type: :array,
+        desc: "A list of tags names that are part of controls to filter and run controls, or a list of /regexes/ to match against tags names of controls. Ignore all other tests."
       option :reporter, type: :array,
         banner: "one two:/output/file/path",
         desc: "Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml"
@@ -164,6 +172,13 @@ module Inspec
         desc: "Use --no-diff to suppress 'diff' output of failed textual test results."
       option :sort_results_by, type: :string, default: "file", banner: "--sort-results-by=none|control|file|random",
         desc: "After normal execution order, results are sorted by control ID, or by file (default), or randomly. None uses legacy unsorted mode."
+      option :filter_empty_profiles, type: :boolean, default: false,
+        desc: "Filter empty profiles (profiles without controls) from the report."
+      option :command_timeout, type: :numeric,
+        desc: "Maximum seconds to allow commands to run during execution.",
+        long_desc: "Maximum seconds to allow commands to run during execution. A timed out command is considered an error."
+      option :reporter_include_source, type: :boolean, default: false,
+        desc: "Include full source code of controls in the CLI report"
     end
 
     def self.help(*args)
@@ -172,7 +187,7 @@ module Inspec
       puts "  Patents: chef.io/patents\n\n"
     end
 
-    def self.format_platform_info(params: {}, indent: 0, color: 39)
+    def self.format_platform_info(params: {}, indent: 0, color: 39, enable_color: true)
       str = ""
       params.each do |item, info|
         data = info
@@ -183,7 +198,7 @@ module Inspec
         # Do not output fields of data is missing ('unknown' is fine)
         next if data.nil?
 
-        data = "\e[1m\e[#{color}m#{data}\e[0m"
+        data = "\e[1m\e[#{color}m#{data}\e[0m" if enable_color
         str << format("#{" " * indent}%-10s %s\n", item.to_s.capitalize + ":", data)
       end
       str

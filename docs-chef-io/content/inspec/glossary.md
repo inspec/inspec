@@ -30,7 +30,7 @@ Let's look at some simple examples.
 
 ### Singular Resource Example
 
-```inspec
+```ruby
 describe car(owner: 'Tony Clifton') do
     it { should exist }
     its('license_plate') { should cmp 'MOONMAN' }
@@ -73,7 +73,7 @@ _should\_not_ indicates this is a negated test. So, this test passes if the matc
 
 ### Plural Resource Example
 
-```inspec
+```ruby
   describe cars.where(color: /^b/) do
     it { should exist }
     its('manufacturers') { should include 'Cadillac' }
@@ -113,35 +113,35 @@ _'Cadillac'_ is an [expected result](#expected-result). Some matchers take an ex
 
 #### its('count') { should _be >=_ 10 }
 
-_be >=_ is an [operator matcher](#operator matcher). It allows you to perform numeric comparisons. All plural resources have a `count` property.
+_be >=_ is an [operator matcher](#operator-matcher). It allows you to perform numeric comparisons. All plural resources have a `count` property.
 
 ## Text Glossary
 
-### attribute
+### Attribute
 
 Deprecated name for [input](#input).
 
-### control
+### Control
 
-### control block
+### Control Block
 
 The _`control`_ keyword is used to declare a _`control block`_. Here, the word 'control' means a 'regulatory control, recommendation, or requirement' - not a software engineering construct. A `control block` has a name (which usually refers to the assigned ID of the regulatory recommendation it implements), metadata such as descriptions, references, and tags, and finally groups together related [describe blocks](#describe-block) to implement the checks.
 
-### core resource
+### Core Resource
 
-A [resource](#resource) that is included with InSpec; you are not required to install additional [plugins](#plugin) or depend on a [resource pack](#resource pack) to use the resource.
+A [resource](#resource) that is included with InSpec; you are not required to install additional [plugins](#plugin) or depend on a [resource pack](#resource-pack) to use the resource.
 
-### custom resource
+### Custom Resource
 
-A [resource](#resource) that is _not_ included with InSpec. It may be a resource of your own creation, or one you obtain by depending on a [resource pack](#resource pack).
+A [resource](#resource) that is _not_ included with InSpec. It may be a resource of your own creation, or one you obtain by depending on a [resource pack](#resource-pack).
 
-### describe
+### Describe
 
-### describe block
+### Describe Block
 
 The _`describe`_ keyword is used with a _`describe block`_ to refer to a Chef InSpec resource. You use the `describe` keyword along with the name of a [resource](#resource) to enclose related [tests](#test) that apply to the resource. Multiple describe blocks are usually grouped together in a [control](#control), but you can also use them outside of a control.
 
-```Ruby
+```ruby
 control 'Rule 1.1 - Color restrictions' do
   # Count only blue cars
   describe cars.where(color: 'blue') do
@@ -156,19 +156,19 @@ _DSL_ is an acronym for _Domain Specific Language_. It refers to the language ex
 
 For [custom resource](#custom-resource) authors, an additional DSL is available - see the [Resource DSL page](/inspec/dsl_resource/).
 
-### expected result
+### Expected Result
 
 When using a [matcher](#matcher), the _`expected result`_ is the value the matcher will compare against the [property](#property) being accessed.
 
 In this example, the [`cmp`](/inspec/matchers/#cmp) matcher is being used to compare the `color` property to the expected result 'black'.
 
-```Ruby
+```ruby
 describe car(owner: 'Bruce Wayne') do
   its('color') { should cmp 'black' }
 end
 ```
 
-### filter statement
+### Filter Statement
 
 When using a [plural resource](#plural-resource), a _`filter statement`_ is used to select individual test subjects using [filter criteria](#filter-criteria). A filter statement almost always is indicated by the keyword `where`, and may be repeated using method chaining.
 
@@ -176,16 +176,16 @@ A filter statement may use method call syntax (which allows basic criteria opera
 
 In this example, `where(...)` is the filter statement.
 
-```Ruby
+```ruby
 # Count only blue cars
 describe cars.where(color: 'blue') do
   its('count') { should eq 20 }
 end
 ```
 
-### filter criterion
+### Filter Criterion
 
-### filter criteria
+### Filter Criteria
 
 When using a [plural resource](#plural-resource), a _`filter criterion`_ is used to select individual test subjects within a [filter statement](#filter-statement). You may use multiple _`filter criteria`_ in a single filter statement.
 
@@ -193,7 +193,7 @@ When method-call syntax is used with the filter statement, you provide filter cr
 
 Here, `(color: blue)` is a single filter criterion being used with a filter statement in method-call syntax.
 
-```Ruby
+```ruby
 # Count only blue cars
 describe cars.where(color: 'blue') do
   its('count') { should eq 20 }
@@ -204,14 +204,14 @@ When block-method syntax is used with the filter statement, you provide a block.
 
 Here, `{ engine_cylinders >= 6 }` is a block-syntax filter statement referring to one filter criterion.
 
-```Ruby
+```ruby
 # Vroom!
 describe cars.where { engine_cylinders >= 6 } do
   its('city_mpg_ratings') { should_not include '4-star' }
 end
 ```
 
-### input
+### Input
 
 An _`input`_ is a value that Chef InSpec can source from a number of providers, including from the command line, profile metadata, or within the control file DSL itself. You can use this feature either to change a [profile's](#profile) behavior by passing different attribute files or to store secrets that should not be directly present in a profile.
 
@@ -221,7 +221,7 @@ The CLI syntax for inputs is documented under the [`inspec exec`](/inspec/cli/#e
 
 Inputs are documented in detail in the [input documentation](/inspec/inputs/).
 
-### it
+### It
 
 Within a [describe block](#describe), _`it`_ declares an individual [test](#test) directly against the [resource](#resource) (as opposed to testing against one of the resource's [properties](#property), as [its](#its) does). Though it is possible to use [universal matchers](#universal-matcher) with `it`, it is much more typical to use [resource-specific matchers](#resource-specific-matchers).
 
@@ -229,13 +229,13 @@ Within a [describe block](#describe), _`it`_ declares an individual [test](#test
 
 Here, `it { should ... }` declares a test, calling the `classy?` matcher on Tony Clifton's car.
 
-```Ruby
+```ruby
 describe car(owner: 'Tony Clifton') do
   it { should be_classy }
 end
 ```
 
-### its
+### Its
 
 Within a [describe block](#describe), _`its`_ declares an individual [test](#test) against a property of the [resource](#resource) (as opposed to testing directly against the resource itself, as [it](#it) does). You must use [universal matchers](#universal-matcher) with `its`; you cannot use [resource-specific matchers](#resource-specific-matchers).
 
@@ -245,7 +245,7 @@ The property to access is passed as a single string argument to `its`. As an adv
 
 Here, `its('fuzzy_dice') { should ... }` declares a test, testing against the `fuzzy_dice` property of Tony Clifton's car. Let's assume - Tony being Tony - that `fuzzy_dice` will return an Array.
 
-```Ruby
+```ruby
 describe car(owner: 'Tony Clifton') do
   its('fuzzy_dice') { should_not be_empty }
   its('fuzzy_dice.count') { should be >= 2 }
@@ -253,7 +253,7 @@ describe car(owner: 'Tony Clifton') do
 end
 ```
 
-### matcher
+### Matcher
 
 A _`matcher`_ performs the actual assertions against [resources](#resource) or the [properties](#property) of resources. Matchers always return a true/false value. Matchers fall into two camps:
 
@@ -266,12 +266,32 @@ For information on how RSpec matchers are related o Chef InSpec matchers, see [C
 
 Here, `be_classy` is a resource-specific matcher operating directly on the `car`, while `cmp` is a universal matcher operating on the `manufacturer` property.
 
-```Ruby
+```ruby
 describe car(owner: 'Tony Clifton') do
   it { should be_classy }
   its('manufacturer') { should cmp 'Cadillac' }
 end
 ```
+
+### Operator Matcher
+
+An operator matcher allows you to use operators to compare numerical [expected results](#expected-result) against a [property](#property). All plural resources have a `count` property.
+
+For example:
+
+```ruby
+  describe cars do
+    its('count') { should be >= 10 }
+  end
+```
+
+Operators include:
+
+- `==`
+- `>=`
+- `<=`
+- `>`
+- `<`
 
 ### plural resource
 
@@ -283,7 +303,7 @@ Plural resources support [filter statements](#filter-statement). See the [resour
 
 Here, `cars` is a plural resource.
 
-```Ruby
+```ruby
 describe cars.where(color: 'blue') do
   its('count') { should eq 20 }
   its('license_plates') { should include 'AUTOAZUL' }
@@ -297,7 +317,7 @@ describe cars.where(color: 'blue') do
 end
 ```
 
-### profile
+### Profile
 
 A _`profile`_ is a set of related [controls](#control) in a distributable form. You might have a locally-developed profile that your organization uses to define baseline security on all machines, or you might use a pre-defined profile that implements the requirements of a specific compliance standard. For full details about the capabilities of a profile, see the [profile documentation](/inspec/profiles/).
 
@@ -305,7 +325,7 @@ Profiles may be distributed locally as a directory tree, as a tarball or zipfile
 
 Aside from controls, profiles can also contain [custom resources](#custom-resource). If the profile contains only custom resources and no controls, we call it a [resource pack](#resource-pack).
 
-### property
+### Property
 
 A fact about a [resource](#resource). Typically, you use the [its](#its) keyword to access the property and write a [test](#test) within a [describe block](#describe-block), and then use a [universal matcher](#universal-matcher) to make assertions about the value of the property.
 
@@ -313,17 +333,17 @@ Each resource has different properties. See the [resource documentation](/inspec
 
 Here, `manufacturer` is a property of the `car` resource.
 
-```Ruby
+```ruby
 describe car(owner: 'Tony Clifton') do
   its('manufacturer') { should cmp 'Cadillac' }
 end
 ```
 
-### reporter
+### Reporter
 
 An output format for the `inspec exec` command line. Several reporters are available, including JSON and JUnit; see the [inspec exec documentation](/inspec/cli/#exec).
 
-### resource
+### Resource
 
 A _`resource`_ represents a category of things on the [target](#target) you wish to examine. For example, to check for the existence and permissions of a file, you would use the [`file`](/inspec/resources/file/) resource. Chef InSpec offers dozens of different resources, from the highly specialized (such as `aws_security_group`, which examines firewall rules in AWS) to the very general (such as `command`, which runs a command and lets you examine its output).
 
@@ -333,17 +353,17 @@ Resources are used within a [describe block](#describe-block) to perform [tests]
 
 Here, `car` is a resource.
 
-```Ruby
+```ruby
 describe car(owner: 'Tony Clifton') do
   it { should be_classy }
 end
 ```
 
-### resource pack
+### Resource Pack
 
 A _resource pack_ is a type of [profile](#profile) that is used to distribute [custom resources](#custom-resource). This specialized type of profile contains no [controls](#control), but it does contain a `libraries` directory within which Ruby files define custom resources.
 
-### resource parameter
+### Resource Parameter
 
 _`resource parameters`_ are information passed to the resource when they are declared. Typically, resource parameters provide identifying information or connectivity information. Resource parameters are not the same as a [filter statement](#filter-statement).
 
@@ -351,39 +371,39 @@ Resource parameters vary from resource to resource; refer to the [resource docum
 
 Here, `owner: 'Tony Clifton'` is a resource parameter.
 
-```Ruby
+```ruby
 describe car(owner: 'Tony Clifton') do
   it { should be_classy }
 end
 ```
 
-### resource-specific matcher
+### Resource-Specific Matcher
 
-A [matcher](#matcher) that operates directly on the [resource](#resource), as opposed to operating on a property as a [universal matcher](#universal matcher) does.
+A [matcher](#matcher) that operates directly on the [resource](#resource), as opposed to operating on a property as a [universal matcher](#universal-matcher) does.
 
 Resource-specific matchers often provide highly customized behavior. Check the [resource documentation](#/inspec/resources/) to discover which resource-specific matchers are available for your resource.
 
 For example, the hypothetical `car` resource defines a `classy?` method, which is exposed as the `be_classy` matcher in Chef InSpec tests.
 
-```Ruby
+```ruby
 describe car(owner: 'Tony Clifton') do
   it { should be_classy }
 end
 ```
 
-### singular resource
+### Singular Resource
 
 A [resource](#resource) intended to uniquely identify a single object on the [target](#target). Singular resources specialize in providing richer auditing capabilities via resource-specific matchers. Compare to [plural resources](#plural-resource).
 
-### target
+### Target
 
 The _`target`_ is the OS or API on which Chef InSpec is performing audits. In Chef InSpec 1.x, this was always an operating system target (a bare metal machine, VM, or container). In Chef InSpec 2.x and later, this can be an OS target, or an API target, including cloud providers such as AWS. Chef InSpec is agentless, meaning that the Chef InSpec code and profiles remain on your workstation, and the target is remotely interrogated without installing anything.
 
-### test
+### Test
 
 A _`test`_ is an individual assertion about the state of the [resource](#resource) or one of its [properties](#property). All tests begin with the keyword [it](#it) or [its](#its). Tests are grouped within a [describe block](#describe-block).
 
-### universal matcher
+### Universal Matcher
 
 A _universal matcher_ is a [matcher](#matcher) that can be used on the [properties](#property) of any type of [resource](#resource). For example, you can use the `cmp` matcher to check the value of properties without having to worry about Ruby type-casting. Universal matchers are almost always used with the [its](#its) keyword.
 
@@ -391,7 +411,7 @@ Universal matchers are documented on the [Universal Matchers](/inspec/matchers/)
 
 Here, we access the 'color' property, then use the `cmp` universal matcher to compare the property to the 'black' [expected result](#expected-result).
 
-```Ruby
+```ruby
 describe car(owner: 'Bruce Wayne') do
   its('color') { should cmp 'black' }
 end

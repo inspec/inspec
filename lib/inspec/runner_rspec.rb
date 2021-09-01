@@ -5,7 +5,7 @@ require "matchers/matchers"
 require "inspec/rspec_extensions"
 
 # There be dragons!! Or borgs, or something...
-# This file and all its contents cannot be unit-tested. both test-suits
+# This file and all its contents cannot be unit-tested. both test-suites
 # collide and disable all unit tests that have been added.
 
 module Inspec

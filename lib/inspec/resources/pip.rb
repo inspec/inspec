@@ -117,7 +117,7 @@ module Inspec::Resources
         if defined?(windows_paths["Python"]) && pipcmd.nil?
           return nil if windows_paths["Pip"].nil?
 
-          pipdir = windows_paths["Python"].split('\\')
+          pipdir = windows_paths["Python"].split("\\")
           # remove python.exe
           pipdir.pop
           pipcmd = pipdir.push("Scripts").push("pip.exe").join("/")

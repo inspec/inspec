@@ -180,7 +180,15 @@ module Inspec
         options[:priority] ||= 20
         options[:provider] = :inline_control_code
         evt = Inspec::Input.infer_event(options)
-        Inspec::InputRegistry.find_or_register_input(input_name, __profile_id, event: evt).value
+        Inspec::InputRegistry.find_or_register_input(
+          input_name,
+          __profile_id,
+          type: options[:type],
+          required: options[:required],
+          description: options[:description],
+          pattern: options[:pattern],
+          event: evt
+        ).value
       end
     end
 
@@ -352,7 +360,7 @@ module Inspec
         # A string that does not represent a valid time results in the date 0000-01-01.
         if [Date, Time].include?(expiry.class) || (expiry.is_a?(String) && Time.new(expiry).year != 0)
           expiry = expiry.to_time if expiry.is_a? Date
-          expiry = Time.new(expiry) if expiry.is_a? String
+          expiry = Time.parse(expiry) if expiry.is_a? String
           if expiry < Time.now # If the waiver expired, return - no skip applied
             __waiver_data["message"] = "Waiver expired on #{expiry}, evaluating control normally"
             return

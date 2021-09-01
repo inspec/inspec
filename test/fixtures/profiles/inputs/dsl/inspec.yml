@@ -1,0 +1,9 @@
+name: dsl
+title: InSpec Profile to test all option flags on input through dsl
+maintainer: Chef Software, Inc.
+copyright: Chef Software, Inc.
+license: Apache-2.0
+summary: A profile that tests all option flags on input through dsl
+version: 0.1.0
+supports:
+  platform: os

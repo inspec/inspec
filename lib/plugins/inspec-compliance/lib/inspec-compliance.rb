@@ -7,6 +7,11 @@ module InspecPlugins
         require_relative "inspec-compliance/cli"
         InspecPlugins::Compliance::CLI
       end
+
+      cli_command :automate do
+        require_relative "inspec-compliance/cli"
+        InspecPlugins::Compliance::CLI
+      end
     end
 
     autoload :Configuration, "plugins/inspec-compliance/lib/inspec-compliance/configuration"

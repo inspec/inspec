@@ -53,10 +53,22 @@ module Inspec
 
     def control(id, opts = {}, &block)
       opts[:skip_only_if_eval] = @skip_only_if_eval
-
-      register_control(Inspec::Rule.new(id, profile_id, resources_dsl, opts, &block))
+      tag_ids = control_tags(&block)
+      if (controls_list_empty? && tags_list_empty?) || control_exist_in_controls_list?(id) || tag_exist_in_control_tags?(tag_ids)
+        register_control(Inspec::Rule.new(id, profile_id, resources_dsl, opts, &block))
+      end
     end
+
     alias rule control
+
+    def control_tags(&block)
+      tag_source = block.source.split("\n").select { |src| src.split.first.eql?("tag") }
+      tag_source = tag_source.map { |src| src.sub("tag", "").strip }.map { |src| src.split(",").map { |final_src| final_src.sub(/([^:]*):/, "") } }.flatten
+      output = tag_source.map { |src| src.sub(/\[|\]/, "") }.map { |src| instance_eval(src) }
+      output.compact.uniq
+    rescue
+      []
+    end
 
     # Describe allows users to write rspec-like bare describe
     # blocks without declaring an inclosing control. Here, we
@@ -68,10 +80,14 @@ module Inspec
       id = "(generated from #{loc} #{SecureRandom.hex})"
 
       res = nil
+
       rule = Inspec::Rule.new(id, profile_id, resources_dsl, {}) do
         res = describe(*args, &block)
       end
-      register_control(rule, &block)
+
+      if controls_list_empty? || control_exist_in_controls_list?(id)
+        register_control(rule, &block)
+      end
 
       res
     end
@@ -175,6 +191,56 @@ module Inspec
         path, line = block.source_location
         "#{File.basename(path)}:#{line}"
       end
+    end
+
+    # Returns true if configuration hash is not empty and it contains the list of controls is not empty
+    def profile_config_exist?
+      !@conf.empty? && @conf.key?("profile") && !@conf["profile"].include_controls_list.empty?
+    end
+
+    def profile_tag_config_exist?
+      !@conf.empty? && @conf.key?("profile") && !@conf["profile"].include_tags_list.empty?
+    end
+
+    # Returns true if configuration hash is empty or configuration hash does not have the list of controls that needs to be included
+    def controls_list_empty?
+      !@conf.empty? && @conf.key?("profile") && @conf["profile"].include_controls_list.empty? || @conf.empty?
+    end
+
+    def tags_list_empty?
+      !@conf.empty? && @conf.key?("profile") && @conf["profile"].include_tags_list.empty? || @conf.empty?
+    end
+
+    # Check if the given control exist in the --controls option
+    def control_exist_in_controls_list?(id)
+      id_exist_in_list = false
+      if profile_config_exist?
+        id_exist_in_list = @conf["profile"].include_controls_list.any? do |inclusion|
+          # Try to see if the inclusion is a regex, and if it matches
+          inclusion == id || (inclusion.is_a?(Regexp) && inclusion =~ id)
+        end
+      end
+      id_exist_in_list
+    end
+
+    # Check if the given control exist in the --tags option
+    def tag_exist_in_control_tags?(tag_ids)
+      tag_option_matches_with_list = false
+      if !tag_ids.empty? && !tag_ids.nil? && profile_tag_config_exist?
+        tag_option_matches_with_list = !(tag_ids & @conf["profile"].include_tags_list).empty?
+        unless tag_option_matches_with_list
+          @conf["profile"].include_tags_list.any? do |inclusion|
+            # Try to see if the inclusion is a regex, and if it matches
+            if inclusion.is_a?(Regexp)
+              tag_ids.each do |id|
+                tag_option_matches_with_list = (inclusion =~ id)
+                break if tag_option_matches_with_list
+              end
+            end
+          end
+        end
+      end
+      tag_option_matches_with_list
     end
   end
 end

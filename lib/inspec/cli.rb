@@ -65,6 +65,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Save the created profile to a path"
   option :controls, type: :array,
     desc: "A list of controls to include. Ignore all other tests."
+  option :tags, type: :array,
+    desc: "A list of tags to filter controls and include only those. Ignore all other tests."
   profile_options
   def json(target)
     require "json" unless defined?(JSON)
@@ -218,8 +220,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
     Automate:
       ```
-      #{Inspec::Dist::EXEC_NAME} compliance login
+      #{Inspec::Dist::EXEC_NAME} automate login
       #{Inspec::Dist::EXEC_NAME} exec compliance://username/linux-baseline
+      ```
+      `inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way:
+      ```
+      #{Inspec::Dist::EXEC_NAME} compliance login
       ```
 
     Supermarket:
@@ -301,7 +307,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       puts res.to_json
     else
       ui.headline("Platform Details")
-      ui.plain Inspec::BaseCLI.format_platform_info(params: res, indent: 0, color: 36)
+      ui.plain Inspec::BaseCLI.format_platform_info(params: res, indent: 0, color: 36, enable_color: ui.color?)
     end
   rescue ArgumentError, RuntimeError, Train::UserError => e
     $stderr.puts e.message
@@ -321,7 +327,14 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell"
   option :distinct_exit, type: :boolean, default: true,
     desc: "Exit with code 100 if any tests fail, and 101 if any are skipped but none failed (default).  If disabled, exit 0 on skips and 1 for failures."
+  option :command_timeout, type: :numeric,
+      desc: "Maximum seconds to allow a command to run.",
+      long_desc: "Maximum seconds to allow commands to run. A timed out command is considered an error."
   option :inspect, type: :boolean, default: false, desc: "Use verbose/debugging output for resources."
+  option :input_file, type: :array,
+    desc: "Load one or more input files, a YAML file with values for the shell to use"
+  option :input, type: :array, banner: "name1=value1 name2=value2",
+    desc: "Specify one or more inputs directly on the command line to the shell, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures."
   def shell_func
     o = config
     diagnose(o)
@@ -394,6 +407,20 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     end
   end
   map %w{-v --version} => :version
+
+  desc "clear_cache", "clears the InSpec cache. Useful for debugging."
+  option :vendor_cache, type: :string,
+    desc: "Use the given path for caching dependencies. (default: ~/.inspec/cache)"
+  def clear_cache
+    o = config
+    configure_logger(o)
+    cache_path = o[:vendor_cache] || "~/.inspec/cache"
+    FileUtils.rm_r Dir.glob(File.expand_path(cache_path))
+
+    o[:logger] = Logger.new($stdout)
+    o[:logger].level = get_log_level(o[:log_level])
+    o[:logger].info "== InSpec cache cleared successfully =="
+  end
 
   private
 

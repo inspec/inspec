@@ -57,7 +57,7 @@ module Inspec::Resources
     end
 
     def body
-      @worker.body
+      @worker.body&.force_encoding(Encoding::UTF_8)
     end
 
     def http_method

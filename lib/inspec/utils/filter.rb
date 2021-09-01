@@ -36,14 +36,20 @@ module FilterTable
     # RSpec will check the object returned to see if it responds to a method
     # before calling it. We need to fake it out and tell it that it does. This
     # allows it to skip past that check and fall through to #method_missing
-    def respond_to?(_method)
+    def respond_to?(_method, include_all = false)
       true
     end
 
     def to_s
-      @original_resource.to_s
+      "#{@original_resource} (#{@original_exception.message})"
     end
     alias inspect to_s
+
+    # Rspec is not able to convert FilterTable::ExceptionCatcher issue https://github.com/inspec/inspec/issues/5369
+    # which result into not showing actual exception message this allows to convert it properly.
+    def to_ary
+      [ to_s ]
+    end
   end
 
   class Trace
@@ -250,7 +256,7 @@ module FilterTable
     end
 
     def matches(x, y)
-      x === y # rubocop:disable Style/CaseEquality
+      y === x # rubocop:disable Style/CaseEquality
     end
 
     def filter_raw_data(current_raw_data, field, desired_value)
@@ -369,13 +375,13 @@ module FilterTable
       methods_to_install_on_resource_class = @filter_methods + @custom_properties.keys
       methods_to_install_on_resource_class.each do |method_name|
         resource_class.send(:define_method, method_name) do |*args, &block|
-          begin
-            # self here is the resource instance
-            filter_table_instance = table_class.new(self, send(raw_data_fetcher_method_name), " with")
-            filter_table_instance.send(method_name, *args, &block)
-          rescue Inspec::Exceptions::ResourceFailed, Inspec::Exceptions::ResourceSkipped => e
-            FilterTable::ExceptionCatcher.new(resource_class, e)
-          end
+
+          # self here is the resource instance
+          filter_table_instance = table_class.new(self, send(raw_data_fetcher_method_name), " with")
+          filter_table_instance.send(method_name, *args, &block)
+        rescue Inspec::Exceptions::ResourceFailed, Inspec::Exceptions::ResourceSkipped => e
+          FilterTable::ExceptionCatcher.new(resource_class, e)
+
         end
       end
     end

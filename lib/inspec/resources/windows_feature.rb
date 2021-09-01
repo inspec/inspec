@@ -79,10 +79,11 @@ module Inspec::Resources
         result = cmd.stdout
         feature_name_regex = /Feature Name : (.*)(\r\n|\n)/
         description_regex = /Description : (.*)(\r\n|\n)/
+        state_regex = /State : (.*)(\r\n|\n)/
         feature_info = {
           name: result.match(feature_name_regex).captures[0].chomp,
           description: result.match(description_regex).captures[0].chomp,
-          installed: true,
+          installed: result.match(state_regex).captures[0].chomp == "Enabled",
         }
       end
 

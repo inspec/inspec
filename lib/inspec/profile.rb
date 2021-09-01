@@ -18,9 +18,9 @@ module Inspec
   class Profile
     extend Forwardable
 
-    def self.resolve_target(target, cache)
+    def self.resolve_target(target, cache, opts = {})
       Inspec::Log.debug "Resolve #{target} into cache #{cache.path}"
-      Inspec::CachedFetcher.new(target, cache)
+      Inspec::CachedFetcher.new(target, cache, opts)
     end
 
     # Check if the profile contains a vendored cache, move content into global cache
@@ -70,7 +70,11 @@ module Inspec
 
     def self.for_target(target, opts = {})
       opts[:vendor_cache] ||= Cache.new
-      fetcher = resolve_target(target, opts[:vendor_cache])
+      config = {}
+      unless opts[:runner_conf].nil?
+        config = opts[:runner_conf].respond_to?(:final_options) ? opts[:runner_conf].final_options : opts[:runner_conf]
+      end
+      fetcher = resolve_target(target, opts[:vendor_cache], config)
       for_fetcher(fetcher, opts)
     end
 
@@ -87,6 +91,7 @@ module Inspec
       @logger = options[:logger] || Logger.new(nil)
       @locked_dependencies = options[:dependencies]
       @controls = options[:controls] || []
+      @tags = options[:tags] || []
       @writable = options[:writable] || false
       @profile_id = options[:id]
       @profile_name = options[:profile_name]
@@ -206,7 +211,7 @@ module Inspec
       @params ||= load_params
     end
 
-    def collect_tests(include_list = @controls)
+    def collect_tests
       unless @tests_collected || failed?
         return unless supports_platform?
 
@@ -225,14 +230,17 @@ module Inspec
         end
         @tests_collected = true
       end
-      filter_controls(@runner_context.all_rules, include_list)
+      @runner_context.all_rules
     end
 
-    def filter_controls(controls_array, include_list)
-      return controls_array if include_list.nil? || include_list.empty?
+    # This creates the list of controls provided in the --controls options which need to be include
+    # for evaluation.
+    def include_controls_list
+      return [] if @controls.nil? || @controls.empty?
 
+      included_controls = @controls
       # Check for anything that might be a regex in the list, and make it official
-      include_list.each_with_index do |inclusion, index|
+      included_controls.each_with_index do |inclusion, index|
         next if inclusion.is_a?(Regexp)
         # Insist the user wrap the regex in slashes to demarcate it as a regex
         next unless inclusion.start_with?("/") && inclusion.end_with?("/")
@@ -240,21 +248,38 @@ module Inspec
         inclusion = inclusion[1..-2] # Trim slashes
         begin
           re = Regexp.new(inclusion)
-          include_list[index] = re
+          included_controls[index] = re
         rescue RegexpError => e
           warn "Ignoring unparseable regex '/#{inclusion}/' in --control CLI option: #{e.message}"
-          include_list[index] = nil
+          included_controls[index] = nil
         end
       end
-      include_list.compact!
+      included_controls.compact!
+      included_controls
+    end
 
-      controls_array.select do |c|
-        id = ::Inspec::Rule.rule_id(c)
-        include_list.any? do |inclusion|
-          # Try to see if the inclusion is a regex, and if it matches
-          inclusion == id || (inclusion.is_a?(Regexp) && inclusion =~ id)
+    # This creates the list of controls to be filtered by tag values provided in the --tags options
+    def include_tags_list
+      return [] if @tags.nil? || @tags.empty?
+
+      included_tags = @tags
+      # Check for anything that might be a regex in the list, and make it official
+      included_tags.each_with_index do |inclusion, index|
+        next if inclusion.is_a?(Regexp)
+        # Insist the user wrap the regex in slashes to demarcate it as a regex
+        next unless inclusion.start_with?("/") && inclusion.end_with?("/")
+
+        inclusion = inclusion[1..-2] # Trim slashes
+        begin
+          re = Regexp.new(inclusion)
+          included_tags[index] = re
+        rescue RegexpError => e
+          warn "Ignoring unparseable regex '/#{inclusion}/' in --control CLI option: #{e.message}"
+          included_tags[index] = nil
         end
       end
+      included_tags.compact!
+      included_tags
     end
 
     def load_libraries

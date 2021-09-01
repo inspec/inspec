@@ -31,10 +31,15 @@ A `security_policy` resource block declares the name of a security policy and th
       its('policy_name') { should eq 'value' }
     end
 
+    describe security_policy(translate_sid: true) do
+      its('policy_name') { should include 'sid_name' }
+    end
+
 where
 
 - `'policy_name'` must specify a security policy
 - `{ should eq 'value' }` tests the value of `policy_name` against the value declared in the test
+- `translate_sid` converts the SID into human readable SID name if true. Default value is false.
 
 ## Examples
 

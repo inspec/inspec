@@ -2,13 +2,30 @@ require "functional/helper"
 
 describe "inspec shell tests" do
   include FunctionalHelper
+  let(:input_file_from_basic_input_profile) { File.join(profile_path, "inputs", "basic", "files", "flat.yaml") }
 
   parallelize_me!
 
   describe "cmd" do
     def assert_shell_c(code, exit_status, json = false, stderr = "")
       json_suffix = " --reporter 'json'" if json
-      command = "shell -c '#{code.tr("'", '\\\'')}'#{json_suffix}"
+      command = "shell -c '#{code.tr("'", "\\'")}'#{json_suffix}"
+      # On darwin this value is:
+      # shell -c 'describe file(\"/Users/nickschwaderer/Documents/inspec/inspec/test/functional/inspec_shell_test.rb\") do it { should exist } end' --reporter 'json'"
+      # appears to break in windows.
+      out = inspec(command)
+
+      actual = out.stderr.gsub(/\e\[(\d+)(;\d+)*m/, "") # strip ANSI color codes
+      _(actual).must_equal stderr
+
+      assert_exit_code exit_status, out
+
+      out
+    end
+
+    def assert_shell_c_with_inputs(code, input_cmd, input, exit_status, json = false, stderr = "")
+      json_suffix = " --reporter 'json'" if json
+      command = "shell -c '#{code.tr("'", "\\'")}'#{input_cmd} #{input}#{json_suffix}"
       # On darwin this value is:
       # shell -c 'describe file(\"/Users/nickschwaderer/Documents/inspec/inspec/test/functional/inspec_shell_test.rb\") do it { should exist } end' --reporter 'json'"
       # appears to break in windows.
@@ -24,6 +41,16 @@ describe "inspec shell tests" do
 
     it "loads a dependency" do
       res = inspec("shell -c 'example_config' --depends #{example_profile}")
+
+      _(res.stdout.chop).must_equal "example_config"
+
+      _(res.stderr).must_equal ""
+
+      assert_exit_code 0, res
+    end
+
+    it "loads a profile and its dependencies" do
+      res = inspec("shell -c 'example_config' --depends #{shell_inheritance_profile}")
 
       _(res.stdout.chop).must_equal "example_config"
 
@@ -178,6 +205,20 @@ describe "inspec shell tests" do
       _(out.stdout).must_include "0 successful"
       _(out.stdout).must_include "1 failure"
     end
+
+    it "loads input from external input file" do
+      skip_windows! # Breakage confirmed
+      out = assert_shell_c_with_inputs("describe input(\"a_quoted_string\") do it { should cmp \"Should not have quotes\" } end", " --input-file", input_file_from_basic_input_profile, 0)
+      _(out.stdout).must_include "1 successful"
+      _(out.stdout).must_include "0 failures"
+    end
+
+    it "loads input from input cli" do
+      skip_windows! # Breakage confirmed
+      out = assert_shell_c_with_inputs("describe input(\"test_input_01\") do it { should cmp \"value_from_cli_01\" } end", " --input", "test_input_01='value_from_cli_01'", 0)
+      _(out.stdout).must_include "1 successful"
+      _(out.stdout).must_include "0 failures"
+    end
   end
 
   # Pry does not support STDIN from windows currently. Skipping these for now.
@@ -195,7 +236,7 @@ describe "inspec shell tests" do
       end
 
       def do_shell(code, exit_status = 0, stderr = "")
-        cmd = "echo '#{code.tr("'", '\\\'')}' | #{exec_inspec} shell"
+        cmd = "echo '#{code.tr("'", "\\'")}' | #{exec_inspec} shell"
         self.out = CMD.run_command(cmd)
 
         assert_exit_code exit_status, out
@@ -205,6 +246,15 @@ describe "inspec shell tests" do
 
       it "loads a dependency" do
         cmd = "echo 'example_config' | #{exec_inspec} shell --depends #{example_profile}"
+        res = CMD.run_command(cmd)
+
+        _(res.stdout).must_include "=> example_config"
+
+        assert_exit_code 0, res
+      end
+
+      it "loads a profile and its dependencies" do
+        cmd = "echo 'example_config' | #{exec_inspec} shell --depends #{shell_inheritance_profile}"
         res = CMD.run_command(cmd)
 
         _(res.stdout).must_include "=> example_config"

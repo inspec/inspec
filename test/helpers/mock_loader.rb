@@ -18,10 +18,10 @@ class MockLoader
     freebsd12: { name: "freebsd", family: "bsd", release: "12", arch: "amd64" },
     macos10_10: { name: "mac_os_x", family: "darwin", release: "10.10.4", arch: nil },
     macos10_16: { name: "darwin", family: "darwin", release: "10.16", arch: nil },
-    ubuntu1204: { name: "ubuntu", family: "debian", release: "12.04", arch: "x86_64" },
     ubuntu1404: { name: "ubuntu", family: "debian", release: "14.04", arch: "x86_64" },
     ubuntu1504: { name: "ubuntu", family: "debian", release: "15.04", arch: "x86_64" },
     ubuntu1604: { name: "ubuntu", family: "debian", release: "16.04", arch: "x86_64" },
+    ubuntu1804: { name: "ubuntu", family: "debian", release: "18.04", arch: "x86_64" },
     mint17: { name: "linuxmint", family: "debian", release: "17.3", arch: "x86_64" },
     mint18: { name: "linuxmint", family: "debian", release: "18", arch: "x86_64" },
     windows: { name: "windows", family: "windows", release: "6.2.9200", arch: "x86_64" },
@@ -34,6 +34,7 @@ class MockLoader
     aix: { name: "aix", family: "aix", release: "7.2", arch: "powerpc" },
     amazon: { name: "amazon", family: "redhat", release: "2015.03", arch: "x86_64" },
     amazon2: { name: "amazon", family: "redhat", release: "2", arch: "x86_64" },
+    aliyun3: { name: "alibaba", family: "redhat", release: "3", arch: "x86_64" },
     yocto: { name: "yocto", family: "yocto", release: "0.0.1", arch: "aarch64" },
     undefined: { name: nil, family: nil, release: nil, arch: nil },
   }
@@ -88,7 +89,7 @@ class MockLoader
       mockfile.call("emptyfile")
     }
 
-    mock.files = {
+    mock_files = {
       "/proc/net/bonding/bond0" => mockfile.call("bond0"),
       "/etc/ssh/ssh_config" => mockfile.call("ssh_config"),
       "/etc/ssh/sshd_config" => mockfile.call("sshd_config"),
@@ -110,6 +111,7 @@ class MockLoader
       "/etc/audit/auditd.conf" => mockfile.call("auditd.conf"),
       "/etc/mysql/my.cnf" => mockfile.call("mysql.conf"),
       "/etc/mysql/mysql2.conf" => mockfile.call("mysql2.conf"),
+      "/etc/mongod.conf" => mockfile.call("mongod.conf"),
       "/etc/rabbitmq/rabbitmq.config" => mockfile.call("rabbitmq.config"),
       "kitchen.yml" => mockfile.call("kitchen.yml"),
       "example.csv" => mockfile.call("example.csv"),
@@ -117,7 +119,6 @@ class MockLoader
       "nonexistent.json" => mockfile.call("nonexistent.json"),
       "/sys/class/net/br0/bridge" => mockdir.call(true),
       "rootwrap.conf" => mockfile.call("rootwrap.conf"),
-      "/etc/apache2/apache2.conf" => mockfile.call("apache2.conf"),
       "/etc/apache2/ports.conf" => mockfile.call("ports.conf"),
       "/etc/httpd/conf/httpd.conf" => mockfile.call("httpd.conf"),
       "/etc/httpd/conf.d/ssl.conf" => mockfile.call("ssl.conf"),
@@ -152,7 +153,7 @@ class MockLoader
       "database.xml" => mockfile.call("database.xml"),
       "/test/path/to/postgres/pg_hba.conf" => mockfile.call("pg_hba.conf"),
       "/etc/postgresql/9.5/main/pg_ident.conf" => mockfile.call("pg_ident.conf"),
-      "C:/etc/postgresql/9.5/main/pg_ident.conf" => mockfile.call("pg_ident.conf"),
+      "C:/Program Files/PostgreSQL/9.5/main/pg_ident.conf" => mockfile.call("pg_ident.conf"),
       "/etc/postgresql/9.5/main" => mockfile.call("9.5.main"),
       "/var/lib/postgresql/9.5/main" => mockfile.call("var.9.5.main"),
       "/etc/hosts" => mockfile.call("hosts"),
@@ -171,7 +172,23 @@ class MockLoader
       "/etc/cron.d/crondotd" => mockfile.call("crondotd"),
       "/etc/postfix/main.cf" => mockfile.call("main.cf"),
       "/etc/postfix/other.cf" => mockfile.call("other.cf"),
+      "/etc/selinux/selinux_conf" => mockfile.call("selinux_conf"),
     }
+
+    if @platform
+      if @platform[:name] == "ubuntu" && @platform[:release] == "18.04"
+        mock_files.merge!(
+          "/etc/apache2/apache2.conf" => mockfile.call("apache2.conf")
+        )
+      elsif @platform[:name] == "ubuntu" && @platform[:release] == "15.04"
+        # using this ubuntu version to test apache_conf with non configured server root in conf file
+        mock_files.merge!(
+          "/etc/apache2/apache2.conf" => mockfile.call("apache2_server_root_void.conf")
+        )
+      end
+    end
+
+    mock.files = mock_files
 
     # create all mock commands
     cmd = lambda { |x|
@@ -344,7 +361,7 @@ class MockLoader
       "host -t AAAA example.com" => cmd.call("host-AAAA-example.com"),
       "ping -W 1 -c 1 example.com" => cmd.call("ping-example.com"),
       # apt
-      "find /etc/apt/ -name *.list -exec sh -c 'cat {} || echo -n' \\;" => cmd.call("etc-apt"),
+      "find /etc/apt/ -name \"*.list\" -exec sh -c 'cat {} || echo -n' \\;" => cmd.call("etc-apt"),
       # iptables
       "/usr/sbin/iptables  -S" => cmd.call("iptables-s"),
       %{sh -c 'type "/usr/sbin/iptables"'} => empty.call,
@@ -426,6 +443,10 @@ class MockLoader
       "/sbin/zfs get -Hp all tank/tmp" => cmd.call("zfs-get-all-tank-tmp"),
       # zfs output for pool tank
       "/sbin/zpool get -Hp all tank" => cmd.call("zpool-get-all-tank"),
+      # which zfs
+      "which zfs" => cmd.call("zfs-which"),
+      # which zpool
+      "which zpool" => cmd.call("zpool-which"),
       # docker
       "4f8e24022ea8b7d3b117041ec32e55d9bf08f11f4065c700e7c1dc606c84fd17" => cmd.call("docker-ps-a"),
       "b40ed61c006b54f155b28a85dc944dc0352b30222087b47c6279568ec0e59d05" => cmd.call("df-PT"),
@@ -547,19 +568,33 @@ class MockLoader
       "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-544\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call("security-policy-sid-translated"),
       "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-555\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call("security-policy-sid-untranslated"),
 
-      # Windows SID calls
-      'wmic useraccount where \'Name="Alice"\' get Name","SID /format:csv' => cmd.call("security-identifier-alice"),
-      'wmic useraccount where \'Name="Bob"\' get Name","SID /format:csv' => cmd.call("security-identifier-unknown"),
-      'wmic useraccount where \'Name="DontExist"\' get Name","SID /format:csv' => cmd.call("security-identifier-unknown"),
-      'wmic group where \'Name="Guests"\' get Name","SID /format:csv' => cmd.call("security-identifier-guests"),
-      'wmic group where \'Name="DontExist"\' get Name","SID /format:csv' => cmd.call("security-identifier-unknown"),
+      # Windows SID calls with CimInstance
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID, SIDType | Where-Object { $_.Name -eq 'Alice' -and $_.SIDType -eq 1 } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-alice"),
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID, SIDType | Where-Object { $_.Name -eq 'Bob' -and $_.SIDType -eq 1 } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-unknown"),
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID, SIDType | Where-Object { $_.Name -eq 'DontExist' -and $_.SIDType -eq 1 } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-unknown"),
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID | Where-Object { $_.Name -eq 'Guests' -and { $_.SIDType -eq 4 -or $_.SIDType -eq 5 } } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-guests"),
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID | Where-Object { $_.Name -eq 'DontExist' -and { $_.SIDType -eq 4 -or $_.SIDType -eq 5 } } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-unknown"),
 
       # alpine package commands
       "apk info -vv --no-network | grep git" => cmd.call("apk-info-grep-git"),
 
       # filesystem command
       "2e7e0d4546342cee799748ec7e2b1c87ca00afbe590fa422a7c27371eefa88f0" => cmd.call("get-wmiobject-filesystem"),
+      "sestatus" => cmd.call("sestatus"),
+      "semodule -lfull" => cmd.call("semodule-lfull"),
+      "semanage boolean -l -n" => cmd.call("semanage-boolean"),
+      "Get-ChildItem -Path \"C:\\Program Files\\MongoDB\\Server\" -Name" => cmd.call("mongodb-version"),
+      "opa eval -i 'input.json' -d 'example.rego' 'data.example.allow'" => cmd.call("opa-result"),
+      "curl -X POST localhost:8181/v1/data/example/violation -d @v1-data-input.json -H 'Content-Type: application/json'" => cmd.call("opa-api-result"),
     }
+
+    if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")
+      mock_cmds.merge!(
+          "sestatus" => empty.call,
+          "semodule -lfull" => empty.call,
+          "semanage boolean -l -n" => empty.call
+        )
+    end
 
     # ports on linux
     # allow the ss and/or netstat commands to exist so the later mock is called
@@ -578,9 +613,31 @@ class MockLoader
         %{sh -c 'type "ss"'} => empty.call,
         %{sh -c 'type "netstat"'} => empty.call,
         "ss -tulpen" => cmd.call("ss-tulpen"),
+        "ss -tulpen '( dport = 22 or sport = 22 )'" => cmd.call("ss-tulpen"),
+        "ss -tulpen '( dport = 68 or sport = 68 )'" => cmd.call("ss-tulpen"),
+        "ss -tulpen '( dport = 9200 or sport = 9200 )'" => cmd.call("ss-tulpen"),
+        "ss -tulpen '( dport = 80 or sport = 80 )'" => cmd.call("ss-tulpen"),
         "netstat -tulpen" => cmd.call("netstat-tulpen")
       )
     end
+
+    # zfs dynamic commands
+    if @platform && %w{centos debian ubuntu amazon}.include?(@platform[:name])
+      mock_cmds.merge!(
+        # zfs output for dataset tank/tmp
+        %{`which zfs` get -Hp all tank/tmp} => cmd.call("zfs-get-all-tank-tmp"),
+        # zfs output for pool tank
+        %{`which zpool` get -Hp all tank} => cmd.call("zpool-get-all-tank")
+      )
+    end
+
+    if @platform && ! %w{centos cloudlinux coreos debian freebsd ubuntu amazon}.include?(@platform[:name])
+      mock_cmds.delete("/sbin/zfs get -Hp all tank/tmp")
+      mock_cmds.delete("/sbin/zpool get -Hp all tank")
+      mock_cmds.delete("which zfs")
+      mock_cmds.delete("which zpool")
+    end
+
     mock.commands = mock_cmds
 
     @backend

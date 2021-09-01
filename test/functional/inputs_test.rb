@@ -6,6 +6,7 @@ require "tempfile"
 describe "inputs" do
   include FunctionalHelper
   let(:inputs_profiles_path) { File.join(profile_path, "inputs") }
+  let(:external_attributes_file_path) { "#{inputs_profiles_path}/hashmap/files/inputs.yml" }
 
   parallelize_me!
 
@@ -123,12 +124,23 @@ describe "inputs" do
 
     describe "when using the current :inputs key" do
       let(:runner_options) { common_options.merge({ inputs: { test_input_01: "value_from_api" } }) }
-
       it "finds the values and does not issue any warnings" do
         output = run_result.stdout
         refute_includes output, "DEPRECATION"
         structured_output = JSON.parse(output)
         assert_equal "passed", structured_output["profiles"][0]["controls"][0]["results"][0]["status"]
+      end
+    end
+
+    describe "when using the current :inputs key with both string and symbol key in hashes" do
+      let(:runner_options) { common_options.merge({ inputs: { test_input_01: "value_from_api", test_input_hash_string: { "string_key": "string_value" }, test_input_hash_symbol: { symbol_key: :symbol_value } } }) }
+
+      it "finds the values and runs successfully" do
+        output = run_result.stdout
+        structured_output = JSON.parse(output)
+        assert_equal "passed", structured_output["profiles"][0]["controls"][0]["results"][0]["status"]
+        assert_equal "passed", structured_output["profiles"][0]["controls"][0]["results"][1]["status"]
+        assert_equal "passed", structured_output["profiles"][0]["controls"][0]["results"][2]["status"]
       end
     end
 
@@ -440,6 +452,50 @@ describe "inputs" do
       _(inputs[1]["options"]["value"]).wont_include "secret"
       _(inputs[1]["options"]["value"]).must_include "***"
       _(inputs[2]["options"]["value"]).wont_include "***" # Explicit sensitive = false
+    end
+  end
+
+  describe "when a profile is executed with inputs through external file, metadata file and profile DSL" do
+    it "should access the values successfully from all input ways" do
+      result = run_inspec_process("exec #{inputs_profiles_path}/hashmap --input-file #{external_attributes_file_path}", json: true)
+      _(result.stderr).must_be_empty
+      assert_json_controls_passing(result)
+    end
+  end
+
+  describe "when a profile is used with input options" do
+    it "should be a success for valid values when pattern flag is passed through metadata file" do
+      result = run_inspec_process("exec #{inputs_profiles_path}/metadata-pattern", json: true)
+      _(result.stderr).must_be_empty
+      assert_json_controls_passing(result)
+    end
+
+    it "should be a success for valid values when required, type and pattern flag is passed through dsl" do
+      result = run_inspec_process("exec #{inputs_profiles_path}/dsl --controls pattern_flag_success_check required_flag_success_check type_flag_success_check", json: true)
+      _(result.stderr).must_be_empty
+      assert_json_controls_passing(result)
+    end
+
+    it "should be a failure for invalid value when required flag is passed through dsl" do
+      result = run_inspec_process("exec #{inputs_profiles_path}/dsl --controls required_flag_failure_check", json: true)
+      _(result.stderr).must_include "Input 'input_value_04' is required and does not have a value.\n"
+      assert_exit_code 1, result
+    end
+
+    it "should be a failure for invalid value when type flag is passed through dsl" do
+      result = run_inspec_process("exec #{inputs_profiles_path}/dsl --controls type_flag_failure_check", json: true)
+      _(result.stderr).must_be_empty
+      output = JSON.parse(result[0])
+      assert_equal "failed", output["profiles"][0]["controls"][0]["results"][0]["status"]
+      assert_exit_code(100, result)
+    end
+
+    it "should be a failure for invalid value when pattern flag is passed through dsl" do
+      result = run_inspec_process("exec #{inputs_profiles_path}/dsl --controls pattern_flag_failure_check", json: true)
+      _(result.stderr).must_be_empty
+      output = JSON.parse(result[0])
+      assert_equal "failed", output["profiles"][0]["controls"][0]["results"][0]["status"]
+      assert_exit_code(100, result)
     end
   end
 end

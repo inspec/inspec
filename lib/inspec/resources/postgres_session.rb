@@ -12,7 +12,7 @@ module Inspec::Resources
     end
 
     def lines
-      output.split("\n")
+      output.split("\n").map(&:strip)
     end
 
     def to_s
@@ -45,14 +45,17 @@ module Inspec::Resources
       @pass = pass
       @host = host || "localhost"
       @port = port || 5432
+      raise Inspec::Exceptions::ResourceFailed, "Can't run PostgreSQL SQL checks without authentication." if @user.nil? || @pass.nil?
     end
 
     def query(query, db = [])
+      raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if resource_failed?
+
       psql_cmd = create_psql_cmd(query, db)
-      cmd = inspec.command(psql_cmd, redact_regex: /(PGPASSWORD=').+(' psql .*)/)
+      cmd = inspec.command(psql_cmd, redact_regex: %r{(:\/\/[a-z]*:).*(@)})
       out = cmd.stdout + "\n" + cmd.stderr
       if cmd.exit_status != 0 || out =~ /could not connect to .*/ || out.downcase =~ /^error:.*/
-        Lines.new(out, "PostgreSQL query with errors: #{query}")
+        raise Inspec::Exceptions::ResourceFailed, "PostgreSQL query with errors: #{out}"
       else
         Lines.new(cmd.stdout.strip, "PostgreSQL query: #{query}")
       end
@@ -65,8 +68,12 @@ module Inspec::Resources
     end
 
     def create_psql_cmd(query, db = [])
-      dbs = db.map { |x| "-d #{x}" }.join(" ")
-      "PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h #{@host} -p #{@port} -A -t -c #{escaped_query(query)}"
+      dbs = db.map { |x| "#{x}" }.join(" ")
+      if inspec.os.windows?
+        "psql -d postgresql://#{@user}:#{@pass}@#{@host}:#{@port}/#{dbs} -A -t -w -c \"#{query}\""
+      else
+        "psql -d postgresql://#{@user}:#{@pass}@#{@host}:#{@port}/#{dbs} -A -t -w -c #{escaped_query(query)}"
+      end
     end
   end
 end

@@ -2,7 +2,7 @@
 
 title "Sample Section"
 
-aws_vpc_id = attribute("aws_vpc_id", default: "", description: "Optional AWS VPC identifier.")
+aws_vpc_id = input("aws_vpc_id", default: "", description: "Optional AWS VPC identifier.")
 
 # You add controls here
 control "aws-single-vpc-exists-check" do # A unique ID for this control.

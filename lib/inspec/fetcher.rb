@@ -2,12 +2,12 @@ require "inspec/plugin/v1"
 
 module Inspec
   class FetcherRegistry < PluginRegistry
-    def resolve(target)
+    def resolve(target, opts = {})
       if fetcher_specified?(target)
-        super(target)
+        super(target, opts)
       else
         Inspec::Log.debug("Assuming default supermarket source for #{target}")
-        super(with_default_fetcher(target))
+        super(with_default_fetcher(target), opts)
       end
     end
 

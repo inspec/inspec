@@ -52,13 +52,13 @@ class ErlangParser < Parslet::Parser
 
   rule(:stringS) do
     str("'") >> (
-      str('\\') >> any | str("'").absent? >> any
+      str("\\") >> any | str("'").absent? >> any
     ).repeat.as(:string) >> str("'") >> filler?
   end
 
   rule(:stringD) do
     str('"') >> (
-      str('\\') >> any | str('"').absent? >> any
+      str("\\") >> any | str('"').absent? >> any
     ).repeat.as(:string) >> str('"') >> filler?
   end
 

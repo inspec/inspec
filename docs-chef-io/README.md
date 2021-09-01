@@ -52,7 +52,7 @@ before the next promotion.
 ## Local Development Environment
 
 We use [Hugo](https://gohugo.io/), [Go](https://golang.org/), and[NPM](https://www.npmjs.com/)
-to build the Chef Documentation website. You will need Hugo 0.78.1 or higher
+to build the Chef Documentation website. You will need Hugo 0.83.1 or higher
 installed and running to build and view our documentation properly.
 
 To install Hugo, NPM, and Go on Windows and macOS:

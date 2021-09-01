@@ -36,7 +36,7 @@ module Inspec::Resources
       end
     end
 
-    # returns nil, if not existant or value
+    # returns nil, if not existent or value
     def method_missing(*keys)
       # catch behavior of rspec its implementation
       # @see https://github.com/rspec/rspec-its/blob/v1.2.0/lib/rspec/its.rb#L110

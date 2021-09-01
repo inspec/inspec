@@ -49,10 +49,11 @@ module Inspec::Resources
 
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
-    filter.register_column(:names, field: "name")
-      .register_column(:gids,      field: "gid")
-      .register_column(:domains,   field: "domain")
-      .register_column(:members,   field: "members", style: :simple)
+    filter.register_column(:names,       field: "name")
+      .register_column(:gids,            field: "gid")
+      .register_column(:domains,         field: "domain")
+      .register_column(:members,         field: "members", style: :simple)
+      .register_column(:members_array,   field: "members_array", style: :simple)
     filter.install_filter_methods_on_resource(self, :collect_group_details)
 
     def to_s
@@ -63,7 +64,13 @@ module Inspec::Resources
 
     # collects information about every group
     def collect_group_details
-      return @groups_cache ||= @group_provider.groups unless @group_provider.nil?
+      unless @group_provider.nil?
+        modified_groups_info = @group_provider.groups
+        unless modified_groups_info.empty?
+          modified_groups_info.each { |hashmap| hashmap["members_array"] = hashmap["members"].is_a?(Array) ? hashmap["members"] : hashmap["members"]&.split(",") }
+        end
+        return @groups_cache ||= modified_groups_info
+      end
 
       []
     end
@@ -111,7 +118,11 @@ module Inspec::Resources
     end
 
     def members
-      flatten_entry(group_info, "members")
+      flatten_entry(group_info, "members") || empty_value_for_members
+    end
+
+    def members_array
+      flatten_entry(group_info, "members_array") || []
     end
 
     def local
@@ -140,6 +151,10 @@ module Inspec::Resources
       # we need a local copy for the block
       group = @group.dup
       @groups_cache ||= inspec.groups.where { name == group }
+    end
+
+    def empty_value_for_members
+      inspec.os.windows? ? [] : ""
     end
   end
 

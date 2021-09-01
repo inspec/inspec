@@ -28,10 +28,14 @@ group :omnibus do
 end
 
 group :test do
-  gem "chefstyle", "~> 1.7.1"
+  gem "chefstyle", "~> 2.0.3"
   gem "concurrent-ruby", "~> 1.0"
-  gem "html-proofer", platforms: :ruby # do not attempt to run proofer on windows
-  gem "json_schemer", ">= 0.2.1", "< 0.2.18"
+  if Gem.ruby_version.to_s.start_with?("2.5")
+    gem "html-proofer", "= 3.19.1" , platforms: :ruby # do not attempt to run proofer on windows
+  else
+    gem "html-proofer", platforms: :ruby # do not attempt to run proofer on windows
+  end
+  gem "json_schemer", ">= 0.2.1", "< 0.2.19"
   gem "m"
   gem "minitest-sprint", "~> 1.0"
   gem "minitest", "~> 5.5"
@@ -47,4 +51,18 @@ end
 
 group :deploy do
   gem "inquirer"
+end
+
+# Only include Test Kitchen support if we are on Ruby 2.7 or higher
+# as chef-zero support requires Ruby 2.6
+# See https://github.com/inspec/inspec/pull/5341
+if Gem.ruby_version >= Gem::Version.new("2.7.0")
+  group :kitchen do
+    gem "berkshelf"
+    gem "chef", ">= 16.0" # Required to allow net-ssh > 6
+    gem "test-kitchen", ">= 2.8"
+    gem "kitchen-inspec", ">= 2.0"
+    gem "kitchen-dokken", ">= 2.11"
+    gem "git"
+  end
 end

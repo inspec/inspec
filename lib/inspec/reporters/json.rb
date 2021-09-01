@@ -8,7 +8,7 @@ module Inspec::Reporters
     end
 
     def report
-      {
+      output = {
         platform: platform,
         profiles: profiles,
         statistics: {
@@ -16,6 +16,11 @@ module Inspec::Reporters
         },
         version: run_data[:version],
       }
+
+      %w{passthrough}.each do |option|
+        output[option.to_sym] = @config[option] unless @config[option].nil?
+      end
+      output
     end
 
     private

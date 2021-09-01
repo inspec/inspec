@@ -13,6 +13,13 @@ platform = "os"
 
 Use the `group` Chef InSpec audit resource to test a single group on the system.
 
+The `group` resource uses the following system groups:
+
+- On **non-Windows** systems the group resource tests a local group defined in the`/etc/group` file.
+
+- On **Windows** systems the group resource tests a local group defined by Local Users and Groups.
+
+
 ## Availability
 
 ### Installation
@@ -61,6 +68,25 @@ The `gid` property tests the named group identifier:
 The `members` property tests the members that belong to the group:
 
     its('members') { should include 'root' }
+
+where `members` returns:
+
+- an array of group members for **Windows Platform**.
+
+    Example: `["member1", "member2"]`
+
+- a CSV formatted string of group members for **Non-Windows Platforms**.
+
+    Example: `"member1,member2"`
+
+
+### members_array
+
+The `members_array` property tests the members that belong to a group just like the
+`members` property,
+but the value returned by this property is always an array of group members.
+
+    its('members_array') { should include 'root' }
 
 ## Matchers
 

@@ -31,6 +31,11 @@ module Inspec::Resources
       end
 
       @command = cmd
+      cli_timeout = Inspec::Config.cached["command_timeout"]&.to_i
+      # Can access this via Inspec::InspecCLI.commands["exec"].options[:command_timeout].default,
+      # but that may not be loaded for kitchen-inspec and other pure gem consumers
+      cli_timeout = nil if cli_timeout == 0 # Under test-kitchen we get a 0 timeout, which can't be a resonable value
+      @timeout = cli_timeout || options[:timeout]&.to_i
 
       if options[:redact_regex]
         unless options[:redact_regex].is_a?(Regexp)
@@ -44,7 +49,15 @@ module Inspec::Resources
     end
 
     def result
-      @result ||= inspec.backend.run_command(@command)
+      @result ||= begin
+        inspec.backend.run_command(@command, timeout: @timeout)
+                  rescue Train::CommandTimeoutReached
+                    # Without a small sleep, the train connection gets broken
+                    # We've already timed out, so a small sleep is not likely to be painful here.
+                    sleep 0.1
+                    raise Inspec::Exceptions::ResourceFailed,
+                          "Command `#{@command}` timed out after #{@timeout} seconds"
+      end
     end
 
     def stdout

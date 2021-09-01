@@ -62,7 +62,6 @@ module Inspec::Fetcher
     def fetch(destination_path)
       @repo_directory = destination_path # Might be the cache, or vendoring, or something else
       FileUtils.mkdir_p(destination_path) unless Dir.exist?(destination_path)
-
       if cloned?
         checkout
       else
@@ -126,8 +125,23 @@ module Inspec::Fetcher
                         elsif @tag
                           resolve_ref(@tag)
                         else
-                          resolve_ref("master")
+                          resolve_ref(default_ref)
                         end
+    end
+
+    def default_ref
+      command_string = "git remote show #{@remote_url}"
+      cmd = shellout(command_string)
+      unless cmd.exitstatus == 0
+        raise(Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{@remote_url} - error running '#{command_string}': #{cmd.stderr}")
+      else
+        ref = cmd.stdout.lines.detect { |l| l.include? "HEAD branch:" }&.split(":")&.last&.strip
+        unless ref
+          raise(Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{@remote_url} - error running '#{command_string}': NULL reference")
+        end
+
+        ref
+      end
     end
 
     def resolve_ref(ref_name)

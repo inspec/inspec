@@ -47,7 +47,7 @@ where
 
 `address` returns a an array of strings that matches the where condition of the filter table
 
-    describe pg_ident_conf.where { pg_username == 'name' } do
+    describe postgres_ident_conf.where { pg_username == 'name' } do
       its('map_name') { should eq ['value'] }
     end
 
@@ -55,7 +55,7 @@ where
 
 `pg_username` returns a an array of strings that matches the where condition of the filter table
 
-    describe pg_ident_conf.where { pg_username == 'name' } do
+    describe postgres_ident_conf.where { pg_username == 'name' } do
       its('pg_username') { should eq ['value'] }
     end
 
@@ -63,7 +63,7 @@ where
 
 `system_username` returns a an array of strings that matches the where condition of the filter table
 
-    describe pg_ident_conf.where { pg_username == 'name' } do
+    describe postgres_ident_conf.where { pg_username == 'name' } do
       its('system_username') { should eq ['value'] }
     end
 

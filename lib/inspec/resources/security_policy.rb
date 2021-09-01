@@ -147,7 +147,7 @@ module Inspec::Resources
 
     # extracts the values, this methods detects:
     # numbers and SIDs and optimizes them for further usage
-    def extract_value(val)
+    def extract_value(key, val)
       if val =~ /^\d+$/
         val.to_i
       # special handling for SID array
@@ -166,14 +166,15 @@ module Inspec::Resources
       elsif !(m = /^\"(.*)\"$/.match(val)).nil?
         m[1]
       else
-        val
+        # When there is Registry Values we are not spliting the value for backward compatibility
+        key.include?("\\") ? val : val.split(",")
       end
     end
 
     def convert_hash(hash)
       new_hash = {}
       hash.each do |k, v|
-        v.is_a?(Hash) ? value = convert_hash(v) : value = extract_value(v)
+        v.is_a?(Hash) ? value = convert_hash(v) : value = extract_value(k, v)
         new_hash[k.strip] = value
       end
       new_hash

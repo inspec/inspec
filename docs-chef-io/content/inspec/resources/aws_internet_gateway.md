@@ -6,8 +6,8 @@ platform = "aws"
 
 [menu]
   [menu.inspec]
-    title = "About the aws_internet_gateway Resource"
-    identifier = "inspec/resources/aws/aws_internet_gateway.md aws_internet_gateway"
+    title = "aws_internet_gateway"
+    identifier = "inspec/resources/aws/aws_internet_gateway"
     parent = "inspec/resources/aws"
 +++
 

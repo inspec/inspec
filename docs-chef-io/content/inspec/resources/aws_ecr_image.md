@@ -6,8 +6,8 @@ platform = "aws"
 
 [menu]
   [menu.inspec]
-    title = "aws_ecr_image Resource"
-    identifier = "inspec/resources/aws/aws_ecr_image.md About the aws_ecr_image Resource"
+    title = "aws_ecr_image"
+    identifier = "inspec/resources/aws/aws_ecr_image"
     parent = "inspec/resources/aws"
 +++
 

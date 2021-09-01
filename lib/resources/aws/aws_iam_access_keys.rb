@@ -101,27 +101,27 @@ class AwsIamAccessKeys < Inspec.resource(1)
 
         access_key_data = []
         user_details.each_key do |username|
-          begin
-            user_keys = iam_client.list_access_keys(user_name: username)
-              .access_key_metadata
-            user_keys = user_keys.map do |metadata|
-              {
-                access_key_id: metadata.access_key_id,
-                username: username,
-                status: metadata.status,
-                create_date: metadata.create_date, # DateTime.parse(metadata.create_date),
-              }
-            end
 
-            # Copy in from user data
-            # Synthetics
-            user_keys.each do |key_info|
-              add_synthetic_fields(key_info, user_details[username])
-            end
-            access_key_data.concat(user_keys)
-          rescue Aws::IAM::Errors::NoSuchEntity # rubocop:disable Lint/HandleExceptions
-            # Swallow - a miss on search results should return an empty table
+          user_keys = iam_client.list_access_keys(user_name: username)
+            .access_key_metadata
+          user_keys = user_keys.map do |metadata|
+            {
+              access_key_id: metadata.access_key_id,
+              username: username,
+              status: metadata.status,
+              create_date: metadata.create_date, # DateTime.parse(metadata.create_date),
+            }
           end
+
+          # Copy in from user data
+          # Synthetics
+          user_keys.each do |key_info|
+            add_synthetic_fields(key_info, user_details[username])
+          end
+          access_key_data.concat(user_keys)
+        rescue Aws::IAM::Errors::NoSuchEntity # rubocop:disable Lint/HandleExceptions
+          # Swallow - a miss on search results should return an empty table
+
         end
         access_key_data
       end

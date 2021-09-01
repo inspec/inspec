@@ -41,12 +41,14 @@ module Inspec::Reporters
     MULTI_TEST_CONTROL_SUMMARY_MAX_LEN = 60
 
     def render
+      @src_extent_map = {}
       run_data[:profiles].each do |profile|
         if profile[:status] == "skipped"
           platform = run_data[:platform]
           output("Skipping profile: '#{profile[:name]}' on unsupported platform: '#{platform[:name]}/#{platform[:release]}'.")
           next
         end
+        read_control_source(profile)
         @control_count = 0
         output("")
         print_profile_header(profile)
@@ -89,6 +91,7 @@ module Inspec::Reporters
         next if control.results.nil?
 
         output(format_control_header(control))
+        output(format_control_source(control)) if Inspec::Config.cached[:reporter_include_source]
         control.results.each do |result|
           output(format_result(control, result, :standard))
           @control_count += 1
@@ -125,6 +128,62 @@ module Inspec::Reporters
         indicator: impact,
         message: control.title_for_report
       )
+    end
+
+    def format_control_source(control)
+      src = @control_source[control.id]
+      message  = "Control Source from #{src[:path]}:#{src[:start]}..#{src[:end]}\n"
+      message += src[:content]
+      format_message(
+        color: "skipped",
+        indentation: 5,
+        message: message
+      )
+    end
+
+    def read_control_source(profile)
+      return unless Inspec::Config.cached[:reporter_include_source]
+
+      @control_source = {}
+      src_extent_map = {}
+
+      # First pass: build map of paths => ids => [start]
+      all_unique_controls.each do |control|
+        id = control[:id]
+        path = control[:source_location][:ref]
+        start = control[:source_location][:line]
+        next if path.nil? || start.nil?
+
+        src_extent_map[path] ||= []
+        src_extent_map[path] << { start: start, id: id }
+      end
+
+      # Now sort the controls by their starting line in their control file
+      src_extent_map.values.each do |extent_list|
+        extent_list.sort! { |a, b| a[:start] <=> b[:start] }
+      end
+
+      # Third pass: Read in files and split into lines
+      src_extent_map.keys.each do |path|
+        control_file_lines = File.read(path).lines # TODO error handling
+        last_line_in_file = control_file_lines.count
+        extent_list = src_extent_map[path]
+        extent_list.each_with_index do |extent, idx|
+          if idx == extent_list.count - 1 # Last entry
+            extent[:end] = last_line_in_file
+          else
+            extent[:end] = extent_list[idx + 1][:start] - 1
+          end
+
+          @control_source[extent[:id]] =
+            {
+              path: path,
+              start: extent[:start],
+              end: extent[:end],
+              content: control_file_lines.slice(extent[:start] - 1, extent[:end] - extent[:start] + 1).join(""),
+            }
+        end
+      end
     end
 
     def format_result(control, result, type)
@@ -170,7 +229,7 @@ module Inspec::Reporters
     end
 
     def all_unique_controls
-      @unique_controls ||= begin
+      @unique_controls ||= begin # rubocop:disable Style/RedundantBegin
                              run_data[:profiles].flat_map do |profile|
                                profile[:controls]
                              end.uniq
@@ -310,6 +369,10 @@ module Inspec::Reporters
 
       def impact
         data[:impact]
+      end
+
+      def source_location
+        data[:source_location]
       end
 
       def anonymous?

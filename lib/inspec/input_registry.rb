@@ -82,6 +82,7 @@ module Inspec
     def find_or_register_input(input_name, profile_name, options = {})
       input_name = input_name.to_s
       profile_name = profile_name.to_s
+      options[:event].value = Thor::CoreExt::HashWithIndifferentAccess.new(options[:event].value) if options[:event]&.value.is_a?(Hash)
 
       if profile_alias?(profile_name) && !profile_aliases[profile_name].nil?
         alias_name = profile_name
@@ -324,6 +325,7 @@ module Inspec
         type: input_options[:type],
         required: input_options[:required],
         sensitive: input_options[:sensitive],
+        pattern: input_options[:pattern],
         event: evt
       )
     end

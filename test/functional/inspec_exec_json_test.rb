@@ -1,5 +1,6 @@
 require "functional/helper"
 require "json_schemer"
+require "tempfile"
 
 describe "inspec exec with json formatter" do
   include FunctionalHelper
@@ -60,16 +61,16 @@ describe "inspec exec with json formatter" do
   it "properly validates all (valid) unit tests against the schema" do
     schema = JSONSchemer.schema(JSON.parse(inspec("schema exec-json").stdout))
     all_profile_folders.first(1).each do |folder|
-      begin
-        out = inspec("exec " + folder + " --reporter json --no-create-lockfile")
-        # Ensure it parses properly
-        out = JSON.parse(out.stdout)
-        failures = schema.validate(out).to_a
-        _(failures).must_equal []
-      rescue JSON::ParserError
-        # We don't actually care about these; cannot validate if parsing fails!
-        nil
-      end
+
+      out = inspec("exec " + folder + " --reporter json --no-create-lockfile")
+      # Ensure it parses properly
+      out = JSON.parse(out.stdout)
+      failures = schema.validate(out).to_a
+      _(failures).must_equal []
+    rescue JSON::ParserError
+      # We don't actually care about these; cannot validate if parsing fails!
+      nil
+
     end
   end
 
@@ -421,6 +422,28 @@ describe "inspec exec with json formatter" do
     end
   end
 
+  describe "JSON reporter" do
+    describe "with --no-filter-empty-profiles option" do
+      let(:run_result) { run_inspec_process("exec #{profile_path}/dependencies/uses-resource-pack --no-filter-empty-profiles", json: true) }
+      let(:profiles) { @json["profiles"] }
+
+      it "does not filter the empty profiles(profiles without controls)" do
+        _(run_result.stderr).must_be_empty
+        _(profiles.count).must_equal 2
+      end
+    end
+
+    describe "with --filter-empty-profiles option" do
+      let(:run_result) { run_inspec_process("exec #{profile_path}/dependencies/uses-resource-pack --filter-empty-profiles", json: true) }
+      let(:profiles) { @json["profiles"] }
+
+      it "does filter the empty profiles (profiles without controls)" do
+        _(run_result.stderr).must_be_empty
+        _(profiles.count).must_equal 1
+      end
+    end
+  end
+
   describe "JSON reporter using the --sort-results-by option" do
     let(:run_result) { run_inspec_process("exec #{profile_path}/sorted-results/sort-me-1 --sort-results-by #{sort_option}", json: true) }
     let(:control_order) { @json["profiles"][0]["controls"].map { |c| c["id"] }.join("") }
@@ -467,5 +490,57 @@ describe "inspec exec with json formatter" do
       # Should skip the second control labelled "skipme" because there is a skip_control in the outer profile
       _(inner_profile_controls.count).must_equal 1
     end
+  end
+
+  describe "JSON reporter with a config" do
+    let(:config_path) do
+      @file = Tempfile.new("config.json")
+      @file.write(config_data)
+      @file.close
+      @file.path
+    end
+
+    after do
+      @file.unlink
+    end
+
+    let(:invocation) do
+      "exec #{complete_profile} --config #{config_path}"
+    end
+
+    let(:run_result) { run_inspec_process(invocation) }
+
+    describe "and the config specifies passthrough data" do
+      let(:config_data) do
+        <<~END
+          {
+            "reporter": {
+              "json": {
+                "stdout": true,
+                "passthrough": {
+                  "a": 1,
+                  "b": false
+                }
+              }
+            }
+          }
+        END
+      end
+
+      it "should include passthrough data" do
+        _(run_result.stderr).must_equal ""
+
+        json = JSON.parse(run_result.stdout)
+
+        %w{
+          passthrough
+        }.each do |field|
+          _(json.keys).must_include field
+        end
+
+        assert_exit_code 0, run_result
+      end
+    end
+
   end
 end

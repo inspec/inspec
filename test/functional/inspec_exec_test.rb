@@ -178,6 +178,27 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     assert_exit_code 100, out
   end
 
+  it "executes only specified controls when selecting the controls by literal names" do
+    inspec("exec " + File.join(profile_path, "controls-option-test") + " --no-create-lockfile --controls foo")
+    _(out.stdout).must_include "foo"
+    _(out.stdout).wont_include "bar"
+    _(out.stdout).wont_include "only-describe"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "executes only specified controls when selecting the controls by regex" do
+    inspec("exec " + File.join(profile_path, "controls-option-test") + " --no-create-lockfile --controls '/^11_pass/'")
+    _(out.stdout).must_include "11_pass"
+    _(out.stdout).must_include "11_pass2"
+    _(out.stdout).wont_include "bar"
+    _(out.stdout).wont_include "only-describe"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
   it "executes only specified controls when selecting passing controls by literal names" do
     inspec("exec " + File.join(profile_path, "filter_table") + " --no-create-lockfile --controls 2943_pass_undeclared_field_in_hash 2943_pass_irregular_row_key")
 
@@ -211,6 +232,51 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
     _(stdout).must_include "Profile Summary: 0 successful controls, 1 control failure, 0 controls skipped"
 
+    _(stderr).must_equal ""
+
+    assert_exit_code 100, out
+  end
+
+  it "executes only specified controls when selecting the controls by literal single tag name" do
+    inspec("exec " + File.join(profile_path, "control-tags") + " --no-create-lockfile --tags tag1")
+    _(stdout).must_include "true is expected to eq true\n"
+    _(stdout).must_include "Test Summary: 1 successful, 0 failures, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "executes only specified controls when selecting the controls by literal multiple tag names" do
+    inspec("exec " + File.join(profile_path, "control-tags") + " --no-create-lockfile --tags tag1 tag5 tag6 tag17 'tagname with space'")
+    _(stdout).must_include "true is expected to eq true\n"
+    _(stdout).must_include "Test Summary: 4 successful, 0 failures, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "executes only specified controls when selecting the controls by using regex on tags" do
+    inspec("exec " + File.join(profile_path, "control-tags") + " --no-create-lockfile --tags '/\s+/'")
+    _(stdout).must_include "true is expected to eq true\n"
+    _(stdout).must_include "Test Summary: 1 successful, 0 failures, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "executes only specified controls when selecting failing controls by using literal name of tag" do
+    inspec("exec " + File.join(profile_path, "control-tags") + " --no-create-lockfile --tags tag18")
+    _(stdout).must_include "true is expected to eq false\n"
+    _(stdout).must_include "Test Summary: 0 successful, 1 failure, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 100, out
+  end
+
+  it "executes only specified controls when selecting failing controls by using regex on tags" do
+    inspec("exec " + File.join(profile_path, "control-tags") + " --no-create-lockfile --tags '/(18)/'")
+    _(stdout).must_include "true is expected to eq false\n"
+    _(stdout).must_include "Test Summary: 0 successful, 1 failure, 0 skipped\n"
     _(stderr).must_equal ""
 
     assert_exit_code 100, out
@@ -278,8 +344,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
     it "exits with an error" do
       _(stdout).must_include "skippy\n     ↺  This will be skipped super intentionally.\n"
-      _(stdout).must_include "  ↺  CONTROL database: MySQL Session\n     ↺  Can't run MySQL SQL checks without authentication\n"
-      _(stdout).must_include "Profile Summary: 0 successful controls, 0 control failures, 2 controls skipped\nTest Summary: 0 successful, 0 failures, 2 skipped\n"
+      _(stdout).must_include "Profile Summary: 0 successful controls, 0 control failures, 1 control skipped\nTest Summary: 0 successful, 0 failures, 1 skipped\n"
 
       _(stderr).must_equal ""
 
@@ -291,7 +356,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec("exec " + File.join(profile_path, "skippy-controls") + " --no-distinct-exit --no-create-lockfile") }
 
     it "exits with code 0 and skipped tests in output" do
-      _(stdout).must_include "Profile Summary: 0 successful controls, 0 control failures, 2 controls skipped\nTest Summary: 0 successful, 0 failures, 2 skipped\n"
+      _(stdout).must_include "Profile Summary: 0 successful controls, 0 control failures, 1 control skipped\nTest Summary: 0 successful, 0 failures, 1 skipped\n"
 
       _(stderr).must_equal ""
 
@@ -851,7 +916,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       end
     end
 
-    describe "when --config points to a nonexistant location" do
+    describe "when --config points to a nonexistent location" do
       let(:cli_args) { "--config " + "no/such/path" }
       it "should issue an error with the file path" do
         _(stderr).wont_match looks_like_a_stacktrace
@@ -1028,6 +1093,70 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
         _(@json.dig("profiles", 0, "controls", 2, "results", 0, "status")).must_equal "skipped"
         _(@json.dig("profiles", 0, "controls", 3, "results", 0, "status")).must_equal "skipped"
       end
+    end
+  end
+
+  describe "when running a profile using timeouts on a command resource" do
+    let(:profile) { "#{profile_path}/timeouts" }
+
+    describe "when using the DSL command resource option" do
+      let(:run_result) { run_inspec_process("exec #{profile}") }
+
+      it "properly timesout an inlined command resource" do
+        # Command timeout not available on local windows pipe train transports
+        skip if windows?
+        _(run_result.stderr).must_be_empty
+
+        # Control with inline timeout should be interrupted correctly
+        _(run_result.stdout).must_include "Command `sleep 10; echo oops` timed out after 2 seconds"
+        # Subsequent control must still run correctly
+        _(run_result.stdout).must_include "Command: `echo hello` exit_status is expected to cmp == 0"
+      end
+    end
+
+    describe "when using the CLI option to override the command timeout" do
+      let(:run_result) { run_inspec_process("exec #{profile} --command-timeout 1") }
+      it "properly overrides the DSL setting with the CLI timeout option" do
+        # Command timeout not available on local windows pipe train transports
+        skip if windows?
+        _(run_result.stderr).must_be_empty
+
+        # Command timeout should be interrupted correctly, with CLI timeout applied
+        _(run_result.stdout).must_include "Command `sleep 10; echo oops` timed out after 1 seconds"
+        # Subsequent control must still run correctly
+        _(run_result.stdout).must_include "Command: `echo hello` exit_status is expected to cmp == 0"
+      end
+    end
+  end
+
+  describe "when using the --reporter-include-source option with the CLI reporter" do
+    let(:profile) { "#{profile_path}/sorted-results/sort-me-1" } # A profile with controls separated in multiple files
+    let(:run_result) { run_inspec_process("exec #{profile} --reporter-include-source") }
+    it "includes the control source code" do
+      _(run_result.stderr).must_be_empty
+
+      expected = %r{Control Source from .+test/fixtures/profiles/sorted-results/sort-me-1/controls/a-uvw.rb:1..6}
+      _(run_result.stdout).must_match expected
+      expected = <<EOT
+     control "w" do
+       describe "anything" do
+         it { should eq "anything" }
+       end
+     end
+EOT
+      _(run_result.stdout).must_include expected
+
+      expected = %r{Control Source from .+test/fixtures/profiles/sorted-results/sort-me-1/controls/c-rst.rb:1..6}
+      _(run_result.stdout).must_match expected
+      expected = <<EOT
+     control "r" do
+       describe "anything" do
+         it { should eq "anything" }
+       end
+     end
+EOT
+      _(run_result.stdout).must_include expected
+
     end
   end
 end
