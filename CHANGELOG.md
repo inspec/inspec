@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.41.17 -->
-## [v4.41.17](https://github.com/inspec/inspec/tree/v4.41.17) (2021-08-30)
+<!-- latest_release 4.41.18 -->
+## [v4.41.18](https://github.com/inspec/inspec/tree/v4.41.18) (2021-09-01)
 
 #### Merged Pull Requests
-- Proposed implementation for installation warnings [#5625](https://github.com/inspec/inspec/pull/5625) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- Update location of default branch for omnibus and omnibus-software [#5648](https://github.com/inspec/inspec/pull/5648) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.2 -->
 ### Changes since 4.41.2 release
 
 #### Merged Pull Requests
+- Update location of default branch for omnibus and omnibus-software [#5648](https://github.com/inspec/inspec/pull/5648) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.41.18 -->
 - Proposed implementation for installation warnings [#5625](https://github.com/inspec/inspec/pull/5625) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 4.41.17 -->
 - Fix for security_policy resource does not return array for local groups [#5629](https://github.com/inspec/inspec/pull/5629) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.41.16 -->
 - Added info about the Minitest framework in contributing doc [#5630](https://github.com/inspec/inspec/pull/5630) ([Nik08](https://github.com/Nik08)) <!-- 4.41.15 -->
