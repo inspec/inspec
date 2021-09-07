@@ -291,6 +291,53 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     assert_exit_code 0, out
   end
 
+  it "executes only specified controls of included dependent profile by using literal names of tags" do
+    inspec("exec " + File.join(profile_path, "dependencies", "profile_a") + " --no-create-lockfile --tags tag-profilea1 tag-profilec1")
+    _(stdout).must_include "✔  profilea-1: Create / directory\n"
+    _(stdout).must_include "✔  profilec-1: Create /tmp directory\n"
+    _(stdout).must_include "✔  File / is expected to be directory\n"
+    _(stdout).wont_include "✔  profilea-2: example_config\n"
+    _(stdout).must_include "Test Summary: 2 successful, 0 failures, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "executes only specified controls of included dependent profile by using regex on tags" do
+    inspec("exec " + File.join(profile_path, "dependencies", "profile_a") + " --no-create-lockfile --tags '/^tag-profilea/'")
+    _(stdout).must_include "✔  profilea-1: Create / directory\n"
+    _(stdout).must_include "✔  profilea-2: example_config\n"
+    _(stdout).wont_include "✔  profilec-1: Create /tmp directory\n"
+    _(stdout).must_include "Test Summary: 2 successful, 0 failures, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "executes only specified controls of required dependent profile by using literal names of tags" do
+    inspec("exec " + File.join(profile_path, "dependencies", "require_controls_test") + " --no-create-lockfile --tags tag-profileb2")
+    _(stdout).must_include "✔  profileb-2: example_config\n"
+    _(stdout).must_include "✔  example_config version is expected to eq \"2.0\"\n"
+    _(stdout).wont_include "✔  profilea-1: Create / directory\n"
+    _(stdout).wont_include "✔  profilea-2: example_config\n"
+    _(stdout).must_include "Test Summary: 2 successful, 0 failures, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "executes only specified controls of required dependent profile by using regex on tags" do
+    inspec("exec " + File.join(profile_path, "dependencies", "require_controls_test") + " --no-create-lockfile --tags '/^tag-profileb/'")
+    _(stdout).must_include "✔  profileb-2: example_config\n"
+    _(stdout).must_include "✔  example_config version is expected to eq \"2.0\"\n"
+    _(stdout).wont_include "✔  profilea-1: Create / directory\n"
+    _(stdout).wont_include "✔  profilea-2: example_config\n"
+    _(stdout).must_include "Test Summary: 2 successful, 0 failures, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
   it "reports whan a profile cannot be loaded" do
     inspec("exec " + File.join(profile_path, "raise_outside_control") + " --no-create-lockfile")
     _(stdout).must_match(/Profile:[\W]+InSpec Profile \(raise_outside_control\)/)
