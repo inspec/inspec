@@ -28,11 +28,13 @@ This resource first became available in v of InSpec. -->
 
 An `chrony_conf` resource block declares the synchronization settings that should be tested:
 
-  describe chrony_conf('PATH') do
-    its('setting_name') { should eq 'VALUE' }
-  end
+```ruby
+describe chrony_conf('PATH') do
+  its('setting_name') { should eq 'VALUE' }
+end
+```
 
-where
+where:
 
 - `'setting_name'` is a synchronization setting defined in the `chrony.conf` file.
 - `('path')` is the non-default path to the `chrony.conf` file (default path is `/etc/chrony.conf`).
@@ -42,8 +44,11 @@ where
 
 The following examples show how to use this Chef InSpec audit resource.
 
-### Test for clock drift against named servers
+This resource matches any service listed in the `chrony.conf` file.
 
+### Test for clock drift against named servers.
+
+```ruby
 describe chrony_conf do
   its('driftfile') { should cmp '/var/lib/chrony/drift' }
   its('server') do
@@ -54,20 +59,17 @@ describe chrony_conf do
       ]
     end
 end
+```
+
+### Test that an NTP server exists and a specific subnet is specified from which NTP clients are allowed access.
+
+```ruby
+describe chrony_conf do
+  its('server') { should_not eq nil }
+  its('allow') { should include '192.168.0.0/16'}
+end
+```
 
 ## Matchers
 
-This resource matches any service that is listed in the `chrony.conf` file. For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
-
-  its('server') { should_not eq nil }
-
-or:
-
-  its('allow') { should include '192.168.0.0/16'}
-
-For example:
-
-  describe chrony_conf do
-    its('server') { should_not eq nil }
-    its('allow') { should include '192.168.0.0/16'}
-  end
+ For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
