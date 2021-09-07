@@ -199,6 +199,40 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     assert_exit_code 0, out
   end
 
+  # it filters the control from its depedent profile_c
+  it "executes only specified controls from parent and child profile when selecting the controls by regex" do
+    inspec("exec " + File.join(profile_path, "dependencies/profile_a") + " --no-create-lockfile --controls '/^profilec/'")
+    _(out.stdout).must_include "profilec-1"
+    _(out.stdout).wont_include "profilea-1"
+    _(out.stdout).wont_include "only-describe"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  # it filters the control from its depedent profile_c
+  it "executes only specified controls from parent and child profile when selecting the controls by id" do
+    inspec("exec " + File.join(profile_path, "dependencies/profile_a") + " --no-create-lockfile --controls 'profilec-1'")
+    _(out.stdout).must_include "profilec-1"
+    _(out.stdout).wont_include "profilea-1"
+    _(out.stdout).wont_include "only-describe"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  # it filters the control from its depedent profile_c
+  it "executes only specified controls from parent and child profile when selecting the controls by space seprated id" do
+    inspec("exec " + File.join(profile_path, "dependencies/profile_a") + " --no-create-lockfile --controls 'profilec-1' 'profilea-1'")
+    _(out.stdout).must_include "profilec-1"
+    _(out.stdout).must_include "profilea-1"
+    _(out.stdout).wont_include "profilea-2"
+    _(out.stdout).wont_include "only-describe"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
   it "executes only specified controls when selecting passing controls by literal names" do
     inspec("exec " + File.join(profile_path, "filter_table") + " --no-create-lockfile --controls 2943_pass_undeclared_field_in_hash 2943_pass_irregular_row_key")
 
