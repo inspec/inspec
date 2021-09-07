@@ -93,12 +93,9 @@ module Inspec::DSL
     context = dep_entry.profile.runner_context
     # if we don't want all the rules, then just make 1 pass to get all rule_IDs
     # that we want to keep from the original
-<<<<<<< HEAD
-    filter_included_controls(context, dep_entry.profile, opts, &block) if !opts[:include_all] || !(opts[:conf]["profile"].include_tags_list.empty?)
-
-=======
-    filter_included_controls(context, dep_entry.profile, opts, &block) if !opts[:include_all] || !opts[:conf]["profile"].include_controls_list.empty?
->>>>>>> 9b8307fc0 (Fix - controls option was not working for depedent profile)
+    if !opts[:include_all] || !(opts[:conf]["profile"].include_tags_list.empty?) || !opts[:conf]["profile"].include_controls_list.empty?
+      filter_included_controls(context, dep_entry.profile, opts, &block)
+    end
     # interpret the block and skip/modify as required
     context.load(block) if block_given?
     bind_context.add_subcontext(context)
@@ -108,26 +105,22 @@ module Inspec::DSL
     mock = Inspec::Backend.create(Inspec::Config.mock)
     include_ctx = Inspec::ProfileContext.for_profile(profile, mock)
     include_ctx.load(block) if block_given?
-<<<<<<< HEAD
     include_ctx.control_eval_context.conf = opts[:conf]
-=======
-    # this sets the conf variable required in control_exist_in_control_list? method
-    include_ctx.control_eval_context.instance_variable_set(:@conf, opts[:conf])
->>>>>>> 9b8307fc0 (Fix - controls option was not working for depedent profile)
     control_eval_ctx = include_ctx.control_eval_context
     # remove all rules that were not registered
     context.all_rules.each do |r|
       id = Inspec::Rule.rule_id(r)
       fid = Inspec::Rule.profile_id(r) + "/" + id
       if !opts[:include_all] && !(include_ctx.rules[id] || include_ctx.rules[fid])
-<<<<<<< HEAD
-=======
         context.remove_rule(fid)
-      elsif !control_eval_ctx.control_exist_in_controls_list?(id)
-      # filter the dependent profile controls which are not in the --controls options list
->>>>>>> 9b8307fc0 (Fix - controls option was not working for depedent profile)
-        context.remove_rule(fid)
-      elsif !control_eval_ctx.tags_list_empty?
+      end
+
+      unless control_eval_ctx.controls_list_empty?
+        # filter the dependent profile controls which are not in the --controls options list
+        context.remove_rule(fid) unless control_eval_ctx.control_exist_in_controls_list?(id)
+      end
+
+      unless control_eval_ctx.tags_list_empty?
         # filter included controls using --tags
         tag_ids = control_eval_ctx.control_tags(r)
         context.remove_rule(fid) unless control_eval_ctx.tag_exist_in_control_tags?(tag_ids)
