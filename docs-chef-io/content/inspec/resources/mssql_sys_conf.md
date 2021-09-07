@@ -11,7 +11,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-Use the `mssql_sys_conf` Chef InSpec audit resource to test the configuration of a Mssql database.
+Use the `mssql_sys_conf` Chef InSpec audit resource to test the configuration of a Microsoft SQL Server database.
 
 ## Installation
 
@@ -23,26 +23,28 @@ You must have database access.
 
 ## Syntax
 
-A `mssql_sys_conf` resource block declares the configuration item name, user, and password to use.
+A `mssql_sys_conf` resource block declares the configuration item, user, and password to test.
 
-describe mssql_sys_conf("config item", user: 'USER', password: 'PASSWORD') do
-  its("value_in_use") { should cmp "value" }
-  its("value_configured") { should cmp "value" }
+```ruby
+describe mssql_sys_conf("CONFIGURATION ITEM TO TEST", user: 'USER', password: 'PASSWORD') do
+  its("value_in_use") { should cmp "EXPECTED_VALUE" }
+  its("value_configured") { should cmp "EXPECTED_VALUE" }
 end
+```
 
-where
+where:
 
-- `mssql_sys_conf` declares a config item, user, and password with permission to use `sys.configurations`.
-- `its('value_in_use') { should cmp 'expected' }` compares the current running value of the configuration item against an expected value.
-- `its('value_configured') { should cmp 'expected' }` compares the saved value of the configuration item against an expected value.
+- `mssql_sys_conf` declares a configuration item, `user`, and `password` with permission to use `sys.configurations`.
+- `its('value_in_use') { should cmp 'EXPECTED_VALUE' }` compares the current running value of the configuration item against an expected value.
+- `its('value_configured') { should cmp 'EXPECTED_VALUE' }` compares the saved value of the configuration item against an expected value.
 
 ### Optional Parameters
 
-`mssql_sys_conf` is based on `mssql_session`, and accepts all parameters that `mssql_session` accepts.
+`mssql_sys_conf` is based on the `mssql_session` resource and accepts all the parameters that `mssql_session` accepts.
 
 #### `username`
 
-Defaults to `SA`.
+The user name. Default value: `SA`.
 
 ## Examples
 
