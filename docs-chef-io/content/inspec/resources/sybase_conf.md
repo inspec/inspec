@@ -11,7 +11,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-Use the `sybase_conf` Chef InSpec audit resource to test configuration of a Sybase / SAP ASE database.
+Use the `sybase_conf` Chef InSpec audit resource to test the configuration of a Sybase / SAP ASE database.
 
 ## Availability
 
@@ -29,16 +29,16 @@ You must have access to a database user that has access to the `sa` role on the 
 
 A `sybase_conf` resource block declares the configuration item name, server, and password to use.
 
-    describe sybase_session('config item', server: 'SYBASE', password: 'password') do
-      its('run_value') { should cmp 'expected' }
-      its('config_value') { should cmp 'expected' }
-    end
+describe sybase_session('config item', server: 'SYBASE', password: 'PASSWORD') do
+  its('run_value') { should cmp 'EXPECTED' }
+  its('config_value') { should cmp 'EXPECTED' }
+end
 
 where
 
 - `sybase_conf` declares a config item, server, and password with permission to run `sp_configure`.
-- `its('run_value') { should cmp 'expected' }` compares the current running value of the configuration item against an expected value
-- `its('config_value') { should cmp 'expected' }` compares the saved value of the configuration item against an expected value
+- `its('run_value') { should cmp 'expected' }` compares the current running value of the configuration item against an expected value.
+- `its('config_value') { should cmp 'expected' }` compares the saved value of the configuration item against an expected value.
 
 ### Optional Parameters
 
@@ -60,12 +60,11 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ### Test for max memory configuration
 
-    describe sybase_session('max memory', server: 'SYBASE', password: 'password') do
-      its('run_value') { should cmp 180224 }
-      its('config_value') { should cmp 180224 }
-    end
+describe sybase_session('max memory', server: 'SYBASE', password: 'PASSWORD') do
+  its('run_value') { should cmp 180224 }
+  its('config_value') { should cmp 180224 }
+end
 
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
-
