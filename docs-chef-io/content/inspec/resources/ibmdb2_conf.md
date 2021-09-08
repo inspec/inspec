@@ -23,17 +23,17 @@ This resource is distributed along with Chef InSpec itself. You can use it autom
 
 A `ibmdb2_conf` resource block declares db2_executable_file_path, db_instance to connect and then runs command to get the configuration values and compares it to the value stated in the test:
 
-describe ibmdb2_conf(db2_executable_file_path: "/opt/ibm/db2/V11.5/bin/db2", db_instance: "db2inst1") do
-  its("output") { should_not be_empty }
-  its("output") { should include("Audit buffer size (4KB) (AUDIT_BUF_SZ) = 0")}
-end
+    describe ibmdb2_conf(db2_executable_file_path: "/opt/ibm/db2/V11.5/bin/db2", db_instance: "db2inst1") do
+     its("output") { should_not be_empty }
+     its("output") { should include("Audit buffer size (4KB) (AUDIT_BUF_SZ) = 0")}
+    end
 
 Windows
 
-describe ibmdb2_conf do
-  its("output") { should_not be_empty }
-  its("output") { should include("Audit buffer size (4KB) (AUDIT_BUF_SZ) = 0")}
-end
+    describe ibmdb2_conf do
+     its("output") { should_not be_empty }
+     its("output") { should include("Audit buffer size (4KB) (AUDIT_BUF_SZ) = 0")}
+    end
 
 where
 
@@ -48,10 +48,10 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ### Test the audit buffer size configuration settings of IBM Db2 database
 
-describe ibmdb2_conf(db2_executable_file_path: "/opt/ibm/db2/V11.5/bin/db2", db_instance: "db2inst1") do
-  its("output") { should_not be_empty }
-  its("output") { should include("Audit buffer size (4KB) (AUDIT_BUF_SZ) = 1000")}
-end
+    describe ibmdb2_conf(db2_executable_file_path: "/opt/ibm/db2/V11.5/bin/db2", db_instance: "db2inst1") do
+     its("output") { should_not be_empty }
+     its("output") { should include("Audit buffer size (4KB) (AUDIT_BUF_SZ) = 1000")}
+    end
 
 ## Matchers
 
