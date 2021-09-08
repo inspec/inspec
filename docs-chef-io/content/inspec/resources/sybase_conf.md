@@ -29,10 +29,10 @@ You must have access to a database user that has access to the `sa` role on the 
 
 A `sybase_conf` resource block declares the configuration item name, server, and password to use.
 
-describe sybase_session('config item', server: 'SYBASE', password: 'PASSWORD') do
-  its('run_value') { should cmp 'EXPECTED' }
-  its('config_value') { should cmp 'EXPECTED' }
-end
+    describe sybase_session('config item', server: 'SYBASE', password: 'PASSWORD') do
+      its('run_value') { should cmp 'EXPECTED' }
+      its('config_value') { should cmp 'EXPECTED' }
+    end
 
 where
 
