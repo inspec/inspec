@@ -25,10 +25,10 @@ You must have database access.
 
 A `mssql_sys_conf` resource block declares the configuration item name, user, and password to use.
 
-describe mssql_sys_conf("config item", user: 'USER', password: 'PASSWORD') do
-  its("value_in_use") { should cmp "value" }
-  its("value_configured") { should cmp "value" }
-end
+    describe mssql_sys_conf("config item", user: 'USER', password: 'PASSWORD') do
+      its("value_in_use") { should cmp "value" }
+      its("value_configured") { should cmp "value" }
+    end
 
 where
 
@@ -50,10 +50,10 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ### Test parameters set within the database view
 
-describe mssql_sys_conf("clr_enabled", user: 'USER', password: 'PASSWORD') do
-  its("value_in_use") { should cmp "0" }
-  its("value_configured") { should cmp "0" }
-end
+    describe mssql_sys_conf("clr_enabled", user: 'USER', password: 'PASSWORD') do
+      its("value_in_use") { should cmp "0" }
+      its("value_configured") { should cmp "0" }
+    end
 
 ## Matchers
 
