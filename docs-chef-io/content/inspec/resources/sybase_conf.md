@@ -11,7 +11,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-Use the `sybase_conf` Chef InSpec audit resource to test the configuration of a Sybase / SAP ASE database.
+Use the `sybase_conf` Chef InSpec audit resource to test the configuration of an SAP Adaptive Server Enterprise (ASE) database.
 
 ## Availability
 
@@ -36,13 +36,13 @@ A `sybase_conf` resource block declares the configuration item name, server, and
 
 where
 
-- `sybase_conf` declares a config item, server, and password with permission to run `sp_configure`.
+- `sybase_conf` declares a configuration item, server, and password with permission to run `sp_configure`.
 - `its('run_value') { should cmp 'expected' }` compares the current running value of the configuration item against an expected value.
 - `its('config_value') { should cmp 'expected' }` compares the saved value of the configuration item against an expected value.
 
 ### Optional Parameters
 
-`sybase_conf` is based on `sybase_session`, and accepts all parameters that `sybase_session` accepts, including optional parameters `username`, `database`, `sybase_home`, and `bin`.
+The `sybase_conf` resource is based on the `sybase_session` resource and accepts all parameters that `sybase_session` accepts, including optional parameters `username`, `database`, `sybase_home`, and `bin`.
 
 In particular:
 
@@ -60,10 +60,12 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ### Test for max memory configuration
 
+```ruby
 describe sybase_session('max memory', server: 'SYBASE', password: 'PASSWORD') do
   its('run_value') { should cmp 180224 }
   its('config_value') { should cmp 180224 }
 end
+```
 
 ## Matchers
 

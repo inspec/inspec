@@ -11,7 +11,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-Use the `sybase_session` Chef InSpec audit resource to test the SQL commands run against a Sybase / SAP ASE database.
+Use the `sybase_session` Chef InSpec audit resource to test the SQL commands run against an SAP Adaptive Server Enterprise (ASE) database.
 
 ## Availability
 
@@ -27,13 +27,13 @@ The `isql` command line tool must be installed on the target system.
 
 A `sybase_session` resource block declares the server, database, username and password to use for the session, and then the command to be run:
 
-describe sybase_session(database: 'pubs2', server: 'SYBASE', username: 'USERNAME', password: 'PASSWORD').query('QUERY').row(0).column('RESULT') do
-  its('value') { should eq('EXPECTED') }
-end
+    describe sybase_session(database: 'pubs2', server: 'SYBASE', username: 'USERNAME', password: 'PASSWORD').query('QUERY').row(0).column('RESULT') do
+      its('value') { should eq('EXPECTED') }
+    end
 
 where
 
-- `sybase_session` declares a server, database, username and password with permission to run the query.
+- `sybase_session` declares a server, database, username, and password with permission to run the query.
 - `query('QUERY')` contains the query to be run.
 - `its('value') { should eq('expected') }` compares the results of the query against the expected result in the test.
 
@@ -43,6 +43,7 @@ where
 
 You may use the `bin` parameter to specify the path to the `isql` cli tool.
 
+```ruby
 describe sybase_session(database: 'pubs2',
                         server: 'SYBASE',
                         username: 'USERNAME',
@@ -51,11 +52,13 @@ describe sybase_session(database: 'pubs2',
                         ).query('QUERY').row(0).column('RESULT') do
   its('value') { should eq('EXPECTED') }
 end
+```
 
 #### sybase_home
 
 You may use the `sybase_home` parameter to specify the path to the sybase installation.
 
+```ruby
 describe sybase_session(database: 'pubs2',
                         server: 'SYBASE',
                         username: 'USERNAME',
@@ -64,6 +67,7 @@ describe sybase_session(database: 'pubs2',
                         ).query('QUERY').row(0).column('RESULT') do
   its('value') { should eq('EXPECTED') }
 end
+```
 
 ## Examples
 
@@ -71,11 +75,13 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ### Test for matching values in the pubs2 sample database
 
+```ruby
 sql = sybase_session(database: 'pubs2', server: 'SYBASE', username: 'MY_USER', password: 'PASSWORD')
 
 describe sql.query("SELECT au_lname FROM authors").row(0).column('AU_LNAME') do
   its("value") { should eq 'BENNET' }
 end
+```
 
 ## Matchers
 
