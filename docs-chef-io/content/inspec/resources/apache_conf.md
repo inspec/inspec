@@ -21,7 +21,7 @@ This resource is distributed along with Chef InSpec itself. You can use it autom
 
 ### Requirements
 
-`ServerRoot` should be included in a apache conf file. If not present the included configs will not be accessible to the resource.
+`ServerRoot` must be included in an Apache configuration file. If not present, the included configurations will not be accessible to the resource.
 
 ### Version
 

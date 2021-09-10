@@ -39,7 +39,7 @@ where
 
 - `'policy_name'` must specify a security policy
 - `{ should eq 'value' }` tests the value of `policy_name` against the value declared in the test
-- `translate_sid` converts the SID into human readable SID name if true. Default value is false.
+- `translate_sid` converts the security identifier (SID) into a human readable SID name if `true`. Default value is `false`.
 
 ## Examples
 
