@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.46.0 -->
-## [v4.46.0](https://github.com/inspec/inspec/tree/v4.46.0) (2021-09-13)
+<!-- latest_release 4.46.1 -->
+## [v4.46.1](https://github.com/inspec/inspec/tree/v4.46.1) (2021-09-13)
 
-#### New Features
-- adds chrony_conf InSpec resource [#5589](https://github.com/inspec/inspec/pull/5589) ([collinmcneese](https://github.com/collinmcneese))
+#### Merged Pull Requests
+- Added missing cli commands in cli doc [#5634](https://github.com/inspec/inspec/pull/5634) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.20 -->
@@ -16,6 +16,7 @@
 - Add support for Sybase databases [#5561](https://github.com/inspec/inspec/pull/5561) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.43.0 -->
 
 #### Merged Pull Requests
+- Added missing cli commands in cli doc [#5634](https://github.com/inspec/inspec/pull/5634) ([Nik08](https://github.com/Nik08)) <!-- 4.46.1 -->
 - Add support for Oracle Configuration Resources (Oracle Db Conf &amp; Oracle Listener Conf) [#5573](https://github.com/inspec/inspec/pull/5573) ([Nik08](https://github.com/Nik08)) <!-- 4.45.0 -->
 - Add support for Mssql Conf resource [#5574](https://github.com/inspec/inspec/pull/5574) ([Nik08](https://github.com/Nik08)) <!-- 4.42.0 -->
 - Update inspec check docs for --format option [#5617](https://github.com/inspec/inspec/pull/5617) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.41.23 -->
