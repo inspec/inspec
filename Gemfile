@@ -20,28 +20,21 @@ end
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
 
-def probably_x86?
-  # We don't currently build on ARM windows, so assume x86 there
-  return true if RUBY_PLATFORM =~ /windows|mswin|msys|mingw|cygwin/
-
-  # Otherwise rely on uname -m
-  `uname -m`.match?(/^(x86_64|i\d86)/)
-end
-
 group :omnibus do
   gem "rb-readline"
   gem "appbundler"
   gem "ed25519" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
   gem "bcrypt_pbkdf" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
-  if probably_x86?
-    gem "x25519" # ed25519 KEX module, not supported on ARM
-  end
 end
 
 group :test do
   gem "chefstyle", "~> 2.0.3"
   gem "concurrent-ruby", "~> 1.0"
-  gem "html-proofer", platforms: :ruby # do not attempt to run proofer on windows
+  if Gem.ruby_version.to_s.start_with?("2.5")
+    gem "html-proofer", "= 3.19.1" , platforms: :ruby # do not attempt to run proofer on windows
+  else
+    gem "html-proofer", platforms: :ruby # do not attempt to run proofer on windows
+  end
   gem "json_schemer", ">= 0.2.1", "< 0.2.19"
   gem "m"
   gem "minitest-sprint", "~> 1.0"

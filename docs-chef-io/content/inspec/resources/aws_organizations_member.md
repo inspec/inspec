@@ -50,7 +50,7 @@ _**If the current Account is the Master Account, the following properties are al
 | ------------- | ------------------------------------------------------ |
 | account_id    | The ID of the current Account.                         |
 | account_arn   | The ARN of the current Account.                        |
-| account_name  | The Name of the current Acccount.                      |
+| account_name  | The Name of the current Account.                       |
 | account_email | The Email address associated with the current Account. |
 
 ## Examples

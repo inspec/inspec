@@ -5,3 +5,4 @@ MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Setup\RecoveryConsole\Secur
 [Privilege Rights]
 SeUndockPrivilege = *S-1-5-32-544
 SeRemoteInteractiveLogonRight = *S-1-5-32-544,*S-1-5-32-555
+SeServiceLogonRight = DB2ADMNS,db2admin

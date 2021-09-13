@@ -34,6 +34,7 @@ class MockLoader
     aix: { name: "aix", family: "aix", release: "7.2", arch: "powerpc" },
     amazon: { name: "amazon", family: "redhat", release: "2015.03", arch: "x86_64" },
     amazon2: { name: "amazon", family: "redhat", release: "2", arch: "x86_64" },
+    aliyun3: { name: "alibaba", family: "redhat", release: "3", arch: "x86_64" },
     yocto: { name: "yocto", family: "yocto", release: "0.0.1", arch: "aarch64" },
     undefined: { name: nil, family: nil, release: nil, arch: nil },
   }
@@ -88,7 +89,7 @@ class MockLoader
       mockfile.call("emptyfile")
     }
 
-    mock.files = {
+    mock_files = {
       "/proc/net/bonding/bond0" => mockfile.call("bond0"),
       "/etc/ssh/ssh_config" => mockfile.call("ssh_config"),
       "/etc/ssh/sshd_config" => mockfile.call("sshd_config"),
@@ -120,7 +121,6 @@ class MockLoader
       "nonexistent.json" => mockfile.call("nonexistent.json"),
       "/sys/class/net/br0/bridge" => mockdir.call(true),
       "rootwrap.conf" => mockfile.call("rootwrap.conf"),
-      "/etc/apache2/apache2.conf" => mockfile.call("apache2.conf"),
       "/etc/apache2/ports.conf" => mockfile.call("ports.conf"),
       "/etc/httpd/conf/httpd.conf" => mockfile.call("httpd.conf"),
       "/etc/httpd/conf.d/ssl.conf" => mockfile.call("ssl.conf"),
@@ -155,7 +155,7 @@ class MockLoader
       "database.xml" => mockfile.call("database.xml"),
       "/test/path/to/postgres/pg_hba.conf" => mockfile.call("pg_hba.conf"),
       "/etc/postgresql/9.5/main/pg_ident.conf" => mockfile.call("pg_ident.conf"),
-      "C:/etc/postgresql/9.5/main/pg_ident.conf" => mockfile.call("pg_ident.conf"),
+      "C:/Program Files/PostgreSQL/9.5/main/pg_ident.conf" => mockfile.call("pg_ident.conf"),
       "/etc/postgresql/9.5/main" => mockfile.call("9.5.main"),
       "/var/lib/postgresql/9.5/main" => mockfile.call("var.9.5.main"),
       "/etc/hosts" => mockfile.call("hosts"),
@@ -176,6 +176,21 @@ class MockLoader
       "/etc/postfix/other.cf" => mockfile.call("other.cf"),
       "/etc/selinux/selinux_conf" => mockfile.call("selinux_conf"),
     }
+
+    if @platform
+      if @platform[:name] == "ubuntu" && @platform[:release] == "18.04"
+        mock_files.merge!(
+          "/etc/apache2/apache2.conf" => mockfile.call("apache2.conf")
+        )
+      elsif @platform[:name] == "ubuntu" && @platform[:release] == "15.04"
+        # using this ubuntu version to test apache_conf with non configured server root in conf file
+        mock_files.merge!(
+          "/etc/apache2/apache2.conf" => mockfile.call("apache2_server_root_void.conf")
+        )
+      end
+    end
+
+    mock.files = mock_files
 
     # create all mock commands
     cmd = lambda { |x|
@@ -553,12 +568,12 @@ class MockLoader
       "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-544\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call("security-policy-sid-translated"),
       "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-555\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call("security-policy-sid-untranslated"),
 
-      # Windows SID calls
-      'wmic useraccount where \'Name="Alice"\' get Name","SID /format:csv' => cmd.call("security-identifier-alice"),
-      'wmic useraccount where \'Name="Bob"\' get Name","SID /format:csv' => cmd.call("security-identifier-unknown"),
-      'wmic useraccount where \'Name="DontExist"\' get Name","SID /format:csv' => cmd.call("security-identifier-unknown"),
-      'wmic group where \'Name="Guests"\' get Name","SID /format:csv' => cmd.call("security-identifier-guests"),
-      'wmic group where \'Name="DontExist"\' get Name","SID /format:csv' => cmd.call("security-identifier-unknown"),
+      # Windows SID calls with CimInstance
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID, SIDType | Where-Object { $_.Name -eq 'Alice' -and $_.SIDType -eq 1 } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-alice"),
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID, SIDType | Where-Object { $_.Name -eq 'Bob' -and $_.SIDType -eq 1 } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-unknown"),
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID, SIDType | Where-Object { $_.Name -eq 'DontExist' -and $_.SIDType -eq 1 } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-unknown"),
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID | Where-Object { $_.Name -eq 'Guests' -and { $_.SIDType -eq 4 -or $_.SIDType -eq 5 } } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-guests"),
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID | Where-Object { $_.Name -eq 'DontExist' -and { $_.SIDType -eq 4 -or $_.SIDType -eq 5 } } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-unknown"),
 
       # alpine package commands
       "apk info -vv --no-network | grep git" => cmd.call("apk-info-grep-git"),
@@ -569,6 +584,14 @@ class MockLoader
       "semodule -lfull" => cmd.call("semodule-lfull"),
       "semanage boolean -l -n" => cmd.call("semanage-boolean"),
       "Get-ChildItem -Path \"C:\\Program Files\\MongoDB\\Server\" -Name" => cmd.call("mongodb-version"),
+      "opa eval -i 'input.json' -d 'example.rego' 'data.example.allow'" => cmd.call("opa-result"),
+      "curl -X POST localhost:8181/v1/data/example/violation -d @v1-data-input.json -H 'Content-Type: application/json'" => cmd.call("opa-api-result"),
+
+      # ibmdb2
+      "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
+      "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 connect to sample; /opt/ibm/db2/V11.5/bin/db2 select rolename from syscat.roleauth;" => cmd.call("ibmdb2_query_output"),
+      "set-item -path env:DB2CLP -value \"**$$**\"; db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
+      "set-item -path env:DB2CLP -value \"**$$**\"; db2 connect to sample; db2 select rolename from syscat.roleauth;" => cmd.call("ibmdb2_query_output"),
     }
 
     if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")

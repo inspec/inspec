@@ -38,25 +38,25 @@ describe NginxParser do
     _(result[0][:assignment][:args][0][:value]).must_equal "/a/b/c/*.conf"
   end
 
-  it "parses an assignemnt with single quote in a double quoted value" do
+  it "parses an assignment with single quote in a double quoted value" do
     result = parse('include "/a/\'b/*.conf";')
     _(result[0][:assignment][:identifier]).must_equal "include"
     _(result[0][:assignment][:args][0][:value]).must_equal "/a/'b/*.conf"
   end
 
-  it "parses an assignemnt with double quote in a single quoted value" do
+  it "parses an assignment with double quote in a single quoted value" do
     result = parse("include '/a/\"b/*.conf';")
     _(result[0][:assignment][:identifier]).must_equal "include"
     _(result[0][:assignment][:args][0][:value]).must_equal "/a/\"b/*.conf"
   end
 
-  it "parses an assignemnt with single quote in a single quoted value" do
+  it "parses an assignment with single quote in a single quoted value" do
     result = parse("include '/a/\\\'b/*.conf';")
     _(result[0][:assignment][:identifier]).must_equal "include"
     _(result[0][:assignment][:args][0][:value]).must_equal "/a/\\\'b/*.conf"
   end
 
-  it "parses an assignemnt with double quote in a double quoted value" do
+  it "parses an assignment with double quote in a double quoted value" do
     result = parse('include "/a/\"b/*.conf";')
     _(result[0][:assignment][:identifier]).must_equal "include"
     _(result[0][:assignment][:args][0][:value]).must_equal '/a/\"b/*.conf'

@@ -129,7 +129,7 @@ describe "Inspec::Resources::Port" do
     _(resource.protocols("udp").entries.length).must_equal 15
   end
 
-  it "verify port on Windows 2008 (unpriviledged)" do
+  it "verify port on Windows 2008 (unprivileged)" do
     ml = MockLoader.new(:windows)
     # kill windows 2012 shell commands
     ml.backend.backend.commands
@@ -144,7 +144,7 @@ describe "Inspec::Resources::Port" do
     _(resource.addresses).must_equal %w{0.0.0.0 ::}
   end
 
-  it "verify port list on Windows 2008 (unpriviledged)" do
+  it "verify port list on Windows 2008 (unprivileged)" do
     ml = MockLoader.new(:windows)
     # kill windows 2012 shell commands
     ml.backend.backend.commands

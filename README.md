@@ -332,6 +332,7 @@ In addition, runtime support is provided for:
 | macOS    | 10.14+   | x86_64 |
 | Debian   | 9, 10    | x86_64 |
 | RHEL     | 6, 7, 8  | x86_64 |
+| Fedora   | 29+      | x86_64 |
 | Ubuntu   | 16.04+   | x86_64 |
 | Windows  | 8+       | x86_64 |
 | Windows  | 2012+    | x86_64 |
@@ -384,11 +385,10 @@ As a reminder, all participants are expected to follow the [Code of Conduct](htt
 
 ## Testing Chef InSpec
 
-We offer `unit`, `integration`, and `aws` tests.
+We offer `unit` and `integration` tests.
 
 - `unit` tests ensure the intended behaviour of the implementation
 - `integration` tests run against Docker-based VMs via test-kitchen and [kitchen-inspec](https://github.com/chef/kitchen-inspec)
-- `aws` tests exercise the AWS resources against real AWS accounts
 
 ### Unit tests
 

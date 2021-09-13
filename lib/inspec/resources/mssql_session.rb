@@ -42,11 +42,7 @@ module Inspec::Resources
       @local_mode = opts[:local_mode]
       unless local_mode?
         @host = opts[:host] || "localhost"
-        if opts.key?(:port)
-          @port = opts[:port]
-        else
-          @port = "1433"
-        end
+        @port = opts[:port]
       end
       @instance = opts[:instance]
       @db_name = opts[:db_name]

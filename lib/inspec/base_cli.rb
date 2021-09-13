@@ -43,11 +43,15 @@ module Inspec
       begin
         if (allowed_commands & ARGV.map(&:downcase)).empty? && # Did they use a non-exempt command?
             !ARGV.empty? # Did they supply at least one command?
-          LicenseAcceptance::Acceptor.check_and_persist(
+          license_acceptor_output = LicenseAcceptance::Acceptor.check_and_persist(
             Inspec::Dist::EXEC_NAME,
             Inspec::VERSION,
             logger: Inspec::Log
           )
+          if license_acceptor_output && ARGV.count == 1 && (ARGV.first.include? "--chef-license")
+            Inspec::UI.new.exit
+          end
+          license_acceptor_output
         end
       rescue LicenseAcceptance::LicenseNotAcceptedError
         Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without accepting the license"
@@ -136,6 +140,8 @@ module Inspec
       profile_options
       option :controls, type: :array,
         desc: "A list of control names to run, or a list of /regexes/ to match against control names. Ignore all other tests."
+      option :tags, type: :array,
+        desc: "A list of tags names that are part of controls to filter and run controls, or a list of /regexes/ to match against tags names of controls. Ignore all other tests."
       option :reporter, type: :array,
         banner: "one two:/output/file/path",
         desc: "Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml"
