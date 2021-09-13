@@ -46,7 +46,6 @@ The following examples show how to use this Chef InSpec audit resource.
 
 This resource matches any service listed in the `chrony.conf` file.
 
-<<<<<<< HEAD
 ### Test for clock drift against named servers
 
 ```ruby
@@ -71,32 +70,6 @@ describe chrony_conf do
 end
 ```
 
-=======
-### Test for clock drift against named servers.
-
-```ruby
-describe chrony_conf do
-  its('driftfile') { should cmp '/var/lib/chrony/drift' }
-  its('server') do
-    should cmp [
-      '0.ubuntu.pool.ntp.org',
-      '1.ubuntu.pool.ntp.org',
-      '2.ubuntu.pool.ntp.org'
-      ]
-    end
-end
-```
-
-### Test that an NTP server exists and a specific subnet is specified from which NTP clients are allowed access.
-
-```ruby
-describe chrony_conf do
-  its('server') { should_not eq nil }
-  its('allow') { should include '192.168.0.0/16'}
-end
-```
-
->>>>>>> daa9d77766c9283c2e0fd84dedc65263f2df2907
 ## Matchers
 
  For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).

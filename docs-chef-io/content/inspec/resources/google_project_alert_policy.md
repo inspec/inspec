@@ -32,15 +32,15 @@ end
 
 ### Test that a GCP alert policy is enabled
 
-describe google_project_alert_policy(policy: 'spaterson', name: '9271751234503117449') do
-  it { should be_enabled }
-end
+  describe google_project_alert_policy(policy: 'spaterson', name: '9271751234503117449') do
+    it { should be_enabled }
+  end
 
 ### Test that a GCP compute alert policy display name is correct
 
-describe google_project_alert_policy(policy: 'spaterson-project', name: '9271751234503117449') do
-  its('display_name') { should eq 'policy name' }
-end
+  describe google_project_alert_policy(policy: 'spaterson-project', name: '9271751234503117449') do
+    its('display_name') { should eq 'policy name' }
+  end
 
 ## Properties
 
@@ -55,11 +55,11 @@ Properties that can be accessed from the `google_project_alert_policy` resource:
 `combiner`
 : How to combine the results of multiple conditions to determine if an incident should be opened.
 
-Possible values:
+  Possible values:
 
-- AND
-- OR
-- AND_WITH_MATCHING_RESOURCE
+  - AND
+  - OR
+  - AND_WITH_MATCHING_RESOURCE
 
 `creation_record`
 : A read-only record of the creation of the alerting policy. If provided in a call to create or update, this field will be ignored.
