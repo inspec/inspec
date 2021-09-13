@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.43.0 -->
-## [v4.43.0](https://github.com/inspec/inspec/tree/v4.43.0) (2021-09-13)
+<!-- latest_release 4.44.0 -->
+## [v4.44.0](https://github.com/inspec/inspec/tree/v4.44.0) (2021-09-13)
 
 #### New Features
-- Add support for Sybase databases [#5561](https://github.com/inspec/inspec/pull/5561) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add ibmdb2_conf and ibmdb2_session resource [#5614](https://github.com/inspec/inspec/pull/5614) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.20 -->
 ### Changes since 4.41.20 release
 
 #### New Features
+- Add ibmdb2_conf and ibmdb2_session resource [#5614](https://github.com/inspec/inspec/pull/5614) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.44.0 -->
 - Add support for Sybase databases [#5561](https://github.com/inspec/inspec/pull/5561) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.43.0 -->
 
 #### Merged Pull Requests
