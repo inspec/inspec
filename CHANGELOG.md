@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.46.1 -->
-## [v4.46.1](https://github.com/inspec/inspec/tree/v4.46.1) (2021-09-13)
+<!-- latest_release 4.46.2 -->
+## [v4.46.2](https://github.com/inspec/inspec/tree/v4.46.2) (2021-09-13)
 
 #### Merged Pull Requests
-- Added missing cli commands in cli doc [#5634](https://github.com/inspec/inspec/pull/5634) ([Nik08](https://github.com/Nik08))
+- Fix google_project_alert_policy Examples in the docs [#5426](https://github.com/inspec/inspec/pull/5426) ([wmetaw](https://github.com/wmetaw))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.20 -->
@@ -16,6 +16,7 @@
 - Add support for Sybase databases [#5561](https://github.com/inspec/inspec/pull/5561) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.43.0 -->
 
 #### Merged Pull Requests
+- Fix google_project_alert_policy Examples in the docs [#5426](https://github.com/inspec/inspec/pull/5426) ([wmetaw](https://github.com/wmetaw)) <!-- 4.46.2 -->
 - Added missing cli commands in cli doc [#5634](https://github.com/inspec/inspec/pull/5634) ([Nik08](https://github.com/Nik08)) <!-- 4.46.1 -->
 - Add support for Oracle Configuration Resources (Oracle Db Conf &amp; Oracle Listener Conf) [#5573](https://github.com/inspec/inspec/pull/5573) ([Nik08](https://github.com/Nik08)) <!-- 4.45.0 -->
 - Add support for Mssql Conf resource [#5574](https://github.com/inspec/inspec/pull/5574) ([Nik08](https://github.com/Nik08)) <!-- 4.42.0 -->
