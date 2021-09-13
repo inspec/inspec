@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.41.23 -->
-## [v4.41.23](https://github.com/inspec/inspec/tree/v4.41.23) (2021-09-13)
+<!-- latest_release 4.42.0 -->
+## [v4.42.0](https://github.com/inspec/inspec/tree/v4.42.0) (2021-09-13)
 
 #### Merged Pull Requests
-- Update inspec check docs for --format option [#5617](https://github.com/inspec/inspec/pull/5617) ([Vasu1105](https://github.com/Vasu1105))
+- Add support for Mssql Conf resource [#5574](https://github.com/inspec/inspec/pull/5574) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.20 -->
 ### Changes since 4.41.20 release
 
 #### Merged Pull Requests
+- Add support for Mssql Conf resource [#5574](https://github.com/inspec/inspec/pull/5574) ([Nik08](https://github.com/Nik08)) <!-- 4.42.0 -->
 - Update inspec check docs for --format option [#5617](https://github.com/inspec/inspec/pull/5617) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.41.23 -->
 - Fix branch name in docs makefile [#5660](https://github.com/inspec/inspec/pull/5660) ([IanMadd](https://github.com/IanMadd)) <!-- 4.41.22 -->
 - Docs edits [#5654](https://github.com/inspec/inspec/pull/5654) ([IanMadd](https://github.com/IanMadd)) <!-- 4.41.21 -->
