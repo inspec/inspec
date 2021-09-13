@@ -15,7 +15,7 @@ Use the InSpec CLI to run tests and audits against targets using local, SSH, Win
 
 ## archive
 
-Archive a profile to tar.gz (default) or zip
+Archive a profile to tar.gz (default) or zip.
 
 ### Syntax
 
@@ -42,14 +42,13 @@ This subcommand has additional options:
 * ``--tar``, ``--no-tar``
     Generates a tar.gz archive.
 * ``--vendor-cache=VENDOR_CACHE``
-    Use the given path for caching dependencies. (default: ~/.inspec/cache)
+    Use the given path for caching dependencies. (default: ~/.inspec/cache).
 * ``--zip``, ``--no-zip``
     Generates a zip archive.
 
 ## check
 
-Verify metadata in inspec.yml. Verify control data has fields (title, description,
-impact) defined and that all controls have visible tests.
+Verify metadata in inspec.yml. Verify control data has fields (title, description, impact) defined and that all controls have visible tests.
 
 ### Syntax
 
@@ -64,7 +63,7 @@ inspec check PATH
 This subcommand has additional options:
 
 * ``--format=FORMAT``
-
+    The output format to use. Valid values: `json` and `doc`. Default value: `doc`.
 * ``--profiles-path=PROFILES_PATH``
     Folder which contains referenced profiles.
 * ``--vendor-cache=VENDOR_CACHE``
@@ -72,7 +71,7 @@ This subcommand has additional options:
 
 ## detect
 
-Detect the target os
+Detect the target OS.
 
 ### Syntax
 
@@ -89,11 +88,11 @@ This subcommand has additional options:
 * ``-b``, ``--backend=BACKEND``
     Choose a backend: local, ssh, winrm, docker.
 * ``--bastion-host=BASTION_HOST``
-    Specifies the bastion host if applicable
+    Specifies the bastion host if applicable.
 * ``--bastion-port=BASTION_PORT``
-    Specifies the bastion port if applicable
+    Specifies the bastion port if applicable.
 * ``--bastion-user=BASTION_USER``
-    Specifies the bastion user if applicable
+    Specifies the bastion user if applicable.
 * ``--config=CONFIG``
     Read configuration from JSON file (`-` reads from stdin).
 * ``--docker-url``
@@ -105,7 +104,7 @@ This subcommand has additional options:
 * ``--host=HOST``
     Specify a remote host which is tested.
 * ``--insecure``, ``--no-insecure``
-    Disable SSL verification on select targets
+    Disable SSL verification on select targets.
 * ``-i``, ``--key-files=one two three``
     Login key or certificate file for a remote scan.
 * ``--password=PASSWORD``
@@ -115,7 +114,7 @@ This subcommand has additional options:
 * ``-p``, ``--port=N``
     Specify the login port for a remote scan.
 * ``--proxy-command=PROXY_COMMAND``
-    Specifies the command to use to connect to the server
+    Specifies the command to use to connect to the server.
 * ``--self-signed``, ``--no-self-signed``
     Allow remote scans with self-signed certificates (WinRM).
 * ``--shell``, ``--no-shell``
@@ -137,7 +136,7 @@ This subcommand has additional options:
 * ``-t``, ``--target=TARGET``
     Simple targeting option using URIs, e.g. ssh://user:pass@host:port
 * ``--target-id=TARGET_ID``
-    Provide a ID which will be included on reports
+    Provide a ID which will be included on reports.
 * ``--user=USER``
     The login user for a remote scan.
 * ``--winrm-basic-auth-only``, ``--no-winrm-basic-auth-only``
@@ -151,7 +150,7 @@ This subcommand has additional options:
 
 ## env
 
-Output shell-appropriate completion configuration
+Output shell-appropriate completion configuration.
 
 ### Syntax
 
@@ -165,9 +164,7 @@ inspec env
 
 Run all test files at the specified locations.
 
-The subcommand loads the given profiles, fetches their dependencies if needed, then
-connects to the target and executes any controls contained in the profiles.
-One or more reporters are used to generate the output.
+The subcommand loads the given profiles, fetches their dependencies if needed, then connects to the target and executes any controls contained in the profiles. One or more reporters are used to generate the output.
 
 ```
 exit codes:
@@ -183,6 +180,7 @@ exit codes:
 Below are some examples of using `exec` with different test locations:
 
 Chef Automate:
+
 ```
 inspec automate login
 inspec exec compliance://username/linux-baseline
@@ -195,31 +193,37 @@ inspec compliance login
 ```
 
 Chef Supermarket:
+
 ```
 inspec exec supermarket://username/linux-baseline
 ```
 
 Local profile (executes all tests in `controls/`):
+
 ```
 inspec exec /path/to/profile
 ```
 
 Local single test (doesn't allow inputs or custom resources):
+
 ```
 inspec exec /path/to/a_test.rb
 ```
 
 Git via SSH:
+
 ```
 inspec exec git@github.com:dev-sec/linux-baseline.git
 ```
 
 Git via HTTPS (.git suffix is required):
+
 ```
 inspec exec https://github.com/dev-sec/linux-baseline.git
 ```
 
 Private Git via HTTPS (.git suffix is required):
+
 ```
 inspec exec https://api_token@github.com/dev-sec/linux-baseline.git
 ```
@@ -241,7 +245,6 @@ Web-hosted file with basic authentication (supports .zip):
 inspec exec https://username:password@webserver/linux-baseline.tar.gz
 ```
 
-
 ### Syntax
 
 This subcommand has the following syntax:
@@ -259,13 +262,13 @@ This subcommand has additional options:
 * ``-b``, ``--backend=BACKEND``
     Choose a backend: local, ssh, winrm, docker.
 * ``--backend-cache``, ``--no-backend-cache``
-    Allow caching for backend command output. (default: true)
+    Allow caching for backend command output. (default: true).
 * ``--bastion-host=BASTION_HOST``
-    Specifies the bastion host if applicable
+    Specifies the bastion host if applicable.
 * ``--bastion-port=BASTION_PORT``
-    Specifies the bastion port if applicable
+    Specifies the bastion port if applicable.
 * ``--bastion-user=BASTION_USER``
-    Specifies the bastion user if applicable
+    Specifies the bastion user if applicable.
 * ``--command-timeout=SECONDS``
     Maximum seconds to allow a command to run.
 * ``--config=CONFIG``
@@ -273,7 +276,7 @@ This subcommand has additional options:
 * ``--controls=one two three``
     A list of control names to run, or a list of /regexes/ to match against control names. Ignore all other tests.
 * ``--create-lockfile``, ``--no-create-lockfile``
-    Write out a lockfile based on this execution (unless one already exists)
+    Write out a lockfile based on this execution (unless one already exists).
 * ``--distinct-exit``, ``--no-distinct-exit``
     Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures.
 * ``--docker-url``
@@ -287,9 +290,9 @@ This subcommand has additional options:
 * ``--input=name1=value1 name2=value2``
     Specify one or more inputs directly on the command line, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures.
 * ``--input-file=one two three``
-    Load one or more input files, a YAML file with values for the profile to use
+    Load one or more input files, a YAML file with values for the profile to use.
 * ``--insecure``, ``--no-insecure``
-    Disable SSL verification on select targets
+    Disable SSL verification on select targets.
 * ``-i``, ``--key-files=one two three``
     Login key or certificate file for a remote scan.
 * ``--password=PASSWORD``
@@ -301,15 +304,15 @@ This subcommand has additional options:
 * ``--profiles-path=PROFILES_PATH``
     Folder which contains referenced profiles.
 * ``--proxy-command=PROXY_COMMAND``
-    Specifies the command to use to connect to the server
+    Specifies the command to use to connect to the server.
 * ``--reporter=one two:/output/file/path``
-    Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml
+    Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml.
 * ``--reporter-backtrace-inclusion``, ``--no-reporter-backtrace-inclusion``
-    Include a code backtrace in report data (default: true)
+    Include a code backtrace in report data (default: true).
 * ``--reporter-include-source``
-    Include full source code of controls in the CLI report
+    Include full source code of controls in the CLI report.
 * ``--reporter-message-truncation=REPORTER_MESSAGE_TRUNCATION``
-    Number of characters to truncate failure messages in report data to (default: no truncation)
+    Number of characters to truncate failure messages in report data to (default: no truncation).
 * ``--self-signed``, ``--no-self-signed``
     Allow remote scans with self-signed certificates (WinRM).
 * ``--shell``, ``--no-shell``
@@ -333,15 +336,15 @@ This subcommand has additional options:
 * ``--sudo-password=SUDO_PASSWORD``
     Specify a sudo password, if it is required.
 * ``-t``, ``--target=TARGET``
-    Simple targeting option using URIs, e.g. ssh://user:pass@host:port
+    Simple targeting option using URIs, e.g. ssh://user:pass@host:port.
 * ``--target-id=TARGET_ID``
-    Provide a ID which will be included on reports
+    Provide a ID which will be included on reports.
 * ``--tags=one two three``
     A list of tags or a list of regular expressions that match tags. `exec` will run controls referenced by the listed or matching tags.
 * ``--user=USER``
     The login user for a remote scan.
 * ``--vendor-cache=VENDOR_CACHE``
-    Use the given path for caching dependencies. (default: ~/.inspec/cache)
+    Use the given path for caching dependencies. (default: ~/.inspec/cache).
 * ``--waiver-file=one two three``
     Load one or more waiver files.
 * ``--winrm-basic-auth-only``, ``--no-winrm-basic-auth-only``
@@ -353,7 +356,7 @@ This subcommand has additional options:
 
 ## help
 
-Describe available commands or one specific command
+Describe available commands or one specific command.
 
 ### Syntax
 
@@ -365,7 +368,7 @@ inspec help [COMMAND]
 
 ## json
 
-Read all tests in path and generate a json summary
+Read all tests in path and generate a json summary.
 
 ### Syntax
 
@@ -382,17 +385,17 @@ This subcommand has additional options:
 * ``--controls=one two three``
     A list of controls to include. Ignore all other tests.
 * ``-o``, ``--output=OUTPUT``
-    Save the created profile to a path
+    Save the created profile to a path.
 * ``--profiles-path=PROFILES_PATH``
     Folder which contains referenced profiles.
 * ``--tags=one two three``
     A list of tags that reference certain controls. Other controls are ignored.
 * ``--vendor-cache=VENDOR_CACHE``
-    Use the given path for caching dependencies. (default: ~/.inspec/cache)
+    Use the given path for caching dependencies. (default: ~/.inspec/cache).
 
 ## nothing
 
-Does nothing
+Does nothing.
 
 ### Syntax
 
@@ -404,7 +407,7 @@ inspec nothing
 
 ## schema
 
-Print the json schema
+Print the json schema.
 
 ### Syntax
 
@@ -416,7 +419,7 @@ inspec schema NAME
 
 ## shell
 
-Open an interactive debugging shell
+Open an interactive debugging shell.
 
 ### Syntax
 
@@ -433,13 +436,13 @@ This subcommand has additional options:
 * ``-b``, ``--backend=BACKEND``
     Choose a backend: local, ssh, winrm, docker.
 * ``--bastion-host=BASTION_HOST``
-    Specifies the bastion host if applicable
+    Specifies the bastion host if applicable.
 * ``--bastion-port=BASTION_PORT``
-    Specifies the bastion port if applicable
+    Specifies the bastion port if applicable.
 * ``--bastion-user=BASTION_USER``
-    Specifies the bastion user if applicable
+    Specifies the bastion user if applicable.
 * ``-c``, ``--command=COMMAND``
-    A single command string to run instead of launching the shell
+    A single command string to run instead of launching the shell.
 * ``--command-timeout=SECONDS``
     Maximum seconds to allow a command to run.
 * ``--config=CONFIG``
@@ -455,7 +458,7 @@ This subcommand has additional options:
 * ``--host=HOST``
     Specify a remote host which is tested.
 * ``--insecure``, ``--no-insecure``
-    Disable SSL verification on select targets
+    Disable SSL verification on select targets.
 * ``--inspect``, ``--no-inspect``
     Use verbose/debugging output for resources.
 * ``-i``, ``--key-files=one two three``
@@ -467,9 +470,9 @@ This subcommand has additional options:
 * ``-p``, ``--port=N``
     Specify the login port for a remote scan.
 * ``--proxy-command=PROXY_COMMAND``
-    Specifies the command to use to connect to the server
+    Specifies the command to use to connect to the server.
 * ``--reporter=one two:/output/file/path``
-    Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit
+    Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit.
 * ``--self-signed``, ``--no-self-signed``
     Allow remote scans with self-signed certificates (WinRM).
 * ``--shell``, ``--no-shell``
@@ -489,9 +492,9 @@ This subcommand has additional options:
 * ``--sudo-password=SUDO_PASSWORD``
     Specify a sudo password, if it is required.
 * ``-t``, ``--target=TARGET``
-    Simple targeting option using URIs, e.g. ssh://user:pass@host:port
+    Simple targeting option using URIs, e.g. ssh://user:pass@host:port.
 * ``--target-id=TARGET_ID``
-    Provide a ID which will be included on reports
+    Provide a ID which will be included on reports.
 * ``--user=USER``
     The login user for a remote scan.
 * ``--winrm-basic-auth-only``, ``--no-winrm-basic-auth-only``
@@ -503,7 +506,7 @@ This subcommand has additional options:
 
 ## supermarket
 
-Supermarket commands
+Supermarket commands.
 
 ### Syntax
 
@@ -515,7 +518,7 @@ inspec supermarket SUBCOMMAND ...
 
 ## vendor
 
-Download all dependencies and generate a lockfile in a `vendor` directory
+Download all dependencies and generate a lockfile in a `vendor` directory.
 
 ### Syntax
 
@@ -534,7 +537,7 @@ This subcommand has additional options:
 
 ## version
 
-Prints the version of this tool
+Prints the version of this tool.
 
 ### Syntax
 
