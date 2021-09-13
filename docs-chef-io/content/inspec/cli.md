@@ -27,14 +27,14 @@ inspec archive PATH
 
 ### Options
 
-This subcommand has additional options:
+This subcommand has the following additional options:
 
 * ``--airgap``, ``--no-airgap``
     Fallback to using local archives if fetching fails.
 * ``--ignore-errors``, ``--no-ignore-errors``
     Ignore profile warnings.
 * ``-o``, ``--output=OUTPUT``
-    Save the archive to a path
+    Save the archive to a path.
 * ``--overwrite``, ``--no-overwrite``
     Overwrite existing archive.
 * ``--profiles-path=PROFILES_PATH``
@@ -42,9 +42,21 @@ This subcommand has additional options:
 * ``--tar``, ``--no-tar``
     Generates a tar.gz archive.
 * ``--vendor-cache=VENDOR_CACHE``
-    Use the given path for caching dependencies. (default: ~/.inspec/cache).
+    Use the given path for caching dependencies, (default: ~/.inspec/cache).
 * ``--zip``, ``--no-zip``
     Generates a zip archive.
+
+## automate
+
+Communicate with Chef Automate.
+
+### Syntax
+
+This subcommand has the following syntax:
+
+```bash
+inspec automate SUBCOMMAND
+```
 
 ## check
 
@@ -60,14 +72,14 @@ inspec check PATH
 
 ### Options
 
-This subcommand has additional options:
+This subcommand has the following additional options:
 
 * ``--format=FORMAT``
     The output format to use. Valid values: `json` and `doc`. Default value: `doc`.
 * ``--profiles-path=PROFILES_PATH``
     Folder which contains referenced profiles.
 * ``--vendor-cache=VENDOR_CACHE``
-    Use the given path for caching dependencies. (default: ~/.inspec/cache)
+    Use the given path for caching dependencies, (default: ~/.inspec/cache).
 
 ## detect
 
@@ -83,7 +95,7 @@ inspec detect
 
 ### Options
 
-This subcommand has additional options:
+This subcommand has the following additional options:
 
 * ``-b``, ``--backend=BACKEND``
     Choose a backend: local, ssh, winrm, docker.
@@ -134,7 +146,7 @@ This subcommand has additional options:
 * ``--sudo-password=SUDO_PASSWORD``
     Specify a sudo password, if it is required.
 * ``-t``, ``--target=TARGET``
-    Simple targeting option using URIs, e.g. ssh://user:pass@host:port
+    Simple targeting option using URIs, e.g. ssh://user:pass@host:port.
 * ``--target-id=TARGET_ID``
     Provide a ID which will be included on reports.
 * ``--user=USER``
@@ -166,7 +178,7 @@ Run all test files at the specified locations.
 
 The subcommand loads the given profiles, fetches their dependencies if needed, then connects to the target and executes any controls contained in the profiles. One or more reporters are used to generate the output.
 
-```
+``` ruby
 exit codes:
     0  normal exit, all tests passed
     1  usage or general error
@@ -181,50 +193,50 @@ Below are some examples of using `exec` with different test locations:
 
 Chef Automate:
 
-```
+``` ruby
 inspec automate login
 inspec exec compliance://username/linux-baseline
 ```
 
 `inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way:
 
-```
+``` ruby
 inspec compliance login
 ```
 
 Chef Supermarket:
 
-```
+``` ruby
 inspec exec supermarket://username/linux-baseline
 ```
 
 Local profile (executes all tests in `controls/`):
 
-```
+``` ruby
 inspec exec /path/to/profile
 ```
 
 Local single test (doesn't allow inputs or custom resources):
 
-```
+``` ruby
 inspec exec /path/to/a_test.rb
 ```
 
 Git via SSH:
 
-```
+``` ruby
 inspec exec git@github.com:dev-sec/linux-baseline.git
 ```
 
 Git via HTTPS (.git suffix is required):
 
-```
+``` ruby
 inspec exec https://github.com/dev-sec/linux-baseline.git
 ```
 
 Private Git via HTTPS (.git suffix is required):
 
-```
+``` ruby
 inspec exec https://api_token@github.com/dev-sec/linux-baseline.git
 ```
 
@@ -255,7 +267,7 @@ inspec exec LOCATIONS
 
 ### Options
 
-This subcommand has additional options:
+This subcommand has the following additional options:
 
 * ``--attrs=one two three``
     Legacy name for --input-file - deprecated.
@@ -354,6 +366,18 @@ This subcommand has additional options:
 * ``--winrm-transport=WINRM_TRANSPORT``
     Specify which transport to use, defaults to negotiate (WinRM).
 
+## habitat
+
+Create a Chef Habitat package.
+
+### Syntax
+
+This subcommand has the following syntax:
+
+```bash
+inspec habitat SUBCOMMAND
+```
+
 ## help
 
 Describe available commands or one specific command.
@@ -364,6 +388,18 @@ This subcommand has the following syntax:
 
 ```bash
 inspec help [COMMAND]
+```
+
+## init
+
+Scaffold a new project.
+
+### Syntax
+
+This subcommand has the following syntax:
+
+```bash
+inspec init TEMPLATE
 ```
 
 ## json
@@ -380,7 +416,7 @@ inspec json PATH
 
 ### Options
 
-This subcommand has additional options:
+This subcommand has the following additional options:
 
 * ``--controls=one two three``
     A list of controls to include. Ignore all other tests.
@@ -403,6 +439,18 @@ This subcommand has the following syntax:
 
 ```bash
 inspec nothing
+```
+
+## plugin
+
+Install and manage [Chef InSpec plugins](/inspec/plugins/).
+
+### Syntax
+
+This subcommand has the following syntax:
+
+```bash
+inspec plugin SUBCOMMAND
 ```
 
 ## schema
@@ -431,7 +479,7 @@ inspec shell
 
 ### Options
 
-This subcommand has additional options:
+This subcommand has the following additional options:
 
 * ``-b``, ``--backend=BACKEND``
     Choose a backend: local, ssh, winrm, docker.
@@ -448,7 +496,7 @@ This subcommand has additional options:
 * ``--config=CONFIG``
     Read configuration from JSON file (`-` reads from stdin).
 * ``--depends=one two three``
-    A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell
+    A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell.
 * ``--distinct-exit``, ``--no-distinct-exit``
     Exit with code 100 if any tests fail, and 101 if any are skipped but none failed (default).  If disabled, exit 0 on skips and 1 for failures.
 * ``--docker-url``
@@ -549,6 +597,6 @@ inspec version
 
 ### Options
 
-This subcommand has additional options:
+This subcommand has the following additional options:
 
 * ``--format=FORMAT``
