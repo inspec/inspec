@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.41.22 -->
-## [v4.41.22](https://github.com/inspec/inspec/tree/v4.41.22) (2021-09-10)
+<!-- latest_release 4.41.23 -->
+## [v4.41.23](https://github.com/inspec/inspec/tree/v4.41.23) (2021-09-13)
 
 #### Merged Pull Requests
-- Fix branch name in docs makefile [#5660](https://github.com/inspec/inspec/pull/5660) ([IanMadd](https://github.com/IanMadd))
+- Update inspec check docs for --format option [#5617](https://github.com/inspec/inspec/pull/5617) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.20 -->
 ### Changes since 4.41.20 release
 
 #### Merged Pull Requests
+- Update inspec check docs for --format option [#5617](https://github.com/inspec/inspec/pull/5617) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.41.23 -->
 - Fix branch name in docs makefile [#5660](https://github.com/inspec/inspec/pull/5660) ([IanMadd](https://github.com/IanMadd)) <!-- 4.41.22 -->
 - Docs edits [#5654](https://github.com/inspec/inspec/pull/5654) ([IanMadd](https://github.com/IanMadd)) <!-- 4.41.21 -->
 - Add labeler workflow with docs label [#5655](https://github.com/inspec/inspec/pull/5655) ([IanMadd](https://github.com/IanMadd)) <!-- 4.41.20 -->
