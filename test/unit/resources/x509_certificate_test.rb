@@ -25,7 +25,7 @@ describe "Inspec::Resources::X509Certificate" do
   end
 
   # TODO: Regenerate certificate using `InSpec` not `Inspec`
-  it "verify subject distingushed name" do
+  it "verify subject distinguished name" do
     _(resource_cert.send("subject_dn")).must_match "Inspec Test Certificate"
   end
 
@@ -40,7 +40,7 @@ describe "Inspec::Resources::X509Certificate" do
   end
 
   # TODO: Regenerate certificate using `InSpec` not `Inspec`
-  it "verify issue distingushed name" do
+  it "verify issue distinguished name" do
     _(resource_cert.send("issuer_dn")).must_match "Inspec Test CA"
   end
 

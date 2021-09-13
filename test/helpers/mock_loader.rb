@@ -98,6 +98,7 @@ class MockLoader
       "/etc/passwd" => mockfile.call("passwd"),
       "/etc/shadow" => mockfile.call("shadow"),
       "/etc/ntp.conf" => mockfile.call("ntp.conf"),
+      "/etc/chrony.conf" => mockfile.call("chrony.conf"),
       "/etc/login.defs" => mockfile.call("login.defs"),
       "/etc/security/limits.conf" => mockfile.call("limits.conf"),
       "/etc/inetd.conf" => mockfile.call("inetd.conf"),
@@ -112,6 +113,8 @@ class MockLoader
       "/etc/mysql/my.cnf" => mockfile.call("mysql.conf"),
       "/etc/mysql/mysql2.conf" => mockfile.call("mysql2.conf"),
       "/etc/mongod.conf" => mockfile.call("mongod.conf"),
+      "/opt/oracle/product/18c/dbhomeXE/network/admin/listener.ora" => mockfile.call("listener.ora"),
+      "C:\\app\\Administrator\\product\\18.0.0\\dbhomeXE\\network\\admin\\listener.ora" => mockfile.call("listener.ora"),
       "/etc/rabbitmq/rabbitmq.config" => mockfile.call("rabbitmq.config"),
       "kitchen.yml" => mockfile.call("kitchen.yml"),
       "example.csv" => mockfile.call("example.csv"),
@@ -498,6 +501,7 @@ class MockLoader
       # oracle
       "sh -c 'type \"sqlplus\"'" => cmd.call("oracle-cmd"),
       "1998da5bc0f09bd5258fad51f45447556572b747f631661831d6fcb49269a448" => cmd.call("oracle-result"),
+      "${Env:ORACLE_HOME}" => cmd.call("fetch-oracle-listener-in-windows"),
       # nginx mock cmd
       %{nginx -V 2>&1} => cmd.call("nginx-v"),
       %{/usr/sbin/nginx -V 2>&1} => cmd.call("nginx-v"),
@@ -565,12 +569,12 @@ class MockLoader
       "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-544\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call("security-policy-sid-translated"),
       "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-555\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call("security-policy-sid-untranslated"),
 
-      # Windows SID calls
-      'wmic useraccount where \'Name="Alice"\' get Name","SID /format:csv' => cmd.call("security-identifier-alice"),
-      'wmic useraccount where \'Name="Bob"\' get Name","SID /format:csv' => cmd.call("security-identifier-unknown"),
-      'wmic useraccount where \'Name="DontExist"\' get Name","SID /format:csv' => cmd.call("security-identifier-unknown"),
-      'wmic group where \'Name="Guests"\' get Name","SID /format:csv' => cmd.call("security-identifier-guests"),
-      'wmic group where \'Name="DontExist"\' get Name","SID /format:csv' => cmd.call("security-identifier-unknown"),
+      # Windows SID calls with CimInstance
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID, SIDType | Where-Object { $_.Name -eq 'Alice' -and $_.SIDType -eq 1 } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-alice"),
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID, SIDType | Where-Object { $_.Name -eq 'Bob' -and $_.SIDType -eq 1 } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-unknown"),
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID, SIDType | Where-Object { $_.Name -eq 'DontExist' -and $_.SIDType -eq 1 } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-unknown"),
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID | Where-Object { $_.Name -eq 'Guests' -and { $_.SIDType -eq 4 -or $_.SIDType -eq 5 } } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-guests"),
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID | Where-Object { $_.Name -eq 'DontExist' -and { $_.SIDType -eq 4 -or $_.SIDType -eq 5 } } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-unknown"),
 
       # alpine package commands
       "apk info -vv --no-network | grep git" => cmd.call("apk-info-grep-git"),
@@ -583,6 +587,12 @@ class MockLoader
       "Get-ChildItem -Path \"C:\\Program Files\\MongoDB\\Server\" -Name" => cmd.call("mongodb-version"),
       "opa eval -i 'input.json' -d 'example.rego' 'data.example.allow'" => cmd.call("opa-result"),
       "curl -X POST localhost:8181/v1/data/example/violation -d @v1-data-input.json -H 'Content-Type: application/json'" => cmd.call("opa-api-result"),
+
+      # ibmdb2
+      "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
+      "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 connect to sample; /opt/ibm/db2/V11.5/bin/db2 select rolename from syscat.roleauth;" => cmd.call("ibmdb2_query_output"),
+      "set-item -path env:DB2CLP -value \"**$$**\"; db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
+      "set-item -path env:DB2CLP -value \"**$$**\"; db2 connect to sample; db2 select rolename from syscat.roleauth;" => cmd.call("ibmdb2_query_output"),
     }
 
     if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")

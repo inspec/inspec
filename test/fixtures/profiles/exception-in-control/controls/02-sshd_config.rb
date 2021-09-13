@@ -1,6 +1,6 @@
 title 'Test case 2 for exceptions in the sshd_config resource'
 
-control 'sshd01 using sshd_config resource nonexistant path with no property access' do
+control 'sshd01 using sshd_config resource nonexistent path with no property access' do
   s = sshd_config('/i/do/not/exist')
   describe 'Test block' do
     it { should include 'Test'}
@@ -8,7 +8,7 @@ control 'sshd01 using sshd_config resource nonexistant path with no property acc
 end
 
 # sshd02 throws exception but is caught and fails the resource
-control 'sshd02 sshd_config resource nonexistant path with contents access in test block' do
+control 'sshd02 sshd_config resource nonexistent path with contents access in test block' do
   s = sshd_config('/i/do/not/exist')
   describe 'Test block' do
     subject { s }
@@ -35,7 +35,7 @@ end
 
 # sshd05 throws exception which is not caught, and aborts inspec with stacktrace
 # Defective on 2.1.54
-control 'sshd05 sshd_config resource nonexistant path with contents access control block' do
+control 'sshd05 sshd_config resource nonexistent path with contents access control block' do
   s = sshd_config('/i/do/not/exist')
   # Next line triggers compile-time exception
   c = s.Protocol

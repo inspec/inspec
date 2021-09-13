@@ -146,7 +146,7 @@ describe users.where(username: userinfo[:username]) do
   end
 end
 
-# catch case where user is not existant
+# catch case where user is not existent
 describe user('not_available') do
   it { should_not exist }
   its ('uid') { should eq nil}

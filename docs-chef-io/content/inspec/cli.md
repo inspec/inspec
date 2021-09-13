@@ -75,7 +75,7 @@ inspec check PATH
 This subcommand has the following additional options:
 
 * ``--format=FORMAT``
-
+    The output format to use. Valid values: `json` and `doc`. Default value: `doc`.
 * ``--profiles-path=PROFILES_PATH``
     Folder which contains referenced profiles.
 * ``--vendor-cache=VENDOR_CACHE``
@@ -83,7 +83,7 @@ This subcommand has the following additional options:
 
 ## detect
 
-Detect the target os
+Detect the target OS.
 
 ### Syntax
 
@@ -352,7 +352,7 @@ This subcommand has the following additional options:
 * ``--target-id=TARGET_ID``
     Provide a ID which will be included on reports.
 * ``--tags=one two three``
-    A list of tags, a list of regular expressions that match tags, or a hash map where each value is a tag. `exec` will run controls referenced by the listed or matching tags.
+    A list of tags or a list of regular expressions that match tags. `exec` will run controls referenced by the listed or matching tags.
 * ``--user=USER``
     The login user for a remote scan.
 * ``--vendor-cache=VENDOR_CACHE``
@@ -455,7 +455,7 @@ inspec plugin SUBCOMMAND
 
 ## schema
 
-Print the json schema
+Print the json schema.
 
 ### Syntax
 

@@ -40,7 +40,7 @@ class Thing < Inspec.resource(1)
   filter_table_config.install_filter_methods_on_resource(self, :fetch_data)
 
   def fetch_data
-    # This method should return an array of hashes - the raw data.  We'll hardcode it here.
+    # This method should return an array of hashes - the raw data.  We'll hard code it here.
     [
       { thing_id: 1, color: :red },
       { thing_id: 2, color: :blue, tackiness: 'very' },
@@ -301,7 +301,7 @@ This method behaves just like `thing_ids`, except that it returns the values of 
 
 You also get this for `thing_ids`.  This is unrelated to `style: :simple` for `colors`.
 
-People definitely use this in the wild.  It reads badly to me; I think this is a legacy usage that we should consider deprecating. To me, this seems to imply that there is a sub-resource (here, colors) we are auditing.  At least two core resouces (`xinetd_conf` and `users`) advocate this as their primary use.
+People definitely use this in the wild.  It reads badly to me; I think this is a legacy usage that we should consider deprecating. To me, this seems to imply that there is a sub-resource (here, colors) we are auditing.  At least two core resources (`xinetd_conf` and `users`) advocate this as their primary use.
 
 ```ruby
   # Filter on colors

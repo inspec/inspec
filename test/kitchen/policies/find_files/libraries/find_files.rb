@@ -3,7 +3,7 @@ class TestFindFiles < Inspec.resource(1)
   name "test_find_files"
 
   desc "
-    Resource used for testing the funcitonality of Utils::FindFiles
+    Resource used for testing the functionality of Utils::FindFiles
   "
 
   example "
