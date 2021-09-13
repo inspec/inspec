@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.42.0 -->
-## [v4.42.0](https://github.com/inspec/inspec/tree/v4.42.0) (2021-09-13)
+<!-- latest_release 4.43.0 -->
+## [v4.43.0](https://github.com/inspec/inspec/tree/v4.43.0) (2021-09-13)
 
-#### Merged Pull Requests
-- Add support for Mssql Conf resource [#5574](https://github.com/inspec/inspec/pull/5574) ([Nik08](https://github.com/Nik08))
+#### New Features
+- Add support for Sybase databases [#5561](https://github.com/inspec/inspec/pull/5561) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.20 -->
 ### Changes since 4.41.20 release
+
+#### New Features
+- Add support for Sybase databases [#5561](https://github.com/inspec/inspec/pull/5561) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.43.0 -->
 
 #### Merged Pull Requests
 - Add support for Mssql Conf resource [#5574](https://github.com/inspec/inspec/pull/5574) ([Nik08](https://github.com/Nik08)) <!-- 4.42.0 -->
