@@ -366,6 +366,18 @@ This subcommand has the following additional options:
 * ``--winrm-transport=WINRM_TRANSPORT``
     Specify which transport to use, defaults to negotiate (WinRM).
 
+## habitat
+
+Create a Chef Habitat package.
+
+### Syntax
+
+This subcommand has the following syntax:
+
+```bash
+inspec habitat SUBCOMMAND
+```
+
 ## help
 
 Describe available commands or one specific command.
@@ -376,18 +388,6 @@ This subcommand has the following syntax:
 
 ```bash
 inspec help [COMMAND]
-```
-
-## habitat
-
-Create Chef Habitat package.
-
-### Syntax
-
-This subcommand has the following syntax:
-
-```bash
-inspec habitat SUBCOMMAND
 ```
 
 ## init
@@ -443,7 +443,7 @@ inspec nothing
 
 ## plugin
 
-Install and manage plugin.
+Install and manage [Chef InSpec plugins](/inspec/plugins/).
 
 ### Syntax
 
