@@ -18,6 +18,7 @@ module Inspec
     attr_accessor :skip_file
     attr_accessor :profile_context
     attr_accessor :resources_dsl
+    attr_accessor :conf
 
     def initialize(profile_context, resources_dsl, backend, conf, dependencies, require_loader, skip_only_if_eval)
       @profile_context = profile_context

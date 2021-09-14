@@ -104,7 +104,7 @@ module Inspec::DSL
     mock = Inspec::Backend.create(Inspec::Config.mock)
     include_ctx = Inspec::ProfileContext.for_profile(profile, mock)
     include_ctx.load(block) if block_given?
-    include_ctx.control_eval_context.instance_variable_set(:@conf, opts[:conf])
+    include_ctx.control_eval_context.conf = opts[:conf]
     control_eval_ctx = include_ctx.control_eval_context
     # remove all rules that were not registered
     context.all_rules.each do |r|
