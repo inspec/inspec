@@ -27,19 +27,34 @@ This resource first became available in v1.0.0 of InSpec.
 
 A `csv` resource block declares the configuration data to be tested:
 
-    describe csv('file') do
+    describe csv('file', true) do
       its('name') { should cmp 'foo' }
+    end
+
+Test ``csv`` without headers
+
+    describe csv('file', false).params do
+      its([0]) { should cmp 'name' }
     end
 
 where
 
 - `'file'` is the path to a CSV file
+- 'true' is the value for headers by default value is true. If set to false it consider csv file does not have headers,
 - `name` is a configuration setting in a CSV file
 - `should eq 'foo'` tests a value of `name` as read from a CSV file versus the value declared in the test
+- `params` when headers are set to false use this method to fetch the data.
+- `[0]` is the array element position.
 
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
+
+### Test a csv file without headers
+
+    describe csv('some_file.csv', false).params do
+      its([0]) { should eq ["name"] }
+    end
 
 ### Test a CSV file
 
