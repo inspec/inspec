@@ -40,11 +40,12 @@ module Inspec::Resources
       end
     EXAMPLE
 
-    def initialize(user, pass, host = nil, port = nil)
+    def initialize(user, pass, host = nil, port = nil, socket_path = nil)
       @user = user || "postgres"
       @pass = pass
       @host = host || "localhost"
       @port = port || 5432
+      @socket_path = socket_path
       raise Inspec::Exceptions::ResourceFailed, "Can't run PostgreSQL SQL checks without authentication." if @user.nil? || @pass.nil?
     end
 
@@ -69,10 +70,20 @@ module Inspec::Resources
 
     def create_psql_cmd(query, db = [])
       dbs = db.map { |x| "#{x}" }.join(" ")
-      if inspec.os.windows?
-        "psql -d postgresql://#{@user}:#{@pass}@#{@host}:#{@port}/#{dbs} -A -t -w -c \"#{query}\""
+
+      if @socket_path && !inspec.os.windows?
+        # Socket path and empty host in the connection string establishes socket connection
+        # Socket connection only enabled for non-windows platforms
+        # Windows does not support unix domain sockets
+        "psql -d postgresql://#{@user}:#{@pass}@/#{dbs}?host=#{@socket_path} -A -t -w -c #{escaped_query(query)}"
       else
-        "psql -d postgresql://#{@user}:#{@pass}@#{@host}:#{@port}/#{dbs} -A -t -w -c #{escaped_query(query)}"
+        # Host in connection string establishes tcp/ip connection
+        if inspec.os.windows?
+          warn "Socket based connection not supported in windows, connecting using host" if @socket_path
+          "psql -d postgresql://#{@user}:#{@pass}@#{@host}:#{@port}/#{dbs} -A -t -w -c \"#{query}\""
+        else
+          "psql -d postgresql://#{@user}:#{@pass}@#{@host}:#{@port}/#{dbs} -A -t -w -c #{escaped_query(query)}"
+        end
       end
     end
   end

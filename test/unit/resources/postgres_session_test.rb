@@ -37,4 +37,9 @@ describe "Inspec::Resources::PostgresSession" do
     resource = load_resource("postgres_session", "postgres", "postgres", "localhost", 5432)
     _(proc { resource.send(:query, "Select 5;", ["mydatabase"]) }).must_raise Inspec::Exceptions::ResourceFailed
   end
+
+  it "verify postgres_session create_psql_cmd in socket connection" do
+    resource = load_resource("postgres_session", "myuser", "mypass", "127.0.0.1", 5432, "/var/run/postgresql")
+    _(resource.send(:create_psql_cmd, "SELECT * FROM STUDENTS;", ["testdb"])).must_equal "psql -d postgresql://myuser:mypass@/testdb?host=/var/run/postgresql -A -t -w -c SELECT\\ \\*\\ FROM\\ STUDENTS\\;"
+  end
 end
