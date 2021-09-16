@@ -40,7 +40,7 @@ Test ``csv`` without headers
 where
 
 - `'file'` is the path to a CSV file
-- 'true' is the value for headers by default value is true. If set to false it consider csv file does not have headers,
+- 'true' is the value for headers. Default `true`. If `false` then it considers csv does not have headers.
 - `name` is a configuration setting in a CSV file
 - `should eq 'foo'` tests a value of `name` as read from a CSV file versus the value declared in the test
 - `params` when headers are set to false use this method to fetch the data.
