@@ -150,7 +150,11 @@ module Inspec::Resources
     def group_info
       # we need a local copy for the block
       group = @group.dup
-      @groups_cache ||= inspec.groups.where { name == group }
+      if inspec.os.windows?
+        @groups_cache ||= inspec.groups.where { name.casecmp?(group) }
+      else
+        @groups_cache ||= inspec.groups.where { name == group }
+      end
     end
 
     def empty_value_for_members
