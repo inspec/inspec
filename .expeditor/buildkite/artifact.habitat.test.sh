@@ -16,7 +16,7 @@ uname -a
 
 echo "--- Installing Habitat"
 id -a
-curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | bash
+curl https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.sh | bash
 
 
 echo "--- Generating fake origin key"
