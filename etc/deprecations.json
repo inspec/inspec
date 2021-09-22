@@ -4,7 +4,7 @@
   "groups": {
     "attrs_value_replaces_default": {
       "action": "warn",
-      "prefix": "The 'default' option for attributes is being replaced by 'value' - please use it instead."
+      "prefix": "The 'default' option for inputs is being replaced by 'value' - please use it instead."
     },
     "attrs_dsl": {
       "action": "ignore",
