@@ -9,6 +9,12 @@ describe "Inspec::Resources::OpaCli" do
     _(resource.allow).must_equal false
   end
 
+  it "verify opa eval query result parsing when output is empty" do
+    resource = load_resource("opa_cli", policy: "example.rego", data: "input.json", query: "data.example.voilation")
+    _(resource.result).must_be_nil
+    _(resource.params).must_equal({})
+  end
+
   it "fails when policy, data or query is nil." do
     resource = load_resource("opa_cli")
     _(resource.resource_failed?).must_equal true

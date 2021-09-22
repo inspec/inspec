@@ -12,6 +12,10 @@ module Inspec::Resources
       super({ content: @content })
     end
 
+    def result
+      @content == {} || @content["result"].empty? ? nil : @content
+    end
+
     private
 
     def parse(content)
