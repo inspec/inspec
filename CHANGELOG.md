@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.46.5 -->
-## [v4.46.5](https://github.com/inspec/inspec/tree/v4.46.5) (2021-09-22)
+<!-- latest_release 4.46.6 -->
+## [v4.46.6](https://github.com/inspec/inspec/tree/v4.46.6) (2021-09-22)
 
-#### Merged Pull Requests
-- Add rocky and almalinux to service resource [#5604](https://github.com/inspec/inspec/pull/5604) ([sspans-sbp](https://github.com/sspans-sbp))
+#### Bug Fixes
+- Fix main in expeditor script [#5669](https://github.com/inspec/inspec/pull/5669) ([kagarmoe](https://github.com/kagarmoe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.20 -->
 ### Changes since 4.41.20 release
+
+#### Bug Fixes
+- Fix main in expeditor script [#5669](https://github.com/inspec/inspec/pull/5669) ([kagarmoe](https://github.com/kagarmoe)) <!-- 4.46.6 -->
 
 #### New Features
 - adds chrony_conf InSpec resource [#5589](https://github.com/inspec/inspec/pull/5589) ([collinmcneese](https://github.com/collinmcneese)) <!-- 4.46.0 -->
