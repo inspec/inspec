@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.46.4 -->
-## [v4.46.4](https://github.com/inspec/inspec/tree/v4.46.4) (2021-09-13)
+<!-- latest_release 4.46.5 -->
+## [v4.46.5](https://github.com/inspec/inspec/tree/v4.46.5) (2021-09-22)
 
 #### Merged Pull Requests
-- Minor docs fixes. [#5662](https://github.com/inspec/inspec/pull/5662) ([IanMadd](https://github.com/IanMadd))
+- Add rocky and almalinux to service resource [#5604](https://github.com/inspec/inspec/pull/5604) ([sspans-sbp](https://github.com/sspans-sbp))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.20 -->
@@ -16,6 +16,7 @@
 - Add support for Sybase databases [#5561](https://github.com/inspec/inspec/pull/5561) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.43.0 -->
 
 #### Merged Pull Requests
+- Add rocky and almalinux to service resource [#5604](https://github.com/inspec/inspec/pull/5604) ([sspans-sbp](https://github.com/sspans-sbp)) <!-- 4.46.5 -->
 - Minor docs fixes. [#5662](https://github.com/inspec/inspec/pull/5662) ([IanMadd](https://github.com/IanMadd)) <!-- 4.46.4 -->
 - Update code to remove ruby 2.4 support [#5645](https://github.com/inspec/inspec/pull/5645) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.46.3 -->
 - Fix google_project_alert_policy Examples in the docs [#5426](https://github.com/inspec/inspec/pull/5426) ([wmetaw](https://github.com/wmetaw)) <!-- 4.46.2 -->
