@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.46.6 -->
-## [v4.46.6](https://github.com/inspec/inspec/tree/v4.46.6) (2021-09-22)
+<!-- latest_release 4.46.7 -->
+## [v4.46.7](https://github.com/inspec/inspec/tree/v4.46.7) (2021-09-22)
 
-#### Bug Fixes
-- Fix main in expeditor script [#5669](https://github.com/inspec/inspec/pull/5669) ([kagarmoe](https://github.com/kagarmoe))
+#### Merged Pull Requests
+- Change the deprecation warning to mention inputs [#5668](https://github.com/inspec/inspec/pull/5668) ([damacus](https://github.com/damacus))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.20 -->
@@ -19,6 +19,7 @@
 - Add support for Sybase databases [#5561](https://github.com/inspec/inspec/pull/5561) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.43.0 -->
 
 #### Merged Pull Requests
+- Change the deprecation warning to mention inputs [#5668](https://github.com/inspec/inspec/pull/5668) ([damacus](https://github.com/damacus)) <!-- 4.46.7 -->
 - Add rocky and almalinux to service resource [#5604](https://github.com/inspec/inspec/pull/5604) ([sspans-sbp](https://github.com/sspans-sbp)) <!-- 4.46.5 -->
 - Minor docs fixes. [#5662](https://github.com/inspec/inspec/pull/5662) ([IanMadd](https://github.com/IanMadd)) <!-- 4.46.4 -->
 - Update code to remove ruby 2.4 support [#5645](https://github.com/inspec/inspec/pull/5645) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.46.3 -->
