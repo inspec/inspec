@@ -50,7 +50,7 @@ An OPA query as a JSON data file or a string in JSON format.
 The following examples show how to use this Chef InSpec audit resource.
 
     describe opa_api(url: "localhost:8181/v1/data/example/allow", data: "input.json") do
-      its["result"] { shoule_not be nil }
+      its("result") { shoule_not be nil }
       its(["result"]) { should eq true }
       its("allow") { should eq "true" }
     end
@@ -65,7 +65,7 @@ For a full list of available matchers, please visit our [matchers page](/inspec/
 
 ### result
 
-The `result` property checks whether query output is nil.
+The `result` property checks whether the resource query returns an empty result.
 
     its('result') { should be nil }
 
