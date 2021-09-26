@@ -180,7 +180,7 @@ Properties that can be accessed from the `google_storage_bucket` resource:
 
       `type`
       : Type of the action. Currently, only Delete and SetStorageClass are supported.
-        
+
         Possible values:
         - Delete
         - SetStorageClass
@@ -198,7 +198,7 @@ Properties that can be accessed from the `google_storage_bucket` resource:
       : Relevant only for versioned objects.  If the value is true, this condition matches live objects; if the value is false, it matches archived objects.
 
       `matches_storage_class`
-      : Objects having any of the storage classes specified by this condition will be matched. Values include MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, STANDARD, and DURABLE_REDUCED_AVAILABILITY.
+      : Objects having any of the storage classes specified by this condition will be matched. Values include MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, STANDARD, ARCHIVE, and DURABLE_REDUCED_AVAILABILITY.
 
       `num_newer_versions`
       : Relevant only for versioned objects. If the value is N, this condition is satisfied when there are at least N versions (including the live version) newer than this version of the object.
@@ -234,7 +234,7 @@ Properties that can be accessed from the `google_storage_bucket` resource:
 : The project number of the project the bucket belongs to.
 
 `storage_class`
-: The bucket's default storage class, used whenever no storageClass is specified for a newly-created object. This defines how objects in the bucket are stored and determines the SLA and the cost of storage. Values include MULTI_REGIONAL, REGIONAL, STANDARD, NEARLINE, COLDLINE, and DURABLE_REDUCED_AVAILABILITY. If this value is not specified when the bucket is created, it will default to STANDARD. For more information, see storage classes.
+: The bucket's default storage class, used whenever no storageClass is specified for a newly-created object. This defines how objects in the bucket are stored and determines the SLA and the cost of storage. Values include MULTI_REGIONAL, REGIONAL, STANDARD, NEARLINE, COLDLINE, ARCHIVE, and DURABLE_REDUCED_AVAILABILITY. If this value is not specified when the bucket is created, it will default to STANDARD. For more information, see storage classes.
 
   Possible values:
 
@@ -243,6 +243,7 @@ Properties that can be accessed from the `google_storage_bucket` resource:
   - STANDARD
   - NEARLINE
   - COLDLINE
+  - ARCHIVE
   - DURABLE_REDUCED_AVAILABILITY
 
 
