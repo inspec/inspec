@@ -48,7 +48,7 @@ A full example is:
 
 where
   - `its('output') { should eq '' }` compares the results of the query against the expected result in the test
-  - `socketpath` is an optional parameter. It can be used to establish socket connection with postgres by specifying one of the postgres unix domain sockets path. Only supported for unix based platforms.
+  - `socketpath` is an optional parameter. Use `socketpath` to establish a socket connection with Postgres by specifying one of the Postgres Unix domain socket paths. Only supported on Unix-based platforms.
 
 ## Examples
 
