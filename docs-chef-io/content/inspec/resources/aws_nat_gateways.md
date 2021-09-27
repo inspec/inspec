@@ -56,7 +56,7 @@ using `aws_nat_gateway` InSpec singular AWS resource.
       end
     end
 
-For more examples, please check the [integration tests](https://github.com/inspec/inspec-aws/blob/master/test/integration/verify/controls/aws_nat_gateways.rb).
+For more examples, please check the [integration tests](https://github.com/inspec/inspec-aws/blob/main/test/integration/verify/controls/aws_nat_gateways.rb).
 
 ## Matchers
 
@@ -77,7 +77,7 @@ Use `should_not` to test the entity should not exist.
       it { should_not exist }
     end
 
-Please see [here](https://github.com/inspec/inspec/blob/master/docs/dev/filtertable-usage.md) for more information on how to use filter table.
+Please see [here](https://github.com/inspec/inspec/blob/main/docs/dev/filtertable-usage.md) for more information on how to use filter table.
 
 ## AWS Permissions
 

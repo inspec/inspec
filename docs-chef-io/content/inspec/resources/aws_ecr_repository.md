@@ -11,7 +11,7 @@ platform = "aws"
     parent = "inspec/resources/aws"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/aws_ecr_repository.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/main/docs-chef-io/content/aws_ecr_repository.md)
 
 Use the `aws_ecr_repository` InSpec audit resource to test the properties of a single AWS Elastic Container Registry (ECR) repository.
 This resource is available in InSpec AWS resource pack version **[1.11.0](https://github.com/inspec/inspec-aws/releases/tag/v1.11.0)** onwards.

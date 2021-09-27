@@ -178,4 +178,4 @@ This Chef InSpec audit resource has the following special matchers. For a full l
 
 Please see the integration tests for in depth examples of how this resource can be used.
 
-[Chef InSpec Integration Tests for Azure Generic Resources](https://github.com/chef/inspec/tree/master/test/integration/azure/verify/controls)
+[Chef InSpec Integration Tests for Azure Generic Resources](https://github.com/chef/inspec/tree/main/test/integration/azure/verify/controls)
