@@ -36,11 +36,11 @@ A `bsd_service` resource block declares the name of a service and then one (or m
 where
 
 - `('service_name')` must specify a service name
-- `be_installed`, `be_enabled`, and `be_running` are valid matchers for this resource.
+- `be_installed`, `be_enabled`, and `be_running` are the different [matchers](#matchers) for this resource.
 
-### Using `bsd_service` resource parameters
+## Parameters
 
-#### Path
+### Path
 
 The path to the service manager's control may be specified for situations where the path isn't available in the current `PATH`. For example:
 
@@ -52,7 +52,7 @@ The path to the service manager's control may be specified for situations where 
 
 ## Properties
 
-All properties available to the `service` resource may be used.
+All properties available to the [`service`](/inspec/resources/service/) resource may be used.
 
 ## Matchers
 
