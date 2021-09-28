@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.46.7 -->
-## [v4.46.7](https://github.com/inspec/inspec/tree/v4.46.7) (2021-09-22)
+<!-- latest_release 4.46.8 -->
+## [v4.46.8](https://github.com/inspec/inspec/tree/v4.46.8) (2021-09-28)
 
-#### Merged Pull Requests
-- Change the deprecation warning to mention inputs [#5668](https://github.com/inspec/inspec/pull/5668) ([damacus](https://github.com/damacus))
+#### Enhancements
+- Add csv without headers support in csv resource [#5665](https://github.com/inspec/inspec/pull/5665) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.20 -->
 ### Changes since 4.41.20 release
+
+#### Enhancements
+- Add csv without headers support in csv resource [#5665](https://github.com/inspec/inspec/pull/5665) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.46.8 -->
 
 #### Bug Fixes
 - Fix main in expeditor script [#5669](https://github.com/inspec/inspec/pull/5669) ([kagarmoe](https://github.com/kagarmoe)) <!-- 4.46.6 -->
