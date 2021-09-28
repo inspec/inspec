@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.46.9 -->
-## [v4.46.9](https://github.com/inspec/inspec/tree/v4.46.9) (2021-09-28)
+<!-- latest_release 4.46.10 -->
+## [v4.46.10](https://github.com/inspec/inspec/tree/v4.46.10) (2021-09-28)
 
-#### Enhancements
-- Add option in `postgres_session` resource to establish socket connection [#5664](https://github.com/inspec/inspec/pull/5664) ([Nik08](https://github.com/Nik08))
+#### Bug Fixes
+- Fix --tags filter for dependent profiles [#5657](https://github.com/inspec/inspec/pull/5657) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.20 -->
@@ -15,6 +15,7 @@
 - Add csv without headers support in csv resource [#5665](https://github.com/inspec/inspec/pull/5665) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.46.8 -->
 
 #### Bug Fixes
+- Fix --tags filter for dependent profiles [#5657](https://github.com/inspec/inspec/pull/5657) ([Nik08](https://github.com/Nik08)) <!-- 4.46.10 -->
 - Fix main in expeditor script [#5669](https://github.com/inspec/inspec/pull/5669) ([kagarmoe](https://github.com/kagarmoe)) <!-- 4.46.6 -->
 
 #### New Features
