@@ -214,6 +214,23 @@ module Inspec
       !@conf.empty? && @conf.key?("profile") && @conf["profile"].include_tags_list.empty? || @conf.empty?
     end
 
+    # Check if the given control exist in the --controls option
+    def control_exist_in_controls_list?(id)
+      id_exist_in_list = false
+      if profile_config_exist?
+        id_exist_in_list = @conf["profile"].include_controls_list.any? do |inclusion|
+          # Try to see if the inclusion is a regex, and if it matches
+          inclusion == id || (inclusion.is_a?(Regexp) && inclusion =~ id)
+        end
+      end
+      id_exist_in_list
+    end
+
+    # Returns true if configuration hash is empty or configuration hash does not have the list of controls that needs to be included
+    def controls_list_empty?
+      !@conf.empty? && @conf.key?("profile") && @conf["profile"].include_controls_list.empty? || @conf.empty?
+    end
+
     private
 
     def block_location(block, alternate_caller)
@@ -232,23 +249,6 @@ module Inspec
 
     def profile_tag_config_exist?
       !@conf.empty? && @conf.key?("profile") && !@conf["profile"].include_tags_list.empty?
-    end
-
-    # Returns true if configuration hash is empty or configuration hash does not have the list of controls that needs to be included
-    def controls_list_empty?
-      !@conf.empty? && @conf.key?("profile") && @conf["profile"].include_controls_list.empty? || @conf.empty?
-    end
-
-    # Check if the given control exist in the --controls option
-    def control_exist_in_controls_list?(id)
-      id_exist_in_list = false
-      if profile_config_exist?
-        id_exist_in_list = @conf["profile"].include_controls_list.any? do |inclusion|
-          # Try to see if the inclusion is a regex, and if it matches
-          inclusion == id || (inclusion.is_a?(Regexp) && inclusion =~ id)
-        end
-      end
-      id_exist_in_list
     end
   end
 end

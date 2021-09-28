@@ -93,8 +93,9 @@ module Inspec::DSL
     context = dep_entry.profile.runner_context
     # if we don't want all the rules, then just make 1 pass to get all rule_IDs
     # that we want to keep from the original
-    filter_included_controls(context, dep_entry.profile, opts, &block) if !opts[:include_all] || !(opts[:conf]["profile"].include_tags_list.empty?)
-
+    if !opts[:include_all] || !(opts[:conf]["profile"].include_tags_list.empty?) || !opts[:conf]["profile"].include_controls_list.empty?
+      filter_included_controls(context, dep_entry.profile, opts, &block)
+    end
     # interpret the block and skip/modify as required
     context.load(block) if block_given?
     bind_context.add_subcontext(context)
@@ -112,7 +113,14 @@ module Inspec::DSL
       fid = Inspec::Rule.profile_id(r) + "/" + id
       if !opts[:include_all] && !(include_ctx.rules[id] || include_ctx.rules[fid])
         context.remove_rule(fid)
-      elsif !control_eval_ctx.tags_list_empty?
+      end
+
+      unless control_eval_ctx.controls_list_empty?
+        # filter the dependent profile controls which are not in the --controls options list
+        context.remove_rule(fid) unless control_eval_ctx.control_exist_in_controls_list?(id)
+      end
+
+      unless control_eval_ctx.tags_list_empty?
         # filter included controls using --tags
         tag_ids = control_eval_ctx.control_tags(r)
         context.remove_rule(fid) unless control_eval_ctx.tag_exist_in_control_tags?(tag_ids)
