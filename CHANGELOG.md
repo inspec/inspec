@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.46.8 -->
-## [v4.46.8](https://github.com/inspec/inspec/tree/v4.46.8) (2021-09-28)
+<!-- latest_release 4.46.9 -->
+## [v4.46.9](https://github.com/inspec/inspec/tree/v4.46.9) (2021-09-28)
 
 #### Enhancements
-- Add csv without headers support in csv resource [#5665](https://github.com/inspec/inspec/pull/5665) ([Vasu1105](https://github.com/Vasu1105))
+- Add option in `postgres_session` resource to establish socket connection [#5664](https://github.com/inspec/inspec/pull/5664) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.20 -->
 ### Changes since 4.41.20 release
 
 #### Enhancements
+- Add option in `postgres_session` resource to establish socket connection [#5664](https://github.com/inspec/inspec/pull/5664) ([Nik08](https://github.com/Nik08)) <!-- 4.46.9 -->
 - Add csv without headers support in csv resource [#5665](https://github.com/inspec/inspec/pull/5665) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.46.8 -->
 
 #### Bug Fixes
