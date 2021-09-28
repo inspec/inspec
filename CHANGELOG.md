@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.46.11 -->
-## [v4.46.11](https://github.com/inspec/inspec/tree/v4.46.11) (2021-09-28)
+<!-- latest_release 4.46.12 -->
+## [v4.46.12](https://github.com/inspec/inspec/tree/v4.46.12) (2021-09-28)
 
 #### Merged Pull Requests
-- Build packages for debian 11, macos 12, windows 11/2022 [#5675](https://github.com/inspec/inspec/pull/5675) ([tas50](https://github.com/tas50))
+- Fix --controls option was not working for dependent profile [#5656](https://github.com/inspec/inspec/pull/5656) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.41.20 -->
@@ -24,6 +24,7 @@
 - Add support for Sybase databases [#5561](https://github.com/inspec/inspec/pull/5561) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.43.0 -->
 
 #### Merged Pull Requests
+- Fix --controls option was not working for dependent profile [#5656](https://github.com/inspec/inspec/pull/5656) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.46.12 -->
 - Build packages for debian 11, macos 12, windows 11/2022 [#5675](https://github.com/inspec/inspec/pull/5675) ([tas50](https://github.com/tas50)) <!-- 4.46.11 -->
 - Change the deprecation warning to mention inputs [#5668](https://github.com/inspec/inspec/pull/5668) ([damacus](https://github.com/damacus)) <!-- 4.46.7 -->
 - Add rocky and almalinux to service resource [#5604](https://github.com/inspec/inspec/pull/5604) ([sspans-sbp](https://github.com/sspans-sbp)) <!-- 4.46.5 -->
