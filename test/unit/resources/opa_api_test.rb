@@ -10,7 +10,7 @@ describe "Inspec::Resources::OpaApi" do
   end
 
   it "verify opa api query result parsing when output is empty" do
-     resource = load_resource("opa_api", url: "localhost:8181/v1/data/example/violation", data: "v1-data-input1.json")
+    resource = load_resource("opa_api", url: "localhost:8181/v1/data/example/violation", data: "v1-data-input1.json")
     _(resource.result).must_be_nil
     _(resource.params["result"]).must_equal([])
   end
