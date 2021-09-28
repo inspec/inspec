@@ -45,19 +45,6 @@ Use the where clause to test open interfaces, sources, and services in active zo
 
 ## Properties
 
-- `interfaces`
-- `sources`
-- `services`
-- `target`
-- `ports`
-- `protocols`
-- `forward_ports`
-- `source_ports`
-- `icmp_blocks`
-- `rich_rules`
-
-## Property Examples
-
 ### interfaces
 
 The `interfaces` property is used in conjunction with the where class to display open interfaces in an active zone.
