@@ -18,6 +18,7 @@ module Inspec
     attr_accessor :skip_file
     attr_accessor :profile_context
     attr_accessor :resources_dsl
+    attr_accessor :conf
 
     def initialize(profile_context, resources_dsl, backend, conf, dependencies, require_loader, skip_only_if_eval)
       @profile_context = profile_context
@@ -189,6 +190,30 @@ module Inspec
       @skip_file = true
     end
 
+    # Check if the given control exist in the --tags option
+    def tag_exist_in_control_tags?(tag_ids)
+      tag_option_matches_with_list = false
+      if !tag_ids.empty? && !tag_ids.nil? && profile_tag_config_exist?
+        tag_option_matches_with_list = !(tag_ids & @conf["profile"].include_tags_list).empty?
+        unless tag_option_matches_with_list
+          @conf["profile"].include_tags_list.any? do |inclusion|
+            # Try to see if the inclusion is a regex, and if it matches
+            if inclusion.is_a?(Regexp)
+              tag_ids.each do |id|
+                tag_option_matches_with_list = (inclusion =~ id)
+                break if tag_option_matches_with_list
+              end
+            end
+          end
+        end
+      end
+      tag_option_matches_with_list
+    end
+
+    def tags_list_empty?
+      !@conf.empty? && @conf.key?("profile") && @conf["profile"].include_tags_list.empty? || @conf.empty?
+    end
+
     private
 
     def block_location(block, alternate_caller)
@@ -214,10 +239,6 @@ module Inspec
       !@conf.empty? && @conf.key?("profile") && @conf["profile"].include_controls_list.empty? || @conf.empty?
     end
 
-    def tags_list_empty?
-      !@conf.empty? && @conf.key?("profile") && @conf["profile"].include_tags_list.empty? || @conf.empty?
-    end
-
     # Check if the given control exist in the --controls option
     def control_exist_in_controls_list?(id)
       id_exist_in_list = false
@@ -228,26 +249,6 @@ module Inspec
         end
       end
       id_exist_in_list
-    end
-
-    # Check if the given control exist in the --tags option
-    def tag_exist_in_control_tags?(tag_ids)
-      tag_option_matches_with_list = false
-      if !tag_ids.empty? && !tag_ids.nil? && profile_tag_config_exist?
-        tag_option_matches_with_list = !(tag_ids & @conf["profile"].include_tags_list).empty?
-        unless tag_option_matches_with_list
-          @conf["profile"].include_tags_list.any? do |inclusion|
-            # Try to see if the inclusion is a regex, and if it matches
-            if inclusion.is_a?(Regexp)
-              tag_ids.each do |id|
-                tag_option_matches_with_list = (inclusion =~ id)
-                break if tag_option_matches_with_list
-              end
-            end
-          end
-        end
-      end
-      tag_option_matches_with_list
     end
   end
 end
