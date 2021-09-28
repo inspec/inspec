@@ -158,7 +158,7 @@ supports:
   - platform-family: redhat
 ```
 
-To target the entire Windows 2019 platform family including Datcenter and Core Servers, use:
+To target the entire Windows 2019 platform family including Datacenter and Core Servers, use:
 
 ```YAML
 name: ssh
