@@ -150,7 +150,7 @@ supports:
     release: 20.*
 ```
 
-To target the entire RedHat platform (including CentOS and Oracle Linux), use:
+To target the Red Hat and derivitive platforms such as CentOS and Oracle Linux, use:
 
 ```YAML
 name: ssh
