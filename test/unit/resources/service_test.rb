@@ -47,9 +47,8 @@ describe "Inspec::Resources::Service" do
     _(resource.params.UnitFileState).must_be_nil
   end
 
-  # ubuntu 15.04 with systemd
   it "verify ubuntu service parsing" do
-    resource = MockLoader.new(:ubuntu1504).load_resource("service", "sshd")
+    resource = MockLoader.new(:ubuntu).load_resource("service", "sshd")
     params = Hashie::Mash.new({ "ActiveState" => "active", "Description" => "OpenSSH server daemon", "Id" => "sshd.service", "LoadState" => "loaded", "Names" => "sshd.service", "SubState" => "running", "UnitFileState" => "enabled" })
     _(resource.type).must_equal "systemd"
     _(resource.name).must_equal "sshd.service"
@@ -62,7 +61,7 @@ describe "Inspec::Resources::Service" do
   end
 
   it "verify ubuntu service parsing with default systemd_service" do
-    resource = MockLoader.new(:ubuntu1504).load_resource("systemd_service", "sshd")
+    resource = MockLoader.new(:ubuntu).load_resource("systemd_service", "sshd")
     params = Hashie::Mash.new({ "ActiveState" => "active", "Description" => "OpenSSH server daemon", "Id" => "sshd.service", "LoadState" => "loaded", "Names" => "sshd.service", "SubState" => "running", "UnitFileState" => "enabled" })
     _(resource.type).must_equal "systemd"
     _(resource.name).must_equal "sshd.service"
