@@ -19,7 +19,6 @@ class MockLoader
     macos10_10: { name: "mac_os_x", family: "darwin", release: "10.10.4", arch: nil },
     macos10_16: { name: "darwin", family: "darwin", release: "10.16", arch: nil },
     ubuntu1404: { name: "ubuntu", family: "debian", release: "14.04", arch: "x86_64" },
-    ubuntu1804: { name: "ubuntu", family: "debian", release: "18.04", arch: "x86_64" },
     ubuntu: { name: "ubuntu", family: "debian", release: "20.04", arch: "x86_64" },
     mint17: { name: "linuxmint", family: "debian", release: "17.3", arch: "x86_64" },
     mint18: { name: "linuxmint", family: "debian", release: "18", arch: "x86_64" },
@@ -38,7 +37,7 @@ class MockLoader
     undefined: { name: nil, family: nil, release: nil, arch: nil },
   }
 
-  OPERATING_SYSTEMS[:linux] = OPERATING_SYSTEMS[:ubuntu1604]
+  OPERATING_SYSTEMS[:linux] = OPERATING_SYSTEMS[:ubuntu]
 
   # pass the os identifier to emulate a specific operating system
   def initialize(os = :ubuntu)

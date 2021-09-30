@@ -3,8 +3,8 @@ require "inspec/resource"
 require "inspec/resources/port"
 
 describe "Inspec::Resources::Port" do
-  it "verify port on Ubuntu 14.04" do
-    resource = MockLoader.new(:ubuntu1804).load_resource("port", 22)
+  it "verify port on Ubuntu" do
+    resource = MockLoader.new(:ubuntu).load_resource("port", 22)
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal %w{ tcp tcp6 }
     _(resource.pids).must_equal [1222]
@@ -13,7 +13,7 @@ describe "Inspec::Resources::Port" do
   end
 
   it "lists all ports" do
-    resource = MockLoader.new(:ubuntu1804).load_resource("port")
+    resource = MockLoader.new(:ubuntu).load_resource("port")
     _(resource.entries.length).must_equal 9
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal %w{ udp tcp tcp6 }
@@ -23,7 +23,7 @@ describe "Inspec::Resources::Port" do
   end
 
   it "filter ports by conditions" do
-    resource = MockLoader.new(:ubuntu1804).load_resource("port").where { protocol =~ /udp/i }
+    resource = MockLoader.new(:ubuntu).load_resource("port").where { protocol =~ /udp/i }
     _(resource.entries.length).must_equal 1
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal ["udp"]
@@ -32,8 +32,8 @@ describe "Inspec::Resources::Port" do
     _(resource.addresses).must_equal ["0.0.0.0"]
   end
 
-  it "verify UDP port on Ubuntu 14.04" do
-    resource = MockLoader.new(:ubuntu1804).load_resource("port", 68)
+  it "verify UDP port on Ubuntu" do
+    resource = MockLoader.new(:ubuntu).load_resource("port", 68)
     _(resource.entries.length).must_equal 1
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal ["udp"]
@@ -43,7 +43,7 @@ describe "Inspec::Resources::Port" do
   end
 
   it "accepts the port as a string" do
-    resource = MockLoader.new(:ubuntu1804).load_resource("port", "68")
+    resource = MockLoader.new(:ubuntu).load_resource("port", "68")
     _(resource.entries.length).must_equal 1
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal ["udp"]
@@ -53,7 +53,7 @@ describe "Inspec::Resources::Port" do
   end
 
   it "properly handles multiple processes using one fd" do
-    resource = MockLoader.new(:ubuntu1804).load_resource("port", "80")
+    resource = MockLoader.new(:ubuntu).load_resource("port", "80")
     _(resource.entries.length).must_equal 1
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal ["tcp"]
@@ -63,7 +63,7 @@ describe "Inspec::Resources::Port" do
   end
 
   it "properly handles a IPv4 address in a v6 listing" do
-    resource = MockLoader.new(:ubuntu1804).load_resource("port", 9200)
+    resource = MockLoader.new(:ubuntu).load_resource("port", 9200)
     _(resource.protocols).must_equal %w{ tcp tcp6 }
     _(resource.addresses).must_equal ["10.0.2.15", "fe80::a00:27ff:fe32:ed09"]
   end
@@ -185,7 +185,7 @@ describe "Inspec::Resources::Port" do
   end
 
   it "verify port and interface on Ubuntu 14.04" do
-    resource = MockLoader.new(:ubuntu1804).load_resource("port", "0.0.0.0", 22)
+    resource = MockLoader.new(:ubuntu).load_resource("port", "0.0.0.0", 22)
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal %w{ tcp }
     _(resource.pids).must_equal [1222]
@@ -194,7 +194,7 @@ describe "Inspec::Resources::Port" do
   end
 
   it "verify not listening port on interface on Ubuntu 14.04" do
-    resource = MockLoader.new(:ubuntu1804).load_resource("port", "127.0.0.1", 22)
+    resource = MockLoader.new(:ubuntu).load_resource("port", "127.0.0.1", 22)
     _(resource.listening?).must_equal false
     _(resource.addresses).must_equal []
   end
