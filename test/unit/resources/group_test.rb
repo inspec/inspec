@@ -5,32 +5,32 @@ describe "Inspec::Resources::Group" do
 
   # ubuntu 14.04
   it "verify group on ubuntu" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("group", "root")
+    resource = MockLoader.new(:ubuntu).load_resource("group", "root")
     _(resource.exists?).must_equal true
     _(resource.gid).must_equal 0
   end
 
   it "verify group on ubuntu with mixed case" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("group", "GroupWithCaps")
+    resource = MockLoader.new(:ubuntu).load_resource("group", "GroupWithCaps")
     _(resource.exists?).must_equal true
     _(resource.gid).must_equal 999
   end
 
   it "verify group on ubuntu with members" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("group", "www-data")
+    resource = MockLoader.new(:ubuntu).load_resource("group", "www-data")
     _(resource.exists?).must_equal true
     _(resource.members).must_equal "www-data,root"
   end
 
   it "verify group on ubuntu with members_array" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("group", "www-data")
+    resource = MockLoader.new(:ubuntu).load_resource("group", "www-data")
     _(resource.exists?).must_equal true
     _(resource.members_array).must_equal %w{www-data root}
   end
 
   # ubuntu with non-existent group
   it "verify group on ubuntu" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("group", "nogroup")
+    resource = MockLoader.new(:ubuntu).load_resource("group", "nogroup")
     _(resource.exists?).must_equal false
     _(resource.gid).must_be_nil
   end

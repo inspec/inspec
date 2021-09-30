@@ -21,7 +21,7 @@ describe "Inspec::Resources::Service" do
     _(resource.params).must_equal params
   end
 
-  # ubuntu 14.04 with upstart
+  # ubuntu
   it "verify ubuntu service parsing" do
     resource = MockLoader.new(:ubuntu1404).load_resource("service", "ssh")
     params = Hashie::Mash.new({})
@@ -35,7 +35,7 @@ describe "Inspec::Resources::Service" do
   end
 
   it "verify ubuntu service parsing with default upstart_service" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("upstart_service", "ssh")
+    resource = MockLoader.new(:ubuntu).load_resource("upstart_service", "ssh")
     params = Hashie::Mash.new({})
     _(resource.type).must_equal "upstart"
     _(resource.name).must_equal "ssh"

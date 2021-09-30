@@ -42,7 +42,7 @@ class MockLoader
   OPERATING_SYSTEMS[:linux] = OPERATING_SYSTEMS[:ubuntu1604]
 
   # pass the os identifier to emulate a specific operating system
-  def initialize(os = :ubuntu1404)
+  def initialize(os = :ubuntu)
     # selects operating system
     @platform = OPERATING_SYSTEMS[os]
   end

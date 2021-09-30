@@ -19,11 +19,11 @@ describe "Inspec::Resources::WMI" do
     _(resource.send("DisplayName")).must_equal "Windows Remote Management (WS-Management)"
   end
 
-  # ubuntu 14.04 with upstart
+  # ubuntu
   it "fail wmi on ubuntu" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("wmi", { class: "win32_service", filter: "name like '%winrm%'" })
+    resource = MockLoader.new(:ubuntu).load_resource("wmi", { class: "win32_service", filter: "name like '%winrm%'" })
     _(resource.resource_failed?).must_equal true
     _(resource.resource_exception_message)
-      .must_equal "Resource `wmi` is not supported on platform ubuntu/14.04."
+      .must_equal "Resource `wmi` is not supported on platform ubuntu/20.04."
   end
 end
