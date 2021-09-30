@@ -1,0 +1,6 @@
+cluster_name: 'Test Cluster'
+num_tokens: 16
+listen_address: localhost
+native_transport_port: 9042
+audit_logging_options:
+  enabled: false
