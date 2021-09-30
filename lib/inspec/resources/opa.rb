@@ -6,10 +6,13 @@ module Inspec::Resources
     supports platform: "unix"
     supports platform: "windows"
 
-    attr_reader :result
     def initialize(content)
       @content = content
       super({ content: @content })
+    end
+
+    def result
+      @content == {} || @content["result"].empty? ? nil : @content
     end
 
     private

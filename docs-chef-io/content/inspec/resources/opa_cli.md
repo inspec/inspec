@@ -59,6 +59,7 @@ This is the full path to the OPA binary or EXE file used for running the OPA CLI
 The following examples show how to use this Chef InSpec audit resource:
 
     describe opa_cli(query: "data.example.allow", policy: "example.rego", data: "input.json", opa_executable_path: "./opa") do
+      its("result") { shoule_not be nil }
       its(["result", 0, "expressions", 0, "value"]) { should eq true }
       its("allow") { should eq "true" }
     end
@@ -70,6 +71,12 @@ The above example shows how the `allow` value can be fetched in two ways.
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
 
 ## Properties
+
+### result
+
+The `result` property checks whether the resource query returns an empty result.
+
+    its('result') { should be nil }
 
 ### allow
 

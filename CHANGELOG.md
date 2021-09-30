@@ -1,39 +1,45 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.46.7 -->
-## [v4.46.7](https://github.com/inspec/inspec/tree/v4.46.7) (2021-09-22)
-
-#### Merged Pull Requests
-- Change the deprecation warning to mention inputs [#5668](https://github.com/inspec/inspec/pull/5668) ([damacus](https://github.com/damacus))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.41.20 -->
-### Changes since 4.41.20 release
-
-#### Bug Fixes
-- Fix main in expeditor script [#5669](https://github.com/inspec/inspec/pull/5669) ([kagarmoe](https://github.com/kagarmoe)) <!-- 4.46.6 -->
-
-#### New Features
-- adds chrony_conf InSpec resource [#5589](https://github.com/inspec/inspec/pull/5589) ([collinmcneese](https://github.com/collinmcneese)) <!-- 4.46.0 -->
-- Add ibmdb2_conf and ibmdb2_session resource [#5614](https://github.com/inspec/inspec/pull/5614) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.44.0 -->
-- Add support for Sybase databases [#5561](https://github.com/inspec/inspec/pull/5561) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.43.0 -->
-
-#### Merged Pull Requests
-- Change the deprecation warning to mention inputs [#5668](https://github.com/inspec/inspec/pull/5668) ([damacus](https://github.com/damacus)) <!-- 4.46.7 -->
-- Add rocky and almalinux to service resource [#5604](https://github.com/inspec/inspec/pull/5604) ([sspans-sbp](https://github.com/sspans-sbp)) <!-- 4.46.5 -->
-- Minor docs fixes. [#5662](https://github.com/inspec/inspec/pull/5662) ([IanMadd](https://github.com/IanMadd)) <!-- 4.46.4 -->
-- Update code to remove ruby 2.4 support [#5645](https://github.com/inspec/inspec/pull/5645) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.46.3 -->
-- Fix google_project_alert_policy Examples in the docs [#5426](https://github.com/inspec/inspec/pull/5426) ([wmetaw](https://github.com/wmetaw)) <!-- 4.46.2 -->
-- Added missing cli commands in cli doc [#5634](https://github.com/inspec/inspec/pull/5634) ([Nik08](https://github.com/Nik08)) <!-- 4.46.1 -->
-- Add support for Oracle Configuration Resources (Oracle Db Conf &amp; Oracle Listener Conf) [#5573](https://github.com/inspec/inspec/pull/5573) ([Nik08](https://github.com/Nik08)) <!-- 4.45.0 -->
-- Add support for Mssql Conf resource [#5574](https://github.com/inspec/inspec/pull/5574) ([Nik08](https://github.com/Nik08)) <!-- 4.42.0 -->
-- Update inspec check docs for --format option [#5617](https://github.com/inspec/inspec/pull/5617) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.41.23 -->
-- Fix branch name in docs makefile [#5660](https://github.com/inspec/inspec/pull/5660) ([IanMadd](https://github.com/IanMadd)) <!-- 4.41.22 -->
-- Docs edits [#5654](https://github.com/inspec/inspec/pull/5654) ([IanMadd](https://github.com/IanMadd)) <!-- 4.41.21 -->
-- Add labeler workflow with docs label [#5655](https://github.com/inspec/inspec/pull/5655) ([IanMadd](https://github.com/IanMadd)) <!-- 4.41.20 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.46.13](https://github.com/inspec/inspec/tree/v4.46.13) (2021-09-30)
+
+#### New Features
+- Add support for Sybase databases [#5561](https://github.com/inspec/inspec/pull/5561) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add ibmdb2_conf and ibmdb2_session resource [#5614](https://github.com/inspec/inspec/pull/5614) ([Vasu1105](https://github.com/Vasu1105))
+- adds chrony_conf InSpec resource [#5589](https://github.com/inspec/inspec/pull/5589) ([collinmcneese](https://github.com/collinmcneese))
+
+#### Enhancements
+- Add csv without headers support in csv resource [#5665](https://github.com/inspec/inspec/pull/5665) ([Vasu1105](https://github.com/Vasu1105))
+- Add option in `postgres_session` resource to establish socket connection [#5664](https://github.com/inspec/inspec/pull/5664) ([Nik08](https://github.com/Nik08))
+
+#### Bug Fixes
+- Fix main in expeditor script [#5669](https://github.com/inspec/inspec/pull/5669) ([kagarmoe](https://github.com/kagarmoe))
+- Fix --tags filter for dependent profiles [#5657](https://github.com/inspec/inspec/pull/5657) ([Nik08](https://github.com/Nik08))
+
+#### Merged Pull Requests
+- Add labeler workflow with docs label [#5655](https://github.com/inspec/inspec/pull/5655) ([IanMadd](https://github.com/IanMadd))
+- Docs edits [#5654](https://github.com/inspec/inspec/pull/5654) ([IanMadd](https://github.com/IanMadd))
+- Fix branch name in docs makefile [#5660](https://github.com/inspec/inspec/pull/5660) ([IanMadd](https://github.com/IanMadd))
+- Update inspec check docs for --format option [#5617](https://github.com/inspec/inspec/pull/5617) ([Vasu1105](https://github.com/Vasu1105))
+- Add support for Mssql Conf resource [#5574](https://github.com/inspec/inspec/pull/5574) ([Nik08](https://github.com/Nik08))
+- Add support for Oracle Configuration Resources (Oracle Db Conf &amp; Oracle Listener Conf) [#5573](https://github.com/inspec/inspec/pull/5573) ([Nik08](https://github.com/Nik08))
+- Added missing cli commands in cli doc [#5634](https://github.com/inspec/inspec/pull/5634) ([Nik08](https://github.com/Nik08))
+- Fix google_project_alert_policy Examples in the docs [#5426](https://github.com/inspec/inspec/pull/5426) ([wmetaw](https://github.com/wmetaw))
+- Update code to remove ruby 2.4 support [#5645](https://github.com/inspec/inspec/pull/5645) ([Vasu1105](https://github.com/Vasu1105))
+- Minor docs fixes. [#5662](https://github.com/inspec/inspec/pull/5662) ([IanMadd](https://github.com/IanMadd))
+- Add rocky and almalinux to service resource [#5604](https://github.com/inspec/inspec/pull/5604) ([sspans-sbp](https://github.com/sspans-sbp))
+- Change the deprecation warning to mention inputs [#5668](https://github.com/inspec/inspec/pull/5668) ([damacus](https://github.com/damacus))
+- Build packages for debian 11, macos 12, windows 11/2022 [#5675](https://github.com/inspec/inspec/pull/5675) ([tas50](https://github.com/tas50))
+- Fix --controls option was not working for dependent profile [#5656](https://github.com/inspec/inspec/pull/5656) ([Vasu1105](https://github.com/Vasu1105))
+- Fix opa_cli and opa_api resource unable to verify empty result {} [#5671](https://github.com/inspec/inspec/pull/5671) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_stable_release -->
+
 ## [v4.41.20](https://github.com/inspec/inspec/tree/v4.41.20) (2021-09-01)
 
 #### Merged Pull Requests
@@ -55,7 +61,6 @@
 - Update location of default branch for omnibus and omnibus-software [#5648](https://github.com/inspec/inspec/pull/5648) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Fix url fetcher when default git profile branch is not master [#5638](https://github.com/inspec/inspec/pull/5638) ([Nik08](https://github.com/Nik08))
 - Fix tags processing issue in profiles [#5643](https://github.com/inspec/inspec/pull/5643) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v4.41.2](https://github.com/inspec/inspec/tree/v4.41.2) (2021-08-16)
 

@@ -586,7 +586,9 @@ class MockLoader
       "semanage boolean -l -n" => cmd.call("semanage-boolean"),
       "Get-ChildItem -Path \"C:\\Program Files\\MongoDB\\Server\" -Name" => cmd.call("mongodb-version"),
       "opa eval -i 'input.json' -d 'example.rego' 'data.example.allow'" => cmd.call("opa-result"),
+      "opa eval -i 'input.json' -d 'example.rego' 'data.example.voilation'" => cmd.call("opa-empty-result"),
       "curl -X POST localhost:8181/v1/data/example/violation -d @v1-data-input.json -H 'Content-Type: application/json'" => cmd.call("opa-api-result"),
+      "curl -X POST localhost:8181/v1/data/example/violation -d @v1-data-input1.json -H 'Content-Type: application/json'" => cmd.call("opa-api-empty-result"),
 
       # ibmdb2
       "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
