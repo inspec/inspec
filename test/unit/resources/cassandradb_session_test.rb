@@ -25,7 +25,6 @@ describe "Inspec::Resources::CassandradbSession" do
 
     _(resource.resource_failed?).must_equal false
     query = resource.query("SELECT cluster_name FROM system.local")
-    _(query.exit_status).must_equal 0
     _(query.output).must_match(/Test Cluster/)
   end
 

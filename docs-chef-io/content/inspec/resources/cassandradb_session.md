@@ -11,7 +11,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-Use the `cassandradb_session` Chef InSpec audit resource to test CQL commands run against a Cassandra database.
+Use the `cassandradb_session` Chef InSpec audit resource to test Cassandra Query Language (CQL) commands run against a Cassandra database.
 
 ## Availability
 
@@ -21,7 +21,7 @@ This resource is distributed along with Chef InSpec itself. You can use it autom
 
 ## Syntax
 
-A `cassandradb_session` resource block declares the server, database, username and password to use for the session, and then the command to be run:
+A `cassandradb_session` resource block declares the username, password, host, and port to use for the session, and then the command to be run:
 
     describe cassandradb_session(user: 'USERNAME', password: 'PASSWORD', host: 'localhost', port: 9042).query('QUERY') do
       its('value') { should eq('EXPECTED') }
@@ -35,7 +35,7 @@ where
 
 ### Optional Parameters
 
-The `cassandradb_session` InSpec resource accepts `user`, `password`, `host` and `port` parameters.
+The `cassandradb_session` InSpec resource accepts `user`, `password`, `host`, and `port` parameters.
 
 In Particular:
 
@@ -51,7 +51,7 @@ Default value: `cassandra`.
 
 The following examples show how to use this Chef InSpec audit resource.
 
-### Test for matching values using cassandra query
+### Test for matching values using a Cassandra query
 
 ```ruby
 cql = cassandradb_session(user: 'MY_USER', password: 'PASSWORD', host: 'localhost', port: 9042)
@@ -61,7 +61,7 @@ describe cql.query("SELECT cluster_name FROM system.local") do
 end
 ```
 
-### Test for matching values using cassandra query from a sample database
+### Test for matching values using a Cassandra query from a sample database
 
 ```ruby
 cql = cassandradb_session(user: 'MY_USER', password: 'PASSWORD', host: 'localhost', port: 9042)

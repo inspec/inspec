@@ -1,11 +1,10 @@
 module Inspec::Resources
   class Lines
-    attr_reader :output, :exit_status
+    attr_reader :output
 
-    def initialize(raw, desc, exit_status)
+    def initialize(raw, desc)
       @output = raw
       @desc = desc
-      @exit_status = exit_status
     end
 
     def to_s
@@ -41,7 +40,7 @@ module Inspec::Resources
       if cmd.exit_status != 0 || out =~ /Unable to connect to any servers/ || out.downcase =~ /^error:.*/
         raise Inspec::Exceptions::ResourceFailed, "Cassandra query with errors: #{out}"
       else
-        Lines.new(cmd.stdout.strip, "Cassandra query: #{q}", cmd.exit_status)
+        Lines.new(cmd.stdout.strip, "Cassandra query: #{q}")
       end
     end
 

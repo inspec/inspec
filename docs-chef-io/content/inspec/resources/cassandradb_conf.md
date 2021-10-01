@@ -11,7 +11,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-Use the `cassandradb_conf` Chef InSpec audit resource to test the configurations of Cassandra DB, typically located at `$CASSANDRA_HOME/cassandra.yaml` or `$CASSANDRA_HOME\conf\cassandra.yaml` depending upon the platform.
+Use the `cassandradb_conf` Chef InSpec audit resource to test the configuration of a Cassandra database, which is typically located at `$CASSANDRA_HOME/cassandra.yaml` or `$CASSANDRA_HOME\conf\cassandra.yaml` depending upon the platform.
 
 ## Installation
 
@@ -19,7 +19,7 @@ This resource is distributed along with Chef InSpec itself. You can use it autom
 
 ## Requirements
 
-- Value for environment variable `CASSANDRA_HOME` should be set in the system.
+- The value of the `CASSANDRA_HOME` environment variable must be set in the system.
 
 ## Syntax
 

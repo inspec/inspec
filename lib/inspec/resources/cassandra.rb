@@ -27,12 +27,12 @@ module Inspec::Resources
       cassandra_home = inspec.os_env("CASSANDRA_HOME").content
 
       if cassandra_home.nil? || cassandra_home.empty?
-        warn "$CASSANDRA_HOME env value not set in the system"
+        warn "$CASSANDRA_HOME environment variable not set in the system"
         nil
       else
         conf_path = "#{cassandra_home}/cassandra.yaml"
         if !inspec.file(conf_path).exist?
-          warn "No cassandra conf file found in CASSANDRA_HOME directory"
+          warn "Cassandra conf file not found in #{cassandra_home} directory."
           nil
         else
           @conf_path = conf_path
@@ -46,12 +46,12 @@ module Inspec::Resources
       cassandra_home = inspec.os_env("CASSANDRA_HOME").content
 
       if cassandra_home.nil? || cassandra_home.empty?
-        warn "CASSANDRA_HOME env value not set in the system"
+        warn "CASSANDRA_HOME environment variable not set in the system"
         nil
       else
         conf_path = "#{cassandra_home}\\conf\\cassandra.yaml"
         if !inspec.file(conf_path).exist?
-          warn "No cassandra conf file found in CASSANDRA_HOME\\conf"
+          warn "Cassandra conf file not found in #{cassandra_home}\\conf directory."
           nil
         else
           @conf_path = conf_path
