@@ -71,6 +71,7 @@ steps:
         linux:
           privileged: true
           single-use: true
+          
   - label: "Kitchen: resources-debian-10"
     commands:
       - .expeditor/buildkite/bk_linux_exec.sh
@@ -118,6 +119,7 @@ steps:
         linux:
           privileged: true
           single-use: true
+
   - label: "Kitchen: resources-oraclelinux-8"
     commands:
       - .expeditor/buildkite/bk_linux_exec.sh
@@ -150,6 +152,22 @@ steps:
           privileged: true
           single-use: true
 
+  - label: "Kitchen: resources-ubuntu-1604"
+    commands:
+      - .expeditor/buildkite/bk_linux_exec.sh
+      - . /var/lib/buildkite-agent/.asdf/asdf.sh
+      - bundle exec kitchen test resources-ubuntu-1604
+    artifact_paths:
+      - $PWD/.kitchen/logs/kitchen.log
+    env:
+        KITCHEN_YAML: kitchen.dokken.yml
+        DOCKER: 1
+    expeditor:
+      executor:
+        linux:
+          privileged: true
+          single-use: true
+
   - label: "Kitchen: resources-ubuntu-1804"
     commands:
       - .expeditor/buildkite/bk_linux_exec.sh
@@ -165,6 +183,7 @@ steps:
         linux:
           privileged: true
           single-use: true
+
   - label: "Kitchen: resources-ubuntu-2004"
     commands:
       - .expeditor/buildkite/bk_linux_exec.sh
