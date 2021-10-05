@@ -640,7 +640,7 @@ class MockLoader
 
     if @platform && (@platform[:name] == "freebsd" && @platform[:release].to_f >= 10)
       mock_cmds.merge!(
-        "service sendmail enabled" => cmd.call("service-sendmail-enabled"),
+        "service sendmail enabled" => cmd.call("service-sendmail-enabled")
       )
     end
 
