@@ -186,4 +186,12 @@ describe "Inspec::Resources::User" do
     _(resource.maxdays).must_be_nil
     _(resource.warndays).must_be_nil
   end
+
+  it "read user on Windows without case-sensitivity" do
+    resource = MockLoader.new(:windows).load_resource("user", "administrator")
+    _(resource.exists?).must_equal true
+    _(resource.uid).wont_be_nil
+    _(resource.group).must_be_nil
+    _(resource.groups).must_equal %w{Administrators Users}
+  end
 end

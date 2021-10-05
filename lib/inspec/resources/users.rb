@@ -622,7 +622,7 @@ module Inspec::Resources
       name, _domain = parse_windows_account(username)
       return if collect_user_details.nil?
 
-      res = collect_user_details.select { |user| user[:username] == name }
+      res = collect_user_details.select { |user| user[:username].casecmp? name }
       res[0] unless res.empty?
     end
 
