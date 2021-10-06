@@ -348,6 +348,6 @@ Note: The tag name is case sensitive which makes the test case sensitive. E.g. `
 
 ## References
 
-- [Azure Ruby SDK - Resources](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_resources)
+- [Azure Ruby SDK - Resources](https://github.com/Azure/azure-sdk-for-ruby/tree/main/management/azure_mgmt_resources)
 - [Virtual Machine External VM](https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/virtual_machine_external_vm.rb)
 - [Virtual Machine Internal VM](https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/virtual_machine_internal_vm.rb)

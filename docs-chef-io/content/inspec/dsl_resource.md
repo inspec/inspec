@@ -104,7 +104,7 @@ class ExampleConfig < Inspec.resource(1)
 end
 ```
 
-For a full example, see our [example resource](https://github.com/chef/inspec/blob/master/examples/profile/libraries/example_config.rb).
+For a full example, see our [example resource](https://github.com/chef/inspec/blob/main/examples/profile/libraries/example_config.rb).
 
 ## Lazy Loading
 

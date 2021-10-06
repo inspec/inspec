@@ -11,7 +11,7 @@ platform = "aws"
     parent = "inspec/resources/aws"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/aws_sns_subscription.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/main/docs-chef-io/content/aws_sns_subscription.md)
 
 Use the `aws_sns_subscription` InSpec audit resource to test detailed properties of a AWS SNS Subscription.
 

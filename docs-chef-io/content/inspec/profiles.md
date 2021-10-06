@@ -41,7 +41,7 @@ where:
 - `README.md` should be used to explain the profile, its scope, and usage
 
 See a complete example profile in the Chef InSpec open source repository:
-[Example Chef InSpec Profile](https://github.com/chef/inspec/tree/master/examples/profile)
+[Example Chef InSpec Profile](https://github.com/chef/inspec/tree/main/examples/profile)
 
 Also check out [Explore Chef InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/)
 on Learn Chef Rally to learn more about how profiles are structured with hands-on-examples.

@@ -57,9 +57,9 @@ Use resource packs to share custom resources with other Chef InSpec users.
 A resource pack is a Chef InSpec profile that contains only custom resources and
 no other controls or tests.
 
-For example, the profile in [`examples/profile`](https://github.com/chef/inspec/tree/master/examples/profile)
+For example, the profile in [`examples/profile`](https://github.com/chef/inspec/tree/main/examples/profile)
 in the Chef InSpec GitHub repository defines an
-[`example_config` resource](https://github.com/chef/inspec/blob/master/examples/profile/controls/example.rb).
+[`example_config` resource](https://github.com/chef/inspec/blob/main/examples/profile/controls/example.rb).
 To use these resources within the Chef InSpec shell, you will need to download
 and specify them as a dependency.
 
