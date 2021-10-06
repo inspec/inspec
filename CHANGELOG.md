@@ -1,11 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.47.1 -->
-## [v4.47.1](https://github.com/inspec/inspec/tree/v4.47.1) (2021-10-06)
+<!-- latest_release 4.47.2 -->
+## [v4.47.2](https://github.com/inspec/inspec/tree/v4.47.2) (2021-10-06)
 
 #### Merged Pull Requests
-- Update the unit test files to use latest versions of OS rather than the older.  [#5681](https://github.com/inspec/inspec/pull/5681) ([Vasu1105](https://github.com/Vasu1105))
-- Update OpenSSL on macOS to 1.1.1l [#5687](https://github.com/inspec/inspec/pull/5687) ([tas50](https://github.com/tas50))
+- Improvements to the inspec.yml docs [#5679](https://github.com/inspec/inspec/pull/5679) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.46.13 -->
@@ -15,6 +14,7 @@
 - Add support for Cassandra DB [#5683](https://github.com/inspec/inspec/pull/5683) ([Nik08](https://github.com/Nik08)) <!-- 4.47.0 -->
 
 #### Merged Pull Requests
+- Improvements to the inspec.yml docs [#5679](https://github.com/inspec/inspec/pull/5679) ([tas50](https://github.com/tas50)) <!-- 4.47.2 -->
 - Update the unit test files to use latest versions of OS rather than the older.  [#5681](https://github.com/inspec/inspec/pull/5681) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.47.1 -->
 - Update OpenSSL on macOS to 1.1.1l [#5687](https://github.com/inspec/inspec/pull/5687) ([tas50](https://github.com/tas50)) <!-- 4.47.0 -->
 - Add back Ubuntu 16.04 packages + testing [#5689](https://github.com/inspec/inspec/pull/5689) ([tas50](https://github.com/tas50)) <!-- 4.46.15 -->
