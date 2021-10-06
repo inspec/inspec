@@ -19,9 +19,7 @@ class MockLoader
     macos10_10: { name: "mac_os_x", family: "darwin", release: "10.10.4", arch: nil },
     macos10_16: { name: "darwin", family: "darwin", release: "10.16", arch: nil },
     ubuntu1404: { name: "ubuntu", family: "debian", release: "14.04", arch: "x86_64" },
-    ubuntu1504: { name: "ubuntu", family: "debian", release: "15.04", arch: "x86_64" },
-    ubuntu1604: { name: "ubuntu", family: "debian", release: "16.04", arch: "x86_64" },
-    ubuntu1804: { name: "ubuntu", family: "debian", release: "18.04", arch: "x86_64" },
+    ubuntu: { name: "ubuntu", family: "debian", release: "20.04", arch: "x86_64" },
     mint17: { name: "linuxmint", family: "debian", release: "17.3", arch: "x86_64" },
     mint18: { name: "linuxmint", family: "debian", release: "18", arch: "x86_64" },
     windows: { name: "windows", family: "windows", release: "6.2.9200", arch: "x86_64" },
@@ -39,10 +37,10 @@ class MockLoader
     undefined: { name: nil, family: nil, release: nil, arch: nil },
   }
 
-  OPERATING_SYSTEMS[:linux] = OPERATING_SYSTEMS[:ubuntu1604]
+  OPERATING_SYSTEMS[:linux] = OPERATING_SYSTEMS[:ubuntu]
 
   # pass the os identifier to emulate a specific operating system
-  def initialize(os = :ubuntu1404)
+  def initialize(os = :ubuntu)
     # selects operating system
     @platform = OPERATING_SYSTEMS[os]
   end
@@ -178,20 +176,9 @@ class MockLoader
       "/etc/postfix/main.cf" => mockfile.call("main.cf"),
       "/etc/postfix/other.cf" => mockfile.call("other.cf"),
       "/etc/selinux/selinux_conf" => mockfile.call("selinux_conf"),
+      "/etc/apache2/apache2.conf" => mockfile.call("apache2.conf"),
+      "/etc/test-serverroot/apache2/apache2.conf" => mockfile.call("apache2_server_root_void.conf"),
     }
-
-    if @platform
-      if @platform[:name] == "ubuntu" && @platform[:release] == "18.04"
-        mock_files.merge!(
-          "/etc/apache2/apache2.conf" => mockfile.call("apache2.conf")
-        )
-      elsif @platform[:name] == "ubuntu" && @platform[:release] == "15.04"
-        # using this ubuntu version to test apache_conf with non configured server root in conf file
-        mock_files.merge!(
-          "/etc/apache2/apache2.conf" => mockfile.call("apache2_server_root_void.conf")
-        )
-      end
-    end
 
     mock.files = mock_files
 

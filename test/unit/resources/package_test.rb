@@ -14,7 +14,7 @@ describe "Inspec::Resources::Package" do
 
   # ubuntu
   it "verify ubuntu package parsing" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("package", "curl")
+    resource = MockLoader.new(:ubuntu).load_resource("package", "curl")
     pkg = { name: "curl", installed: true, held: false, version: "7.35.0-1ubuntu2", type: "deb" }
     _(resource.installed?).must_equal true
     _(resource.held?).must_equal false
@@ -23,7 +23,7 @@ describe "Inspec::Resources::Package" do
   end
 
   it "verify ubuntu package which is held" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("package", "held-package")
+    resource = MockLoader.new(:ubuntu).load_resource("package", "held-package")
     pkg = { name: "held-package", installed: true, held: true, version: "1.2.3-1", type: "deb" }
     _(resource.installed?).must_equal true
     _(resource.held?).must_equal true

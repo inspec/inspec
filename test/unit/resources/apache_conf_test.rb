@@ -6,7 +6,7 @@ require "hashie"
 describe "Inspec::Resources::ApacheConf" do
   # debian style apache2
   it "reads values in apache2.conf and from Include, IncludeOptional params" do
-    resource = MockLoader.new(:ubuntu1804).load_resource("apache_conf",
+    resource = MockLoader.new(:ubuntu).load_resource("apache_conf",
                                                          "/etc/apache2/apache2.conf")
     _(resource.params).must_be_kind_of Hash
     _(resource.content).must_be_kind_of String
@@ -22,7 +22,7 @@ describe "Inspec::Resources::ApacheConf" do
   end
 
   it "reads values successfully from apache2.conf and ignores Include, IncludeOptional params when server root is not configured" do
-    resource = MockLoader.new(:ubuntu1504).load_resource("apache_conf", "/etc/apache2/apache2.conf")
+    resource = MockLoader.new(:ubuntu).load_resource("apache_conf", "/etc/test-serverroot/apache2/apache2.conf")
     _(resource.params).must_be_kind_of Hash
     _(resource.content).must_be_kind_of String
     _(resource.params("ServerAlias")).must_equal ["inspec.test www.inspec.test io.inspec.test"]
