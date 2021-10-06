@@ -89,7 +89,7 @@ Lessons learned from Serverspec include:
 - A command line interface (CLI) is required for faster iteration of test code.
 
 You can also watch this [podcast](http://foodfightshow.org/2016/02/inspec.html)
-to find out more on the relationship of Chef InSpec and Serverspec.
+to find out more on the relationship between Chef InSpec and Serverspec.
 
 ### How is Chef InSpec different from Serverspec
 
@@ -125,12 +125,12 @@ fork was not practical so a new project was born.
 
 **Will Chef InSpec only work on machines managed by Chef?**
 
-No, Chef InSpec can be used on any machine. It doesn’t matter if that machine
-was configured by Chef or configured lovingly by the hands of your local
+No, Chef InSpec can be used on any machine. It does not matter if that machine
+was configured by Chef Infra or configured lovingly by the hands of your local
 System Administrator.
 
 **Is Chef InSpec a replacement of Serverspec?**
 
 Chef InSpec is intended to be a drop-in replacement of Serverspec. Popular
 Serverspec resources have been ported to InSpec. It changed some
-behaviour as documented in our migration guide.
+behavior as documented in our migration guide.

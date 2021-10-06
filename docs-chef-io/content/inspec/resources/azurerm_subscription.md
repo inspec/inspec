@@ -45,7 +45,7 @@ This resource first became available in 1.7.0 of the inspec-azure resource pack.
 
 ## Syntax
 
-The resource will retrieve the current subscription which Inspec is using, which is
+The resource will retrieve the current subscription which InSpec is using, which is
 specified in your environment/service principal.
 
     describe azurerm_subscription do

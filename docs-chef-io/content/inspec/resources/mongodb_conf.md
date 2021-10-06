@@ -55,8 +55,6 @@ The following examples show how to use this Chef InSpec audit resource.
       its(["security", "authorization"]) { should eq "enabled" }
     end
 
-
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
-
