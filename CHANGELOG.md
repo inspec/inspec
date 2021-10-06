@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.46.14 -->
-## [v4.46.14](https://github.com/inspec/inspec/tree/v4.46.14) (2021-10-06)
+<!-- latest_release 4.46.15 -->
+## [v4.46.15](https://github.com/inspec/inspec/tree/v4.46.15) (2021-10-06)
 
 #### Merged Pull Requests
-- Replaced /main/ from /master/ [#5678](https://github.com/inspec/inspec/pull/5678) ([dishanktiwari2501](https://github.com/dishanktiwari2501))
+- Add back Ubuntu 16.04 packages + testing [#5689](https://github.com/inspec/inspec/pull/5689) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.46.13 -->
 ### Changes since 4.46.13 release
 
 #### Merged Pull Requests
+- Add back Ubuntu 16.04 packages + testing [#5689](https://github.com/inspec/inspec/pull/5689) ([tas50](https://github.com/tas50)) <!-- 4.46.15 -->
 - Replaced /main/ from /master/ [#5678](https://github.com/inspec/inspec/pull/5678) ([dishanktiwari2501](https://github.com/dishanktiwari2501)) <!-- 4.46.14 -->
 <!-- release_rollup -->
 
