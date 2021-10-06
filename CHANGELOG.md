@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.46.14 -->
+## [v4.46.14](https://github.com/inspec/inspec/tree/v4.46.14) (2021-10-06)
+
+#### Merged Pull Requests
+- Replaced /main/ from /master/ [#5678](https://github.com/inspec/inspec/pull/5678) ([dishanktiwari2501](https://github.com/dishanktiwari2501))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.46.13 -->
+### Changes since 4.46.13 release
+
+#### Merged Pull Requests
+- Replaced /main/ from /master/ [#5678](https://github.com/inspec/inspec/pull/5678) ([dishanktiwari2501](https://github.com/dishanktiwari2501)) <!-- 4.46.14 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
