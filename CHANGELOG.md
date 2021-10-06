@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.46.15 -->
-## [v4.46.15](https://github.com/inspec/inspec/tree/v4.46.15) (2021-10-06)
+<!-- latest_release 4.47.0 -->
+## [v4.47.0](https://github.com/inspec/inspec/tree/v4.47.0) (2021-10-06)
 
-#### Merged Pull Requests
-- Add back Ubuntu 16.04 packages + testing [#5689](https://github.com/inspec/inspec/pull/5689) ([tas50](https://github.com/tas50))
+#### New Features
+- Add support for Cassandra DB [#5683](https://github.com/inspec/inspec/pull/5683) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.46.13 -->
 ### Changes since 4.46.13 release
+
+#### New Features
+- Add support for Cassandra DB [#5683](https://github.com/inspec/inspec/pull/5683) ([Nik08](https://github.com/Nik08)) <!-- 4.47.0 -->
 
 #### Merged Pull Requests
 - Add back Ubuntu 16.04 packages + testing [#5689](https://github.com/inspec/inspec/pull/5689) ([tas50](https://github.com/tas50)) <!-- 4.46.15 -->
