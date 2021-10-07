@@ -194,4 +194,13 @@ describe "Inspec::Resources::User" do
     _(resource.group).must_be_nil
     _(resource.groups).must_equal %w{Administrators Users}
   end
+
+  it "read user groups on Windows without case-sensitivity using include matcher" do
+    resource = MockLoader.new(:windows).load_resource("user", "administrator")
+    _(resource.exists?).must_equal true
+    _(resource.uid).wont_be_nil
+    _(resource.group).must_be_nil
+    _(resource.groups).must_include "Administrators"
+    _(resource.groups).must_include "administrators"
+  end
 end

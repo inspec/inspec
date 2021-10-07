@@ -66,20 +66,20 @@ describe "Inspec::Resources::Group" do
     _(resource.members).must_equal ["Administrators", "Domain Admins"]
   end
 
-  it "verify administrator group with case insensitivity handling on windows" do
+  it "verify administrator group name case insensitivity handling on windows" do
     resource = MockLoader.new(:windows).load_resource("group", "administrators")
     _(resource.exists?).must_equal true
     _(resource.members).must_equal ["Administrators", "Domain Admins"]
   end
 
-  it "verify members insensitivity on windows" do
+  it "verify members insensitivity on windows using include matcher" do
     resource = MockLoader.new(:windows).load_resource("group", "administrators")
     _(resource.exists?).must_equal true
     _(resource.members).must_include "administrators"
     _(resource.members).must_include "domain admins"
   end
 
-  it "verify members_array insensitivity on windows" do
+  it "verify members_array insensitivity on windows using include matcher" do
     resource = MockLoader.new(:windows).load_resource("group", "administrators")
     _(resource.exists?).must_equal true
     _(resource.members_array).must_include "administrators"
