@@ -50,12 +50,7 @@ Use the optional constructor parameter to give an alternative path to fstab file
 
 ## Properties
 
-- [`device_name`](#device_name)
-- [`mount_point`](#mount_point)
-- [`file_system_type`](#file_system_type)
-- [`mount_options`](#mount_options)
-- [`dump_options`](#dump_options)
-- [`file_system_options`](#file_system_options)
+- `device_name`, `mount_point`, `file_system_type`, `mount_options`, `dump_options`, `file_system_options`
 
 ### device_name
 

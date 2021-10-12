@@ -44,10 +44,7 @@ Use the where clause to test open interfaces, sources, and services that are in 
 
 ## Properties
 
-- [`interfaces`](#interfaces)
-- [`sources`](#sources)
-- [`services`](#services)
-- [`default_zone`](#default_zone)
+- `interfaces`, `sources`, `services`, `default_zone`
 
 ### `interfaces`
 

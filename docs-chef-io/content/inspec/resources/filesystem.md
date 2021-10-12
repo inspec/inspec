@@ -49,9 +49,7 @@ where
 
 ## Properties
 
-- [`size_kb`](#size_kb)
-- [`free_kb`](#free_kb)
-- [`percent_free`](#percent_free)
+- `size_kb`, `free_kb`, `percent_free`
 
 ## size_kb (Integer)
 

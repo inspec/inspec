@@ -48,9 +48,7 @@ For example:
 
 ## Properties
 
-- [`exit_status`](#exit_status)
-- [`stderr`](#stderr)
-- [`stdout`](#stdout)
+- `exit_status`, `stderr`, `stdout`
 
 ### exit_status
 

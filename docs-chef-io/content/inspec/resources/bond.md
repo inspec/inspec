@@ -38,10 +38,7 @@ where
 
 ## Properties
 
-- [`content`](#content)
-- [`interfaces`](#interfaces)
-- [`mode`](#mode)
-- [`params`](#params)
+- `content`, `interfaces`, `mode`, `params`
 
 ### content
 

@@ -37,7 +37,7 @@ A `bridge` resource block declares the bridge to be tested and what interface it
 
 ## Properties
 
-- [`interfaces`](#interfaces)
+- `interfaces`
 
 ### interfaces
 

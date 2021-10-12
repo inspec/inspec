@@ -46,9 +46,7 @@ where
 
 ## Properties
 
-- [`gid`](#gid)
-- [`members`](#members)
-- [`members_array`](#members_array)
+- `gid`, `members`, `members_array`
 
 ### gid
 

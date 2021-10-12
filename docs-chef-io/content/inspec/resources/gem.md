@@ -39,8 +39,7 @@ where
 
 ## Properties
 
-- [`version`](#version)
-- [`versions`](#versions)
+- `version`, `versions`
 
 ### `version (String)`
 

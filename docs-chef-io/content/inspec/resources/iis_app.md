@@ -54,11 +54,7 @@ For example:
 
 ## Properties
 
-- [`application_pool`](#application_pool)
-- [`path`](#path)
-- [`physical_path`](#path)
-- [`protocols`](#protocols)
-- [`site_name`](#site_name)
+- `application_pool`, `path`, `physical_path`, `protocols`, `site_name`
 
 ## Examples
 

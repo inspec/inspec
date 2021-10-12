@@ -51,9 +51,7 @@ where
 
 ## Properties
 
-- [`ip_address`](#ip_address)
-- [`primary_name`](#primary_name)
-- [`all_host_names`](#all_host_names)
+- `ip_address`, `primary_name`, `all_host_names`
 
 ### ip_address
 

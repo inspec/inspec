@@ -49,9 +49,7 @@ Use the where clause to match a selection_line to one rule or a particular set o
 
 ## Properties
 
-- [`rules`](#rules)
-- [`all_have_rule`](#all_have_rule)
-- [`selection_lines`](#selection_lines)
+- `rules`, `all_have_rule`, `selection_lines`
 
 ### `rules`
 

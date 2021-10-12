@@ -49,9 +49,7 @@ where
 
 ## Properties
 
-- [`daemon`](#daemon)
-- [`client_list`](#client_list)
-- [`options`](#options)
+- `daemon`, `client_list`, `options`
 
 ### daemon
 

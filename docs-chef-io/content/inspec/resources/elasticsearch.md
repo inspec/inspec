@@ -68,27 +68,7 @@ To simply check if nodes exist that match the criteria, use the `exist` matcher:
 
 The following are the different properties of the resource:
 
-- [`build_hash`](#build_hash)
-- [`cluster_name`](#cluster_name)
-- [`host`](#host)
-- [`http`](#http)
-- [`ingest`](#ingest)
-- [`ip`](#ip)
-- [`jvm`](#jvm)
-- [`module_list`](#module_list)
-- [`modules`](#modules)
-- [`node_name`](#node_name)
-- [`node_id`](#node_id)
-- [`os`](#os)
-- [`plugin_list`](#plugin_list)
-- [`plugins`](#plugins)
-- [`process`](#process)
-- [`roles`](#roles)
-- [`settings`](#settings)
-- [`total_indexing_buffer`](#total_indexing_buffer)
-- [`transport`](#transport)
-- [`transport_address`](#transport_address)
-- [`version`](#version)
+- `build_hash`, `cluster_name`, `host`, `http`, `ingest`, `ip`, `jvm`, `module_list`, `modules`, `node_name`, `node_id`, `os`, `plugin_list`, `plugins`, `process`, `roles`, `settings`, `total_indexing_buffer`, `transport`, `transport_address`, `version`
 
 Since the `elasticsearch` resource is meant for use on a cluster, each property will return an array of the values for each node that matches any provided search criteria. Using InSpec's `cmp` matcher helps avoid issues when comparing values when there is only a single match (i.e. when the cluster only contains a single node or the `where` filter criteria provided only returns a single node).
 

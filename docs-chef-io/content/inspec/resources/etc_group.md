@@ -48,9 +48,7 @@ where
 
 ## Properties
 
-- [`gids`](#gids)
-- [`groups`](#groups)
-- [`users`](#users)
+- `gids`, `groups`, `users`
 
 ### gids
 

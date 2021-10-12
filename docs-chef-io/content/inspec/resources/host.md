@@ -42,10 +42,7 @@ where
 
 ## Properties
 
-- [`connection`](#connection)
-- [`ipaddress`](#ipaddress)
-- [`protocol`](#protocol)
-- [`socket`](#socket)
+- `connection`, `ipaddress`, `protocol`, `socket`
 
 ### ipaddress
 

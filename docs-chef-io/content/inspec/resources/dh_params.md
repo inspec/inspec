@@ -39,11 +39,7 @@ A `dh_params` resource block declares a parameter file to be tested.
 
 ## Properties
 
-- [`generator`](#generator)
-- [`modulus`](#modulus)
-- [`prime_length`](#prime_length)
-- [`pem`](#pem)
-- [`text`](#text)
+- `generator`, `modulus`, `prime_length`, `pem`, `text`
 
 ### generator (Integer)
 

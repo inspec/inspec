@@ -77,16 +77,7 @@ Beginning with Chef InSpec 1.41, you can enable the ability to have the HTTP tes
 
 ## Parameters
 
-- [`url`](#url)
-- [`auth`](#auth)
-- [`params`](#params)
-- [`method`](#method)
-- [`headers`](#headers)
-- [`data`](#data)
-- [`open_timeout`](#open_timeout)
-- [`read_timeout`](#read_timeout)
-- [`ssl_verify`](#ssl_verify)
-- [`max_redirects`](#max_redirects)
+- `url`, `auth`, `params`, `method`, `headers`, `data`, `open_timeout`, `read_timeout`, `ssl_verify`, `max_redirects`
 
 ## Parameter Examples
 
@@ -181,10 +172,7 @@ Beginning with Chef InSpec 1.41, you can enable the ability to have the HTTP tes
 
 ## Properties
 
-- [`body`](#body)
-- [`headers`](#headers)
-- [`http_method`](#http_method)
-- [`status`](#status)
+- `body`, `headers`, `http_method`, `status`
 
 ### body
 
