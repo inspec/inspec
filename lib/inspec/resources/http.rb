@@ -193,6 +193,7 @@ module Inspec::Resources
 
         def run_http
           return if @ran_http
+
           cmd_result = inspec.command(http_command)
           response = cmd_result.stdout
           @ran_http = true
@@ -293,7 +294,6 @@ module Inspec::Resources
           end
           command = cmd.join(" ")
           body = "\'#{request_body}\'"
-          cmd = "Invoke-WebRequest -Method #{http_method} -TimeoutSec #{open_timeout + read_timeout}"
           script = <<-EOH
             $body = #{body.strip unless request_body.nil?}
             $Body = $body | ConvertFrom-Json

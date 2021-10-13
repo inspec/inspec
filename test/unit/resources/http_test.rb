@@ -289,8 +289,8 @@ describe "Inspec::Resources::Http" do
 
     it "returns correct data" do
       Inspec::Resources::Cmd.any_instance
-          .stubs(:exist?)
-          .returns(true)
+        .stubs(:exist?)
+        .returns(true)
       _(worker.status).must_equal 200
       _(worker.body).must_equal "post ok"
       _(worker.response_headers["Content-Type"]).must_equal "text/html; charset=UTF-8"

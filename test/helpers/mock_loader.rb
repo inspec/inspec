@@ -1,4 +1,4 @@
- class MockLoader
+class MockLoader
   # collects emulation operating systems
   OPERATING_SYSTEMS = { # rubocop:disable Style/MutableConstant
     alpine: { name: "alpine", family: "alpine", release: "3.6.2", arch: "x86_64" },
