@@ -193,7 +193,6 @@ module Inspec::Resources
 
         def run_http
           return if @ran_http
-
           cmd_result = inspec.command(http_command)
           response = cmd_result.stdout
           @ran_http = true
@@ -201,8 +200,9 @@ module Inspec::Resources
 
           if inspec.os.windows?
             response = JSON.parse(response)
+
             @status = response["StatusCode"]
-            @body = response["RawContent"]
+            @body = response["Content"]
 
             @response_headers = {}
             response["Headers"].each do |name, value|
@@ -233,34 +233,12 @@ module Inspec::Resources
               key, value = line.split(":", 2)
               @response_headers[key] = value.strip
             end
-
           end
         end
 
         def http_command # rubocop:disable Metrics/AbcSize
           if inspec.os.windows?
-            cmd = ["Invoke-WebRequest"]
-
-            cmd << "-Method #{http_method}"
-            # Missing connect-timeout
-            cmd << "-TimeoutSec #{open_timeout + read_timeout}"
-            # Insecure not supported simply https://stackoverflow.com/questions/11696944/powershell-v3-invoke-webrequest-https-error
-            cmd << "-Body #{request_body.gsub('"', '`"')}" unless request_body.nil?
-            cmd << "-MaximumRedirection #{max_redirects}" unless max_redirects.nil?
-            request_headers["Authorization"] = """ '\"Basic ' + [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(\"#{username}:#{password}\")) +'\"' """ unless username.nil? || password.nil?
-
-            request_header_string = nil
-            request_headers.each do |k, v|
-              request_header_string << " #{k} = #{v}"
-            end
-            cmd << "-Headers @{#{request_header_string.join(";")}}" unless request_header_string.nil?
-            if params.nil?
-              cmd << "'#{url}'"
-            else
-              cmd << "'#{url}?#{params.map { |e| e.join("=") }.join("&")}'"
-            end
-            cmd << "| Select-Object -Property * | ConvertTo-json" # We use `Select-Object -Property * ` to get around an odd PowerShell error
-            cmd.join(" ")
+            load_powershell_command
           else
             cmd = ["curl -i"]
 
@@ -293,6 +271,41 @@ module Inspec::Resources
 
             cmd.join(" ")
           end
+        end
+
+        def load_powershell_command
+          cmd = ["Invoke-WebRequest"]
+          cmd << "-Method #{http_method}"
+          # Missing connect-timeout
+          cmd << "-TimeoutSec #{open_timeout + read_timeout}"
+          # Insecure not supported simply https://stackoverflow.com/questions/11696944/powershell-v3-invoke-webrequest-https-error
+          cmd << "-MaximumRedirection #{max_redirects}" unless max_redirects.nil?
+          request_headers["Authorization"] = """ '\"Basic ' + [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(\"#{username}:#{password}\")) +'\"' """ unless username.nil? || password.nil?
+          request_header_string = nil
+          request_headers.each do |k, v|
+            request_header_string << " #{k} = #{v}"
+          end
+          cmd << "-Headers @{#{request_header_string.join(";")}}" unless request_header_string.nil?
+          if params.nil?
+            cmd << "'#{url}'"
+          else
+            cmd << "'#{url}?#{params.map { |e| e.join("=") }.join("&")}'"
+          end
+          command = cmd.join(" ")
+          body = "\'#{request_body}\'"
+          cmd = "Invoke-WebRequest -Method #{http_method} -TimeoutSec #{open_timeout + read_timeout}"
+          script = <<-EOH
+            $body = #{body.strip unless request_body.nil?}
+            $Body = $body | ConvertFrom-Json
+            #convert to hashtable
+            $HashTable = @{}
+            foreach ($property in $Body.PSObject.Properties) {
+              $HashTable[$property.Name] = $property.Value
+            }
+            $response = #{command} -Body $HashTable
+            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error
+          EOH
+          script.strip
         end
       end
     end

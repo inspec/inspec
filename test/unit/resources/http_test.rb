@@ -279,4 +279,21 @@ describe "Inspec::Resources::Http" do
       end
     end
   end
+
+  describe "POST request with data" do
+    let(:backend)     { MockLoader.new(:windows).backend }
+    let(:http_method) { "POST" }
+    let(:url)         { "https://www.example.com" }
+    let(:opts)        { { data: '{ "a" : "1", "b" : "five" }' } }
+    let(:worker)      { Inspec::Resources::Http::Worker::Remote.new(backend, http_method, url, opts) }
+
+    it "returns correct data" do
+      Inspec::Resources::Cmd.any_instance
+          .stubs(:exist?)
+          .returns(true)
+      _(worker.status).must_equal 200
+      _(worker.body).must_equal "post ok"
+      _(worker.response_headers["Content-Type"]).must_equal "text/html; charset=UTF-8"
+    end
+  end
 end
