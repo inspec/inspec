@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.47.3 -->
-## [v4.47.3](https://github.com/inspec/inspec/tree/v4.47.3) (2021-10-06)
+<!-- latest_release 4.47.4 -->
+## [v4.47.4](https://github.com/inspec/inspec/tree/v4.47.4) (2021-10-13)
 
 #### Merged Pull Requests
-- Update GCS Storage class list [#5676](https://github.com/inspec/inspec/pull/5676) ([pradeepbhadani](https://github.com/pradeepbhadani))
+- Group &amp; User Resources - Resolve name case-sensitivity issue for windows [#5667](https://github.com/inspec/inspec/pull/5667) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.46.13 -->
@@ -14,6 +14,7 @@
 - Add support for Cassandra DB [#5683](https://github.com/inspec/inspec/pull/5683) ([Nik08](https://github.com/Nik08)) <!-- 4.47.0 -->
 
 #### Merged Pull Requests
+- Group &amp; User Resources - Resolve name case-sensitivity issue for windows [#5667](https://github.com/inspec/inspec/pull/5667) ([Nik08](https://github.com/Nik08)) <!-- 4.47.4 -->
 - Update GCS Storage class list [#5676](https://github.com/inspec/inspec/pull/5676) ([pradeepbhadani](https://github.com/pradeepbhadani)) <!-- 4.47.3 -->
 - Improvements to the inspec.yml docs [#5679](https://github.com/inspec/inspec/pull/5679) ([tas50](https://github.com/tas50)) <!-- 4.47.2 -->
 - Update the unit test files to use latest versions of OS rather than the older.  [#5681](https://github.com/inspec/inspec/pull/5681) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.47.1 -->
