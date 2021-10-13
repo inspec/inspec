@@ -1,12 +1,12 @@
 +++
-title = "Chef InSpec DSL"
+title = "Chef InSpec Language"
 draft = false
 gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
-    title = "Chef InSpec DSL"
-    identifier = "inspec/reference/dsl_inspec.md Chef InSpec DSL"
+    title = "Chef InSpec Language"
+    identifier = "inspec/reference/dsl_inspec.md Chef InSpec Language"
     parent = "inspec/reference"
     weight = 70
 +++
@@ -17,7 +17,7 @@ you write auditing controls quickly and easily. The syntax used by both open sou
 and [Chef compliance](/compliance/) auditing is the same. The open source [Chef InSpec resource](/inspec/resources/)
 framework is compatible with [Chef compliance](/compliance/).
 
-The Chef InSpec DSL is a Ruby DSL for writing audit controls, which includes audit resources that you can invoke.
+The Chef InSpec Language is a Ruby DSL for writing audit controls, which includes audit resources that you can invoke.
 
 The following sections describe the syntax and show some simple examples of using the Chef InSpec resources.
 
@@ -336,7 +336,7 @@ end
 
 ## Using Ruby in InSpec
 
-The Chef InSpec DSL is a Ruby based language. This allows you to be flexible with
+The Chef InSpec Language is a Ruby based language. This allows you to be flexible with
 Ruby code in controls:
 
 ```ruby

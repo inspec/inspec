@@ -14,7 +14,7 @@ gh_repo = "inspec"
 The Chef InSpec interactive shell is a pry based REPL that can be used to
 quickly run Chef InSpec controls and tests without having to write it to a
 file. Its functionality is similar to [chef-shell](/chef_shell/) as it provides a way
-to exercise the Chef InSpec DSL, its resources, tests, and plugins without
+to exercise the Chef InSpec Language, its resources, tests, and plugins without
 having to create a profile or write a test file. See
 [http://pryrepl.org/](http://pryrepl.org/) for an introduction to what pry is and what it can
 do.
@@ -94,7 +94,7 @@ inspec> 1 + 2
 inspec> exit
 ```
 
-## Using Chef InSpec DSL in Chef InSpec shell
+## Using Chef InSpec Language in Chef InSpec shell
 
 Chef InSpec shell will automatically evaluate the result of every command as
 if it were a test file. If you type in a Ruby command that is not an
