@@ -504,7 +504,7 @@ module Inspec::Resources
 
       # search for the service
 
-      srv = %r{^.*/#{service_name}$)}.match(cmd.stdout)
+      srv = %r{^.*/(#{service_name}$)}.match(cmd.stdout)
       return nil if srv.nil? || srv[0].nil?
 
       enabled = true
