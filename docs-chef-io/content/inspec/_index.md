@@ -52,6 +52,6 @@ InSpec to target applications and services running on AWS and Azure.
 
 ### Resources
 
-Chef InSpec has 80+ [resources](/inspec/resources/) ready use--apache to zfs pool.
+Chef InSpec has around 500 [resources](/inspec/resources/) ready use--apache to zfs pool.
 If you need a solution that we haven’t provided, you can write your own [custom
 resource](/inspec/dsl_resource/).
