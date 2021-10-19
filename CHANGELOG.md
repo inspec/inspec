@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.47.7 -->
-## [v4.47.7](https://github.com/inspec/inspec/tree/v4.47.7) (2021-10-13)
+<!-- latest_release 4.47.8 -->
+## [v4.47.8](https://github.com/inspec/inspec/tree/v4.47.8) (2021-10-19)
 
 #### Merged Pull Requests
-- Enable repeatable builds by bundling Gemfile.lock [#5688](https://github.com/inspec/inspec/pull/5688) ([tas50](https://github.com/tas50))
+- Oracle db session resource fix - when invoking query using os user and db role [#5702](https://github.com/inspec/inspec/pull/5702) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.46.13 -->
@@ -14,6 +14,7 @@
 - Add support for Cassandra DB [#5683](https://github.com/inspec/inspec/pull/5683) ([Nik08](https://github.com/Nik08)) <!-- 4.47.0 -->
 
 #### Merged Pull Requests
+- Oracle db session resource fix - when invoking query using os user and db role [#5702](https://github.com/inspec/inspec/pull/5702) ([Nik08](https://github.com/Nik08)) <!-- 4.47.8 -->
 - Enable repeatable builds by bundling Gemfile.lock [#5688](https://github.com/inspec/inspec/pull/5688) ([tas50](https://github.com/tas50)) <!-- 4.47.7 -->
 - Fix google_container_node_pool.md [#5696](https://github.com/inspec/inspec/pull/5696) ([pradeepbhadani](https://github.com/pradeepbhadani)) <!-- 4.47.6 -->
 - Renamed Inspec DSL to Inspec Language [#5694](https://github.com/inspec/inspec/pull/5694) ([dishanktiwari2501](https://github.com/dishanktiwari2501)) <!-- 4.47.5 -->
