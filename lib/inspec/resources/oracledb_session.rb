@@ -42,6 +42,7 @@ module Inspec::Resources
     end
 
     def query(sql)
+      raise Inspec::Exceptions::ResourceSkipped, "#{resource_exception_message}" if resource_skipped?
       raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if resource_failed?
 
       if @sqlcl_bin && inspec.command(@sqlcl_bin).exist?
@@ -78,7 +79,14 @@ module Inspec::Resources
     # using a db_role
     # su, using a db_role
     def command_builder(format_options, query)
-      verified_query = verify_query(query)
+      if @db_role.nil? || @su_user.nil?
+        verified_query = verify_query(query)
+      else
+        escaped_query = query.gsub(/\\/, "\\\\").gsub(/"/, '\\"')
+        escaped_query = escaped_query.gsub("$", '\\$')
+        verified_query = verify_query(escaped_query)
+      end
+
       sql_prefix, sql_postfix = "", ""
       if inspec.os.windows?
         sql_prefix = %{@'\n#{format_options}\n#{verified_query}\nEXIT\n'@ | }
@@ -87,11 +95,11 @@ module Inspec::Resources
       end
 
       if @db_role.nil?
-        "#{sql_prefix}#{bin} #{user}/#{password}@#{host}:#{port}/#{@service}#{sql_postfix}"
+        %{#{sql_prefix}#{bin} #{user}/#{password}@#{host}:#{port}/#{@service}#{sql_postfix}}
       elsif @su_user.nil?
-        "#{sql_prefix}#{bin} #{user}/#{password}@#{host}:#{port}/#{@service} as #{@db_role}#{sql_postfix}"
+        %{#{sql_prefix}#{bin} #{user}/#{password}@#{host}:#{port}/#{@service} as #{@db_role}#{sql_postfix}}
       else
-        "su - #{@su_user} -c env ORACLE_SID=#{@service} #{@bin} / as #{@db_role}#{sql_postfix}"
+        %{su - #{@su_user} -c "env ORACLE_SID=#{@service} #{@bin} / as #{@db_role}#{sql_postfix}"}
       end
     end
 

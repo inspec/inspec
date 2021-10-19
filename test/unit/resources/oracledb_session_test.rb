@@ -20,6 +20,23 @@ describe "Inspec::Resources::OracledbSession" do
     _(query.row(0).column("value").value).must_equal "ORCL"
   end
 
+  it "sqlplus Linux with os user and db role" do
+    resource = quick_resource(:oracledb_session, :linux, as_os_user: "OSUSER", as_db_role: "DBA", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "/bin/sqlplus") do |cmd|
+      cmd.strip!
+      case cmd
+      when "su - OSUSER -c \"env ORACLE_SID=ORCL /bin/sqlplus -S / as DBA <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v\\$database;\nEXIT\nEOC\"" then
+        stdout_file "test/fixtures/cmd/oracle-result"
+      else
+        raise cmd.inspect
+      end
+    end
+
+    _(resource.resource_skipped?).must_equal false
+    query = resource.query("SELECT NAME AS VALUE FROM v$database;")
+    _(query.size).must_equal 1
+    _(query.row(0).column("value").value).must_equal "ORCL"
+  end
+
   it "sqlplus Windows" do
     resource = quick_resource(:oracledb_session, :windows, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "C:/sqlplus.exe") do |cmd|
       cmd.strip!
